@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.res" id="1_f32vj"]
 
-[node name="fire_cluster" type="Node3D" unique_id=2119901945]
+[node name="fire_cluster" type="Node3D" unique_id=240570231]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1575253267]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=498656083]
 mesh = ExtResource("1_f32vj")

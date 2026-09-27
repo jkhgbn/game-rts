@@ -37,10 +37,13 @@ func _run() -> void:
 	_part("drum_pinnacle", func() -> void: _drum(15.0, 30.0, 24, 13, 1.6))
 	_part("drum_ruin", func() -> void: _drum(11.0, 30.0, 20, 14, 1.4, true))
 	_part("ruin_dress", _ruin_dress)
+	_part("ruin_floor", _ruin_floor)
 	_part("peak", _peak)
 	_part("cloud_decks", _cloud_decks)
 	_part("cloud_banks", _cloud_banks)
 	_part("s01_veil", _s01_veil)
+	_part("sky_wisps", _sky_wisps)
+	_part("ruin_shroud", _ruin_shroud)
 	_part("god_rays", _god_rays)
 	_part("bunting", _bunting)
 	_part("market_life", _market_life)
@@ -693,8 +696,7 @@ func _brazier_tall() -> void:
 	prism("glow", I, Vector3(0, 2.8, 0), 0.62, 0.3, 0.35, 8, Color(1.0, 0.55, 0.18))
 	prism("glow", I, Vector3(0, 3.1, 0), 0.35, 0.0, 0.7, 6, Color(1.0, 0.8, 0.4))
 	halo(I, Vector3(0, 3.3, 0), 2.4, Color(1.0, 0.55, 0.22, 0.85))
-	glow_pool(I, Vector3(0, 0.04, 0), 3.5, Color(1.0, 0.55, 0.25, 0.4))
-	mist(I, Vector3(0, 5.2, 0), 1.4, Color(0.55, 0.5, 0.52, 0.25), 1.0)
+	glow_pool(I, Vector3(0, 0.04, 0), 2.0, Color(1.0, 0.55, 0.25, 0.4))
 
 
 # ------------------------------------------------------------------ prologue_3min set pieces (S01-S07, S12, S13, S30)
@@ -1031,6 +1033,8 @@ func _cloud() -> void:
 		prism("matte", I, p + Vector3(0, r * 0.3, 0), r, r * 0.55, r * 0.45, 12, top, false)
 		prism("matte", I, p + Vector3(0, r * 0.75, 0), r * 0.55, 0.0, r * 0.35, 12, top)
 		prism("matte", I, p + Vector3(0, -0.01, 0), 0.0, r * 0.75, 0.01, 12, under, false)
+		# soft billows over the faceted lobe (reads as cloud, not rock)
+		mist(I, p + Vector3(0, r * 0.62, 0), r * 1.05, Color(1.0, 0.96, 0.95, 0.6), 0.08)
 
 
 func _ring(r: float, w: float) -> void:
@@ -1145,7 +1149,7 @@ func _candle() -> void:
 	prism("glow", I, Vector3(0, 0.28, 0), 0.025, 0.0, 0.07, 6, Color(1.0, 0.85, 0.5))
 	halo(I, Vector3(0, 0.29, 0), 0.55, Color(1.0, 0.62, 0.28, 0.9))
 	halo(I, Vector3(0, 0.29, 0), 0.22, Color(1.0, 0.9, 0.7, 1.0), 1.0)
-	glow_pool(I, Vector3(0, 0.02, 0), 1.6, Color(1.0, 0.55, 0.22, 0.55))
+	glow_pool(I, Vector3(0, 0.32, 0), 0.8, Color(1.0, 0.55, 0.22, 0.35))
 
 
 func _moss() -> void:
@@ -1194,12 +1198,14 @@ func _vquad(key: String, p: Array, c: Array) -> void:
 
 ## S13 dressing, placed at the ruin centre (floor y 0, the candle at (0.8, 2.6)): painted darkness pooling away from
 ## the candle, dark walls, a cold shaft through the broken roof with dust, rubble, a fallen orrery ring, a puddle.
-func _ruin_dress() -> void:
+## Two parts so the camera (local (0.4..0.6, 1.5..1.8, 4.8..6.1)) stays outside both boxes: ruin_floor (flat, < 0.3 m
+## high) and ruin_dress (upright pieces, all at z < 3.4).
+func _ruin_floor() -> void:
 	var I := Transform3D.IDENTITY
-	var C := Vector3(0.8, 0.07, 2.6)
-	var dark := Color(0.015, 0.015, 0.04)
-	var radii := [0.9, 2.0, 3.6, 6.0, 11.0]
-	var alphas := [0.0, 0.45, 0.72, 0.84, 0.9]
+	var C := Vector3(0.8, 0.3, 2.6)  # over the moss and the low flags too
+	var dark := Color(0.012, 0.01, 0.035)
+	var radii := [0.45, 1.3, 2.6, 5.0, 11.0]
+	var alphas := [0.12, 0.72, 0.9, 0.95, 0.96]
 	var n := 28
 	for j in radii.size() - 1:
 		for i in n:
@@ -1211,50 +1217,14 @@ func _ruin_dress() -> void:
 			var cb := Color(dark.r, dark.g, dark.b, alphas[j + 1])
 			_vquad("shade", [C + Vector3(sin(a0) * ra, 0, cos(a0) * ra), C + Vector3(sin(a1) * ra, 0, cos(a1) * ra),
 				C + Vector3(sin(a1) * rb, 0.01, cos(a1) * rb), C + Vector3(sin(a0) * rb, 0.01, cos(a0) * rb)], [ca, ca, cb, cb])
-	# dark walls (inside the panel ring, r 7.7), the camera side (+z) left open
-	var wr := 7.7
-	for i in 24:
-		var a0 := TAU * i / 24.0
-		var a1 := TAU * (i + 1) / 24.0
-		if cos((a0 + a1) * 0.5) > 0.7:
-			continue
-		var lo := Color(dark.r, dark.g, dark.b, 0.82)
-		var hi := Color(dark.r, dark.g, dark.b, 0.35)
-		_vquad("shade", [Vector3(sin(a0) * wr, 0.05, cos(a0) * wr), Vector3(sin(a1) * wr, 0.05, cos(a1) * wr),
-			Vector3(sin(a1) * wr, 9.5, cos(a1) * wr), Vector3(sin(a0) * wr, 9.5, cos(a0) * wr)], [lo, lo, hi, hi])
-	# the cold shaft from the broken roof (east side) down past the candle, a pale pool where it lands
-	var st := _st("shaft")
-	var A := Vector3(4.0, 9.5, -3.0)
-	var B := Vector3(-1.2, 0.05, 0.4)
-	var L := (B - A).normalized()
-	var w1 := L.cross(Vector3.BACK).normalized()
-	var w2 := L.cross(w1).normalized()
-	var sc := Color(0.55, 0.68, 1.0, 0.5)
-	for w: Vector3 in [w1, w2]:
-		_tri(st, A - w * 0.9, A + w * 0.9, B + w * 1.5, sc, Vector2(0, 0), Vector2(1, 0), Vector2(1, 1))
-		_tri(st, A - w * 0.9, B + w * 1.5, B - w * 1.5, sc, Vector2(0, 0), Vector2(1, 1), Vector2(0, 1))
-	glow_pool(I, B + Vector3(0, 0.03, 0), 1.8, Color(0.45, 0.55, 0.9, 0.35))
-	for k in 16:
-		var t := h01(float(k), 1.0, 101)
-		var p := A.lerp(B, t) + w1 * (h01(float(k), 2.0, 101) - 0.5) * 2.0 + w2 * (h01(float(k), 3.0, 101) - 0.5) * 2.0
-		halo(I, p, 0.05 + 0.04 * h01(float(k), 4.0, 101), Color(0.75, 0.82, 1.0, 0.7))
+	glow_pool(I, Vector3(-1.2, 0.34, 0.4), 1.4, Color(0.45, 0.55, 0.9, 0.3))
 	# the candle's warm breath on the nearest stones
-	glow_pool(I, C + Vector3(0, 0.02, 0), 2.6, Color(1.0, 0.5, 0.2, 0.3))
-	# rubble, a fallen column drum, a fallen brass ring lying in the moss
-	for k in 22:
-		var a := TAU * h01(float(k), 5.0, 103)
-		var d := 2.8 + 4.4 * h01(float(k), 6.0, 103)
-		var p := Vector3(sin(a) * d, 0.0, cos(a) * d)
-		if p.distance_to(Vector3(0.4, 0, 6.1)) < 1.8 or p.distance_to(C) < 1.4:
-			continue
-		var s := 0.18 + 0.4 * h01(float(k), 7.0, 103)
-		var tone := Color(0.16, 0.15, 0.15) * (0.8 + 0.4 * h01(float(k), 8.0, 103))
-		box("matte", Transform3D(Basis(Vector3(h01(float(k), 9.0, 103), 1, 0.3).normalized(), h01(float(k), 10.0, 103) * 2.0), p + Vector3(0, s * 0.6, 0)), Vector3.ZERO, Vector3(s * 1.3, s * 0.7, s), Color(tone.r, tone.g, tone.b))
-	prism("matte", Transform3D(Basis(Vector3.BACK, PI * 0.5) * Basis(Vector3.UP, 0.3), Vector3(-3.6, 0.55, 0.8)), Vector3(0, -1.6, 0), 0.55, 0.55, 3.2, 10, Color(0.2, 0.19, 0.18))
+	glow_pool(I, Vector3(0.8, 0.33, 2.6), 1.2, Color(1.0, 0.45, 0.15, 0.4))
+	# a fallen brass ring lying in the moss
 	var ring_c := Vector3(3.0, 0.08, -1.5)
 	for i in 20:
 		var a := PI * 1.3 * i / 20.0 + 0.4
-		box("matte", Transform3D(Basis(Vector3.UP, a) * Basis(Vector3.RIGHT, 0.12), ring_c), Vector3(0, 0, 2.2), Vector3(0.36, 0.05, 0.07), Color(0.28, 0.24, 0.14))
+		box("matte", Transform3D(Basis(Vector3.UP, a) * Basis(Vector3.RIGHT, 0.04), ring_c), Vector3(0, 0, 2.2), Vector3(0.36, 0.05, 0.07), Color(0.28, 0.24, 0.14))
 	# a black puddle that catches the candle (glints)
 	var ps := _st("pool")
 	var pc := Vector3(-2.2, 0.05, -1.2)
@@ -1264,10 +1234,53 @@ func _ruin_dress() -> void:
 		var r0 := 1.2 + 0.4 * h01(float(i), 1.0, 105)
 		var r1 := 1.2 + 0.4 * h01(float((i + 1) % 16), 1.0, 105)
 		_tri(ps, pc, pc + Vector3(sin(a0) * r0, 0, cos(a0) * r0 * 0.7), pc + Vector3(sin(a1) * r1, 0, cos(a1) * r1 * 0.7), Color(0.03, 0.04, 0.06))
+
+
+func _ruin_dress() -> void:
+	var I := Transform3D.IDENTITY
+	var C := Vector3(0.8, 0.07, 2.6)
+	var dark := Color(0.015, 0.015, 0.04)
+	# dark walls (inside the panel ring, r 7.7), the camera side (+z) left open
+	var wr := 7.7
+	for i in 24:
+		var a0 := TAU * i / 24.0
+		var a1 := TAU * (i + 1) / 24.0
+		if cos(a0) > 0.44 or cos(a1) > 0.44:
+			continue
+		var lo := Color(dark.r, dark.g, dark.b, 0.82)
+		var hi := Color(dark.r, dark.g, dark.b, 0.62)
+		_vquad("shade", [Vector3(sin(a0) * wr, 0.05, cos(a0) * wr), Vector3(sin(a1) * wr, 0.05, cos(a1) * wr),
+			Vector3(sin(a1) * wr, 9.5, cos(a1) * wr), Vector3(sin(a0) * wr, 9.5, cos(a0) * wr)], [lo, lo, hi, hi])
+	# the cold shaft from the broken roof (east side) down past the candle, a pale pool where it lands
+	var st := _st("shaft")
+	var A := Vector3(4.0, 9.5, -3.0)
+	var B := Vector3(-1.2, 0.05, 0.4)
+	var L := (B - A).normalized()
+	var w1 := L.cross(Vector3.BACK).normalized()
+	var w2 := L.cross(w1).normalized()
+	var sc := Color(0.55, 0.68, 1.0, 0.9)
+	for w: Vector3 in [w1, w2]:
+		_tri(st, A - w * 0.9, A + w * 0.9, B + w * 1.5, sc, Vector2(0, 0), Vector2(1, 0), Vector2(1, 1))
+		_tri(st, A - w * 0.9, B + w * 1.5, B - w * 1.5, sc, Vector2(0, 0), Vector2(1, 1), Vector2(0, 1))
+	for k in 16:
+		var t := h01(float(k), 1.0, 101)
+		var p := A.lerp(B, t) + w1 * (h01(float(k), 2.0, 101) - 0.5) * 2.0 + w2 * (h01(float(k), 3.0, 101) - 0.5) * 2.0
+		halo(I, p, 0.05 + 0.04 * h01(float(k), 4.0, 101), Color(0.75, 0.82, 1.0, 0.7))
+	# rubble, a fallen column drum
+	for k in 26:
+		var a := TAU * h01(float(k), 5.0, 103)
+		var d := 2.8 + 4.4 * h01(float(k), 6.0, 103)
+		var p := Vector3(sin(a) * d, 0.0, cos(a) * d)
+		if p.z > 2.6 or p.distance_to(C) < 1.4:
+			continue
+		var s := 0.18 + 0.4 * h01(float(k), 7.0, 103)
+		var tone := Color(0.16, 0.15, 0.15) * (0.8 + 0.4 * h01(float(k), 8.0, 103))
+		box("matte", Transform3D(Basis(Vector3(h01(float(k), 9.0, 103), 1, 0.3).normalized(), h01(float(k), 10.0, 103) * 2.0), p + Vector3(0, s * 0.6, 0)), Vector3.ZERO, Vector3(s * 1.3, s * 0.7, s), Color(tone.r, tone.g, tone.b))
+	prism("matte", Transform3D(Basis(Vector3.BACK, PI * 0.5) * Basis(Vector3.UP, 0.3), Vector3(-3.6, 0.55, 0.8)), Vector3(0, -1.6, 0), 0.55, 0.55, 3.2, 10, Color(0.2, 0.19, 0.18))
 	# a cold ground mist
 	for k in 6:
 		var a := TAU * k / 6.0 + 0.5
-		mist(I, Vector3(sin(a) * 4.5, 0.7, cos(a) * 4.5 - 1.0), 2.6, Color(0.42, 0.46, 0.58, 0.16), 0.2)
+		mist(I, Vector3(sin(a) * 4.5, 0.7, minf(cos(a) * 4.5 - 1.0, 2.5)), 2.6, Color(0.42, 0.46, 0.58, 0.16), 0.2)
 
 
 ## A snow-capped mountain rising from the cloud sea: base radius 30, 70 m tall at scale 1 (row scale= sizes it).
@@ -1282,7 +1295,7 @@ func _peak() -> void:
 		var t := float(j) / rows
 		if j == rows:
 			return Vector3(2.0, H, -1.5)
-		var r := R * pow(1.0 - t, 1.15) * (0.75 + 0.5 * h01(float(ii), float(j), 111))
+		var r := R * pow(1.0 - t, 1.3) * (0.6 + 0.8 * h01(float(ii), float(j), 111))
 		var a := TAU * (ii + 0.3 * h01(float(ii), 9.0, 111)) / sides
 		return Vector3(sin(a) * r, H * t + 3.0 * (h01(float(ii), float(j) + 0.5, 112) - 0.5) * (1.0 - t) - (8.0 if j == 0 else 0.0), cos(a) * r)
 	for i in sides:
@@ -1292,8 +1305,8 @@ func _peak() -> void:
 			var p01: Vector3 = pt.call(i, j + 1)
 			var p11: Vector3 = pt.call(i + 1, j + 1)
 			var ym := (p00.y + p01.y) * 0.5
-			var snow := ym > H * (0.52 + 0.14 * h01(float(i), 3.0, 113))
-			var col := Color(0.93, 0.9, 0.97) if snow else Color(0.30, 0.29, 0.36) * (0.85 + 0.25 * h01(float(i), float(j), 114))
+			var snow := ym > H * (0.66 + 0.16 * h01(float(i), 3.0, 113))
+			var col := Color(0.88, 0.86, 0.94) if snow else Color(0.22, 0.23, 0.32) * (0.8 + 0.3 * h01(float(i), float(j), 114))
 			if j == rows - 1:
 				_tri(st, p00, p10, p01, Color(col.r, col.g, col.b))
 			else:
@@ -1319,6 +1332,28 @@ func _cloud_banks() -> void:
 			mist(I, Vector3(sin(a + 0.05) * (d + 8.0), y - 4.0, cos(a + 0.05) * (d + 8.0)), s * 1.4, Color(0.96, 0.88, 0.9, 0.5), 0.1)
 
 
+## High wisps in the north-west sky (x -125..-45, z -105..-30, y 58..88): a middle cloud layer behind the summit
+## for S03 / S04 depth. Kept off every camera path.
+func _sky_wisps() -> void:
+	var I := Transform3D.IDENTITY
+	for k in 14:
+		var p := Vector3(-125.0 + 80.0 * h01(float(k), 1.0, 141), 58.0 + 30.0 * h01(float(k), 2.0, 141), -105.0 + 75.0 * h01(float(k), 3.0, 141))
+		var s := 12.0 + 14.0 * h01(float(k), 4.0, 141)
+		mist(I, p, s * 0.8, Color(1.0, 0.88, 0.8, 0.26), 0.12)
+
+
+## Cloud wrapped round the ruin crag's citadel-facing side (local, placed at the ruin centre): the "years later" dome
+## must not show in the S03 / S04 wides. Every card centre at local x >= 10 (the S13 camera is at x 0.4, inside).
+func _ruin_shroud() -> void:
+	var I := Transform3D.IDENTITY
+	for k in 16:
+		var a := deg_to_rad(25.0 + 85.0 * (k + 0.5 * h01(float(k), 1.0, 151)) / 16.0)
+		var r := 20.0 + 6.0 * h01(float(k), 2.0, 151)
+		var p := Vector3(sin(a) * r, -6.0 + 16.0 * h01(float(k), 3.0, 151), cos(a) * r)
+		p.x = maxf(p.x, 10.0)
+		mist(I, p, 13.0 + 6.0 * h01(float(k), 4.0, 151), Color(1.0, 0.93, 0.92, 0.85), 0.1)
+
+
 ## S01: soft cloud veils between the descending crane and the summit (the cloud "parts" as the camera sinks).
 func _s01_veil() -> void:
 	var I := Transform3D.IDENTITY
@@ -1331,7 +1366,7 @@ func _s01_veil() -> void:
 ## Dawn god rays: long additive sheets slanting from the sun (west-north-west, 13 deg) toward the summit.
 func _god_rays() -> void:
 	var st := _st("shaft")
-	var L := Vector3(0.903, -0.225, 0.365).normalized()
+	var L := Vector3(0.918, -0.139, 0.371).normalized()  # the citadel_dawn sun (-8, -112)
 	var w1 := L.cross(Vector3.BACK).normalized()
 	var w2 := L.cross(w1).normalized()
 	for k in 7:
@@ -1339,9 +1374,9 @@ func _god_rays() -> void:
 		var len := 95.0 + 30.0 * h01(float(k), 4.0, 131)
 		var e := s + L * len
 		e.x = minf(e.x, -4.0)
-		var wa := 3.0 + 4.0 * h01(float(k), 5.0, 131)
-		var col := Color(1.0, 0.8, 0.55, 0.22 + 0.12 * h01(float(k), 6.0, 131))
-		for w: Vector3 in [w1, w2]:
+		var wa := 6.0 + 6.0 * h01(float(k), 5.0, 131)
+		var col := Color(1.0, 0.8, 0.55, 0.2 + 0.12 * h01(float(k), 6.0, 131))
+		for w: Vector3 in [w1]:
 			_tri(st, s - w * wa, s + w * wa, e + w * wa * 1.8, col, Vector2(0, 0), Vector2(1, 0), Vector2(1, 1))
 			_tri(st, s - w * wa, e + w * wa * 1.8, e - w * wa * 1.8, col, Vector2(0, 0), Vector2(1, 1), Vector2(0, 1))
 

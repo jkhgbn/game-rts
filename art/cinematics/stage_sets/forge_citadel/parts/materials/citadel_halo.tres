@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_halo.gdshader" id="1_bjwif"]
+
+[resource]
+render_priority = 2
+shader = ExtResource("1_bjwif")
+shader_parameter/energy = null

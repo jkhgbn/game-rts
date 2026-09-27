@@ -20,7 +20,67 @@ row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(1
 zone citadel  circle((0,0),95)
 zone bridge_z  rect((-20,60),(20,185))
 zone ruin_z  circle((-150,-120),26)
-scatter res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  area=ring((0,0),92..210)  count=46  gap=18  seed=27  avoid=cams,citadel,bridge_z,ruin_z  scale=0.8..2.1
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-162.54,0,91.67) to=(-162.54,0,91.67) count=1 yaw=115.6 scale=1.63
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(71.73,0,-93.87) to=(71.73,0,-93.87) count=1 yaw=355.56 scale=0.8
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(117.5,0,-53.41) to=(117.5,0,-53.41) count=1 yaw=196.78 scale=1.04
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(153.81,0,56.65) to=(153.81,0,56.65) count=1 yaw=321.28 scale=1.95
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(180.93,0,43.96) to=(180.93,0,43.96) count=1 yaw=276.88 scale=1.33
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(89.87,0,-131.2) to=(89.87,0,-131.2) count=1 yaw=167.39 scale=1.52
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(165.17,0,-113.92) to=(165.17,0,-113.92) count=1 yaw=150.13 scale=0.99
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(5.58,0,194.58) to=(5.58,0,194.58) count=1 yaw=203.51 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(148.06,0,101.28) to=(148.06,0,101.28) count=1 yaw=335.91 scale=0.89
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(116.01,0,-151.17) to=(116.01,0,-151.17) count=1 yaw=103.73 scale=2.06
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(126.57,0,13.64) to=(126.57,0,13.64) count=1 yaw=118.4 scale=1.54
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-28.91,0,-197.47) to=(-28.91,0,-197.47) count=1 yaw=284.36 scale=1.82
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-58.18,0,-191.6) to=(-58.18,0,-191.6) count=1 yaw=355.89 scale=1.11
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-86.56,0,-117.41) to=(-86.56,0,-117.41) count=1 yaw=63.26 scale=1.04
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-25.4,0,160.55) to=(-25.4,0,160.55) count=1 yaw=211.15 scale=0.81
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(79.34,0,155.57) to=(79.34,0,155.57) count=1 yaw=190.22 scale=1.31
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(68.56,0,-193.8) to=(68.56,0,-193.8) count=1 yaw=155.01 scale=1.45
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-112.11,0,13.01) to=(-112.11,0,13.01) count=1 yaw=67.39 scale=1.5
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-72.1,0,106.42) to=(-72.1,0,106.42) count=1 yaw=278.66 scale=1.22
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(98.31,0,-91.27) to=(98.31,0,-91.27) count=1 yaw=77.28 scale=1.62
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(131.92,0,-24.22) to=(131.92,0,-24.22) count=1 yaw=59.73 scale=1.22
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-127.69,0,-1.2) to=(-127.69,0,-1.2) count=1 yaw=166.69 scale=1.85
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(173.97,0,-35.1) to=(173.97,0,-35.1) count=1 yaw=26.94 scale=1.1
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(164.7,0,-3.95) to=(164.7,0,-3.95) count=1 yaw=358.11 scale=1.03
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(108.16,0,-30.16) to=(108.16,0,-30.16) count=1 yaw=44.04 scale=0.96
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(44.9,0,-145.6) to=(44.9,0,-145.6) count=1 yaw=345.04 scale=1.39
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-99.61,0,75.52) to=(-99.61,0,75.52) count=1 yaw=266.03 scale=0.98
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-53.91,0,181.49) to=(-53.91,0,181.49) count=1 yaw=290.8 scale=1.08
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(41.69,0,-181.43) to=(41.69,0,-181.43) count=1 yaw=99.55 scale=1.06
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-97.82,0,-98.88) to=(-97.82,0,-98.88) count=1 yaw=320.33 scale=1.89
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-33.22,0,189.24) to=(-33.22,0,189.24) count=1 yaw=134.76 scale=1.57
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(100.18,0,74.7) to=(100.18,0,74.7) count=1 yaw=234.15 scale=1.73
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(191.2,0,-7.9) to=(191.2,0,-7.9) count=1 yaw=217.97 scale=1.28
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(147.03,0,-78.66) to=(147.03,0,-78.66) count=1 yaw=167.66 scale=1.7
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-119.21,0,100.73) to=(-119.21,0,100.73) count=1 yaw=343.37 scale=1.1
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-35.03,0,-179.33) to=(-35.03,0,-179.33) count=1 yaw=6.04 scale=1.63
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(9.51,0,-193.33) to=(9.51,0,-193.33) count=1 yaw=202.53 scale=1.17
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-117.34,0,-147.64) to=(-117.34,0,-147.64) count=1 yaw=56.81 scale=1.98
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-83.08,0,58.01) to=(-83.08,0,58.01) count=1 yaw=34.06 scale=1.66
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(20.58,0,-150.47) to=(20.58,0,-150.47) count=1 yaw=6.72 scale=1.98
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-74.79,0,-160.28) to=(-74.79,0,-160.28) count=1 yaw=48.18 scale=1.9
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(170.19,0,108.34) to=(170.19,0,108.34) count=1 yaw=120.29 scale=1.67
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-131.96,0,46.55) to=(-131.96,0,46.55) count=1 yaw=204.37 scale=2.1
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(66.64,0,-171.98) to=(66.64,0,-171.98) count=1 yaw=81.62 scale=1.09
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(99.22,0,124.48) to=(99.22,0,124.48) count=1 yaw=355.88 scale=1.89
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(155.71,0,-137.51) to=(155.71,0,-137.51) count=1 yaw=165.53 scale=1.65
+
+# atmosphere (polish round): a mist deck over the cloud sea, a thin high deck, soft cloud towers, far peaks, god rays
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_decks.tscn  from=(0,13,0) to=(0,13,0) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_decks.tscn  from=(0,150,0) to=(0,150,0) count=1 yaw=40 scale=0.98
+row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_banks.tscn  from=(0,0,0) to=(0,0,0) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/god_rays.tscn  from=(0,0,0) to=(0,0,0) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/sky_wisps.tscn  from=(0,0,0) to=(0,0,0) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(100,0,-65) to=(100,0,-65) count=1 yaw=20 scale=1.25
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(140,0,-10) to=(140,0,-10) count=1 yaw=75 scale=0.9
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(60,0,-108) to=(60,0,-108) count=1 yaw=140 scale=1.35
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(158,0,52) to=(158,0,52) count=1 yaw=200 scale=0.75
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(-100,0,-35) to=(-100,0,-35) count=1 yaw=300 scale=0.62
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(-176,0,-8) to=(-176,0,-8) count=1 yaw=250 scale=0.6
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(-122,0,62) to=(-122,0,62) count=1 yaw=30 scale=0.55
+row res://art/cinematics/stage_sets/forge_citadel/parts/peak.tscn  from=(-190,0,-150) to=(-190,0,-150) count=1 yaw=110 scale=0.7
 
 # the mountain and the tiers (rock drums with a flagstone top)
 row res://art/cinematics/stage_sets/forge_citadel/parts/drum_mount.tscn  from=(0,0,0) to=(0,0,0) count=1 yaw=0 scale=1
@@ -37,6 +97,22 @@ row res://art/cinematics/stage_sets/forge_citadel/parts/great_tower.tscn  from=(
 row res://art/cinematics/stage_sets/forge_citadel/parts/great_tower.tscn  from=(-64.67,30,-26.79) to=(-64.67,30,-26.79) count=1 yaw=247.5 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/great_tower.tscn  from=(-64.67,30,26.79) to=(-64.67,30,26.79) count=1 yaw=292.5 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/great_tower.tscn  from=(-26.79,30,64.67) to=(-26.79,30,64.67) count=1 yaw=337.5 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(26.77,47.5,68.67) to=(26.77,47.5,68.67) count=1 yaw=21.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(29.62,47.5,67.48) to=(29.62,47.5,67.48) count=1 yaw=23.7 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn  from=(67.48,47.5,29.62) to=(67.48,47.5,29.62) count=1 yaw=66.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn  from=(68.67,47.5,26.77) to=(68.67,47.5,26.77) count=1 yaw=68.7 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(68.67,47.5,-26.77) to=(68.67,47.5,-26.77) count=1 yaw=111.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(67.48,47.5,-29.62) to=(67.48,47.5,-29.62) count=1 yaw=113.7 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_ice.tscn  from=(29.62,47.5,-67.48) to=(29.62,47.5,-67.48) count=1 yaw=156.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_ice.tscn  from=(26.77,47.5,-68.67) to=(26.77,47.5,-68.67) count=1 yaw=158.7 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(-26.77,47.5,-68.67) to=(-26.77,47.5,-68.67) count=1 yaw=201.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(-29.62,47.5,-67.48) to=(-29.62,47.5,-67.48) count=1 yaw=203.7 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_nature.tscn  from=(-67.48,47.5,-29.62) to=(-67.48,47.5,-29.62) count=1 yaw=246.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_nature.tscn  from=(-68.67,47.5,-26.77) to=(-68.67,47.5,-26.77) count=1 yaw=248.7 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(-68.67,47.5,26.77) to=(-68.67,47.5,26.77) count=1 yaw=291.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_master.tscn  from=(-67.48,47.5,29.62) to=(-67.48,47.5,29.62) count=1 yaw=293.7 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_shadow.tscn  from=(-29.62,47.5,67.48) to=(-29.62,47.5,67.48) count=1 yaw=336.3 scale=1.3
+row res://art/cinematics/stage_sets/forge_citadel/parts/banner_shadow.tscn  from=(-26.77,47.5,68.67) to=(-26.77,47.5,68.67) count=1 yaw=338.7 scale=1.3
 row res://art/cinematics/stage_sets/forge_citadel/parts/gatehouse.tscn  from=(0,30,64.67) to=(0,30,64.67) count=1 yaw=0 scale=1
 
 # the Great Bridge, the colossal Master, the far pinnacle
@@ -74,6 +150,9 @@ row res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn  from=(
 row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_a.tscn  from=(0,30,84) to=(0,30,84) count=1 yaw=0 scale=0.75
 row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_a.tscn  from=(0.5,30,128) to=(0.5,30,128) count=1 yaw=40 scale=0.75
 row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_b.tscn  from=(3,30,97) to=(3,30,97) count=1 yaw=0 scale=0.7
+row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_a.tscn  from=(-1.5,30,112) to=(-1.5,30,112) count=1 yaw=200 scale=0.6
+row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_a.tscn  from=(1,30,146) to=(1,30,146) count=1 yaw=90 scale=0.6
+row res://art/cinematics/stage_sets/forge_citadel/parts/market_life.tscn  from=(-6,30,100) to=(-6,30,100) count=1 yaw=90 scale=0.9
 row res://art/cinematics/stage_sets/forge_citadel/parts/stall_b.tscn  from=(-2.2,30,74) to=(-2.2,30,74) count=1 yaw=90 scale=0.8
 row res://art/cinematics/stage_sets/forge_citadel/parts/stall_a.tscn  from=(2.2,30,138) to=(2.2,30,138) count=1 yaw=-90 scale=0.8
 
@@ -200,6 +279,25 @@ row res://art/cinematics/stage_sets/forge_citadel/parts/kits/wayshrine.tscn  fro
 row res://art/cinematics/stage_sets/forge_citadel/parts/kits/bounty_flag.tscn  from=(-7,30,55) to=(-7,30,55) count=1 yaw=0 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  from=(5,30,60) to=(5,30,60) count=1 yaw=0 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  from=(-5,30,60) to=(-5,30,60) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(-25.97,30,41.55) to=(-25.97,30,41.55) count=1 yaw=-122 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(-21.48,30,44.04) to=(-21.48,30,44.04) count=1 yaw=-116 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(-6.82,30,48.52) to=(-6.82,30,48.52) count=1 yaw=-98 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(-1.71,30,48.97) to=(-1.71,30,48.97) count=1 yaw=-92 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(3.42,30,48.88) to=(3.42,30,48.88) count=1 yaw=-86 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(24.5,30,42.44) to=(24.5,30,42.44) count=1 yaw=-60 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(-38.61,30,30.17) to=(-38.61,30,30.17) count=1 yaw=-142 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(42.44,30,24.5) to=(42.44,30,24.5) count=1 yaw=-30 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(42.44,30,-24.5) to=(42.44,30,-24.5) count=1 yaw=30 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(-42.44,30,-24.5) to=(-42.44,30,-24.5) count=1 yaw=-210 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(16.76,30,-46.04) to=(16.76,30,-46.04) count=1 yaw=70 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/bunting.tscn  from=(-16.76,30,-46.04) to=(-16.76,30,-46.04) count=1 yaw=-250 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/market_life.tscn  from=(-22.02,30,43.21) to=(-22.02,30,43.21) count=1 yaw=153 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/market_life.tscn  from=(-2.59,30,49.43) to=(-2.59,30,49.43) count=1 yaw=-3 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/market_life.tscn  from=(28.11,30,40.14) to=(28.11,30,40.14) count=1 yaw=215 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_b.tscn  from=(-17.74,30,46.21) to=(-17.74,30,46.21) count=1 yaw=-21 scale=0.85
+row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_a.tscn  from=(-7.59,30,47.9) to=(-7.59,30,47.9) count=1 yaw=61 scale=0.85
+row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_a.tscn  from=(-26.03,30,40.09) to=(-26.03,30,40.09) count=1 yaw=117 scale=0.8
+row res://art/cinematics/stage_sets/forge_citadel/parts/crowd_b.tscn  from=(6.82,30,48.52) to=(6.82,30,48.52) count=1 yaw=208 scale=0.85
 
 # banners: the outer south wall (four colours), the tier-2 wall
 row res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn  from=(-24,40,66.1) to=(-24,40,66.1) count=1 yaw=0 scale=1
@@ -246,6 +344,8 @@ row res://art/cinematics/stage_sets/forge_citadel/parts/belfry.tscn  from=(9.5,3
 row res://art/cinematics/stage_sets/forge_citadel/parts/belfry.tscn  from=(-9.5,38,36.2) to=(-9.5,38,36.2) count=1 yaw=0 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/belfry.tscn  from=(11.97,38,-32.89) to=(11.97,38,-32.89) count=1 yaw=160 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/belfry.tscn  from=(-11.97,38,-32.89) to=(-11.97,38,-32.89) count=1 yaw=-160 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/belfry.tscn  from=(30.31,38,17.5) to=(30.31,38,17.5) count=1 yaw=60 scale=0.9
+row res://art/cinematics/stage_sets/forge_citadel/parts/belfry.tscn  from=(-30.31,38,17.5) to=(-30.31,38,17.5) count=1 yaw=-60 scale=0.9
 row res://art/cinematics/stage_sets/forge_citadel/parts/kits/essence_well.tscn  from=(0,38,-24) to=(0,38,-24) count=1 yaw=0 scale=0.8
 row res://art/cinematics/stage_sets/forge_citadel/parts/garden.tscn  from=(-36.68,38,7.8) to=(-36.68,38,7.8) count=1 yaw=12 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/garden.tscn  from=(36.68,38,7.8) to=(36.68,38,7.8) count=1 yaw=168 scale=1
@@ -385,20 +485,20 @@ row res://art/cinematics/stage_sets/forge_citadel/parts/dome_ruin.tscn  from=(-1
 row res://art/cinematics/stage_sets/forge_citadel/parts/orrery_ruin.tscn  from=(-150,30,-120) to=(-150,30,-120) count=1 yaw=0 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/moss.tscn  from=(-150,30,-120) to=(-150,30,-120) count=1 yaw=0 scale=1
 row res://art/cinematics/stage_sets/forge_citadel/parts/candle.tscn  from=(-149.2,30,-117.4) to=(-149.2,30,-117.4) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/ruin_dress.tscn  from=(-150,30,-120) to=(-150,30,-120) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/ruin_floor.tscn  from=(-150,30,-120) to=(-150,30,-120) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/ruin_shroud.tscn  from=(-150,30,-120) to=(-150,30,-120) count=1 yaw=0 scale=1
 row kit:ruin_pillar  from=(-145,30,-114.5) to=(-145,30,-114.5) count=1 yaw=30 scale=0.6
 row kit:shards  from=(-154.5,30,-115.5) to=(-154.5,30,-115.5) count=1 yaw=0 scale=0.8
 
 # the four horizons: army fires (S30)
-row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(-185,0,-40) to=(-185,0,-40) count=1 yaw=90 scale=1
-row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(185,0,-40) to=(185,0,-40) count=1 yaw=90 scale=1
-row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(40,0,-190) to=(40,0,-190) count=1 yaw=0 scale=1
-row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(-60,0,-190) to=(-60,0,-190) count=1 yaw=0 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(-128,14,-45) to=(-128,14,-45) count=1 yaw=90 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(128,14,-45) to=(128,14,-45) count=1 yaw=90 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(42,14,-112) to=(42,14,-112) count=1 yaw=10 scale=1
+row res://art/cinematics/stage_sets/forge_citadel/parts/fire_cluster.tscn  from=(-48,14,-110) to=(-48,14,-110) count=1 yaw=-10 scale=1
 
-# S01 cloud banks the crane comes down through
-row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-30,95,100) to=(-30,95,100) count=1 yaw=20 scale=1.3
-row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-58,99,106) to=(-58,99,106) count=1 yaw=-30 scale=1.4
-row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-6,97,110) to=(-6,97,110) count=1 yaw=60 scale=1.2
-row res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.tscn  from=(-78,91,92) to=(-78,91,92) count=1 yaw=0 scale=1.3
+# S01 soft cloud veils the crane comes down through (they part as it sinks)
+row res://art/cinematics/stage_sets/forge_citadel/parts/s01_veil.tscn  from=(0,0,0) to=(0,0,0) count=1 yaw=0 scale=1
 
 # cast (puppets): the Master stand-in and the swordsman at the dome door (S06-S07)
 actor master  res://art/cinematics/stage_sets/forge_citadel/parts/master_figure.tscn  at=(-13,48,-1.4)  yaw=180

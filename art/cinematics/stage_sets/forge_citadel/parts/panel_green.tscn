@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/panel_green.res" id="1_vi4y2"]
 
-[node name="panel_green" type="Node3D" unique_id=607860040]
+[node name="panel_green" type="Node3D" unique_id=115247361]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=2095275141]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=683428669]
 mesh = ExtResource("1_vi4y2")

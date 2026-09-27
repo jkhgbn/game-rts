@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.res" id="1_i02vs"]
 
-[node name="brazier_tall" type="Node3D" unique_id=516020021]
+[node name="brazier_tall" type="Node3D" unique_id=984822497]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1736281206]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=289867344]
 mesh = ExtResource("1_i02vs")

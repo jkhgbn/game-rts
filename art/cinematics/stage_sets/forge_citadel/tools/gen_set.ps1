@@ -39,13 +39,31 @@ foreach ($b in $bill) { $i++; one "$P/cloud_puff.tscn" $b[0] ($b[3] * 0.3) $b[1]
 $L.Add("zone citadel  circle((0,0),95)")
 $L.Add("zone bridge_z  rect((-20,60),(20,185))")
 $L.Add("zone ruin_z  circle((-150,-120),26)")
-$L.Add("scatter $P/cloud_puff.tscn  area=ring((0,0),92..210)  count=46  gap=18  seed=27  avoid=cams,citadel,bridge_z,ruin_z  scale=0.8..2.1")
+# the cloud sea's puffs, placed here (a World Forge scatter would now refuse every spot: the flat cloud decks below
+# are placed parts whose footprint covers the whole sea); same ring / gap / keep-outs as the old scatter line
+$rng = New-Object System.Random 27
+$puffs = @()
+$tries = 0
+while ($puffs.Count -lt 46 -and $tries -lt 4000) {
+	$tries++
+	$a = $rng.NextDouble() * 360.0; $d = [Math]::Sqrt(92 * 92 + $rng.NextDouble() * (210 * 210 - 92 * 92))
+	$q = polar $d $a
+	if ([Math]::Abs($q[0]) -le 20 -and $q[1] -ge 60 -and $q[1] -le 185) { continue }
+	if ([Math]::Sqrt(($q[0] + 150) * ($q[0] + 150) + ($q[1] + 120) * ($q[1] + 120)) -lt 34) { continue }
+	if ([Math]::Abs($q[0]) -gt 197 -or [Math]::Abs($q[1]) -gt 207) { continue }
+	$ok = $true
+	foreach ($pf in $puffs) { if ([Math]::Sqrt(($pf[0] - $q[0]) * ($pf[0] - $q[0]) + ($pf[1] - $q[1]) * ($pf[1] - $q[1])) -lt 18) { $ok = $false; break } }
+	if (-not $ok) { continue }
+	$puffs += , @($q[0], $q[1], (0.8 + 1.3 * $rng.NextDouble()), ($rng.NextDouble() * 360))
+}
+foreach ($pf in $puffs) { one "$P/cloud_puff.tscn" $pf[0] 0 $pf[1] $pf[3] $pf[2] }
 
 c "atmosphere (polish round): a mist deck over the cloud sea, a thin high deck, soft cloud towers, far peaks, god rays"
 one "$P/cloud_decks.tscn" 0 13 0 0
 one "$P/cloud_decks.tscn" 0 150 0 40 0.98
 one "$P/cloud_banks.tscn" 0 0 0 0
 one "$P/god_rays.tscn" 0 0 0 0
+one "$P/sky_wisps.tscn" 0 0 0 0
 # far peaks out of the clouds: tall ones only east of the sun line (the sun is low in the WNW: a peak there would
 # shadow the whole citadel), low ones far to the west
 foreach ($pk in @(@(100, -65, 1.25, 20), @(140, -10, 0.9, 75), @(60, -108, 1.35, 140), @(158, 52, 0.75, 200), @(-100, -35, 0.62, 300), @(-176, -8, 0.6, 250), @(-122, 62, 0.55, 30), @(-190, -150, 0.7, 110))) {
@@ -62,6 +80,8 @@ $pts = @()
 foreach ($k in 0..8) { $q = polar 70 (22.5 + 45 * $k); $pts += (v3 $q[0] 30 $q[1]) }
 $L.Add("wall  curtain  poly=[" + ($pts -join ",") + "]  height=10  thick=2.6  gate=(0,64.67)  gate_width=9  color=stone")
 foreach ($k in 0..7) { onep "$P/great_tower.tscn" 70 (22.5 + 45 * $k) 30 0 1 }
+# long banners down the great towers' outer faces (silhouette + colour on every wide shot)
+foreach ($k in 0..7) { foreach ($o in @(-1.2, 1.2)) { onep "$P/banner_$(@('master','fire','master','ice','master','nature','master','shadow')[$k]).tscn" 73.7 (22.5 + 45 * $k + $o) 47.5 0 1.3 } }
 one "$P/gatehouse.tscn" 0 30 64.67 0
 
 c "the Great Bridge, the colossal Master, the far pinnacle"
@@ -81,6 +101,9 @@ foreach ($z in @(100, 104, 108, 112)) { one "$P/banner_$($cols[$k]).tscn" 10.15 
 one "$P/crowd_a.tscn" 0 30 84 0 0.75
 one "$P/crowd_a.tscn" 0.5 30 128 40 0.75
 one "$P/crowd_b.tscn" 3 30 97 0 0.7
+one "$P/crowd_a.tscn" -1.5 30 112 200 0.6
+one "$P/crowd_a.tscn" 1 30 146 90 0.6
+one "$P/market_life.tscn" -6 30 100 90 0.9
 one "$P/stall_b.tscn" -2.2 30 74 90 0.8
 one "$P/stall_a.tscn" 2.2 30 138 -90 0.8
 
@@ -112,6 +135,15 @@ one "$KIT/wayshrine.tscn" 10 30 54.5 0 0.9
 one "$KIT/bounty_flag.tscn" -7 30 55 0
 one "$P/brazier_tall.tscn" 5 30 60 0
 one "$P/brazier_tall.tscn" -5 30 60 0
+# polish: festival bunting across the ring road, a juggler + barrels, more folk round the kings' table (S05)
+foreach ($deg in @(-32, -26, -8, -2, 4, 30, -52, 60, 120, -120, 160, -160)) { onep "$P/bunting.tscn" 49 $deg 30 -90 1 }
+onep "$P/market_life.tscn" 48.5 -27 30 180 1
+onep "$P/market_life.tscn" 49.5 -3 30 0 1
+onep "$P/market_life.tscn" 49 35 30 180 1
+onep "$P/crowd_b.tscn" 49.5 -21 30 0 0.85
+onep "$P/crowd_a.tscn" 48.5 -9 30 70 0.85
+onep "$P/crowd_a.tscn" 47.8 -33 30 150 0.8
+onep "$P/crowd_b.tscn" 49 8 30 200 0.85
 
 c "banners: the outer south wall (four colours), the tier-2 wall"
 $k = 0
@@ -143,6 +175,8 @@ one "$P/belfry.tscn" 9.5 38 36.2 0
 one "$P/belfry.tscn" -9.5 38 36.2 0
 onep "$P/belfry.tscn" 35 160 38 0 1
 onep "$P/belfry.tscn" 35 -160 38 0 1
+onep "$P/belfry.tscn" 35 60 38 0 0.9
+onep "$P/belfry.tscn" 35 -60 38 0 0.9
 one "$KIT/essence_well.tscn" 0 38 -24 0 0.8
 foreach ($deg in @(-78, 78, -100, 100)) { onep "$P/garden.tscn" 37.5 $deg 38 90 1 }
 foreach ($deg in @(-18, 18, -125, 125, -80, 80)) { onep "kit:broadleaf" 38 $deg 38 0 1.2 }
@@ -199,20 +233,21 @@ one "$P/dome_ruin.tscn" $rx 39.3 $rz 200
 one "$P/orrery_ruin.tscn" $rx 30 $rz 0
 one "$P/moss.tscn" $rx 30 $rz 0
 one "$P/candle.tscn" ($rx + 0.8) 30 ($rz + 2.6) 0
+one "$P/ruin_dress.tscn" $rx 30 $rz 0
+one "$P/ruin_floor.tscn" $rx 30 $rz 0
+one "$P/ruin_shroud.tscn" $rx 30 $rz 0
 one "kit:ruin_pillar" ($rx + 5) 30 ($rz + 5.5) 30 0.6
 one "kit:shards" ($rx - 4.5) 30 ($rz + 4.5) 0 0.8
 
 c "the four horizons: army fires (S30)"
-one "$P/fire_cluster.tscn" -185 0 -40 90
-one "$P/fire_cluster.tscn" 185 0 -40 90
-one "$P/fire_cluster.tscn" 40 0 -190 0
-one "$P/fire_cluster.tscn" -60 0 -190 0
+# (inside the 250 m far plane of the S30 crane: the old 190 m rings were clipped)
+one "$P/fire_cluster.tscn" -128 14 -45 90
+one "$P/fire_cluster.tscn" 128 14 -45 90
+one "$P/fire_cluster.tscn" 42 14 -112 10
+one "$P/fire_cluster.tscn" -48 14 -110 -10
 
-c "S01 cloud banks the crane comes down through"
-one "$P/cloud_puff.tscn" -30 95 100 20 1.3
-one "$P/cloud_puff.tscn" -58 99 106 -30 1.4
-one "$P/cloud_puff.tscn" -6 97 110 60 1.2
-one "$P/cloud_puff.tscn" -78 91 92 0 1.3
+c "S01 soft cloud veils the crane comes down through (they part as it sinks)"
+one "$P/s01_veil.tscn" 0 0 0 0
 
 c "cast (puppets): the Master stand-in and the swordsman at the dome door (S06-S07)"
 $L.Add("actor master  $P/master_figure.tscn  at=$(v3 -13 48 -1.4)  yaw=180")

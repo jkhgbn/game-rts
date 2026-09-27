@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/drum_mount.res" id="1_alf6w"]
 
-[node name="drum_mount" type="Node3D" unique_id=7035653]
+[node name="drum_mount" type="Node3D" unique_id=2053326554]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=6677058]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=349847443]
 mesh = ExtResource("1_alf6w")

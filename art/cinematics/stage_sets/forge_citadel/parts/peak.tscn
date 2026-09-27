@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/peak.res" id="1_6jty0"]
+
+[node name="peak" type="Node3D" unique_id=28572328]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=665693464]
+mesh = ExtResource("1_6jty0")

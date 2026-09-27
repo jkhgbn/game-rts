@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/ruin_shroud.res" id="1_uemwf"]
+
+[node name="ruin_shroud" type="Node3D" unique_id=1301558235]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=989219156]
+mesh = ExtResource("1_uemwf")

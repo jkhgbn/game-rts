@@ -50,7 +50,7 @@ func _initialize() -> void:
 	env.adjustment_brightness = 0.98
 	p.sun_color = Color(1.0, 0.76, 0.52)
 	p.sun_energy = 1.35
-	p.sun_rotation_degrees = Vector3(-13.0, -112.0, 0.0)
+	p.sun_rotation_degrees = Vector3(-8.0, -112.0, 0.0)
 	p.shadow_max_distance = 220.0
 	p.fill_color = Color(0.52, 0.62, 0.98)
 	p.fill_energy = 0.32

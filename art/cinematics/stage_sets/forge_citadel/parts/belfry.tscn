@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/belfry.res" id="1_6a3kj"]
 
-[node name="belfry" type="Node3D" unique_id=994410458]
+[node name="belfry" type="Node3D" unique_id=665071525]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1651315704]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1750829607]
 mesh = ExtResource("1_6a3kj")
