@@ -1,0 +1,287 @@
+{
+ "cine_id": "ep2_opening",
+ "source": "docs/design/episode2-opening.md",
+ "note": "Hand-made line set (JS 2026-09-27): Episode 2 opening, the victory feast, the messenger, the call for help. at = seconds into the shot, t = seconds into the movie, dur = slot. Messenger stumbles are written into `text`; `subtitle` is the clean reading.",
+ "lines": [
+  {
+   "id": "L01",
+   "shot": "S01",
+   "at": 1.2,
+   "t": 1.2,
+   "dur": 3.8,
+   "speaker": "reveler",
+   "subtitle": "To Vessa! To the Ember Queen!",
+   "text": "To Vessa! To the Ember Queen!"
+  },
+  {
+   "id": "L02",
+   "shot": "S02",
+   "at": 0.3,
+   "t": 5.3,
+   "dur": 2.1,
+   "speaker": "dancer",
+   "subtitle": "Come on, my queen! One dance!",
+   "text": "Come on, my queen! One dance!"
+  },
+  {
+   "id": "L03",
+   "shot": "S02",
+   "at": 2.4,
+   "t": 7.4,
+   "dur": 2.6,
+   "speaker": "vessa",
+   "subtitle": "One dance. Then I'm eating everything.",
+   "text": "One dance. Then I'm eating everything."
+  },
+  {
+   "id": "L04",
+   "shot": "S03",
+   "at": 0.3,
+   "t": 10.3,
+   "dur": 1.6,
+   "speaker": "vessa",
+   "subtitle": "Vey! Get up and dance!",
+   "text": "Vey! Get up and dance!"
+  },
+  {
+   "id": "L05",
+   "shot": "S03",
+   "at": 1.9,
+   "t": 11.9,
+   "dur": 4.1,
+   "speaker": "vey",
+   "subtitle": "I felled a mountain yesterday, girl. I'll clap.",
+   "text": "I felled a mountain yesterday, girl. I'll clap."
+  },
+  {
+   "id": "L06",
+   "shot": "S04",
+   "at": 0.3,
+   "t": 16.3,
+   "dur": 3.7,
+   "speaker": "ashby",
+   "subtitle": "Three relics! One Colossus! Drink!",
+   "text": "Three relics! One Colossus! Drink!"
+  },
+  {
+   "id": "L07",
+   "shot": "S05",
+   "at": 0.4,
+   "t": 20.4,
+   "dur": 2.6,
+   "speaker": "ashby",
+   "subtitle": "Rider at the gate! Make way!",
+   "text": "Rider at the gate! Make way!"
+  },
+  {
+   "id": "L08",
+   "shot": "S06",
+   "at": 0.4,
+   "t": 23.4,
+   "dur": 1.7,
+   "speaker": "messenger",
+   "subtitle": "My lady?",
+   "text": "My... my lady?"
+  },
+  {
+   "id": "L09",
+   "shot": "S06",
+   "at": 2.1,
+   "t": 25.1,
+   "dur": 2.2,
+   "speaker": "messenger",
+   "subtitle": "The Ember Queen? Which one is...",
+   "text": "The Ember Queen? Which one is..."
+  },
+  {
+   "id": "L10",
+   "shot": "S06",
+   "at": 4.3,
+   "t": 27.3,
+   "dur": 1.7,
+   "speaker": "vessa",
+   "subtitle": "Me. Breathe. Who sent you?",
+   "text": "Me. Breathe. Who sent you?"
+  },
+  {
+   "id": "L11",
+   "shot": "S07",
+   "at": 0.3,
+   "t": 29.3,
+   "dur": 1.7,
+   "speaker": "messenger",
+   "subtitle": "Lady Ysolde.",
+   "text": "Lady Ysolde."
+  },
+  {
+   "id": "L12",
+   "shot": "S07",
+   "at": 2.0,
+   "t": 31.0,
+   "dur": 1.9,
+   "speaker": "messenger",
+   "subtitle": "The wood... Shadow came.",
+   "text": "The wood... Shadow came."
+  },
+  {
+   "id": "L13",
+   "shot": "S07",
+   "at": 3.9,
+   "t": 32.9,
+   "dur": 1.6,
+   "speaker": "messenger",
+   "subtitle": "And Ice. Together.",
+   "text": "And Ice. Together."
+  },
+  {
+   "id": "L14",
+   "shot": "S08",
+   "at": 0.3,
+   "t": 34.8,
+   "dur": 1.8,
+   "speaker": "messenger",
+   "subtitle": "The army... it's gone.",
+   "text": "The army... it's gone."
+  },
+  {
+   "id": "L15",
+   "shot": "S08",
+   "at": 2.1,
+   "t": 36.6,
+   "dur": 2.1,
+   "speaker": "messenger",
+   "subtitle": "All of it. I saw it burn.",
+   "text": "All of it. I saw it burn."
+  },
+  {
+   "id": "L16",
+   "shot": "S08",
+   "at": 4.2,
+   "t": 38.7,
+   "dur": 1.8,
+   "speaker": "messenger",
+   "subtitle": "And then... then it froze.",
+   "text": "And then... then it froze."
+  },
+  {
+   "id": "L17",
+   "shot": "S09",
+   "at": 0.5,
+   "t": 41.0,
+   "dur": 2.5,
+   "speaker": "vey",
+   "subtitle": "So Torvald chose a side.",
+   "text": "So Torvald chose a side."
+  },
+  {
+   "id": "L18",
+   "shot": "S09",
+   "at": 3.0,
+   "t": 43.5,
+   "dur": 1.5,
+   "speaker": "vessa",
+   "subtitle": "Malrik's side.",
+   "text": "Malrik's side."
+  },
+  {
+   "id": "L19",
+   "shot": "S10",
+   "at": 0.3,
+   "t": 45.3,
+   "dur": 1.8,
+   "speaker": "messenger",
+   "subtitle": "She said you'd laugh.",
+   "text": "She said you'd laugh."
+  },
+  {
+   "id": "L20",
+   "shot": "S10",
+   "at": 2.1,
+   "t": 47.1,
+   "dur": 2.4,
+   "speaker": "messenger",
+   "subtitle": "She said: remember, she warned you.",
+   "text": "She said... remember. She warned you."
+  },
+  {
+   "id": "L21",
+   "shot": "S10",
+   "at": 4.5,
+   "t": 49.5,
+   "dur": 1.5,
+   "speaker": "vessa",
+   "subtitle": "I'm not laughing.",
+   "text": "I'm not laughing."
+  },
+  {
+   "id": "L22",
+   "shot": "S11",
+   "at": 0.3,
+   "t": 51.3,
+   "dur": 2.5,
+   "speaker": "vessa",
+   "subtitle": "I know you're tired. I know we just won.",
+   "text": "I know you're tired. I know we just won."
+  },
+  {
+   "id": "L23",
+   "shot": "S11",
+   "at": 2.8,
+   "t": 53.8,
+   "dur": 3.2,
+   "speaker": "vessa",
+   "subtitle": "But her people have no one else.|I need you. All of you.",
+   "text": "But her people have no one else. I need you. All of you."
+  },
+  {
+   "id": "L24",
+   "shot": "S12",
+   "at": 0.3,
+   "t": 57.3,
+   "dur": 1.6,
+   "speaker": "vessa",
+   "subtitle": "Vey. Ride with me?",
+   "text": "Vey. Ride with me?"
+  },
+  {
+   "id": "L25",
+   "shot": "S12",
+   "at": 1.9,
+   "t": 58.9,
+   "dur": 3.1,
+   "speaker": "vey",
+   "subtitle": "The spark first, girl. Then the storm.",
+   "text": "The spark first, girl. Then the storm."
+  },
+  {
+   "id": "L26",
+   "shot": "S13",
+   "at": 0.1,
+   "t": 62.1,
+   "dur": 2.9,
+   "speaker": "ashby",
+   "subtitle": "Emberguard! Boots on!|We march at first light!",
+   "text": "Emberguard! Boots on! We march at first light!"
+  },
+  {
+   "id": "L27",
+   "shot": "S14",
+   "at": 0.1,
+   "t": 65.1,
+   "dur": 1.7,
+   "speaker": "messenger",
+   "subtitle": "Thank you. Thank you.",
+   "text": "Thank you... thank you."
+  },
+  {
+   "id": "L28",
+   "shot": "S14",
+   "at": 1.8,
+   "t": 66.8,
+   "dur": 5.2,
+   "speaker": "vessa",
+   "subtitle": "Hold on, Ysolde. Fire is coming.",
+   "text": "Hold on, Ysolde. Fire is coming."
+  }
+ ]
+}
