@@ -206,6 +206,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 | `scripts/items/`, `data/items/` | items-coder (from wave 4) |
 | `art/`, `docs/art/` (incl. `art/units/champions/<id>/`, `art/buildings/tavern/`, `art/vfx/champion_*`, `art/buildings/market/`, `art/buildings/guilds/`, `art/buildings/trade_post/`, `art/units/caravan/`, `art/units/neutral/magpie|tracker/`, `art/vfx/trade_*`, `art/units/champions/weapons/`, `art/vfx/champion_class_*`, `art/environment/water|bridges|biomes|landmarks|critters|camps|lairs/`, `art/buildings/capture/`, `art/units/neutral/<creatures>|critters|beasts/`, `art/vfx/mapfill_*`, `art/units/titans/`) | tech-artist (from wave 3) |
 | `docs/design/` | game-designer (Opus 5.5 high); `docs/design/ui-*.md` ui-designer (Opus 5.5; no Fable — user 2026-09-26, keep the Fable-made UI specs as they are) |
+| `scripts/cinematics/`, `scripts/ui/cinematic/` (tools wave, tool 1) | systems-coder-high |
+| `tools/common/`, `tools/cine/`, `data/cinematics/`, `missions/cinematics/tool_demo/` (tools wave, tool 2) · `tools/world_forge/`, `art/cinematics/stage_sets/forge_*`, `data/maps/` (tool 6) | four-wizards-high (rules: `docs/plan/tools-wave-agent-rules.md`) |
 | `project.godot`, `scenes/main.tscn`, `scripts/core/`, `tests/smoke_test.gd`, `tests/perf_test.gd`, `tests/_template.gd`, `docs/plan/`, `CLAUDE.md` | lead (the main session) |
 
 Agents only edit what they own (plus their own `tests/test_<task-id>.gd`). Requests to another owner go in

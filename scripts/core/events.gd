@@ -16,3 +16,8 @@ signal mission_ended(victory: bool)
 ## A line of mission dialogue for the dialogue box (speaker id e.g. &"vessa", &"malrik", &"narrator").
 @warning_ignore("unused_signal")
 signal dialogue(speaker: StringName, text: String)
+## Tools wave, tool 1 (Cinematic Runtime): a cinematic started / finished (skipped = the player skipped it).
+@warning_ignore("unused_signal")
+signal cinematic_started(id: StringName)
+@warning_ignore("unused_signal")
+signal cinematic_finished(id: StringName, skipped: bool)
