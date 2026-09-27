@@ -209,7 +209,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "43eec7869b94a187 / 43eec7869b94a187",
+			"value": "b79a19fa7d6ceb24 / b79a19fa7d6ceb24",
 			"weight": 1.0
 		},
 		{
@@ -223,7 +223,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 738064712d8b7d82)",
+			"value": "changed (was 43eec7869b94a187)",
 			"weight": 1.0
 		},
 		{
@@ -287,7 +287,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "43eec7869b94a187",
+	"hash": "b79a19fa7d6ceb24",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "lens_demo",
@@ -325,7 +325,7 @@
 	"scene": "",
 	"seconds": 0.9,
 	"shots": {},
-	"started": "2026-09-27 08:40:52",
+	"started": "2026-09-27 08:49:01",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

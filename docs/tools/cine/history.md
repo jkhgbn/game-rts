@@ -44,3 +44,4 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 08:33:45 | record | watch_keep | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/watch_keep/report_record.md |
 | 2026-09-27 08:35:19 | reframe | watch_keep | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/watch_keep/report_reframe.md |
 | 2026-09-27 08:40:52 | build | lens_demo | 100 (+0) | PASS (0F 0W) | 43eec7869b94a187 | Look at the pictures; Timing sheet; Two-run hash | docs/tools/cine/out/lens_demo/report.md |
+| 2026-09-27 08:49:01 | build | lens_demo | 100 (+0) | PASS (0F 0W) | b79a19fa7d6ceb24 | Look at the pictures; Timing sheet; Two-run hash | docs/tools/cine/out/lens_demo/report.md |

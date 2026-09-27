@@ -1,6 +1,6 @@
 # cine build: lens_demo
 
-2026-09-27 08:40:52 - `tools/cine/run_cine.ps1 build lens_demo` - hash `43eec7869b94a187` (2 runs identical)
+2026-09-27 08:49:01 - `tools/cine/run_cine.ps1 build lens_demo` - hash `b79a19fa7d6ceb24` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
@@ -47,8 +47,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 43eec7869b94a187 / 43eec7869b94a187 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 738064712d8b7d82) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | b79a19fa7d6ceb24 / b79a19fa7d6ceb24 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 43eec7869b94a187) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/lens_demo.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
