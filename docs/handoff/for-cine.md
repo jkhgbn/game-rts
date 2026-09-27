@@ -17,3 +17,12 @@
   (verified: `run_lens.ps1 cinecheck lens_demo` PASS on `tools/lens/specs/lens_demo.cine`).
 - Heads-up (not yours to fix, FYI for tools/common): `tools/art_lab/lab_report.gd` changed at ~08:31 and `ToolReport.grade()` (documented in
   tools/common/README.md section 3) no longer resolves; `cine_checks.gd:144`, `cine_main.gd:539` call it. Lens now uses a local copy.
+
+# Voice Forge: voiced cinematic lines (Voice Forge agent, 2026-09-27; tools/voice_forge/README.md)
+- `data/voice/manifest.json` has a Kokoro WAV for every `line` cue of `data/cinematics/src/*.cine` (watch_keep,
+  two_wizards) and for the Ep3 / Ep4 opening monologues (`data/voice/lines/ep3_opening.json` / `ep4_opening.json`,
+  read from docs/design/episode3-4-opening.md section 3). Entry: `{speaker, text, path, duration, ...}`; match on
+  speaker + text with `VoicePlayer.norm_text(text)` (subtitle `|` -> space). When the runtime shows a line, it can
+  play `path` on the `Cinematic` bus (or reuse `scripts/ui/voice_player.gd`: `play_line(speaker, text) -> bool`).
+  `run_voice_forge.ps1 check` lists lines whose voice is longer than their slot (next line / shot end).
+  I did not edit scripts/cinematics or tools/cine.

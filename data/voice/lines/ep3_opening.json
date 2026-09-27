@@ -1,0 +1,142 @@
+{
+ "cine_id": "ep3_opening",
+ "source": "docs/design/episode3-4-opening.md ### 3.1",
+ "note": "Written by tools/voice_forge (extract); edit the design doc, not this file.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "B01",
+   "at": 3.0,
+   "dur": 3.4,
+   "speaker": "malrik",
+   "subtitle": "Everyone tells my story wrong. Let me try.",
+   "text": "Everyone tells my story wrong. Let me try."
+  },
+  {
+   "id": "L2",
+   "shot": "N02",
+   "at": 0.3,
+   "dur": 5.2,
+   "speaker": "malrik",
+   "subtitle": "I was a gravedigger's son. I grew up|among the dead. They were better company.",
+   "text": "I was a gravedigger's son. I grew up among the dead. They were better company."
+  },
+  {
+   "id": "L3",
+   "shot": "G03",
+   "at": 0.4,
+   "dur": 5.2,
+   "speaker": "malrik",
+   "subtitle": "The Master found me reading tombstones|by one candle. He said: this one, too.",
+   "text": "The Master found me reading tombstones by one candle. He said: this one, too."
+  },
+  {
+   "id": "L4",
+   "shot": "G04",
+   "at": 0.3,
+   "dur": 5.2,
+   "speaker": "malrik",
+   "subtitle": "Too. Fourth of four. Fire was his joy,|ice his patience, the wood his heart.",
+   "text": "Too. Fourth of four. Fire was his joy, ice his patience, the wood his heart."
+  },
+  {
+   "id": "L5",
+   "shot": "N05",
+   "at": 0.3,
+   "dur": 5.0,
+   "speaker": "malrik",
+   "subtitle": "And me? He gave me what was left over.|The dark. As if it were a kindness.",
+   "text": "And me? He gave me what was left over. The dark. As if it were a kindness."
+  },
+  {
+   "id": "L6",
+   "shot": "G06",
+   "at": 0.3,
+   "dur": 5.0,
+   "speaker": "malrik",
+   "subtitle": "Then he vanished and left us nothing.|So I took. That is the whole secret.",
+   "text": "Then he vanished and left us nothing. So I took. That is the whole secret."
+  },
+  {
+   "id": "L7",
+   "shot": "N07",
+   "at": 0.3,
+   "dur": 5.6,
+   "speaker": "malrik",
+   "subtitle": "I took the dark and taught it to kneel.|I took knives, and a woman who never misses.",
+   "text": "I took the dark and taught it to kneel. I took knives, and a woman who never misses."
+  },
+  {
+   "id": "L8",
+   "shot": "W02",
+   "at": 0.3,
+   "dur": 5.3,
+   "speaker": "malrik",
+   "subtitle": "She missed. Emberfall. Then the Hollow.|I lost, and lost, and every time I lost,",
+   "text": "She missed. Emberfall. Then the Hollow. I lost, and lost, and every time I lost,"
+  },
+  {
+   "id": "L9",
+   "shot": "G09",
+   "at": 0.3,
+   "dur": 5.0,
+   "speaker": "malrik",
+   "subtitle": "I kept something. A candle. A knife.|A stone that still beats in my hand.",
+   "text": "I kept something. A candle. A knife. A stone that still beats in my hand."
+  },
+  {
+   "id": "L10",
+   "shot": "N10",
+   "at": 0.5,
+   "dur": 5.2,
+   "speaker": "malrik",
+   "subtitle": "It whispers. Let it. I am the one who|listens, and I am the one who decides.",
+   "text": "It whispers. Let it. I am the one who listens, and I am the one who decides."
+  },
+  {
+   "id": "L11",
+   "shot": "N11",
+   "at": 0.3,
+   "dur": 5.2,
+   "speaker": "malrik",
+   "subtitle": "That is how a gravedigger's son grows|strong: he never puts the shovel down.",
+   "text": "That is how a gravedigger's son grows strong: he never puts the shovel down."
+  },
+  {
+   "id": "L12",
+   "shot": "N12",
+   "at": 0.3,
+   "dur": 4.8,
+   "speaker": "malrik",
+   "subtitle": "Look at it. The last green country.|Flowers to the knee. The Master's garden.",
+   "text": "Look at it. The last green country. Flowers to the knee. The Master's garden."
+  },
+  {
+   "id": "L13",
+   "shot": "N12",
+   "at": 5.3,
+   "dur": 4.5,
+   "speaker": "malrik",
+   "subtitle": "They will stand there and tell me to stop.|Fire. Roots. An old man's storm.",
+   "text": "They will stand there and tell me to stop. Fire. Roots. An old man's storm."
+  },
+  {
+   "id": "L14",
+   "shot": "N13",
+   "at": 0.4,
+   "dur": 2.6,
+   "speaker": "malrik",
+   "subtitle": "I have heard \"stop\" all my life.",
+   "text": "I have heard \"stop\" all my life."
+  },
+  {
+   "id": "L15",
+   "shot": "N13",
+   "at": 3.3,
+   "dur": 2.0,
+   "speaker": "malrik",
+   "subtitle": "I will not stop.",
+   "text": "I will not stop."
+  }
+ ]
+}

@@ -315,3 +315,15 @@ UI Lab v2 (`docs/ui/lab/scorecard.md`, laptop 1600x900 + 1920x1080, FAIL 96). Ne
   ON on the laptop for playtests) + pause-menu button "Save bug report" (`ReplayHooks.session.save_bug_report()`).
 - `selection_manager.gd` `_process` -> `_update_pickup` / `_take_pickup`: hero pickup walking lives in the UI; prefer a
   `Wizard.command_pickup` (with gameplay-coder) so replays don't depend on the SelectionManager processing.
+# Voice Forge hookup (Voice Forge agent, 2026-09-27; tools/voice_forge/README.md)
+- **New file `scripts/ui/voice_player.gd`** (`VoicePlayer extends AudioStreamPlayer`) + **2 load-guarded lines in
+  `mission_hud.gd`** right after `root.add_child(dialogue_box)`: the player is a child of the DialogueBox, follows its
+  `line_started(speaker, text)` and plays `data/voice/manifest.json`'s WAV for that line (Kokoro voices, JS request).
+  No manifest / no WAV for a line = silent, no connection, nothing changes. Bus `Voice` if it exists, else `SFX`, else
+  `Master`; volume -2 dB; ducks nothing. Pausing the tree pauses the voice (process mode inherited).
+- **Please (small, when you can):** hold a line as long as its voice. DialogueBox shows every line `LINE_SECONDS` (5 s);
+  a few voiced lines run 5-6.5 s and get cut when the next queued line starts. In `_next()`:
+  `var vp := get_node_or_null(^"VoicePlayer"); _time_left = maxf(LINE_SECONDS, vp.line_duration(_speaker, text) + 0.4) if vp else LINE_SECONDS`
+  (and use the same value in `_draw_timer`). Optional: a "Voices" volume slider (`Voice` bus) / "Voices off"
+  (`VoicePlayer.enabled = false`) in Settings. You own both files; move / restyle the player freely, keep
+  `play_line(speaker, text) -> bool`, `has_line`, `line_duration`, signal `voice_started` (tests/test_tool_voice_forge.gd uses them).

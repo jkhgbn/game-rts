@@ -1,0 +1,65 @@
+# voice_forge build: all
+
+2026-09-27 11:14:52 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `262ef5edfb48d600` (manifest.json (line keys are content hashes))
+
+## Result: **WARN** - quality **98 / 100** (previous run 95, +3)
+
+0 FAIL, 1 WARN, 14 PASS, 0 info, 0 skipped, 1 s
+
+## Improve next
+1. **voice fits its slot** (WARN): the lines listed in the notes _(from F1 voice fits its slot)_
+2. **Hold lines as long as their voice** (IDEA): DialogueBox shows every line 5 s; VoicePlayer.line_duration() lets it wait for the voice (handoff for ui-coder). _(from voice_forge)_
+3. **Voice the cinematics** (IDEA): The cinematic runtime can play manifest WAVs for `line` cues (handoff for systems-coder-high). _(from voice_forge)_
+
+## Data (cast, index, manifest)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| D1 | cast.json | PASS 100 | 16 speakers | parses, has speakers |  |
+| D2 | lines found | PASS 100 | 50 unique lines | > 0 |  |
+| D3 | manifest entries | PASS 100 | 50 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
+| D4 | speakers cast | PASS 100 | all cast | every speaker has a voice in cast.json |  |
+
+## Coverage (every spoken line has audio)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | lines with audio | PASS 100 | 50 / 50 | every spoken line has a WAV |  |
+| C2 | mission lines voiced | PASS 100 | 15 / 15 | all mission dialogue voiced |  |
+| C3 | imported | PASS 100 | 0 not importable | load(path) is AudioStream |  |
+| C4 | orphan WAVs | PASS 100 | 0 | no manifest line without a source |  |
+
+## Fit (voice length vs cine slot / subtitle time)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| F1 | voice fits its slot | **WARN** 66 | 5 / 50 over (0 by > 15 %) | voice length <= cine slot / subtitle time | raise the speaker's speed in cast.json, lengthen the slot, or shorten the line |
+
+## Audio (format, clipping, trim, size)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| A1 | format | PASS 100 | 0 bad  | mono, 24 kHz, PCM 16-bit |  |
+| A2 | clipping | PASS 100 | none | no sample at full scale |  |
+| A3 | peak level | PASS 100 | -1.0..-1.0 dBFS | -2..-0.5 dBFS (target -1) |  |
+| A4 | trimmed | PASS 100 | 0 untrimmed  | lead <= 0.12 s, tail <= 0.20 s of silence |  |
+| A5 | size | PASS 100 | 8.5 MB source WAV, 3.1 min of speech | <= 40 MB |  |
+
+## Game hookup
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| H1 | VoicePlayer in the mission HUD | PASS 100 | script present, added by MissionHud | DialogueBox child plays the manifest WAV on line_started |  |
+
+## Notes
+- source: docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines
+- source: docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines
+- source: scripts/campaign/mission_01.gd: 15 lines
+- source: data/cinematics/src/two_wizards.cine: 1 lines
+- source: data/cinematics/src/watch_keep.cine: 4 lines
+- source: data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)
+- source: data/voice/lines/ep3_opening.json: 15 lines
+- source: data/voice/lines/ep4_opening.json: 15 lines
+- over slot: malrik/look_at_it_the_489223a3 ep3_opening/L12: 4.97 s > cine slot 4.80 s
+- over slot: malrik/they_will_stand_there_52f7eb60 ep3_opening/L13: 4.88 s > cine slot 4.50 s
+- over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s
+- over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
+- over slot: vessa/an_ember_crown_in_21770f9f L2: 5.59 s > subtitle 5.00 s
+- this build: 50.0 rendered, 0.0 unchanged
+- last render: 50.0 lines, 186.4 s of audio in 309.8 s (x1.66 real time) on ["CPUExecutionProvider"], at 2026-09-27 11:14:26
+- total: 50 lines, 3.11 min of speech

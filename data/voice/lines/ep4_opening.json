@@ -1,0 +1,142 @@
+{
+ "cine_id": "ep4_opening",
+ "source": "docs/design/episode3-4-opening.md ### 3.2",
+ "note": "Written by tools/voice_forge (extract); edit the design doc, not this file.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "B01",
+   "at": 3.0,
+   "dur": 4.6,
+   "speaker": "ysolde",
+   "subtitle": "Malrik tells his life as a list of wounds.|Mine is a list of winters.",
+   "text": "Malrik tells his life as a list of wounds. Mine is a list of winters."
+  },
+  {
+   "id": "L2",
+   "shot": "S02",
+   "at": 0.3,
+   "dur": 5.0,
+   "speaker": "ysolde",
+   "subtitle": "I was born on that hill, the year|nothing grew. Not one blade of grass.",
+   "text": "I was born on that hill, the year nothing grew. Not one blade of grass."
+  },
+  {
+   "id": "L3",
+   "shot": "H03",
+   "at": 0.4,
+   "dur": 5.1,
+   "speaker": "ysolde",
+   "subtitle": "My mother buried seed in the snow.|The village laughed. I watched it sleep.",
+   "text": "My mother buried seed in the snow. The village laughed. I watched it sleep."
+  },
+  {
+   "id": "L4",
+   "shot": "H04",
+   "at": 0.3,
+   "dur": 4.4,
+   "speaker": "ysolde",
+   "subtitle": "In spring it came up green. I have|never forgotten how that felt.",
+   "text": "In spring it came up green. I have never forgotten how that felt."
+  },
+  {
+   "id": "L5",
+   "shot": "H05",
+   "at": 0.3,
+   "dur": 5.1,
+   "speaker": "ysolde",
+   "subtitle": "A tall man with a burning hem found me|coaxing a sapling through the frost.",
+   "text": "A tall man with a burning hem found me coaxing a sapling through the frost."
+  },
+  {
+   "id": "L6",
+   "shot": "S06",
+   "at": 0.3,
+   "dur": 5.0,
+   "speaker": "ysolde",
+   "subtitle": "He said: show me again. So I did,|for twenty years, until he was gone.",
+   "text": "He said: show me again. So I did, for twenty years, until he was gone."
+  },
+  {
+   "id": "L7",
+   "shot": "S07",
+   "at": 0.3,
+   "dur": 5.0,
+   "speaker": "ysolde",
+   "subtitle": "They call me soft. Neutral. Slow.|Slow is how an oak outlives an army.",
+   "text": "They call me soft. Neutral. Slow. Slow is how an oak outlives an army."
+  },
+  {
+   "id": "L8",
+   "shot": "H08",
+   "at": 0.3,
+   "dur": 5.0,
+   "speaker": "ysolde",
+   "subtitle": "Last winter they burned my wood|and froze the ashes. My army with it.",
+   "text": "Last winter they burned my wood and froze the ashes. My army with it."
+  },
+  {
+   "id": "L9",
+   "shot": "H09",
+   "at": 0.3,
+   "dur": 5.2,
+   "speaker": "ysolde",
+   "subtitle": "I knelt in the black, and I waited.|Something green came up. It always does.",
+   "text": "I knelt in the black, and I waited. Something green came up. It always does."
+  },
+  {
+   "id": "L10",
+   "shot": "S10",
+   "at": 0.3,
+   "dur": 5.3,
+   "speaker": "ysolde",
+   "subtitle": "That is my strength. Not fire. Not knives.|I come back. Every spring. Every time.",
+   "text": "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."
+  },
+  {
+   "id": "L11",
+   "shot": "S11",
+   "at": 0.3,
+   "dur": 5.1,
+   "speaker": "ysolde",
+   "subtitle": "The Master planted this country with his|own hands. He left it to me to keep.",
+   "text": "The Master planted this country with his own hands. He left it to me to keep."
+  },
+  {
+   "id": "L12",
+   "shot": "S12",
+   "at": 0.3,
+   "dur": 4.6,
+   "speaker": "ysolde",
+   "subtitle": "Malrik stands up there with his candle,|his stone, and Torvald's winter.",
+   "text": "Malrik stands up there with his candle, his stone, and Torvald's winter."
+  },
+  {
+   "id": "L13",
+   "shot": "S12",
+   "at": 5.1,
+   "dur": 3.2,
+   "speaker": "ysolde",
+   "subtitle": "Let them come. Cut it. Burn it. Freeze it.",
+   "text": "Let them come. Cut it. Burn it. Freeze it."
+  },
+  {
+   "id": "L14",
+   "shot": "S13",
+   "at": 0.3,
+   "dur": 1.8,
+   "speaker": "vessa",
+   "subtitle": "Ysolde. They're moving.",
+   "text": "Ysolde. They're moving."
+  },
+  {
+   "id": "L15",
+   "shot": "S13",
+   "at": 2.6,
+   "dur": 2.0,
+   "speaker": "ysolde",
+   "subtitle": "It will not stop.",
+   "text": "It will not stop."
+  }
+ ]
+}

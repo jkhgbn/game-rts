@@ -1,0 +1,817 @@
+{
+ "version": 1,
+ "generated_by": "tools/voice_forge/voice_forge.py extract",
+ "notes": [
+  "docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines",
+  "docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines",
+  "scripts/campaign/mission_01.gd: 15 lines",
+  "data/cinematics/src/two_wizards.cine: 1 lines",
+  "data/cinematics/src/watch_keep.cine: 4 lines",
+  "data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)",
+  "data/voice/lines/ep3_opening.json: 15 lines",
+  "data/voice/lines/ep4_opening.json: 15 lines"
+ ],
+ "count": 50,
+ "lines": [
+  {
+   "id": "malrik/and_me_he_gave_ad0ff01f",
+   "speaker": "malrik",
+   "text": "And me? He gave me what was left over. The dark. As if it were a kindness.",
+   "text_hash": "ad0ff01fbd4b21d5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L5",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/everyone_tells_my_story_b15bf545",
+   "speaker": "malrik",
+   "text": "Everyone tells my story wrong. Let me try.",
+   "text_hash": "b15bf5452aa0193a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L1",
+     "slot": 3.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/i_have_heard_stop_6b5d1395",
+   "speaker": "malrik",
+   "text": "I have heard \"stop\" all my life.",
+   "text_hash": "6b5d13958af57d5b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L14",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/i_kept_something_a_95e665a5",
+   "speaker": "malrik",
+   "text": "I kept something. A candle. A knife. A stone that still beats in my hand.",
+   "text_hash": "95e665a59374e8a4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L9",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/i_took_the_dark_7ada4fa9",
+   "speaker": "malrik",
+   "text": "I took the dark and taught it to kneel. I took knives, and a woman who never misses.",
+   "text_hash": "7ada4fa9d73373e0",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L7",
+     "slot": 5.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/i_was_a_gravediggers_c1b95674",
+   "speaker": "malrik",
+   "text": "I was a gravedigger's son. I grew up among the dead. They were better company.",
+   "text_hash": "c1b95674a3a46b9e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L2",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/i_will_not_stop_0b262bfa",
+   "speaker": "malrik",
+   "text": "I will not stop.",
+   "text_hash": "0b262bfa4db2909c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L15",
+     "slot": 2.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/it_whispers_let_it_f35c4d4b",
+   "speaker": "malrik",
+   "text": "It whispers. Let it. I am the one who listens, and I am the one who decides.",
+   "text_hash": "f35c4d4bf0ad4088",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L10",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/keep_it_warm_for_3523ab04",
+   "speaker": "malrik",
+   "text": "Keep it warm for me. The other three will come for it now.",
+   "text_hash": "3523ab04fca3d563",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[12]",
+     "ref": "L13",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/light_all_the_candles_d4719180",
+   "speaker": "malrik",
+   "text": "Light all the candles you like. The dark just gets a better view.",
+   "text_hash": "d471918032d40738",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[7]",
+     "ref": "L8",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/little_vessa_you_came_e419427c",
+   "speaker": "malrik",
+   "text": "Little Vessa. You came a long way to lose something you never had.",
+   "text_hash": "e419427c87be0ed0",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[3]",
+     "ref": "L4",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/look_at_it_the_489223a3",
+   "speaker": "malrik",
+   "text": "Look at it. The last green country. Flowers to the knee. The Master's garden.",
+   "text_hash": "489223a3e77c8619",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L12",
+     "slot": 4.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/put_it_down_that_da2e3fa9",
+   "speaker": "malrik",
+   "text": "Put it down. That crown was never meant for someone who throws fire at her problems.",
+   "text_hash": "da2e3fa9f83f9ffa",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[10]",
+     "ref": "L11",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/she_missed_emberfall_then_fbb05401",
+   "speaker": "malrik",
+   "text": "She missed. Emberfall. Then the Hollow. I lost, and lost, and every time I lost,",
+   "text_hash": "fbb05401ec27cf46",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L8",
+     "slot": 5.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/that_is_how_a_dfbf8c00",
+   "speaker": "malrik",
+   "text": "That is how a gravedigger's son grows strong: he never puts the shovel down.",
+   "text_hash": "dfbf8c0015892647",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L11",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/the_master_found_me_68a72082",
+   "speaker": "malrik",
+   "text": "The Master found me reading tombstones by one candle. He said: this one, too.",
+   "text_hash": "68a72082c951e7f2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L3",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/then_he_vanished_and_877f4086",
+   "speaker": "malrik",
+   "text": "Then he vanished and left us nothing. So I took. That is the whole secret.",
+   "text_hash": "877f408619161872",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L6",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/they_will_stand_there_52f7eb60",
+   "speaker": "malrik",
+   "text": "They will stand there and tell me to stop. Fire. Roots. An old man's storm.",
+   "text_hash": "52f7eb605616027e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L13",
+     "slot": 4.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/too_fourth_of_four_de85a128",
+   "speaker": "malrik",
+   "text": "Too. Fourth of four. Fire was his joy, ice his patience, the wood his heart.",
+   "text_hash": "de85a128714aa26b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_opening.json",
+     "ref": "ep3_opening/L4",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "narrator/far_away_three_apprentices_c4c409b3",
+   "speaker": "narrator",
+   "text": "Far away, three apprentices feel the crown wake up, and begin to worry.",
+   "text_hash": "c4c409b3f2522bd7",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[13]",
+     "ref": "L14",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  {
+   "id": "narrator/the_master_is_gone_e050d7b6",
+   "speaker": "narrator",
+   "text": "The Master is gone. His crown is not.",
+   "text_hash": "e050d7b6908fd5fc",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  {
+   "id": "narrator/the_westwatch_fire_rises_d7e80c5e",
+   "speaker": "narrator",
+   "text": "The Westwatch fire rises. Riders who remember the old kingdom ride to meet it.",
+   "text_hash": "d7e80c5e3bcec0d2",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[6]",
+     "ref": "L7",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  {
+   "id": "narrator/three_flames_answer_the_69a75470",
+   "speaker": "narrator",
+   "text": "Three flames answer. The seal cracks, and the old wardens wake up grumpy.",
+   "text_hash": "69a754704167c6e6",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[8]",
+     "ref": "L9",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  {
+   "id": "pell/free_at_last_buy_f2b6c6c4",
+   "speaker": "pell",
+   "text": "Free at last! Buy something, would you? Shadow soldiers are terrible customers. They never pay, they just loom.",
+   "text_hash": "f2b6c6c41860425e",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[5]",
+     "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  {
+   "id": "shade/the_keep_sleeps_so_dac3a4b3",
+   "speaker": "shade",
+   "text": "The keep sleeps. So should you.",
+   "text_hash": "dac3a4b321ad2ac2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/watch_keep.cine:28",
+     "ref": "watch_keep/S5@0.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  {
+   "id": "vessa/an_ember_crown_in_21770f9f",
+   "speaker": "vessa",
+   "text": "An Ember Crown, in a place called Emberfall. I'm not saying it was left for me. I'm not NOT saying it.",
+   "text_hash": "21770f9fac450741",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[1]",
+     "ref": "L2",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/im_here_for_the_10aceb62",
+   "speaker": "vessa",
+   "text": "I'm here for the crown, not a lecture. Fine. Both.",
+   "text_hash": "10aceb623b16b943",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[9]",
+     "ref": "L10",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/not_tonight_0703ac9b",
+   "speaker": "vessa",
+   "text": "Not tonight.",
+   "text_hash": "0703ac9b9f0d1c85",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/watch_keep.cine:36",
+     "ref": "watch_keep/S7@1.2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/one_lit_malrik_you_c51368de",
+   "speaker": "vessa",
+   "text": "One lit. Malrik, you still dress like a funeral that got lost on the way.",
+   "text_hash": "c51368dea356c1f5",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[4]",
+     "ref": "L5",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/tell_the_others_i_62fd53ca",
+   "speaker": "vessa",
+   "text": "Tell the others... I was winning.",
+   "text_hash": "62fd53ca653f5647",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[14]",
+     "ref": "L15",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/the_watch_fires_are_67de4a2b",
+   "speaker": "vessa",
+   "text": "The watch fires are out. All of them.",
+   "text_hash": "67de4a2b92ded3d4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/watch_keep.cine:19",
+     "ref": "watch_keep/S2@0.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/then_its_in_the_02a82f6a",
+   "speaker": "vessa",
+   "text": "Then it's in the right hands. I throw fire at ALL my problems.",
+   "text_hash": "02a82f6a4e7d6f22",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[11]",
+     "ref": "L12",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/three_braziers_one_seal_a933259b",
+   "speaker": "vessa",
+   "text": "Three braziers, one seal. How hard can it be to light things? It's my whole personality.",
+   "text_hash": "a933259b39d98cf8",
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_01.gd:DIALOGUE[2]",
+     "ref": "L3",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/who_walks_the_wall_45dd4c19",
+   "speaker": "vessa",
+   "text": "Who walks the wall at this hour?",
+   "text_hash": "45dd4c199b4131fe",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/two_wizards.cine:8",
+     "ref": "two_wizards/S1@0.5",
+     "slot": 3.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/you_are_a_long_e1ae8fe0",
+   "speaker": "vessa",
+   "text": "You are a long way from the dark, shade.",
+   "text_hash": "e1ae8fe0fa50589c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/watch_keep.cine:26",
+     "ref": "watch_keep/S4@0.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/ysolde_theyre_moving_a67643f3",
+   "speaker": "vessa",
+   "text": "Ysolde. They're moving.",
+   "text_hash": "a67643f3643c8e79",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L14",
+     "slot": 1.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/a_tall_man_with_160c2abd",
+   "speaker": "ysolde",
+   "text": "A tall man with a burning hem found me coaxing a sapling through the frost.",
+   "text_hash": "160c2abd7cad39ef",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L5",
+     "slot": 5.1,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/he_said_show_me_79d79140",
+   "speaker": "ysolde",
+   "text": "He said: show me again. So I did, for twenty years, until he was gone.",
+   "text_hash": "79d791406f654759",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L6",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/i_knelt_in_the_143cbc56",
+   "speaker": "ysolde",
+   "text": "I knelt in the black, and I waited. Something green came up. It always does.",
+   "text_hash": "143cbc56e179a416",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L9",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/i_was_born_on_fbe13b97",
+   "speaker": "ysolde",
+   "text": "I was born on that hill, the year nothing grew. Not one blade of grass.",
+   "text_hash": "fbe13b971d2a9e95",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L2",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/in_spring_it_came_67120205",
+   "speaker": "ysolde",
+   "text": "In spring it came up green. I have never forgotten how that felt.",
+   "text_hash": "67120205cac3f87e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L4",
+     "slot": 4.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/it_will_not_stop_46dfa508",
+   "speaker": "ysolde",
+   "text": "It will not stop.",
+   "text_hash": "46dfa508ee291761",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L15",
+     "slot": 2.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/last_winter_they_burned_e017cf01",
+   "speaker": "ysolde",
+   "text": "Last winter they burned my wood and froze the ashes. My army with it.",
+   "text_hash": "e017cf01a68a078a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L8",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/let_them_come_cut_d956830a",
+   "speaker": "ysolde",
+   "text": "Let them come. Cut it. Burn it. Freeze it.",
+   "text_hash": "d956830a45f84779",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L13",
+     "slot": 3.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/malrik_stands_up_there_5121c046",
+   "speaker": "ysolde",
+   "text": "Malrik stands up there with his candle, his stone, and Torvald's winter.",
+   "text_hash": "5121c04679366284",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L12",
+     "slot": 4.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/malrik_tells_his_life_52243579",
+   "speaker": "ysolde",
+   "text": "Malrik tells his life as a list of wounds. Mine is a list of winters.",
+   "text_hash": "52243579a9625344",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L1",
+     "slot": 4.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/my_mother_buried_seed_b7d7b32b",
+   "speaker": "ysolde",
+   "text": "My mother buried seed in the snow. The village laughed. I watched it sleep.",
+   "text_hash": "b7d7b32b77a03804",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L3",
+     "slot": 5.1,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/that_is_my_strength_ae118cbe",
+   "speaker": "ysolde",
+   "text": "That is my strength. Not fire. Not knives. I come back. Every spring. Every time.",
+   "text_hash": "ae118cbec0e9f153",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L10",
+     "slot": 5.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/the_master_planted_this_049c4f15",
+   "speaker": "ysolde",
+   "text": "The Master planted this country with his own hands. He left it to me to keep.",
+   "text_hash": "049c4f15dfc8fbbf",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L11",
+     "slot": 5.1,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/they_call_me_soft_3535b2b2",
+   "speaker": "ysolde",
+   "text": "They call me soft. Neutral. Slow. Slow is how an oak outlives an army.",
+   "text_hash": "3535b2b274279f89",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep4_opening.json",
+     "ref": "ep4_opening/L7",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  }
+ ]
+}

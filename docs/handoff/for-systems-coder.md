@@ -682,3 +682,12 @@ look exactly as before, and `ground_material.tres` is unchanged. Only the skirmi
 - Bot Lab next step 5: the report's new "Start-up" section measures the first navmesh bake per match (test batch: 8.9 s
   of an 18 s start-up, under load). If a real batch shows it >= 3 % of a match, a lab-only main.gd hook caching the
   first navmesh would speed every Bot / Balance Lab batch.- (cine, fix round) Facing fix verified: `cine check` row RT2 compares the runtime-posed puppets with cine at every shot middle: 0.0 deg / 0.000 m on watch_keep.
+
+# Voice Forge: voiced cinematic lines (Voice Forge agent, 2026-09-27; tools/voice_forge/README.md)
+- `data/voice/manifest.json` has a Kokoro WAV for every `line` cue of `data/cinematics/src/*.cine` (watch_keep,
+  two_wizards) and for the Ep3 / Ep4 opening monologues (`data/voice/lines/ep3_opening.json` / `ep4_opening.json`,
+  read from docs/design/episode3-4-opening.md section 3). Entry: `{speaker, text, path, duration, ...}`; match on
+  speaker + text with `VoicePlayer.norm_text(text)` (subtitle `|` -> space). When the runtime shows a line, it can
+  play `path` on the `Cinematic` bus (or reuse `scripts/ui/voice_player.gd`: `play_line(speaker, text) -> bool`).
+  `run_voice_forge.ps1 check` lists lines whose voice is longer than their slot (next line / shot end).
+  I did not edit scripts/cinematics or tools/cine.

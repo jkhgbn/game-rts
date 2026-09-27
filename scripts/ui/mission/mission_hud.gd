@@ -41,6 +41,8 @@ func _ready() -> void:
 	add_child(root)
 	dialogue_box = DialogueBox.new()
 	root.add_child(dialogue_box)
+	if ResourceLoader.exists("res://scripts/ui/voice_player.gd"):   # Voice Forge: speaks lines that have a WAV, else silent
+		dialogue_box.add_child((load("res://scripts/ui/voice_player.gd") as Script).new())
 	if mission and mission.has_method(&"objectives"):
 		objectives_panel = ObjectivesPanel.new()
 		root.add_child(objectives_panel)
