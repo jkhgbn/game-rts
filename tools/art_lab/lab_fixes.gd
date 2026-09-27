@@ -351,6 +351,10 @@ static func colour_fix(ctx: ArtLabRunner, rules: Dictionary) -> Dictionary:
 		"weight": snappedf(float(cand2["w"]), 0.01), "shared": _shared_note(ctx, info)}]
 	f["predicted"] = best["pred"]
 	f["gain"] = _v(gain)
+	# U1: a shared kit / palette material is never edited: snap the surface to the nearest other palette entry instead
+	var snap := palette_snap(ctx, info, to_c)
+	if not snap.is_empty():
+		f["changes"][0]["snap"] = snap
 	var worst_pred := ""
 	var lines: Array[String] = []
 	for v2: Array in views:
@@ -366,7 +370,11 @@ static func colour_fix(ctx: ArtLabRunner, rules: Dictionary) -> Dictionary:
 		info["param"], info["label"], "#" + from_c.to_html(false), "#" + to_c.to_html(false), int(float(cand2["w"]) * 100.0),
 		", ".join(lines), ctx.fmt(want, 0), worst_pred,
 		"" if bool(best["ok"]) else "; PARTIAL: best reachable with one material, also recolour the next biggest mass",
-		("; " + String(f["changes"][0]["shared"])) if String(f["changes"][0]["shared"]) != "" else ""]
+		("; " + String(f["changes"][0]["shared"])) if String(f["changes"][0]["shared"]) != "" and snap.is_empty() else ""]
+	if not snap.is_empty():
+		f["text"] += "; `%s` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `%s` (%s, dE %s from the wanted colour%s)" % [
+			info["label"], String(snap["material_path"]).get_file(), snap["color"], ctx.fmt(float(snap["de_to_wanted"])),
+			"" if bool(snap["close"]) else "; no palette entry is close: a new palette entry is needed, or give the asset its own copy"]
 	f["text"] += team_note
 	if team_note != "":
 		f["team_coloured"] = team_masses
@@ -613,6 +621,45 @@ static func _to_color(v: Variant) -> Color:
 	if v is Vector4:
 		return Color((v as Vector4).x, (v as Vector4).y, (v as Vector4).z)
 	return Color(0.5, 0.5, 0.5)
+
+
+## U1 shared-kit-material snap recipe (v3 trial notes: "recolour should propose another palette entry, not editing a
+## shared material"). When the recolour candidate is a saved material outside the asset's folder (kit / palette),
+## returns the nearest OTHER saved material of that folder to the solved colour `want`:
+## {material_path, color "#hex", de_to_wanted, close (dE <= SNAP_CLOSE_DE), from_folder}; {} when the material is the
+## asset's own, embedded / built in code, or the folder has no other colour material.
+const SNAP_CLOSE_DE := 12.0
+
+
+static func palette_snap(ctx: ArtLabRunner, info: Dictionary, want: Color) -> Dictionary:
+	var p: String = info.get("path", "")
+	if p == "" or "::" in p or not p.begins_with("res://") or p.begins_with(ctx.scene_path.get_base_dir()):
+		return {}
+	var dir := p.get_base_dir()
+	var d := DirAccess.open(dir)
+	if d == null:
+		return {}
+	var want_lab := lin_to_lab(srgb_to_lin(want))
+	var best := {}
+	for fn: String in d.get_files():
+		var f := fn.trim_suffix(".remap")
+		if not (f.ends_with(".tres") or f.ends_with(".material")):
+			continue
+		var path := dir.path_join(f)
+		if path == p:
+			continue
+		var mat := load(path) as Material
+		if mat == null:
+			continue
+		var mi := material_info(mat)
+		if not mi.has("color") or bool(mi.get("emissive", false)):
+			continue
+		var c := _to_color(mi["color"])
+		var de := lin_to_lab(srgb_to_lin(c)).distance_to(want_lab)
+		if best.is_empty() or de < float(best["de_to_wanted"]):
+			best = {"material_path": path, "color": "#" + c.to_html(false), "de_to_wanted": snappedf(de, 0.1),
+				"close": de <= SNAP_CLOSE_DE, "from_folder": dir}
+	return best
 
 
 ## A warning when the material lives outside the asset's folder (a kit / palette material shared by other assets).

@@ -59,6 +59,7 @@ cd C:\Users\elzzo\Documents\four-wizards-rts
 | `sweep=<kingdom>` | **army sweep** (v2): every model in `res://art/units/<kingdom>/` (or `dir=`), each run with `quick=1` (`full=1` keeps the per-asset refs / frame cost), then every silhouette rendered **once** and all pairs compared (IoU over 4 turns + colour dE). `only=a,b` filters by file name; `kind= ground= light= log= tier=` pass through. Writes `docs/art/lab/_sweep_<kingdom>/sweep.md` + `army_silhouettes.png` (plus each asset's own scorecard). Exit 1 if any asset FAILs |
 | `name=` `ids=` `n=` | asset name; VFX ids (default: the family's `EFFECTS`); instances for the frame cost |
 | `quick=1` / `log=0` | skip references + frame cost / no improvement-log row |
+| `log=<file>` | (U1) the improvement-log row goes to that file instead of the shared `docs/art/lab/improvement-log.md` (created with its header): a bare name = `docs/art/lab/<name>.md`, a relative path is under the project, `user://` / absolute kept. For trials: each run / trial sees only its own rows. `log=1` = the shared log |
 | `table` | print the budget table (Markdown) and quit |
 | `batch=<list or file>` | **v3 batch**: several assets in ONE Godot process (`lab_batch.gd`). The stage (ground, lights, shaders) is built once per light preset and warmed (all 4 render modes) before the first asset; each asset then runs on the reset stage (its nodes freed). A comma list of scenes shares the other args (`'batch=shade,dusk_steed,aqueduct'`); a `.txt` / `.list` file holds one `<scene> [key=value ...]` per line (`#` = comment). `kind=` is guessed from the path when missing; `out_root=<dir>` puts each scorecard in `<dir>/<name>/`. vsync is off in a batch (capped 240 fps; `vsync=1` keeps it): the lab's waits are timers, so the poses are the same. Ends with `ART LAB BATCH done: N assets in S s (s / asset)` + one line per asset; exit 1 if any FAILs. `sweep=` uses the same stage pool |
 | `fail_fast=1` | v3: the headless checks (budgets, health, hooks, allocations) run first; on a FAIL the render passes are skipped (render checks SKIP "fail_fast", note in the scorecard) |
@@ -157,7 +158,8 @@ Budget numbers come from the specs (hard = FAIL when over); "soft" numbers are l
 | C1 | Shape richness (v3.1, craft) | geometry: separate shapes (vertex-connected mesh islands) per body part (pivot), share of the surface on plain boxes / low-sided prisms / cards (islands with <= 10 face directions), face-normal variety (area-weighted entropy over 128 direction bins). Graded 0-1 between the `CRAFT` ends (3 -> 7 shapes per part, 65 % -> 35 % plain, 0.84 -> 0.92 variety); INFO (scored, never WARN) |
 | C2 | Vertex use vs budget (v3.1, craft) | vertices (critters: triangles) / the tier budget: 30 % -> 65 % graded; under-use counts (detail left on the table), over is B4's job |
 | C3 | Palette depth (v3.1, craft) | close-up: colour steps (L\*a\*b\* bins L 10 / a b 15 with >= 2 % of the body) 8 -> 13, value steps (L\* bins of 8 with >= 3 %) 5 -> 9 |
-| C4 | Inner detail (v3.1, craft) | inner edge pixels (\|grad L\*\| > 8, outline excluded) per outline pixel: close-up 1.3 -> 1.8, 25 m 1.0 -> 1.4 (a box figure has big plain panels for its outline). C1-C4 are graded for units / mounts / titans / beasts; critters, buildings and landmarks get the values as unscored INFO (not calibrated yet) |
+| C4 | Inner detail (v3.1, craft) | inner edge pixels (\|grad L\*\| > 8, outline excluded) per outline pixel: close-up 1.3 -> 1.8, 25 m 1.0 -> 1.4 (a box figure has big plain panels for its outline). C1-C4 are graded for units / mounts / titans / beasts and (U1) critters / buildings / landmarks with their own ends (`ArtLabBudgets.CRAFT_KIND`: no shapes-per-part for single-root assets, no plain-prism share for masonry; provisional, from the deer / aqueduct) |
+| A4 | Cast pose (U1, INFO) | every model with `play_cast` casts once in the anim strip (v3.1: only beasts / wizards / champions, so Pyre Adept / Hexweaver casts were never seen): silhouette change vs rest at 0.12 / 0.25 / 0.4 / 0.6 s, the peak goes into the strip and `cast.jpg` (rest \| peak); hint below 6 %. `cast_id=<spell>` picks the spell id (default `lab_cast`). Unscored until calibrated |
 | P1-P5 | Polish (scored, never fail) | silhouette hook (outline complexity >= 2.2), asymmetric secondary element (front asymmetry >= 0.15), tops light / bottoms dark (top third - bottom third >= +10 L*), detail density at 25 m (3-11 mean L* gradient), a glow point in the upper half. v2: **P3 and P5 use world height** (a height pass: unshaded grey = world y / model top), so flat creatures and quadrupeds are judged by what is physically on top, not by screen rows; P5 counts glowing surfaces too |
 | D1-D9 | Decor sets | kinds <= 6 (soft; map total 24), triangles per mesh <= 1200 (soft), only trees / logs / big rocks cast shadows (FAIL), ranges 65 / 90 m, instance-budget coverage, **units hidden by decor** <= 20 % (FAIL > 40 %), **units still read on the decor** mean-colour dE >= 20 (WARN only), coverage <= 55 %, glow points per 144 m2, patch frame cost |
 | V2-V6 | VFX families | lights 0, nodes created per play after warm-up 0 (pooled), no leak 3 s after, 0 materials per play, peak particles 200 / draws 40 (soft), each id visible at 40 m (>= 200 px of the frame change by dE > 10 at its peak, sampled at 0.05 / 0.12 / 0.35 / 0.8 / 1.5 s) |
@@ -395,6 +397,33 @@ Left: a palette-snap recipe for shared kit materials (low / high trial notes: "r
 entry, not editing a shared material), a combined "all grounds" contrast line, C1-C4 bands for critters / buildings /
 landmarks (INFO today), R6cb hint naming the ground case, R5 part names on merged meshes.
 
+### 9.3 Tools upgrade U1 (2026-09-27, after the playtest; `docs/plan/tools-upgrade-30min.md`)
+1. **C1-C4 graded for critters / buildings / landmarks** (`ArtLabBudgets.CRAFT_KIND` + `craft_for(kind)`; `craft.gd`
+   `GRADED_KINDS`): single-root assets drop "shapes per body part", buildings / landmarks drop the plain-prism share
+   (masonry); other ends from the deer / aqueduct values (provisional: no building set calibrated yet; the fire / nature
+   keeps will now move by their C scores).
+2. **Cast-pose shot + A4** (`ArtLabCheckAnim.cast_pose`): every model with `play_cast` casts in the strip (was beasts /
+   wizards / champions only); `cast.jpg` = rest | peak; A4 INFO unscored (Shade 27 %, Thornling 33 %, Sapling 34 %).
+3. **`log=<file>`** (`ArtLabRunner.log_path()`): per-run / per-trial improvement log.
+4. **Shared-kit-material snap recipe** (`ArtLabFixes.palette_snap`): when the R3 recolour candidate is a saved material
+   outside the asset folder, the recipe names the nearest other material of that palette folder to the solved colour
+   (`changes[0].snap`: path, colour, dE to the wanted colour, `close` when dE <= 12) instead of "edit the shared material".
+5. **Parallel settle** (`ArtLabRunner.settle_all` + `park_point()`): the 4 team copies and every reference spawn behind
+   the camera at the same camera distance (the kit's 30 / 45 m distance tiers must match: a first try 120 m under the
+   ground put them in tier 2 and R6 noise went 1 % -> 8 %), settle with ONE wait, freeze at the same moment, then come to
+   the spot one at a time. Side effect (a fix): the team copies now share one exact pose, so a frozen team colour
+   measures ~0 % and **R6 FAILs** as its rule says (section 11 "missed alarm"); `plant_team_dusk_steed` expects R6 WARN /
+   FAIL and allows (no longer requires) R6cb.
+
+**Batch timing** (laptop, windowed, 8 assets `docs/art/lab/_u1_batch/batch.txt`, `timing=1`, 5-6 other Godot processes
+running): **31.9 s / asset** (first 36.4, then 31.2; 254.9 s in process), vs 27.2 s in 9.1 on a less loaded PC. Per
+phase (Shade): headless 8.3, craft 3.0, read_40 7.1, turns + anim strip 7.2 (+~2.3 s for the new cast pose), references
+**6.2 s (was 8.8)**, frame cost 3.1. **Target 15 s / asset not met**: the references phase dropped 2-5 s per asset, the
+cast pose added ~2 s, and the rest is timed waits (two B10 action cycles ~6 s, 3 glow phases, A3 samples) stretched by
+the load. Next: a shorter second B10 cycle, the 40 m pass's A3 / glow phases, re-measure on a quiet PC.
+Also seen: `aqueduct` in a batch reports R2 "aqueduct 1.0" (a reference with the same model under another path; the ref
+picker only excludes the exact scene path).
+
 ## 10. v2.1 (2026-09-27, lab review on the laptop, RTX 3070 Laptop)
 Checked the known notes against v2 first: rim light (R5), R3 low-chroma hue gap, P1 / P2 thin hooks, emission crop +
 marked clusters, per-mesh vertex breakdown, B11 surfaces, B12 downward faces, R3t team colours, `ref=` short names,
@@ -450,7 +479,7 @@ two windowed runs (2026-09-27, laptop, 3-6 other Godot processes) -/+ 3 points.
 | plant_verts20k_shade | a hidden dense sphere as an extra surface (20 663 verts total) | **B4 FAIL** | 91-97.5 (94.3, 94.3) |
 | plant_float_deer | root lifted 0.4 m | **R9 FAIL** (lowest point 0.4 m) | 86.5-93.5 (90.5, 90.6) |
 | plant_permat_dusk_steed | every material duplicated per instance | **B9 FAIL** | 86-92 (89.0, 89.0) |
-| plant_team_dusk_steed | team cloth frozen (path-less shared copies, mesh + overrides) | **R6 WARN** (1-2 %), **R6cb WARN** (3.0-4.7) | 90.5-97 (94.0, 93.7) |
+| plant_team_dusk_steed | team cloth frozen (path-less shared copies, mesh + overrides) | **R6 WARN** (1-2 %), **R6cb WARN** (3.0-4.7); U1: **R6 FAIL** (~0 %, copies share one pose), R6cb absent / WARN allowed | 90.5-97 (94.0, 93.7; U1 90.9, 91.0) |
 
 | vinelasher_low (v3.1) | - (the effort trial's plain, blocky low model, `reach=3.0`) | PASS / WARN; C1, C2 INFO, A3r PASS, R3 PASS; R4k / R4 WARN allowed | **82-91** (86.7, 86.8, 86.8) |
 
@@ -486,7 +515,8 @@ shader (A2 dissolve); the 40 beads also flicker (R5w).
 - **OC4 A2 on critters (headless only)**: the headless path runs `death_check` for critters, whose death is 4.8 s by
   design (`DEATH_HOLD` 4 s corpse hold + fade), so A2 WARNs "never (3 s)"; the windowed critter strip never runs A2. Fix
   (lab_runner / animation owner): skip A2 for critters or use the critter timeline.
-- **Missed alarm (not a false alarm):** R6 only FAILs at <= 0.1 % change, which a model with any pose / particle noise
+- **Missed alarm (not a false alarm)** (U1: fixed as a side effect of the shared settle, the copies now share one pose
+  and the frozen-team plant FAILs R6; the baseline idea below is still the robust fix): R6 only FAILs at <= 0.1 % change, which a model with any pose / particle noise
   never reaches: a frozen team colour is a WARN, never the FAIL the rule text promises. Fix (readability owner): subtract a
   same-colour noise baseline (two instances in the same colour).
 

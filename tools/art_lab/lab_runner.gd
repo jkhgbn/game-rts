@@ -136,8 +136,8 @@ func run(args: PackedStringArray) -> int:
 		sheet.save_png(ProjectSettings.globalize_path(out_dir.path_join(sheet_name + ".png")))
 		rep.shots[sheet_name] = sheet_name + ".png"
 	rep.write(out_dir)
-	if opts.get("log", "1") != "0" and not headless:
-		rep.append_log(opts.get("logfile", LOG_PATH), out_dir)
+	if log_path() != "" and not headless:
+		rep.append_log(log_path(), out_dir)
 	OS.remove_logger(logger)
 	print("ART LAB %s: %s quality %d (%d FAIL, %d WARN, %d PASS) in %.0f s -> %s" % [asset, rep.result(), ArtLabScore.shown(rep.quality()),
 		rep.count("FAIL"), rep.count("WARN"), rep.count("PASS"), rep.seconds, out_dir.path_join("scorecard.md")])
@@ -149,6 +149,22 @@ func run(args: PackedStringArray) -> int:
 	if diff_line != "":
 		print(diff_line)
 	return rep.exit_code()
+
+
+## Improvement-log file of this run, "" = no row. `log=0` off, `log=1` / missing = the shared
+## docs/art/lab/improvement-log.md, U1 `log=<file>` = a per-run / per-trial log (a trial no longer sees other runs'
+## rows): a bare name lands in docs/art/lab/, a relative path is under res://. `logfile=` (older) still works.
+func log_path() -> String:
+	var v := String(opts.get("log", "1")).strip_edges()
+	if v == "0" or v.to_lower() in ["off", "false", "no"]:
+		return ""
+	if v == "1" or v == "":
+		return String(opts.get("logfile", LOG_PATH))
+	if v.begins_with("res://") or v.begins_with("user://") or v.is_absolute_path():
+		return v
+	if not "/" in v and not "\\" in v:
+		return "res://docs/art/lab/" + (v if v.get_extension() != "" else v + ".md")
+	return "res://" + v.trim_prefix("/")
 
 
 func _resolve() -> String:
@@ -521,6 +537,55 @@ func settle(inst: Node) -> void:
 		await wait(minf(tail, 1.5))   # the last particles of the finished one-shots fade out
 	if not m.has("settle_s") and inst == target:
 		m["settle_s"] = float(Time.get_ticks_msec() - t0) / 1000.0 + 0.6
+
+
+## U1 batch speed (2026-09-27): settles several fresh instances with ONE shared wait instead of one `settle` each (the
+## team pass: 4 copies, references: up to 6). Same rules as `settle` (skip hooks, idle phase 0, 0.6 s grace, one-shot
+## emitters finished <= 3 s, then their fade <= 1.5 s), applied to all of them at once. The caller spawns them off
+## camera (`park_point()`), freezes them all right after (same moment = same idle pose) and brings one at a time to
+## the spot.
+const PARK := Vector3(0.0, -120.0, 0.0)
+
+
+## Where `settle_all` instances wait: the spot mirrored behind the current camera (same camera distance, so the kit's
+## distance tier (30 / 45 m: tier 2 stops the idle and the looping effects) is the one they will have on the spot; a
+## first try parked them 120 m under the ground and the frozen team copies came back in tier 2: R6 noise 1 % -> 8 %).
+func park_point() -> Vector3:
+	var cam: Camera3D = stage.vp.get_camera_3d() if stage != null and stage.vp != null else null
+	if cam == null:
+		return gp + PARK
+	var c := cam.global_position
+	var d := gp - c
+	return c + Vector3(-d.x, d.y, -d.z)
+
+
+func settle_all(insts: Array) -> void:
+	var live: Array[Node] = []
+	for inst: Variant in insts:
+		if inst is Node and is_instance_valid(inst):
+			live.append(inst)
+			for h: StringName in [&"skip_spawn", &"skip_spawn_animation", &"finish_spawn"]:
+				call_hook(inst, h)
+			_fix_idle_phase(inst)
+	if live.is_empty():
+		return
+	await wait(0.6)
+	var t0 := Time.get_ticks_msec()
+	var tail := 0.0
+	while float(Time.get_ticks_msec() - t0) < 3000.0:
+		var busy := false
+		for inst2: Node in live:
+			if not is_instance_valid(inst2):
+				continue
+			for gi: GeometryInstance3D in ArtLabCensus.geometry(inst2):
+				if ArtLabCensus.is_particles(gi) and bool(gi.get("one_shot")) and bool(gi.get("emitting")) and gi.is_visible_in_tree():
+					busy = true
+					tail = maxf(tail, float(gi.get("lifetime")))
+		if not busy:
+			break
+		await frames(3)
+	if tail > 0.0:
+		await wait(minf(tail, 1.5))
 
 
 ## Lab v2.1: the kit picks each model's idle phase from hash(instance id) in _ready (CharacterModel `_phase_off`,

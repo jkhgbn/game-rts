@@ -130,12 +130,8 @@ static func anim_strip(ctx: ArtLabRunner) -> void:
 				strip.append({"img": await ctx.stage.grab(), "label": "hit"})
 				ArtLabStage.freeze(ctx.target, false)
 				await ctx.wait(0.5)
-			if (ctx.kind == &"beast" or ctx.tier in [&"wizard", &"champion"]) and ctx.call_hook(ctx.target, &"play_cast", [&"lab_cast"]):
-				await ctx.wait(0.25)
-				ArtLabStage.freeze(ctx.target, true)
-				strip.append({"img": await ctx.stage.grab(), "label": "cast"})
-				ArtLabStage.freeze(ctx.target, false)
-				await ctx.wait(1.0)
+			if ctx.target.has_method(&"play_cast"):
+				await cast_pose(ctx, box, strip)
 			await death_check(ctx, strip, true)
 	var imgs: Array[Image] = []
 	var cbox := box.grow(maxf(box.size.length() * 0.12, 0.3))
@@ -145,6 +141,57 @@ static func anim_strip(ctx: ArtLabRunner) -> void:
 		ctx.add_tile(c, "anim: " + String(f["label"]))
 	var sheet := ArtLabImage.grid(imgs, 4, 480, 270)
 	ctx.save_shot(sheet, "anim")
+
+
+## U1 (2026-09-27): cast-pose shot. v3.1 only called `play_cast` on beasts / wizards / champions, so the casting
+## soldiers (Pyre Adept, Hexweaver: kit `CharacterModel.play_cast`) were never seen casting. Every model with the hook
+## now casts once in the strip camera: the silhouette change vs the rest pose is sampled at CAST_SAMPLES, the biggest
+## moment goes into the strip and `cast.jpg` (rest | cast peak). A4 is INFO (unscored until calibrated): the value is
+## the change and the moment; a hint when the cast barely moves the outline.
+const CAST_SAMPLES: Array[float] = [0.12, 0.25, 0.4, 0.6]
+const CAST_READ_MIN := 0.06
+
+
+static func cast_pose(ctx: ArtLabRunner, box: AABB, strip: Array) -> void:
+	var roi := ctx.stage.roi_of(box.grow(maxf(box.size.length() * 0.2, 0.5)), 8)
+	ArtLabStage.freeze(ctx.target, true)
+	var rest := ArtLabImage.sil_mask(await ArtLabShots.sil(ctx, ctx.target), roi)
+	var rest_img: Image = await ctx.stage.grab()
+	ArtLabStage.freeze(ctx.target, false)
+	var spell := StringName(ctx.opts.get("cast_id", "lab_cast"))
+	if not ctx.call_hook(ctx.target, &"play_cast", [spell]):
+		return
+	var best := -1.0
+	var best_t := 0.0
+	var best_img: Image = null
+	var t_prev := 0.0
+	var seen: Array[String] = []
+	for t_s: float in CAST_SAMPLES:
+		await ctx.wait(t_s - t_prev)
+		t_prev = t_s
+		ArtLabStage.freeze(ctx.target, true)
+		var mk := ArtLabImage.sil_mask(await ArtLabShots.sil(ctx, ctx.target), roi)
+		var ch := 1.0 - ArtLabImage.iou(rest, mk)
+		seen.append("%s s %d%%" % [ctx.fmt(t_s, 2), int(ch * 100.0)])
+		if ch > best:
+			best = ch
+			best_t = t_s
+			best_img = await ctx.stage.grab()
+		ArtLabStage.freeze(ctx.target, false)
+	ctx.m["cast_change"] = best
+	ctx.m["cast_t"] = best_t
+	if best_img != null:
+		strip.append({"img": best_img, "label": "cast (peak, t %s s)" % ctx.fmt(best_t, 2)})
+		var cbox := box.grow(maxf(box.size.length() * 0.12, 0.3))
+		var pair: Array[Image] = [ctx.crop_box(rest_img, cbox, 0.05), ctx.crop_box(best_img, cbox, 0.05)]
+		ctx.save_shot(ArtLabImage.grid(pair, 2, 480, 270), "cast")
+	ctx.rep.add("A4", "anim", "Cast pose reads (play_cast)", "INFO",
+		"cast pose changes %d%% of the silhouette at its peak (t %s s; %s)" % [int(best * 100.0), ctx.fmt(best_t, 2), ", ".join(seen)],
+		"shown in the strip + cast.jpg (rest | peak); INFO until calibrated (a cast should change >= %d%% of the outline)" % int(CAST_READ_MIN * 100.0),
+		"", -1.0,
+		"The cast barely moves the outline (%d%%): raise the staff / arms or add a cast flare above the head so the cast reads" % int(best * 100.0) if best < CAST_READ_MIN else "",
+		"anim")
+	await ctx.wait(0.8)
 
 
 ## Reach weapons (whips, pikes, halberds): a declared reach at or above this (m) is judged by A3r; shorter

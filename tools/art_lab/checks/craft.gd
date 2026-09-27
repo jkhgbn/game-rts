@@ -20,14 +20,16 @@ const DIR_STEPS := 6.0
 ## Kinds whose craft is graded (the character kit: units, mounts, titans, beasts). Critters, buildings and landmarks
 ## get the values as unscored INFO (not calibrated yet: an imported single-mesh deer or a brick aqueduct is judged by
 ## other rules); decor sets / VFX have no C checks.
-const GRADED_KINDS: Array[StringName] = [&"unit", &"mount", &"titan", &"beast"]
+## U1 (2026-09-27): critters, buildings and landmarks are graded too, with their own ends (ArtLabBudgets.CRAFT_KIND:
+## no "shapes per body part" for single-root assets, no plain-prism share for masonry).
+const GRADED_KINDS: Array[StringName] = [&"unit", &"mount", &"titan", &"beast", &"critter", &"building", &"landmark"]
 
 
 ## Headless part (geometry): C1 shape richness + C2 vertex use. Stores the measures in ctx.m["craft_geo"].
 static func check_geometry(ctx: ArtLabRunner) -> void:
 	if ctx.kind in [&"decor_set", &"vfx"] or ctx.target == null:
 		return
-	var cf: Dictionary = ArtLabBudgets.CRAFT
+	var cf: Dictionary = ArtLabBudgets.craft_for(ctx.kind)
 	var g := measure_geometry(ctx.target, ctx.holder.global_transform, ctx.ground_y)
 	ctx.m["craft_geo"] = g
 	var graded := ctx.kind in GRADED_KINDS
@@ -51,9 +53,9 @@ static func check_geometry(ctx: ArtLabRunner) -> void:
 	var hint1 := ""
 	if s1 < 0.8:
 		var why: Array[String] = []
-		if g_isl < 0.8:
+		if g_isl < 0.8 and float(cf["w_per_part"]) > 0.0:
 			why.append("only %s shapes per body part (aim >= %s): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar)%s" % [ctx.fmt(per_part), ctx.fmt(float(cf["per_part_good"]), 0), (" on " + ", ".join(thin)) if not thin.is_empty() else ""])
-		if g_plain < 0.8:
+		if g_plain < 0.8 and float(cf["w_plain"]) > 0.0:
 			why.append("%d%% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile)" % int(float(g["plain_share"]) * 100.0))
 		if g_ent < 0.8:
 			why.append("few surface directions (normal variety %s): tilt, curve and rotate parts so the light breaks on them" % ctx.fmt(float(g["entropy"]), 2))
@@ -84,7 +86,7 @@ static func check_geometry(ctx: ArtLabRunner) -> void:
 static func check_render(ctx: ArtLabRunner) -> void:
 	if ctx.kind in [&"decor_set", &"vfx"] or not ctx.m.has("box"):
 		return
-	var cf: Dictionary = ArtLabBudgets.CRAFT
+	var cf: Dictionary = ArtLabBudgets.craft_for(ctx.kind)
 	var graded := ctx.kind in GRADED_KINDS
 	var r: Dictionary = await measure_image(ctx)
 	ctx.m["craft_img"] = r

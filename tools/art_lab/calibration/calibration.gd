@@ -78,8 +78,10 @@ const CASES: Array[Dictionary] = [
 		"quality": [86.0, 92.0], "result": ["FAIL"], "expect": {"B9": ["FAIL"]},
 		"allow": {}},
 	{"id": "plant_team_dusk_steed", "scene": STEED, "args": ["kind=mount", "kingdom=shadow", "tier=mount"], "plant": "team",
-		"quality": [87.5, 97.0], "result": ["WARN", "FAIL"], "expect": {"R6": ["WARN", "FAIL"], "R6cb": ["WARN"]},
-		"allow": {"R5c": ["WARN"]}},   # OC1
+		"quality": [87.5, 97.0], "result": ["WARN", "FAIL"], "expect": {"R6": ["WARN", "FAIL"]},
+		# U1: the 4 team copies now settle together and freeze at the same moment, so a frozen team colour changes ~0 px:
+		# R6 FAILs as its rule says (the "missed alarm" of section 11) and R6cb has no team area to judge (it was pose noise)
+		"allow": {"R5c": ["WARN"], "R6cb": ["WARN"]}},   # OC1
 ]
 
 static var _virtual: Array[PackedScene] = []   # keeps the in-memory variants alive (the resource cache is weak)

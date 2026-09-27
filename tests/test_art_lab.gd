@@ -34,6 +34,7 @@ func _run() -> void:
 	await _test_army()    # v3 1.E army sweep + backlog (lab_army.gd): its own function
 	_test_read_v3()       # v3 1.D new quality checks (checks/read_v3.gd + lab_image / lab_stage helpers): its own function
 	await _test_v31()     # v3.1 fix round: craft (C1 / C2), A3r reach, recipes (team colour, B5, B8), shown quality, focus links
+	await _test_u1()      # tools upgrade U1: log=<file>, craft per kind, palette snap, settle_all, cast pose constants
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
@@ -789,3 +790,71 @@ func _mask_rect(w: int, h: int, r: Rect2i) -> ArtLabImage.Mask:
 		for x: int in range(r.position.x, r.end.x):
 			m.bits[y * w + x] = 1
 	return m.finish()
+
+
+## Tools upgrade U1 (2026-09-27, docs/plan/tools-upgrade-30min.md): log=<file>, C1-C4 ends per kind, the shared-kit
+## palette snap recipe, settle_all (one shared settle wait), cast-pose constants.
+func _test_u1() -> void:
+	var r := ArtLabRunner.new()
+	root.add_child(r)
+	r.opts = {"log": "0"}
+	_check(r.log_path() == "", "U1 log=0 -> no log")
+	r.opts = {}
+	_check(r.log_path() == ArtLabRunner.LOG_PATH, "U1 default log = the shared improvement log")
+	r.opts = {"log": "trial_low"}
+	_check(r.log_path() == "res://docs/art/lab/trial_low.md", "U1 log=<name> -> docs/art/lab/<name>.md (got %s)" % r.log_path())
+	r.opts = {"log": "docs/art/lab/effort-trial/log.md"}
+	_check(r.log_path() == "res://docs/art/lab/effort-trial/log.md", "U1 log=<path> under res:// (got %s)" % r.log_path())
+	r.opts = {"log": "user://x/log.md"}
+	_check(r.log_path() == "user://x/log.md", "U1 log=user:// kept")
+	# a per-run log file gets its own header + row
+	var rep := ArtLabReport.new()
+	rep.asset = "u1_probe"
+	rep.kind = "unit"
+	rep.tier = "soldier"
+	rep.add("B1", "budget", "Meshes", "PASS", "3", "<= 26", "", 1.0)
+	var lp := OUT + "/u1_log.md"
+	if FileAccess.file_exists(lp):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(lp))
+	rep.append_log(lp, OUT + "/u1")
+	var txt := FileAccess.get_file_as_string(lp)
+	_check("u1_probe" in txt and txt.count("| When |") == 1, "U1 log=<file> writes its own log with one header")
+	# craft ends per kind
+	var cu := ArtLabBudgets.craft_for(&"unit")
+	var cc := ArtLabBudgets.craft_for(&"critter")
+	var cb := ArtLabBudgets.craft_for(&"building")
+	_check(float(cu["w_per_part"]) == 1.0 and float(cc["w_per_part"]) == 0.0 and float(cb["w_plain"]) == 0.0,
+		"U1 craft_for: critters / buildings drop shapes-per-part, buildings drop the plain share")
+	_check(float(ArtLabBudgets.CRAFT["w_per_part"]) == 1.0, "U1 craft_for does not change CRAFT")
+	_check(&"critter" in ArtLabCheckCraft.GRADED_KINDS and &"building" in ArtLabCheckCraft.GRADED_KINDS \
+		and &"landmark" in ArtLabCheckCraft.GRADED_KINDS, "U1 C1-C4 graded for critters / buildings / landmarks")
+	# known-good values (deer / aqueduct, calibration run) land near the good end
+	_check(ArtLabScore.grade(0.94, float(cc["use_bad"]), float(cc["use_good"])) >= 0.9 \
+		and ArtLabScore.grade(0.8, float(cc["edges_bad"]), float(cc["edges_good"])) >= 0.9, "U1 deer craft near the good end")
+	var cl := ArtLabBudgets.craft_for(&"landmark")
+	_check(ArtLabScore.grade(0.38, float(cl["use_bad"]), float(cl["use_good"])) >= 0.85 \
+		and ArtLabScore.grade(0.841, float(cl["entropy_bad"]), float(cl["entropy_good"])) >= 0.9, "U1 aqueduct craft near the good end")
+	# palette snap: a shared kit material -> the nearest other kit material; the asset's own material -> none
+	r.scene_path = MODEL
+	r.asset = "mirefang"
+	var shared := "res://art/units/kit/materials/fire_cloth.tres"
+	var info := ArtLabFixes.material_info(load(shared) as Material)
+	info["path"] = shared
+	var snap := ArtLabFixes.palette_snap(r, info, Color(0.2, 0.3, 0.6))
+	_check(not snap.is_empty() and String(snap["material_path"]).begins_with("res://art/units/kit/materials/") \
+		and String(snap["material_path"]) != shared, "U1 palette snap proposes another kit material (got %s)" % str(snap))
+	var own := {"path": "res://art/units/neutral/mirefang/own.tres"}
+	_check(ArtLabFixes.palette_snap(r, own, Color.RED).is_empty(), "U1 no snap for the asset's own material")
+	# settle_all: several instances share one wait
+	var a := Node3D.new()
+	var b := Node3D.new()
+	root.add_child(a)
+	root.add_child(b)
+	var f0 := Engine.get_process_frames()   # --fixed-fps 60: timers run on game time = frames / 60
+	await r.settle_all([a, b, null])
+	var dt := float(Engine.get_process_frames() - f0) / 60.0
+	_check(dt >= 0.5 and dt < 1.5, "U1 settle_all: one 0.6 s wait for all (%.2f s game time)" % dt)
+	a.queue_free()
+	b.queue_free()
+	_check(ArtLabCheckAnim.CAST_SAMPLES.size() >= 3, "U1 cast pose sampled at >= 3 moments")
+	r.queue_free()

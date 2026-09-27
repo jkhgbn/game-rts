@@ -476,17 +476,26 @@ static func team_pass(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask: A
 	var imgs: Array[Image] = []
 	var surf_cols: Array = []   # v3.1: each instance's surface albedos -> the team-coloured materials (lab_fixes.gd)
 	ctx.holder.visible = false
+	# U1: the 4 copies are spawned off camera and settled together (one shared wait instead of 4), frozen at the same
+	# moment (same idle pose), then brought to the spot one at a time for their frame.
+	var insts: Array[Node3D] = []
 	for k: StringName in [&"fire", &"shadow", &"ice", &"nature"]:
-		var inst := ctx.spawn(ctx.scene_path, ctx.gp, ArtLabRunner.MAIN_YAW)
+		var inst := ctx.spawn(ctx.scene_path, ctx.park_point(), ArtLabRunner.MAIN_YAW)
 		if inst == null:
 			continue
 		inst.call(&"set_team_color", ArtLabBudgets.KINGDOM_COLORS[k])
-		await ctx.frames(2)
-		await ctx.settle(inst)
-		ArtLabStage.freeze(inst, true)
+		insts.append(inst)
+	await ctx.frames(2)
+	await ctx.settle_all(insts)
+	for inst2: Node3D in insts:
+		ArtLabStage.freeze(inst2, true)
+	for inst3: Node3D in insts:
+		(inst3.get_parent() as Node3D).position = ctx.gp
+		await ctx.frames(1)
 		imgs.append(await ctx.stage.grab())
-		surf_cols.append(ArtLabFixes.surface_colors(inst))
-		ctx.free_model(inst)
+		surf_cols.append(ArtLabFixes.surface_colors(inst3))
+		(inst3.get_parent() as Node3D).visible = false
+		ctx.free_model(inst3)
 		await ctx.frames(1)
 	ctx.m["team_labels"] = ArtLabFixes.team_labels(surf_cols)
 	ctx.holder.visible = true
@@ -571,15 +580,26 @@ static func references(ctx: ArtLabRunner) -> void:
 	var results: Array[Dictionary] = []
 	var sil_masks: Array = [tmask[0]]
 	var sil_labels: Array[String] = [ctx.asset]
-	for rp: String in refs:
-		var rm := ctx.spawn(rp, ctx.gp, 0.0)
-		if rm == null:
+	# U1: every reference spawned off camera and settled together (one shared wait instead of one per reference), frozen
+	# at the same moment, then brought to the spot one at a time.
+	var parked: Dictionary = {}
+	for rp0: String in refs:
+		var rm0 := ctx.spawn(rp0, ctx.park_point(), 0.0)
+		if rm0 == null:
 			continue
-		if rm.has_method(&"set_team_color"):
-			rm.call(&"set_team_color", ctx.model_color(rm))
-		await ctx.frames(2)
-		await ctx.settle(rm)
-		ArtLabStage.freeze(rm, true)
+		if rm0.has_method(&"set_team_color"):
+			rm0.call(&"set_team_color", ctx.model_color(rm0))
+		parked[rp0] = rm0
+	await ctx.frames(2)
+	await ctx.settle_all(parked.values())
+	for rmf: Variant in parked.values():
+		ArtLabStage.freeze(rmf, true)
+	for rp: String in refs:
+		if not parked.has(rp):
+			continue
+		var rm: Node3D = parked[rp]
+		(rm.get_parent() as Node3D).position = ctx.gp
+		await ctx.frames(1)
 		if not tflap.is_empty():
 			var resid: float = await ArtLabCheckReadV3.match_flap(ctx, rm, tflap)
 			if resid >= 0.0:

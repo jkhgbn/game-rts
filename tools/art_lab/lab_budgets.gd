@@ -123,6 +123,33 @@ const CRAFT := {
 	"weight_c1": 1.0, "weight_c2": 1.0, "weight_c3": 1.0, "weight_c4": 1.0,
 }
 
+## U1 (2026-09-27): C1-C4 graded for critters / buildings / landmarks too (v3.1: values only). Overrides of CRAFT per
+## kind (the rest of CRAFT applies). Measured on the known-good calibration assets (quick batch, laptop):
+##   Deer (critter)        per part 28 (1 pivot) / plain 3 % / variety 0.872 / use 94 % / 13 colour / 9 value steps /
+##                         edges 0.80 close / 0.97 at 25 m (one smooth imported mesh: few inner edges is its style)
+##   Aqueduct (landmark)   per part 232 (1 pivot) / plain 88 % / variety 0.841 / use 38 % / 14 / 9 / 3.7 / 4.89
+## Single-root assets have no body parts (one pivot), so "shapes per body part" is not graded for them (weight 0);
+## masonry is boxes by nature, so a building's plain-prism share is not graded either. Ends are provisional (one known
+## asset per kind + lenient bad ends) until a building set is calibrated; the known-good pair lands at >= 0.9.
+const CRAFT_KIND := {
+	&"critter": {"w_per_part": 0.0, "plain_bad": 0.6, "plain_good": 0.3, "entropy_bad": 0.8, "entropy_good": 0.86,
+		"use_bad": 0.4, "use_good": 0.8, "palette_bad": 5, "palette_good": 10, "values_bad": 4, "values_good": 8,
+		"edges_bad": 0.3, "edges_good": 0.7, "edges25_bad": 0.3, "edges25_good": 0.7},
+	&"building": {"w_per_part": 0.0, "w_plain": 0.0, "entropy_bad": 0.76, "entropy_good": 0.83,
+		"use_bad": 0.15, "use_good": 0.4, "palette_bad": 7, "palette_good": 12, "values_bad": 5, "values_good": 8,
+		"edges_bad": 1.2, "edges_good": 2.5, "edges25_bad": 1.2, "edges25_good": 2.5},
+	&"landmark": {"w_per_part": 0.0, "w_plain": 0.0, "entropy_bad": 0.76, "entropy_good": 0.83,
+		"use_bad": 0.15, "use_good": 0.4, "palette_bad": 7, "palette_good": 12, "values_bad": 5, "values_good": 8,
+		"edges_bad": 1.2, "edges_good": 2.5, "edges25_bad": 1.2, "edges25_good": 2.5},
+}
+
+
+## CRAFT with the kind's overrides (CRAFT_KIND) merged in.
+static func craft_for(kind: StringName) -> Dictionary:
+	var cf: Dictionary = CRAFT.duplicate()
+	cf.merge(CRAFT_KIND.get(kind, {}), true)
+	return cf
+
 ## Art Lab v3 checks of task 1.D (checks/read_v3.gd: R11 walk, R5w flicker, R5c glow local contrast, R6cb colour-blind
 ## team colours, R12 light presets, S1 style bible), moved here as one block (docs/handoff/for-art-lab-1c.md).
 ## Calibrated by task 1.C on the calibration set (docs/plan/art-lab.md "Calibration", 2 windowed runs 2026-09-27):
