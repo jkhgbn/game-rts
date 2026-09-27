@@ -15,7 +15,7 @@ const OUT_DIR := "res://docs/tools/world_forge/out"
 const LEVEL_SCRIPT := "res://tools/world_forge/forge_map_level.gd"
 
 const SPOT_KINDS: Array[String] = ["keep", "node", "point", "camp", "tavern", "post", "guild", "peddler", "cache", "lair", "crown", "start", "slot"]
-const OTHER: Array[String] = ["map", "seat", "river", "moat", "crossing", "road", "zone", "block"]
+const OTHER: Array[String] = ["map", "seat", "river", "moat", "crossing", "road", "zone", "block", "navmesh"]
 const SYMS: Array[String] = ["none", "mirror_x", "mirror_z", "rot180", "fourfold"]
 const FRAMES: Array[String] = ["identity", "mirror_x", "mirror_z", "rot180"]
 const CROSS_KINDS: Array[String] = ["bridge_road", "bridge_lane", "ford", "steps"]
@@ -137,6 +137,13 @@ func compile(path: String) -> bool:
 				if ck == "ford" or ck == "steps":
 					c["radius"] = float(c["width"]) * 0.5
 				layout.crossings.append(c)
+			"navmesh":
+				spec.check_keys(st, ["origin"])
+				var np: String = st["args"][0] if not st["args"].is_empty() else ""
+				if not ResourceLoader.exists(np):
+					spec.err(st["line"], np, "navmesh wants an existing res:// NavigationMesh (export-map writes one)")
+					continue
+				layout.navmeshes.append({"path": np, "xf": Transform3D(Basis(), spec.vec(st, "origin", Vector3.ZERO))})
 			"road", "zone", "block":
 				_c_mirrored(st)
 	# spots, mirrored
@@ -263,9 +270,7 @@ func start_map(id: String, p_opts: Dictionary, p_holder: Node3D) -> String:
 		return s + "WORLD FORGE map %s: BAD INPUT (%d errors)" % [id, spec.errors.size()]
 	for l in spec.warning_lines():
 		print("WARN  " + l)
-	report.title = "World Forge map: %s" % layout.title
-	report.id = id
-	report.kind = "map"
+	report.setup("map", id)
 	_layout_checks()
 	# save the layout
 	for s in layout.spots:
@@ -347,7 +352,7 @@ func _layout_checks() -> void:
 	for s in layout.seats:
 		if not teams.has(int(s["team"])):
 			missing.append("seat %d (%s)" % [s["team"], s["frame_name"]])
-	report.add("L1", "One keep per seat", "FAIL" if not missing.is_empty() or keeps.size() != layout.seats.size() else "PASS",
+	report.fcheck("L1", "One keep per seat", "FAIL" if not missing.is_empty() or keeps.size() != layout.seats.size() else "PASS",
 		"%d keeps, %d seats%s" % [keeps.size(), layout.seats.size(), "" if missing.is_empty() else "; no keep: " + ", ".join(missing)],
 		"each seat's frame maps the canonical keep onto that seat", "add `seat <team> frame=<mirror>` for every image of the symmetry", 2.0)
 	# L2 in bounds
@@ -356,7 +361,7 @@ func _layout_checks() -> void:
 		var p: Vector3 = s["pos"]
 		if absf(p.x) > half - 2.0 or absf(p.z) > half - 2.0:
 			out.append("%s %s" % [s["id"], _v(p)])
-	report.add("L2", "Spots inside the map", "FAIL" if not out.is_empty() else "PASS", "ok" if out.is_empty() else ", ".join(out),
+	report.fcheck("L2", "Spots inside the map", "FAIL" if not out.is_empty() else "PASS", "ok" if out.is_empty() else ", ".join(out),
 		"|x|, |z| <= size/2 - 2", "move the spot inward (map line %s)" % [layout.source.get_file()])
 	# L3 spacing
 	var close: Array[String] = []
@@ -367,7 +372,7 @@ func _layout_checks() -> void:
 			var d := (a["pos"] as Vector3).distance_to(b["pos"])
 			if d < 3.0 and not (a["kind"] in ["slot", "start"] or b["kind"] in ["slot", "start"]):
 				close.append("%s-%s %.1f m" % [a["id"], b["id"], d])
-	report.add("L3", "Spot spacing", "WARN" if not close.is_empty() else "PASS", "ok" if close.is_empty() else ", ".join(close),
+	report.fcheck("L3", "Spot spacing", "WARN" if not close.is_empty() else "PASS", "ok" if close.is_empty() else ", ".join(close),
 		">= 3 m between spots (slots / starts excepted)", "a canonical spot too close to its own mirror axis doubles up: move it off the axis or onto it")
 	# L4 counts
 	var counts := {}
@@ -377,7 +382,7 @@ func _layout_checks() -> void:
 	for k in SPOT_KINDS:
 		if counts.has(k):
 			parts.append("%s %d" % [k, counts[k]])
-	report.add("L4", "Spot counts", "INFO", ", ".join(parts) + "; crossings %d, roads %d, zones %d, blocks %d" % [layout.crossings.size(),
+	report.fcheck("L4", "Spot counts", "INFO", ", ".join(parts) + "; crossings %d, roads %d, zones %d, blocks %d" % [layout.crossings.size(),
 		layout.roads.size(), layout.zones.size(), layout.blocks.size()], "compare with the design doc's count table", "")
 
 
@@ -386,7 +391,7 @@ func tick_map(frame: int) -> Dictionary:
 		return {"code": 2, "line": "no level"}
 	if level.get(&"match_started") != true:
 		if frame > 3000:
-			report.add("N0", "Navmesh bake", "FAIL", "not ready after %d frames" % frame, "the preview bakes", "")
+			report.fcheck("N0", "Navmesh bake", "FAIL", "not ready after %d frames" % frame, "the preview bakes", "")
 			return _end_map()
 		return {}
 	if _ready_frame < 0:
@@ -395,19 +400,19 @@ func tick_map(frame: int) -> Dictionary:
 		return {}
 	var nav := level.get(&"nav_region") as NavigationRegion3D
 	var polys := nav.navigation_mesh.get_polygon_count() if nav and nav.navigation_mesh else 0
-	report.add("N0", "Navmesh bakes", "PASS" if polys > 0 else "FAIL", "%d polygons in %.1f s" % [polys, float(level.get(&"bake_seconds"))],
-		"the preview's navmesh bakes (flat ground, river / moat / keeps / blocks as obstacles)", "check the river / block lines", 1.5)
+	report.fcheck("N0", "Navmesh bakes", "PASS" if polys > 0 else "FAIL", "%d polygons in %.1f s" % [polys, float(level.get(&"bake_seconds"))],
+		"the preview navmesh is ready: baked (flat ground, river / moat / keeps / blocks as obstacles) or loaded from `navmesh` lines", "check the river / block lines", 1.5)
 	var od := "%s/%s" % [OUT_DIR, map_id]
 	var lab_opts := {"out": od + "/map_lab", "run": "world_forge_" + map_id, "log": "0", "scene": od + "/preview.tscn"}
 	var lab = MapLab.run_on(level, profile_dict(), lab_opts, t0, frame)
 	var score: float = lab.quality()
 	var res: String = lab.result()
 	var st := "PASS" if res != "FAIL" and score >= LAB_MIN else ("WARN" if res != "FAIL" and score >= 75.0 else "FAIL")
-	report.add("LAB", "Map Lab", st, "%s, score %.0f / 100" % [res, score], "Map Lab PASS / WARN and score >= %.0f" % LAB_MIN,
+	report.fcheck("LAB", "Map Lab", st, "%s, score %.0f / 100" % [res, score], "Map Lab PASS / WARN and score >= %.0f" % LAB_MIN,
 		"open map_lab/scorecard.md: its Improve next names the spot", 3.0)
 	for c: Dictionary in lab.checks:
 		if String(c["id"]).begins_with("M") or String(c["id"]) == "F1":
-			report.add("LAB." + String(c["id"]), String(c["name"]), String(c["status"]) if c["status"] in ["PASS", "WARN", "FAIL"] else "INFO",
+			report.fcheck("LAB." + String(c["id"]), String(c["name"]), String(c["status"]) if c["status"] in ["PASS", "WARN", "FAIL"] else "INFO",
 				String(c.get("value", "")) if String(c.get("value", "")) != "" else "%d items" % int(c.get("count", 0)), "Map Lab " + String(c["id"]), "", 0.5)
 	report.files.append(od + "/map_lab/scorecard.md")
 	report.files.append(od + "/map_lab/heatmap.png")
@@ -438,12 +443,10 @@ func _round_trip(ref_path: String) -> void:
 			worst_id = r["id"]
 	var n_ref := (ref as Array).size()
 	var st := "PASS" if missing.is_empty() and n_ref == layout.spots.size() else "FAIL"
-	report.add("R1", "Round trip: every live spot rebuilt within 0.1 m", st, "%d live spots, %d rebuilt; worst %.3f m (%s)%s" % [n_ref,
+	report.fcheck("R1", "Round trip: every live spot rebuilt within 0.1 m", st, "%d live spots, %d rebuilt; worst %.3f m (%s)%s" % [n_ref,
 		layout.spots.size(), worst, worst_id, "" if missing.is_empty() else "; off: " + ", ".join(missing)],
 		"export-map -> map: same count, each spot within 0.1 m (same kind)", "a live spot without an exact twin must be written `solo`", 2.0)
-	report.add("R2", "Round trip: Map Lab path table", "INFO", "not comparable yet",
-		"identical path table needs the live terrain (cliffs, forest, river banks) in the preview; the preview is flat ground + water + keeps",
-		"next: export blocks (forest clusters / cliffs) from the live navmesh so paths match")
+	_compare_paths()
 
 
 func _end_map() -> Dictionary:
@@ -451,12 +454,9 @@ func _end_map() -> Dictionary:
 	var img := layout_image(layout)
 	img.save_png(od + "/layout.png")
 	report.files.append(od + "/layout.png")
-	report.hash = layout.source_hash + "/" + _layout_hash()
-	report.seconds = float(Time.get_ticks_usec() - t0) / 1e6
-	report.write(od)
-	report.append_history()
-	report.print_summary(od)
-	return {"code": report.exit_code(), "line": "WORLD FORGE map %s: %s score %.0f" % [map_id, report.result(), report.score()]}
+	report.hash_value = layout.source_hash + "/" + _layout_hash()
+	var code := report.done()
+	return {"code": code, "line": "WORLD FORGE map %s: %s quality %.0f" % [map_id, report.result(), report.quality()]}
 
 
 func _layout_hash() -> String:
@@ -536,9 +536,7 @@ func start_export(id: String, p_opts: Dictionary, p_holder: Node3D) -> String:
 	map_id = String(opts.get("as", "crown_hollow" if id == "crown_hollow" else _exp_scene.get_file().get_basename()))
 	if not ResourceLoader.exists(_exp_scene):
 		return "WORLD FORGE export-map: scene %s not found (ids: crown_hollow, or scene=res://...tscn as=<id>)" % _exp_scene
-	report.title = "World Forge export: %s" % map_id
-	report.id = map_id
-	report.kind = "export"
+	report.setup("export-map", map_id)
 	_SIM.enabled = true
 	level = (load(_exp_scene) as PackedScene).instantiate()
 	for k: String in prof.get("settings", {}):
@@ -619,11 +617,13 @@ func tick_export(frame: int) -> Dictionary:
 	var moat: Variant = (level.get_script() as Script).get_script_constant_map().get("MOAT")
 	if moat is Vector4:
 		river_lines.append("moat center=(%.2f,%.2f) radius=%.2f half_width=%.2f" % [moat.x, moat.y, moat.z, moat.w])
+	var nav_lines := _export_navmeshes()
 	var txt := "# %s: exported by World Forge from %s (live spots after the level loaded). Rebuild: run_world_forge.ps1 map %s\n" % [prof.get("title", map_id), _exp_scene, map_id]
 	txt += "map %s  size=%.0f  symmetry=%s  title=\"%s\"  spec=%s\n" % [map_id, half * 2.0, sym, prof.get("title", map_id), prof.get("spec", "-")]
 	var fr_names := {0: "identity", 1: "rot180"}
 	for s: Dictionary in prof.get("seats", []):
 		txt += "seat %d  name=\"%s\"  side=%d  frame=%s\n" % [s["team"], s["name"], s["side"], fr_names.get(int(s["side"]), "identity")]
+	txt += "\n# the live navmesh (paths in the preview = live paths; delete these lines to bake a flat preview instead)\n" + "\n".join(nav_lines) + "\n"
 	txt += "\n# spots: canonical half (x < 0); `twin=` names the live id of its half-turn image; `solo` = no exact twin\n"
 	lines.sort()
 	txt += "\n".join(lines) + "\n\n# river (global, not mirrored)\n" + "\n".join(river_lines) + ("\n" if not river_lines.is_empty() else "") + "\n".join(cross_lines) + "\n"
@@ -642,17 +642,21 @@ func tick_export(frame: int) -> Dictionary:
 	jf.store_string(JSON.stringify(ref, "\t"))
 	jf.close()
 	report.files.append(od + "/export_spots.json")
-	report.add("E1", "Live spots exported", "PASS" if live.size() > 0 else "FAIL", "%d spots: %d twin pairs, %d on the centre, %d solo; %d crossings, %d river arms" % [
+	var pt := path_table(_nav_map_of(level), live)
+	var pf := FileAccess.open(od + "/export_paths.json", FileAccess.WRITE)
+	pf.store_string(JSON.stringify(pt, "\t", true))
+	pf.close()
+	report.files.append(od + "/export_paths.json")
+	report.fcheck("E3", "Live path table", "PASS" if pt.size() > 0 else "FAIL", "%d spot pairs, %d navmesh region(s) saved" % [pt.size(), nav_lines.size()],
+		"NavigationServer3D.map_get_path (optimized, the Map Lab's call) between every pair of live spots", "the level has no navmesh yet")
+	report.fcheck("E1", "Live spots exported", "PASS" if live.size() > 0 else "FAIL", "%d spots: %d twin pairs, %d on the centre, %d solo; %d crossings, %d river arms" % [
 		live.size(), n_pair, n_self, n_solo, cross_lines.size(), river_lines.size()], "every Map Lab spot kind of the live scene is in the .map",
 		"a solo spot has no exact half-turn twin in the live map (tell the map owner)" if n_solo > 0 else "", 1.0)
 	if n_solo > 0:
-		report.add("E2", "Live map symmetric", "WARN", "%d spots without an exact twin (written solo)" % n_solo, "every live spot has its half-turn twin within 0.1 m", "see the solo lines in the .map")
-	report.hash = txt.md5_text().substr(0, 12)
-	report.seconds = float(Time.get_ticks_usec() - t0) / 1e6
-	report.write(od + "/export")
-	report.append_history()
-	report.print_summary(od + "/export")
-	return {"code": report.exit_code(), "line": "WORLD FORGE export-map %s: %s (%d spots) -> %s" % [map_id, report.result(), live.size(), mpath]}
+		report.fcheck("E2", "Live map symmetric", "WARN", "%d spots without an exact twin (written solo)" % n_solo, "every live spot has its half-turn twin within 0.1 m", "see the solo lines in the .map")
+	report.hash_value = txt.md5_text().substr(0, 12)
+	var code := report.done()
+	return {"code": code, "line": "WORLD FORGE export-map %s: %s (%d spots) -> %s" % [map_id, report.result(), live.size(), mpath]}
 
 
 func _spot_line(s: Dictionary, twin: String, solo := false) -> String:
@@ -722,3 +726,86 @@ static func _id_of(nd: Node) -> String:
 			return String(v)
 	var nm := String(nd.name)
 	return nm if not nm.begins_with("@") else nd.get_class().to_lower()
+
+
+# ---------------------------------------------------------------- path table (round trip R2)
+
+static func _nav_map_of(lv: Node) -> RID:
+	var regs := lv.find_children("*", "NavigationRegion3D", true, false)
+	return (regs[0] as NavigationRegion3D).get_navigation_map() if not regs.is_empty() else RID()
+
+
+## {"<id a>|<id b>": length} for every pair of spots (ids sorted), NavigationServer3D paths between the spots' closest
+## navmesh points (the Map Lab's path call). "INF" when there is no path.
+static func path_table(nav_map: RID, spots: Array) -> Dictionary:
+	var out := {}
+	if not nav_map.is_valid():
+		return out
+	var pts := {}
+	for s: Dictionary in spots:
+		var p: Vector3 = s["pos"]
+		pts[String(s["id"])] = NavigationServer3D.map_get_closest_point(nav_map, Vector3(p.x, 0.5, p.z))
+	var ids: Array = pts.keys()
+	ids.sort()
+	for i in ids.size():
+		for j in range(i + 1, ids.size()):
+			var path := NavigationServer3D.map_get_path(nav_map, pts[ids[i]], pts[ids[j]], true)
+			var d := 0.0
+			for k in range(path.size() - 1):
+				d += path[k].distance_to(path[k + 1])
+			out["%s|%s" % [ids[i], ids[j]]] = snappedf(d, 0.001) if not path.is_empty() else "INF"
+	return out
+
+
+## Saves the live level's baked navmesh(es) next to the .map; returns the `navmesh` spec lines.
+func _export_navmeshes() -> Array[String]:
+	var lines_out: Array[String] = []
+	var k := 0
+	for r: Node in level.find_children("*", "NavigationRegion3D", true, false):
+		var reg := r as NavigationRegion3D
+		if reg.navigation_mesh == null or reg.navigation_mesh.get_polygon_count() == 0:
+			continue
+		var path := "%s/%s_navmesh%s.res" % [MAPS_DIR, map_id, "" if k == 0 else "_%d" % k]
+		ResourceSaver.save(reg.navigation_mesh.duplicate(), path, ResourceSaver.FLAG_COMPRESS)
+		report.files.append(path)
+		var o := reg.global_transform.origin
+		if not reg.global_transform.basis.is_equal_approx(Basis()):
+			report.fcheck("E4", "Navmesh region rotated", "WARN", path, "regions are placed by origin only", "the preview ignores the rotation")
+		lines_out.append("navmesh %s  origin=(%.3f,%.3f,%.3f)" % [path, o.x, o.y, o.z])
+		k += 1
+	var links := level.find_children("*", "NavigationLink3D", true, false).size()
+	if links > 0:
+		report.fcheck("E5", "Navigation links", "WARN", "%d links not exported" % links, "the preview has no links", "paths using links will differ")
+	return lines_out
+
+
+## R2: the preview's path table vs the live one written by export-map (same navmesh -> identical within 1 cm).
+func _compare_paths() -> void:
+	var ref_path := "%s/%s/export_paths.json" % [OUT_DIR, map_id]
+	if not FileAccess.file_exists(ref_path):
+		return
+	var ref: Variant = JSON.parse_string(FileAccess.get_file_as_string(ref_path))
+	if not ref is Dictionary:
+		return
+	var mine := path_table(_nav_map_of(level), layout.spots.filter(func(s: Dictionary) -> bool: return s["kind"] in SPOT_KINDS and not s["kind"] in ["start", "slot"]))
+	var worst := 0.0
+	var worst_key := ""
+	var missing := 0
+	var over: Array[String] = []
+	for key: String in ref:
+		if not mine.has(key):
+			missing += 1
+			continue
+		var a: Variant = ref[key]
+		var b: Variant = mine[key]
+		var d := 0.0 if str(a) == "INF" and str(b) == "INF" else (INF if str(a) == "INF" or str(b) == "INF" else absf(float(a) - float(b)))
+		if d > worst:
+			worst = d
+			worst_key = key
+		if d > 0.01 and over.size() < 5:
+			over.append("%s %s vs %s" % [key, str(a), str(b)])
+	var st := "PASS" if missing == 0 and worst <= 0.01 else ("WARN" if missing == 0 and worst <= 1.0 else "FAIL")
+	report.fcheck("R2", "Round trip: path table identical", st, "%d pairs, %d missing, worst diff %.3f m (%s)%s" % [(ref as Dictionary).size(), missing,
+		worst, worst_key, "" if over.is_empty() else "; " + ", ".join(over)],
+		"every spot pair's NavigationServer path length on the rebuilt preview = the live map's (<= 0.01 m); the preview uses the exported live navmesh (`navmesh` lines)",
+		"missing pairs = a spot id changed; big diffs = the navmesh lines were removed (flat preview)", 2.0)

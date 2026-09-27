@@ -16,9 +16,11 @@ tools\world_forge\run_world_forge.ps1 <verb> <id> [key=value...]
 | `export-map crown_hollow` | reads the live spots of an existing map scene into `data/maps/crown_hollow.map` (also `scene=res://x.tscn as=<id>`) | ~40 s |
 | `demo` | the acceptance demo: build forge_watch_keep, map fourfold_hollow, export-map + map crown_hollow | ~5 min |
 
-Exit codes: 0 PASS / WARN, 1 FAIL, 2 bad input. Every parse error names `file:line`, the token and "did you mean".
-Outputs: `docs/tools/world_forge/out/<id>/report.md` + `report.json` (scorecard: PASS / WARN / FAIL, measured value,
-rule, fix hint, score 0-100, "Improve next") + PNGs; one row per build in `docs/tools/world_forge/history.md`.
+Exit codes: 0 PASS / WARN, 1 FAIL, 2 bad input. Specs are read by the shared reader `tools/common/tool_spec.gd`
+(same grammar and errors as every tool: `file:line: message -> did you mean "x"?`); reports are the shared
+`ToolReport` scorecard (PASS / WARN / FAIL, measured value, rule, fix hint, quality 0-100, "Improve next").
+Outputs: `docs/tools/world_forge/out/<id>/report.md` + `report.json` for `check` / `build`, `report_map.md` for `map`,
+`report_export-map.md` for `export-map`, + PNGs; one row per run in `docs/tools/world_forge/history.md`.
 **Read report.md first, then look at the PNGs** (plan.png = where things are, sheet.png = what each camera sees).
 
 ---
@@ -26,27 +28,28 @@ rule, fix hint, score 0-100, "Improve next") + PNGs; one row per build in `docs/
 ## 1. Stage sets (`art/cinematics/stage_sets/<id>/<id>.set`, id starts with `forge_`)
 
 Coordinates: metres, `(x,z)` on the ground (y = 0) or `(x,y,z)`. The set is centred on (0, 0); +z is "south" (toward
-the usual camera side), -z "north". `yaw` = rotation.y in degrees. At `yaw=0` the wizard / unit kits seen
-so far face **+Z** (Vessa in `W02` faces a camera at +z); always confirm facing in `sheet.png`. `#` starts a comment. One statement per line: `keyword args key=value ...`.
+the usual camera side), -z "north". `yaw` = rotation.y in degrees; at `yaw=0` models face **+Z** (the game and
+the cinematic runtime convention, `atan2(dir.x, dir.z)`): an actor at `yaw=0` faces a camera placed at larger z. `#` starts a comment. One statement per line: `keyword args key=value ...`.
 
 | Statement | Keys (default) | Notes |
 |---|---|---|
 | `set <id>` | `size=WxD` (40x30), `ground=` ash / dirt / grass / snow / stone / sand / moss / crypt / `#rrggbb`, `light=` warm / ice / nightfall / dusk / storm / crypt / dawn / `res://preset.tres`, `seed=` (1), `title="..."` | first line |
 | `budget` | `draws<=150 lights<=0 tris<=400000` | set budgets (checked) |
 | `zone <name> <area>` | area = `ring((x,z),r0..r1)`, `circle((x,z),r)`, `rect((x0,z0),(x1,z1))` | used by `scatter area=<name>` / `avoid=<name>` |
-| `place <kit> ` | `at=(x,z)`, `yaw=` (0), `scale=` (1), `tag=` (name for `subject=` / puppets), `lights=off`, `y=`, `radius=` | one model (instanced) or a procedural prop (baked) |
+| `place <kit> ` | `at=(x,z)`, `yaw=` (0), `scale=` (1), `tag=` (name for `subject=` / puppets), `lights=` off (default) / on, `y=`, `radius=` | one model (instanced) or a procedural prop (baked) |
 | `row <kit>` | `poly=[(x,z),...]` or `from=(x,z) to=(x,z)`, `spacing=` (3) or `count=`, `yaw=along/across/random/<deg>`, `jitter=`, `scale=` | many copies along a line; mesh-only kits are baked |
 | `scatter <kit>` | `area=<area or zone>`, `count=` (10), `gap=` (2), `seed=`, `avoid=cams,<zone>...`, `scale=a..b` (0.85..1.15), `tilt=` (deg) | deterministic, **baked to one mesh per material**; always keeps off places, walls, paths, actors |
 | `wall <name>` | `poly=[...]`, `height=` (4), `thick=` (1.2), `gate=(x,z)` or `gate=[(x,z),(x,z)]`, `gate_width=` (4), `color=` (stone) | procedural crenellated wall + corner towers |
 | `path <name>` | `poly=[...]`, `width=` (3), `kit=` road / flagstone / ember (glows) / river / snow / ash | flat ribbon |
-| `actor <tag> <kit>` | `at=`, `yaw=`, `scale=`, `lights=off` | a puppet: `puppet(&"<tag>")` returns it |
+| `actor <tag> <kit>` | `at=`, `yaw=`, `scale=`, `lights=` off (default) / on | a puppet: `puppet(&"<tag>")` returns it |
 | `mark <shot>` | `from=(x,y,z)`, `look=(x,y,z)`, `to=` (= from), `look_to=` (= look), `fov=` (40, vertical deg), `fov_to=`, `subject=<actor or place tag>`, `dur=` (s, note only), `lens="..."` (note only) | camera marks; **explicit coordinates** (Lens, tool 3, is not installed yet) |
 
 **Kits** (`kit:<name>`): trees `pine fir birch broadleaf gold_tree`; rocks `boulder shards slab spire ruin_pillar
 standing_stones giant_stump aqueduct crystal_node`; buildings `fire_keep ice_keep nature_keep dusk_keep watchtower
 wayshrine essence_well ember_crucible tavern lost_cache`; actors `vessa torvald ysolde malrik flame_guard
 ember_archer cinder_hand ash_hurler`; procedural `forge:brazier forge:stake forge:crate` (glowing tops, no lights).
-Any `res://...tscn` works too. Keeps and wizards bring their own lights: add `lights=off` (0-lights rule).
+Any `res://...tscn` works too. Keeps and wizards bring their own OmniLights: every place / row / actor switches its
+lights off by default (0-lights rule; the set disables them at `_ready`, B2 reports how many); `lights=on` keeps them.
 
 **What `build` writes** (never hand-edit, change the spec and rebuild):
 `art/cinematics/stage_sets/<id>/<id>.tscn` (root = `ForgeStageSet`), `marks.json`, `<id>_lighting.tres`,
@@ -56,7 +59,10 @@ Any `res://...tscn` works too. Keeps and wizards bring their own lights: add `li
 `lighting` (LightingPreset), `Shots/<shot>_from|_to|_look_from|_look_to` Marker3Ds (meta `fov`), `begin_shot(id)`
 (resets puppets), `end_shot(id)`, `set_active(on)`, `puppet(tag)`, plus `shot_ids()` and `mark(shot)`.
 `marks.json` = `{shot: {from, to, look_from, look_to, fov_from, fov_to, subject, dur, lens}}` (set-local).
-In a `.cine` / CinematicShot: `stage_set = <id>`, `marker_prefix = <shot>`.
+In a `.cine`: `use set <id>`, then `shot W02 4.0` (no `cam=`) uses the set's `W02` marks; puppets are actors.
+Verified: `docs/tools/world_forge/cine/forge_watch_keep_probe.cine` -> `run_cine.ps1 check forge_watch_keep_probe
+src=res://docs/tools/world_forge/cine/forge_watch_keep_probe.cine` plays 5 shots in the set (faces in band, runtime
+camera = cine camera 0.000 m). Runtime: CinematicShot `stage_set = <id>`, `marker_prefix = <shot>`.
 
 **Checks** (report IDs): K1 contract, B1 draws, B2 lights, B3 triangles, S3 scatter counts, M1 subject inside the
 2.39 band at a / b / c, M2 camera clear of geometry along the whole move (inside = FAIL, < 0.9 m = WARN), M3 line of
@@ -82,7 +88,7 @@ Then: `run_world_forge.ps1 build forge_crypt_corner` -> read the report (fix FAI
 open `plan.png`; `run_world_forge.ps1 sheet forge_crypt_corner` -> open `sheet.png`. Iterate on the spec only.
 
 ### Demo set `forge_watch_keep` ("The Watch-Keep": Vessa's Fire keep behind its curtain wall at nightfall)
-56 x 44 m, light `nightfall`, 118 draws, 0 lights. Puppets: `vessa` (0, 5.2) at the gate, `guard_w` (-3.4, 2.9),
+56 x 44 m, light `nightfall`, 118 draws, 0 visible lights (3 switched off: 2 in the keep, 1 on Vessa). Puppets: `vessa` (0, 5.2) at the gate, `guard_w` (-3.4, 2.9),
 `guard_e` (3.4, 2.9). Marks (all subject-in-band PASS):
 
 | Mark | Move | Subject | Use |
@@ -111,10 +117,14 @@ layout before any map code exists.
 
 A spot exactly on a mirror axis appears once per distinct image (midline objects twice in fourfold, the crown once).
 Outputs: `data/maps/<id>_layout.tres` (`MapLayout`, `data/maps/map_layout.gd`: `spots_of(kind)`, `keep_of(team)`,
-`seat_frame(team)`, `spot(id)`), `docs/tools/world_forge/out/<id>/{report.md, layout.png, map_profile.json,
+`seat_frame(team)`, `spot(id)`), `docs/tools/world_forge/out/<id>/{report_map.md, layout.png, map_profile.json,
 preview.tscn, preview_level.gd, map_lab/scorecard.md, map_lab/heatmap.png}`. Checks: L1 keep per seat, L2 in bounds,
 L3 spacing, L4 counts, N0 navmesh bakes, LAB (Map Lab result + score >= 90), LAB.M1-M4 / F1 symmetry rows, and after
-an `export-map`: R1 round trip (every live spot rebuilt within 0.1 m), R2 path table (INFO, see notes).
+an `export-map`: R1 round trip (every live spot rebuilt within 0.1 m), R2 path table (every spot pair's
+NavigationServer path on the preview = the live one, <= 0.01 m).
+`navmesh <res> origin=(x,y,z)` (written by export-map): the preview loads that navmesh instead of baking a flat one,
+so paths and the Map Lab table are the live map's. export-map saves `data/maps/<id>_navmesh.res` and
+`out/<id>/export_paths.json`.
 The Map Lab CLI also takes the generated profile: `tools\godot_run.ps1 --headless --path . -s res://tools/map_lab/map_lab.gd
 --fixed-fps 60 --quit-after 9000 -- profile_json=res://docs/tools/world_forge/out/<id>/map_profile.json`.
 
@@ -131,12 +141,13 @@ river mid  poly=[(-31,-31),(31,31)]  half_width=1.5
 crossing ford_c  kind=ford  at=(0,0)  width=8  dir=(1,1)
 ```
 Demo maps: `fourfold_hollow.map` (map-2v2.md 2.3-2.7: 95 Map Lab spots, 10 crossings; Map Lab WARN 98, symmetry
-M1-M4 / F1 PASS), `crown_hollow.map` (exported from `scenes/skirmish.tscn`, 51 spots, round trip 0.000 m).
+M1-M4 / F1 PASS), `crown_hollow.map` (exported from `scenes/skirmish.tscn`, 51 spots, round trip 0.000 m, path table
+1275 pairs identical; Map Lab on the rebuild = the live Crown Hollow run: WARN 98, same 42 F2 findings).
 
 ## Limits (v1)
-- The map preview is flat ground + water + keep footprints + blocks: no forest / cliffs, so path lengths are not the
-  live map's (R2). Lairs reach the Map Lab through a generated `LAIR_SPOTS` constant.
+- A new map (no `navmesh` line) previews on flat ground + water + keep footprints + blocks: no forest / cliffs.
+  Lairs reach the Map Lab through a generated `LAIR_SPOTS` constant. Navigation links are not exported (WARN E5).
 - Sets: flat ground (no terrain height), no per-shot acting (`AnimationPlayer` "Acting" is honoured if added later),
   no Art Lab `decor_set` run yet, marks need explicit coordinates until Lens (tool 3) lands.
-- Shared base: this tool has its own reader (`forge_spec.gd`) and report (`forge_report.gd`) with the tools-wave
-  token rules and scorecard fields; it moves to `tools/common/` once that is frozen.
+- `forge_spec.gd` / `forge_report.gd` are thin adapters over `tools/common/` (ToolSpec / ToolReport): budget tokens
+  `draws<=150`, `(x,z)` ground points, polylines and areas are World Forge's own value shapes.

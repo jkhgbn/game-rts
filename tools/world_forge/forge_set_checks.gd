@@ -45,7 +45,7 @@ static func run(fs: FSet, inst: Node3D) -> void:
 		inst.call(&"end_shot", StringName(plan["marks"][0]["shot"]))
 		inst.call(&"set_active", false)
 		inst.call(&"set_active", true)
-	rep.add("K1", "Set contract (prologue 2.3)", "FAIL" if not miss.is_empty() else "PASS",
+	rep.fcheck("K1", "Set contract (prologue 2.3)", "FAIL" if not miss.is_empty() else "PASS",
 		"all present" if miss.is_empty() else ", ".join(miss), "group, set_id, lighting, Shots markers = marks.json, begin_shot / end_shot / set_active / puppet(tag)",
 		"rebuild the set; never hand-edit the generated scene", 2.0)
 	# ---- budgets
@@ -54,6 +54,7 @@ static func run(fs: FSet, inst: Node3D) -> void:
 	var lights := 0
 	var mm := 0
 	var light_names: Array[String] = []
+	var lights_off := 0
 	for n: Node in inst.find_children("*", "", true, false):
 		if n is MeshInstance3D and (n as MeshInstance3D).is_visible_in_tree() and (n as MeshInstance3D).mesh:
 			var mesh: Mesh = (n as MeshInstance3D).mesh
@@ -65,17 +66,19 @@ static func run(fs: FSet, inst: Node3D) -> void:
 		elif (n is MultiMeshInstance3D or n is GPUParticles3D or n is CPUParticles3D) and (n as Node3D).is_visible_in_tree():
 			draws += 1
 			mm += 1
+		elif n is Light3D and not (n as Light3D).visible:
+			lights_off += 1
 		elif n is Light3D and (n as Light3D).is_visible_in_tree():
 			lights += 1
 			light_names.append(String(inst.get_path_to(n)))
 	var bd: float = plan["budget"]["draws"]
 	var bl: float = plan["budget"]["lights"]
 	var bt: float = plan["budget"]["tris"]
-	rep.add("B1", "Draw calls", "PASS" if draws <= bd else ("WARN" if draws <= bd * 1.15 else "FAIL"), "%d surfaces (%d particles / multimesh)" % [draws, mm],
+	rep.fcheck("B1", "Draw calls", "PASS" if draws <= bd else ("WARN" if draws <= bd * 1.15 else "FAIL"), "%d surfaces (%d particles / multimesh)" % [draws, mm],
 		"<= %d (budget line)" % bd, "scatter bakes to one surface per material; drop a placed model or use a mesh-only kit", 2.0)
-	rep.add("B2", "Lights", "PASS" if lights <= bl else "FAIL", "%d visible Light3D %s" % [lights, ", ".join(light_names)], "<= %d (0 = the stage's LightingRig only)" % bl,
+	rep.fcheck("B2", "Lights", "PASS" if lights <= bl else "FAIL", "%d visible Light3D%s; %d switched off by lights=off" % [lights, (" " + ", ".join(light_names)) if lights > 0 else "", lights_off], "<= %d (0 = the stage's LightingRig only)" % bl,
 		"add lights=off to the place / actor line of the model that brings them (the path is in the measured value)", 2.0)
-	rep.add("B3", "Triangles", "PASS" if tris <= bt else "WARN", "%d" % tris, "<= %d" % bt, "lower scatter count or use smaller kits")
+	rep.fcheck("B3", "Triangles", "PASS" if tris <= bt else "WARN", "%d" % tris, "<= %d" % bt, "lower scatter count or use smaller kits")
 	# ---- scatter counts
 	var short: Array[String] = []
 	var tot := 0
@@ -83,7 +86,7 @@ static func run(fs: FSet, inst: Node3D) -> void:
 		tot += int(s.get("placed", 0))
 		if int(s.get("placed", 0)) < int(s["count"]):
 			short.append("line %d %s: %d / %d" % [s["line"], s["kit"]["name"], s.get("placed", 0), s["count"]])
-	rep.add("S3", "Scatter counts", "WARN" if not short.is_empty() else "PASS", "%d instances%s" % [tot, "" if short.is_empty() else "; short: " + ", ".join(short)],
+	rep.fcheck("S3", "Scatter counts", "WARN" if not short.is_empty() else "PASS", "%d instances%s" % [tot, "" if short.is_empty() else "; short: " + ", ".join(short)],
 		"every scatter line places its count", "widen the area, lower gap= or count= (the area is full)")
 	# ---- marks
 	_check_marks(fs, rep, inst)
@@ -92,7 +95,7 @@ static func run(fs: FSet, inst: Node3D) -> void:
 static func _check_marks(fs: FSet, rep, inst: Node3D) -> void:
 	var plan := fs.plan
 	if plan["marks"].is_empty():
-		rep.add("M1", "Marks", "WARN", "no marks", "a set has >= 1 mark per shot", "add `mark <shot> from=(x,y,z) look=(x,y,z) subject=<tag>`")
+		rep.fcheck("M1", "Marks", "WARN", "no marks", "a set has >= 1 mark per shot", "add `mark <shot> from=(x,y,z) look=(x,y,z) subject=<tag>`")
 		return
 	var band_bad: Array[String] = []
 	var band_warn: Array[String] = []
@@ -129,13 +132,13 @@ static func _check_marks(fs: FSet, rep, inst: Node3D) -> void:
 					inside.append("%s inside %s" % [tag, o["name"]])
 				elif _point_in(o, cam, 0.9):
 					near.append("%s within 0.9 m of %s (fills the frame)" % [tag, o["name"]])
-	rep.add("M1", "Subject inside the 2.39 band", "FAIL" if not band_bad.is_empty() else ("WARN" if not band_warn.is_empty() else "PASS"),
+	rep.fcheck("M1", "Subject inside the 2.39 band", "FAIL" if not band_bad.is_empty() else ("WARN" if not band_warn.is_empty() else "PASS"),
 		("; ".join(band_bad + band_warn)) if not (band_bad.is_empty() and band_warn.is_empty()) else "%d mark phases inside |y| <= %.2f" % [rows.size(), FSet.BAND_SAFE],
 		"subject point (actor head / place centre / look point) projects inside the central 2.39:1 band (|ndc y| <= %.3f, PASS <= %.2f) at a / b / c" % [FSet.BAND, FSet.BAND_SAFE],
 		"aim look= closer to the subject, or raise from= y", 2.0)
-	rep.add("M2", "Cameras clear of geometry", "FAIL" if not inside.is_empty() else ("WARN" if not near.is_empty() else "PASS"), "ok" if inside.is_empty() and near.is_empty() else "; ".join(_dedupe(inside + near)),
+	rep.fcheck("M2", "Cameras clear of geometry", "FAIL" if not inside.is_empty() else ("WARN" if not near.is_empty() else "PASS"), "ok" if inside.is_empty() and near.is_empty() else "; ".join(_dedupe(inside + near)),
 		"every mark phase's camera is above the ground, outside walls / placed models (FAIL) and >= 0.9 m from them (WARN)", "move from= / to= out of the model (see plan.png)", 2.0)
-	rep.add("M3", "Line of sight to the subject", "WARN" if not blocked.is_empty() else "PASS", "ok" if blocked.is_empty() else "; ".join(_dedupe(blocked)),
+	rep.fcheck("M3", "Line of sight to the subject", "WARN" if not blocked.is_empty() else "PASS", "ok" if blocked.is_empty() else "; ".join(_dedupe(blocked)),
 		"nothing placed between the camera and the subject (bounding boxes)", "raise the camera or move it round the blocker")
 	rep.notes.append("Mark projections: " + ", ".join(rows))
 

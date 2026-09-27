@@ -3,6 +3,9 @@ map crown_hollow  size=120  symmetry=rot180  title="Crown Hollow (1v1)"  spec=do
 seat 0  name="player (south-west)"  side=0  frame=identity
 seat 1  name="enemy (north-east)"  side=1  frame=rot180
 
+# the live navmesh (paths in the preview = live paths; delete these lines to bake a flat preview instead)
+navmesh res://data/maps/crown_hollow_navmesh.res  origin=(0.000,0.000,0.000)
+
 # spots: canonical half (x < 0); `twin=` names the live id of its half-turn image; `solo` = no exact twin
 cache   LostCache0  at=(-30.0000,0.0000)  twin=LostCache2
 cache   LostCache1  at=(-6.0000,27.0000)  twin=LostCache3

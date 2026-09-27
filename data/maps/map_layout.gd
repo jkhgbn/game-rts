@@ -27,6 +27,9 @@ extends Resource
 @export var zones: Array[Dictionary] = []
 ## Blocking obstacles [{id, center: Vector3, half: Vector3, yaw: float (deg)}] (cliffs, rock walls, dense forest).
 @export var blocks: Array[Dictionary] = []
+## Pre-baked navmeshes used instead of baking the preview [{path: String, xf: Transform3D}] (export-map saves the live
+## map's regions here, so preview paths = live paths). Empty = bake from ground + water + keeps + blocks.
+@export var navmeshes: Array[Dictionary] = []
 ## The .map spec it came from and its hash (World Forge report).
 @export var source: String = ""
 @export var source_hash: String = ""

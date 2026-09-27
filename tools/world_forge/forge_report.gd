@@ -1,126 +1,52 @@
-extends RefCounted
-## World Forge scorecard (the lab scorecard format: PASS / WARN / FAIL / INFO, measured value, rule, fix hint, score
-## 0-100, "Improve next"). Writes docs/tools/world_forge/out/<id>/report.md + report.json and one row in
-## docs/tools/world_forge/history.md. Swap to tools/common/tool_report.gd once it is frozen (same fields).
+extends ToolReport
+## World Forge scorecard = the shared `ToolReport` (tools/common/tool_report.gd: Art Lab scorecard format, report.md +
+## report.json in docs/tools/world_forge/out/<id>/, one row in docs/tools/world_forge/history.md, printed summary).
+## `fcheck` files each check under a group from its id prefix; `files` lists what the run wrote (kept in the notes).
 ## No class_name on purpose (preloaded tool script).
 
-const HISTORY := "res://docs/tools/world_forge/history.md"
+const GROUPS := [["K", "contract", "Set contract", 2.0], ["B", "budget", "Budgets", 1.5], ["S", "scatter", "Scatter", 1.0],
+	["M", "marks", "Camera marks", 2.0], ["D", "determinism", "Determinism", 1.0], ["L", "layout", "Layout", 1.5],
+	["N", "nav", "Navmesh", 1.0], ["LAB", "lab", "Map Lab", 2.0], ["R", "roundtrip", "Round trip", 1.5], ["E", "export", "Export", 1.0]]
 
-var title := ""
-var id := ""
-var kind := ""          ## "set" / "map" / "export"
-var checks: Array[Dictionary] = []
-var notes: Array[String] = []
 var files: Array[String] = []
-var hash := ""
-var seconds := 0.0
 
 
-func add(cid: String, name: String, status: String, value: String, rule: String, hint := "", weight := 1.0) -> void:
-	checks.append({"id": cid, "name": name, "status": status, "value": value, "rule": rule, "hint": hint, "weight": weight})
+## Sets tool / verb / id / out dir like ToolReport.start (verb check / build -> report.md, others report_<verb>.md).
+func setup(verb_name: String, asset_id: String) -> void:
+	tool = "world_forge"
+	verb = verb_name
+	id = asset_id
+	asset = asset_id
+	kind = verb_name
+	started = Time.get_datetime_string_from_system(false, true)
+	out_dir = ToolReport.out_dir_of(tool, asset_id)
+	previous_score = ToolReport.read_previous_quality(out_dir, verb_name)
+	for g: Array in GROUPS:
+		add_group(g[1], g[2], g[3])
 
 
-func count(status: String) -> int:
-	var n := 0
-	for c in checks:
-		if c["status"] == status:
-			n += 1
-	return n
+func group_of(cid: String) -> String:
+	if cid.begins_with("LAB"):
+		return "lab"
+	for g: Array in GROUPS:
+		if g[0] != "LAB" and cid.begins_with(g[0]):
+			return g[1]
+	return "other"
 
 
-func result() -> String:
-	if count("FAIL") > 0:
-		return "FAIL"
-	if count("WARN") > 0:
-		return "WARN"
-	return "PASS"
+## One check: status PASS / WARN / FAIL / INFO, measured value, rule, fix hint, weight.
+func fcheck(cid: String, check_name: String, status: String, value: Variant, rule: String, hint := "", weight := 1.0) -> Dictionary:
+	return add(cid, group_of(cid), check_name, status, str(value), rule, hint, -1.0, hint if status in ["FAIL", "WARN"] else "", "", weight)
 
 
-func score() -> float:
-	var tot := 0.0
-	var got := 0.0
-	for c in checks:
-		var s := {"PASS": 1.0, "WARN": 0.5, "FAIL": 0.0}.get(c["status"], -1.0) as float
-		if s < 0.0:
-			continue
-		tot += float(c["weight"])
-		got += s * float(c["weight"])
-	return 100.0 * got / maxf(0.001, tot)
-
-
-func exit_code() -> int:
-	return 1 if result() == "FAIL" else 0
-
-
-func improve_next() -> Array[String]:
-	var out: Array[String] = []
-	for st in ["FAIL", "WARN"]:
-		for c in checks:
-			if c["status"] == st and c["hint"] != "":
-				out.append("%s %s: %s" % [c["id"], c["name"], c["hint"]])
-	for c in checks:
-		if out.size() >= 3:
-			break
-		if c["status"] == "INFO" and c["hint"] != "":
-			out.append("%s %s: %s" % [c["id"], c["name"], c["hint"]])
-	var tips: Array[String] = ["Look at the PNGs in this folder: one question per image (plan = placement, stills = framing).",
-		"Run `run_world_forge.ps1 sheet <id>` (windowed) for the real stills of every mark."]
-	if kind != "set":
-		tips = ["Open layout.png (spots by kind, river, roads) and map_lab/heatmap.png (where paths crowd).",
-			"Read map_lab/scorecard.md: its WARN rows (engine path noise F2 is not the map's fault) and Improve next."]
-	for t in tips:
-		if out.size() < 3:
-			out.append(t)
-	return out
-
-
-func write(out_dir: String) -> void:
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out_dir))
-	var md := "# %s\n\n**Result: %s**, score **%.0f / 100** (%d FAIL, %d WARN, %d PASS). Hash `%s`. %.1f s.\n\n" % [
-		title, result(), score(), count("FAIL"), count("WARN"), count("PASS"), hash, seconds]
-	md += "| ID | Check | Status | Measured | Rule | Fix hint |\n|---|---|---|---|---|---|\n"
-	for c in checks:
-		md += "| %s | %s | %s | %s | %s | %s |\n" % [c["id"], c["name"], c["status"], String(c["value"]).replace("|", "/"),
-			String(c["rule"]).replace("|", "/"), String(c["hint"]).replace("|", "/")]
-	md += "\n## Improve next\n"
-	for s in improve_next():
-		md += "- %s\n" % s
+## Writes the report (+ the history row when `log`), prints the summary; returns the exit code.
+func done(log := true) -> int:
 	if not files.is_empty():
-		md += "\n## Files\n"
+		var shown: Array[String] = []
 		for f in files:
-			md += "- `%s`\n" % f
-	if not notes.is_empty():
-		md += "\n## Notes\n"
-		for n in notes:
-			md += "- %s\n" % n
-	var f := FileAccess.open(out_dir.path_join("report.md"), FileAccess.WRITE)
-	f.store_string(md)
-	f.close()
-	var js := {"tool": "world_forge", "title": title, "id": id, "kind": kind, "result": result(), "score": snappedf(score(), 0.1),
-		"hash": hash, "seconds": snappedf(seconds, 0.01), "checks": checks, "improve_next": improve_next(), "files": files, "notes": notes}
-	var fj := FileAccess.open(out_dir.path_join("report.json"), FileAccess.WRITE)
-	fj.store_string(JSON.stringify(js, "\t"))
-	fj.close()
-
-
-func append_history() -> void:
-	var path := HISTORY
-	var exists := FileAccess.file_exists(path)
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
-	var f := FileAccess.open(path, FileAccess.READ_WRITE if exists else FileAccess.WRITE)
-	if not exists:
-		f.store_string("# World Forge history\n\n| When | Kind | Id | Result | Score | FAIL / WARN | Hash |\n|---|---|---|---|---|---|---|\n")
-	f.seek_end()
-	var now := Time.get_datetime_dict_from_system()
-	f.store_string("| %04d-%02d-%02d %02d:%02d | %s | %s | %s | %.0f | %d / %d | `%s` |\n" % [now.year, now.month, now.day, now.hour,
-		now.minute, kind, id, result(), score(), count("FAIL"), count("WARN"), hash])
-	f.close()
-
-
-## Console lines: "WORLD FORGE: <RESULT> score N ..." then one line per FAIL / WARN.
-func print_summary(out_dir: String) -> void:
-	print("WORLD FORGE %s %s: %s score %.0f / 100 (%d FAIL, %d WARN, %d PASS) hash %s -> %s" % [kind, id, result(), score(),
-		count("FAIL"), count("WARN"), count("PASS"), hash, out_dir.path_join("report.md")])
-	for c in checks:
-		if c["status"] == "FAIL" or c["status"] == "WARN":
-			print("  %s %s %s: %s  (fix: %s)" % [c["status"], c["id"], c["name"], c["value"], c["hint"]])
+			shown.append("`%s`" % f.replace("res://", ""))
+		notes.append("Files: " + ", ".join(shown))
+	for f in files:
+		if f.ends_with(".png") and f.begins_with(out_dir):
+			shots[f.get_file().get_basename()] = f.trim_prefix(out_dir + "/")
+	return finish(log)

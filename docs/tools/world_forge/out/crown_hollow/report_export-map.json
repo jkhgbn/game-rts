@@ -1,0 +1,74 @@
+{
+	"asset": "crown_hollow",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "export",
+			"hint": "the level has no navmesh yet",
+			"id": "E3",
+			"improve": "",
+			"name": "Live path table",
+			"rule": "NavigationServer3D.map_get_path (optimized, the Map Lab's call) between every pair of live spots",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "1275 spot pairs, 1 navmesh region(s) saved",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "export",
+			"hint": "",
+			"id": "E1",
+			"improve": "",
+			"name": "Live spots exported",
+			"rule": "every Map Lab spot kind of the live scene is in the .map",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "51 spots: 25 twin pairs, 1 on the centre, 0 solo; 8 crossings, 3 river arms",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 2,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"budget": "Budgets",
+		"contract": "Set contract",
+		"determinism": "Determinism",
+		"export": "Export",
+		"lab": "Map Lab",
+		"layout": "Layout",
+		"marks": "Camera marks",
+		"nav": "Navmesh",
+		"roundtrip": "Round trip",
+		"scatter": "Scatter"
+	},
+	"hash": "ddbe2dda6264",
+	"hash_note": "",
+	"headless": false,
+	"id": "crown_hollow",
+	"improve_next": [],
+	"kind": "export-map",
+	"kingdom": "",
+	"notes": [
+		"Files: `data/maps/crown_hollow_navmesh.res`, `data/maps/crown_hollow.map`, `docs/tools/world_forge/out/crown_hollow/export_spots.json`, `docs/tools/world_forge/out/crown_hollow/export_paths.json`"
+	],
+	"previous_quality": -1.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 18.8,
+	"shots": {},
+	"started": "2026-09-27 08:06:42",
+	"tier": "",
+	"tool": "world_forge",
+	"verb": "export-map"
+}

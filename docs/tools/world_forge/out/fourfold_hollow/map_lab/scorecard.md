@@ -1,6 +1,6 @@
 # Map Lab: Fourfold Hollow (2v2) scorecard: world_forge_fourfold_hollow
 
-2026-09-27 07:46 · lab v1.0 · 131.06 s · scanned 95 spots
+2026-09-27 08:10 · lab v1.0 · 138.14 s · scanned 95 spots
 
 ## Result: **WARN** · score **98 / 100**
 
@@ -725,6 +725,6 @@
 | F2 | millrace_a2-millstone_cross_b2 vs millrace_b1-millstone_cross_a1 | 119.3 m vs 121.8 m (2.0 %) |
 
 ## Notes
-- Octile grid shortest paths (0.5 m, 95 sources) 123.38 s.
-- Navmesh raster 2.38 s (235 polygons, 451584 cells of 0.25 m), spot / mirror checks 2.50 s, 4465 paths 1.04 s.
-- Map Fourfold Hollow (2v2), scene res://docs/tools/world_forge/out/fourfold_hollow/preview.tscn, sim mode off; level load + navmesh bake 0.4 s (269 frames), lab 130.7 s. Spec: docs/design/map-2v2.md.
+- Octile grid shortest paths (0.5 m, 95 sources) 130.20 s.
+- Navmesh raster 2.35 s (235 polygons, 451584 cells of 0.25 m), spot / mirror checks 2.73 s, 4465 paths 1.07 s.
+- Map Fourfold Hollow (2v2), scene res://docs/tools/world_forge/out/fourfold_hollow/preview.tscn, sim mode off; level load + navmesh bake 0.4 s (14 frames), lab 137.7 s. Spec: docs/design/map-2v2.md.

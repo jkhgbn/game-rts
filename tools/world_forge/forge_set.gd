@@ -171,7 +171,7 @@ func _c_place(st: Dictionary) -> void:
 		return
 	if st["kv"].has("y"):
 		at.y = spec.num(st, "y", 0.0)
-	var lights: String = st["kv"].get("lights", "on")
+	var lights: String = st["kv"].get("lights", "off")
 	if not lights in ["on", "off"]:
 		spec.err(st["line"], lights, "lights= is on or off", ["on", "off"])
 	plan["places"].append({"kit": k, "at": at, "yaw": _yaw(st, 0.0), "scale": spec.num(st, "scale", 1.0),
@@ -216,7 +216,7 @@ func _c_row(st: Dictionary) -> void:
 		if jitter > 0.0:
 			p += Vector3(r.randf_range(-jitter, jitter), 0, r.randf_range(-jitter, jitter))
 		plan["places"].append({"kit": k, "at": p, "yaw": yaw, "scale": spec.num(st, "scale", 1.0), "tag": "",
-			"lights_off": st["kv"].get("lights", "on") == "off", "radius": spec.num(st, "radius", -1.0), "line": st["line"], "row": true})
+			"lights_off": st["kv"].get("lights", "off") == "off", "radius": spec.num(st, "radius", -1.0), "line": st["line"], "row": true})
 
 
 ## Points along a polyline every `spacing` m (or `count` points evenly), with the direction there.
@@ -308,7 +308,7 @@ func _c_actor(st: Dictionary) -> void:
 	if k.is_empty():
 		return
 	plan["actors"].append({"tag": String(st["args"][0]).to_lower(), "kit": k, "at": at, "yaw": _yaw(st, 0.0),
-		"scale": spec.num(st, "scale", 1.0), "lights_off": st["kv"].get("lights", "on") == "off", "line": st["line"]})
+		"scale": spec.num(st, "scale", 1.0), "lights_off": st["kv"].get("lights", "off") == "off", "line": st["line"]})
 
 
 func _c_mark(st: Dictionary) -> void:
@@ -708,7 +708,7 @@ func save(root: Node3D) -> String:
 	if e == OK:
 		e = ResourceSaver.save(ps, spath)
 	if e != OK:
-		report.add("S2", "Scene saved", "FAIL", "error %d" % e, "the set scene packs and saves", "report this to the World Forge owner")
+		report.fcheck("S2", "Scene saved", "FAIL", "error %d" % e, "the set scene packs and saves", "report this to the World Forge owner")
 	report.files.push_front(spath)
 	var marks := {}
 	for m: Dictionary in plan["marks"]:

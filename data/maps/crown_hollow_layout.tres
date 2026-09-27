@@ -512,5 +512,9 @@ crossings = Array[Dictionary]([{
 "radius": 3.0,
 "width": 6.0
 }])
+navmeshes = Array[Dictionary]([{
+"path": "res://data/maps/crown_hollow_navmesh.res",
+"xf": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+}])
 source = "res://data/maps/crown_hollow.map"
-source_hash = "0d75f2d0f8e1"
+source_hash = "ddbe2dda6264"

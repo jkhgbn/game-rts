@@ -134,9 +134,7 @@ func _start_set() -> void:
 		return
 	for l in fs.spec.warning_lines():
 		print("WARN  " + l)
-	fs.report.title = "World Forge set: %s" % id
-	fs.report.id = id
-	fs.report.kind = "set"
+	fs.report.setup(verb, id)
 	holder = Node3D.new()
 	holder.name = "ForgeHolder"
 	root.add_child(holder)
@@ -183,9 +181,9 @@ func _tick_set() -> void:
 			fs2.build(h2_holder)
 			var h2 := fs2.layout_hash()
 			h2_holder.queue_free()
-			fs.report.add("D1", "Deterministic layout", "PASS" if h1 == h2 else "FAIL", "%s vs %s" % [h1, h2],
+			fs.report.fcheck("D1", "Deterministic layout", "PASS" if h1 == h2 else "FAIL", "%s vs %s" % [h1, h2],
 				"same spec + seed = the same layout (every transform)", "a scatter / row depends on something outside the spec", 1.5)
-			fs.report.hash = h1
+			fs.report.hash_value = h1
 			var od := fs.out_dir()
 			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(od))
 			var img := Checks.plan_image(fs)
@@ -198,12 +196,8 @@ func _tick_set() -> void:
 						md5s.append(f.get_file() + " " + FileAccess.get_md5(f).substr(0, 8))
 				fs.report.notes.append("Mesh file md5: " + ", ".join(md5s))
 			fs.report.notes.append("Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).")
-			fs.report.seconds = float(Time.get_ticks_usec() - t0) / 1e6
-			fs.report.write(od)
-			if verb == "build":
-				fs.report.append_history()
-			fs.report.print_summary(od)
-			_finish(fs.report.exit_code(), "WORLD FORGE set %s: %s score %.0f" % [id, fs.report.result(), fs.report.score()])
+			var code := fs.report.done(verb == "build")
+			_finish(code, "WORLD FORGE set %s: %s quality %.0f" % [id, fs.report.result(), fs.report.quality()])
 
 
 # ---------------------------------------------------------------- sheet (windowed stills)

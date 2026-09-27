@@ -1,184 +1,105 @@
 extends RefCounted
-## World Forge spec reader (tools-wave.md section 0 / 1 token rules): one statement per line,
-## `keyword arg arg key=value ...`, `#` comments, `"quoted strings"`, groups in () and [] keep their spaces,
-## `key<=value` / `key>=value` for budgets, `a..b` ranges, `(x,z)` / `(x,y,z)` vectors, `[(x,z),...]` polylines,
-## `ring((x,z),r0..r1)` / `circle((x,z),r)` / `rect((x0,z0),(x1,z1))` areas. Line numbers are kept for errors.
-## Errors teach: file, line, token and the nearest valid value ("did you mean").
-## No class_name on purpose (preloaded tool script). Swap to tools/common/tool_spec.gd once it is frozen.
+## World Forge spec adapter over the shared reader `tools/common/tool_spec.gd` (ToolSpec: one grammar and one error
+## style for every tool). Statements come out as {kw, args, kv, ops, line, src: ToolSpecLine}; budget tokens
+## `draws<=150` (not key=value for ToolSpec) are split here into kv + ops. Errors / warnings live in `ts` (ToolSpec):
+## `file:line: message -> did you mean "x"?`. The value helpers below add World Forge's own shapes: (x,z) = ground
+## point, polylines, areas (ring / circle / rect).
+## No class_name on purpose (preloaded tool script).
 
+var ts: ToolSpec = ToolSpec.parse_text("", "<none>")
 var file := ""
-var errors: Array[Dictionary] = []    ## {line, token, msg}
-var warnings: Array[Dictionary] = []
+var _by_line := {}   ## line number -> ToolSpecLine
+var errors: Array[Dictionary]:
+	get:
+		return ts.errors
+var warnings: Array[Dictionary]:
+	get:
+		return ts.warnings
 
 
-## Reads a spec file into statements [{kw, args: Array[String], kv: {key: String}, ops: {key: "<=" | ">=" | "="}, line}].
+## Reads a spec file into statements [{kw, args, kv, ops, line, src}].
 func read_file(path: String) -> Array:
 	file = path
 	if not FileAccess.file_exists(path):
-		err(0, path, "spec file not found")
+		ts = ToolSpec.parse_text("", path)
+		ts.error(null, path, "spec file not found")
 		return []
-	return read_text(FileAccess.get_file_as_string(path))
+	ts = ToolSpec.parse_file(path)
+	return _statements()
 
 
-func read_text(text: String) -> Array:
+func read_text(text: String, source := "<text>") -> Array:
+	file = source
+	ts = ToolSpec.parse_text(text, source)
+	return _statements()
+
+
+func _statements() -> Array:
 	var out: Array = []
-	var n := 0
-	for raw: String in text.split("\n"):
-		n += 1
-		var line := _strip_comment(raw).strip_edges()
-		if line == "":
-			continue
-		var toks := tokenize(line)
-		if toks.is_empty():
-			continue
-		var st := {"kw": toks[0].to_lower(), "args": [], "kv": {}, "ops": {}, "line": n}
-		for k in range(1, toks.size()):
-			var t: String = toks[k]
-			var m := _kv_split(t)
+	for l: ToolSpecLine in ts.all_lines:
+		_by_line[l.line] = l
+		var st := {"kw": l.keyword.to_lower(), "args": [], "kv": {}, "ops": {}, "line": l.line, "src": l}
+		for k: String in l.kv:
+			st["kv"][k.to_lower()] = l.kv[k]
+			st["ops"][k.to_lower()] = "="
+		for a: String in l.args:
+			var m := _budget_split(a)
 			if m.is_empty():
-				st["args"].append(_unquote(t))
+				st["args"].append(a)
 			else:
-				st["kv"][m[0]] = _unquote(m[2])
+				st["kv"][m[0]] = m[2]
 				st["ops"][m[0]] = m[1]
 		out.append(st)
 	return out
 
 
-## Splits one line on whitespace outside quotes / brackets.
-static func tokenize(line: String) -> Array[String]:
-	var toks: Array[String] = []
-	var cur := ""
-	var depth := 0
-	var quoted := false
-	for ch in line:
-		if ch == "\"":
-			quoted = not quoted
-			cur += ch
-		elif quoted:
-			cur += ch
-		elif ch == "(" or ch == "[":
-			depth += 1
-			cur += ch
-		elif ch == ")" or ch == "]":
-			depth -= 1
-			cur += ch
-		elif (ch == " " or ch == "\t") and depth <= 0:
-			if cur != "":
-				toks.append(cur)
-			cur = ""
-		else:
-			cur += ch
-	if cur != "":
-		toks.append(cur)
-	return toks
-
-
-static func _strip_comment(s: String) -> String:
-	var quoted := false
-	for i in s.length():
-		var ch := s[i]
-		if ch == "\"":
-			quoted = not quoted
-		elif ch == "#" and not quoted:
-			# `#hex` colours are values, not comments: a comment starts the line or follows a space.
-			if i == 0 or s[i - 1] == " " or s[i - 1] == "\t":
-				if i + 1 < s.length() and _is_hex_color(s.substr(i).split(" ")[0]):
-					continue
-				return s.substr(0, i)
-	return s
-
-
-static func _is_hex_color(t: String) -> bool:
-	return (t.length() == 7 or t.length() == 9) and t.substr(1).is_valid_hex_number()
-
-
-## [key, op, value] or [] when the token is not key=value.
-static func _kv_split(t: String) -> Array:
-	if t.begins_with("(") or t.begins_with("[") or t.begins_with("\""):
-		return []
-	for op: String in ["<=", ">=", "="]:
+## "draws<=150" -> ["draws", "<=", "150"]; [] otherwise.
+static func _budget_split(t: String) -> Array:
+	for op: String in ["<=", ">="]:
 		var i := t.find(op)
-		if i > 0:
-			var key := t.substr(0, i)
-			if key.is_valid_identifier():
-				return [key.to_lower(), op, t.substr(i + op.length())]
-			return []
+		if i > 0 and t.substr(0, i).is_valid_identifier():
+			return [t.substr(0, i).to_lower(), op, t.substr(i + 2)]
 	return []
 
 
-static func _unquote(t: String) -> String:
-	if t.length() >= 2 and t.begins_with("\"") and t.ends_with("\""):
-		return t.substr(1, t.length() - 2)
-	return t
-
-
-# ---------------------------------------------------------------- errors
+# ---------------------------------------------------------------- errors (ToolSpec)
 
 func err(line: int, token: String, msg: String, choices: Array = []) -> void:
 	var m := msg
-	var best := did_you_mean(token, choices)
-	if best != "":
-		m += " -> did you mean \"%s\"?" % best
-	elif not choices.is_empty() and choices.size() <= 12:
+	if not choices.is_empty() and ToolSpec.nearest(token.trim_prefix("kit:").trim_prefix("forge:"), choices) == "" and choices.size() <= 12:
 		m += " (valid: %s)" % ", ".join(choices.map(func(c: Variant) -> String: return String(c)))
-	errors.append({"line": line, "token": token, "msg": m})
+	var e := ts.error(_by_line.get(line, null), token, m, [])
+	var best := ToolSpec.nearest(token.trim_prefix("kit:").trim_prefix("forge:"), choices) if not choices.is_empty() else ""
+	if best != "":
+		e["hint"] = "did you mean \"%s\"?" % best
+	if e["file"] == "" or e["file"] == "<text>":
+		e["file"] = file
 
 
 func warn(line: int, token: String, msg: String) -> void:
-	warnings.append({"line": line, "token": token, "msg": msg})
+	var e := ts.warn(_by_line.get(line, null), token, msg)
+	if e["file"] == "" or e["file"] == "<text>":
+		e["file"] = file
 
 
 func ok() -> bool:
-	return errors.is_empty()
+	return ts.ok()
 
 
-## "file:line: unknown key "cuont" -> did you mean "count"?" lines.
+## `file:line: message -> did you mean "x"?` (ToolSpec.format_error).
 func error_lines() -> Array[String]:
-	var out: Array[String] = []
-	for e: Dictionary in errors:
-		out.append("%s:%d: %s (token \"%s\")" % [file.get_file(), e["line"], e["msg"], e["token"]])
-	return out
+	return ts.error_lines()
 
 
 func warning_lines() -> Array[String]:
 	var out: Array[String] = []
-	for e: Dictionary in warnings:
-		out.append("%s:%d: %s (token \"%s\")" % [file.get_file(), e["line"], e["msg"], e["token"]])
+	for e: Dictionary in ts.warnings:
+		out.append(ToolSpec.format_error(e))
 	return out
 
 
 static func did_you_mean(token: String, choices: Array) -> String:
-	var t := token.to_lower().trim_prefix("kit:").trim_prefix("forge:")
-	var best := ""
-	var best_d := maxi(2, t.length() / 3) + 1
-	for c: Variant in choices:
-		var d := edit_distance(t, String(c).to_lower())
-		if d < best_d:
-			best_d = d
-			best = String(c)
-	return best
-
-
-## Levenshtein distance with adjacent transpositions (so "pnie" -> "pine" is 1).
-static func edit_distance(a: String, b: String) -> int:
-	var n := a.length()
-	var m := b.length()
-	var d: Array[PackedInt32Array] = []
-	for i in n + 1:
-		var row := PackedInt32Array()
-		row.resize(m + 1)
-		row[0] = i
-		d.append(row)
-	for j in m + 1:
-		d[0][j] = j
-	for i in range(1, n + 1):
-		for j in range(1, m + 1):
-			var cost := 0 if a[i - 1] == b[j - 1] else 1
-			var v := mini(mini(d[i - 1][j] + 1, d[i][j - 1] + 1), d[i - 1][j - 1] + cost)
-			if i > 1 and j > 1 and a[i - 1] == b[j - 2] and a[i - 2] == b[j - 1]:
-				v = mini(v, d[i - 2][j - 2] + 1)
-			d[i][j] = v
-	return d[n][m]
+	return ToolSpec.nearest(token.to_lower().trim_prefix("kit:").trim_prefix("forge:"), choices)
 
 
 ## Unknown keys of a statement -> errors (with "did you mean").
@@ -186,8 +107,6 @@ func check_keys(st: Dictionary, allowed: Array) -> void:
 	for k: String in st["kv"]:
 		if not allowed.has(k):
 			err(st["line"], k, "unknown key \"%s\" for \"%s\"" % [k, st["kw"]], allowed)
-
-
 # ---------------------------------------------------------------- values
 
 ## "1.5" -> 1.5; errors on junk. Returns `def` on error.

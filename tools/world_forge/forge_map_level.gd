@@ -77,7 +77,20 @@ func _ready() -> void:
 			list.append(d)
 		r.call(&"setup", list)
 	var t0 := Time.get_ticks_usec()
-	nav_region.bake_navigation_mesh(false)
+	if layout.navmeshes.is_empty():
+		nav_region.bake_navigation_mesh(false)
+	else:
+		# the live map's own navmesh(es) (export-map): the preview's paths are the live paths
+		for i in layout.navmeshes.size():
+			var e: Dictionary = layout.navmeshes[i]
+			var reg := nav_region
+			if i > 0:
+				reg = NavigationRegion3D.new()
+				reg.name = "Nav%d" % i
+				add_child(reg)
+				NavigationServer3D.region_set_use_async_iterations(reg.get_rid(), false)
+			reg.navigation_mesh = load(String(e["path"])) as NavigationMesh
+			reg.transform = e.get("xf", Transform3D.IDENTITY)
 	bake_seconds = float(Time.get_ticks_usec() - t0) / 1e6
 
 

@@ -1,0 +1,9 @@
+# World Forge probe: cine plays shots inside the forge_watch_keep stage set (its marks W01-W04, its puppets).
+cine forge_watch_keep_probe  title="Watch-Keep set probe"  letterbox=2.39  seed=5  length=10..40
+use set forge_watch_keep
+shot W01 6.0  in=fade_black:1.0
+shot W02 4.0  faces=vessa
+  at 0.5  line vessa "The watch fires are out."
+shot W03 3.0  faces=guard_w
+shot W04 5.0
+shot F1 4.0  cam=frame "ms on vessa, 3/4 left"
