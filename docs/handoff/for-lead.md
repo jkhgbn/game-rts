@@ -120,5 +120,20 @@ Nothing has to be glued: every 9.C8 piece installs itself.
   `run_replay.ps1` (scorecard + history), `run_lab.ps1 -Validate` / `-DryRun`, `run_balance.ps1 -DryRun`.
 - Perf Lab noise guard (2026-09-27 07:50, two samples): besides other agents' Godot runs, a process **AlsulicsService**
   used ~76 % of the whole CPU. Check it before the quiet baseline run (`run_perf_lab.ps1 -WaitQuietS 600 -Repeats 3`).
+# T3 helpers + extra T3 units (game-designer, 2026-09-27; docs/design/t3-helpers.md)
+- TH.L1 before TH.G1 / TH.S1: freeze section 12 in CLAUDE.md: `HelperType` (`data/helpers/`, gameplay), `Helper extends Champion`
+  (groups `"units"`, `"champions"`, `"helpers"`, `is_commandable()` false, level = bonded wizard's level, stances escort /
+  vanguard / home), `HelperRoster.for_team(team)` (systems, `scripts/buildings/helper_roster.gd`), `helpers_enabled` /
+  `t3_expansion_units` flags (missions false), `HelperVfx`, new status `disguised` + `Unit.is_disguised_for(team)`,
+  `UnitType.disguise_as_worker` / `lifesteal_pct`, `Tavern.wonders_for` / `hire_wonder` (the neutral Genie).
+- Keys line: **F4** = centre on the helper (twice = inspect). Keep card r1c4 **N** after the Citadel = `Call <helper>` / `Revive`.
+- Owner rows: `data/helpers/` + `scripts/units/helper*.gd` -> gameplay-coder; `art/units/helpers/`, `art/vfx/helper_*` -> tech-artist;
+  `data/cinematics/helper_*.tres` -> four-wizards-high.
+- Cross-spec edits TH.D2 will make (game-designer): `titans-2.md` 5 (Maelis leaves Elder Circle C, Briar Roc takes it),
+  `level-boons.md` (41st boon `sworn_bond`, `requires &"helper"`), `levels.md` victim row. Story: Aldra's 2-line M2 patch for 19.D2.
+- Open with the user (5 questions at the end of the spec): Ice helper (Aldra is new), what "campaign 3" means, the unit picks
+  (spy / vampire / genie placement), control mode, timing anchor (E at level 4 vs level 6). Build nothing until Q3 is answered.
+- Balance Lab needs a `helpers` variant key and a `rush_t3` bot profile (section 11).
+
 # Level boons (game-designer, 2026-09-27; docs/design/level-boons.md)
 - LB.L1 before LB.G1: freeze section 11 in CLAUDE.md (Stats `luck` + `spell<N>_power/cooldown/radius/duration_pct`, BoonType / BoonBook, `Events.boon_taken(wizard, boon_id, tier)`, owner row `scripts/boons/` + `data/boons/` -> gameplay-coder). Keys line: **Ctrl+Z / Ctrl+X / Ctrl+C** = take boon 1 / 2 / 3, **Ctrl+V** = reroll, **Ctrl+Space** = show / hide boon panel (only while a pick is pending). Balance Lab needs a `boons` variant key (section 13). Replay Lab must record boon picks / rerolls as inputs.
