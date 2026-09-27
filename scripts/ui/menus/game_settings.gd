@@ -9,6 +9,7 @@ const SECTION := "settings"
 const BUS_MASTER := &"Master"
 const BUS_MUSIC := &"Music"
 const BUS_SFX := &"SFX"
+const BUS_VOICE := &"Voice"   ## Unit barks + dialogue voices; sent to SFX.
 const UI_SCALE_MIN := 0.75
 const UI_SCALE_MAX := 1.5
 
@@ -29,6 +30,8 @@ const TIME_LIMIT_CHOICES: Array[int] = [0, 30, 45]
 ## - CONTROLS_CLASSIC (default, Warcraft III / LoL style): right click moves the wizard like any unit, no W A S D
 ##   walk; physical A then left click = attack-move (X too); camera = arrow keys + screen edge.
 ## - CONTROLS_HERO_WASD: W A S D walk the wizard (camera follows), X then left click = attack-move; A = walk left.
+## - CONTROLS_RTS_WASD: like Classic (right click moves the wizard), but W A S D pan the camera (RTSCamera, Shift =
+##   faster; arrows / edge still pan) and X then left click = attack-move (A = pan left).
 static var control_scheme := CONTROLS_CLASSIC
 ## Map detail (step 12, ui-mapfill.md 11): &"high" (default) or &"low". Read at match start by MapDressingArt (Low
 ## halves the decor), CritterSystem (Low = no cosmetic critters; deer and rabbits stay) and the water material (Low =
@@ -55,9 +58,10 @@ static var _loaded := false
 
 const CONTROLS_CLASSIC := 0
 const CONTROLS_HERO_WASD := 1
+const CONTROLS_RTS_WASD := 2
 ## Saved values, index = the scheme.
-const CONTROL_SCHEME_IDS: Array[String] = ["classic", "hero_wasd"]
-const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD"]
+const CONTROL_SCHEME_IDS: Array[String] = ["classic", "hero_wasd", "rts_wasd"]
+const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
 
 
 ## Loads the file once per run and applies it. Safe to call from every menu and level.
@@ -102,10 +106,11 @@ static func ensure_read() -> void:
 		load_settings()
 
 
-## Sets the control scheme (CONTROLS_CLASSIC / CONTROLS_HERO_WASD); it applies at once. `save` writes the file.
+## Sets the control scheme (CONTROLS_CLASSIC / CONTROLS_HERO_WASD / CONTROLS_RTS_WASD); it applies at once. `save`
+## writes the file.
 static func set_control_scheme(value: int, save := true) -> void:
 	ensure_read()
-	control_scheme = clampi(value, CONTROLS_CLASSIC, CONTROLS_HERO_WASD)
+	control_scheme = clampi(value, CONTROLS_CLASSIC, CONTROLS_RTS_WASD)
 	if save:
 		save_settings()
 
@@ -115,19 +120,24 @@ static func hero_wasd() -> bool:
 	return control_scheme == CONTROLS_HERO_WASD
 
 
-## The physical keys that start attack-move targeting: Classic A and X, Hero WASD X.
+## True in the RTS camera (WASD) scheme (W A S D pan the camera, RTSCamera reads them).
+static func rts_wasd() -> bool:
+	return control_scheme == CONTROLS_RTS_WASD
+
+
+## The physical keys that start attack-move targeting: Classic A and X, Hero WASD / RTS WASD X only.
 static func attack_move_keys() -> Array[Key]:
-	if hero_wasd():
+	if hero_wasd() or rts_wasd():
 		return [KEY_X]
 	return [KEY_A, KEY_X]
 
 
-## The attack-move key shown in the help and on the command card (Classic A, Hero WASD X).
+## The attack-move key shown in the help and on the command card (Classic A, Hero WASD / RTS WASD X).
 static func attack_move_key() -> Key:
-	return KEY_X if hero_wasd() else KEY_A
+	return KEY_X if hero_wasd() or rts_wasd() else KEY_A
 
 
-## "classic" / "hero_wasd" (saved text) -> the scheme; unknown = Classic.
+## "classic" / "hero_wasd" / "rts_wasd" (saved text) -> the scheme; unknown = Classic.
 static func control_scheme_from_id(id: String) -> int:
 	var i := CONTROL_SCHEME_IDS.find(id)
 	return i if i >= 0 else CONTROLS_CLASSIC
@@ -201,7 +211,7 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "ui_scale", ui_scale)
 	cfg.set_value(SECTION, "trade_enabled", trade_enabled)
 	cfg.set_value(SECTION, "time_limit_min", time_limit_min)
-	cfg.set_value(SECTION, "control_scheme", CONTROL_SCHEME_IDS[clampi(control_scheme, 0, 1)])
+	cfg.set_value(SECTION, "control_scheme", CONTROL_SCHEME_IDS[clampi(control_scheme, 0, CONTROL_SCHEME_IDS.size() - 1)])
 	cfg.set_value(SECTION, "map_detail", String(map_detail_from_id(String(map_detail))))
 	cfg.set_value(SECTION, "upscaler", UPSCALER_IDS[clampi(upscaler, UPSCALER_OFF, UPSCALER_FSR2)])
 	cfg.set_value(SECTION, "render_scale", render_scale)
@@ -269,6 +279,13 @@ static func ensure_buses() -> void:
 			var idx := AudioServer.bus_count - 1
 			AudioServer.set_bus_name(idx, bus_name)
 			AudioServer.set_bus_send(idx, BUS_MASTER)
+	# Unit voice barks (UnitVoice) + dialogue voices (VoicePlayer): their own bus, sent through SFX so the SFX slider
+	# scales them too.
+	if AudioServer.get_bus_index(BUS_VOICE) == -1:
+		AudioServer.add_bus()
+		var vidx := AudioServer.bus_count - 1
+		AudioServer.set_bus_name(vidx, BUS_VOICE)
+		AudioServer.set_bus_send(vidx, BUS_SFX)
 
 
 static func apply_audio() -> void:

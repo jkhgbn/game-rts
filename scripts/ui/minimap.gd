@@ -31,8 +31,17 @@ extends Control
 ## beasts as 6 x 6 paws after the champions (no neutral square for them); a BEAST ping at the lair on beast_spawned.
 ## Step-12 services are reached untyped (groups "river", "capture_points", "neutral_camps", "epic_beasts",
 ## "capture_rings"); any of them missing = its layer is absent.
+## Zoom (JS request 2026-09-27): the mouse wheel over the minimap zooms it 1x-3x (steps of 0.5) around the point
+## under the mouse (the wheel elsewhere still zooms the 3D camera). The zoomed view (`view_center`, world x / z) is
+## clamped to the map and follows the camera: when the camera moves out of the middle 60 % of the view, the view
+## slides to keep it inside (not while dragging on the minimap). All drawing and clicks go through world_to_map /
+## map_to_world, so clicks, orders and icon sizes work the same at any zoom.
 
 const SIZE := 220.0
+const ZOOM_MIN := 1.0
+const ZOOM_MAX := 3.0
+const ZOOM_STEP := 0.5
+const FOLLOW_INNER := 0.6   ## The camera is kept inside this fraction of the zoomed view.
 const REDRAW_INTERVAL := 0.1
 
 const GROUND_COLOR := Color(0.20, 0.30, 0.15)
@@ -163,7 +172,12 @@ var drawn_sight_rings := 0
 var water_drawn := false       ## True once the river mask texture is drawn under the map.
 var beast_pings := 0           ## Read only: lair pings started on beast_spawned since setup.
 var _water_tex: ImageTexture
-var _water_rect := Rect2()
+var _water_world := Rect2()   # the river mask's world rect (x, z)
+## Read only (set_zoom): 1 = the whole map, up to ZOOM_MAX.
+var zoom := 1.0
+## Read only: the world point (x, z) at the centre of the minimap (0, 0 at zoom 1).
+var view_center := Vector2.ZERO
+var _last_cam := Vector2(INF, INF)
 var _water_layer: Control
 var _mapfill_left := 0.0
 var _beasts_svc: Node          # EpicBeasts (group "epic_beasts")
@@ -225,6 +239,8 @@ func setup(p_selection: SelectionManager, p_camera_rig: RTSCamera, p_map_size: f
 	camera_rig = p_camera_rig
 	map_size = p_map_size
 	artifact = p_artifact
+	_clamp_view()
+	_last_cam = Vector2(INF, INF)
 	_read_style_tokens()   # after the HUD picked the kingdom skin
 	_connect_fog()
 	# The wave check starts from the units on the map now (the mission's start guards are not a wave).
@@ -320,17 +336,70 @@ func _read_style_tokens() -> void:
 
 
 func world_to_map(world: Vector3) -> Vector2:
-	var half := map_size * 0.5
-	return Vector2((world.x + half) / map_size * SIZE, (world.z + half) / map_size * SIZE)
+	return (Vector2(world.x, world.z) - view_center) * _scale() + Vector2(SIZE, SIZE) * 0.5
 
 
 func map_to_world(point: Vector2) -> Vector3:
-	var half := map_size * 0.5
 	var p := point.clamp(Vector2.ZERO, Vector2(SIZE, SIZE))
-	return Vector3(p.x / SIZE * map_size - half, 0.0, p.y / SIZE * map_size - half)
+	var w := (p - Vector2(SIZE, SIZE) * 0.5) / _scale() + view_center
+	return Vector3(w.x, 0.0, w.y)
+
+
+## Zooms the minimap to `z` (clamped 1-3); the world point under `anchor` (minimap pixels; the centre when omitted)
+## stays under it. The view is then clamped to the map.
+func set_zoom(z: float, anchor := Vector2(-1.0, -1.0)) -> void:
+	if anchor.x < 0.0:
+		anchor = Vector2(SIZE, SIZE) * 0.5
+	var at := map_to_world(anchor)
+	zoom = clampf(z, ZOOM_MIN, ZOOM_MAX)
+	view_center = Vector2(at.x, at.z) - (anchor.clamp(Vector2.ZERO, Vector2(SIZE, SIZE)) - Vector2(SIZE, SIZE) * 0.5) \
+			/ _scale()
+	_clamp_view()
+	_view_changed()
+
+
+## Centres the zoomed view on a world point (clamped to the map).
+func center_view_on(world: Vector3) -> void:
+	view_center = Vector2(world.x, world.z)
+	_clamp_view()
+	_view_changed()
+
+
+func _clamp_view() -> void:
+	var room := map_size * 0.5 - map_size * 0.5 / zoom
+	view_center = view_center.clamp(Vector2(-room, -room), Vector2(room, room))
+
+
+func _view_changed() -> void:
+	queue_redraw()
+	if _water_layer:
+		_water_layer.queue_redraw()
+	_overlay_dirty = true
+
+
+## Zoomed in: when the camera left the middle of the view since the last check, slide the view to keep it inside.
+func _follow_camera() -> void:
+	if camera_rig == null or not is_instance_valid(camera_rig) or not camera_rig.is_inside_tree():
+		return
+	var p := camera_rig.global_position
+	var cam := Vector2(p.x, p.z)
+	if cam == _last_cam:
+		return
+	_last_cam = cam
+	if zoom <= ZOOM_MIN or _dragging:
+		return
+	var inner := map_size * 0.5 / zoom * FOLLOW_INNER
+	var c := view_center
+	c.x = clampf(c.x, cam.x - inner, cam.x + inner)
+	c.y = clampf(c.y, cam.y - inner, cam.y + inner)
+	if c != view_center:
+		view_center = c
+		_clamp_view()
+		_view_changed()
 
 
 func _process(delta: float) -> void:
+	_follow_camera()
 	if _roads.is_empty():
 		_roads_left -= delta
 		if _roads_left <= 0.0:
@@ -479,9 +548,7 @@ func _build_water() -> void:
 		cell = float(script.get_script_constant_map().get("MASK_CELL", cell))
 	var half_w := float(w) * cell * 0.5
 	var half_h := float(h) * cell * 0.5
-	var a := world_to_map(Vector3(-half_w, 0.0, -half_h))
-	var b := world_to_map(Vector3(half_w, 0.0, half_h))
-	_water_rect = Rect2(a, b - a)
+	_water_world = Rect2(-half_w, -half_h, half_w * 2.0, half_h * 2.0)
 	if _water_layer:
 		_water_layer.queue_redraw()
 
@@ -490,7 +557,9 @@ func _build_water() -> void:
 func _draw_ground_layer() -> void:
 	_water_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(SIZE, SIZE)), GROUND_COLOR, true)
 	if _water_tex != null:
-		_water_layer.draw_texture_rect(_water_tex, _water_rect, false)
+		var a := world_to_map(Vector3(_water_world.position.x, 0.0, _water_world.position.y))
+		var b := world_to_map(Vector3(_water_world.end.x, 0.0, _water_world.end.y))
+		_water_layer.draw_texture_rect(_water_tex, Rect2(a, b - a), false)
 		water_drawn = true
 
 
@@ -552,7 +621,7 @@ func lair_known_alive(lair_id: StringName) -> bool:
 
 
 func _scale() -> float:
-	return SIZE / map_size
+	return SIZE / map_size * zoom
 
 
 func _relation_color(team: int) -> Color:
@@ -747,7 +816,13 @@ func _update_objective_points() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
-		if mb.button_index == MOUSE_BUTTON_LEFT:
+		if mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			# Minimap zoom around the mouse; the 3D camera never sees these wheel events.
+			if mb.pressed:
+				var dir := 1.0 if mb.button_index == MOUSE_BUTTON_WHEEL_UP else -1.0
+				set_zoom(zoom + dir * ZOOM_STEP, mb.position)
+			accept_event()
+		elif mb.button_index == MOUSE_BUTTON_LEFT:
 			# With a targeted order waiting (X, M, G, F, rally), the click gives that order on the map
 			# spot, like a click in the world; otherwise it moves the camera (drag keeps moving it).
 			if mb.pressed and selection and selection.confirm_pending_at(map_to_world(mb.position)):
@@ -924,6 +999,13 @@ func _draw() -> void:
 	# Sunken map (ui-style.md 7.1): a frame_dark line on the edge and a groove line just inside it.
 	draw_rect(Rect2(Vector2(0.5, 0.5), Vector2(SIZE - 1.0, SIZE - 1.0)), _frame_dark, false, 1.0)
 	draw_rect(Rect2(Vector2(1.5, 1.5), Vector2(SIZE - 3.0, SIZE - 3.0)), _groove, false, 1.0)
+	# Zoomed in: the factor in the bottom-right corner ("2x").
+	if zoom > ZOOM_MIN:
+		var font := ThemeDB.fallback_font
+		var txt := ("%dx" % int(zoom)) if is_equal_approx(zoom, roundf(zoom)) else ("%.1fx" % zoom)
+		var at := Vector2(SIZE - 6.0 - font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x, SIZE - 6.0)
+		draw_string_outline(font, at, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, _groove)
+		draw_string(font, at, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, CAMERA_COLOR)
 
 
 ## Braziers (mission 1): flame lines first (under every icon), then the bowls. Cold = stone ring with a

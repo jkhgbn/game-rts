@@ -112,6 +112,9 @@ static func controls_hint_text(scheme: int) -> String:
 	if scheme == GameSettings.CONTROLS_HERO_WASD:
 		return "%s: walk your wizard (camera follows)  ·  %s + click: attack-move" % [
 				KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]), KeyLabels.of(KEY_X)]
+	if scheme == GameSettings.CONTROLS_RTS_WASD:
+		return "Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)" % [
+				KeyLabels.of(KEY_X), KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])]
 	return "Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera" % KeyLabels.of(KEY_A)
 
 
@@ -145,7 +148,7 @@ func _changed(key: StringName, value: Variant) -> void:
 			GameSettings.edge_pan = value
 		&"control_scheme":
 			GameSettings.control_scheme = clampi(int(value), GameSettings.CONTROLS_CLASSIC,
-					GameSettings.CONTROLS_HERO_WASD)
+					GameSettings.CONTROLS_RTS_WASD)
 			controls_hint.text = controls_hint_text(GameSettings.control_scheme)
 		&"map_detail":
 			# Only the saved value changes (Back saves it); the current match keeps its detail.
@@ -194,9 +197,12 @@ func _controls_row(parent: Control) -> void:
 	controls_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
 	controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
+	controls_option.add_item("RTS camera (WASD)", GameSettings.CONTROLS_RTS_WASD)
+	var wasd := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])
 	controls_option.tooltip_text = ("Classic: like most strategy games, right click moves your wizard and %s + click "
-			+ "attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.") % [KeyLabels.of(KEY_A),
-			KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]), KeyLabels.of(KEY_X)]
+			+ "attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click "
+			+ "moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves.") % [KeyLabels.of(KEY_A),
+			wasd, KeyLabels.of(KEY_X), wasd, KeyLabels.of(KEY_X)]
 	row.add_child(controls_option)
 	controls_hint = UIStyle.label("", 14)
 	controls_hint.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))

@@ -8,6 +8,8 @@ extends SceneTree
 ##   W / A do not walk the wizard; right click moves her; help and command card show A.
 ## - Hero WASD: A starts nothing (walk left), X = attack-move, W walks the wizard; switching to Classic while W is held
 ##   stops her; help and command card show X and "W A S D: walk Vessa".
+## - RTS camera (WASD) (third entry, saved "rts_wasd"): A starts nothing, X = attack-move, help / card show X and
+##   "W A S D / edge: pan"; held D pans the camera right (not the wizard), Shift+D faster; in Classic D does nothing.
 ## - Labels: with an AZERTY layout simulated (KeyLabels.overrides) the help reads "Q + click", "F / A / E",
 ##   "Z Q S D: walk"; the card shows Q for attack-move and A for spell 2.
 ## Run: godot --headless --path . -s tests/test_ux_1.gd --fixed-fps 60 --quit-after 3000
@@ -181,6 +183,38 @@ func _step(t: int) -> void:
 			_key_state(KEY_W, KEY_Z, false)
 			main.hero.command_stop()
 			_check_labels()
+		140:
+			# RTS camera (WASD): X = attack-move, A starts nothing, W A S D pan the camera (not the wizard).
+			GameSettings.set_control_scheme(GameSettings.CONTROLS_RTS_WASD, false)
+			_check_rts_wasd_keys()
+			main.camera_rig.focus_on(Vector3.ZERO)
+			_cam_before = main.camera_rig.position
+			_input_key(KEY_D, true)
+		150:
+			var d1: float = main.camera_rig.position.x - _cam_before.x
+			if d1 < 0.5:
+				_error = "RTS WASD: D did not pan the camera right (%.2f m)" % d1
+				return
+			if main.hero.get_move_input() != Vector3.ZERO or sel.wizard_control.is_walking():
+				_error = "RTS WASD: D walked the wizard"
+				return
+			set_meta(&"d1", d1)
+			_cam_before = main.camera_rig.position
+			_input_key(KEY_SHIFT, true)
+		160:
+			var d2: float = main.camera_rig.position.x - _cam_before.x
+			if d2 < float(get_meta(&"d1")) * 1.5:
+				_error = "RTS WASD: Shift+D is not faster (%.2f vs %.2f m)" % [d2, float(get_meta(&"d1"))]
+				return
+			_input_key(KEY_SHIFT, false)
+			# Classic: D does nothing to the camera.
+			GameSettings.set_control_scheme(GameSettings.CONTROLS_CLASSIC, false)
+			_cam_before = main.camera_rig.position
+		170:
+			if main.camera_rig.position.distance_to(_cam_before) > 0.01:
+				_error = "Classic: D panned the camera"
+				return
+			_input_key(KEY_D, false)
 
 
 # ---------------------------------------------------------------- checks
@@ -215,7 +249,7 @@ func _check_settings() -> void:
 	# The Settings panel (main menu and pause menu share it): Controls list + hint.
 	var panel := SettingsPanel.new()
 	root.add_child(panel)
-	if panel.controls_option == null or panel.controls_option.item_count != 2 or panel.controls_option.selected != 0:
+	if panel.controls_option == null or panel.controls_option.item_count != 3 or panel.controls_option.selected != 0:
 		_error = "Settings panel Controls list missing or not on Classic"
 		return
 	if not panel.controls_hint.text.contains("Right click moves your wizard") \
@@ -241,6 +275,30 @@ func _check_settings() -> void:
 	if panel.controls_option.selected != 1:
 		_error = "the panel did not show Hero WASD on open"
 		return
+	# RTS camera (WASD): the third entry; saved as "rts_wasd"; X only for attack-move.
+	panel.controls_option.select(2)
+	panel.controls_option.item_selected.emit(2)
+	if not GameSettings.rts_wasd() or not panel.controls_hint.text.contains("X + click: attack-move") \
+			or not panel.controls_hint.text.contains("W A S D / arrows: camera"):
+		_error = "choosing RTS camera (WASD) in the panel: scheme %d, hint '%s'" % [GameSettings.control_scheme,
+				panel.controls_hint.text]
+		return
+	panel.close()
+	GameSettings.control_scheme = GameSettings.CONTROLS_CLASSIC
+	GameSettings.load_settings()
+	var cfg2 := ConfigFile.new()
+	cfg2.load(SETTINGS_PATH)
+	if not GameSettings.rts_wasd() or str(cfg2.get_value("settings", "control_scheme", "")) != "rts_wasd":
+		_error = "RTS camera (WASD) was not saved / loaded"
+		return
+	if GameSettings.attack_move_keys() != [KEY_X] or GameSettings.attack_move_key() != KEY_X or GameSettings.hero_wasd():
+		_error = "RTS WASD attack-move keys are %s" % [GameSettings.attack_move_keys()]
+		return
+	panel.open()
+	if panel.controls_option.selected != 2:
+		_error = "the panel did not show RTS camera (WASD) on open"
+		return
+	GameSettings.set_control_scheme(GameSettings.CONTROLS_CLASSIC)
 	panel.queue_free()
 
 
@@ -345,6 +403,52 @@ func _check_hero_wasd_keys() -> void:
 		_error = "Hero WASD walk hint is '%s'" % GameHUD.walk_hint("Vessa")
 		return
 	sel.select_units([main.hero])
+
+
+func _check_rts_wasd_keys() -> void:
+	sel.select_units(_soldiers)
+	_key(KEY_A, KEY_Q)
+	if sel.get_pending_order() != &"":
+		_error = "RTS WASD: A started '%s' (A is pan left)" % sel.get_pending_order()
+		return
+	_key(KEY_X, KEY_X)
+	if sel.get_pending_order() != &"attack_move":
+		_error = "RTS WASD: X did not start attack-move targeting"
+		return
+	_key(KEY_ESCAPE, KEY_ESCAPE)
+	main.hud.refresh_help()
+	var help: String = main.hud.get(&"_help_label").text
+	if not help.contains("Attack-move: X + click") or help.contains("(X too)") or help.contains("walk Vessa") \
+			or not help.contains("Right click: move (Vessa too)") or not help.contains("W A S D / edge: pan") \
+			or help.split("\n").size() != 12:
+		_error = "RTS WASD help text:\n%s" % help
+		return
+	card.refresh()
+	var s: Dictionary = card.slots[3]
+	if str(s.get("key", "")) != "X" or str(s.get("tooltip", "")).contains("works too"):
+		_error = "RTS WASD card attack-move slot: key '%s', tooltip '%s'" % [s.get("key", ""), s.get("tooltip", "")]
+		return
+	if not GameHUD.walk_hint("Vessa").begins_with("Right-click"):
+		_error = "RTS WASD walk hint is '%s'" % GameHUD.walk_hint("Vessa")
+		return
+	# AZERTY labels: "Z Q S D / edge: pan".
+	KeyLabels.overrides = {KEY_A: "Q", KEY_Q: "A", KEY_W: "Z", KEY_Z: "W"}
+	help = GameHUD.help_text("Vessa")
+	var hint := SettingsPanel.controls_hint_text(GameSettings.CONTROLS_RTS_WASD)
+	KeyLabels.overrides = {}
+	if not help.contains("Z Q S D / edge: pan") or not hint.contains("Z Q S D / arrows: camera"):
+		_error = "AZERTY RTS WASD help / hint:\n%s\n%s" % [help, hint]
+		return
+	sel.select_units([main.hero])
+
+
+## Key state through Input (RTSCamera reads Input.is_physical_key_pressed).
+func _input_key(physical: Key, pressed: bool) -> void:
+	var ev := InputEventKey.new()
+	ev.physical_keycode = physical
+	ev.keycode = physical
+	ev.pressed = pressed
+	Input.parse_input_event(ev)
 
 
 func _check_labels() -> void:
