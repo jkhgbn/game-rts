@@ -558,8 +558,27 @@ func _looter_stage() -> bool:
 				_t - float(_s["lt_at"]), str(cc.get(&"intent"))])
 		_remove_magpie(m)
 		return true
-	if _t - float(_s["lt_at"]) > 8.0:
-		_errors.append("normal: the Coin-Cutter ignored a looting Magpie 8 s (intent %s)" % str(cc.get(&"intent")))
+	# The Raid default only runs when R1-R4 (fallen / flee / rest / fight) leave the champion free: count free time.
+	var intent := StringName(str(cc.get(&"intent"))) if cc != null and is_instance_valid(cc) else &""
+	var free_t := float(_s.get("lt_free", 0.0))
+	if not [&"Fighting", &"Fleeing", &"Resting", &"Fallen"].has(intent):
+		free_t += 1.0 / 60.0
+		_s["lt_free"] = free_t
+	if free_t > 8.0 or _t - float(_s["lt_at"]) > 30.0:
+		_errors.append("normal: the Coin-Cutter ignored a looting Magpie %.0f s free / %.0f s in all (intent %s)" % [
+				free_t, _t - float(_s["lt_at"]), str(intent)])
+		if brain != null:   # what the brain saw, for the next person chasing this
+			var sense: Variant = brain.get(&"sense")
+			var entry := {}
+			for e: Dictionary in sense.get(&"enemies"):
+				if e["node"] == m:
+					entry = e
+			var lp: Vector3 = (m as Node3D).global_position
+			print("  looter state: plan %s node %s, dist %.1f, entry %s, danger %.0f, cp %.0f, flag %s" % [
+					str(brain.get(&"plan")), str(target), cc.global_position.distance_to(lp), str(entry),
+					float(sense.call(&"danger_at", lp, ChampionSense.DANGER_RADIUS, brain.call(&"_wizard_mult"))),
+					float(brain.call(&"_trait", "courage", 1.0)) * float(brain.call(&"_power")) * float(brain.call(&"_hp_ratio")),
+					str(brain.get(&"current_flag"))])
 		if m != null and is_instance_valid(m):
 			_remove_magpie(m)
 		return true
@@ -640,6 +659,7 @@ func _raid_stage(check_b7: bool) -> bool:
 		if check_b7:
 			_clear_flags()
 			_set_essence(3000)
+			_ensure_forward_hall(node as CrystalNode)
 		Economy.for_team(ENEMY).add(500)
 		_s["raid_at"] = _t
 		_net().record_workers_raided(ENEMY, node)
@@ -660,6 +680,23 @@ func _raid_stage(check_b7: bool) -> bool:
 			_errors.append("%s: no B7 Guard flag after a raid" % part)
 		return true
 	return false
+
+
+## B7 needs an own completed barracks within AITrade.HALL_RADIUS of the raided node. Since 20.A3 the hard bot
+## often has no forward hall by the time of the raid, so the test puts one on the natural hall spot.
+func _ensure_forward_hall(node: CrystalNode) -> void:
+	for b in Building.for_team(ENEMY):
+		if b.is_constructed() and b.building_type and b.building_type.kind == &"barracks" \
+				and Vector2(b.global_position.x - node.global_position.x,
+				b.global_position.z - node.global_position.z).length() <= AITrade.HALL_RADIUS:
+			return
+	var type := BuildingType.find("shadow_barracks")
+	var hall: Building = main.build_grid.spawn_complete(type, main.call(&"natural_hall_spot", ENEMY), ENEMY)
+	main.build_grid.request_rebake()
+	var d := Vector2(hall.global_position.x - node.global_position.x, hall.global_position.z - node.global_position.z).length()
+	print("[%s] forward hall placed by the test, %.1f m from the natural node" % [part, d])
+	if d > AITrade.HALL_RADIUS:
+		_errors.append("%s: test hall %.1f m from the natural node (B7 radius %.0f)" % [part, d, AITrade.HALL_RADIUS])
 
 
 ## No concede while caravans / a Bazaar remain; concede once both are gone.
