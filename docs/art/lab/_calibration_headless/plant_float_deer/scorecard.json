@@ -211,16 +211,46 @@
 		},
 		{
 			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 30% plain boxes / prisms, normal variety >= 0.86",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "28 shapes over 1 body parts (28.0 per part: (root) 28); 3% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.872",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 80% of its tier budget (under-use = detail left on the table; over is B4)",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "94% of the 1200 tris budget used (1134)",
+			"weight": 1.0
+		},
+		{
+			"fix": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #2]",
+			"fix_rank": 2,
+			"graded": 0.3,
 			"group": "anim",
 			"hint": "Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
 			"id": "A2",
 			"improve": "",
 			"name": "death_finished",
 			"rule": "emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7)",
-			"score": 1.0,
+			"score": 0.452,
 			"shot": "",
-			"status": "PASS",
-			"value": "after 0.0 s",
+			"status": "WARN",
+			"value": "never (3 s)",
 			"weight": 1.0
 		},
 		{
@@ -354,10 +384,10 @@
 	],
 	"counts": {
 		"FAIL": 1,
-		"INFO": 7,
-		"PASS": 10,
+		"INFO": 9,
+		"PASS": 9,
 		"SKIP": 6,
-		"WARN": 0
+		"WARN": 1
 	},
 	"ground": "meadow",
 	"headless": true,
@@ -370,33 +400,33 @@
 			"title": "Feet on the ground"
 		},
 		{
+			"rank": 10.548,
+			"source": "A2 death_finished",
+			"status": "WARN",
+			"text": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #2]",
+			"title": "death_finished"
+		},
+		{
 			"rank": 0.0,
 			"source": "anim strip",
 			"status": "IDEA",
 			"text": "Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m",
 			"title": "Idle / attack beats"
-		},
-		{
-			"rank": 0.0,
-			"source": "shot z25",
-			"status": "IDEA",
-			"text": "Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m",
-			"title": "Detail density at 25 m"
 		}
 	],
 	"kind": "critter",
 	"kingdom": "neutral",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Mesh 673 v / 1 s",
-		"Fix recipes: 1 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))"
+		"Fix recipes: 2 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))"
 	],
 	"previous_quality": -1.0,
-	"quality": 84.4,
+	"quality": 84.9,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
-	"seconds": 0.0,
+	"seconds": 8.9,
 	"shots": {},
-	"started": "2026-09-27 10:39:58",
+	"started": "2026-09-27 13:52:56",
 	"tier": "deer"
 }

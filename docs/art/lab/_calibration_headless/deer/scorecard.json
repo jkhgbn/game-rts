@@ -211,16 +211,46 @@
 		},
 		{
 			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 30% plain boxes / prisms, normal variety >= 0.86",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "28 shapes over 1 body parts (28.0 per part: (root) 28); 3% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.872",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 80% of its tier budget (under-use = detail left on the table; over is B4)",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "94% of the 1200 tris budget used (1134)",
+			"weight": 1.0
+		},
+		{
+			"fix": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #1]",
+			"fix_rank": 1,
+			"graded": 0.3,
 			"group": "anim",
 			"hint": "Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
 			"id": "A2",
 			"improve": "",
 			"name": "death_finished",
 			"rule": "emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7)",
-			"score": 1.0,
+			"score": 0.452,
 			"shot": "",
-			"status": "PASS",
-			"value": "after 0.0 s",
+			"status": "WARN",
+			"value": "never (3 s)",
 			"weight": 1.0
 		},
 		{
@@ -352,14 +382,21 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 7,
-		"PASS": 11,
+		"INFO": 9,
+		"PASS": 10,
 		"SKIP": 6,
-		"WARN": 0
+		"WARN": 1
 	},
 	"ground": "meadow",
 	"headless": true,
 	"improve_next": [
+		{
+			"rank": 1010.548,
+			"source": "A2 death_finished",
+			"status": "WARN",
+			"text": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #1]",
+			"title": "death_finished"
+		},
 		{
 			"rank": 0.0,
 			"source": "anim strip",
@@ -373,27 +410,21 @@
 			"status": "IDEA",
 			"text": "Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m",
 			"title": "Detail density at 25 m"
-		},
-		{
-			"rank": 0.0,
-			"source": "shot z40",
-			"status": "IDEA",
-			"text": "Put the lightest value and the team colour on the top-facing masses (seen from pitch 55), darker values low",
-			"title": "Key-read contrast"
 		}
 	],
 	"kind": "critter",
 	"kingdom": "neutral",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Mesh 673 v / 1 s"
+		"Per-mesh vertices (biggest first): Mesh 673 v / 1 s",
+		"Fix recipes: 1 in fixes.json (top: A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier))"
 	],
 	"previous_quality": -1.0,
-	"quality": 98.7,
-	"result": "PASS",
+	"quality": 96.0,
+	"result": "WARN",
 	"scene": "res://art/units/neutral/critters/deer.tscn",
-	"seconds": 0.1,
+	"seconds": 8.9,
 	"shots": {},
-	"started": "2026-09-27 10:39:57",
+	"started": "2026-09-27 13:52:05",
 	"tier": "deer"
 }

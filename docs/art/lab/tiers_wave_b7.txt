@@ -1,0 +1,3 @@
+﻿res://art/units/nature/greenheart_oathkeeper/greenheart_oathkeeper.tscn kind=unit kingdom=nature tier=heavy ref=vinelasher,thornling,bramblehorn,glade_outrider
+res://art/units/ice/hoarlight_magebow/hoarlight_magebow.tscn kind=unit kingdom=ice ref=frostbow,shardcaster,frostrune_rifleman
+res://art/units/ice/frost_mortar/frost_mortar.tscn kind=unit kingdom=ice tier=heavy

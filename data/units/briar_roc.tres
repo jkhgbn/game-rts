@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/nature/briar_roc/briar_roc.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"briar_roc"
+display_name = "Briar Roc"
+faction = &"nature"
+is_worker = false
+cost = 380
+pop = 4
+kill_xp = 190
+train_time = 55
+card_key = ""
+max_hp = 700
+move_speed = 5.6
+attack_damage = 18
+attack_range = 4
+attack_cooldown = 1.4
+aggro_range = 9
+radius = 1.2
+body_height = 3.2
+body_color = Color(0.4, 0.5, 0.25, 1)
+projectile_color = Color(0.6, 0.9, 0.35, 1)
+model_scene = ExtResource("2_model")
+armor = 5
+sight_radius = 14
+requires_tier = 3
+projectile_speed = 22.0
+model_path = "res://art/units/nature/briar_roc/briar_roc.tscn"

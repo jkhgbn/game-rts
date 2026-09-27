@@ -39,6 +39,8 @@ const TRADE_KINDS: Array[StringName] = [&"market"]
 @export var body_color := Color(0.5, 0.45, 0.4)
 @export var projectile_color := Color(1.0, 0.75, 0.3)   ## Towers: the kingdom's archer bolt.
 @export var model_scene: PackedScene
+## Keep tier needed to place it (tiers.md): 1 = always, 2 = Stronghold, 3 = Citadel (TierSystem.tier_of).
+@export var requires_tier := 1
 ## Kingdoms Ice / Nature (kingdom-ice.md 2.4). Towers: status put on every unit their bolt hits
 ## (`apply_status(on_hit_status, on_hit_duration)`, e.g. the Rime Spire's `chill` 2 s).
 @export var on_hit_status: StringName = &""

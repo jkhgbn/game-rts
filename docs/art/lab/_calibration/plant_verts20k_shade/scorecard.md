@@ -1,6 +1,6 @@
 # Art Lab scorecard: plant_verts20k_shade
 
-Scene `res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 12:10:54 · lab v3.1
+Scene `res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 14:20:51 · lab v3.1
 
 ## Result: **FAIL** · quality **90 / 100** (89.8)
 

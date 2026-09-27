@@ -522,6 +522,7 @@ def generate(opts: dict) -> int:
             print(f"  [{n}/{len(todo)}] {e['id']} {info['duration']:.2f} s in {dt:.1f} s"
                   + (f"  fitted x{rcfg['speed'] / base:.2f} (was {first:.2f} s, slot {slot:g})" if "fit" in entry else "")
                   + (f"  [{', '.join(dr['tags'])}]" if dr["tags"] else ""))
+            new_lines[e["id"]] = entry   # (was missing: rendered lines never reached the manifest)
     else:
         print(f"VOICE_FORGE nothing to render ({kept} lines unchanged)")
     orphans = sorted(k for k in old if k not in new_lines)

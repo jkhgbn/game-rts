@@ -1,0 +1,13 @@
+{
+	"asset": "stormbottle_genie",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 94.8,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/stormbottle_genie/stormbottle_genie.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

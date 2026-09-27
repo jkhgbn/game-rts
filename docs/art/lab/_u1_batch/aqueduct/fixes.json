@@ -1,0 +1,31 @@
+{
+	"asset": "aqueduct",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R2",
+			"computed": false,
+			"measured": {
+				"value": "max IoU 1.0 (aqueduct 1.0, colossus 0.3, giant_stump 0.28, standing_stones 0.23, crag_nest 0.14, old_wood_den 0.1)"
+			},
+			"predicted": {},
+			"proposal": "Distinct from references (black masks): Make it read apart from aqueduct (IoU 1.0): change one big shape of the silhouette",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R2 Distinct from references (black masks): Make it read apart from aqueduct (IoU 1.0): change one big shape of the silhouette",
+			"title": "Distinct from references (black masks)",
+			"wanted": {
+				"rule": "IoU <= 0.85 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "landmark",
+	"kingdom": "neutral",
+	"quality": 94.4,
+	"result": "WARN",
+	"scene": "res://art/cinematics/stage_sets/forge_citadel/parts/kits/aqueduct.tscn",
+	"tier": "landmark",
+	"version": "1.0"
+}

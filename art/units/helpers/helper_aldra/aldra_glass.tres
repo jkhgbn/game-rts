@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_hp"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_hp"]
+
+[resource]
+resource_name = "aldra_glass"
+render_priority = 0
+shader = ExtResource("1_hp")
+shader_parameter/base_color = Color(0.46, 0.86, 0.78, 1)
+shader_parameter/noise_tex = ExtResource("2_hp")
+shader_parameter/spec_strength = 0.55
+shader_parameter/rim_strength = 0.45
+shader_parameter/rim_color = Color(0.75, 1.0, 0.95, 1)

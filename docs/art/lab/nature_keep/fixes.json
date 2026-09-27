@@ -1,0 +1,13 @@
+{
+	"asset": "nature_keep",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "res://art/buildings/nature_keep.tscn",
+	"tier": "keep",
+	"version": "1.0"
+}

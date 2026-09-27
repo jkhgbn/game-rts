@@ -1,0 +1,102 @@
+{
+	"asset": "greenheart_oathkeeper",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#2e2414",
+					"material": "nature_bark_dark",
+					"material_path": "res://art/units/nature/materials/nature_bark_dark.tres",
+					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Hips/Merged, Root/Chest/Head/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/nature/materials/nature_bark_dark.tres): give greenheart_oathkeeper its own copy first, other assets use it too",
+					"snap": {
+						"close": true,
+						"color": "#382514",
+						"de_to_wanted": 5.0,
+						"from_folder": "res://art/units/nature/materials",
+						"material_path": "res://art/units/nature/materials/nature_bark_sap.tres"
+					},
+					"to": "#302515",
+					"weight": 0.4
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				2.4,
+				1.7,
+				3.2
+			],
+			"measured": {
+				"body_lab": [
+					54.6,
+					-2.5,
+					24.5
+				],
+				"dE": {
+					"R3 meadow": 27.6,
+					"R3t fire": 48.4,
+					"R3t ice": 42.9,
+					"R3t nature": 27.6,
+					"R3t shadow": 62.1,
+					"R4 ash": 40.3,
+					"R4 heath": 6.4,
+					"R4 marsh": 42.4,
+					"R4 riverbank": 31.0,
+					"R4 sand": 27.7,
+					"R4 snow": 42.3,
+					"R4k old_wood": 27.7
+				},
+				"ground_lab": [
+					62.8,
+					-21.5,
+					42.8
+				],
+				"melt_share": 0.05
+			},
+			"predicted": {
+				"R3 meadow": 27.6,
+				"R3t fire": 48.3,
+				"R3t ice": 42.9,
+				"R3t nature": 27.6,
+				"R3t shadow": 62.1,
+				"R4 ash": 40.3,
+				"R4 heath": 6.4,
+				"R4 marsh": 42.4,
+				"R4 riverbank": 31.0,
+				"R4 sand": 27.6,
+				"R4 snow": 42.3,
+				"R4k old_wood": 27.7
+			},
+			"proposal": "shader_parameter/base_color of `nature_bark_dark` #2e2414 -> #302515 (40% of the visible body): predicted dE R3 meadow 27.6 -> 27.6, R3t fire 48.4 -> 48.3, R3t shadow 62.1 -> 62.1, R3t ice 42.9 -> 42.9, R3t nature 27.6 -> 27.6, R4k old_wood 27.7 -> 27.7 (want >= 24); other grounds heath 6.4, riverbank 31.0, snow 42.3, ash 40.3, sand 27.6, marsh 42.4; `nature_bark_dark` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_bark_sap.tres` (#382514, dE 5.0 from the wanted colour); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 13% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`nature_cloth` 13%"
+			],
+			"text": "shader_parameter/base_color of `nature_bark_dark` #2e2414 -> #302515 (40% of the visible body): predicted dE R3 meadow 27.6 -> 27.6, R3t fire 48.4 -> 48.3, R3t shadow 62.1 -> 62.1, R3t ice 42.9 -> 42.9, R3t nature 27.6 -> 27.6, R4k old_wood 27.7 -> 27.7 (want >= 24); other grounds heath 6.4, riverbank 31.0, snow 42.3, ash 40.3, sand 27.6, marsh 42.4; `nature_bark_dark` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_bark_sap.tres` (#382514, dE 5.0 from the wanted colour); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 13% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 92.7,
+	"result": "WARN",
+	"scene": "res://art/units/nature/greenheart_oathkeeper/greenheart_oathkeeper.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

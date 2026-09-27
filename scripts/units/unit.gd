@@ -270,6 +270,10 @@ func _ready() -> void:
 		add_child(support_caster)
 	if unit_type and BowmanKit.is_bowman(unit_type.id):   # docs/design/bowmen.md: upgrades, Hamstring string
 		BowmanKit.on_unit_ready(self)
+	if unit_type and NewUnits12.is_new_unit(unit_type.id):   # docs/design/new-units-12.md: the unit's ability
+		NewUnits12.attach(self)
+	if unit_type and T3Kit.is_t3_unit(unit_type.id):   # t3-helpers.md 7.2: Saboteur, Reaver, Shardguard, Roc, Genie
+		T3Kit.attach(self)
 
 
 # ---------------------------------------------------------------- orders
@@ -618,6 +622,13 @@ func taunt_source() -> Node3D:
 ## callers clear the targets they want dropped). Smoke Pouch (champions.md 4.3). Refreshes, never shortens.
 func hide_from_auto_target(seconds: float) -> void:
 	_hidden_auto_left = maxf(_hidden_auto_left, seconds)
+
+
+## True while `viewer_team` sees this unit as something else (the Ashveil Saboteur's worker disguise, t3-helpers.md
+## 7.2): auto-aggro, the minimap and the selection panel may read it.
+func is_disguised_for(viewer_team: int) -> bool:
+	var ab := get_node_or_null(^"T3Ability")
+	return ab != null and ab.has_method(&"is_disguised_for") and bool(ab.call(&"is_disguised_for", viewer_team))
 
 
 func is_hidden_from_auto_target() -> bool:
@@ -1018,6 +1029,8 @@ func _set_veterancy_level(new_level: int) -> void:
 static func kill_xp_value(victim: Node) -> int:
 	if victim == null or not is_instance_valid(victim):
 		return 0
+	if victim.is_in_group(&"helpers") and victim.has_method(&"helper_kill_xp"):   # t3-helpers.md 3: 100 + 30 x level
+		return int(victim.call(&"helper_kill_xp"))
 	if victim.is_in_group(&"champions"):
 		var clvl: Variant = victim.get(&"level")
 		return CHAMPION_KILL_XP + CHAMPION_KILL_XP_PER_LEVEL * (int(clvl) if clvl != null else 1)

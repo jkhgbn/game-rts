@@ -194,7 +194,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "2217 of 13258 triangles (16%) face steeply down (normal y < -0.7)",
+			"value": "2220 of 13258 triangles (16%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -240,6 +240,34 @@
 			"weight": 1.0
 		},
 		{
+			"graded": 0.880177391182935,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
+			"score": 0.880177391182935,
+			"shot": "close",
+			"status": "INFO",
+			"value": "141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 16% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.891",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4)",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "71% of the 12000 verts budget used (8576)",
+			"weight": 1.0
+		},
+		{
 			"graded": 1.0,
 			"group": "anim",
 			"hint": "Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
@@ -250,7 +278,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.01 s",
+			"value": "after 1.77 s",
 			"weight": 1.0
 		},
 		{
@@ -348,7 +376,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "flyer: lowest point 2.0 m (hovers)",
+			"value": "flyer: lowest point 2.01 m (hovers)",
 			"weight": 1.0
 		},
 		{
@@ -368,7 +396,7 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 7,
+		"INFO": 9,
 		"PASS": 12,
 		"SKIP": 6,
 		"WARN": 0
@@ -400,17 +428,17 @@
 	],
 	"kind": "titan",
 	"kingdom": "ice",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Root/Body/Neck1/Neck2/Head/HeadMesh 1418 v / 4 s; Root/Body/BodyMesh 1263 v / 2 s; Root/Body/WingL/WingL2/WingL2Mesh 771 v / 3 s; Root/Body/WingR/WingR2/WingR2Mesh 771 v / 3 s; Root/Body/WingL/WingLMesh 532 v / 4 s; Root/Body/WingR/WingRMesh 532 v / 4 s; Root/Body/Neck1/Neck2/Head/Jaw/JawMesh 466 v / 4 s; Root/Body/Tail1/Tail2/Tail3/Tail3Mesh 367 v / 2 s",
 		"2 materials are built in code (fine when cached per type: see B9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 98.9,
+	"quality": 97.8,
 	"result": "PASS",
 	"scene": "res://art/units/titans/frost_dragon/frost_dragon.tscn",
-	"seconds": 0.5,
+	"seconds": 9.2,
 	"shots": {},
-	"started": "2026-09-27 10:39:57",
+	"started": "2026-09-27 13:52:14",
 	"tier": "titan"
 }

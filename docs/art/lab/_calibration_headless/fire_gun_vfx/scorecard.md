@@ -1,10 +1,10 @@
 # Art Lab scorecard: fire_gun_vfx
 
-Scene `res://art/vfx/unit_fire_gun_vfx.gd` · kind **vfx** / tier **family** · kingdom fire · ground meadow · 2026-09-27 10:39:57 · lab v2.0 · **headless: render checks skipped**
+Scene `res://art/vfx/unit_fire_gun_vfx.gd` · kind **vfx** / tier **family** · kingdom fire · ground meadow · 2026-09-27 13:51:51 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **100 / 100**
+## Result: **PASS** · quality **100 / 100** (100.0)
 
-0 FAIL · 0 WARN · 7 PASS · 0 info · 1 skipped · 0 s
+0 FAIL · 0 WARN · 7 PASS · 0 info · 1 skipped · 14 s
 
 ## Improve next
 1. **Read in 0.3 s** (IDEA): A bright core in the first 0.1 s, then a slower fade; the 40 m read comes from the core + a ground ring _(from effects sheet)_

@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/fire/scorchling/scorchling.gd" id="1_sc"]
+
+[node name="Scorchling" type="Node3D"]
+script = ExtResource("1_sc")
+fire_kind = &"imp"
+body_height = 1.1
+attack_style = &"imp_pounce"
+death_style = &"fall"
+stride_time = 0.32
+stride_speed = 5.6
+idle_period = 1.8
+leg_swing_deg = 38.0
+walk_bounce = 0.07
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0)
+
+[node name="LegL" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 0, 0)
+
+[node name="LegR" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34, 0.02)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0.24, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0.24, 0)
+
+[node name="Fx" type="Node3D" parent="."]

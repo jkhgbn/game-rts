@@ -1,0 +1,1 @@
+﻿res://art/units/nature/greenheart_oathkeeper/greenheart_oathkeeper.tscn kind=unit kingdom=nature tier=heavy ref=vinelasher,thornling,bramblehorn,glade_outrider

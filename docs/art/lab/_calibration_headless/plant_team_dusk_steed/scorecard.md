@@ -1,10 +1,10 @@
 # Art Lab scorecard: plant_team_dusk_steed
 
-Scene `res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-27 10:39:58 · lab v2.0 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-27 13:53:13 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **98 / 100**
+## Result: **PASS** · quality **97 / 100** (97.1)
 
-0 FAIL · 0 WARN · 13 PASS · 5 info · 6 skipped · 0 s
+0 FAIL · 0 WARN · 13 PASS · 7 info · 6 skipped · 8 s
 
 ## Improve next
 1. **Surfaces per instance** (IDEA): Merge surfaces that share a material (34 surfaces for 8 meshes = 34 draw calls) _(from B11)_
@@ -49,7 +49,13 @@ Scene `res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn` · ki
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 8 present | set_team_color, set_moving, play_hit, play_death, signal:death_finished, set_barded, play_charge, seat_transform |  |
-| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.95 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO 84 | 149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.881 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C2 | Vertex use vs budget | INFO 100 | 96% of the 6000 verts budget used (5765) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, cavalry-mounts.md 10 (mount))
 `{"draw":8,"frame_ms":0.005,"lights":0,"meshes":12,"n":50,"runtime_mats":0,"soft":{"casters":2,"looping":1,"verts":6000},"src":"cavalry-mounts.md 10 (mount)"}`

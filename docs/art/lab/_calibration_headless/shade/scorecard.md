@@ -1,15 +1,15 @@
 # Art Lab scorecard: shade
 
-Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 10:39:56 · lab v2.0 · **headless: render checks skipped**
+Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 13:51:30 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **99 / 100**
+## Result: **PASS** · quality **92 / 100** (91.5)
 
-0 FAIL · 0 WARN · 17 PASS · 5 info · 6 skipped · 0 s
+0 FAIL · 0 WARN · 17 PASS · 7 info · 6 skipped · 8 s
 
 ## Improve next
-1. **Surfaces per instance** (IDEA): Merge surfaces that share a material (17 surfaces for 9 meshes = 17 draw calls) _(from B11)_
-2. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
-3. **Detail density at 25 m** (IDEA): Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m _(from shot z25)_
+1. **Shape richness (secondary shapes)** (INFO): Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them _(from C1 Shape richness (secondary shapes), shot close)_
+2. **Vertex use vs budget** (INFO): Only 52% of the vertex budget is used: spend it on the close / 25 m read (bevels, tapers, more sides on the big curved masses, secondary shapes) _(from C2 Vertex use vs budget, shot close)_
+3. **Surfaces per instance** (IDEA): Merge surfaces that share a material (17 surfaces for 9 meshes = 17 draw calls) _(from B11)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -45,7 +45,7 @@ Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** ·
 | R3 | Contrast vs ground | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R5 | Glow points at 40 m | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | headless | needs a windowed run (1600 x 900) |  |
-| R9 | Feet on the ground | PASS 100 | lowest point 0.02 m | -0.08 .. +0.05 m (art-units 1.6) |  |
+| R9 | Feet on the ground | PASS 100 | lowest point 0.019 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R8 | Head height vs body_height | PASS 94 | head top 1.77 m / body_height 1.6 (x1.11) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) |  |
 | R10 | Footprint vs selection radius | PASS 100 | x 0.64 / z 0.33 m (radius 0.45, from shade.tres) | x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
 
@@ -53,7 +53,13 @@ Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** ·
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 1.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO 33 | 24 shapes over 7 body parts (3.4 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 6); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C2 | Vertex use vs budget | INFO 64 | 52% of the 2500 verts budget used (1309) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, art-units.md 8, tier3-extras.md 12)
 `{"draw":14,"frame_ms":0.005,"lights":0,"meshes":26,"n":100,"runtime_mats":0,"soft":{"casters":4,"looping":1,"particles":10,"separate":6},"src":"art-units.md 8, tier3-extras.md 12","verts":2500}`

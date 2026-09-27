@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/neutral/stormbottle_genie/stormbottle_genie.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"stormbottle_genie"
+display_name = "Stormbottle Genie"
+faction = &"neutral"
+is_worker = false
+cost = 400
+pop = 4
+kill_xp = 200
+train_time = 45
+card_key = ""
+max_hp = 600
+move_speed = 4.6
+attack_damage = 30
+attack_range = 12
+attack_cooldown = 1.8
+aggro_range = 13
+radius = 0.7
+body_height = 2.6
+body_color = Color(0.95, 0.92, 0.7, 1)
+projectile_color = Color(1, 0.97, 0.6, 1)
+model_scene = ExtResource("2_model")
+armor = 5
+sight_radius = 14
+requires_tier = 3
+projectile_speed = 40.0
+model_path = "res://art/units/neutral/stormbottle_genie/stormbottle_genie.tscn"

@@ -1,15 +1,15 @@
 # Art Lab scorecard: deer
 
-Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-27 10:39:57 · lab v2.0 · **headless: render checks skipped**
+Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-27 13:52:05 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **99 / 100**
+## Result: **WARN** · quality **96 / 100** (96.0)
 
-0 FAIL · 0 WARN · 11 PASS · 7 info · 6 skipped · 0 s
+0 FAIL · 1 WARN · 10 PASS · 9 info · 6 skipped · 9 s
 
 ## Improve next
-1. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
-2. **Detail density at 25 m** (IDEA): Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m _(from shot z25)_
-3. **Key-read contrast** (IDEA): Put the lightest value and the team colour on the top-facing masses (seen from pitch 55), darker values low _(from shot z40)_
+1. **death_finished** (WARN): A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #1] _(from A2 death_finished)_
+2. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
+3. **Detail density at 25 m** (IDEA): Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m _(from shot z25)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -49,10 +49,17 @@ Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 5 present | play_idle, play_move, play_flee, play_hit, play_death |  |
-| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | **WARN** 45 | never (3 s) | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) | Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO 100 | 28 shapes over 1 body parts (28.0 per part: (root) 28); 3% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.872 | craft (lab v3.1): >= 7 separate shapes per body part, <= 30% plain boxes / prisms, normal variety >= 0.86 |  |
+| C2 | Vertex use vs budget | INFO 100 | 94% of the 1200 tris budget used (1134) | craft (lab v3.1): a finished model uses >= 80% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, map-fill.md 9 (game critter deer))
 `{"lights":0,"materials":1,"n":30,"soft":{"draw":6,"frame_ms":0.005,"runtime_mats":0},"src":"map-fill.md 9 (game critter deer)","tris":1200}`
 
 ## Notes
 - Per-mesh vertices (biggest first): Mesh 673 v / 1 s
+- Fix recipes: 1 in fixes.json (top: A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier))

@@ -1,0 +1,3 @@
+﻿res://art/units/ice/rimeling/rimeling.tscn kind=unit kingdom=ice
+res://art/units/nature/thistle_darter/thistle_darter.tscn kind=unit kingdom=nature ref=burr_slinger,sprigling,wildwood_archer
+res://art/units/nature/greenheart_oathkeeper/greenheart_oathkeeper.tscn kind=unit kingdom=nature tier=heavy ref=vinelasher,thornling,bramblehorn,glade_outrider

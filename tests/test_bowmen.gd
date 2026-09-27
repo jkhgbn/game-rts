@@ -117,7 +117,7 @@ func _setup_halls() -> void:
 		i += 1
 		var types := hall.trainable_types()
 		var want: StringName = BowmanKit.HALL_BOWMAN[f]
-		_check(types.size() == 5 and types[4].id == want, "%s Hall slot 5 is %s" % [f, str(types.map(func(t: UnitType) -> StringName: return t.id))])
+		_check(types.size() >= 5 and types[4].id == want, "%s Hall slot 5 is %s" % [f, str(types.map(func(t: UnitType) -> StringName: return t.id))])
 		_check(bt.trains.size() == 4 or bt.train_ids.size() == 4, "%s Hall data list changed" % f)
 	# Missions (Skirmish subclasses) never list bowmen: enabled_here() looks at the exact skirmish script.
 	_check(BowmanKit.hall_bowman(BuildingType.find("fire_keep")) == null, "a keep lists a bowman")

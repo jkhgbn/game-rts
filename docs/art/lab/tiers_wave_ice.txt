@@ -1,0 +1,4 @@
+﻿# tiers wave: new Ice models (tech-artist, medium)
+res://art/units/ice/rimeling/rimeling.tscn kind=unit kingdom=ice
+res://art/units/ice/hoarlight_magebow/hoarlight_magebow.tscn kind=unit kingdom=ice ref=frostbow,shardcaster,frostrune_rifleman
+res://art/units/ice/frost_mortar/frost_mortar.tscn kind=unit kingdom=ice tier=heavy

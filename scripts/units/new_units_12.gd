@@ -1,0 +1,427 @@
+class_name NewUnits12
+extends Node
+## Twelve new Hall units, 3 per kingdom, tier 1 to tier 2 (docs/design/new-units-12.md; JS 2026-09-27 "add 3 new
+## units each, T1 to T2, to each wizard"). Static side: which Hall lists which unit (slots 6-8, keys N M ,), the T2
+## gate, the bot shares. Instance side: one NewUnits12 node is added under each new unit (Unit._ready hook) and runs
+## its ability (autocast every 0.5 s, staggered, or a passive on the unit's own signals).
+## The whole feature hangs on ENABLED.
+
+## THE switch (new-units-12.md 1): false = no Hall lists a new unit, bots never train one, abilities never attach.
+const ENABLED := true
+
+## id -> faction, tier, card key (new-units-12.md 2). Order inside a kingdom = card order (slots 6, 7, 8).
+const UNITS := {
+	&"scorchling": {"faction": &"fire", "tier": 1, "key": "N"},
+	&"pyre_adept": {"faction": &"fire", "tier": 2, "key": "M"},
+	&"cinder_arbalest": {"faction": &"fire", "tier": 2, "key": ","},
+	&"barrow_ghoul": {"faction": &"shadow", "tier": 1, "key": "N"},
+	&"hexweaver": {"faction": &"shadow", "tier": 2, "key": "M"},
+	&"hollow_oathsworn": {"faction": &"shadow", "tier": 2, "key": ","},
+	&"rimeling": {"faction": &"ice", "tier": 1, "key": "N"},
+	&"hoarlight_magebow": {"faction": &"ice", "tier": 2, "key": "M"},
+	&"frost_mortar": {"faction": &"ice", "tier": 2, "key": ","},
+	&"thistle_darter": {"faction": &"nature", "tier": 1, "key": "N"},
+	&"vinelasher": {"faction": &"nature", "tier": 2, "key": "M"},
+	&"greenheart_oathkeeper": {"faction": &"nature", "tier": 2, "key": ","},
+}
+const HALL_UNITS := {
+	&"fire": [&"scorchling", &"pyre_adept", &"cinder_arbalest"],
+	&"shadow": [&"barrow_ghoul", &"hexweaver", &"hollow_oathsworn"],
+	&"ice": [&"rimeling", &"hoarlight_magebow", &"frost_mortar"],
+	&"nature": [&"thistle_darter", &"vinelasher", &"greenheart_oathkeeper"],
+}
+## Ability id per unit (model play_cast(spell_id), logs, icons art/icons/abilities/<id>.png).
+const ABILITY_IDS := {
+	&"scorchling": &"flashpoint", &"pyre_adept": &"flame_burst", &"cinder_arbalest": &"piercing_bolt",
+	&"barrow_ghoul": &"grave_feast", &"hexweaver": &"wither_hex", &"hollow_oathsworn": &"unbroken_vow",
+	&"rimeling": &"frostbite", &"hoarlight_magebow": &"frost_needle", &"frost_mortar": &"frost_shell",
+	&"thistle_darter": &"skitter", &"vinelasher": &"snare_lash", &"greenheart_oathkeeper": &"grove_oath",
+}
+## Command card tooltip line per unit (command_card.gd falls back to it).
+const DESCRIPTIONS := {
+	&"scorchling": "Tier 1. Fast fire imp. Flashpoint: bursts for 15 on death.",
+	&"pyre_adept": "Tier 2 caster. Flame Burst: 30 to a clump of 3+ enemies (14 s).",
+	&"cinder_arbalest": "Tier 2 crossbow. Piercing bolt: half damage to the enemy behind.",
+	&"barrow_ghoul": "Tier 1 melee. Grave Feast: heals 30 % on a kill.",
+	&"hexweaver": "Tier 2 caster. Wither Hex: the costliest enemy deals -20 % for 6 s (10 s).",
+	&"hollow_oathsworn": "Tier 2 swordsman. Unbroken Vow: under 35 % HP, shield 100 and +30 % damage (45 s).",
+	&"rimeling": "Tier 1. Cheap frost goblin; every hit chills 1 s.",
+	&"hoarlight_magebow": "Tier 2 mage archer, quick to train. Frost Needle: 20 + chill (8 s).",
+	&"frost_mortar": "Tier 2 siege. Frost Shell: full damage and chill in 2 m.",
+	&"thistle_darter": "Tier 1 skirmisher. Skitter: faster for 1.5 s after each dart.",
+	&"vinelasher": "Tier 2 whip. Snare Lash: 10 and rooted 1.5 s (10 s).",
+	&"greenheart_oathkeeper": "Tier 2 swordsman. Grove Oath: taunts enemies in 5 m and braces (14 s).",
+}
+## Bot target share of soldier pop (small: the four old slots keep their AIProfile mix, the bowman 0.08-0.10).
+const BOT_SHARE := {1: 0.06, 2: 0.05}
+
+## The tier-2 gate (new-units-12.md 3). The real gate is the tier system (tiers-wave.md): the T2 .tres files set
+## `requires_tier = 2` and TrainingBuilding refuses "Requires Stronghold". This file's own stop-gap gate (a completed
+## own Bazaar OR a second completed own Hall) stays behind OWN_T2_GATE, OFF since the tier system landed.
+const OWN_T2_GATE := false
+const REASON_T2 := "Requires a Bazaar or a second Hall"
+
+## Ability numbers (new-units-12.md 4).
+const TICK := 0.5
+const FLASHPOINT := {"damage": 15.0, "radius": 2.0}
+const FLAME_BURST := {"cd": 14.0, "range": 8.0, "radius": 2.5, "min_count": 3, "damage": 30.0}
+const PIERCE := {"radius": 3.0, "ratio": 0.5}
+const GRAVE_FEAST := {"heal_pct": 0.30}
+const WITHER_HEX := {"cd": 10.0, "range": 9.0, "time": 6.0, "attack_pct": -0.20}
+const WITHER_MOD := &"status_withered"
+const WITHER_META := &"nu12_withered_until"
+const VOW := {"cd": 45.0, "hp_pct": 0.35, "shield": 100.0, "time": 6.0, "attack_pct": 0.30}
+const VOW_MOD := &"ability:unbroken_vow"
+const FROST_NEEDLE := {"cd": 8.0, "range": 10.0, "damage": 20.0, "chill": 1.0}
+const FROST_SHELL := {"radius": 2.0, "chill": 1.5, "building_mult": 1.5}
+const SKITTER := {"speed": 1.0, "time": 1.5}
+const SKITTER_MOD := &"ability:skitter"
+const SNARE_LASH := {"cd": 10.0, "range": 5.0, "damage": 10.0, "root": 1.5}
+const GROVE_OATH := {"cd": 14.0, "radius": 5.0, "taunt": 2.5, "brace": 4.0}
+
+const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"
+const NODE_NAME := "NewUnitAbility"
+
+## Tests on any scene may set this true (the Halls list the new units only in a real skirmish otherwise).
+static var force_enabled := false
+
+var unit: Unit
+var id: StringName = &""
+var casts := 0              ## Times the ability fired (tests, balance logs).
+var _tick_left := TICK
+var _cd_left := 0.0
+var _mod_left := 0.0        ## Timed self modifier (Vow, Skitter).
+
+
+# ---------------------------------------------------------------- static: roster, gate, bots
+
+static func is_new_unit(type_id: StringName) -> bool:
+	return ENABLED and UNITS.has(type_id)
+
+
+static func description(type_id: StringName) -> String:
+	if not is_new_unit(type_id):
+		return ""
+	var gate := (REASON_T2 if OWN_T2_GATE else "Tier 2: requires Stronghold") if tier_of(type_id) >= 2 else ""
+	return String(DESCRIPTIONS.get(type_id, "")) + ("\n" + gate if gate != "" else "")
+
+
+static func tier_of(type_id: StringName) -> int:
+	return int((UNITS.get(type_id, {}) as Dictionary).get("tier", 0))
+
+
+## True when the Halls of the current game list the new units: the plain skirmish (missions extend it: off).
+static func enabled_here() -> bool:
+	if not ENABLED:
+		return false
+	if force_enabled:
+		return true
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null or tree.current_scene == null:
+		return false
+	var s: Variant = tree.current_scene.get_script()
+	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
+
+
+## The new units a Hall of `building_type` adds after its bowman (TrainingBuilding.trainable_types). [] otherwise.
+static func hall_units(building_type: Resource) -> Array[UnitType]:
+	var out: Array[UnitType] = []
+	if building_type == null or StringName(building_type.get(&"kind")) != &"barracks" or not enabled_here():
+		return out
+	for uid: StringName in HALL_UNITS.get(StringName(building_type.get(&"faction")), []):
+		var t := UnitType.find(String(uid))
+		if t:
+			out.append(t)
+	return out
+
+
+## "" when `team` may train `type` now, else the refusal (TrainingBuilding.can_queue, bots, card).
+static func gate_reason(type: UnitType, team: int) -> String:
+	if not OWN_T2_GATE or type == null or tier_of(type.id) < 2 or not ENABLED:
+		return ""
+	return "" if t2_open(team) else REASON_T2
+
+
+## Tier 2 is open for `team`: a completed own Bazaar, or two completed own Halls.
+static func t2_open(team: int) -> bool:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return false
+	var halls := 0
+	for n in tree.get_nodes_in_group(&"buildings"):
+		var b := n as Building
+		if b == null or int(b.team) != team or not b.is_alive() or not b.is_constructed() or b.building_type == null:
+			continue
+		var kind := b.building_type.kind
+		if kind == &"market" or b.is_in_group(&"markets"):
+			return true
+		if kind == &"barracks":
+			halls += 1
+			if halls >= 2:
+				return true
+	return false
+
+
+## Bot target share for a Hall slot past the AIProfile mix (commander _pick_soldier). 0 for anything else.
+static func bot_share(type_id: StringName) -> float:
+	if not is_new_unit(type_id):
+		return 0.0
+	return float(BOT_SHARE.get(tier_of(type_id), 0.0))
+
+
+## Unit._ready: adds the ability node under a new unit.
+static func attach(u: Unit) -> void:
+	if u == null or u.unit_type == null or not is_new_unit(u.unit_type.id) or u.has_node(NODE_NAME):
+		return
+	var n := NewUnits12.new()
+	n.name = NODE_NAME
+	n.unit = u
+	n.id = u.unit_type.id
+	u.add_child(n)
+
+
+## The ability node of a new unit, or null.
+static func ability_of(u: Node) -> NewUnits12:
+	return u.get_node_or_null(NODE_NAME) as NewUnits12 if u else null
+
+
+# ---------------------------------------------------------------- instance: the ability
+
+func _ready() -> void:
+	if unit == null:
+		unit = get_parent() as Unit
+	# Stagger the 0.5 s checks so a clump of casters does not tick on the same frame.
+	_tick_left = TICK * float(get_instance_id() % 10) / 10.0 + 0.05
+	match id:
+		&"scorchling":
+			unit.died.connect(_on_died_flashpoint)
+		&"cinder_arbalest", &"barrow_ghoul", &"frost_mortar", &"thistle_darter":
+			unit.attack_landed.connect(_on_attack_landed)
+		&"hollow_oathsworn":
+			unit.damage_taken.connect(_on_damage_taken)
+
+
+func _physics_process(delta: float) -> void:
+	if unit == null or not unit.is_alive():
+		return
+	if _cd_left > 0.0:
+		_cd_left -= delta
+	if _mod_left > 0.0:
+		_mod_left -= delta
+		if _mod_left <= 0.0:
+			unit.remove_modifier(VOW_MOD if id == &"hollow_oathsworn" else SKITTER_MOD)
+	_tick_left -= delta
+	if _tick_left > 0.0:
+		return
+	_tick_left += TICK
+	if _cd_left > 0.0 or not unit.can_act():
+		return
+	match id:
+		&"pyre_adept":
+			_try_flame_burst()
+		&"hexweaver":
+			_try_wither_hex()
+		&"hoarlight_magebow":
+			_try_frost_needle()
+		&"vinelasher":
+			_try_snare_lash()
+		&"greenheart_oathkeeper":
+			_try_grove_oath()
+
+
+# Scorchling: on death, 15 to enemy units within 2 m (never buildings, never own units).
+func _on_died_flashpoint(_u: Unit) -> void:
+	var at := unit.global_position
+	for e in _enemies_near(at, float(FLASHPOINT["radius"])):
+		e.take_damage(float(FLASHPOINT["damage"]), unit)
+	casts += 1
+
+
+# Pyre Adept: a point (an enemy's spot) within 8 m with >= 3 enemy units within 2.5 m: 30 to each of them.
+func _try_flame_burst() -> void:
+	var r := float(FLAME_BURST["radius"])
+	var best: Array[Unit] = []
+	for c in _enemies_near(unit.global_position, float(FLAME_BURST["range"])):
+		var group := _enemies_near(c.global_position, r)
+		if group.size() > best.size():
+			best = group
+	if best.size() < int(FLAME_BURST["min_count"]):
+		return
+	for e in best:
+		e.take_damage(float(FLAME_BURST["damage"]), unit)
+	_cast_fx()
+	_cd_left = float(FLAME_BURST["cd"])
+
+
+# Hexweaver: the highest-cost enemy soldier in range not already withered: attack -20 % for 6 s (heroes 3 s).
+func _try_wither_hex() -> void:
+	var now := _now()
+	var pick: Unit = null
+	for e in _enemies_near(unit.global_position, float(WITHER_HEX["range"])):
+		if e is Wizard:
+			continue   # wizards are immune
+		if e.unit_type and e.unit_type.is_worker:
+			continue
+		if float(e.get_meta(WITHER_META, 0.0)) > now:
+			continue
+		if pick == null or _cost(e) > _cost(pick):
+			pick = e
+	if pick == null:
+		return
+	var t := float(WITHER_HEX["time"])
+	if pick.is_in_group(&"champions"):
+		t *= 0.5
+	apply_withered(pick, t)
+	_cast_fx()
+	_cd_left = float(WITHER_HEX["cd"])
+
+
+## `withered` (new-units-12.md 4): attack_damage_pct -0.20 for `seconds`, never stacks with itself.
+static func apply_withered(target: Unit, seconds: float) -> void:
+	var until := _now() + seconds
+	target.set_meta(WITHER_META, until)
+	target.add_modifier(WITHER_MOD, {&"attack_damage_pct": float(WITHER_HEX["attack_pct"])})
+	var tree := target.get_tree()
+	if tree == null:
+		return
+	var ref: WeakRef = weakref(target)
+	tree.create_timer(seconds, false, true).timeout.connect(func() -> void:
+		var u := ref.get_ref() as Unit
+		if u and float(u.get_meta(WITHER_META, 0.0)) <= _now() + 0.01:
+			u.remove_modifier(WITHER_MOD))
+
+
+# Hollow Oathsworn: the first hit that leaves it under 35 % HP (every 45 s): shield 100 + attack +30 % for 6 s.
+func _on_damage_taken(_amount: float, _attacker: Node3D) -> void:
+	if _cd_left > 0.0 or not unit.is_alive() or unit.hp > unit.max_hp * float(VOW["hp_pct"]):
+		return
+	unit.add_shield(float(VOW["shield"]), float(VOW["time"]))
+	unit.add_modifier(VOW_MOD, {&"attack_damage_pct": float(VOW["attack_pct"])})
+	_mod_left = float(VOW["time"])
+	_cd_left = float(VOW["cd"])
+	_cast_fx()
+
+
+# Hoarlight Magebow: a weak spell: 20 + chill 1 s on its target (else the nearest enemy unit) within 10 m.
+func _try_frost_needle() -> void:
+	var target := unit.attack_target as Unit
+	var rng := float(FROST_NEEDLE["range"])
+	if target == null or not target.is_alive() or not unit.is_enemy_of(target) \
+			or _flat(target.global_position, unit.global_position) > rng + target.radius:
+		target = _nearest_enemy(rng)
+	if target == null:
+		return
+	target.take_damage(float(FROST_NEEDLE["damage"]), unit)
+	if target.is_alive():
+		target.apply_status(&"chill", maxf(float(FROST_NEEDLE["chill"]), target.status_time_left(&"chill")))
+	_cast_fx()
+	_cd_left = float(FROST_NEEDLE["cd"])
+
+
+# Vinelasher: the nearest enemy unit within 5 m: 10 + rooted 1.5 s (heroes half, by apply_status).
+func _try_snare_lash() -> void:
+	var target := _nearest_enemy(float(SNARE_LASH["range"]))
+	if target == null:
+		return
+	target.take_damage(float(SNARE_LASH["damage"]), unit)
+	target.apply_status(&"rooted", float(SNARE_LASH["root"]))
+	_cast_fx()
+	_cd_left = float(SNARE_LASH["cd"])
+
+
+# Greenheart Oathkeeper: enemies within 5 m are taunted onto it for 2.5 s; it braces (damage taken x0.7) 4 s.
+func _try_grove_oath() -> void:
+	var near := _enemies_near(unit.global_position, float(GROVE_OATH["radius"]))
+	if near.is_empty():
+		return
+	for e in near:
+		e.apply_status(&"taunted", float(GROVE_OATH["taunt"]), false, unit)
+	unit.apply_status(&"braced", float(GROVE_OATH["brace"]), true)
+	_cast_fx()
+	_cd_left = float(GROVE_OATH["cd"])
+
+
+# Passives on a landed attack (Arbalest pierce, Ghoul feast, Mortar shell, Darter skitter).
+func _on_attack_landed(target: Node3D, _amount: float) -> void:
+	if unit == null:
+		return
+	match id:
+		&"cinder_arbalest":
+			var victim := target as Unit
+			if victim == null:
+				return
+			var dir := victim.global_position - unit.global_position
+			var best: Unit = null
+			var best_d := INF
+			for e in _enemies_near(victim.global_position, float(PIERCE["radius"])):
+				if e == victim or dir.dot(e.global_position - victim.global_position) < 0.0:
+					continue   # only enemies behind the first one (the bolt flies on)
+				var d := _flat(e.global_position, victim.global_position)
+				if d < best_d:
+					best_d = d
+					best = e
+			if best:
+				best.take_damage(unit.attack_damage * float(PIERCE["ratio"]), unit)
+				casts += 1
+		&"barrow_ghoul":
+			var victim := target as Unit
+			if victim and not victim.is_alive() and unit.is_alive():
+				unit.heal(unit.max_hp * float(GRAVE_FEAST["heal_pct"]))
+				casts += 1
+		&"frost_mortar":
+			var at := target.global_position
+			for e in _enemies_near(at, float(FROST_SHELL["radius"])):
+				if e != target:
+					e.take_damage(unit.attack_damage, unit)
+				if e.is_alive():
+					e.apply_status(&"chill", maxf(float(FROST_SHELL["chill"]), e.status_time_left(&"chill")))
+			if target is Building and target.has_method(&"take_damage"):
+				target.call(&"take_damage", unit.attack_damage * (float(FROST_SHELL["building_mult"]) - 1.0), unit)
+			casts += 1
+		&"thistle_darter":
+			if unit.is_alive():
+				unit.add_modifier(SKITTER_MOD, {&"move_speed": float(SKITTER["speed"])})
+				_mod_left = float(SKITTER["time"])
+				casts += 1
+
+
+# ---------------------------------------------------------------- helpers
+
+func _cast_fx() -> void:
+	casts += 1
+	if unit.model_has(&"play_cast"):
+		unit.model_call(&"play_cast", [ABILITY_IDS.get(id, id)])
+
+
+func _enemies_near(at: Vector3, r: float) -> Array[Unit]:
+	var out: Array[Unit] = []
+	for n in unit.get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u == null or u == unit or not u.is_alive() or not unit.is_enemy_of(u):
+			continue
+		if _flat(u.global_position, at) <= r + u.radius:
+			out.append(u)
+	return out
+
+
+func _nearest_enemy(r: float) -> Unit:
+	var best: Unit = null
+	var best_d := INF
+	for e in _enemies_near(unit.global_position, r):
+		var d := _flat(e.global_position, unit.global_position)
+		if d < best_d:
+			best_d = d
+			best = e
+	return best
+
+
+static func _cost(u: Unit) -> int:
+	return u.unit_type.cost if u.unit_type else 0
+
+
+static func _flat(a: Vector3, b: Vector3) -> float:
+	return Vector2(a.x - b.x, a.z - b.z).length()
+
+
+static func _now() -> float:
+	return float(Engine.get_physics_frames()) / float(maxi(1, Engine.physics_ticks_per_second))

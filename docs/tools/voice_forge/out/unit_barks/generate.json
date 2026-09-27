@@ -1,0 +1,25 @@
+{
+ "rendered": 0,
+ "unchanged": 284,
+ "gen_s": 0.0,
+ "audio_s": 0.0,
+ "rtf": null,
+ "wall_s": 0.2,
+ "providers": [],
+ "model_load_s": 0,
+ "total_lines": 284,
+ "total_audio_s": 624.6,
+ "fit": "1",
+ "fitted": [],
+ "at": "2026-09-27 18:08:14",
+ "last_render": {
+  "rendered": 176,
+  "gen_s": 1828.3,
+  "audio_s": 266.5,
+  "rtf": 6.86,
+  "providers": [
+   "CPUExecutionProvider"
+  ],
+  "at": "2026-09-27 18:05:19"
+ }
+}

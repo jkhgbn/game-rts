@@ -62,7 +62,7 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "shadow",
-	"quality": 94.3,
+	"quality": 89.8,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
 	"tier": "soldier",

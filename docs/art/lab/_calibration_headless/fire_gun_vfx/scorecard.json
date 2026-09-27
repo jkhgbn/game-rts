@@ -160,14 +160,14 @@
 	],
 	"kind": "vfx",
 	"kingdom": "fire",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [],
 	"previous_quality": -1.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "res://art/vfx/unit_fire_gun_vfx.gd",
-	"seconds": 0.4,
+	"seconds": 13.7,
 	"shots": {},
-	"started": "2026-09-27 10:39:57",
+	"started": "2026-09-27 13:51:51",
 	"tier": "family"
 }

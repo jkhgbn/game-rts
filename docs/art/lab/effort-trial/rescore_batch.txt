@@ -1,0 +1,5 @@
+# Art Lab v3.1 rescore of the 4 effort-trial Vinelashers (one batch; docs/art/lab/effort-trial/rescore.md)
+res://art/units/_effort_trial/low/vinelasher.tscn name=low kind=unit kingdom=nature reach=3.0 ref=thornling,bramblehorn,burr_slinger compare=docs/art/lab/effort-trial/low
+res://art/units/_effort_trial/medium/vinelasher.tscn name=medium kind=unit kingdom=nature reach=3.0 ref=thornling,bramblehorn,burr_slinger compare=docs/art/lab/effort-trial/medium
+res://art/units/_effort_trial/high/vinelasher.tscn name=high kind=unit kingdom=nature reach=3.0 ref=thornling,bramblehorn,burr_slinger compare=docs/art/lab/effort-trial/high
+res://art/units/_effort_trial/xhigh/vinelasher.tscn name=xhigh kind=unit kingdom=nature reach=3.0 ref=thornling,bramblehorn,burr_slinger compare=docs/art/lab/effort-trial/xhigh

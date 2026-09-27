@@ -29,6 +29,8 @@ const DIR := "res://data/units/"
 @export var projectile_speed := 25.0
 @export var eye_color := Color(0.95, 0.9, 0.8)   ## The visor on the placeholder capsule.
 @export var model_scene: PackedScene
+## Keep tier needed to train it (tiers.md): 1 = always, 2 = Stronghold, 3 = Citadel (TierSystem.tier_of).
+@export var requires_tier := 1
 
 @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
 ## Base `armor` stat (damage x 100 / (100 + armor)); items add on top.

@@ -398,6 +398,8 @@ func living_champions() -> Array:
 			continue
 		if ch.has_method(&"is_alive") and not bool(ch.call(&"is_alive")):
 			continue
+		if ch.is_in_group(&"helpers"):
+			continue   # t3-helpers.md 2.1: bounties never steer or pay a tier-3 helper
 		out.append(ch)
 	return out
 

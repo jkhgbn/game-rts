@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/helpers/helper_hush/helper_hush.gd" id="1_hush"]
+
+[node name="HelperHush" type="Node3D"]
+script = ExtResource("1_hush")
+light_energy = 0.0
+body_height = 2.0
+attack_style = &"dual_slash"
+death_style = &"sink"
+stride_time = 0.5
+stride_speed = 5.2
+leg_swing_deg = 32.0
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+
+[node name="LegL" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, -0.02, 0)
+
+[node name="LegR" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, -0.02, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36, 0.47, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36, 0.47, 0)
+
+[node name="Fx" type="Node3D" parent="."]

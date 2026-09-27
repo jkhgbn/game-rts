@@ -1,0 +1,76 @@
+{
+	"asset": "fire_tower",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-51813",
+					"material_path": "",
+					"to": "StandardMaterial3D#-58204",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-22742",
+					"material_path": "",
+					"to": "StandardMaterial3D#-58204",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 19.8,
+					"material": "ShaderMaterial#-70990",
+					"material_path": "",
+					"to": "ShaderMaterial#-98827",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 37.8,
+					"material": "ShaderMaterial#-44393",
+					"material_path": "",
+					"to": "ShaderMaterial#-21610",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 58.5,
+					"material": "ShaderMaterial#-21610",
+					"material_path": "",
+					"to": "ShaderMaterial#-98827",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 83.1,
+					"material": "StandardMaterial3D#-88613",
+					"material_path": "",
+					"to": "StandardMaterial3D#-58204",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 12
+			},
+			"predicted": {
+				"materials": 6
+			},
+			"proposal": "12 -> 6 materials: use one material for look-alike pairs: `StandardMaterial3D#-51813` -> `StandardMaterial3D#-58204` (dE 0.0), `StandardMaterial3D#-22742` -> `StandardMaterial3D#-58204` (dE 0.0), `ShaderMaterial#-70990` -> `ShaderMaterial#-98827` (dE 19.8), `ShaderMaterial#-44393` -> `ShaderMaterial#-21610` (dE 37.8), `ShaderMaterial#-21610` -> `ShaderMaterial#-98827` (dE 58.5), `StandardMaterial3D#-88613` -> `StandardMaterial3D#-58204` (dE 83.1)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B8 12 -> 6 materials: use one material for look-alike pairs: `StandardMaterial3D#-51813` -> `StandardMaterial3D#-58204` (dE 0.0), `StandardMaterial3D#-22742` -> `StandardMaterial3D#-58204` (dE 0.0), `ShaderMaterial#-70990` -> `ShaderMaterial#-98827` (dE 19.8), `ShaderMaterial#-44393` -> `ShaderMaterial#-21610` (dE 37.8), `ShaderMaterial#-21610` -> `ShaderMaterial#-98827` (dE 58.5), `StandardMaterial3D#-88613` -> `StandardMaterial3D#-58204` (dE 83.1)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 6"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 94.0,
+	"result": "WARN",
+	"scene": "res://art/buildings/fire_tower.tscn",
+	"tier": "small",
+	"version": "1.0"
+}

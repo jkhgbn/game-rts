@@ -1,10 +1,10 @@
 # Art Lab scorecard: aqueduct
 
-Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-27 10:39:57 · lab v2.0 · **headless: render checks skipped**
+Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-27 13:51:46 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **100 / 100**
+## Result: **PASS** · quality **99 / 100** (99.2)
 
-0 FAIL · 0 WARN · 10 PASS · 5 info · 6 skipped · 0 s
+0 FAIL · 0 WARN · 10 PASS · 7 info · 6 skipped · 5 s
 
 ## Improve next
 1. **Dominant vertical + asymmetric secondary** (IDEA): Push the one dominant vertical 10-15 % taller and make the secondary element clearly one-sided _(from silhouette)_
@@ -43,6 +43,12 @@ Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tie
 | R5 | Glow points at 40 m | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R9 | Ground contact | PASS 100 | lowest point -1.22 m | touches the ground (<= 0.05 m) and sinks < 1 m (art-keep 0.1 / 0.5) |  |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO 100 | 232 shapes over 1 body parts (232.0 per part: (root) 232); 88% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.841 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.83 |  |
+| C2 | Vertex use vs budget | INFO 93 | 38% of the 20000 verts budget used (7666) | craft (lab v3.1): a finished model uses >= 40% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, map-fill.md 9 (emission only, shadows allowed); counts = lab defaults)
 `{"lights":0,"n":4,"soft":{"draw":24,"frame_ms":0.05,"looping":2,"materials":6,"verts":20000},"src":"map-fill.md 9 (emission only, shadows allowed); counts = lab defaults"}`

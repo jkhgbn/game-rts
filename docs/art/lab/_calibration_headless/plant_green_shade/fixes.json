@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "shadow",
-	"quality": 99.3,
+	"quality": 90.8,
 	"result": "PASS",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_green_shade.tscn",
 	"tier": "soldier",

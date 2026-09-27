@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_p"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_n"]
+
+[resource]
+resource_name = "vey_coat"
+render_priority = 0
+shader = ExtResource("1_p")
+shader_parameter/base_color = Color(0.25, 0.26, 0.31, 1)
+shader_parameter/noise_tex = ExtResource("2_n")
+shader_parameter/spec_strength = 0
+shader_parameter/rim_strength = 0.3

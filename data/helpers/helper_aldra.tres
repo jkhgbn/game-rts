@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="HelperType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/helper_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_aldra/helper_aldra.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"helper_aldra"
+display_name = "Aldra Stillwater"
+title = "The Glass Warden"
+kingdom = &"ice"
+bonded_wizard_id = &"torvald"
+hp_base = 620.0
+hp_per_level = 45.0
+damage_base = 18.0
+damage_per_level = 2.0
+armor = 15.0
+attack_range = 9.0
+attack_cooldown = 1.3
+move_speed = 4.4
+sight = 13.0
+aggro = 11.0
+kind = &"ranged"
+ability_ids = Array[StringName]([&"aldra_shatter", &"aldra_aegis", &"aldra_sentinel"])
+passive_id = &"aldra_ward"
+body_height = 1.9
+color = Color(0.62, 0.95, 0.88, 1)
+projectile_color = Color(0.7, 1, 0.95, 1)
+model_scene = ExtResource("2_model")
+model_path = "res://art/units/helpers/helper_aldra/helper_aldra.tscn"
+voice_prefix = "helper_aldra"

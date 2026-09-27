@@ -170,10 +170,16 @@ func map_fill_reason(rect: Rect2) -> String:
 
 
 ## Position-free building prerequisite for the build menu (the button's reason) and check():
+## first the keep tier (`type.requires_tier`: "Requires Stronghold" / "Requires Citadel", tiers.md), then
 ## MSG_NEEDS_HALL while `type.requires_kind` is set and `team` has no completed, living building of
 ## that kind (a Hall under construction does not count), else "".
 static func prerequisite_reason(type: BuildingType, team: int) -> String:
-	if type == null or type.requires_kind == &"":
+	if type == null:
+		return ""
+	var tier_gate := TierSystem.gate_reason(type.requires_tier, team)   # tiers.md: Stronghold / Citadel
+	if tier_gate != "":
+		return tier_gate
+	if type.requires_kind == &"":
 		return ""
 	for b in Building.for_team(team):
 		if b.building_type and b.building_type.kind == type.requires_kind and b.is_constructed():

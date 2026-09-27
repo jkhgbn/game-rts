@@ -213,3 +213,11 @@ Unit wrappers (use them instead of `get_model()` + `has_method`): `set_loot(amou
 ## Caravans cost no supply (lead, 2026-09-27, user request)
 caravan.tres pop 1 -> 0. commander.gd ~2631 still keeps CARAVAN_POP_FREE free pop before training one, and ai_trade.gd F4 cuts the caravan target at the pop cap; both are now moot for caravans. Remove / relax them and re-run test_10_a3 + a Bot Lab batch.
 
+
+- 2026-09-27 (gameplay-coder, new-units-12.md): FYI `commander._pick_soldier` now skips slots whose `can_queue` starts with "Requires" (tier-gated) and gives Hall slots past the mix `BowmanKit.bot_share + NewUnits12.bot_share` (T1 0.06, T2 0.05). Please review.
+
+- 2026-09-27 (systems-coder, tiers wave, docs/design/tiers.md 4-5): FYI I added two hooks at the top of
+  `commander._rule_train` (before the bowman one): `TierSystem.bot_try_upgrade(team, _keep, _eco, difficulty)` (keep
+  Stronghold / Citadel on the per-difficulty timeline `TierSystem.BOT_START`; returns true while saving for it, max 45 s)
+  and `UnitUpgrades.bot_try_buy(team, _barracks, _eco, _now)` ("+" upgrades). Feel free to move them into your own rule /
+  AIProfile knobs (e.g. `rush_t3` profile times from t3-helpers.md 9).

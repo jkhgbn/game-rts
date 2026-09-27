@@ -196,6 +196,34 @@
 			"weight": 1.0
 		},
 		{
+			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.83",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "232 shapes over 1 body parts (232.0 per part: (root) 232); 88% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.841",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.9332,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 40% of its tier budget (under-use = detail left on the table; over is B4)",
+			"score": 0.9332,
+			"shot": "close",
+			"status": "INFO",
+			"value": "38% of the 20000 verts budget used (7666)",
+			"weight": 1.0
+		},
+		{
 			"graded": -1.0,
 			"group": "read",
 			"hint": "",
@@ -310,7 +338,7 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 5,
+		"INFO": 7,
 		"PASS": 10,
 		"SKIP": 6,
 		"WARN": 0
@@ -342,16 +370,16 @@
 	],
 	"kind": "landmark",
 	"kingdom": "neutral",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Model 7666 v / 2 s"
 	],
 	"previous_quality": -1.0,
-	"quality": 100.0,
+	"quality": 99.2,
 	"result": "PASS",
 	"scene": "res://art/environment/landmarks/aqueduct.tscn",
-	"seconds": 0.1,
+	"seconds": 4.8,
 	"shots": {},
-	"started": "2026-09-27 10:39:57",
+	"started": "2026-09-27 13:51:46",
 	"tier": "landmark"
 }

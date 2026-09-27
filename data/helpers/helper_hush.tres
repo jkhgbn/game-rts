@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="HelperType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/helper_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_hush/helper_hush.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"helper_hush"
+display_name = "Mother Hush"
+title = "The Knife That Never Misses"
+kingdom = &"shadow"
+bonded_wizard_id = &"malrik"
+hp_base = 520.0
+hp_per_level = 35.0
+damage_base = 24.0
+damage_per_level = 3.0
+armor = 10.0
+attack_range = 1.6
+attack_cooldown = 1.0
+move_speed = 5.4
+sight = 13.0
+aggro = 11.0
+kind = &"melee"
+ability_ids = Array[StringName]([&"hush_blink", &"hush_smoke", &"hush_knives"])
+passive_id = &"hush_veil"
+body_height = 1.8
+color = Color(0.6, 0.5, 0.75, 1)
+projectile_color = Color(0.7, 0.5, 0.9, 1)
+model_scene = ExtResource("2_model")
+model_path = "res://art/units/helpers/helper_hush/helper_hush.tscn"
+voice_prefix = "helper_hush"

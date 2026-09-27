@@ -54,6 +54,7 @@ var highlighted: StringName = &""   ## The row the window was opened at (gold ri
 var last_result := ""               ## The last hire / revive answer ("" = done).
 var gold_label: Label               ## Title-bar gold (shown only with a GoldBank).
 var _gold_items: Array[Control] = []
+var genie_button: Button            ## Footer "Wonders" button: hire / re-bottle the Stormbottle Genie (T3Kit).
 
 var _dismiss_left: Dictionary = {}  ## row index -> seconds left to confirm the dismiss.
 var _refresh_left := 0.0
@@ -156,8 +157,17 @@ func _ready() -> void:
 
 	footer = UIStyle.panel_label("", 12)
 	footer.position = Vector2(0, FOOTER_Y)
-	footer.size = Vector2(600, 18)
+	footer.size = Vector2(420, 18)
 	_inner.add_child(footer)
+	# t3-helpers.md 7.1 "Wonders": the neutral Stormbottle Genie, one per team, from the Citadel (T3Kit, switch ENABLED).
+	genie_button = Button.new()
+	genie_button.position = Vector2(424, FOOTER_Y - 3)
+	genie_button.size = Vector2(172, 22)
+	genie_button.focus_mode = Control.FOCUS_NONE
+	genie_button.add_theme_font_size_override("font_size", 12)
+	genie_button.visible = false
+	genie_button.pressed.connect(press_genie)
+	_inner.add_child(genie_button)
 	roster_label = UIStyle.panel_label("Roster 0 / 3", 12)
 	roster_label.position = Vector2(600, FOOTER_Y)
 	roster_label.size = Vector2(140, 18)
@@ -458,12 +468,47 @@ func refresh() -> void:
 		if rows[i].state == &"hireable" or rows[i].state == &"refused":
 			any_free = true
 			held = held and rows[i].reason == "Enemies hold both taverns"
+	_refresh_genie()
 	if not open_now:
 		closed_label.text = "The tavern opens at %s" % ChampionBar.OPENS_AT
 	elif held and any_free:
 		closed_label.text = "Enemies hold both taverns"
 	else:
 		closed_label.text = ""
+
+
+## Hires the Stormbottle Genie (or re-bottles a fallen one). "" = done, else the refusal (also sent as a message).
+func press_genie() -> String:
+	var r := T3Kit.hire_genie(team)
+	if r != "":
+		message.emit(r)
+	refresh()
+	return r
+
+
+func _refresh_genie() -> void:
+	if genie_button == null:
+		return
+	var wonders := T3Kit.wonders_for(team)
+	genie_button.visible = not wonders.is_empty()
+	if wonders.is_empty():
+		return
+	var roster := HelperRoster.for_team(team)
+	var st: StringName = roster.genie_state if roster else &"none"
+	var reason := T3Kit.can_hire_genie(team)
+	match st:
+		&"hiring":
+			genie_button.text = "Genie: on its way"
+		&"alive":
+			genie_button.text = "Genie: hired"
+		&"bottled":
+			genie_button.text = "Unbottle Genie  %d e" % T3Kit.GENIE_REVIVE_ESSENCE
+		_:
+			genie_button.text = "Stormbottle Genie  %d" % T3Kit.GENIE_COST
+	genie_button.disabled = reason != ""
+	genie_button.tooltip_text = "Stormbottle Genie (tier 3, one per team)\n%s\n%s" % [
+			T3Kit.description(T3Kit.GENIE_ID), reason if reason != "" else "%d crystals · Pop 4 · %d s" % [
+			T3Kit.GENIE_COST, roundi(T3Kit.GENIE_TIME)]]
 
 
 # ---------------------------------------------------------------- one row

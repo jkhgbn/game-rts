@@ -1,0 +1,9 @@
+# Tiers wave: icons for the 5 new models (tech-artist, medium). Lens renders 256 px into art/icons/lens/units/;
+# the 64 px copies go to art/icons/units/<id>.png.
+#   .\tools\lens\run_lens.ps1 icons src=res://docs/art/lab/tiers_wave_icons.lens
+icons units  kind=units  size=256  yaw=30  pitch=20  fill=0.72  bg=kingdom
+  icon rimeling               res://art/units/ice/rimeling/rimeling.tscn                                faction=ice
+  icon hoarlight_magebow      res://art/units/ice/hoarlight_magebow/hoarlight_magebow.tscn              faction=ice
+  icon frost_mortar           res://art/units/ice/frost_mortar/frost_mortar.tscn                        faction=ice
+  icon thistle_darter         res://art/units/nature/thistle_darter/thistle_darter.tscn                 faction=nature
+  icon greenheart_oathkeeper  res://art/units/nature/greenheart_oathkeeper/greenheart_oathkeeper.tscn   faction=nature

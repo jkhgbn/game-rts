@@ -30,6 +30,12 @@ var _flag: Node3D
 func _ready() -> void:
 	super()
 	_build_flag()
+	unit_trained.connect(_on_unit_trained_plus)
+
+
+## docs/design/tiers.md 5: every unit that comes out (bowman twins too) gets the team's "+" if researched.
+func _on_unit_trained_plus(unit: Unit) -> void:
+	UnitUpgrades.apply_to(unit)
 
 
 # ---------------------------------------------------------------- public
@@ -47,6 +53,21 @@ func trainable_types() -> Array[UnitType]:
 			var bow := BowmanKit.hall_bowman(building_type)
 			if bow and not types.has(bow):
 				types.append(bow)
+		# docs/design/new-units-12.md: 3 new units per kingdom as slots 6-8 (keys N M ,). Switch NewUnits12.ENABLED.
+		if building_type.kind == &"barracks":
+			for t in NewUnits12.hall_units(building_type):
+				if not types.has(t):
+					types.append(t)
+		# docs/design/tiers.md 3: the keep's Stronghold / Citadel button, a stub type right after the worker
+		# (slot 2, key X; Keep.can_queue / queue_unit start or cancel the upgrade). Switch TierSystem.ENABLED.
+		if has_method(&"tier_card_type"):
+			var up: Variant = call(&"tier_card_type")
+			if up is UnitType:
+				types.append(up)
+		# t3-helpers.md (T3 agent): the keep's T3 unit, then Call / Revive helper. Switch T3Kit.ENABLED.
+		for t3 in T3Kit.keep_types(self):
+			if not types.has(t3):
+				types.append(t3)
 	return types
 
 
@@ -65,6 +86,15 @@ func can_queue(type: UnitType) -> String:
 		return REASON_UNDER_CONSTRUCTION
 	if type == null or not _trains(type):
 		return REASON_UNKNOWN
+	var tier_gate := TierSystem.gate_reason(type.requires_tier, int(team))   # tiers.md: Stronghold / Citadel
+	if tier_gate != "":
+		return tier_gate
+	var gate := NewUnits12.gate_reason(type, int(team))   # new-units-12.md 3: stop-gap gate, off (OWN_T2_GATE)
+	if gate != "":
+		return gate
+	var t3_gate := T3Kit.gate_reason(type, int(team))   # t3-helpers.md 3: "Already called", essence, Saboteur cap
+	if t3_gate != "":
+		return t3_gate
 	if queue.size() >= MAX_QUEUE:
 		return REASON_QUEUE_FULL
 	var eco := _get_economy()
@@ -86,6 +116,7 @@ func queue_unit(type: UnitType) -> String:
 	eco.spend(type.cost)
 	eco.reserve_pop(type.pop)
 	queue.append(type)
+	T3Kit.on_queued(type, int(team))   # t3-helpers.md: a helper call / revive pays its essence
 	queue_changed.emit()
 	return ""
 
@@ -103,6 +134,7 @@ func cancel(slot: int) -> void:
 	if eco:
 		eco.add(type.cost)
 		eco.release_pop(type.pop)
+	T3Kit.on_cancelled(type, int(team))   # t3-helpers.md: essence back
 	queue_changed.emit()
 
 
@@ -163,6 +195,8 @@ func _physics_process(delta: float) -> void:
 	super(delta)
 	if _dead or queue.is_empty() or not is_constructed():
 		return
+	if T3Kit.is_paused(self):   # t3-helpers.md 7.2: a Saboteur's Powder Charge stops training 10 s
+		return
 	_train_time += delta
 	if _train_time >= queue[0].train_time:
 		var type: UnitType = queue.pop_front()
@@ -175,6 +209,9 @@ func _spawn(type: UnitType) -> void:
 	var eco := _get_economy()
 	if eco:
 		eco.release_pop(type.pop)   # the living unit counts its own pop from now on
+	if T3Kit.on_trained(self, type):   # t3-helpers.md 3: the helper walks out (HelperRoster)
+		_call_model(&"play_training_pulse")
+		return
 	var unit := Worker.make_unit(type)
 	unit.team = team
 	var parent := get_tree().current_scene if get_tree().current_scene else get_parent()

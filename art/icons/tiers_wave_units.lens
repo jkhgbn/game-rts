@@ -1,0 +1,8 @@
+# Tiers wave (2026-09-27): 64 px unit icons for the 4 new real models (Scorchling, Cinder Arbalest, Barrow Ghoul,
+# Hollow Oathsworn). Run: tools\lens\run_lens.ps1 icons src=res://art/icons/tiers_wave_units.lens
+#   -> art/icons/lens/units/<id>.png (copied to art/icons/units/<id>.png)
+icons units  kind=units  size=64  yaw=30  pitch=20  fill=0.72  bg=kingdom
+  icon scorchling        res://art/units/fire/scorchling/scorchling.tscn                faction=fire
+  icon cinder_arbalest   res://art/units/fire/cinder_arbalest/cinder_arbalest.tscn      faction=fire
+  icon barrow_ghoul      res://art/units/shadow/barrow_ghoul/barrow_ghoul.tscn          faction=shadow
+  icon hollow_oathsworn  res://art/units/shadow/hollow_oathsworn/hollow_oathsworn.tscn  faction=shadow

@@ -416,6 +416,7 @@ static func help_text(wizard_name: String) -> String:
 	var train := KeyLabels.join([KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B])
 	var spells := KeyLabels.join([KEY_F, KEY_Q, KEY_E], " / ")
 	var middle := ""
+	var pan_keys := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]) if GameSettings.rts_wasd() else "Arrows"
 	if GameSettings.hero_wasd():
 		middle = ("Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
 				% [k.call(KEY_X), k.call(KEY_C)]
@@ -423,6 +424,12 @@ static func help_text(wizard_name: String) -> String:
 				% [k.call(KEY_H), k.call(KEY_G), k.call(KEY_B), train]
 				+ "Delete: cancel a site    %s: walk %s    %s: spells\n"
 				% [KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]), wizard_name, spells])
+	elif GameSettings.rts_wasd():
+		# RTS camera (WASD): Classic moves, X = attack-move (A pans the camera, see the pan line below).
+		middle = ("Right click: move (%s too) / attack / gather / rally    %s: stop\n" % [wizard_name, k.call(KEY_C)]
+				+ "Attack-move: %s + click    %s: hold    %s: gather    %s: build\n"
+				% [k.call(KEY_X), k.call(KEY_H), k.call(KEY_G), k.call(KEY_B)]
+				+ "%s: train    Delete: cancel a site    %s: spells\n" % [train, spells])
 	else:
 		middle = ("Right click: move (%s too) / attack / gather / rally    %s: stop\n" % [wizard_name, k.call(KEY_C)]
 				+ "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build\n"
@@ -434,7 +441,7 @@ static func help_text(wizard_name: String) -> String:
 			% [KeyLabels.join([KEY_F, KEY_Q, KEY_E], "/"), wizard_name, wizard_name]
 			+ "Groups 1-0: Ctrl set · Shift add · Alt steal · N N: centre\n"
 			+ "F2: army    F3: idle worker    F10 twice: surrender    Numpad 1-6: items\n"
-			+ "Arrows / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop\n" % k.call(KEY_T)
+			+ "%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop\n" % [pan_keys, k.call(KEY_T)]
 			+ "%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion\n" % [k.call(KEY_R), k.call(KEY_Y)]
 			+ "Flag: %s raise · Delete remove    %s: trade & hunters    %s: trade (caravans)\n"
 			% [k.call(KEY_Z), k.call(KEY_U), k.call(KEY_G)]

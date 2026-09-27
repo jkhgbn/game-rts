@@ -1,6 +1,6 @@
 # Art Lab scorecard: plant_permat_dusk_steed
 
-Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-27 12:11:16 · lab v3.1
+Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-27 14:21:13 · lab v3.1
 
 ## Result: **FAIL** · quality **90 / 100** (89.6)
 
@@ -42,19 +42,19 @@ Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · 
 | R3 | Contrast vs ground | SKIP | fail_fast: stopped after a headless FAIL | needs a windowed run (1600 x 900) |  |
 | R5 | Glow points at 40 m | SKIP | fail_fast: stopped after a headless FAIL | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | fail_fast: stopped after a headless FAIL | needs a windowed run (1600 x 900) |  |
-| R9 | Feet on the ground | PASS 100 | lowest point 0.009 m | -0.08 .. +0.05 m (art-units 1.6) |  |
+| R9 | Feet on the ground | PASS 100 | lowest point 0.008 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R10 | Footprint vs selection radius | INFO | x 0.4 / z 1.55 m (radius 0.7, default) | x <= radius x 1.4, z <= x 2.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 8 present | set_team_color, set_moving, play_hit, play_death, signal:death_finished, set_barded, play_charge, seat_transform |  |
-| A2 | death_finished | PASS 100 | after 0.95 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.94 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 84 | 149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 25% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C1 | Shape richness (secondary shapes) | INFO 84 | 149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
 | C2 | Vertex use vs budget | INFO 100 | 96% of the 6000 verts budget used (5765) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, cavalry-mounts.md 10 (mount))

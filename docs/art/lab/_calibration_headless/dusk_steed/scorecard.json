@@ -166,7 +166,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "713 of 6724 triangles (10%) face steeply down (normal y < -0.7)",
+			"value": "712 of 6724 triangles (10%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -212,6 +212,34 @@
 			"weight": 1.0
 		},
 		{
+			"graded": 0.834820656754154,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
+			"score": 0.834820656754154,
+			"shot": "close",
+			"status": "INFO",
+			"value": "149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 25% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4)",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "96% of the 6000 verts budget used (5765)",
+			"weight": 1.0
+		},
+		{
 			"graded": 1.0,
 			"group": "anim",
 			"hint": "Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
@@ -222,7 +250,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.0 s",
+			"value": "after 0.97 s",
 			"weight": 1.0
 		},
 		{
@@ -320,7 +348,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "lowest point 0.008 m",
+			"value": "lowest point 0.009 m",
 			"weight": 1.0
 		},
 		{
@@ -354,7 +382,7 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 5,
+		"INFO": 7,
 		"PASS": 13,
 		"SKIP": 6,
 		"WARN": 0
@@ -386,16 +414,16 @@
 	],
 	"kind": "mount",
 	"kingdom": "shadow",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Root/Mount/Merged 2229 v / 6 s; Root/Mount/Head/Merged 1747 v / 8 s; Root/Mount/LegBL/Merged 402 v / 4 s; Root/Mount/LegBR/Merged 402 v / 4 s; Root/Mount/LegFL/Merged 339 v / 4 s; Root/Mount/LegFR/Merged 339 v / 4 s; Root/Mount/Tail/Merged 307 v / 3 s; Shadow 4 v / 1 s"
 	],
 	"previous_quality": -1.0,
-	"quality": 98.4,
+	"quality": 97.1,
 	"result": "PASS",
 	"scene": "res://art/units/mounts/dusk_steed/dusk_steed.tscn",
-	"seconds": 0.1,
+	"seconds": 8.2,
 	"shots": {},
-	"started": "2026-09-27 10:39:57",
+	"started": "2026-09-27 13:51:38",
 	"tier": "mount"
 }

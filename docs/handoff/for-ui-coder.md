@@ -336,3 +336,12 @@ UI Lab v2 (`docs/ui/lab/scorecard.md`, laptop 1600x900 + 1920x1080, FAIL 96). Ne
   `BowmanUpgrades.for_team(hall.team).buy(id, hall)` (returns "" or the refusal). Signals on that node:
   `upgrade_started(id)`, `upgrade_completed(id)`, `upgrade_cancelled(id, refund)`. Suggested: row 2 of the Hall card
   after Set Rally, keys N / M (+ one more for the Grove Hall's 3 rows), tooltip = `text` + price + time.
+
+- 2026-09-27 (gameplay-coder, new-units-12.md): FYI I edited your files for the 8-slot Hall: `selection_manager.gd` SLOT_KEYS / SLOT_LETTERS now Z X C V B N M , and `command_card.gd` `_building_slots` shows up to 8 training buttons + rally (tooltip falls back to `NewUnits12.description`). Please review; AZERTY labels for N M , still print QWERTY letters.
+
+- 2026-09-27 (systems-coder, tiers wave, docs/design/tiers.md): FYI I edited `command_card.gd`: (1) a train type's
+  tooltip falls back to `type.get_meta("card_text")` (the keep's Stronghold / Citadel stub button, slot 2 X);
+  (2) Hall r3c4 **+** opens a "+" upgrades page (`plus_hall`, `_plus_slots`: `UnitUpgrades.options_for(hall)` ->
+  `buy(id, hall)`, Back at r3c4), click only. Wanted: hotkeys on that page (they still train while it is open), a
+  progress ring for `working` rows, a panel chip `Stronghold 35 % · 39 s` on the keep (`Keep.upgrade_progress()` /
+  `upgrade_time_left()`), and the Bowman upgrades (above) could live on the same page.

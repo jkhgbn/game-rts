@@ -445,6 +445,8 @@ func _node_of_team(group: StringName, team: int) -> Node:
 
 
 func _keep_tier(team: int) -> int:
+	if TierSystem.instance() != null:   # tiers.md: the team tier (highest living keep), Keep.tier below otherwise
+		return TierSystem.tier_of(team)
 	var best := 0
 	for b in Building.for_team(team):
 		if b is Keep:

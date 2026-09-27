@@ -372,6 +372,11 @@ func _train_at_barracks() -> void:
 	if bow != null:
 		want_ids.append("train_%s" % str(bow.get("id")))
 		want_keys.append("B")
+	# New units 12 (docs/design/new-units-12.md): slots 6-8 (N M ,) when NewUnits12 is on in this game.
+	var extra := NewUnits12.hall_units(_hall.building_type)
+	for k in extra.size():
+		want_ids.append("train_%s" % str(extra[k].id))
+		want_keys.append("NM,"[k])
 	want_ids.append("rally")
 	want_keys.append("")
 	if _ids(want_ids.size()) != want_ids:

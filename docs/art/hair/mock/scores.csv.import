@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://gyvu1i7h5ih4"
+
+[deps]
+
+files=["res://docs/art/hair/mock/scores.label.translation", "res://docs/art/hair/mock/scores.score.translation", "res://docs/art/hair/mock/scores.status.translation", "res://docs/art/hair/mock/scores.note.translation"]
+
+source_file="res://docs/art/hair/mock/scores.csv"
+dest_files=["res://docs/art/hair/mock/scores.label.translation", "res://docs/art/hair/mock/scores.score.translation", "res://docs/art/hair/mock/scores.status.translation", "res://docs/art/hair/mock/scores.note.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

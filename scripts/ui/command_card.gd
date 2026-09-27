@@ -84,6 +84,9 @@ const INSPECT_BOUNTY_ENEMY := "Hunt it with a bounty  "
 ## Map fill (12.C7, ui-mapfill.md 6.3 / 7.2): an epic beast viewed / a game critter selected (all slots empty).
 const BEAST_TEXT := "Epic beast: attack it with your army."
 const CRITTER_TEXT := "Game: hunt it with soldiers or your wizard."
+## tiers.md 5: the Hall whose "+" upgrades page is open (null = its normal training card). Slot of the toggle.
+const PLUS_SLOT := 11
+var plus_hall: Node = null
 var inspect_block: Control
 var inspect_line: Label       ## "Champions act on their own."
 var inspect_key_line: Label   ## "Bounty  " / "Hunt it with a bounty  " (+ the [R] badge)
@@ -530,6 +533,8 @@ func _build_slots() -> Array[Dictionary]:
 		out.append({})
 	if selection == null:
 		return out
+	if plus_hall != null and (not is_instance_valid(plus_hall) or selection.selected_building != plus_hall):
+		plus_hall = null   # the "+" page closes when the Hall is no longer the selected building
 	if selection.selected_bounty != null:
 		_flag_slots(out, selection.selected_bounty)
 	elif selection.selected_building != null:
@@ -537,10 +542,30 @@ func _build_slots() -> Array[Dictionary]:
 	elif selection.build_menu_open or selection.placing_type != null:
 		_build_menu_slots(out)
 	elif selection.is_inspecting():
-		pass   # champions are never ordered: the card stays empty with the inspect text
+		_helper_stance_slots(out, selection.inspected)   # champions are never ordered; an own helper shows its 3 stances
 	elif not selection.orderable_units().is_empty():
 		_unit_slots(out)
 	return out
+
+
+## An own tier-3 helper inspected (t3-helpers.md 2.1): r1c1-r1c3 Escort / Vanguard / Hold home, click only (no key).
+## A stance is not an order: the helper stays non-commandable.
+func _helper_stance_slots(out: Array[Dictionary], h: Variant) -> void:
+	if not (h is Helper) or not is_instance_valid(h) or int((h as Helper).team) != Unit.Team.PLAYER:
+		return
+	var helper := h as Helper
+	var tips := {
+		&"escort": "Escort\nStays 3-7 m from your wizard and fights what threatens it.",
+		&"vanguard": "Vanguard\nFollows your largest army group and fights with it.",
+		&"home": "Hold home\nGuards the keep: fights intruders within 20 m.",
+	}
+	var abbr := {&"escort": "ES", &"vanguard": "VG", &"home": "HM"}
+	for i in Helper.STANCES.size():
+		var st: StringName = Helper.STANCES[i]
+		var tip: String = tips[st] + ("\n(current)" if helper.stance == st else "")
+		var s := _slot("stance_" + String(st), abbr[st], "", tip, func() -> void: helper.set_stance(st))
+		s["active"] = helper.stance == st
+		out[i] = s
 
 
 ## The inspect text shows while a champion or a Greywater Tracker is inspected and every slot is empty; enemy:
@@ -630,7 +655,7 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 				func() -> void: sel.begin_order(SelectionManager.ORDER_GATHER), "", SelectionManager.ORDER_GATHER)
 	if fighters:
 		# UX.1: Classic = A (X works too), Hero WASD = X; _slot shows the key as labelled on the player's keyboard.
-		var am := "X" if GameSettings.hero_wasd() else "A"
+		var am := "X" if GameSettings.attack_move_key() == KEY_X else "A"
 		var am_tip := "Attack-move  [%s]\nMove and fight anything met on the way." % am
 		if am != "X":
 			am_tip += "\n%s works too." % KeyLabels.of(KEY_X)
@@ -760,15 +785,22 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 				"Cancel  [Delete]\nStop building and get %d crystals back (75 %%)." % refund,
 				func() -> void: sel.cancel_site())
 		return
+	if plus_hall != null and plus_hall == keep and is_instance_valid(keep):
+		_plus_slots(out, keep)
+		return
 	var types := sel.trainable_types()
-	for i in mini(types.size(), 5):
+	var n_train := mini(types.size(), SelectionManager.SLOT_KEYS.size())   # 5, or 8 on a Hall (new-units-12.md)
+	for i in n_train:
 		var type: Variant = types[i]
 		var type_name := str(type.get("display_name"))
 		var key := sel.train_key(type, i)
 		var reason := ""
 		if keep.has_method("can_queue"):
 			reason = str(keep.call("can_queue", type))
-		var desc: String = TRAIN_DESCRIPTIONS.get(StringName(str(type.get("id"))), "")
+		var desc: String = TRAIN_DESCRIPTIONS.get(StringName(str(type.get("id"))),
+				NewUnits12.description(StringName(str(type.get("id")))))
+		if desc == "" and type is Object and (type as Object).has_meta(&"card_text"):   # stub types (keep tier button)
+			desc = str((type as Object).get_meta(&"card_text"))
 		var tip := "%s  [%s]\nCost %d crystals · Pop %d · %d s" % [
 				type_name, key, int(type.get("cost")), int(type.get("pop")), roundi(float(type.get("train_time")))]
 		if desc != "":
@@ -778,12 +810,44 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 		out[i]["cost"] = int(type.get("cost"))
 		out[i]["icon"] = ["units", str(type.get("id"))]
 	if is_market(keep):
-		_market_slots(out, keep, mini(types.size(), 5))
+		_market_slots(out, keep, n_train)
 		return
 	if keep.has_method("set_rally_point"):
-		out[mini(types.size(), 5)] = _slot("rally", "RL", "",
+		out[n_train] = _slot("rally", "RL", "",
 				"Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining.",
 				func() -> void: sel.begin_order(SelectionManager.ORDER_RALLY), "", SelectionManager.ORDER_RALLY)
+	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c4 (click only).
+	if int(keep.get(&"team")) == Unit.Team.PLAYER and out[PLUS_SLOT].is_empty() \
+			and not UnitUpgrades.ids_for_hall(keep).is_empty():
+		var tip := "Upgrades\n\"+\" research for this Hall's units: +10 % HP and damage each. Needs a Stronghold."
+		out[PLUS_SLOT] = _slot("plus_page", "+", "", tip, func() -> void: plus_hall = keep)
+
+
+## The "+" upgrades page of a Hall (tiers.md 5): one button per unit (card order), Back at r3c4.
+func _plus_slots(out: Array[Dictionary], hall: Node) -> void:
+	var rows := UnitUpgrades.options_for(hall)
+	for i in mini(rows.size(), PLUS_SLOT):
+		var r: Dictionary = rows[i]
+		var id: StringName = r["id"]
+		var state: StringName = r["state"]
+		var reason: String = r["reason"]
+		if state == &"done":
+			reason = "Researched"
+		elif state == &"working":
+			reason = "Researching %d %%" % roundi(float(r["progress"]) * 100.0)
+		var tip := "%s\n%d crystals · %d s\n%s for every %s of your kingdom." % [r["name"], int(r["crystals"]),
+				roundi(float(r["time"])), r["text"], String(r["name"]).trim_suffix("+")]
+		var buy := func() -> void:
+			var bank := UnitUpgrades.for_team(int(hall.get(&"team")))
+			if bank:
+				bank.buy(id, hall)
+		var s := _slot("plus_" + String(id), UIStyle.abbrev(String(r["name"]).trim_suffix("+")) + "+", "", tip,
+				buy, reason)
+		s["cost"] = int(r["crystals"])
+		s["icon"] = ["units", String(id)]
+		s["active"] = state == &"working" or state == &"done"
+		out[i] = s
+	out[PLUS_SLOT] = _slot("plus_back", "<", "", "Back\nThe Hall's training buttons.", func() -> void: plus_hall = null)
 
 
 ## A Bazaar (building kind &"market").

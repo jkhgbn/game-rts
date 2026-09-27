@@ -17,6 +17,9 @@ extends Node3D
 ##               spend_failed -> ui_error (EssenceBank too)
 ##   Inventory   player's wizard: item_bought / item_used; ItemPickup picked_up -> item_pickup
 ##   BaseButton  pressed -> ui_click
+##   Tiers wave units (UNIT_SFX_FAMILY, switch UNIT_SFX_ENABLED): atk_<family> / hit_<family> / death_<family>
+##               replace bolt_shot / melee_hit / bolt_impact / death_* for those units
+##               (assets/audio/unit_sfx_generator.gd). UnitVoice child (scripts/audio/unit_voice.gd): voice barks.
 ## Budget: MAX_VOICES pooled AudioStreamPlayer3D (bus SFX) + UI_VOICES AudioStreamPlayer (bus SFX) + 1 music
 ## player (bus Music). Each sound has a cooldown, so 50 archers firing at once play a handful of voices.
 ## When every voice is busy, PRIORITY sounds steal the oldest voice, others are dropped. Sounds from
@@ -40,7 +43,30 @@ const SOUNDS: Array[StringName] = [
 	&"unit_trained", &"mine_tick", &"crystals_delivered", &"level_up", &"item_bought", &"item_used",
 	&"item_pickup", &"ui_click", &"ui_error", &"crown_claimed", &"victory", &"defeat",
 	&"ability_cast", &"skill_hit", &"alert_wizard_fell",
+	# Per-family unit SFX (assets/audio/unit_sfx_generator.gd), used through UNIT_SFX_FAMILY.
+	&"atk_blade", &"hit_blade", &"death_blade", &"atk_heavy", &"hit_heavy", &"death_heavy",
+	&"atk_whip", &"hit_whip", &"death_whip", &"atk_bow", &"hit_bow", &"death_bow",
+	&"atk_bolt", &"hit_bolt", &"death_bolt", &"atk_siege", &"hit_siege", &"death_siege",
+	&"atk_magic", &"hit_magic", &"death_magic", &"atk_storm", &"hit_storm", &"death_storm",
+	&"atk_beast", &"hit_beast", &"death_beast",
 ]
+## Tiers wave units (bowmen, new-units-12, T3 units, T3 helpers + summons): unit type id (or HelperType id) -> SFX
+## family. The unit's attack plays atk_<family> (ranged: at the shot, melee: the swing at the attacker), a hit on it
+## plays hit_<family> instead of the generic melee_hit / bolt_impact, its death death_<family>. Other units keep the
+## generic cues. Switch: UNIT_SFX_ENABLED.
+const UNIT_SFX_ENABLED := true
+const UNIT_SFX_FAMILY := {
+	&"scorchbow": &"bow", &"bleakbow": &"bow", &"frostbow": &"bow", &"wildwood_archer": &"bow",
+	&"thistle_darter": &"bow", &"hoarlight_magebow": &"bow", &"helper_aldra": &"bow",
+	&"scorchling": &"blade", &"rimeling": &"blade", &"barrow_ghoul": &"blade", &"ashveil_saboteur": &"blade",
+	&"hollow_oathsworn": &"heavy", &"greenheart_oathkeeper": &"heavy", &"nightblood_reaver": &"heavy",
+	&"shardguard": &"heavy", &"helper_vey": &"heavy",
+	&"vinelasher": &"whip", &"cinder_arbalest": &"bolt", &"frost_mortar": &"siege",
+	&"pyre_adept": &"magic", &"hexweaver": &"magic", &"helper_hush": &"magic", &"helper_maelis": &"magic",
+	&"stormbottle_genie": &"storm", &"briar_roc": &"beast", &"spirit_wolf": &"beast",
+}
+## Unit voice barks (scripts/audio/unit_voice.gd, load-guarded): a UnitVoice child is added when this is true.
+const UNIT_VOICE_SCRIPT := "res://scripts/audio/unit_voice.gd"
 ## Extra takes of the most frequent combat cues (assets/audio/takes_sfx_generator.gd): play_at picks the original or
 ## one of these at random (plus the +-7 % pitch), so 100 hits a minute do not sound like one machine gun.
 const TAKES := {
@@ -56,6 +82,12 @@ const COOLDOWNS := {
 	&"death_fire": 0.1, &"death_shadow": 0.1, &"mine_tick": 0.15, &"crystals_delivered": 0.3,
 	&"ui_click": 0.04, &"ui_error": 0.25, &"level_up": 0.3, &"building_collapse": 0.3,
 	&"ability_cast": 0.25, &"skill_hit": 0.15, &"alert_wizard_fell": 2.0,
+	&"atk_blade": 0.12, &"hit_blade": 0.12, &"death_blade": 0.15, &"atk_heavy": 0.15, &"hit_heavy": 0.15,
+	&"death_heavy": 0.2, &"atk_whip": 0.15, &"hit_whip": 0.15, &"death_whip": 0.2, &"atk_bow": 0.12,
+	&"hit_bow": 0.12, &"death_bow": 0.15, &"atk_bolt": 0.15, &"hit_bolt": 0.15, &"death_bolt": 0.2,
+	&"atk_siege": 0.25, &"hit_siege": 0.25, &"death_siege": 0.3, &"atk_magic": 0.15, &"hit_magic": 0.15,
+	&"death_magic": 0.2, &"atk_storm": 0.2, &"hit_storm": 0.2, &"death_storm": 0.3, &"atk_beast": 0.15,
+	&"hit_beast": 0.15, &"death_beast": 0.2,
 }
 ## Volume offsets in dB (loud or frequent sounds are pulled down). Tuned with the Audio Lab (docs/plan/audio-lab.md)
 ## to the in-game loudness targets of tools/audio_lab/lab_rules.gd.
@@ -64,6 +96,12 @@ const VOLUMES := {
 	&"building_hit": -5.0, &"crystals_delivered": -10.0, &"ui_click": -8.0, &"ui_error": -4.0,
 	&"death_fire": -3.0, &"death_shadow": -5.0, &"unit_trained": -4.0, &"item_bought": -4.0, &"item_used": -6.0,
 	&"ability_cast": -8.0, &"skill_hit": -6.0,
+	&"atk_blade": -6.0, &"hit_blade": -5.0, &"death_blade": -2.0, &"atk_heavy": -6.0, &"hit_heavy": -5.0,
+	&"death_heavy": -3.0, &"atk_whip": -6.0, &"hit_whip": -5.0, &"death_whip": -3.5, &"atk_bow": -7.0,
+	&"hit_bow": -3.0, &"death_bow": -3.0, &"atk_bolt": -6.0, &"hit_bolt": -5.0, &"death_bolt": -3.0,
+	&"atk_siege": -6.0, &"hit_siege": -6.0, &"death_siege": -3.0, &"atk_magic": -6.0, &"hit_magic": -5.0,
+	&"death_magic": -3.0, &"atk_storm": -6.0, &"hit_storm": -6.0, &"death_storm": -5.0, &"atk_beast": -6.0,
+	&"hit_beast": -5.0, &"death_beast": -4.5,
 }
 ## Class-skill hits that are heals over time (a tick every 0.5 s): no impact sound.
 const SILENT_SKILL_HITS: Array[StringName] = [&"second_wind"]
@@ -115,6 +153,7 @@ func _ready() -> void:
 	_hook_buttons(get_tree().root)
 	_rescan()
 	_start_music.call_deferred()
+	_add_unit_voice()
 
 
 func _process(delta: float) -> void:
@@ -176,6 +215,26 @@ func play_ui(id: StringName) -> bool:
 	p.play()
 	_count(id)
 	return true
+
+
+## The SFX family of a unit (UNIT_SFX_FAMILY), &"" = the generic cues.
+static func unit_sfx_family(n: Node) -> StringName:
+	if not UNIT_SFX_ENABLED or not is_instance_valid(n):
+		return &""
+	return UNIT_SFX_FAMILY.get(unit_type_id(n), &"")
+
+
+## A unit's type id: its UnitType id, a Helper's HelperType id, else &"".
+static func unit_type_id(n: Node) -> StringName:
+	if not is_instance_valid(n):
+		return &""
+	for prop: StringName in [&"unit_type", &"helper_type"]:
+		var t: Variant = n.get(prop)
+		if t is Object and is_instance_valid(t):
+			var id: Variant = (t as Object).get(&"id")
+			if id != null:
+				return StringName(id)
+	return &""
 
 
 ## Voices (3D) playing right now.
@@ -326,7 +385,8 @@ func _hook_projectile(node: Variant) -> void:
 		return   # a spell projectile (Shadow Lance): the spell_cast sound covers it
 	var src: Variant = p.source
 	if is_instance_valid(src) and _audible(src as Node3D):
-		play_at(&"bolt_shot", (src as Node3D).global_position + Vector3.UP)
+		var fam := unit_sfx_family(src as Node)
+		play_at(&"bolt_shot" if fam == &"" else StringName("atk_" + String(fam)), (src as Node3D).global_position + Vector3.UP)
 
 
 func _hook_buttons(node: Node) -> void:
@@ -351,7 +411,14 @@ func _on_attack_landed(target: Variant, _amount: float, attacker: Node3D) -> voi
 		return
 	var range_v: Variant = attacker.get(&"attack_range")
 	var ranged := range_v != null and float(range_v) > 3.0
-	play_at(&"bolt_impact" if ranged else &"melee_hit", t.global_position + Vector3.UP)
+	var atk_fam := unit_sfx_family(attacker)
+	if atk_fam != &"" and not ranged and _audible(attacker):
+		play_at(StringName("atk_" + String(atk_fam)), attacker.global_position + Vector3.UP)   # the swing
+	var hit_fam := unit_sfx_family(t)
+	if hit_fam != &"":
+		play_at(StringName("hit_" + String(hit_fam)), t.global_position + Vector3.UP)
+	elif atk_fam == &"" or ranged:
+		play_at(&"bolt_impact" if ranged else &"melee_hit", t.global_position + Vector3.UP)
 
 
 func _on_level_changed(unit: Variant, _level: int) -> void:
@@ -400,6 +467,10 @@ func _on_unit_died(unit: Variant) -> void:
 	if not is_instance_valid(unit):
 		return
 	var u := unit as Node3D
+	var fam := unit_sfx_family(u)
+	if fam != &"":
+		play_at(StringName("death_" + String(fam)), u.global_position + Vector3.UP)
+		return
 	play_at(&"death_shadow" if _is_shadow(u) else &"death_fire", u.global_position + Vector3.UP)
 
 
@@ -572,6 +643,19 @@ func _build_players() -> void:
 	_music.bus = &"Music"
 	_music.volume_db = MUSIC_DB
 	add_child(_music)
+
+
+## UnitVoice (scripts/audio/unit_voice.gd): load-guarded, a missing / broken script = no barks, never an error.
+func _add_unit_voice() -> void:
+	if not ResourceLoader.exists(UNIT_VOICE_SCRIPT):
+		return
+	var s := load(UNIT_VOICE_SCRIPT) as GDScript
+	if s == null or not s.can_instantiate() or not bool(s.get_script_constant_map().get("ENABLED", false)):
+		return
+	var n := s.new() as Node
+	if n:
+		n.name = "UnitVoice"
+		add_child(n)
 
 
 func _start_music() -> void:

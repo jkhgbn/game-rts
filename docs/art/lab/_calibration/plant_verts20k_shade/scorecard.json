@@ -258,14 +258,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.346922509143633,
+			"graded": 0.34692251372314,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: only 3.6 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.346922509143633,
+			"score": 0.34692251372314,
 			"shot": "close",
 			"status": "INFO",
 			"value": "25 shapes over 7 body parts (3.6 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 7); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
@@ -398,14 +398,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.78377503156662,
+			"graded": 0.783743441104889,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.935132509469986,
+			"score": 0.935123032331467,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.77 m / body_height 1.6 (x1.11)",
@@ -458,7 +458,7 @@
 			"title": "Vertices"
 		},
 		{
-			"rank": 1.30615498171273,
+			"rank": 1.30615497255372,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: only 3.6 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
@@ -487,6 +487,6 @@
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
 	"seconds": 8.2,
 	"shots": {},
-	"started": "2026-09-27 12:10:54",
+	"started": "2026-09-27 14:20:51",
 	"tier": "soldier"
 }

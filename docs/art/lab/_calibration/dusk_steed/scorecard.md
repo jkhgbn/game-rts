@@ -1,10 +1,10 @@
 # Art Lab scorecard: dusk_steed
 
-Scene `res://art/units/mounts/dusk_steed/dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-27 12:07:07 · lab v3.1
+Scene `res://art/units/mounts/dusk_steed/dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-27 14:17:08 · lab v3.1
 
-## Result: **PASS** · quality **95 / 100** (94.7)
+## Result: **PASS** · quality **95 / 100** (95.0)
 
-0 FAIL · 0 WARN · 24 PASS · 13 info · 0 skipped · 24 s
+0 FAIL · 0 WARN · 23 PASS · 13 info · 0 skipped · 24 s
 
 ## Improve next
 1. **Palette depth (close-up)** (INFO): Flat palette (10 colour / 6 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses) _(from C3 Palette depth (close-up), shot close)_
@@ -38,39 +38,38 @@ Scene `res://art/units/mounts/dusk_steed/dusk_steed.tscn` · kind **mount** / ti
 |---|---|---|---|---|---|
 | R9 | Feet on the ground | PASS 100 | lowest point 0.009 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R10 | Footprint vs selection radius | INFO | x 0.4 / z 1.55 m (radius 0.7, default) | x <= radius x 1.4, z <= x 2.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
-| R1 | Silhouette area at 40 m | PASS 100 | 787 px (38 x 54 bbox; 55 m: 403 px) | >= 150 px (FAIL < 60) at 1600 x 900 |  |
-| R3 | Contrast vs ground (meadow) | PASS 100 | mean-colour dE 98.6, 0% of the body melts (within dE 15 of the ground); body L* 20.2 C 41.0 vs ground L* 62.3 C 48.7, hue gap 167 deg; top third (world height) dE 96.5, L* 22.3; per-pixel dE 101.8, outline 73.2 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass |  |
-| R4k | Contrast on the home ground (marsh) | PASS 100 | dE 45.1, 0% melts (marsh is where shadow units stand most) | dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
-| R4 | Contrast on the other grounds | PASS 100 | worst ash: dE 37.7 (heath dE 65.3, old_wood dE 61.2, riverbank dE 75.2, snow dE 81.8, ash dE 37.7, sand dE 90.6, marsh dE 45.1) | dE >= 10 on every skirmish ground (WARN only) |  |
-| R6 | Team-colour visibility at 40 m | PASS 100 | 25% of body pixels change between kingdom colours (min pair 25%) | >= 6% (FAIL = set_team_color changes nothing) |  |
-| R3t | Contrast in every team colour (meadow) | PASS 100 | worst nature colour: dE 69.0 (fire 80.4, shadow 96.3, ice 80.5, nature 69.0) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
-| R6cb | Team colours for colour-blind players | PASS 80 | worst pair fire / nature (deutan): dE 11.9 on the team-colour area (normal vision 77.8; 207 px); deutan: fire / nature dE 11.9; protan: fire / nature dE 22.6; worst vs ground: fire colour (deutan) dE 60.5 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) |  |
-| R5c | Glow points stand out (1 m surround) | PASS 83 | worst dL +13 (point 1 dL +13; ring 24 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
-| R5 | Glow points at 40 m | PASS 100 | 1 point(s) above the bloom level 1.2 (median of 1/1/1): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1 | 0-2 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
-| R11 | Reads while walking (40 m) | PASS 97 | walk frames vs rest: mean IoU 0.8 (min 0.76), area kept 96-102% (min 765 px), frame-to-frame IoU min 0.8; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 150 px (WARN only) |  |
-| R5w | Glow points while walking (flicker) | PASS 84 | points per frame 0/0/1/1/1/1/1/1 (median 1, range 1, 2 frame(s) at 0; at rest 1) | the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only) |  |
+| R1 | Silhouette area at 40 m | PASS 100 | 786 px (39 x 53 bbox; 55 m: 401 px) | >= 150 px (FAIL < 60) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | PASS 100 | mean-colour dE 98.4, 0% of the body melts (within dE 15 of the ground); body L* 20.1 C 40.7 vs ground L* 62.2 C 48.7, hue gap 167 deg; top third (world height) dE 96.2, L* 21.7; per-pixel dE 101.6, outline 71.0 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass |  |
+| R4k | Contrast on the home ground (marsh) | PASS 100 | dE 45.0, 0% melts (marsh is where shadow units stand most) | dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
+| R4 | Contrast on the other grounds | PASS 100 | worst ash: dE 37.5 (heath dE 65.2, old_wood dE 60.9, riverbank dE 75.0, snow dE 81.8, ash dE 37.5, sand dE 90.6, marsh dE 45.0) | dE >= 10 on every skirmish ground (WARN only) |  |
+| R6 | Team-colour visibility at 40 m | PASS 100 | 24% of body pixels change between kingdom colours (min pair 24%) | >= 6% (FAIL = set_team_color changes nothing) |  |
+| R3t | Contrast in every team colour (meadow) | PASS 100 | worst nature colour: dE 68.4 (fire 79.7, shadow 95.6, ice 80.0, nature 68.4) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
+| R6cb | Team colours for colour-blind players | PASS 80 | worst pair fire / nature (deutan): dE 12.1 on the team-colour area (normal vision 81.1; 198 px); deutan: fire / nature dE 12.1; protan: fire / nature dE 23.4; worst vs ground: fire colour (deutan) dE 59.9 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) |  |
+| R5 | Glow points at 40 m | PASS 100 | 0 point(s) above the bloom level 1.2 (median of 0/0/1); soft glows under the bloom (v1 count, luma > 0.4): 1 | 0-2 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
+| R11 | Reads while walking (40 m) | PASS 98 | walk frames vs rest: mean IoU 0.81 (min 0.76), area kept 97-101% (min 765 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 150 px (WARN only) |  |
+| R5w | Glow points while walking (flicker) | PASS 92 | points per frame 1/1/1/1/1/1/0/1 (median 1, range 1, 1 frame(s) at 0; at rest 0) | the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 8 present | set_team_color, set_moving, play_hit, play_death, signal:death_finished, set_barded, play_charge, seat_transform |  |
-| A2 | death_finished | PASS 100 | after 1.01 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A4 | Cast pose reads (play_cast) | INFO | cast pose changes 31% of the silhouette at its peak (t 0.25 s; 0.12 s 29%, 0.25 s 31%, 0.4 s 28%, 0.6 s 10%) | shown in the strip + cast.jpg (rest / peak); INFO until calibrated (a cast should change >= 6% of the outline) |  |
+| A2 | death_finished | PASS 100 | after 1.02 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 83 | 149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C1 | Shape richness (secondary shapes) | INFO 84 | 149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
 | C2 | Vertex use vs budget | INFO 100 | 96% of the 6000 verts budget used (5765) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 | C3 | Palette depth (close-up) | INFO 33 | 10 colour steps (L*a*b* bins >= 2 % of the body), 6 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up |  |
-| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 2.4 at the close-up (48040 px), 1.93 at 25 m; close-up outline complexity 10.6 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 2.42 at the close-up (47862 px), 1.9 at 25 m; close-up outline complexity 10.5 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P1 | Silhouette hook | INFO 100 | outline complexity 3.84 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
-| P3 | Tops light, bottoms dark | INFO 100 | top third L* 22.3, bottom third L* 9.3 (+13, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
-| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 10.1 at 25 m, 12.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
-| P5 | Glow placement | INFO 100 | 1 of 1 glow(s) in the upper half of the model's height (world) | one glow high (head / weapon / crest) reads over crowds |  |
+| P1 | Silhouette hook | INFO 100 | outline complexity 3.89 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 100 | top third L* 21.7, bottom third L* 9.3 (+12, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 10.2 at 25 m, 12.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
 
 ## Shots
 - z40: [z40.jpg](z40.jpg)
@@ -78,6 +77,7 @@ Scene `res://art/units/mounts/dusk_steed/dusk_steed.tscn` · kind **mount** / ti
 - z25: [z25.jpg](z25.jpg)
 - close: [close.jpg](close.jpg)
 - turns: [turns.jpg](turns.jpg)
+- cast: [cast.jpg](cast.jpg)
 - anim: [anim.jpg](anim.jpg)
 - contact_sheet: [contact_sheet.png](contact_sheet.png)
 

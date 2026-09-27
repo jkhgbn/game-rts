@@ -1,0 +1,8 @@
+shade
+dusk_steed
+aqueduct kind=landmark
+mirefang
+thornling
+ember_archer
+sapling
+deer kind=critter

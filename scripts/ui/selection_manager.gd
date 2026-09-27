@@ -98,8 +98,9 @@ const ITEM_KEYS: Array[Key] = [KEY_KP_1, KEY_KP_2, KEY_KP_3, KEY_KP_4, KEY_KP_5,
 const PICKUP_RANGE := 2.2               # items.md: the wizard takes a ground item at 2.2 m
 const PICKUP_CLICK_PX := 28.0
 const FLAG_CLICK_PX := 22.0             # a click this close to a flag's pole selects it
-const SLOT_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B]   # training slots 1-5
-const SLOT_LETTERS := "ZXCVB"
+# Training slots 1-5, then 6-8 for the Hall's new units (docs/design/new-units-12.md 2: N M , on the bottom row).
+const SLOT_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B, KEY_N, KEY_M, KEY_COMMA]
+const SLOT_LETTERS := "ZXCVBNM,"
 const SPELL_KEYS: Array[Key] = [KEY_F, KEY_Q, KEY_E]                  # spells 1-3
 const GHOST_TEXT_COLOR := Color(1.0, 0.45, 0.4)
 

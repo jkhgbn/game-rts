@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="HelperType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/helper_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_maelis/helper_maelis.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"helper_maelis"
+display_name = "Maelis Oakenhollow"
+title = "The Wildcaller"
+kingdom = &"nature"
+bonded_wizard_id = &"ysolde"
+hp_base = 560.0
+hp_per_level = 40.0
+damage_base = 20.0
+damage_per_level = 2.5
+armor = 5.0
+attack_range = 9.5
+attack_cooldown = 1.25
+move_speed = 4.9
+sight = 14.0
+aggro = 11.0
+kind = &"ranged"
+ability_ids = Array[StringName]([&"thornsnare", &"call_the_pack", &"wild_stampede"])
+passive_id = &"maelis_opinions"
+body_height = 2.0
+color = Color(0.6, 0.85, 0.5, 1)
+projectile_color = Color(0.6, 0.95, 0.4, 1)
+model_scene = ExtResource("2_model")
+model_path = "res://art/units/helpers/helper_maelis/helper_maelis.tscn"
+voice_prefix = "helper_maelis"

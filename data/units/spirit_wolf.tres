@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/nature/spirit_wolf/placeholder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"spirit_wolf"
+display_name = "Spirit Wolf"
+faction = &"nature"
+is_worker = false
+cost = 0
+pop = 0
+kill_xp = 0
+train_time = 0
+card_key = ""
+max_hp = 180
+move_speed = 6
+attack_damage = 14
+attack_range = 1.6
+attack_cooldown = 1
+aggro_range = 10
+radius = 0.5
+body_height = 1.2
+body_color = Color(0.55, 1, 0.6, 1)
+projectile_color = Color(0.55, 1, 0.6, 1)
+model_scene = ExtResource("2_model")
+armor = 5
+sight_radius = 10
+lifetime = 20.0
+commandable = false
+model_path = "res://art/units/nature/spirit_wolf/spirit_wolf.tscn"

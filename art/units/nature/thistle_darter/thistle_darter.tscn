@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/nature/thistle_darter/thistle_darter.gd" id="1_td"]
+
+[node name="ThistleDarter" type="Node3D"]
+script = ExtResource("1_td")
+fidget_every = 7.0
+body_height = 1.2
+attack_style = &"blow_dart"
+attack_windup = 0.14
+death_style = &"fall"
+stride_time = 0.38
+stride_speed = 5.2
+idle_period = 2.2
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 34.0
+walk_bounce = 0.07
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0)
+
+[node name="LegL" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0, 0)
+
+[node name="LegR" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34, 0.02)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 0.28, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0.28, 0)
+
+[node name="Fx" type="Node3D" parent="."]

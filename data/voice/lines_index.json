@@ -13,10 +13,43 @@
   "data/voice/lines/ep2_opening.json: 28 lines",
   "data/voice/lines/ep3_opening.json: 15 lines",
   "data/voice/lines/ep4_opening.json: 15 lines",
-  "data/voice/lines/prologue_3min.json: 30 lines"
+  "data/voice/lines/prologue_3min.json: 30 lines",
+  "data/voice/lines/unit_barks.json: 176 lines"
  ],
- "count": 108,
+ "count": 284,
  "lines": [
+  {
+   "id": "aldra/still_water_steady_aim_41ed1299",
+   "speaker": "aldra",
+   "text": "Still water, steady aim.",
+   "text_hash": "41ed12992ed41729",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_aldra_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  {
+   "id": "aldra/the_water_runs_out_0bddfc94",
+   "speaker": "aldra",
+   "text": "The water... runs out.",
+   "text_hash": "0bddfc94be7e07d7",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_aldra_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
   {
    "id": "ashby/emberguard_boots_on_we_41d6a1ed",
    "speaker": "ashby",
@@ -110,6 +143,70 @@
      "slot": 2.1,
      "slot_kind": "cine slot",
      "speaker_id": "dancer"
+    }
+   ]
+  },
+  {
+   "id": "hush/hush_i_am_here_3a8a2133",
+   "speaker": "hush",
+   "text": "Hush. I am here.",
+   "text_hash": "3a8a213343be27c7",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_hush_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  {
+   "id": "hush/quiet_at_last_8a1a5864",
+   "speaker": "hush",
+   "text": "Quiet... at last.",
+   "text_hash": "8a1a58644308e293",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_hush_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  {
+   "id": "maelis/return_me_to_the_25790529",
+   "speaker": "maelis",
+   "text": "Return me... to the oak.",
+   "text_hash": "2579052934f8f4fe",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_maelis_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "maelis"
+    }
+   ]
+  },
+  {
+   "id": "maelis/the_roots_are_with_46e5c8cb",
+   "speaker": "maelis",
+   "text": "The roots are with us.",
+   "text_hash": "46e5c8cb37f9de91",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_maelis_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "maelis"
     }
    ]
   },
@@ -425,7 +522,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:287",
+     "source": "data/cinematics/src/prologue_3min.cine:343",
      "ref": "prologue_3min/S27@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -449,7 +546,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:216",
+     "source": "data/cinematics/src/prologue_3min.cine:250",
      "ref": "prologue_3min/S20@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -473,7 +570,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:265",
+     "source": "data/cinematics/src/prologue_3min.cine:311",
      "ref": "prologue_3min/S24@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -497,7 +594,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:168",
+     "source": "data/cinematics/src/prologue_3min.cine:195",
      "ref": "prologue_3min/S16@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -521,7 +618,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:308",
+     "source": "data/cinematics/src/prologue_3min.cine:367",
      "ref": "prologue_3min/S28@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -545,7 +642,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:60",
+     "source": "data/cinematics/src/prologue_3min.cine:58",
      "ref": "prologue_3min/S04@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -569,7 +666,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:119",
+     "source": "data/cinematics/src/prologue_3min.cine:139",
      "ref": "prologue_3min/S12@0.1",
      "slot": 2.8,
      "slot_kind": "cine shot",
@@ -593,7 +690,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:144",
+     "source": "data/cinematics/src/prologue_3min.cine:167",
      "ref": "prologue_3min/S15@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -617,7 +714,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:67",
+     "source": "data/cinematics/src/prologue_3min.cine:65",
      "ref": "prologue_3min/S06@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -641,7 +738,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:221",
+     "source": "data/cinematics/src/prologue_3min.cine:256",
      "ref": "prologue_3min/S21@0.3",
      "slot": 7.6,
      "slot_kind": "cine shot",
@@ -665,7 +762,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:57",
+     "source": "data/cinematics/src/prologue_3min.cine:55",
      "ref": "prologue_3min/S03@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -689,7 +786,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:125",
+     "source": "data/cinematics/src/prologue_3min.cine:145",
      "ref": "prologue_3min/S13@0.8",
      "slot": 5.1,
      "slot_kind": "cine shot",
@@ -713,7 +810,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:273",
+     "source": "data/cinematics/src/prologue_3min.cine:318",
      "ref": "prologue_3min/S25@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -737,7 +834,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:320",
+     "source": "data/cinematics/src/prologue_3min.cine:379",
      "ref": "prologue_3min/S30@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -761,7 +858,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:314",
+     "source": "data/cinematics/src/prologue_3min.cine:373",
      "ref": "prologue_3min/S29@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -785,7 +882,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:63",
+     "source": "data/cinematics/src/prologue_3min.cine:61",
      "ref": "prologue_3min/S05@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -809,7 +906,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:185",
+     "source": "data/cinematics/src/prologue_3min.cine:212",
      "ref": "prologue_3min/S18@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -833,7 +930,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:94",
+     "source": "data/cinematics/src/prologue_3min.cine:102",
      "ref": "prologue_3min/S09@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -857,7 +954,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:240",
+     "source": "data/cinematics/src/prologue_3min.cine:279",
      "ref": "prologue_3min/S23@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -881,7 +978,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:190",
+     "source": "data/cinematics/src/prologue_3min.cine:220",
      "ref": "prologue_3min/S19@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -905,7 +1002,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:51",
+     "source": "data/cinematics/src/prologue_3min.cine:49",
      "ref": "prologue_3min/S01@1.2",
      "slot": 5.7,
      "slot_kind": "cine shot",
@@ -929,7 +1026,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:175",
+     "source": "data/cinematics/src/prologue_3min.cine:202",
      "ref": "prologue_3min/S17@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -953,7 +1050,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:71",
+     "source": "data/cinematics/src/prologue_3min.cine:69",
      "ref": "prologue_3min/S07@0.3",
      "slot": 4.6,
      "slot_kind": "cine shot",
@@ -977,7 +1074,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:54",
+     "source": "data/cinematics/src/prologue_3min.cine:52",
      "ref": "prologue_3min/S02@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -1001,7 +1098,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:103",
+     "source": "data/cinematics/src/prologue_3min.cine:118",
      "ref": "prologue_3min/S10@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -1025,7 +1122,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:231",
+     "source": "data/cinematics/src/prologue_3min.cine:266",
      "ref": "prologue_3min/S22@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1049,7 +1146,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:86",
+     "source": "data/cinematics/src/prologue_3min.cine:90",
      "ref": "prologue_3min/S08@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -1073,7 +1170,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:134",
+     "source": "data/cinematics/src/prologue_3min.cine:155",
      "ref": "prologue_3min/S14@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1097,7 +1194,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:280",
+     "source": "data/cinematics/src/prologue_3min.cine:334",
      "ref": "prologue_3min/S26@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1121,7 +1218,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:111",
+     "source": "data/cinematics/src/prologue_3min.cine:131",
      "ref": "prologue_3min/S11@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -1506,6 +1603,38 @@
    ]
   },
   {
+   "id": "shade/back_to_the_dark_ac321b69",
+   "speaker": "shade",
+   "text": "Back... to the dark.",
+   "text_hash": "ac321b69dc2e96bf",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shade_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  {
+   "id": "shade/the_dark_is_listening_0f332c5a",
+   "speaker": "shade",
+   "text": "The dark is listening.",
+   "text_hash": "0f332c5afb8deb61",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shade_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  {
    "id": "shade/the_keep_sleeps_so_dac3a4b3",
    "speaker": "shade",
    "text": "The keep sleeps. So should you.",
@@ -1518,6 +1647,2746 @@
      "slot": 5.2,
      "slot_kind": "cine shot",
      "speaker_id": "shade"
+    }
+   ]
+  },
+  {
+   "id": "shade/they_will_not_see_3a1ecd2d",
+   "speaker": "shade",
+   "text": "They will not see me coming.",
+   "text_hash": "3a1ecd2df9a5c23a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shade_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  {
+   "id": "shade/through_the_shadows_73d3973c",
+   "speaker": "shade",
+   "text": "Through the shadows.",
+   "text_hash": "73d3973c5e752c17",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shade_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  {
+   "id": "unit_ash_hurler/loosing_heads_down_05b2a113",
+   "speaker": "unit_ash_hurler",
+   "text": "Loosing! Heads down!",
+   "text_hash": "05b2a1132054f50d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ash_hurler_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ash_hurler"
+    }
+   ]
+  },
+  {
+   "id": "unit_ash_hurler/pots_are_packed_point_64b279e2",
+   "speaker": "unit_ash_hurler",
+   "text": "Pots are packed. Point me.",
+   "text_hash": "64b279e2d4533e04",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ash_hurler_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ash_hurler"
+    }
+   ]
+  },
+  {
+   "id": "unit_ash_hurler/rolling_careful_with_the_e9818123",
+   "speaker": "unit_ash_hurler",
+   "text": "Rolling, careful with the load.",
+   "text_hash": "e98181237ea1de0f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ash_hurler_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ash_hurler"
+    }
+   ]
+  },
+  {
+   "id": "unit_ash_hurler/should_have_kept_my_40eeece1",
+   "speaker": "unit_ash_hurler",
+   "text": "Should have... kept my distance.",
+   "text_hash": "40eeece1fb384c76",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ash_hurler_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ash_hurler"
+    }
+   ]
+  },
+  {
+   "id": "unit_ashveil_saboteur/ash_to_ash_3eae563e",
+   "speaker": "unit_ashveil_saboteur",
+   "text": "Ash... to ash.",
+   "text_hash": "3eae563e2a37b7f5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ashveil_saboteur_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ashveil_saboteur"
+    }
+   ]
+  },
+  {
+   "id": "unit_ashveil_saboteur/fuse_is_short_step_d4e04e45",
+   "speaker": "unit_ashveil_saboteur",
+   "text": "Fuse is short. Step back.",
+   "text_hash": "d4e04e4500683e1e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ashveil_saboteur_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ashveil_saboteur"
+    }
+   ]
+  },
+  {
+   "id": "unit_ashveil_saboteur/into_the_smoke_a8e2c1cb",
+   "speaker": "unit_ashveil_saboteur",
+   "text": "Into the smoke.",
+   "text_hash": "a8e2c1cba078c52a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ashveil_saboteur_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ashveil_saboteur"
+    }
+   ]
+  },
+  {
+   "id": "unit_ashveil_saboteur/whisper_you_never_saw_8955f202",
+   "speaker": "unit_ashveil_saboteur",
+   "text": "[whisper] You never saw me.",
+   "text_hash": "8955f202b8a19245",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ashveil_saboteur_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ashveil_saboteur"
+    }
+   ],
+   "direction": [
+    "whisper"
+   ]
+  },
+  {
+   "id": "unit_barrow_ghoul/back_in_the_barrow_c7542c16",
+   "speaker": "unit_barrow_ghoul",
+   "text": "Back... in the barrow.",
+   "text_hash": "c7542c167ff1e84d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/barrow_ghoul_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_barrow_ghoul"
+    }
+   ]
+  },
+  {
+   "id": "unit_barrow_ghoul/crawling_crawling_842a9108",
+   "speaker": "unit_barrow_ghoul",
+   "text": "Crawling, crawling.",
+   "text_hash": "842a9108afdb7693",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/barrow_ghoul_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_barrow_ghoul"
+    }
+   ]
+  },
+  {
+   "id": "unit_barrow_ghoul/excited_fresh_meat_1e73633d",
+   "speaker": "unit_barrow_ghoul",
+   "text": "[excited] Fresh meat.",
+   "text_hash": "1e73633d219456ad",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/barrow_ghoul_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_barrow_ghoul"
+    }
+   ],
+   "direction": [
+    "excited"
+   ]
+  },
+  {
+   "id": "unit_barrow_ghoul/hungry_always_hungry_9bec406d",
+   "speaker": "unit_barrow_ghoul",
+   "text": "Hungry. Always hungry.",
+   "text_hash": "9bec406d9e0a86d4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/barrow_ghoul_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_barrow_ghoul"
+    }
+   ]
+  },
+  {
+   "id": "unit_blaze_rider/hyah_riding_out_0246f906",
+   "speaker": "unit_blaze_rider",
+   "text": "Hyah! Riding out.",
+   "text_hash": "0246f9064d131495",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/blaze_rider_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_blaze_rider"
+    }
+   ]
+  },
+  {
+   "id": "unit_blaze_rider/saddles_hot_where_to_0483ffcf",
+   "speaker": "unit_blaze_rider",
+   "text": "Saddle's hot. Where to?",
+   "text_hash": "0483ffcf3ea62f0c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/blaze_rider_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_blaze_rider"
+    }
+   ]
+  },
+  {
+   "id": "unit_blaze_rider/shout_charge_through_them_1c13a339",
+   "speaker": "unit_blaze_rider",
+   "text": "[shout] Charge through them.",
+   "text_hash": "1c13a339ae961c3d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/blaze_rider_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_blaze_rider"
+    }
+   ],
+   "direction": [
+    "shout"
+   ]
+  },
+  {
+   "id": "unit_blaze_rider/thrown_from_the_saddle_8d6df9dd",
+   "speaker": "unit_blaze_rider",
+   "text": "Thrown... from the saddle...",
+   "text_hash": "8d6df9dd8371edaa",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/blaze_rider_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_blaze_rider"
+    }
+   ]
+  },
+  {
+   "id": "unit_bleakbow/keeping_to_the_edges_8dc4a15f",
+   "speaker": "unit_bleakbow",
+   "text": "Keeping to the edges.",
+   "text_hash": "8dc4a15f8a6de19a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bleakbow_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bleakbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_bleakbow/let_them_bleed_slowly_d38f350f",
+   "speaker": "unit_bleakbow",
+   "text": "Let them bleed slowly.",
+   "text_hash": "d38f350f4bf3269e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bleakbow_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bleakbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_bleakbow/so_cold_c7062a50",
+   "speaker": "unit_bleakbow",
+   "text": "So cold...",
+   "text_hash": "c7062a50e2f0170e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bleakbow_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bleakbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_bleakbow/whisper_i_see_them_b37c818e",
+   "speaker": "unit_bleakbow",
+   "text": "[whisper] I see them. They don't see me.",
+   "text_hash": "b37c818ef4c77dfa",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bleakbow_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bleakbow"
+    }
+   ],
+   "direction": [
+    "whisper"
+   ]
+  },
+  {
+   "id": "unit_bloomtender/calm_who_needs_mending_fccf7d14",
+   "speaker": "unit_bloomtender",
+   "text": "[calm] Who needs mending?",
+   "text_hash": "fccf7d14c2742507",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bloomtender_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bloomtender"
+    }
+   ],
+   "direction": [
+    "calm"
+   ]
+  },
+  {
+   "id": "unit_bloomtender/i_would_rather_heal_19262285",
+   "speaker": "unit_bloomtender",
+   "text": "I would rather heal, but fine.",
+   "text_hash": "1926228523a19681",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bloomtender_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bloomtender"
+    }
+   ]
+  },
+  {
+   "id": "unit_bloomtender/ill_follow_the_green_be6cb202",
+   "speaker": "unit_bloomtender",
+   "text": "I'll follow the green.",
+   "text_hash": "be6cb202302ddf10",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bloomtender_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bloomtender"
+    }
+   ]
+  },
+  {
+   "id": "unit_bloomtender/plant_me_somewhere_nice_621379e8",
+   "speaker": "unit_bloomtender",
+   "text": "Plant me... somewhere nice.",
+   "text_hash": "621379e83142b4af",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bloomtender_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bloomtender"
+    }
+   ]
+  },
+  {
+   "id": "unit_bramblehorn/slow_back_to_the_10ec0b20",
+   "speaker": "unit_bramblehorn",
+   "text": "[slow] Back... to the soil.",
+   "text_hash": "10ec0b209b198082",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bramblehorn_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bramblehorn"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_bramblehorn/slow_horns_down_a14c6976",
+   "speaker": "unit_bramblehorn",
+   "text": "[slow] Horns down.",
+   "text_hash": "a14c69766e2c2f9f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bramblehorn_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bramblehorn"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_bramblehorn/slow_hrm_the_old_1957c13b",
+   "speaker": "unit_bramblehorn",
+   "text": "[slow] Hrm. The old wood listens.",
+   "text_hash": "1957c13bf08744b3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bramblehorn_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bramblehorn"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_bramblehorn/slow_roots_lift_44ce2e73",
+   "speaker": "unit_bramblehorn",
+   "text": "[slow] Roots, lift.",
+   "text_hash": "44ce2e73d93fdb57",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/bramblehorn_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_bramblehorn"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_burr_slinger/off_through_the_brush_2f3ce1db",
+   "speaker": "unit_burr_slinger",
+   "text": "Off through the brush.",
+   "text_hash": "2f3ce1dbcd9170fe",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/burr_slinger_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_burr_slinger"
+    }
+   ]
+  },
+  {
+   "id": "unit_burr_slinger/oh_ouch_0db74883",
+   "speaker": "unit_burr_slinger",
+   "text": "Oh... ouch...",
+   "text_hash": "0db748835f5160e8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/burr_slinger_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_burr_slinger"
+    }
+   ]
+  },
+  {
+   "id": "unit_burr_slinger/pockets_full_of_burrs_2433eabd",
+   "speaker": "unit_burr_slinger",
+   "text": "Pockets full of burrs.",
+   "text_hash": "2433eabd818d4ff8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/burr_slinger_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_burr_slinger"
+    }
+   ]
+  },
+  {
+   "id": "unit_burr_slinger/these_ones_stick_5bfb29a6",
+   "speaker": "unit_burr_slinger",
+   "text": "These ones stick!",
+   "text_hash": "5bfb29a6faada48e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/burr_slinger_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_burr_slinger"
+    }
+   ]
+  },
+  {
+   "id": "unit_cinder_arbalest/cranks_wound_bolts_glowing_e3f6753a",
+   "speaker": "unit_cinder_arbalest",
+   "text": "Crank's wound. Bolt's glowing.",
+   "text_hash": "e3f6753a725d6d37",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_arbalest_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_arbalest"
+    }
+   ]
+  },
+  {
+   "id": "unit_cinder_arbalest/hauling_the_big_one_93b6e971",
+   "speaker": "unit_cinder_arbalest",
+   "text": "Hauling the big one over.",
+   "text_hash": "93b6e97125a538fa",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_arbalest_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_arbalest"
+    }
+   ]
+  },
+  {
+   "id": "unit_cinder_arbalest/jammed_at_the_worst_0ae5b5e0",
+   "speaker": "unit_cinder_arbalest",
+   "text": "Jammed... at the worst time.",
+   "text_hash": "0ae5b5e023b722e8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_arbalest_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_arbalest"
+    }
+   ]
+  },
+  {
+   "id": "unit_cinder_arbalest/line_them_up_one_d6680577",
+   "speaker": "unit_cinder_arbalest",
+   "text": "Line them up. One bolt, two holes.",
+   "text_hash": "d6680577d998a94e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_arbalest_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_arbalest"
+    }
+   ]
+  },
+  {
+   "id": "unit_cinder_hand/angry_ill_swing_the_58f50222",
+   "speaker": "unit_cinder_hand",
+   "text": "[angry] I'll swing the pick, then.",
+   "text_hash": "58f50222c39122b8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_hand_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_hand"
+    }
+   ],
+   "direction": [
+    "angry"
+   ]
+  },
+  {
+   "id": "unit_cinder_hand/hands_ready_boss_d3d29c81",
+   "speaker": "unit_cinder_hand",
+   "text": "Hands ready, boss.",
+   "text_hash": "d3d29c813082a535",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_hand_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_hand"
+    }
+   ]
+  },
+  {
+   "id": "unit_cinder_hand/on_my_way_6fc5af0f",
+   "speaker": "unit_cinder_hand",
+   "text": "On my way.",
+   "text_hash": "6fc5af0fb4d1b4b4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_hand_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_hand"
+    }
+   ]
+  },
+  {
+   "id": "unit_cinder_hand/ugh_shifts_over_e920bee3",
+   "speaker": "unit_cinder_hand",
+   "text": "Ugh... shift's over.",
+   "text_hash": "e920bee37cc74f3a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/cinder_hand_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_cinder_hand"
+    }
+   ]
+  },
+  {
+   "id": "unit_ember_archer/bows_strung_and_warm_528b09ac",
+   "speaker": "unit_ember_archer",
+   "text": "Bow's strung and warm.",
+   "text_hash": "528b09ac1df14041",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ember_archer_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ember_archer"
+    }
+   ]
+  },
+  {
+   "id": "unit_ember_archer/excited_light_them_up_63e7ae2e",
+   "speaker": "unit_ember_archer",
+   "text": "[excited] Light them up.",
+   "text_hash": "63e7ae2e574b1fc1",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ember_archer_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ember_archer"
+    }
+   ],
+   "direction": [
+    "excited"
+   ]
+  },
+  {
+   "id": "unit_ember_archer/moving_keep_up_3ac84608",
+   "speaker": "unit_ember_archer",
+   "text": "Moving, keep up!",
+   "text_hash": "3ac8460855485136",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ember_archer_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ember_archer"
+    }
+   ]
+  },
+  {
+   "id": "unit_ember_archer/my_fire_out_4fe9d422",
+   "speaker": "unit_ember_archer",
+   "text": "My fire... out...",
+   "text_hash": "4fe9d4220dd7a1cb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/ember_archer_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_ember_archer"
+    }
+   ]
+  },
+  {
+   "id": "unit_flame_guard/andiamo_nessuno_mi_ferma_5ff8b763",
+   "speaker": "unit_flame_guard",
+   "text": "Andiamo! Nessuno mi ferma.",
+   "text_hash": "5ff8b763018e9268",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/flame_guard_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_flame_guard"
+    }
+   ]
+  },
+  {
+   "id": "unit_flame_guard/certo_capo_ci_penso_bb07cc51",
+   "speaker": "unit_flame_guard",
+   "text": "Certo, capo. Ci penso io.",
+   "text_hash": "bb07cc516fd402be",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/flame_guard_move_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_flame_guard"
+    }
+   ]
+  },
+  {
+   "id": "unit_flame_guard/eccomi_il_pi_forte_a295d8b6",
+   "speaker": "unit_flame_guard",
+   "text": "Eccomi. Il più forte è arrivato.",
+   "text_hash": "a295d8b66a727a37",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/flame_guard_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_flame_guard"
+    }
+   ]
+  },
+  {
+   "id": "unit_flame_guard/fuoco_e_acciaio_avanti_40388754",
+   "speaker": "unit_flame_guard",
+   "text": "Fuoco e acciaio! Avanti!",
+   "text_hash": "403887545c422cea",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/flame_guard_attack_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_flame_guard"
+    }
+   ]
+  },
+  {
+   "id": "unit_flame_guard/guarda_questi_muscoli_bello_633fc299",
+   "speaker": "unit_flame_guard",
+   "text": "Guarda questi muscoli. Bello, no?",
+   "text_hash": "633fc2993f7d8a0d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/flame_guard_select_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_flame_guard"
+    }
+   ]
+  },
+  {
+   "id": "unit_flame_guard/non_finita_ea12e381",
+   "speaker": "unit_flame_guard",
+   "text": "Non... è finita...",
+   "text_hash": "ea12e381da928b21",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/flame_guard_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_flame_guard"
+    }
+   ]
+  },
+  {
+   "id": "unit_flame_guard/venite_qui_se_avete_73ccc165",
+   "speaker": "unit_flame_guard",
+   "text": "Venite qui, se avete il coraggio!",
+   "text_hash": "73ccc1659bddb4ff",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/flame_guard_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_flame_guard"
+    }
+   ]
+  },
+  {
+   "id": "unit_frost_mortar/mortar_crew_standing_by_120468c2",
+   "speaker": "unit_frost_mortar",
+   "text": "Mortar crew, standing by.",
+   "text_hash": "120468c2d39df22b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frost_mortar_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frost_mortar"
+    }
+   ]
+  },
+  {
+   "id": "unit_frost_mortar/pull_lads_pull_746b49f1",
+   "speaker": "unit_frost_mortar",
+   "text": "Pull, lads, pull!",
+   "text_hash": "746b49f10e6228b2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frost_mortar_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frost_mortar"
+    }
+   ]
+  },
+  {
+   "id": "unit_frost_mortar/shell_away_cover_your_d448ec7e",
+   "speaker": "unit_frost_mortar",
+   "text": "Shell away! Cover your ears.",
+   "text_hash": "d448ec7e864b232c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frost_mortar_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frost_mortar"
+    }
+   ]
+  },
+  {
+   "id": "unit_frost_mortar/the_tubes_cracked_3747da84",
+   "speaker": "unit_frost_mortar",
+   "text": "The tube's cracked!",
+   "text_hash": "3747da8482fe6573",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frost_mortar_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frost_mortar"
+    }
+   ]
+  },
+  {
+   "id": "unit_frostbow/freeze_in_place_e1fbc899",
+   "speaker": "unit_frostbow",
+   "text": "Freeze in place.",
+   "text_hash": "e1fbc89987e67543",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frostbow_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frostbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_frostbow/moving_to_high_ground_fb7cfc20",
+   "speaker": "unit_frostbow",
+   "text": "Moving to high ground.",
+   "text_hash": "fb7cfc20170caa01",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frostbow_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frostbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_frostbow/steady_hands_cold_eyes_cf19973c",
+   "speaker": "unit_frostbow",
+   "text": "Steady hands, cold eyes.",
+   "text_hash": "cf19973c7f798a90",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frostbow_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frostbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_frostbow/the_string_snapped_1cf84e6b",
+   "speaker": "unit_frostbow",
+   "text": "The string... snapped.",
+   "text_hash": "1cf84e6b7f18bfdf",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/frostbow_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_frostbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_gloom_thrall/if_i_must_b343bdd3",
+   "speaker": "unit_gloom_thrall",
+   "text": "If I must.",
+   "text_hash": "b343bdd37e644b0b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/gloom_thrall_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_gloom_thrall"
+    }
+   ]
+  },
+  {
+   "id": "unit_gloom_thrall/rest_at_last_0cea6992",
+   "speaker": "unit_gloom_thrall",
+   "text": "Rest... at last.",
+   "text_hash": "0cea69921d87dbc8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/gloom_thrall_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_gloom_thrall"
+    }
+   ]
+  },
+  {
+   "id": "unit_gloom_thrall/tired_the_master_calls_74991125",
+   "speaker": "unit_gloom_thrall",
+   "text": "[tired] The master calls. I dig.",
+   "text_hash": "749911250e0956b5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/gloom_thrall_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_gloom_thrall"
+    }
+   ],
+   "direction": [
+    "tired"
+   ]
+  },
+  {
+   "id": "unit_gloom_thrall/yes_walking_49e17855",
+   "speaker": "unit_gloom_thrall",
+   "text": "Yes. Walking.",
+   "text_hash": "49e17855cfecb1fb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/gloom_thrall_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_gloom_thrall"
+    }
+   ]
+  },
+  {
+   "id": "unit_greenheart_oathkeeper/my_shield_is_ysoldes_dcabb420",
+   "speaker": "unit_greenheart_oathkeeper",
+   "text": "My shield is Ysolde's.",
+   "text_hash": "dcabb42027d9b587",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/greenheart_oathkeeper_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_greenheart_oathkeeper"
+    }
+   ]
+  },
+  {
+   "id": "unit_greenheart_oathkeeper/shout_face_me_not_a1bd48e7",
+   "speaker": "unit_greenheart_oathkeeper",
+   "text": "[shout] Face me, not them.",
+   "text_hash": "a1bd48e7dba93b0f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/greenheart_oathkeeper_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_greenheart_oathkeeper"
+    }
+   ],
+   "direction": [
+    "shout"
+   ]
+  },
+  {
+   "id": "unit_greenheart_oathkeeper/the_grove_goes_with_5bbcbd57",
+   "speaker": "unit_greenheart_oathkeeper",
+   "text": "The grove goes with me.",
+   "text_hash": "5bbcbd572a0412d3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/greenheart_oathkeeper_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_greenheart_oathkeeper"
+    }
+   ]
+  },
+  {
+   "id": "unit_greenheart_oathkeeper/the_oath_holds_fe9da187",
+   "speaker": "unit_greenheart_oathkeeper",
+   "text": "The oath... holds.",
+   "text_hash": "fe9da18707fb0a9e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/greenheart_oathkeeper_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_greenheart_oathkeeper"
+    }
+   ]
+  },
+  {
+   "id": "unit_hexweaver/i_weave_my_way_a03dd3d5",
+   "speaker": "unit_hexweaver",
+   "text": "I weave my way there.",
+   "text_hash": "a03dd3d5f4631f0d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hexweaver_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hexweaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_hexweaver/the_thread_is_cut_d4c312cd",
+   "speaker": "unit_hexweaver",
+   "text": "The thread... is cut.",
+   "text_hash": "d4c312cde53353ea",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hexweaver_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hexweaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_hexweaver/the_threads_are_ready_7b3601a5",
+   "speaker": "unit_hexweaver",
+   "text": "The threads are ready.",
+   "text_hash": "7b3601a500524495",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hexweaver_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hexweaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_hexweaver/wither_little_hero_bb0b4c78",
+   "speaker": "unit_hexweaver",
+   "text": "Wither, little hero.",
+   "text_hash": "bb0b4c789127006a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hexweaver_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hexweaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_hoarlight_magebow/a_needle_of_frost_39aa7125",
+   "speaker": "unit_hoarlight_magebow",
+   "text": "A needle of frost for you.",
+   "text_hash": "39aa7125b3d4934f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hoarlight_magebow_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hoarlight_magebow"
+    }
+   ]
+  },
+  {
+   "id": "unit_hoarlight_magebow/keeping_my_distance_304d6d9a",
+   "speaker": "unit_hoarlight_magebow",
+   "text": "Keeping my distance.",
+   "text_hash": "304d6d9a8ff2d164",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hoarlight_magebow_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hoarlight_magebow"
+    }
+   ]
+  },
+  {
+   "id": "unit_hoarlight_magebow/the_light_fades_982c3012",
+   "speaker": "unit_hoarlight_magebow",
+   "text": "The light... fades.",
+   "text_hash": "982c3012e2520fbf",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hoarlight_magebow_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hoarlight_magebow"
+    }
+   ]
+  },
+  {
+   "id": "unit_hoarlight_magebow/the_light_string_hums_be123534",
+   "speaker": "unit_hoarlight_magebow",
+   "text": "The light string hums.",
+   "text_hash": "be123534c3407038",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hoarlight_magebow_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hoarlight_magebow"
+    }
+   ]
+  },
+  {
+   "id": "unit_hollow_oathsworn/angry_i_do_not_1921e8d7",
+   "speaker": "unit_hollow_oathsworn",
+   "text": "[angry] I do not break.",
+   "text_hash": "1921e8d733fa51b6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hollow_oathsworn_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hollow_oathsworn"
+    }
+   ],
+   "direction": [
+    "angry"
+   ]
+  },
+  {
+   "id": "unit_hollow_oathsworn/forgive_me_my_lord_c3790540",
+   "speaker": "unit_hollow_oathsworn",
+   "text": "Forgive me... my lord.",
+   "text_hash": "c37905403f9eddd1",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hollow_oathsworn_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hollow_oathsworn"
+    }
+   ]
+  },
+  {
+   "id": "unit_hollow_oathsworn/sworn_and_hollow_command_afb33045",
+   "speaker": "unit_hollow_oathsworn",
+   "text": "Sworn, and hollow. Command me.",
+   "text_hash": "afb33045cdec9980",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hollow_oathsworn_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hollow_oathsworn"
+    }
+   ]
+  },
+  {
+   "id": "unit_hollow_oathsworn/the_vow_walks_with_95e8f250",
+   "speaker": "unit_hollow_oathsworn",
+   "text": "The vow walks with me.",
+   "text_hash": "95e8f250b282d0a7",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/hollow_oathsworn_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_hollow_oathsworn"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightblood_reaver/line_26552966",
+   "speaker": "unit_nightblood_reaver",
+   "text": "给您添麻烦了。",
+   "text_hash": "2655296657e990cc",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightblood_reaver_move_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightblood_reaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightblood_reaver/line_4e1bff37",
+   "speaker": "unit_nightblood_reaver",
+   "text": "我，尽力了。",
+   "text_hash": "4e1bff3713d2cf7f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightblood_reaver_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightblood_reaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightblood_reaver/line_4eafc37b",
+   "speaker": "unit_nightblood_reaver",
+   "text": "得罪了。",
+   "text_hash": "4eafc37bce424f69",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightblood_reaver_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightblood_reaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightblood_reaver/line_83b34597",
+   "speaker": "unit_nightblood_reaver",
+   "text": "您过奖了，我只是个小兵。",
+   "text_hash": "83b3459704444df6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightblood_reaver_select_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightblood_reaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightblood_reaver/line_8e2fe03c",
+   "speaker": "unit_nightblood_reaver",
+   "text": "是，我这就去。",
+   "text_hash": "8e2fe03c3a33937a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightblood_reaver_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightblood_reaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightblood_reaver/line_9614f68b",
+   "speaker": "unit_nightblood_reaver",
+   "text": "在下不才，请您吩咐。",
+   "text_hash": "9614f68bef448920",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightblood_reaver_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightblood_reaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightblood_reaver/line_c4700c49",
+   "speaker": "unit_nightblood_reaver",
+   "text": "请多指教。",
+   "text_hash": "c4700c49fb81d97f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightblood_reaver_attack_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightblood_reaver"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightbolt/a_bolt_of_night_909f5ca8",
+   "speaker": "unit_nightbolt",
+   "text": "A bolt of night, at your word.",
+   "text_hash": "909f5ca80fc5aa32",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightbolt_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightbolt"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightbolt/pick_one_it_falls_259c448d",
+   "speaker": "unit_nightbolt",
+   "text": "Pick one. It falls.",
+   "text_hash": "259c448d503008ad",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightbolt_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightbolt"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightbolt/quietly_then_62da1116",
+   "speaker": "unit_nightbolt",
+   "text": "Quietly, then.",
+   "text_hash": "62da11163794276e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightbolt_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightbolt"
+    }
+   ]
+  },
+  {
+   "id": "unit_nightbolt/the_night_takes_me_5c5b9ad1",
+   "speaker": "unit_nightbolt",
+   "text": "The night... takes me back.",
+   "text_hash": "5c5b9ad1301e1d45",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/nightbolt_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_nightbolt"
+    }
+   ]
+  },
+  {
+   "id": "unit_pyre_adept/gather_close_and_burn_58b0ade8",
+   "speaker": "unit_pyre_adept",
+   "text": "Gather close, and burn together.",
+   "text_hash": "58b0ade8a215ec3d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/pyre_adept_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_pyre_adept"
+    }
+   ]
+  },
+  {
+   "id": "unit_pyre_adept/i_carry_the_flame_e1abeb07",
+   "speaker": "unit_pyre_adept",
+   "text": "I carry the flame there.",
+   "text_hash": "e1abeb0727323fcb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/pyre_adept_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_pyre_adept"
+    }
+   ]
+  },
+  {
+   "id": "unit_pyre_adept/sad_the_bowl_goes_39bf3e17",
+   "speaker": "unit_pyre_adept",
+   "text": "[sad] The bowl... goes cold.",
+   "text_hash": "39bf3e174cc66058",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/pyre_adept_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_pyre_adept"
+    }
+   ],
+   "direction": [
+    "sad"
+   ]
+  },
+  {
+   "id": "unit_pyre_adept/the_bowl_is_lit_1770ac29",
+   "speaker": "unit_pyre_adept",
+   "text": "The bowl is lit. Speak.",
+   "text_hash": "1770ac29e278dabe",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/pyre_adept_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_pyre_adept"
+    }
+   ]
+  },
+  {
+   "id": "unit_rime_colossus/slow_colossus_awake_6a0eee73",
+   "speaker": "unit_rime_colossus",
+   "text": "[slow] Colossus... awake.",
+   "text_hash": "6a0eee73ecb891cd",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_colossus_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_colossus"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_rime_colossus/slow_crush_e9656fa0",
+   "speaker": "unit_rime_colossus",
+   "text": "[slow] Crush.",
+   "text_hash": "e9656fa0b36a7ddd",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_colossus_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_colossus"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_rime_colossus/slow_melting_369ee0ae",
+   "speaker": "unit_rime_colossus",
+   "text": "[slow] Melting...",
+   "text_hash": "369ee0ae89e2371e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_colossus_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_colossus"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_rime_colossus/slow_the_ground_shakes_89c64d3f",
+   "speaker": "unit_rime_colossus",
+   "text": "[slow] The ground... shakes.",
+   "text_hash": "89c64d3fe1495ff1",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_colossus_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_colossus"
+    }
+   ],
+   "direction": [
+    "slow"
+   ]
+  },
+  {
+   "id": "unit_rime_hauler/aye_pulling_c6222687",
+   "speaker": "unit_rime_hauler",
+   "text": "Aye, pulling.",
+   "text_hash": "c622268730cc1556",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_hauler_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_hauler"
+    }
+   ]
+  },
+  {
+   "id": "unit_rime_hauler/leave_the_sled_for_a19bb35c",
+   "speaker": "unit_rime_hauler",
+   "text": "Leave the sled... for me.",
+   "text_hash": "a19bb35c568e2b73",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_hauler_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_hauler"
+    }
+   ]
+  },
+  {
+   "id": "unit_rime_hauler/right_ill_have_a_92efb9f7",
+   "speaker": "unit_rime_hauler",
+   "text": "Right, I'll have a go.",
+   "text_hash": "92efb9f719796564",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_hauler_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_hauler"
+    }
+   ]
+  },
+  {
+   "id": "unit_rime_hauler/sleds_empty_whats_the_6d62f3e0",
+   "speaker": "unit_rime_hauler",
+   "text": "Sled's empty. What's the job?",
+   "text_hash": "6d62f3e04c48c27f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_hauler_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_hauler"
+    }
+   ]
+  },
+  {
+   "id": "unit_rime_seer/calm_i_saw_you_fa4b05bc",
+   "speaker": "unit_rime_seer",
+   "text": "[calm] I saw you coming.",
+   "text_hash": "fa4b05bca1d6452c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_seer_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_seer"
+    }
+   ],
+   "direction": [
+    "calm"
+   ]
+  },
+  {
+   "id": "unit_rime_seer/i_did_not_see_33658dfe",
+   "speaker": "unit_rime_seer",
+   "text": "I did not... see this.",
+   "text_hash": "33658dfe5887d7a7",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_seer_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_seer"
+    }
+   ]
+  },
+  {
+   "id": "unit_rime_seer/the_frost_shows_the_85792e4d",
+   "speaker": "unit_rime_seer",
+   "text": "The frost shows the path.",
+   "text_hash": "85792e4d23d9de44",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_seer_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_seer"
+    }
+   ]
+  },
+  {
+   "id": "unit_rime_seer/winter_take_them_7ce329c5",
+   "speaker": "unit_rime_seer",
+   "text": "Winter, take them.",
+   "text_hash": "7ce329c52b153841",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rime_seer_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rime_seer"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeling/aww_melted_0c209b26",
+   "speaker": "unit_rimeling",
+   "text": "Aww... melted.",
+   "text_hash": "0c209b26471fe65e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeling_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeling"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeling/excited_brr_ready_ready_3789993a",
+   "speaker": "unit_rimeling",
+   "text": "[excited] Brr! Ready, ready!",
+   "text_hash": "3789993acd588463",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeling_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeling"
+    }
+   ],
+   "direction": [
+    "excited"
+   ]
+  },
+  {
+   "id": "unit_rimeling/sliding_over_4afd065c",
+   "speaker": "unit_rimeling",
+   "text": "Sliding over!",
+   "text_hash": "4afd065c9a891396",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeling_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeling"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeling/stab_stab_chill_ce576060",
+   "speaker": "unit_rimeling",
+   "text": "Stab, stab, chill!",
+   "text_hash": "ce57606086146588",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeling_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeling"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeshield/all_voy_con_la_049f00e8",
+   "speaker": "unit_rimeshield",
+   "text": "Allá voy, con la frente en alto.",
+   "text_hash": "049f00e8fa457d36",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeshield_move_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeshield"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeshield/caigo_con_orgullo_4ccec8c9",
+   "speaker": "unit_rimeshield",
+   "text": "Caigo... con orgullo.",
+   "text_hash": "4ccec8c9edd0dffd",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeshield_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeshield"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeshield/con_honor_siempre_6a7e64f9",
+   "speaker": "unit_rimeshield",
+   "text": "Con honor, siempre.",
+   "text_hash": "6a7e64f992d4f527",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeshield_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeshield"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeshield/mi_escudo_jam_s_da99281c",
+   "speaker": "unit_rimeshield",
+   "text": "Mi escudo jamás se ha rendido.",
+   "text_hash": "da99281c8104285c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeshield_select_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeshield"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeshield/nadie_pasa_nadie_33654a4f",
+   "speaker": "unit_rimeshield",
+   "text": "¡Nadie pasa! ¡Nadie!",
+   "text_hash": "33654a4fc134e3cd",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeshield_attack_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeshield"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeshield/por_la_gloria_del_b9589609",
+   "speaker": "unit_rimeshield",
+   "text": "¡Por la gloria del hielo!",
+   "text_hash": "b95896093b82feb2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeshield_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeshield"
+    }
+   ]
+  },
+  {
+   "id": "unit_rimeshield/s_el_escudo_m_e192d010",
+   "speaker": "unit_rimeshield",
+   "text": "¿Sí? El escudo más noble del norte.",
+   "text_hash": "e192d0103367d3ff",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/rimeshield_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_rimeshield"
+    }
+   ]
+  },
+  {
+   "id": "unit_scorchbow/arrows_lit_name_the_1c9120c5",
+   "speaker": "unit_scorchbow",
+   "text": "Arrow's lit. Name the mark.",
+   "text_hash": "1c9120c548f9bfc9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchbow_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_scorchbow/finding_a_better_angle_aee10c3f",
+   "speaker": "unit_scorchbow",
+   "text": "Finding a better angle.",
+   "text_hash": "aee10c3f62cd3bd6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchbow_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_scorchbow/let_them_burn_a_54305742",
+   "speaker": "unit_scorchbow",
+   "text": "Let them burn a little.",
+   "text_hash": "543057422fa6cafd",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchbow_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_scorchbow/missed_the_last_one_a4e47ce4",
+   "speaker": "unit_scorchbow",
+   "text": "Missed... the last one...",
+   "text_hash": "a4e47ce442e18fbb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchbow_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchbow"
+    }
+   ]
+  },
+  {
+   "id": "unit_scorchling/excited_bite_burn_bite_e68afbdd",
+   "speaker": "unit_scorchling",
+   "text": "[excited] Bite, burn, bite!",
+   "text_hash": "e68afbdda13de340",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchling_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchling"
+    }
+   ],
+   "direction": [
+    "excited"
+   ]
+  },
+  {
+   "id": "unit_scorchling/excited_hee_hee_me_e3ffc4c3",
+   "speaker": "unit_scorchling",
+   "text": "[excited] Hee hee! Me? Me!",
+   "text_hash": "e3ffc4c33bee7e58",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchling_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchling"
+    }
+   ],
+   "direction": [
+    "excited"
+   ]
+  },
+  {
+   "id": "unit_scorchling/pop_dc975184",
+   "speaker": "unit_scorchling",
+   "text": "Pop!",
+   "text_hash": "dc975184ed0201b9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchling_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchling"
+    }
+   ]
+  },
+  {
+   "id": "unit_scorchling/running_running_ca5f4474",
+   "speaker": "unit_scorchling",
+   "text": "Running, running!",
+   "text_hash": "ca5f4474ea4acb7c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/scorchling_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_scorchling"
+    }
+   ]
+  },
+  {
+   "id": "unit_shadow_knight/my_blade_is_sworn_0523a789",
+   "speaker": "unit_shadow_knight",
+   "text": "My blade is sworn to Malrik.",
+   "text_hash": "0523a789ecc676a0",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shadow_knight_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shadow_knight"
+    }
+   ]
+  },
+  {
+   "id": "unit_shadow_knight/my_oath_is_kept_9a0c06d2",
+   "speaker": "unit_shadow_knight",
+   "text": "My oath... is kept.",
+   "text_hash": "9a0c06d28805912b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shadow_knight_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shadow_knight"
+    }
+   ]
+  },
+  {
+   "id": "unit_shadow_knight/riding_in_black_f0be9173",
+   "speaker": "unit_shadow_knight",
+   "text": "Riding in black.",
+   "text_hash": "f0be91739cebe794",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shadow_knight_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shadow_knight"
+    }
+   ]
+  },
+  {
+   "id": "unit_shadow_knight/shout_break_their_line_803451cf",
+   "speaker": "unit_shadow_knight",
+   "text": "[shout] Break their line.",
+   "text_hash": "803451cfda9f5df9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shadow_knight_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shadow_knight"
+    }
+   ],
+   "direction": [
+    "shout"
+   ]
+  },
+  {
+   "id": "unit_shardcaster/mind_the_splinters_65713bb5",
+   "speaker": "unit_shardcaster",
+   "text": "Mind the splinters.",
+   "text_hash": "65713bb5feff7cdc",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardcaster_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardcaster"
+    }
+   ]
+  },
+  {
+   "id": "unit_shardcaster/shards_are_sharp_where_a2c2fcc6",
+   "speaker": "unit_shardcaster",
+   "text": "Shards are sharp. Where?",
+   "text_hash": "a2c2fcc68ee561e5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardcaster_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardcaster"
+    }
+   ]
+  },
+  {
+   "id": "unit_shardcaster/shattered_34370b1d",
+   "speaker": "unit_shardcaster",
+   "text": "Shattered...",
+   "text_hash": "34370b1d0aaad2bb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardcaster_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardcaster"
+    }
+   ]
+  },
+  {
+   "id": "unit_shardcaster/stepping_lightly_a2267b67",
+   "speaker": "unit_shardcaster",
+   "text": "Stepping lightly.",
+   "text_hash": "a2267b6777a0bcb7",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardcaster_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardcaster"
+    }
+   ]
+  },
+  {
+   "id": "unit_shardguard/angry_stand_against_the_f5e7e8e1",
+   "speaker": "unit_shardguard",
+   "text": "[angry] Stand against the glacier.",
+   "text_hash": "f5e7e8e15543705f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardguard_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardguard"
+    }
+   ],
+   "direction": [
+    "angry"
+   ]
+  },
+  {
+   "id": "unit_shardguard/even_glaciers_fall_bb1896c8",
+   "speaker": "unit_shardguard",
+   "text": "Even glaciers... fall.",
+   "text_hash": "bb1896c8f8901134",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardguard_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardguard"
+    }
+   ]
+  },
+  {
+   "id": "unit_shardguard/the_shardguard_stands_01700b16",
+   "speaker": "unit_shardguard",
+   "text": "The Shardguard stands.",
+   "text_hash": "01700b16cdd067a3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardguard_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardguard"
+    }
+   ]
+  },
+  {
+   "id": "unit_shardguard/where_i_walk_the_b31beda4",
+   "speaker": "unit_shardguard",
+   "text": "Where I walk, the ice holds.",
+   "text_hash": "b31beda49bcbe6a9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/shardguard_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_shardguard"
+    }
+   ]
+  },
+  {
+   "id": "unit_sprigling/hello_something_to_grow_1cf1f2d9",
+   "speaker": "unit_sprigling",
+   "text": "Hello! Something to grow?",
+   "text_hash": "1cf1f2d9052d89c2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/sprigling_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_sprigling"
+    }
+   ]
+  },
+  {
+   "id": "unit_sprigling/hopping_along_af043104",
+   "speaker": "unit_sprigling",
+   "text": "Hopping along!",
+   "text_hash": "af04310478271a45",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/sprigling_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_sprigling"
+    }
+   ]
+  },
+  {
+   "id": "unit_sprigling/oh_dear_here_goes_db0a0d08",
+   "speaker": "unit_sprigling",
+   "text": "Oh dear. Here goes!",
+   "text_hash": "db0a0d08e81c1e31",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/sprigling_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_sprigling"
+    }
+   ]
+  },
+  {
+   "id": "unit_sprigling/wilting_4e624587",
+   "speaker": "unit_sprigling",
+   "text": "Wilting...",
+   "text_hash": "4e62458775cb6b1b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/sprigling_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_sprigling"
+    }
+   ]
+  },
+  {
+   "id": "unit_stormbottle_genie/back_in_the_bottle_378afe49",
+   "speaker": "unit_stormbottle_genie",
+   "text": "Back in the bottle...",
+   "text_hash": "378afe492985d5ba",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/stormbottle_genie_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_stormbottle_genie"
+    }
+   ]
+  },
+  {
+   "id": "unit_stormbottle_genie/excited_a_little_thunder_d796a5cc",
+   "speaker": "unit_stormbottle_genie",
+   "text": "[excited] A little thunder for you.",
+   "text_hash": "d796a5cc5fcabb40",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/stormbottle_genie_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_stormbottle_genie"
+    }
+   ],
+   "direction": [
+    "excited"
+   ]
+  },
+  {
+   "id": "unit_stormbottle_genie/floating_over_no_rush_9241be98",
+   "speaker": "unit_stormbottle_genie",
+   "text": "Floating over, no rush.",
+   "text_hash": "9241be98cfde1f4b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/stormbottle_genie_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_stormbottle_genie"
+    }
+   ]
+  },
+  {
+   "id": "unit_stormbottle_genie/out_of_the_bottle_ade6b68b",
+   "speaker": "unit_stormbottle_genie",
+   "text": "Out of the bottle at last!",
+   "text_hash": "ade6b68bc0e88bd4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/stormbottle_genie_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_stormbottle_genie"
+    }
+   ]
+  },
+  {
+   "id": "unit_thistle_darter/blown_away_5b91717a",
+   "speaker": "unit_thistle_darter",
+   "text": "Blown away...",
+   "text_hash": "5b91717a257e04c3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thistle_darter_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thistle_darter"
+    }
+   ]
+  },
+  {
+   "id": "unit_thistle_darter/puff_and_away_d22dd5ef",
+   "speaker": "unit_thistle_darter",
+   "text": "Puff, and away!",
+   "text_hash": "d22dd5efd21f665a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thistle_darter_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thistle_darter"
+    }
+   ]
+  },
+  {
+   "id": "unit_thistle_darter/quick_quick_what_is_d6b8478d",
+   "speaker": "unit_thistle_darter",
+   "text": "Quick, quick, what is it?",
+   "text_hash": "d6b8478d7afb4287",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thistle_darter_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thistle_darter"
+    }
+   ]
+  },
+  {
+   "id": "unit_thistle_darter/zip_7aad960c",
+   "speaker": "unit_thistle_darter",
+   "text": "Zip!",
+   "text_hash": "7aad960ceeab1fb8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thistle_darter_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thistle_darter"
+    }
+   ]
+  },
+  {
+   "id": "unit_thornling/finally_who_are_we_042747af",
+   "speaker": "unit_thornling",
+   "text": "Finally! Who are we fighting?",
+   "text_hash": "042747af4fe0c926",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thornling_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thornling"
+    }
+   ]
+  },
+  {
+   "id": "unit_thornling/fine_there_better_be_57662165",
+   "speaker": "unit_thornling",
+   "text": "Fine. There better be a fight there.",
+   "text_hash": "57662165a80804ce",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thornling_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thornling"
+    }
+   ]
+  },
+  {
+   "id": "unit_thornling/shout_oh_yeah_come_582f215f",
+   "speaker": "unit_thornling",
+   "text": "[shout] Oh yeah! Come get some.",
+   "text_hash": "582f215fa0a5f7d3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thornling_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thornling"
+    }
+   ],
+   "direction": [
+    "shout"
+   ]
+  },
+  {
+   "id": "unit_thornling/shout_thats_what_im_2a42ca39",
+   "speaker": "unit_thornling",
+   "text": "[shout] That's what I'm talking about.",
+   "text_hash": "2a42ca392e07d9f3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thornling_attack_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thornling"
+    }
+   ],
+   "direction": [
+    "shout"
+   ]
+  },
+  {
+   "id": "unit_thornling/walking_id_rather_be_cda85f45",
+   "speaker": "unit_thornling",
+   "text": "Walking? I'd rather be punching.",
+   "text_hash": "cda85f45651381e5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thornling_move_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thornling"
+    }
+   ]
+  },
+  {
+   "id": "unit_thornling/worth_it_265b17b1",
+   "speaker": "unit_thornling",
+   "text": "Worth it!",
+   "text_hash": "265b17b104e3327c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thornling_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thornling"
+    }
+   ]
+  },
+  {
+   "id": "unit_thornling/you_looking_at_me_14898f12",
+   "speaker": "unit_thornling",
+   "text": "You looking at me? Let's go, then.",
+   "text_hash": "14898f120984b996",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/thornling_select_2",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_thornling"
+    }
+   ]
+  },
+  {
+   "id": "unit_vinelasher/creeping_forward_88d458d7",
+   "speaker": "unit_vinelasher",
+   "text": "Creeping forward.",
+   "text_hash": "88d458d7933781d2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/vinelasher_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_vinelasher"
+    }
+   ]
+  },
+  {
+   "id": "unit_vinelasher/hold_still_rooted_7e9b2d7d",
+   "speaker": "unit_vinelasher",
+   "text": "Hold still. Rooted.",
+   "text_hash": "7e9b2d7d4513e19b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/vinelasher_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_vinelasher"
+    }
+   ]
+  },
+  {
+   "id": "unit_vinelasher/the_vines_are_restless_0c718a7e",
+   "speaker": "unit_vinelasher",
+   "text": "The vines are restless.",
+   "text_hash": "0c718a7ed73e5b8c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/vinelasher_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_vinelasher"
+    }
+   ]
+  },
+  {
+   "id": "unit_vinelasher/torn_from_the_ground_350bafd9",
+   "speaker": "unit_vinelasher",
+   "text": "Torn... from the ground.",
+   "text_hash": "350bafd964b31489",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/vinelasher_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_vinelasher"
+    }
+   ]
+  },
+  {
+   "id": "unit_wildwood_archer/aim_low_slow_them_4bfa1ccd",
+   "speaker": "unit_wildwood_archer",
+   "text": "Aim low. Slow them.",
+   "text_hash": "4bfa1ccdc8f8be36",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/wildwood_archer_attack",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_wildwood_archer"
+    }
+   ]
+  },
+  {
+   "id": "unit_wildwood_archer/slipping_between_the_trees_0b1022e2",
+   "speaker": "unit_wildwood_archer",
+   "text": "Slipping between the trees.",
+   "text_hash": "0b1022e22006b1ac",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/wildwood_archer_move",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_wildwood_archer"
+    }
+   ]
+  },
+  {
+   "id": "unit_wildwood_archer/the_leaves_are_falling_f810021b",
+   "speaker": "unit_wildwood_archer",
+   "text": "The leaves... are falling.",
+   "text_hash": "f810021bcd53a2a6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/wildwood_archer_death",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_wildwood_archer"
+    }
+   ]
+  },
+  {
+   "id": "unit_wildwood_archer/the_wood_has_eyes_6b44db9d",
+   "speaker": "unit_wildwood_archer",
+   "text": "The wood has eyes. Mine.",
+   "text_hash": "6b44db9d743030ae",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/wildwood_archer_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "unit_wildwood_archer"
     }
    ]
   },
@@ -1956,6 +4825,38 @@
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L17",
      "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  {
+   "id": "vey/still_standing_girl_mostly_43d81f88",
+   "speaker": "vey",
+   "text": "Still standing, girl. Mostly.",
+   "text_hash": "43d81f889843eed3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_vey_select",
+     "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  {
+   "id": "vey/struck_down_again_34750c30",
+   "speaker": "vey",
+   "text": "Struck down... again.",
+   "text_hash": "34750c3016093deb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/unit_barks.json",
+     "ref": "unit_barks/helper_vey_death",
+     "slot": null,
      "slot_kind": "cine slot",
      "speaker_id": "vey"
     }

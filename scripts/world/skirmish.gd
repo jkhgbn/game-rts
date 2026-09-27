@@ -330,6 +330,10 @@ const DEFAULT_ENEMY_KINGDOM := &"shadow"
 ## Step 16a: match time limit in seconds (0 = off; the menu's "Time limit" 30 / 45 min, the bot-vs-bot test 1800).
 ## At the limit the match ends and the higher ScoreKeeper score wins (a tie goes to the enemy, like "both at once").
 @export var time_limit_s := 0.0
+## Keep tiers T1 -> Stronghold -> Citadel (docs/design/tiers.md, TierSystem). Skirmish true, missions false (no
+## TierSystem node = nothing is tier-gated).
+@export var tiers_enabled := true
+var tier_system: TierSystem      ## Null when tiers are off.
 
 ## Step 16a: the match's ScoreKeeper (created at match start), or null.
 var score_keeper: Node
@@ -385,6 +389,7 @@ func _init() -> void:
 	points_enabled = tavern_enabled
 	camps_enabled = tavern_enabled
 	beasts_enabled = tavern_enabled
+	tiers_enabled = tavern_enabled
 
 
 func _ready() -> void:
@@ -394,6 +399,11 @@ func _ready() -> void:
 	UIStyle.set_kingdom(player_kingdom)   # the HUD skin (GameHUD.setup confirms it from the wizard)
 	if trade_enabled:
 		_create_gold_banks()   # before any unit or building: Unit._ready applies the team's wares through them
+	if tiers_enabled and TierSystem.ENABLED:   # before any building: the gates read it (tiers.md)
+		tier_system = TierSystem.new()
+		tier_system.name = "TierSystem"
+		tier_system.match_time_source = match_time
+		add_child(tier_system)
 	super()
 
 

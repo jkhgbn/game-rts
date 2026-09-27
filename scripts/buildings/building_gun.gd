@@ -10,6 +10,8 @@ const RETARGET_INTERVAL := 0.25
 const BEAST_GROUP := &"beasts"
 
 var target: Node3D = null   ## Read only: what the gun shoots at.
+## Flat damage added to the type's attack_damage (the keep's tier: tiers.md, +4 Stronghold / +8 Citadel).
+var damage_bonus := 0.0
 
 var _building: Building
 var _muzzle_height := 0.0
@@ -61,7 +63,7 @@ func _fire(at: Node3D) -> void:
 	var parent: Node = tree.current_scene if tree.current_scene else _building.get_parent()
 	parent.add_child(bolt)
 	var from := _building.global_position + Vector3.UP * _muzzle_height
-	bolt.launch_at_target(_building, from, at, type.attack_damage, type.projectile_color, _bolt_size)
+	bolt.launch_at_target(_building, from, at, type.attack_damage + damage_bonus, type.projectile_color, _bolt_size)
 	if type.on_hit_status != &"" and type.on_hit_duration > 0.0:
 		bolt.hit_unit.connect(_apply_on_hit.bind(type.on_hit_status, type.on_hit_duration))
 

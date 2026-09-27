@@ -58,3 +58,7 @@ One row per run (`tools/lens/run_lens.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 08:48:30 | check | lens_demo | 100 (+0) | PASS (0F 0W) | 08536558bef3ae04 | Measure it | docs/tools/lens/out/lens_demo/report.md |
 | 2026-09-27 08:49:27 | cinecheck | lens_demo | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/lens/out/lens_demo/report_cinecheck.md |
 | 2026-09-27 08:49:52 | turnaround | turnaround_mossback | 100 | PASS (0F 0W) |  |  | docs/tools/lens/out/turnaround_mossback/report_turnaround.md |
+| 2026-09-27 17:56:21 | icons | tiers_wave_icons | 88 | PASS (0F 0W) | 31a9040527a9c90b |  | docs/tools/lens/out/tiers_wave_icons/report_icons.md |
+| 2026-09-27 17:57:48 | icons | tiers_wave_units | 88 | PASS (0F 0W) | 86eb30cae1fd559a |  | docs/tools/lens/out/tiers_wave_units/report_icons.md |
+| 2026-09-27 18:03:22 | icons | tiers_wave_icons | 88 (+0) | PASS (0F 0W) | f33b52364b50f407 |  | docs/tools/lens/out/tiers_wave_icons/report_icons.md |
+| 2026-09-27 18:08:13 | icons | tiers_wave_units | 88 (+0) | PASS (0F 0W) | 0b348267f0b3addc |  | docs/tools/lens/out/tiers_wave_units/report_icons.md |

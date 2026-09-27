@@ -6,12 +6,12 @@
 			"changes": [
 				{
 					"from": "#8cb847",
-					"material": "StandardMaterial3D#-72574",
+					"material": "StandardMaterial3D#-38053",
 					"material_path": "",
 					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Hips/Merged, Root/Chest/Head/Merged",
 					"param": "albedo_color",
 					"shared": "built in code or embedded: change it where the model script creates it",
-					"to": "#faef6a",
+					"to": "#fffa7f",
 					"weight": 0.99
 				}
 			],
@@ -30,23 +30,23 @@
 			],
 			"measured": {
 				"body_lab": [
-					70.5,
-					-21.5,
-					47.3
+					70.6,
+					-21.6,
+					47.4
 				],
 				"dE": {
-					"R3 meadow": 8.3,
-					"R3t fire": 8.3,
-					"R3t ice": 8.4,
-					"R3t nature": 8.2,
-					"R3t shadow": 8.4,
-					"R4 ash": 72.0,
-					"R4 heath": 46.2,
-					"R4 old_wood": 52.5,
-					"R4 riverbank": 44.9,
-					"R4 sand": 30.1,
+					"R3 meadow": 8.4,
+					"R3t fire": 8.4,
+					"R3t ice": 8.2,
+					"R3t nature": 8.4,
+					"R3t shadow": 8.2,
+					"R4 ash": 72.1,
+					"R4 heath": 46.3,
+					"R4 old_wood": 52.7,
+					"R4 riverbank": 45.1,
+					"R4 sand": 30.2,
 					"R4 snow": 54.1,
-					"R4k marsh": 72.1
+					"R4k marsh": 72.2
 				},
 				"ground_lab": [
 					63.3,
@@ -61,18 +61,18 @@
 				"R3t ice": 29.1,
 				"R3t nature": 29.1,
 				"R3t shadow": 29.1,
-				"R4 ash": 82.6,
-				"R4 heath": 53.3,
-				"R4 old_wood": 67.0,
-				"R4 riverbank": 64.6,
-				"R4 sand": 23.9,
-				"R4 snow": 53.0,
-				"R4k marsh": 82.8
+				"R4 ash": 81.4,
+				"R4 heath": 51.6,
+				"R4 old_wood": 66.6,
+				"R4 riverbank": 63.9,
+				"R4 sand": 20.5,
+				"R4 snow": 48.4,
+				"R4k marsh": 82.3
 			},
-			"proposal": "albedo_color of `StandardMaterial3D#-72574` #8cb847 -> #faef6a (98% of the visible body): predicted dE R3 meadow 8.3 -> 29.1, R3t fire 8.3 -> 29.1, R3t shadow 8.4 -> 29.1, R3t ice 8.4 -> 29.1, R3t nature 8.2 -> 29.1, R4k marsh 72.1 -> 82.8 (want >= 29); other grounds heath 53.3, old_wood 67.0, riverbank 64.6, snow 53.0, ash 82.6, sand 23.9; built in code or embedded: change it where the model script creates it",
+			"proposal": "albedo_color of `StandardMaterial3D#-38053` #8cb847 -> #fffa7f (98% of the visible body): predicted dE R3 meadow 8.4 -> 29.1, R3t fire 8.4 -> 29.1, R3t shadow 8.2 -> 29.1, R3t ice 8.2 -> 29.1, R3t nature 8.4 -> 29.1, R4k marsh 72.2 -> 82.3 (want >= 29); other grounds heath 51.6, old_wood 66.6, riverbank 63.9, snow 48.4, ash 81.4, sand 20.5; built in code or embedded: change it where the model script creates it",
 			"rank": 1,
 			"status": "FAIL",
-			"text": "albedo_color of `StandardMaterial3D#-72574` #8cb847 -> #faef6a (98% of the visible body): predicted dE R3 meadow 8.3 -> 29.1, R3t fire 8.3 -> 29.1, R3t shadow 8.4 -> 29.1, R3t ice 8.4 -> 29.1, R3t nature 8.2 -> 29.1, R4k marsh 72.1 -> 82.8 (want >= 29); other grounds heath 53.3, old_wood 67.0, riverbank 64.6, snow 53.0, ash 82.6, sand 23.9; built in code or embedded: change it where the model script creates it",
+			"text": "albedo_color of `StandardMaterial3D#-38053` #8cb847 -> #fffa7f (98% of the visible body): predicted dE R3 meadow 8.4 -> 29.1, R3t fire 8.4 -> 29.1, R3t shadow 8.2 -> 29.1, R3t ice 8.2 -> 29.1, R3t nature 8.4 -> 29.1, R4k marsh 72.2 -> 82.3 (want >= 29); other grounds heath 51.6, old_wood 66.6, riverbank 63.9, snow 48.4, ash 81.4, sand 20.5; built in code or embedded: change it where the model script creates it",
 			"title": "Body colour vs the grounds",
 			"wanted": {
 				"dE_R3_R3t_R4k": ">= 29 (rule 20 + margin 9)",
@@ -102,13 +102,13 @@
 			"check": "R6cb",
 			"computed": false,
 			"measured": {
-				"value": "worst pair shadow / ice (deutan): dE 3.1 on the team-colour area (normal vision 4.6; 6 px); deutan: shadow / ice dE 3.1; protan: shadow / ice dE 3.7; worst vs ground: nature colour (deutan) dE 8.1"
+				"value": "worst pair shadow / ice (deutan): dE 0.2 on the team-colour area (normal vision 0.4; 6 px); deutan: shadow / ice dE 0.2; protan: shadow / ice dE 0.3; worst vs ground: shadow colour (deutan) dE 8.1"
 			},
 			"predicted": {},
-			"proposal": "Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 3.1): add a value step inside the team-colour area",
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 0.2): add a value step inside the team-colour area",
 			"rank": 3,
 			"status": "WARN",
-			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 3.1): add a value step inside the team-colour area",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 0.2): add a value step inside the team-colour area",
 			"title": "Team colours for colour-blind players",
 			"wanted": {
 				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
@@ -118,7 +118,7 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "shadow",
-	"quality": 79.7,
+	"quality": 79.5,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_green_shade.tscn",
 	"tier": "soldier",

@@ -1,0 +1,100 @@
+{
+	"asset": "helper_hush",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 2091,
+					"node": "Root/Chest/Head/Merged",
+					"to": 1046,
+					"words": "`Merged` 2091 -> 1046 verts"
+				},
+				{
+					"from": 658,
+					"node": "Root/Chest/Merged",
+					"to": 329,
+					"words": "`Merged` 658 -> 329 verts"
+				},
+				{
+					"from": 607,
+					"node": "Root/Hips/Merged",
+					"to": 304,
+					"words": "`Merged` 607 -> 304 verts"
+				},
+				{
+					"from": 554,
+					"node": "Root/Chest/Cape",
+					"to": 277,
+					"words": "`Cape` 554 -> 277 verts"
+				},
+				{
+					"from": 552,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 276,
+					"words": "`Merged` 552 -> 276 verts"
+				},
+				{
+					"from": 552,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 276,
+					"words": "`Merged` 552 -> 276 verts"
+				},
+				{
+					"from": 335,
+					"node": "Root/Chest/Head/Face",
+					"to": 168,
+					"words": "`Face` 335 -> 168 verts"
+				},
+				{
+					"from": 246,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 123,
+					"words": "`Merged` 246 -> 123 verts"
+				},
+				{
+					"from": 246,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 123,
+					"words": "`Merged` 246 -> 123 verts"
+				},
+				{
+					"from": 156,
+					"node": "Root/Chest/ArmL/EdgeL",
+					"to": 78,
+					"words": "`EdgeL` 156 -> 78 verts"
+				},
+				{
+					"from": 156,
+					"node": "Root/Chest/ArmR/EdgeR",
+					"to": 78,
+					"words": "`EdgeR` 156 -> 78 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 6157
+			},
+			"predicted": {
+				"verts": 3082
+			},
+			"proposal": "6157 -> 3082 (want <= 3000): `Merged` 2091 -> 1046 verts; `Merged` 658 -> 329 verts; `Merged` 607 -> 304 verts; `Cape` 554 -> 277 verts; `Merged` 552 -> 276 verts; `Merged` 552 -> 276 verts; `Face` 335 -> 168 verts; `Merged` 246 -> 123 verts; `Merged` 246 -> 123 verts; `EdgeL` 156 -> 78 verts; `EdgeR` 156 -> 78 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 6157 -> 3082 (want <= 3000): `Merged` 2091 -> 1046 verts; `Merged` 658 -> 329 verts; `Merged` 607 -> 304 verts; `Cape` 554 -> 277 verts; `Merged` 552 -> 276 verts; `Merged` 552 -> 276 verts; `Face` 335 -> 168 verts; `Merged` 246 -> 123 verts; `Merged` 246 -> 123 verts; `EdgeL` 156 -> 78 verts; `EdgeR` 156 -> 78 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 94.4,
+	"result": "WARN",
+	"scene": "res://art/units/helpers/helper_hush/helper_hush.tscn",
+	"tier": "wizard",
+	"version": "1.0"
+}

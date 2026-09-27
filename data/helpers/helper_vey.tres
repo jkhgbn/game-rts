@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="HelperType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/helper_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_vey/helper_vey.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"helper_vey"
+display_name = "Old Vey"
+title = "The Storm-Sword"
+kingdom = &"fire"
+bonded_wizard_id = &"vessa"
+hp_base = 700.0
+hp_per_level = 50.0
+damage_base = 26.0
+damage_per_level = 3.0
+armor = 20.0
+attack_range = 2.0
+attack_cooldown = 1.2
+move_speed = 5.0
+sight = 13.0
+aggro = 11.0
+kind = &"melee"
+ability_ids = Array[StringName]([&"vey_lunge", &"vey_chain", &"vey_stormcall"])
+passive_id = &"vey_storm_sworn"
+body_height = 2.0
+color = Color(0.95, 0.95, 0.55, 1)
+projectile_color = Color(1, 1, 0.7, 1)
+model_scene = ExtResource("2_model")
+model_path = "res://art/units/helpers/helper_vey/helper_vey.tscn"
+voice_prefix = "helper_vey"

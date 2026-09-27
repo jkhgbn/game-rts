@@ -15,21 +15,237 @@ const ESSENCE_BANK_PATH := "res://scripts/items/essence_bank.gd"
 ## The optional crystal -> essence exchange (items.md, a user decision). False = refused everywhere.
 static var exchange_enabled := true
 
+## Keep tiers (docs/design/tiers.md, TierSystem): the upgrade finished (tier 2 Stronghold / 3 Citadel).
+signal tier_changed(keep: Keep, tier: int)
+
+const REASON_TIERS_OFF := "Tiers are off"
+const REASON_MAX_TIER := "Already a Citadel"
+const REASON_UPGRADING := "Upgrade in progress"
+const TIER_STUB_ID := &"keep_upgrade"
+
 ## Read only: what the keep shoots at (null when idle or when its type has no attack).
 var attack_target: Node3D:
 	get:
 		return _gun.target if _gun else null
+## Read only: 1 Keep, 2 Stronghold, 3 Citadel (set_tier_now / the upgrade change it). ScoreKeeper reads it.
+var tier := 1
 
 var _gun: BuildingGun
+var _up_to := 0          # tier being upgraded to (0 = none)
+var _up_left := 0.0
+var _up_paid := 0
+var _tier_emblem: Node3D
+var _tier_stub: UnitType
 
 
 func _physics_process(delta: float) -> void:
 	super(delta)
+	if _up_to > 0 and not _dead and is_constructed():
+		_up_left -= delta
+		if _up_left <= 0.0:
+			var to := _up_to
+			_up_to = 0
+			_up_paid = 0
+			set_tier_now(to)
+			TierSystem.announce(int(team), to)
 	if _dead or not is_constructed() or not BuildingGun.can_shoot(building_type):
 		return
 	if _gun == null:
 		_gun = BuildingGun.new(self, building_type.height, BOLT_SIZE, target_radius())
+	_gun.damage_bonus = TierSystem.DAMAGE_BONUS[tier - 1]
 	_gun.tick(delta)
+
+
+# ---------------------------------------------------------------- tiers (tiers.md 2)
+
+func tier_name() -> String:
+	return TierSystem.tier_name(tier)
+
+
+## Crystals / seconds of the next upgrade (0 at the Citadel).
+func upgrade_cost() -> int:
+	return int((TierSystem.UPGRADES.get(tier + 1, {}) as Dictionary).get("crystals", 0))
+
+
+func upgrade_time() -> float:
+	return float((TierSystem.UPGRADES.get(tier + 1, {}) as Dictionary).get("time", 0.0))
+
+
+## "" if the next upgrade can start now, else the reason (tiers off, destroyed, max, in progress, time, Hall, crystals).
+func can_upgrade() -> String:
+	var ts := TierSystem.instance()
+	if ts == null:
+		return REASON_TIERS_OFF
+	if _dead:
+		return REASON_DESTROYED
+	if not is_constructed():
+		return REASON_UNDER_CONSTRUCTION
+	if tier >= 3:
+		return REASON_MAX_TIER
+	if _up_to > 0:
+		return REASON_UPGRADING
+	var need := ts.upgrade_reason(int(team), tier + 1)
+	if need != "":
+		return need
+	var eco := _get_economy()
+	if eco == null or not eco.can_afford(upgrade_cost()):
+		return REASON_NO_CRYSTALS
+	return ""
+
+
+## Pays and starts the upgrade to the next tier (beside the worker queue). "" or the reason.
+func upgrade() -> String:
+	var reason := can_upgrade()
+	if reason == REASON_NO_CRYSTALS and _get_economy():
+		_get_economy().spend(upgrade_cost())   # fails on purpose: spend_failed flashes the top bar
+	if reason != "":
+		return reason
+	_up_paid = upgrade_cost()
+	_get_economy().spend(_up_paid)
+	_up_left = upgrade_time()
+	_up_to = tier + 1
+	_call_model(&"set_upgrading", [true])
+	queue_changed.emit()
+	return ""
+
+
+## Stops the upgrade: full refund.
+func cancel_upgrade() -> void:
+	if _up_to == 0:
+		return
+	var eco := _get_economy()
+	if eco and _up_paid > 0:
+		eco.add(_up_paid)
+	_up_to = 0
+	_up_paid = 0
+	_up_left = 0.0
+	_call_model(&"set_upgrading", [false])
+	queue_changed.emit()
+
+
+func is_upgrading() -> bool:
+	return _up_to > 0
+
+
+## 0-1 while upgrading (0 otherwise).
+func upgrade_progress() -> float:
+	if _up_to == 0:
+		return 0.0
+	var total := float((TierSystem.UPGRADES[_up_to] as Dictionary)["time"])
+	return clampf(1.0 - _up_left / maxf(total, 0.01), 0.0, 1.0)
+
+
+func upgrade_time_left() -> float:
+	return maxf(_up_left, 0.0) if _up_to > 0 else 0.0
+
+
+## Puts the keep at tier `t` now: max HP x1.2 / x1.4 of its base (the gain is healed), attack +4 / +8, the look.
+func set_tier_now(t: int) -> void:
+	t = clampi(t, 1, 3)
+	if t == tier:
+		return
+	var old_mult: float = TierSystem.HP_MULT[tier - 1]
+	var new_mult: float = TierSystem.HP_MULT[t - 1]
+	var old_max := max_hp
+	max_hp = roundf(max_hp / old_mult * new_mult)
+	if not _dead:
+		hp = clampf(hp + (max_hp - old_max), minf(hp, 1.0), max_hp)
+	tier = t
+	if is_inside_tree():
+		_update_hp_bar()
+		_call_model(&"set_health_ratio", [hp / maxf(max_hp, 1.0)])
+		_show_tier()
+		_call_model(&"play_tier_up")
+		_call_model(&"set_upgrading", [false])
+	tier_changed.emit(self, tier)
+	queue_changed.emit()
+	var ts := TierSystem.instance()
+	if ts:
+		ts.refresh(int(team))
+
+
+## The keep card's tier button (tiers.md 3): a stub UnitType (id TIER_STUB_ID) that TrainingBuilding.trainable_types
+## lists right after the worker (slot 2, key X), so the card, hotkey and bot plumbing need nothing new. Queuing it
+## starts the upgrade (can_queue / queue_unit below); while upgrading it becomes "Cancel <tier> n %" (full refund).
+## Null when tiers are off, the keep is a site / destroyed, or it is a Citadel.
+func tier_card_type() -> UnitType:
+	if TierSystem.instance() == null or _dead or not is_constructed() or (tier >= 3 and _up_to == 0):
+		return null
+	if _tier_stub == null:
+		_tier_stub = UnitType.new()
+		_tier_stub.id = TIER_STUB_ID
+		_tier_stub.pop = 0
+		_tier_stub.faction = building_type.faction if building_type else &""
+	if _up_to > 0:
+		var name_to := TierSystem.tier_name(_up_to)
+		_tier_stub.display_name = "Cancel %s" % name_to
+		_tier_stub.cost = 0
+		_tier_stub.train_time = upgrade_time_left()
+		_tier_stub.set_meta(&"card_text", "%s %d %%: %d s left. Cancel = full refund (%d crystals)." % [name_to,
+				roundi(upgrade_progress() * 100.0), ceili(upgrade_time_left()), _up_paid])
+	else:
+		var to := tier + 1
+		_tier_stub.display_name = TierSystem.tier_name(to)
+		_tier_stub.cost = upgrade_cost()
+		_tier_stub.train_time = upgrade_time()
+		_tier_stub.set_meta(&"card_text", "Upgrade the keep: +%d %% HP, +%d damage. %s" % [
+				roundi((TierSystem.HP_MULT[to - 1] - 1.0) * 100.0), roundi(TierSystem.DAMAGE_BONUS[to - 1]),
+				"Opens the tier-2 units and the \"+\" upgrades." if to == 2 else "Opens the tier-3 units and your helper."])
+	return _tier_stub
+
+
+func can_queue(type: UnitType) -> String:
+	if type != null and type.id == TIER_STUB_ID:
+		return "" if _up_to > 0 else can_upgrade()
+	return super(type)
+
+
+func queue_unit(type: UnitType) -> String:
+	if type != null and type.id == TIER_STUB_ID:
+		if _up_to > 0:
+			cancel_upgrade()
+			return ""
+		return upgrade()
+	return super(type)
+
+
+## The keep model's set_tier(t) if it has one; else a placeholder emblem: 1 (Stronghold) or 2 (Citadel) gold rings
+## over the roof (tiers-wave.md: art replaces it with a real tier look).
+func _show_tier() -> void:
+	if _model != null and is_instance_valid(_model) and _model.has_method(&"set_tier"):
+		_model.call(&"set_tier", tier)
+		return
+	if _tier_emblem:
+		_tier_emblem.queue_free()
+		_tier_emblem = null
+	if tier <= 1:
+		return
+	_tier_emblem = Node3D.new()
+	_tier_emblem.name = "TierEmblem"
+	add_child(_tier_emblem)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(1.0, 0.82, 0.3) if tier == 2 else Color(1.0, 0.95, 0.7)
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	for i in tier - 1:
+		var ring := MeshInstance3D.new()
+		var torus := TorusMesh.new()
+		torus.inner_radius = 1.7 - 0.45 * i
+		torus.outer_radius = 1.95 - 0.45 * i
+		torus.rings = 24
+		torus.ring_segments = 6
+		ring.mesh = torus
+		ring.material_override = mat
+		ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		ring.position.y = _top_height() + 0.6 + 0.5 * i
+		_tier_emblem.add_child(ring)
+
+
+func _on_destroyed() -> void:
+	super()
+	_up_to = 0   # the upgrade dies with the keep (no refund)
+	var ts := TierSystem.instance()
+	if ts:
+		ts.refresh(int(team))
 
 
 ## The living keep of `for_team_id` closest to `pos` (null if none).

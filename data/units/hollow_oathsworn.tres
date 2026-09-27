@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/hollow_oathsworn/hollow_oathsworn.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"hollow_oathsworn"
+display_name = "Hollow Oathsworn"
+faction = &"shadow"
+is_worker = false
+cost = 170
+pop = 2
+kill_xp = 85
+train_time = 30.0
+card_key = ","
+requires_tier = 2
+max_hp = 260.0
+move_speed = 4.6
+attack_damage = 20.0
+attack_range = 1.7
+attack_cooldown = 1.2
+aggro_range = 9.0
+radius = 0.55
+body_height = 2.0
+body_color = Color(0.3, 0.1, 0.2, 1)
+projectile_color = Color(0.8, 0.2, 0.3, 1)
+projectile_speed = 25.0
+model_scene = ExtResource("2_model")
+armor = 10.0
+sight_radius = 10.0
+model_path = "res://art/units/shadow/hollow_oathsworn/hollow_oathsworn.tscn"

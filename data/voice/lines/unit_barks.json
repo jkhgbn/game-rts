@@ -1,0 +1,222 @@
+{
+ "cine_id": "unit_barks",
+ "source": "hand-written unit barks (UnitVoice, scripts/audio/unit_voice.gd)",
+ "note": "One speaker per unit type (cast.json unit_<id>; the Shade and the T3 helpers use their story speakers). event = select / move / attack / death. Four bot-favourite units speak another language by default: flame_guard Italian (macho), rimeshield Spanish (proud), nightblood_reaver Mandarin (humble, T3), thornling American English (always looking for a fight). No slot: barks are free-standing.",
+ "lines": [
+  {"id": "cinder_hand_select", "unit": "cinder_hand", "event": "select", "speaker": "unit_cinder_hand", "text": "Hands ready, boss."},
+  {"id": "cinder_hand_move", "unit": "cinder_hand", "event": "move", "speaker": "unit_cinder_hand", "text": "On my way."},
+  {"id": "cinder_hand_attack", "unit": "cinder_hand", "event": "attack", "speaker": "unit_cinder_hand", "text": "[angry] I'll swing the pick, then."},
+  {"id": "cinder_hand_death", "unit": "cinder_hand", "event": "death", "speaker": "unit_cinder_hand", "text": "Ugh... shift's over."},
+
+  {"id": "flame_guard_select", "unit": "flame_guard", "event": "select", "speaker": "unit_flame_guard", "text": "Eccomi. Il più forte è arrivato."},
+  {"id": "flame_guard_select_2", "unit": "flame_guard", "event": "select", "speaker": "unit_flame_guard", "text": "Guarda questi muscoli. Bello, no?"},
+  {"id": "flame_guard_move", "unit": "flame_guard", "event": "move", "speaker": "unit_flame_guard", "text": "Andiamo! Nessuno mi ferma."},
+  {"id": "flame_guard_move_2", "unit": "flame_guard", "event": "move", "speaker": "unit_flame_guard", "text": "Certo, capo. Ci penso io."},
+  {"id": "flame_guard_attack", "unit": "flame_guard", "event": "attack", "speaker": "unit_flame_guard", "text": "Venite qui, se avete il coraggio!"},
+  {"id": "flame_guard_attack_2", "unit": "flame_guard", "event": "attack", "speaker": "unit_flame_guard", "text": "Fuoco e acciaio! Avanti!"},
+  {"id": "flame_guard_death", "unit": "flame_guard", "event": "death", "speaker": "unit_flame_guard", "text": "Non... è finita..."},
+
+  {"id": "ember_archer_select", "unit": "ember_archer", "event": "select", "speaker": "unit_ember_archer", "text": "Bow's strung and warm."},
+  {"id": "ember_archer_move", "unit": "ember_archer", "event": "move", "speaker": "unit_ember_archer", "text": "Moving, keep up!"},
+  {"id": "ember_archer_attack", "unit": "ember_archer", "event": "attack", "speaker": "unit_ember_archer", "text": "[excited] Light them up."},
+  {"id": "ember_archer_death", "unit": "ember_archer", "event": "death", "speaker": "unit_ember_archer", "text": "My fire... out..."},
+
+  {"id": "blaze_rider_select", "unit": "blaze_rider", "event": "select", "speaker": "unit_blaze_rider", "text": "Saddle's hot. Where to?"},
+  {"id": "blaze_rider_move", "unit": "blaze_rider", "event": "move", "speaker": "unit_blaze_rider", "text": "Hyah! Riding out."},
+  {"id": "blaze_rider_attack", "unit": "blaze_rider", "event": "attack", "speaker": "unit_blaze_rider", "text": "[shout] Charge through them."},
+  {"id": "blaze_rider_death", "unit": "blaze_rider", "event": "death", "speaker": "unit_blaze_rider", "text": "Thrown... from the saddle..."},
+
+  {"id": "ash_hurler_select", "unit": "ash_hurler", "event": "select", "speaker": "unit_ash_hurler", "text": "Pots are packed. Point me."},
+  {"id": "ash_hurler_move", "unit": "ash_hurler", "event": "move", "speaker": "unit_ash_hurler", "text": "Rolling, careful with the load."},
+  {"id": "ash_hurler_attack", "unit": "ash_hurler", "event": "attack", "speaker": "unit_ash_hurler", "text": "Loosing! Heads down!"},
+  {"id": "ash_hurler_death", "unit": "ash_hurler", "event": "death", "speaker": "unit_ash_hurler", "text": "Should have... kept my distance."},
+
+  {"id": "scorchbow_select", "unit": "scorchbow", "event": "select", "speaker": "unit_scorchbow", "text": "Arrow's lit. Name the mark."},
+  {"id": "scorchbow_move", "unit": "scorchbow", "event": "move", "speaker": "unit_scorchbow", "text": "Finding a better angle."},
+  {"id": "scorchbow_attack", "unit": "scorchbow", "event": "attack", "speaker": "unit_scorchbow", "text": "Let them burn a little."},
+  {"id": "scorchbow_death", "unit": "scorchbow", "event": "death", "speaker": "unit_scorchbow", "text": "Missed... the last one..."},
+
+  {"id": "scorchling_select", "unit": "scorchling", "event": "select", "speaker": "unit_scorchling", "text": "[excited] Hee hee! Me? Me!"},
+  {"id": "scorchling_move", "unit": "scorchling", "event": "move", "speaker": "unit_scorchling", "text": "Running, running!"},
+  {"id": "scorchling_attack", "unit": "scorchling", "event": "attack", "speaker": "unit_scorchling", "text": "[excited] Bite, burn, bite!"},
+  {"id": "scorchling_death", "unit": "scorchling", "event": "death", "speaker": "unit_scorchling", "text": "Pop!"},
+
+  {"id": "pyre_adept_select", "unit": "pyre_adept", "event": "select", "speaker": "unit_pyre_adept", "text": "The bowl is lit. Speak."},
+  {"id": "pyre_adept_move", "unit": "pyre_adept", "event": "move", "speaker": "unit_pyre_adept", "text": "I carry the flame there."},
+  {"id": "pyre_adept_attack", "unit": "pyre_adept", "event": "attack", "speaker": "unit_pyre_adept", "text": "Gather close, and burn together."},
+  {"id": "pyre_adept_death", "unit": "pyre_adept", "event": "death", "speaker": "unit_pyre_adept", "text": "[sad] The bowl... goes cold."},
+
+  {"id": "cinder_arbalest_select", "unit": "cinder_arbalest", "event": "select", "speaker": "unit_cinder_arbalest", "text": "Crank's wound. Bolt's glowing."},
+  {"id": "cinder_arbalest_move", "unit": "cinder_arbalest", "event": "move", "speaker": "unit_cinder_arbalest", "text": "Hauling the big one over."},
+  {"id": "cinder_arbalest_attack", "unit": "cinder_arbalest", "event": "attack", "speaker": "unit_cinder_arbalest", "text": "Line them up. One bolt, two holes."},
+  {"id": "cinder_arbalest_death", "unit": "cinder_arbalest", "event": "death", "speaker": "unit_cinder_arbalest", "text": "Jammed... at the worst time."},
+
+  {"id": "ashveil_saboteur_select", "unit": "ashveil_saboteur", "event": "select", "speaker": "unit_ashveil_saboteur", "text": "[whisper] You never saw me."},
+  {"id": "ashveil_saboteur_move", "unit": "ashveil_saboteur", "event": "move", "speaker": "unit_ashveil_saboteur", "text": "Into the smoke."},
+  {"id": "ashveil_saboteur_attack", "unit": "ashveil_saboteur", "event": "attack", "speaker": "unit_ashveil_saboteur", "text": "Fuse is short. Step back."},
+  {"id": "ashveil_saboteur_death", "unit": "ashveil_saboteur", "event": "death", "speaker": "unit_ashveil_saboteur", "text": "Ash... to ash."},
+
+  {"id": "gloom_thrall_select", "unit": "gloom_thrall", "event": "select", "speaker": "unit_gloom_thrall", "text": "[tired] The master calls. I dig."},
+  {"id": "gloom_thrall_move", "unit": "gloom_thrall", "event": "move", "speaker": "unit_gloom_thrall", "text": "Yes. Walking."},
+  {"id": "gloom_thrall_attack", "unit": "gloom_thrall", "event": "attack", "speaker": "unit_gloom_thrall", "text": "If I must."},
+  {"id": "gloom_thrall_death", "unit": "gloom_thrall", "event": "death", "speaker": "unit_gloom_thrall", "text": "Rest... at last."},
+
+  {"id": "shade_select", "unit": "shade", "event": "select", "speaker": "shade", "text": "The dark is listening."},
+  {"id": "shade_move", "unit": "shade", "event": "move", "speaker": "shade", "text": "Through the shadows."},
+  {"id": "shade_attack", "unit": "shade", "event": "attack", "speaker": "shade", "text": "They will not see me coming."},
+  {"id": "shade_death", "unit": "shade", "event": "death", "speaker": "shade", "text": "Back... to the dark."},
+
+  {"id": "nightbolt_select", "unit": "nightbolt", "event": "select", "speaker": "unit_nightbolt", "text": "A bolt of night, at your word."},
+  {"id": "nightbolt_move", "unit": "nightbolt", "event": "move", "speaker": "unit_nightbolt", "text": "Quietly, then."},
+  {"id": "nightbolt_attack", "unit": "nightbolt", "event": "attack", "speaker": "unit_nightbolt", "text": "Pick one. It falls."},
+  {"id": "nightbolt_death", "unit": "nightbolt", "event": "death", "speaker": "unit_nightbolt", "text": "The night... takes me back."},
+
+  {"id": "shadow_knight_select", "unit": "shadow_knight", "event": "select", "speaker": "unit_shadow_knight", "text": "My blade is sworn to Malrik."},
+  {"id": "shadow_knight_move", "unit": "shadow_knight", "event": "move", "speaker": "unit_shadow_knight", "text": "Riding in black."},
+  {"id": "shadow_knight_attack", "unit": "shadow_knight", "event": "attack", "speaker": "unit_shadow_knight", "text": "[shout] Break their line."},
+  {"id": "shadow_knight_death", "unit": "shadow_knight", "event": "death", "speaker": "unit_shadow_knight", "text": "My oath... is kept."},
+
+  {"id": "bleakbow_select", "unit": "bleakbow", "event": "select", "speaker": "unit_bleakbow", "text": "[whisper] I see them. They don't see me."},
+  {"id": "bleakbow_move", "unit": "bleakbow", "event": "move", "speaker": "unit_bleakbow", "text": "Keeping to the edges."},
+  {"id": "bleakbow_attack", "unit": "bleakbow", "event": "attack", "speaker": "unit_bleakbow", "text": "Let them bleed slowly."},
+  {"id": "bleakbow_death", "unit": "bleakbow", "event": "death", "speaker": "unit_bleakbow", "text": "So cold..."},
+
+  {"id": "barrow_ghoul_select", "unit": "barrow_ghoul", "event": "select", "speaker": "unit_barrow_ghoul", "text": "Hungry. Always hungry."},
+  {"id": "barrow_ghoul_move", "unit": "barrow_ghoul", "event": "move", "speaker": "unit_barrow_ghoul", "text": "Crawling, crawling."},
+  {"id": "barrow_ghoul_attack", "unit": "barrow_ghoul", "event": "attack", "speaker": "unit_barrow_ghoul", "text": "[excited] Fresh meat."},
+  {"id": "barrow_ghoul_death", "unit": "barrow_ghoul", "event": "death", "speaker": "unit_barrow_ghoul", "text": "Back... in the barrow."},
+
+  {"id": "hexweaver_select", "unit": "hexweaver", "event": "select", "speaker": "unit_hexweaver", "text": "The threads are ready."},
+  {"id": "hexweaver_move", "unit": "hexweaver", "event": "move", "speaker": "unit_hexweaver", "text": "I weave my way there."},
+  {"id": "hexweaver_attack", "unit": "hexweaver", "event": "attack", "speaker": "unit_hexweaver", "text": "Wither, little hero."},
+  {"id": "hexweaver_death", "unit": "hexweaver", "event": "death", "speaker": "unit_hexweaver", "text": "The thread... is cut."},
+
+  {"id": "hollow_oathsworn_select", "unit": "hollow_oathsworn", "event": "select", "speaker": "unit_hollow_oathsworn", "text": "Sworn, and hollow. Command me."},
+  {"id": "hollow_oathsworn_move", "unit": "hollow_oathsworn", "event": "move", "speaker": "unit_hollow_oathsworn", "text": "The vow walks with me."},
+  {"id": "hollow_oathsworn_attack", "unit": "hollow_oathsworn", "event": "attack", "speaker": "unit_hollow_oathsworn", "text": "[angry] I do not break."},
+  {"id": "hollow_oathsworn_death", "unit": "hollow_oathsworn", "event": "death", "speaker": "unit_hollow_oathsworn", "text": "Forgive me... my lord."},
+
+  {"id": "nightblood_reaver_select", "unit": "nightblood_reaver", "event": "select", "speaker": "unit_nightblood_reaver", "text": "在下不才，请您吩咐。"},
+  {"id": "nightblood_reaver_select_2", "unit": "nightblood_reaver", "event": "select", "speaker": "unit_nightblood_reaver", "text": "您过奖了，我只是个小兵。"},
+  {"id": "nightblood_reaver_move", "unit": "nightblood_reaver", "event": "move", "speaker": "unit_nightblood_reaver", "text": "是，我这就去。"},
+  {"id": "nightblood_reaver_move_2", "unit": "nightblood_reaver", "event": "move", "speaker": "unit_nightblood_reaver", "text": "给您添麻烦了。"},
+  {"id": "nightblood_reaver_attack", "unit": "nightblood_reaver", "event": "attack", "speaker": "unit_nightblood_reaver", "text": "得罪了。"},
+  {"id": "nightblood_reaver_attack_2", "unit": "nightblood_reaver", "event": "attack", "speaker": "unit_nightblood_reaver", "text": "请多指教。"},
+  {"id": "nightblood_reaver_death", "unit": "nightblood_reaver", "event": "death", "speaker": "unit_nightblood_reaver", "text": "我，尽力了。"},
+
+  {"id": "rime_hauler_select", "unit": "rime_hauler", "event": "select", "speaker": "unit_rime_hauler", "text": "Sled's empty. What's the job?"},
+  {"id": "rime_hauler_move", "unit": "rime_hauler", "event": "move", "speaker": "unit_rime_hauler", "text": "Aye, pulling."},
+  {"id": "rime_hauler_attack", "unit": "rime_hauler", "event": "attack", "speaker": "unit_rime_hauler", "text": "Right, I'll have a go."},
+  {"id": "rime_hauler_death", "unit": "rime_hauler", "event": "death", "speaker": "unit_rime_hauler", "text": "Leave the sled... for me."},
+
+  {"id": "rimeshield_select", "unit": "rimeshield", "event": "select", "speaker": "unit_rimeshield", "text": "¿Sí? El escudo más noble del norte."},
+  {"id": "rimeshield_select_2", "unit": "rimeshield", "event": "select", "speaker": "unit_rimeshield", "text": "Mi escudo jamás se ha rendido."},
+  {"id": "rimeshield_move", "unit": "rimeshield", "event": "move", "speaker": "unit_rimeshield", "text": "Con honor, siempre."},
+  {"id": "rimeshield_move_2", "unit": "rimeshield", "event": "move", "speaker": "unit_rimeshield", "text": "Allá voy, con la frente en alto."},
+  {"id": "rimeshield_attack", "unit": "rimeshield", "event": "attack", "speaker": "unit_rimeshield", "text": "¡Por la gloria del hielo!"},
+  {"id": "rimeshield_attack_2", "unit": "rimeshield", "event": "attack", "speaker": "unit_rimeshield", "text": "¡Nadie pasa! ¡Nadie!"},
+  {"id": "rimeshield_death", "unit": "rimeshield", "event": "death", "speaker": "unit_rimeshield", "text": "Caigo... con orgullo."},
+
+  {"id": "shardcaster_select", "unit": "shardcaster", "event": "select", "speaker": "unit_shardcaster", "text": "Shards are sharp. Where?"},
+  {"id": "shardcaster_move", "unit": "shardcaster", "event": "move", "speaker": "unit_shardcaster", "text": "Stepping lightly."},
+  {"id": "shardcaster_attack", "unit": "shardcaster", "event": "attack", "speaker": "unit_shardcaster", "text": "Mind the splinters."},
+  {"id": "shardcaster_death", "unit": "shardcaster", "event": "death", "speaker": "unit_shardcaster", "text": "Shattered..."},
+
+  {"id": "rime_seer_select", "unit": "rime_seer", "event": "select", "speaker": "unit_rime_seer", "text": "[calm] I saw you coming."},
+  {"id": "rime_seer_move", "unit": "rime_seer", "event": "move", "speaker": "unit_rime_seer", "text": "The frost shows the path."},
+  {"id": "rime_seer_attack", "unit": "rime_seer", "event": "attack", "speaker": "unit_rime_seer", "text": "Winter, take them."},
+  {"id": "rime_seer_death", "unit": "rime_seer", "event": "death", "speaker": "unit_rime_seer", "text": "I did not... see this."},
+
+  {"id": "rime_colossus_select", "unit": "rime_colossus", "event": "select", "speaker": "unit_rime_colossus", "text": "[slow] Colossus... awake."},
+  {"id": "rime_colossus_move", "unit": "rime_colossus", "event": "move", "speaker": "unit_rime_colossus", "text": "[slow] The ground... shakes."},
+  {"id": "rime_colossus_attack", "unit": "rime_colossus", "event": "attack", "speaker": "unit_rime_colossus", "text": "[slow] Crush."},
+  {"id": "rime_colossus_death", "unit": "rime_colossus", "event": "death", "speaker": "unit_rime_colossus", "text": "[slow] Melting..."},
+
+  {"id": "frostbow_select", "unit": "frostbow", "event": "select", "speaker": "unit_frostbow", "text": "Steady hands, cold eyes."},
+  {"id": "frostbow_move", "unit": "frostbow", "event": "move", "speaker": "unit_frostbow", "text": "Moving to high ground."},
+  {"id": "frostbow_attack", "unit": "frostbow", "event": "attack", "speaker": "unit_frostbow", "text": "Freeze in place."},
+  {"id": "frostbow_death", "unit": "frostbow", "event": "death", "speaker": "unit_frostbow", "text": "The string... snapped."},
+
+  {"id": "rimeling_select", "unit": "rimeling", "event": "select", "speaker": "unit_rimeling", "text": "[excited] Brr! Ready, ready!"},
+  {"id": "rimeling_move", "unit": "rimeling", "event": "move", "speaker": "unit_rimeling", "text": "Sliding over!"},
+  {"id": "rimeling_attack", "unit": "rimeling", "event": "attack", "speaker": "unit_rimeling", "text": "Stab, stab, chill!"},
+  {"id": "rimeling_death", "unit": "rimeling", "event": "death", "speaker": "unit_rimeling", "text": "Aww... melted."},
+
+  {"id": "hoarlight_magebow_select", "unit": "hoarlight_magebow", "event": "select", "speaker": "unit_hoarlight_magebow", "text": "The light string hums."},
+  {"id": "hoarlight_magebow_move", "unit": "hoarlight_magebow", "event": "move", "speaker": "unit_hoarlight_magebow", "text": "Keeping my distance."},
+  {"id": "hoarlight_magebow_attack", "unit": "hoarlight_magebow", "event": "attack", "speaker": "unit_hoarlight_magebow", "text": "A needle of frost for you."},
+  {"id": "hoarlight_magebow_death", "unit": "hoarlight_magebow", "event": "death", "speaker": "unit_hoarlight_magebow", "text": "The light... fades."},
+
+  {"id": "frost_mortar_select", "unit": "frost_mortar", "event": "select", "speaker": "unit_frost_mortar", "text": "Mortar crew, standing by."},
+  {"id": "frost_mortar_move", "unit": "frost_mortar", "event": "move", "speaker": "unit_frost_mortar", "text": "Pull, lads, pull!"},
+  {"id": "frost_mortar_attack", "unit": "frost_mortar", "event": "attack", "speaker": "unit_frost_mortar", "text": "Shell away! Cover your ears."},
+  {"id": "frost_mortar_death", "unit": "frost_mortar", "event": "death", "speaker": "unit_frost_mortar", "text": "The tube's cracked!"},
+
+  {"id": "shardguard_select", "unit": "shardguard", "event": "select", "speaker": "unit_shardguard", "text": "The Shardguard stands."},
+  {"id": "shardguard_move", "unit": "shardguard", "event": "move", "speaker": "unit_shardguard", "text": "Where I walk, the ice holds."},
+  {"id": "shardguard_attack", "unit": "shardguard", "event": "attack", "speaker": "unit_shardguard", "text": "[angry] Stand against the glacier."},
+  {"id": "shardguard_death", "unit": "shardguard", "event": "death", "speaker": "unit_shardguard", "text": "Even glaciers... fall."},
+
+  {"id": "sprigling_select", "unit": "sprigling", "event": "select", "speaker": "unit_sprigling", "text": "Hello! Something to grow?"},
+  {"id": "sprigling_move", "unit": "sprigling", "event": "move", "speaker": "unit_sprigling", "text": "Hopping along!"},
+  {"id": "sprigling_attack", "unit": "sprigling", "event": "attack", "speaker": "unit_sprigling", "text": "Oh dear. Here goes!"},
+  {"id": "sprigling_death", "unit": "sprigling", "event": "death", "speaker": "unit_sprigling", "text": "Wilting..."},
+
+  {"id": "thornling_select", "unit": "thornling", "event": "select", "speaker": "unit_thornling", "text": "Finally! Who are we fighting?"},
+  {"id": "thornling_select_2", "unit": "thornling", "event": "select", "speaker": "unit_thornling", "text": "You looking at me? Let's go, then."},
+  {"id": "thornling_move", "unit": "thornling", "event": "move", "speaker": "unit_thornling", "text": "Fine. There better be a fight there."},
+  {"id": "thornling_move_2", "unit": "thornling", "event": "move", "speaker": "unit_thornling", "text": "Walking? I'd rather be punching."},
+  {"id": "thornling_attack", "unit": "thornling", "event": "attack", "speaker": "unit_thornling", "text": "[shout] Oh yeah! Come get some."},
+  {"id": "thornling_attack_2", "unit": "thornling", "event": "attack", "speaker": "unit_thornling", "text": "[shout] That's what I'm talking about."},
+  {"id": "thornling_death", "unit": "thornling", "event": "death", "speaker": "unit_thornling", "text": "Worth it!"},
+
+  {"id": "burr_slinger_select", "unit": "burr_slinger", "event": "select", "speaker": "unit_burr_slinger", "text": "Pockets full of burrs."},
+  {"id": "burr_slinger_move", "unit": "burr_slinger", "event": "move", "speaker": "unit_burr_slinger", "text": "Off through the brush."},
+  {"id": "burr_slinger_attack", "unit": "burr_slinger", "event": "attack", "speaker": "unit_burr_slinger", "text": "These ones stick!"},
+  {"id": "burr_slinger_death", "unit": "burr_slinger", "event": "death", "speaker": "unit_burr_slinger", "text": "Oh... ouch..."},
+
+  {"id": "bloomtender_select", "unit": "bloomtender", "event": "select", "speaker": "unit_bloomtender", "text": "[calm] Who needs mending?"},
+  {"id": "bloomtender_move", "unit": "bloomtender", "event": "move", "speaker": "unit_bloomtender", "text": "I'll follow the green."},
+  {"id": "bloomtender_attack", "unit": "bloomtender", "event": "attack", "speaker": "unit_bloomtender", "text": "I would rather heal, but fine."},
+  {"id": "bloomtender_death", "unit": "bloomtender", "event": "death", "speaker": "unit_bloomtender", "text": "Plant me... somewhere nice."},
+
+  {"id": "bramblehorn_select", "unit": "bramblehorn", "event": "select", "speaker": "unit_bramblehorn", "text": "[slow] Hrm. The old wood listens."},
+  {"id": "bramblehorn_move", "unit": "bramblehorn", "event": "move", "speaker": "unit_bramblehorn", "text": "[slow] Roots, lift."},
+  {"id": "bramblehorn_attack", "unit": "bramblehorn", "event": "attack", "speaker": "unit_bramblehorn", "text": "[slow] Horns down."},
+  {"id": "bramblehorn_death", "unit": "bramblehorn", "event": "death", "speaker": "unit_bramblehorn", "text": "[slow] Back... to the soil."},
+
+  {"id": "wildwood_archer_select", "unit": "wildwood_archer", "event": "select", "speaker": "unit_wildwood_archer", "text": "The wood has eyes. Mine."},
+  {"id": "wildwood_archer_move", "unit": "wildwood_archer", "event": "move", "speaker": "unit_wildwood_archer", "text": "Slipping between the trees."},
+  {"id": "wildwood_archer_attack", "unit": "wildwood_archer", "event": "attack", "speaker": "unit_wildwood_archer", "text": "Aim low. Slow them."},
+  {"id": "wildwood_archer_death", "unit": "wildwood_archer", "event": "death", "speaker": "unit_wildwood_archer", "text": "The leaves... are falling."},
+
+  {"id": "thistle_darter_select", "unit": "thistle_darter", "event": "select", "speaker": "unit_thistle_darter", "text": "Quick, quick, what is it?"},
+  {"id": "thistle_darter_move", "unit": "thistle_darter", "event": "move", "speaker": "unit_thistle_darter", "text": "Zip!"},
+  {"id": "thistle_darter_attack", "unit": "thistle_darter", "event": "attack", "speaker": "unit_thistle_darter", "text": "Puff, and away!"},
+  {"id": "thistle_darter_death", "unit": "thistle_darter", "event": "death", "speaker": "unit_thistle_darter", "text": "Blown away..."},
+
+  {"id": "vinelasher_select", "unit": "vinelasher", "event": "select", "speaker": "unit_vinelasher", "text": "The vines are restless."},
+  {"id": "vinelasher_move", "unit": "vinelasher", "event": "move", "speaker": "unit_vinelasher", "text": "Creeping forward."},
+  {"id": "vinelasher_attack", "unit": "vinelasher", "event": "attack", "speaker": "unit_vinelasher", "text": "Hold still. Rooted."},
+  {"id": "vinelasher_death", "unit": "vinelasher", "event": "death", "speaker": "unit_vinelasher", "text": "Torn... from the ground."},
+
+  {"id": "greenheart_oathkeeper_select", "unit": "greenheart_oathkeeper", "event": "select", "speaker": "unit_greenheart_oathkeeper", "text": "My shield is Ysolde's."},
+  {"id": "greenheart_oathkeeper_move", "unit": "greenheart_oathkeeper", "event": "move", "speaker": "unit_greenheart_oathkeeper", "text": "The grove goes with me."},
+  {"id": "greenheart_oathkeeper_attack", "unit": "greenheart_oathkeeper", "event": "attack", "speaker": "unit_greenheart_oathkeeper", "text": "[shout] Face me, not them."},
+  {"id": "greenheart_oathkeeper_death", "unit": "greenheart_oathkeeper", "event": "death", "speaker": "unit_greenheart_oathkeeper", "text": "The oath... holds."},
+
+  {"id": "stormbottle_genie_select", "unit": "stormbottle_genie", "event": "select", "speaker": "unit_stormbottle_genie", "text": "Out of the bottle at last!"},
+  {"id": "stormbottle_genie_move", "unit": "stormbottle_genie", "event": "move", "speaker": "unit_stormbottle_genie", "text": "Floating over, no rush."},
+  {"id": "stormbottle_genie_attack", "unit": "stormbottle_genie", "event": "attack", "speaker": "unit_stormbottle_genie", "text": "[excited] A little thunder for you."},
+  {"id": "stormbottle_genie_death", "unit": "stormbottle_genie", "event": "death", "speaker": "unit_stormbottle_genie", "text": "Back in the bottle..."},
+
+  {"id": "helper_vey_select", "unit": "helper_vey", "event": "select", "speaker": "vey", "text": "Still standing, girl. Mostly."},
+  {"id": "helper_vey_death", "unit": "helper_vey", "event": "death", "speaker": "vey", "text": "Struck down... again."},
+  {"id": "helper_hush_select", "unit": "helper_hush", "event": "select", "speaker": "hush", "text": "Hush. I am here."},
+  {"id": "helper_hush_death", "unit": "helper_hush", "event": "death", "speaker": "hush", "text": "Quiet... at last."},
+  {"id": "helper_aldra_select", "unit": "helper_aldra", "event": "select", "speaker": "aldra", "text": "Still water, steady aim."},
+  {"id": "helper_aldra_death", "unit": "helper_aldra", "event": "death", "speaker": "aldra", "text": "The water... runs out."},
+  {"id": "helper_maelis_select", "unit": "helper_maelis", "event": "select", "speaker": "maelis", "text": "The roots are with us."},
+  {"id": "helper_maelis_death", "unit": "helper_maelis", "event": "death", "speaker": "maelis", "text": "Return me... to the oak."}
+ ]
+}

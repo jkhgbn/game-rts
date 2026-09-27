@@ -499,6 +499,9 @@ func _think() -> void:
 			if not rule_usec_samples.has(i):
 				rule_usec_samples[i] = []
 			(rule_usec_samples[i] as Array).append(su)
+	# t3-helpers.md 9 (T3 agent): call / revive the helper, its stance, 1-2 T3 units, Saboteurs, the Genie. T3Kit.ENABLED.
+	if T3Kit.ENABLED:
+		T3Kit.bot_tick(int(team), int(difficulty), _keep if is_instance_valid(_keep) else null, _now)
 	# BuildGrid.place (site + navmesh rebake request) costs the same for a player: not counted.
 	var dt := Time.get_ticks_usec() - t0 - _place_usec
 	if first:
@@ -1598,6 +1601,20 @@ func _rule_train() -> void:
 	_keep_rally()
 	if _queued_this_tick or _barracks.is_empty():
 		return
+	# tiers.md 4: Stronghold / Citadel on the difficulty's timeline (true = started, or saving crystals for it).
+	if TierSystem.bot_try_upgrade(team, _keep, _eco, int(difficulty)):
+		if _keep.is_upgrading():
+			_log("KEEP UPGRADE to %s (crystals left %d)" % [TierSystem.tier_name(_keep.tier + 1), _eco.crystals])
+		return
+	# t3-helpers.md 9: at the Citadel the helper call comes first (true = called now, or saving crystals for it).
+	var helper_step := T3Kit.bot_try_helper(team, _keep, _eco, int(difficulty)) if T3Kit.ENABLED else &""
+	if helper_step == &"called":
+		_log("HELPER CALL (crystals left %d)" % _eco.crystals)
+	if helper_step != &"":
+		return
+	if UnitUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # tiers.md 5: "+" upgrades
+		_log("PLUS UPGRADE (crystals left %d)" % _eco.crystals)
+		return
 	if BowmanKit.BOWMEN_ENABLED and BowmanUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # bowmen.md 6
 		_log("BOWMAN UPGRADE (crystals left %d)" % _eco.crystals)
 		return
@@ -1654,8 +1671,12 @@ func _pick_soldier(b: TrainingBuilding) -> UnitType:
 	for i in types.size():
 		if i == HEAVY_SLOT and (_eco.crystals < maxi(ai.heavy_crystals, types[i].cost) or total < ai.heavy_soldier_pop):
 			continue
-		# Slots past the profile mix: the Hall bowman's small share (bowmen.md 6), else 0.
-		var target: float = mix[i] if i < mix.size() else BowmanKit.bot_share(types[i].id)
+		# new-units-12.md 5 / tiers-wave.md: a tier-gated unit ("Requires Stronghold", ...) is skipped, never picked
+		# then refused (that would stall rule 5 until the tier is reached).
+		if b.can_queue(types[i]).begins_with("Requires"):
+			continue
+		# Slots past the profile mix: the Hall bowman's small share (bowmen.md 6), the new units' (new-units-12.md 5).
+		var target: float = mix[i] if i < mix.size() else BowmanKit.bot_share(types[i].id) + NewUnits12.bot_share(types[i].id)
 		var gap := target - float(pops[i]) / float(maxi(total, 1))
 		if gap > best_gap:
 			best_gap = gap

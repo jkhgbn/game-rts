@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "landmark",
 	"kingdom": "neutral",
-	"quality": 100.0,
+	"quality": 99.2,
 	"result": "PASS",
 	"scene": "res://art/environment/landmarks/aqueduct.tscn",
 	"tier": "landmark",

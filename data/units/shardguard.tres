@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/ice/shardguard/shardguard.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"shardguard"
+display_name = "Shardguard"
+faction = &"ice"
+is_worker = false
+cost = 225
+pop = 3
+kill_xp = 115
+train_time = 36
+card_key = ""
+max_hp = 440
+move_speed = 4
+attack_damage = 18
+attack_range = 2.4
+attack_cooldown = 1.5
+aggro_range = 8
+radius = 0.55
+body_height = 2.2
+body_color = Color(0.8, 0.9, 1, 1)
+projectile_color = Color(0.7, 0.9, 1, 1)
+model_scene = ExtResource("2_model")
+armor = 25
+sight_radius = 11
+requires_tier = 3
+model_path = "res://art/units/ice/shardguard/shardguard.tscn"

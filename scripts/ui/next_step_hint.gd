@@ -253,7 +253,7 @@ static func step_text(which: StringName, kingdom_id: StringName, s: Dictionary) 
 						% [left / 60, left % 60, KeyLabels.of(KEY_Y)]
 			return "taverns are open: press %s to hire a champion" % KeyLabels.of(KEY_Y)
 	var tower := building_of(kingdom_id, &"tower")
-	var am := KeyLabels.of(KEY_X) if GameSettings.hero_wasd() else KeyLabels.of(KEY_A)
+	var am := KeyLabels.of(GameSettings.attack_move_key())
 	var tower_part := ", guard your base with %s (%s)" % [a_or_an(tower.display_name), build_keys(tower)] if tower else ""
 	return "grow your army%s, then attack: %s + click = attack-move. Destroy every enemy building to win" \
 			% [tower_part, am]

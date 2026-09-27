@@ -1,0 +1,1305 @@
+{
+	"battle_bed_band_db": {
+		"air": -33.765,
+		"low": -23.958,
+		"mid": -20.169,
+		"presence": -30.555
+	},
+	"checks": [
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "ashby",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-3 dB",
+			"status": "WARN",
+			"value": "median -11.9 LUFS (+3.3 dB vs all speakers -15.2), 3 lines -12.5..-11.5, 6 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "dancer",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -16.6 LUFS (-1.5 dB vs all speakers -15.2), 1 lines -16.6..-16.6, 2 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "malrik",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-2 dB",
+			"status": "WARN",
+			"value": "median -13.5 LUFS (+1.7 dB vs all speakers -15.2), 19 lines -15.8..-11.7, 80 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "master",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -17.0 LUFS (-1.9 dB vs all speakers -15.2), 30 lines -18.7..-14.1, 124 s, peak -0.4 dBTP"
+		},
+		{
+			"fix": "Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).",
+			"group": "speech",
+			"item": "master peak",
+			"key": "speech_tp",
+			"rule": "voice true peak <= -0.5 dBTP",
+			"short": "",
+			"status": "WARN",
+			"value": "-0.4 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "messenger",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.4 LUFS (-0.3 dB vs all speakers -15.2), 11 lines -18.5..-12.5, 16 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "narrator",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "+3 dB",
+			"status": "WARN",
+			"value": "median -18.5 LUFS (-3.4 dB vs all speakers -15.2), 4 lines -20.0..-16.6, 17 s, peak -0.7 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "pell",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.8 LUFS (-0.7 dB vs all speakers -15.2), 1 lines -15.8..-15.8, 6 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "reveler",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.3 LUFS (-0.2 dB vs all speakers -15.2), 1 lines -15.3..-15.3, 2 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "shade",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.0 LUFS (+0.2 dB vs all speakers -15.2), 1 lines -15.0..-15.0, 2 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "vessa",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.9 LUFS (+0.3 dB vs all speakers -15.2), 20 lines -18.2..-10.9, 44 s, peak -0.6 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "vey",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (+0.4 dB vs all speakers -15.2), 3 lines -14.7..-14.2, 8 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "ysolde",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.2 LUFS (+1.0 dB vs all speakers -15.2), 14 lines -16.1..-11.4, 52 s, peak -0.5 dBTP"
+		},
+		{
+			"fix": "Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).",
+			"group": "speech",
+			"item": "ysolde peak",
+			"key": "speech_tp",
+			"rule": "voice true peak <= -0.5 dBTP",
+			"short": "",
+			"status": "WARN",
+			"value": "-0.5 dBTP"
+		},
+		{
+			"fix": "Re-render the listed lines (a direction tag like [whisper] explains a quiet one: note it in the listening sheet).",
+			"group": "speech",
+			"item": "lines vs their speaker",
+			"key": "speech_line",
+			"rule": "every line within 4 dB of its speaker's median (FAIL > 8)",
+			"short": "",
+			"status": "PASS",
+			"value": "0 / 108 lines off by > 4 dB"
+		}
+	],
+	"command": "godot --headless --path . -s tools/audio_lab/audio_lab.gd -- set=res://assets/audio/voice name=voice log=0",
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 10,
+		"WARN": 5
+	},
+	"cues": {},
+	"date": "2026-09-27T14:14:54",
+	"events": [],
+	"fight": {},
+	"group_scores": {
+		"speech": 0.833
+	},
+	"improve_next": [
+		"**WARN Spoken lines (Voice Forge, per speaker)** - Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).  _(ashby -3 dB, malrik -2 dB, narrator +3 dB; speaker median -24..-14 LUFS, within 3 dB of the others)_",
+		"**WARN Spoken lines (Voice Forge, per speaker)** - Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).  _(master peak, ysolde peak; voice true peak <= -0.5 dBTP)_",
+		"**Listen in context** - run the preview (tools/audio_lab/audio_lab_preview.tscn) and fill the listening sheet; numbers can't judge taste."
+	],
+	"kind": "auto",
+	"mode": "set",
+	"name": "voice",
+	"players": [],
+	"rules": {
+		"loudness": {
+			"alert": {
+				"hi": -7.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -13.0,
+				"why": "must cut through a battle (level up, capture, raid, stingers)"
+			},
+			"ambience": {
+				"hi": -26.0,
+				"lo": -36.0,
+				"metric": "integrated",
+				"target": -30.0,
+				"why": "a bed under everything, well below the music"
+			},
+			"music": {
+				"hi": -18.0,
+				"lo": -26.0,
+				"metric": "integrated",
+				"target": -22.0,
+				"why": "the mix anchor (includes GameAudio.MUSIC_DB)"
+			},
+			"spell": {
+				"hi": -9.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -14.0,
+				"why": "hero actions read above the combat bed"
+			},
+			"ui": {
+				"hi": -14.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -22.0,
+				"why": "clear but polite: never louder than an alert, audible over the music"
+			},
+			"unit": {
+				"hi": -16.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -23.0,
+				"why": "combat bed: hits, shots, deaths; many at once, so each one moderate"
+			}
+		},
+		"ref_distance": 30.0
+	},
+	"score": 83,
+	"speech": [
+		{
+			"dur": 2.46,
+			"error": "",
+			"id": "ashby/emberguard_boots_on_we_41d6a1ed",
+			"lufs": -11.525,
+			"path": "res://assets/audio/voice/ashby/emberguard_boots_on_we_41d6a1ed.wav",
+			"speaker": "ashby",
+			"tp": -0.987
+		},
+		{
+			"dur": 1.63,
+			"error": "",
+			"id": "ashby/rider_at_the_gate_f3c9142f",
+			"lufs": -12.481,
+			"path": "res://assets/audio/voice/ashby/rider_at_the_gate_f3c9142f.wav",
+			"speaker": "ashby",
+			"tp": -0.87
+		},
+		{
+			"dur": 2.02,
+			"error": "",
+			"id": "ashby/three_relics_one_colossus_cbec31ed",
+			"lufs": -11.869,
+			"path": "res://assets/audio/voice/ashby/three_relics_one_colossus_cbec31ed.wav",
+			"speaker": "ashby",
+			"tp": -0.848
+		},
+		{
+			"dur": 1.76,
+			"error": "",
+			"id": "dancer/come_on_my_queen_d768fe5e",
+			"lufs": -16.609,
+			"path": "res://assets/audio/voice/dancer/come_on_my_queen_d768fe5e.wav",
+			"speaker": "dancer",
+			"tp": -0.94
+		},
+		{
+			"dur": 4.47,
+			"error": "",
+			"id": "malrik/and_me_he_gave_ad0ff01f",
+			"lufs": -12.802,
+			"path": "res://assets/audio/voice/malrik/and_me_he_gave_ad0ff01f.wav",
+			"speaker": "malrik",
+			"tp": -0.983
+		},
+		{
+			"dur": 3.04,
+			"error": "",
+			"id": "malrik/everyone_tells_my_story_b15bf545",
+			"lufs": -13.152,
+			"path": "res://assets/audio/voice/malrik/everyone_tells_my_story_b15bf545.wav",
+			"speaker": "malrik",
+			"tp": -1.115
+		},
+		{
+			"dur": 2.29,
+			"error": "",
+			"id": "malrik/i_have_heard_stop_6b5d1395",
+			"lufs": -11.912,
+			"path": "res://assets/audio/voice/malrik/i_have_heard_stop_6b5d1395.wav",
+			"speaker": "malrik",
+			"tp": -0.911
+		},
+		{
+			"dur": 4.99,
+			"error": "",
+			"id": "malrik/i_kept_something_a_95e665a5",
+			"lufs": -13.644,
+			"path": "res://assets/audio/voice/malrik/i_kept_something_a_95e665a5.wav",
+			"speaker": "malrik",
+			"tp": -0.876
+		},
+		{
+			"dur": 5.227,
+			"error": "",
+			"id": "malrik/i_took_the_dark_7ada4fa9",
+			"lufs": -14.028,
+			"path": "res://assets/audio/voice/malrik/i_took_the_dark_7ada4fa9.wav",
+			"speaker": "malrik",
+			"tp": -1.043
+		},
+		{
+			"dur": 4.416,
+			"error": "",
+			"id": "malrik/i_was_a_gravediggers_c1b95674",
+			"lufs": -12.928,
+			"path": "res://assets/audio/voice/malrik/i_was_a_gravediggers_c1b95674.wav",
+			"speaker": "malrik",
+			"tp": -0.908
+		},
+		{
+			"dur": 1.259,
+			"error": "",
+			"id": "malrik/i_will_not_stop_0b262bfa",
+			"lufs": -11.711,
+			"path": "res://assets/audio/voice/malrik/i_will_not_stop_0b262bfa.wav",
+			"speaker": "malrik",
+			"tp": -0.933
+		},
+		{
+			"dur": 5.01,
+			"error": "",
+			"id": "malrik/it_whispers_let_it_f35c4d4b",
+			"lufs": -13.653,
+			"path": "res://assets/audio/voice/malrik/it_whispers_let_it_f35c4d4b.wav",
+			"speaker": "malrik",
+			"tp": -1.026
+		},
+		{
+			"dur": 3.41,
+			"error": "",
+			"id": "malrik/keep_it_warm_for_3523ab04",
+			"lufs": -13.489,
+			"path": "res://assets/audio/voice/malrik/keep_it_warm_for_3523ab04.wav",
+			"speaker": "malrik",
+			"tp": -0.833
+		},
+		{
+			"dur": 3.72,
+			"error": "",
+			"id": "malrik/light_all_the_candles_d4719180",
+			"lufs": -13.367,
+			"path": "res://assets/audio/voice/malrik/light_all_the_candles_d4719180.wav",
+			"speaker": "malrik",
+			"tp": -0.918
+		},
+		{
+			"dur": 3.83,
+			"error": "",
+			"id": "malrik/little_vessa_you_came_e419427c",
+			"lufs": -12.873,
+			"path": "res://assets/audio/voice/malrik/little_vessa_you_came_e419427c.wav",
+			"speaker": "malrik",
+			"tp": -0.935
+		},
+		{
+			"dur": 4.97,
+			"error": "",
+			"id": "malrik/look_at_it_the_489223a3",
+			"lufs": -13.889,
+			"path": "res://assets/audio/voice/malrik/look_at_it_the_489223a3.wav",
+			"speaker": "malrik",
+			"tp": -0.978
+		},
+		{
+			"dur": 4.779,
+			"error": "",
+			"id": "malrik/put_it_down_that_da2e3fa9",
+			"lufs": -15.608,
+			"path": "res://assets/audio/voice/malrik/put_it_down_that_da2e3fa9.wav",
+			"speaker": "malrik",
+			"tp": -1.027
+		},
+		{
+			"dur": 5.163,
+			"error": "",
+			"id": "malrik/she_missed_emberfall_then_fbb05401",
+			"lufs": -13.422,
+			"path": "res://assets/audio/voice/malrik/she_missed_emberfall_then_fbb05401.wav",
+			"speaker": "malrik",
+			"tp": -1.022
+		},
+		{
+			"dur": 4.437,
+			"error": "",
+			"id": "malrik/that_is_how_a_dfbf8c00",
+			"lufs": -12.912,
+			"path": "res://assets/audio/voice/malrik/that_is_how_a_dfbf8c00.wav",
+			"speaker": "malrik",
+			"tp": -0.992
+		},
+		{
+			"dur": 5.16,
+			"error": "",
+			"id": "malrik/the_master_found_me_68a72082",
+			"lufs": -14.337,
+			"path": "res://assets/audio/voice/malrik/the_master_found_me_68a72082.wav",
+			"speaker": "malrik",
+			"tp": -1.07
+		},
+		{
+			"dur": 4.39,
+			"error": "",
+			"id": "malrik/then_he_vanished_and_877f4086",
+			"lufs": -13.805,
+			"path": "res://assets/audio/voice/malrik/then_he_vanished_and_877f4086.wav",
+			"speaker": "malrik",
+			"tp": -1.006
+		},
+		{
+			"dur": 4.885,
+			"error": "",
+			"id": "malrik/they_will_stand_there_52f7eb60",
+			"lufs": -13.932,
+			"path": "res://assets/audio/voice/malrik/they_will_stand_there_52f7eb60.wav",
+			"speaker": "malrik",
+			"tp": -1.169
+		},
+		{
+			"dur": 4.83,
+			"error": "",
+			"id": "malrik/too_fourth_of_four_de85a128",
+			"lufs": -15.834,
+			"path": "res://assets/audio/voice/malrik/too_fourth_of_four_de85a128.wav",
+			"speaker": "malrik",
+			"tp": -1.007
+		},
+		{
+			"dur": 5.12,
+			"error": "",
+			"id": "master/burn_her_forest_down_16f3dda5",
+			"lufs": -17.019,
+			"path": "res://assets/audio/voice/master/burn_her_forest_down_16f3dda5.wav",
+			"speaker": "master",
+			"tp": -0.899
+		},
+		{
+			"dur": 4.03,
+			"error": "",
+			"id": "master/but_he_is_never_adfcea4c",
+			"lufs": -15.77,
+			"path": "res://assets/audio/voice/master/but_he_is_never_adfcea4c.wav",
+			"speaker": "master",
+			"tp": -1.164
+		},
+		{
+			"dur": 4.27,
+			"error": "",
+			"id": "master/but_he_waits_too_7019f3d6",
+			"lufs": -17.022,
+			"path": "res://assets/audio/voice/master/but_he_waits_too_7019f3d6.wav",
+			"speaker": "master",
+			"tp": -0.945
+		},
+		{
+			"dur": 4.91,
+			"error": "",
+			"id": "master/but_she_never_waits_a66dd99c",
+			"lufs": -16.516,
+			"path": "res://assets/audio/voice/master/but_she_never_waits_a66dd99c.wav",
+			"speaker": "master",
+			"tp": -1.054
+		},
+		{
+			"dur": 3.99,
+			"error": "",
+			"id": "master/but_she_will_not_f0c2364f",
+			"lufs": -14.147,
+			"path": "res://assets/audio/voice/master/but_she_will_not_f0c2364f.wav",
+			"speaker": "master",
+			"tp": -0.926
+		},
+		{
+			"dur": 5.4,
+			"error": "",
+			"id": "master/dragons_great_and_small_d6939132",
+			"lufs": -18.113,
+			"path": "res://assets/audio/voice/master/dragons_great_and_small_d6939132.wav",
+			"speaker": "master",
+			"tp": -0.88
+		},
+		{
+			"dur": 2.78,
+			"error": "",
+			"id": "master/four_heirs_one_empty_8bd4c10b",
+			"lufs": -14.384,
+			"path": "res://assets/audio/voice/master/four_heirs_one_empty_8bd4c10b.wav",
+			"speaker": "master",
+			"tp": -0.863
+		},
+		{
+			"dur": 3.425,
+			"error": "",
+			"id": "master/give_her_a_wall_e312dd45",
+			"lufs": -15.066,
+			"path": "res://assets/audio/voice/master/give_her_a_wall_e312dd45.wav",
+			"speaker": "master",
+			"tp": -1.0
+		},
+		{
+			"dur": 4.42,
+			"error": "",
+			"id": "master/he_raised_four_apprentices_1eed795c",
+			"lufs": -18.524,
+			"path": "res://assets/audio/voice/master/he_raised_four_apprentices_1eed795c.wav",
+			"speaker": "master",
+			"tp": -1.122
+		},
+		{
+			"dur": 5.6,
+			"error": "",
+			"id": "master/he_thinks_i_gave_10970b83",
+			"lufs": -15.443,
+			"path": "res://assets/audio/voice/master/he_thinks_i_gave_10970b83.wav",
+			"speaker": "master",
+			"tp": -1.428
+		},
+		{
+			"dur": 5.633,
+			"error": "",
+			"id": "master/his_citadel_rose_above_2e36d77d",
+			"lufs": -14.236,
+			"path": "res://assets/audio/voice/master/his_citadel_rose_above_2e36d77d.wav",
+			"speaker": "master",
+			"tp": -1.015
+		},
+		{
+			"dur": 3.73,
+			"error": "",
+			"id": "master/i_know_this_tale_705bd7cd",
+			"lufs": -15.022,
+			"path": "res://assets/audio/voice/master/i_know_this_tale_705bd7cd.wav",
+			"speaker": "master",
+			"tp": -0.867
+		},
+		{
+			"dur": 4.53,
+			"error": "",
+			"id": "master/i_left_him_my_5d4b36a7",
+			"lufs": -17.67,
+			"path": "res://assets/audio/voice/master/i_left_him_my_5d4b36a7.wav",
+			"speaker": "master",
+			"tp": -0.806
+		},
+		{
+			"dur": 4.34,
+			"error": "",
+			"id": "master/i_loved_all_four_d534ea63",
+			"lufs": -17.185,
+			"path": "res://assets/audio/voice/master/i_loved_all_four_d534ea63.wav",
+			"speaker": "master",
+			"tp": -0.978
+		},
+		{
+			"dur": 5.22,
+			"error": "",
+			"id": "master/i_would_say_show_1f5d14b4",
+			"lufs": -16.56,
+			"path": "res://assets/audio/voice/master/i_would_say_show_1f5d14b4.wav",
+			"speaker": "master",
+			"tp": -0.976
+		},
+		{
+			"dur": 3.91,
+			"error": "",
+			"id": "master/kings_brought_him_their_38ebe69c",
+			"lufs": -15.279,
+			"path": "res://assets/audio/voice/master/kings_brought_him_their_38ebe69c.wav",
+			"speaker": "master",
+			"tp": -0.734
+		},
+		{
+			"dur": 4.96,
+			"error": "",
+			"id": "master/malrik_i_found_him_915e2c7f",
+			"lufs": -17.497,
+			"path": "res://assets/audio/voice/master/malrik_i_found_him_915e2c7f.wav",
+			"speaker": "master",
+			"tp": -0.872
+		},
+		{
+			"dur": 1.77,
+			"error": "",
+			"id": "master/malrik_of_shadow_b1f1cf04",
+			"lufs": -15.116,
+			"path": "res://assets/audio/voice/master/malrik_of_shadow_b1f1cf04.wav",
+			"speaker": "master",
+			"tp": -0.7
+		},
+		{
+			"dur": 4.16,
+			"error": "",
+			"id": "master/nothing_breaks_him_not_9a4ca6da",
+			"lufs": -17.463,
+			"path": "res://assets/audio/voice/master/nothing_breaks_him_not_9a4ca6da.wav",
+			"speaker": "master",
+			"tp": -0.877
+		},
+		{
+			"dur": 4.47,
+			"error": "",
+			"id": "master/nothing_is_hidden_from_3efbf049",
+			"lufs": -17.657,
+			"path": "res://assets/audio/voice/master/nothing_is_hidden_from_3efbf049.wav",
+			"speaker": "master",
+			"tp": -0.737
+		},
+		{
+			"dur": 5.143,
+			"error": "",
+			"id": "master/once_upon_a_time_74703b43",
+			"lufs": -17.652,
+			"path": "res://assets/audio/voice/master/once_upon_a_time_74703b43.wav",
+			"speaker": "master",
+			"tp": -0.889
+		},
+		{
+			"dur": 4.05,
+			"error": "",
+			"id": "master/still_she_laughed_like_57d11b3e",
+			"lufs": -16.796,
+			"path": "res://assets/audio/voice/master/still_she_laughed_like_57d11b3e.wav",
+			"speaker": "master",
+			"tp": -1.068
+		},
+		{
+			"dur": 3.41,
+			"error": "",
+			"id": "master/then_between_one_breath_72b919e2",
+			"lufs": -15.177,
+			"path": "res://assets/audio/voice/master/then_between_one_breath_72b919e2.wav",
+			"speaker": "master",
+			"tp": -0.701
+		},
+		{
+			"dur": 5.05,
+			"error": "",
+			"id": "master/they_called_him_only_31069c93",
+			"lufs": -17.356,
+			"path": "res://assets/audio/voice/master/they_called_him_only_31069c93.wav",
+			"speaker": "master",
+			"tp": -1.136
+		},
+		{
+			"dur": 1.76,
+			"error": "",
+			"id": "master/torvald_of_ice_8995149a",
+			"lufs": -14.248,
+			"path": "res://assets/audio/voice/master/torvald_of_ice_8995149a.wav",
+			"speaker": "master",
+			"tp": -1.007
+		},
+		{
+			"dur": 5.34,
+			"error": "",
+			"id": "master/torvald_the_eldest_where_f5a25caa",
+			"lufs": -17.185,
+			"path": "res://assets/audio/voice/master/torvald_the_eldest_where_f5a25caa.wav",
+			"speaker": "master",
+			"tp": -0.934
+		},
+		{
+			"dur": 1.77,
+			"error": "",
+			"id": "master/vessa_of_fire_629e6c64",
+			"lufs": -18.44,
+			"path": "res://assets/audio/voice/master/vessa_of_fire_629e6c64.wav",
+			"speaker": "master",
+			"tp": -1.141
+		},
+		{
+			"dur": 5.24,
+			"error": "",
+			"id": "master/vessa_the_youngest_she_0f7ca4c7",
+			"lufs": -18.662,
+			"path": "res://assets/audio/voice/master/vessa_the_youngest_she_0f7ca4c7.wav",
+			"speaker": "master",
+			"tp": -1.086
+		},
+		{
+			"dur": 3.72,
+			"error": "",
+			"id": "master/ysolde_i_found_her_85d2e563",
+			"lufs": -17.699,
+			"path": "res://assets/audio/voice/master/ysolde_i_found_her_85d2e563.wav",
+			"speaker": "master",
+			"tp": -0.429
+		},
+		{
+			"dur": 1.97,
+			"error": "",
+			"id": "master/ysolde_of_nature_23123983",
+			"lufs": -17.768,
+			"path": "res://assets/audio/voice/master/ysolde_of_nature_23123983.wav",
+			"speaker": "master",
+			"tp": -1.115
+		},
+		{
+			"dur": 1.62,
+			"error": "",
+			"id": "messenger/all_of_it_i_dea99842",
+			"lufs": -13.438,
+			"path": "res://assets/audio/voice/messenger/all_of_it_i_dea99842.wav",
+			"speaker": "messenger",
+			"tp": -1.048
+		},
+		{
+			"dur": 1.32,
+			"error": "",
+			"id": "messenger/and_ice_together_961d4f64",
+			"lufs": -14.937,
+			"path": "res://assets/audio/voice/messenger/and_ice_together_961d4f64.wav",
+			"speaker": "messenger",
+			"tp": -1.118
+		},
+		{
+			"dur": 1.45,
+			"error": "",
+			"id": "messenger/and_then_then_it_cafb3e3f",
+			"lufs": -16.936,
+			"path": "res://assets/audio/voice/messenger/and_then_then_it_cafb3e3f.wav",
+			"speaker": "messenger",
+			"tp": -1.07
+		},
+		{
+			"dur": 1.22,
+			"error": "",
+			"id": "messenger/lady_ysolde_9f770e28",
+			"lufs": -16.73,
+			"path": "res://assets/audio/voice/messenger/lady_ysolde_9f770e28.wav",
+			"speaker": "messenger",
+			"tp": -1.075
+		},
+		{
+			"dur": 1.22,
+			"error": "",
+			"id": "messenger/my_my_lady_612f36fb",
+			"lufs": -15.515,
+			"path": "res://assets/audio/voice/messenger/my_my_lady_612f36fb.wav",
+			"speaker": "messenger",
+			"tp": -1.005
+		},
+		{
+			"dur": 1.82,
+			"error": "",
+			"id": "messenger/she_said_remember_she_80a331e3",
+			"lufs": -15.446,
+			"path": "res://assets/audio/voice/messenger/she_said_remember_she_80a331e3.wav",
+			"speaker": "messenger",
+			"tp": -1.176
+		},
+		{
+			"dur": 1.29,
+			"error": "",
+			"id": "messenger/she_said_youd_laugh_1a583b4e",
+			"lufs": -12.479,
+			"path": "res://assets/audio/voice/messenger/she_said_youd_laugh_1a583b4e.wav",
+			"speaker": "messenger",
+			"tp": -0.963
+		},
+		{
+			"dur": 1.29,
+			"error": "",
+			"id": "messenger/thank_you_thank_you_904e8e7d",
+			"lufs": -17.348,
+			"path": "res://assets/audio/voice/messenger/thank_you_thank_you_904e8e7d.wav",
+			"speaker": "messenger",
+			"tp": -0.891
+		},
+		{
+			"dur": 1.3,
+			"error": "",
+			"id": "messenger/the_army_its_gone_ecf8d151",
+			"lufs": -14.311,
+			"path": "res://assets/audio/voice/messenger/the_army_its_gone_ecf8d151.wav",
+			"speaker": "messenger",
+			"tp": -0.798
+		},
+		{
+			"dur": 1.8,
+			"error": "",
+			"id": "messenger/the_ember_queen_which_0214be28",
+			"lufs": -18.527,
+			"path": "res://assets/audio/voice/messenger/the_ember_queen_which_0214be28.wav",
+			"speaker": "messenger",
+			"tp": -1.242
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "messenger/the_wood_shadow_came_0780bf02",
+			"lufs": -14.579,
+			"path": "res://assets/audio/voice/messenger/the_wood_shadow_came_0780bf02.wav",
+			"speaker": "messenger",
+			"tp": -0.922
+		},
+		{
+			"dur": 4.77,
+			"error": "",
+			"id": "narrator/far_away_three_apprentices_c4c409b3",
+			"lufs": -19.525,
+			"path": "res://assets/audio/voice/narrator/far_away_three_apprentices_c4c409b3.wav",
+			"speaker": "narrator",
+			"tp": -1.105
+		},
+		{
+			"dur": 2.56,
+			"error": "",
+			"id": "narrator/the_master_is_gone_e050d7b6",
+			"lufs": -16.581,
+			"path": "res://assets/audio/voice/narrator/the_master_is_gone_e050d7b6.wav",
+			"speaker": "narrator",
+			"tp": -0.676
+		},
+		{
+			"dur": 5.23,
+			"error": "",
+			"id": "narrator/the_westwatch_fire_rises_d7e80c5e",
+			"lufs": -19.951,
+			"path": "res://assets/audio/voice/narrator/the_westwatch_fire_rises_d7e80c5e.wav",
+			"speaker": "narrator",
+			"tp": -0.902
+		},
+		{
+			"dur": 4.7,
+			"error": "",
+			"id": "narrator/three_flames_answer_the_69a75470",
+			"lufs": -17.52,
+			"path": "res://assets/audio/voice/narrator/three_flames_answer_the_69a75470.wav",
+			"speaker": "narrator",
+			"tp": -0.852
+		},
+		{
+			"dur": 5.57,
+			"error": "",
+			"id": "pell/free_at_last_buy_f2b6c6c4",
+			"lufs": -15.826,
+			"path": "res://assets/audio/voice/pell/free_at_last_buy_f2b6c6c4.wav",
+			"speaker": "pell",
+			"tp": -0.997
+		},
+		{
+			"dur": 1.66,
+			"error": "",
+			"id": "reveler/to_vessa_to_the_79ccdcb8",
+			"lufs": -15.306,
+			"path": "res://assets/audio/voice/reveler/to_vessa_to_the_79ccdcb8.wav",
+			"speaker": "reveler",
+			"tp": -0.797
+		},
+		{
+			"dur": 2.05,
+			"error": "",
+			"id": "shade/the_keep_sleeps_so_dac3a4b3",
+			"lufs": -14.999,
+			"path": "res://assets/audio/voice/shade/the_keep_sleeps_so_dac3a4b3.wav",
+			"speaker": "shade",
+			"tp": -0.867
+		},
+		{
+			"dur": 5.589,
+			"error": "",
+			"id": "vessa/an_ember_crown_in_21770f9f",
+			"lufs": -14.957,
+			"path": "res://assets/audio/voice/vessa/an_ember_crown_in_21770f9f.wav",
+			"speaker": "vessa",
+			"tp": -0.85
+		},
+		{
+			"dur": 2.88,
+			"error": "",
+			"id": "vessa/but_her_people_have_6f60fcc0",
+			"lufs": -15.567,
+			"path": "res://assets/audio/voice/vessa/but_her_people_have_6f60fcc0.wav",
+			"speaker": "vessa",
+			"tp": -0.925
+		},
+		{
+			"dur": 2.02,
+			"error": "",
+			"id": "vessa/hold_on_ysolde_fire_413040f1",
+			"lufs": -15.484,
+			"path": "res://assets/audio/voice/vessa/hold_on_ysolde_fire_413040f1.wav",
+			"speaker": "vessa",
+			"tp": -0.886
+		},
+		{
+			"dur": 1.97,
+			"error": "",
+			"id": "vessa/i_know_youre_tired_54835bf6",
+			"lufs": -13.824,
+			"path": "res://assets/audio/voice/vessa/i_know_youre_tired_54835bf6.wav",
+			"speaker": "vessa",
+			"tp": -1.11
+		},
+		{
+			"dur": 2.816,
+			"error": "",
+			"id": "vessa/im_here_for_the_10aceb62",
+			"lufs": -17.748,
+			"path": "res://assets/audio/voice/vessa/im_here_for_the_10aceb62.wav",
+			"speaker": "vessa",
+			"tp": -0.912
+		},
+		{
+			"dur": 0.929,
+			"error": "",
+			"id": "vessa/im_not_laughing_ac71c3e1",
+			"lufs": -12.002,
+			"path": "res://assets/audio/voice/vessa/im_not_laughing_ac71c3e1.wav",
+			"speaker": "vessa",
+			"tp": -0.692
+		},
+		{
+			"dur": 0.9,
+			"error": "",
+			"id": "vessa/malriks_side_ccd3f916",
+			"lufs": -12.651,
+			"path": "res://assets/audio/voice/vessa/malriks_side_ccd3f916.wav",
+			"speaker": "vessa",
+			"tp": -1.057
+		},
+		{
+			"dur": 1.49,
+			"error": "",
+			"id": "vessa/me_breathe_who_sent_798d6010",
+			"lufs": -16.083,
+			"path": "res://assets/audio/voice/vessa/me_breathe_who_sent_798d6010.wav",
+			"speaker": "vessa",
+			"tp": -0.825
+		},
+		{
+			"dur": 0.8,
+			"error": "",
+			"id": "vessa/not_tonight_0703ac9b",
+			"lufs": -10.927,
+			"path": "res://assets/audio/voice/vessa/not_tonight_0703ac9b.wav",
+			"speaker": "vessa",
+			"tp": -0.87
+		},
+		{
+			"dur": 1.93,
+			"error": "",
+			"id": "vessa/one_dance_then_im_faec23ce",
+			"lufs": -17.146,
+			"path": "res://assets/audio/voice/vessa/one_dance_then_im_faec23ce.wav",
+			"speaker": "vessa",
+			"tp": -0.92
+		},
+		{
+			"dur": 4.15,
+			"error": "",
+			"id": "vessa/one_lit_malrik_you_c51368de",
+			"lufs": -14.96,
+			"path": "res://assets/audio/voice/vessa/one_lit_malrik_you_c51368de.wav",
+			"speaker": "vessa",
+			"tp": -1.077
+		},
+		{
+			"dur": 1.64,
+			"error": "",
+			"id": "vessa/tell_the_others_i_62fd53ca",
+			"lufs": -14.819,
+			"path": "res://assets/audio/voice/vessa/tell_the_others_i_62fd53ca.wav",
+			"speaker": "vessa",
+			"tp": -1.061
+		},
+		{
+			"dur": 1.858,
+			"error": "",
+			"id": "vessa/the_watch_fires_are_67de4a2b",
+			"lufs": -14.261,
+			"path": "res://assets/audio/voice/vessa/the_watch_fires_are_67de4a2b.wav",
+			"speaker": "vessa",
+			"tp": -0.612
+		},
+		{
+			"dur": 3.221,
+			"error": "",
+			"id": "vessa/then_its_in_the_02a82f6a",
+			"lufs": -17.768,
+			"path": "res://assets/audio/voice/vessa/then_its_in_the_02a82f6a.wav",
+			"speaker": "vessa",
+			"tp": -0.787
+		},
+		{
+			"dur": 5.015,
+			"error": "",
+			"id": "vessa/three_braziers_one_seal_a933259b",
+			"lufs": -15.212,
+			"path": "res://assets/audio/voice/vessa/three_braziers_one_seal_a933259b.wav",
+			"speaker": "vessa",
+			"tp": -0.91
+		},
+		{
+			"dur": 1.217,
+			"error": "",
+			"id": "vessa/vey_get_up_and_c64e0931",
+			"lufs": -13.698,
+			"path": "res://assets/audio/voice/vessa/vey_get_up_and_c64e0931.wav",
+			"speaker": "vessa",
+			"tp": -0.933
+		},
+		{
+			"dur": 1.19,
+			"error": "",
+			"id": "vessa/vey_ride_with_me_5b43aae2",
+			"lufs": -14.145,
+			"path": "res://assets/audio/voice/vessa/vey_ride_with_me_5b43aae2.wav",
+			"speaker": "vessa",
+			"tp": -0.924
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "vessa/who_walks_the_wall_45dd4c19",
+			"lufs": -12.372,
+			"path": "res://assets/audio/voice/vessa/who_walks_the_wall_45dd4c19.wav",
+			"speaker": "vessa",
+			"tp": -0.932
+		},
+		{
+			"dur": 1.94,
+			"error": "",
+			"id": "vessa/you_are_a_long_e1ae8fe0",
+			"lufs": -13.244,
+			"path": "res://assets/audio/voice/vessa/you_are_a_long_e1ae8fe0.wav",
+			"speaker": "vessa",
+			"tp": -0.836
+		},
+		{
+			"dur": 1.22,
+			"error": "",
+			"id": "vessa/ysolde_theyre_moving_a67643f3",
+			"lufs": -18.22,
+			"path": "res://assets/audio/voice/vessa/ysolde_theyre_moving_a67643f3.wav",
+			"speaker": "vessa",
+			"tp": -1.053
+		},
+		{
+			"dur": 3.139,
+			"error": "",
+			"id": "vey/i_felled_a_mountain_227f8c5f",
+			"lufs": -14.221,
+			"path": "res://assets/audio/voice/vey/i_felled_a_mountain_227f8c5f.wav",
+			"speaker": "vey",
+			"tp": -0.782
+		},
+		{
+			"dur": 2.05,
+			"error": "",
+			"id": "vey/so_torvald_chose_a_396c70fe",
+			"lufs": -14.732,
+			"path": "res://assets/audio/voice/vey/so_torvald_chose_a_396c70fe.wav",
+			"speaker": "vey",
+			"tp": -0.792
+		},
+		{
+			"dur": 2.63,
+			"error": "",
+			"id": "vey/the_spark_first_girl_92374f56",
+			"lufs": -14.748,
+			"path": "res://assets/audio/voice/vey/the_spark_first_girl_92374f56.wav",
+			"speaker": "vey",
+			"tp": -1.022
+		},
+		{
+			"dur": 3.755,
+			"error": "",
+			"id": "ysolde/a_tall_man_with_160c2abd",
+			"lufs": -14.244,
+			"path": "res://assets/audio/voice/ysolde/a_tall_man_with_160c2abd.wav",
+			"speaker": "ysolde",
+			"tp": -0.988
+		},
+		{
+			"dur": 3.84,
+			"error": "",
+			"id": "ysolde/he_said_show_me_79d79140",
+			"lufs": -14.099,
+			"path": "res://assets/audio/voice/ysolde/he_said_show_me_79d79140.wav",
+			"speaker": "ysolde",
+			"tp": -0.773
+		},
+		{
+			"dur": 4.373,
+			"error": "",
+			"id": "ysolde/i_knelt_in_the_143cbc56",
+			"lufs": -15.278,
+			"path": "res://assets/audio/voice/ysolde/i_knelt_in_the_143cbc56.wav",
+			"speaker": "ysolde",
+			"tp": -0.981
+		},
+		{
+			"dur": 3.766,
+			"error": "",
+			"id": "ysolde/i_was_born_on_fbe13b97",
+			"lufs": -13.405,
+			"path": "res://assets/audio/voice/ysolde/i_was_born_on_fbe13b97.wav",
+			"speaker": "ysolde",
+			"tp": -1.09
+		},
+		{
+			"dur": 3.691,
+			"error": "",
+			"id": "ysolde/in_spring_it_came_67120205",
+			"lufs": -13.579,
+			"path": "res://assets/audio/voice/ysolde/in_spring_it_came_67120205.wav",
+			"speaker": "ysolde",
+			"tp": -0.724
+		},
+		{
+			"dur": 1.17,
+			"error": "",
+			"id": "ysolde/it_will_not_stop_46dfa508",
+			"lufs": -11.356,
+			"path": "res://assets/audio/voice/ysolde/it_will_not_stop_46dfa508.wav",
+			"speaker": "ysolde",
+			"tp": -1.005
+		},
+		{
+			"dur": 4.203,
+			"error": "",
+			"id": "ysolde/last_winter_they_burned_e017cf01",
+			"lufs": -14.133,
+			"path": "res://assets/audio/voice/ysolde/last_winter_they_burned_e017cf01.wav",
+			"speaker": "ysolde",
+			"tp": -1.046
+		},
+		{
+			"dur": 2.315,
+			"error": "",
+			"id": "ysolde/let_them_come_cut_d956830a",
+			"lufs": -13.457,
+			"path": "res://assets/audio/voice/ysolde/let_them_come_cut_d956830a.wav",
+			"speaker": "ysolde",
+			"tp": -0.799
+		},
+		{
+			"dur": 3.712,
+			"error": "",
+			"id": "ysolde/malrik_stands_up_there_5121c046",
+			"lufs": -14.686,
+			"path": "res://assets/audio/voice/ysolde/malrik_stands_up_there_5121c046.wav",
+			"speaker": "ysolde",
+			"tp": -1.158
+		},
+		{
+			"dur": 3.968,
+			"error": "",
+			"id": "ysolde/malrik_tells_his_life_52243579",
+			"lufs": -14.539,
+			"path": "res://assets/audio/voice/ysolde/malrik_tells_his_life_52243579.wav",
+			"speaker": "ysolde",
+			"tp": -0.974
+		},
+		{
+			"dur": 3.92,
+			"error": "",
+			"id": "ysolde/my_mother_buried_seed_b7d7b32b",
+			"lufs": -13.858,
+			"path": "res://assets/audio/voice/ysolde/my_mother_buried_seed_b7d7b32b.wav",
+			"speaker": "ysolde",
+			"tp": -1.126
+		},
+		{
+			"dur": 4.416,
+			"error": "",
+			"id": "ysolde/that_is_my_strength_ae118cbe",
+			"lufs": -16.138,
+			"path": "res://assets/audio/voice/ysolde/that_is_my_strength_ae118cbe.wav",
+			"speaker": "ysolde",
+			"tp": -0.498
+		},
+		{
+			"dur": 4.11,
+			"error": "",
+			"id": "ysolde/the_master_planted_this_049c4f15",
+			"lufs": -15.41,
+			"path": "res://assets/audio/voice/ysolde/the_master_planted_this_049c4f15.wav",
+			"speaker": "ysolde",
+			"tp": -1.099
+		},
+		{
+			"dur": 4.321,
+			"error": "",
+			"id": "ysolde/they_call_me_soft_3535b2b2",
+			"lufs": -15.773,
+			"path": "res://assets/audio/voice/ysolde/they_call_me_soft_3535b2b2.wav",
+			"speaker": "ysolde",
+			"tp": -0.638
+		}
+	],
+	"speech_by_speaker": {
+		"_all": -15.153,
+		"ashby": {
+			"dur_s": 6.11,
+			"hi": -11.525,
+			"lo": -12.481,
+			"median": -11.869,
+			"n": 3,
+			"tp_max": -0.848
+		},
+		"dancer": {
+			"dur_s": 1.76,
+			"hi": -16.609,
+			"lo": -16.609,
+			"median": -16.609,
+			"n": 1,
+			"tp_max": -0.94
+		},
+		"malrik": {
+			"dur_s": 80.275,
+			"hi": -11.711,
+			"lo": -15.834,
+			"median": -13.489,
+			"n": 19,
+			"tp_max": -0.833
+		},
+		"master": {
+			"dur_s": 124.119,
+			"hi": -14.147,
+			"lo": -18.662,
+			"median": -17.02,
+			"n": 30,
+			"tp_max": -0.429
+		},
+		"messenger": {
+			"dur_s": 15.759,
+			"hi": -12.479,
+			"lo": -18.527,
+			"median": -15.446,
+			"n": 11,
+			"tp_max": -0.798
+		},
+		"narrator": {
+			"dur_s": 17.26,
+			"hi": -16.581,
+			"lo": -19.951,
+			"median": -18.523,
+			"n": 4,
+			"tp_max": -0.676
+		},
+		"pell": {
+			"dur_s": 5.57,
+			"hi": -15.826,
+			"lo": -15.826,
+			"median": -15.826,
+			"n": 1,
+			"tp_max": -0.997
+		},
+		"reveler": {
+			"dur_s": 1.66,
+			"hi": -15.306,
+			"lo": -15.306,
+			"median": -15.306,
+			"n": 1,
+			"tp_max": -0.797
+		},
+		"shade": {
+			"dur_s": 2.05,
+			"hi": -14.999,
+			"lo": -14.999,
+			"median": -14.999,
+			"n": 1,
+			"tp_max": -0.867
+		},
+		"vessa": {
+			"dur_s": 44.204,
+			"hi": -10.927,
+			"lo": -18.22,
+			"median": -14.888,
+			"n": 20,
+			"tp_max": -0.612
+		},
+		"vey": {
+			"dur_s": 7.818,
+			"hi": -14.221,
+			"lo": -14.748,
+			"median": -14.732,
+			"n": 3,
+			"tp_max": -0.782
+		},
+		"ysolde": {
+			"dur_s": 51.559,
+			"hi": -11.356,
+			"lo": -16.138,
+			"median": -14.189,
+			"n": 14,
+			"tp_max": -0.498
+		}
+	},
+	"target": "res://assets/audio/voice"
+}

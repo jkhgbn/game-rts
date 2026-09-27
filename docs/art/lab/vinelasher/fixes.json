@@ -1,0 +1,13 @@
+{
+	"asset": "vinelasher",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 99.2,
+	"result": "PASS",
+	"scene": "res://art/units/nature/vinelasher/vinelasher.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}
