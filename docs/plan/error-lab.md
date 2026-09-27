@@ -31,11 +31,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_error_lab.ps1
 | `-ListOnly` | print the picked tests and their caps, run nothing (check a `-Changed` pick) |
 | `-NoHistory` | no row in `docs/errors/lab/history.jsonl` (experiments, fix-agent re-checks) |
 | `-HistoryFile` | another history file (the test uses a temp one) |
+| `-ProjectDir` | run the tests of another checkout (the desktop CI copy); default = this repo in place |
+| `-TailLines` | log lines quoted per failed test (default 15) |
 
 Each test runs as `tools/godot_run.ps1 --headless --path <root> -s tests/<t>.gd --fixed-fps 60 --quit-after <cap>`
-through `cmd /c ... > log 2>&1`, so stdout and stderr land in one full log per test. Caps (the CI table): default
-40000; `*bot_vs_bot*` 116000; `test_9_c9`, `test_10_a3` 150000; `test_8_a1` 200000; `test_12_a1` 60000; `test_8_a2`
-100000 (`$Caps` at the top of the script). Exit code **1 when the result is FAIL**, else 0. The console ends with
+through `cmd /c ... > log 2>&1`, so stdout and stderr land in one full log per test. Caps (ONE table, the CI runs its
+tests through this lab): default 40000; `*bot_vs_bot*` 116000; `test_9_c9`, `test_10_a3` 150000; `test_8_a1` 200000;
+`test_12_a1`, `test_20_a2` 60000; `test_20_a3` 80000; `test_9_c11`, `test_2_a1_attack`, `test_8_b3` 95000; `test_8_a2`
+100000 (`$Caps` at the top of the script). **A test can declare its own cap** in its first 20 lines:
+`# error_lab: quit-after=95000` (wins over the table; the task agent sets it with the test, nobody edits the lab). Exit code **1 when the result is FAIL**, else 0. The console ends with
 `ERROR LAB: <RESULT> score <N> / 100 (...)` and the top 3 errors.
 
 ## 2. What it collects and how it classes it
@@ -65,6 +69,51 @@ one compact JSON row in `docs/errors/lab/history.jsonl` (run, result, score, cou
 
 Each brief is a `text` block for the owner: the errors (location, message, hits, NEW), repro commands through the
 gate, "Done when: `error_lab.ps1 -Tests <those tests> -NoHistory` shows none of these errors and the tests PASS".
+
+## 3b. v1.1 (2026-09-27 lab review, group C)
+- **Failed-test diagnosis** per test: `timeout` (wall-clock kill), `crash` (Godot crash handler), `assert` (a FAIL line),
+  `script error` (a FAIL-class error and no PASS), `exit code` (non-zero, no FAIL line), `cap reached` (exit 0, no PASS /
+  FAIL: the test did not finish within `--quit-after`; hint: raise its cap or find the stall), `no PASS line` (parse
+  mode, exit unknown). Each with a fix hint and the **log tail** (last 15 lines without exit noise).
+- **Report grouped by owner**: "By owner" table (FAIL / WARN errors, failed tests, tests to re-run) right under
+  "Improve next", a "Failed tests" section (diagnosis + FAIL line + log tail), and one brief per owner with its errors
+  AND its failed tests (tail included). JSON: `owners`, `tests[].kind / hint / owner / fail_lines / tail`, `gone`.
+- **Test owners from the task id** (waves.md letters): `test_<step>_g*` gameplay-coder, `_s*` systems-coder, `_u*`
+  ui-coder, `_a*` ai-coder, `_i*` items-coder, `_v*` tech-artist, `_d*` game-designer; `test_<lab>_lab` the lab group;
+  C / B / P... stay "task agent of test_x". Engine errors (no script frame) hit in tests of several owners go to the lead
+  (one line, not a 120-test owner string).
+- **Fewer false NEW**: the key uses the script function (`file::func`), not the line number, so an edit above a known
+  bug no longer makes it NEW; NEW = not in the last 10 history rows (a subset run no longer makes the next full run's
+  errors NEW). "Gone vs the previous run" lists keys that disappeared. (Keys changed format in v1.1: the first v1.1 run
+  shows the day-end keys as gone / NEW once.)
+- **PowerShell-wrapped stderr**: logs captured inside PowerShell 5.1 (`*>` / `2>&1` on `godot_run.ps1`) turn the first
+  stderr line into `Godot_...exe : ERROR: ...` + `At ...char` / `CategoryInfo` lines; the lab cleans them, so the error
+  is counted once and keeps its `at:` frame (before: a second, differently keyed error and a lost frame).
+- Progress with ETA while running; `-ListOnly` shows each test's cap and owner; `-ProjectDir` for the CI copy.
+- Test `tests/test_error_lab.ps1` covers all of it (wrapped stderr, function key, diagnosis, tail, owner guess).
+
+Laptop baseline 2026-09-27 (`docs/errors/lab/baseline-2026-09-27/`, Parallel 2, PC shared with 5 agents): stopped
+after 180 / 243 tests (test_8_a1 onward not run: ~1 h more), parsed with `-Logs`: 173 / 180 PASS, 2 unique FAIL errors
+(`Nonexistent 'float' constructor` in test_13_v13.gd:287 and test_13c_v1.gd:317, tech-artist), failed: test_12_v28,
+test_13_v5, test_13c_v3 (asserts, tech-artist), test_12_a1 (assert, ai-coder), test_20_a3 (think-time 1.7 ms > 1.5 ms:
+timing on a loaded PC, likely noise). Paths are now made absolute (a relative `-OutDir` used to fail on write).
+
+## 3c. CI (`tools/ci/ci.ps1`, v2.0)
+One command for the whole integration check, **in place on the laptop** (it uses the desktop CI worktree
+`..\four-wizards-rts-ci` only when that folder exists):
+```powershell
+tools\ci\ci.ps1                                  # import, smoke x3, perf 100 / 200, every test (Error Lab)
+tools\ci\ci.ps1 -Tests test_16a,test_12_c2       # same, a test subset (no history row)
+tools\ci\ci.ps1 -SkipTests -SmokeRuns 1          # quick gate
+tools\ci\ci.ps1 -Dir C:\path\to\copy -ResultFile <scratchpad>\ci_result.txt   # the old desktop call still works
+```
+Every Godot run goes through `tools/godot_run.ps1` (before: the exe directly, sequential, no timeout). Tests run
+through the Error Lab (`-ProjectDir`, parallel `-Parallel 3`, the caps above, owners, briefs) instead of a second copy
+of the cap table. Perf OVER BUDGET while other Godot runs share the PC (and no stuck units) is a **WARN (noise)**, not
+a FAIL. Output: `docs/ci/<run>/ci.md` (steps, tests by owner, the classic result lines), `ci_result.txt`, `logs/`,
+`error_lab/` (the full Error Lab scorecard), and a row in `docs/ci/history.jsonl`. Exit 1 on FAIL.
+Laptop check 2026-09-27 (`-SkipImport -SmokeRuns 1 -PerfUnits 100 -Tests test_1_g1`): smoke PASS, perf WARN (11.5 ms
+with 6 Godot runs on the PC), test PASS, CI WARN.
 
 ## 4. First run (2026-09-26, validation)
 `-Logs` on 5 real tests (test_16a, test_12_c2, test_12_c3, test_data_lab, test_12b_v2, cap 40000): **PASS 100 / 100**,

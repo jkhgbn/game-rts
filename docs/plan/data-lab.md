@@ -13,9 +13,11 @@ test `tests/test_data_lab.gd` (`PASS data_lab`). No `class_name` in the lab (pre
 
 ## 1. One command
 ```powershell
-$GODOT = "C:\Users\elzzo\Downloads\game gadot\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_console.exe"
-& $GODOT --headless --path . -s res://tools/data_lab/data_lab.gd --quit-after 600
+cd C:\Users\elzzo\Documents\four-wizards-rts
+& tools\godot_run.ps1 --headless --path . -s res://tools/data_lab/data_lab.gd --quit-after 600
+& tools\godot_run.ps1 --headless --path . -s res://tools/data_lab/data_lab.gd --quit-after 600 '--' run=my-test log=0
 ```
+(`tools\godot_run.ps1` = the Godot gate in front of `C:\Godot\Godot_v4.7.2-stable_win64_console.exe`; quote `'--'`.)
 | Arg (after `--`) | Meaning |
 |---|---|
 | `out=` | output folder, default `docs/data/lab/<run>/` |
@@ -27,7 +29,7 @@ Runtime ~10 s (9 s of it is loading the `.tres` files with their model scenes; t
 any FAIL**, 0 otherwise. The console ends with `DATA LAB: <RESULT> score <N> / 100 (...)` and one line per FAIL / WARN
 check. Output: `scorecard.md`, `scorecard.json` in the out folder, one row in `docs/data/lab/history.md`.
 
-Test: `& $GODOT --headless --path . -s tests/test_data_lab.gd --fixed-fps 60 --quit-after 900` (runs the lab on the
+Test: `& tools\godot_run.ps1 --headless --path . -s tests/test_data_lab.gd --fixed-fps 60 --quit-after 900` (runs the lab on the
 real data without a history row, feeds it synthetic bad data and checks every rule class fires, checks the history log).
 
 ## 2. What it scans
@@ -90,7 +92,7 @@ The lead pastes this into the agent rules of the next steps (every agent that to
 profile, an ability / item / ware table or a hotkey):
 
 > **N. Data Lab (every task that adds or changes game data, `docs/plan/data-lab.md`).** Before your report, run
-> `& $GODOT --headless --path . -s res://tools/data_lab/data_lab.gd --quit-after 600` (about 10 s) and open
+> `& tools\godot_run.ps1 --headless --path . -s res://tools/data_lab/data_lab.gd --quit-after 600` (about 10 s) and open
 > `docs/data/lab/<run>/scorecard.md`. **No new FAIL** may come from your files (fix it; if the rule is wrong for your
 > data, say why in the report). Fix every new WARN that makes sense; a WARN you keep needs one line of reason. Your
 > report gives the score before / after and ends with **"Data Lab notes"**: false alarms (check id, the value) and
@@ -127,6 +129,19 @@ Stag (strength 700) sits with the beasts; status numbers (Hobbling Javelin's "-1
   parsed, so a clash between two code-defined global keys is not seen.
 - Tooltip numbers are only cross-checked for champion classes ("N damage every S s", "reach N m").
 - Loading takes ~9 s because the `.tres` files pull their model scenes.
+
+## 7b. v1.1 (2026-09-27 lab review, group C): actionable reports
+- Every finding has an **owner** (CLAUDE.md folders: `data/units/` gameplay-coder, `data/buildings/` systems-coder,
+  `data/items/` items-coder, `data/ai/` ai-coder, `scripts/ui/` ui-coder...; balance checks B1 / F6 = game-designer;
+  else the lead): an Owner column in "Findings" and a new **"Fix list by owner"** section right under "Improve next":
+  one line per (check, fix) with every file it applies to, ready to paste into `docs/handoff/for-<owner>.md`.
+- **T7 is actionable**: the lab writes `ui_strings.csv` next to the scorecard (key, file, line, text of every literal
+  UI string, suggested `UI_...` keys, unique per text) = the key list for a CSV Translation + `tr(KEY)` pass; the T7 row
+  names the distinct count and the 3 biggest scripts.
+- INFO findings that only differ by a letter / number (the 12 "card_key X is set but no code reads it") collapse into
+  one row with every place.
+- Handoffs written 2026-09-27: gameplay-coder (stale Fire `card_key` W / Q / E / R / T), ui-coder (T7 + ui_strings.csv),
+  game-designer (slot C / V roles, B1 / F6). Result unchanged: WARN 98 / 100, 0 FAIL (`docs/data/lab/review-after/`).
 
 ## 8. Next steps (Data Lab v2 backlog; agents' "Data Lab notes" go here)
 - Parse the design stat tables (Markdown) into per-unit expected values: FAIL when data drifts from the spec.

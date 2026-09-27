@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+hips to seat 0.073 m
+rider budget: parts 10, draw instances 11, vertices 4814, lights 0, particle systems 1 (max 10); boar instances 8
+  Root/Hips/LegL/Merged: 3 surfaces, 389 vertices
+  Root/Hips/LegR/Merged: 3 surfaces, 389 vertices
+  Root/Hips/Merged: 5 surfaces, 377 vertices
+  Root/Chest/Head/VetTrim: 1 surfaces, 119 vertices
+  Root/Chest/Head/Merged: 6 surfaces, 945 vertices
+  Root/Chest/ArmL/Merged: 5 surfaces, 815 vertices
+  Root/Chest/ArmR/Lance: 4 surfaces, 381 vertices
+  Root/Chest/ArmR/Lance/Pennon: 1 surfaces, 32 vertices
+  Root/Chest/ArmR/Merged: 3 surfaces, 283 vertices
+  Root/Chest/Merged: 6 surfaces, 1084 vertices
+rider body y 0.83..2.53, x -0.68..0.68; lance tip (0.548896, 3.43011, 1.754234)
+gait: walk gallop 0.00, gallop 1.00, rider bob 0.114 m, lance pitch rest -48.0 -> gallop -29.8, pennon 8.5 -> 57.0 deg
+attack: couch 1.00, lance dir (-0.051946, -0.12187, 0.991186), struck 1 [(0.177326, 1.062078, 2.885881)]
+charge: struck 1 at [(0.146544, 1.214625, 3.068399)], couch 1.00, lance dir (-0.052304, -0.0349, 0.998021), lance glow 1.00 -> 3.20, mane glow 1.00 -> 2.60, chest lean 31.1
+hit flash rider 0.58, boar 0.58
+slot collisions: 0
+death 0.6 s: hips to seat 0.07, seat y 0.55, lance glow 0.00, embers true
+PASS 13.v10

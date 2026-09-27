@@ -1,0 +1,4 @@
+CI: WARN - Smoke PASS, Perf 100 units WARN, Tests (Error Lab) PASS
+SMOKE: GAME OVER at frame 3720: victory=true player=7 enemy=3
+PERF units=100 ms_per_frame=11.47 budget=8.0 arrived=76 stuck=0
+tests run: 1, failed: 0

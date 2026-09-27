@@ -5,7 +5,17 @@ extends RefCounted
 ## tables (the cross-kingdom balance table) and one row per run in docs/data/lab/history.md.
 ## No class_name on purpose: tools/ scripts are preloaded, so a new lab never needs an editor import.
 
-const VERSION := "1.0"
+const VERSION := "1.1"
+## Who fixes a finding (CLAUDE.md "Who owns what"): longest path prefix of its `where`. Balance calls (B1 / F6)
+## are design decisions: game-designer. Anything else: the lead.
+const OWNER_PREFIXES := [["data/units/", "gameplay-coder"], ["data/spells/", "gameplay-coder"],
+	["data/champions/", "gameplay-coder"], ["data/champion_classes/", "gameplay-coder"], ["scripts/units/", "gameplay-coder"],
+	["scripts/spells/", "gameplay-coder"], ["data/buildings/", "systems-coder"], ["scripts/buildings/", "systems-coder"],
+	["scripts/economy/", "systems-coder"], ["scripts/world/", "systems-coder"], ["scripts/campaign/", "systems-coder"],
+	["missions/", "systems-coder"], ["data/items/", "items-coder"], ["scripts/items/", "items-coder"],
+	["data/ai/", "ai-coder"], ["scripts/ai/", "ai-coder"], ["scripts/ui/", "ui-coder"], ["scenes/ui/", "ui-coder"],
+	["docs/design/", "game-designer"]]
+const DESIGN_CHECKS: Array[String] = ["B1", "F6"]
 const GROUP_WEIGHT := {"load": 2.0, "fields": 1.5, "refs": 1.5, "keys": 1.5, "text": 1.0, "ai": 1.0, "balance": 0.5}
 const GROUP_TITLE := {"load": "Load (every resource loads, ids match files)", "fields": "Fields and bounds",
 	"refs": "References (files, ids, abilities, items)", "keys": "Hotkeys", "text": "Text (names, tooltips, width, French readiness)",
@@ -23,6 +33,7 @@ var notes: Array[String] = []
 var extras: Array[Dictionary] = []     # fallback "Improve next" ideas {title, text, source}
 var previous_score: float = -1.0
 var counts_scanned: Dictionary = {}    # kind -> number of resources checked
+var extra_files: Dictionary = {}       # file name -> text, written next to the scorecard (ui_strings.csv)
 
 
 ## Adds one check built from its findings. `total` = items looked at (units, keys...), `issues` = [{sev, where,
@@ -39,7 +50,7 @@ func add_check(id: String, group: String, check_name: String, rule: String, tota
 		if sev == "FAIL" or sev == "WARN":
 			bad[String(it.get("where", ""))] = true
 		findings.append({"check": id, "sev": sev, "where": it.get("where", ""), "what": it.get("what", ""),
-			"fix": it.get("fix", hint)})
+			"fix": it.get("fix", hint), "owner": owner_of(String(it.get("where", "")), id)})
 	var status := worst
 	if status == "INFO" and total > 0:
 		status = "PASS"
@@ -70,6 +81,87 @@ func add_info(id: String, group: String, check_name: String, value: String, rule
 
 func add_table(title: String, markdown: String) -> void:
 	tables.append({"title": title, "markdown": markdown})
+
+
+static func owner_of(where: String, check_id: String) -> String:
+	if DESIGN_CHECKS.has(check_id):
+		return "game-designer"
+	var w := where.trim_prefix("res://")
+	var best := ""
+	var best_len := -1
+	for p: Array in OWNER_PREFIXES:
+		var pre: String = p[0]
+		if w.begins_with(pre) and pre.length() > best_len:
+			best = p[1]
+			best_len = pre.length()
+	return best if best != "" else "lead"
+
+
+## Findings of one severity grouped by owner, then by (check, fix): one line per fix with every place it applies.
+func _fix_list_markdown() -> String:
+	var by_owner := {}
+	for f: Dictionary in findings:
+		if f["sev"] != "FAIL" and f["sev"] != "WARN":
+			continue
+		var o: String = f.get("owner", "lead")
+		if not by_owner.has(o):
+			by_owner[o] = {}
+		var k := "%s|%s|%s" % [f["sev"], f["check"], f["fix"]]
+		if not (by_owner[o] as Dictionary).has(k):
+			by_owner[o][k] = []
+		(by_owner[o][k] as Array).append(f)
+	if by_owner.is_empty():
+		return "Nothing to fix.\n"
+	var owners := by_owner.keys()
+	owners.sort()
+	var s := ""
+	for o: String in owners:
+		var groups: Dictionary = by_owner[o]
+		var n := 0
+		for k: String in groups:
+			n += (groups[k] as Array).size()
+		s += "### %s (%d findings; handoff: docs/handoff/for-%s.md)\n" % [o, n, o]
+		var keys := groups.keys()
+		keys.sort()
+		for k: String in keys:
+			var list: Array = groups[k]
+			var f0: Dictionary = list[0]
+			var places: Array[String] = []
+			for f: Dictionary in list:
+				places.append("`%s` (%s)" % [String(f["where"]).get_file() if String(f["where"]).contains("/") else f["where"],
+					_cell(f["what"]).left(90)])
+			s += "- **%s %s**: %s -> %s\n" % [f0["sev"], f0["check"], _cell(f0["fix"]), "; ".join(places)]
+		s += "\n"
+	return s
+
+
+## INFO findings whose text only differs by a letter / number (e.g. "card_key V is set but no code reads it") are
+## one row with every place, so the list stays readable.
+func _info_markdown(infos: Array[Dictionary]) -> String:
+	var re_letter := RegEx.create_from_string("\\b[A-Z]\\b")
+	var re_num := RegEx.create_from_string("-?\\d+(\\.\\d+)?")
+	var groups := {}
+	var order: Array[String] = []
+	for f: Dictionary in infos:
+		var shape := re_num.sub(re_letter.sub(String(f["what"]), "?", true), "N", true)
+		var k := "%s|%s" % [f["check"], shape]
+		if not groups.has(k):
+			groups[k] = []
+			order.append(k)
+		(groups[k] as Array).append(f)
+	var s := "| Check | Where | What |\n|---|---|---|\n"
+	for k: String in order:
+		var list: Array = groups[k]
+		if list.size() < 3:
+			for f: Dictionary in list:
+				s += "| %s | %s | %s |\n" % [f["check"], _cell(f["where"]), _cell(f["what"])]
+			continue
+		var places: Array[String] = []
+		for f: Dictionary in list:
+			places.append(String(f["where"]).get_file())
+		s += "| %s | %d places: %s | %s (e.g.) |\n" % [list[0]["check"], list.size(), _cell(", ".join(places)),
+			_cell(list[0]["what"])]
+	return s
 
 
 static func _count_sev(issues: Array, sev: String) -> int:
@@ -205,6 +297,7 @@ func to_markdown() -> String:
 		s += "%d. **%s** (%s): %s _(from %s)_\n" % [i, it["title"], it["status"], _cell(it["text"]), _cell(it["source"])]
 		i += 1
 	s += "\n"
+	s += "## Fix list by owner (paste into docs/handoff/for-<owner>.md)\n" + _fix_list_markdown() + "\n"
 	for g: String in GROUP_ORDER:
 		var rows: Array[Dictionary] = []
 		for c: Dictionary in checks:
@@ -230,9 +323,10 @@ func to_markdown() -> String:
 			if f["sev"] != sev:
 				continue
 			if bad == 0:
-				s += "| Sev | Check | Where | What | Fix |\n|---|---|---|---|---|\n"
+				s += "| Sev | Check | Owner | Where | What | Fix |\n|---|---|---|---|---|---|\n"
 			bad += 1
-			s += "| %s | %s | %s | %s | %s |\n" % [sev, f["check"], _cell(f["where"]), _cell(f["what"]), _cell(f["fix"])]
+			s += "| %s | %s | %s | %s | %s | %s |\n" % [sev, f["check"], f.get("owner", ""), _cell(f["where"]), _cell(f["what"]),
+				_cell(f["fix"])]
 	if bad == 0:
 		s += "None.\n"
 	s += "\n"
@@ -243,10 +337,7 @@ func to_markdown() -> String:
 		if f["sev"] == "INFO":
 			infos.append(f)
 	if not infos.is_empty():
-		s += "## Info findings (%d)\n| Check | Where | What |\n|---|---|---|\n" % infos.size()
-		for f: Dictionary in infos:
-			s += "| %s | %s | %s |\n" % [f["check"], _cell(f["where"]), _cell(f["what"])]
-		s += "\n"
+		s += "## Info findings (%d)\n" % infos.size() + _info_markdown(infos) + "\n"
 	if not notes.is_empty():
 		s += "## Notes\n"
 		for n: String in notes:
@@ -268,6 +359,11 @@ func write(out_dir: String) -> void:
 	if j:
 		j.store_string(JSON.stringify(to_dict(), "\t"))
 		j.close()
+	for name: String in extra_files:
+		var e := FileAccess.open(out_dir.path_join(name), FileAccess.WRITE)
+		if e:
+			e.store_string(String(extra_files[name]))
+			e.close()
 
 
 ## Appends one row to the history log (created with its header the first time).

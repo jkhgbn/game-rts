@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PERF 10.A2: 80 ticks, 144.3 us per tick, 19.2 us per frame (4 contracts, 10 trackers, 12 caravans, 6 Magpies)
+PASS 10.A2

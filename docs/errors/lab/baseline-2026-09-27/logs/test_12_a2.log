@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok   skirmish has its capture_points service
+ok   skirmish has its camp_manager service
+ok   skirmish has its epic_beasts service
+ok   skirmish has its critter_herds service
+ok   the home Bristleback Wallow has its 2 creatures
+ok   sense lists the seen wallow alive, strength 200 ({ "node": camp_wallow_s:<Node3D#420252498134>, "pos": (-14.0, 0.0, 57.0), "tier": 1, "alive": true, "strength": 200.0, "visible": true, "explored": true })
+ok   visible Bristlebacks count 100 each in enemies ([100.0, 100.0])
+ok   danger at the camp >= 200 (200)
+ok   a straight walk across the camp is blocked by it
+ok   a walk 14 m from the camp is not
+ok   Wayfinder explore goals are never in a camp's aggro zone (0 / 20)
+ok   R4: joins the fight with a Bristleback (intent Fighting)
+ok   the Stag Glade spawned its stag
+ok   R4: does not join a fight with the Hollow Stag (danger 700, intent Hunting game)
+ok   sense: Millwatch is a neutral point of the own bank ({ "node": CapturePoint_TowerS:<Node3D#293097973429>, "pos": (-6.0, 0.0, 40.0), "kind": &"watchtower", "owner": -1, "bank": 0, "radius": 7.0, "stand": 4.5 })
+ok   Wayfinder (map known) captured Millwatch standing in its circle (captured true, Capturing true, inside true, plan EXPLORE)
+ok   then it moves on along its loop (intent Exploring)
+ok   spawned an own tower 11 m from Millwatch
+ok   Oathwall patrol stops: the keep, Millwatch (near a building), not the far Rookwatch (3 stops)
+ok   Oathwall patrols to Millwatch, inside its circle (visited true, inside true)
+ok   L4 Coin-Cutter, power 390 (0.8 x = 312 < 320): does not go for the camp (plan GAME)
+ok   L4 Coin-Cutter, power 430 (0.8 x = 344 >= 320): goes for its home T1 camp (plan CAMP)
+ok   it clears the Bristleback Wallow alone (engaged true, cleared true, alive true, HP 162 / 372)
+ok   then it leaves the cleared camp (plan GAME)
+ok   BountyBoard: an Explore 5 m from the neutral well is a Claim (err '')
+ok   both pursuers stood in the circle until the well was captured (took true, captured true, in 2 / 2, left false)
+ok   the Claim ended on the capture
+ok   a Tusker spawned at the West Heath
+ok   the Tusker is visible to the team
+ok   three free L4 champions hunt the Tusker together (sum 1287 >= 1.2 x 900)
+ok   two members flee: the last one ends the hunt (plan PATROL)
+ok   a single champion (power 1542) never hunts the Tusker (plan PATROL)
+ok   two L4 Menders (sum 546) are too weak for a party
+ok   at least 2 deer on the map (6)
+ok   an Oathwall never idle-hunts (intent Patrolling)
+ok   a Wayfinder 18 m from the nearest critter does not hunt (plan EXPLORE)
+ok   an idle Wayfinder attacks a visible critter within 15 m (seen true, plan GAME, hunts 1)
+ok   the hunt is dropped once the critter is beyond 20 m (plan EXPLORE)
+ok   no second hunt within 120 s (plan EXPLORE, hunts 1)
+ok   after 120 s it hunts again (plan GAME, hunts 2)
+---- 40 checks, 0 failed
+PASS 12.A2
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,34 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCORE at 0:04       Team 0 (fire)  Team 1 (shadow)
+Military                    5 000                0
+Economy                       197              197
+Map control                     0                0
+Growth                          0                0
+TOTAL                       5 197              197
+  value_killed              5 000                0
+  value_lost                    0                0
+  crystals                      0                0
+  essence                     154              154
+  gold                          0                0
+  trade_gold                    0                0
+  peak_workers                  3                3
+  point_seconds                 0                0
+  camps                         0                0
+  beasts                        0                0
+  expansions                    0                0
+  critters                      0                0
+  wizard_level                  1                1
+  champion_levels                0                0
+  keep_tier                     0                0
+  research                      0                0
+leader: team 0 by 5 000
+time: 0 problem(s), score 5197 - 197
+victory: 0 problem(s), score 795 - 195
+defeat: 0 problem(s), score 195 - 795
+concede: 0 problem(s), score 195 - 195
+PASS 16a
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

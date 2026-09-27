@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+script chain: BarrowGiantModel > WardenModel > CharacterModel
+meshes (blob + hidden mound included) 11, particle systems 2 (looping 0), draw instances in play 10, nodes 13
+materials: 7 own + 3 kit (res://art/units/shadow/barrow_giant/materials/barrow_stone.tres, res://art/units/shadow/barrow_giant/materials/barrow_stone_dark.tres, res://art/units/kit/materials/shadow_silver.tres, res://art/units/shadow/barrow_giant/materials/barrow_shroud_cape.tres, res://art/units/shadow/barrow_giant/materials/barrow_soul_glow.tres, res://art/units/shadow/barrow_giant/materials/barrow_grave.tres, res://art/units/shadow/barrow_giant/materials/barrow_earth.tres, res://art/units/kit/materials/shadow_obsidian.tres, res://art/units/shadow/barrow_giant/materials/barrow_shroud_cloth.tres, res://art/units/kit/materials/unit_shadow_blob.tres)
+triangles 2460, vertices 5457, shadow casters ArmL/Merged, ArmR/Gravestone, ArmR/Merged, Chest/Merged
+KITFIX AUDIT OK (barrow giant: slot map, no collision)
+rest extent: width 3.44, depth 2.63, height 5.26 (y -0.06 .. 5.26); slab 1.38 x 2.08, y 3.18 .. 5.26; body top 3.47; head top 3.06
+  check failed: nothing under the ground
+fists vs slab at rest: 0.000 m
+team colour: chest surfaces tinted 2 (early instance 2), hip rag 1
+walk: worst fist gap 0.000 m, footfall dust moves 4, arm rot diff 0.0000
+throw: released at 0.58 s (origin y 3.48, 2.28 m from the rest slab), hidden from 0.60 to 1.08 s, lowest slab 0.13 m, wind-up z -1.03, core peak 2.40, rune reignites 2.60, ends 1.82 s, worst fist gap 0.000
+death: finished 1 time(s) at 1.60 s, mound seen true (top 1.66 m, rune 2.20), body alpha at 1.1 s 1.00, core glow 0.00
+warden: 11 draw instances, 9 materials
+6 giants: 0.155 ms per frame (whole headless frame)
+FAIL 13c.v3: nothing under the ground

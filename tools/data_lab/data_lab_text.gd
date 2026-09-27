@@ -106,6 +106,8 @@ func scan_ui_strings(dirs: Array[String]) -> Dictionary:
 	]
 	var tr_re := RegEx.create_from_string("\\btr\\(")
 	var rows: Array[Dictionary] = []
+	var entries: Array[Dictionary] = []   # {file, line, text}: the ui_strings.csv key list
+	var unique := {}
 	var total := 0
 	var tr_count := 0
 	var seen_files := {}
@@ -121,7 +123,9 @@ func scan_ui_strings(dirs: Array[String]) -> Dictionary:
 				continue
 			seen_files[path] = true
 			var found: Array[String] = []
+			var line_no := 0
 			for line in FileAccess.get_file_as_string(path).split("\n"):
+				line_no += 1
 				var s := line.strip_edges()
 				if s.begins_with("#") or s.begins_with("##"):
 					continue
@@ -133,6 +137,8 @@ func scan_ui_strings(dirs: Array[String]) -> Dictionary:
 							continue
 						if not found.has(lit):
 							found.append(lit)
+							entries.append({"file": path.replace("res://", ""), "line": line_no, "text": lit})
+							unique[lit] = true
 			if found.is_empty():
 				continue
 			total += found.size()
@@ -144,4 +150,30 @@ func scan_ui_strings(dirs: Array[String]) -> Dictionary:
 		for e: String in r["examples"]:
 			ex.append("`%s`" % e.left(40).replace("|", "/"))
 		md += "| %s | %d | %s |\n" % [r["file"], r["n"], ", ".join(ex)]
-	return {"total": total, "files": rows.size(), "tr": tr_count, "markdown": md}
+	# The key list for a strings table (French pass): one row per literal with its place and a suggested key.
+	var csv := "key,file,line,text\n"
+	var used_keys := {}
+	for e: Dictionary in entries:
+		var k := suggest_key(String(e["text"]))
+		var base := k
+		var n := 2
+		while used_keys.has(k) and used_keys[k] != e["text"]:
+			k = "%s_%d" % [base, n]
+			n += 1
+		used_keys[k] = e["text"]
+		csv += "%s,%s,%d,\"%s\"\n" % [k, e["file"], int(e["line"]), String(e["text"]).replace("\"", "\"\"")]
+	return {"total": total, "files": rows.size(), "tr": tr_count, "markdown": md, "unique": unique.size(), "csv": csv,
+		"top": rows.slice(0, 3)}
+
+
+## "Train %s (%d)" -> "UI_TRAIN_S_D"-style key: upper snake of the first 4 words.
+static func suggest_key(text: String) -> String:
+	var words: Array[String] = []
+	var re := RegEx.create_from_string("[A-Za-z0-9]+")
+	for m in re.search_all(text):
+		words.append(m.get_string().to_upper())
+		if words.size() >= 4:
+			break
+	if words.is_empty():
+		return "UI_TEXT"
+	return "UI_" + "_".join(words)

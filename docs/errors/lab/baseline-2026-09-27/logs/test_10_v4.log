@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+build: first instance 145.4 ms, next 2.6 ms
+idle: meshes=14 surfaces=34 multimesh=0 particles(emitting)=17 systems=2 verts=11457
+draw surfaces idle (meshes + multimesh + emitting particle systems): 36
+materials used: ["DarkStone", "Stone", "Bark", "Wood", "Clay", "Heart", "Gold", "Gate", "Leaves", "LeafCard", "Blossom", "Banner", "Ground", "Cap"]
+top 9.40 m, plinth top tier half 2.95 m, roof / banners / sign reach 3.26 m, everything 4.04 m
+progress 0.35: 6 / 6 tiers shown
+scale: idle sway <= 1.0 deg, delivery peak 9.4 deg
+25 %: draw surfaces 39, particles 97
+baked meshes: 15 keys, missing [], stale []
+PASS 10.v4

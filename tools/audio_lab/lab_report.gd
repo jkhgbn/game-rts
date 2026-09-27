@@ -158,8 +158,26 @@ static func _cue_checks(r: Dictionary, bed: Dictionary) -> void:
 		st = "FAIL"
 	elif tp > Rules.TP_WARN:
 		st = "WARN"
-	_add("peaks", id, st, "true peak %s dBTP, %d clipped runs" % [f1(tp), clipped], "true peak <= %.0f dBTP, no clipping"
-		% Rules.TP_WARN, "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.", "tp")
+	var fmt := str(info.get("imported_format", ""))
+	var sp: Variant = r.get("src_peak_dbfs", null)
+	var over := (float(m["peak_dbfs"]) - float(sp)) if sp != null else 0.0
+	var tp_fix := "Normalise the file to -1 dBTP (peak), lower the level before export if it clips."
+	if st != "PASS":
+		if sp != null and over >= Rules.IMPORT_OVERSHOOT_DB:
+			tp_fix = ("The %s import adds %+.1f dB (source peak %s dBFS): set Compress > Mode to PCM or IMA-ADPCM in "
+				+ "the Import dock (.import compress/mode), or leave that much headroom in the file.") % [fmt, over, f1(sp)]
+		elif sp != null:
+			tp_fix = "The source file itself peaks at %s dBFS (the import adds %+.1f dB): normalise the file to -1 dBTP." % [
+				f1(sp), over]
+		elif fmt == "QOA":
+			tp_fix += " Imported as QOA, which can overshoot up to ~7 dB on harmonic tones: PCM / IMA-ADPCM import avoids it."
+	_add("peaks", id, st, "true peak %s dBTP, %d clipped runs%s" % [f1(tp), clipped, (", source %s dBFS (%s import %+.1f dB)"
+		% [f1(sp), fmt, over]) if sp != null else ""], "true peak <= %.0f dBTP, no clipping" % Rules.TP_WARN, tp_fix, "tp")
+	if sp != null and over >= Rules.IMPORT_OVERSHOOT_DB and st == "PASS":
+		_add("peaks", id, "WARN", "%s import raises the peak %+.1f dB (source %s dBFS, decoded %s dBFS)" % [fmt, over, f1(sp),
+			f1(m["peak_dbfs"])], "import changes the peak by < %.0f dB" % Rules.IMPORT_OVERSHOOT_DB,
+			"Import as PCM or IMA-ADPCM (Import dock, Compress > Mode): the lossy QOA import is distorting this cue.",
+			"import_over")
 	if absf(float(m["dc"])) > Rules.DC_WARN:
 		_add("peaks", id, "WARN", "DC %.3f" % float(m["dc"]), "|DC| <= %.2f" % Rules.DC_WARN,
 			"High-pass at 20 Hz / remove DC offset.", "dc")
@@ -260,8 +278,8 @@ static func _cue_checks(r: Dictionary, bed: Dictionary) -> void:
 	if r.get("orphan", false):
 		_add("memory", id, "WARN", "no code plays it", "every file in the set is used",
 			"Wire it up (see Missing cues) or delete it.", "orphan")
-	# ---- variation (frequent cues only)
-	if not looped:
+	# ---- variation (frequent cues only; a take is judged with its parent cue)
+	if not looped and not r.has("take_of"):
 		var takes := int(r.get("takes", 1))
 		var pitch := float(r["meta"].get("pitch", 0.0))
 		var vr := bool(r["meta"].get("vol_rand", false))
@@ -325,6 +343,29 @@ static func _family_checks(cues: Dictionary) -> void:
 		_add("loudness", fam + "*", "PASS" if hi - lo <= Rules.FAMILY_TOL else "WARN",
 			"spread %.1f dB (%s)" % [hi - lo, ", ".join(ids)], "same-role cues within %.0f dB" % Rules.FAMILY_TOL,
 			"Match the family levels (VOLUMES in the playing script) so no faction sounds louder.", "family")
+	# Takes of one cue (<id>, <id>_1, <id>_2) are picked at random: one louder take pops out of the mix.
+	var takes_of := {}
+	for id: String in cues:
+		var c: Dictionary = cues[id]
+		if c.has("take_of") and c.get("error", "") == "" and c.has("level"):
+			var p: String = c["take_of"]
+			if not takes_of.has(p):
+				takes_of[p] = []
+				if cues.has(p) and (cues[p] as Dictionary).get("error", "") == "" and (cues[p] as Dictionary).has("level"):
+					(takes_of[p] as Array).append(p)
+			(takes_of[p] as Array).append(id)
+	for p: String in takes_of:
+		var ids: Array = takes_of[p]
+		if ids.size() < 2:
+			continue
+		var lo := INF
+		var hi := -INF
+		for id: String in ids:
+			lo = minf(lo, float(cues[id]["level"]))
+			hi = maxf(hi, float(cues[id]["level"]))
+		_add("loudness", p + " takes", "PASS" if hi - lo <= Rules.TAKE_TOL else "WARN",
+			"spread %.1f dB (%s)" % [hi - lo, ", ".join(ids)], "takes of one cue within %.1f dB" % Rules.TAKE_TOL,
+			"Re-level the takes (or re-render them) so a random pick never jumps out of the mix.", "take_spread")
 
 
 static func _player_checks(ctx: Dictionary) -> void:

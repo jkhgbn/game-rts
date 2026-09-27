@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  sand_tussock  variants 361 / 328 / 361 tris, size 0.89 x 1.09 x 0.88, 560 verts
+  sand_bones    variants 175 / 635 / 579 tris, size 2.43 x 1.30 x 1.70, 1387 verts
+  sand 376 m2 (w > 0.5), rim 62 m2 (w 0.2-0.5), 4 patches -> 321 instances (budget 400)
+PASS 12b.V3

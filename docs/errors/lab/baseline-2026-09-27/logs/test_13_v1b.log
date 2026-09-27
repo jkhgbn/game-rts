@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+wizard: hip error standing 0.0000 m, splay 50.0 deg, legL (-28, -50) legR (-28, 50)
+champion: hip error standing 0.0000 m, splay 50.0 deg, legL (-28, -50) legR (-28, 50)
+soldier: hip error standing 0.0000 m, splay 50.0 deg, legL (-28, -50) legR (-28, 50)
+wizard @1.7: hip error 0.0000, hips bob 0.031 m, chest pitch range 3.9 deg, leg range 6.0 deg
+champion @1.7: hip error 0.0000, hips bob 0.031 m, chest pitch range 3.6 deg, leg range 6.0 deg
+soldier @1.7: hip error 0.0000, hips bob 0.031 m, chest pitch range 4.5 deg, leg range 6.0 deg
+wizard @6.0: hip error 0.0000, hips bob 0.081 m, chest pitch range 12.9 deg, leg range 10.0 deg
+champion @6.0: hip error 0.0000, hips bob 0.081 m, chest pitch range 13.6 deg, leg range 10.0 deg
+soldier @6.0: hip error 0.0000, hips bob 0.081 m, chest pitch range 12.4 deg, leg range 10.0 deg
+info: ember_boar.tscn splay 43.5 deg, hip error 0.0000
+info: dusk_steed.tscn splay 35.0 deg, hip error 0.0000
+info: grove_stag.tscn splay 48.5 deg, hip error 0.0000
+PASS 13.v1b

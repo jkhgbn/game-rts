@@ -86,6 +86,41 @@ $j3 = Get-Content (Join-Path $tmp "r3\scorecard.json") -Raw | ConvertFrom-Json
 Check ($LASTEXITCODE -eq 0 -and $j3.result -eq "PASS" -and $j3.score -eq 100) "clean log PASS 100"
 Check (@(Get-Content $hist).Count -eq 2) "-NoHistory writes no row"
 
+# Run 4 (lab v1.1): a log written through tools/godot_run.ps1 on PS 5.1 (first stderr line wrapped in an error
+# record), the same bug 11 lines lower (function-based key: not NEW), a test that never printed PASS (diagnosis +
+# tail) and its owner guessed from the task id (U = ui-coder).
+$wrapped = @'
+Godot Engine v4.7.2.stable.official
+Godot_v4.7.2-stable_win64_console.exe : SCRIPT ERROR: Invalid call. Nonexistent function 'fly' in base 'Node3D (unit.gd)'.
+At C:\Users\x\four-wizards-rts\tools\godot_run.ps1:20 char:2
++     & $g @args
++     ~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (SCRIPT ERROR: I...de3D (unit.gd)'.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+          at: _physics_process (res://scripts/units/unit.gd:131)
+waiting for the raid, frame 900
+waiting for the raid, frame 1800
+'@
+$l4 = Join-Path $tmp "logs4"; New-Item -ItemType Directory -Force $l4 | Out-Null
+[System.IO.File]::WriteAllText((Join-Path $l4 "test_7_u9.log"), $wrapped)
+& powershell -NoProfile -ExecutionPolicy Bypass -File $Lab -Logs $l4 -OutDir (Join-Path $tmp "r4") -Run r4 -NoHistory -HistoryFile $hist | Out-Null
+$j4 = Get-Content (Join-Path $tmp "r4\scorecard.json") -Raw | ConvertFrom-Json
+$r4 = @($j4.errors | Where-Object { $_.severity -ne "INFO" })
+Check ($r4.Count -eq 1 -and $r4[0].count -eq 1) "PS-wrapped stderr line counted once (got $($r4.Count) errors)"
+Check ($r4.Count -ge 1 -and $r4[0].location -eq "res://scripts/units/unit.gd:131" -and $r4[0].owner -eq "gameplay-coder") "wrapped line keeps its at: frame (got $($r4[0].location))"
+Check ($r4.Count -ge 1 -and -not $r4[0].new) "same function, new line number: not NEW"
+$t4 = @($j4.tests | Where-Object { $_.test -eq "test_7_u9" })
+Check ($t4.Count -eq 1 -and -not $t4[0].ok -and $t4[0].owner -eq "ui-coder") "test_7_u9 failed, owner ui-coder (got $($t4[0].owner))"
+Check ($t4.Count -eq 1 -and $t4[0].kind -eq "script error" -and @($t4[0].tail)[-1] -match "frame 1800") "diagnosis 'script error' + log tail (got $($t4[0].kind))"
+$md4 = Get-Content (Join-Path $tmp "r4\scorecard.md") -Raw
+Check ($md4 -match "## By owner" -and $md4 -match "## Failed tests" -and $md4 -match "waiting for the raid, frame 1800" -and $md4 -notmatch "CategoryInfo") "by-owner table, failed-test tail, no PS noise"
+# Cap reached: exit unknown in parse mode, so only a clean log with no PASS: "no PASS line".
+[System.IO.File]::WriteAllText((Join-Path $l4 "test_7_u9.log"), "Godot Engine v4.7.2`nwaiting, frame 900`n")
+& powershell -NoProfile -ExecutionPolicy Bypass -File $Lab -Logs $l4 -OutDir (Join-Path $tmp "r5") -Run r5 -NoHistory -HistoryFile $hist | Out-Null
+$j5 = Get-Content (Join-Path $tmp "r5\scorecard.json") -Raw | ConvertFrom-Json
+Check (@($j5.tests)[0].kind -eq "no PASS line") "clean log without PASS: 'no PASS line' (got $(@($j5.tests)[0].kind))"
+
 Remove-Item -Recurse -Force $tmp -Confirm:$false
 if ($fails.Count -eq 0) { Write-Host "PASS error_lab"; exit 0 }
 Write-Host "FAIL error_lab: $($fails.Count) checks"; exit 1

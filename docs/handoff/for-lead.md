@@ -120,3 +120,5 @@ Nothing has to be glued: every 9.C8 piece installs itself.
   `run_replay.ps1` (scorecard + history), `run_lab.ps1 -Validate` / `-DryRun`, `run_balance.ps1 -DryRun`.
 - Perf Lab noise guard (2026-09-27 07:50, two samples): besides other agents' Godot runs, a process **AlsulicsService**
   used ~76 % of the whole CPU. Check it before the quiet baseline run (`run_perf_lab.ps1 -WaitQuietS 600 -Repeats 3`).
+# Level boons (game-designer, 2026-09-27; docs/design/level-boons.md)
+- LB.L1 before LB.G1: freeze section 11 in CLAUDE.md (Stats `luck` + `spell<N>_power/cooldown/radius/duration_pct`, BoonType / BoonBook, `Events.boon_taken(wizard, boon_id, tier)`, owner row `scripts/boons/` + `data/boons/` -> gameplay-coder). Keys line: **Ctrl+Z / Ctrl+X / Ctrl+C** = take boon 1 / 2 / 3, **Ctrl+V** = reroll, **Ctrl+Space** = show / hide boon panel (only while a pick is pending). Balance Lab needs a `boons` variant key (section 13). Replay Lab must record boon picks / rerolls as inputs.

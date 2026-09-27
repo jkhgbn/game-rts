@@ -930,9 +930,13 @@ func check_text() -> void:
 		n, width, "shorten it")
 	if scan_ui:
 		var scan := tt.scan_ui_strings(Rules.UI_DIRS)
-		report.add_info("T7", "text", "Hard-coded UI strings (French readiness)", "%d literal UI strings in %d scripts under scripts/ui/, %d wrapped in tr(); no translation table yet" % [scan["total"], scan["files"], scan["tr"]],
-			"INFO only: the list below is the backlog for a strings table")
+		var top: Array[String] = []
+		for r: Dictionary in scan.get("top", []):
+			top.append("%s (%d)" % [String(r["file"]).get_file(), int(r["n"])])
+		report.add_info("T7", "text", "Hard-coded UI strings (French readiness)", "%d literal UI strings (%d distinct) in %d scripts under scripts/ui/, %d wrapped in tr(); no translation table yet; biggest: %s" % [scan["total"], scan.get("unique", 0), scan["files"], scan["tr"], ", ".join(top)],
+			"INFO only. Next step (ui-coder): ui_strings.csv in this folder = key, file, line, text of every literal: load it as a Translation (CSV import) and wrap the literals in tr(KEY), biggest scripts first")
 		report.add_table("Hard-coded UI strings per script (T7, INFO)", scan["markdown"])
+		report.extra_files["ui_strings.csv"] = String(scan.get("csv", ""))
 
 
 ## T5: every number a tooltip prints must exist in the data next to it (so a balance change that forgets the text

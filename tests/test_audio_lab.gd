@@ -107,7 +107,8 @@ func _check_signal() -> bool:
 
 func _check_rules() -> bool:
 	var expect := {"ui_click": "ui", "melee_hit": "unit", "spell_kindle": "spell", "level_up": "alert",
-		"music_match": "music", "mapfill_splash": "unit", "trade_whistle": "alert"}
+		"music_match": "music", "mapfill_splash": "unit", "trade_whistle": "alert", "alert_wizard_fell": "alert",
+		"ability_cast": "spell", "skill_hit": "unit"}
 	for id: String in expect:
 		var got: String = Report.category_of(id, "res://assets/audio/sfx/%s.wav" % id, "auto")
 		if got != expect[id]:
@@ -120,6 +121,16 @@ func _check_rules() -> bool:
 	# 3D loss: inverse distance at 2x unit_size = -6 dB.
 	if absf(Report.att_db("ATTENUATION_INVERSE_DISTANCE", 15.0, 30.0) + 6.02) > 0.1:
 		return not _fail("att_db inverse distance wrong")
+	# v1.1: takes fold into their parent cue (melee_hit_1.wav sits next to melee_hit.wav); a lone suffix does not.
+	var lab: GDScript = load("res://tools/audio_lab/audio_lab.gd")
+	if lab.take_parent("res://assets/audio/sfx/melee_hit_1.wav") != "melee_hit":
+		return not _fail("take_parent(melee_hit_1) != melee_hit")
+	if lab.take_parent("res://assets/audio/sfx/melee_hit.wav") != "" or lab.take_parent("res://assets/audio/sfx/death_fire.wav") != "":
+		return not _fail("take_parent on a cue that is not a take")
+	# v1.1: source .wav peak reader (import overshoot): every sfx file is 16-bit PCM, peak between -30 and 0 dBFS.
+	var sp := Sig.source_peak_dbfs("res://assets/audio/sfx/melee_hit.wav")
+	if is_nan(sp) or sp > 0.01 or sp < -30.0:
+		return not _fail("source_peak_dbfs(melee_hit.wav) = %s" % sp)
 	return true
 
 

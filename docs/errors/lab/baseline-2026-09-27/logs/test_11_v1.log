@@ -1,0 +1,32 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+weapon materials on disk: 8
+  piece spear         5 surfaces, 645 vertices, aabb (0.171485, 2.8, 0.283692)
+  piece quiver        5 surfaces, 599 vertices, aabb (0.269683, 1.143442, 0.219114)
+  piece javelin       3 surfaces, 111 vertices, aabb (0.072, 1.02, 0.054)
+  piece sword         4 surfaces, 275 vertices, aabb (0.36889, 0.9908, 0.091301)
+  piece round_shield  4 surfaces, 804 vertices, aabb (0.86, 0.86, 0.1545)
+  piece greatsword    4 surfaces, 404 vertices, aabb (0.617942, 2.225, 0.121735)
+  piece staff         5 surfaces, 1063 vertices, aabb (0.243936, 2.139, 0.227192)
+weapon kit vertices (all pieces): 3901
+wayfinder   spear        draw instances 15 (archetype 15), vertices 7379, lights 0
+oathwall    spear        draw instances 13 (archetype 13), vertices 4396, lights 0
+coin_cutter spear        draw instances 14 (archetype 14), vertices 4567, lights 0
+mender      spear        draw instances 16 (archetype 16), vertices 9178, lights 0
+wayfinder   sword_shield draw instances 15 (archetype 15), vertices 7214, lights 0
+oathwall    sword_shield draw instances 13 (archetype 13), vertices 3427, lights 0
+coin_cutter sword_shield draw instances 14 (archetype 14), vertices 4402, lights 0
+mender      sword_shield draw instances 16 (archetype 16), vertices 9013, lights 0
+wayfinder   two_hand     draw instances 15 (archetype 15), vertices 6539, lights 0
+oathwall    two_hand     draw instances 13 (archetype 13), vertices 3702, lights 0
+coin_cutter two_hand     draw instances 14 (archetype 14), vertices 3727, lights 0
+mender      two_hand     draw instances 16 (archetype 16), vertices 8338, lights 0
+wayfinder   wizard       draw instances 15 (archetype 15), vertices 7198, lights 0
+oathwall    wizard       draw instances 13 (archetype 13), vertices 4361, lights 0
+coin_cutter wizard       draw instances 14 (archetype 14), vertices 4386, lights 0
+mender      wizard       draw instances 16 (archetype 16), vertices 8997, lights 0
+wayfinder   (archetype)  draw instances 15 (archetype 15), vertices 6135, lights 0
+oathwall    (archetype)  draw instances 13 (archetype 13), vertices 3315, lights 0
+coin_cutter (archetype)  draw instances 14 (archetype 14), vertices 3663, lights 0
+mender      (archetype)  draw instances 16 (archetype 16), vertices 7934, lights 0
+PASS 11.v1

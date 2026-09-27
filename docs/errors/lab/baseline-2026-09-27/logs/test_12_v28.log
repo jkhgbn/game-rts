@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 13
+Roc: draw instances 14, vertices 5731, triangles 8620, lights 0
+Roc: draw instances 14, vertices 5731, triangles 8620, lights 0
+  Root/Body/Neck1/Neck2/Head/Jaw/JawMesh (MeshInstance3D): 77 vertices, shadow 0
+  Root/Body/Neck1/Neck2/Head/HeadMesh (MeshInstance3D): 1102 vertices, shadow 1
+  Root/Body/Neck1/Neck2/Neck2Mesh (MeshInstance3D): 119 vertices, shadow 0
+  Root/Body/Neck1/Neck1Mesh (MeshInstance3D): 339 vertices, shadow 1
+  Root/Body/WingL/WingL2/WingL2Mesh (MeshInstance3D): 597 vertices, shadow 1
+  Root/Body/WingL/WingLMesh (MeshInstance3D): 499 vertices, shadow 1
+  Root/Body/WingR/WingR2/WingR2Mesh (MeshInstance3D): 597 vertices, shadow 1
+  Root/Body/WingR/WingRMesh (MeshInstance3D): 499 vertices, shadow 1
+  Root/Body/Tail1/Tail1Mesh (MeshInstance3D): 504 vertices, shadow 1
+  Root/Body/LegFL/LegFLMesh (MeshInstance3D): 386 vertices, shadow 0
+  Root/Body/LegFR/LegFRMesh (MeshInstance3D): 386 vertices, shadow 0
+  Root/Body/BodyMesh (MeshInstance3D): 622 vertices, shadow 1
+  Fx/Feathers (GPUParticles3D): 0 vertices, shadow 0
+  Shadow (MeshInstance3D): 4 vertices, shadow 0
+A materials: ["roc_storm_eye.tres", "roc_storm_feather.tres", "roc_storm_horn.tres"]
+B materials: ["roc_dusk_eye.tres", "roc_dusk_feather.tres", "roc_dusk_horn.tres"]
+storm (0.21, 0.34, 0.6, 1.0) (h 0.61 s 0.65 v 0.60), dusk (0.06, 0.055, 0.07, 1.0) (v 0.07), dusk sheen (0.58, 0.22, 0.88, 1.0) x 0.60
+idle: body 2.31 .. 2.56 m, lowest 1.05 m, wing roll -35.4 .. 59.1 deg, glided true, blob y 0.020
+widest idle AABB: span 6.71 m, length 3.49 m
+  FAILED: nothing below 1.2 m while gliding (1.05)
+turning: bank 23.7 deg
+attack: body 2.46 -> 2.06, hip -> ankle (0.091353, -0.015228, 0.661984)
+gale swoop: up 3.20, dive 1.42, swoops 1, bursts 0 -> 1
+shriek: jaw 48.9 deg, eye glow 1.00 -> 2.80
+updraft: 2.80 after 2 s, 2.80 after 5 s (shrouded), 0.00 2.6 s after; blob 3.60 -> 2.52; count 1
+  lowest JawMesh 0.439
+  lowest HeadMesh 0.360
+  lowest Neck2Mesh 0.390
+  lowest Neck1Mesh 0.202
+  lowest WingL2Mesh 0.467
+  lowest WingLMesh 0.568
+  lowest WingR2Mesh 0.115
+  lowest WingRMesh 0.340
+  lowest Tail1Mesh 0.309
+  lowest LegFLMesh 0.175
+  lowest LegFRMesh 0.112
+  lowest BodyMesh -0.018
+death 1.15 s: body 0.50 m, lowest -0.018, eyes 0.00, bursts 3
+death_finished at 1.80 s
+revived: body 2.55, eyes 1.00
+FAIL 12.v28: nothing below 1.2 m while gliding (1.05)

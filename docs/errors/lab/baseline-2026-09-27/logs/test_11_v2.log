@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 22
+spear        draw instances 15, own materials 5, bow visible false
+sword_shield draw instances 15, own materials 5, bow visible false
+two_hand     draw instances 15, own materials 5, bow visible false
+wizard       draw instances 15, own materials 5, bow visible false
+(archetype)  draw instances 15, own materials 5, bow visible true
+spear        clearance: lantern pole 0.072 m, hat axis at brim height 0.745 m
+sword_shield clearance: lantern pole 0.579 m, hat axis at brim height inf m
+two_hand     clearance: lantern pole 0.505 m, hat axis at brim height 0.825 m
+wizard       clearance: lantern pole 0.646 m, hat axis at brim height 0.552 m
+spear        flare grab: hand (-0.390467, 1.911234, -0.639115), lantern glass (-0.257107, 2.123724, -0.713482) (0.26 m)
+spear        trailblaze: weapon axis (0.116521, 0.984644, -0.129993), tip (0.639899, 3.220392, 0.302333), lantern glow 4.61
+sword_shield flare grab: hand (-0.394471, 1.949397, -0.612963), lantern glass (-0.259041, 2.16384, -0.692766) (0.27 m)
+sword_shield trailblaze: weapon axis (0.294976, 0.930424, -0.217485), tip (0.668191, 2.571922, 0.242468), lantern glow 4.61
+two_hand     flare grab: hand (-0.391781, 1.923917, -0.630533), lantern glass (-0.255596, 2.137261, -0.701795) (0.26 m)
+two_hand     trailblaze: weapon axis (0.018022, 0.990679, -0.135018), tip (0.647034, 2.961252, -0.09892), lantern glow 4.61
+wizard       flare grab: hand (-0.393024, 1.935771, -0.622414), lantern glass (-0.253838, 2.149535, -0.695658) (0.27 m)
+wizard       trailblaze: weapon axis (0.098244, 0.992884, -0.067307), tip (0.558086, 2.380832, 0.178076), lantern glow 4.61
+PASS 11.v2

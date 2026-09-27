@@ -1,0 +1,106 @@
+{
+    "lab":  "error_lab",
+    "version":  "1.1",
+    "run":  "review-subset",
+    "time":  "2026-09-27 07:35",
+    "project":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts",
+    "result":  "PASS",
+    "score":  100,
+    "unique_fail":  0,
+    "unique_warn":  0,
+    "info":  2,
+    "new":  0,
+    "previous_run":  "day-end-2026-09-26",
+    "tests":  [
+                  {
+                      "test":  "test_1_g1",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  24.1,
+                      "cap":  40000,
+                      "owner":  "gameplay-coder",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "PASS 1.G1"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\errors\\lab\\review-subset\\logs\\test_1_g1.log"
+                  },
+                  {
+                      "test":  "test_audio_lab",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  10.9,
+                      "cap":  40000,
+                      "owner":  "lab group C (checks)",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "  signal ok: -6 dBFS sine = -6.56 LUFS, lead 50 ms, trail 200 ms, clipped runs 598",
+                                   "  scan ok: 52 cues, 8 players, 39 connections",
+                                   "  report ok: score 24, 13 checks, improve 6",
+                                   "PASS audio_lab (preview played 1, bed hits 20)"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\errors\\lab\\review-subset\\logs\\test_audio_lab.log"
+                  }
+              ],
+    "failed_tests":  [
+
+                     ],
+    "owners":  [
+
+               ],
+    "errors":  [
+                   {
+                       "severity":  "INFO",
+                       "new":  false,
+                       "location":  "engine core/io/resource.cpp:822",
+                       "file":  "",
+                       "line":  0,
+                       "func":  "",
+                       "owner":  "lead (engine error in 2 tests of 2 owners, no script frame)",
+                       "message":  "N resources still in use at exit (run with --verbose for details).",
+                       "example":  "ERROR: 1 resources still in use at exit (run with --verbose for details).",
+                       "count":  2,
+                       "tests":  [
+                                     "test_1_g1",
+                                     "test_audio_lab"
+                                 ],
+                       "key":  "N resources still in use at exit (run with --verbose for details). @ (engine)"
+                   },
+                   {
+                       "severity":  "INFO",
+                       "new":  false,
+                       "location":  "engine core/object/object.cpp:2536",
+                       "file":  "",
+                       "line":  0,
+                       "func":  "",
+                       "owner":  "lead (engine error in 2 tests of 2 owners, no script frame)",
+                       "message":  "N ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+                       "example":  "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+                       "count":  2,
+                       "tests":  [
+                                     "test_1_g1",
+                                     "test_audio_lab"
+                                 ],
+                       "key":  "N ObjectDB instances were leaked at exit (run with `--verbose` for details). @ (engine)"
+                   }
+               ],
+    "gone":  [
+                 "hard: no B7 Guard flag after a raid @ (engine)",
+                 "N RIDs of type \"CanvasItem\" were leaked. @ (engine)",
+                 "N RID of type \"CanvasItem\" was leaked. @ (engine)",
+                 "ART LAB ERROR: scene not found: res://nope.tscn @ res://nope.tscn:0"
+             ],
+    "improve_next":  [
+
+                     ]
+}

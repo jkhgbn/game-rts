@@ -351,6 +351,60 @@ static func measure(frames: PackedVector2Array, rate: float) -> Dictionary:
 	return m
 
 
+## Sample peak (dBFS) of the SOURCE .wav (8 / 16 / 24-bit PCM, read from the file, not the imported stream).
+## Compared with the decoded peak it shows what the import did (QOA overshoots up to ~7 dB on harmonic tones).
+## Returns NAN when the file is not a PCM .wav this reader understands.
+static func source_peak_dbfs(path: String) -> float:
+	if path.get_extension().to_lower() != "wav":
+		return NAN
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return NAN
+	var buf := f.get_buffer(f.get_length())
+	f.close()
+	if buf.size() < 44 or buf.slice(0, 4).get_string_from_ascii() != "RIFF":
+		return NAN
+	var bits := 0
+	var fmt_tag := 0
+	var i := 12
+	while i + 8 <= buf.size():
+		var id := buf.slice(i, i + 4).get_string_from_ascii()
+		var size := buf.decode_u32(i + 4)
+		if id == "fmt ":
+			fmt_tag = buf.decode_u16(i + 8)
+			bits = buf.decode_u16(i + 22)
+		elif id == "data":
+			if fmt_tag != 1 and fmt_tag != 0xFFFE:
+				return NAN
+			var end := mini(i + 8 + size, buf.size())
+			var peak := 0.0
+			var j := i + 8
+			match bits:
+				16:
+					while j + 1 < end:
+						peak = maxf(peak, absf(float(buf.decode_s16(j))))
+						j += 2
+					peak /= 32768.0
+				24:
+					while j + 2 < end:
+						var v := buf[j] | (buf[j + 1] << 8) | (buf[j + 2] << 16)
+						if v & 0x800000:
+							v -= 0x1000000
+						peak = maxf(peak, absf(float(v)))
+						j += 3
+					peak /= 8388608.0
+				8:
+					while j < end:
+						peak = maxf(peak, absf(float(buf[j]) - 128.0))
+						j += 1
+					peak /= 128.0
+				_:
+					return NAN
+			return db(peak)
+		i += 8 + size + (size & 1)
+	return NAN
+
+
 ## Source-file facts that the decoded frames can't tell: format, rate, channels, bits, disk size, import options.
 static func file_info(path: String, stream: AudioStream) -> Dictionary:
 	var info := {"path": path, "ext": path.get_extension().to_lower(), "disk_bytes": 0, "src_rate": 0,

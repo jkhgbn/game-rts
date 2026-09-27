@@ -1,0 +1,160 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START normal bot (shadow_default), team 1, shadow
+BOT 1 [0:00] TRAIN Gloom Thrall (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+BOT 1 [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+BOT 1 [0:19] TRAIN Gloom Thrall (4 workers + 2 queued)
+BOT 1 [0:47] TRAIN Shade (soldier pop 0, crystals left 100)
+BOT 1 [0:48] TRAIN Nightbolt (soldier pop 0, crystals left 0)
+BOT 1 [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+BOT 1 [1:03] TRAIN Grave Hound (soldier pop 1, crystals left 60)
+BOT 1 [1:23] TRAIN Shade (soldier pop 2, crystals left 160)
+BOT 1 [1:37] TRAIN Nightbolt (soldier pop 3, crystals left 180)
+BOT 1 [1:44] SQUAD 2 units to Stonemere Well
+BOT 1 [1:53] TRAIN Shade (soldier pop 4, crystals left 230)
+BOT 1 [2:00] SCOUT Grave Hound to (12, 22)
+BOT 1 [2:08] SCOUT next (17, 47) via (20, 32)
+BOT 1 [2:08] SQUAD back: Stonemere Well done
+BOT 1 [2:12] SCOUT next (-2, 44) via (12, 49)
+BOT 1 [2:13] TRAIN Grave Hound (soldier pop 5, crystals left 340)
+BOT 1 [2:15] SCOUT next (-16, 6)
+BOT 1 [2:20] SQUAD 2 units to Saltwatch
+BOT 1 [2:21] SCOUT next (-27, 27)
+BOT 1 [2:24] SCOUT next (-24, 36)
+BOT 1 [2:29] TRAIN Nightbolt (soldier pop 6, crystals left 380)
+BOT 1 [2:34] SQUAD back: Saltwatch done
+BOT 1 [2:40] SQUAD 2 units to Owlwatch
+BOT 1 [2:43] TRAIN Shadow Knight (soldier pop 7, crystals left 250)
+BOT 1 [2:44] BUILD V1 triggered
+BOT 1 [2:44] SCOUT home
+BOT 1 [2:47] PLACE V1 Hovel at (50, -46), 1 builder(s), crystals left 200
+BOT 1 [2:48] SQUAD leaves Owlwatch for East Wayshrine
+BOT 1 [3:03] CREEP Bristleback Wallow (tier 1) 4 units str 370 (army 680) vs 200 (x1.9) + wizard
+BOT 1 [3:06] SQUAD back: East Wayshrine done
+BOT 1 [3:13] SQUAD 2 units to Owlwatch
+BOT 1 [3:13] CHAMPION hire coin_cutter (Sable Quint) #1: 225 crystals + 75 essence, crystals 380 -> 155, from (-15, -15)
+BOT 1 [3:16] CREEP over (cleared): Bristleback Wallow
+BOT 1 [3:16] WIZARD picks up Item_ember_draught after the creep
+BOT 1 [3:16] WIZARD job: pickup Item_ember_draught
+BOT 1 [3:20] STARVE pass: one unit through the 425-crystal reserve (105 crystals left)
+BOT 1 [3:20] TRAIN Nightbolt (soldier pop 7, crystals left 105)
+BOT 1 [3:33] SQUAD back: Owlwatch done
+BOT 1 [3:46] SQUAD 2 units to Mossmere Well
+BOT 1 [3:49] STARVE pass: one unit through the 425-crystal reserve (285 crystals left)
+BOT 1 [3:49] TRAIN Shade (soldier pop 10, crystals left 285)
+BOT 1 [4:00] SCOUT Grave Hound to (48, 24) via (49, 7)
+BOT 1 [4:03] CHAMPION hire oathwall (Garran Stoneward) #2: 275 crystals + 100 essence, crystals 425 -> 150, from (-15, -15)
+BOT 1 [4:06] SCOUT next (48, 36)
+BOT 1 [4:08] SCOUT next (-24, 48) via (12, 49)
+BOT 1 [4:09] TRAIN Grave Hound (soldier pop 10, crystals left 120)
+BOT 1 [4:15] BUILD X1 triggered
+BOT 1 [4:18] SCOUT next (-36, 48)
+BOT 1 [4:19] PLACE X1 Gloom Hall at (23, -9), 2 builder(s), crystals left 60
+BOT 1 [4:19] SQUAD back: Mossmere Well done
+BOT 1 [4:20] SCOUT next (-48, 48)
+a Shadow soldier reached the Fire base at 261 s
+BOT 1 [4:22] SCOUT next (-48, 36)
+BOT 1 [4:25] TRAIN Shade (soldier pop 10, crystals left 20)
+BOT 1 [4:25] SQUAD 2 units to Rookwatch
+BOT 1 [4:39] TRAIN Shade (soldier pop 11, crystals left 30)
+BOT 1 [4:43] SCOUT home
+BOT 1 [4:49] SQUAD back: Rookwatch done
+BOT 1 [4:55] TRAIN Nightbolt (soldier pop 12, crystals left 30)
+BOT 1 [4:55] ATTACK #1 6 units (6 pop) str 1020 (power 1284) vs seen 0 (ready) + wizard -> SHRINE
+BOT 1 [4:57] EXPANSION done: 3 workers to the natural node
+BOT 1 [4:59] TRAIN Gloom Thrall (6 workers + 1 queued)
+BOT 1 [5:00] BUILD S1 triggered
+BOT 1 [5:01] SQUAD 2 units to Millwatch
+BOT 1 [5:09] RETREAT 3 units: HP 163 of 409
+BOT 1 [5:13] ATTACK over: back at the rally
+BOT 1 [5:15] WIZARD walks to the shop (next item affordable)
+BOT 1 [5:15] WIZARD learns Q1 (soul_siphon rank 1) at level 2
+BOT 1 [5:16] PLACE S1 Night Spire at (37, -29), 1 builder(s), crystals left 0
+BOT 1 [5:16] ITEM bought bone_charm (list #2), essence 311 -> 61
+BOT 1 [5:17] CREEP Bristleback Wallow (tier 1) 4 units str 380 (army 880) vs 230 (x1.7) + wizard
+BOT 1 [5:22] TRAIN Gloom Thrall (7 workers + 1 queued)
+BOT 1 [5:27] TRAIN Gloom Thrall (7 workers + 2 queued)
+BOT 1 [5:28] RETREAT 2 units: HP 86 of 183
+BOT 1 [5:30] SQUAD back: Millwatch done
+BOT 1 [5:31] ATTACK over: back at the rally
+BOT 1 [5:34] TRAIN Grave Hound (soldier pop 9, crystals left 0)
+BOT 1 [5:41] TRAIN Shade (soldier pop 9, crystals left 0)
+BOT 1 [5:48] TRAIN Grave Hound (soldier pop 10, crystals left 10)
+BOT 1 [5:48] ATTACK #2 6 units (6 pop) str 870 (power 1214) vs seen 0 (ready) + wizard -> SHRINE
+BOT 1 [5:53] BUILD M1 triggered
+BOT 1 [6:01] SCOUT Shade to (-48, -36) via (-12, -49)
+BOT 1 [6:05] SHRINE row over (taken)
+BOT 1 [6:08] PLACE M1 Gloom Bazaar at (45, -27), 1 builder(s), crystals left 105
+BOT 1 [6:09] TRAIN Shade (soldier pop 12, crystals left 45)
+BOT 1 [6:13] TRAIN Shade (soldier pop 11, crystals left 15)
+BOT 1 [6:15] CAMP cleared
+BOT 1 [6:15] WIZARD goes for the crown at (0, 0)
+BOT 1 [6:15] WIZARD learns F2 (shadow_lance rank 2) at level 3
+BOT 1 [6:16] SCOUT next (-48, -24)
+BOT 1 [6:16] ATTACK to the enemy keep (-43, 43)
+BOT 1 [6:18] SCOUT next (-48, 12) via (-49, -10)
+BOT 1 [6:18] WIZARD wears the crown
+BOT 1 [6:21] TRAIN Nightbolt (soldier pop 11, crystals left 35)
+BOT 1 [6:25] TRAIN Shade (soldier pop 12, crystals left 5)
+BOT 1 [6:25] SCOUT next (-36, 12)
+BOT 1 [6:26] SCOUT next (-48, 24)
+BOT 1 [6:29] TRAIN Grave Hound (soldier pop 12, crystals left 5)
+BOT 1 [6:36] TRAIN Nightbolt (soldier pop 10, crystals left 5)
+BOT 1 [6:43] TRAIN Shade (soldier pop 11, crystals left 35)
+BOT 1 [6:48] RETREAT 2 units: HP 126 of 325
+BOT 1 [6:48] WIZARD walks to the shop (next item affordable)
+BOT 1 [6:49] BUILD V2 triggered
+BOT 1 [6:53] PLACE V2 Hovel at (50, -52), 1 builder(s), crystals left 75
+BOT 1 [6:55] TRAIN Shade (soldier pop 11, crystals left 35)
+BOT 1 [7:01] TRAIN Nightbolt (soldier pop 12, crystals left 5)
+BOT 1 [7:02] ITEM bought grave_pact (list #3), essence 539 -> 239
+BOT 1 [7:03] ITEM bought ember_draught (list #4), essence 240 -> 120
+BOT 1 [7:04] ATTACK over: back at the rally
+BOT 1 [7:04] ATTACK #3 9 units (9 pop) str 1140 (power 1672) vs seen 0 (ready) + wizard -> MID
+BOT 1 [7:06] TRAIN Shade (soldier pop 13, crystals left 5)
+BOT 1 [7:11] ATTACK to the enemy keep (-43, 43)
+BOT 1 [7:21] TRAIN Caravan (0 caravans + 1 queued, target 4, crystals left 150)
+BOT 1 [7:22] TRAIN Grave Hound (soldier pop 15, crystals left 90)
+BOT 1 [7:23] TRAIN Grave Hound (soldier pop 14, crystals left 30)
+BOT 1 [7:30] WIZARD learns E1 (umbral_shroud rank 1) at level 4
+BOT 1 [7:35] TRAIN Grave Hound (soldier pop 14, crystals left 140)
+BOT 1 [7:37] TRAIN Nightbolt (soldier pop 15, crystals left 90)
+BOT 1 [7:43] TRAIN Caravan (1 caravans + 1 queued, target 4, crystals left 75)
+BOT 1 [7:49] TRAIN Shade (soldier pop 15, crystals left 65)
+BOT 1 [7:51] TRADE 1 caravan(s) far to Heron Ford (154 gold / trip; str 1420 vs seen 0)
+BOT 1 [7:51] TRAIN Shade (soldier pop 16, crystals left 35)
+BOT 1 [7:56] INTRUDER Mirefang seen, reacting in 1.5 s
+BOT 1 [7:58] DEFEND vs Mirefang at (-7, -31), str 0 vs home 970
+BOT 1 [8:00] BUILD S2 triggered
+BOT 1 [8:03] TRAIN Caravan (2 caravans + 1 queued, target 4, crystals left 140)
+BOT 1 [8:04] PLACE S2 Night Spire at (25, -37), 1 builder(s), crystals left 20
+BOT 1 [8:06] RETREAT 5 units: HP 292 of 737
+BOT 1 [8:06] WIZARD walks to the shop (next item affordable)
+BOT 1 [8:07] TRAIN Shade (soldier pop 16, crystals left 0)
+BOT 1 [8:14] TRAIN Shade (soldier pop 16, crystals left 0)
+BOT 1 [8:18] DEFENCE over
+BOT 1 [8:21] TRAIN Nightbolt (soldier pop 17, crystals left 0)
+BOT 1 [8:21] ITEM bought gloom_ink (list #5), essence 372 -> 192
+BOT 1 [8:22] ITEM bought mana_thread (list #6), essence 193 -> 13
+BOT 1 [8:24] ATTACK over: back at the rally
+BOT 1 [8:24] ATTACK #4 13 units (15 pop) str 1510 (power 2144) vs seen 0 (ready) + wizard -> MID
+BOT 1 [8:27] TRAIN Shade (soldier pop 18, crystals left 0)
+BOT 1 [8:29] ATTACK to the enemy keep (-43, 43)
+BOT 1 [8:35] TRAIN Grave Hound (soldier pop 16, crystals left 40)
+BOT 1 [8:40] TRAIN Caravan (2 caravans + 1 queued, target 4, crystals left 55)
+BOT 1 [8:43] TRAIN Grave Hound (soldier pop 16, crystals left 5)
+BOT 1 [8:48] SQUAD 2 units to East Wayshrine (wakes in 11 s)
+BOT 1 [8:51] ATTACK searching (-43, 43)
+BOT 1 [8:51] WIZARD learns F3 (shadow_lance rank 3) at level 5
+first attack 296 s (4 launched), reached the Fire base 261 s, first Fire building lost 532 s, winner -1
+Shadow at 532 s: crystals 115, gathered 5310, pop 34 / 40, strength 1336, seen 0
+bot ticks 532, avg 2.442 ms, max 173.631 ms (at 502 s)
+rule usec totals: { 0: 171310, 1: 29692, 17: 43006, 20: 49516, 2: 9399, 3: 5654, 4: 57813, 5: 22196, 6: 24885, 7: 35838, 8: 198964, 18: 42239, 9: 258162, 10: 48351, 11: 47486, 21: 105234, 12: 48226, 13: 2522, 14: 14843, 15: 136091, 19: 5689, 16: 104697 }
+PASS 2.A1 attack
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

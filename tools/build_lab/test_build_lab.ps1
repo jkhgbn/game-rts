@@ -1,7 +1,8 @@
 # Self-test of the Build Lab without Godot: builds a tiny fake project + two synthetic builds
 #   A: pack format 3 embedded in a fake exe (paths without res://), everything right   -> no FAIL
 #   B: pack format 2 as a side .pck (paths with res://), docs/ leak + missing data file -> FAIL on both checks
-# and runs build_lab.ps1 -AnalyzeOnly -ProjectRoot <fake> on each. Prints "PASS build_lab" or "FAIL build_lab: ...".
+#   C: a full run with no export templates (-TemplateDir <empty>)                       -> BLOCKED, exit 3
+# and runs build_lab.ps1 -AnalyzeOnly -ProjectRoot <fake> on A and B. Prints "PASS build_lab" or "FAIL build_lab: ...".
 #   powershell -NoProfile -ExecutionPolicy Bypass -File tools\build_lab\test_build_lab.ps1
 $ErrorActionPreference = "Stop"
 $Lab = Join-Path $PSScriptRoot "build_lab.ps1"
@@ -115,6 +116,16 @@ try {
 	Expect "B referenced" (Status $b "Filter: referenced files ship") "FAIL"
 	Expect "B size vs previous" (Status $b "Size vs previous") "PASS"   # smaller than A
 	Expect "B previous run" $b.previous_run "A"
+
+	# ---------- C: no export templates on this PC -> BLOCKED (exit 3), never FAIL, nothing exported ----------
+	$outC = Join-Path $Tmp "out_C"
+	& powershell -NoProfile -ExecutionPolicy Bypass -File $Lab -ProjectRoot $Proj -BuildsRoot (Join-Path $Tmp "builds") -TemplateDir (Join-Path $Tmp "no_templates") -OutDir $outC -HistoryFile (Join-Path $Tmp "history.jsonl") -Run "C" | Out-Null
+	Expect "C exit code" $LASTEXITCODE 3
+	$c = Get-Content (Join-Path $outC "scorecard.json") -Raw -Encoding UTF8 | ConvertFrom-Json
+	Expect "C result" $c.result "BLOCKED"
+	Expect "C export" (Status $c "Export") "BLOCKED"
+	Expect "C filter still checked" (Status $c "Filter: excludes dev folders") "PASS"
+	Expect "C nothing built" (Test-Path (Join-Path $Tmp "builds\C")) $false
 } catch {
 	[void]$fails.Add("exception: $_")
 } finally {

@@ -28,10 +28,11 @@ param(
 	[int]$RunTimeoutSec = 1800,
 	[int]$TopN = 25,
 	[double]$GrowthWarnPct = 10.0,
-	[string]$ProjectRoot = ""   # tests only: a fake project folder instead of the repo
+	[string]$ProjectRoot = "",  # tests only: a fake project folder instead of the repo
+	[string]$TemplateDir = ""   # where the export templates are (default: %APPDATA%\Godot\export_templates\<ver>, then C:\Godot\editor_data\...)
 )
 $ErrorActionPreference = "Stop"
-$LabVersion = "1.0"
+$LabVersion = "1.1"
 $Root = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 if ($ProjectRoot) { $Root = (Resolve-Path $ProjectRoot).Path }
 $GodotExe = "C:\Godot\Godot_v4.7.2-stable_win64_console.exe"
@@ -46,7 +47,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 $Checks = New-Object System.Collections.ArrayList
 function Add-Check([string]$name, [string]$status, [string]$detail, [string]$fix = "") {
 	[void]$Checks.Add([pscustomobject]@{ check = $name; status = $status; detail = $detail; fix = $fix })
-	$c = "Gray"; if ($status -eq "FAIL") { $c = "Red" } elseif ($status -eq "WARN") { $c = "Yellow" } elseif ($status -eq "PASS") { $c = "Green" }
+	$c = "Gray"; if ($status -eq "FAIL") { $c = "Red" } elseif ($status -eq "WARN") { $c = "Yellow" } elseif ($status -eq "PASS") { $c = "Green" } elseif ($status -eq "BLOCKED") { $c = "Magenta" }
 	Write-Host ("  [{0}] {1}: {2}" -f $status, $name, $detail) -ForegroundColor $c
 }
 function Fmt-MB([double]$b) { return ("{0:N1} MB" -f ($b / 1MB)) }
@@ -138,16 +139,42 @@ function Invoke-Logged([string]$exe, [string[]]$argList, [string]$log, [int]$tim
 	}
 }
 
-# ---------- 0. pre-checks ----------
+# ---------- 0. pre-checks (Godot, export templates, disk) ----------
+# Template version from the exe name (Godot_v4.7.2-stable_win64_console.exe -> 4.7.2.stable).
+$godotVer = "4.7.2.stable"
+if ((Split-Path $GodotExe -Leaf) -match '^Godot_v(\d+\.\d+(?:\.\d+)?)-([a-z0-9]+)_') { $godotVer = "$($Matches[1]).$($Matches[2])" }
 $tplName = "windows_release_x86_64.exe"; if ($ExportDebug) { $tplName = "windows_debug_x86_64.exe" }
-$tpl = Join-Path $env:APPDATA "Godot\export_templates\4.7.2.stable\$tplName"
+$tplKey = "options.custom_template/release"; if ($ExportDebug) { $tplKey = "options.custom_template/debug" }
+$tplLooked = @()
+$tpl = ""
+if ($P[$tplKey]) { $tplLooked += $P[$tplKey]; if (Test-Path -LiteralPath $P[$tplKey]) { $tpl = $P[$tplKey] } }
+else {
+	# Normal install (%APPDATA%) or a self-contained Godot folder (_sc_ file -> editor_data next to the exe).
+	$tplDirs = @((Join-Path $env:APPDATA "Godot\export_templates\$godotVer"), (Join-Path (Split-Path $GodotExe) "editor_data\export_templates\$godotVer"))
+	if ($TemplateDir) { $tplDirs = @($TemplateDir) }
+	foreach ($d in $tplDirs) {
+		$tplLooked += (Join-Path $d $tplName)
+		if (-not $tpl -and (Test-Path (Join-Path $d $tplName))) { $tpl = Join-Path $d $tplName }
+	}
+}
 $exportInfo = @{ exit = $null; seconds = 0; skipped = $true }
+$Blocked = ""   # why this PC cannot export (not a game problem): result BLOCKED, exit 3
 
 # ---------- 1. export ----------
 if (-not $reuse -and -not $AnalyzeOnly) {
-	if (-not (Test-Path $GodotExe)) { Add-Check "Export" "FAIL" "Godot console exe not found: $GodotExe" }
-	elseif (-not (Test-Path $tpl)) { Add-Check "Export" "FAIL" "export template missing: $tpl" "Install the 4.7.2 export templates (Editor > Manage Export Templates)." }
+	if (-not (Test-Path $GodotExe)) { $Blocked = "Godot console exe not found: $GodotExe"; Add-Check "Export" "BLOCKED" $Blocked "Install Godot 4.7.2 at C:\Godot (CLAUDE.md) or edit `$GodotExe in the script." }
+	elseif (-not $tpl) {
+		$Blocked = "Godot $godotVer export templates are not installed on this PC ($tplName)"
+		$older = @(Get-ChildItem $BuildsRoot -Directory -ErrorAction SilentlyContinue | Where-Object { Test-Path (Join-Path $_.FullName "game\*.exe") } | Sort-Object LastWriteTime -Descending | Select-Object -First 1)
+		$alt = " No earlier build under $BuildsRoot to re-test."
+		if ($older.Count) { $alt = " Meanwhile re-test the last build: tools\build_lab\build_lab.ps1 -BuildDir `"$($older[0].FullName)`"." }
+		Add-Check "Export" "BLOCKED" "$Blocked; looked in: $($tplLooked -join ' ; '). Nothing is wrong with the game: an export needs the templates (~1 GB download; the lab never downloads)." ("Install them once (Editor > Manage Export Templates > Download and Install), or run the Build Lab on the PC that has them." + $alt)
+	}
 	else {
+		$drive = [IO.Path]::GetPathRoot($BuildDir)
+		$free = [int64]-1
+		try { $free = (New-Object IO.DriveInfo($drive)).AvailableFreeSpace } catch { }
+		if ($free -ge 0 -and $free -lt 2GB) { Add-Check "Disk space" "WARN" ("{0} free on {1}: an export + zip needs ~0.5 GB, keep 2 GB spare" -f (Fmt-MB $free), $drive) "Free some space or pass -BuildsRoot on another drive." }
 		New-Item -ItemType Directory -Force $GameDir | Out-Null
 		$mode = "--export-release"; if ($ExportDebug) { $mode = "--export-debug" }
 		Write-Host "BUILD LAB: exporting ($mode '$($P.name)') through the Godot gate..."
@@ -484,17 +511,25 @@ foreach ($c in $Checks) {
 if (-not $exportOk) { $score = 0 }
 $score = [math]::Max(0, $score)
 $result = "PASS"; if ($nFail -gt 0) { $result = "FAIL" } elseif ($nWarn -gt 0) { $result = "WARN" }
+# BLOCKED: this PC cannot export (no templates / no Godot). Not a game failure: no score, exit 3. The preset's
+# filter checks above still ran; a real FAIL among them keeps the FAIL result.
+if ($Blocked -and $nFail -eq 0) { $result = "BLOCKED" }
 $now = Get-Date -Format "yyyy-MM-dd HH:mm"
 function Esc([string]$s) { return ($s -replace '\|', '\|') }
 $md = New-Object System.Collections.Generic.List[string]
 $md.Add("# Build Lab scorecard: $Run"); $md.Add("")
 $md.Add("$now - lab v$LabVersion - preset **$($P.name)** ($(if ($ExportDebug) { 'debug' } else { 'release' })) - build: ``$BuildDir``"); $md.Add("")
-$md.Add("## Result: **$result** - score **$score / 100**"); $md.Add("")
+if ($result -eq "BLOCKED") {
+	$md.Add("## Result: **BLOCKED** - no score (this PC cannot export)"); $md.Add("")
+	$md.Add("**$Blocked.** Nothing is wrong with the game; the export, boot, smoke, sizes and zip did not run. The preset's filter settings were still checked (table below)."); $md.Add("")
+} else {
+	$md.Add("## Result: **$result** - score **$score / 100**"); $md.Add("")
+}
 $md.Add("$nFail FAIL - $nWarn WARN. Score = 100 - 40 per failed export / boot / smoke - 20 per other FAIL - 5 per WARN (0 if the export failed)."); $md.Add("")
 $md.Add("## Improve next")
 $k = 1
-$sevRank = @{ "FAIL" = 0; "WARN" = 1 }
-foreach ($c in @($Checks | Where-Object { $_.status -eq "FAIL" -or $_.status -eq "WARN" } | Sort-Object @{ e = { $sevRank[$_.status] } } | Select-Object -First 3)) {
+$sevRank = @{ "BLOCKED" = 0; "FAIL" = 1; "WARN" = 2 }
+foreach ($c in @($Checks | Where-Object { $_.status -eq "FAIL" -or $_.status -eq "WARN" -or $_.status -eq "BLOCKED" } | Sort-Object @{ e = { $sevRank[$_.status] } } | Select-Object -First 3)) {
 	$md.Add("$k. **$($c.check)** ($($c.status)): $(Esc $c.detail)$(if ($c.fix) { ' -> ' + (Esc $c.fix) })"); $k++
 }
 if ($k -eq 1) {
@@ -550,7 +585,8 @@ $json = [pscustomobject]@{
 	checks = @($Checks); categories = @($catRows); top = @($top | Select-Object path, source, size)
 	changed_vs_previous = @($growers); previous_run = $(if ($prev) { $prev.run } else { "" })
 	onedrive_command = $oneDriveCmd
-	improve_next = @($Checks | Where-Object { $_.status -eq "FAIL" -or $_.status -eq "WARN" } | Select-Object -First 3 | ForEach-Object { "$($_.check): $($_.detail)" })
+	improve_next = @($Checks | Where-Object { $_.status -eq "FAIL" -or $_.status -eq "WARN" -or $_.status -eq "BLOCKED" } | Select-Object -First 3 | ForEach-Object { "$($_.check): $($_.detail)" })
+	blocked = $Blocked; godot_version = $godotVer; template = $tpl
 }
 [IO.File]::WriteAllText((Join-Path $OutDir "scorecard.json"), ($json | ConvertTo-Json -Depth 6), $Utf8)
 
@@ -563,8 +599,9 @@ if (-not $NoHistory -and $exeBytes -gt 0) {
 }
 
 Write-Host ""
-Write-Host "BUILD LAB: $result score $score / 100 ($nFail FAIL, $nWarn WARN) - exe $(Fmt-MB $exeBytes), pack $(Fmt-MB $pckBytes)$(if ($zipBytes) { ', zip ' + (Fmt-MB $zipBytes) })"
-foreach ($c in @($Checks | Where-Object { $_.status -eq "FAIL" -or $_.status -eq "WARN" } | Select-Object -First 3)) { Write-Host "  $($c.status) $($c.check): $($c.detail)" }
+if ($result -eq "BLOCKED") { Write-Host "BUILD LAB: BLOCKED - $Blocked (not a game failure; filter checks: $nFail FAIL, $nWarn WARN)" -ForegroundColor Magenta }
+else { Write-Host "BUILD LAB: $result score $score / 100 ($nFail FAIL, $nWarn WARN) - exe $(Fmt-MB $exeBytes), pack $(Fmt-MB $pckBytes)$(if ($zipBytes) { ', zip ' + (Fmt-MB $zipBytes) })" }
+foreach ($c in @($Checks | Where-Object { $_.status -eq "FAIL" -or $_.status -eq "WARN" -or $_.status -eq "BLOCKED" } | Select-Object -First 3)) { Write-Host "  $($c.status) $($c.check): $($c.detail)"; if ($c.fix) { Write-Host "    fix: $($c.fix)" } }
 Write-Host "  scorecard: $(Join-Path $OutDir 'scorecard.md')"
 if ($zipPath) {
 	Write-Host "  zip ready: $zipPath"
@@ -572,4 +609,5 @@ if ($zipPath) {
 	Write-Host "    $oneDriveCmd"
 }
 if ($result -eq "FAIL") { exit 1 }
+if ($result -eq "BLOCKED") { exit 3 }
 exit 0

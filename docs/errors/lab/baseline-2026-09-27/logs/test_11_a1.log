@@ -1,0 +1,57 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok   stance wayfinder / no class: back line true
+ok   stance wayfinder / spear: back line false
+ok   stance wayfinder / sword_shield: back line false
+ok   stance wayfinder / two_hand: back line false
+ok   stance wayfinder / wizard: back line true
+ok   stance oathwall / no class: back line false
+ok   stance oathwall / spear: back line false
+ok   stance oathwall / sword_shield: back line false
+ok   stance oathwall / two_hand: back line false
+ok   stance oathwall / wizard: back line true
+ok   stance coin_cutter / no class: back line false
+ok   stance coin_cutter / spear: back line false
+ok   stance coin_cutter / sword_shield: back line false
+ok   stance coin_cutter / two_hand: back line false
+ok   stance coin_cutter / wizard: back line true
+ok   stance mender / no class: back line true
+ok   stance mender / spear: back line false
+ok   stance mender / sword_shield: back line false
+ok   stance mender / two_hand: back line false
+ok   stance mender / wizard: back line true
+ok   Wizard Mender in a fight: back line, goal 4.0 m behind the ally (no attack)
+ok   Sword and Shield Mender in a fight: closes in and attacks (target @CharacterBody3D@2450)
+ok   Spear Wayfinder picks the Nightbolt over a Shade at equal distance (@CharacterBody3D@2465)
+ok   No-class Wayfinder, Shade 3 m / Nightbolt 5 m: picks the shade (@CharacterBody3D@2475)
+ok   Spear Wayfinder, Shade 3 m / Nightbolt 5 m: picks the nightbolt (@CharacterBody3D@2495)
+ok   Two-Hand picks the Shade with 2 neighbours within 2.5 m (@CharacterBody3D@2515; lone @CharacterBody3D@2505, ends @CharacterBody3D@2510 @CharacterBody3D@2520)
+ok   Sword and Shield: picks the Shade attacking the ally (@CharacterBody3D@2540)
+ok   no class: picks the Shade nearest (@CharacterBody3D@2550)
+ok   Wizard: picks the Shade attacking the ally at 30 % (@CharacterBody3D@2580)
+ok   no class: picks the Shade nearest (@CharacterBody3D@2610)
+ok   Spear Oathwall: the keep's attacker first (archetype rule) over a Nightbolt (@CharacterBody3D@2620)
+ok   Two-Hand Coin-Cutter: the lowest HP % first (archetype rule) over a crowd (@CharacterBody3D@2642)
+ok   Mender sword_shield follows the army 1 m behind its centre (1.00)
+ok   Mender wizard follows the army 4 m behind its centre (4.00)
+ok   Mender no class follows the army 4 m behind its centre (4.00)
+ok   Mender spear follows the army 1 m behind its centre (1.00)
+ok   oathwall sword_shield: flee threshold 15 % (reads 0.150)
+ok   oathwall sword_shield: stays at 16 %, flees at 14 %
+ok   oathwall : flee threshold 20 % (reads 0.200)
+ok   oathwall : stays at 21 %, flees at 19 %
+ok   mender wizard: flee threshold 50 % (reads 0.500)
+ok   mender wizard: stays at 51 %, flees at 49 %
+ok   coin_cutter two_hand: flee threshold 35 % (reads 0.350)
+ok   coin_cutter two_hand: stays at 36 %, flees at 34 %
+ok   fog: the hidden Nightbolt is ignored (hidden true, target @CharacterBody3D@2812)
+ok   fog off: the Nightbolt is seen and picked (@CharacterBody3D@2817)
+timing: 200 units, 6 class champions: brains + senses 83.3 us per frame
+ok   timing: 83.3 us per frame (< 100)
+PERF OK
+---- 47 checks, 0 failed
+PASS 11.A1
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

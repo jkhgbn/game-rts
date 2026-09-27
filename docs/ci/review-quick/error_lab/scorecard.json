@@ -1,0 +1,83 @@
+{
+    "lab":  "error_lab",
+    "version":  "1.1",
+    "run":  "ci-review-quick",
+    "time":  "2026-09-27 07:38",
+    "project":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts",
+    "result":  "PASS",
+    "score":  100,
+    "unique_fail":  0,
+    "unique_warn":  0,
+    "info":  2,
+    "new":  0,
+    "previous_run":  "day-end-2026-09-26",
+    "tests":  [
+                  {
+                      "test":  "test_1_g1",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  17.4,
+                      "cap":  40000,
+                      "owner":  "gameplay-coder",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "PASS 1.G1"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\ci\\review-quick\\error_lab\\logs\\test_1_g1.log"
+                  }
+              ],
+    "failed_tests":  [
+
+                     ],
+    "owners":  [
+
+               ],
+    "errors":  [
+                   {
+                       "severity":  "INFO",
+                       "new":  false,
+                       "location":  "engine core/io/resource.cpp:822",
+                       "file":  "",
+                       "line":  0,
+                       "func":  "",
+                       "owner":  "gameplay-coder (engine error, no script frame)",
+                       "message":  "N resources still in use at exit (run with --verbose for details).",
+                       "example":  "ERROR: 1 resources still in use at exit (run with --verbose for details).",
+                       "count":  1,
+                       "tests":  [
+                                     "test_1_g1"
+                                 ],
+                       "key":  "N resources still in use at exit (run with --verbose for details). @ (engine)"
+                   },
+                   {
+                       "severity":  "INFO",
+                       "new":  false,
+                       "location":  "engine core/object/object.cpp:2536",
+                       "file":  "",
+                       "line":  0,
+                       "func":  "",
+                       "owner":  "gameplay-coder (engine error, no script frame)",
+                       "message":  "N ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+                       "example":  "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+                       "count":  1,
+                       "tests":  [
+                                     "test_1_g1"
+                                 ],
+                       "key":  "N ObjectDB instances were leaked at exit (run with `--verbose` for details). @ (engine)"
+                   }
+               ],
+    "gone":  [
+                 "hard: no B7 Guard flag after a raid @ (engine)",
+                 "N RIDs of type \"CanvasItem\" were leaked. @ (engine)",
+                 "N RID of type \"CanvasItem\" was leaked. @ (engine)",
+                 "ART LAB ERROR: scene not found: res://nope.tscn @ res://nope.tscn:0"
+             ],
+    "improve_next":  [
+
+                     ]
+}

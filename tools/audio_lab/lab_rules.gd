@@ -114,7 +114,13 @@ const CATEGORY_BY_ID := {
 	"crystals_delivered": "ui", "mine_tick": "unit", "mapfill_chime": "alert", "mapfill_horn": "alert",
 	"mapfill_drum": "alert", "mapfill_roar": "alert", "mapfill_stag": "alert", "mapfill_bubble": "ui",
 	"mapfill_splash": "unit", "trade_coin": "ui", "trade_whistle": "alert", "trade_horn": "alert",
+	"alert_wizard_fell": "alert", "wizard_fell": "alert", "ability_cast": "spell", "skill_hit": "unit",
 }
+## Takes (<id>_1.wav ... next to <id>.wav) inherit their parent's category, volume, 3D and play rate; their levels
+## must stay within TAKE_TOL of each other (a random pick must not jump out).
+const TAKE_TOL := 2.0
+## Decoded peak minus source .wav peak above this = the lossy import (QOA) distorts the cue: WARN + import hint.
+const IMPORT_OVERSHOOT_DB := 1.0
 const CATEGORY_PREFIXES := [["music_", "music"], ["amb_", "ambience"], ["ambience_", "ambience"], ["ui_", "ui"],
 	["item_", "ui"], ["ping_", "ui"], ["spell_", "spell"], ["fireball_", "spell"], ["alert_", "alert"],
 	["ally_", "alert"], ["stinger_", "alert"]]

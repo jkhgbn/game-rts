@@ -326,9 +326,29 @@ func _analyse(path: String, kind: String, registry: Dictionary) -> Dictionary:
 	var meta: Dictionary = registry.get(id, {})
 	if not meta.is_empty() and meta["path"] != path:
 		meta = {}
+	# A take (<id>_1.wav next to <id>.wav) plays through its parent cue: same volume_db, 3D settings, category,
+	# play rate and takes count. Its own registry entry (a PATH literal in a TAKES table) only fills the gaps.
+	var parent := take_parent(path)
+	var rate_id := id
 	var cat := Report.category_of(id, path, kind)
+	var takes := Code.count_takes(path)
+	if parent != "":
+		var pmeta: Dictionary = registry.get(parent, {})
+		if not pmeta.is_empty():
+			var merged := pmeta.duplicate()
+			for k in meta:
+				if meta[k] != null and not merged.has(k):
+					merged[k] = meta[k]
+			merged["path"] = path
+			meta = merged
+		rate_id = parent
+		if not Rules.CATEGORY_BY_ID.has(id):
+			cat = Report.category_of(parent, path, kind)
+		takes = Code.count_takes(path.get_base_dir().path_join(parent + "." + path.get_extension()))
 	var r := {"id": id, "path": path, "category": cat, "meta": meta, "error": "", "orphan": meta.is_empty(),
-		"generated": Code.is_generated(path, scan["generators"]), "takes": Code.count_takes(path)}
+		"generated": Code.is_generated(path, scan["generators"]), "takes": takes}
+	if parent != "":
+		r["take_of"] = parent
 	var stream: AudioStream = load(path) if ResourceLoader.exists(path) else null
 	if stream == null:
 		r["error"] = "cannot load"
@@ -342,6 +362,11 @@ func _analyse(path: String, kind: String, registry: Dictionary) -> Dictionary:
 	r["m"] = m
 	r["info"] = info
 	r["memory"] = Sig.memory_bytes(info, float(m["duration_s"]))
+	# Import overshoot: decoded peak vs the source .wav peak (only for compressed imports, where it can differ).
+	if str(info.get("imported_format", "")) in ["QOA", "IMA-ADPCM"]:
+		var sp := Sig.source_peak_dbfs(path)
+		if not is_nan(sp):
+			r["src_peak_dbfs"] = sp
 	var metric: String = Rules.LOUDNESS[cat]["metric"]
 	var fl := float(m["lufs_i"] if metric == "integrated" else m["lufs_cue"])
 	r["file_level"] = fl
@@ -354,12 +379,27 @@ func _analyse(path: String, kind: String, registry: Dictionary) -> Dictionary:
 	# Play rate: measured in the fight, else the lab table, else guessed from the cooldown.
 	var rate := 0.0
 	var fr: Dictionary = fight.get("rates", {}) if int(fight.get("played", 0)) >= MIN_FIGHT_PLAYS else {}
-	if fr.has(id):
-		rate = float(fr[id])
-	elif Rules.EXPECTED_RATE.has(id):
-		rate = float(Rules.EXPECTED_RATE[id])
+	if fr.has(rate_id):
+		rate = float(fr[rate_id])
+	elif Rules.EXPECTED_RATE.has(rate_id):
+		rate = float(Rules.EXPECTED_RATE[rate_id])
 	elif meta.get("rate_limit_s") is float and float(meta["rate_limit_s"]) <= 0.1 and cat == "unit":
 		rate = 60.0
 	r["rate"] = rate
 	r["frequent"] = rate >= Rules.FREQUENT_PER_MIN and not (cat in ["music", "ambience"])
 	return r
+
+
+## "melee_hit" for res://.../melee_hit_1.wav when melee_hit.wav|ogg|mp3 sits next to it, else "".
+static func take_parent(path: String) -> String:
+	var id := path.get_file().get_basename()
+	var re := RegEx.new()
+	re.compile("^(.+)_(\\d+|[a-z])$")
+	var mt := re.search(id)
+	if mt == null:
+		return ""
+	var parent := mt.get_string(1)
+	for ext in ["wav", "ogg", "mp3"]:
+		if FileAccess.file_exists(path.get_base_dir().path_join(parent + "." + ext)):
+			return parent
+	return ""

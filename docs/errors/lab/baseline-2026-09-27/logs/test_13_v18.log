@@ -1,0 +1,20 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+first build (meshes of the type): 650 ms
+authored meshes (blob included) 16, particle systems 2, draw instances 18
+materials: 3 own + 1 shared (res://art/units/titans/elder_treant/treant_bark.tres, res://art/units/titans/elder_treant/treant_leaf.tres, res://art/units/titans/elder_treant/treant_glow.tres, res://art/units/kit/materials/unit_shadow_blob.tres); vertices 23089; shadow casters 14
+head instance uniforms: ["ao_bottom", "ao_height", "hit_flash", "flash_color", "glow_boost", "root_morph", "heal_glow", "team_tint"]
+walking form: x -1.74..1.77, y -0.05..4.48, z -1.16..1.35
+walk: thigh swing 60 deg, body bob 0.09 m
+slam 1: elbows up to 3.40 / 2.11 m; slam 2: 2.09 / 3.39; lowest after the strike 1.77
+root: root_changed(true) after 2.98 s; progress monotonic true
+rooted form: x -2.82..2.85, y -0.94..4.93, z -2.14..2.02
+volley origins (rooted): [(-1.725655, 3.945798, 0.264329), (1.721817, 3.94853, 0.295493), (0.00123, 3.527796, -0.183451)]
+right canopy pods (rendered): y 2.83..3.87
+ground roots: x -2.74..2.67, y -0.38..0.40
+rooted heal_glow 1.00, motes emitting true
+volley: released at 0.13 s, pod glow peak 3.18
+uproot: root_changed(false) after 3.02 s, root y -0.02
+death: topple 84 deg, finished after 1.80 s, eye glow 0.00
+7 treants: 0.248 ms per frame (whole headless frame)
+PASS 13.v18

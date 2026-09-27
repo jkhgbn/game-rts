@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  snow_frost_scrub   variants 162 / 264 / 843 tris, snow 732, ice 36, dark 289 of 1269, size 1.43 x 0.94 x 1.17
+  snow_capped_rocks  variants 337 / 430 / 407 tris, snow 800, ice 18, dark 216 of 1174, size 2.69 x 0.82 x 1.88
+  snowfields: 319 m2 inside, 141 m2 edge band -> at most 305 instances (budget 500)
+PASS 12b.V2

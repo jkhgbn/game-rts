@@ -1,0 +1,24 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+hips to seat 0.063 m
+rider budget: parts 11, draw instances 11, vertices 4470, lights 0, particles 0; steed instances 8
+  Root/Hips/LegL/Merged: 3 surfaces, 386 vertices, shadow false
+  Root/Hips/LegR/Merged: 3 surfaces, 386 vertices, shadow false
+  Root/Hips/Merged: 5 surfaces, 278 vertices, shadow false
+  Root/Chest/Head/Merged: 8 surfaces, 745 vertices, shadow true
+  Root/Chest/ArmL/Merged: 3 surfaces, 289 vertices, shadow false
+  Root/Chest/ArmR/ForearmR: 2 surfaces, 148 vertices, shadow false
+  Root/Chest/ArmR/ForearmR/Lance: 5 surfaces, 867 vertices, shadow true
+  Root/Chest/ArmR/ForearmR/Lance/Pennon: 3 surfaces, 160 vertices, shadow false
+  Root/Chest/ArmR/Merged: 2 surfaces, 130 vertices, shadow true
+  Root/Chest/Cloak: 2 surfaces, 96 vertices, shadow false
+  Root/Chest/Merged: 6 surfaces, 985 vertices, shadow true
+own materials (2): gloam_rider_coat.tres, gloam_rider_shaft.tres
+rider bounds (no lance) y 1.22..2.86, x -0.63..0.63; with lance top 4.18; lance 3.87 m
+gait: walk gallop 0.00, gallop 1.00, rider bob 0.069 m, cloak 59.0 deg; lance pitch rest -49.0 (dir (0.136438, 0.754559, 0.641892)), gallop -14.4 (dir (-0.050696, 0.248381, 0.967335)); pennon tail rest (-0.064513, -0.774622, -0.477806), gallop (0.025758, -0.367797, -0.834603)
+strike: frame 7, couch 1.00, dir (-0.103242, -0.156435, 0.982278), tip (-0.194651, 1.372134, 3.619486) (drawn back (-0.027508, 1.544067, 3.049972)), struck 1
+charge: frame 6, couch 1.00, dir (-0.103242, -0.156435, 0.982278), glow 1.00 -> 2.90, charging true
+hit flash rider 0.58, steed 0.58
+slot collisions: 0
+death 0.6 s: hips to seat 0.06, seat y 0.46, glow 0.00 / lance 0.00, tip y 0.77
+PASS 13.v7

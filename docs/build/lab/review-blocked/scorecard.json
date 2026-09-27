@@ -1,0 +1,58 @@
+{
+    "lab":  "build_lab",
+    "version":  "1.0",
+    "run":  "review-blocked",
+    "time":  "2026-09-27 07:38",
+    "result":  "BLOCKED",
+    "score":  0,
+    "preset":  "Windows Desktop",
+    "release":  true,
+    "build_dir":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\review-blocked",
+    "exe":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\review-blocked\\game\\FourWizards.exe",
+    "zip":  "",
+    "exe_bytes":  0,
+    "pck_bytes":  0,
+    "zip_bytes":  0,
+    "files":  0,
+    "export_seconds":  0,
+    "boot":  null,
+    "smoke":  null,
+    "smoke_line":  "",
+    "checks":  [
+                   {
+                       "check":  "Export",
+                       "status":  "BLOCKED",
+                       "detail":  "Godot 4.7.2.stable export templates are not installed on this PC (windows_release_x86_64.exe); looked in: C:\\Users\\elzzo\\AppData\\Roaming\\Godot\\export_templates\\4.7.2.stable\\windows_release_x86_64.exe ; C:\\Godot\\editor_data\\export_templates\\4.7.2.stable\\windows_release_x86_64.exe. Nothing is wrong with the game: an export needs the templates (~1 GB download; the lab never downloads).",
+                       "fix":  "Install them once (Editor \u003e Manage Export Templates \u003e Download and Install), or run the Build Lab on the PC that has them. No earlier build under C:\\Users\\elzzo\\Documents\\four-wizards-builds to re-test."
+                   },
+                   {
+                       "check":  "Filter: excludes dev folders",
+                       "status":  "PASS",
+                       "detail":  "exclude_filter = tests/*, docs/*, tools/*, art/preview/*",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: includes *.json",
+                       "status":  "PASS",
+                       "detail":  "include_filter = *.json",
+                       "fix":  ""
+                   }
+               ],
+    "categories":  [
+
+                   ],
+    "top":  [
+
+            ],
+    "changed_vs_previous":  [
+
+                            ],
+    "previous_run":  "2026-09-26_2350",
+    "onedrive_command":  "",
+    "improve_next":  [
+                         "Export: Godot 4.7.2.stable export templates are not installed on this PC (windows_release_x86_64.exe); looked in: C:\\Users\\elzzo\\AppData\\Roaming\\Godot\\export_templates\\4.7.2.stable\\windows_release_x86_64.exe ; C:\\Godot\\editor_data\\export_templates\\4.7.2.stable\\windows_release_x86_64.exe. Nothing is wrong with the game: an export needs the templates (~1 GB download; the lab never downloads)."
+                     ],
+    "blocked":  "Godot 4.7.2.stable export templates are not installed on this PC (windows_release_x86_64.exe)",
+    "godot_version":  "4.7.2.stable",
+    "template":  ""
+}

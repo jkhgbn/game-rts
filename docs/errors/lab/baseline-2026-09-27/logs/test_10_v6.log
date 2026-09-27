@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes (blob included): 9
+instance 0: draw instances 10
+instance 1: draw instances 10
+  Root/Hips/LegL/Merged: 198 vertices
+  Root/Hips/LegR/Merged: 198 vertices
+  Root/Chest/Head/Merged: 339 vertices
+  Root/Chest/ArmL/Merged: 363 vertices
+  Root/Chest/ArmR/Merged: 363 vertices
+  Root/Chest/Tail: 190 vertices
+  Root/Chest/Sack: 301 vertices
+  Root/Chest/Merged: 513 vertices
+  Shadow: 4 vertices
+materials: 6 own + 2 shared (res://art/units/neutral/magpie/magpie_black.tres, res://art/units/neutral/magpie/magpie_white.tres, res://art/units/neutral/magpie/magpie_sheen.tres, res://art/units/neutral/magpie/magpie_eye_glow.tres, res://art/units/neutral/magpie/magpie_steel.tres, res://art/units/neutral/magpie/magpie_burlap.tres, res://art/units/kit/materials/unit_gold_trim.tres, res://art/units/kit/materials/unit_shadow_blob.tres); vertices 2469; glow surfaces 1
+hood top y: 1.61
+footprint reach at rest: 0.54
+lurk head yaw spread over 3 s: 0.33 rad
+walk lean 0.17, flee lean 0.45, flee arms back 0.91
+snatch: 91 frames, sack shown true, eye boost max 1.90, lunge 0.27
+PASS 10.v6

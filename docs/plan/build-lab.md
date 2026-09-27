@@ -36,8 +36,17 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\build_lab\test_build_l
 | `-GrowthWarnPct` (10) | WARN when the exe grew more than this vs the previous build |
 | `-Run`, `-OutDir`, `-HistoryFile`, `-NoHistory`, `-TopN` (25) | as in the other labs |
 | `-ProjectRoot` | tests only: analyse against a fake project folder instead of the repo |
+| `-TemplateDir` | where the export templates are (default `%APPDATA%\Godot\export_templates\<ver>`, then `C:\Godot\editor_data\export_templates\<ver>` for a self-contained Godot; a preset `custom_template/release` path wins) |
 
-Exit code: 1 on FAIL, 0 otherwise.
+Exit code: 1 on FAIL, **3 on BLOCKED** (this PC cannot export: no export templates or no Godot; not a game failure),
+0 otherwise.
+
+**BLOCKED (v1.1, 2026-09-27)**: before exporting, the lab looks for the export template of the Godot version in the
+exe name (`4.7.2.stable`). Missing -> result **BLOCKED**, no score, nothing exported, nothing downloaded; the scorecard
+says where it looked, how to install them once (Editor > Manage Export Templates, ~1 GB) and, when an earlier build
+exists under `-BuildsRoot`, the `-BuildDir` command to re-test it. The preset's filter settings are still checked.
+The laptop (2026-09-27) has no templates: `docs/build/lab/review-blocked/` = BLOCKED, filters PASS. A disk-space
+WARN fires under 2 GB free on the build drive. Self-test case C covers BLOCKED (`-TemplateDir <empty>`).
 
 ## 2. What it does
 1. **Export**: `Godot_console.exe --headless --path <repo> --export-release "Windows Desktop" <build>\game\FourWizards.exe`,

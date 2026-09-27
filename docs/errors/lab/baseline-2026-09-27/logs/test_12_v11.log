@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  glade_tall_grass       variants 351 / 276 / 351 tris, size 1.36 x 0.65 x 1.30
+  tall grass: 0.76 m at max scale, mean saturation 0.49 (lawn 0.53, Nature team 0.64), mean value 0.44
+  glade_flowers          variants 294 / 278 / 283 tris, size 0.90 x 0.54 x 0.93
+  glade_butterfly_bush   variants 948 / 948 / 948 tris, size 2.11 x 1.66 x 2.10
+  glade area 3145 m2 (weighted, both halves, lane cleared), 29.7 per 100 m2 -> 934 instances (budget 1800)
+  decor mesh kinds over the biome sets present: 36 (map budget 24; glade 3)
+PASS 12.V11

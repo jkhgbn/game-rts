@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+hips to seat 0.073 m
+rider budget: parts 11, draw instances 11, vertices 4251, lights 0, particles 0; stag instances 8
+  Root/Hips/LegL/Merged: 4 surfaces, 448 vertices, shadow false
+  Root/Hips/LegR/Merged: 4 surfaces, 448 vertices, shadow false
+  Root/Hips/Merged: 6 surfaces, 441 vertices, shadow false
+  Root/Chest/Head/Merged: 8 surfaces, 668 vertices, shadow true
+  Root/Chest/ArmL/Merged: 3 surfaces, 296 vertices, shadow false
+  Root/Chest/ArmR/ForearmR: 4 surfaces, 180 vertices, shadow false
+  Root/Chest/ArmR/Merged: 1 surfaces, 141 vertices, shadow true
+  Root/Chest/Spear: 8 surfaces, 488 vertices, shadow false
+  Root/Chest/Cloak: 3 surfaces, 346 vertices, shadow false
+  Root/Chest/Cloak/CloakTail: 2 surfaces, 216 vertices, shadow false
+  Root/Chest/Merged: 6 surfaces, 579 vertices, shadow true
+own materials (3): stagrunner_leaf_gold.tres, stagrunner_blade.tres, stagrunner_leaf_amber.tres
+rider bounds y 1.09..3.26; spear 2.22 m, rest elevation 78.0, tip y 3.27 (head 2.33)
+gait: walk gallop 0.00 (spear 78.0), gallop 1.00 (spear 4.0), tip z 1.71 vs nose z 1.48, bob 0.118, cloak drape 68.0 -> stream 100.0
+thrust front: spear yaw 0.0 (target -2.6), elevation -6.4, thrust 0.70 m, struck 1
+thrust front-left: spear yaw -25.0 (target -27.7), elevation -6.4, thrust 0.69 m, struck 1
+thrust front-right: spear yaw 55.2 (target 53.9), elevation -6.4, thrust 0.55 m, struck 1
+charge: stag true (kept true), is_charging true, elevation -4.0, blade glow 1.00 -> 2.35, charge strikes 1, after false
+auto aim (target 53 deg right): spear yaw 53.1
+hit flash rider 0.58, stag 0.58
+slot collisions: 0
+death 0.6 s: hips to seat 0.07, glow head 0.00, spear 0.00
+PASS 13.v9

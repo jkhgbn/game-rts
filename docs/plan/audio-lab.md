@@ -25,7 +25,8 @@ Everything runs headless. The Dummy audio driver plays nothing, so the lab decod
 
 ## Run
 
-`$GODOT` = the console exe (CLAUDE.md). Always pass `--quit-after`.
+`$GODOT` = the Godot gate `tools\godot_run.ps1` (same arguments as the console exe `C:\Godot\...console.exe`; in
+PowerShell write `& tools\godot_run.ps1 ... '--' set=...` with the `--` quoted). Always pass `--quit-after`.
 
 ```
 # A folder (recursive) or a file prefix
@@ -111,6 +112,23 @@ Scores:
 The skirmish fight measured 66 plays in 30 s, 0 dropped, peak 4 of 16 voices.
 
 Scorecards are in `docs/audio/lab/{all_audio,sfx,mapfill,trade,music,skirmish}/`.
+
+## v1.1 (2026-09-27 lab review, group C)
+
+- **Takes fold into their parent cue**: `<id>_N.wav` / `<id>_a.wav` next to `<id>.wav` gets the parent's volume_db,
+  3D settings, category, play rate (so the frequent-cue range) and takes count. Before, takes were judged as separate
+  cues at `vol -` / no 3D loss (8 takes measured 8-12 dB too loud in game) and each got its own variation row.
+  Variation is judged once, on the parent. New check **"<id> takes"**: the takes' in-game levels within
+  `TAKE_TOL` 2 dB (a random pick must not jump out).
+- **Categories**: `alert_wizard_fell` / `wizard_fell` = alert, `ability_cast` = spell, `skill_hit` = unit
+  (`CATEGORY_BY_ID`).
+- **Import overshoot measured**: for QOA / IMA-ADPCM imports the lab reads the source .wav peak (8 / 16 / 24-bit PCM)
+  and prints it next to the decoded true peak ("source -0.4 dBFS (QOA import +0.2 dB)"). >= `IMPORT_OVERSHOOT_DB`
+  1 dB = WARN "import as PCM / IMA-ADPCM"; a peak WARN whose cause is the file itself says so (normalise the file), so
+  the hint no longer blames QOA when it is innocent. All 52 files import as QOA today; measured overshoot <= +0.6 dB.
+- Result `set=res://assets/audio`: 98 / 100, PASS 460, WARN 21, FAIL 0 (`docs/audio/lab/review_after/`). New real
+  findings (handoff `docs/handoff/for-ui-coder.md`): `building_hit` takes 5.1 dB apart; `ability_cast` 3 dB under
+  the spell range; the 3 peak WARNs are in the source files (normalise to -1 dBTP).
 
 ## Rule to add (for every audio agent: ui-coder on assets/audio, future sound agents)
 
