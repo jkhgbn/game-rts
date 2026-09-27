@@ -1,0 +1,51 @@
+{
+	"asset": "watch_keep",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "sheet",
+			"hint": "check the out folder",
+			"id": "SH1",
+			"improve": "",
+			"name": "timing.png",
+			"rule": "written",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "1800x485",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 1,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"sheet": "Timing sheet"
+	},
+	"hash": "188eaa48e36e109c",
+	"hash_note": "",
+	"headless": false,
+	"id": "watch_keep",
+	"improve_next": [],
+	"kind": "sheet",
+	"kingdom": "",
+	"notes": [],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 0.3,
+	"shots": {
+		"timing": "timing.png"
+	},
+	"started": "2026-09-27 07:49:57",
+	"tier": "",
+	"tool": "cine",
+	"verb": "sheet"
+}

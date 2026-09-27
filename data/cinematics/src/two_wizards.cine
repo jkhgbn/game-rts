@@ -1,0 +1,12 @@
+# data/cinematics/src/two_wizards.cine
+cine two_wizards  title="Two Wizards"  letterbox=2.39  seed=3  length=6..12
+env night  moon_yaw=200
+prop  keep   res://art/buildings/fire_keep.tscn  at=(0, 0, 0)
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(0, 0, -7)   yaw=180
+cast  shade  res://art/units/shadow/shade.tscn   at=(1, 0, -11)  yaw=0
+shot S1 4.0  cam=frame "ms on vessa and shade, high"  push=0.6
+  at 0.5  line vessa "Who walks the wall at this hour?"
+  at 2.0  anim shade play_attack
+shot S2 3.0  cam=frame "mcu on vessa, ots shade left"
+  at 0.2  sfx res://assets/audio/sfx/spell_umbral_shroud.wav
+  at 2.4  fade alpha=1 time=0.6

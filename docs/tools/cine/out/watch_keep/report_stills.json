@@ -1,0 +1,51 @@
+{
+	"asset": "watch_keep",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "stills",
+			"hint": "",
+			"id": "ST1",
+			"improve": "",
+			"name": "frames",
+			"rule": "3 per shot per size",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "24 frames in stills/",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 1,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"stills": "Stills"
+	},
+	"hash": "2b70ad6eb7b2626e",
+	"hash_note": "",
+	"headless": false,
+	"id": "watch_keep",
+	"improve_next": [],
+	"kind": "stills",
+	"kingdom": "",
+	"notes": [],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 11.8,
+	"shots": {
+		"contact sheet": "stills.png"
+	},
+	"started": "2026-09-27 07:40:26",
+	"tier": "",
+	"tool": "cine",
+	"verb": "stills"
+}

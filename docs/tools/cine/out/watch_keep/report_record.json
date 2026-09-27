@@ -1,0 +1,66 @@
+{
+	"asset": "watch_keep",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "",
+			"id": "P1",
+			"improve": "",
+			"name": "frames",
+			"rule": "plays to the end",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "317 frames, 10.5 s cinematic time, wall 158.6 s, worst frame 614.9 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "use run_cine.ps1 record <id> (it adds --write-movie)",
+			"id": "P2",
+			"improve": "",
+			"name": "movie",
+			"rule": "Movie Maker PNG sequence + WAV outside res://",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\watch_keep\\watch_keep.png",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 2,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"play": "Playback"
+	},
+	"hash": "",
+	"hash_note": "",
+	"headless": false,
+	"id": "watch_keep",
+	"improve_next": [],
+	"kind": "record",
+	"kingdom": "",
+	"notes": [
+		"Movie Maker writes <name>00000000.png ... + <name>.wav; convert to video only with the user's OK (no ffmpeg here)",
+		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
+	],
+	"previous_quality": 50.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 159.9,
+	"shots": {},
+	"started": "2026-09-27 07:50:40",
+	"tier": "",
+	"tool": "cine",
+	"verb": "record"
+}
