@@ -32,7 +32,7 @@ var _title_until := -1.0
 var _vfx: Dictionary = {}          # action key -> spawned vfx node
 ## Narration / dialogue voices (line.voice WAVs) at their line time; mixed into Movie Maker's WAV while recording.
 var voices := true
-var voice_db := 0.0
+var voice_db := -2.0   # Voice Forge WAVs peak at -1 dBFS; leaves room for the music bed (VoicePlayer uses -2 too)
 var music_db := -8.0
 var _voice_players: Array[AudioStreamPlayer] = []
 

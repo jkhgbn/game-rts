@@ -340,6 +340,34 @@
 		},
 		{
 			"graded": -1.0,
+			"group": "subtitles",
+			"hint": "render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest",
+			"id": "V1",
+			"improve": "",
+			"name": "voice files",
+			"rule": "every line has a WAV (data/voice/manifest.json, speaker + text, or voice=)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "4 / 4 lines voiced",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "subtitles",
+			"hint": "start the next line later or give the line more room",
+			"id": "V2",
+			"improve": "",
+			"name": "voice fits its slot",
+			"rule": "the WAV ends before the next line starts",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "all fit",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
 			"group": "partners",
 			"hint": "",
 			"id": "T1",
@@ -433,7 +461,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "af7e0dbbd2bb85ee / af7e0dbbd2bb85ee",
+			"value": "0f19e892793b4be3 / 0f19e892793b4be3",
 			"weight": 1.0
 		},
 		{
@@ -447,7 +475,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "same",
+			"value": "changed (was af7e0dbbd2bb85ee)",
 			"weight": 1.0
 		},
 		{
@@ -477,26 +505,12 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (vessa in S1 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
-		},
-		{
-			"graded": -1.0,
-			"group": "determinism",
-			"hint": "check the runtime classes (scripts/cinematics/)",
-			"id": "B1",
-			"improve": "",
-			"name": "bake",
-			"rule": "data/cinematics/<id>.tres (CinematicScript)",
-			"score": 1.0,
-			"shot": "",
-			"status": "PASS",
-			"value": "data/cinematics/watch_keep.tres",
-			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 13,
-		"PASS": 22,
+		"PASS": 23,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -511,7 +525,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "af7e0dbbd2bb85ee",
+	"hash": "0f19e892793b4be3",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "watch_keep",
@@ -538,7 +552,7 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "build",
+	"kind": "check",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/watch_keep.cine` (40 lines), 46.0 s, 8 shots, stage: cine-built (props / cast)"
@@ -549,8 +563,8 @@
 	"scene": "",
 	"seconds": 2.2,
 	"shots": {},
-	"started": "2026-09-27 08:33:05",
+	"started": "2026-09-27 14:11:33",
 	"tier": "",
 	"tool": "cine",
-	"verb": "build"
+	"verb": "check"
 }

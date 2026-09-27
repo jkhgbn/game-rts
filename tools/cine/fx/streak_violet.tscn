@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/cine/fx/cine_fx.gd" id="1_fx"]
+
+[node name="streak_violet" type="Node3D"]
+script = ExtResource("1_fx")
+kind = "streak"
+color = Color(0.65, 0.25, 1, 1)
+color2 = Color(0.9, 0.7, 1, 1)
+size = 1.3
+travel = 2.4
+life = 3.0

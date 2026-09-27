@@ -1,10 +1,10 @@
 # cine check: watch_keep_bugs
 
-2026-09-27 08:33:07 - `tools/cine/run_cine.ps1 check watch_keep_bugs` - hash `ebbcc563e833d1f1` (2 runs identical)
+2026-09-27 14:03:44 - `tools/cine/run_cine.ps1 check watch_keep_bugs` - hash `c6c459a48e10876a` (2 runs identical)
 
 ## Result: **FAIL** - quality **79 / 100** (previous run 79, +0)
 
-4 FAIL, 0 WARN, 16 PASS, 12 info, 2 skipped, 1 s
+4 FAIL, 1 WARN, 17 PASS, 12 info, 2 skipped, 2 s
 
 ## Improve next
 1. **clip shade draw_knfe (line 33)** (FAIL): did you mean "draw_knife"? _(from R1 clip shade draw_knfe (line 33))_
@@ -57,16 +57,18 @@
 ## Subtitles (2 x 48 chars, CPS, fit)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| S1 | S2 line 1 (src 22) | **FAIL** 0 | 120 chars = 3 lines of <= 48, 23.1 chars/s: vessa "The watch fires are out, all of them, ev.." 23.1 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot | split it into two lines (two `line` actions) or cut words: <= 96 chars |
+| S1 | S2 line 1 (src 22) | **FAIL** 20 | 120 chars = 3 lines of <= 48: vessa "The watch fires are out, all of them, ev.." 16.0 cps, 7.5 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot | split it into two lines (two `line` actions) or cut words: <= 96 chars |
 | S2 | S4 line 1 (src 29) | PASS 97 | vessa "You are a long way from the dark, shade." 12.9 cps, 3.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S3 | S5 line 1 (src 31) | PASS 100 | shade "The keep sleeps. So should you." 11.9 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S4 | S7 line 1 (src 39) | PASS 100 | vessa "Not tonight." 4.8 cps, 2.5 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| V1 | voice files | **WARN** 50 | 3 / 4 lines voiced: missing S2 "The watch fires are out," | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) | render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest |
+| V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ebbcc563e833d1f1 / ebbcc563e833d1f1 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | c6c459a48e10876a / c6c459a48e10876a | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was ebbcc563e833d1f1) |  |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

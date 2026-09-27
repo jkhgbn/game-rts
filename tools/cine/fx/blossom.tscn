@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/cine/fx/cine_fx.gd" id="1_fx"]
+
+[node name="blossom" type="Node3D"]
+script = ExtResource("1_fx")
+kind = "burst"
+color = Color(1, 0.55, 0.75, 1)
+color2 = Color(1, 0.62, 0.8, 1)
+size = 0.07
+life = 5.4
+energy = 2.5

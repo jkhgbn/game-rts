@@ -61,3 +61,29 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 13:27:04 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | e7f55ebeb10b7db1 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
 | 2026-09-27 13:30:18 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 316af19158365c85 | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
 | 2026-09-27 13:31:26 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |
+| 2026-09-27 13:33:56 | check | ep2_opening | 87 | FAIL (3F 5W) | a99ecab43539bf2f | use music (line 11); cut S02>S03 axis; cut S06>S07 axis | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 13:35:17 | check | ep2_opening | 87 (+0) | FAIL (3F 5W) | a99ecab43539bf2f | use music (line 11); cut S02>S03 axis; cut S06>S07 axis | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 13:37:11 | check | ep2_opening | 90 (+3) | FAIL (1F 5W) | 787112fc75c8a458 | cut S02>S03 axis; set forge_ep2_feast (line 10); music res://assets/audio/forge/music/ep2_opening.wav (line 49) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 13:37:51 | check | ep2_opening | 89 (-1) | FAIL (2F 5W) | e1c53d94df1c7f98 | cut S02>S03 axis; cut S03>S04 axis; set forge_ep2_feast (line 10) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 13:39:17 | check | ep2_opening | 90 (+1) | FAIL (1F 5W) | b7593e22f0aaa5ea | cut S02>S03 axis; set forge_ep2_feast (line 10); music res://assets/audio/forge/music/ep2_opening.wav (line 49) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 13:37:50 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 339f4392ba6b568e | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:39:41 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 59aa91b34c2e79f1 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 13:43:37 | check | ep2_opening | 91 (+0) | FAIL (1F 5W) | cbffc4d6c5f87d27 | cut S03>S04 axis; set forge_ep2_feast (line 10); music res://assets/audio/forge/music/ep2_opening.wav (line 49) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 13:45:11 | sheet | prologue_3min | 100 | PASS (0F 0W) | dc98a07170567419 |  | docs/tools/cine/out/prologue_3min/report_sheet.md |
+| 2026-09-27 13:45:23 | check | ep2_opening | 92 (+2) | WARN (0F 5W) | d35684113a4d7b8a | set forge_ep2_feast (line 10); music res://assets/audio/forge/music/ep2_opening.wav (line 49); sfx res://assets/audio/forge/sfx/feast_crowd.wav (line 50) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 13:47:42 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 84540e244a3807f9 | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:49:29 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 9afc0b71855e5d20 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 13:53:24 | sheet | prologue_3min | 100 (+0) | PASS (0F 0W) | ad89b2145cb57a4f |  | docs/tools/cine/out/prologue_3min/report_sheet.md |
+| 2026-09-27 13:56:20 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 5a4b443692902170 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 14:11:40 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 6211c7d483a9b61e | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 14:16:06 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 6211c7d483a9b61e | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 14:17:37 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | a7a6bb16dbf58e8b |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 14:20:59 | sheet | prologue_3min | 100 (+0) | PASS (0F 0W) | b8bbc36b98079599 |  | docs/tools/cine/out/prologue_3min/report_sheet.md |
+| 2026-09-27 14:42:15 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | a3cb01b91f564db0 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 14:43:12 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 07f793dc3da2a3f2 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 14:44:03 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 4baf5f7fe584e95e |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 14:46:43 | sheet | prologue_3min | 100 (+0) | PASS (0F 0W) | 93fff57d12a1110b |  | docs/tools/cine/out/prologue_3min/report_sheet.md |
+| 2026-09-27 14:47:18 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | a5b60f77ec0d0946 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 14:48:08 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 120a20191d65a47d |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 14:50:45 | sheet | prologue_3min | 100 (+0) | PASS (0F 0W) | 227913778d1ef464 |  | docs/tools/cine/out/prologue_3min/report_sheet.md |
+| 2026-09-27 14:50:59 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |

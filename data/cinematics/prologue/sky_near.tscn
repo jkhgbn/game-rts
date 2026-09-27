@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/flocks/dragon_flock.gd" id="1_flock"]
+
+[node name="PrologueSkyNear" type="Node3D"]
+script = ExtResource("1_flock")
+flock_seed = 7
+arrive_until = 6.0
+arrive_from = Vector3(0, -1, 0)
+leave_at = 57.0

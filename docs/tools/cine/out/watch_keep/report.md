@@ -1,10 +1,10 @@
-# cine build: watch_keep
+# cine check: watch_keep
 
-2026-09-27 08:33:05 - `tools/cine/run_cine.ps1 build watch_keep` - hash `af7e0dbbd2bb85ee` (2 runs identical)
+2026-09-27 14:11:33 - `tools/cine/run_cine.ps1 check watch_keep` - hash `0f19e892793b4be3` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 22 PASS, 13 info, 0 skipped, 2 s
+0 FAIL, 0 WARN, 23 PASS, 13 info, 0 skipped, 2 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -59,13 +59,14 @@
 | S2 | S4 line 1 (src 26) | PASS 97 | vessa "You are a long way from the dark, shade." 12.9 cps, 3.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S3 | S5 line 1 (src 28) | PASS 100 | shade "The keep sleeps. So should you." 11.9 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S4 | S7 line 1 (src 36) | PASS 100 | vessa "Not tonight." 4.8 cps, 2.5 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| V1 | voice files | PASS 100 | 4 / 4 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
+| V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | af7e0dbbd2bb85ee / af7e0dbbd2bb85ee | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
-| B1 | bake | PASS 100 | data/cinematics/watch_keep.tres | data/cinematics/<id>.tres (CinematicScript) |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 0f19e892793b4be3 / 0f19e892793b4be3 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was af7e0dbbd2bb85ee) |  |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

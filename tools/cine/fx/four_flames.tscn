@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/cine/fx/cine_fx.gd" id="1_fx"]
+
+[node name="four_flames" type="Node3D"]
+script = ExtResource("1_fx")
+kind = "orbs"
+color = Color(1, 1, 1, 1)
+color2 = Color(1, 1, 1, 1)
+size = 1.0
+life = 7.0

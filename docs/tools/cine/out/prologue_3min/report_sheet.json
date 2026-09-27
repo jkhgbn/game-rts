@@ -1,0 +1,51 @@
+{
+	"asset": "prologue_3min",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "sheet",
+			"hint": "check the out folder",
+			"id": "SH1",
+			"improve": "",
+			"name": "timing.png",
+			"rule": "written",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "1800x3005",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 1,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"sheet": "Timing sheet"
+	},
+	"hash": "227913778d1ef464",
+	"hash_note": "",
+	"headless": false,
+	"id": "prologue_3min",
+	"improve_next": [],
+	"kind": "sheet",
+	"kingdom": "",
+	"notes": [],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 9.0,
+	"shots": {
+		"timing": "timing.png"
+	},
+	"started": "2026-09-27 14:50:45",
+	"tier": "",
+	"tool": "cine",
+	"verb": "sheet"
+}

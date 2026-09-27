@@ -1,0 +1,80 @@
+{
+	"asset": "prologue_3min",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "",
+			"id": "P1",
+			"improve": "",
+			"name": "frames",
+			"rule": "plays to the end",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "167 frames, 5.5 s cinematic time, wall 13.2 s, worst frame 186.2 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "use run_cine.ps1 record <id> (it adds --write-movie)",
+			"id": "P2",
+			"improve": "",
+			"name": "movie",
+			"rule": "Movie Maker PNG sequence + WAV outside res://",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\prologue_3min\\prologue_3min.avi",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "",
+			"id": "P3",
+			"improve": "",
+			"name": "size / fps",
+			"rule": "fps= honoured; Movie Maker AVI size = project viewport",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "AVI (MJPEG + PCM WAV) 1600x900 with the 2.39 bars drawn (picture band 1600x669), 30 fps, narration + music mixed; res=1920x804 not applicable to AVI",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 1,
+		"PASS": 2,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"play": "Playback"
+	},
+	"hash": "",
+	"hash_note": "",
+	"headless": false,
+	"id": "prologue_3min",
+	"improve_next": [],
+	"kind": "record",
+	"kingdom": "",
+	"notes": [
+		"Movie Maker AVI: C:\\Users\\elzzo\\Videos\\four-wizards-rec\\prologue_3min\\prologue_3min.avi (plays in VLC / Windows Media Player / Films & TV)",
+		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
+	],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 25.9,
+	"shots": {},
+	"started": "2026-09-27 14:50:59",
+	"tier": "",
+	"tool": "cine",
+	"verb": "record"
+}

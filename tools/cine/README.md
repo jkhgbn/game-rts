@@ -19,6 +19,11 @@ Also:
   project viewport size (1600x900); a headless `reframe` pass then scales + centre-crops every PNG to `res=`. With a
   2.39 `res` (1920x804) the crop IS the letterbox band: no bars are drawn, subtitles stay inside it. The record report
   (`report_record.md`, `report_reframe.md`) says the size / fps used.
+- **AVI (default for `record`, 2026-09-27):** `record <id> [fps=30] [dur=] [from=] [movie=<path>.avi] [format=avi|png]`
+  runs Godot with `--write-movie <out>\<id>.avi`: one MJPEG + PCM file (narration + music mixed). Godot 4.7's Movie
+  Maker encodes AVI frames at the project viewport size (1600x900) whatever `--resolution` says (tested: a 1920x804
+  window gave a stretched 1600x900 file), so the AVI is 1600x900 with the 2.39 bars drawn and subtitles in the lower
+  bar; `res=` only applies to `format=png` (PNG sequence + reframe crop). `from=<s>` starts mid-movie (tests).
 - `perf <id>`: window, plays it, CPU ms / GPU ms / draw calls per shot + worst frame (`report_perf.md`). Noisy when
   other Godot runs share the PC: compare runs, do not judge one.
 - `diff <id> [against=golden]`: new stills vs the previous `stills` run (kept in `stills_prev/`) or vs the goldens.
@@ -102,6 +107,23 @@ Actions (indented `at <seconds> <action> ...`, time from the shot start):
 | `sfx <res path> [vol=]` / `music <res path>` | a missing file = FAIL (under `assets/audio/forge/` without tool 9 = WARN) |
 | `fade [color=#000] [alpha=1] [time=0.5]` / `shake <0..1>` / `title "text" [sub=] [time=3]` | |
 | `show <actor>` / `hide <actor>` / `call <method> [args=a,b]` / `set_shot <set_id>` | |
+
+### Multi-set movies, voices, fx (prologue, 2026-09-27)
+- Per-shot `set=<set_id>`: every set named by the header or a shot is loaded at the origin and shown only during its
+  shots (`CineStage.set_active_set`, also the runtime's context API `find_set` / `set_active_set`); each set's
+  LightingPreset drives one LightingRig; its marks / marks.json `subject` belong to that set only (the subject's face is
+  framing-checked). A set not built yet = WARN, its shots use the proxy camera + the cine env. Set puppets are only
+  "on stage" while their set is shown. `prop ... set=<id>` / `cast ... set=<id> [scale=]` put a prop / an extra actor
+  in one set; a set puppet whose tag collides gets the prefix `<wizard>_` (e.g. `ysolde_messenger`).
+- Voices: every line gets its WAV from `data/voice/manifest.json` (speaker + text) or `voice=`; `play` / `record` play
+  it at the line time (mixed into the AVI). Check rows V1 (every line voiced) / V2 (WAV fits before the next line).
+  A line may run on over later cuts until the next line starts (subtitles, check and timing sheet agree). A hidden cast
+  speaker (`cast narrator capsule hidden=1 speaker=master`) = voice-over: no name above the subtitle.
+- `use music <path> vol=<dB>`; the music loops.
+- Time-driven nodes: every pose calls `set_cine_time(t)` on group `cine_timed` (dragon flocks) and `set_cine_age(age)`
+  on `vfx ... scene=` nodes, so stills / seek / record agree. Cine effects: `tools/cine/fx/*.tscn` (`cine_fx.gd`:
+  streak, pillar, ring, dome, orbs, burst; `vfx x scene=res://tools/cine/fx/fire_pillar.tscn at=(..) [to=(..)] life= scale= yaw=`).
+- Continuity (180-degree rule) now judges only the line between the two shots' subjects (faces), not crowd extras.
 
 ## 4. What `check` measures (one report row per problem)
 | Group | Rule |

@@ -297,17 +297,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.0,
+			"graded": 0.6,
 			"group": "subtitles",
 			"hint": "split it into two lines (two `line` actions) or cut words: <= 96 chars",
 			"id": "S1",
 			"improve": "split it into two lines (two `line` actions) or cut words: <= 96 chars",
 			"name": "S2 line 1 (src 22)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
-			"score": 0.0,
+			"score": 0.204,
 			"shot": "S2",
 			"status": "FAIL",
-			"value": "120 chars = 3 lines of <= 48, 23.1 chars/s: vessa \"The watch fires are out, all of them, ev..\" 23.1 cps, 5.2 s",
+			"value": "120 chars = 3 lines of <= 48: vessa \"The watch fires are out, all of them, ev..\" 16.0 cps, 7.5 s",
 			"weight": 1.0
 		},
 		{
@@ -350,6 +350,34 @@
 			"shot": "S7",
 			"status": "PASS",
 			"value": "vessa \"Not tonight.\" 4.8 cps, 2.5 s",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "subtitles",
+			"hint": "render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest",
+			"id": "V1",
+			"improve": "",
+			"name": "voice files",
+			"rule": "every line has a WAV (data/voice/manifest.json, speaker + text, or voice=)",
+			"score": 0.5,
+			"shot": "",
+			"status": "WARN",
+			"value": "3 / 4 lines voiced: missing S2 \"The watch fires are out,\"",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "subtitles",
+			"hint": "start the next line later or give the line more room",
+			"id": "V2",
+			"improve": "",
+			"name": "voice fits its slot",
+			"rule": "the WAV ends before the next line starts",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "all fit",
 			"weight": 1.0
 		},
 		{
@@ -447,7 +475,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "ebbcc563e833d1f1 / ebbcc563e833d1f1",
+			"value": "c6c459a48e10876a / c6c459a48e10876a",
 			"weight": 1.0
 		},
 		{
@@ -461,7 +489,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "same",
+			"value": "changed (was ebbcc563e833d1f1)",
 			"weight": 1.0
 		},
 		{
@@ -482,9 +510,9 @@
 	"counts": {
 		"FAIL": 4,
 		"INFO": 12,
-		"PASS": 16,
+		"PASS": 17,
 		"SKIP": 2,
-		"WARN": 0
+		"WARN": 1
 	},
 	"ground": "",
 	"groups": {
@@ -497,7 +525,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "ebbcc563e833d1f1",
+	"hash": "c6c459a48e10876a",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "watch_keep_bugs",
@@ -524,7 +552,7 @@
 			"title": "cut S4>S5 axis"
 		},
 		{
-			"rank": 101.0,
+			"rank": 100.796,
 			"source": "S1 S2 line 1 (src 22), shot S2",
 			"status": "FAIL",
 			"text": "split it into two lines (two `line` actions) or cut words: <= 96 chars",
@@ -537,12 +565,12 @@
 		"source `data/cinematics/src/watch_keep_bugs.cine` (43 lines), 46.0 s, 8 shots, stage: cine-built (props / cast)"
 	],
 	"previous_quality": 78.6,
-	"quality": 78.6,
+	"quality": 79.0,
 	"result": "FAIL",
 	"scene": "",
-	"seconds": 0.9,
+	"seconds": 1.7,
 	"shots": {},
-	"started": "2026-09-27 08:33:07",
+	"started": "2026-09-27 14:03:44",
 	"tier": "",
 	"tool": "cine",
 	"verb": "check"

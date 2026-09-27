@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/cine/fx/cine_fx.gd" id="1_fx"]
+
+[node name="fire_burst" type="Node3D"]
+script = ExtResource("1_fx")
+kind = "burst"
+color = Color(1, 0.35, 0.06, 1)
+color2 = Color(1, 0.8, 0.4, 1)
+size = 3.0
+life = 2.0

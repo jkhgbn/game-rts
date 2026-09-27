@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/flocks/dragon_flock.gd" id="1_flock"]
+
+[node name="PrologueSkyS04" type="Node3D"]
+script = ExtResource("1_flock")
+flock_seed = 23
+elders = 1
+big = 8
+small = 48
+heroes = 1
+radius = 45.0
+height = Vector2(14, 40)
+elder_height = Vector2(45, 60)
+arrive_until = 6.0
+leave_at = 57.0

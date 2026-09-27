@@ -82,7 +82,13 @@ static func timing_sheet(doc: CineDoc, bake: CineBake, ev: CineEval, header: Arr
 				var txt := String(ln2["text"])
 				var eff := float(ln2["duration"]) if float(ln2["duration"]) > 0.0 else maxf(2.5, 0.9 + 0.055 * txt.length())
 				var a0 := ev.starts[i2] + float(ln2["at"])
-				var a1 := minf(a0 + eff, ev.starts[i2] + float(s4["duration"]))
+				# a line runs on over later cuts until the next line starts (same rule as the check / preview)
+				var a1 := minf(a0 + eff, ev.total)
+				for i5: int in range(i2, bake.shots.size()):
+					for ln5: Dictionary in bake.shots[i5]["lines"]:
+						var g5 := ev.starts[i5] + float(ln5["at"])
+						if g5 > a0 + 0.001:
+							a1 = minf(a1, g5)
 				var lx0: int = px.call(a0)
 				var lx1: int = px.call(maxf(a1, a0 + 0.2))
 				var cps := float(txt.length()) / maxf(0.01, a1 - a0)
