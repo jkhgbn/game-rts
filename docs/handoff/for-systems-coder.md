@@ -662,3 +662,23 @@ look exactly as before, and `ground_material.tres` is unchanged. Only the skirmi
   runtime navmesh bake must not see a 9 m block (the step-12 "colliders <= 1.8 m" rule), a 6 x 1.8 x 6 box is enough for
   clicks / build grid / pathing of this footprint; the click on the tall nest would then need a taller pick shape on layer 2
   only. Your call (scripts/buildings/ is yours).
+
+## From the cine agent (tools wave, tool 2), 2026-09-27
+- **Facing convention mismatch (please check).** `cinematic_player.gd` turns movers / `face` with `atan2(-dir.x, -dir.z)`
+  (models face -Z), but the game turns unit models with `atan2(dir.x, dir.z)` (`scripts/units/unit.gd` ~1910: models
+  face +Z), and the stills of `tools/cine` confirm the kit models (Vessa, Shade) show their face on +Z at yaw 0. A
+  `move` in the runtime will likely make puppets walk backwards. cine uses +Z (the game's) in its evaluator and preview.
+- Cross-check already green: `cine build watch_keep` plays the baked `data/cinematics/watch_keep.tres` in your
+  `CinematicPlayer`, `seek`s to the middle of every shot and compares `debug_state().camera.pos` with cine's
+  evaluator: worst 0.000 m. Thanks for `seek` / `debug_state`.
+- `data/cinematics/<id>.tres` from cine leaves `stage_scene` empty unless `missions/cinematics/tool_demo/<id>.tscn`
+  exists; the stage is built in code by `tools/cine/cine_stage.gd` (`CineStage`, has `cinematic_actor(tag)`).
+
+# Replay Lab determinism (lab review 2026-09-27, group B; details: docs/plan/replay-lab.md 'Determinism audit')
+- **Step 2**: gameplay in `_process` -> `_physics_process`: `world/bounty.gd:125`, `world/loot_sack.gd:105`,
+  `campaign/ember_crown.gd:98`, `campaign/artifact.gd:93`; timers in `building.gd:664-666`, `game_critter.gd:453`,
+  `caravan.gd:835` -> `create_timer(t, false, true)`. `training_building.gd:224` drops a dead gather rally only while
+  selected: drop it regardless of selection. `neutral_camp.gd:468`: seed the fallback `RandomNumberGenerator`.
+- Bot Lab next step 5: the report's new "Start-up" section measures the first navmesh bake per match (test batch: 8.9 s
+  of an 18 s start-up, under load). If a real batch shows it >= 3 % of a match, a lab-only main.gd hook caching the
+  first navmesh would speed every Bot / Balance Lab batch.

@@ -110,3 +110,13 @@ Nothing has to be glued: every 9.C8 piece installs itself.
   new `PlaneMesh` per dragon (Art Lab B9m "1 mesh built per instance"). The Frost Dragon now overrides it and shares one
   blob mesh (`frost_dragon.gd`, static `_blob_mesh`); the same fix belongs in `flyer_model.gd` itself (static cached
   PlaneMesh, size 1 x 1; per-dragon size is the node scale, tint the instance uniform), then the override can go.
+
+# Replay Lab determinism (lab review 2026-09-27, group B; details: docs/plan/replay-lab.md 'Determinism audit')
+- **Step 0**: add `[navigation] avoidance/thread_model/avoidance_use_multiple_threads=false` to `project.godot`, then the
+  perf test and `tests/test_replay_lab.gd` (expected PASS). Until then every replay drifts on unit positions after
+  9-20 s: `tools/replay_lab/run_replay.ps1 -Record` shows it (docs/replay/lab/2026-09-27_selfcheck: end hash off at
+  frame 540, `pos` only).
+- CLAUDE.md "Keys": F8 = save bug report (replay-lab.md step 4). New lab commands for the Labs docs:
+  `run_replay.ps1` (scorecard + history), `run_lab.ps1 -Validate` / `-DryRun`, `run_balance.ps1 -DryRun`.
+- Perf Lab noise guard (2026-09-27 07:50, two samples): besides other agents' Godot runs, a process **AlsulicsService**
+  used ~76 % of the whole CPU. Check it before the quiet baseline run (`run_perf_lab.ps1 -WaitQuietS 600 -Repeats 3`).

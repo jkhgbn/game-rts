@@ -35,8 +35,8 @@ powershell -ExecutionPolicy Bypass -File tools\perf_lab\run_perf_lab.ps1
 # Only what you changed, 5 repeats, plus the user's ultrawide:
 .\tools\perf_lab\run_perf_lab.ps1 -Scenarios mid100,late200 -Repeats 5 -Resolutions 1600x900,3440x1440
 
-# Logic only, short windows (a smoke check after a change, ~5 min):
-.\tools\perf_lab\run_perf_lab.ps1 -Scenarios mid100 -NoGpu -Quick -NoHistory
+# Logic only, short windows (a smoke check after a change, ~5 min; -Quick never writes history or docs/perf/lab/latest):
+.\tools\perf_lab\run_perf_lab.ps1 -Scenarios mid100 -NoGpu -Quick
 
 # Wait for the machine to calm down (other agents) before each run, up to 10 min:
 .\tools\perf_lab\run_perf_lab.ps1 -WaitQuietS 600
@@ -149,7 +149,19 @@ Perf numbers taken while other agents run Godot are meaningless (lead-status.md:
    was > 1.3x slower than the batch's fastest (catches throttling and busy programs that are not Godot);
 5. repeats each scenario `-Repeats` times (3) and takes the **element-wise median**; when at least one run is quiet, only
    the quiet runs count; otherwise the scorecard is flagged **NOISY** in red and the history row says so;
-6. `-WaitQuietS 600` waits (up to 10 min) for a quiet machine before each run.
+6. `-WaitQuietS 600` waits (up to 10 min) for a quiet machine before each run (the wait line names the busiest processes);
+7. names the **busiest other processes** (Godot or not: every ~6 s, `Win32_PerfFormattedData_PerfProc_Process`, in % of
+   the whole machine, averaged over the run) in the noise reason, e.g. `other CPU load 92 % (busiest: AlsulicsService 76 %,
+   Godot_v4.7.2-stable_win64 12 %)`, so a NOISY card says who loaded the PC; the runner's own PowerShell sampling counts
+   as ours (it used to be counted as "other" load); the JSON row has `other_top`;
+8. holds **one slot of the shared Godot gate** (`tools/godot_run.ps1`, semaphore `Local\FourWizardsGodotGate`) during
+   each measured run, so agents and labs that use the gate wait instead of starting next to it (a run that waited
+   `FW_GODOT_MAXWAIT` s and started anyway is marked noisy). The slot is given back on Ctrl+C.
+
+Report outputs: `-NoLatest` keeps `docs/perf/lab/latest/` untouched (`perf_report.gd --latest=none`); `-Quick` implies
+`-NoHistory -NoLatest` (8 s windows must never become the "previous quiet run" of R1 or replace the reference cards).
+Functional check 2026-09-27 (laptop, 5 other agents): `-Scenarios menu -NoGpu -Quick -Repeats 1` ran, NOISY as it should
+(6-10 other Godot, 92-95 % other CPU, one service at ~76 %); latest/ and history untouched. No number from it is usable.
 
 Regression checks (history) only compare **quiet** rows.
 

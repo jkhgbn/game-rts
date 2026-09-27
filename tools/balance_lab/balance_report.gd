@@ -469,7 +469,15 @@ static func to_markdown(card: Dictionary) -> String:
 			if g > 0:
 				min_games = mini(min_games, g)
 	if min_games < LOW_N:
-		md += "> **Low N**: as few as %d games per kingdom in an arm. Score and win rates are a smoke of the lab, not a balance verdict (K1 / M1 stay WARN below %d games).\n\n" % [min_games, LOW_N]
+		md += "> **Low N**: as few as %d games per kingdom in an arm. Score and win rates are a smoke of the lab, not a balance verdict (K1 / M1 stay WARN below %d games).\n" % [min_games, LOW_N]
+		var ok_matches := int(card["matches"]) - int(card["failed"])
+		if float(card.get("wall_s", 0)) > 0.0 and ok_matches > 0:
+			var per_match := float(card["wall_s"]) / float(ok_matches)
+			var arms_n := (card["arm_order"] as Array).size()
+			md += "> At this run's pace (%.0f s of wall clock per match, same -Parallel and machine load), %d games per arm x %d arm(s) take ~%.1f h (20-pt change), %d per arm ~%.1f h (10 pts). run_balance.ps1 prints its own estimate before starting (-DryRun).\n" % [
+					per_match, games_needed(0.2), arms_n, per_match * games_needed(0.2) * arms_n / 3600.0,
+					games_needed(0.1), per_match * games_needed(0.1) * arms_n / 3600.0]
+		md += "\n"
 	md += "Input: `%s`\n\n" % card["input"]
 	md += "Score = 100 - 2 x points outside 45-55 %% (kingdoms 2/3, matchups 1/3). Arms: %s.\n\n" % ", ".join(
 			(card["arm_order"] as Array).map(func(a: String) -> String: return "`%s` %d" % [a, card["arms"][a]["score"]]))
@@ -528,8 +536,13 @@ static func append_history(path: String, card: Dictionary, out_dir: String) -> v
 		DirAccess.make_dir_recursive_absolute(path.get_base_dir())
 		text = "# Balance Lab history\n\n| Run | Date | Result | Score | Best arm | Arms (score) | Matches | Scorecard |\n|---|---|---|---|---|---|---|---|\n"
 	var arms_txt := ", ".join((card["arm_order"] as Array).map(func(a: String) -> String: return "%s %d" % [a, card["arms"][a]["score"]]))
-	text += "| %s | %s | %s | %d | %s | %s | %d (%d failed) | %s |\n" % [card["run"], card["date"], card["result"], card["score"],
-			card["best_arm"], arms_txt, card["matches"], card["failed"], out_dir.path_join("scorecard.md").replace("\\", "/")]
+	# A link relative to history.md when the scorecard sits under it (works on any PC / clone), else the full path.
+	var card_path := out_dir.path_join("scorecard.md").replace("\\", "/")
+	var base := path.get_base_dir().replace("\\", "/") + "/"
+	if card_path.to_lower().begins_with(base.to_lower()):
+		card_path = card_path.substr(base.length())
+	text += "| %s | %s | %s | %d | %s | %s | %d (%d failed) | [%s](%s) |\n" % [card["run"], card["date"], card["result"], card["score"],
+			card["best_arm"], arms_txt, card["matches"], card["failed"], card_path, card_path]
 	_write(path, text)
 
 

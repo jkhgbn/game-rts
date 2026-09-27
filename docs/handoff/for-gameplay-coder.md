@@ -305,3 +305,14 @@ model's `play_cast(id)` at the same moment (ChampionAbilities._play_feedback alr
   `dismount(true)` (with `play_thrown()`): `play(&"thrown", unit, unit)`. Remove / hide the mount model when the rider's
   `dismount_finished` fires (0.3 s hop-off, 0.5 s thrown): the puffs peak then. Speed lines stop by themselves when
   `MountRider.is_riding()` (or `Unit.is_mounted()`) turns false; `play(&"speed_lines_off", null, unit)` also works.
+## From lab group C (Data Lab review, 2026-09-27)
+- **Stale `card_key` on Fire units** (Data Lab K4, WARN): `data/units/flame_guard.tres` W, `cinder_hand.tres` Q,
+  `ember_archer.tres` E (+ `blaze_rider` R, `ash_hurler` T). No code reads `UnitType.card_key` (slots are Z X C V B by
+  index); W / Q / E are the Hero WASD walk and spell keys, so wiring it later would clash. Fix: set `card_key = ""` on
+  those 5 files (or the slot letters Z X C V B), or remove the field from `UnitType` if nothing will use it (12 other
+  units carry Z X C V letters that nobody reads either). Re-check: `docs/plan/data-lab.md` command, K4 PASS.
+
+# Replay Lab determinism (lab review 2026-09-27, group B; details: docs/plan/replay-lab.md 'Determinism audit')
+- **Step 2**: `projectile.gd:93` flight + hit in `_process` -> `_physics_process` (hit timing decides kills). Gameplay
+  SceneTreeTimers in `unit.gd:1307`, `support_caster.gd:151` -> `create_timer(t, false, true)`.
+- `champion_class.gd:152` `pick(champion, rng = null)`: the null path calls `randomize()`; use a seeded rng.

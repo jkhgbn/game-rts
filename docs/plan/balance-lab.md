@@ -61,9 +61,15 @@ Note: when calling a Godot wrapper `.ps1` (godot_run.ps1) write the separator as
 | `-Run` | `yyyy-MM-dd_HHmm` | Run name: scorecard in `docs/balance/lab/<run>/`, raw in `..\four-wizards-lab-runs\balance-<run>\` |
 | `-Dir`, `-Parallel`, `-Difficulty`, `-Style`, `-Sim`, `-Limit`, `-Early`, `-Tick`, `-Extra`, `-TimeoutMin`, `-StopAt` | as run_lab.ps1 | Same meaning as the Bot Lab (`docs/plan/bot-lab.md`) |
 | `-NoHistory` | off | No row in `docs/balance/lab/history.md` |
+| `-DryRun` | off | Prints the arms, jobs, expected wall time and the evidence note, starts nothing |
+
+Before starting, the runner prints the **expected wall time** (quiet PC .. busy PC, `tools/bot_lab/lab_eta.ps1`) and,
+when an arm has fewer than 98 games, what that batch can show: e.g. `-Variants grave_hound_dps -Pairs shadow:fire,fire:shadow
+-Seeds 1-6` = 24 matches, ~31 min quiet / ~3.7 h busy; "12 games per arm; a 20-point change needs ~98 per arm (~4.2 h
+quiet / ~30 h busy for 2 arms)". The scorecard's Low-N banner repeats it at the measured pace of that run.
 
 Jobs are ordered seed -> pair -> arm, so the baseline and the variant of one pair / seed start back to back (same machine
-load). `-Dir` defaults to the lab worktree (`C:\Users\elzzo\Documents\four-wizards-rts-lab`); when it has no
+load). `-Dir` defaults to the lab worktree (`..\four-wizards-rts-lab`) when it exists, else this repo (laptop); when it has no
 `tools/balance_lab/`, the main folder's `balance_match.gd` is used by absolute path and its relative `extends` pulls the
 main folder's `tools/bot_lab/lab_match.gd` with it (checked: works). The variant JSON is copied into the raw run folder.
 
@@ -122,6 +128,14 @@ last two matches ~12-15 min; wall 34 min for 4 matches of ~3.5-4.5 min each). Sc
 - Baseline fire-shadow 1-1, variant (hound damage x0.75) 2-0 for Fire; Fire's score share 57 % -> 59 %. Direction as
   expected (nerfing a Shadow unit helps Fire), but p = 1.00 at N = 2 per arm: a smoke of the lab, not a balance result.
 - `tests/test_balance_lab.gd`: PASS (headless, < 2 s).
+
+## Lab review 2026-09-27
+- `-Dir` falls back to the repo when the lab worktree is missing (laptop); default `-Parallel` is capped at the gate's
+  `FW_GODOT_SLOTS` (4).
+- Expected wall time + evidence note before a run, `-DryRun`; the scorecard's Low-N banner gives the hours needed for
+  98 / 392 games per arm at the run's own pace.
+- `history.md` links the scorecard relatively (`<run>/scorecard.md`) instead of an absolute desktop path.
+- `tests/test_balance_lab.gd`: PASS (laptop, 2026-09-27). No match run today (the machine is shared: no balance numbers).
 
 ## Next steps
 1. **Lead**: commit `tools/balance_lab/`, `tests/test_balance_lab.gd`, `docs/balance/lab/`, this file. Move the lab

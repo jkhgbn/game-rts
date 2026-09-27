@@ -12,6 +12,8 @@ bundles (also from the laptop), watch bot games. Built 2026-09-26 (tools / engin
 | `scripts/core/replay/replay_state.gd` | State summary + md5 hash (order independent, every per-entity number rounded to an int before summing). |
 | `scripts/core/replay/bug_report.gd` | The bug-report zip. |
 | `tools/replay_lab/replay_match.gd` | Runner (SceneTree script): modes `bots`, `script`, `play`, `watch`. |
+| `tools/replay_lab/run_replay.ps1` | Scorecard runner: verifies a folder / files / F8 bug zips, PASS / WARN / FAIL + hints, history (below). |
+| `docs/replay/lab/<run>/scorecard.md|json`, `docs/replay/lab/history.md` (+ `.jsonl`) | Scorecards and one row per run. |
 | `tests/test_replay_lab.gd` | The test (child processes, see "Tests"). |
 
 Game-code edits (small, additive, guarded):
@@ -44,14 +46,51 @@ Game-code edits (small, additive, guarded):
   `REPLAY diverged at frame N (m:ss): units: [..] vs [..]; pos: ...` line at the first bad checkpoint.
 - **Watch a replay** (window): `$GODOT --path . -s tools/replay_lab/replay_match.gd --fixed-fps 60 -- --mode=watch --file=<path>`.
   Keys 1 / 2 / 3 / 4 = speed x1 / x2 / x4 / x8 (`Engine.max_fps` = 60 x speed; x8 only if the PC draws 480 fps),
-  Space = pause, arrows / edge pan = free camera. A full-screen blocker eats mouse clicks so the viewer can't give
-  orders. Watch always runs without sim mode (it needs the art).
+  Space = pause, arrows / edge pan / **mouse wheel zoom / middle-drag rotate** / Home = free camera, **F = follow the
+  next wizard** (player first, then the enemy's, then free). The **timeline bar** at the bottom has one tick per
+  checkpoint: grey = not reached, green = same hash as the recording, red = diverged (the runner hashes the same state
+  as the session, at `SceneTree.physics_frame`); the first divergence and what differs are in the overlay. **Click the
+  bar to seek**: forward = fast-forward without drawing (`RenderingServer.render_loop_enabled = false`, uncapped fps),
+  then paused; backward = the replay restarts in a new window with `--seek=F` (a replay can only be re-simulated from the
+  start) and this one closes. `--seek=F` on the command line starts paused at frame F. A full-screen filter eats mouse
+  clicks (wheel / middle go to the camera) and every key except Home is eaten before the game sees it, so the viewer
+  can't give orders or open windows. Watch always runs without sim mode (it needs the art): a sim recording may drift
+  a little (the overlay says so).
+- **Verify many replays / bug zips** (scorecard, history): `.\tools\replay_lab\run_replay.ps1` (below).
 - **Bot game from a seed**: `-- --mode=bots --seed=3 --minutes=30 --pair=fire:shadow --difficulty=normal --sim=1 --out=user://replays/b3.replay`,
   then watch it with `--mode=watch --file=...` (a bot replay's "commands" are only the seed + setup).
 - **Scripted player match** (test): `-- --mode=script --seed=7 --minutes=3 --sim=1 --out=...`.
 - Runner options: `--sim=1`, `--bake=thread` (record like a real game), `--hash-every=300`, `--result=PATH`,
   `--dump=F` (every unit's rid / type / position at frame F: run two records with the same seed and diff the DUMP
   lines to see which unit drifts), `--bug-report=F` (presses F8 at frame F).
+
+## Scorecard runner (`tools/replay_lab/run_replay.ps1`, 2026-09-27)
+
+```powershell
+.\tools\replay_lab\run_replay.ps1                                  # the game's replays folder (user://replays)
+.\tools\replay_lab\run_replay.ps1 -Path C:\x\bug_2026-09-27.zip,C:\x\a.replay -Latest 5
+.\tools\replay_lab\run_replay.ps1 -Record -RecordMinutes 1         # self-check: record a bot game, then verify it
+.\tools\replay_lab\run_replay.ps1 -DryRun                          # list what would be verified
+```
+- Inputs: `-Path` = files and / or folders (`.replay`, `.zip`), default `%APPDATA%\Godot\app_userdata\Four Wizards RTS\replays`;
+  `-Latest N` = the N newest. A bug zip is unpacked and its `replay.replay` verified (its `info.json` commit / match time
+  is shown). Every replay is copied into the raw run folder `..\four-wizards-replay-runs\<run>\replays\` (the run keeps
+  what it verified; no spaces in the Godot command line).
+- Each replay runs `replay_match.gd --mode=play` through the shared gate (`godot_run.ps1`), `-Parallel` at a time
+  (default 2), `-TimeoutMin` 30. A file without an `end` line (F8 bug report cut mid-match) stops after its last
+  recorded frame (`reason: end_of_file`) and is judged on its checkpoints ("partial").
+- **PASS** = all checkpoints + end hash (partial file: all checkpoints). **WARN** = 0 checkpoints (too short), or
+  recorded on another commit and diverged (expected: game changes break old replays). **FAIL** = diverged on this
+  commit, no result, timeout, bad file, SCRIPT ERROR. Score = % PASS (WARN half).
+- "Next steps" per replay: only `pos` differs + avoidance still multi-threaded -> step 0; a thread-bake (real game)
+  recording -> step 2; economy keys differ -> `_process` gameplay / unrecorded UI command; else the `--dump` recipe.
+  The card also carries a banner while `project.godot` lacks `avoidance_use_multiple_threads=false`.
+- Output: `docs/replay/lab/<run>/scorecard.md|json`, a row in `docs/replay/lab/history.md` + `history.jsonl`
+  (`-NoHistory` to skip), raw logs / results in the run folder.
+- First run (`2026-09-27_selfcheck`, `-Record -RecordMinutes 0.15`, busy laptop): FAIL as expected before step 0: the
+  9 s bot game matched its 1 checkpoint but the end hash was off by `pos` only at frame 540. 40 s games: 2/8 checkpoints,
+  first divergence at 0:10, `pos` only; a zip and a cut (partial) copy gave the same verdict; the headless watch of the
+  same file marked checkpoint 600 red, like the play verify.
 
 ## File format (`.replay`, JSON lines, `JSON.stringify(full_precision)`)
 
@@ -213,9 +252,12 @@ Next, in order:
 4. Settings toggle "Record replays" (sets `ReplayHooks.auto_record`, saved in settings.cfg; ON on the laptop for
    playtests) + pause menu button "Save bug report" (ui-coder; calls `ReplayHooks.session.save_bug_report()`), and
    the F8 key in the keys help / CLAUDE.md "Keys" (lead).
-5. Watch mode polish: timeline scrub (re-simulate from the start to a frame at max speed), camera follow of a unit,
-   per-checkpoint divergence marker, the mouse wheel zoom (the blocker eats it today).
-6. A `tools/replay_lab/run_replay.ps1` (verify every replay in a folder / a bug zip in one command, scorecard style
-   PASS / WARN / FAIL like the other labs) and a history log.
+5. ~~Watch mode polish~~ **done 2026-09-27** (timeline with per-checkpoint marks, click-to-seek forward / backward,
+   F = follow a wizard, wheel zoom / middle rotate, keys eaten). Checked headless (seek to frame 700, checkpoint 600
+   marked red, no script error); **not yet opened in a real window**: first thing to try by hand, and then maybe
+   click-a-unit to follow any unit, and a "jump to first divergence" key.
+6. ~~`run_replay.ps1` + history~~ **done 2026-09-27** (section "Scorecard runner"). Next: run it at each wave end on the
+   laptop's `user://replays` once step 4 turns recording on; after step 0 the self-check should PASS.
+   Handoffs for steps 1-4 written 2026-09-27 (`docs/handoff/for-{lead,ui-coder,items-coder,gameplay-coder,systems-coder,ai-coder}.md`).
 7. Deterministic async bake for real games (bake on a thread but apply at request frame + N, waiting if needed), so
    real games and replays land rebakes on the same frame without recording them.

@@ -205,3 +205,8 @@ Unit wrappers (use them instead of `get_model()` + `has_method`): `set_loot(amou
 - Find them in group `"game_critters"` (never in `"units"`), or `CritterHerds.instance(tree).critters(&"deer")` (living only).
 - Fog truth for a team: `critter.is_visible_to(team) -> bool`. Do NOT read `critter.visible` (local view only, also hidden
   when far outside the camera view). `is_alive()`, `is_fleeing()`, `kind`, `target_radius()`; hunt with `unit.command_attack(critter)`.
+# Replay Lab determinism (lab review 2026-09-27, group B; details: docs/plan/replay-lab.md 'Determinism audit')
+- **Step 3**: reset static counters at match start (`reset_statics()`: `champion_brain.gd _slots`,
+  `tracker_contract.gd _slots`, `thief_band.gd _serial`, `beast_brain.gd _serial`, `commander.gd _snapshot / _kinds`,
+  `champion_sense.gd _by_team`) and seed champion / beast brains from a match seed passed in. Confirm no dictionary keyed
+  by `get_instance_id()` is iterated for a decision. Timers / trickles that tick before `_start_match` belong after it.

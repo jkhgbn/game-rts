@@ -15,30 +15,40 @@ const MATCHES := [["fire:ice", 1], ["nature:shadow", 2]]
 var _dir := ""
 var _pids: Array[int] = []
 var _outs: Array[String] = []
+var _pending: Array[PackedStringArray] = []
 var _t0 := 0
 
 
+## User arg "--serial" (after "--"): the two matches run one after the other (one child at a time: for a shared PC).
 func _initialize() -> void:
 	_dir = ProjectSettings.globalize_path("user://bot_lab_test")
 	DirAccess.make_dir_recursive_absolute(_dir)
 	for f in DirAccess.get_files_at(_dir):
 		DirAccess.remove_absolute(_dir.path_join(f))
-	var exe := OS.get_executable_path()
 	var project := ProjectSettings.globalize_path("res://")
 	for m: Array in MATCHES:
 		var out := _dir.path_join("%s_s%d.json" % [String(m[0]).replace(":", "-"), int(m[1])])
 		_outs.append(out)
-		var args := PackedStringArray(["--headless", "--path", project, "-s", MATCH_SCRIPT, "--fixed-fps", "60",
+		_pending.append(PackedStringArray(["--headless", "--path", project, "-s", MATCH_SCRIPT, "--fixed-fps", "60",
 				"--quit-after", str((LIMIT_S + 240) * 60), "--", "--pair=%s" % m[0], "--seed=%d" % int(m[1]), "--sim=1",
-				"--limit=%d" % LIMIT_S, "--early=0", "--out=%s" % out])
-		var pid := OS.create_process(exe, args)
-		if pid <= 0:
-			print("FAIL %s: could not start %s" % [TASK_ID, exe])
-			quit(1)
-			return
-		_pids.append(pid)
+				"--limit=%d" % LIMIT_S, "--early=0", "--out=%s" % out]))
+	var serial := OS.get_cmdline_user_args().has("--serial")
 	_t0 = Time.get_ticks_msec()
-	print("bot lab test: 2 matches started (%s), %d game s each" % [_dir, LIMIT_S])
+	while not _pending.is_empty() and (_pids.is_empty() or not serial):
+		if not _launch_next():
+			return
+	print("bot lab test: %d match(es) started%s (%s), %d game s each" % [_pids.size(), ", serial" if serial else "", _dir, LIMIT_S])
+
+
+func _launch_next() -> bool:
+	var exe := OS.get_executable_path()
+	var pid := OS.create_process(exe, _pending.pop_front())
+	if pid <= 0:
+		print("FAIL %s: could not start %s" % [TASK_ID, exe])
+		quit(1)
+		return false
+	_pids.append(pid)
+	return true
 
 
 func _process(_delta: float) -> bool:
@@ -52,6 +62,9 @@ func _process(_delta: float) -> bool:
 				return true
 			OS.delay_msec(200)
 			return false
+	if not _pending.is_empty():   # serial: the next match
+		_launch_next()
+		return false
 	return _check()
 
 
@@ -83,9 +96,14 @@ func _check() -> bool:
 		print("  %s seed %d: %s, winner %s at %s, x%.1f, %.0f s real" % [d["pair"], int(d["seed"]), d["end_reason"],
 				d["winner"], d["end_clock"], float(d["speed"]), float(d["real_s"])])
 		lines.append(line)
+	# The same two matches again as a second arm ("arm" = what run_lab.ps1 -Validate adds): exercises the arms table.
+	var arm_lines: Array[String] = []
+	for arm in ["normal", "sim"]:
+		for line in lines:
+			arm_lines.append("{\"arm\":\"%s\",%s" % [arm, line.substr(1)])
 	var jsonl := _dir.path_join("results.jsonl")
 	var f := FileAccess.open(jsonl, FileAccess.WRITE)
-	f.store_string("\n".join(lines) + "\n")
+	f.store_string("\n".join(arm_lines) + "\n")
 	f.close()
 	var out: Array = []
 	var code := OS.execute(OS.get_executable_path(), PackedStringArray(["--headless", "--path",
@@ -97,8 +115,12 @@ func _check() -> bool:
 		print("FAIL %s: report not written (exit %d)" % [TASK_ID, code])
 		return true
 	var text := FileAccess.get_file_as_string(md)
-	if not text.contains("Win % matrix") or not text.contains("How matches ended"):
-		print("FAIL %s: report.md incomplete" % TASK_ID)
+	for section in ["Win % matrix", "How matches ended", "## Arms", "## Start-up", "## Next steps"]:
+		if not text.contains(section):
+			print("FAIL %s: report.md has no '%s'" % [TASK_ID, section])
+			return true
+	if not text.contains("| sim | 2 |") or not text.contains("+0.0 %"):
+		print("FAIL %s: arms table wrong (two identical arms must show N 2 and a +0.0 %% delta)" % TASK_ID)
 		return true
 	print("PASS %s (%s)" % [TASK_ID, md])
 	return true

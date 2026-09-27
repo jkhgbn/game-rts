@@ -4,7 +4,7 @@ extends SceneTree
 ## cross-scenario hot list, and rows in docs/perf/lab/history.md + history.jsonl.
 ## Run by run_perf_lab.ps1 at the end, or alone:
 ##   godot --headless --path . -s tools/perf_lab/perf_report.gd --quit-after 600 -- --in=C:/runs/x/results.jsonl \
-##       [--out=C:/runs/x] [--latest=res://docs/perf/lab/latest] [--history=res://docs/perf/lab] [--no-history]
+##       [--out=C:/runs/x] [--latest=res://docs/perf/lab/latest | --latest=none] [--history=res://docs/perf/lab] [--no-history]
 ##   godot --headless --path . -s tools/perf_lab/perf_report.gd --quit-after 600 -- --table   (prints the budget table)
 ## Merge rule: per scenario + mode + resolution, the quiet runs only when there is at least one (else all, marked
 ## noisy); frame numbers = element-wise median of the unprofiled runs (the profiled run when it is the only one);
@@ -46,14 +46,18 @@ func _initialize() -> void:
 	var hist := ProjectSettings.globalize_path(String(args.get("history", "res://docs/perf/lab")))
 	var cards := build_scorecards(rows, hist)
 	var summary := summary_markdown(cards, String(args.get("title", "Perf Lab run")))
-	for dir: String in [out_dir, latest]:
+	# --latest=none: keep docs/perf/lab/latest as it is (smoke / -Quick runs must not replace the reference scorecards).
+	var dirs: Array[String] = [out_dir]
+	if String(args.get("latest", "")) != "none":
+		dirs.append(latest)
+	for dir: String in dirs:
 		for c: RefCounted in cards:
 			c.call(&"write", dir)
 		_write(dir.path_join("summary.md"), summary)
 	if not args.has("no-history"):
 		for c2: RefCounted in cards:
 			Scorecard.append_history(hist, c2.call(&"history_row"))
-	print("PERF_LAB report: %d runs -> %d scorecards -> %s" % [rows.size(), cards.size(), latest.path_join("summary.md")])
+	print("PERF_LAB report: %d runs -> %d scorecards -> %s" % [rows.size(), cards.size(), dirs[-1].path_join("summary.md")])
 	for c3: RefCounted in cards:
 		print("  %s %s %s score %.0f %s" % [c3.get(&"scenario"), c3.get(&"mode"), c3.call(&"verdict"), c3.call(&"score"),
 			"(noisy)" if c3.get(&"noisy") else ""])

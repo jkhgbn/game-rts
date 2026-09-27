@@ -8,3 +8,8 @@
   team check in `_is_shop` holds); peddlers are `RuinPeddler` (groups "shops" + "peddlers", `is_peddler()`, team 2).
 - Crown as item: `EmberCrown` calls `add_item(ember_crown)` on claim and `find_slot` + `remove_item` on the wearer's death.
 - Exchange: `Keep.exchange_crystals(team) -> String`, `Keep.exchange_enabled` (static).
+
+# Replay Lab determinism (lab review 2026-09-27, group B; details: docs/plan/replay-lab.md 'Determinism audit')
+- **Step 2**: gameplay out of `_process` into `_physics_process`: `essence_bank.gd:58` (essence trickle),
+  `item_actives.gd:336`, `inventory.gd:140`, `item_pickup.gd:68`; the `inventory.gd:784` SceneTreeTimer ->
+  `create_timer(t, false, true)`. Needed for a human recording made in a window to replay exactly.

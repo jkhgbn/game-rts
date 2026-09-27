@@ -11,6 +11,9 @@
   MAXWAIT), -StopAt, per-match timeout; only the Godot processes this script starts are ever stopped.
   Raw output (matches, logs, results.jsonl) goes to -OutDir (outside the repo); the scorecard goes to
   <repo>\docs\balance\lab\<run>\ (scorecard.md, scorecard.json) and one row to docs\balance\lab\history.md.
+  -Dir defaults to the lab worktree (..\four-wizards-rts-lab) when it exists, else this repo (laptop). Before starting,
+  the runner prints the expected wall time and what N per arm can show (~98 games per arm for a 20-point change);
+  -DryRun prints that plan and starts nothing.
 
 .EXAMPLE
   .\tools\balance_lab\run_balance.ps1 -Variants tools\balance_lab\variants\grave_hound_dps.json -Pairs shadow:fire,fire:shadow -Seeds 1 -StopAt 00:35
@@ -19,7 +22,7 @@
   .\tools\balance_lab\run_balance.ps1 -Variants a.json,b.json -Pairs shadow:fire,fire:shadow,shadow:nature,nature:shadow -Seeds 1-6 -Tick 30
 #>
 param(
-	[string]$Dir = "C:\Users\elzzo\Documents\four-wizards-rts-lab",
+	[string]$Dir = "",
 	[string[]]$Variants = @(),
 	[switch]$NoBaseline,
 	[string[]]$Pairs = @(),
@@ -38,6 +41,7 @@ param(
 	[int]$TimeoutMin = 90,
 	[string]$StopAt = "",
 	[switch]$NoHistory,
+	[switch]$DryRun,
 	[string]$Godot = "C:\Godot\Godot_v4.7.2-stable_win64_console.exe"
 )
 
@@ -45,6 +49,11 @@ $ErrorActionPreference = "Stop"
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Repo = (Resolve-Path (Join-Path $Here "..\..")).Path
 $Kingdoms = @("fire", "shadow", "ice", "nature")
+# Default project: the lab worktree (desktop) when it exists, else this repo (laptop: no worktree).
+if ($Dir -eq "") {
+	$Dir = Join-Path (Split-Path -Parent $Repo) "four-wizards-rts-lab"
+	if (-not (Test-Path (Join-Path $Dir "project.godot"))) { $Dir = $Repo }
+}
 
 if (-not (Test-Path $Godot)) { throw "Godot not found: $Godot" }
 $GuiExe = $Godot -replace "_console\.exe$", ".exe"
@@ -66,13 +75,19 @@ foreach ($item in ($Seeds | ForEach-Object { $_ -split "," })) {
 	elseif ($item -ne "") { throw "Bad seed '$item' (use 1,2,3 or 1-6)" }
 }
 $Seeds = $SeedList
-if ($Parallel -le 0) { $Parallel = [Math]::Max(1, [Environment]::ProcessorCount - 2) }
+# Default: logical CPUs - 2, but never more than the shared Godot gate lets run at once (FW_GODOT_SLOTS, default 4).
+if ($Parallel -le 0) {
+	$slots = 4; if ($env:FW_GODOT_SLOTS) { $slots = [int]$env:FW_GODOT_SLOTS }
+	$Parallel = [Math]::Max(1, [Math]::Min($slots, [Environment]::ProcessorCount - 2))
+}
 if ($Run -eq "") { $Run = Get-Date -Format "yyyy-MM-dd_HHmm" }
 if ($OutDir -eq "") { $OutDir = Join-Path (Split-Path -Parent $Repo) ("four-wizards-lab-runs\balance-" + $Run) }
 if ($ReportDir -eq "") { $ReportDir = Join-Path $Repo "docs\balance\lab\$Run" }
-New-Item -ItemType Directory -Force (Join-Path $OutDir "matches") | Out-Null
-New-Item -ItemType Directory -Force (Join-Path $OutDir "variants") | Out-Null
-$OutDir = (Resolve-Path $OutDir).Path
+if (-not $DryRun) {
+	New-Item -ItemType Directory -Force (Join-Path $OutDir "matches") | Out-Null
+	New-Item -ItemType Directory -Force (Join-Path $OutDir "variants") | Out-Null
+	$OutDir = (Resolve-Path $OutDir).Path
+}
 $Results = Join-Path $OutDir "results.jsonl"
 
 # Arms: baseline first, then each variant (copied into the run folder so the run keeps what it tested).
@@ -91,7 +106,7 @@ foreach ($v in ($Variants | ForEach-Object { $_ -split "," } | Where-Object { $_
 	$name = if ($vj.name) { [string]$vj.name } else { [IO.Path]::GetFileNameWithoutExtension($vp) }
 	$name = ($name -replace "[^\w\-]", "_")
 	$copy = Join-Path $OutDir "variants\$name.json"
-	Copy-Item $vp $copy -Force
+	if ($DryRun) { $copy = $vp } else { Copy-Item $vp $copy -Force }
 	$Arms += @{ Name = $name; File = ($copy -replace "\\", "/") }
 }
 if ($Arms.Count -eq 0) { throw "Nothing to run (no baseline, no variant)" }
@@ -105,7 +120,7 @@ function Resolve-Script([string]$sub, [string]$name) {
 $MatchScript = Resolve-Script "balance_lab" "balance_match.gd"
 $ReportScript = ((Join-Path $Here "balance_report.gd") -replace "\\", "/")
 
-if (-not (Test-Path (Join-Path $Dir ".godot\global_script_class_cache.cfg"))) {
+if (-not $DryRun -and -not (Test-Path (Join-Path $Dir ".godot\global_script_class_cache.cfg"))) {
 	Write-Host "Importing $Dir (first run)..."
 	Start-Process -FilePath $Godot -ArgumentList "--headless --path `"$Dir`" --import" -NoNewWindow -PassThru -Wait `
 		-RedirectStandardOutput (Join-Path $OutDir "import.log") -RedirectStandardError (Join-Path $OutDir "import.err") | Out-Null
@@ -121,6 +136,23 @@ Write-Host ("Balance Lab: {0} matches ({1} arms x {2} pairs x {3} seeds), {4} in
 	$Total, $Arms.Count, $Pairs.Count, $Seeds.Count, $Parallel, $Sim, $Limit, $Tick)
 Write-Host ("Arms: " + (($Arms | ForEach-Object { $_.Name }) -join ", "))
 Write-Host "Dir $Dir -> $OutDir"
+. (Join-Path $Repo "tools\bot_lab\lab_eta.ps1")
+$Eta = Get-LabEta -Games $Total -Limit $Limit -EarlyOn ($Early -eq "on") -SimOn ($Sim -eq "on") -Tick $Tick -Parallel $Parallel
+Write-Host ("Expected wall time: ~{0} on a quiet PC, up to ~{1} while other agents run Godot (rough model, tools\bot_lab\lab_eta.ps1)." -f `
+	(Format-LabMinutes $Eta.QuietMin), (Format-LabMinutes $Eta.BusyMin))
+# Evidence: ~98 games per arm per matchup-level question to see a 20-point win-rate change, ~392 for 10 points
+# (balance_report.gd games_needed, 80 % power). Say what this batch can and cannot show before it runs.
+$PerArm = $Pairs.Count * $Seeds.Count
+if ($PerArm -lt 98) {
+	$e98 = Get-LabEta -Games (98 * $Arms.Count) -Limit $Limit -EarlyOn ($Early -eq "on") -SimOn ($Sim -eq "on") -Tick $Tick -Parallel $Parallel
+	Write-Host ("Evidence: {0} games per arm. A 20-point win-rate change needs ~98 per arm (~{1} quiet / ~{2} busy for {3} arm(s)); below that the scorecard is a direction hint (WARN), not a verdict." -f `
+		$PerArm, (Format-LabMinutes $e98.QuietMin), (Format-LabMinutes $e98.BusyMin), $Arms.Count)
+}
+if ($DryRun) {
+	foreach ($j in $Jobs) { Write-Host ("  {0} {1} seed {2}" -f $j.Arm.Name, $j.Pair, $j.Seed) }
+	Write-Host "Dry run: nothing started."
+	return
+}
 
 $StopTime = $null
 if ($StopAt -ne "") {

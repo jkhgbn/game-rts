@@ -10,6 +10,11 @@
   lab_match.gd / lab_report.gd are taken from -Dir when it has them, else from this script's own folder (so a lab
   worktree on an older commit still works; sim mode is then "partial": per-frame savings only).
   Only the Godot processes this script starts are ever stopped (on -TimeoutMin).
+  -Dir defaults to the lab worktree (..\four-wizards-rts-lab) when it exists, else this repo (laptop).
+  Before starting, the runner prints the expected wall time (quiet PC .. busy PC); -DryRun prints the plan and stops.
+  -Validate runs the sim-vs-normal validation (bot-lab.md "Validation"): 3 arms (normal = sim off, sim, sim30 =
+  sim + tick 30) over the same pairs x seeds (default fire:shadow,ice:nature x 1-8, 10:00, early stop off, no stall),
+  and the report compares the arms.
 
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File tools\bot_lab\run_lab.ps1
@@ -17,9 +22,12 @@
 
 .EXAMPLE
   .\run_lab.ps1 -Pairs fire:ice,ice:fire -Seeds 1-6 -Difficulty "player:hard,enemy:normal" -Sim off
+
+.EXAMPLE
+  .\run_lab.ps1 -Validate -DryRun      (the plan + expected time of the sim-vs-normal validation, nothing run)
 #>
 param(
-	[string]$Dir = "C:\Users\elzzo\Documents\four-wizards-rts-lab",
+	[string]$Dir = "",
 	[string[]]$Pairs = @(),
 	[string[]]$Seeds = @("1"),
 	[int]$Parallel = 0,
@@ -34,12 +42,29 @@ param(
 	[string]$Title = "",
 	[int]$TimeoutMin = 90,
 	[string]$StopAt = "",
+	[switch]$Validate,
+	[switch]$DryRun,
 	[string]$Godot = "C:\Godot\Godot_v4.7.2-stable_win64_console.exe"
 )
 
 $ErrorActionPreference = "Stop"
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
+$Repo = (Resolve-Path (Join-Path $Here "..\..")).Path
 $Kingdoms = @("fire", "shadow", "ice", "nature")
+# Default project: the lab worktree (desktop) when it exists, else this repo (laptop: no worktree).
+if ($Dir -eq "") {
+	$Dir = Join-Path (Split-Path -Parent $Repo) "four-wizards-rts-lab"
+	if (-not (Test-Path (Join-Path $Dir "project.godot"))) { $Dir = $Repo }
+}
+if ($Validate) {
+	# bot-lab.md "Validation": same pairs x seeds in 3 arms, 10:00 scored at the limit, no early stop, no stall end.
+	if (-not $PSBoundParameters.ContainsKey("Pairs")) { $Pairs = @("fire:shadow", "ice:nature") }
+	if (-not $PSBoundParameters.ContainsKey("Seeds")) { $Seeds = @("1-8") }
+	if (-not $PSBoundParameters.ContainsKey("Limit")) { $Limit = 600 }
+	$Early = "off"
+	if ($Extra -notmatch "--stall=") { $Extra = ("$Extra --stall=0").Trim() }
+	if ($Title -eq "") { $Title = "Bot Lab validation: sim vs normal" }
+}
 
 if (-not (Test-Path $Godot)) { throw "Godot not found: $Godot" }
 # The console build only starts the real exe as a child: run the real one (its CPU time is measurable and a timeout
@@ -67,12 +92,18 @@ foreach ($item in ($Seeds | ForEach-Object { $_ -split "," })) {
 	elseif ($item -ne "") { throw "Bad seed '$item' (use 1,2,3 or 1-6)" }
 }
 $Seeds = $SeedList
-if ($Parallel -le 0) { $Parallel = [Math]::Max(1, [Environment]::ProcessorCount - 2) }
+# Default: logical CPUs - 2, but never more than the shared Godot gate lets run at once (FW_GODOT_SLOTS, default 4).
+if ($Parallel -le 0) {
+	$slots = 4; if ($env:FW_GODOT_SLOTS) { $slots = [int]$env:FW_GODOT_SLOTS }
+	$Parallel = [Math]::Max(1, [Math]::Min($slots, [Environment]::ProcessorCount - 2))
+}
 if ($OutDir -eq "") {
 	$OutDir = Join-Path (Split-Path -Parent $Dir) ("four-wizards-lab-runs\" + (Get-Date -Format "yyyyMMdd-HHmm"))
 }
-New-Item -ItemType Directory -Force (Join-Path $OutDir "matches") | Out-Null
-$OutDir = (Resolve-Path $OutDir).Path
+if (-not $DryRun) {
+	New-Item -ItemType Directory -Force (Join-Path $OutDir "matches") | Out-Null
+	$OutDir = (Resolve-Path $OutDir).Path
+}
 $Results = Join-Path $OutDir "results.jsonl"
 
 # The scripts: from the project when it has them (res://), else this folder's copy (absolute path).
@@ -113,22 +144,40 @@ function Get-Commit([string]$root) {
 $Commit = Get-Commit $Dir
 
 # First run in a fresh worktree: import once.
-if (-not (Test-Path (Join-Path $Dir ".godot\global_script_class_cache.cfg"))) {
+if (-not $DryRun -and -not (Test-Path (Join-Path $Dir ".godot\global_script_class_cache.cfg"))) {
 	Write-Host "Importing $Dir (first run)..."
 	$imp = Start-Process -FilePath $Godot -ArgumentList "--headless --path `"$Dir`" --import" -NoNewWindow -PassThru -Wait `
 		-RedirectStandardOutput (Join-Path $OutDir "import.log") -RedirectStandardError (Join-Path $OutDir "import.err")
 }
 
-$SimArg = if ($Sim -eq "on") { "1" } else { "0" }
 $EarlyArg = if ($Early -eq "on") { "1" } else { "0" }
-$QuitAfter = ($Limit + 240) * $Tick + 8000
+# Arms: one (the -Sim / -Tick given) or, with -Validate, normal / sim / sim30 over the same pairs x seeds.
+$Arms = @(@{ Name = ""; Sim = $Sim; Tick = $Tick })
+if ($Validate) {
+	$Arms = @(@{ Name = "normal"; Sim = "off"; Tick = 60 }, @{ Name = "sim"; Sim = "on"; Tick = 60 }, @{ Name = "sim30"; Sim = "on"; Tick = 30 })
+}
 $Jobs = New-Object System.Collections.Queue
-foreach ($s in $Seeds) { foreach ($p in $Pairs) { $Jobs.Enqueue(@{ Pair = $p; Seed = $s }) } }
+# seed -> pair -> arm: the arms of one pair / seed start back to back (same machine load).
+foreach ($s in $Seeds) { foreach ($p in $Pairs) { foreach ($arm in $Arms) { $Jobs.Enqueue(@{ Pair = $p; Seed = $s; Arm = $arm }) } } }
 $Total = $Jobs.Count
 
-Write-Host ("Bot Lab: {0} matches ({1} pairs x {2} seeds), {3} in parallel, sim {4}, {5} / {6}, limit {7} s, tick {8}" -f `
-	$Total, $Pairs.Count, $Seeds.Count, $Parallel, $Sim, $Difficulty, $Style, $Limit, $Tick)
+. (Join-Path $Here "lab_eta.ps1")
+$Quiet = 0.0; $Busy = 0.0
+foreach ($arm in $Arms) {
+	$e = Get-LabEta -Games ($Pairs.Count * $Seeds.Count) -Limit $Limit -EarlyOn ($Early -eq "on") -SimOn ($arm.Sim -eq "on") -Tick $arm.Tick -Parallel $Parallel
+	$Quiet += $e.QuietMin; $Busy += $e.BusyMin
+}
+Write-Host ("Bot Lab: {0} matches ({1} pairs x {2} seeds{3}), {4} in parallel, {5} / {6}, limit {7} s, early {8}" -f `
+	$Total, $Pairs.Count, $Seeds.Count, $(if ($Validate) { " x 3 arms normal / sim / sim30" } else { ", sim $Sim, tick $Tick" }), `
+	$Parallel, $Difficulty, $Style, $Limit, $Early)
+Write-Host ("Expected wall time: ~{0} on a quiet PC, up to ~{1} while other agents run Godot (rough model, lab_eta.ps1)." -f `
+	(Format-LabMinutes $Quiet), (Format-LabMinutes $Busy))
 Write-Host "Dir $Dir ($Commit) -> $OutDir"
+if ($DryRun) {
+	foreach ($j in $Jobs) { Write-Host ("  {0} seed {1}{2}" -f $j.Pair, $j.Seed, $(if ($j.Arm.Name) { " [$($j.Arm.Name)]" } else { "" })) }
+	Write-Host "Dry run: nothing started."
+	return
+}
 
 # -StopAt "00:45": no match starts after that clock time, running ones are stopped (this runner's own processes)
 # and the report covers what finished. A time earlier than now means tomorrow.
@@ -170,14 +219,17 @@ while ($Jobs.Count -gt 0 -or $Running.Count -gt 0) {
 		}
 		$WaitSince = $null
 		$j = $Jobs.Dequeue()
-		$name = ("{0}_s{1}" -f ($j.Pair -replace ":", "-"), $j.Seed)
+		$name = ("{0}{1}_s{2}" -f $(if ($j.Arm.Name) { $j.Arm.Name + "_" } else { "" }), ($j.Pair -replace ":", "-"), $j.Seed)
 		$json = Join-Path $OutDir "matches\$name.json"
 		$log = Join-Path $OutDir "matches\$name.log"
 		$err = Join-Path $OutDir "matches\$name.err"
 		if (Test-Path $json) { Remove-Item $json }
-		$a = "--headless --path `"$Dir`" -s `"$MatchScript`" --fixed-fps $Tick --quit-after $QuitAfter -- " +
-			"--pair=$($j.Pair) --seed=$($j.Seed) --difficulty=$Difficulty --style=$Style --sim=$SimArg --limit=$Limit " +
-			"--early=$EarlyArg --tick=$Tick --commit=$Commit `"--out=$($json -replace '\\', '/')`" $Extra"
+		$jt = [int]$j.Arm.Tick
+		$simArg = if ($j.Arm.Sim -eq "on") { "1" } else { "0" }
+		$quitAfter = ($Limit + 240) * $jt + 8000
+		$a = "--headless --path `"$Dir`" -s `"$MatchScript`" --fixed-fps $jt --quit-after $quitAfter -- " +
+			"--pair=$($j.Pair) --seed=$($j.Seed) --difficulty=$Difficulty --style=$Style --sim=$simArg --limit=$Limit " +
+			"--early=$EarlyArg --tick=$jt --commit=$Commit `"--out=$($json -replace '\\', '/')`" $Extra"
 		$proc = Start-Process -FilePath $Godot -ArgumentList $a -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError $err
 		$null = $proc.Handle   # keeps the handle: ExitCode / TotalProcessorTime stay readable after the exit
 		$Running += @{ Proc = $proc; Job = $j; Name = $name; Json = $json; Log = $log; Err = $err; Start = Get-Date; Held = $held }
@@ -201,15 +253,16 @@ while ($Jobs.Count -gt 0 -or $Running.Count -gt 0) {
 		}
 		$line = $null
 		if (Test-Path $r.Json) { $line = (Get-Content $r.Json -TotalCount 1) }
+		$armJson = if ($r.Job.Arm.Name) { '"arm":"{0}",' -f $r.Job.Arm.Name } else { "" }
 		if ($line -and $line.StartsWith("{")) {
-			$line = "{" + ('"script_errors":{0},"wall_s":{1},"cpu_s":{2},"log":"{3}",' -f $scriptErrors, `
+			$line = "{" + $armJson + ('"script_errors":{0},"wall_s":{1},"cpu_s":{2},"log":"{3}",' -f $scriptErrors, `
 				([string]$real).Replace(",", "."), ([string]$cpu).Replace(",", "."), ($r.Name + ".log")) + $line.Substring(1)
 			$Done++
 		} else {
 			$why = if ($Stopped) { "stopped at $StopAt" } elseif ($timedOut) { "timeout after $TimeoutMin min" } `
 				else { "no result (exit code $($r.Proc.ExitCode))" }
-			$line = ('{{"pair":"{0}","player":"{1}","enemy":"{2}","seed":{3},"error":"{4}","script_errors":{5},"real_s":{6},"log":"{7}"}}' -f `
-				$r.Job.Pair, ($r.Job.Pair -split ":")[0], ($r.Job.Pair -split ":")[1], $r.Job.Seed, $why, $scriptErrors, `
+			$line = ('{{{0}"pair":"{1}","player":"{2}","enemy":"{3}","seed":{4},"error":"{5}","script_errors":{6},"real_s":{7},"log":"{8}"}}' -f `
+				$armJson, $r.Job.Pair, ($r.Job.Pair -split ":")[0], ($r.Job.Pair -split ":")[1], $r.Job.Seed, $why, $scriptErrors, `
 				([string]$real).Replace(",", "."), ($r.Name + ".log"))
 			$Failed++
 		}
@@ -220,7 +273,8 @@ while ($Jobs.Count -gt 0 -or $Running.Count -gt 0) {
 		if ($line -match '"end_reason":"([\w-]+)"') { $why2 = $Matches[1] }
 		$when = ""
 		if ($line -match '"end_clock":"([\d:]+)"') { $when = $Matches[1] }
-		Write-Host ("[{0}/{1}] {2} seed {3}: {4} {5} {6} ({7} s{8})" -f ($Done + $Failed), $Total, $r.Job.Pair, $r.Job.Seed, `
+		Write-Host ("[{0}/{1}] {2} seed {3}: {4} {5} {6} ({7} s{8})" -f ($Done + $Failed), $Total, `
+			$(if ($r.Job.Arm.Name) { "$($r.Job.Arm.Name) $($r.Job.Pair)" } else { $r.Job.Pair }), $r.Job.Seed, `
 			$w, $why2, $when, $real, $(if ($scriptErrors -gt 0) { ", $scriptErrors script errors" } else { "" }))
 	}
 	$Running = $still
@@ -233,7 +287,7 @@ while ($Jobs.Count -gt 0 -or $Running.Count -gt 0) {
 $Wall =[Math]::Round(((Get-Date) - $Start).TotalSeconds, 0)
 Write-Host ("Done: {0} ok, {1} failed, wall {2} s, {3:N1} matches per hour" -f $Done, $Failed, $Wall, (3600.0 * $Done / [Math]::Max(1, $Wall)))
 
-if ($Title -eq "") { $Title = "Bot Lab: $($Pairs.Count) pairs x $($Seeds.Count) seeds, $Difficulty, $Style, sim $Sim" }
+if ($Title -eq "") { $Title = "Bot Lab: $($Pairs.Count) pairs x $($Seeds.Count) seeds, $Difficulty, $Style, sim $Sim, tick $Tick" }
 $rep = "--headless --path `"$Dir`" -s `"$ReportScript`" --quit-after 600 -- `"--in=$($Results -replace '\\', '/')`" " +
 	"`"--out=$($OutDir -replace '\\', '/')`" --wall=$Wall --parallel=$Parallel `"--title=$Title`""
 Start-Process -FilePath $Godot -ArgumentList $rep -NoNewWindow -Wait -RedirectStandardOutput (Join-Path $OutDir "report.log") `

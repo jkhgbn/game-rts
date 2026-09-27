@@ -344,6 +344,9 @@ func _markdown() -> String:
 		L.append("Batch wall clock %s with %d in parallel: **%.0f matches per hour**." % [_clock(float(pf["wall"])),
 				int(pf["parallel"]), float(pf["per_hour"])])
 	L.append("")
+	L.append_array(_arms_section())
+	L.append_array(_startup_section())
+	L.append_array(_next_steps())
 	L.append("## Matches")
 	L.append("| Pair | Seed | Winner | Reason | Time | Score (P-E) | Peak army (P-E) | Workers peak (P-E) | Stall flags | Real s |")
 	L.append("|---|---|---|---|---|---|---|---|---|---|")
@@ -365,6 +368,214 @@ func _markdown() -> String:
 				", ".join(PackedStringArray(r.get("stall_flags", []))), float(r.get("real_s", 0.0))])
 	L.append("")
 	return "\n".join(L)
+
+
+# ---------------------------------------------------------------- arms, start-up, next steps
+
+## The arm of a row: the runner's "arm" (run_lab.ps1 -Validate, Balance Lab arms) or its sim / tick config.
+static func _arm_of(r: Dictionary) -> String:
+	if String(r.get("arm", "")) != "":
+		return String(r["arm"])
+	return "sim %s, tick %d" % [str(r.get("sim", "?")), int(r.get("tick", 0))]
+
+
+func _arm_names() -> Array[String]:
+	var out: Array[String] = []
+	for r in rows:
+		var a := _arm_of(r)
+		if not out.has(a):
+			out.append(a)
+	return out
+
+
+## Mean of stats at a snapshot time (seconds as the JSON key) over both sides, or -1.
+static func _snap_mean(list: Array[Dictionary], at: String, key: String, side: String) -> float:
+	var total := 0.0
+	var n := 0
+	for r in list:
+		var snap: Dictionary = (r.get("at", {}) as Dictionary).get(at, {})
+		var s: Dictionary = snap.get(side, {})
+		if s.has(key):
+			total += float(s[key])
+			n += 1
+	return total / float(n) if n > 0 else -1.0
+
+
+## Mean of both sides' crystals gathered at the end of the match (the arms share pairs, seeds and limit).
+func _gathered_end(list: Array[Dictionary]) -> float:
+	var any := func(_r: Dictionary) -> String: return "player"
+	var other := func(_r: Dictionary) -> String: return "enemy"
+	var p := _avg(list, any, "gathered")
+	var e := _avg(list, other, "gathered")
+	return p + e if p >= 0.0 and e >= 0.0 else -1.0
+
+
+## Sim-vs-normal style comparison: only when the batch holds more than one arm. The reference arm is "normal" (or the
+## first arm with sim off, else the first arm). bot-lab.md "Validation": economy within 5 % = same game.
+func _arms_section() -> Array[String]:
+	var L: Array[String] = []
+	var names := _arm_names()
+	if names.size() < 2:
+		return L
+	var by_arm := {}
+	for a in names:
+		var list: Array[Dictionary] = []
+		for r in _valid():
+			if _arm_of(r) == a:
+				list.append(r)
+		by_arm[a] = list
+	var ref := names[0]
+	for a in names:
+		if a == "normal" or a.begins_with("sim off"):
+			ref = a
+			break
+	L.append("## Arms (same pairs x seeds; reference: %s)" % ref)
+	L.append("Means of the snapshots, player / enemy. Delta = both sides' crystals gathered by the end vs the reference arm "
+			+ "(within 5 % [ok], 5-10 % [near], more [OUT]). N per arm is small: two runs of one seed already differ "
+			+ "(bot-lab.md Determinism).")
+	L.append("")
+	L.append("| Arm | N | Gathered 3:00 | 5:00 | 7:00 | 10:00 | Delta gathered (end) | Army pop 5:00 | Workers 10:00 | Player-side wins | Median speed |")
+	L.append("|---|---|---|---|---|---|---|---|---|---|---|")
+	var ref_total := _gathered_end(by_arm[ref])
+	var verdicts: Array[String] = []
+	for a in names:
+		var list: Array[Dictionary] = by_arm[a]
+		var cells: Array[String] = []
+		for at: String in ["180", "300", "420", "600"]:
+			cells.append("%s / %s" % [_num(_snap_mean(list, at, "gathered", "player")), _num(_snap_mean(list, at, "gathered", "enemy"))])
+		var tot := _gathered_end(list)
+		var delta := "-"
+		if a != ref and ref_total > 0.0 and tot > 0.0:
+			var d := 100.0 * (tot - ref_total) / ref_total
+			var band := "good" if absf(d) <= 5.0 else ("pass" if absf(d) <= 10.0 else "bad")
+			delta = "%+.1f %%%s" % [d, _mark(band)]
+			verdicts.append("%s: economy %+.1f %% vs %s (%s)" % [a, d, ref,
+					"same game" if band == "good" else ("borderline: more seeds" if band == "pass" else "different: do not use it for balance")])
+		var pw := 0
+		var speeds: Array[float] = []
+		for r in list:
+			if String(r.get("winner_side", "")) == "player":
+				pw += 1
+			speeds.append(float(r.get("speed", 0.0)))
+		speeds.sort()
+		L.append("| %s | %d | %s | %s | %s / %s | %s / %s | %d-%d | x%.1f |" % [a, list.size(), " | ".join(cells), delta,
+				_num(_snap_mean(list, "300", "army_pop", "player")), _num(_snap_mean(list, "300", "army_pop", "enemy")),
+				_num(_snap_mean(list, "600", "workers", "player")), _num(_snap_mean(list, "600", "workers", "enemy")),
+				pw, list.size(), _quantile(speeds, 0.5)])
+	L.append("")
+	for v in verdicts:
+		L.append("- " + v)
+	if not verdicts.is_empty():
+		L.append("")
+	return L
+
+
+## Where the start-up time goes (lab_match.gd startup_parts): decides whether caching the first navmesh is worth a
+## main.gd hook (bot-lab.md next step 5).
+func _startup_section() -> Array[String]:
+	var L: Array[String] = []
+	var load_s: Array[float] = []
+	var build_s: Array[float] = []
+	var bake_s: Array[float] = []
+	var total_s: Array[float] = []
+	var real_s: Array[float] = []
+	for r in _valid():
+		var sp: Dictionary = r.get("startup_parts", {})
+		if sp.is_empty():
+			continue
+		load_s.append(float(sp.get("load_s", 0.0)))
+		build_s.append(float(sp.get("build_s", 0.0)))
+		if float(sp.get("bake_s", -1.0)) >= 0.0:
+			bake_s.append(float(sp["bake_s"]))
+		total_s.append(float(r.get("startup_s", 0.0)))
+		real_s.append(float(r.get("real_s", 0.0)))
+	if total_s.is_empty():
+		return L
+	for a in [load_s, build_s, bake_s, total_s, real_s]:
+		(a as Array).sort()
+	var bake := _quantile(bake_s, 0.5)
+	var real := _quantile(real_s, 0.5)
+	L.append("## Start-up (medians, real s; same machine load as the batch)")
+	L.append("Load %.1f s, level build %.1f s, first navmesh bake %s, whole start-up %.1f s, whole match %.0f s (n = %d)." % [
+			_quantile(load_s, 0.5), _quantile(build_s, 0.5), "%.1f s" % bake if bake >= 0.0 else "-",
+			_quantile(total_s, 0.5), real, total_s.size()])
+	if bake >= 0.0 and real > 0.0:
+		var share := 100.0 * bake / real
+		if bake >= 2.0 and share >= 3.0:
+			L.append("Navmesh cache: the first bake is %.0f %% of a match: caching it would save ~%.0f s per match (a main.gd hook, "
+					% [share, bake] + "systems-coder handoff) - worth it for long batches.")
+		else:
+			L.append("Navmesh cache: the first bake is only %.1f %% of a match (%.1f s): not worth a main.gd hook." % [share, bake])
+	L.append("")
+	return L
+
+
+## Concrete next steps from this batch (the Bot Lab never edits game code: owners get a handoff).
+func _next_steps() -> Array[String]:
+	var tips: Array[String] = []
+	var v := _valid()
+	var failed := rows.size() - v.size()
+	var errs := 0
+	var err_logs: Array[String] = []
+	for r in rows:
+		if int(r.get("script_errors", 0)) > 0:
+			errs += int(r["script_errors"])
+			if err_logs.size() < 3:
+				err_logs.append(String(r.get("log", "?")))
+	if failed > 0:
+		tips.append("%d match(es) failed: read their `matches\\<name>.log` / `.err` (timeouts: raise -TimeoutMin or check the gate)." % failed)
+	if errs > 0:
+		tips.append("%d SCRIPT ERROR line(s), e.g. in %s: report them to the owner (Error Lab groups them by owner)." % [errs, ", ".join(PackedStringArray(err_logs))])
+	var min_games := 1 << 30
+	for k in KINGDOMS:
+		var rec := _kingdom_record(k)
+		if rec.y > 0:
+			min_games = mini(min_games, rec.y)
+	if min_games < 20 and min_games < (1 << 30):
+		tips.append("N is small (%d non-mirror games for the least-played kingdom): not a balance verdict. A 20-point win-rate change needs ~98 games per arm (Balance Lab)." % min_games)
+	else:
+		for k in KINGDOMS:
+			var rec := _kingdom_record(k)
+			var p := _pct(rec.x, rec.y)
+			if rec.y >= 20 and (p < WIN_TARGET.x or p > WIN_TARGET.y):
+				tips.append("%s wins %d %% over %d games: rank knobs with `tools/balance_lab/balance_suggest.gd --results=<this results.jsonl>`, then A/B them with run_balance.ps1." % [k.capitalize(), roundi(p), rec.y])
+	var no_workers := 0
+	var both_dead := 0
+	for r in v:
+		var fl: Array = r.get("stall_flags", [])
+		if fl.has("player_no_workers") or fl.has("enemy_no_workers"):
+			no_workers += 1
+		if fl.has("both_dead"):
+			both_dead += 1
+	if v.size() > 0 and no_workers * 4 >= v.size():
+		tips.append("%d of %d matches left a side with no worker for over a minute%s: the bots don't rebuild workers (ai-coder handoff, ai.md) - fix before tuning stats." % [
+				no_workers, v.size(), (", %d ended with both economies dead" % both_dead) if both_dead > 0 else ""])
+	var calls := 0
+	var agree := 0
+	for r in v:
+		var ec: Variant = r.get("early_call")
+		if ec is Dictionary and not (ec as Dictionary).is_empty() and String(r["end_reason"]) != "early-score":
+			calls += 1
+			if int(ec.get("winner_team", -9)) == int(r.get("winner_team", -8)):
+				agree += 1
+	if calls >= 4 and agree * 10 < calls * 9:
+		tips.append("Early stop picked the final winner in only %d of %d: raise `--early-ratio` / `--early-hold` (via -Extra) before trusting early-score ends." % [agree, calls])
+	var partial := false
+	var tick30 := false
+	for r in v:
+		partial = partial or String(r.get("sim", "")) == "partial"
+		tick30 = tick30 or int(r.get("tick", 60)) < 60
+	if partial:
+		tips.append("Sim mode was \"partial\" (no scripts/core/sim_mode.gd in -Dir): move the lab worktree to a newer tag for the faster start-up.")
+	if tick30 and _arm_names().size() < 2:
+		tips.append("Tick 30 has a small bias against fast attackers (bot-lab.md Speed): confirm any result at 60 Hz.")
+	var L: Array[String] = ["## Next steps"]
+	if tips.is_empty():
+		L.append("Nothing flagged by this batch.")
+	for t in tips:
+		L.append("- " + t)
+	L.append("")
+	return L
 
 
 static func _num(x: float) -> String:

@@ -1,0 +1,40 @@
+{
+    "run":  "2026-09-27_selfcheck",
+    "date":  "2026-09-27 07:45",
+    "result":  "FAIL",
+    "score":  0,
+    "replays":  1,
+    "pass":  0,
+    "warn":  0,
+    "fail":  1,
+    "commit":  "0fca55bc2db5",
+    "avoidance_multithreaded":  true,
+    "wall_s":  71,
+    "out_dir":  "C:\\Users\\elzzo\\Documents\\four-wizards-replay-runs\\2026-09-27_selfcheck",
+    "rows":  [
+                 {
+                     "name":  "recorded_bots_s3",
+                     "source":  "fresh recording (-Record)",
+                     "status":  "FAIL",
+                     "what":  "1/1 checkpoints; diverged at 0:09 (frame 540): pos",
+                     "hint":  "Only unit positions drift: multi-threaded avoidance (replay-lab.md step 0: project.godot avoidance_use_multiple_threads=false, lead).",
+                     "bug":  "",
+                     "mode":  "bots",
+                     "seed":  3,
+                     "game":  "0fca55bc2db5",
+                     "same_commit":  true,
+                     "bake":  "sync",
+                     "sim":  true,
+                     "pair":  "fire:shadow",
+                     "frames":  540,
+                     "commands":  0,
+                     "checks":  1,
+                     "checks_ok":  1,
+                     "end_match":  false,
+                     "partial":  false,
+                     "divergence_frame":  540,
+                     "real_s":  24,
+                     "script_errors":  0
+                 }
+             ]
+}

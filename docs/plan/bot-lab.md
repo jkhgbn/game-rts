@@ -9,8 +9,9 @@ the game, and turns them into a win matrix report (targets of `docs/design/rush-
 | `tools/bot_lab/run_lab.ps1` | The runner: N Godot processes in parallel, one match each, `results.jsonl`, then the report |
 | `tools/bot_lab/lab_match.gd` | One match (SceneTree script): both sides normal `Commander`s, sim mode, early stop, one JSON line |
 | `tools/bot_lab/lab_report.gd` | `results.jsonl` -> `report.md` + `report.html` (self-contained) |
+| `tools/bot_lab/lab_eta.ps1` | Expected wall time of a batch (quiet / busy PC), printed by run_lab.ps1 and run_balance.ps1 before they start |
 | `scripts/core/sim_mode.gd` | `SimMode.enabled` (static, off in the game). Read through a preload by the build-time art hooks |
-| `tests/test_bot_lab.gd` | Smoke test: 2 short sim matches as child processes + the report |
+| `tests/test_bot_lab.gd` | Smoke test: 2 short sim matches as child processes + the report (`-- --serial`: one child at a time, for a shared PC) |
 | Hooks (art spawn only) | `scripts/world/main.gd`, `river_system.gd`, `neutral_camp.gd`, `epic_beasts.gd` skip draw-only art when `SimMode.enabled` |
 
 Nothing else in the game changed. `scripts/units/unit.gd` is **not** touched: the model freeze is done from `lab_match.gd`.
@@ -26,10 +27,10 @@ powershell -ExecutionPolicy Bypass -File tools\bot_lab\run_lab.ps1
 ```
 | Parameter | Default | Meaning |
 |---|---|---|
-| `-Dir` | `C:\Users\elzzo\Documents\four-wizards-rts-lab` | The project to run (the lab worktree; the lead moves it to tags, the lab never runs git) |
+| `-Dir` | `..\four-wizards-rts-lab` if it exists, else this repo | The project to run (desktop: the lab worktree, the lead moves it to tags, the lab never runs git; laptop: the repo itself) |
 | `-Pairs` | all 16 | `player:enemy` kingdoms, comma list (`fire:ice,ice:fire`) |
 | `-Seeds` | `1` | Seeds, e.g. `(1..6)`; each seeds every random system of the match |
-| `-Parallel` | logical CPUs - 2 (4 here) | Godot processes at a time |
+| `-Parallel` | logical CPUs - 2, at most the gate's `FW_GODOT_SLOTS` (4) | Godot processes at a time |
 | `-Difficulty`, `-Style` | `normal`, `balanced` | Both sides, or `player:x,enemy:y` |
 | `-Sim` | `on` | Sim mode (below) |
 | `-Limit` | `1800` | Time limit (game s): ends on score (`time-score`) |
@@ -39,6 +40,12 @@ powershell -ExecutionPolicy Bypass -File tools\bot_lab\run_lab.ps1
 | `-OutDir` | `..\four-wizards-lab-runs\<date-time>` | Results folder (outside the repo) |
 | `-TimeoutMin` | `90` | Wall-clock guard per match (stops only its own process) |
 | `-StopAt` | | `"00:45"`: no match starts after that clock time, running ones are stopped (own processes only), the report covers what finished |
+| `-Validate` | off | The sim-vs-normal validation in one command: arms `normal` (sim off) / `sim` / `sim30` (sim + tick 30) over the same pairs x seeds; defaults fire:shadow,ice:nature x 1-8, `-Limit 600`, early off, `--stall=0`. The report gets an "Arms" table |
+| `-DryRun` | off | Prints the job list and the expected wall time, starts nothing |
+
+Before starting, the runner prints the **expected wall time** (quiet PC .. busy PC, `lab_eta.ps1`: sim x3.0 / x0.8 game s
+per real s, sim off x2.0 / x0.6, tick 30 x1.7, start-up 25-45 s, early stop = 14:00 matches), e.g. `-Validate`:
+48 matches, ~46 min quiet, up to ~5 h busy.
 
 **Godot traffic light**: every match holds one slot of the machine-wide gate of `tools/godot_run.ps1` (named semaphore
 `Local\FourWizardsGodotGate`, `FW_GODOT_SLOTS` default 4) and starts only while fewer than `FW_GODOT_HARDCAP` (default 6)
@@ -46,7 +53,7 @@ Godot processes of any origin run; after `FW_GODOT_MAXWAIT` s (default 900) of w
 So `-Parallel` never pushes the PC past the shared limit; the wait is polled, so `-StopAt` still works. (The import and
 the final report run are a few seconds and are not gated.)
 
-Output folder: `results.jsonl` (one JSON line per match, the runner adds `wall_s`, `cpu_s`, `script_errors`),
+Output folder: `results.jsonl` (one JSON line per match, the runner adds `wall_s`, `cpu_s`, `script_errors`, and `arm` with -Validate),
 `matches\<pair>_s<seed>.json|.log|.err`, `report.md`, `report.html`. `lab_match.gd` / `lab_report.gd` are taken from
 `-Dir` when it has them, else from the runner's own folder by absolute path, so the lab works on commits older than the
 Bot Lab (sim mode is then "partial", see below). A fresh worktree is imported once automatically.
@@ -179,18 +186,30 @@ pair: this is a smoke of the lab, **not** a balance verdict.
   nodes run dry or the workers die. That, not combat, is what stops most games. Worth an ai.md look before tuning.
 - `cpu_s` is missing for most of this batch (runner version from before the handle fix); `wall_s` / `real_s` are right.
 
+## Report additions (lab review 2026-09-27)
+- **Arms** table (only when a batch holds several arms: `-Validate`, or mixed sim / tick configs): snapshots per arm,
+  delta vs the reference arm, verdict line per arm ("same game" / "borderline: more seeds" / "different").
+- **Start-up** medians and the navmesh-cache verdict (above).
+- **Next steps**: failed matches / SCRIPT ERROR logs, low N (with the ~98 games per arm rule), kingdoms outside 45-55 %
+  at N >= 20 (-> balance_suggest + run_balance), workerless bots (ai-coder), early-stop calls that disagree with the
+  final winner, "partial" sim, tick-30 bias.
+- Laptop run of the test (2026-09-27, `-- --serial`, 5 other agents): PASS, fire:ice 81 s and nature:shadow 77 s real.
+
 ## Next steps
 1. **Lead**: commit `tools/bot_lab/`, `scripts/core/sim_mode.gd`, the 4 hooks (`main.gd`, `river_system.gd`,
    `neutral_camp.gd`, `epic_beasts.gd`), `tests/test_bot_lab.gd`, this file; run the import (new class `SimMode`); move
    the lab worktree to that tag: the lab then runs its own copies and sim mode is "full".
-2. Validation with more seeds (this was 3-6 per arm under heavy load): `-Pairs fire:shadow,ice:nature -Seeds 1-8 -Limit
-   600 -Early off -Extra "--stall=0"` once with `-Sim off`, once `-Sim on`, once `-Sim on -Tick 30`; compare the
-   `at` snapshots and the 10:00 score winner. Decide then whether tick 30 can be the sweep default.
+2. Validation with more seeds (this was 3-6 per arm under heavy load): now one command, `run_lab.ps1 -Validate` (48
+   matches, ~46 min on a quiet PC). The report's "Arms" table compares the `at` snapshots, the crystals-gathered delta
+   vs `normal` ([ok] within 5 %) and player-side wins. Decide then whether tick 30 can be the sweep default. Run it on a
+   quiet PC (not during a multi-agent session).
 3. Early-stop calibration once `ScoreKeeper` is in the lab: one Round-A batch with `-Early off`, read "Early-stop
    check" in the report, tune `--early-ratio` / `--early-margin` / `--early-hold`.
 4. Faster exit: the process teardown costs 2-10 s per match; a quick `quit()` path (free the level first) could save it.
-5. Start-up (~17 CPU s): `startup_parts` in the JSON (load / build / first bake) says whether caching the first navmesh
-   is worth a main.gd hook.
+5. Start-up (~17 CPU s): the report's new "Start-up" section gives the medians of `startup_parts` (load / build / first
+   bake) and says whether caching the first navmesh is worth a main.gd hook (>= 2 s and >= 3 % of a match). Test batch
+   2026-09-27 (2-min matches, busy laptop): bake 8.9 s of an 18 s start-up. Decide on the first real batch (handoff to
+   systems-coder written).
 6. Determinism (optional, big value for paired A/B tests): the threaded navmesh rebakes are the main source; a
    BuildGrid option to bake synchronously in the lab would make seeds reproducible.
 7. Styles: when step-16 lands (`AIProfile.apply_style` or `Commander.style`), `-Style` works without lab changes.

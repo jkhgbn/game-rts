@@ -385,7 +385,7 @@ func to_markdown() -> String:
 		String(r.get("started", "")), int(r.get("repeats", 1)), int(r.get("seed", 1)), float(r.get("measured_s", 0.0)), VERSION]
 	s += "Scenario: %s.\n\n" % String(r.get("what", ""))
 	if noisy:
-		s += "> **NOISY**: %s. Treat the numbers as an upper bound; re-run on a quiet PC before comparing.\n\n" % "; ".join(noise_reasons)
+		s += "> **NOISY**: %s. Treat the numbers as an upper bound; re-run on a quiet PC before comparing (`run_perf_lab.ps1 -WaitQuietS 600 -Repeats 3` waits for no other Godot and a low other-CPU load before each run).\n\n" % "; ".join(noise_reasons)
 	var delta := ""
 	if not previous.is_empty() and float(previous.get("score", -1.0)) >= 0.0:
 		delta = " (previous %.0f on %s)" % [float(previous["score"]), String(previous.get("commit", "?"))]

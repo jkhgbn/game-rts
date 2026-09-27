@@ -52,3 +52,10 @@ confirm or change in the spec:
   `first_attack_by` 600 / 900 / 480 s - no attack yet: the floor at once; `attack_full_pop` 20 / 24 / 16 - launch anyway with
   this army pop gathered. Reason: seen_strength keeps every tower ever seen plus the enemy wizard and champions for
   memory_seconds, so attack_ratio x seen became unreachable after ~6:00 (Fire bot: 0 attacks in 30 min).
+
+## From lab group C (Data Lab review, 2026-09-27)
+Balance findings (Data Lab B1 / F6, WARN, `docs/data/lab/review-after/scorecard.md` "Fix list by owner"): slot C mixes
+cavalry (blaze_rider 220 HP / 18 dmg, grave_hound 16.3 DPS per 100 crystals = x2.2 the slot median) with supports
+(rime_seer, bloomtender); Fire slot V `ash_hurler` is a 60 HP siege unit where the other kingdoms put a heavy
+(43 EHP per 100 crystals vs 187). Decide whether the slots mean the same role across kingdoms (the AI army mixes assume
+it) and note the answer in the kingdom specs; the Balance Lab can then test the numbers.
