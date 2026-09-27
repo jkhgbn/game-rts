@@ -466,6 +466,20 @@
 		},
 		{
 			"graded": -1.0,
+			"group": "partners",
+			"hint": "the runtime turns puppets another way than the game: see docs/handoff/for-systems-coder.md",
+			"id": "RT2",
+			"improve": "",
+			"name": "runtime actors = cine actors",
+			"rule": "same facing (+Z = model front, as unit.gd) and position at the middle of every shot",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "worst facing 0.0 deg (vessa in S1 (cine 180, runtime -180 deg)), position 0.000 m",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
 			"group": "determinism",
 			"hint": "check the runtime classes (scripts/cinematics/)",
 			"id": "B1",
@@ -482,7 +496,7 @@
 	"counts": {
 		"FAIL": 0,
 		"INFO": 13,
-		"PASS": 21,
+		"PASS": 22,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -533,9 +547,9 @@
 	"quality": 99.6,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 1.8,
+	"seconds": 2.2,
 	"shots": {},
-	"started": "2026-09-27 07:49:54",
+	"started": "2026-09-27 08:33:05",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

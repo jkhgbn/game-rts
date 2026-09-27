@@ -12,6 +12,9 @@ const VERBS := [
 	{"verb": "animatic", "args": "<id>", "text": "WINDOWED: stills with grey proxies (capsules, boxes)", "needs_id": true},
 	{"verb": "play", "args": "<id>", "text": "WINDOWED: live playback (cine preview player: bars, subtitles, fades, cues)", "needs_id": true},
 	{"verb": "record", "args": "<id> [fps=30] [res=1920x804] [dur=]", "text": "WINDOWED Movie Maker: PNG sequence + WAV outside res:// (the ps1 adds --write-movie)", "needs_id": true},
+	{"verb": "perf", "args": "<id>", "text": "WINDOWED: plays it, CPU / GPU ms per shot, draw calls, worst frame", "needs_id": true},
+	{"verb": "diff", "args": "<id> [against=golden]", "text": "WINDOWED: new stills vs the previous run (or the goldens): which shots changed", "needs_id": true},
+	{"verb": "reframe", "args": "<id> dir=<folder> res=WxH", "text": "headless (record calls it): scale + centre-crop a Movie Maker PNG sequence to res", "needs_id": true},
 	{"verb": "demo", "args": "", "text": "the acceptance demo (The Watch-Keep): checks, planted bugs = 4 FAIL, sheet, hash x2"},
 ]
 const KEYS := [
@@ -24,7 +27,15 @@ const KEYS := [
 	{"key": "log", "default": "1", "text": "0 = no history row"},
 	{"key": "out", "default": "", "text": "record: output folder (the ps1 sets it; outside res://)"},
 	{"key": "expect_fail", "default": "", "text": "check: exit 0 only if exactly this many FAILs (planted-bug files)"},
+	{"key": "golden", "default": "0", "text": "stills: 1 = also register the frames as goldens (docs/tools/cine/goldens/<id>/)"},
+	{"key": "against", "default": "previous", "text": "diff: previous (the last stills run) | golden"},
+	{"key": "dir", "default": "", "text": "reframe: the PNG sequence folder (absolute)"},
 ]
+const GOLDEN_DIR := "res://docs/tools/cine/goldens/"
+const VDL_DIFF := "res://tools/visual_diff_lab/vdl_diff.gd"
+const DIFF_TOL := 12          # max RGB channel delta counted as a change (0-255)
+const DIFF_PCT := 0.05        # % of changed pixels above which a frame "changed" (Visual Diff Lab PASS limit)
+const DIFF_MAJOR := 1.0       # % above which a change is a WARN (Visual Diff Lab WARN limit); below = INFO "minor"
 const EXAMPLE := """# data/cinematics/src/two_wizards.cine
 cine two_wizards  title="Two Wizards"  letterbox=2.39  seed=3  length=6..12
 env night  moon_yaw=200
@@ -59,8 +70,12 @@ func _main() -> void:
 			code = await _check(cli, cli.id, cli.verb)
 		"sheet":
 			code = _sheet(cli, cli.id)
-		"stills", "animatic":
-			code = await _stills(cli, cli.id, cli.verb == "animatic" or cli.opt_bool("animatic"))
+		"stills", "animatic", "diff":
+			code = await _stills(cli, cli.id, cli.verb == "animatic" or cli.opt_bool("animatic"), cli.verb == "diff")
+		"perf":
+			code = await _perf(cli, cli.id)
+		"reframe":
+			code = _reframe(cli, cli.id)
 		"play", "record":
 			code = await _play(cli, cli.id, cli.verb == "record")
 		"demo":
@@ -188,6 +203,9 @@ func _runtime_cross_check(p: Dictionary, rep: ToolReport) -> void:
 	await process_frame
 	var worst := 0.0
 	var where := ""
+	var yaw_worst := 0.0
+	var yaw_where := ""
+	var pos_worst := 0.0
 	for i: int in bake.shots.size():
 		if int(bake.shots[i]["camera_mode"]) in [4, 5]:
 			continue
@@ -201,6 +219,18 @@ func _runtime_cross_check(p: Dictionary, rep: ToolReport) -> void:
 		if d > worst:
 			worst = d
 			where = "%s at %.2f s" % [bake.shots[i]["id"], t]
+		# actors: the runtime poses the stage's puppets; their facing must match cine's (+Z = the game's convention)
+		var stage: CineStage = p["stage"]
+		for tag: String in stage.actors:
+			var node: Node3D = stage.actors[tag]
+			var want := float(ev.actor(tag, t)["yaw"])
+			var got := rad_to_deg(node.global_rotation.y)
+			var dy := absf(rad_to_deg(angle_difference(deg_to_rad(want), deg_to_rad(got))))
+			var dp := node.global_position.distance_to(ev.actor(tag, t)["pos"])
+			if dy > yaw_worst:
+				yaw_worst = dy
+				yaw_where = "%s in %s (cine %.0f, runtime %.0f deg)" % [tag, bake.shots[i]["id"], want, got]
+			pos_worst = maxf(pos_worst, dp)
 	if pl.has_method(&"skip"):
 		pl.call(&"skip")
 	pl.queue_free()
@@ -208,6 +238,10 @@ func _runtime_cross_check(p: Dictionary, rep: ToolReport) -> void:
 	rep.check("RT1", "partners", "runtime camera = cine camera", "PASS" if worst <= 0.05 else "WARN",
 		"worst %.3f m%s" % [worst, (" (" + where + ")") if where != "" else ""], "<= 0.05 m at the middle of every shot",
 		"the runtime and cine disagree: note it in docs/handoff/for-systems-coder.md")
+	rep.check("RT2", "partners", "runtime actors = cine actors", "PASS" if yaw_worst <= 5.0 and pos_worst <= 0.05 else "WARN",
+		"worst facing %.1f deg%s, position %.3f m" % [yaw_worst, (" (" + yaw_where + ")") if yaw_where != "" else "", pos_worst],
+		"same facing (+Z = model front, as unit.gd) and position at the middle of every shot",
+		"the runtime turns puppets another way than the game: see docs/handoff/for-systems-coder.md")
 
 
 func _sheet(cli: ToolCli, id: String) -> int:
@@ -230,10 +264,17 @@ func _sheet(cli: ToolCli, id: String) -> int:
 
 
 ## Frames a / b / c of every shot (5 %, 50 %, 95 %) with the band + safe area, and one contact sheet.
-func _stills(cli: ToolCli, id: String, animatic: bool) -> int:
+## `diff`: the same frames, compared with the previous run's (stills/, kept in stills_prev/) or the goldens
+## (docs/tools/cine/goldens/<id>/, registered by `stills golden=1`), with the Visual Diff Lab maths when present.
+func _stills(cli: ToolCli, id: String, animatic: bool, diff: bool = false) -> int:
 	var verb := "animatic" if animatic else "stills"
-	var rep := ToolReport.start(TOOL, verb, id)
+	var rep := ToolReport.start(TOOL, "diff" if diff else verb, id)
 	rep.add_group("stills", "Stills")
+	rep.add_group("diff", "Changes vs %s" % ("the goldens" if cli.opt("against", "previous") == "golden" else "the previous stills run"))
+	var vdl: Script = load(VDL_DIFF) if ResourceLoader.exists(VDL_DIFF) else null
+	var ref_dir := GOLDEN_DIR.path_join(id) if cli.opt("against", "previous") == "golden" else rep.out_dir.path_join(verb)
+	var diff_rows: Dictionary = {}     # shot -> {pct, frames, changed}
+	var strips: Array = []
 	if not ToolCli.is_windowed():
 		rep.check("ST0", "stills", "renderer", "FAIL", "headless", "stills need a window", "run `run_cine.ps1 %s %s` (it opens a window)" % [verb, id])
 		return rep.finish(false)
@@ -248,6 +289,16 @@ func _stills(cli: ToolCli, id: String, animatic: bool) -> int:
 	root.add_child(prev)
 	prev.setup(ev, p["stage"], cap.viewport, false)
 	cap.camera.current = false
+	# freeze the models (idle fidgets, random phases) so two stills runs give the same pixels (diff / goldens)
+	# (CharacterModel seeds its idle phase from the instance id, which changes every run: pin it; no public setter yet,
+	# requested in docs/handoff/for-tech-artist.md)
+	for n: Node3D in (p["stage"] as CineStage).actors.values():
+		for k: StringName in [&"_phase_off", &"_tier_timer"]:
+			if k in n:
+				n.set(k, 0.0)
+	for w: int in 2:
+		await process_frame
+	(p["stage"] as CineStage).process_mode = Node.PROCESS_MODE_DISABLED
 	var only := cli.opt("shot", "")
 	var tiles: Array = []
 	var folder := rep.out_dir.path_join(verb)
@@ -268,13 +319,42 @@ func _stills(cli: ToolCli, id: String, animatic: bool) -> int:
 				var img: Image = await cap.snap(3)
 				if img == null:
 					continue
+				# unstable pixels (flames, particles, shader time): a second capture 4 frames later; they never count as change
+				var img2: Image = await cap.snap(4)
+				var unstable := _unstable(img, img2)
 				ToolSheet.band_overlay(img, bake.doc.letterbox)
 				var line_txt := ""
 				for ln: Dictionary in s["lines"]:
 					if lt >= float(ln["at"]) and lt < float(ln["at"]) + maxf(2.5, 0.9 + 0.055 * String(ln["text"]).length()):
 						line_txt = "%s: %s" % [ln["speaker"], ln["text"]]
 				var fname := "%s_%s_%d.png" % [s["id"], fk[0], sz.x]
+				if diff:
+					var old_path := ref_dir.path_join(fname)
+					var row: Dictionary = diff_rows.get(String(s["id"]), {"pct": 0.0, "frames": 0, "missing": 0, "changed": []})
+					row["frames"] = int(row["frames"]) + 1
+					if not FileAccess.file_exists(old_path):
+						row["missing"] = int(row["missing"]) + 1
+					else:
+						var old := Image.load_from_file(ProjectSettings.globalize_path(old_path))
+						var mask := unstable
+						var old_mask_path := ref_dir.path_join("masks").path_join(fname)
+						if FileAccess.file_exists(old_mask_path):
+							mask = _mask_union(unstable, Image.load_from_file(ProjectSettings.globalize_path(old_mask_path)))
+						var d := _img_diff(vdl, old, img, mask)
+						row["pct"] = maxf(float(row["pct"]), float(d["pct"]))
+						if float(d["pct"]) > DIFF_PCT:
+							(row["changed"] as Array).append(String(fk[0]))
+							strips.append({"img": d["strip"], "label": "%s %s: %.2f %% px changed (was | now | heat)" % [s["id"], fk[0], float(d["pct"])],
+								"color": ToolSheet.WARN_C})
+						DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(rep.out_dir.path_join(verb + "_prev")))
+						if cli.opt("against", "previous") != "golden":
+							old.save_png(rep.out_dir.path_join(verb + "_prev").path_join(fname))
+					diff_rows[String(s["id"])] = row
 				ToolSheet.save_png(img, folder.path_join(fname))
+				ToolSheet.save_png(unstable, folder.path_join("masks").path_join(fname))
+				if cli.opt_bool("golden"):
+					ToolSheet.save_png(img, GOLDEN_DIR.path_join(id).path_join(fname))
+					ToolSheet.save_png(unstable, GOLDEN_DIR.path_join(id).path_join("masks").path_join(fname))
 				n += 1
 				var cam_names := ["static", "dolly", "crane", "orbit", "rail", "follow"]
 				var tile := {"img": img, "label": "%s %s %.1fs %s fov %.0f%s" % [s["id"], fk[0], lt, cam_names[int(s["camera_mode"])],
@@ -292,10 +372,221 @@ func _stills(cli: ToolCli, id: String, animatic: bool) -> int:
 	ToolSheet.save_png(sheet, sheet_path)
 	rep.shots["contact sheet"] = verb + ".png"
 	rep.check("ST1", "stills", "frames", "PASS" if n > 0 else "FAIL", "%d frames in %s/" % [n, verb], "3 per shot per size", "")
+	if cli.opt_bool("golden"):
+		rep.check("ST2", "stills", "goldens", "PASS", "%d frames -> %s" % [n, GOLDEN_DIR.path_join(id).replace("res://", "")],
+			"registered for `diff <id> against=golden`", "")
 	rep.hash_value = ToolCli.hash_of(sheet.get_data())
+	if diff:
+		var changed_shots: Array[String] = []
+		var minor_shots: Array[String] = []
+		var k := 1
+		for sid: String in diff_rows:
+			var r: Dictionary = diff_rows[sid]
+			var st := "PASS"
+			var val := "unchanged (max %.3f %% px)" % float(r["pct"])
+			if int(r["missing"]) > 0:
+				st = "INFO"
+				val = "%d frame(s) had no previous image (first run?)" % int(r["missing"])
+			elif not (r["changed"] as Array).is_empty() and float(r["pct"]) > DIFF_MAJOR:
+				st = "WARN"
+				val = "CHANGED frames %s (max %.2f %% px)" % [",".join(PackedStringArray(r["changed"])), float(r["pct"])]
+				changed_shots.append(sid)
+			elif not (r["changed"] as Array).is_empty():
+				st = "INFO"
+				val = "minor change, frames %s (max %.2f %% px: flame / particle flicker level; look at diff.png if unexpected)" % [
+					",".join(PackedStringArray(r["changed"])), float(r["pct"])]
+				minor_shots.append(sid)
+			rep.check("DF%d" % k, "diff", "shot " + sid, st, val, "<= %.2f %% of stable pixels differ by > %d (WARN above %.1f %%)" % [DIFF_PCT, DIFF_TOL, DIFF_MAJOR],
+				"expected after an edit? then this run is the new reference; else look at diff.png", "", sid)
+			k += 1
+		rep.notes.append("changed shots: %s; compared with %s (%s maths)" % [", ".join(changed_shots) if not changed_shots.is_empty() else "none",
+			ref_dir.replace("res://", ""), "Visual Diff Lab vdl_diff.gd" if vdl != null else "cine's own"])
+		if not strips.is_empty():
+			var dsheet := ToolSheet.grid(strips, 1, 1500, ["WARN  %d changed frame(s) in %s" % [strips.size(), ", ".join(changed_shots)]],
+				"DIFF %s  (previous | now | heatmap)" % id)
+			ToolSheet.save_png(dsheet, rep.out_dir.path_join("diff.png"))
+			rep.shots["diff"] = "diff.png"
+		print("CINE diff %s: changed shots: %s; minor: %s" % [id, ", ".join(changed_shots) if not changed_shots.is_empty() else "none", ", ".join(minor_shots) if not minor_shots.is_empty() else "none"])
 	prev.queue_free()
 	_free(p)
 	cap.free_viewport()
+	return rep.finish(cli.opt("log", "1") != "0")
+
+
+## {pct, strip}: % of pixels whose max RGB delta > DIFF_TOL, and a was | now | heat strip (Visual Diff Lab when present).
+## L8 mask (255 = unstable) of the pixels that differ between two captures of the same frozen pose, grown by 3 px.
+func _unstable(a: Image, b: Image) -> Image:
+	var ia := a.duplicate() as Image
+	ia.convert(Image.FORMAT_RGBA8)
+	var ib := (b if b != null else a).duplicate() as Image
+	ib.convert(Image.FORMAT_RGBA8)
+	var w := ia.get_width()
+	var h := ia.get_height()
+	var m := Image.create(w, h, false, Image.FORMAT_L8)
+	if ib.get_size() != ia.get_size():
+		return m
+	var da := ia.get_data()
+	var db := ib.get_data()
+	for p: int in w * h:
+		var o := p * 4
+		if maxi(maxi(absi(da[o] - db[o]), absi(da[o + 1] - db[o + 1])), absi(da[o + 2] - db[o + 2])) > DIFF_TOL:
+			m.fill_rect(Rect2i(p % w - 3, p / w - 3, 7, 7).intersection(Rect2i(0, 0, w, h)), Color.WHITE)
+	return m
+
+
+func _mask_union(a: Image, b: Image) -> Image:
+	if b == null or a == null or a.get_size() != b.get_size():
+		return a
+	var bb := b.duplicate() as Image
+	bb.convert(Image.FORMAT_L8)
+	var da := a.get_data()
+	var db := bb.get_data()
+	for i: int in da.size():
+		if db[i] > da[i]:
+			da[i] = db[i]
+	return Image.create_from_data(a.get_width(), a.get_height(), false, Image.FORMAT_L8, da)
+
+
+func _img_diff(vdl: Script, old: Image, now: Image, mask: Image = null) -> Dictionary:
+	if old == null or now == null:
+		return {"pct": 100.0, "strip": now}
+	var a := old.duplicate() as Image
+	a.convert(Image.FORMAT_RGBA8)
+	var b := now.duplicate() as Image
+	b.convert(Image.FORMAT_RGBA8)
+	if a.get_size() != b.get_size():
+		return {"pct": 100.0, "strip": b}
+	if vdl != null:
+		var r: Dictionary = vdl.call(&"diff", a, b, DIFF_TOL, mask)
+		if bool(r.get("ok", false)) or String(r.get("error", "")) == "":
+			var heat: Image = vdl.call(&"heatmap", b, r, mask)
+			return {"pct": float(r["changed_pct"]), "strip": vdl.call(&"compare_strip", a, b, heat, 0.34)}
+	var da := a.get_data()
+	var db := b.get_data()
+	var changed := 0
+	var heat2 := b.duplicate() as Image
+	var dm := mask.get_data() if mask != null and mask.get_size() == a.get_size() else PackedByteArray()
+	for p: int in a.get_width() * a.get_height():
+		if not dm.is_empty() and dm[p] > 127:
+			continue
+		var o := p * 4
+		var d := maxi(maxi(absi(da[o] - db[o]), absi(da[o + 1] - db[o + 1])), absi(da[o + 2] - db[o + 2]))
+		if d > DIFF_TOL:
+			changed += 1
+			heat2.set_pixel(p % a.get_width(), p / a.get_width(), Color(1, 0.1, 0.6))
+	var strip := ToolSheet.new_image(a.get_width() * 3 / 3 + 8, a.get_height() / 3)
+	var w3 := a.get_width() / 3
+	for i: int in 3:
+		var src: Image = [a, b, heat2][i]
+		var f := ToolSheet.fit(src, w3, a.get_height() / 3)
+		strip.blit_rect(f, Rect2i(Vector2i.ZERO, f.get_size()), Vector2i(i * w3, 0))
+	return {"pct": 100.0 * changed / float(a.get_width() * a.get_height()), "strip": strip}
+
+
+## Plays the movie in the window and measures every frame: CPU frame ms (wall), GPU ms (viewport measure), draw calls,
+## grouped per shot. Numbers depend on the machine and on other Godot runs: read them as a comparison, not a verdict.
+func _perf(cli: ToolCli, id: String) -> int:
+	var rep := ToolReport.start(TOOL, "perf", id)
+	rep.add_group("perf", "Frame cost per shot (60 fps = 16.7 ms)")
+	if not ToolCli.is_windowed():
+		rep.check("PF0", "perf", "renderer", "FAIL", "headless", "perf needs a window", "run it through run_cine.ps1 perf <id>")
+		return rep.finish(false)
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	var vp_rid := root.get_viewport_rid()
+	RenderingServer.viewport_set_measure_render_time(vp_rid, true)
+	var p := pipeline(_src(cli, id), root)
+	var ev: CineEval = p["ev"]
+	var prev := CinePreview.new()
+	root.add_child(prev)
+	prev.setup(ev, p["stage"], root, true)
+	prev.letterbox = (p["doc"] as CineDoc).letterbox
+	prev.head = 0.0
+	prev.start()
+	for w: int in 10:   # warm-up (pipelines compile)
+		await process_frame
+	prev.start()
+	var per: Array[Dictionary] = []
+	for s: Dictionary in ev.shots:
+		per.append({"n": 0, "cpu": 0.0, "gpu": 0.0, "worst": 0.0, "worst_t": 0.0, "draws": 0.0, "max_draws": 0})
+	var last := Time.get_ticks_usec()
+	while prev.playing and prev.t < ev.total:
+		await process_frame
+		var now := Time.get_ticks_usec()
+		var ms := float(now - last) / 1000.0
+		last = now
+		var i: int = ev.shot_at(prev.t)[0]
+		var r: Dictionary = per[i]
+		var draws := int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+		r["n"] = int(r["n"]) + 1
+		r["cpu"] = float(r["cpu"]) + ms
+		r["gpu"] = float(r["gpu"]) + RenderingServer.viewport_get_measured_render_time_gpu(vp_rid)
+		r["draws"] = float(r["draws"]) + draws
+		r["max_draws"] = maxi(int(r["max_draws"]), draws)
+		if ms > float(r["worst"]):
+			r["worst"] = ms
+			r["worst_t"] = prev.t
+	var all_worst := 0.0
+	var where := ""
+	for i2: int in per.size():
+		var r2: Dictionary = per[i2]
+		var n := maxi(1, int(r2["n"]))
+		var cpu := float(r2["cpu"]) / n
+		var st := "PASS" if cpu <= 16.7 else "WARN"
+		rep.add("PF%d" % (i2 + 1), "perf", "shot %s" % ev.shots[i2]["id"], st,
+			"%.1f ms avg (GPU %.1f), worst %.1f ms at %.1f s, draws avg %.0f max %d, %d frames" % [cpu, float(r2["gpu"]) / n,
+			float(r2["worst"]), float(r2["worst_t"]), float(r2["draws"]) / n, int(r2["max_draws"]), int(r2["n"])],
+			"avg <= 16.7 ms (60 fps)", "fewer props / cheaper set, or check other Godot runs slowing the PC",
+			ToolReport.grade(cpu, 33.0, 8.0), "trim the heaviest shot", String(ev.shots[i2]["id"]))
+		if float(r2["worst"]) > all_worst:
+			all_worst = float(r2["worst"])
+			where = String(ev.shots[i2]["id"])
+	rep.check("PF0", "perf", "worst frame", "INFO", "%.1f ms in %s" % [all_worst, where], "noisy: other Godot runs share the PC")
+	rep.notes.append("window %s, vsync off, --fixed-fps pacing; GPU = viewport measured render time" % str(root.size))
+	prev.queue_free()
+	_free(p)
+	return rep.finish(cli.opt("log", "1") != "0")
+
+
+## Movie Maker writes frames at the project's viewport size (display/window/size/viewport_*: 1600x900 here), whatever
+## the window. `record` renders at that size and this pass scales + centre-crops every PNG to `res` (1920x804 = the
+## 2.39 band exactly: the bars are cropped away, not drawn). In place, deterministic.
+func _reframe(cli: ToolCli, id: String) -> int:
+	var rep := ToolReport.start(TOOL, "reframe", id)
+	rep.add_group("record", "Recording")
+	var dir := cli.opt("dir", "")
+	var target := cli.opt_size("res", Vector2i(1920, 804))
+	var d := DirAccess.open(dir)
+	if dir == "" or d == null:
+		rep.check("RF0", "record", "folder", "FAIL", dir, "an existing folder", "run_cine.ps1 record sets dir=")
+		return rep.finish(false)
+	var files: Array[String] = []
+	for f: String in d.get_files():
+		if f.begins_with(id) and f.get_extension() == "png":
+			files.append(f)
+	files.sort()
+	var src_size := Vector2i.ZERO
+	var done := 0
+	for f2: String in files:
+		var img := Image.load_from_file(dir.path_join(f2))
+		if img == null:
+			continue
+		src_size = img.get_size()
+		if src_size == target:
+			done += 1
+			continue
+		var k := maxf(float(target.x) / src_size.x, float(target.y) / src_size.y)
+		var sw := int(ceil(src_size.x * k))
+		var sh := int(ceil(src_size.y * k))
+		img.resize(sw, sh, Image.INTERPOLATE_CUBIC)
+		var out := img.get_region(Rect2i((sw - target.x) / 2, (sh - target.y) / 2, target.x, target.y))
+		out.save_png(dir.path_join(f2))
+		done += 1
+	var fps := cli.opt_int("fps", 30)
+	rep.check("RF1", "record", "frames", "PASS" if done > 0 and done == files.size() else "FAIL",
+		"%d PNG, Movie Maker size %dx%d -> %dx%d (scale %.3f + centre crop), %d fps = %.1f s" % [done, src_size.x, src_size.y, target.x, target.y,
+		maxf(float(target.x) / maxi(1, src_size.x), float(target.y) / maxi(1, src_size.y)), fps, float(done) / maxf(1.0, fps)],
+		"every frame at res=", "check the folder")
+	rep.notes.append("folder %s" % dir)
 	return rep.finish(cli.opt("log", "1") != "0")
 
 
@@ -312,6 +603,10 @@ func _play(cli: ToolCli, id: String, record: bool) -> int:
 	root.add_child(prev)
 	prev.setup(ev, p["stage"], root, true)
 	prev.letterbox = (p["doc"] as CineDoc).letterbox
+	var target := cli.opt_size("res", Vector2i(1920, 804))
+	var crop_band := record and prev.letterbox > 0.0 and absf(float(target.x) / target.y - prev.letterbox) < 0.03
+	if crop_band:
+		prev.crop_band = true   # the reframe pass crops the 2.39 band: no bars drawn, subtitles inside the band
 	var dur := cli.opt_float("dur", 0.0)
 	var frames := 0
 	var fps := Engine.get_frames_per_second()
@@ -334,6 +629,11 @@ func _play(cli: ToolCli, id: String, record: bool) -> int:
 	if record:
 		rep.check("P2", "play", "movie", "PASS" if mpath != "" else "FAIL", mpath if mpath != "" else "not under --write-movie",
 			"Movie Maker PNG sequence + WAV outside res://", "use run_cine.ps1 record <id> (it adds --write-movie)")
+		var ms := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1600)),
+			int(ProjectSettings.get_setting("display/window/size/viewport_height", 900)))
+		rep.check("P3", "play", "size / fps", "INFO", "Movie Maker frame %dx%d (project viewport size), %d fps; reframed to %dx%d by the reframe pass%s" % [
+			ms.x, ms.y, cli.opt_int("fps", 30), target.x, target.y,
+			" (2.39 band crop, no bars drawn)" if crop_band else " (bars drawn, then scaled)"], "res= and fps= honoured")
 		rep.notes.append("Movie Maker writes <name>00000000.png ... + <name>.wav; convert to video only with the user's OK (no ffmpeg here)")
 	rep.notes.append("player: cine preview (CinePreview)%s" % ("; tool 1 CinematicPlayer present" if ResourceLoader.exists("res://scripts/cinematics/cinematic_player.gd") else ""))
 	prev.queue_free()

@@ -9,3 +9,11 @@
   `speaker "vessa" not cast` for `at 0.5 line vessa "..."`, although R0 resolves `vessa` as an actor from the set's
   `Puppets`. Request: count set puppets as cast speakers. Repro: `run_cine.ps1 check forge_watch_keep_probe
   src=res://docs/tools/world_forge/cine/forge_watch_keep_probe.cine` (everything else PASS, RT1 / RT2 0.000).
+## From tool 3 (Lens), 2026-09-27
+- `cam=lens` can be solved at bake time without any file: `LensSolver.solve_words(words, subjects, {"res": Vector2i(1600, 900), "band": 2.39, "fov": fov})`
+  with `subjects = {tag: LensSolver.subject_of(actor_model, yaw_deg)}` (or `LensSolver.subject(feet_pos, yaw_deg, height)` without a
+  model). Use `cam["a"]` / `cam["b"]` (`pos`, `look`, `fov`) as a DOLLY; on `cam["ok"] == false` print `cam["errors"]` (message + hint).
+  Guard: `ResourceLoader.exists("res://tools/lens/lens_solver.gd")`. Details: `tools/lens/README.md` "Library use". `lens_spec=` keeps working
+  (verified: `run_lens.ps1 cinecheck lens_demo` PASS on `tools/lens/specs/lens_demo.cine`).
+- Heads-up (not yours to fix, FYI for tools/common): `tools/art_lab/lab_report.gd` changed at ~08:31 and `ToolReport.grade()` (documented in
+  tools/common/README.md section 3) no longer resolves; `cine_checks.gd:144`, `cine_main.gd:539` call it. Lens now uses a local copy.

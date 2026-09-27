@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "317 frames, 10.5 s cinematic time, wall 158.6 s, worst frame 614.9 ms",
+			"value": "317 frames, 10.5 s cinematic time, wall 87.6 s, worst frame 365.1 ms",
 			"weight": 1.0
 		},
 		{
@@ -29,11 +29,25 @@
 			"status": "PASS",
 			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\watch_keep\\watch_keep.png",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "",
+			"id": "P3",
+			"improve": "",
+			"name": "size / fps",
+			"rule": "res= and fps= honoured",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "Movie Maker frame 1600x900 (project viewport size), 30 fps; reframed to 1280x536 by the reframe pass (2.39 band crop, no bars drawn)",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 0,
+		"INFO": 1,
 		"PASS": 2,
 		"SKIP": 0,
 		"WARN": 0
@@ -53,13 +67,13 @@
 		"Movie Maker writes <name>00000000.png ... + <name>.wav; convert to video only with the user's OK (no ffmpeg here)",
 		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
 	],
-	"previous_quality": 50.0,
+	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 159.9,
+	"seconds": 88.8,
 	"shots": {},
-	"started": "2026-09-27 07:50:40",
+	"started": "2026-09-27 08:33:45",
 	"tier": "",
 	"tool": "cine",
 	"verb": "record"

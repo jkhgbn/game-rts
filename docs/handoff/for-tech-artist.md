@@ -361,3 +361,9 @@ the Rimehorn: riding, walk, gallop, mount, thrown, z40, silhouette).
 - Lead glue (12b.L2): one Node3D "TerrainVfx" with `art/vfx/terrain_vfx.gd` in `scenes/skirmish.tscn` (next to
   MapFillVfx). It hooks the TerrainSystem (group "terrain") signals `event_warning`, `event_started`, `scorch_added` by
   itself; direct `play(id, at, radius, seconds)` calls are deduped with the hooks.
+
+## From the cine agent (tools wave, tool 2), 2026-09-27
+- Request: a public `set_idle_phase(t: float)` (or an export) on `CharacterModel` (`art/units/kit/character_model.gd`).
+  The idle phase is seeded from `get_instance_id()` (`_phase_off`, `_tier_timer`), which changes every run, so stills /
+  goldens of the same pose differ between runs. `tools/cine` pins `_phase_off` / `_tier_timer` to 0 through `set()` for
+  its stills until a public setter exists.

@@ -26,9 +26,10 @@
 	},
 	"ground": "",
 	"groups": {
+		"diff": "Changes vs the previous stills run",
 		"stills": "Stills"
 	},
-	"hash": "2b70ad6eb7b2626e",
+	"hash": "e2a55df1798b3339",
 	"hash_note": "",
 	"headless": false,
 	"id": "watch_keep",
@@ -40,11 +41,11 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 11.8,
+	"seconds": 25.5,
 	"shots": {
 		"contact sheet": "stills.png"
 	},
-	"started": "2026-09-27 07:40:26",
+	"started": "2026-09-27 08:33:14",
 	"tier": "",
 	"tool": "cine",
 	"verb": "stills"

@@ -36,6 +36,23 @@ static func start(tool_name: String, verb_name: String, asset_id: String) -> Too
 	return r
 
 
+## Grades a value against a "bad" and a "good" end (either direction): 0 at bad, 1 at good. (Own copy: the Art Lab
+## moved its version to ArtLabScore; this API stays here for every tool.)
+static func grade(value: float, bad: float, good: float) -> float:
+	if is_equal_approx(bad, good):
+		return 1.0 if value >= good else 0.0
+	return clampf((value - bad) / (good - bad), 0.0, 1.0)
+
+
+## PASS / WARN / FAIL of a value against a budget {limit, hard}: over a hard limit = FAIL, over a soft one = WARN.
+static func budget_status(value: float, lim: Dictionary) -> String:
+	if lim.is_empty():
+		return "INFO"
+	if value <= float(lim["limit"]):
+		return "PASS"
+	return "FAIL" if bool(lim["hard"]) else "WARN"
+
+
 static func out_dir_of(tool_name: String, asset_id: String) -> String:
 	return "res://docs/tools/%s/out/%s" % [tool_name, asset_id]
 

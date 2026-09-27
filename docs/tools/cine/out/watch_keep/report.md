@@ -1,10 +1,10 @@
 # cine build: watch_keep
 
-2026-09-27 07:49:54 - `tools/cine/run_cine.ps1 build watch_keep` - hash `af7e0dbbd2bb85ee` (2 runs identical)
+2026-09-27 08:33:05 - `tools/cine/run_cine.ps1 build watch_keep` - hash `af7e0dbbd2bb85ee` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 21 PASS, 13 info, 0 skipped, 2 s
+0 FAIL, 0 WARN, 22 PASS, 13 info, 0 skipped, 2 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -76,6 +76,7 @@
 | T4 | tool 5 Motion Lab | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | T5 | tool 7 VFX Composer | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | RT1 | runtime camera = cine camera | PASS 100 | worst 0.000 m | <= 0.05 m at the middle of every shot |  |
+| RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (vessa in S1 (cine 180, runtime -180 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
 - source `data/cinematics/src/watch_keep.cine` (40 lines), 46.0 s, 8 shots, stage: cine-built (props / cast)

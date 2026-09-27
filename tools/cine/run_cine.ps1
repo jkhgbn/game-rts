@@ -7,6 +7,8 @@
 #   .\tools\cine\run_cine.ps1 animatic watch_keep         # opens a window, grey proxies
 #   .\tools\cine\run_cine.ps1 play watch_keep             # opens a window, live
 #   .\tools\cine\run_cine.ps1 record watch_keep [fps=30] [res=1920x804] [dur=10]   # Movie Maker PNG + WAV
+#   .\tools\cine\run_cine.ps1 perf watch_keep             # opens a window: ms / draw calls per shot
+#   .\tools\cine\run_cine.ps1 diff watch_keep [against=golden]   # opens a window: which shots changed (stills golden=1 registers goldens)
 #   .\tools\cine\run_cine.ps1 demo                        # the acceptance demo (headless + stills + 10 s record)
 # Outputs: docs/tools/cine/out/<id>/ (report.md, report.json, timing.png, stills.png ...), docs/tools/cine/history.md.
 # Recordings: $env:USERPROFILE\Videos\four-wizards-rec\<id>\<id>00000000.png ... + <id>.wav (outside res://).
@@ -21,7 +23,7 @@ if ($Id -match "=") { $Rest = @($Id) + $Rest; $Id = "" }
 function Opt([string]$k, [string]$d) { foreach ($r in $Rest) { if ($r -like "$k=*") { return $r.Substring($k.Length + 1) } }; return $d }
 
 switch ($Verb) {
-	{ $_ -in @("stills", "animatic", "play") } {
+	{ $_ -in @("stills", "animatic", "play", "perf", "diff") } {
 		$res = (Opt "res" "1600x900").Split(",")[0]
 		& $common -Script $script -Windowed -QuitAfter 36000 -GodotArgs @("--windowed", "--resolution", $res) -ToolArgs (@($Verb, $Id) + $Rest) -Quiet
 		exit $LASTEXITCODE
@@ -33,8 +35,12 @@ switch ($Verb) {
 		New-Item -ItemType Directory -Force $out | Out-Null
 		Get-ChildItem $out -Filter "$Id*" -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
 		$movie = Join-Path $out "$Id.png"
-		& $common -Script $script -Windowed -Fps $fps -QuitAfter ($fps * 130) -GodotArgs @("--windowed", "--resolution", $res, "--write-movie", $movie) -ToolArgs (@($Verb, $Id) + $Rest) -Quiet
+		$pass = @($Rest | Where-Object { $_ -notlike "res=*" -and $_ -notlike "fps=*" }) + @("res=$res", "fps=$fps")
+		# Movie Maker frames = the project viewport size (1600x900); the window keeps it (no --resolution: it would stretch)
+		& $common -Script $script -Windowed -Fps $fps -QuitAfter ($fps * 130) -GodotArgs @("--windowed", "--write-movie", $movie) -ToolArgs (@($Verb, $Id) + $pass) -Quiet
 		$code = $LASTEXITCODE
+		& $common -Script $script -QuitAfter 600 -ToolArgs @("reframe", $Id, "dir=$out", "res=$res", "fps=$fps") -Quiet
+		if ($LASTEXITCODE -ne 0) { $code = 1 }
 		$pngs = @(Get-ChildItem $out -Filter "$Id*.png" -ErrorAction SilentlyContinue)
 		$wav = Join-Path $out "$Id.wav"
 		$wavok = Test-Path $wav

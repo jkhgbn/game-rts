@@ -14,6 +14,8 @@ var t := 0.0
 var playing := false
 var letterbox := 2.39
 var subtitles := true
+## Recording for a band crop (reframe to 2.39): bars not drawn, subtitles kept inside the band so the crop keeps them.
+var crop_band := false
 var tail := 0.5
 var head := 0.5
 var _fired: Dictionary = {}
@@ -194,6 +196,8 @@ func _update_overlay(tt: float) -> void:
 	_bars[0].size = Vector2(vs.x, bar)
 	_bars[1].position = Vector2(0, vs.y - bar)
 	_bars[1].size = Vector2(vs.x, bar)
+	_bars[0].visible = not crop_band
+	_bars[1].visible = not crop_band
 	_fade.position = Vector2.ZERO
 	_fade.size = vs
 	# fades: shot transitions (half out, half in) + fade actions
@@ -240,7 +244,7 @@ func _update_overlay(tt: float) -> void:
 				_spk.text = String(ln["speaker"]).capitalize()
 	var w := vs.x * 0.7
 	_sub.size = Vector2(w, fs * 3)
-	_sub.position = Vector2((vs.x - w) * 0.5, vs.y - bar + 8.0 if bar >= 80.0 else vs.y - bar - fs * 3.2)
+	_sub.position = Vector2((vs.x - w) * 0.5, vs.y - bar + 8.0 if bar >= 80.0 and not crop_band else vs.y - bar - fs * 3.2)
 	_spk.size = Vector2(w, fs)
 	_spk.position = _sub.position - Vector2(0, fs * 1.1)
 	_spk.add_theme_color_override(&"font_color", Color(1.0, 0.75, 0.45))

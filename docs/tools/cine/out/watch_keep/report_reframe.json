@@ -1,0 +1,51 @@
+{
+	"asset": "watch_keep",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "record",
+			"hint": "check the folder",
+			"id": "RF1",
+			"improve": "",
+			"name": "frames",
+			"rule": "every frame at res=",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "317 PNG, Movie Maker size 1600x900 -> 1280x536 (scale 0.800 + centre crop), 30 fps = 10.6 s",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 1,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"record": "Recording"
+	},
+	"hash": "",
+	"hash_note": "",
+	"headless": false,
+	"id": "watch_keep",
+	"improve_next": [],
+	"kind": "reframe",
+	"kingdom": "",
+	"notes": [
+		"folder C:\\Users\\elzzo\\Videos\\four-wizards-rec\\watch_keep"
+	],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 138.0,
+	"shots": {},
+	"started": "2026-09-27 08:35:19",
+	"tier": "",
+	"tool": "cine",
+	"verb": "reframe"
+}

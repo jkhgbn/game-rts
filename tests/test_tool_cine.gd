@@ -83,6 +83,7 @@ func _test_report() -> void:
 	var dir := "user://tool_cine_test"
 	r.write(dir)
 	_ok(FileAccess.file_exists(dir.path_join("report.md")) and FileAccess.file_exists(dir.path_join("report.json")), "report files")
+	_ok(is_equal_approx(ToolReport.grade(5.0, 0.0, 10.0), 0.5) and ToolReport.budget_status(3.0, {"limit": 2.0, "hard": true}) == "FAIL", "grade / budget_status")
 	_ok(r.problem_lines().size() == 1 and r.problem_lines()[0].begins_with("FAIL B"), "problem lines")
 
 

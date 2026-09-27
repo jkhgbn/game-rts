@@ -12,10 +12,23 @@ cd C:\Users\elzzo\Documents\four-wizards-rts
 .\tools\cine\run_cine.ps1 sheet my_scene            # headless timing sheet PNG
 .\tools\cine\run_cine.ps1 build my_scene            # check, then bake data/cinematics/my_scene.tres (only if 0 FAIL)
 ```
-Also: `animatic <id>` (stills with grey capsules / boxes), `play <id>` (live window), `record <id> [fps=30]
-[res=1920x804] [dur=10]` (Godot Movie Maker: PNG sequence + WAV in `%USERPROFILE%\Videos\four-wizards-rec\<id>\`, never
-inside the project, no ffmpeg), `demo` (the acceptance demo). Options: `shot=S3` (stills of one shot),
-`res=1600x900,3440x1440`, `src=<path.cine>`, `animatic=1`, `log=0`, `expect_fail=N`.
+Also:
+- `animatic <id>`: stills with grey capsules / boxes. `play <id>`: live window.
+- `record <id> [fps=30] [res=1920x804] [dur=10]`: Godot Movie Maker PNG sequence + WAV in
+  `%USERPROFILE%\Videos\four-wizards-rec\<id>\` (never inside the project, no ffmpeg). Movie Maker always renders at the
+  project viewport size (1600x900); a headless `reframe` pass then scales + centre-crops every PNG to `res=`. With a
+  2.39 `res` (1920x804) the crop IS the letterbox band: no bars are drawn, subtitles stay inside it. The record report
+  (`report_record.md`, `report_reframe.md`) says the size / fps used.
+- `perf <id>`: window, plays it, CPU ms / GPU ms / draw calls per shot + worst frame (`report_perf.md`). Noisy when
+  other Godot runs share the PC: compare runs, do not judge one.
+- `diff <id> [against=golden]`: new stills vs the previous `stills` run (kept in `stills_prev/`) or vs the goldens.
+  Per shot: PASS unchanged, INFO minor (< 1 % px, flame / particle flicker), WARN changed; `diff.png` = was | now |
+  heatmap of the changed frames (Visual Diff Lab maths). Models are frozen and animated pixels masked (2 captures per
+  frame) so an unchanged movie diffs clean.
+- `stills <id> golden=1`: also registers the frames as goldens in `docs/tools/cine/goldens/<id>/` (Visual Diff hook:
+  after a model / set change, `diff <id> against=golden` says which shots of the movie changed).
+- `demo`: the acceptance demo. Options: `shot=S3` (stills of one shot), `res=1600x900,3440x1440`, `src=<path.cine>`,
+  `animatic=1`, `log=0`, `expect_fail=N`.
 
 - Source: `data/cinematics/src/<id>.cine`. Output: `docs/tools/cine/out/<id>/` (`report.md` / `report.json` from
   check / build, `report_<verb>.*`, `timing.png`, `stills.png`, `stills/<shot>_<a|b|c>_<W>.png`, `animatic.png`),
@@ -100,7 +113,7 @@ Actions (indented `at <seconds> <action> ...`, time from the shot start):
 | continuity | at each cut, for every pair of actors on screen in both shots: camera on the same side of the line between them (180-degree rule, FAIL); jump cut (camera moved < 10 %, turned < 10 deg, same fov) WARN. Fades reset the axis |
 | subtitles | <= 2 lines x 48 chars, <= 17 chars/s (WARN to 22, FAIL above), >= 1 s on screen, speaker cast |
 | determinism | 2 fresh runs (parse + stage + bake + every frame at 60 fps) hash-identical; the hash is in the report |
-| partners | which tools are present; the runtime player's camera (seek + `debug_state()`) = cine's camera within 5 cm |
+| partners | which tools are present; the runtime player's camera (seek + `debug_state()`) = cine's camera within 5 cm; the runtime's puppet facing / position = cine's (5 deg, 5 cm) |
 
 ## 5. Tips
 - Keep every camera on ONE side of the line between the two main actors (write it in a comment at the top).
