@@ -23,7 +23,7 @@ param(
 	[int]$TailLines = 15        # log lines quoted per failed test in the scorecard and the briefs
 )
 $ErrorActionPreference = "Stop"
-$LabVersion = "1.1"
+$LabVersion = "1.2"
 $LabRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $Root = $LabRoot
 if ($ProjectDir) {
@@ -56,6 +56,22 @@ function Get-Cap([string]$name) {
 	return $DefaultCap
 }
 
+# Verdict mode (lab v1.2). Default: any line starting with FAIL fails the test. Tests that print planted / inner
+# "FAIL ..." lines on purpose (lab-on-lab tests) use "last": only the LAST PASS / FAIL line decides (so the test's
+# own final "PASS <id>" / "FAIL <id>: ..." line wins). Exit code, script errors and crashes still fail such tests,
+# and the ignored inner FAIL lines are counted in the scorecard. Declared in the test's first 20 lines:
+# "# error_lab: verdict=last", or listed here (so an older CI copy of the test is judged the same way).
+$VerdictLast = @("test_art_lab", "test_art_lab_calibration")
+function Get-VerdictMode([string]$name) {
+	$f = Join-Path $Root "tests\$name.gd"
+	if (Test-Path $f) {
+		$decl = @(Get-Content $f -TotalCount 20 -ErrorAction SilentlyContinue | Where-Object { $_ -match '^#\s*error_lab:.*verdict\s*=\s*(last|any)\b' })
+		if ($decl.Count -gt 0 -and $decl[0] -match 'verdict\s*=\s*(last|any)\b') { return $Matches[1] }
+	}
+	if ($VerdictLast -contains $name) { return "last" }
+	return "any"
+}
+
 # ---------- classification ----------
 $CollectRx = 'SCRIPT ERROR|ERROR:|Parse Error|Invalid call|Nonexistent function|freed object|leaked'
 $FailRx = 'SCRIPT ERROR|Parse Error|Invalid call|Nonexistent function|freed object|Failed to load script'
@@ -65,7 +81,7 @@ $FrameRx = '^\s*(at:|\[\d+\]|GDScript backtrace)'
 $CrashRx = 'Program crashed with signal|CrashHandlerException|Dumping the backtrace|Unhandled exception'
 
 # Expected lines from intended negative checks, per test: never collected (no ^ anchor: Godot may prefix the line).
-$ExpectedRx = @{ "test_art_lab" = 'ART LAB ERROR: scene not found: res://nope\.tscn' }
+$ExpectedRx = @{ "test_art_lab" = 'ART LAB ERROR: (scene not found: res://nope\.tscn|sweep=bogus:)' }
 
 # Windows PowerShell 5.1 wraps the FIRST stderr line of a native exe it runs (tools/godot_run.ps1 runs Godot) as an
 # error record: "Godot_...exe : ERROR: x" + "At ...godot_run.ps1:20 char:2" + "+ & $g @args" + CategoryInfo lines.
@@ -243,6 +259,20 @@ foreach ($lf in $logFiles) {
 	$failLines = @($lines | Where-Object { $_ -match '^\s*FAIL\b' } | ForEach-Object { $_.Trim() })
 	if (-not $testStatus.ContainsKey($test)) { $testStatus[$test] = @{ exit = $null; seconds = $null; cap = $null; note = "" } }
 	$st = $testStatus[$test]
+	$st.verdict = Get-VerdictMode $test
+	$st.inner_fail = 0
+	if ($st.verdict -eq "last") {
+		$verdicts = @($lines | Where-Object { $_ -match '^\s*(PASS|FAIL)\b' } | ForEach-Object { $_.Trim() })
+		if ($verdicts.Count -gt 0 -and $verdicts[-1] -match '^PASS\b') {
+			$passLine = $true
+			$st.inner_fail = $failLines.Count
+			$failLines = @()
+		} elseif ($verdicts.Count -gt 0) {
+			$passLine = $false
+			$failLines = @(@($verdicts[-1]) + @($failLines | Where-Object { $_ -ne $verdicts[-1] }))   # the deciding line first
+		} else { $passLine = $false }
+		if ($st.inner_fail -gt 0) { $st.note = (($st.note, "verdict=last: $($st.inner_fail) inner FAIL line(s) ignored") -ne "") -join "; " }
+	}
 	$st.pass_line = $passLine
 	$st.fail_line = ($failLines.Count -gt 0)
 	$st.fail_lines = @($failLines | Select-Object -First 3)
@@ -335,7 +365,7 @@ foreach ($t in ($testStatus.Keys | Sort-Object)) {
 		else { $kind = "cap reached"; $hint = "Exit 0 but no PASS / FAIL line: the test did not finish within --quit-after $($s.cap) frames. If it is only slow, raise its cap (`$Caps in tools/error_lab/error_lab.ps1, or '# error_lab: quit-after=N' in the test); else the tail shows where it stalls." }
 	}
 	$testRows += [pscustomobject]@{ test = $t; ok = $ok; why = $why; kind = $kind; hint = $hint; exit = $s.exit; seconds = $s.seconds; cap = $s.cap
-		owner = (Get-TestOwner $t); fail_lines = @($s.fail_lines | Where-Object { $null -ne $_ }); tail = @($s.tail | Where-Object { $null -ne $_ }); log = $s.log }
+		owner = (Get-TestOwner $t); verdict = $s.verdict; inner_fail = $s.inner_fail; fail_lines = @($s.fail_lines | Where-Object { $null -ne $_ }); tail = @($s.tail | Where-Object { $null -ne $_ }); log = $s.log }
 }
 $failedTests = @($testRows | Where-Object { -not $_.ok })
 
@@ -470,7 +500,7 @@ if ($groups.Count -eq 0) { $md.Add(""); $md.Add("No briefs: nothing to fix.") }
 $json = [pscustomobject]@{
 	lab = "error_lab"; version = $LabVersion; run = $Run; time = $now; project = $Root; result = $result; score = $score
 	unique_fail = $uF; unique_warn = $uW; info = $uI; new = $uNew; previous_run = $(if ($prev) { $prev.run } else { "" })
-	tests = @($testRows | Select-Object test, ok, why, kind, hint, exit, seconds, cap, owner, fail_lines, tail, log)
+	tests = @($testRows | Select-Object test, ok, why, kind, hint, exit, seconds, cap, owner, verdict, inner_fail, fail_lines, tail, log)
 	failed_tests = @($failedTests | ForEach-Object { $_.test })
 	owners = @($ownerOrder | ForEach-Object { [pscustomobject]@{ owner = $_; fail = @($groups[$_].errors | Where-Object { $_.severity -eq "FAIL" }).Count
 		warn = @($groups[$_].errors | Where-Object { $_.severity -eq "WARN" }).Count; failed_tests = @($groups[$_].tests | ForEach-Object { $_.test }) } })

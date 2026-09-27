@@ -486,7 +486,7 @@ func _test_market_card_and_panel() -> void:
 	_expect([card.buttons[4].text, card.buttons[5].text, card.buttons[6].text, card.buttons[7].text] == ["HF", "MC", "SG", "LW"],
 			"route button letters %s" % [[card.buttons[4].text, card.buttons[5].text, card.buttons[6].text, card.buttons[7].text]])
 	_expect((card.buttons[0].tooltip_text as String).begins_with(
-			"Caravan  [Z]\nCost 75 crystals · Pop 1 · 20 s\nTrades with a post and brings gold back. Max 6."),
+			"Caravan  [Z]\nCost 75 crystals · Pop 0 · 20 s\nTrades with a post and brings gold back. Max 6."),
 			"caravan tooltip '%s'" % card.buttons[0].tooltip_text)
 	# Posts closed: Set Route and the route buttons refused.
 	_expect(card.buttons[1].disabled and (card.buttons[1].tooltip_text as String).ends_with("\nTrading posts open at 4:00"),

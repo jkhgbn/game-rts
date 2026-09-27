@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  ash budget: 167 instances on 127 m2 inside + 30 m2 edge (max 200)
+  (no scripts/world/terrain_system.gd yet: hook contract checked against the spec stub only)
+PASS 12b.V4

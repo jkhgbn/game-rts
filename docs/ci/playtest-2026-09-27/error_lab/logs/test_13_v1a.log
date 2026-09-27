@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 12 / 12
+plain: draw instances 8, vertices 4986, lights 0, particles 0
+  Root/Mount/Head/Merged: 8 surfaces, 1215 vertices, shadow false
+  Root/Mount/LegFL/Merged: 3 surfaces, 283 vertices, shadow false
+  Root/Mount/LegFR/Merged: 3 surfaces, 283 vertices, shadow false
+  Root/Mount/LegBL/Merged: 3 surfaces, 283 vertices, shadow false
+  Root/Mount/LegBR/Merged: 3 surfaces, 283 vertices, shadow false
+  Root/Mount/Tail/Merged: 3 surfaces, 112 vertices, shadow false
+  Root/Mount/Merged: 8 surfaces, 2523 vertices, shadow true
+  Shadow: 1 surfaces, 4 vertices, shadow false
+own materials (2): rimehorn_hide.tres, rimehorn_wool.tres
+palette materials (10): ice_fur.tres, ice_glow_unit.tres, ice_fur_pale.tres, ice_frost_deep.tres, ice_stone.tres, ice_frost_crystal.tres, ice_cloth.tres, ice_cloth_dark.tres, ice_leather.tres, ice_steel.tres
+rest AABB y -0.01..2.02, x -0.72..0.72, z -1.30..2.41
+seat (model space) (-0.001859, 1.479648, -0.203609)
+walk: leg swing 18.0 deg, gallop blend 0.00
+gallop: blend 1.00, bounce 0.060, seat bob 0.081, leg swing 34.0 deg, strides/s 2, tail lift 24.0 deg
+hit: body flash 0.58, leg flash 0.58, root z -0.083
+charge: head 19.5 deg (levelled), lunge z 0.41, toss -24.8 deg, glow 1.00 -> 2.60
+barded: draw instances 8, vertices 6984, body surfaces 8 -> 9
+team colour on the barded body: [(0.85, 0.3, 0.12, 1.0), (0.3825, 0.135, 0.054, 1.0)]
+slot collisions: 0
+death: roll -27.6 -> -86.0 deg, lying AABB y -0.03..1.42, frost 0.28, finished true
+neck mount: neck swing 2.5 deg, head carried 0.056 m, gallop 1.00
+PASS 13.v1a

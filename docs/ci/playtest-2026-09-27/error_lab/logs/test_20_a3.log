@@ -1,0 +1,80 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---- [2:00] think cost
+team 0: crystals 260, gathered 870, pop 12 / 20
+bot 0: ticks 119, median 0.960 ms, avg 0.956 ms, max 1.668 ms at 51 s; attacks 0 (first -1 s), stage 0, str 370 vs seen 0
+  steps (median ms/avg ms/max ms@s): scan 0.133/0.15/0.2@110, pending 0.131/0.09/0.2@119, items 0.112/0.12/0.8@51, champions 0.088/0.09/0.3@52, mapfill_sense 0.063/0.08/0.6@35, wizard 0.044/0.05/0.2@119, mapfill 0.042/0.05/0.2@105, memory 0.041/0.04/0.2@78, trade_sense 0.041/0.04/0.1@83, trade 0.032/0.03/0.0@67, economy 0.025/0.04/0.4@2, defend 0.023/0.03/0.2@54, learn 0.015/0.02/0.0@47, track_workers 0.012/0.01/0.0@28, train 0.011/0.03/0.4@48, scout 0.008/0.01/0.0@48, attack 0.008/0.01/0.1@117, exchange 0.008/0.01/0.0@72, build 0.006/0.17/0.0@20, all_in 0.005/0.01/0.1@78, concede 0.004/0.00/0.0@78, retreat 0.001/0.00/0.0@54
+  attack blocks (ticks): { "no army": 116, "pop": 4 }
+  sub (avg ms/max ms): scan.units 0.09/0.1
+team 1: crystals 310, gathered 870, pop 12 / 20
+bot 1: ticks 119, median 1.100 ms, avg 1.119 ms, max 2.764 ms at 52 s; attacks 0 (first -1 s), stage 0, str 330 vs seen 0
+  steps (median ms/avg ms/max ms@s): scan 0.198/0.21/0.3@114, pending 0.142/0.10/0.5@99, items 0.120/0.13/0.7@51, champions 0.098/0.52/1.7@52, mapfill_sense 0.069/0.08/0.2@61, trade_sense 0.048/0.05/0.2@74, wizard 0.048/0.05/0.6@87, memory 0.044/0.05/0.1@31, mapfill 0.044/0.07/0.4@105, trade 0.035/0.04/0.1@12, economy 0.026/0.03/0.2@20, defend 0.026/0.03/0.9@67, learn 0.016/0.02/0.0@28, track_workers 0.013/0.01/0.0@61, train 0.011/0.02/0.2@98, scout 0.009/0.01/0.0@16, attack 0.009/0.02/0.1@74, exchange 0.009/0.01/0.1@99, build 0.006/0.24/0.0@6, all_in 0.005/0.01/0.0@26, concede 0.004/0.00/0.0@28, retreat 0.002/0.00/0.0@67
+  attack blocks (ticks): { "no army": 112, "pop": 8 }
+  sub (avg ms/max ms): scan.units 0.17/0.3
+---- [4:00] think cost
+team 0: crystals 245, gathered 1810, pop 18 / 30
+bot 0: ticks 241, median 1.133 ms, avg 1.327 ms, max 8.231 ms at 171 s; attacks 0 (first -1 s), stage 0, str 890 vs seen 600
+  steps (median ms/avg ms/max ms@s): scan 0.173/0.21/2.6@168, pending 0.125/0.10/0.3@228, items 0.115/0.13/1.4@182, champions 0.095/0.12/1.3@193, mapfill 0.072/0.13/2.1@176, mapfill_sense 0.066/0.09/2.0@215, memory 0.045/0.07/1.8@228, wizard 0.045/0.05/0.8@192, trade_sense 0.043/0.05/1.3@182, trade 0.033/0.04/0.1@162, economy 0.028/0.03/0.4@2, defend 0.024/0.05/0.8@153, attack 0.020/0.03/0.2@218, train 0.019/0.05/0.5@173, learn 0.016/0.02/1.6@178, track_workers 0.013/0.02/1.5@182, exchange 0.009/0.03/4.0@171, scout 0.008/0.02/1.6@121, build 0.007/0.31/33.1@197, concede 0.004/0.00/0.0@182, all_in 0.004/0.01/0.1@78, retreat 0.002/0.00/0.0@204
+  attack blocks (ticks): { "no army": 163, "pop": 56, "defending": 4, "group out": 19 }
+  sub (avg ms/max ms): scan.units 0.15/2.5
+team 1: crystals 405, gathered 1900, pop 20 / 30
+bot 1: ticks 240, median 1.337 ms, avg 1.697 ms, max 42.699 ms at 215 s; attacks 0 (first -1 s), stage 0, str 870 vs seen 1250
+  steps (median ms/avg ms/max ms@s): scan 0.264/0.36/18.4@168, pending 0.148/0.13/0.5@99, items 0.122/0.13/0.7@51, mapfill 0.112/0.16/2.0@182, champions 0.105/0.34/4.7@186, mapfill_sense 0.071/0.08/0.6@161, trade_sense 0.050/0.05/0.2@189, memory 0.049/0.07/0.9@174, wizard 0.049/0.06/0.6@87, trade 0.036/0.04/0.8@181, economy 0.027/0.04/1.7@167, defend 0.027/0.04/0.9@67, train 0.025/0.04/2.3@201, attack 0.024/0.04/0.3@181, learn 0.016/0.02/0.3@155, track_workers 0.013/0.02/0.3@152, scout 0.009/0.02/0.8@145, exchange 0.009/0.01/0.1@99, build 0.006/0.23/25.9@168, all_in 0.005/0.12/27.1@215, concede 0.004/0.00/0.1@127, retreat 0.002/0.01/2.0@189
+  attack blocks (ticks): { "no army": 140, "pop": 77, "group out": 13, "strength": 11 }
+  sub (avg ms/max ms): scan.units 0.31/18.3
+---- [6:00] think cost
+team 0: crystals 235, gathered 2620, pop 18 / 30
+bot 0: ticks 364, median 1.383 ms, avg 1.538 ms, max 9.277 ms at 299 s; attacks 0 (first -1 s), stage 0, str 1158 vs seen 1274
+  steps (median ms/avg ms/max ms@s): scan 0.225/0.25/2.8@260, items 0.114/0.13/1.4@182, champions 0.112/0.13/2.4@269, pending 0.089/0.11/1.5@299, mapfill 0.080/0.13/2.1@176, memory 0.073/0.10/1.8@228, mapfill_sense 0.068/0.08/2.0@215, train 0.050/0.07/0.5@173, wizard 0.045/0.06/1.7@327, trade_sense 0.045/0.06/1.3@182, trade 0.034/0.04/0.4@352, economy 0.032/0.04/0.4@346, attack 0.028/0.04/1.0@299, defend 0.026/0.09/2.8@314, learn 0.016/0.02/1.6@178, track_workers 0.013/0.02/1.5@182, build 0.010/0.33/33.1@197, scout 0.009/0.03/1.6@121, exchange 0.009/0.02/4.0@171, all_in 0.005/0.01/0.1@78, concede 0.004/0.00/0.0@324, retreat 0.002/0.00/0.1@346
+  attack blocks (ticks): { "no army": 181, "pop": 117, "defending": 24, "group out": 28, "rally": 11, "strength": 1, "retreat": 3 }
+  sub (avg ms/max ms): scan.units 0.18/2.5
+team 1: crystals 270, gathered 2820, pop 19 / 30
+bot 1: ticks 363, median 1.574 ms, avg 1.801 ms, max 42.699 ms at 215 s; attacks 0 (first -1 s), stage 0, str 550 vs seen 1668
+  steps (median ms/avg ms/max ms@s): scan 0.334/0.39/18.4@168, pending 0.135/0.12/0.8@294, items 0.122/0.13/0.9@293, champions 0.120/0.30/4.7@186, mapfill 0.092/0.15/2.0@182, memory 0.079/0.11/0.9@174, mapfill_sense 0.072/0.09/0.6@161, trade_sense 0.051/0.05/0.2@312, wizard 0.049/0.06/0.6@87, attack 0.048/0.05/1.2@247, trade 0.037/0.04/0.8@181, train 0.031/0.05/2.3@201, economy 0.030/0.04/1.7@167, defend 0.028/0.08/1.1@274, learn 0.016/0.02/0.3@155, track_workers 0.014/0.02/0.3@152, build 0.010/0.29/25.9@168, scout 0.009/0.03/0.8@145, exchange 0.009/0.01/0.3@357, all_in 0.005/0.08/27.1@215, concede 0.004/0.00/0.1@127, retreat 0.002/0.01/2.0@189
+  attack blocks (ticks): { "no army": 164, "pop": 122, "group out": 38, "strength": 22, "defending": 9, "retreat": 4, "rally": 5 }
+  sub (avg ms/max ms): scan.units 0.33/18.3
+---- [8:00] think cost
+team 0: crystals 60, gathered 3750, pop 21 / 30
+bot 0: ticks 485, median 1.480 ms, avg 1.632 ms, max 9.277 ms at 299 s; attacks 1 (first 389 s), stage 6, str 678 vs seen 1594
+  steps (median ms/avg ms/max ms@s): scan 0.242/0.26/2.8@260, champions 0.121/0.14/2.4@269, pending 0.121/0.12/1.5@299, items 0.114/0.13/1.6@416, memory 0.096/0.12/1.8@228, train 0.079/0.08/0.6@364, mapfill 0.071/0.12/2.1@176, mapfill_sense 0.070/0.09/3.3@378, trade_sense 0.047/0.06/3.7@480, wizard 0.045/0.06/1.7@327, trade 0.037/0.06/1.4@407, attack 0.034/0.05/1.0@299, economy 0.033/0.05/0.6@388, defend 0.027/0.10/2.8@314, learn 0.016/0.02/1.6@178, track_workers 0.014/0.02/1.5@182, build 0.010/0.32/33.1@197, scout 0.009/0.03/1.6@121, exchange 0.009/0.02/4.0@171, all_in 0.005/0.01/0.1@78, concede 0.004/0.00/0.0@324, retreat 0.002/0.01/0.2@405
+  attack blocks (ticks): { "no army": 186, "pop": 164, "defending": 50, "group out": 50, "rally": 18, "strength": 1, "retreat": 16 }
+  sub (avg ms/max ms): scan.units 0.19/2.5
+team 1: crystals 5, gathered 4280, pop 25 / 30
+bot 1: ticks 485, median 1.656 ms, avg 1.857 ms, max 42.699 ms at 215 s; attacks 0 (first -1 s), stage 0, str 686 vs seen 1098
+  steps (median ms/avg ms/max ms@s): scan 0.357/0.39/18.4@168, memory 0.131/0.13/1.0@369, champions 0.129/0.27/4.7@186, items 0.122/0.13/1.9@391, pending 0.112/0.12/3.5@480, mapfill 0.088/0.13/2.0@182, mapfill_sense 0.075/0.09/0.6@161, trade_sense 0.052/0.05/0.2@312, wizard 0.049/0.06/2.8@480, trade 0.040/0.06/1.3@403, attack 0.037/0.05/1.2@247, train 0.036/0.06/2.3@201, economy 0.035/0.04/1.7@167, defend 0.030/0.10/1.1@274, learn 0.016/0.02/0.3@155, track_workers 0.015/0.02/0.3@152, build 0.011/0.34/40.2@361, scout 0.009/0.03/1.3@386, exchange 0.009/0.01/0.3@357, all_in 0.005/0.07/27.1@215, concede 0.004/0.00/0.1@127, retreat 0.002/0.01/2.0@189
+  attack blocks (ticks): { "no army": 198, "pop": 144, "group out": 50, "strength": 23, "defending": 57, "retreat": 8, "rally": 6 }
+  sub (avg ms/max ms): scan.units 0.33/18.3
+---- [10:00] think cost
+team 0: crystals 65, gathered 4750, pop 26 / 30
+bot 0: ticks 607, median 1.592 ms, avg 1.711 ms, max 9.277 ms at 299 s; attacks 2 (first 389 s), stage 4, str 1278 vs seen 1624
+  steps (median ms/avg ms/max ms@s): scan 0.258/0.28/2.8@260, memory 0.138/0.13/1.8@228, champions 0.125/0.14/2.4@269, pending 0.117/0.11/1.5@299, items 0.116/0.13/1.6@416, train 0.086/0.08/0.6@364, mapfill_sense 0.074/0.10/3.3@378, mapfill 0.073/0.12/2.1@176, trade_sense 0.049/0.06/3.7@480, attack 0.047/0.06/1.7@504, wizard 0.045/0.06/1.7@327, trade 0.042/0.07/1.4@407, economy 0.035/0.05/0.6@388, defend 0.028/0.11/2.8@314, learn 0.016/0.02/1.6@178, track_workers 0.015/0.02/1.5@182, build 0.010/0.32/33.1@197, exchange 0.009/0.02/4.0@171, scout 0.009/0.02/1.6@121, all_in 0.005/0.01/0.1@78, concede 0.004/0.00/0.0@324, retreat 0.002/0.01/0.2@405
+  attack blocks (ticks): { "no army": 219, "pop": 189, "defending": 50, "group out": 89, "rally": 34, "strength": 6, "retreat": 19 }
+  sub (avg ms/max ms): scan.units 0.21/2.5
+team 1: crystals 65, gathered 5020, pop 25 / 40
+bot 1: ticks 606, median 1.747 ms, avg 1.944 ms, max 42.699 ms at 215 s; attacks 0 (first -1 s), stage 5, str 906 vs seen 1510
+  steps (median ms/avg ms/max ms@s): scan 0.378/0.41/18.4@168, memory 0.149/0.14/1.0@369, champions 0.135/0.24/4.7@186, pending 0.133/0.12/3.5@480, items 0.124/0.13/1.9@391, mapfill 0.086/0.14/2.0@182, mapfill_sense 0.079/0.09/0.6@161, train 0.078/0.08/2.8@502, attack 0.057/0.06/1.2@247, trade_sense 0.054/0.06/0.2@312, wizard 0.049/0.06/2.8@480, trade 0.043/0.07/1.3@403, economy 0.035/0.04/1.7@167, defend 0.030/0.12/10.0@552, track_workers 0.016/0.02/0.3@152, learn 0.016/0.02/0.3@155, build 0.010/0.31/40.2@361, exchange 0.009/0.01/0.3@357, scout 0.009/0.03/1.3@386, all_in 0.006/0.06/27.1@215, concede 0.004/0.00/0.1@127, retreat 0.002/0.01/2.0@189
+  attack blocks (ticks): { "no army": 209, "pop": 168, "group out": 87, "strength": 47, "defending": 57, "retreat": 17, "rally": 22 }
+  sub (avg ms/max ms): scan.units 0.35/18.3
+---- [10:38] think cost
+team 0: crystals 85, gathered 5070, pop 22 / 40
+bot 0: ticks 646, median 1.621 ms, avg 1.740 ms, max 9.277 ms at 299 s; attacks 2 (first 389 s), stage 0, str 944 vs seen 1088
+  steps (median ms/avg ms/max ms@s): scan 0.261/0.29/2.8@260, memory 0.142/0.14/1.8@228, champions 0.126/0.14/2.4@269, pending 0.121/0.11/1.5@299, items 0.116/0.14/1.9@610, train 0.085/0.08/0.6@364, mapfill_sense 0.076/0.10/3.3@378, mapfill 0.072/0.11/2.1@176, trade_sense 0.050/0.06/3.7@480, wizard 0.045/0.06/1.7@327, trade 0.044/0.08/3.2@610, attack 0.043/0.06/1.7@504, economy 0.035/0.05/0.6@388, defend 0.029/0.12/2.8@314, learn 0.016/0.02/1.6@178, track_workers 0.015/0.02/1.5@182, build 0.010/0.30/33.1@197, exchange 0.009/0.02/4.0@171, scout 0.009/0.02/1.6@121, all_in 0.005/0.01/0.1@78, concede 0.004/0.00/0.0@324, retreat 0.002/0.01/0.2@601
+  attack blocks (ticks): { "no army": 239, "pop": 192, "defending": 51, "group out": 94, "rally": 34, "strength": 6, "retreat": 29 }
+  sub (avg ms/max ms): scan.units 0.21/2.5
+team 1: crystals 5, gathered 5030, pop 4 / 40
+bot 1: ticks 646, median 1.751 ms, avg 1.980 ms, max 42.699 ms at 215 s; attacks 1 (first 632 s), stage 0, str 200 vs seen 1810
+  steps (median ms/avg ms/max ms@s): scan 0.374/0.41/18.4@168, memory 0.152/0.14/1.0@369, pending 0.138/0.13/3.5@480, champions 0.136/0.31/44.5@602, items 0.123/0.13/1.9@391, mapfill_sense 0.081/0.09/0.6@161, mapfill 0.078/0.13/2.0@182, train 0.076/0.08/2.8@502, trade_sense 0.054/0.06/0.2@312, attack 0.049/0.06/1.2@247, wizard 0.049/0.06/2.8@480, trade 0.042/0.07/1.3@403, economy 0.036/0.04/1.7@167, defend 0.031/0.13/10.0@552, learn 0.016/0.02/0.3@155, track_workers 0.015/0.02/0.3@152, exchange 0.009/0.01/0.3@357, scout 0.009/0.03/1.3@386, build 0.009/0.29/40.2@361, all_in 0.007/0.06/27.1@215, concede 0.004/0.03/17.0@639, retreat 0.002/0.01/2.0@189
+  attack blocks (ticks): { "no army": 211, "pop": 169, "group out": 93, "strength": 47, "defending": 86, "retreat": 17, "rally": 23 }
+  sub (avg ms/max ms): scan.units 0.35/18.3
+bot 0 think: median 1.621 ms, avg 1.740 ms, p95 3.022 ms, max 9.277 ms at 299 s
+bot 0 (fire): 2 attacks, first 389 s, median 1.621 ms, max 9.277 ms
+bot 1 think: median 1.751 ms, avg 1.980 ms, p95 3.071 ms, max 42.699 ms at 215 s
+bot 1 (shadow): 1 attacks, first 632 s, median 1.751 ms, max 42.699 ms
+match: over true at 639 s, winner 0
+  bot 0 median think 1.621 ms > 1.5 ms
+  bot 1 median think 1.751 ms > 1.5 ms
+FAIL 20.A3: bot 0 median think 1.621 ms > 1.5 ms
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

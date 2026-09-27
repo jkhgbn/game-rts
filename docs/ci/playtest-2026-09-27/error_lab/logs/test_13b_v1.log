@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+budget: scene meshes 25  draw instances 13  particles 1  lights 0  vertices 3838  materials 14
+materials: ["res://art/units/kit/materials/fire_cloth_dark.tres", "res://art/units/kit/materials/fire_leather.tres", "res://art/units/kit/materials/unit_gold_trim.tres", "res://art/units/kit/materials/fire_skin.tres", "res://art/units/kit/materials/unit_eye_dark.tres", "res://art/units/kit/materials/fire_hair.tres", "res://art/units/kit/materials/fire_bronze.tres", "res://art/units/kit/materials/fire_cloth.tres", "res://art/units/fire/cinderlock/materials/fire_sec_cinderlock.tres", "res://art/units/kit/materials/fire_wood.tres", "res://art/units/fire/cinderlock/materials/fire_gunmetal.tres", "res://art/units/kit/materials/fire_flame.tres", "res://art/units/kit/materials/fire_glow.tres", "res://art/units/kit/materials/unit_shadow_blob.tres"]
+KITFIX AUDIT OK (cinderlock: slot map, no collision)
+pose shoulder shifts R/L (m): port 0.000/0.000 aim 0.022/0.001 kick 0.068/0.024 hold 0.017/0.075 top 0.107/0.075
+rest hands: right 0.000 left 0.000
+rest muzzle (-0.682857, 1.227526, 0.483612)
+walk hands max err 0.000
+volley: shot dir (0.000134, -0.025979, 0.999663) pitch -1.5  kick pitch 14.5  loaded after shot false  hands shot [0.00000004470348, 0.00000008434637, 0.00000001490116, 0.31000003218651] kick [0.00000002980232, 0.00000016755691, 0.0, 0.22000008821487]
+reload: rod seen true stroke 0.180  butt lowest 0.002  right fist off the rod axis 0.005  loaded mid false
+team colour: 5 surfaces recoloured, 0 wrong
+PASS 13b.v1

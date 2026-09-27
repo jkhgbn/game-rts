@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  signal ok: -6 dBFS sine = -6.56 LUFS, lead 50 ms, trail 200 ms, clipped runs 598
+  scan ok: 52 cues, 8 players, 41 connections
+  report ok: score 24, 13 checks, improve 6
+PASS audio_lab (preview played 1, bed hits 19)
+WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 10 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

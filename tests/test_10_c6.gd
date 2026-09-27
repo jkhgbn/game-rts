@@ -14,7 +14,7 @@ const N := 2   # Unit.Team.NEUTRAL
 # id: [cost, pop, train, hp, armor, damage, range, cooldown, speed, aggro, sight, radius, height, kill_xp,
 #      faction, is_caravan, commandable, neutral_leash, model_path]
 const TABLE := {
-	&"caravan": [75, 1, 20.0, 220.0, 10.0, 0.0, -1.0, -1.0, 4.0, 0.0, 8.0, 0.8, 1.9, 20,
+	&"caravan": [75, 0, 20.0, 220.0, 10.0, 0.0, -1.0, -1.0, 4.0, 0.0, 8.0, 0.8, 1.9, 20,
 			&"", true, true, true, "res://art/units/caravan/caravan.tscn"],
 	&"magpie": [0, 0, -1.0, 140.0, 0.0, 9.0, 1.5, 1.0, 5.2, 0.0, 10.0, 0.4, 1.6, 25,
 			&"neutral", false, true, false, "res://art/units/neutral/magpie/magpie.tscn"],

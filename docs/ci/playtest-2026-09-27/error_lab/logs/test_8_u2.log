@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+clicked Begin at (32.0, 268.5) (window (64, 64))
+  note: the mouse click did not press Begin, calling begin()
+mission objective points: 0 (mission 1 rows have no position yet)
+begin clicked by mouse=false, Hearthward lit by Vessa=true
+PASS 8.U2
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

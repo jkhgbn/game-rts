@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MAP LAB: WARN score 93 / 100 (0 FAIL, 1 WARN, 11 PASS checks; 0 FAIL, 2 WARN findings) 5.7 s -> user://wf_mini_lab/scorecard.md
+  WARN F1 Map geometry: path pairs match their mirror twins: 23 / 25 pairs within 2 % (0 FAIL, 2 WARN, 0 info)
+PASS tool_world_forge

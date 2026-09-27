@@ -121,6 +121,37 @@ Check ($md4 -match "## By owner" -and $md4 -match "## Failed tests" -and $md4 -m
 $j5 = Get-Content (Join-Path $tmp "r5\scorecard.json") -Raw | ConvertFrom-Json
 Check (@($j5.tests)[0].kind -eq "no PASS line") "clean log without PASS: 'no PASS line' (got $(@($j5.tests)[0].kind))"
 
+# Run 6 (lab v1.2): verdict=last. Lab-on-lab tests print planted "  FAIL ..." lines, then their own final line.
+# Listed test (test_art_lab), final PASS: passes, inner FAIL lines counted. Same log in a normal test: still FAILS.
+# A verdict=last test whose final line is FAIL, or with a script error, still fails (no real failure hidden).
+# A directive "# error_lab: verdict=last" in a test file (via -ProjectDir) works like the list.
+$planted = "ART LAB: planted cases`n  FAIL B4t Triangles: 2534`n  FAIL B8 Unique materials: 6`nPASS art_lab`n"
+$l6 = Join-Path $tmp "logs6"; New-Item -ItemType Directory -Force $l6 | Out-Null
+[System.IO.File]::WriteAllText((Join-Path $l6 "test_art_lab.log"), $planted)
+[System.IO.File]::WriteAllText((Join-Path $l6 "test_plain.log"), $planted)
+[System.IO.File]::WriteAllText((Join-Path $l6 "test_art_lab_calibration.log"), "  FAIL R9 Feet on the ground: lowest point 0.4 m`nPASS art_lab_calibration (12 cases)`nFAIL art_lab_calibration: case_x out of band`n")
+& powershell -NoProfile -ExecutionPolicy Bypass -File $Lab -Logs $l6 -OutDir (Join-Path $tmp "r6") -Run r6 -NoHistory -HistoryFile $hist | Out-Null
+$j6 = Get-Content (Join-Path $tmp "r6\scorecard.json") -Raw | ConvertFrom-Json
+$al = @($j6.tests | Where-Object { $_.test -eq "test_art_lab" })
+Check ($al.Count -eq 1 -and $al[0].ok -and $al[0].verdict -eq "last" -and $al[0].inner_fail -eq 2) "verdict=last: planted FAIL lines + final PASS -> PASS, 2 inner FAIL counted (got ok=$($al[0].ok) inner=$($al[0].inner_fail))"
+$pl = @($j6.tests | Where-Object { $_.test -eq "test_plain" })
+Check ($pl.Count -eq 1 -and -not $pl[0].ok -and $pl[0].kind -eq "assert") "default verdict: the same log in a normal test still FAILS"
+$cal = @($j6.tests | Where-Object { $_.test -eq "test_art_lab_calibration" })
+Check ($cal.Count -eq 1 -and -not $cal[0].ok -and @($cal[0].fail_lines)[0] -match '^FAIL art_lab_calibration') "verdict=last: final FAIL line after a PASS -> FAIL, deciding line shown first"
+[System.IO.File]::WriteAllText((Join-Path $l6 "test_art_lab.log"), $planted + "SCRIPT ERROR: Invalid call. Nonexistent function 'x' in base 'Node'.`n          at: _run (res://tests/test_art_lab.gd:40)`n")
+Remove-Item (Join-Path $l6 "test_plain.log"), (Join-Path $l6 "test_art_lab_calibration.log")
+# Directive in a test file of another checkout (-ProjectDir): a fake project with one test.
+$proj = Join-Path $tmp "proj"; New-Item -ItemType Directory -Force (Join-Path $proj "tests") | Out-Null
+[System.IO.File]::WriteAllText((Join-Path $proj "project.godot"), "")
+[System.IO.File]::WriteAllText((Join-Path $proj "tests\test_zz_lab.gd"), "extends SceneTree`n# error_lab: verdict=last`n")
+[System.IO.File]::WriteAllText((Join-Path $l6 "test_zz_lab.log"), "  FAIL planted`nPASS zz_lab`n")
+& powershell -NoProfile -ExecutionPolicy Bypass -File $Lab -Logs $l6 -ProjectDir $proj -OutDir (Join-Path $tmp "r7") -Run r7 -NoHistory -HistoryFile $hist | Out-Null
+$j7 = Get-Content (Join-Path $tmp "r7\scorecard.json") -Raw | ConvertFrom-Json
+$zz = @($j7.tests | Where-Object { $_.test -eq "test_zz_lab" })
+Check ($zz.Count -eq 1 -and $zz[0].ok -and $zz[0].verdict -eq "last") "directive '# error_lab: verdict=last' in the test file -> PASS"
+$se7 = @($j7.errors | Where-Object { $_.severity -eq "FAIL" -and @($_.tests) -contains "test_art_lab" })
+Check ($j7.result -eq "FAIL" -and $se7.Count -eq 1) "verdict=last does not hide a script error (result $($j7.result), $($se7.Count) FAIL error)"
+
 Remove-Item -Recurse -Force $tmp -Confirm:$false
 if ($fails.Count -eq 0) { Write-Host "PASS error_lab"; exit 0 }
 Write-Host "FAIL error_lab: $($fails.Count) checks"; exit 1

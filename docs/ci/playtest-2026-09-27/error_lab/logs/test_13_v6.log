@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 8 / 8
+plain: draw instances 8, vertices 4932, lights 0, particles 0
+  Root/Mount/Head/Merged: 9 surfaces, 1395 vertices, shadow false
+  Root/Mount/LegFL/Merged: 4 surfaces, 237 vertices, shadow false
+  Root/Mount/LegFR/Merged: 4 surfaces, 237 vertices, shadow false
+  Root/Mount/LegBL/Merged: 4 surfaces, 261 vertices, shadow false
+  Root/Mount/LegBR/Merged: 4 surfaces, 261 vertices, shadow false
+  Root/Mount/Tail/Merged: 2 surfaces, 198 vertices, shadow false
+  Root/Mount/Merged: 10 surfaces, 2339 vertices, shadow true
+  Shadow: 1 surfaces, 4 vertices, shadow false
+own materials (3): roan_courser_coat.tres, roan_courser_chestnut.tres, roan_courser_wool.tres
+palette materials (11): fire_hair.tres, shadow_bone.tres, unit_eye_dark.tres, fire_fur.tres, weapon_leather.tres, weapon_brass.tres, weapon_iron.tres, fire_leather.tres, weapon_ash.tres, fire_cloth.tres, fire_cloth_dark.tres
+rest AABB y -0.01..2.19, x -0.55..0.52, z -1.16..1.52
+body merge AABB (Mount space) [P: (-0.553781, -0.394, -0.885317), S: (1.077091, 1.0835, 1.695317)]
+seat (model space) (0.001053, 1.510032, -0.095704)
+walk: leg swing 19.9 deg, gallop blend 0.00
+gallop: blend 1.00, bounce 0.070, seat bob 0.082, leg swing 32.0 deg, strides/s 3, tail lift 26.0 deg
+hit: body flash 0.58, leg flash 0.58, root z -0.083
+charge: head 19.1 deg, lunge z 0.41, toss -25.6 deg
+graze: head 54.0 deg, lifted -2.4 deg
+team colour on the body: [(0.45, 0.75, 0.95, 1.0), (0.2025, 0.3375, 0.4275, 1.0)]
+slot collisions: 0
+death: roll -86.0 deg, lying AABB y 0.01..1.09, finished true
+PASS 13.v6

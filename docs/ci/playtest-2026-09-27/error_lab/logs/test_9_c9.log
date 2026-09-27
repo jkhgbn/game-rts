@@ -1,0 +1,49 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+part 0: champion knobs, revive rule and champion strength checked
+[normal] normal hire #1 coin_cutter (Sable Quint) at 3:12
+[normal] Coin-Cutter killed at 3:25, essence 114 (revive 115, next item 250)
+[normal] revive paid at 3:26 (1.0 s after the death), items bought meanwhile 0
+[normal] own_strength 880.0, expected 880.0 (soldiers + champions within 20 m of the rally)
+[normal] normal hire #2 oathwall (Garran Stoneward) at 4:35
+[normal] tavern doors at 4:56:
+  door (-11.46447, 0.0, -11.46447) held for player false: []
+  door (11.46447, 0.0, 11.46447) held for player false: []
+[normal] seen enemy champion strength 200.0 (power 200.0), seen_strength 200.0
+normal: champion rule median 0.0410 ms, avg 0.0723 ms over 297 ticks; bot tick avg 1.323 ms (max 4.122 ms)
+PERF OK (normal)
+normal bot log (champions / bounties):
+  [3:12] CHAMPION hire coin_cutter (Sable Quint) #1: 225 crystals + 75 essence, crystals 380 -> 155, from (15, 15)
+  [3:26] CHAMPION revive Sable Quint for 115 essence, back in 20 s
+  [4:35] CHAMPION hire oathwall (Garran Stoneward) #2: 275 crystals + 100 essence, crystals 445 -> 170, from (15, 15)
+[easy] easy hire #1 oathwall (Garran Stoneward) at 7:44
+easy: champion rule median 0.0360 ms, avg 0.0550 ms over 247 ticks; bot tick avg 1.391 ms (max 4.139 ms)
+PERF OK (easy)
+easy bot log (champions / bounties):
+  [7:44] CHAMPION hire oathwall (Garran Stoneward) #1: 225 crystals + 75 essence, crystals 390 -> 165, from (15, 15)
+[hard] hard hire #1 coin_cutter (Sable Quint) at 2:08
+[hard] hard hire #2 mender (Orla Fenwick) at 3:50
+[hard] hard hire #3 wayfinder (Tamsin Farrow) at 6:02
+[hard] bounty phase at 6:05 (0 flags placed before)
+[hard] B4 at 9:10, 184 s into the bounty phase (spot memory aged by the test)
+hard: champion rule median 0.1840 ms, avg 0.2047 ms over 1111 ticks; bot tick avg 1.909 ms (max 31.377 ms)
+hard bot log (champions / bounties):
+  [2:08] CHAMPION hire coin_cutter (Sable Quint) #1: 225 crystals + 75 essence, crystals 390 -> 165, from (-15, -15)
+  [3:50] CHAMPION hire mender (Orla Fenwick) #2: 275 crystals + 100 essence, crystals 425 -> 150, from (-15, -15)
+  [6:02] CHAMPION hire wayfinder (Tamsin Farrow) #3: 325 crystals + 125 essence, crystals 485 -> 160, from (15, 15)
+  [8:58] BOUNTY B1 Guard 50 on Gloom Hall (stakes 0 + 50 <= 1320 of 3300 spare essence)
+  [9:00] BOUNTY B7 Guard 50 on Gloom Hall (stakes 50 + 50 <= 1300 of 3249 spare essence)
+  [9:10] BOUNTY B4 Explore 25 on (-23, 9) (stakes 100 + 25 <= 1286 of 3214 spare essence)
+  [9:10] BOUNTY B1 Guard 50 on Gloom Hall (stakes 0 + 50 <= 1240 of 3101 spare essence)
+  [9:11] BOUNTY B2 Hunt 100 on Cinder Hand (stakes 50 + 100 <= 1221 of 3052 spare essence)
+  [9:11] BOUNTY B7 Guard 50 on Gloom Hall (stakes 150 + 50 <= 1181 of 2952 spare essence)
+  [9:14] BOUNTY B1 Guard 50 on Gloom Hall (stakes 0 + 50 <= 1260 of 3150 spare essence)
+  [9:15] BOUNTY B3 Hunt 150 on Vessa (stakes 50 + 150 <= 1240 of 3101 spare essence)
+normal: hires [&"coin_cutter", &"oathwall"] at ["3:12", "4:35"], roster max 2, flags 0
+easy: hires [&"oathwall"] at ["7:44"], roster max 1, flags []
+hard: hires ["coin_cutter", "mender", "wayfinder"] at ["2:08", "3:50", "6:02"], roster max 3, flags ["B1@8:58", "B7@9:00", "B4@9:10", "B1@9:10", "B2@9:11", "B7@9:11", "B1@9:14", "B3@9:15"]
+FAIL 9.C9: hard: champion rule median 0.184 ms per tick (limit 0.10)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,109 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+part static: map-fill knobs and the inert AIMapFill checked
+---- part normal
+normal: 2 player soldiers take the bot's well at 5:00
+normal: map-fill median 0.1270 ms over 436 ticks (totals usec { &"sense": 22431, &"squads": 23526, &"creep": 15447 }); bot tick avg 1.521 ms (max 9.033 ms)
+normal: creeps ["Bristleback Wallow N@3:03", "Reed Ford Nest@4:25", "Ruin Warden@6:00"]; cleared { "Bristleback Wallow N": 191.400000000044, "Reed Ford Nest": 275.900000000078, "Stag Glade E": 309.700000000047 }; squad point jobs ["Stonemere Well", "Saltwatch", "Owlwatch", "Owlwatch", "Mossmere Well", "Rookwatch", "Millwatch"]; shrine presence 2:46; squad max 2; deer shots 0
+normal bot log (map fill):
+  [1:44] SQUAD 2 units to Stonemere Well
+  [2:00] SCOUT Grave Hound to (12, 22)
+  [2:07] SQUAD back: Stonemere Well done
+  [2:08] SCOUT next (17, 47) via (20, 32)
+  [2:12] SCOUT next (-2, 44) via (12, 49)
+  [2:15] SCOUT next (-16, 6)
+  [2:19] SQUAD 2 units to Saltwatch
+  [2:21] SCOUT next (-27, 27)
+  [2:25] SCOUT next (-36, 36)
+  [2:33] SQUAD back: Saltwatch done
+  [2:39] SQUAD 2 units to Owlwatch
+  [2:44] SCOUT home
+  [2:48] SQUAD leaves Owlwatch for East Wayshrine
+  [3:03] CREEP Bristleback Wallow N (tier 1) 4 units str 370 (army 680) vs 200 (x1.9) + wizard
+  [3:06] SQUAD back: East Wayshrine done
+  [3:11] CREEP over (cleared): Bristleback Wallow N
+  [3:14] SQUAD 2 units to Owlwatch
+  [3:34] SQUAD back: Owlwatch done
+  [3:48] SQUAD 2 units to Mossmere Well
+  [4:00] SCOUT Grave Hound to (-12, -48) via (-12, -49)
+  [4:05] SCOUT next (-24, -48) via (-12, -49)
+  [4:08] SCOUT next (-36, -48)
+  [4:09] SCOUT next (-36, -36)
+  [4:10] SCOUT next (-48, -36)
+  [4:12] SCOUT next (-48, -24)
+  [4:15] SQUAD back: Mossmere Well done
+  [4:25] SCOUT home
+  [4:25] CREEP Reed Ford Nest (tier 2) 6 units str 520 (army 1220) vs 330 (x1.6) + wizard
+  [4:27] SQUAD 2 units to Rookwatch
+  [4:35] CREEP over (cleared): Reed Ford Nest
+  [4:51] SQUAD back: Rookwatch done
+  [5:00] POINT defence: 6 units to Stonemere Well (capturers 0 vs rally 756)
+  [5:03] SQUAD 2 units to Millwatch
+  [5:12] DEFEND vs Flame Guard at (31, 23), str 90 vs home 410
+  [5:15] POINT over (point safe): Stonemere Well
+  [5:31] SQUAD back: Millwatch done
+  [6:00] CREEP Ruin Warden (beast) 12 units str 1096 (army 1436) vs 300 (x3.7) + wizard
+  [6:01] SCOUT Shade to (48, 12)
+  [6:06] CREEP over (cleared): Ruin Warden
+  [6:10] SCOUT next (48, 24)
+  [6:12] SCOUT next (48, 36)
+  [6:15] SCOUT next (36, 48)
+  [6:18] SCOUT next (-24, 48) via (12, 49)
+  [6:29] SCOUT next (-36, 48)
+  [6:57] SCOUT home
+  [7:03] ATTACK #1 17 units (17 pop) str 1866 (power 2330) vs seen 0 (pop cap) + wizard -> CAMP
+---- part hard
+hard: map-fill median 0.1150 ms over 689 ticks (totals usec { &"sense": 31551, &"squads": 38727, &"creep": 11470 }); bot tick avg 1.400 ms (max 4.606 ms)
+hard: creeps ["Gloomcap Hollow SE@2:30", "Gloomcap Hollow SE@3:25", "Bristleback Wallow N@3:59", "Reed Ford Nest@4:10"]; cleared { "Stag Glade E": 158.500000000018, "Gloomcap Hollow SE": 224.700000000071, "Bristleback Wallow N": 247.800000000089, "Reed Ford Nest": 260.000000000092 }; squad point jobs ["Stonemere Well", "Saltwatch", "Owlwatch", "Mossmere Well", "Rookwatch", "Millwatch"]; shrine presence 2:38; squad max 3; deer shots 0
+hard bot log (map fill):
+  [1:30] SCOUT Nightbolt to (16, -6)
+  [1:35] SCOUT next (12, 22)
+  [1:41] SCOUT next (17, 47) via (20, 32)
+  [1:46] SCOUT next (-2, 44) via (12, 49)
+  [1:50] SCOUT next (-16, 6) via (-3, 39)
+  [1:58] SCOUT next (-27, 27)
+  [2:03] SQUAD 3 units to Stonemere Well
+  [2:23] SQUAD back: Stonemere Well done
+  [2:27] SCOUT home
+  [2:30] CREEP Gloomcap Hollow SE (tier 2) 2 units str 170 (army 510) vs 120 (x1.4) + wizard
+  [2:33] SQUAD 3 units to East Wayshrine (wakes in 26 s)
+  [2:50] RETREAT 1 units: HP 49 of 119
+  [3:00] SCOUT Grave Hound to (-36, -48) via (-12, -49)
+  [3:04] ATTACK over: back at the rally
+  [3:04] SQUAD back: East Wayshrine done
+  [3:08] SCOUT next (-48, -36)
+  [3:10] SCOUT next (-48, -24)
+  [3:11] SQUAD 3 units to Saltwatch
+  [3:12] SCOUT next (-48, 12) via (-49, -11)
+  [3:17] SCOUT next (-48, 24)
+  [3:19] SCOUT next (-48, 36)
+  [3:23] SQUAD back: Saltwatch done
+  [3:25] CREEP Gloomcap Hollow SE (tier 2) 2 units str 200 (army 780) vs 60 (x3.3) + wizard
+  [3:31] SQUAD 3 units to Owlwatch
+  [3:39] SCOUT home
+  [3:45] CREEP over (cleared): Gloomcap Hollow SE
+  [3:50] SQUAD back: Owlwatch done
+  [3:59] CREEP Bristleback Wallow N (tier 1) 4 units str 390 (army 700) vs 200 (x2.0) + wizard
+  [4:08] CREEP over (cleared): Bristleback Wallow N
+  [4:10] CREEP Reed Ford Nest (tier 2) 6 units str 560 (army 920) vs 330 (x1.7) + wizard
+  [4:20] CREEP over (cleared): Reed Ford Nest
+  [4:24] SQUAD 3 units to Mossmere Well
+  [4:30] SCOUT Nightbolt to (36, 48)
+  [4:44] SCOUT next (-24, 36) via (12, 49)
+  [4:47] SQUAD back: Mossmere Well done
+  [4:54] SCOUT next (-24, 48)
+  [4:55] SCOUT next (-36, 48)
+  [4:57] SCOUT next (-48, 48)
+  [4:58] SQUAD 3 units to Rookwatch
+  [5:16] SQUAD back: Rookwatch done
+  [5:26] SQUAD 3 units to Millwatch
+finished after 46807 frames
+NOTE normal: 1 rule-7 attacks (pop capped)
+NOTE hard: deer shots 0
+ERROR normal: map-fill median 0.127 ms per tick (limit 0.10)
+ERROR hard: map-fill median 0.115 ms per tick (limit 0.10)
+FAIL 12.A1: 2 problem(s)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

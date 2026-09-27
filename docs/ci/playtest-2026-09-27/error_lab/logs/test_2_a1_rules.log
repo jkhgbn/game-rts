@@ -1,0 +1,77 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START normal bot (shadow_default), team 1, shadow
+BOT 1 [0:00] TRAIN Gloom Thrall (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+BOT 1 [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+BOT 1 [0:19] TRAIN Gloom Thrall (4 workers + 2 queued)
+BOT 1 [0:47] TRAIN Shade (soldier pop 0, crystals left 80)
+BOT 1 [0:48] TRAIN Nightbolt (soldier pop 0, crystals left 0)
+BOT 1 [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+BOT 1 [1:03] TRAIN Grave Hound (soldier pop 1, crystals left 50)
+3 Flame Guards dropped at 75.1 s
+first contact at 75.2 s
+BOT 1 [1:15] INTRUDER Flame Guard seen, reacting in 1.5 s
+BOT 1 [1:17] DEFEND vs Flame Guard at (30, -49), str 270 vs home 320
+a Shadow soldier attack-moves 2.5 s after the drop
+BOT 1 [1:17] BUILD S1 triggered
+BOT 1 [1:21] PLACE S1 Night Spire at (37, -29), 1 builder(s), crystals left 50
+BOT 1 [1:28] TRAIN Shade (soldier pop 1, crystals left 0)
+BOT 1 [1:39] TRAIN Shade (soldier pop 2, crystals left 10)
+BOT 1 [1:41] DEFENCE over
+Gloom Hall destroyed at 105.1 s
+BOT 1 [1:45] BUILD H1 triggered
+BOT 1 [1:49] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 90
+first building after the kill: shadow_barracks at 110.0 s
+20 Ember Archers dropped at 110.1 s
+BOT 1 [2:00] SCOUT Grave Hound to (16, -6)
+BOT 1 [2:04] SCOUT next (12, 22)
+BOT 1 [2:09] SCOUT next (17, 47) via (20, 32)
+BOT 1 [2:13] SCOUT next (-2, 44) via (12, 49)
+BOT 1 [2:16] SCOUT next (-16, 6)
+archers seen at 140.0 s
+Malrik at 30 % HP in mid-map at 150.0 s
+BOT 1 [2:30] WIZARD low (30 %), goes home
+BOT 1 [2:35] TRAIN Grave Hound (soldier pop 1, crystals left 360)
+BOT 1 [2:36] TRAIN Shade (soldier pop 1, crystals left 280)
+Malrik home at 157.9 s (30 % HP)
+BOT 1 [2:49] TRAIN Grave Hound (soldier pop 2, crystals left 330)
+BOT 1 [2:50] SQUAD 2 units to East Wayshrine (wakes in 9 s)
+BOT 1 [3:00] CHAMPION hire coin_cutter (Sable Quint) #1: 225 crystals + 75 essence, crystals 420 -> 195, from (-15, -15)
+BOT 1 [3:06] SQUAD back: East Wayshrine done
+BOT 1 [3:12] SQUAD 2 units to Stonemere Well
+BOT 1 [3:14] WIZARD healed (70 %)
+Malrik back at the anchor at 195.0 s (70 % HP)
+BOT 1 [3:20] STARVE pass: one unit through the 425-crystal reserve (295 crystals left)
+BOT 1 [3:20] TRAIN Shade (soldier pop 4, crystals left 295)
+BOT 1 [3:27] CHAMPION revive Sable Quint for 115 essence, back in 20 s
+BOT 1 [3:32] SQUAD back: Stonemere Well done
+BOT 1 [3:40] STARVE pass: one unit through the 425-crystal reserve (405 crystals left)
+BOT 1 [3:40] TRAIN Grave Hound (soldier pop 5, crystals left 405)
+BOT 1 [3:41] SQUAD 2 units to Saltwatch
+BOT 1 [3:50] TRAIN Nightbolt (soldier pop 5, crystals left 425)
+BOT 1 [3:54] SQUAD back: Saltwatch done
+BOT 1 [3:58] CREEP Bristleback Wallow (tier 1) 4 units str 310 (army 470) vs 200 (x1.6) + wizard
+BOT 1 [4:00] STARVE pass: one unit through the 425-crystal reserve (405 crystals left)
+BOT 1 [4:00] TRAIN Shade (soldier pop 6, crystals left 405)
+BOT 1 [4:00] SCOUT Shade to (-27, 27) via (12, 49)
+BOT 1 [4:01] BUILD V1 triggered
+BOT 1 [4:04] PLACE V1 Hovel at (50, -46), 1 builder(s), crystals left 385
+BOT 1 [4:06] WIZARD learns Q1 (soul_siphon rank 1) at level 2
+BOT 1 [4:09] CHAMPION hire oathwall (Garran Stoneward) #2: 275 crystals + 100 essence, crystals 435 -> 160, from (-15, -15)
+BOT 1 [4:13] CREEP over (cleared): Bristleback Wallow
+BOT 1 [4:13] WIZARD picks up Item_ember_draught after the creep
+BOT 1 [4:13] WIZARD job: pickup Item_ember_draught
+BOT 1 [4:14] TRAIN Grave Hound (soldier pop 6, crystals left 120)
+BOT 1 [4:21] SQUAD 2 units to Owlwatch
+BOT 1 [4:26] SCOUT next (-36, 36)
+BOT 1 [4:27] SCOUT next (-24, 48)
+soldiers queued after the archers were seen: ["Grave Hound", "Shade", "Grave Hound", "Shade", "Grave Hound", "Nightbolt", "Shade", "Grave Hound"]
+bot ticks 270, avg 1.859 ms, max 6.379 ms
+PASS 2.A1 rules
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

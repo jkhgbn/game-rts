@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 10
+Mirefang: draw instances 10, vertices 2440, triangles 2534, keep_separate 3, lights 0
+Mirefang: draw instances 10, vertices 2440, triangles 2534, keep_separate 3, lights 0
+own materials (5): mirefang_scale.tres, mirefang_belly.tres, mirefang_frill.tres, mirefang_dark.tres, mirefang_eye_glow.tres
+shared kit materials (0): 
+eye glow colour (1.0, 0.6, 0.1, 1.0) energy 3.40 shader res://art/units/kit/unit_glow.gdshader
+  Root/Mount/Head/Jaw (MeshInstance3D): 173 vertices, shadow 0
+  Root/Mount/Head/Frill (MeshInstance3D): 226 vertices, shadow 1
+  Root/Mount/Head/Merged (MeshInstance3D): 650 vertices, shadow 1
+  Root/Mount/LegFL/Merged (MeshInstance3D): 187 vertices, shadow 0
+  Root/Mount/LegFR/Merged (MeshInstance3D): 187 vertices, shadow 0
+  Root/Mount/LegBL/Merged (MeshInstance3D): 187 vertices, shadow 0
+  Root/Mount/LegBR/Merged (MeshInstance3D): 187 vertices, shadow 0
+  Root/Mount/Tail (MeshInstance3D): 250 vertices, shadow 1
+  Root/Mount/Merged (MeshInstance3D): 389 vertices, shadow 1
+  Shadow (MeshInstance3D): 4 vertices, shadow 0
+rest AABB top 0.547, bottom 0.004, x -0.50 .. 0.50, z -1.32 .. 0.98
+walk: max fore-leg swing 31.9 deg, spine yaw 9.0, tail yaw 16.0, frill 0.00
+bite: head x windup -28.4, strike 15.1 deg; jaw windup 45.7, strike -0.0 deg; lunge z 0.29; frill 0.85 (scale 1.08)
+bob: root pitch -6.0 deg, frill 0.55
+cast: root pitch -13.0 deg, jaw 50.0 deg, frill 1.00
+hit: frill 0.90, jaw 23.8
+death 0.62 s: root roll 160.4 deg, root y 0.50, glow 0.00
+death: lowest vertex y -0.023
+PASS 12.v21

@@ -1,0 +1,41 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START normal bot (shadow_default), team 1, fire
+BOT 1 [0:00] TRAIN Cinder Hand (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Ember Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+BOT 1 [0:01] TRAIN Cinder Hand (3 workers + 2 queued)
+part 1: Fire bot profile normal (shadow_default), Vessa level 4, points 3, reaction 1.5 s
+BOT 1 [0:02] WIZARD learns Q1 (ember_step rank 1) at level 4
+BOT 1 [0:02] WIZARD learns F2 (fireball rank 2) at level 4
+BOT 1 [0:02] WIZARD learns E1 (kindle rank 1) at level 4
+part 1: learned ["Q1", "F2", "E1"] at level 4, casts owned true
+BOT 1 [0:04] INTRUDER Shade seen, reacting in 1.5 s
+BOT 1 [0:06] DEFEND vs Shade at (29, -30), str 320 vs home 290
+BOT 1 [0:06] WIZARD casts kindle (kindle)
+part 1: casts ["2.4 fireball", "2.9 kindle"], rules { "cluster": 1, "kindle": 1 }, first cast 2.45 s after the spawn, first Fireball at (28.92893, 0.0, -29.63604) (group (28.92893, 0.0, -28.92893))
+BOT 1 [0:11] WIZARD low (25 %), goes home
+BOT 1 [0:11] WIZARD casts ember_step (escape)
+BOT 1 [0:12] ITEM bought ember_shard (list #1), essence 234 -> 34
+part 1: escape rules { "cluster": 2, "kindle": 1, "escape": 1 }, blink 12.1 m, hero state 3, HP 119 / 425
+  [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+  [0:02] WIZARD learns Q1 (ember_step rank 1) at level 4
+  [0:02] WIZARD learns F2 (fireball rank 2) at level 4
+  [0:02] WIZARD learns E1 (kindle rank 1) at level 4
+  [0:06] WIZARD casts kindle (kindle)
+  [0:11] WIZARD low (25 %), goes home
+  [0:11] WIZARD casts ember_step (escape)
+part 2: the human's Vessa (level 4, ranks F 1 Q 1 E 1): 0 casts in 8 s next to a cluster
+part 3: fire:shadow, player bot normal (fire) vs enemy bot normal (shadow)
+  [5:00] army pop 6 / 12, gathered 2260 / 2250, Vessa rules { "spare": 3 }, casts 3 / 2
+  [9:59] army pop 0 / 5, gathered 4490 / 5700, Vessa rules { "spare": 12, "cluster": 3, "wizard": 1 }, casts 16 / 19
+  [14:59] army pop 9 / 5, gathered 7240 / 7420, Vessa rules { "spare": 22, "cluster": 3, "wizard": 1 }, casts 26 / 27
+  [19:59] army pop 3 / 0, gathered 8970 / 8450, Vessa rules { "spare": 30, "cluster": 3, "wizard": 17, "kindle": 2 }, casts 52 / 57
+MATCH fire:shadow: fire wins at 20:21 | army pop 6 / 0 (max 14 / 14) | gathered 8970 / 8450 | attacks 6 / 4 | wizard lvl 8 / 8 | casts 60 / 60 | Vessa rules { "spare": 31, "cluster": 3, "wizard": 22, "kindle": 2, "escape": 2 }
+MATCH fire:shadow: fire wins at 20:21 | army pop 6 / 0 (max 14 / 14) | gathered 8970 / 8450 | attacks 6 / 4 | wizard lvl 8 / 8 | casts 60 / 60 | Vessa rules { "spare": 31, "cluster": 3, "wizard": 22, "kindle": 2, "escape": 2 }
+PASS 8.A2
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

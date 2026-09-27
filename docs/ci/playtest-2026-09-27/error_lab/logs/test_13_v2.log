@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 12 / 12
+plain: draw instances 8, vertices 4853, lights 0, particles 0
+  Root/Mount/Head/Merged: 7 surfaces, 1197 vertices, shadow false
+  Root/Mount/LegFL/Merged: 3 surfaces, 220 vertices, shadow false
+  Root/Mount/LegFR/Merged: 3 surfaces, 220 vertices, shadow false
+  Root/Mount/LegBL/Merged: 3 surfaces, 297 vertices, shadow false
+  Root/Mount/LegBR/Merged: 3 surfaces, 297 vertices, shadow false
+  Root/Mount/Tail/Merged: 3 surfaces, 137 vertices, shadow false
+  Root/Mount/Merged: 8 surfaces, 2481 vertices, shadow true
+  Shadow: 1 surfaces, 4 vertices, shadow false
+own materials (2): ember_boar_hide.tres, ember_boar_flame_core.tres
+palette materials (9): fire_hair.tres, unit_eye_dark.tres, fire_glow.tres, fire_skin.tres, fire_flame.tres, fire_cloth.tres, fire_cloth_dark.tres, fire_bronze.tres, fire_leather.tres
+rest AABB y -0.01..1.94, x -0.53..0.53, z -1.09..1.58
+seat (model space) (0.001551, 1.242257, -0.166039)
+walk: leg swing 24.0 deg, gallop blend 0.00
+gallop: blend 1.00, bounce 0.080, seat bob 0.110, leg swing 38.0 deg, strides/s 3, tail lift 70.0 deg
+hit: body flash 0.58, leg flash 0.58, root z -0.083
+charge: head 24.2 deg (tusks levelled), lunge z 0.41, toss -24.6 deg, mane glow 1.00 -> 2.60
+fidget: rooting head 25.4 deg, toss -12.0 deg, glow 2.01
+barded: draw instances 8, vertices 6880, body surfaces 8 -> 8
+team colour on the barded body: [(0.45, 0.75, 0.95, 1.0), (0.2025, 0.3375, 0.4275, 1.0)]
+slot collisions: 0
+death: roll -40.1 -> -86.0 deg, lying AABB y -0.03..1.04, smoulder 0.17 -> 0.03 ((1.0, 0.3, 0.05)), mane glow 0.00, finished true
+PASS 13.v2

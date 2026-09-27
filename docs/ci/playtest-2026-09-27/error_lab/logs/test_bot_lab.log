@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+bot lab test: 2 match(es) started (C:/Users/elzzo/AppData/Roaming/Godot/app_userdata/Four Wizards RTS/bot_lab_test), 120 game s each
+  fire:ice seed 1: time-score, winner ice at 2:00, x2.3, 82 s real
+  nature:shadow seed 2: time-score, winner nature at 2:00, x2.2, 85 s real
+PASS bot lab (C:/Users/elzzo/AppData/Roaming/Godot/app_userdata/Four Wizards RTS/bot_lab_test/report.md)

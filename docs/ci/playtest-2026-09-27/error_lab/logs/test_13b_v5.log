@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes 13, draw instances 15, materials 7 (shadow_cloth_dark, shadow_obsidian, shadow_silver, shadow_cloth, shadow_skin, shadow_glow_hero, shadow_cape), own 0
+bow y 0.04..2.13 (height 2.09), body top 2.05
+quiver z -0.56..-0.42 y 0.97..1.93, clearance to the body / cape / hood 0.076 m
+variant A top 2.05, variant B top 1.91
+slot audit: 20 geometries, 0 collisions
+KITFIX AUDIT OK (mage archer: slot map, no collision)
+attack draw: hand (0.025071, 1.593452, 0.10585), nock (0.024757, 1.587627, 0.106224) (0.01 m), arrow tip (0.049757, 1.649013, 0.98408), bow axis (-0.0, 0.997564, -0.069756), string glow 3.76 (rest 1.20)
+sable_shaft     1.00 s, drawn true, aim 5 deg, quiver fan false, quiver glow max 3.57, root scale min 1.00
+grave_mark      0.80 s, drawn false, aim -90 deg, quiver fan false, quiver glow max 3.57, root scale min 1.00
+eclipse_volley  1.30 s, drawn true, aim 70 deg, quiver fan true, quiver glow max 4.97, root scale min 1.00
+arc_bolt        0.60 s, drawn true, aim 12 deg, quiver fan false, quiver glow max 1.97, root scale min 1.00
+slipstep        0.52 s, drawn false, aim -90 deg, quiver fan false, quiver glow max 2.90, root scale min 0.02
+starfall        1.20 s, drawn true, aim 84 deg, quiver fan false, quiver glow max 2.37, root scale min 1.00
+gravity_well    1.00 s, drawn false, aim -90 deg, quiver fan false, quiver glow max 3.47, root scale min 1.00
+comet_rain      1.40 s, drawn true, aim 64 deg, quiver fan false, quiver glow max 2.87, root scale min 1.00
+astral_form     1.20 s, drawn false, aim -90 deg, quiver fan true, quiver glow max 3.97, root scale min 1.00
+call start: root y -2.08, head y -0.52, calling true
+call end: root y -0.01, finished true
+death: head y -0.75, string glow 0.00, quiver glow 0.00, finished true
+PASS 13b.v5

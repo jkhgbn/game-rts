@@ -1,4 +1,5 @@
 extends SceneTree
+# error_lab: verdict=last (planted checks print inner "FAIL ..." lines; the final PASS / FAIL art_lab line decides)
 ## Art Lab tool test (docs/plan/art-lab.md). Headless: the pixel analysis on synthetic images, the budget table, the
 ## scorecard (score, "Improve next", writers, log) and a headless lab run on a finished model (budgets / health / hooks;
 ## the render checks come out SKIP).

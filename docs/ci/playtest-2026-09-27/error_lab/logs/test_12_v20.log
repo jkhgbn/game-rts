@@ -1,0 +1,24 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 8
+Bristleback: draw instances 10, vertices 2196, lights 0
+Bristleback: draw instances 10, vertices 2196, lights 0
+own materials (4): bristleback_hide.tres, bristleback_dark.tres, bristleback_bone.tres, bristleback_mud.tres
+shared kit materials (1): unit_eye_dark.tres
+  Root/Mount/Head/Merged (MeshInstance3D): 623 vertices
+  Root/Mount/LegFL/Merged (MeshInstance3D): 186 vertices
+  Root/Mount/LegFR/Merged (MeshInstance3D): 186 vertices
+  Root/Mount/LegBL/Merged (MeshInstance3D): 186 vertices
+  Root/Mount/LegBR/Merged (MeshInstance3D): 186 vertices
+  Root/Mount/Quills (MeshInstance3D): 504 vertices
+  Root/Mount/Merged (MeshInstance3D): 321 vertices
+  Fx/Dust (GPUParticles3D): 0 vertices
+  Fx/Clods (GPUParticles3D): 0 vertices
+  Shadow (MeshInstance3D): 4 vertices
+rest AABB top 1.211, bottom 0.000, x -0.34 .. 0.39, z -0.91 .. 1.19
+walk: max fore-leg swing 29.9 deg
+gore: head x windup 33.9, strike -22.5 deg, lunge z 0.27, quills 1.00 (scale y 1.34)
+dig: head x 40.7 deg
+cast: root pitch -15.0 deg, root y 0.13
+death 0.6 s: root roll 82.0 deg
+PASS 12.v20

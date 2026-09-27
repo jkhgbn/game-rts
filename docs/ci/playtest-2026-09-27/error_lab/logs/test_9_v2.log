@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+INFO 9.v2: authored 25, draw instances 10 + 2 particle systems, lights 0, vertices 2467, materials 5
+FAIL 9.v2: part below the ground (-0.01)

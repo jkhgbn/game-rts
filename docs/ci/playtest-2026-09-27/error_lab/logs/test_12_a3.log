@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+NOTE 12.A3: perf: 8 brains + 160 soldiers: 0.0185 ms / frame, 160 thinks in 600 frames (69.5 us each), max 1 per frame
+NOTE 12.A3: perf: scans 1.2 us per think; 96 combatants inside the 8 leashes
+NOTE 12.A3: perf: 8 of 8 beasts fighting at the end
+PASS 12.A3

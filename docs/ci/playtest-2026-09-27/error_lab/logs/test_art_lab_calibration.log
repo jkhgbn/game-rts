@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ART LAB CALIBRATION: 12 cases (headless)
+ART LAB shade (unit / soldier, shadow) -> res://docs/art/lab/_calibration_headless/shade [headless: no renders]
+ART LAB shade: PASS quality 99 (0 FAIL, 0 WARN, 17 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/shade/scorecard.md
+ART LAB dusk_steed (mount / mount, shadow) -> res://docs/art/lab/_calibration_headless/dusk_steed [headless: no renders]
+ART LAB dusk_steed: PASS quality 98 (0 FAIL, 0 WARN, 13 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/dusk_steed/scorecard.md
+ART LAB aqueduct (landmark / landmark, neutral) -> res://docs/art/lab/_calibration_headless/aqueduct [headless: no renders]
+ART LAB aqueduct: PASS quality 100 (0 FAIL, 0 WARN, 10 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/aqueduct/scorecard.md
+ART LAB fire_gun_vfx (vfx / family, fire) -> res://docs/art/lab/_calibration_headless/fire_gun_vfx [headless: no renders]
+ART LAB fire_gun_vfx: PASS quality 100 (0 FAIL, 0 WARN, 7 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/fire_gun_vfx/scorecard.md
+ART LAB deer (critter / deer, neutral) -> res://docs/art/lab/_calibration_headless/deer [headless: no renders]
+ART LAB deer: PASS quality 99 (0 FAIL, 0 WARN, 11 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/deer/scorecard.md
+ART LAB frost_dragon (titan / titan, ice) -> res://docs/art/lab/_calibration_headless/frost_dragon [headless: no renders]
+ART LAB frost_dragon: PASS quality 99 (0 FAIL, 0 WARN, 12 PASS) in 2 s -> res://docs/art/lab/_calibration_headless/frost_dragon/scorecard.md
+ART LAB plant_green_shade (unit / soldier, shadow) -> res://docs/art/lab/_calibration_headless/plant_green_shade [headless: no renders]
+ART LAB plant_green_shade: PASS quality 99 (0 FAIL, 0 WARN, 16 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/plant_green_shade/scorecard.md
+ART LAB plant_glow40_frost_dragon (titan / titan, ice) -> res://docs/art/lab/_calibration_headless/plant_glow40_frost_dragon [headless: no renders]
+ART LAB plant_glow40_frost_dragon: PASS quality 99 (0 FAIL, 0 WARN, 12 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/plant_glow40_frost_dragon/scorecard.md
+ART LAB plant_verts20k_shade (unit / soldier, shadow) -> res://docs/art/lab/_calibration_headless/plant_verts20k_shade [headless: no renders]
+ART LAB plant_verts20k_shade: fail_fast after B4 (render checks skipped)
+ART LAB plant_verts20k_shade: FAIL quality 94 (1 FAIL, 0 WARN, 15 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/plant_verts20k_shade/scorecard.md
+  FAIL B4 Vertices: 20663 (biggest: Merged 19645, Merged 253, Merged 229, Merged 215)
+ART LAB plant_float_deer (critter / deer, neutral) -> res://docs/art/lab/_calibration_headless/plant_float_deer [headless: no renders]
+ART LAB plant_float_deer: FAIL quality 84 (1 FAIL, 0 WARN, 10 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/plant_float_deer/scorecard.md
+  FAIL R9 Feet on the ground: lowest point 0.4 m
+ART LAB plant_permat_dusk_steed (mount / mount, shadow) -> res://docs/art/lab/_calibration_headless/plant_permat_dusk_steed [headless: no renders]
+ART LAB plant_permat_dusk_steed: fail_fast after B9 (render checks skipped)
+ART LAB plant_permat_dusk_steed: FAIL quality 89 (1 FAIL, 0 WARN, 12 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/plant_permat_dusk_steed/scorecard.md
+  FAIL B9 Materials built per instance: 34 material(s), 0 mesh(es) not shared by a 2nd instance
+ART LAB plant_team_dusk_steed (mount / mount, shadow) -> res://docs/art/lab/_calibration_headless/plant_team_dusk_steed [headless: no renders]
+ART LAB plant_team_dusk_steed: PASS quality 98 (0 FAIL, 0 WARN, 13 PASS) in 0 s -> res://docs/art/lab/_calibration_headless/plant_team_dusk_steed/scorecard.md
+  shade                      PASS q  99.3 band 94-100    0.4 s  
+  dusk_steed                 PASS q  98.4 band 94-100    0.3 s  
+  aqueduct                   PASS q 100.0 band 95-100    0.1 s  
+  fire_gun_vfx               PASS q 100.0 band 90-100    0.5 s  
+  deer                       PASS q  98.7 band 95-100    0.1 s  
+  frost_dragon               PASS q  98.9 band 95-100    1.7 s  
+  plant_green_shade          PASS q  99.3 band 79-88     0.0 s  
+  plant_glow40_frost_dragon  PASS q  98.8 band 89-95     0.1 s  
+  plant_verts20k_shade       FAIL q  94.3 band 91-98     0.1 s  FAIL B4
+  plant_float_deer           FAIL q  84.4 band 87-94     0.0 s  FAIL R9
+  plant_permat_dusk_steed    FAIL q  89.0 band 86-92     0.1 s  FAIL B9
+  plant_team_dusk_steed      PASS q  98.4 band 91-97     0.1 s  
+ART LAB BATCH done: 12 assets in 4.8 s (0.4 s / asset; first 0.4 s, then 0.3 s / asset)
+PASS art_lab_calibration (12 cases in band, headless: render checks not judged, 5 s)

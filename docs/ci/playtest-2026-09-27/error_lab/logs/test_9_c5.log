@@ -1,0 +1,52 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ok   8.2 Coin-Cutter Hunt 100 on a worker at 50 m: U 117.0 (117), taken
+ok   8.2 Oathwall Explore 25 at 60 m: U 1.18 (1.2), ignored
+ok   8.2 Wayfinder Explore 25 at 60 m: U 14.7 (14.7), taken
+ok   8.2 Oathwall Guard 50 on a building at 20 m: U 44.4 (44.4), taken
+ok   8.2 Coin-Cutter Hunt 75 on a Shade among 5 at 25 m: danger 400 (400), U 40.5 (40.5), taken
+ok   R6 takes the Hunt flag (pursuer added, intent Hunting bounty)
+ok   hysteresis: keeps its flag when another scores 1.40 x (< 1.5)
+ok   hysteresis: switches at 1.60 x (>= 1.5), pursuers moved
+ok   R5 Unpaid: drops and ignores flags, intent Unpaid! (is Unpaid!)
+ok   paid again: takes a flag again
+ok   R4 ignores a hit ally 14 m away (engage 8 m), intent Raiding
+ok   R4 joins when an ally 6 m away is hit by a visible enemy (attacks it)
+ok   R3 no potion at 55 % HP
+ok   R3 drinks the Ember Draught at 45 % HP (flee is 35 %: other rules go on, intent Raiding)
+ok   R2 does not flee at 36 % (threshold 35 %)
+ok   R2 flees under 35 % toward the nearest rest spot (own keep)
+ok   R2 reaches the keep and rests (12.2 m from it)
+ok   R2 keeps resting at 84 %
+ok   R2 leaves the rest at 86 % (intent now Raiding)
+ok   R2 picks the nearer tavern door (-11, -11) as rest spot
+ok   R7 shopping detour to the keep 29 m away (purse 300 >= 100)
+ok   R7 buys every affordable entry in order (["stub_a", "stub_b"], purse 50)
+ok   R7 no second detour within 60 s
+ok   R7 no detour when the nearest shop is 47 m away (> 40)
+ok   ChampionSense knows the tower on an explored cell
+ok   Wayfinder explore goals are unexplored cells
+ok   Wayfinder (L1) never picks a point within 12 m of a known tower
+ok   Wayfinder at L4 no longer avoids it (5 / 10 goals near the tower)
+ok   R8 Wayfinder default: Exploring
+ok   R8 Oathwall default: Patrolling its buildings
+ok   R4 Oathwall defends the hit keep (engage 20 m)
+ok   Oathwall never goes more than 25 m from its buildings (max 13.2 m) and drops the chase
+ok   fog: a worker 22 m away in the fog is unknown, no raid (fog state 1, remembered false, plan GAME)
+ok   R8 Coin-Cutter raids the seen worker
+ok   R8 Coin-Cutter goes for the nearest closed Lost Cache (plan CACHE, available true, fog 2, caches 5)
+ok   Coin-Cutter reaches the cache (opened: true, purse 0 -> 80)
+ok   R8 Mender follows the 5-soldier group, goal 4.0 m behind its centre
+ok   Mender stands on the side away from the enemy (toward home)
+ok   R1 fallen: intent Fallen
+ok   a real Champion creates its ChampionBrain child
+ok   real Champion takes a real Explore flag (place: '', intent Scouting bounty)
+ok   real Champion walks to it and is paid (purse 50 -> 75)
+timing: 200 units, 6 champions: brains 24723.0 us (120 ticks), senses 42938.0 us (40 passes) over 600 frames
+FAIL timing: brains + senses 112.8 us per frame (< 100)
+---- 43 checks, 1 failed
+FAIL 9.C5: timing: brains + senses 112.8 us per frame (< 100)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

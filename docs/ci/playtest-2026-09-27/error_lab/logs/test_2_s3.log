@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  94 obstacles (trees, rocks, pillars), 0 without a mirror
+  crown dropped 3.02 s after the death, 0.00 m from the death spot
+  Malrik healed 20.0 hp in 5 s near his keep
+  mid worker delivered at (-18.77962, 0.0, 5.747866): 0.78 m from the hall drop-off, 39.6 m from the keep's (frame 744)
+  Vessa back after 30.02 s at (-39.5, 0.0, 39.5) (keep spawn (-39.5, 0.0, 39.5)), hp 350
+  victory after 3 frames; end screen:
+Match time 0:30
+Units trained 1 · Units lost 2 · Enemy units killed 0 · Buildings destroyed 1
+Crystals gathered 130
+Gold earned 0 (trade 0) · Caravans lost 0 · Workers lost to Magpies 0 · Magpies slain 0
+Points held at the end 0 / 8 · Camps cleared 0 · Blessings 0 · Game hunted 0
+F9: play again
+  round A done at frame 1829 (total 1854)
+  defeat 24 frames after the Fire buildings fell
+  round B done at frame 279 (total 2136)
+  round C done at frame 67 (total 2206)
+PASS 2.S3
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

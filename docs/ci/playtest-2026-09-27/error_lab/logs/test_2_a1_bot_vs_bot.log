@@ -1,0 +1,674 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START normal bot (shadow_default), team 1, shadow
+BOT 1 [0:00] TRAIN Gloom Thrall (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+BOT 0 [0:00] START normal bot (shadow_default), team 0, fire
+BOT 0 [0:00] TRAIN Cinder Hand (3 workers + 1 queued)
+BOT 0 [0:00] BUILD H1 triggered
+BOT 0 [0:00] PLACE H1 Ember Hall at (-27, 45), 1 builder(s), crystals left 50
+BOT 0 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+BOT 1 [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+BOT 0 [0:01] TRAIN Cinder Hand (3 workers + 2 queued)
+BOT 1 [0:19] TRAIN Gloom Thrall (4 workers + 2 queued)
+BOT 0 [0:19] TRAIN Cinder Hand (4 workers + 2 queued)
+BOT 1 [0:47] TRAIN Shade (soldier pop 0, crystals left 100)
+BOT 0 [0:47] TRAIN Flame Guard (soldier pop 0, crystals left 90)
+BOT 1 [0:48] TRAIN Nightbolt (soldier pop 0, crystals left 0)
+BOT 1 [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+BOT 0 [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+BOT 0 [0:51] TRAIN Ember Archer (soldier pop 0, crystals left 10)
+[0:59] team 0: buildings 2, crystals 80, gathered 320, pop 8 / 20
+[0:59] team 1: buildings 2, crystals 90, gathered 320, pop 8 / 20
+BOT 1 [1:03] TRAIN Grave Hound (soldier pop 1, crystals left 60)
+BOT 0 [1:12] TRAIN Blaze Rider (soldier pop 1, crystals left 20)
+BOT 1 [1:23] TRAIN Shade (soldier pop 2, crystals left 160)
+BOT 0 [1:25] TRAIN Flame Guard (soldier pop 2, crystals left 20)
+BOT 1 [1:37] TRAIN Nightbolt (soldier pop 3, crystals left 190)
+BOT 1 [1:44] SQUAD 2 units to Stonemere Well
+BOT 1 [1:53] TRAIN Shade (soldier pop 4, crystals left 240)
+BOT 0 [1:56] TRAIN Ember Archer (soldier pop 4, crystals left 200)
+[1:59] team 0: buildings 2, crystals 240, gathered 850, pop 12 / 20
+[1:59] team 1: buildings 2, crystals 300, gathered 860, pop 12 / 20
+BOT 1 [2:00] SCOUT Grave Hound to (12, 22)
+BOT 0 [2:00] SCOUT Blaze Rider to (-16, 6)
+BOT 0 [2:04] SCOUT next (-12, -22)
+BOT 0 [2:05] SQUAD 2 units to Mossmere Well
+BOT 1 [2:08] SCOUT next (17, 47) via (20, 32)
+BOT 1 [2:08] SQUAD back: Stonemere Well done
+BOT 0 [2:08] SCOUT next (-17, -47) via (-20, -32)
+BOT 1 [2:12] SCOUT next (-2, 44) via (12, 49)
+BOT 0 [2:12] SCOUT next (2, -44) via (-12, -49)
+BOT 1 [2:13] TRAIN Grave Hound (soldier pop 5, crystals left 350)
+BOT 0 [2:14] TRAIN Flame Guard (soldier pop 5, crystals left 270)
+BOT 1 [2:15] SCOUT next (-16, 6)
+BOT 0 [2:15] SCOUT next (16, -6)
+BOT 1 [2:20] SQUAD 2 units to Saltwatch
+BOT 0 [2:20] SCOUT next (27, -27)
+BOT 1 [2:21] SCOUT next (-27, 27)
+BOT 1 [2:22] INTRUDER Blaze Rider seen, reacting in 1.5 s
+BOT 1 [2:24] DEFEND vs Blaze Rider at (26, -23), str 180 vs home 420
+BOT 1 [2:24] BUILD S1 triggered
+BOT 1 [2:24] SCOUT next (-24, 36)
+BOT 0 [2:24] INTRUDER Grave Hound seen, reacting in 1.5 s
+BOT 0 [2:26] DEFEND vs Grave Hound at (-22, 34), str 70 vs home 330
+BOT 0 [2:26] BUILD S1 triggered
+BOT 1 [2:27] PLACE S1 Night Spire at (37, -29), 1 builder(s), crystals left 350
+BOT 0 [2:27] SQUAD back: Mossmere Well done
+BOT 1 [2:29] TRAIN Nightbolt (soldier pop 6, crystals left 250)
+BOT 0 [2:29] PLACE S1 Ember Spire at (-37, 29), 1 builder(s), crystals left 270
+BOT 1 [2:34] SQUAD back: Saltwatch done
+BOT 0 [2:34] TRAIN Ember Archer (soldier pop 6, crystals left 220)
+BOT 1 [2:39] DEFENCE over
+BOT 0 [2:40] SCOUT home
+BOT 1 [2:43] TRAIN Shadow Knight (soldier pop 7, crystals left 100)
+BOT 1 [2:43] SCOUT home
+BOT 1 [2:43] CREEP Bristleback Wallow (tier 1) 5 units str 420 (army 580) vs 200 (x2.1) + wizard
+BOT 0 [2:43] DEFENCE over
+BOT 0 [2:43] SQUAD 2 units to Rookwatch
+BOT 1 [2:48] SQUAD 2 units to East Wayshrine (wakes in 11 s)
+BOT 0 [2:48] SQUAD leaves Rookwatch for West Wayshrine
+BOT 0 [2:52] TRAIN Ash Hurler (soldier pop 7, crystals left 210)
+BOT 1 [2:55] CREEP over (cleared): Bristleback Wallow
+BOT 1 [2:55] WIZARD picks up Item_ember_draught after the creep
+BOT 1 [2:55] WIZARD job: pickup Item_ember_draught
+[3:00] team 0: buildings 3, crystals 280, gathered 1340, pop 15 / 20
+[3:00] team 1: buildings 3, crystals 210, gathered 1320, pop 16 / 20
+BOT 1 [3:04] BUILD V1 triggered
+BOT 1 [3:06] SQUAD back: East Wayshrine done
+BOT 0 [3:06] SQUAD back: West Wayshrine done
+BOT 1 [3:07] PLACE V1 Hovel at (50, -46), 1 builder(s), crystals left 190
+BOT 1 [3:12] SQUAD 2 units to Owlwatch
+BOT 0 [3:12] SQUAD 2 units to Rookwatch
+BOT 0 [3:12] CREEP Bristleback Wallow (tier 1) 3 units str 300 (army 750) vs 200 (x1.5) + wizard
+BOT 0 [3:13] CHAMPION hire coin_cutter (Sable Quint) #1: 225 crystals + 75 essence, crystals 380 -> 155, from (-15, -15)
+BOT 0 [3:14] BUILD V1 triggered
+BOT 0 [3:17] PLACE V1 Hearth at (-50, 46), 1 builder(s), crystals left 105
+BOT 1 [3:28] STARVE pass: one unit through the 375-crystal reserve (240 crystals left)
+BOT 1 [3:28] TRAIN Nightbolt (soldier pop 7, crystals left 240)
+BOT 0 [3:31] CREEP over (cleared): Bristleback Wallow
+BOT 1 [3:32] SQUAD back: Owlwatch done
+BOT 0 [3:35] SQUAD back: Rookwatch done
+BOT 0 [3:38] STARVE pass: one unit through the 425-crystal reserve (165 crystals left)
+BOT 0 [3:38] TRAIN Ember Archer (soldier pop 8, crystals left 165)
+BOT 1 [3:43] CHAMPION hire coin_cutter (Silas Quint) #1: 225 crystals + 75 essence, crystals 380 -> 155, from (-15, -15)
+BOT 1 [3:48] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 0 [3:48] SQUAD 2 units to Stonemere Well
+BOT 1 [3:49] STARVE pass: one unit through the 425-crystal reserve (85 crystals left)
+BOT 1 [3:49] TRAIN Nightbolt (soldier pop 10, crystals left 85)
+BOT 1 [3:49] ATTACK #1 6 units (6 pop) str 870 (power 1134) vs seen 750 (ready) + wizard -> MID
+BOT 1 [3:50] DEFEND vs Sable Quint at (6, -26), str 290 vs home 754
+BOT 1 [3:56] ATTACK to the enemy keep (-43, 43)
+BOT 0 [3:58] STARVE pass: one unit through the 425-crystal reserve (235 crystals left)
+BOT 0 [3:58] TRAIN Flame Guard (soldier pop 9, crystals left 235)
+[4:00] team 0: buildings 4, crystals 245, gathered 1800, pop 18 / 30
+[4:00] team 1: buildings 4, crystals 185, gathered 1800, pop 19 / 30
+BOT 0 [4:00] SCOUT Blaze Rider to (-48, -24) via (-48, -6)
+BOT 1 [4:03] RETREAT 3 units: HP 180 of 464
+BOT 1 [4:05] DEFENCE over
+BOT 0 [4:06] SCOUT next (-48, -36)
+BOT 1 [4:07] ATTACK over: back at the rally
+BOT 1 [4:07] SCOUT Nightbolt to (-24, -24) via (-12, -49)
+BOT 0 [4:08] SCOUT next (24, -48) via (-12, -49)
+BOT 1 [4:09] STARVE pass: one unit through the 425-crystal reserve (175 crystals left)
+BOT 1 [4:09] TRAIN Shade (soldier pop 7, crystals left 175)
+BOT 1 [4:15] INTRUDER Blaze Rider seen, reacting in 1.5 s
+BOT 1 [4:15] ITEM used ember_draught (slot 2)
+BOT 1 [4:17] DEFEND vs Blaze Rider at (11, -48), str 180 vs home 710
+BOT 0 [4:17] SCOUT next (36, -48)
+BOT 0 [4:18] STARVE pass: one unit through the 425-crystal reserve (205 crystals left)
+BOT 0 [4:18] TRAIN Blaze Rider (soldier pop 10, crystals left 205)
+BOT 0 [4:18] POINT defence: 4 units to Rookwatch (capturers 100 vs rally 620)
+BOT 1 [4:19] SCOUT next (-36, -24)
+BOT 1 [4:19] WIZARD learns Q1 (soul_siphon rank 1) at level 2
+BOT 0 [4:19] SCOUT next (36, -36)
+BOT 0 [4:20] SCOUT next (48, -48)
+BOT 1 [4:21] SCOUT next (-48, -24)
+BOT 1 [4:23] SCOUT next (-36, -48)
+BOT 1 [4:25] BUILD X1 triggered
+BOT 1 [4:26] SCOUT next (-36, 12) via (-25, -10)
+BOT 1 [4:27] WIZARD walks to the shop (next item affordable)
+BOT 1 [4:29] PLACE X1 Gloom Hall at (23, -9), 2 builder(s), crystals left 205
+BOT 1 [4:31] ITEM bought bone_charm (list #2), essence 415 -> 165
+BOT 1 [4:32] SCOUT hurt, coming home
+BOT 0 [4:32] SQUAD back: Stonemere Well done
+BOT 1 [4:34] CHAMPION revive Silas Quint for 115 essence, back in 20 s
+BOT 0 [4:34] WIZARD learns Q1 (ember_step rank 1) at level 2
+BOT 0 [4:39] STARVE pass: one unit through the 425-crystal reserve (235 crystals left)
+BOT 0 [4:39] TRAIN Ash Hurler (soldier pop 9, crystals left 235)
+BOT 0 [4:39] SCOUT home
+BOT 0 [4:40] POINT over (point safe): Rookwatch
+BOT 0 [4:40] WIZARD walks to the shop (next item affordable)
+BOT 0 [4:41] BUILD X1 triggered
+BOT 1 [4:42] DEFENCE over
+BOT 0 [4:45] PLACE X1 Ember Hall at (-23, 9), 2 builder(s), crystals left 145
+BOT 1 [4:49] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [4:51] DEFEND vs Sable Quint at (1, -18), str 290 vs home 1210
+BOT 1 [4:51] STARVE pass: one unit through the 425-crystal reserve (255 crystals left)
+BOT 1 [4:51] TRAIN Shade (soldier pop 8, crystals left 255)
+BOT 0 [4:52] ATTACK #1 7 units (8 pop) str 1060 (power 1330) vs seen 824 (ready) + wizard -> MID
+[5:00] team 0: buildings 5, crystals 225, gathered 2250, pop 20 / 30
+[5:00] team 1: buildings 5, crystals 295, gathered 2220, pop 17 / 30
+BOT 0 [5:00] ATTACK to the enemy keep (43, -43)
+BOT 1 [5:02] WIZARD learns F2 (shadow_lance rank 2) at level 3
+BOT 0 [5:02] CHAMPION revive Sable Quint for 115 essence, back in 20 s
+BOT 0 [5:04] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [5:04] RETREAT 6 units: enemy 1230 vs group 610
+BOT 0 [5:04] WIZARD walks to the shop (next item affordable)
+BOT 0 [5:06] DEFEND vs Silas Quint at (-12, -9), str 200 vs home 420
+BOT 1 [5:06] EXPANSION done: 3 workers to the natural node
+BOT 1 [5:06] BUILD S2 triggered
+BOT 0 [5:06] WIZARD walks to the shop (next item affordable)
+BOT 0 [5:07] STARVE pass: one unit through the 425-crystal reserve (85 crystals left)
+BOT 0 [5:07] TRAIN Blaze Rider (soldier pop 8, crystals left 85)
+BOT 1 [5:10] PLACE S2 Night Spire at (25, -37), 1 builder(s), crystals left 225
+BOT 0 [5:11] ATTACK over: back at the rally
+BOT 1 [5:14] CHAMPION revive Silas Quint for 115 essence, back in 20 s
+BOT 0 [5:14] WIZARD walks to the shop (next item affordable)
+BOT 0 [5:14] WIZARD learns F2 (fireball rank 2) at level 3
+BOT 1 [5:21] DEFENCE over
+BOT 1 [5:21] SQUAD 2 units to Stonemere Well
+BOT 0 [5:22] EXPANSION done: 3 workers to the natural node
+BOT 0 [5:22] BUILD S2 triggered
+BOT 0 [5:25] ITEM bought bone_charm (list #2), essence 504 -> 254
+BOT 0 [5:26] PLACE S2 Ember Spire at (-25, 37), 1 builder(s), crystals left 85
+BOT 0 [5:29] DEFENCE over
+BOT 1 [5:32] STARVE pass: one unit through the 425-crystal reserve (345 crystals left)
+BOT 1 [5:32] TRAIN Gloom Thrall (6 workers + 1 queued)
+BOT 0 [5:35] POINT defence: 6 units to Stonemere Well (capturers 0 vs rally 966)
+BOT 1 [5:38] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [5:40] DEFEND vs Sable Quint at (1, -18), str 290 vs home 1380
+BOT 1 [5:41] CHAMPION hire oathwall (Garran Stoneward) #2: 275 crystals + 100 essence, crystals 425 -> 150, from (-15, -15)
+BOT 1 [5:42] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 1 [5:43] TRAIN Grave Hound (soldier pop 9, crystals left 50)
+BOT 1 [5:44] TRAIN Gloom Thrall (7 workers + 2 queued)
+BOT 1 [5:47] BUILD M1 triggered
+BOT 0 [5:47] RETREAT 3 units: HP 160 of 323
+BOT 1 [5:48] SQUAD leaves Stonemere Well for East Wayshrine
+BOT 0 [5:48] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [5:48] STARVE pass: one unit through the 425-crystal reserve (215 crystals left)
+BOT 0 [5:48] TRAIN Cinder Hand (6 workers + 1 queued)
+BOT 0 [5:50] DEFEND vs Silas Quint at (-18, 3), str 200 vs home 986
+BOT 0 [5:51] ATTACK over: back at the rally
+BOT 0 [5:55] CHAMPION revive Sable Quint for 115 essence, back in 20 s
+[6:00] team 0: buildings 6, crystals 255, gathered 2630, pop 16 / 30
+[6:00] team 1: buildings 6, crystals 170, gathered 2710, pop 23 / 30
+BOT 1 [6:00] WIZARD goes for the crown at (0, 0)
+BOT 1 [6:02] CHAMPION revive Silas Quint for 115 essence, back in 20 s
+BOT 0 [6:03] BUILD M1 triggered
+BOT 0 [6:05] WIZARD goes for the crown at (0, 0)
+BOT 0 [6:05] WIZARD learns E1 (kindle rank 1) at level 4
+BOT 1 [6:06] PLACE M1 Gloom Bazaar at (45, -27), 1 builder(s), crystals left 115
+BOT 1 [6:06] SQUAD back: East Wayshrine done
+BOT 1 [6:07] TRAIN Nightbolt (soldier pop 4, crystals left 15)
+BOT 0 [6:07] PLACE M1 Ember Bazaar at (-45, 27), 1 builder(s), crystals left 150
+BOT 1 [6:08] WIZARD goes for the crown at (0, 0)
+BOT 1 [6:09] DEFENCE over
+BOT 1 [6:09] SCOUT Grave Hound to (48, 24) via (48, 6)
+BOT 0 [6:09] WIZARD wears the crown
+BOT 0 [6:09] WIZARD walks to the shop (next item affordable)
+BOT 1 [6:13] TRAIN Nightbolt (soldier pop 4, crystals left 5)
+BOT 0 [6:13] ITEM bought grave_pact (list #3), essence 487 -> 187
+BOT 1 [6:16] SCOUT next (48, 36)
+BOT 1 [6:17] SCOUT next (-24, 48) via (12, 49)
+BOT 0 [6:20] DEFENCE over
+BOT 0 [6:20] SCOUT Blaze Rider to (48, -12)
+BOT 1 [6:21] TRAIN Nightbolt (soldier pop 4, crystals left 5)
+BOT 0 [6:21] SCOUT hurt, coming home
+BOT 0 [6:24] INTRUDER Grave Hound seen, reacting in 1.5 s
+BOT 1 [6:26] TRAIN Shade (soldier pop 4, crystals left 15)
+BOT 1 [6:26] SCOUT next (-36, 48)
+BOT 1 [6:28] SCOUT next (-48, 48)
+BOT 0 [6:28] INTRUDER Grave Hound seen, reacting in 1.5 s
+BOT 0 [6:28] SCOUT home
+BOT 0 [6:28] CREEP Willow Ford Nest (tier 2) 4 units str 596 (army 902) vs 220 (x2.7) + wizard
+BOT 1 [6:29] SCOUT next (-48, 36)
+BOT 0 [6:29] STARVE pass: one unit through the 425-crystal reserve (290 crystals left)
+BOT 0 [6:29] TRAIN Cinder Hand (6 workers + 1 queued)
+BOT 0 [6:30] DEFEND vs Grave Hound at (-41, 49), str 70 vs home 1070
+BOT 0 [6:30] RETREAT 4 units: recalled home from the Willow Ford Nest (intruders 70)
+BOT 1 [6:30] TRAIN Grave Hound (soldier pop 5, crystals left 15)
+BOT 0 [6:30] ATTACK over: back at the rally
+BOT 1 [6:31] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [6:33] DEFEND vs Sable Quint at (4, -8), str 314 vs home 1010
+BOT 1 [6:37] TRAIN Nightbolt (soldier pop 6, crystals left 5)
+BOT 0 [6:41] ITEM bought ember_draught (list #4), essence 224 -> 104
+BOT 1 [6:47] TRAIN Caravan (0 caravans + 1 queued, target 4, crystals left 50)
+BOT 1 [6:48] WIZARD learns E1 (umbral_shroud rank 1) at level 4
+BOT 1 [6:49] SCOUT home
+BOT 1 [6:50] TRAIN Shade (soldier pop 3, crystals left 40)
+BOT 0 [6:50] STARVE pass: one unit through the 425-crystal reserve (360 crystals left)
+BOT 0 [6:50] TRAIN Cinder Hand (5 workers + 1 queued)
+BOT 0 [6:51] CHAMPION revive Sable Quint for 115 essence, back in 20 s
+BOT 1 [6:54] TRAIN Grave Hound (soldier pop 3, crystals left 20)
+BOT 1 [6:54] BOUNTY B4 Explore 25 on (-33, -33) (stakes 0 + 25 <= 27 of 107 spare essence)
+[6:59] team 0: buildings 7, crystals 420, gathered 3070, pop 11 / 30
+[6:59] team 1: buildings 7, crystals 100, gathered 3590, pop 20 / 30
+BOT 1 [7:00] ITEM bought grave_pact (list #3), essence 386 -> 86
+BOT 1 [7:01] TRAIN Gloom Thrall (6 workers + 1 queued)
+BOT 0 [7:01] CHAMPION hire oathwall (Gerda Stoneward) #2: 275 crystals + 100 essence, crystals 440 -> 165, from (-15, -15)
+BOT 1 [7:02] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 0 [7:02] TRAIN Cinder Hand (6 workers + 1 queued)
+BOT 0 [7:03] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 1 [7:05] ITEM bought ember_draught (list #4), essence 121 -> 1
+BOT 0 [7:05] WIZARD learns F3 (fireball rank 3) at level 5
+BOT 1 [7:06] ITEM used ember_draught (slot 2)
+BOT 1 [7:07] TRAIN Shade (soldier pop 2, crystals left 0)
+BOT 0 [7:07] TRAIN Ember Archer (soldier pop 2, crystals left 5)
+BOT 0 [7:07] ITEM used ember_draught (slot 3)
+BOT 1 [7:13] TRAIN Gloom Thrall (7 workers + 2 queued)
+BOT 1 [7:13] WIZARD healed (70 %)
+BOT 0 [7:14] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 0 [7:14] ITEM bought gloom_ink (list #5), essence 193 -> 13
+BOT 1 [7:20] TRAIN Grave Hound (soldier pop 2, crystals left 0)
+BOT 0 [7:23] TRAIN Caravan (0 caravans + 1 queued, target 4, crystals left 50)
+BOT 1 [7:30] TRAIN Nightbolt (soldier pop 2, crystals left 10)
+BOT 0 [7:32] TRAIN Flame Guard (soldier pop 1, crystals left 40)
+BOT 0 [7:33] ITEM bought mana_thread (list #6), essence 211 -> 31
+BOT 1 [7:38] TRAIN Nightbolt (soldier pop 2, crystals left 10)
+BOT 1 [7:39] WIZARD learns F3 (shadow_lance rank 3) at level 5
+BOT 1 [7:39] CHAMPION revive Silas Quint for 115 essence, back in 20 s
+BOT 0 [7:42] BUILD X2 triggered
+BOT 1 [7:43] TRAIN Shade (soldier pop 2, crystals left 0)
+BOT 0 [7:44] DEFENCE over
+BOT 0 [7:46] PLACE X2 Ember Hall at (-33, -33), 2 builder(s), crystals left 50
+BOT 1 [7:49] TRAIN Grave Hound (soldier pop 3, crystals left 0)
+BOT 1 [7:54] DEFENCE over
+BOT 0 [7:54] TRAIN Caravan (1 caravans + 1 queued, target 4, crystals left 65)
+BOT 1 [7:55] TRAIN Nightbolt (soldier pop 4, crystals left 0)
+[7:59] team 0: buildings 8, crystals 115, gathered 3680, pop 15 / 30
+[7:59] team 1: buildings 7, crystals 70, gathered 4310, pop 21 / 30
+BOT 1 [8:03] BUILD X2 triggered
+BOT 1 [8:04] ITEM bought ember_draught (restock #4), essence 120 -> 0
+BOT 0 [8:06] TRAIN Blaze Rider (soldier pop 2, crystals left 5)
+BOT 1 [8:07] PLACE X2 Gloom Hall at (33, 33), 2 builder(s), crystals left 30
+BOT 1 [8:08] CREEP Bristleback Wallow (tier 1) 4 units str 350 (army 710) vs 230 (x1.5) + wizard
+BOT 1 [8:10] TRAIN Shade (soldier pop 6, crystals left 0)
+BOT 1 [8:10] SCOUT Shade to (-36, 12) via (-12, -49)
+BOT 0 [8:13] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [8:15] DEFEND vs Silas Quint at (-24, 4), str 224 vs home 1106
+BOT 0 [8:16] TRAIN Ember Archer (soldier pop 2, crystals left 5)
+BOT 1 [8:17] CREEP over (cleared): Bristleback Wallow
+BOT 1 [8:17] WIZARD picks up Item_ember_draught after the creep
+BOT 1 [8:17] WIZARD job: pickup Item_ember_draught
+BOT 1 [8:18] TRAIN Grave Hound (soldier pop 6, crystals left 20)
+BOT 1 [8:20] SCOUT next (-48, 24) via (-19, -39)
+BOT 1 [8:21] CREEP Reed Ford Nest (tier 2) 4 units str 340 (army 780) vs 220 (x1.5) + wizard
+BOT 1 [8:25] TRAIN Nightbolt (soldier pop 7, crystals left 0)
+BOT 0 [8:26] TRAIN Ember Archer (soldier pop 1, crystals left 5)
+BOT 1 [8:30] SCOUT hurt, coming home
+BOT 0 [8:30] CHAMPION revive Sable Quint for 150 essence, back in 25 s
+BOT 1 [8:31] RETREAT 3 units: HP 116 of 246
+BOT 1 [8:34] TRAIN Grave Hound (soldier pop 5, crystals left 10)
+BOT 1 [8:35] ATTACK over: back at the rally
+BOT 1 [8:36] SQUAD 2 units to Stonemere Well
+BOT 0 [8:39] TRAIN Flame Guard (soldier pop 4, crystals left 25)
+BOT 0 [8:41] EXPANSION 2 done: 3 workers to the rich node
+BOT 1 [8:42] TRAIN Shade (soldier pop 7, crystals left 10)
+BOT 0 [8:43] TRAIN Cinder Hand (9 workers + 1 queued)
+BOT 1 [8:46] EXPANSION 2 done: 3 workers to the rich node
+BOT 1 [8:46] TRAIN Gloom Thrall (9 workers + 1 queued)
+BOT 0 [8:46] DEFENCE over
+BOT 0 [8:46] SCOUT Blaze Rider to (36, 36) via (12, 49)
+BOT 0 [8:48] TRAIN Cinder Hand (9 workers + 2 queued)
+BOT 0 [8:48] WIZARD goes to West Wayshrine (wakes in 11 s)
+BOT 0 [8:48] WIZARD job: shrine West Wayshrine
+BOT 1 [8:51] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 1 [8:52] INTRUDER Blaze Rider seen, reacting in 1.5 s
+BOT 1 [8:54] DEFEND vs Blaze Rider at (19, 41), str 180 vs home 1268
+BOT 1 [8:55] SQUAD back: enemies at Stonemere Well
+BOT 0 [8:55] TRAIN Cinder Hand (9 workers + 2 queued)
+BOT 0 [8:55] SCOUT next (36, 48)
+BOT 0 [8:56] SCOUT next (48, -24) via (49, 13)
+BOT 1 [8:58] TRAIN Gloom Thrall (9 workers + 2 queued)
+[8:59] team 0: buildings 8, crystals 85, gathered 4270, pop 20 / 30
+[8:59] team 1: buildings 8, crystals 20, gathered 4960, pop 24 / 30
+BOT 0 [9:00] TRAIN Flame Guard (soldier pop 5, crystals left 5)
+BOT 0 [9:04] SCOUT hurt, coming home
+BOT 0 [9:07] TRAIN Cinder Hand (10 workers + 2 queued)
+BOT 1 [9:12] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 0 [9:17] TRAIN Flame Guard (soldier pop 5, crystals left 15)
+BOT 0 [9:18] SCOUT home
+BOT 0 [9:18] CREEP Bristleback Wallow (tier 1) 3 units str 380 (army 760) vs 230 (x1.7) + wizard
+BOT 0 [9:21] TRAIN Cinder Hand (9 workers + 2 queued)
+BOT 1 [9:22] TRAIN Gloom Thrall (8 workers + 2 queued)
+BOT 0 [9:23] TRADE 2 caravan(s) far to Lantern Wharf (154 gold / trip; str 1120 vs seen 520)
+BOT 1 [9:27] TRAIN Nightbolt (soldier pop 3, crystals left 0)
+BOT 0 [9:28] SQUAD 2 units to Saltwatch
+BOT 1 [9:29] CHAMPION revive Silas Quint for 150 essence, back in 25 s
+BOT 0 [9:29] CREEP over (cleared): Bristleback Wallow
+BOT 1 [9:30] DEFENCE over
+BOT 0 [9:31] TRAIN Cinder Hand (8 workers + 2 queued)
+BOT 1 [9:35] TRAIN Gloom Thrall (8 workers + 2 queued)
+BOT 0 [9:37] TRAIN Ember Archer (soldier pop 7, crystals left 5)
+BOT 1 [9:38] INTRUDER Flame Guard seen, reacting in 1.5 s
+BOT 0 [9:38] INTRUDER Shade seen, reacting in 1.5 s
+BOT 1 [9:40] DEFEND vs Flame Guard at (4, -25), str 90 vs home 1078
+BOT 1 [9:43] TRAIN Grave Hound (soldier pop 3, crystals left 20)
+BOT 0 [9:44] TRAIN Cinder Hand (8 workers + 2 queued)
+BOT 0 [9:45] SQUAD back: enemies at Saltwatch
+BOT 1 [9:48] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 0 [9:50] ITEM bought siphon_idol (list #7), essence 250 -> 0
+BOT 0 [9:53] INTRUDER Shade seen, reacting in 1.5 s
+BOT 0 [9:54] TRADE far caravans called home: not strong enough
+BOT 0 [9:54] TRAIN Ember Archer (soldier pop 6, crystals left 5)
+BOT 0 [9:55] DEFEND vs Shade at (-4, 2), str 160 vs home 1636
+BOT 1 [9:58] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 0 [9:58] WIZARD casts kindle (kindle)
+[9:59] team 0: buildings 8, crystals 45, gathered 4810, pop 20 / 30
+[9:59] team 1: buildings 8, crystals 50, gathered 5410, pop 21 / 30
+BOT 0 [10:00] WIZARD learns Q2 (ember_step rank 2) at level 6
+BOT 0 [10:01] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [10:03] TRAIN Shade (soldier pop 2, crystals left 0)
+BOT 1 [10:04] ITEM used ember_draught (slot 2)
+BOT 1 [10:06] WIZARD low (11 %), goes home
+BOT 0 [10:07] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [10:12] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 1 [10:16] CHAMPION revive Garran Stoneward for 115 essence, back in 20 s
+BOT 0 [10:16] TRAIN Flame Guard (soldier pop 5, crystals left 5)
+BOT 0 [10:21] DEFENCE over
+BOT 0 [10:21] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [10:22] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 0 [10:23] TRADE buys Masons' Charter (350 gold, 98 left)
+BOT 1 [10:24] CHAMPION revive Silas Quint for 150 essence, back in 25 s
+BOT 0 [10:31] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [10:34] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 0 [10:37] WIZARD learns Q3 (ember_step rank 3) at level 7
+BOT 0 [10:39] TRAIN Caravan (2 caravans + 1 queued, target 6, crystals left 50)
+BOT 0 [10:43] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [10:45] WIZARD back, waits at the anchor
+BOT 1 [10:46] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 0 [10:49] ITEM used ember_draught (slot 3)
+BOT 0 [10:50] WIZARD low (31 %), goes home
+BOT 0 [10:50] BOUNTY B2 Hunt 100 on Gloom Hall (stakes 0 + 100 <= 133 of 531 spare essence)
+BOT 0 [10:50] WIZARD casts ember_step (escape)
+BOT 1 [10:55] TRADE route Lantern Wharf (15 gold / trip): Saltgate unsafe
+BOT 0 [10:55] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [10:58] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 0 [10:59] TRAIN Caravan (3 caravans + 1 queued, target 6, crystals left 55)
+[10:59] team 0: buildings 8, crystals 55, gathered 5360, pop 15 / 30
+[10:59] team 1: buildings 8, crystals 0, gathered 5690, pop 12 / 30
+BOT 0 [11:00] ITEM bought ember_draught (restock #7), essence 563 -> 443
+BOT 0 [11:03] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [11:05] DEFEND vs Silas Quint at (-16, -3), str 270 vs home 1416
+BOT 0 [11:07] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 0 [11:09] ITEM used ember_draught (slot 3)
+BOT 0 [11:09] ITEM bought ember_draught (restock #7), essence 463 -> 343
+BOT 1 [11:11] TRAIN Gloom Thrall (6 workers + 2 queued)
+BOT 0 [11:16] WIZARD healed (72 %)
+BOT 0 [11:19] TRAIN Cinder Hand (4 workers + 2 queued)
+BOT 1 [11:21] WIZARD walks to the shop (next item affordable)
+BOT 0 [11:21] CHAMPION revive Sable Quint for 150 essence, back in 25 s
+BOT 1 [11:22] TRAIN Gloom Thrall (7 workers + 2 queued)
+BOT 0 [11:23] TRADE buys Iron-shod Axles (150 gold, 60 left)
+BOT 1 [11:24] ITEM bought gloom_ink (list #5), essence 287 -> 107
+BOT 1 [11:30] WIZARD learns Q2 (soul_siphon rank 2) at level 6
+BOT 0 [11:31] TRAIN Cinder Hand (5 workers + 2 queued)
+BOT 1 [11:33] TRAIN Shade (soldier pop 0, crystals left 0)
+BOT 0 [11:39] DEFENCE over
+BOT 1 [11:40] TRAIN Gloom Thrall (8 workers + 2 queued)
+BOT 0 [11:43] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 1 [11:44] ITEM bought mana_thread (list #6), essence 180 -> 0
+BOT 1 [11:46] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 1 [11:47] DEFENCE over
+BOT 1 [11:48] WIZARD goes to East Wayshrine (wakes in 11 s)
+BOT 1 [11:48] WIZARD job: shrine East Wayshrine
+BOT 0 [11:48] TRAIN Flame Guard (soldier pop 0, crystals left 15)
+BOT 1 [11:49] SCOUT Shade to (-48, 24) via (-12, -49)
+BOT 1 [11:53] TRAIN Nightbolt (soldier pop 1, crystals left 0)
+BOT 0 [11:55] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [11:55] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 0 [11:57] DEFEND vs Silas Quint at (-7, 9), str 350 vs home 1026
+BOT 1 [11:58] TRAIN Gloom Thrall (10 workers + 2 queued)
+[11:59] team 0: buildings 8, crystals 55, gathered 5700, pop 13 / 30
+[11:59] team 1: buildings 8, crystals 0, gathered 6120, pop 18 / 30
+BOT 1 [12:01] SCOUT hurt, coming home
+BOT 1 [12:04] TRAIN Grave Hound (soldier pop 1, crystals left 0)
+BOT 1 [12:07] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 0 [12:07] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [12:09] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [12:10] DEFEND vs Sable Quint at (12, -7), str 400 vs home 896
+BOT 1 [12:13] SCOUT home
+BOT 1 [12:15] TRAIN Gloom Thrall (8 workers + 2 queued)
+BOT 0 [12:15] TRAIN Ember Archer (soldier pop 1, crystals left 5)
+BOT 0 [12:20] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 0 [12:21] DEFENCE over
+BOT 0 [12:23] CHAMPION revive Sable Quint for 150 essence, back in 25 s
+BOT 1 [12:26] TRAIN Gloom Thrall (8 workers + 2 queued)
+BOT 1 [12:28] TRADE route Saltgate (28 gold / trip): default
+BOT 0 [12:31] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 1 [12:32] TRAIN Shade (soldier pop 3, crystals left 0)
+BOT 0 [12:35] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [12:37] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 1 [12:38] DEFENCE over
+BOT 1 [12:38] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 0 [12:39] DEFEND vs Silas Quint at (-18, 0), str 270 vs home 1216
+BOT 0 [12:43] TRAIN Cinder Hand (3 workers + 2 queued)
+BOT 1 [12:44] TRAIN Grave Hound (soldier pop 3, crystals left 20)
+BOT 1 [12:48] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 1 [12:49] CHAMPION revive Silas Quint for 150 essence, back in 25 s
+BOT 0 [12:49] TRADE buys Tempered Steel (350 gold, 74 left)
+BOT 1 [12:54] TRAIN Grave Hound (soldier pop 4, crystals left 0)
+BOT 0 [12:56] TRAIN Cinder Hand (4 workers + 2 queued)
+BOT 1 [12:59] SQUAD 2 units to Stonemere Well
+[12:59] team 0: buildings 8, crystals 5, gathered 6000, pop 12 / 30
+[12:59] team 1: buildings 8, crystals 40, gathered 6650, pop 22 / 30
+BOT 1 [13:00] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [13:01] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 1 [13:02] DEFEND vs Sable Quint at (12, -7), str 400 vs home 1146
+BOT 0 [13:04] DEFENCE over
+BOT 0 [13:09] TRAIN Cinder Hand (5 workers + 2 queued)
+BOT 1 [13:10] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 0 [13:17] CHAMPION revive Sable Quint for 150 essence, back in 25 s
+BOT 0 [13:19] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 1 [13:21] SQUAD back: Stonemere Well done
+BOT 1 [13:22] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 1 [13:23] ITEM bought siphon_idol (list #7), essence 250 -> 0
+BOT 1 [13:25] TRAIN Nightbolt (soldier pop 6, crystals left 0)
+BOT 0 [13:29] TRAIN Caravan (4 caravans + 1 queued, target 6, behind, crystals left 50)
+BOT 0 [13:31] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 1 [13:32] DEFENCE over
+BOT 0 [13:32] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 1 [13:33] TRAIN Shade (soldier pop 6, crystals left 0)
+BOT 0 [13:34] DEFEND vs Silas Quint at (-2, 28), str 294 vs home 1216
+BOT 1 [13:38] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 0 [13:43] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [13:45] TRAIN Grave Hound (soldier pop 7, crystals left 10)
+BOT 1 [13:45] CREEP Bristleback Wallow (tier 1) 5 units str 438 (army 598) vs 260 (x1.7) + wizard
+BOT 0 [13:48] TRAIN Ember Archer (soldier pop 1, crystals left 20)
+BOT 1 [13:50] SCOUT Shade to (-48, 24) via (-9, -34)
+BOT 1 [13:54] TRAIN Nightbolt (soldier pop 7, crystals left 0)
+BOT 1 [13:56] CREEP over (cleared): Bristleback Wallow
+BOT 1 [13:57] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 0 [13:59] TRAIN Cinder Hand (6 workers + 2 queued)
+[13:59] team 0: buildings 8, crystals 10, gathered 6430, pop 13 / 30
+[13:59] team 1: buildings 8, crystals 60, gathered 7220, pop 25 / 30
+BOT 1 [14:01] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [14:02] TRAIN Gloom Thrall (11 workers + 1 queued)
+BOT 1 [14:03] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [14:04] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [14:06] DEFEND vs Sable Quint at (11, -7), str 470 vs home 1514
+BOT 0 [14:07] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 1 [14:08] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 0 [14:14] TRAIN Flame Guard (soldier pop 1, crystals left 0)
+BOT 1 [14:16] CHAMPION revive Silas Quint for 185 essence, back in 30 s
+BOT 0 [14:16] CHAMPION revive Sable Quint for 185 essence, back in 30 s
+BOT 0 [14:17] TRADE buys Quilted Gambesons (350 gold, 88 left)
+BOT 0 [14:20] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [14:21] TRAIN Gloom Thrall (8 workers + 2 queued)
+BOT 0 [14:21] BUILD S3 triggered
+BOT 1 [14:26] TRAIN Gloom Thrall (9 workers + 2 queued)
+BOT 1 [14:31] DEFENCE over
+BOT 1 [14:33] TRAIN Shade (soldier pop 6, crystals left 0)
+BOT 0 [14:35] ITEM used ember_draught (slot 3)
+BOT 1 [14:38] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 0 [14:42] STARVE pass: one unit through the 170-crystal reserve (110 crystals left)
+BOT 0 [14:42] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 0 [14:44] DEFENCE over
+BOT 1 [14:47] TRAIN Caravan (0 caravans + 1 queued, target 6, crystals left 55)
+BOT 0 [14:48] WIZARD goes to West Wayshrine (wakes in 11 s)
+BOT 0 [14:49] WIZARD job: shrine West Wayshrine
+BOT 0 [14:50] PLACE S3 Ember Spire at (-19, 1), 1 builder(s), crystals left 50
+BOT 0 [14:51] TRAIN Cinder Hand (7 workers + 2 queued)
+BOT 1 [14:52] TRAIN Nightbolt (soldier pop 7, crystals left 5)
+BOT 0 [14:55] BOUNTY B4 Explore 25 on (33, 33) (stakes 100 + 25 <= 125 of 501 spare essence)
+BOT 0 [14:56] TRAIN Cinder Hand (8 workers + 2 queued)
+BOT 1 [14:57] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 0 [14:57] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 1 [14:59] DEFEND vs Sable Quint at (0, -4), str 470 vs home 1556
+BOT 0 [14:59] DEFEND vs Silas Quint at (-8, -8), str 364 vs home 760
+[14:59] team 0: buildings 9, crystals 10, gathered 6890, pop 16 / 30
+[14:59] team 1: buildings 8, crystals 65, gathered 7730, pop 24 / 30
+BOT 1 [15:03] BUILD S4 triggered
+BOT 1 [15:04] CHAMPION revive Silas Quint for 185 essence, back in 30 s
+BOT 0 [15:04] WIZARD job: shrine West Wayshrine
+BOT 0 [15:07] TRAIN Cinder Hand (9 workers + 2 queued)
+BOT 0 [15:07] WIZARD job: shrine West Wayshrine
+BOT 0 [15:16] TRAIN Caravan (5 caravans + 1 queued, target 6, behind, crystals left 65)
+BOT 0 [15:16] WIZARD walks to the shop (next item affordable)
+BOT 0 [15:17] ITEM bought ember_draught (restock #7), essence 814 -> 694
+BOT 0 [15:18] ITEM used ember_draught (slot 3)
+BOT 0 [15:18] ITEM bought ember_draught (restock #7), essence 695 -> 575
+BOT 0 [15:19] TRAIN Cinder Hand (10 workers + 2 queued)
+BOT 0 [15:19] ITEM bought gravemaw_idol (list #8), essence 576 -> 76
+BOT 0 [15:22] DEFENCE over
+BOT 1 [15:24] STARVE pass: one unit through the 170-crystal reserve (125 crystals left)
+BOT 1 [15:24] TRAIN Gloom Thrall (10 workers + 1 queued)
+BOT 1 [15:25] WIZARD learns Q3 (soul_siphon rank 3) at level 7
+BOT 1 [15:31] PLACE S4 Night Spire at (37, 45), 1 builder(s), crystals left 55
+BOT 1 [15:32] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 1 [15:32] CHAMPION revive Garran Stoneward for 115 essence, back in 20 s
+BOT 0 [15:33] TRAIN Blaze Rider (soldier pop 2, crystals left 15)
+BOT 1 [15:40] DEFENCE over
+BOT 0 [15:40] TRAIN Ember Archer (soldier pop 2, crystals left 5)
+BOT 0 [15:41] CHAMPION revive Sable Quint for 440 gold (essence short), back in 35 s
+BOT 1 [15:42] TRAIN Grave Hound (soldier pop 5, crystals left 5)
+BOT 0 [15:45] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [15:47] DEFEND vs Silas Quint at (-14, -6), str 340 vs home 1466
+BOT 1 [15:49] TRAIN Gloom Thrall (11 workers + 1 queued)
+BOT 1 [15:51] SCOUT Nightbolt to (-48, 24) via (-12, -49)
+BOT 1 [15:58] CHAMPION revive Silas Quint for 185 essence, back in 30 s
+BOT 0 [15:58] WIZARD learns E2 (kindle rank 2) at level 8
+BOT 0 [15:58] ITEM bought ironbark_plate (list #9), essence 273 -> 93
+[15:59] team 0: buildings 9, crystals 95, gathered 7430, pop 20 / 30
+[15:59] team 1: buildings 9, crystals 65, gathered 8070, pop 22 / 30
+BOT 1 [16:00] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 0 [16:02] TRAIN Ember Archer (soldier pop 2, crystals left 5)
+BOT 1 [16:05] TRAIN Grave Hound (soldier pop 6, crystals left 5)
+BOT 1 [16:13] TRAIN Gloom Thrall (11 workers + 1 queued)
+BOT 0 [16:15] TRAIN Flame Guard (soldier pop 3, crystals left 5)
+BOT 0 [16:19] WIZARD walks to the shop (next item affordable)
+BOT 0 [16:20] ITEM bought wisp_lantern (list #10), essence 151 -> 1
+BOT 1 [16:22] TRAIN Grave Hound (soldier pop 6, crystals left 5)
+BOT 0 [16:22] DEFENCE over
+BOT 0 [16:26] TRAIN Flame Guard (soldier pop 4, crystals left 5)
+BOT 1 [16:30] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [16:32] DEFEND vs Sable Quint at (20, 1), str 520 vs home 1978
+BOT 1 [16:34] TRAIN Gloom Thrall (11 workers + 1 queued)
+BOT 0 [16:40] TRAIN Ember Archer (soldier pop 5, crystals left 5)
+BOT 1 [16:41] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 0 [16:44] CHAMPION revive Gerda Stoneward for 300 gold (essence short), back in 25 s
+BOT 1 [16:51] TRAIN Shade (soldier pop 4, crystals left 5)
+BOT 0 [16:53] TRAIN Ember Archer (soldier pop 6, crystals left 5)
+BOT 0 [16:56] INTRUDER Silas Quint seen, reacting in 1.5 s
+BOT 0 [16:59] INTRUDER Silas Quint seen, reacting in 1.5 s
+[16:59] team 0: buildings 9, crystals 55, gathered 7870, pop 24 / 30
+[16:59] team 1: buildings 9, crystals 45, gathered 8470, pop 20 / 30
+BOT 0 [17:00] CREEP Bristleback Wallow (tier 1) 4 units str 390 (army 660) vs 260 (x1.5) + wizard
+BOT 0 [17:01] DEFEND vs Silas Quint at (-19, 5), str 410 vs home 1642
+BOT 0 [17:01] RETREAT 4 units: recalled home from the Bristleback Wallow (intruders 410)
+BOT 0 [17:01] ATTACK over: back at the rally
+BOT 1 [17:01] DEFENCE over
+BOT 1 [17:01] TRAIN Gloom Thrall (11 workers + 1 queued)
+BOT 0 [17:04] TRAIN Flame Guard (soldier pop 7, crystals left 5)
+BOT 1 [17:10] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 1 [17:14] TRAIN Grave Hound (soldier pop 5, crystals left 5)
+BOT 1 [17:14] CHAMPION revive Silas Quint for 185 essence, back in 30 s
+BOT 0 [17:14] CHAMPION revive Sable Quint for 220 essence, back in 35 s
+BOT 1 [17:25] TRAIN Gloom Thrall (11 workers + 1 queued)
+BOT 0 [17:29] DEFENCE over
+BOT 0 [17:31] TRAIN Blaze Rider (soldier pop 7, crystals left 5)
+BOT 1 [17:35] TRAIN Nightbolt (soldier pop 6, crystals left 5)
+BOT 0 [17:38] CREEP Bristleback Wallow (tier 1) 5 units str 490 (army 670) vs 260 (x1.9) + wizard
+BOT 1 [17:42] TRAIN Gloom Thrall (11 workers + 1 queued)
+BOT 0 [17:43] TRAIN Ember Archer (soldier pop 7, crystals left 15)
+BOT 0 [17:44] BUILD V2 triggered
+BOT 1 [17:48] SQUAD 2 units to East Wayshrine (wakes in 11 s)
+BOT 1 [17:50] TRAIN Gloom Thrall (10 workers + 2 queued)
+BOT 0 [17:51] CREEP over (cleared): Bristleback Wallow
+BOT 1 [17:52] SCOUT Grave Hound to (-48, 24) via (-12, -49)
+BOT 0 [17:55] TRAIN Ember Archer (soldier pop 6, crystals left 5)
+BOT 0 [17:59] INTRUDER Grave Hound seen, reacting in 1.5 s
+[17:59] team 0: buildings 9, crystals 25, gathered 8310, pop 26 / 30
+[17:59] team 1: buildings 9, crystals 65, gathered 8910, pop 23 / 30
+BOT 0 [18:01] DEFEND vs Grave Hound at (-19, -41), str 70 vs home 2248
+BOT 1 [18:01] TRAIN Shade (soldier pop 7, crystals left 5)
+BOT 1 [18:02] INTRUDER Sable Quint seen, reacting in 1.5 s
+BOT 1 [18:02] SQUAD back: enemies at East Wayshrine
+BOT 0 [18:02] TRADE exchange 100 gold -> crystals (gold 552 -> 452, keeps 450)
+BOT 0 [18:03] PLACE V2 Hearth at (-50, 52), 1 builder(s), crystals left 35
+BOT 1 [18:04] ALL-IN: nothing left to mine or buy (25 crystals, 11 workers, 1 nodes left)
+BOT 1 [18:04] DEFEND vs Sable Quint at (15, 4), str 520 vs home 1502
+BOT 1 [18:04] ATTACK target Ember Spire at (-19, 1)
+BOT 1 [18:04] ATTACK #2 11 units (11 pop) str 516 (power 1192) vs seen 1972 (all-in) + wizard -> HUNT
+BOT 1 [18:04] RECOVERY: 11 workers, exchanging 300 gold -> crystals (gold 336 -> 36)
+BOT 1 [18:05] TRAIN Caravan (1 caravans + 1 queued, target 6, crystals left 190)
+BOT 1 [18:06] TRAIN Grave Hound (soldier pop 6, crystals left 120)
+BOT 1 [18:07] TRAIN Grave Hound (soldier pop 6, crystals left 50)
+BOT 0 [18:13] TRAIN Flame Guard (soldier pop 9, crystals left 25)
+BOT 1 [18:17] ITEM bought gravemaw_idol (list #8), essence 550 -> 50
+BOT 0 [18:17] CHAMPION revive Sable Quint for 220 essence, back in 35 s
+BOT 0 [18:24] TRAIN Ember Archer (soldier pop 10, crystals left 5)
+BOT 0 [18:25] TRADE exchange 100 gold -> crystals (gold 564 -> 464, keeps 450)
+BOT 0 [18:28] TRAIN Ember Archer (soldier pop 9, crystals left 5)
+BOT 1 [18:29] ATTACK over: group lost
+BOT 1 [18:32] DEFENCE over
+BOT 1 [18:32] ATTACK target Ember Spire at (-19, 1)
+BOT 1 [18:32] ATTACK #3 6 units (6 pop) str 696 (power 1472) vs seen 1742 (all-in) + wizard -> HUNT
+BOT 0 [18:38] TRADE exchange 100 gold -> crystals (gold 576 -> 476, keeps 450)
+BOT 1 [18:39] WIZARD learns E2 (umbral_shroud rank 2) at level 8
+BOT 1 [18:39] ITEM used ember_draught (slot 2)
+BOT 0 [18:39] TRAIN Cinder Hand (9 workers + 1 queued)
+BOT 0 [18:40] TRAIN Cinder Hand (9 workers + 2 queued)
+BOT 0 [18:49] ITEM used ember_draught (slot 3)
+BOT 1 [18:50] ITEM bought ember_draught (restock #8), essence 462 -> 342
+BOT 0 [18:51] TRAIN Cinder Hand (6 workers + 2 queued)
+BOT 1 [18:56] ATTACK over: group lost
+BOT 1 [18:56] CONCEDE all-in (workers 0, soldiers 0, caravans 2, crystals 50, gold 120, all-in true)
+BOT 1 [18:56] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 120 -> 20)
+BOT 1 [18:56] ITEM bought ironbark_plate (list #9), essence 404 -> 224
+bot 0: 1 attacks (first 293 s), ticks 1153, avg 2.369 ms, max 24.407 ms
+bot 0: think median 1.787 ms (max at 280 s), attack blocks { "no army": 620, "pop": 291, "defending": 126, "group out": 88, "rally": 13, "retreat": 14, "strength": 1 }
+bot 1: 3 attacks (first 230 s), ticks 1154, avg 2.728 ms, max 21.439 ms
+bot 1: think median 2.091 ms (max at 695 s), attack blocks { "no army": 381, "pop": 394, "defending": 263, "group out": 103, "retreat": 8, "all-in gather": 3 }
+match over: true at 1137 s, winner team 0
+SCORE at 18:56      Team 0 (fire)  Team 1 (shadow)
+Military                    6 905            5 084
+Economy                     8 660            6 813
+Map control                 2 545            2 356
+Growth                      2 120            1 880
+TOTAL                      20 230           16 133
+  value_killed              9 635            8 290
+  value_lost               10 920           12 825
+  crystals                  8 600            8 950
+  essence                   5 044            4 834
+  gold                      2 772              420
+  trade_gold                2 772              420
+  peak_workers                 12               12
+  point_seconds             3 884            3 253
+  camps                         5                5
+  beasts                        0                0
+  expansions                    2                2
+  critters                      1                1
+  wizard_level                  8                8
+  champion_levels                6                4
+  keep_tier                     0                0
+  research                      0                0
+leader: team 0 by 4 097
+PASS 2.A1 bot vs bot
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

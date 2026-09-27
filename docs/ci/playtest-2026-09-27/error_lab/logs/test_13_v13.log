@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes (blob included) 17, particle systems 2, draw instances 19
+materials: 5 own + 1 shared (res://art/units/titans/cinder_dragon/cinder_scale.tres, res://art/units/titans/cinder_dragon/cinder_horn.tres, res://art/units/titans/cinder_dragon/cinder_lava.tres, res://art/units/titans/cinder_dragon/cinder_flame.tres, res://art/units/titans/cinder_dragon/cinder_membrane.tres, res://art/units/kit/materials/unit_shadow_blob.tres); vertices 9476; shadow casters 10
+rest extent: span 7.51 (membranes 7.04), length 8.41, y 3.18 .. 6.11
+hover: tip swing 4.76 m, beat period 1.20 s, body bob 0.42 m, span now 4.03
+forward flight: tip range 4.51 m; longest glide 2.23 s (tip range in it 0.39 m)
+set_turning(120): +X wing tip 1.15, -X wing tip 4.88, body x axis y -0.55
+measured turn (yaw -120 deg/s, no set_turning): body x axis y 0.55
+breath: released at 0.35 s, jaw max 43 deg, open (> 24 deg) 0.63 s, head flare 2.70, head down 38 deg
+breath origin at rest: (0.300265, 5.154871, -3.040702) forward (0.170955, 0.119, -0.978066)
+  on the ground (1.4 s): wing tips y -0.06 / 0.46, body y 0.76
+death: crashed at 1.12 s (0.00, 0.10, 0.00), body y at crash 0.79, spin 179 deg, finished after 1.87 s
+6 dragons: 0.466 ms per frame (whole headless frame)
+PASS 13.v13

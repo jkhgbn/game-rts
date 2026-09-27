@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START normal bot (shadow_default), team 1, shadow
+BOT 1 [0:00] TRAIN Gloom Thrall (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+hall placed at 1.0 s at (27, -45)
+BOT 1 [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+BOT 1 [0:19] TRAIN Gloom Thrall (4 workers + 2 queued)
+BOT 1 [0:47] TRAIN Shade (soldier pop 0, crystals left 90)
+BOT 1 [0:48] TRAIN Nightbolt (soldier pop 0, crystals left 0)
+BOT 1 [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+BOT 1 [1:03] TRAIN Grave Hound (soldier pop 1, crystals left 60)
+first soldier Shade at 64.0 s
+BOT 1 [1:23] TRAIN Shade (soldier pop 2, crystals left 150)
+BOT 1 [1:37] TRAIN Nightbolt (soldier pop 3, crystals left 190)
+BOT 1 [1:44] SQUAD 2 units to Stonemere Well
+BOT 1 [1:53] TRAIN Shade (soldier pop 4, crystals left 240)
+BOT 1 [2:00] SCOUT Grave Hound to (12, 22)
+BOT 1 [2:08] SCOUT next (17, 47) via (20, 32)
+BOT 1 [2:08] SQUAD back: Stonemere Well done
+BOT 1 [2:12] SCOUT next (-2, 44) via (12, 49)
+BOT 1 [2:13] TRAIN Grave Hound (soldier pop 5, crystals left 350)
+BOT 1 [2:15] SCOUT next (-16, 6)
+BOT 1 [2:20] SQUAD 2 units to Saltwatch
+BOT 1 [2:21] SCOUT next (-27, 27)
+BOT 1 [2:24] SCOUT next (-24, 36)
+BOT 1 [2:29] TRAIN Nightbolt (soldier pop 6, crystals left 390)
+BOT 1 [2:34] SQUAD back: Saltwatch done
+BOT 1 [2:40] SQUAD 2 units to Owlwatch
+BOT 1 [2:43] TRAIN Shadow Knight (soldier pop 7, crystals left 260)
+BOT 1 [2:43] SCOUT home
+BOT 1 [2:44] BUILD V1 triggered
+BOT 1 [2:47] PLACE V1 Hovel at (50, -46), 1 builder(s), crystals left 220
+BOT 1 [2:48] SQUAD leaves Owlwatch for East Wayshrine
+timeline: hall placed 1.0 s, done 47.0 s, 6 workers 37.0 s, first soldier 64.0 s, hovel 168.0 s (pop 17)
+at 180 s: workers 6 (start 3), crystals 310, gathered 1380, spent 1320, halls 1, pop 17 / 20, strength 580
+bot ticks 179, avg 1.588 ms, max 6.105 ms
+PASS 2.A1 economy
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

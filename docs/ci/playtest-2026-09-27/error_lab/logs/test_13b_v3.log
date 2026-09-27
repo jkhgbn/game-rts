@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+hips to seat 0.073 m
+rider budget: parts 11, draw instances 11, vertices 4794, lights 0, particles 0; stag instances 8
+  Root/Hips/LegL/Merged: 4 surfaces, 406 vertices, shadow false
+  Root/Hips/LegR/Merged: 4 surfaces, 406 vertices, shadow false
+  Root/Hips/Merged: 7 surfaces, 885 vertices, shadow false
+  Root/Chest/Head/Merged: 8 surfaces, 1124 vertices, shadow true
+  Root/Chest/ArmL/Bow: 5 surfaces, 343 vertices, shadow false
+  Root/Chest/ArmL/Bow/Arrow: 5 surfaces, 235 vertices, shadow false
+  Root/Chest/ArmL/Merged: 5 surfaces, 321 vertices, shadow false
+  Root/Chest/ArmR/ForearmR: 3 surfaces, 179 vertices, shadow false
+  Root/Chest/ArmR/Merged: 1 surfaces, 141 vertices, shadow true
+  Root/Chest/Cloak: 5 surfaces, 275 vertices, shadow false
+  Root/Chest/Merged: 6 surfaces, 479 vertices, shadow true
+own materials (4): glade_outrider_leaf.tres, glade_outrider_jerkin.tres, glade_outrider_bow.tres, glade_outrider_string.tres
+rider bounds y 1.23..3.07, x -0.79..0.68; bow 1.35 m wide
+gait: walk gallop 0.00, gallop 1.00, rider bob 0.118 m, cloak lift 29.0 deg
+shot front: twist 65.0 (chest vs body 65.7), draw 0.30 -> 1.00, bow on target 1.000, released 1 (on target 1.000), arrow hidden true, re-nocked true
+shot left: twist -25.0 (chest vs body 25.6), draw 0.30 -> 1.00, bow on target 1.000, released 1 (on target 1.000), arrow hidden true, re-nocked true
+shot right: twist 90.0 (chest vs body 89.7), draw 0.30 -> 1.00, bow on target 1.000, released 1 (on target 1.000), arrow hidden true, re-nocked true
+shot behind: twist -90.0 (chest vs body 90.0), draw 0.30 -> 1.00, bow on target 1.000, released 1 (on target 1.000), arrow hidden true, re-nocked true
+aim held 1.00, relaxed 0.00 (twist 0.0)
+arrow glow rest 0.90, drawn 2.65
+auto aim (target behind): twist -90.0
+hit flash rider 0.58, stag 0.58
+slot collisions: 0
+death 0.6 s: hips to seat 0.07, seat y 0.58, glow 0.00
+PASS 13b.v3

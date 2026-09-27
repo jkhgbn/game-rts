@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+test area T = (-44.0, 0.0, -12.0)
+deer hunted in 9.5 s
+perf: think+herds 0.0186 ms / frame
+perf: 0.0222 ms / frame for 18 critters over 600 frames (121 critter-move frames)
+perf: 100-frame windows [0.01884, 0.03075, 0.02149, 0.01737, 0.01813, 0.02643] -> best 0.0174 ms / frame
+PASS 12.C10
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+tree_pine         862 tris, per variant 321 / 353 / 292
+tree_fir          958 tris, per variant 345 / 372 / 345
+tree_broadleaf   1220 tris, per variant 476 / 410 / 414
+tree_birch        848 tris, per variant 300 / 304 / 244
+tree_gold         954 tris, per variant 410 / 334 / 290
+rock_boulder      632 tris, per variant 202 / 228 / 202
+rock_slab         548 tris, per variant 252 / 152 / 144
+rock_shards       298 tris, per variant 106 / 96 / 96
+rock_spire        386 tris, per variant 136 / 128 / 122
+ruin_pillar      1045 tris, per variant 531 / 366 / 372
+tree_pine_far        80 tris
+tree_fir_far        104 tris
+tree_broadleaf_far  116 tris
+tree_birch_far      116 tris
+tree_gold_far       116 tris
+border forest + crest rocks: 904 instances, 90612 triangles
+PASS a2.8

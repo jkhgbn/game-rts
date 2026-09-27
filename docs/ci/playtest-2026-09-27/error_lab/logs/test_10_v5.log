@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes (blob included): 13
+instance 0: draw instances 14
+instance 1: draw instances 14
+  Root/Hips/Merged: 582 vertices
+  Root/Chest/Head/Merged: 295 vertices
+  Root/Chest/Cargo: 510 vertices
+  Root/Chest/Lantern: 231 vertices
+  Root/Chest/Pennant: 56 vertices
+  Root/Chest/Merged: 1710 vertices
+  Root/Mount/LegFL/Merged: 111 vertices
+  Root/Mount/LegFR/Merged: 111 vertices
+  Root/Mount/LegBL/Merged: 111 vertices
+  Root/Mount/LegBR/Merged: 111 vertices
+  Root/Mount/Head/Merged: 427 vertices
+  Root/Mount/Merged: 902 vertices
+  Shadow: 4 vertices
+materials: 5 own + 1 shared (res://art/units/caravan/materials/caravan_wood.tres, res://art/units/caravan/materials/caravan_brass.tres, res://art/units/caravan/materials/caravan_cloth.tres, res://art/units/caravan/materials/caravan_fur.tres, res://art/units/caravan/materials/caravan_glow.tres, res://art/units/kit/materials/unit_shadow_blob.tres); vertices 5161
+wagon top 2.31, length 3.47 (z -1.61 .. 1.86), half width 0.85
+team colour: 4 cloth surfaces recoloured, 0 other
+walk: leg swing 0.52 rad, wheels turned 8.18 rad in 1 s, lantern swing 0.059 rad
+death: finished after 61 frames, wagon tip 0.42 rad, root y -1.14
+60 walking caravans: 2.15 ms per frame (whole headless frame)
+PASS 10.v5

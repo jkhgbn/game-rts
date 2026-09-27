@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 22
+Wayfinder variant 0: draw instances 15, vertices 6135, lights 0
+Wayfinder variant 1: draw instances 15, vertices 5911, lights 0
+own materials (5): wayfinder_hat.tres, wayfinder_leather.tres, wayfinder_coat.tres, wayfinder_pennon.tres, wayfinder_glow.tres
+shared kit materials (1): fire_skin.tres
+  Root/Hips/LegL/Merged: 2 surfaces, 358 vertices
+  Root/Hips/LegR/Merged: 2 surfaces, 358 vertices
+  Root/Hips/Merged: 5 surfaces, 1039 vertices
+  Root/Chest/Head/Variant: 2 surfaces, 585 vertices
+  Root/Chest/Head/Merged: 3 surfaces, 713 vertices
+  Root/Chest/ArmL/HandProp: 3 surfaces, 204 vertices
+  Root/Chest/ArmL/Merged: 2 surfaces, 363 vertices
+  Root/Chest/ArmR/Bow: 3 surfaces, 384 vertices
+  Root/Chest/ArmR/Merged: 2 surfaces, 363 vertices
+  Root/Chest/Lantern: 3 surfaces, 426 vertices
+  Root/Chest/Merged: 5 surfaces, 1338 vertices
+  Shadow: 1 surfaces, 4 vertices
+rest AABB top 2.619, bottom 0.000, half-width x -0.53 .. 0.53, z -0.59 .. 0.57
+head (skin) top 1.839
+PASS 9.v1

@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START normal bot (shadow_default), team 1, shadow
+BOT 1 [0:00] TRAIN Gloom Thrall (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+inventory: real
+Malrik 9.9 m from the keep
+BOT 1 [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+BOT 1 [0:01] ITEM bought ember_shard (list #1), essence 2001 -> 1801
+BOT 1 [0:02] ITEM bought bone_charm (list #2), essence 1802 -> 1552
+BOT 1 [0:03] ITEM bought grave_pact (list #3), essence 1553 -> 1253
+BOT 1 [0:04] ITEM bought ember_draught (list #4), essence 1254 -> 1134
+bought ["ember_shard", "bone_charm", "grave_pact", "ember_draught"] (essence left 1134), slots ["grave_pact", "ember_draught", "", "", "", ""]
+strength 374.0 (want 374.0, items 870)
+BOT 1 [0:05] ITEM used ember_draught (slot 2)
+used ["ember_draught"], Draughts 1 -> 0, HP 196 -> 201
+BOT 1 [0:06] WIZARD walks to the shop (next item affordable)
+far away: 44.3 m from the keep, purchases 4 -> 4
+BOT 1 [0:14] ITEM bought ember_draught (restock #4), essence 2009 -> 1889
+after walking back: 11.0 m from the keep, purchases 5
+PASS 4.A1
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

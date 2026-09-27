@@ -1,4 +1,5 @@
 extends SceneTree
+# error_lab: verdict=last (planted-bad cases print inner "FAIL ..." lines; the final PASS / FAIL line decides)
 ## Art Lab v3 calibration ("lab-on-lab") test, task 1.C (docs/plan/art-lab.md "Calibration").
 ## Runs the 12 calibration cases (tools/art_lab/calibration/calibration.gd: 6 good finished assets + 6 planted-bad
 ## variants built in memory from real assets) as ONE Art Lab batch in this process, then judges every scorecard

@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+visible mesh nodes 23, multimesh nodes 1, particle systems 13, materials 17, triangles 9648
+KITFIX AUDIT OK (dread paddock: painted / banner / rune_glow slots, no collision)
+bounds (no plinth / rubble): x -3.47..3.06, y 0.79..11.65, z -3.54..3.54; below 2.5 m max |x|,|z| 3.12
+gatehouse top 11.65, stall top 4.96
+circle at (-0.55, 0.8, -0.05) r 1.35: intruders []
+raise: portcullis max 1.35 (1.35 at 1 s), opened at 0.68 s at (-0.55, 0.8, -3.2), veil boost peak 3.20, torch peak 2.20, head toss -0.49
+call: rune boost peak 3.60, spin peak 3.42 rad/s, now 1.00
+paddock _process (raising): 0.0213 ms per paddock per frame
+collapse: destroyed_finished at 3.00 s
+PASS 13.v26

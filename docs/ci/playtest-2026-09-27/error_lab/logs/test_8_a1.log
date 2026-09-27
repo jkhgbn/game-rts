@@ -1,0 +1,192 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+part 0: Nature profiles checked (kingdom Nature available: true)
+BOT 1 [0:00] START nature_normal bot (nature_default), team 1, nature
+BOT 1 [0:00] TRAIN Sprigling (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Grove Hall at (27, -45), 1 builder(s), crystals left 80
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+Nature bot profile nature_normal (nature_default), kingdom nature
+BOT 1 [0:01] TRAIN Sprigling (3 workers + 2 queued)
+BOT 1 [0:02] TRAIN Sprigling (3 workers + 3 queued)
+BOT 1 [0:20] TRAIN Sprigling (5 workers + 2 queued)
+BOT 1 [0:30] ITEM bought verdant_seed (list #1), essence 180 -> 0
+BOT 1 [0:40] TRAIN Thornling (soldier pop 0, crystals left 90)
+BOT 1 [0:41] TRAIN Burr Slinger (soldier pop 0, crystals left 30)
+BOT 1 [0:52] TRAIN Bloomtender (soldier pop 1, crystals left 60)
+BOT 1 [1:06] TRAIN Thornling (soldier pop 2, crystals left 150)
+BOT 1 [1:24] TRAIN Burr Slinger (soldier pop 3, crystals left 250)
+BOT 1 [1:30] SCOUT Thornling to (16, -6)
+BOT 1 [1:35] SCOUT next (12, 22)
+BOT 1 [1:36] TRAIN Thornling (soldier pop 4, crystals left 330)
+BOT 1 [1:41] SCOUT next (17, 47) via (20, 32)
+BOT 1 [1:44] SQUAD 2 units to Stonemere Well
+BOT 1 [1:47] SCOUT next (-2, 44) via (12, 49)
+BOT 1 [1:50] TRAIN Bramblehorn (soldier pop 5, crystals left 270)
+BOT 1 [1:51] SCOUT next (-16, 6)
+BOT 1 [1:58] SCOUT next (-27, 27)
+BOT 1 [2:02] TRAIN Thornling (soldier pop 6, crystals left 350)
+BOT 1 [2:03] BUILD V1 triggered
+BOT 1 [2:06] SQUAD back: Stonemere Well done
+BOT 1 [2:07] PLACE V1 Seed Hollow at (50, -46), 1 builder(s), crystals left 320
+BOT 1 [2:16] SQUAD 2 units to Saltwatch
+BOT 1 [2:25] SCOUT home
+BOT 1 [2:30] SQUAD back: Saltwatch done
+BOT 1 [2:36] SQUAD 2 units to Owlwatch
+BOT 1 [2:37] TRAIN Burr Slinger (soldier pop 7, crystals left 530)
+BOT 1 [2:48] SQUAD leaves Owlwatch for East Wayshrine
+BOT 1 [2:49] TRAIN Bloomtender (soldier pop 8, crystals left 570)
+BOT 1 [3:00] CHAMPION hire coin_cutter (Sable Quint) #1: 225 crystals + 75 essence, crystals 680 -> 455, from (15, 15)
+BOT 1 [3:04] TRAIN Burr Slinger (soldier pop 9, crystals left 425)
+BOT 1 [3:06] SQUAD back: East Wayshrine done
+BOT 1 [3:10] CHAMPION hire oathwall (Garran Stoneward) #2: 275 crystals + 100 essence, crystals 485 -> 210, from (15, 15)
+BOT 1 [3:12] SQUAD 2 units to Owlwatch
+BOT 1 [3:21] TRAIN Thornling (soldier pop 10, crystals left 270)
+BOT 1 [3:21] CREEP Bristleback Wallow (tier 1) 5 units str 370 (army 960) vs 200 (x1.9) + wizard
+BOT 1 [3:30] SCOUT Thornling to (48, 24) via (48, 6)
+BOT 1 [3:33] SQUAD back: Owlwatch done
+BOT 1 [3:34] CREEP over (cleared): Bristleback Wallow
+BOT 1 [3:34] WIZARD picks up Item_ember_draught after the creep
+BOT 1 [3:34] WIZARD job: pickup Item_ember_draught
+BOT 1 [3:35] TRAIN Thornling (soldier pop 11, crystals left 350)
+BOT 1 [3:38] BUILD X1 triggered
+BOT 1 [3:39] SCOUT next (48, 36)
+BOT 1 [3:41] PLACE X1 Grove Hall at (23, -9), 2 builder(s), crystals left 290
+BOT 1 [3:41] SCOUT next (-24, 36) via (12, 49)
+BOT 1 [3:45] ATTACK #1 6 units (6 pop) str 830 (power 1090) vs seen 0 (ready) + wizard -> SHRINE
+BOT 1 [3:45] SQUAD 2 units to Mossmere Well
+BOT 1 [3:47] TRAIN Burr Slinger (soldier pop 12, crystals left 270)
+BOT 1 [3:53] SCOUT next (-24, 48)
+BOT 1 [3:54] SCOUT next (-36, 48)
+BOT 1 [3:55] SCOUT next (-48, 48)
+BOT 1 [3:59] TRAIN Thornling (soldier pop 10, crystals left 270)
+BOT 1 [4:00] RETREAT 3 units: HP 160 of 341
+BOT 1 [4:04] ATTACK over: back at the rally
+BOT 1 [4:13] EXPANSION done: 3 workers to the natural node
+BOT 1 [4:13] TRAIN Sprigling (7 workers + 1 queued)
+BOT 1 [4:14] TRAIN Sprigling (7 workers + 2 queued)
+BOT 1 [4:15] TRAIN Thornling (soldier pop 10, crystals left 270)
+BOT 1 [4:16] TRAIN Bloomtender (soldier pop 10, crystals left 190)
+BOT 1 [4:17] BUILD V2 triggered
+BOT 1 [4:17] TRAIN Thornling (soldier pop 10, crystals left 140)
+BOT 1 [4:17] ITEM used ember_draught (slot 2)
+BOT 1 [4:20] SQUAD back: Mossmere Well done
+BOT 1 [4:21] PLACE V2 Seed Hollow at (50, -52), 1 builder(s), crystals left 100
+BOT 1 [4:22] SCOUT home
+BOT 1 [4:22] REGROWN: average HP 100 % after 18 s at the rally
+BOT 1 [4:22] ATTACK #2 6 units (6 pop) str 950 (power 950) vs seen 0 (ready) + wizard -> SHRINE
+BOT 1 [4:25] TRAIN Thornling (soldier pop 11, crystals left 50)
+BOT 1 [4:28] WIZARD learns Q1 (wild_bloom rank 1) at level 2
+BOT 1 [4:30] TRAIN Bloomtender (soldier pop 12, crystals left 20)
+BOT 1 [4:33] SQUAD 2 units to Rookwatch
+BOT 1 [4:39] TRAIN Burr Slinger (soldier pop 12, crystals left 80)
+BOT 1 [4:42] SHRINE row over (taken)
+BOT 1 [4:43] TRAIN Bloomtender (soldier pop 12, crystals left 50)
+BOT 1 [4:50] RETREAT 3 units: HP 155 of 330
+BOT 1 [4:50] WIZARD walks to the shop (next item affordable)
+BOT 1 [4:55] TRAIN Burr Slinger (soldier pop 12, crystals left 150)
+BOT 1 [4:56] ATTACK over: back at the rally
+BOT 1 [4:56] REGROWN: average HP 96 % after 0 s at the rally
+BOT 1 [4:56] ATTACK #3 7 units (7 pop) str 850 (power 1116) vs seen 0 (ready) + wizard -> MID
+BOT 1 [4:56] SQUAD back: Rookwatch done
+BOT 1 [4:57] TRAIN Bramblehorn (soldier pop 13, crystals left 10)
+BOT 1 [5:00] BUILD S1 triggered
+BOT 1 [5:00] ITEM bought duskglass (list #2), essence 350 -> 150
+BOT 1 [5:02] ATTACK to the enemy keep (-43, 43)
+BOT 1 [5:04] PLACE S1 Bramble Spire at (37, -29), 1 builder(s), crystals left 20
+BOT 1 [5:05] WIZARD learns F2 (thornburst rank 2) at level 3
+BOT 1 [5:06] SQUAD 2 units to Millwatch
+BOT 1 [5:11] TRAIN Thornling (soldier pop 14, crystals left 50)
+BOT 1 [5:13] TRAIN Burr Slinger (soldier pop 15, crystals left 30)
+BOT 1 [5:27] TRAIN Thornling (soldier pop 15, crystals left 160)
+Nature bot at 330 s: { "hall_at": 1.0, "queued3_at": 2.98333333333333, "gathered": true, "soldier": true, "scout_at": 90.9999999999961, "scout_type": "thornling", "x1_at": 222.000000000069, "v3_row": true, "hollows": 2, "checked": true }, keep queue max 3
+  [0:00] START nature_normal bot (nature_default), team 1, nature
+  [0:00] TRAIN Sprigling (3 workers + 1 queued)
+  [0:00] BUILD H1 triggered
+  [0:00] PLACE H1 Grove Hall at (27, -45), 1 builder(s), crystals left 80
+  [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+  [0:01] TRAIN Sprigling (3 workers + 2 queued)
+  [0:02] TRAIN Sprigling (3 workers + 3 queued)
+  [1:30] SCOUT Thornling to (16, -6)
+  [1:35] SCOUT next (12, 22)
+  [1:41] SCOUT next (17, 47) via (20, 32)
+  [1:47] SCOUT next (-2, 44) via (12, 49)
+  [1:51] SCOUT next (-16, 6)
+  [1:58] SCOUT next (-27, 27)
+  [2:07] PLACE V1 Seed Hollow at (50, -46), 1 builder(s), crystals left 320
+  [2:25] SCOUT home
+  [3:30] SCOUT Thornling to (48, 24) via (48, 6)
+  [3:39] SCOUT next (48, 36)
+  [3:41] PLACE X1 Grove Hall at (23, -9), 2 builder(s), crystals left 290
+  [3:41] SCOUT next (-24, 36) via (12, 49)
+  [3:53] SCOUT next (-24, 48)
+  [3:54] SCOUT next (-36, 48)
+  [3:55] SCOUT next (-48, 48)
+  [4:21] PLACE V2 Seed Hollow at (50, -52), 1 builder(s), crystals left 100
+  [4:22] SCOUT home
+  [5:04] PLACE S1 Bramble Spire at (37, -29), 1 builder(s), crystals left 20
+BOT 1 [0:01] START nature_normal bot (nature_default), team 1, nature
+BOT 1 [0:01] TRAIN Sprigling (3 workers + 1 queued)
+BOT 1 [0:01] BUILD H1 triggered
+BOT 1 [0:01] PLACE H1 Grove Hall at (27, -45), 1 builder(s), crystals left 80
+BOT 1 [0:01] WIZARD casting now driven by the Commander (reaction 1.5 s)
+part 2: nature bot, profile nature_normal, 10 thornling at the rally
+BOT 1 [0:01] TRAIN Sprigling (3 workers + 2 queued)
+BOT 1 [0:01] ATTACK #1 8 units (8 pop) str 600 (power 600) vs seen 0 (ready) -> MID
+BOT 1 [0:02] TRAIN Sprigling (3 workers + 3 queued)
+part 2: group hurt to 45 % at 5.0 s
+BOT 1 [0:05] RETREAT 8 units: HP 252 of 560
+BOT 1 [0:07] ATTACK over: back at the rally
+BOT 1 [0:09] REGROW: ready to attack, waits (average HP 45 % < 85 %)
+BOT 1 [0:21] TRAIN Sprigling (5 workers + 2 queued)
+BOT 1 [0:21] SQUAD 2 units to Stonemere Well
+BOT 1 [0:30] ITEM bought verdant_seed (list #1), essence 180 -> 0
+BOT 1 [0:40] BUILD V1 triggered
+BOT 1 [0:40] TRAIN Burr Slinger (soldier pop 10, crystals left 90)
+BOT 1 [0:42] SQUAD back: Stonemere Well done
+BOT 1 [0:44] PLACE V1 Seed Hollow at (50, -46), 1 builder(s), crystals left 50
+BOT 1 [0:46] TRAIN Burr Slinger (soldier pop 10, crystals left 10)
+BOT 1 [0:49] REGROWN: average HP 86 % after 42 s at the rally
+BOT 1 [0:49] ATTACK #2 6 units (6 pop) str 600 (power 600) vs seen 0 (ready) -> MID
+  [0:01] ATTACK #1 8 units (8 pop) str 600 (power 600) vs seen 0 (ready) -> MID
+  [0:05] RETREAT 8 units: HP 252 of 560
+  [0:07] ATTACK over: back at the rally
+  [0:09] REGROW: ready to attack, waits (average HP 45 % < 85 %)
+  [0:49] REGROWN: average HP 86 % after 42 s at the rally
+  [0:49] ATTACK #2 6 units (6 pop) str 600 (power 600) vs seen 0 (ready) -> MID
+part 2: retreats at [0.45] of launch HP, launch avg HP [1.0, 0.855], waited [41.9999999999985]
+MATRIX fire:ice start: player bot normal (fire), enemy bot ice_normal (ice)
+  [1:59] fire army pop 4 (3 units) vs ice 2 (2), workers 6 / 6, buildings 2 / 2
+  [4:00] fire army pop 8 (7 units) vs ice 7 (7), workers 6 / 6, buildings 4 / 3
+  [6:00] fire army pop 13 (10 units) vs ice 9 (9), workers 6 / 6, buildings 6 / 5
+  [7:59] fire army pop 9 (8 units) vs ice 2 (4), workers 9 / 9, buildings 7 / 7
+  [9:59] fire army pop 14 (15 units) vs ice 9 (12), workers 9 / 9, buildings 8 / 7
+  [11:59] fire army pop 3 (9 units) vs ice 11 (15), workers 10 / 7, buildings 9 / 7
+MATRIX fire:ice (player fire vs enemy ice): no winner at 12:00 | army pop now 3 / 11 (max 14 / 11), units 9 / 15, workers 10 / 7 | attacks 1 / 1, retreats 0 / 0 | gathered 5960 / 5360 | wizard lvl 6 / 6, casts 24 / 33
+  ticks avg 2.115 / 2.303 ms, max 27.786 / 43.603 ms (at 584 / 592 s), rule usec { 0: 230951, 1: 147568, 17: 46248, 20: 77241, 2: 12898, 3: 12039, 4: 115657, 5: 115271, 6: 6356, 7: 41431, 8: 179396, 18: 74646, 9: 75262, 10: 19172, 11: 53406, 21: 97274, 12: 46267, 13: 3388, 14: 14629, 15: 170878, 19: 7150, 16: 142918 } / { 0: 336552, 1: 136002, 17: 59190, 20: 75156, 2: 17310, 3: 10710, 4: 105484, 5: 160987, 6: 7719, 7: 36582, 8: 167372, 18: 64958, 9: 50816, 10: 20824, 11: 45987, 21: 88265, 12: 50847, 13: 4347, 14: 14005, 15: 160079, 19: 7034, 16: 155083 }
+MATRIX shadow:nature start: player bot normal (shadow), enemy bot nature_normal (nature)
+  [1:59] shadow army pop 4 (4 units) vs nature 5 (5), workers 6 / 7, buildings 2 / 2
+  [4:00] shadow army pop 8 (8 units) vs nature 7 (6), workers 6 / 7, buildings 4 / 5
+  [6:00] shadow army pop 9 (7 units) vs nature 8 (8), workers 6 / 7, buildings 6 / 7
+  [7:59] shadow army pop 2 (2 units) vs nature 11 (11), workers 9 / 9, buildings 7 / 8
+  [9:59] shadow army pop 6 (6 units) vs nature 8 (8), workers 8 / 9, buildings 7 / 8
+  [11:59] shadow army pop 1 (1 units) vs nature 2 (2), workers 9 / 9, buildings 8 / 9
+MATRIX shadow:nature (player shadow vs enemy nature): no winner at 12:00 | army pop now 1 / 2 (max 13 / 16), units 1 / 2, workers 9 / 9 | attacks 1 / 3, retreats 1 / 0 | gathered 5710 / 6400 | wizard lvl 6 / 7, casts 25 / 10
+  ticks avg 2.086 / 2.138 ms, max 33.486 / 32.527 ms (at 532 / 316 s), rule usec { 0: 268471, 1: 133206, 17: 48473, 20: 70171, 2: 12663, 3: 8341, 4: 95056, 5: 167315, 6: 4140, 7: 36521, 8: 173757, 18: 51244, 9: 68560, 10: 17042, 11: 32117, 21: 85258, 12: 41380, 13: 3074, 14: 13874, 15: 150568, 19: 7691, 16: 113364 } / { 0: 307631, 1: 123451, 17: 46982, 20: 69711, 2: 13292, 3: 14230, 4: 95764, 5: 147123, 6: 8196, 7: 29842, 8: 8394940, 18: 59882, 9: 46847, 10: 25782, 11: 57245, 21: 73417, 12: 57408, 13: 3159, 14: 16425, 15: 146287, 19: 6656, 16: 137787 }
+MATRIX ice:nature start: player bot ice_normal (ice), enemy bot nature_normal (nature)
+  [1:59] ice army pop 2 (2 units) vs nature 5 (5), workers 6 / 7, buildings 2 / 2
+  [4:00] ice army pop 7 (7 units) vs nature 10 (9), workers 6 / 7, buildings 4 / 5
+  [6:00] ice army pop 10 (10 units) vs nature 18 (16), workers 6 / 9, buildings 6 / 8
+  [7:59] ice army pop 1 (1 units) vs nature 15 (14), workers 9 / 11, buildings 7 / 10
+  [9:59] ice army pop 0 (2 units) vs nature 26 (27), workers 0 / 12, buildings 6 / 10
+MATRIX ice:nature (player ice vs enemy nature): nature wins at 11:50 | army pop now 0 / 18 (max 11 / 28), units 0 / 19, workers 0 / 12 | attacks 0 / 8, retreats 0 / 4 | gathered 4030 / 7680 | wizard lvl 6 / 8, casts 36 / 25
+  ticks avg 2.109 / 2.734 ms, max 13.527 / 304.247 ms (at 440 / 499 s), rule usec { 0: 225537, 1: 149624, 17: 48248, 20: 71416, 2: 14342, 3: 11321, 4: 84267, 5: 303850, 6: 3198, 7: 37534, 8: 200477, 18: 43931, 9: 44367, 10: 17052, 11: 23634, 21: 61884, 12: 35656, 13: 14717, 14: 13564, 15: 115312, 19: 7047, 16: 85100 } / { 0: 372156, 1: 115375, 17: 60563, 20: 73376, 2: 14630, 3: 13815, 4: 87019, 5: 139741, 6: 26070, 7: 33735, 8: 240899, 18: 383490, 9: 57830, 10: 24027, 11: 57747, 21: 94079, 12: 39391, 13: 3440, 14: 18689, 15: 161052, 19: 7163, 16: 122334 }
+---- matrix results ----
+MATRIX fire:ice (player fire vs enemy ice): no winner at 12:00 | army pop now 3 / 11 (max 14 / 11), units 9 / 15, workers 10 / 7 | attacks 1 / 1, retreats 0 / 0 | gathered 5960 / 5360 | wizard lvl 6 / 6, casts 24 / 33
+MATRIX shadow:nature (player shadow vs enemy nature): no winner at 12:00 | army pop now 1 / 2 (max 13 / 16), units 1 / 2, workers 9 / 9 | attacks 1 / 3, retreats 1 / 0 | gathered 5710 / 6400 | wizard lvl 6 / 7, casts 25 / 10
+MATRIX ice:nature (player ice vs enemy nature): nature wins at 11:50 | army pop now 0 / 18 (max 11 / 28), units 0 / 19, workers 0 / 12 | attacks 0 / 8, retreats 0 / 4 | gathered 4030 / 7680 | wizard lvl 6 / 8, casts 36 / 25
+PASS 8.A1
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

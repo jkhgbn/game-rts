@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+script chain: FrostDragonModel > CinderDragonModel > FlyerModel
+authored meshes (blob included) 17, particle systems 2, draw instances 19
+materials: 5 own + 1 shared (res://art/units/titans/frost_dragon/frost_scale.tres, res://art/units/titans/frost_dragon/frost_horn.tres, res://art/units/titans/frost_dragon/frost_ice.tres, res://art/units/titans/frost_dragon/frost_glow.tres, res://art/units/titans/frost_dragon/frost_membrane.tres, res://art/units/kit/materials/unit_shadow_blob.tres)
+triangles 13258, vertices 8580, shadow casters 10
+glow parts (cold glow / glowing ice): JawMesh/frost_ice, JawMesh/frost_glow, HeadMesh/frost_ice, HeadMesh/frost_glow, Neck2Mesh/frost_ice, Neck1Mesh/frost_ice, WingLMesh/frost_ice, WingRMesh/frost_ice, Tail3Mesh/frost_ice, Tail2Mesh/frost_ice, Tail1Mesh/frost_ice, BodyMesh/frost_ice
+KITFIX AUDIT OK (frost dragon: slot map, no collision)
+rest extent: span 7.98 (membranes 7.50), length 7.65, y 3.18 .. 6.14 (top: HeadMesh/frost_ice.tres)
+hover: tip swing 5.06 m, beat period 1.28 s, body bob 0.42 m
+forward flight: longest glide 1.87 s
+set_turning(110): body x axis y -0.52
+breath: released at 0.35 s, jaw max 44 deg, open 0.63 s, throat glow 2.70, neck spines 2.27
+breath origin at rest: (-0.594206, 5.251147, -2.904703) forward (-0.153867, 0.114986, -0.981378)
+  on the ground (1.4 s): wing tips y 0.41 / -0.14
+death: crashed at 1.12 s, body y at crash 0.79, spin 179 deg, finished after 1.87 s
+6 dragons: 0.480 ms per frame (whole headless frame)
+PASS 13c.v1

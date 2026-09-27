@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+WARNING: Skirmish: kingdom 'atlantis' is not available yet (keep, worker or wizard missing), using fire
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _resolve_kingdom (res://scripts/world/skirmish.gd:1723)
+       [1] _ready (res://scripts/world/skirmish.gd:392)
+       [2] _next_combo (res://tests/test_8_s2.gd:81)
+       [3] _process (res://tests/test_8_s2.gd:48)
+WARNING: Skirmish: kingdom 'atlantis' is not available yet (keep, worker or wizard missing), using shadow
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _resolve_kingdom (res://scripts/world/skirmish.gd:1723)
+       [1] _ready (res://scripts/world/skirmish.gd:393)
+       [2] _next_combo (res://tests/test_8_s2.gd:81)
+       [3] _process (res://tests/test_8_s2.gd:48)
+NOTE atlantis not available yet: falls back
+PASS 8.S2 (17 combos)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
