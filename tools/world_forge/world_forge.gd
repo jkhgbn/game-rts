@@ -251,7 +251,7 @@ func _tick_sheet() -> void:
 				for ph: Array in [["a", 0.0], ["b", 0.5], ["c", 1.0]]:
 					var t: float = ph[1]
 					_shots.append(["%s_%s" % [m["shot"], ph[0]], (m["from"] as Vector3).lerp(m["to"], t),
-						(m["look_from"] as Vector3).lerp(m["look_to"], t), lerpf(m["fov_from"], m["fov_to"], t)])
+						(m["look_from"] as Vector3).lerp(m["look_to"], t), lerpf(m["fov_from"], m["fov_to"], t), t * float(m["dur"])])
 			var sz: Vector2 = fs.plan["size"]
 			_shots.append(["top", Vector3(0, maxf(sz.x, sz.y) * 1.25, 0.01), Vector3.ZERO, 0.0])
 			step = 2
@@ -269,6 +269,8 @@ func _tick_sheet() -> void:
 				_cam.projection = Camera3D.PROJECTION_PERSPECTIVE
 				_cam.fov = s[3]
 				_cam.global_transform = Transform3D.IDENTITY.translated(s[1]).looking_at(s[2], Vector3.UP)
+			# timed actors (flocks) pose at the mark's a / b / c time (s[4] = t * dur)
+			call_group(&"cine_timed", &"set_cine_time", float(s[4]) if s.size() > 4 else 0.0)
 			_label.text = "%s  %s" % [id, s[0]]
 			step = 3
 			frame = 0

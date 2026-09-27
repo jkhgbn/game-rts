@@ -20,6 +20,13 @@ actor keeper  kit:flame_guard  at=(0,-2)  yaw=0
 mark C01  from=(0,1.7,7)  to=(1,1.7,6)  look=(0,1.4,-2)  subject=keeper  fov=38
 mark C02  from=(-6,2.5,4)  look=(4,1.5,-4)  subject=pillar  fov=42
 """
+const UP_TEXT := """set forge_test_up  size=40x30  ground=grass  light=dawn  seed=2
+hill  mound  at=(-10,0)  r=8  h=3
+row   kit:boulder  from=(8,9,0) to=(12,9,0) count=2  keep_height=1  pad=6
+place kit:ruin_pillar  at=(10,9,0)  keep_height=1
+flock dragons  at=(0,0)  preset=sky  seed=3  heroes=0  small=6  big=2  elders=0  pattern=orbit  height=30..60
+scatter kit:boulder  area=ring((-12,0),2..6)  count=5  seed=2  engine=proton
+"""
 const BAD_TEXT := """set forge_bad  size=20x20  ground=crpyt
 scatter kit:pnie  area=rect((-5,-5),(5,5))  cuont=4
 mark M1  lens="mcu on keeper"
@@ -71,6 +78,31 @@ func _initialize() -> void:
 		fails.append("demo set spec: " + " / ".join(demo.spec.error_lines()))
 	elif demo.plan["marks"].size() < 4:
 		fails.append("demo set has %d marks, want 4" % demo.plan["marks"].size())
+	# 2b. U3: keep_height rows / places stay at their y over terrain (on their own pad), flock statement
+	var up := FSet.new()
+	if not up.compile(_write("user://wf_up.set", UP_TEXT)):
+		fails.append("U3 set: " + " / ".join(up.spec.error_lines()))
+	else:
+		var hup := Node3D.new()
+		holder.add_child(hup)
+		var r_up := up.build(hup)
+		for p: Dictionary in up.plan["places"]:
+			if absf(float(p["at"].y) - 9.0) > 0.001:
+				fails.append("keep_height: line %d at y %.2f, want 9" % [p["line"], p["at"].y])
+		if absf(up.terrain.height_at(10, 0) - 9.0) > 0.05:
+			fails.append("keep_height pad: terrain y %.2f under the tier, want 9" % up.terrain.height_at(10, 0))
+		var fl := r_up.get_node_or_null(^"Placed/dragons")
+		if fl == null or int(fl.get(&"flock_seed")) != 3 or int(fl.get(&"heroes")) != 0 or fl.get(&"pattern") != "orbit" \
+				or fl.get(&"height") != Vector2(30, 60):
+			fails.append("flock statement: node / exports wrong (%s)" % str(fl))
+		var px := r_up.get_node_or_null(^"Proton_boulder_1")
+		if px == null or px.get_node_or_null(^"Item") == null or px.get_node_or_null(^"Shape2") == null or px.get(&"modifier_stack") == null:
+			fails.append("scatter engine=proton: ProtonScatter node / item / ring shapes / stack missing (%s)" % str(px))
+		Checks.run(up, r_up)
+		for c: Dictionary in up.report.checks:
+			if c["id"] == "B1" and not String(c["value"]).contains("flock"):
+				fails.append("B1 lacks the flock draws: %s" % c["value"])
+		hup.queue_free()
 	# 3. a set builds (in memory)
 	fs = FSet.new()
 	if not fs.compile(_write("user://wf_test.set", SET_TEXT)):
@@ -85,17 +117,17 @@ func _initialize() -> void:
 		var counts := {}
 		for s: Dictionary in ff.layout.spots:
 			counts[s["kind"]] = int(counts.get(s["kind"], 0)) + 1
-		for want: Array in [["keep", 4], ["point", 10], ["camp", 12], ["post", 8], ["lair", 8], ["cache", 6], ["crown", 1]]:
+		for want: Array in [["keep", 4], ["point", 14], ["camp", 16], ["post", 8], ["lair", 8], ["cache", 6], ["crown", 1]]:
 			if int(counts.get(want[0], 0)) != int(want[1]):
-				fails.append("fourfold %s count %d, want %d (map-2v2.md 2.8)" % [want[0], counts.get(want[0], 0), want[1]])
+				fails.append("fourfold %s count %d, want %d (map-2v2.md 2.8 + map-2v2-audit.md 6 ally-keeps pass)" % [want[0], counts.get(want[0], 0), want[1]])
 		var teams := []
 		for k in ff.layout.spots_of("keep"):
 			teams.append(int(k["team"]))
 		teams.sort()
 		if teams != [0, 1, 3, 4]:
 			fails.append("fourfold keep teams %s, want [0, 1, 3, 4]" % str(teams))
-		if ff.layout.keep_of(4).get("pos", Vector3.ZERO) != Vector3(66, 0, 66):
-			fails.append("ENEMY_2 keep at %s, want (66, 66)" % str(ff.layout.keep_of(4).get("pos")))
+		if ff.layout.keep_of(4).get("pos", Vector3.ZERO) != Vector3(66, 0, 30):   # map-2v2-audit.md 6: keeps at (+-66, +-30)
+			fails.append("ENEMY_2 keep at %s, want (66, 30)" % str(ff.layout.keep_of(4).get("pos")))
 		var ff2 := FMap.new()
 		ff2.compile("res://data/maps/fourfold_hollow.map")
 		if ff._layout_hash() != ff2._layout_hash():

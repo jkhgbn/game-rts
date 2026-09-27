@@ -55,7 +55,27 @@ static func run(fs: FSet, inst: Node3D) -> void:
 	var mm := 0
 	var light_names: Array[String] = []
 	var lights_off := 0
+	# flocks: their runtime flyers are not in the saved scene; count DragonFlock.budget() draws after one pose at t = 0
+	var flocks: Array[Node] = []
+	var flock_draws := 0
+	for fl: Dictionary in plan.get("flocks", []):
+		var fn := inst.get_node_or_null(NodePath("Placed/%s" % fl["tag"]))
+		if fn and fn.has_method(&"budget"):
+			flocks.append(fn)
+			if fn.has_method(&"set_cine_time"):
+				fn.call(&"set_cine_time", 0.0)
+			flock_draws += int((fn.call(&"budget") as Dictionary).get("draws", 0))
+	draws += flock_draws
+	var n_flocks := flocks.size()
+	# engine=proton scatters: their output is built at load (threaded); count 1 multimesh draw each, skip their children
+	for c: Node in inst.get_children():
+		if String(c.name).begins_with("Proton_"):
+			flocks.append(c)
+			draws += 1
+			mm += 1
 	for n: Node in inst.find_children("*", "", true, false):
+		if not flocks.is_empty() and flocks.any(func(f: Node) -> bool: return f == n or f.is_ancestor_of(n)):
+			continue
 		if n is MeshInstance3D and (n as MeshInstance3D).is_visible_in_tree() and (n as MeshInstance3D).mesh:
 			var mesh: Mesh = (n as MeshInstance3D).mesh
 			draws += mesh.get_surface_count()
@@ -74,7 +94,7 @@ static func run(fs: FSet, inst: Node3D) -> void:
 	var bd: float = plan["budget"]["draws"]
 	var bl: float = plan["budget"]["lights"]
 	var bt: float = plan["budget"]["tris"]
-	rep.fcheck("B1", "Draw calls", "PASS" if draws <= bd else ("WARN" if draws <= bd * 1.15 else "FAIL"), "%d surfaces (%d particles / multimesh)" % [draws, mm],
+	rep.fcheck("B1", "Draw calls", "PASS" if draws <= bd else ("WARN" if draws <= bd * 1.15 else "FAIL"), "%d surfaces (%d particles / multimesh)%s" % [draws, mm, (", %d in %d flock(s) at t 0" % [flock_draws, n_flocks]) if n_flocks > 0 else ""],
 		"<= %d (budget line)" % bd, "scatter bakes to one surface per material; drop a placed model or use a mesh-only kit", 2.0)
 	rep.fcheck("B2", "Lights", "PASS" if lights <= bl else "FAIL", "%d visible Light3D%s; %d switched off by lights=off" % [lights, (" " + ", ".join(light_names)) if lights > 0 else "", lights_off], "<= %d (0 = the stage's LightingRig only)" % bl,
 		"add lights=off to the place / actor line of the model that brings them (the path is in the measured value)", 2.0)
@@ -100,6 +120,8 @@ static func run(fs: FSet, inst: Node3D) -> void:
 			if sl > 12.0:
 				steep.append("line %d %s %.0f deg" % [p["line"], p["kit"]["name"], sl])
 		for a: Dictionary in plan["actors"]:
+			if bool(a.get("y_set", false)):
+				continue
 			n += 1
 			var sl := fs.terrain.slope_deg(a["at"].x, a["at"].z)
 			if sl > 12.0:

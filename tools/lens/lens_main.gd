@@ -41,6 +41,9 @@ portrait vessa  res://art/units/wizards/vessa.tscn  frame=cu  angle=3/4-right  s
 
 const OUT_ICONS := "res://art/icons/lens/"
 const OUT_PORTRAITS := "res://art/portraits/"
+## D2 two-stagings tolerance: idle animations sway models +- 4 cm, so two stagings can land up to ~8 cm apart
+## (62 mm was seen with the old 60 mm rule = a false WARN). WARN up to 120 mm, FAIL beyond.
+const D2_PASS_M := 0.08
 const EXISTING_ICONS := "res://art/icons/"
 
 var cli: ToolCli
@@ -190,8 +193,8 @@ func _check() -> int:
 	rep.hash_note = "2 stagings identical" if hashes[0] == hashes[1] else "2 stagings within %.1f mm (idle animation phase)" % (worst * 1000.0)
 	rep.check("D1", "det", "solver (same bounds, 2 solves)", "PASS" if pure_ok else "FAIL", "identical bytes" if pure_ok else "differ",
 		"a pure function", "report this to the Lens owner")
-	rep.check("D2", "det", "two stagings", "PASS" if worst <= 0.06 else ("WARN" if worst <= 0.12 else "FAIL"),
-		"%s / %s, worst %.1f mm (%s)" % [hashes[0], hashes[1], worst * 1000.0, worst_id], "cameras within 60 mm (models idle-sway +- 4 cm; bounds on a 1 cm grid)",
+	rep.check("D2", "det", "two stagings", "PASS" if worst <= D2_PASS_M else ("WARN" if worst <= 0.12 else "FAIL"),
+		"%s / %s, worst %.1f mm (%s)" % [hashes[0], hashes[1], worst * 1000.0, worst_id], "cameras within %.0f mm (models idle-sway +- 4 cm; bounds on a 1 cm grid)" % (D2_PASS_M * 1000.0),
 		"a pose=...@t or a moving model changes the bounds: pose it, or give the subject a still model")
 	await _check_subject_scenes(doc, rep)
 	rep.notes.append("CameraSpec files: %s/camera_<shot>.json (first res of each shot; camera.json = the first shot). cine: `cam=lens \"<words>\" lens_spec=res://docs/tools/lens/out/%s/camera_<shot>.json`" % [rep.out_dir.replace("res://", ""), doc.id])
@@ -210,7 +213,7 @@ func _solve_checks(rep: ToolReport, s: Dictionary, cam: Dictionary, r: Vector2i,
 		st = "WARN"   # widened on purpose so both faces fit: the size word asks for more than the staging allows
 	var hint := "two-shot too wide for this size: move the subjects closer or use a wider size (ws)" if (cam["subjects"] as Array).size() > 1 else "check the subject bounds (Head pivot) or pick another size"
 	rep.add("S_%s_cov" % sid, "solve", "%s %s coverage (%dx%d)" % [sid, cam["size"], r.x, r.y], st, "%.2f (target %.2f)" % [pred, tgt],
-		"+-10 % of the vocabulary target", hint, _grade(err, 0.25, 0.05))
+		"+-10 % of the vocabulary target", hint, ToolReport.grade(err, 0.25, 0.05))
 	var bf := float(cam["band_frac"])
 	var bad: Array[String] = []
 	for t: String in cam["subjects"]:
@@ -348,7 +351,7 @@ func _shot_checks(rep: ToolReport, s: Dictionary, cam: Dictionary, r: Vector2i, 
 		st = "PASS"   # the head overfills the band by design; the solve checks the scale
 		meas = float(cam["pred_s"])
 	rep.add("F_%s_cov" % sid, "frame", "%s %s coverage" % [sid, size], st, "%.3f (target %.2f, %+.0f %%)" % [meas, tgt, (meas / tgt - 1.0) * 100.0],
-		"+-10 % of the vocabulary target", "a hat / prop inflates the Head pivot: check the model's Head node", _grade(err, 0.2, 0.03))
+		"+-10 % of the vocabulary target", "a hat / prop inflates the Head pivot: check the model's Head node", ToolReport.grade(err, 0.2, 0.03))
 	var all_in := true
 	for t: String in cam["subjects"]:
 		var okb: bool = m["band_ok"][t]
@@ -454,7 +457,7 @@ func _icons() -> int:
 				ok_n += 1
 			rep.add("I_%s" % it["id"], "icon", "%s framing" % it["id"], "PASS" if ok else "FAIL",
 				"cover %.0f %%, centre %+.1f / %+.1f %%" % [cov * 100.0, dx * 100.0, dy * 100.0], "55-75 %, +- 5 %",
-				"hide=<node> for a stray prop, or fill=<0..1> on the icon line", _grade(absf(cov - 0.65), 0.1, 0.02))
+				"hide=<node> for a stray prop, or fill=<0..1> on the icon line", ToolReport.grade(absf(cov - 0.65), 0.1, 0.02))
 			var lg: Dictionary = res["legible"]
 			var lst := "PASS" if float(lg["fill"]) >= 0.1 and (float(lg["contrast"]) >= 1.4 or float(lg["delta_e"]) >= 12.0) else "WARN"
 			rep.check("U_%s" % it["id"], "ui", "%s at 48 px" % it["id"], lst, "fill %.0f %%, L %.2f:1, dE %.0f" % [float(lg["fill"]) * 100.0,
@@ -620,7 +623,7 @@ func _portraits() -> int:
 		rep.add("R_%s" % tag, "portrait", "%s head framing" % tag, "PASS" if ok else "FAIL",
 			"head %.0f %% of the height (target %.0f %%), top %.0f %%, centre %+.0f %%" % [s_meas * 100.0, tgt * 100.0, top * 100.0, cx * 100.0],
 			"+-10 % of the target, top 8 +- 5 %, centre +- 10 %", "check the model's Head pivot (hat / hood meshes belong under it)",
-			_grade(err, 0.2, 0.03))
+			ToolReport.grade(err, 0.2, 0.03))
 		rep.shots[tag] = path.replace("res://", "../../../../../")
 		tiles.append({"img": out, "label": "%s %s %d%%" % [tag, pr["frame"], int(round(s_meas * 100.0))], "color": ToolSheet.PASS_C if ok else ToolSheet.FAIL_C})
 		st.free_stage()
@@ -724,12 +727,6 @@ func _cinecheck() -> int:
 
 
 # ---------------------------------------------------------------- misc
-
-## 0-1 score: 1 at `good`, 0 at `bad`, linear between (local copy: the Art Lab moved its grade() on 2026-09-27).
-static func _grade(value: float, bad: float, good: float) -> float:
-	if is_equal_approx(bad, good):
-		return 1.0 if value == good else 0.0
-	return clampf((value - bad) / (good - bad), 0.0, 1.0)
 
 func _write_json(path: String, d: Dictionary) -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))

@@ -120,7 +120,8 @@ Test: `tests/test_tool_lens.gd` (prints `PASS tool_lens`).
 
 ## Notes / limits
 - Idle animations sway models by +-4 cm: bounds are the mean over ~4 s (13 samples); stills freeze the models after
-  measuring. Two stagings agree within 60 mm (check D2), the solver itself is byte-deterministic (D1).
+  measuring. Two stagings agree within 80 mm (check D2 PASS; WARN to 120 mm: the sway alone can move bounds ~+-4 cm
+  per staging), the solver itself is byte-deterministic (D1). Scores use the shared `ToolReport.grade()`.
 - Lens never edits other owners' files: icons go to `art/icons/lens/`, portraits to `art/portraits/`, marks to its own
   out folder (World Forge merges them). The icon libraries adopt the new PNGs later (their owner).
 - Pixels need a window (the dummy renderer draws nothing). At most 2 Lens windows at once on a shared PC.

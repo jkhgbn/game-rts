@@ -168,8 +168,10 @@ func _test_profiles() -> void:
 	# 2v2 support (U5): sides, spec targets, travel-time maths.
 	var sides: Dictionary = Checks.sides_of(p2["seats"])
 	_check(sides.size() == 2 and (sides[0] as Array) == [0, 3] and (sides[1] as Array) == [1, 4], "2v2 sides %s" % str(sides))
-	_check(float((p2.get("targets", {}) as Dictionary).get("ally_keep", 0.0)) == 142.0 and p2.get("ally_dry", false) == true,
+	_check(float((p2.get("targets", {}) as Dictionary).get("ally_keep", 0.0)) == 52.0 and p2.get("ally_dry", false) == true,   # map-2v2-audit.md 6 (was 142)
 		"profile 2v2 carries the spec targets")
+	_check(p2.get("ally_ratio", []) == [0.33, 0.5] and Checks.ALLY_RATIO == [0.33, 0.5],
+		"A1 ally / nearest-enemy band 0.33-0.5 (map-2v2-audit.md 6: the enemy 2-3x farther than the ally)")
 	_check(absf(Checks.travel_seconds(100.0, 0.0, 5.0) - 20.0) < 0.001, "travel: 100 m at 5 m/s = 20 s")
 	_check(absf(Checks.travel_seconds(100.0, 13.0, 5.0) - (87.0 / 5.0 + 13.0 / 3.25)) < 0.001, "travel: ford slow -35 %")
 	_check(is_inf(Checks.travel_seconds(INF, 0.0, 5.0)) and Checks.mmss(65.4) == "1:05" and Checks.mmss(INF) == "-", "travel: mmss")

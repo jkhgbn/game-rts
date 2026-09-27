@@ -111,10 +111,10 @@
 			"improve": "",
 			"name": "Unit paths (NavigationServer): pairs match their twins",
 			"rule": "NavigationServer3D.map_get_path length, every spot pair vs its mirrored pair: INFO > 2 % (and > 0.75 m), WARN > 5 % (and > 2 m); the polygon A* is not mirrored, so this is how much the engine's path choice (not the map) favours a side",
-			"score": 0.678821124361158,
+			"score": 0.678994889267462,
 			"status": "WARN",
 			"total": 5870,
-			"value": "5533 / 5870 pairs within 2 % (0 FAIL, 193 WARN, 144 info)",
+			"value": "5558 / 5870 pairs within 2 % (0 FAIL, 190 WARN, 122 info)",
 			"weight": 1.0
 		},
 		{
@@ -204,8 +204,8 @@
 	},
 	"finding_counts": {
 		"FAIL": 0,
-		"INFO": 149,
-		"WARN": 195
+		"INFO": 127,
+		"WARN": 192
 	},
 	"findings": [
 		{
@@ -700,6 +700,34 @@
 		},
 		{
 			"check": "F2",
+			"fix": "units walk fordwatch_a2-mouth_lair_b2 the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "135.1 m vs 121.0 m (10.5 %)",
+			"where": "fordwatch_a2-mouth_lair_b2 vs fordwatch_b2-mouth_lair_a2"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk fordwatch_b1-mouth_lair_a1 the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "135.0 m vs 121.0 m (10.4 %)",
+			"where": "fordwatch_b1-mouth_lair_a1 vs fordwatch_b2-mouth_lair_a2"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk fordwatch_a2-mouth_lair_b2 the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "121.1 m vs 135.1 m (10.4 %)",
+			"where": "fordwatch_a1-mouth_lair_b1 vs fordwatch_a2-mouth_lair_b2"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk fordwatch_b1-mouth_lair_a1 the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "121.1 m vs 135.0 m (10.3 %)",
+			"where": "fordwatch_a1-mouth_lair_b1 vs fordwatch_b1-mouth_lair_a1"
+		},
+		{
+			"check": "F2",
 			"fix": "units walk node_a_b2-mouth_lair_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "WARN",
 			"what": "119.5 m vs 132.8 m (10.0 %)",
@@ -826,13 +854,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk node_a_a2-fordwatch_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "WARN",
-			"what": "114.5 m vs 104.3 m (9.0 %)",
-			"where": "node_a_a2-fordwatch_b2 vs node_a_b2-fordwatch_a2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk corner_post_a1-cache_a2 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "WARN",
 			"what": "115.0 m vs 104.8 m (8.9 %)",
@@ -844,13 +865,6 @@
 			"sev": "WARN",
 			"what": "115.0 m vs 104.8 m (8.9 %)",
 			"where": "corner_post_a1-cache_a2 vs corner_post_b1-cache_b2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk node_a_a2-fordwatch_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "WARN",
-			"what": "104.3 m vs 114.5 m (8.9 %)",
-			"where": "node_a_a1-fordwatch_b1 vs node_a_a2-fordwatch_b2"
 		},
 		{
 			"check": "F2",
@@ -886,13 +900,6 @@
 			"sev": "WARN",
 			"what": "145.3 m vs 132.6 m (8.8 %)",
 			"where": "cache_a1-cache_b1 vs cache_b2-cache_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk node_a_a2-fordwatch_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "WARN",
-			"what": "114.5 m vs 104.5 m (8.8 %)",
-			"where": "node_a_a2-fordwatch_b2 vs node_a_b1-fordwatch_a1"
 		},
 		{
 			"check": "F2",
@@ -1323,20 +1330,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk keep_t3-fordwatch_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "WARN",
-			"what": "112.1 m vs 105.3 m (6.1 %)",
-			"where": "keep_t3-fordwatch_b2 vs keep_t4-fordwatch_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk keep_t1-fordwatch_a1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "WARN",
-			"what": "112.1 m vs 105.3 m (6.1 %)",
-			"where": "keep_t1-fordwatch_a1 vs keep_t4-fordwatch_a2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk node_a_b2-vale_lair_b2 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "WARN",
 			"what": "57.1 m vs 60.8 m (6.1 %)",
@@ -1376,20 +1369,6 @@
 			"sev": "WARN",
 			"what": "69.4 m vs 73.9 m (6.0 %)",
 			"where": "node_a_a1-rich_a1 vs node_a_b1-rich_b1"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk keep_t3-fordwatch_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "WARN",
-			"what": "105.3 m vs 112.1 m (6.0 %)",
-			"where": "keep_t0-fordwatch_b1 vs keep_t3-fordwatch_b2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk keep_t1-fordwatch_a1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "WARN",
-			"what": "105.3 m vs 112.1 m (6.0 %)",
-			"where": "keep_t0-fordwatch_b1 vs keep_t1-fordwatch_a1"
 		},
 		{
 			"check": "F2",
@@ -1638,34 +1617,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk fordwatch_b2-fordwatch_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "81.4 m vs 85.2 m (4.5 %)",
-			"where": "fordwatch_a1-fordwatch_b1 vs fordwatch_b2-fordwatch_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_b2-vale_lair_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "150.3 m vs 157.4 m (4.5 %)",
-			"where": "fordwatch_a2-vale_lair_b2 vs fordwatch_b2-vale_lair_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_b2-vale_lair_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "150.3 m vs 157.4 m (4.5 %)",
-			"where": "fordwatch_b1-vale_lair_a1 vs fordwatch_b2-vale_lair_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_a1-vale_lair_b1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "157.3 m vs 150.3 m (4.4 %)",
-			"where": "fordwatch_a1-vale_lair_b1 vs fordwatch_a2-vale_lair_b2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk keep_t4-vale_post_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "109.7 m vs 114.8 m (4.4 %)",
@@ -1680,13 +1631,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk fordwatch_a1-vale_lair_b1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "157.3 m vs 150.3 m (4.4 %)",
-			"where": "fordwatch_a1-vale_lair_b1 vs fordwatch_b1-vale_lair_a1"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk corner_post_a2-den_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "190.6 m vs 182.2 m (4.4 %)",
@@ -1698,13 +1642,6 @@
 			"sev": "INFO",
 			"what": "127.1 m vs 121.5 m (4.4 %)",
 			"where": "corner_post_a1-causeway_e vs corner_post_a2-causeway_e"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_b2-stag_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "90.6 m vs 94.6 m (4.3 %)",
-			"where": "fordwatch_a1-stag_b1 vs fordwatch_b2-stag_a2"
 		},
 		{
 			"check": "F2",
@@ -1855,13 +1792,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk fordwatch_b1-stag_a1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "90.6 m vs 94.4 m (4.0 %)",
-			"where": "fordwatch_a1-stag_b1 vs fordwatch_b1-stag_a1"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk keep_t0-tavern_b2 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "104.2 m vs 100.0 m (4.0 %)",
@@ -1880,13 +1810,6 @@
 			"sev": "INFO",
 			"what": "143.5 m vs 149.5 m (4.0 %)",
 			"where": "wallow_a1-stag_b1 vs wallow_b2-stag_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_a2-stag_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "90.6 m vs 94.4 m (4.0 %)",
-			"where": "fordwatch_a1-stag_b1 vs fordwatch_a2-stag_b2"
 		},
 		{
 			"check": "F2",
@@ -1932,27 +1855,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk fordwatch_a1-vale_post_b1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "142.1 m vs 136.5 m (3.9 %)",
-			"where": "fordwatch_a1-vale_post_b1 vs fordwatch_b2-vale_post_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_a2-vale_post_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "141.8 m vs 136.5 m (3.7 %)",
-			"where": "fordwatch_a2-vale_post_b2 vs fordwatch_b2-vale_post_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_b1-vale_post_a1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "141.8 m vs 136.5 m (3.7 %)",
-			"where": "fordwatch_b1-vale_post_a1 vs fordwatch_b2-vale_post_a2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk well_a1-green_cache_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "93.4 m vs 90.1 m (3.5 %)",
@@ -1981,38 +1883,10 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk node_b_a2-fordwatch_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "108.3 m vs 104.7 m (3.4 %)",
-			"where": "node_b_a2-fordwatch_b2 vs node_b_b2-fordwatch_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk node_b_b1-fordwatch_a1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "108.3 m vs 104.7 m (3.4 %)",
-			"where": "node_b_b1-fordwatch_a1 vs node_b_b2-fordwatch_a2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk well_b2-vale_lair_a2 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "155.8 m vs 161.2 m (3.4 %)",
 			"where": "well_b1-vale_lair_a1 vs well_b2-vale_lair_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk node_b_a2-fordwatch_b2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "104.7 m vs 108.3 m (3.3 %)",
-			"where": "node_b_a1-fordwatch_b1 vs node_b_a2-fordwatch_b2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk node_b_b1-fordwatch_a1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "104.7 m vs 108.3 m (3.3 %)",
-			"where": "node_b_a1-fordwatch_b1 vs node_b_b1-fordwatch_a1"
 		},
 		{
 			"check": "F2",
@@ -2096,14 +1970,14 @@
 			"fix": "units walk node_a_b2-vale_post_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "105.7 m vs 109.1 m (3.1 %)",
-			"where": "node_a_b1-vale_post_b2 vs node_a_b2-vale_post_b1"
+			"where": "node_a_a2-vale_post_a1 vs node_a_b2-vale_post_b1"
 		},
 		{
 			"check": "F2",
 			"fix": "units walk node_a_b2-vale_post_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "105.7 m vs 109.1 m (3.1 %)",
-			"where": "node_a_a2-vale_post_a1 vs node_a_b2-vale_post_b1"
+			"where": "node_a_b1-vale_post_b2 vs node_a_b2-vale_post_b1"
 		},
 		{
 			"check": "F2",
@@ -2306,14 +2180,14 @@
 			"fix": "units walk corner_post_b2-peddler_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "125.9 m vs 129.3 m (2.6 %)",
-			"where": "corner_post_b1-peddler_b2 vs corner_post_b2-peddler_b1"
+			"where": "corner_post_a2-peddler_a1 vs corner_post_b2-peddler_b1"
 		},
 		{
 			"check": "F2",
 			"fix": "units walk corner_post_b2-peddler_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "125.9 m vs 129.3 m (2.6 %)",
-			"where": "corner_post_a2-peddler_a1 vs corner_post_b2-peddler_b1"
+			"where": "corner_post_b1-peddler_b2 vs corner_post_b2-peddler_b1"
 		},
 		{
 			"check": "F2",
@@ -2348,14 +2222,14 @@
 			"fix": "units walk corner_post_a1-peddler_a2 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "129.1 m vs 125.9 m (2.5 %)",
-			"where": "corner_post_a1-peddler_a2 vs corner_post_a2-peddler_a1"
+			"where": "corner_post_a1-peddler_a2 vs corner_post_b1-peddler_b2"
 		},
 		{
 			"check": "F2",
 			"fix": "units walk corner_post_a1-peddler_a2 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "129.1 m vs 125.9 m (2.5 %)",
-			"where": "corner_post_a1-peddler_a2 vs corner_post_b1-peddler_b2"
+			"where": "corner_post_a1-peddler_a2 vs corner_post_a2-peddler_a1"
 		},
 		{
 			"check": "F2",
@@ -2429,20 +2303,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk fordwatch_b2-peddler_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "126.6 m vs 129.6 m (2.3 %)",
-			"where": "fordwatch_a2-peddler_b2 vs fordwatch_b2-peddler_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_b2-peddler_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "126.6 m vs 129.6 m (2.3 %)",
-			"where": "fordwatch_b1-peddler_a1 vs fordwatch_b2-peddler_a2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk vale_post_a1-vale_lair_a2 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "166.1 m vs 162.2 m (2.3 %)",
@@ -2492,38 +2352,10 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk fordwatch_b2-wallow_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "137.3 m vs 140.4 m (2.2 %)",
-			"where": "fordwatch_a2-wallow_b2 vs fordwatch_b2-wallow_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_a1-peddler_b1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "129.5 m vs 126.6 m (2.2 %)",
-			"where": "fordwatch_a1-peddler_b1 vs fordwatch_a2-peddler_b2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk well_b1-den_a1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "125.2 m vs 128.0 m (2.2 %)",
 			"where": "well_a1-den_b1 vs well_b1-den_a1"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_b2-wallow_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "137.3 m vs 140.4 m (2.2 %)",
-			"where": "fordwatch_b1-wallow_a1 vs fordwatch_b2-wallow_a2"
-		},
-		{
-			"check": "F2",
-			"fix": "units walk fordwatch_a1-peddler_b1 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "129.5 m vs 126.6 m (2.2 %)",
-			"where": "fordwatch_a1-peddler_b1 vs fordwatch_b1-peddler_a1"
 		},
 		{
 			"check": "F2",
@@ -2597,13 +2429,6 @@
 		},
 		{
 			"check": "F2",
-			"fix": "units walk fordwatch_b2-wallow_a2 the long way: the engine's polygon path, not the map (see F1)",
-			"sev": "INFO",
-			"what": "137.6 m vs 140.4 m (2.1 %)",
-			"where": "fordwatch_a1-wallow_b1 vs fordwatch_b2-wallow_a2"
-		},
-		{
-			"check": "F2",
 			"fix": "units walk peddler_a1-vale_lair_b1 the long way: the engine's polygon path, not the map (see F1)",
 			"sev": "INFO",
 			"what": "198.7 m vs 194.6 m (2.0 %)",
@@ -2626,8 +2451,8 @@
 			"title": "Map geometry: path pairs match their mirror twins"
 		},
 		{
-			"rank": 10.6423577512777,
-			"source": "F2 5533 / 5870 pairs within 2 % (0 FAIL, 193 WARN, 144 info)",
+			"rank": 10.6420102214651,
+			"source": "F2 5558 / 5870 pairs within 2 % (0 FAIL, 190 WARN, 122 info)",
 			"status": "WARN",
 			"text": "node_b_b1-causeway_w vs node_b_b2-causeway_w: 80.0 m vs 101.8 m (21.4 %) -> units walk node_b_b2-causeway_w the long way: the engine's polygon path, not the map (see F1) (engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it)",
 			"title": "Unit paths (NavigationServer): pairs match their twins"
@@ -2642,9 +2467,9 @@
 	],
 	"lab_version": "1.0",
 	"notes": [
-		"Octile grid shortest paths (0.5 m, 89 sources) 127.69 s.",
-		"Navmesh raster 2.74 s (208 polygons, 495616 cells of 0.25 m), spot / mirror checks 2.70 s, 3916 paths 0.93 s.",
-		"Map Kinhearth Vale (2v2), scene res://docs/tools/world_forge/out/kinhearth_vale/preview.tscn, sim mode off; level load + navmesh bake 0.5 s (14 frames), lab 136.4 s. Spec: docs/design/new-maps.md."
+		"Octile grid shortest paths (0.5 m, 89 sources) 121.47 s.",
+		"Navmesh raster 2.71 s (208 polygons, 495616 cells of 0.25 m), spot / mirror checks 2.68 s, 3916 paths 0.96 s.",
+		"Map Kinhearth Vale (2v2), scene res://docs/tools/world_forge/out/kinhearth_vale/preview.tscn, sim mode off; level load + navmesh bake 0.5 s (14 frames), lab 130.0 s. Spec: docs/design/new-maps.md."
 	],
 	"previous_quality": -1.0,
 	"quality": 90.3,
@@ -2653,11 +2478,11 @@
 	"scanned": {
 		"spots": 89
 	},
-	"seconds": 136.94,
-	"started": "2026-09-27 14:34",
+	"seconds": 130.45,
+	"started": "2026-09-27 14:53",
 	"tables": [
 		{
-			"markdown": "| Spot | Kind | Position | On navmesh at | Twin | Twin's point, mirrored back | Gap |\n|---|---|---|---|---|---|---|\n| keep_t0 | keep | (-68.0, 30.0) | (-67.1, 26.4) | keep_t4 | (-67.1, 26.4) | 0.0 |\n| keep_t3 | keep | (-68.0, -30.0) | (-66.6, -25.9) | keep_t1 | (-66.6, -25.9) | 0.0 |\n| keep_t1 | keep | (68.0, -30.0) | (66.6, -25.9) | keep_t3 | (66.6, -25.9) | 0.0 |\n| keep_t4 | keep | (68.0, 30.0) | (67.1, 26.4) | keep_t0 | (67.1, 26.4) | 0.0 |\n| node_a_a1 | home_node | (-71.0, 21.0) | (-70.9, 20.9) | node_a_b2 | (-70.9, 20.9) | 0.0 |\n| node_a_a2 | home_node | (-71.0, -21.0) | (-70.9, -20.9) | node_a_b1 | (-70.9, -20.9) | 0.0 |\n| node_a_b1 | home_node | (71.0, -21.0) | (70.9, -20.9) | node_a_a2 | (70.9, -20.9) | 0.0 |\n| node_a_b2 | home_node | (71.0, 21.0) | (70.9, 20.9) | node_a_a1 | (70.9, 20.9) | 0.0 |\n| node_b_a1 | home_node | (-59.0, 33.0) | (-58.9, 32.9) | node_b_b2 | (-58.9, 32.9) | 0.0 |\n| node_b_a2 | home_node | (-59.0, -33.0) | (-58.9, -32.9) | node_b_b1 | (-58.9, -32.9) | 0.0 |\n| node_b_b1 | home_node | (59.0, -33.0) | (58.9, -32.9) | node_b_a2 | (58.9, -32.9) | 0.0 |\n| node_b_b2 | home_node | (59.0, 33.0) | (58.9, 32.9) | node_b_a1 | (58.9, 32.9) | 0.0 |\n| natural_a1 | expansion | (-40.0, 48.0) | (-39.9, 47.9) | natural_b2 | (-39.9, 47.9) | 0.0 |\n| natural_a2 | expansion | (-40.0, -48.0) | (-39.9, -47.9) | natural_b1 | (-39.9, -47.9) | 0.0 |\n| natural_b1 | expansion | (40.0, -48.0) | (39.9, -47.9) | natural_a2 | (39.9, -47.9) | 0.0 |\n| natural_b2 | expansion | (40.0, 48.0) | (39.9, 47.9) | natural_a1 | (39.9, 47.9) | 0.0 |\n| rich_a1 | expansion | (-24.0, 72.0) | (-23.9, 71.9) | rich_b2 | (-23.9, 71.9) | 0.0 |\n| rich_a2 | expansion | (-24.0, -72.0) | (-23.9, -71.9) | rich_b1 | (-23.9, -71.9) | 0.0 |\n| rich_b1 | expansion | (24.0, -72.0) | (23.9, -71.9) | rich_a2 | (23.9, -71.9) | 0.0 |\n| rich_b2 | expansion | (24.0, 72.0) | (23.9, 71.9) | rich_a1 | (23.9, 71.9) | 0.0 |\n| vale_watch_a1 | point | (-12.0, 58.0) | (-11.9, 57.9) | vale_watch_b2 | (-11.9, 57.9) | 0.0 |\n| vale_watch_a2 | point | (-12.0, -58.0) | (-11.9, -57.9) | vale_watch_b1 | (-11.9, -57.9) | 0.0 |\n| vale_watch_b1 | point | (12.0, -58.0) | (11.9, -57.9) | vale_watch_a2 | (11.9, -57.9) | 0.0 |\n| vale_watch_b2 | point | (12.0, 58.0) | (11.9, 57.9) | vale_watch_a1 | (11.9, 57.9) | 0.0 |\n| well_a1 | point | (-34.0, 30.0) | (-33.9, 29.9) | well_b2 | (-33.9, 29.9) | 0.0 |\n| well_a2 | point | (-34.0, -30.0) | (-33.9, -29.9) | well_b1 | (-33.9, -29.9) | 0.0 |\n| well_b1 | point | (34.0, -30.0) | (33.9, -29.9) | well_a2 | (33.9, -29.9) | 0.0 |\n| well_b2 | point | (34.0, 30.0) | (33.9, 29.9) | well_a1 | (33.9, 29.9) | 0.0 |\n| fordwatch_a1 | point | (-7.0, 30.0) | (-6.9, 29.9) | fordwatch_b2 | (-6.9, 29.9) | 0.0 |\n| fordwatch_a2 | point | (-7.0, -30.0) | (-6.9, -29.9) | fordwatch_b1 | (-6.9, -29.9) | 0.0 |\n| fordwatch_b1 | point | (7.0, -30.0) | (6.9, -29.9) | fordwatch_a2 | (6.9, -29.9) | 0.0 |\n| fordwatch_b2 | point | (7.0, 30.0) | (6.9, 29.9) | fordwatch_a1 | (6.9, 29.9) | 0.0 |\n| shrine_a1 | point | (-32.0, 0.0) | (-31.9, 0.1) | shrine_b1 | (-31.9, 0.1) | 0.0 |\n| shrine_b1 | point | (32.0, 0.0) | (31.9, 0.1) | shrine_a1 | (31.9, 0.1) | 0.0 |\n| wallow_a1 | camp | (-58.0, 72.0) | (-57.9, 71.9) | wallow_b2 | (-57.9, 71.9) | 0.0 |\n| wallow_a2 | camp | (-58.0, -72.0) | (-57.9, -71.9) | wallow_b1 | (-57.9, -71.9) | 0.0 |\n| wallow_b1 | camp | (58.0, -72.0) | (57.9, -71.9) | wallow_a2 | (57.9, -71.9) | 0.0 |\n| wallow_b2 | camp | (58.0, 72.0) | (57.9, 71.9) | wallow_a1 | (57.9, 71.9) | 0.0 |\n| stag_a1 | camp | (-18.0, 40.0) | (-17.9, 39.9) | stag_b2 | (-17.9, 39.9) | 0.0 |\n| stag_a2 | camp | (-18.0, -40.0) | (-17.9, -39.9) | stag_b1 | (-17.9, -39.9) | 0.0 |\n| stag_b1 | camp | (18.0, -40.0) | (17.9, -39.9) | stag_a2 | (17.9, -39.9) | 0.0 |\n| stag_b2 | camp | (18.0, 40.0) | (17.9, 39.9) | stag_a1 | (17.9, 39.9) | 0.0 |\n| bridge_nest_a1 | camp | (-6.0, 64.0) | (-5.9, 63.9) | bridge_nest_b2 | (-5.9, 63.9) | 0.0 |\n| bridge_nest_a2 | camp | (-6.0, -64.0) | (-5.9, -63.9) | bridge_nest_b1 | (-5.9, -63.9) | 0.0 |\n| bridge_nest_b1 | camp | (6.0, -64.0) | (5.9, -63.9) | bridge_nest_a2 | (5.9, -63.9) | 0.0 |\n| bridge_nest_b2 | camp | (6.0, 64.0) | (5.9, 63.9) | bridge_nest_a1 | (5.9, 63.9) | 0.0 |\n| ford_nest_a1 | camp | (0.0, 40.0) | (-0.1, 39.9) | ford_nest_a1 | (0.1, 39.9) | 0.3 |\n| ford_nest_a2 | camp | (0.0, -40.0) | (-0.1, -39.9) | ford_nest_a2 | (0.1, -39.9) | 0.3 |\n| tavern_a1 | tavern | (-26.0, 14.0) | (-25.9, 13.9) | tavern_b2 | (-25.9, 13.9) | 0.0 |\n| tavern_a2 | tavern | (-26.0, -14.0) | (-25.9, -13.9) | tavern_b1 | (-25.9, -13.9) | 0.0 |\n| tavern_b1 | tavern | (26.0, -14.0) | (25.9, -13.9) | tavern_a2 | (25.9, -13.9) | 0.0 |\n| tavern_b2 | tavern | (26.0, 14.0) | (25.9, 13.9) | tavern_a1 | (25.9, 13.9) | 0.0 |\n| vale_post_a1 | post | (-46.0, 82.0) | (-45.9, 81.9) | vale_post_b2 | (-45.9, 81.9) | 0.0 |\n| vale_post_a2 | post | (-46.0, -82.0) | (-45.9, -81.9) | vale_post_b1 | (-45.9, -81.9) | 0.0 |\n| vale_post_b1 | post | (46.0, -82.0) | (45.9, -81.9) | vale_post_a2 | (45.9, -81.9) | 0.0 |\n| vale_post_b2 | post | (46.0, 82.0) | (45.9, 81.9) | vale_post_a1 | (45.9, 81.9) | 0.0 |\n| corner_post_a1 | post | (-82.0, 58.0) | (-81.9, 57.9) | corner_post_b2 | (-81.9, 57.9) | 0.0 |\n| corner_post_a2 | post | (-82.0, -58.0) | (-81.9, -57.9) | corner_post_b1 | (-81.9, -57.9) | 0.0 |\n| corner_post_b1 | post | (82.0, -58.0) | (81.9, -57.9) | corner_post_a2 | (81.9, -57.9) | 0.0 |\n| corner_post_b2 | post | (82.0, 58.0) | (81.9, 57.9) | corner_post_a1 | (81.9, 57.9) | 0.0 |\n| den_a1 | guild | (-82.0, 0.0) | (-81.9, 0.1) | den_b1 | (-81.9, 0.1) | 0.0 |\n| den_b1 | guild | (82.0, 0.0) | (81.9, 0.1) | den_a1 | (81.9, 0.1) | 0.0 |\n| lodge_a1 | guild | (-58.0, 0.0) | (-57.9, 0.1) | lodge_b1 | (-57.9, 0.1) | 0.0 |\n| lodge_b1 | guild | (58.0, 0.0) | (57.9, 0.1) | lodge_a1 | (57.9, 0.1) | 0.0 |\n| peddler_a1 | peddler | (-50.0, 64.0) | (-49.9, 63.9) | peddler_b2 | (-49.9, 63.9) | 0.0 |\n| peddler_a2 | peddler | (-50.0, -64.0) | (-49.9, -63.9) | peddler_b1 | (-49.9, -63.9) | 0.0 |\n| peddler_b1 | peddler | (50.0, -64.0) | (49.9, -63.9) | peddler_a2 | (49.9, -63.9) | 0.0 |\n| peddler_b2 | peddler | (50.0, 64.0) | (49.9, 63.9) | peddler_a1 | (49.9, 63.9) | 0.0 |\n| cache_a1 | cache | (-50.0, 42.0) | (-49.9, 41.9) | cache_b2 | (-49.9, 41.9) | 0.0 |\n| cache_a2 | cache | (-50.0, -42.0) | (-49.9, -41.9) | cache_b1 | (-49.9, -41.9) | 0.0 |\n| cache_b1 | cache | (50.0, -42.0) | (49.9, -41.9) | cache_a2 | (49.9, -41.9) | 0.0 |\n| cache_b2 | cache | (50.0, 42.0) | (49.9, 41.9) | cache_a1 | (49.9, 41.9) | 0.0 |\n| green_cache_a1 | cache | (-44.0, 0.0) | (-43.9, 0.1) | green_cache_b1 | (-43.9, 0.1) | 0.0 |\n| green_cache_b1 | cache | (44.0, 0.0) | (43.9, 0.1) | green_cache_a1 | (43.9, 0.1) | 0.0 |\n| vale_lair_a1 | lair | (-74.0, 78.0) | (-73.9, 77.9) | vale_lair_b2 | (-73.9, 77.9) | 0.0 |\n| vale_lair_a2 | lair | (-74.0, -78.0) | (-73.9, -77.9) | vale_lair_b1 | (-73.9, -77.9) | 0.0 |\n| vale_lair_b1 | lair | (74.0, -78.0) | (73.9, -77.9) | vale_lair_a2 | (73.9, -77.9) | 0.0 |\n| vale_lair_b2 | lair | (74.0, 78.0) | (73.9, 77.9) | vale_lair_a1 | (73.9, 77.9) | 0.0 |\n| mouth_lair_a1 | lair | (-10.0, 82.0) | (-9.9, 81.9) | mouth_lair_b2 | (-9.9, 81.9) | 0.0 |\n| mouth_lair_a2 | lair | (-10.0, -82.0) | (-9.9, -81.9) | mouth_lair_b1 | (-9.9, -81.9) | 0.0 |\n| mouth_lair_b1 | lair | (10.0, -82.0) | (9.9, -81.9) | mouth_lair_a2 | (9.9, -81.9) | 0.0 |\n| mouth_lair_b2 | lair | (10.0, 82.0) | (9.9, 81.9) | mouth_lair_a1 | (9.9, 81.9) | 0.0 |\n| bridge_road_s | crossing_bridge_road | (0.0, 74.0) | (-0.1, 73.9) | bridge_road_s | (0.1, 73.9) | 0.3 |\n| bridge_road_n | crossing_bridge_road | (0.0, -74.0) | (-0.1, -73.9) | bridge_road_n | (0.1, -73.9) | 0.3 |\n| ford_s | crossing_ford | (0.0, 40.0) | (-0.1, 39.9) | ford_s | (0.1, 39.9) | 0.3 |\n| ford_n | crossing_ford | (0.0, -40.0) | (-0.1, -39.9) | ford_n | (0.1, -39.9) | 0.3 |\n| causeway_w | crossing_bridge_lane | (-12.8, 0.0) | (-12.6, 0.1) | causeway_e | (-12.6, 0.1) | 0.0 |\n| causeway_e | crossing_bridge_lane | (12.8, 0.0) | (12.6, 0.1) | causeway_w | (12.6, 0.1) | 0.0 |\n| crown | crown | (0.0, 0.0) | (0.1, 0.1) | crown | (-0.1, 0.1) | 0.3 |\n",
+			"markdown": "| Spot | Kind | Position | On navmesh at | Twin | Twin's point, mirrored back | Gap |\n|---|---|---|---|---|---|---|\n| keep_t0 | keep | (-68.0, 30.0) | (-67.1, 26.4) | keep_t4 | (-67.1, 26.4) | 0.0 |\n| keep_t3 | keep | (-68.0, -30.0) | (-66.6, -25.9) | keep_t1 | (-66.6, -25.9) | 0.0 |\n| keep_t1 | keep | (68.0, -30.0) | (66.6, -25.9) | keep_t3 | (66.6, -25.9) | 0.0 |\n| keep_t4 | keep | (68.0, 30.0) | (67.1, 26.4) | keep_t0 | (67.1, 26.4) | 0.0 |\n| node_a_a1 | home_node | (-71.0, 21.0) | (-70.9, 20.9) | node_a_b2 | (-70.9, 20.9) | 0.0 |\n| node_a_a2 | home_node | (-71.0, -21.0) | (-70.9, -20.9) | node_a_b1 | (-70.9, -20.9) | 0.0 |\n| node_a_b1 | home_node | (71.0, -21.0) | (70.9, -20.9) | node_a_a2 | (70.9, -20.9) | 0.0 |\n| node_a_b2 | home_node | (71.0, 21.0) | (70.9, 20.9) | node_a_a1 | (70.9, 20.9) | 0.0 |\n| node_b_a1 | home_node | (-59.0, 33.0) | (-58.9, 32.9) | node_b_b2 | (-58.9, 32.9) | 0.0 |\n| node_b_a2 | home_node | (-59.0, -33.0) | (-58.9, -32.9) | node_b_b1 | (-58.9, -32.9) | 0.0 |\n| node_b_b1 | home_node | (59.0, -33.0) | (58.9, -32.9) | node_b_a2 | (58.9, -32.9) | 0.0 |\n| node_b_b2 | home_node | (59.0, 33.0) | (58.9, 32.9) | node_b_a1 | (58.9, 32.9) | 0.0 |\n| natural_a1 | expansion | (-40.0, 48.0) | (-39.9, 47.9) | natural_b2 | (-39.9, 47.9) | 0.0 |\n| natural_a2 | expansion | (-40.0, -48.0) | (-39.9, -47.9) | natural_b1 | (-39.9, -47.9) | 0.0 |\n| natural_b1 | expansion | (40.0, -48.0) | (39.9, -47.9) | natural_a2 | (39.9, -47.9) | 0.0 |\n| natural_b2 | expansion | (40.0, 48.0) | (39.9, 47.9) | natural_a1 | (39.9, 47.9) | 0.0 |\n| rich_a1 | expansion | (-24.0, 72.0) | (-23.9, 71.9) | rich_b2 | (-23.9, 71.9) | 0.0 |\n| rich_a2 | expansion | (-24.0, -72.0) | (-23.9, -71.9) | rich_b1 | (-23.9, -71.9) | 0.0 |\n| rich_b1 | expansion | (24.0, -72.0) | (23.9, -71.9) | rich_a2 | (23.9, -71.9) | 0.0 |\n| rich_b2 | expansion | (24.0, 72.0) | (23.9, 71.9) | rich_a1 | (23.9, 71.9) | 0.0 |\n| vale_watch_a1 | point | (-12.0, 58.0) | (-11.9, 57.9) | vale_watch_b2 | (-11.9, 57.9) | 0.0 |\n| vale_watch_a2 | point | (-12.0, -58.0) | (-11.9, -57.9) | vale_watch_b1 | (-11.9, -57.9) | 0.0 |\n| vale_watch_b1 | point | (12.0, -58.0) | (11.9, -57.9) | vale_watch_a2 | (11.9, -57.9) | 0.0 |\n| vale_watch_b2 | point | (12.0, 58.0) | (11.9, 57.9) | vale_watch_a1 | (11.9, 57.9) | 0.0 |\n| well_a1 | point | (-34.0, 30.0) | (-33.9, 29.9) | well_b2 | (-33.9, 29.9) | 0.0 |\n| well_a2 | point | (-34.0, -30.0) | (-33.9, -29.9) | well_b1 | (-33.9, -29.9) | 0.0 |\n| well_b1 | point | (34.0, -30.0) | (33.9, -29.9) | well_a2 | (33.9, -29.9) | 0.0 |\n| well_b2 | point | (34.0, 30.0) | (33.9, 29.9) | well_a1 | (33.9, 29.9) | 0.0 |\n| fordwatch_a1 | point | (-9.0, 33.0) | (-8.9, 32.9) | fordwatch_b2 | (-8.9, 32.9) | 0.0 |\n| fordwatch_a2 | point | (-9.0, -33.0) | (-8.9, -32.9) | fordwatch_b1 | (-8.9, -32.9) | 0.0 |\n| fordwatch_b1 | point | (9.0, -33.0) | (8.9, -32.9) | fordwatch_a2 | (8.9, -32.9) | 0.0 |\n| fordwatch_b2 | point | (9.0, 33.0) | (8.9, 32.9) | fordwatch_a1 | (8.9, 32.9) | 0.0 |\n| shrine_a1 | point | (-32.0, 0.0) | (-31.9, 0.1) | shrine_b1 | (-31.9, 0.1) | 0.0 |\n| shrine_b1 | point | (32.0, 0.0) | (31.9, 0.1) | shrine_a1 | (31.9, 0.1) | 0.0 |\n| wallow_a1 | camp | (-58.0, 72.0) | (-57.9, 71.9) | wallow_b2 | (-57.9, 71.9) | 0.0 |\n| wallow_a2 | camp | (-58.0, -72.0) | (-57.9, -71.9) | wallow_b1 | (-57.9, -71.9) | 0.0 |\n| wallow_b1 | camp | (58.0, -72.0) | (57.9, -71.9) | wallow_a2 | (57.9, -71.9) | 0.0 |\n| wallow_b2 | camp | (58.0, 72.0) | (57.9, 71.9) | wallow_a1 | (57.9, 71.9) | 0.0 |\n| stag_a1 | camp | (-18.0, 40.0) | (-17.9, 39.9) | stag_b2 | (-17.9, 39.9) | 0.0 |\n| stag_a2 | camp | (-18.0, -40.0) | (-17.9, -39.9) | stag_b1 | (-17.9, -39.9) | 0.0 |\n| stag_b1 | camp | (18.0, -40.0) | (17.9, -39.9) | stag_a2 | (17.9, -39.9) | 0.0 |\n| stag_b2 | camp | (18.0, 40.0) | (17.9, 39.9) | stag_a1 | (17.9, 39.9) | 0.0 |\n| bridge_nest_a1 | camp | (-6.0, 64.0) | (-5.9, 63.9) | bridge_nest_b2 | (-5.9, 63.9) | 0.0 |\n| bridge_nest_a2 | camp | (-6.0, -64.0) | (-5.9, -63.9) | bridge_nest_b1 | (-5.9, -63.9) | 0.0 |\n| bridge_nest_b1 | camp | (6.0, -64.0) | (5.9, -63.9) | bridge_nest_a2 | (5.9, -63.9) | 0.0 |\n| bridge_nest_b2 | camp | (6.0, 64.0) | (5.9, 63.9) | bridge_nest_a1 | (5.9, 63.9) | 0.0 |\n| ford_nest_a1 | camp | (0.0, 40.0) | (-0.1, 39.9) | ford_nest_a1 | (0.1, 39.9) | 0.3 |\n| ford_nest_a2 | camp | (0.0, -40.0) | (-0.1, -39.9) | ford_nest_a2 | (0.1, -39.9) | 0.3 |\n| tavern_a1 | tavern | (-26.0, 14.0) | (-25.9, 13.9) | tavern_b2 | (-25.9, 13.9) | 0.0 |\n| tavern_a2 | tavern | (-26.0, -14.0) | (-25.9, -13.9) | tavern_b1 | (-25.9, -13.9) | 0.0 |\n| tavern_b1 | tavern | (26.0, -14.0) | (25.9, -13.9) | tavern_a2 | (25.9, -13.9) | 0.0 |\n| tavern_b2 | tavern | (26.0, 14.0) | (25.9, 13.9) | tavern_a1 | (25.9, 13.9) | 0.0 |\n| vale_post_a1 | post | (-46.0, 82.0) | (-45.9, 81.9) | vale_post_b2 | (-45.9, 81.9) | 0.0 |\n| vale_post_a2 | post | (-46.0, -82.0) | (-45.9, -81.9) | vale_post_b1 | (-45.9, -81.9) | 0.0 |\n| vale_post_b1 | post | (46.0, -82.0) | (45.9, -81.9) | vale_post_a2 | (45.9, -81.9) | 0.0 |\n| vale_post_b2 | post | (46.0, 82.0) | (45.9, 81.9) | vale_post_a1 | (45.9, 81.9) | 0.0 |\n| corner_post_a1 | post | (-82.0, 58.0) | (-81.9, 57.9) | corner_post_b2 | (-81.9, 57.9) | 0.0 |\n| corner_post_a2 | post | (-82.0, -58.0) | (-81.9, -57.9) | corner_post_b1 | (-81.9, -57.9) | 0.0 |\n| corner_post_b1 | post | (82.0, -58.0) | (81.9, -57.9) | corner_post_a2 | (81.9, -57.9) | 0.0 |\n| corner_post_b2 | post | (82.0, 58.0) | (81.9, 57.9) | corner_post_a1 | (81.9, 57.9) | 0.0 |\n| den_a1 | guild | (-82.0, 0.0) | (-81.9, 0.1) | den_b1 | (-81.9, 0.1) | 0.0 |\n| den_b1 | guild | (82.0, 0.0) | (81.9, 0.1) | den_a1 | (81.9, 0.1) | 0.0 |\n| lodge_a1 | guild | (-58.0, 0.0) | (-57.9, 0.1) | lodge_b1 | (-57.9, 0.1) | 0.0 |\n| lodge_b1 | guild | (58.0, 0.0) | (57.9, 0.1) | lodge_a1 | (57.9, 0.1) | 0.0 |\n| peddler_a1 | peddler | (-50.0, 64.0) | (-49.9, 63.9) | peddler_b2 | (-49.9, 63.9) | 0.0 |\n| peddler_a2 | peddler | (-50.0, -64.0) | (-49.9, -63.9) | peddler_b1 | (-49.9, -63.9) | 0.0 |\n| peddler_b1 | peddler | (50.0, -64.0) | (49.9, -63.9) | peddler_a2 | (49.9, -63.9) | 0.0 |\n| peddler_b2 | peddler | (50.0, 64.0) | (49.9, 63.9) | peddler_a1 | (49.9, 63.9) | 0.0 |\n| cache_a1 | cache | (-50.0, 42.0) | (-49.9, 41.9) | cache_b2 | (-49.9, 41.9) | 0.0 |\n| cache_a2 | cache | (-50.0, -42.0) | (-49.9, -41.9) | cache_b1 | (-49.9, -41.9) | 0.0 |\n| cache_b1 | cache | (50.0, -42.0) | (49.9, -41.9) | cache_a2 | (49.9, -41.9) | 0.0 |\n| cache_b2 | cache | (50.0, 42.0) | (49.9, 41.9) | cache_a1 | (49.9, 41.9) | 0.0 |\n| green_cache_a1 | cache | (-44.0, 0.0) | (-43.9, 0.1) | green_cache_b1 | (-43.9, 0.1) | 0.0 |\n| green_cache_b1 | cache | (44.0, 0.0) | (43.9, 0.1) | green_cache_a1 | (43.9, 0.1) | 0.0 |\n| vale_lair_a1 | lair | (-74.0, 78.0) | (-73.9, 77.9) | vale_lair_b2 | (-73.9, 77.9) | 0.0 |\n| vale_lair_a2 | lair | (-74.0, -78.0) | (-73.9, -77.9) | vale_lair_b1 | (-73.9, -77.9) | 0.0 |\n| vale_lair_b1 | lair | (74.0, -78.0) | (73.9, -77.9) | vale_lair_a2 | (73.9, -77.9) | 0.0 |\n| vale_lair_b2 | lair | (74.0, 78.0) | (73.9, 77.9) | vale_lair_a1 | (73.9, 77.9) | 0.0 |\n| mouth_lair_a1 | lair | (-10.0, 82.0) | (-9.9, 81.9) | mouth_lair_b2 | (-9.9, 81.9) | 0.0 |\n| mouth_lair_a2 | lair | (-10.0, -82.0) | (-9.9, -81.9) | mouth_lair_b1 | (-9.9, -81.9) | 0.0 |\n| mouth_lair_b1 | lair | (10.0, -82.0) | (9.9, -81.9) | mouth_lair_a2 | (9.9, -81.9) | 0.0 |\n| mouth_lair_b2 | lair | (10.0, 82.0) | (9.9, 81.9) | mouth_lair_a1 | (9.9, 81.9) | 0.0 |\n| bridge_road_s | crossing_bridge_road | (0.0, 74.0) | (-0.1, 73.9) | bridge_road_s | (0.1, 73.9) | 0.3 |\n| bridge_road_n | crossing_bridge_road | (0.0, -74.0) | (-0.1, -73.9) | bridge_road_n | (0.1, -73.9) | 0.3 |\n| ford_s | crossing_ford | (0.0, 40.0) | (-0.1, 39.9) | ford_s | (0.1, 39.9) | 0.3 |\n| ford_n | crossing_ford | (0.0, -40.0) | (-0.1, -39.9) | ford_n | (0.1, -39.9) | 0.3 |\n| causeway_w | crossing_bridge_lane | (-12.8, 0.0) | (-12.6, 0.1) | causeway_e | (-12.6, 0.1) | 0.0 |\n| causeway_e | crossing_bridge_lane | (12.8, 0.0) | (12.6, 0.1) | causeway_w | (12.6, 0.1) | 0.0 |\n| crown | crown | (0.0, 0.0) | (0.1, 0.1) | crown | (-0.1, 0.1) | 0.3 |\n",
 			"title": "Spot navmesh points (mirror_x)"
 		},
 		{
@@ -2670,14 +2495,14 @@
 		},
 		{
 			"markdown": "| # | Pair | Length | Mirror pair | Length | Diff |\n|---|---|---|---|---|---|\n| 1 | node_b_b1 - causeway_w | 80.0 | node_b_b2 - causeway_w | 101.8 | -21.4 % |\n| 2 | node_b_a1 - causeway_e | 80.0 | node_b_b2 - causeway_w | 101.8 | -21.4 % |\n| 3 | node_b_a2 - causeway_e | 80.0 | node_b_b2 - causeway_w | 101.8 | -21.4 % |\n| 4 | keep_t1 - corner_post_a1 | 180.7 | keep_t4 - corner_post_a2 | 224.5 | -19.5 % |\n| 5 | keep_t3 - corner_post_b2 | 180.8 | keep_t4 - corner_post_a2 | 224.5 | -19.5 % |\n| 6 | keep_t0 - corner_post_b1 | 224.2 | keep_t1 - corner_post_a1 | 180.7 | +19.4 % |\n| 7 | keep_t0 - corner_post_b1 | 224.2 | keep_t3 - corner_post_b2 | 180.8 | +19.4 % |\n| 8 | keep_t3 - node_b_a1 | 59.3 | keep_t4 - node_b_b1 | 72.8 | -18.6 % |\n| 9 | keep_t1 - node_b_b2 | 59.3 | keep_t4 - node_b_b1 | 72.8 | -18.6 % |\n| 10 | keep_t0 - node_b_a2 | 72.5 | keep_t3 - node_b_a1 | 59.3 | +18.3 % |\n| 11 | keep_t0 - node_b_a2 | 72.5 | keep_t1 - node_b_b2 | 59.3 | +18.3 % |\n| 12 | node_a_a2 - node_b_a1 | 55.1 | node_a_b2 - node_b_b1 | 67.1 | -17.9 % |\n| 13 | node_a_b1 - node_b_b2 | 55.1 | node_a_b2 - node_b_b1 | 67.1 | -17.9 % |\n| 14 | node_b_b1 - tavern_a1 | 97.3 | node_b_b2 - tavern_a2 | 118.6 | -17.9 % |\n| 15 | node_b_a1 - tavern_b1 | 97.4 | node_b_b2 - tavern_a2 | 118.6 | -17.9 % |\n| 16 | node_b_a2 - tavern_b2 | 97.4 | node_b_b2 - tavern_a2 | 118.6 | -17.9 % |\n| 17 | node_a_a1 - node_b_a2 | 66.9 | node_a_a2 - node_b_a1 | 55.1 | +17.6 % |\n| 18 | node_a_a1 - node_b_a2 | 66.9 | node_a_b1 - node_b_b2 | 55.1 | +17.6 % |\n| 19 | node_a_b1 - corner_post_a1 | 183.1 | node_a_b2 - corner_post_a2 | 218.8 | -16.3 % |\n| 20 | node_b_a1 - well_b1 | 136.6 | node_b_b1 - well_a1 | 114.3 | +16.3 % |\n",
-			"title": "F2 unit paths: most asymmetric pairs (top 20 of 337)"
+			"title": "F2 unit paths: most asymmetric pairs (top 20 of 312)"
 		},
 		{
 			"markdown": "| From keep | nearest expansion | nearest point | nearest camp | nearest lair | nearest tavern | nearest post | nearest peddler | nearest cache | nearest crown | enemy keep |\n|---|---|---|---|---|---|---|---|---|---|---|\n| player (A1 west-south) | 35.2 (natural_a1) | 33.4 (well_a1) | 48.6 (wallow_a1) | 55.1 (vale_lair_a1) | 43.1 (tavern_a1) | 37.3 (corner_post_a1) | 42.8 (peddler_a1) | 23.8 (cache_a1) | 72.0 (crown) | 143.1 |\n| ally (A2 west-north) | 34.9 (natural_a2) | 33.0 (well_a2) | 48.3 (wallow_a2) | 54.8 (vale_lair_a2) | 42.5 (tavern_a2) | 38.0 (corner_post_a2) | 42.5 (peddler_a2) | 23.5 (cache_a2) | 71.3 (crown) | 141.8 |\n| enemy (B1 east-north) | 34.8 (natural_b1) | 33.0 (well_b1) | 48.0 (wallow_b1) | 54.5 (vale_lair_b1) | 42.5 (tavern_b1) | 38.1 (corner_post_b1) | 42.3 (peddler_b1) | 23.4 (cache_b1) | 71.3 (crown) | 141.8 |\n| enemy 2 (B2 east-south) | 35.2 (natural_b2) | 33.4 (well_b2) | 48.3 (wallow_b2) | 54.8 (vale_lair_b2) | 43.1 (tavern_b2) | 37.5 (corner_post_b2) | 42.6 (peddler_b2) | 23.8 (cache_b2) | 72.0 (crown) | 143.1 |\n",
 			"title": "Keep to nearest spot by kind (navmesh path, m)"
 		},
 		{
-			"markdown": "| Spot | Kind | From keep_t0 | Twin | From keep_t4 | Diff |\n|---|---|---|---|---|---|\n| node_a_a1 | home_node | 6.7 | node_a_b2 | 6.7 | +0.0 % |\n| node_b_a1 | home_node | 11.1 | node_b_b2 | 11.0 | +0.8 % |\n| cache_a1 | cache | 23.8 | cache_b2 | 23.8 | +0.3 % |\n| lodge_a1 | guild | 27.8 | lodge_b1 | 27.8 | +0.0 % |\n| den_a1 | guild | 30.1 | den_b1 | 30.1 | +0.0 % |\n| well_a1 | point | 33.4 | well_b2 | 33.4 | +0.0 % |\n| green_cache_a1 | cache | 35.1 | green_cache_b1 | 35.1 | +0.0 % |\n| natural_a1 | expansion | 35.2 | natural_b2 | 35.2 | +0.2 % |\n| corner_post_a1 | post | 37.3 | corner_post_b2 | 37.5 | -0.5 % |\n| peddler_a1 | peddler | 42.8 | peddler_b2 | 42.6 | +0.4 % |\n| tavern_a1 | tavern | 43.1 | tavern_b2 | 43.1 | +0.0 % |\n| shrine_a1 | point | 44.0 | shrine_b1 | 44.0 | +0.0 % |\n| node_a_a2 | home_node | 47.4 | node_a_b1 | 47.4 | +0.0 % |\n| wallow_a1 | camp | 48.6 | wallow_b2 | 48.3 | +0.4 % |\n| stag_a1 | camp | 51.1 | stag_b2 | 51.1 | +0.0 % |\n| keep_t3 | keep | 52.3 | keep_t1 | 52.3 | +0.0 % |\n| vale_lair_a1 | lair | 55.1 | vale_lair_b2 | 54.8 | +0.5 % |\n| tavern_a2 | tavern | 57.6 | tavern_b1 | 57.6 | +0.0 % |\n| fordwatch_a1 | point | 60.4 | fordwatch_b2 | 60.4 | +0.0 % |\n| causeway_w | crossing_bridge_lane | 60.5 | causeway_e | 60.5 | +0.0 % |\n| vale_post_a1 | post | 61.1 | vale_post_b2 | 60.9 | +0.3 % |\n| rich_a1 | expansion | 63.5 | rich_b2 | 63.4 | +0.1 % |\n| vale_watch_a1 | point | 63.9 | vale_watch_b2 | 63.9 | +0.1 % |\n| well_a2 | point | 65.3 | well_b1 | 65.3 | +0.0 % |\n| ford_nest_a1 | camp | 68.4 | ford_nest_a1 | 68.4 | +0.0 % |\n| ford_s | crossing_ford | 68.4 | ford_s | 68.4 | +0.0 % |\n| cache_a2 | cache | 70.4 | cache_b1 | 70.4 | +0.0 % |\n| crown | crown | 72.0 | crown | 72.0 | +0.0 % |\n| bridge_nest_a1 | camp | 72.1 | bridge_nest_b2 | 72.1 | +0.1 % |\n| node_b_a2 | home_node | 72.5 | node_b_b1 | 72.8 | -0.4 % |\n| natural_a2 | expansion | 79.1 | natural_b1 | 79.1 | +0.0 % |\n| fordwatch_b2 | point | 80.1 | fordwatch_a1 | 79.9 | +0.2 % |\n| mouth_lair_a1 | lair | 80.4 | mouth_lair_b2 | 80.3 | +0.1 % |\n| fordwatch_a2 | point | 82.4 | fordwatch_b1 | 82.4 | +0.0 % |\n| bridge_road_s | crossing_bridge_road | 82.5 | bridge_road_s | 82.5 | +0.1 % |\n| stag_a2 | camp | 82.6 | stag_b1 | 82.6 | +0.0 % |\n| causeway_e | crossing_bridge_lane | 84.4 | causeway_w | 84.4 | +0.0 % |\n| corner_post_a2 | post | 85.5 | corner_post_b1 | 85.5 | +0.0 % |\n| stag_b2 | camp | 86.1 | stag_a1 | 86.1 | +0.0 % |\n| vale_watch_b2 | point | 90.0 | vale_watch_a1 | 89.9 | +0.1 % |\n| peddler_a2 | peddler | 91.9 | peddler_b1 | 97.4 | -5.6 % |\n| bridge_nest_b2 | camp | 93.5 | bridge_nest_a1 | 93.3 | +0.2 % |\n| ford_nest_a2 | camp | 94.3 | ford_nest_a2 | 94.3 | -0.0 % |\n| ford_n | crossing_ford | 94.3 | ford_n | 94.3 | -0.0 % |\n| mouth_lair_b2 | lair | 95.4 | mouth_lair_a1 | 95.3 | +0.1 % |\n| wallow_a2 | camp | 100.7 | wallow_b1 | 100.8 | -0.1 % |\n| vale_watch_a2 | point | 100.8 | vale_watch_b1 | 100.8 | +0.0 % |\n| tavern_b1 | tavern | 101.8 | tavern_a2 | 101.8 | -0.0 % |\n| well_b2 | point | 102.9 | well_a1 | 102.9 | +0.0 % |\n| shrine_b1 | point | 103.6 | shrine_a1 | 103.6 | +0.0 % |\n| tavern_b2 | tavern | 104.2 | tavern_a1 | 104.1 | +0.1 % |\n| vale_lair_a2 | lair | 104.5 | vale_lair_b1 | 104.5 | -0.0 % |\n| fordwatch_b1 | point | 105.3 | fordwatch_a2 | 105.3 | +0.1 % |\n| rich_b2 | expansion | 105.8 | rich_a1 | 105.8 | +0.0 % |\n| rich_a2 | expansion | 107.3 | rich_b1 | 107.3 | +0.0 % |\n| bridge_nest_a2 | camp | 109.1 | bridge_nest_b1 | 109.1 | +0.0 % |\n| natural_b2 | expansion | 109.2 | natural_a1 | 109.2 | +0.0 % |\n| vale_post_a2 | post | 110.3 | vale_post_b1 | 114.8 | -3.9 % |\n| stag_b1 | camp | 111.5 | stag_a2 | 111.6 | -0.1 % |\n| green_cache_b1 | cache | 115.5 | green_cache_a1 | 115.5 | +0.0 % |\n| vale_watch_b1 | point | 116.3 | vale_watch_a2 | 116.2 | +0.0 % |\n| cache_b2 | cache | 118.2 | cache_a1 | 118.2 | -0.0 % |\n| well_b1 | point | 118.8 | well_a2 | 128.4 | -7.4 % |\n| bridge_nest_b1 | camp | 120.4 | bridge_nest_a2 | 120.2 | +0.1 % |\n| bridge_road_n | crossing_bridge_road | 120.8 | bridge_road_n | 120.9 | -0.1 % |\n| node_b_b2 | home_node | 127.2 | node_b_a1 | 127.2 | -0.0 % |\n| vale_post_b2 | post | 128.9 | vale_post_a1 | 128.8 | +0.0 % |\n| lodge_b1 | guild | 129.5 | lodge_a1 | 129.5 | +0.0 % |\n| peddler_b2 | peddler | 132.4 | peddler_a1 | 132.4 | +0.0 % |\n| mouth_lair_b1 | lair | 133.6 | mouth_lair_a2 | 133.7 | -0.0 % |\n| rich_b1 | expansion | 134.5 | rich_a2 | 134.5 | +0.0 % |\n| natural_b1 | expansion | 134.7 | natural_a2 | 134.7 | -0.0 % |\n| mouth_lair_a2 | lair | 138.2 | mouth_lair_b1 | 138.5 | -0.2 % |\n| wallow_b2 | camp | 139.8 | wallow_a1 | 139.8 | +0.0 % |\n| keep_t4 | keep | 143.1 | keep_t0 | 143.1 | +0.0 % |\n| cache_b1 | cache | 143.6 | cache_a2 | 143.7 | -0.1 % |\n| keep_t1 | keep | 143.6 | keep_t3 | 143.6 | -0.0 % |\n| node_a_b2 | home_node | 144.9 | node_a_a1 | 144.9 | +0.0 % |\n| node_a_b1 | home_node | 146.0 | node_a_a2 | 146.0 | +0.0 % |\n| peddler_b1 | peddler | 149.6 | peddler_a2 | 149.7 | -0.0 % |\n| node_b_b1 | home_node | 152.6 | node_b_a2 | 152.7 | -0.0 % |\n| den_b1 | guild | 153.5 | den_a1 | 153.5 | +0.0 % |\n| vale_lair_b2 | lair | 156.0 | vale_lair_a1 | 156.0 | +0.0 % |\n| vale_post_b1 | post | 156.6 | vale_post_a2 | 156.6 | -0.0 % |\n| wallow_b1 | camp | 160.5 | wallow_a2 | 160.5 | -0.0 % |\n| corner_post_b2 | post | 165.0 | corner_post_a1 | 165.0 | +0.0 % |\n| vale_lair_b1 | lair | 177.4 | vale_lair_a2 | 177.4 | -0.0 % |\n| corner_post_b1 | post | 224.2 | corner_post_a2 | 224.5 | -0.1 % |\n",
+			"markdown": "| Spot | Kind | From keep_t0 | Twin | From keep_t4 | Diff |\n|---|---|---|---|---|---|\n| node_a_a1 | home_node | 6.7 | node_a_b2 | 6.7 | +0.0 % |\n| node_b_a1 | home_node | 11.1 | node_b_b2 | 11.0 | +0.8 % |\n| cache_a1 | cache | 23.8 | cache_b2 | 23.8 | +0.3 % |\n| lodge_a1 | guild | 27.8 | lodge_b1 | 27.8 | +0.0 % |\n| den_a1 | guild | 30.1 | den_b1 | 30.1 | +0.0 % |\n| well_a1 | point | 33.4 | well_b2 | 33.4 | +0.0 % |\n| green_cache_a1 | cache | 35.1 | green_cache_b1 | 35.1 | +0.0 % |\n| natural_a1 | expansion | 35.2 | natural_b2 | 35.2 | +0.2 % |\n| corner_post_a1 | post | 37.3 | corner_post_b2 | 37.5 | -0.5 % |\n| peddler_a1 | peddler | 42.8 | peddler_b2 | 42.6 | +0.4 % |\n| tavern_a1 | tavern | 43.1 | tavern_b2 | 43.1 | +0.0 % |\n| shrine_a1 | point | 44.0 | shrine_b1 | 44.0 | +0.0 % |\n| node_a_a2 | home_node | 47.4 | node_a_b1 | 47.4 | +0.0 % |\n| wallow_a1 | camp | 48.6 | wallow_b2 | 48.3 | +0.4 % |\n| stag_a1 | camp | 51.1 | stag_b2 | 51.1 | +0.0 % |\n| keep_t3 | keep | 52.3 | keep_t1 | 52.3 | +0.0 % |\n| vale_lair_a1 | lair | 55.1 | vale_lair_b2 | 54.8 | +0.5 % |\n| tavern_a2 | tavern | 57.6 | tavern_b1 | 57.6 | +0.0 % |\n| fordwatch_a1 | point | 58.6 | fordwatch_b2 | 58.6 | +0.0 % |\n| causeway_w | crossing_bridge_lane | 60.5 | causeway_e | 60.5 | +0.0 % |\n| vale_post_a1 | post | 61.1 | vale_post_b2 | 60.9 | +0.3 % |\n| rich_a1 | expansion | 63.5 | rich_b2 | 63.4 | +0.1 % |\n| vale_watch_a1 | point | 63.9 | vale_watch_b2 | 63.9 | +0.1 % |\n| well_a2 | point | 65.3 | well_b1 | 65.3 | +0.0 % |\n| ford_nest_a1 | camp | 68.4 | ford_nest_a1 | 68.4 | +0.0 % |\n| ford_s | crossing_ford | 68.4 | ford_s | 68.4 | +0.0 % |\n| cache_a2 | cache | 70.4 | cache_b1 | 70.4 | +0.0 % |\n| crown | crown | 72.0 | crown | 72.0 | +0.0 % |\n| bridge_nest_a1 | camp | 72.1 | bridge_nest_b2 | 72.1 | +0.1 % |\n| node_b_a2 | home_node | 72.5 | node_b_b1 | 72.8 | -0.4 % |\n| fordwatch_b2 | point | 78.7 | fordwatch_a1 | 78.7 | +0.1 % |\n| natural_a2 | expansion | 79.1 | natural_b1 | 79.1 | +0.0 % |\n| mouth_lair_a1 | lair | 80.4 | mouth_lair_b2 | 80.3 | +0.1 % |\n| bridge_road_s | crossing_bridge_road | 82.5 | bridge_road_s | 82.5 | +0.1 % |\n| stag_a2 | camp | 82.6 | stag_b1 | 82.6 | +0.0 % |\n| fordwatch_a2 | point | 83.1 | fordwatch_b1 | 83.1 | -0.0 % |\n| causeway_e | crossing_bridge_lane | 84.4 | causeway_w | 84.4 | +0.0 % |\n| corner_post_a2 | post | 85.5 | corner_post_b1 | 85.5 | +0.0 % |\n| stag_b2 | camp | 86.1 | stag_a1 | 86.1 | +0.0 % |\n| vale_watch_b2 | point | 90.0 | vale_watch_a1 | 89.9 | +0.1 % |\n| peddler_a2 | peddler | 91.9 | peddler_b1 | 97.4 | -5.6 % |\n| bridge_nest_b2 | camp | 93.5 | bridge_nest_a1 | 93.3 | +0.2 % |\n| ford_nest_a2 | camp | 94.3 | ford_nest_a2 | 94.3 | -0.0 % |\n| ford_n | crossing_ford | 94.3 | ford_n | 94.3 | -0.0 % |\n| mouth_lair_b2 | lair | 95.4 | mouth_lair_a1 | 95.3 | +0.1 % |\n| wallow_a2 | camp | 100.7 | wallow_b1 | 100.8 | -0.1 % |\n| vale_watch_a2 | point | 100.8 | vale_watch_b1 | 100.8 | +0.0 % |\n| tavern_b1 | tavern | 101.8 | tavern_a2 | 101.8 | -0.0 % |\n| well_b2 | point | 102.9 | well_a1 | 102.9 | +0.0 % |\n| shrine_b1 | point | 103.6 | shrine_a1 | 103.6 | +0.0 % |\n| fordwatch_b1 | point | 104.1 | fordwatch_a2 | 104.1 | -0.0 % |\n| tavern_b2 | tavern | 104.2 | tavern_a1 | 104.1 | +0.1 % |\n| vale_lair_a2 | lair | 104.5 | vale_lair_b1 | 104.5 | -0.0 % |\n| rich_b2 | expansion | 105.8 | rich_a1 | 105.8 | +0.0 % |\n| rich_a2 | expansion | 107.3 | rich_b1 | 107.3 | +0.0 % |\n| bridge_nest_a2 | camp | 109.1 | bridge_nest_b1 | 109.1 | +0.0 % |\n| natural_b2 | expansion | 109.2 | natural_a1 | 109.2 | +0.0 % |\n| vale_post_a2 | post | 110.3 | vale_post_b1 | 114.8 | -3.9 % |\n| stag_b1 | camp | 111.5 | stag_a2 | 111.6 | -0.1 % |\n| green_cache_b1 | cache | 115.5 | green_cache_a1 | 115.5 | +0.0 % |\n| vale_watch_b1 | point | 116.3 | vale_watch_a2 | 116.2 | +0.0 % |\n| cache_b2 | cache | 118.2 | cache_a1 | 118.2 | -0.0 % |\n| well_b1 | point | 118.8 | well_a2 | 128.4 | -7.4 % |\n| bridge_nest_b1 | camp | 120.4 | bridge_nest_a2 | 120.2 | +0.1 % |\n| bridge_road_n | crossing_bridge_road | 120.8 | bridge_road_n | 120.9 | -0.1 % |\n| node_b_b2 | home_node | 127.2 | node_b_a1 | 127.2 | -0.0 % |\n| vale_post_b2 | post | 128.9 | vale_post_a1 | 128.8 | +0.0 % |\n| lodge_b1 | guild | 129.5 | lodge_a1 | 129.5 | +0.0 % |\n| peddler_b2 | peddler | 132.4 | peddler_a1 | 132.4 | +0.0 % |\n| mouth_lair_b1 | lair | 133.6 | mouth_lair_a2 | 133.7 | -0.0 % |\n| rich_b1 | expansion | 134.5 | rich_a2 | 134.5 | +0.0 % |\n| natural_b1 | expansion | 134.7 | natural_a2 | 134.7 | -0.0 % |\n| mouth_lair_a2 | lair | 138.2 | mouth_lair_b1 | 138.5 | -0.2 % |\n| wallow_b2 | camp | 139.8 | wallow_a1 | 139.8 | +0.0 % |\n| keep_t4 | keep | 143.1 | keep_t0 | 143.1 | +0.0 % |\n| cache_b1 | cache | 143.6 | cache_a2 | 143.7 | -0.1 % |\n| keep_t1 | keep | 143.6 | keep_t3 | 143.6 | -0.0 % |\n| node_a_b2 | home_node | 144.9 | node_a_a1 | 144.9 | +0.0 % |\n| node_a_b1 | home_node | 146.0 | node_a_a2 | 146.0 | +0.0 % |\n| peddler_b1 | peddler | 149.6 | peddler_a2 | 149.7 | -0.0 % |\n| node_b_b1 | home_node | 152.6 | node_b_a2 | 152.7 | -0.0 % |\n| den_b1 | guild | 153.5 | den_a1 | 153.5 | +0.0 % |\n| vale_lair_b2 | lair | 156.0 | vale_lair_a1 | 156.0 | +0.0 % |\n| vale_post_b1 | post | 156.6 | vale_post_a2 | 156.6 | -0.0 % |\n| wallow_b1 | camp | 160.5 | wallow_a2 | 160.5 | -0.0 % |\n| corner_post_b2 | post | 165.0 | corner_post_a1 | 165.0 | +0.0 % |\n| vale_lair_b1 | lair | 177.4 | vale_lair_a2 | 177.4 | -0.0 % |\n| corner_post_b1 | post | 224.2 | corner_post_a2 | 224.5 | -0.1 % |\n",
 			"title": "Every spot from the keeps (mirror_x)"
 		},
 		{
@@ -2697,7 +2522,7 @@
 			"title": "Main routes: narrowest corridors (navmesh width; real gap ~ +1.0 m)"
 		},
 		{
-			"markdown": "| # | Where (x, z) | Shortest paths through this metre | Share |\n|---|---|---|---|\n| 1 | (-2.5, -37.5) | 360 | 9 % |\n| 2 | (-3.5, 37.5) | 304 | 8 % |\n| 3 | (4.5, 36.5) | 251 | 6 % |\n| 4 | (14.5, -5.5) | 232 | 6 % |\n| 5 | (14.5, 5.5) | 216 | 6 % |\n| 6 | (-13.5, -4.5) | 191 | 5 % |\n| 7 | (-13.5, 4.5) | 182 | 5 % |\n| 8 | (5.5, -33.5) | 177 | 5 % |\n| 9 | (3.5, -71.5) | 171 | 4 % |\n| 10 | (-6.5, -29.5) | 168 | 4 % |\n",
+			"markdown": "| # | Where (x, z) | Shortest paths through this metre | Share |\n|---|---|---|---|\n| 1 | (-2.5, -37.5) | 365 | 9 % |\n| 2 | (-3.5, 37.5) | 321 | 8 % |\n| 3 | (4.5, 36.5) | 268 | 7 % |\n| 4 | (14.5, -5.5) | 222 | 6 % |\n| 5 | (14.5, 5.5) | 207 | 5 % |\n| 6 | (-13.5, -4.5) | 183 | 5 % |\n| 7 | (-13.5, 4.5) | 172 | 4 % |\n| 8 | (3.5, -71.5) | 171 | 4 % |\n| 9 | (-2.5, 71.5) | 166 | 4 % |\n| 10 | (8.5, -32.5) | 159 | 4 % |\n",
 			"title": "Hottest metres (every spot-pair shortest path, 3916 paths)"
 		}
 	]

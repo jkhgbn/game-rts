@@ -46,6 +46,7 @@ static func get_profile(map_name: String) -> Dictionary:
 				# (ally / nearest enemy 0.37-0.38; was 142 / 142 / 187 in map-2v2.md 1 / 2.9 before the pass).
 				"targets": {"ally_keep": 52.0, "enemy_keep_near": 139.0, "enemy_keep_far": 140.0},
 				"ally_dry": true,
+				"ally_ratio": [0.33, 0.5],   # A1: ally / nearest enemy (the enemy 2-3x farther; map-2v2-audit.md 6)
 				"settings": {},
 			}
 	return {}

@@ -177,7 +177,7 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "97cbe2e51486/8d89c9f84697",
+	"hash": "3b53f6f713f9/878905a4450e",
 	"hash_note": "",
 	"headless": false,
 	"id": "kinhearth_vale",
@@ -187,16 +187,16 @@
 	"notes": [
 		"Files: `data/maps/kinhearth_vale_layout.tres`, `docs/tools/world_forge/out/kinhearth_vale/preview.tscn`, `docs/tools/world_forge/out/kinhearth_vale/map_profile.json`, `docs/tools/world_forge/out/kinhearth_vale/map_lab/scorecard.md`, `docs/tools/world_forge/out/kinhearth_vale/map_lab/heatmap.png`, `docs/tools/world_forge/out/kinhearth_vale/layout.png`"
 	],
-	"previous_quality": 81.1,
+	"previous_quality": 97.3,
 	"quality": 97.3,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 140.7,
+	"seconds": 134.2,
 	"shots": {
 		"heatmap": "map_lab/heatmap.png",
 		"layout": "layout.png"
 	},
-	"started": "2026-09-27 14:34:50",
+	"started": "2026-09-27 14:53:41",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "map"

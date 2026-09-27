@@ -3,6 +3,6 @@
 [ext_resource type="Script" path="res://docs/tools/world_forge/out/gloamspine_divide/preview_level.gd" id="1_54lde"]
 [ext_resource type="Resource" path="res://data/maps/gloamspine_divide_layout.tres" id="2_e8djv"]
 
-[node name="ForgeMapPreview" type="Node3D" unique_id=1980087160]
+[node name="ForgeMapPreview" type="Node3D" unique_id=2071676464]
 script = ExtResource("1_54lde")
 layout = ExtResource("2_e8djv")

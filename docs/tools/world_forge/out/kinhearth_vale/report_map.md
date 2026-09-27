@@ -1,10 +1,10 @@
 # world_forge map: kinhearth_vale
 
-2026-09-27 14:34:50 - `tools/world_forge/run_world_forge.ps1 map kinhearth_vale` - hash `97cbe2e51486/8d89c9f84697`
+2026-09-27 14:53:41 - `tools/world_forge/run_world_forge.ps1 map kinhearth_vale` - hash `3b53f6f713f9/878905a4450e`
 
-## Result: **WARN** - quality **97 / 100** (previous run 81, +16)
+## Result: **WARN** - quality **97 / 100** (previous run 97, +0)
 
-0 FAIL, 1 WARN, 9 PASS, 1 info, 0 skipped, 141 s
+0 FAIL, 1 WARN, 9 PASS, 1 info, 0 skipped, 134 s
 
 ## Improve next
 

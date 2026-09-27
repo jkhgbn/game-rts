@@ -28,6 +28,7 @@ const CHOKE_WIDTH := 3.0         ## route samples narrower than this (navmesh m)
 const ROUTE_TWIN_TOL := 1.0      ## a route's narrowest point vs its mirror twin's (m)
 const HOME_NODE_RADIUS := 16.0   ## crystal nodes this close to a keep are home nodes, the others expansions
 const ALLY_FAR_RATIO := 1.25     ## A1: the ally keep farther than this x the nearest enemy keep = allies can't help (WARN)
+const ALLY_RATIO := [0.33, 0.5]  ## A1 (team maps): ally / nearest enemy path in this band = the enemy 2-3x farther (map-2v2-audit.md 6; profile `ally_ratio` overrides)
 const TARGET_TOL := 0.10         ## A1: a profile `targets` distance (map spec) missed by more than 10 % = WARN
 const TRAVEL_SPREAD_S := 3.0     ## T1: seats' travel times to the same destination differ by more than this (s)...
 const TRAVEL_SPREAD_REL := 0.03  ## ...and by more than 3 % = WARN
@@ -862,7 +863,8 @@ func _path_terrain(path: PackedVector3Array) -> Dictionary:
 ## A1 (maps with allies, e.g. the 2v2): per seat, the path to its ally keep vs its enemy keeps. Rules: the ally
 ## distance is equal on every side (<= 2 %), the ally is not much farther than the nearest enemy
 ## (<= ALLY_FAR_RATIO x), the ally road crosses no river when the profile says `ally_dry`, and the profile's
-## `targets` (ally_keep / enemy_keep_near / enemy_keep_far, from the map spec) are met within 10 %.
+## `targets` (ally_keep / enemy_keep_near / enemy_keep_far, from the map spec) are met within 10 %, and ally / nearest enemy
+## stays inside ALLY_RATIO (0.33-0.5 = the enemy 2-3x farther than the ally; profile `ally_ratio: [lo, hi]`, [] = off).
 func _check_allies() -> void:
 	var seats := _seat_list()
 	var sides := sides_of(seats)
@@ -875,6 +877,7 @@ func _check_allies() -> void:
 		return
 	var targets: Dictionary = profile.get("targets", {})
 	var ally_dry := bool(profile.get("ally_dry", false))
+	var ratio_band: Array = profile.get("ally_ratio", ALLY_RATIO)
 	var issues: Array = []
 	var rows := "| Seat | Side | Ally keep | Ally path (m) | Crosses river | Nearest enemy (m) | Farthest enemy (m) | Ally / nearest enemy |\n|---|---|---|---|---|---|---|---|\n"
 	var ally_d: Array = []
@@ -916,6 +919,11 @@ func _check_allies() -> void:
 			if not is_inf(near) and ally > near * ALLY_FAR_RATIO:
 				issues.append({"sev": "WARN", "where": where, "what": "ally keep %.1f m vs nearest enemy %.1f m (x%.2f)" % [ally, near, ally / near],
 					"fix": "allies too far apart to defend each other: shorten the ally road"})
+			elif not is_inf(near) and near > 0.0 and ratio_band.size() == 2:
+				var rt := ally / near
+				if rt < float(ratio_band[0]) - 0.005 or rt > float(ratio_band[1]) + 0.005:
+					issues.append({"sev": "WARN", "where": where, "what": "ally / nearest enemy %.2f outside %.2f-%.2f (ally %.1f m, enemy %.1f m = %.1fx)" % [rt, float(ratio_band[0]), float(ratio_band[1]), ally, near, near / maxf(0.01, ally)],
+						"fix": "aim the enemy 2-3x farther than the ally (map-2v2-audit.md 6): move the keeps toward / away from the ally" if rt > float(ratio_band[1]) else "allies so close the team is one base: spread the keeps"})
 		for key: String in targets:
 			var want := float(targets[key])
 			var got: float = {"ally_keep": ally, "enemy_keep_near": near, "enemy_keep_far": far}.get(key, INF)
@@ -933,7 +941,7 @@ func _check_allies() -> void:
 			issues.append({"sev": "WARN", "where": "ally roads", "what": "%.1f m vs %.1f m between sides (%.1f %%)" % [lo, hi, 100.0 * rel],
 				"fix": "one side's allies are farther apart: an unmirrored blocker on the ally road"})
 	report.add_check("A1", "dist", "Ally keeps: equal, close, on their bank", "ally path equal per side (<= %.0f %%), <= %.2f x the nearest enemy keep%s%s" % [
-		100.0 * ASYM_WARN, ALLY_FAR_RATIO, ", never across the river" if ally_dry else "",
+		100.0 * ASYM_WARN, ALLY_FAR_RATIO, ((", ally / nearest enemy %.2f-%.2f" % [float(ratio_band[0]), float(ratio_band[1])]) if ratio_band.size() == 2 else "") + (", never across the river" if ally_dry else ""),
 		", spec targets +-%.0f %%" % (100.0 * TARGET_TOL) if not targets.is_empty() else ""], total, issues,
 		"", "", 1.5)
 	report.add_table("Ally keeps per seat (navmesh path, m)", rows)

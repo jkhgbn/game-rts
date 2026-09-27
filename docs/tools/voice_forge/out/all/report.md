@@ -1,10 +1,10 @@
-# voice_forge build: all
+# voice_forge check: all
 
-2026-09-27 13:29:40 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `2172bf493c1ba2d7` (manifest.json (line keys are content hashes))
+2026-09-27 14:16:00 - `tools/voice_forge/run_voice_forge.ps1 check all` - hash `2172bf493c1ba2d7` (manifest.json (line keys are content hashes))
 
 ## Result: **WARN** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 1 WARN, 14 PASS, 1 info, 0 skipped, 25 s
+0 FAIL, 1 WARN, 14 PASS, 1 info, 0 skipped, 3 s
 
 ## Improve next
 1. **voice fits its slot** (WARN): the lines listed in the notes _(from F1 voice fits its slot)_
@@ -31,7 +31,7 @@
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 68 | 6 / 138 over (0 by > 15 %) | voice length <= cine slot / subtitle time | raise the speaker's speed in cast.json, lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 68 | 5 / 166 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -51,6 +51,7 @@
 - source: docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines
 - source: docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines
 - source: scripts/campaign/mission_01.gd: 15 lines
+- source: data/cinematics/src/ep2_opening.cine: 28 lines
 - source: data/cinematics/src/prologue_3min.cine: 30 lines
 - source: data/cinematics/src/two_wizards.cine: 1 lines
 - source: data/cinematics/src/watch_keep.cine: 4 lines
@@ -64,7 +65,6 @@
 - over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s
 - over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
 - over slot: vessa/an_ember_crown_in_21770f9f L2: 5.59 s > subtitle 5.00 s
-- over slot: vessa/but_her_people_have_6f60fcc0 ep2_opening/L23: 2.88 s > cine slot 2.80 s
 - this build: 28.0 rendered, 80.0 unchanged
 - last render: 28.0 lines, 47.6 s of audio in 175.0 s (x3.67 real time) on ["CPUExecutionProvider"], at 2026-09-27 13:23:24
-- total: 108 lines, 5.97 min of speech
+- total: 108 lines, 5.97 min of speech, 0 speed-fitted, 0 with direction tags

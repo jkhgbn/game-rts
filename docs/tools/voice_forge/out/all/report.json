@@ -129,17 +129,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.956521739130435,
+			"graded": 0.969879518072289,
 			"group": "fit",
-			"hint": "raise the speaker's speed in cast.json, lengthen the slot, or shorten the line",
+			"hint": "run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line",
 			"id": "F1",
 			"improve": "the lines listed in the notes",
 			"name": "voice fits its slot",
 			"rule": "voice length <= cine slot / subtitle time",
-			"score": 0.675217391304348,
+			"score": 0.679759036144578,
 			"shot": "",
 			"status": "WARN",
-			"value": "6 / 138 over (0 by > 15 %)",
+			"value": "5 / 166 over (0 by > 15 %)",
 			"weight": 1.0
 		},
 		{
@@ -248,7 +248,7 @@
 	"id": "all",
 	"improve_next": [
 		{
-			"rank": 10.3247826086957,
+			"rank": 10.3202409638554,
 			"source": "F1 voice fits its slot",
 			"status": "WARN",
 			"text": "the lines listed in the notes",
@@ -269,12 +269,13 @@
 			"title": "Voice the cinematics"
 		}
 	],
-	"kind": "build",
+	"kind": "check",
 	"kingdom": "",
 	"notes": [
 		"source: docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines",
 		"source: docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines",
 		"source: scripts/campaign/mission_01.gd: 15 lines",
+		"source: data/cinematics/src/ep2_opening.cine: 28 lines",
 		"source: data/cinematics/src/prologue_3min.cine: 30 lines",
 		"source: data/cinematics/src/two_wizards.cine: 1 lines",
 		"source: data/cinematics/src/watch_keep.cine: 4 lines",
@@ -288,19 +289,18 @@
 		"over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s",
 		"over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s",
 		"over slot: vessa/an_ember_crown_in_21770f9f L2: 5.59 s > subtitle 5.00 s",
-		"over slot: vessa/but_her_people_have_6f60fcc0 ep2_opening/L23: 2.88 s > cine slot 2.80 s",
 		"this build: 28.0 rendered, 80.0 unchanged",
 		"last render: 28.0 lines, 47.6 s of audio in 175.0 s (x3.67 real time) on [\"CPUExecutionProvider\"], at 2026-09-27 13:23:24",
-		"total: 108 lines, 5.97 min of speech"
+		"total: 108 lines, 5.97 min of speech, 0 speed-fitted, 0 with direction tags"
 	],
-	"previous_quality": 98.1,
-	"quality": 98.0,
+	"previous_quality": 98.0,
+	"quality": 98.1,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 25.0,
+	"seconds": 2.5,
 	"shots": {},
-	"started": "2026-09-27 13:29:40",
+	"started": "2026-09-27 14:16:00",
 	"tier": "",
 	"tool": "voice_forge",
-	"verb": "build"
+	"verb": "check"
 }

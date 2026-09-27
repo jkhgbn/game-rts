@@ -61,3 +61,48 @@
 | 2026-09-27 12:56:06 | build | forge_intro_torvald | 100 (+8) | PASS (0F 0W) | 2d068c61f13f |  | docs/tools/world_forge/out/forge_intro_torvald/report.md |
 | 2026-09-27 12:56:59 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | 603212c2ce84 | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
 | 2026-09-27 12:58:20 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | 04e1143c5a82 | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 13:31:26 | map | kinhearth_vale | 81 | WARN (0F 2W) | 0a4b2c4b3308/68de99f8159c | Map Lab | docs/tools/world_forge/out/kinhearth_vale/report_map.md |
+| 2026-09-27 13:34:44 | build | forge_citadel | 77 (-19) | FAIL (1F 2W) | 7e0030dc09ab | Cameras clear of geometry; Scatter counts; Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 13:35:36 | map | gloamspine_divide | 100 | PASS (0F 0W) | e93302577369/ed9a9b0eae89 |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
+| 2026-09-27 13:48:56 | build | forge_intro_vessa | 100 (+0) | PASS (0F 0W) | b26ecdaf06b5 |  | docs/tools/world_forge/out/forge_intro_vessa/report.md |
+| 2026-09-27 13:49:08 | build | forge_intro_malrik | 100 (+4) | PASS (0F 0W) | 18ee7125b4aa |  | docs/tools/world_forge/out/forge_intro_malrik/report.md |
+| 2026-09-27 13:50:07 | build | forge_citadel | 96 (+19) | WARN (0F 1W) | a7f2e552b81d | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 13:53:36 | build | forge_intro_torvald | 100 (+0) | PASS (0F 0W) | 975294ad11f8 |  | docs/tools/world_forge/out/forge_intro_torvald/report.md |
+| 2026-09-27 13:54:22 | build | forge_intro_ysolde | 100 (+0) | PASS (0F 0W) | ff740f1eb545 |  | docs/tools/world_forge/out/forge_intro_ysolde/report.md |
+| 2026-09-27 14:04:27 | build | forge_intro_malrik | 100 (+0) | PASS (0F 0W) | 18ee7125b4aa |  | docs/tools/world_forge/out/forge_intro_malrik/report.md |
+| 2026-09-27 14:04:39 | build | forge_intro_vessa | 100 (+0) | PASS (0F 0W) | b26ecdaf06b5 |  | docs/tools/world_forge/out/forge_intro_vessa/report.md |
+| 2026-09-27 14:12:41 | build | forge_intro_ysolde | 100 (+0) | PASS (0F 0W) | ff740f1eb545 |  | docs/tools/world_forge/out/forge_intro_ysolde/report.md |
+| 2026-09-27 14:12:44 | build | forge_intro_torvald | 100 (+0) | PASS (0F 0W) | 975294ad11f8 |  | docs/tools/world_forge/out/forge_intro_torvald/report.md |
+| 2026-09-27 14:14:03 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | a7f2e552b81d | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 14:20:36 | build | forge_intro_ysolde | 100 (+0) | PASS (0F 0W) | 33d60137d404 |  | docs/tools/world_forge/out/forge_intro_ysolde/report.md |
+| 2026-09-27 14:20:32 | build | forge_intro_torvald | 92 (-8) | WARN (0F 1W) | 876c4f5b6aae | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_intro_torvald/report.md |
+| 2026-09-27 14:21:56 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | 83a4dd0e0648 | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 14:23:18 | map | fourfold_hollow | 100 (+0) | PASS (0F 0W) | 1ebeb51977eb/25cdd8a0d890 |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 14:25:47 | build | forge_intro_vessa | 100 (+0) | PASS (0F 0W) | b26ecdaf06b5 |  | docs/tools/world_forge/out/forge_intro_vessa/report.md |
+| 2026-09-27 14:25:56 | build | forge_intro_malrik | 100 (+0) | PASS (0F 0W) | 18ee7125b4aa |  | docs/tools/world_forge/out/forge_intro_malrik/report.md |
+| 2026-09-27 14:26:33 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | 83a4dd0e0648 | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 14:26:19 | map | fourfold_hollow | 100 (+0) | PASS (0F 0W) | 6442ac8f387f/17c01a78162c |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 14:29:50 | build | forge_intro_torvald | 83 (-8) | FAIL (1F 0W) | 73d56783bbbe | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_intro_torvald/report.md |
+| 2026-09-27 14:30:33 | build | forge_intro_ysolde | 100 (+0) | PASS (0F 0W) | 33d60137d404 |  | docs/tools/world_forge/out/forge_intro_ysolde/report.md |
+| 2026-09-27 14:29:03 | map | fourfold_hollow | 100 (+0) | PASS (0F 0W) | 1ebeb51977eb/25cdd8a0d890 |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 14:31:34 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | 91cd04a9dca1 | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 14:32:10 | build | forge_intro_torvald | 100 (+17) | PASS (0F 0W) | 900e65b7bfde |  | docs/tools/world_forge/out/forge_intro_torvald/report.md |
+| 2026-09-27 14:35:13 | build | forge_intro_malrik | 100 (+0) | PASS (0F 0W) | 18ee7125b4aa |  | docs/tools/world_forge/out/forge_intro_malrik/report.md |
+| 2026-09-27 14:35:21 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | 91cd04a9dca1 | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 14:35:56 | build | forge_intro_torvald | 100 (+0) | PASS (0F 0W) | 900e65b7bfde |  | docs/tools/world_forge/out/forge_intro_torvald/report.md |
+| 2026-09-27 14:34:50 | map | kinhearth_vale | 97 (+16) | WARN (0F 1W) | 97cbe2e51486/8d89c9f84697 |  | docs/tools/world_forge/out/kinhearth_vale/report_map.md |
+| 2026-09-27 14:37:24 | build | forge_intro_vessa | 100 (+0) | PASS (0F 0W) | b26ecdaf06b5 |  | docs/tools/world_forge/out/forge_intro_vessa/report.md |
+| 2026-09-27 14:37:11 | build | forge_citadel | 96 (+0) | WARN (0F 1W) | 91cd04a9dca1 | Line of sight to the subject | docs/tools/world_forge/out/forge_citadel/report.md |
+| 2026-09-27 14:37:26 | map | gloamspine_divide | 100 (+0) | PASS (0F 0W) | 8fcac3c676a2/d82efb56e380 |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
+| 2026-09-27 14:43:05 | map | fourfold_hollow | 100 (+0) | PASS (0F 0W) | caa3ebb79e1e/393209f1e154 |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 14:45:43 | map | kinhearth_vale | 97 (+0) | WARN (0F 1W) | 5831e68bf126/530812e5a6f8 |  | docs/tools/world_forge/out/kinhearth_vale/report_map.md |
+| 2026-09-27 14:48:10 | map | gloamspine_divide | 100 (+0) | PASS (0F 0W) | 27198284eda5/3a3a8f196329 |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
+| 2026-09-27 14:51:03 | map | fourfold_hollow | 100 (+0) | PASS (0F 0W) | ff4f96af7141/89a5f41368cc |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 14:53:41 | map | kinhearth_vale | 97 (+0) | WARN (0F 1W) | 3b53f6f713f9/878905a4450e |  | docs/tools/world_forge/out/kinhearth_vale/report_map.md |
+| 2026-09-27 14:56:11 | map | gloamspine_divide | 100 (+0) | PASS (0F 0W) | 7713cb9e3af3/2f75d19faf74 |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
+| 2026-09-27 15:16:28 | map | fourfold_hollow | 81 (-19) | WARN (0F 2W) | 43d62abdf1f5/eb29bfd4f7fb | Map Lab | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 15:20:07 | map | fourfold_hollow | 81 (+0) | WARN (0F 2W) | 1bec8b0c0905/aa187ad9aa6b | Map Lab | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 15:23:28 | map | fourfold_hollow | 100 (+19) | PASS (0F 0W) | a7d49bb4e0cc/ba02f553bfac |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 15:26:45 | map | gloamspine_divide | 100 (+0) | PASS (0F 0W) | be3cde72af15/be36529d8caa |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
+| 2026-09-27 15:29:53 | map | gloamspine_divide | 100 (+0) | PASS (0F 0W) | 00138d4d847d/98165fb91edf |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
+| 2026-09-27 15:32:54 | map | fourfold_hollow | 100 (+0) | PASS (0F 0W) | 78c1f9c3562a/1ed095cb2e75 |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |

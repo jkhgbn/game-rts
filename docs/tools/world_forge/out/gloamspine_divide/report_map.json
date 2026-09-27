@@ -55,7 +55,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "keep 4, node 20, point 10, camp 12, tavern 4, post 8, guild 4, peddler 4, cache 4, lair 8, crown 1, start 4, slot 4; crossings 8, roads 12, zones 20, blocks 8",
+			"value": "keep 4, node 20, point 14, camp 16, tavern 4, post 8, guild 4, peddler 4, cache 4, lair 8, crown 1, start 4, slot 4; crossings 8, roads 12, zones 20, blocks 8",
 			"weight": 1.0
 		},
 		{
@@ -69,7 +69,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "260 polygons in 0.3 s",
+			"value": "253 polygons in 0.3 s",
 			"weight": 1.5
 		},
 		{
@@ -97,7 +97,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "87 / 87 clean",
+			"value": "95 / 95 clean",
 			"weight": 0.5
 		},
 		{
@@ -111,7 +111,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "87 / 87 clean",
+			"value": "95 / 95 clean",
 			"weight": 0.5
 		},
 		{
@@ -139,7 +139,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0.00 % (8 cells), 0.00 % (0 cells), 0.00 % (8 cells)",
+			"value": "0.00 % (0 cells), 0.00 % (0 cells), 0.00 % (8 cells)",
 			"weight": 0.5
 		},
 		{
@@ -153,7 +153,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "5608 / 5608 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
+			"value": "6694 / 6694 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
 			"weight": 0.5
 		}
 	],
@@ -177,7 +177,7 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "e93302577369/ed9a9b0eae89",
+	"hash": "00138d4d847d/98165fb91edf",
 	"hash_note": "",
 	"headless": false,
 	"id": "gloamspine_divide",
@@ -187,16 +187,16 @@
 	"notes": [
 		"Files: `data/maps/gloamspine_divide_layout.tres`, `docs/tools/world_forge/out/gloamspine_divide/preview.tscn`, `docs/tools/world_forge/out/gloamspine_divide/map_profile.json`, `docs/tools/world_forge/out/gloamspine_divide/map_lab/scorecard.md`, `docs/tools/world_forge/out/gloamspine_divide/map_lab/heatmap.png`, `docs/tools/world_forge/out/gloamspine_divide/layout.png`"
 	],
-	"previous_quality": -1.0,
+	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 130.3,
+	"seconds": 107.9,
 	"shots": {
 		"heatmap": "map_lab/heatmap.png",
 		"layout": "layout.png"
 	},
-	"started": "2026-09-27 13:35:36",
+	"started": "2026-09-27 15:29:53",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "map"

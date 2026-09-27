@@ -244,6 +244,8 @@ func _get(property):
 	elif property == "Performance/chunk_dimensions":
 		return chunk_dimensions
 
+	return null
+
 
 func is_thread_running() -> bool:
 	return _thread != null and _thread.is_started()

@@ -38,10 +38,11 @@ the cinematic runtime convention, `atan2(dir.x, dir.z)`): an actor at `yaw=0` fa
 | `zone <name> <area>` | area = `ring((x,z),r0..r1)`, `circle((x,z),r)`, `rect((x0,z0),(x1,z1))` | used by `scatter area=<name>` / `avoid=<name>` |
 | `place <kit> ` | `at=(x,z)`, `yaw=` (0), `scale=` (1), `tag=` (name for `subject=` / puppets), `lights=` off (default) / on, `y=`, `radius=` | one model (instanced) or a procedural prop (baked) |
 | `row <kit>` | `poly=[(x,z),...]` or `from=(x,z) to=(x,z)`, `spacing=` (3) or `count=`, `yaw=along/across/random/<deg>`, `jitter=`, `scale=` | many copies along a line; mesh-only kits are baked |
-| `scatter <kit>` | `area=<area or zone>`, `count=` (10), `gap=` (2), `seed=`, `avoid=cams,<zone>...`, `scale=a..b` (0.85..1.15), `tilt=` (deg) | deterministic, **baked to one mesh per material**; always keeps off places, walls, paths, actors |
+| `scatter <kit>` | `area=<area or zone>`, `count=` (10), `gap=` (2), `seed=`, `avoid=cams,<zone>...`, `scale=a..b` (0.85..1.15), `tilt=` (deg) | deterministic, **baked to one mesh per material**; always keeps off places, walls, paths, actors; `engine=proton` = a live ProtonScatter node (below) |
 | `wall <name>` | `poly=[...]`, `height=` (4), `thick=` (1.2), `gate=(x,z)` or `gate=[(x,z),(x,z)]`, `gate_width=` (4), `color=` (stone) | procedural crenellated wall + corner towers |
 | `path <name>` | `poly=[...]`, `width=` (3), `kit=` road / flagstone / ember (glows) / river / snow / ash | flat ribbon |
 | `actor <tag> <kit>` | `at=`, `yaw=`, `scale=`, `lights=` off (default) / on | a puppet: `puppet(&"<tag>")` returns it |
+| `flock <tag>` | `at=`, `preset=` sky / far, DragonFlock keys (see "Flocks" below) | a flying flock (dragons, rocs) |
 | `mark <shot>` | `from=(x,y,z)`, `look=(x,y,z)`, `to=` (= from), `look_to=` (= look), `fov=` (40, vertical deg), `fov_to=`, `subject=<actor or place tag>`, `dur=` (s, note only), `lens="..."` (note only) | camera marks; **explicit coordinates** (Lens, tool 3, is not installed yet) |
 
 ### Terrain, sky and water (prologue P1, 2026-09-27)
@@ -61,6 +62,39 @@ A set without any of these lines stays exactly as before (flat ground at y = 0).
 
 Placement on terrain: `place` / `row` / `scatter` / `actor` / `wall` / `path` sit on the terrain automatically
 (`place ... y=` is still an absolute height). `place` / `actor` take **`pad=R`** (= a `pad` of radius R under them).
+**`keep_height=1`** (on `place` / `row` / `actor`, U3): the y of `at=(x,y,z)` / `from=` / `to=` / `poly=` is absolute and
+the terrain does not re-seat it; with `pad=R` (on `row` too: one pad per copy) the pad is flattened **at that y**, so raised
+pieces stand on their own rock tier (steep pad edges take the `rock=` colour) instead of being pulled down to the ground:
+```
+row  res://.../tier2_wall.tscn  from=(-20,38,10) to=(20,38,10) count=5  keep_height=1  pad=7
+```
+
+### Flocks (`flock`, U3)
+`flock <tag> at=(x,z) preset=sky|far seed= elders= big= small= heroes= radius= height=a..b elder_height=a..b
+kinds=a,b small_kinds=... elder_kinds=... pattern=mixed|orbit|figure8|wander arrive_until= leave_at= leave_dir=(x,y,z)`
+instances `art/cinematics/flocks/dragon_sky.tscn` (`preset=far`: `dragon_sky_far.tscn`) under `Placed/<tag>` with those
+`DragonFlock` exports set (`seed` -> `flock_seed`, `kinds` -> `kinds_big`; keys left out keep the preset's values); they are
+saved in the set scene. Not an obstacle (M2 / M3 skip it: flyers move); **B1** adds `DragonFlock.budget()["draws"]` after
+`set_cine_time(0)` (~87 draws with 2 heroes, ~7 with `heroes=0`); `sheet` poses every `cine_timed` node at the mark's
+a / b / c time (0, dur / 2, dur).
+
+### `scatter ... engine=proton` (U3, optional)
+`engine=forge` (default) bakes as above. `engine=proton` writes a live **ProtonScatter** node (`addons/proton_scatter`,
+plugin enabled 2026-09-27) named `Proton_<kit>_<n>` instead: one item (the kit scene; `forge:` props are refused), the
+area as shapes (rect = box, circle = sphere, ring = sphere minus a negative sphere), stack `Create Inside (Random)`
+(`count=`) -> `Randomize Transforms` (yaw 360, `scale=` spread), seed = `seed=`, `dbg_disable_thread` on (Proton's
+worker thread never delivered in 4.7.2 headless; the main-thread build gave 12 / 12 points inside a test ring). Proton
+builds its multimesh when the set loads; tweak it in the editor afterwards. Limits: `avoid=` / `gap=` are ignored
+(warning); on terrain the node sits at the area centre's ground height (no "Project On Colliders", which waits on physics
+frames); S3 counts the request, B1 counts 1 draw each; the points are not in the D1 hash (the parameters are).
+```
+scatter kit:pine  area=ring((0,0),20..40)  count=60  seed=4  scale=0.8..1.2  engine=proton
+```
+
+### Generated specs (convention)
+A spec written by a script keeps that script **in the set folder**: `art/cinematics/stage_sets/<id>/tools/gen_set.ps1` (or
+`gen_set.gd`), next to its other set-only tools (e.g. `forge_citadel/tools/`: gen_set.ps1, make_parts.gd, bake_kits.gd).
+`check` / `build` notice it and add a report note "Spec GENERATED by ...": edit the script, re-run it, then build.
 A pad needs `r` >= 2 x `step` to be flat (smaller pads fall between grid points); make a building's pad cover its
 forecourt too. `mark ... ground=rel` measures the y of `from` / `to` / `look` / `look_to` from the terrain under each point
 (`from=(0,2,30) ground=rel` = 2 m above the hill there); without it y is absolute.
