@@ -31,12 +31,13 @@ func _ready() -> void:
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.add_child(center)
+	dim.theme = UIStyle.game_theme()   # U7: Alegreya body text (null = engine default)
 
 	panel = UIStyle.panel(center, 24.0)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
 	panel.add_child(box)
-	var title := UIStyle.label("Paused", 40)
+	var title := UIStyle.use_title_font(UIStyle.label("Paused", 40))
 	title.add_theme_color_override("font_color", UIStyle.GOLD)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)

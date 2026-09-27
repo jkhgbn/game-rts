@@ -23,8 +23,10 @@ extends RefCounted
 ##                                      PANEL_BORDER (or no arg) = skin metal; any other colour = that rim (GOLD = selected).
 ##   primary_button_frame() -> StyleBoxTexture  trim_glow rim, inside tinted trim_glow 0.18 (shop Buy).
 ## Fonts / labels:
-##   display_font() -> Font             Titles/names/badges (no-file alternative of the spec: default font,
-##                                      embolden 0.8, spacing_glyph 1; display_label also uppercases).
+##   game_theme() -> Theme              U7: assets/ui/four_wizards_theme.tres (Alegreya body, Cinzel headers), or null.
+##   title_font() -> Font               U7: Cinzel bold from the game theme, or null.
+##   display_font() -> Font             Titles/names/badges: Cinzel when the game theme loads, else the default
+##                                      font embolden 0.8, spacing_glyph 1 (display_label also uppercases).
 ##   number_font() -> Font              Default font embolden 0.5 (crystals, pop, timer, bar text).
 ##   label(text, size)                  Outlined label (outline 3: text over the world or over a bar fill).
 ##   panel_label(text, size, color := text)    No outline (inside framed panels).
@@ -102,6 +104,9 @@ static var _kingdom: StringName = &"fire"
 static var _cache: Dictionary = {}
 static var _display_font: FontVariation
 static var _number_font: FontVariation
+const GAME_THEME_PATH := "res://assets/ui/four_wizards_theme.tres"
+static var _game_theme: Theme
+static var _game_theme_tried := false
 
 
 # --- Skin ---------------------------------------------------------------------------------------
@@ -318,12 +323,45 @@ static func style_button(b: Button, border := PANEL_BORDER) -> void:
 
 # --- Fonts and labels (2) -------------------------------------------------------------------------
 
+## U7: the game Theme (assets/ui/four_wizards_theme.tres): Alegreya default font (body text), Cinzel on the
+## Label type variations TitleLabel / HeaderLarge / HeaderMedium / HeaderSmall. Load-guarded: null if missing.
+static func game_theme() -> Theme:
+	if not _game_theme_tried:
+		_game_theme_tried = true
+		if ResourceLoader.exists(GAME_THEME_PATH):
+			_game_theme = load(GAME_THEME_PATH) as Theme
+	return _game_theme
+
+
+## U7: the title face (Cinzel bold from the game Theme), or null when the theme / font is missing.
+static func title_font() -> Font:
+	var t := game_theme()
+	if t != null and t.has_font(&"font", &"TitleLabel"):
+		return t.get_font(&"font", &"TitleLabel")
+	return null
+
+
+## U7: gives a title / header label the Cinzel face (no-op when the game theme is missing). Returns `l`.
+static func use_title_font(l: Label) -> Label:
+	var f := title_font()
+	if f != null:
+		l.add_theme_font_override("font", f)
+	return l
+
+
 static func display_font() -> Font:
 	if _display_font == null:
 		_display_font = FontVariation.new()
-		_display_font.base_font = ThemeDB.fallback_font
-		_display_font.variation_embolden = 0.8
-		_display_font.spacing_glyph = 1
+		var title := title_font() as FontVariation
+		if title != null and title.base_font != null:
+			# U7: Cinzel (already a display face: bold weight, no fake embolden).
+			_display_font.base_font = title.base_font
+			_display_font.variation_opentype = title.variation_opentype
+			_display_font.spacing_glyph = 1
+		else:
+			_display_font.base_font = ThemeDB.fallback_font
+			_display_font.variation_embolden = 0.8
+			_display_font.spacing_glyph = 1
 	return _display_font
 
 
@@ -500,9 +538,13 @@ static func _tooltip_title(line: String) -> Control:
 	return row
 
 
-## Theme for the HUD root: tooltip panel in the slate style.
+## Theme for the HUD root: tooltip panel in the slate style, on top of the game Theme (U7 fonts) when present.
 static func hud_theme() -> Theme:
 	var t := Theme.new()
+	var game := game_theme()
+	if game != null:
+		t.merge_with(game)
+		t.default_font = game.default_font
 	t.set_stylebox(&"panel", &"TooltipPanel", tooltip_style())
 	t.set_color(&"font_color", &"TooltipLabel", token(&"text"))
 	t.set_font_size(&"font_size", &"TooltipLabel", 13)

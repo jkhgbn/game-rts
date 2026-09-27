@@ -1,0 +1,761 @@
+{
+  "actual_sizes": {
+    "1600x900": "1600x900",
+    "1920x1080": "1920x1080"
+  },
+  "checks": [
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "5 px from the bottom edge (flush it or keep >= 8 px)",
+          "fail": false,
+          "text": "MainMenu > PanelContainer",
+          "value": 5.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "skirmish_setup",
+      "status": "WARN",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Fullscreen\"",
+          "value": 0.16
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Fullscreen\"",
+          "value": 0.16
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    }
+  ],
+  "counts": {
+    "FAIL": 0,
+    "PASS": 65,
+    "SKIP": 0,
+    "WARN": 3
+  },
+  "headless": false,
+  "improve_next": [
+    {
+      "status": "WARN",
+      "text": "move it clear of the edge (>= 8 px; shrink it at small sizes) or flush it. e.g. MainMenu > PanelContainer: 5 px from the bottom edge (flush it or keep >= 8 px) (at 1600x900)",
+      "title": "Edge margin on skirmish_setup"
+    },
+    {
+      "status": "WARN",
+      "text": "give the off state a visible track / outline; icons need a lighter or darker core than their button. e.g. SettingsPanel > CheckButton \"Fullscreen\": switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty (at 1600x900, 1920x1080)",
+      "title": "Icon contrast on settings"
+    },
+    {
+      "status": "IDEA",
+      "text": "every HUD button gets a tooltip with its key and cost, even when its text is clear",
+      "title": "Tooltips everywhere in game"
+    }
+  ],
+  "lab_version": "2.0",
+  "notes": [],
+  "previous_quality": -1.0,
+  "quality": 99.3,
+  "resolutions": [
+    "1600x900",
+    "1920x1080"
+  ],
+  "result": "WARN",
+  "screens": [
+    "main_menu",
+    "skirmish_setup",
+    "settings",
+    "pause"
+  ],
+  "seconds": 74.2,
+  "shots": {
+    "contact_sheet": "contact_sheet.jpg",
+    "main_menu@1600x900": "1600x900/main_menu.jpg",
+    "main_menu@1920x1080": "1920x1080/main_menu.jpg",
+    "pause@1600x900": "1600x900/pause.jpg",
+    "pause@1920x1080": "1920x1080/pause.jpg",
+    "settings@1600x900": "1600x900/settings.jpg",
+    "settings@1920x1080": "1920x1080/settings.jpg",
+    "skirmish_setup@1600x900": "1600x900/skirmish_setup.jpg",
+    "skirmish_setup@1920x1080": "1920x1080/skirmish_setup.jpg"
+  },
+  "started": "2026-09-27 13:57:35"
+}

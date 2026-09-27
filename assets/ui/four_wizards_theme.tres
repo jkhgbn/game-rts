@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=5 format=3]
+
+[ext_resource type="FontFile" uid="uid://duel06on1ks1b" path="res://assets/fonts/Cinzel-VF.ttf" id="1_cinzel"]
+[ext_resource type="FontFile" uid="uid://44lnt10iebwk" path="res://assets/fonts/Alegreya-VF.ttf" id="2_alegreya"]
+
+[sub_resource type="FontVariation" id="FontVariation_title"]
+base_font = ExtResource("1_cinzel")
+variation_opentype = {
+2003265652: 700
+}
+spacing_glyph = 1
+
+[sub_resource type="FontVariation" id="FontVariation_header"]
+base_font = ExtResource("1_cinzel")
+variation_opentype = {
+2003265652: 600
+}
+
+[resource]
+default_font = ExtResource("2_alegreya")
+HeaderLarge/base_type = &"Label"
+HeaderLarge/fonts/font = SubResource("FontVariation_title")
+HeaderMedium/base_type = &"Label"
+HeaderMedium/fonts/font = SubResource("FontVariation_header")
+HeaderSmall/base_type = &"Label"
+HeaderSmall/fonts/font = SubResource("FontVariation_header")
+TitleLabel/base_type = &"Label"
+TitleLabel/fonts/font = SubResource("FontVariation_title")

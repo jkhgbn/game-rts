@@ -40,6 +40,7 @@ var _mission: StringName = &""
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	theme = UIStyle.game_theme()   # U7: Alegreya body text, Cinzel headers (null = engine default)
 	GameSettings.ensure_loaded(get_tree())
 	MenuFlow.install_hooks(get_tree())
 	if MenuFlow.difficulty >= 0:
@@ -73,7 +74,7 @@ func _ready() -> void:
 	column.add_theme_constant_override("separation", 18)
 	add_child(column)
 
-	var title := UIStyle.label("Four Wizards", 84)
+	var title := UIStyle.use_title_font(UIStyle.label("Four Wizards", 84))
 	title.add_theme_color_override("font_color", UIStyle.GOLD)
 	title.add_theme_constant_override("outline_size", 10)
 	title.add_theme_color_override("font_outline_color", Color(0.18, 0.05, 0.02))
@@ -347,7 +348,7 @@ func _build_skirmish_panel(parent: Control) -> PanelContainer:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
 	panel.add_child(box)
-	var title := UIStyle.label("Skirmish 1v1", 34)
+	var title := UIStyle.use_title_font(UIStyle.label("Skirmish 1v1", 34))
 	title.add_theme_color_override("font_color", UIStyle.GOLD)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
@@ -463,7 +464,7 @@ func _build_campaign_panel(parent: Control) -> PanelContainer:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
 	panel.add_child(box)
-	var title := UIStyle.label("Campaign", 34)
+	var title := UIStyle.use_title_font(UIStyle.label("Campaign", 34))
 	title.add_theme_color_override("font_color", UIStyle.GOLD)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)

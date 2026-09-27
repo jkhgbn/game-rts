@@ -40,7 +40,7 @@ func _ready() -> void:
 	box.add_theme_constant_override("separation", 12)
 	add_child(box)
 
-	var title := UIStyle.label("Settings", 34)
+	var title := UIStyle.use_title_font(UIStyle.label("Settings", 34))
 	title.add_theme_color_override("font_color", UIStyle.GOLD)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
