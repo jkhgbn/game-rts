@@ -109,7 +109,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   While non-zero she walks that way and drops her current order; released = stands still, auto-aggro resumes.
 - **Controls setting** (UX.1, `GameSettings.control_scheme`): **Classic (default)** = right-click moves the wizard like any
   unit, **A or X then click** = attack-move (3D view or minimap), arrows / edge pan, W S D unused; **Hero WASD** = W A S D
-  walk the wizard, X = attack-move. Key labels shown layout-aware (`KeyLabels`). Tab stays free (mounts).
+  walk the wizard, X = attack-move. Key labels shown layout-aware (`KeyLabels`). Tab / Shift+Tab = next / previous active building when 2+ buildings are selected (control groups can hold buildings; mounts need another key).
 - **Keys** (physical keycodes; AZERTY prints other letters). In Hero WASD mode: **W A S D** = the player's wizard walks (camera-relative,
   the camera follows her while a key is held), **F / Q / E** = Vessa's spells 1 / 2 / 3, **Ctrl+F / Q / E** = learn or rank up that spell, Space = centre on Vessa,
   F1 = select Vessa, F9 = restart, Esc = cancel targeting. Units selected: right-click = move / attack / gather,

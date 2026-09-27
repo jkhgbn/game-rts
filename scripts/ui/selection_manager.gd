@@ -2,7 +2,7 @@ class_name SelectionManager
 extends Node
 ## Handles mouse selection and orders, Warcraft style.
 ## Left click / drag box = select. Shift = add. Double-click = select all of that type on screen.
-## Left click on one of your buildings = select it alone (it never joins a box selection).
+## Left click on one of your buildings = select it alone (a box only takes buildings when it holds no unit).
 ## Right click ground = move. Right click an enemy unit or building = attack. Right click a crystal
 ## node = workers gather. Right click your own unfinished site with workers = they build it.
 ## With a building selected: right click ground = rally point, right click a crystal node = gather rally.
@@ -14,6 +14,10 @@ extends Node
 ## Control groups (StarCraft II style), keys 1-9 and 0 (= group 10): Ctrl+N = set, Shift+N = add,
 ## Alt+N = steal (take the selection out of every other group, then set N), Shift+Alt+N = steal and add,
 ## N = select (twice quickly = centre camera). Buildings can be in groups; dead members leave them.
+## Several buildings (2026-09-27): Shift+click own buildings, double-click one (all of its type on screen), or drag a
+## box with no unit in it selects several (`selected_buildings`); a group of buildings recalls them all. Tab /
+## Shift+Tab (physical) cycle the ACTIVE one (`selected_building`: card, panel, rally, Delete); Z X C V B queue at the
+## least busy selected building of the active one's type (`train_target`). Units always win over buildings.
 ## F1 = select hero (centre on the keep while she is dead), F2 = select the whole army (every own
 ## non-worker unit, wizard included), F3 = select the next idle worker and centre on it.
 ## Esc / right click = cancel targeting. Keys use physical keycodes (QWERTY positions), so AZERTY works.
@@ -105,6 +109,11 @@ var enabled := true
 var selected: Array[Unit] = []
 ## The selected building (keep, barracks, hearth, spire or a site), or null. Never with units.
 var selected_building: Node3D = null
+## Every selected own building (2026-09-27 playtest, "all buildings on one hotkey, Tab to each one"). Empty, or it holds
+## `selected_building`, which is the ACTIVE one: the command card / selection panel show it, Z X C V B train there
+## (or at the least busy selected building of the same type), right click sets the rally of every selected trainer.
+## Tab / Shift+Tab cycle the active one (only while 2+ buildings are selected; else Tab stays free).
+var selected_buildings: Array[Node3D] = []
 ## Read only: the build menu (Hearth / Hall / Spire) replaces the worker card.
 var build_menu_open := false
 ## Read only: the building being placed (ghost under the mouse), or null.
@@ -222,6 +231,15 @@ func _input(event: InputEvent) -> void:
 		elif inspected != null or selected_bounty != null or selected_neutral != null:
 			select_units([])
 			get_viewport().set_input_as_handled()
+	# Tab / Shift+Tab: next / previous active building while 2+ are selected. Read here (not in _unhandled_input) so
+	# the GUI's focus navigation never eats it; a focused text field keeps its Tab.
+	if key != null and key.pressed and enabled and not key.ctrl_pressed and not key.alt_pressed \
+			and (key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode) == KEY_TAB \
+			and selected_buildings.size() >= 2:
+		var focus := get_viewport().gui_get_focus_owner()
+		if not (focus is LineEdit or focus is TextEdit):
+			cycle_active_building(-1 if key.shift_pressed else 1)
+			get_viewport().set_input_as_handled()
 
 
 func _process(delta: float) -> void:
@@ -230,8 +248,17 @@ func _process(delta: float) -> void:
 	var before := selected.size()
 	selected.assign(selected.filter(func(u): return is_instance_valid(u) and u.is_alive()))
 	var changed := selected.size() != before
+	if not selected_buildings.is_empty():
+		var alive_b: Array[Node3D] = []
+		for b in selected_buildings:
+			if _building_alive(b):
+				alive_b.append(b)
+		if alive_b.size() != selected_buildings.size():
+			selected_buildings = alive_b
+			changed = true
 	if selected_building != null and not _building_alive(selected_building):
-		selected_building = null
+		# The active building fell: the next selected one becomes active (else nothing).
+		selected_building = selected_buildings[0] if not selected_buildings.is_empty() else null
 		changed = true
 	if inspected != null:
 		# The inspected unit was freed, or (an enemy one) went into the fog. A fallen champion stays inspected;
@@ -497,6 +524,13 @@ func select_units(units: Array) -> void:
 
 ## Selects a building (the keep) alone. Units are deselected.
 func select_building(building: Node3D) -> void:
+	select_buildings([building] if building != null else [])
+
+
+## Selects several buildings at once (a building control group, Shift+click, double-click, a box with no units).
+## Units are deselected. They are sorted by type (keep first, then by name) so Tab walks type by type; `active`
+## (when among them) becomes the active one, else the first. Dead ones are skipped.
+func select_buildings(buildings: Array, active: Node3D = null) -> void:
 	for u in selected:
 		if is_instance_valid(u):
 			u.selected = false
@@ -505,13 +539,57 @@ func select_building(building: Node3D) -> void:
 	_clear_inspect()
 	_clear_neutral()
 	selected_bounty = null
-	if building != null and _building_alive(building):
-		selected_building = building
-		if building.has_method("set_selected"):
-			building.call("set_selected", true)
+	for b in buildings:
+		if b is Node3D and _building_alive(b) and not selected_buildings.has(b):
+			selected_buildings.append(b)
+	if selected_buildings.size() > 1:
+		selected_buildings.sort_custom(_building_order)
+	for b in selected_buildings:
+		if b.has_method("set_selected"):
+			b.call("set_selected", true)
+	if not selected_buildings.is_empty():
+		selected_building = active if active != null and selected_buildings.has(active) else selected_buildings[0]
 	cancel_targeting()
 	close_build_menu()
 	selection_changed.emit()
+
+
+## Tab (+1) / Shift+Tab (-1): the next / previous selected building becomes the active one (the card and the panel
+## show it). Returns the new active building, or null when fewer than 2 buildings are selected.
+func cycle_active_building(step := 1) -> Node3D:
+	if selected_buildings.size() < 2:
+		return null
+	var i := selected_buildings.find(selected_building)
+	i = posmod((i if i >= 0 else 0) + step, selected_buildings.size())
+	set_active_building(selected_buildings[i])
+	return selected_building
+
+
+## Makes `b` (one of the selected buildings) the active one; a pending rally / route order is dropped.
+func set_active_building(b: Node3D) -> void:
+	if b == null or not selected_buildings.has(b) or b == selected_building:
+		return
+	selected_building = b
+	if _pending == ORDER_RALLY or _pending == ORDER_ROUTE:
+		cancel_targeting()
+	selection_changed.emit()
+
+
+## Tab order of selected buildings: the keep first, then by type name, then by creation order.
+func _building_order(a: Node3D, b: Node3D) -> bool:
+	var ka := _building_sort_name(a)
+	var kb := _building_sort_name(b)
+	if ka != kb:
+		return ka < kb
+	return a.get_instance_id() < b.get_instance_id()
+
+
+func _building_sort_name(b: Node3D) -> String:
+	var type: Variant = b.get("building_type")
+	if type is Object:
+		var prefix := "0" if StringName(str(type.get("kind"))) == &"keep" else "1"
+		return prefix + str(type.get("display_name"))
+	return "2" + b.name
 
 
 ## Clicking a champion (own, or an enemy one the player sees): the read-only inspect view. `inspected` = it,
@@ -1457,14 +1535,42 @@ func build_site(site: Node3D) -> void:
 
 
 ## Queues `type` at the selected building. Returns "" or the reason it was refused (also sent as a message).
+## With several buildings of the active one's type selected, it goes to the least busy of them that can take it
+## (shortest queue; ties: the active one, then Tab order). See `train_target`.
 func train(type: Variant) -> String:
 	if selected_building == null or not selected_building.has_method("queue_unit"):
 		return "No building selected"
 	_REPLAY.note(&"train", [type], self)
-	var reason: String = str(selected_building.call("queue_unit", type))
+	var reason: String = str(train_target(type).call("queue_unit", type))
 	if reason != "":
 		message.emit(reason)
 	return reason
+
+
+## The building `train(type)` queues at: the active one, or the least busy selected building of the same type whose
+## `can_queue(type)` is "" (the active one wins ties). The active one when none can take it (its refusal is shown).
+func train_target(type: Variant) -> Node3D:
+	var active := selected_building
+	if active == null or selected_buildings.size() < 2:
+		return active
+	var active_type: Variant = active.get("building_type")
+	var best: Node3D = null
+	var best_load := 1 << 30
+	var candidates: Array[Node3D] = [active]
+	for b in selected_buildings:
+		if b != active:
+			candidates.append(b)
+	for b in candidates:
+		if not _building_alive(b) or not b.has_method("queue_unit") or b.get("building_type") != active_type:
+			continue
+		if b.has_method("can_queue") and str(b.call("can_queue", type)) != "":
+			continue
+		var q: Variant = b.get("queue")
+		var busy := (q as Array).size() if q is Array else 0
+		if busy < best_load:
+			best = b
+			best_load = busy
+	return best if best != null else active
 
 
 ## The unit types the selected building can train (empty if none), in slot order.
@@ -1575,7 +1681,8 @@ func active_control_group() -> int:
 
 
 ## Number key: select the group; a second press within 0.4 s centres the camera on it.
-## A group with units selects its units; a group of buildings only selects its first building.
+## A group with units selects its units; a group of buildings selects all its buildings (Tab cycles the active one;
+## a re-press keeps the active one).
 func recall_control_group(group: int) -> void:
 	var members := get_control_group(group)
 	if members.is_empty():
@@ -1584,8 +1691,8 @@ func recall_control_group(group: int) -> void:
 	_last_group_key = group
 	_last_group_time = _clock
 	var part := _selectable_part(members)
-	if part.size() == 1 and not part[0] is Unit:
-		select_building(part[0])
+	if not part.is_empty() and not part.any(func(m): return m is Unit):
+		select_buildings(part, selected_building)
 	else:
 		select_units(part)
 	if double_tap:
@@ -1874,6 +1981,10 @@ func _clear_building() -> void:
 	if selected_building != null and is_instance_valid(selected_building) \
 			and selected_building.has_method("set_selected"):
 		selected_building.call("set_selected", false)
+	for b in selected_buildings:
+		if is_instance_valid(b) and b.has_method("set_selected"):
+			b.call("set_selected", false)
+	selected_buildings.clear()
 	selected_building = null
 
 
@@ -1885,7 +1996,11 @@ func _is_worker(u: Unit) -> bool:
 func _selection_members() -> Array:
 	var out: Array = []
 	if selected_building != null and _building_alive(selected_building):
-		out.append(selected_building)
+		for b in selected_buildings:
+			if _building_alive(b):
+				out.append(b)
+		if not out.has(selected_building):
+			out.append(selected_building)
 	else:
 		out.append_array(orderable_units())
 	return out
@@ -2084,12 +2199,12 @@ func _end_bounty_mode() -> void:
 		bounty_mode.exit()
 
 
-## The part of a group that can be selected at once: its units, or else its first building.
+## The part of a group that can be selected at once: its units, or else all its buildings.
 func _selectable_part(members: Array) -> Array:
 	var units: Array = members.filter(func(m): return m is Unit and is_commandable_unit(m))
 	if not units.is_empty():
 		return units
-	return [members[0]] if not members.is_empty() else []
+	return members.filter(func(m): return not m is Unit)
 
 
 func _member_alive(m: Variant) -> bool:
@@ -2192,7 +2307,21 @@ func _click_select(pos: Vector2, add: bool, double: bool) -> void:
 	var building := building_at(pos)
 	if building != null:
 		if building.get("team") == Unit.Team.PLAYER:
-			select_building(building)
+			if double:
+				select_buildings(_own_buildings_on_screen(building.get("building_type")), building)
+			elif add and selected_building != null:
+				# Shift+click with buildings selected: toggle this one in the building selection.
+				var list: Array = selected_buildings.duplicate()
+				if list.has(building):
+					list.erase(building)
+				else:
+					list.append(building)
+				if list.is_empty():
+					select_units([])
+				else:
+					select_buildings(list, building if list.has(building) else selected_building)
+			else:
+				select_building(building)
 		elif not add:
 			select_units([])
 		return
@@ -2267,9 +2396,39 @@ func _box_select(add: bool) -> void:
 			continue
 		if rect.has_point(camera.unproject_position(world)):
 			list.append(u)
+	if list.is_empty():
+		# No unit in the box: own buildings in it are selected (units always win a box). Shift adds to the buildings.
+		var found: Array = selected_buildings.duplicate() if add else []
+		for b in _own_buildings_on_screen(null, rect):
+			if not found.has(b):
+				found.append(b)
+		if not found.is_empty():
+			select_buildings(found, selected_building)
+			return
 	if list.is_empty() and selected_building != null:
 		return   # an empty drag keeps the keep selected
 	select_units(list)
+
+
+## Own living buildings whose centre is on screen (inside `rect` when given; of `type` when not null).
+func _own_buildings_on_screen(type: Variant = null, rect := Rect2()) -> Array:
+	var out: Array = []
+	if camera == null:
+		return out
+	var screen := _box_ui.get_viewport_rect()
+	for node in get_tree().get_nodes_in_group("buildings"):
+		var b := node as Node3D
+		if b == null or not _building_alive(b) or b.get("team") != Unit.Team.PLAYER:
+			continue
+		if type != null and b.get("building_type") != type:
+			continue
+		var world := b.global_position + Vector3.UP * 1.0
+		if camera.is_position_behind(world):
+			continue
+		var p := camera.unproject_position(world)
+		if (rect.has_area() and rect.has_point(p)) or (not rect.has_area() and screen.has_point(p)):
+			out.append(b)
+	return out
 
 
 func _issue_order(pos: Vector2) -> void:
@@ -2388,11 +2547,22 @@ func _set_rally(point: Vector3, node: Node3D) -> void:
 	if b == null:
 		return
 	_REPLAY.note(&"rally", [point, node], self)
+	# Several selected buildings: every other selected trainer (not a Bazaar: right click is its route) rallies too.
+	var others: Array[Node3D] = []
+	for o in selected_buildings:
+		if o != b and _building_alive(o) and not CommandCard.is_market(o):
+			others.append(o)
 	if node != null and b.has_method("set_rally_node"):
 		b.call("set_rally_node", node)
+		for o in others:
+			if o.has_method("set_rally_node"):
+				o.call("set_rally_node", node)
 		_spawn_marker(node.global_position, Color(0.45, 0.85, 1.0))
 	elif b.has_method("set_rally_point"):
 		b.call("set_rally_point", point)
+		for o in others:
+			if o.has_method("set_rally_point"):
+				o.call("set_rally_point", point)
 		_spawn_marker(point, Color(1.0, 0.85, 0.4))
 
 

@@ -228,6 +228,18 @@ const BEAST_ABILITY_IDS := {
 	&"greymane_direwolf": [&"pounce", &"hamstring"], &"moonpelt_direwolf": [&"pounce", &"hamstring"],
 	&"grizzlemaw": [&"maul", &"rending_roar", &"enrage"], &"elder_grizzlemaw": [&"maul", &"rending_roar", &"enrage"],
 }
+## Several buildings selected (2026-09-27, Tab cycles the active one): a strip of chips (one per selected building,
+## Tab order) over the keep view's top-right; the active one has a gold frame + underline. Click a chip = make it
+## active. At (412, 6) in the selection area, or (412, 110) under the Bazaar block when that one is shown.
+const BUILDING_CHIPS := 12
+const BUILDING_CHIP := 36.0
+const BUILDING_CHIP_COLUMNS := 6
+var building_strip: GridContainer
+var building_chips: Array[Button] = []
+var _chip_hp: Array[ColorRect] = []
+var _chip_marks: Array[ColorRect] = []
+var _chip_buildings: Array = []
+var _chip_active := -1
 var single_name_suffix: Label          ## Beasts: " · Epic beast" (font 14, text).
 var single_name_variant: Label         ## Beasts: " · alpha" (font 14, GOLD).
 var single_extra_rows: Array[HBoxContainer] = []   ## Camp row + reward row (creatures) / drops + lair (beasts).
@@ -289,6 +301,8 @@ func _ready() -> void:
 	_overlay.add_child(market_block)
 	beast_block = _build_beast_block()
 	_overlay.add_child(beast_block)
+	building_strip = _build_building_strip()
+	_overlay.add_child(building_strip)
 	_show_view(nothing_view)
 
 
@@ -392,6 +406,7 @@ func apply_skin() -> void:
 			bg.border_color = UIStyle.token(&"groove")
 	for b in _skin_buttons:
 		UIStyle.style_button(b)
+	_chip_active = -2   # the building strip restyles its chips (gold frame on the active one) on the next refresh
 	if site_cancel:
 		UIStyle.style_button(site_cancel, UIStyle.WARN)
 	for slot in champion_abilities:
@@ -508,6 +523,7 @@ func refresh() -> void:
 		portrait.view.visible = champion == null or champion.get("model_scene") != null
 	market_block.visible = false
 	beast_block.visible = false
+	var strip_shown := false
 	var other := inspected_unit()
 	if champion != null:
 		_update_champion(champion)
@@ -515,6 +531,7 @@ func refresh() -> void:
 	elif selection.selected_building != null:
 		_update_keep(selection.selected_building)
 		portrait.set_target(selection.selected_building)
+		strip_shown = _update_building_strip()
 	elif other != null:
 		_update_single(other)   # a tracker, a Magpie, a visible enemy unit: read-only single view
 		portrait.set_target(other)
@@ -527,6 +544,107 @@ func refresh() -> void:
 	else:
 		_update_multi(selection.selected)
 		portrait.set_target(null)
+	building_strip.visible = strip_shown
+
+
+## The strip of selected buildings (2+): chips in Tab order, the active one framed in gold. Returns true when shown.
+func _update_building_strip() -> bool:
+	var raw: Variant = selection.get("selected_buildings")
+	var list: Array = raw if raw is Array else []
+	if list.size() < 2:
+		return false
+	building_strip.position = Vector2(412, 110) if market_block.visible else Vector2(412, 6)
+	var active := -1
+	for i in BUILDING_CHIPS:
+		var chip := building_chips[i]
+		if i >= list.size() or not is_instance_valid(list[i]):
+			chip.visible = false
+			_chip_buildings[i] = null
+			continue
+		var b: Node3D = list[i]
+		chip.visible = true
+		if b == selection.selected_building:
+			active = i
+		if _chip_buildings[i] != b:
+			_chip_buildings[i] = b
+			var type: Variant = b.get("building_type")
+			var type_name := str(type.get("display_name")) if type is Object else "Building"
+			var tex: Texture2D = ItemTooltip.HudSkin.icon("buildings", str(type.get("id"))) \
+					if type is Object and type.get("id") != null else null
+			chip.icon = tex
+			chip.text = "" if tex != null else UIStyle.abbrev(type_name)
+			chip.tooltip_text = "%s\nClick: show it  ·  Tab / Shift+Tab: next / previous building" % type_name
+		var max_hp := float(b.get("max_hp")) if b.get("max_hp") != null else 0.0
+		var hp := float(b.get("hp")) if b.get("hp") != null else max_hp
+		var ratio := clampf(hp / max_hp, 0.0, 1.0) if max_hp > 0.0 else 1.0
+		_chip_hp[i].size.x = BUILDING_CHIP * ratio
+		_chip_hp[i].color = Color(0.3, 0.85, 0.3) if ratio > 0.5 else (Color(0.95, 0.8, 0.2) if ratio > 0.25
+				else Color(0.9, 0.25, 0.2))
+	if active != _chip_active:
+		_chip_active = active
+		for i in BUILDING_CHIPS:
+			UIStyle.style_button(building_chips[i], UIStyle.GOLD if i == active else UIStyle.PANEL_BORDER)
+			_chip_marks[i].visible = i == active
+			building_chips[i].modulate = Color.WHITE if i == active else Color(0.8, 0.8, 0.8)
+	return true
+
+
+## Index of the highlighted (active) chip in the building strip, -1 when the strip is hidden (for tests).
+func active_building_chip() -> int:
+	return _chip_active if building_strip.visible else -1
+
+
+## The buildings the strip shows, in chip order (for tests).
+func building_strip_buildings() -> Array:
+	var out: Array = []
+	if building_strip.visible:
+		for i in BUILDING_CHIPS:
+			if building_chips[i].visible:
+				out.append(_chip_buildings[i])
+	return out
+
+
+func _build_building_strip() -> GridContainer:
+	var grid := GridContainer.new()
+	grid.name = "BuildingStrip"
+	grid.columns = BUILDING_CHIP_COLUMNS
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 6)
+	grid.position = Vector2(412, 6)
+	grid.visible = false
+	for i in BUILDING_CHIPS:
+		var b := Button.new()
+		b.custom_minimum_size = Vector2(BUILDING_CHIP, BUILDING_CHIP)
+		b.focus_mode = Control.FOCUS_NONE
+		b.clip_text = true
+		b.expand_icon = true
+		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		b.add_theme_font_size_override("font_size", 12)
+		UIStyle.style_button(b)
+		b.pressed.connect(_on_building_chip_pressed.bind(i))
+		var hp := ColorRect.new()   # HP strip inside the frame bottom
+		hp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		hp.position = Vector2(0, BUILDING_CHIP - 3.0)
+		hp.size = Vector2(BUILDING_CHIP, 3)
+		b.add_child(hp)
+		var mark := ColorRect.new()   # the active chip's gold underline
+		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		mark.color = UIStyle.GOLD
+		mark.position = Vector2(2, BUILDING_CHIP + 1.0)
+		mark.size = Vector2(BUILDING_CHIP - 4.0, 3)
+		mark.visible = false
+		b.add_child(mark)
+		grid.add_child(b)
+		building_chips.append(b)
+		_chip_hp.append(hp)
+		_chip_marks.append(mark)
+		_chip_buildings.append(null)
+	return grid
+
+
+func _on_building_chip_pressed(index: int) -> void:
+	if selection and index < _chip_buildings.size() and is_instance_valid(_chip_buildings[index]):
+		selection.set_active_building(_chip_buildings[index])
 
 
 ## Which view is shown: "nothing", "single", "multi", "keep" or "champion" (for tests).
