@@ -15,6 +15,7 @@ const VOLUME_DB := -2.0
 
 var enabled := true            ## False = stay silent (e.g. a future "voices off" setting).
 var last_path := ""            ## Read only: the WAV of the last line played ("" = none yet).
+var current_duration := 0.0    ## Read only: voice length (s) of the line now shown, 0 = it has no voice (DialogueBox hold).
 var _by_line: Dictionary = {}  # "speaker\ntext" -> {path, duration}
 
 
@@ -51,6 +52,9 @@ func play_line(speaker: StringName, text: String) -> bool:
 	bus = _pick_bus()
 	play()
 	last_path = path
+	current_duration = float(e.get("duration", 0.0))
+	if current_duration <= 0.0:
+		current_duration = s.get_length()
 	voice_started.emit(speaker, text, path)
 	return true
 
@@ -76,6 +80,7 @@ static func norm_text(text: String) -> String:
 # --- Internals ---------------------------------------------------------------------------------------
 
 func _on_line(speaker: StringName, text: String) -> void:
+	current_duration = 0.0
 	if not play_line(speaker, text) and playing:
 		stop()   # the subtitle moved on to a line without a voice
 

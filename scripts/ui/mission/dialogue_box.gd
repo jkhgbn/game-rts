@@ -2,7 +2,8 @@ class_name DialogueBox
 extends PanelContainer
 ## Mission dialogue box (task M7.U1, mission-01.md "Dialogue"): bottom-centre, 640 wide, its bottom edge at
 ## y 610 on a 1600 x 900 screen (just above the control group tabs at y 620). Heavy frame (ui-style.md 3.1).
-## Listens to Events.dialogue(speaker, text); lines are queued and each shows LINE_SECONDS.
+## Listens to Events.dialogue(speaker, text); lines are queued and each shows LINE_SECONDS
+## (a voiced line: at least its voice length + VOICE_TAIL, read from the VoicePlayer child).
 ## Enter (physical, also keypad Enter) or a click on the box skips to the next line.
 ## The speaker name uses the speaker's colour (SPEAKER_COLORS; unknown speakers use the `title` token).
 
@@ -10,6 +11,7 @@ const LINE_SECONDS := 5.0
 const WIDTH := 640.0
 const BOTTOM_GAP := 290.0   ## Distance from the screen bottom to the box's bottom edge (900 - 610).
 const FADE := 0.15
+const VOICE_TAIL := 0.4     ## Extra hold after a line's voice ends.
 const SPEAKER_COLORS := {
 	&"vessa": Color(1.0, 0.45, 0.1),
 	&"malrik": Color(0.7, 0.3, 1.0),
@@ -23,6 +25,7 @@ signal queue_emptied
 var _queue: Array = []        # [[speaker, text], ...] waiting
 var _speaker := &""
 var _time_left := 0.0
+var _line_total := LINE_SECONDS   # hold time of the current line (LINE_SECONDS, or longer for a voiced line)
 var _showing := false
 var _name_label: Label
 var _text_label: Label
@@ -164,6 +167,13 @@ func _next() -> void:
 	offset_top = -BOTTOM_GAP - size.y
 	offset_bottom = -BOTTOM_GAP
 	line_started.emit(_speaker, _text_label.text)
+	# Voice Forge: a voiced line stays up as long as its voice (+ VOICE_TAIL); the VoicePlayer child (if any) has just
+	# started it from line_started. Lines without a voice keep LINE_SECONDS. Queued lines wait, so voices never overlap.
+	var vp := get_node_or_null(^"VoicePlayer")
+	var voice_len: Variant = vp.get(&"current_duration") if vp else null
+	if voice_len is float and voice_len > 0.0:
+		_time_left = maxf(LINE_SECONDS, voice_len + VOICE_TAIL)
+	_line_total = _time_left
 
 
 func _fade_to(alpha: float) -> void:
@@ -176,7 +186,7 @@ func _fade_to(alpha: float) -> void:
 func _draw_timer() -> void:
 	var w := _timer_bar.size.x
 	_timer_bar.draw_rect(Rect2(0, 0, w, 2), Color(0, 0, 0, 0.35))
-	var f := clampf(_time_left / LINE_SECONDS, 0.0, 1.0) if _showing else 0.0
+	var f := clampf(_time_left / _line_total, 0.0, 1.0) if _showing else 0.0
 	_timer_bar.draw_rect(Rect2(0, 0, w * f, 2), Color(speaker_color(_speaker), 0.7))
 
 
