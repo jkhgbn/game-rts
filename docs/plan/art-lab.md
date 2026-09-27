@@ -17,6 +17,7 @@ each other only through public (non-`_`) functions. One owner per file in a phas
 |---|---|---|---|
 | `art_lab.gd` | (SceneTree entry) | args, single run, `sweep=`, `batch=` entry | 1.E |
 | `lab_runner.gd` | `ArtLabRunner` | the run context (state + helpers), argument resolve, the run order (`_run_model`: headless checks, `fail_fast`, shots, readability, turns, anim strip, references, frame cost), `use_stage` (own or pooled stage), `timing=1` laps; thin forwarders `resolve_scene`, `list_scenes`, `army_pass` for old callers | lead (change on request) |
+| `lab_army.gd` | - | v3 army sweep across kingdoms: pair tiles, `docs/art/lab/_army/army.md`, `docs/art/lab/backlog.md` | 1.E |
 | `lab_batch.gd` | `ArtLabBatch` | v3 batch: entries (list / file), kind guess, per-entry args, `run_all` (stage pool, vsync off), summary line | 1.E |
 | `lab_shots.gd` | `ArtLabShots` | black silhouette / height passes (`sil`, `height_pass`), 40 / 55 / 25 m + close-up shots, turns, lineup, `mask_tile`, `mark`, army silhouette pass | 1.D (with the stage) |
 | `lab_scenes.gd` | `ArtLabScenes` | short names (`resolve_scene`), `list_scenes`, auto references (`auto_candidates`, `probe_height` cached per process, `pick_refs`) | 1.E |
