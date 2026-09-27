@@ -33,6 +33,9 @@ var end_tab: StringName = &"summary"   ## The end tab shown: END_TAB_SUMMARY or 
 const END_TAB_SUMMARY := &"summary"
 const END_TAB_SCORE := &"score"
 var _end_tab_buttons := {}
+var end_restart_button: Button   ## End screen: "Restart (F9)" (reloads the level, like F9).
+var end_menu_button: Button      ## End screen: "Main menu".
+var next_step_hint: Node         ## Skirmish "Next: ..." line under the objective (scripts/ui/next_step_hint.gd), or null.
 
 var _hero: Wizard
 var _selection: SelectionManager
@@ -213,6 +216,16 @@ func _ready() -> void:
 	score_panel = SCORE_PANEL_SCRIPT.new()
 	score_panel.visible = false
 	end_box.add_child(score_panel)
+	# Playtest fix 2026-09-27: Restart (same as F9) and Main menu buttons on every end screen.
+	var end_buttons := HBoxContainer.new()
+	end_buttons.alignment = BoxContainer.ALIGNMENT_CENTER
+	end_buttons.add_theme_constant_override("separation", 16)
+	end_buttons.process_mode = Node.PROCESS_MODE_ALWAYS   # still clickable if the tree is paused
+	end_box.add_child(end_buttons)
+	end_restart_button = _end_button(end_buttons, "Restart (F9)")
+	end_restart_button.pressed.connect(restart_match)
+	end_menu_button = _end_button(end_buttons, "Main menu")
+	end_menu_button.pressed.connect(quit_to_menu)
 
 
 func setup(hero: Wizard, selection: SelectionManager) -> void:
@@ -246,6 +259,7 @@ func setup(hero: Wizard, selection: SelectionManager) -> void:
 	attach_optional("res://scripts/ui/bounty_mode.gd", [self])
 	_setup_trade(selection)
 	_setup_map_fill(selection)
+	next_step_hint = attach_optional("res://scripts/ui/next_step_hint.gd", [self])
 	# The minimap reads the map size and the artifact from the level (main.gd), when present.
 	var level := get_parent()
 	var map_size := 120.0
@@ -301,6 +315,32 @@ func _on_neutral_building_clicked(node: Node3D) -> void:
 func set_objective_visible(v: bool) -> void:
 	if _obj_panel != null:
 		_obj_panel.visible = v
+
+
+## The top-left objective panel (the next-step hint sits under it).
+func objective_panel() -> Control:
+	return _obj_panel
+
+
+## End screen Restart button: reloads the level like F9 (MenuFlow keeps difficulty / kingdoms / settings).
+func restart_match() -> void:
+	MenuFlow.restart(get_tree())
+
+
+## End screen Main menu button.
+func quit_to_menu() -> void:
+	MenuFlow.quit_to_menu(get_tree())
+
+
+func _end_button(parent: Node, text: String) -> Button:
+	var b := Button.new()
+	b.text = text
+	b.focus_mode = Control.FOCUS_NONE
+	b.custom_minimum_size = Vector2(170, 38)
+	b.add_theme_font_size_override("font_size", 17)
+	UIStyle.style_button(b)
+	parent.add_child(b)
+	return b
 
 
 ## Is the top-left objective panel shown (for tests)?
@@ -415,6 +455,9 @@ func apply_skin() -> void:
 	end_body.add_theme_color_override("font_color", UIStyle.token(&"text"))
 	for b: Button in _end_tab_buttons.values():
 		UIStyle.style_button(b)
+	for b: Button in [end_restart_button, end_menu_button]:
+		if b != null:
+			UIStyle.style_button(b)
 	_end_rule.queue_redraw()
 	for n in _root.find_children("*", "", true, false):
 		if n.has_method(&"apply_skin"):
