@@ -1,34 +1,41 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_ifw3o"]
-[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_vessa/forge_intro_vessa_lighting.tres" id="2_qtdtt"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/ground.res" id="3_sew78"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/paths.res" id="4_rrmyy"]
-[ext_resource type="PackedScene" path="res://art/buildings/fire_keep.tscn" id="5_88uq4"]
-[ext_resource type="Script" path="res://art/buildings/fire_keep.gd" id="6_f6n5e"]
-[ext_resource type="Shader" path="res://art/buildings/fire_keep_painted.gdshader" id="7_uit2m"]
-[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="8_etksf"]
-[ext_resource type="Shader" path="res://art/buildings/fire_keep_glow.gdshader" id="9_q5i0a"]
-[ext_resource type="Shader" path="res://art/buildings/fire_keep_runes.gdshader" id="10_u58pc"]
-[ext_resource type="Shader" path="res://art/buildings/fire_keep_banner.gdshader" id="11_1vbgc"]
-[ext_resource type="Shader" path="res://art/buildings/fire_keep_ground.gdshader" id="12_32tpf"]
-[ext_resource type="PackedScene" path="res://art/environment/biomes/ash/ash_scar_fx.tscn" id="13_aq5xa"]
-[ext_resource type="PackedScene" path="res://art/units/wizards/vessa.tscn" id="14_jjvif"]
-[ext_resource type="Script" path="res://art/units/wizards/vessa.gd" id="15_sjmyf"]
-[ext_resource type="PackedScene" path="res://art/units/fire/flame_guard.tscn" id="16_6vnpq"]
-[ext_resource type="Script" path="res://art/units/fire/fire_model.gd" id="17_wliwt"]
-[ext_resource type="PackedScene" path="res://art/units/fire/scorchbow/scorchbow.tscn" id="18_rvlgb"]
-[ext_resource type="Script" path="res://art/units/fire/scorchbow/scorchbow.gd" id="19_pww06"]
-[ext_resource type="PackedScene" path="res://art/units/fire/pyre_adept/pyre_adept.tscn" id="20_srovl"]
-[ext_resource type="Script" path="res://art/units/fire/pyre_adept/pyre_adept.gd" id="21_84ipn"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/scatter.res" id="22_m4b5i"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/masonry.res" id="23_hqd8b"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_etksf"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_vessa/mood_vessa.tres" id="2_q5i0a"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/ground.res" id="3_u58pc"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/mountains.res" id="4_1vbgc"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/paths.res" id="5_32tpf"]
+[ext_resource type="PackedScene" path="res://art/buildings/fire_keep.tscn" id="6_aq5xa"]
+[ext_resource type="Script" path="res://art/buildings/fire_keep.gd" id="7_jjvif"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_painted.gdshader" id="8_sjmyf"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="9_6vnpq"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_glow.gdshader" id="10_wliwt"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_runes.gdshader" id="11_rvlgb"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_banner.gdshader" id="12_pww06"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_ground.gdshader" id="13_srovl"]
+[ext_resource type="PackedScene" path="res://art/environment/biomes/ash/ash_scar_fx.tscn" id="14_84ipn"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/vessa.tscn" id="15_m4b5i"]
+[ext_resource type="Script" path="res://art/units/wizards/vessa.gd" id="16_hqd8b"]
+[ext_resource type="PackedScene" path="res://art/units/fire/flame_guard.tscn" id="17_2lsqt"]
+[ext_resource type="Script" path="res://art/units/fire/fire_model.gd" id="18_tq7iq"]
+[ext_resource type="PackedScene" path="res://art/units/fire/scorchbow/scorchbow.tscn" id="19_i6t8x"]
+[ext_resource type="Script" path="res://art/units/fire/scorchbow/scorchbow.gd" id="20_ka6yi"]
+[ext_resource type="PackedScene" path="res://art/units/fire/pyre_adept/pyre_adept.tscn" id="21_qtcc2"]
+[ext_resource type="Script" path="res://art/units/fire/pyre_adept/pyre_adept.gd" id="22_tt46o"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_vessa/props/army_host.tscn" id="23_0hsny"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_vessa/props/army_fallen.tscn" id="24_yho3d"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_fire_pillar.tscn" id="25_rinfm"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_fire_columns.tscn" id="26_skerw"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_ember_rain.tscn" id="27_kdwaa"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_arrow_volley.tscn" id="28_htcnl"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/scatter.res" id="29_yvv8e"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/meshes/masonry.res" id="30_5dpjw"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2lsqt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m4q58"]
 resource_local_to_scene = true
 resource_name = "FirePainted"
 render_priority = 0
-shader = ExtResource("7_uit2m")
+shader = ExtResource("8_sjmyf")
 shader_parameter/base_colors = PackedColorArray(0.33, 0.28, 0.25, 1, 0.1, 0.08, 0.09, 1, 0.17, 0.14, 0.13, 1, 0.66, 0.43, 0.17, 1, 0.85, 0.3, 0.12, 1)
 shader_parameter/spec_strengths = PackedFloat32Array(0, 0.4, 0, 0.45, 0.12)
 shader_parameter/crack_strengths = PackedFloat32Array(0.55, 1, 0, 0, 0)
@@ -36,7 +43,7 @@ shader_parameter/patterns = PackedInt32Array(1, 3, 1, 4, 2)
 shader_parameter/block_sizes = PackedVector2Array(1, 0.5, 1, 1, 0.8, 0.42, 1.1, 10, 0.5, 0.34)
 shader_parameter/joint_widths = PackedFloat32Array(0.07, 0.07, 0.06, 0.05, 0.05)
 shader_parameter/block_tints = PackedFloat32Array(0.18, 0.18, 0.26, 0.2, 0.24)
-shader_parameter/noise_tex = ExtResource("8_etksf")
+shader_parameter/noise_tex = ExtResource("9_6vnpq")
 shader_parameter/noise_scale_a = 0.5
 shader_parameter/noise_scale_b = 0.12
 shader_parameter/rim_color = Color(0.55, 0.65, 0.85, 1)
@@ -46,12 +53,12 @@ shader_parameter/crack_speed = 1.2
 shader_parameter/crack_scale = 0.8
 shader_parameter/damage = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tq7iq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_axc4g"]
 resource_local_to_scene = true
 resource_name = "FireGlow"
 render_priority = 0
-shader = ExtResource("9_q5i0a")
-shader_parameter/noise_tex = ExtResource("8_etksf")
+shader = ExtResource("10_wliwt")
+shader_parameter/noise_tex = ExtResource("9_6vnpq")
 shader_parameter/boost = 1.0
 shader_parameter/gate_boost = 1.0
 shader_parameter/core_boost = 1.0
@@ -74,22 +81,22 @@ shader_parameter/lava_cool = 0.0
 shader_parameter/void_color = Color(0.035, 0.015, 0.01, 1)
 shader_parameter/outline_energy = 2.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6t8x"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xvtdh"]
 resource_local_to_scene = true
 resource_name = "Runes"
 render_priority = 0
-shader = ExtResource("10_u58pc")
+shader = ExtResource("11_rvlgb")
 shader_parameter/glow_color = Color(1, 0.6, 0.18, 1)
 shader_parameter/energy = 2.6
 shader_parameter/cells = 26.0
 shader_parameter/boost = 1.0
 shader_parameter/pulse_speed = 1.3
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ka6yi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_snw8i"]
 resource_local_to_scene = true
 resource_name = "Banner"
 render_priority = 0
-shader = ExtResource("11_1vbgc")
+shader = ExtResource("12_pww06")
 shader_parameter/cloth_color = Color(0.85, 0.3, 0.12, 1)
 shader_parameter/stripe_color = Color(0.55, 0.08, 0.05, 1)
 shader_parameter/trim_color = Color(0.8, 0.55, 0.22, 1)
@@ -100,12 +107,12 @@ shader_parameter/speed = 2.4
 shader_parameter/rim_color = Color(0.89500004, 0.51, 0.384, 1)
 shader_parameter/rim_strength = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qtcc2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s2e5f"]
 resource_local_to_scene = true
 resource_name = "Ground"
 render_priority = -1
-shader = ExtResource("12_32tpf")
-shader_parameter/noise_tex = ExtResource("8_etksf")
+shader = ExtResource("13_srovl")
+shader_parameter/noise_tex = ExtResource("9_6vnpq")
 shader_parameter/scorch_color = Color(0.05, 0.03, 0.02, 0.66)
 shader_parameter/crack_color = Color(1, 0.45, 0.1, 1)
 shader_parameter/crack_energy = 2.2
@@ -113,78 +120,83 @@ shader_parameter/rune_energy = 1.3
 shader_parameter/darkness = 0.0
 shader_parameter/size_m = 13.0
 
-[node name="forge_intro_vessa" type="Node3D" unique_id=1986619430]
-script = ExtResource("1_ifw3o")
+[node name="forge_intro_vessa" type="Node3D" unique_id=502829328]
+script = ExtResource("1_etksf")
 set_id = &"forge_intro_vessa"
-lighting = ExtResource("2_qtdtt")
-lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/wildfire"), NodePath("Placed/runfire"), NodePath("Placed/sparks"), NodePath("Puppets/vessa"), NodePath("Puppets/vessa_young"), NodePath("Puppets/guard"), NodePath("Puppets/scorchbow"), NodePath("Puppets/adept")])
+lighting = ExtResource("2_q5i0a")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/wildfire"), NodePath("Placed/runfire"), NodePath("Placed/sparks"), NodePath("Puppets/vessa"), NodePath("Puppets/vessa_young"), NodePath("Puppets/guard"), NodePath("Puppets/scorchbow"), NodePath("Puppets/adept"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_pillar"), NodePath("Puppets/fx_columns"), NodePath("Puppets/fx_embers"), NodePath("Puppets/fx_volley")])
 
-[node name="Ground" type="MeshInstance3D" parent="." unique_id=251470281]
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=259020252]
 gi_mode = 0
-mesh = ExtResource("3_sew78")
+mesh = ExtResource("3_u58pc")
 
-[node name="Paths" type="MeshInstance3D" parent="." unique_id=1709971429]
+[node name="Mountains" type="MeshInstance3D" parent="." unique_id=1723895238]
+cast_shadow = 0
 gi_mode = 0
-mesh = ExtResource("4_rrmyy")
+mesh = ExtResource("4_1vbgc")
 
-[node name="Placed" type="Node3D" parent="." unique_id=223040978]
+[node name="Paths" type="MeshInstance3D" parent="." unique_id=432661053]
+gi_mode = 0
+mesh = ExtResource("5_32tpf")
 
-[node name="keep" type="Node3D" parent="Placed" unique_id=1190447692 instance=ExtResource("5_88uq4")]
+[node name="Placed" type="Node3D" parent="." unique_id=1264731994]
+
+[node name="keep" type="Node3D" parent="Placed" unique_id=1190447692 instance=ExtResource("6_aq5xa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15)
-script = ExtResource("6_f6n5e")
-painted_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_2lsqt")])
-glow_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_tq7iq"), SubResource("ShaderMaterial_i6t8x")])
-gate_material = SubResource("ShaderMaterial_tq7iq")
-cap_material = SubResource("ShaderMaterial_2lsqt")
-banner_material = SubResource("ShaderMaterial_ka6yi")
-crystal_material = SubResource("ShaderMaterial_tq7iq")
-heart_material = SubResource("ShaderMaterial_tq7iq")
-ground_material = SubResource("ShaderMaterial_qtcc2")
-lava_material = SubResource("ShaderMaterial_tq7iq")
-rune_material = SubResource("ShaderMaterial_i6t8x")
+script = ExtResource("7_jjvif")
+painted_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_m4q58")])
+glow_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_axc4g"), SubResource("ShaderMaterial_xvtdh")])
+gate_material = SubResource("ShaderMaterial_axc4g")
+cap_material = SubResource("ShaderMaterial_m4q58")
+banner_material = SubResource("ShaderMaterial_snw8i")
+crystal_material = SubResource("ShaderMaterial_axc4g")
+heart_material = SubResource("ShaderMaterial_axc4g")
+ground_material = SubResource("ShaderMaterial_s2e5f")
+lava_material = SubResource("ShaderMaterial_axc4g")
+rune_material = SubResource("ShaderMaterial_xvtdh")
 
-[node name="wildfire" type="Node3D" parent="Placed" unique_id=667791707 instance=ExtResource("13_aq5xa")]
+[node name="wildfire" type="Node3D" parent="Placed" unique_id=667791707 instance=ExtResource("14_84ipn")]
 transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -7.5, 0, -1.6)
 metadata/scar_radius = 4.5
 
-[node name="runfire" type="Node3D" parent="Placed" unique_id=943308422 instance=ExtResource("13_aq5xa")]
+[node name="runfire" type="Node3D" parent="Placed" unique_id=2070632257 instance=ExtResource("14_84ipn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, -0.4)
 metadata/scar_radius = 4.5
 
-[node name="sparks" type="Node3D" parent="Placed" unique_id=1045276109 instance=ExtResource("13_aq5xa")]
+[node name="sparks" type="Node3D" parent="Placed" unique_id=810779870 instance=ExtResource("14_84ipn")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -17, 0, 12.5)
 metadata/scar_radius = 4.5
 
-[node name="Puppets" type="Node3D" parent="." unique_id=1589367188]
+[node name="Puppets" type="Node3D" parent="." unique_id=1517787889]
 
-[node name="vessa" type="Node3D" parent="Puppets" unique_id=1502301981 instance=ExtResource("14_jjvif")]
+[node name="vessa" type="Node3D" parent="Puppets" unique_id=1194456046 instance=ExtResource("15_m4b5i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
-script = ExtResource("15_sjmyf")
+script = ExtResource("16_hqd8b")
 body_height = 2.0
 attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="vessa_young" type="Node3D" parent="Puppets" unique_id=814975338 instance=ExtResource("14_jjvif")]
+[node name="vessa_young" type="Node3D" parent="Puppets" unique_id=159026606 instance=ExtResource("15_m4b5i")]
 transform = Transform3D(0.53693575, 0, 0.31, 0, 0.62, 0, -0.31, 0, 0.53693575, -15, 0, 15.5)
-script = ExtResource("15_sjmyf")
+script = ExtResource("16_hqd8b")
 body_height = 2.0
 attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="guard" type="Node3D" parent="Puppets" unique_id=21948852 instance=ExtResource("16_6vnpq")]
+[node name="guard" type="Node3D" parent="Puppets" unique_id=21948852 instance=ExtResource("17_2lsqt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -3.2)
-script = ExtResource("17_wliwt")
+script = ExtResource("18_tq7iq")
 stride_time = 0.58
 stride_speed = 5.0
 idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="scorchbow" type="Node3D" parent="Puppets" unique_id=289597837 instance=ExtResource("18_rvlgb")]
+[node name="scorchbow" type="Node3D" parent="Puppets" unique_id=246146214 instance=ExtResource("19_i6t8x")]
 transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, -4.6, 0, -1.2)
-script = ExtResource("19_pww06")
+script = ExtResource("20_ka6yi")
 fire_kind = &"archer"
 body_height = 1.65
 attack_style = &"bow_draw"
@@ -194,9 +206,9 @@ stride_speed = 4.4
 idle_period = 3.2
 leg_swing_deg = 26.0
 
-[node name="adept" type="Node3D" parent="Puppets" unique_id=1355794747 instance=ExtResource("20_srovl")]
-transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 3.4, 0, -1.6)
-script = ExtResource("21_84ipn")
+[node name="adept" type="Node3D" parent="Puppets" unique_id=514495515 instance=ExtResource("21_qtcc2")]
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 3.7, 0, -3.1)
+script = ExtResource("22_tt46o")
 fire_kind = &"adept"
 body_height = 1.7
 attack_style = &"caster_fire"
@@ -206,96 +218,109 @@ idle_period = 3.2
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="Scatter" type="MeshInstance3D" parent="." unique_id=675815160]
+[node name="army_host" type="Node3D" parent="Puppets" unique_id=408188808 instance=ExtResource("23_0hsny")]
+
+[node name="army_fallen" type="Node3D" parent="Puppets" unique_id=1260047196 instance=ExtResource("24_yho3d")]
+
+[node name="fx_pillar" type="Node3D" parent="Puppets" unique_id=1595675578 instance=ExtResource("25_rinfm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.5)
+
+[node name="fx_columns" type="Node3D" parent="Puppets" unique_id=810880379 instance=ExtResource("26_skerw")]
+
+[node name="fx_embers" type="Node3D" parent="Puppets" unique_id=191034827 instance=ExtResource("27_kdwaa")]
+
+[node name="fx_volley" type="Node3D" parent="Puppets" unique_id=2073401633 instance=ExtResource("28_htcnl")]
+
+[node name="Scatter" type="MeshInstance3D" parent="." unique_id=1620105742]
 gi_mode = 0
-mesh = ExtResource("22_m4b5i")
+mesh = ExtResource("29_yvv8e")
 
-[node name="Masonry" type="MeshInstance3D" parent="." unique_id=1829791124]
+[node name="Masonry" type="MeshInstance3D" parent="." unique_id=162432684]
 gi_mode = 0
-mesh = ExtResource("23_hqd8b")
+mesh = ExtResource("30_5dpjw")
 
-[node name="Shots" type="Node3D" parent="." unique_id=278495532]
+[node name="Shots" type="Node3D" parent="." unique_id=179543840]
 
-[node name="S08_from" type="Marker3D" parent="Shots" unique_id=1611605831]
+[node name="S08_from" type="Marker3D" parent="Shots" unique_id=130584656]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.6, 13.5)
 metadata/fov = 40.0
 
-[node name="S08_to" type="Marker3D" parent="Shots" unique_id=1113011481]
+[node name="S08_to" type="Marker3D" parent="Shots" unique_id=1747482084]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.8, 11)
 metadata/fov = 40.0
 
-[node name="S08_look_from" type="Marker3D" parent="Shots" unique_id=1268418619]
+[node name="S08_look_from" type="Marker3D" parent="Shots" unique_id=830219141]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 6)
 
-[node name="S08_look_to" type="Marker3D" parent="Shots" unique_id=1041349620]
+[node name="S08_look_to" type="Marker3D" parent="Shots" unique_id=376956358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 6)
 
-[node name="S14_from" type="Marker3D" parent="Shots" unique_id=459122107]
+[node name="S14_from" type="Marker3D" parent="Shots" unique_id=1382884963]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2, 1.15, 18.6)
 metadata/fov = 32.0
 
-[node name="S14_to" type="Marker3D" parent="Shots" unique_id=1837017706]
+[node name="S14_to" type="Marker3D" parent="Shots" unique_id=1706431053]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.6, 1.1, 18)
 metadata/fov = 32.0
 
-[node name="S14_look_from" type="Marker3D" parent="Shots" unique_id=741674670]
+[node name="S14_look_from" type="Marker3D" parent="Shots" unique_id=412229862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.05, 15.5)
 
-[node name="S14_look_to" type="Marker3D" parent="Shots" unique_id=414228278]
+[node name="S14_look_to" type="Marker3D" parent="Shots" unique_id=2035319141]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.05, 15.5)
 
-[node name="S15_from" type="Marker3D" parent="Shots" unique_id=1534943973]
+[node name="S15_from" type="Marker3D" parent="Shots" unique_id=1698500212]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.7, 12)
 metadata/fov = 44.0
 
-[node name="S15_to" type="Marker3D" parent="Shots" unique_id=746127284]
+[node name="S15_to" type="Marker3D" parent="Shots" unique_id=912150990]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.8, 13)
 metadata/fov = 44.0
 
-[node name="S15_look_from" type="Marker3D" parent="Shots" unique_id=147796817]
+[node name="S15_look_from" type="Marker3D" parent="Shots" unique_id=450437529]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.2, 3)
 
-[node name="S15_look_to" type="Marker3D" parent="Shots" unique_id=1796200515]
+[node name="S15_look_to" type="Marker3D" parent="Shots" unique_id=619632902]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 2)
 
-[node name="S15U_from" type="Marker3D" parent="Shots" unique_id=2143976737]
+[node name="S15U_from" type="Marker3D" parent="Shots" unique_id=663777004]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.2, 4.5)
 metadata/fov = 46.0
 
-[node name="S15U_to" type="Marker3D" parent="Shots" unique_id=680008218]
+[node name="S15U_to" type="Marker3D" parent="Shots" unique_id=800342265]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.3, 4)
 metadata/fov = 46.0
 
-[node name="S15U_look_from" type="Marker3D" parent="Shots" unique_id=1384032283]
+[node name="S15U_look_from" type="Marker3D" parent="Shots" unique_id=1568417665]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -1.8)
 
-[node name="S15U_look_to" type="Marker3D" parent="Shots" unique_id=1381282650]
+[node name="S15U_look_to" type="Marker3D" parent="Shots" unique_id=804209201]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.7, -2)
 
-[node name="S16_from" type="Marker3D" parent="Shots" unique_id=1920101022]
+[node name="S16_from" type="Marker3D" parent="Shots" unique_id=60875682]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 11, 28)
 metadata/fov = 42.0
 
-[node name="S16_to" type="Marker3D" parent="Shots" unique_id=915509555]
+[node name="S16_to" type="Marker3D" parent="Shots" unique_id=1179706460]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 10, 25)
 metadata/fov = 42.0
 
-[node name="S16_look_from" type="Marker3D" parent="Shots" unique_id=1589384009]
+[node name="S16_look_from" type="Marker3D" parent="Shots" unique_id=1430617990]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 3)
 
-[node name="S16_look_to" type="Marker3D" parent="Shots" unique_id=913196146]
+[node name="S16_look_to" type="Marker3D" parent="Shots" unique_id=1857081074]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 2.5)
 
-[node name="S17_from" type="Marker3D" parent="Shots" unique_id=226899842]
+[node name="S17_from" type="Marker3D" parent="Shots" unique_id=1709721961]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.6, 8.9)
 metadata/fov = 30.0
 
-[node name="S17_to" type="Marker3D" parent="Shots" unique_id=1953786511]
+[node name="S17_to" type="Marker3D" parent="Shots" unique_id=378971715]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.62, 8.5)
 metadata/fov = 30.0
 
-[node name="S17_look_from" type="Marker3D" parent="Shots" unique_id=2032207563]
+[node name="S17_look_from" type="Marker3D" parent="Shots" unique_id=900466977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 6)
 
-[node name="S17_look_to" type="Marker3D" parent="Shots" unique_id=1552688487]
+[node name="S17_look_to" type="Marker3D" parent="Shots" unique_id=1587640606]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 6)

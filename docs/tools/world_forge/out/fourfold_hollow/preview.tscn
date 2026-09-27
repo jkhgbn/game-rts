@@ -3,6 +3,6 @@
 [ext_resource type="Script" path="res://docs/tools/world_forge/out/fourfold_hollow/preview_level.gd" id="1_ckatp"]
 [ext_resource type="Resource" path="res://data/maps/fourfold_hollow_layout.tres" id="2_hvue0"]
 
-[node name="ForgeMapPreview" type="Node3D" unique_id=538151007]
+[node name="ForgeMapPreview" type="Node3D" unique_id=855005862]
 script = ExtResource("1_ckatp")
 layout = ExtResource("2_hvue0")

@@ -1,10 +1,10 @@
-# world_forge check: forge_intro_vessa
+# world_forge build: forge_intro_vessa
 
-2026-09-27 12:58:12 - `tools/world_forge/run_world_forge.ps1 check forge_intro_vessa` - hash `df0bfd96a69f`
+2026-09-27 14:37:24 - `tools/world_forge/run_world_forge.ps1 build forge_intro_vessa` - hash `b26ecdaf06b5`
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 9 PASS, 0 info, 0 skipped, 10 s
+0 FAIL, 0 WARN, 9 PASS, 0 info, 0 skipped, 9 s
 
 ## Improve next
 
@@ -16,9 +16,9 @@
 ## Budgets
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| B1 | Draw calls | PASS 100 | 195 surfaces (34 particles / multimesh) | <= 200 (budget line) |  |
+| B1 | Draw calls | PASS 100 | 215 surfaces (37 particles / multimesh) | <= 250 (budget line) |  |
 | B2 | Lights | PASS 100 | 0 visible Light3D; 4 switched off by lights=off | <= 0 (0 = the stage's LightingRig only) |  |
-| B3 | Triangles | PASS 100 | 111548 | <= 400000 |  |
+| B3 | Triangles | PASS 100 | 285991 | <= 600000 |  |
 
 ## Scatter
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -35,12 +35,13 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | Deterministic layout | PASS 100 | df0bfd96a69f vs df0bfd96a69f | same spec + seed = the same layout (every transform) |  |
+| D1 | Deterministic layout | PASS 100 | b26ecdaf06b5 vs b26ecdaf06b5 | same spec + seed = the same layout (every transform) |  |
 
 ## Images
 - plan: [plan.png](plan.png)
 
 ## Notes
 - Mark projections: S08_a ndc (0.00, -0.21), S08_b ndc (0.00, -0.33), S08_c ndc (-0.00, -0.52), S14_a ndc (0.00, -0.06), S14_b ndc (-0.00, -0.06), S14_c ndc (0.00, -0.07), S15_a ndc (-0.33, -0.08), S15_b ndc (-0.28, -0.08), S15_c ndc (-0.17, -0.08), S15U_a ndc (-0.40, 0.07), S15U_b ndc (-0.52, 0.05), S15U_c ndc (-0.69, 0.03), S16_a ndc (-0.02, -0.04), S16_b ndc (-0.03, -0.06), S16_c ndc (-0.04, -0.08), S17_a ndc (0.00, -0.15), S17_b ndc (0.00, -0.16), S17_c ndc (0.00, -0.17)
+- Mesh file md5: ground.res f074b9c8, paths.res b22869b1, scatter.res 46bd242e, masonry.res c057c229, mountains.res f24208e5
 - Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).
-- Files: `docs/tools/world_forge/out/forge_intro_vessa/plan.png`
+- Files: `art/cinematics/stage_sets/forge_intro_vessa/forge_intro_vessa.tscn`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/ground.res`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/paths.res`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/scatter.res`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/masonry.res`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/mountains.res`, `art/cinematics/stage_sets/forge_intro_vessa/marks.json`, `docs/tools/world_forge/out/forge_intro_vessa/plan.png`

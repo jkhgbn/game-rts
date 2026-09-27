@@ -23,11 +23,11 @@
 			"id": "B1",
 			"improve": "",
 			"name": "Draw calls",
-			"rule": "<= 200 (budget line)",
+			"rule": "<= 250 (budget line)",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "191 surfaces (34 particles / multimesh)",
+			"value": "206 surfaces (38 particles / multimesh)",
 			"weight": 2.0
 		},
 		{
@@ -51,11 +51,11 @@
 			"id": "B3",
 			"improve": "",
 			"name": "Triangles",
-			"rule": "<= 400000",
+			"rule": "<= 600000",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "180217",
+			"value": "305066",
 			"weight": 1.0
 		},
 		{
@@ -125,7 +125,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "035cad85134d vs 035cad85134d",
+			"value": "33d60137d404 vs 33d60137d404",
 			"weight": 1.5
 		}
 	],
@@ -149,28 +149,29 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "035cad85134d",
+	"hash": "33d60137d404",
 	"hash_note": "",
 	"headless": false,
 	"id": "forge_intro_ysolde",
 	"improve_next": [],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"Mark projections: S11_a ndc (0.00, 0.02), S11_b ndc (0.00, 0.02), S11_c ndc (0.00, 0.00), S26_a ndc (-0.06, 0.14), S26_b ndc (-0.08, 0.16), S26_c ndc (-0.09, 0.17), S27_a ndc (-0.26, -0.18), S27_b ndc (-0.22, -0.20), S27_c ndc (0.00, -0.19), S27U_a ndc (-0.30, 0.02), S27U_b ndc (-0.36, -0.01), S27U_c ndc (-0.43, -0.05), S28_a ndc (0.07, 0.06), S28_b ndc (0.08, 0.06), S28_c ndc (0.08, 0.06), S29_a ndc (0.00, 0.19), S29_b ndc (0.00, 0.21), S29_c ndc (0.00, 0.23)",
+		"Mesh file md5: ground.res 7c78877b, paths.res 382a64a9, scatter.res c7d16696, mountains.res b6217702",
 		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).",
-		"Files: `docs/tools/world_forge/out/forge_intro_ysolde/plan.png`"
+		"Files: `art/cinematics/stage_sets/forge_intro_ysolde/forge_intro_ysolde.tscn`, `art/cinematics/stage_sets/forge_intro_ysolde/meshes/ground.res`, `art/cinematics/stage_sets/forge_intro_ysolde/meshes/paths.res`, `art/cinematics/stage_sets/forge_intro_ysolde/meshes/scatter.res`, `art/cinematics/stage_sets/forge_intro_ysolde/meshes/mountains.res`, `art/cinematics/stage_sets/forge_intro_ysolde/marks.json`, `docs/tools/world_forge/out/forge_intro_ysolde/plan.png`"
 	],
 	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 17.8,
+	"seconds": 15.5,
 	"shots": {
 		"plan": "plan.png"
 	},
-	"started": "2026-09-27 12:59:42",
+	"started": "2026-09-27 14:30:33",
 	"tier": "",
 	"tool": "world_forge",
-	"verb": "check"
+	"verb": "build"
 }

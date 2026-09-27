@@ -8,8 +8,11 @@
 #   of the ash); S27U at 0.5 anim vinelasher play_attack, 1.0 anim treant play_attack
 #   S28 at 2.0 anim ysolde play_cast arg=thornburst (roots close the road); S29 at 1.0 anim ysolde play_cast arg=wild_bloom
 # Build: tools\world_forge\run_world_forge.ps1 build forge_intro_ysolde   (stills: ... sheet forge_intro_ysolde)
-set forge_intro_ysolde  size=64x54  ground=#3d5a26  light=dawn  seed=51  title="Ysolde, of Nature"
-budget draws<=200 lights<=0
+set forge_intro_ysolde  size=64x54  ground=#3d5a26  light=res://art/cinematics/stage_sets/forge_intro_ysolde/mood_ysolde.tres  seed=51  title="Ysolde, of Nature"
+# polish round (2026-09-27 PM): budget raised 200 -> 250 draws for the baked host and the spell props; green-gold mood
+# preset (mood_ysolde.tres); distant mountains for depth.
+budget draws<=250 lights<=0 tris<=600000
+sky  mountains=2  dist=150  height=30  color=#3f5a4a
 
 # the Nature keep in the old wood (north)
 place kit:nature_keep  at=(0,-19)  yaw=0  tag=keep  lights=off
@@ -47,6 +50,20 @@ actor ysolde_young   kit:ysolde  at=(22,15.8)  yaw=210  scale=0.6  lights=off
 actor treant   res://art/units/titans/elder_treant/elder_treant.tscn  at=(8.5,-2.5)  yaw=-25
 actor vinelasher res://art/units/nature/vinelasher/vinelasher.tscn  at=(-0.5,-2)  yaw=10
 actor messenger res://art/units/fire/cinder_hand.tscn  at=(-7.6,15.6)  yaw=190
+
+# ---- polish round: the wood in action + spell props (all actors: the cine can show / hide / move each per shot)
+# army_host: 10 Wildwood Archers stepping out in pairs (Hunting Party), 4 Vinelashers whipping, 3 Stagrunners on Grove
+# Stags charging, a Mossback and a Bramblehorn, 3 Thornlings (one mesh, 2 draws)
+actor army_host    res://art/cinematics/stage_sets/forge_intro_ysolde/props/army_host.tscn    at=(0,0)
+# army_fallen: the fire host that swept her wood, beaten in the burn (5)
+actor army_fallen  res://art/cinematics/stage_sets/forge_intro_ysolde/props/army_fallen.tscn  at=(0,0)
+# a giant tree blooming out of the old wood behind her: blossoms, falling petals, golden motes (S11, S27, S29)
+actor fx_tree      res://art/cinematics/stage_sets/forge_intro_ysolde/fx/fx_bloom_tree.tscn   at=(-2,-9.5)
+# the Wild Bloom surge: vines bursting out of the burn toward the beaten host, the green-gold bloom wave around her,
+# leaves spiralling up (S11, S27, S27U)
+actor fx_vines     res://art/cinematics/stage_sets/forge_intro_ysolde/fx/fx_vine_surge.tscn   at=(0,0)
+# the Master kneels beside young Ysolde in the snow (S26; the same shadow as Malrik's S18)
+actor fx_master    res://art/cinematics/stage_sets/forge_intro_malrik/fx/fx_master_shadow.tscn  at=(23.9,17.3)  yaw=-125  scale=0.66
 
 # camera marks (Lens words = the intent; coordinates tuned and written here)
 mark S11   from=(3.5,12,12)  to=(3.4,3.2,8.5)  look=(3,1.4,1)  look_to=(3,1.6,1)  fov=42  subject=ysolde  dur=3  lens="ms on ysolde, front, overhead -> high, crane -9"

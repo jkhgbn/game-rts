@@ -23,11 +23,11 @@
 			"id": "B1",
 			"improve": "",
 			"name": "Draw calls",
-			"rule": "<= 200 (budget line)",
+			"rule": "<= 250 (budget line)",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "191 surfaces (44 particles / multimesh)",
+			"value": "209 surfaces (46 particles / multimesh)",
 			"weight": 2.0
 		},
 		{
@@ -51,11 +51,11 @@
 			"id": "B3",
 			"improve": "",
 			"name": "Triangles",
-			"rule": "<= 400000",
+			"rule": "<= 600000",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "107328",
+			"value": "240714",
 			"weight": 1.0
 		},
 		{
@@ -83,7 +83,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "18 mark phases inside |y| <= 0.62",
+			"value": "21 mark phases inside |y| <= 0.62",
 			"weight": 2.0
 		},
 		{
@@ -125,7 +125,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "2d068c61f13f vs 2d068c61f13f",
+			"value": "900e65b7bfde vs 900e65b7bfde",
 			"weight": 1.5
 		}
 	],
@@ -149,28 +149,29 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "2d068c61f13f",
+	"hash": "900e65b7bfde",
 	"hash_note": "",
 	"headless": false,
 	"id": "forge_intro_torvald",
 	"improve_next": [],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"Mark projections: S10_a ndc (0.00, 0.24), S10_b ndc (0.00, 0.14), S10_c ndc (0.00, 0.01), S22_a ndc (0.04, 0.19), S22_b ndc (0.04, 0.09), S22_c ndc (0.05, -0.01), S23_a ndc (-0.00, -0.10), S23_b ndc (0.00, -0.16), S23_c ndc (0.00, -0.15), S23U_a ndc (-0.39, -0.15), S23U_b ndc (-0.52, -0.20), S23U_c ndc (-0.68, -0.25), S24_a ndc (0.06, 0.11), S24_b ndc (0.06, 0.11), S24_c ndc (0.06, 0.11), S25_a ndc (0.00, -0.34), S25_b ndc (0.00, -0.35), S25_c ndc (0.00, -0.36)",
+		"Mark projections: S10_a ndc (0.00, 0.24), S10_b ndc (0.00, 0.14), S10_c ndc (0.00, 0.01), S22_a ndc (0.04, 0.19), S22_b ndc (0.04, 0.09), S22_c ndc (0.05, -0.01), S23_a ndc (-0.00, -0.10), S23_b ndc (0.00, -0.16), S23_c ndc (0.00, -0.15), S23U_a ndc (-0.35, -0.14), S23U_b ndc (-0.47, -0.20), S23U_c ndc (-0.60, -0.28), S24_a ndc (0.06, 0.11), S24_b ndc (0.06, 0.11), S24_c ndc (0.06, 0.11), S25_a ndc (0.00, -0.34), S25_b ndc (0.00, -0.35), S25_c ndc (0.00, -0.36), S25D_a ndc (-0.24, 0.22), S25D_b ndc (0.00, 0.00), S25D_c ndc (0.02, -0.24)",
+		"Mesh file md5: ground.res 487c2b01, paths.res 5a64303a, scatter.res 1a50b392, masonry.res 99c3e771, mountains.res fddfcf80",
 		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).",
-		"Files: `docs/tools/world_forge/out/forge_intro_torvald/plan.png`"
+		"Files: `art/cinematics/stage_sets/forge_intro_torvald/forge_intro_torvald.tscn`, `art/cinematics/stage_sets/forge_intro_torvald/meshes/ground.res`, `art/cinematics/stage_sets/forge_intro_torvald/meshes/paths.res`, `art/cinematics/stage_sets/forge_intro_torvald/meshes/scatter.res`, `art/cinematics/stage_sets/forge_intro_torvald/meshes/masonry.res`, `art/cinematics/stage_sets/forge_intro_torvald/meshes/mountains.res`, `art/cinematics/stage_sets/forge_intro_torvald/marks.json`, `docs/tools/world_forge/out/forge_intro_torvald/plan.png`"
 	],
 	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 54.5,
+	"seconds": 51.4,
 	"shots": {
 		"plan": "plan.png"
 	},
-	"started": "2026-09-27 12:58:46",
+	"started": "2026-09-27 14:35:56",
 	"tier": "",
 	"tool": "world_forge",
-	"verb": "check"
+	"verb": "build"
 }

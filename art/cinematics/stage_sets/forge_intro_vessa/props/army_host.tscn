@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_vessa/props/army_host.res" id="1_r81kw"]
+
+[node name="Army_vessa_host" type="Node3D" unique_id=408188808]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1442311861]
+mesh = ExtResource("1_r81kw")

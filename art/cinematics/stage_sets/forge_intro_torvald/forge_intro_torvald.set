@@ -9,12 +9,16 @@
 #   1.0 anim frostbow play_attack; S24 at 3.5 face torvald yaw=180 time=1.2 (he turns away from the messenger)
 #   S25 at 3.5: tilt the look down to (0.4, 0, 3.9) (the Heartfrost below the ice).
 # Build: tools\world_forge\run_world_forge.ps1 build forge_intro_torvald   (stills: ... sheet forge_intro_torvald)
-set forge_intro_torvald  size=64x54  ground=snow  light=ice  seed=41  title="Torvald, of Ice"
-budget draws<=200 lights<=0
+set forge_intro_torvald  size=64x54  ground=snow  light=res://art/cinematics/stage_sets/forge_intro_torvald/mood_torvald.tres  seed=41  title="Torvald, of Ice"
+# polish round (2026-09-27 PM): budget raised 200 -> 250 draws for the baked line / charge and the spell props; blue cold
+# mood preset (mood_torvald.tres); distant mountains for depth; the gate widened to 9 m so the S23 orbit sees the keep
+# between the wall ends instead of two blank wall blocks.
+budget draws<=250 lights<=0 tris<=600000
+sky  mountains=2  dist=150  height=40  color=#6a7f98
 
 # the Ice keep inside its pale wall; the gate opens south onto the lake shore
 place kit:ice_keep  at=(0,-17)  yaw=0  tag=keep  lights=off
-wall  rampart  poly=[(-17,-26),(-17,-4),(17,-4),(17,-26)]  height=5  thick=1.6  gate=(0,-4)  gate_width=4  color=#b9cfe0
+wall  rampart  poly=[(-17,-26),(-17,-4),(17,-4),(17,-26)]  height=5  thick=1.6  gate=(0,-4)  gate_width=9  color=#b9cfe0
 path  court  poly=[(0,-4),(0,-11)]  width=3  kit=snow
 # the signal fire on the shore (the snow will bury it)
 place forge:brazier  at=(-3.8,-1.6)  tag=signal
@@ -41,10 +45,31 @@ actor frostbow   res://art/units/ice/frostbow/frostbow.tscn  at=(4.5,-1.6)  yaw=
 actor messenger  res://art/units/fire/cinder_hand.tscn  at=(0.6,4.2)  yaw=185
 actor foe        kit:flame_guard  at=(-3,13.5)  yaw=170
 
+# ---- polish round: the line in action + spell props (all actors: the cine can show / hide / move each per shot)
+# army_line: 10 Rimeshields locking a shield line out on the ice (a gap for the messenger), 6 Frostrune Riflemen firing
+# from the flanks, 10 Frostbows drawing on the rampart, 2 Shardcasters casting behind him, a War Mammoth (one mesh)
+actor army_line    res://art/cinematics/stage_sets/forge_intro_torvald/props/army_line.tscn    at=(0,0)
+# army_charge: the Fire host charging across the lake (10 Flame Guards, 2 Ash Hurlers, 5 Cinder Hands), 3 fallen,
+# and a Barrow Giant titan flash-frozen in mid-leap over the ice
+actor army_charge  res://art/cinematics/stage_sets/forge_intro_torvald/props/army_charge.tscn  at=(0,0)
+# the ice wall: two crystal ramparts running out onto the lake on the flanks (S10, S22)
+actor fx_icewall   res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_ice_wall.tscn     at=(0,0)
+# the frost burst at his feet: shards radiating out, a glowing frost ring, rising rime (S10, S23; south side open)
+actor fx_burst     res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_frost_burst.tscn  at=(0,-1.2)
+# the lake freezing in one cracking wave: glowing cracks racing out from the shore (S10, S22)
+actor fx_cracks    res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_lake_cracks.tscn  at=(0,0)
+# the Heartfrost: a vast sleeping shape glowing under the clear ice (S25 / S25D only: hide it elsewhere)
+actor fx_heart     res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_heartfrost.tscn   at=(0.5,9.4)  scale=1.1
+# a hundred winters: snowfall over the lake (S23, S24)
+actor fx_snow      res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_snow.tscn         at=(0,0)
+
 # camera marks (Lens words = the intent; coordinates tuned and written here)
 mark S10   from=(0,15,20)  to=(0,5,13)  look=(0,1,2)  look_to=(0,1.6,-1)  fov=44  subject=torvald  dur=3  lens="ws on torvald, front, overhead -> high, crane -10"
 mark S22   from=(-2,10,26)  to=(-3,3,21)  look=(-1,1.2,4)  look_to=(-1,1.8,1)  fov=46  subject=torvald  dur=7  lens="ws on torvald and foe, high, crane -7 (behind the charge)"
 mark S23   from=(6,1.3,3.7)  to=(-4,1.5,4.2)  look=(0,1.9,-1.2)  look_to=(0,2.0,-1.2)  fov=44  subject=torvald  dur=7  lens="fs on torvald, 3/4 right -> 3/4 left, low, arc 70"
-mark S23U  from=(-12,1.6,9)  to=(-10,1.8,8)  look=(-2,2.6,-1.5)  look_to=(0,3.0,-1.5)  fov=48  subject=colossus  dur=5  lens="ws on colossus and frostbow, 3/4 left, low"
+mark S23U  from=(-12.5,3.4,10)  to=(-10.5,3.6,9)  look=(-2,2.0,-1.5)  look_to=(0,2.4,-1.5)  fov=48  subject=colossus  dur=5  lens="ws on colossus and frostbow, 3/4 left, low"
 mark S24   from=(-1.1,2.4,-3.0)  to=(-1.15,2.35,-2.6)  look=(0.9,1.3,4.2)  fov=40  subject=messenger  dur=7  lens="ms ots torvald over messenger"
 mark S25   from=(0.9,1.9,5.5)  to=(0.85,1.85,5.1)  look=(0,1.9,-1.2)  fov=15  subject=torvald  dur=6  lens="cu on torvald, 3/4 right, eye (P5: tilt down to the ice at the end)"
+# S25D = the "tilt down through the ice" half of S25: over his shoulder, the camera rises and tilts down past him onto
+# the lake, where the Heartfrost glows under the ice (use after S25's close-up; show fx_heart, hide messenger).
+mark S25D  from=(0.15,2.6,-2.7)  to=(0.2,4.6,-3.0)  look=(0,2.1,-1.2)  look_to=(0.5,0,7.5)  fov=30  fov_to=50  dur=4  lens="ots torvald, tilt down through the ice"

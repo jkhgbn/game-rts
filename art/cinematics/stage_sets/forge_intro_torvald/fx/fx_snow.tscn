@@ -1,0 +1,79 @@
+[gd_scene format=3]
+
+[sub_resource type="Gradient" id="Gradient_cs7c7"]
+offsets = PackedFloat32Array(0, 0.12, 0.6666667, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.95, 0.95, 0.98, 1, 0.9, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_28i7c"]
+gradient = SubResource("Gradient_cs7c7")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_hceen"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(0.15, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 0.8), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_o8i5b"]
+curve = SubResource("Curve_hceen")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nvn8l"]
+emission_shape = 3
+emission_box_extents = Vector3(24, 1, 16)
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 0.6
+initial_velocity_max = 1.3
+gravity = Vector3(0.5, -0.8, 0.2)
+scale_min = 0.6
+scale_max = 1.2
+scale_curve = SubResource("CurveTexture_o8i5b")
+color_ramp = SubResource("GradientTexture1D_28i7c")
+turbulence_enabled = true
+turbulence_noise_scale = 3.0
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.15
+
+[sub_resource type="Gradient" id="Gradient_gciok"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6i76m"]
+gradient = SubResource("Gradient_gciok")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ver8h"]
+transparency = 1
+depth_draw_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_6i76m")
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_fq67v"]
+material = SubResource("StandardMaterial3D_ver8h")
+size = Vector2(0.12, 0.12)
+
+[node name="FxSnow" type="Node3D" unique_id=993288203]
+
+[node name="Snow" type="GPUParticles3D" parent="." unique_id=1225860885]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 4)
+cast_shadow = 0
+gi_mode = 0
+amount = 520
+lifetime = 10.0
+preprocess = 10.0
+randomness = 0.3
+use_fixed_seed = true
+seed = 47
+visibility_aabb = AABB(-28, -16, -22, 56, 20, 44)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_nvn8l")
+draw_pass_1 = SubResource("QuadMesh_fq67v")

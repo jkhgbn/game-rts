@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/props/army_charge.res" id="1_rajxr"]
+
+[node name="Army_torvald_charge" type="Node3D" unique_id=2053235438]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1061618397]
+mesh = ExtResource("1_rajxr")

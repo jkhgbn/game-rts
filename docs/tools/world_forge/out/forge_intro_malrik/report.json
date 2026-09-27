@@ -23,11 +23,11 @@
 			"id": "B1",
 			"improve": "",
 			"name": "Draw calls",
-			"rule": "<= 200 (budget line)",
+			"rule": "<= 250 (budget line)",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "197 surfaces (43 particles / multimesh)",
+			"value": "219 surfaces (47 particles / multimesh)",
 			"weight": 2.0
 		},
 		{
@@ -51,11 +51,11 @@
 			"id": "B3",
 			"improve": "",
 			"name": "Triangles",
-			"rule": "<= 400000",
+			"rule": "<= 600000",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "135401",
+			"value": "238475",
 			"weight": 1.0
 		},
 		{
@@ -105,13 +105,13 @@
 			"group": "marks",
 			"hint": "raise the camera or move it round the blocker",
 			"id": "M3",
-			"improve": "raise the camera or move it round the blocker",
+			"improve": "",
 			"name": "Line of sight to the subject",
 			"rule": "nothing placed between the camera and the subject (bounding boxes)",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "S20_a: table blocks the view of malrik; S20_b: table blocks the view of malrik; S20_c: table blocks the view of malrik",
+			"status": "PASS",
+			"value": "ok",
 			"weight": 1.0
 		},
 		{
@@ -125,16 +125,16 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "a4e761d44314 vs a4e761d44314",
+			"value": "18ee7125b4aa vs 18ee7125b4aa",
 			"weight": 1.5
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 0,
-		"PASS": 8,
+		"PASS": 9,
 		"SKIP": 0,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "",
 	"groups": {
@@ -149,36 +149,29 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "a4e761d44314",
+	"hash": "18ee7125b4aa",
 	"hash_note": "",
 	"headless": false,
 	"id": "forge_intro_malrik",
-	"improve_next": [
-		{
-			"rank": 10.5,
-			"source": "M3 Line of sight to the subject",
-			"status": "WARN",
-			"text": "raise the camera or move it round the blocker",
-			"title": "Line of sight to the subject"
-		}
-	],
-	"kind": "check",
+	"improve_next": [],
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"Mark projections: S09_a ndc (-0.06, 0.00), S09_b ndc (-0.07, 0.00), S09_c ndc (-0.08, 0.00), S18_a ndc (0.00, 0.04), S18_b ndc (0.00, 0.05), S18_c ndc (0.00, 0.05), S19_a ndc (0.12, -0.01), S19_b ndc (0.10, -0.06), S19_c ndc (0.09, -0.09), S19U_a ndc (-0.40, 0.06), S19U_b ndc (-0.48, 0.03), S19U_c ndc (-0.59, 0.01), S20_a ndc (-0.16, 0.29), S20_b ndc (-0.16, 0.26), S20_c ndc (-0.15, 0.23), S21_a ndc (0.00, -0.25), S21_b ndc (0.00, -0.27), S21_c ndc (0.00, -0.28)",
+		"Mark projections: S09_a ndc (-0.06, 0.00), S09_b ndc (-0.07, 0.00), S09_c ndc (-0.08, 0.00), S18_a ndc (-0.00, -0.15), S18_b ndc (0.00, -0.16), S18_c ndc (0.00, -0.18), S19_a ndc (0.12, -0.01), S19_b ndc (0.10, -0.06), S19_c ndc (0.09, -0.09), S19U_a ndc (-0.40, 0.06), S19U_b ndc (-0.48, 0.03), S19U_c ndc (-0.59, 0.01), S20_a ndc (-0.16, 0.33), S20_b ndc (-0.15, 0.30), S20_c ndc (-0.15, 0.27), S21_a ndc (0.00, -0.25), S21_b ndc (0.00, -0.27), S21_c ndc (0.00, -0.28)",
+		"Mesh file md5: ground.res 4074009c, paths.res cb3d81a7, scatter.res ddf7d44c, masonry.res 7e49fc4d, mountains.res 327d8bb5",
 		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).",
-		"Files: `docs/tools/world_forge/out/forge_intro_malrik/plan.png`"
+		"Files: `art/cinematics/stage_sets/forge_intro_malrik/forge_intro_malrik.tscn`, `art/cinematics/stage_sets/forge_intro_malrik/meshes/ground.res`, `art/cinematics/stage_sets/forge_intro_malrik/meshes/paths.res`, `art/cinematics/stage_sets/forge_intro_malrik/meshes/scatter.res`, `art/cinematics/stage_sets/forge_intro_malrik/meshes/masonry.res`, `art/cinematics/stage_sets/forge_intro_malrik/meshes/mountains.res`, `art/cinematics/stage_sets/forge_intro_malrik/marks.json`, `docs/tools/world_forge/out/forge_intro_malrik/plan.png`"
 	],
-	"previous_quality": 95.8,
-	"quality": 95.8,
-	"result": "WARN",
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
 	"scene": "",
-	"seconds": 8.0,
+	"seconds": 8.5,
 	"shots": {
 		"plan": "plan.png"
 	},
-	"started": "2026-09-27 12:58:37",
+	"started": "2026-09-27 14:35:13",
 	"tier": "",
 	"tool": "world_forge",
-	"verb": "check"
+	"verb": "build"
 }

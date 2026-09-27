@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_malrik/props/army_host.res" id="1_kwmdt"]
+
+[node name="Army_malrik_host" type="Node3D" unique_id=928815523]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1043749819]
+mesh = ExtResource("1_kwmdt")

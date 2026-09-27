@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_ysolde/props/army_host.res" id="1_8gl7u"]
+
+[node name="Army_ysolde_host" type="Node3D" unique_id=399703192]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=887142323]
+mesh = ExtResource("1_8gl7u")

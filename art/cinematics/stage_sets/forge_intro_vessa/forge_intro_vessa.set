@@ -11,8 +11,11 @@
 #   S17 at 0.5 anim vessa play_level_up (laughing among sparks). Hide vessa_young outside S14.
 # Build: tools\world_forge\run_world_forge.ps1 build forge_intro_vessa   (stills: ... sheet forge_intro_vessa)
 # Axis rule: every camera stays on the south (+z) side of the breached wall.
-set forge_intro_vessa  size=60x50  ground=ash  light=dusk  seed=21  title="Vessa, of Fire"
-budget draws<=200 lights<=0
+set forge_intro_vessa  size=60x50  ground=ash  light=res://art/cinematics/stage_sets/forge_intro_vessa/mood_vessa.tres  seed=21  title="Vessa, of Fire"
+# polish round (2026-09-27 PM): budget raised 200 -> 250 draws for the baked host (2-3 draws per whole formation) and the
+# spell props; warm fire mood preset (mood_vessa.tres); distant mountains for depth.
+budget draws<=250 lights<=0 tris<=600000
+sky  mountains=2  dist=150  height=34  color=#3a2228
 
 # the Fire keep behind its curtain wall; the gate is the door she burned through (ember sill + trail)
 place kit:fire_keep  at=(0,-15)  yaw=0  tag=keep  lights=off
@@ -43,7 +46,7 @@ actor vessa        kit:vessa  at=(0,6)  yaw=0  lights=off
 actor vessa_young  kit:vessa  at=(-15,15.5)  yaw=30  scale=0.62  lights=off
 actor guard      kit:flame_guard  at=(-1.5,-3.2)  yaw=0
 actor scorchbow  res://art/units/fire/scorchbow/scorchbow.tscn  at=(-4.6,-1.2)  yaw=15
-actor adept      res://art/units/fire/pyre_adept/pyre_adept.tscn  at=(3.4,-1.6)  yaw=-10
+actor adept      res://art/units/fire/pyre_adept/pyre_adept.tscn  at=(3.7,-3.1)  yaw=-10
 
 # camera marks (Lens words = the intent; coordinates tuned and written here)
 mark S08   from=(1.2,0.6,13.5)  to=(0.7,0.8,11)  look=(0,2.2,6)  look_to=(0,2.6,6)  fov=40  subject=vessa  dur=3  lens="ms on vessa, front, low, push 0.3"
@@ -52,3 +55,17 @@ mark S15   from=(6,0.7,12)  to=(2.5,0.8,13)  look=(0.5,2.2,3)  look_to=(0,2.4,2)
 mark S15U  from=(-7.5,1.2,4.5)  to=(-6,1.3,4)  look=(-1.5,1.5,-1.8)  look_to=(-0.5,1.7,-2)  fov=46  subject=scorchbow  dur=5  lens="ws on scorchbow and adept, 3/4 left, low"
 mark S16   from=(3,11,28)  to=(3.5,10,25)  look=(0,0.8,3)  look_to=(0,0.9,2.5)  fov=42  subject=vessa  dur=7  lens="ws on vessa, front, high, push 0.1"
 mark S17   from=(0.9,1.6,8.9)  to=(0.7,1.62,8.5)  look=(0,1.72,6)  fov=30  subject=vessa  dur=6  lens="cu on vessa, 3/4 right, eye"
+
+# ---- polish round: the host in action + spell props (all actors: the cine can show / hide / move each per shot)
+# army_host: 10 Flame Guards striking, 2 Blaze Riders charging, 2 Ash Hurlers, 16 Scorchbows drawing (8 on the field,
+# 10 on the curtain wall), 3 Pyre Adepts casting, 6 Cinderlock Musketeers firing (tools/intro_bake.gd, one mesh, 2 draws)
+actor army_host    res://art/cinematics/stage_sets/forge_intro_vessa/props/army_host.tscn    at=(0,0)
+# army_fallen: 5 beaten defenders (Rimeshields, Shadow Knights, a Rifleman) in the ash before the breach
+actor army_fallen  res://art/cinematics/stage_sets/forge_intro_vessa/props/army_fallen.tscn  at=(0,0)
+# the pillar of fire answering her staff (S08), rising from the court behind the breach, 30 m
+actor fx_pillar    res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_fire_pillar.tscn   at=(0,-9.5)
+# Pyre Adept fire columns over the three adepts of army_host (S15, S15U)
+actor fx_columns   res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_fire_columns.tscn  at=(0,0)
+# ember rain over the whole field (S15-S17) and the Scorchbow volley arcing south over the camera side (S15, S15U, S16)
+actor fx_embers    res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_ember_rain.tscn    at=(0,0)
+actor fx_volley    res://art/cinematics/stage_sets/forge_intro_vessa/fx/fx_arrow_volley.tscn  at=(0,0)

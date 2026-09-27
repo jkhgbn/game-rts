@@ -1,48 +1,61 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_81oye"]
-[ext_resource type="Resource" path="res://art/environment/lighting/preset_ice.tres" id="2_od6s2"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/ground.res" id="3_wk8h6"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/paths.res" id="4_iccws"]
-[ext_resource type="PackedScene" path="res://art/buildings/ice_keep.tscn" id="5_uxr48"]
-[ext_resource type="Script" path="res://art/buildings/ice_keep.gd" id="6_ka7g7"]
-[ext_resource type="PackedScene" path="res://art/units/wizards/torvald.tscn" id="7_m0cf7"]
-[ext_resource type="Script" path="res://art/units/wizards/torvald.gd" id="8_ld5hu"]
-[ext_resource type="PackedScene" path="res://art/units/ice/rime_colossus.tscn" id="9_niba0"]
-[ext_resource type="Script" path="res://art/units/ice/rime_colossus.gd" id="10_o0404"]
-[ext_resource type="PackedScene" path="res://art/units/ice/frostbow/frostbow.tscn" id="11_u4ip7"]
-[ext_resource type="Script" path="res://art/units/ice/frostbow/frostbow.gd" id="12_l551u"]
-[ext_resource type="PackedScene" path="res://art/units/fire/cinder_hand.tscn" id="13_myd0s"]
-[ext_resource type="Script" path="res://art/units/fire/fire_model.gd" id="14_fhiwt"]
-[ext_resource type="PackedScene" path="res://art/units/fire/flame_guard.tscn" id="15_585dr"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/scatter.res" id="16_igy4y"]
-[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/masonry.res" id="17_5bhig"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_niba0"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_torvald/mood_torvald.tres" id="2_o0404"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/ground.res" id="3_u4ip7"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/mountains.res" id="4_l551u"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/paths.res" id="5_myd0s"]
+[ext_resource type="PackedScene" path="res://art/buildings/ice_keep.tscn" id="6_fhiwt"]
+[ext_resource type="Script" path="res://art/buildings/ice_keep.gd" id="7_585dr"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/torvald.tscn" id="8_igy4y"]
+[ext_resource type="Script" path="res://art/units/wizards/torvald.gd" id="9_5bhig"]
+[ext_resource type="PackedScene" path="res://art/units/ice/rime_colossus.tscn" id="10_kif1a"]
+[ext_resource type="Script" path="res://art/units/ice/rime_colossus.gd" id="11_1lnse"]
+[ext_resource type="PackedScene" path="res://art/units/ice/frostbow/frostbow.tscn" id="12_tx7jv"]
+[ext_resource type="Script" path="res://art/units/ice/frostbow/frostbow.gd" id="13_6svkj"]
+[ext_resource type="PackedScene" path="res://art/units/fire/cinder_hand.tscn" id="14_r6g2u"]
+[ext_resource type="Script" path="res://art/units/fire/fire_model.gd" id="15_31re2"]
+[ext_resource type="PackedScene" path="res://art/units/fire/flame_guard.tscn" id="16_q8xq3"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/props/army_line.tscn" id="17_ywqdm"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/props/army_charge.tscn" id="18_kxknd"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_ice_wall.tscn" id="19_4bkf2"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_frost_burst.tscn" id="20_w1rgx"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_lake_cracks.tscn" id="21_miebv"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_heartfrost.tscn" id="22_n5jrd"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/fx/fx_snow.tscn" id="23_cwua0"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/scatter.res" id="24_b58xl"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_torvald/meshes/masonry.res" id="25_oiqwc"]
 
-[node name="forge_intro_torvald" type="Node3D" unique_id=1161306432]
-script = ExtResource("1_81oye")
+[node name="forge_intro_torvald" type="Node3D" unique_id=489257648]
+script = ExtResource("1_niba0")
 set_id = &"forge_intro_torvald"
-lighting = ExtResource("2_od6s2")
-lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe")])
+lighting = ExtResource("2_o0404")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
 
-[node name="Ground" type="MeshInstance3D" parent="." unique_id=1511251527]
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1876282157]
 gi_mode = 0
-mesh = ExtResource("3_wk8h6")
+mesh = ExtResource("3_u4ip7")
 
-[node name="Paths" type="MeshInstance3D" parent="." unique_id=1785762004]
+[node name="Mountains" type="MeshInstance3D" parent="." unique_id=1389210468]
+cast_shadow = 0
 gi_mode = 0
-mesh = ExtResource("4_iccws")
+mesh = ExtResource("4_l551u")
 
-[node name="Placed" type="Node3D" parent="." unique_id=1455540066]
+[node name="Paths" type="MeshInstance3D" parent="." unique_id=876713717]
+gi_mode = 0
+mesh = ExtResource("5_myd0s")
 
-[node name="keep" type="Node3D" parent="Placed" unique_id=73883136 instance=ExtResource("5_uxr48")]
+[node name="Placed" type="Node3D" parent="." unique_id=920934605]
+
+[node name="keep" type="Node3D" parent="Placed" unique_id=73883136 instance=ExtResource("6_fhiwt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17)
-script = ExtResource("6_ka7g7")
+script = ExtResource("7_585dr")
 
-[node name="Puppets" type="Node3D" parent="." unique_id=2125104528]
+[node name="Puppets" type="Node3D" parent="." unique_id=1131913867]
 
-[node name="torvald" type="Node3D" parent="Puppets" unique_id=503268069 instance=ExtResource("7_m0cf7")]
+[node name="torvald" type="Node3D" parent="Puppets" unique_id=80552475 instance=ExtResource("8_igy4y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.2)
-script = ExtResource("8_ld5hu")
+script = ExtResource("9_5bhig")
 body_height = 2.1
 attack_style = &"wizard_bolt"
 attack_windup = 0.12
@@ -53,9 +66,9 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 24.0
 walk_bounce = 0.05
 
-[node name="colossus" type="Node3D" parent="Puppets" unique_id=832831932 instance=ExtResource("9_niba0")]
+[node name="colossus" type="Node3D" parent="Puppets" unique_id=851155944 instance=ExtResource("10_kif1a")]
 transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, -7, 0, -1)
-script = ExtResource("10_o0404")
+script = ExtResource("11_1lnse")
 breath_interval = 2.8
 shatter_time = 0.6
 shatter_collapse = 0.25
@@ -70,9 +83,9 @@ leg_swing_deg = 20.0
 walk_bounce = 0.06
 flinch_push = true
 
-[node name="frostbow" type="Node3D" parent="Puppets" unique_id=1926673766 instance=ExtResource("11_u4ip7")]
+[node name="frostbow" type="Node3D" parent="Puppets" unique_id=1848633409 instance=ExtResource("12_tx7jv")]
 transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 4.5, 0, -1.6)
-script = ExtResource("12_l551u")
+script = ExtResource("13_6svkj")
 breath_interval = 3.6
 body_height = 1.7
 attack_style = &"bow_draw"
@@ -80,9 +93,9 @@ attack_windup = 0.15
 stride_speed = 4.4
 kingdom_color = Color(0.45, 0.75, 0.95, 1)
 
-[node name="messenger" type="Node3D" parent="Puppets" unique_id=268459566 instance=ExtResource("13_myd0s")]
+[node name="messenger" type="Node3D" parent="Puppets" unique_id=268459566 instance=ExtResource("14_r6g2u")]
 transform = Transform3D(-0.9961947, 0, -0.08715581, 0, 1, 0, 0.08715581, 0, -0.9961947, 0.6, 0, 4.2)
-script = ExtResource("14_fhiwt")
+script = ExtResource("15_31re2")
 fire_kind = &"worker"
 body_height = 1.4
 attack_style = &"worker_pick"
@@ -92,105 +105,135 @@ idle_period = 2.6
 leg_swing_deg = 32.0
 walk_bounce = 0.06
 
-[node name="foe" type="Node3D" parent="Puppets" unique_id=21948852 instance=ExtResource("15_585dr")]
+[node name="foe" type="Node3D" parent="Puppets" unique_id=21948852 instance=ExtResource("16_q8xq3")]
 transform = Transform3D(-0.9848077, 0, 0.1736483, 0, 1, 0, -0.1736483, 0, -0.9848077, -3, 0, 13.5)
-script = ExtResource("14_fhiwt")
+script = ExtResource("15_31re2")
 stride_time = 0.58
 stride_speed = 5.0
 idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="Scatter" type="MeshInstance3D" parent="." unique_id=2085934928]
+[node name="army_line" type="Node3D" parent="Puppets" unique_id=1179071145 instance=ExtResource("17_ywqdm")]
+
+[node name="army_charge" type="Node3D" parent="Puppets" unique_id=2053235438 instance=ExtResource("18_kxknd")]
+
+[node name="fx_icewall" type="Node3D" parent="Puppets" unique_id=1058697275 instance=ExtResource("19_4bkf2")]
+
+[node name="fx_burst" type="Node3D" parent="Puppets" unique_id=1811906174 instance=ExtResource("20_w1rgx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.2)
+
+[node name="fx_cracks" type="Node3D" parent="Puppets" unique_id=187745516 instance=ExtResource("21_miebv")]
+
+[node name="fx_heart" type="Node3D" parent="Puppets" unique_id=1290527852 instance=ExtResource("22_n5jrd")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0.5, 0, 9.4)
+
+[node name="fx_snow" type="Node3D" parent="Puppets" unique_id=993288203 instance=ExtResource("23_cwua0")]
+
+[node name="Scatter" type="MeshInstance3D" parent="." unique_id=1353069555]
 gi_mode = 0
-mesh = ExtResource("16_igy4y")
+mesh = ExtResource("24_b58xl")
 
-[node name="Masonry" type="MeshInstance3D" parent="." unique_id=2021167692]
+[node name="Masonry" type="MeshInstance3D" parent="." unique_id=717997971]
 gi_mode = 0
-mesh = ExtResource("17_5bhig")
+mesh = ExtResource("25_oiqwc")
 
-[node name="Shots" type="Node3D" parent="." unique_id=1814102495]
+[node name="Shots" type="Node3D" parent="." unique_id=1425418157]
 
-[node name="S10_from" type="Marker3D" parent="Shots" unique_id=1363536210]
+[node name="S10_from" type="Marker3D" parent="Shots" unique_id=792190152]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 20)
 metadata/fov = 44.0
 
-[node name="S10_to" type="Marker3D" parent="Shots" unique_id=1080302637]
+[node name="S10_to" type="Marker3D" parent="Shots" unique_id=1232782080]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 13)
 metadata/fov = 44.0
 
-[node name="S10_look_from" type="Marker3D" parent="Shots" unique_id=1006953856]
+[node name="S10_look_from" type="Marker3D" parent="Shots" unique_id=1248450966]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
-[node name="S10_look_to" type="Marker3D" parent="Shots" unique_id=1075668937]
+[node name="S10_look_to" type="Marker3D" parent="Shots" unique_id=1633748343]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -1)
 
-[node name="S22_from" type="Marker3D" parent="Shots" unique_id=751257888]
+[node name="S22_from" type="Marker3D" parent="Shots" unique_id=2043024630]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 10, 26)
 metadata/fov = 46.0
 
-[node name="S22_to" type="Marker3D" parent="Shots" unique_id=1718230746]
+[node name="S22_to" type="Marker3D" parent="Shots" unique_id=861032639]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3, 21)
 metadata/fov = 46.0
 
-[node name="S22_look_from" type="Marker3D" parent="Shots" unique_id=475121227]
+[node name="S22_look_from" type="Marker3D" parent="Shots" unique_id=1297861591]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.2, 4)
 
-[node name="S22_look_to" type="Marker3D" parent="Shots" unique_id=1336402620]
+[node name="S22_look_to" type="Marker3D" parent="Shots" unique_id=2097615324]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.8, 1)
 
-[node name="S23_from" type="Marker3D" parent="Shots" unique_id=268565690]
+[node name="S23_from" type="Marker3D" parent="Shots" unique_id=848102919]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.3, 3.7)
 metadata/fov = 44.0
 
-[node name="S23_to" type="Marker3D" parent="Shots" unique_id=2046328305]
+[node name="S23_to" type="Marker3D" parent="Shots" unique_id=918100786]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.5, 4.2)
 metadata/fov = 44.0
 
-[node name="S23_look_from" type="Marker3D" parent="Shots" unique_id=1961251796]
+[node name="S23_look_from" type="Marker3D" parent="Shots" unique_id=1735171867]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -1.2)
 
-[node name="S23_look_to" type="Marker3D" parent="Shots" unique_id=1332041206]
+[node name="S23_look_to" type="Marker3D" parent="Shots" unique_id=418412568]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1.2)
 
-[node name="S23U_from" type="Marker3D" parent="Shots" unique_id=1094873899]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.6, 9)
+[node name="S23U_from" type="Marker3D" parent="Shots" unique_id=604179568]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 3.4, 10)
 metadata/fov = 48.0
 
-[node name="S23U_to" type="Marker3D" parent="Shots" unique_id=1502739653]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.8, 8)
+[node name="S23U_to" type="Marker3D" parent="Shots" unique_id=1884267533]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 3.6, 9)
 metadata/fov = 48.0
 
-[node name="S23U_look_from" type="Marker3D" parent="Shots" unique_id=952613867]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2.6, -1.5)
+[node name="S23U_look_from" type="Marker3D" parent="Shots" unique_id=565115759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, -1.5)
 
-[node name="S23U_look_to" type="Marker3D" parent="Shots" unique_id=526005705]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -1.5)
+[node name="S23U_look_to" type="Marker3D" parent="Shots" unique_id=834577043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -1.5)
 
-[node name="S24_from" type="Marker3D" parent="Shots" unique_id=1404669831]
+[node name="S24_from" type="Marker3D" parent="Shots" unique_id=1220592547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 2.4, -3)
 metadata/fov = 40.0
 
-[node name="S24_to" type="Marker3D" parent="Shots" unique_id=1700172230]
+[node name="S24_to" type="Marker3D" parent="Shots" unique_id=1151244800]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 2.35, -2.6)
 metadata/fov = 40.0
 
-[node name="S24_look_from" type="Marker3D" parent="Shots" unique_id=729788935]
+[node name="S24_look_from" type="Marker3D" parent="Shots" unique_id=1626296268]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.3, 4.2)
 
-[node name="S24_look_to" type="Marker3D" parent="Shots" unique_id=728233271]
+[node name="S24_look_to" type="Marker3D" parent="Shots" unique_id=1723069964]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.3, 4.2)
 
-[node name="S25_from" type="Marker3D" parent="Shots" unique_id=1053702015]
+[node name="S25_from" type="Marker3D" parent="Shots" unique_id=1869164136]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.9, 5.5)
 metadata/fov = 15.0
 
-[node name="S25_to" type="Marker3D" parent="Shots" unique_id=108189098]
+[node name="S25_to" type="Marker3D" parent="Shots" unique_id=1600303052]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 1.85, 5.1)
 metadata/fov = 15.0
 
-[node name="S25_look_from" type="Marker3D" parent="Shots" unique_id=1568357282]
+[node name="S25_look_from" type="Marker3D" parent="Shots" unique_id=603983474]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -1.2)
 
-[node name="S25_look_to" type="Marker3D" parent="Shots" unique_id=10856995]
+[node name="S25_look_to" type="Marker3D" parent="Shots" unique_id=2083586771]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -1.2)
+
+[node name="S25D_from" type="Marker3D" parent="Shots" unique_id=86774941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 2.6, -2.7)
+metadata/fov = 30.0
+
+[node name="S25D_to" type="Marker3D" parent="Shots" unique_id=888779364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 4.6, -3)
+metadata/fov = 50.0
+
+[node name="S25D_look_from" type="Marker3D" parent="Shots" unique_id=1296122052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -1.2)
+
+[node name="S25D_look_to" type="Marker3D" parent="Shots" unique_id=791164060]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 7.5)

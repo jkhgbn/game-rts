@@ -8,8 +8,11 @@
 #   S19U at 0.4 anim hexweaver play_cast, 0.9 anim sknight play_attack; S20 at 2.0 anim malrik play_cast arg=soul_siphon
 #   S21 static CU (the candle sits on the crate by the chest, tag candle).
 # Build: tools\world_forge\run_world_forge.ps1 build forge_intro_malrik   (stills: ... sheet forge_intro_malrik)
-set forge_intro_malrik  size=60x50  ground=#26222c  light=nightfall  seed=31  title="Malrik, of Shadow"
-budget draws<=200 lights<=0
+set forge_intro_malrik  size=60x50  ground=#26222c  light=res://art/cinematics/stage_sets/forge_intro_malrik/mood_malrik.tres  seed=31  title="Malrik, of Shadow"
+# polish round (2026-09-27 PM): budget raised 200 -> 250 draws for the baked host and the spell props; violet dusk mood
+# preset (mood_malrik.tres); distant mountains for depth.
+budget draws<=250 lights<=0 tris<=600000
+sky  mountains=2  dist=150  height=32  color=#221a2c
 
 # the Dusk keep and its ward wall
 place kit:dusk_keep  at=(0,-16)  yaw=0  tag=keep  lights=off
@@ -50,10 +53,25 @@ actor sknight   res://art/units/shadow/shadow_knight.tscn  at=(-2.6,-1.6)  yaw=1
 actor hexweaver res://art/units/shadow/hexweaver/hexweaver.tscn  at=(-5,0.6)  yaw=20
 actor shade     res://art/units/shadow/shade.tscn  at=(2.6,-1.2)  yaw=-10
 
+# ---- polish round: the host in action + spell props (all actors: the cine can show / hide / move each per shot)
+# army_host: the Nightmare Knight and a Barrow Giant up front, 5 Shadow Knights striking, 12 Shades, 3 Hexweavers
+# casting, 3 Grave Hounds running, 6 Gloom Thralls, 10 Bleakbows drawing on the ward wall (one mesh, 2 draws)
+actor army_host    res://art/cinematics/stage_sets/forge_intro_malrik/props/army_host.tscn    at=(0,0)
+# army_fallen: 4 beaten foes (Flame Guards, a Rimeshield, a Wildwood Archer) on the approach
+actor army_fallen  res://art/cinematics/stage_sets/forge_intro_malrik/props/army_fallen.tscn  at=(0,0)
+# the swirling dark vortex over the Dusk keep, a violet beam down into it (S09, S19)
+actor fx_vortex    res://art/cinematics/stage_sets/forge_intro_malrik/fx/fx_shadow_vortex.tscn    at=(0,-16)
+# shadow tendrils standing up out of a dark pool around him (S19, S19U; the south side stays open for the cameras)
+actor fx_tendrils  res://art/cinematics/stage_sets/forge_intro_malrik/fx/fx_shadow_tendrils.tscn  at=(0,2)
+# the Master: a tall shadow with a burning hem stops behind young Malrik (S18)
+actor fx_master    res://art/cinematics/stage_sets/forge_intro_malrik/fx/fx_master_shadow.tscn    at=(-15.3,7.5)  yaw=34  scale=0.92
+# the crown on the trophy table (on the small crate), glinting (S20)
+actor fx_crown     res://art/cinematics/stage_sets/forge_intro_malrik/fx/fx_crown.tscn            at=(3.2,3.6)  yaw=-20
+
 # camera marks (Lens words = the intent; coordinates tuned and written here)
 mark S09   from=(3.6,1.7,8.5)  to=(3.0,1.7,7.2)  look=(0.3,1.6,2)  fov=36  subject=malrik  dur=3  lens="ms on malrik, 3/4 right, eye, push 0.3"
-mark S18   from=(-10.2,1.9,15.2)  to=(-11,1.7,14.2)  look=(-14.2,0.85,9.2)  fov=38  subject=malrik_young  dur=6  lens="ws on malrik_young, 3/4 left, high"
+mark S18   from=(-10.2,1.9,15.2)  to=(-11,1.7,14.2)  look=(-14.4,1.3,8.9)  fov=38  subject=malrik_young  dur=6  lens="ws on malrik_young, 3/4 left, high"
 mark S19   from=(-0.4,0.5,7)  to=(-0.6,0.7,10)  look=(-0.5,2.3,-1)  look_to=(-0.5,2.5,-2)  fov=46  subject=malrik  dur=7  lens="fs on malrik, front, low, push -0.4"
 mark S19U  from=(-7.8,1.2,6.2)  to=(-6.8,1.3,5.4)  look=(-1,1.6,-1)  look_to=(0,1.9,-1.5)  fov=46  subject=hexweaver  dur=5  lens="ws on hexweaver and sknight, 3/4 left, low"
-mark S20   from=(4.6,3.1,6.8)  to=(3.9,2.7,5.8)  look=(1.2,1.3,2.5)  look_to=(0.9,1.4,2.3)  fov=36  subject=malrik  dur=6  lens="ms on malrik, 3/4 right, high, push 0.3 (over the table)"
+mark S20   from=(4.6,3.7,6.8)  to=(3.9,3.3,5.8)  look=(1.2,1.3,2.5)  look_to=(0.9,1.4,2.3)  fov=36  subject=malrik  dur=6  lens="ms on malrik, 3/4 right, high, push 0.3 (over the table)"
 mark S21   from=(0.35,1.9,4.9)  to=(0.35,1.9,4.6)  look=(0,1.8,2)  fov=30  subject=malrik  dur=8  lens="cu on malrik, 3/4 right, eye"

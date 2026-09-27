@@ -55,7 +55,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "keep 4, node 24, point 10, camp 12, tavern 4, post 8, guild 4, peddler 4, cache 6, lair 8, crown 1, start 4, slot 8; crossings 10, roads 8, zones 8, blocks 0",
+			"value": "keep 4, node 24, point 14, camp 16, tavern 4, post 8, guild 4, peddler 4, cache 6, lair 8, crown 1, start 4, slot 8; crossings 10, roads 8, zones 8, blocks 0",
 			"weight": 1.0
 		},
 		{
@@ -69,7 +69,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "235 polygons in 0.3 s",
+			"value": "235 polygons in 0.4 s",
 			"weight": 1.5
 		},
 		{
@@ -83,7 +83,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "WARN, score 98 / 100",
+			"value": "WARN, score 97 / 100",
 			"weight": 3.0
 		},
 		{
@@ -97,7 +97,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "95 / 95 clean",
+			"value": "103 / 103 clean",
 			"weight": 0.5
 		},
 		{
@@ -111,7 +111,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "95 / 95 clean",
+			"value": "103 / 103 clean",
 			"weight": 0.5
 		},
 		{
@@ -153,7 +153,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "6693 / 6693 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
+			"value": "7875 / 7875 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
 			"weight": 0.5
 		}
 	],
@@ -177,7 +177,7 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "12c62c06b891/17c01a78162c",
+	"hash": "1ebeb51977eb/25cdd8a0d890",
 	"hash_note": "",
 	"headless": false,
 	"id": "fourfold_hollow",
@@ -187,16 +187,16 @@
 	"notes": [
 		"Files: `data/maps/fourfold_hollow_layout.tres`, `docs/tools/world_forge/out/fourfold_hollow/preview.tscn`, `docs/tools/world_forge/out/fourfold_hollow/map_profile.json`, `docs/tools/world_forge/out/fourfold_hollow/map_lab/scorecard.md`, `docs/tools/world_forge/out/fourfold_hollow/map_lab/heatmap.png`, `docs/tools/world_forge/out/fourfold_hollow/layout.png`"
 	],
-	"previous_quality": -1.0,
+	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 141.2,
+	"seconds": 142.7,
 	"shots": {
 		"heatmap": "map_lab/heatmap.png",
 		"layout": "layout.png"
 	},
-	"started": "2026-09-27 08:10:14",
+	"started": "2026-09-27 14:29:03",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "map"
