@@ -183,7 +183,9 @@ func _check_help_and_timer() -> void:
 	var w := 500.0 if bar.get("essence_bank") != null else 400.0
 	if bar.get("gold_bank") != null:
 		w += 124.0   # step 10 (ui-trade.md 3): gold item, 624 x 40 at (488, 8)
-	if absf(rect.size.x - w) > 1.5 or absf(rect.position.x - (800.0 - w * 0.5)) > 1.5:
+	# 2026-09-27: the pop number is 100 px wide ("200 / 200", pop cap 200), so the bar may be up to 24 px wider than
+	# the spec widths; it must stay centred.
+	if rect.size.x < w - 1.5 or rect.size.x > w + 24.0 or absf(rect.position.x - (800.0 - rect.size.x * 0.5)) > 1.5:
 		_error = "top bar with the timer at %s, expected %d wide at x %d" % [rect, int(w), int(800.0 - w * 0.5)]
 
 
@@ -363,14 +365,23 @@ func _train_at_barracks() -> void:
 		_error = "left click on the Ember Hall did not select it"
 		return
 	card.refresh()
-	if _ids(5) != ["train_flame_guard", "train_ember_archer", "train_blaze_rider", "train_ash_hurler", "rally"]:
-		_error = "Ember Hall card %s" % [_ids(5)]
+	# Bowmen (docs/design/bowmen.md): each Hall adds its kingdom's bowman as slot 5 (B) when BowmanKit is on.
+	var bow: Variant = BowmanKit.hall_bowman(_hall.building_type)
+	var want_ids: Array = ["train_flame_guard", "train_ember_archer", "train_blaze_rider", "train_ash_hurler"]
+	var want_keys: Array = ["Z", "X", "C", "V"]
+	if bow != null:
+		want_ids.append("train_%s" % str(bow.get("id")))
+		want_keys.append("B")
+	want_ids.append("rally")
+	want_keys.append("")
+	if _ids(want_ids.size()) != want_ids:
+		_error = "Ember Hall card %s, expected %s" % [_ids(want_ids.size()), want_ids]
 		return
 	var keys: Array = []
-	for i in 5:
+	for i in want_keys.size():
 		keys.append(card.key_labels[i].text)
-	if keys != ["Z", "X", "C", "V", ""]:
-		_error = "Ember Hall letters %s, expected Z X C V and a keyless rally" % [keys]
+	if keys != want_keys:
+		_error = "Ember Hall letters %s, expected %s (rally keyless)" % [keys, want_keys]
 		return
 	eco.crystals = 500
 	eco.changed.emit()
