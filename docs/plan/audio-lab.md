@@ -130,6 +130,16 @@ Scorecards are in `docs/audio/lab/{all_audio,sfx,mapfill,trade,music,skirmish}/`
   findings (handoff `docs/handoff/for-ui-coder.md`): `building_hit` takes 5.1 dB apart; `ability_cast` 3 dB under
   the spell range; the 3 peak WARNs are in the source files (normalise to -1 dBTP).
 
+## v1.2 (2026-09-27 tools upgrade U4): spoken lines
+
+- Voice Forge WAVs (`assets/audio/voice/<speaker>/*.wav`) are no longer read as SFX cues (they were orphan "unit"
+  cues). New group **"Spoken lines (Voice Forge, per speaker)"** (weight 10), on with `voice=1`, default on for
+  `set=res://assets/audio` and `set=res://assets/audio/voice...`: per speaker the median integrated loudness (in
+  `SPEECH_LUFS` -24..-14, within `SPEECH_SPEAKER_TOL` 3 dB of the median of all speakers), true peak
+  (`SPEECH_TP_WARN` -0.5 dBTP), and every line within `SPEECH_LINE_TOL` 4 dB of its speaker (FAIL > 8 dB). The
+  speaker comes from `data/voice/manifest.json`. `scorecard.json` gets `speech` + `speech_by_speaker`; the last line
+  prints `voice_lines=N`. Run: `... -- set=res://assets/audio/voice name=voice log=0`.
+
 ## Rule to add (for every audio agent: ui-coder on assets/audio, future sound agents)
 
 > **Audio Lab.** When you add or change sounds, run

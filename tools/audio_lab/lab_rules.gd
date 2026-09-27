@@ -99,13 +99,25 @@ const GENERATOR_HINTS: Array[String] = ["res://tools/generate_sfx.gd"]   ## + an
 
 ## Score weights per check group (the score = weighted mean, PASS 1 / WARN 0.5 / FAIL 0, INFO not scored).
 const GROUPS: Array[String] = ["loudness", "peaks", "duration", "spectral", "memory", "bus", "variation", "3d",
-	"voices", "missing"]
+	"voices", "missing", "speech"]
 const WEIGHTS := {"loudness": 18.0, "peaks": 10.0, "duration": 8.0, "spectral": 10.0, "memory": 5.0, "bus": 12.0,
-	"variation": 10.0, "3d": 5.0, "voices": 7.0, "missing": 15.0}
+	"variation": 10.0, "3d": 5.0, "voices": 7.0, "missing": 15.0, "speech": 10.0}
 const GROUP_TITLES := {"loudness": "Loudness (in game)", "peaks": "Peaks and clipping", "duration":
 	"Duration, silence, tails", "spectral": "Spectral balance and masking", "memory": "Memory and disk",
 	"bus": "Bus routing", "variation": "Variation", "3d": "3D attenuation", "voices": "Voice limits",
-	"missing": "Missing cues"}
+	"missing": "Missing cues", "speech": "Spoken lines (Voice Forge, per speaker)"}
+
+## Spoken lines (Voice Forge WAVs, tools/voice_forge/README.md): judged apart from the SFX cues, per speaker, from
+## data/voice/manifest.json (the speaker of each line; files not in the manifest use their folder name).
+## `voice=1` turns it on (default: on for set=res://assets/audio and set=res://assets/audio/voice...).
+## Speech loudness = BS.1770 integrated per line (file, no volume_db: VoicePlayer plays at 0 dB).
+const VOICE_DIR := "res://assets/audio/voice"
+const VOICE_MANIFEST := "res://data/voice/manifest.json"
+const SPEECH_LUFS := Vector2(-24.0, -14.0)   ## Every speaker's median line in this range (dialogue over music -22).
+const SPEECH_SPEAKER_TOL := 3.0   ## Speaker median vs the median of all speakers: more = one character is louder.
+const SPEECH_LINE_TOL := 4.0      ## A line vs its speaker's median: more = WARN (the line jumps out / drops away).
+const SPEECH_LINE_FAIL := 8.0     ## More = FAIL (a broken render: whisper-quiet or shouting).
+const SPEECH_TP_WARN := -0.5      ## dBTP (Voice Forge normalises the peak to -1 dBFS; QOA import may add a little).
 
 ## Category of a cue id when kind=auto: exact ids first, then prefixes, then the folder, else "unit".
 const CATEGORY_BY_ID := {

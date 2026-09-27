@@ -90,6 +90,25 @@ func _static_checks() -> void:
 			_fails.append("mission line without voice: %s: %s" % [l[0], l[1]])
 	print("voice_forge test: manifest %d lines, mission_01 %d / %d voiced" % [lines.size(), dialogue.size() - missing, dialogue.size()])
 	probe.queue_free()
+	_python_selftest()
+
+
+## voice_forge.py selftest (direction tags, speed-fit, manifest compatibility, auditions merge) in the Kokoro venv,
+## which lives outside the repo: skipped (with a note) on a machine without it. No Kokoro model is loaded.
+func _python_selftest() -> void:
+	var home := OS.get_environment("FW_VOICE_HOME")
+	if home == "":
+		home = ProjectSettings.globalize_path("res://").trim_suffix("/").get_base_dir().path_join("four-wizards-voice")
+	var py := home.path_join("venv/Scripts/python.exe")
+	if not FileAccess.file_exists(py):
+		print("voice_forge test: python selftest skipped (no venv at %s)" % py)
+		return
+	var out: Array = []
+	var code := OS.execute(py, [ProjectSettings.globalize_path("res://tools/voice_forge/voice_forge.py"), "selftest"], out, true)
+	var text := "".join(PackedStringArray(out)).strip_edges()
+	print("voice_forge test: " + text)
+	if code != 0 or not text.contains("PASS voice_forge selftest"):
+		_fails.append("python selftest: exit %d %s" % [code, text.substr(0, 300)])
 
 
 func _setup_players() -> void:

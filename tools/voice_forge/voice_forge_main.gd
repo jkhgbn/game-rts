@@ -12,7 +12,8 @@ const VERBS := [
 const KEYS := [
 	{"key": "strict", "default": "0", "text": "1 = slot overruns FAIL instead of WARN"},
 	{"key": "force", "default": "0", "text": "(ps1 build) 1 = re-render every line"},
-	{"key": "only", "default": "", "text": "(ps1 build) render only this speaker"},
+	{"key": "only", "default": "", "text": "(ps1 build / audition) render only this speaker (audition keeps the other rows)"},
+	{"key": "fit", "default": "1", "text": "(ps1 build) 1 = speed new / changed lines up (<= x1.25) to fit their slot, all = also re-fit existing overruns, 0 = off"},
 ]
 const EXAMPLE := """Files:
   data/voice/cast.json          speaker -> {voice, speed, notes, audition[]}; voice = kokoro id or {id: weight} blend
@@ -27,6 +28,8 @@ Example:
   .\\tools\\voice_forge\\run_voice_forge.ps1 build            # extract + render new/changed lines + import + report
   .\\tools\\voice_forge\\run_voice_forge.ps1 check            # extract + report (no rendering)
   .\\tools\\voice_forge\\run_voice_forge.ps1 audition only=hush  # candidates -> docs/tools/voice_forge/auditions/
+Direction tags in a line: [scared] [hesitant] [stutter] [whisper] [sad] [tired] [slow] [calm] [fast] [excited] [angry]
+[shout], inline [pause] (speed / pauses / stutter / ending of the spoken text; the tag stays in the keyed text).
 Add a voiced line: write the line in its source (mission DIALOGUE, .cine `line`, story doc), run build. Unchanged lines
 are never re-rendered (key = hash of speaker + text); a changed voice / speed in cast.json re-renders that speaker."""
 
@@ -180,7 +183,7 @@ func _run_checks(rep: ToolReport, id: String, strict: bool) -> void:
 	if not over.is_empty():
 		fit_status = "FAIL" if strict else "WARN"
 	rep.add("F1", "fit", "voice fits its slot", fit_status, "%d / %d over (%d by > 15 %%)" % [over.size(), fitted, over_bad],
-		"voice length <= cine slot / subtitle time", "raise the speaker's speed in cast.json, lengthen the slot, or shorten the line",
+		"voice length <= cine slot / subtitle time", "run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line",
 		ToolReport.grade(float(over.size()), float(maxi(fitted, 1)), 0.0), "the lines listed in the notes")
 	for o: String in over:
 		rep.notes.append("over slot: " + o)
@@ -235,7 +238,12 @@ func _run_checks(rep: ToolReport, id: String, strict: bool) -> void:
 		if lr is Dictionary and not (lr as Dictionary).is_empty():
 			rep.notes.append("last render: %s lines, %s s of audio in %s s (x%s real time) on %s, at %s" % [
 				lr.get("rendered"), lr.get("audio_s"), lr.get("gen_s"), lr.get("rtf"), lr.get("providers"), lr.get("at")])
-	rep.notes.append("total: %d lines, %.2f min of speech" % [entries.size(), total_s / 60.0])
+	var n_fit := 0
+	var n_dir := 0
+	for key: String in entries:
+		n_fit += 1 if (entries[key] as Dictionary).has("fit") else 0
+		n_dir += 1 if (entries[key] as Dictionary).has("direction") else 0
+	rep.notes.append("total: %d lines, %.2f min of speech, %d speed-fitted, %d with direction tags" % [entries.size(), total_s / 60.0, n_fit, n_dir])
 	if FileAccess.file_exists(MANIFEST):
 		rep.hash_value = ToolCli.file_hash(MANIFEST)
 		rep.hash_note = "manifest.json (line keys are content hashes)"

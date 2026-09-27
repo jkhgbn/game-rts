@@ -11,7 +11,35 @@ Rules: `docs/plan/tools-wave.md` section 0 (text in, report out, deterministic n
 .\tools\voice_forge\run_voice_forge.ps1 build [force=1] [only=vessa]   # extract + render new / changed + --import + report
 .\tools\voice_forge\run_voice_forge.ps1 demo                  # acceptance demo = build + report (all lines voiced, 0 FAIL)
 .\tools\voice_forge\run_voice_forge.ps1 audition [only=hush]  # cast candidates -> docs/tools/voice_forge/auditions/
+.\tools\voice_forge\run_voice_forge.ps1 build fit=all         # also re-render existing lines that overrun their slot
 ```
+`build` options: `fit=1` (default) speeds a **new / changed** line up (at most x1.25 over its cast speed) until it fits
+its slot (<= slot + 0.05 s, aim 96 %); `fit=all` also re-renders existing overrunning lines (opt-in: it changes WARNed
+WAVs); `fit=0` off. Unchanged lines are never touched. The manifest keeps `speed` (rendered), `cast_speed` (cast.json,
+what "changed?" compares) and `fit: {slot, unfitted_s, speed_x}`. `audition only=<speaker>` replaces that speaker's
+rows in `auditions.md` and keeps every other speaker's rows. `voice_forge.py selftest` (no Kokoro) checks tags, fit,
+manifest compatibility and the auditions merge; `tests/test_tool_voice_forge.gd` runs it when the venv exists.
+
+## Direction tags (U4, 2026-09-27)
+Write them in the line's text: `[scared] We are not alone, Vessa.` or inline `Wait [pause] listen.` The tag stays in
+the keyed text (the subtitle lookup is unchanged); only what Kokoro reads changes (`DIRECTIONS` in voice_forge.py):
+
+| Tag | Speed | Text |
+|---|---|---|
+| `[scared]`, `[hesitant]` | x0.94 / x0.95 | first word stuttered ("We... we are"), `,` / `;` / ` - ` become `...` |
+| `[stutter]` | - | first word stuttered |
+| `[whisper]`, `[sad]`, `[tired]` | x0.9 / x0.88 / x0.9 | pauses (`...`) |
+| `[slow]`, `[calm]`, `[fast]` | x0.88 / x0.95 / x1.12 | - |
+| `[excited]`, `[angry]`, `[shout]` | x1.1 / x1.06 / x1.05 | the final `.` becomes `!` |
+| `[pause]` (inline) | - | a `...` break there |
+
+Unknown tags are stripped and listed in the extract notes (report). Manifest entries of tagged lines carry
+`direction: [tags]`. The subtitle shows the tag unless the DialogueBox strips `[...]` (ui-coder handoff).
+
+## Loudness per speaker
+The Audio Lab judges the voice WAVs per speaker (group "speech": median LUFS per speaker, speakers within 3 dB,
+lines within 4 dB of their speaker): `$GODOT --headless --path . -s tools/audio_lab/audio_lab.gd --quit-after 600 --
+set=res://assets/audio/voice name=voice log=0`.
 Exit 0 PASS / WARN, 1 FAIL, 2 bad input. Report: `docs/tools/voice_forge/out/<id>/report.md` (+ `report.json`,
 `generate.json` = speed of the last render), history row in `docs/tools/voice_forge/history.md`. `strict=1` makes slot
 overruns FAIL.

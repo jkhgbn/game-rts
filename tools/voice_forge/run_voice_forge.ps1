@@ -1,7 +1,8 @@
 # Voice Forge (tools/voice_forge/README.md): every spoken line of the game -> one Kokoro voice WAV. Usage:
 #   .\tools\voice_forge\run_voice_forge.ps1 help
 #   .\tools\voice_forge\run_voice_forge.ps1 check  [id]           # extract + report (no rendering); exit 0 PASS/WARN, 1 FAIL, 2 bad input
-#   .\tools\voice_forge\run_voice_forge.ps1 build  [id] [force=1] [only=<speaker>]   # extract + render new/changed + import + report
+#   .\tools\voice_forge\run_voice_forge.ps1 build  [id] [force=1] [only=<speaker>] [fit=1|all|0]   # extract + render new/changed + import + report
+#     fit=1 (default): new / changed lines sped up (<= x1.25) to fit their slot; fit=all: also existing overruns
 #   .\tools\voice_forge\run_voice_forge.ps1 demo                  # the acceptance demo: build + check, all lines voiced, 0 FAIL
 #   .\tools\voice_forge\run_voice_forge.ps1 audition [only=<speaker>]   # candidates -> docs/tools/voice_forge/auditions/
 # Rendering runs in the Kokoro venv OUTSIDE the repo ($env:FW_VOICE_HOME, default ..\four-wizards-voice\venv).

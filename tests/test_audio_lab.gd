@@ -16,7 +16,7 @@ var _failed := false
 
 
 func _initialize() -> void:
-	if not _check_signal() or not _check_rules() or not _check_scan() or not _check_report():
+	if not _check_signal() or not _check_rules() or not _check_scan() or not _check_report() or not _check_speech():
 		_failed = true
 		return
 	_preview = load("res://tools/audio_lab/audio_lab_preview.tscn").instantiate()
@@ -195,4 +195,41 @@ func _check_report() -> bool:
 		return not _fail("scorecard.json unreadable")
 	print("  report ok: score %d, %d checks, improve %d" % [int(res["score"]), (res["checks"] as Array).size(),
 		(res["improve"] as Array).size()])
+	return true
+
+
+## U4: Voice Forge lines judged per speaker (group "speech"), never as SFX cues.
+func _check_speech() -> bool:
+	var rows := [
+		{"id": "a/1", "speaker": "a", "lufs": -18.0, "tp": -1.2, "dur": 2.0, "error": ""},
+		{"id": "a/2", "speaker": "a", "lufs": -18.5, "tp": -1.1, "dur": 2.0, "error": ""},
+		{"id": "a/3", "speaker": "a", "lufs": -17.5, "tp": -1.0, "dur": 2.0, "error": ""},
+		{"id": "a/4", "speaker": "a", "lufs": -30.0, "tp": -9.0, "dur": 2.0, "error": ""},
+		{"id": "b/1", "speaker": "b", "lufs": -10.0, "tp": -1.0, "dur": 2.0, "error": ""},
+		{"id": "c/1", "speaker": "c", "lufs": -18.0, "tp": -1.0, "dur": 2.0, "error": ""},
+	]
+	var st := Report.speech_stats(rows)
+	if absf(float(st["a"]["median"]) + 18.25) > 0.01 or int(st["a"]["n"]) != 4:
+		return not _fail("speech_stats median of a = %s" % str(st["a"]))
+	var ctx := {"name": "speech", "mode": "set", "target": Rules.VOICE_DIR, "kind": "auto", "cues": {}, "players": [],
+		"allowed_buses": ["SFX", "Music"], "fight": {}, "events": [], "log": false, "missing_scored": false,
+		"command": "test", "speech": rows}
+	var res: Dictionary = Report.evaluate(ctx)
+	var found := {}
+	for c: Dictionary in res["checks"]:
+		found["%s:%s:%s" % [c["group"], c["item"], c["status"]]] = true
+	for need in ["speech:a:PASS", "speech:b:WARN", "speech:lines vs their speaker:FAIL"]:
+		if not found.has(need):
+			return not _fail("speech checks miss %s (got %s)" % [need, str(found.keys())])
+	# The real voice folder: one speaker's WAVs decode and get a loudness; voice WAVs never become SFX cues.
+	var lab: GDScript = load("res://tools/audio_lab/audio_lab.gd")
+	var real: Array = lab.speech_rows(Rules.VOICE_DIR + "/vessa")
+	var ok := 0
+	for r: Dictionary in real:
+		ok += 1 if str(r["error"]) == "" and float(r.get("lufs", -INF)) > -40.0 else 0
+	if real.is_empty() or ok != real.size():
+		return not _fail("speech_rows(vessa): %d rows, %d measured" % [real.size(), ok])
+	var rst := Report.speech_stats(real)
+	print("  speech ok: synthetic a/b judged, vessa %d lines, median %.1f LUFS (%.1f..%.1f)" % [real.size(),
+		float(rst["vessa"]["median"]), float(rst["vessa"]["lo"]), float(rst["vessa"]["hi"])])
 	return true

@@ -17,6 +17,8 @@ extends SceneTree
 ##   live=0|1      scene= only: run the scene to list the players it really creates (default 1)
 ##   fight=1       scene= only: stage a 12 v 12 fight near the hero for fight_s=30 s, measure play rates / voices
 ##   log=0         do not append docs/audio/lab/improvement-log.md (tests)
+##   voice=0|1     judge the Voice Forge lines (assets/audio/voice) per speaker, group "speech" (default 1 for
+##                 set=res://assets/audio and set=res://assets/audio/voice...; voice WAVs are never SFX cues)
 ## Prints one line: AUDIO_LAB score=N pass=N warn=N fail=N info=N cues=N out=DIR
 
 const Rules := preload("res://tools/audio_lab/lab_rules.gd")
@@ -273,9 +275,13 @@ func _finish() -> void:
 			for p: Dictionary in scan["players"]:
 				if scope.has(p["script"]):
 					players.append(p)
-	var ctx := {"name": name, "mode": mode, "target": target, "kind": kind, "cues": cues, "bed_cues": bed_cues,
+	# ---- spoken lines (Voice Forge): judged per speaker, never as SFX cues
+	var voice_default := mode == "set" and (target.trim_suffix("/") == "res://assets/audio" or target.begins_with(Rules.VOICE_DIR))
+	var speech := speech_rows(target if target.begins_with(Rules.VOICE_DIR) else Rules.VOICE_DIR) \
+		if str(args.get("voice", "1" if voice_default else "0")) != "0" else []
+	var ctx := {"name": name, "mode": mode, "target": target, "kind": kind, "cues": cues, "bed_cues": bed_cues, "speech": speech,
 		"players": players, "allowed_buses": scan["allowed_buses"], "fight": fight,
-		"events": Code.event_coverage(scan, scope), "log": str(args.get("log", "1")) != "0",
+		"events": Code.event_coverage(scan, scope) if not target.begins_with(Rules.VOICE_DIR) else [], "log": str(args.get("log", "1")) != "0",
 		"missing_scored": mode == "scene" or target.trim_suffix("/") == "res://assets/audio",
 		"command": "godot --headless --path . -s tools/audio_lab/audio_lab.gd -- " + " ".join(OS.get_cmdline_user_args()),
 		"pool_note": "(live)" if not census.is_empty() else "(from code)"}
@@ -284,8 +290,8 @@ func _finish() -> void:
 	var res: Dictionary = Report.evaluate(ctx)
 	Report.write(ctx, res, out_dir)
 	var c: Dictionary = res["counts"]
-	print("AUDIO_LAB score=%d pass=%d warn=%d fail=%d info=%d cues=%d out=%s" % [res["score"], c["PASS"], c["WARN"],
-		c["FAIL"], c["INFO"], cues.size(), out_dir])
+	print("AUDIO_LAB score=%d pass=%d warn=%d fail=%d info=%d cues=%d voice_lines=%d out=%s" % [res["score"], c["PASS"],
+		c["WARN"], c["FAIL"], c["INFO"], cues.size(), speech.size(), out_dir])
 	if main:
 		main.queue_free()
 	quit()
@@ -304,7 +310,45 @@ func _set_files(target: String) -> Array[String]:
 				out.append(f)
 		if out.is_empty() and FileAccess.file_exists(target):
 			out.append(target)
-	return out
+	# Voice Forge lines are speech, not SFX cues: the "speech" group judges them (voice=1).
+	var kept: Array[String] = []
+	for f in out:
+		if not f.begins_with(Rules.VOICE_DIR + "/"):
+			kept.append(f)
+	return kept
+
+
+## Voice Forge WAVs under `under` (a folder or path prefix inside assets/audio/voice) -> speech rows
+## {id, speaker, path, lufs, tp, dur, error}. The speaker comes from data/voice/manifest.json, else the folder name.
+static func speech_rows(under: String) -> Array:
+	var files: Array[String] = []
+	var exts: Array[String] = ["wav"]
+	Code.list_files(Rules.VOICE_DIR, exts, files)
+	var spk_of := {}
+	var man: Variant = JSON.parse_string(FileAccess.get_file_as_string(Rules.VOICE_MANIFEST)) \
+		if FileAccess.file_exists(Rules.VOICE_MANIFEST) else null
+	if man is Dictionary and (man as Dictionary).get("lines") is Dictionary:
+		for key: String in man["lines"]:
+			var e: Dictionary = man["lines"][key]
+			spk_of[str(e.get("path", ""))] = str(e.get("speaker", ""))
+	var rows := []
+	files.sort()
+	for f: String in files:
+		if not f.begins_with(under.trim_suffix("/")):
+			continue
+		var spk := str(spk_of.get(f, f.get_base_dir().get_file()))
+		var r := {"id": spk + "/" + f.get_file().get_basename(), "speaker": spk, "path": f, "error": ""}
+		var stream: AudioStream = load(f) if ResourceLoader.exists(f) else null
+		var d: Dictionary = Sig.decode(stream) if stream else {"ok": false, "why": "not imported"}
+		if not d["ok"]:
+			r["error"] = str(d.get("why", "cannot decode"))
+		else:
+			var m := Sig.measure(d["frames"], d["rate"])
+			r["lufs"] = float(m["lufs_i"])
+			r["tp"] = float(m["true_peak_dbtp"])
+			r["dur"] = float(m["duration_s"])
+		rows.append(r)
+	return rows
 
 
 ## Scripts a scene uses without running it (ext_resource scripts + instanced scenes, 3 levels).

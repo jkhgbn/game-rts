@@ -4,7 +4,13 @@ Run through tools/voice_forge/run_voice_forge.ps1 (it picks the Kokoro venv outs
   extract            find every spoken line -> data/voice/lines_index.json (+ data/voice/lines/ep3|ep4_opening.json)
   generate           extract + render missing / changed lines -> assets/audio/voice/<speaker>/<key>.wav + manifest
   audition           render each cast entry's audition candidates -> docs/tools/voice_forge/auditions/
-Options: force=1 (re-render everything), only=<speaker> (limit generate), id=<report id> (default "all").
+                     (only=<speaker> replaces that speaker's rows in auditions.md, keeps the others)
+  selftest           no Kokoro: direction tags, speed-fit, manifest compatibility, auditions merge
+Options: force=1 (re-render everything), only=<speaker> (limit generate), id=<report id> (default "all"),
+  fit=1 (default: new / changed lines are sped up, <= x1.25, to fit their slot) | fit=all (also re-render existing
+  lines that overrun) | fit=0 (off).
+Direction tags in a line's text ([scared], [whisper], [angry], [pause] ...: DIRECTIONS) change speed / pauses /
+stutter / ending of what Kokoro reads; the tag stays in the keyed text.
 
 Line key = <first words>_<sha256(speaker + "\n" + text)[:8]>: stable, so an unchanged line is never re-rendered.
 Output WAV: mono, 24 kHz, 16-bit PCM, leading / trailing silence trimmed (40 ms / 90 ms kept), peak -1 dBFS.
@@ -33,6 +39,9 @@ PEAK = 10 ** (-1.0 / 20.0)          # -1 dBFS
 KEEP_HEAD, KEEP_TAIL = 0.04, 0.09   # seconds of room kept around the speech
 FADE = 0.008
 MISSION_SLOT_DEFAULT = 5.0
+FIT_MAX = 1.25        # speed-fit never speeds a line up more than x1.25 over its cast (+ direction) speed
+FIT_MARGIN = 0.05     # a line fits when its length <= slot + FIT_MARGIN (the report's F1 rule)
+FIT_AIM = 0.96        # a fitted line aims at 96 % of its slot
 
 
 # ------------------------------------------------------------------ text helpers
@@ -43,9 +52,63 @@ def norm_text(t: str) -> str:
 
 
 def spoken_text(t: str) -> str:
-    """What Kokoro reads: shouted words in capitals are read as words, not letters ("NOT" -> "not")."""
-    t = norm_text(t)
+    """What Kokoro reads: direction tags applied (see DIRECTIONS), shouted words in capitals read as words, not
+    letters ("NOT" -> "not")."""
+    t = direction(t)["text"]
     return re.sub(r"\b([A-Z]{2,})\b", lambda m: m.group(1).lower() if m.group(1) not in ("OK",) else m.group(1), t)
+
+
+# Direction tags in a line's text: `[scared] We are not alone.` or `Wait [pause] listen.` The tag stays in the line's
+# text (key, subtitle lookup), and only changes how Kokoro reads it: speed x `speed`, `pause` = commas / dashes become
+# "..." (longer breaks), `stutter` = the first word is repeated ("We... we are"), `end` = the last "." becomes this.
+# `[pause]` alone = a "..." break at that point. Unknown tags are stripped and listed in the extract notes.
+DIRECTIONS = {
+    "scared": {"speed": 0.94, "pause": True, "stutter": True},
+    "hesitant": {"speed": 0.95, "pause": True, "stutter": True},
+    "stutter": {"stutter": True},
+    "whisper": {"speed": 0.9, "pause": True},
+    "sad": {"speed": 0.88, "pause": True},
+    "tired": {"speed": 0.9, "pause": True},
+    "slow": {"speed": 0.88},
+    "calm": {"speed": 0.95},
+    "fast": {"speed": 1.12},
+    "excited": {"speed": 1.1, "end": "!"},
+    "angry": {"speed": 1.06, "end": "!"},
+    "shout": {"speed": 1.05, "end": "!"},
+    "pause": {},
+}
+RE_TAG = re.compile(r"\[\s*([A-Za-z][A-Za-z _-]*?)\s*\]")
+
+
+def direction(t: str) -> dict:
+    """Line text -> {text: what Kokoro reads, speed: multiplier, tags: [known], unknown: [names]}."""
+    t = norm_text(t)
+    tags, unknown = [], []
+    for m in RE_TAG.finditer(t):
+        name = m.group(1).lower().replace(" ", "_").replace("-", "_")
+        (tags if name in DIRECTIONS else unknown).append(name)
+    if not tags and not unknown:
+        return {"text": t, "speed": 1.0, "tags": [], "unknown": []}
+    s = RE_TAG.sub(lambda m: " ... " if m.group(1).lower() == "pause" else " ", t)
+    s = re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"^(\.\.\.\s*)+", "", s)
+    speed, pause, stutter, end = 1.0, False, False, ""
+    for name in tags:
+        d = DIRECTIONS[name]
+        speed *= float(d.get("speed", 1.0))
+        pause = pause or d.get("pause", False)
+        stutter = stutter or d.get("stutter", False)
+        end = d.get("end", end)
+    if pause:
+        s = re.sub(r"\s*[,;]\s+|\s+-+\s+", "... ", s)
+    if stutter:
+        m = re.match(r"([A-Za-z']+)(.*)$", s, re.S)
+        if m:
+            s = f"{m.group(1)}... {m.group(1).lower() if m.group(1) != 'I' else 'I'}{m.group(2)}"
+    if end and s.endswith(".") and not s.endswith("..."):
+        s = s[:-1] + end
+    s = re.sub(r"\s+([,.!?])", r"\1", re.sub(r"\s+", " ", s)).strip()
+    return {"text": s, "speed": round(speed, 4), "tags": tags, "unknown": unknown}
 
 
 def text_hash(speaker: str, text: str) -> str:
@@ -255,6 +318,12 @@ def extract() -> dict:
                                    "text_hash": text_hash(spk, r["text"])[:16], "sources": []})
         e["sources"].append({"kind": r["kind"], "source": r["source"], "ref": r["ref"], "slot": r["slot"],
                              "slot_kind": r["slot_kind"], "speaker_id": r["speaker"]})
+        dr = direction(r["text"])
+        if dr["tags"]:
+            e["direction"] = dr["tags"]
+        if dr["unknown"]:
+            notes.append(f"{r['source']}: unknown direction tag(s) {', '.join('[' + u + ']' for u in dr['unknown'])} "
+                         f"(stripped; known: {', '.join(sorted(DIRECTIONS))})")
     idx = {"version": 1, "generated_by": "tools/voice_forge/voice_forge.py extract", "notes": notes,
            "count": len(lines), "lines": sorted(lines.values(), key=lambda e: e["id"])}
     INDEX.parent.mkdir(parents=True, exist_ok=True)
@@ -365,6 +434,31 @@ def load_manifest() -> dict:
     return {"version": 1, "lines": {}}
 
 
+def min_slot(sources: list):
+    """The tightest positive slot of a line's sources (seconds), or None."""
+    slots = [float(s["slot"]) for s in sources if s.get("slot") not in (None, 0) and float(s["slot"]) > 0]
+    return min(slots) if slots else None
+
+
+def fit_speed(duration: float, slot, speed: float, base: float) -> float:
+    """Speed that brings `duration` (rendered at `speed`) to FIT_AIM of `slot`, capped at base * FIT_MAX. Returns
+    `speed` unchanged when the line already fits (or has no slot). Kokoro's length is ~ 1 / speed."""
+    if not slot or duration <= slot + FIT_MARGIN:
+        return speed
+    want = speed * duration / (slot * FIT_AIM)
+    return round(min(want, base * FIT_MAX), 3)
+
+
+def same_render(prev, cfg: dict, e: dict, path: Path) -> bool:
+    """The manifest entry still matches: voice, cast speed (entries before speed-fit have no cast_speed: their
+    speed is the cast speed), text hash, file present."""
+    if not prev:
+        return False
+    cast_speed = float(prev.get("cast_speed", prev.get("speed", 0)))
+    return (prev.get("voice") == cfg["voice"] and cast_speed == cfg["speed"]
+            and prev.get("text_hash") == e["text_hash"] and path.exists())
+
+
 def generate(opts: dict) -> int:
     t_all = time.perf_counter()
     idx = extract()
@@ -373,36 +467,61 @@ def generate(opts: dict) -> int:
     old = man.get("lines", {})
     force = opts.get("force", "0") in ("1", "true", "yes")
     only = opts.get("only", "")
-    todo, kept, new_lines = [], 0, {}
+    # fit=1 (default): new / changed lines are sped up to fit their slot. fit=all: also re-render existing lines
+    # that overrun (opt-in: it changes WARNed WAVs). fit=0: off.
+    fit = opts.get("fit", "1")
+    todo, kept, new_lines, refit = [], 0, {}, 0
     for e in idx["lines"]:
         cfg = voice_of(cast, e["speaker"])
         path = AUDIO_DIR / e["speaker"] / (e["id"].split("/", 1)[1] + ".wav")
         prev = old.get(e["id"])
-        same = (prev and prev.get("voice") == cfg["voice"] and float(prev.get("speed", 0)) == cfg["speed"]
-                and prev.get("text_hash") == e["text_hash"] and path.exists())
-        if same and not force or (only and e["speaker"] != only):
+        same = same_render(prev, cfg, e, path)
+        overrun = same and fit == "all" and "fit" not in prev and fit_speed(
+            float(prev.get("duration", 0)), min_slot(e["sources"]), 1.0, 1.0) != 1.0
+        if (same and not force and not overrun) or (only and e["speaker"] != only):
             if prev:
                 new_lines[e["id"]] = dict(prev, sources=e["sources"])
                 kept += 1
             continue
+        refit += 1 if overrun else 0
         todo.append((e, cfg, path))
     eng = None
-    gen_s, audio_s = 0.0, 0.0
+    gen_s, audio_s, fitted = 0.0, 0.0, []
     if todo:
         eng = Engine()
         print(f"VOICE_FORGE providers {eng.providers} (model load {eng.load_s:.1f} s); rendering {len(todo)} lines, "
-              f"{kept} unchanged")
+              f"{kept} unchanged" + (f", {refit} re-fitted (fit=all)" if refit else ""))
         for n, (e, cfg, path) in enumerate(todo, 1):
             t0 = time.perf_counter()
-            s = eng.render(e["text"], cfg)
+            dr = direction(e["text"])
+            base = round(cfg["speed"] * dr["speed"], 4)
+            rcfg = dict(cfg, speed=base)
+            s = eng.render(e["text"], rcfg)
+            slot = min_slot(e["sources"])
+            first = len(s) / SR
+            if fit != "0":
+                for _ in range(2):   # one step usually lands; the second corrects Kokoro's non-linear timing
+                    sp = fit_speed(len(s) / SR, slot, rcfg["speed"], base)
+                    if sp == rcfg["speed"]:
+                        break
+                    rcfg = dict(rcfg, speed=sp)
+                    s = eng.render(e["text"], rcfg)
             info = write_wav(path, s)
             dt = time.perf_counter() - t0
             gen_s += dt
             audio_s += info["duration"]
-            new_lines[e["id"]] = {"speaker": e["speaker"], "text": e["text"], "text_hash": e["text_hash"],
-                                  "path": "res://" + rel(path), "voice": cfg["voice"], "speed": cfg["speed"],
-                                  "lang": cfg["lang"], **info, "gen_s": round(dt, 2), "sources": e["sources"]}
-            print(f"  [{n}/{len(todo)}] {e['id']} {info['duration']:.2f} s in {dt:.1f} s")
+            entry = {"speaker": e["speaker"], "text": e["text"], "text_hash": e["text_hash"],
+                     "path": "res://" + rel(path), "voice": cfg["voice"], "speed": rcfg["speed"],
+                     "cast_speed": cfg["speed"], "lang": cfg["lang"], **info, "gen_s": round(dt, 2),
+                     "sources": e["sources"]}
+            if dr["tags"]:
+                entry["direction"] = dr["tags"]
+            if rcfg["speed"] != base:
+                entry["fit"] = {"slot": slot, "unfitted_s": round(first, 3), "speed_x": round(rcfg["speed"] / base, 3)}
+                fitted.append(f"{e['id']} {first:.2f} -> {info['duration']:.2f} s (slot {slot:g} s, x{rcfg['speed'] / base:.2f})")
+            print(f"  [{n}/{len(todo)}] {e['id']} {info['duration']:.2f} s in {dt:.1f} s"
+                  + (f"  fitted x{rcfg['speed'] / base:.2f} (was {first:.2f} s, slot {slot:g})" if "fit" in entry else "")
+                  + (f"  [{', '.join(dr['tags'])}]" if dr["tags"] else ""))
     else:
         print(f"VOICE_FORGE nothing to render ({kept} lines unchanged)")
     orphans = sorted(k for k in old if k not in new_lines)
@@ -415,7 +534,7 @@ def generate(opts: dict) -> int:
     run = {"rendered": len(todo), "unchanged": kept, "gen_s": round(gen_s, 1), "audio_s": round(audio_s, 1),
            "rtf": round(gen_s / audio_s, 2) if audio_s else None, "wall_s": round(time.perf_counter() - t_all, 1),
            "providers": eng.providers if eng else [], "model_load_s": round(eng.load_s, 1) if eng else 0,
-           "total_lines": len(new_lines), "total_audio_s": round(total, 1),
+           "total_lines": len(new_lines), "total_audio_s": round(total, 1), "fit": fit, "fitted": fitted,
            "at": time.strftime("%Y-%m-%d %H:%M:%S")}
     out = DOCS / "out" / opts.get("id", "all")
     out.mkdir(parents=True, exist_ok=True)
@@ -429,7 +548,7 @@ def generate(opts: dict) -> int:
     run["last_render"] = {k: run[k] for k in ("rendered", "gen_s", "audio_s", "rtf", "providers", "at")} if todo \
         else prev_run.get("last_render", {})
     (out / "generate.json").write_text(json.dumps(run, indent=1) + "\n", encoding="utf-8")
-    print(f"VOICE_FORGE generate: {len(todo)} rendered, {kept} unchanged, {len(new_lines)} lines, "
+    print(f"VOICE_FORGE generate: {len(todo)} rendered ({len(fitted)} speed-fitted), {kept} unchanged, {len(new_lines)} lines, "
           f"{total / 60:.2f} min audio, gen {gen_s:.1f} s (x{run['rtf']} real time) {run['providers']}")
     return 0
 
@@ -486,14 +605,84 @@ def audition(opts: dict) -> int:
             rows.append((spk, vname, cfg["speed"], round(len(s) / SR, 2), round(f0), round(rate, 1), picked, name, dt))
             print(f"  {spk:12s} {vname:18s} x{cfg['speed']:<5g} {len(s) / SR:5.2f} s  f0 {f0:5.0f} Hz  "
                   f"{rate:4.1f} ch/s{'  <- picked' if picked else ''}")
-    md = ["# Voice Forge auditions", "",
-          "One line per candidate (`audition_line` in `data/voice/cast.json`), rendered by `run_voice_forge.ps1 "
-          "audition`. f0 = median pitch of the voiced frames (rough), rate = characters per second. OGG, 24 kHz.", "",
-          "| Speaker | Voice | Speed | Length s | f0 Hz | Rate ch/s | Picked | File |", "|---|---|---|---|---|---|---|---|"]
-    for r in rows:
-        md.append(f"| {r[0]} | {r[1]} | {r[2]:g} | {r[3]} | {r[4]} | {r[5]} | {'**yes**' if r[6] else ''} | {r[7]} |")
-    md += ["", f"Rendered in {time.perf_counter() - t_all:.1f} s on {eng.providers}."]
-    (out / "auditions.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    new_rows = [f"| {r[0]} | {r[1]} | {r[2]:g} | {r[3]} | {r[4]} | {r[5]} | {'**yes**' if r[6] else ''} | {r[7]} |"
+                for r in rows]
+    footer = (f"Last run: {'only=' + only if only else 'all speakers'}, {len(rows)} candidates in "
+              f"{time.perf_counter() - t_all:.1f} s on {eng.providers}.")
+    md_path = out / "auditions.md"
+    old_md = md_path.read_text(encoding="utf-8") if md_path.exists() else ""
+    md_path.write_text(merge_auditions(old_md, new_rows, only, list(cast.get("speakers", {})), footer),
+                       encoding="utf-8")
+    return 0
+
+
+AUDITION_HEAD = ["# Voice Forge auditions", "",
+                 "One line per candidate (`audition_line` in `data/voice/cast.json`), rendered by `run_voice_forge.ps1 "
+                 "audition`. f0 = median pitch of the voiced frames (rough), rate = characters per second. OGG, 24 kHz.",
+                 "", "| Speaker | Voice | Speed | Length s | f0 Hz | Rate ch/s | Picked | File |",
+                 "|---|---|---|---|---|---|---|---|"]
+
+
+def merge_auditions(old_md: str, new_rows: list, only: str, order: list, footer: str) -> str:
+    """auditions.md after a run. only= replaces that speaker's rows and keeps every other speaker's rows as they
+    were (before: the whole table was rewritten with one speaker). A full run replaces the table."""
+    rows = list(new_rows)
+    if only:
+        for ln in old_md.splitlines():
+            cells = [c.strip() for c in ln.strip().strip("|").split("|")]
+            if not ln.startswith("| ") or len(cells) < 8 or cells[0] in ("Speaker", "") or cells[0].startswith("---"):
+                continue
+            if cells[0] != only:
+                rows.append(ln)
+    rank = {s: i for i, s in enumerate(order)}
+    rows.sort(key=lambda ln: rank.get(ln.strip("| ").split(" |")[0].strip(), len(rank)))   # stable: keeps each speaker's order
+    return "\n".join(AUDITION_HEAD + rows + ["", footer]) + "\n"
+
+
+def selftest() -> int:
+    """No Kokoro, no files written: direction tags, speed-fit, manifest compatibility, auditions merge."""
+    fails = []
+
+    def need(ok, what):
+        if not ok:
+            fails.append(what)
+
+    d = direction("[scared] We are not alone, Vessa. Stay close.")
+    need(d["tags"] == ["scared"] and d["speed"] == 0.94, f"scared tag/speed: {d}")
+    need(d["text"].startswith("We... we are not alone... Vessa."), f"scared text: {d['text']}")
+    need(direction("[angry] Get out.")["text"] == "Get out!", f"angry end: {direction('[angry] Get out.')}")
+    d = direction("Wait [pause] listen.")
+    need(d["text"] == "Wait... listen." and d["speed"] == 1.0, f"inline pause: {d}")
+    d = direction("[mumble] Hello there.")
+    need(d["unknown"] == ["mumble"] and d["text"] == "Hello there.", f"unknown tag: {d}")
+    plain = "The Master is gone. His crown is NOT."
+    need(direction(plain)["text"] == norm_text(plain) and spoken_text(plain) == "The Master is gone. His crown is not.",
+         "untagged line changed")
+    need(line_key("malrik", "[sad] Gone.") != line_key("malrik", "Gone."), "tag not part of the key")
+    # Speed-fit: 6 s at x1.0 into a 5 s slot -> 6 / 4.8 = 1.25 (cap); fits already -> unchanged; no slot -> unchanged.
+    need(fit_speed(5.3, 5.0, 1.0, 1.0) == round(5.3 / 4.8, 3), f"fit 5.3/5: {fit_speed(5.3, 5.0, 1.0, 1.0)}")
+    need(fit_speed(8.0, 5.0, 1.1, 1.1) == round(1.1 * FIT_MAX, 3), "fit cap")
+    need(fit_speed(5.04, 5.0, 1.0, 1.0) == 1.0 and fit_speed(9.0, None, 1.0, 1.0) == 1.0, "fit when it fits / no slot")
+    need(min_slot([{"slot": None}, {"slot": 3.2}, {"slot": 5.0}]) == 3.2, "min_slot")
+    # Manifest entries written before speed-fit (no cast_speed) still count as unchanged.
+    e = {"text_hash": "abc"}
+    p = Path(__file__)
+    need(same_render({"voice": "af_heart", "speed": 1.12, "text_hash": "abc"}, {"voice": "af_heart", "speed": 1.12}, e, p),
+         "old entry re-rendered")
+    need(same_render({"voice": "af_heart", "speed": 1.3, "cast_speed": 1.12, "text_hash": "abc", "fit": {}},
+                     {"voice": "af_heart", "speed": 1.12}, e, p), "fitted entry re-rendered")
+    need(not same_render({"voice": "af_heart", "speed": 1.12, "text_hash": "abc"}, {"voice": "af_heart", "speed": 1.0}, e, p),
+         "cast speed change not seen")
+    # Auditions: only= keeps the other speakers' rows.
+    old = merge_auditions("", ["| vessa | af_heart | 1.12 | 3 | 220 | 15 | **yes** | a.ogg |",
+                               "| hush | af_sky | 1 | 2 | 200 | 14 |  | b.ogg |"], "", ["vessa", "hush"], "x")
+    new = merge_auditions(old, ["| hush | af_nova | 1 | 2 | 210 | 14 |  | c.ogg |"], "hush", ["vessa", "hush"], "y")
+    need("a.ogg" in new and "c.ogg" in new and "b.ogg" not in new and new.index("a.ogg") < new.index("c.ogg"),
+         f"auditions merge:\n{new}")
+    if fails:
+        print("FAIL voice_forge selftest: " + " | ".join(fails))
+        return 1
+    print("PASS voice_forge selftest (direction tags, speed-fit, manifest compat, auditions merge)")
     return 0
 
 
@@ -513,7 +702,9 @@ def main(argv: list) -> int:
         return generate(opts)
     if verb == "audition":
         return audition(opts)
-    print(f'unknown verb "{verb}" -> extract | generate | audition')
+    if verb == "selftest":
+        return selftest()
+    print(f'unknown verb "{verb}" -> extract | generate | audition | selftest')
     return 2
 
 

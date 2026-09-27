@@ -5,6 +5,7 @@
   "docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines",
   "docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines",
   "scripts/campaign/mission_01.gd: 15 lines",
+  "data/cinematics/src/ep2_opening.cine: 28 lines",
   "data/cinematics/src/prologue_3min.cine: 30 lines",
   "data/cinematics/src/two_wizards.cine: 1 lines",
   "data/cinematics/src/watch_keep.cine: 4 lines",
@@ -24,9 +25,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:152",
+     "ref": "ep2_opening/S13@0.1",
+     "slot": 2.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "ashby"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L26",
-     "slot": 3.7,
+     "slot": 2.9,
      "slot_kind": "cine slot",
      "speaker_id": "ashby"
     }
@@ -40,9 +49,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:99",
+     "ref": "ep2_opening/S05@0.4",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ashby"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L07",
-     "slot": 3.2,
+     "slot": 2.6,
      "slot_kind": "cine slot",
      "speaker_id": "ashby"
     }
@@ -54,6 +71,14 @@
    "text": "Three relics! One Colossus! Drink!",
    "text_hash": "cbec31ed6070c157",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:86",
+     "ref": "ep2_opening/S04@0.3",
+     "slot": 3.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "ashby"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
@@ -70,6 +95,14 @@
    "text": "Come on, my queen! One dance!",
    "text_hash": "d768fe5e2d8e3de6",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:62",
+     "ref": "ep2_opening/S02@0.3",
+     "slot": 2.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "dancer"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
@@ -392,7 +425,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:266",
+     "source": "data/cinematics/src/prologue_3min.cine:287",
      "ref": "prologue_3min/S27@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -416,7 +449,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:207",
+     "source": "data/cinematics/src/prologue_3min.cine:216",
      "ref": "prologue_3min/S20@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -440,7 +473,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:249",
+     "source": "data/cinematics/src/prologue_3min.cine:265",
      "ref": "prologue_3min/S24@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -464,7 +497,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:162",
+     "source": "data/cinematics/src/prologue_3min.cine:168",
      "ref": "prologue_3min/S16@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -488,7 +521,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:287",
+     "source": "data/cinematics/src/prologue_3min.cine:308",
      "ref": "prologue_3min/S28@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -512,7 +545,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:54",
+     "source": "data/cinematics/src/prologue_3min.cine:60",
      "ref": "prologue_3min/S04@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -536,7 +569,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:113",
+     "source": "data/cinematics/src/prologue_3min.cine:119",
      "ref": "prologue_3min/S12@0.1",
      "slot": 2.8,
      "slot_kind": "cine shot",
@@ -560,7 +593,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:138",
+     "source": "data/cinematics/src/prologue_3min.cine:144",
      "ref": "prologue_3min/S15@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -584,7 +617,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:61",
+     "source": "data/cinematics/src/prologue_3min.cine:67",
      "ref": "prologue_3min/S06@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -608,7 +641,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:211",
+     "source": "data/cinematics/src/prologue_3min.cine:221",
      "ref": "prologue_3min/S21@0.3",
      "slot": 7.6,
      "slot_kind": "cine shot",
@@ -632,7 +665,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:51",
+     "source": "data/cinematics/src/prologue_3min.cine:57",
      "ref": "prologue_3min/S03@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -656,7 +689,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:119",
+     "source": "data/cinematics/src/prologue_3min.cine:125",
      "ref": "prologue_3min/S13@0.8",
      "slot": 5.1,
      "slot_kind": "cine shot",
@@ -680,7 +713,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:254",
+     "source": "data/cinematics/src/prologue_3min.cine:273",
      "ref": "prologue_3min/S25@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -704,7 +737,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:297",
+     "source": "data/cinematics/src/prologue_3min.cine:320",
      "ref": "prologue_3min/S30@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -728,7 +761,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:291",
+     "source": "data/cinematics/src/prologue_3min.cine:314",
      "ref": "prologue_3min/S29@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -752,7 +785,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:57",
+     "source": "data/cinematics/src/prologue_3min.cine:63",
      "ref": "prologue_3min/S05@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -776,7 +809,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:177",
+     "source": "data/cinematics/src/prologue_3min.cine:185",
      "ref": "prologue_3min/S18@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -800,7 +833,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:88",
+     "source": "data/cinematics/src/prologue_3min.cine:94",
      "ref": "prologue_3min/S09@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -824,7 +857,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:230",
+     "source": "data/cinematics/src/prologue_3min.cine:240",
      "ref": "prologue_3min/S23@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -848,7 +881,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:181",
+     "source": "data/cinematics/src/prologue_3min.cine:190",
      "ref": "prologue_3min/S19@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -872,7 +905,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:45",
+     "source": "data/cinematics/src/prologue_3min.cine:51",
      "ref": "prologue_3min/S01@1.2",
      "slot": 5.7,
      "slot_kind": "cine shot",
@@ -896,7 +929,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:169",
+     "source": "data/cinematics/src/prologue_3min.cine:175",
      "ref": "prologue_3min/S17@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -920,7 +953,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:65",
+     "source": "data/cinematics/src/prologue_3min.cine:71",
      "ref": "prologue_3min/S07@0.3",
      "slot": 4.6,
      "slot_kind": "cine shot",
@@ -944,7 +977,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:48",
+     "source": "data/cinematics/src/prologue_3min.cine:54",
      "ref": "prologue_3min/S02@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -968,7 +1001,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:97",
+     "source": "data/cinematics/src/prologue_3min.cine:103",
      "ref": "prologue_3min/S10@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -992,7 +1025,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:221",
+     "source": "data/cinematics/src/prologue_3min.cine:231",
      "ref": "prologue_3min/S22@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1016,7 +1049,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:80",
+     "source": "data/cinematics/src/prologue_3min.cine:86",
      "ref": "prologue_3min/S08@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -1040,7 +1073,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:128",
+     "source": "data/cinematics/src/prologue_3min.cine:134",
      "ref": "prologue_3min/S14@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1064,7 +1097,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:260",
+     "source": "data/cinematics/src/prologue_3min.cine:280",
      "ref": "prologue_3min/S26@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1088,7 +1121,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:105",
+     "source": "data/cinematics/src/prologue_3min.cine:111",
      "ref": "prologue_3min/S11@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -1112,9 +1145,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:125",
+     "ref": "ep2_opening/S08@2.1",
+     "slot": 2.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L15",
-     "slot": 1.9,
+     "slot": 2.1,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1128,9 +1169,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:119",
+     "ref": "ep2_opening/S07@3.9",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L13",
-     "slot": 1.9,
+     "slot": 1.6,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1144,9 +1193,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:126",
+     "ref": "ep2_opening/S08@4.2",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L16",
-     "slot": 2.5,
+     "slot": 1.8,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1160,9 +1217,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:117",
+     "ref": "ep2_opening/S07@0.3",
+     "slot": 1.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L11",
-     "slot": 1.2,
+     "slot": 1.7,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1176,9 +1241,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:109",
+     "ref": "ep2_opening/S06@0.4",
+     "slot": 1.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L08",
-     "slot": 1.2,
+     "slot": 1.7,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1192,9 +1265,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:136",
+     "ref": "ep2_opening/S10@2.1",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L20",
-     "slot": 2.7,
+     "slot": 2.4,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1208,9 +1289,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:135",
+     "ref": "ep2_opening/S10@0.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L19",
-     "slot": 1.4,
+     "slot": 1.8,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1224,9 +1313,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:157",
+     "ref": "ep2_opening/S14@0.1",
+     "slot": 1.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L27",
-     "slot": 1.5,
+     "slot": 1.7,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1240,9 +1337,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:123",
+     "ref": "ep2_opening/S08@0.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L14",
-     "slot": 1.5,
+     "slot": 1.8,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1256,9 +1361,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:111",
+     "ref": "ep2_opening/S06@2.1",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L09",
-     "slot": 1.9,
+     "slot": 2.2,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1272,9 +1385,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:118",
+     "ref": "ep2_opening/S07@2",
+     "slot": 1.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L12",
-     "slot": 1.6,
+     "slot": 1.9,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
     }
@@ -1368,6 +1489,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:56",
+     "ref": "ep2_opening/S01@1.2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "reveler"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L01",
      "slot": 3.8,
@@ -1416,9 +1545,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:143",
+     "ref": "ep2_opening/S11@2.8",
+     "slot": 3.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L23",
-     "slot": 2.8,
+     "slot": 3.2,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
@@ -1432,9 +1569,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:158",
+     "ref": "ep2_opening/S14@1.8",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L28",
-     "slot": 3.2,
+     "slot": 5.2,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
@@ -1448,9 +1593,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:142",
+     "ref": "ep2_opening/S11@0.3",
+     "slot": 2.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L22",
-     "slot": 2.9,
+     "slot": 2.5,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
@@ -1480,9 +1633,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:138",
+     "ref": "ep2_opening/S10@4.5",
+     "slot": 1.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L21",
-     "slot": 1.6,
+     "slot": 1.5,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
@@ -1496,9 +1657,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:132",
+     "ref": "ep2_opening/S09@3",
+     "slot": 1.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L18",
-     "slot": 2.0,
+     "slot": 1.5,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
@@ -1512,9 +1681,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:114",
+     "ref": "ep2_opening/S06@4.3",
+     "slot": 1.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L10",
-     "slot": 1.6,
+     "slot": 1.7,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
@@ -1542,6 +1719,14 @@
    "text": "One dance. Then I'm eating everything.",
    "text_hash": "faec23ce3539c938",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:64",
+     "ref": "ep2_opening/S02@2.1",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
@@ -1640,6 +1825,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:78",
+     "ref": "ep2_opening/S03@0.3",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L04",
      "slot": 1.6,
@@ -1654,6 +1847,14 @@
    "text": "Vey. Ride with me?",
    "text_hash": "5b43aae2212b97c6",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:146",
+     "ref": "ep2_opening/S12@0.3",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
@@ -1720,6 +1921,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:80",
+     "ref": "ep2_opening/S03@1.9",
+     "slot": 4.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L05",
      "slot": 4.1,
@@ -1736,9 +1945,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:131",
+     "ref": "ep2_opening/S09@0.5",
+     "slot": 2.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L17",
-     "slot": 2.4,
+     "slot": 2.5,
      "slot_kind": "cine slot",
      "speaker_id": "vey"
     }
@@ -1752,9 +1969,17 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep2_opening.cine:148",
+     "ref": "ep2_opening/S12@1.9",
+     "slot": 3.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep2_opening.json",
      "ref": "ep2_opening/L25",
-     "slot": 3.0,
+     "slot": 3.1,
      "slot_kind": "cine slot",
      "speaker_id": "vey"
     }

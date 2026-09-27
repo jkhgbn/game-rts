@@ -87,6 +87,7 @@ static func evaluate(ctx: Dictionary) -> Dictionary:
 	_player_checks(ctx)
 	_voice_checks(ctx)
 	_event_checks(ctx)
+	_speech_checks(ctx)
 	# ---- score
 	var groups := {}
 	for c: Dictionary in _checks:
@@ -505,6 +506,95 @@ static func _event_checks(ctx: Dictionary) -> void:
 			fix, "ev_" + str(e["status"]) + ("_core" if e["core"] else ""))
 
 
+# ------------------------------------------------------------------ spoken lines
+
+static func _median(a: Array) -> float:
+	if a.is_empty():
+		return NAN
+	var s := a.duplicate()
+	s.sort()
+	var n := s.size()
+	return float(s[n / 2]) if n % 2 == 1 else 0.5 * (float(s[n / 2 - 1]) + float(s[n / 2]))
+
+
+## ctx.speech rows {id, speaker, path, lufs, tp, dur, error} -> {speaker: {n, median, lo, hi, tp_max, dur_s}} +
+## "_all" = the median of the speaker medians.
+static func speech_stats(rows: Array) -> Dictionary:
+	var by := {}
+	for r: Dictionary in rows:
+		if str(r.get("error", "")) != "" or r.get("lufs") == null or is_inf(float(r["lufs"])):
+			continue
+		var s := str(r["speaker"])
+		if not by.has(s):
+			by[s] = {"l": [], "tp": -INF, "dur": 0.0}
+		(by[s]["l"] as Array).append(float(r["lufs"]))
+		by[s]["tp"] = maxf(float(by[s]["tp"]), float(r.get("tp", -INF)))
+		by[s]["dur"] = float(by[s]["dur"]) + float(r.get("dur", 0.0))
+	var out := {}
+	var meds := []
+	for s: String in by:
+		var l: Array = by[s]["l"]
+		var med := _median(l)
+		meds.append(med)
+		out[s] = {"n": l.size(), "median": med, "lo": l.min(), "hi": l.max(), "tp_max": by[s]["tp"], "dur_s": by[s]["dur"]}
+	out["_all"] = _median(meds)
+	return out
+
+
+## Loudness per speaker: every speaker's median in SPEECH_LUFS, within SPEECH_SPEAKER_TOL of the others, every line
+## within SPEECH_LINE_TOL of its speaker, true peak, decode errors.
+static func _speech_checks(ctx: Dictionary) -> void:
+	var rows: Array = ctx.get("speech", [])
+	if rows.is_empty():
+		return
+	var st := speech_stats(rows)
+	var ref_med := float(st["_all"])
+	for r: Dictionary in rows:
+		if str(r.get("error", "")) != "":
+			_add("speech", str(r["id"]), "FAIL", str(r["error"]), "every voice line decodes",
+				"Re-render it (run_voice_forge.ps1 build) and re-import.", "speech_err")
+	for s: String in st:
+		if s == "_all":
+			continue
+		var d: Dictionary = st[s]
+		var med := float(d["median"])
+		var lo: float = Rules.SPEECH_LUFS.x
+		var hi: float = Rules.SPEECH_LUFS.y
+		var status := "PASS"
+		if med < lo or med > hi:
+			status = "WARN" if (lo - med if med < lo else med - hi) <= Rules.LOUDNESS_TOL else "FAIL"
+		var off := med - ref_med
+		if status == "PASS" and absf(off) > Rules.SPEECH_SPEAKER_TOL:
+			status = "WARN"
+		if status != "PASS":
+			_short = "%+.0f dB" % (clampf(ref_med, lo, hi) - med)
+		_add("speech", s, status, "median %s LUFS (%s vs all speakers %s), %d lines %s..%s, %.0f s, peak %s dBTP" % [
+			f1(med), "%+.1f dB" % off, f1(ref_med), int(d["n"]), f1(d["lo"]), f1(d["hi"]), float(d["dur_s"]), f1(d["tp_max"])],
+			"speaker median %.0f..%.0f LUFS, within %.0f dB of the others" % [lo, hi, Rules.SPEECH_SPEAKER_TOL],
+			"Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"speech_speaker")
+		if float(d["tp_max"]) > Rules.SPEECH_TP_WARN:
+			_add("speech", s + " peak", "WARN", "%s dBTP" % f1(d["tp_max"]), "voice true peak <= %.1f dBTP" % Rules.SPEECH_TP_WARN,
+				"Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).",
+				"speech_tp")
+	var outliers := []
+	var bad := 0
+	for r: Dictionary in rows:
+		if str(r.get("error", "")) != "" or r.get("lufs") == null or not st.has(str(r["speaker"])):
+			continue
+		var dev := float(r["lufs"]) - float(st[str(r["speaker"])]["median"])
+		if absf(dev) > Rules.SPEECH_LINE_TOL:
+			outliers.append("%s %+.1f dB" % [r["id"], dev])
+			if absf(dev) > Rules.SPEECH_LINE_FAIL:
+				bad += 1
+	_add("speech", "lines vs their speaker", "PASS" if outliers.is_empty() else ("FAIL" if bad > 0 else "WARN"),
+		"%d / %d lines off by > %.0f dB%s" % [outliers.size(), rows.size(), Rules.SPEECH_LINE_TOL,
+		(": " + ", ".join(PackedStringArray(outliers.slice(0, 5)))) if not outliers.is_empty() else ""],
+		"every line within %.0f dB of its speaker's median (FAIL > %.0f)" % [Rules.SPEECH_LINE_TOL, Rules.SPEECH_LINE_FAIL],
+		"Re-render the listed lines (a direction tag like [whisper] explains a quiet one: note it in the listening sheet).",
+		"speech_line")
+
+
 # ------------------------------------------------------------------ improve next
 
 static func _improve_next(ctx: Dictionary) -> Array:
@@ -594,7 +684,8 @@ static func _write_json(ctx: Dictionary, res: Dictionary, path: String) -> void:
 		"mode": ctx["mode"], "target": ctx["target"], "kind": ctx["kind"], "score": res["score"], "counts":
 		res["counts"], "group_scores": res["group_scores"], "improve_next": res["improve"], "checks": res["checks"],
 		"cues": cues, "players": ctx["players"], "events": ctx.get("events", []), "fight": ctx.get("fight", {}),
-		"battle_bed_band_db": res["bed"], "rules": {"loudness": Rules.LOUDNESS, "ref_distance": Rules.REF_DISTANCE}}
+		"battle_bed_band_db": res["bed"], "speech": ctx.get("speech", []),
+		"speech_by_speaker": speech_stats(ctx.get("speech", [])) if not (ctx.get("speech", []) as Array).is_empty() else {}, "rules": {"loudness": Rules.LOUDNESS, "ref_distance": Rules.REF_DISTANCE}}
 	var f := FileAccess.open(path, FileAccess.WRITE)
 	f.store_string(JSON.stringify(_jsonable(doc), "\t"))
 	f.close()
