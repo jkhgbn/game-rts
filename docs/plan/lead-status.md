@@ -183,3 +183,21 @@ Error Lab day-end baseline: 230/235 PASS. FAIL: test_10_a3 (no B7 Guard flag aft
 Fix agent (00:30, d9d464a): Error Lab caps 20_a2 60000 / 20_a3 80000 / 9_c11 95000 (also in scratchpad ci.ps1); RID leaks INFO; $ExpectedRx for art_lab nope.tscn. test_20_a2 PASS on rerun. Reruns of 20_a3 / 9_c11 / replay_lab / 10_a3 logged in %TEMP%\claude\t*.log. OPEN: test_10_a3 B7 Guard flag needs a forward hall within 14 m of the natural (test places none; 20.A3 changed expansion timing) -> make _raid_stage ensure a barracks or skip B7. test_replay_lab non-deterministic (diverges frame 600) -> check rerun alone; determinism owner task either way.
 
 test_10_a3 rerun (00:34): FAIL again, 2 errors -> 'normal: the Coin-Cutter ignored a looting Magpie 8 s (intent Raiding)' + 'hard: no B7 Guard flag after a raid'. test_20_a3 rerun PASS. Fix agent for 10_a3 first thing next session (log: %TEMP%\claude\t10a3.log, copy it before temp cleanup).
+
+## Update 12 (2026-09-27, LAPTOP session, 06:50-15:40 local)
+Repo now at `Documents\four-wizards-rts` on the laptop (fresh git from desktop a5aaecf, first commit f53e3d7; Godot C:\Godot;
+Kokoro venv + models in `Documents\four-wizards-voice\`; free-tools downloads in `Documents\four-wizards-free-tools\`).
+Playtest copy: worktree `Documents\four-wizards-rts-play` at tag `playtest-2026-09-27-candidate` (CI 240/248, smoke 3/3;
+fails = AI timing on a loaded PC + known replay drift); Desktop shortcut "Four Wizards - Playtest"; prologue video
+Desktop "Four Wizards - Prologue.avi" (tag prologue-render-2026-09-27, grade 76.4).
+Done today: test_10_a3 fix; tools 1 (runtime), 2 (cine), 3 (Lens), 6 (World Forge + terrain); all 13 labs reviewed;
+Art Lab v3 (split, batch, fixes.json, compare/focus, calibration, craft C1-C4, reach A3r, cast shot); effort trial ->
+art at MEDIUM (JS pick); art: Vinelasher, Pyre Adept, Hexweaver, Frostbow, Scorchbow, Bleakbow, Wildwood Archer, Vessa face;
+4 bowmen gameplay (player upgrade buttons missing: ui-coder); Voice Forge (Kokoro, cast in memory voice-cast) + VoicePlayer;
+upscaler FSR option; caravans pop 0; designs: level-boons, t3-helpers, episode3-4-opening, prologue-3min, episode2-opening,
+new-maps, map-2v2-audit (2v2 enemy ~2.5x ally); upgrades U1 U4 U5 U6 U7 (fonts/theme, credits, Phantom Camera on,
+Proton Scatter installed OFF: scatter.gd:240 parse error).
+Next after JS's playtest: his notes; U2 (cine record size, set VFX cues) + U3 (World Forge flock line, keep_height, Lens);
+quiet-PC checklist (error-lab.md 3f: replay avoidance A/B, perf baseline, AI timing); STR/INT + level boons build
+(ideas-inbox.md: STR/INT picked at match start, locked; readable buff VFX; ability timing still open); bowmen UI buttons;
+questions pending JS: level-boons (5), t3-helpers (5), episode3-4 (6), new-maps (5), bowmen kingdom mapping.
