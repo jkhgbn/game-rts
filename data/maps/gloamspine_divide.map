@@ -1,0 +1,56 @@
+# Gloamspine Divide (2v2) concept, docs/design/new-maps.md 4.4 (draft spec). Built for the 2v2 content / travel-time
+# audit (docs/design/map-2v2-audit.md). Canonical quadrant A1 (x < 0, z > 0).
+map gloamspine_divide  size=160  symmetry=fourfold  title="Gloamspine Divide (2v2)"  spec=docs/design/new-maps.md
+seat 0  name="player (A1 south-west)"   side=0  frame=identity
+seat 3  name="ally (A2 north-west)"     side=0  frame=mirror_z
+seat 1  name="enemy (B1 north-east)"    side=1  frame=rot180
+seat 4  name="enemy 2 (B2 south-east)"  side=1  frame=mirror_x
+keep    keep        at=(-62,62)  footprint=6
+start   hub         at=(-55,55)
+node    node_a      at=(-65,53)  amount=2000
+node    node_b      at=(-53,65)  amount=2000
+node    natural     at=(-35,25)  amount=2500
+node    glade_vein  at=(-60,15.5) amount=1500
+camp    stag        at=(-56,9)   tier=3
+node    rich        at=(-14,58)  amount=2500
+slot    X2          at=(-22,60)
+point   fenwatch    at=(-8,50)   sub=watchtower
+point   well        at=(-26,12)  sub=well
+camp    wallow      at=(-40,72)  tier=1
+tavern  tavern      at=(-18,22)
+peddler peddler     at=(-30,44)
+post    fen_post    at=(-74,30)
+post    spine_post  at=(-30,74)
+lair    heath_lair  at=(-77,42)  r=4
+lair    mouth_lair  at=(-12,76)  r=5
+cache   cache       at=(-44,40)
+# 2v2 audit fixes (docs/design/map-2v2-audit.md): per-seat river objectives (points 10 -> 14, camps 12 -> 16)
+point   fordwatch   at=(-8,29)   sub=watchtower
+camp    bridge_nest at=(-5,58)   tier=2
+guild   den         at=(-76,0)
+guild   lodge       at=(-64,0)
+point   shrine      at=(-70,0)   sub=shrine
+block   spine_m     at=(-52,0)   size=(16,4)  yaw=0
+camp    hollow      at=(-40,0)   tier=2
+block   spine_e     at=(-25,0)   size=(22,4)  yaw=0
+crown   crown       at=(0,0)
+camp    ford_nest   at=(0,36)    tier=2
+road  ring   poly=[(-55,55),(-72,30),(-70,4),(-70,0)]  width=3
+road  south  poly=[(-55,55),(-30,70),(0,68)]  width=3
+road  lane   poly=[(-55,55),(-9.02,9.02)]  width=5
+zone  mud_ford      circle((-5,36),3)       biome=marsh
+zone  mud_gate      circle((-40,4),3)       biome=marsh
+zone  forest_spine  rect((-60,2),(-44,8))   biome=old_wood
+zone  snow_mouth    circle((-12,76),5)      biome=snow
+zone  ash_well      circle((-26,12),4)      biome=ash
+river north  poly=[(0,-82),(0,-40),(0,-12.75)]  half_width=2.5
+river south  poly=[(0,12.75),(0,40),(0,82)]     half_width=2.5
+moat  center=(0,0)  radius=12.75  half_width=1.75
+crossing bridge_road_s  kind=bridge_road  at=(0,68)   width=6  length=9  dir=(1,0)
+crossing bridge_road_n  kind=bridge_road  at=(0,-68)  width=6  length=9  dir=(1,0)
+crossing ford_s    kind=ford  at=(0,36)   width=7  dir=(0,1)
+crossing ford_n    kind=ford  at=(0,-36)  width=7  dir=(0,1)
+crossing crown_sw  kind=bridge_lane  at=(-9.02,9.02)   width=8  length=6.5  dir=(-1,1)
+crossing crown_nw  kind=bridge_lane  at=(-9.02,-9.02)  width=8  length=6.5  dir=(-1,-1)
+crossing crown_ne  kind=bridge_lane  at=(9.02,-9.02)   width=8  length=6.5  dir=(1,-1)
+crossing crown_se  kind=bridge_lane  at=(9.02,9.02)    width=8  length=6.5  dir=(1,1)

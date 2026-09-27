@@ -31,6 +31,10 @@ camp    bristleback at=(-40,80)  tier=1
 lair    heath_lair  at=(-78,40)  r=4
 lair    mouth_lair  at=(-9,80)   r=5
 cache   cache       at=(-50,22)
+# 2v2 audit fixes (docs/design/map-2v2-audit.md, 2026-09-27): per-seat contested river objectives, so each player
+# has fights on the river line, not only the 3 shared spots (crown + 2 nests); points 10 -> 14, camps 12 -> 16.
+point   fordwatch   at=(-8,31)   sub=watchtower
+camp    bridge_nest at=(-5,63)   tier=2
 
 # ally midline (2.5): on z = 0, so once per side
 guild   magpie_den      at=(-79,0)

@@ -1,0 +1,1125 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_mqxd3"]
+
+[resource]
+script = ExtResource("1_mqxd3")
+id = &"kinhearth_vale"
+title = "Kinhearth Vale (2v2)"
+size = 176.0
+symmetry = "fourfold"
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "player (A1 west-south)",
+"side": 0,
+"team": 0
+}, {
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0),
+"frame_name": "mirror_z",
+"name": "ally (A2 west-north)",
+"side": 0,
+"team": 3
+}, {
+"frame": Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0),
+"frame_name": "rot180",
+"name": "enemy (B1 east-north)",
+"side": 1,
+"team": 1
+}, {
+"frame": Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "mirror_x",
+"name": "enemy 2 (B2 east-south)",
+"side": 1,
+"team": 4
+}])
+spots = Array[Dictionary]([{
+"id": "keep_a1",
+"kind": "keep",
+"pos": Vector3(-68, 0, 30),
+"props": {
+"footprint": 6.0
+},
+"sub": "",
+"team": 0,
+"twin_of": "keep"
+}, {
+"id": "keep_a2",
+"kind": "keep",
+"pos": Vector3(-68, 0, -30),
+"props": {
+"footprint": 6.0
+},
+"sub": "",
+"team": 3,
+"twin_of": "keep"
+}, {
+"id": "keep_b1",
+"kind": "keep",
+"pos": Vector3(68, 0, -30),
+"props": {
+"footprint": 6.0
+},
+"sub": "",
+"team": 1,
+"twin_of": "keep"
+}, {
+"id": "keep_b2",
+"kind": "keep",
+"pos": Vector3(68, 0, 30),
+"props": {
+"footprint": 6.0
+},
+"sub": "",
+"team": 4,
+"twin_of": "keep"
+}, {
+"id": "hub_a1",
+"kind": "start",
+"pos": Vector3(-61, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "hub"
+}, {
+"id": "hub_a2",
+"kind": "start",
+"pos": Vector3(-61, 0, -23),
+"props": {},
+"sub": "",
+"team": 3,
+"twin_of": "hub"
+}, {
+"id": "hub_b1",
+"kind": "start",
+"pos": Vector3(61, 0, -23),
+"props": {},
+"sub": "",
+"team": 1,
+"twin_of": "hub"
+}, {
+"id": "hub_b2",
+"kind": "start",
+"pos": Vector3(61, 0, 23),
+"props": {},
+"sub": "",
+"team": 4,
+"twin_of": "hub"
+}, {
+"id": "node_a_a1",
+"kind": "node",
+"pos": Vector3(-71, 0, 21),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_a"
+}, {
+"id": "node_a_a2",
+"kind": "node",
+"pos": Vector3(-71, 0, -21),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_a"
+}, {
+"id": "node_a_b1",
+"kind": "node",
+"pos": Vector3(71, 0, -21),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_a"
+}, {
+"id": "node_a_b2",
+"kind": "node",
+"pos": Vector3(71, 0, 21),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_a"
+}, {
+"id": "node_b_a1",
+"kind": "node",
+"pos": Vector3(-59, 0, 33),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_b"
+}, {
+"id": "node_b_a2",
+"kind": "node",
+"pos": Vector3(-59, 0, -33),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_b"
+}, {
+"id": "node_b_b1",
+"kind": "node",
+"pos": Vector3(59, 0, -33),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_b"
+}, {
+"id": "node_b_b2",
+"kind": "node",
+"pos": Vector3(59, 0, 33),
+"props": {
+"amount": 2000.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "node_b"
+}, {
+"id": "natural_a1",
+"kind": "node",
+"pos": Vector3(-40, 0, 48),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "natural"
+}, {
+"id": "natural_a2",
+"kind": "node",
+"pos": Vector3(-40, 0, -48),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "natural"
+}, {
+"id": "natural_b1",
+"kind": "node",
+"pos": Vector3(40, 0, -48),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "natural"
+}, {
+"id": "natural_b2",
+"kind": "node",
+"pos": Vector3(40, 0, 48),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "natural"
+}, {
+"id": "X1_a1",
+"kind": "slot",
+"pos": Vector3(-46, 0, 54),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X1"
+}, {
+"id": "X1_a2",
+"kind": "slot",
+"pos": Vector3(-46, 0, -54),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X1"
+}, {
+"id": "X1_b1",
+"kind": "slot",
+"pos": Vector3(46, 0, -54),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X1"
+}, {
+"id": "X1_b2",
+"kind": "slot",
+"pos": Vector3(46, 0, 54),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X1"
+}, {
+"id": "rich_a1",
+"kind": "node",
+"pos": Vector3(-24, 0, 72),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich"
+}, {
+"id": "rich_a2",
+"kind": "node",
+"pos": Vector3(-24, 0, -72),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich"
+}, {
+"id": "rich_b1",
+"kind": "node",
+"pos": Vector3(24, 0, -72),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich"
+}, {
+"id": "rich_b2",
+"kind": "node",
+"pos": Vector3(24, 0, 72),
+"props": {
+"amount": 2500.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich"
+}, {
+"id": "X2_a1",
+"kind": "slot",
+"pos": Vector3(-32, 0, 66),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X2"
+}, {
+"id": "X2_a2",
+"kind": "slot",
+"pos": Vector3(-32, 0, -66),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X2"
+}, {
+"id": "X2_b1",
+"kind": "slot",
+"pos": Vector3(32, 0, -66),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X2"
+}, {
+"id": "X2_b2",
+"kind": "slot",
+"pos": Vector3(32, 0, 66),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "X2"
+}, {
+"id": "vale_watch_a1",
+"kind": "point",
+"pos": Vector3(-12, 0, 58),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "vale_watch"
+}, {
+"id": "vale_watch_a2",
+"kind": "point",
+"pos": Vector3(-12, 0, -58),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "vale_watch"
+}, {
+"id": "vale_watch_b1",
+"kind": "point",
+"pos": Vector3(12, 0, -58),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "vale_watch"
+}, {
+"id": "vale_watch_b2",
+"kind": "point",
+"pos": Vector3(12, 0, 58),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "vale_watch"
+}, {
+"id": "well_a1",
+"kind": "point",
+"pos": Vector3(-34, 0, 30),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "well_a2",
+"kind": "point",
+"pos": Vector3(-34, 0, -30),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "well_b1",
+"kind": "point",
+"pos": Vector3(34, 0, -30),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "well_b2",
+"kind": "point",
+"pos": Vector3(34, 0, 30),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "wallow_a1",
+"kind": "camp",
+"pos": Vector3(-58, 0, 72),
+"props": {
+"tier": 1.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "wallow_a2",
+"kind": "camp",
+"pos": Vector3(-58, 0, -72),
+"props": {
+"tier": 1.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "wallow_b1",
+"kind": "camp",
+"pos": Vector3(58, 0, -72),
+"props": {
+"tier": 1.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "wallow_b2",
+"kind": "camp",
+"pos": Vector3(58, 0, 72),
+"props": {
+"tier": 1.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "stag_a1",
+"kind": "camp",
+"pos": Vector3(-18, 0, 40),
+"props": {
+"tier": 3.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "stag_a2",
+"kind": "camp",
+"pos": Vector3(-18, 0, -40),
+"props": {
+"tier": 3.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "stag_b1",
+"kind": "camp",
+"pos": Vector3(18, 0, -40),
+"props": {
+"tier": 3.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "stag_b2",
+"kind": "camp",
+"pos": Vector3(18, 0, 40),
+"props": {
+"tier": 3.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "tavern_a1",
+"kind": "tavern",
+"pos": Vector3(-26, 0, 14),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "tavern"
+}, {
+"id": "tavern_a2",
+"kind": "tavern",
+"pos": Vector3(-26, 0, -14),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "tavern"
+}, {
+"id": "tavern_b1",
+"kind": "tavern",
+"pos": Vector3(26, 0, -14),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "tavern"
+}, {
+"id": "tavern_b2",
+"kind": "tavern",
+"pos": Vector3(26, 0, 14),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "tavern"
+}, {
+"id": "peddler_a1",
+"kind": "peddler",
+"pos": Vector3(-50, 0, 64),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "peddler_a2",
+"kind": "peddler",
+"pos": Vector3(-50, 0, -64),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "peddler_b1",
+"kind": "peddler",
+"pos": Vector3(50, 0, -64),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "peddler_b2",
+"kind": "peddler",
+"pos": Vector3(50, 0, 64),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "vale_post_a1",
+"kind": "post",
+"pos": Vector3(-46, 0, 82),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "vale_post"
+}, {
+"id": "vale_post_a2",
+"kind": "post",
+"pos": Vector3(-46, 0, -82),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "vale_post"
+}, {
+"id": "vale_post_b1",
+"kind": "post",
+"pos": Vector3(46, 0, -82),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "vale_post"
+}, {
+"id": "vale_post_b2",
+"kind": "post",
+"pos": Vector3(46, 0, 82),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "vale_post"
+}, {
+"id": "corner_post_a1",
+"kind": "post",
+"pos": Vector3(-82, 0, 58),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "corner_post"
+}, {
+"id": "corner_post_a2",
+"kind": "post",
+"pos": Vector3(-82, 0, -58),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "corner_post"
+}, {
+"id": "corner_post_b1",
+"kind": "post",
+"pos": Vector3(82, 0, -58),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "corner_post"
+}, {
+"id": "corner_post_b2",
+"kind": "post",
+"pos": Vector3(82, 0, 58),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "corner_post"
+}, {
+"id": "vale_lair_a1",
+"kind": "lair",
+"pos": Vector3(-74, 0, 78),
+"props": {
+"r": 4.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "vale_lair"
+}, {
+"id": "vale_lair_a2",
+"kind": "lair",
+"pos": Vector3(-74, 0, -78),
+"props": {
+"r": 4.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "vale_lair"
+}, {
+"id": "vale_lair_b1",
+"kind": "lair",
+"pos": Vector3(74, 0, -78),
+"props": {
+"r": 4.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "vale_lair"
+}, {
+"id": "vale_lair_b2",
+"kind": "lair",
+"pos": Vector3(74, 0, 78),
+"props": {
+"r": 4.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "vale_lair"
+}, {
+"id": "mouth_lair_a1",
+"kind": "lair",
+"pos": Vector3(-10, 0, 82),
+"props": {
+"r": 5.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "mouth_lair"
+}, {
+"id": "mouth_lair_a2",
+"kind": "lair",
+"pos": Vector3(-10, 0, -82),
+"props": {
+"r": 5.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "mouth_lair"
+}, {
+"id": "mouth_lair_b1",
+"kind": "lair",
+"pos": Vector3(10, 0, -82),
+"props": {
+"r": 5.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "mouth_lair"
+}, {
+"id": "mouth_lair_b2",
+"kind": "lair",
+"pos": Vector3(10, 0, 82),
+"props": {
+"r": 5.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "mouth_lair"
+}, {
+"id": "cache_a1",
+"kind": "cache",
+"pos": Vector3(-50, 0, 42),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache"
+}, {
+"id": "cache_a2",
+"kind": "cache",
+"pos": Vector3(-50, 0, -42),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache"
+}, {
+"id": "cache_b1",
+"kind": "cache",
+"pos": Vector3(50, 0, -42),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache"
+}, {
+"id": "cache_b2",
+"kind": "cache",
+"pos": Vector3(50, 0, 42),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache"
+}, {
+"id": "fordwatch_a1",
+"kind": "point",
+"pos": Vector3(-9, 0, 33),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "fordwatch_a2",
+"kind": "point",
+"pos": Vector3(-9, 0, -33),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "fordwatch_b1",
+"kind": "point",
+"pos": Vector3(9, 0, -33),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "fordwatch_b2",
+"kind": "point",
+"pos": Vector3(9, 0, 33),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "bridge_nest_a1",
+"kind": "camp",
+"pos": Vector3(-6, 0, 64),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
+"id": "bridge_nest_a2",
+"kind": "camp",
+"pos": Vector3(-6, 0, -64),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
+"id": "bridge_nest_b1",
+"kind": "camp",
+"pos": Vector3(6, 0, -64),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
+"id": "bridge_nest_b2",
+"kind": "camp",
+"pos": Vector3(6, 0, 64),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
+"id": "den_a1",
+"kind": "guild",
+"pos": Vector3(-82, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "den"
+}, {
+"id": "den_b1",
+"kind": "guild",
+"pos": Vector3(82, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "den"
+}, {
+"id": "lodge_a1",
+"kind": "guild",
+"pos": Vector3(-58, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "lodge"
+}, {
+"id": "lodge_b1",
+"kind": "guild",
+"pos": Vector3(58, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "lodge"
+}, {
+"id": "green_cache_a1",
+"kind": "cache",
+"pos": Vector3(-44, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "green_cache"
+}, {
+"id": "green_cache_b1",
+"kind": "cache",
+"pos": Vector3(44, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "green_cache"
+}, {
+"id": "shrine_a1",
+"kind": "point",
+"pos": Vector3(-32, 0, 0),
+"props": {},
+"sub": "shrine",
+"team": -1,
+"twin_of": "shrine"
+}, {
+"id": "shrine_b1",
+"kind": "point",
+"pos": Vector3(32, 0, 0),
+"props": {},
+"sub": "shrine",
+"team": -1,
+"twin_of": "shrine"
+}, {
+"id": "crown_a1",
+"kind": "crown",
+"pos": Vector3(0, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "crown"
+}, {
+"id": "ford_nest_a1",
+"kind": "camp",
+"pos": Vector3(0, 0, 40),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "ford_nest"
+}, {
+"id": "ford_nest_a2",
+"kind": "camp",
+"pos": Vector3(0, 0, -40),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "ford_nest"
+}])
+river = Array[Dictionary]([{
+"half_width": 3.0,
+"id": "north",
+"poly": PackedVector3Array(0, 0, -90, 0, 0, -60, 0, 0, -30, 0, 0, -12.75)
+}, {
+"half_width": 3.0,
+"id": "south",
+"poly": PackedVector3Array(0, 0, 12.75, 0, 0, 30, 0, 0, 60, 0, 0, 90)
+}])
+moat = {
+"center": Vector3(0, 0, 0),
+"half_width": 1.75,
+"radius": 12.75
+}
+crossings = Array[Dictionary]([{
+"center": Vector3(0, 0, 74),
+"dir": Vector3(1, 0, 0),
+"id": "bridge_road_s",
+"kind": "bridge_road",
+"length": 10.0,
+"name": "bridge_road_s",
+"width": 6.0
+}, {
+"center": Vector3(0, 0, -74),
+"dir": Vector3(1, 0, 0),
+"id": "bridge_road_n",
+"kind": "bridge_road",
+"length": 10.0,
+"name": "bridge_road_n",
+"width": 6.0
+}, {
+"center": Vector3(0, 0, 40),
+"dir": Vector3(0, 0, 1),
+"id": "ford_s",
+"kind": "ford",
+"length": 7.0,
+"name": "ford_s",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(0, 0, -40),
+"dir": Vector3(0, 0, 1),
+"id": "ford_n",
+"kind": "ford",
+"length": 7.0,
+"name": "ford_n",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(-12.75, 0, 0),
+"dir": Vector3(1, 0, 0),
+"id": "causeway_w",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "causeway_w",
+"width": 10.0
+}, {
+"center": Vector3(12.75, 0, 0),
+"dir": Vector3(1, 0, 0),
+"id": "causeway_e",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "causeway_e",
+"width": 10.0
+}])
+roads = Array[Dictionary]([{
+"id": "ring",
+"poly": PackedVector3Array(-61, 0, 23, -62, 0, 50, -44, 0, 78, 0, 0, 74),
+"width": 3.0
+}, {
+"id": "ring_a2",
+"poly": PackedVector3Array(-61, 0, -23, -62, 0, -50, -44, 0, -78, 0, 0, -74),
+"width": 3.0
+}, {
+"id": "ring_b1",
+"poly": PackedVector3Array(61, 0, -23, 62, 0, -50, 44, 0, -78, 0, 0, -74),
+"width": 3.0
+}, {
+"id": "ring_b2",
+"poly": PackedVector3Array(61, 0, 23, 62, 0, 50, 44, 0, 78, 0, 0, 74),
+"width": 3.0
+}, {
+"id": "corner",
+"poly": PackedVector3Array(-62, 0, 50, -78, 0, 58),
+"width": 3.0
+}, {
+"id": "corner_a2",
+"poly": PackedVector3Array(-62, 0, -50, -78, 0, -58),
+"width": 3.0
+}, {
+"id": "corner_b1",
+"poly": PackedVector3Array(62, 0, -50, 78, 0, -58),
+"width": 3.0
+}, {
+"id": "corner_b2",
+"poly": PackedVector3Array(62, 0, 50, 78, 0, 58),
+"width": 3.0
+}, {
+"id": "green",
+"poly": PackedVector3Array(-61, 0, 23, -52, 0, 8, -52, 0, 0),
+"width": 3.0
+}, {
+"id": "green_a2",
+"poly": PackedVector3Array(-61, 0, -23, -52, 0, -8, -52, 0, 0),
+"width": 3.0
+}, {
+"id": "green_b1",
+"poly": PackedVector3Array(61, 0, -23, 52, 0, -8, 52, 0, 0),
+"width": 3.0
+}, {
+"id": "green_b2",
+"poly": PackedVector3Array(61, 0, 23, 52, 0, 8, 52, 0, 0),
+"width": 3.0
+}, {
+"id": "lane",
+"poly": PackedVector3Array(-61, 0, 23, -12.75, 0, 0),
+"width": 5.0
+}, {
+"id": "lane_a2",
+"poly": PackedVector3Array(-61, 0, -23, -12.75, 0, 0),
+"width": 5.0
+}, {
+"id": "lane_b1",
+"poly": PackedVector3Array(61, 0, -23, 12.75, 0, 0),
+"width": 5.0
+}, {
+"id": "lane_b2",
+"poly": PackedVector3Array(61, 0, 23, 12.75, 0, 0),
+"width": 5.0
+}])
+zones = Array[Dictionary]([{
+"biome": "marsh",
+"center": Vector3(-5, 0, 40),
+"id": "mud_ford",
+"kind": "circle",
+"r0": 0.0,
+"r1": 3.0
+}, {
+"biome": "marsh",
+"center": Vector3(-5, 0, -40),
+"id": "mud_ford_a2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 3.0
+}, {
+"biome": "marsh",
+"center": Vector3(5, 0, -40),
+"id": "mud_ford_b1",
+"kind": "circle",
+"r0": 0.0,
+"r1": 3.0
+}, {
+"biome": "marsh",
+"center": Vector3(5, 0, 40),
+"id": "mud_ford_b2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 3.0
+}, {
+"biome": "snow",
+"center": Vector3(-74, 0, 78),
+"id": "snow_vale",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "snow",
+"center": Vector3(-74, 0, -78),
+"id": "snow_vale_a2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "snow",
+"center": Vector3(74, 0, -78),
+"id": "snow_vale_b1",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "snow",
+"center": Vector3(74, 0, 78),
+"id": "snow_vale_b2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "sand",
+"center": Vector3(-12, 0, 58),
+"id": "sand_watch",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "sand",
+"center": Vector3(-12, 0, -58),
+"id": "sand_watch_a2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "sand",
+"center": Vector3(12, 0, -58),
+"id": "sand_watch_b1",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "sand",
+"center": Vector3(12, 0, 58),
+"id": "sand_watch_b2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 5.0
+}, {
+"biome": "ash",
+"center": Vector3(-44, 0, 0),
+"id": "ash_green",
+"kind": "circle",
+"r0": 0.0,
+"r1": 4.0
+}, {
+"biome": "ash",
+"center": Vector3(-44, 0, 0),
+"id": "ash_green_a2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 4.0
+}, {
+"biome": "ash",
+"center": Vector3(44, 0, 0),
+"id": "ash_green_b1",
+"kind": "circle",
+"r0": 0.0,
+"r1": 4.0
+}, {
+"biome": "ash",
+"center": Vector3(44, 0, 0),
+"id": "ash_green_b2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 4.0
+}])
+source = "res://data/maps/kinhearth_vale.map"
+source_hash = "3b53f6f713f9"

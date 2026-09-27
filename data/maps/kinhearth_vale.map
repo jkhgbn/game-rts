@@ -1,0 +1,52 @@
+# Kinhearth Vale (2v2) concept, docs/design/new-maps.md 4.3 (draft spec). Built for the 2v2 content / travel-time
+# audit (docs/design/map-2v2-audit.md). Canonical quadrant A1 (x < 0, z > 0).
+map kinhearth_vale  size=176  symmetry=fourfold  title="Kinhearth Vale (2v2)"  spec=docs/design/new-maps.md
+seat 0  name="player (A1 west-south)"   side=0  frame=identity
+seat 3  name="ally (A2 west-north)"     side=0  frame=mirror_z
+seat 1  name="enemy (B1 east-north)"    side=1  frame=rot180
+seat 4  name="enemy 2 (B2 east-south)"  side=1  frame=mirror_x
+keep    keep        at=(-68,30)  footprint=6
+start   hub         at=(-61,23)
+node    node_a      at=(-71,21)  amount=2000
+node    node_b      at=(-59,33)  amount=2000
+node    natural     at=(-40,48)  amount=2500
+slot    X1          at=(-46,54)
+node    rich        at=(-24,72)  amount=2500
+slot    X2          at=(-32,66)
+point   vale_watch  at=(-12,58)  sub=watchtower
+point   well        at=(-34,30)  sub=well
+camp    wallow      at=(-58,72)  tier=1
+camp    stag        at=(-18,40)  tier=3
+tavern  tavern      at=(-26,14)
+peddler peddler     at=(-50,64)
+post    vale_post   at=(-46,82)
+post    corner_post at=(-82,58)
+lair    vale_lair   at=(-74,78)  r=4
+lair    mouth_lair  at=(-10,82)  r=5
+cache   cache       at=(-50,42)
+# 2v2 audit fixes (docs/design/map-2v2-audit.md): per-seat river objectives (points 10 -> 14, camps 10 -> 14)
+point   fordwatch   at=(-9,33)   sub=watchtower
+camp    bridge_nest at=(-6,64)   tier=2
+guild   den         at=(-82,0)
+guild   lodge       at=(-58,0)
+cache   green_cache at=(-44,0)
+point   shrine      at=(-32,0)   sub=shrine
+crown   crown       at=(0,0)
+camp    ford_nest   at=(0,40)    tier=2
+road  ring    poly=[(-61,23),(-62,50),(-44,78),(0,74)]  width=3
+road  corner  poly=[(-62,50),(-78,58)]  width=3
+road  green   poly=[(-61,23),(-52,8),(-52,0)]  width=3
+road  lane    poly=[(-61,23),(-12.75,0)]  width=5
+zone  mud_ford    circle((-5,40),3)    biome=marsh
+zone  snow_vale   circle((-74,78),5)   biome=snow
+zone  sand_watch  circle((-12,58),5)   biome=sand
+zone  ash_green   circle((-44,0),4)    biome=ash
+river north  poly=[(0,-90),(0,-60),(0,-30),(0,-12.75)]  half_width=3
+river south  poly=[(0,12.75),(0,30),(0,60),(0,90)]      half_width=3
+moat  center=(0,0)  radius=12.75  half_width=1.75
+crossing bridge_road_s  kind=bridge_road  at=(0,74)   width=6  length=10  dir=(1,0)
+crossing bridge_road_n  kind=bridge_road  at=(0,-74)  width=6  length=10  dir=(1,0)
+crossing ford_s     kind=ford  at=(0,40)   width=7  dir=(0,1)
+crossing ford_n     kind=ford  at=(0,-40)  width=7  dir=(0,1)
+crossing causeway_w kind=bridge_lane  at=(-12.75,0)  width=10  length=6.5  dir=(1,0)
+crossing causeway_e kind=bridge_lane  at=(12.75,0)   width=10  length=6.5  dir=(1,0)

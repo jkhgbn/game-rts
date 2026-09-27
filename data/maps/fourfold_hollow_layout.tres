@@ -794,6 +794,78 @@ spots = Array[Dictionary]([{
 "team": -1,
 "twin_of": "cache"
 }, {
+"id": "fordwatch_a1",
+"kind": "point",
+"pos": Vector3(-8, 0, 31),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "fordwatch_a2",
+"kind": "point",
+"pos": Vector3(-8, 0, -31),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "fordwatch_b1",
+"kind": "point",
+"pos": Vector3(8, 0, -31),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "fordwatch_b2",
+"kind": "point",
+"pos": Vector3(8, 0, 31),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "fordwatch"
+}, {
+"id": "bridge_nest_a1",
+"kind": "camp",
+"pos": Vector3(-5, 0, 63),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
+"id": "bridge_nest_a2",
+"kind": "camp",
+"pos": Vector3(-5, 0, -63),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
+"id": "bridge_nest_b1",
+"kind": "camp",
+"pos": Vector3(5, 0, -63),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
+"id": "bridge_nest_b2",
+"kind": "camp",
+"pos": Vector3(5, 0, 63),
+"props": {
+"tier": 2.0
+},
+"sub": "",
+"team": -1,
+"twin_of": "bridge_nest"
+}, {
 "id": "magpie_den_a1",
 "kind": "guild",
 "pos": Vector3(-79, 0, 0),
@@ -1096,4 +1168,4 @@ zones = Array[Dictionary]([{
 "r1": 22.0
 }])
 source = "res://data/maps/fourfold_hollow.map"
-source_hash = "12c62c06b891"
+source_hash = "ff4f96af7141"
