@@ -14,6 +14,8 @@ signal destroyed_finished
 const KINGDOM_COLOR := Color(0.35, 0.70, 0.25)
 const GLOW_DEFAULT := Color(0.75, 1.00, 0.40)
 const STRIPE_DEFAULT := Color(0.15, 0.40, 0.15)
+## Canopy in the default (nature) colour: lighter / cooler than the kingdom green so it reads off the meadow (Art Lab R3).
+const LEAF_DEFAULT := Color("#55ffb5")
 const RIM_IDLE := Color(0.72, 0.88, 0.55)
 const RIM_IDLE_STRENGTH := 0.25
 ## Where the trunk breaks when the keep dies: TrunkLow (with the roots) stays as the stump.
@@ -316,10 +318,11 @@ func set_team_color(c: Color) -> void:
 		return
 	var glow: Color = _glow_color()
 	var is_default: bool = c.is_equal_approx(KINGDOM_COLOR)
+	var leaf: Color = LEAF_DEFAULT if is_default else c
 	if leaves_material:
-		leaves_material.set_shader_parameter(&"base_color", c)
+		leaves_material.set_shader_parameter(&"base_color", leaf)
 	if leafcard_material:
-		leafcard_material.set_shader_parameter(&"base_color", c)
+		leafcard_material.set_shader_parameter(&"base_color", leaf)
 		leafcard_material.set_shader_parameter(&"glow_color", glow)
 	for m: ShaderMaterial in [blossom_material, petal_material]:
 		if m:

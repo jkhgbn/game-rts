@@ -113,3 +113,15 @@ Rows of 2026-09-26 = lab v1.0 validation runs (the calibration re-runs were fold
 | 2026-09-26 23:56:39 | ember_archer | unit / soldier | 91 (+0) | FAIL (1F 2W) | Frame cost; Contrast in every team colour (meadow); Silhouette hook | docs/art/lab/ember_archer/scorecard.md |
 | 2026-09-26 23:58:30 | sapling | unit / soldier | 92 (+1) | WARN (0F 2W) | Glow points at 40 m; Contrast vs ground (meadow); Distinct from references (black masks) | docs/art/lab/sapling/scorecard.md |
 | 2026-09-27 07:41:49 | mirefang | unit / creature | 95 (+4) | PASS (0F 0W) | Detail density 25 m / 40 m; Contrast on the other grounds; Tops light, bottoms dark | docs/art/lab/mirefang/scorecard.md |
+| 2026-09-27 10:41:55 | fire_tower | building / small | 85 | FAIL (1F 3W) | Real lights; Materials built per instance; Unique materials | docs/art/lab/fire_tower/scorecard.md |
+| 2026-09-27 10:42:08 | nature_keep | building / keep | 75 | FAIL (3F 4W) | Contrast vs ground (meadow); Vertices; Unique materials | docs/art/lab/nature_keep/scorecard.md |
+| 2026-09-27 10:44:28 | fire_tower | building / small | 89 (+3) | WARN (0F 2W) | Unique materials; Materials built per instance; Silhouette hook | docs/art/lab/fire_tower/scorecard.md |
+| 2026-09-27 10:45:11 | shadow_tower | building / small | 92 | WARN (0F 3W) | Silhouette area at 40 m; Materials built per instance; Unique materials | docs/art/lab/shadow_tower/scorecard.md |
+| 2026-09-27 10:46:35 | fire_tower | building / small | 89 (+0) | WARN (0F 2W) | Unique materials; Materials built per instance; Silhouette hook | docs/art/lab/fire_tower/scorecard.md |
+| 2026-09-27 10:47:04 | shadow_tower | building / small | 92 (+0) | WARN (0F 3W) | Silhouette area at 40 m; Materials built per instance; Unique materials | docs/art/lab/shadow_tower/scorecard.md |
+| 2026-09-27 10:45:18 | nature_keep | building / keep | 79 (+4) | FAIL (2F 5W) | Vertices; Unique materials; Contrast vs ground (meadow) | docs/art/lab/nature_keep/scorecard.md |
+| 2026-09-27 10:48:21 | nature_keep | building / keep | 82 (+3) | FAIL (2F 4W) | Vertices; Unique materials; Contrast in every team colour (meadow) | docs/art/lab/nature_keep/scorecard.md |
+| 2026-09-27 10:51:07 | vinelasher | unit / soldier | 95 | WARN (0F 1W) | Contrast on the home ground (old_wood); Contrast on the other grounds; Style bible: golden autumn (style-autumn.md 3) | docs/art/lab/effort-trial/low/scorecard.md |
+| 2026-09-27 10:49:23 | nature_keep | building / keep | 82 (+0) | FAIL (3F 3W) | Vertices; Unique materials; Frame cost | docs/art/lab/nature_keep/scorecard.md |
+| 2026-09-27 10:52:07 | nature_keep | building / keep | 85 (+3) | FAIL (2F 3W) | Vertices; Unique materials; Glow points at 40 m | docs/art/lab/nature_keep/scorecard.md |
+| 2026-09-27 10:52:19 | vinelasher | unit / soldier | 95 (+0) | WARN (0F 1W) | Contrast on the home ground (old_wood); Contrast on the other grounds; Style bible: golden autumn (style-autumn.md 3) | docs/art/lab/effort-trial/low/scorecard.md |
