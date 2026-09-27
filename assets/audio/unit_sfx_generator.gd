@@ -6,6 +6,8 @@ extends SceneTree
 ##   res://assets/audio/sfx/hit_<family>.wav    the unit is hit
 ##   res://assets/audio/sfx/death_<family>.wav  the unit dies (joins the Audio Lab death_* family, 3 dB)
 ## Families: blade, heavy, whip, bow, bolt, siege, magic, storm, beast.
+## Each cue also gets 2 takes (<id>_1.wav, <id>_2.wav, see TAKE_VARIANTS): 81 files. GameAudio picks one at random,
+## never the same take twice in a row.
 ## Run: godot --headless --path . -s assets/audio/unit_sfx_generator.gd --quit-after 10, then --import.
 ## Deterministic (fixed seed).
 
@@ -21,7 +23,7 @@ const FAMILIES: Array[String] = ["blade", "heavy", "whip", "bow", "bolt", "siege
 ## same recipe re-rendered with another pitch / length / brightness (and fresh noise), loudness-matched to take 0
 ## (max 200 ms RMS) so a random pick never jumps out (Audio Lab TAKE_TOL 2 dB). [pitch mult, length mult, brightness].
 const TAKE_VARIANTS := [[1.0, 1.0, 1.0], [0.91, 1.12, 0.82], [1.1, 0.9, 1.2]]
-const TAKE_PEAK := 0.87   ## Takes never go above this (-1.2 dBFS) even when the loudness match asks for more.
+const TAKE_PEAK := 0.8   ## Takes never go above this (-1.9 dBFS: the QOA import adds up to ~0.6 dB) even when the loudness match asks for more.
 
 var _buf := PackedFloat32Array()
 var _rng := RandomNumberGenerator.new()
@@ -295,7 +297,8 @@ func _env(t: float, dur: float, attack: float, decay: float) -> float:
 	return e
 
 
-## Normalises _buf to `peak`, fades the last 8 ms, writes a 16-bit mono .wav.
+## Normalises _buf to `peak` (take 0) or to take 0's loudness (takes 1 / 2, capped at TAKE_PEAK), fades the last
+## 8 ms, writes a 16-bit mono .wav (<id>.wav, <id>_1.wav, <id>_2.wav).
 func _save(id: String, peak: float) -> void:
 	var n := mini(int(0.008 * RATE), _buf.size())
 	for k in n:
@@ -304,6 +307,12 @@ func _save(id: String, peak: float) -> void:
 	for v in _buf:
 		top = maxf(top, absf(v))
 	var gain := peak / top if top > 0.0 else 1.0
+	if _take == 0:
+		_ref[id] = _window_rms() * gain
+	elif _ref.has(id) and top > 0.0:
+		gain = minf(float(_ref[id]) / maxf(_window_rms(), 1e-6), TAKE_PEAK / top)
+		id = "%s_%d" % [id, _take]
+	_count += 1
 	var bytes := PackedByteArray()
 	bytes.resize(_buf.size() * 2)
 	for i in _buf.size():
@@ -319,3 +328,21 @@ func _save(id: String, peak: float) -> void:
 		push_error("unit_sfx_generator: could not save %s (%d)" % [path, err])
 	else:
 		print("  %s  %.2f s" % [path, float(_buf.size()) / RATE])
+
+
+## Max RMS over 200 ms windows (50 ms hop) of _buf, before gain: what a take's loudness is matched on.
+func _window_rms() -> float:
+	var win := int(0.2 * RATE)
+	var hop := int(0.05 * RATE)
+	var best := 0.0
+	var s := 0
+	while true:
+		var e := mini(s + win, _buf.size())
+		var acc := 0.0
+		for i in range(s, e):
+			acc += _buf[i] * _buf[i]
+		best = maxf(best, sqrt(acc / float(maxi(1, win))))
+		if e >= _buf.size():
+			break
+		s += hop
+	return best

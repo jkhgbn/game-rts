@@ -113,3 +113,24 @@ Each run of tools/audio_lab/audio_lab.gd appends one entry (newest last): asset 
 - Next 1: **WARN Loudness (in game)** - Raise the in-game level into the range (volume_db in game_audio.gd, or re-render the file)  _(ability_cast +3 dB; spell: -22..-9 cue)_
 - Next 2: **WARN Loudness (in game)** - Re-level the takes (or re-render them) so a random pick never jumps out of the mix.  _(building_hit takes; takes of one cue within 2.0 dB)_
 - Next 3: **WARN Peaks and clipping** - The source file itself peaks at -0.4 dBFS (the import adds -0.1 dB): normalise the file to -1 dBTP.  _(building_collapse, fireball_explode, spell_ember_step; true peak <= -1 dBTP, no clipping)_
+
+## 2026-09-27 18:42:55 - sfx_orders (set `res://assets/audio/sfx`, kind auto)
+
+- Score **97 / 100** - PASS 1515, WARN 31, FAIL 1, INFO 0; 189 cues; scorecard `res://docs/audio/lab/sfx_orders/scorecard.md`
+- Next 1: **FAIL Peaks and clipping** - The QOA import adds +2.1 dB (source peak -2.2 dBFS): set Compress > Mode to PCM or IMA-ADPCM in the Import dock (.import compress/mode), or leave that much headroom in the file.  _(ab_challenge; true peak <= -1 dBTP, no clipping)_
+- Next 2: **WARN Loudness (in game)** - Raise the in-game level into the range (volume_db in game_audio.gd, or re-render the file)  _(ability_cast +3 dB, ui_tab +4 dB, ui_tab_1 +4 dB, ui_tab_2 +4 dB, ui_tier_tick +5 dB; spell: -22..-9 cue)_
+- Next 3: **WARN Spectral balance and masking** - Give it energy where the fight is thin (2-5 kHz presence), or +2 dB; a distinct pitch contour helps.  _(alert_caravan_trained, alert_helper_arrive, alert_helper_revive, alert_path_str, alert_tier_citadel, construction_done (+1 more); alert >= +3 dB over 6 combat voices in one band)_
+
+## 2026-09-27 18:47:25 - sfx_orders (set `res://assets/audio/sfx`, kind auto)
+
+- Score **100 / 100** - PASS 1528, WARN 15, FAIL 0, INFO 0; 189 cues; scorecard `res://docs/audio/lab/sfx_orders/scorecard.md`
+- Next 1: **WARN Spectral balance and masking** - Add 2-5 kHz content so the UI cue reads on small speakers.  _(item_used, ui_click, ui_helper_call, ui_upgrade_cancel; not all-bass (< 85% low), not all-hiss (< 60% air))_
+- Next 2: **WARN Loudness (in game)** - Raise the in-game level into the range (volume_db in game_audio.gd, or re-render the file)  _(ability_cast +3 dB; spell: -22..-9 cue)_
+- Next 3: **WARN Loudness (in game)** - Re-level the takes (or re-render them) so a random pick never jumps out of the mix.  _(building_hit takes; takes of one cue within 2.0 dB)_
+
+## 2026-09-27 18:48:30 - sfx_orders (set `res://assets/audio/sfx`, kind auto)
+
+- Score **100 / 100** - PASS 1530, WARN 13, FAIL 0, INFO 0; 189 cues; scorecard `res://docs/audio/lab/sfx_orders/scorecard.md`
+- Next 1: **WARN Loudness (in game)** - Raise the in-game level into the range (volume_db in game_audio.gd, or re-render the file)  _(ability_cast +3 dB; spell: -22..-9 cue)_
+- Next 2: **WARN Loudness (in game)** - Re-level the takes (or re-render them) so a random pick never jumps out of the mix.  _(building_hit takes; takes of one cue within 2.0 dB)_
+- Next 3: **WARN Peaks and clipping** - The source file itself peaks at -0.4 dBFS (the import adds -0.1 dB): normalise the file to -1 dBTP.  _(building_collapse, fireball_explode, spell_ember_step; true peak <= -1 dBTP, no clipping)_

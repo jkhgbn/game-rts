@@ -1,0 +1,3647 @@
+{
+	"battle_bed_band_db": {
+		"air": -27.051,
+		"low": -19.411,
+		"mid": -17.423,
+		"presence": -24.233
+	},
+	"checks": [
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "aldra",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.3 LUFS (+1.3 dB vs all speakers -14.7), 2 lines -14.7..-11.9, 4 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "ashby",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-3 dB",
+			"status": "WARN",
+			"value": "median -11.9 LUFS (+2.8 dB vs all speakers -14.7), 3 lines -12.5..-11.5, 6 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "dancer",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -16.6 LUFS (-2.0 dB vs all speakers -14.7), 1 lines -16.6..-16.6, 2 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "hush",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (-0.1 dB vs all speakers -14.7), 2 lines -15.8..-13.7, 3 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "maelis",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.9 LUFS (-0.3 dB vs all speakers -14.7), 2 lines -17.7..-12.2, 3 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "malrik",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.5 LUFS (+1.2 dB vs all speakers -14.7), 19 lines -15.8..-11.7, 80 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "master",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -17.0 LUFS (-2.4 dB vs all speakers -14.7), 30 lines -18.7..-14.1, 124 s, peak -0.4 dBTP"
+		},
+		{
+			"fix": "Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).",
+			"group": "speech",
+			"item": "master peak",
+			"key": "speech_tp",
+			"rule": "voice true peak <= -0.5 dBTP",
+			"short": "",
+			"status": "WARN",
+			"value": "-0.4 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "messenger",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.4 LUFS (-0.8 dB vs all speakers -14.7), 11 lines -18.5..-12.5, 16 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "narrator",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "+4 dB",
+			"status": "WARN",
+			"value": "median -18.5 LUFS (-3.9 dB vs all speakers -14.7), 4 lines -20.0..-16.6, 17 s, peak -0.7 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "pell",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.8 LUFS (-1.2 dB vs all speakers -14.7), 1 lines -15.8..-15.8, 6 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "reveler",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.3 LUFS (-0.6 dB vs all speakers -14.7), 1 lines -15.3..-15.3, 2 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "shade",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.8 LUFS (+0.9 dB vs all speakers -14.7), 5 lines -15.0..-11.6, 9 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_ash_hurler",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (-0.0 dB vs all speakers -14.7), 4 lines -17.7..-13.3, 7 s, peak -0.2 dBTP"
+		},
+		{
+			"fix": "Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).",
+			"group": "speech",
+			"item": "unit_ash_hurler peak",
+			"key": "speech_tp",
+			"rule": "voice true peak <= -0.5 dBTP",
+			"short": "",
+			"status": "WARN",
+			"value": "-0.2 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_ashveil_saboteur",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.4 LUFS (+0.2 dB vs all speakers -14.7), 4 lines -15.1..-13.7, 6 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_barrow_ghoul",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.9 LUFS (-1.2 dB vs all speakers -14.7), 4 lines -16.1..-14.7, 5 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_blaze_rider",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.5 LUFS (-0.8 dB vs all speakers -14.7), 4 lines -16.2..-13.2, 4 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_bleakbow",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (-0.1 dB vs all speakers -14.7), 4 lines -16.5..-14.2, 7 s, peak -0.5 dBTP"
+		},
+		{
+			"fix": "Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).",
+			"group": "speech",
+			"item": "unit_bleakbow peak",
+			"key": "speech_tp",
+			"rule": "voice true peak <= -0.5 dBTP",
+			"short": "",
+			"status": "WARN",
+			"value": "-0.5 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_bloomtender",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.6 LUFS (+0.0 dB vs all speakers -14.7), 4 lines -15.4..-13.1, 6 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_bramblehorn",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.9 LUFS (-0.2 dB vs all speakers -14.7), 4 lines -15.9..-14.4, 8 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_burr_slinger",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.4 LUFS (+0.3 dB vs all speakers -14.7), 4 lines -15.7..-13.3, 5 s, peak -0.7 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_cinder_arbalest",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.6 LUFS (+0.0 dB vs all speakers -14.7), 4 lines -15.6..-13.1, 7 s, peak -0.7 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_cinder_hand",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.7 LUFS (+0.9 dB vs all speakers -14.7), 4 lines -14.4..-12.2, 4 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_ember_archer",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.8 LUFS (-0.1 dB vs all speakers -14.7), 4 lines -15.8..-13.9, 5 s, peak -0.7 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_flame_guard",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-2 dB",
+			"status": "WARN",
+			"value": "median -12.7 LUFS (+1.9 dB vs all speakers -14.7), 7 lines -14.6..-11.4, 13 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_frost_mortar",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-2 dB",
+			"status": "WARN",
+			"value": "median -12.9 LUFS (+1.8 dB vs all speakers -14.7), 4 lines -14.8..-12.3, 7 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_frostbow",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.5 LUFS (+1.2 dB vs all speakers -14.7), 4 lines -15.1..-12.1, 6 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_gloom_thrall",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.0 LUFS (-0.3 dB vs all speakers -14.7), 4 lines -16.5..-13.0, 7 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_greenheart_oathkeeper",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.1 LUFS (-0.5 dB vs all speakers -14.7), 4 lines -15.5..-13.3, 8 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_hexweaver",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-2 dB",
+			"status": "WARN",
+			"value": "median -12.9 LUFS (+1.7 dB vs all speakers -14.7), 4 lines -13.5..-12.2, 5 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_hoarlight_magebow",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.6 LUFS (+0.0 dB vs all speakers -14.7), 4 lines -14.9..-13.7, 6 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_hollow_oathsworn",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.8 LUFS (-0.1 dB vs all speakers -14.7), 4 lines -16.3..-13.8, 7 s, peak -0.7 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_nightblood_reaver",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.0 LUFS (-0.3 dB vs all speakers -14.7), 7 lines -17.2..-13.6, 9 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_nightbolt",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.7 LUFS (-1.1 dB vs all speakers -14.7), 4 lines -17.1..-13.4, 8 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_pyre_adept",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-4 dB",
+			"status": "WARN",
+			"value": "median -10.8 LUFS (+3.8 dB vs all speakers -14.7), 4 lines -11.6..-10.6, 6 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_rime_colossus",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (-0.1 dB vs all speakers -14.7), 4 lines -17.3..-14.0, 6 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_rime_hauler",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.6 LUFS (-1.0 dB vs all speakers -14.7), 4 lines -19.7..-13.9, 7 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_rime_seer",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-2 dB",
+			"status": "WARN",
+			"value": "median -12.6 LUFS (+2.0 dB vs all speakers -14.7), 4 lines -15.3..-12.1, 7 s, peak -1.0 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_rimeling",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -14.0 LUFS (+0.7 dB vs all speakers -14.7), 4 lines -14.2..-13.6, 4 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_rimeshield",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -15.3 LUFS (-0.6 dB vs all speakers -14.7), 7 lines -16.3..-13.6, 11 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_scorchbow",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (+0.0 dB vs all speakers -14.7), 4 lines -15.2..-13.9, 6 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_scorchling",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.4 LUFS (+1.3 dB vs all speakers -14.7), 4 lines -15.2..-12.6, 3 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_shadow_knight",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.2 LUFS (+0.5 dB vs all speakers -14.7), 4 lines -14.6..-12.9, 6 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_shardcaster",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.4 LUFS (+0.2 dB vs all speakers -14.7), 4 lines -15.8..-13.9, 6 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_shardguard",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (-0.0 dB vs all speakers -14.7), 4 lines -16.3..-13.4, 7 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_sprigling",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.1 LUFS (+0.6 dB vs all speakers -14.7), 4 lines -16.1..-12.9, 5 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_stormbottle_genie",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.8 LUFS (-0.1 dB vs all speakers -14.7), 4 lines -15.8..-13.0, 6 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_thistle_darter",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.9 LUFS (+0.7 dB vs all speakers -14.7), 4 lines -14.4..-13.7, 4 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_thornling",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.2 LUFS (+0.5 dB vs all speakers -14.7), 7 lines -17.7..-12.8, 10 s, peak -0.9 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_vinelasher",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "-1 dB",
+			"status": "WARN",
+			"value": "median -13.9 LUFS (+0.7 dB vs all speakers -14.7), 4 lines -16.4..-12.5, 5 s, peak -0.6 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "unit_wildwood_archer",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.5 LUFS (+0.2 dB vs all speakers -14.7), 4 lines -16.0..-12.9, 7 s, peak -0.6 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "vessa",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.9 LUFS (-0.2 dB vs all speakers -14.7), 20 lines -18.2..-10.9, 44 s, peak -0.6 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "vey",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.7 LUFS (-0.1 dB vs all speakers -14.7), 5 lines -16.2..-13.7, 12 s, peak -0.8 dBTP"
+		},
+		{
+			"fix": "Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).",
+			"group": "speech",
+			"item": "ysolde",
+			"key": "speech_speaker",
+			"rule": "speaker median -24..-14 LUFS, within 3 dB of the others",
+			"short": "",
+			"status": "PASS",
+			"value": "median -14.2 LUFS (+0.5 dB vs all speakers -14.7), 14 lines -16.1..-11.4, 52 s, peak -0.5 dBTP"
+		},
+		{
+			"fix": "Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).",
+			"group": "speech",
+			"item": "ysolde peak",
+			"key": "speech_tp",
+			"rule": "voice true peak <= -0.5 dBTP",
+			"short": "",
+			"status": "WARN",
+			"value": "-0.5 dBTP"
+		},
+		{
+			"fix": "Re-render the listed lines (a direction tag like [whisper] explains a quiet one: note it in the listening sheet).",
+			"group": "speech",
+			"item": "lines vs their speaker",
+			"key": "speech_line",
+			"rule": "every line within 4 dB of its speaker's median (FAIL > 8)",
+			"short": "",
+			"status": "WARN",
+			"value": "1 / 284 lines off by > 4 dB: unit_rime_hauler/right_ill_have_a_92efb9f7 -4.1 dB"
+		}
+	],
+	"command": "godot --headless --path . -s tools/audio_lab/audio_lab.gd -- set=res://assets/audio/voice name=voice_orders log=0",
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 37,
+		"WARN": 21
+	},
+	"cues": {},
+	"date": "2026-09-27T18:45:44",
+	"events": [],
+	"fight": {},
+	"group_scores": {
+		"speech": 0.819
+	},
+	"improve_next": [
+		"**WARN Spoken lines (Voice Forge, per speaker)** - Level the speaker (a per-speaker gain in voice_forge.py finish_audio, or VoicePlayer volume per speaker).  _(aldra -1 dB, ashby -3 dB, malrik -1 dB, narrator +4 dB, shade -1 dB, unit_cinder_hand -1 dB (+10 more); speaker median -24..-14 LUFS, within 3 dB of the others)_",
+		"**WARN Spoken lines (Voice Forge, per speaker)** - Voice Forge normalises to -1 dBFS; a higher decoded peak = import overshoot (import the voice folder as PCM).  _(master peak, unit_ash_hurler peak, unit_bleakbow peak, ysolde peak; voice true peak <= -0.5 dBTP)_",
+		"**WARN Spoken lines (Voice Forge, per speaker)** - Re-render the listed lines (a direction tag like [whisper] explains a quiet one: note it in the listening sheet).  _(lines vs their speaker; every line within 4 dB of its speaker's median (FAIL > 8))_"
+	],
+	"kind": "auto",
+	"mode": "set",
+	"name": "voice_orders",
+	"players": [],
+	"rules": {
+		"loudness": {
+			"alert": {
+				"hi": -7.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -13.0,
+				"why": "must cut through a battle (level up, capture, raid, stingers)"
+			},
+			"ambience": {
+				"hi": -26.0,
+				"lo": -36.0,
+				"metric": "integrated",
+				"target": -30.0,
+				"why": "a bed under everything, well below the music"
+			},
+			"music": {
+				"hi": -18.0,
+				"lo": -26.0,
+				"metric": "integrated",
+				"target": -22.0,
+				"why": "the mix anchor (includes GameAudio.MUSIC_DB)"
+			},
+			"spell": {
+				"hi": -9.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -14.0,
+				"why": "hero actions read above the combat bed"
+			},
+			"ui": {
+				"hi": -14.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -22.0,
+				"why": "clear but polite: never louder than an alert, audible over the music"
+			},
+			"unit": {
+				"hi": -16.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -23.0,
+				"why": "combat bed: hits, shots, deaths; many at once, so each one moderate"
+			}
+		},
+		"ref_distance": 30.0
+	},
+	"score": 82,
+	"speech": [
+		{
+			"dur": 2.04,
+			"error": "",
+			"id": "aldra/still_water_steady_aim_41ed1299",
+			"lufs": -11.948,
+			"path": "res://assets/audio/voice/aldra/still_water_steady_aim_41ed1299.wav",
+			"speaker": "aldra",
+			"tp": -0.879
+		},
+		{
+			"dur": 1.81,
+			"error": "",
+			"id": "aldra/the_water_runs_out_0bddfc94",
+			"lufs": -14.725,
+			"path": "res://assets/audio/voice/aldra/the_water_runs_out_0bddfc94.wav",
+			"speaker": "aldra",
+			"tp": -0.92
+		},
+		{
+			"dur": 2.46,
+			"error": "",
+			"id": "ashby/emberguard_boots_on_we_41d6a1ed",
+			"lufs": -11.525,
+			"path": "res://assets/audio/voice/ashby/emberguard_boots_on_we_41d6a1ed.wav",
+			"speaker": "ashby",
+			"tp": -0.987
+		},
+		{
+			"dur": 1.63,
+			"error": "",
+			"id": "ashby/rider_at_the_gate_f3c9142f",
+			"lufs": -12.481,
+			"path": "res://assets/audio/voice/ashby/rider_at_the_gate_f3c9142f.wav",
+			"speaker": "ashby",
+			"tp": -0.87
+		},
+		{
+			"dur": 2.02,
+			"error": "",
+			"id": "ashby/three_relics_one_colossus_cbec31ed",
+			"lufs": -11.869,
+			"path": "res://assets/audio/voice/ashby/three_relics_one_colossus_cbec31ed.wav",
+			"speaker": "ashby",
+			"tp": -0.848
+		},
+		{
+			"dur": 1.76,
+			"error": "",
+			"id": "dancer/come_on_my_queen_d768fe5e",
+			"lufs": -16.609,
+			"path": "res://assets/audio/voice/dancer/come_on_my_queen_d768fe5e.wav",
+			"speaker": "dancer",
+			"tp": -0.94
+		},
+		{
+			"dur": 1.51,
+			"error": "",
+			"id": "hush/hush_i_am_here_3a8a2133",
+			"lufs": -15.829,
+			"path": "res://assets/audio/voice/hush/hush_i_am_here_3a8a2133.wav",
+			"speaker": "hush",
+			"tp": -1.043
+		},
+		{
+			"dur": 1.53,
+			"error": "",
+			"id": "hush/quiet_at_last_8a1a5864",
+			"lufs": -13.663,
+			"path": "res://assets/audio/voice/hush/quiet_at_last_8a1a5864.wav",
+			"speaker": "hush",
+			"tp": -0.954
+		},
+		{
+			"dur": 1.57,
+			"error": "",
+			"id": "maelis/return_me_to_the_25790529",
+			"lufs": -17.705,
+			"path": "res://assets/audio/voice/maelis/return_me_to_the_25790529.wav",
+			"speaker": "maelis",
+			"tp": -1.603
+		},
+		{
+			"dur": 1.39,
+			"error": "",
+			"id": "maelis/the_roots_are_with_46e5c8cb",
+			"lufs": -12.168,
+			"path": "res://assets/audio/voice/maelis/the_roots_are_with_46e5c8cb.wav",
+			"speaker": "maelis",
+			"tp": -0.999
+		},
+		{
+			"dur": 4.47,
+			"error": "",
+			"id": "malrik/and_me_he_gave_ad0ff01f",
+			"lufs": -12.802,
+			"path": "res://assets/audio/voice/malrik/and_me_he_gave_ad0ff01f.wav",
+			"speaker": "malrik",
+			"tp": -0.983
+		},
+		{
+			"dur": 3.04,
+			"error": "",
+			"id": "malrik/everyone_tells_my_story_b15bf545",
+			"lufs": -13.152,
+			"path": "res://assets/audio/voice/malrik/everyone_tells_my_story_b15bf545.wav",
+			"speaker": "malrik",
+			"tp": -1.115
+		},
+		{
+			"dur": 2.29,
+			"error": "",
+			"id": "malrik/i_have_heard_stop_6b5d1395",
+			"lufs": -11.912,
+			"path": "res://assets/audio/voice/malrik/i_have_heard_stop_6b5d1395.wav",
+			"speaker": "malrik",
+			"tp": -0.911
+		},
+		{
+			"dur": 4.99,
+			"error": "",
+			"id": "malrik/i_kept_something_a_95e665a5",
+			"lufs": -13.644,
+			"path": "res://assets/audio/voice/malrik/i_kept_something_a_95e665a5.wav",
+			"speaker": "malrik",
+			"tp": -0.876
+		},
+		{
+			"dur": 5.227,
+			"error": "",
+			"id": "malrik/i_took_the_dark_7ada4fa9",
+			"lufs": -14.028,
+			"path": "res://assets/audio/voice/malrik/i_took_the_dark_7ada4fa9.wav",
+			"speaker": "malrik",
+			"tp": -1.043
+		},
+		{
+			"dur": 4.416,
+			"error": "",
+			"id": "malrik/i_was_a_gravediggers_c1b95674",
+			"lufs": -12.928,
+			"path": "res://assets/audio/voice/malrik/i_was_a_gravediggers_c1b95674.wav",
+			"speaker": "malrik",
+			"tp": -0.908
+		},
+		{
+			"dur": 1.259,
+			"error": "",
+			"id": "malrik/i_will_not_stop_0b262bfa",
+			"lufs": -11.711,
+			"path": "res://assets/audio/voice/malrik/i_will_not_stop_0b262bfa.wav",
+			"speaker": "malrik",
+			"tp": -0.933
+		},
+		{
+			"dur": 5.01,
+			"error": "",
+			"id": "malrik/it_whispers_let_it_f35c4d4b",
+			"lufs": -13.653,
+			"path": "res://assets/audio/voice/malrik/it_whispers_let_it_f35c4d4b.wav",
+			"speaker": "malrik",
+			"tp": -1.026
+		},
+		{
+			"dur": 3.41,
+			"error": "",
+			"id": "malrik/keep_it_warm_for_3523ab04",
+			"lufs": -13.489,
+			"path": "res://assets/audio/voice/malrik/keep_it_warm_for_3523ab04.wav",
+			"speaker": "malrik",
+			"tp": -0.833
+		},
+		{
+			"dur": 3.72,
+			"error": "",
+			"id": "malrik/light_all_the_candles_d4719180",
+			"lufs": -13.367,
+			"path": "res://assets/audio/voice/malrik/light_all_the_candles_d4719180.wav",
+			"speaker": "malrik",
+			"tp": -0.918
+		},
+		{
+			"dur": 3.83,
+			"error": "",
+			"id": "malrik/little_vessa_you_came_e419427c",
+			"lufs": -12.873,
+			"path": "res://assets/audio/voice/malrik/little_vessa_you_came_e419427c.wav",
+			"speaker": "malrik",
+			"tp": -0.935
+		},
+		{
+			"dur": 4.97,
+			"error": "",
+			"id": "malrik/look_at_it_the_489223a3",
+			"lufs": -13.889,
+			"path": "res://assets/audio/voice/malrik/look_at_it_the_489223a3.wav",
+			"speaker": "malrik",
+			"tp": -0.978
+		},
+		{
+			"dur": 4.779,
+			"error": "",
+			"id": "malrik/put_it_down_that_da2e3fa9",
+			"lufs": -15.608,
+			"path": "res://assets/audio/voice/malrik/put_it_down_that_da2e3fa9.wav",
+			"speaker": "malrik",
+			"tp": -1.027
+		},
+		{
+			"dur": 5.163,
+			"error": "",
+			"id": "malrik/she_missed_emberfall_then_fbb05401",
+			"lufs": -13.422,
+			"path": "res://assets/audio/voice/malrik/she_missed_emberfall_then_fbb05401.wav",
+			"speaker": "malrik",
+			"tp": -1.022
+		},
+		{
+			"dur": 4.437,
+			"error": "",
+			"id": "malrik/that_is_how_a_dfbf8c00",
+			"lufs": -12.912,
+			"path": "res://assets/audio/voice/malrik/that_is_how_a_dfbf8c00.wav",
+			"speaker": "malrik",
+			"tp": -0.992
+		},
+		{
+			"dur": 5.16,
+			"error": "",
+			"id": "malrik/the_master_found_me_68a72082",
+			"lufs": -14.337,
+			"path": "res://assets/audio/voice/malrik/the_master_found_me_68a72082.wav",
+			"speaker": "malrik",
+			"tp": -1.07
+		},
+		{
+			"dur": 4.39,
+			"error": "",
+			"id": "malrik/then_he_vanished_and_877f4086",
+			"lufs": -13.805,
+			"path": "res://assets/audio/voice/malrik/then_he_vanished_and_877f4086.wav",
+			"speaker": "malrik",
+			"tp": -1.006
+		},
+		{
+			"dur": 4.885,
+			"error": "",
+			"id": "malrik/they_will_stand_there_52f7eb60",
+			"lufs": -13.932,
+			"path": "res://assets/audio/voice/malrik/they_will_stand_there_52f7eb60.wav",
+			"speaker": "malrik",
+			"tp": -1.169
+		},
+		{
+			"dur": 4.83,
+			"error": "",
+			"id": "malrik/too_fourth_of_four_de85a128",
+			"lufs": -15.834,
+			"path": "res://assets/audio/voice/malrik/too_fourth_of_four_de85a128.wav",
+			"speaker": "malrik",
+			"tp": -1.007
+		},
+		{
+			"dur": 5.12,
+			"error": "",
+			"id": "master/burn_her_forest_down_16f3dda5",
+			"lufs": -17.019,
+			"path": "res://assets/audio/voice/master/burn_her_forest_down_16f3dda5.wav",
+			"speaker": "master",
+			"tp": -0.899
+		},
+		{
+			"dur": 4.03,
+			"error": "",
+			"id": "master/but_he_is_never_adfcea4c",
+			"lufs": -15.77,
+			"path": "res://assets/audio/voice/master/but_he_is_never_adfcea4c.wav",
+			"speaker": "master",
+			"tp": -1.164
+		},
+		{
+			"dur": 4.27,
+			"error": "",
+			"id": "master/but_he_waits_too_7019f3d6",
+			"lufs": -17.022,
+			"path": "res://assets/audio/voice/master/but_he_waits_too_7019f3d6.wav",
+			"speaker": "master",
+			"tp": -0.945
+		},
+		{
+			"dur": 4.91,
+			"error": "",
+			"id": "master/but_she_never_waits_a66dd99c",
+			"lufs": -16.516,
+			"path": "res://assets/audio/voice/master/but_she_never_waits_a66dd99c.wav",
+			"speaker": "master",
+			"tp": -1.054
+		},
+		{
+			"dur": 3.99,
+			"error": "",
+			"id": "master/but_she_will_not_f0c2364f",
+			"lufs": -14.147,
+			"path": "res://assets/audio/voice/master/but_she_will_not_f0c2364f.wav",
+			"speaker": "master",
+			"tp": -0.926
+		},
+		{
+			"dur": 5.4,
+			"error": "",
+			"id": "master/dragons_great_and_small_d6939132",
+			"lufs": -18.113,
+			"path": "res://assets/audio/voice/master/dragons_great_and_small_d6939132.wav",
+			"speaker": "master",
+			"tp": -0.88
+		},
+		{
+			"dur": 2.78,
+			"error": "",
+			"id": "master/four_heirs_one_empty_8bd4c10b",
+			"lufs": -14.384,
+			"path": "res://assets/audio/voice/master/four_heirs_one_empty_8bd4c10b.wav",
+			"speaker": "master",
+			"tp": -0.863
+		},
+		{
+			"dur": 3.425,
+			"error": "",
+			"id": "master/give_her_a_wall_e312dd45",
+			"lufs": -15.066,
+			"path": "res://assets/audio/voice/master/give_her_a_wall_e312dd45.wav",
+			"speaker": "master",
+			"tp": -1.0
+		},
+		{
+			"dur": 4.42,
+			"error": "",
+			"id": "master/he_raised_four_apprentices_1eed795c",
+			"lufs": -18.524,
+			"path": "res://assets/audio/voice/master/he_raised_four_apprentices_1eed795c.wav",
+			"speaker": "master",
+			"tp": -1.122
+		},
+		{
+			"dur": 5.6,
+			"error": "",
+			"id": "master/he_thinks_i_gave_10970b83",
+			"lufs": -15.443,
+			"path": "res://assets/audio/voice/master/he_thinks_i_gave_10970b83.wav",
+			"speaker": "master",
+			"tp": -1.428
+		},
+		{
+			"dur": 5.633,
+			"error": "",
+			"id": "master/his_citadel_rose_above_2e36d77d",
+			"lufs": -14.236,
+			"path": "res://assets/audio/voice/master/his_citadel_rose_above_2e36d77d.wav",
+			"speaker": "master",
+			"tp": -1.015
+		},
+		{
+			"dur": 3.73,
+			"error": "",
+			"id": "master/i_know_this_tale_705bd7cd",
+			"lufs": -15.022,
+			"path": "res://assets/audio/voice/master/i_know_this_tale_705bd7cd.wav",
+			"speaker": "master",
+			"tp": -0.867
+		},
+		{
+			"dur": 4.53,
+			"error": "",
+			"id": "master/i_left_him_my_5d4b36a7",
+			"lufs": -17.67,
+			"path": "res://assets/audio/voice/master/i_left_him_my_5d4b36a7.wav",
+			"speaker": "master",
+			"tp": -0.806
+		},
+		{
+			"dur": 4.34,
+			"error": "",
+			"id": "master/i_loved_all_four_d534ea63",
+			"lufs": -17.185,
+			"path": "res://assets/audio/voice/master/i_loved_all_four_d534ea63.wav",
+			"speaker": "master",
+			"tp": -0.978
+		},
+		{
+			"dur": 5.22,
+			"error": "",
+			"id": "master/i_would_say_show_1f5d14b4",
+			"lufs": -16.56,
+			"path": "res://assets/audio/voice/master/i_would_say_show_1f5d14b4.wav",
+			"speaker": "master",
+			"tp": -0.976
+		},
+		{
+			"dur": 3.91,
+			"error": "",
+			"id": "master/kings_brought_him_their_38ebe69c",
+			"lufs": -15.279,
+			"path": "res://assets/audio/voice/master/kings_brought_him_their_38ebe69c.wav",
+			"speaker": "master",
+			"tp": -0.734
+		},
+		{
+			"dur": 4.96,
+			"error": "",
+			"id": "master/malrik_i_found_him_915e2c7f",
+			"lufs": -17.497,
+			"path": "res://assets/audio/voice/master/malrik_i_found_him_915e2c7f.wav",
+			"speaker": "master",
+			"tp": -0.872
+		},
+		{
+			"dur": 1.77,
+			"error": "",
+			"id": "master/malrik_of_shadow_b1f1cf04",
+			"lufs": -15.116,
+			"path": "res://assets/audio/voice/master/malrik_of_shadow_b1f1cf04.wav",
+			"speaker": "master",
+			"tp": -0.7
+		},
+		{
+			"dur": 4.16,
+			"error": "",
+			"id": "master/nothing_breaks_him_not_9a4ca6da",
+			"lufs": -17.463,
+			"path": "res://assets/audio/voice/master/nothing_breaks_him_not_9a4ca6da.wav",
+			"speaker": "master",
+			"tp": -0.877
+		},
+		{
+			"dur": 4.47,
+			"error": "",
+			"id": "master/nothing_is_hidden_from_3efbf049",
+			"lufs": -17.657,
+			"path": "res://assets/audio/voice/master/nothing_is_hidden_from_3efbf049.wav",
+			"speaker": "master",
+			"tp": -0.737
+		},
+		{
+			"dur": 5.143,
+			"error": "",
+			"id": "master/once_upon_a_time_74703b43",
+			"lufs": -17.652,
+			"path": "res://assets/audio/voice/master/once_upon_a_time_74703b43.wav",
+			"speaker": "master",
+			"tp": -0.889
+		},
+		{
+			"dur": 4.05,
+			"error": "",
+			"id": "master/still_she_laughed_like_57d11b3e",
+			"lufs": -16.796,
+			"path": "res://assets/audio/voice/master/still_she_laughed_like_57d11b3e.wav",
+			"speaker": "master",
+			"tp": -1.068
+		},
+		{
+			"dur": 3.41,
+			"error": "",
+			"id": "master/then_between_one_breath_72b919e2",
+			"lufs": -15.177,
+			"path": "res://assets/audio/voice/master/then_between_one_breath_72b919e2.wav",
+			"speaker": "master",
+			"tp": -0.701
+		},
+		{
+			"dur": 5.05,
+			"error": "",
+			"id": "master/they_called_him_only_31069c93",
+			"lufs": -17.356,
+			"path": "res://assets/audio/voice/master/they_called_him_only_31069c93.wav",
+			"speaker": "master",
+			"tp": -1.136
+		},
+		{
+			"dur": 1.76,
+			"error": "",
+			"id": "master/torvald_of_ice_8995149a",
+			"lufs": -14.248,
+			"path": "res://assets/audio/voice/master/torvald_of_ice_8995149a.wav",
+			"speaker": "master",
+			"tp": -1.007
+		},
+		{
+			"dur": 5.34,
+			"error": "",
+			"id": "master/torvald_the_eldest_where_f5a25caa",
+			"lufs": -17.185,
+			"path": "res://assets/audio/voice/master/torvald_the_eldest_where_f5a25caa.wav",
+			"speaker": "master",
+			"tp": -0.934
+		},
+		{
+			"dur": 1.77,
+			"error": "",
+			"id": "master/vessa_of_fire_629e6c64",
+			"lufs": -18.44,
+			"path": "res://assets/audio/voice/master/vessa_of_fire_629e6c64.wav",
+			"speaker": "master",
+			"tp": -1.141
+		},
+		{
+			"dur": 5.24,
+			"error": "",
+			"id": "master/vessa_the_youngest_she_0f7ca4c7",
+			"lufs": -18.662,
+			"path": "res://assets/audio/voice/master/vessa_the_youngest_she_0f7ca4c7.wav",
+			"speaker": "master",
+			"tp": -1.086
+		},
+		{
+			"dur": 3.72,
+			"error": "",
+			"id": "master/ysolde_i_found_her_85d2e563",
+			"lufs": -17.699,
+			"path": "res://assets/audio/voice/master/ysolde_i_found_her_85d2e563.wav",
+			"speaker": "master",
+			"tp": -0.429
+		},
+		{
+			"dur": 1.97,
+			"error": "",
+			"id": "master/ysolde_of_nature_23123983",
+			"lufs": -17.768,
+			"path": "res://assets/audio/voice/master/ysolde_of_nature_23123983.wav",
+			"speaker": "master",
+			"tp": -1.115
+		},
+		{
+			"dur": 1.62,
+			"error": "",
+			"id": "messenger/all_of_it_i_dea99842",
+			"lufs": -13.438,
+			"path": "res://assets/audio/voice/messenger/all_of_it_i_dea99842.wav",
+			"speaker": "messenger",
+			"tp": -1.048
+		},
+		{
+			"dur": 1.32,
+			"error": "",
+			"id": "messenger/and_ice_together_961d4f64",
+			"lufs": -14.937,
+			"path": "res://assets/audio/voice/messenger/and_ice_together_961d4f64.wav",
+			"speaker": "messenger",
+			"tp": -1.118
+		},
+		{
+			"dur": 1.45,
+			"error": "",
+			"id": "messenger/and_then_then_it_cafb3e3f",
+			"lufs": -16.936,
+			"path": "res://assets/audio/voice/messenger/and_then_then_it_cafb3e3f.wav",
+			"speaker": "messenger",
+			"tp": -1.07
+		},
+		{
+			"dur": 1.22,
+			"error": "",
+			"id": "messenger/lady_ysolde_9f770e28",
+			"lufs": -16.73,
+			"path": "res://assets/audio/voice/messenger/lady_ysolde_9f770e28.wav",
+			"speaker": "messenger",
+			"tp": -1.075
+		},
+		{
+			"dur": 1.22,
+			"error": "",
+			"id": "messenger/my_my_lady_612f36fb",
+			"lufs": -15.515,
+			"path": "res://assets/audio/voice/messenger/my_my_lady_612f36fb.wav",
+			"speaker": "messenger",
+			"tp": -1.005
+		},
+		{
+			"dur": 1.82,
+			"error": "",
+			"id": "messenger/she_said_remember_she_80a331e3",
+			"lufs": -15.446,
+			"path": "res://assets/audio/voice/messenger/she_said_remember_she_80a331e3.wav",
+			"speaker": "messenger",
+			"tp": -1.176
+		},
+		{
+			"dur": 1.29,
+			"error": "",
+			"id": "messenger/she_said_youd_laugh_1a583b4e",
+			"lufs": -12.479,
+			"path": "res://assets/audio/voice/messenger/she_said_youd_laugh_1a583b4e.wav",
+			"speaker": "messenger",
+			"tp": -0.963
+		},
+		{
+			"dur": 1.29,
+			"error": "",
+			"id": "messenger/thank_you_thank_you_904e8e7d",
+			"lufs": -17.348,
+			"path": "res://assets/audio/voice/messenger/thank_you_thank_you_904e8e7d.wav",
+			"speaker": "messenger",
+			"tp": -0.891
+		},
+		{
+			"dur": 1.3,
+			"error": "",
+			"id": "messenger/the_army_its_gone_ecf8d151",
+			"lufs": -14.311,
+			"path": "res://assets/audio/voice/messenger/the_army_its_gone_ecf8d151.wav",
+			"speaker": "messenger",
+			"tp": -0.798
+		},
+		{
+			"dur": 1.8,
+			"error": "",
+			"id": "messenger/the_ember_queen_which_0214be28",
+			"lufs": -18.527,
+			"path": "res://assets/audio/voice/messenger/the_ember_queen_which_0214be28.wav",
+			"speaker": "messenger",
+			"tp": -1.242
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "messenger/the_wood_shadow_came_0780bf02",
+			"lufs": -14.579,
+			"path": "res://assets/audio/voice/messenger/the_wood_shadow_came_0780bf02.wav",
+			"speaker": "messenger",
+			"tp": -0.922
+		},
+		{
+			"dur": 4.77,
+			"error": "",
+			"id": "narrator/far_away_three_apprentices_c4c409b3",
+			"lufs": -19.525,
+			"path": "res://assets/audio/voice/narrator/far_away_three_apprentices_c4c409b3.wav",
+			"speaker": "narrator",
+			"tp": -1.105
+		},
+		{
+			"dur": 2.56,
+			"error": "",
+			"id": "narrator/the_master_is_gone_e050d7b6",
+			"lufs": -16.581,
+			"path": "res://assets/audio/voice/narrator/the_master_is_gone_e050d7b6.wav",
+			"speaker": "narrator",
+			"tp": -0.676
+		},
+		{
+			"dur": 5.23,
+			"error": "",
+			"id": "narrator/the_westwatch_fire_rises_d7e80c5e",
+			"lufs": -19.951,
+			"path": "res://assets/audio/voice/narrator/the_westwatch_fire_rises_d7e80c5e.wav",
+			"speaker": "narrator",
+			"tp": -0.902
+		},
+		{
+			"dur": 4.7,
+			"error": "",
+			"id": "narrator/three_flames_answer_the_69a75470",
+			"lufs": -17.52,
+			"path": "res://assets/audio/voice/narrator/three_flames_answer_the_69a75470.wav",
+			"speaker": "narrator",
+			"tp": -0.852
+		},
+		{
+			"dur": 5.57,
+			"error": "",
+			"id": "pell/free_at_last_buy_f2b6c6c4",
+			"lufs": -15.826,
+			"path": "res://assets/audio/voice/pell/free_at_last_buy_f2b6c6c4.wav",
+			"speaker": "pell",
+			"tp": -0.997
+		},
+		{
+			"dur": 1.66,
+			"error": "",
+			"id": "reveler/to_vessa_to_the_79ccdcb8",
+			"lufs": -15.306,
+			"path": "res://assets/audio/voice/reveler/to_vessa_to_the_79ccdcb8.wav",
+			"speaker": "reveler",
+			"tp": -0.797
+		},
+		{
+			"dur": 1.57,
+			"error": "",
+			"id": "shade/back_to_the_dark_ac321b69",
+			"lufs": -13.789,
+			"path": "res://assets/audio/voice/shade/back_to_the_dark_ac321b69.wav",
+			"speaker": "shade",
+			"tp": -0.91
+		},
+		{
+			"dur": 1.72,
+			"error": "",
+			"id": "shade/the_dark_is_listening_0f332c5a",
+			"lufs": -13.869,
+			"path": "res://assets/audio/voice/shade/the_dark_is_listening_0f332c5a.wav",
+			"speaker": "shade",
+			"tp": -0.963
+		},
+		{
+			"dur": 2.05,
+			"error": "",
+			"id": "shade/the_keep_sleeps_so_dac3a4b3",
+			"lufs": -14.999,
+			"path": "res://assets/audio/voice/shade/the_keep_sleeps_so_dac3a4b3.wav",
+			"speaker": "shade",
+			"tp": -0.867
+		},
+		{
+			"dur": 2.09,
+			"error": "",
+			"id": "shade/they_will_not_see_3a1ecd2d",
+			"lufs": -13.317,
+			"path": "res://assets/audio/voice/shade/they_will_not_see_3a1ecd2d.wav",
+			"speaker": "shade",
+			"tp": -0.857
+		},
+		{
+			"dur": 1.38,
+			"error": "",
+			"id": "shade/through_the_shadows_73d3973c",
+			"lufs": -11.619,
+			"path": "res://assets/audio/voice/shade/through_the_shadows_73d3973c.wav",
+			"speaker": "shade",
+			"tp": -1.018
+		},
+		{
+			"dur": 1.7,
+			"error": "",
+			"id": "unit_ash_hurler/loosing_heads_down_05b2a113",
+			"lufs": -13.256,
+			"path": "res://assets/audio/voice/unit_ash_hurler/loosing_heads_down_05b2a113.wav",
+			"speaker": "unit_ash_hurler",
+			"tp": -0.991
+		},
+		{
+			"dur": 1.82,
+			"error": "",
+			"id": "unit_ash_hurler/pots_are_packed_point_64b279e2",
+			"lufs": -15.628,
+			"path": "res://assets/audio/voice/unit_ash_hurler/pots_are_packed_point_64b279e2.wav",
+			"speaker": "unit_ash_hurler",
+			"tp": -0.209
+		},
+		{
+			"dur": 1.94,
+			"error": "",
+			"id": "unit_ash_hurler/rolling_careful_with_the_e9818123",
+			"lufs": -17.652,
+			"path": "res://assets/audio/voice/unit_ash_hurler/rolling_careful_with_the_e9818123.wav",
+			"speaker": "unit_ash_hurler",
+			"tp": -0.95
+		},
+		{
+			"dur": 1.91,
+			"error": "",
+			"id": "unit_ash_hurler/should_have_kept_my_40eeece1",
+			"lufs": -13.788,
+			"path": "res://assets/audio/voice/unit_ash_hurler/should_have_kept_my_40eeece1.wav",
+			"speaker": "unit_ash_hurler",
+			"tp": -0.924
+		},
+		{
+			"dur": 1.24,
+			"error": "",
+			"id": "unit_ashveil_saboteur/ash_to_ash_3eae563e",
+			"lufs": -13.712,
+			"path": "res://assets/audio/voice/unit_ashveil_saboteur/ash_to_ash_3eae563e.wav",
+			"speaker": "unit_ashveil_saboteur",
+			"tp": -0.781
+		},
+		{
+			"dur": 1.75,
+			"error": "",
+			"id": "unit_ashveil_saboteur/fuse_is_short_step_d4e04e45",
+			"lufs": -15.087,
+			"path": "res://assets/audio/voice/unit_ashveil_saboteur/fuse_is_short_step_d4e04e45.wav",
+			"speaker": "unit_ashveil_saboteur",
+			"tp": -1.014
+		},
+		{
+			"dur": 1.19,
+			"error": "",
+			"id": "unit_ashveil_saboteur/into_the_smoke_a8e2c1cb",
+			"lufs": -14.697,
+			"path": "res://assets/audio/voice/unit_ashveil_saboteur/into_the_smoke_a8e2c1cb.wav",
+			"speaker": "unit_ashveil_saboteur",
+			"tp": -1.208
+		},
+		{
+			"dur": 1.4,
+			"error": "",
+			"id": "unit_ashveil_saboteur/whisper_you_never_saw_8955f202",
+			"lufs": -14.172,
+			"path": "res://assets/audio/voice/unit_ashveil_saboteur/whisper_you_never_saw_8955f202.wav",
+			"speaker": "unit_ashveil_saboteur",
+			"tp": -1.049
+		},
+		{
+			"dur": 1.37,
+			"error": "",
+			"id": "unit_barrow_ghoul/back_in_the_barrow_c7542c16",
+			"lufs": -16.038,
+			"path": "res://assets/audio/voice/unit_barrow_ghoul/back_in_the_barrow_c7542c16.wav",
+			"speaker": "unit_barrow_ghoul",
+			"tp": -0.853
+		},
+		{
+			"dur": 1.31,
+			"error": "",
+			"id": "unit_barrow_ghoul/crawling_crawling_842a9108",
+			"lufs": -16.101,
+			"path": "res://assets/audio/voice/unit_barrow_ghoul/crawling_crawling_842a9108.wav",
+			"speaker": "unit_barrow_ghoul",
+			"tp": -0.958
+		},
+		{
+			"dur": 0.92,
+			"error": "",
+			"id": "unit_barrow_ghoul/excited_fresh_meat_1e73633d",
+			"lufs": -14.652,
+			"path": "res://assets/audio/voice/unit_barrow_ghoul/excited_fresh_meat_1e73633d.wav",
+			"speaker": "unit_barrow_ghoul",
+			"tp": -0.984
+		},
+		{
+			"dur": 1.67,
+			"error": "",
+			"id": "unit_barrow_ghoul/hungry_always_hungry_9bec406d",
+			"lufs": -15.77,
+			"path": "res://assets/audio/voice/unit_barrow_ghoul/hungry_always_hungry_9bec406d.wav",
+			"speaker": "unit_barrow_ghoul",
+			"tp": -1.047
+		},
+		{
+			"dur": 0.981,
+			"error": "",
+			"id": "unit_blaze_rider/hyah_riding_out_0246f906",
+			"lufs": -13.247,
+			"path": "res://assets/audio/voice/unit_blaze_rider/hyah_riding_out_0246f906.wav",
+			"speaker": "unit_blaze_rider",
+			"tp": -0.981
+		},
+		{
+			"dur": 1.344,
+			"error": "",
+			"id": "unit_blaze_rider/saddles_hot_where_to_0483ffcf",
+			"lufs": -14.845,
+			"path": "res://assets/audio/voice/unit_blaze_rider/saddles_hot_where_to_0483ffcf.wav",
+			"speaker": "unit_blaze_rider",
+			"tp": -0.983
+		},
+		{
+			"dur": 0.917,
+			"error": "",
+			"id": "unit_blaze_rider/shout_charge_through_them_1c13a339",
+			"lufs": -16.227,
+			"path": "res://assets/audio/voice/unit_blaze_rider/shout_charge_through_them_1c13a339.wav",
+			"speaker": "unit_blaze_rider",
+			"tp": -0.965
+		},
+		{
+			"dur": 1.18,
+			"error": "",
+			"id": "unit_blaze_rider/thrown_from_the_saddle_8d6df9dd",
+			"lufs": -16.078,
+			"path": "res://assets/audio/voice/unit_blaze_rider/thrown_from_the_saddle_8d6df9dd.wav",
+			"speaker": "unit_blaze_rider",
+			"tp": -1.031
+		},
+		{
+			"dur": 1.408,
+			"error": "",
+			"id": "unit_bleakbow/keeping_to_the_edges_8dc4a15f",
+			"lufs": -15.053,
+			"path": "res://assets/audio/voice/unit_bleakbow/keeping_to_the_edges_8dc4a15f.wav",
+			"speaker": "unit_bleakbow",
+			"tp": -1.087
+		},
+		{
+			"dur": 1.75,
+			"error": "",
+			"id": "unit_bleakbow/let_them_bleed_slowly_d38f350f",
+			"lufs": -16.513,
+			"path": "res://assets/audio/voice/unit_bleakbow/let_them_bleed_slowly_d38f350f.wav",
+			"speaker": "unit_bleakbow",
+			"tp": -1.146
+		},
+		{
+			"dur": 1.02,
+			"error": "",
+			"id": "unit_bleakbow/so_cold_c7062a50",
+			"lufs": -14.246,
+			"path": "res://assets/audio/voice/unit_bleakbow/so_cold_c7062a50.wav",
+			"speaker": "unit_bleakbow",
+			"tp": -1.03
+		},
+		{
+			"dur": 2.64,
+			"error": "",
+			"id": "unit_bleakbow/whisper_i_see_them_b37c818e",
+			"lufs": -14.395,
+			"path": "res://assets/audio/voice/unit_bleakbow/whisper_i_see_them_b37c818e.wav",
+			"speaker": "unit_bleakbow",
+			"tp": -0.498
+		},
+		{
+			"dur": 1.31,
+			"error": "",
+			"id": "unit_bloomtender/calm_who_needs_mending_fccf7d14",
+			"lufs": -15.438,
+			"path": "res://assets/audio/voice/unit_bloomtender/calm_who_needs_mending_fccf7d14.wav",
+			"speaker": "unit_bloomtender",
+			"tp": -1.147
+		},
+		{
+			"dur": 1.82,
+			"error": "",
+			"id": "unit_bloomtender/i_would_rather_heal_19262285",
+			"lufs": -14.369,
+			"path": "res://assets/audio/voice/unit_bloomtender/i_would_rather_heal_19262285.wav",
+			"speaker": "unit_bloomtender",
+			"tp": -1.103
+		},
+		{
+			"dur": 1.36,
+			"error": "",
+			"id": "unit_bloomtender/ill_follow_the_green_be6cb202",
+			"lufs": -13.066,
+			"path": "res://assets/audio/voice/unit_bloomtender/ill_follow_the_green_be6cb202.wav",
+			"speaker": "unit_bloomtender",
+			"tp": -1.043
+		},
+		{
+			"dur": 1.61,
+			"error": "",
+			"id": "unit_bloomtender/plant_me_somewhere_nice_621379e8",
+			"lufs": -14.908,
+			"path": "res://assets/audio/voice/unit_bloomtender/plant_me_somewhere_nice_621379e8.wav",
+			"speaker": "unit_bloomtender",
+			"tp": -1.002
+		},
+		{
+			"dur": 1.7,
+			"error": "",
+			"id": "unit_bramblehorn/slow_back_to_the_10ec0b20",
+			"lufs": -14.357,
+			"path": "res://assets/audio/voice/unit_bramblehorn/slow_back_to_the_10ec0b20.wav",
+			"speaker": "unit_bramblehorn",
+			"tp": -0.987
+		},
+		{
+			"dur": 1.45,
+			"error": "",
+			"id": "unit_bramblehorn/slow_horns_down_a14c6976",
+			"lufs": -14.919,
+			"path": "res://assets/audio/voice/unit_bramblehorn/slow_horns_down_a14c6976.wav",
+			"speaker": "unit_bramblehorn",
+			"tp": -1.03
+		},
+		{
+			"dur": 3.18,
+			"error": "",
+			"id": "unit_bramblehorn/slow_hrm_the_old_1957c13b",
+			"lufs": -14.826,
+			"path": "res://assets/audio/voice/unit_bramblehorn/slow_hrm_the_old_1957c13b.wav",
+			"speaker": "unit_bramblehorn",
+			"tp": -1.081
+		},
+		{
+			"dur": 1.61,
+			"error": "",
+			"id": "unit_bramblehorn/slow_roots_lift_44ce2e73",
+			"lufs": -15.9,
+			"path": "res://assets/audio/voice/unit_bramblehorn/slow_roots_lift_44ce2e73.wav",
+			"speaker": "unit_bramblehorn",
+			"tp": -1.022
+		},
+		{
+			"dur": 1.28,
+			"error": "",
+			"id": "unit_burr_slinger/off_through_the_brush_2f3ce1db",
+			"lufs": -14.82,
+			"path": "res://assets/audio/voice/unit_burr_slinger/off_through_the_brush_2f3ce1db.wav",
+			"speaker": "unit_burr_slinger",
+			"tp": -0.903
+		},
+		{
+			"dur": 1.03,
+			"error": "",
+			"id": "unit_burr_slinger/oh_ouch_0db74883",
+			"lufs": -15.691,
+			"path": "res://assets/audio/voice/unit_burr_slinger/oh_ouch_0db74883.wav",
+			"speaker": "unit_burr_slinger",
+			"tp": -0.728
+		},
+		{
+			"dur": 1.45,
+			"error": "",
+			"id": "unit_burr_slinger/pockets_full_of_burrs_2433eabd",
+			"lufs": -13.253,
+			"path": "res://assets/audio/voice/unit_burr_slinger/pockets_full_of_burrs_2433eabd.wav",
+			"speaker": "unit_burr_slinger",
+			"tp": -0.995
+		},
+		{
+			"dur": 1.23,
+			"error": "",
+			"id": "unit_burr_slinger/these_ones_stick_5bfb29a6",
+			"lufs": -13.974,
+			"path": "res://assets/audio/voice/unit_burr_slinger/these_ones_stick_5bfb29a6.wav",
+			"speaker": "unit_burr_slinger",
+			"tp": -0.958
+		},
+		{
+			"dur": 1.685,
+			"error": "",
+			"id": "unit_cinder_arbalest/cranks_wound_bolts_glowing_e3f6753a",
+			"lufs": -15.339,
+			"path": "res://assets/audio/voice/unit_cinder_arbalest/cranks_wound_bolts_glowing_e3f6753a.wav",
+			"speaker": "unit_cinder_arbalest",
+			"tp": -0.714
+		},
+		{
+			"dur": 1.462,
+			"error": "",
+			"id": "unit_cinder_arbalest/hauling_the_big_one_93b6e971",
+			"lufs": -13.88,
+			"path": "res://assets/audio/voice/unit_cinder_arbalest/hauling_the_big_one_93b6e971.wav",
+			"speaker": "unit_cinder_arbalest",
+			"tp": -0.885
+		},
+		{
+			"dur": 1.515,
+			"error": "",
+			"id": "unit_cinder_arbalest/jammed_at_the_worst_0ae5b5e0",
+			"lufs": -13.05,
+			"path": "res://assets/audio/voice/unit_cinder_arbalest/jammed_at_the_worst_0ae5b5e0.wav",
+			"speaker": "unit_cinder_arbalest",
+			"tp": -1.152
+		},
+		{
+			"dur": 1.941,
+			"error": "",
+			"id": "unit_cinder_arbalest/line_them_up_one_d6680577",
+			"lufs": -15.591,
+			"path": "res://assets/audio/voice/unit_cinder_arbalest/line_them_up_one_d6680577.wav",
+			"speaker": "unit_cinder_arbalest",
+			"tp": -0.914
+		},
+		{
+			"dur": 1.09,
+			"error": "",
+			"id": "unit_cinder_hand/angry_ill_swing_the_58f50222",
+			"lufs": -13.56,
+			"path": "res://assets/audio/voice/unit_cinder_hand/angry_ill_swing_the_58f50222.wav",
+			"speaker": "unit_cinder_hand",
+			"tp": -0.998
+		},
+		{
+			"dur": 1.068,
+			"error": "",
+			"id": "unit_cinder_hand/hands_ready_boss_d3d29c81",
+			"lufs": -13.928,
+			"path": "res://assets/audio/voice/unit_cinder_hand/hands_ready_boss_d3d29c81.wav",
+			"speaker": "unit_cinder_hand",
+			"tp": -0.885
+		},
+		{
+			"dur": 0.8,
+			"error": "",
+			"id": "unit_cinder_hand/on_my_way_6fc5af0f",
+			"lufs": -12.217,
+			"path": "res://assets/audio/voice/unit_cinder_hand/on_my_way_6fc5af0f.wav",
+			"speaker": "unit_cinder_hand",
+			"tp": -0.891
+		},
+		{
+			"dur": 1.09,
+			"error": "",
+			"id": "unit_cinder_hand/ugh_shifts_over_e920bee3",
+			"lufs": -14.429,
+			"path": "res://assets/audio/voice/unit_cinder_hand/ugh_shifts_over_e920bee3.wav",
+			"speaker": "unit_cinder_hand",
+			"tp": -0.931
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "unit_ember_archer/bows_strung_and_warm_528b09ac",
+			"lufs": -15.773,
+			"path": "res://assets/audio/voice/unit_ember_archer/bows_strung_and_warm_528b09ac.wav",
+			"speaker": "unit_ember_archer",
+			"tp": -1.179
+		},
+		{
+			"dur": 0.929,
+			"error": "",
+			"id": "unit_ember_archer/excited_light_them_up_63e7ae2e",
+			"lufs": -14.079,
+			"path": "res://assets/audio/voice/unit_ember_archer/excited_light_them_up_63e7ae2e.wav",
+			"speaker": "unit_ember_archer",
+			"tp": -1.198
+		},
+		{
+			"dur": 1.21,
+			"error": "",
+			"id": "unit_ember_archer/moving_keep_up_3ac84608",
+			"lufs": -13.859,
+			"path": "res://assets/audio/voice/unit_ember_archer/moving_keep_up_3ac84608.wav",
+			"speaker": "unit_ember_archer",
+			"tp": -0.737
+		},
+		{
+			"dur": 1.18,
+			"error": "",
+			"id": "unit_ember_archer/my_fire_out_4fe9d422",
+			"lufs": -15.529,
+			"path": "res://assets/audio/voice/unit_ember_archer/my_fire_out_4fe9d422.wav",
+			"speaker": "unit_ember_archer",
+			"tp": -0.978
+		},
+		{
+			"dur": 1.73,
+			"error": "",
+			"id": "unit_flame_guard/andiamo_nessuno_mi_ferma_5ff8b763",
+			"lufs": -11.427,
+			"path": "res://assets/audio/voice/unit_flame_guard/andiamo_nessuno_mi_ferma_5ff8b763.wav",
+			"speaker": "unit_flame_guard",
+			"tp": -1.014
+		},
+		{
+			"dur": 1.87,
+			"error": "",
+			"id": "unit_flame_guard/certo_capo_ci_penso_bb07cc51",
+			"lufs": -13.68,
+			"path": "res://assets/audio/voice/unit_flame_guard/certo_capo_ci_penso_bb07cc51.wav",
+			"speaker": "unit_flame_guard",
+			"tp": -0.994
+		},
+		{
+			"dur": 2.1,
+			"error": "",
+			"id": "unit_flame_guard/eccomi_il_pi_forte_a295d8b6",
+			"lufs": -14.555,
+			"path": "res://assets/audio/voice/unit_flame_guard/eccomi_il_pi_forte_a295d8b6.wav",
+			"speaker": "unit_flame_guard",
+			"tp": -0.984
+		},
+		{
+			"dur": 1.79,
+			"error": "",
+			"id": "unit_flame_guard/fuoco_e_acciaio_avanti_40388754",
+			"lufs": -12.71,
+			"path": "res://assets/audio/voice/unit_flame_guard/fuoco_e_acciaio_avanti_40388754.wav",
+			"speaker": "unit_flame_guard",
+			"tp": -0.993
+		},
+		{
+			"dur": 2.07,
+			"error": "",
+			"id": "unit_flame_guard/guarda_questi_muscoli_bello_633fc299",
+			"lufs": -12.364,
+			"path": "res://assets/audio/voice/unit_flame_guard/guarda_questi_muscoli_bello_633fc299.wav",
+			"speaker": "unit_flame_guard",
+			"tp": -0.911
+		},
+		{
+			"dur": 1.34,
+			"error": "",
+			"id": "unit_flame_guard/non_finita_ea12e381",
+			"lufs": -12.268,
+			"path": "res://assets/audio/voice/unit_flame_guard/non_finita_ea12e381.wav",
+			"speaker": "unit_flame_guard",
+			"tp": -1.055
+		},
+		{
+			"dur": 2.13,
+			"error": "",
+			"id": "unit_flame_guard/venite_qui_se_avete_73ccc165",
+			"lufs": -13.763,
+			"path": "res://assets/audio/voice/unit_flame_guard/venite_qui_se_avete_73ccc165.wav",
+			"speaker": "unit_flame_guard",
+			"tp": -0.906
+		},
+		{
+			"dur": 1.89,
+			"error": "",
+			"id": "unit_frost_mortar/mortar_crew_standing_by_120468c2",
+			"lufs": -13.143,
+			"path": "res://assets/audio/voice/unit_frost_mortar/mortar_crew_standing_by_120468c2.wav",
+			"speaker": "unit_frost_mortar",
+			"tp": -0.922
+		},
+		{
+			"dur": 1.41,
+			"error": "",
+			"id": "unit_frost_mortar/pull_lads_pull_746b49f1",
+			"lufs": -12.341,
+			"path": "res://assets/audio/voice/unit_frost_mortar/pull_lads_pull_746b49f1.wav",
+			"speaker": "unit_frost_mortar",
+			"tp": -0.957
+		},
+		{
+			"dur": 1.84,
+			"error": "",
+			"id": "unit_frost_mortar/shell_away_cover_your_d448ec7e",
+			"lufs": -14.75,
+			"path": "res://assets/audio/voice/unit_frost_mortar/shell_away_cover_your_d448ec7e.wav",
+			"speaker": "unit_frost_mortar",
+			"tp": -0.95
+		},
+		{
+			"dur": 1.5,
+			"error": "",
+			"id": "unit_frost_mortar/the_tubes_cracked_3747da84",
+			"lufs": -12.564,
+			"path": "res://assets/audio/voice/unit_frost_mortar/the_tubes_cracked_3747da84.wav",
+			"speaker": "unit_frost_mortar",
+			"tp": -1.027
+		},
+		{
+			"dur": 1.37,
+			"error": "",
+			"id": "unit_frostbow/freeze_in_place_e1fbc899",
+			"lufs": -12.096,
+			"path": "res://assets/audio/voice/unit_frostbow/freeze_in_place_e1fbc899.wav",
+			"speaker": "unit_frostbow",
+			"tp": -0.825
+		},
+		{
+			"dur": 1.6,
+			"error": "",
+			"id": "unit_frostbow/moving_to_high_ground_fb7cfc20",
+			"lufs": -12.896,
+			"path": "res://assets/audio/voice/unit_frostbow/moving_to_high_ground_fb7cfc20.wav",
+			"speaker": "unit_frostbow",
+			"tp": -0.946
+		},
+		{
+			"dur": 1.93,
+			"error": "",
+			"id": "unit_frostbow/steady_hands_cold_eyes_cf19973c",
+			"lufs": -15.132,
+			"path": "res://assets/audio/voice/unit_frostbow/steady_hands_cold_eyes_cf19973c.wav",
+			"speaker": "unit_frostbow",
+			"tp": -0.926
+		},
+		{
+			"dur": 1.44,
+			"error": "",
+			"id": "unit_frostbow/the_string_snapped_1cf84e6b",
+			"lufs": -14.052,
+			"path": "res://assets/audio/voice/unit_frostbow/the_string_snapped_1cf84e6b.wav",
+			"speaker": "unit_frostbow",
+			"tp": -0.917
+		},
+		{
+			"dur": 1.18,
+			"error": "",
+			"id": "unit_gloom_thrall/if_i_must_b343bdd3",
+			"lufs": -13.041,
+			"path": "res://assets/audio/voice/unit_gloom_thrall/if_i_must_b343bdd3.wav",
+			"speaker": "unit_gloom_thrall",
+			"tp": -0.915
+		},
+		{
+			"dur": 1.84,
+			"error": "",
+			"id": "unit_gloom_thrall/rest_at_last_0cea6992",
+			"lufs": -15.683,
+			"path": "res://assets/audio/voice/unit_gloom_thrall/rest_at_last_0cea6992.wav",
+			"speaker": "unit_gloom_thrall",
+			"tp": -1.002
+		},
+		{
+			"dur": 2.775,
+			"error": "",
+			"id": "unit_gloom_thrall/tired_the_master_calls_74991125",
+			"lufs": -16.464,
+			"path": "res://assets/audio/voice/unit_gloom_thrall/tired_the_master_calls_74991125.wav",
+			"speaker": "unit_gloom_thrall",
+			"tp": -0.938
+		},
+		{
+			"dur": 1.527,
+			"error": "",
+			"id": "unit_gloom_thrall/yes_walking_49e17855",
+			"lufs": -14.291,
+			"path": "res://assets/audio/voice/unit_gloom_thrall/yes_walking_49e17855.wav",
+			"speaker": "unit_gloom_thrall",
+			"tp": -0.958
+		},
+		{
+			"dur": 2.17,
+			"error": "",
+			"id": "unit_greenheart_oathkeeper/my_shield_is_ysoldes_dcabb420",
+			"lufs": -15.466,
+			"path": "res://assets/audio/voice/unit_greenheart_oathkeeper/my_shield_is_ysoldes_dcabb420.wav",
+			"speaker": "unit_greenheart_oathkeeper",
+			"tp": -0.777
+		},
+		{
+			"dur": 1.68,
+			"error": "",
+			"id": "unit_greenheart_oathkeeper/shout_face_me_not_a1bd48e7",
+			"lufs": -13.304,
+			"path": "res://assets/audio/voice/unit_greenheart_oathkeeper/shout_face_me_not_a1bd48e7.wav",
+			"speaker": "unit_greenheart_oathkeeper",
+			"tp": -0.825
+		},
+		{
+			"dur": 2.06,
+			"error": "",
+			"id": "unit_greenheart_oathkeeper/the_grove_goes_with_5bbcbd57",
+			"lufs": -14.81,
+			"path": "res://assets/audio/voice/unit_greenheart_oathkeeper/the_grove_goes_with_5bbcbd57.wav",
+			"speaker": "unit_greenheart_oathkeeper",
+			"tp": -1.065
+		},
+		{
+			"dur": 1.7,
+			"error": "",
+			"id": "unit_greenheart_oathkeeper/the_oath_holds_fe9da187",
+			"lufs": -15.408,
+			"path": "res://assets/audio/voice/unit_greenheart_oathkeeper/the_oath_holds_fe9da187.wav",
+			"speaker": "unit_greenheart_oathkeeper",
+			"tp": -0.962
+		},
+		{
+			"dur": 1.259,
+			"error": "",
+			"id": "unit_hexweaver/i_weave_my_way_a03dd3d5",
+			"lufs": -13.515,
+			"path": "res://assets/audio/voice/unit_hexweaver/i_weave_my_way_a03dd3d5.wav",
+			"speaker": "unit_hexweaver",
+			"tp": -1.06
+		},
+		{
+			"dur": 1.237,
+			"error": "",
+			"id": "unit_hexweaver/the_thread_is_cut_d4c312cd",
+			"lufs": -13.032,
+			"path": "res://assets/audio/voice/unit_hexweaver/the_thread_is_cut_d4c312cd.wav",
+			"speaker": "unit_hexweaver",
+			"tp": -1.006
+		},
+		{
+			"dur": 1.12,
+			"error": "",
+			"id": "unit_hexweaver/the_threads_are_ready_7b3601a5",
+			"lufs": -12.808,
+			"path": "res://assets/audio/voice/unit_hexweaver/the_threads_are_ready_7b3601a5.wav",
+			"speaker": "unit_hexweaver",
+			"tp": -1.015
+		},
+		{
+			"dur": 1.09,
+			"error": "",
+			"id": "unit_hexweaver/wither_little_hero_bb0b4c78",
+			"lufs": -12.225,
+			"path": "res://assets/audio/voice/unit_hexweaver/wither_little_hero_bb0b4c78.wav",
+			"speaker": "unit_hexweaver",
+			"tp": -0.977
+		},
+		{
+			"dur": 1.79,
+			"error": "",
+			"id": "unit_hoarlight_magebow/a_needle_of_frost_39aa7125",
+			"lufs": -14.935,
+			"path": "res://assets/audio/voice/unit_hoarlight_magebow/a_needle_of_frost_39aa7125.wav",
+			"speaker": "unit_hoarlight_magebow",
+			"tp": -0.933
+		},
+		{
+			"dur": 1.557,
+			"error": "",
+			"id": "unit_hoarlight_magebow/keeping_my_distance_304d6d9a",
+			"lufs": -13.707,
+			"path": "res://assets/audio/voice/unit_hoarlight_magebow/keeping_my_distance_304d6d9a.wav",
+			"speaker": "unit_hoarlight_magebow",
+			"tp": -0.978
+		},
+		{
+			"dur": 1.39,
+			"error": "",
+			"id": "unit_hoarlight_magebow/the_light_fades_982c3012",
+			"lufs": -14.465,
+			"path": "res://assets/audio/voice/unit_hoarlight_magebow/the_light_fades_982c3012.wav",
+			"speaker": "unit_hoarlight_magebow",
+			"tp": -0.952
+		},
+		{
+			"dur": 1.6,
+			"error": "",
+			"id": "unit_hoarlight_magebow/the_light_string_hums_be123534",
+			"lufs": -14.794,
+			"path": "res://assets/audio/voice/unit_hoarlight_magebow/the_light_string_hums_be123534.wav",
+			"speaker": "unit_hoarlight_magebow",
+			"tp": -0.968
+		},
+		{
+			"dur": 1.52,
+			"error": "",
+			"id": "unit_hollow_oathsworn/angry_i_do_not_1921e8d7",
+			"lufs": -14.489,
+			"path": "res://assets/audio/voice/unit_hollow_oathsworn/angry_i_do_not_1921e8d7.wav",
+			"speaker": "unit_hollow_oathsworn",
+			"tp": -0.998
+		},
+		{
+			"dur": 1.84,
+			"error": "",
+			"id": "unit_hollow_oathsworn/forgive_me_my_lord_c3790540",
+			"lufs": -13.76,
+			"path": "res://assets/audio/voice/unit_hollow_oathsworn/forgive_me_my_lord_c3790540.wav",
+			"speaker": "unit_hollow_oathsworn",
+			"tp": -1.705
+		},
+		{
+			"dur": 2.2,
+			"error": "",
+			"id": "unit_hollow_oathsworn/sworn_and_hollow_command_afb33045",
+			"lufs": -16.327,
+			"path": "res://assets/audio/voice/unit_hollow_oathsworn/sworn_and_hollow_command_afb33045.wav",
+			"speaker": "unit_hollow_oathsworn",
+			"tp": -0.941
+		},
+		{
+			"dur": 1.77,
+			"error": "",
+			"id": "unit_hollow_oathsworn/the_vow_walks_with_95e8f250",
+			"lufs": -15.063,
+			"path": "res://assets/audio/voice/unit_hollow_oathsworn/the_vow_walks_with_95e8f250.wav",
+			"speaker": "unit_hollow_oathsworn",
+			"tp": -0.692
+		},
+		{
+			"dur": 1.33,
+			"error": "",
+			"id": "unit_nightblood_reaver/line_26552966",
+			"lufs": -16.89,
+			"path": "res://assets/audio/voice/unit_nightblood_reaver/line_26552966.wav",
+			"speaker": "unit_nightblood_reaver",
+			"tp": -1.02
+		},
+		{
+			"dur": 0.95,
+			"error": "",
+			"id": "unit_nightblood_reaver/line_4e1bff37",
+			"lufs": -15.89,
+			"path": "res://assets/audio/voice/unit_nightblood_reaver/line_4e1bff37.wav",
+			"speaker": "unit_nightblood_reaver",
+			"tp": -0.997
+		},
+		{
+			"dur": 0.72,
+			"error": "",
+			"id": "unit_nightblood_reaver/line_4eafc37b",
+			"lufs": -13.639,
+			"path": "res://assets/audio/voice/unit_nightblood_reaver/line_4eafc37b.wav",
+			"speaker": "unit_nightblood_reaver",
+			"tp": -0.924
+		},
+		{
+			"dur": 2.11,
+			"error": "",
+			"id": "unit_nightblood_reaver/line_83b34597",
+			"lufs": -14.892,
+			"path": "res://assets/audio/voice/unit_nightblood_reaver/line_83b34597.wav",
+			"speaker": "unit_nightblood_reaver",
+			"tp": -0.908
+		},
+		{
+			"dur": 1.25,
+			"error": "",
+			"id": "unit_nightblood_reaver/line_8e2fe03c",
+			"lufs": -14.984,
+			"path": "res://assets/audio/voice/unit_nightblood_reaver/line_8e2fe03c.wav",
+			"speaker": "unit_nightblood_reaver",
+			"tp": -1.174
+		},
+		{
+			"dur": 1.84,
+			"error": "",
+			"id": "unit_nightblood_reaver/line_9614f68b",
+			"lufs": -17.187,
+			"path": "res://assets/audio/voice/unit_nightblood_reaver/line_9614f68b.wav",
+			"speaker": "unit_nightblood_reaver",
+			"tp": -0.923
+		},
+		{
+			"dur": 1.07,
+			"error": "",
+			"id": "unit_nightblood_reaver/line_c4700c49",
+			"lufs": -14.234,
+			"path": "res://assets/audio/voice/unit_nightblood_reaver/line_c4700c49.wav",
+			"speaker": "unit_nightblood_reaver",
+			"tp": -1.058
+		},
+		{
+			"dur": 2.614,
+			"error": "",
+			"id": "unit_nightbolt/a_bolt_of_night_909f5ca8",
+			"lufs": -16.066,
+			"path": "res://assets/audio/voice/unit_nightbolt/a_bolt_of_night_909f5ca8.wav",
+			"speaker": "unit_nightbolt",
+			"tp": -0.987
+		},
+		{
+			"dur": 2.01,
+			"error": "",
+			"id": "unit_nightbolt/pick_one_it_falls_259c448d",
+			"lufs": -17.113,
+			"path": "res://assets/audio/voice/unit_nightbolt/pick_one_it_falls_259c448d.wav",
+			"speaker": "unit_nightbolt",
+			"tp": -0.925
+		},
+		{
+			"dur": 1.685,
+			"error": "",
+			"id": "unit_nightbolt/quietly_then_62da1116",
+			"lufs": -15.431,
+			"path": "res://assets/audio/voice/unit_nightbolt/quietly_then_62da1116.wav",
+			"speaker": "unit_nightbolt",
+			"tp": -0.908
+		},
+		{
+			"dur": 2.069,
+			"error": "",
+			"id": "unit_nightbolt/the_night_takes_me_5c5b9ad1",
+			"lufs": -13.364,
+			"path": "res://assets/audio/voice/unit_nightbolt/the_night_takes_me_5c5b9ad1.wav",
+			"speaker": "unit_nightbolt",
+			"tp": -1.1
+		},
+		{
+			"dur": 1.64,
+			"error": "",
+			"id": "unit_pyre_adept/gather_close_and_burn_58b0ade8",
+			"lufs": -11.046,
+			"path": "res://assets/audio/voice/unit_pyre_adept/gather_close_and_burn_58b0ade8.wav",
+			"speaker": "unit_pyre_adept",
+			"tp": -0.964
+		},
+		{
+			"dur": 1.27,
+			"error": "",
+			"id": "unit_pyre_adept/i_carry_the_flame_e1abeb07",
+			"lufs": -10.555,
+			"path": "res://assets/audio/voice/unit_pyre_adept/i_carry_the_flame_e1abeb07.wav",
+			"speaker": "unit_pyre_adept",
+			"tp": -0.776
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "unit_pyre_adept/sad_the_bowl_goes_39bf3e17",
+			"lufs": -10.608,
+			"path": "res://assets/audio/voice/unit_pyre_adept/sad_the_bowl_goes_39bf3e17.wav",
+			"speaker": "unit_pyre_adept",
+			"tp": -0.946
+		},
+		{
+			"dur": 1.37,
+			"error": "",
+			"id": "unit_pyre_adept/the_bowl_is_lit_1770ac29",
+			"lufs": -11.585,
+			"path": "res://assets/audio/voice/unit_pyre_adept/the_bowl_is_lit_1770ac29.wav",
+			"speaker": "unit_pyre_adept",
+			"tp": -0.933
+		},
+		{
+			"dur": 2.01,
+			"error": "",
+			"id": "unit_rime_colossus/slow_colossus_awake_6a0eee73",
+			"lufs": -17.301,
+			"path": "res://assets/audio/voice/unit_rime_colossus/slow_colossus_awake_6a0eee73.wav",
+			"speaker": "unit_rime_colossus",
+			"tp": -1.042
+		},
+		{
+			"dur": 0.84,
+			"error": "",
+			"id": "unit_rime_colossus/slow_crush_e9656fa0",
+			"lufs": -14.238,
+			"path": "res://assets/audio/voice/unit_rime_colossus/slow_crush_e9656fa0.wav",
+			"speaker": "unit_rime_colossus",
+			"tp": -0.846
+		},
+		{
+			"dur": 1.19,
+			"error": "",
+			"id": "unit_rime_colossus/slow_melting_369ee0ae",
+			"lufs": -14.041,
+			"path": "res://assets/audio/voice/unit_rime_colossus/slow_melting_369ee0ae.wav",
+			"speaker": "unit_rime_colossus",
+			"tp": -0.781
+		},
+		{
+			"dur": 1.91,
+			"error": "",
+			"id": "unit_rime_colossus/slow_the_ground_shakes_89c64d3f",
+			"lufs": -15.192,
+			"path": "res://assets/audio/voice/unit_rime_colossus/slow_the_ground_shakes_89c64d3f.wav",
+			"speaker": "unit_rime_colossus",
+			"tp": -0.858
+		},
+		{
+			"dur": 1.36,
+			"error": "",
+			"id": "unit_rime_hauler/aye_pulling_c6222687",
+			"lufs": -13.904,
+			"path": "res://assets/audio/voice/unit_rime_hauler/aye_pulling_c6222687.wav",
+			"speaker": "unit_rime_hauler",
+			"tp": -0.962
+		},
+		{
+			"dur": 1.889,
+			"error": "",
+			"id": "unit_rime_hauler/leave_the_sled_for_a19bb35c",
+			"lufs": -14.88,
+			"path": "res://assets/audio/voice/unit_rime_hauler/leave_the_sled_for_a19bb35c.wav",
+			"speaker": "unit_rime_hauler",
+			"tp": -1.042
+		},
+		{
+			"dur": 1.69,
+			"error": "",
+			"id": "unit_rime_hauler/right_ill_have_a_92efb9f7",
+			"lufs": -19.75,
+			"path": "res://assets/audio/voice/unit_rime_hauler/right_ill_have_a_92efb9f7.wav",
+			"speaker": "unit_rime_hauler",
+			"tp": -1.771
+		},
+		{
+			"dur": 2.18,
+			"error": "",
+			"id": "unit_rime_hauler/sleds_empty_whats_the_6d62f3e0",
+			"lufs": -16.357,
+			"path": "res://assets/audio/voice/unit_rime_hauler/sleds_empty_whats_the_6d62f3e0.wav",
+			"speaker": "unit_rime_hauler",
+			"tp": -0.983
+		},
+		{
+			"dur": 1.73,
+			"error": "",
+			"id": "unit_rime_seer/calm_i_saw_you_fa4b05bc",
+			"lufs": -12.737,
+			"path": "res://assets/audio/voice/unit_rime_seer/calm_i_saw_you_fa4b05bc.wav",
+			"speaker": "unit_rime_seer",
+			"tp": -0.998
+		},
+		{
+			"dur": 1.77,
+			"error": "",
+			"id": "unit_rime_seer/i_did_not_see_33658dfe",
+			"lufs": -12.128,
+			"path": "res://assets/audio/voice/unit_rime_seer/i_did_not_see_33658dfe.wav",
+			"speaker": "unit_rime_seer",
+			"tp": -0.972
+		},
+		{
+			"dur": 1.95,
+			"error": "",
+			"id": "unit_rime_seer/the_frost_shows_the_85792e4d",
+			"lufs": -15.278,
+			"path": "res://assets/audio/voice/unit_rime_seer/the_frost_shows_the_85792e4d.wav",
+			"speaker": "unit_rime_seer",
+			"tp": -1.063
+		},
+		{
+			"dur": 1.65,
+			"error": "",
+			"id": "unit_rime_seer/winter_take_them_7ce329c5",
+			"lufs": -12.555,
+			"path": "res://assets/audio/voice/unit_rime_seer/winter_take_them_7ce329c5.wav",
+			"speaker": "unit_rime_seer",
+			"tp": -0.965
+		},
+		{
+			"dur": 1.04,
+			"error": "",
+			"id": "unit_rimeling/aww_melted_0c209b26",
+			"lufs": -13.712,
+			"path": "res://assets/audio/voice/unit_rimeling/aww_melted_0c209b26.wav",
+			"speaker": "unit_rimeling",
+			"tp": -0.98
+		},
+		{
+			"dur": 1.19,
+			"error": "",
+			"id": "unit_rimeling/excited_brr_ready_ready_3789993a",
+			"lufs": -14.21,
+			"path": "res://assets/audio/voice/unit_rimeling/excited_brr_ready_ready_3789993a.wav",
+			"speaker": "unit_rimeling",
+			"tp": -1.014
+		},
+		{
+			"dur": 0.99,
+			"error": "",
+			"id": "unit_rimeling/sliding_over_4afd065c",
+			"lufs": -13.597,
+			"path": "res://assets/audio/voice/unit_rimeling/sliding_over_4afd065c.wav",
+			"speaker": "unit_rimeling",
+			"tp": -0.805
+		},
+		{
+			"dur": 1.16,
+			"error": "",
+			"id": "unit_rimeling/stab_stab_chill_ce576060",
+			"lufs": -14.24,
+			"path": "res://assets/audio/voice/unit_rimeling/stab_stab_chill_ce576060.wav",
+			"speaker": "unit_rimeling",
+			"tp": -0.937
+		},
+		{
+			"dur": 1.813,
+			"error": "",
+			"id": "unit_rimeshield/all_voy_con_la_049f00e8",
+			"lufs": -16.254,
+			"path": "res://assets/audio/voice/unit_rimeshield/all_voy_con_la_049f00e8.wav",
+			"speaker": "unit_rimeshield",
+			"tp": -1.206
+		},
+		{
+			"dur": 1.27,
+			"error": "",
+			"id": "unit_rimeshield/caigo_con_orgullo_4ccec8c9",
+			"lufs": -15.557,
+			"path": "res://assets/audio/voice/unit_rimeshield/caigo_con_orgullo_4ccec8c9.wav",
+			"speaker": "unit_rimeshield",
+			"tp": -1.123
+		},
+		{
+			"dur": 1.227,
+			"error": "",
+			"id": "unit_rimeshield/con_honor_siempre_6a7e64f9",
+			"lufs": -13.632,
+			"path": "res://assets/audio/voice/unit_rimeshield/con_honor_siempre_6a7e64f9.wav",
+			"speaker": "unit_rimeshield",
+			"tp": -0.95
+		},
+		{
+			"dur": 1.941,
+			"error": "",
+			"id": "unit_rimeshield/mi_escudo_jam_s_da99281c",
+			"lufs": -15.266,
+			"path": "res://assets/audio/voice/unit_rimeshield/mi_escudo_jam_s_da99281c.wav",
+			"speaker": "unit_rimeshield",
+			"tp": -0.868
+		},
+		{
+			"dur": 1.408,
+			"error": "",
+			"id": "unit_rimeshield/nadie_pasa_nadie_33654a4f",
+			"lufs": -14.745,
+			"path": "res://assets/audio/voice/unit_rimeshield/nadie_pasa_nadie_33654a4f.wav",
+			"speaker": "unit_rimeshield",
+			"tp": -0.87
+		},
+		{
+			"dur": 1.429,
+			"error": "",
+			"id": "unit_rimeshield/por_la_gloria_del_b9589609",
+			"lufs": -15.731,
+			"path": "res://assets/audio/voice/unit_rimeshield/por_la_gloria_del_b9589609.wav",
+			"speaker": "unit_rimeshield",
+			"tp": -0.82
+		},
+		{
+			"dur": 2.091,
+			"error": "",
+			"id": "unit_rimeshield/s_el_escudo_m_e192d010",
+			"lufs": -14.114,
+			"path": "res://assets/audio/voice/unit_rimeshield/s_el_escudo_m_e192d010.wav",
+			"speaker": "unit_rimeshield",
+			"tp": -0.762
+		},
+		{
+			"dur": 1.8,
+			"error": "",
+			"id": "unit_scorchbow/arrows_lit_name_the_1c9120c5",
+			"lufs": -13.919,
+			"path": "res://assets/audio/voice/unit_scorchbow/arrows_lit_name_the_1c9120c5.wav",
+			"speaker": "unit_scorchbow",
+			"tp": -0.993
+		},
+		{
+			"dur": 1.56,
+			"error": "",
+			"id": "unit_scorchbow/finding_a_better_angle_aee10c3f",
+			"lufs": -15.151,
+			"path": "res://assets/audio/voice/unit_scorchbow/finding_a_better_angle_aee10c3f.wav",
+			"speaker": "unit_scorchbow",
+			"tp": -0.905
+		},
+		{
+			"dur": 1.33,
+			"error": "",
+			"id": "unit_scorchbow/let_them_burn_a_54305742",
+			"lufs": -15.002,
+			"path": "res://assets/audio/voice/unit_scorchbow/let_them_burn_a_54305742.wav",
+			"speaker": "unit_scorchbow",
+			"tp": -0.954
+		},
+		{
+			"dur": 1.39,
+			"error": "",
+			"id": "unit_scorchbow/missed_the_last_one_a4e47ce4",
+			"lufs": -14.316,
+			"path": "res://assets/audio/voice/unit_scorchbow/missed_the_last_one_a4e47ce4.wav",
+			"speaker": "unit_scorchbow",
+			"tp": -0.975
+		},
+		{
+			"dur": 0.74,
+			"error": "",
+			"id": "unit_scorchling/excited_bite_burn_bite_e68afbdd",
+			"lufs": -13.857,
+			"path": "res://assets/audio/voice/unit_scorchling/excited_bite_burn_bite_e68afbdd.wav",
+			"speaker": "unit_scorchling",
+			"tp": -1.047
+		},
+		{
+			"dur": 0.789,
+			"error": "",
+			"id": "unit_scorchling/excited_hee_hee_me_e3ffc4c3",
+			"lufs": -12.902,
+			"path": "res://assets/audio/voice/unit_scorchling/excited_hee_hee_me_e3ffc4c3.wav",
+			"speaker": "unit_scorchling",
+			"tp": -0.932
+		},
+		{
+			"dur": 0.427,
+			"error": "",
+			"id": "unit_scorchling/pop_dc975184",
+			"lufs": -15.204,
+			"path": "res://assets/audio/voice/unit_scorchling/pop_dc975184.wav",
+			"speaker": "unit_scorchling",
+			"tp": -1.021
+		},
+		{
+			"dur": 0.75,
+			"error": "",
+			"id": "unit_scorchling/running_running_ca5f4474",
+			"lufs": -12.632,
+			"path": "res://assets/audio/voice/unit_scorchling/running_running_ca5f4474.wav",
+			"speaker": "unit_scorchling",
+			"tp": -1.019
+		},
+		{
+			"dur": 2.08,
+			"error": "",
+			"id": "unit_shadow_knight/my_blade_is_sworn_0523a789",
+			"lufs": -14.025,
+			"path": "res://assets/audio/voice/unit_shadow_knight/my_blade_is_sworn_0523a789.wav",
+			"speaker": "unit_shadow_knight",
+			"tp": -0.937
+		},
+		{
+			"dur": 1.63,
+			"error": "",
+			"id": "unit_shadow_knight/my_oath_is_kept_9a0c06d2",
+			"lufs": -14.581,
+			"path": "res://assets/audio/voice/unit_shadow_knight/my_oath_is_kept_9a0c06d2.wav",
+			"speaker": "unit_shadow_knight",
+			"tp": -0.969
+		},
+		{
+			"dur": 1.44,
+			"error": "",
+			"id": "unit_shadow_knight/riding_in_black_f0be9173",
+			"lufs": -12.863,
+			"path": "res://assets/audio/voice/unit_shadow_knight/riding_in_black_f0be9173.wav",
+			"speaker": "unit_shadow_knight",
+			"tp": -0.991
+		},
+		{
+			"dur": 1.3,
+			"error": "",
+			"id": "unit_shadow_knight/shout_break_their_line_803451cf",
+			"lufs": -14.346,
+			"path": "res://assets/audio/voice/unit_shadow_knight/shout_break_their_line_803451cf.wav",
+			"speaker": "unit_shadow_knight",
+			"tp": -0.993
+		},
+		{
+			"dur": 1.51,
+			"error": "",
+			"id": "unit_shardcaster/mind_the_splinters_65713bb5",
+			"lufs": -13.889,
+			"path": "res://assets/audio/voice/unit_shardcaster/mind_the_splinters_65713bb5.wav",
+			"speaker": "unit_shardcaster",
+			"tp": -0.965
+		},
+		{
+			"dur": 1.71,
+			"error": "",
+			"id": "unit_shardcaster/shards_are_sharp_where_a2c2fcc6",
+			"lufs": -14.782,
+			"path": "res://assets/audio/voice/unit_shardcaster/shards_are_sharp_where_a2c2fcc6.wav",
+			"speaker": "unit_shardcaster",
+			"tp": -0.899
+		},
+		{
+			"dur": 0.91,
+			"error": "",
+			"id": "unit_shardcaster/shattered_34370b1d",
+			"lufs": -15.845,
+			"path": "res://assets/audio/voice/unit_shardcaster/shattered_34370b1d.wav",
+			"speaker": "unit_shardcaster",
+			"tp": -0.913
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "unit_shardcaster/stepping_lightly_a2267b67",
+			"lufs": -14.067,
+			"path": "res://assets/audio/voice/unit_shardcaster/stepping_lightly_a2267b67.wav",
+			"speaker": "unit_shardcaster",
+			"tp": -1.013
+		},
+		{
+			"dur": 1.71,
+			"error": "",
+			"id": "unit_shardguard/angry_stand_against_the_f5e7e8e1",
+			"lufs": -16.257,
+			"path": "res://assets/audio/voice/unit_shardguard/angry_stand_against_the_f5e7e8e1.wav",
+			"speaker": "unit_shardguard",
+			"tp": -1.095
+		},
+		{
+			"dur": 1.96,
+			"error": "",
+			"id": "unit_shardguard/even_glaciers_fall_bb1896c8",
+			"lufs": -14.797,
+			"path": "res://assets/audio/voice/unit_shardguard/even_glaciers_fall_bb1896c8.wav",
+			"speaker": "unit_shardguard",
+			"tp": -0.903
+		},
+		{
+			"dur": 1.6,
+			"error": "",
+			"id": "unit_shardguard/the_shardguard_stands_01700b16",
+			"lufs": -13.445,
+			"path": "res://assets/audio/voice/unit_shardguard/the_shardguard_stands_01700b16.wav",
+			"speaker": "unit_shardguard",
+			"tp": -0.972
+		},
+		{
+			"dur": 1.91,
+			"error": "",
+			"id": "unit_shardguard/where_i_walk_the_b31beda4",
+			"lufs": -14.557,
+			"path": "res://assets/audio/voice/unit_shardguard/where_i_walk_the_b31beda4.wav",
+			"speaker": "unit_shardguard",
+			"tp": -0.932
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "unit_sprigling/hello_something_to_grow_1cf1f2d9",
+			"lufs": -14.301,
+			"path": "res://assets/audio/voice/unit_sprigling/hello_something_to_grow_1cf1f2d9.wav",
+			"speaker": "unit_sprigling",
+			"tp": -1.142
+		},
+		{
+			"dur": 1.06,
+			"error": "",
+			"id": "unit_sprigling/hopping_along_af043104",
+			"lufs": -12.948,
+			"path": "res://assets/audio/voice/unit_sprigling/hopping_along_af043104.wav",
+			"speaker": "unit_sprigling",
+			"tp": -0.809
+		},
+		{
+			"dur": 1.3,
+			"error": "",
+			"id": "unit_sprigling/oh_dear_here_goes_db0a0d08",
+			"lufs": -16.057,
+			"path": "res://assets/audio/voice/unit_sprigling/oh_dear_here_goes_db0a0d08.wav",
+			"speaker": "unit_sprigling",
+			"tp": -1.003
+		},
+		{
+			"dur": 0.76,
+			"error": "",
+			"id": "unit_sprigling/wilting_4e624587",
+			"lufs": -13.805,
+			"path": "res://assets/audio/voice/unit_sprigling/wilting_4e624587.wav",
+			"speaker": "unit_sprigling",
+			"tp": -0.889
+		},
+		{
+			"dur": 1.08,
+			"error": "",
+			"id": "unit_stormbottle_genie/back_in_the_bottle_378afe49",
+			"lufs": -13.047,
+			"path": "res://assets/audio/voice/unit_stormbottle_genie/back_in_the_bottle_378afe49.wav",
+			"speaker": "unit_stormbottle_genie",
+			"tp": -0.966
+		},
+		{
+			"dur": 1.34,
+			"error": "",
+			"id": "unit_stormbottle_genie/excited_a_little_thunder_d796a5cc",
+			"lufs": -15.79,
+			"path": "res://assets/audio/voice/unit_stormbottle_genie/excited_a_little_thunder_d796a5cc.wav",
+			"speaker": "unit_stormbottle_genie",
+			"tp": -1.122
+		},
+		{
+			"dur": 1.707,
+			"error": "",
+			"id": "unit_stormbottle_genie/floating_over_no_rush_9241be98",
+			"lufs": -15.263,
+			"path": "res://assets/audio/voice/unit_stormbottle_genie/floating_over_no_rush_9241be98.wav",
+			"speaker": "unit_stormbottle_genie",
+			"tp": -0.869
+		},
+		{
+			"dur": 1.53,
+			"error": "",
+			"id": "unit_stormbottle_genie/out_of_the_bottle_ade6b68b",
+			"lufs": -14.264,
+			"path": "res://assets/audio/voice/unit_stormbottle_genie/out_of_the_bottle_ade6b68b.wav",
+			"speaker": "unit_stormbottle_genie",
+			"tp": -0.946
+		},
+		{
+			"dur": 0.89,
+			"error": "",
+			"id": "unit_thistle_darter/blown_away_5b91717a",
+			"lufs": -13.799,
+			"path": "res://assets/audio/voice/unit_thistle_darter/blown_away_5b91717a.wav",
+			"speaker": "unit_thistle_darter",
+			"tp": -0.83
+		},
+		{
+			"dur": 1.03,
+			"error": "",
+			"id": "unit_thistle_darter/puff_and_away_d22dd5ef",
+			"lufs": -14.022,
+			"path": "res://assets/audio/voice/unit_thistle_darter/puff_and_away_d22dd5ef.wav",
+			"speaker": "unit_thistle_darter",
+			"tp": -0.937
+		},
+		{
+			"dur": 1.24,
+			"error": "",
+			"id": "unit_thistle_darter/quick_quick_what_is_d6b8478d",
+			"lufs": -14.441,
+			"path": "res://assets/audio/voice/unit_thistle_darter/quick_quick_what_is_d6b8478d.wav",
+			"speaker": "unit_thistle_darter",
+			"tp": -1.073
+		},
+		{
+			"dur": 0.64,
+			"error": "",
+			"id": "unit_thistle_darter/zip_7aad960c",
+			"lufs": -13.718,
+			"path": "res://assets/audio/voice/unit_thistle_darter/zip_7aad960c.wav",
+			"speaker": "unit_thistle_darter",
+			"tp": -1.161
+		},
+		{
+			"dur": 1.49,
+			"error": "",
+			"id": "unit_thornling/finally_who_are_we_042747af",
+			"lufs": -17.117,
+			"path": "res://assets/audio/voice/unit_thornling/finally_who_are_we_042747af.wav",
+			"speaker": "unit_thornling",
+			"tp": -1.018
+		},
+		{
+			"dur": 1.665,
+			"error": "",
+			"id": "unit_thornling/fine_there_better_be_57662165",
+			"lufs": -17.66,
+			"path": "res://assets/audio/voice/unit_thornling/fine_there_better_be_57662165.wav",
+			"speaker": "unit_thornling",
+			"tp": -1.1
+		},
+		{
+			"dur": 1.195,
+			"error": "",
+			"id": "unit_thornling/shout_oh_yeah_come_582f215f",
+			"lufs": -14.151,
+			"path": "res://assets/audio/voice/unit_thornling/shout_oh_yeah_come_582f215f.wav",
+			"speaker": "unit_thornling",
+			"tp": -0.928
+		},
+		{
+			"dur": 1.344,
+			"error": "",
+			"id": "unit_thornling/shout_thats_what_im_2a42ca39",
+			"lufs": -13.482,
+			"path": "res://assets/audio/voice/unit_thornling/shout_thats_what_im_2a42ca39.wav",
+			"speaker": "unit_thornling",
+			"tp": -1.036
+		},
+		{
+			"dur": 1.55,
+			"error": "",
+			"id": "unit_thornling/walking_id_rather_be_cda85f45",
+			"lufs": -14.146,
+			"path": "res://assets/audio/voice/unit_thornling/walking_id_rather_be_cda85f45.wav",
+			"speaker": "unit_thornling",
+			"tp": -1.038
+		},
+		{
+			"dur": 0.68,
+			"error": "",
+			"id": "unit_thornling/worth_it_265b17b1",
+			"lufs": -12.834,
+			"path": "res://assets/audio/voice/unit_thornling/worth_it_265b17b1.wav",
+			"speaker": "unit_thornling",
+			"tp": -0.941
+		},
+		{
+			"dur": 1.749,
+			"error": "",
+			"id": "unit_thornling/you_looking_at_me_14898f12",
+			"lufs": -15.163,
+			"path": "res://assets/audio/voice/unit_thornling/you_looking_at_me_14898f12.wav",
+			"speaker": "unit_thornling",
+			"tp": -0.854
+		},
+		{
+			"dur": 0.97,
+			"error": "",
+			"id": "unit_vinelasher/creeping_forward_88d458d7",
+			"lufs": -12.546,
+			"path": "res://assets/audio/voice/unit_vinelasher/creeping_forward_88d458d7.wav",
+			"speaker": "unit_vinelasher",
+			"tp": -0.578
+		},
+		{
+			"dur": 1.42,
+			"error": "",
+			"id": "unit_vinelasher/hold_still_rooted_7e9b2d7d",
+			"lufs": -13.755,
+			"path": "res://assets/audio/voice/unit_vinelasher/hold_still_rooted_7e9b2d7d.wav",
+			"speaker": "unit_vinelasher",
+			"tp": -1.051
+		},
+		{
+			"dur": 1.237,
+			"error": "",
+			"id": "unit_vinelasher/the_vines_are_restless_0c718a7e",
+			"lufs": -16.363,
+			"path": "res://assets/audio/voice/unit_vinelasher/the_vines_are_restless_0c718a7e.wav",
+			"speaker": "unit_vinelasher",
+			"tp": -1.038
+		},
+		{
+			"dur": 1.49,
+			"error": "",
+			"id": "unit_vinelasher/torn_from_the_ground_350bafd9",
+			"lufs": -14.088,
+			"path": "res://assets/audio/voice/unit_vinelasher/torn_from_the_ground_350bafd9.wav",
+			"speaker": "unit_vinelasher",
+			"tp": -1.1
+		},
+		{
+			"dur": 1.55,
+			"error": "",
+			"id": "unit_wildwood_archer/aim_low_slow_them_4bfa1ccd",
+			"lufs": -12.866,
+			"path": "res://assets/audio/voice/unit_wildwood_archer/aim_low_slow_them_4bfa1ccd.wav",
+			"speaker": "unit_wildwood_archer",
+			"tp": -0.984
+		},
+		{
+			"dur": 1.858,
+			"error": "",
+			"id": "unit_wildwood_archer/slipping_between_the_trees_0b1022e2",
+			"lufs": -15.958,
+			"path": "res://assets/audio/voice/unit_wildwood_archer/slipping_between_the_trees_0b1022e2.wav",
+			"speaker": "unit_wildwood_archer",
+			"tp": -0.762
+		},
+		{
+			"dur": 1.55,
+			"error": "",
+			"id": "unit_wildwood_archer/the_leaves_are_falling_f810021b",
+			"lufs": -14.734,
+			"path": "res://assets/audio/voice/unit_wildwood_archer/the_leaves_are_falling_f810021b.wav",
+			"speaker": "unit_wildwood_archer",
+			"tp": -0.895
+		},
+		{
+			"dur": 1.75,
+			"error": "",
+			"id": "unit_wildwood_archer/the_wood_has_eyes_6b44db9d",
+			"lufs": -14.201,
+			"path": "res://assets/audio/voice/unit_wildwood_archer/the_wood_has_eyes_6b44db9d.wav",
+			"speaker": "unit_wildwood_archer",
+			"tp": -0.626
+		},
+		{
+			"dur": 5.589,
+			"error": "",
+			"id": "vessa/an_ember_crown_in_21770f9f",
+			"lufs": -14.957,
+			"path": "res://assets/audio/voice/vessa/an_ember_crown_in_21770f9f.wav",
+			"speaker": "vessa",
+			"tp": -0.85
+		},
+		{
+			"dur": 2.88,
+			"error": "",
+			"id": "vessa/but_her_people_have_6f60fcc0",
+			"lufs": -15.567,
+			"path": "res://assets/audio/voice/vessa/but_her_people_have_6f60fcc0.wav",
+			"speaker": "vessa",
+			"tp": -0.925
+		},
+		{
+			"dur": 2.02,
+			"error": "",
+			"id": "vessa/hold_on_ysolde_fire_413040f1",
+			"lufs": -15.484,
+			"path": "res://assets/audio/voice/vessa/hold_on_ysolde_fire_413040f1.wav",
+			"speaker": "vessa",
+			"tp": -0.886
+		},
+		{
+			"dur": 1.97,
+			"error": "",
+			"id": "vessa/i_know_youre_tired_54835bf6",
+			"lufs": -13.824,
+			"path": "res://assets/audio/voice/vessa/i_know_youre_tired_54835bf6.wav",
+			"speaker": "vessa",
+			"tp": -1.11
+		},
+		{
+			"dur": 2.816,
+			"error": "",
+			"id": "vessa/im_here_for_the_10aceb62",
+			"lufs": -17.748,
+			"path": "res://assets/audio/voice/vessa/im_here_for_the_10aceb62.wav",
+			"speaker": "vessa",
+			"tp": -0.912
+		},
+		{
+			"dur": 0.929,
+			"error": "",
+			"id": "vessa/im_not_laughing_ac71c3e1",
+			"lufs": -12.002,
+			"path": "res://assets/audio/voice/vessa/im_not_laughing_ac71c3e1.wav",
+			"speaker": "vessa",
+			"tp": -0.692
+		},
+		{
+			"dur": 0.9,
+			"error": "",
+			"id": "vessa/malriks_side_ccd3f916",
+			"lufs": -12.651,
+			"path": "res://assets/audio/voice/vessa/malriks_side_ccd3f916.wav",
+			"speaker": "vessa",
+			"tp": -1.057
+		},
+		{
+			"dur": 1.49,
+			"error": "",
+			"id": "vessa/me_breathe_who_sent_798d6010",
+			"lufs": -16.083,
+			"path": "res://assets/audio/voice/vessa/me_breathe_who_sent_798d6010.wav",
+			"speaker": "vessa",
+			"tp": -0.825
+		},
+		{
+			"dur": 0.8,
+			"error": "",
+			"id": "vessa/not_tonight_0703ac9b",
+			"lufs": -10.927,
+			"path": "res://assets/audio/voice/vessa/not_tonight_0703ac9b.wav",
+			"speaker": "vessa",
+			"tp": -0.87
+		},
+		{
+			"dur": 1.93,
+			"error": "",
+			"id": "vessa/one_dance_then_im_faec23ce",
+			"lufs": -17.146,
+			"path": "res://assets/audio/voice/vessa/one_dance_then_im_faec23ce.wav",
+			"speaker": "vessa",
+			"tp": -0.92
+		},
+		{
+			"dur": 4.15,
+			"error": "",
+			"id": "vessa/one_lit_malrik_you_c51368de",
+			"lufs": -14.96,
+			"path": "res://assets/audio/voice/vessa/one_lit_malrik_you_c51368de.wav",
+			"speaker": "vessa",
+			"tp": -1.077
+		},
+		{
+			"dur": 1.64,
+			"error": "",
+			"id": "vessa/tell_the_others_i_62fd53ca",
+			"lufs": -14.819,
+			"path": "res://assets/audio/voice/vessa/tell_the_others_i_62fd53ca.wav",
+			"speaker": "vessa",
+			"tp": -1.061
+		},
+		{
+			"dur": 1.858,
+			"error": "",
+			"id": "vessa/the_watch_fires_are_67de4a2b",
+			"lufs": -14.261,
+			"path": "res://assets/audio/voice/vessa/the_watch_fires_are_67de4a2b.wav",
+			"speaker": "vessa",
+			"tp": -0.612
+		},
+		{
+			"dur": 3.221,
+			"error": "",
+			"id": "vessa/then_its_in_the_02a82f6a",
+			"lufs": -17.768,
+			"path": "res://assets/audio/voice/vessa/then_its_in_the_02a82f6a.wav",
+			"speaker": "vessa",
+			"tp": -0.787
+		},
+		{
+			"dur": 5.015,
+			"error": "",
+			"id": "vessa/three_braziers_one_seal_a933259b",
+			"lufs": -15.212,
+			"path": "res://assets/audio/voice/vessa/three_braziers_one_seal_a933259b.wav",
+			"speaker": "vessa",
+			"tp": -0.91
+		},
+		{
+			"dur": 1.217,
+			"error": "",
+			"id": "vessa/vey_get_up_and_c64e0931",
+			"lufs": -13.698,
+			"path": "res://assets/audio/voice/vessa/vey_get_up_and_c64e0931.wav",
+			"speaker": "vessa",
+			"tp": -0.933
+		},
+		{
+			"dur": 1.19,
+			"error": "",
+			"id": "vessa/vey_ride_with_me_5b43aae2",
+			"lufs": -14.145,
+			"path": "res://assets/audio/voice/vessa/vey_ride_with_me_5b43aae2.wav",
+			"speaker": "vessa",
+			"tp": -0.924
+		},
+		{
+			"dur": 1.43,
+			"error": "",
+			"id": "vessa/who_walks_the_wall_45dd4c19",
+			"lufs": -12.372,
+			"path": "res://assets/audio/voice/vessa/who_walks_the_wall_45dd4c19.wav",
+			"speaker": "vessa",
+			"tp": -0.932
+		},
+		{
+			"dur": 1.94,
+			"error": "",
+			"id": "vessa/you_are_a_long_e1ae8fe0",
+			"lufs": -13.244,
+			"path": "res://assets/audio/voice/vessa/you_are_a_long_e1ae8fe0.wav",
+			"speaker": "vessa",
+			"tp": -0.836
+		},
+		{
+			"dur": 1.22,
+			"error": "",
+			"id": "vessa/ysolde_theyre_moving_a67643f3",
+			"lufs": -18.22,
+			"path": "res://assets/audio/voice/vessa/ysolde_theyre_moving_a67643f3.wav",
+			"speaker": "vessa",
+			"tp": -1.053
+		},
+		{
+			"dur": 3.139,
+			"error": "",
+			"id": "vey/i_felled_a_mountain_227f8c5f",
+			"lufs": -14.221,
+			"path": "res://assets/audio/voice/vey/i_felled_a_mountain_227f8c5f.wav",
+			"speaker": "vey",
+			"tp": -0.782
+		},
+		{
+			"dur": 2.05,
+			"error": "",
+			"id": "vey/so_torvald_chose_a_396c70fe",
+			"lufs": -14.732,
+			"path": "res://assets/audio/voice/vey/so_torvald_chose_a_396c70fe.wav",
+			"speaker": "vey",
+			"tp": -0.792
+		},
+		{
+			"dur": 2.27,
+			"error": "",
+			"id": "vey/still_standing_girl_mostly_43d81f88",
+			"lufs": -13.694,
+			"path": "res://assets/audio/voice/vey/still_standing_girl_mostly_43d81f88.wav",
+			"speaker": "vey",
+			"tp": -0.903
+		},
+		{
+			"dur": 1.81,
+			"error": "",
+			"id": "vey/struck_down_again_34750c30",
+			"lufs": -16.242,
+			"path": "res://assets/audio/voice/vey/struck_down_again_34750c30.wav",
+			"speaker": "vey",
+			"tp": -0.948
+		},
+		{
+			"dur": 2.63,
+			"error": "",
+			"id": "vey/the_spark_first_girl_92374f56",
+			"lufs": -14.748,
+			"path": "res://assets/audio/voice/vey/the_spark_first_girl_92374f56.wav",
+			"speaker": "vey",
+			"tp": -1.022
+		},
+		{
+			"dur": 3.755,
+			"error": "",
+			"id": "ysolde/a_tall_man_with_160c2abd",
+			"lufs": -14.244,
+			"path": "res://assets/audio/voice/ysolde/a_tall_man_with_160c2abd.wav",
+			"speaker": "ysolde",
+			"tp": -0.988
+		},
+		{
+			"dur": 3.84,
+			"error": "",
+			"id": "ysolde/he_said_show_me_79d79140",
+			"lufs": -14.099,
+			"path": "res://assets/audio/voice/ysolde/he_said_show_me_79d79140.wav",
+			"speaker": "ysolde",
+			"tp": -0.773
+		},
+		{
+			"dur": 4.373,
+			"error": "",
+			"id": "ysolde/i_knelt_in_the_143cbc56",
+			"lufs": -15.278,
+			"path": "res://assets/audio/voice/ysolde/i_knelt_in_the_143cbc56.wav",
+			"speaker": "ysolde",
+			"tp": -0.981
+		},
+		{
+			"dur": 3.766,
+			"error": "",
+			"id": "ysolde/i_was_born_on_fbe13b97",
+			"lufs": -13.405,
+			"path": "res://assets/audio/voice/ysolde/i_was_born_on_fbe13b97.wav",
+			"speaker": "ysolde",
+			"tp": -1.09
+		},
+		{
+			"dur": 3.691,
+			"error": "",
+			"id": "ysolde/in_spring_it_came_67120205",
+			"lufs": -13.579,
+			"path": "res://assets/audio/voice/ysolde/in_spring_it_came_67120205.wav",
+			"speaker": "ysolde",
+			"tp": -0.724
+		},
+		{
+			"dur": 1.17,
+			"error": "",
+			"id": "ysolde/it_will_not_stop_46dfa508",
+			"lufs": -11.356,
+			"path": "res://assets/audio/voice/ysolde/it_will_not_stop_46dfa508.wav",
+			"speaker": "ysolde",
+			"tp": -1.005
+		},
+		{
+			"dur": 4.203,
+			"error": "",
+			"id": "ysolde/last_winter_they_burned_e017cf01",
+			"lufs": -14.133,
+			"path": "res://assets/audio/voice/ysolde/last_winter_they_burned_e017cf01.wav",
+			"speaker": "ysolde",
+			"tp": -1.046
+		},
+		{
+			"dur": 2.315,
+			"error": "",
+			"id": "ysolde/let_them_come_cut_d956830a",
+			"lufs": -13.457,
+			"path": "res://assets/audio/voice/ysolde/let_them_come_cut_d956830a.wav",
+			"speaker": "ysolde",
+			"tp": -0.799
+		},
+		{
+			"dur": 3.712,
+			"error": "",
+			"id": "ysolde/malrik_stands_up_there_5121c046",
+			"lufs": -14.686,
+			"path": "res://assets/audio/voice/ysolde/malrik_stands_up_there_5121c046.wav",
+			"speaker": "ysolde",
+			"tp": -1.158
+		},
+		{
+			"dur": 3.968,
+			"error": "",
+			"id": "ysolde/malrik_tells_his_life_52243579",
+			"lufs": -14.539,
+			"path": "res://assets/audio/voice/ysolde/malrik_tells_his_life_52243579.wav",
+			"speaker": "ysolde",
+			"tp": -0.974
+		},
+		{
+			"dur": 3.92,
+			"error": "",
+			"id": "ysolde/my_mother_buried_seed_b7d7b32b",
+			"lufs": -13.858,
+			"path": "res://assets/audio/voice/ysolde/my_mother_buried_seed_b7d7b32b.wav",
+			"speaker": "ysolde",
+			"tp": -1.126
+		},
+		{
+			"dur": 4.416,
+			"error": "",
+			"id": "ysolde/that_is_my_strength_ae118cbe",
+			"lufs": -16.138,
+			"path": "res://assets/audio/voice/ysolde/that_is_my_strength_ae118cbe.wav",
+			"speaker": "ysolde",
+			"tp": -0.498
+		},
+		{
+			"dur": 4.11,
+			"error": "",
+			"id": "ysolde/the_master_planted_this_049c4f15",
+			"lufs": -15.41,
+			"path": "res://assets/audio/voice/ysolde/the_master_planted_this_049c4f15.wav",
+			"speaker": "ysolde",
+			"tp": -1.099
+		},
+		{
+			"dur": 4.321,
+			"error": "",
+			"id": "ysolde/they_call_me_soft_3535b2b2",
+			"lufs": -15.773,
+			"path": "res://assets/audio/voice/ysolde/they_call_me_soft_3535b2b2.wav",
+			"speaker": "ysolde",
+			"tp": -0.638
+		}
+	],
+	"speech_by_speaker": {
+		"_all": -14.659,
+		"aldra": {
+			"dur_s": 3.85,
+			"hi": -11.948,
+			"lo": -14.725,
+			"median": -13.336,
+			"n": 2,
+			"tp_max": -0.879
+		},
+		"ashby": {
+			"dur_s": 6.11,
+			"hi": -11.525,
+			"lo": -12.481,
+			"median": -11.869,
+			"n": 3,
+			"tp_max": -0.848
+		},
+		"dancer": {
+			"dur_s": 1.76,
+			"hi": -16.609,
+			"lo": -16.609,
+			"median": -16.609,
+			"n": 1,
+			"tp_max": -0.94
+		},
+		"hush": {
+			"dur_s": 3.04,
+			"hi": -13.663,
+			"lo": -15.829,
+			"median": -14.746,
+			"n": 2,
+			"tp_max": -0.954
+		},
+		"maelis": {
+			"dur_s": 2.96,
+			"hi": -12.168,
+			"lo": -17.705,
+			"median": -14.937,
+			"n": 2,
+			"tp_max": -0.999
+		},
+		"malrik": {
+			"dur_s": 80.275,
+			"hi": -11.711,
+			"lo": -15.834,
+			"median": -13.489,
+			"n": 19,
+			"tp_max": -0.833
+		},
+		"master": {
+			"dur_s": 124.119,
+			"hi": -14.147,
+			"lo": -18.662,
+			"median": -17.02,
+			"n": 30,
+			"tp_max": -0.429
+		},
+		"messenger": {
+			"dur_s": 15.759,
+			"hi": -12.479,
+			"lo": -18.527,
+			"median": -15.446,
+			"n": 11,
+			"tp_max": -0.798
+		},
+		"narrator": {
+			"dur_s": 17.26,
+			"hi": -16.581,
+			"lo": -19.951,
+			"median": -18.523,
+			"n": 4,
+			"tp_max": -0.676
+		},
+		"pell": {
+			"dur_s": 5.57,
+			"hi": -15.826,
+			"lo": -15.826,
+			"median": -15.826,
+			"n": 1,
+			"tp_max": -0.997
+		},
+		"reveler": {
+			"dur_s": 1.66,
+			"hi": -15.306,
+			"lo": -15.306,
+			"median": -15.306,
+			"n": 1,
+			"tp_max": -0.797
+		},
+		"shade": {
+			"dur_s": 8.809,
+			"hi": -11.619,
+			"lo": -14.999,
+			"median": -13.789,
+			"n": 5,
+			"tp_max": -0.857
+		},
+		"unit_ash_hurler": {
+			"dur_s": 7.37,
+			"hi": -13.256,
+			"lo": -17.652,
+			"median": -14.708,
+			"n": 4,
+			"tp_max": -0.209
+		},
+		"unit_ashveil_saboteur": {
+			"dur_s": 5.58,
+			"hi": -13.712,
+			"lo": -15.087,
+			"median": -14.435,
+			"n": 4,
+			"tp_max": -0.781
+		},
+		"unit_barrow_ghoul": {
+			"dur_s": 5.27,
+			"hi": -14.652,
+			"lo": -16.101,
+			"median": -15.904,
+			"n": 4,
+			"tp_max": -0.853
+		},
+		"unit_blaze_rider": {
+			"dur_s": 4.423,
+			"hi": -13.247,
+			"lo": -16.227,
+			"median": -15.461,
+			"n": 4,
+			"tp_max": -0.965
+		},
+		"unit_bleakbow": {
+			"dur_s": 6.818,
+			"hi": -14.246,
+			"lo": -16.513,
+			"median": -14.724,
+			"n": 4,
+			"tp_max": -0.498
+		},
+		"unit_bloomtender": {
+			"dur_s": 6.1,
+			"hi": -13.066,
+			"lo": -15.438,
+			"median": -14.639,
+			"n": 4,
+			"tp_max": -1.002
+		},
+		"unit_bramblehorn": {
+			"dur_s": 7.94,
+			"hi": -14.357,
+			"lo": -15.9,
+			"median": -14.873,
+			"n": 4,
+			"tp_max": -0.987
+		},
+		"unit_burr_slinger": {
+			"dur_s": 4.99,
+			"hi": -13.253,
+			"lo": -15.691,
+			"median": -14.397,
+			"n": 4,
+			"tp_max": -0.728
+		},
+		"unit_cinder_arbalest": {
+			"dur_s": 6.603,
+			"hi": -13.05,
+			"lo": -15.591,
+			"median": -14.61,
+			"n": 4,
+			"tp_max": -0.714
+		},
+		"unit_cinder_hand": {
+			"dur_s": 4.048,
+			"hi": -12.217,
+			"lo": -14.429,
+			"median": -13.744,
+			"n": 4,
+			"tp_max": -0.885
+		},
+		"unit_ember_archer": {
+			"dur_s": 4.748,
+			"hi": -13.859,
+			"lo": -15.773,
+			"median": -14.804,
+			"n": 4,
+			"tp_max": -0.737
+		},
+		"unit_flame_guard": {
+			"dur_s": 13.029,
+			"hi": -11.427,
+			"lo": -14.555,
+			"median": -12.71,
+			"n": 7,
+			"tp_max": -0.906
+		},
+		"unit_frost_mortar": {
+			"dur_s": 6.64,
+			"hi": -12.341,
+			"lo": -14.75,
+			"median": -12.853,
+			"n": 4,
+			"tp_max": -0.922
+		},
+		"unit_frostbow": {
+			"dur_s": 6.34,
+			"hi": -12.096,
+			"lo": -15.132,
+			"median": -13.474,
+			"n": 4,
+			"tp_max": -0.825
+		},
+		"unit_gloom_thrall": {
+			"dur_s": 7.322,
+			"hi": -13.041,
+			"lo": -16.464,
+			"median": -14.987,
+			"n": 4,
+			"tp_max": -0.915
+		},
+		"unit_greenheart_oathkeeper": {
+			"dur_s": 7.61,
+			"hi": -13.304,
+			"lo": -15.466,
+			"median": -15.109,
+			"n": 4,
+			"tp_max": -0.777
+		},
+		"unit_hexweaver": {
+			"dur_s": 4.706,
+			"hi": -12.225,
+			"lo": -13.515,
+			"median": -12.92,
+			"n": 4,
+			"tp_max": -0.977
+		},
+		"unit_hoarlight_magebow": {
+			"dur_s": 6.337,
+			"hi": -13.707,
+			"lo": -14.935,
+			"median": -14.63,
+			"n": 4,
+			"tp_max": -0.933
+		},
+		"unit_hollow_oathsworn": {
+			"dur_s": 7.33,
+			"hi": -13.76,
+			"lo": -16.327,
+			"median": -14.776,
+			"n": 4,
+			"tp_max": -0.692
+		},
+		"unit_nightblood_reaver": {
+			"dur_s": 9.269,
+			"hi": -13.639,
+			"lo": -17.187,
+			"median": -14.984,
+			"n": 7,
+			"tp_max": -0.908
+		},
+		"unit_nightbolt": {
+			"dur_s": 8.378,
+			"hi": -13.364,
+			"lo": -17.113,
+			"median": -15.748,
+			"n": 4,
+			"tp_max": -0.908
+		},
+		"unit_pyre_adept": {
+			"dur_s": 5.71,
+			"hi": -10.555,
+			"lo": -11.585,
+			"median": -10.827,
+			"n": 4,
+			"tp_max": -0.776
+		},
+		"unit_rime_colossus": {
+			"dur_s": 5.95,
+			"hi": -14.041,
+			"lo": -17.301,
+			"median": -14.715,
+			"n": 4,
+			"tp_max": -0.781
+		},
+		"unit_rime_hauler": {
+			"dur_s": 7.118,
+			"hi": -13.904,
+			"lo": -19.75,
+			"median": -15.619,
+			"n": 4,
+			"tp_max": -0.962
+		},
+		"unit_rime_seer": {
+			"dur_s": 7.1,
+			"hi": -12.128,
+			"lo": -15.278,
+			"median": -12.646,
+			"n": 4,
+			"tp_max": -0.965
+		},
+		"unit_rimeling": {
+			"dur_s": 4.38,
+			"hi": -13.597,
+			"lo": -14.24,
+			"median": -13.961,
+			"n": 4,
+			"tp_max": -0.805
+		},
+		"unit_rimeshield": {
+			"dur_s": 11.18,
+			"hi": -13.632,
+			"lo": -16.254,
+			"median": -15.266,
+			"n": 7,
+			"tp_max": -0.762
+		},
+		"unit_scorchbow": {
+			"dur_s": 6.08,
+			"hi": -13.919,
+			"lo": -15.151,
+			"median": -14.659,
+			"n": 4,
+			"tp_max": -0.905
+		},
+		"unit_scorchling": {
+			"dur_s": 2.706,
+			"hi": -12.632,
+			"lo": -15.204,
+			"median": -13.38,
+			"n": 4,
+			"tp_max": -0.932
+		},
+		"unit_shadow_knight": {
+			"dur_s": 6.45,
+			"hi": -12.863,
+			"lo": -14.581,
+			"median": -14.186,
+			"n": 4,
+			"tp_max": -0.937
+		},
+		"unit_shardcaster": {
+			"dur_s": 5.56,
+			"hi": -13.889,
+			"lo": -15.845,
+			"median": -14.424,
+			"n": 4,
+			"tp_max": -0.899
+		},
+		"unit_shardguard": {
+			"dur_s": 7.18,
+			"hi": -13.445,
+			"lo": -16.257,
+			"median": -14.677,
+			"n": 4,
+			"tp_max": -0.903
+		},
+		"unit_sprigling": {
+			"dur_s": 4.55,
+			"hi": -12.948,
+			"lo": -16.057,
+			"median": -14.053,
+			"n": 4,
+			"tp_max": -0.809
+		},
+		"unit_stormbottle_genie": {
+			"dur_s": 5.656,
+			"hi": -13.047,
+			"lo": -15.79,
+			"median": -14.764,
+			"n": 4,
+			"tp_max": -0.869
+		},
+		"unit_thistle_darter": {
+			"dur_s": 3.8,
+			"hi": -13.718,
+			"lo": -14.441,
+			"median": -13.91,
+			"n": 4,
+			"tp_max": -0.83
+		},
+		"unit_thornling": {
+			"dur_s": 9.673,
+			"hi": -12.834,
+			"lo": -17.66,
+			"median": -14.151,
+			"n": 7,
+			"tp_max": -0.854
+		},
+		"unit_vinelasher": {
+			"dur_s": 5.117,
+			"hi": -12.546,
+			"lo": -16.363,
+			"median": -13.921,
+			"n": 4,
+			"tp_max": -0.578
+		},
+		"unit_wildwood_archer": {
+			"dur_s": 6.707,
+			"hi": -12.866,
+			"lo": -15.958,
+			"median": -14.467,
+			"n": 4,
+			"tp_max": -0.626
+		},
+		"vessa": {
+			"dur_s": 44.204,
+			"hi": -10.927,
+			"lo": -18.22,
+			"median": -14.888,
+			"n": 20,
+			"tp_max": -0.612
+		},
+		"vey": {
+			"dur_s": 11.898,
+			"hi": -13.694,
+			"lo": -16.242,
+			"median": -14.732,
+			"n": 5,
+			"tp_max": -0.782
+		},
+		"ysolde": {
+			"dur_s": 51.559,
+			"hi": -11.356,
+			"lo": -16.138,
+			"median": -14.189,
+			"n": 14,
+			"tp_max": -0.498
+		}
+	},
+	"target": "res://assets/audio/voice"
+}

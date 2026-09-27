@@ -20,6 +20,12 @@ extends Node3D
 ##   Tiers wave units (UNIT_SFX_FAMILY, switch UNIT_SFX_ENABLED): atk_<family> / hit_<family> / death_<family>
 ##               replace bolt_shot / melee_hit / bolt_impact / death_* for those units
 ##               (assets/audio/unit_sfx_generator.gd). UnitVoice child (scripts/audio/unit_voice.gd): voice barks.
+##   Tiers wave orders (docs/design/sound-plan.md, SOUND_PLAN; files assets/audio/order_sfx_generator.gd), all hooked
+##               here through signals / public state (no gameplay edits): keep tier upgrade (polled), UnitUpgrades "+",
+##               HelperRoster / HelperAbilities, StrIntPath, bowmen effects, new-units-12 / T3 ability counters
+##               (polled), Tab building cycle (SelectionManager, polled), NextStepHint step, restart, caravans.
+## Takes: every id with <id>_1.wav / <id>_2.wav next to it (TAKES + TAKE_IDS) picks one at random, never the same
+## take twice in a row.
 ## Budget: MAX_VOICES pooled AudioStreamPlayer3D (bus SFX) + UI_VOICES AudioStreamPlayer (bus SFX) + 1 music
 ## player (bus Music). Each sound has a cooldown, so 50 archers firing at once play a handful of voices.
 ## When every voice is busy, PRIORITY sounds steal the oldest voice, others are dropped. Sounds from
@@ -49,7 +55,90 @@ const SOUNDS: Array[StringName] = [
 	&"atk_bolt", &"hit_bolt", &"death_bolt", &"atk_siege", &"hit_siege", &"death_siege",
 	&"atk_magic", &"hit_magic", &"death_magic", &"atk_storm", &"hit_storm", &"death_storm",
 	&"atk_beast", &"hit_beast", &"death_beast",
+	# Tiers wave orders (assets/audio/order_sfx_generator.gd), see SOUND_PLAN.
+	&"ui_tier_start", &"ui_tier_tick", &"alert_tier_stronghold", &"alert_tier_citadel", &"ui_upgrade_cancel",
+	&"ui_plus_start", &"alert_plus_done",
+	&"ui_helper_call", &"alert_helper_arrive", &"alert_helper_fall", &"alert_helper_revive", &"helper_cast",
+	&"alert_path_str", &"alert_path_int", &"spell_vigor_on", &"spell_vigor_off", &"spell_snow_shield_on",
+	&"spell_snow_shield_off",
+	&"fx_chill", &"fx_burn", &"fx_bleed", &"fx_crit",
+	&"ab_flashpoint", &"ab_flame_burst", &"ab_piercing_bolt", &"ab_grave_feast", &"ab_wither_hex", &"ab_unbroken_vow",
+	&"ab_frost_needle", &"ab_frost_shell", &"ab_skitter", &"ab_snare_lash", &"ab_grove_oath",
+	&"ab_sab_disguise", &"ab_sab_reveal", &"ab_sab_plant", &"ab_sab_armed", &"ab_sab_blast", &"ab_blood_frenzy",
+	&"ab_hold_the_line", &"ab_challenge", &"ab_seed_storm", &"ab_genie_chain", &"ab_tempest_bolt",
+	&"ui_tab", &"ui_hint", &"ui_restart", &"alert_caravan_trained",
 ]
+## THE sound plan (docs/design/sound-plan.md): every order / action added on 2026-09-27 -> its cue and where it is
+## hooked. tests/test_sound_plan.gd checks each cue has a file, is in SOUNDS and is played by this script.
+const SOUND_PLAN := {
+	&"ui_tier_start": "Keep.is_upgrading() false -> true (player keep, polled)",
+	&"ui_tier_tick": "Keep.upgrade_progress() crosses 25 / 50 / 75 % (player keep, polled)",
+	&"alert_tier_stronghold": "Keep.tier_changed(keep, 2) after an upgrade (player)",
+	&"alert_tier_citadel": "Keep.tier_changed(keep, 3) after an upgrade (player)",
+	&"ui_upgrade_cancel": "keep upgrade stopped without a new tier (polled) / UnitUpgrades.upgrade_cancelled (player)",
+	&"ui_plus_start": "UnitUpgrades.upgrade_started (player)",
+	&"alert_plus_done": "UnitUpgrades.upgrade_completed (player)",
+	&"ui_helper_call": "HelperRoster.helper_called (player)",
+	&"alert_helper_arrive": "HelperRoster.helper_ready (player)",
+	&"alert_helper_fall": "HelperRoster.helper_fallen (player)",
+	&"alert_helper_revive": "HelperRoster.helper_revived (player)",
+	&"helper_cast": "HelperAbilities.ability_cast (any team, audible)",
+	&"alert_path_str": "StrIntPath.path_chosen(&\"str\") (player wizard)",
+	&"alert_path_int": "StrIntPath.path_chosen(&\"int\") (player wizard)",
+	&"spell_vigor_on": "StrIntPath.ability_started(&\"str\")",
+	&"spell_vigor_off": "StrIntPath.ability_ended(&\"str\")",
+	&"spell_snow_shield_on": "StrIntPath.ability_started(&\"int\")",
+	&"spell_snow_shield_off": "StrIntPath.ability_ended(&\"int\")",
+	&"fx_chill": "attack_landed of a Frostbow / Rimeling on a unit (chill)",
+	&"fx_burn": "attack_landed of a Scorchbow on a unit (burn)",
+	&"fx_bleed": "attack_landed of a Bleakbow on a unit (bleed stack)",
+	&"fx_crit": "Wildwood Archer shot whose crit accumulator wrapped (BowmanKit CRIT_META, at the projectile)",
+	&"ab_flashpoint": "Scorchling death (Flashpoint burst)",
+	&"ab_flame_burst": "NewUnitAbility.casts + 1 on a Pyre Adept (polled)",
+	&"ab_piercing_bolt": "NewUnitAbility.casts + 1 on a Cinder Arbalest (polled)",
+	&"ab_grave_feast": "NewUnitAbility.casts + 1 on a Barrow Ghoul (polled)",
+	&"ab_wither_hex": "NewUnitAbility.casts + 1 on a Hexweaver (polled)",
+	&"ab_unbroken_vow": "NewUnitAbility.casts + 1 on a Hollow Oathsworn (polled)",
+	&"ab_frost_needle": "NewUnitAbility.casts + 1 on a Hoarlight Magebow (polled)",
+	&"ab_frost_shell": "NewUnitAbility.casts + 1 on a Frost Mortar (splash, polled)",
+	&"ab_skitter": "NewUnitAbility.casts + 1 on a Thistle Darter (polled)",
+	&"ab_snare_lash": "NewUnitAbility.casts + 1 on a Vinelasher (polled)",
+	&"ab_grove_oath": "NewUnitAbility.casts + 1 on a Greenheart Oathkeeper (taunt, polled)",
+	&"ab_sab_disguise": "T3Ability.disguised false -> true (own Saboteur, polled)",
+	&"ab_sab_reveal": "T3Ability.disguised true -> false (polled)",
+	&"ab_sab_plant": "T3Ability.planting false -> true (polled)",
+	&"ab_sab_armed": "T3Ability.casts[powder_charge] + 1 (polled)",
+	&"ab_sab_blast": "powder charge armed + T3UnitAbility CHARGE fuse (5 s)",
+	&"ab_blood_frenzy": "T3Ability.casts[blood_frenzy] + 1 (polled)",
+	&"ab_hold_the_line": "T3Ability.casts[hold_the_line] + 1 (polled)",
+	&"ab_challenge": "T3Ability.casts[challenge] + 1 (Shardguard taunt, polled)",
+	&"ab_seed_storm": "T3Ability.casts[seed_storm] + 1 (polled)",
+	&"ab_genie_chain": "attack_landed of a Stormbottle Genie (chain bolts)",
+	&"ab_tempest_bolt": "T3Ability.casts[tempest_bolt] + 1 (polled)",
+	&"ui_tab": "SelectionManager.selected_building changes inside the same 2+ building selection (Tab, polled)",
+	&"ui_hint": "NextStepHint.step changes (polled)",
+	&"ui_restart": "the same level scene reloads within RESTART_WINDOW_MS (F9 / Restart button)",
+	&"alert_caravan_trained": "unit_trained of a caravan (UnitType.is_caravan, 0 supply)",
+}
+## New-units-12 ability cue per unit type id (the NewUnitAbility child's `casts` counter goes up). Scorchling: death.
+const NU_ABILITY_CUE := {
+	&"pyre_adept": &"ab_flame_burst", &"cinder_arbalest": &"ab_piercing_bolt", &"barrow_ghoul": &"ab_grave_feast",
+	&"hexweaver": &"ab_wither_hex", &"hollow_oathsworn": &"ab_unbroken_vow", &"hoarlight_magebow": &"ab_frost_needle",
+	&"frost_mortar": &"ab_frost_shell", &"thistle_darter": &"ab_skitter", &"vinelasher": &"ab_snare_lash",
+	&"greenheart_oathkeeper": &"ab_grove_oath",
+}
+## T3 unit ability cue per ability id (the T3Ability child's `casts` dictionary).
+const T3_ABILITY_CUE := {
+	&"powder_charge": &"ab_sab_armed", &"blood_frenzy": &"ab_blood_frenzy", &"hold_the_line": &"ab_hold_the_line",
+	&"challenge": &"ab_challenge", &"seed_storm": &"ab_seed_storm", &"tempest_bolt": &"ab_tempest_bolt",
+}
+## Bowman on-hit effect cue per attacker type id (plays at the victim, units only).
+const HIT_FX_CUE := {&"frostbow": &"fx_chill", &"rimeling": &"fx_chill", &"scorchbow": &"fx_burn",
+	&"bleakbow": &"fx_bleed"}
+const CRIT_META := &"bowman_crit_acc"        ## BowmanKit.CRIT_META (read only).
+const CHARGE_FUSE := 5.0                      ## T3UnitAbility.CHARGE["fuse"] (read when the class exists).
+const ORDER_POLL := 0.1
+const RESTART_WINDOW_MS := 6000
 ## Tiers wave units (bowmen, new-units-12, T3 units, T3 helpers + summons): unit type id (or HelperType id) -> SFX
 ## family. The unit's attack plays atk_<family> (ranged: at the shot, melee: the swing at the attacker), a hit on it
 ## plays hit_<family> instead of the generic melee_hit / bolt_impact, its death death_<family>. Other units keep the
@@ -76,6 +165,17 @@ const TAKES := {
 	&"building_hit": ["res://assets/audio/sfx/building_hit_1.wav", "res://assets/audio/sfx/building_hit_2.wav"],
 	&"mine_tick": ["res://assets/audio/sfx/mine_tick_1.wav", "res://assets/audio/sfx/mine_tick_2.wav"],
 }
+## Ids whose takes are SFX_DIR <id>_1.wav / <id>_2.wav (unit_sfx_generator.gd: the 27 family cues x 3 = 81 files;
+## order_sfx_generator.gd TAKES). Missing files are skipped.
+const TAKE_IDS: Array[StringName] = [
+	&"atk_blade", &"hit_blade", &"death_blade", &"atk_heavy", &"hit_heavy", &"death_heavy",
+	&"atk_whip", &"hit_whip", &"death_whip", &"atk_bow", &"hit_bow", &"death_bow",
+	&"atk_bolt", &"hit_bolt", &"death_bolt", &"atk_siege", &"hit_siege", &"death_siege",
+	&"atk_magic", &"hit_magic", &"death_magic", &"atk_storm", &"hit_storm", &"death_storm",
+	&"atk_beast", &"hit_beast", &"death_beast",
+	&"fx_chill", &"fx_burn", &"fx_bleed", &"fx_crit", &"ab_frost_shell", &"ab_skitter", &"ab_genie_chain",
+	&"ab_piercing_bolt", &"helper_cast", &"ui_tab",
+]
 ## Seconds before the same sound can play again (anything missing: DEFAULT_COOLDOWN).
 const COOLDOWNS := {
 	&"melee_hit": 0.06, &"bolt_shot": 0.07, &"bolt_impact": 0.07, &"building_hit": 0.2,
@@ -88,6 +188,14 @@ const COOLDOWNS := {
 	&"atk_siege": 0.25, &"hit_siege": 0.25, &"death_siege": 0.3, &"atk_magic": 0.15, &"hit_magic": 0.15,
 	&"death_magic": 0.2, &"atk_storm": 0.2, &"hit_storm": 0.2, &"death_storm": 0.3, &"atk_beast": 0.15,
 	&"hit_beast": 0.15, &"death_beast": 0.2,
+	&"ui_tier_tick": 0.2, &"ui_tab": 0.04, &"ui_hint": 0.5, &"ui_restart": 1.0, &"helper_cast": 0.2,
+	&"fx_chill": 0.12, &"fx_burn": 0.12, &"fx_bleed": 0.12, &"fx_crit": 0.1, &"ab_flashpoint": 0.12,
+	&"ab_piercing_bolt": 0.15, &"ab_grave_feast": 0.2, &"ab_frost_shell": 0.2, &"ab_skitter": 0.15,
+	&"ab_genie_chain": 0.15, &"ab_flame_burst": 0.25, &"ab_wither_hex": 0.2, &"ab_unbroken_vow": 0.25,
+	&"ab_frost_needle": 0.15, &"ab_snare_lash": 0.2, &"ab_grove_oath": 0.25, &"ab_blood_frenzy": 0.25,
+	&"ab_hold_the_line": 0.25, &"ab_challenge": 0.25, &"ab_seed_storm": 0.25, &"ab_tempest_bolt": 0.25,
+	&"ab_sab_blast": 0.3, &"alert_caravan_trained": 0.3, &"ab_sab_disguise": 0.3, &"ab_sab_reveal": 0.3,
+	&"ab_sab_plant": 0.3, &"ab_sab_armed": 0.3, &"alert_tier_stronghold": 1.0, &"alert_tier_citadel": 1.0, &"alert_plus_done": 0.3,
 }
 ## Volume offsets in dB (loud or frequent sounds are pulled down). Tuned with the Audio Lab (docs/plan/audio-lab.md)
 ## to the in-game loudness targets of tools/audio_lab/lab_rules.gd.
@@ -102,6 +210,17 @@ const VOLUMES := {
 	&"atk_siege": -6.0, &"hit_siege": -6.0, &"death_siege": -3.0, &"atk_magic": -6.0, &"hit_magic": -5.0,
 	&"death_magic": -3.0, &"atk_storm": -6.0, &"hit_storm": -6.0, &"death_storm": -5.0, &"atk_beast": -6.0,
 	&"hit_beast": -5.0, &"death_beast": -4.5,
+	&"ui_tier_start": -6.0, &"ui_tier_tick": -4.0, &"alert_tier_stronghold": -3.0, &"alert_tier_citadel": -2.0,
+	&"ui_upgrade_cancel": -6.0, &"ui_plus_start": -6.0, &"alert_plus_done": -4.0, &"ui_helper_call": -6.0,
+	&"alert_helper_arrive": -2.0, &"alert_helper_fall": -4.0, &"alert_helper_revive": -2.0, &"helper_cast": -5.0,
+	&"alert_path_str": -2.5, &"alert_path_int": -4.0,
+	&"fx_chill": -6.0, &"fx_burn": -6.0, &"fx_bleed": -6.0, &"fx_crit": -6.0, &"ab_flashpoint": -5.0,
+	&"ab_flame_burst": -4.0, &"ab_piercing_bolt": -6.0, &"ab_grave_feast": -5.0, &"ab_wither_hex": -5.0,
+	&"ab_unbroken_vow": -5.0, &"ab_frost_needle": -6.0, &"ab_frost_shell": -6.0, &"ab_skitter": -7.0,
+	&"ab_snare_lash": -5.0, &"ab_grove_oath": -5.0, &"ab_sab_disguise": -5.0, &"ab_sab_reveal": -5.0,
+	&"ab_sab_plant": -5.0, &"ab_sab_armed": -5.0, &"ab_sab_blast": -4.0, &"ab_blood_frenzy": -5.0,
+	&"ab_hold_the_line": -5.0, &"ab_challenge": -5.0, &"ab_seed_storm": -5.0, &"ab_genie_chain": -6.0,
+	&"ab_tempest_bolt": -4.0, &"ui_tab": -4.0, &"ui_hint": -8.0, &"ui_restart": -8.0, &"alert_caravan_trained": -1.0,
 }
 ## Class-skill hits that are heals over time (a tick every 0.5 s): no impact sound.
 const SILENT_SKILL_HITS: Array[StringName] = [&"second_wind"]
@@ -132,6 +251,19 @@ var _mine_left := MINE_POLL
 var _mine_next: Dictionary = {}    # worker -> game time of its next tick
 var _gathered: Dictionary = {}     # player Economy -> last gathered_total
 var _ended := false
+var _last_take: Dictionary = {}    # id -> index of the take played last (no immediate repeat)
+var _order_left := ORDER_POLL
+var _abilities: Array[Dictionary] = []   # {node, unit, kind: &"nu" / &"t3", last, disguised, planting}
+var _keeps: Dictionary = {}        # player Keep -> {up: bool, quarter: int}
+var _selection: Node = null        # SelectionManager (found by duck typing)
+var _sel_active: Node = null
+var _sel_sig := 0
+var _hint: Node = null             # NextStepHint
+var _hint_step: StringName = &""
+
+## Restart detection: the scene a GameAudio left last and when (a reload of the same level = restart).
+static var _left_scene := ""
+static var _left_msec := -100000
 
 
 func _ready() -> void:
@@ -166,6 +298,17 @@ func _process(delta: float) -> void:
 	if _mine_left <= 0.0:
 		_mine_left = MINE_POLL
 		_poll_mining()
+	_order_left -= delta
+	if _order_left <= 0.0:
+		_order_left = ORDER_POLL
+		_poll_orders()
+
+
+func _exit_tree() -> void:
+	var scene := get_tree().current_scene if is_inside_tree() else null
+	if scene != null and scene.scene_file_path != "":
+		_left_scene = scene.scene_file_path
+		_left_msec = Time.get_ticks_msec()
 
 
 # ---------------------------------------------------------------- public API
@@ -186,8 +329,7 @@ func play_at(id: StringName, pos: Vector3) -> bool:
 			return false
 		idx = _oldest_voice()
 	_next_ok[id] = _now + float(COOLDOWNS.get(id, DEFAULT_COOLDOWN))
-	if _takes.has(id):
-		stream = (_takes[id] as Array).pick_random()
+	stream = pick_take(id, stream)
 	var v := _voices[idx]
 	v.stop()
 	v.stream = stream
@@ -210,7 +352,7 @@ func play_ui(id: StringName) -> bool:
 	var p := _ui[_ui_next]
 	_ui_next = (_ui_next + 1) % _ui.size()
 	p.stop()
-	p.stream = stream
+	p.stream = pick_take(id, stream)
 	p.volume_db = float(VOLUMES.get(id, 0.0))
 	p.play()
 	_count(id)
@@ -294,6 +436,7 @@ func _rescan() -> void:
 	for node in tree.get_nodes_in_group(&"champions"):
 		_hook_champion(node)
 	_hook_level()
+	_hook_orders()
 
 
 func _hook(node: Variant) -> void:
@@ -310,7 +453,12 @@ func _hook(node: Variant) -> void:
 			_hook_wizard(n)
 		elif n.is_in_group(&"champions"):
 			_hook_champion(n)
+		_hook_unit_orders(n)
 	elif n is Building:
+		if n.has_signal(&"tier_changed") and n.has_method(&"is_upgrading"):
+			n.connect(&"tier_changed", _on_keep_tier_changed)
+			if int(n.get(&"team")) == Unit.Team.PLAYER:
+				_keeps[n] = {"up": bool(n.call(&"is_upgrading")), "quarter": 0}
 		n.connect(&"damaged", _on_building_damaged.bind(n))
 		n.connect(&"destroyed", _on_building_destroyed)
 		n.connect(&"construction_finished", _on_construction_finished)
@@ -335,6 +483,15 @@ func _hook_wizard(w: Node) -> void:
 	if caster and caster.has_signal(&"spell_cast") and not caster.has_meta(META):
 		caster.set_meta(META, true)
 		caster.connect(&"spell_cast", _on_spell_cast.bind(w))
+	# STR / INT path (scripts/units/str_int_path.gd): pick, Vigor / Snow Shield on / off.
+	var sip := w.get_node_or_null(^"StrIntPath")
+	if sip and sip.has_signal(&"path_chosen") and not sip.has_meta(META):
+		sip.set_meta(META, true)
+		sip.connect(&"path_chosen", _on_path_chosen.bind(w))
+		if sip.has_signal(&"ability_started"):
+			sip.connect(&"ability_started", _on_path_ability.bind(w, true))
+		if sip.has_signal(&"ability_ended"):
+			sip.connect(&"ability_ended", _on_path_ability.bind(w, false))
 	if not w.is_in_group(&"heroes"):
 		return
 	var inv: Variant = w.get(&"inventory")
@@ -387,6 +544,7 @@ func _hook_projectile(node: Variant) -> void:
 	if is_instance_valid(src) and _audible(src as Node3D):
 		var fam := unit_sfx_family(src as Node)
 		play_at(&"bolt_shot" if fam == &"" else StringName("atk_" + String(fam)), (src as Node3D).global_position + Vector3.UP)
+		_check_crit(src as Node3D)
 
 
 func _hook_buttons(node: Node) -> void:
@@ -419,6 +577,14 @@ func _on_attack_landed(target: Variant, _amount: float, attacker: Node3D) -> voi
 		play_at(StringName("hit_" + String(hit_fam)), t.global_position + Vector3.UP)
 	elif atk_fam == &"" or ranged:
 		play_at(&"bolt_impact" if ranged else &"melee_hit", t.global_position + Vector3.UP)
+	# Bowmen / Rimeling on-hit effects and the Genie's chain bolts (units only, like BowmanKit.on_hit).
+	if t is Unit and _audible(t):
+		var aid := unit_type_id(attacker)
+		var fx: StringName = HIT_FX_CUE.get(aid, &"")
+		if fx != &"":
+			play_at(fx, t.global_position + Vector3.UP * 1.2)
+		elif aid == &"stormbottle_genie":
+			play_at(&"ab_genie_chain", t.global_position + Vector3.UP * 1.2)
 
 
 func _on_level_changed(unit: Variant, _level: int) -> void:
@@ -467,6 +633,8 @@ func _on_unit_died(unit: Variant) -> void:
 	if not is_instance_valid(unit):
 		return
 	var u := unit as Node3D
+	if unit_type_id(u) == &"scorchling" and _audible(u):
+		play_at(&"ab_flashpoint", u.global_position + Vector3.UP * 0.6)   # Flashpoint: bursts on death
 	var fam := unit_sfx_family(u)
 	if fam != &"":
 		play_at(StringName("death_" + String(fam)), u.global_position + Vector3.UP)
@@ -493,6 +661,10 @@ func _on_unit_trained(unit: Variant, b: Node3D) -> void:
 	if not is_instance_valid(b) or int(b.get(&"team")) != Unit.Team.PLAYER:
 		return
 	var pos := (unit as Node3D).global_position if is_instance_valid(unit) else b.global_position
+	var ut: Variant = (unit as Node).get(&"unit_type") if is_instance_valid(unit) else null
+	if ut is Object and is_instance_valid(ut) and bool((ut as Object).get(&"is_caravan")):
+		play_at(&"alert_caravan_trained", pos)   # Bazaar caravan (0 supply): cart + coins
+		return
 	play_at(&"unit_trained", pos)
 
 
@@ -556,6 +728,261 @@ func _poll_mining() -> void:
 			_mine_next.erase(w)
 
 
+# ---------------------------------------------------------------- tiers wave orders (SOUND_PLAN)
+
+## Team-wide order nodes (found by group, duck-typed so a broken / missing feature script never breaks audio):
+## UnitUpgrades, HelperRoster, the SelectionManager and the NextStepHint.
+func _hook_orders() -> void:
+	var tree := get_tree()
+	for n in tree.get_nodes_in_group(&"unit_upgrades"):
+		if n.has_meta(META) or not n.has_signal(&"upgrade_started"):
+			continue
+		n.set_meta(META, true)
+		n.connect(&"upgrade_started", _on_plus.bind(n, &"ui_plus_start"))
+		if n.has_signal(&"upgrade_completed"):
+			n.connect(&"upgrade_completed", _on_plus.bind(n, &"alert_plus_done"))
+		if n.has_signal(&"upgrade_cancelled"):
+			n.connect(&"upgrade_cancelled", func(_id: StringName, _refund: int) -> void:
+				if is_instance_valid(n) and int(n.get(&"team")) == Unit.Team.PLAYER:
+					play_ui(&"ui_upgrade_cancel"))
+	for n in tree.get_nodes_in_group(&"helper_rosters"):
+		if n.has_meta(META) or not n.has_signal(&"helper_ready"):
+			continue
+		n.set_meta(META, true)
+		if n.has_signal(&"helper_called"):
+			n.connect(&"helper_called", _on_helper_called)
+		n.connect(&"helper_ready", _on_helper_event.bind(&"alert_helper_arrive"))
+		if n.has_signal(&"helper_fallen"):
+			n.connect(&"helper_fallen", _on_helper_event.bind(&"alert_helper_fall"))
+		if n.has_signal(&"helper_revived"):
+			n.connect(&"helper_revived", _on_helper_event.bind(&"alert_helper_revive"))
+	for n in tree.get_nodes_in_group(&"helpers"):
+		_hook_unit_orders(n)
+	var scene := tree.current_scene
+	if scene != null and not is_instance_valid(_selection):
+		_selection = null
+		for c in scene.get_children():
+			if c.has_signal(&"groups_changed") and &"selected_buildings" in c and &"selected_building" in c:
+				_selection = c
+				break
+	if scene != null and not is_instance_valid(_hint):
+		_hint = scene.find_child("NextStepHint", true, false)
+		if _hint != null:
+			_hint_step = StringName(str(_hint.get(&"step")))
+
+
+## A unit's ability children: NewUnitAbility (new-units-12, `casts` int), T3Ability (T3 units, `casts` dict,
+## `disguised`, `planting`), HelperAbilities (signal ability_cast).
+func _hook_unit_orders(u: Node) -> void:
+	if not is_instance_valid(u):
+		return
+	for nm: String in ["NewUnitAbility", "T3Ability"]:
+		var a := u.get_node_or_null(NodePath(nm))
+		if a == null or a.has_meta(META) or not (&"casts" in a):
+			continue
+		a.set_meta(META, true)
+		var nu := nm == "NewUnitAbility"
+		var c: Variant = a.get(&"casts")
+		_abilities.append({"node": a, "unit": u, "kind": &"nu" if nu else &"t3",
+			"last": (c as Dictionary).duplicate() if c is Dictionary else int(c),
+			"disguised": bool(a.get(&"disguised")) if &"disguised" in a else false,
+			"planting": bool(a.get(&"planting")) if &"planting" in a else false})
+	var ha := u.get_node_or_null(^"HelperAbilities")
+	if ha and ha.has_signal(&"ability_cast") and not ha.has_meta(META):
+		ha.set_meta(META, true)
+		ha.connect(&"ability_cast", _on_helper_cast.bind(u))
+
+
+## 10 Hz: ability counters, keep upgrades, the Tab cycle, the next-step hint.
+func _poll_orders() -> void:
+	var i := _abilities.size() - 1
+	while i >= 0:
+		var e: Dictionary = _abilities[i]
+		if not is_instance_valid(e["node"]) or not is_instance_valid(e["unit"]):
+			_abilities.remove_at(i)
+		else:
+			_poll_ability(e)
+		i -= 1
+	for k: Variant in _keeps.keys():
+		if not is_instance_valid(k):
+			_keeps.erase(k)
+			continue
+		var st: Dictionary = _keeps[k]
+		var up := bool((k as Object).call(&"is_upgrading"))
+		if up and not bool(st["up"]):
+			play_ui(&"ui_tier_start")
+			st["quarter"] = 0
+		elif not up and bool(st["up"]) and not bool(st.get("done", false)):
+			play_ui(&"ui_upgrade_cancel")   # stopped without reaching the new tier
+		if up:
+			var q := int(float((k as Object).call(&"upgrade_progress")) * 4.0)
+			if q > int(st["quarter"]) and q < 4:
+				play_ui(&"ui_tier_tick")
+			st["quarter"] = maxi(q, int(st["quarter"]))
+		st["up"] = up
+		st["done"] = false
+	_poll_selection()
+	if is_instance_valid(_hint):
+		var s := StringName(str(_hint.get(&"step")))
+		if s != _hint_step:
+			if _hint_step != &"" and s != &"" and (_hint as CanvasItem).is_visible_in_tree():
+				play_ui(&"ui_hint")
+			_hint_step = s
+
+
+func _poll_ability(e: Dictionary) -> void:
+	var a: Node = e["node"]
+	var u := e["unit"] as Node3D
+	var c: Variant = a.get(&"casts")
+	if e["kind"] == &"nu":
+		var n := int(c)
+		if n > int(e["last"]):
+			var cue: StringName = NU_ABILITY_CUE.get(unit_type_id(u), &"")
+			if cue != &"" and _audible(u):
+				play_at(cue, u.global_position + Vector3.UP)
+		e["last"] = n
+		return
+	var d: Dictionary = c if c is Dictionary else {}
+	var last: Dictionary = e["last"]
+	for ab: StringName in d:
+		if int(d[ab]) <= int(last.get(ab, 0)):
+			continue
+		var cue: StringName = T3_ABILITY_CUE.get(ab, &"")
+		if cue != &"" and _audible(u):
+			play_at(cue, u.global_position + Vector3.UP)
+		if ab == &"powder_charge":
+			_arm_blast(u.global_position)
+	e["last"] = d.duplicate()
+	var own := int(u.get(&"team")) == Unit.Team.PLAYER
+	if &"disguised" in a:
+		var dis := bool(a.get(&"disguised"))
+		if dis != bool(e["disguised"]):
+			if not dis and _audible(u):
+				play_at(&"ab_sab_reveal", u.global_position + Vector3.UP)
+			elif dis and own:
+				play_at(&"ab_sab_disguise", u.global_position + Vector3.UP)   # never betrays an enemy one
+			e["disguised"] = dis
+	if &"planting" in a:
+		var pl := bool(a.get(&"planting"))
+		if pl and not bool(e["planting"]) and _audible(u):
+			play_at(&"ab_sab_plant", u.global_position + Vector3.UP * 0.5)
+		e["planting"] = pl
+
+
+## The powder charge goes off CHARGE fuse seconds after it is armed (T3UnitAbility), where it was planted.
+func _arm_blast(at: Vector3) -> void:
+	var fuse := CHARGE_FUSE
+	var t3: Variant = load("res://scripts/units/t3_unit_ability.gd") if ResourceLoader.exists("res://scripts/units/t3_unit_ability.gd") else null
+	if t3 is Script:
+		var ch: Variant = (t3 as Script).get_script_constant_map().get("CHARGE")
+		if ch is Dictionary:
+			fuse = float((ch as Dictionary).get("fuse", CHARGE_FUSE))
+	get_tree().create_timer(fuse, false, true).timeout.connect(func() -> void:
+		if is_inside_tree():
+			play_at(&"ab_sab_blast", at + Vector3.UP))
+
+
+## Tab / Shift+Tab: the active building changed while the same 2+ buildings stay selected.
+func _poll_selection() -> void:
+	if not is_instance_valid(_selection):
+		return
+	var list: Variant = _selection.get(&"selected_buildings")
+	var active: Variant = _selection.get(&"selected_building")
+	var sig := 0
+	var count := 0
+	if list is Array:
+		count = (list as Array).size()
+		for b: Variant in list:
+			sig = hash([sig, (b as Object).get_instance_id() if is_instance_valid(b) else 0])
+	var act: Node = active as Node if is_instance_valid(active) else null
+	if count >= 2 and sig == _sel_sig and act != _sel_active and act != null:
+		play_ui(&"ui_tab")
+	_sel_sig = sig
+	_sel_active = act
+
+
+## Wildwood Archer crits: BowmanKit.shot_damage wraps the crit accumulator (CRIT_META) on a crit.
+func _check_crit(src: Node3D) -> void:
+	if unit_type_id(src) != &"wildwood_archer" or not src.has_meta(CRIT_META):
+		return
+	var acc := float(src.get_meta(CRIT_META))
+	var before := float(src.get_meta(&"game_audio_crit", 0.5))
+	src.set_meta(&"game_audio_crit", acc)
+	if acc < before:
+		play_at(&"fx_crit", src.global_position + Vector3.UP * 1.5)
+
+
+func _on_keep_tier_changed(keep: Variant, tier: int) -> void:
+	if not is_instance_valid(keep) or not _keeps.has(keep):
+		return   # enemy keeps (and cheats on a keep that was not upgrading) stay silent
+	var st: Dictionary = _keeps[keep]
+	if not bool(st["up"]):
+		return
+	st["up"] = false
+	st["done"] = true
+	if tier >= 3:
+		play_ui(&"alert_tier_citadel")
+	elif tier == 2:
+		play_ui(&"alert_tier_stronghold")
+
+
+## (Literal ids in each play call: the Audio Lab reads 2D / 3D per cue from them.)
+func _on_plus(_id: StringName, node: Node, cue: StringName) -> void:
+	if not is_instance_valid(node) or int(node.get(&"team")) != Unit.Team.PLAYER:
+		return
+	if cue == &"alert_plus_done":
+		play_ui(&"alert_plus_done")
+	else:
+		play_ui(&"ui_plus_start")
+
+
+func _on_helper_called(team: int, _helper_id: StringName) -> void:
+	if team == Unit.Team.PLAYER:
+		play_ui(&"ui_helper_call")
+
+
+func _on_helper_event(helper: Variant, cue: StringName) -> void:
+	if not is_instance_valid(helper) or int((helper as Node).get(&"team")) != Unit.Team.PLAYER:
+		return
+	match cue:
+		&"alert_helper_arrive":
+			play_ui(&"alert_helper_arrive")
+		&"alert_helper_fall":
+			play_ui(&"alert_helper_fall")
+		&"alert_helper_revive":
+			play_ui(&"alert_helper_revive")
+
+
+func _on_helper_cast(_id: StringName, helper: Node3D) -> void:
+	if is_instance_valid(helper) and _audible(helper):
+		play_at(&"helper_cast", helper.global_position + Vector3.UP)
+
+
+func _on_path_chosen(path: StringName, w: Node3D) -> void:
+	if not is_instance_valid(w) or not w.is_in_group(&"heroes"):
+		return
+	if path == &"str":
+		play_ui(&"alert_path_str")
+	elif path == &"int":
+		play_ui(&"alert_path_int")
+
+
+func _on_path_ability(path: StringName, w: Node3D, on: bool) -> void:
+	if not is_instance_valid(w) or not (w.is_in_group(&"heroes") or _audible(w)):
+		return
+	var at := w.global_position + Vector3.UP
+	if path == &"str":
+		if on:
+			play_at(&"spell_vigor_on", at)
+		else:
+			play_at(&"spell_vigor_off", at)
+	elif path == &"int":
+		if on:
+			play_at(&"spell_snow_shield_on", at)
+		else:
+			play_at(&"spell_snow_shield_off", at)
+
+
 # ---------------------------------------------------------------- helpers
 
 func _cooldown_ok(id: StringName) -> bool:
@@ -575,6 +1002,26 @@ func _oldest_voice() -> int:
 		if _voice_start[i] < _voice_start[best]:
 			best = i
 	return best
+
+
+## One of the id's takes at random, never the one played last (a single take: `stream` itself).
+func pick_take(id: StringName, stream: AudioStream) -> AudioStream:
+	var takes: Array = _takes.get(id, [])
+	if takes.size() < 2:
+		return stream
+	var last := int(_last_take.get(id, -1))
+	var i := randi() % (takes.size() - 1)
+	if last >= 0 and i >= last:
+		i += 1   # skip the last one: the others stay equally likely
+	elif last < 0:
+		i = randi() % takes.size()
+	_last_take[id] = i
+	return takes[i]
+
+
+## Takes loaded for `id` (1 = no extra takes). Tests / debug.
+func take_count(id: StringName) -> int:
+	return maxi(1, (_takes.get(id, []) as Array).size()) if _streams.has(id) else 0
 
 
 func _count(id: StringName) -> void:
@@ -604,6 +1051,16 @@ func _load_streams() -> void:
 			continue
 		var takes: Array = [_streams[id]]
 		for p: String in TAKES[id]:
+			if ResourceLoader.exists(p):
+				takes.append(load(p))
+		if takes.size() > 1:
+			_takes[id] = takes
+	for id: StringName in TAKE_IDS:
+		if not _streams.has(id) or _takes.has(id):
+			continue
+		var takes: Array = [_streams[id]]
+		for k in [1, 2]:
+			var p := SFX_DIR + "%s_%d.wav" % [id, k]
 			if ResourceLoader.exists(p):
 				takes.append(load(p))
 		if takes.size() > 1:
@@ -659,6 +1116,11 @@ func _add_unit_voice() -> void:
 
 
 func _start_music() -> void:
+	var cur := get_tree().current_scene
+	if cur != null and cur.scene_file_path != "" and cur.scene_file_path == _left_scene \
+			and Time.get_ticks_msec() - _left_msec <= RESTART_WINDOW_MS:
+		_left_scene = ""
+		play_ui(&"ui_restart")   # F9 / the end screen's Restart reloaded this level
 	var mode := music_mode
 	if mode == "auto":
 		var scene := get_tree().current_scene

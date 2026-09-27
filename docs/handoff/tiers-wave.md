@@ -99,6 +99,12 @@ Real scenes are ready: point each `.tres` `model_scene` at them (the placeholder
 - **Unit SFX**: `GameAudio.UNIT_SFX_FAMILY` (unit / helper id -> blade, heavy, whip, bow, bolt, siege, magic, storm,
   beast) plays `atk_` / `hit_` / `death_<family>` (assets/audio/unit_sfx_generator.gd) for the bowmen, the 12 new units,
   the T3 units, the helpers and summons. New unit = one line in that table.
+- **Takes + sound plan (evening)**: the 27 family cues have 3 takes each (81 files, no back-to-back repeat). Every
+  order added today has a cue (`docs/design/sound-plan.md`, `GameAudio.SOUND_PLAN`, 48 cues from
+  `assets/audio/order_sfx_generator.gd`), all hooked from GameAudio through existing signals / public state
+  (`Keep.is_upgrading` / `tier_changed`, UnitUpgrades, HelperRoster, HelperAbilities, StrIntPath, `NewUnitAbility.casts`,
+  `T3Ability.casts / disguised / planting`, BowmanKit CRIT_META, SelectionManager, NextStepHint): **no gameplay edits**.
+  Please keep those names (renaming one silences its cue; `tests/test_sound_plan.gd` catches the static part).
 ## T3 art agent 2 (Shardguard + Briar Roc; 2026-09-27 evening, Art Lab v3.1 windowed, 0 FAIL)
 Real scenes are ready at the paths the T3 table expects: point `data/units/shardguard.tres` / `briar_roc.tres` `model_scene`
 at them (placeholder wrappers left in place for gameplay to delete).
