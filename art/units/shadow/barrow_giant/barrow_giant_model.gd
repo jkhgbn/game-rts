@@ -119,7 +119,9 @@ func _build_parts() -> void:
 		add_part(leg, rough(box(Vector3(0.32, 0.26, 0.34)), 0.03, 5.0 + s), dark, Vector3(0.33 * s, 0.21, 0.04))
 		add_part(leg, torus(0.15, 0.205, 10), silver, Vector3(0.33 * s, 0.14, 0.04))
 		add_part(leg, torus(0.035, 0.065, 8), silver, Vector3(0.50 * s, 0.07, 0.12), Vector3(0, 30.0 * s, 90))
-		add_part(leg, rough(box(Vector3(0.44, 0.15, 0.56)), 0.03, 7.0 + s), dark, Vector3(0.34 * s, 0.075, 0.10))
+		# Slab foot: half the roughness of the other stones - at 0.03 the jittered sole sat 4.4 cm (world) under the
+		# ground at rest and the idle breathing (root bob +-2.2 cm) took it to 6.7 cm (test 13c.V3 allows 5).
+		add_part(leg, rough(box(Vector3(0.44, 0.15, 0.56)), 0.015, 7.0 + s), dark, Vector3(0.34 * s, 0.075, 0.10))
 
 	# ---- Hips: pelvis block, a tarnished silver band, a shroud rag hanging in front.
 	add_part(hips, rough(box(Vector3(0.72, 0.28, 0.48)), 0.04, 11.0), dark, Vector3(0, 0.72, -0.02))

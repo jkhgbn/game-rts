@@ -37,6 +37,13 @@ func _frames(n: int) -> void:
 		await process_frame
 
 
+## An instance uniform the model never set reads back null (the flyer skips every other frame with no camera
+## near, so the frame right after play_hit may not have written hit_flash yet): read it as its default 0.0.
+func _iu(gi: GeometryInstance3D, name: StringName) -> float:
+	var v: Variant = gi.get_instance_shader_parameter(name)
+	return 0.0 if v == null else float(v)
+
+
 func _tip(m: Node3D, side: String = "R") -> Vector3:
 	var mi := m.get_node("Root/Body/Wing%s/Wing%s2/Wing%s2Mesh" % [side, side, side]) as Node3D
 	var p := FINGER_1
@@ -284,13 +291,13 @@ func _run() -> void:
 	m.call(&"play_hit")
 	for i: int in 6:
 		await process_frame
-		if float(head_mesh.get_instance_shader_parameter(&"hit_flash")) > 0.5:
+		if _iu(head_mesh, &"hit_flash") > 0.5:
 			flashed = true
 		jolt = minf(jolt, body.position.z - z0)
 	_check(flashed, "play_hit flashes white")
 	_check(jolt < -0.08, "play_hit jolts the body back (%.2f)" % jolt)
 	await _frames(30)
-	_check(float(head_mesh.get_instance_shader_parameter(&"hit_flash")) == 0.0, "flash ends")
+	_check(_iu(head_mesh, &"hit_flash") == 0.0, "flash ends")
 
 	# ---- team colour: membrane tint (and before _ready)
 	var wing_nodes := ["Root/Body/WingL/WingLMesh", "Root/Body/WingL/WingL2/WingL2Mesh", "Root/Body/WingR/WingRMesh",

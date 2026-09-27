@@ -1,0 +1,189 @@
+{
+    "lab":  "error_lab",
+    "version":  "1.1",
+    "run":  "fix-2026-09-27_art",
+    "time":  "2026-09-27 10:32",
+    "project":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts",
+    "result":  "PASS",
+    "score":  100,
+    "unique_fail":  0,
+    "unique_warn":  0,
+    "info":  0,
+    "new":  0,
+    "previous_run":  "baseline-2026-09-27-partial",
+    "tests":  [
+                  {
+                      "test":  "test_12_v28",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  4.3,
+                      "cap":  40000,
+                      "owner":  "tech-artist",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "  lowest HeadMesh 0.360",
+                                   "  lowest Neck2Mesh 0.390",
+                                   "  lowest Neck1Mesh 0.202",
+                                   "  lowest WingL2Mesh 0.467",
+                                   "  lowest WingLMesh 0.568",
+                                   "  lowest WingR2Mesh 0.115",
+                                   "  lowest WingRMesh 0.340",
+                                   "  lowest Tail1Mesh 0.309",
+                                   "  lowest LegFLMesh 0.175",
+                                   "  lowest LegFRMesh 0.112",
+                                   "  lowest BodyMesh -0.018",
+                                   "death 1.15 s: body 0.50 m, lowest -0.018, eyes 0.00, bursts 3",
+                                   "death_finished at 1.80 s",
+                                   "revived: body 2.55, eyes 1.00",
+                                   "PASS 12.v28"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\errors\\lab\\fix-2026-09-27_art\\logs\\test_12_v28.log"
+                  },
+                  {
+                      "test":  "test_13_v13",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  5.4,
+                      "cap":  40000,
+                      "owner":  "tech-artist",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "authored meshes (blob included) 17, particle systems 2, draw instances 19",
+                                   "materials: 5 own + 1 shared (res://art/units/titans/cinder_dragon/cinder_scale.tres, res://art/units/titans/cinder_dragon/cinder_horn.tres, res://art/units/titans/cinder_dragon/cinder_lava.tres, res://art/units/titans/cinder_dragon/cinder_flame.tres, res://art/units/titans/cinder_dragon/cinder_membrane.tres, res://art/units/kit/materials/unit_shadow_blob.tres); vertices 9476; shadow casters 10",
+                                   "rest extent: span 7.51 (membranes 7.04), length 8.41, y 3.18 .. 6.11",
+                                   "hover: tip swing 4.76 m, beat period 1.20 s, body bob 0.42 m, span now 4.03",
+                                   "forward flight: tip range 4.51 m; longest glide 2.23 s (tip range in it 0.39 m)",
+                                   "set_turning(120): +X wing tip 1.15, -X wing tip 4.88, body x axis y -0.55",
+                                   "measured turn (yaw -120 deg/s, no set_turning): body x axis y 0.55",
+                                   "breath: released at 0.35 s, jaw max 43 deg, open (\u003e 24 deg) 0.63 s, head flare 2.70, head down 38 deg",
+                                   "breath origin at rest: (0.300265, 5.154871, -3.040702) forward (0.170955, 0.119, -0.978066)",
+                                   "  on the ground (1.4 s): wing tips y -0.06 / 0.46, body y 0.76",
+                                   "death: crashed at 1.12 s (0.00, 0.10, 0.00), body y at crash 0.79, spin 179 deg, finished after 1.87 s",
+                                   "6 dragons: 0.690 ms per frame (whole headless frame)",
+                                   "PASS 13.v13"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\errors\\lab\\fix-2026-09-27_art\\logs\\test_13_v13.log"
+                  },
+                  {
+                      "test":  "test_13_v5",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  5.2,
+                      "cap":  40000,
+                      "owner":  "tech-artist",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "rest bounds y -0.00..2.97, x -1.21..1.33, z -1.25..1.50; body top 1.90; rack x -1.21..1.33",
+                                   "blossom petals: glow surfaces 1, vertices left / centre / right [175, 175, 175]",
+                                   "hollow stag bounds: top 3.69, width 3.02, length 3.30 (grove: top 2.97, rack 2.54, length 2.75)",
+                                   "red deer bounds: top 2.70, width 0.94, length 2.03",
+                                   "seat (model space) (0.001841, 1.633663, -0.196916)",
+                                   "walk: leg swing 21.9 deg, gallop blend 0.00",
+                                   "gallop: blend 1.00, bounce 0.090, seat bob 0.113, leg swing 38.0 deg, strides/s 2, neck 3.0 deg, head carried 0.076 m",
+                                   "hit: body flash 0.58, leg 0.58, neck 0.58, root z -0.083",
+                                   "charge: head 35.6 deg (rack levelled), lunge z 0.41, toss -36.3 deg, blossom glow 1.00 -\u003e 2.60",
+                                   "fidget: neck -1.4 -\u003e 32.1 deg (grazing)",
+                                   "barded: draw instances 8, vertices 9301, body surfaces 8 -\u003e 9",
+                                   "team colour on the barded body: [(0.85, 0.3, 0.12, 1.0), (0.3825, 0.135, 0.054, 1.0)]",
+                                   "slot collisions: 0",
+                                   "death: roll -27.6 -\u003e -86.0 deg, lying bounds y -0.03..1.76, wither 0.12, blossoms 0.00, finished true",
+                                   "PASS 13.v5"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\errors\\lab\\fix-2026-09-27_art\\logs\\test_13_v5.log"
+                  },
+                  {
+                      "test":  "test_13c_v1",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  5.4,
+                      "cap":  40000,
+                      "owner":  "tech-artist",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "authored meshes (blob included) 17, particle systems 2, draw instances 19",
+                                   "materials: 5 own + 1 shared (res://art/units/titans/frost_dragon/frost_scale.tres, res://art/units/titans/frost_dragon/frost_horn.tres, res://art/units/titans/frost_dragon/frost_ice.tres, res://art/units/titans/frost_dragon/frost_glow.tres, res://art/units/titans/frost_dragon/frost_membrane.tres, res://art/units/kit/materials/unit_shadow_blob.tres)",
+                                   "triangles 13258, vertices 8580, shadow casters 10",
+                                   "glow parts (cold glow / glowing ice): JawMesh/frost_ice, JawMesh/frost_glow, HeadMesh/frost_ice, HeadMesh/frost_glow, Neck2Mesh/frost_ice, Neck1Mesh/frost_ice, WingLMesh/frost_ice, WingRMesh/frost_ice, Tail3Mesh/frost_ice, Tail2Mesh/frost_ice, Tail1Mesh/frost_ice, BodyMesh/frost_ice",
+                                   "KITFIX AUDIT OK (frost dragon: slot map, no collision)",
+                                   "rest extent: span 7.98 (membranes 7.50), length 7.65, y 3.18 .. 6.14 (top: HeadMesh/frost_ice.tres)",
+                                   "hover: tip swing 5.06 m, beat period 1.28 s, body bob 0.42 m",
+                                   "forward flight: longest glide 1.87 s",
+                                   "set_turning(110): body x axis y -0.52",
+                                   "breath: released at 0.35 s, jaw max 44 deg, open 0.63 s, throat glow 2.70, neck spines 2.27",
+                                   "breath origin at rest: (-0.594206, 5.251147, -2.904703) forward (-0.153867, 0.114986, -0.981378)",
+                                   "  on the ground (1.4 s): wing tips y 0.41 / -0.14",
+                                   "death: crashed at 1.12 s, body y at crash 0.79, spin 179 deg, finished after 1.87 s",
+                                   "6 dragons: 0.848 ms per frame (whole headless frame)",
+                                   "PASS 13c.v1"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\errors\\lab\\fix-2026-09-27_art\\logs\\test_13c_v1.log"
+                  },
+                  {
+                      "test":  "test_13c_v3",
+                      "ok":  true,
+                      "why":  "",
+                      "kind":  "",
+                      "hint":  "",
+                      "exit":  0,
+                      "seconds":  3.6,
+                      "cap":  40000,
+                      "owner":  "tech-artist",
+                      "fail_lines":  [
+
+                                     ],
+                      "tail":  [
+                                   "script chain: BarrowGiantModel \u003e WardenModel \u003e CharacterModel",
+                                   "meshes (blob + hidden mound included) 11, particle systems 2 (looping 0), draw instances in play 10, nodes 13",
+                                   "materials: 7 own + 3 kit (res://art/units/shadow/barrow_giant/materials/barrow_stone.tres, res://art/units/shadow/barrow_giant/materials/barrow_stone_dark.tres, res://art/units/kit/materials/shadow_silver.tres, res://art/units/shadow/barrow_giant/materials/barrow_shroud_cape.tres, res://art/units/shadow/barrow_giant/materials/barrow_soul_glow.tres, res://art/units/shadow/barrow_giant/materials/barrow_grave.tres, res://art/units/shadow/barrow_giant/materials/barrow_earth.tres, res://art/units/kit/materials/shadow_obsidian.tres, res://art/units/shadow/barrow_giant/materials/barrow_shroud_cloth.tres, res://art/units/kit/materials/unit_shadow_blob.tres)",
+                                   "triangles 2460, vertices 5457, shadow casters ArmL/Merged, ArmR/Gravestone, ArmR/Merged, Chest/Merged",
+                                   "KITFIX AUDIT OK (barrow giant: slot map, no collision)",
+                                   "rest extent: width 3.44, depth 2.63, height 5.26 (y -0.04 .. 5.26); slab 1.38 x 2.08, y 3.18 .. 5.26; body top 3.47; head top 3.06",
+                                   "fists vs slab at rest: 0.000 m",
+                                   "team colour: chest surfaces tinted 2 (early instance 2), hip rag 1",
+                                   "walk: worst fist gap 0.000 m, footfall dust moves 4, arm rot diff 0.0000",
+                                   "throw: released at 0.58 s (origin y 3.48, 2.28 m from the rest slab), hidden from 0.60 to 1.08 s, lowest slab 0.13 m, wind-up z -1.03, core peak 2.40, rune reignites 2.60, ends 1.82 s, worst fist gap 0.000",
+                                   "death: finished 1 time(s) at 1.60 s, mound seen true (top 1.66 m, rune 2.20), body alpha at 1.1 s 1.00, core glow 0.00",
+                                   "warden: 11 draw instances, 9 materials",
+                                   "6 giants: 0.174 ms per frame (whole headless frame)",
+                                   "PASS 13c.v3"
+                               ],
+                      "log":  "C:\\Users\\elzzo\\Documents\\four-wizards-rts\\docs\\errors\\lab\\fix-2026-09-27_art\\logs\\test_13c_v3.log"
+                  }
+              ],
+    "failed_tests":  [
+
+                     ],
+    "owners":  [
+
+               ],
+    "errors":  [
+
+               ],
+    "gone":  [
+                 "Invalid call. Nonexistent \u0027float\u0027 constructor. @ res://tests/test_13c_v1.gd::_run",
+                 "Invalid call. Nonexistent \u0027float\u0027 constructor. @ res://tests/test_13_v13.gd::_run"
+             ],
+    "improve_next":  [
+
+                     ]
+}

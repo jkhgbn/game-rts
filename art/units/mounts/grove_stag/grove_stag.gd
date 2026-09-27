@@ -402,11 +402,12 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	sculpt_fringe(s, bark, fringe_mesh("grove_stag_collar_v2", 0.078, 0.078, 0.112, 0.112, 0.08, 0.0, 360.0, 6, 0.06, 0.02, 0.7),
 		Vector3(x, 0.27, hz))
 	sculpt_lock(s, moss, Vector3(x, 0.24, hz - 0.07), Vector3(0, -1.0, -0.4).normalized(), Vector3.BACK, 0.07, 0.10, 0.03)
-	# the split bark hoof: two wooden toes (bark, dark tips) leaning forward
+	# the split bark hoof: two wooden toes (bark, dark tips) leaning forward. Toes 1.2 cm up (was 0.095 / 0.028): the
+	# kit idle breathing (root bob +-1.4 cm + body pitch) sank the front tips 1.5 cm at the trough (test 13.V5 allows 1).
 	for side: float in [-1.0, 1.0]:
 		var tx := x + 0.036 * side
-		sculpt_put(s, cyl(0.042, 0.058, 0.14, 6), bark, Vector3(tx, 0.095, hz + 0.02), Vector3(-14, 0, 0), Vector3(1.0, 1.0, 1.35))
-		sculpt_put(s, cyl(0.03, 0.052, 0.05, 6), bark_d, Vector3(tx, 0.028, hz + 0.05), Vector3.ZERO, Vector3(1.0, 1.0, 1.45))
+		sculpt_put(s, cyl(0.042, 0.058, 0.14, 6), bark, Vector3(tx, 0.107, hz + 0.02), Vector3(-14, 0, 0), Vector3(1.0, 1.0, 1.35))
+		sculpt_put(s, cyl(0.03, 0.052, 0.05, 6), bark_d, Vector3(tx, 0.040, hz + 0.05), Vector3.ZERO, Vector3(1.0, 1.0, 1.45))
 
 
 # ================================================================ barding (woven bark plates)

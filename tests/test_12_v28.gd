@@ -153,7 +153,9 @@ func _run() -> void:
 		var alt := float(a.call(&"body_altitude"))
 		alt_min = minf(alt_min, alt)
 		alt_max = maxf(alt_max, alt)
-		if i % 20 == 0:
+		# Only while it glides (the check's own rule): the deep beats dip the wing tips to ~1 m at the bottom of the
+		# downstroke, and a sample every 20 frames hit that or not depending on the beat phase (the instance id).
+		if i % 5 == 0 and bool(a.get(&"_gliding")):
 			low_min = minf(low_min, _lowest_vertex(a))
 		if i % 4 == 0:
 			var box := _aabb(a)
