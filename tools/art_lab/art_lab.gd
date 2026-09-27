@@ -17,6 +17,8 @@ extends SceneTree
 ##            pass; only=a,b filters; full=1 keeps per-asset refs / frame cost -> docs/art/lab/_sweep_<kingdom>/sweep.md
 ##   name     asset name (default: the file name)   ids  vfx ids (default: the family's EFFECTS list)
 ##   n        instances for the frame-cost check    quick=1  no references / frame cost    log=0  no log row
+##   batch    v3: <file or comma list> of assets run in one process (stage built once; lab_batch.gd); fail_fast=1 skips
+##            the render passes of an asset whose headless checks FAIL; timing=1 prints where the time goes
 ##   table    print the budget table as Markdown and quit
 ## Exit code: 0 PASS / WARN, 1 FAIL, 2 bad arguments. Last lines of the output: the result and every FAIL / WARN.
 
@@ -36,6 +38,9 @@ func _main() -> void:
 	for a: String in args:
 		if a.trim_prefix("--").begins_with("sweep="):
 			await _sweep(args)
+			return
+		if a.trim_prefix("--").begins_with("batch="):
+			await _batch(args)
 			return
 	create_timer(WATCHDOG_S).timeout.connect(func() -> void:
 		print("ART LAB ERROR: watchdog (%d s)" % int(WATCHDOG_S))
@@ -61,7 +66,13 @@ func _sweep(args: PackedStringArray) -> void:
 	var out := String(opts.get("out", "res://docs/art/lab/_sweep_%s" % k)).trim_suffix("/")
 	var lister := ArtLabRunner.new()
 	root.add_child(lister)
-	var paths: Array[String] = lister.list_scenes(dir, true)
+	var pool := {}   # v3: one stage per light preset for the whole sweep
+	var pool_parent := Node.new()
+	pool_parent.name = "StagePool"
+	root.add_child(pool_parent)
+	lister.stage_pool = pool
+	lister.stage_parent = pool_parent
+	var paths: Array[String] = ArtLabScenes.list_scenes(dir, true)
 	paths.sort()
 	if opts.has("only"):
 		var keep: Array[String] = []
@@ -88,6 +99,8 @@ func _sweep(args: PackedStringArray) -> void:
 			if opts.has(pass_k):
 				ra.append("%s=%s" % [pass_k, opts[pass_k]])
 		var r := ArtLabRunner.new()
+		r.stage_parent = pool_parent
+		r.stage_pool = pool
 		root.add_child(r)
 		var code: int = await r.run(ra)
 		if r.rep != null:
@@ -102,7 +115,7 @@ func _sweep(args: PackedStringArray) -> void:
 		any_fail = any_fail or code != 0
 		r.queue_free()
 		await process_frame
-	var army: Dictionary = await lister.army_pass(paths, out)
+	var army: Dictionary = await ArtLabShots.army_pass(lister, paths, out)
 	var md := "# Art Lab army sweep: %s\n\n%s, %d models, lab v%s. Per-asset runs use quick=1 (no references / frame cost);\n" % [
 		k, Time.get_datetime_string_from_system(false, true), paths.size(), ArtLabReport.VERSION]
 	md += "the army silhouettes are rendered once and compared pairwise below.\n\n| asset | result | quality | FAIL / WARN | scorecard |\n|---|---|---|---|---|\n"
@@ -124,3 +137,27 @@ func _sweep(args: PackedStringArray) -> void:
 	for row: String in rows:
 		print("  " + row)
 	quit(1 if any_fail else 0)
+
+
+## v3 batch: `batch=<file or comma list>` (tools/art_lab/lab_batch.gd): the assets run in this one process, the stage
+## is built once. Prints one line per asset and the s / asset. Exit 1 if any asset FAILs, 2 on bad arguments.
+func _batch(args: PackedStringArray) -> void:
+	var t0 := Time.get_ticks_msec()
+	var shared := {}
+	for a: String in args:
+		var s := a.trim_prefix("--")
+		shared[s.get_slice("=", 0).to_lower()] = s.substr(s.find("=") + 1) if "=" in s else "1"
+	var list := ArtLabBatch.entries(String(shared.get("batch", "")))
+	if list.is_empty():
+		print("ART LAB ERROR: batch=%s lists no asset" % shared.get("batch", ""))
+		quit(2)
+		return
+	create_timer(WATCHDOG_S + 120.0 * float(list.size())).timeout.connect(func() -> void:
+		print("ART LAB ERROR: batch watchdog")
+		quit(3))
+	print("ART LAB BATCH: %d assets" % list.size())
+	var res: Dictionary = await ArtLabBatch.run_all(root, list, shared)
+	print(ArtLabBatch.summary(res, float(Time.get_ticks_msec() - t0) / 1000.0))
+	for row: Dictionary in res["rows"]:
+		print("  | %s %s %.0f (%.1f s)" % [row["asset"], row["result"], float(row["quality"]), float(row["seconds"])])
+	quit(int(res["code"]))

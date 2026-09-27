@@ -64,6 +64,8 @@ var _fill_on: bool = false
 var env_hot: Environment
 var glow_level: float = 1.1
 var height_mat: ShaderMaterial
+var preset_id: StringName = &"warm"   # the light preset this stage was built with
+var _own: Array[Node] = []   # the stage's own world nodes (rig, ground, water, patches, camera): kept by reset()
 ## World height pass (P3 / P5 judge by world height, not screen rows): grey = (world y - y0) / span, unshaded.
 const HEIGHT_SHADER := """
 shader_type spatial;
@@ -129,6 +131,30 @@ func setup(light_preset: StringName = &"warm") -> void:
 	height_mat = ShaderMaterial.new()
 	height_mat.shader = hs
 	RenderingServer.viewport_set_measure_render_time(vp.get_viewport_rid(), true)
+	preset_id = light_preset
+	_own.assign(world.get_children())
+
+
+## v3 batch: the render pipelines of the 4 modes compiled once (the first asset of a batch is not the one that pays).
+func warm() -> void:
+	for md: StringName in [&"lit", &"sil", &"hot", &"dark", &"lit"]:
+		set_mode(md)
+		await grab()
+
+
+## v3 batch: back to a clean stage between two assets. Frees everything the last run added to the world (target,
+## references, decor patch, VFX family...), lit mode, default camera. The ground, lights and shaders stay built.
+func reset() -> void:
+	var extra := false
+	for c: Node in world.get_children():
+		if not c in _own:
+			world.remove_child(c)
+			c.queue_free()
+			extra = true
+	set_mode(&"lit")
+	game_cam(Vector3.ZERO, 40.0)
+	if extra:
+		await get_tree().process_frame
 
 
 func _flat(c: Color) -> StandardMaterial3D:

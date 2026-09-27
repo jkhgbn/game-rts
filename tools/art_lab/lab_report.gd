@@ -1,11 +1,12 @@
 class_name ArtLabReport
 extends RefCounted
 ## Art Lab (docs/plan/art-lab.md): the scorecard. Collects checks (PASS / WARN / FAIL / INFO / SKIP + measured value +
-## rule + fix hint), turns them into a 0-100 quality score and an "Improve next" list (always >= 3 items), writes
-## scorecard.md / scorecard.json, the contact sheet PNG and a line in docs/art/lab/improvement-log.md.
+## rule + fix hint) and writes scorecard.md / scorecard.json, the contact sheet PNG and a line in
+## docs/art/lab/improvement-log.md. The numbers (grades, 0-100 quality, "Improve next" ranking) come from lab_score.gd.
 
 const VERSION := "2.0"
-const GROUP_WEIGHT := {"budget": 1.0, "health": 1.5, "read": 2.0, "anim": 1.0, "polish": 1.0, "decor": 1.5, "vfx": 1.5}
+## Kept for callers of the pre-v3 API (tools/common/tool_report.gd extends this class): the weights live in lab_score.gd.
+const GROUP_WEIGHT := ArtLabScore.GROUP_WEIGHT
 const GROUP_TITLE := {"health": "Health (errors, allocations, hooks)", "budget": "Budgets", "read": "Readability at 40 m",
 	"anim": "Animation", "polish": "Polish (scored, never fails)", "decor": "Decor set", "vfx": "VFX family"}
 const GROUP_ORDER: Array[String] = ["health", "budget", "read", "anim", "decor", "vfx", "polish"]
@@ -34,39 +35,9 @@ func add(id: String, group: String, check_name: String, status: String, value: S
 		score: float = -1.0, improve: String = "", shot: String = "", weight: float = 1.0) -> Dictionary:
 	var c := {"id": id, "group": group, "name": check_name, "status": status, "value": value, "rule": rule,
 		"hint": hint, "graded": score, "improve": improve, "shot": shot, "weight": weight}
-	c["score"] = _score_of(status, score)
+	c["score"] = ArtLabScore.score_of(status, score)
 	checks.append(c)
 	return c
-
-
-static func _score_of(status: String, graded: float) -> float:
-	var g := clampf(graded, 0.0, 1.0)
-	match status:
-		"PASS":
-			return 1.0 if graded < 0.0 else lerpf(0.7, 1.0, g)
-		"WARN":
-			return 0.5 if graded < 0.0 else lerpf(0.35, 0.69, g)
-		"FAIL":
-			return 0.0 if graded < 0.0 else lerpf(0.0, 0.34, g)
-		"INFO":
-			return -1.0 if graded < 0.0 else g
-	return -1.0
-
-
-## Grades a value against a "bad" and a "good" end (either direction): 0 at bad, 1 at good.
-static func grade(value: float, bad: float, good: float) -> float:
-	if is_equal_approx(bad, good):
-		return 1.0 if value >= good else 0.0
-	return clampf((value - bad) / (good - bad), 0.0, 1.0)
-
-
-## PASS / WARN / FAIL of a value against a budget {limit, hard}: over a hard limit = FAIL, over a soft one = WARN.
-static func budget_status(value: float, lim: Dictionary) -> String:
-	if lim.is_empty():
-		return "INFO"
-	if value <= float(lim["limit"]):
-		return "PASS"
-	return "FAIL" if bool(lim["hard"]) else "WARN"
 
 
 func count(status: String) -> int:
@@ -86,46 +57,12 @@ func result() -> String:
 
 
 func quality() -> float:
-	var sw := 0.0
-	var ss := 0.0
-	for c: Dictionary in checks:
-		var s: float = c["score"]
-		if s < 0.0:
-			continue
-		var w: float = float(c["weight"]) * float(GROUP_WEIGHT.get(c["group"], 1.0))
-		sw += w
-		ss += w * s
-	return 100.0 * ss / sw if sw > 0.0 else 0.0
+	return ArtLabScore.quality(checks)
 
 
-## The "Improve next" list: the checks with the most weighted headroom that carry a suggestion, FAIL / WARN first,
-## then polish ideas; topped up with `extras` so there are always at least `min_items`.
+## The "Improve next" list (ArtLabScore.improve_next): FAIL / WARN first, then headroom, topped up with `extras`.
 func improve_next(min_items: int = 3, max_items: int = 6) -> Array[Dictionary]:
-	var cands: Array[Dictionary] = []
-	for c: Dictionary in checks:
-		if String(c["improve"]) == "" or float(c["score"]) < 0.0 or float(c["score"]) >= 0.97:
-			continue
-		var w: float = float(c["weight"]) * float(GROUP_WEIGHT.get(c["group"], 1.0))
-		var rank: float = w * (1.0 - float(c["score"]))
-		if c["status"] == "FAIL":
-			rank += 100.0
-		elif c["status"] == "WARN":
-			rank += 10.0
-		cands.append({"rank": rank, "title": c["name"], "text": c["improve"],
-			"source": "%s %s%s" % [c["id"], c["name"], (", shot " + String(c["shot"])) if String(c["shot"]) != "" else ""],
-			"status": c["status"]})
-	cands.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["rank"]) > float(b["rank"]))
-	var out: Array[Dictionary] = []
-	for c2: Dictionary in cands:
-		if out.size() >= max_items:
-			break
-		out.append(c2)
-	for e: Dictionary in extras:
-		if out.size() >= min_items:
-			break
-		out.append({"rank": 0.0, "title": e["title"], "text": e["text"], "source": e["source"], "status": "IDEA"})
-	return out
-
+	return ArtLabScore.improve_next(checks, extras, min_items, max_items)
 
 func exit_code() -> int:
 	return 1 if result() == "FAIL" else 0

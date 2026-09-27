@@ -6,9 +6,30 @@ the spec budgets and the readability rules, and writes a **scorecard** with PASS
 the rule, a concrete fix hint, a **quality score 0-100** and an **"Improve next"** list (always at least 3 items, even
 when everything passes). Every run appends a row to `docs/art/lab/improvement-log.md` so trends are visible.
 
-Files: `tools/art_lab/` (`art_lab.gd` entry, `lab_runner.gd` shots + checks, `lab_stage.gd` render stage,
-`lab_image.gd` pixel analysis, `lab_census.gd` budgets / bounds, `lab_budgets.gd` **all numbers**, `lab_report.gd`
-scorecard + contact sheet), test `tests/test_art_lab.gd` (headless: `PASS art_lab`).
+Files: `tools/art_lab/` (module map below, v3 split 2026-09-27), test `tests/test_art_lab.gd` (headless: `PASS art_lab`).
+
+**Module map (v3).** Every check module is a `class_name` of static functions taking the run context
+`ctx: ArtLabRunner` (state: `ctx.rep`, `ctx.stage`, `ctx.target`, `ctx.holder`, `ctx.kind`, `ctx.tier`, `ctx.opts`,
+shared measurements `ctx.m`; helpers: `ctx.frames`, `ctx.wait`, `ctx.call_hook`, `ctx.spawn`, `ctx.settle`,
+`ctx.free_model`, `ctx.crop`, `ctx.crop_box`, `ctx.add_tile`, `ctx.save_shot`, `ctx.fmt`, `ctx.use_stage`). Modules call
+each other only through public (non-`_`) functions. One owner per file in a phase (v3 plan "Rules for phase 1").
+| File | Class | Owns | v3 phase-1 owner |
+|---|---|---|---|
+| `art_lab.gd` | (SceneTree entry) | args, single run, `sweep=`, `batch=` entry | 1.E |
+| `lab_runner.gd` | `ArtLabRunner` | the run context (state + helpers), argument resolve, the run order (`_run_model`: headless checks, `fail_fast`, shots, readability, turns, anim strip, references, frame cost), `use_stage` (own or pooled stage), `timing=1` laps; thin forwarders `resolve_scene`, `list_scenes`, `army_pass` for old callers | lead (change on request) |
+| `lab_batch.gd` | `ArtLabBatch` | v3 batch: entries (list / file), kind guess, per-entry args, `run_all` (stage pool, vsync off), summary line | 1.E |
+| `lab_shots.gd` | `ArtLabShots` | black silhouette / height passes (`sil`, `height_pass`), 40 / 55 / 25 m + close-up shots, turns, lineup, `mask_tile`, `mark`, army silhouette pass | 1.D (with the stage) |
+| `lab_scenes.gd` | `ArtLabScenes` | short names (`resolve_scene`), `list_scenes`, auto references (`auto_candidates`, `probe_height` cached per process, `pick_refs`) | 1.E |
+| `checks/budgets.gd` | `ArtLabCheckBudgets` | B1-B8, B1a, B11, B12 (census), B9 / B9m, B10 (action cycles), B13 frame cost (`measure`), H1 / H2 errors | 1.C (numbers stay in `lab_budgets.gd`) |
+| `checks/readability.gd` | `ArtLabCheckRead` | R1, R2 / R2r (`references`), R3 / R3t / R4 / R4k (`add_contrast`), R5 (`glow_phase`, `glow_report`), R6 (`team_pass`), R7, R8 / R8w, R9, R10 (`check_geometry`) | 1.D |
+| `checks/animation.gd` | `ArtLabCheckAnim` | A1 hooks, A2 `death_check`, A3 `attack_reads` (called from the 40 m pass), animation strip | 1.D (walk cycle) |
+| `checks/polish.gd` | `ArtLabCheckPolish` | P1 / P3 / P4 `shape_value_detail`, P2 `asymmetry`, P5 `glow_placement` (INFO, scored) | 1.D (style bible f) |
+| `checks/decor_vfx.gd` | `ArtLabCheckDecorVfx` | decor sets (D1-D9, patch R5 / B13), VFX families (B5, V2-V6, B13) | free (none in phase 1) |
+| `lab_score.gd` | `ArtLabScore` | `score_of`, `grade`, `budget_status`, `quality`, `improve_next`, `GROUP_WEIGHT`, kind ideas `add_extras` | 1.A (+ new `lab_fixes.gd`) |
+| `lab_report.gd` | `ArtLabReport` | the check list, scorecard.md / .json, contact sheet, improvement log; `quality()` / `improve_next()` forward to `ArtLabScore`; `GROUP_WEIGHT` kept as an alias. **`tools/common/tool_report.gd` (`ToolReport`) extends it**: keep its public API (`add`, `count`, `result`, `quality`, `improve_next`, `exit_code`, `to_dict`, `to_markdown`, `_cell`, `write`, `append_log`, `read_previous`, `contact_sheet`); `grade` / `budget_status` moved to `ArtLabScore` (ToolReport has its own copies since 2026-09-27) | 1.B (+ new `lab_diff.gd`) |
+| `lab_stage.gd` | `ArtLabStage` | SubViewport, ground, lights, render modes, cameras, `override` / `restore`, v3 `warm()` / `reset()` | 1.D |
+| `lab_image.gd` / `lab_census.gd` | `ArtLabImage` / `ArtLabCensus` | pixel analysis / scene census (shared helpers) | ask the lead before changing a signature |
+| `lab_budgets.gd` | `ArtLabBudgets` | **all numbers** | 1.C only (others send changes by note) |
 
 ## 1. One command
 Windowed (it renders; `--headless` only runs budgets / health / hooks and marks the render checks SKIP):
@@ -33,11 +54,16 @@ cd C:\Users\elzzo\Documents\four-wizards-rts
 | `name=` `ids=` `n=` | asset name; VFX ids (default: the family's `EFFECTS`); instances for the frame cost |
 | `quick=1` / `log=0` | skip references + frame cost / no improvement-log row |
 | `table` | print the budget table (Markdown) and quit |
+| `batch=<list or file>` | **v3 batch**: several assets in ONE Godot process (`lab_batch.gd`). The stage (ground, lights, shaders) is built once per light preset and warmed (all 4 render modes) before the first asset; each asset then runs on the reset stage (its nodes freed). A comma list of scenes shares the other args (`'batch=shade,dusk_steed,aqueduct'`); a `.txt` / `.list` file holds one `<scene> [key=value ...]` per line (`#` = comment). `kind=` is guessed from the path when missing; `out_root=<dir>` puts each scorecard in `<dir>/<name>/`. vsync is off in a batch (capped 240 fps; `vsync=1` keeps it): the lab's waits are timers, so the poses are the same. Ends with `ART LAB BATCH done: N assets in S s (s / asset)` + one line per asset; exit 1 if any FAILs. `sweep=` uses the same stage pool |
+| `fail_fast=1` | v3: the headless checks (budgets, health, hooks, allocations) run first; on a FAIL the render passes are skipped (render checks SKIP "fail_fast", note in the scorecard) |
+| `timing=1` | v3: prints the seconds of each phase (headless checks, shots, read_40, turns + anim strip, references, frame cost) |
 
 Lead shortcut (v2): `.\tools\art_lab\run_art_lab.ps1 sapling unit nature` (one asset, through the Godot gate),
-`.\tools\art_lab\run_art_lab.ps1 -Sweep ice` (army sweep), `-Extra 'ground=ash','light=ice'`, `-Headless`.
+`.\tools\art_lab\run_art_lab.ps1 -Sweep ice` (army sweep), `-Extra 'ground=ash','light=ice'`, `-Headless`;
+v3: `.\tools\art_lab\run_art_lab.ps1 -Batch 'shade,dusk_steed,aqueduct' -Extra 'fail_fast=1'` (or a batch file).
 
-Runtime 20-40 s per asset (GTX 1660). Exit code **1 on any FAIL**, 0 otherwise, 2 = bad arguments. The console ends with
+Runtime 20-40 s per asset (GTX 1660); v3 on the RTX 3070 laptop: ~30 s per asset single (+ ~5 s Godot start and the
+gate wait), 27 s per asset in a full batch, 16.5 s with `quick=1 fail_fast=1` (section 9.1). Exit code **1 on any FAIL**, 0 otherwise, 2 = bad arguments. The console ends with
 `ART LAB <name>: <RESULT> quality <N> ...` and one line per FAIL / WARN.
 
 Output in the out folder: `scorecard.md`, `scorecard.json`, `contact_sheet.png` (everything on one page, with the
@@ -266,6 +292,41 @@ Next steps (v2.1):
   are INFO already), glow-point local contrast (Ice/Nature note), R2 flyers at a matching wing phase.
 Also done late: P1 / P2 hints say hooks thinner than ~0.25 m do not register at 40 m (1 px = ~4 cm); B13 noise band;
 `tools/art_lab/run_art_lab.ps1` wrapper.
+
+### 9.1 Art Lab v3 phase 0 (2026-09-27 08:20-09:30, four-wizards-high; plan `docs/plan/art-lab-v3-plan.md`)
+- **0.1 split** of `lab_runner.gd` (110 KB -> 19 KB) into the modules of the section-1 map (`lab_shots.gd`,
+  `lab_scenes.gd`, `checks/{budgets,readability,animation,polish,decor_vfx}.gd`, `lab_score.gd`). A mechanical move:
+  every function body kept, run state reached through `ctx`, P1-P5 / A3 cut out of the 40 m pass and called at the
+  same place (same check order in the scorecard). **Proof** (fixed idle pose, `log=0`, before / after scorecards):
+  headless runs of Shade / Dusk Steed / Aqueduct / fire gun VFX give the same checks, statuses, scores and quality
+  (98.4-100) except two animation-timing values (A2 1.01 vs 1.00 s; R8 score 4th decimal). Windowed: Aqueduct 24 / 25
+  and the gun VFX 8 / 9 checks identical (only B13 frame cost differs), quality identical (98.5 / 100 / 98.6 Dusk
+  Steed). Shade / Dusk Steed differ only in the values that move between two runs of the **unchanged** v2.1 lab too
+  (before vs before-again: Shade 25 / 37 identical, FAIL 94 -> PASS 99 from B13 0.08 ms on a loaded PC, R5 phase
+  0/1/0 vs 0/1/1, A2): +-1 px areas, +-0.2 dE, glow phase counts, A2 / A3 timing, B13. So the lab is repeatable in
+  budgets / health / hooks / geometry and within this noise band in the render checks, not byte-identical.
+- **0.2 batch**: `batch=` (+ `run_art_lab.ps1 -Batch`), stage pool (built + warmed once per light preset, `reset()`
+  between assets), `fail_fast=1`, `timing=1`, reference heights probed once per process, vsync off in a batch; `sweep=`
+  uses the stage pool too. Measured on the RTX 3070 laptop with 3-6 other Godot processes (other agents) running:
+
+| 8 assets (shade, dusk_steed, aqueduct, mirefang, thornling, ember_archer, sapling, deer) | s / asset |
+|---|---|
+| single runs, lab time only (`in N s`) | 30.4 (19-41) |
+| single runs, wall incl. Godot start (~5 s) and the Godot-gate wait (machine busy) | 107 (29-283) |
+| batch, full (refs + frame cost) | **27.2** in process (first 29.5, then 26.8); 33.4 wall incl. one gate wait |
+| batch, `quick=1 fail_fast=1` (the sweep setting) | **16.5** (first 19.5, then 16.1) |
+| a planted budget FAIL with `fail_fast=1` (test, headless) | < 1 s after the headless checks |
+
+  **Target <= 8 s / asset not met.** The start-up saving is ~5 s / asset (plus one gate wait instead of 8); the rest is
+  the lab's own timed waits, not the process: per unit (`timing=1`, Shade) headless checks 7.8 s (two action cycles of
+  ~3 s for B10 + settle 0.6 s), 40 m pass 5.6 s (4 team-colour copies x settle 0.6 s, A3 1.4 s, 3 glow phases),
+  turns + anim strip 4.9 s (timed hooks), references 8.8 s (6 refs x settle + 30 silhouettes), frame cost 2.6 s;
+  VFX families ~3 s per id (the gun family: 89 s). Next speed steps (phase 1, they change what is measured, so they need
+  the 1.C calibration first): settle the 4 team copies / 6 references in parallel (one 0.6 s wait instead of 10),
+  `focus=` (1.B) to re-run only the checks that changed, a shorter second B10 cycle, VFX ids played in parallel.
+- Test `tests/test_art_lab.gd` extended (batch entries / file, kind guess, entry args, one stage for 2 assets,
+  fail_fast on a planted critter-budget FAIL): `PASS art_lab`. `tests/test_tool_cine.gd` (ToolReport extends
+  ArtLabReport): PASS.
 
 ## 10. v2.1 (2026-09-27, lab review on the laptop, RTX 3070 Laptop)
 Checked the known notes against v2 first: rim light (R5), R3 low-chroma hue gap, P1 / P2 thin hooks, emission crop +

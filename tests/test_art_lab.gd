@@ -28,6 +28,7 @@ func _run() -> void:
 	_test_report()
 	await _test_census()
 	await _test_runner()
+	await _test_batch()
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
@@ -149,7 +150,7 @@ func _test_report() -> void:
 	var q1 := rep.quality()
 	rep.add("R1", "read", "Area", "FAIL", "30 px", ">= 45")
 	_check(rep.quality() < q1 and rep.exit_code() == 1, "a FAIL lowers the score and exits 1")
-	_check(ArtLabReport.grade(5.0, 0.0, 10.0) == 0.5 and ArtLabReport.grade(20.0, 10.0, 0.0) == 0.0, "grade")
+	_check(ArtLabScore.grade(5.0, 0.0, 10.0) == 0.5 and ArtLabScore.grade(20.0, 10.0, 0.0) == 0.0, "grade")
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
 	rep.write(OUT)
 	_check(FileAccess.file_exists(OUT + "/scorecard.md") and FileAccess.file_exists(OUT + "/scorecard.json"), "scorecard written")
@@ -207,3 +208,43 @@ func _test_runner() -> void:
 	_check(await bad.run(PackedStringArray(["scene=res://nope.tscn", "kind=unit"])) == 2, "bad scene -> exit 2")
 	runner.queue_free()
 	bad.queue_free()
+
+
+## v3 batch mode (lab_batch.gd): entry parsing, kind guess, per-entry args, one stage for the whole batch, fail_fast.
+func _test_batch() -> void:
+	var e := ArtLabBatch.entries("mirefang, dusk_steed")
+	_check(e.size() == 2 and e[0][0] == "scene=mirefang" and e[1][0] == "scene=dusk_steed", "batch comma list")
+	var lf := OUT + "/batch.txt"
+	var f := FileAccess.open(lf, FileAccess.WRITE)
+	f.store_string("# comment\nmirefang kind=unit\n\nres://art/vfx/unit_fire_gun_vfx.gd ids=a\n")
+	f.close()
+	var ef := ArtLabBatch.entries(lf)
+	_check(ef.size() == 2 and "kind=unit" in ef[0] and "ids=a" in ef[1], "batch list file (%d entries)" % ef.size())
+	_check(ArtLabBatch.guess_kind("res://art/vfx/unit_fire_gun_vfx.gd") == "vfx", "guess kind vfx")
+	_check(ArtLabBatch.guess_kind("dusk_steed") == "mount", "guess kind mount (short name)")
+	_check(ArtLabBatch.guess_kind("res://art/environment/landmarks/aqueduct.tscn") == "landmark", "guess kind landmark")
+	_check(ArtLabBatch.guess_kind("mirefang") == "unit", "guess kind unit")
+	var ra := ArtLabBatch.entry_args(PackedStringArray(["scene=mirefang", "ground=heath"]),
+		{"batch": "x", "ground": "meadow", "log": "0", "out_root": "user://b"})
+	_check("ground=heath" in ra and not "ground=meadow" in ra and "log=0" in ra and "kind=unit" in ra
+		and "out=user://b/mirefang" in ra and not "batch=x" in ra, "batch entry args (%s)" % ", ".join(ra))
+	# two assets in one process: the second is a planted FAIL (critter rabbit budget: 300 triangles) with fail_fast
+	var list: Array[PackedStringArray] = [PackedStringArray(["scene=" + MODEL]),
+		PackedStringArray(["scene=" + MODEL, "kind=critter", "tier=rabbit", "name=mirefang_ff"])]
+	var holder := Node.new()
+	root.add_child(holder)
+	var res: Dictionary = await ArtLabBatch.run_all(holder, list,
+		{"kingdom": "neutral", "log": "0", "fail_fast": "1", "out_root": OUT + "/batch"})
+	var rows: Array = res["rows"]
+	_check(rows.size() == 2, "batch ran 2 assets")
+	_check(int(res["stages"]) == 1, "batch built the stage once (got %d)" % int(res["stages"]))
+	if rows.size() == 2:
+		_check(int(rows[0]["code"]) == 0 and int(rows[1]["code"]) == 1, "batch codes 0 / 1 (got %d / %d)" % [int(rows[0]["code"]), int(rows[1]["code"])])
+	var p := OUT + "/batch/mirefang_ff/scorecard.json"
+	_check(FileAccess.file_exists(p) and FileAccess.file_exists(OUT + "/batch/mirefang/scorecard.json"), "batch scorecards per asset")
+	if FileAccess.file_exists(p):
+		var d: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(p))
+		_check(String(d["result"]) == "FAIL" and "fail_fast" in " ".join(PackedStringArray(d["notes"])), "fail_fast stopped the planted FAIL")
+	_check(ArtLabBatch.summary(res, 2.0).begins_with("ART LAB BATCH done: 2 assets"), "batch summary line")
+	holder.queue_free()
+	await process_frame
