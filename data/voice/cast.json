@@ -66,9 +66,10 @@
   },
   "obren": {"alias_of": "whisper", "notes": "The Whisper once revealed: same voice."},
   "master": {
-   "voice": "bm_fable", "speed": 0.9,
-   "notes": "The Master (God Wizard), in memories: old, kind British storyteller.",
-   "audition_line": "Show me again."
+   "voice": {"bm_lewis": 0.4, "bm_george": 0.35, "bm_fable": 0.25}, "speed": 0.82,
+   "notes": "The Master (God Wizard): an OLD, KINGLY British man (JS 2026-09-27). He also narrates the prologue (prologue_3min: tells his own legend in the third person, reveals 'I was that wizard', then introduces his four apprentices), so one voice. Picked from 3 blends (docs/tools/voice_forge/auditions/): lewis/george/fable at 0.82 is the slowest and heaviest (13.0 ch/s, 127 Hz) and no single wizard's voice dominates it (Malrik = bm_george, Torvald = bm_lewis, Vey = daniel/lewis). Was bm_fable 0.9 (no line had been rendered with it). The mission narrator stays am_michael.",
+   "audition_line": "Once upon a time, the strongest wizard of all time ruled the world.",
+   "audition": [{"voice": {"bm_lewis": 0.4, "bm_george": 0.35, "bm_fable": 0.25}, "speed": 0.82}, {"voice": {"bm_george": 0.5, "bm_fable": 0.5}, "speed": 0.85}, {"voice": {"bm_daniel": 0.5, "bm_fable": 0.5}, "speed": 0.85}]
   },
   "ashby": {
    "voice": "am_eric", "speed": 1.0,

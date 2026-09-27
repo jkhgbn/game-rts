@@ -5,13 +5,15 @@
   "docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines",
   "docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines",
   "scripts/campaign/mission_01.gd: 15 lines",
+  "data/cinematics/src/prologue_3min.cine: 30 lines",
   "data/cinematics/src/two_wizards.cine: 1 lines",
   "data/cinematics/src/watch_keep.cine: 4 lines",
   "data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)",
   "data/voice/lines/ep3_opening.json: 15 lines",
-  "data/voice/lines/ep4_opening.json: 15 lines"
+  "data/voice/lines/ep4_opening.json: 15 lines",
+  "data/voice/lines/prologue_3min.json: 30 lines"
  ],
- "count": 50,
+ "count": 80,
  "lines": [
   {
    "id": "malrik/and_me_he_gave_ad0ff01f",
@@ -314,6 +316,726 @@
      "slot": 5.2,
      "slot_kind": "cine slot",
      "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "master/burn_her_forest_down_16f3dda5",
+   "speaker": "master",
+   "text": "Burn her forest down, and it grows back. Every spring. Every time.",
+   "text_hash": "16f3dda5b181e03d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:94",
+     "ref": "prologue_3min/S27@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L27",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/but_he_is_never_adfcea4c",
+   "speaker": "master",
+   "text": "But he is never full. Whatever he holds, he wants more.",
+   "text_hash": "adfcea4cc1c720b7",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:73",
+     "ref": "prologue_3min/S20@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L20",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/but_he_waits_too_7019f3d6",
+   "speaker": "master",
+   "text": "But he waits too long, and trusts slow ice more than quick friends.",
+   "text_hash": "7019f3d63fa79bfb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:85",
+     "ref": "prologue_3min/S24@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L24",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/but_she_never_waits_a66dd99c",
+   "speaker": "master",
+   "text": "But she never waits. And fire that will not wait burns its own house.",
+   "text_hash": "a66dd99c60e94b27",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:61",
+     "ref": "prologue_3min/S16@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L16",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/but_she_will_not_f0c2364f",
+   "speaker": "master",
+   "text": "But she will not take a side, not even while the world burns.",
+   "text_hash": "f0c2364fea6aa644",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:97",
+     "ref": "prologue_3min/S28@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L28",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/dragons_great_and_small_d6939132",
+   "speaker": "master",
+   "text": "Dragons great and small filled its sky, and not one breathed in anger.",
+   "text_hash": "d6939132db627219",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:24",
+     "ref": "prologue_3min/S04@0.4",
+     "slot": 6.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L04",
+     "slot": 6.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/four_heirs_one_empty_8bd4c10b",
+   "speaker": "master",
+   "text": "Four heirs. One empty throne.",
+   "text_hash": "8bd4c10b54f8192f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:49",
+     "ref": "prologue_3min/S12@0.1",
+     "slot": 2.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L12",
+     "slot": 2.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/give_her_a_wall_e312dd45",
+   "speaker": "master",
+   "text": "Give her a wall, and she will burn a door through it.",
+   "text_hash": "e312dd453da89432",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:58",
+     "ref": "prologue_3min/S15@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L15",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/he_raised_four_apprentices_1eed795c",
+   "speaker": "master",
+   "text": "He raised four apprentices, and gave each of them a kingdom.",
+   "text_hash": "1eed795cce0d2e70",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:30",
+     "ref": "prologue_3min/S06@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L06",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/he_thinks_i_gave_10970b83",
+   "speaker": "master",
+   "text": "He thinks I gave him leftovers. I gave the dark to the one it could not frighten.",
+   "text_hash": "10970b8344a66eb8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:76",
+     "ref": "prologue_3min/S21@0.3",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L21",
+     "slot": 7.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/his_citadel_rose_above_2e36d77d",
+   "speaker": "master",
+   "text": "His citadel rose above the clouds, a city of towers, bridges and bells.",
+   "text_hash": "2e36d77d27246cd4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:21",
+     "ref": "prologue_3min/S03@0.4",
+     "slot": 6.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L03",
+     "slot": 6.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/i_know_this_tale_705bd7cd",
+   "speaker": "master",
+   "text": "I know this tale well, child. I was that wizard.",
+   "text_hash": "705bd7cd5f116992",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:52",
+     "ref": "prologue_3min/S13@0.8",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L13",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/i_left_him_my_5d4b36a7",
+   "speaker": "master",
+   "text": "I left him my coldest secret. Torvald was my patience.",
+   "text_hash": "5d4b36a7e29481e5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:88",
+     "ref": "prologue_3min/S25@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L25",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/i_loved_all_four_d534ea63",
+   "speaker": "master",
+   "text": "I loved all four of them. And still, they went to war.",
+   "text_hash": "d534ea6313897cbb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:103",
+     "ref": "prologue_3min/S30@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L30",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/i_would_say_show_1f5d14b4",
+   "speaker": "master",
+   "text": "I would say: show me again. And she always did. Ysolde was my heart.",
+   "text_hash": "1f5d14b43a183667",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:100",
+     "ref": "prologue_3min/S29@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L29",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/kings_brought_him_their_38ebe69c",
+   "speaker": "master",
+   "text": "Kings brought him their quarrels, and went home as friends.",
+   "text_hash": "38ebe69c86e2987a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:27",
+     "ref": "prologue_3min/S05@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L05",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/malrik_i_found_him_915e2c7f",
+   "speaker": "master",
+   "text": "Malrik. I found him reading tombstones by the light of one candle.",
+   "text_hash": "915e2c7fe62d85cc",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:67",
+     "ref": "prologue_3min/S18@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L18",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/malrik_of_shadow_b1f1cf04",
+   "speaker": "master",
+   "text": "Malrik, of Shadow.",
+   "text_hash": "b1f1cf04857aa684",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:40",
+     "ref": "prologue_3min/S09@0.2",
+     "slot": 2.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L09",
+     "slot": 2.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/nothing_breaks_him_not_9a4ca6da",
+   "speaker": "master",
+   "text": "Nothing breaks him. Not armies, not winters. Not time.",
+   "text_hash": "9a4ca6dacc803e22",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:82",
+     "ref": "prologue_3min/S23@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L23",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/nothing_is_hidden_from_3efbf049",
+   "speaker": "master",
+   "text": "Nothing is hidden from him. The dark itself comes when he calls.",
+   "text_hash": "3efbf04925f7f5fa",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:70",
+     "ref": "prologue_3min/S19@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L19",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/once_upon_a_time_74703b43",
+   "speaker": "master",
+   "text": "Once upon a time, the strongest wizard of all time ruled the world.",
+   "text_hash": "74703b43c785f0b5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:15",
+     "ref": "prologue_3min/S01@1.2",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L01",
+     "slot": 5.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/still_she_laughed_like_57d11b3e",
+   "speaker": "master",
+   "text": "Still, she laughed like sunrise. Vessa was my joy.",
+   "text_hash": "57d11b3eb25f5ecf",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:64",
+     "ref": "prologue_3min/S17@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L17",
+     "slot": 5.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/then_between_one_breath_72b919e2",
+   "speaker": "master",
+   "text": "Then, between one breath and the next, he was gone.",
+   "text_hash": "72b919e2bdc1f864",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:33",
+     "ref": "prologue_3min/S07@0.3",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L07",
+     "slot": 4.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/they_called_him_only_31069c93",
+   "speaker": "master",
+   "text": "They called him only the Master. For a thousand years, he kept the peace.",
+   "text_hash": "31069c93a08e49eb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:18",
+     "ref": "prologue_3min/S02@0.4",
+     "slot": 6.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L02",
+     "slot": 6.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/torvald_of_ice_8995149a",
+   "speaker": "master",
+   "text": "Torvald, of Ice.",
+   "text_hash": "8995149acd87f3f6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:43",
+     "ref": "prologue_3min/S10@0.2",
+     "slot": 2.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L10",
+     "slot": 2.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/torvald_the_eldest_where_f5a25caa",
+   "speaker": "master",
+   "text": "Torvald, the eldest. Where he stands, the ice holds, and so does the line.",
+   "text_hash": "f5a25caa1ad48cad",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:79",
+     "ref": "prologue_3min/S22@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L22",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/vessa_of_fire_629e6c64",
+   "speaker": "master",
+   "text": "Vessa, of Fire.",
+   "text_hash": "629e6c6419893c4b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:37",
+     "ref": "prologue_3min/S08@0.2",
+     "slot": 2.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L08",
+     "slot": 2.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/vessa_the_youngest_she_0f7ca4c7",
+   "speaker": "master",
+   "text": "Vessa, the youngest. She lit her first spark before she could spell her name.",
+   "text_hash": "0f7ca4c7ce5a7bbb",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:55",
+     "ref": "prologue_3min/S14@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L14",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/ysolde_i_found_her_85d2e563",
+   "speaker": "master",
+   "text": "Ysolde. I found her coaxing a sapling through the frost.",
+   "text_hash": "85d2e563e1b4c4e4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:91",
+     "ref": "prologue_3min/S26@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L26",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "master/ysolde_of_nature_23123983",
+   "speaker": "master",
+   "text": "Ysolde, of Nature.",
+   "text_hash": "231239830b7bd183",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:46",
+     "ref": "prologue_3min/S11@0.2",
+     "slot": 2.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L11",
+     "slot": 2.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
     }
    ]
   },

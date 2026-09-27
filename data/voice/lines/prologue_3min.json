@@ -1,0 +1,307 @@
+{
+ "cine_id": "prologue_3min",
+ "source": "docs/design/prologue-3min.md",
+ "note": "Hand-made line set (JS 2026-09-27). The Master narrates. at = seconds into the shot, t = seconds into the movie, dur = slot.",
+ "lines": [
+  {
+   "id": "L01",
+   "shot": "S01",
+   "at": 1.2,
+   "t": 1.2,
+   "dur": 5.8,
+   "speaker": "master",
+   "subtitle": "Once upon a time, the strongest wizard of all|time ruled the world.",
+   "text": "Once upon a time, the strongest wizard of all time ruled the world."
+  },
+  {
+   "id": "L02",
+   "shot": "S02",
+   "at": 0.4,
+   "t": 7.4,
+   "dur": 6.6,
+   "speaker": "master",
+   "subtitle": "They called him only the Master. For a thousand|years, he kept the peace.",
+   "text": "They called him only the Master. For a thousand years, he kept the peace."
+  },
+  {
+   "id": "L03",
+   "shot": "S03",
+   "at": 0.4,
+   "t": 14.4,
+   "dur": 6.6,
+   "speaker": "master",
+   "subtitle": "His citadel rose above the clouds, a city of|towers, bridges and bells.",
+   "text": "His citadel rose above the clouds, a city of towers, bridges and bells."
+  },
+  {
+   "id": "L04",
+   "shot": "S04",
+   "at": 0.4,
+   "t": 21.4,
+   "dur": 6.6,
+   "speaker": "master",
+   "subtitle": "Dragons great and small filled its sky, and not|one breathed in anger.",
+   "text": "Dragons great and small filled its sky, and not one breathed in anger."
+  },
+  {
+   "id": "L05",
+   "shot": "S05",
+   "at": 0.3,
+   "t": 28.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "Kings brought him their quarrels, and went home|as friends.",
+   "text": "Kings brought him their quarrels, and went home as friends."
+  },
+  {
+   "id": "L06",
+   "shot": "S06",
+   "at": 0.3,
+   "t": 34.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "He raised four apprentices, and gave each of|them a kingdom.",
+   "text": "He raised four apprentices, and gave each of them a kingdom."
+  },
+  {
+   "id": "L07",
+   "shot": "S07",
+   "at": 0.3,
+   "t": 40.3,
+   "dur": 4.7,
+   "speaker": "master",
+   "subtitle": "Then, between one breath and the next, he was|gone.",
+   "text": "Then, between one breath and the next, he was gone."
+  },
+  {
+   "id": "L08",
+   "shot": "S08",
+   "at": 0.2,
+   "t": 45.2,
+   "dur": 2.8,
+   "speaker": "master",
+   "subtitle": "Vessa, of Fire.",
+   "text": "Vessa, of Fire."
+  },
+  {
+   "id": "L09",
+   "shot": "S09",
+   "at": 0.2,
+   "t": 48.2,
+   "dur": 2.8,
+   "speaker": "master",
+   "subtitle": "Malrik, of Shadow.",
+   "text": "Malrik, of Shadow."
+  },
+  {
+   "id": "L10",
+   "shot": "S10",
+   "at": 0.2,
+   "t": 51.2,
+   "dur": 2.8,
+   "speaker": "master",
+   "subtitle": "Torvald, of Ice.",
+   "text": "Torvald, of Ice."
+  },
+  {
+   "id": "L11",
+   "shot": "S11",
+   "at": 0.2,
+   "t": 54.2,
+   "dur": 2.8,
+   "speaker": "master",
+   "subtitle": "Ysolde, of Nature.",
+   "text": "Ysolde, of Nature."
+  },
+  {
+   "id": "L12",
+   "shot": "S12",
+   "at": 0.1,
+   "t": 57.1,
+   "dur": 2.9,
+   "speaker": "master",
+   "subtitle": "Four heirs. One empty throne.",
+   "text": "Four heirs. One empty throne."
+  },
+  {
+   "id": "L13",
+   "shot": "S13",
+   "at": 0.8,
+   "t": 60.8,
+   "dur": 5.2,
+   "speaker": "master",
+   "subtitle": "I know this tale well, child. I was that wizard.",
+   "text": "I know this tale well, child. I was that wizard."
+  },
+  {
+   "id": "L14",
+   "shot": "S14",
+   "at": 0.3,
+   "t": 66.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Vessa, the youngest. She lit her first spark|before she could spell her name.",
+   "text": "Vessa, the youngest. She lit her first spark before she could spell her name."
+  },
+  {
+   "id": "L15",
+   "shot": "S15",
+   "at": 0.3,
+   "t": 73.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Give her a wall, and she will burn a door|through it.",
+   "text": "Give her a wall, and she will burn a door through it."
+  },
+  {
+   "id": "L16",
+   "shot": "S16",
+   "at": 0.3,
+   "t": 80.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "But she never waits. And fire that will not wait|burns its own house.",
+   "text": "But she never waits. And fire that will not wait burns its own house."
+  },
+  {
+   "id": "L17",
+   "shot": "S17",
+   "at": 0.3,
+   "t": 87.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "Still, she laughed like sunrise. Vessa was my|joy.",
+   "text": "Still, she laughed like sunrise. Vessa was my joy."
+  },
+  {
+   "id": "L18",
+   "shot": "S18",
+   "at": 0.3,
+   "t": 93.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "Malrik. I found him reading tombstones by the|light of one candle.",
+   "text": "Malrik. I found him reading tombstones by the light of one candle."
+  },
+  {
+   "id": "L19",
+   "shot": "S19",
+   "at": 0.3,
+   "t": 99.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Nothing is hidden from him. The dark itself|comes when he calls.",
+   "text": "Nothing is hidden from him. The dark itself comes when he calls."
+  },
+  {
+   "id": "L20",
+   "shot": "S20",
+   "at": 0.3,
+   "t": 106.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "But he is never full. Whatever he holds, he|wants more.",
+   "text": "But he is never full. Whatever he holds, he wants more."
+  },
+  {
+   "id": "L21",
+   "shot": "S21",
+   "at": 0.3,
+   "t": 112.3,
+   "dur": 7.7,
+   "speaker": "master",
+   "subtitle": "He thinks I gave him leftovers. I gave the dark|to the one it could not frighten.",
+   "text": "He thinks I gave him leftovers. I gave the dark to the one it could not frighten."
+  },
+  {
+   "id": "L22",
+   "shot": "S22",
+   "at": 0.3,
+   "t": 120.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Torvald, the eldest. Where he stands, the ice|holds, and so does the line.",
+   "text": "Torvald, the eldest. Where he stands, the ice holds, and so does the line."
+  },
+  {
+   "id": "L23",
+   "shot": "S23",
+   "at": 0.3,
+   "t": 127.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Nothing breaks him. Not armies, not winters. Not|time.",
+   "text": "Nothing breaks him. Not armies, not winters. Not time."
+  },
+  {
+   "id": "L24",
+   "shot": "S24",
+   "at": 0.3,
+   "t": 134.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "But he waits too long, and trusts slow ice more|than quick friends.",
+   "text": "But he waits too long, and trusts slow ice more than quick friends."
+  },
+  {
+   "id": "L25",
+   "shot": "S25",
+   "at": 0.3,
+   "t": 141.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "I left him my coldest secret. Torvald was my|patience.",
+   "text": "I left him my coldest secret. Torvald was my patience."
+  },
+  {
+   "id": "L26",
+   "shot": "S26",
+   "at": 0.3,
+   "t": 147.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Ysolde. I found her coaxing a sapling through|the frost.",
+   "text": "Ysolde. I found her coaxing a sapling through the frost."
+  },
+  {
+   "id": "L27",
+   "shot": "S27",
+   "at": 0.3,
+   "t": 154.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Burn her forest down, and it grows back. Every|spring. Every time.",
+   "text": "Burn her forest down, and it grows back. Every spring. Every time."
+  },
+  {
+   "id": "L28",
+   "shot": "S28",
+   "at": 0.3,
+   "t": 161.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "But she will not take a side, not even while the|world burns.",
+   "text": "But she will not take a side, not even while the world burns."
+  },
+  {
+   "id": "L29",
+   "shot": "S29",
+   "at": 0.3,
+   "t": 167.3,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "I would say: show me again. And she always did.|Ysolde was my heart.",
+   "text": "I would say: show me again. And she always did. Ysolde was my heart."
+  },
+  {
+   "id": "L30",
+   "shot": "S30",
+   "at": 0.3,
+   "t": 174.3,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "I loved all four of them. And still, they went|to war.",
+   "text": "I loved all four of them. And still, they went to war."
+  }
+ ]
+}

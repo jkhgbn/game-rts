@@ -1,0 +1,105 @@
+# The prologue, 3:00 (JS 2026-09-27): 1:00 the Master's legend (citadel, dragons, peace, the vanishing, the
+# four heirs), then the voice reveals itself ("I was that wizard") and the Master introduces Vessa, Malrik,
+# Torvald, Ysolde: strength, army, weakness, why he loves them (~27 s each). Script + what we see per line:
+# docs/design/prologue-3min.md. One narration line = one shot. DRAFT: the sets are being built (World Forge):
+# forge_citadel (+ dragon flock), forge_intro_vessa / _malrik / _torvald / _ysolde. Each set names its camera marks
+# by these shot ids (S01_from, S01_to, S01_look_from, S01_look_to). Until then: grey animatic, proxy cameras.
+cine prologue_3min  title="Four Wizards: Prologue"  letterbox=2.39  seed=7  length=170..185  skip_lock=30
+use music res://assets/audio/music/music_menu.wav
+use set forge_citadel
+# the Master narrates (voice only; hooded, face never seen). Capsule stand-in until his model exists.
+cast  master  capsule  at=(0, 0, -60)  hidden=1  speaker=master
+
+# Dawn above the clouds
+shot S01 7.0  set=forge_citadel  in=fade_black:1.5
+  at 1.2  line master "Once upon a time, the strongest wizard of all time ruled the world."  dur=5.7
+# A colossal statue of the hooded Master, green with a thousand years of moss, guards the Great Bridge
+shot S02 7.0  set=forge_citadel
+  at 0.4  line master "They called him only the Master. For a thousand years, he kept the peace."  dur=6.5
+# The whole citadel: spiral towers, sky-bridges, hanging gardens, great bells swinging in open belfries, waterfa
+shot S03 7.0  set=forge_citadel
+  at 0.4  line master "His citadel rose above the clouds, a city of towers, bridges and bells."  dur=6.5
+# The dragon flock: cathedral-sized elders drifting like clouds, flights of swallow-sized ones, a frost dragon a
+shot S04 7.0  set=forge_citadel
+  at 0.4  line master "Dragons great and small filled its sky, and not one breathed in anger."  dur=6.5
+# The market: awnings, spice smoke, jugglers with fire-sprites
+shot S05 6.0  set=forge_citadel
+  at 0.3  line master "Kings brought him their quarrels, and went home as friends."  dur=5.6
+# The Master (very tall, hooded, a beard of white-gold light, his hem burning in four colours) at the giant bras
+shot S06 6.0  set=forge_citadel
+  at 0.3  line master "He raised four apprentices, and gave each of them a kingdom."  dur=5.6
+# The orrery stops
+shot S07 5.0  set=forge_citadel
+  at 0.3  line master "Then, between one breath and the next, he was gone."  dur=4.6
+  at 4.3  fade color=#ffffff  alpha=1  time=0.6
+# The red streak falls south
+shot S08 3.0  set=forge_intro_vessa  in=fade_white:0.4
+  at 0.2  line master "Vessa, of Fire."  dur=2.7
+# The violet streak falls east
+shot S09 3.0  set=forge_intro_malrik
+  at 0.2  line master "Malrik, of Shadow."  dur=2.7
+# The blue streak falls north
+shot S10 3.0  set=forge_intro_torvald
+  at 0.2  line master "Torvald, of Ice."  dur=2.7
+# The green streak falls west
+shot S11 3.0  set=forge_intro_ysolde
+  at 0.2  line master "Ysolde, of Nature."  dur=2.7
+# The throne room, empty
+shot S12 3.0  set=forge_citadel
+  at 0.1  line master "Four heirs. One empty throne."  dur=2.8
+# Years later: the orrery dome in ruins, moss, a broken roof, one candle
+shot S13 6.0  set=forge_citadel  in=fade_black:0.6
+  at 0.8  line master "I know this tale well, child. I was that wizard."  dur=5.1
+# A small girl lights her first spark in cupped hands
+shot S14 7.0  set=forge_intro_vessa
+  at 0.3  line master "Vessa, the youngest. She lit her first spark before she could spell her name."  dur=6.6
+# Vessa on her ember boar blasts a door through a stone wall
+shot S15 7.0  set=forge_intro_vessa
+  at 0.3  line master "Give her a wall, and she will burn a door through it."  dur=6.6
+# WEAKNESS: she has charged far ahead alone
+shot S16 7.0  set=forge_intro_vessa
+  at 0.3  line master "But she never waits. And fire that will not wait burns its own house."  dur=6.6
+# LOVE: Vessa laughing among the sparks, soot on her face; one ember drifts up to the stars
+shot S17 6.0  set=forge_intro_vessa
+  at 0.3  line master "Still, she laughed like sunrise. Vessa was my joy."  dur=5.6
+# A thin boy reads tombstones by one candle
+shot S18 6.0  set=forge_intro_malrik
+  at 0.3  line master "Malrik. I found him reading tombstones by the light of one candle."  dur=5.6
+# Malrik raises one hand: the dark answers
+shot S19 7.0  set=forge_intro_malrik
+  at 0.3  line master "Nothing is hidden from him. The dark itself comes when he calls."  dur=6.6
+# WEAKNESS: a table of trophies and stolen letters; he pockets one more; a crown's reflection burns in his eyes
+shot S20 6.0  set=forge_intro_malrik
+  at 0.3  line master "But he is never full. Whatever he holds, he wants more."  dur=5.6
+# LOVE: Malrik alone with the candle
+shot S21 8.0  set=forge_intro_malrik
+  at 0.3  line master "He thinks I gave him leftovers. I gave the dark to the one it could not frighten."  dur=7.6
+# An enemy army charges Torvald across the lake
+shot S22 7.0  set=forge_intro_torvald
+  at 0.3  line master "Torvald, the eldest. Where he stands, the ice holds, and so does the line."  dur=6.6
+# A titan leaps at him; he flash-freezes it in mid-air
+shot S23 7.0  set=forge_intro_torvald
+  at 0.3  line master "Nothing breaks him. Not armies, not winters. Not time."  dur=6.6
+# WEAKNESS: a rider hammers at his ice gate begging for help; he turns away; snow buries the rider's signal fire
+shot S24 7.0  set=forge_intro_torvald
+  at 0.3  line master "But he waits too long, and trusts slow ice more than quick friends."  dur=6.6
+# LOVE: Torvald looks down through clear ice at something vast sleeping far below (the Heartfrost)
+shot S25 6.0  set=forge_intro_torvald
+  at 0.3  line master "I left him my coldest secret. Torvald was my patience."  dur=5.6
+# A small girl coaxes a sapling up through the frost
+shot S26 7.0  set=forge_intro_ysolde
+  at 0.3  line master "Ysolde. I found her coaxing a sapling through the frost."  dur=6.6
+# Fire sweeps her wood
+shot S27 7.0  set=forge_intro_ysolde
+  at 0.3  line master "Burn her forest down, and it grows back. Every spring. Every time."  dur=6.6
+# WEAKNESS: messengers at her border; she closes the road with roots; smoke rises on the horizon behind her
+shot S28 6.0  set=forge_intro_ysolde
+  at 0.3  line master "But she will not take a side, not even while the world burns."  dur=5.6
+# LOVE: a blossom opens in Ysolde's palm; she smiles at it like a child
+shot S29 7.0  set=forge_intro_ysolde
+  at 0.3  line master "I would say: show me again. And she always did. Ysolde was my heart."  dur=6.6
+# The empty throne at dusk; four shafts of coloured light from four windows fall across it
+shot S30 6.0  set=forge_citadel
+  at 0.3  line master "I loved all four of them. And still, they went to war."  dur=5.6
+  at 4.6  fade alpha=1  time=0.8
+  at 4.2  title "FOUR WIZARDS"  sub="Episode 1 · The Hollow Throne"  time=1.8

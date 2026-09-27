@@ -30,5 +30,8 @@ One line per candidate (`audition_line` in `data/voice/cast.json`), rendered by 
 | pell | am_eric | 1.15 | 3.03 | 164 | 21.5 |  | pell__am_eric_x1.15.ogg |
 | shade | am_onyx | 0.9 | 2.05 | 94 | 15.1 | **yes** | shade__am_onyx_x0.9.ogg |
 | shade | am_fenrir | 0.9 | 1.64 | 145 | 18.9 |  | shade__am_fenrir_x0.9.ogg |
+| master | bm_lewis+bm_george+bm_fable | 0.82 | 5.14 | 127 | 13.0 | **yes** | master__bm_lewis+bm_george+bm_fable_x0.82.ogg |
+| master | bm_george+bm_fable | 0.85 | 4.72 | 129 | 14.2 |  | master__bm_george+bm_fable_x0.85.ogg |
+| master | bm_daniel+bm_fable | 0.85 | 4.25 | 127 | 15.8 |  | master__bm_daniel+bm_fable_x0.85.ogg |
 
-Rendered in 165.3 s on ['CPUExecutionProvider'].
+Rendered in 323.8 s on ['CPUExecutionProvider'].
