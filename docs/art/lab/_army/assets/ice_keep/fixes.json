@@ -1,0 +1,534 @@
+{
+	"asset": "ice_keep",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 12.6,
+					"material": "Stone",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.4,
+					"material": "Silver",
+					"material_path": "",
+					"to": "Snow",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 28.9,
+					"material": "Crystal",
+					"material_path": "",
+					"to": "Snow",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 11
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "11 -> 8 materials: use one material for look-alike pairs: `Stone` -> `DarkStone` (dE 12.6), `Silver` -> `Snow` (dE 13.4), `Crystal` -> `Snow` (dE 28.9)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 11 -> 8 materials: use one material for look-alike pairs: `Stone` -> `DarkStone` (dE 12.6), `Silver` -> `Snow` (dE 13.4), `Crystal` -> `Snow` (dE 28.9)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.13,
+					"from": 1.0,
+					"material": "Glow",
+					"material_path": "",
+					"node": "Model/Halo/HaloShards, Model/Windows, Model/GateGlow",
+					"param": "shader_parameter/boost_mult",
+					"to": 0.13,
+					"why": "dim under the bloom level: 20 point(s), peak 5.84 x the level",
+					"words": "boost_mult 1.0 -> 0.13 (dim under the bloom level: 20 point(s), peak 5.84 x the level)"
+				},
+				{
+					"factor": 0.09,
+					"material": "?",
+					"material_path": "",
+					"node": "Model/CrystalR",
+					"param": "",
+					"why": "dim under the bloom level: 13 point(s), peak 8.0 x the level (>= 8, clipped)",
+					"words": "emission x 0.09 (dim under the bloom level: 13 point(s), peak 8.0 x the level (>= 8, clipped); no energy parameter found: scale its emission colour / strength)"
+				},
+				{
+					"factor": 0.14,
+					"from": 0.9,
+					"material": "Crystal",
+					"material_path": "",
+					"node": "Model/Tip/TipMesh, Model/GroundSpikes, Model/Spikes",
+					"param": "shader_parameter/crack_strength",
+					"to": 0.12,
+					"why": "dim under the bloom level: 7 point(s), peak 5.55 x the level",
+					"words": "crack_strength 0.9 -> 0.12 (dim under the bloom level: 7 point(s), peak 5.55 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 52,
+				"points_this_phase": 64,
+				"spots": [
+					{
+						"above": true,
+						"part": "Model/Tip/TipMesh",
+						"peak_x_bloom": 4.24,
+						"px": 897
+					},
+					{
+						"above": true,
+						"part": "Model/Halo/HaloShards",
+						"peak_x_bloom": 3.89,
+						"px": 725
+					},
+					{
+						"above": true,
+						"part": "Model/Halo/HaloShards",
+						"peak_x_bloom": 3.89,
+						"px": 704
+					},
+					{
+						"above": true,
+						"part": "Model/Halo/HaloShards",
+						"peak_x_bloom": 3.89,
+						"px": 701
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 6.96,
+						"px": 629
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalMain",
+						"peak_x_bloom": 7.62,
+						"px": 626
+					},
+					{
+						"above": true,
+						"part": "Model/Core",
+						"peak_x_bloom": 4.52,
+						"px": 303
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 7.31,
+						"px": 145
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.58,
+						"px": 104
+					},
+					{
+						"above": true,
+						"part": "Model/CrownShards",
+						"peak_x_bloom": 4.58,
+						"px": 85
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.58,
+						"px": 83
+					},
+					{
+						"above": true,
+						"part": "Model/CrownShards",
+						"peak_x_bloom": 4.58,
+						"px": 82
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.58,
+						"px": 75
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.58,
+						"px": 66
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.58,
+						"px": 61
+					},
+					{
+						"above": true,
+						"part": "Model/Gatehouse",
+						"peak_x_bloom": 4.58,
+						"px": 58
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalL",
+						"peak_x_bloom": 4.96,
+						"px": 42
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 3.55,
+						"px": 38
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.45,
+						"px": 32
+					},
+					{
+						"above": true,
+						"part": "Model/GateVoid",
+						"peak_x_bloom": 7.94,
+						"px": 32
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalL",
+						"peak_x_bloom": 4.58,
+						"px": 29
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.42,
+						"px": 22
+					},
+					{
+						"above": true,
+						"part": "Model/Tip/TipMesh",
+						"peak_x_bloom": 4.2,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.58,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Model/Banner1",
+						"peak_x_bloom": 3.11,
+						"px": 18
+					},
+					{
+						"above": true,
+						"part": "Model/GateVoid",
+						"peak_x_bloom": 4.3,
+						"px": 18
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 5.8,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.14,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Model/BannerPoles",
+						"peak_x_bloom": 4.52,
+						"px": 15
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 8.0,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 7.18,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.8,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Model/Gatehouse",
+						"peak_x_bloom": 8.0,
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.42,
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Model/GateGlow",
+						"peak_x_bloom": 5.84,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Model/Banner2",
+						"peak_x_bloom": 4.93,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 5.96,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalL",
+						"peak_x_bloom": 3.17,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Model/CrownShards",
+						"peak_x_bloom": 4.89,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 4.39,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalL",
+						"peak_x_bloom": 5.49,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalL",
+						"peak_x_bloom": 5.21,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 3.89,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 5.33,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/GroundSpikes",
+						"peak_x_bloom": 5.18,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/SnowCaps",
+						"peak_x_bloom": 3.04,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/Spikes",
+						"peak_x_bloom": 5.24,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.7,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 3.17,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/Halo/HaloShards",
+						"peak_x_bloom": 4.8,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 4.93,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/GateGlow",
+						"peak_x_bloom": 4.39,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/GroundSpikes",
+						"peak_x_bloom": 5.33,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/GroundSpikes",
+						"peak_x_bloom": 5.55,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/CrownShards",
+						"peak_x_bloom": 3.26,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Model/Core",
+						"peak_x_bloom": 3.83,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.14,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Model/GateVoid",
+						"peak_x_bloom": 3.11,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Model/GateFrame",
+						"peak_x_bloom": 3.58,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Model/PlinthLower",
+						"peak_x_bloom": 3.2,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Model/Tip/TipMesh",
+						"peak_x_bloom": 3.67,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 3.17,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalR",
+						"peak_x_bloom": 3.83,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Model/CrystalL",
+						"peak_x_bloom": 3.14,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Model/Halo/HaloShards",
+						"peak_x_bloom": 0.86,
+						"px": 21
+					}
+				],
+				"value": "52 point(s) above the bloom level 1.2 (median of 65/50/52): HaloShards x3, TipMesh x2, CrystalR x8, CrystalMain, Core, CrownShards x6, Windows x10, Banner1, Gatehouse, CrystalL x7, GateVoid x3, GateGlow x2, BannerPoles x3, GateFrame, TowerCaps, Rubble, PlinthLower, 6 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 24"
+			},
+			"predicted": {
+				"points": 12
+			},
+			"proposal": "Glow points 52 -> 12 (want 4-12): Glow boost_mult 1.0 -> 0.13 (dim under the bloom level: 20 point(s), peak 5.84 x the level); ? emission x 0.09 (dim under the bloom level: 13 point(s), peak 8.0 x the level (>= 8, clipped); no energy parameter found: scale its emission colour / strength); Crystal crack_strength 0.9 -> 0.12 (dim under the bloom level: 7 point(s), peak 5.55 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 52 -> 12 (want 4-12): Glow boost_mult 1.0 -> 0.13 (dim under the bloom level: 20 point(s), peak 5.84 x the level); ? emission x 0.09 (dim under the bloom level: 13 point(s), peak 8.0 x the level (>= 8, clipped); no energy parameter found: scale its emission colour / strength); Crystal crack_strength 0.9 -> 0.12 (dim under the bloom level: 7 point(s), peak 5.55 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "4-12 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 9.9 on the team-colour area (normal vision 63.3; 29434 px); deutan: fire / nature dE 9.9; protan: fire / nature dE 19.3; worst vs ground: fire colour (deutan) dE 24.2"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.9): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.9): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +0 (point 1 dL +31, point 2 dL +37, point 3 dL +36, point 4 dL +37, point 5 dL +36, point 6 dL +24, point 7 dL +7, point 8 dL +13, point 9 dL +24, point 10 dL +24, point 11 dL +4, point 12 dL +3, point 13 dL +20, point 14 dL +27, point 15 dL +28, point 16 dL +29, point 17 dL +15, point 18 dL +6, point 19 dL +9, point 20 dL +14, point 21 dL +8, point 22 dL +14, point 23 dL +39, point 24 dL +27, point 25 dL +12, point 26 dL +16, point 27 dL +7, point 28 dL +22, point 29 dL +15, point 30 dL +31, point 31 dL +39, point 32 dL +24, point 33 dL +23, point 34 dL +21, point 35 dL +45, point 36 dL +9, point 37 dL +11, point 38 dL +13, point 39 dL +14, point 40 dL +9, point 41 dL +5, point 42 dL +37, point 43 dL +30, point 44 dL +33, point 45 dL +22, point 46 dL +41, point 47 dL +47, point 48 dL +6, point 49 dL +46, point 50 dL +5, point 51 dL +3, point 52 dL +33, point 53 dL +11, point 54 dL +46, point 55 dL +45, point 56 dL +3, point 57 dL +12, point 58 dL +19, point 59 dL +3, point 60 dL +11, point 61 dL +13, point 62 dL +0, point 63 dL +8, point 64 dL +2, point 65 dL +14; ring 28 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 33 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 33 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 88.4,
+	"result": "FAIL",
+	"scene": "res://art/buildings/ice_keep.tscn",
+	"tier": "keep",
+	"version": "1.0"
+}

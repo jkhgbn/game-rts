@@ -1,0 +1,237 @@
+{
+	"asset": "market_ice",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-63210",
+					"material_path": "",
+					"to": "StandardMaterial3D#-49274",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "ShaderMaterial#-96435",
+					"material_path": "",
+					"to": "ShaderMaterial#-12612",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 8.2,
+					"material": "ShaderMaterial#-73286",
+					"material_path": "",
+					"to": "ShaderMaterial#-44276",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.4,
+					"material": "ShaderMaterial#-89804",
+					"material_path": "",
+					"to": "ShaderMaterial#-50486",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 20.3,
+					"material": "ShaderMaterial#-44276",
+					"material_path": "",
+					"to": "ShaderMaterial#-66884",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 28.9,
+					"material": "ShaderMaterial#-12612",
+					"material_path": "",
+					"to": "ShaderMaterial#-50486",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 38.4,
+					"material": "ShaderMaterial#-18963",
+					"material_path": "",
+					"to": "ShaderMaterial#-66884",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 58.9,
+					"material": "ShaderMaterial#-50486",
+					"material_path": "",
+					"to": "ShaderMaterial#-66884",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 90.1,
+					"material": "ShaderMaterial#-41407",
+					"material_path": "",
+					"to": "ShaderMaterial#-66884",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 17
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "17 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-63210` -> `StandardMaterial3D#-49274` (dE 0.0), `ShaderMaterial#-96435` -> `ShaderMaterial#-12612` (dE 0.0), `ShaderMaterial#-73286` -> `ShaderMaterial#-44276` (dE 8.2), `ShaderMaterial#-89804` -> `ShaderMaterial#-50486` (dE 13.4), `ShaderMaterial#-44276` -> `ShaderMaterial#-66884` (dE 20.3), `ShaderMaterial#-12612` -> `ShaderMaterial#-50486` (dE 28.9), `ShaderMaterial#-18963` -> `ShaderMaterial#-66884` (dE 38.4), `ShaderMaterial#-50486` -> `ShaderMaterial#-66884` (dE 58.9), `ShaderMaterial#-41407` -> `ShaderMaterial#-66884` (dE 90.1)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 17 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-63210` -> `StandardMaterial3D#-49274` (dE 0.0), `ShaderMaterial#-96435` -> `ShaderMaterial#-12612` (dE 0.0), `ShaderMaterial#-73286` -> `ShaderMaterial#-44276` (dE 8.2), `ShaderMaterial#-89804` -> `ShaderMaterial#-50486` (dE 13.4), `ShaderMaterial#-44276` -> `ShaderMaterial#-66884` (dE 20.3), `ShaderMaterial#-12612` -> `ShaderMaterial#-50486` (dE 28.9), `ShaderMaterial#-18963` -> `ShaderMaterial#-66884` (dE 38.4), `ShaderMaterial#-50486` -> `ShaderMaterial#-66884` (dE 58.9), `ShaderMaterial#-41407` -> `ShaderMaterial#-66884` (dE 90.1)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.17,
+					"from": 0.0,
+					"material": "ShaderMaterial#-66884",
+					"material_path": "",
+					"node": "Body/Mast/MastParts",
+					"param": "shader_parameter/crack_strength",
+					"to": 0.0,
+					"why": "dim under the bloom level: 4 point(s), peak 4.45 x the level",
+					"words": "crack_strength 0.0 -> 0.0 (dim under the bloom level: 4 point(s), peak 4.45 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 8,
+				"points_this_phase": 9,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/SledStall/StallCanopy",
+						"peak_x_bloom": 5.87,
+						"px": 532
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/MastGem",
+						"peak_x_bloom": 3.89,
+						"px": 165
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/MastParts",
+						"peak_x_bloom": 4.02,
+						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/ScaleBeam/PanR/PanRParts",
+						"peak_x_bloom": 4.2,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/MastParts",
+						"peak_x_bloom": 4.45,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Body/Roof",
+						"peak_x_bloom": 4.39,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/MastBanner",
+						"peak_x_bloom": 3.33,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/MastParts",
+						"peak_x_bloom": 3.17,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/MastParts",
+						"peak_x_bloom": 3.07,
+						"px": 2
+					}
+				],
+				"value": "8 point(s) above the bloom level 1.2 (median of 8/9/8): StallCanopy, MastGem, PanRParts, MastParts x3, Roof, MastBanner; soft glows under the bloom (v1 count, luma > 0.4): 28"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 8 -> 4 (want 2-4): ShaderMaterial#-66884 crack_strength 0.0 -> 0.0 (dim under the bloom level: 4 point(s), peak 4.45 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 8 -> 4 (want 2-4): ShaderMaterial#-66884 crack_strength 0.0 -> 0.0 (dim under the bloom level: 4 point(s), peak 4.45 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "29 material(s), 7 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 29 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 29 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 10.0 on the team-colour area (normal vision 75.5; 8485 px); deutan: fire / nature dE 10.0; protan: fire / nature dE 22.2; worst vs ground: fire colour (deutan) dE 33.4"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.0): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.0): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +2 (point 1 dL +13, point 2 dL +45, point 3 dL +45, point 4 dL +14, point 5 dL +2, point 6 dL +54, point 7 dL +11, point 8 dL +25; ring 26 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 4 glow point(s) barely stand out from their 1 m surround (worst dL +2): darken around them or raise the energy",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 4 glow point(s) barely stand out from their 1 m surround (worst dL +2): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 88.3,
+	"result": "FAIL",
+	"scene": "res://art/buildings/market/ice/market_ice.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

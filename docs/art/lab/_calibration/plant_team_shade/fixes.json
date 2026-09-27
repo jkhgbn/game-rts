@@ -1,0 +1,48 @@
+{
+	"asset": "plant_team_shade",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +7 (point 1 dL +7; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair shadow / ice (deutan): dE 11.6 on the team-colour area (normal vision 17.3; 37 px); deutan: shadow / ice dE 11.6; protan: shadow / ice dE 12.7; worst vs ground: nature colour (deutan) dE 76.6"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 11.6): add a value step inside the team-colour area",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 11.6): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 95.4,
+	"result": "WARN",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_team_shade.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

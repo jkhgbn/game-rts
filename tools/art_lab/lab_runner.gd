@@ -4,7 +4,10 @@ extends Node
 ## tools/art_lab/art_lab.gd (windowed: everything; headless: budgets / health / hooks only, render checks SKIP).
 ## Args (key=value after `--`): scene, kind, kingdom, out, ref (comma list), tier, ground, light, name, ids (vfx),
 ## n (instances for the frame cost), quick=1 (no references / frame cost), log=0 (no improvement-log row),
-## fail_fast=1 (v3: stop after the headless checks when one FAILs; the render checks come out SKIP).
+## fail_fast=1 (v3: stop after the headless checks when one FAILs; the render checks come out SKIP),
+## compare=prev|off|<dir> (v3: before / after vs the previous run in the out folder, default prev: "What got worse" at the
+## top of scorecard.md + diff_sheet.png), focus=<check ids / aliases> (v3: re-run only the passes those checks need and
+## merge them into the previous scorecard; lab_diff.gd).
 ##
 ## Module map (Art Lab v3, docs/plan/art-lab.md section 1): this file = arguments, the run order (`_run_model`), the
 ## shared state below and the helpers (`frames`, `wait`, `call_hook`, `spawn`, `settle`, `crop`, `add_tile`,
@@ -73,6 +76,10 @@ var m: Dictionary = {}          # measurements shared between passes
 ## (light -> ArtLabStage, parented to `stage_parent`). Empty = this runner builds and owns its own stage.
 var stage_pool: Dictionary = {}
 var stage_parent: Node = null
+## v3 `focus=<check ids / aliases>` (lab_diff.gd): {id: true} of the checks this run re-measures; empty = a full run.
+## Passes are skipped with `needs(phase)`, parts of a pass with `wants([ids])`; the result is merged into the previous
+## scorecard (ArtLabDiff.finish).
+var focus: Dictionary = {}
 var _t0: int = 0
 
 
@@ -85,6 +92,7 @@ func run(args: PackedStringArray) -> int:
 		var k := s.get_slice("=", 0).strip_edges().to_lower()
 		opts[k] = s.substr(k.length() + 1).strip_edges() if "=" in s else "1"
 	headless = DisplayServer.get_name() == "headless"
+	focus = ArtLabDiff.focus_set(String(opts.get("focus", "")))
 	var err := _resolve()
 	if err != "":
 		printerr("ART LAB ERROR: " + err)
@@ -99,6 +107,7 @@ func run(args: PackedStringArray) -> int:
 	rep.headless = headless
 	rep.started = Time.get_datetime_string_from_system(false, true)
 	rep.previous_score = ArtLabReport.read_previous(out_dir)
+	var prev := ArtLabDiff.load_previous(out_dir, opts)   # v3 compare=prev / focus=: read before this run overwrites it
 	rep.budget_row = ArtLabBudgets.row(kind, tier)
 	logger = LabLogger.new()
 	OS.add_logger(logger)
@@ -117,10 +126,13 @@ func run(args: PackedStringArray) -> int:
 	rep.ground = String(ground_id)
 	rep.seconds = float(Time.get_ticks_msec() - _t0) / 1000.0
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out_dir))
+	var diff_line: String = await ArtLabDiff.finish(self, prev)   # focus merge + before / after (diff_sheet.png)
 	if not headless and not tiles.is_empty():
+		# a focus run keeps the full run's contact sheet and writes its own tiles apart
+		var sheet_name := "contact_focus" if rep.focus_note != "" else "contact_sheet"
 		var sheet: Image = await rep.contact_sheet(self, tiles)
-		sheet.save_png(ProjectSettings.globalize_path(out_dir.path_join("contact_sheet.png")))
-		rep.shots["contact_sheet"] = "contact_sheet.png"
+		sheet.save_png(ProjectSettings.globalize_path(out_dir.path_join(sheet_name + ".png")))
+		rep.shots[sheet_name] = sheet_name + ".png"
 	rep.write(out_dir)
 	if opts.get("log", "1") != "0" and not headless:
 		rep.append_log(opts.get("logfile", LOG_PATH), out_dir)
@@ -130,6 +142,10 @@ func run(args: PackedStringArray) -> int:
 	for c: Dictionary in rep.checks:
 		if c["status"] == "FAIL" or c["status"] == "WARN":
 			print("  %s %s %s: %s" % [c["status"], c["id"], c["name"], c["value"]])
+	if rep.focus_note != "":
+		print("  " + rep.focus_note)
+	if diff_line != "":
+		print(diff_line)
 	return rep.exit_code()
 
 
@@ -361,32 +377,45 @@ func _run_model() -> void:
 	_read_model_props()
 	var cen := ArtLabCensus.census(target, ground_y)
 	m["census"] = cen
-	ArtLabCheckBudgets.check_budgets(self, cen)
-	await ArtLabCheckBudgets.check_instances(self)
-	ArtLabCheckAnim.check_hooks(self)
-	await ArtLabCheckBudgets.action_cycle(self)
+	if needs("budgets"):
+		ArtLabCheckBudgets.check_budgets(self, cen)
+	if needs("instances"):
+		await ArtLabCheckBudgets.check_instances(self)
+	if needs("hooks"):
+		ArtLabCheckAnim.check_hooks(self)
+	if needs("actions"):
+		await ArtLabCheckBudgets.action_cycle(self)
 	lap("headless checks")
 	var stop := fail_fast_stop()
 	if headless or stop:
-		await ArtLabCheckAnim.death_check(self, [], false)
+		if needs("anim"):
+			await ArtLabCheckAnim.death_check(self, [], false)
 		for id_name: Array in RENDER_SKIPS:
 			rep.add(id_name[0], "read" if String(id_name[0]).begins_with("R") else "budget", id_name[1], "SKIP",
 				"headless" if headless else "fail_fast: stopped after a headless FAIL", "needs a windowed run (1600 x 900)")
 		ArtLabCheckRead.check_geometry(self)
 		return
 	ArtLabCheckRead.check_geometry(self)
+	if not needs("shots"):
+		return   # focus= on headless-only checks
 	await ArtLabShots.shots(self)
 	lap("shots")
-	await ArtLabCheckRead.read_40(self)
-	lap("read_40")
-	await ArtLabShots.turns(self)
-	await ArtLabCheckAnim.anim_strip(self)
-	lap("turns + anim strip")
+	if needs("read40"):
+		await ArtLabCheckRead.read_40(self)
+		lap("read_40")
+	if focus.is_empty():
+		await ArtLabShots.turns(self)
+		await ArtLabCheckAnim.anim_strip(self)
+		lap("turns + anim strip")
+	elif needs("anim"):
+		await ArtLabCheckAnim.death_check(self, [], false)   # focus: A2 without the strip
 	if opts.get("quick", "0") != "1":
-		await ArtLabCheckRead.references(self)
-		lap("references")
-		await ArtLabCheckBudgets.frame_cost(self)
-		lap("frame cost")
+		if needs("refs"):
+			await ArtLabCheckRead.references(self)
+			lap("references")
+		if needs("frame"):
+			await ArtLabCheckBudgets.frame_cost(self)
+			lap("frame cost")
 	else:
 		rep.notes.append("quick=1: references (R2) and frame cost (B13) skipped")
 
@@ -403,6 +432,23 @@ func fail_fast_stop() -> bool:
 	print("ART LAB %s: fail_fast after %s (render checks skipped)" % [asset, ", ".join(ids)])
 	rep.notes.append("fail_fast=1: stopped after the headless checks (FAIL %s); render checks SKIP" % ", ".join(ids))
 	return true
+
+
+## v3 `focus=`: true when this run must run the pass `phase` (ArtLabDiff.PHASE_IDS key, "shots"); always true in a
+## full run.
+func needs(phase: String) -> bool:
+	return focus.is_empty() or ArtLabDiff.needs(focus, phase)
+
+
+## v3 `focus=`: for check modules, true when one of `ids` is re-measured in this run (always true in a full run). Guard
+## the costly parts of a pass with it (e.g. `if ctx.wants(["R6", "R3t"]): await team_pass(...)`).
+func wants(ids: Array) -> bool:
+	if focus.is_empty() or ArtLabDiff.has_unknown(focus):
+		return true
+	for id: Variant in ids:
+		if focus.has(String(id)):
+			return true
+	return false
 
 
 ## `timing=1`: prints the seconds since the last lap (where a run spends its time).

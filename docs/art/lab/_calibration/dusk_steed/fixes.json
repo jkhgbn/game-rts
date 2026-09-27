@@ -1,0 +1,13 @@
+{
+	"asset": "dusk_steed",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "shadow",
+	"quality": 97.5,
+	"result": "PASS",
+	"scene": "res://art/units/mounts/dusk_steed/dusk_steed.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

@@ -1,0 +1,133 @@
+{
+	"asset": "mender",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 124.0,
+					"material": "StandardMaterial3D#-30189",
+					"material_path": "",
+					"to": "StandardMaterial3D#-65657",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 8
+			},
+			"predicted": {
+				"materials": 7
+			},
+			"proposal": "8 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-30189` -> `StandardMaterial3D#-65657` (dE 124.0)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 8 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-30189` -> `StandardMaterial3D#-65657` (dE 124.0)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2993,
+					"node": "Root/Chest/Merged",
+					"to": 1497,
+					"words": "`Merged` 2993 -> 1497 verts"
+				},
+				{
+					"from": 884,
+					"node": "Root/Chest/Head/Merged",
+					"to": 442,
+					"words": "`Merged` 884 -> 442 verts"
+				},
+				{
+					"from": 707,
+					"node": "Root/Hips/Merged",
+					"to": 354,
+					"words": "`Merged` 707 -> 354 verts"
+				},
+				{
+					"from": 544,
+					"node": "Root/Chest/ArmR/Staff/StaffMesh",
+					"to": 272,
+					"words": "`StaffMesh` 544 -> 272 verts"
+				},
+				{
+					"from": 510,
+					"node": "Root/Chest/ArmR/Staff/Censer/Kettle",
+					"to": 255,
+					"words": "`Kettle` 510 -> 255 verts"
+				},
+				{
+					"from": 432,
+					"node": "Root/Chest/ArmR/Staff/Censer/Core",
+					"to": 216,
+					"words": "`Core` 432 -> 216 verts"
+				},
+				{
+					"from": 344,
+					"node": "Root/Chest/Jars",
+					"to": 172,
+					"words": "`Jars` 344 -> 172 verts"
+				},
+				{
+					"from": 338,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 169,
+					"words": "`Merged` 338 -> 169 verts"
+				},
+				{
+					"from": 338,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 169,
+					"words": "`Merged` 338 -> 169 verts"
+				},
+				{
+					"from": 270,
+					"node": "Root/Chest/Head/Variant",
+					"to": 135,
+					"words": "`Variant` 270 -> 135 verts"
+				},
+				{
+					"from": 225,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 113,
+					"words": "`Merged` 225 -> 113 verts"
+				},
+				{
+					"from": 225,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 113,
+					"words": "`Merged` 225 -> 113 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 7814
+			},
+			"predicted": {
+				"verts": 3911
+			},
+			"proposal": "7814 -> 3911 (want <= 3000): `Merged` 2993 -> 1497 verts; `Merged` 884 -> 442 verts; `Merged` 707 -> 354 verts; `StaffMesh` 544 -> 272 verts; `Kettle` 510 -> 255 verts; `Core` 432 -> 216 verts; `Jars` 344 -> 172 verts; `Merged` 338 -> 169 verts; `Merged` 338 -> 169 verts; `Variant` 270 -> 135 verts; `Merged` 225 -> 113 verts; `Merged` 225 -> 113 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 7814 -> 3911 (want <= 3000): `Merged` 2993 -> 1497 verts; `Merged` 884 -> 442 verts; `Merged` 707 -> 354 verts; `StaffMesh` 544 -> 272 verts; `Kettle` 510 -> 255 verts; `Core` 432 -> 216 verts; `Jars` 344 -> 172 verts; `Merged` 338 -> 169 verts; `Merged` 338 -> 169 verts; `Variant` 270 -> 135 verts; `Merged` 225 -> 113 verts; `Merged` 225 -> 113 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.4,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/mender/mender.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

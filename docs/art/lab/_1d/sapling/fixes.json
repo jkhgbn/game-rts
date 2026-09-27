@@ -1,0 +1,31 @@
+{
+	"asset": "sapling",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R8",
+			"computed": false,
+			"measured": {
+				"value": "head top 1.58 m / body_height 1.2 (x1.32)"
+			},
+			"predicted": {},
+			"proposal": "Head height vs body_height: Set body_height (UnitType + scene) to the head top, or rescale the body",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8 Head height vs body_height: Set body_height (UnitType + scene) to the head top, or rescale the body",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 93.5,
+	"result": "WARN",
+	"scene": "res://art/units/nature/sapling.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

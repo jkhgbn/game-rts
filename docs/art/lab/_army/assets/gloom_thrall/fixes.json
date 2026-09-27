@@ -1,0 +1,81 @@
+{
+	"asset": "gloom_thrall",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.4,
+					"node": "res://data/units/gloom_thrall.tres",
+					"param": "radius",
+					"to": 0.43
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.4,
+				"x_m": 0.75,
+				"z_m": 0.55
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.4 -> 0.43, or pull the widest parts in to x <= 0.7 / z <= 0.7 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.4 -> 0.43, or pull the widest parts in to x <= 0.7 / z <= 0.7 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.7",
+				"z_m": "<= 0.7"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +7 (point 1 dL +17, point 2 dL +7; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.8 on the team-colour area (normal vision 74.9; 252 px); deutan: fire / nature dE 11.8; protan: fire / nature dE 22.0; worst vs ground: fire colour (deutan) dE 21.0"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 93.8,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/gloom_thrall.tscn",
+	"tier": "worker",
+	"version": "1.0"
+}

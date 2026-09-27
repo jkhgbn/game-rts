@@ -1,0 +1,120 @@
+{
+	"asset": "shadow_tower",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B5",
+			"computed": false,
+			"measured": {
+				"value": "1 (OrbLight)"
+			},
+			"predicted": {},
+			"proposal": "Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B5 Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"title": "Real lights",
+			"wanted": {
+				"rule": "<= 0 (lab default (towers, walls, posts): half a keep)"
+			}
+		},
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73353",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-65561",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 12.5,
+					"material": "ShaderMaterial#-93489",
+					"material_path": "",
+					"to": "ShaderMaterial#-16370",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 46.7,
+					"material": "ShaderMaterial#-62110",
+					"material_path": "",
+					"to": "ShaderMaterial#-39128",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 50.3,
+					"material": "ShaderMaterial#-39128",
+					"material_path": "",
+					"to": "ShaderMaterial#-16370",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 12
+			},
+			"predicted": {
+				"materials": 7
+			},
+			"proposal": "12 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-65561` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-93489` -> `ShaderMaterial#-16370` (dE 12.5), `ShaderMaterial#-62110` -> `ShaderMaterial#-39128` (dE 46.7), `ShaderMaterial#-39128` -> `ShaderMaterial#-16370` (dE 50.3)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B8 12 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-65561` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-93489` -> `ShaderMaterial#-16370` (dE 12.5), `ShaderMaterial#-62110` -> `ShaderMaterial#-39128` (dE 46.7), `ShaderMaterial#-39128` -> `ShaderMaterial#-16370` (dE 50.3)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 6"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "14 material(s), 1 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 14 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 14 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 9.5 on the team-colour area (normal vision 23.4; 2884 px); deutan: fire / nature dE 9.5; protan: fire / nature dE 11.0; worst vs ground: fire colour (deutan) dE 48.3"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.5): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.5): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "shadow",
+	"quality": 89.5,
+	"result": "FAIL",
+	"scene": "res://art/buildings/shadow_tower.tscn",
+	"tier": "small",
+	"version": "1.0"
+}

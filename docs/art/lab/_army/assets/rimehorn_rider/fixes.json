@@ -1,0 +1,160 @@
+{
+	"asset": "rimehorn_rider",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 16
+			},
+			"predicted": {
+				"draw": 16
+			},
+			"proposal": "16 -> 16 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 16 -> 16 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 12"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2523,
+					"node": "Rimehorn/Root/Mount/Merged",
+					"to": 1262,
+					"words": "`Merged` 2523 -> 1262 verts"
+				},
+				{
+					"from": 1215,
+					"node": "Rimehorn/Root/Mount/Head/Merged",
+					"to": 608,
+					"words": "`Merged` 1215 -> 608 verts"
+				},
+				{
+					"from": 941,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 471,
+					"words": "`Merged` 941 -> 471 verts"
+				},
+				{
+					"from": 804,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 402,
+					"words": "`Merged` 804 -> 402 verts"
+				},
+				{
+					"from": 713,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 357,
+					"words": "`Merged` 713 -> 357 verts"
+				},
+				{
+					"from": 404,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 202,
+					"words": "`Merged` 404 -> 202 verts"
+				},
+				{
+					"from": 404,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 202,
+					"words": "`Merged` 404 -> 202 verts"
+				},
+				{
+					"from": 367,
+					"node": "Rider/Root/Chest/ArmR/Axe",
+					"to": 184,
+					"words": "`Axe` 367 -> 184 verts"
+				},
+				{
+					"from": 296,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 148,
+					"words": "`Merged` 296 -> 148 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegFL/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegFR/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegBL/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegBR/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 265,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 133,
+					"words": "`Merged` 265 -> 133 verts"
+				},
+				{
+					"from": 112,
+					"node": "Rimehorn/Root/Mount/Tail/Merged",
+					"to": 56,
+					"words": "`Merged` 112 -> 56 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 9180
+			},
+			"predicted": {
+				"verts": 4597
+			},
+			"proposal": "9180 -> 4597 (want <= 2500): `Merged` 2523 -> 1262 verts; `Merged` 1215 -> 608 verts; `Merged` 941 -> 471 verts; `Merged` 804 -> 402 verts; `Merged` 713 -> 357 verts; `Merged` 404 -> 202 verts; `Merged` 404 -> 202 verts; `Axe` 367 -> 184 verts; `Merged` 296 -> 148 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 265 -> 133 verts; `Merged` 112 -> 56 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 9180 -> 4597 (want <= 2500): `Merged` 2523 -> 1262 verts; `Merged` 1215 -> 608 verts; `Merged` 941 -> 471 verts; `Merged` 804 -> 402 verts; `Merged` 713 -> 357 verts; `Merged` 404 -> 202 verts; `Merged` 404 -> 202 verts; `Axe` 367 -> 184 verts; `Merged` 296 -> 148 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 265 -> 133 verts; `Merged` 112 -> 56 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 4.7 on the team-colour area (normal vision 37.9; 177 px); deutan: fire / nature dE 4.7; protan: fire / nature dE 11.7; worst vs ground: fire colour (deutan) dE 43.9"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 4.7): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 4.7): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 91.5,
+	"result": "FAIL",
+	"scene": "res://art/units/ice/rimehorn_rider/rimehorn_rider.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

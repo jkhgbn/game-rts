@@ -1,0 +1,55 @@
+{
+	"asset": "oathwall",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 22.0,
+					"material": "oathwall_padding",
+					"material_path": "res://art/units/champions/oathwall/materials/oathwall_padding.tres",
+					"to": "oathwall_iron",
+					"to_path": "res://art/units/champions/oathwall/materials/oathwall_iron.tres"
+				},
+				{
+					"albedo_dE": 37.4,
+					"material": "oathwall_iron",
+					"material_path": "res://art/units/champions/oathwall/materials/oathwall_iron.tres",
+					"to": "oathwall_oak",
+					"to_path": "res://art/units/champions/oathwall/materials/oathwall_oak.tres"
+				},
+				{
+					"albedo_dE": 71.4,
+					"material": "StandardMaterial3D#-83329",
+					"material_path": "",
+					"to": "StandardMaterial3D#-78279",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 8
+			},
+			"predicted": {
+				"materials": 5
+			},
+			"proposal": "8 -> 5 materials: use one material for look-alike pairs: `oathwall_padding` -> `oathwall_iron` (dE 22.0), `oathwall_iron` -> `oathwall_oak` (dE 37.4), `StandardMaterial3D#-83329` -> `StandardMaterial3D#-78279` (dE 71.4)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 8 -> 5 materials: use one material for look-alike pairs: `oathwall_padding` -> `oathwall_iron` (dE 22.0), `oathwall_iron` -> `oathwall_oak` (dE 37.4), `StandardMaterial3D#-83329` -> `StandardMaterial3D#-78279` (dE 71.4)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 95.4,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/oathwall/oathwall.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

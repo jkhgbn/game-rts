@@ -1,0 +1,212 @@
+{
+	"asset": "wayfinder",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-46754",
+					"material_path": "",
+					"to": "StandardMaterial3D#-27747",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-51851",
+					"material_path": "",
+					"to": "StandardMaterial3D#-27747",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 22.2,
+					"material": "wayfinder_leather",
+					"material_path": "res://art/units/champions/wayfinder/materials/wayfinder_leather.tres",
+					"to": "wayfinder_hat",
+					"to_path": "res://art/units/champions/wayfinder/materials/wayfinder_hat.tres"
+				},
+				{
+					"albedo_dE": 26.7,
+					"material": "wayfinder_coat",
+					"material_path": "res://art/units/champions/wayfinder/materials/wayfinder_coat.tres",
+					"to": "wayfinder_hat",
+					"to_path": "res://art/units/champions/wayfinder/materials/wayfinder_hat.tres"
+				},
+				{
+					"albedo_dE": 62.9,
+					"material": "fire_skin",
+					"material_path": "res://art/units/kit/materials/fire_skin.tres",
+					"to": "wayfinder_hat",
+					"to_path": "res://art/units/champions/wayfinder/materials/wayfinder_hat.tres"
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 10
+			},
+			"predicted": {
+				"materials": 5
+			},
+			"proposal": "10 -> 5 materials: use one material for look-alike pairs: `StandardMaterial3D#-46754` -> `StandardMaterial3D#-27747` (dE 0.0), `StandardMaterial3D#-51851` -> `StandardMaterial3D#-27747` (dE 0.0), `wayfinder_leather` -> `wayfinder_hat` (dE 22.2), `wayfinder_coat` -> `wayfinder_hat` (dE 26.7), `fire_skin` -> `wayfinder_hat` (dE 62.9)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 10 -> 5 materials: use one material for look-alike pairs: `StandardMaterial3D#-46754` -> `StandardMaterial3D#-27747` (dE 0.0), `StandardMaterial3D#-51851` -> `StandardMaterial3D#-27747` (dE 0.0), `wayfinder_leather` -> `wayfinder_hat` (dE 22.2), `wayfinder_coat` -> `wayfinder_hat` (dE 26.7), `fire_skin` -> `wayfinder_hat` (dE 62.9)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1338,
+					"node": "Root/Chest/Merged",
+					"to": 669,
+					"words": "`Merged` 1338 -> 669 verts"
+				},
+				{
+					"from": 1039,
+					"node": "Root/Hips/Merged",
+					"to": 520,
+					"words": "`Merged` 1039 -> 520 verts"
+				},
+				{
+					"from": 713,
+					"node": "Root/Chest/Head/Merged",
+					"to": 357,
+					"words": "`Merged` 713 -> 357 verts"
+				},
+				{
+					"from": 585,
+					"node": "Root/Chest/Head/Variant",
+					"to": 293,
+					"words": "`Variant` 585 -> 293 verts"
+				},
+				{
+					"from": 426,
+					"node": "Root/Chest/Lantern",
+					"to": 213,
+					"words": "`Lantern` 426 -> 213 verts"
+				},
+				{
+					"from": 384,
+					"node": "Root/Chest/ArmR/Bow",
+					"to": 192,
+					"words": "`Bow` 384 -> 192 verts"
+				},
+				{
+					"from": 363,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 182,
+					"words": "`Merged` 363 -> 182 verts"
+				},
+				{
+					"from": 363,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 182,
+					"words": "`Merged` 363 -> 182 verts"
+				},
+				{
+					"from": 358,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 179,
+					"words": "`Merged` 358 -> 179 verts"
+				},
+				{
+					"from": 358,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 179,
+					"words": "`Merged` 358 -> 179 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 5931
+			},
+			"predicted": {
+				"verts": 2970
+			},
+			"proposal": "5931 -> 2970 (want <= 3000): `Merged` 1338 -> 669 verts; `Merged` 1039 -> 520 verts; `Merged` 713 -> 357 verts; `Variant` 585 -> 293 verts; `Lantern` 426 -> 213 verts; `Bow` 384 -> 192 verts; `Merged` 363 -> 182 verts; `Merged` 363 -> 182 verts; `Merged` 358 -> 179 verts; `Merged` 358 -> 179 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 5931 -> 2970 (want <= 3000): `Merged` 1338 -> 669 verts; `Merged` 1039 -> 520 verts; `Merged` 713 -> 357 verts; `Variant` 585 -> 293 verts; `Lantern` 426 -> 213 verts; `Bow` 384 -> 192 verts; `Merged` 363 -> 182 verts; `Merged` 363 -> 182 verts; `Merged` 358 -> 179 verts; `Merged` 358 -> 179 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5",
+			"computed": false,
+			"measured": {
+				"points": 0,
+				"points_this_phase": 1,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Chest/Lantern",
+						"peak_x_bloom": 4.14,
+						"px": 7
+					}
+				],
+				"value": "0 point(s) above the bloom level 1.2 (median of 1/0/0), 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 2"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 0 -> 1 (want 1-4): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 3,
+			"status": "WARN",
+			"text": "Glow points 0 -> 1 (want 1-4): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.6 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.6 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.6 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5w",
+			"computed": false,
+			"measured": {
+				"value": "points per frame 1/1/1/1/1/0/0/0 (median 1, range 1, 3 frame(s) at 0; at rest 0)"
+			},
+			"predicted": {},
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (1/1/1/1/1/0/0/0 per frame): put them on parts the gait does not cover",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (1/1/1/1/1/0/0/0 per frame): put them on parts the gait does not cover",
+			"title": "Glow points while walking (flicker)",
+			"wanted": {
+				"rule": "the glow-point count stays within +-1 over the walk cycle and never drops to 0 (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 85.4,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/wayfinder/wayfinder.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

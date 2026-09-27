@@ -1,0 +1,97 @@
+{
+	"asset": "cinderlock",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1226,
+					"node": "Root/Chest/Head/Merged",
+					"to": 613,
+					"words": "`Merged` 1226 -> 613 verts"
+				},
+				{
+					"from": 925,
+					"node": "Root/Chest/Merged",
+					"to": 463,
+					"words": "`Merged` 925 -> 463 verts"
+				},
+				{
+					"from": 542,
+					"node": "Root/Chest/Musket",
+					"to": 330,
+					"words": "`Musket` 542 -> 330 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3725
+			},
+			"predicted": {
+				"verts": 2438
+			},
+			"proposal": "3725 -> 2438 (want <= 2500): `Merged` 1226 -> 613 verts; `Merged` 925 -> 463 verts; `Musket` 542 -> 330 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 3725 -> 2438 (want <= 2500): `Merged` 1226 -> 613 verts; `Merged` 925 -> 463 verts; `Musket` 542 -> 330 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1.7,
+					"node": "res://art/units/fire/cinderlock/cinderlock.tscn (root)",
+					"param": "body_height",
+					"to": 2.18
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 1.7,
+				"head_top_m": 2.18,
+				"ratio": 1.28
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 1.7 -> 2.18 in res://art/units/fire/cinderlock/cinderlock.tscn (root) (the head top; x1.28 now), or lower the head / crest 0.06 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8: body_height 1.7 -> 2.18 in res://art/units/fire/cinderlock/cinderlock.tscn (root) (the head top; x1.28 now), or lower the head / crest 0.06 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +11 (point 1 dL +11, point 2 dL +12; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +11): darken around them or raise the energy",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +11): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 89.6,
+	"result": "FAIL",
+	"scene": "res://art/units/fire/cinderlock/cinderlock.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

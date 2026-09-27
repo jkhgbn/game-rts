@@ -1,0 +1,263 @@
+{
+	"asset": "stagrunner",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 2684,
+					"node": "Stag/Root/Mount/Head/Merged",
+					"to": 1342,
+					"words": "`Merged` 2684 -> 1342 verts"
+				},
+				{
+					"from": 2521,
+					"node": "Stag/Root/Mount/Merged",
+					"to": 1261,
+					"words": "`Merged` 2521 -> 1261 verts"
+				},
+				{
+					"from": 668,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 334,
+					"words": "`Merged` 668 -> 334 verts"
+				},
+				{
+					"from": 579,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 290,
+					"words": "`Merged` 579 -> 290 verts"
+				},
+				{
+					"from": 488,
+					"node": "Rider/Root/Chest/Spear",
+					"to": 244,
+					"words": "`Spear` 488 -> 244 verts"
+				},
+				{
+					"from": 448,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 224,
+					"words": "`Merged` 448 -> 224 verts"
+				},
+				{
+					"from": 448,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 224,
+					"words": "`Merged` 448 -> 224 verts"
+				},
+				{
+					"from": 441,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 221,
+					"words": "`Merged` 441 -> 221 verts"
+				},
+				{
+					"from": 346,
+					"node": "Rider/Root/Chest/Cloak",
+					"to": 173,
+					"words": "`Cloak` 346 -> 173 verts"
+				},
+				{
+					"from": 343,
+					"node": "Stag/Root/Mount/LegBR/Merged",
+					"to": 172,
+					"words": "`Merged` 343 -> 172 verts"
+				},
+				{
+					"from": 343,
+					"node": "Stag/Root/Mount/LegBL/Merged",
+					"to": 172,
+					"words": "`Merged` 343 -> 172 verts"
+				},
+				{
+					"from": 296,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 148,
+					"words": "`Merged` 296 -> 148 verts"
+				},
+				{
+					"from": 289,
+					"node": "Stag/Root/Mount/LegFR/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 289,
+					"node": "Stag/Root/Mount/LegFL/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 244,
+					"node": "Stag/Root/Mount/Neck/Merged",
+					"to": 122,
+					"words": "`Merged` 244 -> 122 verts"
+				},
+				{
+					"from": 216,
+					"node": "Rider/Root/Chest/Cloak/CloakTail",
+					"to": 108,
+					"words": "`CloakTail` 216 -> 108 verts"
+				},
+				{
+					"from": 180,
+					"node": "Rider/Root/Chest/ArmR/ForearmR",
+					"to": 90,
+					"words": "`ForearmR` 180 -> 90 verts"
+				},
+				{
+					"from": 141,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 71,
+					"words": "`Merged` 141 -> 71 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 10968
+			},
+			"predicted": {
+				"verts": 5490
+			},
+			"proposal": "10968 -> 5490 (want <= 2500): `Merged` 2684 -> 1342 verts; `Merged` 2521 -> 1261 verts; `Merged` 668 -> 334 verts; `Merged` 579 -> 290 verts; `Spear` 488 -> 244 verts; `Merged` 448 -> 224 verts; `Merged` 448 -> 224 verts; `Merged` 441 -> 221 verts; `Cloak` 346 -> 173 verts; `Merged` 343 -> 172 verts; `Merged` 343 -> 172 verts; `Merged` 296 -> 148 verts; `Merged` 289 -> 145 verts; `Merged` 289 -> 145 verts; `Merged` 244 -> 122 verts; `CloakTail` 216 -> 108 verts; `ForearmR` 180 -> 90 verts; `Merged` 141 -> 71 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 10968 -> 5490 (want <= 2500): `Merged` 2684 -> 1342 verts; `Merged` 2521 -> 1261 verts; `Merged` 668 -> 334 verts; `Merged` 579 -> 290 verts; `Spear` 488 -> 244 verts; `Merged` 448 -> 224 verts; `Merged` 448 -> 224 verts; `Merged` 441 -> 221 verts; `Cloak` 346 -> 173 verts; `Merged` 343 -> 172 verts; `Merged` 343 -> 172 verts; `Merged` 296 -> 148 verts; `Merged` 289 -> 145 verts; `Merged` 289 -> 145 verts; `Merged` 244 -> 122 verts; `CloakTail` 216 -> 108 verts; `ForearmR` 180 -> 90 verts; `Merged` 141 -> 71 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [
+				{
+					"action": "drop_keep_separate",
+					"node": "Rider/Root/Chest/Spear, Rider/Root/Chest/Cloak",
+					"saves": 1,
+					"words": "`Spear`, `Cloak` are keep_separate under `Chest`: keep only the animated / toggled one separate"
+				}
+			],
+			"check": "B2",
+			"computed": true,
+			"measured": {
+				"draw": 19
+			},
+			"predicted": {
+				"draw": 18
+			},
+			"proposal": "19 -> 18 (want <= 14): `Spear`, `Cloak` are keep_separate under `Chest`: keep only the animated / toggled one separate",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B2 19 -> 18 (want <= 14): `Spear`, `Cloak` are keep_separate under `Chest`: keep only the animated / toggled one separate",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 14"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "#2e2414",
+					"material": "nature_bark_dark",
+					"material_path": "res://art/units/nature/materials/nature_bark_dark.tres",
+					"node": "Stag/Root/Mount/Head/Merged, Stag/Root/Mount/LegFL/Merged, Stag/Root/Mount/LegFR/Merged, Stag/Root/Mount/LegBL/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/nature/materials/nature_bark_dark.tres): give stagrunner its own copy first, other assets use it too",
+					"to": "#302515",
+					"weight": 0.12
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				2.3,
+				1.9,
+				3.2
+			],
+			"measured": {
+				"body_lab": [
+					60.0,
+					-4.6,
+					27.6
+				],
+				"dE": {
+					"R3 meadow": 25.0,
+					"R3t fire": 32.8,
+					"R3t ice": 31.8,
+					"R3t nature": 25.8,
+					"R3t shadow": 38.2,
+					"R4 ash": 46.5,
+					"R4 heath": 6.9,
+					"R4 marsh": 48.4,
+					"R4 riverbank": 32.3,
+					"R4 sand": 22.4,
+					"R4 snow": 39.6,
+					"R4k old_wood": 33.4
+				},
+				"ground_lab": [
+					61.6,
+					-24.5,
+					42.5
+				],
+				"melt_share": 0.09
+			},
+			"predicted": {
+				"R3 meadow": 25.0,
+				"R3t fire": 32.8,
+				"R3t ice": 31.8,
+				"R3t nature": 25.8,
+				"R3t shadow": 38.2,
+				"R4 ash": 46.5,
+				"R4 heath": 6.9,
+				"R4 marsh": 48.4,
+				"R4 riverbank": 32.4,
+				"R4 sand": 22.3,
+				"R4 snow": 39.5,
+				"R4k old_wood": 33.4
+			},
+			"proposal": "shader_parameter/base_color of `nature_bark_dark` #2e2414 -> #302515 (11% of the visible body): predicted dE R3 meadow 25.0 -> 25.0, R3t fire 32.8 -> 32.8, R3t shadow 38.2 -> 38.2, R3t ice 31.8 -> 31.8, R3t nature 25.8 -> 25.8, R4k old_wood 33.4 -> 33.4 (want >= 24); other grounds heath 6.9, riverbank 32.4, snow 39.5, ash 46.5, sand 22.3, marsh 48.4; shared material (res://art/units/nature/materials/nature_bark_dark.tres): give stagrunner its own copy first, other assets use it too",
+			"rank": 3,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `nature_bark_dark` #2e2414 -> #302515 (11% of the visible body): predicted dE R3 meadow 25.0 -> 25.0, R3t fire 32.8 -> 32.8, R3t shadow 38.2 -> 38.2, R3t ice 31.8 -> 31.8, R3t nature 25.8 -> 25.8, R4k old_wood 33.4 -> 33.4 (want >= 24); other grounds heath 6.9, riverbank 32.4, snow 39.5, ash 46.5, sand 22.3, marsh 48.4; shared material (res://art/units/nature/materials/nature_bark_dark.tres): give stagrunner its own copy first, other assets use it too",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 10.0 on the team-colour area (normal vision 46.5; 328 px); deutan: fire / nature dE 10.0; protan: fire / nature dE 16.6; worst vs ground: fire colour (deutan) dE 12.8"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.0): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.0): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 87.7,
+	"result": "FAIL",
+	"scene": "res://art/units/nature/stagrunner/stagrunner.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

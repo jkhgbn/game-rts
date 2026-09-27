@@ -1,0 +1,199 @@
+{
+	"asset": "tavern_model",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-52373",
+					"material_path": "",
+					"to": "StandardMaterial3D#-60218",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-60218",
+					"material_path": "",
+					"to": "StandardMaterial3D#-23293",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-23293",
+					"material_path": "",
+					"to": "StandardMaterial3D#-41025",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 7.6,
+					"material": "ShaderMaterial#-69051",
+					"material_path": "",
+					"to": "ShaderMaterial#-55141",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.4,
+					"material": "ShaderMaterial#-896",
+					"material_path": "",
+					"to": "ShaderMaterial#-47023",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 16.4,
+					"material": "ShaderMaterial#-78620",
+					"material_path": "",
+					"to": "ShaderMaterial#-55141",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 19.5,
+					"material": "ShaderMaterial#-27297",
+					"material_path": "",
+					"to": "ShaderMaterial#-55141",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 26.8,
+					"material": "ShaderMaterial#-47023",
+					"material_path": "",
+					"to": "ShaderMaterial#-23485",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 16
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "16 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-52373` -> `StandardMaterial3D#-60218` (dE 0.0), `StandardMaterial3D#-60218` -> `StandardMaterial3D#-23293` (dE 0.0), `StandardMaterial3D#-23293` -> `StandardMaterial3D#-41025` (dE 0.0), `ShaderMaterial#-69051` -> `ShaderMaterial#-55141` (dE 7.6), `ShaderMaterial#-896` -> `ShaderMaterial#-47023` (dE 13.4), `ShaderMaterial#-78620` -> `ShaderMaterial#-55141` (dE 16.4), `ShaderMaterial#-27297` -> `ShaderMaterial#-55141` (dE 19.5), `ShaderMaterial#-47023` -> `ShaderMaterial#-23485` (dE 26.8)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 16 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-52373` -> `StandardMaterial3D#-60218` (dE 0.0), `StandardMaterial3D#-60218` -> `StandardMaterial3D#-23293` (dE 0.0), `StandardMaterial3D#-23293` -> `StandardMaterial3D#-41025` (dE 0.0), `ShaderMaterial#-69051` -> `ShaderMaterial#-55141` (dE 7.6), `ShaderMaterial#-896` -> `ShaderMaterial#-47023` (dE 13.4), `ShaderMaterial#-78620` -> `ShaderMaterial#-55141` (dE 16.4), `ShaderMaterial#-27297` -> `ShaderMaterial#-55141` (dE 19.5), `ShaderMaterial#-47023` -> `ShaderMaterial#-23485` (dE 26.8)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.18,
+					"material": "?",
+					"material_path": "",
+					"node": "Body/Rubble",
+					"param": "",
+					"why": "dim under the bloom level: 3 point(s), peak 4.17 x the level",
+					"words": "emission x 0.18 (dim under the bloom level: 3 point(s), peak 4.17 x the level; no energy parameter found: scale its emission colour / strength)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 5,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 4.17,
+						"px": 104
+					},
+					{
+						"above": true,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 4.17,
+						"px": 61
+					},
+					{
+						"above": true,
+						"part": "Body/LanternPivot/Lantern",
+						"peak_x_bloom": 5.43,
+						"px": 35
+					},
+					{
+						"above": true,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 4.17,
+						"px": 32
+					},
+					{
+						"above": true,
+						"part": "Body/DoorPivot/DoorLeaf",
+						"peak_x_bloom": 3.73,
+						"px": 3
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.24,
+						"px": 8
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.3,
+						"px": 5
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 5/5/5): Rubble x3, Lantern, DoorLeaf; soft glows under the bloom (v1 count, luma > 0.4): 7"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 5 -> 2 (want 2-4): ? emission x 0.18 (dim under the bloom level: 3 point(s), peak 4.17 x the level; no energy parameter found: scale its emission colour / strength)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 5 -> 2 (want 2-4): ? emission x 0.18 (dim under the bloom level: 3 point(s), peak 4.17 x the level; no energy parameter found: scale its emission colour / strength)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 3,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +16 (point 1 dL +53, point 2 dL +55, point 3 dL +34, point 4 dL +16, point 5 dL +58; ring 26 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +16): darken around them or raise the energy",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +16): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 84.2,
+	"result": "FAIL",
+	"scene": "res://art/buildings/tavern/tavern_model.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

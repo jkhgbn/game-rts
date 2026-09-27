@@ -79,17 +79,23 @@ static func entry_args(e: PackedStringArray, shared: Dictionary) -> PackedString
 
 
 ## Runs every entry under `parent` (runners + the stage pool are its children). Returns {"rows": [{asset, result,
-## quality, code, seconds}], "seconds": [per asset], "code": worst exit code (0 / 1 / 2), "stages": stages built}.
-static func run_all(parent: Node, list: Array[PackedStringArray], shared: Dictionary) -> Dictionary:
+## quality, code, seconds, scene, kind, tier, kingdom, ground, out, headless, checks, improve}], "seconds": [per asset],
+## "code": worst exit code (0 / 1 / 2), "stages": stages built}. v3 sweep (1.E): pass `pool_parent` + `pool` to keep
+## the stages alive after the batch (the army silhouette pass reuses them); the caller frees them then.
+static func run_all(parent: Node, list: Array[PackedStringArray], shared: Dictionary, pool_parent: Node = null,
+		pool_in: Variant = null) -> Dictionary:
 	# Frames are not tied to the display in a batch (`vsync=1` keeps it): a grab = 4 frames, ~90 grabs per model. The
 	# lab's waits are timers (same animation time either way); capped at 240 fps so a batch does not hog the GPU.
 	if DisplayServer.get_name() != "headless" and String(shared.get("vsync", "0")) != "1":
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		Engine.max_fps = 240
-	var pool := {}
-	var pool_parent := Node.new()
-	pool_parent.name = "StagePool"
-	parent.add_child(pool_parent)
+	var own_pool := pool_parent == null
+	var pool: Dictionary = pool_in if pool_in is Dictionary else {}
+	if own_pool:
+		pool_parent = Node.new()
+		pool_parent.name = "StagePool"
+		parent.add_child(pool_parent)
+	var progress := String(shared.get("progress", "0")) == "1"
 	var rows: Array[Dictionary] = []
 	var per: Array[float] = []
 	var worst := 0
@@ -105,15 +111,23 @@ static func run_all(parent: Node, list: Array[PackedStringArray], shared: Dictio
 		per.append(sec)
 		worst = maxi(worst, code)
 		var row := {"asset": r.asset if r.asset != "" else String(ra[0]).substr(6), "code": code, "seconds": sec,
-			"result": "ERROR", "quality": -1.0}
+			"result": "ERROR", "quality": -1.0, "scene": r.scene_path, "kind": String(r.kind), "tier": String(r.tier),
+			"kingdom": String(r.kingdom), "ground": String(r.ground_id), "out": r.out_dir, "headless": r.headless,
+			"checks": [], "improve": []}
 		if r.rep != null:
 			row["result"] = r.rep.result()
 			row["quality"] = r.rep.quality()
+			row["checks"] = r.rep.checks
+			row["improve"] = r.rep.improve_next()
 		rows.append(row)
+		if progress:
+			print("ART LAB BATCH %d / %d: %s %s %.0f (%.1f s)" % [rows.size(), list.size(), row["asset"], row["result"],
+				float(row["quality"]), sec])
 		r.queue_free()
 		await parent.get_tree().process_frame
 	var stages := pool.size()
-	pool_parent.queue_free()
+	if own_pool:
+		pool_parent.queue_free()
 	return {"rows": rows, "seconds": per, "code": worst, "stages": stages}
 
 

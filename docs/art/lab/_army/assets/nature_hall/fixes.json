@@ -1,0 +1,344 @@
+{
+	"asset": "nature_hall",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-10823",
+					"material_path": "",
+					"to": "StandardMaterial3D#-24714",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-24714",
+					"material_path": "",
+					"to": "StandardMaterial3D#-16893",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-16893",
+					"material_path": "",
+					"to": "StandardMaterial3D#-34408",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-34408",
+					"material_path": "",
+					"to": "StandardMaterial3D#-5531",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 10.6,
+					"material": "Petal",
+					"material_path": "",
+					"to": "Blossom",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 15.7,
+					"material": "Wood",
+					"material_path": "",
+					"to": "Bark",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 17.1,
+					"material": "Bark",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 23.9,
+					"material": "Moss",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 24.8,
+					"material": "Stone",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 71.8,
+					"material": "Leaves",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 97.0,
+					"material": "StandardMaterial3D#-5531",
+					"material_path": "",
+					"to": "Void",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 102.7,
+					"material": "Blossom",
+					"material_path": "",
+					"to": "LeafCard",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 21
+			},
+			"predicted": {
+				"materials": 9
+			},
+			"proposal": "21 -> 9 materials: use one material for look-alike pairs: `StandardMaterial3D#-10823` -> `StandardMaterial3D#-24714` (dE 0.0), `StandardMaterial3D#-24714` -> `StandardMaterial3D#-16893` (dE 0.0), `StandardMaterial3D#-16893` -> `StandardMaterial3D#-34408` (dE 0.0), `StandardMaterial3D#-34408` -> `StandardMaterial3D#-5531` (dE 0.0), `Petal` -> `Blossom` (dE 10.6), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Moss` -> `DarkStone` (dE 23.9), `Stone` -> `DarkStone` (dE 24.8), `Leaves` -> `DarkStone` (dE 71.8), `StandardMaterial3D#-5531` -> `Void` (dE 97.0), `Blossom` -> `LeafCard` (dE 102.7)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 21 -> 9 materials: use one material for look-alike pairs: `StandardMaterial3D#-10823` -> `StandardMaterial3D#-24714` (dE 0.0), `StandardMaterial3D#-24714` -> `StandardMaterial3D#-16893` (dE 0.0), `StandardMaterial3D#-16893` -> `StandardMaterial3D#-34408` (dE 0.0), `StandardMaterial3D#-34408` -> `StandardMaterial3D#-5531` (dE 0.0), `Petal` -> `Blossom` (dE 10.6), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Moss` -> `DarkStone` (dE 23.9), `Stone` -> `DarkStone` (dE 24.8), `Leaves` -> `DarkStone` (dE 71.8), `StandardMaterial3D#-5531` -> `Void` (dE 97.0), `Blossom` -> `LeafCard` (dE 102.7)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 3067,
+					"node": "Body/Walls",
+					"to": 2129,
+					"words": "`Walls` 3067 -> 2129 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 12893
+			},
+			"predicted": {
+				"verts": 11955
+			},
+			"proposal": "12893 -> 11955 (want <= 12000): `Walls` 3067 -> 2129 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B4 12893 -> 11955 (want <= 12000): `Walls` 3067 -> 2129 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.16,
+					"from": 0.9,
+					"material": "Banner",
+					"material_path": "",
+					"node": "Body/BannersGate, Body/BannersSide",
+					"param": "shader_parameter/glyph_energy",
+					"to": 0.15,
+					"why": "dim under the bloom level: 10 point(s), peak 4.55 x the level",
+					"words": "glyph_energy 0.9 -> 0.15 (dim under the bloom level: 10 point(s), peak 4.55 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"from": 2.5,
+					"material": "Heart",
+					"material_path": "",
+					"node": "Body/Tree/Bloom, Body/Tree/LanternPivot/Lantern, Body/Hedge",
+					"param": "shader_parameter/energy",
+					"to": 0.43,
+					"why": "dim under the bloom level: 4 point(s), peak 4.39 x the level",
+					"words": "energy 2.5 -> 0.43 (dim under the bloom level: 4 point(s), peak 4.39 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 18,
+				"points_this_phase": 15,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Tree/Bloom",
+						"peak_x_bloom": 4.27,
+						"px": 513
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.55,
+						"px": 168
+					},
+					{
+						"above": true,
+						"part": "Body/HedgeLost",
+						"peak_x_bloom": 4.27,
+						"px": 73
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.11,
+						"px": 55
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/LanternPivot/Lantern",
+						"peak_x_bloom": 4.39,
+						"px": 45
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 3.11,
+						"px": 24
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 3.11,
+						"px": 24
+					},
+					{
+						"above": true,
+						"part": "Body/Hedge",
+						"peak_x_bloom": 3.11,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Body/Hedge",
+						"peak_x_bloom": 4.39,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 4.39,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.39,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.39,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.14,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.11,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 4.17,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.31,
+						"px": 34
+					},
+					{
+						"above": false,
+						"part": "Body/Tree/TreeCrown",
+						"peak_x_bloom": 0.2,
+						"px": 31
+					},
+					{
+						"above": false,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 0.26,
+						"px": 20
+					},
+					{
+						"above": false,
+						"part": "Body/Walls",
+						"peak_x_bloom": 0.31,
+						"px": 17
+					},
+					{
+						"above": false,
+						"part": "Body/Hedge",
+						"peak_x_bloom": 0.4,
+						"px": 9
+					}
+				],
+				"value": "18 point(s) above the bloom level 1.2 (median of 18/18/15): Petals, BannersGate x5, HedgeLost, BannersSide x8, Lantern, Hedge x2, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 37"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 18 -> 4 (want 2-4): Banner glyph_energy 0.9 -> 0.15 (dim under the bloom level: 10 point(s), peak 4.55 x the level); Heart energy 2.5 -> 0.43 (dim under the bloom level: 4 point(s), peak 4.39 x the level)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "Glow points 18 -> 4 (want 2-4): Banner glyph_energy 0.9 -> 0.15 (dim under the bloom level: 10 point(s), peak 4.55 x the level); Heart energy 2.5 -> 0.43 (dim under the bloom level: 4 point(s), peak 4.39 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "29 material(s), 5 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 29 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 29 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +5 (point 1 dL +5, point 2 dL +36, point 3 dL +27, point 4 dL +32, point 5 dL +40, point 6 dL +29, point 7 dL +27, point 8 dL +64, point 9 dL +22, point 10 dL +29, point 11 dL +30, point 12 dL +31, point 13 dL +41, point 14 dL +33, point 15 dL +54, point 16 dL +57, point 17 dL +38, point 18 dL +51, soft 1 dL +39 (counts), soft 2 dL +31 (counts), soft 3 dL +40 (counts), soft 4 dL +38 (counts), soft 5 dL +54 (counts), soft 6 dL +43 (counts), soft 7 dL +51 (counts), soft 8 dL +50 (counts), soft 9 dL +24 (counts), soft 10 dL +14, soft 11 dL +61 (counts), soft 12 dL +43 (counts), soft 13 dL +20 (counts), soft 14 dL +15, soft 15 dL +18 (counts), soft 16 dL +7, soft 17 dL +15, soft 18 dL +34 (counts), soft 19 dL -15, soft 20 dL +12, soft 21 dL +19 (counts), soft 22 dL +0, soft 23 dL +21 (counts), soft 24 dL +17, soft 25 dL +24 (counts), soft 26 dL -15, soft 27 dL +21 (counts), soft 28 dL +28 (counts), soft 29 dL +20 (counts), soft 30 dL +17, soft 31 dL -1; ring 27 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +5): darken around them or raise the energy",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +5): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 83.1,
+	"result": "FAIL",
+	"scene": "res://art/buildings/nature_hall.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

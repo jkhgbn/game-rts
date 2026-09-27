@@ -1,0 +1,31 @@
+{
+	"asset": "plant_glow40_dusk_steed",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.1 on the team-colour area (normal vision 69.9; 175 px); deutan: fire / nature dE 11.1; protan: fire / nature dE 20.4; worst vs ground: fire colour (deutan) dE 47.7"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.1): add a value step inside the team-colour area",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.1): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "shadow",
+	"quality": 94.1,
+	"result": "WARN",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_glow40_dusk_steed.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

@@ -29,7 +29,8 @@ each other only through public (non-`_`) functions. One owner per file in a phas
 | `lab_report.gd` | `ArtLabReport` | the check list, scorecard.md / .json, contact sheet, improvement log; `quality()` / `improve_next()` forward to `ArtLabScore`; `GROUP_WEIGHT` kept as an alias. **`tools/common/tool_report.gd` (`ToolReport`) extends it**: keep its public API (`add`, `count`, `result`, `quality`, `improve_next`, `exit_code`, `to_dict`, `to_markdown`, `_cell`, `write`, `append_log`, `read_previous`, `contact_sheet`); `grade` / `budget_status` moved to `ArtLabScore` (ToolReport has its own copies since 2026-09-27) | 1.B (+ new `lab_diff.gd`) |
 | `lab_stage.gd` | `ArtLabStage` | SubViewport, ground, lights, render modes, cameras, `override` / `restore`, v3 `warm()` / `reset()` | 1.D |
 | `lab_image.gd` / `lab_census.gd` | `ArtLabImage` / `ArtLabCensus` | pixel analysis / scene census (shared helpers) | ask the lead before changing a signature |
-| `lab_budgets.gd` | `ArtLabBudgets` | **all numbers** | 1.C only (others send changes by note) |
+| `lab_budgets.gd` | `ArtLabBudgets` | **all numbers** (incl. `V3`, the 1.D check thresholds) | 1.C only (others send changes by note to `docs/handoff/for-art-lab-1c.md`) |
+| `calibration/calibration.gd` / `calib_plant.gd` | `ArtLabCalibration` / `ArtLabCalibPlant` | the 12 calibration cases + bands, planted-bad variants built in memory (section 11); test `tests/test_art_lab_calibration.gd` | 1.C |
 
 ## 1. One command
 Windowed (it renders; `--headless` only runs budgets / health / hooks and marks the render checks SKIP):
@@ -344,4 +345,80 @@ objective vs decor landmark budgets, P3 / P5 by world height, identity crest, ar
   and prints the scorecard path; section 1 uses the Godot gate instead of the desktop's Downloads path.
 Left for later (v2.2): glow-point local contrast (needs the lit 40 m frame sampled around each hot cluster), per-variant
 triangles for decor sets, the windowed army sweep per kingdom, real terrain paint for snow / ash / sand / marsh.
+
+## 11. Calibration (v3 task 1.C, the lab-on-lab test)
+**Why:** a threshold or rule change must not silently move what the lab says about assets we already know. 12 cases
+with expected bands; the test fails when a change moves one out of its band. **Any rule / threshold change runs it.**
+```powershell
+# windowed (the real judge): ~4.5 min in process (260-270 s), one Godot process, one batch
+.\tools\godot_run.ps1 --path . -s tests/test_art_lab_calibration.gd --quit-after 400000
+# headless (budgets / health / geometry only, no quality band): ~105 s
+.\tools\godot_run.ps1 --headless --path . -s tests/test_art_lab_calibration.gd --quit-after 400000
+# a subset while iterating: '--' 'only=shade,plant_green_shade'
+```
+Prints one line per case (result, quality, band, WARN / FAIL ids, `<- OUT: ...` when out of band) and
+`PASS art_lab_calibration` / `FAIL art_lab_calibration: <cases>`. Scorecards: `docs/art/lab/_calibration/<case>/`
+(headless: `_calibration_headless/`), summary `calibration.md` there.
+
+**How it works.** `tools/art_lab/calibration/calibration.gd` (`ArtLabCalibration.CASES`) holds the cases and bands; the
+test runs them with `ArtLabBatch.run_all` (the v3 batch: one stage, `quick=1 log=0`; the two planted budget cases add
+`fail_fast=1`), then judges each `scorecard.json`: **quality** in `[lo, hi]`, **result** in the allowed set, every
+**expect** check present with an allowed status (the planted problem must show), and **no other WARN / FAIL** than the
+case's **allow** list (a new alarm on a known-good asset fails the test). The planted-bad variants are built **in memory**
+at run time (`calib_plant.gd`): the real scene is instanced, a `CalibPlant` node is added, the tree is packed into a new
+`PackedScene` that takes over a virtual path `res://tools/art_lab/calibration/virtual/<case>.tscn` (nothing is written;
+real assets are never touched). The plant acts on the host's `ready` signal (after the kit merge, before the lab's first
+hook), and every instance the lab spawns (B9's 2nd instance, team copies) carries it. Bands = the min / max quality of
+two windowed runs (2026-09-27, laptop, 3-6 other Godot processes) -/+ 3 points.
+
+| Case | Plant | Expected (must show) | Quality band (measured) |
+|---|---|---|---|
+| shade | - | PASS / WARN; R3, R6, B9, R9 PASS | 94-100 (98.1, 98.0; 96.1 with the OC3 flake) |
+| dusk_steed | - | PASS / WARN; R3, R5, B4 PASS | 94-100 (97.7, 97.1) |
+| aqueduct | - | PASS / WARN; R3, R9 PASS | 95-100 (98.2, 98.2) |
+| fire_gun_vfx (`ids=musket_shot,musket_breach`) | - | PASS / WARN; V2, V3, V4 PASS | 90-100 (100, 100; 93.7 with the OC2 flake) |
+| deer | - | PASS / WARN; R9, B4t, R3 PASS | 95-100 (98.5, 98.5) |
+| frost_dragon | - | PASS / WARN; R3, R6, B9 PASS | 94.5-100 (97.9, 98.0) |
+| plant_green_shade | every non-glow surface one grass green (albedo 0.55 / 0.72 / 0.28) | **R3 FAIL** (dE ~8, melt > 60 %) | 79-88 (81.9, 84.8) |
+| plant_glow40_frost_dragon | 40 emissive beads (4 verts each) as one extra surface of the 4 biggest meshes | **R5 WARN** (17-27 points, titan 1-5) | 88.5-95 (91.9, 91.8) |
+| plant_verts20k_shade | a hidden dense sphere as an extra surface (20 663 verts total) | **B4 FAIL** | 91-97.5 (94.3, 94.3) |
+| plant_float_deer | root lifted 0.4 m | **R9 FAIL** (lowest point 0.4 m) | 86.5-93.5 (90.5, 90.6) |
+| plant_permat_dusk_steed | every material duplicated per instance | **B9 FAIL** | 86-92 (89.0, 89.0) |
+| plant_team_dusk_steed | team cloth frozen (path-less shared copies, mesh + overrides) | **R6 WARN** (1-2 %), **R6cb WARN** (3.0-4.7) | 90.5-97 (94.0, 93.7) |
+
+Planted side effects that are allowed (not false alarms): green also loses the team cloth (R6, R3t, R6cb) and the kit
+shader (A2 dissolve); the 40 beads also flicker (R5w).
+
+**Threshold changes applied from the calibration runs** (all in `lab_budgets.gd`, with the measured reason there):
+- R6 team visibility `team`: unit / titan / building 0.03 -> **0.08**, mount 0.02 -> **0.06**. A frozen team colour still
+  measures 1-2 % (Dusk Steed, pose / edge pixels) or 5 % (Shade: its smoke differs per instance), so the old threshold sat
+  in the noise and never caught the planted case; the lowest real asset is 11 % (Mossback; every R6 in `docs/art/lab/*/scorecard.json` checked).
+- 1.D's new check thresholds moved into `ArtLabBudgets.V3` (as 1.D asked; `read_v3.gd` now reads `const V3 :=
+  ArtLabBudgets.V3`), calibrated: R5w `flicker_range_warn` 1 -> 2, `flicker_drop_warn` 0 -> 4 (Shade 2/2/2/0/1/0/2/2,
+  Dusk Steed 1/1/1/1/0/0/0/1, Frost Dragon range 2 are fine; the 40-bead dragon, range 8-10, still WARNs); R5c
+  `glow_dl_warn` 18 -> 0 / bad 5 -> -10 (see OC1); R6cb `cb_pair_warn` 12 -> 6 / bad 4 -> 3 (fire / nature under deutan
+  is 7.6-13.7 on every good asset: the palette, not the asset; the frozen-team steed measures 3.0-4.7).
+
+**Open cases** (false alarms / flaky rules seen on the known-good set; allowed in the bands, to fix in the rule):
+- **OC1 R5c glow local contrast** is noise on dark bodies: the same Shade eye measured dL +2 / +6 / +11 / +14 over 4 runs,
+  the Dusk Steed eye -4 / +0 (the 1 m ring at 40 m is 24 px, mostly bright grass around a dark head). Fix (1.D): sample
+  the ring on body pixels only (the 40 m mask), or compare against the body's own median L\*. Until then warn only when a
+  glow is darker than its surround.
+- **OC2 V6 VFX visible at 40 m** flakes on a small effect: `musket_shot` changed 149 px in one run (>= 200 in 4 others).
+  Fix: take the max over more sample moments or a lower bar for tracer-type ids.
+- **OC3 R5 glow points** on the Shade: the eye sits at the bloom level, the 3-phase median flips 0 / 1 (seen since v2.1).
+  Asset-side fix (eye energy a bit higher) or a hysteresis in R5.
+- **OC4 A2 on critters (headless only)**: the headless path runs `death_check` for critters, whose death is 4.8 s by
+  design (`DEATH_HOLD` 4 s corpse hold + fade), so A2 WARNs "never (3 s)"; the windowed critter strip never runs A2. Fix
+  (lab_runner / animation owner): skip A2 for critters or use the critter timeline.
+- **Missed alarm (not a false alarm):** R6 only FAILs at <= 0.1 % change, which a model with any pose / particle noise
+  never reaches: a frozen team colour is a WARN, never the FAIL the rule text promises. Fix (readability owner): subtract a
+  same-colour noise baseline (two instances in the same colour).
+
+**Runtime** (laptop, windowed, other agents running): 260-270 s in process for the 12 cases (~22 s / asset; the gun VFX
+45 s with 2 of its 5 ids, the Frost Dragon cases ~32 s because of 1.D's walk / preset passes); headless 105 s. The
+4 v3 additions of 1.D (R11 / R5w walk cycle, R5c, R6cb) cost ~+8 s per unit compared with the first run (~13 s / asset).
+
+**Changing a band:** only with the reason in this section (the bands are the lab's contract). When a check is added,
+add a planted case for it (a new `calib_plant.gd` mode) and one good case that must not trip it.
 

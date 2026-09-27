@@ -1,0 +1,13 @@
+{
+	"asset": "deer",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "critter",
+	"kingdom": "neutral",
+	"quality": 98.7,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/critters/deer.tscn",
+	"tier": "deer",
+	"version": "1.0"
+}

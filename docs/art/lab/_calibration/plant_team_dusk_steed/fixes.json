@@ -1,0 +1,48 @@
+{
+	"asset": "plant_team_dusk_steed",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R6",
+			"computed": false,
+			"measured": {
+				"value": "2% of body pixels change between kingdom colours (min pair 0%)"
+			},
+			"predicted": {},
+			"proposal": "Team-colour visibility at 40 m: Give the team colour more top-facing area (now 2% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 2% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"title": "Team-colour visibility at 40 m",
+			"wanted": {
+				"rule": ">= 6% (FAIL = set_team_color changes nothing)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair shadow / ice (deutan): dE 1.1 on the team-colour area (normal vision 1.4; 39 px); deutan: shadow / ice dE 1.1; protan: shadow / ice dE 1.2; worst vs ground: nature colour (deutan) dE 80.1"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 1.1): add a value step inside the team-colour area",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 1.1): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "shadow",
+	"quality": 93.7,
+	"result": "WARN",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

@@ -1,0 +1,188 @@
+{
+	"asset": "grove_stag",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#c7b085",
+					"material": "grove_stag_antler",
+					"material_path": "res://art/units/mounts/grove_stag/materials/grove_stag_antler.tres",
+					"node": "Root/Mount/Head/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#c5af85",
+					"weight": 0.08
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				2.2,
+				1.7,
+				2.6
+			],
+			"measured": {
+				"body_lab": [
+					54.2,
+					-7.7,
+					24.1
+				],
+				"dE": {
+					"R3 meadow": 25.7,
+					"R3t fire": 31.8,
+					"R3t ice": 31.8,
+					"R3t nature": 25.8,
+					"R3t shadow": 38.9,
+					"R4 ash": 41.4,
+					"R4 heath": 6.1,
+					"R4 marsh": 43.7,
+					"R4 riverbank": 25.2,
+					"R4 sand": 29.2,
+					"R4 snow": 42.6,
+					"R4k old_wood": 26.7
+				},
+				"ground_lab": [
+					62.4,
+					-23.3,
+					42.8
+				],
+				"melt_share": 0.16
+			},
+			"predicted": {
+				"R3 meadow": 25.7,
+				"R3t fire": 31.8,
+				"R3t ice": 31.8,
+				"R3t nature": 25.9,
+				"R3t shadow": 38.9,
+				"R4 ash": 41.3,
+				"R4 heath": 6.2,
+				"R4 marsh": 43.6,
+				"R4 riverbank": 25.0,
+				"R4 sand": 29.4,
+				"R4 snow": 42.7,
+				"R4k old_wood": 26.6
+			},
+			"proposal": "shader_parameter/base_color of `grove_stag_antler` #c7b085 -> #c5af85 (7% of the visible body): predicted dE R3 meadow 25.7 -> 25.7, R3t fire 31.8 -> 31.8, R3t shadow 38.9 -> 38.9, R3t ice 31.8 -> 31.8, R3t nature 25.8 -> 25.9, R4k old_wood 26.7 -> 26.6 (want >= 24); other grounds heath 6.2, riverbank 25.0, snow 42.7, ash 41.3, sand 29.4, marsh 43.6",
+			"rank": 1,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `grove_stag_antler` #c7b085 -> #c5af85 (7% of the visible body): predicted dE R3 meadow 25.7 -> 25.7, R3t fire 31.8 -> 31.8, R3t shadow 38.9 -> 38.9, R3t ice 31.8 -> 31.8, R3t nature 25.8 -> 25.9, R4k old_wood 26.7 -> 26.6 (want >= 24); other grounds heath 6.2, riverbank 25.0, snow 42.7, ash 41.3, sand 29.4, marsh 43.6",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.2,
+					"from": 1.0,
+					"material": "grove_stag_hide",
+					"material_path": "res://art/units/mounts/grove_stag/materials/grove_stag_hide.tres",
+					"node": "Root/Mount/LegBR/Merged, Root/Mount/Neck/Merged",
+					"param": "shader_parameter/crack_strength",
+					"to": 0.2,
+					"why": "dim under the bloom level: 2 point(s), peak 3.73 x the level",
+					"words": "crack_strength 1.0 -> 0.2 (dim under the bloom level: 2 point(s), peak 3.73 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 3,
+				"points_this_phase": 3,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Mount/LegBR/Merged",
+						"peak_x_bloom": 3.73,
+						"px": 52
+					},
+					{
+						"above": true,
+						"part": "Root/Mount/Head/Merged",
+						"peak_x_bloom": 3.73,
+						"px": 49
+					},
+					{
+						"above": true,
+						"part": "Root/Mount/Neck/Merged",
+						"peak_x_bloom": 3.73,
+						"px": 37
+					}
+				],
+				"value": "3 point(s) above the bloom level 1.2 (median of 3/3/3): Merged x3; soft glows under the bloom (v1 count, luma > 0.4): 2"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 3 -> 1 (want 0-2): grove_stag_hide crack_strength 1.0 -> 0.2 (dim under the bloom level: 2 point(s), peak 3.73 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 3 -> 1 (want 0-2): grove_stag_hide crack_strength 1.0 -> 0.2 (dim under the bloom level: 2 point(s), peak 3.73 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "0-2 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2684,
+					"node": "Root/Mount/Head/Merged",
+					"to": 1931,
+					"words": "`Merged` 2684 -> 1931 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 6717
+			},
+			"predicted": {
+				"verts": 5964
+			},
+			"proposal": "6717 -> 5964 (want <= 6000): `Merged` 2684 -> 1931 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 6717 -> 5964 (want <= 6000): `Merged` 2684 -> 1931 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 6000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.0 on the team-colour area (normal vision 48.3; 287 px); deutan: fire / nature dE 11.0; protan: fire / nature dE 17.5; worst vs ground: fire colour (deutan) dE 18.2"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.0): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.0): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "nature",
+	"quality": 88.3,
+	"result": "WARN",
+	"scene": "res://art/units/mounts/grove_stag/grove_stag.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

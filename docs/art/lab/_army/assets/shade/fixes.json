@@ -1,0 +1,48 @@
+{
+	"asset": "shade",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +8 (point 1 dL +8; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +8): darken around them or raise the energy",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +8): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 9.5 on the team-colour area (normal vision 70.6; 299 px); deutan: fire / nature dE 9.5; protan: fire / nature dE 20.5; worst vs ground: fire colour (deutan) dE 40.2"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.5): add a value step inside the team-colour area",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.5): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 96.6,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/shade.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

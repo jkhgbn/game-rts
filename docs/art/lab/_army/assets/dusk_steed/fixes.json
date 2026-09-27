@@ -1,0 +1,31 @@
+{
+	"asset": "dusk_steed",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R5w",
+			"computed": false,
+			"measured": {
+				"value": "points per frame 0/1/1/1/1/1/1/1 (median 1, range 1, 1 frame(s) at 0; at rest 1)"
+			},
+			"predicted": {},
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (0/1/1/1/1/1/1/1 per frame): put them on parts the gait does not cover",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (0/1/1/1/1/1/1/1 per frame): put them on parts the gait does not cover",
+			"title": "Glow points while walking (flicker)",
+			"wanted": {
+				"rule": "the glow-point count stays within +-1 over the walk cycle and never drops to 0 (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "shadow",
+	"quality": 97.7,
+	"result": "WARN",
+	"scene": "res://art/units/mounts/dusk_steed/dusk_steed.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

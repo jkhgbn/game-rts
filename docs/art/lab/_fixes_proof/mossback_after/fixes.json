@@ -1,0 +1,13 @@
+{
+	"asset": "mossback_after",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 93.4,
+	"result": "PASS",
+	"scene": "res://tools/art_lab/_fix_scratch/mossback_after.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

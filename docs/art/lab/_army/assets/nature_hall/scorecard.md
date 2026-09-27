@@ -1,0 +1,87 @@
+# Art Lab scorecard: nature_hall
+
+Scene `res://art/buildings/nature_hall.tscn` · kind **building** / tier **hall** · kingdom nature · ground meadow · 2026-09-27 10:06:46 · lab v2.0
+
+## Result: **FAIL** · quality **83 / 100**
+
+2 FAIL · 3 WARN · 15 PASS · 11 info · 0 skipped · 64 s
+
+## Improve next
+1. **Unique materials** (FAIL): B8 21 -> 9 materials: use one material for look-alike pairs: `StandardMaterial3D#-10823` -> `StandardMaterial3D#-24714` (dE 0.0), `StandardMaterial3D#-24714` -> `StandardMaterial3D#-16893` (dE 0.0), `StandardMaterial3D#-16893` -> `StandardMaterial3D#-34408` (dE 0.0), `StandardMaterial3D#-34408` -> `StandardMaterial3D#-5531` (dE 0.0), `Petal` -> `Blossom` (dE 10.6), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Moss` -> `DarkStone` (dE 23.9), `Stone` -> `DarkStone` (dE 24.8), `Leaves` -> `DarkStone` (dE 71.8), `StandardMaterial3D#-5531` -> `Void` (dE 97.0), `Blossom` -> `LeafCard` (dE 102.7) [fixes.json #1] _(from B8 Unique materials)_
+2. **Vertices** (FAIL): B4 12893 -> 11955 (want <= 12000): `Walls` 3067 -> 2129 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #2] _(from B4 Vertices)_
+3. **Glow points at 40 m** (WARN): Glow points 18 -> 4 (want 2-4): Banner glyph_energy 0.9 -> 0.15 (dim under the bloom level: 10 point(s), peak 4.55 x the level); Heart energy 2.5 -> 0.43 (dim under the bloom level: 4 point(s), peak 4.39 x the level) [fixes.json #3] _(from R5 Glow points at 40 m, shot glow)_
+4. **Materials built per instance** (WARN): B9 Materials built per instance: Share the 29 per-instance material(s) (static cache) so 200 units do not build 200 copies [fixes.json #4] _(from B9 Materials built per instance)_
+5. **Glow points stand out (1 m surround)** (WARN): R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +5): darken around them or raise the energy [fixes.json #5] _(from R5c Glow points stand out (1 m surround), shot glow)_
+6. **Contrast vs ground (meadow)** (PASS): Raise the contrast of the key read on meadow (dE 14.1): value is close to the ground (dL -5): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 5 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it _(from R3 Contrast vs ground (meadow), shot z40)_
+
+## Health (errors, allocations, hooks)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| H0 | Scene instantiates | PASS 100 | root Node3D, 37 nodes | instantiates without errors |  |
+| B9 | Materials built per instance | **WARN** 35 | 29 material(s), 5 mesh(es) not shared by a 2nd instance | 0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6) | Cache built materials / meshes in a static dictionary keyed by type (or save them as .tres / .res); per-unit looks go through instance uniforms |
+| B10 | Allocations after _ready (actions) | PASS 100 | 0 node(s) created, net +0, 2nd action cycle: 0 node(s), 0 new material(s) | 0: pre-built emitters restarted, instance uniforms for flashes (art-units 6.10); materials swapped from a cache are not new |  |
+| H1 | Errors from the asset while running | PASS 100 | 0 error(s), 0 warning(s) | 0 (its folder + the kit) |  |
+
+## Budgets
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| B1 | Meshes after the kit merge | INFO | 12 | no budget for building/hall |  |
+| B2 | Draw instances at rest | PASS 100 | 15 | <= 32 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B4 | Vertices | **FAIL** 13 | 12893 (biggest: Walls 3067, Hedge 2642, GroundDressing 2074, Frame 1805) | <= 12000 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) | Fewer segments (cylinders 6-8, spheres radial 10 / rings 5), no hidden faces |
+| B5 | Real lights | PASS 100 | 0 | <= 0 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B6 | Particle systems | INFO | 11 | no budget for building/hall |  |
+| B6l | Looping particle systems | INFO | 3 | no budget for building/hall |  |
+| B6p | Looping particles alive | PASS 100 | 28 | <= 90 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B7 | Shadow casters | INFO | 6 | no budget for building/hall |  |
+| B8 | Unique materials | **FAIL** 0 | 21 | <= 8 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) | Snap to the closed palette (art-units 2.2); no per-part materials |
+| B1a | Authored build parts (before the merge) | INFO | 19 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes) |  |
+| B11 | Surfaces per instance | INFO | 34 surfaces over 12 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
+| B12 | Downward-facing triangles | INFO | 1877 of 11974 triangles (15%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
+
+## Readability at 40 m
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| R9 | Ground contact | PASS 100 | lowest point -0.41 m | touches the ground (<= 0.05 m) and sinks < 1 m (art-keep 0.1 / 0.5) |  |
+| R1 | Silhouette area at 40 m | PASS 100 | 47690 px (279 x 337 bbox; 55 m: 23393 px) | >= 5000 px (FAIL < 2000) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | PASS 82 | mean-colour dE 14.1, 4% of the body melts (within dE 15 of the ground); body L* 52.1 C 36.0 vs ground L* 57.6 C 48.3, hue gap 5 deg; top third (world height) dE 20.1, L* 69.6; per-pixel dE 40.2, outline 22.7 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 8 or > 60 % melting): the body must not melt into the grass |  |
+| R4k | Contrast on the home ground (old_wood) | PASS 100 | dE 28.5, 15% melts (old_wood is where nature units stand most) | dE >= 14 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
+| R4 | Contrast on the other grounds | PASS 81 | worst heath: dE 11.0 (heath dE 11.0, old_wood dE 28.5, riverbank dE 23.9, snow dE 49.9, ash dE 46.5, sand dE 33.4, marsh dE 46.9) | dE >= 8 on every skirmish ground (WARN only) |  |
+| R6 | Team-colour visibility at 40 m | PASS 100 | 50% of body pixels change between kingdom colours (min pair 49%) | >= 3% (FAIL = set_team_color changes nothing) |  |
+| R3t | Contrast in every team colour (meadow) | PASS 86 | worst nature colour: dE 14.3 (fire 51.0, shadow 64.4, ice 40.4, nature 14.3) | dE >= 14 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
+| R6cb | Team colours for colour-blind players | PASS 77 | worst pair fire / nature (deutan): dE 14.8 on the team-colour area (normal vision 75.9; 25900 px); deutan: fire / nature dE 14.8; protan: fire / nature dE 26.1; worst vs ground: nature colour (deutan) dE 9.1 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only) |  |
+| R5c | Glow points stand out (1 m surround) | **WARN** 59 | worst dL +5 (point 1 dL +5, point 2 dL +36, point 3 dL +27, point 4 dL +32, point 5 dL +40, point 6 dL +29, point 7 dL +27, point 8 dL +64, point 9 dL +22, point 10 dL +29, point 11 dL +30, point 12 dL +31, point 13 dL +41, point 14 dL +33, point 15 dL +54, point 16 dL +57, point 17 dL +38, point 18 dL +51, soft 1 dL +39 (counts), soft 2 dL +31 (counts), soft 3 dL +40 (counts), soft 4 dL +38 (counts), soft 5 dL +54 (counts), soft 6 dL +43 (counts), soft 7 dL +51 (counts), soft 8 dL +50 (counts), soft 9 dL +24 (counts), soft 10 dL +14, soft 11 dL +61 (counts), soft 12 dL +43 (counts), soft 13 dL +20 (counts), soft 14 dL +15, soft 15 dL +18 (counts), soft 16 dL +7, soft 17 dL +15, soft 18 dL +34 (counts), soft 19 dL -15, soft 20 dL +12, soft 21 dL +19 (counts), soft 22 dL +0, soft 23 dL +21 (counts), soft 24 dL +17, soft 25 dL +24 (counts), soft 26 dL -15, soft 27 dL +21 (counts), soft 28 dL +28 (counts), soft 29 dL +20 (counts), soft 30 dL +17, soft 31 dL -1; ring 27 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only) | A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim) |
+| R5 | Glow points at 40 m | **WARN** 49 | 18 point(s) above the bloom level 1.2 (median of 18/18/15): Petals, BannersGate x5, HedgeLost, BannersSide x8, Lantern, Hedge x2, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 37 | 2-4 above the bloom level (art-units 1.4 / art-keep 0.4) | Too many glow points read as noise: merge them or dim the small ones below the bloom level (1.2): Petals, BannersGate x5, HedgeLost, BannersSide x8, Lantern, Hedge x2 |
+
+## Animation
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| A1 | Standard hooks | PASS 100 | all 5 present | set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed |  |
+
+## Polish (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| P1 | Silhouette hook | INFO 100 | outline complexity 5.14 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 100 | top third L* 69.6, bottom third L* 33.5 (+36, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 6.3 at 25 m, 8.9 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| P5 | Glow placement | INFO 78 | 7 of 18 glow(s) in the upper half of the model's height (world) | one glow high (head / weapon / crest) reads over crowds |  |
+
+## Shots
+- z40: [z40.jpg](z40.jpg)
+- z55: [z55.jpg](z55.jpg)
+- z25: [z25.jpg](z25.jpg)
+- close: [close.jpg](close.jpg)
+- turns: [turns.jpg](turns.jpg)
+- anim: [anim.jpg](anim.jpg)
+- contact_sheet: [contact_sheet.png](contact_sheet.png)
+
+## Budget used (`tools/art_lab/lab_budgets.gd`, art-keep.md 9 numbers, step-12/13 rules: 0 lights)
+`{"draw":32,"frame_ms":0.05,"lights":0,"materials":8,"n":8,"particles":90,"soft":{"runtime_mats":0},"src":"art-keep.md 9 numbers, step-12/13 rules: 0 lights","verts":12000}`
+
+## Notes
+- Per-mesh vertices (biggest first): Body/Walls 3067 v / 4 s; Body/Hedge 2642 v / 6 s; GroundDressing 2074 v / 3 s; Body/Frame 1805 v / 3 s; Body/Tree/TreeCrown 1474 v / 4 s; Body/Tree/Bloom 584 v / 3 s; Body/PlinthBase 526 v / 3 s; Body/HedgeLost 238 v / 3 s
+- 7 hidden parts at rest (toggled states, not counted as draws)
+- 21 materials are built in code (fine when cached per type: see B9)
+- terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist
+- quick=1: light-preset sweep (R12) and style bible (S1) skipped
+- quick=1: references (R2) and frame cost (B13) skipped
+- Fix recipes: 5 in fixes.json (top: B8 21 -> 9 materials: use one material for look-alike pairs: `StandardMaterial3D#-10823` -> `StandardMaterial3D#-24714` (dE 0.0), `StandardMaterial3D#-24714` ->)

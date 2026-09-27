@@ -1,0 +1,80 @@
+{
+	"asset": "coin_cutter",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 41.8,
+					"material": "coin_cutter_burgundy",
+					"material_path": "res://art/units/champions/coin_cutter/coin_cutter_burgundy.tres",
+					"to": "coin_cutter_charcoal",
+					"to_path": "res://art/units/champions/coin_cutter/coin_cutter_charcoal.tres"
+				},
+				{
+					"albedo_dE": 66.0,
+					"material": "coin_cutter_brass",
+					"material_path": "res://art/units/champions/coin_cutter/coin_cutter_brass.tres",
+					"to": "coin_cutter_charcoal",
+					"to_path": "res://art/units/champions/coin_cutter/coin_cutter_charcoal.tres"
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 7
+			},
+			"predicted": {
+				"materials": 5
+			},
+			"proposal": "7 -> 5 materials: use one material for look-alike pairs: `coin_cutter_burgundy` -> `coin_cutter_charcoal` (dE 41.8), `coin_cutter_brass` -> `coin_cutter_charcoal` (dE 66.0)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 7 -> 5 materials: use one material for look-alike pairs: `coin_cutter_burgundy` -> `coin_cutter_charcoal` (dE 41.8), `coin_cutter_brass` -> `coin_cutter_charcoal` (dE 66.0)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 682,
+					"node": "Root/Chest/Merged",
+					"to": 341,
+					"words": "`Merged` 682 -> 341 verts"
+				},
+				{
+					"from": 557,
+					"node": "Root/Chest/Head/Merged",
+					"to": 525,
+					"words": "`Merged` 557 -> 525 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3355
+			},
+			"predicted": {
+				"verts": 2982
+			},
+			"proposal": "3355 -> 2982 (want <= 3000): `Merged` 682 -> 341 verts; `Merged` 557 -> 525 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 3355 -> 2982 (want <= 3000): `Merged` 682 -> 341 verts; `Merged` 557 -> 525 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.5,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/coin_cutter/coin_cutter.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

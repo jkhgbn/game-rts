@@ -7,6 +7,9 @@ extends RefCounted
 
 const OTHER_GROUNDS: Array[StringName] = [&"meadow", &"heath", &"old_wood", &"riverbank", &"snow", &"ash", &"sand", &"marsh"]
 
+## Art Lab v3 1.D checks (R11 / R5w / R5c / R6cb / R12 / S1, flyer wing-phase match for R2) and their thresholds
+## live in checks/read_v3.gd (ArtLabCheckReadV3); this pass calls them at their place.
+
 
 static func check_geometry(ctx: ArtLabRunner) -> void:
 	var vb: Dictionary = ctx.m.get("bounds", {})
@@ -110,6 +113,10 @@ static func read_40(ctx: ArtLabRunner) -> void:
 	ctx.m["mask40"] = mask
 	ctx.m["roi40"] = roi
 	var lit: Image = await ctx.stage.grab()
+	ctx.m["lit40"] = lit
+	if not ctx.m.has("terrain_note"):
+		ctx.m["terrain_note"] = true
+		ctx.rep.notes.append(ctx.stage.terrain_note())
 	ctx.m["hgt40"] = await ArtLabShots.height_pass(ctx, ctx.target)
 	ctx.holder.visible = false
 	var bg: Image = await ctx.stage.grab()
@@ -148,7 +155,7 @@ static func read_40(ctx: ArtLabRunner) -> void:
 	var lines: Array[String] = []
 	var home := {}
 	for g: StringName in OTHER_GROUNDS:
-		if g == ctx.ground_id:
+		if g == ctx.ground_id or not ctx.wants(["R4", "R4k"]):   # v3 focus= (1.B): skip the other grounds
 			continue
 		# Same camera offset and frozen pose: the model lands on the same pixels, so roi and mask are reused.
 		var p: Vector3 = ArtLabStage.GROUND_POINTS[g]
@@ -163,6 +170,7 @@ static func read_40(ctx: ArtLabRunner) -> void:
 		if int(cg.get("n", 0)) == 0:
 			continue
 		lines.append("%s dE %s" % [g, ctx.fmt(float(cg["de_means"]))])
+		(ctx.m.get_or_add("fix_grounds", {}) as Dictionary)[String(g)] = cg   # v3 1.A hook: lab_fixes.gd colour recipe
 		if g == ArtLabBudgets.KINGDOM_GROUND.get(ctx.kingdom, &""):
 			home = cg
 		if worst.is_empty() or float(cg["de_means"]) < float(worst["de_means"]):
@@ -195,9 +203,15 @@ static func read_40(ctx: ArtLabRunner) -> void:
 			ctx.add_tile(ctx.m["worst_ground_img"], "40 m on %s (worst ground)" % worst_g)
 	# R5 glow points at the bloom level, phase 1 of 3 (same frozen pose as the mask); phases 2-3 at the end of _read_40
 	var gstate := {"phases": [], "roi": roi, "mask": mask}
-	await glow_phase(ctx, gstate, mask, ctx.m.get("hgt40", null))
+	if ctx.wants(["R5", "R5c", "P5"]):   # v3 focus= (1.B) guards: ctx.wants is always true in a full run
+		await glow_phase(ctx, gstate, mask, ctx.m.get("hgt40", null))
+		# v3 1.A hook (fix recipes, lab_fixes.gd): unclipped glow peaks + part boxes + material weights of this pose
+		var fx_s: Script = (load("res://tools/art_lab/lab_fixes.gd") as Script) if ResourceLoader.exists("res://tools/art_lab/lab_fixes.gd") else null
+		if fx_s != null and fx_s.has_method(&"capture_40") and String(ctx.opts.get("fixes", "1")) != "0":
+			await fx_s.call(&"capture_40", ctx, roi, mask)
 	# R6 team colour
-	await team_pass(ctx, rules, roi, mask)
+	if ctx.wants(["R6", "R3t", "R6cb"]):
+		await team_pass(ctx, rules, roi, mask)
 	# R7 HP bar
 	if rules.has("bar_warn") and ctx.body_height > 0.0:
 		var bw := maxf(1.0, ctx.radius * 2.6)
@@ -221,10 +235,12 @@ static func read_40(ctx: ArtLabRunner) -> void:
 			"Keep tall parts under body_height + 0.4 or narrower than 0.35 m, or raise body_height to the real head top",
 			ArtLabScore.grade(covered, bfail, 0.0), "" if st7 == "PASS" else "The HP bar hides %d%% of the body: lower / narrow what sticks up, or fix body_height" % int(covered * 100.0), "z40")
 	# A3 attack pose change at 40 m (animation.gd), then the polish checks P1 / P3 / P4 (polish.gd)
-	await ArtLabCheckAnim.attack_reads(ctx, rules, roi, mask)
-	await ArtLabCheckPolish.shape_value_detail(ctx, lit, roi, mask, box)
+	if ctx.wants(["A3"]):
+		await ArtLabCheckAnim.attack_reads(ctx, rules, roi, mask)
+	if ctx.wants(["P1", "P3", "P4"]):
+		await ArtLabCheckPolish.shape_value_detail(ctx, lit, roi, mask, box)
 	# R5 glow phases 2-3 (idle moves on 0.37 s each; drifting motes and flickers are judged by the median)
-	for ph_i: int in 2:
+	for ph_i: int in (2 if ctx.wants(["R5", "R5c", "P5"]) else 0):
 		ArtLabStage.freeze(ctx.target, false)
 		await ctx.wait(0.37)
 		ArtLabStage.freeze(ctx.target, true)
@@ -232,6 +248,17 @@ static func read_40(ctx: ArtLabRunner) -> void:
 		var mk := ArtLabImage.sil_mask(await ArtLabShots.sil(ctx, ctx.target), roi)
 		await glow_phase(ctx, gstate, mk if mk.count > 0 else mask, null)
 	glow_report(ctx, gstate, rules)
+	# v3 1.D: light-preset sweep (R12) and the style bible (S1) on the rest pose, then the walk cycle (R11 / R5w)
+	var rest := ArtLabImage.sil_mask(await ArtLabShots.sil(ctx, ctx.target), roi)
+	if ctx.opts.get("quick", "0") != "1":
+		if ctx.wants(["R12"]):
+			await ArtLabCheckReadV3.preset_sweep(ctx, rules, roi, rest if rest.count > 0 else mask)
+		if ctx.wants(["S1"]):
+			await ArtLabCheckReadV3.style_bible(ctx, rules, roi, rest if rest.count > 0 else mask)
+	else:
+		ctx.rep.notes.append("quick=1: light-preset sweep (R12) and style bible (S1) skipped")
+	if ctx.wants(["R11", "R5w"]):
+		await ArtLabCheckReadV3.walk_reads(ctx, rules, box, int(gstate.get("n_hot", 0)))
 	ArtLabStage.freeze(ctx.target, false)
 
 
@@ -280,6 +307,20 @@ static func add_contrast(ctx: ArtLabRunner, id: String, gname: String, con: Dict
 ## lights off. Clusters <= 4 px on the silhouette outline are a painted rim light, not glow points.
 static func glow_phase(ctx: ArtLabRunner, gs: Dictionary, mask: ArtLabImage.Mask, hgt: Variant) -> void:
 	var roi: Rect2i = gs["roi"]
+	var frames: Array[Image] = await hot_frames(ctx, (gs["phases"] as Array).is_empty())
+	var hot: Image = frames[0]
+	var dark: Image = frames[1] if frames.size() > 1 else null
+	var ph := classify_glow(hot, roi, mask)
+	if dark != null:
+		ph["dark"] = dark
+		if hgt is Image:
+			ph["hgt"] = hgt
+	(gs["phases"] as Array).append(ph)
+
+
+## The "hot" frame (emission only, no bloom, 255 = the bloom level) of the target as it stands, with its own lights
+## and flat decals off; + the "dark" frame (emission with bloom) when `with_dark`. Returns [hot] or [hot, dark].
+static func hot_frames(ctx: ArtLabRunner, with_dark: bool) -> Array[Image]:
 	var off: Array[Node3D] = []
 	for ln: Node in ctx.target.find_children("*", "Light3D", true, false):
 		if (ln as Light3D).visible:
@@ -289,15 +330,21 @@ static func glow_phase(ctx: ArtLabRunner, gs: Dictionary, mask: ArtLabImage.Mask
 		if gi.visible and ArtLabCensus.is_flat_decal(gi, ctx.ground_y):
 			off.append(gi)
 			gi.visible = false
+	var out: Array[Image] = []
 	ctx.stage.set_mode(&"hot")
-	var hot: Image = await ctx.stage.grab()
-	var dark: Image = null
-	if (gs["phases"] as Array).is_empty():
+	out.append(await ctx.stage.grab())
+	if with_dark:
 		ctx.stage.set_mode(&"dark")
-		dark = await ctx.stage.grab()
+		out.append(await ctx.stage.grab())
 	ctx.stage.set_mode(&"lit")
 	for n: Node3D in off:
 		n.visible = true
+	return out
+
+
+## Glow clusters of a hot frame split into points / painted rim specks (<= 4 px on the outline) / glowing surfaces
+## (> 15 % of the body). Cluster centres in ROI px as "mx" / "my".
+static func classify_glow(hot: Image, roi: Rect2i, mask: ArtLabImage.Mask) -> Dictionary:
 	var groi := ArtLabImage.clamp_rect(roi, 10, ArtLabStage.W, ArtLabStage.H)
 	var dx := groi.position.x - roi.position.x
 	var dy := groi.position.y - roi.position.y
@@ -318,12 +365,7 @@ static func glow_phase(ctx: ArtLabRunner, gs: Dictionary, mask: ArtLabImage.Mask
 			c0["rim"] = true
 		else:
 			pts.append(c0)
-	var ph := {"points": pts, "rim": rim, "surfaces": surfaces, "all": all_cl}
-	if dark != null:
-		ph["dark"] = dark
-		if hgt is Image:
-			ph["hgt"] = hgt
-	(gs["phases"] as Array).append(ph)
+	return {"points": pts, "rim": rim, "surfaces": surfaces, "all": all_cl}
 
 
 ## Median of the glow phases -> R5 (+ per-part report) and P5 (world height).
@@ -376,16 +418,31 @@ static func glow_report(ctx: ArtLabRunner, gs: Dictionary, rules: Dictionary) ->
 		ctxt.append(str(v))
 	# soft glows: v1's count (luma > 0.4 on the bloom render) for information, e.g. sap veins under the bloom level
 	var soft := -1
+	var soft_cl: Array[Dictionary] = []
+	var groi := ArtLabImage.clamp_rect(roi, 10, ArtLabStage.W, ArtLabStage.H)
 	if p0.has("dark"):
-		soft = ArtLabImage.glow_clusters(p0["dark"], ArtLabImage.clamp_rect(roi, 10, ArtLabStage.W, ArtLabStage.H), 0.4, 3, 2).size()
+		soft_cl = ArtLabImage.glow_clusters(p0["dark"], groi, 0.4, 3, 2)
+		soft = soft_cl.size()
+	# v3 1.D (e): every point must stand out from its 1 m surround in the lit frame (R5c); Nature's soft sap glows that
+	# pass the same local contrast count as glow points for the nature kingdom (user pre-approval, v3 plan defaults)
+	var soft_ok := ArtLabCheckReadV3.glow_contrast(ctx, gs, p0, soft_cl, groi)
+	var n_eff := n_glow
+	if ctx.kingdom == &"nature" and n_glow < gr.x and soft_ok > 0:
+		n_eff = n_glow + soft_ok
+		if n_eff >= gr.x and st5 != "PASS":
+			st5 = "PASS" if n_eff <= gr.y else "WARN"
+	gs["n_glow"] = n_eff
+	gs["n_hot"] = n_glow   # points above the bloom level only (R5w compares the walk frames with this)
 	var gtxt := "%d point(s) above the bloom level %s (median of %s)%s%s%s" % [n_glow, ctx.fmt(ctx.stage.glow_level, 2),
 		"/".join(ctxt), (": " + ", ".join(plist)) if not plist.is_empty() else "",
 		(", + %d glowing surface(s)" % surfaces) if surfaces > 0 else "",
 		(", %d rim-light speck(s) ignored" % rim) if rim > 0 else ""]
 	if soft >= 0:
 		gtxt += "; soft glows under the bloom (v1 count, luma > 0.4): %d" % soft
+	if n_eff != n_glow:
+		gtxt += "; + %d Nature soft glow(s) that stand out from their 1 m surround count as points (R5c)" % soft_ok
 	var ghint := ""
-	if n_glow < gr.x:
+	if n_eff < gr.x:
 		ghint = "Add a glow point (eyes / rune / weapon, emission >= 2.5 so the bloom carries it)"
 		if soft > 0:
 			ghint += "; %d soft glow(s) sit under the bloom level: raise one to emission >= %s" % [soft, ctx.fmt(ctx.stage.glow_level * 2.0, 1)]
@@ -459,6 +516,7 @@ static func team_pass(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask: A
 			if int(ct.get("n", 0)) == 0:
 				continue
 			tl.append("%s %s" % [names[i2], ctx.fmt(float(ct["de_means"]))])
+			(ctx.m.get_or_add("fix_team", {}) as Dictionary)[names[i2]] = ct   # v3 1.A hook: lab_fixes.gd colour recipe
 			if float(ct["de_means"]) < worst_de:
 				worst_de = float(ct["de_means"])
 				worst_k = names[i2]
@@ -475,6 +533,7 @@ static func team_pass(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask: A
 	for img: Image in imgs:
 		crops.append(ctx.crop(img, Vector2(roi.get_center()), Vector2i(maxi(roi.size.x * 2, 200), 112)))
 	ctx.add_tile(ArtLabImage.grid(crops, 2, 400, 225), "team colours at 40 m: fire / shadow / ice / nature")
+	ArtLabCheckReadV3.colour_blind(ctx, imgs, roi, mask, rules)
 
 
 static func references(ctx: ArtLabRunner) -> void:
@@ -498,6 +557,8 @@ static func references(ctx: ArtLabRunner) -> void:
 	ctx.holder.rotation.y = 0.0
 	var tlit: Image = await ctx.stage.grab()
 	var tlab := ArtLabImage.mean_lab(tlit, roi, tmask[0])
+	var tflap := ArtLabCheckReadV3.flap_state(ctx.target)   # v3 1.D (c): the target's wing phase (frozen) for flyer references
+	var matched: Array[String] = []
 	ctx.holder.rotation.y = deg_to_rad(ArtLabRunner.MAIN_YAW)
 	ArtLabStage.freeze(ctx.target, false)
 	# P2 asymmetry of the front view (polish.gd)
@@ -515,6 +576,10 @@ static func references(ctx: ArtLabRunner) -> void:
 		await ctx.frames(2)
 		await ctx.settle(rm)
 		ArtLabStage.freeze(rm, true)
+		if not tflap.is_empty():
+			var resid: float = await ArtLabCheckReadV3.match_flap(ctx, rm, tflap)
+			if resid >= 0.0:
+				matched.append("%s %s" % [rp.get_file().get_basename(), ctx.fmt(resid, 2)])
 		var ious: Array[float] = []
 		var rmask0: ArtLabImage.Mask = null
 		for i: int in yaws.size():
@@ -551,6 +616,10 @@ static func references(ctx: ArtLabRunner) -> void:
 			hint = "Reads like %s at 40 m (IoU %s, colour dE %s): change the silhouette hook (a different vertical, weapon, head shape)" % [top["name"], ctx.fmt(float(top["iou"]), 2), ctx.fmt(float(top["de"]))]
 		else:
 			value += "; same shape family as %s but told apart by colour (dE %s)" % [top["name"], ctx.fmt(float(top["de"]))]
+	if not matched.is_empty():
+		value += "; wing phase matched to the target's (p %s; residual per flyer ref: %s)" % [ctx.fmt(float(tflap["p"]), 2), ", ".join(matched)]
+	elif not tflap.is_empty():
+		value += "; flyer: no flyer reference to phase-match"
 	ctx.rep.add("R2", "read", "Distinct from references (black masks)", st, value,
 		"IoU <= %s vs every reference (4 turns, 40 m), else colour must differ (dE >= 15)" % ctx.fmt(lim, 2), hint,
 		ArtLabScore.grade(float(top.get("iou", 0.0)), 0.9, 0.45),

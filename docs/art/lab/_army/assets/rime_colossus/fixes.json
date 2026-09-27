@@ -1,0 +1,64 @@
+{
+	"asset": "rime_colossus",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.8,
+					"node": "res://data/units/rime_colossus.tres",
+					"param": "radius",
+					"to": 0.81
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.8,
+				"x_m": 1.42,
+				"z_m": 1.14
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.8 -> 0.81, or pull the widest parts in to x <= 1.4 / z <= 1.4 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.8 -> 0.81, or pull the widest parts in to x <= 1.4 / z <= 1.4 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.4",
+				"z_m": "<= 1.4"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +1 (point 1 dL +36, point 2 dL +1; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +1): darken around them or raise the energy",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +1): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 94.0,
+	"result": "WARN",
+	"scene": "res://art/units/ice/rime_colossus.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

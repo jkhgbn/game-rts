@@ -1,0 +1,133 @@
+{
+	"asset": "caravan",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1710,
+					"node": "Root/Chest/Merged",
+					"to": 855,
+					"words": "`Merged` 1710 -> 855 verts"
+				},
+				{
+					"from": 902,
+					"node": "Root/Mount/Merged",
+					"to": 451,
+					"words": "`Merged` 902 -> 451 verts"
+				},
+				{
+					"from": 582,
+					"node": "Root/Hips/Merged",
+					"to": 291,
+					"words": "`Merged` 582 -> 291 verts"
+				},
+				{
+					"from": 427,
+					"node": "Root/Mount/Head/Merged",
+					"to": 214,
+					"words": "`Merged` 427 -> 214 verts"
+				},
+				{
+					"from": 295,
+					"node": "Root/Chest/Head/Merged",
+					"to": 148,
+					"words": "`Merged` 295 -> 148 verts"
+				},
+				{
+					"from": 231,
+					"node": "Root/Chest/Lantern",
+					"to": 116,
+					"words": "`Lantern` 231 -> 116 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegFL/Merged",
+					"to": 56,
+					"words": "`Merged` 111 -> 56 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegFR/Merged",
+					"to": 56,
+					"words": "`Merged` 111 -> 56 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegBL/Merged",
+					"to": 56,
+					"words": "`Merged` 111 -> 56 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegBR/Merged",
+					"to": 89,
+					"words": "`Merged` 111 -> 89 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4651
+			},
+			"predicted": {
+				"verts": 2392
+			},
+			"proposal": "4651 -> 2392 (want <= 2500): `Merged` 1710 -> 855 verts; `Merged` 902 -> 451 verts; `Merged` 582 -> 291 verts; `Merged` 427 -> 214 verts; `Merged` 295 -> 148 verts; `Lantern` 231 -> 116 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 89 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 4651 -> 2392 (want <= 2500): `Merged` 1710 -> 855 verts; `Merged` 902 -> 451 verts; `Merged` 582 -> 291 verts; `Merged` 427 -> 214 verts; `Merged` 295 -> 148 verts; `Lantern` 231 -> 116 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 89 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5",
+			"computed": false,
+			"measured": {
+				"points": 0,
+				"points_this_phase": 0,
+				"spots": [],
+				"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 1"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-3 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A3",
+			"computed": false,
+			"measured": {
+				"value": "strike pose changes 0% of the silhouette (t 0.24 s)"
+			},
+			"predicted": {},
+			"proposal": "Attack reads at 40 m: Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 0%)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "A3 Attack reads at 40 m: Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 0%)",
+			"title": "Attack reads at 40 m",
+			"wanted": {
+				"rule": ">= 12% (1 - IoU rest vs strike)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.3,
+	"result": "FAIL",
+	"scene": "res://art/units/caravan/caravan.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

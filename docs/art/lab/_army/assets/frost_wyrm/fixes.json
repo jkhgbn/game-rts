@@ -1,0 +1,119 @@
+{
+	"asset": "frost_wyrm",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.18,
+					"from": 1.0,
+					"material": "wyrm_scale_a",
+					"material_path": "res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_scale_a.tres",
+					"node": "Root/Spine/BodyMesh, Root/Body/LegFL/LegFLMesh, Root/Body/LegFR/LegFRMesh",
+					"param": "shader_parameter/glow_energy",
+					"to": 0.18,
+					"why": "dim under the bloom level: 3 point(s), peak 4.17 x the level",
+					"words": "glow_energy 1.0 -> 0.18 (dim under the bloom level: 3 point(s), peak 4.17 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 6,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Spine/BodyMesh",
+						"peak_x_bloom": 4.17,
+						"px": 66
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/HeadMesh",
+						"peak_x_bloom": 3.2,
+						"px": 30
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/HeadMesh",
+						"peak_x_bloom": 3.2,
+						"px": 21
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFL/LegFLMesh",
+						"peak_x_bloom": 4.14,
+						"px": 16
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFR/LegFRMesh",
+						"peak_x_bloom": 3.07,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
+						"peak_x_bloom": 4.86,
+						"px": 6
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 5/4/6): BodyMesh, HeadMesh x2, LegFLMesh, LegFRMesh, 5 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 3"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 5 -> 2 (want 0-3): wyrm_scale_a glow_energy 1.0 -> 0.18 (dim under the bloom level: 3 point(s), peak 4.17 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 5 -> 2 (want 0-3): wyrm_scale_a glow_energy 1.0 -> 0.18 (dim under the bloom level: 3 point(s), peak 4.17 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "0-3 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +9 (point 1 dL +40, point 2 dL +9, point 3 dL +15, point 4 dL +25, point 5 dL +26; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +9): darken around them or raise the energy",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +9): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 90.3,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/beasts/frost_wyrm/frost_wyrm.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

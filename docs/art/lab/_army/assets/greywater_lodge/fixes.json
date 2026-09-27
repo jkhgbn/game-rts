@@ -1,0 +1,257 @@
+{
+	"asset": "greywater_lodge",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 21865,
+					"node": "Structure",
+					"to": 10933,
+					"words": "`Structure` 21865 -> 10933 verts"
+				},
+				{
+					"from": 861,
+					"node": "Hound/HoundMesh",
+					"to": 431,
+					"words": "`HoundMesh` 861 -> 431 verts"
+				},
+				{
+					"from": 480,
+					"node": "Rubble",
+					"to": 240,
+					"words": "`Rubble` 480 -> 240 verts"
+				},
+				{
+					"from": 324,
+					"node": "LanternPivot/Lantern",
+					"to": 162,
+					"words": "`Lantern` 324 -> 162 verts"
+				},
+				{
+					"from": 288,
+					"node": "ContactDecal",
+					"to": 144,
+					"words": "`ContactDecal` 288 -> 144 verts"
+				},
+				{
+					"from": 201,
+					"node": "DoorPivot/DoorLeaf",
+					"to": 101,
+					"words": "`DoorLeaf` 201 -> 101 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 24101
+			},
+			"predicted": {
+				"verts": 12093
+			},
+			"proposal": "24101 -> 12093 (want <= 12000): `Structure` 21865 -> 10933 verts; `HoundMesh` 861 -> 431 verts; `Rubble` 480 -> 240 verts; `Lantern` 324 -> 162 verts; `ContactDecal` 288 -> 144 verts; `DoorLeaf` 201 -> 101 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 24101 -> 12093 (want <= 12000): `Structure` 21865 -> 10933 verts; `HoundMesh` 861 -> 431 verts; `Rubble` 480 -> 240 verts; `Lantern` 324 -> 162 verts; `ContactDecal` 288 -> 144 verts; `DoorLeaf` 201 -> 101 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-90308",
+					"material_path": "",
+					"to": "StandardMaterial3D#-30905",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-27004",
+					"material_path": "",
+					"to": "StandardMaterial3D#-30905",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-9269",
+					"material_path": "",
+					"to": "StandardMaterial3D#-30905",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-56068",
+					"material_path": "",
+					"to": "StandardMaterial3D#-30905",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-47200",
+					"material_path": "",
+					"to": "StandardMaterial3D#-30905",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-80083",
+					"material_path": "",
+					"to": "StandardMaterial3D#-30905",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 3.4,
+					"material": "ShaderMaterial#-18735",
+					"material_path": "",
+					"to": "ShaderMaterial#-50478",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 3.7,
+					"material": "ShaderMaterial#-9881",
+					"material_path": "",
+					"to": "ShaderMaterial#-50478",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 5.8,
+					"material": "ShaderMaterial#-55655",
+					"material_path": "",
+					"to": "ShaderMaterial#-73215",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 6.4,
+					"material": "ShaderMaterial#-96093",
+					"material_path": "",
+					"to": "ShaderMaterial#-27551",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 6.7,
+					"material": "ShaderMaterial#-78176",
+					"material_path": "",
+					"to": "ShaderMaterial#-27551",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 9.1,
+					"material": "ShaderMaterial#-32519",
+					"material_path": "",
+					"to": "ShaderMaterial#-35",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 9.1,
+					"material": "ShaderMaterial#-35",
+					"material_path": "",
+					"to": "ShaderMaterial#-50478",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 12.2,
+					"material": "ShaderMaterial#-41352",
+					"material_path": "",
+					"to": "ShaderMaterial#-50478",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 20.0,
+					"material": "ShaderMaterial#-64127",
+					"material_path": "",
+					"to": "ShaderMaterial#-73215",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 21.4,
+					"material": "ShaderMaterial#-73215",
+					"material_path": "",
+					"to": "ShaderMaterial#-50478",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 29.5,
+					"material": "ShaderMaterial#-87144",
+					"material_path": "",
+					"to": "ShaderMaterial#-50478",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 31.4,
+					"material": "ShaderMaterial#-50478",
+					"material_path": "",
+					"to": "ShaderMaterial#-27551",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 69.9,
+					"material": "ShaderMaterial#-19812",
+					"material_path": "",
+					"to": "ShaderMaterial#-92083",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 27
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "27 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-90308` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-27004` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-9269` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-56068` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-47200` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-80083` -> `StandardMaterial3D#-30905` (dE 0.0), `ShaderMaterial#-18735` -> `ShaderMaterial#-50478` (dE 3.4), `ShaderMaterial#-9881` -> `ShaderMaterial#-50478` (dE 3.7), `ShaderMaterial#-55655` -> `ShaderMaterial#-73215` (dE 5.8), `ShaderMaterial#-96093` -> `ShaderMaterial#-27551` (dE 6.4), `ShaderMaterial#-78176` -> `ShaderMaterial#-27551` (dE 6.7), `ShaderMaterial#-32519` -> `ShaderMaterial#-35` (dE 9.1), `ShaderMaterial#-35` -> `ShaderMaterial#-50478` (dE 9.1), `ShaderMaterial#-41352` -> `ShaderMaterial#-50478` (dE 12.2), `ShaderMaterial#-64127` -> `ShaderMaterial#-73215` (dE 20.0), `ShaderMaterial#-73215` -> `ShaderMaterial#-50478` (dE 21.4), `ShaderMaterial#-87144` -> `ShaderMaterial#-50478` (dE 29.5), `ShaderMaterial#-50478` -> `ShaderMaterial#-27551` (dE 31.4), `ShaderMaterial#-19812` -> `ShaderMaterial#-92083` (dE 69.9)",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B8 27 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-90308` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-27004` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-9269` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-56068` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-47200` -> `StandardMaterial3D#-30905` (dE 0.0), `StandardMaterial3D#-80083` -> `StandardMaterial3D#-30905` (dE 0.0), `ShaderMaterial#-18735` -> `ShaderMaterial#-50478` (dE 3.4), `ShaderMaterial#-9881` -> `ShaderMaterial#-50478` (dE 3.7), `ShaderMaterial#-55655` -> `ShaderMaterial#-73215` (dE 5.8), `ShaderMaterial#-96093` -> `ShaderMaterial#-27551` (dE 6.4), `ShaderMaterial#-78176` -> `ShaderMaterial#-27551` (dE 6.7), `ShaderMaterial#-32519` -> `ShaderMaterial#-35` (dE 9.1), `ShaderMaterial#-35` -> `ShaderMaterial#-50478` (dE 9.1), `ShaderMaterial#-41352` -> `ShaderMaterial#-50478` (dE 12.2), `ShaderMaterial#-64127` -> `ShaderMaterial#-73215` (dE 20.0), `ShaderMaterial#-73215` -> `ShaderMaterial#-50478` (dE 21.4), `ShaderMaterial#-87144` -> `ShaderMaterial#-50478` (dE 29.5), `ShaderMaterial#-50478` -> `ShaderMaterial#-27551` (dE 31.4), `ShaderMaterial#-19812` -> `ShaderMaterial#-92083` (dE 69.9)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "23 material(s), 8 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 23 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 23 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 4,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 83.4,
+	"result": "FAIL",
+	"scene": "res://art/buildings/guilds/greywater_lodge/greywater_lodge.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

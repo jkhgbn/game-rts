@@ -1,0 +1,13 @@
+{
+	"asset": "plant_glow40_frost_dragon",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "ice",
+	"quality": 98.8,
+	"result": "PASS",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

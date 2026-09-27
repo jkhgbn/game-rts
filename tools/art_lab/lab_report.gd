@@ -26,6 +26,12 @@ var budget_row: Dictionary = {}
 var previous_score: float = -1.0
 var started: String = ""
 var seconds: float = 0.0
+## v3 before / after (lab_diff.gd `ArtLabDiff.finish`): {prev_quality, quality, worse, better, rows, new, gone,
+## unchanged, shots, sheet...} vs the previous run; {} = nothing compared.
+var compare: Dictionary = {}
+## v3 `focus=`: the re-measured check ids (the other checks are kept from the previous run, flag `kept`).
+var focus: Array[String] = []
+var focus_note: String = ""
 
 
 ## Adds a check. `score` (0-1, -1 = from the status) grades how far inside / outside the rule it is, so the quality
@@ -72,7 +78,7 @@ func exit_code() -> int:
 
 func to_dict() -> Dictionary:
 	var imp := improve_next()
-	return {
+	var d := {
 		"lab_version": VERSION, "asset": asset, "scene": scene, "kind": kind, "tier": tier, "kingdom": kingdom,
 		"ground": ground, "headless": headless, "started": started, "seconds": snappedf(seconds, 0.1),
 		"result": result(), "quality": snappedf(quality(), 0.1), "previous_quality": snappedf(previous_score, 0.1),
@@ -80,6 +86,65 @@ func to_dict() -> Dictionary:
 			"SKIP": count("SKIP")},
 		"checks": checks, "improve_next": imp, "shots": shots, "budget": budget_row, "notes": notes,
 	}
+	if not compare.is_empty():
+		d["compare"] = compare
+	if not focus.is_empty():
+		d["focus"] = focus
+		d["focus_note"] = focus_note
+	return d
+
+
+## v3 "Before / after" section (top of scorecard.md): what got worse first, then what got better, the per-check score
+## delta table and the changed share of each shot. "" when nothing was compared.
+func compare_markdown() -> String:
+	if compare.is_empty():
+		return ""
+	var q0 := float(compare.get("prev_quality", -1.0))
+	var q1 := quality()
+	var s := "## Before / after (vs the run of %s in `%s`: quality %.0f -> %.0f, %s)\n" % [compare.get("prev_started", "?"),
+		compare.get("against", ""), q0, q1, ArtLabDiff.signed(roundf(q1) - roundf(q0))]
+	var worse: Array = compare.get("worse", [])
+	s += "### What got worse (%d)\n" % worse.size()
+	if worse.is_empty():
+		s += "Nothing got worse.\n"
+	var i := 1
+	for r: Dictionary in worse:
+		s += "%d. **%s**. Now: %s. Was: %s\n" % [i, ArtLabDiff.row_text(r), _cell(String(r["new_value"]).left(180)),
+			_cell(String(r["old_value"]).left(120))]
+		i += 1
+	var better: Array = compare.get("better", [])
+	if not better.is_empty():
+		var bl: Array[String] = []
+		for r2: Dictionary in better:
+			bl.append(ArtLabDiff.row_text(r2))
+		s += "\n### What got better (%d)\n%s\n" % [better.size(), "; ".join(bl)]
+	var extra: Array[String] = []
+	for r3: Dictionary in compare.get("new", []):
+		extra.append("new %s %s (%s)" % [r3["id"], r3["name"], r3["new_status"]])
+	for r4: Dictionary in compare.get("gone", []):
+		extra.append("gone %s %s (was %s)" % [r4["id"], r4["name"], r4["old_status"]])
+	if not extra.is_empty():
+		s += "\n" + "; ".join(extra) + "\n"
+	var rows: Array[Dictionary] = []
+	for r5: Dictionary in compare.get("rows", []):
+		if String(r5["change"]) != "same" or absf(float(r5["delta"])) >= 0.5:
+			rows.append(r5)
+	if not rows.is_empty():
+		s += "\n### Score delta per check (%d changed, %d unchanged)\n| # | Check | Before | After | Delta |\n|---|---|---|---|---|\n" % [
+			rows.size(), int(compare.get("unchanged", 0))]
+		for r6: Dictionary in rows:
+			s += "| %s | %s | %s %s | %s %s | %+.1f%s |\n" % [r6["id"], _cell(r6["name"]), r6["old_status"],
+				("%.0f" % float(r6["old_score"])) if float(r6["old_score"]) >= 0.0 else "", r6["new_status"],
+				("%.0f" % float(r6["new_score"])) if float(r6["new_score"]) >= 0.0 else "", float(r6["delta"]),
+				" (noisy)" if bool(r6.get("noisy", false)) else ""]
+	var sh: Array = compare.get("shots", [])
+	if not sh.is_empty():
+		var sl: Array[String] = []
+		for r7: Dictionary in sh:
+			sl.append("%s %.1f %%" % [r7["shot"], 100.0 * float(r7["changed"])])
+		s += "\nChanged pixels per shot: %s%s\n" % [", ".join(sl),
+			(" · [diff sheet](%s) (before / after / changed mask)" % compare["sheet"]) if compare.has("sheet") else ""]
+	return s + "\n"
 
 
 func to_markdown() -> String:
@@ -93,6 +158,9 @@ func to_markdown() -> String:
 	s += "## Result: **%s** · quality **%.0f / 100**%s\n\n" % [result(), q, delta]
 	s += "%d FAIL · %d WARN · %d PASS · %d info · %d skipped · %.0f s\n\n" % [count("FAIL"), count("WARN"), count("PASS"),
 		count("INFO"), count("SKIP"), seconds]
+	if focus_note != "":
+		s += "**Focus run**: %s (rows marked _kept_ were not re-measured).\n\n" % focus_note
+	s += compare_markdown()
 	s += "## Improve next\n"
 	var i := 1
 	for it: Dictionary in improve_next():
@@ -113,6 +181,8 @@ func to_markdown() -> String:
 				st = "**%s**" % st
 			if float(c["score"]) >= 0.0 and c["status"] != "SKIP":
 				st += " %.0f" % (100.0 * float(c["score"]))
+			if bool(c.get("kept", false)):
+				st += " _kept_"
 			var hint: String = c["hint"] if c["status"] == "FAIL" or c["status"] == "WARN" else ""
 			s += "| %s | %s | %s | %s | %s | %s |\n" % [c["id"], c["name"], st, _cell(c["value"]), _cell(c["rule"]),
 				_cell(hint)]
@@ -213,13 +283,18 @@ func contact_sheet(parent: Node, tiles: Array[Dictionary], cols: int = 4) -> Ima
 	_label(vp, "%s   quality %.0f / 100%s   %d FAIL  %d WARN  %d PASS" % [res, q, qd, count("FAIL"), count("WARN"),
 		count("PASS")], Vector2(12, 42), 22, col)
 	var lines: Array[String] = []
+	if not compare.is_empty() and not (compare.get("worse", []) as Array).is_empty():
+		var wl: Array[String] = []
+		for r: Dictionary in compare["worse"]:
+			wl.append("%s %s" % [r["id"], ArtLabDiff.signed(float(r["delta"]))])
+		lines.append("WORSE than the previous run: " + ", ".join(wl))
 	for c: Dictionary in checks:
 		if c["status"] == "FAIL" or c["status"] == "WARN":
 			lines.append("%s %s %s: %s" % [c["status"], c["id"], c["name"], str(c["value"])])
 	var imp := improve_next()
 	var y := 76.0
 	for l: String in lines.slice(0, 5):
-		_label(vp, l.left(150), Vector2(12, y), 15, Color(1.0, 0.55, 0.45) if l.begins_with("FAIL") else Color(1.0, 0.85, 0.5))
+		_label(vp, l.left(150), Vector2(12, y), 15, Color(1.0, 0.55, 0.45) if l.begins_with("FAIL") or l.begins_with("WORSE") else Color(1.0, 0.85, 0.5))
 		y += 19.0
 	if lines.size() > 5:
 		_label(vp, "... +%d more (scorecard.md)" % (lines.size() - 5), Vector2(12, y), 15, Color(0.8, 0.8, 0.8))

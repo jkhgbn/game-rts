@@ -1,0 +1,198 @@
+{
+	"asset": "ice_lodge",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-90724",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-79643",
+					"material_path": "",
+					"to": "StandardMaterial3D#-73353",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 8.2,
+					"material": "ShaderMaterial#-84728",
+					"material_path": "",
+					"to": "ShaderMaterial#-25225",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.4,
+					"material": "ShaderMaterial#-70810",
+					"material_path": "",
+					"to": "ShaderMaterial#-61945",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 20.3,
+					"material": "ShaderMaterial#-25225",
+					"material_path": "",
+					"to": "ShaderMaterial#-48016",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 28.9,
+					"material": "ShaderMaterial#-93819",
+					"material_path": "",
+					"to": "ShaderMaterial#-61945",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 14
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "14 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-90724` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-79643` -> `StandardMaterial3D#-73353` (dE 0.0), `ShaderMaterial#-84728` -> `ShaderMaterial#-25225` (dE 8.2), `ShaderMaterial#-70810` -> `ShaderMaterial#-61945` (dE 13.4), `ShaderMaterial#-25225` -> `ShaderMaterial#-48016` (dE 20.3), `ShaderMaterial#-93819` -> `ShaderMaterial#-61945` (dE 28.9)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 14 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-90724` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-79643` -> `StandardMaterial3D#-73353` (dE 0.0), `ShaderMaterial#-84728` -> `ShaderMaterial#-25225` (dE 8.2), `ShaderMaterial#-70810` -> `ShaderMaterial#-61945` (dE 13.4), `ShaderMaterial#-25225` -> `ShaderMaterial#-48016` (dE 20.3), `ShaderMaterial#-93819` -> `ShaderMaterial#-61945` (dE 28.9)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.19,
+					"from": 0.0,
+					"material": "ShaderMaterial#-70810",
+					"material_path": "",
+					"node": "Body/Dome",
+					"param": "shader_parameter/crack_strength",
+					"to": 0.0,
+					"why": "dim under the bloom level: 3 point(s), peak 4.02 x the level",
+					"words": "crack_strength 0.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 4.02 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 5,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/ChimneyCrystal",
+						"peak_x_bloom": 5.08,
+						"px": 307
+					},
+					{
+						"above": true,
+						"part": "Body/Lantern",
+						"peak_x_bloom": 4.02,
+						"px": 48
+					},
+					{
+						"above": true,
+						"part": "Body/Dome",
+						"peak_x_bloom": 4.02,
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Body/Dome",
+						"peak_x_bloom": 3.26,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Body/Dome",
+						"peak_x_bloom": 3.42,
+						"px": 6
+					},
+					{
+						"above": false,
+						"part": "Body/Dome",
+						"peak_x_bloom": 0.47,
+						"px": 5
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 5/5/5): CrystalSparkles, Lantern, Dome x3; soft glows under the bloom (v1 count, luma > 0.4): 12"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 5 -> 2 (want 2-4): ShaderMaterial#-70810 crack_strength 0.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 4.02 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 5 -> 2 (want 2-4): ShaderMaterial#-70810 crack_strength 0.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 4.02 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "18 material(s), 1 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 18 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 18 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 10.0 on the team-colour area (normal vision 75.7; 3419 px); deutan: fire / nature dE 10.0; protan: fire / nature dE 21.6; worst vs ground: fire colour (deutan) dE 33.8"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.0): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.0): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +7 (point 1 dL +25, point 2 dL +15, point 3 dL +32, point 4 dL +7, point 5 dL +23; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 87.3,
+	"result": "FAIL",
+	"scene": "res://art/buildings/ice_lodge.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

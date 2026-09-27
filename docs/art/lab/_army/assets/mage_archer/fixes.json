@@ -1,0 +1,159 @@
+{
+	"asset": "mage_archer",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-1952",
+					"material_path": "",
+					"to": "StandardMaterial3D#-48731",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-79062",
+					"material_path": "",
+					"to": "StandardMaterial3D#-48731",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 9.6,
+					"material": "shadow_skin",
+					"material_path": "res://art/units/kit/materials/shadow_skin.tres",
+					"to": "shadow_silver",
+					"to_path": "res://art/units/kit/materials/shadow_silver.tres"
+				},
+				{
+					"albedo_dE": 51.5,
+					"material": "shadow_silver",
+					"material_path": "res://art/units/kit/materials/shadow_silver.tres",
+					"to": "shadow_obsidian",
+					"to_path": "res://art/units/kit/materials/shadow_obsidian.tres"
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 11
+			},
+			"predicted": {
+				"materials": 7
+			},
+			"proposal": "11 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-1952` -> `StandardMaterial3D#-48731` (dE 0.0), `StandardMaterial3D#-79062` -> `StandardMaterial3D#-48731` (dE 0.0), `shadow_skin` -> `shadow_silver` (dE 9.6), `shadow_silver` -> `shadow_obsidian` (dE 51.5)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 11 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-1952` -> `StandardMaterial3D#-48731` (dE 0.0), `StandardMaterial3D#-79062` -> `StandardMaterial3D#-48731` (dE 0.0), `shadow_skin` -> `shadow_silver` (dE 9.6), `shadow_silver` -> `shadow_obsidian` (dE 51.5)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2962,
+					"node": "Root/Chest/Head/Variant",
+					"to": 1481,
+					"words": "`Variant` 2962 -> 1481 verts"
+				},
+				{
+					"from": 1333,
+					"node": "Root/Chest/ArmR/Bow",
+					"to": 667,
+					"words": "`Bow` 1333 -> 667 verts"
+				},
+				{
+					"from": 1205,
+					"node": "Root/Chest/Quiver",
+					"to": 603,
+					"words": "`Quiver` 1205 -> 603 verts"
+				},
+				{
+					"from": 805,
+					"node": "Root/Hips/Merged",
+					"to": 403,
+					"words": "`Merged` 805 -> 403 verts"
+				},
+				{
+					"from": 592,
+					"node": "Root/Chest/Merged",
+					"to": 296,
+					"words": "`Merged` 592 -> 296 verts"
+				},
+				{
+					"from": 584,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 292,
+					"words": "`Merged` 584 -> 292 verts"
+				},
+				{
+					"from": 469,
+					"node": "Root/Chest/Head/Merged",
+					"to": 235,
+					"words": "`Merged` 469 -> 235 verts"
+				},
+				{
+					"from": 345,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 173,
+					"words": "`Merged` 345 -> 173 verts"
+				},
+				{
+					"from": 345,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 173,
+					"words": "`Merged` 345 -> 173 verts"
+				},
+				{
+					"from": 228,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 114,
+					"words": "`Merged` 228 -> 114 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 8872
+			},
+			"predicted": {
+				"verts": 4441
+			},
+			"proposal": "8872 -> 4441 (want <= 3000): `Variant` 2962 -> 1481 verts; `Bow` 1333 -> 667 verts; `Quiver` 1205 -> 603 verts; `Merged` 805 -> 403 verts; `Merged` 592 -> 296 verts; `Merged` 584 -> 292 verts; `Merged` 469 -> 235 verts; `Merged` 345 -> 173 verts; `Merged` 345 -> 173 verts; `Merged` 228 -> 114 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 8872 -> 4441 (want <= 3000): `Variant` 2962 -> 1481 verts; `Bow` 1333 -> 667 verts; `Quiver` 1205 -> 603 verts; `Merged` 805 -> 403 verts; `Merged` 592 -> 296 verts; `Merged` 584 -> 292 verts; `Merged` 469 -> 235 verts; `Merged` 345 -> 173 verts; `Merged` 345 -> 173 verts; `Merged` 228 -> 114 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +6 (point 1 dL +6, point 2 dL +7; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +6): darken around them or raise the energy",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +6): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 91.2,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/mage_archer/mage_archer.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

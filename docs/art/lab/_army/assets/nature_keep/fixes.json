@@ -1,0 +1,630 @@
+{
+	"asset": "nature_keep",
+	"count": 7,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#59b340",
+					"material": "Leaves",
+					"material_path": "",
+					"node": "Model/Canopy, Model/CanopyLost",
+					"param": "shader_parameter/base_color",
+					"shared": "built in code or embedded: change it where the model script creates it",
+					"to": "#65ff85",
+					"weight": 0.21
+				}
+			],
+			"check": "R3",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.1,
+				1.2,
+				0.9
+			],
+			"measured": {
+				"body_lab": [
+					54.8,
+					-22.0,
+					34.7
+				],
+				"dE": {
+					"R3 meadow": 4.9,
+					"R3t fire": 49.2,
+					"R3t ice": 36.5,
+					"R3t nature": 4.7,
+					"R3t shadow": 64.8,
+					"R4 ash": 52.1,
+					"R4 heath": 13.9,
+					"R4 marsh": 52.4,
+					"R4 riverbank": 24.6,
+					"R4 sand": 34.2,
+					"R4 snow": 50.6,
+					"R4k old_wood": 35.9
+				},
+				"ground_lab": [
+					55.7,
+					-17.4,
+					36.2
+				],
+				"melt_share": 0.03
+			},
+			"predicted": {
+				"R3 meadow": 18.3,
+				"R3t fire": 26.2,
+				"R3t ice": 28.9,
+				"R3t nature": 18.0,
+				"R3t shadow": 34.2,
+				"R4 ash": 66.0,
+				"R4 heath": 28.1,
+				"R4 marsh": 67.1,
+				"R4 riverbank": 36.2,
+				"R4 sand": 39.0,
+				"R4 snow": 53.3,
+				"R4k old_wood": 49.6
+			},
+			"proposal": "shader_parameter/base_color of `Leaves` #59b340 -> #65ff85 (21% of the visible body): predicted dE R3 meadow 4.9 -> 18.3, R3t fire 49.2 -> 26.2, R3t shadow 64.8 -> 34.2, R3t ice 36.5 -> 28.9, R3t nature 4.7 -> 18.0, R4k old_wood 35.9 -> 49.6 (want >= 18); other grounds heath 28.1, riverbank 36.2, snow 53.3, ash 66.0, sand 39.0, marsh 67.1; built in code or embedded: change it where the model script creates it",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "shader_parameter/base_color of `Leaves` #59b340 -> #65ff85 (21% of the visible body): predicted dE R3 meadow 4.9 -> 18.3, R3t fire 49.2 -> 26.2, R3t shadow 64.8 -> 34.2, R3t ice 36.5 -> 28.9, R3t nature 4.7 -> 18.0, R4k old_wood 35.9 -> 49.6 (want >= 18); other grounds heath 28.1, riverbank 36.2, snow 53.3, ash 66.0, sand 39.0, marsh 67.1; built in code or embedded: change it where the model script creates it",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 18 (rule 14 + margin 4)",
+				"dE_R4": ">= 12 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 13416,
+					"node": "Model/Canopy",
+					"to": 6708,
+					"words": "`Canopy` 13416 -> 6708 verts"
+				},
+				{
+					"from": 6318,
+					"node": "Model/TrunkLow",
+					"to": 3159,
+					"words": "`TrunkLow` 6318 -> 3159 verts"
+				},
+				{
+					"from": 5103,
+					"node": "Model/TrunkHigh",
+					"to": 2552,
+					"words": "`TrunkHigh` 5103 -> 2552 verts"
+				},
+				{
+					"from": 3609,
+					"node": "Model/Rampart",
+					"to": 1805,
+					"words": "`Rampart` 3609 -> 1805 verts"
+				},
+				{
+					"from": 2736,
+					"node": "Rubble",
+					"to": 1368,
+					"words": "`Rubble` 2736 -> 1368 verts"
+				},
+				{
+					"from": 2499,
+					"node": "Model/CanopyLost",
+					"to": 1250,
+					"words": "`CanopyLost` 2499 -> 1250 verts"
+				},
+				{
+					"from": 2028,
+					"node": "Model/Bloom",
+					"to": 1014,
+					"words": "`Bloom` 2028 -> 1014 verts"
+				},
+				{
+					"from": 1344,
+					"node": "Model/Plinth",
+					"to": 672,
+					"words": "`Plinth` 1344 -> 672 verts"
+				},
+				{
+					"from": 552,
+					"node": "Model/Lanterns/Lantern0/Pod",
+					"to": 276,
+					"words": "`Pod` 552 -> 276 verts"
+				},
+				{
+					"from": 552,
+					"node": "Model/Lanterns/Lantern1/Pod",
+					"to": 276,
+					"words": "`Pod` 552 -> 276 verts"
+				},
+				{
+					"from": 552,
+					"node": "Model/Lanterns/Lantern2/Pod",
+					"to": 276,
+					"words": "`Pod` 552 -> 276 verts"
+				},
+				{
+					"from": 540,
+					"node": "Model/BannersSide",
+					"to": 270,
+					"words": "`BannersSide` 540 -> 270 verts"
+				},
+				{
+					"from": 360,
+					"node": "Model/BannersGate",
+					"to": 180,
+					"words": "`BannersGate` 360 -> 180 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 39613
+			},
+			"predicted": {
+				"verts": 19810
+			},
+			"proposal": "39613 -> 19810 (want <= 12000): `Canopy` 13416 -> 6708 verts; `TrunkLow` 6318 -> 3159 verts; `TrunkHigh` 5103 -> 2552 verts; `Rampart` 3609 -> 1805 verts; `Rubble` 2736 -> 1368 verts; `CanopyLost` 2499 -> 1250 verts; `Bloom` 2028 -> 1014 verts; `Plinth` 1344 -> 672 verts; `Pod` 552 -> 276 verts; `Pod` 552 -> 276 verts; `Pod` 552 -> 276 verts; `BannersSide` 540 -> 270 verts; `BannersGate` 360 -> 180 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B4 39613 -> 19810 (want <= 12000): `Canopy` 13416 -> 6708 verts; `TrunkLow` 6318 -> 3159 verts; `TrunkHigh` 5103 -> 2552 verts; `Rampart` 3609 -> 1805 verts; `Rubble` 2736 -> 1368 verts; `CanopyLost` 2499 -> 1250 verts; `Bloom` 2028 -> 1014 verts; `Plinth` 1344 -> 672 verts; `Pod` 552 -> 276 verts; `Pod` 552 -> 276 verts; `Pod` 552 -> 276 verts; `BannersSide` 540 -> 270 verts; `BannersGate` 360 -> 180 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "nature_keep",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_5bgma",
+					"to": "nature_keep",
+					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_0wbuy"
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "nature_keep",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_0wbuy",
+					"to": "nature_keep",
+					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_yhbjq"
+				},
+				{
+					"albedo_dE": 10.6,
+					"material": "Blossom",
+					"material_path": "",
+					"to": "Petal",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 15.7,
+					"material": "Bark",
+					"material_path": "",
+					"to": "Wood",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 19.3,
+					"material": "Wood",
+					"material_path": "",
+					"to": "Stone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 23.9,
+					"material": "Moss",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 24.8,
+					"material": "Stone",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 42.2,
+					"material": "nature_keep",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_yhbjq",
+					"to": "nature_keep",
+					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_2qawu"
+				},
+				{
+					"albedo_dE": 71.8,
+					"material": "Leaves",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 111.7,
+					"material": "Petal",
+					"material_path": "",
+					"to": "LeafCard",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 139.2,
+					"material": "nature_keep",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_2qawu",
+					"to": "GateVoid",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 20
+			},
+			"predicted": {
+				"materials": 9
+			},
+			"proposal": "20 -> 9 materials: use one material for look-alike pairs: `nature_keep` -> `nature_keep` (dE 0.0), `nature_keep` -> `nature_keep` (dE 0.0), `Blossom` -> `Petal` (dE 10.6), `Bark` -> `Wood` (dE 15.7), `Wood` -> `Stone` (dE 19.3), `Moss` -> `DarkStone` (dE 23.9), `Stone` -> `DarkStone` (dE 24.8), `nature_keep` -> `nature_keep` (dE 42.2), `Leaves` -> `DarkStone` (dE 71.8), `Petal` -> `LeafCard` (dE 111.7), `nature_keep` -> `GateVoid` (dE 139.2)",
+			"rank": 3,
+			"status": "FAIL",
+			"text": "B8 20 -> 9 materials: use one material for look-alike pairs: `nature_keep` -> `nature_keep` (dE 0.0), `nature_keep` -> `nature_keep` (dE 0.0), `Blossom` -> `Petal` (dE 10.6), `Bark` -> `Wood` (dE 15.7), `Wood` -> `Stone` (dE 19.3), `Moss` -> `DarkStone` (dE 23.9), `Stone` -> `DarkStone` (dE 24.8), `nature_keep` -> `nature_keep` (dE 42.2), `Leaves` -> `DarkStone` (dE 71.8), `Petal` -> `LeafCard` (dE 111.7), `nature_keep` -> `GateVoid` (dE 139.2)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.17,
+					"from": 0.9,
+					"material": "Banner",
+					"material_path": "",
+					"node": "Model/BannersSide, Model/BannersGate",
+					"param": "shader_parameter/glyph_energy",
+					"to": 0.15,
+					"why": "dim under the bloom level: 17 point(s), peak 4.39 x the level",
+					"words": "glyph_energy 0.9 -> 0.15 (dim under the bloom level: 17 point(s), peak 4.39 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"material": "?",
+					"material_path": "",
+					"node": "Model/CanopyLost",
+					"param": "",
+					"why": "dim under the bloom level: 4 point(s), peak 4.49 x the level",
+					"words": "emission x 0.17 (dim under the bloom level: 4 point(s), peak 4.49 x the level; no energy parameter found: scale its emission colour / strength)"
+				},
+				{
+					"factor": 0.17,
+					"from": 2.5,
+					"material": "Heart",
+					"material_path": "",
+					"node": "Model/Bloom",
+					"param": "shader_parameter/energy",
+					"to": 0.43,
+					"why": "dim under the bloom level: 3 point(s), peak 4.39 x the level",
+					"words": "energy 2.5 -> 0.43 (dim under the bloom level: 3 point(s), peak 4.39 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"material": "?",
+					"material_path": "",
+					"node": "Model/Lanterns/Lantern2/Pod",
+					"param": "",
+					"why": "dim under the bloom level: 3 point(s), peak 4.42 x the level",
+					"words": "emission x 0.17 (dim under the bloom level: 3 point(s), peak 4.42 x the level; no energy parameter found: scale its emission colour / strength)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 37,
+				"points_this_phase": 32,
+				"spots": [
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 4.39,
+						"px": 1207
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern1/Pod",
+						"peak_x_bloom": 3.83,
+						"px": 351
+					},
+					{
+						"above": true,
+						"part": "Model/Rampart",
+						"peak_x_bloom": 3.2,
+						"px": 134
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 121
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 79
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern2/Pod",
+						"peak_x_bloom": 4.39,
+						"px": 28
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern1/Pod",
+						"peak_x_bloom": 3.2,
+						"px": 28
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 4.39,
+						"px": 26
+					},
+					{
+						"above": true,
+						"part": "Model/CanopyLost",
+						"peak_x_bloom": 4.39,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Model/BannersGate",
+						"peak_x_bloom": 4.39,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern2/Pod",
+						"peak_x_bloom": 4.39,
+						"px": 16
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern0/Pod",
+						"peak_x_bloom": 4.39,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 10
+					},
+					{
+						"above": true,
+						"part": "Model/BannersGate",
+						"peak_x_bloom": 3.2,
+						"px": 10
+					},
+					{
+						"above": true,
+						"part": "Model/CanopyLost",
+						"peak_x_bloom": 4.39,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Model/Rampart",
+						"peak_x_bloom": 4.39,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Model/CanopyLost",
+						"peak_x_bloom": 4.42,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.17,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.14,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/CanopyLost",
+						"peak_x_bloom": 4.49,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern2/Pod",
+						"peak_x_bloom": 4.42,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 4.17,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.14,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.26,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 4.39,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.26,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 4.17,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.14,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.14,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Model/CanopyLost",
+						"peak_x_bloom": 0.89,
+						"px": 151
+					},
+					{
+						"above": false,
+						"part": "Model/CanopyLost",
+						"peak_x_bloom": 0.32,
+						"px": 100
+					},
+					{
+						"above": false,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 0.35,
+						"px": 25
+					},
+					{
+						"above": false,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.25,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "Model/BannersGate",
+						"peak_x_bloom": 0.67,
+						"px": 3
+					},
+					{
+						"above": false,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.21,
+						"px": 2
+					}
+				],
+				"value": "37 point(s) above the bloom level 1.2 (median of 32/37/44): Bloom x3, Pod x7, Rampart x3, BannersSide x15, BannersGate x5, CanopyLost x4; soft glows under the bloom (v1 count, luma > 0.4): 50"
+			},
+			"predicted": {
+				"points": 10
+			},
+			"proposal": "Glow points 37 -> 10 (want 4-12): Banner glyph_energy 0.9 -> 0.15 (dim under the bloom level: 17 point(s), peak 4.39 x the level); ? emission x 0.17 (dim under the bloom level: 4 point(s), peak 4.49 x the level; no energy parameter found: scale its emission colour / strength); Heart energy 2.5 -> 0.43 (dim under the bloom level: 3 point(s), peak 4.39 x the level); ? emission x 0.17 (dim under the bloom level: 3 point(s), peak 4.42 x the level; no energy parameter found: scale its emission colour / strength)",
+			"rank": 4,
+			"status": "WARN",
+			"text": "Glow points 37 -> 10 (want 4-12): Banner glyph_energy 0.9 -> 0.15 (dim under the bloom level: 17 point(s), peak 4.39 x the level); ? emission x 0.17 (dim under the bloom level: 4 point(s), peak 4.49 x the level; no energy parameter found: scale its emission colour / strength); Heart energy 2.5 -> 0.43 (dim under the bloom level: 3 point(s), peak 4.39 x the level); ? emission x 0.17 (dim under the bloom level: 3 point(s), peak 4.42 x the level; no energy parameter found: scale its emission colour / strength)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "4-12 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "22 material(s), 0 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 22 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 5,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 22 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 12.3 on the team-colour area (normal vision 77.1; 61376 px); deutan: fire / nature dE 12.3; protan: fire / nature dE 23.9; worst vs ground: nature colour (protan) dE 1.2"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 12.3): add a value step inside the team-colour area",
+			"rank": 6,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 12.3): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +4 (point 1 dL +4, point 2 dL +59, point 3 dL +42, point 4 dL +48, point 5 dL +59, point 6 dL +60, point 7 dL +28, point 8 dL +24, point 9 dL +34, point 10 dL +34, point 11 dL +29, point 12 dL +27, point 13 dL +24, point 14 dL +48, point 15 dL +43, point 16 dL +38, point 17 dL +30, point 18 dL +36, point 19 dL +47, point 20 dL +54, point 21 dL +51, point 22 dL +37, point 23 dL +36, point 24 dL +53, point 25 dL +63, point 26 dL +39, point 27 dL +5, point 28 dL +56, point 29 dL +53, point 30 dL +56, point 31 dL +44, point 32 dL +41, soft 1 dL +0, soft 2 dL +49 (counts), soft 3 dL +43 (counts), soft 4 dL +46 (counts), soft 5 dL +33 (counts), soft 6 dL +48 (counts), soft 7 dL +41 (counts), soft 8 dL +13, soft 9 dL +41 (counts), soft 10 dL +36 (counts), soft 11 dL +14, soft 12 dL +49 (counts), soft 13 dL +31 (counts), soft 14 dL +36 (counts), soft 15 dL +58 (counts), soft 16 dL +44 (counts), soft 17 dL +10, soft 18 dL +13, soft 19 dL +38 (counts), soft 20 dL +29 (counts), soft 21 dL +48 (counts), soft 22 dL +8, soft 23 dL +33 (counts), soft 24 dL +7, soft 25 dL +4, soft 26 dL +49 (counts), soft 27 dL +24 (counts), soft 28 dL +12, soft 29 dL +9, soft 30 dL +41 (counts), soft 31 dL +17, soft 32 dL +31 (counts), soft 33 dL +15, soft 34 dL +30 (counts), soft 35 dL +24 (counts), soft 36 dL +22 (counts), soft 37 dL -14, soft 38 dL +11; ring 29 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +4): darken around them or raise the energy",
+			"rank": 7,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +4): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 72.2,
+	"result": "FAIL",
+	"scene": "res://art/buildings/nature_keep.tscn",
+	"tier": "keep",
+	"version": "1.0"
+}

@@ -59,15 +59,20 @@ static func quality(checks: Array[Dictionary]) -> float:
 static func improve_next(checks: Array[Dictionary], extras: Array[Dictionary], min_items: int = 3, max_items: int = 6) -> Array[Dictionary]:
 	var cands: Array[Dictionary] = []
 	for c: Dictionary in checks:
-		if String(c["improve"]) == "" or float(c["score"]) < 0.0 or float(c["score"]) >= 0.97:
+		# v3 1.A: a check with a fix recipe (lab_fixes.gd, `fix`) shows the recipe in words instead of its generic idea;
+		# the top recipe (`fix_rank` 1) leads the list
+		var fix := String(c.get("fix", ""))
+		if fix == "" and (String(c["improve"]) == "" or float(c["score"]) < 0.0 or float(c["score"]) >= 0.97):
 			continue
 		var w: float = float(c["weight"]) * float(GROUP_WEIGHT.get(c["group"], 1.0))
-		var rank: float = w * (1.0 - float(c["score"]))
+		var rank: float = w * (1.0 - maxf(float(c["score"]), 0.0))
 		if c["status"] == "FAIL":
 			rank += 100.0
 		elif c["status"] == "WARN":
 			rank += 10.0
-		cands.append({"rank": rank, "title": c["name"], "text": c["improve"],
+		if int(c.get("fix_rank", 0)) == 1:
+			rank += 1000.0
+		cands.append({"rank": rank, "title": c["name"], "text": fix if fix != "" else String(c["improve"]),
 			"source": "%s %s%s" % [c["id"], c["name"], (", shot " + String(c["shot"])) if String(c["shot"]) != "" else ""],
 			"status": c["status"]})
 	cands.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["rank"]) > float(b["rank"]))
@@ -108,3 +113,7 @@ static func add_extras(ctx: ArtLabRunner) -> void:
 				["Cost", "Pool and reuse; no particles beyond 45 m", "V2 / V5"]]
 	for i: Array in ideas:
 		ctx.rep.extras.append({"title": i[0], "text": i[1], "source": i[2]})
+	# v3 1.A: fix recipes for every FAIL / WARN (lab_fixes.gd -> <out>/fixes.json); runs after the last check, before
+	# the scorecard is written, so "Improve next" shows the top recipe. `fixes=0` turns it off.
+	if String(ctx.opts.get("fixes", "1")) != "0":
+		ArtLabFixes.build(ctx)

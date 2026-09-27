@@ -1,0 +1,70 @@
+{
+	"asset": "plant_verts20k_shade",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 19645,
+					"node": "Root/Chest/Merged",
+					"to": 9823,
+					"words": "`Merged` 19645 -> 9823 verts"
+				},
+				{
+					"from": 253,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 127,
+					"words": "`Merged` 253 -> 127 verts"
+				},
+				{
+					"from": 229,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 115,
+					"words": "`Merged` 229 -> 115 verts"
+				},
+				{
+					"from": 215,
+					"node": "Root/Chest/Head/Merged",
+					"to": 108,
+					"words": "`Merged` 215 -> 108 verts"
+				},
+				{
+					"from": 132,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 66,
+					"words": "`Merged` 132 -> 66 verts"
+				},
+				{
+					"from": 132,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 66,
+					"words": "`Merged` 132 -> 66 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 20663
+			},
+			"predicted": {
+				"verts": 10362
+			},
+			"proposal": "20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 94.3,
+	"result": "FAIL",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

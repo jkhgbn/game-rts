@@ -13,11 +13,16 @@ extends SceneTree
 ##            (short names work: scene=sapling, ref=ember_archer,flame_guard; a missing ref is a loud WARN)
 ##   ground   meadow (default) | heath | old_wood | riverbank | dirt | snow | ash | sand | marsh (stand-in patches)
 ##   light    warm (default) | ice (default on ground=snow)
-##   sweep    <kingdom>: army sweep of res://art/units/<kingdom>/ (or dir=), quick per asset + one army silhouette
-##            pass; only=a,b filters; full=1 keeps per-asset refs / frame cost -> docs/art/lab/_sweep_<kingdom>/sweep.md
+##   sweep    v3 (lab_army.gd): all | <kingdom>[,<kingdom>] (fire ice nature shadow neutral): every asset of those
+##            kingdoms (units, cavalry, wizard, titan, mount, buildings) in ONE batch (quick=1; full=1 keeps refs /
+##            frame cost), then one silhouette pass with the neutral neighbours + side-by-side tiles of the closest
+##            pairs -> docs/art/lab/_army/army.md (ranking) and, for all, docs/art/lab/backlog.md (ranked to-do list).
+##            only=a,b  buildings=0  pairs=<tiles per kingdom>  log=1. With dir=<folder>: the v2 folder sweep
+##            (-> docs/art/lab/_sweep_<kingdom>/sweep.md)
 ##   name     asset name (default: the file name)   ids  vfx ids (default: the family's EFFECTS list)
 ##   n        instances for the frame-cost check    quick=1  no references / frame cost    log=0  no log row
-##   batch    v3: <file or comma list> of assets run in one process (stage built once; lab_batch.gd); fail_fast=1 skips
+##   batch    v3: <file or comma list> of assets run in one process (stage built once; lab_batch.gd; decor sets and
+##            VFX families by short name too: batch=heath,unit_fire_gun_vfx,shade); fail_fast=1 skips
 ##            the render passes of an asset whose headless checks FAIL; timing=1 prints where the time goes
 ##   table    print the budget table as Markdown and quit
 ## Exit code: 0 PASS / WARN, 1 FAIL, 2 bad arguments. Last lines of the output: the result and every FAIL / WARN.
@@ -37,7 +42,15 @@ func _main() -> void:
 		return
 	for a: String in args:
 		if a.trim_prefix("--").begins_with("sweep="):
-			await _sweep(args)
+			var opts := _opts(args)
+			if opts.has("dir"):
+				await _sweep(args)   # v2 folder sweep (one folder, no neutral neighbours)
+				return
+			var n := ArtLabArmy.assets(ArtLabArmy.parse_groups(String(opts["sweep"])), String(opts.get("buildings", "1")) != "0").size()
+			create_timer(WATCHDOG_S + 150.0 * float(maxi(n, 1)) * (2.0 if opts.get("full", "0") == "1" else 1.0)).timeout.connect(func() -> void:
+				print("ART LAB ERROR: sweep watchdog")
+				quit(3))
+			quit(await ArtLabArmy.sweep(self, opts))
 			return
 		if a.trim_prefix("--").begins_with("batch="):
 			await _batch(args)
@@ -52,7 +65,16 @@ func _main() -> void:
 	quit(code)
 
 
-## Army sweep: `sweep=<kingdom>` runs every model in res://art/units/<kingdom>/ (or `dir=`), each with quick=1 (no
+## key=value args (keys lower case; a bare key = "1").
+func _opts(args: PackedStringArray) -> Dictionary:
+	var opts := {}
+	for a: String in args:
+		var s := a.trim_prefix("--")
+		opts[s.get_slice("=", 0).to_lower()] = s.substr(s.find("=") + 1) if "=" in s else "1"
+	return opts
+
+
+## v2 folder sweep (only with `dir=`; `sweep=<kingdoms>` without dir= is the v3 army sweep, lab_army.gd): runs every model in res://art/units/<kingdom>/ (or `dir=`), each with quick=1 (no
 ## per-asset references / frame cost; `full=1` keeps them), then renders every silhouette ONCE and compares all pairs
 ## (the references run once for the whole army). Other args (kind, ground, light, log) pass through.
 ## Writes docs/art/lab/_sweep_<kingdom>/sweep.md (+ army_silhouettes.png). Exit 1 if any asset FAILs.

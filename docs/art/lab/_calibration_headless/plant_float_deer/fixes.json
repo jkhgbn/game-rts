@@ -1,0 +1,39 @@
+{
+	"asset": "plant_float_deer",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"delta": -0.4,
+					"node": "Root",
+					"param": "position.y"
+				}
+			],
+			"check": "R9",
+			"computed": true,
+			"measured": {
+				"lowest_m": 0.4
+			},
+			"predicted": {
+				"lowest_m": 0.0
+			},
+			"proposal": "move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m)",
+			"title": "Feet on the ground",
+			"wanted": {
+				"lowest_m": "-0.08 .. +0.05"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "critter",
+	"kingdom": "neutral",
+	"quality": 84.4,
+	"result": "FAIL",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
+	"tier": "deer",
+	"version": "1.0"
+}

@@ -100,6 +100,41 @@ const GLOW_HDR := 1.1
 ## A kingdom's home ground (R4 names it on its own line): where its units stand most.
 const KINGDOM_GROUND := {&"fire": &"ash", &"ice": &"snow", &"nature": &"old_wood", &"shadow": &"marsh"}
 
+## Art Lab v3 checks of task 1.D (checks/read_v3.gd: R11 walk, R5w flicker, R5c glow local contrast, R6cb colour-blind
+## team colours, R12 light presets, S1 style bible), moved here as one block (docs/handoff/for-art-lab-1c.md).
+## Calibrated by task 1.C on the calibration set (docs/plan/art-lab.md "Calibration", 2 windowed runs 2026-09-27):
+##   flicker_range_warn 1 -> 2, flicker_drop_warn 0 -> 4: known-good Shade (2/2/2/0/1/0/2/2), Dusk Steed (1/1/1/1/0/0/0/1)
+##     and Frost Dragon (range 2) flicker because the head turns / bobs in the gait (a small eye glow hides for 1-3 of 8
+##     frames); a glow gone for more than half the cycle still WARNs, and the planted 40-bead dragon (17..27 points,
+##     range 8-10) still WARNs.
+##   glow_dl_warn 18 -> 0, glow_dl_bad 5 -> -10: the same Shade eye measured dL +2 / +6 / +11 / +14 over four runs (1 m
+##     ring at 40 m = 24 px, mostly ground), so 18 flagged every good dark-bodied unit; 0 keeps only "a glow darker
+##     than its surround" until R5c samples the ring on body pixels. Open false alarm: Dusk Steed dL -4 / +0 (dark head,
+##     the ring is mostly bright grass).
+##   cb_pair_warn 12 -> 6, cb_pair_bad 4 -> 3: fire / nature under deutan is the worst pair on every asset (Shade 9.2-9.5,
+##     Frost Dragon 7.6, Sapling 13.7: the KINGDOM_COLORS palette, not the asset); the planted frozen-team Dusk Steed
+##     measures 4.7 and still WARNs.
+const V3 := {
+	# R11 reads while walking (40 m black masks over the walk cycle vs the rest mask)
+	"walk_samples": 8, "walk_dt": 0.09, "walk_ramp": 0.5,
+	"walk_iou_warn": 0.55, "walk_iou_bad": 0.3, "walk_iou_good": 0.85,
+	"walk_area_warn": 0.7, "walk_area_bad": 0.45, "walk_area_good": 0.95,
+	# R5w glow flicker over the walk cycle (points above the bloom level per frame)
+	"flicker_range_warn": 2, "flicker_drop_warn": 4,
+	# R5c glow-point local contrast (lit 40 m frame, core vs the ring out to 1 m)
+	"glow_ring_m": 1.0, "glow_dl_warn": 0.0, "glow_dl_bad": -10.0, "glow_dl_good": 45.0,
+	# R6cb colour-blind team colours (deutan / protan simulation): worst kingdom pair on the team-colour area
+	"cb_pair_warn": 6.0, "cb_pair_bad": 3.0, "cb_pair_good": 30.0,
+	# R12 light-preset sweep (worst preset below de_fail = WARN, like R4)
+	"preset_ids": [&"warm", &"ice", &"night", &"autumn"],
+	"preset_kinds": [&"unit", &"mount", &"titan", &"beast", &"critter"],
+	# S1 style bible (style-autumn.md 3): INFO; body vs the rendered autumn floor
+	"style_de_bad": 8.0, "style_de_good": 40.0,
+	"style_ground_L": Vector2(25.0, 55.0), "style_ground_C": 35.0, "style_team_de": 20.0,
+	# weight of every new check in the quality score (low until calibrated)
+	"weight": 0.5,
+}
+
 ## Instance budgets of the biome sets (map-fill.md 10 "Instance budget per set").
 const SET_INSTANCES := {&"riverbank": 1800, &"meadow": 1800, &"heath": 1600, &"old_wood": 900, &"glade": 1800,
 	&"ruins": 300}
@@ -108,19 +143,22 @@ const SET_INSTANCES := {&"riverbank": 1800, &"meadow": 1800, &"heath": 1600, &"o
 ## (min, max); de_*: CIE76 dE between the model and the ground behind it (mean over the body) on the main ground;
 ## team: min share of body pixels that change between kingdom colours; iou: silhouette overlap that "reads like X";
 ## bar: HP bar share of the body it may hide; motion: attack pose change at 40 m (1 - IoU idle vs strike).
+## team (1.C calibration 2026-09-27): unit / titan / building 0.03 -> 0.08, mount 0.02 -> 0.06. A Dusk Steed whose
+## team cloth is frozen (set_team_color changes nothing) still measures 1-2 % (pose / edge pixels), a frozen Shade 5 %
+## (its smoke particles differ per instance), so 0.02-0.03 sat inside the noise; the lowest real asset is 11 % (Mossback).
 const READ := {
 	&"unit": {"area_warn": 120, "area_fail": 45, "glow": Vector2i(1, 3), "de_warn": 20.0, "de_fail": 10.0,
-		"team": 0.03, "iou": 0.8, "bar_warn": 0.08, "bar_fail": 0.25, "motion": 0.12, "head": true, "feet": &"ground"},
+		"team": 0.08, "iou": 0.8, "bar_warn": 0.08, "bar_fail": 0.25, "motion": 0.12, "head": true, "feet": &"ground"},
 	&"mount": {"area_warn": 150, "area_fail": 60, "glow": Vector2i(0, 2), "de_warn": 20.0, "de_fail": 10.0,
-		"team": 0.02, "iou": 0.8, "motion": 0.0, "head": false, "feet": &"ground"},
+		"team": 0.06, "iou": 0.8, "motion": 0.0, "head": false, "feet": &"ground"},
 	&"titan": {"area_warn": 900, "area_fail": 350, "glow": Vector2i(1, 5), "de_warn": 20.0, "de_fail": 10.0,
-		"team": 0.03, "iou": 0.8, "bar_warn": 0.06, "bar_fail": 0.2, "motion": 0.08, "head": false, "feet": &"ground"},
+		"team": 0.08, "iou": 0.8, "bar_warn": 0.06, "bar_fail": 0.2, "motion": 0.08, "head": false, "feet": &"ground"},
 	&"beast": {"area_warn": 350, "area_fail": 150, "glow": Vector2i(0, 3), "de_warn": 20.0, "de_fail": 10.0,
 		"team": 0.0, "iou": 0.8, "bar_warn": 0.08, "bar_fail": 0.25, "motion": 0.1, "head": false, "feet": &"ground"},
 	&"critter": {"area_warn": 25, "area_fail": 8, "glow": Vector2i(0, 1), "de_warn": 14.0, "de_fail": 7.0,
 		"team": 0.0, "iou": 0.85, "motion": 0.0, "head": false, "feet": &"ground"},
 	&"building": {"area_warn": 5000, "area_fail": 2000, "glow": Vector2i(2, 4), "de_warn": 14.0, "de_fail": 8.0,
-		"team": 0.03, "iou": 0.8, "motion": 0.0, "head": false, "feet": &"base"},
+		"team": 0.08, "iou": 0.8, "motion": 0.0, "head": false, "feet": &"base"},
 	&"landmark": {"area_warn": 3000, "area_fail": 800, "glow": Vector2i(0, 3), "de_warn": 10.0, "de_fail": 5.0, "melt_warn": 0.6, "melt_fail": 0.9,
 		"team": 0.0, "iou": 0.85, "motion": 0.0, "head": false, "feet": &"base"},
 	&"decor_set": {"glow": Vector2i(0, 12), "occlude_warn": 0.2, "occlude_fail": 0.4, "unit_de_warn": 20.0,

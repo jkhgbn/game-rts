@@ -1,0 +1,82 @@
+{
+	"asset": "shade",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B13",
+			"computed": false,
+			"measured": {
+				"value": "0.0065 ms process per instance (100 animated at 40 m: +0.65 ms process, render CPU +1.31 ms, GPU +0.56 ms)"
+			},
+			"predicted": {},
+			"proposal": "Frame cost: Cut the per-frame script cost (0.0065 ms per instance): write pivots only when they change, skip work at the far tiers",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B13 Frame cost: Cut the per-frame script cost (0.0065 ms per instance): write pivots only when they change, skip work at the far tiers",
+			"title": "Frame cost",
+			"wanted": {
+				"rule": "<= 0.005 ms per instance (art-units.md 8, tier3-extras.md 12)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 9.2 on the team-colour area (normal vision 71.2; 300 px); deutan: fire / nature dE 9.2; protan: fire / nature dE 20.7; worst vs ground: fire colour (deutan) dE 40.5"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.2): add a value step inside the team-colour area",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.2): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +14 (point 1 dL +14; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +14): darken around them or raise the energy",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +14): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5w",
+			"computed": false,
+			"measured": {
+				"value": "points per frame 2/2/2/0/1/0/2/2 (median 2, range 2, 2 frame(s) at 0; at rest 0)"
+			},
+			"predicted": {},
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (2/2/2/0/1/0/2/2 per frame): put them on parts the gait does not cover",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (2/2/2/0/1/0/2/2 per frame): put them on parts the gait does not cover",
+			"title": "Glow points while walking (flicker)",
+			"wanted": {
+				"rule": "the glow-point count stays within +-1 over the walk cycle and never drops to 0 (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 94.8,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/shade.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

@@ -1,0 +1,82 @@
+{
+	"asset": "essence_well",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R3",
+			"computed": false,
+			"measured": {
+				"value": "mean-colour dE 14.9, 66% of the body melts (within dE 15 of the ground); body L* 54.6 C 35.7 vs ground L* 59.7 C 49.6, hue gap 2 deg; top third (world height) dE 62.1, L* 35.2; per-pixel dE 16.4, outline 2.4"
+			},
+			"predicted": {},
+			"proposal": "Contrast vs ground (meadow): Raise the contrast of the key read on meadow (dE 14.9): value is close to the ground (dL -5): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "R3 Contrast vs ground (meadow): Raise the contrast of the key read on meadow (dE 14.9): value is close to the ground (dL -5): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
+			"title": "Contrast vs ground (meadow)",
+			"wanted": {
+				"rule": "mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 8 or > 60 % melting): the body must not melt into the grass"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R4",
+			"computed": false,
+			"measured": {
+				"value": "worst ash: dE 4.5 (heath dE 8.7, old_wood dE 8.3, riverbank dE 10.5, snow dE 11.1, ash dE 4.5, sand dE 12.2, marsh dE 6.9)"
+			},
+			"predicted": {},
+			"proposal": "Contrast on the other grounds: On ash the body drops to dE 4.5: add a value accent that separates it there too",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R4 Contrast on the other grounds: On ash the body drops to dE 4.5: add a value accent that separates it there too",
+			"title": "Contrast on the other grounds",
+			"wanted": {
+				"rule": "dE >= 8 on every skirmish ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +7 (point 1 dL +20, point 2 dL +8, point 3 dL +7, point 4 dL +13; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 3 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 3 glow point(s) barely stand out from their 1 m surround (worst dL +7): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_team_color, set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_team_color, set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 4,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_team_color, set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 69.3,
+	"result": "FAIL",
+	"scene": "res://art/buildings/capture/essence_well/essence_well.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

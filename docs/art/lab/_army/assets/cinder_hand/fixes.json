@@ -1,0 +1,31 @@
+{
+	"asset": "cinder_hand",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +13 (point 1 dL +13; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +13): darken around them or raise the energy",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +13): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 96.6,
+	"result": "WARN",
+	"scene": "res://art/units/fire/cinder_hand.tscn",
+	"tier": "worker",
+	"version": "1.0"
+}

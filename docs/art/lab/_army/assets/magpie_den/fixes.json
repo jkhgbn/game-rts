@@ -1,0 +1,271 @@
+{
+	"asset": "magpie_den",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-21508",
+					"material_path": "",
+					"to": "StandardMaterial3D#-74709",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-74709",
+					"material_path": "",
+					"to": "StandardMaterial3D#-38011",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-38011",
+					"material_path": "",
+					"to": "StandardMaterial3D#-3897",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 2.3,
+					"material": "ShaderMaterial#-8833",
+					"material_path": "",
+					"to": "ShaderMaterial#-94376",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 4.5,
+					"material": "ShaderMaterial#-85300",
+					"material_path": "",
+					"to": "ShaderMaterial#-94376",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.8,
+					"material": "ShaderMaterial#-17104",
+					"material_path": "",
+					"to": "ShaderMaterial#-94376",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 16.6,
+					"material": "ShaderMaterial#-53752",
+					"material_path": "",
+					"to": "ShaderMaterial#-62571",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 19.7,
+					"material": "ShaderMaterial#-62571",
+					"material_path": "",
+					"to": "ShaderMaterial#-66330",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 24.2,
+					"material": "ShaderMaterial#-66330",
+					"material_path": "",
+					"to": "ShaderMaterial#-94376",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 37.0,
+					"material": "ShaderMaterial#-76485",
+					"material_path": "",
+					"to": "ShaderMaterial#-94376",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 57.8,
+					"material": "ShaderMaterial#-30866",
+					"material_path": "",
+					"to": "ShaderMaterial#-39734",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 19
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "19 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-21508` -> `StandardMaterial3D#-74709` (dE 0.0), `StandardMaterial3D#-74709` -> `StandardMaterial3D#-38011` (dE 0.0), `StandardMaterial3D#-38011` -> `StandardMaterial3D#-3897` (dE 0.0), `ShaderMaterial#-8833` -> `ShaderMaterial#-94376` (dE 2.3), `ShaderMaterial#-85300` -> `ShaderMaterial#-94376` (dE 4.5), `ShaderMaterial#-17104` -> `ShaderMaterial#-94376` (dE 13.8), `ShaderMaterial#-53752` -> `ShaderMaterial#-62571` (dE 16.6), `ShaderMaterial#-62571` -> `ShaderMaterial#-66330` (dE 19.7), `ShaderMaterial#-66330` -> `ShaderMaterial#-94376` (dE 24.2), `ShaderMaterial#-76485` -> `ShaderMaterial#-94376` (dE 37.0), `ShaderMaterial#-30866` -> `ShaderMaterial#-39734` (dE 57.8)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 19 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-21508` -> `StandardMaterial3D#-74709` (dE 0.0), `StandardMaterial3D#-74709` -> `StandardMaterial3D#-38011` (dE 0.0), `StandardMaterial3D#-38011` -> `StandardMaterial3D#-3897` (dE 0.0), `ShaderMaterial#-8833` -> `ShaderMaterial#-94376` (dE 2.3), `ShaderMaterial#-85300` -> `ShaderMaterial#-94376` (dE 4.5), `ShaderMaterial#-17104` -> `ShaderMaterial#-94376` (dE 13.8), `ShaderMaterial#-53752` -> `ShaderMaterial#-62571` (dE 16.6), `ShaderMaterial#-62571` -> `ShaderMaterial#-66330` (dE 19.7), `ShaderMaterial#-66330` -> `ShaderMaterial#-94376` (dE 24.2), `ShaderMaterial#-76485` -> `ShaderMaterial#-94376` (dE 37.0), `ShaderMaterial#-30866` -> `ShaderMaterial#-39734` (dE 57.8)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 10616,
+					"node": "Body/Structure",
+					"to": 9014,
+					"words": "`Structure` 10616 -> 9014 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 13525
+			},
+			"predicted": {
+				"verts": 11923
+			},
+			"proposal": "13525 -> 11923 (want <= 12000): `Structure` 10616 -> 9014 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B4 13525 -> 11923 (want <= 12000): `Structure` 10616 -> 9014 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.15,
+					"material": "ShaderMaterial#-67582",
+					"material_path": "",
+					"node": "Body/Cloth",
+					"param": "",
+					"why": "dim under the bloom level: 1 point(s), peak 5.05 x the level",
+					"words": "emission x 0.15 (dim under the bloom level: 1 point(s), peak 5.05 x the level; no energy parameter found: scale its emission colour / strength)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 5,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Cloth",
+						"peak_x_bloom": 5.05,
+						"px": 46
+					},
+					{
+						"above": true,
+						"part": "Body/LightPool",
+						"peak_x_bloom": 3.23,
+						"px": 43
+					},
+					{
+						"above": true,
+						"part": "Body/SackPivot/Sack",
+						"peak_x_bloom": 3.23,
+						"px": 30
+					},
+					{
+						"above": true,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 3.23,
+						"px": 29
+					},
+					{
+						"above": true,
+						"part": "Body/LanternPivot/Lantern",
+						"peak_x_bloom": 5.3,
+						"px": 27
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.22,
+						"px": 654
+					},
+					{
+						"above": false,
+						"part": "Body/VanePivot/Vane",
+						"peak_x_bloom": 0.39,
+						"px": 93
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.25,
+						"px": 28
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.39,
+						"px": 21
+					},
+					{
+						"above": false,
+						"part": "Body/VanePivot/Vane",
+						"peak_x_bloom": 0.28,
+						"px": 11
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.26,
+						"px": 11
+					},
+					{
+						"above": false,
+						"part": "Body/SackPivot/Sack",
+						"peak_x_bloom": 0.22,
+						"px": 8
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.27,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "Body/SackPivot/Sack",
+						"peak_x_bloom": 0.21,
+						"px": 2
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 5/5/5): Cloth, LightPool, Sack, Rubble, Lantern; soft glows under the bloom (v1 count, luma > 0.4): 5"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 5 -> 4 (want 2-4): ShaderMaterial#-67582 emission x 0.15 (dim under the bloom level: 1 point(s), peak 5.05 x the level; no energy parameter found: scale its emission colour / strength)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "Glow points 5 -> 4 (want 2-4): ShaderMaterial#-67582 emission x 0.15 (dim under the bloom level: 1 point(s), peak 5.05 x the level; no energy parameter found: scale its emission colour / strength)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 4,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 80.5,
+	"result": "FAIL",
+	"scene": "res://art/buildings/guilds/magpie_den/magpie_den.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

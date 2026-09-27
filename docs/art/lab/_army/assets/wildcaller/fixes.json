@@ -1,0 +1,249 @@
+{
+	"asset": "wildcaller",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73732",
+					"material_path": "",
+					"to": "StandardMaterial3D#-63632",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-63632",
+					"material_path": "",
+					"to": "StandardMaterial3D#-95199",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 22.6,
+					"material": "nature_bark",
+					"material_path": "res://art/units/nature/materials/nature_bark.tres",
+					"to": "nature_bark_dark",
+					"to_path": "res://art/units/nature/materials/nature_bark_dark.tres"
+				},
+				{
+					"albedo_dE": 24.5,
+					"material": "nature_stone",
+					"material_path": "res://art/units/nature/materials/nature_stone.tres",
+					"to": "nature_skin",
+					"to_path": "res://art/units/nature/materials/nature_skin.tres"
+				},
+				{
+					"albedo_dE": 41.0,
+					"material": "nature_leaf_dark",
+					"material_path": "res://art/units/nature/materials/nature_leaf_dark.tres",
+					"to": "nature_bark_dark",
+					"to_path": "res://art/units/nature/materials/nature_bark_dark.tres"
+				},
+				{
+					"albedo_dE": 47.6,
+					"material": "nature_blossom",
+					"material_path": "res://art/units/nature/materials/nature_blossom.tres",
+					"to": "nature_skin",
+					"to_path": "res://art/units/nature/materials/nature_skin.tres"
+				},
+				{
+					"albedo_dE": 58.1,
+					"material": "nature_skin",
+					"material_path": "res://art/units/nature/materials/nature_skin.tres",
+					"to": "nature_bark_dark",
+					"to_path": "res://art/units/nature/materials/nature_bark_dark.tres"
+				},
+				{
+					"albedo_dE": 191.1,
+					"material": "StandardMaterial3D#-68682",
+					"material_path": "",
+					"to": "StandardMaterial3D#-95199",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 13
+			},
+			"predicted": {
+				"materials": 5
+			},
+			"proposal": "13 -> 5 materials: use one material for look-alike pairs: `StandardMaterial3D#-73732` -> `StandardMaterial3D#-63632` (dE 0.0), `StandardMaterial3D#-63632` -> `StandardMaterial3D#-95199` (dE 0.0), `nature_bark` -> `nature_bark_dark` (dE 22.6), `nature_stone` -> `nature_skin` (dE 24.5), `nature_leaf_dark` -> `nature_bark_dark` (dE 41.0), `nature_blossom` -> `nature_skin` (dE 47.6), `nature_skin` -> `nature_bark_dark` (dE 58.1), `StandardMaterial3D#-68682` -> `StandardMaterial3D#-95199` (dE 191.1)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 13 -> 5 materials: use one material for look-alike pairs: `StandardMaterial3D#-73732` -> `StandardMaterial3D#-63632` (dE 0.0), `StandardMaterial3D#-63632` -> `StandardMaterial3D#-95199` (dE 0.0), `nature_bark` -> `nature_bark_dark` (dE 22.6), `nature_stone` -> `nature_skin` (dE 24.5), `nature_leaf_dark` -> `nature_bark_dark` (dE 41.0), `nature_blossom` -> `nature_skin` (dE 47.6), `nature_skin` -> `nature_bark_dark` (dE 58.1), `StandardMaterial3D#-68682` -> `StandardMaterial3D#-95199` (dE 191.1)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "#85806b",
+					"material": "nature_stone",
+					"material_path": "res://art/units/nature/materials/nature_stone.tres",
+					"node": "Root/Hips/Merged, Root/Chest/Head/Variant, Root/Chest/Head/Merged, Root/Chest/ArmR/Staff",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/nature/materials/nature_stone.tres): give wildcaller its own copy first, other assets use it too",
+					"to": "#85806a",
+					"weight": 0.14
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4"
+			],
+			"gain": [
+				1.3,
+				1.4,
+				1.3
+			],
+			"measured": {
+				"body_lab": [
+					47.6,
+					-2.7,
+					18.2
+				],
+				"dE": {
+					"R3 meadow": 35.0,
+					"R4 ash": 31.2,
+					"R4 heath": 6.2,
+					"R4 marsh": 34.1,
+					"R4 old_wood": 20.5,
+					"R4 riverbank": 27.0,
+					"R4 sand": 36.3,
+					"R4 snow": 45.9
+				},
+				"ground_lab": [
+					61.9,
+					-23.2,
+					42.8
+				],
+				"melt_share": 0.01
+			},
+			"predicted": {
+				"R3 meadow": 34.9,
+				"R4 ash": 31.3,
+				"R4 heath": 6.2,
+				"R4 marsh": 34.1,
+				"R4 old_wood": 20.5,
+				"R4 riverbank": 27.0,
+				"R4 sand": 36.2,
+				"R4 snow": 45.9
+			},
+			"proposal": "shader_parameter/base_color of `nature_stone` #85806b -> #85806a (14% of the visible body): predicted dE R3 meadow 35.0 -> 34.9 (want >= 24); other grounds heath 6.2, old_wood 20.5, riverbank 27.0, snow 45.9, ash 31.3, sand 36.2, marsh 34.1; shared material (res://art/units/nature/materials/nature_stone.tres): give wildcaller its own copy first, other assets use it too",
+			"rank": 2,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `nature_stone` #85806b -> #85806a (14% of the visible body): predicted dE R3 meadow 35.0 -> 34.9 (want >= 24); other grounds heath 6.2, old_wood 20.5, riverbank 27.0, snow 45.9, ash 31.3, sand 36.2, marsh 34.1; shared material (res://art/units/nature/materials/nature_stone.tres): give wildcaller its own copy first, other assets use it too",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 9415,
+					"node": "Root/Chest/Merged",
+					"to": 4708,
+					"words": "`Merged` 9415 -> 4708 verts"
+				},
+				{
+					"from": 8598,
+					"node": "Root/Chest/ArmR/Staff",
+					"to": 4299,
+					"words": "`Staff` 8598 -> 4299 verts"
+				},
+				{
+					"from": 4614,
+					"node": "Root/Chest/Head/Variant",
+					"to": 2307,
+					"words": "`Variant` 4614 -> 2307 verts"
+				},
+				{
+					"from": 1668,
+					"node": "Root/Hips/Merged",
+					"to": 834,
+					"words": "`Merged` 1668 -> 834 verts"
+				},
+				{
+					"from": 983,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 492,
+					"words": "`Merged` 983 -> 492 verts"
+				},
+				{
+					"from": 424,
+					"node": "Root/Chest/Head/Merged",
+					"to": 212,
+					"words": "`Merged` 424 -> 212 verts"
+				},
+				{
+					"from": 287,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 144,
+					"words": "`Merged` 287 -> 144 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 26553
+			},
+			"predicted": {
+				"verts": 13280
+			},
+			"proposal": "26553 -> 13280 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4614 -> 2307 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Merged` 424 -> 212 verts; `Merged` 287 -> 144 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 26553 -> 13280 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4614 -> 2307 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Merged` 424 -> 212 verts; `Merged` 287 -> 144 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Staff 0.71 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 86.7,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/wildcaller/wildcaller.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

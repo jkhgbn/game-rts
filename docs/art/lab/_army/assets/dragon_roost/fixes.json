@@ -1,0 +1,454 @@
+{
+	"asset": "dragon_roost",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-7256",
+					"material_path": "",
+					"to": "StandardMaterial3D#-70684",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-70684",
+					"material_path": "",
+					"to": "StandardMaterial3D#-15114",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-15114",
+					"material_path": "",
+					"to": "StandardMaterial3D#-1255",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 5.9,
+					"material": "ShaderMaterial#-10015",
+					"material_path": "",
+					"to": "ShaderMaterial#-68339",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 20.1,
+					"material": "ShaderMaterial#-40748",
+					"material_path": "",
+					"to": "ShaderMaterial#-68339",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 36.8,
+					"material": "StandardMaterial3D#-97434",
+					"material_path": "",
+					"to": "StandardMaterial3D#-1255",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 37.8,
+					"material": "ShaderMaterial#-13905",
+					"material_path": "",
+					"to": "ShaderMaterial#-91317",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 61.2,
+					"material": "ShaderMaterial#-91317",
+					"material_path": "",
+					"to": "ShaderMaterial#-68339",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 83.4,
+					"material": "StandardMaterial3D#-4763",
+					"material_path": "",
+					"to": "StandardMaterial3D#-1255",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 17
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "17 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-7256` -> `StandardMaterial3D#-70684` (dE 0.0), `StandardMaterial3D#-70684` -> `StandardMaterial3D#-15114` (dE 0.0), `StandardMaterial3D#-15114` -> `StandardMaterial3D#-1255` (dE 0.0), `ShaderMaterial#-10015` -> `ShaderMaterial#-68339` (dE 5.9), `ShaderMaterial#-40748` -> `ShaderMaterial#-68339` (dE 20.1), `StandardMaterial3D#-97434` -> `StandardMaterial3D#-1255` (dE 36.8), `ShaderMaterial#-13905` -> `ShaderMaterial#-91317` (dE 37.8), `ShaderMaterial#-91317` -> `ShaderMaterial#-68339` (dE 61.2), `StandardMaterial3D#-4763` -> `StandardMaterial3D#-1255` (dE 83.4)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 17 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-7256` -> `StandardMaterial3D#-70684` (dE 0.0), `StandardMaterial3D#-70684` -> `StandardMaterial3D#-15114` (dE 0.0), `StandardMaterial3D#-15114` -> `StandardMaterial3D#-1255` (dE 0.0), `ShaderMaterial#-10015` -> `ShaderMaterial#-68339` (dE 5.9), `ShaderMaterial#-40748` -> `ShaderMaterial#-68339` (dE 20.1), `StandardMaterial3D#-97434` -> `StandardMaterial3D#-1255` (dE 36.8), `ShaderMaterial#-13905` -> `ShaderMaterial#-91317` (dE 37.8), `ShaderMaterial#-91317` -> `ShaderMaterial#-68339` (dE 61.2), `StandardMaterial3D#-4763` -> `StandardMaterial3D#-1255` (dE 83.4)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "#473d3b",
+					"material": "ShaderMaterial#-40748",
+					"material_path": "",
+					"node": "Body/PlinthBase, Body/PlinthBase/TerraceProps, Body/Spire, Body/Gatehouse",
+					"param": "shader_parameter/base_color",
+					"shared": "built in code or embedded: change it where the model script creates it",
+					"to": "#55402b",
+					"weight": 0.22
+				}
+			],
+			"check": "R4k",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				2.4,
+				2.3,
+				2.6
+			],
+			"measured": {
+				"body_lab": [
+					30.9,
+					11.4,
+					11.1
+				],
+				"dE": {
+					"R3 meadow": 57.6,
+					"R3t fire": 58.4,
+					"R3t ice": 56.1,
+					"R3t nature": 56.9,
+					"R3t shadow": 58.5,
+					"R4 heath": 34.2,
+					"R4 marsh": 12.9,
+					"R4 old_wood": 21.8,
+					"R4 riverbank": 33.2,
+					"R4 sand": 58.4,
+					"R4 snow": 60.2,
+					"R4k ash": 11.3
+				},
+				"ground_lab": [
+					60.6,
+					-26.6,
+					42.6
+				],
+				"melt_share": 0.01
+			},
+			"predicted": {
+				"R3 meadow": 54.1,
+				"R3t fire": 54.7,
+				"R3t ice": 53.0,
+				"R3t nature": 53.3,
+				"R3t shadow": 54.9,
+				"R4 heath": 30.8,
+				"R4 marsh": 15.7,
+				"R4 old_wood": 19.8,
+				"R4 riverbank": 32.2,
+				"R4 sand": 54.9,
+				"R4 snow": 60.9,
+				"R4k ash": 18.2
+			},
+			"proposal": "shader_parameter/base_color of `ShaderMaterial#-40748` #473d3b -> #55402b (21% of the visible body): predicted dE R3 meadow 57.6 -> 54.1, R3t fire 58.4 -> 54.7, R3t shadow 58.5 -> 54.9, R3t ice 56.1 -> 53.0, R3t nature 56.9 -> 53.3, R4k ash 11.3 -> 18.2 (want >= 18); other grounds heath 30.8, old_wood 19.8, riverbank 32.2, snow 60.9, sand 54.9, marsh 15.7; built in code or embedded: change it where the model script creates it",
+			"rank": 2,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `ShaderMaterial#-40748` #473d3b -> #55402b (21% of the visible body): predicted dE R3 meadow 57.6 -> 54.1, R3t fire 58.4 -> 54.7, R3t shadow 58.5 -> 54.9, R3t ice 56.1 -> 53.0, R3t nature 56.9 -> 53.3, R4k ash 11.3 -> 18.2 (want >= 18); other grounds heath 30.8, old_wood 19.8, riverbank 32.2, snow 60.9, sand 54.9, marsh 15.7; built in code or embedded: change it where the model script creates it",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 18 (rule 14 + margin 4)",
+				"dE_R4": ">= 12 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.13,
+					"from": 3.0,
+					"material": "ShaderMaterial#-59788",
+					"material_path": "",
+					"node": "Body/Nest/NestSpikesFront, Body/Nest/NestSpikes, Body/Nest/NestBowl",
+					"param": "shader_parameter/energy",
+					"to": 0.03,
+					"why": "dim under the bloom level: 9 point(s), peak 5.96 x the level",
+					"words": "energy 3.0 -> 0.03 (dim under the bloom level: 9 point(s), peak 5.96 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"from": 2.3,
+					"material": "ShaderMaterial#-32874",
+					"material_path": "",
+					"node": "Body/Lava, Body/PlinthBase/TerraceProps, Body/Perch/PerchParts",
+					"param": "shader_parameter/energy",
+					"to": 0.05,
+					"why": "dim under the bloom level: 9 point(s), peak 4.49 x the level",
+					"words": "energy 2.3 -> 0.05 (dim under the bloom level: 9 point(s), peak 4.49 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"from": 1.0,
+					"material": "ShaderMaterial#-36677",
+					"material_path": "",
+					"node": "Body/Nest/BannerPlayer, Body/Nest/BannerEnemy",
+					"param": "shader_parameter/glyph_energy",
+					"to": 0.17,
+					"why": "dim under the bloom level: 3 point(s), peak 4.49 x the level",
+					"words": "glyph_energy 1.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.49 x the level)"
+				},
+				{
+					"factor": 0.16,
+					"material": "StandardMaterial3D#-70684",
+					"material_path": "",
+					"node": "PoolScorchDecal",
+					"param": "",
+					"why": "dim under the bloom level: 2 point(s), peak 4.64 x the level",
+					"words": "emission x 0.16 (dim under the bloom level: 2 point(s), peak 4.64 x the level; no energy parameter found: scale its emission colour / strength)"
+				},
+				{
+					"factor": 0.2,
+					"from": 2.2,
+					"material": "ShaderMaterial#-87468",
+					"material_path": "",
+					"node": "Body/Gatehouse",
+					"param": "shader_parameter/energy",
+					"to": 0.12,
+					"why": "dim under the bloom level: 2 point(s), peak 3.76 x the level",
+					"words": "energy 2.2 -> 0.12 (dim under the bloom level: 2 point(s), peak 3.76 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 28,
+				"points_this_phase": 27,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikesFront",
+						"peak_x_bloom": 5.96,
+						"px": 1519
+					},
+					{
+						"above": true,
+						"part": "PoolScorchDecal",
+						"peak_x_bloom": 4.64,
+						"px": 827
+					},
+					{
+						"above": true,
+						"part": "Body/Lava",
+						"peak_x_bloom": 3.86,
+						"px": 185
+					},
+					{
+						"above": true,
+						"part": "Body/PlinthBase/TerraceProps",
+						"peak_x_bloom": 3.83,
+						"px": 185
+					},
+					{
+						"above": true,
+						"part": "Body/Perch/PerchParts",
+						"peak_x_bloom": 4.49,
+						"px": 142
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/BannerPlayer",
+						"peak_x_bloom": 4.49,
+						"px": 99
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikesFront",
+						"peak_x_bloom": 4.49,
+						"px": 94
+					},
+					{
+						"above": true,
+						"part": "Body/PlinthBase/TerraceProps",
+						"peak_x_bloom": 3.83,
+						"px": 89
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikes",
+						"peak_x_bloom": 4.49,
+						"px": 55
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikesFront",
+						"peak_x_bloom": 3.67,
+						"px": 47
+					},
+					{
+						"above": true,
+						"part": "Body/Gatehouse",
+						"peak_x_bloom": 3.76,
+						"px": 40
+					},
+					{
+						"above": true,
+						"part": "Body/Perch/PerchParts",
+						"peak_x_bloom": 3.73,
+						"px": 39
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikesFront",
+						"peak_x_bloom": 3.8,
+						"px": 34
+					},
+					{
+						"above": true,
+						"part": "GateScorchDecal",
+						"peak_x_bloom": 3.86,
+						"px": 34
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/BannerEnemy",
+						"peak_x_bloom": 3.76,
+						"px": 18
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikesFront",
+						"peak_x_bloom": 3.64,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Body/Perch/PerchParts",
+						"peak_x_bloom": 3.33,
+						"px": 16
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikesFront",
+						"peak_x_bloom": 3.61,
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Body/Perch/PerchParts",
+						"peak_x_bloom": 3.2,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/BannerPlayer",
+						"peak_x_bloom": 3.64,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Body/Gatehouse",
+						"peak_x_bloom": 3.2,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestBowl",
+						"peak_x_bloom": 3.48,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/Nest/NestSpikesFront",
+						"peak_x_bloom": 3.76,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "GateScorchDecal",
+						"peak_x_bloom": 3.26,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/PlinthBase/TerraceProps",
+						"peak_x_bloom": 3.01,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Body/Perch/PerchParts",
+						"peak_x_bloom": 3.76,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "PoolScorchDecal",
+						"peak_x_bloom": 3.83,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Body/Lava",
+						"peak_x_bloom": 0.36,
+						"px": 12
+					}
+				],
+				"value": "28 point(s) above the bloom level 1.2 (median of 33/22/28): NestSpikesFront x8, PoolScorchDecal x2, Lava, PerchParts x5, TerraceProps x3, NestSpikes, Gatehouse x3, BannerEnemy, NestBowl x2, BannerPlayer, GateScorchDecal, 3 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 28"
+			},
+			"predicted": {
+				"points": 3
+			},
+			"proposal": "Glow points 28 -> 3 (want 2-4): ShaderMaterial#-59788 energy 3.0 -> 0.03 (dim under the bloom level: 9 point(s), peak 5.96 x the level); ShaderMaterial#-32874 energy 2.3 -> 0.05 (dim under the bloom level: 9 point(s), peak 4.49 x the level); ShaderMaterial#-36677 glyph_energy 1.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.49 x the level); StandardMaterial3D#-70684 emission x 0.16 (dim under the bloom level: 2 point(s), peak 4.64 x the level; no energy parameter found: scale its emission colour / strength); ShaderMaterial#-87468 energy 2.2 -> 0.12 (dim under the bloom level: 2 point(s), peak 3.76 x the level)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "Glow points 28 -> 3 (want 2-4): ShaderMaterial#-59788 energy 3.0 -> 0.03 (dim under the bloom level: 9 point(s), peak 5.96 x the level); ShaderMaterial#-32874 energy 2.3 -> 0.05 (dim under the bloom level: 9 point(s), peak 4.49 x the level); ShaderMaterial#-36677 glyph_energy 1.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.49 x the level); StandardMaterial3D#-70684 emission x 0.16 (dim under the bloom level: 2 point(s), peak 4.64 x the level; no energy parameter found: scale its emission colour / strength); ShaderMaterial#-87468 energy 2.2 -> 0.12 (dim under the bloom level: 2 point(s), peak 3.76 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "30 material(s), 10 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 30 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 30 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (protan): dE 11.6 on the team-colour area (normal vision 15.4; 17843 px); deutan: shadow / ice dE 11.8; protan: fire / nature dE 11.6; worst vs ground: ice colour (deutan) dE 37.7"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (protan) look alike on this model (dE 11.6): add a value step inside the team-colour area",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (protan) look alike on this model (dE 11.6): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 85.5,
+	"result": "FAIL",
+	"scene": "res://art/buildings/lair/fire/dragon_roost.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

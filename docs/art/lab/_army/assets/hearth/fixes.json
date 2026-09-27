@@ -1,0 +1,72 @@
+{
+	"asset": "hearth",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-79643",
+					"material_path": "",
+					"to": "StandardMaterial3D#-73353",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-30717",
+					"material_path": "",
+					"to": "StandardMaterial3D#-73353",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 19.8,
+					"material": "ShaderMaterial#-46087",
+					"material_path": "",
+					"to": "ShaderMaterial#-68274",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 11
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "11 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-79643` -> `StandardMaterial3D#-73353` (dE 0.0), `StandardMaterial3D#-30717` -> `StandardMaterial3D#-73353` (dE 0.0), `ShaderMaterial#-46087` -> `ShaderMaterial#-68274` (dE 19.8)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 11 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-79643` -> `StandardMaterial3D#-73353` (dE 0.0), `StandardMaterial3D#-30717` -> `StandardMaterial3D#-73353` (dE 0.0), `ShaderMaterial#-46087` -> `ShaderMaterial#-68274` (dE 19.8)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +10 (point 1 dL +30, point 2 dL +10, point 3 dL +47; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +10): darken around them or raise the energy",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +10): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 90.4,
+	"result": "FAIL",
+	"scene": "res://art/buildings/hearth.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

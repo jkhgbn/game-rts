@@ -1,0 +1,107 @@
+{
+	"asset": "nature_spire",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-16893",
+					"material_path": "",
+					"to": "StandardMaterial3D#-73353",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73353",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 12.2,
+					"material": "Thorn",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 15.7,
+					"material": "Wood",
+					"material_path": "",
+					"to": "Bark",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 17.1,
+					"material": "Bark",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 24.8,
+					"material": "Stone",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 78.1,
+					"material": "StandardMaterial3D#-6890",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 111.7,
+					"material": "Petal",
+					"material_path": "",
+					"to": "LeafCard",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 16
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "16 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-16893` -> `StandardMaterial3D#-73353` (dE 0.0), `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `Thorn` -> `DarkStone` (dE 12.2), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Stone` -> `DarkStone` (dE 24.8), `StandardMaterial3D#-6890` -> `StandardMaterial3D#-79643` (dE 78.1), `Petal` -> `LeafCard` (dE 111.7)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B8 16 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-16893` -> `StandardMaterial3D#-73353` (dE 0.0), `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `Thorn` -> `DarkStone` (dE 12.2), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Stone` -> `DarkStone` (dE 24.8), `StandardMaterial3D#-6890` -> `StandardMaterial3D#-79643` (dE 78.1), `Petal` -> `LeafCard` (dE 111.7)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 6"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "18 material(s), 2 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 18 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 18 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 92.3,
+	"result": "WARN",
+	"scene": "res://art/buildings/nature_spire.tscn",
+	"tier": "small",
+	"version": "1.0"
+}

@@ -1,0 +1,296 @@
+{
+	"asset": "dread_paddock",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-59493",
+					"material_path": "",
+					"to": "StandardMaterial3D#-96331",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-96331",
+					"material_path": "",
+					"to": "StandardMaterial3D#-63412",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-63412",
+					"material_path": "",
+					"to": "StandardMaterial3D#-82736",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-82736",
+					"material_path": "",
+					"to": "StandardMaterial3D#-97460",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 6.1,
+					"material": "ShaderMaterial#-68817",
+					"material_path": "",
+					"to": "ShaderMaterial#-64060",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 10.3,
+					"material": "ShaderMaterial#-64060",
+					"material_path": "",
+					"to": "ShaderMaterial#-23208",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 23.5,
+					"material": "ShaderMaterial#-23208",
+					"material_path": "",
+					"to": "ShaderMaterial#-86510",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 36.0,
+					"material": "ShaderMaterial#-46612",
+					"material_path": "",
+					"to": "ShaderMaterial#-9298",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 36.8,
+					"material": "StandardMaterial3D#-79293",
+					"material_path": "",
+					"to": "StandardMaterial3D#-97460",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 46.7,
+					"material": "ShaderMaterial#-32490",
+					"material_path": "",
+					"to": "ShaderMaterial#-9298",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 51.5,
+					"material": "ShaderMaterial#-9298",
+					"material_path": "",
+					"to": "ShaderMaterial#-86510",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 97.8,
+					"material": "StandardMaterial3D#-97460",
+					"material_path": "",
+					"to": "StandardMaterial3D#-24307",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 20
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "20 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-59493` -> `StandardMaterial3D#-96331` (dE 0.0), `StandardMaterial3D#-96331` -> `StandardMaterial3D#-63412` (dE 0.0), `StandardMaterial3D#-63412` -> `StandardMaterial3D#-82736` (dE 0.0), `StandardMaterial3D#-82736` -> `StandardMaterial3D#-97460` (dE 0.0), `ShaderMaterial#-68817` -> `ShaderMaterial#-64060` (dE 6.1), `ShaderMaterial#-64060` -> `ShaderMaterial#-23208` (dE 10.3), `ShaderMaterial#-23208` -> `ShaderMaterial#-86510` (dE 23.5), `ShaderMaterial#-46612` -> `ShaderMaterial#-9298` (dE 36.0), `StandardMaterial3D#-79293` -> `StandardMaterial3D#-97460` (dE 36.8), `ShaderMaterial#-32490` -> `ShaderMaterial#-9298` (dE 46.7), `ShaderMaterial#-9298` -> `ShaderMaterial#-86510` (dE 51.5), `StandardMaterial3D#-97460` -> `StandardMaterial3D#-24307` (dE 97.8)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 20 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-59493` -> `StandardMaterial3D#-96331` (dE 0.0), `StandardMaterial3D#-96331` -> `StandardMaterial3D#-63412` (dE 0.0), `StandardMaterial3D#-63412` -> `StandardMaterial3D#-82736` (dE 0.0), `StandardMaterial3D#-82736` -> `StandardMaterial3D#-97460` (dE 0.0), `ShaderMaterial#-68817` -> `ShaderMaterial#-64060` (dE 6.1), `ShaderMaterial#-64060` -> `ShaderMaterial#-23208` (dE 10.3), `ShaderMaterial#-23208` -> `ShaderMaterial#-86510` (dE 23.5), `ShaderMaterial#-46612` -> `ShaderMaterial#-9298` (dE 36.0), `StandardMaterial3D#-79293` -> `StandardMaterial3D#-97460` (dE 36.8), `ShaderMaterial#-32490` -> `ShaderMaterial#-9298` (dE 46.7), `ShaderMaterial#-9298` -> `ShaderMaterial#-86510` (dE 51.5), `StandardMaterial3D#-97460` -> `StandardMaterial3D#-24307` (dE 97.8)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.18,
+					"from": 0.0,
+					"material": "ShaderMaterial#-86510",
+					"material_path": "",
+					"node": "Body/Gatehouse/PortcullisPivot/Portcullis, Body/YardProps/PropsMesh",
+					"param": "shader_parameter/crack_strength",
+					"to": 0.0,
+					"why": "dim under the bloom level: 3 point(s), peak 4.27 x the level",
+					"words": "crack_strength 0.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 4.27 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"material": "StandardMaterial3D#-63412",
+					"material_path": "",
+					"node": "Halo2, Halo1",
+					"param": "",
+					"why": "dim under the bloom level: 2 point(s), peak 4.45 x the level",
+					"words": "emission x 0.17 (dim under the bloom level: 2 point(s), peak 4.45 x the level; no energy parameter found: scale its emission colour / strength)"
+				},
+				{
+					"factor": 0.18,
+					"material": "StandardMaterial3D#-96331",
+					"material_path": "",
+					"node": "LightPoolBack",
+					"param": "",
+					"why": "dim under the bloom level: 2 point(s), peak 4.27 x the level",
+					"words": "emission x 0.18 (dim under the bloom level: 2 point(s), peak 4.27 x the level; no energy parameter found: scale its emission colour / strength)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 10,
+				"points_this_phase": 11,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Gatehouse/PortcullisPivot/Portcullis",
+						"peak_x_bloom": 4.27,
+						"px": 586
+					},
+					{
+						"above": true,
+						"part": "Body/StallRoofFrame/StallRoof",
+						"peak_x_bloom": 4.27,
+						"px": 186
+					},
+					{
+						"above": true,
+						"part": "Body/PlinthCallCircle/RuneRing",
+						"peak_x_bloom": 3.92,
+						"px": 89
+					},
+					{
+						"above": true,
+						"part": "Halo2",
+						"peak_x_bloom": 4.45,
+						"px": 72
+					},
+					{
+						"above": true,
+						"part": "Body/TowerBanner",
+						"peak_x_bloom": 4.27,
+						"px": 20
+					},
+					{
+						"above": true,
+						"part": "Halo1",
+						"peak_x_bloom": 3.29,
+						"px": 16
+					},
+					{
+						"above": true,
+						"part": "ScorchDecal",
+						"peak_x_bloom": 4.27,
+						"px": 10
+					},
+					{
+						"above": true,
+						"part": "LightPoolBack",
+						"peak_x_bloom": 4.27,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "LightPoolBack",
+						"peak_x_bloom": 3.11,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Body/YardProps/PropsMesh",
+						"peak_x_bloom": 3.17,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/YardProps/PropsMesh",
+						"peak_x_bloom": 3.17,
+						"px": 4
+					},
+					{
+						"above": false,
+						"part": "Body/SpireL/SpireLCrown",
+						"peak_x_bloom": 0.42,
+						"px": 75
+					},
+					{
+						"above": false,
+						"part": "Body/SpireL/SpireLRoof",
+						"peak_x_bloom": 0.39,
+						"px": 18
+					},
+					{
+						"above": false,
+						"part": "Body/SpireR",
+						"peak_x_bloom": 0.42,
+						"px": 14
+					},
+					{
+						"above": false,
+						"part": "Body/SpireL/SpireLRoof",
+						"peak_x_bloom": 0.3,
+						"px": 13
+					},
+					{
+						"above": false,
+						"part": "Body/SpireR",
+						"peak_x_bloom": 0.38,
+						"px": 9
+					},
+					{
+						"above": false,
+						"part": "Body/SpireR",
+						"peak_x_bloom": 0.3,
+						"px": 7
+					},
+					{
+						"above": false,
+						"part": "Body/SpireR",
+						"peak_x_bloom": 0.3,
+						"px": 6
+					}
+				],
+				"value": "10 point(s) above the bloom level 1.2 (median of 11/7/10): Portcullis, StallRoof x2, RuneRing, Halo2, TowerBanner, Halo0, Torches x2, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 17"
+			},
+			"predicted": {
+				"points": 3
+			},
+			"proposal": "Glow points 10 -> 3 (want 2-4): ShaderMaterial#-86510 crack_strength 0.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 4.27 x the level); StandardMaterial3D#-63412 emission x 0.17 (dim under the bloom level: 2 point(s), peak 4.45 x the level; no energy parameter found: scale its emission colour / strength); StandardMaterial3D#-96331 emission x 0.18 (dim under the bloom level: 2 point(s), peak 4.27 x the level; no energy parameter found: scale its emission colour / strength)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 10 -> 3 (want 2-4): ShaderMaterial#-86510 crack_strength 0.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 4.27 x the level); StandardMaterial3D#-63412 emission x 0.17 (dim under the bloom level: 2 point(s), peak 4.45 x the level; no energy parameter found: scale its emission colour / strength); StandardMaterial3D#-96331 emission x 0.18 (dim under the bloom level: 2 point(s), peak 4.27 x the level; no energy parameter found: scale its emission colour / strength)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "33 material(s), 14 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 33 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 33 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "shadow",
+	"quality": 87.2,
+	"result": "FAIL",
+	"scene": "res://art/buildings/lair/shadow/dread_paddock.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

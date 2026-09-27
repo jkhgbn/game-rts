@@ -1,0 +1,249 @@
+{
+	"asset": "market_nature",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-60158",
+					"material_path": "",
+					"to": "StandardMaterial3D#-46252",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-46252",
+					"material_path": "",
+					"to": "StandardMaterial3D#-16893",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-16893",
+					"material_path": "",
+					"to": "StandardMaterial3D#-5531",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 9.4,
+					"material": "Clay",
+					"material_path": "",
+					"to": "Wood",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 15.7,
+					"material": "Wood",
+					"material_path": "",
+					"to": "Bark",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 17.1,
+					"material": "Bark",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 24.8,
+					"material": "Stone",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 71.8,
+					"material": "Leaves",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 102.7,
+					"material": "Blossom",
+					"material_path": "",
+					"to": "LeafCard",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 19
+			},
+			"predicted": {
+				"materials": 10
+			},
+			"proposal": "19 -> 10 materials: use one material for look-alike pairs: `StandardMaterial3D#-60158` -> `StandardMaterial3D#-46252` (dE 0.0), `StandardMaterial3D#-46252` -> `StandardMaterial3D#-16893` (dE 0.0), `StandardMaterial3D#-16893` -> `StandardMaterial3D#-5531` (dE 0.0), `Clay` -> `Wood` (dE 9.4), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Stone` -> `DarkStone` (dE 24.8), `Leaves` -> `DarkStone` (dE 71.8), `Blossom` -> `LeafCard` (dE 102.7)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 19 -> 10 materials: use one material for look-alike pairs: `StandardMaterial3D#-60158` -> `StandardMaterial3D#-46252` (dE 0.0), `StandardMaterial3D#-46252` -> `StandardMaterial3D#-16893` (dE 0.0), `StandardMaterial3D#-16893` -> `StandardMaterial3D#-5531` (dE 0.0), `Clay` -> `Wood` (dE 9.4), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Stone` -> `DarkStone` (dE 24.8), `Leaves` -> `DarkStone` (dE 71.8), `Blossom` -> `LeafCard` (dE 102.7)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.17,
+					"from": 1.0,
+					"material": "Gold",
+					"material_path": "",
+					"node": "Body/Tree/PanGold/PanParts, Body/Tree/PanSeed/PanParts, Body/Tree/Beam/BeamParts",
+					"param": "shader_parameter/sweep_energy",
+					"to": 0.17,
+					"why": "dim under the bloom level: 3 point(s), peak 4.39 x the level",
+					"words": "sweep_energy 1.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.39 x the level)"
+				},
+				{
+					"factor": 0.18,
+					"from": 0.9,
+					"material": "Banner",
+					"material_path": "",
+					"node": "Body/BannerA, Body/BannerB",
+					"param": "shader_parameter/glyph_energy",
+					"to": 0.16,
+					"why": "dim under the bloom level: 2 point(s), peak 4.27 x the level",
+					"words": "glyph_energy 0.9 -> 0.16 (dim under the bloom level: 2 point(s), peak 4.27 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 9,
+				"points_this_phase": 9,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 4.58,
+						"px": 212
+					},
+					{
+						"above": true,
+						"part": "Body/Canopy/LanternPivot1/Lantern",
+						"peak_x_bloom": 4.64,
+						"px": 188
+					},
+					{
+						"above": true,
+						"part": "Body/BannerA",
+						"peak_x_bloom": 4.27,
+						"px": 76
+					},
+					{
+						"above": true,
+						"part": "Body/Canopy/Roof",
+						"peak_x_bloom": 4.45,
+						"px": 43
+					},
+					{
+						"above": true,
+						"part": "Body/BannerB",
+						"peak_x_bloom": 3.26,
+						"px": 24
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/PanGold/PanParts",
+						"peak_x_bloom": 3.26,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/PanSeed/PanParts",
+						"peak_x_bloom": 4.39,
+						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/Beam/BeamParts",
+						"peak_x_bloom": 3.2,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Body/Canopy/Roof",
+						"peak_x_bloom": 3.07,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.38,
+						"px": 19
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.37,
+						"px": 18
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.32,
+						"px": 12
+					}
+				],
+				"value": "9 point(s) above the bloom level 1.2 (median of 9/9/7): SapMotes, Lantern, BannerA, Roof x2, BannerB, PanParts x2, BeamParts, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 14"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 9 -> 4 (want 2-4): Gold sweep_energy 1.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.39 x the level); Banner glyph_energy 0.9 -> 0.16 (dim under the bloom level: 2 point(s), peak 4.27 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 9 -> 4 (want 2-4): Gold sweep_energy 1.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.39 x the level); Banner glyph_energy 0.9 -> 0.16 (dim under the bloom level: 2 point(s), peak 4.27 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "28 material(s), 5 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 28 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 28 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +14 (point 1 dL +65, point 2 dL +49, point 3 dL +35, point 4 dL +69, point 5 dL +29, point 6 dL +32, point 7 dL +23, point 8 dL +18, point 9 dL +14, soft 1 dL +67 (counts), soft 2 dL +52 (counts), soft 3 dL +28 (counts), soft 4 dL +55 (counts), soft 5 dL +40 (counts), soft 6 dL +26 (counts), soft 7 dL +35 (counts), soft 8 dL -3, soft 9 dL +0, soft 10 dL +14, soft 11 dL -6; ring 26 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +14): darken around them or raise the energy",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +14): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 86.3,
+	"result": "FAIL",
+	"scene": "res://art/buildings/market/nature/market_nature.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

@@ -66,6 +66,28 @@ var glow_level: float = 1.1
 var height_mat: ShaderMaterial
 var preset_id: StringName = &"warm"   # the light preset this stage was built with
 var _own: Array[Node] = []   # the stage's own world nodes (rig, ground, water, patches, camera): kept by reset()
+## v3 1.D (a): how snow / ash / sand / marsh are painted: "terrain" = the step-12b TerrainSystem layers of
+## ground.gdshader (terrain.md 7.1 `terrain_mask`) fed with a lab mask over the patch spots; "stand-in" = flat patches
+## tinted with each biome set's GROUND_TINT (the ground shader has no terrain layers yet).
+var terrain_mode: String = "stand-in"
+const TERRAIN_ORIGIN := Vector2(-200.0, -200.0)
+const TERRAIN_SIZE := 400.0
+const TERRAIN_MASK_PX := 240
+## terrain.md 7.1 mask channels: R snow, G sand, B ash, A marsh.
+const TERRAIN_CHANNEL := {&"snow": 0, &"sand": 1, &"ash": 2, &"marsh": 3}
+## v3 1.D (g): light presets the lab can switch to on a built stage (LightingRig presets + the autumn preset of
+## style-autumn.md; "night" is a lab stand-in built from warm, see night_preset()).
+const PRESET_PATHS := {
+	&"warm": "res://art/environment/lighting/preset_warm.tres",
+	&"ice": "res://art/environment/lighting/preset_ice.tres",
+	&"autumn": "res://art/environment/autumn/preset_autumn.tres",
+}
+const AUTUMN_GROUND_PATH := "res://art/environment/autumn/autumn_ground_params.gd"
+var light_now: StringName = &"warm"
+var ground_look: StringName = &""
+var _ground_mat_base: Material
+var _ground_looks: Dictionary = {}   # look id -> material (built once)
+var _night: Resource
 ## World height pass (P3 / P5 judge by world height, not screen rows): grey = (world y - y0) / span, unshaded.
 const HEIGHT_SHADER := """
 shader_type spatial;
@@ -132,6 +154,7 @@ func setup(light_preset: StringName = &"warm") -> void:
 	height_mat.shader = hs
 	RenderingServer.viewport_set_measure_render_time(vp.get_viewport_rid(), true)
 	preset_id = light_preset
+	light_now = light_preset
 	_own.assign(world.get_children())
 
 
@@ -151,6 +174,10 @@ func reset() -> void:
 			world.remove_child(c)
 			c.queue_free()
 			extra = true
+	if light_now != preset_id:
+		set_light(preset_id)
+	if ground_look != &"":
+		set_ground_look(&"")
 	set_mode(&"lit")
 	game_cam(Vector3.ZERO, 40.0)
 	if extra:
@@ -220,6 +247,10 @@ func _build_ground() -> void:
 	if ResourceLoader.exists(WATER_MAT_PATH):
 		water.material_override = load(WATER_MAT_PATH) as Material
 	world.add_child(water)
+	_ground_mat_base = ground.material_override
+	if apply_terrain(ground.material_override as ShaderMaterial):
+		terrain_mode = "terrain"
+		return   # the real terrain layers paint snow / ash / sand / marsh: no stand-in patches
 	for gid: StringName in PATCH_SETS:
 		var tint: Color = PATCH_FALLBACK[gid]
 		var sp: String = PATCH_SETS[gid]
@@ -240,6 +271,129 @@ func _build_ground() -> void:
 		pmi.material_override = sm2
 		world.add_child(pmi)
 		patches.append(pmi)
+
+
+## v3 1.D (a): when ground.gdshader has the step-12b terrain layers (terrain.md 7.1: `terrain_enabled`,
+## `terrain_mask`, `terrain_origin`, `terrain_size`), paint the snow / sand / ash / marsh spots of GROUND_POINTS into a
+## lab mask (120 m squares, like the stand-in patches) and turn the layers on. False = no terrain layers (stand-ins).
+func apply_terrain(mat: ShaderMaterial) -> bool:
+	if mat == null or mat.shader == null:
+		return false
+	var names := {}
+	for u: Dictionary in mat.shader.get_shader_uniform_list():
+		names[String(u.get("name", ""))] = true
+	if not (names.has("terrain_mask") and names.has("terrain_enabled")):
+		return false
+	mat.set_shader_parameter(&"terrain_mask", ImageTexture.create_from_image(terrain_mask_image()))
+	mat.set_shader_parameter(&"terrain_enabled", true)
+	if names.has("terrain_origin"):
+		mat.set_shader_parameter(&"terrain_origin", TERRAIN_ORIGIN)
+	if names.has("terrain_size"):
+		mat.set_shader_parameter(&"terrain_size", TERRAIN_SIZE)
+	return true
+
+
+## The lab's terrain mask (terrain.md 7.1 layout: R snow, G sand, B ash, A marsh) over TERRAIN_ORIGIN / TERRAIN_SIZE:
+## a 120 m square of full weight at each stand-in spot of GROUND_POINTS.
+static func terrain_mask_image() -> Image:
+	var n := TERRAIN_MASK_PX
+	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	for gid: StringName in TERRAIN_CHANNEL:
+		var p: Vector3 = GROUND_POINTS[gid]
+		var ch: int = TERRAIN_CHANNEL[gid]
+		var x0 := int((p.x - 60.0 - TERRAIN_ORIGIN.x) / TERRAIN_SIZE * float(n))
+		var y0 := int((p.z - 60.0 - TERRAIN_ORIGIN.y) / TERRAIN_SIZE * float(n))
+		var s := int(120.0 / TERRAIN_SIZE * float(n))
+		for y: int in range(maxi(y0, 0), mini(y0 + s, n)):
+			for x: int in range(maxi(x0, 0), mini(x0 + s, n)):
+				var c := img.get_pixel(x, y)
+				c[ch] = 1.0
+				img.set_pixel(x, y, c)
+	return img
+
+
+## One line for the scorecard notes: what paints snow / ash / sand / marsh in this stage.
+func terrain_note() -> String:
+	if terrain_mode == "terrain":
+		return "terrain: snow / ash / sand / marsh painted by the step-12b ground-shader terrain layers (lab mask, 120 m per spot)"
+	return "terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no " + \
+		"step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist"
+
+
+## A light preset resource by id (&"warm", &"ice", &"autumn" from PRESET_PATHS; &"night" = night_preset()); null if
+## missing.
+func light_preset(id: StringName) -> Resource:
+	if id == &"night":
+		return night_preset()
+	var path: String = PRESET_PATHS.get(id, "")
+	return load(path) if path != "" and ResourceLoader.exists(path) else null
+
+
+## Lab stand-in for a night mood (no night preset in art/environment/lighting yet): the warm preset with a dim cool
+## moon sun, a low cool ambient, a darker sky and a stronger dark vignette.
+func night_preset() -> Resource:
+	if _night != null:
+		return _night
+	var base: Resource = light_preset(&"warm")
+	if base == null:
+		return null
+	var p := base.duplicate() as Resource
+	var env0: Environment = base.get(&"environment")
+	if env0:
+		var env := env0.duplicate() as Environment
+		env.ambient_light_color = Color(0.42, 0.50, 0.78)
+		env.ambient_light_energy = env0.ambient_light_energy * 0.45
+		env.background_energy_multiplier = env0.background_energy_multiplier * 0.3
+		if env.fog_enabled:
+			env.fog_light_color = Color(0.16, 0.20, 0.32)
+			env.fog_light_energy = env0.fog_light_energy * 0.5
+		p.set(&"environment", env)
+	p.set(&"sun_color", Color(0.62, 0.72, 1.0))
+	p.set(&"sun_energy", 0.5)
+	p.set(&"fill_color", Color(0.35, 0.45, 0.9))
+	p.set(&"fill_energy", 0.3)
+	p.set(&"vignette_color", Color(0.02, 0.03, 0.08))
+	p.set(&"vignette_strength", 0.55)
+	p.set(&"haze_strength", 0.0)
+	_night = p
+	return p
+
+
+## v3 1.D (g): switches the built stage to another light preset (the rig's apply()). The dark / hot / sil passes keep
+## the build preset's settings. reset() switches back. False when the preset or the rig is missing.
+func set_light(id: StringName) -> bool:
+	if rig == null or not rig.has_method(&"apply"):
+		return false
+	var p := light_preset(id)
+	if p == null:
+		return false
+	rig.call(&"apply", p)
+	env_lit = env_node.environment
+	_fill_on = fill != null and fill.visible
+	light_now = id
+	set_mode(mode)
+	return true
+
+
+## v3 1.D (f): a ground colour look on the same zones: &"autumn" = the autumn_ground_params.gd colours
+## (style-autumn.md 1.1) on a copy of the ground material; &"" = back to the skirmish ground.
+func set_ground_look(look: StringName) -> bool:
+	if look == &"":
+		ground.material_override = _ground_mat_base
+		ground_look = &""
+		return true
+	if not _ground_looks.has(look):
+		if look != &"autumn" or not ResourceLoader.exists(AUTUMN_GROUND_PATH) or not (_ground_mat_base is ShaderMaterial):
+			return false
+		var mat := (_ground_mat_base as ShaderMaterial).duplicate() as ShaderMaterial
+		var ap := load(AUTUMN_GROUND_PATH) as GDScript
+		if ap == null or int(ap.call(&"apply", mat)) == 0:
+			return false
+		_ground_looks[look] = mat
+	ground.material_override = _ground_looks[look]
+	ground_look = look
+	return true
 
 
 ## Switches the render mode (lit / sil / dark). Model overrides are separate (override_black / restore).

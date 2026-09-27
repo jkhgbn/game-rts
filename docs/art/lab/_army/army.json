@@ -1,0 +1,892 @@
+{
+	"date": "2026-09-27 10:39:05",
+	"groups": [
+		"fire",
+		"ice",
+		"nature",
+		"shadow",
+		"neutral"
+	],
+	"pairs": [
+		{
+			"a": "glade_outrider",
+			"b": "stagrunner",
+			"de": 7.0,
+			"ga": "nature",
+			"gb": "nature",
+			"iou": 0.912
+		},
+		{
+			"a": "cinder_dragon",
+			"b": "frost_dragon",
+			"de": 65.3,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.817
+		},
+		{
+			"a": "cinder_hand",
+			"b": "rime_hauler",
+			"de": 48.8,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.763
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "shardcaster",
+			"de": 3.5,
+			"ga": "ice",
+			"gb": "ice",
+			"iou": 0.759
+		},
+		{
+			"a": "flame_guard",
+			"b": "rimeshield",
+			"de": 77.8,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.748
+		},
+		{
+			"a": "ember_archer",
+			"b": "coin_cutter",
+			"de": 43.4,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.744
+		},
+		{
+			"a": "grizzlemaw",
+			"b": "tusker",
+			"de": 29.0,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.743
+		},
+		{
+			"a": "vessa",
+			"b": "malrik",
+			"de": 85.4,
+			"ga": "fire",
+			"gb": "shadow",
+			"iou": 0.725
+		},
+		{
+			"a": "cinderlock",
+			"b": "nightbolt",
+			"de": 66.6,
+			"ga": "fire",
+			"gb": "shadow",
+			"iou": 0.701
+		},
+		{
+			"a": "vessa",
+			"b": "ysolde",
+			"de": 56.9,
+			"ga": "fire",
+			"gb": "nature",
+			"iou": 0.701
+		},
+		{
+			"a": "coin_cutter",
+			"b": "tracker",
+			"de": 27.4,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.701
+		},
+		{
+			"a": "bramblehorn",
+			"b": "grizzlemaw",
+			"de": 33.4,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.7
+		},
+		{
+			"a": "ash_hurler",
+			"b": "cinder_hand",
+			"de": 9.4,
+			"ga": "fire",
+			"gb": "fire",
+			"iou": 0.695
+		},
+		{
+			"a": "bramblehorn",
+			"b": "tusker",
+			"de": 31.4,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.685
+		},
+		{
+			"a": "vessa",
+			"b": "torvald",
+			"de": 76.6,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.682
+		},
+		{
+			"a": "cinder_hand",
+			"b": "ember_archer",
+			"de": 22.5,
+			"ga": "fire",
+			"gb": "fire",
+			"iou": 0.681
+		},
+		{
+			"a": "caravan",
+			"b": "tusker",
+			"de": 33.8,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.675
+		},
+		{
+			"a": "ember_archer",
+			"b": "tracker",
+			"de": 54.8,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.674
+		},
+		{
+			"a": "ember_archer",
+			"b": "shardcaster",
+			"de": 72.3,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.673
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "coin_cutter",
+			"de": 52.1,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.671
+		},
+		{
+			"a": "sapling",
+			"b": "magpie",
+			"de": 36.1,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.671
+		},
+		{
+			"a": "shardcaster",
+			"b": "coin_cutter",
+			"de": 53.0,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.668
+		},
+		{
+			"a": "ash_hurler",
+			"b": "rime_hauler",
+			"de": 50.3,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.666
+		},
+		{
+			"a": "ember_archer",
+			"b": "rime_hauler",
+			"de": 65.1,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.665
+		},
+		{
+			"a": "ember_archer",
+			"b": "frostrune_rifleman",
+			"de": 69.4,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.665
+		},
+		{
+			"a": "vessa",
+			"b": "bloomtender",
+			"de": 55.7,
+			"ga": "fire",
+			"gb": "nature",
+			"iou": 0.664
+		},
+		{
+			"a": "caravan",
+			"b": "grizzlemaw",
+			"de": 15.7,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.662
+		},
+		{
+			"a": "dusk_steed",
+			"b": "roan_courser",
+			"de": 56.1,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.661
+		},
+		{
+			"a": "cinderlock",
+			"b": "tracker",
+			"de": 34.2,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.66
+		},
+		{
+			"a": "rimehorn",
+			"b": "tusker",
+			"de": 15.7,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.66
+		},
+		{
+			"a": "tracker",
+			"b": "wayfinder",
+			"de": 21.5,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.659
+		},
+		{
+			"a": "shade",
+			"b": "coin_cutter",
+			"de": 36.6,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.659
+		},
+		{
+			"a": "cinderlock",
+			"b": "rimeshield",
+			"de": 56.0,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.657
+		},
+		{
+			"a": "cinderlock",
+			"b": "ember_archer",
+			"de": 28.3,
+			"ga": "fire",
+			"gb": "fire",
+			"iou": 0.657
+		},
+		{
+			"a": "cinderlock",
+			"b": "coin_cutter",
+			"de": 16.6,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.656
+		},
+		{
+			"a": "vessa",
+			"b": "shadow_knight",
+			"de": 79.3,
+			"ga": "fire",
+			"gb": "shadow",
+			"iou": 0.655
+		},
+		{
+			"a": "rimehorn_rider",
+			"b": "tusker",
+			"de": 14.1,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.652
+		},
+		{
+			"a": "ember_archer",
+			"b": "magpie",
+			"de": 61.6,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.651
+		},
+		{
+			"a": "rime_seer",
+			"b": "bloomtender",
+			"de": 38.7,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.65
+		},
+		{
+			"a": "thornling",
+			"b": "magpie",
+			"de": 36.6,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.647
+		},
+		{
+			"a": "ysolde",
+			"b": "malrik",
+			"de": 79.1,
+			"ga": "nature",
+			"gb": "shadow",
+			"iou": 0.645
+		},
+		{
+			"a": "torvald",
+			"b": "ysolde",
+			"de": 42.5,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.643
+		},
+		{
+			"a": "malrik",
+			"b": "shadow_knight",
+			"de": 12.5,
+			"ga": "shadow",
+			"gb": "shadow",
+			"iou": 0.643
+		},
+		{
+			"a": "bloomtender",
+			"b": "malrik",
+			"de": 76.9,
+			"ga": "nature",
+			"gb": "shadow",
+			"iou": 0.643
+		},
+		{
+			"a": "nightbolt",
+			"b": "tracker",
+			"de": 61.9,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.642
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "tracker",
+			"de": 31.6,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.642
+		},
+		{
+			"a": "cinderlock",
+			"b": "wayfinder",
+			"de": 19.1,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.641
+		},
+		{
+			"a": "coin_cutter",
+			"b": "mage_archer",
+			"de": 35.4,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.641
+		},
+		{
+			"a": "shadow_knight",
+			"b": "ruin_warden",
+			"de": 57.1,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.641
+		},
+		{
+			"a": "malrik",
+			"b": "wildcaller",
+			"de": 65.2,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.638
+		},
+		{
+			"a": "shardcaster",
+			"b": "magpie",
+			"de": 30.5,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.637
+		},
+		{
+			"a": "cinder_hand",
+			"b": "shardcaster",
+			"de": 55.5,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.637
+		},
+		{
+			"a": "rimeshield",
+			"b": "tracker",
+			"de": 27.5,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.637
+		},
+		{
+			"a": "coin_cutter",
+			"b": "magpie",
+			"de": 28.3,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.636
+		},
+		{
+			"a": "sprigling",
+			"b": "gloom_thrall",
+			"de": 71.1,
+			"ga": "nature",
+			"gb": "shadow",
+			"iou": 0.635
+		},
+		{
+			"a": "oathwall",
+			"b": "ruin_warden",
+			"de": 18.9,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.633
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "magpie",
+			"de": 30.8,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.633
+		},
+		{
+			"a": "bloomtender",
+			"b": "wildcaller",
+			"de": 15.0,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.633
+		},
+		{
+			"a": "ember_archer",
+			"b": "shade",
+			"de": 76.6,
+			"ga": "fire",
+			"gb": "shadow",
+			"iou": 0.632
+		},
+		{
+			"a": "rimeshield",
+			"b": "nightbolt",
+			"de": 56.7,
+			"ga": "ice",
+			"gb": "shadow",
+			"iou": 0.631
+		},
+		{
+			"a": "shade",
+			"b": "magpie",
+			"de": 34.5,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.629
+		},
+		{
+			"a": "mage_archer",
+			"b": "tracker",
+			"de": 37.8,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.628
+		},
+		{
+			"a": "ash_hurler",
+			"b": "ember_archer",
+			"de": 29.9,
+			"ga": "fire",
+			"gb": "fire",
+			"iou": 0.627
+		},
+		{
+			"a": "cinder_hand",
+			"b": "magpie",
+			"de": 39.7,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.626
+		},
+		{
+			"a": "nightbolt",
+			"b": "wayfinder",
+			"de": 62.0,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.626
+		},
+		{
+			"a": "cinder_hand",
+			"b": "coin_cutter",
+			"de": 23.1,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.626
+		},
+		{
+			"a": "sapling",
+			"b": "shade",
+			"de": 69.9,
+			"ga": "nature",
+			"gb": "shadow",
+			"iou": 0.625
+		},
+		{
+			"a": "rime_colossus",
+			"b": "ruin_warden",
+			"de": 37.4,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.625
+		},
+		{
+			"a": "nightbolt",
+			"b": "coin_cutter",
+			"de": 55.6,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.625
+		},
+		{
+			"a": "rimehorn_rider",
+			"b": "bramblehorn",
+			"de": 38.2,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.625
+		},
+		{
+			"a": "cinderlock",
+			"b": "shardcaster",
+			"de": 59.8,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.625
+		},
+		{
+			"a": "shardcaster",
+			"b": "tracker",
+			"de": 32.3,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.622
+		},
+		{
+			"a": "rime_hauler",
+			"b": "sprigling",
+			"de": 33.9,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.621
+		},
+		{
+			"a": "vessa",
+			"b": "wildcaller",
+			"de": 56.9,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.621
+		},
+		{
+			"a": "bloomtender",
+			"b": "wayfinder",
+			"de": 37.3,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.621
+		},
+		{
+			"a": "bramblehorn",
+			"b": "caravan",
+			"de": 39.3,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.621
+		},
+		{
+			"a": "rime_hauler",
+			"b": "coin_cutter",
+			"de": 49.8,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.621
+		},
+		{
+			"a": "gloomcap_elder",
+			"b": "oathwall",
+			"de": 20.3,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.62
+		},
+		{
+			"a": "malrik",
+			"b": "wayfinder",
+			"de": 53.6,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.618
+		},
+		{
+			"a": "ember_archer",
+			"b": "sprigling",
+			"de": 52.3,
+			"ga": "fire",
+			"gb": "nature",
+			"iou": 0.618
+		},
+		{
+			"a": "shardcaster",
+			"b": "burr_slinger",
+			"de": 50.0,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.618
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "gloom_thrall",
+			"de": 42.5,
+			"ga": "ice",
+			"gb": "shadow",
+			"iou": 0.616
+		},
+		{
+			"a": "shardcaster",
+			"b": "sprigling",
+			"de": 44.1,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.616
+		},
+		{
+			"a": "shardcaster",
+			"b": "shade",
+			"de": 52.8,
+			"ga": "ice",
+			"gb": "shadow",
+			"iou": 0.616
+		},
+		{
+			"a": "cinder_hand",
+			"b": "mender",
+			"de": 26.3,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.615
+		},
+		{
+			"a": "cinder_hand",
+			"b": "sapling",
+			"de": 40.4,
+			"ga": "fire",
+			"gb": "nature",
+			"iou": 0.613
+		},
+		{
+			"a": "shadow_knight",
+			"b": "gloomcap_elder",
+			"de": 28.7,
+			"ga": "shadow",
+			"gb": "neutral",
+			"iou": 0.612
+		},
+		{
+			"a": "cinder_hand",
+			"b": "frostrune_rifleman",
+			"de": 53.2,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.611
+		},
+		{
+			"a": "rime_hauler",
+			"b": "tracker",
+			"de": 27.5,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.611
+		},
+		{
+			"a": "shardcaster",
+			"b": "gloom_thrall",
+			"de": 42.0,
+			"ga": "ice",
+			"gb": "shadow",
+			"iou": 0.611
+		},
+		{
+			"a": "shardcaster",
+			"b": "sapling",
+			"de": 44.6,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.61
+		},
+		{
+			"a": "cinder_hand",
+			"b": "tracker",
+			"de": 33.3,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.609
+		},
+		{
+			"a": "sprigling",
+			"b": "magpie",
+			"de": 43.1,
+			"ga": "nature",
+			"gb": "neutral",
+			"iou": 0.609
+		},
+		{
+			"a": "mender",
+			"b": "tracker",
+			"de": 33.5,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.609
+		},
+		{
+			"a": "cinderlock",
+			"b": "flame_guard",
+			"de": 38.9,
+			"ga": "fire",
+			"gb": "fire",
+			"iou": 0.609
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "shade",
+			"de": 54.0,
+			"ga": "ice",
+			"gb": "shadow",
+			"iou": 0.609
+		},
+		{
+			"a": "rimehorn_rider",
+			"b": "caravan",
+			"de": 47.7,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.608
+		},
+		{
+			"a": "rime_hauler",
+			"b": "shardcaster",
+			"de": 10.3,
+			"ga": "ice",
+			"gb": "ice",
+			"iou": 0.608
+		},
+		{
+			"a": "rimehorn_rider",
+			"b": "grizzlemaw",
+			"de": 42.8,
+			"ga": "ice",
+			"gb": "neutral",
+			"iou": 0.607
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "nightbolt",
+			"de": 56.2,
+			"ga": "ice",
+			"gb": "shadow",
+			"iou": 0.606
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "rime_hauler",
+			"de": 7.7,
+			"ga": "ice",
+			"gb": "ice",
+			"iou": 0.605
+		},
+		{
+			"a": "vessa",
+			"b": "wayfinder",
+			"de": 54.8,
+			"ga": "fire",
+			"gb": "neutral",
+			"iou": 0.604
+		},
+		{
+			"a": "elder_treant",
+			"b": "barrow_giant",
+			"de": 49.0,
+			"ga": "nature",
+			"gb": "shadow",
+			"iou": 0.604
+		},
+		{
+			"a": "gloomcap_elder",
+			"b": "ruin_warden",
+			"de": 33.7,
+			"ga": "neutral",
+			"gb": "neutral",
+			"iou": 0.604
+		},
+		{
+			"a": "cinder_hand",
+			"b": "shade",
+			"de": 57.3,
+			"ga": "fire",
+			"gb": "shadow",
+			"iou": 0.604
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "sprigling",
+			"de": 41.6,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.604
+		},
+		{
+			"a": "ember_archer",
+			"b": "rimeshield",
+			"de": 69.5,
+			"ga": "fire",
+			"gb": "ice",
+			"iou": 0.603
+		},
+		{
+			"a": "ember_archer",
+			"b": "nightbolt",
+			"de": 79.7,
+			"ga": "fire",
+			"gb": "shadow",
+			"iou": 0.601
+		},
+		{
+			"a": "frostrune_rifleman",
+			"b": "sapling",
+			"de": 42.9,
+			"ga": "ice",
+			"gb": "nature",
+			"iou": 0.601
+		},
+		{
+			"a": "torvald",
+			"b": "malrik",
+			"de": 57.2,
+			"ga": "ice",
+			"gb": "shadow",
+			"iou": 0.601
+		}
+	]
+}

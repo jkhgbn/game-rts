@@ -1,0 +1,103 @@
+{
+	"asset": "hovel",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73353",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-65561",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 12.5,
+					"material": "ShaderMaterial#-89064",
+					"material_path": "",
+					"to": "ShaderMaterial#-12487",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 46.7,
+					"material": "ShaderMaterial#-57553",
+					"material_path": "",
+					"to": "ShaderMaterial#-34674",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 50.3,
+					"material": "ShaderMaterial#-34674",
+					"material_path": "",
+					"to": "ShaderMaterial#-12487",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 13
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "13 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-65561` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-89064` -> `ShaderMaterial#-12487` (dE 12.5), `ShaderMaterial#-57553` -> `ShaderMaterial#-34674` (dE 46.7), `ShaderMaterial#-34674` -> `ShaderMaterial#-12487` (dE 50.3)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 13 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-65561` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-89064` -> `ShaderMaterial#-12487` (dE 12.5), `ShaderMaterial#-57553` -> `ShaderMaterial#-34674` (dE 46.7), `ShaderMaterial#-34674` -> `ShaderMaterial#-12487` (dE 50.3)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "17 material(s), 1 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 17 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 17 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +12 (point 1 dL +12, point 2 dL +25; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +12): darken around them or raise the energy",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +12): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 88.5,
+	"result": "FAIL",
+	"scene": "res://art/buildings/hovel.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

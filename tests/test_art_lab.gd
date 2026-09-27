@@ -29,6 +29,10 @@ func _run() -> void:
 	await _test_census()
 	await _test_runner()
 	await _test_batch()
+	await _test_diff()
+	await _test_fixes()   # v3 1.A fix recipes (lab_fixes.gd): its own function, kept apart from the other tasks' cases
+	await _test_army()    # v3 1.E army sweep + backlog (lab_army.gd): its own function
+	_test_read_v3()       # v3 1.D new quality checks (checks/read_v3.gd + lab_image / lab_stage helpers): its own function
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
@@ -248,3 +252,406 @@ func _test_batch() -> void:
 	_check(ArtLabBatch.summary(res, 2.0).begins_with("ART LAB BATCH done: 2 assets"), "batch summary line")
 	holder.queue_free()
 	await process_frame
+
+
+## v3 1.B before / after + focus (tools/art_lab/lab_diff.gd): focus sets, per-check deltas, the focus merge, the pixel
+## diff, the scorecard's "What got worse" section, and a headless `focus=B4` run merged into a full run's scorecard.
+func _test_diff() -> void:
+	var fs := ArtLabDiff.focus_set("contrast, r5 ,b4T")
+	_check(fs.has("R3") and fs.has("R4k") and fs.has("R3t") and fs.has("R5") and fs.has("B4t") and not fs.has("R6"),
+		"diff: focus set (%s)" % ", ".join(PackedStringArray(fs.keys())))
+	_check(ArtLabDiff.needs(fs, "read40") and ArtLabDiff.needs(fs, "shots") and ArtLabDiff.needs(fs, "budgets"),
+		"diff: focus needs read40 / shots / budgets")
+	_check(not ArtLabDiff.needs(fs, "actions") and not ArtLabDiff.needs(fs, "refs") and not ArtLabDiff.needs(fs, "turns"),
+		"diff: focus skips actions / refs / turns")
+	_check(not ArtLabDiff.needs(ArtLabDiff.focus_set("B4"), "shots"), "diff: a budget-only focus takes no shots")
+	_check(ArtLabDiff.needs(ArtLabDiff.focus_set("Z9"), "refs"), "diff: an unknown id runs every pass")
+	_check(ArtLabDiff.needs({}, "turns"), "diff: no focus = full run")
+	# per-check deltas: R5 drops a status, P1 loses 10 points, R3 rises, R6 is new, B13 is gone, B1 unchanged
+	var old: Array = [_dchk("R3", "WARN", 0.5), _dchk("B1", "PASS", 1.0), _dchk("P1", "INFO", 0.4), _dchk("R5", "PASS", 0.9),
+		_dchk("B13", "PASS", 0.8)]
+	var new: Array = [_dchk("R3", "PASS", 0.8), _dchk("B1", "PASS", 1.0), _dchk("P1", "INFO", 0.3), _dchk("R5", "WARN", 0.6),
+		_dchk("R6", "PASS", 1.0)]
+	var cmp := ArtLabDiff.compare_checks(old, new)
+	var worse: Array = cmp["worse"]
+	_check(worse.size() == 2 and worse[0]["id"] == "R5" and worse[1]["id"] == "P1", "diff: worse = R5 (status) then P1 (score)")
+	_check((cmp["better"] as Array).size() == 1 and cmp["better"][0]["id"] == "R3", "diff: better = R3")
+	_check((cmp["new"] as Array).size() == 1 and (cmp["gone"] as Array).size() == 1 and int(cmp["unchanged"]) == 1,
+		"diff: new R6 / gone B13 / 1 unchanged")
+	_check(ArtLabDiff.row_text(worse[0]).begins_with("R5 check R5: PASS 97 -> WARN"), "diff: row text (%s)" % ArtLabDiff.row_text(worse[0]))
+	# the scorecard shows "What got worse" above "Improve next"; ToolReport's JSON is unchanged
+	var rep := ArtLabReport.new()
+	rep.asset = "diff"
+	for c: Dictionary in new:
+		rep.checks.append(c)
+	cmp["prev_quality"] = 80.0
+	rep.compare = cmp
+	var md := rep.to_markdown()
+	var iw := md.find("### What got worse (2)")
+	_check(iw > 0 and iw < md.find("## Improve next") and md.find("R5 check R5") > iw, "diff: 'What got worse' at the top of scorecard.md")
+	_check(rep.to_dict().has("compare") and not ToolReport.new().to_dict().has("compare"), "diff: compare in the JSON (not in ToolReport's)")
+	# focus merge: R3 re-measured, the rest kept; H1 taken only when worse
+	var prev: Array = [_dchk("H0", "PASS", -1.0), _dchk("B4", "PASS", 1.0), _dchk("R3", "WARN", 0.5), _dchk("R5", "PASS", 0.9),
+		_dchk("H1", "PASS", -1.0)]
+	var run: Array[Dictionary] = [_dchk("H0", "PASS", -1.0), _dchk("B4", "FAIL", 0.1), _dchk("B1", "PASS", 1.0),
+		_dchk("R3", "PASS", 0.9), _dchk("H1", "PASS", -1.0)]
+	var mg := ArtLabDiff.merge_focus(prev, run, ArtLabDiff.focus_set("R3"))
+	var ids: Array[String] = []
+	for c2: Dictionary in mg:
+		ids.append("%s%s" % [c2["id"], "*" if bool(c2.get("kept", false)) else ""])
+	_check(", ".join(ids) == "H0, B4*, R3, R5*, H1*" and mg[1]["status"] == "PASS" and mg[2]["status"] == "PASS",
+		"diff: focus merge (%s)" % ", ".join(ids))
+	run[4] = _dchk("H1", "FAIL", -1.0)
+	_check(ArtLabDiff.merge_focus(prev, run, ArtLabDiff.focus_set("R3"))[4]["status"] == "FAIL", "diff: a new error (H1) is never hidden")
+	# pixel diff: a 10 x 10 block changes, JPEG-size noise does not, a size change is resized
+	var a := _img(40, 30, Color(0.2, 0.5, 0.2))
+	var b := a.duplicate() as Image
+	b.fill_rect(Rect2i(0, 0, 10, 10), Color.RED)
+	b.set_pixel(30, 20, Color(0.22, 0.51, 0.21))
+	var pd := ArtLabDiff.pixel_diff(a, b)
+	_check(int(pd["changed"]) == 100 and absf(float(pd["frac"]) - 100.0 / 1200.0) < 0.001, "diff: 100 changed pixels (got %d)" % int(pd["changed"]))
+	_check((pd["mask"] as Image).get_size() == Vector2i(40, 30) and (pd["mask"] as Image).get_pixel(2, 2).b > 0.5, "diff: mask marks the change")
+	_check(bool(ArtLabDiff.pixel_diff(_img(20, 15, Color.BLACK), b)["resized"]), "diff: sizes differ -> resized")
+	_check(ArtLabDiff.prepare(_img(1600, 900, Color.GRAY), "z40").get_size() == Vector2i(256, 144) and ArtLabDiff.prepare(_img(1600, 1200, Color.GRAY), "turns").get_size() == Vector2i(300, 225), "diff: z40 cropped, others fitted")
+	# end to end (headless): a focus=B4 run on a copy of the full run's scorecard (B4 planted as a FAIL)
+	var src := OUT + "/run/scorecard.json"
+	if not FileAccess.file_exists(src):
+		_check(false, "diff: no full-run scorecard to merge into")
+		return
+	var full: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(src))
+	for c3: Dictionary in full["checks"]:
+		if c3["id"] == "B4":
+			c3["status"] = "FAIL"
+			c3["score"] = 0.0
+	var dir := OUT + "/diff"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir))
+	var f := FileAccess.open(dir + "/scorecard.json", FileAccess.WRITE)
+	f.store_string(JSON.stringify(full))
+	f.close()
+	var runner := ArtLabRunner.new()
+	root.add_child(runner)
+	var t0 := Time.get_ticks_msec()
+	var code: int = await runner.run(PackedStringArray(["scene=" + MODEL, "kind=unit", "kingdom=neutral", "out=" + dir, "log=0", "focus=B4"]))
+	var focus_s := float(Time.get_ticks_msec() - t0) / 1000.0
+	_check(code == 0 or code == 1, "diff: focus run exit code (got %d)" % code)
+	var d: Dictionary = ArtLabDiff.read_json(dir + "/scorecard.json")
+	if d.is_empty():
+		_check(false, "diff: focus run wrote no scorecard")
+	else:
+		var st := {}
+		var kept := {}
+		for c4: Dictionary in d["checks"]:
+			st[c4["id"]] = c4["status"]
+			kept[c4["id"]] = bool(c4.get("kept", false))
+		_check((d["checks"] as Array).size() == (full["checks"] as Array).size(), "diff: merged scorecard keeps every check (%d / %d)" % [
+			(d["checks"] as Array).size(), (full["checks"] as Array).size()])
+		_check(st.get("B4", "") == "PASS" and not kept.get("B4", true) and kept.get("B10", false), "diff: B4 re-measured, B10 kept")
+		var better_ids: Array[String] = []
+		for r: Dictionary in (d.get("compare", {}) as Dictionary).get("better", []):
+			better_ids.append(String(r["id"]))
+		_check("B4" in better_ids, "diff: compare=prev lists B4 as better (%s)" % ", ".join(better_ids))
+		var mdf := FileAccess.get_file_as_string(dir + "/scorecard.md")
+		_check("**Focus run**" in mdf and "### What got worse" in mdf and "_kept_" in mdf, "diff: focus / before-after in scorecard.md")
+		print("  diff: headless focus=B4 %.1f s vs full %.1f s" % [focus_s, float(full.get("seconds", 0.0))])
+	runner.queue_free()
+	await process_frame
+
+
+func _dchk(id: String, status: String, g: float) -> Dictionary:
+	var r := ArtLabReport.new()
+	var grp := "read" if id.begins_with("R") else ("polish" if id.begins_with("P") else ("health" if id.begins_with("H") else "budget"))
+	return r.add(id, grp, "check " + id, status, "value " + id, "rule", "", g)
+
+
+## v3 task 1.E (lab_army.gd, lab_scenes.gd): decor / VFX short names in batch=, cavalry in the sweep list, kingdoms,
+## the backlog ranking (FAIL first, then gain per minute), offset IoU, fixes.json reader, and a headless mini sweep.
+func _test_army() -> void:
+	var heath := ArtLabScenes.resolve_scene("heath")
+	_check(heath.ends_with("/heath_set.gd"), "army: decor short name heath -> heath_set.gd (got %s)" % heath)
+	_check(ArtLabScenes.resolve_scene("heath_set") == heath and ArtLabScenes.resolve_scene("heath_set.gd") == heath, "army: heath_set / heath_set.gd resolve")
+	_check(ArtLabScenes.resolve_scene("unit_fire_gun_vfx").ends_with("/unit_fire_gun_vfx.gd"), "army: vfx short name resolves")
+	_check(ArtLabScenes.resolve_scene("mirefang") == MODEL, "army: a .tscn short name still wins")
+	_check(ArtLabBatch.guess_kind("heath") == "decor_set", "army: guess kind decor_set (short name)")
+	var ra := ArtLabBatch.entry_args(PackedStringArray(["scene=heath"]), {"out_root": "user://b"})
+	_check("kind=decor_set" in ra and "out=user://b/heath" in ra, "army: decor batch entry (%s)" % ", ".join(ra))
+	var fire_cav := ArtLabScenes.list_scenes("res://art/units/fire/", true, true)
+	var fire_old := ArtLabScenes.list_scenes("res://art/units/fire/", true)
+	_check(fire_cav.has("res://art/units/fire/blaze_rider.tscn"), "army: cavalry kept with cavalry=true")
+	_check(not "blaze_rider_rider.tscn" in " ".join(fire_cav), "army: rider sub-scene dropped")
+	_check(not fire_old.has("res://art/units/fire/blaze_rider.tscn"), "army: default list unchanged (auto references)")
+	for kc: Array in [["res://art/units/wizards/vessa.tscn", "fire"], ["res://art/units/neutral/beasts/frost_wyrm/frost_wyrm.tscn", "neutral"],
+			["res://art/buildings/dusk_keep.tscn", "shadow"], ["res://art/units/titans/war_mammoth/war_mammoth.tscn", "ice"],
+			["res://art/units/mounts/roan_courser/roan_courser.tscn", "neutral"], ["res://art/buildings/lair/fire/dragon_roost.tscn", "fire"],
+			["res://art/units/champions/oathwall/oathwall.tscn", "neutral"], ["res://art/buildings/ice_wall.tscn", "ice"]]:
+		_check(ArtLabArmy.kingdom_of(kc[0]) == kc[1], "army: kingdom of %s = %s (got %s)" % [String(kc[0]).get_file(), kc[1], ArtLabArmy.kingdom_of(kc[0])])
+	_check(ArtLabArmy.parse_groups("all").size() == 5 and ArtLabArmy.parse_groups("fire,ice").size() == 2
+		and ArtLabArmy.parse_groups("fire,bogus").is_empty(), "army: parse sweep groups")
+	var all := ArtLabArmy.assets(ArtLabArmy.parse_groups("all"))
+	var per := {}
+	var kinds := {}
+	for a: Dictionary in all:
+		per[a["group"]] = int(per.get(a["group"], 0)) + 1
+		kinds[a["kind"]] = true
+	for g: String in ArtLabArmy.GROUPS:
+		_check(int(per.get(g, 0)) >= 5, "army: sweep lists >= 5 %s assets (got %d)" % [g, int(per.get(g, 0))])
+	_check(kinds.has("building") and kinds.has("titan") and kinds.has("mount"), "army: sweep covers buildings, titans, mounts")
+	# ranking: a FAIL beats a bigger-rate WARN; per asset every FAIL + one other item; SKIP ignored
+	var checks := [
+		{"id": "B4", "name": "Vertices", "status": "FAIL", "score": 0.2, "weight": 1.0, "group": "budget", "value": "14775", "hint": "fewer segments", "improve": ""},
+		{"id": "R3", "name": "Contrast", "status": "WARN", "score": 0.4, "weight": 1.5, "group": "read", "value": "dE 18", "hint": "", "improve": "push the shell off the grass hue"},
+		{"id": "P5", "name": "Glow placement", "status": "INFO", "score": 0.6, "weight": 1.0, "group": "polish", "value": "", "hint": "", "improve": "one glow high"},
+		{"id": "R1", "name": "Area", "status": "SKIP", "score": -1.0, "weight": 1.0, "group": "read", "value": "", "hint": "", "improve": "x"},
+		{"id": "H1", "name": "Errors", "status": "PASS", "score": 1.0, "weight": 1.0, "group": "health", "value": "0", "hint": "", "improve": ""}]
+	var its := ArtLabArmy.items_of(checks)
+	_check(its.size() == 3 and its[0]["id"] == "B4" and its[0]["text"] == "fewer segments", "army: items FAIL first, hint as the fix (%d items)" % its.size())
+	if its.size() == 3:
+		_check(its[1]["id"] == "R3" and float(its[1]["rate"]) > float(its[2]["rate"]), "army: then gain per minute (R3 recolour before P5)")
+		_check(float(its[1]["gain"]) > 5.0 and float(its[1]["gain"]) < 30.0, "army: R3 gain in points (got %.1f)" % float(its[1]["gain"]))
+	var ok_checks := [{"id": "P1", "name": "Hook", "status": "INFO", "score": 0.5, "weight": 1.0, "group": "polish", "value": "", "hint": "", "improve": "a hook"}]
+	var bl := ArtLabArmy.backlog([{"name": "good", "kind": "unit", "kingdom": "ice", "ground": "snow", "checks": ok_checks},
+		{"name": "bad", "kind": "building", "kingdom": "fire", "ground": "meadow", "checks": checks}])
+	_check(bl.size() == 3 and bl[0]["asset_name"] == "bad" and bl[0]["status"] == "FAIL", "army: backlog FAIL first, 1 other item per asset (%d)" % bl.size())
+	if bl.size() == 3:
+		var line := ArtLabArmy.backlog_line(1, bl[0])
+		_check(line.begins_with("| 1 | bad | fire | FAIL | B4 Vertices") and "run_art_lab.ps1 bad building fire" in line and "tech-artist" in line, "army: backlog line: " + line)
+		_check("-Extra 'ground=snow'" in ArtLabArmy.recheck_cmd("good", "unit", "ice", "snow"), "army: re-check keeps the ground")
+	# IoU of masks on offset frame rects (only the overlap is scanned)
+	var ma := ArtLabImage.Mask.new(10, 10)
+	var mb := ArtLabImage.Mask.new(12, 12)
+	for y: int in 4:
+		for x: int in 4:
+			ma.bits[(y + 2) * 10 + x + 2] = 1   # frame x 102-105, y 52-55
+			mb.bits[(y + 4) * 12 + x + 4] = 1   # on rect (100, 50): frame x 104-107, y 54-57
+	ma.finish()
+	mb.finish()
+	_check(is_equal_approx(ArtLabArmy.iou_at(ma, Rect2i(100, 50, 10, 10), ma, Rect2i(100, 50, 10, 10)), 1.0), "army: offset IoU identical = 1")
+	_check(absf(ArtLabArmy.iou_at(ma, Rect2i(100, 50, 10, 10), mb, Rect2i(100, 50, 12, 12)) - 4.0 / 28.0) < 0.001, "army: offset IoU 2x2 overlap = 4 / 28")
+	_check(absf(ArtLabArmy.iou_at(ma, Rect2i(100, 50, 10, 10), mb, Rect2i(98, 48, 12, 12)) - 1.0) < 0.001, "army: offset IoU shifted rect = 1")
+	var sa := {"name": "u1", "group": "nature", "kind": "unit", "roi": Rect2i(100, 50, 10, 10), "masks": [ma, ma, ma, ma], "lab": Vector3(50, 0, 0)}
+	var sb := {"name": "u2", "group": "neutral", "kind": "unit", "roi": Rect2i(98, 48, 12, 12), "masks": [mb, mb, mb, mb], "lab": Vector3(55, 0, 0)}
+	var sm := {"name": "m1", "group": "nature", "kind": "mount", "roi": Rect2i(100, 50, 10, 10), "masks": [ma, ma, ma, ma], "lab": Vector3(50, 0, 0)}
+	var prs := ArtLabArmy.pairs_of({"u1": sa, "u2": sb, "m1": sm})
+	_check(prs.size() == 1 and prs[0]["a"] == "u1" and ArtLabArmy.verdict(prs[0]) == "READS ALIKE", "army: pairs (no mount / unit pair; same shape + colour reads alike)")
+	# fixes.json (task 1.A) read when present, any shape; the recipe of the asked check wins
+	var fd := OUT + "/army_fixes"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(fd))
+	if FileAccess.file_exists(fd + "/fixes.json"):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(fd + "/fixes.json"))
+	_check(ArtLabArmy.top_recipe(fd) == "", "army: no fixes.json -> no recipe")
+	var ff := FileAccess.open(fd + "/fixes.json", FileAccess.WRITE)
+	ff.store_string(JSON.stringify({"fixes": [{"check": "R5", "proposal": "Eye_L energy 1.0 -> 1.4"}, {"check": "R3", "proposal": "Shell #5c7a3a -> #7a5c3a"}]}))
+	ff.close()
+	_check(ArtLabArmy.top_recipe(fd) == "R5: Eye_L energy 1.0 -> 1.4", "army: top recipe (%s)" % ArtLabArmy.top_recipe(fd))
+	_check(ArtLabArmy.top_recipe(fd, "R3") == "R3: Shell #5c7a3a -> #7a5c3a", "army: recipe for the asked check")
+	# headless mini sweep (budgets only, no silhouettes): army.md + backlog written outside docs/
+	var code: int = await ArtLabArmy.sweep(self, {"sweep": "neutral", "only": "mirefang", "buildings": "0", "out": OUT + "/army",
+		"out_root": OUT + "/army/assets", "backlog": OUT + "/army_backlog.md"})
+	_check(code == 0 or code == 1, "army: mini sweep exit 0 / 1 (got %d)" % code)
+	var army := FileAccess.get_file_as_string(OUT + "/army/army.md")
+	_check("| 1 | mirefang | neutral |" in army and "## Ranking" in army, "army: army.md ranks the asset")
+	_check(FileAccess.get_file_as_string(OUT + "/army_backlog.md").begins_with("# Art backlog"), "army: backlog written")
+	_check(FileAccess.file_exists(OUT + "/army/assets/mirefang/scorecard.json"), "army: sweep scorecard in out_root")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(OUT + "/army_backlog.md"))
+	_check(await ArtLabArmy.sweep(self, {"sweep": "neutral", "only": "mirefang", "buildings": "0", "out": OUT + "/army",
+		"out_root": OUT + "/army/assets", "backlog": OUT + "/army_backlog.md", "backlog_only": "1"}) == 0
+		and FileAccess.file_exists(OUT + "/army_backlog.md"), "army: backlog_only rebuilds from the scorecards")
+	_check(await ArtLabArmy.sweep(self, {"sweep": "bogus"}) == 2, "army: bad sweep group -> exit 2")
+
+
+## v3 1.A fix recipes (tools/art_lab/lab_fixes.gd): the colour maths, the computed colour recipe on a planted
+## green-on-grass body (R3 + R3t + R4k at once), the merge recipe (B1 over budget: 3 same-material boxes under one
+## pivot), fixes.json and the top recipe leading "Improve next". Headless, no renders (the lab's data is planted).
+func _test_fixes() -> void:
+	var v := Vector3(0.18, 0.32, 0.07)
+	_check(ArtLabFixes.lab_to_lin(ArtLabFixes.lin_to_lab(v)).distance_to(v) < 0.002, "fixes: Lab round trip")
+	_check(ArtLabFixes.lin_to_lab(ArtLabFixes.srgb_to_lin(Color8(90, 140, 60))).distance_to(ArtLabImage.lab(90, 140, 60)) < 0.05,
+		"fixes: same L*a*b* as ArtLabImage")
+	var ctx := ArtLabRunner.new()
+	ctx.kind = &"unit"
+	ctx.tier = &"soldier"
+	ctx.kingdom = &"nature"
+	ctx.asset = "fixes_test"
+	ctx.scene_path = "res://art/units/nature/fixes_test/fixes_test.tscn"
+	ctx.out_dir = OUT + "/fixes"
+	ctx.rep = ArtLabReport.new()
+	ctx.rep.budget_row = {"meshes": 2, "src": "test"}
+	var model := Node3D.new()
+	root.add_child(model)
+	ctx.target = model
+	var pivot := Node3D.new()
+	pivot.name = "Body"
+	model.add_child(pivot)
+	var green := StandardMaterial3D.new()
+	green.resource_name = "fixes_shell"
+	green.albedo_color = Color(0.30, 0.42, 0.18)
+	var brown := StandardMaterial3D.new()
+	brown.resource_name = "fixes_belly"
+	brown.albedo_color = Color(0.35, 0.25, 0.15)
+	for i: int in 4:
+		var mi := MeshInstance3D.new()
+		mi.name = ("Strap%d" % i) if i < 3 else "Belly"
+		var bm := BoxMesh.new()
+		bm.size = Vector3(1.0, 0.5, 1.0) if i < 3 else Vector3(0.4, 0.2, 0.4)
+		mi.mesh = bm
+		mi.material_override = green if i < 3 else brown
+		mi.position = Vector3(float(i) * 1.1, 0.3, 0.0)
+		pivot.add_child(mi)
+	await process_frame
+	ctx.m["census"] = ArtLabCensus.census(model, 0.0)
+	# the "render": the same mix model the recipe uses (weights x albedo x a 0.9 light gain) on grass / Old Wood
+	var ws := ArtLabFixes.material_weights(model, 0.0, ArtLabFixes.to_camera(ctx))
+	var render := func(shell: Color) -> Vector3:
+		var mix := Vector3.ZERO
+		for k: String in ws:
+			var lab: String = ws[k]["info"]["label"]
+			mix += ArtLabFixes.srgb_to_lin(shell if lab == "fixes_shell" else brown.albedo_color) * float(ws[k]["w"])
+		return ArtLabFixes.lin_to_lab(mix * 0.9)
+	var body: Vector3 = render.call(green.albedo_color)
+	var grass := ArtLabImage.lab(88, 118, 50)
+	var wood := ArtLabImage.lab(62, 52, 38)
+	ctx.m["con"] = {"n": 500, "de_means": body.distance_to(grass), "melt_frac": 0.2, "model_lab": body, "ground_lab": grass}
+	ctx.m["fix_team"] = {"nature": {"n": 500, "model_lab": body, "ground_lab": grass},
+		"fire": {"n": 500, "model_lab": body + Vector3(4.0, 10.0, 6.0), "ground_lab": grass}}
+	ctx.m["fix_grounds"] = {"old_wood": {"n": 500, "model_lab": body, "ground_lab": wood}}
+	var de0 := body.distance_to(grass)
+	_check(de0 < 20.0, "fixes: planted body melts into the grass (dE %.1f)" % de0)
+	ctx.rep.add("R3", "read", "Contrast vs ground (meadow)", "WARN" if de0 >= 10.0 else "FAIL", "mean-colour dE %.1f" % de0,
+		"dE >= 20", "Melts into the meadow", 0.3, "raise contrast", "z40", 1.5)
+	ctx.rep.add("R4k", "read", "Contrast on the home ground (old_wood)", "WARN", "dE %.1f" % body.distance_to(wood), "dE >= 20", "", 0.4)
+	var cen: Dictionary = ctx.m["census"]
+	ctx.rep.add("B1", "budget", "Meshes after the kit merge", "FAIL", str(int(cen["meshes"])), "<= 2", "Merge static parts", 0.0, "merge")
+	var t0 := Time.get_ticks_msec()
+	var out := ArtLabFixes.build(ctx)
+	var ms := Time.get_ticks_msec() - t0
+	_check(FileAccess.file_exists(OUT + "/fixes/fixes.json"), "fixes: fixes.json written")
+	var d: Variant = JSON.parse_string(FileAccess.get_file_as_string(OUT + "/fixes/fixes.json"))
+	_check(d is Dictionary and int((d as Dictionary).get("count", 0)) == 2, "fixes: 2 recipes (colour covers R3 + R4k, merge B1)")
+	var col := {}
+	var mer := {}
+	for f: Dictionary in out["fixes"]:
+		if String(f["check"]) in ["R3", "R4k"]:
+			col = f
+		elif String(f["check"]) == "B1":
+			mer = f
+	_check(String(out["fixes"][0]["status"]) == "FAIL" and int(out["fixes"][0]["rank"]) == 1, "fixes: a FAIL ranks first")
+	_check(bool(col.get("computed", false)) and (col.get("changes", []) as Array).size() == 1, "fixes: colour recipe computed")
+	if bool(col.get("computed", false)):
+		var ch: Dictionary = col["changes"][0]
+		_check(String(ch["material"]) == "fixes_shell" and String(ch["param"]) == "albedo_color", "fixes: recolours the biggest mass (%s)" % ch["material"])
+		var pred: Dictionary = col["predicted"]
+		var ok := true
+		for k2: String in pred:
+			if not k2.begins_with("R4 ") and float(pred[k2]) < 24.0:
+				ok = false
+		_check(ok, "fixes: R3 / R3t / R4k all predicted >= 24 at once (%s)" % str(pred))
+		# apply the proposal to the planted model: the "re-run" must pass what it promised
+		var to := Color.html(String(ch["to"]))
+		var body2: Vector3 = render.call(to)
+		_check(body2.distance_to(grass) >= 20.0 and body2.distance_to(wood) >= 20.0,
+			"fixes: applied colour passes on grass (%.1f) and Old Wood (%.1f)" % [body2.distance_to(grass), body2.distance_to(wood)])
+	var chs: Array = mer.get("changes", [])
+	_check(not chs.is_empty() and "Strap*" in String(chs[0].get("words", "")) and int(mer["predicted"]["meshes"]) <= 2,
+		"fixes: merge `Strap*` 3 -> 1 (%s)" % str(mer.get("text", "")))
+	var imp := ctx.rep.improve_next()
+	_check(not imp.is_empty() and "fixes.json #1" in String(imp[0]["text"]), "fixes: Improve next #1 is the top recipe")
+	_check(ms < 4000, "fixes: build in %d ms" % ms)
+	model.queue_free()
+	ctx.free()
+	await process_frame
+
+
+
+## v3 1.D (checks/read_v3.gd): colour-blind simulation, glow local contrast, walk / flicker stats, the pure verdicts of
+## R11 / R5w / R5c / R6cb / S1, the terrain mask and the stage's extra light presets / autumn ground look.
+func _test_read_v3() -> void:
+	# CVD (Machado 2009): red and green move much closer for a deuteranope / protanope; greys stay grey
+	var lr := ArtLabImage.lab(200, 40, 30)
+	var lg := ArtLabImage.lab(60, 150, 40)
+	for k: StringName in [&"deutan", &"protan"]:
+		var sr := ArtLabImage.cvd_rgb(200, 40, 30, k)
+		var sg := ArtLabImage.cvd_rgb(60, 150, 40, k)
+		var d_sim := ArtLabImage.lab(sr.x, sr.y, sr.z).distance_to(ArtLabImage.lab(sg.x, sg.y, sg.z))
+		_check(d_sim < lr.distance_to(lg) * 0.75, "v3 cvd %s: red / green closer (%.1f vs %.1f)" % [k, d_sim, lr.distance_to(lg)])
+		var gy := ArtLabImage.cvd_rgb(128, 128, 128, k)
+		_check(absi(gy.x - 128) <= 3 and absi(gy.y - 128) <= 3 and absi(gy.z - 128) <= 3, "v3 cvd %s keeps grey (%s)" % [k, gy])
+	var im := _img(10, 10, Color(0.8, 0.1, 0.1))
+	var sim := ArtLabImage.cvd_image(im, Rect2i(0, 0, 5, 10), &"deutan")
+	_check(sim.get_pixel(7, 5).is_equal_approx(im.get_pixel(7, 5)) and not sim.get_pixel(2, 5).is_equal_approx(im.get_pixel(2, 5)),
+		"v3 cvd_image changes the ROI only")
+	# team-colour area (diff_mask) and mean dE: 4 kingdom colours on the left 5 columns of a grey body
+	var roi := Rect2i(0, 0, 20, 10)
+	var body := _mask_rect(20, 10, Rect2i(0, 0, 20, 10))
+	var imgs: Array[Image] = []
+	for c: Color in [Color(0.85, 0.30, 0.12), Color(0.42, 0.22, 0.60), Color(0.45, 0.75, 0.95), Color(0.35, 0.70, 0.25)]:
+		var ti := _img(20, 10, Color(0.4, 0.4, 0.4))
+		ti.fill_rect(Rect2i(0, 0, 5, 10), c)
+		imgs.append(ti)
+	var team := ArtLabImage.diff_mask(imgs, roi, body, 8.0)
+	_check(team.count == 50, "v3 diff_mask = the team-colour area (50, got %d)" % team.count)
+	_check(ArtLabImage.mean_de(imgs[0], imgs[0], roi, team) == 0.0 and ArtLabImage.mean_de(imgs[0], imgs[3], roi, team) > 20.0,
+		"v3 mean_de on the team area")
+	# glow local contrast: a warm dot on a dark body stands out, the same dot on a pale body does not
+	var dark := _img(60, 60, Color(0.15, 0.15, 0.15))
+	dark.fill_rect(Rect2i(29, 29, 3, 3), Color(1.0, 0.95, 0.8))
+	var pale := _img(60, 60, Color(0.85, 0.85, 0.8))
+	pale.fill_rect(Rect2i(29, 29, 3, 3), Color(1.0, 0.95, 0.8))
+	var lc_d := ArtLabImage.local_contrast(dark, 30, 30, 2.0, 20.0)
+	var lc_p := ArtLabImage.local_contrast(pale, 30, 30, 2.0, 20.0)
+	_check(float(lc_d["dL"]) > 60.0 and float(lc_p["dL"]) < 15.0, "v3 local contrast dark %.0f / pale %.0f" % [float(lc_d["dL"]), float(lc_p["dL"])])
+	# verdicts relative to the live thresholds (ArtLabBudgets.V3, calibrated by 1.C)
+	var gw: float = ArtLabCheckReadV3.V3["glow_dl_warn"]
+	var gv := ArtLabCheckReadV3.glow_contrast_verdict([gw + 20.0, gw - 5.0] as Array[float])
+	_check(gv["status"] == "WARN" and int(gv["weak"]) == 1, "v3 R5c: a point under the warn line is weak (%s)" % str(gv))
+	_check(ArtLabCheckReadV3.glow_contrast_verdict([gw + 10.0, gw + 30.0] as Array[float])["status"] == "PASS", "v3 R5c pass")
+	# walk stats / verdict: a steady gait passes, a gait that loses half the silhouette warns
+	var rest := _mask_rect(40, 40, Rect2i(10, 5, 10, 30))
+	var ws_ok := ArtLabImage.walk_stats(rest, [rest, _mask_rect(40, 40, Rect2i(11, 5, 10, 30))])
+	var ws_bad := ArtLabImage.walk_stats(rest, [rest, _mask_rect(40, 40, Rect2i(10, 5, 10, 15))])
+	_check(absf(float(ws_bad["mean_iou"]) - 0.75) < 0.01 and absf(float(ws_bad["area_ratio_min"]) - 0.5) < 0.01, "v3 walk_stats %s" % str(ws_bad))
+	_check(ArtLabCheckReadV3.walk_verdict(ws_ok, 300, 100)["status"] == "PASS", "v3 R11 steady gait passes")
+	var vb := ArtLabCheckReadV3.walk_verdict(ws_bad, 150, 100)
+	_check(vb["status"] == "WARN" and float(vb["grade"]) < 0.3, "v3 R11 half silhouette warns (%s)" % str(vb))
+	_check(ArtLabCheckReadV3.walk_verdict(ArtLabImage.walk_stats(rest, [_mask_rect(40, 40, Rect2i(4, 5, 22, 30))]), 660, 100, true)["status"] == "INFO", "v3 R11 flyer: wing beat alone is INFO")
+	# flicker
+	var f_ok := ArtLabImage.flicker([1, 1, 1, 1, 1, 1, 1, 1] as Array[int])
+	var hi := int(ArtLabCheckReadV3.V3["flicker_range_warn"]) + 1
+	var f_bad := ArtLabImage.flicker([hi, 0, hi, 1, hi, hi, hi, hi] as Array[int])
+	_check(ArtLabCheckReadV3.flicker_verdict(f_ok)["status"] == "PASS" and int(f_bad["drops"]) == 1 and int(f_bad["range"]) == hi
+		and ArtLabCheckReadV3.flicker_verdict(f_bad)["status"] == "WARN", "v3 R5w flicker")
+	# colour-blind verdict (WARN only, never FAIL)
+	var cw: float = ArtLabCheckReadV3.V3["cb_pair_warn"]
+	_check(ArtLabCheckReadV3.cb_verdict(cw + 10.0, 40.0, 10.0, 20.0)["status"] == "PASS"
+		and ArtLabCheckReadV3.cb_verdict(cw - 1.0, 40.0, 10.0, 20.0)["status"] == "WARN"
+		and ArtLabCheckReadV3.cb_verdict(cw + 10.0, 7.0, 10.0, 20.0)["status"] == "WARN", "v3 R6cb verdicts")
+	# style bible: outside the autumn floor band scores high, a mid brown that melts scores low
+	var s_ok := ArtLabCheckReadV3.style_verdict(45.0, 0.02, 70.0, 50.0, -1.0)
+	var s_bad := ArtLabCheckReadV3.style_verdict(9.0, 0.6, 40.0, 20.0, -1.0)
+	_check(float(s_ok["grade"]) > 0.9 and not s_ok["in_band"] and s_bad["in_band"] and float(s_bad["grade"]) < 0.2, "v3 S1 grades")
+	var sw := ArtLabCheckReadV3.style_swatches()
+	var tv := ArtLabCheckReadV3.team_vs_swatches(ArtLabBudgets.KINGDOM_COLORS[&"fire"], sw)
+	_check(sw.size() >= 12 and float(tv["de"]) > 20.0, "v3 S1 swatches %d, fire vs floor dE %.1f" % [sw.size(), float(tv["de"])])
+	# terrain mask (terrain.md 7.1: R snow, G sand, B ash, A marsh) over the stand-in spots
+	var tm := ArtLabStage.terrain_mask_image()
+	var snow := tm.get_pixel(204, 204)
+	var ash := tm.get_pixel(204, 36)
+	_check(snow.r > 0.99 and snow.b < 0.01 and ash.b > 0.99 and ash.r < 0.01 and tm.get_pixel(120, 120).r < 0.01, "v3 terrain mask")
+	# stage: extra light presets (night stand-in, autumn) and the autumn ground look switch and switch back
+	var st := ArtLabStage.new()
+	root.add_child(st)
+	st.setup(&"warm")
+	var env0 := st.env_lit
+	var mat0 := st.ground.material_override
+	_check(st.terrain_mode == "stand-in" and "stand-in" in st.terrain_note(), "v3 stage terrain mode %s" % st.terrain_mode)
+	_check(st.set_light(&"night") and st.light_now == &"night" and st.env_lit != env0, "v3 stage night preset")
+	_check(st.set_light(&"autumn") and st.set_light(&"warm") and st.env_lit == env0, "v3 stage autumn preset and back")
+	_check(st.set_ground_look(&"autumn") and st.ground.material_override != mat0, "v3 stage autumn ground look")
+	_check(st.set_ground_look(&"") and st.ground.material_override == mat0, "v3 stage ground look back")
+	st.queue_free()
+
+
+func _mask_rect(w: int, h: int, r: Rect2i) -> ArtLabImage.Mask:
+	var m := ArtLabImage.Mask.new(w, h)
+	for y: int in range(r.position.y, r.end.y):
+		for x: int in range(r.position.x, r.end.x):
+			m.bits[y * w + x] = 1
+	return m.finish()

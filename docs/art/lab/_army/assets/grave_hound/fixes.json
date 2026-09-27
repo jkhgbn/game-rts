@@ -1,0 +1,13 @@
+{
+	"asset": "grave_hound",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 96.6,
+	"result": "PASS",
+	"scene": "res://art/units/shadow/grave_hound.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

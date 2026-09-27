@@ -1,0 +1,239 @@
+{
+	"asset": "fire_hall",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-84631",
+					"material_path": "",
+					"to": "StandardMaterial3D#-70794",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-13749",
+					"material_path": "",
+					"to": "StandardMaterial3D#-70794",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 22.5,
+					"material": "ShaderMaterial#-65876",
+					"material_path": "",
+					"to": "ShaderMaterial#-88692",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 36.8,
+					"material": "StandardMaterial3D#-67165",
+					"material_path": "",
+					"to": "StandardMaterial3D#-70794",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 37.8,
+					"material": "ShaderMaterial#-34188",
+					"material_path": "",
+					"to": "ShaderMaterial#-11665",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 13
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "13 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-84631` -> `StandardMaterial3D#-70794` (dE 0.0), `StandardMaterial3D#-13749` -> `StandardMaterial3D#-70794` (dE 0.0), `ShaderMaterial#-65876` -> `ShaderMaterial#-88692` (dE 22.5), `StandardMaterial3D#-67165` -> `StandardMaterial3D#-70794` (dE 36.8), `ShaderMaterial#-34188` -> `ShaderMaterial#-11665` (dE 37.8)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 13 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-84631` -> `StandardMaterial3D#-70794` (dE 0.0), `StandardMaterial3D#-13749` -> `StandardMaterial3D#-70794` (dE 0.0), `ShaderMaterial#-65876` -> `ShaderMaterial#-88692` (dE 22.5), `StandardMaterial3D#-67165` -> `StandardMaterial3D#-70794` (dE 36.8), `ShaderMaterial#-34188` -> `ShaderMaterial#-11665` (dE 37.8)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B5",
+			"computed": false,
+			"measured": {
+				"value": "1 (HallLight)"
+			},
+			"predicted": {},
+			"proposal": "Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B5 Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"title": "Real lights",
+			"wanted": {
+				"rule": "<= 0 (art-keep.md 9 numbers, step-12/13 rules: 0 lights)"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.19,
+					"from": 0.7,
+					"material": "ShaderMaterial#-65876",
+					"material_path": "",
+					"node": "Body/Chimney/ChimneyStack",
+					"param": "shader_parameter/crack_strength",
+					"to": 0.13,
+					"why": "dim under the bloom level: 4 point(s), peak 4.05 x the level",
+					"words": "crack_strength 0.7 -> 0.13 (dim under the bloom level: 4 point(s), peak 4.05 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"from": 1.0,
+					"material": "ShaderMaterial#-57016",
+					"material_path": "",
+					"node": "Body/BannerL, Body/Chimney/ChimneyBanner",
+					"param": "shader_parameter/glyph_energy",
+					"to": 0.17,
+					"why": "dim under the bloom level: 2 point(s), peak 4.42 x the level",
+					"words": "glyph_energy 1.0 -> 0.17 (dim under the bloom level: 2 point(s), peak 4.42 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 10,
+				"points_this_phase": 8,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Chimney/ChimneyTop",
+						"peak_x_bloom": 7.53,
+						"px": 1265
+					},
+					{
+						"above": true,
+						"part": "Rubble",
+						"peak_x_bloom": 4.42,
+						"px": 252
+					},
+					{
+						"above": true,
+						"part": "Body/BannerL",
+						"peak_x_bloom": 4.42,
+						"px": 27
+					},
+					{
+						"above": true,
+						"part": "Body/Chimney/ChimneyStack",
+						"peak_x_bloom": 4.05,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Body/Chimney/ChimneyStack",
+						"peak_x_bloom": 3.42,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Body/Chimney/ChimneyStack",
+						"peak_x_bloom": 3.61,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Body/Chimney/ChimneyStack",
+						"peak_x_bloom": 3.33,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/Chimney/ChimneyBanner",
+						"peak_x_bloom": 3.01,
+						"px": 3
+					},
+					{
+						"above": false,
+						"part": "Body/WeaponRack/RackParts",
+						"peak_x_bloom": 0.3,
+						"px": 661
+					},
+					{
+						"above": false,
+						"part": "Rubble",
+						"peak_x_bloom": 0.2,
+						"px": 27
+					},
+					{
+						"above": false,
+						"part": "Body/Chimney/ChimneyStack",
+						"peak_x_bloom": 0.22,
+						"px": 25
+					},
+					{
+						"above": false,
+						"part": "ScorchDecal",
+						"peak_x_bloom": 0.3,
+						"px": 13
+					},
+					{
+						"above": false,
+						"part": "Body/Walls",
+						"peak_x_bloom": 0.31,
+						"px": 11
+					},
+					{
+						"above": false,
+						"part": "Body/Chimney/ChimneyStack",
+						"peak_x_bloom": 0.42,
+						"px": 6
+					},
+					{
+						"above": false,
+						"part": "Rubble",
+						"peak_x_bloom": 0.37,
+						"px": 2
+					}
+				],
+				"value": "10 point(s) above the bloom level 1.2 (median of 7/10/10): ChimneyFire, Rubble, ChimneyStack x6, BannerL, ChimneyBanner; soft glows under the bloom (v1 count, luma > 0.4): 11"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 10 -> 4 (want 2-4): ShaderMaterial#-65876 crack_strength 0.7 -> 0.13 (dim under the bloom level: 4 point(s), peak 4.05 x the level); ShaderMaterial#-57016 glyph_energy 1.0 -> 0.17 (dim under the bloom level: 2 point(s), peak 4.42 x the level)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "Glow points 10 -> 4 (want 2-4): ShaderMaterial#-65876 crack_strength 0.7 -> 0.13 (dim under the bloom level: 4 point(s), peak 4.05 x the level); ShaderMaterial#-57016 glyph_energy 1.0 -> 0.17 (dim under the bloom level: 2 point(s), peak 4.42 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "25 material(s), 8 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 25 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 25 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 85.1,
+	"result": "FAIL",
+	"scene": "res://art/buildings/fire_hall.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

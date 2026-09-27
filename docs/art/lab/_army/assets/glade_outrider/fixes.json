@@ -1,0 +1,212 @@
+{
+	"asset": "glade_outrider",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 2684,
+					"node": "Stag/Root/Mount/Head/Merged",
+					"to": 1342,
+					"words": "`Merged` 2684 -> 1342 verts"
+				},
+				{
+					"from": 2521,
+					"node": "Stag/Root/Mount/Merged",
+					"to": 1261,
+					"words": "`Merged` 2521 -> 1261 verts"
+				},
+				{
+					"from": 1124,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 562,
+					"words": "`Merged` 1124 -> 562 verts"
+				},
+				{
+					"from": 885,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 443,
+					"words": "`Merged` 885 -> 443 verts"
+				},
+				{
+					"from": 479,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 240,
+					"words": "`Merged` 479 -> 240 verts"
+				},
+				{
+					"from": 406,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 203,
+					"words": "`Merged` 406 -> 203 verts"
+				},
+				{
+					"from": 406,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 203,
+					"words": "`Merged` 406 -> 203 verts"
+				},
+				{
+					"from": 343,
+					"node": "Stag/Root/Mount/LegBR/Merged",
+					"to": 172,
+					"words": "`Merged` 343 -> 172 verts"
+				},
+				{
+					"from": 343,
+					"node": "Stag/Root/Mount/LegBL/Merged",
+					"to": 172,
+					"words": "`Merged` 343 -> 172 verts"
+				},
+				{
+					"from": 343,
+					"node": "Rider/Root/Chest/ArmL/Bow",
+					"to": 172,
+					"words": "`Bow` 343 -> 172 verts"
+				},
+				{
+					"from": 321,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 161,
+					"words": "`Merged` 321 -> 161 verts"
+				},
+				{
+					"from": 289,
+					"node": "Stag/Root/Mount/LegFR/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 289,
+					"node": "Stag/Root/Mount/LegFL/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 275,
+					"node": "Rider/Root/Chest/Cloak",
+					"to": 138,
+					"words": "`Cloak` 275 -> 138 verts"
+				},
+				{
+					"from": 244,
+					"node": "Stag/Root/Mount/Neck/Merged",
+					"to": 122,
+					"words": "`Merged` 244 -> 122 verts"
+				},
+				{
+					"from": 235,
+					"node": "Rider/Root/Chest/ArmL/Bow/Arrow",
+					"to": 118,
+					"words": "`Arrow` 235 -> 118 verts"
+				},
+				{
+					"from": 179,
+					"node": "Rider/Root/Chest/ArmR/ForearmR",
+					"to": 90,
+					"words": "`ForearmR` 179 -> 90 verts"
+				},
+				{
+					"from": 141,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 71,
+					"words": "`Merged` 141 -> 71 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 11511
+			},
+			"predicted": {
+				"verts": 5764
+			},
+			"proposal": "11511 -> 5764 (want <= 2500): `Merged` 2684 -> 1342 verts; `Merged` 2521 -> 1261 verts; `Merged` 1124 -> 562 verts; `Merged` 885 -> 443 verts; `Merged` 479 -> 240 verts; `Merged` 406 -> 203 verts; `Merged` 406 -> 203 verts; `Merged` 343 -> 172 verts; `Merged` 343 -> 172 verts; `Bow` 343 -> 172 verts; `Merged` 321 -> 161 verts; `Merged` 289 -> 145 verts; `Merged` 289 -> 145 verts; `Cloak` 275 -> 138 verts; `Merged` 244 -> 122 verts; `Arrow` 235 -> 118 verts; `ForearmR` 179 -> 90 verts; `Merged` 141 -> 71 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 11511 -> 5764 (want <= 2500): `Merged` 2684 -> 1342 verts; `Merged` 2521 -> 1261 verts; `Merged` 1124 -> 562 verts; `Merged` 885 -> 443 verts; `Merged` 479 -> 240 verts; `Merged` 406 -> 203 verts; `Merged` 406 -> 203 verts; `Merged` 343 -> 172 verts; `Merged` 343 -> 172 verts; `Bow` 343 -> 172 verts; `Merged` 321 -> 161 verts; `Merged` 289 -> 145 verts; `Merged` 289 -> 145 verts; `Cloak` 275 -> 138 verts; `Merged` 244 -> 122 verts; `Arrow` 235 -> 118 verts; `ForearmR` 179 -> 90 verts; `Merged` 141 -> 71 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 19
+			},
+			"predicted": {
+				"draw": 19
+			},
+			"proposal": "19 -> 19 (want <= 14): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B2 19 -> 19 (want <= 14): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 14"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.65 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.65 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.65 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A3",
+			"computed": false,
+			"measured": {
+				"value": "strike pose changes 4% of the silhouette (t 0.36 s)"
+			},
+			"predicted": {},
+			"proposal": "Attack reads at 40 m: Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 4%)",
+			"rank": 4,
+			"status": "WARN",
+			"text": "A3 Attack reads at 40 m: Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 4%)",
+			"title": "Attack reads at 40 m",
+			"wanted": {
+				"rule": ">= 12% (1 - IoU rest vs strike)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.3 on the team-colour area (normal vision 55.2; 439 px); deutan: fire / nature dE 11.3; protan: fire / nature dE 18.7; worst vs ground: fire colour (deutan) dE 13.2"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.3): add a value step inside the team-colour area",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.3): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 87.4,
+	"result": "FAIL",
+	"scene": "res://art/units/nature/glade_outrider/glade_outrider.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

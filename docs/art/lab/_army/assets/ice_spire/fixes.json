@@ -1,0 +1,110 @@
+{
+	"asset": "ice_spire",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73353",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-90724",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.4,
+					"material": "ShaderMaterial#-40455",
+					"material_path": "",
+					"to": "ShaderMaterial#-31312",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 20.3,
+					"material": "ShaderMaterial#-94614",
+					"material_path": "",
+					"to": "ShaderMaterial#-17877",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 28.9,
+					"material": "ShaderMaterial#-63268",
+					"material_path": "",
+					"to": "ShaderMaterial#-31312",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 58.9,
+					"material": "ShaderMaterial#-31312",
+					"material_path": "",
+					"to": "ShaderMaterial#-17877",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 13
+			},
+			"predicted": {
+				"materials": 7
+			},
+			"proposal": "13 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-90724` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-40455` -> `ShaderMaterial#-31312` (dE 13.4), `ShaderMaterial#-94614` -> `ShaderMaterial#-17877` (dE 20.3), `ShaderMaterial#-63268` -> `ShaderMaterial#-31312` (dE 28.9), `ShaderMaterial#-31312` -> `ShaderMaterial#-17877` (dE 58.9)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B8 13 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-90724` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-40455` -> `ShaderMaterial#-31312` (dE 13.4), `ShaderMaterial#-94614` -> `ShaderMaterial#-17877` (dE 20.3), `ShaderMaterial#-63268` -> `ShaderMaterial#-31312` (dE 28.9), `ShaderMaterial#-31312` -> `ShaderMaterial#-17877` (dE 58.9)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 6"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "16 material(s), 1 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 16 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 16 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +3 (point 1 dL +16, point 2 dL +37, point 3 dL +3; ring 26 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +3): darken around them or raise the energy",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +3): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 92.3,
+	"result": "WARN",
+	"scene": "res://art/buildings/ice_spire.tscn",
+	"tier": "small",
+	"version": "1.0"
+}

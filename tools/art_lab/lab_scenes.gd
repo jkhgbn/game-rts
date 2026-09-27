@@ -5,27 +5,30 @@ extends RefCounted
 ## neighbours).
 
 static var _scene_index: Dictionary = {}   # base name -> res:// path (every .tscn under res://art/)
+static var _script_index: Dictionary = {}  # v3 (1.E): decor sets / VFX families: "heath", "heath_set", "unit_fire_gun_vfx"
 static var _heights: Dictionary = {}       # v3 batch: reference scene -> probed height (m), kept for the whole process
 
 
 ## A scene from a short name ("ember_archer", "ember_archer.tscn", "fire/ember_archer") or a path ("art/..." or
-## "res://..."); "" when nothing matches.
+## "res://..."); "" when nothing matches. v3 (1.E): decor sets and VFX families resolve too, by their script name
+## ("heath_set", "heath_set.gd", or the set id "heath"; "unit_fire_gun_vfx"). A .tscn of the same name wins.
 static func resolve_scene(s: String) -> String:
 	if s == "":
 		return ""
 	var p := s if s.begins_with("res://") else "res://" + s.trim_prefix("/")
-	if p.ends_with(".tscn") and ResourceLoader.exists(p):
+	if (p.ends_with(".tscn") or p.ends_with(".gd")) and ResourceLoader.exists(p):
 		return p
 	if ResourceLoader.exists(p + ".tscn"):
 		return p + ".tscn"
 	if _scene_index.is_empty():
 		_index_scenes("res://art/")
-	var key := s.get_file().trim_suffix(".tscn").to_lower()
-	var hit: String = _scene_index.get(key, "")
+	var key := s.get_file().trim_suffix(".tscn").trim_suffix(".gd").to_lower()
+	var hit: String = _scene_index.get(key, _script_index.get(key, ""))
 	if hit != "" and ("/" in s):
 		# "fire/ember_archer": the folder part must match too
-		var want := s.trim_suffix(".tscn").to_lower()
-		if not hit.to_lower().trim_suffix(".tscn").ends_with(want):
+		var want := s.trim_suffix(".tscn").trim_suffix(".gd").to_lower()
+		var got := hit.to_lower().get_basename()
+		if not got.ends_with(want) and not got.ends_with(want + "_set"):
 			return ""
 	return hit
 
@@ -39,31 +42,50 @@ static func _index_scenes(dir: String) -> void:
 			var k := f.get_basename().to_lower()
 			if not _scene_index.has(k):
 				_scene_index[k] = dir.path_join(f)
+		elif f.ends_with("_set.gd") or f.ends_with("_vfx.gd"):
+			var k2 := f.get_basename().to_lower()
+			if not _script_index.has(k2):
+				_script_index[k2] = dir.path_join(f)
+			if k2.ends_with("_set") and not _script_index.has(k2.trim_suffix("_set")):
+				_script_index[k2.trim_suffix("_set")] = dir.path_join(f)   # the set id: "heath" -> heath_set.gd
 	for sub: String in d.get_directories():
 		if not sub.begins_with("."):
 			_index_scenes(dir.path_join(sub))
 
 
 ## Model scenes of a folder (the same filter as the auto references: no previews, riders, axemen, flags).
-static func list_scenes(dir: String, recursive: bool = true) -> Array[String]:
-	return scenes_in(dir, recursive)
+## v3 (1.E) `cavalry=true`: keeps the cavalry units named `*_rider.tscn` (blaze_rider, gloam_rider, rimehorn_rider) and
+## drops only their rider sub-scenes (`blaze_rider/blaze_rider_rider.tscn`, `stagrunner_rider.tscn` next to
+## `stagrunner.tscn`). The default (false) keeps the old filter, which the auto references rely on.
+static func list_scenes(dir: String, recursive: bool = true, cavalry: bool = false) -> Array[String]:
+	return scenes_in(dir, recursive, cavalry)
 
 
-static func scenes_in(dir: String, recursive: bool) -> Array[String]:
+static func scenes_in(dir: String, recursive: bool, cavalry: bool = false) -> Array[String]:
 	var out: Array[String] = []
 	var d := DirAccess.open(dir)
 	if d == null:
 		return out
 	for f: String in d.get_files():
-		if f.ends_with(".tscn") and not ("preview" in f or f.ends_with("_rider.tscn") or f.ends_with("_axeman.tscn")
-				or f in ["howdah.tscn", "bounty_flag.tscn"]):
-			out.append(dir.path_join(f))
+		if not f.ends_with(".tscn") or "preview" in f or f.ends_with("_axeman.tscn") or f in ["howdah.tscn", "bounty_flag.tscn"]:
+			continue
+		if f.ends_with("_rider.tscn") and (not cavalry or is_rider_part(dir, f)):
+			continue
+		out.append(dir.path_join(f))
 	if recursive:
 		for sub: String in d.get_directories():
 			if sub in ["tools", "materials", "meshes", "kit", "parts", "baked"]:
 				continue
-			out.append_array(scenes_in(dir.path_join(sub), true))
+			out.append_array(scenes_in(dir.path_join(sub), true, cavalry))
 	return out
+
+
+## True when `<x>_rider.tscn` in `dir` is the rider sub-scene of a cavalry unit `<x>` (the folder is named `<x>`, or
+## `<x>.tscn` sits in the same folder or the parent folder), not a cavalry unit itself.
+static func is_rider_part(dir: String, f: String) -> bool:
+	var x := f.trim_suffix("_rider.tscn")
+	return dir.trim_suffix("/").get_file() == x or FileAccess.file_exists(dir.path_join(x + ".tscn")) \
+		or FileAccess.file_exists(dir.trim_suffix("/").get_base_dir().path_join(x + ".tscn"))
 
 
 static func auto_candidates(ctx: ArtLabRunner) -> Array:

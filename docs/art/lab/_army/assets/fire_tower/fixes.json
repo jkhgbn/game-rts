@@ -1,0 +1,137 @@
+{
+	"asset": "fire_tower",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B5",
+			"computed": false,
+			"measured": {
+				"value": "1 (OrbLight)"
+			},
+			"predicted": {},
+			"proposal": "Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B5 Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"title": "Real lights",
+			"wanted": {
+				"rule": "<= 0 (lab default (towers, walls, posts): half a keep)"
+			}
+		},
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73353",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-30717",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 19.8,
+					"material": "ShaderMaterial#-67185",
+					"material_path": "",
+					"to": "ShaderMaterial#-90063",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 37.8,
+					"material": "ShaderMaterial#-35635",
+					"material_path": "",
+					"to": "ShaderMaterial#-13155",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 58.5,
+					"material": "ShaderMaterial#-13155",
+					"material_path": "",
+					"to": "ShaderMaterial#-90063",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 11
+			},
+			"predicted": {
+				"materials": 6
+			},
+			"proposal": "11 -> 6 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-30717` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-67185` -> `ShaderMaterial#-90063` (dE 19.8), `ShaderMaterial#-35635` -> `ShaderMaterial#-13155` (dE 37.8), `ShaderMaterial#-13155` -> `ShaderMaterial#-90063` (dE 58.5)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B8 11 -> 6 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-79643` (dE 0.0), `StandardMaterial3D#-30717` -> `StandardMaterial3D#-79643` (dE 0.0), `ShaderMaterial#-67185` -> `ShaderMaterial#-90063` (dE 19.8), `ShaderMaterial#-35635` -> `ShaderMaterial#-13155` (dE 37.8), `ShaderMaterial#-13155` -> `ShaderMaterial#-90063` (dE 58.5)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 6"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "13 material(s), 1 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 13 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 13 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair shadow / ice (deutan): dE 5.3 on the team-colour area (normal vision 11.2; 2063 px); deutan: shadow / ice dE 5.3; protan: shadow / ice dE 6.5; worst vs ground: fire colour (deutan) dE 26.7"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 5.3): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 5.3): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +16 (point 1 dL +16, point 2 dL +53, point 3 dL +67; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +16): darken around them or raise the energy",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +16): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 86.4,
+	"result": "FAIL",
+	"scene": "res://art/buildings/fire_tower.tscn",
+	"tier": "small",
+	"version": "1.0"
+}

@@ -1,0 +1,195 @@
+{
+	"asset": "market_fire",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-96354",
+					"material_path": "",
+					"to": "StandardMaterial3D#-84138",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-97847",
+					"material_path": "",
+					"to": "StandardMaterial3D#-84138",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 22.5,
+					"material": "ShaderMaterial#-56290",
+					"material_path": "",
+					"to": "ShaderMaterial#-78942",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 36.8,
+					"material": "StandardMaterial3D#-80376",
+					"material_path": "",
+					"to": "StandardMaterial3D#-84138",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 37.8,
+					"material": "ShaderMaterial#-24397",
+					"material_path": "",
+					"to": "ShaderMaterial#-1868",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 42.6,
+					"material": "ShaderMaterial#-15585",
+					"material_path": "",
+					"to": "ShaderMaterial#-1868",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 61.2,
+					"material": "ShaderMaterial#-1868",
+					"material_path": "",
+					"to": "ShaderMaterial#-78942",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 15
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "15 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-96354` -> `StandardMaterial3D#-84138` (dE 0.0), `StandardMaterial3D#-97847` -> `StandardMaterial3D#-84138` (dE 0.0), `ShaderMaterial#-56290` -> `ShaderMaterial#-78942` (dE 22.5), `StandardMaterial3D#-80376` -> `StandardMaterial3D#-84138` (dE 36.8), `ShaderMaterial#-24397` -> `ShaderMaterial#-1868` (dE 37.8), `ShaderMaterial#-15585` -> `ShaderMaterial#-1868` (dE 42.6), `ShaderMaterial#-1868` -> `ShaderMaterial#-78942` (dE 61.2)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 15 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-96354` -> `StandardMaterial3D#-84138` (dE 0.0), `StandardMaterial3D#-97847` -> `StandardMaterial3D#-84138` (dE 0.0), `ShaderMaterial#-56290` -> `ShaderMaterial#-78942` (dE 22.5), `StandardMaterial3D#-80376` -> `StandardMaterial3D#-84138` (dE 36.8), `ShaderMaterial#-24397` -> `ShaderMaterial#-1868` (dE 37.8), `ShaderMaterial#-15585` -> `ShaderMaterial#-1868` (dE 42.6), `ShaderMaterial#-1868` -> `ShaderMaterial#-78942` (dE 61.2)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.1,
+					"from": 3.0,
+					"material": "ShaderMaterial#-70029",
+					"material_path": "",
+					"node": "Body/Mast/MastTop, Body/Brazier, Body/Mast/ScalePivot/PanB/PanParts",
+					"param": "shader_parameter/energy",
+					"to": 0.0,
+					"why": "dim under the bloom level: 3 point(s), peak 7.44 x the level",
+					"words": "energy 3.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 7.44 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 7,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Mast/MastTop",
+						"peak_x_bloom": 7.18,
+						"px": 614
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/ScalePivot/Beam/BeamParts",
+						"peak_x_bloom": 4.77,
+						"px": 528
+					},
+					{
+						"above": true,
+						"part": "Body/Brazier",
+						"peak_x_bloom": 7.44,
+						"px": 464
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/ScalePivot/PanA/PanParts",
+						"peak_x_bloom": 3.26,
+						"px": 303
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/Medallion",
+						"peak_x_bloom": 3.26,
+						"px": 103
+					},
+					{
+						"above": true,
+						"part": "Body/Mast/ScalePivot/PanB/PanParts",
+						"peak_x_bloom": 4.2,
+						"px": 78
+					},
+					{
+						"above": true,
+						"part": "Body/Crates",
+						"peak_x_bloom": 3.23,
+						"px": 4
+					},
+					{
+						"above": false,
+						"part": "Body/Crates",
+						"peak_x_bloom": 0.25,
+						"px": 64
+					},
+					{
+						"above": false,
+						"part": "Body/Crates",
+						"peak_x_bloom": 0.26,
+						"px": 49
+					},
+					{
+						"above": false,
+						"part": "Body/Crates",
+						"peak_x_bloom": 0.28,
+						"px": 14
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 6/5/5): MastTop, Brazier, PanParts x2, Medallion; soft glows under the bloom (v1 count, luma > 0.4): 8"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 5 -> 2 (want 2-4): ShaderMaterial#-70029 energy 3.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 7.44 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 5 -> 2 (want 2-4): ShaderMaterial#-70029 energy 3.0 -> 0.0 (dim under the bloom level: 3 point(s), peak 7.44 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "27 material(s), 8 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 27 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 27 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 89.2,
+	"result": "FAIL",
+	"scene": "res://art/buildings/market/fire/market_fire.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

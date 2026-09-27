@@ -1,0 +1,239 @@
+{
+	"asset": "gloam_rider",
+	"count": 6,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 19
+			},
+			"predicted": {
+				"draw": 19
+			},
+			"proposal": "19 -> 19 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 19 -> 19 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 12"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2229,
+					"node": "Steed/Root/Mount/Merged",
+					"to": 1115,
+					"words": "`Merged` 2229 -> 1115 verts"
+				},
+				{
+					"from": 1747,
+					"node": "Steed/Root/Mount/Head/Merged",
+					"to": 874,
+					"words": "`Merged` 1747 -> 874 verts"
+				},
+				{
+					"from": 985,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 493,
+					"words": "`Merged` 985 -> 493 verts"
+				},
+				{
+					"from": 867,
+					"node": "Rider/Root/Chest/ArmR/ForearmR/Lance",
+					"to": 434,
+					"words": "`Lance` 867 -> 434 verts"
+				},
+				{
+					"from": 745,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 373,
+					"words": "`Merged` 745 -> 373 verts"
+				},
+				{
+					"from": 402,
+					"node": "Steed/Root/Mount/LegBL/Merged",
+					"to": 201,
+					"words": "`Merged` 402 -> 201 verts"
+				},
+				{
+					"from": 402,
+					"node": "Steed/Root/Mount/LegBR/Merged",
+					"to": 201,
+					"words": "`Merged` 402 -> 201 verts"
+				},
+				{
+					"from": 386,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 193,
+					"words": "`Merged` 386 -> 193 verts"
+				},
+				{
+					"from": 386,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 193,
+					"words": "`Merged` 386 -> 193 verts"
+				},
+				{
+					"from": 339,
+					"node": "Steed/Root/Mount/LegFR/Merged",
+					"to": 170,
+					"words": "`Merged` 339 -> 170 verts"
+				},
+				{
+					"from": 339,
+					"node": "Steed/Root/Mount/LegFL/Merged",
+					"to": 170,
+					"words": "`Merged` 339 -> 170 verts"
+				},
+				{
+					"from": 307,
+					"node": "Steed/Root/Mount/Tail/Merged",
+					"to": 154,
+					"words": "`Merged` 307 -> 154 verts"
+				},
+				{
+					"from": 289,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 278,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 139,
+					"words": "`Merged` 278 -> 139 verts"
+				},
+				{
+					"from": 160,
+					"node": "Rider/Root/Chest/ArmR/ForearmR/Lance/Pennon",
+					"to": 80,
+					"words": "`Pennon` 160 -> 80 verts"
+				},
+				{
+					"from": 148,
+					"node": "Rider/Root/Chest/ArmR/ForearmR",
+					"to": 74,
+					"words": "`ForearmR` 148 -> 74 verts"
+				},
+				{
+					"from": 130,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 65,
+					"words": "`Merged` 130 -> 65 verts"
+				},
+				{
+					"from": 96,
+					"node": "Rider/Root/Chest/Cloak",
+					"to": 48,
+					"words": "`Cloak` 96 -> 48 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 10239
+			},
+			"predicted": {
+				"verts": 5126
+			},
+			"proposal": "10239 -> 5126 (want <= 2500): `Merged` 2229 -> 1115 verts; `Merged` 1747 -> 874 verts; `Merged` 985 -> 493 verts; `Lance` 867 -> 434 verts; `Merged` 745 -> 373 verts; `Merged` 402 -> 201 verts; `Merged` 402 -> 201 verts; `Merged` 386 -> 193 verts; `Merged` 386 -> 193 verts; `Merged` 339 -> 170 verts; `Merged` 339 -> 170 verts; `Merged` 307 -> 154 verts; `Merged` 289 -> 145 verts; `Merged` 278 -> 139 verts; `Pennon` 160 -> 80 verts; `ForearmR` 148 -> 74 verts; `Merged` 130 -> 65 verts; `Cloak` 96 -> 48 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 10239 -> 5126 (want <= 2500): `Merged` 2229 -> 1115 verts; `Merged` 1747 -> 874 verts; `Merged` 985 -> 493 verts; `Lance` 867 -> 434 verts; `Merged` 745 -> 373 verts; `Merged` 402 -> 201 verts; `Merged` 402 -> 201 verts; `Merged` 386 -> 193 verts; `Merged` 386 -> 193 verts; `Merged` 339 -> 170 verts; `Merged` 339 -> 170 verts; `Merged` 307 -> 154 verts; `Merged` 289 -> 145 verts; `Merged` 278 -> 139 verts; `Pennon` 160 -> 80 verts; `ForearmR` 148 -> 74 verts; `Merged` 130 -> 65 verts; `Cloak` 96 -> 48 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "on",
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"param": "cast_shadow",
+					"to": "SHADOW_CASTING_SETTING_OFF",
+					"volume_m3": 0.033
+				}
+			],
+			"check": "B7",
+			"computed": true,
+			"measured": {
+				"casters": 5
+			},
+			"predicted": {
+				"casters": 4
+			},
+			"proposal": "5 -> 4 casters: cast_shadow off on the 1 smallest: `Merged`",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B7 5 -> 4 casters: cast_shadow off on the 1 smallest: `Merged`",
+			"title": "Shadow casters",
+			"wanted": {
+				"casters": "<= 4"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Lance 0.59 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Lance 0.59 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Lance 0.59 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +4 (point 1 dL +12, point 2 dL +4, point 3 dL +14; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 3 glow point(s) barely stand out from their 1 m surround (worst dL +4): darken around them or raise the energy",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 3 glow point(s) barely stand out from their 1 m surround (worst dL +4): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.8 on the team-colour area (normal vision 70.2; 435 px); deutan: fire / nature dE 11.8; protan: fire / nature dE 21.6; worst vs ground: fire colour (deutan) dE 48.4"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"rank": 6,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 89.0,
+	"result": "FAIL",
+	"scene": "res://art/units/shadow/gloam_rider/gloam_rider.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

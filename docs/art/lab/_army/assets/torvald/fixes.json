@@ -1,0 +1,176 @@
+{
+	"asset": "torvald",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#bdcce0",
+					"material": "torvald_fur_pale",
+					"material_path": "res://art/units/wizards/torvald_fur_pale.tres",
+					"node": "Root/Hips/Merged, Root/Chest/ArmL/Merged, Root/Chest/ArmR/Merged, Root/Chest/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#75aad5",
+					"weight": 0.16
+				}
+			],
+			"check": "R4k",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.7,
+				1.4,
+				1.2
+			],
+			"measured": {
+				"body_lab": [
+					77.1,
+					-1.0,
+					-10.5
+				],
+				"dE": {
+					"R3 meadow": 59.3,
+					"R3t fire": 49.7,
+					"R3t ice": 58.6,
+					"R3t nature": 39.9,
+					"R3t shadow": 60.7,
+					"R4 ash": 55.0,
+					"R4 heath": 41.9,
+					"R4 marsh": 64.6,
+					"R4 old_wood": 57.6,
+					"R4 riverbank": 56.3,
+					"R4 sand": 43.4,
+					"R4k snow": 18.9
+				},
+				"ground_lab": [
+					62.6,
+					-22.5,
+					42.8
+				],
+				"melt_share": 0.0
+			},
+			"predicted": {
+				"R3 meadow": 61.3,
+				"R3t fire": 51.3,
+				"R3t ice": 60.7,
+				"R3t nature": 41.4,
+				"R3t shadow": 64.0,
+				"R4 ash": 53.0,
+				"R4 heath": 43.3,
+				"R4 marsh": 63.1,
+				"R4 old_wood": 56.8,
+				"R4 riverbank": 55.5,
+				"R4 sand": 47.5,
+				"R4k snow": 24.0
+			},
+			"proposal": "shader_parameter/base_color of `torvald_fur_pale` #bdcce0 -> #75aad5 (15% of the visible body): predicted dE R3 meadow 59.3 -> 61.3, R3t fire 49.7 -> 51.3, R3t shadow 60.7 -> 64.0, R3t ice 58.6 -> 60.7, R3t nature 39.9 -> 41.4, R4k snow 18.9 -> 24.0 (want >= 24); other grounds heath 43.3, old_wood 56.8, riverbank 55.5, ash 53.0, sand 47.5, marsh 63.1",
+			"rank": 1,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `torvald_fur_pale` #bdcce0 -> #75aad5 (15% of the visible body): predicted dE R3 meadow 59.3 -> 61.3, R3t fire 49.7 -> 51.3, R3t shadow 60.7 -> 64.0, R3t ice 58.6 -> 60.7, R3t nature 39.9 -> 41.4, R4k snow 18.9 -> 24.0 (want >= 24); other grounds heath 43.3, old_wood 56.8, riverbank 55.5, ash 53.0, sand 47.5, marsh 63.1",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1389,
+					"node": "Root/Chest/Head/Merged",
+					"to": 695,
+					"words": "`Merged` 1389 -> 695 verts"
+				},
+				{
+					"from": 632,
+					"node": "Root/Chest/ArmR/Staff/StaffMesh",
+					"to": 316,
+					"words": "`StaffMesh` 632 -> 316 verts"
+				},
+				{
+					"from": 576,
+					"node": "Root/Chest/ArmR/Staff/Snowflake/Flake",
+					"to": 288,
+					"words": "`Flake` 576 -> 288 verts"
+				},
+				{
+					"from": 543,
+					"node": "Root/Chest/Merged",
+					"to": 272,
+					"words": "`Merged` 543 -> 272 verts"
+				},
+				{
+					"from": 507,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 400,
+					"words": "`Merged` 507 -> 400 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4596
+			},
+			"predicted": {
+				"verts": 2920
+			},
+			"proposal": "4596 -> 2920 (want <= 3000): `Merged` 1389 -> 695 verts; `StaffMesh` 632 -> 316 verts; `Flake` 576 -> 288 verts; `Merged` 543 -> 272 verts; `Merged` 507 -> 400 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 4596 -> 2920 (want <= 3000): `Merged` 1389 -> 695 verts; `StaffMesh` 632 -> 316 verts; `Flake` 576 -> 288 verts; `Merged` 543 -> 272 verts; `Merged` 507 -> 400 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.81 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.81 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.81 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.7 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 8.6 on the team-colour area (normal vision 58.3; 619 px); deutan: fire / nature dE 8.6; protan: fire / nature dE 19.3; worst vs ground: fire colour (deutan) dE 34.9"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 8.6): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 8.6): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 90.9,
+	"result": "WARN",
+	"scene": "res://art/units/wizards/torvald.tscn",
+	"tier": "wizard",
+	"version": "1.0"
+}

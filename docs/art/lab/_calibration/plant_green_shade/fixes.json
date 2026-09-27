@@ -1,0 +1,126 @@
+{
+	"asset": "plant_green_shade",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#8cb847",
+					"material": "StandardMaterial3D#-19604",
+					"material_path": "",
+					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Hips/Merged, Root/Chest/Head/Merged",
+					"param": "albedo_color",
+					"shared": "built in code or embedded: change it where the model script creates it",
+					"to": "#8fba05",
+					"weight": 0.99
+				}
+			],
+			"check": "R3",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.4,
+				1.0,
+				1.4
+			],
+			"measured": {
+				"body_lab": [
+					70.4,
+					-21.5,
+					47.3
+				],
+				"dE": {
+					"R3 meadow": 8.2,
+					"R3t fire": 8.4,
+					"R3t ice": 8.3,
+					"R3t nature": 8.2,
+					"R3t shadow": 8.4,
+					"R4 ash": 71.9,
+					"R4 heath": 46.1,
+					"R4 old_wood": 52.4,
+					"R4 riverbank": 44.9,
+					"R4 sand": 30.1,
+					"R4 snow": 54.0,
+					"R4k marsh": 72.1
+				},
+				"ground_lab": [
+					63.3,
+					-20.6,
+					43.4
+				],
+				"melt_share": 0.36
+			},
+			"predicted": {
+				"R3 meadow": 29.2,
+				"R3t fire": 29.3,
+				"R3t ice": 29.2,
+				"R3t nature": 29.2,
+				"R3t shadow": 29.2,
+				"R4 ash": 90.7,
+				"R4 heath": 66.9,
+				"R4 old_wood": 69.4,
+				"R4 riverbank": 62.7,
+				"R4 sand": 48.4,
+				"R4 snow": 76.0,
+				"R4k marsh": 88.4
+			},
+			"proposal": "albedo_color of `StandardMaterial3D#-19604` #8cb847 -> #8fba05 (98% of the visible body): predicted dE R3 meadow 8.2 -> 29.2, R3t fire 8.4 -> 29.3, R3t shadow 8.4 -> 29.2, R3t ice 8.3 -> 29.2, R3t nature 8.2 -> 29.2, R4k marsh 72.1 -> 88.4 (want >= 29); other grounds heath 66.9, old_wood 69.4, riverbank 62.7, snow 76.0, ash 90.7, sand 48.4; built in code or embedded: change it where the model script creates it",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "albedo_color of `StandardMaterial3D#-19604` #8cb847 -> #8fba05 (98% of the visible body): predicted dE R3 meadow 8.2 -> 29.2, R3t fire 8.4 -> 29.3, R3t shadow 8.4 -> 29.2, R3t ice 8.3 -> 29.2, R3t nature 8.2 -> 29.2, R4k marsh 72.1 -> 88.4 (want >= 29); other grounds heath 66.9, old_wood 69.4, riverbank 62.7, snow 76.0, ash 90.7, sand 48.4; built in code or embedded: change it where the model script creates it",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 29 (rule 20 + margin 9)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6",
+			"computed": false,
+			"measured": {
+				"value": "0% of body pixels change between kingdom colours (min pair 0%)"
+			},
+			"predicted": {},
+			"proposal": "Team-colour visibility at 40 m: Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"title": "Team-colour visibility at 40 m",
+			"wanted": {
+				"rule": ">= 8% (FAIL = set_team_color changes nothing)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair ice / nature (protan): dE 4.5 on the team-colour area (normal vision 5.3; 7 px); deutan: ice / nature dE 4.7; protan: ice / nature dE 4.5; worst vs ground: nature colour (deutan) dE 8.0"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players ice / nature (protan) look alike on this model (dE 4.5): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players ice / nature (protan) look alike on this model (dE 4.5): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 84.7,
+	"result": "FAIL",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_green_shade.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

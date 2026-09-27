@@ -1,0 +1,13 @@
+{
+	"asset": "plant_team_dusk_steed",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "shadow",
+	"quality": 98.4,
+	"result": "PASS",
+	"scene": "res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

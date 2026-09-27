@@ -503,6 +503,184 @@ static func clamp_rect(r: Rect2i, margin: int, w: int, h: int) -> Rect2i:
 	return Rect2i(x0, y0, x1 - x0, y1 - y0)
 
 
+# ---------------------------------------------------------------- Art Lab v3 1.D helpers (additions only)
+
+## Dichromat simulation (Machado, Oliveira & Fernandes 2009, severity 1.0), rows applied to linear RGB.
+const CVD := {
+	&"deutan": [Vector3(0.367322, 0.860646, -0.227968), Vector3(0.280085, 0.672501, 0.047413),
+		Vector3(-0.011820, 0.042940, 0.968881)],
+	&"protan": [Vector3(0.152286, 1.052583, -0.204868), Vector3(0.114503, 0.786281, 0.099216),
+		Vector3(-0.003882, -0.048116, 1.051998)],
+}
+
+
+static func _srgb_byte(x: float) -> int:
+	var c := clampf(x, 0.0, 1.0)
+	c = c * 12.92 if c <= 0.0031308 else 1.055 * pow(c, 1.0 / 2.4) - 0.055
+	return clampi(int(round(c * 255.0)), 0, 255)
+
+
+## An sRGB byte triple as a deuteranope / protanope sees it (`kind` = &"deutan" / &"protan"), as sRGB bytes.
+static func cvd_rgb(r: int, g: int, b: int, kind: StringName) -> Vector3i:
+	var mt: Array = CVD[kind]
+	var v := Vector3(lin(r), lin(g), lin(b))
+	return Vector3i(_srgb_byte((mt[0] as Vector3).dot(v)), _srgb_byte((mt[1] as Vector3).dot(v)),
+		_srgb_byte((mt[2] as Vector3).dot(v)))
+
+
+## A copy of `img` whose ROI is shown as a dichromat sees it (the rest of the frame is unchanged).
+static func cvd_image(img: Image, roi: Rect2i, kind: StringName) -> Image:
+	var src := rgba8(img)
+	var data := src.get_data()
+	var iw := src.get_width()
+	for y: int in roi.size.y:
+		for x: int in roi.size.x:
+			var i := (((roi.position.y + y) * iw) + roi.position.x + x) * 4
+			var c := cvd_rgb(data[i], data[i + 1], data[i + 2], kind)
+			data[i] = c.x
+			data[i + 1] = c.y
+			data[i + 2] = c.z
+	return Image.create_from_data(iw, src.get_height(), false, Image.FORMAT_RGBA8, data)
+
+
+## Mean per-pixel CIE76 dE between two frames over the mask pixels (0 when the mask is empty).
+static func mean_de(img_a: Image, img_b: Image, roi: Rect2i, m: Mask) -> float:
+	var a := rgba8(img_a).get_data()
+	var b := rgba8(img_b).get_data()
+	var iw := img_a.get_width()
+	var s := 0.0
+	var n := 0
+	for y: int in m.h:
+		for x: int in m.w:
+			if m.bits[y * m.w + x] == 0:
+				continue
+			var i := (((roi.position.y + y) * iw) + roi.position.x + x) * 4
+			s += lab(a[i], a[i + 1], a[i + 2]).distance_to(lab(b[i], b[i + 1], b[i + 2]))
+			n += 1
+	return s / float(n) if n > 0 else 0.0
+
+
+## Sub-mask of `m`: the pixels where any two of `imgs` differ by more than `de_thr` (the team-colour area when the
+## images are the same pose in the 4 kingdom colours).
+static func diff_mask(imgs: Array[Image], roi: Rect2i, m: Mask, de_thr: float = 8.0) -> Mask:
+	var out := Mask.new(m.w, m.h)
+	var datas: Array[PackedByteArray] = []
+	for im: Image in imgs:
+		datas.append(rgba8(im).get_data())
+	if datas.size() < 2:
+		return out.finish()
+	var iw := imgs[0].get_width()
+	for y: int in m.h:
+		for x: int in m.w:
+			if m.bits[y * m.w + x] == 0:
+				continue
+			var i := (((roi.position.y + y) * iw) + roi.position.x + x) * 4
+			var labs: Array[Vector3] = []
+			for d: PackedByteArray in datas:
+				labs.append(lab(d[i], d[i + 1], d[i + 2]))
+			var hit := false
+			for p: int in labs.size():
+				for q: int in range(p + 1, labs.size()):
+					if labs[p].distance_to(labs[q]) > de_thr:
+						hit = true
+						break
+				if hit:
+					break
+			if hit:
+				out.bits[y * m.w + x] = 1
+	return out.finish()
+
+
+## Local contrast of a glow point in a lit frame: the core (pixels within `r_core` of (cx, cy), full-frame px, whose
+## L* is within 12 of the brightest one) against the ring r_core + 2 .. r_ring (its median L* and mean L*a*b*).
+## Returns {core_L, ring_L, dL, de, n_ring}.
+static func local_contrast(img: Image, cx: int, cy: int, r_core: float, r_ring: float) -> Dictionary:
+	var a := rgba8(img).get_data()
+	var iw := img.get_width()
+	var ih := img.get_height()
+	var core: Array[Vector3] = []
+	var ring_l := PackedFloat32Array()
+	var ring_sum := Vector3.ZERO
+	var rr := int(ceil(r_ring))
+	var r_in := r_core + 2.0
+	for dy: int in range(-rr, rr + 1):
+		for dx: int in range(-rr, rr + 1):
+			var x := cx + dx
+			var y := cy + dy
+			if x < 0 or y < 0 or x >= iw or y >= ih:
+				continue
+			var d := sqrt(float(dx * dx + dy * dy))
+			if d > r_ring:
+				continue
+			var i := (y * iw + x) * 4
+			var l := lab(a[i], a[i + 1], a[i + 2])
+			if d <= r_core:
+				core.append(l)
+			elif d >= r_in:
+				ring_l.append(l.x)
+				ring_sum += l
+	if core.is_empty() or ring_l.is_empty():
+		return {"core_L": 0.0, "ring_L": 0.0, "dL": 0.0, "de": 0.0, "n_ring": ring_l.size()}
+	var top := -INF
+	for c: Vector3 in core:
+		top = maxf(top, c.x)
+	var cs := Vector3.ZERO
+	var cn := 0
+	for c2: Vector3 in core:
+		if c2.x >= top - 12.0:
+			cs += c2
+			cn += 1
+	var cm := cs / float(cn)
+	ring_l.sort()
+	var ring_med := ring_l[ring_l.size() / 2]
+	var rm := ring_sum / float(ring_l.size())
+	return {"core_L": cm.x, "ring_L": ring_med, "dL": cm.x - ring_med, "de": cm.distance_to(rm), "n_ring": ring_l.size()}
+
+
+## Walk-cycle silhouette stats: every frame's mask vs the rest mask (IoU, area) and frame-to-frame IoU (pops).
+## Returns {mean_iou, min_iou, area_ratio_min, area_ratio_max, step_iou_min, n}.
+static func walk_stats(rest: Mask, frames: Array) -> Dictionary:
+	var n := frames.size()
+	if n == 0 or rest.count == 0:
+		return {"mean_iou": 0.0, "min_iou": 0.0, "area_ratio_min": 0.0, "area_ratio_max": 0.0, "step_iou_min": 0.0, "n": 0}
+	var s := 0.0
+	var lo := 1.0
+	var amin := INF
+	var amax := 0.0
+	var step := 1.0
+	for i: int in n:
+		var f: Mask = frames[i]
+		var v := iou(rest, f)
+		s += v
+		lo = minf(lo, v)
+		var ar := float(f.count) / float(rest.count)
+		amin = minf(amin, ar)
+		amax = maxf(amax, ar)
+		if i > 0:
+			step = minf(step, iou(frames[i - 1], f))
+	return {"mean_iou": s / float(n), "min_iou": lo, "area_ratio_min": amin, "area_ratio_max": amax,
+		"step_iou_min": step, "n": n}
+
+
+## Glow-point flicker over a sequence of per-frame counts: {median, lo, hi, range, drops (frames at 0 while the
+## median is > 0), changes (frames off the median)}.
+static func flicker(counts: Array[int]) -> Dictionary:
+	if counts.is_empty():
+		return {"median": 0, "lo": 0, "hi": 0, "range": 0, "drops": 0, "changes": 0}
+	var s := counts.duplicate()
+	s.sort()
+	var med: int = s[s.size() / 2]
+	var drops := 0
+	var changes := 0
+	for c: int in counts:
+		if c == 0 and med > 0:
+			drops += 1
+		if c != med:
+			changes += 1
+	return {"median": med, "lo": s[0], "hi": s[s.size() - 1], "range": int(s[s.size() - 1]) - int(s[0]),
+		"drops": drops, "changes": changes}
+
+
 ## Resizes `img` to fit inside (w, h) keeping the aspect, centred on a `bg` canvas.
 static func fit(img: Image, w: int, h: int, bg: Color = Color(0.1, 0.1, 0.1), nearest: bool = false) -> Image:
 	var src := rgba8(img).duplicate() as Image

@@ -1,0 +1,192 @@
+{
+	"asset": "nature_hollow",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73353",
+					"material_path": "",
+					"to": "StandardMaterial3D#-16893",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-16893",
+					"material_path": "",
+					"to": "StandardMaterial3D#-79643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 15.7,
+					"material": "Wood",
+					"material_path": "",
+					"to": "Bark",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 17.1,
+					"material": "Bark",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 23.9,
+					"material": "Moss",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 24.8,
+					"material": "Stone",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 71.8,
+					"material": "Leaves",
+					"material_path": "",
+					"to": "DarkStone",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 97.0,
+					"material": "StandardMaterial3D#-79643",
+					"material_path": "",
+					"to": "Void",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 102.7,
+					"material": "Blossom",
+					"material_path": "",
+					"to": "LeafCard",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 18
+			},
+			"predicted": {
+				"materials": 9
+			},
+			"proposal": "18 -> 9 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-16893` (dE 0.0), `StandardMaterial3D#-16893` -> `StandardMaterial3D#-79643` (dE 0.0), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Moss` -> `DarkStone` (dE 23.9), `Stone` -> `DarkStone` (dE 24.8), `Leaves` -> `DarkStone` (dE 71.8), `StandardMaterial3D#-79643` -> `Void` (dE 97.0), `Blossom` -> `LeafCard` (dE 102.7)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 18 -> 9 materials: use one material for look-alike pairs: `StandardMaterial3D#-73353` -> `StandardMaterial3D#-16893` (dE 0.0), `StandardMaterial3D#-16893` -> `StandardMaterial3D#-79643` (dE 0.0), `Wood` -> `Bark` (dE 15.7), `Bark` -> `DarkStone` (dE 17.1), `Moss` -> `DarkStone` (dE 23.9), `Stone` -> `DarkStone` (dE 24.8), `Leaves` -> `DarkStone` (dE 71.8), `StandardMaterial3D#-79643` -> `Void` (dE 97.0), `Blossom` -> `LeafCard` (dE 102.7)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "#59b340",
+					"material": "LeafCard",
+					"material_path": "",
+					"node": "Body/LeafRoof, Body/LeafRoofLost, GroundDressing",
+					"param": "shader_parameter/base_color",
+					"shared": "built in code or embedded: change it where the model script creates it",
+					"to": "#4a952b",
+					"weight": 0.25
+				}
+			],
+			"check": "R3",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.4,
+				1.0,
+				0.9
+			],
+			"measured": {
+				"body_lab": [
+					51.6,
+					-20.1,
+					36.5
+				],
+				"dE": {
+					"R3 meadow": 13.7,
+					"R3t fire": 53.8,
+					"R3t ice": 40.0,
+					"R3t nature": 13.2,
+					"R3t shadow": 68.3,
+					"R4 ash": 50.5,
+					"R4 heath": 18.7,
+					"R4 marsh": 50.0,
+					"R4 riverbank": 18.2,
+					"R4 sand": 35.8,
+					"R4 snow": 52.7,
+					"R4k old_wood": 29.7
+				},
+				"ground_lab": [
+					62.1,
+					-26.0,
+					42.9
+				],
+				"melt_share": 0.06
+			},
+			"predicted": {
+				"R3 meadow": 18.6,
+				"R3t fire": 63.1,
+				"R3t ice": 45.5,
+				"R3t nature": 18.1,
+				"R3t shadow": 84.6,
+				"R4 ash": 45.6,
+				"R4 heath": 16.1,
+				"R4 marsh": 44.8,
+				"R4 riverbank": 16.0,
+				"R4 sand": 36.5,
+				"R4 snow": 52.8,
+				"R4k old_wood": 24.9
+			},
+			"proposal": "shader_parameter/base_color of `LeafCard` #59b340 -> #4a952b (24% of the visible body): predicted dE R3 meadow 13.7 -> 18.6, R3t fire 53.8 -> 63.1, R3t shadow 68.3 -> 84.6, R3t ice 40.0 -> 45.5, R3t nature 13.2 -> 18.1, R4k old_wood 29.7 -> 24.9 (want >= 18); other grounds heath 16.1, riverbank 16.0, snow 52.8, ash 45.6, sand 36.5, marsh 44.8; built in code or embedded: change it where the model script creates it",
+			"rank": 2,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `LeafCard` #59b340 -> #4a952b (24% of the visible body): predicted dE R3 meadow 13.7 -> 18.6, R3t fire 53.8 -> 63.1, R3t shadow 68.3 -> 84.6, R3t ice 40.0 -> 45.5, R3t nature 13.2 -> 18.1, R4k old_wood 29.7 -> 24.9 (want >= 18); other grounds heath 16.1, riverbank 16.0, snow 52.8, ash 45.6, sand 36.5, marsh 44.8; built in code or embedded: change it where the model script creates it",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 18 (rule 14 + margin 4)",
+				"dE_R4": ">= 12 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "21 material(s), 1 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 21 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 21 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 86.1,
+	"result": "FAIL",
+	"scene": "res://art/buildings/nature_hollow.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

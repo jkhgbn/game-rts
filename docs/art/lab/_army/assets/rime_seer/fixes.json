@@ -1,0 +1,126 @@
+{
+	"asset": "rime_seer",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#d9ebff",
+					"material": "ice_sec_seer",
+					"material_path": "res://art/units/ice/materials/ice_sec_seer.tres",
+					"node": "Root/Hips/Merged, Root/Chest/Head/Merged, Root/Chest/ArmL/Merged, Root/Chest/ArmR/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#7ad5ef",
+					"weight": 0.42
+				}
+			],
+			"check": "R4k",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.4,
+				1.1,
+				0.8
+			],
+			"measured": {
+				"body_lab": [
+					83.8,
+					-3.7,
+					-2.0
+				],
+				"dE": {
+					"R3 meadow": 52.6,
+					"R3t fire": 47.8,
+					"R3t ice": 52.5,
+					"R3t nature": 32.8,
+					"R3t shadow": 65.6,
+					"R4 ash": 61.0,
+					"R4 heath": 37.8,
+					"R4 marsh": 69.5,
+					"R4 old_wood": 59.5,
+					"R4 riverbank": 57.3,
+					"R4 sand": 35.2,
+					"R4k snow": 9.5
+				},
+				"ground_lab": [
+					63.4,
+					-20.7,
+					43.4
+				],
+				"melt_share": 0.0
+			},
+			"predicted": {
+				"R3 meadow": 53.9,
+				"R3t fire": 43.2,
+				"R3t ice": 54.0,
+				"R3t nature": 34.9,
+				"R3t shadow": 69.1,
+				"R4 ash": 58.7,
+				"R4 heath": 40.5,
+				"R4 marsh": 68.0,
+				"R4 old_wood": 56.7,
+				"R4 riverbank": 51.2,
+				"R4 sand": 44.9,
+				"R4k snow": 24.0
+			},
+			"proposal": "shader_parameter/base_color of `ice_sec_seer` #d9ebff -> #7ad5ef (41% of the visible body): predicted dE R3 meadow 52.6 -> 53.9, R3t fire 47.8 -> 43.2, R3t shadow 65.6 -> 69.1, R3t ice 52.5 -> 54.0, R3t nature 32.8 -> 34.9, R4k snow 9.5 -> 24.0 (want >= 24); other grounds heath 40.5, old_wood 56.7, riverbank 51.2, ash 58.7, sand 44.9, marsh 68.0",
+			"rank": 1,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `ice_sec_seer` #d9ebff -> #7ad5ef (41% of the visible body): predicted dE R3 meadow 52.6 -> 53.9, R3t fire 47.8 -> 43.2, R3t shadow 65.6 -> 69.1, R3t ice 52.5 -> 54.0, R3t nature 32.8 -> 34.9, R4k snow 9.5 -> 24.0 (want >= 24); other grounds heath 40.5, old_wood 56.7, riverbank 51.2, ash 58.7, sand 44.9, marsh 68.0",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.42 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.42 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.42 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.8 on the team-colour area (normal vision 85.3; 251 px); deutan: fire / nature dE 11.8; protan: fire / nature dE 23.7; worst vs ground: fire colour (deutan) dE 26.9"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 90.2,
+	"result": "WARN",
+	"scene": "res://art/units/ice/rime_seer.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

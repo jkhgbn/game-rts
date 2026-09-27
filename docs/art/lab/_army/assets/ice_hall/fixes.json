@@ -1,0 +1,276 @@
+{
+	"asset": "ice_hall",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-46761",
+					"material_path": "",
+					"to": "StandardMaterial3D#-33009",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 8.2,
+					"material": "ShaderMaterial#-2355",
+					"material_path": "",
+					"to": "ShaderMaterial#-28083",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.4,
+					"material": "ShaderMaterial#-73393",
+					"material_path": "",
+					"to": "ShaderMaterial#-79821",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 20.3,
+					"material": "ShaderMaterial#-28083",
+					"material_path": "",
+					"to": "ShaderMaterial#-50643",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 28.9,
+					"material": "ShaderMaterial#-96182",
+					"material_path": "",
+					"to": "ShaderMaterial#-79821",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 58.9,
+					"material": "ShaderMaterial#-79821",
+					"material_path": "",
+					"to": "ShaderMaterial#-50643",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 14
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "14 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-46761` -> `StandardMaterial3D#-33009` (dE 0.0), `ShaderMaterial#-2355` -> `ShaderMaterial#-28083` (dE 8.2), `ShaderMaterial#-73393` -> `ShaderMaterial#-79821` (dE 13.4), `ShaderMaterial#-28083` -> `ShaderMaterial#-50643` (dE 20.3), `ShaderMaterial#-96182` -> `ShaderMaterial#-79821` (dE 28.9), `ShaderMaterial#-79821` -> `ShaderMaterial#-50643` (dE 58.9)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 14 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-46761` -> `StandardMaterial3D#-33009` (dE 0.0), `ShaderMaterial#-2355` -> `ShaderMaterial#-28083` (dE 8.2), `ShaderMaterial#-73393` -> `ShaderMaterial#-79821` (dE 13.4), `ShaderMaterial#-28083` -> `ShaderMaterial#-50643` (dE 20.3), `ShaderMaterial#-96182` -> `ShaderMaterial#-79821` (dE 28.9), `ShaderMaterial#-79821` -> `ShaderMaterial#-50643` (dE 58.9)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.17,
+					"from": 3.0,
+					"material": "ShaderMaterial#-41919",
+					"material_path": "",
+					"node": "Body/IceStore/StoreParts, Body/RidgeCrystal/Halo/HaloShards",
+					"param": "shader_parameter/energy",
+					"to": 0.18,
+					"why": "dim under the bloom level: 6 point(s), peak 4.42 x the level",
+					"words": "energy 3.0 -> 0.18 (dim under the bloom level: 6 point(s), peak 4.42 x the level)"
+				},
+				{
+					"factor": 0.17,
+					"from": 2.2,
+					"material": "ShaderMaterial#-64450",
+					"material_path": "",
+					"node": "Body/Roof",
+					"param": "shader_parameter/energy",
+					"to": 0.04,
+					"why": "dim under the bloom level: 5 point(s), peak 4.42 x the level",
+					"words": "energy 2.2 -> 0.04 (dim under the bloom level: 5 point(s), peak 4.42 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 15,
+				"points_this_phase": 16,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/IceStore/StoreParts",
+						"peak_x_bloom": 4.42,
+						"px": 384
+					},
+					{
+						"above": true,
+						"part": "Body/BannerR",
+						"peak_x_bloom": 4.14,
+						"px": 283
+					},
+					{
+						"above": true,
+						"part": "Body/RidgeCrystal/Halo/HaloShards",
+						"peak_x_bloom": 4.14,
+						"px": 135
+					},
+					{
+						"above": true,
+						"part": "Body/Roof",
+						"peak_x_bloom": 4.42,
+						"px": 94
+					},
+					{
+						"above": true,
+						"part": "Body/TurretCapR",
+						"peak_x_bloom": 3.51,
+						"px": 37
+					},
+					{
+						"above": true,
+						"part": "Body/RidgeCrystal/Halo/HaloShards",
+						"peak_x_bloom": 3.86,
+						"px": 32
+					},
+					{
+						"above": true,
+						"part": "Body/Roof",
+						"peak_x_bloom": 4.14,
+						"px": 21
+					},
+					{
+						"above": true,
+						"part": "Body/IceStore/StoreParts",
+						"peak_x_bloom": 4.14,
+						"px": 15
+					},
+					{
+						"above": true,
+						"part": "Rubble",
+						"peak_x_bloom": 4.05,
+						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Body/Roof",
+						"peak_x_bloom": 3.45,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Body/Roof",
+						"peak_x_bloom": 4.08,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Body/Roof",
+						"peak_x_bloom": 3.33,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/IceStore/StoreParts",
+						"peak_x_bloom": 3.17,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/RidgeCrystal/CrystalBase",
+						"peak_x_bloom": 3.76,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/WeaponRack/RackParts",
+						"peak_x_bloom": 4.64,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/RidgeCrystal/Halo/HaloShards",
+						"peak_x_bloom": 3.23,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Body/Roof",
+						"peak_x_bloom": 0.41,
+						"px": 295
+					},
+					{
+						"above": false,
+						"part": "Body/Roof",
+						"peak_x_bloom": 0.33,
+						"px": 19
+					},
+					{
+						"above": false,
+						"part": "Body/BannerL",
+						"peak_x_bloom": 0.78,
+						"px": 8
+					},
+					{
+						"above": false,
+						"part": "Body/BannerL",
+						"peak_x_bloom": 0.27,
+						"px": 2
+					}
+				],
+				"value": "15 point(s) above the bloom level 1.2 (median of 16/14/15): StoreParts x2, TurretCapR, HaloShards x2, BannerR, CrystalBase x3, Roof x4, Rubble, RackParts, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 24"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 15 -> 4 (want 2-4): ShaderMaterial#-41919 energy 3.0 -> 0.18 (dim under the bloom level: 6 point(s), peak 4.42 x the level); ShaderMaterial#-64450 energy 2.2 -> 0.04 (dim under the bloom level: 5 point(s), peak 4.42 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 15 -> 4 (want 2-4): ShaderMaterial#-41919 energy 3.0 -> 0.18 (dim under the bloom level: 6 point(s), peak 4.42 x the level); ShaderMaterial#-64450 energy 2.2 -> 0.04 (dim under the bloom level: 5 point(s), peak 4.42 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "25 material(s), 10 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 25 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 25 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +0 (point 1 dL +35, point 2 dL +10, point 3 dL +40, point 4 dL +37, point 5 dL +11, point 6 dL +14, point 7 dL +25, point 8 dL +37, point 9 dL +39, point 10 dL +40, point 11 dL +10, point 12 dL +54, point 13 dL +0, point 14 dL +0, point 15 dL +38, point 16 dL +5; ring 27 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 7 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 7 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 87.1,
+	"result": "FAIL",
+	"scene": "res://art/buildings/ice_hall.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

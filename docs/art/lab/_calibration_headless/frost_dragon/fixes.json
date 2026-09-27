@@ -1,0 +1,13 @@
+{
+	"asset": "frost_dragon",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "ice",
+	"quality": 98.9,
+	"result": "PASS",
+	"scene": "res://art/units/titans/frost_dragon/frost_dragon.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

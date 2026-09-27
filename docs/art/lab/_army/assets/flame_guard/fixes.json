@@ -1,0 +1,187 @@
+{
+	"asset": "flame_guard",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#9e6629",
+					"material": "fire_bronze",
+					"material_path": "res://art/units/kit/materials/fire_bronze.tres",
+					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Chest/Head/Merged, Root/Chest/ArmL/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/kit/materials/fire_bronze.tres): give flame_guard its own copy first, other assets use it too",
+					"to": "#c57535",
+					"weight": 0.46
+				}
+			],
+			"check": "R3t",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.9,
+				2.1,
+				2.9
+			],
+			"measured": {
+				"body_lab": [
+					62.9,
+					39.7,
+					51.3
+				],
+				"dE": {
+					"R3 meadow": 61.3,
+					"R3t fire": 61.2,
+					"R3t ice": 38.5,
+					"R3t nature": 14.0,
+					"R3t shadow": 77.6,
+					"R4 heath": 51.9,
+					"R4 marsh": 69.8,
+					"R4 old_wood": 66.8,
+					"R4 riverbank": 77.9,
+					"R4 sand": 44.4,
+					"R4 snow": 67.3,
+					"R4k ash": 72.3
+				},
+				"ground_lab": [
+					63.1,
+					-21.1,
+					43.1
+				],
+				"melt_share": 0.0
+			},
+			"predicted": {
+				"R3 meadow": 64.6,
+				"R3t fire": 64.5,
+				"R3t ice": 42.0,
+				"R3t nature": 24.2,
+				"R3t shadow": 74.2,
+				"R4 heath": 56.4,
+				"R4 marsh": 75.8,
+				"R4 old_wood": 72.5,
+				"R4 riverbank": 83.0,
+				"R4 sand": 45.7,
+				"R4 snow": 68.1,
+				"R4k ash": 77.9
+			},
+			"proposal": "shader_parameter/base_color of `fire_bronze` #9e6629 -> #c57535 (45% of the visible body): predicted dE R3 meadow 61.3 -> 64.6, R3t fire 61.2 -> 64.5, R3t shadow 77.6 -> 74.2, R3t ice 38.5 -> 42.0, R3t nature 14.0 -> 24.2, R4k ash 72.3 -> 77.9 (want >= 24); other grounds heath 56.4, old_wood 72.5, riverbank 83.0, snow 68.1, sand 45.7, marsh 75.8; shared material (res://art/units/kit/materials/fire_bronze.tres): give flame_guard its own copy first, other assets use it too",
+			"rank": 1,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `fire_bronze` #9e6629 -> #c57535 (45% of the visible body): predicted dE R3 meadow 61.3 -> 64.6, R3t fire 61.2 -> 64.5, R3t shadow 77.6 -> 74.2, R3t ice 38.5 -> 42.0, R3t nature 14.0 -> 24.2, R4k ash 72.3 -> 77.9 (want >= 24); other grounds heath 56.4, old_wood 72.5, riverbank 83.0, snow 68.1, sand 45.7, marsh 75.8; shared material (res://art/units/kit/materials/fire_bronze.tres): give flame_guard its own copy first, other assets use it too",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1.6,
+					"node": "res://art/units/fire/flame_guard.tscn (root), res://data/units/flame_guard.tres",
+					"param": "body_height",
+					"to": 2.01
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 1.6,
+				"head_top_m": 2.01,
+				"ratio": 1.26
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 1.6 -> 2.01 in res://art/units/fire/flame_guard.tscn (root) and res://data/units/flame_guard.tres (the head top; x1.26 now), or lower the head / crest 0.01 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8: body_height 1.6 -> 2.01 in res://art/units/fire/flame_guard.tscn (root) and res://data/units/flame_guard.tres (the head top; x1.26 now), or lower the head / crest 0.01 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.45,
+					"node": "res://data/units/flame_guard.tres",
+					"param": "radius",
+					"to": 0.49
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.45,
+				"x_m": 0.86,
+				"z_m": 0.82
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.45 -> 0.49, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.45 -> 0.49, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.79",
+				"z_m": "<= 0.79"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 13.5 on the team-colour area (normal vision 80.5; 598 px); deutan: fire / nature dE 13.5; protan: fire / nature dE 23.1; worst vs ground: fire colour (protan) dE 6.9"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 13.5): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 13.5): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +4 (point 1 dL +13, point 2 dL +4; ring 24 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +4): darken around them or raise the energy",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 2 glow point(s) barely stand out from their 1 m surround (worst dL +4): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 88.9,
+	"result": "WARN",
+	"scene": "res://art/units/fire/flame_guard.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

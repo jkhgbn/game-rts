@@ -1,0 +1,142 @@
+{
+	"asset": "cinder_dragon",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.2,
+					"from": 1.0,
+					"material": "cinder_membrane",
+					"material_path": "res://art/units/titans/cinder_dragon/cinder_membrane.tres",
+					"node": "Root/Body/WingL/WingLMesh, Root/Body/WingR/WingRMesh",
+					"param": "shader_parameter/ember_energy",
+					"to": 0.2,
+					"why": "dim under the bloom level: 4 point(s), peak 3.67 x the level",
+					"words": "ember_energy 1.0 -> 0.2 (dim under the bloom level: 4 point(s), peak 3.67 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 9,
+				"points_this_phase": 7,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Body/Tail1/Tail2/Tail2Mesh",
+						"peak_x_bloom": 5.77,
+						"px": 110
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFL/LegFLMesh",
+						"peak_x_bloom": 4.05,
+						"px": 48
+					},
+					{
+						"above": true,
+						"part": "Root/Body/WingL/WingLMesh",
+						"peak_x_bloom": 3.64,
+						"px": 20
+					},
+					{
+						"above": true,
+						"part": "Root/Body/WingR/WingRMesh",
+						"peak_x_bloom": 3.67,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegBR/LegBRMesh",
+						"peak_x_bloom": 4.27,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Root/Body/WingR/WingRMesh",
+						"peak_x_bloom": 3.48,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Root/Body/WingL/WingLMesh",
+						"peak_x_bloom": 3.39,
+						"px": 8
+					}
+				],
+				"value": "9 point(s) above the bloom level 1.2 (median of 7/12/9): Tail3Mesh, LegFLMesh x2, LegBRMesh, HeadMesh, Neck2Mesh, Tail2Mesh, JawMesh x2, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 3"
+			},
+			"predicted": {
+				"points": 5
+			},
+			"proposal": "Glow points 9 -> 5 (want 1-5): cinder_membrane ember_energy 1.0 -> 0.2 (dim under the bloom level: 4 point(s), peak 3.67 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 9 -> 5 (want 1-5): cinder_membrane ember_energy 1.0 -> 0.2 (dim under the bloom level: 4 point(s), peak 3.67 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-5 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5w",
+			"computed": false,
+			"measured": {
+				"value": "points per frame 9/14/15/11/11/12/14/11 (median 12, range 6, 0 frame(s) at 0; at rest 9)"
+			},
+			"predicted": {},
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (9/14/15/11/11/12/14/11 per frame): put them on parts the gait does not cover",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (9/14/15/11/11/12/14/11 per frame): put them on parts the gait does not cover",
+			"title": "Glow points while walking (flicker)",
+			"wanted": {
+				"rule": "the glow-point count stays within +-1 over the walk cycle and never drops to 0 (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +0 (point 1 dL +37, point 2 dL +29, point 3 dL +0, point 4 dL +3, point 5 dL +11, point 6 dL +55, point 7 dL +13; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 4 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 4 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "fire",
+	"quality": 86.4,
+	"result": "WARN",
+	"scene": "res://art/units/titans/cinder_dragon/cinder_dragon.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

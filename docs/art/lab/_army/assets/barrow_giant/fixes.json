@@ -1,0 +1,187 @@
+{
+	"asset": "barrow_giant",
+	"count": 6,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.18,
+					"from": 3.0,
+					"material": "barrow_soul_glow",
+					"material_path": "res://art/units/shadow/barrow_giant/materials/barrow_soul_glow.tres",
+					"node": "Root/Chest/ArmR/Gravestone, Root/Chest/Head/Merged, Root/Chest/Core",
+					"param": "shader_parameter/energy",
+					"to": 0.2,
+					"why": "dim under the bloom level: 4 point(s), peak 4.24 x the level",
+					"words": "energy 3.0 -> 0.2 (dim under the bloom level: 4 point(s), peak 4.24 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 6,
+				"points_this_phase": 7,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Chest/ArmR/Gravestone",
+						"peak_x_bloom": 4.24,
+						"px": 120
+					},
+					{
+						"above": true,
+						"part": "Root/Chest/Head/Merged",
+						"peak_x_bloom": 4.05,
+						"px": 36
+					},
+					{
+						"above": true,
+						"part": "Shadow",
+						"peak_x_bloom": 5.9,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Root/Chest/Core",
+						"peak_x_bloom": 4.24,
+						"px": 10
+					},
+					{
+						"above": true,
+						"part": "Root/Chest/Core",
+						"peak_x_bloom": 4.05,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Root/Chest/ArmL/Merged",
+						"peak_x_bloom": 3.45,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Root/Hips/LegR/Merged",
+						"peak_x_bloom": 5.9,
+						"px": 3
+					}
+				],
+				"value": "6 point(s) above the bloom level 1.2 (median of 7/6/6): Merged x5, Core, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 6"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 6 -> 2 (want 1-3): barrow_soul_glow energy 3.0 -> 0.2 (dim under the bloom level: 4 point(s), peak 4.24 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 6 -> 2 (want 1-3): barrow_soul_glow energy 3.0 -> 0.2 (dim under the bloom level: 4 point(s), peak 4.24 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-3 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 4.5,
+					"node": "res://art/units/shadow/barrow_giant/barrow_giant.tscn (root)",
+					"param": "body_height",
+					"to": 3.06
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 4.5,
+				"head_top_m": 3.06,
+				"ratio": 0.68
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 4.5 -> 3.06 in res://art/units/shadow/barrow_giant/barrow_giant.tscn (root) (the head top; x0.68 now), or lower the head / crest 0.0 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8: body_height 4.5 -> 3.06 in res://art/units/shadow/barrow_giant/barrow_giant.tscn (root) (the head top; x0.68 now), or lower the head / crest 0.0 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Gravestone 1.06 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Gravestone 1.06 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Gravestone 1.06 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A2",
+			"computed": false,
+			"measured": {
+				"value": "never (3 s)"
+			},
+			"predicted": {},
+			"proposal": "death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
+			"rank": 4,
+			"status": "WARN",
+			"text": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
+			"title": "death_finished",
+			"wanted": {
+				"rule": "emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +3 (point 1 dL +9, point 2 dL +6, point 3 dL +3, point 4 dL +31, point 5 dL +21, point 6 dL +46, point 7 dL +17; ring 25 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 4 glow point(s) barely stand out from their 1 m surround (worst dL +3): darken around them or raise the energy",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 4 glow point(s) barely stand out from their 1 m surround (worst dL +3): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 18 in the lit 40 m frame (WARN only)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5w",
+			"computed": false,
+			"measured": {
+				"value": "points per frame 4/2/4/2/5/4/4/3 (median 4, range 3, 0 frame(s) at 0; at rest 6)"
+			},
+			"predicted": {},
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (4/2/4/2/5/4/4/3 per frame): put them on parts the gait does not cover",
+			"rank": 6,
+			"status": "WARN",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (4/2/4/2/5/4/4/3 per frame): put them on parts the gait does not cover",
+			"title": "Glow points while walking (flicker)",
+			"wanted": {
+				"rule": "the glow-point count stays within +-1 over the walk cycle and never drops to 0 (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 88.5,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/barrow_giant/barrow_giant.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

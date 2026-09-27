@@ -1,0 +1,221 @@
+{
+	"asset": "ember_crucible",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-17671",
+					"material_path": "",
+					"to": "StandardMaterial3D#-25632",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-91110",
+					"material_path": "",
+					"to": "StandardMaterial3D#-25632",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 9.1,
+					"material": "ec_iron",
+					"material_path": "res://art/buildings/fire/ember_crucible/materials/ec_iron.tres",
+					"to": "ec_dark",
+					"to_path": "res://art/buildings/fire/ember_crucible/materials/ec_dark.tres"
+				},
+				{
+					"albedo_dE": 20.3,
+					"material": "ec_stone",
+					"material_path": "res://art/buildings/fire/ember_crucible/materials/ec_stone.tres",
+					"to": "ec_dark",
+					"to_path": "res://art/buildings/fire/ember_crucible/materials/ec_dark.tres"
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 12
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "12 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-17671` -> `StandardMaterial3D#-25632` (dE 0.0), `StandardMaterial3D#-91110` -> `StandardMaterial3D#-25632` (dE 0.0), `ec_iron` -> `ec_dark` (dE 9.1), `ec_stone` -> `ec_dark` (dE 20.3)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 12 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-17671` -> `StandardMaterial3D#-25632` (dE 0.0), `StandardMaterial3D#-91110` -> `StandardMaterial3D#-25632` (dE 0.0), `ec_iron` -> `ec_dark` (dE 9.1), `ec_stone` -> `ec_dark` (dE 20.3)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "#4d423d",
+					"material": "ec_stone",
+					"material_path": "res://art/buildings/fire/ember_crucible/materials/ec_stone.tres",
+					"node": "Static",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#6a6a8a",
+					"weight": 0.29
+				}
+			],
+			"check": "R4k",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4"
+			],
+			"gain": [
+				0.7,
+				0.7,
+				1.3
+			],
+			"measured": {
+				"body_lab": [
+					21.4,
+					8.9,
+					2.3
+				],
+				"dE": {
+					"R3 meadow": 66.3,
+					"R4 heath": 39.0,
+					"R4 marsh": 9.0,
+					"R4 old_wood": 25.5,
+					"R4 riverbank": 42.4,
+					"R4 sand": 66.4,
+					"R4 snow": 69.4,
+					"R4k ash": 3.9
+				},
+				"ground_lab": [
+					64.3,
+					-20.4,
+					43.4
+				],
+				"melt_share": 0.0
+			},
+			"predicted": {
+				"R3 meadow": 77.1,
+				"R4 heath": 48.5,
+				"R4 marsh": 29.1,
+				"R4 old_wood": 41.5,
+				"R4 riverbank": 53.9,
+				"R4 sand": 71.9,
+				"R4 snow": 65.8,
+				"R4k ash": 18.6
+			},
+			"proposal": "shader_parameter/base_color of `ec_stone` #4d423d -> #6a6a8a (29% of the visible body): predicted dE R3 meadow 66.3 -> 77.1, R4k ash 3.9 -> 18.6 (want >= 18); other grounds heath 48.5, old_wood 41.5, riverbank 53.9, snow 65.8, sand 71.9, marsh 29.1",
+			"rank": 2,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `ec_stone` #4d423d -> #6a6a8a (29% of the visible body): predicted dE R3 meadow 66.3 -> 77.1, R4k ash 3.9 -> 18.6 (want >= 18); other grounds heath 48.5, old_wood 41.5, riverbank 53.9, snow 65.8, sand 71.9, marsh 29.1",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 18 (rule 14 + margin 4)",
+				"dE_R4": ">= 12 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1.0,
+					"node": "(model root) or its key masses",
+					"param": "scale",
+					"to": 1.23
+				}
+			],
+			"check": "R1",
+			"computed": true,
+			"measured": {
+				"area_px": 3774
+			},
+			"predicted": {
+				"area_px": 5750
+			},
+			"proposal": "3774 -> ~5750 px: grow the 40 m read x1.23 (area goes with the square: scale the key masses / body 23 %)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R1 3774 -> ~5750 px: grow the 40 m read x1.23 (area goes with the square: scale the key masses / body 23 %)",
+			"title": "Silhouette area at 40 m",
+			"wanted": {
+				"area_px": ">= 5000"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 3.13,
+					"from": 1.0,
+					"material": "ec_iron",
+					"material_path": "res://art/buildings/fire/ember_crucible/materials/ec_iron.tres",
+					"node": "CruciblePivot/CrucibleBody",
+					"param": "shader_parameter/crack_strength",
+					"to": 3.13,
+					"why": "raise over the bloom level: brightest soft glow 0.42 x the level",
+					"words": "crack_strength 1.0 -> 3.13 (raise over the bloom level: brightest soft glow 0.42 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 0,
+				"points_this_phase": 0,
+				"spots": [
+					{
+						"above": false,
+						"part": "CruciblePivot/CrucibleBody",
+						"peak_x_bloom": 0.42,
+						"px": 548
+					},
+					{
+						"above": false,
+						"part": "CruciblePivot/CrucibleBody",
+						"peak_x_bloom": 0.25,
+						"px": 19
+					}
+				],
+				"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 0 -> 2 (want 2-4): ec_iron crack_strength 1.0 -> 3.13 (raise over the bloom level: brightest soft glow 0.42 x the level); add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 4,
+			"status": "WARN",
+			"text": "Glow points 0 -> 2 (want 2-4): ec_iron crack_strength 1.0 -> 3.13 (raise over the bloom level: brightest soft glow 0.42 x the level); add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 5,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 73.4,
+	"result": "FAIL",
+	"scene": "res://art/buildings/fire/ember_crucible/ember_crucible.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

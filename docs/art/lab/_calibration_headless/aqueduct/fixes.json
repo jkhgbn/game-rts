@@ -1,0 +1,13 @@
+{
+	"asset": "aqueduct",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "landmark",
+	"kingdom": "neutral",
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "res://art/environment/landmarks/aqueduct.tscn",
+	"tier": "landmark",
+	"version": "1.0"
+}

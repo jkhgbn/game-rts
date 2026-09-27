@@ -1,0 +1,216 @@
+{
+	"asset": "shadow_hall",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-73222",
+					"material_path": "",
+					"to": "StandardMaterial3D#-59258",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-23843",
+					"material_path": "",
+					"to": "StandardMaterial3D#-59258",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.7,
+					"material": "ShaderMaterial#-54303",
+					"material_path": "",
+					"to": "ShaderMaterial#-77039",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 36.8,
+					"material": "StandardMaterial3D#-55568",
+					"material_path": "",
+					"to": "StandardMaterial3D#-59258",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 46.7,
+					"material": "ShaderMaterial#-22794",
+					"material_path": "",
+					"to": "ShaderMaterial#-1172",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 13
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "13 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-73222` -> `StandardMaterial3D#-59258` (dE 0.0), `StandardMaterial3D#-23843` -> `StandardMaterial3D#-59258` (dE 0.0), `ShaderMaterial#-54303` -> `ShaderMaterial#-77039` (dE 13.7), `StandardMaterial3D#-55568` -> `StandardMaterial3D#-59258` (dE 36.8), `ShaderMaterial#-22794` -> `ShaderMaterial#-1172` (dE 46.7)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 13 -> 8 materials: use one material for look-alike pairs: `StandardMaterial3D#-73222` -> `StandardMaterial3D#-59258` (dE 0.0), `StandardMaterial3D#-23843` -> `StandardMaterial3D#-59258` (dE 0.0), `ShaderMaterial#-54303` -> `ShaderMaterial#-77039` (dE 13.7), `StandardMaterial3D#-55568` -> `StandardMaterial3D#-59258` (dE 36.8), `ShaderMaterial#-22794` -> `ShaderMaterial#-1172` (dE 46.7)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B5",
+			"computed": false,
+			"measured": {
+				"value": "1 (HallLight)"
+			},
+			"predicted": {},
+			"proposal": "Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B5 Real lights: No Light3D: emission >= 2.5 on the glow part and the bloom carries it (art-keep 0.4)",
+			"title": "Real lights",
+			"wanted": {
+				"rule": "<= 0 (art-keep.md 9 numbers, step-12/13 rules: 0 lights)"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.17,
+					"from": 3.0,
+					"material": "ShaderMaterial#-68444",
+					"material_path": "",
+					"node": "Body/BellTower/TowerStack",
+					"param": "shader_parameter/energy",
+					"to": 0.17,
+					"why": "dim under the bloom level: 3 point(s), peak 4.49 x the level",
+					"words": "energy 3.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.49 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 8,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/BellTower/TowerStack",
+						"peak_x_bloom": 4.49,
+						"px": 303
+					},
+					{
+						"above": true,
+						"part": "Body/BellTower/TowerBanner",
+						"peak_x_bloom": 4.49,
+						"px": 129
+					},
+					{
+						"above": true,
+						"part": "ScorchDecal",
+						"peak_x_bloom": 4.45,
+						"px": 112
+					},
+					{
+						"above": true,
+						"part": "ScorchDecal",
+						"peak_x_bloom": 4.45,
+						"px": 94
+					},
+					{
+						"above": true,
+						"part": "ScorchDecal",
+						"peak_x_bloom": 3.2,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/BellTower/TowerStack",
+						"peak_x_bloom": 3.29,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Body/BellTower/TowerBanner",
+						"peak_x_bloom": 3.36,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Body/BellTower/TowerStack",
+						"peak_x_bloom": 3.14,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Body/Walls",
+						"peak_x_bloom": 0.85,
+						"px": 5135
+					},
+					{
+						"above": false,
+						"part": "Body/BellTower/TowerStack",
+						"peak_x_bloom": 0.62,
+						"px": 260
+					},
+					{
+						"above": false,
+						"part": "Body/BellTower/TowerStack",
+						"peak_x_bloom": 0.3,
+						"px": 25
+					},
+					{
+						"above": false,
+						"part": "Body/PikeRack/RackParts",
+						"peak_x_bloom": 0.35,
+						"px": 14
+					},
+					{
+						"above": false,
+						"part": "Body/Walls",
+						"peak_x_bloom": 0.42,
+						"px": 7
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 7/5/5): TowerStack, ScorchDecal x2, TowerBanner, Walls; soft glows under the bloom (v1 count, luma > 0.4): 9"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 5 -> 2 (want 2-4): ShaderMaterial#-68444 energy 3.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.49 x the level)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "Glow points 5 -> 2 (want 2-4): ShaderMaterial#-68444 energy 3.0 -> 0.17 (dim under the bloom level: 3 point(s), peak 4.49 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "24 material(s), 10 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 24 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 24 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "shadow",
+	"quality": 83.9,
+	"result": "FAIL",
+	"scene": "res://art/buildings/shadow_hall.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

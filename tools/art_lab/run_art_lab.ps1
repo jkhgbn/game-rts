@@ -1,7 +1,10 @@
 # Art Lab wrapper for the lead (docs/plan/art-lab.md). Runs the lab windowed through the Godot gate (tools/godot_run.ps1).
 # Usage:
 #   .\tools\art_lab\run_art_lab.ps1 sapling unit nature                  # one asset (short names work)
-#   .\tools\art_lab\run_art_lab.ps1 -Sweep ice                           # army sweep of art/units/ice/
+#   .\tools\art_lab\run_art_lab.ps1 -Sweep all                           # v3 army sweep: 4 kingdoms + neutral, one process
+#     -> docs/art/lab/_army/army.md (ranking, silhouettes, pair tiles) + docs/art/lab/backlog.md (ranked art to-do list)
+#   .\tools\art_lab\run_art_lab.ps1 -Sweep ice                           # one kingdom (+ neutral neighbours in the silhouettes)
+#   .\tools\art_lab\run_art_lab.ps1 -Batch 'heath,unit_fire_gun_vfx'     # decor sets / VFX families by short name too
 #   .\tools\art_lab\run_art_lab.ps1 fire_keep building fire -Extra 'ground=ash'
 #   .\tools\art_lab\run_art_lab.ps1 -Batch 'shade,dusk_steed,aqueduct'   # v3: several assets in ONE Godot process
 #   .\tools\art_lab\run_art_lab.ps1 -Batch docs/art/lab/my_batch.txt -Extra 'fail_fast=1','quick=1'
@@ -21,8 +24,8 @@ $gate = Join-Path $root "tools\godot_run.ps1"
 $labArgs = @()
 if ($Sweep -ne "") {
 	$labArgs += "sweep=$Sweep"
-	$labArgs += "kind=$Kind"
-	$quit = 900000
+	if ($PSBoundParameters.ContainsKey("Kind")) { $labArgs += "kind=$Kind" }   # v3 army sweep: kind guessed per asset
+	$quit = 50000000   # frames (vsync off, up to 240 fps): the lab's own watchdog stops a stuck sweep first
 } elseif ($Batch -ne "") {
 	$labArgs += "batch=$Batch"
 	if ($PSBoundParameters.ContainsKey("Kind")) { $labArgs += "kind=$Kind" }   # else guessed per asset
@@ -43,6 +46,12 @@ $godotArgs += @("--path", $root, "-s", "res://tools/art_lab/art_lab.gd", "--quit
 $ErrorActionPreference = "Continue"
 & $gate @godotArgs 2>&1 | ForEach-Object { "$_" } | Where-Object { $_ -match "ART LAB|^\s+(FAIL|WARN)|^\s+\||SCRIPT ERROR|Parse Error" }
 $code = $LASTEXITCODE
+if ($Sweep -ne "") {
+	$army = Join-Path $root "docs\art\lab\_army\army.md"
+	if ($Sweep -ne "all") { $army = Join-Path $root ("docs\art\lab\_army\" + ($Sweep -replace ",", "_") + "\army.md") }
+	if (Test-Path $army) { Write-Output "Army sweep: $army" }
+	if ($Sweep -eq "all") { Write-Output ("Backlog: " + (Join-Path $root "docs\art\lab\backlog.md")) }
+}
 if ($Sweep -eq "" -and $Batch -eq "" -and $Scene -ne "") {
 	$name = [IO.Path]::GetFileNameWithoutExtension($Scene)
 	$card = Join-Path $root "docs\art\lab\$name\scorecard.md"

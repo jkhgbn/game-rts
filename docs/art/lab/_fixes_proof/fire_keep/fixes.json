@@ -1,0 +1,309 @@
+{
+	"asset": "fire_keep",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.142,
+					"from": "#ff801f",
+					"material": "FirePainted",
+					"material_path": "",
+					"node": "Body/Plinth, Body/Spire, Body/Roofs, Body/RoofLost",
+					"param": "glow / emission colour",
+					"peak_x_bloom": 5.27,
+					"to": "#693106",
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 12 point(s), peak 5.27 x the level",
+					"words": "glow colour #ff801f -> #693106 (x0.14 linear) on Plinth, Spire, Roofs, RoofLost (dim under the bloom level: 12 point(s), peak 5.27 x the level)"
+				},
+				{
+					"factor": 0.065,
+					"from": 1.4,
+					"material": "FireGlow",
+					"material_path": "",
+					"node": "Body/Ring/Crystal1, Body/Braziers, Body/Ring/Crystal3, Body/Ring/Crystal2, Body/EmberHeart",
+					"param": "shader_parameter/boost",
+					"peak_x_bloom": 6.78,
+					"to": 0.091,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 11 point(s), peak 6.78 x the level",
+					"words": "boost 1.4 -> 0.09 on Crystal1, Braziers, Crystal3, Crystal2 (dim under the bloom level: 11 point(s), peak 6.78 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 33,
+				"points_this_phase": 31,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Ring/Crystal1",
+						"peak_x_bloom": 5.68,
+						"px": 2730
+					},
+					{
+						"above": true,
+						"part": "Body/Plinth",
+						"peak_x_bloom": 5.27,
+						"px": 1107
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 5.27,
+						"px": 811
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.36,
+						"px": 734
+					},
+					{
+						"above": true,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 4.11,
+						"px": 436
+					},
+					{
+						"above": true,
+						"part": "Body/Ring/Crystal3",
+						"peak_x_bloom": 4.49,
+						"px": 412
+					},
+					{
+						"above": true,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 6.53,
+						"px": 398
+					},
+					{
+						"above": true,
+						"part": "Body/Ring/Crystal2",
+						"peak_x_bloom": 3.86,
+						"px": 368
+					},
+					{
+						"above": true,
+						"part": "Body/EmberHeart",
+						"peak_x_bloom": 4.93,
+						"px": 162
+					},
+					{
+						"above": true,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 6.78,
+						"px": 118
+					},
+					{
+						"above": true,
+						"part": "Body/Spire",
+						"peak_x_bloom": 4.14,
+						"px": 93
+					},
+					{
+						"above": true,
+						"part": "Body/Spire",
+						"peak_x_bloom": 4.64,
+						"px": 75
+					},
+					{
+						"above": true,
+						"part": "Body/Roofs",
+						"peak_x_bloom": 4.61,
+						"px": 71
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 5.52,
+						"px": 64
+					},
+					{
+						"above": true,
+						"part": "Body/Roofs",
+						"peak_x_bloom": 4.24,
+						"px": 48
+					},
+					{
+						"above": true,
+						"part": "Body/RoofLost",
+						"peak_x_bloom": 3.67,
+						"px": 30
+					},
+					{
+						"above": true,
+						"part": "Body/RoofLost",
+						"peak_x_bloom": 3.83,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Body/RuneTilt/RuneRing",
+						"peak_x_bloom": 4.61,
+						"px": 15
+					},
+					{
+						"above": true,
+						"part": "Body/RoofLost",
+						"peak_x_bloom": 3.33,
+						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Body/Spire",
+						"peak_x_bloom": 3.92,
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.71,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 3.61,
+						"px": 10
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 3.33,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.64,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 3.51,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Body/RoofLost",
+						"peak_x_bloom": 3.33,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/RoofLost",
+						"peak_x_bloom": 3.7,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/RuneTilt/RuneRing",
+						"peak_x_bloom": 3.64,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 3.55,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 3.45,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/RoofLost",
+						"peak_x_bloom": 4.17,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 0.88,
+						"px": 95
+					},
+					{
+						"above": false,
+						"part": "Body/Roofs",
+						"peak_x_bloom": 0.22,
+						"px": 36
+					},
+					{
+						"above": false,
+						"part": "Body/Spire",
+						"peak_x_bloom": 0.36,
+						"px": 25
+					},
+					{
+						"above": false,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 0.35,
+						"px": 17
+					},
+					{
+						"above": false,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 0.39,
+						"px": 10
+					},
+					{
+						"above": false,
+						"part": "Body/Braziers",
+						"peak_x_bloom": 0.38,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "Body/RoofLost",
+						"peak_x_bloom": 0.52,
+						"px": 4
+					}
+				],
+				"value": "33 point(s) above the bloom level 1.2 (median of 33/34/30): EmberHeart, Plinth, BannersSide, BannersGate x5, Braziers x6, Crystal3, Crystal2, Crystal1, Spire x5, Roofs x3, RoofLost x6, RuneRing x2, 4 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 50"
+			},
+			"predicted": {
+				"points": 10
+			},
+			"proposal": "Glow points 33 -> 10 (want 4-12): FirePainted glow colour #ff801f -> #693106 (x0.14 linear) on Plinth, Spire, Roofs, RoofLost (dim under the bloom level: 12 point(s), peak 5.27 x the level); FireGlow boost 1.4 -> 0.09 on Crystal1, Braziers, Crystal3, Crystal2 (dim under the bloom level: 11 point(s), peak 6.78 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 33 -> 10 (want 4-12): FirePainted glow colour #ff801f -> #693106 (x0.14 linear) on Plinth, Spire, Roofs, RoofLost (dim under the bloom level: 12 point(s), peak 5.27 x the level); FireGlow boost 1.4 -> 0.09 on Crystal1, Braziers, Crystal3, Crystal2 (dim under the bloom level: 11 point(s), peak 6.78 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "4-12 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL +0 (point 1 dL +0, point 2 dL +45, point 3 dL +46, point 4 dL +73, point 5 dL +55, point 6 dL +30, point 7 dL +57, point 8 dL +34, point 9 dL +31, point 10 dL +73, point 11 dL +44, point 12 dL +53, point 13 dL +63, point 14 dL +22, point 15 dL +30, point 16 dL +25, point 17 dL +33, point 18 dL +26, point 19 dL +66, point 20 dL +30, point 21 dL +50, point 22 dL +30, point 23 dL +35, point 24 dL +59, point 25 dL +63, point 26 dL +34, point 27 dL +52, point 28 dL +29, point 29 dL +50, point 30 dL +42, point 31 dL +63, point 32 dL +34, point 33 dL +26; ring 29 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 5 in the lit 40 m frame (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 93.2,
+	"result": "WARN",
+	"scene": "res://art/buildings/fire_keep.tscn",
+	"tier": "keep",
+	"version": "1.0"
+}

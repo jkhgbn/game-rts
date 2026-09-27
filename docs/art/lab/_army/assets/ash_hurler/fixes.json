@@ -1,0 +1,48 @@
+{
+	"asset": "ash_hurler",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "AshBall 0.38 m, Merged 0.38 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow AshBall 0.38 m, Merged 0.38 m so the HP bar reads over the head",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow AshBall 0.38 m, Merged 0.38 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (protan): dE 11.8 on the team-colour area (normal vision 56.2; 144 px); deutan: fire / nature dE 14.7; protan: fire / nature dE 11.8; worst vs ground: fire colour (deutan) dE 25.8"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (protan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (protan) look alike on this model (dE 11.8): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 12 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 94.7,
+	"result": "WARN",
+	"scene": "res://art/units/fire/ash_hurler.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}
