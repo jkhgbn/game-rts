@@ -61,6 +61,11 @@ Looping `GPUParticles3D` (one_shot false) stop beyond 45 m automatically. Glow p
 `play_death()` + signal `death_finished` (1.0 s) · `play_level_up()` · `set_veterancy(level)` · `set_carrying(on)` ·
 `play_mine()` · `set_status(id, on) -> bool` (true for `haste`, `shroud`) · `revive()` · riding (13.V1b, below):
 `set_seated(on, mount)` · `play_mount()` · `play_dismount()` · `play_thrown()` + signal `dismount_finished`. Read-only: `attack_windup`.
+Dances (2026-09-27): `play_clip(&"dance_victory" | &"dance_surrender" | &"dance_random") -> bool` (looping, procedural,
+kingdom flavour from the script folder / wizard name, per-instance phase + tempo), `stop_clip()`, `current_clip()`,
+`has_clip(id)`, `can_dance()` (false for quadrupeds, mounts, seated riders, no chest + arm), `dance_style()`; override
+`_pose_dance(clip, t, w)` / `_can_dance()`. Stops on attack / cast / mine / death and on any Unit order; fades while
+walking; 0 cost when not dancing. Glue: `scripts/vfx/unit_dances.gd` (match end), chat "dance 1/2/3" (`scripts/ui/chat_line.gd`).
 
 `set_team_color(c)` can be called any number of times, in any order (mid-game recolour, mirror matches): every
 `*_cloth` / `*_cloth_dark` / `*_cape` / `*_cape_plain` / `*_pennon` surface (merged, keep_separate `material_override`,

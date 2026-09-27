@@ -36,6 +36,7 @@ var _end_tab_buttons := {}
 var end_restart_button: Button   ## End screen: "Restart (F9)" (reloads the level, like F9).
 var end_menu_button: Button      ## End screen: "Main menu".
 var next_step_hint: Node         ## Skirmish "Next: ..." line under the objective (scripts/ui/next_step_hint.gd), or null.
+var chat_line: ChatLine          ## Chat / command line (Enter): "dance 1 / 2 / 3" (scripts/ui/chat_line.gd).
 
 var _hero: Wizard
 var _selection: SelectionManager
@@ -140,6 +141,12 @@ func _ready() -> void:
 	_message.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(_message)
 
+	# Chat / command line (Enter opens it; "dance 1 / 2 / 3"), and the match-end dances (UnitDances).
+	chat_line = ChatLine.attach(root)
+	var events := get_node_or_null(^"/root/Events")
+	if events != null and events.has_signal(&"mission_ended"):
+		events.connect(&"mission_ended", _on_mission_ended_dances)
+
 	# End screen (skirmish-1v1.md): the VICTORY / DEFEAT banner and, when the level has one, its
 	# stats block (match time, 4 stats, crystals, "F9: play again") in one centred panel.
 	# Full-screen dim behind the end panel (fades in over 0.3 s).
@@ -231,6 +238,8 @@ func _ready() -> void:
 func setup(hero: Wizard, selection: SelectionManager) -> void:
 	_hero = hero
 	_selection = selection
+	if chat_line != null:
+		chat_line.selection = selection
 	# The player's kingdom skins the HUD (ui-style.md 1).
 	var before := UIStyle.skin_version
 	UIStyle.set_kingdom(kingdom_of(hero))
@@ -320,6 +329,13 @@ func set_objective_visible(v: bool) -> void:
 ## The top-left objective panel (the next-step hint sits under it).
 func objective_panel() -> Control:
 	return _obj_panel
+
+
+## Match end (Events.mission_ended, after the skirmish stopped every order): the winners dance dance_victory, the
+## losers (defeat or concede) dance_surrender; units still fighting are skipped (UnitDances.match_end).
+func _on_mission_ended_dances(victory: bool) -> void:
+	if is_inside_tree():
+		UnitDances.match_end(get_tree(), Unit.Team.PLAYER if victory else Unit.Team.ENEMY)
 
 
 ## End screen Restart button: reloads the level like F9 (MenuFlow keeps difficulty / kingdoms / settings).
@@ -563,6 +579,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key == null or not key.pressed or key.echo or key.ctrl_pressed or key.alt_pressed:
 		return
 	var code := key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode
+	# Enter opens the chat / command line (it checks cinematics, dialogues and focused text fields itself).
+	if (code == KEY_ENTER or code == KEY_KP_ENTER) and not key.shift_pressed and chat_line != null:
+		if chat_line.try_open():
+			get_viewport().set_input_as_handled()
+		return
 	# Y (tavern) and F5-F7 (find champion) are handled by the champion bar (ui-champions.md 13.3).
 	if code == KEY_T and shop_window:
 		shop_window.toggle()

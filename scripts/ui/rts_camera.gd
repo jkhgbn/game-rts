@@ -36,14 +36,16 @@ func focus_on(pos: Vector3) -> void:
 
 func _process(delta: float) -> void:
 	var input := Vector2.ZERO
-	if Input.is_key_pressed(KEY_LEFT):
-		input.x -= 1.0
-	if Input.is_key_pressed(KEY_RIGHT):
-		input.x += 1.0
-	if Input.is_key_pressed(KEY_UP):
-		input.y -= 1.0
-	if Input.is_key_pressed(KEY_DOWN):
-		input.y += 1.0
+	var focus := get_viewport().gui_get_focus_owner()
+	if not (focus is LineEdit or focus is TextEdit):   # arrows move the caret while the chat line is open
+		if Input.is_key_pressed(KEY_LEFT):
+			input.x -= 1.0
+		if Input.is_key_pressed(KEY_RIGHT):
+			input.x += 1.0
+		if Input.is_key_pressed(KEY_UP):
+			input.y -= 1.0
+		if Input.is_key_pressed(KEY_DOWN):
+			input.y += 1.0
 	var keys := input != Vector2.ZERO
 	var wasd := wasd_input()
 	if wasd != Vector2.ZERO:

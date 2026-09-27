@@ -196,6 +196,20 @@ var _rd_arm_w: float = 1.0                    # reins weight (drops while an att
 var _rd_side: float = 1.0                     # thrown to +X (1) or -X (-1)
 var _rd_seat_pitch: float = 0.0               # the seat's pitch this frame (deg, + = nose down)
 var _rd_last_sf: Transform3D = Transform3D.IDENTITY   # last seat frame (a hop-off / thrown finishes on it)
+# --- dances (play_clip, 2026-09-27 ideas-inbox "dance" rows). Idle while _dn_clip is &"" and _dn_w is 0 (two checks
+# on the fast path, nothing else runs). Private members start with _dn_.
+var _dn_clip: StringName = &""                # the looping clip playing (&"" = none / fading out)
+var _dn_last: StringName = &""                # the clip being faded out after stop_clip()
+var _dn_pending: StringName = &""             # play_clip before _ready
+var _dn_t: float = 0.0                        # seconds since the clip started
+var _dn_w: float = 0.0                        # blend weight 0-1 (DANCE_BLEND in / out)
+var _dn_style: int = -1                       # 0 neutral, 1 fire, 2 ice, 3 nature, 4 shadow (lazy, from the script path)
+var _dn_var: int = 0                          # dance_random variant 0-2
+var _dn_count: int = 0
+var _dn_leg: float = 0.7                      # hip height (m): the dips keep the feet on the ground with it
+var _dn_tempo: float = 1.6                    # beats per second (style x per-instance jitter)
+var _dn_ph: float = 0.0                       # per-instance phase (beats): crowds never move in sync
+var _dn_sc: float = 1.0                       # body_height / 1.6
 
 
 # ================================================================ lifecycle
@@ -237,6 +251,10 @@ func _ready() -> void:
 		set_weapon_class(_wk_pending, false)
 	if _rd_pending != null:
 		_rd_apply_pending()
+	if _dn_pending != &"":
+		var c := _dn_pending
+		_dn_pending = &""
+		play_clip(c)
 
 
 ## Subclass hook: build parts in code with add_part() (called every instance before the merge; add_part skips
@@ -290,6 +308,7 @@ func play_attack() -> void:
 		return
 	_action = &"attack"
 	_action_t = 0.0
+	_dn_clip = &""
 	_on_action_event(&"attack_start")
 
 
@@ -297,6 +316,7 @@ func play_cast(spell_id: StringName) -> void:
 	if _dead:
 		return
 	_action = &"cast"
+	_dn_clip = &""
 	_cast_id = spell_id
 	_action_t = 0.0
 	_on_action_event(&"cast_start")
@@ -317,6 +337,7 @@ func play_death() -> void:
 	_death_t = 0.0
 	_death_emitted = false
 	_action = &""
+	_dn_clip = &""
 	_hit_t = 99.0
 	_speed = 0.0
 	_wk_end_pop()
@@ -350,6 +371,7 @@ func play_mine() -> void:
 		return
 	_action = &"mine"
 	_action_t = 0.0
+	_dn_clip = &""
 	_mine_left = 4
 
 
@@ -374,6 +396,8 @@ func revive() -> void:
 	_level_t = 99.0
 	_speed = 0.0
 	_walk_w = 0.0
+	_dn_clip = &""
+	_dn_w = 0.0
 	_glows_off = false
 	_root_scale = Vector3.ONE
 	_force_write = true
@@ -396,6 +420,99 @@ func glow_level() -> float:
 	if _glows_off:
 		return 0.0
 	return _vet_boost * (1.3 if _haste else 1.0)
+
+
+# ================================================================ dances (play_clip, ideas-inbox 2026-09-27)
+
+## The dance clips every dancing model answers (cutscene versions must look like these: same moves / style).
+const DANCE_CLIPS: Array[StringName] = [&"dance_victory", &"dance_surrender", &"dance_random"]
+## Blend in / out of a dance (s).
+const DANCE_BLEND := 0.3
+const _DN_STYLES: Array[StringName] = [&"neutral", &"fire", &"ice", &"nature", &"shadow"]
+## Beats per second per style (neutral, fire, ice, nature, shadow).
+const _DN_TEMPO: Array[float] = [1.8, 2.2, 1.4, 1.1, 1.6]
+const _DN_SLUMP: Array[float] = [1.0, 1.1, 0.45, 1.0, 1.25]
+const _DN_KNEEL: Array[float] = [0.22, 0.22, 0.16, 0.2, 0.28]
+const _DN_SHAKE: Array[float] = [10.0, 16.0, 5.0, 8.0, 10.0]
+const _DN_AMP: Array[float] = [1.0, 1.25, 0.7, 1.0, 0.9]
+
+
+## Plays a looping dance clip (DANCE_CLIPS): `dance_victory`, `dance_surrender` ("I give up": weapon dropped, kneel,
+## hands up), `dance_random` (one of 3 emotes picked per call). Procedural on the pivots, blended in over DANCE_BLEND,
+## flavoured by kingdom (Fire energetic, Ice stiff / proud, Nature swaying, Shadow sly), per-instance phase and tempo.
+## Stops on stop_clip(), an attack / cast / mine / death; fades while walking. Returns false (nothing happens) for a
+## model that can't dance (quadrupeds, mounts, seated riders, models without chest + arms) or an unknown id.
+## Safe before _ready.
+func play_clip(id: StringName) -> bool:
+	if not DANCE_CLIPS.has(id):
+		return false
+	if not _ready_done:
+		_dn_pending = id
+		return true
+	if _dead or not can_dance():
+		return false
+	if _dn_style < 0:
+		_dn_init()
+	if id != _dn_clip:
+		_dn_t = 0.0
+	_dn_clip = id
+	_dn_count += 1
+	_dn_var = absi(hash(get_instance_id()) + _dn_count) % 3
+	_force_write = true
+	set_process(true)
+	return true
+
+
+## Stops the dance (blends back to the idle over DANCE_BLEND).
+func stop_clip() -> void:
+	_dn_pending = &""
+	if _dn_clip != &"":
+		_dn_last = _dn_clip
+	_dn_clip = &""
+
+
+## The dance playing (&"" = none).
+func current_clip() -> StringName:
+	return _dn_clip if _ready_done else _dn_pending
+
+
+## True when this model has the clip `id` (the dances: only a model that can dance).
+func has_clip(id: StringName) -> bool:
+	return DANCE_CLIPS.has(id) and (not _ready_done or can_dance())
+
+
+## True for a standing biped with a chest and at least one arm (not a quadruped, a mount or a seated rider).
+func can_dance() -> bool:
+	if not _ready_done or is_quadruped or _rd_on:
+		return false
+	if _piv[P_MOUNT] != null or _piv[P_CHEST] == null or (_piv[P_ARM_L] == null and _piv[P_ARM_R] == null):
+		return false
+	return _can_dance()
+
+
+## The dance flavour: &"neutral", &"fire", &"ice", &"nature", &"shadow" (from the model's folder / wizard name).
+func dance_style() -> StringName:
+	if _dn_style < 0:
+		_dn_init()
+	return _DN_STYLES[_dn_style]
+
+
+## Subclass hook: return false to opt out of the dances.
+func _can_dance() -> bool:
+	return true
+
+
+## Subclass hook: the dance pose (offsets with rot() / pos(), all weighted by `w`), called every animated frame while a
+## clip plays or fades. `t` = seconds since the clip started. Override for a model's own version; call super for the
+## others.
+func _pose_dance(clip: StringName, t: float, w: float) -> void:
+	match clip:
+		&"dance_victory":
+			_dn_victory(t, w)
+		&"dance_surrender":
+			_dn_surrender(t, w)
+		&"dance_random":
+			_dn_random(t, w)
 
 
 # ================================================================ seated rider (13.V1b, cavalry-mounts.md 6.2 / 10)
@@ -744,7 +861,8 @@ func _animate(dt: float) -> void:
 	# Fast path: pure idle (writes Root.y, Chest.x, Head.y only).
 	var target_w: float = 1.0 if _speed >= 0.3 and not _rd_on else 0.0
 	if not _dead and _action == &"" and _hit_t >= HIT_LEN and _level_t >= LEVEL_LEN and _walk_w == 0.0 \
-			and target_w == 0.0 and not _force_write and _flash_v == 0.0 and not _rd_on:
+			and target_w == 0.0 and not _force_write and _flash_v == 0.0 and not _rd_on and _dn_w == 0.0 \
+			and _dn_clip == &"":
 		_idle_fast()
 		_extra_process(dt)
 		_wk_process(dt)
@@ -754,8 +872,17 @@ func _animate(dt: float) -> void:
 		_off_rot[i] = Vector3.ZERO
 	_root_scale = Vector3.ONE
 	_walk_w = move_toward(_walk_w, 0.0 if _dead else target_w, dt / 0.15)
+	if _dn_clip != &"" or _dn_w > 0.0:
+		_dn_w = move_toward(_dn_w, 1.0 if _dn_clip != &"" and not _dead else 0.0, dt / DANCE_BLEND)
+		if _dn_clip != &"":
+			_dn_t += dt
+			_dn_last = _dn_clip
+		if _dn_w == 0.0:
+			_force_write = true   # one full write back to the rest pose, then the fast idle path
 	if _walk_w < 1.0:
-		_pose_idle(1.0 - _walk_w)
+		_pose_idle((1.0 - _walk_w) * (1.0 - _dn_w))
+		if _dn_w > 0.0:
+			_pose_dance(_dn_last, _dn_t, _dn_w * (1.0 - _walk_w))
 	if _walk_w > 0.0:
 		var rate: float = _speed / maxf(stride_speed, 0.1)
 		if _carrying:
@@ -2204,6 +2331,178 @@ func _wk_pose_starfall(t: float) -> float:
 	pos(P_ROOT, Vector3(0, 0.04 * k, 0))
 	weapon_flare(k)
 	return 1.20
+
+
+# ================================================================ dances: internals (play_clip)
+
+func _dn_init() -> void:
+	var path := (String(get_script().resource_path) + "|" + scene_file_path).to_lower()
+	_dn_style = 0
+	if path.contains("/fire/") or path.contains("vessa"):
+		_dn_style = 1
+	elif path.contains("/ice/") or path.contains("torvald"):
+		_dn_style = 2
+	elif path.contains("/nature/") or path.contains("ysolde"):
+		_dn_style = 3
+	elif path.contains("/shadow/") or path.contains("malrik"):
+		_dn_style = 4
+	var hsh: int = absi(hash(get_instance_id()))
+	_dn_tempo = _DN_TEMPO[_dn_style] * (0.93 + 0.14 * float(hsh % 97) / 96.0)
+	_dn_ph = float((hsh / 97) % 100) / 100.0 * 4.0
+	_dn_sc = maxf(body_height, 0.4) / 1.6
+	var hip: float = 0.0
+	if _piv[P_LEG_L]:
+		hip = (_rest_pos[P_ROOT] + _rest_pos[P_HIPS] + _rest_pos[P_LEG_L]).y
+	elif _piv[P_LEG_R]:
+		hip = (_rest_pos[P_ROOT] + _rest_pos[P_HIPS] + _rest_pos[P_LEG_R]).y
+	_dn_leg = hip if hip > 0.1 else 0.45 * maxf(body_height, 0.4)
+
+
+## rot() in degrees, weighted.
+func _dr(i: int, x: float, y: float, z: float, w: float) -> void:
+	if _piv[i]:
+		_off_rot[i] += Vector3(x, y, z) * (DEG * w)
+
+
+## Lowers the hips by `d` (m) with the feet kept on the ground (rigid legs): the legs splay sideways (a plie) or
+## fore / aft (`fore`, a kneel-like lunge). Deepest bend 70 deg.
+func _dn_dip(d: float, w: float, fore: bool) -> void:
+	var c: float = clampf(1.0 - maxf(d, 0.0) / _dn_leg, 0.34, 1.0)
+	var a: float = acos(c) * w
+	if _piv[P_ROOT]:
+		_off_pos[P_ROOT].y -= _dn_leg * (1.0 - c) * w
+	if fore:
+		if _piv[P_LEG_L]:
+			_off_rot[P_LEG_L].x -= a
+		if _piv[P_LEG_R]:
+			_off_rot[P_LEG_R].x += a
+	else:
+		if _piv[P_LEG_L]:
+			_off_rot[P_LEG_L].z -= a
+		if _piv[P_LEG_R]:
+			_off_rot[P_LEG_R].z += a
+
+
+## Hop: the whole body leaves the ground by h (m), legs straight.
+func _dn_hop(h: float, w: float) -> void:
+	if _piv[P_ROOT]:
+		_off_pos[P_ROOT].y += h * w
+
+
+## Victory: Fire hops and pumps both fists with a spin every 8 beats; Ice stands tall, one arm raised in a salute,
+## heel rises and stiff quarter turns; Nature sways like a tree, arms up as branches, soft knee dips; Shadow crouches,
+## shoulder shimmy and finger snaps, a slow sly creep and spin; neutral cheers with arms up and hops.
+func _dn_victory(t: float, w: float) -> void:
+	var b: float = t * _dn_tempo + _dn_ph
+	var s: float = sin(PI * b)
+	var bo: float = absf(s)
+	var sc: float = _dn_sc
+	match _dn_style:
+		1:  # fire
+			_dn_hop(0.07 * sc * bo, w)
+			_dr(P_ARM_L, -150.0 + 35.0 * s, 0.0, -22.0, w)
+			_dr(P_ARM_R, -150.0 - 35.0 * s, 0.0, 22.0, w)
+			_dr(P_CHEST, -4.0, 12.0 * s, 0.0, w)
+			_dr(P_HEAD, 10.0 * sin(TAU * b), 0.0, 6.0 * s, w)
+			_dr(P_LEG_L, -14.0 * maxf(s, 0.0), 0.0, 0.0, w)
+			_dr(P_LEG_R, -14.0 * maxf(-s, 0.0), 0.0, 0.0, w)
+			_dr(P_ROOT, 0.0, 360.0 * smoothstep(7.0, 8.0, fmod(b, 8.0)), 0.0, w)
+		2:  # ice
+			var turn: float = 28.0 * clampf(1.8 * sin(PI * b * 0.25), -1.0, 1.0)
+			_dn_hop(0.035 * sc * maxf(s, 0.0), w)
+			_dr(P_CHEST, -8.0, 0.0, 0.0, w)
+			_dr(P_HEAD, -12.0, 0.0, 0.0, w)
+			_dr(P_ARM_R, -168.0 + 10.0 * maxf(s, 0.0), 0.0, 8.0, w)
+			_dr(P_ARM_L, 12.0, 0.0, -30.0, w)
+			_dr(P_ROOT, 0.0, turn, 0.0, w)
+		3:  # nature
+			_dn_dip(0.045 * sc * (0.5 + 0.5 * sin(TAU * b)), w, false)
+			_dr(P_CHEST, 0.0, 0.0, 14.0 * s, w)
+			_dr(P_HIPS, 0.0, 0.0, -6.0 * s, w)
+			_dr(P_HEAD, 0.0, 0.0, 8.0 * sin(PI * b + 0.6), w)
+			_dr(P_ARM_L, -145.0 + 15.0 * sin(PI * b + 0.8), 0.0, -(35.0 + 15.0 * s), w)
+			_dr(P_ARM_R, -145.0 + 15.0 * sin(PI * b + 0.8), 0.0, 35.0 - 15.0 * s, w)
+			_dr(P_ROOT, 0.0, 25.0 * sin(PI * b * 0.25), 0.0, w)
+			if _piv[P_ROOT]:
+				_off_pos[P_ROOT].x += 0.05 * sc * s * w
+		4:  # shadow
+			_dn_dip((0.07 + 0.025 * bo) * sc, w, true)
+			_dr(P_CHEST, 12.0, 14.0 * sin(TAU * b), 0.0, w)
+			_dr(P_HEAD, -6.0, 15.0 * sin(PI * b * 0.5), 12.0, w)
+			_dr(P_ARM_L, -60.0 + 18.0 * s, 0.0, -10.0, w)
+			_dr(P_ARM_R, -60.0 - 18.0 * s, 0.0, 10.0, w)
+			_dr(P_ROOT, 0.0, 360.0 * smoothstep(6.0, 8.0, fmod(b, 8.0)), 0.0, w)
+			if _piv[P_ROOT]:
+				_off_pos[P_ROOT].x += 0.10 * sc * sin(PI * b * 0.25) * w
+		_:  # neutral
+			_dn_hop(0.05 * sc * bo, w)
+			_dr(P_ARM_L, -155.0 + 20.0 * s, 0.0, -30.0, w)
+			_dr(P_ARM_R, -155.0 - 20.0 * s, 0.0, 30.0, w)
+			_dr(P_HEAD, 10.0 * sin(TAU * b), 0.0, 0.0, w)
+			_dr(P_CHEST, -5.0, 8.0 * s, 0.0, w)
+			_dr(P_ROOT, 0.0, 180.0 * smoothstep(7.0, 8.0, fmod(b, 8.0)) + 180.0 * smoothstep(3.0, 4.0, fmod(b, 8.0)), 0.0, w)
+
+
+## "I give up": the arms fling open (the weapon is let go), a kneel, then hands up with a slow white-flag sway, the
+## head shaking; every 4 beats a sigh (arms sag, chest slumps). Ice keeps its chin up, Shadow sinks lowest, Fire
+## shakes its head hardest, Nature sways.
+func _dn_surrender(t: float, w: float) -> void:
+	var b: float = t * _dn_tempo * 0.5 + _dn_ph
+	var sw: float = sin(PI * b)
+	var fl: float = sin(PI * clampf(t / 0.6, 0.0, 1.0))
+	var k: float = _ease_out(clampf((t - 0.35) / 0.8, 0.0, 1.0))
+	var cyc: float = fmod(b, 4.0)
+	var sigh: float = sin(PI * clampf(cyc - 3.0, 0.0, 1.0))
+	var slump: float = _DN_SLUMP[_dn_style]
+	var kneel: float = _DN_KNEEL[_dn_style]
+	var shake: float = _DN_SHAKE[_dn_style]
+	_dr(P_ARM_L, 25.0 * fl, 0.0, -55.0 * fl, w)
+	_dr(P_ARM_R, 25.0 * fl, 0.0, 55.0 * fl, w)
+	_dn_dip(kneel * _dn_leg * k, w, true)
+	var ax: float = -155.0 * k * (1.0 - 0.35 * sigh)
+	_dr(P_ARM_L, ax, 0.0, -(22.0 + 8.0 * sw) * k, w)
+	_dr(P_ARM_R, ax, 0.0, (22.0 - 8.0 * sw) * k, w)
+	_dr(P_CHEST, (8.0 + 12.0 * sigh) * slump * k, 0.0, (4.0 + (6.0 if _dn_style == 3 else 0.0)) * sw * k, w)
+	_dr(P_HEAD, ((14.0 + 10.0 * sigh) * slump - (10.0 if _dn_style == 2 else 0.0)) * k, shake * sin(TAU * b) * k, 0.0, w)
+
+
+## Random emote: one of 3 per play_clip call (spin & clap, wave, stomp march), with the kingdom flavour on top.
+func _dn_random(t: float, w: float) -> void:
+	var b: float = t * _dn_tempo + _dn_ph
+	var s: float = sin(PI * b)
+	var sc: float = _dn_sc
+	var amp: float = _DN_AMP[_dn_style]
+	match _dn_var:
+		0:  # spin & clap
+			var c: float = 0.5 + 0.5 * sin(TAU * b)
+			_dr(P_ARM_L, -75.0, 0.0, 12.0 + 16.0 * c * amp, w)
+			_dr(P_ARM_R, -75.0, 0.0, -(12.0 + 16.0 * c * amp), w)
+			_dn_hop(0.03 * sc * absf(s) * amp, w)
+			_dr(P_HEAD, 8.0 * sin(TAU * b), 0.0, 0.0, w)
+			_dr(P_ROOT, 0.0, 360.0 * fmod(b, 4.0) / 4.0, 0.0, w)
+		1:  # wave
+			_dr(P_ARM_R, -165.0, 0.0, 20.0 + 28.0 * sin(TAU * b) * amp, w)
+			_dr(P_ARM_L, 12.0, 0.0, -30.0, w)
+			_dr(P_CHEST, 0.0, 0.0, 8.0 * s * amp, w)
+			_dr(P_HEAD, 8.0 * sin(TAU * b), 0.0, 6.0 * s, w)
+			_dn_dip(0.03 * sc * (0.5 + 0.5 * sin(TAU * b)), w, false)
+		_:  # stomp march
+			_dr(P_LEG_L, -38.0 * maxf(s, 0.0) * amp, 0.0, 0.0, w)
+			_dr(P_LEG_R, -38.0 * maxf(-s, 0.0) * amp, 0.0, 0.0, w)
+			_dn_hop(0.03 * sc * absf(s), w)
+			_dr(P_ARM_L, -20.0 + 45.0 * s * amp, 0.0, -8.0, w)
+			_dr(P_ARM_R, -20.0 - 45.0 * s * amp, 0.0, 8.0, w)
+			_dr(P_CHEST, 0.0, 10.0 * s, 0.0, w)
+			_dr(P_HEAD, 0.0, 12.0 * sin(PI * b * 0.5), 0.0, w)
+	match _dn_style:
+		2:
+			_dr(P_CHEST, -6.0, 0.0, 0.0, w)
+			_dr(P_HEAD, -8.0, 0.0, 0.0, w)
+		3:
+			_dr(P_CHEST, 0.0, 0.0, 8.0 * sin(PI * b * 0.5), w)
+		4:
+			_dr(P_CHEST, 8.0, 0.0, 0.0, w)
+			_dn_dip(0.03 * sc, w, true)
 
 
 # ================================================================ seated rider: internals (13.V1b)

@@ -1,0 +1,12 @@
+﻿# Dance group stills (unit dances, 2026-09-27): 8 kit models mid dance_victory.
+lens dance_victory  res=1600x900  band=2.39  light=studio  rim=warm  bg=ground:#3a4a2e
+subject vessa    res://art/units/wizards/vessa.tscn            at=(0,0,0)      yaw=0    pose=play_clip:dance_victory@1.3
+subject torvald  res://art/units/wizards/torvald.tscn          at=(1.6,0,0.3)  yaw=-10  pose=play_clip:dance_victory@1.3
+subject ysolde   res://art/units/wizards/ysolde.tscn           at=(-1.6,0,0.3) yaw=10   pose=play_clip:dance_victory@1.3
+subject malrik   res://art/units/wizards/malrik.tscn           at=(3.2,0,0.8)  yaw=-20  pose=play_clip:dance_victory@1.3
+subject guard    res://art/units/fire/flame_guard.tscn         at=(-3.2,0,0.8) yaw=20   pose=play_clip:dance_victory@1.3
+subject shield   res://art/units/ice/rimeshield.tscn           at=(0.8,0,-1.6) yaw=0    pose=play_clip:dance_victory@1.3
+subject thorn    res://art/units/nature/thornling.tscn         at=(-0.8,0,-1.6) yaw=0   pose=play_clip:dance_victory@1.3
+subject shade    res://art/units/shadow/shade.tscn             at=(2.4,0,-1.4) yaw=-10  pose=play_clip:dance_victory@1.3
+shot D1 "ws on vessa, front, high"
+shot D2 "fs two-shot ysolde torvald, 3/4 left, eye"

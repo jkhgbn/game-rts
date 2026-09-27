@@ -1109,6 +1109,7 @@ func _update_chevrons() -> void:
 
 
 func command_move(target: Vector3) -> void:
+	_model_call(&"stop_clip")   # an order ends a dance (play_clip)
 	attack_target = null
 	_auto_target = false
 	_has_move_order = true
@@ -1126,6 +1127,7 @@ func command_attack(target) -> void:
 	var node := target as Node3D
 	if node == null or not is_enemy_of(node):
 		return
+	_model_call(&"stop_clip")
 	attack_target = node
 	_auto_target = false
 	_has_move_order = false
@@ -1135,6 +1137,7 @@ func command_attack(target) -> void:
 
 ## Walk to target; fight any enemy met within aggro_range on the way, then resume the walk.
 func command_attack_move(target: Vector3) -> void:
+	_model_call(&"stop_clip")
 	attack_target = null
 	_auto_target = false
 	_has_move_order = true
@@ -1151,6 +1154,7 @@ func command_hold() -> void:
 
 
 func command_stop() -> void:
+	_model_call(&"stop_clip")
 	attack_target = null
 	_auto_target = false
 	_has_move_order = false
