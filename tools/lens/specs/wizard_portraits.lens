@@ -1,0 +1,6 @@
+# Lens acceptance demo (b): the 4 wizard portraits at 512 (dialogue / cinematics, art/portraits/), one rule.
+#   tools\lens\run_lens.ps1 portrait wizard_portraits
+portrait vessa    res://art/units/wizards/vessa.tscn    frame=mcu angle=3/4-right  size=512  faction=fire
+portrait malrik   res://art/units/wizards/malrik.tscn   frame=mcu angle=3/4-right  size=512  faction=shadow
+portrait torvald  res://art/units/wizards/torvald.tscn  frame=mcu angle=3/4-right  size=512  faction=ice
+portrait ysolde   res://art/units/wizards/ysolde.tscn   frame=mcu angle=3/4-right  size=512  faction=nature

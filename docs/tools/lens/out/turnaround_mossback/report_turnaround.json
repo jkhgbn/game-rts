@@ -1,0 +1,51 @@
+{
+	"asset": "turnaround_mossback",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "turn",
+			"hint": "",
+			"id": "T1",
+			"improve": "",
+			"name": "8 views",
+			"rule": "8 views at 45 deg",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "8 views, box 2.97 x 3.01 x 4.31 m",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 1,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"turn": "Turnaround"
+	},
+	"hash": "",
+	"hash_note": "",
+	"headless": false,
+	"id": "turnaround_mossback",
+	"improve_next": [],
+	"kind": "turnaround",
+	"kingdom": "",
+	"notes": [],
+	"previous_quality": -1.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 1.7,
+	"shots": {
+		"turnaround": "turnaround.png"
+	},
+	"started": "2026-09-27 08:49:52",
+	"tier": "",
+	"tool": "lens",
+	"verb": "turnaround"
+}

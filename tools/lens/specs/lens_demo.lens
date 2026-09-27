@@ -1,0 +1,9 @@
+# Lens acceptance demo (d): cine bakes cam=lens shots. The subjects come from the .cine's cast lines, so the camera
+# is solved on the same stage cine plays.
+#   tools\lens\run_lens.ps1 check lens_demo      -> docs/tools/lens/out/lens_demo/camera_L1.json, camera_L2.json
+#   tools\cine\run_cine.ps1 build lens_demo src=res://tools/lens/specs/lens_demo.cine
+#   tools\lens\run_lens.ps1 cinecheck lens_demo  -> the baked shots use those cameras
+lens lens_demo  res=1600x900  band=2.39  fov=40
+use cine=res://tools/lens/specs/lens_demo.cine
+shot L1 "mcu on vessa, 3/4 left, low"
+shot L2 "ms on shade, 3/4 right, high, push 0.2"

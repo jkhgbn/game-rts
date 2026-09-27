@@ -1,0 +1,29 @@
+# Lens acceptance demo (a): every icon the art audit (docs/art/art-audit-2026-09-26.md "UI / icons") lists as missing,
+# one command, one framing rule (silhouette 72 % of the tile, rule 55-75 %, centred +- 5 %), kingdom background.
+#   tools\lens\run_lens.ps1 icons audit_icons          -> art/icons/lens/<kind>/<id>.png + docs/tools/lens/out/audit_icons/
+icons units  kind=units  size=256  yaw=30  pitch=20  fill=0.72  bg=kingdom
+  icon cinderlock          res://art/units/fire/cinderlock/cinderlock.tscn                       faction=fire
+  icon frostrune_rifleman  res://art/units/ice/frostrune_rifleman/frostrune_rifleman.tscn        faction=ice
+  icon glade_outrider      res://art/units/nature/glade_outrider/glade_outrider.tscn             faction=nature
+  icon mossback            res://art/units/nature/mossback/mossback.tscn                         faction=nature
+  icon blaze_rider         res://art/units/fire/blaze_rider.tscn                                 faction=fire
+  icon gloam_rider         res://art/units/shadow/gloam_rider/gloam_rider.tscn                   faction=shadow
+  icon rimehorn_rider      res://art/units/ice/rimehorn_rider/rimehorn_rider.tscn                faction=ice
+  icon stagrunner          res://art/units/nature/stagrunner/stagrunner.tscn                     faction=nature
+  icon barrow_giant        res://art/units/shadow/barrow_giant/barrow_giant.tscn                 faction=shadow
+  icon cinder_dragon       res://art/units/titans/cinder_dragon/cinder_dragon.tscn               faction=fire
+  icon frost_dragon        res://art/units/titans/frost_dragon/frost_dragon.tscn                 faction=ice
+  icon elder_treant        res://art/units/titans/elder_treant/elder_treant.tscn                 faction=nature
+  icon nightmare_knight    res://art/units/titans/nightmare_knight/nightmare_knight.tscn         faction=shadow
+  icon war_mammoth         res://art/units/titans/war_mammoth/war_mammoth.tscn                   faction=ice
+  icon mage_archer         res://art/units/champions/mage_archer/mage_archer.tscn                faction=neutral
+  icon wildcaller          res://art/units/champions/wildcaller/wildcaller.tscn                  faction=neutral
+icons buildings  kind=buildings  size=256  yaw=30  pitch=24  fill=0.72  bg=kingdom
+  icon dragon_roost        res://art/buildings/lair/fire/dragon_roost.tscn                       faction=fire
+  icon dread_paddock       res://art/buildings/lair/shadow/dread_paddock.tscn                    faction=shadow
+  icon ember_crucible      res://art/buildings/fire/ember_crucible/ember_crucible.tscn           faction=fire
+  icon tavern              res://art/buildings/tavern/tavern_model.tscn                          faction=neutral
+  icon trade_post          res://art/buildings/trade_post/trade_post.tscn                        faction=neutral
+  icon watchtower          res://art/buildings/capture/watchtower/watchtower.tscn                faction=neutral
+  icon wayshrine           res://art/buildings/capture/wayshrine/wayshrine.tscn                  faction=neutral
+  icon essence_well        res://art/buildings/capture/essence_well/essence_well.tscn            faction=neutral

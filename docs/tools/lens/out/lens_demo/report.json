@@ -1,0 +1,161 @@
+{
+	"asset": "lens_demo",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "parse",
+			"hint": "",
+			"id": "P1",
+			"improve": "",
+			"name": "spec",
+			"rule": "0 errors",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "2 shots, 0 icon groups, 0 portraits",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "solve",
+			"hint": "check the subject bounds (Head pivot) or pick another size",
+			"id": "S_L1_cov",
+			"improve": "",
+			"name": "L1 mcu coverage (1600x900)",
+			"rule": "+-10 % of the vocabulary target",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "0.71 (target 0.71)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "solve",
+			"hint": "lower the height word or use a wider size",
+			"id": "S_L1_band",
+			"improve": "",
+			"name": "L1 faces in band (predicted)",
+			"rule": "every framed face inside the 2.39 band",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "all in",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "solve",
+			"hint": "check the subject bounds (Head pivot) or pick another size",
+			"id": "S_L2_cov",
+			"improve": "",
+			"name": "L2 ms coverage (1600x900)",
+			"rule": "+-10 % of the vocabulary target",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "0.44 (target 0.44)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "solve",
+			"hint": "lower the height word or use a wider size",
+			"id": "S_L2_band",
+			"improve": "",
+			"name": "L2 faces in band (predicted)",
+			"rule": "every framed face inside the 2.39 band",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "all in",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "det",
+			"hint": "report this to the Lens owner",
+			"id": "D1",
+			"improve": "",
+			"name": "solver (same bounds, 2 solves)",
+			"rule": "a pure function",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "identical bytes",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "det",
+			"hint": "a pose=...@t or a moving model changes the bounds: pose it, or give the subject a still model",
+			"id": "D2",
+			"improve": "",
+			"name": "two stagings",
+			"rule": "cameras within 60 mm (models idle-sway +- 4 cm; bounds on a 1 cm grid)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "08536558bef3ae04 / 1f1b21852e48d7ce, worst 38.9 mm (L1)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "icons",
+			"hint": "",
+			"id": "I0",
+			"improve": "",
+			"name": "icon / portrait lines",
+			"rule": "-",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "none",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 1,
+		"PASS": 7,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"det": "Determinism",
+		"icons": "Icon / portrait subjects",
+		"parse": "Spec",
+		"solve": "Solved framing (predicted from bounds)"
+	},
+	"hash": "08536558bef3ae04",
+	"hash_note": "2 stagings within 38.9 mm (idle animation phase)",
+	"headless": false,
+	"id": "lens_demo",
+	"improve_next": [
+		{
+			"rank": 0.0,
+			"source": "lens",
+			"status": "IDEA",
+			"text": "run `run_lens.ps1 shoot lens_demo` to confirm the predicted framing from pixels",
+			"title": "Measure it"
+		}
+	],
+	"kind": "check",
+	"kingdom": "",
+	"notes": [
+		"CameraSpec files: docs/tools/lens/out/lens_demo/camera_<shot>.json (first res of each shot; camera.json = the first shot). cine: `cam=lens \"<words>\" lens_spec=res://docs/tools/lens/out/lens_demo/camera_<shot>.json`",
+		"Coverage s = reference height / band height (head for ecu cu mcu, body for ms cowboy fs ws ews); targets in LensSolver.SIZES; pixels are measured by `shoot` (windowed)."
+	],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 1.3,
+	"shots": {},
+	"started": "2026-09-27 08:48:30",
+	"tier": "",
+	"tool": "lens",
+	"verb": "check"
+}

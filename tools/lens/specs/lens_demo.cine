@@ -1,0 +1,8 @@
+# Lens demo (d): two cam=lens shots whose cameras come from Lens CameraSpec files (tools/lens/specs/lens_demo.lens).
+cine lens_demo  title="Lens demo"  letterbox=2.39  seed=3  length=4..20
+env dusk
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(0, 0, 0)  yaw=0
+cast  shade  res://art/units/shadow/shade.tscn   at=(0, 0, 5)  yaw=180
+shot L1 4.0  cam=lens "mcu on vessa, 3/4 left, low"  lens_spec=res://docs/tools/lens/out/lens_demo/camera_L1.json
+  at 0.5  line vessa "Who walks the wall at this hour?"
+shot L2 3.0  cam=lens "ms on shade, 3/4 right, high"  lens_spec=res://docs/tools/lens/out/lens_demo/camera_L2.json  in=cut

@@ -681,4 +681,4 @@ look exactly as before, and `ground_material.tres` is unchanged. Only the skirmi
   selected: drop it regardless of selection. `neutral_camp.gd:468`: seed the fallback `RandomNumberGenerator`.
 - Bot Lab next step 5: the report's new "Start-up" section measures the first navmesh bake per match (test batch: 8.9 s
   of an 18 s start-up, under load). If a real batch shows it >= 3 % of a match, a lab-only main.gd hook caching the
-  first navmesh would speed every Bot / Balance Lab batch.
+  first navmesh would speed every Bot / Balance Lab batch.- (cine, fix round) Facing fix verified: `cine check` row RT2 compares the runtime-posed puppets with cine at every shot middle: 0.0 deg / 0.000 m on watch_keep.

@@ -1,0 +1,13 @@
+﻿# README example (tools/lens/README.md "Complete example")
+lens two_wizards  res=1600x900  band=2.39  light=studio  rim=warm  bg=#1b1a1f
+subject vessa  res://art/units/wizards/vessa.tscn  at=(0,0,0)      yaw=0
+subject shade  res://art/units/shadow/shade.tscn   at=(1.6,0,0.7)  yaw=250
+shot V1 "mcu on vessa, 3/4 left, low"
+shot V2 "cowboy two-shot vessa shade"
+shot V3 "mcu ots vessa over shade"
+shot V4
+  frame ms on vessa  angle=3/4-right  height=low  comp=thirds-left  push=0.15
+  light preset=dusk rim=cool
+icons mounts  kind=units  size=256  fill=0.72  bg=kingdom
+  icon ember_boar  res://art/units/mounts/ember_boar/ember_boar.tscn  faction=fire
+portrait vessa  res://art/units/wizards/vessa.tscn  frame=mcu  angle=3/4-right  size=512  faction=fire

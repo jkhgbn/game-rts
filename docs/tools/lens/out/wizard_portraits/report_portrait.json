@@ -1,0 +1,114 @@
+{
+	"asset": "wizard_portraits",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "parse",
+			"hint": "",
+			"id": "P1",
+			"improve": "",
+			"name": "spec",
+			"rule": "0 errors",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "0 shots, 0 icon groups, 4 portraits",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "portrait",
+			"hint": "check the model's Head pivot (hat / hood meshes belong under it)",
+			"id": "R_vessa",
+			"improve": "",
+			"name": "vessa head framing",
+			"rule": "+-10 % of the target, top 8 +- 5 %, centre +- 10 %",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "head 71 % of the height (target 71 %), top 9 %, centre -1 %",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "portrait",
+			"hint": "check the model's Head pivot (hat / hood meshes belong under it)",
+			"id": "R_malrik",
+			"improve": "",
+			"name": "malrik head framing",
+			"rule": "+-10 % of the target, top 8 +- 5 %, centre +- 10 %",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "head 62 % of the height (target 61 %), top 6 %, centre +2 %",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "portrait",
+			"hint": "check the model's Head pivot (hat / hood meshes belong under it)",
+			"id": "R_torvald",
+			"improve": "",
+			"name": "torvald head framing",
+			"rule": "+-10 % of the target, top 8 +- 5 %, centre +- 10 %",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "head 77 % of the height (target 78 %), top 9 %, centre +0 %",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "portrait",
+			"hint": "check the model's Head pivot (hat / hood meshes belong under it)",
+			"id": "R_ysolde",
+			"improve": "",
+			"name": "ysolde head framing",
+			"rule": "+-10 % of the target, top 8 +- 5 %, centre +- 10 %",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "head 70 % of the height (target 69 %), top 7 %, centre -0 %",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 5,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"parse": "Spec",
+		"portrait": "Portrait rule (LensSolver size on the Head pivot, head top 8 % down, centred)"
+	},
+	"hash": "3670f62ac843a2fe",
+	"hash_note": "",
+	"headless": false,
+	"id": "wizard_portraits",
+	"improve_next": [],
+	"kind": "portrait",
+	"kingdom": "",
+	"notes": [
+		"Portraits written to art/portraits/<speaker>.png (cinematics.md 1 folder). One rule: the LensSolver size of the line (default cu; the wizards use mcu so hats / antlers fit), head top 8 % down, centred, 3/4 view, kingdom gradient."
+	],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 11.4,
+	"shots": {
+		"malrik": "../../../../../art/portraits/malrik.png",
+		"sheet": "portraits_sheet.png",
+		"torvald": "../../../../../art/portraits/torvald.png",
+		"vessa": "../../../../../art/portraits/vessa.png",
+		"ysolde": "../../../../../art/portraits/ysolde.png"
+	},
+	"started": "2026-09-27 08:47:58",
+	"tier": "",
+	"tool": "lens",
+	"verb": "portrait"
+}

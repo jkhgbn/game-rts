@@ -1,0 +1,7 @@
+# Lens marks for a World Forge set: the shots are solved on the set's puppets (vessa, guard_w, guard_e).
+#   tools\lens\run_lens.ps1 marks watch_keep_marks set=forge_watch_keep
+#   -> docs/tools/lens/out/watch_keep_marks/marks.json (contract format; World Forge merges it, Lens never edits a set)
+lens watch_keep_marks  res=1600x900  band=2.39  fov=40
+shot L1 "mcu on vessa, 3/4 right, low"
+shot L2 "fs two-shot vessa guard_w, high"
+shot L3 "ms on guard_e, 3/4 left, push 0.15"

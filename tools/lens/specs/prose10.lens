@@ -1,0 +1,20 @@
+# Lens acceptance demo (c): 10 prose framings, solved headless (check) and measured from pixels (shoot).
+#   tools\lens\run_lens.ps1 check prose10      tools\lens\run_lens.ps1 shoot prose10
+lens prose10  res=1600x900  band=2.39  fov=40  light=studio  rim=warm  bg=#1d1b22
+
+subject vessa    res://art/units/wizards/vessa.tscn    at=(0,0,0)     yaw=0
+subject shade    res://art/units/shadow/shade.tscn     at=(1.6,0,0.7) yaw=250
+subject torvald  res://art/units/wizards/torvald.tscn  at=(-5,0,-2)   yaw=30
+
+shot P01 "cu on vessa, 3/4 right"
+shot P02 "mcu on vessa, 3/4 left, low"
+shot P03 "ms on shade, profile right, high"
+shot P04 "cowboy on torvald, 3/4 right"
+shot P05 "fs on torvald, profile left"  bg=ground:#3b3428
+shot P06 "ws on vessa, 3/4 left, high"  bg=ground:#3b3428
+shot P07 "cowboy two-shot vessa shade"
+shot P08 "mcu ots vessa over shade"
+shot P09 "cu on torvald, 3/4 left, high, dutch 8"  light=night  rim=cool
+shot P10
+  frame ms on vessa  angle=3/4-right  height=low  comp=thirds-left  push=0.15
+  light preset=dusk rim=cool

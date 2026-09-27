@@ -1,0 +1,63 @@
+{
+	"asset": "lens_demo",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "cine",
+			"hint": "the .cine shot needs lens_spec=res://docs/tools/lens/out/lens_demo/camera_L1.json",
+			"id": "C_L1",
+			"improve": "",
+			"name": "L1 baked camera = camera_L1.json",
+			"rule": "< 0.01",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "diff 0.0000",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "cine",
+			"hint": "the .cine shot needs lens_spec=res://docs/tools/lens/out/lens_demo/camera_L2.json",
+			"id": "C_L2",
+			"improve": "",
+			"name": "L2 baked camera = camera_L2.json",
+			"rule": "< 0.01",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "diff 0.0000",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 2,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"cine": "cine bakes cam=lens shots from Lens CameraSpecs"
+	},
+	"hash": "",
+	"hash_note": "",
+	"headless": false,
+	"id": "lens_demo",
+	"improve_next": [],
+	"kind": "cinecheck",
+	"kingdom": "",
+	"notes": [],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 0.0,
+	"shots": {},
+	"started": "2026-09-27 08:49:27",
+	"tier": "",
+	"tool": "lens",
+	"verb": "cinecheck"
+}
