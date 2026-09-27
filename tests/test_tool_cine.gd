@@ -150,3 +150,38 @@ func _test_pipeline() -> void:
 	_ok("did you mean \"draw_knife\"" in joined and "did you mean \"@S8_from\"" in joined, "fix hints teach")
 	(c["stage"] as CineStage).queue_free()
 	await process_frame
+	_test_lens_and_puppet_speaker()
+	await process_frame
+
+
+## U2 (2026-09-27): cam=lens without lens_spec= is solved at bake by tool 3's LensSolver (no framer WARN); a set
+## puppet (not cast) is a valid speaker.
+func _test_lens_and_puppet_speaker() -> void:
+	var doc := CineDoc.from_text("""cine lens_t  length=1..20
+cast vessa capsule at=(0, 0, 0) yaw=0
+shot L1 3.0 cam=lens "mcu on vessa, 3/4 left"
+  at 0.5 line grunt "Hold the gate."
+""", "lens_t.cine")
+	_ok(doc.spec.error_lines().is_empty(), "lens_t parses: %s" % [doc.spec.error_lines()])
+	var stage := CineStage.new()
+	root.add_child(stage)
+	stage.build(doc)
+	var grunt := Node3D.new()
+	grunt.name = "grunt"
+	stage.add_child(grunt)
+	stage.actors["grunt"] = grunt   # stands in for a set's Puppets/grunt
+	var bake := CineBake.run(doc, stage)
+	var ev := CineEval.create(bake.shots, stage.actor_start)
+	var rep := ToolReport.start("cine", "check", "lens_t")
+	CineChecks.add_groups(rep)
+	CineChecks.problems(doc, stage, bake, rep)
+	CineChecks.framing(bake, ev, rep)
+	CineChecks.subtitles(doc, bake, rep)
+	var joined := "\n".join(rep.problem_lines())
+	if ResourceLoader.exists("res://tools/lens/lens_solver.gd"):
+		_ok(not "cam=lens" in joined, "cam=lens solved at bake (no framer fallback): %s" % joined)
+		var b: Dictionary = bake.shots[0]
+		_ok(not bool(b["fallback_cam"]) and (b["from_pos"] as Vector3).distance_to(Vector3(0, 1.5, 0)) > 0.5, "lens camera placed: %s" % b["from_pos"])
+		_ok("vessa" in (b["faces"] as Array), "lens subject judged by framing")
+	_ok(not "not cast" in joined, "set puppet counts as a speaker: %s" % joined)
+	stage.queue_free()

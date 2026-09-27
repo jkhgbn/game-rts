@@ -269,6 +269,9 @@ func _run() -> void:
 	# 8. recording path
 	await _recording_check()
 
+	# 8b. set cue API + puppets keep their cinematic pose over a set's begin_shot reset (play and seek)
+	await _set_cue_checks()
+
 	# 9. lights, events
 	_expect(_count_lights(root) == lights0 and lights0 == 0, "0 lights created (%d before, %d after)" % [lights0, _count_lights(root)])
 	if ev_node != null and ev_node.has_signal(&"cinematic_finished"):
@@ -281,6 +284,68 @@ func _run() -> void:
 	else:
 		print("FAIL %s: %s" % [TASK_ID, "; ".join(_fails)])
 	quit()
+
+
+func _set_cue_checks() -> void:
+	_make_stage()
+	var cue_script := GDScript.new()
+	cue_script.source_code = """extends Node3D
+@export var set_id: StringName = &""
+var start := {}
+func _ready() -> void:
+	for p in get_node(^"Puppets").get_children():
+		start[p.name.to_lower()] = p.transform
+func begin_shot(_id: StringName) -> void:
+	for p in get_node(^"Puppets").get_children():
+		p.transform = start[p.name.to_lower()]
+func puppet(tag: StringName) -> Node3D:
+	return get_node_or_null(NodePath("Puppets/" + String(tag).capitalize())) as Node3D
+func cine_cues(shot_id: StringName) -> Array:
+	if shot_id == &"cb":
+		return [{"at": 0.2, "kind": "vfx", "vfx_id": &"fireball", "actor": &"vessa", "target": Vector3(0, 0, -2)},
+			{"at": 0.1, "kind": "move", "actor": &"grunt", "target": Vector3(9, 0, 9)}]
+	return []
+"""
+	cue_script.reload()
+	var set_root := Node3D.new()
+	set_root.name = "CueSet"
+	set_root.set_script(cue_script)
+	set_root.set(&"set_id", &"cueset")
+	set_root.add_to_group(&"cinematic_sets")
+	var puppets := Node3D.new()
+	puppets.name = "Puppets"
+	set_root.add_child(puppets)
+	var grunt := Node3D.new()
+	grunt.name = "Grunt"
+	puppets.add_child(grunt)
+	_stage.add_child(set_root)
+	await _frames(1)
+	var s := CinematicScript.new()
+	s.id = &"set_cue_demo"
+	var ca := CinematicShot.make(&"ca", 1.0, CinematicShot.CameraMode.STATIC)
+	ca.stage_set = &"cueset"
+	ca.add_action(0.0, &"move", &"grunt", Vector3(3, 0, 0), {"speed": 10.0})
+	var cb := CinematicShot.make(&"cb", 1.0, CinematicShot.CameraMode.STATIC)
+	s.shots = [ca, cb]
+	var cues := CinematicPlayer.set_cues(set_root, cb)
+	_expect(cues.size() == 1 and cues[0].kind == &"vfx" and bool(cues[0].params.get("from_set", false)),
+			"set_cues: 1 cosmetic cue kept (move refused), from_set: %d" % cues.size())
+	_expect(_player.play(s, _stage) == "", "set cue demo plays")
+	var guard := 0
+	while _player.is_playing() and guard < 400:
+		await process_frame
+		guard += 1
+	var fired: Dictionary = _player.debug_state().get("fired", {})
+	_expect(grunt.position.distance_to(Vector3(3, 0, 0)) < 0.01, "grunt kept its moved pose over begin_shot(cb): %s" % grunt.position)
+	_expect(int(fired.get(&"vfx", 0)) == 1, "the set's vfx cue fired once: %s" % [fired])
+	# seek into cb: the move of ca is replayed and survives cb's begin_shot reset
+	_expect(_player.play(s, _stage) == "", "set cue demo plays again")
+	_player.seek(1.5)
+	_expect(grunt.position.distance_to(Vector3(3, 0, 0)) < 0.01, "seek(1.5): grunt at its moved pose: %s" % grunt.position)
+	_player.stop()
+	await _frames(1)
+	_stage.remove_child(set_root)
+	set_root.free()
 
 
 func _full_run() -> Dictionary:

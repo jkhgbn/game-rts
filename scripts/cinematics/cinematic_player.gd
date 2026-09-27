@@ -58,6 +58,7 @@ var _actors: Dictionary = {}                # tag -> Node3D (registered)
 var _actor_cache: Dictionary = {}           # tag -> Node3D (resolved for this play)
 var _warned: Dictionary = {}
 var _snapshot: Dictionary = {}              # Node -> {xform, visible}
+var _posed: Dictionary = {}                 # Node3D -> true: moved / teleported / turned by this play (kept over begin_shot)
 var _spawned: Array[Node] = []
 var _changed_modes: Dictionary = {}         # Node -> old process_mode
 var _hud_restore: Array[Dictionary] = []
@@ -382,6 +383,7 @@ func _build_timeline() -> void:
 	_set_for_shot.clear()
 	var t := 0.0
 	var order := 0
+	var cue_set := _current_set_of_context()
 	for i in _script.shots.size():
 		var s: CinematicShot = _script.shots[i]
 		if s == null or not _branch_ok(s.branch_flag):
@@ -393,7 +395,12 @@ func _build_timeline() -> void:
 		var dur := maxf(s.duration, 0.0)
 		if s.shake > 0.0:
 			_trauma.append(Vector2(t, s.shake))
-		for a: CinematicAction in s.actions:
+		if s.stage_set != &"":
+			cue_set = s.stage_set
+		var acts: Array[CinematicAction] = []
+		acts.append_array(s.actions)
+		acts.append_array(set_cues(_find_set(cue_set), s))
+		for a: CinematicAction in acts:
 			if a == null:
 				continue
 			var te := t + clampf(a.at, 0.0, dur)
@@ -435,6 +442,7 @@ func _reset_state() -> void:
 	_actor_cache.clear()
 	_warned.clear()
 	_snapshot.clear()
+	_posed.clear()
 	_spawned.clear()
 	_changed_modes.clear()
 	_hud_restore.clear()
@@ -520,7 +528,17 @@ func _enter_shot(i: int, passing: bool) -> void:
 	_follow_valid = false
 	if passing:
 		return
+	# A set's begin_shot may reset its puppets to their start pose (World Forge sets do). Actors this cinematic has
+	# already moved / turned keep their pose (the timeline's end states carry over cuts, in play and after a seek).
+	var keep := {}
+	for n in _posed.keys():
+		if is_instance_valid(n) and (n as Node3D).is_inside_tree():
+			keep[n] = (n as Node3D).global_transform
 	_set_call(_set_for_shot[i], &"begin_shot", [s.id])
+	for n2: Node3D in keep:
+		if n2.global_transform != keep[n2]:
+			n2.global_transform = keep[n2]
+			n2.reset_physics_interpolation()
 	shot_started.emit(_shot_src[i], s.id)
 
 
@@ -811,6 +829,8 @@ func _fire(e: Dictionary, now: float) -> void:
 	if _seeking and COSMETIC_KINDS.has(a.kind):
 		return
 	var n: Node3D = actor(a.actor) if a.actor != &"" else null
+	if n != null and a.kind in [&"move", &"teleport", &"face"]:
+		_posed[n] = true
 	var r := {"action": a, "t": te, "node": n}
 	match a.kind:
 		&"move":
@@ -1188,6 +1208,7 @@ func _restore_snapshot(t: float) -> void:
 			if n.get_parent():
 				n.get_parent().remove_child(n)
 	_spawned.clear()
+	_posed.clear()
 	for n in _snapshot.keys():
 		if not is_instance_valid(n):
 			continue
@@ -1249,6 +1270,59 @@ func _switch_set(id: StringName) -> void:
 			n.call(&"set_active", on)
 		elif n is Node3D:
 			(n as Node3D).visible = on
+
+
+## Set cue API: a set may define `cine_cues(shot_id: StringName) -> Array` of cue Dictionaries so it can fire its own
+## spell VFX / sfx / anims during its shots (today's .cine-only cues). A cue = `{at, kind, actor, target, params}` like
+## a CinematicAction (kind default `vfx`; only the cosmetic kinds vfx / sfx / anim / clip / shake), `target` / `to` in
+## the set root's local space; shortcut keys `scene`, `vfx_id`, `life`, `scale`, `yaw`, `to`, `hook`, `arg`, `path`,
+## `volume_db`, `amount`, `travel_time` go to params. A shot that already carries baked set cues (params `from_set`,
+## written by `cine build`) is not merged again. Returns [] when the set has no cues.
+static func set_cues(set_node: Node, shot: CinematicShot) -> Array[CinematicAction]:
+	var out: Array[CinematicAction] = []
+	if set_node == null or shot == null or not set_node.has_method(&"cine_cues"):
+		return out
+	for a0: CinematicAction in shot.actions:
+		if a0 != null and bool(a0.params.get("from_set", false)):
+			return out
+	var cues: Variant = set_node.call(&"cine_cues", shot.id)
+	if not cues is Array:
+		return out
+	var xf := (set_node as Node3D).global_transform if set_node is Node3D and (set_node as Node3D).is_inside_tree() else Transform3D.IDENTITY
+	for c: Variant in cues:
+		var a := cue_action(c, xf)
+		if a != null:
+			out.append(a)
+	return out
+
+
+## One set cue Dictionary -> CinematicAction (null when not a cosmetic cue). `xf` = the set root's transform.
+static func cue_action(c: Variant, xf: Transform3D = Transform3D.IDENTITY) -> CinematicAction:
+	if not c is Dictionary:
+		return null
+	var d: Dictionary = c
+	var kind := StringName(str(d.get("kind", "vfx")))
+	if not COSMETIC_KINDS.has(kind):
+		return null
+	var params: Dictionary = (d.get("params", {}) as Dictionary).duplicate() if d.get("params") is Dictionary else {}
+	for k: String in ["scene", "vfx_id", "life", "scale", "yaw", "hook", "arg", "path", "volume_db", "amount", "travel_time"]:
+		if d.has(k):
+			params[k] = d[k]
+	if d.get("to") is Vector3:
+		params["to"] = xf * (d["to"] as Vector3)
+	params["from_set"] = true
+	var target: Vector3 = d["target"] if d.get("target") is Vector3 else Vector3.ZERO
+	return CinematicAction.make(float(d.get("at", 0.0)), kind, StringName(str(d.get("actor", ""))), xf * target, params)
+
+
+## Fires one cue now (a set's own script may call it mid-shot, e.g. from begin_shot or a timer): cosmetic only, not
+## part of the timeline (seek / stills do not see it; prefer `cine_cues` for anything the camera must frame).
+func fire_cue(cue: Dictionary, set_node: Node3D = null) -> void:
+	if not _playing:
+		return
+	var a := cue_action(cue, set_node.global_transform if set_node != null and set_node.is_inside_tree() else Transform3D.IDENTITY)
+	if a != null:
+		_fire({"t": _t, "shot": _shot_i, "action": a, "order": -1}, _t)
 
 
 func _set_call(id: StringName, method: StringName, args: Array) -> void:

@@ -614,10 +614,12 @@ func _play(cli: ToolCli, id: String, record: bool) -> int:
 	var frames := 0
 	var mpath0 := Engine.get_write_movie_path()
 	var avi := mpath0.get_extension().to_lower() == "avi"
+	var movie_size := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1600)),
+		int(ProjectSettings.get_setting("display/window/size/viewport_height", 900)))
 	if avi:
-		# AVI: Movie Maker encodes at the project viewport size (1600x900) whatever the window (Godot 4.7, tested):
-		# no reframe pass is possible on an AVI, so the 2.39 bars are drawn in the frame (subtitles in the lower bar)
-		prev.crop_band = false
+		# AVI: Movie Maker encodes at the project viewport size (Godot 4.7). run_cine.ps1 record runs from a sized
+		# project copy (override.cfg viewport = res) so the AVI is res; at 2.39 the frame IS the band (no bars drawn).
+		prev.crop_band = crop_band and movie_size == target
 	prev.music_db = (p["doc"] as CineDoc).music_vol
 	var skip := cli.opt_float("from", 0.0)
 	prev.start((p["doc"] as CineDoc).music)
@@ -642,10 +644,12 @@ func _play(cli: ToolCli, id: String, record: bool) -> int:
 		rep.check("P2", "play", "movie", "PASS" if mpath != "" else "FAIL", mpath if mpath != "" else "not under --write-movie",
 			"Movie Maker PNG sequence + WAV outside res://", "use run_cine.ps1 record <id> (it adds --write-movie)")
 		if avi:
-			var ms2 := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1600)),
-				int(ProjectSettings.get_setting("display/window/size/viewport_height", 900)))
-			rep.check("P3", "play", "size / fps", "INFO", "AVI (MJPEG + PCM WAV) %dx%d with the 2.39 bars drawn (picture band %dx%d), %d fps, narration + music mixed; res=%dx%d not applicable to AVI" % [
-				ms2.x, ms2.y, ms2.x, int(round(ms2.x / 2.39)), cli.opt_int("fps", 30), target.x, target.y], "fps= honoured; Movie Maker AVI size = project viewport")
+			var ms2 := movie_size
+			var win := Vector2i(root.size)
+			var ok_size := ms2 == target and win == target
+			rep.check("P3", "play", "size / fps", "PASS" if ok_size else "WARN", "AVI (MJPEG + PCM WAV) %dx%d (window %dx%d)%s, %d fps, narration + music mixed; res=%dx%d" % [
+				ms2.x, ms2.y, win.x, win.y, " = the 2.39 band, no bars drawn" if prev.crop_band else " with the 2.39 bars drawn", cli.opt_int("fps", 30), target.x, target.y],
+				"AVI size = res= (run_cine.ps1 record runs a sized project copy)", "record through run_cine.ps1 (it sets the viewport size override)")
 			rep.notes.append("Movie Maker AVI: %s (plays in VLC / Windows Media Player / Films & TV)" % mpath)
 		else:
 			var ms := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1600)),

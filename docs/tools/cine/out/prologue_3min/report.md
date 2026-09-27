@@ -1,10 +1,10 @@
 # cine check: prologue_3min
 
-2026-09-27 14:47:18 - `tools/cine/run_cine.ps1 check prologue_3min` - hash `a5b60f77ec0d0946` (2 runs identical)
+2026-09-27 15:51:35 - `tools/cine/run_cine.ps1 check prologue_3min` - hash `a5b60f77ec0d0946` (2 runs identical)
 
-## Result: **WARN** - quality **99 / 100** (previous run 99, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 1 WARN, 65 PASS, 51 info, 0 skipped, 43 s
+0 FAIL, 0 WARN, 66 PASS, 51 info, 0 skipped, 43 s
 
 ## Improve next
 1. **S16 face vessa** (PASS): keep vessa nearer the band centre in S16 _(from F18 S16 face vessa, shot S16)_
@@ -150,7 +150,7 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | a5b60f77ec0d0946 / a5b60f77ec0d0946 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 07f793dc3da2a3f2) |  |  |
+| D2 | vs previous run | INFO | same |  |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -161,7 +161,7 @@
 | T4 | tool 5 Motion Lab | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | T5 | tool 7 VFX Composer | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | RT1 | runtime camera = cine camera | PASS 100 | worst 0.000 m | <= 0.05 m at the middle of every shot |  |
-| RT2 | runtime actors = cine actors | **WARN** 50 | worst facing 10.0 deg (foe in S23U (cine 180, runtime 170 deg)), position 7.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot | the runtime turns puppets another way than the game: see docs/handoff/for-systems-coder.md |
+| RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (foe in S22 (cine 180, runtime -180 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
 - source `data/cinematics/src/prologue_3min.cine` (385 lines), 180.0 s, 36 shots, stage: set forge_citadel

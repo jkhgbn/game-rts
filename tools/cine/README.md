@@ -20,10 +20,14 @@ Also:
   2.39 `res` (1920x804) the crop IS the letterbox band: no bars are drawn, subtitles stay inside it. The record report
   (`report_record.md`, `report_reframe.md`) says the size / fps used.
 - **AVI (default for `record`, 2026-09-27):** `record <id> [fps=30] [dur=] [from=] [movie=<path>.avi] [format=avi|png]`
-  runs Godot with `--write-movie <out>\<id>.avi`: one MJPEG + PCM file (narration + music mixed). Godot 4.7's Movie
-  Maker encodes AVI frames at the project viewport size (1600x900) whatever `--resolution` says (tested: a 1920x804
-  window gave a stretched 1600x900 file), so the AVI is 1600x900 with the 2.39 bars drawn and subtitles in the lower
-  bar; `res=` only applies to `format=png` (PNG sequence + reframe crop). `from=<s>` starts mid-movie (tests).
+  runs Godot with `--write-movie <out>\<id>.avi`: one MJPEG + PCM file (narration + music mixed) **at `res=`
+  (default 1920x804)**. Godot 4.7's Movie Maker resizes AVI frames to the project viewport size
+  (`display/window/size/viewport_*`) whatever the window, so the record runs from a **sized project copy**
+  `%LOCALAPPDATA%\four-wizards-cine\proj_<WxH>\` (directory junctions to this project's folders + a fresh
+  `project.godot` + `override.cfg` with viewport = res; kept between runs, never `Remove-Item -Recurse` it: that follows
+  the junctions) and the window = res. At a 2.39 `res` the frame IS the band: no bars, subtitles inside. The ps1 reads
+  the first JPEG's size and fails if it is not `res` (`CINE record <id>: AVI frame size 1920x804 (asked 1920x804)`);
+  report row P3 PASS. `from=<s>` starts mid-movie (tests). Proof 2026-09-27: `Videos\four-wizards-rec\u2_proof\`.
 - `perf <id>`: window, plays it, CPU ms / GPU ms / draw calls per shot + worst frame (`report_perf.md`). Noisy when
   other Godot runs share the PC: compare runs, do not judge one.
 - `diff <id> [against=golden]`: new stills vs the previous `stills` run (kept in `stills_prev/`) or vs the goldens.
@@ -124,6 +128,16 @@ Actions (indented `at <seconds> <action> ...`, time from the shot start):
   on `vfx ... scene=` nodes, so stills / seek / record agree. Cine effects: `tools/cine/fx/*.tscn` (`cine_fx.gd`:
   streak, pillar, ring, dome, orbs, burst; `vfx x scene=res://tools/cine/fx/fire_pillar.tscn at=(..) [to=(..)] life= scale= yaw=`).
 - Continuity (180-degree rule) now judges only the line between the two shots' subjects (faces), not crowd extras.
+
+### Upgrade U2 (2026-09-27)
+- **Set cues**: a set root with `cine_cues(shot_id) -> Array` (cue Dictionaries `{at, kind, actor, target, scene /
+  vfx_id, life, scale, yaw, to, ...}`, kinds vfx / sfx / anim / clip / shake, positions in the set's space) fires its
+  own spell VFX: `build` bakes them as actions (params `from_set`), so stills / sheet / play / record / the .tres see
+  them; the runtime merges them for scripts not baked by cine (`scripts/cinematics/README.md` section 4).
+- **Puppets speak**: a set puppet (e.g. `ysolde_messenger`) is a valid `line` speaker (no "not cast" WARN).
+- **Lens at bake**: `cam=lens "<words>"` without `lens_spec=` is solved at bake by tool 3's `LensSolver` on the actors'
+  poses at the shot start (no framer WARN; the solved subjects are framing-checked). Bad words = FAIL with Lens's hint.
+- **RT2 fixed**: the runtime keeps actors the cinematic moved over a set's `begin_shot` puppet reset (play and seek).
 
 ## 4. What `check` measures (one report row per problem)
 | Group | Rule |

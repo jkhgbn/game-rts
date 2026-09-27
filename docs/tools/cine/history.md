@@ -87,3 +87,9 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 14:48:08 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 120a20191d65a47d |  | docs/tools/cine/out/prologue_3min/report_stills.md |
 | 2026-09-27 14:50:45 | sheet | prologue_3min | 100 (+0) | PASS (0F 0W) | 227913778d1ef464 |  | docs/tools/cine/out/prologue_3min/report_sheet.md |
 | 2026-09-27 14:50:59 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |
+| 2026-09-27 14:52:44 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |
+| 2026-09-27 15:45:04 | record | watch_keep | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/watch_keep/report_record.md |
+| 2026-09-27 15:47:38 | check | prologue_3min | 99 (+0) | PASS (0F 0W) | a5b60f77ec0d0946 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 15:51:35 | check | watch_keep | 100 (+0) | PASS (0F 0W) | 0f19e892793b4be3 | Look at the pictures; Timing sheet; Two-run hash | docs/tools/cine/out/watch_keep/report.md |
+| 2026-09-27 15:51:35 | check | prologue_3min | 99 (+0) | PASS (0F 0W) | a5b60f77ec0d0946 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 15:52:39 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |

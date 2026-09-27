@@ -299,6 +299,7 @@ func _shot(s: Dictionary) -> Dictionary:
 		var ba: Variant = _action(a, float(s["dur"]))
 		if ba != null:
 			b["actions"].append(ba)
+	_set_cues(b, l)
 	# actors' end states become the next shot's start
 	var acts: Array = b["actions"].duplicate()
 	acts.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return float(x["at"]) < float(y["at"]))
@@ -320,6 +321,49 @@ func _shot(s: Dictionary) -> Dictionary:
 				if (ba2["params"] as Dictionary).has("yaw_deg"):
 					_yaw[tag] = float(ba2["params"]["yaw_deg"])
 	return b
+
+
+## Set cue API (scripts/cinematics/README.md section 4): the shot's set may define `cine_cues(shot_id) -> Array` of
+## cue Dictionaries (its own spell VFX / sfx / anims). They are baked as ordinary actions (params `from_set`, so the
+## runtime does not merge them twice) and so show in stills, the timing sheet, play / record and the .tres.
+const SET_CUE_KINDS := ["vfx", "sfx", "anim", "clip", "shake"]
+const SET_CUE_KEYS := ["scene", "vfx_id", "life", "scale", "yaw", "hook", "arg", "path", "volume_db", "amount", "travel_time"]
+func _set_cues(b: Dictionary, l: ToolSpecLine) -> void:
+	var sn: Node = stage.find_set(StringName(_cur_set)) if _cur_set != "" else null
+	if sn == null or not sn.has_method(&"cine_cues"):
+		return
+	var cues: Variant = sn.call(&"cine_cues", StringName(String(b["id"])))
+	if not cues is Array:
+		return
+	var xf := (sn as Node3D).global_transform if sn is Node3D and (sn as Node3D).is_inside_tree() else Transform3D.IDENTITY
+	for c: Variant in cues:
+		if not c is Dictionary:
+			continue
+		var d: Dictionary = c
+		var kind := String(d.get("kind", "vfx"))
+		if not kind in SET_CUE_KINDS:
+			problem("WARN", "resolve", "set cue %s %s" % [_cur_set, kind], "kind not allowed in a set cue (skipped)", "set cues: " + ", ".join(PackedStringArray(SET_CUE_KINDS)), "put it in the .cine", l)
+			continue
+		var p: Dictionary = (d["params"] as Dictionary).duplicate() if d.get("params") is Dictionary else {}
+		for k: String in SET_CUE_KEYS:
+			if d.has(k):
+				p[k] = d[k]
+		if d.get("to") is Vector3:
+			p["to"] = xf * (d["to"] as Vector3)
+		p["from_set"] = true
+		var sc := String(p.get("scene", ""))
+		if sc != "" and not ResourceLoader.exists(sc):
+			problem("FAIL", "resolve", "set cue %s vfx" % _cur_set, "missing " + sc, "res:// scene exists", "fix the set's cine_cues()", l)
+			continue
+		if kind == "vfx" and sc != "" and not p.has("life"):
+			p["life"] = 3.0
+		var tag := String(d.get("actor", ""))
+		if tag != "" and not stage.actors.has(tag):
+			problem("WARN", "resolve", "set cue actor \"%s\"" % tag, "unknown (cue kept without actor)", "cue actors are cast / set puppets", "fix the set's cine_cues()", l)
+			tag = ""
+		var at := clampf(float(d.get("at", 0.0)), 0.0, float(b["duration"]))
+		var tgt: Vector3 = d["target"] if d.get("target") is Vector3 else Vector3.ZERO
+		b["actions"].append({"at": at, "kind": kind, "actor": tag, "target": xf * tgt, "params": p, "on_skip": true, "src_line": l.line})
 
 
 func _camera(s: Dictionary, b: Dictionary, faces: Array) -> void:
@@ -419,6 +463,8 @@ func _camera(s: Dictionary, b: Dictionary, faces: Array) -> void:
 				if spec_path != "" and FileAccess.file_exists(spec_path):
 					_lens_spec(spec_path, b)
 					return
+				if spec_path == "" and _lens_solve(String(s["words"]), l, b, faces, kv):
+					return
 				problem("WARN", "resolve", "shot %s cam=lens" % sid,
 					"tool 3 Lens %s: built-in framer used" % ("output missing" if partner["lens"] == "present" else "not installed"),
 					"lens shots come from tool 3 CameraSpec", "run Lens for this shot (lens_spec=<camera.json>) or write cam=frame", l)
@@ -461,6 +507,42 @@ func _proxy_cam(b: Dictionary, faces: Array) -> void:
 	b["to_pos"] = b["from_pos"]
 	b["look_from"] = c
 	b["look_to"] = c
+
+
+## `cam=lens "<words>"` without lens_spec=: tool 3's LensSolver solves the camera at bake time on the actors' poses at
+## this shot's start (docs/handoff/for-cine.md). Load-guarded; false = Lens missing (the caller falls back to the framer).
+func _lens_solve(words: String, l: ToolSpecLine, b: Dictionary, faces: Array, kv: Dictionary) -> bool:
+	if not ResourceLoader.exists(LENS_DIR + "lens_solver.gd"):
+		return false
+	var ls: Script = load(LENS_DIR + "lens_solver.gd")
+	if ls == null:
+		return false
+	var subs := {}
+	for tag: String in _pos:
+		subs[tag] = ls.call(&"subject", _pos[tag], float(_yaw.get(tag, 0.0)), maxf(0.5, head_of(tag) / 0.92))
+	var fov := String(kv.get("fov", "40")).to_float() if String(kv.get("fov", "")).is_valid_float() else 40.0
+	var cam: Dictionary = ls.call(&"solve_words", words, subs, {"res": Vector2i(1600, 900), "band": doc.letterbox if doc.letterbox > 0.0 else 2.39, "fov": fov})
+	if not bool(cam.get("ok", false)):
+		var errs: Array = cam.get("errors", [])
+		var e0: Dictionary = errs[0] if not errs.is_empty() and errs[0] is Dictionary else {}
+		problem("FAIL", "resolve", "shot %s cam=lens" % b["id"], "Lens: %s" % String(e0.get("message", "no camera")),
+			"Lens solves the words on this shot's actors", String(e0.get("hint", "check the words (run_lens.ps1 help)")), l)
+		b["fallback_cam"] = true
+		_proxy_cam(b, faces)
+		return true
+	var a: Dictionary = cam.get("a", cam)
+	var z: Dictionary = cam.get("b", a)
+	b["from_pos"] = a["pos"]
+	b["to_pos"] = z["pos"]
+	b["look_from"] = a["look"]
+	b["look_to"] = z["look"]
+	b["fov_from"] = float(a.get("fov", fov))
+	b["fov_to"] = float(z.get("fov", b["fov_from"]))
+	b["camera_mode"] = MODE["dolly"] if not (b["from_pos"] as Vector3).is_equal_approx(b["to_pos"]) else MODE["static"]
+	for tag2: Variant in (cam.get("head_ndc", {}) as Dictionary).keys():
+		if _pos.has(String(tag2)) and not String(tag2) in faces:
+			faces.append(String(tag2))
+	return true
 
 
 func _lens_spec(path: String, b: Dictionary) -> void:

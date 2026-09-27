@@ -250,6 +250,11 @@ static func subtitles(doc: CineDoc, bake: CineBake, rep: ToolReport) -> void:
 	for tag: String in doc.cast:
 		speakers.append(tag)
 		speakers.append(String(doc.cast[tag]["speaker"]))
+	# set puppets speak too (a World Forge set's `Puppets/<tag>`, e.g. ysolde_messenger): not only `cast` lines
+	if bake != null and bake.stage != null:
+		for tag2: String in bake.stage.actors:
+			if not tag2 in speakers:
+				speakers.append(tag2)
 	speakers.append_array(["narrator", "whisper", "voice"])
 	var n := 1
 	var total := 0

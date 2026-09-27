@@ -136,6 +136,16 @@ Set root in group `"cinematic_sets"` with `set_id`; optional `set_active(on)`, `
 optional `P_pivot` (ORBIT: radius / angles / height from `_from` / `_to` around it), `Path3D P_rail`, metadata `fov` on
 `_from` / `_to`. If the set has no `P_from` marker, the player reads `<set folder>/marks.json`
 `{P: {from, to, look_from, look_to, fov_from, fov_to}}` (vectors as `[x, y, z]`). Missing keys keep the shot's fields.
+- `begin_shot` may reset the set's puppets (World Forge sets do): actors this play has moved / teleported / turned keep
+  their pose over it (in play and after `seek`), so the timeline's end states carry over cuts.
+- **Set cue API (U2, 2026-09-27)**: optional `cine_cues(shot_id: StringName) -> Array` of cue Dictionaries
+  `{at, kind, actor, target, params}` (kind default `vfx`; only vfx / sfx / anim / clip / shake; `target` / `to` in the
+  set root's local space; shortcut keys `scene`, `vfx_id`, `life`, `scale`, `yaw`, `to`, `hook`, `arg`, `path`,
+  `volume_db`, `amount`, `travel_time` go to params). The player merges them into the timeline at `play` (seek /
+  skip treat them like any cosmetic action) unless the shot already has baked set cues (params `from_set`, written by
+  `cine build`). Statics `CinematicPlayer.set_cues(set_node, shot) -> Array[CinematicAction]`, `cue_action(cue, xform)`;
+  `fire_cue(cue, set_node := null)` fires one cue now (outside the timeline: seek / stills do not see it).
+  Example: `return [{"at": 0.8, "vfx_id": &"frost_nova", "actor": &"torvald", "target": Vector3(0, 0, 4)}]`.
 
 ## 5. Runtime notes (for tools 2 `cine`, 6 World Forge, 10 Script Desk)
 - **Stills / checks without pixels**: `var p := CinematicPlayer.new()` (add it where the camera must render, e.g. inside

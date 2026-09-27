@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "317 frames, 10.5 s cinematic time, wall 87.6 s, worst frame 365.1 ms",
+			"value": "167 frames, 5.5 s cinematic time, wall 9.0 s, worst frame 87.8 ms",
 			"weight": 1.0
 		},
 		{
@@ -27,28 +27,28 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\watch_keep\\watch_keep.png",
+			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\u2_proof\\watch_keep_1920x804.avi",
 			"weight": 1.0
 		},
 		{
 			"graded": -1.0,
 			"group": "play",
-			"hint": "",
+			"hint": "record through run_cine.ps1 (it sets the viewport size override)",
 			"id": "P3",
 			"improve": "",
 			"name": "size / fps",
-			"rule": "res= and fps= honoured",
-			"score": -1.0,
+			"rule": "AVI size = res= (run_cine.ps1 record runs a sized project copy)",
+			"score": 1.0,
 			"shot": "",
-			"status": "INFO",
-			"value": "Movie Maker frame 1600x900 (project viewport size), 30 fps; reframed to 1280x536 by the reframe pass (2.39 band crop, no bars drawn)",
+			"status": "PASS",
+			"value": "AVI (MJPEG + PCM WAV) 1920x804 (window 1920x804) = the 2.39 band, no bars drawn, 30 fps, narration + music mixed; res=1920x804",
 			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 1,
-		"PASS": 2,
+		"INFO": 0,
+		"PASS": 3,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -64,16 +64,16 @@
 	"kind": "record",
 	"kingdom": "",
 	"notes": [
-		"Movie Maker writes <name>00000000.png ... + <name>.wav; convert to video only with the user's OK (no ffmpeg here)",
+		"Movie Maker AVI: C:\\Users\\elzzo\\Videos\\four-wizards-rec\\u2_proof\\watch_keep_1920x804.avi (plays in VLC / Windows Media Player / Films & TV)",
 		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
 	],
 	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 88.8,
+	"seconds": 10.3,
 	"shots": {},
-	"started": "2026-09-27 08:33:45",
+	"started": "2026-09-27 15:45:04",
 	"tier": "",
 	"tool": "cine",
 	"verb": "record"

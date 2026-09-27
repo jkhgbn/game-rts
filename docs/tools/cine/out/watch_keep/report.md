@@ -1,6 +1,6 @@
 # cine check: watch_keep
 
-2026-09-27 14:11:33 - `tools/cine/run_cine.ps1 check watch_keep` - hash `0f19e892793b4be3` (2 runs identical)
+2026-09-27 15:51:35 - `tools/cine/run_cine.ps1 check watch_keep` - hash `0f19e892793b4be3` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
@@ -66,7 +66,7 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 0f19e892793b4be3 / 0f19e892793b4be3 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was af7e0dbbd2bb85ee) |  |  |
+| D2 | vs previous run | INFO | same |  |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

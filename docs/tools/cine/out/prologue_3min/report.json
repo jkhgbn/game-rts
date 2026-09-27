@@ -1609,7 +1609,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 07f793dc3da2a3f2)",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -1634,19 +1634,19 @@
 			"improve": "",
 			"name": "runtime actors = cine actors",
 			"rule": "same facing (+Z = model front, as unit.gd) and position at the middle of every shot",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "worst facing 10.0 deg (foe in S23U (cine 180, runtime 170 deg)), position 7.000 m",
+			"status": "PASS",
+			"value": "worst facing 0.0 deg (foe in S22 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 51,
-		"PASS": 65,
+		"PASS": 66,
 		"SKIP": 0,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "",
 	"groups": {
@@ -1713,13 +1713,13 @@
 		"source `data/cinematics/src/prologue_3min.cine` (385 lines), 180.0 s, 36 shots, stage: set forge_citadel",
 		"the .cine has 385 lines (demo budget <= 80)"
 	],
-	"previous_quality": 99.0,
-	"quality": 99.0,
-	"result": "WARN",
+	"previous_quality": 99.3,
+	"quality": 99.3,
+	"result": "PASS",
 	"scene": "",
-	"seconds": 43.5,
+	"seconds": 42.5,
 	"shots": {},
-	"started": "2026-09-27 14:47:18",
+	"started": "2026-09-27 15:51:35",
 	"tier": "",
 	"tool": "cine",
 	"verb": "check"

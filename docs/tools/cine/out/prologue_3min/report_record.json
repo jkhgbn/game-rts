@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "167 frames, 5.5 s cinematic time, wall 13.2 s, worst frame 186.2 ms",
+			"value": "152 frames, 65.5 s cinematic time, wall 12.2 s, worst frame 185.3 ms",
 			"weight": 1.0
 		},
 		{
@@ -27,28 +27,28 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\prologue_3min\\prologue_3min.avi",
+			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\u2_proof\\prologue_3min_1920x804_5s.avi",
 			"weight": 1.0
 		},
 		{
 			"graded": -1.0,
 			"group": "play",
-			"hint": "",
+			"hint": "record through run_cine.ps1 (it sets the viewport size override)",
 			"id": "P3",
 			"improve": "",
 			"name": "size / fps",
-			"rule": "fps= honoured; Movie Maker AVI size = project viewport",
-			"score": -1.0,
+			"rule": "AVI size = res= (run_cine.ps1 record runs a sized project copy)",
+			"score": 1.0,
 			"shot": "",
-			"status": "INFO",
-			"value": "AVI (MJPEG + PCM WAV) 1600x900 with the 2.39 bars drawn (picture band 1600x669), 30 fps, narration + music mixed; res=1920x804 not applicable to AVI",
+			"status": "PASS",
+			"value": "AVI (MJPEG + PCM WAV) 1920x804 (window 1920x804) = the 2.39 band, no bars drawn, 30 fps, narration + music mixed; res=1920x804",
 			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 1,
-		"PASS": 2,
+		"INFO": 0,
+		"PASS": 3,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -64,16 +64,16 @@
 	"kind": "record",
 	"kingdom": "",
 	"notes": [
-		"Movie Maker AVI: C:\\Users\\elzzo\\Videos\\four-wizards-rec\\prologue_3min\\prologue_3min.avi (plays in VLC / Windows Media Player / Films & TV)",
+		"Movie Maker AVI: C:\\Users\\elzzo\\Videos\\four-wizards-rec\\u2_proof\\prologue_3min_1920x804_5s.avi (plays in VLC / Windows Media Player / Films & TV)",
 		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
 	],
 	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 25.9,
+	"seconds": 26.0,
 	"shots": {},
-	"started": "2026-09-27 14:50:59",
+	"started": "2026-09-27 15:52:39",
 	"tier": "",
 	"tool": "cine",
 	"verb": "record"

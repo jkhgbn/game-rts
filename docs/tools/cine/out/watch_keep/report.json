@@ -475,7 +475,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was af7e0dbbd2bb85ee)",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -561,9 +561,9 @@
 	"quality": 99.6,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.2,
+	"seconds": 1.5,
 	"shots": {},
-	"started": "2026-09-27 14:11:33",
+	"started": "2026-09-27 15:51:35",
 	"tier": "",
 	"tool": "cine",
 	"verb": "check"
