@@ -30,6 +30,9 @@ const KEYS := [
 	{"key": "golden", "default": "0", "text": "stills: 1 = also register the frames as goldens (docs/tools/cine/goldens/<id>/)"},
 	{"key": "against", "default": "previous", "text": "diff: previous (the last stills run) | golden"},
 	{"key": "dir", "default": "", "text": "reframe: the PNG sequence folder (absolute)"},
+	{"key": "format", "default": "avi", "text": "record: avi (MJPEG + PCM, one file, window = res) | png (PNG sequence + WAV, reframed)"},
+	{"key": "movie", "default": "", "text": "record: the output file (the ps1 passes it; default <out>/<id>.avi)"},
+	{"key": "from", "default": "0", "text": "play / record: start at this second of the movie (tests)"},
 ]
 const GOLDEN_DIR := "res://docs/tools/cine/goldens/"
 const VDL_DIFF := "res://tools/visual_diff_lab/vdl_diff.gd"
@@ -609,11 +612,20 @@ func _play(cli: ToolCli, id: String, record: bool) -> int:
 		prev.crop_band = true   # the reframe pass crops the 2.39 band: no bars drawn, subtitles inside the band
 	var dur := cli.opt_float("dur", 0.0)
 	var frames := 0
-	var fps := Engine.get_frames_per_second()
+	var mpath0 := Engine.get_write_movie_path()
+	var avi := mpath0.get_extension().to_lower() == "avi"
+	if avi:
+		# AVI: Movie Maker encodes at the project viewport size (1600x900) whatever the window (Godot 4.7, tested):
+		# no reframe pass is possible on an AVI, so the 2.39 bars are drawn in the frame (subtitles in the lower bar)
+		prev.crop_band = false
+	prev.music_db = (p["doc"] as CineDoc).music_vol
+	var skip := cli.opt_float("from", 0.0)
 	prev.start((p["doc"] as CineDoc).music)
+	if skip > 0.0:
+		prev.skip_to(skip)   # from=<s>: start mid-movie (cues before it are not replayed)
 	var limit := ev.total + prev.head + prev.tail + 0.1
 	if dur > 0.0:
-		limit = minf(limit, dur + prev.head)
+		limit = minf(limit, skip + dur + prev.head)
 	var t0 := Time.get_ticks_msec()
 	var worst_ms := 0.0
 	var last := Time.get_ticks_usec()
@@ -629,12 +641,19 @@ func _play(cli: ToolCli, id: String, record: bool) -> int:
 	if record:
 		rep.check("P2", "play", "movie", "PASS" if mpath != "" else "FAIL", mpath if mpath != "" else "not under --write-movie",
 			"Movie Maker PNG sequence + WAV outside res://", "use run_cine.ps1 record <id> (it adds --write-movie)")
-		var ms := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1600)),
-			int(ProjectSettings.get_setting("display/window/size/viewport_height", 900)))
-		rep.check("P3", "play", "size / fps", "INFO", "Movie Maker frame %dx%d (project viewport size), %d fps; reframed to %dx%d by the reframe pass%s" % [
-			ms.x, ms.y, cli.opt_int("fps", 30), target.x, target.y,
-			" (2.39 band crop, no bars drawn)" if crop_band else " (bars drawn, then scaled)"], "res= and fps= honoured")
-		rep.notes.append("Movie Maker writes <name>00000000.png ... + <name>.wav; convert to video only with the user's OK (no ffmpeg here)")
+		if avi:
+			var ms2 := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1600)),
+				int(ProjectSettings.get_setting("display/window/size/viewport_height", 900)))
+			rep.check("P3", "play", "size / fps", "INFO", "AVI (MJPEG + PCM WAV) %dx%d with the 2.39 bars drawn (picture band %dx%d), %d fps, narration + music mixed; res=%dx%d not applicable to AVI" % [
+				ms2.x, ms2.y, ms2.x, int(round(ms2.x / 2.39)), cli.opt_int("fps", 30), target.x, target.y], "fps= honoured; Movie Maker AVI size = project viewport")
+			rep.notes.append("Movie Maker AVI: %s (plays in VLC / Windows Media Player / Films & TV)" % mpath)
+		else:
+			var ms := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1600)),
+				int(ProjectSettings.get_setting("display/window/size/viewport_height", 900)))
+			rep.check("P3", "play", "size / fps", "INFO", "Movie Maker frame %dx%d (project viewport size), %d fps; reframed to %dx%d by the reframe pass%s" % [
+				ms.x, ms.y, cli.opt_int("fps", 30), target.x, target.y,
+				" (2.39 band crop, no bars drawn)" if crop_band else " (bars drawn, then scaled)"], "res= and fps= honoured")
+			rep.notes.append("Movie Maker writes <name>00000000.png ... + <name>.wav; convert to video only with the user's OK (no ffmpeg here)")
 	rep.notes.append("player: cine preview (CinePreview)%s" % ("; tool 1 CinematicPlayer present" if ResourceLoader.exists("res://scripts/cinematics/cinematic_player.gd") else ""))
 	prev.queue_free()
 	_free(p)

@@ -1,6 +1,7 @@
-[gd_resource type="StandardMaterial3D" format=3]
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_water.gdshader" id="1_f4jeh"]
 
 [resource]
-vertex_color_use_as_albedo = true
-metallic = 0.35
-roughness = 0.06
+render_priority = 0
+shader = ExtResource("1_f4jeh")

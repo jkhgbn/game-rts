@@ -29,6 +29,12 @@ var _music: AudioStreamPlayer
 var _prev_pos: Dictionary = {}
 var _fade_state := {"t": -1.0, "from": 0.0, "to": 0.0, "time": 0.0, "color": Color.BLACK}
 var _title_until := -1.0
+var _vfx: Dictionary = {}          # action key -> spawned vfx node
+## Narration / dialogue voices (line.voice WAVs) at their line time; mixed into Movie Maker's WAV while recording.
+var voices := true
+var voice_db := 0.0
+var music_db := -8.0
+var _voice_players: Array[AudioStreamPlayer] = []
 
 
 func setup(p_ev: CineEval, p_stage: CineStage, cam_parent: Node, overlay: bool = true) -> void:
@@ -37,7 +43,7 @@ func setup(p_ev: CineEval, p_stage: CineStage, cam_parent: Node, overlay: bool =
 	camera = Camera3D.new()
 	camera.name = "CineCamera"
 	camera.near = 0.1
-	camera.far = 250.0
+	camera.far = 250.0 if not p_stage.multi else 4000.0   # multi-set movies (the prologue) have vistas
 	cam_parent.add_child(camera)
 	camera.current = true
 	if overlay:
@@ -52,19 +58,94 @@ func start(music_path: String = "") -> void:
 	pose(0.0)
 	if music_path != "" and ResourceLoader.exists(music_path):
 		_music.stream = load(music_path) as AudioStream
-		_music.volume_db = -8.0
+		_music.volume_db = music_db
+		if _music.stream is AudioStreamWAV:
+			(_music.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+			(_music.stream as AudioStreamWAV).loop_end = int((_music.stream as AudioStreamWAV).get_length() * (_music.stream as AudioStreamWAV).mix_rate)
 		_music.play()
 
 
-## Poses camera + actors at global time `at` (no cues fired).
+## Jumps to global time `at` while playing: every cue and line before it counts as fired (not replayed).
+func skip_to(at: float) -> void:
+	t = at
+	for i: int in ev.shots.size():
+		for ai: int in (ev.shots[i]["actions"] as Array).size():
+			if ev.starts[i] + float(ev.shots[i]["actions"][ai]["at"]) < at:
+				_fired["%d_%d" % [i, ai]] = true
+		for li: int in (ev.shots[i]["lines"] as Array).size():
+			if ev.starts[i] + float(ev.shots[i]["lines"][li]["at"]) < at:
+				_fired["L%d_%d" % [i, li]] = true
+	pose(at)
+
+
+## Poses camera + actors at global time `at` (no cues fired). Also: the shot's set (multi-set movies), every
+## time-driven node (group "cine_timed": dragon flocks, cine fx) and the vfx scenes alive at `at`.
 func pose(at: float) -> void:
 	var tt := clampf(at, 0.0, ev.total)
 	var c := ev.camera(tt)
 	camera.global_transform = c["xform"]
-	camera.fov = c["fov"]
+	camera.fov = band_fov(c["fov"])
+	var si: int = ev.shot_at(tt)[0]
+	if stage.multi:
+		stage.set_active_set(StringName(String(ev.shots[si].get("stage_set", ""))))
 	for tag: String in ev.actor_start:
 		var a := ev.actor(tag, tt)
 		stage.pose_actor(tag, a["pos"], a["yaw"], a["visible"])
+	_pose_vfx(tt)
+	if is_inside_tree():
+		get_tree().call_group(&"cine_timed", &"set_cine_time", tt)
+
+
+## Framing is authored on 16:9 (the band is the middle 2.39 strip). A wider viewport (a 1920x804 recording) keeps the
+## same horizontal view: the vertical fov shrinks so the picture = the band crop of the 16:9 frame.
+func band_fov(fov: float) -> float:
+	var vp := camera.get_viewport() if camera != null and camera.is_inside_tree() else null
+	if vp == null:
+		return fov
+	var sz := vp.get_visible_rect().size
+	var aspect := sz.x / maxf(1.0, sz.y)
+	if aspect <= 16.0 / 9.0 + 0.01:
+		return fov
+	return rad_to_deg(2.0 * atan(tan(deg_to_rad(fov) * 0.5) * (16.0 / 9.0) / aspect))
+
+
+## vfx actions with a scene: spawned at their time, freed after `life`; nodes with `set_cine_age(age)` are posed
+## exactly (stills / seek), others run on their own clock while playing.
+func _pose_vfx(tt: float) -> void:
+	for i: int in ev.shots.size():
+		var s: Dictionary = ev.shots[i]
+		for ai: int in (s["actions"] as Array).size():
+			var a: Dictionary = s["actions"][ai]
+			if String(a["kind"]) != "vfx" or not (a["params"] as Dictionary).has("scene"):
+				continue
+			var key := "%d_%d" % [i, ai]
+			var t0: float = ev.starts[i] + float(a["at"])
+			var life := float(a["params"].get("life", 3.0))
+			var alive := tt >= t0 and tt < t0 + life
+			var node: Node3D = _vfx.get(key, null)
+			if alive and node == null:
+				var ps := load(String(a["params"]["scene"])) as PackedScene
+				if ps == null:
+					continue
+				node = ps.instantiate() as Node3D
+				if node == null:
+					continue
+				# placed before it enters the tree (its _ready reads position / scale); the stage sits at the origin
+				node.position = stage.to_local(a["target"]) if stage.is_inside_tree() else a["target"]
+				if (a["params"] as Dictionary).has("to") and node.has_method(&"set_cine_target"):
+					node.call(&"set_cine_target", a["params"]["to"])
+				if (a["params"] as Dictionary).has("yaw"):
+					node.rotation.y = deg_to_rad(float(a["params"]["yaw"]))
+				if (a["params"] as Dictionary).has("scale"):
+					node.scale = Vector3.ONE * float(a["params"]["scale"])
+				stage.add_child(node)
+				_vfx[key] = node
+			elif not alive and node != null:
+				node.queue_free()
+				_vfx.erase(key)
+				node = null
+			if node != null and node.has_method(&"set_cine_age"):
+				node.call(&"set_cine_age", tt - t0)
 
 
 func _process(delta: float) -> void:
@@ -99,6 +180,16 @@ func _fire_cues(tt: float) -> void:
 	for i: int in ev.shots.size():
 		var s: Dictionary = ev.shots[i]
 		var st: float = ev.starts[i]
+		if voices:
+			for li: int in (s["lines"] as Array).size():
+				var ln: Dictionary = s["lines"][li]
+				var lkey := "L%d_%d" % [i, li]
+				if _fired.has(lkey) or tt < st + float(ln["at"]):
+					continue
+				_fired[lkey] = true
+				if tt > st + float(ln["at"]) + 0.5:
+					continue   # started mid-way (dur= / seek): no late voice
+				_play_voice(String(ln.get("voice", "")))
 		for ai: int in (s["actions"] as Array).size():
 			var a: Dictionary = s["actions"][ai]
 			var key := "%d_%d" % [i, ai]
@@ -106,6 +197,17 @@ func _fire_cues(tt: float) -> void:
 				continue
 			_fired[key] = true
 			_cue(a)
+
+
+func _play_voice(path: String) -> void:
+	if path == "" or not ResourceLoader.exists(path):
+		return
+	var sp := AudioStreamPlayer.new()
+	sp.stream = load(path) as AudioStream
+	sp.volume_db = voice_db
+	add_child(sp)
+	sp.play()
+	sp.finished.connect(sp.queue_free)
 
 
 func _cue(a: Dictionary) -> void:
@@ -182,6 +284,16 @@ func _build_overlay() -> void:
 	_layer.add_child(_title)
 
 
+func _is_voice_over(speaker: String) -> bool:
+	if stage == null or stage.doc == null:
+		return false
+	for tag: String in stage.doc.cast:
+		var c: Dictionary = stage.doc.cast[tag]
+		if bool(c["hidden"]) and (tag == speaker or String(c["speaker"]) == speaker):
+			return true
+	return false
+
+
 func _set_fade(c: Color, a: float) -> void:
 	if _fade:
 		_fade.color = Color(c, a)
@@ -230,18 +342,27 @@ func _update_overlay(tt: float) -> void:
 		a = maxf(a, clampf((t - ev.total) / maxf(0.01, tail), 0.0, 1.0))
 	_set_fade(col, a)
 	# subtitles
-	var fs := int(round(22.0 * vs.y / 900.0))
+	var fs := int(round(22.0 * (vs.x / 1600.0 if vs.x / maxf(1.0, vs.y) > 16.0 / 9.0 + 0.01 else vs.y / 900.0)))
 	_sub.add_theme_font_size_override(&"font_size", fs)
 	_spk.add_theme_font_size_override(&"font_size", int(fs * 0.8))
 	_sub.text = ""
 	_spk.text = ""
 	if subtitles:
-		for ln: Dictionary in s["lines"]:
-			var la := float(ln["at"])
-			var eff := float(ln["duration"]) if float(ln["duration"]) > 0.0 else maxf(2.5, 0.9 + 0.055 * String(ln["text"]).length())
-			if lt >= la and lt < la + eff:
-				_sub.text = String(ln["text"])
-				_spk.text = String(ln["speaker"]).capitalize()
+		# a line stays up over later cuts until its duration ends or the next line starts
+		for j: int in range(si, -1, -1):
+			var found := false
+			var lines: Array = ev.shots[j]["lines"]
+			for ln: Dictionary in lines:
+				var la := ev.starts[j] + float(ln["at"])
+				var eff := float(ln["duration"]) if float(ln["duration"]) > 0.0 else maxf(2.5, 0.9 + 0.055 * String(ln["text"]).length())
+				if tt >= la and tt < la + eff:
+					_sub.text = String(ln["text"])
+					# a voice-over (speaker cast hidden=1, e.g. the narrator) shows no name
+					_spk.text = "" if _is_voice_over(String(ln["speaker"])) else String(ln["speaker"]).capitalize()
+				if tt >= la:
+					found = true
+			if found:
+				break
 	var w := vs.x * 0.7
 	_sub.size = Vector2(w, fs * 3)
 	_sub.position = Vector2((vs.x - w) * 0.5, vs.y - bar + 8.0 if bar >= 80.0 and not crop_band else vs.y - bar - fs * 3.2)

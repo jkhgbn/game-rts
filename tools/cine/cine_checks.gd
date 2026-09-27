@@ -167,10 +167,17 @@ static func continuity(bake: CineBake, ev: CineEval, rep: ToolReport) -> void:
 		var c2 := ev.camera(t2)
 		var crossed: Array[String] = []
 		var kept: Array[String] = []
+		# the line that matters runs between the shots' subjects (their faces), not between two extras of a crowd
+		var principals: Array = []
+		for f: String in (bake.shots[i - 1]["faces"] as Array) + (s["faces"] as Array):
+			if not f in principals:
+				principals.append(f)
 		for ai: int in tags.size():
 			for bi: int in range(ai + 1, tags.size()):
 				var ta: String = tags[ai]
 				var tb: String = tags[bi]
+				if not (ta in principals and tb in principals):
+					continue
 				if not (_on_screen(ev, ta, t1, c1) and _on_screen(ev, tb, t1, c1) and _on_screen(ev, ta, t2, c2) and _on_screen(ev, tb, t2, c2)):
 					continue
 				var pa := ev.head_point(ta, t2)
@@ -246,7 +253,21 @@ static func subtitles(doc: CineDoc, bake: CineBake, rep: ToolReport) -> void:
 	speakers.append_array(["narrator", "whisper", "voice"])
 	var n := 1
 	var total := 0
-	for s: Dictionary in bake.shots:
+	# a line may run on over the next cut(s) until the next line starts (one voice over several shots)
+	var starts: Array[float] = []
+	var gstarts: Array[float] = []
+	var acc := 0.0
+	for s0: Dictionary in bake.shots:
+		starts.append(acc)
+		for l0: Dictionary in s0["lines"]:
+			gstarts.append(acc + float(l0["at"]))
+		acc += float(s0["duration"])
+	gstarts.sort()
+	var no_voice: Array[String] = []
+	var long_voice: Array[String] = []
+	var voiced := 0
+	for si: int in bake.shots.size():
+		var s: Dictionary = bake.shots[si]
 		var lines: Array = (s["lines"] as Array).duplicate()
 		lines.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return float(x["at"]) < float(y["at"]))
 		var dur := float(s["duration"])
@@ -256,9 +277,20 @@ static func subtitles(doc: CineDoc, bake: CineBake, rep: ToolReport) -> void:
 			var text := String(ln["text"])
 			var at := float(ln["at"])
 			var eff := float(ln["duration"]) if float(ln["duration"]) > 0.0 else maxf(2.5, 0.9 + 0.055 * text.length())
-			var shown := minf(at + eff, dur) - at
-			if li + 1 < lines.size():
-				shown = minf(shown, float(lines[li + 1]["at"]) - at)
+			var g0 := starts[si] + at
+			var g_end := minf(g0 + eff, acc)
+			for gs: float in gstarts:
+				if gs > g0 + 0.001:
+					g_end = minf(g_end, gs)
+					break
+			var shown := g_end - g0
+			if String(ln.get("voice", "")) != "":
+				voiced += 1
+				var vd := float(ln.get("voice_dur", 0.0))
+				if vd > 0.0 and vd > (g_end - g0) + 0.05:
+					long_voice.append("%s %.2f s in %.2f s" % [s["id"], vd, g_end - g0])
+			else:
+				no_voice.append("%s \"%s\"" % [s["id"], text.left(24)])
 			var cps := float(text.length()) / maxf(0.01, shown)
 			var wl := wrap_text(text)
 			var st := "PASS"
@@ -297,3 +329,11 @@ static func subtitles(doc: CineDoc, bake: CineBake, rep: ToolReport) -> void:
 			n += 1
 	if total == 0:
 		rep.check("S0", "subtitles", "lines", "INFO", "no lines", "")
+		return
+	rep.check("V1", "subtitles", "voice files", "PASS" if no_voice.is_empty() else "WARN",
+		"%d / %d lines voiced%s" % [voiced, total, (": missing " + ", ".join(no_voice.slice(0, 4))) if not no_voice.is_empty() else ""],
+		"every line has a WAV (data/voice/manifest.json, speaker + text, or voice=)",
+		"render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest")
+	rep.check("V2", "subtitles", "voice fits its slot", "PASS" if long_voice.is_empty() else "WARN",
+		"all fit" if long_voice.is_empty() else ", ".join(long_voice.slice(0, 4)),
+		"the WAV ends before the next line starts", "start the next line later or give the line more room")

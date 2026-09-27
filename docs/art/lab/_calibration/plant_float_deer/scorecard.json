@@ -210,6 +210,34 @@
 			"weight": 1.0
 		},
 		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 (not graded for critter yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "28 shapes over 1 body parts (28.0 per part: (root) 28); 3% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.872",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) (not graded for critter yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "94% of the 1200 tris budget used (1134)",
+			"weight": 1.0
+		},
+		{
 			"fix": "R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m) [fixes.json #1]",
 			"fix_rank": 1,
 			"graded": 0.0,
@@ -240,45 +268,73 @@
 			"weight": 1.0
 		},
 		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C3",
+			"improve": "",
+			"name": "Palette depth (close-up)",
+			"rule": "craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up (not graded for critter yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "13 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C4",
+			"improve": "Big plain panels inside the silhouette (0.7 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
+			"name": "Inner detail (close-up / 25 m)",
+			"rule": "craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) (not graded for critter yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "inner edges per outline px: 0.7 at the close-up (31262 px), 0.81 at 25 m; close-up outline complexity 17.27",
+			"weight": 1.0
+		},
+		{
 			"graded": 1.0,
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 463 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 457 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 25 px (FAIL < 8) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "463 px (25 x 51 bbox; 55 m: 220 px)",
+			"value": "457 px (26 x 49 bbox; 55 m: 223 px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.841003488951653,
+			"graded": 0.861471132805925,
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 53.2): raise the value step between the big masses and the ground (dL -28 now)",
+			"improve": "Raise the contrast of the key read on meadow (dE 53.4): raise the value step between the big masses and the ground (dL -27 now)",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 7 or > 60 % melting): the body must not melt into the grass",
-			"score": 0.952301046685496,
+			"score": 0.958441339841777,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 53.2, 15% of the body melts (within dE 15 of the ground); body L* 31.2 C 28.8 vs ground L* 59.8 C 49.9, hue gap 62 deg; top third (world height) dE 28.4, L* 43.4; per-pixel dE 57.0, outline 42.1",
+			"value": "mean-colour dE 53.4, 14% of the body melts (within dE 15 of the ground); body L* 31.7 C 28.7 vs ground L* 59.7 C 49.9, hue gap 64 deg; top third (world height) dE 27.2, L* 45.1; per-pixel dE 57.5, outline 43.1",
 			"weight": 1.5
 		},
 		{
-			"graded": 0.78949853352138,
+			"graded": 0.791073458535331,
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
 			"improve": "On marsh the body drops to dE 17.5: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 7 on every skirmish ground (WARN only)",
-			"score": 0.936849560056414,
+			"score": 0.937322037560599,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst marsh: dE 17.5 (heath dE 29.2, old_wood dE 25.5, riverbank dE 43.1, snow dE 59.0, ash dE 22.2, sand dE 49.5, marsh dE 17.5)",
+			"value": "worst marsh: dE 17.5 (heath dE 28.9, old_wood dE 26.3, riverbank dE 43.3, snow dE 58.9, ash dE 22.9, sand dE 49.2, marsh dE 17.5)",
 			"weight": 1.0
 		},
 		{
@@ -292,7 +348,7 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 4.97",
+			"value": "outline complexity 4.68",
 			"weight": 1.0
 		},
 		{
@@ -306,7 +362,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 43.4, bottom third L* 12.2 (+31, world height)",
+			"value": "top third L* 45.1, bottom third L* 12.5 (+32, world height)",
 			"weight": 1.0
 		},
 		{
@@ -320,7 +376,7 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 6.6 at 25 m, 10.0 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 7.5 at 25 m, 11.1 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
@@ -338,17 +394,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.96994882436964,
+			"graded": 0.960047567351533,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 25 px (WARN only)",
-			"score": 0.990984647310892,
+			"score": 0.98801427020546,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.83 (min 0.77), area kept 99-105% (min 434 px), frame-to-frame IoU min 0.8; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.83 (min 0.76), area kept 99-104% (min 435 px), frame-to-frame IoU min 0.78; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
@@ -368,7 +424,7 @@
 	],
 	"counts": {
 		"FAIL": 1,
-		"INFO": 10,
+		"INFO": 14,
 		"PASS": 14,
 		"SKIP": 0,
 		"WARN": 0
@@ -384,23 +440,23 @@
 			"title": "Feet on the ground"
 		},
 		{
-			"rank": 0.143096859943512,
-			"source": "R3 Contrast vs ground (meadow), shot z40",
-			"status": "PASS",
-			"text": "Raise the contrast of the key read on meadow (dE 53.2): raise the value step between the big masses and the ground (dL -28 now)",
-			"title": "Contrast vs ground (meadow)"
-		},
-		{
-			"rank": 0.126300879887172,
+			"rank": 0.125355924878802,
 			"source": "R4 Contrast on the other grounds, shot z40",
 			"status": "PASS",
 			"text": "On marsh the body drops to dE 17.5: add a value accent that separates it there too",
 			"title": "Contrast on the other grounds"
+		},
+		{
+			"rank": 0.124675980474668,
+			"source": "R3 Contrast vs ground (meadow), shot z40",
+			"status": "PASS",
+			"text": "Raise the contrast of the key read on meadow (dE 53.4): raise the value step between the big masses and the ground (dL -27 now)",
+			"title": "Contrast vs ground (meadow)"
 		}
 	],
 	"kind": "critter",
 	"kingdom": "neutral",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Mesh 673 v / 1 s",
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
@@ -412,7 +468,7 @@
 	"quality": 90.6,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
-	"seconds": 12.3,
+	"seconds": 13.4,
 	"shots": {
 		"anim": "anim.jpg",
 		"close": "close.jpg",
@@ -422,6 +478,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 10:30:43",
+	"started": "2026-09-27 12:11:02",
 	"tier": "deer"
 }

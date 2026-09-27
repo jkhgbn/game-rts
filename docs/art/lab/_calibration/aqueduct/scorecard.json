@@ -196,6 +196,34 @@
 			"weight": 1.0
 		},
 		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "Plain / blocky shapes: 88% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 (not graded for landmark yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "232 shapes over 1 body parts (232.0 per part: (root) 232); 88% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.841",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "Only 38% of the vertex budget is used: spend it on the close / 25 m read (bevels, tapers, more sides on the big curved masses, secondary shapes)",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) (not graded for landmark yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "38% of the 20000 verts budget used (7666)",
+			"weight": 1.0
+		},
+		{
 			"graded": 1.0,
 			"group": "read",
 			"hint": "Sink the plinth / base 0.05-0.3 m into the ground and add the contact decal",
@@ -207,6 +235,34 @@
 			"shot": "",
 			"status": "PASS",
 			"value": "lowest point -1.22 m",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C3",
+			"improve": "",
+			"name": "Palette depth (close-up)",
+			"rule": "craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up (not graded for landmark yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "14 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C4",
+			"improve": "",
+			"name": "Inner detail (close-up / 25 m)",
+			"rule": "craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) (not graded for landmark yet)",
+			"score": -1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "inner edges per outline px: 3.7 at the close-up (90393 px), 4.89 at 25 m; close-up outline complexity 5.88",
 			"weight": 1.0
 		},
 		{
@@ -324,7 +380,7 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 8,
+		"INFO": 12,
 		"PASS": 14,
 		"SKIP": 0,
 		"WARN": 0
@@ -356,7 +412,7 @@
 	],
 	"kind": "landmark",
 	"kingdom": "neutral",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Model 7666 v / 2 s",
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
@@ -367,7 +423,7 @@
 	"quality": 98.2,
 	"result": "PASS",
 	"scene": "res://art/environment/landmarks/aqueduct.tscn",
-	"seconds": 15.8,
+	"seconds": 20.6,
 	"shots": {
 		"anim": "anim.jpg",
 		"close": "close.jpg",
@@ -377,6 +433,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 10:27:55",
+	"started": "2026-09-27 12:07:33",
 	"tier": "landmark"
 }

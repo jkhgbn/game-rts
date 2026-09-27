@@ -33,5 +33,12 @@ One line per candidate (`audition_line` in `data/voice/cast.json`), rendered by 
 | master | bm_lewis+bm_george+bm_fable | 0.82 | 5.14 | 127 | 13.0 | **yes** | master__bm_lewis+bm_george+bm_fable_x0.82.ogg |
 | master | bm_george+bm_fable | 0.85 | 4.72 | 129 | 14.2 |  | master__bm_george+bm_fable_x0.85.ogg |
 | master | bm_daniel+bm_fable | 0.85 | 4.25 | 127 | 15.8 |  | master__bm_daniel+bm_fable_x0.85.ogg |
+| messenger | bf_lily | 1.15 | 2.77 | 215 | 19.5 |  | messenger__bf_lily_x1.15.ogg |
+| messenger | bf_alice | 1.15 | 2.74 | 229 | 19.7 | **yes** | messenger__bf_alice_x1.15.ogg |
+| messenger | af_sky | 1.15 | 2.69 | 167 | 20.1 |  | messenger__af_sky_x1.15.ogg |
+| reveler | am_liam | 1.1 | 1.66 | 124 | 17.5 | **yes** | reveler__am_liam_x1.1.ogg |
+| reveler | am_adam | 1.1 | 1.56 | 118 | 18.6 |  | reveler__am_adam_x1.1.ogg |
+| dancer | af_nova | 1.1 | 1.8 | 164 | 16.1 |  | dancer__af_nova_x1.1.ogg |
+| dancer | af_jessica | 1.1 | 1.76 | 208 | 16.5 | **yes** | dancer__af_jessica_x1.1.ogg |
 
 Rendered in 323.8 s on ['CPUExecutionProvider'].

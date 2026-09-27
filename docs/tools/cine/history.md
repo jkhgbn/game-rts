@@ -45,3 +45,19 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 08:35:19 | reframe | watch_keep | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/watch_keep/report_reframe.md |
 | 2026-09-27 08:40:52 | build | lens_demo | 100 (+0) | PASS (0F 0W) | 43eec7869b94a187 | Look at the pictures; Timing sheet; Two-run hash | docs/tools/cine/out/lens_demo/report.md |
 | 2026-09-27 08:49:01 | build | lens_demo | 100 (+0) | PASS (0F 0W) | b79a19fa7d6ceb24 | Look at the pictures; Timing sheet; Two-run hash | docs/tools/cine/out/lens_demo/report.md |
+| 2026-09-27 12:12:29 | check | prologue_3min | 75 | WARN (0F 31W) | b3a12a7a91e6c739 | set forge_prologue_shadow (line 14); S30 line 1 (src 106); S29 line 1 (src 103) | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 12:14:46 | check | prologue_3min | 98 (+23) | WARN (0F 1W) | decf2ba910318ad8 | set forge_master_citadel (line 8); Look at the pictures; Timing sheet | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 12:23:47 | check | prologue_3min | 98 (+0) | WARN (0F 1W) | d3f351013fe1ecb1 | set forge_citadel (line 9); Look at the pictures; Timing sheet | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 12:56:22 | check | prologue_3min | 97 (+0) | FAIL (1F 0W) | 016b1628aec00632 | cut S20>S21 axis; Look at the pictures; Timing sheet | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:02:13 | check | prologue_3min | 89 (-8) | FAIL (4F 0W) | f0e282a8d9df1b2f | cut S15>S15U axis; cut S15U>S16 axis; cut S19>S19U axis | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:03:36 | check | prologue_3min | 99 (+10) | WARN (0F 1W) | 5dd728bc16e6fdda | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:05:14 | stills | prologue_3min | 100 | PASS (0F 0W) | ad84fd2e3c6cee79 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 13:09:55 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 3adb8c57ff2afb50 | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:10:51 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 1e728136a6c0c1b3 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 13:13:36 | record | prologue_3min | 100 | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |
+| 2026-09-27 13:14:27 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 16f756dbfc2d6a5a |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 13:20:32 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | e588093ee3ed0e21 | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:22:30 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | a747ab5d8fa22ed4 | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:27:04 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | e7f55ebeb10b7db1 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-27 13:30:18 | check | prologue_3min | 99 (+0) | WARN (0F 1W) | 316af19158365c85 | S16 face vessa; S15U face scorchbow; S23U face colossus | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-27 13:31:26 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |

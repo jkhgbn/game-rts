@@ -327,3 +327,12 @@ UI Lab v2 (`docs/ui/lab/scorecard.md`, laptop 1600x900 + 1920x1080, FAIL 96). Ne
   (and use the same value in `_draw_timer`). Optional: a "Voices" volume slider (`Voice` bus) / "Voices off"
   (`VoicePlayer.enabled = false`) in Settings. You own both files; move / restyle the player freely, keep
   `play_line(speaker, text) -> bool`, `has_line`, `line_duration`, signal `voice_started` (tests/test_tool_voice_forge.gd uses them).
+
+## From gameplay-coder (bowmen, 2026-09-27): Hall upgrade buttons (docs/design/bowmen.md 4 / 7)
+- Each skirmish Hall now lists its kingdom bowman as slot 5 (key B): Frostbow / Scorchbow / Bleakbow / Wildwood Archer.
+  Please add `TRAIN_DESCRIPTIONS` lines (bowmen.md 3) and icons `art/icons/units/<id>.png` when made.
+- Upgrades bought at that Hall: rows from `BowmanUpgrades.options_for(hall) -> Array[Dictionary]` (`id, name, text,
+  crystals, time, state` &"ready" / &"working" / &"done" / &"locked", `progress` 0-1, `reason` "" = can buy). Click ->
+  `BowmanUpgrades.for_team(hall.team).buy(id, hall)` (returns "" or the refusal). Signals on that node:
+  `upgrade_started(id)`, `upgrade_completed(id)`, `upgrade_cancelled(id, refund)`. Suggested: row 2 of the Hall card
+  after Set Rally, keys N / M (+ one more for the Grove Hall's 3 rows), tooltip = `text` + price + time.

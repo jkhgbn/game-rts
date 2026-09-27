@@ -20,6 +20,9 @@ void fragment() {
 	float edge = smoothstep(0.0, 0.12, u) * smoothstep(1.0, 0.88, u);
 	float bottom = smoothstep(0.75, 1.0, v);
 	vec3 c = mix(deep, foam, clamp(streak * 0.8 + bottom * 0.7 + 0.15, 0.0, 1.0));
-	ALBEDO = c * COLOR.rgb * 1.15;
+	// glints: sparse sparkles riding down with the water, pushed over the glow threshold
+	float gc = h1(col * 3.3 + floor(v * 26.0 - TIME * sp * 9.0) * 17.1);
+	float glint = smoothstep(0.955, 1.0, gc) * edge * (0.6 + 0.4 * sin(TIME * 11.0 + col));
+	ALBEDO = c * COLOR.rgb * 1.2 + vec3(1.0, 0.95, 0.85) * glint * 2.4;
 	ALPHA = clamp((0.55 + 0.4 * streak) * edge + bottom * 0.2, 0.0, 0.95) * COLOR.a;
 }

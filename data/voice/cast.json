@@ -85,6 +85,24 @@
    "voice": "bf_isabella", "speed": 0.96,
    "notes": "Maelis Oakenhollow (Ysolde's helper): British woman, older than Ysolde.",
    "audition_line": "The roots remember what the branches forget."
+  },
+  "messenger": {
+   "voice": "bf_alice", "speed": 1.15,
+   "notes": "Wren, a young runner of the Sighing Wood (ep2_opening). JS 2026-09-27: 'very scared and young and stumbling'. Kokoro cannot act, so: a young British girl's voice (Nature's people are British; bf_alice picked: highest pitch of 3, 229 Hz, the youngest), speed 1.15, and the stumbles are written into the text (repeats, broken starts, ellipses, short breathless lines split so the gaps sound like gasps). Not a main character's voice.",
+   "audition_line": "My... my lady. The army, it's... it's gone. All of it.",
+   "audition": [{"voice": "bf_lily", "speed": 1.15}, {"voice": "bf_alice", "speed": 1.15}, {"voice": "af_sky", "speed": 1.15}]
+  },
+  "reveler": {
+   "voice": "am_liam", "speed": 1.1,
+   "notes": "A Flame Guard at the victory feast (ep2_opening): young, loud, cheerful American man (Fire's soldiers are American like Vessa and Ashby).",
+   "audition_line": "To Vessa! To the Ember Queen!",
+   "audition": [{"voice": "am_liam", "speed": 1.1}, {"voice": "am_adam", "speed": 1.1}]
+  },
+  "dancer": {
+   "voice": "af_jessica", "speed": 1.1,
+   "notes": "An Ember Archer who pulls Vessa into the dance (ep2_opening): bright young American woman, lighter than Vessa's af_heart (af_jessica picked over af_nova: 208 vs 164 Hz).",
+   "audition_line": "Come on, my queen! One dance!",
+   "audition": [{"voice": "af_nova", "speed": 1.1}, {"voice": "af_jessica", "speed": 1.1}]
   }
  }
 }

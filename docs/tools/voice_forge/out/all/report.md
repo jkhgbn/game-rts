@@ -1,10 +1,10 @@
-# voice_forge check: all
+# voice_forge build: all
 
-2026-09-27 12:23:51 - `tools/voice_forge/run_voice_forge.ps1 check all` - hash `fcfdd3474687622c` (manifest.json (line keys are content hashes))
+2026-09-27 13:29:40 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `2172bf493c1ba2d7` (manifest.json (line keys are content hashes))
 
 ## Result: **WARN** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 1 WARN, 14 PASS, 0 info, 0 skipped, 2 s
+0 FAIL, 1 WARN, 14 PASS, 1 info, 0 skipped, 25 s
 
 ## Improve next
 1. **voice fits its slot** (WARN): the lines listed in the notes _(from F1 voice fits its slot)_
@@ -14,15 +14,16 @@
 ## Data (cast, index, manifest)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | cast.json | PASS 100 | 16 speakers | parses, has speakers |  |
-| D2 | lines found | PASS 100 | 80 unique lines | > 0 |  |
-| D3 | manifest entries | PASS 100 | 80 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
+| D1 | cast.json | PASS 100 | 19 speakers | parses, has speakers |  |
+| D2 | lines found | PASS 100 | 108 unique lines | > 0 |  |
+| D3 | manifest entries | PASS 100 | 108 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
 | D4 | speakers cast | PASS 100 | all cast | every speaker has a voice in cast.json |  |
+| D5 | speakers vs Speakers.TABLE | INFO | dancer, messenger, reveler | subtitle names known |  |
 
 ## Coverage (every spoken line has audio)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | lines with audio | PASS 100 | 80 / 80 | every spoken line has a WAV |  |
+| C1 | lines with audio | PASS 100 | 108 / 108 | every spoken line has a WAV |  |
 | C2 | mission lines voiced | PASS 100 | 15 / 15 | all mission dialogue voiced |  |
 | C3 | imported | PASS 100 | 0 not importable | load(path) is AudioStream |  |
 | C4 | orphan WAVs | PASS 100 | 0 | no manifest line without a source |  |
@@ -30,7 +31,7 @@
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 67 | 5 / 110 over (0 by > 15 %) | voice length <= cine slot / subtitle time | raise the speaker's speed in cast.json, lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 68 | 6 / 138 over (0 by > 15 %) | voice length <= cine slot / subtitle time | raise the speaker's speed in cast.json, lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -39,7 +40,7 @@
 | A2 | clipping | PASS 100 | none | no sample at full scale |  |
 | A3 | peak level | PASS 100 | -1.0..-1.0 dBFS | -2..-0.5 dBFS (target -1) |  |
 | A4 | trimmed | PASS 100 | 0 untrimmed  | lead <= 0.12 s, tail <= 0.20 s of silence |  |
-| A5 | size | PASS 97 | 14.2 MB source WAV, 5.2 min of speech | <= 40 MB |  |
+| A5 | size | PASS 96 | 16.4 MB source WAV, 6.0 min of speech | <= 40 MB |  |
 
 ## Game hookup
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -54,6 +55,7 @@
 - source: data/cinematics/src/two_wizards.cine: 1 lines
 - source: data/cinematics/src/watch_keep.cine: 4 lines
 - source: data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)
+- source: data/voice/lines/ep2_opening.json: 28 lines
 - source: data/voice/lines/ep3_opening.json: 15 lines
 - source: data/voice/lines/ep4_opening.json: 15 lines
 - source: data/voice/lines/prologue_3min.json: 30 lines
@@ -62,6 +64,7 @@
 - over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s
 - over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
 - over slot: vessa/an_ember_crown_in_21770f9f L2: 5.59 s > subtitle 5.00 s
-- this build: 30.0 rendered, 50.0 unchanged
-- last render: 30.0 lines, 124.1 s of audio in 241.9 s (x1.95 real time) on ["CPUExecutionProvider"], at 2026-09-27 12:21:33
-- total: 80 lines, 5.18 min of speech
+- over slot: vessa/but_her_people_have_6f60fcc0 ep2_opening/L23: 2.88 s > cine slot 2.80 s
+- this build: 28.0 rendered, 80.0 unchanged
+- last render: 28.0 lines, 47.6 s of audio in 175.0 s (x3.67 real time) on ["CPUExecutionProvider"], at 2026-09-27 13:23:24
+- total: 108 lines, 5.97 min of speech

@@ -9,12 +9,77 @@
   "data/cinematics/src/two_wizards.cine: 1 lines",
   "data/cinematics/src/watch_keep.cine: 4 lines",
   "data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)",
+  "data/voice/lines/ep2_opening.json: 28 lines",
   "data/voice/lines/ep3_opening.json: 15 lines",
   "data/voice/lines/ep4_opening.json: 15 lines",
   "data/voice/lines/prologue_3min.json: 30 lines"
  ],
- "count": 80,
+ "count": 108,
  "lines": [
+  {
+   "id": "ashby/emberguard_boots_on_we_41d6a1ed",
+   "speaker": "ashby",
+   "text": "Emberguard! Boots on! We march at first light!",
+   "text_hash": "41d6a1ede73ad110",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L26",
+     "slot": 3.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  {
+   "id": "ashby/rider_at_the_gate_f3c9142f",
+   "speaker": "ashby",
+   "text": "Rider at the gate! Make way!",
+   "text_hash": "f3c9142f340aed62",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L07",
+     "slot": 3.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  {
+   "id": "ashby/three_relics_one_colossus_cbec31ed",
+   "speaker": "ashby",
+   "text": "Three relics! One Colossus! Drink!",
+   "text_hash": "cbec31ed6070c157",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L06",
+     "slot": 3.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  {
+   "id": "dancer/come_on_my_queen_d768fe5e",
+   "speaker": "dancer",
+   "text": "Come on, my queen! One dance!",
+   "text_hash": "d768fe5e2d8e3de6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L02",
+     "slot": 2.1,
+     "slot_kind": "cine slot",
+     "speaker_id": "dancer"
+    }
+   ]
+  },
   {
    "id": "malrik/and_me_he_gave_ad0ff01f",
    "speaker": "malrik",
@@ -327,7 +392,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:94",
+     "source": "data/cinematics/src/prologue_3min.cine:266",
      "ref": "prologue_3min/S27@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -351,7 +416,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:73",
+     "source": "data/cinematics/src/prologue_3min.cine:207",
      "ref": "prologue_3min/S20@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -375,7 +440,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:85",
+     "source": "data/cinematics/src/prologue_3min.cine:249",
      "ref": "prologue_3min/S24@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -399,7 +464,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:61",
+     "source": "data/cinematics/src/prologue_3min.cine:162",
      "ref": "prologue_3min/S16@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -423,7 +488,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:97",
+     "source": "data/cinematics/src/prologue_3min.cine:287",
      "ref": "prologue_3min/S28@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -447,7 +512,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:24",
+     "source": "data/cinematics/src/prologue_3min.cine:54",
      "ref": "prologue_3min/S04@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -471,7 +536,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:49",
+     "source": "data/cinematics/src/prologue_3min.cine:113",
      "ref": "prologue_3min/S12@0.1",
      "slot": 2.8,
      "slot_kind": "cine shot",
@@ -495,7 +560,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:58",
+     "source": "data/cinematics/src/prologue_3min.cine:138",
      "ref": "prologue_3min/S15@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -519,7 +584,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:30",
+     "source": "data/cinematics/src/prologue_3min.cine:61",
      "ref": "prologue_3min/S06@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -543,7 +608,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:76",
+     "source": "data/cinematics/src/prologue_3min.cine:211",
      "ref": "prologue_3min/S21@0.3",
      "slot": 7.6,
      "slot_kind": "cine shot",
@@ -567,7 +632,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:21",
+     "source": "data/cinematics/src/prologue_3min.cine:51",
      "ref": "prologue_3min/S03@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -591,7 +656,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:52",
+     "source": "data/cinematics/src/prologue_3min.cine:119",
      "ref": "prologue_3min/S13@0.8",
      "slot": 5.1,
      "slot_kind": "cine shot",
@@ -615,7 +680,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:88",
+     "source": "data/cinematics/src/prologue_3min.cine:254",
      "ref": "prologue_3min/S25@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -639,7 +704,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:103",
+     "source": "data/cinematics/src/prologue_3min.cine:297",
      "ref": "prologue_3min/S30@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -663,7 +728,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:100",
+     "source": "data/cinematics/src/prologue_3min.cine:291",
      "ref": "prologue_3min/S29@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -687,7 +752,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:27",
+     "source": "data/cinematics/src/prologue_3min.cine:57",
      "ref": "prologue_3min/S05@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -711,7 +776,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:67",
+     "source": "data/cinematics/src/prologue_3min.cine:177",
      "ref": "prologue_3min/S18@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -735,7 +800,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:40",
+     "source": "data/cinematics/src/prologue_3min.cine:88",
      "ref": "prologue_3min/S09@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -759,7 +824,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:82",
+     "source": "data/cinematics/src/prologue_3min.cine:230",
      "ref": "prologue_3min/S23@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -783,7 +848,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:70",
+     "source": "data/cinematics/src/prologue_3min.cine:181",
      "ref": "prologue_3min/S19@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -807,7 +872,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:15",
+     "source": "data/cinematics/src/prologue_3min.cine:45",
      "ref": "prologue_3min/S01@1.2",
      "slot": 5.7,
      "slot_kind": "cine shot",
@@ -831,7 +896,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:64",
+     "source": "data/cinematics/src/prologue_3min.cine:169",
      "ref": "prologue_3min/S17@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -855,7 +920,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:33",
+     "source": "data/cinematics/src/prologue_3min.cine:65",
      "ref": "prologue_3min/S07@0.3",
      "slot": 4.6,
      "slot_kind": "cine shot",
@@ -879,7 +944,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:18",
+     "source": "data/cinematics/src/prologue_3min.cine:48",
      "ref": "prologue_3min/S02@0.4",
      "slot": 6.5,
      "slot_kind": "cine shot",
@@ -903,7 +968,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:43",
+     "source": "data/cinematics/src/prologue_3min.cine:97",
      "ref": "prologue_3min/S10@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -927,7 +992,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:79",
+     "source": "data/cinematics/src/prologue_3min.cine:221",
      "ref": "prologue_3min/S22@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -951,7 +1016,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:37",
+     "source": "data/cinematics/src/prologue_3min.cine:80",
      "ref": "prologue_3min/S08@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -975,7 +1040,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:55",
+     "source": "data/cinematics/src/prologue_3min.cine:128",
      "ref": "prologue_3min/S14@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -999,7 +1064,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:91",
+     "source": "data/cinematics/src/prologue_3min.cine:260",
      "ref": "prologue_3min/S26@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1023,7 +1088,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:46",
+     "source": "data/cinematics/src/prologue_3min.cine:105",
      "ref": "prologue_3min/S11@0.2",
      "slot": 2.7,
      "slot_kind": "cine shot",
@@ -1036,6 +1101,182 @@
      "slot": 2.8,
      "slot_kind": "cine slot",
      "speaker_id": "master"
+    }
+   ]
+  },
+  {
+   "id": "messenger/all_of_it_i_dea99842",
+   "speaker": "messenger",
+   "text": "All of it. I saw it burn.",
+   "text_hash": "dea99842215bcf59",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L15",
+     "slot": 1.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/and_ice_together_961d4f64",
+   "speaker": "messenger",
+   "text": "And Ice. Together.",
+   "text_hash": "961d4f64a36f6ef3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L13",
+     "slot": 1.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/and_then_then_it_cafb3e3f",
+   "speaker": "messenger",
+   "text": "And then... then it froze.",
+   "text_hash": "cafb3e3fbf86386c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L16",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/lady_ysolde_9f770e28",
+   "speaker": "messenger",
+   "text": "Lady Ysolde.",
+   "text_hash": "9f770e28d23b4371",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L11",
+     "slot": 1.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/my_my_lady_612f36fb",
+   "speaker": "messenger",
+   "text": "My... my lady?",
+   "text_hash": "612f36fb9c6c2550",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L08",
+     "slot": 1.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/she_said_remember_she_80a331e3",
+   "speaker": "messenger",
+   "text": "She said... remember. She warned you.",
+   "text_hash": "80a331e36b05ef8b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L20",
+     "slot": 2.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/she_said_youd_laugh_1a583b4e",
+   "speaker": "messenger",
+   "text": "She said you'd laugh.",
+   "text_hash": "1a583b4e9630a280",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L19",
+     "slot": 1.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/thank_you_thank_you_904e8e7d",
+   "speaker": "messenger",
+   "text": "Thank you... thank you.",
+   "text_hash": "904e8e7d7df285d6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L27",
+     "slot": 1.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/the_army_its_gone_ecf8d151",
+   "speaker": "messenger",
+   "text": "The army... it's gone.",
+   "text_hash": "ecf8d1517bb884d2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L14",
+     "slot": 1.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/the_ember_queen_which_0214be28",
+   "speaker": "messenger",
+   "text": "The Ember Queen? Which one is...",
+   "text_hash": "0214be285adfee3d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L09",
+     "slot": 1.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  {
+   "id": "messenger/the_wood_shadow_came_0780bf02",
+   "speaker": "messenger",
+   "text": "The wood... Shadow came.",
+   "text_hash": "0780bf026c5680e3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L12",
+     "slot": 1.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "messenger"
     }
    ]
   },
@@ -1120,6 +1361,22 @@
    ]
   },
   {
+   "id": "reveler/to_vessa_to_the_79ccdcb8",
+   "speaker": "reveler",
+   "text": "To Vessa! To the Ember Queen!",
+   "text_hash": "79ccdcb87e4b8359",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L01",
+     "slot": 3.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "reveler"
+    }
+   ]
+  },
+  {
    "id": "shade/the_keep_sleeps_so_dac3a4b3",
    "speaker": "shade",
    "text": "The keep sleeps. So should you.",
@@ -1152,6 +1409,54 @@
    ]
   },
   {
+   "id": "vessa/but_her_people_have_6f60fcc0",
+   "speaker": "vessa",
+   "text": "But her people have no one else. I need you. All of you.",
+   "text_hash": "6f60fcc0efea09e3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L23",
+     "slot": 2.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/hold_on_ysolde_fire_413040f1",
+   "speaker": "vessa",
+   "text": "Hold on, Ysolde. Fire is coming.",
+   "text_hash": "413040f150683609",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L28",
+     "slot": 3.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/i_know_youre_tired_54835bf6",
+   "speaker": "vessa",
+   "text": "I know you're tired. I know we just won.",
+   "text_hash": "54835bf6c63dbf85",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L22",
+     "slot": 2.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
    "id": "vessa/im_here_for_the_10aceb62",
    "speaker": "vessa",
    "text": "I'm here for the crown, not a lecture. Fine. Both.",
@@ -1168,6 +1473,54 @@
    ]
   },
   {
+   "id": "vessa/im_not_laughing_ac71c3e1",
+   "speaker": "vessa",
+   "text": "I'm not laughing.",
+   "text_hash": "ac71c3e15b1b5a1b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L21",
+     "slot": 1.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/malriks_side_ccd3f916",
+   "speaker": "vessa",
+   "text": "Malrik's side.",
+   "text_hash": "ccd3f916d1ad0b35",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L18",
+     "slot": 2.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/me_breathe_who_sent_798d6010",
+   "speaker": "vessa",
+   "text": "Me. Breathe. Who sent you?",
+   "text_hash": "798d60105dbec88b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L10",
+     "slot": 1.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
    "id": "vessa/not_tonight_0703ac9b",
    "speaker": "vessa",
    "text": "Not tonight.",
@@ -1179,6 +1532,22 @@
      "ref": "watch_keep/S7@1.2",
      "slot": 3.8,
      "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/one_dance_then_im_faec23ce",
+   "speaker": "vessa",
+   "text": "One dance. Then I'm eating everything.",
+   "text_hash": "faec23ce3539c938",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L03",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
    ]
@@ -1264,6 +1633,38 @@
    ]
   },
   {
+   "id": "vessa/vey_get_up_and_c64e0931",
+   "speaker": "vessa",
+   "text": "Vey! Get up and dance!",
+   "text_hash": "c64e0931aedbd576",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L04",
+     "slot": 1.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/vey_ride_with_me_5b43aae2",
+   "speaker": "vessa",
+   "text": "Vey. Ride with me?",
+   "text_hash": "5b43aae2212b97c6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L24",
+     "slot": 1.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
    "id": "vessa/who_walks_the_wall_45dd4c19",
    "speaker": "vessa",
    "text": "Who walks the wall at this hour?",
@@ -1308,6 +1709,54 @@
      "slot": 1.8,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vey/i_felled_a_mountain_227f8c5f",
+   "speaker": "vey",
+   "text": "I felled a mountain yesterday, girl. I'll clap.",
+   "text_hash": "227f8c5fdb0e0be6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L05",
+     "slot": 4.1,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  {
+   "id": "vey/so_torvald_chose_a_396c70fe",
+   "speaker": "vey",
+   "text": "So Torvald chose a side.",
+   "text_hash": "396c70fe80ef4156",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L17",
+     "slot": 2.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  {
+   "id": "vey/the_spark_first_girl_92374f56",
+   "speaker": "vey",
+   "text": "The spark first, girl. Then the storm.",
+   "text_hash": "92374f56ef3ae15f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_opening.json",
+     "ref": "ep2_opening/L25",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
     }
    ]
   },

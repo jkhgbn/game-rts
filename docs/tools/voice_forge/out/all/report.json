@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "16 speakers",
+			"value": "19 speakers",
 			"weight": 1.0
 		},
 		{
@@ -27,7 +27,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "80 unique lines",
+			"value": "108 unique lines",
 			"weight": 1.0
 		},
 		{
@@ -41,7 +41,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "80 entries, 0 bad ",
+			"value": "108 entries, 0 bad ",
 			"weight": 1.0
 		},
 		{
@@ -59,6 +59,20 @@
 			"weight": 1.0
 		},
 		{
+			"graded": -1.0,
+			"group": "data",
+			"hint": "ask ui-coder to add them to scripts/ui/cinematic/speakers.gd",
+			"id": "D5",
+			"improve": "",
+			"name": "speakers vs Speakers.TABLE",
+			"rule": "subtitle names known",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "dancer, messenger, reveler",
+			"weight": 1.0
+		},
+		{
 			"graded": 1.0,
 			"group": "cover",
 			"hint": "run_voice_forge.ps1 build",
@@ -69,7 +83,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "80 / 80",
+			"value": "108 / 108",
 			"weight": 1.0
 		},
 		{
@@ -115,17 +129,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.954545454545455,
+			"graded": 0.956521739130435,
 			"group": "fit",
 			"hint": "raise the speaker's speed in cast.json, lengthen the slot, or shorten the line",
 			"id": "F1",
 			"improve": "the lines listed in the notes",
 			"name": "voice fits its slot",
 			"rule": "voice length <= cine slot / subtitle time",
-			"score": 0.674545454545455,
+			"score": 0.675217391304348,
 			"shot": "",
 			"status": "WARN",
-			"value": "5 / 110 over (0 by > 15 %)",
+			"value": "6 / 138 over (0 by > 15 %)",
 			"weight": 1.0
 		},
 		{
@@ -185,17 +199,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.915646362304688,
+			"graded": 0.872010803222656,
 			"group": "audio",
 			"hint": "the import is QOA-compressed (~5x smaller in the build)",
 			"id": "A5",
 			"improve": "",
 			"name": "size",
 			"rule": "<= 40 MB",
-			"score": 0.974693908691406,
+			"score": 0.961603240966797,
 			"shot": "",
 			"status": "PASS",
-			"value": "14.2 MB source WAV, 5.2 min of speech",
+			"value": "16.4 MB source WAV, 6.0 min of speech",
 			"weight": 1.0
 		},
 		{
@@ -215,7 +229,7 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 0,
+		"INFO": 1,
 		"PASS": 14,
 		"SKIP": 0,
 		"WARN": 1
@@ -228,13 +242,13 @@
 		"fit": "Fit (voice length vs cine slot / subtitle time)",
 		"hook": "Game hookup"
 	},
-	"hash": "fcfdd3474687622c",
+	"hash": "2172bf493c1ba2d7",
 	"hash_note": "manifest.json (line keys are content hashes)",
 	"headless": false,
 	"id": "all",
 	"improve_next": [
 		{
-			"rank": 10.3254545454545,
+			"rank": 10.3247826086957,
 			"source": "F1 voice fits its slot",
 			"status": "WARN",
 			"text": "the lines listed in the notes",
@@ -255,7 +269,7 @@
 			"title": "Voice the cinematics"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source: docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines",
@@ -265,6 +279,7 @@
 		"source: data/cinematics/src/two_wizards.cine: 1 lines",
 		"source: data/cinematics/src/watch_keep.cine: 4 lines",
 		"source: data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)",
+		"source: data/voice/lines/ep2_opening.json: 28 lines",
 		"source: data/voice/lines/ep3_opening.json: 15 lines",
 		"source: data/voice/lines/ep4_opening.json: 15 lines",
 		"source: data/voice/lines/prologue_3min.json: 30 lines",
@@ -273,18 +288,19 @@
 		"over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s",
 		"over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s",
 		"over slot: vessa/an_ember_crown_in_21770f9f L2: 5.59 s > subtitle 5.00 s",
-		"this build: 30.0 rendered, 50.0 unchanged",
-		"last render: 30.0 lines, 124.1 s of audio in 241.9 s (x1.95 real time) on [\"CPUExecutionProvider\"], at 2026-09-27 12:21:33",
-		"total: 80 lines, 5.18 min of speech"
+		"over slot: vessa/but_her_people_have_6f60fcc0 ep2_opening/L23: 2.88 s > cine slot 2.80 s",
+		"this build: 28.0 rendered, 80.0 unchanged",
+		"last render: 28.0 lines, 47.6 s of audio in 175.0 s (x3.67 real time) on [\"CPUExecutionProvider\"], at 2026-09-27 13:23:24",
+		"total: 108 lines, 5.97 min of speech"
 	],
 	"previous_quality": 98.1,
-	"quality": 98.1,
+	"quality": 98.0,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 1.6,
+	"seconds": 25.0,
 	"shots": {},
-	"started": "2026-09-27 12:23:51",
+	"started": "2026-09-27 13:29:40",
 	"tier": "",
 	"tool": "voice_forge",
-	"verb": "check"
+	"verb": "build"
 }

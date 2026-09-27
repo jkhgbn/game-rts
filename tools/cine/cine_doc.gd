@@ -12,7 +12,7 @@ const ACTION_KINDS := ["line", "move", "teleport", "face", "anim", "clip", "vfx"
 	"show", "hide", "call", "set_shot"]
 const ACTION_KEYS := {
 	"line": ["dur", "voice"], "move": ["to", "speed"], "teleport": ["to", "yaw"], "face": ["yaw", "to", "time"],
-	"anim": ["arg"], "clip": [], "vfx": ["at", "to", "scene", "life"], "sfx": ["vol"], "music": ["vol"],
+	"anim": ["arg"], "clip": [], "vfx": ["at", "to", "scene", "life", "yaw", "scale"], "sfx": ["vol"], "music": ["vol"],
 	"shake": [], "fade": ["color", "alpha", "time"], "title": ["sub", "time"], "show": [], "hide": ["fade"],
 	"call": ["args", "on_skip"], "set_shot": [],
 }
@@ -34,6 +34,7 @@ var lines_path: String = ""
 var lines_line: ToolSpecLine
 var music: String = ""
 var music_line: ToolSpecLine
+var music_vol: float = -8.0          # use music <path> vol=<dB>
 var env: Dictionary = {"preset": "night", "moon_yaw": 35.0, "moon_pitch": -38.0, "energy": 0.6, "color": Color(0.62, 0.7, 1.0)}
 var cast: Dictionary = {}          # tag -> {tag, scene, pos, yaw, hidden, speaker, line: ToolSpecLine}
 var cast_order: Array[String] = []
@@ -154,7 +155,7 @@ func _read_header(l: ToolSpecLine) -> void:
 
 
 func _read_use(l: ToolSpecLine) -> void:
-	spec.check_keys(l, [])
+	spec.check_keys(l, ["vol"])
 	var what := l.arg(0, "")
 	match what:
 		"set":
@@ -168,12 +169,14 @@ func _read_use(l: ToolSpecLine) -> void:
 		"music":
 			music = l.arg(1, "")
 			music_line = l
+			if l.has("vol"):
+				music_vol = _num(l, l.get_str("vol"), "vol", -8.0)
 		_:
 			spec.error(l, what, "unknown use \"%s\"" % what, ["set", "lines", "music"])
 
 
 func _read_cast(l: ToolSpecLine) -> void:
-	spec.check_keys(l, ["at", "yaw", "hidden", "speaker"])
+	spec.check_keys(l, ["at", "yaw", "hidden", "speaker", "set", "scale"])
 	var tag := l.arg(0, "")
 	if tag == "" or l.arg(1, "") == "":
 		spec.error(l, "cast", "cast <tag> <res://model.tscn | capsule> at=(x, y, z) yaw=<deg>")
@@ -184,18 +187,20 @@ func _read_cast(l: ToolSpecLine) -> void:
 	var pos: Variant = _vec(l, l.get_str("at", "(0,0,0)"), "at")
 	cast[tag] = {"tag": tag, "scene": l.arg(1), "pos": pos if pos != null else Vector3.ZERO,
 		"yaw": _num(l, l.get_str("yaw", "0"), "yaw", 0.0), "hidden": l.get_bool("hidden", false),
-		"speaker": l.get_str("speaker", tag), "line": l}
+		"speaker": l.get_str("speaker", tag), "line": l, "set": l.get_str("set", ""),
+		"scale": _num(l, l.get_str("scale", "1"), "scale", 1.0)}
 	cast_order.append(tag)
 
 
 func _read_prop(l: ToolSpecLine) -> void:
-	spec.check_keys(l, ["at", "yaw", "scale"])
+	spec.check_keys(l, ["at", "yaw", "scale", "set"])
 	if l.arg(1, "") == "":
-		spec.error(l, "prop", "prop <name> <res://scene.tscn> at=(x, y, z) yaw=<deg> scale=<k>")
+		spec.error(l, "prop", "prop <name> <res://scene.tscn> at=(x, y, z) yaw=<deg> scale=<k> [set=<set_id>]")
 		return
 	var pos: Variant = _vec(l, l.get_str("at", "(0,0,0)"), "at")
 	props.append({"name": l.arg(0), "scene": l.arg(1), "pos": pos if pos != null else Vector3.ZERO,
-		"yaw": _num(l, l.get_str("yaw", "0"), "yaw", 0.0), "scale": _num(l, l.get_str("scale", "1"), "scale", 1.0), "line": l})
+		"yaw": _num(l, l.get_str("yaw", "0"), "yaw", 0.0), "scale": _num(l, l.get_str("scale", "1"), "scale", 1.0), "line": l,
+		"set": l.get_str("set", "")})
 
 
 func _read_env(l: ToolSpecLine) -> void:

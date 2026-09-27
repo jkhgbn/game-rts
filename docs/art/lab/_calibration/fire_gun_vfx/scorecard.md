@@ -1,8 +1,8 @@
 # Art Lab scorecard: fire_gun_vfx
 
-Scene `res://art/vfx/unit_fire_gun_vfx.gd` · kind **vfx** / tier **family** · kingdom fire · ground meadow · 2026-09-27 10:28:12 · lab v2.0
+Scene `res://art/vfx/unit_fire_gun_vfx.gd` · kind **vfx** / tier **family** · kingdom fire · ground meadow · 2026-09-27 12:07:54 · lab v3.1
 
-## Result: **PASS** · quality **100 / 100**
+## Result: **PASS** · quality **100 / 100** (100.0)
 
 0 FAIL · 0 WARN · 8 PASS · 1 info · 0 skipped · 45 s
 
@@ -21,7 +21,7 @@ Scene `res://art/vfx/unit_fire_gun_vfx.gd` · kind **vfx** / tier **family** · 
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | B5 | Real lights during effects | PASS 100 | max 0 | 0 (emission + bloom) |  |
-| B13 | Frame cost (all ids x 3 in 1 s) | INFO | process +0.003 ms, render CPU +0.06 ms, GPU +0.23 ms | for information |  |
+| B13 | Frame cost (all ids x 3 in 1 s) | INFO | process +0.0 ms, render CPU +0.06 ms, GPU +0.46 ms | for information |  |
 
 ## VFX family
 | # | Check | Result | Measured | Rule | Fix hint |

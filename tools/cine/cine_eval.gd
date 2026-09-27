@@ -74,7 +74,15 @@ func actor(tag: String, t: float) -> Dictionary:
 					yaw = rad_to_deg(lerp_angle(deg_to_rad(yaw), deg_to_rad(float(p["yaw_deg"])), k))
 			"visible":
 				vis = bool(p.get("on", true))
+	# multi-set movies: a set puppet is only on stage while its set is the shot's set
+	if st.has("set") and vis:
+		vis = set_at(t) == String(st["set"])
 	return {"pos": pos, "yaw": yaw, "visible": vis, "head": float(st.get("head", 1.6))}
+
+
+## The set shown at global t (the shot's `stage_set`).
+func set_at(t: float) -> String:
+	return String(shots[shot_at(t)[0]].get("stage_set", "")) if not shots.is_empty() else ""
 
 
 func head_point(tag: String, t: float) -> Vector3:

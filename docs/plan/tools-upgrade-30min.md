@@ -16,8 +16,12 @@ then the lead runs every tool's test + smoke + perf (5 min) and commits per grou
 **Not in 30 min** (next tools wave, window 2 of tools-wave.md): tool 4 Model Forge, 5 Motion Lab, 7 VFX Composer,
 8 Palette Studio, 9 Sound Forge, 10 Script Desk; Build Lab export (needs export templates: a download to approve).
 
-**Optional in the same pass:** the free-tools pack (fonts, Phantom Camera, Proton Scatter, icons) is staged by the
-project; it is installed only if JS writes "install the free-tools pack" (downloads / new plugins need his word).
+**U7 free-tools pack (JS approved 2026-09-27 13:30, "install the free-tools pack").** Downloaded to
+`C:\Users\elzzo\Documents\four-wizards-free-tools\` (outside the repo): Phantom Camera v0.11.0.3 (MIT), Proton Scatter 4.0
+(MIT), Cinzel + Alegreya variable fonts (SIL OFL), game-icons.net archive (CC BY 3.0: credits line required). In the pass
+(ui-coder + tools agent): fonts into a game UI theme (titles Cinzel, text Alegreya) with the OFL files shipped, icons to
+fill missing icon slots + a credits entry, Phantom Camera as an optional camera driver for cine, Proton Scatter as a
+World Forge `scatter engine=proton` option; each plugin enabled only if the import + smoke + perf stay green.
 
 **Order:** launch U1-U5 together at go; U6 starts its code parts at go and runs the perf baseline + AI timing tests in
 the last 10 minutes when the other agents are done (quiet PC). Lead: collect, test, commit per group, one reply with a

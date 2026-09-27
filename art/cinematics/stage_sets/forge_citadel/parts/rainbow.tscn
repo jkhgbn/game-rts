@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/rainbow.res" id="1_tgvbc"]
 
-[node name="rainbow" type="Node3D" unique_id=2114557050]
+[node name="rainbow" type="Node3D" unique_id=309691486]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1369476352]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1147939626]
 mesh = ExtResource("1_tgvbc")

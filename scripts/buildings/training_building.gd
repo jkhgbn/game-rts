@@ -41,6 +41,12 @@ func trainable_types() -> Array[UnitType]:
 		for t in building_type.trains:
 			if t:
 				types.append(t)
+		# docs/design/bowmen.md: each skirmish Hall adds its kingdom's bowman as slot 5 (key B).
+		# Switch: BowmanKit.BOWMEN_ENABLED (gameplay-coder, bowmen task).
+		if building_type.kind == &"barracks" and types.size() < 5:
+			var bow := BowmanKit.hall_bowman(building_type)
+			if bow and not types.has(bow):
+				types.append(bow)
 	return types
 
 

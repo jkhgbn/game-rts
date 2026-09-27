@@ -1,15 +1,15 @@
 # Art Lab scorecard: plant_verts20k_shade
 
-Scene `res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 10:30:35 · lab v2.0
+Scene `res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 12:10:54 · lab v3.1
 
-## Result: **FAIL** · quality **94 / 100**
+## Result: **FAIL** · quality **90 / 100** (89.8)
 
-1 FAIL · 0 WARN · 15 PASS · 6 info · 6 skipped · 8 s
+1 FAIL · 0 WARN · 15 PASS · 8 info · 6 skipped · 8 s
 
 ## Improve next
 1. **Vertices** (FAIL): B4 20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #1] _(from B4 Vertices)_
-2. **Surfaces per instance** (IDEA): Merge surfaces that share a material (18 surfaces for 9 meshes = 18 draw calls) _(from B11)_
-3. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
+2. **Shape richness (secondary shapes)** (INFO): Plain / blocky shapes: only 3.6 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them _(from C1 Shape richness (secondary shapes), shot close)_
+3. **Surfaces per instance** (IDEA): Merge surfaces that share a material (18 surfaces for 9 meshes = 18 draw calls) _(from B11)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -53,7 +53,13 @@ Scene `res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn` · kin
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 1.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.86 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO 35 | 25 shapes over 7 body parts (3.6 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 7); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C2 | Vertex use vs budget | INFO 100 | 826% of the 2500 verts budget used (20659) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, art-units.md 8, tier3-extras.md 12)
 `{"draw":14,"frame_ms":0.005,"lights":0,"meshes":26,"n":100,"runtime_mats":0,"soft":{"casters":4,"looping":1,"particles":10,"separate":6},"src":"art-units.md 8, tier3-extras.md 12","verts":2500}`

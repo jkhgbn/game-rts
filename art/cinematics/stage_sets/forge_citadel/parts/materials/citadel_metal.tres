@@ -2,5 +2,9 @@
 
 [resource]
 vertex_color_use_as_albedo = true
-metallic = 0.7
-roughness = 0.4
+metallic = 0.85
+metallic_specular = 0.8
+roughness = 0.26
+rim_enabled = true
+rim = 0.35
+rim_tint = 0.8

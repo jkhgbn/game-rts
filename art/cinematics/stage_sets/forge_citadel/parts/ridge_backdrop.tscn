@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/ridge_backdrop.res" id="1_fr44e"]
 
-[node name="ridge_backdrop" type="Node3D" unique_id=1005769425]
+[node name="ridge_backdrop" type="Node3D" unique_id=765989681]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=816833233]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=804672530]
 mesh = ExtResource("1_fr44e")

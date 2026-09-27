@@ -41,6 +41,17 @@ $L.Add("zone bridge_z  rect((-20,60),(20,185))")
 $L.Add("zone ruin_z  circle((-150,-120),26)")
 $L.Add("scatter $P/cloud_puff.tscn  area=ring((0,0),92..210)  count=46  gap=18  seed=27  avoid=cams,citadel,bridge_z,ruin_z  scale=0.8..2.1")
 
+c "atmosphere (polish round): a mist deck over the cloud sea, a thin high deck, soft cloud towers, far peaks, god rays"
+one "$P/cloud_decks.tscn" 0 13 0 0
+one "$P/cloud_decks.tscn" 0 150 0 40 0.98
+one "$P/cloud_banks.tscn" 0 0 0 0
+one "$P/god_rays.tscn" 0 0 0 0
+# far peaks out of the clouds: tall ones only east of the sun line (the sun is low in the WNW: a peak there would
+# shadow the whole citadel), low ones far to the west
+foreach ($pk in @(@(100, -65, 1.25, 20), @(140, -10, 0.9, 75), @(60, -108, 1.35, 140), @(158, 52, 0.75, 200), @(-100, -35, 0.62, 300), @(-176, -8, 0.6, 250), @(-122, 62, 0.55, 30), @(-190, -150, 0.7, 110))) {
+	one "$P/peak.tscn" $pk[0] 0 $pk[1] $pk[3] $pk[2]
+}
+
 c "the mountain and the tiers (rock drums with a flagstone top)"
 one "$P/drum_mount.tscn" 0 0 0 0
 one "$P/drum_t2.tscn" 0 30 0 0

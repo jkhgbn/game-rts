@@ -1,105 +1,314 @@
-# The prologue, 3:00 (JS 2026-09-27): 1:00 the Master's legend (citadel, dragons, peace, the vanishing, the
-# four heirs), then the voice reveals itself ("I was that wizard") and the Master introduces Vessa, Malrik,
-# Torvald, Ysolde: strength, army, weakness, why he loves them (~27 s each). Script + what we see per line:
-# docs/design/prologue-3min.md. One narration line = one shot. DRAFT: the sets are being built (World Forge):
-# forge_citadel (+ dragon flock), forge_intro_vessa / _malrik / _torvald / _ysolde. Each set names its camera marks
-# by these shot ids (S01_from, S01_to, S01_look_from, S01_look_to). Until then: grey animatic, proxy cameras.
+# The prologue, 3:00 (JS 2026-09-27; script + shot list: docs/design/prologue-3min.md). The Master narrates all 30
+# lines (voice: data/voice/manifest.json, played at each line time and mixed into `record`). One narration line = one
+# beat; the four strength beats (S14, S15, S19, S23, S27) are split in two shots (the wizard's spell, then the army) and
+# the line runs over the cut. Sets (World Forge): forge_citadel (minute 1, S13, S30) and forge_intro_<wizard>
+# (camera marks named by shot id: no cam= = the set's marks). Effects: tools/cine/fx/ (posed by time).
+# Axis: every vignette camera stays on the south (+z) side of its wizard (the sets' rule); fades reset it.
 cine prologue_3min  title="Four Wizards: Prologue"  letterbox=2.39  seed=7  length=170..185  skip_lock=30
-use music res://assets/audio/music/music_menu.wav
+use music res://assets/audio/music/music_menu.wav  vol=-21
 use set forge_citadel
-# the Master narrates (voice only; hooded, face never seen). Capsule stand-in until his model exists.
-cast  master  capsule  at=(0, 0, -60)  hidden=1  speaker=master
+# the Master narrates (voice only: hidden, no name on the subtitles)
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=master
+# the dragon sky over the citadel: rises off the spires in S01, leaves in S12 (flock time = movie time)
+prop  sky      res://data/cinematics/prologue/sky_near.tscn  at=(0, 30, 0)   set=forge_citadel
+prop  sky_far  res://data/cinematics/prologue/sky_far.tscn   at=(0, 10, -60) set=forge_citadel
+prop  sky_s04  res://data/cinematics/prologue/sky_s04.tscn   at=(-6, 58, -8) set=forge_citadel
+# armies (each kingdom's units in action) = the sets' puppets + these
+cast  guard2     res://art/units/fire/flame_guard.tscn               at=(1.8, 0, -3.0)   yaw=5    set=forge_intro_vessa
+cast  rider      res://art/units/fire/blaze_rider.tscn               at=(-1.0, 0, -7.0)  yaw=0    set=forge_intro_vessa
+cast  musket     res://art/units/fire/cinderlock/cinderlock.tscn     at=(5.6, 0, 0.2)    yaw=-20  set=forge_intro_vessa
+cast  scorch2    res://art/units/fire/scorchbow/scorchbow.tscn       at=(-7.0, 0, 0.4)   yaw=25   set=forge_intro_vessa
+cast  cdragon    res://art/units/titans/cinder_dragon/cinder_dragon.tscn  at=(7, 6, -11)  yaw=200  set=forge_intro_vessa
+cast  hound      res://art/units/shadow/grave_hound.tscn             at=(-3.8, 0, 1.6)   yaw=15   set=forge_intro_malrik  hidden=1
+cast  hound2     res://art/units/shadow/grave_hound.tscn             at=(-6.8, 0, 2.8)   yaw=25   set=forge_intro_malrik  hidden=1
+cast  bleakbow   res://art/units/shadow/bleakbow/bleakbow.tscn       at=(-7.5, 0, -1.8)  yaw=30   set=forge_intro_malrik  hidden=1
+cast  shade2     res://art/units/shadow/shade.tscn                   at=(-1.0, 0, -3.4)  yaw=0    set=forge_intro_malrik  hidden=1
+cast  nknight    res://art/units/titans/nightmare_knight/nightmare_knight.tscn  at=(1.5, 0, -6.5)  yaw=0  set=forge_intro_malrik  hidden=1
+cast  shield1    res://art/units/ice/rimeshield.tscn                 at=(-2.2, 0, 1.8)   yaw=0    set=forge_intro_torvald
+cast  shield2    res://art/units/ice/rimeshield.tscn                 at=(0.0, 0, 2.2)    yaw=0    set=forge_intro_torvald
+cast  shield3    res://art/units/ice/rimeshield.tscn                 at=(2.2, 0, 1.8)    yaw=0    set=forge_intro_torvald
+cast  rifle      res://art/units/ice/frostrune_rifleman/frostrune_rifleman.tscn  at=(4.0, 0, 0.4)  yaw=-10  set=forge_intro_torvald
+cast  mammoth    res://art/units/titans/war_mammoth/war_mammoth.tscn at=(9.0, 0, -5.0)   yaw=-20  set=forge_intro_torvald
+cast  fdragon    res://art/units/titans/frost_dragon/frost_dragon.tscn  at=(-9, 7, -6)  yaw=150  set=forge_intro_torvald
+cast  foe2       res://art/units/fire/flame_guard.tscn               at=(3.0, 0, 15.0)   yaw=185  set=forge_intro_torvald
+cast  foe3       res://art/units/fire/blaze_rider.tscn               at=(-6.0, 0, 16.5)  yaw=170  set=forge_intro_torvald
+cast  archer1    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(-3.2, 0, -4.2)  yaw=15  set=forge_intro_ysolde  hidden=1
+cast  archer2    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(-2.0, 0, -4.8)  yaw=10  set=forge_intro_ysolde  hidden=1
+cast  archer3    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(5.2, 0, -5.4)   yaw=-10 set=forge_intro_ysolde  hidden=1
+cast  archer4    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(6.4, 0, -5.9)   yaw=-15 set=forge_intro_ysolde  hidden=1
+cast  mshadow    res://art/cinematics/stage_sets/forge_citadel/parts/master_figure.tscn  at=(-17.5, 0, 5.0)  yaw=40  set=forge_intro_malrik  hidden=1
+cast  mkneel     res://art/cinematics/stage_sets/forge_citadel/parts/master_figure.tscn  at=(23.6, 0, 16.9)  yaw=-122  set=forge_intro_ysolde  hidden=1
+cast  stag       res://art/units/nature/stagrunner/stagrunner.tscn   at=(-7.0, 0, -7.0)  yaw=30   set=forge_intro_ysolde
+cast  vine2      res://art/units/nature/vinelasher/vinelasher.tscn   at=(1.6, 0, -3.4)   yaw=0    set=forge_intro_ysolde
 
-# Dawn above the clouds
+# ---------------------------------------------------------------- minute 1: the legend (forge_citadel)
+# Dawn above the clouds; the citadel fills the frame; the first dragons lift off the spires
 shot S01 7.0  set=forge_citadel  in=fade_black:1.5
   at 1.2  line master "Once upon a time, the strongest wizard of all time ruled the world."  dur=5.7
-# A colossal statue of the hooded Master, green with a thousand years of moss, guards the Great Bridge
+# The colossal mossy statue of the hooded Master guards the Great Bridge
 shot S02 7.0  set=forge_citadel
   at 0.4  line master "They called him only the Master. For a thousand years, he kept the peace."  dur=6.5
-# The whole citadel: spiral towers, sky-bridges, hanging gardens, great bells swinging in open belfries, waterfa
+# The whole citadel: towers, sky-bridges, belfries, waterfalls, the orrery dome (hero wide)
 shot S03 7.0  set=forge_citadel
   at 0.4  line master "His citadel rose above the clouds, a city of towers, bridges and bells."  dur=6.5
-# The dragon flock: cathedral-sized elders drifting like clouds, flights of swallow-sized ones, a frost dragon a
+# The dragon flock: elders like clouds, swallow-sized flights, a frost and a cinder dragon wing to wing
 shot S04 7.0  set=forge_citadel
   at 0.4  line master "Dragons great and small filled its sky, and not one breathed in anger."  dur=6.5
-# The market: awnings, spice smoke, jugglers with fire-sprites
+# The market terrace; the four kings' long table
 shot S05 6.0  set=forge_citadel
   at 0.3  line master "Kings brought him their quarrels, and went home as friends."  dur=5.6
-# The Master (very tall, hooded, a beard of white-gold light, his hem burning in four colours) at the giant bras
+# The Master at the orrery; four little flames (red, violet, blue, green) orbit his open hand
 shot S06 6.0  set=forge_citadel
+  at 0.0  vfx flames scene=res://tools/cine/fx/four_flames.tscn at=(-11.6, 51.2, -3.2) life=6.0 scale=0.8
   at 0.3  line master "He raised four apprentices, and gave each of them a kingdom."  dur=5.6
-# The orrery stops
+# The orrery stops. The robe falls empty; the regalia burst up as sparks; four streaks shoot out to the four horizons
 shot S07 5.0  set=forge_citadel
+  at 0.0  vfx flames2 scene=res://tools/cine/fx/four_flames.tscn at=(-13, 53, -5) life=1.9 scale=2.5
   at 0.3  line master "Then, between one breath and the next, he was gone."  dur=4.6
+  at 1.8  vfx regalia scene=res://tools/cine/fx/regalia_burst.tscn at=(-13, 53, -5) life=2.0
+  at 1.9  hide master
+  at 2.0  vfx red scene=res://tools/cine/fx/streak_red.tscn at=(-13, 53, -5) to=(40, 160, 200) life=2.8 scale=0.5
+  at 2.1  vfx violet scene=res://tools/cine/fx/streak_violet.tscn at=(-13, 53, -5) to=(200, 160, -40) life=2.7 scale=0.5
+  at 2.2  vfx blue scene=res://tools/cine/fx/streak_blue.tscn at=(-13, 53, -5) to=(-40, 160, -200) life=2.6 scale=0.5
+  at 2.3  vfx green scene=res://tools/cine/fx/streak_green.tscn at=(-13, 53, -5) to=(-200, 160, 40) life=2.5 scale=0.5
   at 4.3  fade color=#ffffff  alpha=1  time=0.6
-# The red streak falls south
+
+# ---------------------------------------------------------------- the four streaks land (the segue)
+# The red streak falls south: Vessa raises her staff, a pillar of fire answers into the sky
 shot S08 3.0  set=forge_intro_vessa  in=fade_white:0.4
+  at 0.0  fade alpha=0  time=0.2
+  at 0.0  hide vessa_young
+  at 0.0  vfx streak scene=res://tools/cine/fx/streak_red.tscn at=(18, 60, -60) to=(0, 1, -2) life=1.3
   at 0.2  line master "Vessa, of Fire."  dur=2.7
-# The violet streak falls east
+  at 0.7  anim vessa play_cast arg=fireball
+  at 0.9  vfx pillar scene=res://tools/cine/fx/fire_pillar.tscn at=(-4.5, 0, -8) life=2.3 scale=0.8
+  at 0.9  vfx burst scene=res://tools/cine/fx/fire_burst.tscn at=(-4.5, 1, -8) life=1.5
+# The violet streak falls east: Malrik's candle gutters; every shadow in the crypt stands up behind him
 shot S09 3.0  set=forge_intro_malrik
+  at 0.0  vfx streak scene=res://tools/cine/fx/streak_violet.tscn at=(-40, 50, -50) to=(0, 1, -1) life=1.3
+  at 0.0  hide malrik_young
   at 0.2  line master "Malrik, of Shadow."  dur=2.7
-# The blue streak falls north
+  at 0.7  anim malrik play_cast arg=umbral_shroud
+  at 0.9  vfx wave scene=res://tools/cine/fx/shadow_wave.tscn at=(0, 0, 1) life=2.1
+  at 1.1  show shade2
+  at 1.4  show nknight
+# The blue streak falls north: Torvald plants his staff; the whole lake freezes in one cracking wave
 shot S10 3.0  set=forge_intro_torvald
+  at 0.0  vfx streak scene=res://tools/cine/fx/streak_blue.tscn at=(30, 60, -60) to=(0, 1, 0) life=1.3
+  at 0.0  hide messenger
   at 0.2  line master "Torvald, of Ice."  dur=2.7
-# The green streak falls west
+  at 0.7  anim torvald play_cast arg=frost_nova
+  at 0.9  vfx freeze scene=res://tools/cine/fx/freeze_wave.tscn at=(0, 0, 2) life=2.1
+  at 0.9  vfx burst scene=res://tools/cine/fx/ice_burst.tscn at=(0, 1, -1.2) life=1.5 scale=0.5
+# The green streak falls west: Ysolde opens her eyes; the whole wood blooms at once
 shot S11 3.0  set=forge_intro_ysolde
+  at 0.0  vfx streak scene=res://tools/cine/fx/streak_green.tscn at=(-30, 60, -60) to=(3, 1, 0) life=1.3
+  at 0.0  hide ysolde_young
   at 0.2  line master "Ysolde, of Nature."  dur=2.7
-# The throne room, empty
+  at 0.7  anim ysolde play_cast arg=wild_bloom
+  at 0.9  vfx bloom scene=res://tools/cine/fx/bloom_wave.tscn at=(3, 0, 1) life=2.1
+  at 0.9  vfx pillar scene=res://tools/cine/fx/green_pillar.tscn at=(3, 0, -4) life=2.1 scale=0.7
+# The throne room, empty: the four colours cross high above the seat and part again; the dragons fly away
 shot S12 3.0  set=forge_citadel
+  at 0.0  vfx r scene=res://tools/cine/fx/streak_red.tscn at=(-30, 66, 20) to=(30, 70, -14) life=2.6
+  at 0.0  vfx v scene=res://tools/cine/fx/streak_violet.tscn at=(30, 66, 20) to=(-30, 70, -14) life=2.6
   at 0.1  line master "Four heirs. One empty throne."  dur=2.8
-# Years later: the orrery dome in ruins, moss, a broken roof, one candle
-shot S13 6.0  set=forge_citadel  in=fade_black:0.6
+  at 0.2  vfx b scene=res://tools/cine/fx/streak_blue.tscn at=(-30, 72, -14) to=(30, 66, 20) life=2.4
+  at 0.2  vfx g scene=res://tools/cine/fx/streak_green.tscn at=(30, 72, -14) to=(-30, 66, 20) life=2.4
+# Years later: the orrery dome in ruins, one candle; the stopped orrery's four flames relight one by one
+shot S13 6.0  set=forge_citadel  in=fade_black:0.6  fov=30>26
+  at 0.0  fade color=#06040c  alpha=0.35  time=0.6
   at 0.8  line master "I know this tale well, child. I was that wizard."  dur=5.1
-# A small girl lights her first spark in cupped hands
-shot S14 7.0  set=forge_intro_vessa
+  at 1.0  vfx flames scene=res://tools/cine/fx/four_flames.tscn at=(-149.2, 31.25, -117.4) life=5.0 scale=0.16
+  at 5.6  fade color=#06040c  alpha=1  time=0.4
+
+# ---------------------------------------------------------------- Vessa (forge_intro_vessa): origin, strength, weakness, love
+# A small girl lights her first spark in cupped hands...
+shot S14 3.4  set=forge_intro_vessa
+  at 0.0  fade alpha=0  time=0.01
+  at 0.0  show vessa_young
   at 0.3  line master "Vessa, the youngest. She lit her first spark before she could spell her name."  dur=6.6
-# Vessa on her ember boar blasts a door through a stone wall
-shot S15 7.0  set=forge_intro_vessa
+  at 0.6  anim vessa_young play_cast arg=kindle
+  at 0.9  vfx spark scene=res://tools/cine/fx/ember.tscn at=(-14.8, 1.0, 15.9) to=(-14.8, 3.5, 15.9) life=2.5
+# ...match-cut: grown Vessa hurls a fireball the size of a house into the sky (heroic pose)
+shot S14B 3.6  set=forge_intro_vessa  cam=dolly from=(2.4, 0.5, 12.5) to=(2.0, 0.45, 11.2) look=(0, 2.7, 5)>(0.4, 4.4, 3)  fov=46>50
+  at 0.0  hide vessa_young
+  at 0.3  anim vessa play_cast arg=fireball
+  at 0.6  vfx fireball scene=res://tools/cine/fx/fireball.tscn at=(0.3, 2.4, 5.6) to=(14, 60, -80) life=3.0
+# Vessa blasts a door through the stone wall...
+shot S15 3.4  set=forge_intro_vessa
   at 0.3  line master "Give her a wall, and she will burn a door through it."  dur=6.6
-# WEAKNESS: she has charged far ahead alone
+  at 0.2  anim vessa play_cast arg=fireball
+  at 0.6  vfx blast scene=res://tools/cine/fx/fire_burst.tscn at=(0, 2.5, -5) life=2.0 scale=1.4
+  at 0.6  shake 0.5
+# ...and her army pours through: Flame Guards, a Blaze Rider, Scorchbows, a Pyre Adept, a Musketeer, the cinder dragon
+shot S15U 3.6  set=forge_intro_vessa
+  at 0.0  move rider to=(-2.5, 0, 3.0) speed=6
+  at 0.1  anim scorchbow play_attack
+  at 0.2  anim scorch2 play_attack
+  at 0.3  anim adept play_cast arg=kindle
+  at 0.4  vfx col scene=res://tools/cine/fx/fire_pillar.tscn at=(6, 0, -10) life=3.0 scale=0.5
+  at 0.5  anim musket play_attack
+  at 0.6  move guard to=(-1.5, 0, 1.5) speed=2.5
+  at 0.6  move guard2 to=(1.8, 0, 1.2) speed=2.5
+  at 1.3  anim scorchbow play_attack
+  at 1.5  anim scorch2 play_attack
+  at 1.8  anim musket play_attack
+  at 2.0  vfx boom scene=res://tools/cine/fx/fire_burst.tscn at=(-4, 1, -14) life=1.5
+# WEAKNESS: she has charged far ahead alone; the fire runs wild behind her; her Flame Guards call after her
 shot S16 7.0  set=forge_intro_vessa
+  at 0.0  teleport guard to=(-1.5, 0, -2.0)
+  at 0.0  teleport guard2 to=(1.8, 0, -2.2)
+  at 0.0  teleport rider to=(-1.0, 0, -6.0)
+  at 0.0  teleport vessa to=(0, 0, 9) yaw=0
   at 0.3  line master "But she never waits. And fire that will not wait burns its own house."  dur=6.6
+  at 0.5  move vessa to=(0, 0, 13) speed=1.2
+  at 2.0  vfx wild scene=res://tools/cine/fx/fire_pillar.tscn at=(-6, 0, -3.5) life=5.0 scale=0.6
+  at 2.5  vfx wild2 scene=res://tools/cine/fx/fire_pillar.tscn at=(7, 0, -4.5) life=4.5 scale=0.45
 # LOVE: Vessa laughing among the sparks, soot on her face; one ember drifts up to the stars
 shot S17 6.0  set=forge_intro_vessa
+  at 0.0  teleport vessa to=(0, 0, 6) yaw=0
   at 0.3  line master "Still, she laughed like sunrise. Vessa was my joy."  dur=5.6
-# A thin boy reads tombstones by one candle
-shot S18 6.0  set=forge_intro_malrik
+  at 0.5  anim vessa play_level_up
+  at 0.5  vfx ember scene=res://tools/cine/fx/ember.tscn at=(0.3, 1.9, 6.4) to=(0.8, 8, 6) life=5.4
+
+# ---------------------------------------------------------------- Malrik (forge_intro_malrik)
+# A thin boy reads tombstones by one candle; a tall shadow with a burning hem stops behind him
+shot S18 6.0  set=forge_intro_malrik  in=fade_black:0.6
+  at 0.0  show malrik_young
+  at 1.6  show mshadow
+  at 1.6  move mshadow to=(-15.6, 0, 7.4) speed=0.9
   at 0.3  line master "Malrik. I found him reading tombstones by the light of one candle."  dur=5.6
-# Malrik raises one hand: the dark answers
-shot S19 7.0  set=forge_intro_malrik
+# Malrik raises one hand: the dark answers...
+shot S19 3.4  set=forge_intro_malrik
+  at 0.0  hide malrik_young
+  at 0.0  hide mshadow
   at 0.3  line master "Nothing is hidden from him. The dark itself comes when he calls."  dur=6.6
-# WEAKNESS: a table of trophies and stolen letters; he pockets one more; a crown's reflection burns in his eyes
+  at 0.4  anim malrik play_cast arg=soul_siphon
+  at 0.7  vfx wave scene=res://tools/cine/fx/shadow_wave.tscn at=(0, 0, 1) life=2.6
+  at 0.8  show hound
+  at 1.2  show bleakbow
+  at 1.6  show hound2
+# ...Shades and Shadow Knights melt out of the dark, Hexweavers curse, Bleakbows loose, Grave Hounds run; his Umbral Shroud swallows the hall
+shot S19U 3.6  set=forge_intro_malrik
+  at 0.0  anim hexweaver play_cast arg=hex
+  at 0.2  anim bleakbow play_attack
+  at 0.3  move hound to=(-1.5, 0, 5.0) speed=6
+  at 0.4  move hound2 to=(-4.5, 0, 6.0) speed=6
+  at 0.5  anim sknight play_attack
+  at 0.8  anim shade play_attack
+  at 1.2  anim bleakbow play_attack
+  at 1.6  vfx shroud scene=res://tools/cine/fx/umbral_shroud.tscn at=(-1, 0, 0) life=2.0
+# WEAKNESS: a table of trophies and stolen letters; he pockets one more
 shot S20 6.0  set=forge_intro_malrik
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide shade2
+  at 0.0  hide nknight
+  at 0.0  hide hound
+  at 0.0  hide hound2
+  at 0.0  hide bleakbow
   at 0.3  line master "But he is never full. Whatever he holds, he wants more."  dur=5.6
-# LOVE: Malrik alone with the candle
+  at 2.2  anim malrik play_attack
+# LOVE: Malrik alone with the candle; in the dark he is calm, almost smiling
 shot S21 8.0  set=forge_intro_malrik
   at 0.3  line master "He thinks I gave him leftovers. I gave the dark to the one it could not frighten."  dur=7.6
-# An enemy army charges Torvald across the lake
-shot S22 7.0  set=forge_intro_torvald
+  at 6.9  fade color=#000000  alpha=0.6  time=1.0
+
+# ---------------------------------------------------------------- Torvald (forge_intro_torvald)
+# An enemy army charges Torvald across the lake; his Rimeshields hold, a Frostbow volley, Frostrune Riflemen fire
+shot S22 7.0  set=forge_intro_torvald  in=fade_black:0.6
+  at 0.0  fade alpha=0  time=0.01
+  at 0.0  move foe to=(-3, 0, 6.5) speed=2.2
+  at 0.0  move foe2 to=(2.5, 0, 6.8) speed=2.0
+  at 0.0  move foe3 to=(-5.5, 0, 7.5) speed=2.6
   at 0.3  line master "Torvald, the eldest. Where he stands, the ice holds, and so does the line."  dur=6.6
-# A titan leaps at him; he flash-freezes it in mid-air
-shot S23 7.0  set=forge_intro_torvald
+  at 1.0  anim frostbow play_attack
+  at 1.6  anim rifle play_attack
+  at 2.4  anim frostbow play_attack
+  at 3.0  anim torvald play_cast arg=frost_nova
+  at 3.2  vfx freeze scene=res://tools/cine/fx/freeze_wave.tscn at=(0, 0, 5) life=3.5 scale=0.6
+  at 3.4  anim rifle play_attack
+# Nothing breaks him: a titan leaps at him, he flash-freezes it in mid-air...
+shot S23 3.4  set=forge_intro_torvald
   at 0.3  line master "Nothing breaks him. Not armies, not winters. Not time."  dur=6.6
-# WEAKNESS: a rider hammers at his ice gate begging for help; he turns away; snow buries the rider's signal fire
+  at 0.0  hide shield1
+  at 0.0  hide shield2
+  at 0.0  hide shield3
+  at 0.0  teleport foe to=(-3, 0, 6.5) yaw=180
+  at 0.0  teleport foe2 to=(2.5, 0, 6.8) yaw=178
+  at 0.0  teleport foe3 to=(-5.5, 0, 7.5) yaw=176
+  at 0.5  anim torvald play_cast arg=frost_nova
+  at 0.8  vfx freeze scene=res://tools/cine/fx/ice_burst.tscn at=(0, 3, 4) life=2.5 scale=1.2
+# ...the frost dragon and the War Mammoth stand behind him, the Rime Colossus holds the shore
+shot S23U 3.6  set=forge_intro_torvald
+  at 0.2  anim colossus play_attack
+  at 0.5  anim frostbow play_attack
+  at 0.8  anim mammoth play_trample
+  at 1.2  anim rifle play_attack
+  at 1.5  vfx wave scene=res://tools/cine/fx/freeze_wave.tscn at=(-3, 0, 3) life=2.0 scale=0.5
+# WEAKNESS: a rider begs at his ice gate; he turns away; snow buries the signal fire
 shot S24 7.0  set=forge_intro_torvald
+  at 0.0  show messenger
+  at 0.0  hide foe
+  at 0.0  hide foe2
+  at 0.0  hide foe3
+  at 0.0  hide shield1
+  at 0.0  hide shield2
+  at 0.0  hide shield3
   at 0.3  line master "But he waits too long, and trusts slow ice more than quick friends."  dur=6.6
+  at 4.6  face torvald yaw=150  time=1.4
 # LOVE: Torvald looks down through clear ice at something vast sleeping far below (the Heartfrost)
-shot S25 6.0  set=forge_intro_torvald
+shot S25 6.0  set=forge_intro_torvald  cam=dolly from=@S25_from to=@S25_to look=(0, 1.9, -1.2)>(0.2, 0.1, 2.6)  fov=16>24  ease=in_out
+  at 0.0  face torvald yaw=0  time=0.01
+  at 0.0  hide messenger
+  at 2.0  vfx heart scene=res://tools/cine/fx/freeze_wave.tscn at=(0.3, -0.05, 3.2) life=4.0 scale=0.12
   at 0.3  line master "I left him my coldest secret. Torvald was my patience."  dur=5.6
+
+# ---------------------------------------------------------------- Ysolde (forge_intro_ysolde)
 # A small girl coaxes a sapling up through the frost
-shot S26 7.0  set=forge_intro_ysolde
+shot S26 7.0  set=forge_intro_ysolde  in=fade_black:0.6
+  at 0.0  show ysolde_young
+  at 0.0  show mkneel
   at 0.3  line master "Ysolde. I found her coaxing a sapling through the frost."  dur=6.6
-# Fire sweeps her wood
-shot S27 7.0  set=forge_intro_ysolde
+  at 1.5  anim ysolde_young play_cast arg=wild_bloom
+  at 2.0  vfx bloom scene=res://tools/cine/fx/bloom_wave.tscn at=(21.8, 0, 15.4) life=4.5 scale=0.1
+# Fire sweeps her wood; Ysolde raises her arms: Wild Bloom greens the ash in a wave...
+shot S27 3.4  set=forge_intro_ysolde
+  at 0.0  hide ysolde_young
+  at 0.0  hide mkneel
   at 0.3  line master "Burn her forest down, and it grows back. Every spring. Every time."  dur=6.6
-# WEAKNESS: messengers at her border; she closes the road with roots; smoke rises on the horizon behind her
+  at 0.3  anim ysolde play_cast arg=wild_bloom
+  at 0.6  vfx bloom scene=res://tools/cine/fx/bloom_wave.tscn at=(3, 0, 1) life=2.8
+  at 1.0  anim treant play_cast arg=wild_bloom
+# ...the Elder Treant, Vinelashers whip, Wildwood Archers step out of the trees two at a time, a Grove Stag charges
+shot S27U 3.6  set=forge_intro_ysolde
+  at 0.0  show archer1
+  at 0.0  show archer2
+  at 0.1  anim vinelasher play_attack
+  at 0.3  anim vine2 play_attack
+  at 0.4  move stag to=(4, 0, 4) speed=7
+  at 0.7  anim archer1 play_attack
+  at 0.8  anim archer2 play_attack
+  at 1.0  show archer3
+  at 1.0  show archer4
+  at 1.2  anim treant play_attack
+  at 1.6  anim archer3 play_attack
+  at 1.7  anim archer4 play_attack
+  at 1.8  vfx bloom2 scene=res://tools/cine/fx/bloom_wave.tscn at=(8.5, 0, -2.5) life=1.8 scale=0.4
+# WEAKNESS: messengers at her border; she closes the road with roots; smoke rises on the horizon behind
 shot S28 6.0  set=forge_intro_ysolde
   at 0.3  line master "But she will not take a side, not even while the world burns."  dur=5.6
+  at 1.8  anim ysolde play_cast arg=entangle
 # LOVE: a blossom opens in Ysolde's palm; she smiles at it like a child
 shot S29 7.0  set=forge_intro_ysolde
   at 0.3  line master "I would say: show me again. And she always did. Ysolde was my heart."  dur=6.6
-# The empty throne at dusk; four shafts of coloured light from four windows fall across it
-shot S30 6.0  set=forge_citadel
+  at 1.5  vfx blossom scene=res://tools/cine/fx/blossom.tscn at=(3.3, 1.3, 1.5) life=5.4
+
+# ---------------------------------------------------------------- the end (forge_citadel)
+# The empty throne at dusk; four shafts of coloured light; crane out: the dragons leave, four armies' fires; title
+shot S30 6.0  set=forge_citadel  in=fade_black:0.6
   at 0.3  line master "I loved all four of them. And still, they went to war."  dur=5.6
-  at 4.6  fade alpha=1  time=0.8
   at 4.2  title "FOUR WIZARDS"  sub="Episode 1 · The Hollow Throne"  time=1.8
+  at 4.6  fade alpha=1  time=0.8

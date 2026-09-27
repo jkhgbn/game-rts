@@ -105,7 +105,7 @@ const ITEM_PCT_FLOORS := {&"attack_cooldown": -0.35}   # items make attacks at m
 const TOTAL_CAPS := {&"spell_power": 60.0, &"cooldown_reduction": 40.0, &"lifesteal": 30.0,
 		&"spell_feed": 60.0}
 # ---- Damage over time (apply_dot), auras (apply_aura).
-const DOT_COLORS := {&"burn": Color(1.0, 0.4, 0.1)}
+const DOT_COLORS := {&"burn": Color(1.0, 0.4, 0.1), &"bleed": Color(0.6, 0.05, 0.08)}
 const AURA_TICK := 0.25     # a carrier refreshes its auras 4 times per second
 const AURA_LINGER := 1.0    # a received aura stays this long after the last refresh
 const AURA_PREFIX := "aura:"
@@ -268,6 +268,8 @@ func _ready() -> void:
 		support_caster.name = "SupportCaster"
 		support_caster.setup(self)
 		add_child(support_caster)
+	if unit_type and BowmanKit.is_bowman(unit_type.id):   # docs/design/bowmen.md: upgrades, Hamstring string
+		BowmanKit.on_unit_ready(self)
 
 
 # ---------------------------------------------------------------- orders
@@ -957,6 +959,8 @@ func _on_attack_hit(target: Node3D, dealt: float) -> void:
 			# Greywater Tracker snare arrow (market-trade.md 6.1 / 9, task 10.C10): rope coils while it roots.
 			if unit_type.on_hit_status == &"rooted" and victim.has_status(&"rooted"):
 				_play_trade_vfx(&"snare", victim)
+	if unit_type and BowmanKit.is_bowman(unit_type.id):   # bowmen.md: chill / burn / bleed
+		BowmanKit.on_hit(self, target, dealt)
 	if _dead:
 		return
 	if dealt > 0.0:
@@ -1665,9 +1669,13 @@ func _perform_attack(target: Node3D) -> void:
 
 
 func _spawn_shot(target: Node3D) -> void:
+	var dmg := attack_damage
+	if unit_type and BowmanKit.is_bowman(unit_type.id):   # bowmen.md: crits, Hamstring Shot
+		dmg = BowmanKit.shot_damage(self, target)
 	var bolt := Projectile.new()
 	get_tree().current_scene.add_child(bolt)
-	bolt.launch_at_target(self, _shot_origin(), target, attack_damage, projectile_color, 0.14, _bolt_speed())
+	bolt.launch_at_target(self, _shot_origin(), target, dmg, projectile_color,
+			0.22 if dmg > attack_damage + 0.01 else 0.14, _bolt_speed())
 	bolt.hit_unit.connect(_on_attack_hit)
 
 
@@ -1680,6 +1688,10 @@ func _bolt_speed() -> float:
 
 ## Where this unit's ranged bolts start (world space). Champions use their model's get_beam_origin().
 func _shot_origin() -> Vector3:
+	if unit_type and BowmanKit.is_bowman(unit_type.id) and model_has(&"get_bow_tip_position"):
+		var tip: Variant = _model.call(&"get_bow_tip_position")   # bowmen.md: arrows leave the bow
+		if tip is Vector3:
+			return tip
 	return global_position + Vector3.UP * body_height * 0.75
 
 

@@ -367,3 +367,12 @@ the Rimehorn: riding, walk, gallop, mount, thrown, z40, silhouette).
   The idle phase is seeded from `get_instance_id()` (`_phase_off`, `_tier_timer`), which changes every run, so stills /
   goldens of the same pose differ between runs. `tools/cine` pins `_phase_off` / `_tier_timer` to 0 through `set()` for
   its stills until a public setter exists.
+
+## From gameplay-coder (bowmen task, 2026-09-27): BOWMEN IDS (4 unique bowmen, docs/design/bowmen.md)
+- fire `scorchbow` -> scene `art/units/fire/scorchbow/scorchbow.tscn` (burning arrows, heavy base shot)
+- shadow `bleakbow` -> scene `art/units/shadow/bleakbow/bleakbow.tscn` (bleeding barbed arrows)
+- nature `wildwood_archer` -> scene `art/units/nature/wildwood_archer/wildwood_archer.tscn` (plain longbow archer)
+- ice `frostbow` -> `art/units/ice/frostbow/frostbow.tscn` (exists)
+- Gameplay uses the ranged-soldier model contract (same as ember_archer / burr_slinger: attack anim + projectile from
+  gameplay). Until a scene exists the .tres points at an existing archer scene; tell gameplay (or edit `model_scene`) when
+  yours lands.

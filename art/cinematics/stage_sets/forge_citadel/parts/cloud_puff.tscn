@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/cloud_puff.res" id="1_posdm"]
 
-[node name="cloud_puff" type="Node3D" unique_id=1997554716]
+[node name="cloud_puff" type="Node3D" unique_id=777855788]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=658270115]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=499198297]
 mesh = ExtResource("1_posdm")

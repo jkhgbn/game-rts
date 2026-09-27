@@ -1,10 +1,10 @@
 # Art Lab scorecard: aqueduct
 
-Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-27 10:27:55 · lab v2.0
+Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-27 12:07:33 · lab v3.1
 
-## Result: **PASS** · quality **98 / 100**
+## Result: **PASS** · quality **98 / 100** (98.2)
 
-0 FAIL · 0 WARN · 14 PASS · 8 info · 0 skipped · 16 s
+0 FAIL · 0 WARN · 14 PASS · 12 info · 0 skipped · 21 s
 
 ## Improve next
 1. **Contrast on the other grounds** (PASS): On heath the body drops to dE 8.9: add a value accent that separates it there too _(from R4 Contrast on the other grounds, shot z40)_
@@ -41,6 +41,14 @@ Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tie
 | R3 | Contrast vs ground (meadow) | PASS 95 | mean-colour dE 28.7, 15% of the body melts (within dE 15 of the ground); body L* 61.8 C 23.4 vs ground L* 59.9 C 50.3, hue gap n/a (body C* <= 25); top third (world height) dE 32.7, L* 72.2; per-pixel dE 36.1, outline 19.3 | mean-colour dE >= 10 and <= 35 % melting (FAIL: dE < 5 or > 60 % melting): the body must not melt into the grass |  |
 | R4 | Contrast on the other grounds | PASS 85 | worst heath: dE 8.9 (heath dE 8.9, old_wood dE 27.6, riverbank dE 24.8, snow dE 27.5, ash dE 37.2, sand dE 20.4, marsh dE 39.3) | dE >= 5 on every skirmish ground (WARN only) |  |
 | R5 | Glow points at 40 m | PASS 100 | 0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0 | 0-3 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO | 232 shapes over 1 body parts (232.0 per part: (root) 232); 88% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.841 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 (not graded for landmark yet) |  |
+| C2 | Vertex use vs budget | INFO | 38% of the 20000 verts budget used (7666) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) (not graded for landmark yet) |  |
+| C3 | Palette depth (close-up) | INFO | 14 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up (not graded for landmark yet) |  |
+| C4 | Inner detail (close-up / 25 m) | INFO | inner edges per outline px: 3.7 at the close-up (90393 px), 4.89 at 25 m; close-up outline complexity 5.88 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) (not graded for landmark yet) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |

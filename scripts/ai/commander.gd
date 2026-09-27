@@ -1592,6 +1592,9 @@ func _rule_train() -> void:
 	_keep_rally()
 	if _queued_this_tick or _barracks.is_empty():
 		return
+	if BowmanKit.BOWMEN_ENABLED and BowmanUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # bowmen.md 6
+		_log("BOWMAN UPGRADE (crystals left %d)" % _eco.crystals)
+		return
 	var best: TrainingBuilding = null
 	for b in _barracks:
 		if best == null or b.queue.size() < best.queue.size():
@@ -1645,7 +1648,8 @@ func _pick_soldier(b: TrainingBuilding) -> UnitType:
 	for i in types.size():
 		if i == HEAVY_SLOT and (_eco.crystals < maxi(ai.heavy_crystals, types[i].cost) or total < ai.heavy_soldier_pop):
 			continue
-		var target: float = mix[i] if i < mix.size() else 0.0
+		# Slots past the profile mix: the Hall bowman's small share (bowmen.md 6), else 0.
+		var target: float = mix[i] if i < mix.size() else BowmanKit.bot_share(types[i].id)
 		var gap := target - float(pops[i]) / float(maxi(total, 1))
 		if gap > best_gap:
 			best_gap = gap

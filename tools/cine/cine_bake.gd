@@ -39,6 +39,9 @@ var _yaw: Dictionary = {}
 var _clip_ids: Array = []
 var _vfx_ids: Array = []
 var line_track: Dictionary = {}          # shot id -> [{at, speaker, text, duration}] from tool 10
+var _cur_set := ""                       # the set of the shot being baked (multi-set movies)
+var _voices: Dictionary = {}             # "speaker\nnorm text" -> {path, duration} (data/voice/manifest.json)
+const VOICE_MANIFEST := "res://data/voice/manifest.json"
 
 
 static func run(p_doc: CineDoc, p_stage: CineStage) -> CineBake:
@@ -47,6 +50,7 @@ static func run(p_doc: CineDoc, p_stage: CineStage) -> CineBake:
 	b.stage = p_stage
 	b._partners()
 	b._load_lines()
+	b._load_voices()
 	if p_doc.music != "" and not ResourceLoader.exists(p_doc.music):
 		b.problem("FAIL", "resolve", "use music", "missing file " + p_doc.music, "audio paths exist", "fix the res:// path", p_doc.music_line)
 	for tag: String in p_stage.actor_start:
@@ -116,6 +120,35 @@ func _load_lines() -> void:
 	line_track = (d as Dictionary)["lines"]
 
 
+## Voice Forge manifest (data/voice/manifest.json): the WAV of a line, matched on speaker + text like VoicePlayer.
+func _load_voices() -> void:
+	if not FileAccess.file_exists(VOICE_MANIFEST):
+		return
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(VOICE_MANIFEST))
+	if not data is Dictionary or not (data as Dictionary).get("lines") is Dictionary:
+		return
+	for k: String in data["lines"]:
+		var e: Variant = data["lines"][k]
+		if not e is Dictionary:
+			continue
+		var entry := {"path": String(e.get("path", "")), "duration": float(e.get("duration", 0.0))}
+		if entry["path"] == "" or not ResourceLoader.exists(entry["path"]):
+			continue
+		var tx := norm_text(String(e.get("text", "")))
+		_voices[String(e.get("speaker", "")).to_lower() + "\n" + tx] = entry
+		for src: Variant in e.get("sources", []):
+			if src is Dictionary and (src as Dictionary).has("speaker_id"):
+				_voices[String(src["speaker_id"]).to_lower() + "\n" + tx] = entry
+
+
+func voice_of(speaker: String, text: String) -> Dictionary:
+	return _voices.get(speaker.to_lower() + "\n" + norm_text(text), {})
+
+
+static func norm_text(text: String) -> String:
+	return " ".join(text.replace("|", " ").replace("\n", " ").split(" ", false)).strip_edges()
+
+
 # ---------------------------------------------------------------- names -> positions
 
 func all_markers() -> Array:
@@ -128,9 +161,17 @@ func all_markers() -> Array:
 func _marker(name: String) -> Variant:
 	if doc.marks.has(name):
 		return doc.marks[name]
-	if stage.set_marks.has(name):
-		return stage.set_marks[name]
+	var sm := stage.marks_of(_cur_set)
+	if sm.has(name):
+		return sm[name]
 	return null
+
+
+## The shot's set is not built yet (its shots fall back to a proxy camera, WARN once per set).
+func _set_missing() -> bool:
+	if stage.multi:
+		return _cur_set != "" and not stage.has_set(_cur_set)
+	return doc.set_id != "" and not stage.set_found
 
 
 ## A position token: (x,y,z) | @marker | actor | actor+(dx,dy,dz). Returns {ok, pos, actor, missing_set}.
@@ -143,7 +184,7 @@ func pos_of(tok: String, line: ToolSpecLine, what: String, look: bool) -> Dictio
 		var m: Variant = _marker(tok.substr(1))
 		if m != null:
 			return {"ok": true, "pos": m, "actor": ""}
-		if doc.set_id != "" and not stage.set_found:
+		if _set_missing():
 			return {"ok": false, "pos": Vector3.ZERO, "actor": "", "missing_set": true}
 		var near := ToolSpec.nearest(tok.substr(1), all_markers())
 		problem("FAIL", "resolve", "marker " + tok, "missing (%s)" % what, "every @marker exists in the set or a mark line",
@@ -222,6 +263,7 @@ func _shot(s: Dictionary) -> Dictionary:
 			problem("FAIL", "parse", "trans=" + String(kv["trans"]), "unknown curve", ", ".join(PackedStringArray(TRANS.keys())), "did you mean \"%s\"?" % ToolSpec.nearest(kv["trans"], TRANS.keys()), l)
 	if kv.has("set"):
 		b["stage_set"] = String(kv["set"])
+	_cur_set = String(b["stage_set"])
 	# faces
 	var faces: Array = []
 	for f: String in ToolSpec.list_of(String(kv.get("faces", ""))):
@@ -241,8 +283,17 @@ func _shot(s: Dictionary) -> Dictionary:
 			lines.append({"at": float(tl.get("at", 0.0)), "speaker": String(tl.get("speaker", "")), "text": String(tl.get("text", "")),
 				"dur": float(tl.get("duration", 0.0)), "voice": "", "line": doc.lines_line})
 	for ln: Dictionary in lines:
+		var vo := String(ln.get("voice", ""))
+		var vdur := 0.0
+		if vo == "":
+			var ve: Dictionary = voice_of(String(ln["speaker"]), String(ln["text"]))
+			vo = String(ve.get("path", ""))
+			vdur = float(ve.get("duration", 0.0))
+		elif not ResourceLoader.exists(vo):
+			problem("FAIL", "resolve", "voice " + vo.get_file(), "missing file " + vo, "voice= paths exist", "fix the res:// path or drop voice= (the manifest is used)", ln["line"])
+			vo = ""
 		b["lines"].append({"at": ln["at"], "speaker": ln["speaker"], "text": ln["text"], "duration": ln["dur"],
-			"voice": ln.get("voice", ""), "src_line": (ln["line"] as ToolSpecLine).line if ln["line"] != null else 0})
+			"voice": vo, "voice_dur": vdur, "src_line": (ln["line"] as ToolSpecLine).line if ln["line"] != null else 0})
 	# actions
 	for a: Dictionary in s["actions"]:
 		var ba: Variant = _action(a, float(s["dur"]))
@@ -281,14 +332,14 @@ func _camera(s: Dictionary, b: Dictionary, faces: Array) -> void:
 		"marks":
 			var f: Variant = _marker(sid + "_from")
 			if f == null:
-				if doc.set_id != "" and not stage.set_found:
+				if _set_missing():
 					missing_set = true
 				else:
 					problem("FAIL", "resolve", "shot %s camera" % sid, "no cam= and no marks for %s" % sid,
 						"a shot names cam=<mode> or has marks <shot>", "add `cam=frame \"ms on <actor>\"` or `marks %s from=... look=...`" % sid, l)
 					missing_set = true
 			else:
-				b["marker_prefix"] = sid if stage.set_marks.has(sid + "_from") else ""
+				b["marker_prefix"] = sid if stage.marks_of(_cur_set).has(sid + "_from") else ""
 				b["from_pos"] = f
 				var t: Variant = _marker(sid + "_to")
 				b["to_pos"] = t if t != null else f
@@ -297,9 +348,13 @@ func _camera(s: Dictionary, b: Dictionary, faces: Array) -> void:
 				b["look_from"] = lf if lf != null else (f as Vector3) + Vector3.FORWARD
 				b["look_to"] = lt if lt != null else b["look_from"]
 				b["camera_mode"] = MODE["dolly"] if not (b["from_pos"] as Vector3).is_equal_approx(b["to_pos"]) else MODE["static"]
+				# the set's marks name the subject they frame: judge its face like a look= actor
+				var subj := stage.subject_of(_cur_set, sid)
+				if subj != "" and _pos.has(subj) and not subj in faces:
+					faces.append(subj)
 				if not kv.has("fov"):
-					b["fov_from"] = float(doc.mark_fov.get(sid + "_from", stage.set_mark_fov.get(sid + "_from", 40.0)))
-					b["fov_to"] = float(doc.mark_fov.get(sid + "_to", stage.set_mark_fov.get(sid + "_to", b["fov_from"])))
+					b["fov_from"] = float(doc.mark_fov.get(sid + "_from", stage.mark_fov_of(_cur_set).get(sid + "_from", 40.0)))
+					b["fov_to"] = float(doc.mark_fov.get(sid + "_to", stage.mark_fov_of(_cur_set).get(sid + "_to", b["fov_from"])))
 		"static", "dolly", "crane":
 			b["camera_mode"] = MODE[cam]
 			var fr := pos_of(String(kv.get("from", "")), l, "from=", false) if kv.has("from") else {"ok": false}
@@ -316,7 +371,7 @@ func _camera(s: Dictionary, b: Dictionary, faces: Array) -> void:
 				missing_set = missing_set or to.get("missing_set", false)
 				if to["ok"]:
 					b["to_pos"] = to["pos"]
-			if String(kv.get("from", "")) == "@%s_from" % sid and stage.set_marks.has(sid + "_from"):
+			if String(kv.get("from", "")) == "@%s_from" % sid and stage.marks_of(_cur_set).has(sid + "_from"):
 				b["marker_prefix"] = sid
 			_look(kv, l, b, faces)
 			missing_set = missing_set or b.get("_ms", false)
@@ -613,6 +668,9 @@ func _action(a: Dictionary, dur: float) -> Variant:
 				out["target"] = pos_of(String(kv["at"]), l, "vfx at=", true)["pos"]
 			if kv.has("to"):
 				p["to"] = pos_of(String(kv["to"]), l, "vfx to=", true)["pos"]
+			for k2: String in ["yaw", "scale"]:
+				if kv.has(k2):
+					p[k2] = String(kv[k2]).to_float()
 		"sfx", "music":
 			var path := args[0] if args.size() > 0 else ""
 			if not path.begins_with("res://"):

@@ -1,17 +1,18 @@
 # Art Lab scorecard: plant_green_shade
 
-Scene `res://tools/art_lab/calibration/virtual/plant_green_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 10:29:41 · lab v2.0
+Scene `res://tools/art_lab/calibration/virtual/plant_green_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-27 12:09:52 · lab v3.1
 
-## Result: **FAIL** · quality **85 / 100**
+## Result: **FAIL** · quality **80 / 100** (79.7)
 
-1 FAIL · 3 WARN · 25 PASS · 10 info · 0 skipped · 21 s
+1 FAIL · 3 WARN · 25 PASS · 15 info · 0 skipped · 24 s
 
 ## Improve next
-1. **Contrast vs ground (meadow)** (FAIL): albedo_color of `StandardMaterial3D#-19604` #8cb847 -> #8fba05 (98% of the visible body): predicted dE R3 meadow 8.2 -> 29.2, R3t fire 8.4 -> 29.3, R3t shadow 8.4 -> 29.2, R3t ice 8.3 -> 29.2, R3t nature 8.2 -> 29.2, R4k marsh 72.1 -> 88.4 (want >= 29); other grounds heath 66.9, old_wood 69.4, riverbank 62.7, snow 76.0, ash 90.7, sand 48.4; built in code or embedded: change it where the model script creates it [fixes.json #1] _(from R3 Contrast vs ground (meadow), shot z40)_
+1. **Contrast vs ground (meadow)** (FAIL): albedo_color of `StandardMaterial3D#-72574` #8cb847 -> #faef6a (98% of the visible body): predicted dE R3 meadow 8.3 -> 29.1, R3t fire 8.3 -> 29.1, R3t shadow 8.4 -> 29.1, R3t ice 8.4 -> 29.1, R3t nature 8.2 -> 29.1, R4k marsh 72.1 -> 82.8 (want >= 29); other grounds heath 53.3, old_wood 67.0, riverbank 64.6, snow 53.0, ash 82.6, sand 23.9; built in code or embedded: change it where the model script creates it [fixes.json #1] _(from R3 Contrast vs ground (meadow), shot z40)_
 2. **Team-colour visibility at 40 m** (WARN): R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top [fixes.json #2] _(from R6 Team-colour visibility at 40 m, shot teams)_
 3. **Contrast in every team colour (meadow)** (WARN): In the nature team colour the body drops to dE 8.2 on meadow: add a value step around the team-colour area _(from R3t Contrast in every team colour (meadow), shot teams)_
-4. **Team colours for colour-blind players** (WARN): R6cb Team colours for colour-blind players: For red-green colour-blind players ice / nature (protan) look alike on this model (dE 4.5): add a value step inside the team-colour area [fixes.json #3] _(from R6cb Team colours for colour-blind players, shot teams)_
-5. **Tops light, bottoms dark** (INFO): Lighten the top masses / darken the legs and base (top - bottom now +6 L*, aim >= +10) _(from P3 Tops light, bottoms dark, shot z40)_
+4. **Team colours for colour-blind players** (WARN): R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 3.1): add a value step inside the team-colour area [fixes.json #3] _(from R6cb Team colours for colour-blind players, shot teams)_
+5. **Palette depth (close-up)** (INFO): Flat palette (7 colour / 7 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses) _(from C3 Palette depth (close-up), shot close)_
+6. **Shape richness (secondary shapes)** (INFO): Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them _(from C1 Shape richness (secondary shapes), shot close)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -44,32 +45,41 @@ Scene `res://tools/art_lab/calibration/virtual/plant_green_shade.tscn` · kind *
 | R9 | Feet on the ground | PASS 100 | lowest point 0.02 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R8 | Head height vs body_height | PASS 92 | head top 1.82 m / body_height 1.6 (x1.14) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) |  |
 | R10 | Footprint vs selection radius | INFO | x 0.64 / z 0.33 m (radius 0.45, default) | x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
-| R1 | Silhouette area at 40 m | PASS 100 | 487 px (31 x 34 bbox; 55 m: 255 px) | >= 120 px (FAIL < 45) at 1600 x 900 |  |
-| R3 | Contrast vs ground (meadow) | **FAIL** 2 | mean-colour dE 8.2, 36% of the body melts (within dE 15 of the ground); body L* 70.4 C 51.9 vs ground L* 63.3 C 48.0, hue gap 0 deg; top third (world height) dE 11.6, L* 74.1; per-pixel dE 19.5, outline 27.2 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass | Melts into the meadow: value is close to the ground (dL +7): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 0 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it |
+| R1 | Silhouette area at 40 m | PASS 100 | 487 px (31 x 34 bbox; 55 m: 254 px) | >= 120 px (FAIL < 45) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | **FAIL** 2 | mean-colour dE 8.3, 36% of the body melts (within dE 15 of the ground); body L* 70.5 C 52.0 vs ground L* 63.3 C 48.0, hue gap 0 deg; top third (world height) dE 11.7, L* 74.2; per-pixel dE 19.3, outline 27.0 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass | Melts into the meadow: value is close to the ground (dL +7): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 0 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it |
 | R4k | Contrast on the home ground (marsh) | PASS 100 | dE 72.1, 0% melts (marsh is where shadow units stand most) | dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
-| R4 | Contrast on the other grounds | PASS 100 | worst sand: dE 30.1 (heath dE 46.1, old_wood dE 52.4, riverbank dE 44.9, snow dE 54.0, ash dE 71.9, sand dE 30.1, marsh dE 72.1) | dE >= 10 on every skirmish ground (WARN only) |  |
+| R4 | Contrast on the other grounds | PASS 100 | worst sand: dE 30.1 (heath dE 46.2, old_wood dE 52.5, riverbank dE 44.9, snow dE 54.1, ash dE 72.0, sand dE 30.1, marsh dE 72.1) | dE >= 10 on every skirmish ground (WARN only) |  |
 | R6 | Team-colour visibility at 40 m | **WARN** 36 | 0% of body pixels change between kingdom colours (min pair 0%) | >= 8% (FAIL = set_team_color changes nothing) | Put the team colour on a big, top-facing mass (cloth, plates, cape, caparison); ~25-45 %% of the surface (art-keep 0.2 / art-units 1.3) |
-| R3t | Contrast in every team colour (meadow) | **WARN** 38 | worst nature colour: dE 8.2 (fire 8.4, shadow 8.4, ice 8.3, nature 8.2) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) | Keep the team colour off the silhouette's biggest mass or give it a value step (trim, dark border) |
-| R6cb | Team colours for colour-blind players | **WARN** 37 | worst pair ice / nature (protan): dE 4.5 on the team-colour area (normal vision 5.3; 7 px); deutan: ice / nature dE 4.7; protan: ice / nature dE 4.5; worst vs ground: nature colour (deutan) dE 8.0 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) | Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS) |
+| R3t | Contrast in every team colour (meadow) | **WARN** 38 | worst nature colour: dE 8.2 (fire 8.3, shadow 8.4, ice 8.4, nature 8.2) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) | Keep the team colour off the silhouette's biggest mass or give it a value step (trim, dark border) |
+| R6cb | Team colours for colour-blind players | **WARN** 35 | worst pair shadow / ice (deutan): dE 3.1 on the team-colour area (normal vision 4.6; 6 px); deutan: shadow / ice dE 3.1; protan: shadow / ice dE 3.7; worst vs ground: nature colour (deutan) dE 8.1 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) | Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS) |
 | R7 | HP bar over the body at 40 m | PASS 100 | bar hides 0% of the silhouette (gap 0 px) | <= 8% (FAIL > 25%); bar at body_height + 0.5 = 2.1 m, 1.17 m wide |  |
-| R5c | Glow points stand out (1 m surround) | PASS 83 | worst dL +14 (point 1 dL +14; ring 24 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
+| R5c | Glow points stand out (1 m surround) | PASS 84 | worst dL +15 (point 1 dL +15; ring 24 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
 | R5 | Glow points at 40 m | PASS 100 | 1 point(s) above the bloom level 1.2 (median of 1/1/0): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1 | 1-3 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
-| R11 | Reads while walking (40 m) | PASS 86 | walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 82-86% (min 401 px), frame-to-frame IoU min 0.55; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only) |  |
-| R5w | Glow points while walking (flicker) | PASS 81 | points per frame 1/2/2/0/1/1/2/2 (median 2, range 2, 1 frame(s) at 0; at rest 1) | the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only) |  |
+| R11 | Reads while walking (40 m) | PASS 86 | walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 82-86% (min 402 px), frame-to-frame IoU min 0.58; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only) |  |
+| R5w | Glow points while walking (flicker) | PASS 84 | points per frame 2/2/2/1/1/0/2/2 (median 2, range 2, 1 frame(s) at 0; at rest 1) | the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A3 | Attack reads at 40 m | PASS 100 | strike pose changes 68% of the silhouette (t 0.14 s) | >= 12% (1 - IoU rest vs strike) |  |
-| A2 | death_finished | PASS 100 | after 1.02 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A3r | Weapon reach at the strike | INFO | tip reaches 1.42 m from the body centre at t 0.14 s (1.06 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=) | reach weapons: pass reach=<m> (the brief) or set attack_reach on the scene |  |
+| A3 | Attack reads at 40 m | PASS 100 | strike pose changes 67% of the silhouette (t 0.14 s) | >= 12% (1 - IoU rest vs strike) |  |
+| A2 | death_finished | PASS 100 | after 1.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO 33 | 24 shapes over 7 body parts (3.4 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 6); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C2 | Vertex use vs budget | INFO 64 | 52% of the 2500 verts budget used (1309) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
+| C3 | Palette depth (close-up) | INFO 25 | 7 colour steps (L*a*b* bins >= 2 % of the body), 7 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 83 | inner edges per outline px: 2.37 at the close-up (95754 px), 1.26 at 25 m; close-up outline complexity 4.97 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | P1 | Silhouette hook | INFO 100 | outline complexity 2.8 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
-| P3 | Tops light, bottoms dark | INFO 70 | top third L* 74.1, bottom third L* 67.2 (+6, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
-| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 7.0 at 25 m, 9.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| P3 | Tops light, bottoms dark | INFO 69 | top third L* 74.2, bottom third L* 67.5 (+6, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 7.0 at 25 m, 9.7 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
 | P5 | Glow placement | INFO 100 | 1 of 1 glow(s) in the upper half of the model's height (world) | one glow high (head / weapon / crest) reads over crowds |  |
 
 ## Shots
@@ -77,6 +87,7 @@ Scene `res://tools/art_lab/calibration/virtual/plant_green_shade.tscn` · kind *
 - z55: [z55.jpg](z55.jpg)
 - z25: [z25.jpg](z25.jpg)
 - close: [close.jpg](close.jpg)
+- strike_side: [strike_side.jpg](strike_side.jpg)
 - turns: [turns.jpg](turns.jpg)
 - anim: [anim.jpg](anim.jpg)
 - contact_sheet: [contact_sheet.png](contact_sheet.png)
@@ -91,4 +102,4 @@ Scene `res://tools/art_lab/calibration/virtual/plant_green_shade.tscn` · kind *
 - terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist
 - quick=1: light-preset sweep (R12) and style bible (S1) skipped
 - quick=1: references (R2) and frame cost (B13) skipped
-- Fix recipes: 3 in fixes.json (top: albedo_color of `StandardMaterial3D#-19604` #8cb847 -> #8fba05 (98% of the visible body): predicted dE R3 meadow 8.2 -> 29.2, R3t fire 8.4 -> 29.3, R3t shadow 8)
+- Fix recipes: 3 in fixes.json (top: albedo_color of `StandardMaterial3D#-72574` #8cb847 -> #faef6a (98% of the visible body): predicted dE R3 meadow 8.3 -> 29.1, R3t fire 8.3 -> 29.1, R3t shadow 8)

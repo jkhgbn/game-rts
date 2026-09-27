@@ -258,6 +258,34 @@
 			"weight": 1.0
 		},
 		{
+			"graded": 0.346922509143633,
+			"group": "craft",
+			"hint": "",
+			"id": "C1",
+			"improve": "Plain / blocky shapes: only 3.6 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"name": "Shape richness (secondary shapes)",
+			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
+			"score": 0.346922509143633,
+			"shot": "close",
+			"status": "INFO",
+			"value": "25 shapes over 7 body parts (3.6 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 7); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "craft",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Vertex use vs budget",
+			"rule": "craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4)",
+			"score": 1.0,
+			"shot": "close",
+			"status": "INFO",
+			"value": "826% of the 2500 verts budget used (20659)",
+			"weight": 1.0
+		},
+		{
 			"graded": 1.0,
 			"group": "anim",
 			"hint": "Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
@@ -268,7 +296,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 1.0 s",
+			"value": "after 0.86 s",
 			"weight": 1.0
 		},
 		{
@@ -370,14 +398,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.785915434360504,
+			"graded": 0.78377503156662,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.935774630308151,
+			"score": 0.935132509469986,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.77 m / body_height 1.6 (x1.11)",
@@ -414,7 +442,7 @@
 	],
 	"counts": {
 		"FAIL": 1,
-		"INFO": 6,
+		"INFO": 8,
 		"PASS": 15,
 		"SKIP": 6,
 		"WARN": 0
@@ -430,23 +458,23 @@
 			"title": "Vertices"
 		},
 		{
+			"rank": 1.30615498171273,
+			"source": "C1 Shape richness (secondary shapes), shot close",
+			"status": "INFO",
+			"text": "Plain / blocky shapes: only 3.6 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"title": "Shape richness (secondary shapes)"
+		},
+		{
 			"rank": 0.0,
 			"source": "B11",
 			"status": "IDEA",
 			"text": "Merge surfaces that share a material (18 surfaces for 9 meshes = 18 draw calls)",
 			"title": "Surfaces per instance"
-		},
-		{
-			"rank": 0.0,
-			"source": "anim strip",
-			"status": "IDEA",
-			"text": "Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m",
-			"title": "Idle / attack beats"
 		}
 	],
 	"kind": "unit",
 	"kingdom": "shadow",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Root/Chest/Merged 19645 v / 4 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 215 v / 4 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s; Root/Chest/Cape 16 v / 1 s",
 		"1 hidden parts at rest (toggled states, not counted as draws)",
@@ -454,11 +482,11 @@
 		"Fix recipes: 1 in fixes.json (top: B4 20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 ->)"
 	],
 	"previous_quality": -1.0,
-	"quality": 94.3,
+	"quality": 89.8,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
-	"seconds": 8.3,
+	"seconds": 8.2,
 	"shots": {},
-	"started": "2026-09-27 10:30:35",
+	"started": "2026-09-27 12:10:54",
 	"tier": "soldier"
 }

@@ -122,7 +122,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "process +0.003 ms, render CPU +0.06 ms, GPU +0.23 ms",
+			"value": "process +0.0 ms, render CPU +0.06 ms, GPU +0.46 ms",
 			"weight": 1.0
 		},
 		{
@@ -174,17 +174,17 @@
 	],
 	"kind": "vfx",
 	"kingdom": "fire",
-	"lab_version": "2.0",
+	"lab_version": "3.1",
 	"notes": [],
 	"previous_quality": -1.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "res://art/vfx/unit_fire_gun_vfx.gd",
-	"seconds": 44.7,
+	"seconds": 45.2,
 	"shots": {
 		"contact_sheet": "contact_sheet.png",
 		"effects": "effects.jpg"
 	},
-	"started": "2026-09-27 10:28:12",
+	"started": "2026-09-27 12:07:54",
 	"tier": "family"
 }

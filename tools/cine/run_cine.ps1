@@ -31,8 +31,28 @@ switch ($Verb) {
 	"record" {
 		$fps = [int](Opt "fps" "30")
 		$res = Opt "res" "1920x804"
+		$format = Opt "format" "avi"
 		$out = Opt "out" (Join-Path $env:USERPROFILE "Videos\four-wizards-rec\$Id")
 		New-Item -ItemType Directory -Force $out | Out-Null
+		if ($format -eq "avi") {
+			# one .avi (MJPEG video + PCM audio: narration + music) written by Godot's Movie Maker, window = res
+			$movie = Opt "movie" (Join-Path $out "$Id.avi")
+			$mdir = Split-Path -Parent $movie
+			if ($mdir) { New-Item -ItemType Directory -Force $mdir | Out-Null }
+			if (Test-Path $movie) { Remove-Item -Force $movie }
+			$dur = [double](Opt "dur" "200")
+			$qa = [int](($dur + 5) * $fps)
+			$pass = @($Rest | Where-Object { $_ -notlike "res=*" -and $_ -notlike "fps=*" -and $_ -notlike "movie=*" }) + @("res=$res", "fps=$fps")
+			# Godot 4.7 Movie Maker writes AVI frames at the project viewport size (1600x900) whatever the window
+			# (tested 2026-09-27: --resolution 1920x804 gave a stretched 1600x900 AVI): no --resolution, the 2.39 bars are drawn
+			& $common -Script $script -Windowed -Fps $fps -QuitAfter $qa -GodotArgs @("--windowed", "--write-movie", $movie) -ToolArgs (@($Verb, $Id) + $pass) -Quiet
+			$code = $LASTEXITCODE
+			$ok = Test-Path $movie
+			$mb = if ($ok) { [math]::Round((Get-Item $movie).Length / 1MB, 1) } else { 0 }
+			Write-Output ("CINE record {0}: AVI {1} ({2} MB) {3}" -f $Id, $movie, $mb, $(if ($ok) { "written" } else { "MISSING" }))
+			if (-not $ok) { exit 1 }
+			exit $code
+		}
 		Get-ChildItem $out -Filter "$Id*" -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
 		$movie = Join-Path $out "$Id.png"
 		$pass = @($Rest | Where-Object { $_ -notlike "res=*" -and $_ -notlike "fps=*" }) + @("res=$res", "fps=$fps")
