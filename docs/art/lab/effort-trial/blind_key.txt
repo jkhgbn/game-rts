@@ -1,0 +1,1 @@
+A=high B=low C=xhigh D=medium

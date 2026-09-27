@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/_effort_trial/xhigh/vinelasher.gd" id="1_vinelasher"]
+
+[node name="Vinelasher" type="Node3D"]
+script = ExtResource("1_vinelasher")
+body_height = 1.8
+attack_style = &"vine_lash"
+death_style = &"fall"
+stride_time = 0.5
+stride_speed = 4.8
+idle_period = 3.0
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 30.0
+walk_bounce = 0.05
+fidget_every = 8.0
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
+
+[node name="LegL" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0, 0)
+
+[node name="LegR" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, 0.02)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27, 0.48, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 0.48, 0)
+
+[node name="Fx" type="Node3D" parent="."]
