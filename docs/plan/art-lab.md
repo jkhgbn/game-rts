@@ -13,8 +13,11 @@ scorecard + contact sheet), test `tests/test_art_lab.gd` (headless: `PASS art_la
 ## 1. One command
 Windowed (it renders; `--headless` only runs budgets / health / hooks and marks the render checks SKIP):
 ```powershell
-$GODOT = "C:\Users\elzzo\Downloads\game gadot\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_console.exe"
-& $GODOT --path . -s res://tools/art_lab/art_lab.gd --quit-after 90000 -- scene=res://art/units/neutral/mirefang/mirefang.tscn kind=unit kingdom=neutral
+cd C:\Users\elzzo\Documents\four-wizards-rts
+# through the Godot gate (same arguments as the exe; works on the desktop and the laptop)
+& .\tools\godot_run.ps1 --path . -s res://tools/art_lab/art_lab.gd --quit-after 90000 '--' scene=res://art/units/neutral/mirefang/mirefang.tscn kind=unit kingdom=neutral
+# or the wrapper
+.\tools\art_lab\run_art_lab.ps1 mirefang unit neutral
 ```
 | Arg (after `--`) | Meaning |
 |---|---|
@@ -196,8 +199,9 @@ styles are sampled at 4 moments; `TIME_PROCESS` units auto-detected (this build 
 
 ## 7. Known limits
 - Needs a window: `--headless` has no renderer, so R1-R7, A3, P1-P5, D7-D9, V6 and the frame cost are SKIP there.
-- Poses are frozen at a random idle phase: flyers flap, so the IoU between two flyers (R2) depends on the wing phase;
-  a single idle frame is judged (no motion blur, no "reads while walking").
+- Poses: v2.1 puts every instance at idle phase 0 (repeatable); flyers still flap between the shots, so R2 between
+  two flyers matches their phase only as far as they spawned together. A single idle frame is judged (no motion blur,
+  no "reads while walking").
 - Silhouettes use a black override: alpha-scissor leaves and cards count as solid; transparent mist / glow cards count
   as body; flat ground parts (blob, contact decal, rings: < 8 cm tall at ground level) and particles are ignored.
 - Glow points (v2) count emission above the bloom level on a no-bloom linear render: an emissive part just under the
@@ -262,4 +266,21 @@ Next steps (v2.1):
   are INFO already), glow-point local contrast (Ice/Nature note), R2 flyers at a matching wing phase.
 Also done late: P1 / P2 hints say hooks thinner than ~0.25 m do not register at 40 m (1 px = ~4 cm); B13 noise band;
 `tools/art_lab/run_art_lab.ps1` wrapper.
+
+## 10. v2.1 (2026-09-27, lab review on the laptop, RTX 3070 Laptop)
+Checked the known notes against v2 first: rim light (R5), R3 low-chroma hue gap, P1 / P2 thin hooks, emission crop +
+marked clusters, per-mesh vertex breakdown, B11 surfaces, B12 downward faces, R3t team colours, `ref=` short names,
+objective vs decor landmark budgets, P3 / P5 by world height, identity crest, army sweep: **all already in v2**. Added:
+- **Repeatable idle pose**: the kit picks each model's idle phase from `hash(instance id)` (`_phase_off`, flyers
+  `_flap_p`), so an asset stood in a new pose every run and two flyers were compared at random wing phases (R2). The lab
+  now sets phase 0 on every instance it spawns (`_fix_idle_phase` in `_settle`): Mirefang scored 95 / 95 on two runs;
+  target, references and team copies share one idle phase (flyer R2 at a matching wing phase, first pass).
+- **B1 per-pivot breakdown** in the value (`per pivot: Head 3, Mount 2, ...`) and an "Improve next" item naming the
+  pivot to merge when B1 is over budget.
+- **B9 accepts art-keep 8.6 per-building copies**: buildings / landmarks with per-instance materials up to 2x their
+  material budget are INFO at full score (v2 already said INFO but still scored 0); above that it stays a WARN.
+- B12 rule text printed `%%` (fixed); `run_art_lab.ps1` shows script / parse errors (a broken lab is no longer silent)
+  and prints the scorecard path; section 1 uses the Godot gate instead of the desktop's Downloads path.
+Left for later (v2.2): glow-point local contrast (needs the lit 40 m frame sampled around each hot cluster), per-variant
+triangles for decor sets, the windowed army sweep per kingdom, real terrain paint for snow / ash / sand / marsh.
 

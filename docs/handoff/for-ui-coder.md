@@ -285,3 +285,33 @@ Needed in scripts/ui/:
 - Floating text: `CritterHerds.critter_hunted(critter, team: int, reward: Dictionary)` (find the node with
   `get_first_node_in_group(&"critter_herds")`); show `+5` / `+40` (deer) or `+1` only when `team` is the local team
   and the critter is visible. End screen: `Skirmish.mapfill_stats_of(team)["game_hunted"]` (= `hunted_count(team)`).
+## From lab group C (Audio Lab / Data Lab review, 2026-09-27)
+Audio Lab v1.1 (`docs/audio/lab/review_after/scorecard.md`, set `res://assets/audio`, 98 / 100, 0 FAIL):
+- **building_hit takes differ by 5.1 dB** (`building_hit`, `building_hit_1`, `building_hit_2` at their in-game level):
+  a random pick jumps out. Re-render the takes (`assets/audio/takes_sfx_generator.gd`) at the parent's loudness, target <= 2 dB spread.
+- **ability_cast is 3 dB too quiet for a spell cue** (-23.4 LUFS in game vs spell -22..-9): raise `VOLUMES[&"ability_cast"]`
+  in `scripts/ui/game_audio.gd` from -8 to about -5 dB (or re-render louder).
+- **building_collapse / fireball_explode / spell_ember_step peak at -0.3..-0.7 dBTP**: the source .wav files themselves peak
+  there (the QOA import adds < 1 dB, measured), so normalise the files to -1 dBTP in their generator.
+Data Lab v1.1 (`docs/data/lab/review-after/`): **T7 = 244 hard-coded UI strings (235 distinct), 0 through tr()**.
+`ui_strings.csv` in that folder lists key, file, line, text for every literal (suggested keys `UI_...`): import it as a
+CSV Translation and wrap the literals in `tr(KEY)`, biggest scripts first (selection_panel.gd 57, trade_window.gd 33,
+tavern_window.gd 31). Only when the French pass is scheduled.
+
+## From lab group A (UI Lab v2 review, 2026-09-27)
+UI Lab v2 (`docs/ui/lab/scorecard.md`, laptop 1600x900 + 1920x1080, FAIL 96). New checks measured 3 of the v1 "seen" items:
+- **Skirmish setup panel 4 px from the bottom edge at 1600x900** (`MainMenu > PanelContainer`, WARN edge): shrink it or keep >= 8 px (the lab accepts flush 0 px too).
+- **Settings "Fullscreen" switch invisible when off** (`SettingsPanel > CheckButton`, WARN icons): only 16 % of its icon area is drawn (the knob dot; the track does not show on the dark panel). Give the unchecked icon a visible track / outline (>= 3:1 on the panel).
+- **End screen lets the selection text show through** (`SelectionPanel > Label "4 selected ..."` and 4 more under the end panel, WARN bleed): `UIStyle.frame_style` texture centre alpha is 0.92. Make the end panel centre opaque, add a dimmer behind it, or hide the selection panel while `end_panel` is visible.
+- Still open from v1: champion slot text contrast FAIL (2.6-3.0 : 1, rule 4.5), F5-F7 badges 10 px, help lists G twice.
+- The HUD-at-3440 gap (bottom bar keeps 1600 px) is now a FAIL check (`gaps`) but only runs on a >= 3440x1440 screen (desktop).
+
+# Replay Lab determinism (lab review 2026-09-27, group B; details: docs/plan/replay-lab.md 'Determinism audit')
+- **Step 1**: one `_REPLAY.note(&"call", [node, &"method", args...], selection)` right before the gameplay call in
+  bounty_mode (flag placement), tavern_window / champion_bar (hire / revive / dismiss), trade_window (wares, exchange,
+  Lodge contracts), shop_window / inventory_bar (buy / sell / swap / drop), command_card (queue `cancel(slot)`) and
+  concede. The node must be an entity (rid) or have a deterministic path from the level.
+- **Step 4**: settings toggle "Record replays (F8 bug reports)" (sets `ReplayHooks.auto_record`, saved in settings.cfg,
+  ON on the laptop for playtests) + pause-menu button "Save bug report" (`ReplayHooks.session.save_bug_report()`).
+- `selection_manager.gd` `_process` -> `_update_pickup` / `_take_pickup`: hero pickup walking lives in the UI; prefer a
+  `Wizard.command_pickup` (with gameplay-coder) so replays don't depend on the SelectionManager processing.

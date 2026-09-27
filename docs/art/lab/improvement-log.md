@@ -112,3 +112,4 @@ Rows of 2026-09-26 = lab v1.0 validation runs (the calibration re-runs were fold
 | 2026-09-26 23:54:33 | ember_archer | unit / soldier | 91 (+0) | FAIL (1F 2W) | Frame cost; Contrast in every team colour (meadow); Silhouette hook | docs/art/lab/ember_archer/scorecard.md |
 | 2026-09-26 23:56:39 | ember_archer | unit / soldier | 91 (+0) | FAIL (1F 2W) | Frame cost; Contrast in every team colour (meadow); Silhouette hook | docs/art/lab/ember_archer/scorecard.md |
 | 2026-09-26 23:58:30 | sapling | unit / soldier | 92 (+1) | WARN (0F 2W) | Glow points at 40 m; Contrast vs ground (meadow); Distinct from references (black masks) | docs/art/lab/sapling/scorecard.md |
+| 2026-09-27 07:41:49 | mirefang | unit / creature | 95 (+4) | PASS (0F 0W) | Detail density 25 m / 40 m; Contrast on the other grounds; Tops light, bottoms dark | docs/art/lab/mirefang/scorecard.md |

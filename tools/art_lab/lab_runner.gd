@@ -405,6 +405,7 @@ func _settle(inst: Node) -> void:
 		return
 	for h: StringName in [&"skip_spawn", &"skip_spawn_animation", &"finish_spawn"]:
 		_call(inst, h)
+	_fix_idle_phase(inst)
 	await _wait(0.6)
 	var t0 := Time.get_ticks_msec()
 	var tail := 0.0
@@ -421,6 +422,23 @@ func _settle(inst: Node) -> void:
 		await _wait(minf(tail, 1.5))   # the last particles of the finished one-shots fade out
 	if not m.has("settle_s") and inst == target:
 		m["settle_s"] = float(Time.get_ticks_msec() - t0) / 1000.0 + 0.6
+
+
+## Lab v2.1: the kit picks each model's idle phase from hash(instance id) in _ready (CharacterModel `_phase_off`,
+## flyers also `_flap_p`), so the same asset stood in another idle pose every run (scores moved by a few points) and
+## two flyers were compared at random wing phases (R2). Every instance the lab spawns gets phase 0 instead: runs are
+## repeatable and the target, its references and team-colour copies share one idle phase.
+func _fix_idle_phase(inst: Node) -> void:
+	if not is_instance_valid(inst):
+		return
+	var nodes: Array[Node] = [inst]
+	nodes.append_array(inst.find_children("*", "", true, false))
+	for n: Node in nodes:
+		if &"_phase_off" in n:
+			n.set(&"_phase_off", 0.0)
+			if &"_flap_p" in n:
+				n.set(&"_flap_p", 0.0)
+			m["phase_fixed"] = int(m.get("phase_fixed", 0)) + 1
 
 
 func _read_model_props() -> void:
@@ -476,6 +494,12 @@ func _check_budgets(cen: Dictionary) -> void:
 		var extra := ""
 		if key == "meshes":
 			extra = " drawn (%d mesh + %d multimesh)" % [int(cen["meshes"]), int(cen["multimeshes"])]
+			var piv := _meshes_per_pivot(cen["mesh_list"])
+			if not piv.is_empty():
+				extra += "; per pivot: " + ", ".join(PackedStringArray(piv.slice(0, 6).map(func(p: Array) -> String: return "%s %d" % [p[0], p[1]])))
+				if st != "PASS" and int(piv[0][1]) >= 3:
+					rep.extras.push_front({"title": "Meshes per pivot", "source": "B1", "text":
+						"Pivot %s draws %d meshes: merge its static parts into one (the kit merge works per pivot; separate materials or keep_separate parts stop it)" % [piv[0][0], int(piv[0][1])]})
 		if key == "verts" and not (cen["mesh_list"] as Array).is_empty():
 			var top: Array[String] = []
 			for me: Dictionary in (cen["mesh_list"] as Array).slice(0, 4):
@@ -513,7 +537,7 @@ func _check_budgets(cen: Dictionary) -> void:
 		var share := float(dn) / float(maxi(int(cen["tris"]), 1))
 		# INFO + hint only: rounded bodies have ~15 % steep-down faces by nature; above ~25 % caps / undersides are waste
 		rep.add("B12", "budget", "Downward-facing triangles", "INFO", "%d of %d triangles (%d%%) face steeply down (normal y < -0.7)" % [dn, int(cen["tris"]), int(share * 100.0)],
-			"hint when > 25 %%: the camera looks from above (pitch 55); a sphere has ~15 %%, bottom caps add the rest",
+			"hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest",
 			"", -1.0, "")
 		if share > 0.25 and dn > 150:
 			rep.extras.push_front({"title": "Downward-facing waste", "source": "B12", "text":
@@ -525,6 +549,21 @@ func _check_budgets(cen: Dictionary) -> void:
 		rep.notes.append("%d hidden parts at rest (toggled states, not counted as draws)" % int(cen["hidden_parts"]))
 	if int(cen["code_materials"]) > 0:
 		rep.notes.append("%d materials are built in code (fine when cached per type: see B9)" % int(cen["code_materials"]))
+
+
+## B1 breakdown: drawn meshes grouped by their parent node (the kit pivot: Torso, Head, ArmR...), biggest first,
+## as [[pivot, count], ...]. A pivot with several drawn meshes is where a merge is missing.
+func _meshes_per_pivot(mesh_list: Array) -> Array:
+	var by := {}
+	for me: Dictionary in mesh_list:
+		var p := String(me["name"]).get_base_dir()
+		var key := p.get_file() if p != "" else "(root)"
+		by[key] = int(by.get(key, 0)) + 1
+	var out: Array = []
+	for k: String in by:
+		out.append([k, int(by[k])])
+	out.sort_custom(func(a: Array, b: Array) -> bool: return int(a[1]) > int(b[1]) or (int(a[1]) == int(b[1]) and String(a[0]) < String(b[0])))
+	return out
 
 
 func _check_instances() -> void:
@@ -549,12 +588,21 @@ func _check_instances() -> void:
 	far.queue_free()
 	var lim := ArtLabBudgets.limit(rep.budget_row, "runtime_mats")
 	var st := ArtLabReport.budget_status(float(mats), lim) if not lim.is_empty() else ("WARN" if mats > 0 else "PASS")
+	# art-keep 8.6: a building may duplicate its materials once per instance (selection rim, owner colour, damage
+	# tint): a handful of buildings per map, so accepted (INFO, full score) up to 2x the building's own material
+	# budget; beyond that it is a real per-instance leak (WARN).
+	var accepted := false
 	if kind in [&"building", &"landmark"] and st == "WARN":
-		st = "INFO"   # art-keep 8.6: buildings duplicate their materials once per instance for the selection rim
-	rep.add("B9", "health", "Materials built per instance", st, "%d material(s), %d mesh(es) not shared by a 2nd instance" % [mats, meshes],
-		"0: materials / meshes are shared per type (art-units 2.2: zero runtime materials)",
+		var mlim := ArtLabBudgets.limit(rep.budget_row, "materials")
+		var cap := int(float(mlim["limit"]) * 2.0) if not mlim.is_empty() else 16
+		if mats <= cap:
+			st = "INFO"
+			accepted = true
+	rep.add("B9", "health", "Materials built per instance", st, "%d material(s), %d mesh(es) not shared by a 2nd instance%s" % [mats, meshes,
+		" (per-building copies, accepted by art-keep 8.6)" if accepted else ""],
+		"0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)",
 		"Cache built materials / meshes in a static dictionary keyed by type (or save them as .tres / .res); per-unit looks go through instance uniforms",
-		1.0 if mats == 0 else 0.0, "" if mats == 0 else "Share the %d per-instance material(s) (static cache) so 200 units do not build 200 copies" % mats)
+		1.0 if mats == 0 or accepted else 0.0, "" if mats == 0 or accepted else "Share the %d per-instance material(s) (static cache) so 200 units do not build 200 copies" % mats)
 	if meshes > 0 and mats == 0:
 		rep.add("B9m", "health", "Meshes built per instance", "WARN", "%d mesh(es) per instance" % meshes,
 			"meshes shared per type", "Build meshes once (static cache or .res) and share them", 0.5,

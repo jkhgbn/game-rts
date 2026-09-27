@@ -14,19 +14,20 @@ const WIDTH := 1600
 const HEIGHT := 900
 const MENU_SETTLE_FRAMES := 150     ## frames at time_scale 0 (loading)
 const MENU_RUN_FRAMES := 0          ## then frames of game time before the freeze (0: the diorama at t = 0)
-## Map shots: neutral creatures / tavern props keep a per-run idle phase (not frozen by the lab yet), ~0.05-0.3 %
-## of the frame: PASS up to this % on map shots (a real lighting / shader / HUD regression is well above 1 %).
-const MAP_PASS_PCT := 0.35
+## Map shots PASS limit. v1 needed 0.35 %: the Crown-isle Ruin Wardens stood in a per-run idle pose (CharacterModel
+## phase = hash(instance id)). Since 2026-09-27 the lab sets every idle phase from the node path (visual_diff_lab.gd
+## _fix_idle_phase): map shots repeat to 0 px, so they use the normal limit.
+const MAP_PASS_PCT := 0.05
 const LINEUP_CENTER := Vector3(-30.0, 0.0, 30.0)
 const LINEUP_SPACING := 2.6
 ## The minimap (bottom-left): its camera frame is redrawn on a real-time throttle, so where it sits at the freeze
-## differs run to run. The start-of-match Vessa (map_player_base, right of the keep) also turns a little run to run.
+## differs run to run. (v1 also ignored Vessa beside the keep: her head turn was the same idle-phase noise, fixed.)
 const MINIMAP := Rect2i(16, 646, 242, 234)
 
 const SHOTS: Array[Dictionary] = [
 	{"id": "menu_main", "kind": "menu", "what": "main menu with the 3D diorama", "ignore": []},
 	{"id": "map_player_base", "kind": "map", "focus": "keep:0", "zoom": 30.0, "what": "player keep, workers, start units, HUD",
-		"pass_pct": MAP_PASS_PCT, "ignore": [MINIMAP, Rect2i(960, 200, 100, 110)]},
+		"pass_pct": MAP_PASS_PCT, "ignore": [MINIMAP]},
 	{"id": "map_centre", "kind": "map", "focus": Vector3(0.0, 0.0, 0.0), "zoom": 45.0, "fog": false, "what": "Crown isle, river, crossings, fog off",
 		"pass_pct": MAP_PASS_PCT, "ignore": [MINIMAP]},
 	{"id": "map_west_meadow", "kind": "map", "focus": Vector3(-24.0, 0.0, 18.0), "zoom": 40.0, "what": "west meadow toward the river, fog edge",

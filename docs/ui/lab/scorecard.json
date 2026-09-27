@@ -2,7 +2,7 @@
   "actual_sizes": {
     "1600x900": "1600x900",
     "1920x1080": "1920x1080",
-    "3440x1440": "3440x1440"
+    "3440x1440": "1920x1080"
   },
   "checks": [
     {
@@ -71,6 +71,26 @@
       "items": [],
       "res": "1600x900",
       "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
       "screen": "skirmish_setup",
       "status": "PASS",
       "type": "overflow"
@@ -131,6 +151,33 @@
       "items": [],
       "res": "1600x900",
       "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "4 px from the bottom edge (flush it or keep >= 8 px)",
+          "fail": false,
+          "text": "MainMenu > PanelContainer",
+          "value": 4.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "skirmish_setup",
+      "status": "WARN",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
       "screen": "settings",
       "status": "PASS",
       "type": "overflow"
@@ -184,6 +231,43 @@
       "screen": "settings",
       "status": "PASS",
       "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Fullscreen\"",
+          "value": 0.16
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
     },
     {
       "count": 0,
@@ -297,16 +381,16 @@
           "value": 2.19
         },
         {
-          "detail": "2.21 : 1 (rule 4.5; text 84776b on 4d433a)",
+          "detail": "2.21 : 1 (rule 4.5; text 84776a on 4e4337)",
           "fail": true,
           "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
           "value": 2.21
         },
         {
-          "detail": "4.48 : 1 (rule 4.5; text a8998c on 373526)",
+          "detail": "4.43 : 1 (rule 4.5; text a8998c on 373625)",
           "fail": false,
           "text": "MapfillBar > Label \"2:00\"",
-          "value": 4.48
+          "value": 4.43
         }
       ],
       "res": "1600x900",
@@ -348,6 +432,36 @@
       "items": [],
       "res": "1600x900",
       "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
       "screen": "pause",
       "status": "PASS",
       "type": "overflow"
@@ -408,6 +522,36 @@
       "items": [],
       "res": "1600x900",
       "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
       "screen": "end_score",
       "status": "PASS",
       "type": "overflow"
@@ -463,6 +607,67 @@
       "type": "tooltip"
     },
     {
+      "count": 5,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "SelectionPanel > Label \"4 selected:  1 Vessa, Fire Wiz..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "SelectionPanel > Button \"VF\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "SelectionPanel > Button \"CH\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "SelectionPanel > Button \"CH\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "SelectionPanel > Button \"CH\"",
+          "value": 0.92
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.4,
+      "screen": "end_score",
+      "status": "WARN",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
       "count": 0,
       "fails": 0,
       "items": [],
@@ -528,6 +733,26 @@
       "items": [],
       "res": "1920x1080",
       "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
       "screen": "skirmish_setup",
       "status": "PASS",
       "type": "overflow"
@@ -588,6 +813,26 @@
       "items": [],
       "res": "1920x1080",
       "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
       "screen": "settings",
       "status": "PASS",
       "type": "overflow"
@@ -641,6 +886,43 @@
       "screen": "settings",
       "status": "PASS",
       "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Fullscreen\"",
+          "value": 0.16
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
     },
     {
       "count": 0,
@@ -718,10 +1000,10 @@
           "value": 3.58
         },
         {
-          "detail": "3.67 : 1 (rule 4.5; text c3984a on 68371f)",
+          "detail": "3.69 : 1 (rule 4.5; text bd9b4b on 593f23)",
           "fail": false,
           "text": "ChampionBar > Label \"F5\"",
-          "value": 3.67
+          "value": 3.69
         },
         {
           "detail": "2.62 : 1 (rule 4.5; text 7d6f66 on 3d302c)",
@@ -736,10 +1018,10 @@
           "value": 2.15
         },
         {
-          "detail": "4.03 : 1 (rule 4.5; text b59a49 on 453b1e)",
+          "detail": "4.04 : 1 (rule 4.5; text b49a4a on 443b21)",
           "fail": false,
           "text": "ChampionBar > Label \"F6\"",
-          "value": 4.03
+          "value": 4.04
         },
         {
           "detail": "2.19 : 1 (rule 4.5; text 84776b on 4d443a)",
@@ -811,6 +1093,36 @@
       "items": [],
       "res": "1920x1080",
       "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
       "screen": "pause",
       "status": "PASS",
       "type": "overflow"
@@ -871,6 +1183,36 @@
       "items": [],
       "res": "1920x1080",
       "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
       "screen": "end_score",
       "status": "PASS",
       "type": "overflow"
@@ -924,487 +1266,149 @@
       "screen": "end_score",
       "status": "PASS",
       "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "edge"
     },
     {
       "count": 0,
       "fails": 0,
       "items": [],
       "res": "3440x1440",
-      "score": 1.0,
+      "score": -1.0,
       "screen": "main_menu",
-      "status": "PASS",
-      "type": "overflow"
+      "status": "SKIP",
+      "type": "overflow",
+      "why": "screen too small for 3440x1440 (got 1920x1080)"
     },
     {
       "count": 0,
       "fails": 0,
       "items": [],
       "res": "3440x1440",
-      "score": 1.0,
-      "screen": "main_menu",
-      "status": "PASS",
-      "type": "offscreen"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "main_menu",
-      "status": "PASS",
-      "type": "overlap"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "main_menu",
-      "status": "PASS",
-      "type": "font"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "main_menu",
-      "status": "PASS",
-      "type": "contrast"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "main_menu",
-      "status": "PASS",
-      "type": "tooltip"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
+      "score": -1.0,
       "screen": "skirmish_setup",
-      "status": "PASS",
-      "type": "overflow"
+      "status": "SKIP",
+      "type": "overflow",
+      "why": "screen too small for 3440x1440 (got 1920x1080)"
     },
     {
       "count": 0,
       "fails": 0,
       "items": [],
       "res": "3440x1440",
-      "score": 1.0,
-      "screen": "skirmish_setup",
-      "status": "PASS",
-      "type": "offscreen"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "skirmish_setup",
-      "status": "PASS",
-      "type": "overlap"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "skirmish_setup",
-      "status": "PASS",
-      "type": "font"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "skirmish_setup",
-      "status": "PASS",
-      "type": "contrast"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "skirmish_setup",
-      "status": "PASS",
-      "type": "tooltip"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
+      "score": -1.0,
       "screen": "settings",
-      "status": "PASS",
-      "type": "overflow"
+      "status": "SKIP",
+      "type": "overflow",
+      "why": "screen too small for 3440x1440 (got 1920x1080)"
     },
     {
       "count": 0,
       "fails": 0,
       "items": [],
       "res": "3440x1440",
-      "score": 1.0,
-      "screen": "settings",
-      "status": "PASS",
-      "type": "offscreen"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "settings",
-      "status": "PASS",
-      "type": "overlap"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "settings",
-      "status": "PASS",
-      "type": "font"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "settings",
-      "status": "PASS",
-      "type": "contrast"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "settings",
-      "status": "PASS",
-      "type": "tooltip"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
+      "score": -1.0,
       "screen": "hud",
-      "status": "PASS",
-      "type": "overflow"
+      "status": "SKIP",
+      "type": "overflow",
+      "why": "screen too small for 3440x1440 (got 1920x1080)"
     },
     {
       "count": 0,
       "fails": 0,
       "items": [],
       "res": "3440x1440",
-      "score": 1.0,
-      "screen": "hud",
-      "status": "PASS",
-      "type": "offscreen"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "hud",
-      "status": "PASS",
-      "type": "overlap"
-    },
-    {
-      "count": 3,
-      "fails": 0,
-      "items": [
-        {
-          "detail": "10.0 px (min 11)",
-          "fail": false,
-          "text": "ChampionBar > Label \"F5\"",
-          "value": 10.0
-        },
-        {
-          "detail": "10.0 px (min 11)",
-          "fail": false,
-          "text": "ChampionBar > Label \"F6\"",
-          "value": 10.0
-        },
-        {
-          "detail": "10.0 px (min 11)",
-          "fail": false,
-          "text": "ChampionBar > Label \"F7\"",
-          "value": 10.0
-        }
-      ],
-      "res": "3440x1440",
-      "score": 0.526315789473684,
-      "screen": "hud",
-      "status": "WARN",
-      "type": "font"
-    },
-    {
-      "count": 9,
-      "fails": 6,
-      "items": [
-        {
-          "detail": "3.61 : 1 (rule 4.5; text 816c37 on 191310) (inside a disabled button: WARN only)",
-          "fail": false,
-          "text": "CommandCard > Label \"Q\"",
-          "value": 3.61
-        },
-        {
-          "detail": "3.58 : 1 (rule 4.5; text 846f3b on 1f1818) (inside a disabled button: WARN only)",
-          "fail": false,
-          "text": "CommandCard > Label \"E\"",
-          "value": 3.58
-        },
-        {
-          "detail": "2.77 : 1 (rule 4.5; text 796d65 on 332a2b)",
-          "fail": true,
-          "text": "ChampionBar > Label \"Hire a champion\"",
-          "value": 2.77
-        },
-        {
-          "detail": "2.74 : 1 (rule 4.5; text 7b6d65 on 362b2a)",
-          "fail": true,
-          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
-          "value": 2.74
-        },
-        {
-          "detail": "2.74 : 1 (rule 4.5; text 7a6d66 on 352b2c)",
-          "fail": true,
-          "text": "ChampionBar > Label \"Hire a champion\"",
-          "value": 2.74
-        },
-        {
-          "detail": "2.78 : 1 (rule 4.5; text 796d65 on 332a29)",
-          "fail": true,
-          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
-          "value": 2.78
-        },
-        {
-          "detail": "2.80 : 1 (rule 4.5; text 786c65 on 30292b)",
-          "fail": true,
-          "text": "ChampionBar > Label \"Hire a champion\"",
-          "value": 2.8
-        },
-        {
-          "detail": "2.68 : 1 (rule 4.5; text 7c6e65 on 392e2b)",
-          "fail": true,
-          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
-          "value": 2.68
-        },
-        {
-          "detail": "4.24 : 1 (rule 4.5; text a8998c on 3b3830)",
-          "fail": false,
-          "text": "MapfillBar > Label \"2:00\"",
-          "value": 4.24
-        }
-      ],
-      "res": "3440x1440",
-      "score": 0.149253731343284,
-      "screen": "hud",
-      "status": "FAIL",
-      "type": "contrast"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "hud",
-      "status": "PASS",
-      "type": "tooltip"
-    },
-    {
-      "count": 1,
-      "fails": 0,
-      "items": [
-        {
-          "detail": "gather; trade (caravans)",
-          "fail": false,
-          "text": "help key G",
-          "value": "G"
-        }
-      ],
-      "res": "3440x1440",
-      "score": 0.769230769230769,
-      "screen": "hud",
-      "status": "WARN",
-      "type": "hotkeys"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
+      "score": -1.0,
       "screen": "pause",
-      "status": "PASS",
-      "type": "overflow"
+      "status": "SKIP",
+      "type": "overflow",
+      "why": "screen too small for 3440x1440 (got 1920x1080)"
     },
     {
       "count": 0,
       "fails": 0,
       "items": [],
       "res": "3440x1440",
-      "score": 1.0,
-      "screen": "pause",
-      "status": "PASS",
-      "type": "offscreen"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "pause",
-      "status": "PASS",
-      "type": "overlap"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "pause",
-      "status": "PASS",
-      "type": "font"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "pause",
-      "status": "PASS",
-      "type": "contrast"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "pause",
-      "status": "PASS",
-      "type": "tooltip"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
+      "score": -1.0,
       "screen": "end_score",
-      "status": "PASS",
-      "type": "overflow"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "end_score",
-      "status": "PASS",
-      "type": "offscreen"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "end_score",
-      "status": "PASS",
-      "type": "overlap"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "end_score",
-      "status": "PASS",
-      "type": "font"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "end_score",
-      "status": "PASS",
-      "type": "contrast"
-    },
-    {
-      "count": 0,
-      "fails": 0,
-      "items": [],
-      "res": "3440x1440",
-      "score": 1.0,
-      "screen": "end_score",
-      "status": "PASS",
-      "type": "tooltip"
+      "status": "SKIP",
+      "type": "overflow",
+      "why": "screen too small for 3440x1440 (got 1920x1080)"
     }
   ],
   "counts": {
-    "FAIL": 3,
-    "PASS": 102,
-    "SKIP": 0,
-    "WARN": 6
+    "FAIL": 2,
+    "PASS": 96,
+    "SKIP": 6,
+    "WARN": 8
   },
   "headless": false,
   "improve_next": [
     {
       "status": "FAIL",
-      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"Q\": 3.61 : 1 (rule 4.5; text 816c37 on 191310) (inside a disabled button: WARN only) (at 1600x900, 1920x1080, 3440x1440)",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"Q\": 3.61 : 1 (rule 4.5; text 816c37 on 191310) (inside a disabled button: WARN only) (at 1600x900, 1920x1080)",
       "title": "Contrast on hud"
     },
     {
       "status": "WARN",
-      "text": "raise the font size (ui-style.md sizes: 12+). e.g. ChampionBar > Label \"F5\": 10.0 px (min 11) (at 1600x900, 1920x1080, 3440x1440)",
+      "text": "make the modal panel opaque, put a dimmer behind it, or hide the HUD text while it is open. e.g. SelectionPanel > Label \"4 selected:  1 Vessa, Fire Wiz..\": shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95) (at 1600x900)",
+      "title": "Bleed-through on end_score"
+    },
+    {
+      "status": "WARN",
+      "text": "raise the font size (ui-style.md sizes: 12+). e.g. ChampionBar > Label \"F5\": 10.0 px (min 11) (at 1600x900, 1920x1080)",
       "title": "Min font size on hud"
     },
     {
       "status": "WARN",
-      "text": "give each slot its own key; in the help, qualify context keys (\"Flag: Z raise\"). e.g. help key G: gather; trade (caravans) (at 1600x900, 1920x1080, 3440x1440)",
+      "text": "give each slot its own key; in the help, qualify context keys (\"Flag: Z raise\"). e.g. help key G: gather; trade (caravans) (at 1600x900, 1920x1080)",
       "title": "Hotkeys on hud"
+    },
+    {
+      "status": "WARN",
+      "text": "move it clear of the edge (>= 8 px; shrink it at small sizes) or flush it. e.g. MainMenu > PanelContainer: 4 px from the bottom edge (flush it or keep >= 8 px) (at 1600x900)",
+      "title": "Edge margin on skirmish_setup"
+    },
+    {
+      "status": "WARN",
+      "text": "give the off state a visible track / outline; icons need a lighter or darker core than their button. e.g. SettingsPanel > CheckButton \"Fullscreen\": switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty (at 1600x900, 1920x1080)",
+      "title": "Icon contrast on settings"
     }
   ],
-  "lab_version": "1.0",
-  "notes": [],
-  "previous_quality": 96.0,
-  "quality": 96.0,
+  "lab_version": "2.0",
+  "notes": [
+    "**3440x1440 NOT CHECKED**: the window came out 1920x1080 (screen 1920x1080). Run this size on a screen at least that big (desktop ultrawide)."
+  ],
+  "previous_quality": 96.1,
+  "quality": 95.8,
   "resolutions": [
     "1600x900",
     "1920x1080",
@@ -1419,27 +1423,21 @@
     "pause",
     "end_score"
   ],
-  "seconds": 82.2,
+  "seconds": 74.5,
   "shots": {
     "contact_sheet": "contact_sheet.jpg",
     "end_score@1600x900": "1600x900/end_score.jpg",
     "end_score@1920x1080": "1920x1080/end_score.jpg",
-    "end_score@3440x1440": "3440x1440/end_score.jpg",
     "hud@1600x900": "1600x900/hud.jpg",
     "hud@1920x1080": "1920x1080/hud.jpg",
-    "hud@3440x1440": "3440x1440/hud.jpg",
     "main_menu@1600x900": "1600x900/main_menu.jpg",
     "main_menu@1920x1080": "1920x1080/main_menu.jpg",
-    "main_menu@3440x1440": "3440x1440/main_menu.jpg",
     "pause@1600x900": "1600x900/pause.jpg",
     "pause@1920x1080": "1920x1080/pause.jpg",
-    "pause@3440x1440": "3440x1440/pause.jpg",
     "settings@1600x900": "1600x900/settings.jpg",
     "settings@1920x1080": "1920x1080/settings.jpg",
-    "settings@3440x1440": "3440x1440/settings.jpg",
     "skirmish_setup@1600x900": "1600x900/skirmish_setup.jpg",
-    "skirmish_setup@1920x1080": "1920x1080/skirmish_setup.jpg",
-    "skirmish_setup@3440x1440": "3440x1440/skirmish_setup.jpg"
+    "skirmish_setup@1920x1080": "1920x1080/skirmish_setup.jpg"
   },
-  "started": "2026-09-26 23:57:04"
+  "started": "2026-09-27 07:44:07"
 }

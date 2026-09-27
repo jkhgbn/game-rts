@@ -84,6 +84,18 @@ func _run() -> void:
 	_check(hp.r > 0.9 and hp.b < 0.1, "changed pixel painted hot")
 	var strip := Diff.compare_strip(base, block, heat, 0.5)
 	_check(strip.get_width() == 100 * 3 + 16 and strip.get_height() == 50 + 8, "compare strip size %s" % str(strip.get_size()))
+	# change regions (v1.1): two blocks far apart = 2 regions, biggest first; focus sheet = one row per region
+	var two := big.duplicate() as Image
+	two.fill_rect(Rect2i(20, 20, 30, 30), Color(0, 0, 0))      # 900 px
+	two.fill_rect(Rect2i(700, 800, 10, 10), Color(1, 1, 1))    # 100 px
+	var r4 := Diff.diff(big, two, 12)
+	var regs := Diff.regions(r4)
+	_check(regs.size() == 2 and int(regs[0]["px"]) == 900 and regs[0]["rect"] == Rect2i(20, 20, 30, 30) and int(regs[1]["px"]) == 100,
+		"regions: 2 blocks, biggest first (got %s)" % str(regs))
+	_check(Diff.regions(r0).is_empty(), "regions: none when nothing changed")
+	var focus := Diff.focus_sheet(big, two, Diff.heatmap(two, r4), regs)
+	_check(focus != null and focus.get_height() > 2 * 64 and focus.get_width() >= 3 * 96, "focus sheet: 2 rows of 3 zoomed crops (got %s)" % (str(focus.get_size()) if focus else "null"))
+	_check(Diff.focus_sheet(big, big, null, []) == null, "focus sheet: null without regions")
 	# shot list
 	var ids := Shots.ids()
 	_check(ids.size() >= 9, "at least 9 shots")

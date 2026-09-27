@@ -30,7 +30,7 @@ refuses them (exit 2). Headless test of the image maths: `tests/test_visual_diff
 | `tools/visual_diff_lab/vdl_diff.gd` | pure image maths: diff, masks, verdict, heatmap, compare strip |
 | `tools/visual_diff_lab/vdl_report.gd` | goldens, scorecard (md + json), history (md + jsonl) |
 | `docs/visual/golden/<shot>.png` | the references (+ `<shot>.unstable.png` when a shot had unstable pixels, `golden.json` meta) |
-| `docs/visual/lab/latest/` | last check: `<shot>.png` (now), `<shot>_diff.png` (heatmap), `<shot>_compare.png` (golden / now / heatmap), `scorecard.md` / `.json` |
+| `docs/visual/lab/latest/` | last check: `<shot>.png` (now), `<shot>_diff.png` (heatmap), `<shot>_compare.png` (golden / now / heatmap), `<shot>_focus.png` (zoomed change regions, when >= 25 px changed), `scorecard.md` / `.json` (`regions` per shot) |
 | `docs/visual/lab/history.md` / `history.jsonl` | one row per run (golden or check) |
 | `docs/visual/.gdignore` | Godot doesn't import the goldens / heatmaps as textures (the lab reads them by OS path). The `*.png.import` files made before it (00:08) are stale and can be deleted by the lead |
 
@@ -66,27 +66,37 @@ refuses them (exit 2). Headless test of the image maths: `tests/test_visual_diff
   threaded loads add nodes in a different order each run (menu diorama characters changed pose run to run: 1-1.4 %).
 - The menu loads at time_scale 0 for 150 frames, then is frozen at t = 0 (`MENU_RUN_FRAMES` 0; verified 0 px).
 
-## Known noise (v1)
+## Known noise
 
-- **Map shots, fog off** (`map_centre` 0.07-0.19 %, `map_overview` 0.07-0.16 %): the 4 neutral creatures around the
-  Crown isle centre (and before the RNG fix, tavern props / a capture-point flag) render in another idle pose run to
-  run. Probably a global `randf()` or an rng var with another name, set before the lab can seed it. Hence
-  `pass_pct` 0.35 % on map shots (`MAP_PASS_PCT`); a real lighting / shader / HUD regression is well above 1 %.
-  Fix = find that source (seed it from the lab, or ask its owner for a deterministic phase) and go back to 0.05 %.
+- **Fixed 2026-09-27 (lab review):** the v1 map noise (`map_centre` 0.07-0.19 %, `map_overview` 0.07-0.16 %: the 4 Ruin
+  Wardens on the Crown isle), Vessa's head turn in `map_player_base` and the menu diorama characters (menu_main
+  1.0-1.24 % on the laptop) had one source: `CharacterModel._ready` picks `_phase_off` / `_tier_timer` from
+  `hash(get_instance_id())`, and instance ids change run to run. The lab now sets them (and `_flap_p`, `_breath_t`,
+  `_pollen_t`) from the node path right after `_ready` (`visual_diff_lab.gd` `_fix_idle_phase`, lab only; the game keeps
+  its variety). Result: 0 px changed on all 9 shots over 3 runs, so `MAP_PASS_PCT` is back to 0.05 % and the Vessa
+  ignore rect is gone. Only the minimap rect stays ignored.
+- Remaining: `map_overview` can show **1 px** (x 1343, y 3) between runs: far under the 25 px floor.
 - `docs/visual/lab/history.md` has 2 FAIL check rows (23:58, 00:02) from before the RNG fix: noise, not regressions.
+- **Goldens re-recorded 2026-09-27 (laptop, RTX 3070 Laptop)**, all 9: the v1 goldens held one random idle phase per
+  character, so menu_main FAILed (1.0 %, then 1.24 %) on every laptop check and the map goldens carried a random Warden
+  pose no later run could reproduce. The lineups and `map_player_base` / `map_west_meadow` were already 0 px identical
+  on the laptop GPU (desktop GTX 1660 and laptop renders match; re-check once on the desktop).
 
 ## Scoring
 
 - A pixel changed when its largest RGB channel difference > **tolerance** (default 12 / 255).
-- **PASS** <= 0.05 % of the compared pixels changed (or fewer than 25 px; **map shots: 0.35 %**, `pass_pct` per shot,
-  see "Known noise"), **WARN** <= 1 %, **FAIL** above; missing
+- **PASS** <= 0.05 % of the compared pixels changed (or fewer than 25 px; `pass_pct` per shot, map shots were 0.35 %
+  until the idle-phase fix), **WARN** <= 1 %, **FAIL** above; missing
   golden = **NEW** (counts as WARN). Score = 100 at 0 %, 0 at 5 % (linear). Overall = worst result, score = mean.
 - Per shot: % changed, changed px, max delta, bounding box of the changes (x, y, w, h) + where (top-left ... centre),
   unstable px, ignored %.
 
 ## When a shot FAILs / WARNs
 
-1. Open `docs/visual/lab/latest/<shot>_compare.png` (golden | now | heatmap; magenta box = bounding box).
+1. Open `docs/visual/lab/latest/<shot>_focus.png` first (v1.1): the change **regions** (changed pixels grouped in
+   24 px cells) zoomed up to 3x, one row per region (red, orange, yellow bar = regions 1, 2, 3 of the scorecard's
+   "Regions" list), golden | now | heatmap. Then `<shot>_compare.png` (whole frame at 1/3 size, magenta box = bounding
+   box of every change).
 2. Intended change (new art, new HUD) -> re-record that shot: `run_visual_diff_lab.ps1 -Golden -Shots <shot>`, commit
    the new golden with the change.
 3. Accidental -> the heatmap region + the history row tell which commit / area to look at.
@@ -109,8 +119,7 @@ refuses them (exit 2). Headless test of the image maths: `tests/test_visual_diff
    itself should stop being part of those two.
 2. The start-of-match selection panel's right half (portrait / stats) is empty in the frozen load (a timer fills it):
    step real time for a fixed number of frames after the freeze, or select Vessa again from the lab.
-3. Find why Vessa's facing varies (likely an rng / real-time source in the wizard model or the start orders) and
-   remove that ignore rect.
+3. (done 2026-09-27: the idle-phase fix; the Vessa ignore rect is gone.)
 4. Minimap: force a redraw after placing the camera (`queue_redraw` on the minimap control) so it can be compared
    instead of ignored.
 5. More shots: 1920x1080 and 3440x1440 variants (the UI Lab will want them), buildings lineup per kingdom, VFX freeze

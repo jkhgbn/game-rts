@@ -4,7 +4,7 @@ extends RefCounted
 ## FAIL / SKIP, the items found, a 0-100 quality score and an "Improve next" list (always >= 3 items). Writes
 ## scorecard.md, scorecard.json and a row in docs/ui/lab/improvement-log.md.
 
-const VERSION := "1.0"
+const VERSION := "2.0"
 ## Check types, in table order: id -> [title, weight, rule, fix hint].
 const TYPES := {
 	"overflow": ["Text overflow", 2.0, "text fits its own rect and its frame (tol 2 px)",
@@ -20,8 +20,18 @@ const TYPES := {
 		"set tooltip_text (the action, its key and its cost)"],
 	"hotkeys": ["Hotkeys", 2.0, "no letter twice on the command card; help keys unique outside a context",
 		"give each slot its own key; in the help, qualify context keys (\"Flag: Z raise\")"],
+	# v2 (2026-09-27): what v1 saw on the shots but did not measure
+	"gaps": ["Bottom-bar gaps", 1.5, "HUD: no empty gap > 25 % of the width between the bottom panels (FAIL > 40 %)",
+		"anchor the bottom panels to the screen width (stretch the centre bar or spread the blocks), so ultrawide has no hole"],
+	"bleed": ["Bleed-through", 2.0, "modal panels: no outside text drawn over them or visible through them (bg alpha >= 0.95)",
+		"make the modal panel opaque, put a dimmer behind it, or hide the HUD text while it is open"],
+	"icons": ["Icon contrast", 1.0, "switches / check boxes / icon buttons: 3:1 inside the icon (WCAG 1.4.11), FAIL < 2",
+		"give the off state a visible track / outline; icons need a lighter or darker core than their button"],
+	"edge": ["Edge margin", 1.0, "big panels are flush with a screen edge or >= 8 px from it",
+		"move it clear of the edge (>= 8 px; shrink it at small sizes) or flush it"],
 }
-const TYPE_ORDER: Array[String] = ["overflow", "offscreen", "overlap", "font", "contrast", "tooltip", "hotkeys"]
+const TYPE_ORDER: Array[String] = ["overflow", "offscreen", "overlap", "font", "contrast", "tooltip", "hotkeys", "gaps",
+	"bleed", "icons", "edge"]
 
 var started := ""
 var seconds := 0.0

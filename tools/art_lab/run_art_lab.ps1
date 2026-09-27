@@ -30,5 +30,13 @@ $labArgs += $Extra
 $godotArgs = @()
 if ($Headless) { $godotArgs += "--headless" }
 $godotArgs += @("--path", $root, "-s", "res://tools/art_lab/art_lab.gd", "--quit-after", "$quit", "--") + $labArgs
-& $gate @godotArgs | Where-Object { $_ -match "ART LAB|^\s+(FAIL|WARN)|^\s+\|" }
-exit $LASTEXITCODE
+# stderr lines (Godot warnings) must not stop the wrapper; script / parse errors are shown so a broken lab is not silent.
+$ErrorActionPreference = "Continue"
+& $gate @godotArgs 2>&1 | ForEach-Object { "$_" } | Where-Object { $_ -match "ART LAB|^\s+(FAIL|WARN)|^\s+\||SCRIPT ERROR|Parse Error" }
+$code = $LASTEXITCODE
+if ($Sweep -eq "" -and $Scene -ne "") {
+	$name = [IO.Path]::GetFileNameWithoutExtension($Scene)
+	$card = Join-Path $root "docs\art\lab\$name\scorecard.md"
+	if (Test-Path $card) { Write-Output "Scorecard: $card (contact sheet: contact_sheet.png next to it)" }
+}
+exit $code

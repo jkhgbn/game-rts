@@ -66,7 +66,8 @@ static func check_and_report(lab: Object, shots: Array) -> int:
 	for s: Dictionary in shots:
 		var id := String(s["id"])
 		var row := {"id": id, "what": s.get("what", ""), "result": "FAIL", "score": 0, "why": "", "changed_pct": 0.0,
-			"changed_px": 0, "max_delta": 0, "mean_delta": 0.0, "bbox": [], "where": "-", "unstable_px": 0, "ignored_pct": 0.0}
+			"changed_px": 0, "max_delta": 0, "mean_delta": 0.0, "bbox": [], "where": "-", "unstable_px": 0, "ignored_pct": 0.0,
+			"regions": []}
 		if not caps.has(id):
 			row["why"] = "not captured"
 			rows.append(row)
@@ -108,6 +109,16 @@ static func check_and_report(lab: Object, shots: Array) -> int:
 			var heat := Diff.heatmap(cur, res, mask)
 			_save_png(heat, latest.path_join(id + "_diff.png"))
 			_save_png(Diff.compare_strip(golden, cur, heat), latest.path_join(id + "_compare.png"))
+			var regs := Diff.regions(res)
+			row["regions"] = regs.map(func(g: Dictionary) -> Array:
+				var rr: Rect2i = g["rect"]
+				return [rr.position.x, rr.position.y, rr.size.x, rr.size.y, int(g["px"])])
+			var focus_path := latest.path_join(id + "_focus.png")
+			var focus: Image = Diff.focus_sheet(golden, cur, heat, regs) if v["result"] != "PASS" or int(res["changed_px"]) >= Diff.MIN_CHANGED_PX else null
+			if focus != null:
+				_save_png(focus, focus_path)
+			elif FileAccess.file_exists(focus_path):
+				DirAccess.remove_absolute(focus_path)   # no stale zoom from an older run
 		rows.append(row)
 		print("  %s %s: %.3f %% changed (%d px), bbox %s, %s" % [row["result"], id, float(row["changed_pct"]),
 			int(row["changed_px"]), str(row["bbox"]), row["why"]])
@@ -141,7 +152,8 @@ static func _write_scorecard(lab: Object, latest: String, rows: Array[Dictionary
 	md.append("")
 	md.append("Thresholds: PASS <= %.2f %% changed pixels (or < %d px), WARN <= %.1f %%, FAIL above. Score = 100 at 0 %%, 0 at %.0f %%. " % [
 		Diff.PASS_PCT, Diff.MIN_CHANGED_PX, Diff.WARN_PCT, Diff.SCORE_ZERO_PCT] +
-		"Images in this folder: `<shot>.png` (now), `<shot>_diff.png` (heatmap: yellow small / red big change, blue ignored, magenta box), `<shot>_compare.png` (golden | now | heatmap).")
+		"Images in this folder: `<shot>.png` (now), `<shot>_diff.png` (heatmap: yellow small / red big change, blue ignored, magenta box), `<shot>_compare.png` (golden | now | heatmap, 1/3 size), " +
+		"`<shot>_focus.png` (**read this one first**: the change regions zoomed up to 3x, one row per region in the order listed below, golden | now | heatmap; written when >= %d px changed)." % Diff.MIN_CHANGED_PX)
 	md.append("")
 	md.append("| Shot | Result | Score | Changed | Pixels | Max delta | Change box (x, y, w, h) | Where | Unstable px | Ignored | Why |")
 	md.append("|---|---|---|---|---|---|---|---|---|---|---|")
@@ -161,8 +173,10 @@ static func _write_scorecard(lab: Object, latest: String, rows: Array[Dictionary
 		if r["result"] == "NEW":
 			md.append("- **%s**: %s." % [r["id"], r["why"]])
 		else:
-			md.append("- **%s** (%s): open `%s_compare.png`. Intended change -> re-record: `tools\\visual_diff_lab\\run_visual_diff_lab.ps1 -Golden -Shots %s`. Accidental -> find the commit that touched the %s of this shot." % [
-				r["id"], r["why"], r["id"], r["id"], r["where"]])
+			md.append("- **%s** (%s): open `%s_focus.png` (zoomed regions), then `%s_compare.png`. Intended change -> re-record: `tools\\visual_diff_lab\\run_visual_diff_lab.ps1 -Golden -Shots %s`. Accidental -> find the commit that touched what the regions show.%s" % [
+				r["id"], r["why"], r["id"], r["id"], r["id"], _regions_text(r)])
+			if r["result"] != "FAIL" or String(r["id"]).begins_with("map_"):
+				md.append("  - Idle poses / animation phase only (a character in another pose, same colours)? That is run-to-run noise, not a regression: note it in docs/plan/visual-diff-lab.md \"Known noise\" instead of re-recording.")
 	if not any:
 		md.append("- Nothing: every shot matches its golden.")
 	for r2: Dictionary in rows:
@@ -183,6 +197,20 @@ static func _write_scorecard(lab: Object, latest: String, rows: Array[Dictionary
 		j.store_string(JSON.stringify({"when": _stamp(), "commit": lab.get(&"commit"), "result": overall, "score": score,
 			"worst": worst, "tolerance": lab.get(&"tolerance"), "shots": rows, "notes": notes}, "\t"))
 		j.close()
+
+
+static func _regions_text(r: Dictionary) -> String:
+	var regs: Array = r.get("regions", [])
+	if regs.is_empty():
+		return ""
+	var parts: Array[String] = []
+	var i := 1
+	for g: Variant in regs:
+		var a: Array = g
+		parts.append("%d) %d px at %d, %d (%d x %d, %s)" % [i, int(a[4]), int(a[0]), int(a[1]), int(a[2]), int(a[3]),
+			Diff.region_name(Rect2i(int(a[0]), int(a[1]), int(a[2]), int(a[3])), Vector2i(1600, 900))])
+		i += 1
+	return " Regions: " + "; ".join(parts) + "."
 
 
 static func _append_history(lab: Object, mode: String, result: String, score: int, summary: String, rows: Array = []) -> void:

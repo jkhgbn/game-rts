@@ -1,8 +1,8 @@
 {
 	"shots": {
 		"lineup_fire": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:14",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:50",
 			"size": [
 				1600,
 				900
@@ -12,8 +12,8 @@
 			"what": "every Fire unit type"
 		},
 		"lineup_ice": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:15",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:51",
 			"size": [
 				1600,
 				900
@@ -23,8 +23,8 @@
 			"what": "every Ice unit type"
 		},
 		"lineup_nature": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:15",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:52",
 			"size": [
 				1600,
 				900
@@ -34,8 +34,8 @@
 			"what": "every Nature unit type"
 		},
 		"lineup_shadow": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:16",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:53",
 			"size": [
 				1600,
 				900
@@ -45,8 +45,8 @@
 			"what": "every Shadow unit type"
 		},
 		"map_centre": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:13",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:48",
 			"size": [
 				1600,
 				900
@@ -56,8 +56,8 @@
 			"what": "Crown isle, river, crossings, fog off"
 		},
 		"map_overview": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:14",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:49",
 			"size": [
 				1600,
 				900
@@ -67,8 +67,8 @@
 			"what": "max zoom over the whole west half, fog off"
 		},
 		"map_player_base": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:13",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:47",
 			"size": [
 				1600,
 				900
@@ -78,8 +78,8 @@
 			"what": "player keep, workers, start units, HUD"
 		},
 		"map_west_meadow": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:13",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:49",
 			"size": [
 				1600,
 				900
@@ -89,8 +89,8 @@
 			"what": "west meadow toward the river, fog edge"
 		},
 		"menu_main": {
-			"commit": "main@86810afdc0+wip",
-			"recorded": "2026-09-27 00:06:12",
+			"commit": "main@0fca55bc2d+wip",
+			"recorded": "2026-09-27 07:36:47",
 			"size": [
 				1600,
 				900
@@ -101,5 +101,5 @@
 		}
 	},
 	"tolerance": 12,
-	"updated": "2026-09-27 00:06:16"
+	"updated": "2026-09-27 07:36:53"
 }

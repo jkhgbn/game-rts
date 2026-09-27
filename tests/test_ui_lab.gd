@@ -145,6 +145,73 @@ func _run() -> void:
 	var bg := UILabChecks.sample_background(img, Rect2(10, 10, 20, 10))
 	_check(bg.is_equal_approx(Color(0.2, 0.4, 0.6)) or bg.to_html() == Color(0.2, 0.4, 0.6).to_html(), "sample_background on a flat image")
 
+	# ---- v2 checks
+	# Bottom-bar gap: two bottom panels 1400 px apart on a 3440 screen = FAIL; 60 px apart = nothing.
+	var wide := Control.new()
+	wide.size = Vector2(3440, 1440)
+	root.add_child(wide)
+	for x: float in [20.0, 1100.0, 3100.0]:
+		var bp := Panel.new()
+		bp.position = Vector2(x, 1220)
+		bp.size = Vector2(1000.0 if x == 20.0 else (60.0 if x == 1100.0 else 320.0), 210)
+		wide.add_child(bp)
+	await process_frame
+	var gaps := UILabChecks.find_bottom_gaps(UILabChecks.visible_controls(wide), Rect2(0, 0, 3440, 1440))
+	_check(gaps.size() == 1 and bool(gaps[0]["fail"]), "gaps: expected one FAIL gap on the ultrawide bottom bar, got %s" % str(gaps.map(func(d: Dictionary) -> String: return d["detail"])))
+	(wide.get_child(2) as Control).position.x = 1220.0   # command card right after the bar: no gap
+	await process_frame
+	_check(UILabChecks.find_bottom_gaps(UILabChecks.visible_controls(wide), Rect2(0, 0, 3440, 1440)).is_empty(), "gaps: a packed bottom bar was flagged")
+	wide.free()
+	# Bleed-through: a half-transparent modal panel over a label of the screen below.
+	var below := Label.new()
+	below.text = "Selected: 4 units"
+	below.position = Vector2(700, 400)
+	root.add_child(below)
+	var modal_layer := CanvasLayer.new()
+	modal_layer.layer = 5
+	root.add_child(modal_layer)
+	var modal := PanelContainer.new()
+	var msb := StyleBoxFlat.new()
+	msb.bg_color = Color(0.05, 0.05, 0.05, 0.6)
+	modal.add_theme_stylebox_override("panel", msb)
+	modal.position = Vector2(600, 300)
+	modal.custom_minimum_size = Vector2(400, 300)
+	modal_layer.add_child(modal)
+	await process_frame
+	var bl := UILabChecks.find_bleed_through(modal_layer, UILabChecks.visible_controls(root))
+	_check(_has(bl, below) and bool(_item(bl, below)["fail"]), "bleed: text under a 0.6-alpha modal not flagged FAIL")
+	msb.bg_color.a = 1.0
+	_check(not _has(UILabChecks.find_bleed_through(modal_layer, UILabChecks.visible_controls(root)), below), "bleed: opaque modal still flagged")
+	modal_layer.layer = -1   # now the label is drawn over the (lower) modal
+	_check(_has(UILabChecks.find_bleed_through(modal_layer, UILabChecks.visible_controls(root)), below), "bleed: text drawn over the modal not flagged")
+	modal_layer.free()
+	below.free()
+	# Icon contrast: a flat patch ~1:1, a white knob on black high.
+	var ic := Image.create(40, 20, false, Image.FORMAT_RGBA8)
+	ic.fill(Color(0.2, 0.2, 0.22))
+	_check(UILabChecks.icon_contrast(ic, Rect2(0, 0, 40, 20)) < 1.2, "icons: flat patch not ~1:1")
+	ic.fill_rect(Rect2i(4, 5, 32, 10), Color(0.45, 0.45, 0.5))    # the track of an 'on' switch
+	ic.fill_rect(Rect2i(24, 4, 12, 12), Color(0.95, 0.95, 0.95))  # its knob
+	_check(UILabChecks.icon_contrast(ic, Rect2(0, 0, 40, 20)) > 3.0, "icons: white knob on dark track not > 3:1")
+	_check(UILabChecks.icon_coverage(ic, Rect2(0, 0, 40, 20)) > UILabChecks.ICON_MIN_COVERAGE, "icons: a switch with its track counted as empty")
+	ic.fill(Color(0.2, 0.2, 0.22))
+	ic.fill_rect(Rect2i(30, 8, 4, 4), Color(0.7, 0.7, 0.7))   # the "Fullscreen off" case: a lone dot
+	_check(UILabChecks.icon_coverage(ic, Rect2(0, 0, 40, 20)) < UILabChecks.ICON_MIN_COVERAGE, "icons: a lone 4 px dot not flagged as empty")
+	# Edge crowding: a panel 5 px above the bottom edge.
+	var ep := Panel.new()
+	ep.position = Vector2(400, 595)
+	ep.size = Vector2(600, 300)
+	root.add_child(ep)
+	var ep_ok := Panel.new()
+	ep_ok.position = Vector2(0, 0)
+	ep_ok.size = Vector2(300, 200)
+	root.add_child(ep_ok)
+	await process_frame
+	var edges := UILabChecks.find_edge_crowding([ep, ep_ok] as Array[Control], SCREEN)
+	_check(_has(edges, ep) and not _has(edges, ep_ok), "edge: 5 px panel not flagged or flush panel flagged")
+	ep.free()
+	ep_ok.free()
+
 	# ---- the good screen passes every check
 	var ctl_good := UILabChecks.visible_controls(good)
 	_check(UILabChecks.find_overflow(ctl_good).is_empty(), "good: overflow reported")

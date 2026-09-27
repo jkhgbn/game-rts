@@ -71,5 +71,5 @@ $ErrorActionPreference = "Continue"
 	--fixed-fps 60 --quit-after $QuitAfter '--' @lab
 $code = $LASTEXITCODE
 Write-Host ("Visual Diff Lab finished in {0:N0} s, exit {1}. Scorecard: {2}" -f ((Get-Date) - $t0).TotalSeconds, $code,
-	(Join-Path $Dir "docs\visual\lab\latest\scorecard.md"))
+	(Join-Path $(if ($OutDir -ne "") { $OutDir } else { Join-Path $Dir "docs\visual\lab" }) "latest\scorecard.md"))
 exit $code

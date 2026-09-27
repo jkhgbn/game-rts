@@ -48,6 +48,10 @@ branches only (hidden or alpha < 0.05 skipped, SubViewports = 3D backdrops skipp
 | Min font size | effective px (font size x global scale) >= 11 | < 9 px | 9-10 px |
 | Contrast | WCAG AA: 4.5 small text, 3.0 large (>= 24 px, or >= 19 px with a non-default font). Text colour x modulate, blended by its alpha over the **background sampled from the screenshot** (median pixel of the text rect + 3 px); outlined text (>= 2 px) may count the text / outline contrast; disabled buttons exempt | < 2/3 of the rule | under the rule |
 | Tooltips | buttons with `get_tooltip()` empty. Menus / pause / end: only abbreviation / icon buttons (<= 3 chars). HUD: every button | short / icon button without tooltip | HUD text button without tooltip |
+| Bottom-bar gaps (HUD, v2) | panels in the bottom 25 % of the screen: the empty x-gap between two of them | gap > 40 % of the width | gap > 25 % |
+| Bleed-through (pause, end, settings, v2) | text outside the modal's main panel that lies on it: drawn over it (higher layer / later in the tree), or under a panel whose background alpha < 0.95 (StyleBoxTexture: the texture centre's alpha) | drawn over, or alpha < 0.8 | alpha 0.8-0.95 |
+| Icon contrast (v2, windowed) | CheckButton / CheckBox icon area, icon-only buttons (inner 70 %): 97th vs 3rd luminance percentile >= 3:1 (WCAG 1.4.11); switches: >= 25 % of the icon area drawn (a lone knob dot reads as empty) | < 2:1 | < 3:1, or switch coverage < 25 % |
+| Edge margin (v2) | outermost panels >= 120 x 60: flush with a screen edge (0 px) or >= 8 px from it | - | 0.5-8 px from an edge |
 | Hotkeys (HUD) | command card: visible key badges (`CommandCard.key_labels`) all different; help (`GameHUD.help_text`): a key listed twice with different actions and no context (`Flag: Z raise`, `Bazaar: Z caravan`, `B, B` sequences are context) | duplicate badge | duplicate help key |
 
 Score: each (screen, resolution, check) cell scores 1.0 on PASS, else `1 / (1 + 0.3 x items + 0.5 x fail items)`;
@@ -71,9 +75,23 @@ three sizes; every problem is on the HUD):
   "Fullscreen" switch (off) is almost invisible (icon contrast); the skirmish setup panel ends ~5 px above the bottom
   at 1600x900.
 
-Next steps (v2):
-- Checks for what the shots show: bottom-bar coverage / gaps on ultrawide, cross-layer bleed-through (text of a lower
-  layer visible inside a modal panel), icon / switch contrast, panels within N px of the screen edge.
+### v2 (2026-09-27, lab review, laptop RTX 3070 Laptop, 1920x1080 screen)
+- **4 new checks** (table above) for what v1 only saw on the shots: bottom-bar gaps, bleed-through, icon contrast /
+  switch coverage, edge margin. Weights: gaps 1.5, bleed 2, icons 1, edge 1. Self-test extended (planted ultrawide gap,
+  0.6-alpha modal, text drawn over a lower modal, flat vs drawn switch icon, a panel 5 px from the edge).
+- **Window-size honesty**: v1 trusted `root.size`, which keeps the requested size when the OS clamps the window. On
+  the laptop the "3440x1440" run really rendered and checked **1920x1080** and reported it as 3440. v2 reads the
+  rendered texture / real window size; a size the screen cannot show is **skipped** (console `UI LAB WARNING`, a
+  "NOT CHECKED" note in the scorecard), never faked. So the ultrawide checks only run on a screen >= 3440x1440
+  (the desktop); the gap check is proven by the self-test.
+- Laptop run (1600x900 + 1920x1080): **FAIL 96** (2 FAIL, 8 WARN, 96 PASS). New findings = 3 of the 4 v1 "seen, not
+  measured" items: WARN edge (skirmish setup panel **4 px** from the bottom at 1600x900), WARN icons (settings
+  "Fullscreen" switch off: only 16 % of its icon drawn, a lone knob dot), WARN bleed (end screen: the selection panel
+  text shows through the end panel, frame texture centre alpha 0.92). The 4th (HUD at 3440) needs the desktop. The v1
+  items are unchanged (champion slot contrast FAIL, F5-F7 10 px, help G twice). Handoff: `docs/handoff/for-ui-coder.md`.
+
+Next steps (v3):
+- Run the 3440x1440 size on the desktop once (the bottom-bar gap check should FAIL there until the HUD stretches).
 - More screens: campaign panel, briefing / dialogue / objectives (mission 1), shop (T), tavern (Y), trade (U),
   item tooltip, selection of a building (Keep command card), build menu (B), bounty flag card, the Summary end tab.
 - Tooltip pass: hover each HUD button and measure the tooltip panel (off-screen near the edges, font, contrast).

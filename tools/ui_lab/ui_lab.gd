@@ -63,7 +63,14 @@ func _main() -> void:
 		var got: Vector2i = await _set_window(sz)
 		report.actual_sizes[res] = "%dx%d" % [got.x, got.y]
 		if got != sz and not headless:
-			report.notes.append("%s: the window came out %dx%d (screen too small?); checks ran at that size" % [res, got.x, got.y])
+			# A size the screen cannot show is skipped, not faked: its layout would be the smaller one's.
+			var scr := DisplayServer.screen_get_size(DisplayServer.window_get_current_screen())
+			report.notes.append("**%s NOT CHECKED**: the window came out %dx%d (screen %dx%d). Run this size on a screen at least that big (desktop ultrawide)." % [
+				res, got.x, got.y, scr.x, scr.y])
+			print("UI LAB WARNING: %s not reachable on this %dx%d screen (window %dx%d): skipped" % [res, scr.x, scr.y, got.x, got.y])
+			for sc in screens:
+				report.add_skip(sc, res, "overflow", "screen too small for %s (got %dx%d)" % [res, got.x, got.y])
+			continue
 		print("UI LAB: %s (window %dx%d)" % [res, got.x, got.y])
 		await _run_resolution(res, screens)
 	Engine.time_scale = 1.0
@@ -123,7 +130,11 @@ func _set_window(sz: Vector2i) -> Vector2i:
 	var origin := DisplayServer.screen_get_position(DisplayServer.window_get_current_screen())
 	root.position = origin if big else origin + (scr - sz) / 2
 	await _frames(8)
-	return root.size
+	# root.size keeps the requested size even when the OS clamps the window to the screen (laptop 1920x1080 asked
+	# for 3440x1440: v1 reported "3440x1440" and checked a 1920 layout). The rendered texture is the truth.
+	var tex := Vector2i(root.get_texture().get_size())
+	var win := DisplayServer.window_get_size()
+	return Vector2i(mini(mini(tex.x, win.x), root.size.x), mini(mini(tex.y, win.y), root.size.y))
 
 
 func _frames(n: int) -> void:
@@ -278,6 +289,16 @@ func _capture(screen: String, res: String, scope: Node, level: Node = null) -> v
 			wname = GameHUD.wizard_short_name(level.get(&"hero"))
 		hk.append_array(UILabChecks.find_duplicate_help_keys(GameHUD.help_text(wname)))
 		report.add_items(screen, res, "hotkeys", hk)
+	# v2 checks (lab review 2026-09-27)
+	if in_game:
+		report.add_items(screen, res, "gaps", UILabChecks.find_bottom_gaps(controls, screen_rect))
+	if screen in ["pause", "end_score", "settings"]:
+		report.add_items(screen, res, "bleed", UILabChecks.find_bleed_through(scope, UILabChecks.visible_controls(root)))
+	if img != null:
+		report.add_items(screen, res, "icons", UILabChecks.find_low_contrast_icons(controls, img))
+	else:
+		report.add_skip(screen, res, "icons", "headless: needs the screenshot")
+	report.add_items(screen, res, "edge", UILabChecks.find_edge_crowding(controls, screen_rect))
 	print("UI LAB: %s @ %s: %d controls checked" % [screen, res, controls.size()])
 
 

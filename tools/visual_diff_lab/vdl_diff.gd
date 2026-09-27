@@ -236,6 +236,125 @@ static func compare_strip(golden: Image, current: Image, heat: Image, scale: flo
 	return out
 
 
+## Change regions: changed pixels binned into `cell` px cells, cells grouped 8-connected (a gap of one empty cell
+## still joins, so one model's scattered edge pixels stay one region). Returns up to `max_n` regions, biggest first:
+## [{"rect": Rect2i (tight around the changed pixels), "px": int}]. One bounding box over the whole frame (e.g. two
+## characters at both ends of the menu) says little; the regions say what moved.
+static func regions(res: Dictionary, cell: int = 24, max_n: int = 4) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var delta: Variant = res.get("delta")
+	if not (delta is Image) or int(res.get("changed_px", 0)) == 0:
+		return out
+	var d := (delta as Image).get_data()
+	var w := (delta as Image).get_width()
+	var h := (delta as Image).get_height()
+	var cw := (w + cell - 1) / cell
+	var ch := (h + cell - 1) / cell
+	var count := PackedInt32Array()
+	count.resize(cw * ch)
+	var mn: Array[Vector2i] = []
+	var mx: Array[Vector2i] = []
+	mn.resize(cw * ch)
+	mx.resize(cw * ch)
+	for p in w * h:
+		if d[p] == 0:
+			continue
+		var x := p % w
+		var y := p / w
+		var ci := (y / cell) * cw + x / cell
+		if count[ci] == 0:
+			mn[ci] = Vector2i(x, y)
+			mx[ci] = Vector2i(x, y)
+		else:
+			mn[ci] = Vector2i(mini(mn[ci].x, x), mini(mn[ci].y, y))
+			mx[ci] = Vector2i(maxi(mx[ci].x, x), maxi(mx[ci].y, y))
+		count[ci] += 1
+	var label := PackedInt32Array()
+	label.resize(cw * ch)
+	label.fill(-1)
+	var comps: Array[Dictionary] = []
+	for start in cw * ch:
+		if count[start] == 0 or label[start] >= 0:
+			continue
+		var id := comps.size()
+		var comp := {"px": 0, "a": mn[start], "b": mx[start]}
+		var stack: Array[int] = [start]
+		label[start] = id
+		while not stack.is_empty():
+			var c: int = stack.pop_back()
+			comp["px"] = int(comp["px"]) + count[c]
+			comp["a"] = Vector2i(mini((comp["a"] as Vector2i).x, mn[c].x), mini((comp["a"] as Vector2i).y, mn[c].y))
+			comp["b"] = Vector2i(maxi((comp["b"] as Vector2i).x, mx[c].x), maxi((comp["b"] as Vector2i).y, mx[c].y))
+			var cx := c % cw
+			var cy := c / cw
+			for dy in range(-2, 3):
+				for dx in range(-2, 3):
+					var nx := cx + dx
+					var ny := cy + dy
+					if nx < 0 or ny < 0 or nx >= cw or ny >= ch:
+						continue
+					var n := ny * cw + nx
+					if count[n] > 0 and label[n] < 0:
+						label[n] = id
+						stack.append(n)
+		comps.append(comp)
+	comps.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["px"]) > int(b["px"]))
+	for comp2: Dictionary in comps.slice(0, max_n):
+		var a: Vector2i = comp2["a"]
+		var b: Vector2i = comp2["b"]
+		out.append({"rect": Rect2i(a, b - a + Vector2i.ONE), "px": int(comp2["px"])})
+	return out
+
+
+## Zoomed crops of the change regions for a reader who can't zoom: one row per region, golden | now | heatmap, each
+## crop grown by 12 px (at least 96 x 64), scaled to fit `panel` (up to 3x, nearest filter so pixels stay sharp).
+## Rows are separated by a coloured bar (row 1 red, 2 orange, 3 yellow, 4 white) matching the region order in the
+## scorecard. Returns null when there is no region.
+static func focus_sheet(golden: Image, current: Image, heat: Image, regs: Array, panel: Vector2i = Vector2i(520, 300)) -> Image:
+	if regs.is_empty() or current == null:
+		return null
+	var w := current.get_width()
+	var h := current.get_height()
+	var gut := 6
+	var bar_cols: Array[Color] = [Color(0.95, 0.2, 0.2), Color(1.0, 0.55, 0.1), Color(1.0, 0.9, 0.2), Color(0.9, 0.9, 0.9)]
+	var rows: Array[Image] = []
+	for i in regs.size():
+		var r: Rect2i = (regs[i] as Dictionary)["rect"]
+		var c := r.get_center()
+		var size := Vector2i(maxi(r.size.x + 24, 96), maxi(r.size.y + 24, 64))
+		var crop := Rect2i(c - size / 2, size).intersection(Rect2i(0, 0, w, h))
+		var s := minf(3.0, minf(float(panel.x) / crop.size.x, float(panel.y) / crop.size.y))
+		var pw := maxi(1, int(crop.size.x * s))
+		var ph := maxi(1, int(crop.size.y * s))
+		var row := Image.create(pw * 3 + gut * 4, ph + gut * 2 + 4, false, Image.FORMAT_RGBA8)
+		row.fill(Color(0.08, 0.08, 0.1))
+		row.fill_rect(Rect2i(0, 0, row.get_width(), 4), bar_cols[mini(i, bar_cols.size() - 1)])
+		var k := 0
+		for src: Image in [golden, current, heat]:
+			var p: Image
+			if src == null or src.get_width() != w or src.get_height() != h:
+				p = Image.create(pw, ph, false, Image.FORMAT_RGBA8)
+				p.fill(Color(0.3, 0.0, 0.0))
+			else:
+				p = to_rgba8(src).get_region(crop)
+				p.resize(pw, ph, Image.INTERPOLATE_NEAREST if s >= 1.0 else Image.INTERPOLATE_BILINEAR)
+			row.blit_rect(p, Rect2i(0, 0, pw, ph), Vector2i(gut + k * (pw + gut), gut + 4))
+			k += 1
+		rows.append(row)
+	var ow := 0
+	var oh := 0
+	for r2: Image in rows:
+		ow = maxi(ow, r2.get_width())
+		oh += r2.get_height()
+	var out := Image.create(ow, oh, false, Image.FORMAT_RGBA8)
+	out.fill(Color(0.08, 0.08, 0.1))
+	var y := 0
+	for r3: Image in rows:
+		out.blit_rect(r3, Rect2i(0, 0, r3.get_width(), r3.get_height()), Vector2i(0, y))
+		y += r3.get_height()
+	return out
+
+
 ## Human name for where a box sits in a WxH frame ("top-left", "centre", ...).
 static func region_name(box: Rect2i, size: Vector2i) -> String:
 	if not box.has_area():

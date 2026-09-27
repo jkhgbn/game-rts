@@ -12,3 +12,6 @@ One row per lab run (`tools/visual_diff_lab/run_visual_diff_lab.ps1`, docs/plan/
 | 2026-09-27 00:02:31 | main@86810afdc0+wip | check | FAIL | 96 | menu_main FAIL 1.43% |
 | 2026-09-27 00:06:16 | main@86810afdc0+wip | golden | GOLDEN | - | 9 golden(s) recorded: menu_main, map_player_base, map_centre, map_west_meadow, map_overview, lineup_fire, lineup_ice, lineup_nature, lineup_shadow |
 | 2026-09-27 00:07:49 | main@c48d59cfc1+wip | check | PASS | 100 | all 9 shots unchanged |
+| 2026-09-27 07:36:53 | main@0fca55bc2d+wip | golden | GOLDEN | - | 9 golden(s) recorded: menu_main, map_player_base, map_centre, map_west_meadow, map_overview, lineup_fire, lineup_ice, lineup_nature, lineup_shadow |
+| 2026-09-27 07:37:55 | main@0fca55bc2d+wip | check | PASS | 100 | all 9 shots unchanged |
+| 2026-09-27 07:38:59 | main@0fca55bc2d+wip | check | PASS | 100 | all 9 shots unchanged |

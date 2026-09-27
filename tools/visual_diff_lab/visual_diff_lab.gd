@@ -78,6 +78,7 @@ func _main() -> void:
 			print("VISUAL_DIFF_LAB ERROR: the skirmish never became ready")
 			quit(2)
 			return
+	notes.append("%d character idle phases set from the node path (determinism, see _fix_idle_phase)" % _phase_fixed)
 	var code := 0
 	if mode == "golden":
 		Report.write_goldens(self, shots)
@@ -137,6 +138,34 @@ func _on_node_added(node: Node) -> void:
 	if &"class_rng" in node or &"_rng" in node or &"rng" in node:
 		_seed_node_rngs(node)
 		node.ready.connect(_seed_node_rngs.bind(node), CONNECT_ONE_SHOT)
+	if &"_phase_off" in node:
+		node.ready.connect(_fix_idle_phase.bind(node), CONNECT_ONE_SHOT)
+
+
+## CharacterModel (art/units/kit/character_model.gd) picks its idle phase and LOD timer from hash(instance id) in
+## _ready, and instance ids differ run to run (threaded loads): the 4 Crown-isle Ruin Wardens, Vessa's head turn and
+## the menu diorama characters stood in another idle pose each run (map shots 0.07-0.3 %, menu ~1 %). The lab sets
+## both from the node path instead, right after _ready (lab only; the game keeps its per-instance variety).
+var _phase_fixed := 0
+
+
+func _fix_idle_phase(node: Node) -> void:
+	if not is_instance_valid(node) or not node.is_inside_tree():
+		return
+	var h := absi(hash([seed_value, _id_strip.sub(String(node.get_path()), "@", true)]))
+	var period: Variant = node.get(&"idle_period")
+	var p := float(period) if (period is float or period is int) else 1.0
+	var ph := float(h % 100) / 100.0 * p
+	node.set(&"_phase_off", ph)
+	if &"_tier_timer" in node:
+		node.set(&"_tier_timer", float(h % 50) / 100.0)
+	# Timers some models derive from the phase inside their own _ready (flyer wing phase, breath / pollen puffs).
+	if &"_flap_p" in node:
+		node.set(&"_flap_p", ph)
+	for key: StringName in [&"_breath_t", &"_pollen_t"]:
+		if key in node:
+			node.set(key, 0.0)
+	_phase_fixed += 1
 
 
 var _id_strip := RegEx.create_from_string("@[A-Za-z0-9_]*@\\d+")
