@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/biomes/marsh/marsh_puddles.res" id="1"]
+
+[node name="marsh_puddles" type="MeshInstance3D"]
+mesh = ExtResource("1")

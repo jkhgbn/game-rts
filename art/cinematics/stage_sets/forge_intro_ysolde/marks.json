@@ -1,0 +1,164 @@
+{
+	"S11": {
+		"from": [
+			3.5,
+			12.0,
+			12.0
+		],
+		"to": [
+			3.4,
+			3.2,
+			8.5
+		],
+		"look_from": [
+			3.0,
+			1.4,
+			1.0
+		],
+		"look_to": [
+			3.0,
+			1.6,
+			1.0
+		],
+		"fov_from": 42.0,
+		"fov_to": 42.0,
+		"subject": "ysolde",
+		"dur": 3.0,
+		"lens": "ms on ysolde, front, overhead -> high, crane -9"
+	},
+	"S26": {
+		"from": [
+			20.2,
+			0.6,
+			12.4
+		],
+		"to": [
+			20.6,
+			0.6,
+			13.0
+		],
+		"look_from": [
+			21.6,
+			0.75,
+			15.3
+		],
+		"look_to": [
+			21.6,
+			0.75,
+			15.3
+		],
+		"fov_from": 36.0,
+		"fov_to": 36.0,
+		"subject": "ysolde_young",
+		"dur": 7.0,
+		"lens": "ms on ysolde_young, 3/4 left, ground"
+	},
+	"S27": {
+		"from": [
+			12.0,
+			0.7,
+			11.0
+		],
+		"to": [
+			-2.0,
+			0.9,
+			11.0
+		],
+		"look_from": [
+			5.0,
+			2.6,
+			-0.5
+		],
+		"look_to": [
+			4.0,
+			2.8,
+			-1.0
+		],
+		"fov_from": 44.0,
+		"fov_to": 44.0,
+		"subject": "ysolde",
+		"dur": 7.0,
+		"lens": "fs on ysolde and treant, 3/4 right -> 3/4 left, low, arc 60"
+	},
+	"S27U": {
+		"from": [
+			-5.0,
+			1.1,
+			4.5
+		],
+		"to": [
+			-4.0,
+			1.2,
+			4.2
+		],
+		"look_from": [
+			1.5,
+			1.6,
+			-1.5
+		],
+		"look_to": [
+			2.5,
+			1.9,
+			-1.8
+		],
+		"fov_from": 46.0,
+		"fov_to": 46.0,
+		"subject": "vinelasher",
+		"dur": 5.0,
+		"lens": "ws on vinelasher and treant, 3/4 left, low"
+	},
+	"S28": {
+		"from": [
+			4.6,
+			2.5,
+			-3.2
+		],
+		"to": [
+			4.4,
+			2.45,
+			-2.4
+		],
+		"look_from": [
+			-6.0,
+			1.2,
+			15.0
+		],
+		"look_to": [
+			-6.0,
+			1.2,
+			15.0
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "messenger",
+		"dur": 6.0,
+		"lens": "ws ots ysolde over messenger, high"
+	},
+	"S29": {
+		"from": [
+			3.7,
+			1.75,
+			3.8
+		],
+		"to": [
+			3.55,
+			1.7,
+			3.35
+		],
+		"look_from": [
+			3.0,
+			1.45,
+			1.0
+		],
+		"look_to": [
+			3.0,
+			1.45,
+			1.0
+		],
+		"fov_from": 30.0,
+		"fov_to": 30.0,
+		"subject": "ysolde",
+		"dur": 7.0,
+		"lens": "cu on ysolde, 3/4 right, high (her palm)"
+	}
+}

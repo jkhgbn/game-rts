@@ -1,0 +1,57 @@
+# Prologue P4: Ysolde of Nature (docs/design/prologue-3min.md S11, S26-S29 + a units-in-action shot S27U).
+# Strength = growing life (fire swept her wood; the burnt ground greens around her and the Elder Treant stands up out
+# of the ash); weakness = softness (a messenger at her border, a fallen trunk and roots close the road, smoke on the
+# horizon behind him); love = a blossom opens in her palm. Young Ysolde coaxes a sapling through the frost in a snowy
+# clearing (S26, east corner).
+# P5 cues: S11 at 0.8 anim ysolde play_cast arg=wild_bloom; S26 at 1.5 anim ysolde_young play_cast arg=call_the_thicket
+#   (hide her outside S26); S27 at 1.0 anim ysolde play_cast arg=wild_bloom, 2.5 anim treant play_cast (stands up out
+#   of the ash); S27U at 0.5 anim vinelasher play_attack, 1.0 anim treant play_attack
+#   S28 at 2.0 anim ysolde play_cast arg=thornburst (roots close the road); S29 at 1.0 anim ysolde play_cast arg=wild_bloom
+# Build: tools\world_forge\run_world_forge.ps1 build forge_intro_ysolde   (stills: ... sheet forge_intro_ysolde)
+set forge_intro_ysolde  size=64x54  ground=#3d5a26  light=dawn  seed=51  title="Ysolde, of Nature"
+budget draws<=200 lights<=0
+
+# the Nature keep in the old wood (north)
+place kit:nature_keep  at=(0,-19)  yaw=0  tag=keep  lights=off
+row   kit:giant_stump  from=(-12,-9) to=(-12,-9)  count=1  yaw=40
+# the burn (east of her): charred ground, the fire still running at its far edge
+path  burn  poly=[(4,-2),(8,3),(12,8)]  width=9  kit=ash
+place res://art/environment/biomes/ash/ash_scar_fx.tscn  at=(11,6)  scale=1.2  tag=wildfire
+# the road south past her, closed by fallen trunks; smoke on the horizon behind the messenger
+path  road  poly=[(-2,-9),(-3,-2),(-5,8),(-7,16),(-9,27)]  width=3.2  kit=road
+row   res://art/cinematics/stage_sets/forge_intro_ysolde/kits/ow_fallen_trunk.tscn  from=(-8.6,12.2)  to=(-4,13.4)  count=2  yaw=across
+place res://art/environment/biomes/ash/ash_scar_fx.tscn  at=(-14,25)  scale=2.2  tag=smoke
+# the snowy clearing (east corner): snow, capped rocks, the sapling (a tiny broadleaf, baked)
+path  snowpatch  poly=[(19,14),(25,17)]  width=8  kit=snow
+row   res://art/cinematics/stage_sets/forge_intro_ysolde/kits/snow_capped_rocks.tscn  from=(24.8,12.2) to=(17.2,18.8)  count=2  yaw=random
+row   kit:broadleaf  from=(21.3,14.9) to=(21.3,14.9)  count=1  yaw=20  scale=0.09
+
+# meadow + old wood (biome kits) - baked, one draw per material
+zone  keep_z  rect((-10,-28),(10,-12))
+zone  burn_z  circle((8,3),6)
+zone  snow_z  circle((22,15.5),6)
+zone  her  circle((3,1),3)
+scatter res://art/cinematics/stage_sets/forge_intro_ysolde/kits/meadow_tufts.tscn     area=rect((-31,-10),(31,26))  count=80  gap=1.2  seed=3  avoid=cams,keep_z,burn_z,snow_z,her
+scatter res://art/cinematics/stage_sets/forge_intro_ysolde/kits/meadow_daisies.tscn   area=rect((-31,-10),(31,26))  count=40  gap=1.4  seed=4  avoid=cams,keep_z,snow_z
+scatter res://art/cinematics/stage_sets/forge_intro_ysolde/kits/meadow_fruit_bush.tscn area=rect((-31,-10),(31,26))  count=8  gap=4  seed=5  avoid=cams,keep_z,burn_z,snow_z,her
+scatter res://art/cinematics/stage_sets/forge_intro_ysolde/kits/ow_ferns.tscn         area=rect((-31,-27),(31,-6))  count=26  gap=1.8  seed=6  avoid=cams,keep_z
+scatter res://art/cinematics/stage_sets/forge_intro_ysolde/kits/ow_moss_boulders.tscn area=rect((-31,-27),(31,26))  count=7  gap=4  seed=7  avoid=cams,keep_z,burn_z,snow_z,her
+row   res://art/cinematics/stage_sets/forge_intro_ysolde/kits/ash_charred_wood.tscn  poly=[(10.5,5.5),(12.5,2.5),(13.5,-0.5)]  count=3  yaw=random  jitter=0.8
+scatter kit:broadleaf  area=rect((-31,-27),(-14,26))  count=11  gap=4  seed=9   avoid=cams  scale=0.9..1.3
+scatter kit:broadleaf  area=rect((16,-27),(31,8))     count=8   gap=4  seed=10  avoid=cams  scale=0.9..1.3
+scatter kit:birch      area=rect((-31,-27),(31,-12))  count=10  gap=3.5  seed=11 avoid=cams,keep_z  scale=0.9..1.2
+
+# the cast
+actor ysolde         kit:ysolde  at=(3,1)  yaw=0  lights=off
+actor ysolde_young   kit:ysolde  at=(22,15.8)  yaw=210  scale=0.6  lights=off
+actor treant   res://art/units/titans/elder_treant/elder_treant.tscn  at=(8.5,-2.5)  yaw=-25
+actor vinelasher res://art/units/nature/vinelasher/vinelasher.tscn  at=(-0.5,-2)  yaw=10
+actor messenger res://art/units/fire/cinder_hand.tscn  at=(-7.6,15.6)  yaw=190
+
+# camera marks (Lens words = the intent; coordinates tuned and written here)
+mark S11   from=(3.5,12,12)  to=(3.4,3.2,8.5)  look=(3,1.4,1)  look_to=(3,1.6,1)  fov=42  subject=ysolde  dur=3  lens="ms on ysolde, front, overhead -> high, crane -9"
+mark S26   from=(20.2,0.6,12.4)  to=(20.6,0.6,13.0)  look=(21.6,0.75,15.3)  fov=36  subject=ysolde_young  dur=7  lens="ms on ysolde_young, 3/4 left, ground"
+mark S27   from=(12,0.7,11)  to=(-2,0.9,11)  look=(5,2.6,-0.5)  look_to=(4,2.8,-1)  fov=44  subject=ysolde  dur=7  lens="fs on ysolde and treant, 3/4 right -> 3/4 left, low, arc 60"
+mark S27U  from=(-5,1.1,4.5)  to=(-4,1.2,4.2)  look=(1.5,1.6,-1.5)  look_to=(2.5,1.9,-1.8)  fov=46  subject=vinelasher  dur=5  lens="ws on vinelasher and treant, 3/4 left, low"
+mark S28   from=(4.6,2.5,-3.2)  to=(4.4,2.45,-2.4)  look=(-6,1.2,15)  fov=40  subject=messenger  dur=6  lens="ws ots ysolde over messenger, high"
+mark S29   from=(3.7,1.75,3.8)  to=(3.55,1.7,3.35)  look=(3,1.45,1)  fov=30  subject=ysolde  dur=7  lens="cu on ysolde, 3/4 right, high (her palm)"

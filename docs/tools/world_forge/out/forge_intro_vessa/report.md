@@ -1,13 +1,12 @@
-# world_forge build: forge_intro_vessa
+# world_forge check: forge_intro_vessa
 
-2026-09-27 12:32:29 - `tools/world_forge/run_world_forge.ps1 build forge_intro_vessa` - hash `3132c90abf34`
+2026-09-27 12:58:12 - `tools/world_forge/run_world_forge.ps1 check forge_intro_vessa` - hash `df0bfd96a69f`
 
-## Result: **WARN** - quality **92 / 100** (previous run 96, -4)
+## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 1 WARN, 8 PASS, 0 info, 0 skipped, 11 s
+0 FAIL, 0 WARN, 9 PASS, 0 info, 0 skipped, 10 s
 
 ## Improve next
-1. **Cameras clear of geometry** (WARN): move from= / to= out of the model (see plan.png) _(from M2 Cameras clear of geometry)_
 
 ## Set contract
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -30,19 +29,18 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | M1 | Subject inside the 2.39 band | PASS 100 | 18 mark phases inside /y/ <= 0.62 | subject point (actor head / place centre / look point) projects inside the central 2.39:1 band (/ndc y/ <= 0.744, PASS <= 0.62) at a / b / c |  |
-| M2 | Cameras clear of geometry | **WARN** 50 | S15U@0.00 within 0.9 m of ruin_pillar (fills the frame); S15U@0.13 within 0.9 m of ruin_pillar (fills the frame); S15U@0.25 within 0.9 m of ruin_pillar (fills the frame) | every mark phase's camera is above the ground, outside walls / placed models (FAIL) and >= 0.9 m from them (WARN) | move from= / to= out of the model (see plan.png) |
+| M2 | Cameras clear of geometry | PASS 100 | ok | every mark phase's camera is above the ground, outside walls / placed models (FAIL) and >= 0.9 m from them (WARN) |  |
 | M3 | Line of sight to the subject | PASS 100 | ok | nothing placed between the camera and the subject (bounding boxes) |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | Deterministic layout | PASS 100 | 3132c90abf34 vs 3132c90abf34 | same spec + seed = the same layout (every transform) |  |
+| D1 | Deterministic layout | PASS 100 | df0bfd96a69f vs df0bfd96a69f | same spec + seed = the same layout (every transform) |  |
 
 ## Images
 - plan: [plan.png](plan.png)
 
 ## Notes
-- Mark projections: S08_a ndc (0.00, -0.21), S08_b ndc (0.00, -0.33), S08_c ndc (-0.00, -0.52), S14_a ndc (0.00, 0.07), S14_b ndc (-0.00, 0.08), S14_c ndc (0.00, 0.10), S15_a ndc (-0.33, -0.08), S15_b ndc (-0.28, -0.08), S15_c ndc (-0.17, -0.08), S15U_a ndc (-0.27, -0.02), S15U_b ndc (-0.34, -0.06), S15U_c ndc (-0.42, -0.09), S16_a ndc (-0.02, -0.04), S16_b ndc (-0.03, -0.06), S16_c ndc (-0.04, -0.08), S17_a ndc (0.00, -0.15), S17_b ndc (0.00, -0.16), S17_c ndc (0.00, -0.17)
-- Mesh file md5: ground.res f074b9c8, paths.res b22869b1, scatter.res 89243a51, masonry.res c057c229
+- Mark projections: S08_a ndc (0.00, -0.21), S08_b ndc (0.00, -0.33), S08_c ndc (-0.00, -0.52), S14_a ndc (0.00, -0.06), S14_b ndc (-0.00, -0.06), S14_c ndc (0.00, -0.07), S15_a ndc (-0.33, -0.08), S15_b ndc (-0.28, -0.08), S15_c ndc (-0.17, -0.08), S15U_a ndc (-0.40, 0.07), S15U_b ndc (-0.52, 0.05), S15U_c ndc (-0.69, 0.03), S16_a ndc (-0.02, -0.04), S16_b ndc (-0.03, -0.06), S16_c ndc (-0.04, -0.08), S17_a ndc (0.00, -0.15), S17_b ndc (0.00, -0.16), S17_c ndc (0.00, -0.17)
 - Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).
-- Files: `art/cinematics/stage_sets/forge_intro_vessa/forge_intro_vessa.tscn`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/ground.res`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/paths.res`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/scatter.res`, `art/cinematics/stage_sets/forge_intro_vessa/meshes/masonry.res`, `art/cinematics/stage_sets/forge_intro_vessa/forge_intro_vessa_lighting.tres`, `art/cinematics/stage_sets/forge_intro_vessa/marks.json`, `docs/tools/world_forge/out/forge_intro_vessa/plan.png`
+- Files: `docs/tools/world_forge/out/forge_intro_vessa/plan.png`

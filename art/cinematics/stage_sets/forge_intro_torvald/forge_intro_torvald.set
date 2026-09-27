@@ -1,0 +1,50 @@
+# Prologue P4: Torvald of Ice (docs/design/prologue-3min.md S10, S22-S25 + a units-in-action shot S23U).
+# Strength = patience and walls (he stands in his ice gate at the edge of the frozen lake while a foe charges across the
+# ice; the Rime Colossus and a Frostbow hold the shore line beside him); weakness = coldness (a Fire messenger stands
+# on the ice before him begging for help, the signal fire dies in the snow, he turns away); love = he looks down
+# through clear black ice at something vast asleep below (the Heartfrost).
+# The frost dragon (S23) comes from the P3 flock (a whole dragon model costs 45 draws).
+# P5 cues: S10 at 0.8 anim torvald play_cast arg=flash_freeze (frost races out); S22 at 0.5 move foe to=(-1, 0, 5) speed=4
+#   S23 at 1.0 anim torvald play_cast arg=flash_freeze (ring + rising frost); S23U at 0.5 anim colossus play_attack,
+#   1.0 anim frostbow play_attack; S24 at 3.5 face torvald yaw=180 time=1.2 (he turns away from the messenger)
+#   S25 at 3.5: tilt the look down to (0.4, 0, 3.9) (the Heartfrost below the ice).
+# Build: tools\world_forge\run_world_forge.ps1 build forge_intro_torvald   (stills: ... sheet forge_intro_torvald)
+set forge_intro_torvald  size=64x54  ground=snow  light=ice  seed=41  title="Torvald, of Ice"
+budget draws<=200 lights<=0
+
+# the Ice keep inside its pale wall; the gate opens south onto the lake shore
+place kit:ice_keep  at=(0,-17)  yaw=0  tag=keep  lights=off
+wall  rampart  poly=[(-17,-26),(-17,-4),(17,-4),(17,-26)]  height=5  thick=1.6  gate=(0,-4)  gate_width=4  color=#b9cfe0
+path  court  poly=[(0,-4),(0,-11)]  width=3  kit=snow
+# the signal fire on the shore (the snow will bury it)
+place forge:brazier  at=(-3.8,-1.6)  tag=signal
+# the frozen lake: clear black ice (a wide water ribbon)
+path  lake  poly=[(-31,9.5),(-10,9),(10,9.5),(31,9)]  width=12  kit=river
+row   kit:shards  poly=[(-28,2.2),(-6,2.4)]  spacing=5  yaw=random  jitter=0.5  scale=0.45
+row   kit:shards  poly=[(7,2.4),(28,2.2)]  spacing=5  yaw=random  jitter=0.5  scale=0.45
+row   kit:shards  poly=[(-28,16.2),(28,16.2)]  spacing=6  yaw=random  jitter=0.6  scale=0.45
+
+# snowfield (biome kit: snow) + firs
+zone  keep_ward  rect((-18,-27),(18,-3))
+zone  lake_z  rect((-32,2),(32,17))
+scatter res://art/cinematics/stage_sets/forge_intro_torvald/kits/snow_capped_rocks.tscn  area=rect((-31,-3),(31,26))  count=10  gap=4  seed=3  avoid=cams,keep_ward,lake_z  scale=0.8..1.3
+scatter res://art/cinematics/stage_sets/forge_intro_torvald/kits/snow_frost_scrub.tscn   area=rect((-31,-3),(31,26))  count=30  gap=2  seed=4  avoid=cams,keep_ward,lake_z
+scatter kit:fir   area=rect((-31,-26),(-19,26))  count=12  gap=3.5  seed=5  avoid=cams,lake_z  scale=0.9..1.4
+scatter kit:fir   area=rect((19,-26),(31,26))    count=12  gap=3.5  seed=6  avoid=cams,lake_z  scale=0.9..1.4
+scatter kit:pine  area=rect((-30,18),(30,26))    count=10  gap=4    seed=7  avoid=cams  scale=0.9..1.3
+
+# the cast
+actor torvald    kit:torvald  at=(0,-1.2)  yaw=0  lights=off
+actor colossus   res://art/units/ice/rime_colossus.tscn  at=(-7,-1)  yaw=15
+actor frostbow   res://art/units/ice/frostbow/frostbow.tscn  at=(4.5,-1.6)  yaw=-10
+# the Fire messenger on the ice before him, and a foe charging across the lake
+actor messenger  res://art/units/fire/cinder_hand.tscn  at=(0.6,4.2)  yaw=185
+actor foe        kit:flame_guard  at=(-3,13.5)  yaw=170
+
+# camera marks (Lens words = the intent; coordinates tuned and written here)
+mark S10   from=(0,15,20)  to=(0,5,13)  look=(0,1,2)  look_to=(0,1.6,-1)  fov=44  subject=torvald  dur=3  lens="ws on torvald, front, overhead -> high, crane -10"
+mark S22   from=(-2,10,26)  to=(-3,3,21)  look=(-1,1.2,4)  look_to=(-1,1.8,1)  fov=46  subject=torvald  dur=7  lens="ws on torvald and foe, high, crane -7 (behind the charge)"
+mark S23   from=(6,1.3,3.7)  to=(-4,1.5,4.2)  look=(0,1.9,-1.2)  look_to=(0,2.0,-1.2)  fov=44  subject=torvald  dur=7  lens="fs on torvald, 3/4 right -> 3/4 left, low, arc 70"
+mark S23U  from=(-12,1.6,9)  to=(-10,1.8,8)  look=(-2,2.6,-1.5)  look_to=(0,3.0,-1.5)  fov=48  subject=colossus  dur=5  lens="ws on colossus and frostbow, 3/4 left, low"
+mark S24   from=(-1.1,2.4,-3.0)  to=(-1.15,2.35,-2.6)  look=(0.9,1.3,4.2)  fov=40  subject=messenger  dur=7  lens="ms ots torvald over messenger"
+mark S25   from=(0.9,1.9,5.5)  to=(0.85,1.85,5.1)  look=(0,1.9,-1.2)  fov=15  subject=torvald  dur=6  lens="cu on torvald, 3/4 right, eye (P5: tilt down to the ice at the end)"

@@ -1,0 +1,59 @@
+# Prologue P4: Malrik of Shadow (docs/design/prologue-3min.md S09, S18-S21 + a units-in-action shot S19U).
+# Strength = dark mastery (he raises a hand, the shade and the knights melt out of the dark before his keep); weakness =
+# hunger and loneliness (his trophy table beside him: stolen letters, a crown, he pockets one more); love = alone with
+# one candle, unafraid. Young Malrik reads tombstones by one candle in the graveyard (S18, west).
+# The Nightmare Knight titan costs 62 draws: the Shadow Knight stands in for it here (P5 may swap in the titan).
+# P5 cues: S09 at 0.4 face malrik to=(0, 3, -20) (looks up); S18 young Malrik (hide him outside S18)
+#   S19 at 0.6 anim malrik play_cast arg=umbral_shroud (the dark answers), 1.2 anim sknight play_attack, 1.8 anim shade play_attack
+#   S19U at 0.4 anim hexweaver play_cast, 0.9 anim sknight play_attack; S20 at 2.0 anim malrik play_cast arg=soul_siphon
+#   S21 static CU (the candle sits on the crate by the chest, tag candle).
+# Build: tools\world_forge\run_world_forge.ps1 build forge_intro_malrik   (stills: ... sheet forge_intro_malrik)
+set forge_intro_malrik  size=60x50  ground=#26222c  light=nightfall  seed=31  title="Malrik, of Shadow"
+budget draws<=200 lights<=0
+
+# the Dusk keep and its ward wall
+place kit:dusk_keep  at=(0,-16)  yaw=0  tag=keep  lights=off
+wall  ward  poly=[(-17,-25),(-17,-7),(17,-7),(17,-25)]  height=4  thick=1.3  gate=(0,-7)  gate_width=5  color=#3a3542
+path  approach  poly=[(0,-7),(0,-2),(-3,6),(-6,22)]  width=3  kit=flagstone
+row   kit:ruin_pillar  from=(-4.5,-4.5) to=(4.5,-4.5)  count=2  yaw=10
+
+# the trophy table at his side (a crate for a table, a small hoard of crates, one candle)
+place kit:lost_cache  at=(2.2,3.0)  yaw=-20  tag=table  radius=0.7
+place forge:crate  at=(3.4,2.2)  yaw=40  scale=0.7
+place forge:crate  at=(3.2,3.6)  yaw=-20  scale=0.55
+place forge:brazier  at=(3.4,2.2)  y=0.63  scale=0.2  tag=candle
+
+# the graveyard (west): leaning tombstones, standing stones, one candle
+row   kit:slab  poly=[(-19,5),(-10,5)]   spacing=2.2  yaw=across  jitter=0.3  scale=0.32
+row   kit:slab  poly=[(-19,8),(-10,8)]   spacing=2.2  yaw=across  jitter=0.3  scale=0.32
+row   kit:slab  poly=[(-19,12),(-10,12)]  spacing=2.2  yaw=across  jitter=0.3  scale=0.32
+row   kit:standing_stones  from=(-23,1) to=(-23,1)  count=1  yaw=30
+place forge:brazier  at=(-14.9,8.5)  scale=0.28  tag=candle_grave
+
+# marsh + old wood (biome kits) - baked, one draw per material
+zone  keep_ward  rect((-18,-26),(18,-6))
+zone  graves  rect((-20,3),(-9,14))
+zone  host  circle((0,1),5)
+scatter res://art/cinematics/stage_sets/forge_intro_malrik/kits/marsh_puddles.tscn  area=rect((-29,-5),(29,24))  count=14  gap=3  seed=3  avoid=cams,keep_ward,graves,host
+scatter res://art/cinematics/stage_sets/forge_intro_malrik/kits/marsh_rushes.tscn   area=rect((-29,-5),(29,24))  count=40  gap=1.4  seed=4  avoid=cams,keep_ward,host
+scatter res://art/cinematics/stage_sets/forge_intro_malrik/kits/ow_roots.tscn       area=rect((-29,-5),(29,24))  count=12  gap=2.5  seed=5  avoid=cams,keep_ward,graves,host
+scatter res://art/cinematics/stage_sets/forge_intro_malrik/kits/ow_glowcaps.tscn    area=rect((-29,-5),(29,24))  count=16  gap=2    seed=6  avoid=cams,keep_ward,host
+scatter res://art/cinematics/stage_sets/forge_intro_malrik/kits/ow_fallen_trunk.tscn area=rect((-29,14),(29,24))  count=3  gap=8   seed=7  avoid=cams
+scatter res://art/cinematics/stage_sets/forge_intro_malrik/kits/ow_moss_boulders.tscn area=rect((-29,-5),(29,24))  count=6  gap=4  seed=8  avoid=cams,keep_ward,graves,host
+scatter kit:fir  area=rect((-29,-24),(-19,24))  count=10  gap=3.5  seed=9   avoid=cams  scale=0.8..1.2
+scatter kit:fir  area=rect((19,-24),(29,24))    count=10  gap=3.5  seed=10  avoid=cams  scale=0.8..1.2
+
+# the cast
+actor malrik        kit:malrik  at=(0,2)  yaw=0  lights=off
+actor malrik_young  kit:malrik  at=(-14.2,9.2)  yaw=200  scale=0.6  lights=off
+actor sknight   res://art/units/shadow/shadow_knight.tscn  at=(-2.6,-1.6)  yaw=10
+actor hexweaver res://art/units/shadow/hexweaver/hexweaver.tscn  at=(-5,0.6)  yaw=20
+actor shade     res://art/units/shadow/shade.tscn  at=(2.6,-1.2)  yaw=-10
+
+# camera marks (Lens words = the intent; coordinates tuned and written here)
+mark S09   from=(3.6,1.7,8.5)  to=(3.0,1.7,7.2)  look=(0.3,1.6,2)  fov=36  subject=malrik  dur=3  lens="ms on malrik, 3/4 right, eye, push 0.3"
+mark S18   from=(-10.2,1.9,15.2)  to=(-11,1.7,14.2)  look=(-14.2,0.85,9.2)  fov=38  subject=malrik_young  dur=6  lens="ws on malrik_young, 3/4 left, high"
+mark S19   from=(-0.4,0.5,7)  to=(-0.6,0.7,10)  look=(-0.5,2.3,-1)  look_to=(-0.5,2.5,-2)  fov=46  subject=malrik  dur=7  lens="fs on malrik, front, low, push -0.4"
+mark S19U  from=(-7.8,1.2,6.2)  to=(-6.8,1.3,5.4)  look=(-1,1.6,-1)  look_to=(0,1.9,-1.5)  fov=46  subject=hexweaver  dur=5  lens="ws on hexweaver and sknight, 3/4 left, low"
+mark S20   from=(4.6,3.1,6.8)  to=(3.9,2.7,5.8)  look=(1.2,1.3,2.5)  look_to=(0.9,1.4,2.3)  fov=36  subject=malrik  dur=6  lens="ms on malrik, 3/4 right, high, push 0.3 (over the table)"
+mark S21   from=(0.35,1.9,4.9)  to=(0.35,1.9,4.6)  look=(0,1.8,2)  fov=30  subject=malrik  dur=8  lens="cu on malrik, 3/4 right, eye"

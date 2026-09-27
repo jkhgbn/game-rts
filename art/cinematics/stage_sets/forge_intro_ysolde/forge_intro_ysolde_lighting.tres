@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="LightingPreset" format=3]
+
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_preset.gd" id="1_ltx2n"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv1pd"]
+sky_top_color = Color(0.3, 0.42, 0.66, 1)
+sky_horizon_color = Color(0.98, 0.78, 0.58, 1)
+ground_bottom_color = Color(0.15, 0.13, 0.1, 1)
+ground_horizon_color = Color(0.49, 0.39, 0.29, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="Sky_5xxbp"]
+sky_material = SubResource("ProceduralSkyMaterial_cv1pd")
+
+[sub_resource type="Environment" id="Environment_h7ki5"]
+background_mode = 2
+sky = SubResource("Sky_5xxbp")
+ambient_light_source = 3
+ambient_light_energy = 0.7
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.9
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.75, 0.68, 0.62, 1)
+fog_density = 0.003
+fog_sky_affect = 0.3
+
+[resource]
+script = ExtResource("1_ltx2n")
+environment = SubResource("Environment_h7ki5")
+sun_color = Color(1, 0.8, 0.6, 1)
+sun_energy = 1.0
+sun_rotation_degrees = Vector3(-16, -60, 0)
+fill_color = Color(0.5, 0.6, 0.95, 1)
+vignette_color = Color(0.04, 0.03, 0.06, 1)
+vignette_strength = 0.3

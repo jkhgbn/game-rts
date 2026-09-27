@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/biomes/meadow/meadow_fruit_bush.res" id="1"]
+
+[node name="meadow_fruit_bush" type="MeshInstance3D"]
+mesh = ExtResource("1")

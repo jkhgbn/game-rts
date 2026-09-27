@@ -1,0 +1,557 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_cjuhc"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_ysolde/forge_intro_ysolde_lighting.tres" id="2_ijgev"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_ysolde/meshes/ground.res" id="3_h4ydg"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_ysolde/meshes/paths.res" id="4_cnjv0"]
+[ext_resource type="PackedScene" path="res://art/buildings/nature_keep.tscn" id="5_1m7si"]
+[ext_resource type="Script" path="res://art/buildings/nature_keep.gd" id="6_2wd2d"]
+[ext_resource type="Shader" path="res://art/buildings/nature_keep/nature_keep_painted.gdshader" id="7_vpvx4"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="8_0el7r"]
+[ext_resource type="Shader" path="res://art/buildings/nature_keep/nature_keep_leaf.gdshader" id="9_bkwpn"]
+[ext_resource type="Shader" path="res://art/buildings/nature_keep/nature_keep_seed.gdshader" id="10_ip8hk"]
+[ext_resource type="Shader" path="res://art/shaders/rune_glow.gdshader" id="11_yb45u"]
+[ext_resource type="Shader" path="res://art/buildings/nature_keep_glow.gdshader" id="12_as6on"]
+[ext_resource type="Shader" path="res://art/buildings/nature_keep/nature_keep_banner.gdshader" id="13_yhkrd"]
+[ext_resource type="Shader" path="res://art/buildings/nature_keep_ground.gdshader" id="14_y1ip6"]
+[ext_resource type="PackedScene" path="res://art/environment/landmarks/giant_stump.tscn" id="15_iw8vy"]
+[ext_resource type="PackedScene" path="res://art/environment/biomes/ash/ash_scar_fx.tscn" id="16_vnhfy"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/ysolde.tscn" id="17_5wd35"]
+[ext_resource type="Script" path="res://art/units/wizards/ysolde.gd" id="18_6dpj3"]
+[ext_resource type="PackedScene" path="res://art/units/titans/elder_treant/elder_treant.tscn" id="19_8qq4q"]
+[ext_resource type="Script" path="res://art/units/titans/elder_treant/elder_treant.gd" id="20_4no06"]
+[ext_resource type="PackedScene" path="res://art/units/nature/vinelasher/vinelasher.tscn" id="21_lqcoc"]
+[ext_resource type="Script" path="res://art/units/nature/vinelasher/vinelasher.gd" id="22_83d4l"]
+[ext_resource type="PackedScene" path="res://art/units/fire/cinder_hand.tscn" id="23_qllef"]
+[ext_resource type="Script" path="res://art/units/fire/fire_model.gd" id="24_dk1ps"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_intro_ysolde/meshes/scatter.res" id="25_l5u4w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l6f7a"]
+resource_local_to_scene = true
+resource_name = "Stone"
+render_priority = 0
+shader = ExtResource("7_vpvx4")
+shader_parameter/base_color = Color(0.5, 0.47, 0.37, 1)
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/damage = 0.0
+shader_parameter/pattern = 1
+shader_parameter/block_size = Vector2(0.95, 0.46)
+shader_parameter/joint_width = 0.07
+shader_parameter/block_tint = 0.2
+shader_parameter/moss = 0.45
+shader_parameter/moss_color = Color(0.22, 0.31, 0.11, 1)
+shader_parameter/sap = 0.0
+shader_parameter/sap_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/sap_energy = 1.8
+shader_parameter/sap_speed = 0.3
+shader_parameter/bark_scale = Vector2(1, 0.16)
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/top_tint = Vector3(1.18, 1.14, 0.72)
+shader_parameter/shade_tint = Vector3(0.52, 0.62, 0.78)
+shader_parameter/leaf_scale = 1.7
+shader_parameter/foliage_value = 0.74
+shader_parameter/ao_floor = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wxuac"]
+resource_local_to_scene = true
+resource_name = "DarkStone"
+render_priority = 0
+shader = ExtResource("7_vpvx4")
+shader_parameter/base_color = Color(0.26, 0.24, 0.17, 1)
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/damage = 0.0
+shader_parameter/pattern = 1
+shader_parameter/block_size = Vector2(0.8, 0.42)
+shader_parameter/joint_width = 0.06
+shader_parameter/block_tint = 0.24
+shader_parameter/moss = 0.35
+shader_parameter/moss_color = Color(0.22, 0.31, 0.11, 1)
+shader_parameter/sap = 0.0
+shader_parameter/sap_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/sap_energy = 1.8
+shader_parameter/sap_speed = 0.3
+shader_parameter/bark_scale = Vector2(1, 0.16)
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/top_tint = Vector3(1.18, 1.14, 0.72)
+shader_parameter/shade_tint = Vector3(0.52, 0.62, 0.78)
+shader_parameter/leaf_scale = 1.7
+shader_parameter/foliage_value = 0.74
+shader_parameter/ao_floor = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkrr4"]
+resource_local_to_scene = true
+resource_name = "Bark"
+render_priority = 0
+shader = ExtResource("7_vpvx4")
+shader_parameter/base_color = Color(0.4, 0.28, 0.16, 1)
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/spec_strength = 0.04
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/damage = 0.0
+shader_parameter/pattern = 2
+shader_parameter/block_size = Vector2(0.9, 0.45)
+shader_parameter/joint_width = 0.07
+shader_parameter/block_tint = 0.18
+shader_parameter/moss = 0.35
+shader_parameter/moss_color = Color(0.22, 0.31, 0.11, 1)
+shader_parameter/sap = 1.0
+shader_parameter/sap_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/sap_energy = 1.35
+shader_parameter/sap_speed = 0.25
+shader_parameter/bark_scale = Vector2(1, 0.16)
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/top_tint = Vector3(1.18, 1.14, 0.72)
+shader_parameter/shade_tint = Vector3(0.52, 0.62, 0.78)
+shader_parameter/leaf_scale = 1.7
+shader_parameter/foliage_value = 0.74
+shader_parameter/ao_floor = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2cp6h"]
+resource_local_to_scene = true
+resource_name = "Wood"
+render_priority = 0
+shader = ExtResource("7_vpvx4")
+shader_parameter/base_color = Color(0.56, 0.41, 0.24, 1)
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/damage = 0.0
+shader_parameter/pattern = 4
+shader_parameter/block_size = Vector2(1.6, 0.26)
+shader_parameter/joint_width = 0.04
+shader_parameter/block_tint = 0.2
+shader_parameter/moss = 0.0
+shader_parameter/moss_color = Color(0.25, 0.37, 0.12, 1)
+shader_parameter/sap = 0.0
+shader_parameter/sap_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/sap_energy = 1.8
+shader_parameter/sap_speed = 0.3
+shader_parameter/bark_scale = Vector2(1, 0.16)
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/top_tint = Vector3(1.18, 1.14, 0.72)
+shader_parameter/shade_tint = Vector3(0.52, 0.62, 0.78)
+shader_parameter/leaf_scale = 1.7
+shader_parameter/foliage_value = 0.74
+shader_parameter/ao_floor = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_in42m"]
+resource_local_to_scene = true
+resource_name = "Moss"
+render_priority = 0
+shader = ExtResource("7_vpvx4")
+shader_parameter/base_color = Color(0.2, 0.3, 0.1, 1)
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/damage = 0.0
+shader_parameter/pattern = 0
+shader_parameter/block_size = Vector2(0.9, 0.45)
+shader_parameter/joint_width = 0.07
+shader_parameter/block_tint = 0.18
+shader_parameter/moss = 0.3
+shader_parameter/moss_color = Color(0.22, 0.31, 0.11, 1)
+shader_parameter/sap = 0.0
+shader_parameter/sap_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/sap_energy = 1.8
+shader_parameter/sap_speed = 0.3
+shader_parameter/bark_scale = Vector2(1, 0.16)
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/top_tint = Vector3(1.18, 1.14, 0.72)
+shader_parameter/shade_tint = Vector3(0.52, 0.62, 0.78)
+shader_parameter/leaf_scale = 1.7
+shader_parameter/foliage_value = 0.74
+shader_parameter/ao_floor = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fnxdy"]
+resource_local_to_scene = true
+resource_name = "Leaves"
+render_priority = 0
+shader = ExtResource("7_vpvx4")
+shader_parameter/base_color = Color(0.33333334, 1, 0.70980394, 1)
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/noise_scale_a = 0.8
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/damage = 0.0
+shader_parameter/pattern = 3
+shader_parameter/block_size = Vector2(0.9, 0.45)
+shader_parameter/joint_width = 0.07
+shader_parameter/block_tint = 0.18
+shader_parameter/moss = 0.0
+shader_parameter/moss_color = Color(0.25, 0.37, 0.12, 1)
+shader_parameter/sap = 0.0
+shader_parameter/sap_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/sap_energy = 1.8
+shader_parameter/sap_speed = 0.3
+shader_parameter/bark_scale = Vector2(1, 0.16)
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/top_tint = Vector3(1.18, 1.14, 0.72)
+shader_parameter/shade_tint = Vector3(0.52, 0.62, 0.78)
+shader_parameter/leaf_scale = 1.35
+shader_parameter/foliage_value = 0.62
+shader_parameter/ao_floor = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ivywg"]
+resource_local_to_scene = true
+resource_name = "LeafCard"
+render_priority = 0
+shader = ExtResource("9_bkwpn")
+shader_parameter/shape = 0
+shader_parameter/base_color = Color(0.33333334, 1, 0.70980394, 1)
+shader_parameter/tip_tint = Vector3(1.25, 1.2, 0.72)
+shader_parameter/edge_color = Color(1, 0.92, 0.95, 1)
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/glow_energy = 2.2
+shader_parameter/boost = 1.0
+shader_parameter/leaf_value = 0.68
+shader_parameter/sway = 0.1
+shader_parameter/sway_speed = 1.6
+shader_parameter/drop = 0.0
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.2
+shader_parameter/damage = 0.0
+shader_parameter/ao_low = 8.5
+shader_parameter/ao_span = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bpvcq"]
+resource_local_to_scene = true
+resource_name = "Blossom"
+render_priority = 0
+shader = ExtResource("9_bkwpn")
+shader_parameter/shape = 1
+shader_parameter/base_color = Color(0.95, 0.6, 0.75, 1)
+shader_parameter/tip_tint = Vector3(1.25, 1.2, 0.72)
+shader_parameter/edge_color = Color(1, 0.9, 0.95, 1)
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/glow_energy = 2.4
+shader_parameter/boost = 1.0
+shader_parameter/leaf_value = 0.8
+shader_parameter/sway = 0.05
+shader_parameter/sway_speed = 1.6
+shader_parameter/drop = 0.0
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.2
+shader_parameter/damage = 0.0
+shader_parameter/ao_low = 8.5
+shader_parameter/ao_span = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k2sxr"]
+resource_local_to_scene = true
+resource_name = "Petal"
+render_priority = 0
+shader = ExtResource("9_bkwpn")
+shader_parameter/shape = 2
+shader_parameter/base_color = Color(0.95, 0.52, 0.72, 1)
+shader_parameter/tip_tint = Vector3(1.25, 1.2, 0.72)
+shader_parameter/edge_color = Color(1, 0.86, 0.9, 1)
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/glow_energy = 2.6
+shader_parameter/boost = 1.0
+shader_parameter/leaf_value = 0.8
+shader_parameter/sway = 0.06
+shader_parameter/sway_speed = 1.6
+shader_parameter/drop = 0.0
+shader_parameter/wither = 0.0
+shader_parameter/wither_color = Color(0.56, 0.42, 0.17, 1)
+shader_parameter/rim_color = Color(0.72, 0.88, 0.55, 1)
+shader_parameter/rim_strength = 0.2
+shader_parameter/damage = 0.0
+shader_parameter/ao_low = 12.0
+shader_parameter/ao_span = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hvfn8"]
+resource_local_to_scene = true
+resource_name = "Heart"
+render_priority = 0
+shader = ExtResource("10_ip8hk")
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/core_color = Color(0.95, 1, 0.72, 1)
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/energy = 2.5
+shader_parameter/beat_period = 2.5
+shader_parameter/boost = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sey75"]
+resource_local_to_scene = true
+resource_name = "Gate"
+render_priority = 0
+shader = ExtResource("11_yb45u")
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/energy = 1.6
+shader_parameter/pulse_speed = 1.2
+shader_parameter/rune_bands = 0
+shader_parameter/boost = 1.0
+shader_parameter/phase = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5khpc"]
+resource_local_to_scene = true
+resource_name = "Lantern"
+render_priority = 0
+shader = ExtResource("12_as6on")
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/boost_mult = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_41ptg"]
+resource_local_to_scene = true
+resource_name = "Banner"
+render_priority = 0
+shader = ExtResource("13_yhkrd")
+shader_parameter/cloth_color = Color(0.35, 0.7, 0.25, 1)
+shader_parameter/stripe_color = Color(0.15, 0.4, 0.15, 1)
+shader_parameter/trim_color = Color(0.58, 0.44, 0.25, 1)
+shader_parameter/glyph_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/glyph_energy = 0.9
+shader_parameter/amplitude = 0.09
+shader_parameter/speed = 1.7
+shader_parameter/rim_color = Color(0.545, 0.78999996, 0.47500002, 1)
+shader_parameter/rim_strength = 0.0
+shader_parameter/damage = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hy6r8"]
+resource_local_to_scene = true
+resource_name = "Ground"
+render_priority = -1
+shader = ExtResource("14_y1ip6")
+shader_parameter/noise_tex = ExtResource("8_0el7r")
+shader_parameter/size = 13.0
+shader_parameter/moss_color = Color(0.17, 0.3, 0.09, 1)
+shader_parameter/moss_light = Color(0.3, 0.44, 0.13, 1)
+shader_parameter/stain_color = Color(0.05, 0.05, 0.02, 1)
+shader_parameter/root_color = Color(0.19, 0.12, 0.06, 1)
+shader_parameter/petal_color = Color(0.95, 0.66, 0.78, 1)
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/wither_color = Color(0.3, 0.21, 0.1, 1)
+shader_parameter/moss_alpha = 0.78
+shader_parameter/ring_energy = 0.7
+shader_parameter/scorch = 0.0
+shader_parameter/damage = 0.0
+shader_parameter/build = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ff4o6"]
+resource_local_to_scene = true
+resource_name = "Outline"
+render_priority = 0
+shader = ExtResource("12_as6on")
+shader_parameter/glow_color = Color(0.75, 1, 0.4, 1)
+shader_parameter/boost_mult = 1.0
+
+[node name="forge_intro_ysolde" type="Node3D" unique_id=1611384162]
+script = ExtResource("1_cjuhc")
+set_id = &"forge_intro_ysolde"
+lighting = ExtResource("2_ijgev")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/giant_stump_1"), NodePath("Placed/wildfire"), NodePath("Placed/smoke"), NodePath("Puppets/ysolde"), NodePath("Puppets/ysolde_young"), NodePath("Puppets/treant"), NodePath("Puppets/vinelasher"), NodePath("Puppets/messenger")])
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=2016099231]
+gi_mode = 0
+mesh = ExtResource("3_h4ydg")
+
+[node name="Paths" type="MeshInstance3D" parent="." unique_id=1318097737]
+gi_mode = 0
+mesh = ExtResource("4_cnjv0")
+
+[node name="Placed" type="Node3D" parent="." unique_id=39426447]
+
+[node name="keep" type="Node3D" parent="Placed" unique_id=1337097140 instance=ExtResource("5_1m7si")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -19)
+script = ExtResource("6_2wd2d")
+painted_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_l6f7a"), SubResource("ShaderMaterial_wxuac"), SubResource("ShaderMaterial_dkrr4"), SubResource("ShaderMaterial_2cp6h"), SubResource("ShaderMaterial_in42m"), SubResource("ShaderMaterial_fnxdy")])
+card_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_ivywg"), SubResource("ShaderMaterial_bpvcq"), SubResource("ShaderMaterial_k2sxr")])
+glow_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_hvfn8"), SubResource("ShaderMaterial_sey75"), SubResource("ShaderMaterial_5khpc")])
+bark_material = SubResource("ShaderMaterial_dkrr4")
+leaves_material = SubResource("ShaderMaterial_fnxdy")
+leafcard_material = SubResource("ShaderMaterial_ivywg")
+blossom_material = SubResource("ShaderMaterial_bpvcq")
+petal_material = SubResource("ShaderMaterial_k2sxr")
+heart_material = SubResource("ShaderMaterial_hvfn8")
+gate_material = SubResource("ShaderMaterial_sey75")
+lantern_material = SubResource("ShaderMaterial_5khpc")
+banner_material = SubResource("ShaderMaterial_41ptg")
+ground_material = SubResource("ShaderMaterial_hy6r8")
+outline_material = SubResource("ShaderMaterial_ff4o6")
+bloom_position = Vector3(0, 15.982831, -0.45)
+knot_position = Vector3(0, 5.25, -1.36)
+
+[node name="giant_stump_1" type="Node3D" parent="Placed" unique_id=1678396717 groups=["landmarks"] instance=ExtResource("15_iw8vy")]
+transform = Transform3D(0.76604444, 0, 0.6427876, 0, 1, 0, -0.6427876, 0, 0.76604444, -12, 0, -9)
+metadata/landmark_id = &"lm_stump"
+metadata/decor_clear_radius = 3.8
+
+[node name="wildfire" type="Node3D" parent="Placed" unique_id=667791707 instance=ExtResource("16_vnhfy")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 11, 0, 6)
+metadata/scar_radius = 4.5
+
+[node name="smoke" type="Node3D" parent="Placed" unique_id=1638549228 instance=ExtResource("16_vnhfy")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, -14, 0, 25)
+metadata/scar_radius = 4.5
+
+[node name="Puppets" type="Node3D" parent="." unique_id=2089824421]
+
+[node name="ysolde" type="Node3D" parent="Puppets" unique_id=1713366506 instance=ExtResource("17_5wd35")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+script = ExtResource("18_6dpj3")
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_speed = 4.8
+idle_period = 3.6
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+walk_bounce = 0.03
+
+[node name="ysolde_young" type="Node3D" parent="Puppets" unique_id=1583861222 instance=ExtResource("17_5wd35")]
+transform = Transform3D(-0.51961523, 0, -0.29999998, 0, 0.6, 0, 0.29999998, 0, -0.51961523, 22, 0, 15.8)
+script = ExtResource("18_6dpj3")
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_speed = 4.8
+idle_period = 3.6
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+walk_bounce = 0.03
+
+[node name="treant" type="Node3D" parent="Puppets" unique_id=1563217100 instance=ExtResource("19_8qq4q")]
+transform = Transform3D(0.90630776, 0, -0.42261827, 0, 1, 0, 0.42261827, 0, 0.90630776, 8.5, 0, -2.5)
+script = ExtResource("20_4no06")
+
+[node name="vinelasher" type="Node3D" parent="Puppets" unique_id=1808680434 instance=ExtResource("21_lqcoc")]
+transform = Transform3D(0.9848077, 0, 0.17364818, 0, 1, 0, -0.17364818, 0, 0.9848077, -0.5, 0, -2)
+script = ExtResource("22_83d4l")
+body_height = 1.8
+attack_style = &"whip_lash"
+stride_time = 0.5
+stride_speed = 4.6
+idle_period = 2.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 30.0
+
+[node name="messenger" type="Node3D" parent="Puppets" unique_id=268459566 instance=ExtResource("23_qllef")]
+transform = Transform3D(-0.9848077, 0, -0.17364822, 0, 1, 0, 0.17364822, 0, -0.9848077, -7.6, 0, 15.6)
+script = ExtResource("24_dk1ps")
+fire_kind = &"worker"
+body_height = 1.4
+attack_style = &"worker_pick"
+stride_time = 0.5
+stride_speed = 4.6
+idle_period = 2.6
+leg_swing_deg = 32.0
+walk_bounce = 0.06
+
+[node name="Scatter" type="MeshInstance3D" parent="." unique_id=1338588772]
+gi_mode = 0
+mesh = ExtResource("25_l5u4w")
+
+[node name="Shots" type="Node3D" parent="." unique_id=1611434901]
+
+[node name="S11_from" type="Marker3D" parent="Shots" unique_id=1335516066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 12, 12)
+metadata/fov = 42.0
+
+[node name="S11_to" type="Marker3D" parent="Shots" unique_id=734535830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 3.2, 8.5)
+metadata/fov = 42.0
+
+[node name="S11_look_from" type="Marker3D" parent="Shots" unique_id=958286594]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.4, 1)
+
+[node name="S11_look_to" type="Marker3D" parent="Shots" unique_id=1429969913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.6, 1)
+
+[node name="S26_from" type="Marker3D" parent="Shots" unique_id=1231850081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.2, 0.6, 12.4)
+metadata/fov = 36.0
+
+[node name="S26_to" type="Marker3D" parent="Shots" unique_id=258704909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.6, 0.6, 13)
+metadata/fov = 36.0
+
+[node name="S26_look_from" type="Marker3D" parent="Shots" unique_id=1366353921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.6, 0.75, 15.3)
+
+[node name="S26_look_to" type="Marker3D" parent="Shots" unique_id=493458253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.6, 0.75, 15.3)
+
+[node name="S27_from" type="Marker3D" parent="Shots" unique_id=370791106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.7, 11)
+metadata/fov = 44.0
+
+[node name="S27_to" type="Marker3D" parent="Shots" unique_id=1029513212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.9, 11)
+metadata/fov = 44.0
+
+[node name="S27_look_from" type="Marker3D" parent="Shots" unique_id=1642840693]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.6, -0.5)
+
+[node name="S27_look_to" type="Marker3D" parent="Shots" unique_id=877358913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.8, -1)
+
+[node name="S27U_from" type="Marker3D" parent="Shots" unique_id=1371322296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.1, 4.5)
+metadata/fov = 46.0
+
+[node name="S27U_to" type="Marker3D" parent="Shots" unique_id=472089150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.2, 4.2)
+metadata/fov = 46.0
+
+[node name="S27U_look_from" type="Marker3D" parent="Shots" unique_id=119004168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.6, -1.5)
+
+[node name="S27U_look_to" type="Marker3D" parent="Shots" unique_id=852666695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.9, -1.8)
+
+[node name="S28_from" type="Marker3D" parent="Shots" unique_id=1648949824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 2.5, -3.2)
+metadata/fov = 40.0
+
+[node name="S28_to" type="Marker3D" parent="Shots" unique_id=610443976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 2.45, -2.4)
+metadata/fov = 40.0
+
+[node name="S28_look_from" type="Marker3D" parent="Shots" unique_id=306525814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.2, 15)
+
+[node name="S28_look_to" type="Marker3D" parent="Shots" unique_id=2028614012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.2, 15)
+
+[node name="S29_from" type="Marker3D" parent="Shots" unique_id=710248978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7, 1.75, 3.8)
+metadata/fov = 30.0
+
+[node name="S29_to" type="Marker3D" parent="Shots" unique_id=1635824395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.55, 1.7, 3.35)
+metadata/fov = 30.0
+
+[node name="S29_look_from" type="Marker3D" parent="Shots" unique_id=720568624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.45, 1)
+
+[node name="S29_look_to" type="Marker3D" parent="Shots" unique_id=754960838]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.45, 1)
