@@ -905,7 +905,7 @@ func _update_running(t: float) -> void:
 					var dir := a.target - from
 					n.global_position = pos
 					if Vector2(dir.x, dir.z).length() > 0.01:
-						_set_yaw(n, atan2(-dir.x, -dir.z))
+						_set_yaw(n, atan2(dir.x, dir.z))
 			&"face":
 				if n != null and is_instance_valid(n):
 					_set_yaw(n, lerp_angle(float(r["yaw0"]), float(r["yaw1"]), k))
@@ -928,7 +928,7 @@ func _end_state(a: CinematicAction, r: Dictionary) -> void:
 			n.global_position = a.target
 			var dir := a.target - from
 			if Vector2(dir.x, dir.z).length() > 0.01:
-				_set_yaw(n, atan2(-dir.x, -dir.z))
+				_set_yaw(n, atan2(dir.x, dir.z))
 			_hook(n, &"set_moving", [0.0])
 			n.reset_physics_interpolation()
 		&"teleport":
@@ -980,7 +980,7 @@ func _face_yaw(n: Node3D, a: CinematicAction) -> float:
 	var d := to - n.global_position
 	if Vector2(d.x, d.z).length() < 0.001:
 		return n.global_rotation.y
-	return atan2(-d.x, -d.z)
+	return atan2(d.x, d.z)
 
 
 static func _set_yaw(n: Node3D, yaw: float) -> void:

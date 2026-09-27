@@ -149,7 +149,8 @@ optional `P_pivot` (ORBIT: radius / angles / height from `_from` / `_to` around 
 - Actors: the context (stage) resolves `cinematic_actor(tag)`: registered tags, the active set's `puppet(tag)`, other
   sets' `puppet(tag)`, then a stage child whose name matches the tag (case-insensitive). Unknown tags warn once
   (`[cine] unknown actor "x"`) and the action is skipped (never an error).
-- Yaw convention: `yaw_deg` = `rotation.y` in degrees; models face -Z (Godot `look_at`).
+- Yaw convention (the game's, `Unit._face`): models face **+Z** at yaw 0; `yaw_deg` = `rotation.y` in degrees and a
+  direction `d` gives `yaw = atan2(d.x, d.z)` (so yaw 90 faces +X). `move` / `face` (and `CastProxy.cast` when its opt-in `face_target` is true) use it.
 - Sets (tool 6): root `Node3D` in group `"cinematic_sets"` with `@export var set_id: StringName`. Markers under
   `Shots/`; if absent, `marks.json` next to the set's `.tscn` (vectors in the set root's local space, `[x, y, z]`).
   ORBIT from markers needs `<P>_pivot` + `_from` / `_to`; RAIL needs `Path3D <P>_rail` (only the rail is enough).

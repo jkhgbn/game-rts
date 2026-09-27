@@ -250,6 +250,8 @@ func _run() -> void:
 	_expect(float(run_a["orbit_r"]) > 4.99 and float(run_a["orbit_r"]) < 5.01, "ORBIT radius from markers: %.3f" % run_a["orbit_r"])
 	_expect(run_a["set"] == &"demo", "active set during s3: %s" % run_a["set"])
 	_expect(bool(run_a["vessa_at_target"]), "move end state: vessa at (2, 0, 0)")
+	_expect((run_a["vessa_fwd"] as Vector3).dot(Vector3.RIGHT) > 0.99, "move faces the walk direction on +Z (game convention): fwd %s" % run_a["vessa_fwd"])
+	_expect(float(run_a["malrik_dot"]) > 0.99, "face look_actor turns +Z toward the target: dot %.3f" % run_a["malrik_dot"])
 	_expect(_finished_log.size() == 2 and _finished_log[0] == [&"tool_runtime_demo", false], "finished(false) twice: %s" % [_finished_log])
 
 	# 4. seek(t) + 1 frame == playing
@@ -305,6 +307,13 @@ func _full_run() -> Dictionary:
 	out["frames"] = frames
 	out["clips"] = model.get(&"clips")
 	out["vessa_at_target"] = vessa.global_position.distance_to(Vector3(2, 0, 0)) < 0.01
+	# facing (game convention, Unit._face: models face +Z): vessa walked +X -> her +Z axis points +X;
+	# malrik faced vessa -> his +Z axis points at her
+	out["vessa_fwd"] = vessa.global_basis.z.normalized()
+	var malrik := _stage.get_node(^"Malrik") as Node3D
+	var to_v := vessa.global_position - malrik.global_position
+	to_v.y = 0.0
+	out["malrik_dot"] = malrik.global_basis.z.normalized().dot(to_v.normalized())
 	return out
 
 

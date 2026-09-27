@@ -18,6 +18,9 @@ var body_height := 1.8
 var radius := 0.5
 var kingdom: StringName = &"fire"
 var team := 0
+## Opt-in: `cast` turns the proxy (and a model parented to it) toward the target, +Z forward like the game's units.
+## Off by default: vfx are cosmetic and not replayed by seek, so a turn here would break seek == play. Use a `face` action.
+var face_target := false
 var _model: Node3D = null
 var _caster: _ProxyCaster
 var _streaks: Array[Dictionary] = []   # {node, from, to, t, time, id}
@@ -69,6 +72,10 @@ func set_radius(id: StringName, r: float) -> void:
 ## draw a simple emissive streak from the hand to `at`).
 func cast(spell_id: StringName, at: Vector3, travel_time: float = 0.6) -> void:
 	_sync_to_model()
+	if face_target:
+		var d := at - global_position
+		if Vector2(d.x, d.z).length() > 0.01:
+			rotation.y = atan2(d.x, d.z)   # game convention (Unit._face): models face +Z
 	if _model != null and _model.has_method(&"play_cast"):
 		_model.call(&"play_cast", spell_id)
 	_caster.spell_cast.emit(spell_id)
