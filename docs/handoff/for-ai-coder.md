@@ -210,3 +210,6 @@ Unit wrappers (use them instead of `get_model()` + `has_method`): `set_loot(amou
   `tracker_contract.gd _slots`, `thief_band.gd _serial`, `beast_brain.gd _serial`, `commander.gd _snapshot / _kinds`,
   `champion_sense.gd _by_team`) and seed champion / beast brains from a match seed passed in. Confirm no dictionary keyed
   by `get_instance_id()` is iterated for a decision. Timers / trickles that tick before `_start_match` belong after it.
+## Caravans cost no supply (lead, 2026-09-27, user request)
+caravan.tres pop 1 -> 0. commander.gd ~2631 still keeps CARAVAN_POP_FREE free pop before training one, and ai_trade.gd F4 cuts the caravan target at the pop cap; both are now moot for caravans. Remove / relax them and re-run test_10_a3 + a Bot Lab batch.
+

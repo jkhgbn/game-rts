@@ -59,3 +59,7 @@ cavalry (blaze_rider 220 HP / 18 dmg, grave_hound 16.3 DPS per 100 crystals = x2
 (rime_seer, bloomtender); Fire slot V `ash_hurler` is a 60 HP siege unit where the other kingdoms put a heavy
 (43 EHP per 100 crystals vs 187). Decide whether the slots mean the same role across kingdoms (the AI army mixes assume
 it) and note the answer in the kingdom specs; the Balance Lab can then test the numbers.
+
+## Caravans cost no supply (lead, 2026-09-27, user request)
+market-trade.md still says caravan pop 1: the data is now pop 0 (user: 'make caravan no supply'). Update the doc and the balance notes; include it in the next Balance Lab pass.
+
