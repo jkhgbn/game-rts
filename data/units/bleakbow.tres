@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/bleakbow/bleakbow.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"bleakbow"
+display_name = "Bleakbow"
+faction = &"shadow"
+is_worker = false
+cost = 115
+pop = 1
+kill_xp = 55
+train_time = 22.0
+card_key = "B"
+max_hp = 70.0
+move_speed = 5.0
+attack_damage = 8.0
+attack_range = 9.0
+attack_cooldown = 1.2
+aggro_range = 10.0
+radius = 0.45
+body_height = 1.6
+body_color = Color(0.35, 0.2, 0.45, 1)
+projectile_color = Color(0.75, 0.1, 0.15, 1)
+projectile_speed = 26.0
+model_scene = ExtResource("2_model")
+armor = 0.0
+sight_radius = 11.0
+model_path = "res://art/units/shadow/bleakbow/bleakbow.tscn"

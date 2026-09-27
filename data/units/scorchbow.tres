@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/fire/scorchbow/scorchbow.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"scorchbow"
+display_name = "Scorchbow"
+faction = &"fire"
+is_worker = false
+cost = 125
+pop = 1
+kill_xp = 60
+train_time = 24.0
+card_key = "B"
+max_hp = 75.0
+move_speed = 4.8
+attack_damage = 14.0
+attack_range = 9.5
+attack_cooldown = 1.6
+aggro_range = 10.5
+radius = 0.45
+body_height = 1.65
+body_color = Color(0.8, 0.3, 0.1, 1)
+projectile_color = Color(1, 0.45, 0.1, 1)
+projectile_speed = 26.0
+model_scene = ExtResource("2_model")
+armor = 0.0
+sight_radius = 11.0
+model_path = "res://art/units/fire/scorchbow/scorchbow.tscn"
