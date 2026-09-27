@@ -133,3 +133,7 @@ Run cost: 1 Godot window at a time, ~1 min per 8 characters (`hair_shots.gd`).
 - Mock-up (never the real model): `docs/art/hair/mock/vessa_hair_mock.tscn` (inherits `vessa.tscn`) +
   `vessa_hair_mock.gd` (extends `vessa.gd`) + `hair_kit.gd`. Mock locks: 7 locks, 858 flat-shaded vertices, materials
   `fire_hair` + `fire_sec_archer`. Not checked yet: clipping in the cast / attack poses (H1 does it with the Art Lab).
+
+## Decision (JS, 2026-09-27 16:33): after the playtest, bring EVERY character with hair to a hair score >= 70 (green)
+Order: kit hair builder first (budget ~600 verts), then Vessa (apply the mock + clipping check in cast / attack), then the reds (Cinder Hand, caravan driver, Wayfinder x2), then the yellows (Ysolde, Torvald, Oathwall x2, Mage Archer B, Coin Cutter A, Wildcaller B). Medium-effort tech-artist agents, one per group; score each after.
+

@@ -201,3 +201,6 @@ Next after JS's playtest: his notes; U2 (cine record size, set VFX cues) + U3 (W
 quiet-PC checklist (error-lab.md 3f: replay avoidance A/B, perf baseline, AI timing); STR/INT + level boons build
 (ideas-inbox.md: STR/INT picked at match start, locked; readable buff VFX; ability timing still open); bowmen UI buttons;
 questions pending JS: level-boons (5), t3-helpers (5), episode3-4 (6), new-maps (5), bowmen kingdom mapping.
+
+After-playtest queue (JS 16:33): all hair scores >= 70 (docs/art/hair-redesign-plan.md, Decision section).
+
