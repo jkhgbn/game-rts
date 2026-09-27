@@ -41,6 +41,7 @@ powershell -ExecutionPolicy Bypass -File tools\bot_lab\run_lab.ps1
 | `-TimeoutMin` | `90` | Wall-clock guard per match (stops only its own process) |
 | `-StopAt` | | `"00:45"`: no match starts after that clock time, running ones are stopped (own processes only), the report covers what finished |
 | `-Validate` | off | The sim-vs-normal validation in one command: arms `normal` (sim off) / `sim` / `sim30` (sim + tick 30) over the same pairs x seeds; defaults fire:shadow,ice:nature x 1-8, `-Limit 600`, early off, `--stall=0`. The report gets an "Arms" table |
+| `-Short` | off | The **short validation** (U5, 2026-09-27): `-Validate` with 1 pair (`fire:shadow`) x seeds 1-2 x the 3 arms = 6 matches of 5:30 (`-Limit 330`, 3:00 and 5:00 snapshots), ~7 min quiet / fits in 10 min; a hard stop 11 min from now unless `-StopAt` is given. A smoke of the arms, not a verdict (use `-Validate` for that). `tests/test_bot_lab.gd` checks its dry-run plan |
 | `-DryRun` | off | Prints the job list and the expected wall time, starts nothing |
 
 Before starting, the runner prints the **expected wall time** (quiet PC .. busy PC, `lab_eta.ps1`: sim x3.0 / x0.8 game s

@@ -1,0 +1,7 @@
+{
+	"name": "caravan_pop1",
+	"notes": "Caravan 0 supply arm (2026-09-27): the game now has caravan pop 0. This arm puts the old pop 1 back, so baseline vs this arm = what 0 supply is worth. Pairs: all kingdoms trade the same; run both seat orders, -Limit >= 900 (caravans pay after 5:00).",
+	"units": {
+		"caravan": {"pop": 1}
+	}
+}

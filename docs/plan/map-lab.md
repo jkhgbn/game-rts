@@ -72,6 +72,8 @@ fair x2, mirror x1.5, dist / choke x1.
 | F1 | **Map geometry** fair | octile shortest path on a 0.5 m grid of the main navmesh (exactly mirror-invariant) for every spot pair vs its mirrored pair: WARN > 2 % and > 0.75 m, FAIL > 5 % and > 2 m |
 | F2 | **Unit paths** fair | the same with `NavigationServer3D.map_get_path` (what units walk): INFO > 2 %, WARN > 5 % and > 2 m. The polygon A* runs on a triangulation that is not mirrored, so F2 measures how much the engine's path choice (not the map) favours a side |
 | D1 | Keep distances per seat | per kind (expansion, point, camp, lair, tavern, post, peddler, cache, crown, enemy keep) the nearest unit-path length from each keep; seats differ <= 2 % (WARN) |
+| A1 | Ally keeps (team maps; INFO on a 1v1) | per seat with an ally (same `side`): path to the ally keep, nearest / farthest enemy keep. WARN: ally paths differ between sides > 2 %, ally > 1.25 x the nearest enemy keep, the ally road crosses the river (profile `ally_dry`), a profile `targets` distance (`ally_keep`, `enemy_keep_near`, `enemy_keep_far`, from the map spec) missed by > 10 %. Table "Ally keeps per seat" |
+| T1 | Travel times per seat | keep -> ally keep(s), every enemy keep, nearest expansion / point / camp, crown: path length / `UnitType.move_speed` for worker (`cinder_hand`), soldier (`flame_guard`), cavalry (`blaze_rider`), caravan (`caravan`), ford / steps metres at `FORD_SLOW` -35 %; seats' times per destination within 3 s and 3 % (WARN). Table "Travel times per seat" (m:ss) |
 | C1 | Crossing widths | navmesh width across each crossing (fords: along the flow; bridges / steps: across `dir`) >= 2 m and equal to its twin +-0.5 m (WARN) |
 | C2 | Main-route chokes | keep -> crown, keep -> enemy keep, keep -> nearest expansion: navmesh width sampled every metre (4 m from the ends skipped), narrowest point and every choke < 3 m; the twin route's narrowest point within 1 m (WARN) |
 | H1 | Heat map | `heatmap.png`: 4 px per metre, +x right / +z down (the minimap view); dark = no navmesh, grey = navmesh, blue = islands, yellow -> red = how many of the 1 711 spot-pair unit paths cross that metre; dots = spots. Table of the 10 hottest metres |
@@ -117,6 +119,17 @@ every enemy keep / nearest expansion per seat. What the 2v2 needs when its scene
 - runtime: ~4x the navmesh cells and ~2x the spots, so the octile Dijkstra will take ~2-3 min; if too slow, v2 can run it
   on a 1 m grid for maps with `half_size > 70`.
 
+**2v2 support (tools upgrade U5, 2026-09-27):** generic for N seats. The profile's `seats` give the sides; **A1** checks the
+ally distance (equal per side, not much farther than the nearest enemy, `ally_dry` = the ally road never crosses the river,
+`targets` from `map-2v2.md` 1: ally ~142 m, facing enemy ~142 m, diagonal enemy ~187 m, +-10 %); **T1** is the
+travel-time table (per seat, per unit class, ford slow included). A World Forge `map_profile.json` can carry `targets` /
+`ally_dry` too (read as-is). On the 1v1, A1 is INFO and T1 PASS (enemy keep 116 m = 0:23 soldier / 0:15 cavalry /
+0:29 caravan). The 2v2 audit (`docs/design/map-2v2-audit.md`, written in parallel) was not out yet: its numbers go into
+the 2v2 profile's `targets` when it lands.
+First 4-seat run (World Forge `fourfold_hollow/map_profile.json`, preview scene, `log=0 heat=0`, 157 s): A1 PASS (ally 124.3 m by
+road on every seat, dry; nearest enemy 135-136 m, diagonal 181 m: ~13 % under the map-2v2.md targets, which the WF profile
+does not carry), T1 WARN (enemy keep #2 by caravan 0:45 vs 0:48 between seats: engine path noise like F2).
+
 ## 7. Known limits
 - F2 / D1 / C2 / the heat map use `map_get_path` (what units walk), F1 the grid geometry; the octile metric overestimates
   diagonal-ish lengths by up to ~8 %, identically on both sides (it only compares, never reports absolute lengths).
@@ -127,8 +140,7 @@ every enemy keep / nearest expansion per seat. What the 2v2 needs when its scene
 - Islands on top of colliders are counted but not listed (INFO); a mis-sized collider top could hide there.
 
 ## 8. Next steps (Map Lab v2 backlog)
-- Travel **times**: path length / speed per unit class (worker, soldier, cavalry, caravan) with the ford slow and the
-  step-12b terrain costs; rush timings per seat.
+- Travel times: done in U5 (T1, ford slow in); still to add: the step-12b terrain speed costs per path metre.
 - **Combat heat** from Bot Lab / Replay Lab games (unit deaths, fights) next to the path heat.
 - Doors as spot points (posts, guilds, taverns); vision / fog checks (watchtower sight radius coverage per side).
 - F2 root cause: try a finer bake in a lab copy and report how much F2 improves (no game change without the lead).

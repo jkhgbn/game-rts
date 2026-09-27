@@ -122,5 +122,14 @@ func _check() -> bool:
 	if not text.contains("| sim | 2 |") or not text.contains("+0.0 %"):
 		print("FAIL %s: arms table wrong (two identical arms must show N 2 and a +0.0 %% delta)" % TASK_ID)
 		return true
+	# run_lab.ps1 -Short (the 10-minute validation): the dry run must plan 6 matches (1 pair x 2 seeds x 3 arms, 330 s).
+	if OS.get_name() == "Windows":
+		var ps_out: Array = []
+		OS.execute("powershell", PackedStringArray(["-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+				ProjectSettings.globalize_path("res://tools/bot_lab/run_lab.ps1"), "-Short", "-DryRun"]), ps_out, true)
+		var plan := "".join(ps_out)
+		if not plan.contains("Bot Lab: 6 matches") or not plan.contains("limit 330") or not plan.contains("[sim30]"):
+			print("FAIL %s: run_lab.ps1 -Short -DryRun plan wrong: %s" % [TASK_ID, plan.substr(0, 300)])
+			return true
 	print("PASS %s (%s)" % [TASK_ID, md])
 	return true

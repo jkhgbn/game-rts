@@ -112,8 +112,8 @@ static func run_on(level: Node, profile: Dictionary, opts: Dictionary, t0: int =
 		"text": "heatmap.png shows where the shortest paths crowd: the red metres are the likely fights"})
 	report.extras.append({"title": "Combat heat from bot games", "source": "lab idea",
 		"text": "v2: feed Bot Lab / Replay Lab unit deaths into the heat map"})
-	report.extras.append({"title": "Travel times", "source": "lab idea",
-		"text": "v2: divide path lengths by unit speeds (worker, soldier, caravan) and include the ford slow"})
+	report.extras.append({"title": "Terrain costs in travel times", "source": "lab idea",
+		"text": "T1 has the ford slow; add the step-12b terrain speed costs (mud, heath) per path metre"})
 	report.seconds = float(Time.get_ticks_usec() - t0) / 1e6
 	report.write(out_dir)
 	if log_on:

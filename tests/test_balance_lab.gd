@@ -64,6 +64,41 @@ func _test_match() -> void:
 	_check(errors.size() == 4, "4 errors: unknown field, text field, bad value, unknown unit (got %d: %s)" % [errors.size(), str(errors)])
 	ut.set(&"attack_damage", old_dmg)
 	ut.set(&"cost", old_cost)
+	_test_shipped_variants(m)
+
+
+## Every hand-written arm in tools/balance_lab/variants/ (bowmen, caravan 0 supply...) parses and applies with no
+## error on today's data (unit ids exist, fields are numeric), then is restored.
+func _test_shipped_variants(m: GDScript) -> void:
+	var dir := "res://tools/balance_lab/variants/"
+	var names := DirAccess.get_files_at(dir)
+	_check(names.has("caravan_pop1.json") and names.has("bowmen_cost_up.json"), "bowmen / caravan arms shipped")
+	for f: String in names:
+		if not f.ends_with(".json"):
+			continue
+		var v: Variant = m.call(&"read_variant", dir + f)
+		_check(v is Dictionary, "%s parses" % f)
+		if not v is Dictionary:
+			continue
+		var saved: Array = []   # [resource, field, old value]
+		for section: String in ["units", "buildings"]:
+			var folder := "res://data/%s/" % section
+			var entries: Dictionary = (v as Dictionary).get(section, {})
+			for id: String in entries:
+				var res: Resource = load(folder + id + ".tres") if ResourceLoader.exists(folder + id + ".tres") else null
+				if res:
+					for field: String in entries[id]:
+						saved.append([res, field, res.get(field)])
+		var applied: Array = []
+		var errors: Array = []
+		var held: Array = []
+		m.call(&"apply_to_resources", v, applied, errors, held)
+		_check(errors.is_empty(), "%s applies with no error: %s" % [f, str(errors)])
+		if f == "caravan_pop1.json":
+			var cv: Resource = load("res://data/units/caravan.tres")
+			_check(cv.get(&"pop") is int and int(cv.get(&"pop")) == 1, "caravan_pop1: pop 1 as an int")
+		for s: Array in saved:
+			(s[0] as Resource).set(s[1], s[2])
 
 
 func _test_report() -> void:

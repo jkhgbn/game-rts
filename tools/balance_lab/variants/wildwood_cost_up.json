@@ -1,0 +1,7 @@
+{
+	"name": "wildwood_cost_up",
+	"notes": "New bowmen arm: bowmen.md 8 open point, Hunting Party (twin per archer) halves the Wildwood Archer's price late. Unit-level knob: cost 85 -> 100 (the upgrade price 200 -> 250 is code, not data).",
+	"units": {
+		"wildwood_archer": {"cost": 100}
+	}
+}

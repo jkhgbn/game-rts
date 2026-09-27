@@ -60,6 +60,7 @@ Note: when calling a Godot wrapper `.ps1` (godot_run.ps1) write the separator as
 | `-Seeds` | `1` | `1-6`, `1,2,3` |
 | `-Run` | `yyyy-MM-dd_HHmm` | Run name: scorecard in `docs/balance/lab/<run>/`, raw in `..\four-wizards-lab-runs\balance-<run>\` |
 | `-Dir`, `-Parallel`, `-Difficulty`, `-Style`, `-Sim`, `-Limit`, `-Early`, `-Tick`, `-Extra`, `-TimeoutMin`, `-StopAt` | as run_lab.ps1 | Same meaning as the Bot Lab (`docs/plan/bot-lab.md`) |
+| `-Set` | none | Ad-hoc arms by unit / building id, no JSON file: one string per arm, `"<id>.<field>=<value>"`, fields joined with `;` (`-Set "scorchbow.attack_damage=x0.9","caravan.pop=1;caravan.cost=+10"`). The id is looked up in `data/units/` then `data/buildings/` of `-Dir` (unknown id = the runner stops); the generated JSON goes to the run's `variants/` folder |
 | `-NoHistory` | off | No row in `docs/balance/lab/history.md` |
 | `-DryRun` | off | Prints the arms, jobs, expected wall time and the evidence note, starts nothing |
 
@@ -136,6 +137,21 @@ last two matches ~12-15 min; wall 34 min for 4 matches of ~3.5-4.5 min each). Sc
   98 / 392 games per arm at the run's own pace.
 - `history.md` links the scorecard relatively (`<run>/scorecard.md`) instead of an absolute desktop path.
 - `tests/test_balance_lab.gd`: PASS (laptop, 2026-09-27). No match run today (the machine is shared: no balance numbers).
+
+## Arms for the new bowmen and the caravan 0 supply (U5, 2026-09-27)
+Variant files in `tools/balance_lab/variants/` (the test applies every one of them with 0 errors on today's data):
+| Arm | Change | Question it answers |
+|---|---|---|
+| `caravan_pop1` | `caravan.pop` 0 -> 1 (the old value) | What the caravan's 0 supply is worth: baseline (0 supply) vs this arm. Use `-Limit` >= 900 (caravans pay after 5:00) |
+| `bowmen_cost_up` | `scorchbow` / `frostbow` / `bleakbow` / `wildwood_archer` cost x1.2 | How much each kingdom leans on its bowman (a big shift = a pillar unit) |
+| `scorchbow_dmg_down` | `scorchbow.attack_damage` x0.9 (14 -> 12.6) | `bowmen.md` 8: the first knob if Fire rises (the Heavy Draw upgrade is code, not a variant field) |
+| `wildwood_cost_up` | `wildwood_archer.cost` 85 -> 100 | `bowmen.md` 8: Hunting Party halves the archer's price late (the upgrade price is code) |
+Any other bowman knob: `-Set "<bowman id>.<field>=<value>"` (ids `scorchbow`, `frostbow`, `bleakbow`, `wildwood_archer`).
+Limits: upgrade prices / effects (`BowmanUpgrades`), `BowmanKit.BOT_SHARE` and `BOWMEN_ENABLED` are constants in code,
+not data, so "bowmen off" is not a variant: compare with a `-Dir` worktree on a commit before the bowmen. The `-Dir` must
+have the bowmen's `.tres` (V1 fails on an unknown id). Suggested first run (quiet PC, ~2 h): `-Variants
+caravan_pop1,bowmen_cost_up -Pairs fire:ice,ice:fire,shadow:nature,nature:shadow -Seeds 1-6 -Tick 30 -Limit 900 -Early off`.
+Only a `-DryRun` was done today (the PC was busy): 6 arms x fire:nature planned, ~10 min quiet.
 
 ## Next steps
 1. **Lead**: commit `tools/balance_lab/`, `tests/test_balance_lab.gd`, `docs/balance/lab/`, this file. Move the lab

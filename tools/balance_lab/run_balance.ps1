@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Balance Lab runner (docs/plan/balance-lab.md): Bot Lab matches for a BASELINE arm and one or more stat VARIANT arms
   over the same pairs and seeds, then a scorecard comparing win rate / length / score per pair.
@@ -20,10 +20,16 @@
 
 .EXAMPLE
   .\tools\balance_lab\run_balance.ps1 -Variants a.json,b.json -Pairs shadow:fire,fire:shadow,shadow:nature,nature:shadow -Seeds 1-6 -Tick 30
+
+.EXAMPLE
+  .\tools\balance_lab\run_balance.ps1 -Set "scorchbow.attack_damage=x0.9","caravan.pop=1;caravan.cost=+10" -Pairs fire:ice,ice:fire -DryRun
+  (-Set = one arm per string, no JSON file: "<unit or building id>.<field>=<value>", several fields joined with ";";
+  the id is looked up in data/units/ then data/buildings/ of -Dir; values as in a variant JSON: 12, "x0.9", "+10")
 #>
 param(
 	[string]$Dir = "",
 	[string[]]$Variants = @(),
+	[string[]]$Set = @(),
 	[switch]$NoBaseline,
 	[string[]]$Pairs = @(),
 	[string[]]$Seeds = @("1"),
@@ -108,6 +114,29 @@ foreach ($v in ($Variants | ForEach-Object { $_ -split "," } | Where-Object { $_
 	$copy = Join-Path $OutDir "variants\$name.json"
 	if ($DryRun) { $copy = $vp } else { Copy-Item $vp $copy -Force }
 	$Arms += @{ Name = $name; File = ($copy -replace "\\", "/") }
+}
+# -Set: ad-hoc variant arms by unit / building id (balance-lab.md "Arms by unit id"). Each string = one arm.
+$SetDir = if ($DryRun) { Join-Path $env:TEMP "balance_lab_set" } else { Join-Path $OutDir "variants" }
+foreach ($spec in ($Set | ForEach-Object { $_ -split "," } | Where-Object { $_.Trim() -ne "" })) {
+	$units = [ordered]@{}; $buildings = [ordered]@{}
+	foreach ($kv in ($spec -split ";" | Where-Object { $_.Trim() -ne "" })) {
+		if ($kv.Trim() -notmatch "^([a-z0-9_]+)\.([a-z0-9_]+)=(.+)$") { throw "Bad -Set item '$kv' (use unit_id.field=value, e.g. scorchbow.attack_damage=x0.9)" }
+		$id = $Matches[1]; $field = $Matches[2]; $raw = $Matches[3].Trim()
+		$num = 0.0
+		$val = if ([double]::TryParse($raw, [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$num)) { $num } else { $raw }
+		if (Test-Path (Join-Path $Dir "data\units\$id.tres")) { $section = $units }
+		elseif (Test-Path (Join-Path $Dir "data\buildings\$id.tres")) { $section = $buildings }
+		else { throw "-Set: no data\units\$id.tres or data\buildings\$id.tres in $Dir" }
+		if (-not $section.Contains($id)) { $section[$id] = [ordered]@{} }
+		$section[$id][$field] = $val
+	}
+	$name = ("set_" + ($spec.Trim() -replace "[^\w\-]+", "_")).Trim("_")
+	if ($name.Length -gt 60) { $name = $name.Substring(0, 60) }
+	New-Item -ItemType Directory -Force $SetDir | Out-Null
+	$vpath = Join-Path $SetDir "$name.json"
+	$obj = [ordered]@{ name = $name; notes = "-Set $($spec.Trim())"; units = $units; buildings = $buildings }
+	[IO.File]::WriteAllText($vpath, ($obj | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding $false))
+	$Arms += @{ Name = $name; File = ($vpath -replace "\\", "/") }
 }
 if ($Arms.Count -eq 0) { throw "Nothing to run (no baseline, no variant)" }
 

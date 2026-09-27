@@ -1,0 +1,10 @@
+{
+	"name": "bowmen_cost_up",
+	"notes": "New bowmen arm (docs/design/bowmen.md): all four Hall bowmen +20 % cost. Measures how much the bowmen carry each kingdom (a big win-rate shift = the bowman is a pillar of its kingdom's army). Needs a -Dir that has the bowmen (BowmanKit.BOWMEN_ENABLED, data/units/<id>.tres).",
+	"units": {
+		"scorchbow": {"cost": "x1.2"},
+		"frostbow": {"cost": "x1.2"},
+		"bleakbow": {"cost": "x1.2"},
+		"wildwood_archer": {"cost": "x1.2"}
+	}
+}

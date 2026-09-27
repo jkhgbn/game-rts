@@ -1,0 +1,7 @@
+{
+	"name": "scorchbow_dmg_down",
+	"notes": "New bowmen arm: bowmen.md 8 says Fire is already the strongest kingdom and the Scorchbow is the first knob if Fire rises. Unit-level knob: base damage 14 -> 12.6 (x0.9); the Heavy Draw upgrade (+3) is code, not data, so it is not a variant field.",
+	"units": {
+		"scorchbow": {"attack_damage": "x0.9"}
+	}
+}

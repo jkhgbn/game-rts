@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Bot Lab runner (docs/plan/bot-lab.md): many headless bot-vs-bot matches in parallel, one JSON line each, then a
   Markdown + HTML report.
@@ -25,6 +25,9 @@
 
 .EXAMPLE
   .\run_lab.ps1 -Validate -DryRun      (the plan + expected time of the sim-vs-normal validation, nothing run)
+
+.EXAMPLE
+  .\run_lab.ps1 -Short                 (quick validation: fire:shadow x seeds 1-2 x 3 arms, 5:30 each, ~10 min, hard stop +11 min)
 #>
 param(
 	[string]$Dir = "",
@@ -43,6 +46,7 @@ param(
 	[int]$TimeoutMin = 90,
 	[string]$StopAt = "",
 	[switch]$Validate,
+	[switch]$Short,
 	[switch]$DryRun,
 	[string]$Godot = "C:\Godot\Godot_v4.7.2-stable_win64_console.exe"
 )
@@ -56,11 +60,21 @@ if ($Dir -eq "") {
 	$Dir = Join-Path (Split-Path -Parent $Repo) "four-wizards-rts-lab"
 	if (-not (Test-Path (Join-Path $Dir "project.godot"))) { $Dir = $Repo }
 }
+if ($Short) {
+	# -Short = the quick validation (bot-lab.md "Validation, short mode"): 1 pair x 2 seeds x 3 arms = 6 matches of 5:30,
+	# fits in ~10 min on a quiet PC; a hard stop 11 min from now unless -StopAt is given. A smoke of the arms, not a verdict.
+	$Validate = $true
+	if (-not $PSBoundParameters.ContainsKey("Pairs")) { $Pairs = @("fire:shadow") }
+	if (-not $PSBoundParameters.ContainsKey("Seeds")) { $Seeds = @("1-2") }
+	if (-not $PSBoundParameters.ContainsKey("Limit")) { $Limit = 330 }
+	if ($StopAt -eq "") { $StopAt = (Get-Date).AddMinutes(11).ToString("HH:mm") }
+	if ($Title -eq "") { $Title = "Bot Lab validation (short): sim vs normal" }
+}
 if ($Validate) {
 	# bot-lab.md "Validation": same pairs x seeds in 3 arms, 10:00 scored at the limit, no early stop, no stall end.
-	if (-not $PSBoundParameters.ContainsKey("Pairs")) { $Pairs = @("fire:shadow", "ice:nature") }
-	if (-not $PSBoundParameters.ContainsKey("Seeds")) { $Seeds = @("1-8") }
-	if (-not $PSBoundParameters.ContainsKey("Limit")) { $Limit = 600 }
+	if (-not $PSBoundParameters.ContainsKey("Pairs") -and -not $Short) { $Pairs = @("fire:shadow", "ice:nature") }
+	if (-not $PSBoundParameters.ContainsKey("Seeds") -and -not $Short) { $Seeds = @("1-8") }
+	if (-not $PSBoundParameters.ContainsKey("Limit") -and -not $Short) { $Limit = 600 }
 	$Early = "off"
 	if ($Extra -notmatch "--stall=") { $Extra = ("$Extra --stall=0").Trim() }
 	if ($Title -eq "") { $Title = "Bot Lab validation: sim vs normal" }

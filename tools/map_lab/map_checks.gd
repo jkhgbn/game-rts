@@ -27,6 +27,15 @@ const CROSSING_NARROW := 2.0     ## navmesh width below this = a narrow crossing
 const CHOKE_WIDTH := 3.0         ## route samples narrower than this (navmesh m) are listed as chokes
 const ROUTE_TWIN_TOL := 1.0      ## a route's narrowest point vs its mirror twin's (m)
 const HOME_NODE_RADIUS := 16.0   ## crystal nodes this close to a keep are home nodes, the others expansions
+const ALLY_FAR_RATIO := 1.25     ## A1: the ally keep farther than this x the nearest enemy keep = allies can't help (WARN)
+const TARGET_TOL := 0.10         ## A1: a profile `targets` distance (map spec) missed by more than 10 % = WARN
+const TRAVEL_SPREAD_S := 3.0     ## T1: seats' travel times to the same destination differ by more than this (s)...
+const TRAVEL_SPREAD_REL := 0.03  ## ...and by more than 3 % = WARN
+const FORD_SLOW := -0.35         ## RiverSystem.FORD_SLOW (move_speed_pct inside a ford / steps circle)
+const SAMPLE_M := 0.5            ## path sampling step for ford / river tests (m)
+## T1 unit classes: [label, unit id in data/units, fallback speed m/s]. Speeds are read from the UnitType.
+const TRAVEL_UNITS: Array = [["worker", "cinder_hand", 4.6], ["soldier", "flame_guard", 5.0],
+	["cavalry", "blaze_rider", 7.5], ["caravan", "caravan", 4.0]]
 ## Spots that are buildings: a navmesh pocket inside their footprint is by design.
 const BUILDING_KINDS: Array[String] = ["keep", "tavern", "post", "guild", "peddler"]
 const DIST_KINDS: Array[String] =["expansion", "point", "camp", "lair", "tavern", "post", "peddler", "cache", "crown"]
@@ -88,6 +97,8 @@ func run() -> void:
 	_check_pair_fairness(geo_lens, true)
 	_check_pair_fairness(lens, false)
 	_distance_tables()
+	_check_allies()
+	_travel_times()
 	_check_crossings()
 	_check_routes()
 	if heat_on:
@@ -757,6 +768,254 @@ func _distance_tables() -> void:
 			var diff := "-" if is_inf(a) or is_inf(b) else "%+.1f %%" % (100.0 * (a - b) / maxf(0.01, maxf(a, b)))
 			r2 += "| %s | %s | %.1f | %s | %.1f | %s |\n" % [spots[j]["id"], spots[j]["kind"], a, spots[tj]["id"], b, diff]
 		report.add_table("Every spot from the keeps (%s)" % symmetries()[0]["name"], r2)
+
+
+# ---------------------------------------------------------------- allies (2v2) and travel times
+
+## Seconds to walk `length` m at `speed` m/s when `ford_m` of it lies in fords / steps (FORD_SLOW there).
+static func travel_seconds(length: float, ford_m: float, speed: float) -> float:
+	if is_inf(length) or speed <= 0.0:
+		return INF
+	var f := clampf(ford_m, 0.0, length)
+	return (length - f) / speed + f / (speed * (1.0 + FORD_SLOW))
+
+
+static func mmss(sec: float) -> String:
+	if is_inf(sec):
+		return "-"
+	var s := int(round(sec))
+	return "%d:%02d" % [s / 60, s % 60]
+
+
+## Seats grouped by side: side -> [team, ...] (profile order).
+static func sides_of(seats: Array) -> Dictionary:
+	var out := {}
+	for s: Dictionary in seats:
+		var side := int(s["side"])
+		if not out.has(side):
+			out[side] = []
+		(out[side] as Array).append(int(s["team"]))
+	return out
+
+
+## Speeds of the T1 unit classes: [[label, speed]], from data/units/<id>.tres (fallback when missing).
+static func travel_speeds() -> Array:
+	var out: Array = []
+	for u: Array in TRAVEL_UNITS:
+		var path := "res://data/units/%s.tres" % u[1]
+		var v: float = u[2]
+		if ResourceLoader.exists(path):
+			var r: Resource = load(path)
+			if r and &"move_speed" in r:
+				v = float(r.get(&"move_speed"))
+		out.append([u[0], v])
+	return out
+
+
+## The shortest NavigationServer path between spots i and j (over their alternative points). Empty = none.
+func _best_path(i: int, j: int) -> PackedVector3Array:
+	var best := PackedVector3Array()
+	var d := INF
+	for a: Vector3 in spots[i].get("alts", [spots[i]["snap"]]):
+		for b: Vector3 in spots[j].get("alts", [spots[j]["snap"]]):
+			var p := NavigationServer3D.map_get_path(nav_map, a, b, true)
+			if p.is_empty() or p[p.size() - 1].distance_to(b) > REACH_TOL:
+				continue
+			var pl := _path_len(p)
+			if pl < d:
+				d = pl
+				best = p
+	return best
+
+
+## {len, ford, bridge, water}: metres of the path inside ford / steps circles, on bridge decks, and whether it
+## crosses the river at all (a ford, steps or a bridge).
+func _path_terrain(path: PackedVector3Array) -> Dictionary:
+	var river := _river()
+	var out := {"len": _path_len(path), "ford": 0.0, "bridge": 0.0, "water": false}
+	if river == null or path.size() < 2:
+		return out
+	# A World Forge river (forge_river.gd) may have no ford / bridge queries: fall back to is_water, else lengths only.
+	var has_ford := river.has_method(&"is_ford")
+	var has_bridge := river.has_method(&"is_bridge")
+	var has_water := river.has_method(&"is_water")
+	if not has_ford and not has_bridge and not has_water:
+		return out
+	for k in range(path.size() - 1):
+		var a := path[k]
+		var b := path[k + 1]
+		var seg := a.distance_to(b)
+		var steps := maxi(1, int(ceil(seg / SAMPLE_M)))
+		for s in steps:
+			var p := a.lerp(b, (float(s) + 0.5) / float(steps))
+			if has_ford and river.call(&"is_ford", p):
+				out["ford"] = float(out["ford"]) + seg / steps
+				out["water"] = true
+			elif has_bridge and river.call(&"is_bridge", p):
+				out["bridge"] = float(out["bridge"]) + seg / steps
+				out["water"] = true
+			elif not has_ford and has_water and river.call(&"is_water", p):
+				out["water"] = true
+	return out
+
+
+## A1 (maps with allies, e.g. the 2v2): per seat, the path to its ally keep vs its enemy keeps. Rules: the ally
+## distance is equal on every side (<= 2 %), the ally is not much farther than the nearest enemy
+## (<= ALLY_FAR_RATIO x), the ally road crosses no river when the profile says `ally_dry`, and the profile's
+## `targets` (ally_keep / enemy_keep_near / enemy_keep_far, from the map spec) are met within 10 %.
+func _check_allies() -> void:
+	var seats := _seat_list()
+	var sides := sides_of(seats)
+	var has_allies := false
+	for side: int in sides:
+		if (sides[side] as Array).size() >= 2:
+			has_allies = true
+	if not has_allies:
+		report.add_info("A1", "dist", "Ally keeps (team maps)", "no side has 2 seats (1v1): nothing to check")
+		return
+	var targets: Dictionary = profile.get("targets", {})
+	var ally_dry := bool(profile.get("ally_dry", false))
+	var issues: Array = []
+	var rows := "| Seat | Side | Ally keep | Ally path (m) | Crosses river | Nearest enemy (m) | Farthest enemy (m) | Ally / nearest enemy |\n|---|---|---|---|---|---|---|---|\n"
+	var ally_d: Array = []
+	var total := 0
+	for s: Dictionary in seats:
+		var team := int(s["team"])
+		var ki: int = seat_keep[team]
+		var ally := INF
+		var ally_team := -1
+		var near := INF
+		var far := 0.0
+		for o: Dictionary in seats:
+			var ot := int(o["team"])
+			if ot == team:
+				continue
+			var d := path_len(ki, seat_keep[ot])
+			if int(o["side"]) == int(s["side"]):
+				if d < ally:
+					ally = d
+					ally_team = ot
+			else:
+				near = minf(near, d)
+				if not is_inf(d):
+					far = maxf(far, d)
+		if ally_team < 0:
+			continue
+		total += 1
+		var where := String(s["name"])
+		var wet := false
+		if is_inf(ally):
+			issues.append({"sev": "FAIL", "where": where, "what": "no path to the ally keep", "fix": "open a road between the allies"})
+		else:
+			ally_d.append(ally)
+			var terr := _path_terrain(_best_path(ki, seat_keep[ally_team]))
+			wet = bool(terr["water"])
+			if wet and ally_dry:
+				issues.append({"sev": "WARN", "where": where, "what": "the ally road crosses the river (%.1f m ford, %.1f m bridge)" % [
+					terr["ford"], terr["bridge"]], "fix": "the spec keeps allies on one bank: check the connector road / river course"})
+			if not is_inf(near) and ally > near * ALLY_FAR_RATIO:
+				issues.append({"sev": "WARN", "where": where, "what": "ally keep %.1f m vs nearest enemy %.1f m (x%.2f)" % [ally, near, ally / near],
+					"fix": "allies too far apart to defend each other: shorten the ally road"})
+		for key: String in targets:
+			var want := float(targets[key])
+			var got: float = {"ally_keep": ally, "enemy_keep_near": near, "enemy_keep_far": far}.get(key, INF)
+			if want > 0.0 and not is_inf(got) and absf(got - want) / want > TARGET_TOL:
+				issues.append({"sev": "WARN", "where": where, "what": "%s %.1f m vs spec ~%.0f m (%+.0f %%)" % [key, got, want, 100.0 * (got - want) / want],
+					"fix": "the map drifted from its spec (%s): move the keep / road or update the spec" % profile.get("spec", "-")})
+		rows += "| %s | %d | %s | %s | %s | %s | %s | %s |\n" % [where, int(s["side"]), spots[seat_keep[ally_team]]["id"],
+			"-" if is_inf(ally) else "%.1f" % ally, "yes" if wet else "no", "-" if is_inf(near) else "%.1f" % near,
+			"-" if far <= 0.0 else "%.1f" % far, "-" if is_inf(ally) or is_inf(near) else "%.2f" % (ally / near)]
+	if ally_d.size() >= 2:
+		var lo: float = ally_d.min()
+		var hi: float = ally_d.max()
+		var rel := (hi - lo) / maxf(0.01, hi)
+		if rel > ASYM_WARN and hi - lo > ASYM_MIN_M:
+			issues.append({"sev": "WARN", "where": "ally roads", "what": "%.1f m vs %.1f m between sides (%.1f %%)" % [lo, hi, 100.0 * rel],
+				"fix": "one side's allies are farther apart: an unmirrored blocker on the ally road"})
+	report.add_check("A1", "dist", "Ally keeps: equal, close, on their bank", "ally path equal per side (<= %.0f %%), <= %.2f x the nearest enemy keep%s%s" % [
+		100.0 * ASYM_WARN, ALLY_FAR_RATIO, ", never across the river" if ally_dry else "",
+		", spec targets +-%.0f %%" % (100.0 * TARGET_TOL) if not targets.is_empty() else ""], total, issues,
+		"", "", 1.5)
+	report.add_table("Ally keeps per seat (navmesh path, m)", rows)
+
+
+## T1: travel times per seat and unit class (path length / UnitType.move_speed, ford / steps metres at FORD_SLOW):
+## keep -> ally keep(s), every enemy keep, nearest expansion, point, camp, crown. Seats' times to the same
+## destination differ by <= TRAVEL_SPREAD_S (and 3 %) for every class (WARN). Terrain speed costs are not in yet.
+func _travel_times() -> void:
+	var seats := _seat_list()
+	if seats.size() < 2:
+		report.add_info("T1", "dist", "Travel times per seat", "fewer than 2 keeps found")
+		return
+	var speeds := travel_speeds()
+	var head := "| Seat | Destination | Path (m) | Ford (m) |"
+	for u: Array in speeds:
+		head += " %s (%.1f m/s) |" % [u[0], u[1]]
+	var rows := head + "\n|---|---|---|---|" + "---|".repeat(speeds.size()) + "\n"
+	var by_dest := {}   # dest label -> [[seat name, [sec per class]]]
+	for s: Dictionary in seats:
+		var team := int(s["team"])
+		var ki: int = seat_keep[team]
+		var dests: Array = []   # [label, spot index]
+		var enemies: Array = []
+		for o: Dictionary in seats:
+			var ot := int(o["team"])
+			if ot == team:
+				continue
+			if int(o["side"]) == int(s["side"]):
+				dests.append(["ally keep", seat_keep[ot]])
+			else:
+				enemies.append([path_len(ki, seat_keep[ot]), seat_keep[ot]])
+		enemies.sort_custom(func(x: Array, y: Array) -> bool: return float(x[0]) < float(y[0]))
+		for e in enemies.size():
+			dests.append(["enemy keep (nearest)" if e == 0 and enemies.size() > 1 else ("enemy keep" if enemies.size() == 1 else "enemy keep #%d" % (e + 1)), enemies[e][1]])
+		for kind: String in ["expansion", "point", "camp", "crown"]:
+			var best := INF
+			var bj := -1
+			for j in spots.size():
+				if spots[j]["kind"] == kind and path_len(ki, j) < best:
+					best = path_len(ki, j)
+					bj = j
+			if bj >= 0:
+				dests.append(["nearest " + kind if kind != "crown" else "crown", bj])
+		for d: Array in dests:
+			var path := _best_path(ki, int(d[1]))
+			if path.is_empty():
+				rows += "| %s | %s (%s) | - | - |%s\n" % [s["name"], d[0], spots[d[1]]["id"], " - |".repeat(speeds.size())]
+				continue
+			var terr := _path_terrain(path)
+			var secs: Array = []
+			var cells := ""
+			for u: Array in speeds:
+				var t := travel_seconds(float(terr["len"]), float(terr["ford"]), float(u[1]))
+				secs.append(t)
+				cells += " %s |" % mmss(t)
+			rows += "| %s | %s (%s) | %.1f | %.1f |%s\n" % [s["name"], d[0], spots[d[1]]["id"], terr["len"], terr["ford"], cells]
+			if not by_dest.has(d[0]):
+				by_dest[d[0]] = []
+			(by_dest[d[0]] as Array).append([String(s["name"]), secs])
+	var issues: Array = []
+	var total := 0
+	for label: String in by_dest:
+		var list: Array = by_dest[label]
+		if list.size() < 2:
+			continue
+		total += 1
+		for c in speeds.size():
+			var lo := INF
+			var hi := 0.0
+			for it: Array in list:
+				var t: float = it[1][c]
+				lo = minf(lo, t)
+				hi = maxf(hi, t)
+			if hi - lo > TRAVEL_SPREAD_S and (hi - lo) / maxf(0.01, hi) > TRAVEL_SPREAD_REL:
+				issues.append({"sev": "WARN", "where": "%s (%s)" % [label, speeds[c][0]], "what": "%s vs %s between seats" % [mmss(lo), mmss(hi)],
+					"fix": "one seat's route is longer or crosses more ford: see the travel-time table"})
+				break
+	report.add_check("T1", "dist", "Travel times per seat (worker / soldier / cavalry / caravan)",
+		"path length / UnitType.move_speed with fords and steps at %+.0f %%; seats' times per destination within %.0f s (and %.0f %%)" % [
+		100.0 * FORD_SLOW, TRAVEL_SPREAD_S, 100.0 * TRAVEL_SPREAD_REL], total, issues, "", "", 1.0)
+	report.add_table("Travel times per seat (m:ss from the keep; terrain speed costs not included)", rows)
 
 
 # ---------------------------------------------------------------- chokes

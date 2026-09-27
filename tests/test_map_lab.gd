@@ -165,6 +165,16 @@ func _test_profiles() -> void:
 	_check((p2["symmetries"] as Array).size() == 3 and (p2["seats"] as Array).size() == 4, "profile 2v2 shape")
 	_check(float(p2["half_size"]) == 84.0, "profile 2v2 is 168 m (map-2v2.md)")
 	_check(Profiles.get_profile("nope").is_empty(), "unknown profile = {}")
+	# 2v2 support (U5): sides, spec targets, travel-time maths.
+	var sides: Dictionary = Checks.sides_of(p2["seats"])
+	_check(sides.size() == 2 and (sides[0] as Array) == [0, 3] and (sides[1] as Array) == [1, 4], "2v2 sides %s" % str(sides))
+	_check(float((p2.get("targets", {}) as Dictionary).get("ally_keep", 0.0)) == 142.0 and p2.get("ally_dry", false) == true,
+		"profile 2v2 carries the spec targets")
+	_check(absf(Checks.travel_seconds(100.0, 0.0, 5.0) - 20.0) < 0.001, "travel: 100 m at 5 m/s = 20 s")
+	_check(absf(Checks.travel_seconds(100.0, 13.0, 5.0) - (87.0 / 5.0 + 13.0 / 3.25)) < 0.001, "travel: ford slow -35 %")
+	_check(is_inf(Checks.travel_seconds(INF, 0.0, 5.0)) and Checks.mmss(65.4) == "1:05" and Checks.mmss(INF) == "-", "travel: mmss")
+	var speeds: Array = Checks.travel_speeds()
+	_check(speeds.size() == 4 and float(speeds[1][1]) > 0.0, "travel: 4 unit classes with speeds")
 	# The 2v2 symmetries map the A1 keep (-66, 66) onto the 3 other keeps.
 	var keeps := [Vector3(-66, 0, -66), Vector3(66, 0, -66), Vector3(66, 0, 66)]
 	for sym: Dictionary in p2["symmetries"]:
@@ -183,7 +193,7 @@ func _test_real_run() -> void:
 	var by_id := {}
 	for c: Dictionary in report.checks:
 		by_id[c["id"]] = c
-	for id: String in ["N1", "N2", "N3", "M1", "M2", "M3", "M4", "F1", "F2", "D1", "C1", "C2", "H1"]:
+	for id: String in ["N1", "N2", "N3", "M1", "M2", "M3", "M4", "F1", "F2", "D1", "A1", "T1", "C1", "C2", "H1"]:
 		_check(by_id.has(id), "real: check %s missing" % id)
 	for id: String in ["N1", "N2", "M1", "M2", "F1"]:
 		if by_id.has(id):
@@ -194,5 +204,8 @@ func _test_real_run() -> void:
 	_check(FileAccess.file_exists(OUT.path_join("heatmap.png")), "real: heat map not written")
 	var md := FileAccess.get_file_as_string(OUT.path_join("scorecard.md"))
 	_check(md.contains("## Improve next") and md.contains("bridge_crown_w") and md.contains("Crossings"), "real: scorecard content")
+	_check(md.contains("Travel times per seat") and md.contains("enemy keep"), "real: travel-time table missing")
+	if by_id.has("T1"):
+		_check(by_id["T1"]["status"] != "FAIL", "real: T1 FAILs on Crown Hollow: %s" % by_id["T1"]["value"])
 	_check(report.quality() > 50.0, "real: score %.0f" % report.quality())
 	print("map lab on Crown Hollow: %s score %.0f" % [report.result(), report.quality()])
