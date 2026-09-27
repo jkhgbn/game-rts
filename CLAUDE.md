@@ -101,7 +101,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `rooted` via `apply_status`; `Unit.can_move()`, `Unit.can_act()`. Support autocast in
   `scripts/units/support_caster.gd`. Skirmish settings `player_kingdom` (default `&"fire"`) and `enemy_kingdom` (default `&"shadow"`), any of the 4 kingdoms
   (mirror allowed), set on the skirmish node before it enters the tree (the menu does it). House `max_count` is per kingdom
-  (Nature: 3 hollows, cap 50). Ice wizard: Torvald (`torvald`).
+  (2026-09-27: every kingdom cap 200 = keep +20 + 9 houses x +20). Ice wizard: Torvald (`torvald`).
 - **Campaign** (`docs/design/mission-01.md`): missions in `missions/` (`mission_01.tscn` + script in
   `scripts/campaign/`), objectives through `Events.objective_changed(id, state)`, dialogue through a new
   `Events.dialogue(speaker: StringName, text: String)` signal (lead adds it), save via `scripts/campaign/campaign_items.gd`.

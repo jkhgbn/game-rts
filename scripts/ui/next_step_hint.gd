@@ -160,6 +160,7 @@ func read_state() -> Dictionary:
 	if eco != null:
 		s.pop_used = eco.pop_used
 		s.pop_cap = eco.pop_cap
+		s.pop_max = eco.max_pop_cap   # pop 200: no "build houses" hint once the hard cap is reached
 	s.trade = BuildingType.trade_active()
 	for g in tree.get_nodes_in_group(&"champion_guilds"):
 		if int(g.get(&"team")) == team:
@@ -186,7 +187,7 @@ static func pick_step(s: Dictionary) -> StringName:
 	if int(s.get("trained", 0)) == 0 and int(s.get("army", 0)) < ARMY_GOAL:
 		return STEP_TRAIN
 	var cap := int(s.get("pop_cap", 0))
-	if cap > 0 and int(s.get("pop_used", 0)) >= cap - 1:
+	if cap > 0 and int(s.get("pop_used", 0)) >= cap - 1 and cap < int(s.get("pop_max", 1 << 30)):
 		return STEP_HOUSE
 	if bool(s.get("trade", false)) and not bool(s.get("market", false)):
 		return STEP_BAZAAR

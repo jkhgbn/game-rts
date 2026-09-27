@@ -93,7 +93,7 @@ func _ready() -> void:
 	pop_icon.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(pop_icon)
 	pop_label = UIStyle.number_label("-- / --", 20)
-	pop_label.custom_minimum_size = Vector2(80, 0)
+	pop_label.custom_minimum_size = Vector2(100, 0)   # room for "200 / 200"
 	pop_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(pop_label)
 
@@ -278,7 +278,7 @@ func refresh() -> void:
 	crystals_label.text = str(int(economy.get("crystals")))
 	var used := int(economy.get("pop_used"))
 	var cap := int(economy.get("pop_cap"))
-	pop_label.text = "%d / %d" % [used, cap]   # pop_cap already holds the kingdom's cap (Nature up to 50)
+	pop_label.text = "%d / %d" % [used, cap]   # pop_cap already holds the team's cap (up to 200)
 	pop_label.add_theme_color_override("font_color", UIStyle.WARN if used >= cap else UIStyle.token(&"text"))
 
 

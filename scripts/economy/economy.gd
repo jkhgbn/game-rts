@@ -6,18 +6,18 @@ extends Node
 ## Population: pop_used = pop of living units (counted automatically when a Unit of this team
 ## with a UnitType enters the scene tree, freed when it dies or leaves the tree) + pop reserved
 ## by training queues (reserve_pop / release_pop, used by TrainingBuilding).
-## pop_cap = the pop bonus of the team's finished buildings (keep +20, hearth / hovel +10), max
-## `max_pop_cap` (40; Nature 50: kingdom-nature.md section 1, set by set_kingdom, which the team's
-## pop buildings call when they complete).
+## pop_cap = the pop bonus of the team's finished buildings (keep +20, each house +20, max 9 houses per
+## kingdom), max `max_pop_cap` (200 for every kingdom since 2026-09-27, was 40 / Nature 50; set by set_kingdom,
+## which the team's pop buildings call when they complete). Keep + 9 houses = 200.
 ## It may drop under pop_used when a building is destroyed; training then waits for units to die.
 
 signal changed
 signal spend_failed
 
 const START_CRYSTALS := 250
-const MAX_POP_CAP := 40   ## The default hard cap. Read `max_pop_cap` for this team's cap.
-## Hard pop cap per kingdom when it differs from MAX_POP_CAP.
-const KINGDOM_POP_CAPS := {&"nature": 50}
+const MAX_POP_CAP := 200   ## The default hard cap. Read `max_pop_cap` for this team's cap.
+## Hard pop cap per kingdom when it differs from MAX_POP_CAP (empty: every kingdom 200; was {&"nature": 50}).
+const KINGDOM_POP_CAPS := {}
 
 @export var team: Unit.Team = Unit.Team.PLAYER
 @export var crystals: int = START_CRYSTALS
@@ -89,7 +89,7 @@ func add_pop_bonus(amount: int) -> void:
 	changed.emit()
 
 
-## The hard pop cap of a kingdom (&"nature" 50, the others MAX_POP_CAP = 40).
+## The hard pop cap of a kingdom (KINGDOM_POP_CAPS, else MAX_POP_CAP = 200).
 static func pop_cap_limit_for(faction: StringName) -> int:
 	return int(KINGDOM_POP_CAPS.get(faction, MAX_POP_CAP))
 

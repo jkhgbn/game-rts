@@ -55,6 +55,16 @@ One `Economy` per team (contract in `CLAUDE.md`). Start: **250 crystals, 3 worke
 | Vessa, Malrik | 0 |
 
 - `pop_cap` = 20 (one keep; more keeps or houses come with wave 2 buildings, cap never above 20 in wave 1).
+- **Pop 200 (2026-09-27, JS playtest request)**: the hard cap `Economy.MAX_POP_CAP` is **200 for every kingdom**
+  (was 40, Nature 50; `KINGDOM_POP_CAPS` is empty but still lets a kingdom have its own cap). Keep **+20**; every
+  house (Hearth, Hovel, Snow Lodge, Seed Hollow) gives **+20** and `max_count` is **9** per team for every kingdom:
+  keep + 9 houses = 200 (40 after 1 house, 100 after 4, 200 after 9). House cost / build time unchanged (Nature's
+  Seed Hollow stays the cheap one: 60 crystals, 20 s). Missions: mission_01 sets no cap of its own, so it uses the
+  same rule (its bot only builds V1 / V2).
+- The bot (`scripts/ai/commander.gd`): house rows V1-V9 (V4-V9 behind the base, find_spot fallback); a house row
+  triggers when `pop_used >= pop_cap - max(4, pop_cap / 10)` and the previous V row is finished, until the cap is
+  200. The caravan rules (pop_used + 1 <= pop_cap - 2; F4 cut below 45 % soldier pop at the cap) and
+  `attack_full_pop` are relative / army-size knobs and are unchanged.
 - `pop_used` = living units + queued units. A unit's death frees its pop when `died` fires.
 - A unit can be queued only if `pop_used + pop <= pop_cap`.
 

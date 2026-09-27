@@ -192,6 +192,14 @@ const ROWS: Array[Dictionary] = [
 	## 8.A1: only for a kingdom whose house max_count is 3+ (Nature's 3 Seed Hollows), keep offset (7, -15).
 	{"id": &"V3", "kind": &"house", "pos": Vector3(50.0, 0.0, -58.0), "builders": 1, "min_houses": 3},
 	{"id": &"X1", "kind": &"barracks", "pos": Vector3.INF, "builders": 2},
+	## Pop 200 (2026-09-27): houses +20, max 9 per kingdom -> rows V4-V9 around the back of the base (a blocked slot
+	## falls back to the shifts / find_spot as usual). Each needs the previous V row finished and the pop tight.
+	{"id": &"V4", "kind": &"house", "pos": Vector3(56.0, 0.0, -46.0), "builders": 1, "min_houses": 4},
+	{"id": &"V5", "kind": &"house", "pos": Vector3(56.0, 0.0, -52.0), "builders": 1, "min_houses": 5},
+	{"id": &"V6", "kind": &"house", "pos": Vector3(56.0, 0.0, -40.0), "builders": 1, "min_houses": 6},
+	{"id": &"V7", "kind": &"house", "pos": Vector3(44.0, 0.0, -54.0), "builders": 1, "min_houses": 7},
+	{"id": &"V8", "kind": &"house", "pos": Vector3(56.0, 0.0, -58.0), "builders": 1, "min_houses": 8},
+	{"id": &"V9", "kind": &"house", "pos": Vector3(38.0, 0.0, -56.0), "builders": 1, "min_houses": 9},
 	{"id": &"S2", "kind": &"tower", "pos": Vector3(25.0, 0.0, -37.0), "builders": 1},
 	## 10.A3 (market-trade.md 7): build row 7 = the Bazaar at M1; 10e raid Spires at S3 (natural) / S4 (rich).
 	## "slot": the level's market_slot / tower_slot when it has them (else "pos", mirrored as usual).
@@ -592,7 +600,7 @@ func _build_rows() -> void:
 		if row.has("min_houses"):
 			var house: BuildingType = _types.get(row["kind"])
 			if house == null or house.max_count < int(row["min_houses"]):
-				continue   # V3: only a kingdom allowed 3+ houses (Nature)
+				continue   # V3-V9: only while the kingdom's house max_count allows that many
 		_rows.append(row)
 		if row["id"] == &"S1" and ai.build_walls and _types.has(&"wall"):
 			for i in WALL_OFFSETS.size():
@@ -1350,18 +1358,16 @@ func _row_built(row: Dictionary) -> bool:
 
 
 func _row_trigger(row: Dictionary) -> bool:
-	var pop_tight := _eco.pop_cap < _pop_cap_max() and _eco.pop_used >= _eco.pop_cap - 4
+	# Pop 200: the house margin grows with the cap (4 up to cap 40, then cap / 10) so a big army keeps producing.
+	var pop_tight := _eco.pop_cap < _pop_cap_max() and _eco.pop_used >= _eco.pop_cap - maxi(4, _eco.pop_cap / 10)
 	match String(row["id"]):
 		"H1":
 			return true
 		"V1":
 			return pop_tight
-		"V2":
-			var v1: Variant = _slot_building.get(&"V1")
-			return pop_tight and v1 != null and is_instance_valid(v1) and (v1 as Building).is_constructed()
-		"V3":
-			var v2: Variant = _slot_building.get(&"V2")
-			return pop_tight and v2 != null and is_instance_valid(v2) and (v2 as Building).is_constructed()
+		"V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9":
+			var prev: Variant = _slot_building.get(StringName("V%d" % (String(row["id"]).substr(1).to_int() - 1)))
+			return pop_tight and prev != null and is_instance_valid(prev) and (prev as Building).is_constructed()
 		"S1":
 			return not intrusions.is_empty() or _now >= ai.tower1_time
 		"S2":
@@ -2291,7 +2297,7 @@ func _can_grow() -> bool:
 	return house.max_count <= 0 or count < house.max_count
 
 
-## The highest pop cap this team can reach (Nature 50): the Economy's per-team limit when it has one, else
+## The highest pop cap this team can reach (200 since 2026-09-27): the Economy's per-team limit when it has one, else
 ## Economy.MAX_POP_CAP.
 func _pop_cap_max() -> int:
 	if _cap_max_at == _now and _cap_max >= 0:
