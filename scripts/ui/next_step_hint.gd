@@ -56,7 +56,8 @@ func _ready() -> void:
 	add_theme_stylebox_override("panel", UIStyle.slate_style())
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	tooltip_text = "Click to hide these tips"
+	# No tooltip: a shown tooltip makes the Viewport take Esc (ui_cancel) to hide it, so Esc no longer closed the
+	# build menu / placement while the mouse rested on the hint. "(click to hide)" below says it instead.
 	position = Vector2(16, 64)
 	var box := VBoxContainer.new()
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
