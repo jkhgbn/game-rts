@@ -1,0 +1,1555 @@
+{
+	"battle_bed_band_db": {
+		"air": -31.996,
+		"low": -22.493,
+		"mid": -15.795,
+		"presence": -31.617
+	},
+	"checks": [
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "trade_coin",
+			"key": "loud_hi",
+			"rule": "ui: -30..-14 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-18.7 LUFS in game (file -12.7, vol -6.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "trade_coin",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -5.1 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "trade_coin",
+			"key": "lead",
+			"rule": "lead <= 10 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 0 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "trade_coin",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 1 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "trade_coin",
+			"key": "dur",
+			"rule": "ui: 0.03..0.8 s",
+			"short": "",
+			"status": "PASS",
+			"value": "0.25 s"
+		},
+		{
+			"fix": "",
+			"group": "spectral",
+			"item": "trade_coin",
+			"key": "balance",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "PASS",
+			"value": "low 0% / mid 6% / pres 90% / air 4%"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "trade_coin",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "11 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "trade_coin",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~3/min"
+		},
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "trade_horn",
+			"key": "loud_hi",
+			"rule": "alert: -22..-7 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-9.0 LUFS in game (file -9.0, vol 0.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "trade_horn",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -3.1 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "trade_horn",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 1 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "trade_horn",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 20 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "trade_horn",
+			"key": "dur",
+			"rule": "alert: 0.03..3.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "0.80 s"
+		},
+		{
+			"fix": "",
+			"group": "spectral",
+			"item": "trade_horn",
+			"key": "balance",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "PASS",
+			"value": "low 84% / mid 16% / pres 0% / air 0%"
+		},
+		{
+			"fix": "Give it energy where the fight is thin (2-5 kHz presence), or +1 dB; a distinct pitch contour helps.",
+			"group": "spectral",
+			"item": "trade_horn",
+			"key": "mask",
+			"rule": "alert >= +3 dB over 6 combat voices in one band",
+			"short": "",
+			"status": "PASS",
+			"value": "beats the battle bed by 12.8 dB (low band)"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "trade_horn",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "34 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "trade_horn",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "trade_whistle",
+			"key": "loud_hi",
+			"rule": "alert: -22..-7 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-8.6 LUFS in game (file -8.6, vol 0.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "trade_whistle",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "FAIL",
+			"value": "true peak 1.4 dBTP, 3 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "trade_whistle",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 0 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "trade_whistle",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 3 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "trade_whistle",
+			"key": "dur",
+			"rule": "alert: 0.03..3.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "0.50 s"
+		},
+		{
+			"fix": "",
+			"group": "spectral",
+			"item": "trade_whistle",
+			"key": "balance",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "PASS",
+			"value": "low 1% / mid 86% / pres 6% / air 7%"
+		},
+		{
+			"fix": "Give it energy where the fight is thin (2-5 kHz presence), or +1 dB; a distinct pitch contour helps.",
+			"group": "spectral",
+			"item": "trade_whistle",
+			"key": "mask",
+			"rule": "alert >= +3 dB over 6 combat voices in one band",
+			"short": "",
+			"status": "PASS",
+			"value": "beats the battle bed by 6.5 dB (mid band)"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "trade_whistle",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "22 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "trade_whistle",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "Stream music as Ogg; compress long SFX (QOA).",
+			"group": "memory",
+			"item": "set",
+			"key": "set <= 48 MB",
+			"rule": "set <= 48 MB",
+			"short": "",
+			"status": "PASS",
+			"value": "0.0 MB in memory"
+		},
+		{
+			"fix": "",
+			"group": "bus",
+			"item": "res://scripts/vfx/trade_popups.gd:95",
+			"key": "bus",
+			"rule": "bus in Music, SFX",
+			"short": "",
+			"status": "PASS",
+			"value": "AudioStreamPlayer on bus SFX"
+		},
+		{
+			"fix": "Pool players (one pool per system) instead of one per source.",
+			"group": "voices",
+			"item": "players",
+			"key": "pool",
+			"rule": "<= 64 players, 3D pool <= 32",
+			"short": "",
+			"status": "PASS",
+			"value": "1 players (0 3D) (from code)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Unit death (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.unit_died -> _on_unit_died"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Melee hit (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.attack_landed -> _on_attack_landed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Ranged shot (projectile) (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (bolt_shot)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Wizard spell cast (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.spell_cast -> _on_spell_cast"
+		},
+		{
+			"fix": "Hook the event's signal (spell_hit, spell_effect, hit_target) to a cue.",
+			"group": "missing",
+			"item": "Spell impact / zone tick (nice)",
+			"key": "ev_partial",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "partly: game_audio.gd (fireball_explode)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion ability cast (core)",
+			"key": "ev_missing_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "FAIL",
+			"value": "no sound (signal ability_cast, skill_hit exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Creature / beast ability (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal ability_hit exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Building hit (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.damaged -> _on_building_damaged"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Building destroyed (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.destroyed -> _on_building_destroyed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Construction finished (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.construction_finished -> _on_construction_finished"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Building placed (order confirmed) (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal building_placed exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Unit trained (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.unit_trained -> _on_unit_trained"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Worker mining (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (mine_tick)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Crystals delivered (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (crystals_delivered)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Not enough resources (refused) (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.spend_failed -> _on_spend_failed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Level up (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.level_changed -> _on_level_changed"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Spell learned / ranked up (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal spell_learned exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Capture point taken (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.point_captured -> _on_point_captured"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Capture point neutralised / lost (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal point_neutralised exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Wayshrine awakens (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.shrine_awakened -> _on_shrine_awakened"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Neutral camp cleared (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.camp_cleared -> _on_camp_cleared"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Epic beast spawns (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.beast_spawned -> _on_beast_spawned"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Epic beast slain (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal beast_slain exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Caravan delivery (trade arrival) (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: trade_popups.gd.delivered -> _on_delivered"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Caravan robbed / miners raided (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: trade_popups.gd.caravan_robbed -> _on_caravan_robbed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Hunters' contract starts (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: trade_popups.gd.contract_started -> _on_contract_started"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion hired / revived (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal champion_hired, champion_revived exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion fallen (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal champion_fallen exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion class chosen (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal class_chosen exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Bounty placed / paid (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal bounty_placed, bounty_paid exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Item / ware bought (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.item_bought -> (lambda)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Item used (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.item_used -> (lambda)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Item / loot picked up (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.picked_up -> _on_picked_up"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Artifact / crown claimed (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.artifact_claimed -> _on_artifact_claimed"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Crown dropped / lost (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal dropped, lost exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Your wizard has fallen (alert) (core)",
+			"key": "ev_missing_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "FAIL",
+			"value": "no sound (signal wizard_fell exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Wizard respawned (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal wizard_respawned, respawned exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Victory / defeat (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.mission_ended -> _on_mission_ended"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "UI button click (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (pressed\\.connect)"
+		},
+		{
+			"fix": "Needs a design (game-designer / ui-designer) + a cue.",
+			"group": "missing",
+			"item": "Order acknowledged (move / attack click) (nice)",
+			"key": "ev_design_gap",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "not in the game yet (no event to hook)"
+		},
+		{
+			"fix": "Needs a design (game-designer / ui-designer) + a cue.",
+			"group": "missing",
+			"item": "Base / army under attack (off-screen alert) (core)",
+			"key": "ev_design_gap_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "WARN",
+			"value": "not in the game yet (no event to hook)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Minimap / ally ping (2v2) (nice)",
+			"key": "ev_absent",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "event not in the game yet"
+		}
+	],
+	"command": "godot --headless --path . -s tools/audio_lab/audio_lab.gd -- set=res://assets/audio/trade_ name=trade",
+	"counts": {
+		"FAIL": 1,
+		"INFO": 0,
+		"PASS": 53,
+		"WARN": 0
+	},
+	"cues": {
+		"trade_coin": {
+			"att_3d": 0.0,
+			"category": "ui",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "trade_coin",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/trade_coin.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 0.3,
+				"script": "res://scripts/vfx/trade_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"delivered -> _on_delivered",
+					"loot_picked -> _on_loot_picked"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": -6.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 11068,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/trade_coin.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -12.686,
+			"frequent": false,
+			"generated": "res://assets/audio/trade_sfx_generator.gd",
+			"level": -18.686,
+			"measures": {
+				"bands": {
+					"air": 0.04,
+					"low": 0.0,
+					"mid": 0.058,
+					"presence": 0.902
+				},
+				"clipped": 0,
+				"dc": 0.0,
+				"decay_ms": 210.0,
+				"dual_mono": true,
+				"duration_s": 0.25,
+				"end_db": -53.616,
+				"env_max_db": -11.685,
+				"first_abs": 0.0,
+				"frames": 11016,
+				"last_abs": 0.0,
+				"lead_ms": 0.068,
+				"lufs_cue": -12.686,
+				"lufs_i": -15.694,
+				"lufs_m_max": -15.694,
+				"peak_at_s": 0.002,
+				"peak_dbfs": -5.063,
+				"rate": 44100.0,
+				"rms_dbfs": -19.559,
+				"seam_jump": 0.0,
+				"trail_ms": 1.497,
+				"true_peak_dbtp": -5.063
+			},
+			"path": "res://assets/audio/trade_coin.wav",
+			"rate_per_min": 3.0,
+			"takes": 1
+		},
+		"trade_horn": {
+			"att_3d": 0.0,
+			"category": "alert",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "trade_horn",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/trade_horn.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 2.0,
+				"script": "res://scripts/vfx/trade_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"contract_started -> _on_contract_started"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": 0.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 35324,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/trade_horn.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -8.998,
+			"frequent": false,
+			"generated": "res://assets/audio/trade_sfx_generator.gd",
+			"level": -8.998,
+			"measures": {
+				"bands": {
+					"air": 0.0,
+					"low": 0.843,
+					"mid": 0.157,
+					"presence": 0.0
+				},
+				"clipped": 0,
+				"dc": 0.0,
+				"decay_ms": 680.0,
+				"dual_mono": true,
+				"duration_s": 0.8,
+				"end_db": -94.572,
+				"env_max_db": -8.888,
+				"first_abs": 0.0,
+				"frames": 35272,
+				"last_abs": 0.0,
+				"lead_ms": 0.544,
+				"lufs_cue": -8.998,
+				"lufs_i": -11.849,
+				"lufs_m_max": -10.054,
+				"peak_at_s": 0.09,
+				"peak_dbfs": -3.1,
+				"rate": 44100.0,
+				"rms_dbfs": -13.662,
+				"seam_jump": 0.0,
+				"trail_ms": 19.751,
+				"true_peak_dbtp": -3.1
+			},
+			"path": "res://assets/audio/trade_horn.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		},
+		"trade_whistle": {
+			"att_3d": 0.0,
+			"category": "alert",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "trade_whistle",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/trade_whistle.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 5.0,
+				"script": "res://scripts/vfx/trade_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"caravan_robbed -> _on_caravan_robbed",
+					"workers_raided -> _on_workers_raided"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": 0.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 22094,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/trade_whistle.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -8.624,
+			"frequent": false,
+			"generated": "res://assets/audio/trade_sfx_generator.gd",
+			"level": -8.624,
+			"measures": {
+				"bands": {
+					"air": 0.074,
+					"low": 0.005,
+					"mid": 0.859,
+					"presence": 0.062
+				},
+				"clipped": 3,
+				"dc": 0.0,
+				"decay_ms": 220.0,
+				"dual_mono": true,
+				"duration_s": 0.5,
+				"end_db": -54.328,
+				"env_max_db": -8.175,
+				"first_abs": 0.0,
+				"frames": 22042,
+				"last_abs": 0.0,
+				"lead_ms": 0.227,
+				"lufs_cue": -8.624,
+				"lufs_i": -9.276,
+				"lufs_m_max": -8.653,
+				"peak_at_s": 0.154,
+				"peak_dbfs": 1.222,
+				"rate": 44100.0,
+				"rms_dbfs": -13.28,
+				"seam_jump": 0.0,
+				"trail_ms": 2.721,
+				"true_peak_dbtp": 1.36
+			},
+			"path": "res://assets/audio/trade_whistle.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		}
+	},
+	"date": "2026-09-26T22:09:47",
+	"events": [
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "unit_death",
+			"label": "Unit death",
+			"signals_found": [
+				"unit_died",
+				"died"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.unit_died -> _on_unit_died"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "melee_hit",
+			"label": "Melee hit",
+			"signals_found": [
+				"attack_landed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.attack_landed -> _on_attack_landed"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "ranged_shot",
+			"label": "Ranged shot (projectile)",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (bolt_shot)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "spell_cast",
+			"label": "Wizard spell cast",
+			"signals_found": [
+				"spell_cast"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.spell_cast -> _on_spell_cast"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "spell_impact",
+			"label": "Spell impact / zone tick",
+			"signals_found": [
+				"spell_hit",
+				"spell_effect",
+				"hit_target"
+			],
+			"status": "partial",
+			"via": "game_audio.gd (fireball_explode)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "champion_ability",
+			"label": "Champion ability cast",
+			"signals_found": [
+				"ability_cast",
+				"skill_hit"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "creature_ability",
+			"label": "Creature / beast ability",
+			"signals_found": [
+				"ability_hit"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "building_hit",
+			"label": "Building hit",
+			"signals_found": [
+				"damaged"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.damaged -> _on_building_damaged"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "building_destroyed",
+			"label": "Building destroyed",
+			"signals_found": [
+				"destroyed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.destroyed -> _on_building_destroyed"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "construction_done",
+			"label": "Construction finished",
+			"signals_found": [
+				"construction_finished",
+				"building_completed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.construction_finished -> _on_construction_finished"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "build_placed",
+			"label": "Building placed (order confirmed)",
+			"signals_found": [
+				"building_placed"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "unit_trained",
+			"label": "Unit trained",
+			"signals_found": [
+				"unit_trained"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.unit_trained -> _on_unit_trained"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "worker_mining",
+			"label": "Worker mining",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (mine_tick)"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "resources_delivered",
+			"label": "Crystals delivered",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (crystals_delivered)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "cannot_afford",
+			"label": "Not enough resources (refused)",
+			"signals_found": [
+				"spend_failed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.spend_failed -> _on_spend_failed"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "level_up",
+			"label": "Level up",
+			"signals_found": [
+				"level_changed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.level_changed -> _on_level_changed"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "spell_learned",
+			"label": "Spell learned / ranked up",
+			"signals_found": [
+				"spell_learned"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "capture",
+			"label": "Capture point taken",
+			"signals_found": [
+				"point_captured",
+				"owner_changed"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.point_captured -> _on_point_captured"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "point_lost",
+			"label": "Capture point neutralised / lost",
+			"signals_found": [
+				"point_neutralised"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "shrine_awakened",
+			"label": "Wayshrine awakens",
+			"signals_found": [
+				"shrine_awakened",
+				"awakened"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.shrine_awakened -> _on_shrine_awakened"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "camp_cleared",
+			"label": "Neutral camp cleared",
+			"signals_found": [
+				"camp_cleared",
+				"cleared"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.camp_cleared -> _on_camp_cleared"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "beast_spawn",
+			"label": "Epic beast spawns",
+			"signals_found": [
+				"beast_spawned"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.beast_spawned -> _on_beast_spawned"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "beast_slain",
+			"label": "Epic beast slain",
+			"signals_found": [
+				"beast_slain"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "trade_arrival",
+			"label": "Caravan delivery (trade arrival)",
+			"signals_found": [
+				"delivered"
+			],
+			"status": "covered",
+			"via": "trade_popups.gd.delivered -> _on_delivered"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "caravan_robbed",
+			"label": "Caravan robbed / miners raided",
+			"signals_found": [
+				"caravan_robbed",
+				"robbed",
+				"workers_raided"
+			],
+			"status": "covered",
+			"via": "trade_popups.gd.caravan_robbed -> _on_caravan_robbed"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "contract_started",
+			"label": "Hunters' contract starts",
+			"signals_found": [
+				"contract_started"
+			],
+			"status": "covered",
+			"via": "trade_popups.gd.contract_started -> _on_contract_started"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "champion_hired",
+			"label": "Champion hired / revived",
+			"signals_found": [
+				"champion_hired",
+				"champion_revived"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "champion_fallen",
+			"label": "Champion fallen",
+			"signals_found": [
+				"champion_fallen"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "class_chosen",
+			"label": "Champion class chosen",
+			"signals_found": [
+				"class_chosen"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "bounty",
+			"label": "Bounty placed / paid",
+			"signals_found": [
+				"bounty_placed",
+				"bounty_paid"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "item_bought",
+			"label": "Item / ware bought",
+			"signals_found": [
+				"item_bought",
+				"ware_bought"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.item_bought -> (lambda)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "item_used",
+			"label": "Item used",
+			"signals_found": [
+				"item_used"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.item_used -> (lambda)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "item_pickup",
+			"label": "Item / loot picked up",
+			"signals_found": [
+				"picked_up",
+				"picked",
+				"loot_picked"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.picked_up -> _on_picked_up"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "artifact_claimed",
+			"label": "Artifact / crown claimed",
+			"signals_found": [
+				"artifact_claimed",
+				"claimed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.artifact_claimed -> _on_artifact_claimed"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "crown_dropped",
+			"label": "Crown dropped / lost",
+			"signals_found": [
+				"dropped",
+				"lost"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "wizard_fell",
+			"label": "Your wizard has fallen (alert)",
+			"signals_found": [
+				"wizard_fell"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "wizard_respawned",
+			"label": "Wizard respawned",
+			"signals_found": [
+				"wizard_respawned",
+				"respawned"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "match_end",
+			"label": "Victory / defeat",
+			"signals_found": [
+				"mission_ended",
+				"match_ended"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.mission_ended -> _on_mission_ended"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "ui_click",
+			"label": "UI button click",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (pressed\\.connect)"
+		},
+		{
+			"core": false,
+			"design_gap": true,
+			"id": "order_ack",
+			"label": "Order acknowledged (move / attack click)",
+			"signals_found": [],
+			"status": "design_gap",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": true,
+			"id": "under_attack",
+			"label": "Base / army under attack (off-screen alert)",
+			"signals_found": [],
+			"status": "design_gap",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "ping",
+			"label": "Minimap / ally ping (2v2)",
+			"signals_found": [],
+			"status": "absent",
+			"via": ""
+		}
+	],
+	"fight": {},
+	"group_scores": {
+		"bus": 1.0,
+		"duration": 1.0,
+		"loudness": 1.0,
+		"memory": 1.0,
+		"peaks": 0.667,
+		"spectral": 1.0,
+		"variation": 1.0,
+		"voices": 1.0
+	},
+	"improve_next": [
+		"**FAIL Peaks and clipping** - Normalise the file to -1 dBTP (peak), lower the level before export if it clips.  _(trade_whistle; true peak <= -1 dBTP, no clipping)_",
+		"**Replace placeholders** - 3 of 3 files are generated tones (see \"What a real replacement needs\"); start with the most played cues (combat hits, shots, deaths) and the alerts.",
+		"**Polish ui** - 44.1/48 kHz mono, 16-bit WAV, 40-250 ms, peak <= -1 dBTP, cue loudness about -20 LUFS before volume_db, energy in 1-6 kHz, no lead silence (< 5 ms), one family feel for every UI cue."
+	],
+	"kind": "auto",
+	"mode": "set",
+	"name": "trade",
+	"players": [
+		{
+			"class": "AudioStreamPlayer",
+			"container": "_players",
+			"func": "_ready",
+			"props": {
+				"bus": "SFX",
+				"volume_db": "? float((SOUNDS[id] as Dictionary)[\"db\"])"
+			},
+			"script": "res://scripts/vfx/trade_popups.gd",
+			"source": "code",
+			"stream_var": "load(path) as AudioStream",
+			"var": "p",
+			"where": "res://scripts/vfx/trade_popups.gd:95"
+		}
+	],
+	"rules": {
+		"loudness": {
+			"alert": {
+				"hi": -7.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -13.0,
+				"why": "must cut through a battle (level up, capture, raid, stingers)"
+			},
+			"ambience": {
+				"hi": -26.0,
+				"lo": -36.0,
+				"metric": "integrated",
+				"target": -30.0,
+				"why": "a bed under everything, well below the music"
+			},
+			"music": {
+				"hi": -18.0,
+				"lo": -26.0,
+				"metric": "integrated",
+				"target": -22.0,
+				"why": "the mix anchor (includes GameAudio.MUSIC_DB)"
+			},
+			"spell": {
+				"hi": -9.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -14.0,
+				"why": "hero actions read above the combat bed"
+			},
+			"ui": {
+				"hi": -14.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -22.0,
+				"why": "clear but polite: never louder than an alert, audible over the music"
+			},
+			"unit": {
+				"hi": -16.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -23.0,
+				"why": "combat bed: hits, shots, deaths; many at once, so each one moderate"
+			}
+		},
+		"ref_distance": 30.0
+	},
+	"score": 94,
+	"target": "res://assets/audio/trade_"
+}

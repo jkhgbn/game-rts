@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_gcp"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_gcp"]
+
+[resource]
+resource_name = "gloomcap_stalk"
+render_priority = 0
+shader = ExtResource("1_gcp")
+shader_parameter/base_color = Color(0.62, 0.58, 0.5, 1)
+shader_parameter/noise_tex = ExtResource("2_gcp")
+shader_parameter/noise_scale_a = 2.4
+shader_parameter/noise_scale_b = 0.5
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.6, 0.62, 0.66, 1)
+shader_parameter/rim_strength = 0.25

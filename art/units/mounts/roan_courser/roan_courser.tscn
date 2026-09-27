@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/mounts/roan_courser/roan_courser.gd" id="1_roan"]
+
+[node name="RoanCourser" type="Node3D"]
+script = ExtResource("1_roan")
+gallop_speed = 3.6
+gallop_time = 0.6
+walk_swing_deg = 20.0
+gallop_swing_deg = 32.0
+step_lift = 0.1
+gallop_bounce = 0.07
+gallop_pitch_deg = 4.5
+gallop_head_deg = 6.0
+tail_swish_deg = 18.0
+tail_gallop_lift_deg = 26.0
+charge_head_deg = 18.0
+fidget_every = 11.0
+body_height = 1.6
+attack_style = &"mount_toss"
+death_style = &"fall"
+stride_time = 0.85
+stride_speed = 1.8
+idle_period = 4.4
+is_quadruped = true
+walk_bounce = 0.03
+flinch_push = true
+kingdom_color = Color(0.85, 0.3, 0.12, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06, -0.02)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, 0.52)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, -0.08, 0.46)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, -0.08, 0.46)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -0.06, -0.54)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.06, -0.54)
+
+[node name="Tail" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, -0.84)
+
+[node name="Seat" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.46, -0.08)
+
+[node name="Fx" type="Node3D" parent="."]

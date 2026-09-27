@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/critters/critter_splash.gdshader" id="1_x3t3c"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_x3t3c")
+shader_parameter/clock = null
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = null
+shader_parameter/foam_color = null
+shader_parameter/fish_back = null
+shader_parameter/fish_belly = null

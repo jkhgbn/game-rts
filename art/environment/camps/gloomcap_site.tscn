@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/camps/camp_site.gd" id="1_8ucy7"]
+[ext_resource type="Material" path="res://art/environment/neutral/site_ground_mat.tres" id="2_6y8ar"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/gloomcap_ground.res" id="3_mrbm7"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/gloomcap_base.res" id="4_7tw74"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/gloomcap_active.res" id="5_qk3le"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/gloomcap_cleared.res" id="6_kbqyq"]
+
+[node name="GloomcapHollow" type="Node3D" unique_id=725762426 groups=["camp_sites"]]
+script = ExtResource("1_8ucy7")
+kind = &"gloomcap"
+metadata/decor_clear_radius = 4.7
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=484091197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028, 0)
+material_override = ExtResource("2_6y8ar")
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 150.0
+mesh = ExtResource("3_mrbm7")
+
+[node name="Base" type="MeshInstance3D" parent="." unique_id=2094063502]
+gi_mode = 0
+visibility_range_end = 150.0
+mesh = ExtResource("4_7tw74")
+metadata/camp_params = PackedStringArray("lit")
+
+[node name="Active" type="MeshInstance3D" parent="." unique_id=1816224625]
+gi_mode = 0
+visibility_range_end = 120.0
+mesh = ExtResource("5_qk3le")
+metadata/camp_params = PackedStringArray("lit")
+
+[node name="Cleared" type="MeshInstance3D" parent="." unique_id=120336056]
+visible = false
+gi_mode = 0
+visibility_range_end = 120.0
+mesh = ExtResource("6_kbqyq")

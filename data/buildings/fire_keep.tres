@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_ajugt"]
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="2_dd5cp"]
+[ext_resource type="Resource" path="res://data/units/cinder_hand.tres" id="3_1vu2d"]
+[ext_resource type="PackedScene" path="res://art/buildings/fire_keep.tscn" id="4_model"]
+
+[resource]
+script = ExtResource("1_ajugt")
+id = &"fire_keep"
+display_name = "Keep"
+faction = &"fire"
+kind = &"keep"
+build_time = 0.0
+max_hp = 2500.0
+attack_damage = 12.0
+attack_range = 10.0
+attack_cooldown = 1.5
+footprint = Vector2i(3, 3)
+height = 6.0
+pop_bonus = 20
+trains = Array[ExtResource("2_dd5cp")]([ExtResource("3_1vu2d")])
+sight_radius = 16.0
+model_scene = ExtResource("4_model")

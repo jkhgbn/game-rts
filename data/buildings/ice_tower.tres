@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_icet"]
+
+[ext_resource type="PackedScene" path="res://art/buildings/ice_spire.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_icet")
+id = &"ice_tower"
+display_name = "Rime Spire"
+faction = &"ice"
+kind = &"tower"
+cost = 130
+build_time = 42.0
+max_hp = 900.0
+footprint = Vector2i(1, 1)
+height = 5.0
+max_count = 4
+attack_damage = 12.0
+attack_range = 11.0
+attack_cooldown = 1.5
+sight_radius = 16.0
+hotkey_label = "C"
+color = Color(0.45, 0.75, 0.95, 1)
+body_color = Color(0.62, 0.7, 0.78, 1)
+projectile_color = Color(0.75, 0.92, 1, 1)
+on_hit_status = &"chill"
+on_hit_duration = 2.0
+model_scene = ExtResource("9_model")

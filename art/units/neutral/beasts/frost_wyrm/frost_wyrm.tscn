@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/neutral/beasts/frost_wyrm/frost_wyrm.gd" id="1_wyrm"]
+
+[node name="FrostWyrm" type="Node3D"]
+script = ExtResource("1_wyrm")
+body_height = 6.0
+fly_height = 4.0
+bank_max_deg = 18.0
+turn_rate_ref_deg = 90.0
+stride_speed = 5.5
+kingdom_color = Color(0, 0, 0, 0)
+attack_style = &"breath"
+death_style = &"coil_crash"
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Body" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0.995833)
+
+[node name="Neck1" type="Node3D" parent="Root/Body"]
+
+[node name="Neck2" type="Node3D" parent="Root/Body/Neck1"]
+
+[node name="Head" type="Node3D" parent="Root/Body/Neck1/Neck2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.604167)
+
+[node name="Jaw" type="Node3D" parent="Root/Body/Neck1/Neck2/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13, 0.03)
+
+[node name="LegFL" type="Node3D" parent="Root/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34, -0.3, 0.154167)
+
+[node name="LegFR" type="Node3D" parent="Root/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, -0.3, 0.154167)

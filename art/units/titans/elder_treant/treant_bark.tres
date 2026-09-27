@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/elder_treant/treant_bark.gdshader" id="1_trb"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_trb"]
+
+[resource]
+resource_name = "treant_bark"
+render_priority = 0
+shader = ExtResource("1_trb")
+shader_parameter/noise_tex = ExtResource("2_trb")

@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_ebh"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ebh"]
+
+[resource]
+resource_name = "ember_boar_hide"
+render_priority = 0
+shader = ExtResource("1_ebh")
+shader_parameter/base_color = Color(0.25, 0.105, 0.068, 1)
+shader_parameter/noise_tex = ExtResource("2_ebh")
+shader_parameter/noise_scale_a = 1.6
+shader_parameter/noise_scale_b = 0.35
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.95, 0.5, 0.25, 1)
+shader_parameter/rim_strength = 0.26
+shader_parameter/crack_strength = 0.6
+shader_parameter/crack_color = Color(1, 0.42, 0.1, 1)
+shader_parameter/crack_speed = 1.7
+shader_parameter/crack_scale = 0.45

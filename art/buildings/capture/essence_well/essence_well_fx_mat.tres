@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/buildings/capture/essence_well/essence_well_fx.gdshader" id="1_mirgo"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_sfdnv"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_mirgo")
+shader_parameter/noise_tex = ExtResource("2_sfdnv")
+shader_parameter/mist_color = null
+shader_parameter/mist_strength = null
+shader_parameter/pulse_color = null

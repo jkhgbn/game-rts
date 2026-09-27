@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/landmarks/meshes/giant_stump.res" id="1_frc5h"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gpmm6"]
+radius = 2.0
+
+[node name="GiantStump" type="Node3D" unique_id=1678396717 groups=["landmarks"]]
+metadata/landmark_id = &"lm_stump"
+metadata/decor_clear_radius = 3.8
+
+[node name="Model" type="MeshInstance3D" parent="." unique_id=234825375]
+gi_mode = 0
+mesh = ExtResource("1_frc5h")
+
+[node name="Collision" type="StaticBody3D" parent="." unique_id=1565576022]
+collision_mask = 0
+
+[node name="Trunk" type="CollisionShape3D" parent="Collision" unique_id=108904049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CylinderShape3D_gpmm6")

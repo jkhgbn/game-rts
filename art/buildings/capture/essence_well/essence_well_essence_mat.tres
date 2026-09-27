@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/buildings/capture/essence_well/essence_well_essence.gdshader" id="1_d5o1y"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_lkgio"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_d5o1y")
+shader_parameter/noise_tex = ExtResource("2_lkgio")
+shader_parameter/deep = null
+shader_parameter/bright = null
+shader_parameter/core = null
+shader_parameter/energy = null
+shader_parameter/swirl_speed = null

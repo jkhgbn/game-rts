@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/buildings/capture/essence_well/essence_well.gd" id="1_sq6gw"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/essence_well/essence_well_body.res" id="2_vow74"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/essence_well/essence_well_essence.res" id="3_40cr7"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/essence_well/essence_well_fx.res" id="4_btx0m"]
+[ext_resource type="Material" path="res://art/buildings/capture/essence_well/essence_well_mist_process.tres" id="5_j0psb"]
+[ext_resource type="QuadMesh" path="res://art/buildings/capture/essence_well/essence_well_mist_quad.tres" id="6_ouj3a"]
+
+[node name="EssenceWell" type="Node3D" unique_id=1392332383]
+script = ExtResource("1_sq6gw")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1506349913]
+mesh = ExtResource("2_vow74")
+
+[node name="Essence" type="MeshInstance3D" parent="." unique_id=293352249]
+cast_shadow = 0
+mesh = ExtResource("3_40cr7")
+
+[node name="Fx" type="MeshInstance3D" parent="." unique_id=1299350900]
+cast_shadow = 0
+custom_aabb = AABB(-5, -0.1, -5, 10, 4.6, 10)
+mesh = ExtResource("4_btx0m")
+
+[node name="Mist" type="GPUParticles3D" parent="." unique_id=1587302561]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, 0)
+cast_shadow = 0
+visibility_range_end = 40.0
+visibility_range_end_margin = 6.0
+visibility_range_fade_mode = 1
+amount = 12
+lifetime = 2.6
+preprocess = 2.6
+visibility_aabb = AABB(-1.6, -0.2, -1.6, 3.2, 4.4, 3.2)
+local_coords = true
+process_material = ExtResource("5_j0psb")
+draw_pass_1 = ExtResource("6_ouj3a")

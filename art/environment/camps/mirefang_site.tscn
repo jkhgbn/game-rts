@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/camps/camp_site.gd" id="1_mno00"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/mirefang_base.res" id="2_c72hm"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/mirefang_active.res" id="3_heop0"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/mirefang_cleared.res" id="4_g0liy"]
+
+[node name="FordNest" type="Node3D" unique_id=1093285776 groups=["camp_sites"]]
+script = ExtResource("1_mno00")
+kind = &"mirefang"
+metadata/decor_clear_radius = 3.6
+
+[node name="Base" type="MeshInstance3D" parent="." unique_id=754258514]
+gi_mode = 0
+visibility_range_end = 150.0
+mesh = ExtResource("2_c72hm")
+
+[node name="Active" type="MeshInstance3D" parent="." unique_id=427374215]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 120.0
+mesh = ExtResource("3_heop0")
+metadata/camp_params = PackedStringArray("lit")
+
+[node name="Cleared" type="MeshInstance3D" parent="." unique_id=1042311997]
+visible = false
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 120.0
+mesh = ExtResource("4_g0liy")

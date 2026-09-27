@@ -1,0 +1,10 @@
+{
+	"name": "rimeshield_trade",
+	"notes": "Balance Lab suggest: rimeshield max_hp 150 -> 132, attack_damage 11 -> 12.4 (shape EHP x1.29 / DPS x0.78 of peers); ice win rate 17 % (1/6); power -0 %, expected shift -0.1 pts (prior); neutral.",
+	"units": {
+		"rimeshield": {
+			"attack_damage": "x1.13",
+			"max_hp": "x0.88"
+		}
+	}
+}

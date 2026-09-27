@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/units/shadow/barrow_giant/barrow_shroud.gdshader" id="1_bgsh"]
+
+[resource]
+resource_name = "barrow_shroud_cape"
+render_priority = 1
+shader = ExtResource("1_bgsh")
+shader_parameter/cloth_color = Color(0.42, 0.22, 0.6, 1)
+shader_parameter/stripe_color = Color(0.18, 0.08, 0.28, 1)
+shader_parameter/amplitude = 0.05
+shader_parameter/speed = 1.6
+shader_parameter/tatter = 0.22
+shader_parameter/rim_strength = 0.15

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_gxn3d"]
+[ext_resource type="Resource" path="res://data/items/duskglass.tres" id="2_pvml4"]
+[ext_resource type="Resource" path="res://data/items/mana_thread.tres" id="3_0i5l2"]
+
+[resource]
+script = ExtResource("1_gxn3d")
+id = &"pyre_staff"
+display_name = "Pyre Staff"
+tier = 1
+cost = 300
+parts = Array[ExtResource("1_gxn3d")]([ExtResource("2_pvml4"), ExtResource("3_0i5l2")])
+stats = {
+"mana_regen": 1.5,
+"max_mana": 50.0,
+"spell_power": 30.0
+}
+sold_at = 3
+icon_abbrev = "PS"

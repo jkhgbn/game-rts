@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="AIProfile" format=3]
+
+[ext_resource type="Script" path="res://scripts/ai/ai_profile.gd" id="1_nprof"]
+
+[resource]
+script = ExtResource("1_nprof")
+id = &"nature_normal"
+worker_target_home = 7
+worker_target_expanded = 9
+worker_target_x2 = 12
+attack_ratio = 1.2
+spell_order = PackedStringArray("Q1", "F2", "E1", "F3", "Q2", "Q3", "E2")
+item_build = PackedStringArray("verdant_seed", "duskglass", "bloomcaller_staff", "ember_draught", "bone_charm", "ironbark_plate", "warlords_horn", "heart_of_the_grove", "swiftsoles", "wisp_lantern", "ashen_greaves")
+profile_id = &"nature_default"
+opening_workers = 3
+expand_time = 270.0
+mix_default = PackedFloat32Array(0.45, 0.25, 0.15, 0.15)
+mix_vs_ranged = PackedFloat32Array(0.55, 0.1, 0.1, 0.25)
+mix_vs_melee = PackedFloat32Array(0.3, 0.4, 0.15, 0.15)
+heavy_crystals = 200
+heavy_soldier_pop = 6
+retreat_hp = 0.5
+regrow_hp = 0.85
+regrow_wait = 45.0
+first_scout_time = 90.0
+scout_worker_before = 0.0
+scout_fast = true
+retreat_spell = &"wild_bloom"
+build_rows = PackedStringArray()
+champion_max = 2
+champion_order = PackedStringArray("coin_cutter", "oathwall")
+champion_earliest = 180.0
+revive_before_items = true
+bounty_budget_pct = 0.25
+bounty_max_flags = 2
+bounty_guard_only = false
+explore_unseen = 120.0
+trade = true
+trade_start = 330.0
+caravan_target = 4
+caravan_target_late = 6
+far_route_caravans = 2
+far_route_ratio = 1.5
+ware_order = PackedStringArray("iron_axles", "masons_charter", "tempered_steel", "gambesons")
+axles_min_caravans = 3
+hire_outriders = true
+hire_sweep = false
+gold_revive = true
+gold_hire = false
+gold_exchange_above = 450
+trade_flags = PackedStringArray("B5")

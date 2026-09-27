@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_dw"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_dw"]
+
+[resource]
+resource_name = "direwolf_fur_b"
+render_priority = 0
+shader = ExtResource("1_dw")
+shader_parameter/base_color = Color(0.73, 0.76, 0.82, 1)
+shader_parameter/noise_tex = ExtResource("2_dw")
+shader_parameter/noise_scale_a = 2.6
+shader_parameter/noise_scale_b = 0.55
+shader_parameter/spec_strength = 0.06
+shader_parameter/rim_color = Color(0.66, 0.84, 1, 1)
+shader_parameter/rim_strength = 0.45

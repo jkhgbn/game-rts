@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/neutral/beasts/tusker/tusker.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"ironhide_tusker"
+display_name = "Ironhide Tusker"
+faction = &"neutral"
+is_worker = false
+cost = 0
+pop = 0
+kill_xp = 110
+train_time = 0.0
+card_key = ""
+max_hp = 1800.0
+move_speed = 5.5
+attack_damage = 34.0
+attack_range = 1.8
+attack_cooldown = 1.5
+aggro_range = 0.0
+radius = 1.0
+body_height = 2.1
+body_color = Color(0.45, 0.47, 0.5, 1)
+eye_color = Color(0.9, 0.6, 0.3, 1)
+model_scene = ExtResource("2_model")
+armor = 20.0
+is_caravan = false
+commandable = true
+neutral_leash = false
+sight_radius = 12.0
+model_path = "res://art/units/neutral/beasts/tusker/tusker.tscn"

@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/crown/crown_rune.gdshader" id="1_u46ne"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_u46ne")
+shader_parameter/glow_color = Color(1, 0.5, 0.12, 1)
+shader_parameter/core_color = Color(1, 0.86, 0.52, 1)
+shader_parameter/energy = 3.2
+shader_parameter/focus = Vector3(0, 1.8, 0)
+shader_parameter/flow_speed = 2.2
+shader_parameter/flow_scale = 3.2
+shader_parameter/pulse_amount = 0.14

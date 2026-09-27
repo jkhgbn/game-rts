@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_bu21y"]
+[ext_resource type="Resource" path="res://data/items/swiftsoles.tres" id="2_rr4x8"]
+[ext_resource type="Resource" path="res://data/items/wisp_lantern.tres" id="3_j4f2k"]
+
+[resource]
+script = ExtResource("1_bu21y")
+id = &"ashen_greaves"
+display_name = "Ashen Greaves"
+tier = 1
+cost = 200
+parts = Array[ExtResource("1_bu21y")]([ExtResource("2_rr4x8"), ExtResource("3_j4f2k")])
+stats = {
+"hp_regen": 2.0,
+"move_speed": 1.0
+}
+active_id = &"stride"
+active_cooldown = 40.0
+active_target = 1
+active_params = {
+"duration": 4.0,
+"move_speed": 2.5
+}
+sold_at = 3
+icon_abbrev = "AG"
+tooltip = "Active: Stride, +2.5 speed for 4 s · 40 s cooldown"

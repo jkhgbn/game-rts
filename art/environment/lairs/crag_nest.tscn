@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/lairs/lair_art.gd" id="1_yvy2i"]
+[ext_resource type="ArrayMesh" path="res://art/environment/lairs/meshes/crag_nest.res" id="2_8lv2j"]
+[ext_resource type="ArrayMesh" path="res://art/environment/lairs/meshes/crag_nest_active.res" id="3_j5mgr"]
+[ext_resource type="ArrayMesh" path="res://art/environment/lairs/meshes/crag_nest_dormant.res" id="4_6aoyg"]
+
+[node name="CragNest" type="Node3D" unique_id=449993119 groups=["lairs"]]
+script = ExtResource("1_yvy2i")
+metadata/lair_kind = &"roc"
+metadata/beast_rest = Vector3(0.6, 0, 0.2)
+metadata/decor_clear = PackedVector3Array(0.3, 1.4, 2.4, 0.6, -0.5, 1.2)
+
+[node name="Model" type="MeshInstance3D" parent="." unique_id=25661967]
+gi_mode = 0
+mesh = ExtResource("2_8lv2j")
+
+[node name="Active" type="MeshInstance3D" parent="." unique_id=459664861]
+visible = false
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 95.0
+visibility_range_end_margin = 8.0
+visibility_range_fade_mode = 1
+mesh = ExtResource("3_j5mgr")
+
+[node name="Dormant" type="MeshInstance3D" parent="." unique_id=497689967]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 95.0
+visibility_range_end_margin = 8.0
+visibility_range_fade_mode = 1
+mesh = ExtResource("4_6aoyg")

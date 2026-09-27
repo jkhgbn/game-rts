@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_eprwd"]
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="2_g3ja5"]
+[ext_resource type="Resource" path="res://data/units/gloom_thrall.tres" id="3_jelcs"]
+[ext_resource type="PackedScene" path="res://art/buildings/dusk_keep.tscn" id="4_model"]
+
+[resource]
+script = ExtResource("1_eprwd")
+id = &"shadow_keep"
+display_name = "Dusk Keep"
+faction = &"shadow"
+kind = &"keep"
+build_time = 0.0
+max_hp = 2500.0
+attack_damage = 12.0
+attack_range = 10.0
+attack_cooldown = 1.5
+footprint = Vector2i(3, 3)
+height = 6.0
+pop_bonus = 20
+trains = Array[ExtResource("2_g3ja5")]([ExtResource("3_jelcs")])
+sight_radius = 16.0
+color = Color(0.42, 0.22, 0.6, 1)
+body_color = Color(0.38, 0.35, 0.42, 1)
+projectile_color = Color(0.7, 0.4, 1, 1)
+model_scene = ExtResource("4_model")

@@ -1,0 +1,126 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/lairs/icebound_barge.gd" id="1_ulgsw"]
+[ext_resource type="Material" path="res://art/environment/lairs/icebound_sheet_mat.tres" id="2_ih24i"]
+[ext_resource type="Material" path="res://art/environment/lairs/icebound_rime_mat.tres" id="3_s32df"]
+[ext_resource type="Material" path="res://art/environment/lairs/icebound_crust_mat.tres" id="4_tnftw"]
+[ext_resource type="ArrayMesh" path="res://art/environment/lairs/meshes/icebound_crust.res" id="5_15rco"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jqsv2"]
+size = Vector2(12, 12)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nv7oi"]
+size = Vector2(14, 14)
+
+[sub_resource type="Gradient" id="Gradient_kpqkb"]
+offsets = PackedFloat32Array(0, 0.3, 0.7, 1)
+colors = PackedColorArray(0.9, 0.95, 1, 0, 0.9, 0.95, 1, 0.24, 0.88, 0.93, 1, 0.16, 0.88, 0.93, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jnyng"]
+gradient = SubResource("Gradient_kpqkb")
+
+[sub_resource type="Curve" id="Curve_me84w"]
+_data = [Vector2(0, 0.35), 0.0, 0.0, 0, 0, Vector2(0.4, 0.9), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_r8esy"]
+curve = SubResource("Curve_me84w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u0tqo"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.1
+emission_ring_radius = 3.8
+emission_ring_inner_radius = 1.2
+emission_ring_cone_angle = 90.0
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 0.2
+initial_velocity_max = 0.45
+angular_velocity_min = -12.0
+angular_velocity_max = 12.0
+gravity = Vector3(0, 0.03, 0)
+damping_min = 0.05
+damping_max = 0.1
+scale_min = 1.3
+scale_max = 2.3
+scale_curve = SubResource("CurveTexture_r8esy")
+color_ramp = SubResource("GradientTexture1D_jnyng")
+
+[sub_resource type="Gradient" id="Gradient_2elt8"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.45, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mnbyd"]
+gradient = SubResource("Gradient_2elt8")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oisyv"]
+transparency = 1
+depth_draw_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_mnbyd")
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+proximity_fade_enabled = true
+proximity_fade_distance = 0.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_ownid"]
+material = SubResource("StandardMaterial3D_oisyv")
+
+[node name="IceboundBarge" type="Node3D" unique_id=1035449034 groups=["lairs"]]
+script = ExtResource("1_ulgsw")
+metadata/lair_kind = &"frost_wyrm"
+metadata/beast_rest = Vector3(0, 0, 0)
+metadata/decor_clear = PackedVector3Array(0, 0, 5.5)
+
+[node name="Active" type="Node3D" parent="." unique_id=435002969]
+visible = false
+
+[node name="Sheet" type="MeshInstance3D" parent="Active" unique_id=2140871609]
+transform = Transform3D(0.94888884, 0, 0.31561053, 0, 1, 0, -0.31561053, 0, 0.94888884, 0, -0.3, 0)
+material_override = ExtResource("2_ih24i")
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("PlaneMesh_jqsv2")
+
+[node name="Rime" type="MeshInstance3D" parent="Active" unique_id=578506643]
+transform = Transform3D(0.94888884, 0, 0.31561053, 0, 1, 0, -0.31561053, 0, 0.94888884, 0, 0.05, 0)
+material_override = ExtResource("3_s32df")
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 95.0
+visibility_range_end_margin = 8.0
+visibility_range_fade_mode = 1
+mesh = SubResource("PlaneMesh_nv7oi")
+
+[node name="Crust" type="MeshInstance3D" parent="Active" unique_id=1526968143]
+material_override = ExtResource("4_tnftw")
+cast_shadow = 0
+extra_cull_margin = 1.0
+gi_mode = 0
+visibility_range_end = 95.0
+visibility_range_end_margin = 8.0
+visibility_range_fade_mode = 1
+mesh = ExtResource("5_15rco")
+
+[node name="Vapour" type="GPUParticles3D" parent="Active" unique_id=1369715552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+cast_shadow = 0
+visibility_range_end = 80.0
+emitting = false
+amount = 10
+lifetime = 4.5
+visibility_aabb = AABB(-6, -1, -6, 12, 6, 12)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_u0tqo")
+draw_pass_1 = SubResource("QuadMesh_ownid")

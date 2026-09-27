@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/biomes/old_wood/old_wood_glow.gdshader" id="1_owglow"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ownoise"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_owglow")
+shader_parameter/noise_tex = ExtResource("2_ownoise")
+shader_parameter/variant_count = 3.0
+shader_parameter/glow_color = Color(0.24, 0.66, 1, 1)
+shader_parameter/glow_alt = Color(0.4, 0.46, 1, 1)
+shader_parameter/glow_core = Color(0.72, 0.95, 1, 1)
+shader_parameter/energy = 1.8
+shader_parameter/pulse_amount = 0.12
+shader_parameter/pulse_speed = 0.8
+shader_parameter/stem_tint = 0.1
+shader_parameter/rim_color = Color(0.55, 0.75, 1, 1)
+shader_parameter/rim_strength = 0.18

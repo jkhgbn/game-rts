@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_r4yet"]
+
+[resource]
+resource_name = "fire_flame"
+render_priority = 0
+shader = ExtResource("1_r4yet")
+shader_parameter/glow_color = Color(1, 0.55, 0.15, 1)
+shader_parameter/energy = 2.5
+shader_parameter/pulse_speed = 6.0
+shader_parameter/rune_bands = null
+shader_parameter/boost = null
+shader_parameter/phase = null

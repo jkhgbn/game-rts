@@ -1,0 +1,28 @@
+[gd_resource type="QuadMesh" format=3]
+
+[sub_resource type="Gradient" id="Gradient_nk2ax"]
+offsets = PackedFloat32Array(0, 1, 0.35)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0.55)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cv0v8"]
+gradient = SubResource("Gradient_nk2ax")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_267u4"]
+transparency = 1
+blend_mode = 1
+depth_draw_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_cv0v8")
+disable_receive_shadows = true
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[resource]
+material = SubResource("StandardMaterial3D_267u4")
+size = Vector2(0.8, 0.8)

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_dgrwi"]
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="2_p2gfr"]
+[ext_resource type="Resource" path="res://data/units/flame_guard.tres" id="3_rn685"]
+[ext_resource type="Resource" path="res://data/units/ember_archer.tres" id="4_mlsd8"]
+[ext_resource type="Resource" path="res://data/units/blaze_rider.tres" id="5_rw80v"]
+[ext_resource type="Resource" path="res://data/units/ash_hurler.tres" id="6_m78dl"]
+
+[ext_resource type="PackedScene" path="res://art/buildings/fire_hall.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_dgrwi")
+id = &"fire_barracks"
+display_name = "Ember Hall"
+faction = &"fire"
+kind = &"barracks"
+cost = 150
+build_time = 45.0
+max_hp = 1300.0
+footprint = Vector2i(3, 3)
+height = 4.0
+trains = Array[ExtResource("2_p2gfr")]([ExtResource("3_rn685"), ExtResource("4_mlsd8"), ExtResource("5_rw80v"), ExtResource("6_m78dl")])
+sight_radius = 12.0
+hotkey_label = "X"
+body_color = Color(0.595, 0.21000001, 0.084, 1)
+model_scene = ExtResource("9_model")

@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/cinder_dragon/dragon_scale.gdshader" id="1_cds"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_cds"]
+
+[resource]
+resource_name = "cinder_scale"
+render_priority = 0
+shader = ExtResource("1_cds")
+shader_parameter/base_color = Color(0.1, 0.065, 0.06, 1)
+shader_parameter/belly_color = Color(0.48, 0.1, 0.06, 1)
+shader_parameter/noise_tex = ExtResource("2_cds")
+shader_parameter/spec_strength = 0.18
+shader_parameter/rim_strength = 0.35
+shader_parameter/lava_energy = 2.6
+shader_parameter/crack_amount = 1.0

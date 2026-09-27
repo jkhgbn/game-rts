@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/env_glow.gdshader" id="1_7p5ua"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_7p5ua")
+shader_parameter/glow_color = Color(1, 0.55, 0.15, 1)
+shader_parameter/core_color = Color(1, 0.85, 0.5, 1)
+shader_parameter/energy = 3.0
+shader_parameter/pulse_speed = null
+shader_parameter/pulse_amount = null
+shader_parameter/sparkle = 0.0

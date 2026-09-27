@@ -1,0 +1,2592 @@
+class_name SelectionPanel
+extends PanelContainer
+## Bottom selection panel (spec: ui-hud.md, "Selection panel"; buildings.md; skirmish-1v1.md).
+## Left: hero column, always visible (name = click to select the wizard, HP, mana; while she is dead
+## the name is greyed and "Vessa returns in 24 s" counts down; the Ember Crown line when she wears it).
+## Right: what is selected: nothing / one unit / many units (icons) / a building ("keep" view: name,
+## HP; trainers add the training queue and rally; construction sites the progress, builders and Cancel) /
+## a champion (9.C7: read-only inspect view, own or visible enemy; see inspect() and inspected_champion()).
+
+const SIZE := Vector2(1002, 224)
+const HERO_WIDTH := 300.0
+const AREA_WIDTH := 680.0
+const ICON_SIZE := 48.0
+const ICONS_PER_ROW := 12
+const MAX_ICONS := 24
+const QUEUE_SLOTS := 5
+const PROGRESS_COLOR := Color(1.0, 0.85, 0.4)
+## Timed statuses (spells.md "Statuses", kingdom-ice.md 2.1): chip letter, name, tooltip.
+const STATUS_INFO := {
+	&"haste": ["H", "Haste", "Attacks 30 % faster, moves faster"],
+	&"shroud": ["S", "Shroud", "Takes half damage, moves faster"],
+	&"chill": ["C", "Chilled", "Attacks 25 % slower, moves 1.5 m/s slower"],
+	&"frozen": ["F", "Frozen", "Can't move, attack or cast"],
+	&"rooted": ["R", "Rooted", "Can't move; can still attack and cast"],
+	# Champion statuses (champions.md 4.3, ui-champions.md 4).
+	&"taunted": ["T", "Taunted", "attacks the Oathwall only"],
+	&"dazed": ["D", "Dazed", "can't move or act"],
+	&"braced": ["B", "Braced", "takes 30 % less damage"],
+	&"marked": ["M", "Marked", "takes 15 % more damage"],
+}
+## Mark colours of the Ice / Nature statuses (7.U1): chill pale blue, frozen white-blue, rooted green-brown.
+## Other statuses use Unit.STATUSES[id]["color"].
+const STATUS_COLORS := {
+	&"chill": Color(0.62, 0.82, 1.00),
+	&"frozen": Color(0.88, 0.96, 1.00),
+	&"rooted": Color(0.48, 0.52, 0.22),
+}
+## Fill of the summon lifetime bar (8.U1, Saplings): leafy green, never skinned.
+const LIFETIME_COLOR := Color(0.55, 0.80, 0.30)
+
+var selection: SelectionManager
+var hero: Wizard
+
+# Hero column
+var hero_name: Button
+var hero_hp: ProgressBar
+var hero_hp_text: Label
+var hero_mana: ProgressBar
+var hero_mana_text: Label
+var hero_status: Label      ## "Vessa returns in 24 s" while she is dead.
+var hero_crown: Label       ## Shown while she wears the Ember Crown.
+var hero_badge: Panel       ## Level badge (scales 1.0 -> 1.4 -> 1.0 on level-up / learning).
+var hero_level: Label
+var hero_xp: ProgressBar
+var hero_xp_text: Label     ## "XP  320 / 450" or "XP  MAX".
+var points_chip: PanelContainer   ## "+1 point", only while spell_points > 0.
+var points_text: Label
+var _xp_flash_left := 0.0
+# 6.U1 skin: portrait, hero column aura / trim line, ghost damage, low-HP pulse, level-up ring.
+var portrait: Portrait
+var hero_trim: ColorRect          ## 1 px trim line along the hero column top (WARN pulse at low HP, gold flash).
+var _aura: TextureRect
+var _divider: Control
+var _single_portrait_slot: HBoxContainer
+var _keep_portrait_slot: HBoxContainer
+var _ghost: Control
+var _ghost_value := -1.0          ## HP the ghost segment still shows (tweens down to the real HP in 0.5 s).
+var _ghost_tween: Tween
+var _last_hero_hp := -1.0
+var _heal_flash_left := 0.0
+var _trim_flash_left := 0.0
+var _ring_t := -1.0               ## Level-up ring progress 0..1 (-1 = off).
+var _title_labels: Array[Label] = []
+var _muted_labels: Array[Label] = []
+var _skin_bars: Array[ProgressBar] = []
+var _skin_buttons: Array[Button] = []
+var _skin := -1
+var _view_tween: Tween
+var _shown_view: Control
+var _last_level := -1
+var _last_ranks := -1
+var _clock := 0.0
+var _badge_tween: Tween
+var hero_statuses: HBoxContainer    ## Status chips ("H 7") in the hero column, left of the points chip.
+
+# Selection area views (one visible at a time)
+var nothing_view: Label
+var single_view: VBoxContainer
+var multi_view: VBoxContainer
+var keep_view: VBoxContainer
+
+var single_name: Label
+var single_hp: ProgressBar
+var single_hp_text: Label
+var single_stats: Label
+var single_mana: ProgressBar
+var single_mana_text: Label
+var single_statuses: HBoxContainer  ## Status chips of the selected unit.
+var single_lifetime: ProgressBar    ## Summons only (8.U1): time left before it withers.
+var single_lifetime_text: Label     ## "Withers in 18 s".
+
+var multi_header: Label
+var icons: Array[Button] = []
+var _icon_strips: Array[ColorRect] = []
+var _icon_dots: Array = []          ## Array[Array[ColorRect]]: 3 veterancy dots per icon.
+var _icon_status_dots: Array = []   ## Array[Dictionary]: status id -> coloured dot, per icon.
+var _icon_units: Array[Unit] = []
+
+## Champion view (9.C7, champions.md 9, ui-champions.md 4): read-only, nothing can be ordered from it. Positions are
+## relative to the selection area's top-left (588, 670). The command card's "Champions act on their own." text is
+## 9.C8's (command_card.gd).
+const CHAMPION_ORIGIN := Vector2(588, 670)
+var champion_view: Control
+var champion_name: Label        ## "SABLE QUINT" (display_name, Cinzel 20).
+var champion_title: Label       ## " · the Coin-Cutter".
+var champion_hp: ProgressBar
+var champion_hp_text: Label     ## "HP  210 / 300".
+var champion_xp: ProgressBar    ## Hidden for enemies.
+var champion_xp_text: Label     ## "XP  320 / 400" or "XP  MAX".
+var champion_stats: Label       ## "Level 3 · Damage 17 · Range 1.6 · Speed 5.6 · Armor 5".
+var champion_intent: Label      ## "Hunting bounty: Gloom Hall" in the intent colour; enemy: "Enemy champion".
+var champion_purse_box: HBoxContainer   ## "  ·  Purse " + flame + number (own only).
+var champion_purse: Label       ## "120".
+var champion_statuses: HBoxContainer    ## Status chips.
+var champion_items: Array = []          ## 4 ChampionBar.ItemIcon 36 x 36 (read-only).
+## 6 ability slots 48 x 48 (step 11, ui-champions.md 15.3): 0-2 = row 1 (archetype), 3-5 = row 2 (class; three `?`
+## before the level-2 choice).
+var champion_abilities: Array[AbilitySlot] = []
+var champion_ability_names: Array[Label] = []
+var champion_autocast: Label    ## "Autocast · next at level 3" / "Autocast".
+var champion_class_label: Label ## " · Sword and Shield" (title colour) / " · no class yet" (text_muted).
+var champion_row1_caption: Label   ## "the Oathwall".
+var champion_row2_caption: Label   ## "Sword and Shield" / "Class at level 2".
+var _champion_class_seen: Node = null
+var _champion_class_id: StringName = &""
+## A champion shown read-only (set with inspect(); cleared on the next selection change). The selection
+## manager's `inspected` property (9.C8) wins when it has one.
+var inspected: Node = null
+var _champion_portrait_slot: HBoxContainer
+
+var keep_name: Label
+var keep_hp: ProgressBar
+var keep_hp_text: Label
+var queue_buttons: Array[Button] = []
+var queue_progress: ProgressBar
+var rally_label: Label
+var building_info: Label    ## Site progress / builders, pop bonus, tower stats.
+var site_row: HBoxContainer
+var site_progress: ProgressBar
+var site_cancel: Button
+var _queue_row: HBoxContainer
+
+## Trade (10.C7, ui-trade.md 5.2 / 6.2 / 6.3). Colours never skinned.
+const GOLD_COIN := Color(1.0, 0.78, 0.25)
+const GOLD_TEXT := Color(1.0, 0.88, 0.5)
+const NEAR_COLOR := Color(0.4, 0.9, 0.4)
+const FAR_COLOR := Color(1.0, 0.55, 0.2)
+const COIN_RING := Color(0.55, 0.42, 0.10)
+const COIN_INNER := Color(0.85, 0.62, 0.18)
+const COIN_LIGHT := Color(1.0, 0.93, 0.65)
+const WARE_COUNT := 4
+## The Bazaar block over the keep view's empty right part: 264 x 100 at (1000, 676) (area offset (412, 6)).
+const MARKET_BLOCK_POS := Vector2(412, 6)
+const MARKET_BLOCK_SIZE := Vector2(264, 100)
+var market_block: Control
+var market_route_row: HBoxContainer   ## A: "Route: " + name + " (near)".
+var market_route_labels: Array[Label] = []
+var market_value: Label               ## B
+var market_caravans: Label            ## C
+var market_traded: Label              ## D
+var market_wares_row: HBoxContainer   ## E: "Wares 1 / 4 owned · " + [U]
+var market_wares: Label
+var market_wares_badge: Label
+## Caravan single view: the stat line (coin + "Cargo 119 gold" + " · Route: " + post + " (far)") and the state line.
+var single_stats_row: HBoxContainer   ## Holds single_stats (+ single_stats_extra for a Magpie's loot).
+var single_stats_extra: Label         ## " · Carrying 60 gold" (GOLD_TEXT).
+var cargo_row: HBoxContainer
+var cargo_coin: Control
+var cargo_labels: Array[Label] = []   ## cargo, " · Route: ", post name, " (far)"
+var single_state: Label               ## Caravan state / tracker contract line (font 14).
+var _icon_coins: Array[Control] = []  ## Multi view: the 6 px coin of a loaded caravan.
+var _overlay: Control                 ## Plain control over the selection area (children placed by hand).
+
+## Map fill (step 12, 12.C7, ui-mapfill.md 5.1 / 6.2 / 8). Colours never skinned.
+const TIER_COLORS := {1: Color(0.85, 0.85, 0.75), 2: Color(1.0, 0.6, 0.25), 3: Color(1.0, 0.3, 0.25)}
+const WADE_COLOR := Color(0.60, 0.78, 0.88)
+const BLESSING_MODIFIER := &"blessing:wayshrine"
+const FORD_MODIFIER := &"terrain:ford"
+const BLESSING_CHIP := &"mf_blessing"
+const WADING_CHIP := &"mf_wading"
+const EPIC_BEASTS_PATH := "res://scripts/world/epic_beasts.gd"
+const BEAST_BLOCK_POS := Vector2(412, 6)     ## Ability slots 48 at (1000 + 58 j, 676) on screen.
+const BEAST_SLOT_STEP := 58.0
+const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": "elder"}
+const BEAST_KINDS := {
+	&"ironhide_tusker": [&"tusker", 0], &"old_scarback": [&"tusker", 1],
+	&"stormcrest_roc": [&"roc", 0], &"duskwing_roc": [&"roc", 1],
+	&"greymane_direwolf": [&"direwolf", 0], &"moonpelt_direwolf": [&"direwolf", 1],
+	&"grizzlemaw": [&"grizzlemaw", 0], &"elder_grizzlemaw": [&"grizzlemaw", 1],
+}
+## Beast abilities (ui-mapfill.md 6.2): name, abbreviation, line 2, effect, cooldown (0 = passive / triggered), and
+## per-type overrides of line 2 / the effect.
+const BEAST_ABILITIES := {
+	&"gore_charge": ["Gore Charge", "GC", "Every 12 s · a target 6-14 m away",
+			"Dashes at it: 45 damage and dazed 0.8 s; 20 damage near its path", 12.0],
+	&"bristle_hide": ["Bristle Hide", "BH", "Passive", "Melee attackers take 4 damage per hit", 0.0],
+	&"gale_swoop": ["Gale Swoop", "GS", "Every 10 s · leaps up to 12 m",
+			"Onto the most crowded spot: 40 damage within 2.5 m, dazed 0.5 s", 10.0],
+	&"shrieking_dive": ["Shrieking Dive", "SD", "Every 10 s · leaps up to 12 m",
+			"Onto the most crowded spot: 40 damage within 2.5 m, marked 5 s", 10.0],
+	&"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it", 0.0],
+	&"pounce": ["Pounce", "PO", "Every 9 s (Moonpelt: 6 s) · a target 5-10 m away",
+			"Leaps on it: 35 damage and rooted 0.8 s", 9.0],
+	&"hamstring": ["Hamstring", "HS", "Passive", "Its hits slow by 25 % for 3 s", 0.0],
+	&"maul": ["Maul", "MA", "Every 9 s", "70 damage to its target and marked 5 s", 9.0],
+	&"rending_roar": ["Rending Roar", "RR", "At 50 % HP, then every 30 s",
+			"Dazes enemies within 6 m for 1 s (half on heroes)", 30.0],
+	&"enrage": ["Enrage", "EN", "Below 30 % HP", "Attacks 30 % faster", 0.0],
+}
+const BEAST_ABILITY_OVERRIDES := {
+	&"old_scarback": {&"gore_charge": "45 damage and dazed 1.2 s to everyone on its path"},
+	&"elder_grizzlemaw": {&"rending_roar": "Dazes enemies within 6 m for 1 s (half on heroes) + taunts soldiers 3 s"},
+}
+const BEAST_ABILITY_IDS := {
+	&"ironhide_tusker": [&"gore_charge", &"bristle_hide"], &"old_scarback": [&"gore_charge", &"bristle_hide"],
+	&"stormcrest_roc": [&"gale_swoop", &"updraft"], &"duskwing_roc": [&"shrieking_dive", &"updraft"],
+	&"greymane_direwolf": [&"pounce", &"hamstring"], &"moonpelt_direwolf": [&"pounce", &"hamstring"],
+	&"grizzlemaw": [&"maul", &"rending_roar", &"enrage"], &"elder_grizzlemaw": [&"maul", &"rending_roar", &"enrage"],
+}
+var single_name_suffix: Label          ## Beasts: " · Epic beast" (font 14, text).
+var single_name_variant: Label         ## Beasts: " · alpha" (font 14, GOLD).
+var single_extra_rows: Array[HBoxContainer] = []   ## Camp row + reward row (creatures) / drops + lair (beasts).
+var beast_block: Control
+var beast_slots: Array[BeastAbilitySlot] = []
+var beast_slot_names: Array[Label] = []
+
+
+func _ready() -> void:
+	add_theme_stylebox_override("panel", UIStyle.frame_style(10.0))
+	UIStyle.add_drop_shadow(self)
+	custom_minimum_size = SIZE
+	# Bottom, 272 px from the left, 16 px from the bottom: (272, 660) at 1600 x 900.
+	set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	grow_vertical = Control.GROW_DIRECTION_BEGIN
+	offset_left = 272.0
+	offset_right = 272.0 + SIZE.x
+	offset_top = -16.0 - SIZE.y
+	offset_bottom = -16.0
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 0)
+	add_child(row)
+	row.add_child(_build_hero_column())
+	# Divider (ui-style.md 5.1): 2 px groove + 1 px frame_light, a diamond at each end.
+	_divider = Control.new()
+	_divider.custom_minimum_size = Vector2(3, 0)
+	_divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_divider.draw.connect(_draw_divider)
+	row.add_child(_divider)
+
+	var area := MarginContainer.new()
+	area.custom_minimum_size = Vector2(AREA_WIDTH - 20.0, 0)   # 680 minus the panel's inner margin
+	area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	area.add_theme_constant_override("margin_left", 3)   # area content starts at x 588
+	area.add_theme_constant_override("margin_right", 4)
+	row.add_child(area)
+
+	nothing_view = UIStyle.panel_label("Nothing selected", 16)
+	_muted_labels.append(nothing_view)
+	nothing_view.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	nothing_view.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	nothing_view.draw.connect(_draw_emblem)
+	area.add_child(nothing_view)
+	portrait = Portrait.new()
+	single_view = _build_single_view()
+	area.add_child(single_view)
+	multi_view = _build_multi_view()
+	area.add_child(multi_view)
+	keep_view = _build_keep_view()
+	area.add_child(keep_view)
+	champion_view = _build_champion_view()
+	area.add_child(champion_view)
+	_overlay = Control.new()
+	_overlay.name = "TradeOverlay"
+	_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	area.add_child(_overlay)
+	market_block = _build_market_block()
+	_overlay.add_child(market_block)
+	beast_block = _build_beast_block()
+	_overlay.add_child(beast_block)
+	_show_view(nothing_view)
+
+
+func setup(p_hero: Wizard, p_selection: SelectionManager) -> void:
+	hero = p_hero
+	if selection != null and selection.selection_changed.is_connected(_on_selection_changed):
+		selection.selection_changed.disconnect(_on_selection_changed)
+	selection = p_selection
+	if selection != null:
+		selection.selection_changed.connect(_on_selection_changed)
+	hero_name.text = hero.unit_name
+
+
+## Shows `champion` (own or visible enemy) read-only in the selection area until the selection changes.
+## The selection manager calls it after its own selection change (a click on a champion). null clears it.
+func inspect(champion: Variant) -> void:
+	inspected = champion as Node if ChampionBar.is_champion(champion) else null
+	refresh()
+
+
+func _on_selection_changed() -> void:
+	inspected = null
+
+
+## The champion the panel shows read-only, or null: the selection manager's `inspected` (9.C8, read with get() so
+## it works before the field exists), else a lone selected champion, else the one given to inspect(). Own
+## champions stay while fallen; enemy ones are dropped when they die or the fog hides them.
+func inspected_champion() -> Node:
+	if selection != null:
+		var s: Variant = selection.get("inspected")
+		if s is Node and _can_inspect(s):
+			return s
+		if selection.selected_building == null and selection.selected.size() == 1 \
+				and ChampionBar.is_champion(selection.selected[0]) and _can_inspect(selection.selected[0]):
+			return selection.selected[0]
+	if inspected != null:
+		if _can_inspect(inspected):
+			return inspected
+		inspected = null
+	return null
+
+
+## The inspected unit that is not a champion (a Greywater Tracker, a Magpie, a visible enemy unit), or null.
+func inspected_unit() -> Unit:
+	if selection == null:
+		return null
+	var s: Variant = selection.get("inspected")
+	if not is_instance_valid(s) or not (s is Unit) or ChampionBar.is_champion(s):
+		return null
+	return s as Unit
+
+
+func _can_inspect(n: Variant) -> bool:
+	if not ChampionBar.is_champion(n) or (n as Node).is_queued_for_deletion():
+		return false
+	var node := n as Node
+	if is_own(node):
+		return true
+	return ChampionBar.is_alive(node) and (not (node is CanvasItem or node is Node3D)
+			or bool(node.call(&"is_visible_in_tree")))
+
+
+## True when `node` is on the player's team.
+func is_own(node: Node) -> bool:
+	var own_team := int(hero.team) if hero != null and is_instance_valid(hero) else 0
+	return node != null and node.get("team") != null and int(node.get("team")) == own_team
+
+
+func _process(delta: float) -> void:
+	_clock += delta
+	if _skin != UIStyle.skin_version:
+		apply_skin()
+	if _xp_flash_left > 0.0:
+		_xp_flash_left -= delta
+		if _xp_flash_left <= 0.0:
+			UIStyle.set_bar_color(hero_xp, UIStyle.GOLD)
+	if _heal_flash_left > 0.0:
+		_heal_flash_left -= delta
+	if _trim_flash_left > 0.0:
+		_trim_flash_left -= delta
+	if _ring_t >= 0.0:
+		_ring_t += delta / 0.5
+		if _ring_t >= 1.0:
+			_ring_t = -1.0
+		queue_redraw()
+	refresh()
+
+
+## Re-applies the kingdom skin (GameHUD.setup calls it after UIStyle.set_kingdom; also auto on skin change).
+func apply_skin() -> void:
+	_skin = UIStyle.skin_version
+	add_theme_stylebox_override("panel", UIStyle.frame_style(10.0))
+	for l in _title_labels:
+		l.add_theme_color_override("font_color", UIStyle.token(&"title"))
+	for l in _muted_labels:
+		l.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+	for b in _skin_bars:
+		var bg := b.get_theme_stylebox("background") as StyleBoxFlat
+		if bg and b != hero_xp:
+			bg.bg_color = UIStyle.token(&"panel_inner")
+			bg.border_color = UIStyle.token(&"groove")
+	for b in _skin_buttons:
+		UIStyle.style_button(b)
+	if site_cancel:
+		UIStyle.style_button(site_cancel, UIStyle.WARN)
+	for slot in champion_abilities:
+		slot.apply_skin()
+	for icon: ChampionBar.ItemIcon in champion_items:
+		icon.set_item(icon.item_type, icon.count)
+	if champion_title:
+		champion_title.add_theme_color_override("font_color", UIStyle.token(&"text"))
+		champion_stats.add_theme_color_override("font_color", UIStyle.token(&"text"))
+	if hero_name:
+		_style_hero_name()
+	if _aura:
+		_aura.texture = _aura_texture()
+	if hero_trim:
+		hero_trim.color = _trim_color()
+	if _divider:
+		_divider.queue_redraw()
+	nothing_view.queue_redraw()
+
+
+func _style_hero_name() -> void:
+	hero_name.add_theme_font_override("font", UIStyle.display_font())
+	hero_name.add_theme_color_override("font_color", UIStyle.token(&"title"))
+	hero_name.add_theme_color_override("font_hover_color", UIStyle.token(&"trim_glow"))
+	hero_name.add_theme_color_override("font_pressed_color", UIStyle.token(&"frame_light"))
+	hero_name.add_theme_color_override("font_disabled_color", UIStyle.token(&"text_muted"))
+
+
+func _trim_color() -> Color:
+	var g := UIStyle.token(&"trim_glow")
+	return Color(g.r, g.g, g.b, 0.55)
+
+
+func _aura_texture() -> GradientTexture2D:
+	var g := Gradient.new()
+	var glow := UIStyle.token(&"trim_glow")
+	g.set_color(0, Color(glow.r, glow.g, glow.b, 0.10))
+	g.set_color(1, Color(glow.r, glow.g, glow.b, 0.0))
+	g.set_offset(1, 0.6)
+	var t := GradientTexture2D.new()
+	t.gradient = g
+	t.width = 1
+	t.height = 64
+	t.fill_from = Vector2(0, 0)
+	t.fill_to = Vector2(0, 1)
+	return t
+
+
+func _draw() -> void:
+	# Level-up ring behind the badge: radius 14 -> 40 px, fading over 0.5 s.
+	if _ring_t < 0.0 or hero_badge == null:
+		return
+	var c := hero_badge.global_position - global_position + Vector2(14, 14)
+	var a := 1.0 - _ring_t
+	draw_arc(c, lerpf(14.0, 40.0, _ring_t), 0.0, TAU, 40, Color(UIStyle.GOLD, a), 3.0, true)
+
+
+## Hexagonal level medallion (flat top): dark fill, 2 px gold edge, frame_light facet on the upper half.
+func _draw_badge() -> void:
+	var c := Vector2(14, 14)
+	var pts := PackedVector2Array()
+	for i in 6:
+		var a := deg_to_rad(60.0 * i)
+		pts.append(c + Vector2(cos(a), sin(a)) * 14.0)
+	var alive := is_instance_valid(hero) and hero.is_alive()
+	var edge := UIStyle.GOLD if alive or hero == null else Color(0.45, 0.42, 0.35)
+	hero_badge.draw_colored_polygon(pts, Color(0.15, 0.12, 0.05))
+	var closed := pts.duplicate()
+	closed.append(pts[0])
+	hero_badge.draw_polyline(closed, edge, 2.0, true)
+	var inner := PackedVector2Array()
+	for i in [3, 4, 5, 0]:
+		var a := deg_to_rad(60.0 * i)
+		inner.append(c + Vector2(cos(a), sin(a)) * 11.0)
+	hero_badge.draw_polyline(inner, UIStyle.token(&"frame_light"), 1.0, true)
+
+
+func _draw_name_underline() -> void:
+	if hero_name.is_hovered() and not hero_name.disabled:
+		var w := hero_name.get_theme_font("font").get_string_size(hero_name.text.to_upper(),
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+		var y := hero_name.size.y - 3.0
+		hero_name.draw_line(Vector2(4, y), Vector2(4 + w, y), UIStyle.token(&"trim_glow"), 2.0)
+
+
+func _draw_divider() -> void:
+	var h := _divider.size.y
+	var groove := UIStyle.token(&"groove")
+	var light := UIStyle.token(&"frame_light")
+	_divider.draw_rect(Rect2(0, 0, 2, h), groove)
+	_divider.draw_rect(Rect2(2, 0, 1, h), light)
+	for y: float in [2.0, h - 2.0]:
+		_divider.draw_colored_polygon(PackedVector2Array([Vector2(1.5, y - 3), Vector2(4.5, y), Vector2(1.5, y + 3),
+				Vector2(-1.5, y)]), light)
+
+
+## Kingdom emblem at alpha 0.06 behind "Nothing selected" (UIStyle.draw_emblem: Fire flames, Shadow crescent,
+## Ice snowflake, Nature leaf).
+func _draw_emblem() -> void:
+	var c := nothing_view.size * 0.5
+	var col := Color(UIStyle.token(&"title"), 0.06)
+	UIStyle.draw_emblem(nothing_view, UIStyle.get_kingdom(), c, 56.0, col)
+
+
+## Updates the hero column and the selection area (runs every frame).
+func refresh() -> void:
+	_update_hero()
+	if selection == null:
+		return
+	var champion := inspected_champion()
+	# A champion without a model shows its initials only: hide the portrait's last render (else the previous
+	# unit's picture stays behind the letters).
+	if portrait.view != null:   # (built in the portrait's _ready, once a view holds it)
+		portrait.view.visible = champion == null or champion.get("model_scene") != null
+	market_block.visible = false
+	beast_block.visible = false
+	var other := inspected_unit()
+	if champion != null:
+		_update_champion(champion)
+		portrait.set_target(champion)
+	elif selection.selected_building != null:
+		_update_keep(selection.selected_building)
+		portrait.set_target(selection.selected_building)
+	elif other != null:
+		_update_single(other)   # a tracker, a Magpie, a visible enemy unit: read-only single view
+		portrait.set_target(other)
+	elif selection.selected.is_empty():
+		_show_view(nothing_view)
+		portrait.set_target(null)
+	elif selection.selected.size() == 1:
+		_update_single(selection.selected[0])
+		portrait.set_target(selection.selected[0])
+	else:
+		_update_multi(selection.selected)
+		portrait.set_target(null)
+
+
+## Which view is shown: "nothing", "single", "multi", "keep" or "champion" (for tests).
+func current_view() -> String:
+	if champion_view.visible:
+		return "champion"
+	if single_view.visible:
+		return "single"
+	if multi_view.visible:
+		return "multi"
+	if keep_view.visible:
+		return "keep"
+	return "nothing"
+
+
+## Clicking queue slot `slot` (0 = the one training) cancels it at the selected keep.
+func cancel_slot(slot: int) -> void:
+	if selection == null or selection.selected_building == null:
+		return
+	var keep := selection.selected_building
+	var queue: Array = _queue_of(keep)
+	if slot < queue.size() and keep.has_method("cancel"):
+		keep.call("cancel", slot)
+
+
+# ---------------------------------------------------------------- updates
+
+func _update_hero() -> void:
+	if hero == null:
+		return
+	var alive := is_instance_valid(hero) and hero.is_alive()
+	_update_hero_fx(alive)
+	if alive:
+		hero_hp.max_value = hero.max_hp
+		hero_hp.value = hero.hp
+		hero_hp_text.text = "HP  %d / %d" % [ceili(hero.hp), int(hero.max_hp)]
+		hero_mana.max_value = hero.max_mana
+		hero_mana.value = hero.mana
+		hero_mana_text.text = "Mana  %d / %d" % [int(hero.mana), int(hero.max_mana)]
+		if hero_name.disabled:   # back from the dead (Wizard.respawn)
+			hero_name.modulate = Color.WHITE
+			hero_name.disabled = false
+		hero_status.visible = false
+	else:
+		hero_hp.value = 0
+		hero_mana.value = 0
+		hero_hp_text.text = "HP  0"
+		hero_mana_text.text = "Mana  0"
+		hero_name.modulate = Color(0.5, 0.5, 0.5)
+		hero_name.disabled = true
+		var left := _respawn_left()
+		hero_status.text = "%s returns in %d s" % [_short_name(), ceili(left)] if left > 0.0 else "Fallen"
+		hero_status.visible = true
+	_update_level(alive)
+	_update_status_row(hero_statuses, hero if alive else null)
+	var crown := _worn_crown()
+	hero_crown.visible = crown != null
+	if crown != null:
+		hero_crown.text = "%s  +%d HP · +%d mana" % [str(crown.get("artifact_name")),
+				int(crown.get("bonus_hp")), int(crown.get("bonus_mana"))]
+
+
+## Ghost damage (0.5 s drain), heal flash (0.15 s), low-HP pulse (< 30 %: 1.5 Hz fill + WARN trim line).
+func _update_hero_fx(alive: bool) -> void:
+	var hp := float(hero.hp) if alive else 0.0
+	var max_hp := maxf(float(hero.max_hp), 1.0) if is_instance_valid(hero) else 1.0
+	if _last_hero_hp >= 0.0:
+		if hp < _last_hero_hp - 0.01:
+			if _ghost_value < _last_hero_hp:
+				_ghost_value = _last_hero_hp
+			if _ghost_tween:
+				_ghost_tween.kill()
+			_ghost_tween = create_tween()
+			_ghost_tween.tween_property(self, "_ghost_value", hp, 0.5).set_ease(Tween.EASE_OUT)
+		elif hp > _last_hero_hp + maxf(2.0, max_hp * 0.01):
+			_heal_flash_left = 0.15
+	_last_hero_hp = hp
+	_ghost.queue_redraw()
+	var low := alive and hp / max_hp < 0.3
+	var fill := UIStyle.HP_COLOR
+	if _heal_flash_left > 0.0:
+		fill = Color(0.5, 1.0, 0.5)
+	elif low:
+		fill = UIStyle.HP_COLOR.lerp(Color(1.0, 0.45, 0.40), 0.5 + 0.5 * sin(_clock * TAU * 1.5))
+	UIStyle.set_bar_color(hero_hp, fill)
+	if _trim_flash_left > 0.0:
+		hero_trim.color = UIStyle.GOLD
+	elif low:
+		hero_trim.color = Color(UIStyle.WARN, 0.65 + 0.25 * sin(_clock * TAU * 1.5))
+	else:
+		hero_trim.color = _trim_color()
+
+
+## True while the hero's HP fill pulses (HP < 30 %) (for tests).
+func is_low_hp_pulsing() -> bool:
+	return hero_trim != null and is_instance_valid(hero) and hero.is_alive() \
+			and hero.hp / maxf(hero.max_hp, 1.0) < 0.3
+
+
+func _draw_ghost() -> void:
+	if hero_hp.max_value <= 0.0 or _ghost_value <= hero_hp.value:
+		return
+	var w := _ghost.size.x
+	var x0 := w * clampf(hero_hp.value / hero_hp.max_value, 0.0, 1.0)
+	var x1 := w * clampf(_ghost_value / hero_hp.max_value, 0.0, 1.0)
+	_ghost.draw_rect(Rect2(x0, 1, x1 - x0, _ghost.size.y - 2), Color(1.0, 0.85, 0.8, 0.8))
+
+
+## Level badge, XP bar, points chip; plays the flash when the level or a spell rank goes up.
+func _update_level(alive: bool) -> void:
+	if not is_instance_valid(hero):
+		return
+	var level := int(hero.get("level")) if hero.get("level") != null else 1
+	hero_level.text = str(level)
+	hero_badge.modulate = Color.WHITE if alive else Color(0.5, 0.5, 0.5)
+	var has_xp := hero.get("xp") != null and hero.has_method(&"xp_to_next")
+	hero_xp.visible = has_xp
+	var xp_part := ""
+	if has_xp:
+		var xp := int(hero.get("xp"))
+		var next := int(hero.call(&"xp_to_next"))
+		if next <= 0:
+			hero_xp.max_value = 1.0
+			hero_xp.value = 1.0
+			hero_xp_text.text = "XP  MAX"
+			xp_part = " · XP MAX"
+		else:
+			hero_xp.max_value = float(next)
+			hero_xp.value = float(xp)
+			hero_xp_text.text = "XP  %d / %d" % [xp, next]
+			xp_part = " · XP %d / %d" % [xp, next]
+	var points := int(hero.get("spell_points")) if hero.get("spell_points") != null else 0
+	hero_badge.tooltip_text = "Level %d%s · %d spell point%s" % [level, xp_part, points, "" if points == 1 else "s"]
+	points_chip.visible = points > 0
+	if points > 0:
+		points_text.text = "+%d point%s" % [points, "" if points == 1 else "s"]
+		points_chip.modulate.a = 0.85 + 0.15 * sin(_clock * TAU / 0.8)
+	var ranks := 0
+	for id in SpellInfo.ids(hero):
+		ranks += SpellInfo.rank(hero, id)
+	if (_last_level >= 0 and level > _last_level) or (_last_ranks >= 0 and ranks > _last_ranks):
+		flash_level_up(level > _last_level)
+	_last_level = level
+	_last_ranks = ranks
+
+
+## The badge scales 1.0 -> 1.4 -> 1.0 over 0.4 s; on a level-up the XP bar also flashes white 0.2 s.
+func flash_level_up(xp_bar := true) -> void:
+	if _badge_tween:
+		_badge_tween.kill()
+	hero_badge.scale = Vector2.ONE
+	_badge_tween = create_tween()
+	_badge_tween.tween_property(hero_badge, "scale", Vector2(1.4, 1.4), 0.2)
+	_badge_tween.tween_property(hero_badge, "scale", Vector2.ONE, 0.2)
+	if xp_bar:
+		UIStyle.set_bar_color(hero_xp, Color.WHITE)
+		_xp_flash_left = 0.2
+		_ring_t = 0.0          # gold ring behind the badge (0.5 s)
+		_trim_flash_left = 0.3 # the hero column's trim line flashes gold
+
+
+## Seconds until the dead wizard returns (the level's respawn timer; 0 when unknown).
+func _respawn_left() -> float:
+	var level := get_tree().current_scene
+	if level == null or not level.has_method(&"respawn_time_left") or not is_instance_valid(hero):
+		return 0.0
+	return float(level.call(&"respawn_time_left", int(hero.team)))
+
+
+## The level's artifact (the Ember Crown) when our wizard wears it, else null.
+func _worn_crown() -> Node:
+	var level := get_tree().current_scene
+	if level == null or not is_instance_valid(hero):
+		return null
+	var crown: Variant = level.get("artifact")
+	if is_instance_valid(crown) and crown is Node and "wearer" in crown and crown.get("wearer") == hero:
+		return crown
+	return null
+
+
+## "Vessa, Fire Wizard" -> "Vessa".
+func _short_name() -> String:
+	return hero.unit_name.get_slice(",", 0).strip_edges() if is_instance_valid(hero) else "Your wizard"
+
+
+func _update_single(u: Unit) -> void:
+	_show_view(single_view)
+	var wiz := u as Wizard
+	var level := int(u.get("level")) if u.get("level") != null else 1
+	var xp := int(u.get("xp")) if u.get("xp") != null else 0
+	# Veterancy (levels.md): soldiers only; workers, towers and wardens never level.
+	var veteran := wiz == null and not u.has_method(&"command_gather") and (level > 1 or xp > 0)
+	single_name.text = u.unit_name
+	if veteran and level > 1:
+		single_name.text += " · " + (str(u.call(&"veterancy_name")) if u.has_method(&"veterancy_name") else rank_name(level))
+	single_hp.max_value = u.max_hp
+	single_hp.value = u.hp
+	single_hp_text.text = "HP  %d / %d" % [ceili(u.hp), int(u.max_hp)]
+	var dmg := float(u.call(&"get_stat", &"attack_damage")) if u.has_method(&"get_stat") else u.attack_damage
+	var line := "Damage %s · Range %.1f · Speed %.1f" % [_num(dmg), u.attack_range, u.move_speed]
+	# Ice units and Torvald (kingdom-ice.md 3-4) carry base armor: show it when there is any.
+	var armor := float(u.call(&"get_stat", &"armor")) if u.has_method(&"get_stat") else 0.0
+	if armor > 0.0:
+		line += " · Armor %s" % _num(armor)
+	if wiz != null and u.get("level") != null:
+		line = "Level %d · %s" % [level, line]
+	elif veteran:
+		var next := _veteran_next(u, level)
+		line += " · XP MAX" if next <= 0 else " · XP %d / %d" % [xp, next]
+	single_stats.text = line
+	single_mana.visible = wiz != null
+	if wiz:
+		single_mana.max_value = wiz.max_mana
+		single_mana.value = wiz.mana
+		single_mana_text.text = "Mana  %d / %d" % [int(wiz.mana), int(wiz.max_mana)]
+	var life := lifetime_of(u)
+	single_lifetime.visible = life.y > 0.0
+	if life.y > 0.0:
+		single_lifetime.max_value = life.y
+		single_lifetime.value = life.x
+		single_lifetime_text.text = "Withers in %d s" % ceili(life.x)
+	_update_status_row(single_statuses, u)
+	_update_trade_lines(u)
+	_update_mapfill_lines(u)
+
+
+# ---------------------------------------------------------------- map fill (12.C7, ui-mapfill.md 5.1 / 6.2)
+
+## Creatures of a camp: the camp row + the reward row; epic beasts: the name subtitle, the drops and lair rows and
+## the ability block; anything else: none of it.
+func _update_mapfill_lines(u: Unit) -> void:
+	var beast := u.is_in_group(&"beasts")
+	var camp := _camp_of(u) if not beast else null
+	single_name_suffix.visible = beast
+	single_name_variant.visible = false
+	if beast:
+		var kv := beast_kind_variant(u)
+		single_name_suffix.text = " · Epic beast"
+		var word := str(VARIANT_WORDS.get(kv[0], "")) if int(kv[1]) == 1 else ""
+		single_name_variant.visible = word != ""
+		single_name_variant.text = " · " + word
+		var muted := UIStyle.token(&"text_muted")
+		_set_segments(single_extra_rows[0], [["Drops: ", muted], [beast_drop_text(kv[0], int(kv[1])),
+				UIStyle.token(&"text")]])
+		var lair := _lair_name(u)
+		_set_segments(single_extra_rows[1], [["Roams the " + lair, muted]] if lair != "" else [])
+		_update_beast_block(u)
+	elif camp != null:
+		var r: Dictionary = camp.call(&"reward_preview") if camp.has_method(&"reward_preview") else {}
+		var tier := int(r.get(&"tier", camp.get(&"tier") if camp.get(&"tier") != null else 1))
+		var level := int(r.get(&"camp_level", camp.get(&"camp_level") if camp.get(&"camp_level") != null else 0))
+		var total := int(r.get(&"creatures", 0))
+		var alive: int = (camp.call(&"creatures") as Array).size() if camp.has_method(&"creatures") else 0
+		var text_c := UIStyle.token(&"text")
+		var muted := UIStyle.token(&"text_muted")
+		var row0: Array = [[str(camp.get(&"display_name")), text_c], [" · ", muted],
+				["Tier %d" % tier, tier_color(tier)], [" · %d of %d left" % [alive, total], text_c]]
+		if level > 0:
+			row0.append([" · Level %d" % level, muted])
+		_set_segments(single_extra_rows[0], row0)
+		var row1: Array = [["~%d XP" % int(r.get(&"xp", 0)), UIStyle.GOLD], [" · ", muted],
+				["+%d essence" % int(r.get(&"essence", 0)), UIStyle.ESSENCE_TEXT]]
+		var drop := str(r.get(&"drop_text", ""))
+		if drop != "":
+			row1.append_array([[" · ", muted], [drop, muted]])
+		var cm := get_tree().get_first_node_in_group(&"camp_manager")
+		var own_team := int(hero.team) if hero != null and is_instance_valid(hero) else 0
+		if cm != null and cm.has_method(&"underdog_team") and int(cm.call(&"underdog_team")) == own_team:
+			row1.append([" · Underdog bonus", NEAR_COLOR])
+		_set_segments(single_extra_rows[1], row1)
+	else:
+		_set_segments(single_extra_rows[0], [])
+		_set_segments(single_extra_rows[1], [])
+
+
+## The camp of a creature (CampManager.camp_of, group "camp_manager"), or null.
+func _camp_of(u: Node) -> Node:
+	var cm := get_tree().get_first_node_in_group(&"camp_manager") if is_inside_tree() else null
+	if cm == null or not cm.has_method(&"camp_of"):
+		return null
+	var c: Variant = cm.call(&"camp_of", u)
+	return c as Node if c is Node and is_instance_valid(c) else null
+
+
+## The camp line of the viewed creature as one line (tests; map-fill.md 8): `Gloomcap Hollow · Tier 2 · 3 of 4 left
+## · ~86 XP · +25 essence · 35 % a component` (no level, no underdog). "" when the view shows no camp creature.
+func camp_line_text() -> String:
+	if not single_view.visible or not single_extra_rows[0].visible or single_name_suffix.visible:
+		return ""
+	var parts: PackedStringArray = []
+	for i in 2:
+		for c in single_extra_rows[i].get_children():
+			var l := c as Label
+			if l == null or not l.visible:
+				continue
+			if l.text.begins_with(" · Level") or l.text == " · Underdog bonus":
+				continue
+			parts.append(l.text)
+		if i == 0:
+			parts.append(" · ")
+	return "".join(parts)
+
+
+## The two map-fill rows under the stat line as shown (tests), joined with "\n".
+func mapfill_rows_text() -> String:
+	var out: PackedStringArray = []
+	for row in single_extra_rows:
+		if row.visible:
+			var s := ""
+			for c in row.get_children():
+				if c is Label and (c as Label).visible:
+					s += (c as Label).text
+			out.append(s)
+	return "\n".join(out)
+
+
+## The beast name row as plain text (tests): `Old Scarback · Epic beast · alpha`.
+func beast_title_text() -> String:
+	if not single_name_suffix.visible:
+		return ""
+	return single_name.text + single_name_suffix.text + (single_name_variant.text if single_name_variant.visible else "")
+
+
+static func tier_color(tier: int) -> Color:
+	return TIER_COLORS.get(clampi(tier, 1, 3), TIER_COLORS[1])
+
+
+## [kind, variant] of a beast (meta beast_variant wins; else the type id table).
+static func beast_kind_variant(u: Node) -> Array:
+	var kind := &""
+	var variant := 0
+	var t: Variant = u.get(&"unit_type")
+	var tid := StringName(str((t as Resource).get(&"id"))) if t is Resource else &""
+	var info: Variant = BEAST_KINDS.get(tid)
+	if info is Array:
+		kind = info[0]
+		variant = int(info[1])
+	if u.has_meta(&"beast_variant"):
+		variant = int(u.get_meta(&"beast_variant"))
+	return [kind, variant]
+
+
+## The EpicBeasts node (group "epic_beasts"), or null.
+func _epic_beasts() -> Node:
+	return get_tree().get_first_node_in_group(&"epic_beasts") if is_inside_tree() else null
+
+
+func _lair_name(u: Node) -> String:
+	var eb := _epic_beasts()
+	if eb == null or not eb.has_method(&"lair_of"):
+		return ""
+	var lair: Variant = eb.call(&"lair_of", u)
+	return str((lair as Dictionary).get("name", "")) if lair is Dictionary else ""
+
+
+## EpicBeasts.DROP_TABLES (from the live node's script, else the script file), {} when neither exists.
+static func beast_drop_tables() -> Dictionary:
+	var tree := Engine.get_main_loop() as SceneTree
+	var eb := tree.get_first_node_in_group(&"epic_beasts") if tree != null else null
+	var script: Script = eb.get_script() as Script if eb != null else null
+	if script == null and ResourceLoader.exists(EPIC_BEASTS_PATH):
+		script = load(EPIC_BEASTS_PATH) as Script
+	if script == null:
+		return {}
+	var v: Variant = script.get_script_constant_map().get("DROP_TABLES")
+	return v if v is Dictionary else {}
+
+
+static func item_name(id: StringName) -> String:
+	var t := ItemType.find(id)
+	if t != null and str(t.get(&"display_name")) != "":
+		return str(t.get(&"display_name"))
+	return String(id).capitalize()
+
+
+## The drop preview (ui-mapfill.md 6.2 rule) of a beast kind and variant: certain rows of several items count as
+## components (`a component`, `2 components`), a certain single item is named, a chance row reads `30 % Vital Root` /
+## `60 % Warden Scale or Vital Root`; ` · a trophy` when the variant's trophy item exists.
+static func beast_drop_text(kind: StringName, variant: int) -> String:
+	var table: Variant = beast_drop_tables().get(kind)
+	if not (table is Dictionary):
+		return ""
+	var parts: Array[String] = []
+	var comp_at := -1
+	var comps := 0
+	for row: Variant in (table as Dictionary).get("rows", []):
+		if not (row is Dictionary):
+			continue
+		var rv := int((row as Dictionary).get("variant", -1))
+		if rv != -1 and rv != variant:
+			continue
+		var items: Array = (row as Dictionary).get("items", [])
+		var chance := float((row as Dictionary).get("chance", 1.0))
+		if chance >= 1.0 and items.size() > 1:
+			comps += 1
+			if comp_at == -1:
+				comp_at = parts.size()
+				parts.append("")
+		elif chance >= 1.0 and items.size() == 1:
+			parts.append(item_name(StringName(str(items[0]))))
+		elif not items.is_empty():
+			var names: Array[String] = []
+			for it: Variant in items:
+				names.append(item_name(StringName(str(it))))
+			parts.append("%d %% %s" % [roundi(chance * 100.0), " or ".join(names)])
+	if comp_at >= 0:
+		parts[comp_at] = "a component" if comps == 1 else "%d components" % comps
+	var trophy: Variant = (table as Dictionary).get("trophy", [])
+	if trophy is Array and variant >= 0 and variant < (trophy as Array).size() \
+			and ItemType.find(StringName(str((trophy as Array)[variant]))) != null:
+		parts.append("a trophy")
+	return " · ".join(parts)
+
+
+## Ability ids of a beast: its CreatureAbilities' list, else the table by type id.
+func beast_ability_ids(u: Node) -> Array[StringName]:
+	var out: Array[StringName] = []
+	var ab := u.get_node_or_null(^"CreatureAbilities")
+	if ab != null and ab.has_method(&"ability_ids"):
+		for id: Variant in ab.call(&"ability_ids"):
+			out.append(StringName(str(id)))
+	if out.is_empty():
+		var t: Variant = u.get(&"unit_type")
+		var tid := StringName(str((t as Resource).get(&"id"))) if t is Resource else &""
+		for id: Variant in BEAST_ABILITY_IDS.get(tid, []):
+			out.append(StringName(str(id)))
+	return out
+
+
+## `Gore Charge\nEvery 12 s · a target 6-14 m away\n<effect>` for a beast of type `type_id`.
+static func beast_ability_tooltip(id: StringName, type_id: StringName) -> String:
+	var info: Array = BEAST_ABILITIES.get(id, [String(id).capitalize(), "", "", "", 0.0])
+	var effect := str(info[3])
+	var over: Dictionary = BEAST_ABILITY_OVERRIDES.get(type_id, {})
+	if over.has(id):
+		effect = str(over[id])
+	return "%s\n%s\n%s" % [info[0], info[2], effect]
+
+
+func _update_beast_block(u: Node) -> void:
+	beast_block.visible = true
+	var ids := beast_ability_ids(u)
+	var ab := u.get_node_or_null(^"CreatureAbilities")
+	var t: Variant = u.get(&"unit_type")
+	var tid := StringName(str((t as Resource).get(&"id"))) if t is Resource else &""
+	for j in beast_slots.size():
+		var slot := beast_slots[j]
+		var shown := j < ids.size()
+		slot.visible = shown
+		beast_slot_names[j].visible = shown
+		if not shown:
+			continue
+		var id := ids[j]
+		var info: Array = BEAST_ABILITIES.get(id, [String(id).capitalize(), UIStyle.abbrev(String(id).capitalize()),
+				"", "", 0.0])
+		var total := float(info[4])
+		if tid == &"moonpelt_direwolf" and id == &"pounce":
+			total = 6.0
+		var left := 0.0
+		if ab != null and total > 0.0 and ab.has_method(&"cooldown_left"):
+			left = float(ab.call(&"cooldown_left", id))
+			if ab.has_method(&"cooldown_total") and float(ab.call(&"cooldown_total", id)) > 0.0:
+				total = float(ab.call(&"cooldown_total", id))
+		slot.show_beast_ability(id, str(info[1]), left, total)
+		slot.tooltip_text = beast_ability_tooltip(id, tid)
+		beast_slot_names[j].text = str(info[0])
+
+
+## The beast block's ability names (tests), e.g. "Gore Charge, Bristle Hide"; "" while hidden.
+func beast_ability_list() -> String:
+	if beast_block == null or not beast_block.visible:
+		return ""
+	var parts: PackedStringArray = []
+	for j in beast_slots.size():
+		if beast_slots[j].visible:
+			parts.append(beast_slot_names[j].text)
+	return ", ".join(parts)
+
+
+## Sets a row from [text, colour] segments (font 13 labels reused); no segments = hidden.
+func _set_segments(row: HBoxContainer, segments: Array) -> void:
+	row.visible = not segments.is_empty()
+	var have := row.get_child_count()
+	for j in maxi(have, segments.size()):
+		if j >= segments.size():
+			(row.get_child(j) as Label).visible = false
+			continue
+		var l: Label
+		if j < have:
+			l = row.get_child(j) as Label
+		else:
+			l = UIStyle.panel_label("", 13)
+			l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.add_child(l)
+		l.visible = true
+		l.text = str(segments[j][0])
+		l.add_theme_color_override("font_color", segments[j][1])
+
+
+# ---------------------------------------------------------------- trade lines (10.C7, ui-trade.md 6.2 / 6.3)
+
+## Caravans: the cargo / route line replaces the stat line, the state line under it. Trackers: the contract line.
+## Magpies: ` · Carrying 60 gold` after the stat line.
+func _update_trade_lines(u: Unit) -> void:
+	var caravan := u.is_in_group(&"caravans")
+	var tracker := u.is_in_group(&"trackers")
+	single_stats.visible = not caravan
+	cargo_row.visible = caravan
+	single_state.visible = false
+	var loot := int(u.get_meta(&"loot", 0)) if u.is_in_group(&"magpies") else 0
+	single_stats_extra.visible = loot > 0
+	if loot > 0:
+		single_stats_extra.text = " · Carrying %d gold" % loot
+	if caravan:
+		_update_caravan_lines(u)
+	elif tracker:
+		single_state.visible = true
+		if is_own(u):
+			single_state.text = tracker_contract_text(u)
+			single_state.add_theme_color_override("font_color", UIStyle.token(&"text"))
+		else:
+			single_state.text = "Enemy hunters"
+			single_state.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+
+
+func _update_caravan_lines(u: Unit) -> void:
+	var cargo := int(u.get("cargo")) if u.get("cargo") != null else 0
+	var loaded := bool(u.call(&"is_loaded")) if u.has_method(&"is_loaded") else cargo > 0
+	cargo_coin.visible = loaded
+	cargo_labels[0].text = "Cargo %d gold" % cargo if loaded else "Empty"
+	cargo_labels[0].add_theme_color_override("font_color", GOLD_TEXT if loaded else UIStyle.token(&"text_muted"))
+	var own := is_own(u)
+	for i in range(1, 4):
+		cargo_labels[i].visible = own
+	if not own:
+		return   # an enemy caravan: its cargo only (raiders want to know)
+	var post: Variant = u.get("route_post")
+	var muted := UIStyle.token(&"text_muted")
+	cargo_labels[1].add_theme_color_override("font_color", muted)
+	cargo_labels[2].add_theme_color_override("font_color", UIStyle.token(&"text"))
+	cargo_labels[3].add_theme_color_override("font_color", muted)
+	if is_instance_valid(post) and post is Node3D:
+		var market: Variant = u.get("home_market")
+		var far := false
+		if is_instance_valid(market) and market is Node:
+			far = RouteLine.is_far(market, post)
+		else:
+			var net := get_tree().get_first_node_in_group(&"trade_network")
+			far = net != null and net.has_method(&"is_far") and bool(net.call(&"is_far", int(u.team), post))
+		cargo_labels[1].text = " · Route: "
+		cargo_labels[2].text = RouteLine.post_name(post)
+		cargo_labels[3].text = " (far)" if far else " (near)"
+	else:
+		cargo_labels[1].text = " · No route: right-click a post"
+		cargo_labels[2].text = ""
+		cargo_labels[3].text = ""
+	single_state.visible = true
+	var state := str(u.call(&"state_text")) if u.has_method(&"state_text") else "Idle"
+	single_state.text = state
+	single_state.add_theme_color_override("font_color", caravan_state_color(state))
+
+
+## The colour of a caravan state line (ui-trade.md 6.2).
+static func caravan_state_color(state: String) -> Color:
+	if state.begins_with("Waiting"):
+		return UIStyle.WARN
+	if state.begins_with("Trading") or state.begins_with("Returning"):
+		return UIStyle.GOLD
+	if state.begins_with("To "):
+		return UIStyle.token(&"text")
+	return UIStyle.token(&"text_muted")   # Loading, Idle
+
+
+## `Contract: Outriders · 1:42 left` for an own Greywater Tracker (its TrackerContract: the unit's meta, else the
+## contract in group "tracker_contracts" whose `trackers` holds it); `Contract ended` without one.
+func tracker_contract_text(u: Node) -> String:
+	var contract: Variant = null
+	for key: StringName in [&"tracker_contract", &"contract"]:
+		if u.has_meta(key):
+			var c: Variant = u.get_meta(key)
+			if is_instance_valid(c) and c is Node:
+				contract = c
+				break
+	if contract == null:
+		for c in get_tree().get_nodes_in_group(&"tracker_contracts"):
+			var list: Variant = c.get("trackers")
+			if list is Array and (list as Array).has(u):
+				contract = c
+				break
+	if contract == null:
+		return "Contract ended"
+	var kind := str((contract as Node).get("kind")) if (contract as Node).get("kind") != null else ""
+	var name := kind.capitalize() if kind != "" else "Hunters"
+	var left := float((contract as Node).call(&"time_left")) if (contract as Node).has_method(&"time_left") else 0.0
+	var secs := maxi(ceili(left), 0)
+	return "Contract: %s · %d:%02d left" % [name, secs / 60, secs % 60]
+
+
+## The visible text lines of the single view under the HP bar (stat or cargo line, then the state / contract line),
+## joined with "\n", for tests.
+func single_lines() -> String:
+	var lines: PackedStringArray = []
+	if cargo_row.visible:
+		var t := ""
+		for l in cargo_labels:
+			if l.visible:
+				t += l.text
+		lines.append(t)
+	elif single_stats.visible:
+		lines.append(single_stats.text + (single_stats_extra.text if single_stats_extra.visible else ""))
+	if single_state.visible:
+		lines.append(single_state.text)
+	return "\n".join(lines)
+
+
+## True while the cargo line shows its coin (a loaded caravan), for tests.
+func cargo_coin_shown() -> bool:
+	return cargo_row.visible and cargo_coin.visible
+
+
+## True when multi-select icon `i` shows the loaded-caravan coin, for tests.
+func icon_coin_shown(i: int) -> bool:
+	return i >= 0 and i < _icon_coins.size() and icons[i].visible and _icon_coins[i].visible
+
+
+## The 5 lines of the Bazaar block joined with "\n" ("" when hidden: enemy Bazaars, other buildings).
+func market_block_text() -> String:
+	if market_block == null or not market_block.visible:
+		return ""
+	var a := ""
+	for l in market_route_labels:
+		a += l.text
+	return "\n".join(PackedStringArray([a, market_value.text, market_caravans.text, market_traded.text,
+			market_wares.text + market_wares_badge.text]))
+
+
+## Draws a gold coin (ui-trade.md 16.2) of `radius` at `c` on `ci`.
+static func draw_coin(ci: CanvasItem, c: Vector2, radius: float) -> void:
+	ci.draw_circle(c, radius, GOLD_COIN)
+	ci.draw_arc(c, radius - 0.5, 0.0, TAU, 20, COIN_RING, 1.0, true)
+	if radius > 5.0:
+		ci.draw_arc(c, radius * 0.62, 0.0, TAU, 16, COIN_INNER, 1.0, true)
+	ci.draw_arc(c, radius * 0.75, deg_to_rad(200.0), deg_to_rad(290.0), 8, COIN_LIGHT, 1.5, true)
+
+
+## The Bazaar block (own completed Bazaar only): route, value / waiting line, caravans, gold traded, wares.
+func _update_market_block(market: Node3D) -> void:
+	market_block.visible = true
+	var muted := UIStyle.token(&"text_muted")
+	var text_c := UIStyle.token(&"text")
+	var post: Variant = market.get("route_post")
+	var valid_post := is_instance_valid(post) and post is Node3D
+	market_route_labels[0].text = "Route: "
+	market_route_labels[0].add_theme_color_override("font_color", muted)
+	if valid_post:
+		var far := RouteLine.is_far(market, post)
+		market_route_labels[1].text = RouteLine.post_name(post)
+		market_route_labels[1].add_theme_color_override("font_color", UIStyle.GOLD)
+		market_route_labels[2].text = " (far)" if far else " (near)"
+		market_route_labels[2].add_theme_color_override("font_color", FAR_COLOR if far else NEAR_COLOR)
+		var reason := RouteLine.route_reason(market, post)
+		if reason.begins_with("Trading posts open"):
+			market_value.text = "Posts open at 4:00 · caravans wait"
+			market_value.add_theme_color_override("font_color", UIStyle.WARN)
+		elif reason == "Held by the enemy":
+			market_value.text = "Held by the enemy · caravans wait"
+			market_value.add_theme_color_override("font_color", UIStyle.WARN)
+		else:
+			market_value.text = "%d gold per trip · ~%d / min each" % [RouteLine.value_of(market, post),
+					RouteLine.per_minute(market, post)]
+			market_value.add_theme_color_override("font_color", text_c)
+	else:
+		market_route_labels[1].text = "none"
+		market_route_labels[1].add_theme_color_override("font_color", muted)
+		market_route_labels[2].text = ""
+		market_value.text = "Right-click a trading post to set the route"
+		market_value.add_theme_color_override("font_color", muted)
+	var alive: int = (market.call(&"caravans") as Array).size() if market.has_method(&"caravans") else 0
+	var queued := int(market.call(&"queued_caravans")) if market.has_method(&"queued_caravans") else 0
+	var limit := int(market.get("CARAVAN_LIMIT")) if market.get("CARAVAN_LIMIT") != null else 6
+	market_caravans.text = "Caravans %d / %d" % [alive, limit] + (" (%d queued)" % queued if queued > 0 else "")
+	market_caravans.add_theme_color_override("font_color", UIStyle.WARN if alive + queued >= limit else text_c)
+	var team := int(market.get("team"))
+	var net := get_tree().get_first_node_in_group(&"trade_network")
+	var recent := int(net.call(&"trade_income", team, 180.0)) if net != null and net.has_method(&"trade_income") else 0
+	var bank := _gold_bank(team)
+	var total := int(bank.call(&"earned", &"trade")) if bank != null and bank.has_method(&"earned") else 0
+	market_traded.text = "Gold traded, last 3 min: %s · total %s" % [thousands(recent), thousands(total)]
+	var owned: Variant = bank.get("owned_wares") if bank != null else null
+	market_wares.text = "Wares %d / %d owned · " % [(owned as Array).size() if owned is Array else 0, WARE_COUNT]
+
+
+## The GoldBank of `team` (group "gold_banks"), or null.
+func _gold_bank(team: int) -> Node:
+	for b in get_tree().get_nodes_in_group(&"gold_banks"):
+		if b.get("team") != null and int(b.get("team")) == team:
+			return b
+	return null
+
+
+## 2140 -> "2 140".
+static func thousands(n: int) -> String:
+	var digits := str(absi(n))
+	var out := ""
+	while digits.length() > 3:
+		out = " " + digits.substr(digits.length() - 3) + out
+		digits = digits.substr(0, digits.length() - 3)
+	return ("-" if n < 0 else "") + digits + out
+
+
+## Champion view (read-only, ui-champions.md 4 + 15.3): name + title + class, HP, XP, stats with level, intent +
+## target, purse, statuses, 4 items, 6 abilities in 2 rows with cooldowns. Enemy: no XP, `Enemy champion`, no purse,
+## no sweeps.
+func _update_champion(ch: Node) -> void:
+	_show_view(champion_view)
+	var own := is_own(ch)
+	var alive := ChampionBar.is_alive(ch)
+	var guild := ChampionBar.guild_for_team(get_tree(), int(hero.team) if is_instance_valid(hero) else 0)
+	champion_name.text = ChampionBar.display_name_of(ch)
+	var title := ChampionBar.title_of(ch)
+	champion_title.text = " · " + title if title != "" else ""
+	var cid := ChampionBar.class_id_of(ch)
+	var chosen_now := ch == _champion_class_seen and cid != _champion_class_id and cid != &""
+	_champion_class_seen = ch
+	_champion_class_id = cid
+	if cid != &"":
+		champion_class_label.text = " · " + ChampionBar.class_display_name(cid)
+		champion_class_label.tooltip_text = ChampionBar.class_tooltip_for(ch)
+		champion_class_label.add_theme_color_override("font_color", UIStyle.token(&"title"))
+	else:
+		champion_class_label.text = " · no class yet"
+		champion_class_label.tooltip_text = ChampionBar.lean_tooltip(_champion_weights(ch, own), 0, own)
+		champion_class_label.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+	var max_hp := ChampionBar.max_hp_of(ch)
+	var hp := float(ch.get("hp")) if alive and ch.get("hp") != null else 0.0
+	champion_hp.max_value = max_hp
+	champion_hp.value = hp
+	champion_hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
+	champion_xp.visible = own and ch.get("xp") != null
+	if champion_xp.visible:
+		var xp := int(ch.get("xp"))
+		var next := int(ch.call(&"xp_to_next")) if ch.has_method(&"xp_to_next") else 0
+		champion_xp.max_value = float(maxi(next, 1))
+		champion_xp.value = float(xp) if next > 0 else 1.0
+		champion_xp_text.text = ChampionBar.xp_text(ch)
+	champion_stats.text = "Level %d · Damage %s · Range %s · Speed %s · Armor %s" % [ChampionBar.level_of(ch),
+			_num(_stat_of(ch, &"attack_damage")), String.num(_stat_of(ch, &"attack_range"), 1),
+			String.num(_stat_of(ch, &"move_speed"), 1), _num(_stat_of(ch, &"armor"))]
+	if own:
+		var line := ChampionBar.target_text(ch, guild)
+		if alive and ChampionBar.is_unpaid(ch):
+			line = "Unpaid!"
+		champion_intent.text = line
+		champion_intent.add_theme_color_override("font_color", ChampionBar.intent_color(line))
+		champion_purse.text = str(ChampionBar.purse_of(ch))
+	else:
+		champion_intent.text = "Enemy champion"
+		champion_intent.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+	# Intent label max width 260 (ellipsis), then the purse (15.3: the row stops at x 392).
+	var font := champion_intent.get_theme_font("font")
+	var text_w := font.get_string_size(champion_intent.text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+			champion_intent.get_theme_font_size("font_size")).x if font != null else 260.0
+	champion_intent.custom_minimum_size.x = minf(ceilf(text_w) + 1.0, 260.0)
+	champion_purse_box.visible = own
+	_update_status_row(champion_statuses, ch if alive else null)
+	champion_statuses.visible = true   # keeps its place (an empty row shows nothing)
+	var types := ChampionBar.item_types(ch)
+	var counts := ChampionBar.item_counts(ch)
+	for i in champion_items.size():
+		var icon: ChampionBar.ItemIcon = champion_items[i]
+		if icon.item_type != types[i] or icon.count != int(counts[i]):
+			icon.set_item(types[i], int(counts[i]))
+	_update_champion_abilities(ch, own)
+	if chosen_now:
+		_play_champion_class_chosen()
+
+
+## Class weights for the lean tooltip: own champions the live weights (bounties included), enemy ones the
+## archetype's base weights (ui-champions.md 15.5).
+func _champion_weights(ch: Node, own: bool) -> Dictionary:
+	return ChampionBar.class_weights_for(ch if own else ChampionBar.champion_id(ch))
+
+
+## The inspected champion just chose its class (15.3): the title's class part fades in 0.3 s, the row-2 caption
+## flashes GOLD -> title over 0.5 s, the class skills pop 1.0 -> 1.08 -> 1.0 staggered 0.05 s, slot 1 flashes ready.
+func _play_champion_class_chosen() -> void:
+	champion_class_label.modulate.a = 0.0
+	var t := create_tween()
+	t.tween_property(champion_class_label, "modulate:a", 1.0, 0.3)
+	champion_row2_caption.add_theme_color_override("font_color", UIStyle.GOLD)
+	var c := create_tween()
+	c.tween_method(func(k: float) -> void:
+		champion_row2_caption.add_theme_color_override("font_color", UIStyle.GOLD.lerp(UIStyle.token(&"title"), k)),
+		0.0, 1.0, 0.5)
+	for j in 3:
+		var slot := champion_abilities[3 + j]
+		if not slot.visible or slot.placeholder:
+			continue
+		if j == 0 and slot.modulate.a > 0.5:
+			slot.play_ready_flash()   # the unlocked first skill: ready flash (it pops too)
+		else:
+			slot.pop(0.05 * j)
+
+
+## A stat for the stat line: get_stat() when the unit has it (not for the range), else the property.
+func _stat_of(u: Node, stat: StringName) -> float:
+	if u.has_method(&"get_stat") and stat != &"attack_range":
+		return float(u.call(&"get_stat", stat))
+	var v: Variant = u.get(stat)
+	return float(v) if v != null else 0.0
+
+
+## The 6 ability slots (ui-champions.md 15.3). Row 1 = the 3 archetype ids (`abilities.archetype_ability_ids()`,
+## else the first 3 of `ability_ids()`, else the type's list); row 2 = the class's 3 skills in unlock order
+## (`abilities.class_skill_ids()`, else `ability_ids()` 4-6, else the class table), or three `?` before the level-2
+## choice (badges L2 / L3 / L5, lean tooltip). Locked ones dimmed with their `L<n>` badge; own champions show the
+## cooldown sweep from `abilities.cooldown_left(id)`. Captions: the archetype title; the class name / `Class at level 2`.
+func _update_champion_abilities(ch: Node, own: bool) -> void:
+	var abilities: Variant = ch.get("abilities")
+	if not (is_instance_valid(abilities) and abilities is Object):
+		abilities = ch.get_node_or_null(^"ChampionAbilities")
+	var ab: Object = abilities as Object if is_instance_valid(abilities) and abilities is Object else null
+	var all_ids := _champion_ids(ab, &"ability_ids")
+	var info := ChampionBar.type_info(ChampionBar.champion_id(ch))
+	var row1 := _champion_ids(ab, &"archetype_ability_ids")
+	if row1.is_empty():
+		row1.assign(all_ids.slice(0, 3))
+	if row1.is_empty():
+		for a: Variant in info.get("ability_ids", []):
+			row1.append(StringName(str(a)))
+	var cid := ChampionBar.class_id_of(ch)
+	var row2: Array[StringName] = []
+	if cid != &"":
+		row2 = _champion_ids(ab, &"class_skill_ids")
+		if row2.is_empty():
+			row2.assign(all_ids.slice(3, 6))
+		if row2.is_empty():
+			for a: Variant in ChampionBar.class_info(cid).get("ability_ids", []):
+				row2.append(StringName(str(a)))
+	var level := ChampionBar.level_of(ch)
+	var growth := float(info.get("growth_pct", 0.08))
+	var spell_power := float(ch.call(&"get_stat", &"spell_power")) if ch.has_method(&"get_stat") else 0.0
+	var type_id := ChampionBar.champion_id(ch)
+	var locked_levels: Array[int] = []
+	var weights := _champion_weights(ch, own) if cid == &"" else {}
+	for i in champion_abilities.size():
+		var slot := champion_abilities[i]
+		var name_label := champion_ability_names[i]
+		var row: Array[StringName] = row1 if i < 3 else row2
+		var j := i % 3
+		if i >= 3 and cid == &"":
+			# Before the choice: three `?` slots with the lean tooltip.
+			slot.visible = true
+			name_label.visible = true
+			var unlock := ChampionBar.CLASS_UNLOCKS[j]
+			slot.show_placeholder(unlock)
+			slot.tooltip_text = ChampionBar.lean_tooltip(weights, j + 1, own)
+			name_label.text = "Skill %d" % (j + 1)
+			locked_levels.append(unlock)
+			continue
+		var shown := j < row.size()
+		slot.visible = shown
+		name_label.visible = shown
+		if not shown:
+			continue
+		var id := row[j]
+		var a := ChampionBar.ability_info(id)
+		var unlock_at := int(a.get("unlock", 1))
+		if ab != null and ab.has_method(&"unlock_level_for"):
+			unlock_at = int(ab.call(&"unlock_level_for", id))
+		var unlocked := level >= unlock_at
+		if ab != null and ab.has_method(&"is_unlocked"):
+			unlocked = bool(ab.call(&"is_unlocked", id))
+		if not unlocked:
+			locked_levels.append(unlock_at)
+		var left := 0.0
+		if own and ab != null and ab.has_method(&"cooldown_left"):
+			left = maxf(float(ab.call(&"cooldown_left", id)), 0.0)
+		slot.show_ability(id, unlocked, left, float(a.get("cooldown", 0.0)), unlock_at)
+		slot.tooltip_text = ChampionBar.ability_tooltip(id, level if unlocked else mini(level, unlock_at - 1), growth,
+				spell_power)
+		name_label.text = ChampionBar.ability_display_name(id, type_id)
+	champion_row1_caption.text = ChampionBar.title_of(ch)
+	if cid != &"":
+		champion_row2_caption.text = ChampionBar.class_display_name(cid)
+		champion_row2_caption.tooltip_text = ChampionBar.class_tooltip_for(ch)
+		champion_row2_caption.add_theme_color_override("font_color", UIStyle.token(&"title"))
+	else:
+		champion_row2_caption.text = "Class at level 2"
+		champion_row2_caption.tooltip_text = ChampionBar.lean_tooltip(weights, 0, own)
+		champion_row2_caption.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+	# `Autocast · next at level 3`: the lowest unlock level still ahead among the locked slots (own champions).
+	var next := 0
+	for l in locked_levels:
+		if l > level and (next == 0 or l < next):
+			next = l
+	if next == 0 and not locked_levels.is_empty():
+		next = level + 1
+	champion_autocast.text = "Autocast · next at level %d" % next if own and next > 0 else "Autocast"
+
+
+## An id list from the champion's abilities node (`method` returns Array[StringName]), [] when it has none.
+func _champion_ids(ab: Object, method: StringName) -> Array[StringName]:
+	var out: Array[StringName] = []
+	if ab != null and ab.has_method(method):
+		var v: Variant = ab.call(method)
+		if v is Array or v is PackedStringArray:
+			for a: Variant in v:
+				out.append(StringName(str(a)))
+	return out
+
+
+## The names of the ability slots, row 1 then row 2, e.g. "Oath of Iron, Shield Bash, Bulwark Stand, Riposte,
+## Second Wind, Shield Throw" (for tests). The `?` slots before the class choice are not abilities: left out.
+func champion_ability_list() -> String:
+	var parts: PackedStringArray = []
+	for i in champion_abilities.size():
+		if champion_abilities[i].visible and not champion_abilities[i].placeholder:
+			parts.append(champion_ability_names[i].text)
+	return ", ".join(parts)
+
+
+## (seconds left, total seconds) of a summon's lifetime (`lifetime_left()` / `lifetime_total()`);
+## (0, 0) for permanent units.
+static func lifetime_of(u: Node) -> Vector2:
+	if u == null or not is_instance_valid(u) or not u.has_method(&"lifetime_total"):
+		return Vector2.ZERO
+	var total := float(u.call(&"lifetime_total"))
+	if total <= 0.0:
+		return Vector2.ZERO
+	var left := float(u.call(&"lifetime_left")) if u.has_method(&"lifetime_left") else total
+	return Vector2(clampf(left, 0.0, total), total)
+
+
+## Shows one chip per active status of `u` ("H 7" = Haste, 7 s left; timers from Unit.status_time_left).
+## Hides the row when `u` is null or has none.
+func _update_status_row(row: HBoxContainer, u: Node) -> void:
+	var any := false
+	var can := u != null and is_instance_valid(u) and u.has_method(&"has_status")
+	for chip: Control in row.get_children():
+		if chip.has_meta(&"mapfill"):
+			if _update_mapfill_chip(chip, u):
+				any = true
+			continue
+		var id := StringName(chip.name)
+		var on := can and bool(u.call(&"has_status", id))
+		chip.visible = on
+		if not on:
+			continue
+		any = true
+		var left := ceili(float(u.call(&"status_time_left", id)))
+		var info: Array = STATUS_INFO.get(id, ["?", String(id).capitalize(), ""])
+		(chip.get_child(0) as Label).text = "%s %d" % [info[0], left]
+		chip.tooltip_text = "%s: %s · %d s left" % [info[1], info[2], left]
+	row.visible = any
+
+
+## Text of the visible status chips of a row, e.g. "H 7, S 3" (for tests).
+func status_row_text(row: HBoxContainer) -> String:
+	var parts: Array[String] = []
+	if row.visible:
+		for chip: Control in row.get_children():
+			if chip.visible:
+				if chip.has_meta(&"mapfill"):
+					parts.append(str(chip.get_meta(&"row_text", "")))
+				else:
+					parts.append((chip.get_child(0) as Label).text)
+	return ", ".join(parts)
+
+
+## The blessing chip (`blessing:wayshrine`: shrine glyph + seconds, `Blessing 38` in status_row_text) and the wading
+## chip (`terrain:ford`: the wave glyph, `Wading`) after the timed statuses (ui-mapfill.md 8). True when shown.
+func _update_mapfill_chip(chip: Control, u: Node) -> bool:
+	var has_mod := u != null and is_instance_valid(u) and u.has_method(&"has_modifier")
+	if chip.name == String(BLESSING_CHIP):
+		var on := has_mod and bool(u.call(&"has_modifier", BLESSING_MODIFIER))
+		chip.visible = on
+		if on:
+			var secs := ceili(_blessing_left(int(u.get(&"team")) if u.get(&"team") != null else 0))
+			(chip.get_node(^"Row/Secs") as Label).text = str(secs)
+			chip.set_meta(&"row_text", "Blessing %d" % secs)
+			chip.tooltip_text = "Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s" % secs
+		return on
+	var wading := has_mod and bool(u.call(&"has_modifier", FORD_MODIFIER))
+	chip.visible = wading
+	return wading
+
+
+## Seconds of Wayfarer's Blessing `team` has left (CapturePoints.blessing_time_left), 0 without the service.
+func _blessing_left(team: int) -> float:
+	var cp := get_tree().get_first_node_in_group(&"capture_points_service") if is_inside_tree() else null
+	if cp == null or not cp.has_method(&"blessing_time_left"):
+		return 0.0
+	return float(cp.call(&"blessing_time_left", team))
+
+
+## The two map-fill chips at the end of a status row.
+func _add_mapfill_chips(row: HBoxContainer) -> void:
+	var gold := UIStyle.GOLD
+	var bless := PanelContainer.new()
+	bless.name = String(BLESSING_CHIP)
+	bless.set_meta(&"mapfill", true)
+	bless.set_meta(&"row_text", "Blessing")
+	bless.custom_minimum_size = Vector2(40, 20)
+	bless.mouse_filter = Control.MOUSE_FILTER_STOP
+	var bs := UIStyle.slate_style(0.0, gold)
+	bs.content_margin_left = 4.0
+	bs.content_margin_right = 4.0
+	bless.add_theme_stylebox_override("panel", bs)
+	var brow := HBoxContainer.new()
+	brow.name = "Row"
+	brow.add_theme_constant_override("separation", 3)
+	brow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bless.add_child(brow)
+	var glyph := Control.new()
+	glyph.custom_minimum_size = Vector2(10, 10)
+	glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	glyph.draw.connect(func() -> void: draw_shrine_glyph(glyph, Vector2.ZERO, 10.0, gold))
+	brow.add_child(glyph)
+	var secs := UIStyle.panel_label("", 12)
+	secs.name = "Secs"
+	secs.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	secs.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	brow.add_child(secs)
+	bless.visible = false
+	row.add_child(bless)
+	var wade := PanelContainer.new()
+	wade.name = String(WADING_CHIP)
+	wade.set_meta(&"mapfill", true)
+	wade.set_meta(&"row_text", "Wading")
+	wade.custom_minimum_size = Vector2(20, 20)
+	wade.mouse_filter = Control.MOUSE_FILTER_STOP
+	wade.tooltip_text = "Wading: -35 % speed"
+	wade.add_theme_stylebox_override("panel", UIStyle.slate_style(0.0, UIStyle.WARN))
+	var wave := Control.new()
+	wave.custom_minimum_size = Vector2(12, 8)
+	wave.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	wave.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	wave.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	wave.draw.connect(func() -> void: draw_wave_glyph(wave, Vector2.ZERO))
+	wade.add_child(wave)
+	wade.visible = false
+	row.add_child(wade)
+
+
+## The Wayshrine glyph (ui-mapfill.md 2.3) in a box of `s` px at `o`: diamond + the floating rune, groove outline.
+static func draw_shrine_glyph(ci: CanvasItem, o: Vector2, s: float, color: Color) -> void:
+	var k := s / 18.0
+	var pts := PackedVector2Array([o + Vector2(9, 5) * k, o + Vector2(14.5, 11) * k, o + Vector2(9, 17) * k,
+			o + Vector2(3.5, 11) * k])
+	ci.draw_colored_polygon(pts, color)
+	var closed := pts.duplicate()
+	closed.append(pts[0])
+	ci.draw_polyline(closed, UIStyle.token(&"groove"), 1.0, true)
+	ci.draw_circle(o + Vector2(9, 2) * k, maxf(1.5 * k, 1.0), color)
+
+
+## The wave glyph 12 x 8 at `o`: three 1.5 px sine lines (amplitude 1 px, period 6 px) at y 2 / 5 / 8, WADE colour.
+static func draw_wave_glyph(ci: CanvasItem, o: Vector2) -> void:
+	for y: float in [1.0, 4.0, 7.0]:
+		var pts := PackedVector2Array()
+		for i in 13:
+			pts.append(o + Vector2(float(i), y + sin(float(i) / 6.0 * TAU)))
+		ci.draw_polyline(pts, WADE_COLOR, 1.5, true)
+
+
+## Soldier level names (levels.md "Unit veterancy"; rank 4 is "Paragon", champions.md 1).
+static func rank_name(level: int) -> String:
+	return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]
+
+
+## XP a soldier needs for its next level (cumulative, from Unit.VETERANCY_XP), 0 at Paragon.
+func _veteran_next(u: Unit, level: int) -> int:
+	if u.has_method(&"veterancy_next_xp"):
+		return int(u.call(&"veterancy_next_xp"))
+	return Unit.VETERANCY_XP[level] if level >= 1 and level < Unit.VETERANCY_XP.size() else 0
+
+
+## 13.2 -> "13.2", 12.0 -> "12".
+func _num(v: float) -> String:
+	if absf(v - roundf(v)) < 0.05:
+		return str(roundi(v))
+	return String.num(v, 1)
+
+
+func _update_multi(units: Array[Unit]) -> void:
+	_show_view(multi_view)
+	var counts := {}
+	var order: Array[String] = []
+	for u in units:
+		if not counts.has(u.unit_name):
+			order.append(u.unit_name)
+		counts[u.unit_name] = counts.get(u.unit_name, 0) + 1
+	var parts: Array[String] = []
+	for unit_name in order:
+		parts.append("%d %s" % [counts[unit_name], unit_name])
+	multi_header.text = "%d selected:  %s" % [units.size(), ", ".join(parts)]
+	_icon_units.clear()
+	for i in MAX_ICONS:
+		var b := icons[i]
+		if i >= units.size():
+			b.visible = false
+			continue
+		var u := units[i]
+		_icon_units.append(u)
+		b.visible = true
+		b.text = UIStyle.abbrev(u.unit_name)
+		b.tooltip_text = "%s  HP %d / %d" % [u.unit_name, ceili(u.hp), int(u.max_hp)]
+		var life := lifetime_of(u)
+		if life.y > 0.0:
+			b.tooltip_text += "  ·  withers in %d s" % ceili(life.x)
+		var ratio := clampf(u.hp / maxf(u.max_hp, 1.0), 0.0, 1.0)
+		var strip := _icon_strips[i]
+		strip.color = UIStyle.health_color(ratio)
+		strip.size.x = ICON_SIZE * ratio
+		# Veterancy dots: 1-3 gold dots for Veteran / Elite / Paragon soldiers.
+		var marks := 0
+		if not (u is Wizard) and u.get("level") != null:
+			marks = clampi(int(u.get("level")) - 1, 0, 3)
+		var dots: Array = _icon_dots[i]
+		for j in dots.size():
+			(dots[j] as ColorRect).visible = j < marks
+		# Status dots (bottom left, above the HP strip), one colour per active status.
+		var status_dots: Dictionary = _icon_status_dots[i]
+		var has := u.has_method(&"has_status")
+		for id: StringName in status_dots:
+			(status_dots[id] as ColorRect).visible = has and u.has_status(id)
+		_icon_coins[i].visible = u.is_in_group(&"caravans") and u.has_method(&"is_loaded") and bool(u.call(&"is_loaded"))
+
+
+func _update_keep(keep: Node3D) -> void:
+	_show_view(keep_view)
+	var type: Variant = keep.get("building_type")
+	keep_name.text = str(type.get("display_name")) if type is Object else "Keep"
+	var max_hp := float(keep.get("max_hp")) if keep.get("max_hp") != null else 0.0
+	var hp := float(keep.get("hp")) if keep.get("hp") != null else max_hp
+	keep_hp.max_value = maxf(max_hp, 1.0)
+	keep_hp.value = hp
+	keep_hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
+	var site := keep.has_method("is_constructed") and not bool(keep.call("is_constructed"))
+	var trainer := keep.has_method("queue_unit") and not site
+	var market := CommandCard.is_market(keep)
+	site_row.visible = site
+	_queue_row.visible = trainer
+	rally_label.visible = trainer and keep.has_method("set_rally_point") and not market   # the Bazaar has a route
+	if market and not site and is_own(keep):
+		_update_market_block(keep)
+	building_info.visible = true
+	if site:
+		_update_site(keep)
+		return
+	building_info.text = _building_info_text(type)
+	building_info.visible = building_info.text != ""
+	if not trainer:
+		return
+	var queue: Array = _queue_of(keep)
+	for i in QUEUE_SLOTS:
+		var b := queue_buttons[i]
+		if i < queue.size() and queue[i] != null:
+			var type_name := str(queue[i].get("display_name"))
+			b.text = UIStyle.abbrev(type_name)
+			b.tooltip_text = "%s\nClick to cancel (full refund)." % type_name
+			b.modulate.a = 1.0
+		else:
+			b.text = ""
+			b.tooltip_text = ""
+			b.modulate.a = 0.45
+	var progress := 0.0
+	if not queue.is_empty() and keep.has_method("train_progress"):
+		progress = float(keep.call("train_progress"))
+	queue_progress.value = clampf(progress, 0.0, 1.0)
+	var on_node := keep.has_method("rally_is_node") and bool(keep.call("rally_is_node"))
+	rally_label.text = "Rally: gather node" if on_node else "Rally: set"
+
+
+## Construction site: progress bar and "Under construction 45 %  ·  2 builders (x1.5)".
+func _update_site(site: Node3D) -> void:
+	var progress := float(site.call("construction_progress")) if site.has_method("construction_progress") else 0.0
+	site_progress.value = clampf(progress, 0.0, 1.0)
+	var builders := int(site.call("builder_count")) if site.has_method("builder_count") else 0
+	var speed := float(site.call("build_speed")) if site.has_method("build_speed") else 0.0
+	var line := "Under construction  %d %%" % floori(progress * 100.0)
+	if builders > 0:
+		line += "  ·  %d builder%s (x%s)" % [builders, "" if builders == 1 else "s", String.num(speed, 1)]
+	else:
+		line += "  ·  Paused: right-click it with workers"
+	building_info.text = line
+
+
+## One line about a finished building: pop bonus, drop-off, tower stats.
+func _building_info_text(type: Variant) -> String:
+	if not type is BuildingType:
+		return ""
+	var t := type as BuildingType
+	var parts: Array[String] = []
+	if t.pop_bonus > 0:
+		parts.append("+%d population" % t.pop_bonus)
+	if t.kind == &"keep" or t.kind == &"barracks":
+		parts.append("Crystal drop-off")
+	if t.kind == &"tower":
+		parts.append("Damage %d · Range %d · Every %s s" % [roundi(t.attack_damage), roundi(t.attack_range),
+				String.num(t.attack_cooldown, 1)])
+	return "  ·  ".join(parts)
+
+
+## Cancel button of a selected construction site (same as Delete).
+func _cancel_site() -> void:
+	if selection:
+		selection.cancel_site()
+
+
+func _queue_of(keep: Node) -> Array:
+	var q: Variant = keep.get("queue")
+	return q if q is Array else []
+
+
+func _show_view(view: Control) -> void:
+	if view == _shown_view:
+		return
+	_shown_view = view
+	for v in [nothing_view, single_view, multi_view, keep_view, champion_view]:
+		(v as Control).visible = v == view
+	# One portrait for the HUD: it moves into the single-unit, building or champion view.
+	var slot: HBoxContainer = _single_portrait_slot if view == single_view else (
+			_keep_portrait_slot if view == keep_view else (
+			_champion_portrait_slot if view == champion_view else null))
+	if slot != null and portrait.get_parent() != slot:
+		if portrait.get_parent():
+			portrait.get_parent().remove_child(portrait)
+		slot.add_child(portrait)
+		slot.move_child(portrait, 0)
+	# The new view fades in over 0.1 s.
+	if _view_tween:
+		_view_tween.kill()
+	view.modulate.a = 0.0
+	_view_tween = create_tween()
+	_view_tween.tween_property(view, "modulate:a", 1.0, 0.1)
+
+
+# ---------------------------------------------------------------- builders
+
+func _build_hero_column() -> Control:
+	# levels.md "HUD": badge (282, 670) + name, HP (282, 706), mana (282, 734), XP (282, 762),
+	# then the respawn countdown and the points chip (492, 784), then the crown line.
+	var box := VBoxContainer.new()
+	box.custom_minimum_size = Vector2(HERO_WIDTH - 10.0, 0)
+	box.add_theme_constant_override("separation", 6)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_right", 10)
+	# Faint trim_glow aura behind the hero (to 60 % of the height) and the 1 px trim line along the top.
+	var aura_holder := Control.new()
+	aura_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_child(aura_holder)
+	_aura = TextureRect.new()
+	_aura.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_aura.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_aura.stretch_mode = TextureRect.STRETCH_SCALE
+	_aura.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_aura.offset_left = -4
+	_aura.offset_top = -4
+	_aura.texture = _aura_texture()
+	aura_holder.add_child(_aura)
+	hero_trim = ColorRect.new()
+	hero_trim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hero_trim.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	hero_trim.offset_top = -5
+	hero_trim.offset_bottom = -4
+	hero_trim.offset_left = -4
+	hero_trim.color = _trim_color()
+	aura_holder.add_child(hero_trim)
+	margin.add_child(box)
+
+	var name_row := HBoxContainer.new()
+	name_row.custom_minimum_size = Vector2(0, 30)
+	name_row.add_theme_constant_override("separation", 8)
+	box.add_child(name_row)
+	hero_badge = Panel.new()
+	hero_badge.custom_minimum_size = Vector2(28, 28)
+	hero_badge.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	hero_badge.pivot_offset = Vector2(14, 14)
+	hero_badge.mouse_filter = Control.MOUSE_FILTER_STOP   # for its tooltip "Level N · XP x / y · N spell points"
+	hero_badge.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	hero_badge.draw.connect(_draw_badge)
+	hero_level = UIStyle.display_label("1", 16, UIStyle.GOLD)
+	hero_level.set_anchors_preset(Control.PRESET_FULL_RECT)
+	hero_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hero_level.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	hero_badge.add_child(hero_level)
+	name_row.add_child(hero_badge)
+
+	hero_name = Button.new()
+	hero_name.flat = true
+	hero_name.focus_mode = Control.FOCUS_NONE
+	hero_name.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	hero_name.text = "Your wizard"
+	hero_name.tooltip_text = "Select your wizard  [F1]"
+	hero_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hero_name.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	hero_name.add_theme_font_size_override("font_size", 20)
+	_style_hero_name()
+	hero_name.mouse_entered.connect(func() -> void: hero_name.queue_redraw())
+	hero_name.mouse_exited.connect(func() -> void: hero_name.queue_redraw())
+	hero_name.draw.connect(_draw_name_underline)
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		hero_name.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	hero_name.pressed.connect(_select_hero)
+	name_row.add_child(hero_name)
+	var hp := UIStyle.bar(UIStyle.HP_COLOR)
+	hero_hp = hp[0]
+	hero_hp_text = hp[1]
+	box.add_child(hero_hp)
+	_ghost = Control.new()   # ghost-damage segment, drawn right of the fill, under the ticks and text
+	_ghost.name = "Ghost"
+	_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ghost.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_ghost.draw.connect(_draw_ghost)
+	hero_hp.add_child(_ghost)
+	hero_hp.move_child(_ghost, 0)
+	var mana := UIStyle.bar(UIStyle.MANA_COLOR)
+	hero_mana = mana[0]
+	hero_mana_text = mana[1]
+	box.add_child(hero_mana)
+	var xp := UIStyle.bar(UIStyle.GOLD, 16.0)
+	hero_xp = xp[0]
+	hero_xp_text = xp[1]
+	hero_xp_text.add_theme_font_size_override("font_size", 12)
+	var xp_bg := StyleBoxFlat.new()
+	xp_bg.bg_color = Color(0.2, 0.17, 0.1)
+	xp_bg.border_color = Color(0, 0, 0, 0.8)
+	xp_bg.set_border_width_all(1)
+	xp_bg.set_corner_radius_all(2)
+	hero_xp.add_theme_stylebox_override("background", xp_bg)
+	box.add_child(hero_xp)
+	_skin_bars.append_array([hero_hp, hero_mana, hero_xp])
+
+	var status_row := HBoxContainer.new()
+	box.add_child(status_row)
+	hero_statuses = _build_status_row()   # statuses end on death, so never shown with the countdown
+	status_row.add_child(hero_statuses)
+	hero_status = UIStyle.panel_label("", 13, UIStyle.WARN)
+	hero_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hero_status.visible = false
+	status_row.add_child(hero_status)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	status_row.add_child(spacer)
+	points_chip = PanelContainer.new()
+	points_chip.custom_minimum_size = Vector2(70, 20)
+	points_chip.tooltip_text = "Learn a spell: click + on a spell, or Ctrl+%s / Ctrl+%s / Ctrl+%s" % [
+			KeyLabels.of(KEY_F), KeyLabels.of(KEY_Q), KeyLabels.of(KEY_E)]   # keyboard labels (UX.1)
+	var chip_style := StyleBoxFlat.new()
+	chip_style.bg_color = UIStyle.GOLD
+	chip_style.set_corner_radius_all(3)
+	points_chip.add_theme_stylebox_override("panel", chip_style)
+	points_text = Label.new()
+	points_text.add_theme_font_size_override("font_size", 12)
+	points_text.add_theme_color_override("font_color", Color.BLACK)
+	points_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	points_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	points_chip.add_child(points_text)
+	points_chip.visible = false
+	status_row.add_child(points_chip)
+	hero_crown = UIStyle.label("", 14)
+	hero_crown.add_theme_color_override("font_color", UIStyle.GOLD)
+	hero_crown.tooltip_text = "Dropped when your wizard dies."
+	hero_crown.visible = false
+	box.add_child(hero_crown)
+	return margin
+
+
+## [portrait slot + text column]: the shared 96 x 96 portrait sits at (588, 670), the texts at x 696.
+func _portrait_row(outer: VBoxContainer) -> Array:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	outer.add_child(row)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(box)
+	return [row, box]
+
+
+func _build_single_view() -> VBoxContainer:
+	var outer := VBoxContainer.new()
+	var parts := _portrait_row(outer)
+	_single_portrait_slot = parts[0]
+	var box: VBoxContainer = parts[1]
+	single_view = outer
+	# Name row: the name (Cinzel 20) + an epic beast's subtitle (` · Epic beast` + the variant word in GOLD, font 14).
+	var name_row := HBoxContainer.new()
+	name_row.add_theme_constant_override("separation", 0)
+	name_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(name_row)
+	single_name = UIStyle.display_label("", 20)
+	_title_labels.append(single_name)
+	name_row.add_child(single_name)
+	single_name_suffix = UIStyle.panel_label("", 14)
+	single_name_suffix.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	single_name_suffix.visible = false
+	name_row.add_child(single_name_suffix)
+	single_name_variant = UIStyle.panel_label("", 14, UIStyle.GOLD)
+	single_name_variant.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	single_name_variant.visible = false
+	name_row.add_child(single_name_variant)
+	var hp := UIStyle.bar(UIStyle.HP_COLOR)
+	single_hp = hp[0]
+	single_hp_text = hp[1]
+	single_hp.custom_minimum_size = Vector2(280, 22)
+	single_hp.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box.add_child(single_hp)
+	single_stats_row = HBoxContainer.new()
+	single_stats_row.add_theme_constant_override("separation", 0)
+	single_stats_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(single_stats_row)
+	single_stats = UIStyle.panel_label("", 14)
+	single_stats_row.add_child(single_stats)
+	single_stats_extra = UIStyle.panel_label("", 14, GOLD_TEXT)   # a Magpie's " · Carrying 60 gold"
+	single_stats_extra.visible = false
+	single_stats_row.add_child(single_stats_extra)
+	# Caravans (ui-trade.md 6.2): (coin) "Cargo 119 gold" + " · Route: " + "Saltgate" + " (far)", font 14.
+	cargo_row = HBoxContainer.new()
+	cargo_row.add_theme_constant_override("separation", 0)
+	cargo_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cargo_row.visible = false
+	single_stats_row.add_child(cargo_row)
+	cargo_coin = Control.new()
+	cargo_coin.custom_minimum_size = Vector2(16, 12)
+	cargo_coin.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	cargo_coin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cargo_coin.draw.connect(func() -> void: draw_coin(cargo_coin, Vector2(6, 6), 6.0))
+	cargo_row.add_child(cargo_coin)
+	for i in 4:
+		var l := UIStyle.panel_label("", 14)
+		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		cargo_row.add_child(l)
+		cargo_labels.append(l)
+	single_state = UIStyle.panel_label("", 14)
+	single_state.visible = false
+	box.add_child(single_state)
+	# Map fill (ui-mapfill.md 5.1 / 6.2): two font-13 rows under the stat line (camp + reward, or drops + lair).
+	for i in 2:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 0)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.visible = false
+		box.add_child(row)
+		single_extra_rows.append(row)
+	var mana := UIStyle.bar(UIStyle.MANA_COLOR)
+	single_mana = mana[0]
+	single_mana_text = mana[1]
+	single_mana.custom_minimum_size = Vector2(280, 22)
+	single_mana.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box.add_child(single_mana)
+	# Summons (Saplings, 8.U1): lifetime bar "Withers in 18 s", drains from full to empty.
+	var life := UIStyle.bar(LIFETIME_COLOR, 16.0)
+	single_lifetime = life[0]
+	single_lifetime_text = life[1]
+	single_lifetime_text.add_theme_font_size_override("font_size", 12)
+	single_lifetime.custom_minimum_size = Vector2(280, 16)
+	single_lifetime.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	single_lifetime.tooltip_text = "Summoned: withers when the time runs out."
+	single_lifetime.mouse_filter = Control.MOUSE_FILTER_STOP
+	single_lifetime.visible = false
+	box.add_child(single_lifetime)
+	single_statuses = _build_status_row()
+	box.add_child(single_statuses)
+	_skin_bars.append_array([single_hp, single_mana, single_lifetime])
+	return outer
+
+
+## The Bazaar block (ui-trade.md 5.2): 264 x 100 at (1000, 676), five lines at y 676 / 696 / 716 / 736 (font 13) and
+## 756 (font 12), clipped with an ellipsis; mouse-transparent.
+func _build_market_block() -> Control:
+	var block := Control.new()
+	block.name = "MarketBlock"
+	block.position = MARKET_BLOCK_POS
+	block.size = MARKET_BLOCK_SIZE
+	block.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	block.visible = false
+	market_route_row = HBoxContainer.new()
+	market_route_row.position = Vector2(0, 0)
+	market_route_row.size = Vector2(MARKET_BLOCK_SIZE.x, 18)
+	market_route_row.clip_contents = true
+	market_route_row.add_theme_constant_override("separation", 0)
+	market_route_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	block.add_child(market_route_row)
+	for i in 3:
+		var l := UIStyle.panel_label("", 13)
+		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		market_route_row.add_child(l)
+		market_route_labels.append(l)
+	market_value = _block_line(block, 20.0, 13)
+	market_caravans = _block_line(block, 40.0, 13)
+	market_traded = _block_line(block, 60.0, 13)
+	market_wares_row = HBoxContainer.new()
+	market_wares_row.position = Vector2(0, 80)
+	market_wares_row.size = Vector2(MARKET_BLOCK_SIZE.x, 18)
+	market_wares_row.add_theme_constant_override("separation", 0)
+	market_wares_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	block.add_child(market_wares_row)
+	market_wares = UIStyle.panel_label("", 12)
+	market_wares.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_muted_labels.append(market_wares)
+	market_wares_row.add_child(market_wares)
+	market_wares_badge = UIStyle.panel_label("U", 12, Color.BLACK)
+	var badge := StyleBoxFlat.new()
+	badge.bg_color = UIStyle.GOLD
+	badge.set_corner_radius_all(2)
+	market_wares_badge.add_theme_stylebox_override("normal", badge)
+	market_wares_badge.custom_minimum_size = Vector2(18, 14)
+	market_wares_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	market_wares_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	market_wares_badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	market_wares_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	market_wares_row.add_child(market_wares_badge)
+	return block
+
+
+func _block_line(block: Control, y: float, font_size: int) -> Label:
+	var l := UIStyle.panel_label("", font_size)
+	l.position = Vector2(0, y)
+	l.size = Vector2(MARKET_BLOCK_SIZE.x, 18)
+	l.clip_text = true
+	l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	block.add_child(l)
+	return l
+
+
+## The epic-beast ability block (ui-mapfill.md 6.2): 3 slots 48 x 48 at (1000 + 58 j, 676) with names (font 11,
+## muted, 54 wide, ellipsis) at y 728; tooltips only.
+func _build_beast_block() -> Control:
+	var block := Control.new()
+	block.name = "BeastBlock"
+	block.position = BEAST_BLOCK_POS
+	block.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	block.visible = false
+	for j in 3:
+		var slot := BeastAbilitySlot.new()
+		slot.position = Vector2(BEAST_SLOT_STEP * j, 0)
+		block.add_child(slot)
+		beast_slots.append(slot)
+		var n := UIStyle.panel_label("", 11)
+		n.clip_text = true
+		n.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		n.position = Vector2(BEAST_SLOT_STEP * j, 52)
+		n.size = Vector2(54, 14)
+		n.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_muted_labels.append(n)
+		block.add_child(n)
+		beast_slot_names.append(n)
+	return block
+
+
+## Champion view (ui-champions.md 4), a plain Control over the selection area (588, 670): portrait 96 at (0, 0);
+## name row (108, 0); HP 280 x 22 (108, 30); XP 280 x 14 (108, 56); stats (108, 76); intent + purse (108, 96);
+## status chips (108, 116); items 36 at (108 + 40 i, 156). Step 11 (ui-champions.md 15.3): the name row is 392 wide
+## (name + title + class); the stat / intent rows stop at x 392; the ability block moves right: captions 156 x 12
+## at (516, 0) / (516, 82), row 1 slots 48 at (516 + 54 j, 14) + names y 64, row 2 at (516 + 54 j, 96) + names
+## y 146, autocast line (516, 164).
+func _build_champion_view() -> Control:
+	var view := Control.new()
+	view.mouse_filter = Control.MOUSE_FILTER_IGNORE   # children placed by hand; no minimum size (the area keeps its width)
+	_champion_portrait_slot = HBoxContainer.new()
+	_champion_portrait_slot.position = Vector2.ZERO
+	_champion_portrait_slot.size = Vector2(96, 96)
+	_champion_portrait_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	view.add_child(_champion_portrait_slot)
+	var name_row := HBoxContainer.new()
+	name_row.position = Vector2(108, 0)
+	name_row.size = Vector2(392, 24)
+	name_row.add_theme_constant_override("separation", 0)
+	name_row.clip_contents = true
+	name_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	view.add_child(name_row)
+	champion_name = UIStyle.display_label("", 20)
+	_title_labels.append(champion_name)
+	name_row.add_child(champion_name)
+	champion_title = UIStyle.panel_label("", 13)
+	champion_title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	name_row.add_child(champion_title)
+	champion_class_label = ChampionBar.TipLabel.new()
+	champion_class_label.add_theme_font_size_override("font_size", 13)
+	champion_class_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	# Takes what is left of the 392 px (no minimum width, so the row never grows past 392): ellipsis if too long.
+	champion_class_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	champion_class_label.clip_text = true
+	champion_class_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	champion_class_label.mouse_filter = Control.MOUSE_FILTER_STOP
+	name_row.add_child(champion_class_label)
+	var hp := UIStyle.bar(UIStyle.HP_COLOR)
+	champion_hp = hp[0]
+	champion_hp_text = hp[1]
+	champion_hp.position = Vector2(108, 30)
+	champion_hp.size = Vector2(280, 22)
+	view.add_child(champion_hp)
+	var xp := UIStyle.bar(UIStyle.GOLD, 14.0)
+	champion_xp = xp[0]
+	champion_xp_text = xp[1]
+	champion_xp_text.add_theme_font_size_override("font_size", 11)
+	var xp_bg := StyleBoxFlat.new()
+	xp_bg.bg_color = Color(0.2, 0.17, 0.1)
+	xp_bg.border_color = Color(0, 0, 0, 0.8)
+	xp_bg.set_border_width_all(1)
+	xp_bg.set_corner_radius_all(2)
+	champion_xp.add_theme_stylebox_override("background", xp_bg)
+	champion_xp.position = Vector2(108, 56)
+	champion_xp.size = Vector2(280, 14)
+	view.add_child(champion_xp)
+	_skin_bars.append(champion_hp)
+	champion_stats = UIStyle.panel_label("", 14)
+	champion_stats.clip_text = true   # before the size: a long line would widen the label into the ability block
+	champion_stats.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	champion_stats.position = Vector2(108, 74)
+	champion_stats.size = Vector2(392, 20)
+	view.add_child(champion_stats)
+	var intent_row := HBoxContainer.new()
+	intent_row.position = Vector2(108, 94)
+	intent_row.size = Vector2(392, 20)
+	intent_row.add_theme_constant_override("separation", 0)
+	intent_row.clip_contents = true
+	intent_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	view.add_child(intent_row)
+	champion_intent = UIStyle.panel_label("", 14)
+	champion_intent.clip_text = true   # max width 260 (set with the text), then the purse
+	champion_intent.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	intent_row.add_child(champion_intent)
+	champion_purse_box = HBoxContainer.new()
+	champion_purse_box.add_theme_constant_override("separation", 3)
+	champion_purse_box.mouse_filter = Control.MOUSE_FILTER_STOP
+	champion_purse_box.tooltip_text = "Its own essence: bounties and loot. It buys its own items."
+	intent_row.add_child(champion_purse_box)
+	var purse_word := UIStyle.panel_label("  ·  Purse ", 14)
+	_muted_labels.append(purse_word)
+	champion_purse_box.add_child(purse_word)
+	var flame := Control.new()
+	flame.custom_minimum_size = Vector2(10, 12)
+	flame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	flame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	flame.draw.connect(func() -> void: ChampionBar.draw_flame(flame, Vector2.ZERO, 12.0))
+	champion_purse_box.add_child(flame)
+	champion_purse = UIStyle.number_label("", 14, UIStyle.ESSENCE_TEXT)
+	champion_purse_box.add_child(champion_purse)
+	champion_statuses = _build_status_row()
+	champion_statuses.position = Vector2(108, 116)
+	view.add_child(champion_statuses)
+	for i in 4:
+		var slot := ChampionBar.ItemIcon.make(null, 36.0)
+		slot.position = Vector2(108 + 40 * i, 156)
+		view.add_child(slot)
+		champion_items.append(slot)
+	# Ability block x 516-672 (1104-1260 on screen): row 1 = archetype, row 2 = class (ui-champions.md 15.3).
+	champion_row1_caption = _champion_caption(Vector2(516, 0))
+	_muted_labels.append(champion_row1_caption)
+	view.add_child(champion_row1_caption)
+	champion_row2_caption = _champion_caption(Vector2(516, 82))
+	champion_row2_caption.mouse_filter = Control.MOUSE_FILTER_STOP
+	view.add_child(champion_row2_caption)
+	for k in 6:
+		var row := 1 if k >= 3 else 0
+		var j := k % 3
+		var a := AbilitySlot.new()
+		a.position = Vector2(516 + 54 * j, 14 + 82 * row)
+		view.add_child(a)
+		champion_abilities.append(a)
+		var n := UIStyle.panel_label("", 11)
+		n.clip_text = true
+		n.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		n.position = Vector2(516 + 54 * j, 64 + 82 * row)
+		n.size = Vector2(50, 14)
+		n.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_muted_labels.append(n)
+		view.add_child(n)
+		champion_ability_names.append(n)
+	champion_autocast = UIStyle.panel_label("Autocast", 11)
+	champion_autocast.clip_text = true
+	champion_autocast.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	champion_autocast.position = Vector2(516, 164)
+	champion_autocast.size = Vector2(156, 14)
+	_muted_labels.append(champion_autocast)
+	view.add_child(champion_autocast)
+	view.visible = false
+	return view
+
+
+## A 156 x 12 caption of the champion ability block (font 10).
+func _champion_caption(at: Vector2) -> Label:
+	var l := ChampionBar.TipLabel.new()
+	l.add_theme_font_size_override("font_size", 10)
+	l.clip_text = true
+	l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	l.position = at
+	l.size = Vector2(156, 12)
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return l
+
+
+## One ability slot of the champion view (48 x 48): slot frame, icon 40 inset 4 or the abbreviation, the radial
+## cooldown sweep + seconds (own champions), the ready flash, `L4` badge + alpha 0.45 while locked. Tooltip only.
+class AbilitySlot extends Panel:
+	var ability_id: StringName = &""
+	var ratio := 0.0              ## Remaining cooldown fraction (0 = ready).
+	var icon: TextureRect
+	var abbrev: Label
+	var seconds: Label
+	var badge: PanelContainer
+	var question: Label           ## The `?` of a class skill not chosen yet.
+	var placeholder := false      ## True while it shows a `?` (show_placeholder).
+	var _sweep: Control
+	var _was_cooling := false
+	var _flash_left := 0.0
+	var _cd_total := 0.0
+
+	func _ready() -> void:
+		custom_minimum_size = Vector2(48, 48)
+		size = Vector2(48, 48)
+		pivot_offset = Vector2(24, 24)
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		icon = TextureRect.new()
+		icon.position = Vector2(4, 4)
+		icon.size = Vector2(40, 40)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(icon)
+		abbrev = UIStyle.panel_label("", 14)
+		abbrev.set_anchors_preset(Control.PRESET_FULL_RECT)
+		abbrev.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		abbrev.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		abbrev.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(abbrev)
+		_sweep = Control.new()
+		_sweep.set_anchors_preset(Control.PRESET_FULL_RECT)
+		_sweep.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_sweep.draw.connect(func() -> void:
+			ItemTooltip.HudSkin.draw_sweep(_sweep, Rect2(Vector2(3, 3), size - Vector2(6, 6)), ratio))
+		add_child(_sweep)
+		seconds = UIStyle.label("", 14)
+		seconds.set_anchors_preset(Control.PRESET_FULL_RECT)
+		seconds.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		seconds.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		seconds.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(seconds)
+		badge = PanelContainer.new()
+		badge.position = Vector2(26, 32)
+		badge.custom_minimum_size = Vector2(20, 14)
+		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var bs := StyleBoxFlat.new()
+		bs.bg_color = Color(0, 0, 0, 0.75)
+		bs.set_corner_radius_all(2)
+		badge.add_theme_stylebox_override("panel", bs)
+		var bl := UIStyle.panel_label("L4", 10, UIStyle.GOLD)
+		bl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		bl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		badge.add_child(bl)
+		badge.visible = false
+		add_child(badge)
+		question = UIStyle.display_label("?", 18)
+		question.set_anchors_preset(Control.PRESET_FULL_RECT)
+		question.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		question.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		question.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		question.visible = false
+		add_child(question)
+		apply_skin()
+
+	func apply_skin() -> void:
+		add_theme_stylebox_override("panel", UIStyle.button_frame(&"normal"))
+		if question != null:
+			question.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+
+	## A class skill not chosen yet (ui-champions.md 15.3): a `?` Cinzel 18 `text_muted`, alpha 0.45, badge `L<n>`.
+	func show_placeholder(unlock_level: int) -> void:
+		placeholder = true
+		ability_id = &""
+		icon.texture = null
+		abbrev.text = ""
+		question.visible = true
+		seconds.text = ""
+		ratio = 0.0
+		_cd_total = 0.0
+		_was_cooling = false
+		modulate.a = 0.45
+		badge.visible = true
+		(badge.get_child(0) as Label).text = "L%d" % unlock_level
+		_sweep.queue_redraw()
+
+	## Pop 1.0 -> 1.08 -> 1.0 in 0.2 s after `delay` seconds (class chosen: the `?` swap to the class skills).
+	func pop(delay := 0.0) -> void:
+		var t := create_tween()
+		if delay > 0.0:
+			t.tween_interval(delay)
+		t.tween_property(self, "scale", Vector2(1.08, 1.08), 0.1)
+		t.tween_property(self, "scale", Vector2.ONE, 0.1)
+
+	## The ready flash, on demand (the first class skill when the class is chosen).
+	func play_ready_flash() -> void:
+		_ready_flash()
+
+	## `left` seconds of cooldown out of `total` (0 = ready, no sweep); locked = alpha 0.45 + the `L4` badge.
+	func show_ability(id: StringName, unlocked: bool, left: float, total: float, unlock_level: int) -> void:
+		if placeholder:
+			placeholder = false
+			question.visible = false
+			ability_id = &""
+		if id != ability_id:
+			ability_id = id
+			icon.texture = SelectionPanel.ability_icon(id)
+			abbrev.text = "" if icon.texture != null else UIStyle.abbrev(str(ChampionBar.ability_info(id).get("name", "")))
+			_cd_total = 0.0
+		if left > 0.0:
+			_cd_total = maxf(maxf(_cd_total, total), left)
+			ratio = clampf(left / _cd_total, 0.0, 1.0)
+		else:
+			ratio = 0.0
+			_cd_total = 0.0
+		seconds.text = str(ceili(left)) if left > 0.0 else ""
+		if _was_cooling and left <= 0.0:
+			_ready_flash()
+		_was_cooling = left > 0.0
+		modulate.a = 1.0 if unlocked else 0.45
+		badge.visible = not unlocked
+		(badge.get_child(0) as Label).text = "L%d" % unlock_level
+		_sweep.queue_redraw()
+
+	## Ready flash (ui-style.md 6.2): the rim flashes trim_glow and the slot pops 1.0 -> 1.08 -> 1.0.
+	func _ready_flash() -> void:
+		add_theme_stylebox_override("panel", UIStyle.button_frame(&"normal", UIStyle.token(&"trim_glow")))
+		var t := create_tween()
+		t.tween_property(self, "scale", Vector2(1.08, 1.08), 0.1)
+		t.tween_property(self, "scale", Vector2.ONE, 0.1)
+		t.tween_callback(apply_skin).set_delay(0.05)
+
+	func _make_custom_tooltip(for_text: String) -> Object:
+		return ChampionBar.styled_tooltip(for_text)
+
+
+## An epic beast's ability slot (ui-mapfill.md 6.2): the champion slot look with the radial cooldown sweep (beasts are
+## PvE, so their timers show), no seconds, no ready flash, no lock badge.
+class BeastAbilitySlot extends AbilitySlot:
+	func show_beast_ability(id: StringName, abbr: String, left: float, total: float) -> void:
+		show_ability(id, true, left, total, 1)
+		if icon.texture == null:
+			abbrev.text = abbr
+		seconds.text = ""
+
+	func _ready_flash() -> void:
+		pass   # no ready flash on beasts
+
+
+## Ability icon: `art/icons/abilities/<id>.png` (new icon kind), else null (the abbreviation shows).
+static func ability_icon(id: StringName) -> Texture2D:
+	return IconLibrary.icon_for(&"abilities", id)
+
+
+## Every status the panel can mark: Unit.STATUSES plus the Ice / Nature ones of kingdom-ice.md 2.1
+## (listed even before the unit script knows them, so the chips exist as soon as gameplay applies them).
+static func status_ids() -> Array[StringName]:
+	var out: Array[StringName] = []
+	for id: StringName in Unit.STATUSES:
+		out.append(id)
+	for id: StringName in STATUS_COLORS:
+		if not out.has(id):
+			out.append(id)
+	return out
+
+
+## The mark colour of a status: STATUS_COLORS (chill / frozen / rooted) first, else Unit.STATUSES.
+static func status_color(id: StringName) -> Color:
+	if STATUS_COLORS.has(id):
+		return STATUS_COLORS[id]
+	if Unit.STATUSES.has(id) and (Unit.STATUSES[id] as Dictionary).has("color"):
+		return Unit.STATUSES[id]["color"]
+	return Color(0.8, 0.8, 0.8)
+
+
+## A row with one hidden chip per status of status_ids() (chip name = status id).
+func _build_status_row() -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+	row.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	for id: StringName in status_ids():
+		var color := status_color(id)
+		var chip := PanelContainer.new()
+		chip.name = String(id)
+		chip.custom_minimum_size = Vector2(40, 20)
+		chip.mouse_filter = Control.MOUSE_FILTER_STOP
+		var style := UIStyle.slate_style(0.0, color)   # slate chip, 1 px border in the status colour
+		style.content_margin_left = 4.0
+		style.content_margin_right = 4.0
+		chip.add_theme_stylebox_override("panel", style)
+		var text := UIStyle.panel_label("", 12, color.lightened(0.2))
+		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		chip.add_child(text)
+		chip.visible = false
+		row.add_child(chip)
+	_add_mapfill_chips(row)
+	row.visible = false
+	return row
+
+
+func _build_multi_view() -> VBoxContainer:
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	multi_header = UIStyle.panel_label("", 14)
+	multi_header.clip_text = true
+	multi_header.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	box.add_child(multi_header)
+	var grid := GridContainer.new()
+	grid.columns = ICONS_PER_ROW
+	grid.add_theme_constant_override("h_separation", 4)
+	grid.add_theme_constant_override("v_separation", 4)
+	box.add_child(grid)
+	for i in MAX_ICONS:
+		var b := Button.new()
+		b.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+		b.focus_mode = Control.FOCUS_NONE
+		b.clip_text = true
+		b.add_theme_font_size_override("font_size", 14)
+		UIStyle.style_button(b)
+		_skin_buttons.append(b)
+		b.pressed.connect(_on_icon_pressed.bind(i))
+		var strip := ColorRect.new()   # HP strip inside the frame bottom
+		strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		strip.position = Vector2(0, ICON_SIZE - 4.0)
+		strip.size = Vector2(ICON_SIZE, 4)
+		b.add_child(strip)
+		var dots: Array[ColorRect] = []
+		for j in 3:
+			var dot := ColorRect.new()
+			dot.color = UIStyle.GOLD
+			dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			dot.position = Vector2(ICON_SIZE - 5.0 - j * 4.0, 2.0)
+			dot.size = Vector2(3, 3)
+			dot.visible = false
+			b.add_child(dot)
+			dots.append(dot)
+		_icon_dots.append(dots)
+		var status_dots := {}
+		var k := 0
+		for id: StringName in status_ids():
+			var sdot := ColorRect.new()
+			sdot.color = status_color(id)
+			sdot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			sdot.position = Vector2(3.0 + k * 8.0, ICON_SIZE - 12.0)
+			sdot.size = Vector2(6, 6)
+			sdot.visible = false
+			b.add_child(sdot)
+			status_dots[id] = sdot
+			k += 1
+		_icon_status_dots.append(status_dots)
+		# A loaded caravan: a 6 px gold coin at the bottom-right corner (inset 3), above the HP strip.
+		var coin := Control.new()
+		coin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		coin.position = Vector2(ICON_SIZE - 9.0, ICON_SIZE - 13.0)
+		coin.size = Vector2(6, 6)
+		coin.draw.connect(func() -> void: draw_coin(coin, Vector2(3, 3), 3.0))
+		coin.visible = false
+		b.add_child(coin)
+		_icon_coins.append(coin)
+		grid.add_child(b)
+		icons.append(b)
+		_icon_strips.append(strip)
+	return box
+
+
+func _build_keep_view() -> VBoxContainer:
+	var outer := VBoxContainer.new()
+	var parts := _portrait_row(outer)
+	_keep_portrait_slot = parts[0]
+	var box: VBoxContainer = parts[1]
+	keep_name = UIStyle.display_label("Keep", 20)
+	_title_labels.append(keep_name)
+	box.add_child(keep_name)
+	var hp := UIStyle.bar(UIStyle.HP_COLOR)
+	keep_hp = hp[0]
+	keep_hp_text = hp[1]
+	keep_hp.custom_minimum_size = Vector2(280, 22)
+	keep_hp.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box.add_child(keep_hp)
+	_skin_bars.append(keep_hp)
+	building_info = UIStyle.panel_label("", 14)
+	_muted_labels.append(building_info)
+	box.add_child(building_info)
+
+	# Construction site: progress bar + Cancel (Delete).
+	site_row = HBoxContainer.new()
+	site_row.add_theme_constant_override("separation", 12)
+	box.add_child(site_row)
+	site_progress = ProgressBar.new()
+	site_progress.show_percentage = false
+	site_progress.max_value = 1.0
+	site_progress.step = 0.0
+	site_progress.custom_minimum_size = Vector2(280, 14)
+	site_progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	site_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var site_bg := StyleBoxFlat.new()
+	site_bg.bg_color = Color(0.12, 0.12, 0.14)
+	var site_fill := StyleBoxFlat.new()
+	site_fill.bg_color = PROGRESS_COLOR
+	site_progress.add_theme_stylebox_override("background", site_bg)
+	site_progress.add_theme_stylebox_override("fill", site_fill)
+	site_row.add_child(site_progress)
+	site_cancel = Button.new()
+	site_cancel.text = "Cancel  [Delete]"
+	site_cancel.tooltip_text = "Stop building. Refunds 75 % of the cost."
+	site_cancel.focus_mode = Control.FOCUS_NONE
+	site_cancel.custom_minimum_size = Vector2(150, 32)
+	site_cancel.add_theme_font_size_override("font_size", 14)
+	UIStyle.style_button(site_cancel, UIStyle.WARN)
+	site_cancel.pressed.connect(_cancel_site)
+	site_row.add_child(site_cancel)
+	site_row.visible = false
+
+	var queue_row := HBoxContainer.new()
+	queue_row.add_theme_constant_override("separation", 6)
+	box.add_child(queue_row)
+	_queue_row = queue_row
+	for i in QUEUE_SLOTS:
+		var col := VBoxContainer.new()
+		col.add_theme_constant_override("separation", 2)
+		queue_row.add_child(col)
+		var b := Button.new()
+		b.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+		b.focus_mode = Control.FOCUS_NONE
+		b.add_theme_font_size_override("font_size", 14)
+		UIStyle.style_button(b)
+		_skin_buttons.append(b)
+		b.pressed.connect(cancel_slot.bind(i))
+		col.add_child(b)
+		queue_buttons.append(b)
+		if i == 0:
+			queue_progress = ProgressBar.new()
+			queue_progress.show_percentage = false
+			queue_progress.max_value = 1.0
+			queue_progress.step = 0.0
+			queue_progress.custom_minimum_size = Vector2(ICON_SIZE, 6)
+			queue_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			var bg := StyleBoxFlat.new()
+			bg.bg_color = Color(0.12, 0.12, 0.14)
+			var fill := StyleBoxFlat.new()
+			fill.bg_color = PROGRESS_COLOR
+			queue_progress.add_theme_stylebox_override("background", bg)
+			queue_progress.add_theme_stylebox_override("fill", fill)
+			col.add_child(queue_progress)
+	rally_label = UIStyle.panel_label("Rally: set", 13)
+	_muted_labels.append(rally_label)
+	box.add_child(rally_label)
+	return outer
+
+
+func _select_hero() -> void:
+	if selection and hero and is_instance_valid(hero) and hero.is_alive():
+		selection.select_units([hero])
+
+
+func _on_icon_pressed(index: int) -> void:
+	if selection and index < _icon_units.size() and is_instance_valid(_icon_units[index]):
+		selection.select_units([_icon_units[index]])

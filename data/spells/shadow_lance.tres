@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"shadow_lance"
+display_name = "Shadow Lance"
+hotkey_label = "F"
+target_type = 1
+mana_cost = 35.0
+cooldown = 8.0
+cast_range = 12.0
+damage = 50.0
+heal_ratio = 0.5
+icon_abbrev = "SL"
+tooltip = "Heals Malrik for half the damage."
+max_rank = 3
+level_required = Array[int]([1, 3, 5])
+damage_by_rank = Array[float]([50.0, 65.0, 80.0])
+cooldown_by_rank = Array[float]([8.0, 7.0, 6.0])
+range_by_rank = Array[float]([12.0, 12.0, 12.0])

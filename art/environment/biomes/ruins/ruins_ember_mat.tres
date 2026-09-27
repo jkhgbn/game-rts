@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/biomes/ruins/ruins_ember.gdshader" id="1_y3jid"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_34o8b"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_y3jid")
+shader_parameter/noise_tex = ExtResource("2_34o8b")
+shader_parameter/variant_count = null
+shader_parameter/ember_color = null
+shader_parameter/ember_core = null
+shader_parameter/ember_energy = null
+shader_parameter/breathe_speed = null
+shader_parameter/breathe_amount = null
+shader_parameter/shimmer = null
+shader_parameter/body_warmth = null
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = null

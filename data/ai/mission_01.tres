@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="AIProfile" format=3]
+
+[ext_resource type="Script" path="res://scripts/ai/ai_profile.gd" id="1_v0ksj"]
+
+[resource]
+script = ExtResource("1_v0ksj")
+id = &"mission_01"
+decision_interval = 2.0
+reaction_delay = 4.0
+build_delay = 15.0
+worker_target_home = 4
+worker_target_expanded = 4
+worker_target_x2 = 4
+second_expansion = false
+queue_depth = 1
+attack_ratio = 1.8
+min_attack_pop = 99
+memory_seconds = 60.0
+scout_interval = 240.0
+malrik_joins = 0
+spell_order = PackedStringArray("F2", "F3", "Q1", "Q2", "Q3", "E1", "E2")
+item_build = PackedStringArray("wisp_lantern", "ironbark_plate", "nightveil_cloak", "bone_charm", "ember_shard", "grave_pact", "ember_draught", "ironbark_plate")
+profile_id = &"mission_01"
+mix_default = PackedFloat32Array(0.4, 0.3, 0.15, 0.15)
+mix_vs_ranged = PackedFloat32Array(0.3, 0.15, 0.4, 0.15)
+mix_vs_melee = PackedFloat32Array(0.25, 0.45, 0.1, 0.2)
+launch_attacks = false
+max_soldiers = 8
+build_rows = PackedStringArray("H1", "V1", "S1", "V2")
+rebuild = false
+hero_stays_home = true
+champion_max = 0
+champion_order = PackedStringArray("oathwall")
+champion_earliest = 360.0
+revive_before_items = false
+bounty_budget_pct = 1.0
+bounty_max_flags = 1
+bounty_guard_only = true
+explore_unseen = 120.0
+trade = false
+map_fill = false

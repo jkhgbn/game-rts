@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_glh01"]
+[ext_resource type="Resource" path="res://data/items/frostglass_shard.tres" id="2_glh02"]
+[ext_resource type="Resource" path="res://data/items/mana_thread.tres" id="3_glh03"]
+
+[resource]
+script = ExtResource("1_glh01")
+id = &"glacier_heart"
+display_name = "Glacier Heart"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_glh01")]([ExtResource("2_glh02"), ExtResource("3_glh03")])
+stats = {
+"armor": 10.0,
+"max_mana": 50.0,
+"spell_power": 15.0
+}
+passive_id = &"frostbite"
+passives = {
+&"frostbite": {
+"duration": 1.5,
+"status": &"chill"
+}
+}
+sold_at = 3
+icon_abbrev = "GH"
+tooltip = "Frostbite: enemies damaged by your spells are chilled for 1.5 s."

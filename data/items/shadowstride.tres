@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_fdyb2"]
+[ext_resource type="Resource" path="res://data/items/ashen_greaves.tres" id="2_phy0n"]
+[ext_resource type="Resource" path="res://data/items/nightveil_cloak.tres" id="3_i41kw"]
+
+[resource]
+script = ExtResource("1_fdyb2")
+id = &"shadowstride"
+display_name = "Shadowstride"
+tier = 2
+cost = 500
+parts = Array[ExtResource("1_fdyb2")]([ExtResource("2_phy0n"), ExtResource("3_i41kw")])
+stats = {
+"armor": 20.0,
+"hp_regen": 3.0,
+"move_speed": 1.2
+}
+passive_id = &"quiet_step"
+passives = {
+&"quiet_step": {
+"delay": 5.0,
+"move_speed": 1.0
+}
+}
+active_id = &"blink"
+active_cooldown = 45.0
+active_target = 2
+active_params = {
+"range": 10.0
+}
+sold_at = 3
+icon_abbrev = "SD"
+tooltip = "Quiet Step: +1 speed after 5 s without taking damage.
+Active: Blink, teleport up to 10 m · 45 s cooldown"

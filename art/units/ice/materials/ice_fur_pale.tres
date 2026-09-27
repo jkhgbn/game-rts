@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_ice"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ice"]
+
+[resource]
+resource_name = "ice_fur_pale"
+render_priority = 0
+shader = ExtResource("1_ice")
+shader_parameter/base_color = Color(0.84, 0.87, 0.92, 1)
+shader_parameter/noise_tex = ExtResource("2_ice")
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_strength = 0.3

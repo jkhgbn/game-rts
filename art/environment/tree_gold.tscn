@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/tree_gold.res" id="1_vf0ci"]
+
+[node name="TreeGold" type="Node3D" unique_id=1480058694]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=689911165]
+gi_mode = 0
+mesh = ExtResource("1_vf0ci")

@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/bridges/crossing_art.gd" id="1_wgu7e"]
+[ext_resource type="ArrayMesh" path="res://art/environment/bridges/meshes/ford_stones_body.res" id="2_crfrj"]
+[ext_resource type="ArrayMesh" path="res://art/environment/bridges/meshes/ford_stones_foam.res" id="3_vu7lb"]
+
+[node name="FordStones" type="Node3D" unique_id=42697112]
+script = ExtResource("1_wgu7e")
+kind = &"ford"
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1770464686]
+cast_shadow = 0
+mesh = ExtResource("2_crfrj")
+
+[node name="Foam" type="MeshInstance3D" parent="." unique_id=1904951478]
+cast_shadow = 0
+mesh = ExtResource("3_vu7lb")

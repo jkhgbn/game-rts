@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/camps/camp_site.gd" id="1_mjbi5"]
+[ext_resource type="Material" path="res://art/environment/neutral/site_ground_mat.tres" id="2_yjhkw"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/hollow_stag_ground.res" id="3_q0um2"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/hollow_stag_base.res" id="4_tr12s"]
+
+[node name="StagGlade" type="Node3D" unique_id=170973238 groups=["camp_sites"]]
+script = ExtResource("1_mjbi5")
+kind = &"hollow_stag"
+metadata/decor_clear_radius = 4.7
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=194562425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028, 0)
+material_override = ExtResource("2_yjhkw")
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 150.0
+mesh = ExtResource("3_q0um2")
+
+[node name="Base" type="MeshInstance3D" parent="." unique_id=1910554502]
+gi_mode = 0
+visibility_range_end = 150.0
+mesh = ExtResource("4_tr12s")
+metadata/camp_params = PackedStringArray("lit")

@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/biomes/old_wood/old_wood_web.gdshader" id="1_owweb"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_owweb")
+shader_parameter/variant_count = 3.0
+shader_parameter/web_color = Color(0.8, 0.85, 0.9, 1)
+shader_parameter/strand_width = 0.022
+shader_parameter/strand_alpha = 0.42
+shader_parameter/haze = 0.05
+shader_parameter/sheet_haze = 0.13
+shader_parameter/spokes = 9.0
+shader_parameter/turns = 6.0
+shader_parameter/dew_sparkle = 0.6
+shader_parameter/twig_rim = Color(0.55, 0.65, 0.85, 1)

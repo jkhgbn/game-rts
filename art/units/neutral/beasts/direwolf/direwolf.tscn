@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/neutral/beasts/direwolf/direwolf.gd" id="1_dw"]
+
+[node name="Direwolf" type="Node3D"]
+script = ExtResource("1_dw")
+body_height = 1.8
+attack_style = &"hamstring_bite"
+death_style = &"topple"
+stride_time = 0.5
+stride_speed = 7.0
+idle_period = 3.6
+is_quadruped = true
+kingdom_color = Color(0.47, 0.475, 0.49, 1)
+walk_bounce = 0.04
+flinch_push = true
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 0, 0, 0)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.52)
+
+[node name="Skull" type="Node3D" parent="Root/Mount/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0.38)
+metadata/keep_separate = true
+
+[node name="Jaw" type="Node3D" parent="Root/Mount/Head/Skull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07, 0.08)
+metadata/keep_separate = true
+
+[node name="Tail" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21, -0.96)
+metadata/keep_separate = true
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 1.16, 0.44)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegFL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.79, 0.06)
+metadata/keep_separate = true
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 1.16, 0.44)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegFR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.79, 0.06)
+metadata/keep_separate = true
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 1.12, -0.7)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegBL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01, -0.67, -0.16)
+metadata/keep_separate = true
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 1.12, -0.7)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegBR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, -0.67, -0.16)
+metadata/keep_separate = true

@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_hog01"]
+[ext_resource type="Resource" path="res://data/items/bloomcaller_staff.tres" id="2_hog02"]
+[ext_resource type="Resource" path="res://data/items/warlords_horn.tres" id="3_hog03"]
+
+[resource]
+script = ExtResource("1_hog01")
+id = &"heart_of_the_grove"
+display_name = "Heart of the Grove"
+tier = 2
+cost = 550
+parts = Array[ExtResource("1_hog01")]([ExtResource("2_hog02"), ExtResource("3_hog03")])
+stats = {
+"hp_regen": 4.0,
+"max_hp": 200.0,
+"spell_power": 35.0
+}
+passive_id = &"verdant_ward"
+passives = {
+&"verdant_ward": {
+"radius": 10.0,
+"stats": {
+"hp_regen": 2.0
+}
+}
+}
+active_id = &"overgrowth"
+active_cooldown = 80.0
+active_target = 1
+active_params = {
+"duration": 5.0,
+"heal": 100.0,
+"radius": 8.0
+}
+sold_at = 3
+icon_abbrev = "HG"
+tooltip = "Verdant Ward: soldiers within 10 m regen 2 HP/s.
+Active: Overgrowth, friendly units within 8 m heal 100 over 5 s · 80 s cooldown"

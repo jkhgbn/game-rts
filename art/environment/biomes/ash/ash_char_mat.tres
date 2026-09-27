@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/biomes/ash/ash_char.gdshader" id="1_ashch"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ashnz"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ashch")
+shader_parameter/noise_tex = ExtResource("2_ashnz")

@@ -1,0 +1,10 @@
+{
+	"name": "rime_colossus_trade",
+	"notes": "Balance Lab suggest: rime_colossus max_hp 520 -> 463, attack_damage 28 -> 31 (shape EHP x1.15 / DPS x0.73 of peers); ice win rate 17 % (1/6); power -0 %, expected shift -0.0 pts (prior); neutral.",
+	"units": {
+		"rime_colossus": {
+			"attack_damage": "x1.12",
+			"max_hp": "x0.89"
+		}
+	}
+}

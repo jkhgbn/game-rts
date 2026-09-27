@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"call_the_thicket"
+display_name = "Call the Thicket"
+hotkey_label = "E"
+target_type = 0
+mana_cost = 60.0
+cooldown = 45.0
+cast_range = 10.0
+radius = 1.2
+duration = 25.0
+summon_unit_id = &"sapling"
+summon_count = 3
+icon_abbrev = "CT"
+tooltip = "Saplings fight for 25 s, then wither."
+max_rank = 2
+level_required = Array[int]([4, 7])
+cooldown_by_rank = Array[float]([45.0, 40.0])
+range_by_rank = Array[float]([10.0, 10.0])
+radius_by_rank = Array[float]([1.2, 1.2])
+duration_by_rank = Array[float]([25.0, 30.0])
+summon_count_by_rank = Array[int]([3, 5])

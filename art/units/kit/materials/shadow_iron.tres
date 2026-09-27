@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_2gxbc"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_08f4v"]
+
+[resource]
+resource_name = "shadow_iron"
+render_priority = 0
+shader = ExtResource("1_2gxbc")
+shader_parameter/base_color = Color(0.1, 0.08, 0.14, 1)
+shader_parameter/noise_tex = ExtResource("2_08f4v")
+shader_parameter/noise_scale_a = null
+shader_parameter/noise_scale_b = null
+shader_parameter/spec_strength = 0.2
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = 0.25
+shader_parameter/crack_strength = null
+shader_parameter/crack_color = null
+shader_parameter/crack_speed = null
+shader_parameter/crack_scale = null
+shader_parameter/damage = null

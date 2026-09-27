@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/ground.gdshader" id="1_ground"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_noise"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ground")
+shader_parameter/noise_tex = ExtResource("2_noise")
+shader_parameter/grass_dark = Color(0.17, 0.28, 0.13, 1)
+shader_parameter/grass_light = Color(0.33, 0.44, 0.17, 1)
+shader_parameter/grass_warm = Color(0.52, 0.48, 0.2, 1)
+shader_parameter/grass_cool = Color(0.12, 0.26, 0.2, 1)
+shader_parameter/grass_dry = Color(0.56, 0.47, 0.27, 1)
+shader_parameter/patch_contrast = 1.0
+shader_parameter/dirt_color = Color(0.53, 0.4, 0.24, 1)
+shader_parameter/dirt_dark = Color(0.33, 0.24, 0.15, 1)
+shader_parameter/tuft_density = 0.6
+shader_parameter/flower_amount = 1.0
+shader_parameter/groove_energy = 1.6
+shader_parameter/lane_a = Vector2(8.7, -18.1)
+shader_parameter/lane_b = Vector2(35.4, -7.1)
+shader_parameter/lane_half_width = 2.2
+shader_parameter/lane_meander = 1.2
+shader_parameter/spot_0 = Vector4(0, 0, 10.5, 1)
+shader_parameter/spot_1 = Vector4(10.6, -21.9, 7.5, 0)
+shader_parameter/spot_2 = Vector4(0, 0, 0, 0)
+shader_parameter/spot_3 = Vector4(0, 0, 0, 0)
+shader_parameter/map_half = 400.0
+shader_parameter/expand_edge = false
+shader_parameter/border_mode = 0.0
+shader_parameter/sun_dir = Vector2(-1, 0)

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="LightingPreset" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_preset.gd" id="1_preset"]
+[ext_resource type="Environment" path="res://art/environment/world_env.tres" id="2_env"]
+
+[resource]
+script = ExtResource("1_preset")
+environment = ExtResource("2_env")
+sun_color = Color(1, 0.89, 0.74, 1)
+sun_energy = 1.35
+sun_rotation_degrees = Vector3(-52, 40, 0)
+shadow_blur = 1.6
+shadow_opacity = 1.0
+shadow_normal_bias = 2.0
+shadow_max_distance = 110.0
+fill_color = Color(0.55, 0.66, 0.95, 1)
+fill_energy = 0.25
+fill_rotation_degrees = Vector3(-30, -140, 0)
+vignette_color = Color(0.1, 0.06, 0.05, 1)
+vignette_strength = 0.35
+vignette_inner = 0.55
+vignette_outer = 1.15
+haze_color = Color(0.95, 0.85, 0.7, 1)
+haze_strength = 0.1
+haze_height = 0.25

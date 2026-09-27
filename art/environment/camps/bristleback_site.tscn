@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/camps/camp_site.gd" id="1_utrsh"]
+[ext_resource type="Material" path="res://art/environment/neutral/site_ground_mat.tres" id="2_vcyi0"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/bristleback_ground.res" id="3_go1au"]
+[ext_resource type="ArrayMesh" path="res://art/environment/camps/meshes/bristleback_base.res" id="4_kil5v"]
+
+[node name="BristlebackWallow" type="Node3D" unique_id=1725816238 groups=["camp_sites"]]
+script = ExtResource("1_utrsh")
+metadata/decor_clear_radius = 4.6
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=733127587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.028, 0)
+material_override = ExtResource("2_vcyi0")
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 150.0
+mesh = ExtResource("3_go1au")
+
+[node name="Base" type="MeshInstance3D" parent="." unique_id=354391659]
+gi_mode = 0
+visibility_range_end = 150.0
+mesh = ExtResource("4_kil5v")
+metadata/camp_params = PackedStringArray("wet")

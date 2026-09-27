@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_sv5a0"]
+
+[resource]
+resource_name = "shadow_glow_mid"
+render_priority = 0
+shader = ExtResource("1_sv5a0")
+shader_parameter/glow_color = Color(0.7, 0.3, 1, 1)
+shader_parameter/energy = 2.0
+shader_parameter/pulse_speed = 2.5
+shader_parameter/rune_bands = null
+shader_parameter/boost = null
+shader_parameter/phase = null

@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/frost_dragon/frost_scale.gdshader" id="1_fds"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_fds"]
+
+[resource]
+resource_name = "frost_scale"
+render_priority = 0
+shader = ExtResource("1_fds")
+shader_parameter/base_color = Color(0.14, 0.31, 0.66, 1)
+shader_parameter/belly_color = Color(0.74, 0.84, 0.94, 1)
+shader_parameter/noise_tex = ExtResource("2_fds")
+shader_parameter/spec_strength = 0.25
+shader_parameter/rim_strength = 0.35
+shader_parameter/crack_amount = 1.0
+shader_parameter/frost_top = 0.2

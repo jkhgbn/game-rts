@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="ChampionType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/champion_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/champions/wayfinder/wayfinder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"wayfinder"
+title = "the Wayfinder"
+names = PackedStringArray("Tamsin Farrow", "Tobin Farrow")
+role = "Scout, ranged"
+pop = 2
+max_hp = 260.0
+armor = 0.0
+attack_damage = 13.0
+attack_range = 8.0
+attack_cooldown = 1.1
+move_speed = 5.8
+aggro_range = 9.0
+sight_radius = 18.0
+radius = 0.45
+body_height = 1.8
+body_color = Color(0.35, 0.4, 0.28, 1)
+eye_color = Color(0.95, 0.9, 0.8, 1)
+projectile_color = Color(1, 0.8, 0.4, 1)
+growth_pct = 0.08
+flee_pct = 0.4
+traits = {
+&"courage": 0.9,
+&"engage_radius": 10.0,
+&"fear_structure_radius": 12.0,
+&"fear_structures_until_level": 4.0,
+&"greed": 1.0
+}
+affinity = {
+&"escort": 0.5,
+&"explore": 2.0,
+&"guard": 0.3,
+&"hunt": 0.6
+}
+bounty_threshold = 10.0
+ability_ids = Array[StringName]([&"flare_arrow", &"snare_line", &"trailblaze"])
+ability_names = {
+&"flare_arrow": "Signal Flare"
+}
+ability_texts = {
+&"flare_arrow": "Hurls a flare up to 20 m: 20 damage around it, and the spot stays in sight for 6 s."
+}
+class_weights = {
+&"spear": 50.0,
+&"sword_shield": 10.0,
+&"two_hand": 15.0,
+&"wizard": 25.0
+}
+wishlist = Array[StringName]([&"swiftsoles", &"ember_draught", &"whetted_fang", &"ember_shard", &"blazing_edge", &"wisp_lantern", &"ashen_greaves"])
+personality_line = "Goes where the map is blank."
+likes = "Unexplored ground, Explore flags, open roads"
+fears = "Known enemy towers and keeps (never within 12 m before level 4); being chased by melee"
+barks = {
+&"class_chosen": "New road, new stick.",
+&"bounty": "A coin for a corner? I know a corner.",
+&"buy": "New boots. Same blank map.",
+&"flee": "Nope. Mapping the way home!",
+&"hired": "Maps are just rumours with lines. Let's draw some.",
+&"level_up": "I've seen more. I am more."
+}
+model_scene = ExtResource("2_model")

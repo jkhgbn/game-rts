@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_rde"]
+
+[resource]
+resource_name = "roc_dusk_eye"
+render_priority = 0
+shader = ExtResource("1_rde")
+shader_parameter/glow_color = Color(1, 0.12, 0.06, 1)
+shader_parameter/energy = 3.6
+shader_parameter/pulse_speed = 1.4

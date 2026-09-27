@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_dsm"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_dsm"]
+
+[resource]
+resource_name = "dusk_smoke"
+render_priority = 0
+shader = ExtResource("1_dsm")
+shader_parameter/base_color = Color(0.2, 0.16, 0.27, 1)
+shader_parameter/noise_tex = ExtResource("2_dsm")
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.7, 0.35, 1, 1)
+shader_parameter/rim_strength = 0.85

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_mq4mp"]
+
+[resource]
+script = ExtResource("1_mq4mp")
+id = &"duskglass"
+display_name = "Duskglass Lens"
+cost = 200
+stats = {
+"spell_power": 15.0
+}
+sold_at = 1
+icon_abbrev = "DL"

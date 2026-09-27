@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_er6lb"]
+
+[resource]
+script = ExtResource("1_er6lb")
+id = &"ember_draught"
+display_name = "Ember Draught"
+tier = 3
+cost = 120
+active_id = &"ember_draught"
+active_cooldown = 20.0
+active_target = 1
+active_params = {
+"duration": 8.0,
+"heal": 150.0
+}
+cooldown_group = &"potion"
+stack_max = 3
+sold_at = 3
+icon_abbrev = "ED"
+tooltip = "Heals 150 over 8 s."

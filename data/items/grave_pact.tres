@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_0wfiu"]
+[ext_resource type="Resource" path="res://data/items/bone_charm.tres" id="2_mx34w"]
+[ext_resource type="Resource" path="res://data/items/ember_shard.tres" id="3_bt1hr"]
+
+[resource]
+script = ExtResource("1_0wfiu")
+id = &"grave_pact"
+display_name = "Grave Pact"
+tier = 1
+cost = 300
+parts = Array[ExtResource("1_0wfiu")]([ExtResource("2_mx34w"), ExtResource("3_bt1hr")])
+stats = {
+"attack_damage": 18.0,
+"max_hp": 90.0
+}
+passive_id = &"feed"
+passives = {
+&"feed": {
+"lifesteal": 0.12
+}
+}
+sold_at = 3
+icon_abbrev = "GP"
+tooltip = "Feed: 12 % lifesteal on attacks."

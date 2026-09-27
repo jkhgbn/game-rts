@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_mkt"]
+[ext_resource type="PackedScene" path="res://art/buildings/market/fire/market_fire.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_mkt")
+id = &"fire_market"
+display_name = "Ember Bazaar"
+faction = &"fire"
+kind = &"market"
+cost = 175
+build_time = 40.0
+max_hp = 1000.0
+footprint = Vector2i(3, 3)
+height = 4.5
+max_count = 1
+sight_radius = 12.0
+hotkey_label = "B"
+color = Color(0.85, 0.3, 0.12, 1)
+body_color = Color(0.55, 0.4, 0.28, 1)
+projectile_color = Color(1, 0.75, 0.3, 1)
+train_ids = Array[StringName]([&"caravan"])
+requires_kind = &"barracks"
+max_keep_distance = 20.0
+model_scene = ExtResource("2_model")
+model_path = "res://art/buildings/market/fire/market_fire.tscn"

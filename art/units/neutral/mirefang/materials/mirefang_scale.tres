@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_mfs"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_mfs"]
+
+[resource]
+resource_name = "mirefang_scale"
+render_priority = 0
+shader = ExtResource("1_mfs")
+shader_parameter/base_color = Color(0.35, 0.36, 0.16, 1)
+shader_parameter/noise_tex = ExtResource("2_mfs")
+shader_parameter/noise_scale_a = 3.4
+shader_parameter/noise_scale_b = 0.7
+shader_parameter/spec_strength = 0.32
+shader_parameter/rim_color = Color(0.62, 0.66, 0.5, 1)
+shader_parameter/rim_strength = 0.3

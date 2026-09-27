@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/landmarks/meshes/barge.res" id="1_iiwmu"]
+
+[node name="Barge" type="Node3D" unique_id=1792573964 groups=["landmarks"]]
+metadata/landmark_id = &"lm_barge"
+metadata/decor_clear_radius = 3.6
+metadata/foam_rocks = PackedVector3Array(0.09512484, 0.17592971, 0.95, 0.6658739, 1.231508, 0.95, 1.1652793, 2.155139, 0.62, -1.1177168, -2.067174, 0.62, -1.593341, -2.9468226, 0.2)
+
+[node name="Model" type="MeshInstance3D" parent="." unique_id=1033654594]
+gi_mode = 0
+mesh = ExtResource("1_iiwmu")

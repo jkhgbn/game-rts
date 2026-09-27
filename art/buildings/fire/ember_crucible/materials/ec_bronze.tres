@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/shaders/painted.gdshader" id="1_ec"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ec"]
+
+[resource]
+resource_name = "ec_bronze"
+render_priority = 0
+shader = ExtResource("1_ec")
+shader_parameter/base_color = Color(0.62, 0.4, 0.16, 1)
+shader_parameter/noise_tex = ExtResource("2_ec")
+shader_parameter/spec_strength = 0.35
+shader_parameter/rim_strength = 0.25

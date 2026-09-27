@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_k7o3l"]
+[ext_resource type="Resource" path="res://data/items/siphon_idol.tres" id="2_2ssr3"]
+[ext_resource type="Resource" path="res://data/items/grave_pact.tres" id="3_wtfy3"]
+
+[resource]
+script = ExtResource("1_k7o3l")
+id = &"gravemaw_idol"
+display_name = "Gravemaw Idol"
+tier = 2
+cost = 500
+parts = Array[ExtResource("1_k7o3l")]([ExtResource("2_2ssr3"), ExtResource("3_wtfy3")])
+stats = {
+"attack_damage": 20.0,
+"max_hp": 120.0,
+"max_mana": 60.0,
+"spell_power": 25.0
+}
+passive_id = &"feed"
+passives = {
+&"feed": {
+"lifesteal": 0.12
+},
+&"spell_drain": {
+"mana_per_hit": 3.0,
+"max_per_cast": 15.0
+},
+&"spell_feed": {
+"ratio": 0.15
+}
+}
+sold_at = 3
+icon_abbrev = "GM"
+tooltip = "Feed: 12 % lifesteal.
+Spell Drain: +3 mana per enemy hit by a spell (max 15 per cast).
+Spell Feed: spell damage heals 15 %."

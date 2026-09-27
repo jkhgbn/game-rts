@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_5gjbx"]
+[ext_resource type="Resource" path="res://data/items/emberwake_band.tres" id="2_36m30"]
+[ext_resource type="Resource" path="res://data/items/vital_root.tres" id="3_u3csr"]
+
+[resource]
+script = ExtResource("1_5gjbx")
+id = &"phoenix_plume"
+display_name = "Phoenix Plume"
+tier = 2
+cost = 700
+parts = Array[ExtResource("1_5gjbx")]([ExtResource("2_36m30"), ExtResource("3_u3csr")])
+stats = {
+"cooldown_reduction": 15.0,
+"max_hp": 150.0,
+"spell_power": 20.0
+}
+passive_id = &"afterglow"
+passives = {
+&"afterglow": {
+"duration": 2.0,
+"move_speed": 1.0
+},
+&"rekindle": {
+"cooldown": 240.0,
+"damage": 80.0,
+"hp_ratio": 0.4,
+"radius": 4.0
+}
+}
+sold_at = 3
+icon_abbrev = "PP"
+tooltip = "Afterglow: +1 speed for 2 s after every spell.
+Rekindle: a killing blow instead leaves 40 % HP and burns enemies within 4 m for 80. Once per 240 s."

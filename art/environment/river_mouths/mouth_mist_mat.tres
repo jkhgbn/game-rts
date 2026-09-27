@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/river_mouths/mouth_mist.gdshader" id="1_5lony"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_iiu3a"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5lony")
+shader_parameter/noise_tex = ExtResource("2_iiu3a")
+shader_parameter/mist_color = null
+shader_parameter/opacity = null
+shader_parameter/cycle = null
+shader_parameter/rise = null

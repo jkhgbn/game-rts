@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/crown/crown_beacon.gdshader" id="1_twnts"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_twnts")
+shader_parameter/band_speed = 0.3
+shader_parameter/fade_power = 2.2

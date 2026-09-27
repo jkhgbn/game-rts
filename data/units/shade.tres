@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/shade.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"shade"
+display_name = "Shade"
+faction = &"shadow"
+is_worker = false
+cost = 80
+pop = 1
+kill_xp = 40
+train_time = 16.0
+card_key = ""
+max_hp = 110.0
+move_speed = 4.8
+attack_damage = 11.0
+attack_range = 1.6
+attack_cooldown = 1.0
+aggro_range = 8.0
+radius = 0.45
+body_height = 1.6
+body_color = Color(0.42, 0.22, 0.6, 1)
+model_scene = ExtResource("2_model")

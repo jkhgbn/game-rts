@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_x71nk"]
+[ext_resource type="Resource" path="res://data/items/gloom_ink.tres" id="2_2jixq"]
+[ext_resource type="Resource" path="res://data/items/mana_thread.tres" id="3_capcm"]
+
+[resource]
+script = ExtResource("1_x71nk")
+id = &"siphon_idol"
+display_name = "Siphon Idol"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_x71nk")]([ExtResource("2_2jixq"), ExtResource("3_capcm")])
+stats = {
+"mana_regen": 1.0,
+"max_mana": 60.0,
+"spell_power": 15.0
+}
+passive_id = &"spell_drain"
+passives = {
+&"spell_drain": {
+"mana_per_hit": 3.0,
+"max_per_cast": 15.0
+}
+}
+sold_at = 3
+icon_abbrev = "SI"
+tooltip = "Spell Drain: +3 mana per enemy hit by a spell (max 15 per cast)."

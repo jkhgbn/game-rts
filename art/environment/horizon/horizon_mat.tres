@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/horizon/horizon.gdshader" id="1_x30rc"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_rsj6b"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_x30rc")
+shader_parameter/noise_tex = ExtResource("2_rsj6b")
+shader_parameter/noise_scale = null
+shader_parameter/noise_amount = null
+shader_parameter/ao_floor = null
+shader_parameter/top_light = null
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = null

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"rime_bolt"
+display_name = "Rime Bolt"
+hotkey_label = "F"
+target_type = 1
+mana_cost = 35.0
+cooldown = 6.0
+cast_range = 13.0
+damage = 45.0
+duration = 3.0
+status_id = &"chill"
+icon_abbrev = "RB"
+tooltip = "Chills the target: slower attacks and movement."
+max_rank = 3
+level_required = Array[int]([1, 3, 5])
+damage_by_rank = Array[float]([45.0, 58.0, 72.0])
+cooldown_by_rank = Array[float]([6.0, 5.5, 5.0])
+range_by_rank = Array[float]([13.0, 13.0, 13.0])
+duration_by_rank = Array[float]([3.0, 4.0, 5.0])

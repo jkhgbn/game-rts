@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_my0kl"]
+[ext_resource type="Resource" path="res://data/items/blazing_edge.tres" id="2_bo533"]
+[ext_resource type="Resource" path="res://data/items/grave_pact.tres" id="3_5f3wp"]
+
+[resource]
+script = ExtResource("1_my0kl")
+id = &"inferno_blade"
+display_name = "Inferno Blade"
+tier = 2
+cost = 500
+parts = Array[ExtResource("1_my0kl")]([ExtResource("2_bo533"), ExtResource("3_5f3wp")])
+stats = {
+"attack_cooldown_pct": -0.2,
+"attack_damage": 45.0,
+"max_hp": 100.0
+}
+passive_id = &"searing_strikes_ii"
+passives = {
+&"feed": {
+"lifesteal": 0.15
+},
+&"searing_strikes_ii": {
+"duration": 3.0,
+"interval": 0.5,
+"jump_radius": 2.0,
+"per_tick": 6.0
+}
+}
+sold_at = 3
+icon_abbrev = "IB"
+tooltip = "Feed: 15 % lifesteal.
+Searing Strikes II: attacks burn for 36 over 3 s; the burn jumps 2 m when a burning unit dies."

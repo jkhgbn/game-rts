@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_mdd"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_mdd"]
+
+[resource]
+resource_name = "mender_cloth_dark"
+render_priority = 0
+shader = ExtResource("1_mdd")
+shader_parameter/base_color = Color(0.3825, 0.135, 0.054, 1)
+shader_parameter/noise_tex = ExtResource("2_mdd")
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_strength = 0.25

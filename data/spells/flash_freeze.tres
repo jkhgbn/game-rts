@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"flash_freeze"
+display_name = "Flash Freeze"
+hotkey_label = "Q"
+target_type = 3
+mana_cost = 50.0
+cooldown = 20.0
+cast_range = 12.0
+radius = 3.0
+damage = 20.0
+duration = 1.5
+status_id = &"frozen"
+secondary_status_id = &"chill"
+secondary_duration = 3.0
+icon_abbrev = "FF"
+tooltip = "Freezes every enemy in the circle."
+max_rank = 3
+level_required = Array[int]([2, 4, 6])
+damage_by_rank = Array[float]([20.0, 30.0, 40.0])
+cooldown_by_rank = Array[float]([20.0, 18.0, 16.0])
+range_by_rank = Array[float]([12.0, 12.0, 12.0])
+radius_by_rank = Array[float]([3.0, 3.25, 3.5])
+duration_by_rank = Array[float]([1.5, 2.0, 2.5])

@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="ChampionType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/champion_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/champions/mender/mender.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"mender"
+title = "the Mender"
+names = PackedStringArray("Orla Fenwick", "Osric Fenwick")
+role = "Healer, ranged"
+pop = 2
+max_hp = 280.0
+armor = 5.0
+attack_damage = 9.0
+attack_range = 7.0
+attack_cooldown = 1.4
+move_speed = 4.8
+aggro_range = 9.0
+sight_radius = 12.0
+radius = 0.45
+body_height = 1.7
+body_color = Color(0.8, 0.76, 0.62, 1)
+eye_color = Color(0.5, 1, 0.6, 1)
+projectile_color = Color(0.5, 1, 0.6, 1)
+growth_pct = 0.08
+flee_pct = 0.45
+traits = {
+&"courage": 0.7,
+&"engage_radius": 9.0,
+&"escort_wizard_mult": 1.2,
+&"greed": 0.9,
+&"keep_behind": 4.0
+}
+affinity = {
+&"escort": 2.0,
+&"explore": 0.3,
+&"guard": 0.8,
+&"hunt": 0.4
+}
+bounty_threshold = 10.0
+ability_ids = Array[StringName]([&"mending_draught", &"soothing_circle", &"lifeline"])
+class_weights = {
+&"spear": 15.0,
+&"sword_shield": 20.0,
+&"two_hand": 5.0,
+&"wizard": 60.0
+}
+wishlist = Array[StringName]([&"wisp_lantern", &"ember_draught", &"duskglass", &"cinder_ring", &"emberwake_band", &"ironbark_plate", &"nightveil_cloak"])
+personality_line = "Follows the army and keeps it standing."
+likes = "The army, the wizard, Escort flags"
+fears = "The front line: stays at least 4 m behind the nearest ally, away from the nearest seen enemy"
+barks = {
+&"class_chosen": "Every tool mends something.",
+&"bounty": "Stay close. I only reach so far.",
+&"buy": "Every good bag needs a better bag.",
+&"flee": "Healer first, hero never!",
+&"hired": "Try not to need me. You will.",
+&"level_up": "My hands remember more."
+}
+model_scene = ExtResource("2_model")

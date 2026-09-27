@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ChampionClass" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/champion_class.gd" id="1_class"]
+
+[resource]
+script = ExtResource("1_class")
+id = &"two_hand"
+display_name = "Two-Hand Sword"
+attack_damage = 24.0
+attack_cooldown = 1.55
+attack_range = 2.1
+is_ranged = false
+projectile_color = Color(1, 0.8, 0.4, 1)
+projectile_speed = 0.0
+attack_style = &"great_cleave"
+stats = {}
+flee_delta = 0.0
+ability_ids = Array[StringName]([&"cleave", &"crushing_blow", &"whirlwind"])
+unlock_levels = Array[int]([2, 3, 5])
+bounty_kind = &"hunt"
+icon_abbrev = "2H"
+tooltip = "Two-Hand Sword · melee · 24 damage every 1.55 s"

@@ -1,0 +1,105 @@
+{
+	"shots": {
+		"lineup_fire": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:14",
+			"size": [
+				1600,
+				900
+			],
+			"units": "ash_hurler, blaze_rider, cinder_hand, ember_archer, flame_guard",
+			"unstable_px": 0,
+			"what": "every Fire unit type"
+		},
+		"lineup_ice": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:15",
+			"size": [
+				1600,
+				900
+			],
+			"units": "rime_colossus, rime_hauler, rime_seer, rimeshield, shardcaster",
+			"unstable_px": 0,
+			"what": "every Ice unit type"
+		},
+		"lineup_nature": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:15",
+			"size": [
+				1600,
+				900
+			],
+			"units": "bloomtender, bramblehorn, burr_slinger, sprigling, thornling",
+			"unstable_px": 0,
+			"what": "every Nature unit type"
+		},
+		"lineup_shadow": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:16",
+			"size": [
+				1600,
+				900
+			],
+			"units": "gloom_thrall, grave_hound, nightbolt, shade, shadow_knight",
+			"unstable_px": 0,
+			"what": "every Shadow unit type"
+		},
+		"map_centre": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:13",
+			"size": [
+				1600,
+				900
+			],
+			"units": "",
+			"unstable_px": 0,
+			"what": "Crown isle, river, crossings, fog off"
+		},
+		"map_overview": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:14",
+			"size": [
+				1600,
+				900
+			],
+			"units": "",
+			"unstable_px": 0,
+			"what": "max zoom over the whole west half, fog off"
+		},
+		"map_player_base": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:13",
+			"size": [
+				1600,
+				900
+			],
+			"units": "",
+			"unstable_px": 0,
+			"what": "player keep, workers, start units, HUD"
+		},
+		"map_west_meadow": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:13",
+			"size": [
+				1600,
+				900
+			],
+			"units": "",
+			"unstable_px": 0,
+			"what": "west meadow toward the river, fog edge"
+		},
+		"menu_main": {
+			"commit": "main@86810afdc0+wip",
+			"recorded": "2026-09-27 00:06:12",
+			"size": [
+				1600,
+				900
+			],
+			"units": "",
+			"unstable_px": 0,
+			"what": "main menu with the 3D diorama"
+		}
+	},
+	"tolerance": 12,
+	"updated": "2026-09-27 00:06:16"
+}

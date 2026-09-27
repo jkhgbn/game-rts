@@ -1,0 +1,31 @@
+{
+	"cues": [
+		{
+			"bus": "Music",
+			"category": "music",
+			"context": "ui",
+			"id": "music_match",
+			"level": -22.262,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/music/music_match.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": -10.0
+		},
+		{
+			"bus": "Music",
+			"category": "music",
+			"context": "ui",
+			"id": "music_menu",
+			"level": -23.076,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/music/music_menu.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": -10.0
+		}
+	],
+	"name": "music"
+}

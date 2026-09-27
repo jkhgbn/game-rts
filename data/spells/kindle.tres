@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"kindle"
+display_name = "Kindle"
+hotkey_label = "E"
+target_type = 2
+mana_cost = 50.0
+cooldown = 30.0
+radius = 8.0
+duration = 8.0
+status_id = &"haste"
+icon_abbrev = "KI"
+tooltip = "Nearby soldiers strike faster and run faster."
+max_rank = 2
+level_required = Array[int]([4, 7])
+cooldown_by_rank = Array[float]([30.0, 25.0])
+radius_by_rank = Array[float]([8.0, 10.0])
+duration_by_rank = Array[float]([8.0, 12.0])

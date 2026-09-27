@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_wk"]
+
+[resource]
+resource_name = "weapon_crystal_glow"
+render_priority = 0
+shader = ExtResource("1_wk")
+shader_parameter/glow_color = Color(0.6, 0.75, 1, 1)
+shader_parameter/energy = 1.5
+shader_parameter/pulse_speed = 2.6

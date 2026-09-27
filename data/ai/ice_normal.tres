@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="AIProfile" format=3]
+
+[ext_resource type="Script" path="res://scripts/ai/ai_profile.gd" id="1_b2ydn"]
+
+[resource]
+script = ExtResource("1_b2ydn")
+id = &"ice_normal"
+attack_ratio = 1.4
+min_attack_pop = 8
+spell_order = PackedStringArray("Q1", "F2", "E1", "F3", "Q2", "Q3", "E2")
+item_build = PackedStringArray("frostglass_shard", "ironbark_plate", "rimebound_bracers", "ember_draught", "frostglass_shard", "mana_thread", "glacier_heart", "bone_charm", "ironbark_plate", "warlords_horn", "winterwall_aegis")
+profile_id = &"ice_default"
+defend_radius = 32.0
+retreat_hp = 0.4
+tower1_time = 210.0
+tower2_time = 420.0
+expand_time = 330.0
+mix_default = PackedFloat32Array(0.4, 0.3, 0.1, 0.2)
+mix_vs_ranged = PackedFloat32Array(0.5, 0.2, 0.1, 0.2)
+mix_vs_melee = PackedFloat32Array(0.3, 0.4, 0.15, 0.15)
+scout_worker_before = 90.0
+scout_fast = false
+retreat_spell = &"rime_aegis"
+build_rows = PackedStringArray()
+champion_max = 2
+champion_order = PackedStringArray("coin_cutter", "oathwall")
+champion_earliest = 180.0
+revive_before_items = true
+bounty_budget_pct = 0.25
+bounty_max_flags = 2
+bounty_guard_only = false
+explore_unseen = 120.0
+trade = true
+trade_start = 330.0
+caravan_target = 4
+caravan_target_late = 6
+far_route_caravans = 2
+far_route_ratio = 1.5
+ware_order = PackedStringArray("iron_axles", "masons_charter", "tempered_steel", "gambesons")
+axles_min_caravans = 3
+hire_outriders = true
+hire_sweep = false
+gold_revive = true
+gold_hire = false
+gold_exchange_above = 450
+trade_flags = PackedStringArray("B5")

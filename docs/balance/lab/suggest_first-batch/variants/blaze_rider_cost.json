@@ -1,0 +1,9 @@
+{
+	"name": "blaze_rider_cost",
+	"notes": "Balance Lab suggest: blaze_rider cost 180 -> 212 (power/cost x1.40 of row); fire win rate 83 % (5/6); power -15 %, expected shift -4.6 pts (prior); toward 45-55 %.",
+	"units": {
+		"blaze_rider": {
+			"cost": "x1.18"
+		}
+	}
+}

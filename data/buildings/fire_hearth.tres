@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_45fe6"]
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="2_7e4ur"]
+
+[ext_resource type="PackedScene" path="res://art/buildings/hearth.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_45fe6")
+id = &"fire_hearth"
+display_name = "Hearth"
+faction = &"fire"
+kind = &"house"
+cost = 80
+build_time = 25.0
+max_hp = 500.0
+pop_bonus = 10
+max_count = 2
+sight_radius = 8.0
+hotkey_label = "Z"
+body_color = Color(0.55, 0.45, 0.35, 1)
+model_scene = ExtResource("9_model")

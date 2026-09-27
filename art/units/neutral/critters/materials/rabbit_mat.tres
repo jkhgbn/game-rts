@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/neutral/critters/critter_painted.gdshader" id="1_crit"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_crit"]
+
+[resource]
+resource_name = "rabbit_mat"
+render_priority = 0
+shader = ExtResource("1_crit")
+shader_parameter/noise_tex = ExtResource("2_crit")
+shader_parameter/noise_scale_a = 5.0
+shader_parameter/noise_scale_b = 1.4
+shader_parameter/ao_height = 0.42
+shader_parameter/contact_height = 0.08
+shader_parameter/rim_color = Color(0.62, 0.58, 0.5, 1)
+shader_parameter/rim_strength = 0.22
+shader_parameter/dissolve_edge = Color(0.3, 0.22, 0.14, 1)
+shader_parameter/walk_offset = Vector4(0.4, 0.44, 0, 0.03)
+shader_parameter/walk_amp = Vector4(0.55, 0, 0.75, -0.6)
+shader_parameter/run_offset = Vector4(0.4, 0.44, 0, 0.03)
+shader_parameter/run_amp = Vector4(0.8, 0, 1.1, -0.9)
+shader_parameter/fold_pose = Vector4(-0.9, 0, 1, 0.5)
+shader_parameter/tuck_pose = Vector4(1.1, 0, 0, 0)

@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/crown/crown_gold.gdshader" id="1_uieoa"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_p30vx"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_uieoa")
+shader_parameter/noise_tex = ExtResource("2_p30vx")
+shader_parameter/spec_color = Color(1, 0.88, 0.62, 1)
+shader_parameter/spec_strength = 1.1
+shader_parameter/spec_power = 26.0
+shader_parameter/rim_color = Color(1, 0.78, 0.42, 1)
+shader_parameter/rim_strength = 0.35
+shader_parameter/self_glow = 0.06

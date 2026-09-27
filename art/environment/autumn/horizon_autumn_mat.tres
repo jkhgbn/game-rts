@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/environment/autumn/horizon_autumn.gdshader" id="1_autumn"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_noise"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_autumn")
+shader_parameter/noise_tex = ExtResource("2_noise")
+shader_parameter/far_russet = Color(0.55, 0.22, 0.1, 1)
+shader_parameter/far_amber = Color(0.7, 0.42, 0.14, 1)
+shader_parameter/far_gold = Color(0.76, 0.6, 0.22, 1)
+shader_parameter/far_evergreen = Color(0.2, 0.27, 0.17, 1)
+shader_parameter/evergreen_share = 0.22
+shader_parameter/autumn_value = 0.075
+shader_parameter/autumn_mix = 0.88
+shader_parameter/rim_color = Color(0.62, 0.62, 0.78, 1)

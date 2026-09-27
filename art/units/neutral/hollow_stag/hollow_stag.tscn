@@ -1,0 +1,165 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://art/units/neutral/hollow_stag/hollow_stag.gd" id="1_hst"]
+
+[sub_resource type="Gradient" id="Gradient_dot"]
+offsets = PackedFloat32Array(0, 0.35, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.85, 1, 1, 1, 0.3, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dot"]
+gradient = SubResource("Gradient_dot")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.6, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fade"]
+gradient = SubResource("Gradient_fade")
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_leaves"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 0.16, 0.22)
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, -1, 0)
+spread = 45.0
+initial_velocity_min = 0.05
+initial_velocity_max = 0.16
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+gravity = Vector3(0, -0.2, 0)
+scale_min = 0.7
+scale_max = 1.2
+color = Color(0.68, 1, 0.36, 1)
+color_ramp = SubResource("GradientTexture1D_fade")
+turbulence_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="Mat_leaf"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_dot")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_leaf"]
+material = SubResource("Mat_leaf")
+size = Vector2(0.11, 0.11)
+
+[sub_resource type="Curve" id="Curve_shrink"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_shrink"]
+curve = SubResource("Curve_shrink")
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_shed"]
+emission_shape = 3
+emission_box_extents = Vector3(0.9, 0.25, 0.3)
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 75.0
+initial_velocity_min = 0.6
+initial_velocity_max = 1.7
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+gravity = Vector3(0, -1.3, 0)
+damping_min = 0.6
+damping_max = 1.4
+scale_min = 0.8
+scale_max = 1.35
+scale_curve = SubResource("CurveTexture_shrink")
+color = Color(0.7, 1, 0.38, 1)
+color_ramp = SubResource("GradientTexture1D_fade")
+
+[sub_resource type="QuadMesh" id="QuadMesh_shed"]
+material = SubResource("Mat_leaf")
+size = Vector2(0.13, 0.13)
+
+[node name="HollowStag" type="Node3D"]
+script = ExtResource("1_hst")
+body_height = 2.6
+attack_style = &"antler_gore"
+death_style = &"topple"
+stride_time = 0.66
+stride_speed = 5.0
+idle_period = 4.6
+is_quadruped = true
+kingdom_color = Color(0.82, 0.8, 0.72, 1)
+walk_bounce = 0.03
+flinch_push = true
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 0, 0, 0)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58, 0.74)
+
+[node name="Crown" type="Node3D" parent="Root/Mount/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0.32)
+metadata/keep_separate = true
+
+[node name="Leaves" type="GPUParticles3D" parent="Root/Mount/Head/Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, -0.04)
+cast_shadow = 0
+amount = 8
+lifetime = 3.5
+randomness = 0.4
+visibility_aabb = AABB(-2, -3.5, -2, 4, 4.5, 4)
+process_material = SubResource("PPM_leaves")
+draw_pass_1 = SubResource("QuadMesh_leaf")
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.3, 0.64)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegFL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.74, 0)
+metadata/keep_separate = true
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.3, 0.64)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegFR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.74, 0)
+metadata/keep_separate = true
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 1.22, -0.7)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegBL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01, -0.6, -0.18)
+metadata/keep_separate = true
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 1.22, -0.7)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegBR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, -0.6, -0.18)
+metadata/keep_separate = true
+
+[node name="Fx" type="Node3D" parent="."]
+
+[node name="Shed" type="GPUParticles3D" parent="Fx"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.95, 1.02)
+cast_shadow = 0
+emitting = false
+amount = 24
+lifetime = 1.6
+one_shot = true
+explosiveness = 0.9
+randomness = 0.3
+visibility_aabb = AABB(-3, -4, -3, 6, 6, 6)
+process_material = SubResource("PPM_shed")
+draw_pass_1 = SubResource("QuadMesh_shed")

@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/wizards/ysolde_grove.gdshader" id="1_grv"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_grv"]
+
+[resource]
+resource_name = "nature_bark_sap"
+render_priority = 0
+shader = ExtResource("1_grv")
+shader_parameter/noise_tex = ExtResource("2_grv")
+shader_parameter/base_color = Color(0.22, 0.145, 0.08, 1)
+shader_parameter/spec_strength = 0.05
+shader_parameter/rim_strength = 0.22
+shader_parameter/bark = 1.0
+shader_parameter/bark_density = 5.0
+shader_parameter/bark_stretch = 0.8
+shader_parameter/sap = 1.0
+shader_parameter/sap_energy = 1.5
+shader_parameter/sap_speed = 0.45
+shader_parameter/moss_hem = 1.0
+shader_parameter/moss_height = 0.2

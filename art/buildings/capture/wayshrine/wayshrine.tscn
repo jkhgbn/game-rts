@@ -1,0 +1,70 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/buildings/capture/wayshrine/wayshrine.gd" id="1_j63iy"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/stone.res" id="2_ocwiv"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/contact.res" id="3_81koi"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/ring.res" id="4_kiaoo"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/burst.res" id="5_1abiv"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/column.res" id="6_4wfiq"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/motes.res" id="7_bss0b"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/rune_stone.res" id="8_ucunq"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/halo.res" id="9_su12a"]
+[ext_resource type="ArrayMesh" path="res://art/buildings/capture/wayshrine/meshes/shards.res" id="10_6x0le"]
+
+[node name="Wayshrine" type="Node3D" unique_id=176281829]
+script = ExtResource("1_j63iy")
+
+[node name="Stone" type="MeshInstance3D" parent="." unique_id=1022470017]
+gi_mode = 0
+mesh = ExtResource("2_ocwiv")
+
+[node name="Contact" type="MeshInstance3D" parent="." unique_id=1922636380]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("3_81koi")
+
+[node name="Ring" type="MeshInstance3D" parent="." unique_id=1214794162]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0)
+visible = false
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("4_kiaoo")
+
+[node name="Burst" type="MeshInstance3D" parent="." unique_id=2056394789]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+visible = false
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("5_1abiv")
+
+[node name="Column" type="MeshInstance3D" parent="." unique_id=1748548275]
+visible = false
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("6_4wfiq")
+
+[node name="Motes" type="MeshInstance3D" parent="." unique_id=2119088191]
+visible = false
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("7_bss0b")
+
+[node name="Float" type="Node3D" parent="." unique_id=1637078223]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="RuneStone" type="MeshInstance3D" parent="Float" unique_id=250889389]
+gi_mode = 0
+mesh = ExtResource("8_ucunq")
+
+[node name="Halo" type="MeshInstance3D" parent="Float" unique_id=2050521318]
+visible = false
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("9_su12a")
+
+[node name="Orbit" type="Node3D" parent="Float" unique_id=2067686681]
+
+[node name="Shards" type="MeshInstance3D" parent="Float/Orbit" unique_id=331541712]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("10_6x0le")

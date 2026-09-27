@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_bwnux"]
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="2_k4ger"]
+
+[ext_resource type="PackedScene" path="res://art/buildings/hovel.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_bwnux")
+id = &"shadow_hovel"
+display_name = "Hovel"
+faction = &"shadow"
+kind = &"house"
+cost = 80
+build_time = 25.0
+max_hp = 500.0
+pop_bonus = 10
+max_count = 2
+sight_radius = 8.0
+hotkey_label = "Z"
+color = Color(0.42, 0.22, 0.6, 1)
+body_color = Color(0.35, 0.3, 0.4, 1)
+projectile_color = Color(0.7, 0.4, 1, 1)
+model_scene = ExtResource("9_model")

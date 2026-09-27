@@ -1,0 +1,1445 @@
+{
+	"checks": [
+		{
+			"graded": 0.0,
+			"group": "frame",
+			"id": "F1",
+			"name": "Frame avg (logic)",
+			"rule": "FAIL > 3.00, WARN > 2.10 ms (waves.md:82 (8 ms / 100 units, scaled to the early-game unit count, floor 3 ms); warn 5.5 / 100 (waves.md:226) (26 units))",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "22.82 ms",
+			"weight": 2.0
+		},
+		{
+			"graded": 0.0,
+			"group": "shape",
+			"id": "S1",
+			"name": "Frame p95",
+			"rule": "WARN > 4.50 ms (1.5x the avg budget)",
+			"score": 0.35,
+			"status": "WARN",
+			"value": "150.78 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "shape",
+			"id": "S2",
+			"name": "Frame p99",
+			"rule": "WARN > 6.00 ms",
+			"score": 0.35,
+			"status": "WARN",
+			"value": "207.39 ms (max 381.0 ms)",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "shape",
+			"id": "S3",
+			"name": "Hitches (> 33 ms)",
+			"rule": "FAIL > 3.0 / min, WARN > 0.5 / min (lab default (docs/plan/perf-lab.md 'Budgets'))",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "328 in 45 s (437.33 / min)",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "system",
+			"id": "P1",
+			"name": "AI commanders avg",
+			"rule": "FAIL > 0.600 ms, WARN > 0.450 (ai-2v2.md:340 (AI <= 0.6 ms/frame avg, no frame > 1.5 ms); ai.md:146 (tick < 0.3 ms); median 0.1 = lab target)",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "avg 0.128 ms, median 0.003, max 146.06 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "system",
+			"id": "P1a",
+			"name": "AI commanders worst frame",
+			"rule": "FAIL > 1.5 ms (ai-2v2.md:340 (AI <= 0.6 ms/frame avg, no frame > 1.5 ms); ai.md:146 (tick < 0.3 ms); median 0.1 = lab target)",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "146.06 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "system",
+			"id": "P1b",
+			"name": "AI commanders median frame",
+			"rule": "WARN > 0.10 ms (lab target)",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0.003 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.43,
+			"group": "system",
+			"id": "P2",
+			"name": "Epic beast brains avg",
+			"rule": "FAIL > 0.030 ms, WARN > 0.022 (map-fill.md:403 (8 beasts < 0.03 ms))",
+			"score": 0.1462,
+			"status": "FAIL",
+			"value": "avg 0.047 ms, median 0.004, max 113.63 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.522666666666667,
+			"group": "system",
+			"id": "P3",
+			"name": "Map fill services avg",
+			"rule": "FAIL > 0.200 ms, WARN > 0.150 (map-fill.md:398 (map fill < 0.2 ms: river 0.03, points 0.03, camps 0.02))",
+			"score": 0.8568,
+			"status": "PASS",
+			"value": "avg 0.111 ms, median 0.016, max 98.49 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "system",
+			"id": "P4",
+			"name": "Critters (game + cosmetic) avg",
+			"rule": "FAIL > 0.110 ms, WARN > 0.083 (map-fill.md:398 + :404 (CritterSystem < 0.08, game critters < 0.03))",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "avg 0.249 ms, median 0.036, max 141.23 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.969,
+			"group": "system",
+			"id": "P5",
+			"name": "Trade avg",
+			"rule": "FAIL > 0.100 ms, WARN > 0.075 (market-trade.md:128 (all trade logic < 0.1 ms))",
+			"score": 0.32946,
+			"status": "FAIL",
+			"value": "avg 0.103 ms, median 0.026, max 183.53 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "system",
+			"id": "P6",
+			"name": "Fog of war avg",
+			"rule": "FAIL > 0.300 ms, WARN > 0.225 (lab default (fog-of-war.md:42-47: 5 Hz, < 10 000 byte writes per update))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "avg 0.068 ms, median 0.004, max 8.09 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.4464,
+			"group": "system",
+			"id": "P7",
+			"name": "VFX managers avg",
+			"rule": "FAIL > 0.500 ms, WARN > 0.375 (lab default (for-lead.md:94: MapFillVfx 15-150 us; pools, no runtime instancing))",
+			"score": 0.151776,
+			"status": "FAIL",
+			"value": "avg 0.777 ms, median 0.190, max 155.13 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "system",
+			"id": "P8",
+			"name": "HUD / minimap / UI avg",
+			"rule": "FAIL > 0.500 ms, WARN > 0.375 (lab default)",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "avg 4.368 ms, median 0.694, max 276.08 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "system",
+			"id": "P9",
+			"name": "Unit / building models (art scripts) avg",
+			"rule": "FAIL > 0.130 ms, WARN > 0.098 (art-units.md:633 (<= +0.5 ms per 100 units of animation CPU))",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "avg 1.406 ms, median 0.371, max 165.27 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P10",
+			"name": "Units (gameplay)",
+			"rule": "inside the frame budget (part of the 8 ms / 100 units logic budget (waves.md:82))",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "avg 1.314 ms, median 0.269, max 187.00 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P11",
+			"name": "Buildings",
+			"rule": "inside the frame budget (part of the logic budget)",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "avg 0.158 ms, median 0.043, max 152.80 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P12",
+			"name": "Level / world",
+			"rule": "inside the frame budget (part of the logic budget)",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "avg 0.460 ms, median 0.123, max 161.24 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P13",
+			"name": "Other art scripts",
+			"rule": "inside the frame budget (part of the logic budget)",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "avg 0.345 ms, median 0.081, max 202.19 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "system",
+			"id": "A1",
+			"name": "Commander think tick median",
+			"rule": "FAIL > 0.3 ms (ai.md:146), WARN > 0.1 ms (lab target; ai-2v2.md:340 median <= 0.25)",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "0.631 ms over 128 ticks (step scout)",
+			"weight": 1.5
+		},
+		{
+			"graded": 0.0,
+			"group": "system",
+			"id": "A2",
+			"name": "Commander think tick max",
+			"rule": "FAIL > 1.5 ms (no frame > 1.5 ms of AI), WARN > 0.45 (ai-2v2.md:340)",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "186.84 ms (step scout)",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C1",
+			"name": "lights",
+			"rule": "FAIL > 15 (step12-agent-rules.md:27-28 (the skirmish's 15 omni lights are the cap; 0 new real lights))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "4.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C2",
+			"name": "shadow lights",
+			"rule": "FAIL > 1 (art-keep.md:291 / map-fill.md:400 (the sun is the only shadow-casting light))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "1.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C3",
+			"name": "decor instances",
+			"rule": "FAIL > 12000 (map-fill.md:400 (<= 12 000 decor instances))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "3664.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C4",
+			"name": "draw nodes decor",
+			"rule": "WARN > 140 (map-2v2.md:227 (<= 140 draw nodes; 1v1 checked as WARN))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "109.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C5",
+			"name": "geometry nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "451.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C6",
+			"name": "shadow casters",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "161.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C7",
+			"name": "particle systems",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "41.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C8",
+			"name": "multimesh nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "134.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C9",
+			"name": "nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "6044.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"id": "H1",
+			"name": "VFX nodes created after warm-up",
+			"rule": "FAIL > 0 (art-units.md:631, champion-skill-tree.md:361 (pooled one-shots, never instanced at runtime))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H2",
+			"name": "Orphan nodes at the end",
+			"rule": "WARN > 0 (lab default (orphans = leaked nodes))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"id": "H3",
+			"name": "Node growth (non-unit)",
+			"rule": "WARN > 10 % (lab default (nodes after warm-up vs the end, units excluded))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "+0.0 %",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H4",
+			"name": "Static memory growth",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "+0.9 MB",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H5",
+			"name": "Machine noise",
+			"rule": "WARN when other Godot processes ran or the CPU was busy (numbers not comparable)",
+			"score": 0.5,
+			"status": "WARN",
+			"value": "noisy: 40 other Godot process(es) (max 30 at once); other CPU load 100.2 %; 46 other Godot process(es) (max 31 at once); other CPU load 102.5 %; calibration 109 ms vs best 19 (x5.6)",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 11,
+		"INFO": 10,
+		"PASS": 11,
+		"WARN": 3
+	},
+	"improve_next": [
+		{
+			"rank": 200.0,
+			"source": "check A1",
+			"text": "Commander think tick median = 0.631 ms over 128 ticks (step scout). The worst step is `scout` in commander.gd `_think()`: cap its work per tick (a budget in usec, continue next tick), cache its group scans (AIWorldCache, ai-2v2.md:336), and move one-time setup / resource loads out of the first ticks. Commander counters: rule_usec_max / rule_usec_max_at say when it spiked.",
+			"title": "Split the Commander's worst think step"
+		},
+		{
+			"rank": 101.9257,
+			"source": "hot list: `scripts/ui/command_card.gd`",
+			"text": "1.926 ms / frame over 1 nodes. `scripts/ui/command_card.gd`: refresh labels / bars on signals or at 4-10 Hz instead of every _process, and only set text when it changed.",
+			"title": "HUD refresh"
+		},
+		{
+			"rank": 98.404,
+			"source": "hot list: `scripts/units/unit.gd`",
+			"text": "0.404 ms / frame over 14 nodes. shader parameter write (unit.gd:1948 in `_update_hp_bar()`, unit.gd:1949 in `_update_hp_bar()`). Fix: write only when the value changes (compare first) or move the animation into the shader (TIME). `scripts/units/unit.gd` `_physics_process`: run target acquisition / aggro scans every 0.2-0.3 s with a per-unit offset instead of every frame, use a spatial hash for nearest-enemy, and skip idle units.",
+			"title": "Cheaper unit ticks"
+		},
+		{
+			"rank": 96.3678,
+			"source": "hot list: `scripts/vfx/capture_rings.gd`",
+			"text": "0.368 ms / frame over 1 nodes. allocation (.new()) (capture_rings.gd:284 in `_add_ring()`, capture_rings.gd:287 in `_add_ring()`, capture_rings.gd:289 in `_add_ring()`). Fix: pool the object / node, or reuse a member instead of allocating per frame. `scripts/vfx/capture_rings.gd`: keep effects pooled (pre-built, restarted) and let idle pools stop processing (set_process(false) while nothing plays).",
+			"title": "VFX manager"
+		},
+		{
+			"rank": 90.0,
+			"source": "check F1",
+			"text": "Frame avg 22.82 ms: start with the top rows of the hot list; the unit tick and NavigationAgent3D avoidance scale with the unit count.",
+			"title": "Logic frame over budget"
+		}
+	],
+	"lab_version": "1.0",
+	"mode": "cpu",
+	"noise_reasons": [
+		"40 other Godot process(es) (max 30 at once)",
+		"other CPU load 100.2 %",
+		"46 other Godot process(es) (max 31 at once)",
+		"other CPU load 102.5 %",
+		"calibration 109 ms vs best 19 (x5.6)"
+	],
+	"noisy": true,
+	"previous": {},
+	"result": {
+		"ai": {
+			"commanders": 2.0,
+			"note": "commander.gd counters since the match start (first tick not counted)",
+			"tick_max_ms": 186.838,
+			"tick_median_ms": 0.631,
+			"ticks": 128.0,
+			"worst_step": "scout",
+			"worst_step_ms": 186.003
+		},
+		"calib_ms": [
+			23.08,
+			108.79
+		],
+		"census": {
+			"decor_instances": 3664.0,
+			"draw_nodes_decor": 109.0,
+			"geometry_nodes": 451.0,
+			"lights": 4.0,
+			"multimesh_nodes": 134.0,
+			"node_classes": {
+				"Button": 123.0,
+				"CollisionShape3D": 173.0,
+				"ColorRect": 361.0,
+				"Control": 305.0,
+				"GPUParticles3D": 1400.0,
+				"HBoxContainer": 92.0,
+				"Label": 470.0,
+				"MeshInstance3D": 2140.0,
+				"MultiMeshInstance3D": 173.0,
+				"Node3D": 303.0,
+				"PanelContainer": 73.0,
+				"StaticBody3D": 121.0
+			},
+			"nodes": 6044.0,
+			"nodes_non_unit": 6020.0,
+			"particle_systems": 41.0,
+			"shadow_casters": 161.0,
+			"shadow_lights": 1.0
+		},
+		"commit": "main@49ff2b29cb+wip",
+		"cpu_before_pct": 100.0,
+		"cpu_count": 6.0,
+		"engine": {
+			"bands": 123.0,
+			"mark_cost_us": 1.48,
+			"other_ms": 3.02,
+			"physics_ms": 5.916,
+			"probe_overhead_ms": 0.367,
+			"unclassified_ms": 2.2679
+		},
+		"frame": {
+			"avg": 22.818,
+			"frames": 2700.0,
+			"hitches": 328.0,
+			"max": 380.971,
+			"p50": 5.262,
+			"p95": 150.776,
+			"p99": 207.393
+		},
+		"health": {
+			"node_classes_end": {
+				"Button": 123.0,
+				"CollisionShape3D": 173.0,
+				"ColorRect": 361.0,
+				"Control": 305.0,
+				"GPUParticles3D": 1400.0,
+				"HBoxContainer": 92.0,
+				"Label": 470.0,
+				"MeshInstance3D": 2140.0,
+				"MultiMeshInstance3D": 173.0,
+				"Node3D": 303.0,
+				"PanelContainer": 73.0,
+				"StaticBody3D": 121.0
+			},
+			"node_growth_pct": 0.0,
+			"orphan_nodes": 0.0,
+			"static_mem_growth_mb": 0.9,
+			"vfx_nodes_created": 0.0
+		},
+		"hitch_list": [
+			{
+				"events": "",
+				"frame": 179.0,
+				"ms": 381.0,
+				"t": "0:23",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1623.0,
+				"ms": 247.9,
+				"t": "0:47",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 185.0,
+				"ms": 243.1,
+				"t": "0:23",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 172.0,
+				"ms": 235.4,
+				"t": "0:23",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 741.0,
+				"ms": 234.6,
+				"t": "0:32",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1019.0,
+				"ms": 233.2,
+				"t": "0:37",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1680.0,
+				"ms": 230.7,
+				"t": "0:48",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 130.0,
+				"ms": 228.7,
+				"t": "0:22",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 428.0,
+				"ms": 228.6,
+				"t": "0:27",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 123.0,
+				"ms": 224.0,
+				"t": "0:22",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1582.0,
+				"ms": 222.0,
+				"t": "0:46",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1361.0,
+				"ms": 220.3,
+				"t": "0:42",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 165.0,
+				"ms": 219.8,
+				"t": "0:22",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1935.0,
+				"ms": 219.6,
+				"t": "0:52",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1286.0,
+				"ms": 218.7,
+				"t": "0:41",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1672.0,
+				"ms": 216.7,
+				"t": "0:48",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1299.0,
+				"ms": 216.2,
+				"t": "0:41",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1694.0,
+				"ms": 213.9,
+				"t": "0:48",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1374.0,
+				"ms": 213.5,
+				"t": "0:43",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 1547.0,
+				"ms": 213.2,
+				"t": "0:45",
+				"top": []
+			}
+		],
+		"hot": [
+			{
+				"avg_ms": 1.9257,
+				"key": "scripts/ui/command_card.gd",
+				"max_ms": 275.236,
+				"median_ms": 0.094,
+				"nodes": 1.0,
+				"p95_ms": 3.2862,
+				"share_pct": 9.0,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.8478,
+				"key": "scripts/ui/selection_panel.gd",
+				"max_ms": 159.523,
+				"median_ms": 0.23,
+				"nodes": 1.0,
+				"p95_ms": 0.446,
+				"share_pct": 3.9,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.4867,
+				"key": "scripts/economy/worker.gd",
+				"max_ms": 164.054,
+				"median_ms": 0.143,
+				"nodes": 10.0,
+				"p95_ms": 0.259,
+				"share_pct": 2.3,
+				"system": "Units (gameplay)",
+				"system_id": "units"
+			},
+			{
+				"avg_ms": 0.404,
+				"key": "scripts/units/unit.gd",
+				"max_ms": 186.832,
+				"median_ms": 0.072,
+				"nodes": 14.0,
+				"p95_ms": 0.74,
+				"share_pct": 1.9,
+				"system": "Units (gameplay)",
+				"system_id": "units"
+			},
+			{
+				"avg_ms": 0.3757,
+				"key": "scripts/ui/mapfill_bar.gd",
+				"max_ms": 154.295,
+				"median_ms": 0.017,
+				"nodes": 1.0,
+				"p95_ms": 0.613,
+				"share_pct": 1.7,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.3678,
+				"key": "scripts/vfx/capture_rings.gd",
+				"max_ms": 148.335,
+				"median_ms": 0.004,
+				"nodes": 1.0,
+				"p95_ms": 0.177,
+				"share_pct": 1.7,
+				"system": "VFX managers",
+				"system_id": "vfx"
+			},
+			{
+				"avg_ms": 0.2351,
+				"key": "art/buildings/capture/wayshrine/wayshrine.gd",
+				"max_ms": 161.485,
+				"median_ms": 0.05,
+				"nodes": 2.0,
+				"p95_ms": 0.08,
+				"share_pct": 1.1,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.203,
+				"key": "art/units/wizards/vessa.gd",
+				"max_ms": 150.303,
+				"median_ms": 0.04,
+				"nodes": 2.0,
+				"p95_ms": 0.084,
+				"share_pct": 0.9,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.2009,
+				"key": "scripts/ui/champion_bar.gd",
+				"max_ms": 139.123,
+				"median_ms": 0.021,
+				"nodes": 1.0,
+				"p95_ms": 0.237,
+				"share_pct": 0.9,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.1925,
+				"key": "scripts/ui/inventory_bar.gd",
+				"max_ms": 149.413,
+				"median_ms": 0.037,
+				"nodes": 1.0,
+				"p95_ms": 0.055,
+				"share_pct": 0.9,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.1748,
+				"key": "scripts/ui/portrait.gd",
+				"max_ms": 161.932,
+				"median_ms": 0.015,
+				"nodes": 1.0,
+				"p95_ms": 0.023,
+				"share_pct": 0.8,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.1729,
+				"key": "[NavigationAgent3D]",
+				"max_ms": 129.701,
+				"median_ms": 0.013,
+				"nodes": 26.0,
+				"p95_ms": 0.016,
+				"share_pct": 0.8,
+				"system": "Built-in nodes ([NavigationAgent3D])",
+				"system_id": "engine_nodes"
+			},
+			{
+				"avg_ms": 0.1598,
+				"key": "art/buildings/guilds/magpie_den/magpie_den_model.gd",
+				"max_ms": 139.307,
+				"median_ms": 0.014,
+				"nodes": 2.0,
+				"p95_ms": 0.017,
+				"share_pct": 0.7,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.1524,
+				"key": "art/units/neutral/critters/rabbit.gd",
+				"max_ms": 134.72,
+				"median_ms": 0.012,
+				"nodes": 12.0,
+				"p95_ms": 0.015,
+				"share_pct": 0.7,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.1488,
+				"key": "scripts/ui/selection_manager.gd",
+				"max_ms": 125.821,
+				"median_ms": 0.02,
+				"nodes": 1.0,
+				"p95_ms": 0.156,
+				"share_pct": 0.7,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.1446,
+				"key": "art/units/neutral/mirefang/mirefang.gd",
+				"max_ms": 153.717,
+				"median_ms": 0.034,
+				"nodes": 6.0,
+				"p95_ms": 0.057,
+				"share_pct": 0.7,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.1444,
+				"key": "scripts/world/score_keeper.gd",
+				"max_ms": 147.109,
+				"median_ms": 0.007,
+				"nodes": 1.0,
+				"p95_ms": 0.01,
+				"share_pct": 0.7,
+				"system": "Level / world",
+				"system_id": "world"
+			},
+			{
+				"avg_ms": 0.1417,
+				"key": "art/units/neutral/warden_model.gd",
+				"max_ms": 164.893,
+				"median_ms": 0.024,
+				"nodes": 4.0,
+				"p95_ms": 0.063,
+				"share_pct": 0.7,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.1277,
+				"key": "scripts/ai/commander.gd",
+				"max_ms": 146.059,
+				"median_ms": 0.003,
+				"nodes": 6.0,
+				"p95_ms": 0.1351,
+				"share_pct": 0.6,
+				"system": "AI commanders",
+				"system_id": "ai_commander"
+			},
+			{
+				"avg_ms": 0.1259,
+				"key": "art/environment/critters/critter_system.gd",
+				"max_ms": 126.108,
+				"median_ms": 0.008,
+				"nodes": 1.0,
+				"p95_ms": 0.222,
+				"share_pct": 0.6,
+				"system": "Critters (game + cosmetic)",
+				"system_id": "critters"
+			},
+			{
+				"avg_ms": 0.1251,
+				"key": "art/environment/crown/crown_pedestal_art.gd",
+				"max_ms": 128.838,
+				"median_ms": 0.036,
+				"nodes": 1.0,
+				"p95_ms": 0.05,
+				"share_pct": 0.6,
+				"system": "Other art scripts",
+				"system_id": "art_other"
+			},
+			{
+				"avg_ms": 0.1237,
+				"key": "scripts/units/shadow_wizard.gd",
+				"max_ms": 182.464,
+				"median_ms": 0.01,
+				"nodes": 1.0,
+				"p95_ms": 0.082,
+				"share_pct": 0.6,
+				"system": "Units (gameplay)",
+				"system_id": "units"
+			},
+			{
+				"avg_ms": 0.1167,
+				"key": "scripts/ui/control_group_bar.gd",
+				"max_ms": 147.659,
+				"median_ms": 0.005,
+				"nodes": 1.0,
+				"p95_ms": 0.049,
+				"share_pct": 0.5,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.1101,
+				"key": "scripts/buildings/training_building.gd",
+				"max_ms": 152.772,
+				"median_ms": 0.015,
+				"nodes": 2.0,
+				"p95_ms": 0.019,
+				"share_pct": 0.5,
+				"system": "Buildings",
+				"system_id": "buildings"
+			},
+			{
+				"avg_ms": 0.0981,
+				"key": "art/environment/neutral/lost_cache_model.gd",
+				"max_ms": 132.193,
+				"median_ms": 0.009,
+				"nodes": 4.0,
+				"p95_ms": 0.01,
+				"share_pct": 0.5,
+				"system": "Other art scripts",
+				"system_id": "art_other"
+			}
+		],
+		"lint": {
+			"art/buildings/capture/wayshrine/wayshrine.gd": [
+				{
+					"code": "gi.set_instance_shader_parameter(&\"rune_color\", col)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 229.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "gi.set_instance_shader_parameter(&\"rune_energy\", energy)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 230.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "gi.set_instance_shader_parameter(&\"cap_color\", _cap_color)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 231.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "gi.set_instance_shader_parameter(&\"cap_ratio\", cap_ratio)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 232.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "gi.set_instance_shader_parameter(&\"flare\", flash)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 233.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "gi.set_instance_shader_parameter(&\"select_k\", _sel_k)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 234.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_ring.set_instance_shader_parameter(&\"cap_color\", _cap_color)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 240.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_ring.set_instance_shader_parameter(&\"cap_ratio\", cap_ratio)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 241.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_column.set_instance_shader_parameter(&\"grow\", g)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 253.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_burst.set_instance_shader_parameter(&\"burst\", b)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 258.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"art/units/wizards/vessa.gd": [
+				{
+					"code": "_flames.set_instance_shader_parameter(&\"glow_boost\", fb)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_wizard_process",
+					"line": 499.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_palm.set_instance_shader_parameter(&\"glow_boost\", glow_level() * (0.8 + 0.8 * pt))",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_wizard_process",
+					"line": 507.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"scripts/ui/champion_bar.gd": [
+				{
+					"code": "for ch in get_tree().get_nodes_in_group(&\"champions\"):",
+					"fix": "cache the list (refresh on node_added / a died signal or every 0.25-0.5 s), or read a shared per-frame cache",
+					"func": "scan_champions",
+					"line": 308.0,
+					"pattern": "get_nodes_in_group every call"
+				},
+				{
+					"code": "for ch in get_tree().get_nodes_in_group(&\"champions\"):",
+					"fix": "use a spatial grid / bucket by cell, or stagger the loop over several frames",
+					"func": "scan_champions",
+					"line": 308.0,
+					"pattern": "loop over all units"
+				},
+				{
+					"code": "visible = guild != null or not get_tree().get_nodes_in_group(&\"taverns\").is_empty()",
+					"fix": "cache the list (refresh on node_added / a died signal or every 0.25-0.5 s), or read a shared per-frame cache",
+					"func": "refresh",
+					"line": 374.0,
+					"pattern": "get_nodes_in_group every call"
+				}
+			],
+			"scripts/ui/mapfill_bar.gd": [
+				{
+					"code": "for b in get_tree().get_nodes_in_group(&\"beasts\"):",
+					"fix": "cache the list (refresh on node_added / a died signal or every 0.25-0.5 s), or read a shared per-frame cache",
+					"func": "refresh_bosses",
+					"line": 602.0,
+					"pattern": "get_nodes_in_group every call"
+				},
+				{
+					"code": "for b in get_tree().get_nodes_in_group(&\"beasts\"):",
+					"fix": "use a spatial grid / bucket by cell, or stagger the loop over several frames",
+					"func": "refresh_bosses",
+					"line": 602.0,
+					"pattern": "loop over all units"
+				},
+				{
+					"code": "for mode in get_tree().get_nodes_in_group(&\"bounty_mode\"):",
+					"fix": "cache the list (refresh on node_added / a died signal or every 0.25-0.5 s), or read a shared per-frame cache",
+					"func": "_hover_allowed",
+					"line": 860.0,
+					"pattern": "get_nodes_in_group every call"
+				},
+				{
+					"code": "for mode in get_tree().get_nodes_in_group(&\"bounty_mode\"):",
+					"fix": "use a spatial grid / bucket by cell, or stagger the loop over several frames",
+					"func": "_hover_allowed",
+					"line": 860.0,
+					"pattern": "loop over all units"
+				}
+			],
+			"scripts/ui/selection_panel.gd": [
+				{
+					"code": "hero_hp_text.text = \"HP  %d / %d\" % [ceili(hero.hp), int(hero.max_hp)]",
+					"fix": "build strings only when the text changes",
+					"func": "_update_hero",
+					"line": 564.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "hero_mana_text.text = \"Mana  %d / %d\" % [int(hero.mana), int(hero.max_mana)]",
+					"fix": "build strings only when the text changes",
+					"func": "_update_hero",
+					"line": 567.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "hero_status.text = \"%s returns in %d s\" % [_short_name(), ceili(left)] if left > 0.0 else ",
+					"fix": "build strings only when the text changes",
+					"func": "_update_hero",
+					"line": 580.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "hero_crown.text = \"%s  +%d HP Â· +%d mana\" % [str(crown.get(\"artifact_name\")),",
+					"fix": "build strings only when the text changes",
+					"func": "_update_hero",
+					"line": 587.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "_ghost_tween = create_tween()",
+					"fix": "tween once, or animate in _process with a lerp",
+					"func": "_update_hero_fx",
+					"line": 601.0,
+					"pattern": "tween per frame"
+				},
+				{
+					"code": "hero_xp_text.text = \"XP  %d / %d\" % [xp, next]",
+					"fix": "build strings only when the text changes",
+					"func": "_update_level",
+					"line": 658.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "xp_part = \" Â· XP %d / %d\" % [xp, next]",
+					"fix": "build strings only when the text changes",
+					"func": "_update_level",
+					"line": 659.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "hero_badge.tooltip_text = \"Level %d%s Â· %d spell point%s\" % [level, xp_part, points, \"\" if",
+					"fix": "build strings only when the text changes",
+					"func": "_update_level",
+					"line": 661.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "points_text.text = \"+%d point%s\" % [points, \"\" if points == 1 else \"s\"]",
+					"fix": "build strings only when the text changes",
+					"func": "_update_level",
+					"line": 664.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "_badge_tween = create_tween()",
+					"fix": "tween once, or animate in _process with a lerp",
+					"func": "flash_level_up",
+					"line": 680.0,
+					"pattern": "tween per frame"
+				},
+				{
+					"code": "single_hp_text.text = \"HP  %d / %d\" % [ceili(u.hp), int(u.max_hp)]",
+					"fix": "build strings only when the text changes",
+					"func": "_update_single",
+					"line": 726.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "var line := \"Damage %s Â· Range %.1f Â· Speed %.1f\" % [_num(dmg), u.attack_range, u.move_spe",
+					"fix": "build strings only when the text changes",
+					"func": "_update_single",
+					"line": 728.0,
+					"pattern": "string formatting"
+				}
+			],
+			"scripts/units/unit.gd": [
+				{
+					"code": "var units := get_tree().get_nodes_in_group(&\"units\")",
+					"fix": "cache the list (refresh on node_added / a died signal or every 0.25-0.5 s), or read a shared per-frame cache",
+					"func": "_refresh_auras",
+					"line": 908.0,
+					"pattern": "get_nodes_in_group every call"
+				},
+				{
+					"code": "for node in units:",
+					"fix": "use a spatial grid / bucket by cell, or stagger the loop over several frames",
+					"func": "_refresh_auras",
+					"line": 917.0,
+					"pattern": "loop over all units"
+				},
+				{
+					"code": "_chevrons = Label3D.new()",
+					"fix": "pool the object / node, or reuse a member instead of allocating per frame",
+					"func": "_update_chevrons",
+					"line": 1078.0,
+					"pattern": "allocation (.new())"
+				},
+				{
+					"code": "_death_tween = create_tween()",
+					"fix": "tween once, or animate in _process with a lerp",
+					"func": "die",
+					"line": 1309.0,
+					"pattern": "tween per frame"
+				},
+				{
+					"code": "if _last_nav_target.distance_to(pos) > 0.5:",
+					"fix": "compare distance_squared_to against a squared radius",
+					"func": "_set_nav_target",
+					"line": 1814.0,
+					"pattern": "distance_to (sqrt)"
+				},
+				{
+					"code": "var next := _agent.get_next_path_position()",
+					"fix": "cache paths / stagger repaths",
+					"func": "_path_velocity",
+					"line": 1820.0,
+					"pattern": "navigation query"
+				},
+				{
+					"code": "_hp_mat.set_shader_parameter(\"fill\", clamp(hp / total, 0.0, 1.0))",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_update_hp_bar",
+					"line": 1948.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_hp_mat.set_shader_parameter(\"shield_end\", clamp((hp + shield) / total, 0.0, 1.0))",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_update_hp_bar",
+					"line": 1949.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"scripts/vfx/capture_rings.gd": [
+				{
+					"code": "return \"%d:%02d\" % [s / 60, s % 60]",
+					"fix": "build strings only when the text changes",
+					"func": "time_text",
+					"line": 239.0,
+					"pattern": "string formatting"
+				},
+				{
+					"code": "return get_tree().get_nodes_in_group(&\"capture_points\")",
+					"fix": "cache the list (refresh on node_added / a died signal or every 0.25-0.5 s), or read a shared per-frame cache",
+					"func": "_points",
+					"line": 261.0,
+					"pattern": "get_nodes_in_group every call"
+				},
+				{
+					"code": "var quad := QuadMesh.new()",
+					"fix": "pool the object / node, or reuse a member instead of allocating per frame",
+					"func": "_add_ring",
+					"line": 284.0,
+					"pattern": "allocation (.new())"
+				},
+				{
+					"code": "var mat := ShaderMaterial.new()",
+					"fix": "pool the object / node, or reuse a member instead of allocating per frame",
+					"func": "_add_ring",
+					"line": 287.0,
+					"pattern": "allocation (.new())"
+				},
+				{
+					"code": "var mesh := MeshInstance3D.new()",
+					"fix": "pool the object / node, or reuse a member instead of allocating per frame",
+					"func": "_add_ring",
+					"line": 289.0,
+					"pattern": "allocation (.new())"
+				},
+				{
+					"code": "mat.set_shader_parameter(key, look[key])",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_refresh_ring",
+					"line": 332.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "return get_tree().get_nodes_in_group(&\"neutral_camps\") if is_inside_tree() else []",
+					"fix": "cache the list (refresh on node_added / a died signal or every 0.25-0.5 s), or read a shared per-frame cache",
+					"func": "_camp_list",
+					"line": 417.0,
+					"pattern": "get_nodes_in_group every call"
+				},
+				{
+					"code": "var l := Label3D.new()",
+					"fix": "pool the object / node, or reuse a member instead of allocating per frame",
+					"func": "_make_label",
+					"line": 521.0,
+					"pattern": "allocation (.new())"
+				}
+			]
+		},
+		"log": "early_cpu_r2.log",
+		"measured_s": 45.0,
+		"mode": "cpu",
+		"monitors": {
+			"draw_calls": 0.0,
+			"draw_calls_max": 0.0,
+			"nav_agents": 35.789,
+			"nav_agents_max": 36.0,
+			"navigation_ms": 82.892,
+			"navigation_ms_max": 216.467,
+			"nodes_end": 6839.0,
+			"objects": 0.0,
+			"objects_end": 17985.0,
+			"objects_max": 0.0,
+			"physics_active_objects": 25.789,
+			"physics_active_objects_max": 26.0,
+			"physics_ms": 143.423,
+			"physics_ms_max": 241.323,
+			"physics_pairs": 27.802,
+			"physics_pairs_max": 64.0,
+			"primitives": 0.0,
+			"primitives_max": 0.0,
+			"process_ms": 160.977,
+			"process_ms_max": 377.239,
+			"resources_end": 1640.0,
+			"static_mem_mb": 195.1,
+			"video_mem_mb": 0.0
+		},
+		"nodes_avg": 6832.0,
+		"noise_reasons": [
+			"40 other Godot process(es) (max 30 at once)",
+			"other CPU load 100.2 %",
+			"46 other Godot process(es) (max 31 at once)",
+			"other CPU load 102.5 %",
+			"calibration 109 ms vs best 19 (x5.6)"
+		],
+		"noisy": true,
+		"notes": [],
+		"other_cpu_pct": 102.5,
+		"other_godot_max": 31.0,
+		"pair": "fire:shadow",
+		"profile": false,
+		"profiled_frame_avg": 21.48,
+		"real_s": 116.15,
+		"repeat_avgs": [
+			22.818
+		],
+		"repeat_spread_pct": 0.0,
+		"repeats": 1,
+		"resolution": "",
+		"run": 2.0,
+		"runs_quiet": 0,
+		"runs_total": 2,
+		"scenario": "early",
+		"script_errors": 0,
+		"seed": 1.0,
+		"started": "2026-09-26 21:56:45",
+		"systems": {
+			"ai_commander": {
+				"avg_ms": 0.1277,
+				"max_ms": 146.059,
+				"median_ms": 0.003,
+				"p95_ms": 0.1351
+			},
+			"art_other": {
+				"avg_ms": 0.3446,
+				"max_ms": 202.191,
+				"median_ms": 0.081,
+				"p95_ms": 0.125
+			},
+			"beast_brains": {
+				"avg_ms": 0.0471,
+				"max_ms": 113.632,
+				"median_ms": 0.004,
+				"p95_ms": 0.018
+			},
+			"buildings": {
+				"avg_ms": 0.158,
+				"max_ms": 152.796,
+				"median_ms": 0.043,
+				"p95_ms": 0.217
+			},
+			"critters": {
+				"avg_ms": 0.2488,
+				"max_ms": 141.227,
+				"median_ms": 0.036,
+				"p95_ms": 0.254
+			},
+			"engine_nodes": {
+				"avg_ms": 0.1792,
+				"max_ms": 129.705,
+				"median_ms": 0.019,
+				"p95_ms": 0.025
+			},
+			"fog": {
+				"avg_ms": 0.0683,
+				"max_ms": 8.094,
+				"median_ms": 0.004,
+				"p95_ms": 0.5091
+			},
+			"map_fill": {
+				"avg_ms": 0.1108,
+				"max_ms": 98.488,
+				"median_ms": 0.016,
+				"p95_ms": 0.131
+			},
+			"other": {
+				"avg_ms": 0.0056,
+				"max_ms": 1.199,
+				"median_ms": 0.004,
+				"p95_ms": 0.017
+			},
+			"trade": {
+				"avg_ms": 0.1031,
+				"max_ms": 183.529,
+				"median_ms": 0.026,
+				"p95_ms": 0.041
+			},
+			"ui": {
+				"avg_ms": 4.3677,
+				"max_ms": 276.082,
+				"median_ms": 0.694,
+				"p95_ms": 4.7132
+			},
+			"unclassified": {
+				"avg_ms": 2.2679,
+				"max_ms": 359.119,
+				"median_ms": 0.671,
+				"p95_ms": 1.5621
+			},
+			"unit_models": {
+				"avg_ms": 1.406,
+				"max_ms": 165.271,
+				"median_ms": 0.371,
+				"p95_ms": 0.8681
+			},
+			"units": {
+				"avg_ms": 1.3138,
+				"max_ms": 187.001,
+				"median_ms": 0.269,
+				"p95_ms": 1.0293
+			},
+			"vfx": {
+				"avg_ms": 0.7768,
+				"max_ms": 155.134,
+				"median_ms": 0.19,
+				"p95_ms": 0.5041
+			},
+			"world": {
+				"avg_ms": 0.4604,
+				"max_ms": 161.236,
+				"median_ms": 0.123,
+				"p95_ms": 0.2351
+			}
+		},
+		"units_avg": 26.0,
+		"v": 1.0,
+		"wall_s": 123.3,
+		"what": "1v1 skirmish from 0:20 to 1:05, both sides normal Commanders, full art and map fill"
+	},
+	"scenario": "early",
+	"score": 41.8,
+	"verdict": "FAIL"
+}

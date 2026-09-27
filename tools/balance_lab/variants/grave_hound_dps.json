@@ -1,0 +1,7 @@
+{
+	"name": "grave_hound_dps",
+	"notes": "Data Lab B1: Grave Hound DPS per 100 crystals is x2.2 the slot C median. One 25 % step down (8 -> 6 damage), cost unchanged.",
+	"units": {
+		"grave_hound": {"attack_damage": "x0.75"}
+	}
+}

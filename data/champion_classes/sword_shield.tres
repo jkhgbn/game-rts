@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ChampionClass" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/champion_class.gd" id="1_class"]
+
+[resource]
+script = ExtResource("1_class")
+id = &"sword_shield"
+display_name = "Sword and Shield"
+attack_damage = 12.0
+attack_cooldown = 1.1
+attack_range = 1.8
+is_ranged = false
+projectile_color = Color(1, 0.8, 0.4, 1)
+projectile_speed = 0.0
+attack_style = &"sword_slash"
+stats = {
+&"armor": 10.0,
+&"move_speed": -0.2
+}
+flee_delta = -0.05
+ability_ids = Array[StringName]([&"riposte", &"second_wind", &"shield_throw"])
+unlock_levels = Array[int]([2, 3, 5])
+bounty_kind = &"guard"
+icon_abbrev = "SS"
+tooltip = "Sword and Shield · melee · +10 armor · 12 damage every 1.1 s"

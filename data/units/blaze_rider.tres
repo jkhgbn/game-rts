@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/fire/blaze_rider.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"blaze_rider"
+display_name = "Blaze Rider"
+faction = &"fire"
+is_worker = false
+cost = 180
+pop = 2
+kill_xp = 90
+train_time = 30.0
+card_key = "R"
+max_hp = 220.0
+move_speed = 7.5
+attack_damage = 18.0
+attack_range = 1.7
+attack_cooldown = 0.9
+aggro_range = 9.0
+radius = 0.6
+body_height = 2.3
+body_color = Color(0.95, 0.4, 0.05, 1)
+model_scene = ExtResource("2_model")

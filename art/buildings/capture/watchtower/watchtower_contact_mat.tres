@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/buildings/capture/watchtower/watchtower_ground.gdshader" id="1_wtg"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_wtn"]
+
+[resource]
+render_priority = -1
+shader = ExtResource("1_wtg")
+shader_parameter/noise_tex = ExtResource("2_wtn")

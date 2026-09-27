@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/neutral/beasts/frost_wyrm/wyrm_scale.gdshader" id="1_wys"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_wys"]
+[resource]
+resource_name = "wyrm_claw"
+render_priority = 0
+shader = ExtResource("1_wys")
+shader_parameter/base_color = Color(0.16, 0.19, 0.27, 1)
+shader_parameter/belly_color = Color(0.9, 0.93, 0.98, 1)
+shader_parameter/noise_tex = ExtResource("2_wys")
+shader_parameter/spec_strength = 0.35
+shader_parameter/rim_strength = 0.2
+shader_parameter/crack_amount = 0.0
+shader_parameter/frost_top = 0.0
+shader_parameter/spot_energy = 0.0

@@ -1,0 +1,594 @@
+{
+	"checks": [
+		{
+			"graded": 0.847303053938921,
+			"group": "frame",
+			"id": "F1",
+			"name": "Frame avg (windowed)",
+			"rule": "FAIL > 16.67, WARN > 8.33 ms (cinematics.md:316-317, map-fill.md:406 (60 fps at 1600x900 / 3440x1440); warn 120 Hz (lab default))",
+			"score": 0.288083038339233,
+			"status": "FAIL",
+			"value": "19.21 ms",
+			"weight": 2.0
+		},
+		{
+			"graded": 0.504529909401812,
+			"group": "shape",
+			"id": "S1",
+			"name": "Frame p95",
+			"rule": "WARN > 25.00 ms (1.5x the avg budget)",
+			"score": 0.521540169196616,
+			"status": "WARN",
+			"value": "31.19 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.77782444351113,
+			"group": "shape",
+			"id": "S2",
+			"name": "Frame p99",
+			"rule": "WARN > 33.33 ms",
+			"score": 0.614460310793784,
+			"status": "WARN",
+			"value": "37.04 ms (max 47.6 ms)",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.3108124324973,
+			"group": "gpu",
+			"id": "G1",
+			"name": "GPU render time avg",
+			"rule": "FAIL > 16.7 ms, WARN > 8.3 ms (cinematics.md:316-317, map-fill.md:406 (60 fps at 1600x900 / 3440x1440); warn 120 Hz (lab default))",
+			"score": 0.79324372974919,
+			"status": "PASS",
+			"value": "7.04 ms (p95 8.51)",
+			"weight": 2.0
+		},
+		{
+			"graded": 0.945948666666667,
+			"group": "gpu",
+			"id": "G-draw_calls",
+			"name": "Render draw calls (avg per frame)",
+			"rule": "WARN > 3000 (lab default (art-units.md:627: 200 units ~ 2 800 draw instances; art-keep.md:294: base <= 60 draw calls))",
+			"score": 0.9837846,
+			"status": "PASS",
+			"value": "1581 (max 2246)",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.4305348,
+			"group": "gpu",
+			"id": "G-objects",
+			"name": "Render objects (avg per frame)",
+			"rule": "WARN > 5000 (lab default (art-units.md:627: 200 units ~ 2 800 draw instances; art-keep.md:294: base <= 60 draw calls))",
+			"score": 0.82916044,
+			"status": "PASS",
+			"value": "3924 (max 6340)",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.800554092,
+			"group": "gpu",
+			"id": "G-primitives",
+			"name": "Render primitives (avg per frame)",
+			"rule": "WARN > 4000000 (lab default (art-units.md:627: 200 units ~ 2 800 draw instances; art-keep.md:294: base <= 60 draw calls))",
+			"score": 0.9401662276,
+			"status": "PASS",
+			"value": "2398892 (max 2671778)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "gpu",
+			"id": "G-vmem",
+			"name": "Video memory",
+			"rule": "info (GTX 1660: 6 GB)",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "354 MB",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "shape",
+			"id": "S3",
+			"name": "Hitches (> 33 ms)",
+			"rule": "FAIL > 3.0 / min, WARN > 0.5 / min (lab default (docs/plan/perf-lab.md 'Budgets'))",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "36 in 25 s (86.40 / min)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P0",
+			"name": "Band profiler",
+			"rule": "run with --profile=1 for the hot list",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "no profiled run",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C1",
+			"name": "lights",
+			"rule": "FAIL > 15 (step12-agent-rules.md:27-28 (the skirmish's 15 omni lights are the cap; 0 new real lights))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "3.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C2",
+			"name": "shadow lights",
+			"rule": "FAIL > 1 (art-keep.md:291 / map-fill.md:400 (the sun is the only shadow-casting light))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "1.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C3",
+			"name": "decor instances",
+			"rule": "FAIL > 12000 (map-fill.md:400 (<= 12 000 decor instances))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "3957.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C4",
+			"name": "draw nodes decor",
+			"rule": "WARN > 140 (map-2v2.md:227 (<= 140 draw nodes; 1v1 checked as WARN))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "114.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C5",
+			"name": "geometry nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "672.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C6",
+			"name": "shadow casters",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "166.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C7",
+			"name": "particle systems",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "157.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C8",
+			"name": "multimesh nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "140.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C9",
+			"name": "nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "6220.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H1",
+			"name": "VFX nodes created after warm-up",
+			"rule": "FAIL > 0 (art-units.md:631, champion-skill-tree.md:361 (pooled one-shots, never instanced at runtime))",
+			"score": 0.0,
+			"status": "FAIL",
+			"value": "27 ({\"GPUParticles3D\":9,\"MeshInstance3D\":16,\"Node3D\":2})",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H2",
+			"name": "Orphan nodes at the end",
+			"rule": "WARN > 0 (lab default (orphans = leaked nodes))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"id": "H3",
+			"name": "Node growth (non-unit)",
+			"rule": "WARN > 10 % (lab default (nodes after warm-up vs the end, units excluded))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "+0.0 %",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H4",
+			"name": "Static memory growth",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "+2.7 MB",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H5",
+			"name": "Machine noise",
+			"rule": "WARN when other Godot processes ran or the CPU was busy (numbers not comparable)",
+			"score": 0.5,
+			"status": "WARN",
+			"value": "noisy: 38 other Godot process(es) (max 25 at once); other CPU load 101.2 %; calibration 26 ms vs best 19 (x1.3)",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 3,
+		"INFO": 8,
+		"PASS": 10,
+		"WARN": 3
+	},
+	"improve_next": [
+		{
+			"rank": 200.0,
+			"source": "check H1",
+			"text": "nodes were created under a VFX manager during the measure window (27 ({\"GPUParticles3D\":9,\"MeshInstance3D\":16,\"Node3D\":2})): pre-build them in the manager's _ready and restart them (art-units.md 8).",
+			"title": "Pool the VFX"
+		},
+		{
+			"rank": 1.0,
+			"source": "standing idea",
+			"text": "Many per-frame functions call `get_tree().get_nodes_in_group(&\"units\")`: a shared per-frame cache (one array per group, rebuilt once per physics frame) removes the repeated allocations (ai-2v2.md:336 AIWorldCache pattern).",
+			"title": "Cache group lists"
+		},
+		{
+			"rank": 0.9,
+			"source": "standing idea",
+			"text": "Give every timer-driven tick (commander, brains, capture points, camps) a random phase offset so they never all fire on the same frame (ai-2v2.md:334).",
+			"title": "Stagger periodic work"
+		}
+	],
+	"lab_version": "1.0",
+	"mode": "gpu",
+	"noise_reasons": [
+		"38 other Godot process(es) (max 25 at once)",
+		"other CPU load 101.2 %",
+		"calibration 26 ms vs best 19 (x1.3)"
+	],
+	"noisy": true,
+	"previous": {},
+	"result": {
+		"ai": {
+			"commanders": 1.0,
+			"note": "commander.gd counters since the match start (first tick not counted)",
+			"tick_max_ms": 3.775,
+			"tick_median_ms": 1.036,
+			"ticks": 27.0,
+			"worst_step": "wizard",
+			"worst_step_ms": 2.192
+		},
+		"calib_ms": [
+			25.51,
+			25.12
+		],
+		"census": {
+			"decor_instances": 3957.0,
+			"draw_nodes_decor": 114.0,
+			"geometry_nodes": 672.0,
+			"lights": 3.0,
+			"multimesh_nodes": 140.0,
+			"node_classes": {
+				"Button": 123.0,
+				"CharacterBody3D": 78.0,
+				"CollisionShape3D": 174.0,
+				"ColorRect": 361.0,
+				"Control": 305.0,
+				"GPUParticles3D": 1446.0,
+				"HBoxContainer": 92.0,
+				"Label": 470.0,
+				"MeshInstance3D": 2182.0,
+				"MultiMeshInstance3D": 174.0,
+				"Node3D": 332.0,
+				"StaticBody3D": 120.0
+			},
+			"nodes": 6220.0,
+			"nodes_non_unit": 6144.0,
+			"particle_systems": 157.0,
+			"shadow_casters": 166.0,
+			"shadow_lights": 1.0
+		},
+		"commit": "main@49ff2b29cb+wip",
+		"cpu_before_pct": 100.0,
+		"cpu_count": 6.0,
+		"frame": {
+			"avg": 19.212,
+			"frames": 1500.0,
+			"hitches": 36.0,
+			"max": 47.575,
+			"p50": 17.566,
+			"p95": 31.194,
+			"p99": 37.037
+		},
+		"gpu": {
+			"draw_calls_avg": 1581.077,
+			"draw_calls_max": 2246.0,
+			"gpu_ms_avg": 7.038,
+			"gpu_ms_max": 9.243,
+			"gpu_ms_p95": 8.512,
+			"objects_avg": 3923.663,
+			"objects_max": 6340.0,
+			"primitives_avg": 2398891.816,
+			"primitives_max": 2671778.0,
+			"video_mem_mb": 354.0
+		},
+		"health": {
+			"node_classes_end": {
+				"Button": 123.0,
+				"CollisionShape3D": 173.0,
+				"ColorRect": 361.0,
+				"Control": 305.0,
+				"GPUParticles3D": 1452.0,
+				"HBoxContainer": 92.0,
+				"Label": 470.0,
+				"MeshInstance3D": 2186.0,
+				"MultiMeshInstance3D": 174.0,
+				"Node3D": 324.0,
+				"PanelContainer": 73.0,
+				"StaticBody3D": 120.0
+			},
+			"node_growth_pct": 0.0,
+			"orphan_nodes": 0.0,
+			"static_mem_growth_mb": 2.7,
+			"vfx_nodes_created": 27.0,
+			"vfx_nodes_top": "{\"GPUParticles3D\":9,\"MeshInstance3D\":16,\"Node3D\":2}"
+		},
+		"hitch_list": [
+			{
+				"events": "4 nodes added",
+				"frame": 42.0,
+				"ms": 47.6,
+				"t": "0:03",
+				"top": []
+			},
+			{
+				"events": "cast shadow_lance, cast soul_siphon, cast umbral_shroud",
+				"frame": 690.0,
+				"ms": 47.2,
+				"t": "0:14",
+				"top": []
+			},
+			{
+				"events": "6 nodes added",
+				"frame": 301.0,
+				"ms": 45.0,
+				"t": "0:08",
+				"top": []
+			},
+			{
+				"events": "2 nodes added",
+				"frame": 327.0,
+				"ms": 43.2,
+				"t": "0:08",
+				"top": []
+			},
+			{
+				"events": "2 nodes added",
+				"frame": 213.0,
+				"ms": 42.3,
+				"t": "0:06",
+				"top": []
+			},
+			{
+				"events": "2 nodes added",
+				"frame": 479.0,
+				"ms": 42.2,
+				"t": "0:11",
+				"top": []
+			},
+			{
+				"events": "4 nodes added",
+				"frame": 373.0,
+				"ms": 41.3,
+				"t": "0:09",
+				"top": []
+			},
+			{
+				"events": "cast shadow_lance, cast soul_siphon, cast umbral_shroud",
+				"frame": 540.0,
+				"ms": 41.0,
+				"t": "0:12",
+				"top": []
+			},
+			{
+				"events": "2 nodes added",
+				"frame": 352.0,
+				"ms": 40.6,
+				"t": "0:09",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 130.0,
+				"ms": 40.0,
+				"t": "0:05",
+				"top": []
+			},
+			{
+				"events": "2 nodes added",
+				"frame": 109.0,
+				"ms": 38.6,
+				"t": "0:05",
+				"top": []
+			},
+			{
+				"events": "cast shadow_lance, cast soul_siphon, cast umbral_shroud",
+				"frame": 270.0,
+				"ms": 37.9,
+				"t": "0:07",
+				"top": []
+			},
+			{
+				"events": "cast shadow_lance, cast soul_siphon, cast umbral_shroud",
+				"frame": 120.0,
+				"ms": 37.8,
+				"t": "0:05",
+				"top": []
+			},
+			{
+				"events": "2 nodes added",
+				"frame": 767.0,
+				"ms": 37.6,
+				"t": "0:16",
+				"top": []
+			},
+			{
+				"events": "7 nodes added",
+				"frame": 32.0,
+				"ms": 37.4,
+				"t": "0:03",
+				"top": []
+			},
+			{
+				"events": "cast shadow_lance, cast soul_siphon, cast umbral_shroud",
+				"frame": 60.0,
+				"ms": 37.0,
+				"t": "0:04",
+				"top": []
+			},
+			{
+				"events": "",
+				"frame": 95.0,
+				"ms": 36.5,
+				"t": "0:04",
+				"top": []
+			},
+			{
+				"events": "cast shadow_lance, cast soul_siphon, cast umbral_shroud",
+				"frame": 150.0,
+				"ms": 36.5,
+				"t": "0:05",
+				"top": []
+			},
+			{
+				"events": "2 nodes added",
+				"frame": 646.0,
+				"ms": 36.1,
+				"t": "0:13",
+				"top": []
+			},
+			{
+				"events": "armies 40 v 40 spawned, scenario setup, cast fireball, cast ember_step, cast kindle, cast shadow_lance, cast soul_siphon, cast umbral_shroud, cast fireball, cast ember_step, cast kindle, cast shadow_lance, cast soul_siphon, cast umbral_shroud, cast fireball, cast ember_step, cast kindle, cast shadow_lance, cast soul_siphon, cast umbral_shroud, cast fireball, cast ember_step, cast kindle, cast shadow_lance, cast soul_siphon, cast umbral_shroud, cast shadow_lance, cast soul_siphon, cast umbral_shroud, cast shadow_lance, cast soul_siphon, cast umbral_shroud, cast shadow_lance, cast soul_siphon, cast umbral_shroud, 7 nodes added",
+				"frame": 0.0,
+				"ms": 36.1,
+				"t": "0:03",
+				"top": []
+			}
+		],
+		"log": "vfx_storm_gpu_1600x900_r1.log",
+		"measured_s": 25.0,
+		"mode": "gpu",
+		"monitors": {
+			"draw_calls": 1581.077,
+			"draw_calls_max": 2246.0,
+			"nav_agents": 50.927,
+			"nav_agents_max": 88.0,
+			"navigation_ms": 3.274,
+			"navigation_ms_max": 4.314,
+			"nodes_end": 6892.0,
+			"objects": 3923.663,
+			"objects_end": 17857.0,
+			"objects_max": 6340.0,
+			"physics_active_objects": 37.819,
+			"physics_active_objects_max": 76.0,
+			"physics_ms": 17.142,
+			"physics_ms_max": 27.872,
+			"physics_pairs": 44.261,
+			"physics_pairs_max": 91.0,
+			"primitives": 2398891.816,
+			"primitives_max": 2671778.0,
+			"process_ms": 22.946,
+			"process_ms_max": 44.193,
+			"resources_end": 1661.0,
+			"static_mem_mb": 356.3,
+			"video_mem_mb": 354.0
+		},
+		"nodes_avg": 7443.0,
+		"noise_reasons": [
+			"38 other Godot process(es) (max 25 at once)",
+			"other CPU load 101.2 %",
+			"calibration 26 ms vs best 19 (x1.3)"
+		],
+		"noisy": true,
+		"notes": [
+			"storm: 9 VFX managers driven (TitanVfx, TitanGroundVfx, MapFillVfx, BeastVfx, WyrmVfx, TradeVfx, UnitFireGunVfx, UnitIceRifleVfx, UnitNatureT3Vfx)"
+		],
+		"other_cpu_pct": 101.2,
+		"other_godot_max": 25.0,
+		"pair": "fire:shadow",
+		"profile": false,
+		"real_s": 66.83,
+		"repeat_avgs": [
+			19.212
+		],
+		"repeat_spread_pct": 0.0,
+		"repeats": 1,
+		"resolution": "1600x900",
+		"run": 1.0,
+		"runs_quiet": 0,
+		"runs_total": 1,
+		"scenario": "vfx_storm",
+		"script_errors": 0,
+		"seed": 1.0,
+		"started": "2026-09-26 22:18:50",
+		"units_avg": 38.0,
+		"v": 1.0,
+		"wall_s": 87.2,
+		"what": "40 v 40 fight + both wizards casting every spell each 0.5 s + every VFX manager's effects round-robin"
+	},
+	"scenario": "vfx_storm",
+	"score": 68.2,
+	"verdict": "FAIL"
+}

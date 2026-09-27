@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/landmarks/meshes/aqueduct.res" id="1_mks5q"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_s5ufk"]
+height = 1.8
+radius = 0.9
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_anb2t"]
+height = 1.8
+radius = 0.9
+
+[node name="Aqueduct" type="Node3D" unique_id=1531934030 groups=["landmarks"]]
+metadata/landmark_id = &"lm_aqueduct"
+metadata/decor_clear_radius = 5.8
+metadata/foam_rocks = PackedVector3Array(0, 0, 1.1, 1.7, 0, 0.8, 1.6, -1.2, 0.55)
+
+[node name="Model" type="MeshInstance3D" parent="." unique_id=940492756]
+gi_mode = 0
+mesh = ExtResource("1_mks5q")
+
+[node name="Collision" type="StaticBody3D" parent="." unique_id=246692510]
+collision_mask = 0
+
+[node name="PierWest" type="CollisionShape3D" parent="Collision" unique_id=395678808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 0.9, 0)
+shape = SubResource("CylinderShape3D_s5ufk")
+
+[node name="PierEast" type="CollisionShape3D" parent="Collision" unique_id=1498921225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 0.9, 0)
+shape = SubResource("CylinderShape3D_anb2t")

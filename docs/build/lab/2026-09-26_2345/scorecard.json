@@ -1,0 +1,304 @@
+{
+    "lab":  "build_lab",
+    "version":  "1.0",
+    "run":  "2026-09-26_2345",
+    "time":  "2026-09-26 23:49",
+    "result":  "FAIL",
+    "score":  80,
+    "preset":  "Windows Desktop",
+    "release":  true,
+    "build_dir":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337",
+    "exe":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\game\\FourWizards.exe",
+    "zip":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\FourWizards-2026-09-26.zip",
+    "exe_bytes":  145495832,
+    "pck_bytes":  36368152,
+    "zip_bytes":  57731742,
+    "files":  3211,
+    "export_seconds":  0,
+    "boot":  {
+                 "timed_out":  false,
+                 "seconds":  5.2,
+                 "exit":  0
+             },
+    "smoke":  {
+                  "timed_out":  false,
+                  "seconds":  103.6,
+                  "exit":  0
+              },
+    "smoke_line":  "GAME OVER at frame 3720: victory=true player=3 enemy=4",
+    "checks":  [
+                   {
+                       "check":  "Export",
+                       "status":  "INFO",
+                       "detail":  "skipped (re-using C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\game\\FourWizards.exe)",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "PCK listing",
+                       "status":  "INFO",
+                       "detail":  "3211 files, 34,7 MB (embedded in the exe), pack format 4, Godot 4.7.2",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Size vs previous",
+                       "status":  "PASS",
+                       "detail":  "exe 138,8 MB (+0 KB, +0,0%) vs 2026-09-26_2337 (138,8 MB)",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: excludes dev folders",
+                       "status":  "PASS",
+                       "detail":  "exclude_filter = tests/*, docs/*, tools/*, art/preview/*",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: includes *.json",
+                       "status":  "PASS",
+                       "detail":  "include_filter = *.json",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: no dev files in pack",
+                       "status":  "PASS",
+                       "detail":  "no docs/ tools/ tests/ art/preview/ .md .ps1 source-art files in the pack",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Art tool scripts in the pack",
+                       "status":  "INFO",
+                       "detail":  "306 files (1,2 MB) from art preview / render tools ship (e.g. art/units/kit/tools/kitfix_glow_check.tscn, art/units/fire/blaze_rider/tools/blaze_rider_preview.tscn); an exclude like `art/*/tools/*` would drop them",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: data files ship",
+                       "status":  "PASS",
+                       "detail":  "0 non-resource data files (json/txt/csv/cfg) in game folders, all in the pack",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: referenced files ship",
+                       "status":  "FAIL",
+                       "detail":  "4 files referenced by game code are not in the pack, e.g. art/environment/autumn/nature_autumn.gdshader (from art/environment/autumn/nature_autumn_mat.tres), art/environment/autumn/horizon_autumn.gdshader (from art/environment/autumn/horizon_autumn_mat.tres), art/environment/autumn/autumn_ground_params.gd (from art/environment/autumn/autumn_ground_params.gd), art/environment/autumn/world_env_autumn.tres (from art/environment/autumn/preset_autumn.tres)",
+                       "fix":  "Check the include / exclude filters for these paths."
+                   },
+                   {
+                       "check":  "Preview scripts in the build",
+                       "status":  "INFO",
+                       "detail":  "33 docs/ paths named by art preview / lab scripts (screenshot outputs; they ship but never run in the game)",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Main scene + autoloads",
+                       "status":  "PASS",
+                       "detail":  "in the pack: scenes/ui/main_menu.tscn, scripts/core/events.gd",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Runtime folder listing",
+                       "status":  "PASS",
+                       "detail":  "no res:// DirAccess listing without .remap handling",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Console wrapper",
+                       "status":  "INFO",
+                       "detail":  "none for release exports (preset debug/export_console_wrapper=1); the lab reads the GUI exe\u0027s redirected output",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Boot (exported)",
+                       "status":  "PASS",
+                       "detail":  "main menu ran 600 frames headless, exit 0, no errors (5.2 s)",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Smoke (exported)",
+                       "status":  "PASS",
+                       "detail":  "GAME OVER at frame 3720: victory=true player=3 enemy=4 (103.6 s, exit 0)",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Zip",
+                       "status":  "PASS",
+                       "detail":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\FourWizards-2026-09-26.zip (55,1 MB, 8 s)",
+                       "fix":  ""
+                   }
+               ],
+    "categories":  [
+                       {
+                           "category":  "art/",
+                           "bytes":  32815994,
+                           "files":  2556
+                       },
+                       {
+                           "category":  "scripts/",
+                           "bytes":  1828649,
+                           "files":  272
+                       },
+                       {
+                           "category":  "assets/",
+                           "bytes":  1112522,
+                           "files":  112
+                       },
+                       {
+                           "category":  "data/",
+                           "bytes":  180186,
+                           "files":  258
+                       },
+                       {
+                           "category":  ".godot (engine)",
+                           "bytes":  91016,
+                           "files":  2
+                       },
+                       {
+                           "category":  "scenes/",
+                           "bytes":  6128,
+                           "files":  8
+                       },
+                       {
+                           "category":  "missions/",
+                           "bytes":  1032,
+                           "files":  2
+                       },
+                       {
+                           "category":  "root files",
+                           "bytes":  729,
+                           "files":  1
+                       }
+                   ],
+    "top":  [
+                {
+                    "path":  "art/environment/meshes/map_cliffs.res",
+                    "source":  "art/environment/meshes/map_cliffs.res",
+                    "size":  1990978
+                },
+                {
+                    "path":  ".godot/exported/133200997/export-856d4fd4d47171f1bae2b1eb647fda54-nature_keep.scn",
+                    "source":  "art/buildings/nature_keep.tscn",
+                    "size":  1899722
+                },
+                {
+                    "path":  "art/environment/river_mouths/map_cliffs_closed.res",
+                    "source":  "art/environment/river_mouths/map_cliffs_closed.res",
+                    "size":  1321679
+                },
+                {
+                    "path":  "art/environment/bridges/lane_bridge.res",
+                    "source":  "art/environment/bridges/lane_bridge.res",
+                    "size":  642748
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/standing_stones.res",
+                    "source":  "art/environment/landmarks/meshes/standing_stones.res",
+                    "size":  504168
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/colossus.res",
+                    "source":  "art/environment/landmarks/meshes/colossus.res",
+                    "size":  496716
+                },
+                {
+                    "path":  "art/environment/camps/meshes/gloomcap_base.res",
+                    "source":  "art/environment/camps/meshes/gloomcap_base.res",
+                    "size":  482976
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_south_east.res",
+                    "source":  "art/environment/horizon/meshes/horizon_south_east.res",
+                    "size":  468353
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_north_west.res",
+                    "source":  "art/environment/horizon/meshes/horizon_north_west.res",
+                    "size":  451397
+                },
+                {
+                    "path":  "art/environment/lairs/meshes/heath_wallow.res",
+                    "source":  "art/environment/lairs/meshes/heath_wallow.res",
+                    "size":  447140
+                },
+                {
+                    "path":  "art/environment/camps/meshes/bristleback_base.res",
+                    "source":  "art/environment/camps/meshes/bristleback_base.res",
+                    "size":  444774
+                },
+                {
+                    "path":  ".godot/exported/133200997/export-e98069621094f323bf7d974ce41a71a8-ruin_peddler.scn",
+                    "source":  "art/environment/ruin_peddler.tscn",
+                    "size":  436052
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_north_east.res",
+                    "source":  "art/environment/horizon/meshes/horizon_north_east.res",
+                    "size":  435413
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_south_west.res",
+                    "source":  "art/environment/horizon/meshes/horizon_south_west.res",
+                    "size":  433705
+                },
+                {
+                    "path":  ".godot/imported/music_match.wav-04196686a520c79afeccbaa387747266.sample",
+                    "source":  "assets/audio/music/music_match.wav",
+                    "size":  428719
+                },
+                {
+                    "path":  ".godot/exported/133200997/export-3b24666c1c4699e29455061b2b09fc15-fire_keep.scn",
+                    "source":  "art/buildings/fire_keep.tscn",
+                    "size":  423951
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_north.res",
+                    "source":  "art/environment/horizon/meshes/horizon_north.res",
+                    "size":  410429
+                },
+                {
+                    "path":  "art/environment/camps/meshes/hollow_stag_base.res",
+                    "source":  "art/environment/camps/meshes/hollow_stag_base.res",
+                    "size":  386243
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_west.res",
+                    "source":  "art/environment/horizon/meshes/horizon_west.res",
+                    "size":  379405
+                },
+                {
+                    "path":  "art/environment/lairs/meshes/crag_nest.res",
+                    "source":  "art/environment/lairs/meshes/crag_nest.res",
+                    "size":  376621
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_south.res",
+                    "source":  "art/environment/horizon/meshes/horizon_south.res",
+                    "size":  375157
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_east.res",
+                    "source":  "art/environment/horizon/meshes/horizon_east.res",
+                    "size":  363837
+                },
+                {
+                    "path":  ".godot/imported/music_menu.wav-7d19ae11fbd516a17b9dc9bf9019f3d0.sample",
+                    "source":  "assets/audio/music/music_menu.wav",
+                    "size":  357343
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/giant_stump.res",
+                    "source":  "art/environment/landmarks/meshes/giant_stump.res",
+                    "size":  342803
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/aqueduct.res",
+                    "source":  "art/environment/landmarks/meshes/aqueduct.res",
+                    "size":  336564
+                }
+            ],
+    "changed_vs_previous":  [
+
+                            ],
+    "previous_run":  "2026-09-26_2337",
+    "onedrive_command":  "Copy-Item -LiteralPath \"C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\FourWizards-2026-09-26.zip\" -Destination \"$env:USERPROFILE\\OneDrive\\FourWizards-2026-09-26.zip\" -Force",
+    "improve_next":  [
+                         "Filter: referenced files ship: 4 files referenced by game code are not in the pack, e.g. art/environment/autumn/nature_autumn.gdshader (from art/environment/autumn/nature_autumn_mat.tres), art/environment/autumn/horizon_autumn.gdshader (from art/environment/autumn/horizon_autumn_mat.tres), art/environment/autumn/autumn_ground_params.gd (from art/environment/autumn/autumn_ground_params.gd), art/environment/autumn/world_env_autumn.tres (from art/environment/autumn/preset_autumn.tres)"
+                     ]
+}

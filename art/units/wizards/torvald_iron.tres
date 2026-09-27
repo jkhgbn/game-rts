@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/wizards/torvald_frost.gdshader" id="1_tvf"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_tvf"]
+
+[resource]
+resource_name = "torvald_iron"
+render_priority = 0
+shader = ExtResource("1_tvf")
+shader_parameter/noise_tex = ExtResource("2_tvf")
+shader_parameter/base_color = Color(0.28, 0.35, 0.46, 1)
+shader_parameter/spec_strength = 0.3
+shader_parameter/rim_strength = 0.3
+shader_parameter/frost_top = 0.35
+shader_parameter/frost_scale = 6.0

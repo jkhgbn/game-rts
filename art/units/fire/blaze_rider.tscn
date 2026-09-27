@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://art/units/fire/blaze_rider/blaze_rider.gd" id="1_brm"]
+[ext_resource type="PackedScene" path="res://art/units/mounts/ember_boar/ember_boar.tscn" id="2_ebo"]
+[ext_resource type="PackedScene" path="res://art/units/fire/blaze_rider/blaze_rider_rider.tscn" id="3_brr"]
+
+[node name="BlazeRider" type="Node3D"]
+script = ExtResource("1_brm")
+
+[node name="Boar" parent="." instance=ExtResource("2_ebo")]
+
+[node name="Rider" parent="." instance=ExtResource("3_brr")]

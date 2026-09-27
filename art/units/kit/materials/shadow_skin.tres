@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_ls7wi"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_f2v3r"]
+
+[resource]
+resource_name = "shadow_skin"
+render_priority = 0
+shader = ExtResource("1_ls7wi")
+shader_parameter/base_color = Color(0.62, 0.6, 0.7, 1)
+shader_parameter/noise_tex = ExtResource("2_f2v3r")
+shader_parameter/noise_scale_a = null
+shader_parameter/noise_scale_b = null
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = 0.25
+shader_parameter/crack_strength = null
+shader_parameter/crack_color = null
+shader_parameter/crack_speed = null
+shader_parameter/crack_scale = null
+shader_parameter/damage = null

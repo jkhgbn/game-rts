@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/neutral/beasts/roc/roc_feather.gdshader" id="1_rdf"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_rdf"]
+
+[resource]
+resource_name = "roc_dusk_feather"
+render_priority = 0
+shader = ExtResource("1_rdf")
+shader_parameter/base_color = Color(0.06, 0.055, 0.07, 1)
+shader_parameter/pale_color = Color(0.17, 0.13, 0.22, 1)
+shader_parameter/tip_color = Color(0.02, 0.018, 0.03, 1)
+shader_parameter/noise_tex = ExtResource("2_rdf")
+shader_parameter/noise_scale_a = 1.4
+shader_parameter/noise_scale_b = 0.3
+shader_parameter/spec_strength = 0.12
+shader_parameter/rim_color = Color(0.45, 0.25, 0.78, 1)
+shader_parameter/rim_strength = 0.22
+shader_parameter/row_len = 0.2
+shader_parameter/col_w = 0.16
+shader_parameter/edge_dark = 0.3
+shader_parameter/mid_light = 0.12
+shader_parameter/sheen_color = Color(0.58, 0.22, 0.88, 1)
+shader_parameter/sheen_color_b = Color(0.4, 0.18, 0.8, 1)
+shader_parameter/sheen_strength = 0.6
+shader_parameter/sheen_face = 0.12
+shader_parameter/sheen_glint = 0.3
+shader_parameter/top_light = 0.14

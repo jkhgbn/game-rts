@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/tree_pine.res" id="1_kamfu"]
+
+[node name="TreePine" type="Node3D" unique_id=1155319782]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=741909957]
+gi_mode = 0
+mesh = ExtResource("1_kamfu")

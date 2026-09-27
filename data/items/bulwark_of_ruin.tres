@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_pfo1u"]
+[ext_resource type="Resource" path="res://data/items/warden_scale.tres" id="2_rtqpq"]
+[ext_resource type="Resource" path="res://data/items/vital_root.tres" id="3_8libc"]
+
+[resource]
+script = ExtResource("1_pfo1u")
+id = &"bulwark_of_ruin"
+display_name = "Bulwark of Ruin"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_pfo1u")]([ExtResource("2_rtqpq"), ExtResource("3_8libc")])
+stats = {
+"armor": 15.0,
+"max_hp": 200.0
+}
+active_id = &"brace"
+active_cooldown = 60.0
+active_target = 1
+active_params = {
+"duration": 4.0,
+"shield": 120.0
+}
+sold_at = 3
+icon_abbrev = "BR"
+tooltip = "Active: shield 120 for 4 s · 60 s cooldown"

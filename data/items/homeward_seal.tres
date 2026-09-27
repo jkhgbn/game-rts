@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_grxs8"]
+
+[resource]
+script = ExtResource("1_grxs8")
+id = &"homeward_seal"
+display_name = "Homeward Seal"
+tier = 3
+cost = 200
+active_id = &"homeward_seal"
+active_cooldown = 60.0
+active_target = 1
+active_params = {
+"channel": 3.0
+}
+stack_max = 2
+sold_at = 3
+icon_abbrev = "HS"
+tooltip = "Channel 3 s standing still, then return to your keep."

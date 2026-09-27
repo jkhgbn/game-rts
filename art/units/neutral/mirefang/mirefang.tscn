@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/neutral/mirefang/mirefang.gd" id="1_mfg"]
+
+[node name="Mirefang" type="Node3D"]
+script = ExtResource("1_mfg")
+body_height = 0.6
+attack_style = &"snap_bite"
+death_style = &"fall"
+stride_time = 0.36
+stride_speed = 5.0
+idle_period = 3.2
+is_quadruped = true
+kingdom_color = Color(0.35, 0.36, 0.16, 1)
+walk_bounce = 0.015
+flinch_push = true
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.45)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0.27, 0.3)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0.27, 0.3)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.26, -0.4)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, 0.26, -0.4)

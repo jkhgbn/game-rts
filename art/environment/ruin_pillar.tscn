@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/ruin_pillar.res" id="1_riswx"]
+
+[node name="RuinPillar" type="Node3D" unique_id=1495042401]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=216495439]
+gi_mode = 0
+mesh = ExtResource("1_riswx")

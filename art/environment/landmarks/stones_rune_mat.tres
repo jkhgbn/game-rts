@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/landmarks/stones_rune.gdshader" id="1_3ptxe"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_3ptxe")
+shader_parameter/energy = null
+shader_parameter/flare = null
+shader_parameter/wave_speed = null
+shader_parameter/wave_scale = null
+shader_parameter/ember = null

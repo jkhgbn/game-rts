@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://art/units/titans/war_mammoth/war_mammoth.gd" id="1_wmm"]
+[ext_resource type="PackedScene" path="res://art/units/titans/war_mammoth/howdah.tscn" id="2_wmm"]
+
+[node name="WarMammoth" type="Node3D"]
+script = ExtResource("1_wmm")
+gallop_speed = 99.0
+walk_swing_deg = 20.0
+step_lift = 0.17
+tail_swish_deg = 18.0
+charge_head_deg = 16.0
+lie_height = 1.25
+fidget_every = 12.0
+body_height = 4.2
+attack_style = &"tusk_gore"
+death_style = &"fall"
+stride_time = 0.95
+stride_speed = 3.4
+idle_period = 5.0
+is_quadruped = true
+walk_bounce = 0.05
+flinch_push = true
+kingdom_color = Color(0.45, 0.75, 0.95, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, -0.15)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 1.6)
+
+[node name="Trunk" type="Node3D" parent="Root/Mount/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 1)
+
+[node name="Trunk2" type="Node3D" parent="Root/Mount/Head/Trunk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.88, 0.29)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62, -0.4, 1)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, -0.4, 1)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, -0.45, -0.93)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.45, -0.93)
+
+[node name="Tail" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47, -1.47)
+
+[node name="Seat" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11, -0.57)
+
+[node name="Howdah" parent="Root/Mount/Seat" instance=ExtResource("2_wmm")]
+metadata/keep_separate = true
+
+[node name="Fx" type="Node3D" parent="."]

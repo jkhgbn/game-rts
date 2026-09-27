@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_wgra"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_wgra"]
+
+[resource]
+resource_name = "warden_granite"
+render_priority = 0
+shader = ExtResource("1_wgra")
+shader_parameter/base_color = Color(0.53, 0.55, 0.47, 1)
+shader_parameter/noise_tex = ExtResource("2_wgra")
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_strength = 0.25
+shader_parameter/crack_strength = 0.55
+shader_parameter/crack_color = Color(1, 0.8, 0.32, 1)
+shader_parameter/crack_speed = 1.4
+shader_parameter/crack_scale = 0.16

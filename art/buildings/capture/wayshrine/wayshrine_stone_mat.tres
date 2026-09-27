@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/buildings/capture/wayshrine/wayshrine_stone.gdshader" id="1_ws"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ws"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ws")
+shader_parameter/noise_tex = ExtResource("2_ws")

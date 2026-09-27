@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/frost_dragon/frost_ice.gdshader" id="1_fdi"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_fdi"]
+
+[resource]
+resource_name = "frost_ice"
+render_priority = 0
+shader = ExtResource("1_fdi")
+shader_parameter/noise_tex = ExtResource("2_fdi")
+shader_parameter/deep_color = Color(0.08, 0.3, 0.58, 1)
+shader_parameter/surface_color = Color(0.5, 0.82, 1, 1)
+shader_parameter/edge_color = Color(0.88, 0.97, 1, 1)
+shader_parameter/fresnel_power = 2.0
+shader_parameter/inner_energy = 0.3
+shader_parameter/edge_energy = 0.5
+shader_parameter/sparkle_energy = 2.4
+shader_parameter/spec_strength = 0.6
+shader_parameter/facets = 1.0
+shader_parameter/glow_color = Color(0.55, 0.9, 1, 1)
+shader_parameter/glow_energy = 1.6
+shader_parameter/tip_white = 0.45

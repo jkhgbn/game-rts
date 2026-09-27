@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_57tvl"]
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="2_0nmyh"]
+[ext_resource type="Resource" path="res://data/units/shade.tres" id="3_1e67t"]
+[ext_resource type="Resource" path="res://data/units/nightbolt.tres" id="4_ha4i1"]
+[ext_resource type="Resource" path="res://data/units/grave_hound.tres" id="5_rvuoi"]
+[ext_resource type="Resource" path="res://data/units/shadow_knight.tres" id="6_4up3u"]
+
+[ext_resource type="PackedScene" path="res://art/buildings/shadow_hall.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_57tvl")
+id = &"shadow_barracks"
+display_name = "Gloom Hall"
+faction = &"shadow"
+kind = &"barracks"
+cost = 150
+build_time = 45.0
+max_hp = 1300.0
+footprint = Vector2i(3, 3)
+height = 4.0
+trains = Array[ExtResource("2_0nmyh")]([ExtResource("3_1e67t"), ExtResource("4_ha4i1"), ExtResource("5_rvuoi"), ExtResource("6_4up3u")])
+sight_radius = 12.0
+hotkey_label = "X"
+color = Color(0.42, 0.22, 0.6, 1)
+body_color = Color(0.294, 0.154, 0.42000002, 1)
+projectile_color = Color(0.7, 0.4, 1, 1)
+model_scene = ExtResource("9_model")

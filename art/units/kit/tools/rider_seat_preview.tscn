@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/kit/tools/rider_seat_preview.gd" id="1_rdprev"]
+
+[node name="RiderSeatPreview" type="Node3D"]
+script = ExtResource("1_rdprev")

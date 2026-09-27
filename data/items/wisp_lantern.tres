@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_38hj3"]
+
+[resource]
+script = ExtResource("1_38hj3")
+id = &"wisp_lantern"
+display_name = "Wisp Lantern"
+cost = 150
+stats = {
+"hp_regen": 1.5
+}
+sold_at = 1
+icon_abbrev = "WL"

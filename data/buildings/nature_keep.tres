@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_natk"]
+[ext_resource type="PackedScene" path="res://art/buildings/nature_keep.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_natk")
+id = &"nature_keep"
+display_name = "Heartwood"
+faction = &"nature"
+kind = &"keep"
+build_time = 0.0
+max_hp = 2250.0
+attack_damage = 12.0
+attack_range = 10.0
+attack_cooldown = 1.5
+footprint = Vector2i(3, 3)
+height = 6.0
+pop_bonus = 20
+train_ids = Array[StringName]([&"sprigling"])
+sight_radius = 16.0
+color = Color(0.35, 0.7, 0.25, 1)
+body_color = Color(0.45, 0.42, 0.32, 1)
+projectile_color = Color(0.55, 0.4, 0.2, 1)
+idle_regen_pct = 1.0
+model_scene = ExtResource("9_model")

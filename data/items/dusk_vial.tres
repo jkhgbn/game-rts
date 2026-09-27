@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_m1yfw"]
+
+[resource]
+script = ExtResource("1_m1yfw")
+id = &"dusk_vial"
+display_name = "Dusk Vial"
+tier = 3
+cost = 100
+active_id = &"dusk_vial"
+active_cooldown = 20.0
+active_target = 1
+active_params = {
+"duration": 8.0,
+"mana": 80.0
+}
+cooldown_group = &"potion"
+stack_max = 3
+sold_at = 3
+icon_abbrev = "DV"
+tooltip = "Restores 80 mana over 8 s."

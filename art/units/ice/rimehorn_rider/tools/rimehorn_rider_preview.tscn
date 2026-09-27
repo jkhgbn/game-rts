@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/ice/rimehorn_rider/tools/rimehorn_rider_preview.gd" id="1_rrp"]
+
+[node name="RimehornRiderPreview" type="Node3D"]
+script = ExtResource("1_rrp")

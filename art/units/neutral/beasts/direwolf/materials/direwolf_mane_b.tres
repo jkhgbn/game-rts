@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_dw"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_dw"]
+
+[resource]
+resource_name = "direwolf_mane_b"
+render_priority = 0
+shader = ExtResource("1_dw")
+shader_parameter/base_color = Color(0.45, 0.52, 0.64, 1)
+shader_parameter/noise_tex = ExtResource("2_dw")
+shader_parameter/noise_scale_a = 3.2
+shader_parameter/noise_scale_b = 0.7
+shader_parameter/spec_strength = 0.06
+shader_parameter/rim_color = Color(0.6, 0.8, 1, 1)
+shader_parameter/rim_strength = 0.45

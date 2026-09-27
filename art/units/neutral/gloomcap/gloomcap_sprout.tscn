@@ -1,0 +1,118 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://art/units/neutral/gloomcap/gloomcap_sprout.gd" id="1_gcs"]
+
+[sub_resource type="Gradient" id="Gradient_puff"]
+offsets = PackedFloat32Array(0, 0.3, 0.65, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.8, 1, 1, 1, 0.3, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_puff"]
+gradient = SubResource("Gradient_puff")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_cloudfade"]
+offsets = PackedFloat32Array(0, 0.12, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.8, 1, 1, 1, 0.5, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cloudfade"]
+gradient = SubResource("Gradient_cloudfade")
+
+[sub_resource type="Gradient" id="Gradient_cloudtint"]
+colors = PackedColorArray(0.5, 0.9, 0.8, 1, 0.68, 0.8, 0.82, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cloudtint"]
+gradient = SubResource("Gradient_cloudtint")
+
+[sub_resource type="Curve" id="Curve_grow"]
+_data = [Vector2(0, 0.4), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_grow"]
+curve = SubResource("Curve_grow")
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_puff"]
+emission_shape = 1
+emission_sphere_radius = 0.14
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 0.5
+initial_velocity_max = 1.2
+gravity = Vector3(0, -0.2, 0)
+damping_min = 1.4
+damping_max = 2.4
+scale_min = 0.7
+scale_max = 1.3
+scale_curve = SubResource("CurveTexture_grow")
+color_ramp = SubResource("GradientTexture1D_cloudfade")
+color_initial_ramp = SubResource("GradientTexture1D_cloudtint")
+
+[sub_resource type="StandardMaterial3D" id="Mat_cloud"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_puff")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_cloud"]
+material = SubResource("Mat_cloud")
+size = Vector2(0.5, 0.5)
+
+[node name="GloomcapSprout" type="Node3D"]
+script = ExtResource("1_gcs")
+body_height = 0.7
+attack_style = &"cap_bonk"
+death_style = &"pop"
+stride_time = 0.3
+stride_speed = 4.0
+idle_period = 2.4
+kingdom_color = Color(0.35, 0.43, 0.55, 1)
+walk_bounce = 0.05
+flinch_push = true
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
+
+[node name="LegL" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07, 0, 0)
+
+[node name="LegR" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, 0, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, 0.09, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, 0.09, 0)
+
+[node name="Fx" type="Node3D" parent="."]
+
+[node name="Puff" type="GPUParticles3D" parent="Fx"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+cast_shadow = 0
+emitting = false
+amount = 12
+lifetime = 1.1
+one_shot = true
+explosiveness = 0.92
+randomness = 0.3
+visibility_aabb = AABB(-2, -1, -2, 4, 3, 4)
+process_material = SubResource("PPM_puff")
+draw_pass_1 = SubResource("QuadMesh_cloud")

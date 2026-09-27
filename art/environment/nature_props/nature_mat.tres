@@ -1,0 +1,30 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/nature_props/nature_painted.gdshader" id="1_j72th"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_qgkh7"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_j72th")
+shader_parameter/noise_tex = ExtResource("2_qgkh7")
+shader_parameter/variant_count = null
+shader_parameter/wind_dir = null
+shader_parameter/sway_strength = null
+shader_parameter/sway_speed = null
+shader_parameter/gust_scale = null
+shader_parameter/gust_speed = null
+shader_parameter/flutter_strength = null
+shader_parameter/flutter_speed = null
+shader_parameter/instance_variation = null
+shader_parameter/autumn_chance = null
+shader_parameter/autumn_color = null
+shader_parameter/sun_tint = null
+shader_parameter/sunlit_top = null
+shader_parameter/leaf_clumps = null
+shader_parameter/leaf_normal_noise = null
+shader_parameter/moss_color = null
+shader_parameter/moss_dark = null
+shader_parameter/stone_top_light = null
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = null
+shader_parameter/leaf_rim = null

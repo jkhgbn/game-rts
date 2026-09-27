@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/camps/camp_glow.gdshader" id="1_lwn5q"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_lwn5q")
+shader_parameter/energy = null
+shader_parameter/pulse_speed = null
+shader_parameter/pulse_amount = null

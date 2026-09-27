@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_natb"]
+[ext_resource type="PackedScene" path="res://art/buildings/nature_hall.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_natb")
+id = &"nature_barracks"
+display_name = "Grove Hall"
+faction = &"nature"
+kind = &"barracks"
+cost = 130
+build_time = 38.0
+max_hp = 1170.0
+footprint = Vector2i(3, 3)
+height = 4.0
+train_ids = Array[StringName]([&"thornling", &"burr_slinger", &"bloomtender", &"bramblehorn"])
+sight_radius = 12.0
+hotkey_label = "X"
+color = Color(0.35, 0.7, 0.25, 1)
+body_color = Color(0.45, 0.42, 0.32, 1)
+projectile_color = Color(0.55, 0.4, 0.2, 1)
+idle_regen_pct = 1.0
+model_scene = ExtResource("9_model")

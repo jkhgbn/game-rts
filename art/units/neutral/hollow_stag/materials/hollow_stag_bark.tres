@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_hs"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_hs"]
+
+[resource]
+resource_name = "hollow_stag_bark"
+render_priority = 0
+shader = ExtResource("1_hs")
+shader_parameter/base_color = Color(0.2, 0.16, 0.13, 1)
+shader_parameter/noise_tex = ExtResource("2_hs")
+shader_parameter/noise_scale_a = 3.2
+shader_parameter/noise_scale_b = 0.7
+shader_parameter/spec_strength = 0.1
+shader_parameter/rim_color = Color(0.5, 0.52, 0.45, 1)
+shader_parameter/rim_strength = 0.28

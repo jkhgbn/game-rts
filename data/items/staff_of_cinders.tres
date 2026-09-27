@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_l83p2"]
+[ext_resource type="Resource" path="res://data/items/pyre_staff.tres" id="2_ss6un"]
+[ext_resource type="Resource" path="res://data/items/emberwake_band.tres" id="3_t8be7"]
+
+[resource]
+script = ExtResource("1_l83p2")
+id = &"staff_of_cinders"
+display_name = "Staff of Cinders"
+tier = 2
+cost = 600
+parts = Array[ExtResource("1_l83p2")]([ExtResource("2_ss6un"), ExtResource("3_t8be7")])
+stats = {
+"cooldown_reduction": 20.0,
+"mana_regen": 2.0,
+"max_mana": 80.0,
+"spell_power": 45.0
+}
+passive_id = &"afterglow"
+passives = {
+&"afterglow": {
+"duration": 2.0,
+"move_speed": 1.0
+},
+&"smoulder": {
+"duration": 1.5,
+"move_speed": -1.5
+}
+}
+sold_at = 3
+icon_abbrev = "SC"
+tooltip = "Afterglow: +1 speed for 2 s after every spell.
+Smoulder: spell hits slow enemies by 1.5 for 1.5 s."

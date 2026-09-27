@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_ifhow"]
+
+[resource]
+script = ExtResource("1_ifhow")
+id = &"mana_thread"
+display_name = "Mana Thread"
+cost = 180
+stats = {
+"mana_regen": 1.0,
+"max_mana": 40.0
+}
+sold_at = 1
+icon_abbrev = "MT"

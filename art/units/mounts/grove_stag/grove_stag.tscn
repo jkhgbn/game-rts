@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/mounts/grove_stag/grove_stag.gd" id="1_grovestag"]
+
+[node name="GroveStag" type="Node3D"]
+script = ExtResource("1_grovestag")
+gallop_speed = 3.5
+gallop_time = 0.58
+walk_swing_deg = 22.0
+gallop_swing_deg = 38.0
+step_lift = 0.12
+gallop_bounce = 0.09
+gallop_pitch_deg = 6.0
+gallop_head_deg = 4.0
+tail_swish_deg = 14.0
+charge_head_deg = 30.0
+fidget_every = 10.0
+body_height = 1.65
+attack_style = &"mount_toss"
+death_style = &"fall"
+stride_time = 0.85
+stride_speed = 1.8
+idle_period = 4.0
+is_quadruped = true
+walk_bounce = 0.035
+flinch_push = true
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14, -0.08)
+
+[node name="Neck" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0.74)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 1.12)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21, -0.12, 0.58)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21, -0.12, 0.58)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21, -0.08, -0.58)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21, -0.08, -0.58)
+
+[node name="Seat" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.12)
+
+[node name="Fx" type="Node3D" parent="."]

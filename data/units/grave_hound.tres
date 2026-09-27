@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/grave_hound.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"grave_hound"
+display_name = "Grave Hound"
+faction = &"shadow"
+is_worker = false
+cost = 70
+pop = 1
+kill_xp = 35
+train_time = 14.0
+card_key = ""
+max_hp = 70.0
+move_speed = 7.0
+attack_damage = 8.0
+attack_range = 1.4
+attack_cooldown = 0.7
+aggro_range = 9.0
+radius = 0.4
+body_height = 1.0
+body_color = Color(0.3, 0.28, 0.35, 1)
+model_scene = ExtResource("2_model")

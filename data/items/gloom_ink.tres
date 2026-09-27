@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_b5dsy"]
+
+[resource]
+script = ExtResource("1_b5dsy")
+id = &"gloom_ink"
+display_name = "Gloom Ink"
+cost = 180
+stats = {
+"max_mana": 20.0,
+"spell_power": 8.0
+}
+sold_at = 1
+icon_abbrev = "GI"

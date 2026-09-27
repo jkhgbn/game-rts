@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/neutral/beasts/direwolf/direwolf.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"greymane_direwolf"
+display_name = "Greymane Direwolf"
+faction = &"neutral"
+is_worker = false
+cost = 0
+pop = 0
+kill_xp = 90
+train_time = 0.0
+card_key = ""
+max_hp = 1300.0
+move_speed = 7.0
+attack_damage = 26.0
+attack_range = 1.6
+attack_cooldown = 1.0
+aggro_range = 0.0
+radius = 0.8
+body_height = 1.8
+body_color = Color(0.5, 0.5, 0.52, 1)
+eye_color = Color(0.95, 0.8, 0.4, 1)
+model_scene = ExtResource("2_model")
+armor = 10.0
+is_caravan = false
+commandable = true
+neutral_leash = false
+sight_radius = 13.0
+model_path = "res://art/units/neutral/beasts/direwolf/direwolf.tscn"

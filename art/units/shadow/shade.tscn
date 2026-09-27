@@ -1,0 +1,469 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/units/shadow/shadow_model.gd" id="1_7rv83"]
+[ext_resource type="Material" path="res://art/units/kit/materials/shadow_leather.tres" id="2_uc0g7"]
+[ext_resource type="Material" path="res://art/units/kit/materials/shadow_cloth_dark.tres" id="3_0r8er"]
+[ext_resource type="Material" path="res://art/units/kit/materials/shadow_cloth.tres" id="4_hpmvl"]
+[ext_resource type="Material" path="res://art/units/kit/materials/shadow_glow.tres" id="5_x2vy1"]
+[ext_resource type="Material" path="res://art/units/kit/materials/unit_gold_trim.tres" id="6_x6t7k"]
+[ext_resource type="Material" path="res://art/units/kit/materials/shadow_silver.tres" id="7_6rxiy"]
+[ext_resource type="Material" path="res://art/units/kit/materials/shadow_cape_plain.tres" id="8_uj4a0"]
+[ext_resource type="Material" path="res://art/units/shadow/materials/shadow_particle.tres" id="9_uuvg1"]
+[ext_resource type="Material" path="res://art/units/shadow/materials/shadow_smoke.tres" id="10_lexwy"]
+[ext_resource type="Material" path="res://art/units/kit/materials/unit_shadow_blob.tres" id="11_errtq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_416rf"]
+radius = 0.1
+height = 0.42
+radial_segments = 8
+rings = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_6425o"]
+size = Vector3(0.24, 0.12, 0.32)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ww8ex"]
+radius = 0.1
+height = 0.42
+radial_segments = 8
+rings = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_64u3v"]
+size = Vector3(0.24, 0.12, 0.32)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mx70o"]
+top_radius = 0.21
+bottom_radius = 0.28
+height = 0.28
+radial_segments = 6
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dd4ik"]
+top_radius = 0.22
+bottom_radius = 0.25
+height = 0.16
+radial_segments = 10
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r6i6p"]
+top_radius = 0.02
+bottom_radius = 0.27
+height = 0.5
+radial_segments = 10
+rings = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_76sew"]
+radius = 0.19
+height = 0.38
+radial_segments = 10
+rings = 5
+
+[sub_resource type="BoxMesh" id="BoxMesh_v5ikh"]
+size = Vector3(0.2, 0.055, 0.05)
+
+[sub_resource type="TorusMesh" id="TorusMesh_fqkj4"]
+inner_radius = 0.22
+outer_radius = 0.264
+rings = 14
+ring_segments = 5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_c4via"]
+radius = 0.085
+height = 0.4457318
+radial_segments = 8
+rings = 2
+
+[sub_resource type="SphereMesh" id="SphereMesh_npmm1"]
+radius = 0.11
+height = 0.22
+radial_segments = 10
+rings = 5
+
+[sub_resource type="BoxMesh" id="BoxMesh_pyk7u"]
+size = Vector3(0.16, 0.44, 0.045)
+
+[sub_resource type="PrismMesh" id="PrismMesh_1vlcu"]
+size = Vector3(0.16, 0.42, 0.045)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yx0oe"]
+radius = 0.085
+height = 0.4457318
+radial_segments = 8
+rings = 2
+
+[sub_resource type="SphereMesh" id="SphereMesh_6y8cd"]
+radius = 0.11
+height = 0.22
+radial_segments = 10
+rings = 5
+
+[sub_resource type="BoxMesh" id="BoxMesh_fjswv"]
+size = Vector3(0.16, 0.44, 0.045)
+
+[sub_resource type="PrismMesh" id="PrismMesh_1f27f"]
+size = Vector3(0.16, 0.42, 0.045)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fjca7"]
+size = Vector3(0.045, 0.4, 0.055)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ifnt7"]
+top_radius = 0.3
+bottom_radius = 0.19
+height = 0.56
+radial_segments = 10
+rings = 1
+
+[sub_resource type="TorusMesh" id="TorusMesh_txgji"]
+inner_radius = 0.2
+outer_radius = 0.26
+rings = 14
+ring_segments = 5
+
+[sub_resource type="TorusMesh" id="TorusMesh_yuvgf"]
+inner_radius = 0.25
+outer_radius = 0.31
+rings = 14
+ring_segments = 5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_adean"]
+top_radius = 0.0
+bottom_radius = 0.1
+height = 0.42
+radial_segments = 6
+rings = 1
+cap_top = false
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mophx"]
+top_radius = 0.0
+bottom_radius = 0.1
+height = 0.42
+radial_segments = 6
+rings = 1
+cap_top = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sq2ls"]
+size = Vector2(0.5, 0.85)
+subdivide_depth = 6
+orientation = 2
+
+[sub_resource type="Gradient" id="Gradient_vtm63"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_t1x1x"]
+gradient = SubResource("Gradient_vtm63")
+
+[sub_resource type="Curve" id="Curve_vax8b"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_itfqf"]
+curve = SubResource("Curve_vax8b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pc7cr"]
+emission_shape = 3
+emission_box_extents = Vector3(0.2475, 0.56, 0.2475)
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 0.78
+initial_velocity_max = 1.3
+gravity = Vector3(0, 0.6, 0)
+damping_min = 0.5
+damping_max = 1.5
+scale_curve = SubResource("CurveTexture_itfqf")
+color = Color(0.75, 0.4, 1, 1)
+color_ramp = SubResource("GradientTexture1D_t1x1x")
+
+[sub_resource type="QuadMesh" id="QuadMesh_0c2sh"]
+material = ExtResource("9_uuvg1")
+size = Vector2(0.178, 0.178)
+
+[sub_resource type="Gradient" id="Gradient_u26yd"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m5u1j"]
+gradient = SubResource("Gradient_u26yd")
+
+[sub_resource type="Curve" id="Curve_bob8h"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(0.4, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.8), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mwh65"]
+curve = SubResource("Curve_bob8h")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e4qyd"]
+emission_shape = 3
+emission_box_extents = Vector3(0.225, 0.32, 0.225)
+direction = Vector3(0, 1, 0)
+spread = 35.0
+initial_velocity_min = 0.42
+initial_velocity_max = 0.7
+gravity = Vector3(0, 0.3, 0)
+damping_min = 0.5
+damping_max = 1.5
+scale_curve = SubResource("CurveTexture_mwh65")
+color = Color(0.16, 0.06, 0.26, 0.55)
+color_ramp = SubResource("GradientTexture1D_m5u1j")
+
+[sub_resource type="QuadMesh" id="QuadMesh_7cal2"]
+material = ExtResource("10_lexwy")
+size = Vector2(0.79, 0.79)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x0b36"]
+size = Vector2(1, 1)
+
+[node name="Shade" type="Node3D" unique_id=1397037138]
+script = ExtResource("1_7rv83")
+unit_kind = &"shade"
+glow_gain = 1.35
+attack_style = &"dual_slash"
+death_style = &"sink"
+stride_time = 0.5
+stride_speed = 4.8
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Root" type="Node3D" parent="." unique_id=696518008]
+
+[node name="Hips" type="Node3D" parent="Root" unique_id=498156040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="LegL" type="Node3D" parent="Root/Hips" unique_id=432434299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=91044396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21000001, 0)
+material_override = ExtResource("2_uc0g7")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CapsuleMesh_416rf")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=65798174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.54, 0.05)
+material_override = ExtResource("2_uc0g7")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("BoxMesh_6425o")
+
+[node name="LegR" type="Node3D" parent="Root/Hips" unique_id=1314727908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=1788392653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21000001, 0)
+material_override = ExtResource("2_uc0g7")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CapsuleMesh_ww8ex")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=404875289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.54, 0.05)
+material_override = ExtResource("2_uc0g7")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("BoxMesh_64u3v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Root/Hips" unique_id=248243706]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 0, 0.060000002, 0)
+material_override = ExtResource("3_0r8er")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CylinderMesh_mx70o")
+
+[node name="Chest" type="Node3D" parent="Root" unique_id=414116827]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest" unique_id=1284249938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65999997, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1178473627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.049999952, 0.01)
+material_override = ExtResource("4_hpmvl")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CylinderMesh_dd4ik")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1265635497]
+transform = Transform3D(1, 0, 0, 0, 0.95105654, 0.3337384, 0, -0.309017, 1.0271411, 0, 0.28999996, -0.05)
+material_override = ExtResource("3_0r8er")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CylinderMesh_r6i6p")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1968946599]
+transform = Transform3D(1, 0, 0, 0, 1.05, 0, 0, 0, 0.95, 0, 0.14999998, 0.08)
+material_override = ExtResource("2_uc0g7")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("SphereMesh_76sew")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1687410969]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17499995, 0.265)
+material_override = ExtResource("5_x2vy1")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_v5ikh")
+
+[node name="GoldTrim" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=44479830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08000004, 0.01)
+visible = false
+material_override = ExtResource("6_x6t7k")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("TorusMesh_fqkj4")
+metadata/keep_separate = true
+
+[node name="ArmL" type="Node3D" parent="Root/Chest" unique_id=1569168507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36, 0.6, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1358359868]
+transform = Transform3D(-0.96420544, -0.25777307, 0.062136546, 0.2651564, -0.937357, 0.22595116, 3.7252903e-09, 0.23433924, 0.9721549, -0.04649347, -0.16906726, 0.042266805)
+material_override = ExtResource("3_0r8er")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CapsuleMesh_c4via")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=40337366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.109999985, -0.40000004, 0.1)
+material_override = ExtResource("7_6rxiy")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("SphereMesh_npmm1")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1970168217]
+transform = Transform3D(1.4901161e-08, -0.21973649, -0.97555923, 0.6757246, -0.71913755, 0.16197966, -0.7371541, -0.6592095, 0.14848135, -0.1715262, -0.60135853, -0.084578656)
+material_override = ExtResource("7_6rxiy")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("BoxMesh_pyk7u")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=538041265]
+transform = Transform3D(0, -0.100458115, -0.9949413, 0.20193778, -0.97444385, 0.098388515, -0.97939837, -0.20091623, 0.020286288, -0.23776245, -0.9472662, -0.2631959)
+material_override = ExtResource("7_6rxiy")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("PrismMesh_1vlcu")
+
+[node name="ArmR" type="Node3D" parent="Root/Chest" unique_id=2096964604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36, 0.6, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=2107581829]
+transform = Transform3D(-0.96420544, 0.25777307, -0.062136546, -0.2651564, -0.937357, 0.22595116, -3.7252903e-09, 0.23433924, 0.9721549, 0.04649347, -0.16906726, 0.042266805)
+material_override = ExtResource("3_0r8er")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CapsuleMesh_yx0oe")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=964770654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.109999985, -0.40000004, 0.1)
+material_override = ExtResource("7_6rxiy")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("SphereMesh_6y8cd")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1397584038]
+transform = Transform3D(1.4901161e-08, 0.21973649, 0.97555923, -0.6757246, -0.71913755, 0.16197966, 0.7371541, -0.6592095, 0.14848135, 0.1715262, -0.60135853, -0.084578656)
+material_override = ExtResource("7_6rxiy")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("BoxMesh_fjswv")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=702881438]
+transform = Transform3D(0, 0.100458115, 0.9949413, -0.20193778, -0.97444385, 0.098388515, 0.97939837, -0.20091623, 0.020286288, 0.23776245, -0.9472662, -0.2631959)
+material_override = ExtResource("7_6rxiy")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("PrismMesh_1f27f")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=606856465]
+transform = Transform3D(0, 0.21973647, 0.97555923, -0.6757246, -0.71913755, 0.16197965, 0.7371542, -0.65920943, 0.14848134, 0.1715262, -0.55405784, -0.13617945)
+material_override = ExtResource("5_x2vy1")
+cast_shadow = 0
+mesh = SubResource("BoxMesh_fjca7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Root/Chest" unique_id=800632828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.8, 0, 0.38, 0)
+material_override = ExtResource("4_hpmvl")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CylinderMesh_ifnt7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root/Chest" unique_id=213451971]
+transform = Transform3D(1, 0, 0, 0, 0.9848077, -0.14760095, 0, 0.17364818, 0.8370866, 0, 0.23999995, 0)
+material_override = ExtResource("3_0r8er")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("TorusMesh_txgji")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Root/Chest" unique_id=745253408]
+transform = Transform3D(0.9945219, -0.104528464, 0, 0.10224427, 0.9727892, 0.17672496, -0.02173269, -0.20677274, 0.8314255, 0, 0.48000002, 0)
+material_override = ExtResource("3_0r8er")
+cast_shadow = 0
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("TorusMesh_yuvgf")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Root/Chest" unique_id=2061377235]
+transform = Transform3D(0.7431448, 0.6691306, 0, -0.6691306, 0.7431448, 0, 0, 0, 1, 0.4, 0.78, -0.02)
+material_override = ExtResource("7_6rxiy")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CylinderMesh_adean")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Root/Chest" unique_id=1205677766]
+transform = Transform3D(0.7431448, -0.6691306, 0, 0.6691306, 0.7431448, 0, 0, 0, 1, -0.4, 0.78, -0.02)
+material_override = ExtResource("7_6rxiy")
+instance_shader_parameters/ao_bottom = 0.0
+instance_shader_parameters/ao_height = 1.6
+mesh = SubResource("CylinderMesh_mophx")
+
+[node name="Cape" type="MeshInstance3D" parent="Root/Chest" unique_id=78680105]
+transform = Transform3D(1, 0, 0, 0, 0.9848077, -0.17364818, 0, 0.17364818, 0.9848077, -0.18, 0.27999997, -0.25)
+material_override = ExtResource("8_uj4a0")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_sq2ls")
+metadata/keep_separate = true
+
+[node name="Fx" type="Node3D" parent="." unique_id=919673046]
+
+[node name="DeathMotes" type="GPUParticles3D" parent="Fx" unique_id=1753870971]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
+cast_shadow = 0
+emitting = false
+amount = 16
+lifetime = 1.1
+one_shot = true
+explosiveness = 0.85
+randomness = 0.3
+visibility_aabb = AABB(-2, -1, -2, 4, 4, 4)
+process_material = SubResource("ParticleProcessMaterial_pc7cr")
+draw_pass_1 = SubResource("QuadMesh_0c2sh")
+metadata/death_fx = true
+
+[node name="DeathSmoke" type="GPUParticles3D" parent="Fx" unique_id=1535191632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0)
+cast_shadow = 0
+emitting = false
+amount = 6
+lifetime = 0.9
+one_shot = true
+explosiveness = 0.85
+randomness = 0.3
+visibility_aabb = AABB(-2, -1, -2, 4, 4, 4)
+process_material = SubResource("ParticleProcessMaterial_e4qyd")
+draw_pass_1 = SubResource("QuadMesh_7cal2")
+
+[node name="Shadow" type="MeshInstance3D" parent="." unique_id=1909799249]
+transform = Transform3D(1.17, 0, 0, 0, 1, 0, 0, 0, 1.17, 0, 0.02, 0)
+material_override = ExtResource("11_errtq")
+cast_shadow = 0
+instance_shader_parameters/blob_color = Color(0.1, 0.03, 0.16, 0.55)
+mesh = SubResource("PlaneMesh_x0b36")
+metadata/keep_separate = true

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_icew"]
+
+[ext_resource type="PackedScene" path="res://art/buildings/ice_wall.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_icew")
+id = &"ice_wall"
+display_name = "Ice Wall"
+faction = &"ice"
+kind = &"wall"
+cost = 20
+build_time = 8.0
+max_hp = 500.0
+footprint = Vector2i(1, 1)
+height = 2.5
+max_count = 16
+sight_radius = 4.0
+hotkey_label = "V"
+color = Color(0.45, 0.75, 0.95, 1)
+body_color = Color(0.75, 0.9, 1, 1)
+projectile_color = Color(0.75, 0.92, 1, 1)
+counts_for_defeat = false
+model_scene = ExtResource("9_model")

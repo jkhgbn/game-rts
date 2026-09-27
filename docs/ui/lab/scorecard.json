@@ -1,0 +1,1445 @@
+{
+  "actual_sizes": {
+    "1600x900": "1600x900",
+    "1920x1080": "1920x1080",
+    "3440x1440": "3440x1440"
+  },
+  "checks": [
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.526315789473684,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 10,
+      "fails": 6,
+      "items": [
+        {
+          "detail": "3.61 : 1 (rule 4.5; text 816c37 on 191310) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Q\"",
+          "value": 3.61
+        },
+        {
+          "detail": "3.58 : 1 (rule 4.5; text 856f38 on 221912) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"E\"",
+          "value": 3.58
+        },
+        {
+          "detail": "3.69 : 1 (rule 4.5; text bc9b4c on 583f25)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 3.69
+        },
+        {
+          "detail": "3.00 : 1 (rule 4.5; text 746863 on 251f24)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 3.0
+        },
+        {
+          "detail": "2.70 : 1 (rule 4.5; text 7a6e67 on 352e2e)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.7
+        },
+        {
+          "detail": "2.15 : 1 (rule 4.5; text 85786b on 4f4639)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.15
+        },
+        {
+          "detail": "2.13 : 1 (rule 4.5; text 85786c on 50473b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.13
+        },
+        {
+          "detail": "2.19 : 1 (rule 4.5; text 84776b on 4d443a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.19
+        },
+        {
+          "detail": "2.21 : 1 (rule 4.5; text 84776b on 4d433a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.21
+        },
+        {
+          "detail": "4.48 : 1 (rule 4.5; text a8998c on 373526)",
+          "fail": false,
+          "text": "MapfillBar > Label \"2:00\"",
+          "value": 4.48
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.142857142857143,
+      "screen": "hud",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "gather; trade (caravans)",
+          "fail": false,
+          "text": "help key G",
+          "value": "G"
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.526315789473684,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 11,
+      "fails": 6,
+      "items": [
+        {
+          "detail": "3.61 : 1 (rule 4.5; text 816b36 on 1a120f) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Q\"",
+          "value": 3.61
+        },
+        {
+          "detail": "3.58 : 1 (rule 4.5; text 856f38 on 221912) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"E\"",
+          "value": 3.58
+        },
+        {
+          "detail": "3.67 : 1 (rule 4.5; text c3984a on 68371f)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 3.67
+        },
+        {
+          "detail": "2.62 : 1 (rule 4.5; text 7d6f66 on 3d302c)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.62
+        },
+        {
+          "detail": "2.15 : 1 (rule 4.5; text 85786c on 4f463b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.15
+        },
+        {
+          "detail": "4.03 : 1 (rule 4.5; text b59a49 on 453b1e)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 4.03
+        },
+        {
+          "detail": "2.19 : 1 (rule 4.5; text 84776b on 4d443a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.19
+        },
+        {
+          "detail": "2.21 : 1 (rule 4.5; text 84776b on 4d433a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.21
+        },
+        {
+          "detail": "4.37 : 1 (rule 4.5; text b49546 on 443017)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 4.37
+        },
+        {
+          "detail": "2.25 : 1 (rule 4.5; text 83766a on 4c4137)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.25
+        },
+        {
+          "detail": "2.28 : 1 (rule 4.5; text 82756a on 494037)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.28
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.136986301369863,
+      "screen": "hud",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "gather; trade (caravans)",
+          "fail": false,
+          "text": "help key G",
+          "value": "G"
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "3440x1440",
+      "score": 0.526315789473684,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 9,
+      "fails": 6,
+      "items": [
+        {
+          "detail": "3.61 : 1 (rule 4.5; text 816c37 on 191310) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Q\"",
+          "value": 3.61
+        },
+        {
+          "detail": "3.58 : 1 (rule 4.5; text 846f3b on 1f1818) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"E\"",
+          "value": 3.58
+        },
+        {
+          "detail": "2.77 : 1 (rule 4.5; text 796d65 on 332a2b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.77
+        },
+        {
+          "detail": "2.74 : 1 (rule 4.5; text 7b6d65 on 362b2a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.74
+        },
+        {
+          "detail": "2.74 : 1 (rule 4.5; text 7a6d66 on 352b2c)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.74
+        },
+        {
+          "detail": "2.78 : 1 (rule 4.5; text 796d65 on 332a29)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.78
+        },
+        {
+          "detail": "2.80 : 1 (rule 4.5; text 786c65 on 30292b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Hire a champion\"",
+          "value": 2.8
+        },
+        {
+          "detail": "2.68 : 1 (rule 4.5; text 7c6e65 on 392e2b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Tavern opens at 2:00\"",
+          "value": 2.68
+        },
+        {
+          "detail": "4.24 : 1 (rule 4.5; text a8998c on 3b3830)",
+          "fail": false,
+          "text": "MapfillBar > Label \"2:00\"",
+          "value": 4.24
+        }
+      ],
+      "res": "3440x1440",
+      "score": 0.149253731343284,
+      "screen": "hud",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "gather; trade (caravans)",
+          "fail": false,
+          "text": "help key G",
+          "value": "G"
+        }
+      ],
+      "res": "3440x1440",
+      "score": 0.769230769230769,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "3440x1440",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "tooltip"
+    }
+  ],
+  "counts": {
+    "FAIL": 3,
+    "PASS": 102,
+    "SKIP": 0,
+    "WARN": 6
+  },
+  "headless": false,
+  "improve_next": [
+    {
+      "status": "FAIL",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"Q\": 3.61 : 1 (rule 4.5; text 816c37 on 191310) (inside a disabled button: WARN only) (at 1600x900, 1920x1080, 3440x1440)",
+      "title": "Contrast on hud"
+    },
+    {
+      "status": "WARN",
+      "text": "raise the font size (ui-style.md sizes: 12+). e.g. ChampionBar > Label \"F5\": 10.0 px (min 11) (at 1600x900, 1920x1080, 3440x1440)",
+      "title": "Min font size on hud"
+    },
+    {
+      "status": "WARN",
+      "text": "give each slot its own key; in the help, qualify context keys (\"Flag: Z raise\"). e.g. help key G: gather; trade (caravans) (at 1600x900, 1920x1080, 3440x1440)",
+      "title": "Hotkeys on hud"
+    }
+  ],
+  "lab_version": "1.0",
+  "notes": [],
+  "previous_quality": 96.0,
+  "quality": 96.0,
+  "resolutions": [
+    "1600x900",
+    "1920x1080",
+    "3440x1440"
+  ],
+  "result": "FAIL",
+  "screens": [
+    "main_menu",
+    "skirmish_setup",
+    "settings",
+    "hud",
+    "pause",
+    "end_score"
+  ],
+  "seconds": 82.2,
+  "shots": {
+    "contact_sheet": "contact_sheet.jpg",
+    "end_score@1600x900": "1600x900/end_score.jpg",
+    "end_score@1920x1080": "1920x1080/end_score.jpg",
+    "end_score@3440x1440": "3440x1440/end_score.jpg",
+    "hud@1600x900": "1600x900/hud.jpg",
+    "hud@1920x1080": "1920x1080/hud.jpg",
+    "hud@3440x1440": "3440x1440/hud.jpg",
+    "main_menu@1600x900": "1600x900/main_menu.jpg",
+    "main_menu@1920x1080": "1920x1080/main_menu.jpg",
+    "main_menu@3440x1440": "3440x1440/main_menu.jpg",
+    "pause@1600x900": "1600x900/pause.jpg",
+    "pause@1920x1080": "1920x1080/pause.jpg",
+    "pause@3440x1440": "3440x1440/pause.jpg",
+    "settings@1600x900": "1600x900/settings.jpg",
+    "settings@1920x1080": "1920x1080/settings.jpg",
+    "settings@3440x1440": "3440x1440/settings.jpg",
+    "skirmish_setup@1600x900": "1600x900/skirmish_setup.jpg",
+    "skirmish_setup@1920x1080": "1920x1080/skirmish_setup.jpg",
+    "skirmish_setup@3440x1440": "3440x1440/skirmish_setup.jpg"
+  },
+  "started": "2026-09-26 23:57:04"
+}

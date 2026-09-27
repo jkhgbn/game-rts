@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_tr"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_tr"]
+
+[resource]
+resource_name = "tracker_oilskin"
+render_priority = 0
+shader = ExtResource("1_tr")
+shader_parameter/base_color = Color(0.25, 0.32, 0.3, 1)
+shader_parameter/noise_tex = ExtResource("2_tr")
+shader_parameter/spec_strength = 0.3
+shader_parameter/rim_strength = 0.25

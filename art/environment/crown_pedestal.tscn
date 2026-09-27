@@ -1,0 +1,213 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/crown/crown_pedestal_art.gd" id="1_jwv44"]
+[ext_resource type="ArrayMesh" path="res://art/environment/crown/crown_altar.res" id="2_jtgyg"]
+[ext_resource type="ArrayMesh" path="res://art/environment/crown/crown_runes.res" id="3_4pflp"]
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/crown_ruin_dressing.res" id="4_b0krc"]
+[ext_resource type="ArrayMesh" path="res://art/environment/crown/crown_seal_ring.res" id="5_iqcxj"]
+[ext_resource type="ArrayMesh" path="res://art/environment/crown/crown_seal_chains.res" id="6_r01cc"]
+[ext_resource type="ArrayMesh" path="res://art/environment/crown/crown_beacon.res" id="7_esxt4"]
+[ext_resource type="Material" path="res://art/environment/crown/crown_pool_mat.tres" id="8_epwek"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hdjw0"]
+material = ExtResource("8_epwek")
+size = Vector2(12, 12)
+
+[sub_resource type="Gradient" id="Gradient_5u1s2"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 1, 0.85, 1, 1, 0.7, 0.35, 0.9, 1, 0.35, 0.1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nrjlo"]
+gradient = SubResource("Gradient_5u1s2")
+
+[sub_resource type="Curve" id="Curve_6b8yc"]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(0.15, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 0.7), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_t5dba"]
+curve = SubResource("Curve_6b8yc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w2g06"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.05
+emission_ring_radius = 0.55
+emission_ring_inner_radius = 0.1
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 14.0
+initial_velocity_min = 0.45
+initial_velocity_max = 1.0
+orbit_velocity_min = 0.04
+orbit_velocity_max = 0.1
+gravity = Vector3(0, 0.22, 0)
+scale_min = 0.55
+scale_max = 1.15
+scale_curve = SubResource("CurveTexture_t5dba")
+color_ramp = SubResource("GradientTexture1D_nrjlo")
+
+[sub_resource type="Gradient" id="Gradient_wk1c0"]
+offsets = PackedFloat32Array(0, 1, 0.35)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0.55)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cijf2"]
+gradient = SubResource("Gradient_wk1c0")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xks1f"]
+transparency = 1
+blend_mode = 1
+depth_draw_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(2.6, 1.55, 0.7, 1)
+albedo_texture = SubResource("GradientTexture2D_cijf2")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_3v1d7"]
+material = SubResource("StandardMaterial3D_xks1f")
+size = Vector2(0.13, 0.13)
+
+[sub_resource type="Gradient" id="Gradient_nr8gk"]
+offsets = PackedFloat32Array(0, 0.35, 1)
+colors = PackedColorArray(1, 0.95, 0.8, 1, 1, 0.3, 0.12, 1, 0.8, 0.1, 0.05, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_egcxx"]
+gradient = SubResource("Gradient_nr8gk")
+
+[sub_resource type="Curve" id="Curve_whn2d"]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(0.15, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 0.7), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_n35g0"]
+curve = SubResource("Curve_whn2d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_scvfd"]
+emission_shape = 1
+emission_sphere_radius = 0.8
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 3.0
+initial_velocity_max = 6.5
+gravity = Vector3(0, -7, 0)
+damping_min = 1.0
+damping_max = 2.0
+scale_min = 0.6
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_n35g0")
+color_ramp = SubResource("GradientTexture1D_egcxx")
+
+[sub_resource type="Gradient" id="Gradient_7h053"]
+offsets = PackedFloat32Array(0, 1, 0.35)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0.55)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8riq0"]
+gradient = SubResource("Gradient_7h053")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7dm7v"]
+transparency = 1
+blend_mode = 1
+depth_draw_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(3, 0.9, 0.45, 1)
+albedo_texture = SubResource("GradientTexture2D_8riq0")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_wkf3r"]
+material = SubResource("StandardMaterial3D_7dm7v")
+size = Vector2(0.2, 0.2)
+
+[node name="CrownPedestal" type="Node3D" unique_id=854300024]
+script = ExtResource("1_jwv44")
+
+[node name="Stone" type="MeshInstance3D" parent="." unique_id=509357012]
+gi_mode = 0
+mesh = ExtResource("2_jtgyg")
+
+[node name="Runes" type="MeshInstance3D" parent="." unique_id=208455226]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("3_4pflp")
+
+[node name="RuinDressing" type="MeshInstance3D" parent="." unique_id=2024189321]
+gi_mode = 0
+mesh = ExtResource("4_b0krc")
+
+[node name="SealRings" type="Node3D" parent="." unique_id=600061350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.82, 0)
+
+[node name="Ring0" type="MeshInstance3D" parent="SealRings" unique_id=1121949463]
+transform = Transform3D(0.95, 0, 0, 0, 0.88223135, -0.35237446, 0, 0.35237446, 0.88223135, 0, 0, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("5_iqcxj")
+
+[node name="Ring1" type="MeshInstance3D" parent="SealRings" unique_id=1398931783]
+transform = Transform3D(0.4259328, 0.23268814, 0.95359194, -0.51298535, 0.93901336, 0, -0.83685565, -0.45717633, 0.48534784, 0, 0, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("5_iqcxj")
+
+[node name="Ring2" type="MeshInstance3D" parent="SealRings" unique_id=677864527]
+transform = Transform3D(-0.73517424, 0.17550391, 0.91913944, 0.6605501, 0.92525816, 0.35166907, -0.6627915, 0.72745854, -0.6690378, 0, 0, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("5_iqcxj")
+
+[node name="SealChains" type="MeshInstance3D" parent="." unique_id=1453115408]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("6_r01cc")
+
+[node name="Beacon" type="MeshInstance3D" parent="." unique_id=739647544]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("7_esxt4")
+
+[node name="GroundGlow" type="MeshInstance3D" parent="." unique_id=277780543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("PlaneMesh_hdjw0")
+
+[node name="Embers" type="GPUParticles3D" parent="." unique_id=1864221654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+cast_shadow = 0
+amount = 22
+lifetime = 2.6
+preprocess = 2.6
+randomness = 0.4
+visibility_aabb = AABB(-2, -1, -2, 4, 5, 4)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_w2g06")
+draw_pass_1 = SubResource("QuadMesh_3v1d7")
+
+[node name="SealBurst" type="GPUParticles3D" parent="." unique_id=1361893463]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+cast_shadow = 0
+emitting = false
+amount = 56
+lifetime = 1.2
+one_shot = true
+explosiveness = 0.95
+visibility_aabb = AABB(-6, -3, -6, 12, 8, 12)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_scvfd")
+draw_pass_1 = SubResource("QuadMesh_wkf3r")

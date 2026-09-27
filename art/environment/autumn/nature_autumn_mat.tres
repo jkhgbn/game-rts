@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/environment/autumn/nature_autumn.gdshader" id="1_autumn"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_noise"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_autumn")
+shader_parameter/noise_tex = ExtResource("2_noise")
+shader_parameter/autumn_chance = 1.0
+shader_parameter/crown_russet = Color(0.62, 0.22, 0.08, 1)
+shader_parameter/crown_amber = Color(0.8, 0.44, 0.11, 1)
+shader_parameter/crown_gold = Color(0.86, 0.64, 0.17, 1)
+shader_parameter/crown_late_green = Color(0.44, 0.45, 0.16, 1)
+shader_parameter/crown_weights = Vector4(0.3, 0.3, 0.3, 0.1)
+shader_parameter/under_bracken = Color(0.58, 0.34, 0.13, 1)
+shader_parameter/under_straw = Color(0.56, 0.46, 0.22, 1)
+shader_parameter/under_height = Vector2(1.1, 2.1)
+shader_parameter/autumn_value = 0.1
+shader_parameter/needle_tint = Color(0.86, 0.94, 0.8, 1)
+shader_parameter/willow_tone = Color(0.56, 0.47, 0.17, 1)
+shader_parameter/willow_turn = 0.8
+shader_parameter/needle_bright = Vector2(0.1, 0.2)
+shader_parameter/grass_height = Vector2(0.45, 0.95)
+shader_parameter/sun_tint = Color(1, 0.88, 0.58, 1)
+shader_parameter/moss_color = Color(0.36, 0.4, 0.12, 1)
+shader_parameter/moss_dark = Color(0.18, 0.22, 0.07, 1)
+shader_parameter/rim_color = Color(0.6, 0.64, 0.8, 1)

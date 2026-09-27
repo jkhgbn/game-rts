@@ -1,0 +1,44 @@
+{
+	"cues": [
+		{
+			"bus": "SFX",
+			"category": "ui",
+			"context": "ui",
+			"id": "trade_coin",
+			"level": -18.686,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/trade_coin.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": -6.0
+		},
+		{
+			"bus": "SFX",
+			"category": "alert",
+			"context": "battle",
+			"id": "trade_horn",
+			"level": -8.998,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/trade_horn.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": 0.0
+		},
+		{
+			"bus": "SFX",
+			"category": "alert",
+			"context": "battle",
+			"id": "trade_whistle",
+			"level": -8.624,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/trade_whistle.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": 0.0
+		}
+	],
+	"name": "trade"
+}

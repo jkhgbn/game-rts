@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_cdl"]
+
+[resource]
+resource_name = "cinder_lava"
+render_priority = 0
+shader = ExtResource("1_cdl")
+shader_parameter/glow_color = Color(1, 0.42, 0.08, 1)
+shader_parameter/energy = 2.6
+shader_parameter/pulse_speed = 3.0

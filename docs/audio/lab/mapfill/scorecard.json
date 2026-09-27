@@ -1,0 +1,2313 @@
+{
+	"battle_bed_band_db": {
+		"air": -40.821,
+		"low": -66.121,
+		"mid": -39.781,
+		"presence": -42.056
+	},
+	"checks": [
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "mapfill_bubble",
+			"key": "loud_hi",
+			"rule": "ui: -30..-14 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-27.7 LUFS in game (file -15.7, vol -12.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "mapfill_bubble",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -6.9 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "mapfill_bubble",
+			"key": "lead",
+			"rule": "lead <= 10 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 0 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "mapfill_bubble",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 50 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "mapfill_bubble",
+			"key": "dur",
+			"rule": "ui: 0.03..0.8 s",
+			"short": "",
+			"status": "PASS",
+			"value": "0.30 s"
+		},
+		{
+			"fix": "Add 2-5 kHz content so the UI cue reads on small speakers.",
+			"group": "spectral",
+			"item": "mapfill_bubble",
+			"key": "thin",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "WARN",
+			"value": "low 1% / mid 99% / pres 0% / air 0%"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "mapfill_bubble",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "13 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "mapfill_bubble",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "mapfill_chime",
+			"key": "loud_hi",
+			"rule": "alert: -22..-7 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-17.8 LUFS in game (file -11.8, vol -6.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "mapfill_chime",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -4.5 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "mapfill_chime",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 0 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "mapfill_chime",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 1 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "mapfill_chime",
+			"key": "dur",
+			"rule": "alert: 0.03..3.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "0.40 s"
+		},
+		{
+			"fix": "",
+			"group": "spectral",
+			"item": "mapfill_chime",
+			"key": "balance",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "PASS",
+			"value": "low 0% / mid 81% / pres 18% / air 1%"
+		},
+		{
+			"fix": "Give it energy where the fight is thin (2-5 kHz presence), or +1 dB; a distinct pitch contour helps.",
+			"group": "spectral",
+			"item": "mapfill_chime",
+			"key": "mask",
+			"rule": "alert >= +3 dB over 6 combat voices in one band",
+			"short": "",
+			"status": "PASS",
+			"value": "beats the battle bed by 21.1 dB (mid band)"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "mapfill_chime",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "17 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "mapfill_chime",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "mapfill_drum",
+			"key": "loud_hi",
+			"rule": "alert: -22..-7 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-20.3 LUFS in game (file -14.3, vol -6.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "mapfill_drum",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -3.2 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "mapfill_drum",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 0 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "mapfill_drum",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 84 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "mapfill_drum",
+			"key": "dur",
+			"rule": "alert: 0.03..3.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "0.60 s"
+		},
+		{
+			"fix": "Add 1-4 kHz content (attack, harmonics): all-bass cues vanish on laptop speakers and mud the mix.",
+			"group": "spectral",
+			"item": "mapfill_drum",
+			"key": "bass",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "WARN",
+			"value": "low 99% / mid 1% / pres 0% / air 0%"
+		},
+		{
+			"fix": "Give it energy where the fight is thin (2-5 kHz presence), or +1 dB; a distinct pitch contour helps.",
+			"group": "spectral",
+			"item": "mapfill_drum",
+			"key": "mask",
+			"rule": "alert >= +3 dB over 6 combat voices in one band",
+			"short": "",
+			"status": "PASS",
+			"value": "beats the battle bed by 45.8 dB (low band)"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "mapfill_drum",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "26 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "mapfill_drum",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "mapfill_horn",
+			"key": "loud_hi",
+			"rule": "alert: -22..-7 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-9.8 LUFS in game (file -9.8, vol 0.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "mapfill_horn",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -4.4 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "mapfill_horn",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 1 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "mapfill_horn",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 30 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "mapfill_horn",
+			"key": "dur",
+			"rule": "alert: 0.03..3.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "1.20 s"
+		},
+		{
+			"fix": "Add 1-4 kHz content (attack, harmonics): all-bass cues vanish on laptop speakers and mud the mix.",
+			"group": "spectral",
+			"item": "mapfill_horn",
+			"key": "bass",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "WARN",
+			"value": "low 91% / mid 9% / pres 0% / air 0%"
+		},
+		{
+			"fix": "Give it energy where the fight is thin (2-5 kHz presence), or +1 dB; a distinct pitch contour helps.",
+			"group": "spectral",
+			"item": "mapfill_horn",
+			"key": "mask",
+			"rule": "alert >= +3 dB over 6 combat voices in one band",
+			"short": "",
+			"status": "PASS",
+			"value": "beats the battle bed by 55.9 dB (low band)"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "mapfill_horn",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "52 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "mapfill_horn",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "mapfill_roar",
+			"key": "loud_hi",
+			"rule": "alert: -22..-7 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-20.1 LUFS in game (file -12.1, vol -8.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "mapfill_roar",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -5.2 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "mapfill_roar",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 2 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "mapfill_roar",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 48 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "mapfill_roar",
+			"key": "dur",
+			"rule": "alert: 0.03..3.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "1.50 s"
+		},
+		{
+			"fix": "Add 1-4 kHz content (attack, harmonics): all-bass cues vanish on laptop speakers and mud the mix.",
+			"group": "spectral",
+			"item": "mapfill_roar",
+			"key": "bass",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "WARN",
+			"value": "low 98% / mid 2% / pres 0% / air 0%"
+		},
+		{
+			"fix": "Give it energy where the fight is thin (2-5 kHz presence), or +1 dB; a distinct pitch contour helps.",
+			"group": "spectral",
+			"item": "mapfill_roar",
+			"key": "mask",
+			"rule": "alert >= +3 dB over 6 combat voices in one band",
+			"short": "",
+			"status": "PASS",
+			"value": "beats the battle bed by 45.9 dB (low band)"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "mapfill_roar",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "65 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "mapfill_roar",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "Raise the in-game level into the range (volume_db in mapfill_popups.gd, or re-render the file)",
+			"group": "loudness",
+			"item": "mapfill_splash",
+			"key": "loud_lo",
+			"rule": "unit (frequent): -36..-22 cue",
+			"short": "+10 dB",
+			"status": "FAIL",
+			"value": "-43.8 LUFS in game (file -16.3, vol -18.0 dB, 3D -9.5 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "mapfill_splash",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -5.5 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "mapfill_splash",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 0 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "mapfill_splash",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 30 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "mapfill_splash",
+			"key": "dur",
+			"rule": "unit: 0.03..1.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "0.25 s"
+		},
+		{
+			"fix": "",
+			"group": "spectral",
+			"item": "mapfill_splash",
+			"key": "balance",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "PASS",
+			"value": "low 0% / mid 42% / pres 25% / air 33%"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "mapfill_splash",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "11 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "Add takes (<id>_1.wav, <id>_2.wav... or an AudioStreamRandomizer) and randomise pitch +-5 % in the play function.",
+			"group": "variation",
+			"item": "mapfill_splash",
+			"key": "var_FAIL",
+			"rule": "frequent cue: >= 3 takes, or 2 takes + pitch / volume randomisation",
+			"short": "",
+			"status": "FAIL",
+			"value": "1 take(s), pitch +-0%, ~20/min"
+		},
+		{
+			"fix": "",
+			"group": "loudness",
+			"item": "mapfill_stag",
+			"key": "loud_hi",
+			"rule": "alert: -22..-7 cue",
+			"short": "",
+			"status": "PASS",
+			"value": "-9.5 LUFS in game (file -9.5, vol 0.0 dB, 3D 0.0 dB)"
+		},
+		{
+			"fix": "Normalise the file to -1 dBTP (peak), lower the level before export if it clips.",
+			"group": "peaks",
+			"item": "mapfill_stag",
+			"key": "tp",
+			"rule": "true peak <= -1 dBTP, no clipping",
+			"short": "",
+			"status": "PASS",
+			"value": "true peak -4.4 dBTP, 0 clipped runs"
+		},
+		{
+			"fix": "Trim the start (import option edit/trim, or cut the file) so it fires on the frame.",
+			"group": "duration",
+			"item": "mapfill_stag",
+			"key": "lead",
+			"rule": "lead <= 15 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "lead silence 1 ms"
+		},
+		{
+			"fix": "Cut the silent end: GameAudio keeps a voice busy for the whole stream length.",
+			"group": "duration",
+			"item": "mapfill_stag",
+			"key": "trail",
+			"rule": "trail <= 150 ms",
+			"short": "",
+			"status": "PASS",
+			"value": "trailing silence 50 ms"
+		},
+		{
+			"fix": "Shorten the tail or split into a cue + a separate layer.",
+			"group": "duration",
+			"item": "mapfill_stag",
+			"key": "dur",
+			"rule": "alert: 0.03..3.5 s",
+			"short": "",
+			"status": "PASS",
+			"value": "1.00 s"
+		},
+		{
+			"fix": "",
+			"group": "spectral",
+			"item": "mapfill_stag",
+			"key": "balance",
+			"rule": "not all-bass (< 85% low), not all-hiss (< 60% air)",
+			"short": "",
+			"status": "PASS",
+			"value": "low 77% / mid 23% / pres 0% / air 0%"
+		},
+		{
+			"fix": "Give it energy where the fight is thin (2-5 kHz presence), or +1 dB; a distinct pitch contour helps.",
+			"group": "spectral",
+			"item": "mapfill_stag",
+			"key": "mask",
+			"rule": "alert >= +3 dB over 6 combat voices in one band",
+			"short": "",
+			"status": "PASS",
+			"value": "beats the battle bed by 55.5 dB (low band)"
+		},
+		{
+			"fix": "Use Ogg Vorbis for music / long loops; trim or compress (QOA) long SFX.",
+			"group": "memory",
+			"item": "mapfill_stag",
+			"key": "size",
+			"rule": "file <= 977 KB",
+			"short": "",
+			"status": "PASS",
+			"value": "43 KB on disk, QOA 22050 Hz mono"
+		},
+		{
+			"fix": "",
+			"group": "variation",
+			"item": "mapfill_stag",
+			"key": "occasional cue (< 20/min): one take is fine",
+			"rule": "occasional cue (< 20/min): one take is fine",
+			"short": "",
+			"status": "PASS",
+			"value": "1 take(s), pitch +-0%, ~0/min"
+		},
+		{
+			"fix": "Stream music as Ogg; compress long SFX (QOA).",
+			"group": "memory",
+			"item": "set",
+			"key": "set <= 48 MB",
+			"rule": "set <= 48 MB",
+			"short": "",
+			"status": "PASS",
+			"value": "0.0 MB in memory"
+		},
+		{
+			"fix": "",
+			"group": "bus",
+			"item": "res://scripts/vfx/mapfill_popups.gd:132",
+			"key": "bus",
+			"rule": "bus in Music, SFX",
+			"short": "",
+			"status": "PASS",
+			"value": "AudioStreamPlayer on bus SFX"
+		},
+		{
+			"fix": "",
+			"group": "bus",
+			"item": "res://scripts/vfx/mapfill_popups.gd:142",
+			"key": "bus",
+			"rule": "bus in Music, SFX",
+			"short": "",
+			"status": "PASS",
+			"value": "AudioStreamPlayer3D on bus SFX"
+		},
+		{
+			"fix": "",
+			"group": "3d",
+			"item": "res://scripts/vfx/mapfill_popups.gd:142",
+			"key": "3d",
+			"rule": "gain >= -15 dB at 30 m, <= -10 dB at the cut-off",
+			"short": "",
+			"status": "PASS",
+			"value": "unit_size 10, max_distance 60, inverse_distance; -9.5 dB @30 m, -14.8 dB @55 m, -15.6 dB @cut"
+		},
+		{
+			"fix": "Pool players (one pool per system) instead of one per source.",
+			"group": "voices",
+			"item": "players",
+			"key": "pool",
+			"rule": "<= 64 players, 3D pool <= 32",
+			"short": "",
+			"status": "PASS",
+			"value": "2 players (1 3D) (from code)"
+		},
+		{
+			"fix": "Add a cooldown (GameAudio.COOLDOWNS) so 50 units don't stack the same sound.",
+			"group": "voices",
+			"item": "mapfill_splash",
+			"key": "ratelimit",
+			"rule": "frequent cue has a per-cue cooldown >= 0.03 s",
+			"short": "",
+			"status": "PASS",
+			"value": "rate limit 4.0 s"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Unit death (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.unit_died -> _on_unit_died"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Melee hit (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.attack_landed -> _on_attack_landed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Ranged shot (projectile) (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (bolt_shot)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Wizard spell cast (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.spell_cast -> _on_spell_cast"
+		},
+		{
+			"fix": "Hook the event's signal (spell_hit, spell_effect, hit_target) to a cue.",
+			"group": "missing",
+			"item": "Spell impact / zone tick (nice)",
+			"key": "ev_partial",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "partly: game_audio.gd (fireball_explode)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion ability cast (core)",
+			"key": "ev_missing_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "FAIL",
+			"value": "no sound (signal ability_cast, skill_hit exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Creature / beast ability (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal ability_hit exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Building hit (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.damaged -> _on_building_damaged"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Building destroyed (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.destroyed -> _on_building_destroyed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Construction finished (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.construction_finished -> _on_construction_finished"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Building placed (order confirmed) (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal building_placed exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Unit trained (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.unit_trained -> _on_unit_trained"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Worker mining (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (mine_tick)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Crystals delivered (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (crystals_delivered)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Not enough resources (refused) (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.spend_failed -> _on_spend_failed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Level up (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.level_changed -> _on_level_changed"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Spell learned / ranked up (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal spell_learned exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Capture point taken (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.point_captured -> _on_point_captured"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Capture point neutralised / lost (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal point_neutralised exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Wayshrine awakens (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.shrine_awakened -> _on_shrine_awakened"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Neutral camp cleared (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.camp_cleared -> _on_camp_cleared"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Epic beast spawns (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: mapfill_popups.gd.beast_spawned -> _on_beast_spawned"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Epic beast slain (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal beast_slain exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Caravan delivery (trade arrival) (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: trade_popups.gd.delivered -> _on_delivered"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Caravan robbed / miners raided (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: trade_popups.gd.caravan_robbed -> _on_caravan_robbed"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Hunters' contract starts (nice)",
+			"key": "ev_covered",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: trade_popups.gd.contract_started -> _on_contract_started"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion hired / revived (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal champion_hired, champion_revived exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion fallen (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal champion_fallen exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Champion class chosen (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal class_chosen exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Bounty placed / paid (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal bounty_placed, bounty_paid exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Item / ware bought (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.item_bought -> (lambda)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Item used (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.item_used -> (lambda)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Item / loot picked up (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.picked_up -> _on_picked_up"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Artifact / crown claimed (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.artifact_claimed -> _on_artifact_claimed"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Crown dropped / lost (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal dropped, lost exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Your wizard has fallen (alert) (core)",
+			"key": "ev_missing_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "FAIL",
+			"value": "no sound (signal wizard_fell exists)"
+		},
+		{
+			"fix": "Add a cue and hook it (ui-coder, GameAudio or the system's popups script).",
+			"group": "missing",
+			"item": "Wizard respawned (nice)",
+			"key": "ev_missing",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "no sound (signal wizard_respawned, respawned exists)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Victory / defeat (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd.mission_ended -> _on_mission_ended"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "UI button click (core)",
+			"key": "ev_covered_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "PASS",
+			"value": "covered: game_audio.gd (pressed\\.connect)"
+		},
+		{
+			"fix": "Needs a design (game-designer / ui-designer) + a cue.",
+			"group": "missing",
+			"item": "Order acknowledged (move / attack click) (nice)",
+			"key": "ev_design_gap",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "not in the game yet (no event to hook)"
+		},
+		{
+			"fix": "Needs a design (game-designer / ui-designer) + a cue.",
+			"group": "missing",
+			"item": "Base / army under attack (off-screen alert) (core)",
+			"key": "ev_design_gap_core",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "WARN",
+			"value": "not in the game yet (no event to hook)"
+		},
+		{
+			"fix": "",
+			"group": "missing",
+			"item": "Minimap / ally ping (2v2) (nice)",
+			"key": "ev_absent",
+			"rule": "every key event has a sound",
+			"short": "",
+			"status": "INFO",
+			"value": "event not in the game yet"
+		}
+	],
+	"command": "godot --headless --path . -s tools/audio_lab/audio_lab.gd -- set=res://assets/audio/mapfill_ name=mapfill",
+	"counts": {
+		"FAIL": 2,
+		"INFO": 0,
+		"PASS": 86,
+		"WARN": 4
+	},
+	"cues": {
+		"mapfill_bubble": {
+			"att_3d": 0.0,
+			"category": "ui",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "mapfill_bubble",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/mapfill_bubble.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 10.0,
+				"script": "res://scripts/vfx/mapfill_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"_process -> _check_bubble"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": -12.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 13274,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/mapfill_bubble.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -15.688,
+			"frequent": false,
+			"generated": "res://assets/audio/mapfill_sfx_generator.gd",
+			"level": -27.688,
+			"measures": {
+				"bands": {
+					"air": 0.0,
+					"low": 0.009,
+					"mid": 0.99,
+					"presence": 0.0
+				},
+				"clipped": 0,
+				"dc": 0.0,
+				"decay_ms": 110.0,
+				"dual_mono": true,
+				"duration_s": 0.3,
+				"end_db": -94.572,
+				"env_max_db": -11.835,
+				"first_abs": 0.0,
+				"frames": 13222,
+				"last_abs": 0.0,
+				"lead_ms": 0.204,
+				"lufs_cue": -15.688,
+				"lufs_i": -18.673,
+				"lufs_m_max": -18.673,
+				"peak_at_s": 0.006,
+				"peak_dbfs": -6.926,
+				"rate": 44100.0,
+				"rms_dbfs": -19.714,
+				"seam_jump": 0.0,
+				"trail_ms": 50.431,
+				"true_peak_dbtp": -6.926
+			},
+			"path": "res://assets/audio/mapfill_bubble.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		},
+		"mapfill_chime": {
+			"att_3d": 0.0,
+			"category": "alert",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "mapfill_chime",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/mapfill_chime.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 0.3,
+				"script": "res://scripts/vfx/mapfill_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"point_captured -> _on_point_captured"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": -6.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 17684,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/mapfill_chime.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -11.768,
+			"frequent": false,
+			"generated": "res://assets/audio/mapfill_sfx_generator.gd",
+			"level": -17.768,
+			"measures": {
+				"bands": {
+					"air": 0.008,
+					"low": 0.0,
+					"mid": 0.811,
+					"presence": 0.181
+				},
+				"clipped": 0,
+				"dc": 0.0,
+				"decay_ms": 200.0,
+				"dual_mono": true,
+				"duration_s": 0.4,
+				"end_db": -53.945,
+				"env_max_db": -10.999,
+				"first_abs": 0.0,
+				"frames": 17632,
+				"last_abs": 0.0,
+				"lead_ms": 0.091,
+				"lufs_cue": -11.768,
+				"lufs_i": -14.624,
+				"lufs_m_max": -14.624,
+				"peak_at_s": 0.126,
+				"peak_dbfs": -4.545,
+				"rate": 44100.0,
+				"rms_dbfs": -18.822,
+				"seam_jump": 0.0,
+				"trail_ms": 1.474,
+				"true_peak_dbtp": -4.492
+			},
+			"path": "res://assets/audio/mapfill_chime.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		},
+		"mapfill_drum": {
+			"att_3d": 0.0,
+			"category": "alert",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "mapfill_drum",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/mapfill_drum.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 0.5,
+				"script": "res://scripts/vfx/mapfill_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"camp_cleared -> _on_camp_cleared"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": -6.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 26504,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/mapfill_drum.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -14.316,
+			"frequent": false,
+			"generated": "res://assets/audio/mapfill_sfx_generator.gd",
+			"level": -20.316,
+			"measures": {
+				"bands": {
+					"air": 0.0,
+					"low": 0.987,
+					"mid": 0.011,
+					"presence": 0.002
+				},
+				"clipped": 0,
+				"dc": 0.001,
+				"decay_ms": 210.0,
+				"dual_mono": true,
+				"duration_s": 0.6,
+				"end_db": -95.918,
+				"env_max_db": -8.69,
+				"first_abs": 0.0,
+				"frames": 26452,
+				"last_abs": 0.0,
+				"lead_ms": 0.068,
+				"lufs_cue": -14.316,
+				"lufs_i": -16.107,
+				"lufs_m_max": -14.361,
+				"peak_at_s": 0.006,
+				"peak_dbfs": -3.17,
+				"rate": 44100.0,
+				"rms_dbfs": -17.592,
+				"seam_jump": 0.0,
+				"trail_ms": 83.537,
+				"true_peak_dbtp": -3.156
+			},
+			"path": "res://assets/audio/mapfill_drum.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		},
+		"mapfill_horn": {
+			"att_3d": 0.0,
+			"category": "alert",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "mapfill_horn",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/mapfill_horn.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 2.0,
+				"script": "res://scripts/vfx/mapfill_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"shrine_awakened -> _on_shrine_awakened"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": 0.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 52964,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/mapfill_horn.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -9.789,
+			"frequent": false,
+			"generated": "res://assets/audio/mapfill_sfx_generator.gd",
+			"level": -9.789,
+			"measures": {
+				"bands": {
+					"air": 0.0,
+					"low": 0.914,
+					"mid": 0.086,
+					"presence": 0.0
+				},
+				"clipped": 0,
+				"dc": 0.0,
+				"decay_ms": 1040.0,
+				"dual_mono": true,
+				"duration_s": 1.2,
+				"end_db": -94.572,
+				"env_max_db": -9.82,
+				"first_abs": 0.0,
+				"frames": 52912,
+				"last_abs": 0.0,
+				"lead_ms": 0.794,
+				"lufs_cue": -9.789,
+				"lufs_i": -13.905,
+				"lufs_m_max": -11.252,
+				"peak_at_s": 0.121,
+				"peak_dbfs": -4.436,
+				"rate": 44100.0,
+				"rms_dbfs": -16.227,
+				"seam_jump": 0.0,
+				"trail_ms": 29.841,
+				"true_peak_dbtp": -4.435
+			},
+			"path": "res://assets/audio/mapfill_horn.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		},
+		"mapfill_roar": {
+			"att_3d": 0.0,
+			"category": "alert",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "mapfill_roar",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/mapfill_roar.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 1.0,
+				"script": "res://scripts/vfx/mapfill_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"beast_spawned -> _on_beast_spawned"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": -8.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 66194,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/mapfill_roar.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -12.102,
+			"frequent": false,
+			"generated": "res://assets/audio/mapfill_sfx_generator.gd",
+			"level": -20.102,
+			"measures": {
+				"bands": {
+					"air": 0.0,
+					"low": 0.982,
+					"mid": 0.018,
+					"presence": 0.0
+				},
+				"clipped": 0,
+				"dc": 0.0,
+				"decay_ms": 1230.0,
+				"dual_mono": true,
+				"duration_s": 1.5,
+				"end_db": -94.572,
+				"env_max_db": -10.524,
+				"first_abs": 0.0,
+				"frames": 66142,
+				"last_abs": 0.0,
+				"lead_ms": 2.404,
+				"lufs_cue": -12.102,
+				"lufs_i": -14.627,
+				"lufs_m_max": -12.542,
+				"peak_at_s": 0.27,
+				"peak_dbfs": -5.194,
+				"rate": 44100.0,
+				"rms_dbfs": -15.398,
+				"seam_jump": 0.0,
+				"trail_ms": 48.277,
+				"true_peak_dbtp": -5.193
+			},
+			"path": "res://assets/audio/mapfill_roar.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		},
+		"mapfill_splash": {
+			"att_3d": -9.542,
+			"category": "unit",
+			"code": {
+				"attenuation": "ATTENUATION_INVERSE_DISTANCE",
+				"bus": "SFX",
+				"id": "mapfill_splash",
+				"max_distance": 60.0,
+				"mode": "3d",
+				"notes": [
+					"rate limit 4.0 is per unit (SPLASH_PER_UNIT)"
+				],
+				"path": "res://assets/audio/mapfill_splash.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_splash"
+				],
+				"priority": false,
+				"rate_limit_s": 4.0,
+				"script": "res://scripts/vfx/mapfill_popups.gd",
+				"style": "PATH",
+				"takes": 1,
+				"triggers": [
+					"_scan_splashes -> play_splash"
+				],
+				"unit_size": 10.0,
+				"vol_rand": false,
+				"volume_db": -18.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 11068,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/mapfill_splash.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -16.251,
+			"frequent": true,
+			"generated": "res://assets/audio/mapfill_sfx_generator.gd",
+			"level": -43.793,
+			"measures": {
+				"bands": {
+					"air": 0.33,
+					"low": 0.001,
+					"mid": 0.42,
+					"presence": 0.249
+				},
+				"clipped": 0,
+				"dc": 0.0,
+				"decay_ms": 200.0,
+				"dual_mono": true,
+				"duration_s": 0.25,
+				"end_db": -98.159,
+				"env_max_db": -14.319,
+				"first_abs": 0.0,
+				"frames": 11016,
+				"last_abs": 0.0,
+				"lead_ms": 0.068,
+				"lufs_cue": -16.251,
+				"lufs_i": -19.257,
+				"lufs_m_max": -19.257,
+				"peak_at_s": 0.024,
+				"peak_dbfs": -5.48,
+				"rate": 44100.0,
+				"rms_dbfs": -22.516,
+				"seam_jump": 0.0,
+				"trail_ms": 30.204,
+				"true_peak_dbtp": -5.48
+			},
+			"path": "res://assets/audio/mapfill_splash.wav",
+			"rate_per_min": 20.0,
+			"takes": 1
+		},
+		"mapfill_stag": {
+			"att_3d": 0.0,
+			"category": "alert",
+			"code": {
+				"attenuation": null,
+				"bus": "SFX",
+				"id": "mapfill_stag",
+				"max_distance": null,
+				"mode": "2d",
+				"notes": [],
+				"path": "res://assets/audio/mapfill_stag.wav",
+				"pitch": 0.0,
+				"play_funcs": [
+					"play_sound"
+				],
+				"priority": false,
+				"rate_limit_s": 1.0,
+				"script": "res://scripts/vfx/mapfill_popups.gd",
+				"style": "DICT",
+				"takes": 1,
+				"triggers": [
+					"engaged -> _on_camp_engaged"
+				],
+				"unit_size": null,
+				"vol_rand": false,
+				"volume_db": 0.0
+			},
+			"error": "",
+			"file": {
+				"class": "AudioStreamWAV",
+				"disk_bytes": 44144,
+				"ext": "wav",
+				"import": {
+					"compress/mode": 2,
+					"edit/loop_begin": 0,
+					"edit/loop_end": -1,
+					"edit/loop_mode": 0,
+					"edit/normalize": false,
+					"edit/trim": false,
+					"force/8_bit": false,
+					"force/max_rate": false,
+					"force/max_rate_hz": 44100,
+					"force/mono": false
+				},
+				"imported_format": "QOA",
+				"imported_rate": 22050,
+				"imported_stereo": false,
+				"loop": false,
+				"path": "res://assets/audio/mapfill_stag.wav",
+				"src_bits": 16,
+				"src_channels": 1,
+				"src_rate": 22050
+			},
+			"file_level": -9.479,
+			"frequent": false,
+			"generated": "res://assets/audio/mapfill_sfx_generator.gd",
+			"level": -9.479,
+			"measures": {
+				"bands": {
+					"air": 0.0,
+					"low": 0.772,
+					"mid": 0.228,
+					"presence": 0.0
+				},
+				"clipped": 0,
+				"dc": 0.001,
+				"decay_ms": 880.0,
+				"dual_mono": true,
+				"duration_s": 1.0,
+				"end_db": -95.918,
+				"env_max_db": -9.233,
+				"first_abs": 0.0,
+				"frames": 44092,
+				"last_abs": 0.0,
+				"lead_ms": 0.612,
+				"lufs_cue": -9.479,
+				"lufs_i": -12.483,
+				"lufs_m_max": -10.323,
+				"peak_at_s": 0.087,
+				"peak_dbfs": -4.449,
+				"rate": 44100.0,
+				"rms_dbfs": -14.349,
+				"seam_jump": 0.0,
+				"trail_ms": 49.751,
+				"true_peak_dbtp": -4.447
+			},
+			"path": "res://assets/audio/mapfill_stag.wav",
+			"rate_per_min": 0.0,
+			"takes": 1
+		}
+	},
+	"date": "2026-09-26T22:09:41",
+	"events": [
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "unit_death",
+			"label": "Unit death",
+			"signals_found": [
+				"unit_died",
+				"died"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.unit_died -> _on_unit_died"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "melee_hit",
+			"label": "Melee hit",
+			"signals_found": [
+				"attack_landed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.attack_landed -> _on_attack_landed"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "ranged_shot",
+			"label": "Ranged shot (projectile)",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (bolt_shot)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "spell_cast",
+			"label": "Wizard spell cast",
+			"signals_found": [
+				"spell_cast"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.spell_cast -> _on_spell_cast"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "spell_impact",
+			"label": "Spell impact / zone tick",
+			"signals_found": [
+				"spell_hit",
+				"spell_effect",
+				"hit_target"
+			],
+			"status": "partial",
+			"via": "game_audio.gd (fireball_explode)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "champion_ability",
+			"label": "Champion ability cast",
+			"signals_found": [
+				"ability_cast",
+				"skill_hit"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "creature_ability",
+			"label": "Creature / beast ability",
+			"signals_found": [
+				"ability_hit"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "building_hit",
+			"label": "Building hit",
+			"signals_found": [
+				"damaged"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.damaged -> _on_building_damaged"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "building_destroyed",
+			"label": "Building destroyed",
+			"signals_found": [
+				"destroyed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.destroyed -> _on_building_destroyed"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "construction_done",
+			"label": "Construction finished",
+			"signals_found": [
+				"construction_finished",
+				"building_completed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.construction_finished -> _on_construction_finished"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "build_placed",
+			"label": "Building placed (order confirmed)",
+			"signals_found": [
+				"building_placed"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "unit_trained",
+			"label": "Unit trained",
+			"signals_found": [
+				"unit_trained"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.unit_trained -> _on_unit_trained"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "worker_mining",
+			"label": "Worker mining",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (mine_tick)"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "resources_delivered",
+			"label": "Crystals delivered",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (crystals_delivered)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "cannot_afford",
+			"label": "Not enough resources (refused)",
+			"signals_found": [
+				"spend_failed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.spend_failed -> _on_spend_failed"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "level_up",
+			"label": "Level up",
+			"signals_found": [
+				"level_changed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.level_changed -> _on_level_changed"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "spell_learned",
+			"label": "Spell learned / ranked up",
+			"signals_found": [
+				"spell_learned"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "capture",
+			"label": "Capture point taken",
+			"signals_found": [
+				"point_captured",
+				"owner_changed"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.point_captured -> _on_point_captured"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "point_lost",
+			"label": "Capture point neutralised / lost",
+			"signals_found": [
+				"point_neutralised"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "shrine_awakened",
+			"label": "Wayshrine awakens",
+			"signals_found": [
+				"shrine_awakened",
+				"awakened"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.shrine_awakened -> _on_shrine_awakened"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "camp_cleared",
+			"label": "Neutral camp cleared",
+			"signals_found": [
+				"camp_cleared",
+				"cleared"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.camp_cleared -> _on_camp_cleared"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "beast_spawn",
+			"label": "Epic beast spawns",
+			"signals_found": [
+				"beast_spawned"
+			],
+			"status": "covered",
+			"via": "mapfill_popups.gd.beast_spawned -> _on_beast_spawned"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "beast_slain",
+			"label": "Epic beast slain",
+			"signals_found": [
+				"beast_slain"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "trade_arrival",
+			"label": "Caravan delivery (trade arrival)",
+			"signals_found": [
+				"delivered"
+			],
+			"status": "covered",
+			"via": "trade_popups.gd.delivered -> _on_delivered"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "caravan_robbed",
+			"label": "Caravan robbed / miners raided",
+			"signals_found": [
+				"caravan_robbed",
+				"robbed",
+				"workers_raided"
+			],
+			"status": "covered",
+			"via": "trade_popups.gd.caravan_robbed -> _on_caravan_robbed"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "contract_started",
+			"label": "Hunters' contract starts",
+			"signals_found": [
+				"contract_started"
+			],
+			"status": "covered",
+			"via": "trade_popups.gd.contract_started -> _on_contract_started"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "champion_hired",
+			"label": "Champion hired / revived",
+			"signals_found": [
+				"champion_hired",
+				"champion_revived"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "champion_fallen",
+			"label": "Champion fallen",
+			"signals_found": [
+				"champion_fallen"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "class_chosen",
+			"label": "Champion class chosen",
+			"signals_found": [
+				"class_chosen"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "bounty",
+			"label": "Bounty placed / paid",
+			"signals_found": [
+				"bounty_placed",
+				"bounty_paid"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "item_bought",
+			"label": "Item / ware bought",
+			"signals_found": [
+				"item_bought",
+				"ware_bought"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.item_bought -> (lambda)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "item_used",
+			"label": "Item used",
+			"signals_found": [
+				"item_used"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.item_used -> (lambda)"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "item_pickup",
+			"label": "Item / loot picked up",
+			"signals_found": [
+				"picked_up",
+				"picked",
+				"loot_picked"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.picked_up -> _on_picked_up"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "artifact_claimed",
+			"label": "Artifact / crown claimed",
+			"signals_found": [
+				"artifact_claimed",
+				"claimed"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.artifact_claimed -> _on_artifact_claimed"
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "crown_dropped",
+			"label": "Crown dropped / lost",
+			"signals_found": [
+				"dropped",
+				"lost"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "wizard_fell",
+			"label": "Your wizard has fallen (alert)",
+			"signals_found": [
+				"wizard_fell"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "wizard_respawned",
+			"label": "Wizard respawned",
+			"signals_found": [
+				"wizard_respawned",
+				"respawned"
+			],
+			"status": "missing",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "match_end",
+			"label": "Victory / defeat",
+			"signals_found": [
+				"mission_ended",
+				"match_ended"
+			],
+			"status": "covered",
+			"via": "game_audio.gd.mission_ended -> _on_mission_ended"
+		},
+		{
+			"core": true,
+			"design_gap": false,
+			"id": "ui_click",
+			"label": "UI button click",
+			"signals_found": [],
+			"status": "covered",
+			"via": "game_audio.gd (pressed\\.connect)"
+		},
+		{
+			"core": false,
+			"design_gap": true,
+			"id": "order_ack",
+			"label": "Order acknowledged (move / attack click)",
+			"signals_found": [],
+			"status": "design_gap",
+			"via": ""
+		},
+		{
+			"core": true,
+			"design_gap": true,
+			"id": "under_attack",
+			"label": "Base / army under attack (off-screen alert)",
+			"signals_found": [],
+			"status": "design_gap",
+			"via": ""
+		},
+		{
+			"core": false,
+			"design_gap": false,
+			"id": "ping",
+			"label": "Minimap / ally ping (2v2)",
+			"signals_found": [],
+			"status": "absent",
+			"via": ""
+		}
+	],
+	"fight": {},
+	"group_scores": {
+		"3d": 1.0,
+		"bus": 1.0,
+		"duration": 1.0,
+		"loudness": 0.857,
+		"memory": 1.0,
+		"peaks": 1.0,
+		"spectral": 0.833,
+		"variation": 0.857,
+		"voices": 1.0
+	},
+	"improve_next": [
+		"**FAIL Loudness (in game)** - Raise the in-game level into the range (volume_db in mapfill_popups.gd, or re-render the file)  _(mapfill_splash +10 dB; unit (frequent): -36..-22 cue)_",
+		"**FAIL Variation** - Add takes (<id>_1.wav, <id>_2.wav... or an AudioStreamRandomizer) and randomise pitch +-5 % in the play function.  _(mapfill_splash; frequent cue: >= 3 takes, or 2 takes + pitch / volume randomisation)_",
+		"**WARN Spectral balance and masking** - Add 1-4 kHz content (attack, harmonics): all-bass cues vanish on laptop speakers and mud the mix.  _(mapfill_drum, mapfill_horn, mapfill_roar; not all-bass (< 85% low), not all-hiss (< 60% air))_",
+		"**WARN Spectral balance and masking** - Add 2-5 kHz content so the UI cue reads on small speakers.  _(mapfill_bubble; not all-bass (< 85% low), not all-hiss (< 60% air))_",
+		"**Replace placeholders** - 7 of 7 files are generated tones (see \"What a real replacement needs\"); start with the most played cues (combat hits, shots, deaths) and the alerts."
+	],
+	"kind": "auto",
+	"mode": "set",
+	"name": "mapfill",
+	"players": [
+		{
+			"class": "AudioStreamPlayer",
+			"container": "_players",
+			"func": "_ready",
+			"props": {
+				"bus": "SFX",
+				"volume_db": "? float((SOUNDS[id] as Dictionary)[\"db\"])"
+			},
+			"script": "res://scripts/vfx/mapfill_popups.gd",
+			"source": "code",
+			"stream_var": "load(path) as AudioStream",
+			"var": "p",
+			"where": "res://scripts/vfx/mapfill_popups.gd:132"
+		},
+		{
+			"class": "AudioStreamPlayer3D",
+			"container": "_splash",
+			"func": "_ready",
+			"props": {
+				"bus": "SFX",
+				"max_distance": 60.0,
+				"volume_db": -18.0
+			},
+			"script": "res://scripts/vfx/mapfill_popups.gd",
+			"source": "code",
+			"stream_var": "splash_stream",
+			"var": "s",
+			"where": "res://scripts/vfx/mapfill_popups.gd:142"
+		}
+	],
+	"rules": {
+		"loudness": {
+			"alert": {
+				"hi": -7.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -13.0,
+				"why": "must cut through a battle (level up, capture, raid, stingers)"
+			},
+			"ambience": {
+				"hi": -26.0,
+				"lo": -36.0,
+				"metric": "integrated",
+				"target": -30.0,
+				"why": "a bed under everything, well below the music"
+			},
+			"music": {
+				"hi": -18.0,
+				"lo": -26.0,
+				"metric": "integrated",
+				"target": -22.0,
+				"why": "the mix anchor (includes GameAudio.MUSIC_DB)"
+			},
+			"spell": {
+				"hi": -9.0,
+				"lo": -22.0,
+				"metric": "cue",
+				"target": -14.0,
+				"why": "hero actions read above the combat bed"
+			},
+			"ui": {
+				"hi": -14.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -22.0,
+				"why": "clear but polite: never louder than an alert, audible over the music"
+			},
+			"unit": {
+				"hi": -16.0,
+				"lo": -30.0,
+				"metric": "cue",
+				"target": -23.0,
+				"why": "combat bed: hits, shots, deaths; many at once, so each one moderate"
+			}
+		},
+		"ref_distance": 30.0
+	},
+	"score": 89,
+	"target": "res://assets/audio/mapfill_"
+}

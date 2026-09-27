@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/landmarks/meshes/colossus.res" id="1_5fxhv"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o4nv2"]
+radius = 2.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lxg15"]
+size = Vector3(1.5, 1.8, 3)
+
+[node name="Colossus" type="Node3D" unique_id=47416015 groups=["landmarks"]]
+metadata/landmark_id = &"lm_colossus"
+metadata/decor_clear_radius = 4.2
+
+[node name="Model" type="MeshInstance3D" parent="." unique_id=1411903471]
+gi_mode = 0
+mesh = ExtResource("1_5fxhv")
+
+[node name="Collision" type="StaticBody3D" parent="." unique_id=1545642293]
+collision_mask = 0
+
+[node name="Head" type="CollisionShape3D" parent="Collision" unique_id=1412708527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.8, -0.7)
+shape = SubResource("CylinderShape3D_o4nv2")
+
+[node name="Hand" type="CollisionShape3D" parent="Collision" unique_id=1324247006]
+transform = Transform3D(0.83511484, 0, -0.5500757, 0, 1, 0, 0.5500757, 0, 0.83511484, -1.045, 0.7, 1.587)
+shape = SubResource("BoxShape3D_lxg15")

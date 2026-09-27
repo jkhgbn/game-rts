@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_iceb"]
+
+[ext_resource type="PackedScene" path="res://art/buildings/ice_hall.tscn" id="9_model"]
+
+[resource]
+script = ExtResource("1_iceb")
+id = &"ice_barracks"
+display_name = "Frost Hall"
+faction = &"ice"
+kind = &"barracks"
+cost = 150
+build_time = 54.0
+max_hp = 1560.0
+footprint = Vector2i(3, 3)
+height = 4.0
+train_ids = Array[StringName]([&"rimeshield", &"shardcaster", &"rime_seer", &"rime_colossus"])
+sight_radius = 12.0
+hotkey_label = "X"
+color = Color(0.45, 0.75, 0.95, 1)
+body_color = Color(0.62, 0.7, 0.78, 1)
+projectile_color = Color(0.75, 0.92, 1, 1)
+model_scene = ExtResource("9_model")

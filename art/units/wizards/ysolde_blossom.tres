@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/wizards/ysolde_grove.gdshader" id="1_ysg"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ysg"]
+
+[resource]
+resource_name = "ysolde_blossom"
+render_priority = 0
+shader = ExtResource("1_ysg")
+shader_parameter/noise_tex = ExtResource("2_ysg")
+shader_parameter/base_color = Color(0.93, 0.44, 0.66, 1)
+shader_parameter/spec_strength = 0.1
+shader_parameter/rim_strength = 0.22
+shader_parameter/rim_color = Color(1, 0.85, 0.9, 1)
+shader_parameter/petal = 1.0

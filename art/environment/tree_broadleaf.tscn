@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/tree_broadleaf.res" id="1_dn8c8"]
+
+[node name="TreeBroadleaf" type="Node3D" unique_id=994220007]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=289860005]
+gi_mode = 0
+mesh = ExtResource("1_dn8c8")

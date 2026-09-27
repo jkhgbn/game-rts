@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/buildings/fire/ember_crucible/crucible_pool.gdshader" id="1_ec"]
+
+[resource]
+resource_name = "ec_pool"
+render_priority = 0
+shader = ExtResource("1_ec")

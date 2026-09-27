@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_cv8xv"]
+
+[resource]
+script = ExtResource("1_cv8xv")
+id = &"oath_of_embers"
+display_name = "Oath of Embers"
+tier = 2
+stats = {
+"attack_cooldown_pct": -0.1,
+"attack_damage": 25.0
+}
+passive_id = &"searing_strikes"
+passives = {
+&"searing_strikes": {
+"duration": 2.0,
+"interval": 0.5,
+"per_tick": 4.0
+}
+}
+campaign_only = true
+icon_abbrev = "OE"
+tooltip = "Searing Strikes: attacks burn for 16 over 2 s."

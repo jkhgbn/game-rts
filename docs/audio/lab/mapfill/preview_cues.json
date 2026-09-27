@@ -1,0 +1,96 @@
+{
+	"cues": [
+		{
+			"bus": "SFX",
+			"category": "ui",
+			"context": "ui",
+			"id": "mapfill_bubble",
+			"level": -27.688,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/mapfill_bubble.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": -12.0
+		},
+		{
+			"bus": "SFX",
+			"category": "alert",
+			"context": "battle",
+			"id": "mapfill_chime",
+			"level": -17.768,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/mapfill_chime.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": -6.0
+		},
+		{
+			"bus": "SFX",
+			"category": "alert",
+			"context": "battle",
+			"id": "mapfill_drum",
+			"level": -20.316,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/mapfill_drum.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": -6.0
+		},
+		{
+			"bus": "SFX",
+			"category": "alert",
+			"context": "battle",
+			"id": "mapfill_horn",
+			"level": -9.789,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/mapfill_horn.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": 0.0
+		},
+		{
+			"bus": "SFX",
+			"category": "alert",
+			"context": "battle",
+			"id": "mapfill_roar",
+			"level": -20.102,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/mapfill_roar.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": -8.0
+		},
+		{
+			"bus": "SFX",
+			"category": "unit",
+			"context": "battle",
+			"id": "mapfill_splash",
+			"level": -43.793,
+			"max_distance": 60.0,
+			"mode": "3d",
+			"path": "res://assets/audio/mapfill_splash.wav",
+			"pitch": 0.0,
+			"unit_size": 10.0,
+			"volume_db": -18.0
+		},
+		{
+			"bus": "SFX",
+			"category": "alert",
+			"context": "battle",
+			"id": "mapfill_stag",
+			"level": -9.479,
+			"max_distance": null,
+			"mode": "2d",
+			"path": "res://assets/audio/mapfill_stag.wav",
+			"pitch": 0.0,
+			"unit_size": null,
+			"volume_db": 0.0
+		}
+	],
+	"name": "mapfill"
+}

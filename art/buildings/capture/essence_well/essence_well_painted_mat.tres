@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/buildings/capture/essence_well/essence_well_painted.gdshader" id="1_55etl"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_d1de0"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_55etl")
+shader_parameter/noise_tex = ExtResource("2_d1de0")
+shader_parameter/moss_color = null
+shader_parameter/moss_dark = null
+shader_parameter/groove_color = null
+shader_parameter/stone_top_light = null
+shader_parameter/iron_spec = null
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = null
+shader_parameter/select_rim = null

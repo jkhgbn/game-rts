@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"rime_aegis"
+display_name = "Rime Aegis"
+hotkey_label = "E"
+target_type = 2
+mana_cost = 60.0
+cooldown = 40.0
+radius = 8.0
+duration = 8.0
+shield_amount = 80.0
+icon_abbrev = "RA"
+tooltip = "Shields Torvald and nearby soldiers."
+max_rank = 2
+level_required = Array[int]([4, 7])
+cooldown_by_rank = Array[float]([40.0, 35.0])
+radius_by_rank = Array[float]([8.0, 10.0])
+duration_by_rank = Array[float]([8.0, 8.0])
+shield_by_rank = Array[float]([80.0, 120.0])

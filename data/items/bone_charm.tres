@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_mjt7q"]
+
+[resource]
+script = ExtResource("1_mjt7q")
+id = &"bone_charm"
+display_name = "Bone Charm"
+cost = 250
+stats = {
+"attack_damage": 5.0,
+"max_hp": 60.0
+}
+sold_at = 1
+icon_abbrev = "BC"

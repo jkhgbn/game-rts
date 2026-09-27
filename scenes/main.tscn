@@ -1,0 +1,46 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://art/vfx/spell_vfx.gd" id="2_vfx"]
+[ext_resource type="Script" path="res://art/vfx/combat_vfx.gd" id="3_combat"]
+[ext_resource type="Script" path="res://art/vfx/ice_vfx.gd" id="4_ice"]
+[ext_resource type="Script" path="res://scripts/audio/game_audio.gd" id="5_audio"]
+[ext_resource type="Script" path="res://art/vfx/nature_vfx.gd" id="6_nature"]
+[ext_resource type="Script" path="res://art/vfx/champion_vfx.gd" id="7_champion"]
+[ext_resource type="Script" path="res://art/vfx/trade_vfx.gd" id="8_trade"]
+[ext_resource type="Script" path="res://art/vfx/titan_vfx.gd" id="9_titan"]
+[ext_resource type="Script" path="res://art/vfx/unit_vfx.gd" id="10_unit"]
+[ext_resource type="Script" path="res://art/vfx/cavalry_vfx.gd" id="11_cav"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="SpellVfx" type="Node3D" parent="."]
+script = ExtResource("2_vfx")
+
+[node name="CombatVfx" type="Node3D" parent="."]
+script = ExtResource("3_combat")
+
+[node name="IceVfx" type="Node3D" parent="."]
+script = ExtResource("4_ice")
+
+[node name="NatureVfx" type="Node3D" parent="."]
+script = ExtResource("6_nature")
+
+[node name="ChampionVfx" type="Node3D" parent="."]
+script = ExtResource("7_champion")
+
+[node name="TradeVfx" type="Node3D" parent="."]
+script = ExtResource("8_trade")
+
+[node name="TitanVfx" type="Node3D" parent="."]
+script = ExtResource("9_titan")
+
+[node name="UnitVfx" type="Node3D" parent="."]
+script = ExtResource("10_unit")
+
+[node name="CavalryVfx" type="Node3D" parent="."]
+script = ExtResource("11_cav")
+
+[node name="GameAudio" type="Node3D" parent="."]
+script = ExtResource("5_audio")

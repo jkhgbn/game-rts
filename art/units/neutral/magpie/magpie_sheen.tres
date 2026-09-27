@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/neutral/magpie/magpie_sheen.gdshader" id="1_mps"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_mps"]
+
+[resource]
+resource_name = "magpie_sheen"
+render_priority = 0
+shader = ExtResource("1_mps")
+shader_parameter/noise_tex = ExtResource("2_mps")
+shader_parameter/base_color = Color(0.05, 0.05, 0.08, 1)
+shader_parameter/spec_strength = 0.25
+shader_parameter/rim_color = Color(0.3, 0.75, 0.8, 1)
+shader_parameter/rim_strength = 0.3
+shader_parameter/sheen_a = Color(0.1, 0.26, 0.78, 1)
+shader_parameter/sheen_b = Color(0.06, 0.62, 0.52, 1)
+shader_parameter/sheen_strength = 0.85
+shader_parameter/sheen_face = 0.45
+shader_parameter/sheen_glint = 0.35

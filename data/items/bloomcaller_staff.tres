@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_bcs01"]
+[ext_resource type="Resource" path="res://data/items/verdant_seed.tres" id="2_bcs02"]
+[ext_resource type="Resource" path="res://data/items/duskglass.tres" id="3_bcs03"]
+
+[resource]
+script = ExtResource("1_bcs01")
+id = &"bloomcaller_staff"
+display_name = "Bloomcaller Staff"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_bcs01")]([ExtResource("2_bcs02"), ExtResource("3_bcs03")])
+stats = {
+"hp_regen": 2.0,
+"max_mana": 30.0,
+"spell_power": 20.0
+}
+passive_id = &"blossom"
+passives = {
+&"blossom": {
+"heal_mult": 1.25
+}
+}
+sold_at = 3
+icon_abbrev = "BS"
+tooltip = "Blossom: your spell heals and shields are 25 % stronger."

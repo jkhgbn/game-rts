@@ -1,0 +1,97 @@
+{
+    "lab":  "error_lab",
+    "version":  "1.0",
+    "run":  "validation_5tests",
+    "time":  "2026-09-26 23:02",
+    "result":  "PASS",
+    "score":  100,
+    "unique_fail":  0,
+    "unique_warn":  0,
+    "info":  2,
+    "new":  0,
+    "previous_run":  "",
+    "tests":  [
+                  {
+                      "test":  "test_12_c2",
+                      "ok":  true,
+                      "why":  "",
+                      "exit":  null,
+                      "seconds":  null,
+                      "cap":  null
+                  },
+                  {
+                      "test":  "test_12_c3",
+                      "ok":  true,
+                      "why":  "",
+                      "exit":  null,
+                      "seconds":  null,
+                      "cap":  null
+                  },
+                  {
+                      "test":  "test_12b_v2",
+                      "ok":  true,
+                      "why":  "",
+                      "exit":  null,
+                      "seconds":  null,
+                      "cap":  null
+                  },
+                  {
+                      "test":  "test_16a",
+                      "ok":  true,
+                      "why":  "",
+                      "exit":  null,
+                      "seconds":  null,
+                      "cap":  null
+                  },
+                  {
+                      "test":  "test_data_lab",
+                      "ok":  true,
+                      "why":  "",
+                      "exit":  null,
+                      "seconds":  null,
+                      "cap":  null
+                  }
+              ],
+    "failed_tests":  [
+
+                     ],
+    "errors":  [
+                   {
+                       "severity":  "INFO",
+                       "new":  false,
+                       "location":  "engine core/io/resource.cpp:822",
+                       "file":  "",
+                       "line":  0,
+                       "owner":  "task agent of test_12_c3 / test_16a / test_data_lab (engine error, no script frame)",
+                       "message":  "N resources still in use at exit (run with --verbose for details).",
+                       "example":  "ERROR: 1 resources still in use at exit (run with --verbose for details).",
+                       "count":  3,
+                       "tests":  [
+                                     "test_12_c3",
+                                     "test_16a",
+                                     "test_data_lab"
+                                 ],
+                       "key":  "N resources still in use at exit (run with --verbose for details). @ (engine)"
+                   },
+                   {
+                       "severity":  "INFO",
+                       "new":  false,
+                       "location":  "engine core/object/object.cpp:2536",
+                       "file":  "",
+                       "line":  0,
+                       "owner":  "task agent of test_12_c3 / test_16a / test_data_lab (engine error, no script frame)",
+                       "message":  "N ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+                       "example":  "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+                       "count":  3,
+                       "tests":  [
+                                     "test_12_c3",
+                                     "test_16a",
+                                     "test_data_lab"
+                                 ],
+                       "key":  "N ObjectDB instances were leaked at exit (run with `--verbose` for details). @ (engine)"
+                   }
+               ],
+    "improve_next":  [
+
+                     ]
+}

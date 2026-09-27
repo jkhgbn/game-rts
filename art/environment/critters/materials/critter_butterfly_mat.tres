@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/critters/critter_butterfly.gdshader" id="1_5uqpa"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5uqpa")
+shader_parameter/clock = null
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = null

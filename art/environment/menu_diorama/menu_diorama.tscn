@@ -1,0 +1,250 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/menu_diorama/menu_diorama.gd" id="1_script"]
+[ext_resource type="Environment" path="res://art/environment/menu_diorama/menu_diorama_env.tres" id="2_env"]
+[ext_resource type="Material" path="res://art/environment/menu_diorama/menu_ground_mat.tres" id="3_ground"]
+[ext_resource type="PackedScene" path="res://art/environment/crown_pedestal.tscn" id="4_altar"]
+[ext_resource type="ArrayMesh" path="res://art/environment/crown/ember_crown_mesh.res" id="5_crown"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/vessa.tscn" id="6_vessa"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/malrik.tscn" id="7_malrik"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/torvald.tscn" id="8_torvald"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/ysolde.tscn" id="9_ysolde"]
+[ext_resource type="PackedScene" path="res://art/units/champions/oathwall/oathwall.tscn" id="10_oathwall"]
+[ext_resource type="PackedScene" path="res://art/units/champions/wayfinder/wayfinder.tscn" id="11_wayfinder"]
+[ext_resource type="PackedScene" path="res://art/units/champions/mender/mender.tscn" id="12_mender"]
+[ext_resource type="PackedScene" path="res://art/buildings/tavern/tavern_model.tscn" id="13_tavern"]
+[ext_resource type="PackedScene" path="res://art/environment/tree_pine.tscn" id="14_pine"]
+[ext_resource type="PackedScene" path="res://art/environment/tree_fir.tscn" id="15_fir"]
+[ext_resource type="PackedScene" path="res://art/environment/tree_broadleaf.tscn" id="16_broadleaf"]
+[ext_resource type="PackedScene" path="res://art/environment/tree_birch.tscn" id="17_birch"]
+[ext_resource type="PackedScene" path="res://art/environment/tree_gold.tscn" id="18_gold"]
+[ext_resource type="PackedScene" path="res://art/environment/rock_boulder.tscn" id="19_boulder"]
+[ext_resource type="PackedScene" path="res://art/environment/rock_slab.tscn" id="20_slab"]
+[ext_resource type="PackedScene" path="res://art/environment/rock_spire.tscn" id="21_spire"]
+[ext_resource type="PackedScene" path="res://art/environment/rock_shards.tscn" id="22_shards"]
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/decor_bush.res" id="23_bush"]
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/decor_fern.res" id="24_fern"]
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/decor_log.res" id="25_log"]
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/decor_stump.res" id="26_stump"]
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/decor_mushrooms.res" id="27_mush"]
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/decor_flowers_y.res" id="28_flowers"]
+[ext_resource type="Shader" path="res://art/environment/lighting/vignette.gdshader" id="29_vignette"]
+[ext_resource type="PackedScene" path="res://art/buildings/tavern/bounty_flag.tscn" id="30_flag"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+material = ExtResource("3_ground")
+size = Vector2(600, 600)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("29_vignette")
+shader_parameter/tint = Color(0.05, 0.02, 0.06, 1)
+shader_parameter/strength = 0.5
+shader_parameter/inner = 0.5
+shader_parameter/outer = 1.25
+shader_parameter/haze_color = Color(0.95, 0.6, 0.4, 1)
+shader_parameter/haze_strength = 0.0
+shader_parameter/haze_height = 0.25
+
+[node name="MenuDiorama" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-21, -90, 0)
+light_color = Color(1, 0.74, 0.5, 1)
+light_energy = 1.35
+light_specular = 0.4
+shadow_enabled = true
+shadow_normal_bias = 2.0
+shadow_blur = 1.4
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.3
+directional_shadow_blend_splits = false
+directional_shadow_max_distance = 58.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707, -0.123, 0.696, 0, 0.985, 0.174, -0.707, -0.123, 0.696, 20.9, 6.9, 20.9)
+current = true
+fov = 34.0
+far = 400.0
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ground")
+
+[node name="Altar" parent="." instance=ExtResource("4_altar")]
+
+[node name="Crown" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.8, 0)
+mesh = ExtResource("5_crown")
+
+[node name="CrownLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.1, 0)
+light_color = Color(1, 0.74, 0.34, 1)
+light_energy = 2.2
+omni_range = 7.0
+omni_attenuation = 1.3
+
+[node name="Wizards" type="Node3D" parent="."]
+
+[node name="Vessa" parent="Wizards" instance=ExtResource("6_vessa")]
+position = Vector3(-4.91, 0, 3.44)
+rotation_degrees = Vector3(0, 112, 0)
+
+[node name="Malrik" parent="Wizards" instance=ExtResource("7_malrik")]
+position = Vector3(3.44, 0, -4.91)
+rotation_degrees = Vector3(0, -22, 0)
+
+[node name="Torvald" parent="Wizards" instance=ExtResource("8_torvald")]
+position = Vector3(1.8, 0, 5.51)
+rotation_degrees = Vector3(0, 198, 0)
+
+[node name="Ysolde" parent="Wizards" instance=ExtResource("9_ysolde")]
+position = Vector3(5.51, 0, 1.8)
+rotation_degrees = Vector3(0, -108, 0)
+
+[node name="Tavern" type="Node3D" parent="."]
+position = Vector3(10.6, 0, -21.9)
+rotation_degrees = Vector3(0, -26, 0)
+
+[node name="TavernModel" parent="Tavern" instance=ExtResource("13_tavern")]
+
+[node name="Champions" type="Node3D" parent="."]
+
+[node name="Oathwall" parent="Champions" instance=ExtResource("10_oathwall")]
+position = Vector3(10.4, 0, -16.3)
+rotation_degrees = Vector3(0, -20, 0)
+
+[node name="Wayfinder" parent="Champions" instance=ExtResource("11_wayfinder")]
+position = Vector3(12.5, 0, -15.5)
+rotation_degrees = Vector3(0, -34, 0)
+
+[node name="Mender" parent="Champions" instance=ExtResource("12_mender")]
+position = Vector3(14.4, 0, -16.6)
+rotation_degrees = Vector3(0, -48, 0)
+
+[node name="BountyFlag" parent="." instance=ExtResource("30_flag")]
+position = Vector3(16.2, 0, -14.3)
+rotation_degrees = Vector3(0, -20, 0)
+
+[node name="Trees" type="Node3D" parent="."]
+
+[node name="Pine1" parent="Trees" instance=ExtResource("14_pine")]
+position = Vector3(-13.4, 0, -0.7)
+scale = Vector3(1.25, 1.3, 1.25)
+
+[node name="Fir1" parent="Trees" instance=ExtResource("15_fir")]
+position = Vector3(-14.1, 0, -5.7)
+rotation_degrees = Vector3(0, 40, 0)
+scale = Vector3(1.3, 1.4, 1.3)
+
+[node name="Broadleaf1" parent="Trees" instance=ExtResource("16_broadleaf")]
+position = Vector3(-13.4, 0, -10.6)
+rotation_degrees = Vector3(0, 110, 0)
+scale = Vector3(1.3, 1.3, 1.3)
+
+[node name="Pine2" parent="Trees" instance=ExtResource("14_pine")]
+position = Vector3(-13.4, 0, -16.3)
+rotation_degrees = Vector3(0, 200, 0)
+scale = Vector3(1.4, 1.5, 1.4)
+
+[node name="Gold1" parent="Trees" instance=ExtResource("18_gold")]
+position = Vector3(-12.7, 0, 4.2)
+rotation_degrees = Vector3(0, 70, 0)
+scale = Vector3(1.15, 1.15, 1.15)
+
+[node name="Birch1" parent="Trees" instance=ExtResource("17_birch")]
+position = Vector3(-9.9, 0, -18.4)
+rotation_degrees = Vector3(0, 15, 0)
+scale = Vector3(1.25, 1.3, 1.25)
+
+[node name="Pine4" parent="Trees" instance=ExtResource("14_pine")]
+position = Vector3(6.4, 0, -30.4)
+rotation_degrees = Vector3(0, 20, 0)
+scale = Vector3(1.5, 1.6, 1.5)
+
+[node name="Gold2" parent="Trees" instance=ExtResource("18_gold")]
+position = Vector3(12.7, 0, -29.7)
+rotation_degrees = Vector3(0, 140, 0)
+scale = Vector3(1.25, 1.25, 1.25)
+
+[node name="Birch2" parent="Trees" instance=ExtResource("17_birch")]
+position = Vector3(18.4, 0, -25.5)
+rotation_degrees = Vector3(0, 220, 0)
+scale = Vector3(1.2, 1.25, 1.2)
+
+[node name="Rocks" type="Node3D" parent="."]
+
+[node name="SpireFar" parent="Rocks" instance=ExtResource("21_spire")]
+position = Vector3(-22.6, 0, -11.3)
+rotation_degrees = Vector3(0, 30, 0)
+scale = Vector3(2, 2.2, 2)
+
+[node name="BoulderFront" parent="Rocks" instance=ExtResource("19_boulder")]
+position = Vector3(15.6, 0, 0.2)
+rotation_degrees = Vector3(0, 60, 0)
+scale = Vector3(1.3, 1.2, 1.3)
+
+[node name="SlabFront" parent="Rocks" instance=ExtResource("20_slab")]
+position = Vector3(16.3, 0, -3.5)
+rotation_degrees = Vector3(0, 170, 0)
+
+[node name="ShardsTavern" parent="Rocks" instance=ExtResource("22_shards")]
+position = Vector3(15.8, 0, -17.6)
+rotation_degrees = Vector3(0, 10, 0)
+
+[node name="BoulderLeft" parent="Rocks" instance=ExtResource("19_boulder")]
+position = Vector3(-8.8, 0, 3.4)
+rotation_degrees = Vector3(0, 200, 0)
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="BushFront" type="MeshInstance3D" parent="Decor"]
+position = Vector3(14.4, 0, 1.4)
+scale = Vector3(1.3, 1.3, 1.3)
+mesh = ExtResource("23_bush")
+
+[node name="FernFront" type="MeshInstance3D" parent="Decor"]
+position = Vector3(16.9, 0, 1.6)
+scale = Vector3(1.4, 1.4, 1.4)
+cast_shadow = 0
+mesh = ExtResource("24_fern")
+
+[node name="LogTavern" type="MeshInstance3D" parent="Decor"]
+position = Vector3(5.4, 0, -19.8)
+rotation_degrees = Vector3(0, 35, 0)
+mesh = ExtResource("25_log")
+
+[node name="StumpLeft" type="MeshInstance3D" parent="Decor"]
+position = Vector3(-10.5, 0, -4.5)
+mesh = ExtResource("26_stump")
+
+[node name="Mushrooms" type="MeshInstance3D" parent="Decor"]
+position = Vector3(-10.0, 0, -3.9)
+cast_shadow = 0
+mesh = ExtResource("27_mush")
+
+[node name="BushLeft" type="MeshInstance3D" parent="Decor"]
+position = Vector3(-11.6, 0, 1.8)
+rotation_degrees = Vector3(0, 80, 0)
+scale = Vector3(1.2, 1.2, 1.2)
+mesh = ExtResource("23_bush")
+
+[node name="FlowersTavern" type="MeshInstance3D" parent="Decor"]
+position = Vector3(13.4, 0, -17.2)
+cast_shadow = 0
+mesh = ExtResource("28_flowers")
+
+[node name="Vignette" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Rect" type="ColorRect" parent="Vignette"]
+material = SubResource("ShaderMaterial_vignette")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/nature/mossback/mossback_leaf.gdshader" id="1_mbl"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_mbl"]
+
+[resource]
+resource_name = "mossback_lantern"
+render_priority = 0
+shader = ExtResource("1_mbl")
+shader_parameter/base_color = Color(0.78, 0.52, 0.18, 1)
+shader_parameter/noise_tex = ExtResource("2_mbl")
+shader_parameter/spec_strength = 0.15
+shader_parameter/rim_color = Color(1, 0.8, 0.45, 1)
+shader_parameter/rim_strength = 0.12
+shader_parameter/glow_color = Color(1, 0.76, 0.32, 1)
+shader_parameter/glow_energy = 1.6
+shader_parameter/sway = 0.022

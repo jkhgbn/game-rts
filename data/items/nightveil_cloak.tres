@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_cadyt"]
+[ext_resource type="Resource" path="res://data/items/ironbark_plate.tres" id="2_khw47"]
+[ext_resource type="Resource" path="res://data/items/wisp_lantern.tres" id="3_bufvy"]
+
+[resource]
+script = ExtResource("1_cadyt")
+id = &"nightveil_cloak"
+display_name = "Nightveil Cloak"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_cadyt")]([ExtResource("2_khw47"), ExtResource("3_bufvy")])
+stats = {
+"armor": 20.0,
+"hp_regen": 3.0
+}
+passive_id = &"quiet_step"
+passives = {
+&"quiet_step": {
+"delay": 5.0,
+"move_speed": 1.0
+}
+}
+sold_at = 3
+icon_abbrev = "NC"
+tooltip = "Quiet Step: +1 speed after 5 s without taking damage."

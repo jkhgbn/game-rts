@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_bw18k"]
+
+[resource]
+resource_name = "fire_glow_hero"
+render_priority = 0
+shader = ExtResource("1_bw18k")
+shader_parameter/glow_color = Color(1, 0.5, 0.12, 1)
+shader_parameter/energy = 3.0
+shader_parameter/pulse_speed = 4.2
+shader_parameter/rune_bands = null
+shader_parameter/boost = null
+shader_parameter/phase = null

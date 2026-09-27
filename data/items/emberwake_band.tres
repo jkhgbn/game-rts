@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_6r1v4"]
+[ext_resource type="Resource" path="res://data/items/cinder_ring.tres" id="2_1oog8"]
+[ext_resource type="Resource" path="res://data/items/duskglass.tres" id="3_h57pf"]
+
+[resource]
+script = ExtResource("1_6r1v4")
+id = &"emberwake_band"
+display_name = "Emberwake Band"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_6r1v4")]([ExtResource("2_1oog8"), ExtResource("3_h57pf")])
+stats = {
+"cooldown_reduction": 12.0,
+"spell_power": 15.0
+}
+passive_id = &"afterglow"
+passives = {
+&"afterglow": {
+"duration": 2.0,
+"move_speed": 1.0
+}
+}
+sold_at = 3
+icon_abbrev = "EB"
+tooltip = "Afterglow: +1 speed for 2 s after every spell."

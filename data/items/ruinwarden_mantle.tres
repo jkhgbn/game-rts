@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_4wxcj"]
+[ext_resource type="Resource" path="res://data/items/bulwark_of_ruin.tres" id="2_xmgap"]
+[ext_resource type="Resource" path="res://data/items/ironbark_plate.tres" id="3_0ljqw"]
+
+[resource]
+script = ExtResource("1_4wxcj")
+id = &"ruinwarden_mantle"
+display_name = "Ruinwarden Mantle"
+tier = 2
+cost = 500
+parts = Array[ExtResource("1_4wxcj")]([ExtResource("2_xmgap"), ExtResource("3_0ljqw")])
+stats = {
+"armor": 35.0,
+"max_hp": 300.0
+}
+active_id = &"brace_ii"
+active_cooldown = 60.0
+active_target = 1
+active_params = {
+"duration": 5.0,
+"shield": 250.0
+}
+sold_at = 3
+icon_abbrev = "RM"
+tooltip = "Active: Brace II, shield 250 for 5 s · 60 s cooldown"

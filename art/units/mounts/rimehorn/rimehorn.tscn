@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/mounts/rimehorn/rimehorn.gd" id="1_rimehorn"]
+
+[node name="Rimehorn" type="Node3D"]
+script = ExtResource("1_rimehorn")
+gallop_speed = 3.4
+gallop_time = 0.66
+walk_swing_deg = 18.0
+gallop_swing_deg = 34.0
+step_lift = 0.11
+gallop_bounce = 0.06
+gallop_pitch_deg = 4.0
+gallop_head_deg = 8.0
+tail_swish_deg = 14.0
+charge_head_deg = 20.0
+fidget_every = 11.0
+body_height = 1.7
+attack_style = &"mount_toss"
+death_style = &"fall"
+stride_time = 0.95
+stride_speed = 1.7
+idle_period = 4.2
+is_quadruped = true
+walk_bounce = 0.03
+flinch_push = true
+kingdom_color = Color(0.45, 0.75, 0.95, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, -0.05)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.83)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36, -0.02, 0.53)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36, -0.02, 0.53)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34, -0.02, -0.61)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, -0.02, -0.61)
+
+[node name="Tail" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, -0.99)
+
+[node name="Seat" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61, -0.16)
+
+[node name="Fx" type="Node3D" parent="."]

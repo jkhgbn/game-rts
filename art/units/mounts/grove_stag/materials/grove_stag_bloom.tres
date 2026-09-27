@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_gsb"]
+
+[resource]
+resource_name = "grove_stag_bloom"
+render_priority = 0
+shader = ExtResource("1_gsb")
+shader_parameter/glow_color = Color(1.0, 0.56, 0.8, 1)
+shader_parameter/energy = 1.5
+shader_parameter/pulse_speed = 1.3

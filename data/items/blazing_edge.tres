@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_notsd"]
+[ext_resource type="Resource" path="res://data/items/ember_shard.tres" id="2_gx5rs"]
+[ext_resource type="Resource" path="res://data/items/whetted_fang.tres" id="3_5yr25"]
+
+[resource]
+script = ExtResource("1_notsd")
+id = &"blazing_edge"
+display_name = "Blazing Edge"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_notsd")]([ExtResource("2_gx5rs"), ExtResource("3_5yr25")])
+stats = {
+"attack_cooldown_pct": -0.12,
+"attack_damage": 20.0
+}
+passive_id = &"searing_strikes"
+passives = {
+&"searing_strikes": {
+"duration": 2.0,
+"interval": 0.5,
+"per_tick": 4.0
+}
+}
+sold_at = 3
+icon_abbrev = "BE"
+tooltip = "Searing Strikes: attacks burn for 16 over 2 s."

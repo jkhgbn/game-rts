@@ -1,0 +1,63 @@
+[gd_resource type="Resource" script_class="ChampionType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/champion_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/champions/oathwall/oathwall.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"oathwall"
+title = "the Oathwall"
+names = PackedStringArray("Garran Stoneward", "Gerda Stoneward")
+role = "Guardian, melee"
+pop = 2
+max_hp = 520.0
+armor = 20.0
+attack_damage = 15.0
+attack_range = 1.8
+attack_cooldown = 1.3
+move_speed = 4.3
+aggro_range = 10.0
+sight_radius = 11.0
+radius = 0.6
+body_height = 2.0
+body_color = Color(0.45, 0.46, 0.5, 1)
+eye_color = Color(0.6, 0.85, 1, 1)
+projectile_color = Color(0.6, 0.85, 1, 1)
+growth_pct = 0.08
+flee_pct = 0.2
+traits = {
+&"chase_leash": 25.0,
+&"courage": 1.6,
+&"engage_around_buildings": 1.0,
+&"engage_radius": 20.0,
+&"greed": 0.8,
+&"home_leash": 35.0,
+&"home_leash_mult": 0.3
+}
+affinity = {
+&"escort": 1.0,
+&"explore": 0.2,
+&"guard": 2.0,
+&"hunt": 0.7
+}
+bounty_threshold = 10.0
+ability_ids = Array[StringName]([&"oath_of_iron", &"shield_bash", &"bulwark_stand"])
+class_weights = {
+&"spear": 15.0,
+&"sword_shield": 60.0,
+&"two_hand": 20.0,
+&"wizard": 5.0
+}
+wishlist = Array[StringName]([&"ironbark_plate", &"ember_draught", &"wisp_lantern", &"nightveil_cloak", &"bone_charm", &"ironbark_plate", &"warlords_horn"])
+personality_line = "Would rather stand at your door than walk to theirs."
+likes = "Your buildings, your wizard, Guard flags"
+fears = "Leaving home: any flag more than 35 m from every own building is worth x 0.3"
+barks = {
+&"class_chosen": "Something heavier. Finally.",
+&"bounty": "Nobody touches this door. Nobody.",
+&"buy": "Thicker is better.",
+&"flee": "Tactical... leaning backwards!",
+&"hired": "Point me at a wall. I'll stand in front of it.",
+&"level_up": "Heavier. Good."
+}
+model_scene = ExtResource("2_model")

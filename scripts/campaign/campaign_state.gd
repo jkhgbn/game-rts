@@ -1,0 +1,447 @@
+class_name CampaignState
+extends RefCounted
+## Campaign progress between missions (docs/design/mission-01.md "Reward carried to mission 2",
+## docs/design/items.md "Campaign"). One JSON file, `user://campaign.json`:
+##   { "version": 1,
+##     "unlocked": ["m01", "m02"],          # mission ids the menu may start
+##     "completed": ["m01"],
+##     "flags": {"m1_peddler_freed": true, "m1_outpost_burned": false},
+##     "items": { CampaignItems.snapshot(): slots, artifacts_owned, artifacts_equipped, essence },
+##     "companion": {"id": "coin_cutter", "variant": 1, "items": [{"id", "count"} or null x 4], "purse": 150,
+##                   "class": "two_hand"} }               # {} = none (docs/design/champions.md 11); "class" only
+##                                                        # when it had one (skills-rework.md 8; old saves: none)
+## Usage:
+##   var cs := CampaignState.open()                       # load (or a fresh campaign)
+##   cs.on_mission_victory(&"m01", mission_node)          # saves at once
+##   cs.companion_candidates(mission_node)                # the choice screen: champions hired in the mission
+##   cs.choose_companion(champion_or_null)                # saves at once
+##   cs.apply_to_start(next_mission_node)                 # after the next mission's hero exists (also
+##                                                        # spawns the companion if the mission has taverns)
+## `level_node` gives the player's wizard through its `hero` property (main.gd), else the first node in
+## group "heroes" of team PLAYER. Objective states come from `level_node.objective_state(id) -> String`,
+## else a Dictionary `objective_states` / `objectives` (property or meta), values "done" or {state: "done"}.
+## Never call the global `load()` in this script: the method below shadows it (use ResourceLoader).
+
+const VERSION := 1
+const SAVE_PATH := "user://campaign.json"
+const PLAYER_TEAM := 0   # Unit.Team.PLAYER
+const FIRST_MISSION := &"m01"
+## Champion companion (docs/design/champions.md 11).
+const COMPANION_SLOTS := 4
+const COMPANION_PURSE_RATIO := 0.5
+const COMPANION_PURSE_CAP := 300
+const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
+## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
+const MISSION_ORDER: Array[StringName] = [&"m01", &"m02"]
+const MISSION_SCENES := {
+	&"m01": "res://missions/mission_01.tscn",
+	&"m02": "res://missions/mission_02.tscn",
+}
+## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
+## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
+const MISSION_REWARDS := {
+	&"m01": {
+		"artifact": "ember_crown",
+		"flags": {"m1_peddler_freed": "sec_peddler", "m1_outpost_burned": "sec_outpost"},
+		"bonus_essence": {"sec_outpost": 300},
+		"next": &"m02",
+	},
+}
+
+var unlocked: Array[StringName] = [FIRST_MISSION]
+var completed: Array[StringName] = []
+var flags: Dictionary = {}    # String -> bool
+var items: Dictionary = {}    # CampaignItems snapshot ({} = nothing carried yet)
+var companion: Dictionary = {}   # {id, variant, items, purse[, class]} ({} = no companion)
+var path: String = SAVE_PATH
+
+
+## A state loaded from `save_path` (a fresh campaign when there is no file).
+static func open(save_path: String = SAVE_PATH) -> CampaignState:
+	var cs := CampaignState.new()
+	cs.path = save_path
+	cs.load()
+	return cs
+
+
+## The scene path of a mission id ("" when unknown).
+static func mission_scene(id: StringName) -> String:
+	return String(MISSION_SCENES.get(StringName(id), ""))
+
+
+## True when the mission's scene exists (the menu greys out unlocked missions not built yet).
+static func mission_available(id: StringName) -> bool:
+	var p := mission_scene(id)
+	return p != "" and ResourceLoader.exists(p)
+
+
+# ---------------------------------------------------------------- file
+
+## Reads the file; false (and a fresh campaign) when missing or unreadable.
+func load() -> bool:
+	reset_in_memory()
+	if not FileAccess.file_exists(path):
+		return false
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not parsed is Dictionary or int((parsed as Dictionary).get("version", 0)) != VERSION:
+		return false
+	var d := parsed as Dictionary
+	unlocked.clear()
+	for id: Variant in d.get("unlocked", []):
+		_add_unique(unlocked, StringName(str(id)))
+	_add_unique(unlocked, FIRST_MISSION)
+	for id: Variant in d.get("completed", []):
+		_add_unique(completed, StringName(str(id)))
+	var f: Variant = d.get("flags", {})
+	if f is Dictionary:
+		for k: Variant in f:
+			flags[str(k)] = bool(f[k])
+	var it: Variant = d.get("items", {})
+	items = it if it is Dictionary else {}
+	companion = _clean_companion(d.get("companion", {}))
+	return true
+
+
+func save() -> Error:
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	if f == null:
+		return FileAccess.get_open_error()
+	f.store_string(JSON.stringify(to_dict(), "\t"))
+	return OK
+
+
+## New campaign: clears memory and deletes the file.
+func reset() -> void:
+	reset_in_memory()
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+func reset_in_memory() -> void:
+	unlocked = [FIRST_MISSION]
+	completed = []
+	flags = {}
+	items = {}
+	companion = {}
+
+
+func to_dict() -> Dictionary:
+	var u: Array = []
+	for id in unlocked:
+		u.append(String(id))
+	var c: Array = []
+	for id in completed:
+		c.append(String(id))
+	return {"version": VERSION, "unlocked": u, "completed": c, "flags": flags.duplicate(), "items": items.duplicate(true),
+			"companion": companion.duplicate(true)}
+
+
+# ---------------------------------------------------------------- queries
+
+## Unlocked mission ids in campaign order (always at least &"m01").
+func unlocked_missions() -> Array[StringName]:
+	var out: Array[StringName] = []
+	for id in MISSION_ORDER:
+		if unlocked.has(id):
+			out.append(id)
+	for id in unlocked:
+		if not out.has(id):
+			out.append(id)
+	return out
+
+
+func is_completed(id: StringName) -> bool:
+	return completed.has(StringName(id))
+
+
+func flag(name: String) -> bool:
+	return bool(flags.get(name, false))
+
+
+func owned_artifacts() -> Array:
+	return items.get("artifacts_owned", [])
+
+
+func equipped_artifacts() -> Array:
+	return items.get("artifacts_equipped", ["", ""])
+
+
+## Essence given at the next mission start (already halved and capped).
+func carried_essence() -> int:
+	return int(items.get("essence", 0))
+
+
+# ---------------------------------------------------------------- mission flow
+
+## Call once on victory (before the scene is freed). Snapshots the player wizard's 6 slots and artifacts,
+## the team's essence (+ objective bonuses, then 50 %, cap 1 500), the mission's reward artifact and flags,
+## unlocks the next mission and saves. Returns the save result.
+func on_mission_victory(mission_id: StringName, level_node: Node) -> Error:
+	mission_id = StringName(mission_id)
+	var reward: Dictionary = MISSION_REWARDS.get(mission_id, {})
+	var hero := find_hero(level_node)
+	var inventory: Variant = ItemDrops.inventory_of(hero) if hero else null
+	var essence := 0
+	var bank := _bank_in(level_node, _team_of(hero))
+	if bank:
+		essence = bank.essence
+	var bonus: Dictionary = reward.get("bonus_essence", {})
+	for obj: Variant in bonus:
+		if objective_done(level_node, str(obj)):
+			essence += int(bonus[obj])
+	var owned: Array = owned_artifacts().duplicate()
+	var art := str(reward.get("artifact", ""))
+	if art != "" and not owned.has(art):
+		owned.append(art)
+	items = CampaignItems.snapshot(inventory if inventory != null else {}, essence, owned)
+	if art != "":
+		_equip_first(art)
+	var reward_flags: Dictionary = reward.get("flags", {})
+	for flag_name: Variant in reward_flags:
+		flags[str(flag_name)] = objective_done(level_node, str(reward_flags[flag_name]))
+	_add_unique(completed, mission_id)
+	_add_unique(unlocked, mission_id)
+	var next: StringName = reward.get("next", &"")
+	if next == &"":
+		var i := MISSION_ORDER.find(mission_id)
+		next = MISSION_ORDER[i + 1] if i >= 0 and i + 1 < MISSION_ORDER.size() else &""
+	if next != &"":
+		_add_unique(unlocked, next)
+	return save()
+
+
+## Call at the start of the next mission, once its player wizard exists: fills the wizard's inventory
+## (6 slots with potion counts, the 2 equipped artifacts, so their modifiers apply) and adds the carried
+## essence to the team's EssenceBank. Flags are also written as metas `campaign_flags` on level_node.
+## Returns false when there is no hero / inventory.
+func apply_to_start(level_node: Node) -> bool:
+	if level_node:
+		level_node.set_meta(&"campaign_flags", flags.duplicate())
+	var hero := find_hero(level_node)
+	if hero == null:
+		return false
+	apply_companion(level_node)
+	var inventory: Variant = ItemDrops.inventory_of(hero)
+	if inventory == null:
+		ItemDrops.ensure_inventory(hero)
+		inventory = ItemDrops.inventory_of(hero)
+	if inventory == null or items.is_empty():
+		return inventory != null
+	var essence := CampaignItems.restore(items, inventory)
+	var bank := _bank_in(level_node, _team_of(hero))
+	if bank and essence > 0:
+		bank.add(essence)
+	return true
+
+
+# ---------------------------------------------------------------- champion companion (champions.md 11)
+
+## True when the level has taverns / champions (`tavern_enabled`; missions default to false).
+static func tavern_enabled(level_node: Node) -> bool:
+	return level_node != null and &"tavern_enabled" in level_node and bool(level_node.get(&"tavern_enabled"))
+
+
+func has_companion() -> bool:
+	return not companion.is_empty()
+
+
+## The save entry for `champion`: archetype, name variant, its (up to 4) item slots, 50 % of its purse
+## capped at 300, and its class id under "class" when it has one (skills-rework.md 8; no key before level 2).
+## {} for anything that is not a champion.
+static func companion_snapshot(champion: Node) -> Dictionary:
+	if champion == null or not is_instance_valid(champion):
+		return {}
+	var id := &""
+	var type: Variant = champion.get(&"champion_type")
+	if type is Object and (type as Object).get(&"id") != null:
+		id = StringName((type as Object).get(&"id"))
+	if id == &"":
+		var guild := ChampionGuild.for_team(_team_of(champion))
+		if guild:
+			id = guild.archetype_of(champion)
+	if id == &"":
+		return {}
+	var variant: Variant = champion.get(&"variant")
+	var purse: Variant = champion.get(&"purse")
+	var slots: Array = []
+	var inv: Variant = ItemDrops.inventory_of(champion)
+	var src: Variant = null
+	if inv is Object and &"slots" in (inv as Object):
+		src = (inv as Object).get(&"slots")
+	var src_slots: Array = src if src is Array else []
+	for i in COMPANION_SLOTS:
+		slots.append(_companion_item(src_slots[i] if i < src_slots.size() else null))
+	var out := {"id": String(id), "variant": clampi(int(variant) if variant != null else 0, 0, 1), "items": slots,
+			"purse": companion_purse(int(purse) if purse != null else 0)}
+	var cls := companion_class_of(champion)
+	if cls != "":
+		out["class"] = cls
+	return out
+
+
+## The class id of `champion` ("" = none yet): `class_id()` (step 11, 11.C1), else `champion_class.id`.
+static func companion_class_of(champion: Node) -> String:
+	if champion == null or not is_instance_valid(champion):
+		return ""
+	if champion.has_method(&"class_id"):
+		return String(champion.call(&"class_id"))
+	var cc: Variant = champion.get(&"champion_class")
+	if cc is Object and (cc as Object).get(&"id") != null:
+		return String((cc as Object).get(&"id"))
+	return ""
+
+
+## Purse carried to the next mission: 50 %, rounded down, capped at 300.
+static func companion_purse(purse: int) -> int:
+	return mini(floori(maxf(purse, 0) * COMPANION_PURSE_RATIO), COMPANION_PURSE_CAP)
+
+
+## The champions the player hired in this mission (alive or fallen): the choice screen's list.
+func companion_candidates(level_node: Node) -> Array:
+	var guild := _guild_in(level_node, PLAYER_TEAM)
+	return guild.champions.duplicate() if guild else []
+
+
+## The player picked `champion` (null = none) on the victory choice screen: stores and saves.
+func choose_companion(champion: Node) -> Error:
+	companion = companion_snapshot(champion) if champion else {}
+	return save()
+
+
+## At the start of a mission with taverns: the stored companion walks in beside the wizard as roster slot 1
+## (no hire cost; level 1, carried items and purse; its saved class is re-applied by ChampionGuild.add_companion
+## through `set_champion_class`, class skills locked again until levels 2 / 3 / 5). Returns it, or null (none stored, no taverns, no
+## guild yet). apply_to_start() calls it.
+func apply_companion(level_node: Node) -> Node:
+	if companion.is_empty() or not tavern_enabled(level_node):
+		return null
+	var guild := _guild_in(level_node, PLAYER_TEAM)
+	if guild == null:
+		return null
+	var existing := guild.champion_of(StringName(companion["id"]))
+	if existing:
+		return existing   # already applied
+	var hero := find_hero(level_node) as Node3D
+	var at: Vector3 = hero.global_position + COMPANION_OFFSET if hero else guild.home_point()
+	if at == Vector3.INF:
+		return null
+	return guild.add_companion(companion, at)
+
+
+static func _guild_in(level_node: Node, team: int) -> ChampionGuild:
+	var guild := ChampionGuild.for_team(team)
+	if guild == null or level_node == null or not (level_node == guild or level_node.is_ancestor_of(guild)):
+		return null
+	return guild
+
+
+## {id, count} of an inventory slot entry ({type: ItemType or id, count}) or of a saved {id, count}, or null.
+static func _companion_item(e: Variant) -> Variant:
+	var t: Variant = e
+	if e is Dictionary:
+		t = (e as Dictionary).get("type", (e as Dictionary).get("id"))
+	var id := ""
+	if t is String or t is StringName:
+		id = String(t)
+	elif t is Object and (t as Object).get(&"id") != null:
+		id = String((t as Object).get(&"id"))
+	if id == "":
+		return null
+	var count := int((e as Dictionary).get("count", 1)) if e is Dictionary else 1
+	return {"id": id, "count": maxi(1, count)}
+
+
+## A loaded companion entry, checked ({} when unusable).
+static func _clean_companion(v: Variant) -> Dictionary:
+	if not v is Dictionary or str((v as Dictionary).get("id", "")) == "":
+		return {}
+	var d := v as Dictionary
+	var out_items: Array = []
+	var src: Variant = d.get("items", [])
+	var src_items: Array = src if src is Array else []
+	for i in COMPANION_SLOTS:
+		out_items.append(_companion_item(src_items[i] if i < src_items.size() else null))
+	var out := {"id": str(d["id"]), "variant": clampi(int(d.get("variant", 0)), 0, 1), "items": out_items,
+			"purse": clampi(int(d.get("purse", 0)), 0, COMPANION_PURSE_CAP)}
+	# Optional (step 11): kept only when it is a non-empty id; old saves without it load unchanged.
+	var cls: Variant = d.get("class", "")
+	if (cls is String or cls is StringName) and String(cls).strip_edges() != "":
+		out["class"] = String(cls).strip_edges()
+	return out
+
+
+# ---------------------------------------------------------------- level helpers
+
+## The player's wizard of `level_node`: its `hero` property, else the first PLAYER node in "heroes".
+static func find_hero(level_node: Node) -> Node:
+	if level_node == null:
+		return null
+	if &"hero" in level_node:
+		var h: Variant = level_node.get(&"hero")
+		if is_instance_valid(h) and h is Node:
+			return h
+	if not level_node.is_inside_tree():
+		return null
+	for n in level_node.get_tree().get_nodes_in_group("heroes"):
+		if (n == level_node or level_node.is_ancestor_of(n)) and _team_of(n) == PLAYER_TEAM:
+			return n
+	return null
+
+
+## True when objective `id` of the level is "done" (see the header for what is read).
+static func objective_done(level_node: Node, id: String) -> bool:
+	if level_node == null:
+		return false
+	if level_node.has_method(&"objective_state"):
+		return _state_is_done(level_node.call(&"objective_state", id))
+	for key: StringName in [&"objective_states", &"objectives"]:
+		var d: Variant = level_node.get(key) if key in level_node else null
+		if d == null and level_node.has_meta(key):
+			d = level_node.get_meta(key)
+		if d is Dictionary:
+			var dict := d as Dictionary
+			var v: Variant = dict.get(id, dict.get(StringName(id)))
+			if v != null:
+				return _state_is_done(v)
+	return false
+
+
+static func _state_is_done(v: Variant) -> bool:
+	if v is Dictionary:
+		v = (v as Dictionary).get("state", "")
+	return str(v) == "done"
+
+
+static func _team_of(n: Node) -> int:
+	if n == null:
+		return PLAYER_TEAM
+	var t: Variant = n.get(&"team")
+	return int(t) if t != null else PLAYER_TEAM
+
+
+## The team's EssenceBank inside the level's tree (created by EssenceBank.for_team if missing).
+static func _bank_in(level_node: Node, team: int) -> EssenceBank:
+	if level_node and level_node.is_inside_tree():
+		for n in level_node.get_tree().get_nodes_in_group("essence_banks"):
+			var b := n as EssenceBank
+			if b and b.team == team and not b.is_queued_for_deletion():
+				return b
+	return EssenceBank.for_team(team)
+
+
+## Puts `art` in equipped slot 1; what was there moves to slot 2 if it is free (still owned either way).
+func _equip_first(art: String) -> void:
+	var eq: Array = items.get("artifacts_equipped", ["", ""]).duplicate()
+	while eq.size() < CampaignItems.ARTIFACT_SLOTS:
+		eq.append("")
+	if eq.has(art):
+		return
+	if str(eq[0]) != "" and str(eq[1]) == "":
+		eq[1] = eq[0]
+	eq[0] = art
+	items["artifacts_equipped"] = eq
+
+
+static func _add_unique(arr: Array, id: StringName) -> void:
+	if id != &"" and not arr.has(id):
+		arr.append(id)

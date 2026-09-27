@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/shadow_knight.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"shadow_knight"
+display_name = "Shadow Knight"
+faction = &"shadow"
+is_worker = false
+cost = 260
+pop = 3
+kill_xp = 130
+train_time = 45.0
+card_key = ""
+max_hp = 480.0
+move_speed = 4.0
+attack_damage = 26.0
+attack_range = 1.9
+attack_cooldown = 1.4
+aggro_range = 10.0
+radius = 0.7
+body_height = 2.4
+body_color = Color(0.25, 0.12, 0.38, 1)
+model_scene = ExtResource("2_model")

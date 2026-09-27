@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_wye"]
+[resource]
+resource_name = "wyrm_eye_b"
+render_priority = 0
+shader = ExtResource("1_wye")
+shader_parameter/glow_color = Color(0.86, 0.64, 1, 1)
+shader_parameter/energy = 3.3
+shader_parameter/pulse_speed = 1.8
+shader_parameter/phase = 0.4

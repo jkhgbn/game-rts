@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_gsh"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_gsh"]
+
+[resource]
+resource_name = "grove_stag_hide"
+render_priority = 0
+shader = ExtResource("1_gsh")
+shader_parameter/base_color = Color(0.25, 0.22, 0.14, 1)
+shader_parameter/noise_tex = ExtResource("2_gsh")
+shader_parameter/spec_strength = 0.0
+shader_parameter/rim_color = Color(0.62, 0.85, 0.45, 1)
+shader_parameter/rim_strength = 0.3

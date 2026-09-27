@@ -1,0 +1,164 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://art/units/neutral/beasts/grizzlemaw/grizzlemaw.gd" id="1_gzm"]
+
+[sub_resource type="Gradient" id="Gradient_puff"]
+offsets = PackedFloat32Array(0, 0.4, 0.75, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.75, 1, 1, 1, 0.25, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_puff"]
+gradient = SubResource("Gradient_puff")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.12, 0.6, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.55, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fade"]
+gradient = SubResource("Gradient_fade")
+
+[sub_resource type="Curve" id="Curve_grow"]
+_data = [Vector2(0, 0.45), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_grow"]
+curve = SubResource("Curve_grow")
+
+[sub_resource type="StandardMaterial3D" id="Mat_puff"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_puff")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_dust"]
+emission_shape = 3
+emission_box_extents = Vector3(0.7, 0.05, 0.35)
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 80.0
+initial_velocity_min = 0.8
+initial_velocity_max = 2.4
+gravity = Vector3(0, -0.6, 0)
+damping_min = 1.6
+damping_max = 2.6
+scale_min = 0.8
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_grow")
+color = Color(0.5, 0.42, 0.32, 0.8)
+color_ramp = SubResource("GradientTexture1D_fade")
+
+[sub_resource type="QuadMesh" id="QuadMesh_dust"]
+material = SubResource("Mat_puff")
+size = Vector2(0.75, 0.75)
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_breath"]
+emission_shape = 1
+emission_sphere_radius = 0.1
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 0, 1)
+spread = 22.0
+initial_velocity_min = 2.2
+initial_velocity_max = 4.6
+gravity = Vector3(0, 0.25, 0)
+damping_min = 3.0
+damping_max = 4.5
+scale_min = 0.7
+scale_max = 1.3
+scale_curve = SubResource("CurveTexture_grow")
+color = Color(0.86, 0.88, 0.9, 0.55)
+color_ramp = SubResource("GradientTexture1D_fade")
+
+[sub_resource type="QuadMesh" id="QuadMesh_breath"]
+material = SubResource("Mat_puff")
+size = Vector2(0.5, 0.5)
+
+[node name="Grizzlemaw" type="Node3D"]
+script = ExtResource("1_gzm")
+body_height = 2.6
+attack_style = &"claw_swipe"
+death_style = &"topple"
+stride_time = 0.8
+stride_speed = 5.0
+idle_period = 4.2
+is_quadruped = true
+kingdom_color = Color(0.4, 0.26, 0.15, 1)
+walk_bounce = 0.035
+flinch_push = true
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52, 0.84)
+
+[node name="Jaw" type="Node3D" parent="Root/Mount/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0.52)
+metadata/keep_separate = true
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 1.55, 0.52)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegFL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, -0.71, 0.08)
+metadata/keep_separate = true
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.55, 0.52)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegFR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, -0.71, 0.08)
+metadata/keep_separate = true
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 1.42, -0.95)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegBL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.68, 0.15)
+metadata/keep_separate = true
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.42, -0.95)
+
+[node name="Lower" type="Node3D" parent="Root/Mount/LegBR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.68, 0.15)
+metadata/keep_separate = true
+
+[node name="Fx" type="Node3D" parent="."]
+
+[node name="Dust" type="GPUParticles3D" parent="Fx"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
+cast_shadow = 0
+emitting = false
+amount = 22
+lifetime = 1.3
+one_shot = true
+explosiveness = 0.95
+randomness = 0.3
+visibility_aabb = AABB(-4, -1, -4, 8, 5, 8)
+process_material = SubResource("PPM_dust")
+draw_pass_1 = SubResource("QuadMesh_dust")
+
+[node name="Breath" type="GPUParticles3D" parent="Fx"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 1.9)
+cast_shadow = 0
+emitting = false
+amount = 18
+lifetime = 0.9
+one_shot = true
+explosiveness = 0.7
+randomness = 0.3
+visibility_aabb = AABB(-3, -3, -3, 6, 6, 8)
+process_material = SubResource("PPM_breath")
+draw_pass_1 = SubResource("QuadMesh_breath")

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"umbral_shroud"
+display_name = "Umbral Shroud"
+hotkey_label = "E"
+target_type = 2
+mana_cost = 40.0
+cooldown = 25.0
+duration = 5.0
+status_id = &"shroud"
+icon_abbrev = "US"
+tooltip = "Half damage taken, faster movement."
+max_rank = 2
+level_required = Array[int]([4, 7])
+cooldown_by_rank = Array[float]([25.0, 20.0])
+duration_by_rank = Array[float]([5.0, 7.0])

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/neutral/magpie/magpie.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"magpie"
+display_name = "Magpie"
+faction = &"neutral"
+is_worker = false
+cost = 0
+pop = 0
+kill_xp = 25
+train_time = 0.0
+card_key = ""
+max_hp = 140.0
+move_speed = 5.2
+attack_damage = 9.0
+attack_range = 1.5
+attack_cooldown = 1.0
+aggro_range = 0.0
+radius = 0.4
+body_height = 1.6
+body_color = Color(0.14, 0.14, 0.17, 1)
+eye_color = Color(0.3, 0.9, 0.8, 1)
+model_scene = ExtResource("2_model")
+armor = 0.0
+is_caravan = false
+commandable = true
+neutral_leash = false
+sight_radius = 10.0
+model_path = "res://art/units/neutral/magpie/magpie.tscn"

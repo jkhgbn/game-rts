@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/frost_dragon/frost_ice.gdshader" id="1_wyi"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_wyi"]
+[resource]
+resource_name = "wyrm_ice_b"
+render_priority = 0
+shader = ExtResource("1_wyi")
+shader_parameter/noise_tex = ExtResource("2_wyi")
+shader_parameter/deep_color = Color(0.3, 0.18, 0.56, 1)
+shader_parameter/surface_color = Color(0.82, 0.72, 1, 1)
+shader_parameter/edge_color = Color(0.98, 0.95, 1, 1)
+shader_parameter/fresnel_power = 2.0
+shader_parameter/inner_energy = 0.35
+shader_parameter/edge_energy = 0.6
+shader_parameter/sparkle_energy = 2.8
+shader_parameter/spec_strength = 0.6
+shader_parameter/facets = 1.0
+shader_parameter/glow_color = Color(0.84, 0.68, 1, 1)
+shader_parameter/glow_energy = 2.0
+shader_parameter/tip_white = 0.6

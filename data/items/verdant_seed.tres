@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_vsd01"]
+
+[resource]
+script = ExtResource("1_vsd01")
+id = &"verdant_seed"
+display_name = "Verdant Seed"
+cost = 180
+stats = {
+"hp_regen": 2.0,
+"max_hp": 30.0
+}
+sold_at = 1
+icon_abbrev = "VS"

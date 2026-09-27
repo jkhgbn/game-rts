@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://art/environment/water/wade_ripple_tex.res" id="1_5nguv"]
+
+[resource]
+resource_name = "wade_ripple"
+render_priority = 1
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.86, 0.96, 0.92, 0.85)
+albedo_texture = ExtResource("1_5nguv")
+disable_receive_shadows = true

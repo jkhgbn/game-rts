@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/crystal/crystal_cluster.gdshader" id="1_n3pfl"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_n3pfl")
+shader_parameter/deep_color = Color(0.05, 0.17, 0.55, 1)
+shader_parameter/body_color = Color(0.18, 0.6, 1, 1)
+shader_parameter/tip_color = Color(0.78, 0.98, 1, 1)
+shader_parameter/glow_energy = 0.75
+shader_parameter/tip_energy = 1.9
+shader_parameter/rim_energy = 0.9
+shader_parameter/spec_strength = 1.6
+shader_parameter/sparkle = 1.0

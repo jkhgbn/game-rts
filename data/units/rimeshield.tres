@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/ice/rimeshield.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"rimeshield"
+display_name = "Rimeshield"
+faction = &"ice"
+is_worker = false
+cost = 95
+pop = 1
+kill_xp = 50
+train_time = 22.0
+card_key = "Z"
+max_hp = 150.0
+move_speed = 4.2
+attack_damage = 11.0
+attack_range = 1.6
+attack_cooldown = 1.1
+aggro_range = 8.0
+radius = 0.5
+body_height = 1.7
+body_color = Color(0.4, 0.62, 0.85, 1)
+armor = 15.0
+model_scene = ExtResource("2_model")

@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_hsg"]
+
+[resource]
+resource_name = "hollow_stag_leaf_glow"
+render_priority = 0
+shader = ExtResource("1_hsg")
+shader_parameter/glow_color = Color(0.48, 1, 0.26, 1)
+shader_parameter/energy = 2.5
+shader_parameter/pulse_speed = 1.4

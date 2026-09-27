@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_wwa01"]
+[ext_resource type="Resource" path="res://data/items/rimebound_bracers.tres" id="2_wwa02"]
+[ext_resource type="Resource" path="res://data/items/warlords_horn.tres" id="3_wwa03"]
+
+[resource]
+script = ExtResource("1_wwa01")
+id = &"winterwall_aegis"
+display_name = "Winterwall Aegis"
+tier = 2
+cost = 500
+parts = Array[ExtResource("1_wwa01")]([ExtResource("2_wwa02"), ExtResource("3_wwa03")])
+stats = {
+"armor": 40.0,
+"max_hp": 200.0
+}
+passive_id = &"frost_ward"
+passives = {
+&"frost_ward": {
+"radius": 8.0,
+"stats": {
+"armor": 10.0
+}
+}
+}
+active_id = &"glacier_shell"
+active_cooldown = 75.0
+active_target = 1
+active_params = {
+"duration": 2.5
+}
+sold_at = 3
+icon_abbrev = "WA"
+tooltip = "Frost Ward: soldiers within 8 m get +10 armor.
+Active: Glacier Shell, frozen for 2.5 s and immune to damage · 75 s cooldown"

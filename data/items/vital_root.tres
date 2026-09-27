@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_1nggo"]
+
+[resource]
+script = ExtResource("1_1nggo")
+id = &"vital_root"
+display_name = "Vital Root"
+cost = 220
+stats = {
+"max_hp": 120.0
+}
+sold_at = 2
+icon_abbrev = "VR"

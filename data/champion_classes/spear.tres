@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="ChampionClass" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/champion_class.gd" id="1_class"]
+
+[resource]
+script = ExtResource("1_class")
+id = &"spear"
+display_name = "Spear"
+attack_damage = 13.0
+attack_cooldown = 0.95
+attack_range = 2.4
+is_ranged = false
+projectile_color = Color(1, 0.8, 0.4, 1)
+projectile_speed = 0.0
+attack_style = &"spear_thrust"
+stats = {
+&"move_speed": 0.2
+}
+flee_delta = 0.0
+ability_ids = Array[StringName]([&"lunge", &"hobbling_javelin", &"skewer"])
+unlock_levels = Array[int]([2, 3, 5])
+bounty_kind = &"explore"
+icon_abbrev = "SP"
+tooltip = "Spear · melee reach 2.4 m · +0.2 speed · 13 damage every 0.95 s"

@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_stg"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_stg"]
+
+[resource]
+resource_name = "stagrunner_leaf_amber"
+render_priority = 0
+shader = ExtResource("1_stg")
+shader_parameter/base_color = Color(0.72, 0.5, 0.15, 1)
+shader_parameter/noise_tex = ExtResource("2_stg")
+shader_parameter/spec_strength = 0.04
+shader_parameter/rim_color = Color(0.95, 0.8, 0.45, 1)
+shader_parameter/rim_strength = 0.95, 0.8, 0.45S

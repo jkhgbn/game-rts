@@ -1,0 +1,121 @@
+﻿Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+part static: trade knobs checked
+---- part normal
+[normal] Bazaar placed at 5:52, 0.0 m from M1
+[normal] first trade gold at 7:42
+[normal] robbed 28 gold from a caravan on Saltgate at 7:53 (gold 130)
+[normal] Outriders hired 1.0 s after the robbery
+[normal] route switched to Lantern Wharf 13.0 s after the robbery
+[normal] wares bought in order ["iron_axles", "masons_charter", "tempered_steel", "gambesons"]
+[normal] exchanged 200 gold -> essence, gold now 500
+[normal] Champion_coin_cutter_1 killed at 8:14, essence 0, gold 250 (revive 230 gold)
+[normal] revived in gold (230) 1.0 s after the death
+[normal] raid recorded on the natural node at 8:15
+[normal] S3 Spire placed 31.0 s after the raid
+[normal] no concede with 4 caravans and a Bazaar (6 s)
+[normal] conceded 0.9 s after the caravans and the Bazaar fell (winner 0)
+normal: trade rule median 0.0290 ms, avg 0.0419 ms over 543 ticks; bot tick avg 1.295 ms (max 192.343 ms)
+PERF OK (normal)
+normal: gold earned 2224 (trade 232), wares [&"iron_axles", &"masons_charter", &"tempered_steel", &"gambesons"], contracts 1, exchanges 1, max caravans 4
+normal bot log (trade):
+  [5:48] BUILD M1 triggered
+  [5:52] PLACE M1 Gloom Bazaar at (45, -27), 1 builder(s), crystals left 155
+  [6:33] TRAIN Caravan (0 caravans + 1 queued, target 4, crystals left 680)
+  [6:53] TRAIN Caravan (1 caravans + 1 queued, target 4, crystals left 825)
+  [7:04] TRADE 1 caravan(s) far to Heron Ford (154 gold / trip; str 1020 vs seen 0)
+  [7:13] TRAIN Caravan (2 caravans + 1 queued, target 4, crystals left 1060)
+  [7:33] TRAIN Caravan (2 caravans + 1 queued, target 4, crystals left 945)
+  [7:53] TRAIN Caravan (3 caravans + 1 queued, target 4, crystals left 1050)
+  [7:54] TRADE hires outriders (120 gold): a caravan was lost
+  [8:06] TRADE route Lantern Wharf (15 gold / trip): Saltgate unsafe
+  [8:07] TRADE buys Iron-shod Axles (150 gold, 60 left)
+  [8:09] TRADE buys Masons' Charter (350 gold, 60 left)
+  [8:11] TRADE buys Tempered Steel (350 gold, 60 left)
+  [8:13] TRADE buys Quilted Gambesons (350 gold, 60 left)
+  [8:14] TRADE exchange 200 gold -> essence (gold 700 -> 500, keeps 450)
+  [8:15] CHAMPION revive Sable Quint for 230 gold (essence short), back in 20 s
+  [8:42] BUILD S3 triggered
+  [8:46] PLACE S3 Night Spire at (19, -1), 1 builder(s), crystals left 1640
+  [8:55] RECOVERY on: 0 workers, 0 crystals, 0 gold
+  [9:01] CONCEDE all-in (workers 0, soldiers 0, caravans 0, crystals 0, gold 0, all-in true)
+---- part easy
+[easy] Bazaar placed at 9:12, 0.0 m from M1
+[easy] first trade gold at 10:45
+[easy] no contract after a robbery
+[easy] Masons' Charter bought 0.2 s after gold 500
+[easy] gold 200 after the exchanges [{ "time": 660.016666666395, "gold": 600, "to": &"crystals", "recovery": false }]
+easy: trade rule median 0.0270 ms, avg 0.0349 ms over 335 ticks; bot tick avg 0.962 ms (max 25.327 ms)
+PERF OK (easy)
+easy: gold earned 1150 (trade 28), wares [&"masons_charter"], contracts 0, exchanges 1, max caravans 2
+easy bot log (trade):
+  [8:56] BUILD M1 triggered
+  [9:12] PLACE M1 Gloom Bazaar at (45, -27), 1 builder(s), crystals left 1610
+  [9:56] BUILD S3 triggered
+  [9:56] TRAIN Caravan (0 caravans + 1 queued, target 2, crystals left 1675)
+  [10:12] PLACE S3 Night Spire at (19, -1), 1 builder(s), crystals left 1755
+  [10:16] TRAIN Caravan (1 caravans + 1 queued, target 2, crystals left 1710)
+  [10:58] TRADE buys Masons' Charter (350 gold, 150 left)
+  [11:00] TRADE route Lantern Wharf (15 gold / trip): Saltgate unsafe
+  [11:00] TRADE exchange 600 gold -> crystals (gold 800 -> 200, keeps 200)
+---- part hard
+[hard] Bazaar placed at 4:54, 0.0 m from M1
+[hard] first trade gold at 7:32
+[hard] 4 caravans at 8:03
+[hard] 3 caravans far to Heron Ford at 8:39 (own 1220 vs seen 200)
+[hard] B5 Escort on a far caravan 0.8 s after it loaded
+[hard] B6 Hunt on a looting Magpie 1.5 s after it showed
+[hard] Sweep hired 0.5 s after a Magpie showed at A3m
+[hard] raid recorded on the natural node at 9:06
+[hard] S3 Spire placed 0.5 s after the raid
+[hard] wares bought in order ["tempered_steel", "iron_axles", "gambesons", "masons_charter"]
+[hard] dismissed Champion_coin_cutter_1 at 11:36, gold 555
+[hard] hire paid in gold 0.4 s later: { "id": &"coin_cutter", "time": 696.516666666362, "gold": 325 }
+[hard] 6 caravans (alive + queued) at most, at 11:36
+hard: trade rule median 0.0400 ms, avg 0.0494 ms over 1395 ticks; bot tick avg 0.955 ms (max 7.763 ms)
+PERF OK (hard)
+hard: gold earned 1975 (trade 1330), wares [&"tempered_steel", &"iron_axles", &"gambesons", &"masons_charter"], contracts 2, exchanges 0, max caravans 6
+hard bot log (trade):
+  [4:53] BUILD M1 triggered
+  [4:54] PLACE M1 Gloom Bazaar at (45, -27), 1 builder(s), crystals left 105
+  [6:04] TRAIN Caravan (0 caravans + 1 queued, target 6, crystals left 85)
+  [6:37] TRADE 1 caravan(s) far to Heron Ford (154 gold / trip; str 1140 vs seen 200)
+  [6:44] TRAIN Caravan (1 caravans + 1 queued, target 6, crystals left 260)
+  [7:04] TRAIN Caravan (1 caravans + 1 queued, target 6, crystals left 285)
+  [7:24] TRAIN Caravan (2 caravans + 1 queued, target 6, crystals left 340)
+  [7:44] TRAIN Caravan (3 caravans + 1 queued, target 6, crystals left 495)
+  [8:04] TRAIN Caravan (4 caravans + 1 queued, target 6, crystals left 380)
+  [8:23] TRADE hires outriders (120 gold): a caravan was lost
+  [8:24] TRAIN Caravan (5 caravans + 1 queued, target 6, crystals left 415)
+  [8:39] TRADE 3 caravan(s) far to Heron Ford (154 gold / trip; str 1220 vs seen 200)
+  [8:57] TRAIN Caravan (5 caravans + 1 queued, target 6, crystals left 580)
+  [9:04] BOUNTY B5 Escort 50 on Caravan (stakes 50 + 50 <= 1102 of 2755 spare essence)
+  [9:05] BOUNTY B5 Escort 50 on Caravan (stakes 50 + 50 <= 1080 of 2701 spare essence)
+  [9:05] BOUNTY B6 Hunt 75 on Magpie (stakes 100 + 75 <= 1062 of 2655 spare essence)
+  [9:06] TRADE hires sweep (100 gold): Magpies at (48, 22)
+  [9:06] BUILD S3 triggered
+  [9:06] PLACE S3 Night Spire at (19, -1), 1 builder(s), crystals left 1120
+  [9:07] BOUNTY B5 Escort 50 on Caravan (stakes 50 + 50 <= 1080 of 2701 spare essence)
+  [9:10] TRADE far caravans called home: far road unsafe
+  [9:17] TRAIN Caravan (5 caravans + 1 queued, target 6, crystals left 1115)
+  [9:36] TRADE buys Tempered Steel (350 gold, 165 left)
+  [9:52] TRADE buys Iron-shod Axles (150 gold, 71 left)
+  [10:41] TRADE 3 caravan(s) far to Heron Ford (154 gold / trip; str 1272 vs seen 200)
+  [10:48] TRADE buys Quilted Gambesons (350 gold, 57 left)
+  [11:12] TRADE far caravans called home: far road unsafe
+  [11:35] TRADE buys Masons' Charter (350 gold, 155 left)
+  [11:36] CHAMPION hire coin_cutter (Sable Quint) #3 in gold: 325 gold + 125 essence, from (-15, -15)
+ERROR: normal: the Coin-Cutter ignored a looting Magpie 8 s (intent Raiding)
+ERROR: hard: no B7 Guard flag after a raid
+FAIL 10.A3: 2 error(s)
+Godot_v4.7.2-stable_win64_console.exe : WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for 
+details).
+Au caractère C:\Users\elzzo\Documents\four-wizards-rts\tools\godot_run.ps1:20 : 2
++     & $g @args
++     ~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: 2 Obje...` for details).:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

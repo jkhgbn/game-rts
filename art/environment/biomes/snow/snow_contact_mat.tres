@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/nature_props/nature_contact.gdshader" id="1_snct"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_snct"]
+
+[resource]
+render_priority = -1
+shader = ExtResource("1_snct")
+shader_parameter/noise_tex = ExtResource("2_snct")
+shader_parameter/contact_color = Color(0.6, 0.68, 0.86, 1)
+shader_parameter/strength = 0.9
+shader_parameter/variant_count = 3.0

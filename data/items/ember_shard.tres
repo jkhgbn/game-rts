@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_d5504"]
+
+[resource]
+script = ExtResource("1_d5504")
+id = &"ember_shard"
+display_name = "Ember Shard"
+cost = 200
+stats = {
+"attack_damage": 12.0
+}
+sold_at = 1
+icon_abbrev = "ES"

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="SpellType" format=3]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"ember_step"
+display_name = "Ember Step"
+hotkey_label = "Q"
+target_type = 0
+mana_cost = 30.0
+cooldown = 12.0
+cast_range = 12.0
+radius = 2.5
+damage = 5.0
+duration = 4.0
+is_zone = true
+tick_interval = 0.5
+icon_abbrev = "ES"
+tooltip = "Blink to a point. The ground you leave burns for 4 s."
+max_rank = 3
+level_required = Array[int]([2, 4, 6])
+damage_by_rank = Array[float]([5.0, 5.0, 6.0])
+cooldown_by_rank = Array[float]([12.0, 10.0, 8.0])
+range_by_rank = Array[float]([12.0, 14.0, 16.0])
+radius_by_rank = Array[float]([2.5, 2.5, 3.0])
+duration_by_rank = Array[float]([4.0, 5.0, 6.0])

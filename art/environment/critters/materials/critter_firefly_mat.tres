@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/critters/critter_firefly.gdshader" id="1_tp4fa"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_tp4fa")
+shader_parameter/clock = null
+shader_parameter/rim_color = null
+shader_parameter/rim_strength = null
+shader_parameter/glow_color = null
+shader_parameter/glow_energy = null
+shader_parameter/size = null
+shader_parameter/ember = null

@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/river_mouths/mouth_foam.gdshader" id="1_77eif"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_gytad"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_77eif")
+shader_parameter/noise_tex = ExtResource("2_gytad")
+shader_parameter/foam_color = null
+shader_parameter/foam_shade = null
+shader_parameter/churn_color = null
+shader_parameter/flow_speed = null
+shader_parameter/foam_amount = null
+shader_parameter/streak = null

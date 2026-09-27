@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_blob.gdshader" id="1_xnbhj"]
+
+[resource]
+resource_name = "unit_shadow_blob"
+render_priority = 0
+shader = ExtResource("1_xnbhj")

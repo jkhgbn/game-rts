@@ -1,0 +1,667 @@
+{
+	"checks": [
+		{
+			"group": "load",
+			"hint": "fix the file (broken ext_resource, renamed script, typo)",
+			"id": "L1",
+			"improve": "",
+			"name": "Every data .tres loads",
+			"rule": "each file under data/ loads as its data script",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 129,
+			"value": "129 / 129 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "load",
+			"hint": "rename one of them",
+			"id": "L2",
+			"improve": "",
+			"name": "Ids match file names",
+			"rule": "find(id) loads DIR/<id>.tres, so id == file name",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 129,
+			"value": "129 / 129 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "load",
+			"hint": "add the file or the id",
+			"id": "L3",
+			"improve": "",
+			"name": "Code id lists have data files",
+			"rule": "BuildingType.ALL_IDS, ChampionType.IDS, ChampionClass.IDS, CreatureAbilities.CREATURES / BEASTS",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 42,
+			"value": "42 / 42 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "fields",
+			"hint": "fill the field",
+			"id": "F1",
+			"improve": "",
+			"name": "Required fields set",
+			"rule": "ids, names, HP, abilities... (Rules.REQUIRED per kind)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 129,
+			"value": "129 / 129 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "fields",
+			"hint": "type a real number",
+			"id": "F2",
+			"improve": "",
+			"name": "No NaN / inf",
+			"rule": "every float, array and dictionary number is finite",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 129,
+			"value": "129 / 129 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "fields",
+			"hint": "use 0 or a positive value",
+			"id": "F3",
+			"improve": "",
+			"name": "No negative cost / HP / damage / time",
+			"rule": "cost, hp, damage, cooldown, time, range, speed, pop fields >= 0",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 129,
+			"value": "129 / 129 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "fields",
+			"hint": "fix the number",
+			"id": "F4",
+			"improve": "",
+			"name": "Stats inside hard bounds",
+			"rule": "Rules.HARD_BOUNDS per kind (broken values only)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 129,
+			"value": "129 / 129 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "fields",
+			"hint": "see each finding",
+			"id": "F5",
+			"improve": "",
+			"name": "Internal consistency",
+			"rule": "rank arrays = max_rank, unlock levels ascending, recipes have parts, towers shoot, trainers train...",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 129,
+			"value": "129 / 129 clean, 1 info",
+			"weight": 1.0
+		},
+		{
+			"group": "fields",
+			"hint": "check the value against the design table",
+			"id": "F6",
+			"improve": "",
+			"name": "Stat outliers vs their group",
+			"rule": "within x2.5 of the group median (soldiers, creatures, beasts, champions, towers)",
+			"score": 0.673414634146341,
+			"status": "WARN",
+			"total": 41,
+			"value": "39 / 41 clean (0 FAIL, 3 WARN)",
+			"weight": 0.5
+		},
+		{
+			"group": "refs",
+			"hint": "fix the path",
+			"id": "R1",
+			"improve": "",
+			"name": "Model files exist",
+			"rule": "model_scene / model_path point at existing scenes",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 63,
+			"value": "63 / 63 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "refs",
+			"hint": "set model_scene in the .tres",
+			"id": "R2",
+			"improve": "",
+			"name": "model_path without model_scene",
+			"rule": "UnitType never loads model_path: a finished model must be in model_scene (FAIL)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 63,
+			"value": "63 / 63 clean",
+			"weight": 1.5
+		},
+		{
+			"group": "refs",
+			"hint": "fix the id",
+			"id": "R3",
+			"improve": "",
+			"name": "Ability ids known",
+			"rule": "creature / beast / champion / class ability ids exist in CreatureAbilities / ChampionAbilities, owners match",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 93,
+			"value": "93 / 93 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "refs",
+			"hint": "fix the id",
+			"id": "R4",
+			"improve": "",
+			"name": "Item ids known",
+			"rule": "champion wishlists, item actives (ItemActives.ACTIVES / ALIASES)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 39,
+			"value": "39 / 39 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "refs",
+			"hint": "fix the name",
+			"id": "R5",
+			"improve": "",
+			"name": "Statuses, stats, kinds known",
+			"rule": "statuses in Unit.STATUSES, stat keys in Unit.STAT_NAMES (+ _pct), factions / kinds / wares valid",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 122,
+			"value": "122 / 122 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "refs",
+			"hint": "fix the id",
+			"id": "R6",
+			"improve": "",
+			"name": "Spell references",
+			"rule": "wizard default_spell_ids exist, summon ids exist, every spell has a caster",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 13,
+			"value": "13 / 13 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "refs",
+			"hint": "fix the list",
+			"id": "R7",
+			"improve": "",
+			"name": "Training lists resolve",
+			"rule": "every trains / train_ids entry is a unit file",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 32,
+			"value": "32 / 32 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "refs",
+			"hint": "",
+			"id": "R8",
+			"improve": "",
+			"name": "Icons / sounds / research",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "no icon or sound paths in data yet (icons are icon_abbrev letters, sounds are generated by name); research.md has no data table in code yet (tech prerequisites checked: requires_kind, spell level_required)",
+			"weight": 0.0
+		},
+		{
+			"group": "keys",
+			"hint": "fix the card",
+			"id": "K1",
+			"improve": "",
+			"name": "Training card keys",
+			"rule": "<= 5 units per building (Z X C V B by slot), card_key unique per card",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 12,
+			"value": "12 / 12 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "keys",
+			"hint": "fix the key",
+			"id": "K2",
+			"improve": "",
+			"name": "Build menu keys",
+			"rule": "hotkey_label in Z X C V B, unique per kingdom build menu (trade on = all entries)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 17,
+			"value": "17 / 17 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "keys",
+			"hint": "fix hotkey_label",
+			"id": "K3",
+			"improve": "",
+			"name": "Spell keys",
+			"rule": "each wizard's default_spell_ids are F, Q, E in order",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 12,
+			"value": "12 / 12 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "keys",
+			"hint": "pick a free key",
+			"id": "K4",
+			"improve": "",
+			"name": "Reserved keys respected",
+			"rule": "no data key on W A S D Q E F (Controls setting Classic / Hero WASD, CLAUDE.md Keys)",
+			"score": 0.658125,
+			"status": "WARN",
+			"total": 32,
+			"value": "29 / 32 clean (0 FAIL, 3 WARN), 12 info",
+			"weight": 1.0
+		},
+		{
+			"group": "text",
+			"hint": "update the text after a balance change",
+			"id": "T5",
+			"improve": "",
+			"name": "Tooltip numbers match the data",
+			"rule": "every number printed in an ability / item / spell text exists in its data (also x100 for shares, products of two values)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 64,
+			"value": "64 / 64 clean",
+			"weight": 0.75
+		},
+		{
+			"group": "text",
+			"hint": "rename one",
+			"id": "T4",
+			"improve": "",
+			"name": "Display names unique per kind",
+			"rule": "no two units / buildings / items / spells / classes share a name",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 118,
+			"value": "118 / 118 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "text",
+			"hint": "write it",
+			"id": "T1",
+			"improve": "",
+			"name": "Names and tooltips exist",
+			"rule": "every display name / tooltip / ability text / bark is written",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 325,
+			"value": "325 / 325 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "text",
+			"hint": "fix the text",
+			"id": "T2",
+			"improve": "",
+			"name": "No placeholder or broken text",
+			"rule": "no TODO / TBD / xxx / lorem, no mojibake (Â·, Ã©), no double spaces",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 325,
+			"value": "325 / 325 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "text",
+			"hint": "shorten it",
+			"id": "T3",
+			"improve": "",
+			"name": "Text fits its UI width",
+			"rule": "names <= 240 px at 18 px; tooltips <= 6 lines at 300 px / 13 px; abbrev <= 3 letters (font: engine fallback font)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 325,
+			"value": "325 / 325 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "text",
+			"hint": "",
+			"id": "T7",
+			"improve": "",
+			"name": "Hard-coded UI strings (French readiness)",
+			"rule": "INFO only: the list below is the backlog for a strings table",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "244 literal UI strings in 23 scripts under scripts/ui/, 0 wrapped in tr(); no translation table yet",
+			"weight": 0.0
+		},
+		{
+			"group": "ai",
+			"hint": "add the .tres",
+			"id": "A1",
+			"improve": "",
+			"name": "Every kingdom has easy / normal / hard",
+			"rule": "AIProfile.for_id(id_for_faction(k), 0..2) returns a profile (data/ai .tres or code preset)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 12,
+			"value": "12 / 12 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "ai",
+			"hint": "fix the knob",
+			"id": "A2",
+			"improve": "",
+			"name": "AI knobs in range",
+			"rule": "Rules.AI_BOUNDS (ai_profile.gd / ai.md ranges) + ordering (floor <= ratio, S2 after S1...)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 13,
+			"value": "13 / 13 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "ai",
+			"hint": "fix the id",
+			"id": "A3",
+			"improve": "",
+			"name": "AI references",
+			"rule": "item_build, champion_order, retreat_spell (own kingdom), ware_order, spell_order, build rows, flag rules",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 13,
+			"value": "13 / 13 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "ai",
+			"hint": "fix the shares",
+			"id": "A4",
+			"improve": "",
+			"name": "Army mixes",
+			"rule": "mix_default / vs_ranged / vs_melee: 4 shares >= 0 summing to 1",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 13,
+			"value": "13 / 13 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "ai",
+			"hint": "fix the preset or the .tres",
+			"id": "A5",
+			"improve": "",
+			"name": "Difficulty order",
+			"rule": "easy -> normal -> hard moves each knob of Rules.AI_MONOTONIC one way",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 28,
+			"value": "28 / 28 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "balance",
+			"hint": "a lead for the Balance Lab, not a bug",
+			"id": "B1",
+			"improve": "",
+			"name": "Cross-kingdom cost efficiency",
+			"rule": "EHP / DPS per 100 crystals within x1.6 of the slot median (WARN only)",
+			"score": 0.622,
+			"status": "WARN",
+			"total": 20,
+			"value": "16 / 20 clean (0 FAIL, 4 WARN)",
+			"weight": 0.5
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 2,
+		"PASS": 28,
+		"WARN": 3
+	},
+	"finding_counts": {
+		"FAIL": 0,
+		"INFO": 13,
+		"WARN": 10
+	},
+	"findings": [
+		{
+			"check": "F5",
+			"fix": "",
+			"sev": "INFO",
+			"what": "campaign reward in a recipe tier with no parts",
+			"where": "data/items/oath_of_embers.tres"
+		},
+		{
+			"check": "F6",
+			"fix": "check the design table; if intended, note it in the spec",
+			"sev": "WARN",
+			"what": "max_hp 220 is 3.1x the slot C median 70",
+			"where": "data/units/blaze_rider.tres"
+		},
+		{
+			"check": "F6",
+			"fix": "check the design table; if intended, note it in the spec",
+			"sev": "WARN",
+			"what": "attack_damage 18 is 2.6x the slot C median 7",
+			"where": "data/units/blaze_rider.tres"
+		},
+		{
+			"check": "F6",
+			"fix": "check the design table; if intended, note it in the spec",
+			"sev": "WARN",
+			"what": "max_hp 60 is 0.1x the slot V median 430",
+			"where": "data/units/ash_hurler.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key T is set but no code reads UnitType.card_key",
+			"where": "data/units/ash_hurler.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key R is set but no code reads UnitType.card_key",
+			"where": "data/units/blaze_rider.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key C is set but no code reads UnitType.card_key",
+			"where": "data/units/bloomtender.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key V is set but no code reads UnitType.card_key",
+			"where": "data/units/bramblehorn.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key X is set but no code reads UnitType.card_key",
+			"where": "data/units/burr_slinger.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "clear card_key (slots use Z X C V B) or set the slot letter",
+			"sev": "WARN",
+			"what": "card_key Q is a reserved letter (W A S D walk in Hero WASD, Q E F spells); stale: no code reads card_key",
+			"where": "data/units/cinder_hand.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "clear card_key (slots use Z X C V B) or set the slot letter",
+			"sev": "WARN",
+			"what": "card_key E is a reserved letter (W A S D walk in Hero WASD, Q E F spells); stale: no code reads card_key",
+			"where": "data/units/ember_archer.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "clear card_key (slots use Z X C V B) or set the slot letter",
+			"sev": "WARN",
+			"what": "card_key W is a reserved letter (W A S D walk in Hero WASD, Q E F spells); stale: no code reads card_key",
+			"where": "data/units/flame_guard.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key V is set but no code reads UnitType.card_key",
+			"where": "data/units/rime_colossus.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key Z is set but no code reads UnitType.card_key",
+			"where": "data/units/rime_hauler.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key C is set but no code reads UnitType.card_key",
+			"where": "data/units/rime_seer.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key Z is set but no code reads UnitType.card_key",
+			"where": "data/units/rimeshield.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key X is set but no code reads UnitType.card_key",
+			"where": "data/units/shardcaster.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key Z is set but no code reads UnitType.card_key",
+			"where": "data/units/sprigling.tres"
+		},
+		{
+			"check": "K4",
+			"fix": "",
+			"sev": "INFO",
+			"what": "card_key Z is set but no code reads UnitType.card_key",
+			"where": "data/units/thornling.tres"
+		},
+		{
+			"check": "B1",
+			"fix": "Balance Lab: check cost or damage (support units may be meant low)",
+			"sev": "WARN",
+			"what": "DPS per 100 crystals 16.3 vs row median 7.4 (x2.20)",
+			"where": "grave_hound (shadow slot C)"
+		},
+		{
+			"check": "B1",
+			"fix": "Balance Lab: check cost or damage (support units may be meant low)",
+			"sev": "WARN",
+			"what": "DPS per 100 crystals 3.3 vs row median 7.4 (x0.45)",
+			"where": "rime_seer (ice slot C)"
+		},
+		{
+			"check": "B1",
+			"fix": "Balance Lab: check cost or damage (support units may be meant low)",
+			"sev": "WARN",
+			"what": "DPS per 100 crystals 3.7 vs row median 7.4 (x0.50)",
+			"where": "bloomtender (nature slot C)"
+		},
+		{
+			"check": "B1",
+			"fix": "Balance Lab: check cost or HP",
+			"sev": "WARN",
+			"what": "EHP per 100 crystals 43 vs row median 187 (x0.23)",
+			"where": "ash_hurler (fire slot V)"
+		}
+	],
+	"improve_next": [
+		{
+			"rank": 10.5128125,
+			"source": "K4 29 / 32 clean (0 FAIL, 3 WARN), 12 info",
+			"status": "WARN",
+			"text": "data/units/cinder_hand.tres: card_key Q is a reserved letter (W A S D walk in Hero WASD, Q E F spells); stale: no code reads card_key -> clear card_key (slots use Z X C V B) or set the slot letter (pick a free key)",
+			"title": "Reserved keys respected"
+		},
+		{
+			"rank": 10.2449390243902,
+			"source": "F6 39 / 41 clean (0 FAIL, 3 WARN)",
+			"status": "WARN",
+			"text": "data/units/blaze_rider.tres: max_hp 220 is 3.1x the slot C median 70 -> check the design table; if intended, note it in the spec (check the value against the design table)",
+			"title": "Stat outliers vs their group"
+		},
+		{
+			"rank": 10.0945,
+			"source": "B1 16 / 20 clean (0 FAIL, 4 WARN)",
+			"status": "WARN",
+			"text": "grave_hound (shadow slot C): DPS per 100 crystals 16.3 vs row median 7.4 (x2.20) -> Balance Lab: check cost or damage (support units may be meant low) (a lead for the Balance Lab, not a bug)",
+			"title": "Cross-kingdom cost efficiency"
+		}
+	],
+	"lab_version": "1.0",
+	"notes": [
+		"Load 10.27 s (every .tres with its model scenes), checks 0.32 s."
+	],
+	"previous_quality": -1.0,
+	"quality": 97.9,
+	"result": "WARN",
+	"run": "2026-09-26_2240",
+	"scanned": {
+		"ai": 7,
+		"buildings": 21,
+		"champions": 4,
+		"classes": 4,
+		"items": 43,
+		"spells": 12,
+		"units": 38
+	},
+	"seconds": 10.58,
+	"started": "2026-09-26 22:40",
+	"tables": [
+		{
+			"markdown": "| Group | n | max_hp | move_speed | attack_damage | attack_cooldown | aggro_range | cost |\n|---|---|---|---|---|---|---|---|\n| slot Z | 4 | 120 (70-150) | 4.90 (4.20-5.40) | 11 (8-12) | 1 (0.90-1.10) | 8 (8-8) | 85 (60-95) |\n| slot X | 4 | 67.50 (50-80) | 5 (4.40-5.20) | 9 (7-10) | 1.25 (1.20-1.40) | 10 (10-10) | 100 (70-110) |\n| slot C | 4 | 70 (60-220) | 5.90 (4.20-7.50) | 7 (5-18) | 1.20 (0.70-1.50) | 9 (9-10) | 105 (70-180) |\n| slot V | 4 | 430 (60-520) | 4 (3.40-4.60) | 25 (18-28) | 1.60 (1.20-2.20) | 10 (9-12) | 230 (140-290) |\n| workers | 4 | 50 (45-60) | 4.60 (4.60-4.60) | 4 (3-4) | 1.20 (1.20-1.20) | 0 (0-0) | 50 (40-50) |\n| creatures | 4 | 195 (120-420) | 4.30 (3.20-5) | 10.50 (7-14) | 1.10 (0.90-1.60) | 6 (6-7) | 0 (0-0) |\n| beasts | 9 | 1500 (1300-3000) | 5.50 (5-7.50) | 30 (24-42) | 1.50 (1-1.80) | 0 (0-8) | 0 (0-0) |\n| champions | 4 | 290 (260-520) | 5.20 (4.30-5.80) | 14 (9-17) | 1.20 (0.90-1.40) | 9 (8-10) | - |\n| towers | 4 | 750 (675-900) | - | 13.50 (10-15) | 1.50 (1.20-1.50) | - | 120 (100-130) |\n",
+			"title": "Stat spread per group (median (min-max))"
+		},
+		{
+			"markdown": "| Script | Strings | Examples |\n|---|---|---|\n| scripts/ui/selection_panel.gd | 57 | `Nothing selected`, `HP  %d / %d`, `Mana  %d / %d` |\n| scripts/ui/trade_window.gd | 33 | `No Bazaar`, `Not enough gold`, `No Greywater Lodge` |\n| scripts/ui/tavern_window.gd | 31 | `Dismiss\\nThe team gets 50 % of its purse`, `Tavern`, `Close  [Y]` |\n| scripts/ui/command_card.gd | 27 | `Hired hunters act on their own.`, `: trade & hunters`, `Trading posts open at 4:00` |\n| scripts/ui/menus/main_menu.gd | 17 | `Four apprentices. One vanished master. E`, `Four Wizards`, `Prototype build  -  Esc in game: pause` |\n| scripts/ui/post_panel.gd | 15 | `Right-click with your Bazaar selected to`, `Thieves who rob caravans and remote work`, `On the roads from 5:00 · raid remote min` |\n| scripts/ui/menus/settings_panel.gd | 9 | `Applies from the next match. Deer and ra`, `Settings`, `Back` |\n| scripts/ui/point_panel.gd | 9 | `Capture: stand in the ring with soldiers`, `Right-click with soldiers or your wizard`, `On the enemy bank: capture takes 25 % lo` |\n| scripts/ui/champion_bar.gd | 7 | `  (class, level %d)`, `Your bounties before level 2 steer its c`, `Locked` |\n| scripts/ui/mapfill_bar.gd | 7 | `Enemy blessing %d s\\n+12 %% speed, +1.5 `, `Click: centre the camera`, `Blessing` |\n| scripts/ui/shop_window.gd | 5 | `Keep shop`, `Items not available`, `Exchange 100 crystals -> 40 essence` |\n| scripts/ui/flag_card.gd | 5 | `Z: raise +25  ·  Shift+Z: +100  ·  Delet`, `An enemy bounty: kill or protect its tar`, `Pursuers` |\n| scripts/ui/bounty_mode.gd | 5 | `No champions`, `Too many bounties`, `Invalid target` |\n| scripts/ui/mission/briefing_screen.gd | 3 | `Primary objectives`, `Begin`, `Enter: begin` |\n| scripts/ui/selection_manager.gd | 2 | `Right-click a trading post to set the ro`, `ZXCVB` |\n| scripts/ui/hud.gd | 2 | `Summary`, `Capture: stand near towers, wells and sh` |\n| scripts/ui/top_bar.gd | 2 | `POP`, `%d / %d` |\n| scripts/ui/menus/kingdom_card.gd | 2 | `%s kingdom`, `Coming soon` |\n| scripts/ui/control_group_bar.gd | 2 | `  %d %s`, `Group %s: %s\\nClick: select  ·  Double-c` |\n| scripts/ui/menus/game_settings.gd | 1 | `settings` |\n| scripts/ui/menus/pause_menu.gd | 1 | `Paused` |\n| scripts/ui/mission/dialogue_box.gd | 1 | `Enter / click: next` |\n| scripts/ui/mission/objectives_panel.gd | 1 | `Secondary` |\n",
+			"title": "Hard-coded UI strings per script (T7, INFO)"
+		},
+		{
+			"markdown": "| Kingdom | Easy | Normal | Hard |\n|---|---|---|---|\n| fire (`shadow_default`) | code (`easy`) | code (`normal`) | code (`hard`) |\n| shadow (`shadow_default`) | code (`easy`) | code (`normal`) | code (`hard`) |\n| ice (`ice_default`) | data (`ice_easy`) | data (`ice_normal`) | data (`ice_hard`) |\n| nature (`nature_default`) | data (`nature_easy`) | data (`nature_normal`) | data (`nature_hard`) |\n\nFire uses the Shadow bot (`shadow_default`, ai.md), built in code; Ice / Nature read data/ai/*.tres.",
+			"title": "AI profile sources (A1)"
+		},
+		{
+			"markdown": "EHP = max_hp x (1 + armor / 100); DPS = attack_damage / attack_cooldown (no splash, statuses or support). Per 100 crystals. Rows = card slot (barracks Z X C V = the same role in every kingdom). **bold** = more than x1.6 from the row median (WARN).\n\n| Slot | fire | shadow | ice | nature | median EHP/100 | median DPS/100 |\n|---|---|---|---|---|---|---|\n| Worker | Cinder Hand 50c: 100 EHP, 6.7 DPS | Gloom Thrall 50c: 100 EHP, 6.7 DPS | Rime Hauler 50c: 120 EHP, 6.7 DPS | Sprigling 40c: 113 EHP, 6.3 DPS | 106 | 6.7 |\n| Z | Flame Guard 90c: 144 EHP, 13.3 DPS | Shade 80c: 138 EHP, 13.8 DPS | Rimeshield 95c: 182 EHP, 10.5 DPS | Thornling 60c: 117 EHP, 14.8 DPS | 141 | 13.5 |\n| X | Ember Archer 100c: 70 EHP, 7.5 DPS | Nightbolt 100c: 65 EHP, 7.7 DPS | Shardcaster 110c: 76 EHP, 5.8 DPS | Burr Slinger 70c: 71 EHP, 8.3 DPS | 71 | 7.6 |\n| C | Blaze Rider 180c: 122 EHP, 11.1 DPS | Grave Hound 70c: 100 EHP, **16.3** DPS | Rime Seer 120c: 61 EHP, **3.3** DPS | Bloomtender 90c: 67 EHP, **3.7** DPS | 83 | 7.4 |\n| V | Ash Hurler 140c: **43** EHP, 7.8 DPS | Shadow Knight 260c: 185 EHP, 7.1 DPS | Rime Colossus 290c: 215 EHP, 5.4 DPS | Bramblehorn 200c: 190 EHP, 7.5 DPS | 187 | 7.3 |\n",
+			"title": "Cross-kingdom balance (B1)"
+		}
+	]
+}

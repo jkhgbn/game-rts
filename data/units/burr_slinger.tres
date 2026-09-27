@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/nature/burr_slinger.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+model_scene = ExtResource("2_model")
+id = &"burr_slinger"
+display_name = "Burr Slinger"
+faction = &"nature"
+is_worker = false
+cost = 70
+pop = 1
+kill_xp = 35
+train_time = 14.0
+card_key = "X"
+max_hp = 50.0
+move_speed = 5.0
+attack_damage = 7.0
+attack_range = 8.5
+attack_cooldown = 1.2
+aggro_range = 10.0
+radius = 0.4
+body_height = 1.5
+body_color = Color(0.6, 0.7, 0.25, 1)
+projectile_color = Color(0.55, 0.4, 0.2, 1)
+armor = 0.0
+idle_regen_pct = 1.0

@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_mpe"]
+
+[resource]
+resource_name = "magpie_eye_glow"
+render_priority = 0
+shader = ExtResource("1_mpe")
+shader_parameter/glow_color = Color(0.12, 0.95, 0.78, 1)
+shader_parameter/energy = 1.7
+shader_parameter/pulse_speed = 2.5

@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/wizards/ysolde_grove.gdshader" id="1_ysg"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ysg"]
+
+[resource]
+resource_name = "ysolde_wood"
+render_priority = 0
+shader = ExtResource("1_ysg")
+shader_parameter/noise_tex = ExtResource("2_ysg")
+shader_parameter/base_color = Color(0.48, 0.34, 0.2, 1)
+shader_parameter/spec_strength = 0.1
+shader_parameter/rim_strength = 0.25
+shader_parameter/bark = 0.8
+shader_parameter/bark_density = 3.0
+shader_parameter/bark_stretch = 1.1
+shader_parameter/sap = 1.0
+shader_parameter/sap_energy = 1.9
+shader_parameter/sap_speed = 0.7

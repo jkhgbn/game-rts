@@ -1,0 +1,839 @@
+{
+	"checks": [
+		{
+			"graded": 1.0,
+			"group": "frame",
+			"id": "F1",
+			"name": "Frame avg (logic)",
+			"rule": "FAIL > 2.00, WARN > 1.00 ms (lab default (the menu has no game logic: 2 ms, warn 1 ms) (0 units))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0.25 ms",
+			"weight": 2.0
+		},
+		{
+			"graded": 1.0,
+			"group": "shape",
+			"id": "S1",
+			"name": "Frame p95",
+			"rule": "WARN > 3.00 ms (1.5x the avg budget)",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0.34 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "shape",
+			"id": "S2",
+			"name": "Frame p99",
+			"rule": "WARN > 4.00 ms",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "1.03 ms (max 27.8 ms)",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "shape",
+			"id": "S3",
+			"name": "Hitches (> 33 ms)",
+			"rule": "FAIL > 3.0 / min, WARN > 0.5 / min (lab default (docs/plan/perf-lab.md 'Budgets'))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0 in 20 s (0.00 / min)",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "system",
+			"id": "P1",
+			"name": "HUD / minimap / UI avg",
+			"rule": "FAIL > 0.500 ms, WARN > 0.375 (lab default)",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "avg 0.007 ms, median 0.005, max 1.37 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P2",
+			"name": "Unit / building models (art scripts)",
+			"rule": "inside the frame budget (art-units.md:633 (<= +0.5 ms per 100 units of animation CPU))",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "avg 0.144 ms, median 0.115, max 1.96 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P3",
+			"name": "Other art scripts",
+			"rule": "inside the frame budget (part of the logic budget)",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "avg 0.058 ms, median 0.040, max 2.88 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C1",
+			"name": "lights",
+			"rule": "FAIL > 15 (step12-agent-rules.md:27-28 (the skirmish's 15 omni lights are the cap; 0 new real lights))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "5.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C2",
+			"name": "shadow lights",
+			"rule": "FAIL > 1 (art-keep.md:291 / map-fill.md:400 (the sun is the only shadow-casting light))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "1.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C3",
+			"name": "decor instances",
+			"rule": "FAIL > 12000 (map-fill.md:400 (<= 12 000 decor instances))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "455.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C4",
+			"name": "draw nodes decor",
+			"rule": "WARN > 140 (map-2v2.md:227 (<= 140 draw nodes; 1v1 checked as WARN))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C5",
+			"name": "geometry nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "194.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C6",
+			"name": "shadow casters",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "51.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C7",
+			"name": "particle systems",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "30.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C8",
+			"name": "multimesh nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "44.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C9",
+			"name": "nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "478.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"id": "H1",
+			"name": "VFX nodes created after warm-up",
+			"rule": "FAIL > 0 (art-units.md:631, champion-skill-tree.md:361 (pooled one-shots, never instanced at runtime))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H2",
+			"name": "Orphan nodes at the end",
+			"rule": "WARN > 0 (lab default (orphans = leaked nodes))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"id": "H3",
+			"name": "Node growth (non-unit)",
+			"rule": "WARN > 10 % (lab default (nodes after warm-up vs the end, units excluded))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "+0.0 %",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H4",
+			"name": "Static memory growth",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "+0.0 MB",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H5",
+			"name": "Machine noise",
+			"rule": "WARN when other Godot processes ran or the CPU was busy (numbers not comparable)",
+			"score": 0.5,
+			"status": "WARN",
+			"value": "noisy: 43 other Godot process(es) (max 27 at once); other CPU load 92 %; calibration 25 ms vs best 19 (x1.3); 29 other Godot process(es) (max 23 at once); other CPU load 91 %",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 8,
+		"PASS": 12,
+		"WARN": 1
+	},
+	"improve_next": [
+		{
+			"rank": 100.0411,
+			"source": "hot list: `art/environment/menu_diorama/menu_diorama.gd`",
+			"text": "0.041 ms / frame over 1 nodes. shader parameter write (menu_diorama.gd:249 in `_animate_glows()`). Fix: write only when the value changes (compare first) or move the animation into the shader (TIME). `art/environment/menu_diorama/menu_diorama.gd`: move per-frame animation into shaders (TIME) and use visibility ranges.",
+			"title": "Map art"
+		},
+		{
+			"rank": 99.0283,
+			"source": "hot list: `art/units/wizards/torvald.gd`",
+			"text": "0.028 ms / frame over 1 nodes. shader parameter write (torvald.gd:600 in `_wizard_process()`). Fix: write only when the value changes (compare first) or move the animation into the shader (TIME). `art/units/wizards/torvald.gd`: animate at a reduced rate beyond 30 m and freeze off-screen (art-units.md 6.10); keep pivot writes <= 7 per frame.",
+			"title": "Unit model animation"
+		},
+		{
+			"rank": 1.0,
+			"source": "standing idea",
+			"text": "Many per-frame functions call `get_tree().get_nodes_in_group(&\"units\")`: a shared per-frame cache (one array per group, rebuilt once per physics frame) removes the repeated allocations (ai-2v2.md:336 AIWorldCache pattern).",
+			"title": "Cache group lists"
+		}
+	],
+	"lab_version": "1.0",
+	"mode": "cpu",
+	"noise_reasons": [
+		"43 other Godot process(es) (max 27 at once)",
+		"other CPU load 92 %",
+		"calibration 25 ms vs best 19 (x1.3)",
+		"29 other Godot process(es) (max 23 at once)",
+		"other CPU load 91 %"
+	],
+	"noisy": true,
+	"previous": {},
+	"result": {
+		"ai": {},
+		"calib_ms": [
+			19.39,
+			20.61
+		],
+		"census": {
+			"decor_instances": 455.0,
+			"draw_nodes_decor": 0.0,
+			"geometry_nodes": 194.0,
+			"lights": 5.0,
+			"multimesh_nodes": 44.0,
+			"node_classes": {
+				"Button": 30.0,
+				"Control": 10.0,
+				"GPUParticles3D": 30.0,
+				"HBoxContainer": 22.0,
+				"HSlider": 4.0,
+				"Label": 53.0,
+				"MarginContainer": 8.0,
+				"MeshInstance3D": 128.0,
+				"MultiMeshInstance3D": 44.0,
+				"Node3D": 104.0,
+				"OmniLight3D": 5.0,
+				"VBoxContainer": 24.0
+			},
+			"nodes": 478.0,
+			"nodes_non_unit": 478.0,
+			"particle_systems": 30.0,
+			"shadow_casters": 51.0,
+			"shadow_lights": 1.0
+		},
+		"commit": "main@49ff2b29cb+wip",
+		"cpu_before_pct": 100.0,
+		"cpu_count": 6.0,
+		"engine": {
+			"bands": 19.0,
+			"mark_cost_us": 1.49,
+			"other_ms": 0.054,
+			"physics_ms": 0.009,
+			"probe_overhead_ms": 0.06,
+			"unclassified_ms": 0.0037
+		},
+		"frame": {
+			"avg": 0.254,
+			"frames": 1200.0,
+			"hitches": 0.0,
+			"max": 27.811,
+			"p50": 0.197,
+			"p95": 0.337,
+			"p99": 1.031
+		},
+		"health": {
+			"node_classes_end": {
+				"Button": 30.0,
+				"Control": 10.0,
+				"GPUParticles3D": 30.0,
+				"HBoxContainer": 22.0,
+				"HSlider": 4.0,
+				"Label": 53.0,
+				"MarginContainer": 8.0,
+				"MeshInstance3D": 128.0,
+				"MultiMeshInstance3D": 44.0,
+				"Node3D": 104.0,
+				"OmniLight3D": 5.0,
+				"VBoxContainer": 24.0
+			},
+			"node_growth_pct": 0.0,
+			"orphan_nodes": 0.0,
+			"static_mem_growth_mb": 0.0,
+			"vfx_nodes_created": 0.0
+		},
+		"hitch_list": [],
+		"hot": [
+			{
+				"avg_ms": 0.0411,
+				"key": "art/environment/menu_diorama/menu_diorama.gd",
+				"max_ms": 2.853,
+				"median_ms": 0.028,
+				"nodes": 1.0,
+				"p95_ms": 0.064,
+				"share_pct": 11.7,
+				"system": "Other art scripts",
+				"system_id": "art_other"
+			},
+			{
+				"avg_ms": 0.0283,
+				"key": "art/units/wizards/torvald.gd",
+				"max_ms": 1.687,
+				"median_ms": 0.019,
+				"nodes": 1.0,
+				"p95_ms": 0.04,
+				"share_pct": 8.0,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0243,
+				"key": "art/units/wizards/ysolde.gd",
+				"max_ms": 0.819,
+				"median_ms": 0.016,
+				"nodes": 1.0,
+				"p95_ms": 0.046,
+				"share_pct": 6.9,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0189,
+				"key": "art/units/wizards/malrik.gd",
+				"max_ms": 0.85,
+				"median_ms": 0.022,
+				"nodes": 1.0,
+				"p95_ms": 0.039,
+				"share_pct": 5.4,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.018,
+				"key": "art/units/champions/mender/mender.gd",
+				"max_ms": 1.598,
+				"median_ms": 0.017,
+				"nodes": 1.0,
+				"p95_ms": 0.032,
+				"share_pct": 5.1,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0171,
+				"key": "[GPUParticles3D]",
+				"max_ms": 1.512,
+				"median_ms": 0.012,
+				"nodes": 30.0,
+				"p95_ms": 0.019,
+				"share_pct": 4.8,
+				"system": "Built-in nodes ([GPUParticles3D])",
+				"system_id": "engine_nodes"
+			},
+			{
+				"avg_ms": 0.0163,
+				"key": "art/environment/crown/crown_pedestal_art.gd",
+				"max_ms": 0.727,
+				"median_ms": 0.012,
+				"nodes": 1.0,
+				"p95_ms": 0.025,
+				"share_pct": 4.6,
+				"system": "Other art scripts",
+				"system_id": "art_other"
+			},
+			{
+				"avg_ms": 0.0152,
+				"key": "art/units/wizards/vessa.gd",
+				"max_ms": 1.107,
+				"median_ms": 0.016,
+				"nodes": 1.0,
+				"p95_ms": 0.03,
+				"share_pct": 4.3,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0149,
+				"key": "art/units/champions/oathwall/oathwall.gd",
+				"max_ms": 1.48,
+				"median_ms": 0.015,
+				"nodes": 1.0,
+				"p95_ms": 0.029,
+				"share_pct": 4.2,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0111,
+				"key": "art/units/champions/wayfinder/wayfinder.gd",
+				"max_ms": 1.793,
+				"median_ms": 0.011,
+				"nodes": 1.0,
+				"p95_ms": 0.019,
+				"share_pct": 3.2,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0066,
+				"key": "art/buildings/tavern/tavern_model.gd",
+				"max_ms": 0.796,
+				"median_ms": 0.005,
+				"nodes": 1.0,
+				"p95_ms": 0.008,
+				"share_pct": 1.9,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0032,
+				"key": "art/units/kit/mount_model.gd",
+				"max_ms": 0.739,
+				"median_ms": 0.002,
+				"nodes": 0.0,
+				"p95_ms": 0.003,
+				"share_pct": 0.9,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0031,
+				"key": "scripts/ui/menus/main_menu.gd",
+				"max_ms": 1.362,
+				"median_ms": 0.002,
+				"nodes": 1.0,
+				"p95_ms": 0.002,
+				"share_pct": 0.9,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.0023,
+				"key": "scripts/ui/menus/kingdom_card.gd",
+				"max_ms": 0.566,
+				"median_ms": 0.002,
+				"nodes": 8.0,
+				"p95_ms": 0.002,
+				"share_pct": 0.6,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.002,
+				"key": "art/units/kit/character_model.gd",
+				"max_ms": 0.147,
+				"median_ms": 0.002,
+				"nodes": 0.0,
+				"p95_ms": 0.002,
+				"share_pct": 0.6,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0019,
+				"key": "art/buildings/tavern/bounty_flag.gd",
+				"max_ms": 0.047,
+				"median_ms": 0.002,
+				"nodes": 1.0,
+				"p95_ms": 0.003,
+				"share_pct": 0.5,
+				"system": "Unit / building models (art scripts)",
+				"system_id": "unit_models"
+			},
+			{
+				"avg_ms": 0.0019,
+				"key": "scripts/ui/menus/settings_panel.gd",
+				"max_ms": 0.053,
+				"median_ms": 0.002,
+				"nodes": 1.0,
+				"p95_ms": 0.002,
+				"share_pct": 0.5,
+				"system": "HUD / minimap / UI",
+				"system_id": "ui"
+			},
+			{
+				"avg_ms": 0.0018,
+				"key": "[Timer]",
+				"max_ms": 0.048,
+				"median_ms": 0.002,
+				"nodes": 4.0,
+				"p95_ms": 0.002,
+				"share_pct": 0.5,
+				"system": "Built-in nodes ([Timer])",
+				"system_id": "engine_nodes"
+			}
+		],
+		"lint": {
+			"art/environment/crown/crown_pedestal_art.gd": [
+				{
+					"code": "_manual_tint = base.duplicate() as ShaderMaterial",
+					"fix": "iterate the original or keep a reusable buffer",
+					"func": "_red_runes",
+					"line": 182.0,
+					"pattern": "duplicate() copy"
+				},
+				{
+					"code": "_manual_tint.set_shader_parameter(&\"glow_color\", SEAL_RED)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_red_runes",
+					"line": 183.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_manual_tint.set_shader_parameter(&\"core_color\", SEAL_RED.lightened(0.4))",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_red_runes",
+					"line": 184.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_manual_tint.set_shader_parameter(&\"energy\", 3.5)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_red_runes",
+					"line": 185.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "(_rings[i] as GeometryInstance3D).set_instance_shader_parameter(&\"intensity\", seal_i)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 251.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_chains.set_instance_shader_parameter(&\"intensity\", seal_i * (0.9 + 0.1 * sin(_time * 2.3)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 253.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_runes.set_instance_shader_parameter(&\"intensity\", _rune_i)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 255.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_beacon.set_instance_shader_parameter(&\"intensity\", _beacon_i)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 258.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_pool.set_instance_shader_parameter(&\"intensity\", _pool_i + pool_flash)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 260.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_pool.set_instance_shader_parameter(&\"tint\", _pool_col)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_apply",
+					"line": 261.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"art/environment/menu_diorama/menu_diorama.gd": [
+				{
+					"code": "(_pools[kd] as GeometryInstance3D).set_instance_shader_parameter(&\"intensity\", g * pulse)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_animate_glows",
+					"line": 249.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "return _to.duplicate()",
+					"fix": "iterate the original or keep a reusable buffer",
+					"func": "_current_shot",
+					"line": 283.0,
+					"pattern": "duplicate() copy"
+				}
+			],
+			"art/units/champions/mender/mender.gd": [
+				{
+					"code": "_core.set_instance_shader_parameter(&\"glow_boost\", b)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_extra_process",
+					"line": 735.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "if not _hook_init or dt <= 0.0 or hook_w.distance_to(_hook_prev) > 1.5:",
+					"fix": "compare distance_squared_to against a squared radius",
+					"func": "_update_censer",
+					"line": 744.0,
+					"pattern": "distance_to (sqrt)"
+				}
+			],
+			"art/units/champions/oathwall/oathwall.gd": [
+				{
+					"code": "_door_arm.set_instance_shader_parameter(&\"glow_boost\", rb)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_write_glows",
+					"line": 782.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_door_back.set_instance_shader_parameter(&\"glow_boost\", rb)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_write_glows",
+					"line": 783.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_visor_node.set_instance_shader_parameter(&\"glow_boost\", vb)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_write_glows",
+					"line": 786.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"art/units/champions/wayfinder/wayfinder.gd": [
+				{
+					"code": "_lantern.set_instance_shader_parameter(&\"glow_boost\", g)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_extra_process",
+					"line": 1019.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_bow.set_instance_shader_parameter(&\"glow_boost\", bg)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_extra_process",
+					"line": 1023.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_hand_prop.set_instance_shader_parameter(&\"glow_boost\", pg)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_extra_process",
+					"line": 1036.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"art/units/wizards/malrik.gd": [
+				{
+					"code": "_glints.set_instance_shader_parameter(&\"glow_boost\", g)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_wizard_process",
+					"line": 558.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"art/units/wizards/torvald.gd": [
+				{
+					"code": "_head_glow.set_instance_shader_parameter(&\"glow_boost\", eg)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_wizard_process",
+					"line": 600.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"art/units/wizards/vessa.gd": [
+				{
+					"code": "_flames.set_instance_shader_parameter(&\"glow_boost\", fb)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_wizard_process",
+					"line": 499.0,
+					"pattern": "shader parameter write"
+				},
+				{
+					"code": "_palm.set_instance_shader_parameter(&\"glow_boost\", glow_level() * (0.8 + 0.8 * pt))",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_wizard_process",
+					"line": 507.0,
+					"pattern": "shader parameter write"
+				}
+			],
+			"art/units/wizards/ysolde.gd": [
+				{
+					"code": "_head_glow.set_instance_shader_parameter(&\"glow_boost\", cb)",
+					"fix": "write only when the value changes (compare first) or move the animation into the shader (TIME)",
+					"func": "_wizard_process",
+					"line": 812.0,
+					"pattern": "shader parameter write"
+				}
+			]
+		},
+		"log": "menu_cpu_r2.log",
+		"measured_s": 20.0,
+		"mode": "cpu",
+		"monitors": {
+			"draw_calls": 0.0,
+			"draw_calls_max": 0.0,
+			"nav_agents": 0.0,
+			"nav_agents_max": 0.0,
+			"navigation_ms": 0.004,
+			"navigation_ms_max": 0.004,
+			"nodes_end": 506.0,
+			"objects": 0.0,
+			"objects_end": 4239.0,
+			"objects_max": 0.0,
+			"physics_active_objects": 0.0,
+			"physics_active_objects_max": 0.0,
+			"physics_ms": 152.969,
+			"physics_ms_max": 152.969,
+			"physics_pairs": 0.0,
+			"physics_pairs_max": 0.0,
+			"primitives": 0.0,
+			"primitives_max": 0.0,
+			"process_ms": 0.492,
+			"process_ms_max": 0.492,
+			"resources_end": 821.0,
+			"static_mem_mb": 97.5,
+			"video_mem_mb": 0.0
+		},
+		"nodes_avg": 506.0,
+		"noise_reasons": [
+			"43 other Godot process(es) (max 27 at once)",
+			"other CPU load 92 %",
+			"calibration 25 ms vs best 19 (x1.3)",
+			"29 other Godot process(es) (max 23 at once)",
+			"other CPU load 91 %"
+		],
+		"noisy": true,
+		"notes": [
+			"menu: diorama in its own SubViewport; GPU time = root + SubViewports"
+		],
+		"other_cpu_pct": 91.0,
+		"other_godot_max": 23.0,
+		"pair": "fire:shadow",
+		"profile": false,
+		"profiled_frame_avg": 0.352,
+		"real_s": 15.29,
+		"repeat_avgs": [
+			0.254
+		],
+		"repeat_spread_pct": 0.0,
+		"repeats": 1,
+		"resolution": "",
+		"run": 2.0,
+		"runs_quiet": 0,
+		"runs_total": 2,
+		"scenario": "menu",
+		"script_errors": 0,
+		"seed": 1.0,
+		"started": "2026-09-26 22:20:33",
+		"systems": {
+			"art_other": {
+				"avg_ms": 0.0575,
+				"max_ms": 2.878,
+				"median_ms": 0.04,
+				"p95_ms": 0.091
+			},
+			"engine_nodes": {
+				"avg_ms": 0.0188,
+				"max_ms": 1.514,
+				"median_ms": 0.013,
+				"p95_ms": 0.021
+			},
+			"ui": {
+				"avg_ms": 0.0073,
+				"max_ms": 1.366,
+				"median_ms": 0.005,
+				"p95_ms": 0.007
+			},
+			"unclassified": {
+				"avg_ms": 0.0037,
+				"max_ms": 0.047,
+				"median_ms": 0.003,
+				"p95_ms": 0.005
+			},
+			"unit_models": {
+				"avg_ms": 0.1445,
+				"max_ms": 1.958,
+				"median_ms": 0.115,
+				"p95_ms": 0.2331
+			}
+		},
+		"units_avg": 0.0,
+		"v": 1.0,
+		"wall_s": 19.6,
+		"what": "main menu with the 3D diorama"
+	},
+	"scenario": "menu",
+	"score": 96.6,
+	"verdict": "WARN"
+}

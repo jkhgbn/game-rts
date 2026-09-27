@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/unit_painted.gdshader" id="1_gor"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_gor"]
+
+[resource]
+resource_name = "glade_outrider_jerkin"
+render_priority = 0
+shader = ExtResource("1_gor")
+shader_parameter/base_color = Color(0.7, 0.54, 0.3, 1)
+shader_parameter/noise_tex = ExtResource("2_gor")
+shader_parameter/spec_strength = 0.06
+shader_parameter/rim_color = Color(0.9, 0.9, 0.7, 1)
+shader_parameter/rim_strength = 0.3

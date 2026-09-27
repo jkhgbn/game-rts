@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_yscio"]
+
+[resource]
+script = ExtResource("1_yscio")
+id = &"masters_signet"
+display_name = "Master's Signet"
+tier = 4
+stats = {
+"cooldown_reduction": 10.0,
+"max_hp": 100.0,
+"spell_power": 20.0
+}
+is_artifact = true
+campaign_only = true
+icon_abbrev = "MS"

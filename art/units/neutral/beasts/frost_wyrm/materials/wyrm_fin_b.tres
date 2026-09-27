@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/neutral/beasts/frost_wyrm/wyrm_fin.gdshader" id="1_wyf"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_wyf"]
+[resource]
+resource_name = "wyrm_fin_b"
+render_priority = 0
+shader = ExtResource("1_wyf")
+shader_parameter/root_color = Color(0.36, 0.26, 0.62, 1)
+shader_parameter/edge_color = Color(0.88, 0.82, 1, 1)
+shader_parameter/ray_color = Color(0.98, 0.96, 1, 1)
+shader_parameter/frost_color = Color(0.98, 0.97, 1, 1)
+shader_parameter/noise_tex = ExtResource("2_wyf")
+shader_parameter/glow_color = Color(0.84, 0.7, 1, 1)
+shader_parameter/rim_color = Color(0.86, 0.8, 1, 1)

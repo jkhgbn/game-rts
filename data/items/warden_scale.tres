@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_2ugtp"]
+
+[resource]
+script = ExtResource("1_2ugtp")
+id = &"warden_scale"
+display_name = "Warden Scale"
+cost = 250
+stats = {
+"armor": 8.0,
+"max_hp": 40.0
+}
+sold_at = 2
+icon_abbrev = "WS"

@@ -1,0 +1,300 @@
+{
+	"arm_order": [
+		"baseline",
+		"grave_hound_dps"
+	],
+	"arms": {
+		"baseline": {
+			"applied": {},
+			"ends": {
+				"time-score": 2
+			},
+			"failed": 0,
+			"kingdoms": {
+				"fire": {
+					"ci": [
+						0.0945286548008661,
+						0.905471345199134
+					],
+					"games": 2,
+					"rate": 0.5,
+					"wins": 1
+				},
+				"ice": {
+					"ci": [
+						0.0,
+						1.0
+					],
+					"games": 0,
+					"rate": -1.0,
+					"wins": 0
+				},
+				"nature": {
+					"ci": [
+						0.0,
+						1.0
+					],
+					"games": 0,
+					"rate": -1.0,
+					"wins": 0
+				},
+				"shadow": {
+					"ci": [
+						0.0945286548008661,
+						0.905471345199134
+					],
+					"games": 2,
+					"rate": 0.5,
+					"wins": 1
+				}
+			},
+			"live": {},
+			"live_recorded": false,
+			"matches": 2,
+			"matchups": {
+				"fire-shadow": {
+					"a": "fire",
+					"a_rate": 0.5,
+					"a_share": [
+						0.64721919302072,
+						0.484226339509264
+					],
+					"a_share_mean": 0.565722766264992,
+					"a_wins": 1,
+					"b": "shadow",
+					"b_wins": 1,
+					"draws": 0,
+					"games": 2,
+					"lengths": [
+						600.0,
+						600.0
+					],
+					"median_length": 600.0
+				}
+			},
+			"median_length": 600.0,
+			"real_end_share": 0.0,
+			"score": 100,
+			"script_errors": 0,
+			"seat": {
+				"enemy": 2,
+				"none": 0,
+				"player": 0
+			},
+			"variant_errors": []
+		},
+		"grave_hound_dps": {
+			"applied": {
+				"grave_hound.attack_damage": "8.0 -> 6.0"
+			},
+			"ends": {
+				"time-score": 2
+			},
+			"failed": 0,
+			"kingdoms": {
+				"fire": {
+					"ci": [
+						0.342371952889619,
+						1.0
+					],
+					"games": 2,
+					"rate": 1.0,
+					"wins": 2
+				},
+				"ice": {
+					"ci": [
+						0.0,
+						1.0
+					],
+					"games": 0,
+					"rate": -1.0,
+					"wins": 0
+				},
+				"nature": {
+					"ci": [
+						0.0,
+						1.0
+					],
+					"games": 0,
+					"rate": -1.0,
+					"wins": 0
+				},
+				"shadow": {
+					"ci": [
+						0.0,
+						0.657628047110381
+					],
+					"games": 2,
+					"rate": 0.0,
+					"wins": 0
+				}
+			},
+			"live": {
+				"grave_hound": {
+					"same": 9,
+					"seen": 9
+				}
+			},
+			"live_recorded": true,
+			"matches": 2,
+			"matchups": {
+				"fire-shadow": {
+					"a": "fire",
+					"a_rate": 1.0,
+					"a_share": [
+						0.631466666666667,
+						0.556231003039514
+					],
+					"a_share_mean": 0.59384883485309,
+					"a_wins": 2,
+					"b": "shadow",
+					"b_wins": 0,
+					"draws": 0,
+					"games": 2,
+					"lengths": [
+						600.0,
+						600.0
+					],
+					"median_length": 600.0
+				}
+			},
+			"median_length": 600.0,
+			"real_end_share": 0.0,
+			"score": 10,
+			"script_errors": 0,
+			"seat": {
+				"enemy": 1,
+				"none": 0,
+				"player": 1
+			},
+			"variant_errors": []
+		}
+	},
+	"best_arm": "baseline",
+	"checks": [
+		{
+			"id": "R1",
+			"name": "Matches ran",
+			"score": 100,
+			"status": "PASS",
+			"target": "every match ends with a result, 0 SCRIPT ERROR",
+			"value": "4 / 4 ok, 0 script errors"
+		},
+		{
+			"id": "V1",
+			"name": "Variants applied",
+			"score": 100,
+			"status": "PASS",
+			"target": "every override found and applied, no variant error, every live unit of an overridden id uses the edited type",
+			"value": "grave_hound_dps: grave_hound.attack_damage 8.0 -> 6.0 (grave_hound 9/9 live on the edited type)"
+		},
+		{
+			"id": "K1",
+			"name": "Kingdom win rates [baseline]",
+			"score": 100,
+			"status": "WARN",
+			"target": "45-55 % per kingdom (non-mirror); WARN 35-65 % or < 10 games",
+			"value": "fire 50% (1/2), shadow 50% (1/2)"
+		},
+		{
+			"id": "M1",
+			"name": "Matchups [baseline]",
+			"score": 100,
+			"status": "WARN",
+			"target": "each matchup 45-55 % (both seat orders together)",
+			"value": "fire-shadow 1-1"
+		},
+		{
+			"id": "K1",
+			"name": "Kingdom win rates [grave_hound_dps]",
+			"score": 10,
+			"status": "WARN",
+			"target": "45-55 % per kingdom (non-mirror); WARN 35-65 % or < 10 games",
+			"value": "fire 100% (2/2), shadow 0% (0/2)"
+		},
+		{
+			"id": "M1",
+			"name": "Matchups [grave_hound_dps]",
+			"score": 10,
+			"status": "WARN",
+			"target": "each matchup 45-55 % (both seat orders together)",
+			"value": "fire-shadow 2-0"
+		},
+		{
+			"id": "L1",
+			"name": "Median length [baseline]",
+			"score": 100,
+			"status": "PASS",
+			"target": "15:00-20:00 (rush-balance.md)",
+			"value": "10:00, real ends (kill / concede) 0% (limit 10:00: length not judged)"
+		},
+		{
+			"id": "L1",
+			"name": "Median length [grave_hound_dps]",
+			"score": 100,
+			"status": "PASS",
+			"target": "15:00-20:00 (rush-balance.md)",
+			"value": "10:00, real ends (kill / concede) 0% (limit 10:00: length not judged)"
+		},
+		{
+			"id": "S1",
+			"name": "Evidence [grave_hound_dps vs baseline]",
+			"score": 50,
+			"status": "WARN",
+			"target": "a matchup change with p < 0.05 (Fisher exact on wins)",
+			"value": "lowest p 1.00 (fire-shadow)"
+		}
+	],
+	"comparisons": {
+		"grave_hound_dps": {
+			"kingdoms": {
+				"fire": {
+					"base_rate": 0.5,
+					"delta": 0.5,
+					"note": "noise at this N (p 1.00, 4 games; ~98 per arm to see a 20-pt change)",
+					"p": 1.0,
+					"rate": 1.0
+				},
+				"shadow": {
+					"base_rate": 0.5,
+					"delta": -0.5,
+					"note": "noise at this N (p 1.00, 4 games; ~98 per arm to see a 20-pt change)",
+					"p": 1.0,
+					"rate": 0.0
+				}
+			},
+			"length_delta": 0.0,
+			"matchups": {
+				"fire-shadow": {
+					"base_rate": 0.5,
+					"base_share": 0.565722766264992,
+					"delta": 0.5,
+					"games": [
+						2,
+						2
+					],
+					"note": "noise at this N (p 1.00, 4 games; ~98 per arm to see a 20-pt change)",
+					"p": 1.0,
+					"rate": 1.0,
+					"share": 0.59384883485309,
+					"share_delta": 0.0281260685880983,
+					"toward_50": false
+				}
+			}
+		}
+	},
+	"date": "2026-09-27 00:05",
+	"failed": 0,
+	"improve": [
+		"N is small (2 games per matchup per arm): ~98 per arm are needed to see a 20-pt change, ~392 for 10 pts. Add seeds (-Seeds 1-12) and prefer -Tick 30 sweeps, confirmed at 60."
+	],
+	"input": "C:/Users/elzzo/Documents/four-wizards-lab-runs/balance-2026-09-26_validation/results.jsonl",
+	"limit": "600",
+	"matches": 4,
+	"result": "WARN",
+	"run": "2026-09-26_validation",
+	"score": 100,
+	"sim": "on",
+	"tick": "60",
+	"wall_s": "2058"
+}

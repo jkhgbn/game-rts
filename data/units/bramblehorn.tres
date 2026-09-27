@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/nature/bramblehorn.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+model_scene = ExtResource("2_model")
+id = &"bramblehorn"
+display_name = "Bramblehorn"
+faction = &"nature"
+is_worker = false
+cost = 200
+pop = 2
+kill_xp = 100
+train_time = 34.0
+card_key = "V"
+max_hp = 380.0
+move_speed = 4.6
+attack_damage = 18.0
+attack_range = 1.8
+attack_cooldown = 1.2
+aggro_range = 9.0
+radius = 0.7
+body_height = 2.2
+body_color = Color(0.28, 0.4, 0.18, 1)
+armor = 0.0
+idle_regen_pct = 2.0

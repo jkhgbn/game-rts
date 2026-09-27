@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/ice/ice_crystal.gdshader" id="1_ice"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_ice"]
+
+[resource]
+resource_name = "ice_frost_deep"
+render_priority = 0
+shader = ExtResource("1_ice")
+shader_parameter/noise_tex = ExtResource("2_ice")
+shader_parameter/deep_color = Color(0.07, 0.19, 0.38, 1)
+shader_parameter/surface_color = Color(0.34, 0.6, 0.86, 1)
+shader_parameter/edge_color = Color(0.7, 0.88, 1, 1)
+shader_parameter/fresnel_power = 2.2
+shader_parameter/inner_energy = 0.22
+shader_parameter/edge_energy = 0.35
+shader_parameter/sparkle_energy = 2.0
+shader_parameter/spec_strength = 0.6
+shader_parameter/facets = 1.0

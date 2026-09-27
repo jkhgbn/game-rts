@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/camps/camp_mud.gdshader" id="1_dbagi"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_w36ct"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_dbagi")
+shader_parameter/noise_tex = ExtResource("2_w36ct")
+shader_parameter/dry_color = null
+shader_parameter/crack_color = null
+shader_parameter/sky_color = null
+shader_parameter/puddle_level = null
+shader_parameter/ripple_speed = null

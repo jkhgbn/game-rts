@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/meshes/rock_slab.res" id="1_o3l2q"]
+
+[node name="RockSlab" type="Node3D" unique_id=1365780636]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1587128956]
+gi_mode = 0
+mesh = ExtResource("1_o3l2q")

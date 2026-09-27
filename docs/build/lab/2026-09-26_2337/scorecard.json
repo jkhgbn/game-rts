@@ -1,0 +1,306 @@
+{
+    "lab":  "build_lab",
+    "version":  "1.0",
+    "run":  "2026-09-26_2337",
+    "time":  "2026-09-26 23:44",
+    "result":  "FAIL",
+    "score":  45,
+    "preset":  "Windows Desktop",
+    "release":  true,
+    "build_dir":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337",
+    "exe":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\game\\FourWizards.exe",
+    "zip":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\FourWizards-2026-09-26.zip",
+    "exe_bytes":  145495832,
+    "pck_bytes":  36368152,
+    "zip_bytes":  57731742,
+    "files":  3211,
+    "export_seconds":  221.8,
+    "boot":  {
+                 "timed_out":  false,
+                 "seconds":  5.2,
+                 "exit":  0
+             },
+    "smoke":  {
+                  "timed_out":  false,
+                  "seconds":  5.7,
+                  "exit":  0
+              },
+    "smoke_line":  "",
+    "checks":  [
+                   {
+                       "check":  "Export",
+                       "status":  "WARN",
+                       "detail":  "exported in 221.8 s with 2 unique error lines in the export log, first: ERROR: Pages in use exist at exit in PagedAllocator: N12VariantPools11BucketSmallE",
+                       "fix":  "Fix the resources named in logs/export.log (they may be broken in the build)."
+                   },
+                   {
+                       "check":  "PCK listing",
+                       "status":  "INFO",
+                       "detail":  "3211 files, 34,7 MB (embedded in the exe), pack format 4, Godot 4.7.2",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Size vs previous",
+                       "status":  "INFO",
+                       "detail":  "exe 138,8 MB, pack 34,7 MB; first build in the history",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: excludes dev folders",
+                       "status":  "PASS",
+                       "detail":  "exclude_filter = tests/*, docs/*, tools/*, art/preview/*",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: includes *.json",
+                       "status":  "PASS",
+                       "detail":  "include_filter = *.json",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: no dev files in pack",
+                       "status":  "PASS",
+                       "detail":  "no docs/ tools/ tests/ art/preview/ .md .ps1 source-art files in the pack",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: data files ship",
+                       "status":  "PASS",
+                       "detail":  "0 non-resource data files (json/txt/csv/cfg) in game folders, all in the pack",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: referenced files ship",
+                       "status":  "PASS",
+                       "detail":  "every existing res:// path named in 1341 game .gd/.tscn/.tres/.gdshader files is in the pack",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Filter: game code uses dev folders",
+                       "status":  "WARN",
+                       "detail":  "5 references from game code into docs/ tools/ tests/ (excluded from the build), e.g. docs/art/screens/icons_sheet_wip.png \u003c- art/icons/render_icons.gd; docs/art/screens/champion_class_icons.png \u003c- art/icons/render_champion_icons.gd; docs/art/screens/icons_sheet.png \u003c- art/icons/render_icons.gd",
+                       "fix":  "Game code must not load from excluded folders (guard it or move the file)."
+                   },
+                   {
+                       "check":  "Preview scripts in the build",
+                       "status":  "INFO",
+                       "detail":  "28 docs/ paths named by art preview / lab scripts (screenshot outputs; they ship but never run in the game)",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Main scene + autoloads",
+                       "status":  "PASS",
+                       "detail":  "in the pack: scenes/ui/main_menu.tscn, scripts/core/events.gd",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Runtime folder listing",
+                       "status":  "PASS",
+                       "detail":  "no res:// DirAccess listing without .remap handling",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Console wrapper",
+                       "status":  "WARN",
+                       "detail":  "FourWizards.console.exe missing: logs come from the GUI exe",
+                       "fix":  "Keep debug/export_console_wrapper=1 in the preset."
+                   },
+                   {
+                       "check":  "Boot (exported)",
+                       "status":  "PASS",
+                       "detail":  "main menu ran 600 frames headless, exit 0, no errors (5.2 s)",
+                       "fix":  ""
+                   },
+                   {
+                       "check":  "Smoke (exported)",
+                       "status":  "FAIL",
+                       "detail":  "no victory=true (exit 0, 5,7 s): no GAME OVER line",
+                       "fix":  "Compare with the editor smoke test; if that passes, the export is missing something (logs/smoke.log)."
+                   },
+                   {
+                       "check":  "Zip",
+                       "status":  "PASS",
+                       "detail":  "C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\FourWizards-2026-09-26.zip (55,1 MB, 9 s)",
+                       "fix":  ""
+                   }
+               ],
+    "categories":  [
+                       {
+                           "category":  "art/",
+                           "bytes":  32815994,
+                           "files":  2556
+                       },
+                       {
+                           "category":  "scripts/",
+                           "bytes":  1828649,
+                           "files":  272
+                       },
+                       {
+                           "category":  "assets/",
+                           "bytes":  1112522,
+                           "files":  112
+                       },
+                       {
+                           "category":  "data/",
+                           "bytes":  180186,
+                           "files":  258
+                       },
+                       {
+                           "category":  ".godot (engine)",
+                           "bytes":  91016,
+                           "files":  2
+                       },
+                       {
+                           "category":  "scenes/",
+                           "bytes":  6128,
+                           "files":  8
+                       },
+                       {
+                           "category":  "missions/",
+                           "bytes":  1032,
+                           "files":  2
+                       },
+                       {
+                           "category":  "root files",
+                           "bytes":  729,
+                           "files":  1
+                       }
+                   ],
+    "top":  [
+                {
+                    "path":  "art/environment/meshes/map_cliffs.res",
+                    "source":  "art/environment/meshes/map_cliffs.res",
+                    "size":  1990978
+                },
+                {
+                    "path":  ".godot/exported/133200997/export-856d4fd4d47171f1bae2b1eb647fda54-nature_keep.scn",
+                    "source":  "art/buildings/nature_keep.tscn",
+                    "size":  1899722
+                },
+                {
+                    "path":  "art/environment/river_mouths/map_cliffs_closed.res",
+                    "source":  "art/environment/river_mouths/map_cliffs_closed.res",
+                    "size":  1321679
+                },
+                {
+                    "path":  "art/environment/bridges/lane_bridge.res",
+                    "source":  "art/environment/bridges/lane_bridge.res",
+                    "size":  642748
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/standing_stones.res",
+                    "source":  "art/environment/landmarks/meshes/standing_stones.res",
+                    "size":  504168
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/colossus.res",
+                    "source":  "art/environment/landmarks/meshes/colossus.res",
+                    "size":  496716
+                },
+                {
+                    "path":  "art/environment/camps/meshes/gloomcap_base.res",
+                    "source":  "art/environment/camps/meshes/gloomcap_base.res",
+                    "size":  482976
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_south_east.res",
+                    "source":  "art/environment/horizon/meshes/horizon_south_east.res",
+                    "size":  468353
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_north_west.res",
+                    "source":  "art/environment/horizon/meshes/horizon_north_west.res",
+                    "size":  451397
+                },
+                {
+                    "path":  "art/environment/lairs/meshes/heath_wallow.res",
+                    "source":  "art/environment/lairs/meshes/heath_wallow.res",
+                    "size":  447140
+                },
+                {
+                    "path":  "art/environment/camps/meshes/bristleback_base.res",
+                    "source":  "art/environment/camps/meshes/bristleback_base.res",
+                    "size":  444774
+                },
+                {
+                    "path":  ".godot/exported/133200997/export-e98069621094f323bf7d974ce41a71a8-ruin_peddler.scn",
+                    "source":  "art/environment/ruin_peddler.tscn",
+                    "size":  436052
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_north_east.res",
+                    "source":  "art/environment/horizon/meshes/horizon_north_east.res",
+                    "size":  435413
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_south_west.res",
+                    "source":  "art/environment/horizon/meshes/horizon_south_west.res",
+                    "size":  433705
+                },
+                {
+                    "path":  ".godot/imported/music_match.wav-04196686a520c79afeccbaa387747266.sample",
+                    "source":  "assets/audio/music/music_match.wav",
+                    "size":  428719
+                },
+                {
+                    "path":  ".godot/exported/133200997/export-3b24666c1c4699e29455061b2b09fc15-fire_keep.scn",
+                    "source":  "art/buildings/fire_keep.tscn",
+                    "size":  423951
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_north.res",
+                    "source":  "art/environment/horizon/meshes/horizon_north.res",
+                    "size":  410429
+                },
+                {
+                    "path":  "art/environment/camps/meshes/hollow_stag_base.res",
+                    "source":  "art/environment/camps/meshes/hollow_stag_base.res",
+                    "size":  386243
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_west.res",
+                    "source":  "art/environment/horizon/meshes/horizon_west.res",
+                    "size":  379405
+                },
+                {
+                    "path":  "art/environment/lairs/meshes/crag_nest.res",
+                    "source":  "art/environment/lairs/meshes/crag_nest.res",
+                    "size":  376621
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_south.res",
+                    "source":  "art/environment/horizon/meshes/horizon_south.res",
+                    "size":  375157
+                },
+                {
+                    "path":  "art/environment/horizon/meshes/horizon_east.res",
+                    "source":  "art/environment/horizon/meshes/horizon_east.res",
+                    "size":  363837
+                },
+                {
+                    "path":  ".godot/imported/music_menu.wav-7d19ae11fbd516a17b9dc9bf9019f3d0.sample",
+                    "source":  "assets/audio/music/music_menu.wav",
+                    "size":  357343
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/giant_stump.res",
+                    "source":  "art/environment/landmarks/meshes/giant_stump.res",
+                    "size":  342803
+                },
+                {
+                    "path":  "art/environment/landmarks/meshes/aqueduct.res",
+                    "source":  "art/environment/landmarks/meshes/aqueduct.res",
+                    "size":  336564
+                }
+            ],
+    "changed_vs_previous":  [
+
+                            ],
+    "previous_run":  "",
+    "onedrive_command":  "Copy-Item -LiteralPath \"C:\\Users\\elzzo\\Documents\\four-wizards-builds\\2026-09-26_2337\\FourWizards-2026-09-26.zip\" -Destination \"$env:USERPROFILE\\OneDrive\\FourWizards-2026-09-26.zip\" -Force",
+    "improve_next":  [
+                         "Export: exported in 221.8 s with 2 unique error lines in the export log, first: ERROR: Pages in use exist at exit in PagedAllocator: N12VariantPools11BucketSmallE",
+                         "Filter: game code uses dev folders: 5 references from game code into docs/ tools/ tests/ (excluded from the build), e.g. docs/art/screens/icons_sheet_wip.png \u003c- art/icons/render_icons.gd; docs/art/screens/champion_class_icons.png \u003c- art/icons/render_champion_icons.gd; docs/art/screens/icons_sheet.png \u003c- art/icons/render_icons.gd",
+                         "Console wrapper: FourWizards.console.exe missing: logs come from the GUI exe"
+                     ]
+}

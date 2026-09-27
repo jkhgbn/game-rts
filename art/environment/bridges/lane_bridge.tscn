@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/environment/bridges/lane_bridge_art.gd" id="1_ahflm"]
+[ext_resource type="ArrayMesh" path="res://art/environment/bridges/lane_bridge.res" id="2_q4t88"]
+
+[node name="LaneBridge" type="Node3D" unique_id=925004868]
+script = ExtResource("1_ahflm")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=140141588]
+gi_mode = 0
+mesh = ExtResource("2_q4t88")

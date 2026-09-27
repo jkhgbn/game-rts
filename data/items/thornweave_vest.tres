@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_twv01"]
+[ext_resource type="Resource" path="res://data/items/verdant_seed.tres" id="2_twv02"]
+[ext_resource type="Resource" path="res://data/items/ironbark_plate.tres" id="3_twv03"]
+
+[resource]
+script = ExtResource("1_twv01")
+id = &"thornweave_vest"
+display_name = "Thornweave Vest"
+tier = 1
+cost = 250
+parts = Array[ExtResource("1_twv01")]([ExtResource("2_twv02"), ExtResource("3_twv03")])
+stats = {
+"armor": 18.0,
+"hp_regen": 2.0
+}
+passive_id = &"barbs"
+passives = {
+&"barbs": {
+"ratio": 0.2
+}
+}
+sold_at = 3
+icon_abbrev = "TV"
+tooltip = "Barbs: melee attackers take 20 % of the damage they deal to you."

@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/nightmare_knight/nk_flame.gdshader" id="1_nkf"]
+
+[resource]
+resource_name = "nk_flame"
+render_priority = 0
+shader = ExtResource("1_nkf")
+shader_parameter/core_color = Color(1, 0.86, 1, 1)
+shader_parameter/mid_color = Color(0.74, 0.34, 1, 1)
+shader_parameter/tip_color = Color(0.34, 0.1, 0.66, 1)
+shader_parameter/energy = 2.6
+shader_parameter/base_mix = 0.3
+shader_parameter/flicker_speed = 8.0
+shader_parameter/sway = 0.05

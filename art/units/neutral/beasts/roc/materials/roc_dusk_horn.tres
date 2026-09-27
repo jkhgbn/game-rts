@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/neutral/beasts/roc/roc_feather.gdshader" id="1_rdh"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_rdh"]
+
+[resource]
+resource_name = "roc_dusk_horn"
+render_priority = 0
+shader = ExtResource("1_rdh")
+shader_parameter/base_color = Color(0.2, 0.18, 0.23, 1)
+shader_parameter/pale_color = Color(0.66, 0.62, 0.58, 1)
+shader_parameter/tip_color = Color(0.03, 0.025, 0.04, 1)
+shader_parameter/noise_tex = ExtResource("2_rdh")
+shader_parameter/noise_scale_a = 2.4
+shader_parameter/noise_scale_b = 0.5
+shader_parameter/spec_strength = 0.35
+shader_parameter/rim_color = Color(0.55, 0.35, 0.8, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/row_len = 0.2
+shader_parameter/col_w = 0.16
+shader_parameter/edge_dark = 0.0
+shader_parameter/mid_light = 0.0
+shader_parameter/sheen_color = Color(0.52, 0.22, 0.95, 1)
+shader_parameter/sheen_color_b = Color(0.3, 0.2, 0.85, 1)
+shader_parameter/sheen_strength = 0.0
+shader_parameter/sheen_face = 0.3
+shader_parameter/sheen_glint = 0.0
+shader_parameter/top_light = 0.1

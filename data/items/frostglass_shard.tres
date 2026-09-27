@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_fgs01"]
+
+[resource]
+script = ExtResource("1_fgs01")
+id = &"frostglass_shard"
+display_name = "Frostglass Shard"
+cost = 200
+stats = {
+"armor": 10.0,
+"max_mana": 20.0
+}
+sold_at = 1
+icon_abbrev = "FS"

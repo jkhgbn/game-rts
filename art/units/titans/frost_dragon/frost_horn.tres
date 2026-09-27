@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/frost_dragon/frost_scale.gdshader" id="1_fdh"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_fdh"]
+
+[resource]
+resource_name = "frost_horn"
+render_priority = 0
+shader = ExtResource("1_fdh")
+shader_parameter/base_color = Color(0.16, 0.21, 0.3, 1)
+shader_parameter/belly_color = Color(0.88, 0.92, 0.97, 1)
+shader_parameter/noise_tex = ExtResource("2_fdh")
+shader_parameter/spec_strength = 0.35
+shader_parameter/rim_strength = 0.2
+shader_parameter/crack_amount = 0.0
+shader_parameter/frost_top = 0.0

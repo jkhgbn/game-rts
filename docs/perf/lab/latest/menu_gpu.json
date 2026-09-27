@@ -1,0 +1,444 @@
+{
+	"checks": [
+		{
+			"graded": 1.0,
+			"group": "frame",
+			"id": "F1",
+			"name": "Frame avg (windowed)",
+			"rule": "FAIL > 16.67, WARN > 8.33 ms (cinematics.md:316-317, map-fill.md:406 (60 fps at 1600x900 / 3440x1440); warn 120 Hz (lab default))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "3.60 ms",
+			"weight": 2.0
+		},
+		{
+			"graded": 1.0,
+			"group": "shape",
+			"id": "S1",
+			"name": "Frame p95",
+			"rule": "WARN > 25.00 ms (1.5x the avg budget)",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "5.04 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "shape",
+			"id": "S2",
+			"name": "Frame p99",
+			"rule": "WARN > 33.33 ms",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "5.35 ms (max 10.2 ms)",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "gpu",
+			"id": "G1",
+			"name": "GPU render time avg",
+			"rule": "FAIL > 16.7 ms, WARN > 8.3 ms (cinematics.md:316-317, map-fill.md:406 (60 fps at 1600x900 / 3440x1440); warn 120 Hz (lab default))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "2.50 ms (p95 2.92)",
+			"weight": 2.0
+		},
+		{
+			"graded": 0.8776425,
+			"group": "gpu",
+			"id": "G-draw_calls",
+			"name": "Render draw calls (avg per frame)",
+			"rule": "WARN > 800 (lab default (art-units.md:627: 200 units ~ 2 800 draw instances; art-keep.md:294: base <= 60 draw calls))",
+			"score": 0.96329275,
+			"status": "PASS",
+			"value": "449 (max 450)",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "gpu",
+			"id": "G-objects",
+			"name": "Render objects (avg per frame)",
+			"rule": "WARN > 1500 (lab default (art-units.md:627: 200 units ~ 2 800 draw instances; art-keep.md:294: base <= 60 draw calls))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "688 (max 689)",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "gpu",
+			"id": "G-primitives",
+			"name": "Render primitives (avg per frame)",
+			"rule": "WARN > 1500000 (lab default (art-units.md:627: 200 units ~ 2 800 draw instances; art-keep.md:294: base <= 60 draw calls))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "150026 (max 150775)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "gpu",
+			"id": "G-vmem",
+			"name": "Video memory",
+			"rule": "info (GTX 1660: 6 GB)",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "232 MB",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "shape",
+			"id": "S3",
+			"name": "Hitches (> 33 ms)",
+			"rule": "FAIL > 3.0 / min, WARN > 0.5 / min (lab default (docs/plan/perf-lab.md 'Budgets'))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0 in 20 s (0.00 / min)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "system",
+			"id": "P0",
+			"name": "Band profiler",
+			"rule": "run with --profile=1 for the hot list",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "no profiled run",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C1",
+			"name": "lights",
+			"rule": "FAIL > 15 (step12-agent-rules.md:27-28 (the skirmish's 15 omni lights are the cap; 0 new real lights))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "5.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C2",
+			"name": "shadow lights",
+			"rule": "FAIL > 1 (art-keep.md:291 / map-fill.md:400 (the sun is the only shadow-casting light))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "1.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C3",
+			"name": "decor instances",
+			"rule": "FAIL > 12000 (map-fill.md:400 (<= 12 000 decor instances))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "455.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "census",
+			"id": "C4",
+			"name": "draw nodes decor",
+			"rule": "WARN > 140 (map-2v2.md:227 (<= 140 draw nodes; 1v1 checked as WARN))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C5",
+			"name": "geometry nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "194.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C6",
+			"name": "shadow casters",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "51.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C7",
+			"name": "particle systems",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "30.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C8",
+			"name": "multimesh nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "44.0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "census",
+			"id": "C9",
+			"name": "nodes",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "478.0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"id": "H1",
+			"name": "VFX nodes created after warm-up",
+			"rule": "FAIL > 0 (art-units.md:631, champion-skill-tree.md:361 (pooled one-shots, never instanced at runtime))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H2",
+			"name": "Orphan nodes at the end",
+			"rule": "WARN > 0 (lab default (orphans = leaked nodes))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"id": "H3",
+			"name": "Node growth (non-unit)",
+			"rule": "WARN > 10 % (lab default (nodes after warm-up vs the end, units excluded))",
+			"score": 1.0,
+			"status": "PASS",
+			"value": "+0.0 %",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H4",
+			"name": "Static memory growth",
+			"rule": "info",
+			"score": -1.0,
+			"status": "INFO",
+			"value": "+0.1 MB",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "health",
+			"id": "H5",
+			"name": "Machine noise",
+			"rule": "WARN when other Godot processes ran or the CPU was busy (numbers not comparable)",
+			"score": 0.5,
+			"status": "WARN",
+			"value": "noisy: 33 other Godot process(es) (max 29 at once); other CPU load 94.8 %; calibration 26 ms vs best 19 (x1.3)",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 8,
+		"PASS": 15,
+		"WARN": 1
+	},
+	"improve_next": [
+		{
+			"rank": 1.0,
+			"source": "standing idea",
+			"text": "Many per-frame functions call `get_tree().get_nodes_in_group(&\"units\")`: a shared per-frame cache (one array per group, rebuilt once per physics frame) removes the repeated allocations (ai-2v2.md:336 AIWorldCache pattern).",
+			"title": "Cache group lists"
+		},
+		{
+			"rank": 0.9,
+			"source": "standing idea",
+			"text": "Give every timer-driven tick (commander, brains, capture points, camps) a random phase offset so they never all fire on the same frame (ai-2v2.md:334).",
+			"title": "Stagger periodic work"
+		},
+		{
+			"rank": 0.8,
+			"source": "standing idea",
+			"text": "Set visibility_range_end (with fade) on decor, critters and small props, and cast_shadow OFF on everything but trees / big rocks / buildings (map-fill.md:400).",
+			"title": "Visibility ranges and shadows"
+		}
+	],
+	"lab_version": "1.0",
+	"mode": "gpu",
+	"noise_reasons": [
+		"33 other Godot process(es) (max 29 at once)",
+		"other CPU load 94.8 %",
+		"calibration 26 ms vs best 19 (x1.3)"
+	],
+	"noisy": true,
+	"previous": {},
+	"result": {
+		"ai": {},
+		"calib_ms": [
+			23.67,
+			25.92
+		],
+		"census": {
+			"decor_instances": 455.0,
+			"draw_nodes_decor": 0.0,
+			"geometry_nodes": 194.0,
+			"lights": 5.0,
+			"multimesh_nodes": 44.0,
+			"node_classes": {
+				"Button": 30.0,
+				"Control": 10.0,
+				"GPUParticles3D": 30.0,
+				"HBoxContainer": 22.0,
+				"HSlider": 4.0,
+				"Label": 53.0,
+				"MarginContainer": 8.0,
+				"MeshInstance3D": 128.0,
+				"MultiMeshInstance3D": 44.0,
+				"Node3D": 104.0,
+				"OmniLight3D": 5.0,
+				"VBoxContainer": 24.0
+			},
+			"nodes": 478.0,
+			"nodes_non_unit": 478.0,
+			"particle_systems": 30.0,
+			"shadow_casters": 51.0,
+			"shadow_lights": 1.0
+		},
+		"commit": "main@49ff2b29cb+wip",
+		"cpu_before_pct": 100.0,
+		"cpu_count": 6.0,
+		"frame": {
+			"avg": 3.595,
+			"frames": 1200.0,
+			"hitches": 0.0,
+			"max": 10.24,
+			"p50": 3.197,
+			"p95": 5.044,
+			"p99": 5.348
+		},
+		"gpu": {
+			"draw_calls_avg": 448.943,
+			"draw_calls_max": 450.0,
+			"gpu_ms_avg": 2.504,
+			"gpu_ms_max": 3.082,
+			"gpu_ms_p95": 2.915,
+			"objects_avg": 687.791,
+			"objects_max": 689.0,
+			"primitives_avg": 150025.623,
+			"primitives_max": 150775.0,
+			"video_mem_mb": 231.8
+		},
+		"health": {
+			"node_classes_end": {
+				"Button": 30.0,
+				"Control": 10.0,
+				"GPUParticles3D": 30.0,
+				"HBoxContainer": 22.0,
+				"HSlider": 4.0,
+				"Label": 53.0,
+				"MarginContainer": 8.0,
+				"MeshInstance3D": 128.0,
+				"MultiMeshInstance3D": 44.0,
+				"Node3D": 104.0,
+				"OmniLight3D": 5.0,
+				"VBoxContainer": 24.0
+			},
+			"node_growth_pct": 0.0,
+			"orphan_nodes": 0.0,
+			"static_mem_growth_mb": 0.1,
+			"vfx_nodes_created": 0.0
+		},
+		"hitch_list": [],
+		"log": "menu_gpu_1600x900_r1.log",
+		"measured_s": 20.0,
+		"mode": "gpu",
+		"monitors": {
+			"draw_calls": 448.943,
+			"draw_calls_max": 450.0,
+			"nav_agents": 0.0,
+			"nav_agents_max": 0.0,
+			"navigation_ms": 0.489,
+			"navigation_ms_max": 2.028,
+			"nodes_end": 506.0,
+			"objects": 687.791,
+			"objects_end": 4149.0,
+			"objects_max": 689.0,
+			"physics_active_objects": 0.0,
+			"physics_active_objects_max": 0.0,
+			"physics_ms": 1.46,
+			"physics_ms_max": 2.071,
+			"physics_pairs": 0.0,
+			"physics_pairs_max": 0.0,
+			"primitives": 150025.623,
+			"primitives_max": 150775.0,
+			"process_ms": 23.865,
+			"process_ms_max": 175.152,
+			"resources_end": 821.0,
+			"static_mem_mb": 199.6,
+			"video_mem_mb": 231.8
+		},
+		"nodes_avg": 506.0,
+		"noise_reasons": [
+			"33 other Godot process(es) (max 29 at once)",
+			"other CPU load 94.8 %",
+			"calibration 26 ms vs best 19 (x1.3)"
+		],
+		"noisy": true,
+		"notes": [
+			"menu: diorama in its own SubViewport; GPU time = root + SubViewports"
+		],
+		"other_cpu_pct": 94.8,
+		"other_godot_max": 29.0,
+		"pair": "fire:shadow",
+		"profile": false,
+		"real_s": 18.28,
+		"repeat_avgs": [
+			3.595
+		],
+		"repeat_spread_pct": 0.0,
+		"repeats": 1,
+		"resolution": "1600x900",
+		"run": 1.0,
+		"runs_quiet": 0,
+		"runs_total": 1,
+		"scenario": "menu",
+		"script_errors": 0,
+		"seed": 1.0,
+		"started": "2026-09-26 22:21:07",
+		"units_avg": 0.0,
+		"v": 1.0,
+		"wall_s": 67.1,
+		"what": "main menu with the 3D diorama"
+	},
+	"scenario": "menu",
+	"score": 97.6,
+	"verdict": "WARN"
+}

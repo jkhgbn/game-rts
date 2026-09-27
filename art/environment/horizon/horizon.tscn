@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_north.res" id="1_yxw2l"]
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_north_east.res" id="2_a3363"]
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_east.res" id="3_lsdl0"]
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_south_east.res" id="4_x3haj"]
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_south.res" id="5_a7m6u"]
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_south_west.res" id="6_yjltw"]
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_west.res" id="7_sabc6"]
+[ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_north_west.res" id="8_he8yd"]
+
+[node name="Horizon" type="Node3D" unique_id=951430571]
+
+[node name="North" type="MeshInstance3D" parent="." unique_id=1667247068]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("1_yxw2l")
+
+[node name="NorthEast" type="MeshInstance3D" parent="." unique_id=139451642]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("2_a3363")
+
+[node name="East" type="MeshInstance3D" parent="." unique_id=548216121]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("3_lsdl0")
+
+[node name="SouthEast" type="MeshInstance3D" parent="." unique_id=1254306215]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("4_x3haj")
+
+[node name="South" type="MeshInstance3D" parent="." unique_id=1731405304]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("5_a7m6u")
+
+[node name="SouthWest" type="MeshInstance3D" parent="." unique_id=339849696]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("6_yjltw")
+
+[node name="West" type="MeshInstance3D" parent="." unique_id=1952530219]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("7_sabc6")
+
+[node name="NorthWest" type="MeshInstance3D" parent="." unique_id=2092824636]
+cast_shadow = 0
+gi_mode = 0
+visibility_range_end = 300.0
+mesh = ExtResource("8_he8yd")

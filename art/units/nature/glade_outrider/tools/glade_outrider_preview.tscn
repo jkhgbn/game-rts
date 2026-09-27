@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/nature/glade_outrider/tools/glade_outrider_preview.gd" id="1_gop"]
+
+[node name="GladeOutriderPreview" type="Node3D"]
+script = ExtResource("1_gop")

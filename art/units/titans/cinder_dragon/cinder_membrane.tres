@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/titans/cinder_dragon/dragon_membrane.gdshader" id="1_cdm"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_cdm"]
+
+[resource]
+resource_name = "cinder_membrane"
+render_priority = 0
+shader = ExtResource("1_cdm")
+shader_parameter/noise_tex = ExtResource("2_cdm")

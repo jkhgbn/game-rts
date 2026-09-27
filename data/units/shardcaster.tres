@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/ice/shardcaster.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"shardcaster"
+display_name = "Shardcaster"
+faction = &"ice"
+is_worker = false
+cost = 110
+pop = 1
+kill_xp = 55
+train_time = 22.0
+card_key = "X"
+max_hp = 80.0
+move_speed = 4.4
+attack_damage = 9.0
+attack_range = 9.0
+attack_cooldown = 1.4
+aggro_range = 10.0
+radius = 0.45
+body_height = 1.6
+body_color = Color(0.6, 0.85, 1, 1)
+projectile_color = Color(0.75, 0.92, 1, 1)
+armor = 5.0
+on_hit_status = &"chill"
+on_hit_duration = 1.5
+model_scene = ExtResource("2_model")

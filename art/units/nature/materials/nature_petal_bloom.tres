@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://art/units/wizards/ysolde_grove.gdshader" id="1_grv"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_grv"]
+
+[resource]
+resource_name = "nature_petal_bloom"
+render_priority = 0
+shader = ExtResource("1_grv")
+shader_parameter/noise_tex = ExtResource("2_grv")
+shader_parameter/base_color = Color(0.95, 0.6, 0.75, 1)
+shader_parameter/spec_strength = 0.1
+shader_parameter/rim_strength = 0.35
+shader_parameter/rim_color = Color(1, 0.85, 0.9, 1)
+shader_parameter/petal = 1.0
+shader_parameter/petal_edge = Color(1, 0.92, 0.95, 1)

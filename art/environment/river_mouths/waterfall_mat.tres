@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/river_mouths/waterfall.gdshader" id="1_f6nn1"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_od53y"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_f6nn1")
+shader_parameter/noise_tex = ExtResource("2_od53y")
+shader_parameter/water_dark = null
+shader_parameter/water_light = null
+shader_parameter/lip_color = null
+shader_parameter/foam_color = null
+shader_parameter/foam_shade = null
+shader_parameter/fall_speed = null
+shader_parameter/streak_amount = null
+shader_parameter/self_light = null

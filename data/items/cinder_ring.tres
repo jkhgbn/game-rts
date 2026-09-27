@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_qq8ws"]
+
+[resource]
+script = ExtResource("1_qq8ws")
+id = &"cinder_ring"
+display_name = "Cinder Ring"
+cost = 220
+stats = {
+"cooldown_reduction": 8.0
+}
+sold_at = 1
+icon_abbrev = "CR"
