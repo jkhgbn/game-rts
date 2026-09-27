@@ -1,0 +1,112 @@
+{
+	"checks": [
+		{
+			"hint": "rebuild the set; never hand-edit the generated scene",
+			"id": "K1",
+			"name": "Set contract (prologue 2.3)",
+			"rule": "group, set_id, lighting, Shots markers = marks.json, begin_shot / end_shot / set_active / puppet(tag)",
+			"status": "PASS",
+			"value": "all present",
+			"weight": 2.0
+		},
+		{
+			"hint": "scatter bakes to one surface per material; drop a placed model or use a mesh-only kit",
+			"id": "B1",
+			"name": "Draw calls",
+			"rule": "<= 150 (budget line)",
+			"status": "PASS",
+			"value": "118 surfaces (20 particles / multimesh)",
+			"weight": 2.0
+		},
+		{
+			"hint": "add lights=off to the place / actor line of the model that brings them (the path is in the measured value)",
+			"id": "B2",
+			"name": "Lights",
+			"rule": "<= 0 (0 = the stage's LightingRig only)",
+			"status": "PASS",
+			"value": "0 visible Light3D ",
+			"weight": 2.0
+		},
+		{
+			"hint": "lower scatter count or use smaller kits",
+			"id": "B3",
+			"name": "Triangles",
+			"rule": "<= 400000",
+			"status": "PASS",
+			"value": "70849",
+			"weight": 1.0
+		},
+		{
+			"hint": "widen the area, lower gap= or count= (the area is full)",
+			"id": "S3",
+			"name": "Scatter counts",
+			"rule": "every scatter line places its count",
+			"status": "PASS",
+			"value": "68 instances",
+			"weight": 1.0
+		},
+		{
+			"hint": "aim look= closer to the subject, or raise from= y",
+			"id": "M1",
+			"name": "Subject inside the 2.39 band",
+			"rule": "subject point (actor head / place centre / look point) projects inside the central 2.39:1 band (|ndc y| <= 0.744, PASS <= 0.62) at a / b / c",
+			"status": "PASS",
+			"value": "12 mark phases inside |y| <= 0.62",
+			"weight": 2.0
+		},
+		{
+			"hint": "move from= / to= out of the model (see plan.png)",
+			"id": "M2",
+			"name": "Cameras clear of geometry",
+			"rule": "every mark phase's camera is above the ground, outside walls / placed models (FAIL) and >= 0.9 m from them (WARN)",
+			"status": "PASS",
+			"value": "ok",
+			"weight": 2.0
+		},
+		{
+			"hint": "raise the camera or move it round the blocker",
+			"id": "M3",
+			"name": "Line of sight to the subject",
+			"rule": "nothing placed between the camera and the subject (bounding boxes)",
+			"status": "PASS",
+			"value": "ok",
+			"weight": 1.0
+		},
+		{
+			"hint": "a scatter / row depends on something outside the spec",
+			"id": "D1",
+			"name": "Deterministic layout",
+			"rule": "same spec + seed = the same layout (every transform)",
+			"status": "PASS",
+			"value": "e081912a67ec vs e081912a67ec",
+			"weight": 1.5
+		}
+	],
+	"files": [
+		"res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep.tscn",
+		"res://art/cinematics/stage_sets/forge_watch_keep/meshes/ground.res",
+		"res://art/cinematics/stage_sets/forge_watch_keep/meshes/paths.res",
+		"res://art/cinematics/stage_sets/forge_watch_keep/meshes/scatter.res",
+		"res://art/cinematics/stage_sets/forge_watch_keep/meshes/masonry.res",
+		"res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep_lighting.tres",
+		"res://art/cinematics/stage_sets/forge_watch_keep/marks.json",
+		"res://docs/tools/world_forge/out/forge_watch_keep/plan.png"
+	],
+	"hash": "e081912a67ec",
+	"id": "forge_watch_keep",
+	"improve_next": [
+		"Look at the PNGs in this folder: one question per image (plan = placement, stills = framing).",
+		"Run `run_world_forge.ps1 sheet <id>` (windowed) for the real stills of every mark."
+	],
+	"kind": "set",
+	"notes": [
+		"Mark projections: W01_a ndc (-0.03, 0.13), W01_b ndc (-0.02, 0.11), W01_c ndc (-0.01, 0.08), W02_a ndc (0.00, 0.03), W02_b ndc (0.00, 0.03), W02_c ndc (0.00, 0.04), W03_a ndc (0.00, 0.08), W03_b ndc (0.00, 0.08), W03_c ndc (0.00, 0.08), W04_a ndc (0.11, 0.45), W04_b ndc (0.08, 0.41), W04_c ndc (0.05, 0.36)",
+		"Mesh file md5: ground.res 42f483e2, paths.res 67bda8d0, scatter.res f11f50c7, masonry.res 0d481713",
+		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed)."
+	],
+	"result": "PASS",
+	"score": 100.0,
+	"seconds": 6.4,
+	"title": "World Forge set: forge_watch_keep",
+	"tool": "world_forge"
+}

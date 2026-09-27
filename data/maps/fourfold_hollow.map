@@ -1,0 +1,65 @@
+# Fourfold Hollow (2v2), docs/design/map-2v2.md 2.3-2.7. Canonical quadrant A1 (the player's, x < 0, z > 0);
+# symmetry=fourfold places every spot at (x,z), (x,-z) A2, (-x,-z) B1, (-x,z) B2 (spots on an axis once per image).
+# Build + Map Lab: tools\world_forge\run_world_forge.ps1 map fourfold_hollow
+map fourfold_hollow  size=168  symmetry=fourfold  title="Fourfold Hollow (2v2)"  spec=docs/design/map-2v2.md
+seat 0  name="player (A1 south-west)"   side=0  frame=identity
+seat 3  name="ally (A2 north-west)"     side=0  frame=mirror_z
+seat 1  name="enemy (B1 north-east)"    side=1  frame=rot180
+seat 4  name="enemy 2 (B2 south-east)"  side=1  frame=mirror_x
+
+# base district (2.4, "frame" rows)
+keep    keep        at=(-66,66)  footprint=6
+start   hub         at=(-59,59)
+node    node_a      at=(-69,57)  amount=2000
+node    node_b      at=(-57,69)  amount=2000
+node    node_mid    at=(-39,29)  amount=2500
+node    glade_vein  at=(-64,19.5)  amount=1500
+camp    stag_glade  at=(-60,13)  tier=3
+slot    X1  at=(-46,32)
+slot    X3  at=(-62,28)
+
+# per-seat level table (2.4, "level" rows)
+node    rich        at=(-14,62)  amount=2500
+node    millrace    at=(-16,36)  amount=1500
+post    heron_ford       at=(-76,24)
+post    millstone_cross  at=(-24,76)
+tavern  tavern      at=(-25,9)
+peddler peddler     at=(-30,50)
+point   millwatch   at=(-8,52)   sub=watchtower
+point   mossmere    at=(-32,17)  sub=well
+camp    bristleback at=(-40,80)  tier=1
+lair    heath_lair  at=(-78,40)  r=4
+lair    mouth_lair  at=(-9,80)   r=5
+cache   cache       at=(-50,22)
+
+# ally midline (2.5): on z = 0, so once per side
+guild   magpie_den      at=(-79,0)
+guild   greywater_lodge at=(-63,0)
+camp    gloomcap        at=(-50,0)  tier=2
+cache   mid_cache       at=(-39,0)
+point   wayshrine       at=(-30,0)  sub=shrine
+
+# the isle and the river line (2.6): on x = 0
+crown   crown   at=(0,0)
+camp    ford_nest  at=(0,40)  tier=2
+
+# roads and lanes (2.7), biome zones (2.10)
+road  ring  poly=[(-72,0),(-72,24),(-59,59),(-24,72),(0,72)]  width=5
+road  lane  poly=[(-59,59),(-9.02,9.02)]  width=5
+zone  old_wood  circle((-62,0),26)  biome=old_wood
+zone  meadow    circle((-59,59),22) biome=meadow
+
+# river (global, not mirrored): 2 straight arms, the moat, 10 crossings (2.3)
+river north  poly=[(0,-86),(0,-60),(0,-30),(0,-12.75)]  half_width=2.5
+river south  poly=[(0,12.75),(0,30),(0,60),(0,86)]      half_width=2.5
+moat  center=(0,0)  radius=12.75  half_width=1.75
+crossing bridge_road_s    kind=bridge_road  at=(0,72)         width=6  length=9    dir=(1,0)
+crossing bridge_road_n    kind=bridge_road  at=(0,-72)        width=6  length=9    dir=(1,0)
+crossing ford_s           kind=ford         at=(0,40)         width=7              dir=(0,1)
+crossing ford_n           kind=ford         at=(0,-40)        width=7              dir=(0,1)
+crossing bridge_crown_sw  kind=bridge_lane  at=(-9.02,9.02)   width=8  length=6.5  dir=(-1,1)
+crossing bridge_crown_nw  kind=bridge_lane  at=(-9.02,-9.02)  width=8  length=6.5  dir=(-1,-1)
+crossing bridge_crown_ne  kind=bridge_lane  at=(9.02,-9.02)   width=8  length=6.5  dir=(1,-1)
+crossing bridge_crown_se  kind=bridge_lane  at=(9.02,9.02)    width=8  length=6.5  dir=(1,1)
+crossing steps_w          kind=steps        at=(-12.75,0)     width=6              dir=(1,0)
+crossing steps_e          kind=steps        at=(12.75,0)      width=6              dir=(1,0)

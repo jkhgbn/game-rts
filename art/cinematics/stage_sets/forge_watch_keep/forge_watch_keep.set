@@ -1,0 +1,41 @@
+# The Watch-Keep: Vessa's Fire keep behind its curtain wall at nightfall (World Forge demo set, tools-wave.md 7a).
+# Build: tools\world_forge\run_world_forge.ps1 build forge_watch_keep   (stills: ... sheet forge_watch_keep)
+set forge_watch_keep  size=56x44  ground=ash  light=nightfall  seed=7  title="The Watch-Keep"
+budget draws<=150 lights<=0
+
+# the keep and its court
+place kit:fire_keep  at=(0,-10)  yaw=0  tag=keep  lights=off
+wall  curtain  poly=[(-13,-19),(-13,2),(13,2),(13,-19)]  height=4.5  thick=1.4  gate=(0,2)  gate_width=4.5  color=stone
+place forge:brazier  at=(-3.2,3.6)
+place forge:brazier  at=(3.2,3.6)
+place forge:brazier  at=(-6,-4)
+place forge:brazier  at=(6,-4)
+place kit:ruin_pillar  at=(-8,-12)  yaw=20
+place kit:ruin_pillar  at=(8,-12)  yaw=-20
+place forge:crate  at=(-10,-1)  yaw=15
+place forge:crate  at=(-9,0.2)  yaw=40
+
+# the road down from the gate, charred stakes along it
+path  gate_road  poly=[(0,2),(0,9),(-3,15),(-5,22)]  width=3.6  kit=road
+path  court  poly=[(0,1),(0,-6)]  width=3  kit=flagstone
+row   forge:stake  poly=[(2.6,6),(1.6,12),(-1,17),(-2.4,21)]  spacing=3.2
+row   forge:stake  poly=[(-2.6,6),(-4.2,12),(-6.6,17),(-8,21)]  spacing=3.2
+
+# wilds outside the wall (baked: one draw per material)
+zone  keep_court  rect((-14,-20),(14,3))
+scatter kit:pine     area=rect((-28,3),(28,22))    count=26  gap=3.2  seed=7   avoid=cams,keep_court  scale=0.9..1.3
+scatter kit:fir      area=rect((-28,-22),(-15,3))  count=10  gap=3.0  seed=11  avoid=cams
+scatter kit:fir      area=rect((15,-22),(28,3))    count=10  gap=3.0  seed=12  avoid=cams
+scatter kit:boulder  area=rect((-26,-20),(26,21))  count=14  gap=4.0  seed=5   avoid=cams,keep_court  scale=0.6..1.2
+scatter kit:shards   area=rect((-26,4),(26,21))    count=8   gap=4.0  seed=9   avoid=cams  scale=0.7..1.0
+
+# the cast
+actor vessa    kit:vessa        at=(0,5.2)    yaw=0  lights=off
+actor guard_w  kit:flame_guard  at=(-3.4,2.9) yaw=0
+actor guard_e  kit:flame_guard  at=(3.4,2.9)  yaw=0
+
+# camera marks (Lens not installed: explicit coordinates; subject = actor head / tagged place centre)
+mark W01  from=(-15,3.2,24)  to=(-9,3.8,21)  look=(0,7,-8)  look_to=(0,8,-9)  fov=44  subject=keep  dur=6
+mark W02  from=(-1.3,1.75,10.8)  to=(-0.8,1.7,9.2)  look=(0,1.55,5.2)  fov=34  subject=vessa  dur=4
+mark W03  from=(-7.5,2.1,8.5)  look=(-3.4,1.4,2.9)  fov=38  subject=guard_w  dur=3
+mark W04  from=(10,10,15)  to=(6,9,13)  look=(0,5,-5)  look_to=(0,6,-7)  fov=46  subject=keep  dur=5

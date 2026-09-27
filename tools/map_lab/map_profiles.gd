@@ -46,5 +46,24 @@ static func get_profile(map_name: String) -> Dictionary:
 	return {}
 
 
+## World Forge: a profile from JSON (docs/tools/world_forge/out/<map>/map_profile.json); symmetries by name. {} if bad.
+static func from_json(path: String) -> Dictionary:
+	var d: Variant = JSON.parse_string(FileAccess.get_file_as_string(path)) if FileAccess.file_exists(path) else null
+	if not d is Dictionary:
+		return {}
+	var xfs := {"mirror_x": MIRROR_X, "mirror_z": MIRROR_Z, "half_turn": HALF_TURN}
+	var syms: Array = []
+	for n: Variant in d.get("symmetries", []):
+		if xfs.has(String(n)):
+			syms.append({"name": String(n), "xf": xfs[String(n)]})
+	d["symmetries"] = syms
+	for s: Dictionary in d.get("seats", []):
+		s["team"] = int(s["team"])
+		s["side"] = int(s["side"])
+	d["half_size"] = float(d.get("half_size", 60.0))
+	d["settings"] = d.get("settings", {})
+	return d
+
+
 static func names() -> Array[String]:
 	return ["1v1", "2v2"]

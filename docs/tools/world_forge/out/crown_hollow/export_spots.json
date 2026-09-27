@@ -1,0 +1,410 @@
+[
+	{
+		"id": "LostCache0",
+		"kind": "cache",
+		"pos": [
+			-30.0,
+			0.0
+		]
+	},
+	{
+		"id": "LostCache1",
+		"kind": "cache",
+		"pos": [
+			-6.0,
+			27.0
+		]
+	},
+	{
+		"id": "LostCache2",
+		"kind": "cache",
+		"pos": [
+			30.0,
+			0.0
+		]
+	},
+	{
+		"id": "LostCache3",
+		"kind": "cache",
+		"pos": [
+			6.0,
+			-27.0
+		]
+	},
+	{
+		"id": "camp_hollow_nw",
+		"kind": "camp",
+		"pos": [
+			-55.0,
+			-55.0
+		]
+	},
+	{
+		"id": "camp_hollow_se",
+		"kind": "camp",
+		"pos": [
+			55.0,
+			55.0
+		]
+	},
+	{
+		"id": "camp_nest_n",
+		"kind": "camp",
+		"pos": [
+			-8.5,
+			-34.0
+		]
+	},
+	{
+		"id": "camp_nest_s",
+		"kind": "camp",
+		"pos": [
+			8.5,
+			34.0
+		]
+	},
+	{
+		"id": "camp_stag_e",
+		"kind": "camp",
+		"pos": [
+			37.0,
+			10.0
+		]
+	},
+	{
+		"id": "camp_stag_w",
+		"kind": "camp",
+		"pos": [
+			-37.0,
+			-10.0
+		]
+	},
+	{
+		"id": "camp_wallow_n",
+		"kind": "camp",
+		"pos": [
+			14.0,
+			-57.0
+		]
+	},
+	{
+		"id": "camp_wallow_s",
+		"kind": "camp",
+		"pos": [
+			-14.0,
+			57.0
+		]
+	},
+	{
+		"id": "crown",
+		"kind": "crown",
+		"pos": [
+			0.0,
+			0.0
+		]
+	},
+	{
+		"id": "GreywaterLodgeNorthWest",
+		"kind": "guild",
+		"pos": [
+			-45.0,
+			-55.0
+		]
+	},
+	{
+		"id": "GreywaterLodgeSouthEast",
+		"kind": "guild",
+		"pos": [
+			45.0,
+			55.0
+		]
+	},
+	{
+		"id": "MagpieDenNorthWest",
+		"kind": "guild",
+		"pos": [
+			-55.0,
+			-45.0
+		]
+	},
+	{
+		"id": "MagpieDenSouthEast",
+		"kind": "guild",
+		"pos": [
+			55.0,
+			45.0
+		]
+	},
+	{
+		"id": "keep_t0",
+		"kind": "keep",
+		"pos": [
+			-43.0,
+			43.0
+		]
+	},
+	{
+		"id": "keep_t1",
+		"kind": "keep",
+		"pos": [
+			43.0,
+			-43.0
+		]
+	},
+	{
+		"id": "lair_crag_e",
+		"kind": "lair",
+		"pos": [
+			53.0,
+			18.0
+		]
+	},
+	{
+		"id": "lair_crag_w",
+		"kind": "lair",
+		"pos": [
+			-53.0,
+			-18.0
+		]
+	},
+	{
+		"id": "lair_den_e",
+		"kind": "lair",
+		"pos": [
+			26.0,
+			54.0
+		]
+	},
+	{
+		"id": "lair_den_w",
+		"kind": "lair",
+		"pos": [
+			-26.0,
+			-54.0
+		]
+	},
+	{
+		"id": "lair_heath_e",
+		"kind": "lair",
+		"pos": [
+			53.0,
+			-13.0
+		]
+	},
+	{
+		"id": "lair_heath_w",
+		"kind": "lair",
+		"pos": [
+			-53.0,
+			13.0
+		]
+	},
+	{
+		"id": "lair_hollow_e",
+		"kind": "lair",
+		"pos": [
+			56.0,
+			34.0
+		]
+	},
+	{
+		"id": "lair_hollow_w",
+		"kind": "lair",
+		"pos": [
+			-56.0,
+			-34.0
+		]
+	},
+	{
+		"id": "node_fire_a",
+		"kind": "node",
+		"pos": [
+			-46.0,
+			34.0
+		]
+	},
+	{
+		"id": "node_fire_b",
+		"kind": "node",
+		"pos": [
+			-34.0,
+			46.0
+		]
+	},
+	{
+		"id": "node_fire_mid",
+		"kind": "node",
+		"pos": [
+			-16.0,
+			6.0
+		]
+	},
+	{
+		"id": "node_fire_rich",
+		"kind": "node",
+		"pos": [
+			-40.0,
+			-40.0
+		]
+	},
+	{
+		"id": "node_shadow_a",
+		"kind": "node",
+		"pos": [
+			46.0,
+			-34.0
+		]
+	},
+	{
+		"id": "node_shadow_b",
+		"kind": "node",
+		"pos": [
+			34.0,
+			-46.0
+		]
+	},
+	{
+		"id": "node_shadow_mid",
+		"kind": "node",
+		"pos": [
+			16.0,
+			-6.0
+		]
+	},
+	{
+		"id": "node_shadow_rich",
+		"kind": "node",
+		"pos": [
+			40.0,
+			40.0
+		]
+	},
+	{
+		"id": "RuinPeddlerFire",
+		"kind": "peddler",
+		"pos": [
+			-22.0,
+			-22.0
+		]
+	},
+	{
+		"id": "RuinPeddlerShadow",
+		"kind": "peddler",
+		"pos": [
+			22.0,
+			22.0
+		]
+	},
+	{
+		"id": "shrine_e",
+		"kind": "point",
+		"pos": [
+			22.0,
+			6.0
+		]
+	},
+	{
+		"id": "shrine_w",
+		"kind": "point",
+		"pos": [
+			-22.0,
+			-6.0
+		]
+	},
+	{
+		"id": "tower_n",
+		"kind": "point",
+		"pos": [
+			6.0,
+			-40.0
+		]
+	},
+	{
+		"id": "tower_nw",
+		"kind": "point",
+		"pos": [
+			-24.0,
+			-41.0
+		]
+	},
+	{
+		"id": "tower_s",
+		"kind": "point",
+		"pos": [
+			-6.0,
+			40.0
+		]
+	},
+	{
+		"id": "tower_se",
+		"kind": "point",
+		"pos": [
+			24.0,
+			41.0
+		]
+	},
+	{
+		"id": "well_e",
+		"kind": "point",
+		"pos": [
+			30.0,
+			24.0
+		]
+	},
+	{
+		"id": "well_w",
+		"kind": "point",
+		"pos": [
+			-30.0,
+			-24.0
+		]
+	},
+	{
+		"id": "heron_ford",
+		"kind": "post",
+		"pos": [
+			-53.0,
+			1.0
+		]
+	},
+	{
+		"id": "lantern_wharf",
+		"kind": "post",
+		"pos": [
+			53.0,
+			-1.0
+		]
+	},
+	{
+		"id": "millstone_cross",
+		"kind": "post",
+		"pos": [
+			-1.0,
+			53.0
+		]
+	},
+	{
+		"id": "saltgate",
+		"kind": "post",
+		"pos": [
+			1.0,
+			-53.0
+		]
+	},
+	{
+		"id": "TavernFire",
+		"kind": "tavern",
+		"pos": [
+			-15.0,
+			-15.0
+		]
+	},
+	{
+		"id": "TavernShadow",
+		"kind": "tavern",
+		"pos": [
+			15.0,
+			15.0
+		]
+	}
+]

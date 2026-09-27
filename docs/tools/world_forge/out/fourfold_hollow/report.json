@@ -1,0 +1,124 @@
+{
+	"checks": [
+		{
+			"hint": "add `seat <team> frame=<mirror>` for every image of the symmetry",
+			"id": "L1",
+			"name": "One keep per seat",
+			"rule": "each seat's frame maps the canonical keep onto that seat",
+			"status": "PASS",
+			"value": "4 keeps, 4 seats",
+			"weight": 2.0
+		},
+		{
+			"hint": "move the spot inward (map line fourfold_hollow.map)",
+			"id": "L2",
+			"name": "Spots inside the map",
+			"rule": "|x|, |z| <= size/2 - 2",
+			"status": "PASS",
+			"value": "ok",
+			"weight": 1.0
+		},
+		{
+			"hint": "a canonical spot too close to its own mirror axis doubles up: move it off the axis or onto it",
+			"id": "L3",
+			"name": "Spot spacing",
+			"rule": ">= 3 m between spots (slots / starts excepted)",
+			"status": "PASS",
+			"value": "ok",
+			"weight": 1.0
+		},
+		{
+			"hint": "",
+			"id": "L4",
+			"name": "Spot counts",
+			"rule": "compare with the design doc's count table",
+			"status": "INFO",
+			"value": "keep 4, node 24, point 10, camp 12, tavern 4, post 8, guild 4, peddler 4, cache 6, lair 8, crown 1, start 4, slot 8; crossings 10, roads 8, zones 8, blocks 0",
+			"weight": 1.0
+		},
+		{
+			"hint": "check the river / block lines",
+			"id": "N0",
+			"name": "Navmesh bakes",
+			"rule": "the preview's navmesh bakes (flat ground, river / moat / keeps / blocks as obstacles)",
+			"status": "PASS",
+			"value": "235 polygons in 0.3 s",
+			"weight": 1.5
+		},
+		{
+			"hint": "open map_lab/scorecard.md: its Improve next names the spot",
+			"id": "LAB",
+			"name": "Map Lab",
+			"rule": "Map Lab PASS / WARN and score >= 90",
+			"status": "PASS",
+			"value": "WARN, score 98 / 100",
+			"weight": 3.0
+		},
+		{
+			"hint": "",
+			"id": "LAB.M1",
+			"name": "Every live spot has its mirror twins",
+			"rule": "Map Lab M1",
+			"status": "PASS",
+			"value": "95 / 95 clean",
+			"weight": 0.5
+		},
+		{
+			"hint": "",
+			"id": "LAB.M4",
+			"name": "Spots meet the navmesh at mirrored points",
+			"rule": "Map Lab M4",
+			"status": "PASS",
+			"value": "95 / 95 clean",
+			"weight": 0.5
+		},
+		{
+			"hint": "",
+			"id": "LAB.M2",
+			"name": "Spot constants mirror",
+			"rule": "Map Lab M2",
+			"status": "PASS",
+			"value": "1 / 1 clean",
+			"weight": 0.5
+		},
+		{
+			"hint": "",
+			"id": "LAB.M3",
+			"name": "Navmesh mirrors itself",
+			"rule": "Map Lab M3",
+			"status": "PASS",
+			"value": "0.00 % (0 cells), 0.00 % (0 cells), 0.00 % (4 cells)",
+			"weight": 0.5
+		},
+		{
+			"hint": "",
+			"id": "LAB.F1",
+			"name": "Map geometry: path pairs match their mirror twins",
+			"rule": "Map Lab F1",
+			"status": "PASS",
+			"value": "6693 / 6693 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
+			"weight": 0.5
+		}
+	],
+	"files": [
+		"res://data/maps/fourfold_hollow_layout.tres",
+		"res://docs/tools/world_forge/out/fourfold_hollow/preview.tscn",
+		"res://docs/tools/world_forge/out/fourfold_hollow/map_profile.json",
+		"res://docs/tools/world_forge/out/fourfold_hollow/map_lab/scorecard.md",
+		"res://docs/tools/world_forge/out/fourfold_hollow/map_lab/heatmap.png",
+		"res://docs/tools/world_forge/out/fourfold_hollow/layout.png"
+	],
+	"hash": "12c62c06b891/17c01a78162c",
+	"id": "fourfold_hollow",
+	"improve_next": [
+		"Open layout.png (spots by kind, river, roads) and map_lab/heatmap.png (where paths crowd).",
+		"Read map_lab/scorecard.md: its WARN rows (engine path noise F2 is not the map's fault) and Improve next."
+	],
+	"kind": "map",
+	"notes": [],
+	"result": "PASS",
+	"score": 100.0,
+	"seconds": 132.74,
+	"title": "World Forge map: Fourfold Hollow (2v2)",
+	"tool": "world_forge"
+}

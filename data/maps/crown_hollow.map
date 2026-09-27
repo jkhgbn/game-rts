@@ -1,0 +1,45 @@
+# Crown Hollow (1v1): exported by World Forge from res://scenes/skirmish.tscn (live spots after the level loaded). Rebuild: run_world_forge.ps1 map crown_hollow
+map crown_hollow  size=120  symmetry=rot180  title="Crown Hollow (1v1)"  spec=docs/design/skirmish-1v1.md, docs/design/map-fill.md
+seat 0  name="player (south-west)"  side=0  frame=identity
+seat 1  name="enemy (north-east)"  side=1  frame=rot180
+
+# spots: canonical half (x < 0); `twin=` names the live id of its half-turn image; `solo` = no exact twin
+cache   LostCache0  at=(-30.0000,0.0000)  twin=LostCache2
+cache   LostCache1  at=(-6.0000,27.0000)  twin=LostCache3
+camp    camp_hollow_nw  at=(-55.0000,-55.0000)  twin=camp_hollow_se
+camp    camp_nest_n  at=(-8.5000,-34.0000)  twin=camp_nest_s
+camp    camp_stag_w  at=(-37.0000,-10.0000)  twin=camp_stag_e
+camp    camp_wallow_s  at=(-14.0000,57.0000)  twin=camp_wallow_n
+crown   crown  at=(0.0000,0.0000)
+guild   GreywaterLodgeNorthWest  at=(-45.0000,-55.0000)  twin=GreywaterLodgeSouthEast
+guild   MagpieDenNorthWest  at=(-55.0000,-45.0000)  twin=MagpieDenSouthEast
+keep    keep_t0  at=(-43.0000,43.0000)  team=0  twin=keep_t1
+lair    lair_crag_w  at=(-53.0000,-18.0000)  twin=lair_crag_e
+lair    lair_den_w  at=(-26.0000,-54.0000)  twin=lair_den_e
+lair    lair_heath_w  at=(-53.0000,13.0000)  twin=lair_heath_e
+lair    lair_hollow_w  at=(-56.0000,-34.0000)  twin=lair_hollow_e
+node    node_fire_a  at=(-46.0000,34.0000)  twin=node_shadow_a
+node    node_fire_b  at=(-34.0000,46.0000)  twin=node_shadow_b
+node    node_fire_mid  at=(-16.0000,6.0000)  twin=node_shadow_mid
+node    node_fire_rich  at=(-40.0000,-40.0000)  twin=node_shadow_rich
+peddler RuinPeddlerFire  at=(-22.0000,-22.0000)  twin=RuinPeddlerShadow
+point   shrine_w  at=(-22.0000,-6.0000)  twin=shrine_e
+point   tower_nw  at=(-24.0000,-41.0000)  twin=tower_se
+point   tower_s  at=(-6.0000,40.0000)  twin=tower_n
+point   well_w  at=(-30.0000,-24.0000)  twin=well_e
+post    heron_ford  at=(-53.0000,1.0000)  twin=lantern_wharf
+post    millstone_cross  at=(-1.0000,53.0000)  twin=saltgate
+tavern  TavernFire  at=(-15.0000,-15.0000)  twin=TavernShadow
+
+# river (global, not mirrored)
+river arm poly=[(-15.00,-62.00),(-12.00,-48.70),(-9.00,-38.00),(-8.00,-30.00),(-5.00,-21.00),(-2.50,-12.50)] half_width=2.50
+river arm poly=[(2.50,12.50),(5.00,21.00),(8.00,30.00),(9.00,38.00),(12.00,48.70),(15.00,62.00)] half_width=2.50
+moat center=(0.00,0.00) radius=12.75 half_width=1.75
+crossing bridge_road_n kind=bridge_road at=(-12.000,-48.700) width=6.00 length=9.00 dir=(1.000,-0.022)
+crossing bridge_road_s kind=bridge_road at=(12.000,48.700) width=6.00 length=9.00 dir=(-1.000,0.022)
+crossing ford_n kind=ford at=(-8.500,-34.000) width=7.00 length=7.00 dir=(0.124,0.992)
+crossing ford_s kind=ford at=(8.500,34.000) width=7.00 length=7.00 dir=(0.124,0.992)
+crossing bridge_crown_w kind=bridge_lane at=(-9.020,9.020) width=8.00 length=6.50 dir=(-0.707,0.707)
+crossing bridge_crown_e kind=bridge_lane at=(9.020,-9.020) width=8.00 length=6.50 dir=(0.707,-0.707)
+crossing steps_nw kind=steps at=(-9.020,-9.020) width=6.00 length=6.00 dir=(-0.707,-0.707)
+crossing steps_se kind=steps at=(9.020,9.020) width=6.00 length=6.00 dir=(0.707,0.707)

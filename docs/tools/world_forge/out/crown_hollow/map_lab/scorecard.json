@@ -1,0 +1,468 @@
+{
+	"checks": [
+		{
+			"group": "nav",
+			"hint": "",
+			"id": "N1",
+			"improve": "",
+			"name": "Navmesh baked",
+			"rule": "polygons > 0; main walkable area shown",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "226 polygons, main area 13540 m² (94 % of the 120 m map), ground y 0.50",
+			"weight": 1.0
+		},
+		{
+			"group": "nav",
+			"hint": "open the blocked spot or move it",
+			"id": "N2",
+			"improve": "",
+			"name": "Every spot reachable",
+			"rule": "a path from the first keep ends within 1.0 m of each spot; spot <= 6 m from the navmesh",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 59,
+			"value": "59 / 59 clean",
+			"weight": 2.0
+		},
+		{
+			"group": "nav",
+			"hint": "close or open the pocket",
+			"id": "N3",
+			"improve": "",
+			"name": "No navmesh islands",
+			"rule": "ground-level components other than the main one < 2 m²",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 2,
+			"value": "2 / 2 clean, 3 info",
+			"weight": 1.0
+		},
+		{
+			"group": "mirror",
+			"hint": "place the missing twin",
+			"id": "M1",
+			"improve": "",
+			"name": "Every live spot has its mirror twins",
+			"rule": "same kind within 1.0 m of each symmetry image",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 59,
+			"value": "59 / 59 clean",
+			"weight": 2.0
+		},
+		{
+			"group": "mirror",
+			"hint": "",
+			"id": "M4",
+			"improve": "",
+			"name": "Spots meet the navmesh at mirrored points",
+			"rule": "each spot's navmesh point vs its twin's, mirrored back: <= 1 m",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 59,
+			"value": "59 / 59 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "mirror",
+			"hint": "fix the constant so the twin matches",
+			"id": "M2",
+			"improve": "",
+			"name": "Spot constants mirror",
+			"rule": "every position constant of preview_level.gd: all entries have a twin under each symmetry (+-0.05 m) with the same kind / sizes / timings, or the list is one-sided (mirrored in code)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "1 / 1 clean",
+			"weight": 1.5
+		},
+		{
+			"group": "mirror",
+			"hint": "mirror the collider",
+			"id": "M3",
+			"improve": "",
+			"name": "Navmesh mirrors itself",
+			"rule": "cells walkable on one side only (1-cell edge noise ignored): WARN > 0.3 %, FAIL > 2 %",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "0.00 % (0 cells)",
+			"weight": 1.5
+		},
+		{
+			"group": "fair",
+			"hint": "find the unmirrored obstacle on the longer route",
+			"id": "F1",
+			"improve": "",
+			"name": "Map geometry: path pairs match their mirror twins",
+			"rule": "octile shortest path on the 0.5 m navmesh grid, every spot pair vs its mirrored pair: WARN > 2 % (and > 0.75 m), FAIL > 5 % (and > 2 m)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 870,
+			"value": "870 / 870 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
+			"weight": 3.0
+		},
+		{
+			"group": "fair",
+			"hint": "engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it",
+			"id": "F2",
+			"improve": "",
+			"name": "Unit paths (NavigationServer): pairs match their twins",
+			"rule": "NavigationServer3D.map_get_path length, every spot pair vs its mirrored pair: INFO > 2 % (and > 0.75 m), WARN > 5 % (and > 2 m); the polygon A* is not mirrored, so this is how much the engine's path choice (not the map) favours a side",
+			"score": 0.683747126436782,
+			"status": "WARN",
+			"total": 870,
+			"value": "843 / 870 pairs within 2 % (0 FAIL, 16 WARN, 11 info)",
+			"weight": 1.0
+		},
+		{
+			"group": "dist",
+			"hint": "",
+			"id": "D1",
+			"improve": "",
+			"name": "Keep to nearest camp / point / expansion... equal per seat",
+			"rule": "per kind, the seats' nearest path lengths differ <= 2 %",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 10,
+			"value": "10 / 10 clean",
+			"weight": 1.5
+		},
+		{
+			"group": "choke",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Crossing widths",
+			"rule": "navmesh width across each crossing >= 2.0 m and equal to its twin (+-0.5 m)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 8,
+			"value": "8 / 8 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "choke",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Main routes: narrowest corridor matches the twin",
+			"rule": "keep -> crown / enemy keep / nearest expansion: the narrowest navmesh width along the path differs from the mirrored route's by <= 1.0 m",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 5,
+			"value": "5 / 5 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "info",
+			"hint": "",
+			"id": "H1",
+			"improve": "",
+			"name": "Heat map (sum of all shortest paths)",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "heatmap.png written (480 x 480 px, 4 px per metre; grey navmesh, blue islands, yellow -> red path use, dots = spots)",
+			"weight": 0.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 1,
+		"PASS": 11,
+		"WARN": 1
+	},
+	"finding_counts": {
+		"FAIL": 0,
+		"INFO": 14,
+		"WARN": 16
+	},
+	"findings": [
+		{
+			"check": "N3",
+			"fix": "",
+			"sev": "INFO",
+			"what": "22.6 m² inside the footprint of keep_t1 (unreachable by design)",
+			"where": "island 4 at (43.1, -42.9)"
+		},
+		{
+			"check": "N3",
+			"fix": "",
+			"sev": "INFO",
+			"what": "22.6 m² inside the footprint of keep_t0 (unreachable by design)",
+			"where": "island 11 at (-42.9, 43.1)"
+		},
+		{
+			"check": "N3",
+			"fix": "",
+			"sev": "INFO",
+			"what": "10 islands on top of colliders (432 m², more than 0.3 m above / below the ground navmesh): harmless",
+			"where": "raised islands"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_wallow_s-bridge_crown_e the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "85.3 m vs 71.6 m (16.0 %)",
+			"where": "camp_wallow_s-bridge_crown_e vs camp_wallow_n-bridge_crown_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk millstone_cross-ford_n the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "107.0 m vs 90.0 m (15.9 %)",
+			"where": "millstone_cross-ford_n vs saltgate-ford_s"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk millstone_cross-bridge_road_n the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "120.1 m vs 104.3 m (13.2 %)",
+			"where": "millstone_cross-bridge_road_n vs saltgate-bridge_road_s"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_wallow_s-saltgate the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "129.8 m vs 113.3 m (12.7 %)",
+			"where": "camp_wallow_s-saltgate vs camp_wallow_n-millstone_cross"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk RuinPeddlerShadow-lair_heath_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "85.4 m vs 94.1 m (9.3 %)",
+			"where": "RuinPeddlerFire-lair_heath_e vs RuinPeddlerShadow-lair_heath_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_nest_s-lair_hollow_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "93.5 m vs 102.6 m (8.9 %)",
+			"where": "camp_nest_n-lair_hollow_e vs camp_nest_s-lair_hollow_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk tower_s-LostCache3 the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "77.3 m vs 70.5 m (8.7 %)",
+			"where": "tower_s-LostCache3 vs tower_n-LostCache1"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk tower_se-bridge_crown_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "47.7 m vs 51.5 m (7.4 %)",
+			"where": "tower_nw-bridge_crown_e vs tower_se-bridge_crown_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk millstone_cross-GreywaterLodgeNorthWest the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "124.6 m vs 116.4 m (6.6 %)",
+			"where": "millstone_cross-GreywaterLodgeNorthWest vs saltgate-GreywaterLodgeSouthEast"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_nest_s-MagpieDenNorthWest the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "101.2 m vs 108.1 m (6.4 %)",
+			"where": "camp_nest_n-MagpieDenSouthEast vs camp_nest_s-MagpieDenNorthWest"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk node_shadow_b-camp_wallow_s the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "116.2 m vs 124.0 m (6.3 %)",
+			"where": "node_fire_b-camp_wallow_n vs node_shadow_b-camp_wallow_s"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk tower_se-lair_crag_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "97.2 m vs 103.5 m (6.1 %)",
+			"where": "tower_nw-lair_crag_e vs tower_se-lair_crag_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk TavernFire-bridge_crown_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "27.2 m vs 25.6 m (5.9 %)",
+			"where": "TavernFire-bridge_crown_w vs TavernShadow-bridge_crown_e"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk LostCache3-lair_heath_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "78.8 m vs 83.3 m (5.4 %)",
+			"where": "LostCache1-lair_heath_e vs LostCache3-lair_heath_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk lair_crag_e-lair_heath_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "115.0 m vs 121.4 m (5.3 %)",
+			"where": "lair_crag_w-lair_heath_e vs lair_crag_e-lair_heath_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk lair_den_e-bridge_crown_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "60.8 m vs 64.1 m (5.1 %)",
+			"where": "lair_den_w-bridge_crown_e vs lair_den_e-bridge_crown_w"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_nest_s-RuinPeddlerFire the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "WARN",
+			"what": "64.9 m vs 68.4 m (5.0 %)",
+			"where": "camp_nest_n-RuinPeddlerShadow vs camp_nest_s-RuinPeddlerFire"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk millstone_cross-MagpieDenNorthWest the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "117.1 m vs 111.7 m (4.6 %)",
+			"where": "millstone_cross-MagpieDenNorthWest vs saltgate-MagpieDenSouthEast"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk node_shadow_rich-tower_s the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "46.5 m vs 48.4 m (4.0 %)",
+			"where": "node_fire_rich-tower_n vs node_shadow_rich-tower_s"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk millstone_cross-lair_hollow_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "107.0 m vs 102.7 m (4.0 %)",
+			"where": "millstone_cross-lair_hollow_w vs saltgate-lair_hollow_e"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk GreywaterLodgeSouthEast-ford_n the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "104.3 m vs 108.5 m (3.9 %)",
+			"where": "GreywaterLodgeNorthWest-ford_s vs GreywaterLodgeSouthEast-ford_n"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_nest_n-ford_s the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "77.4 m vs 74.4 m (3.9 %)",
+			"where": "camp_nest_n-ford_s vs camp_nest_s-ford_n"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_nest_s-GreywaterLodgeNorthWest the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "104.2 m vs 108.4 m (3.9 %)",
+			"where": "camp_nest_n-GreywaterLodgeSouthEast vs camp_nest_s-GreywaterLodgeNorthWest"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk millstone_cross-lair_crag_w the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "91.0 m vs 87.8 m (3.5 %)",
+			"where": "millstone_cross-lair_crag_w vs saltgate-lair_crag_e"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk camp_nest_n-bridge_road_s the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "92.1 m vs 89.5 m (2.9 %)",
+			"where": "camp_nest_n-bridge_road_s vs camp_nest_s-bridge_road_n"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk bridge_road_n-ford_s the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "91.6 m vs 89.1 m (2.7 %)",
+			"where": "bridge_road_n-ford_s vs bridge_road_s-ford_n"
+		},
+		{
+			"check": "F2",
+			"fix": "units walk keep_t1-camp_wallow_s the long way: the engine's polygon path, not the map (see F1)",
+			"sev": "INFO",
+			"what": "112.9 m vs 115.9 m (2.6 %)",
+			"where": "keep_t0-camp_wallow_n vs keep_t1-camp_wallow_s"
+		}
+	],
+	"improve_next": [
+		{
+			"rank": 10.6325057471264,
+			"source": "F2 843 / 870 pairs within 2 % (0 FAIL, 16 WARN, 11 info)",
+			"status": "WARN",
+			"text": "camp_wallow_s-bridge_crown_e vs camp_wallow_n-bridge_crown_w: 85.3 m vs 71.6 m (16.0 %) -> units walk camp_wallow_s-bridge_crown_e the long way: the engine's polygon path, not the map (see F1) (engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it)",
+			"title": "Unit paths (NavigationServer): pairs match their twins"
+		},
+		{
+			"rank": 0.0,
+			"source": "H1",
+			"status": "IDEA",
+			"text": "heatmap.png shows where the shortest paths crowd: the red metres are the likely fights",
+			"title": "Open the heat map"
+		},
+		{
+			"rank": 0.0,
+			"source": "lab idea",
+			"status": "IDEA",
+			"text": "v2: feed Bot Lab / Replay Lab unit deaths into the heat map",
+			"title": "Combat heat from bot games"
+		}
+	],
+	"lab_version": "1.0",
+	"notes": [
+		"Octile grid shortest paths (0.5 m, 59 sources) 36.88 s.",
+		"Navmesh raster 1.21 s (226 polygons, 230400 cells of 0.25 m), spot / mirror checks 0.45 s, 1711 paths 0.34 s.",
+		"Map Crown Hollow (1v1), scene res://docs/tools/world_forge/out/crown_hollow/preview.tscn, sim mode on; level load + navmesh bake 0.2 s (13 frames), lab 39.3 s. Spec: docs/design/skirmish-1v1.md,."
+	],
+	"previous_quality": -1.0,
+	"quality": 97.8,
+	"result": "WARN",
+	"run": "world_forge_crown_hollow",
+	"scanned": {
+		"spots": 59
+	},
+	"seconds": 39.55,
+	"started": "2026-09-27 07:48",
+	"tables": [
+		{
+			"markdown": "| Spot | Kind | Position | On navmesh at | Twin | Twin's point, mirrored back | Gap |\n|---|---|---|---|---|---|---|\n| keep_t0 | keep | (-43.0, 43.0) | (-42.1, 39.4) | keep_t1 | (-41.6, 38.9) | 0.7 |\n| keep_t1 | keep | (43.0, -43.0) | (41.6, -38.9) | keep_t0 | (42.1, -39.4) | 0.7 |\n| node_fire_a | home_node | (-46.0, 34.0) | (-45.9, 33.9) | node_shadow_a | (-45.9, 33.9) | 0.0 |\n| node_shadow_a | home_node | (46.0, -34.0) | (45.9, -33.9) | node_fire_a | (45.9, -33.9) | 0.0 |\n| node_fire_b | home_node | (-34.0, 46.0) | (-33.9, 45.9) | node_shadow_b | (-33.9, 45.9) | 0.0 |\n| node_shadow_b | home_node | (34.0, -46.0) | (33.9, -45.9) | node_fire_b | (33.9, -45.9) | 0.0 |\n| node_fire_mid | expansion | (-16.0, 6.0) | (-15.9, 5.9) | node_shadow_mid | (-15.9, 5.9) | 0.0 |\n| node_shadow_mid | expansion | (16.0, -6.0) | (15.9, -5.9) | node_fire_mid | (15.9, -5.9) | 0.0 |\n| node_fire_rich | expansion | (-40.0, -40.0) | (-39.9, -39.9) | node_shadow_rich | (-39.9, -39.9) | 0.0 |\n| node_shadow_rich | expansion | (40.0, 40.0) | (39.9, 39.9) | node_fire_rich | (39.9, 39.9) | 0.0 |\n| shrine_w | point | (-22.0, -6.0) | (-21.9, -5.9) | shrine_e | (-21.9, -5.9) | 0.0 |\n| shrine_e | point | (22.0, 6.0) | (21.9, 5.9) | shrine_w | (21.9, 5.9) | 0.0 |\n| tower_nw | point | (-24.0, -41.0) | (-23.9, -40.9) | tower_se | (-23.9, -40.9) | 0.0 |\n| tower_se | point | (24.0, 41.0) | (23.9, 40.9) | tower_nw | (23.9, 40.9) | 0.0 |\n| tower_s | point | (-6.0, 40.0) | (-5.9, 39.9) | tower_n | (-5.9, 39.9) | 0.0 |\n| tower_n | point | (6.0, -40.0) | (5.9, -39.9) | tower_s | (5.9, -39.9) | 0.0 |\n| well_w | point | (-30.0, -24.0) | (-29.9, -23.9) | well_e | (-29.9, -23.9) | 0.0 |\n| well_e | point | (30.0, 24.0) | (29.9, 23.9) | well_w | (29.9, 23.9) | 0.0 |\n| camp_hollow_nw | camp | (-55.0, -55.0) | (-54.9, -54.9) | camp_hollow_se | (-54.9, -54.9) | 0.0 |\n| camp_hollow_se | camp | (55.0, 55.0) | (54.9, 54.9) | camp_hollow_nw | (54.9, 54.9) | 0.0 |\n| camp_nest_n | camp | (-8.5, -34.0) | (-8.4, -33.9) | camp_nest_s | (-8.4, -33.9) | 0.0 |\n| camp_nest_s | camp | (8.5, 34.0) | (8.4, 33.9) | camp_nest_n | (8.4, 33.9) | 0.0 |\n| camp_stag_w | camp | (-37.0, -10.0) | (-36.9, -9.9) | camp_stag_e | (-36.9, -9.9) | 0.0 |\n| camp_stag_e | camp | (37.0, 10.0) | (36.9, 9.9) | camp_stag_w | (36.9, 9.9) | 0.0 |\n| camp_wallow_s | camp | (-14.0, 57.0) | (-13.9, 56.9) | camp_wallow_n | (-13.9, 56.9) | 0.0 |\n| camp_wallow_n | camp | (14.0, -57.0) | (13.9, -56.9) | camp_wallow_s | (13.9, -56.9) | 0.0 |\n| TavernFire | tavern | (-15.0, -15.0) | (-14.9, -14.9) | TavernShadow | (-14.9, -14.9) | 0.0 |\n| TavernShadow | tavern | (15.0, 15.0) | (14.9, 14.9) | TavernFire | (14.9, 14.9) | 0.0 |\n| heron_ford | post | (-53.0, 1.0) | (-52.9, 0.9) | lantern_wharf | (-52.9, 0.9) | 0.0 |\n| lantern_wharf | post | (53.0, -1.0) | (52.9, -0.9) | heron_ford | (52.9, -0.9) | 0.0 |\n| millstone_cross | post | (-1.0, 53.0) | (-0.9, 52.9) | saltgate | (-0.9, 52.9) | 0.0 |\n| saltgate | post | (1.0, -53.0) | (0.9, -52.9) | millstone_cross | (0.9, -52.9) | 0.0 |\n| GreywaterLodgeNorthWest | guild | (-45.0, -55.0) | (-44.9, -54.9) | GreywaterLodgeSouthEast | (-44.9, -54.9) | 0.0 |\n| GreywaterLodgeSouthEast | guild | (45.0, 55.0) | (44.9, 54.9) | GreywaterLodgeNorthWest | (44.9, 54.9) | 0.0 |\n| MagpieDenNorthWest | guild | (-55.0, -45.0) | (-54.9, -44.9) | MagpieDenSouthEast | (-54.9, -44.9) | 0.0 |\n| MagpieDenSouthEast | guild | (55.0, 45.0) | (54.9, 44.9) | MagpieDenNorthWest | (54.9, 44.9) | 0.0 |\n| RuinPeddlerFire | peddler | (-22.0, -22.0) | (-21.9, -21.9) | RuinPeddlerShadow | (-21.9, -21.9) | 0.0 |\n| RuinPeddlerShadow | peddler | (22.0, 22.0) | (21.9, 21.9) | RuinPeddlerFire | (21.9, 21.9) | 0.0 |\n| LostCache0 | cache | (-30.0, 0.0) | (-29.9, 0.1) | LostCache2 | (-29.9, 0.1) | 0.0 |\n| LostCache2 | cache | (30.0, 0.0) | (29.9, -0.1) | LostCache0 | (29.9, -0.1) | 0.0 |\n| LostCache1 | cache | (-6.0, 27.0) | (-5.9, 26.9) | LostCache3 | (-5.9, 26.9) | 0.0 |\n| LostCache3 | cache | (6.0, -27.0) | (5.9, -26.9) | LostCache1 | (5.9, -26.9) | 0.0 |\n| lair_crag_w | lair | (-53.0, -18.0) | (-52.9, -17.9) | lair_crag_e | (-52.9, -17.9) | 0.0 |\n| lair_crag_e | lair | (53.0, 18.0) | (52.9, 17.9) | lair_crag_w | (52.9, 17.9) | 0.0 |\n| lair_den_w | lair | (-26.0, -54.0) | (-25.9, -53.9) | lair_den_e | (-25.9, -53.9) | 0.0 |\n| lair_den_e | lair | (26.0, 54.0) | (25.9, 53.9) | lair_den_w | (25.9, 53.9) | 0.0 |\n| lair_heath_w | lair | (-53.0, 13.0) | (-52.9, 12.9) | lair_heath_e | (-52.9, 12.9) | 0.0 |\n| lair_heath_e | lair | (53.0, -13.0) | (52.9, -12.9) | lair_heath_w | (52.9, -12.9) | 0.0 |\n| lair_hollow_w | lair | (-56.0, -34.0) | (-55.9, -33.9) | lair_hollow_e | (-55.9, -33.9) | 0.0 |\n| lair_hollow_e | lair | (56.0, 34.0) | (55.9, 33.9) | lair_hollow_w | (55.9, 33.9) | 0.0 |\n| bridge_road_n | crossing_bridge_road | (-12.0, -48.7) | (-11.9, -48.6) | bridge_road_s | (-11.9, -48.6) | 0.0 |\n| bridge_road_s | crossing_bridge_road | (12.0, 48.7) | (11.9, 48.6) | bridge_road_n | (11.9, 48.6) | 0.0 |\n| ford_n | crossing_ford | (-8.5, -34.0) | (-8.4, -33.9) | ford_s | (-8.4, -33.9) | 0.0 |\n| ford_s | crossing_ford | (8.5, 34.0) | (8.4, 33.9) | ford_n | (8.4, 33.9) | 0.0 |\n| bridge_crown_w | crossing_bridge_lane | (-9.0, 9.0) | (-8.9, 8.9) | bridge_crown_e | (-8.9, 8.9) | 0.0 |\n| bridge_crown_e | crossing_bridge_lane | (9.0, -9.0) | (8.9, -8.9) | bridge_crown_w | (8.9, -8.9) | 0.0 |\n| steps_nw | crossing_steps | (-9.0, -9.0) | (-8.9, -8.9) | steps_se | (-8.9, -8.9) | 0.0 |\n| steps_se | crossing_steps | (9.0, 9.0) | (8.9, 8.9) | steps_nw | (8.9, 8.9) | 0.0 |\n| crown | crown | (0.0, 0.0) | (0.1, 0.1) | crown | (-0.1, -0.1) | 0.4 |\n",
+			"title": "Spot navmesh points (half_turn)"
+		},
+		{
+			"markdown": "| Constant | Entries | Result |\n|---|---|---|\n| LAIR_SPOTS | 8 | mirrored |\n",
+			"title": "Spot constants (1)"
+		},
+		{
+			"markdown": "| # | Pair | Length | Mirror pair | Length | Diff |\n|---|---|---|---|---|---|\n| 1 | camp_wallow_s - bridge_crown_e | 85.3 | camp_wallow_n - bridge_crown_w | 71.6 | +16.0 % |\n| 2 | millstone_cross - ford_n | 107.0 | saltgate - ford_s | 90.0 | +15.9 % |\n| 3 | millstone_cross - bridge_road_n | 120.1 | saltgate - bridge_road_s | 104.3 | +13.2 % |\n| 4 | camp_wallow_s - saltgate | 129.8 | camp_wallow_n - millstone_cross | 113.3 | +12.7 % |\n| 5 | RuinPeddlerFire - lair_heath_e | 85.4 | RuinPeddlerShadow - lair_heath_w | 94.1 | -9.3 % |\n| 6 | camp_nest_n - lair_hollow_e | 93.5 | camp_nest_s - lair_hollow_w | 102.6 | -8.9 % |\n| 7 | tower_s - LostCache3 | 77.3 | tower_n - LostCache1 | 70.5 | +8.7 % |\n| 8 | tower_nw - bridge_crown_e | 47.7 | tower_se - bridge_crown_w | 51.5 | -7.4 % |\n| 9 | millstone_cross - GreywaterLodgeNorthWest | 124.6 | saltgate - GreywaterLodgeSouthEast | 116.4 | +6.6 % |\n| 10 | camp_nest_n - MagpieDenSouthEast | 101.2 | camp_nest_s - MagpieDenNorthWest | 108.1 | -6.4 % |\n| 11 | node_fire_b - camp_wallow_n | 116.2 | node_shadow_b - camp_wallow_s | 124.0 | -6.3 % |\n| 12 | tower_nw - lair_crag_e | 97.2 | tower_se - lair_crag_w | 103.5 | -6.1 % |\n| 13 | TavernFire - bridge_crown_w | 27.2 | TavernShadow - bridge_crown_e | 25.6 | +5.9 % |\n| 14 | LostCache1 - lair_heath_e | 78.8 | LostCache3 - lair_heath_w | 83.3 | -5.4 % |\n| 15 | lair_crag_w - lair_heath_e | 115.0 | lair_crag_e - lair_heath_w | 121.4 | -5.3 % |\n| 16 | lair_den_w - bridge_crown_e | 60.8 | lair_den_e - bridge_crown_w | 64.1 | -5.1 % |\n| 17 | camp_nest_n - RuinPeddlerShadow | 64.9 | camp_nest_s - RuinPeddlerFire | 68.4 | -5.0 % |\n| 18 | millstone_cross - MagpieDenNorthWest | 117.1 | saltgate - MagpieDenSouthEast | 111.7 | +4.6 % |\n| 19 | node_fire_rich - tower_n | 46.5 | node_shadow_rich - tower_s | 48.4 | -4.0 % |\n| 20 | millstone_cross - lair_hollow_w | 107.0 | saltgate - lair_hollow_e | 102.7 | +4.0 % |\n",
+			"title": "F2 unit paths: most asymmetric pairs (top 20 of 27)"
+		},
+		{
+			"markdown": "| From keep | nearest expansion | nearest point | nearest camp | nearest lair | nearest tavern | nearest post | nearest peddler | nearest cache | nearest crown | enemy keep |\n|---|---|---|---|---|---|---|---|---|---|---|\n| player (south-west) | 43.2 (node_fire_mid) | 36.3 (tower_s) | 33.6 (camp_wallow_s) | 28.6 (lair_heath_w) | 60.7 (TavernFire) | 40.0 (heron_ford) | 64.5 (RuinPeddlerFire) | 38.3 (LostCache1) | 57.7 (crown) | 114.7 |\n| enemy (north-east) | 42.3 (node_shadow_mid) | 35.8 (tower_n) | 33.2 (camp_wallow_n) | 28.3 (lair_heath_e) | 60.0 (TavernShadow) | 39.6 (lantern_wharf) | 63.9 (RuinPeddlerShadow) | 37.7 (LostCache3) | 57.0 (crown) | 114.7 |\n",
+			"title": "Keep to nearest spot by kind (navmesh path, m)"
+		},
+		{
+			"markdown": "| Spot | Kind | From keep_t0 | Twin | From keep_t1 | Diff |\n|---|---|---|---|---|---|\n| node_fire_a | home_node | 6.7 | node_shadow_a | 6.6 | +1.4 % |\n| node_fire_b | home_node | 11.2 | node_shadow_b | 10.7 | +4.3 % |\n| lair_heath_w | lair | 28.6 | lair_heath_e | 28.3 | +0.9 % |\n| camp_wallow_s | camp | 33.6 | camp_wallow_n | 33.2 | +1.3 % |\n| tower_s | point | 36.3 | tower_n | 35.8 | +1.4 % |\n| LostCache1 | cache | 38.3 | LostCache3 | 37.7 | +1.7 % |\n| heron_ford | post | 40.0 | lantern_wharf | 39.6 | +0.9 % |\n| LostCache0 | cache | 41.1 | LostCache2 | 40.5 | +1.5 % |\n| node_fire_mid | expansion | 43.2 | node_shadow_mid | 42.3 | +2.0 % |\n| millstone_cross | post | 43.5 | saltgate | 43.1 | +1.0 % |\n| bridge_crown_w | crossing_bridge_lane | 45.2 | bridge_crown_e | 44.4 | +1.6 % |\n| camp_stag_w | camp | 49.5 | camp_stag_e | 49.0 | +1.1 % |\n| shrine_w | point | 49.6 | shrine_e | 48.9 | +1.3 % |\n| ford_s | crossing_ford | 50.8 | ford_n | 50.2 | +1.1 % |\n| camp_nest_s | camp | 50.8 | camp_nest_n | 50.2 | +1.1 % |\n| bridge_road_s | crossing_bridge_road | 54.8 | bridge_road_n | 54.4 | +0.8 % |\n| crown | crown | 57.7 | crown | 57.0 | +1.3 % |\n| lair_crag_w | lair | 58.3 | lair_crag_e | 57.9 | +0.7 % |\n| TavernFire | tavern | 60.7 | TavernShadow | 60.0 | +1.1 % |\n| steps_nw | crossing_steps | 61.8 | steps_se | 61.0 | +1.3 % |\n| steps_se | crossing_steps | 61.8 | steps_nw | 61.1 | +1.1 % |\n| well_w | point | 64.4 | well_e | 63.8 | +0.9 % |\n| RuinPeddlerFire | peddler | 64.5 | RuinPeddlerShadow | 63.9 | +1.0 % |\n| tower_se | point | 66.9 | tower_nw | 66.4 | +0.8 % |\n| RuinPeddlerShadow | peddler | 68.1 | RuinPeddlerFire | 67.6 | +0.8 % |\n| lair_den_e | lair | 69.6 | lair_den_w | 69.2 | +0.6 % |\n| bridge_crown_e | crossing_bridge_lane | 70.3 | bridge_crown_w | 69.5 | +1.1 % |\n| TavernShadow | tavern | 70.5 | TavernFire | 70.1 | +0.6 % |\n| well_e | point | 74.0 | well_w | 73.5 | +0.8 % |\n| lair_hollow_w | lair | 74.5 | lair_hollow_e | 74.1 | +0.5 % |\n| shrine_e | point | 75.1 | shrine_w | 74.4 | +0.9 % |\n| node_shadow_mid | expansion | 75.5 | node_fire_mid | 74.8 | +0.9 % |\n| node_fire_rich | expansion | 79.3 | node_shadow_rich | 78.8 | +0.6 % |\n| camp_nest_n | camp | 80.9 | camp_nest_s | 80.2 | +0.9 % |\n| ford_n | crossing_ford | 80.9 | ford_s | 80.2 | +0.9 % |\n| tower_nw | point | 82.3 | tower_se | 81.7 | +0.7 % |\n| node_shadow_rich | expansion | 82.3 | node_fire_rich | 81.8 | +0.6 % |\n| MagpieDenNorthWest | guild | 85.2 | MagpieDenSouthEast | 84.8 | +0.5 % |\n| LostCache3 | cache | 86.2 | LostCache1 | 85.4 | +0.9 % |\n| camp_stag_e | camp | 87.3 | camp_stag_w | 86.8 | +0.6 % |\n| GreywaterLodgeSouthEast | guild | 88.4 | GreywaterLodgeNorthWest | 88.0 | +0.5 % |\n| LostCache2 | cache | 90.3 | LostCache0 | 89.9 | +0.5 % |\n| bridge_road_n | crossing_bridge_road | 93.3 | bridge_road_s | 92.7 | +0.7 % |\n| GreywaterLodgeNorthWest | guild | 94.3 | GreywaterLodgeSouthEast | 93.8 | +0.5 % |\n| lair_den_w | lair | 94.7 | lair_den_e | 94.1 | +0.6 % |\n| camp_hollow_nw | camp | 95.1 | camp_hollow_se | 94.7 | +0.4 % |\n| tower_n | point | 96.2 | tower_s | 95.4 | +0.8 % |\n| lair_crag_e | lair | 97.7 | lair_crag_w | 97.1 | +0.6 % |\n| MagpieDenSouthEast | guild | 97.9 | MagpieDenNorthWest | 97.4 | +0.5 % |\n| lair_hollow_e | lair | 98.2 | lair_hollow_w | 97.6 | +0.5 % |\n| camp_hollow_se | camp | 100.9 | camp_hollow_nw | 100.4 | +0.5 % |\n| saltgate | post | 102.2 | millstone_cross | 101.5 | +0.7 % |\n| lantern_wharf | post | 106.5 | heron_ford | 106.0 | +0.5 % |\n| lair_heath_e | lair | 112.6 | lair_heath_w | 111.9 | +0.6 % |\n| camp_wallow_n | camp | 112.9 | camp_wallow_s | 115.9 | -2.6 % |\n| node_shadow_b | home_node | 114.5 | node_fire_b | 113.8 | +0.7 % |\n| node_shadow_a | home_node | 114.6 | node_fire_a | 113.8 | +0.6 % |\n| keep_t1 | keep | 114.7 | keep_t0 | 114.7 | +0.0 % |\n",
+			"title": "Every spot from the keeps (half_turn)"
+		},
+		{
+			"markdown": "| Crossing | Kind | Spec width | Navmesh width | ~Real gap | Twin | Twin width |\n|---|---|---|---|---|---|---|\n| bridge_road_n | bridge_road | 6.0 | 4.3 | 5.3 | bridge_road_s | 4.0 |\n| bridge_road_s | bridge_road | 6.0 | 4.0 | 5.0 | bridge_road_n | 4.3 |\n| ford_n | ford | 7.0 | 4.6 | 5.6 | ford_s | 4.6 |\n| ford_s | ford | 7.0 | 4.6 | 5.6 | ford_n | 4.6 |\n| bridge_crown_w | bridge_lane | 8.0 | 7.1 | 8.1 | bridge_crown_e | 7.1 |\n| bridge_crown_e | bridge_lane | 8.0 | 7.1 | 8.1 | bridge_crown_w | 7.1 |\n| steps_nw | steps | 6.0 | 5.1 | 6.1 | steps_se | 5.1 |\n| steps_se | steps | 6.0 | 5.1 | 6.1 | steps_nw | 5.1 |\n",
+			"title": "Crossings (navmesh width = where unit centres can go; real gap ~ +1.0 m agent diameter)"
+		},
+		{
+			"markdown": "| Route | Length | Narrowest (navmesh m) | At | Chokes < 3 m |\n|---|---|---|---|---|\n| keep_t0 -> crown | 57.7 | 5.8 | (-7.5, 7.6) | - |\n| keep_t0 -> keep_t1 | 114.7 | 5.6 | (7.5, -7.0) | - |\n| keep_t0 -> node_fire_mid | 43.2 | 40.1 | (-39.0, 36.9) | - |\n| keep_t1 -> crown | 57.0 | 5.8 | (8.0, -7.6) | - |\n| keep_t1 -> node_shadow_mid | 42.3 | 40.1 | (38.5, -36.4) | - |\n",
+			"title": "Main routes: narrowest corridors (navmesh width; real gap ~ +1.0 m)"
+		},
+		{
+			"markdown": "| # | Where (x, z) | Shortest paths through this metre | Share |\n|---|---|---|---|\n| 1 | (-8.5, -33.5) | 151 | 9 % |\n| 2 | (8.5, 33.5) | 148 | 9 % |\n| 3 | (6.5, 8.5) | 115 | 7 % |\n| 4 | (-13.5, 7.5) | 110 | 6 % |\n| 5 | (-8.5, -8.5) | 107 | 6 % |\n| 6 | (-14.5, -14.5) | 102 | 6 % |\n| 7 | (14.5, 14.5) | 98 | 6 % |\n| 8 | (13.5, -7.5) | 97 | 6 % |\n| 9 | (0.5, 0.5) | 95 | 6 % |\n| 10 | (29.5, 23.5) | 79 | 5 % |\n",
+			"title": "Hottest metres (every spot-pair shortest path, 1711 paths)"
+		}
+	]
+}

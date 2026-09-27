@@ -10,6 +10,7 @@ extends SceneTree
 ##   log    0 = no row in docs/maps/lab/history.md
 ##   heat   0 = no heat map
 ##   sim    0 = load the full art (default 1: Bot Lab sim mode, same colliders and navmesh, faster)
+##   profile_json  a World Forge profile (docs/tools/world_forge/out/<map>/map_profile.json) instead of map=
 ## Exit code: 0 PASS / WARN / SKIP, 1 FAIL. Last lines: `MAP LAB: <RESULT> score <N> ...` and one line per FAIL / WARN check.
 
 const Report := preload("res://tools/map_lab/map_report.gd")
@@ -35,6 +36,9 @@ func _initialize() -> void:
 		opts[kv[0]] = kv[1] if kv.size() > 1 else "1"
 	var map_name := String(opts.get("map", "1v1"))
 	profile = Profiles.get_profile(map_name)
+	if opts.has("profile_json"):   # World Forge: generated profile (tools/world_forge/README.md)
+		profile = Profiles.from_json(String(opts["profile_json"]))
+		map_name = String(opts["profile_json"])
 	if profile.is_empty():
 		print("MAP LAB: FAIL unknown map '%s' (known: %s)" % [map_name, ", ".join(Profiles.names())])
 		quit(1)
