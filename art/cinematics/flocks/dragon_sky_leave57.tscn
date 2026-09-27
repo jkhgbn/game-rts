@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/flocks/dragon_flock.gd" id="1_flock"]
+
+[node name="DragonSkyLeaving" type="Node3D"]
+script = ExtResource("1_flock")
+flock_seed = 7
+leave_at = 57.0

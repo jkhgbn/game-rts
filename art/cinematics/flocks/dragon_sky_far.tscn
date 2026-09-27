@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/flocks/dragon_flock.gd" id="1_flock"]
+
+[node name="DragonSkyFar" type="Node3D"]
+script = ExtResource("1_flock")
+flock_seed = 11
+elders = 1
+big = 8
+small = 56
+heroes = 0
+radius = 220.0
+height = Vector2(55, 130)
+elder_height = Vector2(120, 170)

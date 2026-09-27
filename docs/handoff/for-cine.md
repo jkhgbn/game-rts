@@ -26,3 +26,10 @@
   play `path` on the `Cinematic` bus (or reuse `scripts/ui/voice_player.gd`: `play_line(speaker, text) -> bool`).
   `run_voice_forge.ps1 check` lists lines whose voice is longer than their slot (next line / shot end).
   I did not edit scripts/cinematics or tools/cine.
+
+# Dragon flock time in stills / check (tech-artist, prologue P3, 2026-09-27; art/cinematics/flocks/README.md)
+- `DragonFlock` (group `"cine_timed"`) poses itself as a pure function of time. `play` / `record` already work (it reads
+  `CinePreview.t` while `playing`). **Stills / check freeze the stage and only call `CinePreview.pose(at)`**, so the flock
+  cannot know the shot time. One line in `CinePreview.pose(at)` fixes it:
+  `get_tree().call_group(&"cine_timed", &"set_cine_time", tt)` (after `var tt := ...`). Same line would help in the
+  runtime player's `seek()` (it already reads `CinematicPlayer.elapsed()` while playing).
