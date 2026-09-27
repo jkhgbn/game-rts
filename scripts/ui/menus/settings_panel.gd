@@ -18,8 +18,14 @@ var controls_hint: Label
 ## Map detail (ui-mapfill.md 11): item 0 = High, 1 = Low (faster). Applies from the next match.
 var map_detail_option: OptionButton
 var map_detail_hint: Label
+## Upscaler: item i = GameSettings.UPSCALER_* (Off / FSR 1 / FSR 2), then the Render scale slider (50-100 %).
+var upscaler_option: OptionButton
+var render_scale_slider: HSlider
 
 const MAP_DETAIL_HINT := "Applies from the next match. Deer and rabbits stay on every setting."
+const UPSCALER_TOOLTIP := ("Draws the 3D at a lower resolution, then upscales it: higher frame rate.\n"
+		+ "FSR 1: fast, a bit soft. FSR 2: sharper, with its own anti-aliasing (best on a good GPU).\n"
+		+ "Render scale: 67 % = Quality, 77 % = Ultra Quality. FSR 2 at 100 % = native with better anti-aliasing.")
 const MAP_DETAIL_TOOLTIP := ("High: full plants and flowers, birds, butterflies and frogs, animated water.\n"
 		+ "Low: half the plants, no small animals, simpler water.")
 
@@ -48,6 +54,10 @@ func _ready() -> void:
 	edge_pan_check = _check_row(box, "Scroll at screen edge")
 	_controls_row(box)
 	_map_detail_row(box)
+	_upscaler_row(box)
+	render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
+			GameSettings.RENDER_SCALE_MAX * 100.0, 1.0, "%d %%")
+	render_scale_slider.tooltip_text = UPSCALER_TOOLTIP
 
 	var back := Button.new()
 	back.text = "Back"
@@ -73,6 +83,8 @@ func _ready() -> void:
 	edge_pan_check.toggled.connect(func(on: bool) -> void: _changed(&"edge_pan", on))
 	controls_option.item_selected.connect(func(i: int) -> void: _changed(&"control_scheme", i))
 	map_detail_option.item_selected.connect(func(i: int) -> void: _changed(&"map_detail", i))
+	upscaler_option.item_selected.connect(func(i: int) -> void: _changed(&"upscaler", i))
+	render_scale_slider.value_changed.connect(func(v: float) -> void: _changed(&"render_scale", v / 100.0))
 	refresh()
 
 
@@ -88,6 +100,9 @@ func refresh() -> void:
 	controls_option.select(GameSettings.control_scheme)
 	controls_hint.text = controls_hint_text(GameSettings.control_scheme)
 	map_detail_option.select(1 if GameSettings.map_detail == GameSettings.MAP_DETAIL_LOW else 0)
+	upscaler_option.select(GameSettings.upscaler)
+	render_scale_slider.value = GameSettings.render_scale * 100.0
+	render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
 	_refreshing = false
 
 
@@ -135,6 +150,11 @@ func _changed(key: StringName, value: Variant) -> void:
 		&"map_detail":
 			# Only the saved value changes (Back saves it); the current match keeps its detail.
 			GameSettings.map_detail = GameSettings.MAP_DETAIL_LOW if int(value) == 1 else GameSettings.MAP_DETAIL_HIGH
+		&"upscaler":
+			GameSettings.upscaler = clampi(int(value), GameSettings.UPSCALER_OFF, GameSettings.UPSCALER_FSR2)
+			render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
+		&"render_scale":
+			GameSettings.render_scale = clampf(value, GameSettings.RENDER_SCALE_MIN, GameSettings.RENDER_SCALE_MAX)
 	GameSettings.apply(get_tree())
 
 
@@ -203,6 +223,23 @@ func _map_detail_row(parent: Control) -> void:
 	map_detail_hint.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	map_detail_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	parent.add_child(map_detail_hint)
+
+
+## "Upscaler" + Off / FSR 1 / FSR 2 (applies at once, in the menu and mid-match).
+func _upscaler_row(parent: Control) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	parent.add_child(row)
+	var name_label := UIStyle.label("Upscaler", 18)
+	name_label.custom_minimum_size = Vector2(190, 0)
+	row.add_child(name_label)
+	upscaler_option = OptionButton.new()
+	upscaler_option.add_theme_font_size_override("font_size", 18)
+	upscaler_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for i in GameSettings.UPSCALER_NAMES.size():
+		upscaler_option.add_item(GameSettings.UPSCALER_NAMES[i], i)
+	upscaler_option.tooltip_text = UPSCALER_TOOLTIP
+	row.add_child(upscaler_option)
 
 
 func _check_row(parent: Control, text: String) -> CheckButton:

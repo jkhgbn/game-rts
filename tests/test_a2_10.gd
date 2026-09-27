@@ -93,8 +93,9 @@ func _process(_delta: float) -> bool:
 			var s := _vp.scaling_3d_scale
 			if s > 0.9 or s < 0.5:
 				_fail = "auto render scale in a 3440x1440 SubViewport is %.2f (expected ~0.64)" % s
-			elif root.scaling_3d_scale != 1.0:
-				_fail = "the root viewport's render scale was touched"
+			elif not is_equal_approx(root.scaling_3d_scale, GameSettings.effective_render_scale(
+					GameSettings.upscaler, GameSettings.render_scale)):
+				_fail = "the root viewport's render scale was touched (it must only follow the player's Upscaler setting)"
 		540:
 			print("PASS %s" % TASK_ID)
 			return true

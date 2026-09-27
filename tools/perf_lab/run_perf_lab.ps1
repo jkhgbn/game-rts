@@ -20,6 +20,9 @@
 .EXAMPLE
   .\run_perf_lab.ps1 -Scenarios mid100,late200 -Repeats 5 -Resolutions 1600x900,3440x1440
 .EXAMPLE
+  .\run_perf_lab.ps1 -Scenarios late200 -Upscaler fsr2 -RenderScale 0.67 -Title "late200 FSR2 67%"
+  (the game's 3D upscaler for the windowed runs; default off = native, like before)
+.EXAMPLE
   .\run_perf_lab.ps1 -Scenarios early -NoGpu -Quick      (short measure windows, for a smoke check: no history row,
   docs/perf/lab/latest untouched)
 .NOTES
@@ -42,6 +45,8 @@ param(
 	[int]$WaitQuietS = 0,
 	[int]$TimeoutMin = 15,
 	[string]$Title = "",
+	[ValidateSet("off", "fsr1", "fsr2")][string]$Upscaler = "off",
+	[double]$RenderScale = 1.0,
 	[string]$Godot = "C:\Godot\Godot_v4.7.2-stable_win64_console.exe"
 )
 
@@ -170,6 +175,7 @@ foreach ($j in $Jobs) {
 	if (Test-Path $json) { Remove-Item $json }
 	$extra = ""
 	if ($Quick) { $extra = "--measure=8" }
+	$extra += " --upscaler=$Upscaler --render-scale=$($RenderScale.ToString([Globalization.CultureInfo]::InvariantCulture))"
 	$prof = if ($j.Profile) { "1" } else { "0" }
 	$display = if ($j.Gpu) { "--resolution $($j.Res) --position 0,0" } else { "--headless" }
 	$a = "$display --path `"$Dir`" -s res://tools/perf_lab/perf_lab.gd --fixed-fps 60 --quit-after 40000 -- " +

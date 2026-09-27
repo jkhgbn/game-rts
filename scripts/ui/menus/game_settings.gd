@@ -1,6 +1,6 @@
 class_name GameSettings
 extends RefCounted
-## Player settings shared by the main menu and the pause menu (task 5.U1): volumes, fullscreen,
+## Player settings shared by the main menu and the pause menu (task 5.U1): volumes, fullscreen, upscaler,
 ## edge-pan, UI scale and the control scheme (UX.1). Saved to user://settings.cfg, applied at start (GameSettings.ensure_loaded).
 ## Audio buses "Music" and "SFX" are created at runtime when the project has none.
 
@@ -36,6 +36,21 @@ static var control_scheme := CONTROLS_CLASSIC
 const MAP_DETAIL_HIGH := &"high"
 const MAP_DETAIL_LOW := &"low"
 static var map_detail: StringName = MAP_DETAIL_HIGH
+## Upscaler + render scale of the game's 3D (root viewport only; the menu diorama, portraits and labs keep their own
+## SubViewport settings). Off = native resolution with the project's MSAA. FSR 1 = cheap spatial upscale (softer).
+## FSR 2 = temporal upscale + anti-aliasing (replaces MSAA, sharper than FSR 1; at 100 % it is native-res AA only).
+## Both FSR modes need the Forward+ renderer; on another renderer they fall back to bilinear.
+## Command-line override for tests and the Perf Lab (not saved):  -- --upscaler=off|fsr1|fsr2 --render-scale=0.67
+const UPSCALER_OFF := 0
+const UPSCALER_FSR1 := 1
+const UPSCALER_FSR2 := 2
+const UPSCALER_IDS: Array[String] = ["off", "fsr1", "fsr2"]
+const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
+const RENDER_SCALE_MIN := 0.5
+const RENDER_SCALE_MAX := 1.0
+const RENDER_SCALE_DEFAULT := 0.77   ## FSR "Quality" preset is 0.67, "Ultra Quality" 0.77.
+static var upscaler := UPSCALER_OFF
+static var render_scale := RENDER_SCALE_DEFAULT
 static var _loaded := false
 
 const CONTROLS_CLASSIC := 0
@@ -63,6 +78,8 @@ static func reset_defaults() -> void:
 	time_limit_min = 0
 	control_scheme = CONTROLS_CLASSIC
 	map_detail = MAP_DETAIL_HIGH
+	upscaler = UPSCALER_OFF
+	render_scale = RENDER_SCALE_DEFAULT
 
 
 ## Sets the Map detail (&"high" / &"low"; anything else = high) and saves the file. Applies from the next match.
@@ -169,6 +186,9 @@ static func load_settings() -> void:
 	control_scheme = control_scheme_from_id(str(cfg.get_value(SECTION, "control_scheme",
 			CONTROL_SCHEME_IDS[CONTROLS_CLASSIC])))
 	map_detail = map_detail_from_id(str(cfg.get_value(SECTION, "map_detail", String(MAP_DETAIL_HIGH))))
+	upscaler = upscaler_from_id(str(cfg.get_value(SECTION, "upscaler", UPSCALER_IDS[UPSCALER_OFF])))
+	render_scale = clampf(float(cfg.get_value(SECTION, "render_scale", render_scale)), RENDER_SCALE_MIN,
+			RENDER_SCALE_MAX)
 
 
 static func save_settings() -> Error:
@@ -183,6 +203,8 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "time_limit_min", time_limit_min)
 	cfg.set_value(SECTION, "control_scheme", CONTROL_SCHEME_IDS[clampi(control_scheme, 0, 1)])
 	cfg.set_value(SECTION, "map_detail", String(map_detail_from_id(String(map_detail))))
+	cfg.set_value(SECTION, "upscaler", UPSCALER_IDS[clampi(upscaler, UPSCALER_OFF, UPSCALER_FSR2)])
+	cfg.set_value(SECTION, "render_scale", render_scale)
 	return cfg.save(PATH)
 
 
@@ -190,6 +212,53 @@ static func apply(tree: SceneTree) -> void:
 	apply_audio()
 	apply_window(tree)
 	apply_edge_pan(tree.root if tree else null)
+	if tree and tree.root:
+		var o := render_overrides()
+		apply_render(tree.root, int(o.get("upscaler", upscaler)), float(o.get("render_scale", render_scale)))
+
+
+## "off" / "fsr1" / "fsr2" (saved or command-line text) -> the mode; unknown = Off.
+static func upscaler_from_id(id: String) -> int:
+	var i := UPSCALER_IDS.find(id.strip_edges().to_lower())
+	return i if i >= 0 else UPSCALER_OFF
+
+
+## The --upscaler= / --render-scale= command-line values (after `--`), only the keys given.
+static func render_overrides() -> Dictionary:
+	var o := {}
+	for a: String in OS.get_cmdline_user_args():
+		if a.begins_with("--upscaler="):
+			o["upscaler"] = upscaler_from_id(a.get_slice("=", 1))
+		elif a.begins_with("--render-scale="):
+			o["render_scale"] = clampf(a.get_slice("=", 1).to_float(), RENDER_SCALE_MIN, RENDER_SCALE_MAX)
+	return o
+
+
+## The 3D render scale the root viewport gets for these settings (Off = 1.0).
+static func effective_render_scale(mode: int, scale: float) -> float:
+	return 1.0 if mode == UPSCALER_OFF else clampf(scale, RENDER_SCALE_MIN, RENDER_SCALE_MAX)
+
+
+## Sets the upscaler, render scale and MSAA of one viewport. FSR 2 does its own anti-aliasing, so MSAA is turned
+## off with it (MSAA + FSR 2 is not supported); Off and FSR 1 keep the project's MSAA.
+static func apply_render(vp: Viewport, mode: int, scale: float) -> void:
+	if vp == null:
+		return
+	mode = clampi(mode, UPSCALER_OFF, UPSCALER_FSR2)
+	var s := effective_render_scale(mode, scale)
+	var forward_plus := RenderingServer.get_current_rendering_method() == "forward_plus"
+	var project_msaa := int(ProjectSettings.get_setting("rendering/anti_aliasing/quality/msaa_3d", 0))
+	if mode == UPSCALER_OFF or not forward_plus:
+		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+	elif mode == UPSCALER_FSR1:
+		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
+	else:
+		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
+	vp.scaling_3d_scale = s
+	if mode == UPSCALER_FSR2 and forward_plus:
+		vp.msaa_3d = Viewport.MSAA_DISABLED
+	else:
+		vp.msaa_3d = project_msaa as Viewport.MSAA
 
 
 ## Creates the Music / SFX buses (sent to Master) if the project has none.

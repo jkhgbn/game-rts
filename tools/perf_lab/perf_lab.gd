@@ -11,6 +11,8 @@ extends SceneTree
 ##   --pair=P:E     kingdoms (default fire:shadow)
 ##   --profile=1    band profiler on (hot list; ~1 us per marker per pass of overhead, listed in the result)
 ##   --warmup=S --measure=S   override the scenario's game seconds
+##   --upscaler=off|fsr1|fsr2 --render-scale=0.67   the game's 3D upscaler (default off = native, like before;
+##                  the player's saved setting is never used here, so runs stay comparable)
 ##   --out=PATH     the JSON line is written there     --commit=ID  copied into the JSON     --run=N  repeat index
 ## Test-script rules (CLAUDE.md): compiled before autoloads; game classes reached untyped / through groups.
 
@@ -53,6 +55,9 @@ var kingdoms: Array[String] = ["fire", "shadow"]
 var profile := false
 var headless := true
 var out_path := ""
+## --upscaler / --render-scale (GameSettings.UPSCALER_*): set on the root viewport after the scene is added.
+var upscaler := 0
+var render_scale := 1.0
 var main: Node
 var probe: Node = null
 var is_menu := false
@@ -132,6 +137,8 @@ func _initialize() -> void:
 			main.add_child(b)
 	root.add_child(main)
 	current_scene = main
+	# After the menus' GameSettings.ensure_loaded (it applies the player's saved upscaler): the lab's own choice wins.
+	GameSettings.apply_render(root, upscaler, render_scale)
 	_warm_frames = int(float(args.get("warmup", spec["warmup"])) * TICK)
 	_measure_frames = int(float(args.get("measure", spec["measure"])) * TICK)
 	print("PERF_LAB start %s seed %d %s profile %s %s" % [scenario, seed_value, ":".join(kingdoms), profile,
@@ -154,6 +161,9 @@ func _parse_args() -> void:
 		kingdoms = [pair[0], pair[1]]
 	profile = ["1", "true", "on"].has(String(args.get("profile", "0")))
 	out_path = String(args.get("out", ""))
+	upscaler = GameSettings.upscaler_from_id(String(args.get("upscaler", "off")))
+	render_scale = clampf(String(args.get("render-scale", "1.0")).to_float(), GameSettings.RENDER_SCALE_MIN,
+			GameSettings.RENDER_SCALE_MAX)
 
 
 ## A fixed GDScript workload (ms): the same code on every run, so a slow result means a busy / throttled machine.
@@ -779,7 +789,9 @@ func _finish(error: String) -> bool:
 		"seed": seed_value, "pair": ":".join(kingdoms), "profile": profile, "commit": String(args.get("commit", "")),
 		"run": String(args.get("run", "1")).to_int(), "started": _started_iso,
 		"measured_s": snappedf(measured_s, 0.01), "real_s": snappedf((Time.get_ticks_usec() - _t_init) / 1.0e6, 0.01),
-		"calib_ms": [snappedf(_calib[0], 0.01), snappedf(_calib[-1], 0.01)], "cpu_count": OS.get_processor_count()}
+		"calib_ms": [snappedf(_calib[0], 0.01), snappedf(_calib[-1], 0.01)], "cpu_count": OS.get_processor_count(),
+		"upscaler": GameSettings.UPSCALER_IDS[upscaler], "render_scale": snappedf(
+			GameSettings.effective_render_scale(upscaler, render_scale), 0.01)}
 	if error != "":
 		res["error"] = error
 	var fl: Array = Array(_frame_ms)
