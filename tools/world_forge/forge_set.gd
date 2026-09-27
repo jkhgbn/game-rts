@@ -11,18 +11,27 @@ const SET_SCRIPT := "res://art/cinematics/stage_sets/forge_common/forge_stage_se
 const SETS_DIR := "res://art/cinematics/stage_sets"
 const OUT_DIR := "res://docs/tools/world_forge/out"
 
-const KEYWORDS: Array[String] = ["set", "budget", "zone", "place", "row", "scatter", "wall", "path", "actor", "mark"]
+const Terrain := preload("res://tools/world_forge/forge_terrain.gd")
+const KEYWORDS: Array[String] = ["set", "budget", "zone", "place", "row", "scatter", "wall", "path", "actor", "mark",
+	"terrain", "hill", "ridge", "valley", "pad", "sky", "water"]
 const KEYS := {
 	"set": ["size", "ground", "light", "seed", "title"],
 	"budget": ["draws", "lights", "tris"],
 	"zone": [],
-	"place": ["at", "yaw", "scale", "tag", "lights", "radius", "y"],
+	"place": ["at", "yaw", "scale", "tag", "lights", "radius", "y", "pad"],
 	"row": ["poly", "from", "to", "spacing", "count", "yaw", "scale", "lights", "radius", "seed", "jitter"],
 	"scatter": ["area", "count", "gap", "seed", "avoid", "scale", "radius", "tilt"],
 	"wall": ["poly", "height", "thick", "gate", "gate_width", "color"],
 	"path": ["poly", "width", "kit"],
-	"actor": ["at", "yaw", "scale", "lights"],
-	"mark": ["from", "to", "look", "look_to", "fov", "fov_to", "subject", "lens", "dur"],
+	"actor": ["at", "yaw", "scale", "lights", "pad"],
+	"mark": ["from", "to", "look", "look_to", "fov", "fov_to", "subject", "lens", "dur", "ground"],
+	"terrain": ["step", "smooth", "noise", "extend", "rock", "snow", "seed"],
+	"hill": ["at", "r", "h", "flat"],
+	"ridge": ["poly", "width", "h", "jag"],
+	"valley": ["poly", "width", "depth", "flat"],
+	"pad": ["at", "r", "y", "edge"],
+	"sky": ["mountains", "dist", "height", "color", "haze", "top", "horizon", "seed"],
+	"water": ["level", "area", "color", "alpha"],
 }
 const MOODS: Array[String] = ["warm", "ice", "nightfall", "dusk", "storm", "crypt", "dawn"]
 const BAND := 0.744      ## 2.39:1 band inside a 16:9 frame (fraction of the half height)
@@ -36,6 +45,7 @@ var report := Report.new()
 var obstacles: Array = []   ## [{name, aabb: AABB}] or [{name, xf, center, half}] for walls
 var scatter_pts: Array = [] ## [{kit, pos, r}]
 var layout_lines: Array[String] = []  ## deterministic layout dump (hash source)
+var terrain := Terrain.new()          ## height field (terrain.on false = flat ground at y 0)
 
 
 # ---------------------------------------------------------------- compile
@@ -45,7 +55,8 @@ func compile(path: String) -> bool:
 	var sts := spec.read_file(path)
 	plan = {"id": "", "size": Vector2(40, 30), "ground": Kits.GROUNDS["dirt"], "light": "warm", "seed": 1, "title": "",
 		"budget": {"draws": 150.0, "lights": 0.0, "tris": 400000.0}, "zones": {}, "places": [], "rows": [], "scatters": [],
-		"walls": [], "paths": [], "actors": [], "marks": [], "path": path}
+		"walls": [], "paths": [], "actors": [], "marks": [], "path": path, "sky": {}, "waters": []}
+	terrain = Terrain.new()
 	if not spec.ok():
 		return false
 	var saw_set := false
@@ -85,8 +96,17 @@ func compile(path: String) -> bool:
 				_c_actor(st)
 			"mark":
 				_c_mark(st)
+			"terrain":
+				_c_terrain(st)
+			"hill", "ridge", "valley", "pad":
+				_c_terrain_op(st)
+			"sky":
+				_c_sky(st)
+			"water":
+				_c_water(st)
 	if not saw_set:
 		spec.err(1, "set", "the spec needs a first line `set <id> size=WxD ground=<name> light=<mood>`")
+	_seat_on_terrain()
 	# subjects resolve against actors / place tags
 	var tags := _tags()
 	for m: Dictionary in plan["marks"]:
@@ -174,8 +194,22 @@ func _c_place(st: Dictionary) -> void:
 	var lights: String = st["kv"].get("lights", "off")
 	if not lights in ["on", "off"]:
 		spec.err(st["line"], lights, "lights= is on or off", ["on", "off"])
+	_pad_of(st, at, float(at.y) if st["kv"].has("y") else NAN)
 	plan["places"].append({"kit": k, "at": at, "yaw": _yaw(st, 0.0), "scale": spec.num(st, "scale", 1.0),
-		"tag": st["kv"].get("tag", ""), "lights_off": lights == "off", "radius": spec.num(st, "radius", -1.0), "line": st["line"]})
+		"tag": st["kv"].get("tag", ""), "lights_off": lights == "off", "radius": spec.num(st, "radius", -1.0), "line": st["line"],
+		"y_set": st["kv"].has("y")})
+
+
+## `place` / `actor` ... pad=R: a flat pad under it (terrain on).
+func _pad_of(st: Dictionary, at: Vector3, y: float) -> void:
+	if not st["kv"].has("pad"):
+		return
+	var r := spec.num(st, "pad", 6.0)
+	if r <= 0.0:
+		spec.err(st["line"], st["kv"]["pad"], "pad= wants a radius in metres > 0")
+		return
+	terrain.on = true
+	terrain.pads.append({"at": at, "r": r, "edge": r * 0.6, "y": y})
 
 
 func _c_row(st: Dictionary) -> void:
@@ -307,6 +341,7 @@ func _c_actor(st: Dictionary) -> void:
 	var at: Variant = spec.vec(st, "at", Vector3.ZERO)
 	if k.is_empty():
 		return
+	_pad_of(st, at, NAN)
 	plan["actors"].append({"tag": String(st["args"][0]).to_lower(), "kit": k, "at": at, "yaw": _yaw(st, 0.0),
 		"scale": spec.num(st, "scale", 1.0), "lights_off": st["kv"].get("lights", "off") == "off", "line": st["line"]})
 
@@ -329,9 +364,130 @@ func _c_mark(st: Dictionary) -> void:
 	if st["kv"].has("lens"):
 		spec.warn(st["line"], st["kv"]["lens"], "lens words are kept as a note; the camera uses from= / look=")
 	var fov := spec.num(st, "fov", 40.0)
-	plan["marks"].append({"shot": shot, "from": f, "to": spec.vec(st, "to", f), "look_from": l, "look_to": spec.vec(st, "look_to", l),
+	var gmode: String = st["kv"].get("ground", "abs")
+	if not gmode in ["rel", "abs"]:
+		spec.err(st["line"], gmode, "ground= is rel (y above the terrain) or abs (default)", ["rel", "abs"])
+	plan["marks"].append({"ground_rel": gmode == "rel","shot": shot, "from": f, "to": spec.vec(st, "to", f), "look_from": l, "look_to": spec.vec(st, "look_to", l),
 		"fov_from": fov, "fov_to": spec.num(st, "fov_to", fov), "subject": String(st["kv"].get("subject", "")).to_lower(),
 		"lens": st["kv"].get("lens", ""), "dur": spec.num(st, "dur", 4.0), "line": st["line"]})
+
+
+# ---------------------------------------------------------------- terrain / sky / water (README "Terrain")
+
+func _c_terrain(st: Dictionary) -> void:
+	terrain.on = true
+	terrain.step = maxf(0.5, spec.num(st, "step", 2.0))
+	terrain.smooth = clampi(int(spec.num(st, "smooth", 2)), 0, 8)
+	terrain.noise = maxf(0.0, spec.num(st, "noise", 0.25))
+	terrain.extend = clampf(spec.num(st, "extend", 0.0), 0.0, 400.0)
+	terrain.tseed = int(spec.num(st, "seed", plan["seed"]))
+	if st["kv"].has("rock"):
+		var c: Variant = Spec.parse_color(st["kv"]["rock"], Kits.GROUNDS)
+		if c == null:
+			spec.err(st["line"], st["kv"]["rock"], "bad rock colour", Kits.GROUNDS.keys())
+		else:
+			terrain.rock = c
+	if st["kv"].has("snow") and st["kv"]["snow"] != "off":
+		terrain.snow = spec.num(st, "snow", INF)
+
+
+func _c_terrain_op(st: Dictionary) -> void:
+	var kw: String = st["kw"]
+	terrain.on = true
+	var nm: String = st["args"][0] if not st["args"].is_empty() else kw
+	match kw:
+		"hill":
+			var at: Variant = spec.vec(st, "at")
+			if at == null:
+				spec.err(st["line"], "hill", "hill wants at=(x,z) r=<radius> h=<height>")
+				return
+			terrain.ops.append({"kind": "hill", "name": nm, "at": at, "r": maxf(0.5, spec.num(st, "r", 12.0)), "h": spec.num(st, "h", 6.0),
+				"flat": clampf(spec.num(st, "flat", 0.0), 0.0, 0.9)})
+		"ridge", "valley":
+			var poly: Variant = Spec.parse_poly(st["kv"].get("poly", ""))
+			if poly == null or (poly as PackedVector3Array).is_empty():
+				spec.err(st["line"], st["kv"].get("poly", kw), "%s wants poly=[(x,z),(x,z),...]" % kw)
+				return
+			if kw == "ridge":
+				terrain.ops.append({"kind": "ridge", "name": nm, "poly": poly, "width": maxf(1.0, spec.num(st, "width", 10.0)),
+					"h": spec.num(st, "h", 8.0), "jag": clampf(spec.num(st, "jag", 0.3), 0.0, 1.0)})
+			else:
+				terrain.ops.append({"kind": "valley", "name": nm, "poly": poly, "width": maxf(1.0, spec.num(st, "width", 12.0)),
+					"depth": spec.num(st, "depth", 3.0), "flat": clampf(spec.num(st, "flat", 0.4), 0.0, 0.9)})
+		"pad":
+			var at: Variant = spec.vec(st, "at")
+			if at == null:
+				spec.err(st["line"], "pad", "pad wants at=(x,z) r=<radius>")
+				return
+			var r := maxf(0.5, spec.num(st, "r", 6.0))
+			terrain.pads.append({"at": at, "r": r, "edge": maxf(0.1, spec.num(st, "edge", r * 0.6)),
+				"y": spec.num(st, "y", 0.0) if st["kv"].has("y") else NAN})
+
+
+func _c_sky(st: Dictionary) -> void:
+	var sky := {"mountains": clampi(int(spec.num(st, "mountains", 2)), 0, 4), "dist": clampf(spec.num(st, "dist", 190.0), 40.0, 240.0),
+		"height": spec.num(st, "height", 38.0), "color": Color("#3a4150"), "haze": null, "top": null, "horizon": null,
+		"seed": int(spec.num(st, "seed", plan["seed"])), "line": st["line"]}
+	for k: String in ["color", "haze", "top", "horizon"]:
+		if st["kv"].has(k):
+			var c: Variant = Spec.parse_color(st["kv"][k], Kits.GROUNDS)
+			if c == null:
+				spec.err(st["line"], st["kv"][k], "%s= wants #rrggbb" % k)
+			else:
+				sky[k] = c
+	if spec.num(st, "dist", 190.0) > 240.0:
+		spec.warn(st["line"], st["kv"]["dist"], "dist clamped to 240 m (the cinematic camera's far plane is 250 m)")
+	plan["sky"] = sky
+
+
+func _c_water(st: Dictionary) -> void:
+	var area: Variant = null
+	if st["kv"].has("area"):
+		area = Spec.parse_area(st["kv"]["area"])
+		if area == null:
+			if plan["zones"].has(st["kv"]["area"]):
+				area = plan["zones"][st["kv"]["area"]]
+			else:
+				spec.err(st["line"], st["kv"]["area"], "bad area (or unknown zone)", Spec.AREA_KINDS + plan["zones"].keys())
+				return
+	var col: Variant = Spec.parse_color(st["kv"].get("color", "#1d4252"), Kits.GROUNDS)
+	if col == null:
+		spec.err(st["line"], st["kv"]["color"], "color= wants #rrggbb")
+		col = Color("#1d4252")
+	plan["waters"].append({"name": st["args"][0] if not st["args"].is_empty() else "water", "level": spec.num(st, "level", -0.5),
+		"area": area, "color": col, "alpha": clampf(spec.num(st, "alpha", 0.85), 0.05, 1.0), "line": st["line"]})
+
+
+## Bakes the height field and puts places / rows / actors on it; `ground=rel` marks get the terrain height added.
+func _seat_on_terrain() -> void:
+	terrain.bake(plan["size"])
+	if not terrain.on:
+		return
+	for p: Dictionary in plan["places"]:
+		if not bool(p.get("y_set", false)):
+			var at: Vector3 = p["at"]
+			at.y = terrain.height_at(at.x, at.z)
+			p["at"] = at
+	for a: Dictionary in plan["actors"]:
+		var at: Vector3 = a["at"]
+		at.y = terrain.height_at(at.x, at.z)
+		a["at"] = at
+	for m: Dictionary in plan["marks"]:
+		if bool(m.get("ground_rel", false)):
+			for k: String in ["from", "to", "look_from", "look_to"]:
+				var v: Vector3 = m[k]
+				v.y += terrain.height_at(v.x, v.z)
+				m[k] = v
+
+
+## True when (x, z) is under one of the set's water planes.
+func under_water(p: Vector3) -> bool:
+	for w: Dictionary in plan["waters"]:
+		if w["area"] != null and not Spec.area_has(w["area"], p):
+			continue
+		if terrain.height_at(p.x, p.z) < float(w["level"]) + 0.05:
+			return true
+	return false
 
 
 # ---------------------------------------------------------------- build
@@ -356,10 +512,41 @@ func build(holder: Node) -> Node3D:
 	holder.add_child(root)
 	var sz: Vector2 = plan["size"]
 	# ground
-	var gst := FMesh.ground(sz, plan["ground"], int(plan["seed"]))
-	var gmesh := gst.commit()
-	gmesh.surface_set_material(0, FMesh.vc_material(false, 0.97))
-	_mesh_child(root, root, "Ground", gmesh)
+	if not terrain.baked:
+		terrain.bake(sz)
+	var gnd := terrain.ground_callable()
+	if terrain.on:
+		_mesh_child(root, root, "Ground", terrain.mesh(plan["ground"]))
+		var body := StaticBody3D.new()
+		body.name = "TerrainBody"
+		body.collision_layer = 1
+		body.collision_mask = 0
+		root.add_child(body)
+		body.owner = root
+		var cs := CollisionShape3D.new()
+		cs.name = "Shape"
+		cs.shape = (root.get_node(^"Ground") as MeshInstance3D).mesh.create_trimesh_shape()
+		body.add_child(cs)
+		cs.owner = root
+		layout_lines.append(terrain.layout_line())
+	else:
+		var gst := FMesh.ground(sz, plan["ground"], int(plan["seed"]))
+		var gmesh := gst.commit()
+		gmesh.surface_set_material(0, FMesh.vc_material(false, 0.97))
+		_mesh_child(root, root, "Ground", gmesh)
+	# distant mountains + water planes
+	var sky: Dictionary = plan["sky"]
+	if not sky.is_empty() and int(sky["mountains"]) > 0:
+		var sk := sky.duplicate()
+		if sk["haze"] == null:
+			sk["haze"] = _haze_color()
+		_mesh_child(root, root, "Mountains", Terrain.mountains(sk)).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		layout_lines.append("sky mountains %d dist %.1f h %.1f seed %d" % [sk["mountains"], sk["dist"], sk["height"], sk["seed"]])
+	for w: Dictionary in plan["waters"]:
+		var full := Rect2(-sz.x * 0.5 - terrain.extend, -sz.y * 0.5 - terrain.extend, sz.x + 2.0 * terrain.extend, sz.y + 2.0 * terrain.extend)
+		var wm := _mesh_child(root, root, "Water_%s" % w["name"], Terrain.water(w, full))
+		wm.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		layout_lines.append("water %s level %.2f" % [w["name"], w["level"]])
 	# paths (one mesh: ember ribbons get an emissive surface)
 	if not plan["paths"].is_empty():
 		var pst := SurfaceTool.new()
@@ -371,10 +558,10 @@ func build(holder: Node) -> Node3D:
 		for p: Dictionary in plan["paths"]:
 			var col: Color = Kits.PATH_KITS[p["kit"]]
 			if p["kit"] == "ember":
-				FMesh.ribbon(est, p["poly"], p["width"], col, 0.035, int(plan["seed"]))
+				FMesh.ribbon(est, p["poly"], p["width"], col, 0.035 + (0.06 if terrain.on else 0.0), int(plan["seed"]), gnd)
 				ne += 1
 			else:
-				FMesh.ribbon(pst, p["poly"], p["width"], col, 0.02 if p["kit"] != "river" else 0.03, int(plan["seed"]))
+				FMesh.ribbon(pst, p["poly"], p["width"], col, (0.02 if p["kit"] != "river" else 0.03) + (0.06 if terrain.on else 0.0), int(plan["seed"]), gnd)
 				np += 1
 			layout_lines.append("path %s %s %.3f" % [p["name"], str(p["poly"]), p["width"]])
 		var pm := ArrayMesh.new()
@@ -393,7 +580,7 @@ func build(holder: Node) -> Node3D:
 	var n_stone := 0
 	var n_glow := 0
 	for w: Dictionary in plan["walls"]:
-		var boxes := FMesh.wall(wst, w["poly"], w["height"], w["thick"], w["color"], w["gates"], int(plan["seed"]))
+		var boxes := FMesh.wall(wst, w["poly"], w["height"], w["thick"], w["color"], w["gates"], int(plan["seed"]), gnd)
 		n_stone += 1
 		for b: Dictionary in boxes:
 			obstacles.append({"name": "wall %s" % w["name"], "xf": b["xf"], "center": b["center"], "half": b["half"]})
@@ -554,10 +741,14 @@ func _scatter(s: Dictionary, bake: FMesh, wst: SurfaceTool, glow: SurfaceTool) -
 		var yaw := r.randf() * TAU
 		var sc := r.randf_range(s["scale"].x, s["scale"].y)
 		var tilt := r.randf_range(-1.0, 1.0) * deg_to_rad(float(s["tilt"]))
-		if absf(p.x) > sz.x * 0.5 - 0.5 or absf(p.z) > sz.y * 0.5 - 0.5:
+		if absf(p.x) > sz.x * 0.5 + terrain.extend - 0.5 or absf(p.z) > sz.y * 0.5 + terrain.extend - 0.5:
 			continue
 		if not _free_at(p, rad, float(s["gap"]), s["avoid"], mine):
 			continue
+		if terrain.on:
+			if not plan["waters"].is_empty() and under_water(p):
+				continue
+			p.y = terrain.height_at(p.x, p.z) - 0.05
 		mine.append(p)
 		scatter_pts.append({"kit": k["name"], "pos": p, "r": rad})
 		got += 1
@@ -620,6 +811,43 @@ static func _dist_poly(p: Vector3, poly: PackedVector3Array) -> float:
 # ---------------------------------------------------------------- lighting
 
 func _lighting() -> LightingPreset:
+	var lp := _base_lighting()
+	var sky: Dictionary = plan["sky"]
+	if lp == null or sky.is_empty() or (sky["top"] == null and sky["horizon"] == null):
+		return lp
+	# `sky top= / horizon=`: a copy of the preset with the procedural sky retinted (shared presets stay untouched)
+	var env := lp.environment
+	if env == null or env.sky == null or not env.sky.sky_material is ProceduralSkyMaterial:
+		spec.warn(int(sky["line"]), "sky", "top= / horizon= need a procedural sky (this light preset has none): ignored")
+		return lp
+	var out := lp.duplicate() as LightingPreset
+	var env2 := env.duplicate() as Environment
+	var sky2 := env.sky.duplicate() as Sky
+	var mat := env.sky.sky_material.duplicate() as ProceduralSkyMaterial
+	if sky["top"] != null:
+		mat.sky_top_color = sky["top"]
+	if sky["horizon"] != null:
+		mat.sky_horizon_color = sky["horizon"]
+		mat.ground_horizon_color = (sky["horizon"] as Color).darkened(0.5)
+		env2.fog_light_color = (sky["horizon"] as Color).darkened(0.3)
+	sky2.sky_material = mat
+	env2.sky = sky2
+	out.environment = env2
+	return out
+
+
+## The horizon colour of the set's sky (mountain haze default).
+func _haze_color() -> Color:
+	var sky: Dictionary = plan["sky"]
+	if not sky.is_empty() and sky["horizon"] != null:
+		return sky["horizon"]
+	var lp := _base_lighting()
+	if lp and lp.environment and lp.environment.sky and lp.environment.sky.sky_material is ProceduralSkyMaterial:
+		return (lp.environment.sky.sky_material as ProceduralSkyMaterial).sky_horizon_color
+	return Color(0.62, 0.64, 0.70)
+
+
+func _base_lighting() -> LightingPreset:
 	var l: String = plan["light"]
 	if l.begins_with("res://"):
 		return load(l) as LightingPreset
@@ -689,7 +917,16 @@ static func mood_preset(mood: String) -> LightingPreset:
 func save(root: Node3D) -> String:
 	var dir := set_dir()
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir + "/meshes"))
-	for nm: String in ["Ground", "Paths", "Scatter", "Masonry"]:
+	var names: Array[String] = ["Ground", "Paths", "Scatter", "Masonry", "Mountains"]
+	for w: Dictionary in plan["waters"]:
+		names.append("Water_%s" % w["name"])
+	var cs := root.get_node_or_null(^"TerrainBody/Shape") as CollisionShape3D
+	if cs and cs.shape:
+		var sp := "%s/meshes/terrain_shape.res" % dir
+		ResourceSaver.save(cs.shape, sp, ResourceSaver.FLAG_COMPRESS)
+		cs.shape.take_over_path(sp)
+		report.files.append(sp)
+	for nm: String in names:
 		var mi := root.get_node_or_null(nm) as MeshInstance3D
 		if mi and mi.mesh:
 			var mp := "%s/meshes/%s.res" % [dir, nm.to_lower()]

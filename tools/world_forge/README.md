@@ -44,6 +44,43 @@ the cinematic runtime convention, `atan2(dir.x, dir.z)`): an actor at `yaw=0` fa
 | `actor <tag> <kit>` | `at=`, `yaw=`, `scale=`, `lights=` off (default) / on | a puppet: `puppet(&"<tag>")` returns it |
 | `mark <shot>` | `from=(x,y,z)`, `look=(x,y,z)`, `to=` (= from), `look_to=` (= look), `fov=` (40, vertical deg), `fov_to=`, `subject=<actor or place tag>`, `dur=` (s, note only), `lens="..."` (note only) | camera marks; **explicit coordinates** (Lens, tool 3, is not installed yet) |
 
+### Terrain, sky and water (prologue P1, 2026-09-27)
+
+A set without any of these lines stays exactly as before (flat ground at y = 0). With them, the ground becomes a
+**height field** baked to one mesh (+ a `StaticBody3D` collision, layer 1) and everything sits on it.
+
+| Statement | Keys (default) | Notes |
+|---|---|---|
+| `terrain` | `step=` (2, grid metres), `smooth=` (2, blur passes), `noise=` (0.25, m of small bumps), `extend=` (0, m of terrain beyond the set edges on every side: distant hills), `rock=` (stone, colour of steep slopes), `snow=` (off, height above which the ground turns snow), `seed=` | optional: the first `hill` / `ridge` / `valley` / `pad` turns terrain on with these defaults |
+| `hill <name>` | `at=(x,z)`, `r=` (12, radius), `h=` (6, height; negative = a hollow), `flat=` (0, plateau fraction 0..0.9 of r) | round, cosine falloff; ops add up |
+| `ridge <name>` | `poly=[(x,z),...]`, `width=` (10), `h=` (8), `jag=` (0.3, crest roughness 0..1) | a hill line along a polyline (ends taper) |
+| `valley <name>` | `poly=[...]`, `width=` (12), `depth=` (3), `flat=` (0.4, flat bottom fraction) | a cut along a polyline (put a `water` or a `path kit=river` in it) |
+| `pad <name>` | `at=(x,z)`, `r=` (6), `y=` (terrain height at the centre), `edge=` (r*0.6, blend ring) | **exactly flat** circle for buildings / actors, applied after smoothing |
+| `sky` | `mountains=` (2 layers, 0 = none), `dist=` (190 m from the set centre), `height=` (38 m), `color=` (#3a4150), `haze=` (the mood's horizon colour), `top=` / `horizon=` (retint the mood's sky), `seed=` | distant mountains: jagged silhouette rings, unshaded, 1 draw; the far layer fades to `haze`. The cinematic camera's far plane is 250 m: keep `dist` + the camera's distance from (0,0) < 250 |
+| `water <name>` | `level=` (-0.5, y), `area=` (whole terrain) ring / circle / rect / zone, `color=` (#1d4252), `alpha=` (0.85) | a flat transparent plane, 1 draw; fills valleys below `level`; scatter never lands under water |
+
+Placement on terrain: `place` / `row` / `scatter` / `actor` / `wall` / `path` sit on the terrain automatically
+(`place ... y=` is still an absolute height). `place` / `actor` take **`pad=R`** (= a `pad` of radius R under them).
+A pad needs `r` >= 2 x `step` to be flat (smaller pads fall between grid points); make a building's pad cover its
+forecourt too. `mark ... ground=rel` measures the y of `from` / `to` / `look` / `look_to` from the terrain under each point
+(`from=(0,2,30) ground=rel` = 2 m above the hill there); without it y is absolute.
+Checks added: **T1** placements on flat enough ground (slope under a place / actor > 12 deg = WARN, add `pad=`),
+**M2** now fails a camera under the terrain, **M3** warns when a hill hides the subject. plan.png shows hill shading.
+Budget: terrain = 1 draw (grid capped at 300 x 300 cells: `step` grows), mountains 1, each water 1.
+
+Example (`art/cinematics/stage_sets/forge_hills_demo/forge_hills_demo.set`, builds PASS):
+```
+set forge_hills_demo  size=60x50  ground=grass  light=dawn  seed=5
+terrain  step=2  smooth=2  noise=0.3  extend=60  rock=stone
+hill   crown   at=(0,-12)  r=18  h=7  flat=0.45
+ridge  north   poly=[(-70,-45),(-20,-60),(40,-55),(80,-35)]  width=36  h=22  jag=0.4
+valley stream  poly=[(-60,20),(-15,14),(20,22),(70,12)]  width=14  depth=3
+water  lake    level=-1.2
+place kit:fire_keep  at=(0,-12)  tag=keep  lights=off  pad=9
+sky    mountains=2  dist=190  height=40
+mark H01  from=(-6,3,30)  look=(0,6,-12)  subject=keep  ground=rel  fov=40   # + H02..H04 in the file
+```
+
 **Kits** (`kit:<name>`): trees `pine fir birch broadleaf gold_tree`; rocks `boulder shards slab spire ruin_pillar
 standing_stones giant_stump aqueduct crystal_node`; buildings `fire_keep ice_keep nature_keep dusk_keep watchtower
 wayshrine essence_well ember_crucible tavern lost_cache`; actors `vessa torvald ysolde malrik flame_guard
@@ -147,7 +184,7 @@ M1-M4 / F1 PASS), `crown_hollow.map` (exported from `scenes/skirmish.tscn`, 51 s
 ## Limits (v1)
 - A new map (no `navmesh` line) previews on flat ground + water + keep footprints + blocks: no forest / cliffs.
   Lairs reach the Map Lab through a generated `LAIR_SPOTS` constant. Navigation links are not exported (WARN E5).
-- Sets: flat ground (no terrain height), no per-shot acting (`AnimationPlayer` "Acting" is honoured if added later),
+- Sets: terrain is a height field (no overhangs / cliffs, no caves), no per-shot acting (`AnimationPlayer` "Acting" is honoured if added later),
   no Art Lab `decor_set` run yet, marks need explicit coordinates until Lens (tool 3) lands.
 - `forge_spec.gd` / `forge_report.gd` are thin adapters over `tools/common/` (ToolSpec / ToolReport): budget tokens
   `draws<=150`, `(x,z)` ground points, polylines and areas are World Forge's own value shapes.

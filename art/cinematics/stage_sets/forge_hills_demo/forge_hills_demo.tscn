@@ -1,0 +1,232 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_eor8l"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_hills_demo/forge_hills_demo_lighting.tres" id="2_c3d70"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_hills_demo/meshes/ground.res" id="3_cjj7j"]
+[ext_resource type="Shape3D" path="res://art/cinematics/stage_sets/forge_hills_demo/meshes/terrain_shape.res" id="4_q7xby"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_hills_demo/meshes/mountains.res" id="5_iysvr"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_hills_demo/meshes/water_lake.res" id="6_quqlf"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_hills_demo/meshes/paths.res" id="7_c6kf0"]
+[ext_resource type="PackedScene" path="res://art/buildings/fire_keep.tscn" id="8_h6fnh"]
+[ext_resource type="Script" path="res://art/buildings/fire_keep.gd" id="9_sdblw"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_painted.gdshader" id="10_uif5x"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="11_wkh5k"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_glow.gdshader" id="12_a7jvm"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_runes.gdshader" id="13_xg4ck"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_banner.gdshader" id="14_57xfk"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_ground.gdshader" id="15_uemmb"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/vessa.tscn" id="16_rx2s3"]
+[ext_resource type="Script" path="res://art/units/wizards/vessa.gd" id="17_88oew"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_hills_demo/meshes/scatter.res" id="18_7ewnw"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_hills_demo/meshes/masonry.res" id="19_uw7am"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_08qhq"]
+resource_local_to_scene = true
+resource_name = "FirePainted"
+render_priority = 0
+shader = ExtResource("10_uif5x")
+shader_parameter/base_colors = PackedColorArray(0.33, 0.28, 0.25, 1, 0.1, 0.08, 0.09, 1, 0.17, 0.14, 0.13, 1, 0.66, 0.43, 0.17, 1, 0.85, 0.3, 0.12, 1)
+shader_parameter/spec_strengths = PackedFloat32Array(0, 0.4, 0, 0.45, 0.12)
+shader_parameter/crack_strengths = PackedFloat32Array(0.55, 1, 0, 0, 0)
+shader_parameter/patterns = PackedInt32Array(1, 3, 1, 4, 2)
+shader_parameter/block_sizes = PackedVector2Array(1, 0.5, 1, 1, 0.8, 0.42, 1.1, 10, 0.5, 0.34)
+shader_parameter/joint_widths = PackedFloat32Array(0.07, 0.07, 0.06, 0.05, 0.05)
+shader_parameter/block_tints = PackedFloat32Array(0.18, 0.18, 0.26, 0.2, 0.24)
+shader_parameter/noise_tex = ExtResource("11_wkh5k")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/rim_color = Color(0.55, 0.65, 0.85, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/crack_color = Color(1, 0.5, 0.12, 1)
+shader_parameter/crack_speed = 1.2
+shader_parameter/crack_scale = 0.8
+shader_parameter/damage = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u1del"]
+resource_local_to_scene = true
+resource_name = "FireGlow"
+render_priority = 0
+shader = ExtResource("12_a7jvm")
+shader_parameter/noise_tex = ExtResource("11_wkh5k")
+shader_parameter/boost = 1.0
+shader_parameter/gate_boost = 1.0
+shader_parameter/core_boost = 1.0
+shader_parameter/team_glow = Color(1, 0.6, 0.18, 1)
+shader_parameter/glow_color = Color(1, 0.55, 0.15, 1)
+shader_parameter/window_color = Color(1, 0.45, 0.1, 1)
+shader_parameter/window_hot = Color(1, 0.85, 0.45, 1)
+shader_parameter/window_energy = 2.3
+shader_parameter/heart_color = Color(1, 0.5, 0.12, 1)
+shader_parameter/heart_core = Color(1, 0.9, 0.6, 1)
+shader_parameter/heart_energy = 3.6
+shader_parameter/heart_pulse_speed = 4.2
+shader_parameter/lava_core = Color(1, 0.86, 0.45, 1)
+shader_parameter/lava_hot = Color(1, 0.42, 0.08, 1)
+shader_parameter/lava_crust = Color(0.16, 0.05, 0.03, 1)
+shader_parameter/lava_energy = 2.4
+shader_parameter/lava_flow_speed = 0.45
+shader_parameter/lava_agitation = 0.0
+shader_parameter/lava_cool = 0.0
+shader_parameter/void_color = Color(0.035, 0.015, 0.01, 1)
+shader_parameter/outline_energy = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gam7l"]
+resource_local_to_scene = true
+resource_name = "Runes"
+render_priority = 0
+shader = ExtResource("13_xg4ck")
+shader_parameter/glow_color = Color(1, 0.6, 0.18, 1)
+shader_parameter/energy = 2.6
+shader_parameter/cells = 26.0
+shader_parameter/boost = 1.0
+shader_parameter/pulse_speed = 1.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a78ju"]
+resource_local_to_scene = true
+resource_name = "Banner"
+render_priority = 0
+shader = ExtResource("14_57xfk")
+shader_parameter/cloth_color = Color(0.85, 0.3, 0.12, 1)
+shader_parameter/stripe_color = Color(0.55, 0.08, 0.05, 1)
+shader_parameter/trim_color = Color(0.8, 0.55, 0.22, 1)
+shader_parameter/glyph_color = Color(1, 0.75, 0.3, 1)
+shader_parameter/glyph_energy = 0.9
+shader_parameter/amplitude = 0.11
+shader_parameter/speed = 2.4
+shader_parameter/rim_color = Color(0.89500004, 0.51, 0.384, 1)
+shader_parameter/rim_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_by8lr"]
+resource_local_to_scene = true
+resource_name = "Ground"
+render_priority = -1
+shader = ExtResource("15_uemmb")
+shader_parameter/noise_tex = ExtResource("11_wkh5k")
+shader_parameter/scorch_color = Color(0.05, 0.03, 0.02, 0.66)
+shader_parameter/crack_color = Color(1, 0.45, 0.1, 1)
+shader_parameter/crack_energy = 2.2
+shader_parameter/rune_energy = 1.3
+shader_parameter/darkness = 0.0
+shader_parameter/size_m = 13.0
+
+[node name="forge_hills_demo" type="Node3D" unique_id=133483391]
+script = ExtResource("1_eor8l")
+set_id = &"forge_hills_demo"
+lighting = ExtResource("2_c3d70")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/vessa")])
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1245293678]
+gi_mode = 0
+mesh = ExtResource("3_cjj7j")
+
+[node name="TerrainBody" type="StaticBody3D" parent="." unique_id=1419432372]
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="TerrainBody" unique_id=1459463963]
+shape = ExtResource("4_q7xby")
+
+[node name="Mountains" type="MeshInstance3D" parent="." unique_id=687706905]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("5_iysvr")
+
+[node name="Water_lake" type="MeshInstance3D" parent="." unique_id=315940366]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("6_quqlf")
+
+[node name="Paths" type="MeshInstance3D" parent="." unique_id=959151260]
+gi_mode = 0
+mesh = ExtResource("7_c6kf0")
+
+[node name="Placed" type="Node3D" parent="." unique_id=1687207748]
+
+[node name="keep" type="Node3D" parent="Placed" unique_id=1190447692 instance=ExtResource("8_h6fnh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.098281, -12)
+script = ExtResource("9_sdblw")
+painted_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_08qhq")])
+glow_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_u1del"), SubResource("ShaderMaterial_gam7l")])
+gate_material = SubResource("ShaderMaterial_u1del")
+cap_material = SubResource("ShaderMaterial_08qhq")
+banner_material = SubResource("ShaderMaterial_a78ju")
+crystal_material = SubResource("ShaderMaterial_u1del")
+heart_material = SubResource("ShaderMaterial_u1del")
+ground_material = SubResource("ShaderMaterial_by8lr")
+lava_material = SubResource("ShaderMaterial_u1del")
+rune_material = SubResource("ShaderMaterial_gam7l")
+
+[node name="Puppets" type="Node3D" parent="." unique_id=229489593]
+
+[node name="vessa" type="Node3D" parent="Puppets" unique_id=1339619530 instance=ExtResource("16_rx2s3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 6.670545, 0)
+script = ExtResource("17_88oew")
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_speed = 4.6
+
+[node name="Scatter" type="MeshInstance3D" parent="." unique_id=409642593]
+gi_mode = 0
+mesh = ExtResource("18_7ewnw")
+
+[node name="Masonry" type="MeshInstance3D" parent="." unique_id=314910976]
+gi_mode = 0
+mesh = ExtResource("19_uw7am")
+
+[node name="Shots" type="Node3D" parent="." unique_id=541194496]
+
+[node name="H01_from" type="Marker3D" parent="Shots" unique_id=269296554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 3.0127778, 30)
+metadata/fov = 40.0
+
+[node name="H01_to" type="Marker3D" parent="Shots" unique_id=72267512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.897796, 26)
+metadata/fov = 40.0
+
+[node name="H01_look_from" type="Marker3D" parent="Shots" unique_id=400845861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.098281, -12)
+
+[node name="H01_look_to" type="Marker3D" parent="Shots" unique_id=834276140]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.098281, -12)
+
+[node name="H02_from" type="Marker3D" parent="Shots" unique_id=1003743197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 24, 46)
+metadata/fov = 46.0
+
+[node name="H02_to" type="Marker3D" parent="Shots" unique_id=477729027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 24, 46)
+metadata/fov = 46.0
+
+[node name="H02_look_from" type="Marker3D" parent="Shots" unique_id=170339930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -12)
+
+[node name="H02_look_to" type="Marker3D" parent="Shots" unique_id=885329423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -12)
+
+[node name="H03_from" type="Marker3D" parent="Shots" unique_id=1843884736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 8.625991, -1.5)
+metadata/fov = 34.0
+
+[node name="H03_to" type="Marker3D" parent="Shots" unique_id=668625460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 8.625991, -1.5)
+metadata/fov = 34.0
+
+[node name="H03_look_from" type="Marker3D" parent="Shots" unique_id=387462731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 8.170546, 0)
+
+[node name="H03_look_to" type="Marker3D" parent="Shots" unique_id=485888310]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 8.170546, 0)
+
+[node name="H04_from" type="Marker3D" parent="Shots" unique_id=1954918572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 3.5, 31)
+metadata/fov = 42.0
+
+[node name="H04_to" type="Marker3D" parent="Shots" unique_id=174813123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 3.5, 31)
+metadata/fov = 42.0
+
+[node name="H04_look_from" type="Marker3D" parent="Shots" unique_id=443011929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 17)
+
+[node name="H04_look_to" type="Marker3D" parent="Shots" unique_id=1127974581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 17)

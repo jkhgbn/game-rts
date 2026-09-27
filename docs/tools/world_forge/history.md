@@ -21,3 +21,14 @@
 | 2026-09-27 08:07:10 | map | crown_hollow | 100 | PASS (0F 0W) | ddbe2dda6264/6976d88e4e12 |  | docs/tools/world_forge/out/crown_hollow/report_map.md |
 | 2026-09-27 08:09:01 | map | crown_hollow | 100 (+0) | PASS (0F 0W) | ddbe2dda6264/6976d88e4e12 |  | docs/tools/world_forge/out/crown_hollow/report_map.md |
 | 2026-09-27 08:10:14 | map | fourfold_hollow | 100 | PASS (0F 0W) | 12c62c06b891/17c01a78162c |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 12:26:28 | build | forge_hills_demo | 98 | WARN (0F 1W) | 53df88a76809 | Placements on flat enough ground | docs/tools/world_forge/out/forge_hills_demo/report.md |
+| 2026-09-27 12:27:03 | build | forge_hills_demo | 98 (+0) | WARN (0F 1W) | 53df88a76809 | Placements on flat enough ground | docs/tools/world_forge/out/forge_hills_demo/report.md |
+| 2026-09-27 12:27:34 | build | forge_intro_vessa | 67 | FAIL (2F 1W) | e4c064d5095f | Draw calls; Cameras clear of geometry; Line of sight to the subject | docs/tools/world_forge/out/forge_intro_vessa/report.md |
+| 2026-09-27 12:27:48 | build | forge_hills_demo | 98 (+0) | WARN (0F 1W) | 64642a416c50 | Placements on flat enough ground | docs/tools/world_forge/out/forge_hills_demo/report.md |
+| 2026-09-27 12:28:37 | build | forge_hills_demo | 96 (-2) | WARN (0F 1W) | 8691d838a776 | Line of sight to the subject | docs/tools/world_forge/out/forge_hills_demo/report.md |
+| 2026-09-27 12:30:06 | build | forge_intro_vessa | 96 (+29) | WARN (0F 1W) | 9a2fbf97bc0d | Line of sight to the subject | docs/tools/world_forge/out/forge_intro_vessa/report.md |
+| 2026-09-27 12:30:18 | build | forge_hills_demo | 100 (+4) | PASS (0F 0W) | 74f66f4c99a3 |  | docs/tools/world_forge/out/forge_hills_demo/report.md |
+| 2026-09-27 12:31:26 | build | forge_hills_demo | 100 (+0) | PASS (0F 0W) | e0da414299e5 |  | docs/tools/world_forge/out/forge_hills_demo/report.md |
+| 2026-09-27 12:32:29 | build | forge_intro_vessa | 92 (-4) | WARN (0F 1W) | 3132c90abf34 | Cameras clear of geometry | docs/tools/world_forge/out/forge_intro_vessa/report.md |
+| 2026-09-27 12:32:33 | build | forge_hills_demo | 100 (+0) | PASS (0F 0W) | e0da414299e5 |  | docs/tools/world_forge/out/forge_hills_demo/report.md |
+| 2026-09-27 12:32:48 | build | forge_intro_malrik | 71 | FAIL (1F 2W) | 74bb6280de89 | Subject inside the 2.39 band; Cameras clear of geometry; Line of sight to the subject | docs/tools/world_forge/out/forge_intro_malrik/report.md |

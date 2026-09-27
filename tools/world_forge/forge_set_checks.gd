@@ -88,6 +88,26 @@ static func run(fs: FSet, inst: Node3D) -> void:
 			short.append("line %d %s: %d / %d" % [s["line"], s["kit"]["name"], s.get("placed", 0), s["count"]])
 	rep.fcheck("S3", "Scatter counts", "WARN" if not short.is_empty() else "PASS", "%d instances%s" % [tot, "" if short.is_empty() else "; short: " + ", ".join(short)],
 		"every scatter line places its count", "widen the area, lower gap= or count= (the area is full)")
+	# ---- terrain
+	if fs.terrain.on:
+		var steep: Array[String] = []
+		var n := 0
+		for p: Dictionary in plan["places"]:
+			if bool(p.get("row", false)) or bool(p.get("y_set", false)):
+				continue
+			n += 1
+			var sl := fs.terrain.slope_deg(p["at"].x, p["at"].z)
+			if sl > 12.0:
+				steep.append("line %d %s %.0f deg" % [p["line"], p["kit"]["name"], sl])
+		for a: Dictionary in plan["actors"]:
+			n += 1
+			var sl := fs.terrain.slope_deg(a["at"].x, a["at"].z)
+			if sl > 12.0:
+				steep.append("line %d actor %s %.0f deg" % [a["line"], a["tag"], sl])
+		var hmm := fs.terrain.min_max()
+		rep.fcheck("T1", "Placements on flat enough ground", "WARN" if not steep.is_empty() else "PASS",
+			("%d / %d on slopes: %s" % [steep.size(), n, ", ".join(steep)]) if not steep.is_empty() else "%d placements; terrain %dx%d cells of %.2f m, y %.1f..%.1f" % [n, fs.terrain.nx - 1, fs.terrain.nz - 1, fs.terrain.step, hmm.x, hmm.y],
+			"slope under every place / actor <= 12 deg", "add pad=<radius> to the place / actor line (or a `pad` statement)")
 	# ---- marks
 	_check_marks(fs, rep, inst)
 
@@ -120,13 +140,20 @@ static func _check_marks(fs: FSet, rep, inst: Node3D) -> void:
 			for o: Dictionary in fs.obstacles:
 				if m["subject"] != "" and o.get("tag", "") != m["subject"] and not _point_in(o, cam, 0.9) and _seg_hits(o, cam, subj):
 					blocked.append("%s: %s blocks the view of %s" % [tag, o["name"], m["subject"]])
+			if fs.terrain.on:
+				for s in range(1, 24):
+					var q := cam.lerp(subj, s / 24.0 * 0.95)
+					if q.y < fs.terrain.height_at(q.x, q.z) - 0.2:
+						blocked.append("%s: the terrain (a hill) hides %s at (%.0f, %.0f)" % [tag, m["subject"] if m["subject"] != "" else "the look point", q.x, q.z])
+						break
 		# the camera path, sampled every 1/8 of the move
 		for k in 9:
 			var t := k / 8.0
 			var cam: Vector3 = (m["from"] as Vector3).lerp(m["to"], t)
 			var tag := "%s@%.2f" % [m["shot"], t]
-			if cam.y < 0.3:
-				inside.append("%s under the ground (y %.2f)" % [tag, cam.y])
+			var gy := fs.terrain.height_at(cam.x, cam.z)
+			if cam.y < gy + 0.3:
+				inside.append("%s under the ground (y %.2f, ground %.2f)" % [tag, cam.y, gy])
 			for o: Dictionary in fs.obstacles:
 				if _point_in(o, cam, 0.15):
 					inside.append("%s inside %s" % [tag, o["name"]])
@@ -214,6 +241,22 @@ static func plan_image(fs: FSet) -> Image:
 	img.fill((plan["ground"] as Color).lerp(Color(0.5, 0.5, 0.5), 0.3))
 	var to_px := func(p: Vector3) -> Vector2:
 		return Vector2((p.x + sz.x * 0.5) * ppm, (p.z + sz.y * 0.5) * ppm)
+	if fs.terrain.on:
+		# hill shading + 2 m contours, water in blue (0.5 m cells)
+		var base: Color = (plan["ground"] as Color).lerp(Color(0.5, 0.5, 0.5), 0.3)
+		var cell := 0.5
+		var cx := 0.0
+		while cx < sz.x:
+			var cz := 0.0
+			while cz < sz.y:
+				var wx := cx - sz.x * 0.5 + cell * 0.5
+				var wz := cz - sz.y * 0.5 + cell * 0.5
+				var col := fs.terrain.shade(base, wx, wz)
+				if not plan["waters"].is_empty() and fs.under_water(Vector3(wx, 0, wz)):
+					col = col.lerp(Color(0.18, 0.38, 0.55), 0.7)
+				img.fill_rect(Rect2i(int(cx * ppm), int(cz * ppm), int(ceil(cell * ppm)) + 1, int(ceil(cell * ppm)) + 1), col)
+				cz += cell
+			cx += cell
 	# 5 m grid
 	var gx := 0.0
 	while gx <= sz.x:

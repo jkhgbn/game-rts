@@ -187,13 +187,14 @@ static func ground(size: Vector2, base: Color, seed: int, step := 2.0) -> Surfac
 
 
 ## A ribbon along a polyline at height y (width w).
-static func ribbon(st: SurfaceTool, poly: PackedVector3Array, w: float, col: Color, y: float, seed: int) -> void:
+## `ground` (optional, Callable(x, z) -> height) drapes the ribbon over terrain.
+static func ribbon(st: SurfaceTool, poly: PackedVector3Array, w: float, col: Color, y: float, seed: int, ground := Callable()) -> void:
 	for k in range(poly.size() - 1):
 		var a := poly[k]
 		var b := poly[k + 1]
 		var d := Vector3(b.x - a.x, 0, b.z - a.z).normalized()
 		var side := Vector3(-d.z, 0, d.x) * w * 0.5
-		var n := maxi(1, int((b - a).length() / 2.0))
+		var n := maxi(1, int((b - a).length() / (2.0 if not ground.is_valid() else 1.0)))
 		for s in n:
 			var p0 := a.lerp(b, float(s) / n)
 			var p1 := a.lerp(b, float(s + 1) / n)
@@ -204,7 +205,7 @@ static func ribbon(st: SurfaceTool, poly: PackedVector3Array, w: float, col: Col
 				var p: Vector3 = q[i]
 				st.set_color(col.lerp(col.darkened(0.25), hash01(p.x * 0.5, p.z * 0.5, seed + 3)))
 				st.set_normal(Vector3.UP)
-				st.add_vertex(Vector3(p.x, y, p.z))
+				st.add_vertex(Vector3(p.x, y + (float(ground.call(p.x, p.z)) if ground.is_valid() else 0.0), p.z))
 
 
 ## Adds an axis-aligned box (local to xf) with a colour.
@@ -229,11 +230,12 @@ static func box(st: SurfaceTool, xf: Transform3D, center: Vector3, half: Vector3
 
 ## A crenellated wall along a polyline, skipping gates [{at: Vector3, width}]. Returns the collider boxes
 ## [{xf, half}] so the checks can test cameras against it.
-static func wall(st: SurfaceTool, poly: PackedVector3Array, height: float, thick: float, col: Color, gates: Array, seed: int) -> Array:
+static func wall(st: SurfaceTool, poly: PackedVector3Array, height: float, thick: float, col: Color, gates: Array, seed: int, ground := Callable()) -> Array:
 	var boxes: Array = []
+	var gv := ground.is_valid()
 	for k in range(poly.size() - 1):
-		var a := poly[k]
-		var b := poly[k + 1]
+		var a := Vector3(poly[k].x, 0, poly[k].z)
+		var b := Vector3(poly[k + 1].x, 0, poly[k + 1].z)
 		var length := Vector2(b.x - a.x, b.z - a.z).length()
 		var dir := Vector3(b.x - a.x, 0, b.z - a.z).normalized()
 		var xf := Transform3D(Basis(Vector3.UP, atan2(-dir.z, dir.x)), a)
@@ -249,19 +251,36 @@ static func wall(st: SurfaceTool, poly: PackedVector3Array, height: float, thick
 			if gated:
 				continue
 			var tone := col.lerp(col.darkened(0.2), hash01(mid_world.x, mid_world.z, seed))
-			box(st, xf, mid_local + Vector3(0, height * 0.5, 0), Vector3(seg * 0.5 + 0.02, height * 0.5, thick * 0.5), tone)
-			boxes.append({"xf": xf, "center": mid_local + Vector3(0, height * 0.5, 0), "half": Vector3(seg * 0.5, height * 0.5, thick * 0.5)})
+			# on terrain: the segment stands on the ground at its middle and sinks below its lowest end
+			var gy := 0.0
+			var sink := 0.0
+			if gv:
+				var w0 := xf * Vector3(seg * s, 0, 0)
+				var w1 := xf * Vector3(seg * (s + 1), 0, 0)
+				gy = float(ground.call(mid_world.x, mid_world.z))
+				sink = gy - minf(gy, minf(float(ground.call(w0.x, w0.z)), float(ground.call(w1.x, w1.z)))) + 0.4
+			var body_c := mid_local + Vector3(0, gy + height * 0.5 - sink * 0.5, 0)
+			var body_h := Vector3(seg * 0.5, height * 0.5 + sink * 0.5, thick * 0.5)
+			box(st, xf, body_c, body_h + Vector3(0.02, 0, 0), tone)
+			boxes.append({"xf": xf, "center": body_c, "half": body_h})
 			# merlon on every segment, a crenel gap between (the merlon covers the middle 55 %)
-			box(st, xf, mid_local + Vector3(0, height + 0.35, 0), Vector3(seg * 0.275, 0.35, thick * 0.5 + 0.05), tone.lightened(0.06))
+			box(st, xf, mid_local + Vector3(0, gy + height + 0.35, 0), Vector3(seg * 0.275, 0.35, thick * 0.5 + 0.05), tone.lightened(0.06))
 			# a darker plinth course
-			box(st, xf, mid_local + Vector3(0, 0.3, 0), Vector3(seg * 0.5 + 0.03, 0.3, thick * 0.5 + 0.12), tone.darkened(0.25))
+			box(st, xf, mid_local + Vector3(0, gy + 0.3 - sink * 0.5, 0), Vector3(seg * 0.5 + 0.03, 0.3 + sink * 0.5, thick * 0.5 + 0.12), tone.darkened(0.25))
 		# a tower stub on each corner
-		box(st, Transform3D(Basis(), a), Vector3(0, height * 0.6, 0), Vector3(thick, height * 0.6, thick), col.darkened(0.1))
-		boxes.append({"xf": Transform3D(Basis(), a), "center": Vector3(0, height * 0.6, 0), "half": Vector3(thick, height * 0.6, thick)})
-	var last := poly[poly.size() - 1]
-	box(st, Transform3D(Basis(), last), Vector3(0, height * 0.6, 0), Vector3(thick, height * 0.6, thick), col.darkened(0.1))
-	boxes.append({"xf": Transform3D(Basis(), last), "center": Vector3(0, height * 0.6, 0), "half": Vector3(thick, height * 0.6, thick)})
+		_tower(st, boxes, a, height, thick, col, ground)
+	var lp := poly[poly.size() - 1]
+	_tower(st, boxes, Vector3(lp.x, 0, lp.z), height, thick, col, ground)
 	return boxes
+
+
+static func _tower(st: SurfaceTool, boxes: Array, a: Vector3, height: float, thick: float, col: Color, ground: Callable) -> void:
+	var gy := float(ground.call(a.x, a.z)) if ground.is_valid() else 0.0
+	var sink := 0.6 if ground.is_valid() else 0.0
+	var c := Vector3(0, gy + height * 0.6 - sink * 0.5, 0)
+	var hf := Vector3(thick, height * 0.6 + sink * 0.5, thick)
+	box(st, Transform3D(Basis(), a), c, hf, col.darkened(0.1))
+	boxes.append({"xf": Transform3D(Basis(), a), "center": c, "half": hf})
 
 
 ## Procedural props: brazier (stone bowl + glowing coals), stake (charred post), crate. `glow` gets the emissive parts.

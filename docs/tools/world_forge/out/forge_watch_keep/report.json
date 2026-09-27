@@ -154,24 +154,23 @@
 	"headless": false,
 	"id": "forge_watch_keep",
 	"improve_next": [],
-	"kind": "build",
+	"kind": "check",
 	"kingdom": "",
 	"notes": [
 		"Mark projections: W01_a ndc (-0.03, 0.13), W01_b ndc (-0.02, 0.11), W01_c ndc (-0.01, 0.08), W02_a ndc (0.00, 0.03), W02_b ndc (0.00, 0.03), W02_c ndc (0.00, 0.04), W03_a ndc (0.00, 0.08), W03_b ndc (0.00, 0.08), W03_c ndc (0.00, 0.08), W04_a ndc (0.11, 0.45), W04_b ndc (0.08, 0.41), W04_c ndc (0.05, 0.36)",
-		"Mesh file md5: ground.res 42f483e2, paths.res 67bda8d0, scatter.res f11f50c7, masonry.res 0d481713",
 		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).",
-		"Files: `art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep.tscn`, `art/cinematics/stage_sets/forge_watch_keep/meshes/ground.res`, `art/cinematics/stage_sets/forge_watch_keep/meshes/paths.res`, `art/cinematics/stage_sets/forge_watch_keep/meshes/scatter.res`, `art/cinematics/stage_sets/forge_watch_keep/meshes/masonry.res`, `art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep_lighting.tres`, `art/cinematics/stage_sets/forge_watch_keep/marks.json`, `docs/tools/world_forge/out/forge_watch_keep/plan.png`"
+		"Files: `docs/tools/world_forge/out/forge_watch_keep/plan.png`"
 	],
-	"previous_quality": -1.0,
+	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 8.1,
+	"seconds": 9.5,
 	"shots": {
 		"plan": "plan.png"
 	},
-	"started": "2026-09-27 08:06:34",
+	"started": "2026-09-27 12:31:56",
 	"tier": "",
 	"tool": "world_forge",
-	"verb": "build"
+	"verb": "check"
 }

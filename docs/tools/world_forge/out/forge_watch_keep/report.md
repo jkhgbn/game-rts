@@ -1,10 +1,10 @@
-# world_forge build: forge_watch_keep
+# world_forge check: forge_watch_keep
 
-2026-09-27 08:06:34 - `tools/world_forge/run_world_forge.ps1 build forge_watch_keep` - hash `e081912a67ec`
+2026-09-27 12:31:56 - `tools/world_forge/run_world_forge.ps1 check forge_watch_keep` - hash `e081912a67ec`
 
-## Result: **PASS** - quality **100 / 100**
+## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 9 PASS, 0 info, 0 skipped, 8 s
+0 FAIL, 0 WARN, 9 PASS, 0 info, 0 skipped, 9 s
 
 ## Improve next
 
@@ -42,6 +42,5 @@
 
 ## Notes
 - Mark projections: W01_a ndc (-0.03, 0.13), W01_b ndc (-0.02, 0.11), W01_c ndc (-0.01, 0.08), W02_a ndc (0.00, 0.03), W02_b ndc (0.00, 0.03), W02_c ndc (0.00, 0.04), W03_a ndc (0.00, 0.08), W03_b ndc (0.00, 0.08), W03_c ndc (0.00, 0.08), W04_a ndc (0.11, 0.45), W04_b ndc (0.08, 0.41), W04_c ndc (0.05, 0.36)
-- Mesh file md5: ground.res 42f483e2, paths.res 67bda8d0, scatter.res f11f50c7, masonry.res 0d481713
 - Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).
-- Files: `art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep.tscn`, `art/cinematics/stage_sets/forge_watch_keep/meshes/ground.res`, `art/cinematics/stage_sets/forge_watch_keep/meshes/paths.res`, `art/cinematics/stage_sets/forge_watch_keep/meshes/scatter.res`, `art/cinematics/stage_sets/forge_watch_keep/meshes/masonry.res`, `art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep_lighting.tres`, `art/cinematics/stage_sets/forge_watch_keep/marks.json`, `docs/tools/world_forge/out/forge_watch_keep/plan.png`
+- Files: `docs/tools/world_forge/out/forge_watch_keep/plan.png`
