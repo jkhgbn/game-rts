@@ -63,3 +63,35 @@ one fix round x 5 x 0.25 h, lead ~12 %. **Expected ~40-45 % of a 5-hour window**
 - Colour-blind check starts as WARN, never FAIL.
 - The style-bible check is INFO until the autumn runs (style-autumn.md section 6) are done.
 - Batch mode becomes the default for sweeps; single runs keep working with the same arguments.
+
+## Phase 4 (after v3 is green): effort trial, then 4 new units
+User request (2026-09-27): "when the art tool is done make 4 new units, but test 1 unit's art on Opus 5.5 from low to
+extra effort and check if more effort really adds quality, then make the rest".
+
+**The 4 units** (one per kingdom, from `docs/design/rush-balance.md` section 5, none has art yet; briefs in 5.4):
+| Kingdom | Unit | Why this one |
+|---|---|---|
+| Nature | **Vinelasher** (trial unit) | hardest known art problem (green on grass, reach 3 m whip read at 40 m): effort differences will show |
+| Fire | Pyre Adept | caster silhouette + splash glow |
+| Shadow | Hexweaver | caster, must read apart from the Nightbolt |
+| Ice | Frostbow | ranged, must read apart from the Frostrune Rifleman |
+Art only (model scene + kit hooks + Art Lab); gameplay data / abilities stay with step 16's code tasks.
+
+**4.1 Effort trial (4 agents in parallel, same brief, ~1 h each at most).** One Opus 5.5 tech-artist agent per effort
+level: **low, medium, high, xhigh**. Each gets the identical prompt (the 5.4 brief, `art-units.md`, the Art Lab v3 loop,
+stop rule "no FAIL and score stops rising", cap 1 h) and builds `art/units/_effort_trial/<level>/vinelasher.tscn`.
+Mechanism: agent files `.claude/agents/tech-artist-effort-<level>.md` (`model: claude-opus-5-5`, `effort: <level>`),
+launched from a session that runs in the repo folder (check at launch that the effort is applied; else run each as
+its own desktop session with its effort set).
+Measured per level (table in `docs/art/lab/effort-trial.md`): Art Lab quality (median of 3 batch runs, fixed pose),
+FAILs / WARNs, the lab's runs to green, wall time, tokens / share of the 5-hour meter, plus one blind side-by-side sheet
+(the 4 models at 40 m / 25 m / close-up, labels hidden A-D) posted to the user.
+**Decision rule:** pick the cheapest level whose median quality is within **2 points** of the best and has no FAIL; if
+two levels tie, the cheaper one. The lead posts the table + sheet in the thread **before** building the other 3.
+The winning Vinelasher moves to `art/units/nature/vinelasher/`; the other 3 trial folders are kept for reference until
+the user says they can go (never deleted without asking).
+
+**4.2 The other 3 units** (Pyre Adept, Hexweaver, Frostbow) in parallel at the winning effort, same loop, then an army
+sweep of Fire / Shadow / Ice with the new units (R2 distinct-from-references against the units named above).
+Budget: trial ~4 agent-hours at mixed effort (~8 %), 3 units ~3 agent-hours (~6 %), lead ~2 %. **~16 % of a window.**
+The effort result also updates the effort rule (`CLAUDE.md` lead playbook + memory) for art tasks.
