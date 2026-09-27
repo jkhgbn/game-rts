@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_glow.gdshader" id="1_f233x"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_f233x")
+shader_parameter/energy = null
+shader_parameter/flicker = null

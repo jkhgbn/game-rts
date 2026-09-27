@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_waterfall.gdshader" id="1_q5p5e"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_q5p5e")
+shader_parameter/deep = null
+shader_parameter/foam = null
+shader_parameter/speed = null

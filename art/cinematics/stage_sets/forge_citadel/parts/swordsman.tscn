@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/swordsman.res" id="1_bcnvs"]
+
+[node name="swordsman" type="Node3D" unique_id=1721009181]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=634547299]
+mesh = ExtResource("1_bcnvs")

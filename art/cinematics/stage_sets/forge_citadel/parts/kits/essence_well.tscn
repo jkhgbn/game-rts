@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/essence_well.res" id="1_p83kq"]
+
+[node name="essence_well" type="Node3D" unique_id=671416371]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=279052927]
+mesh = ExtResource("1_p83kq")

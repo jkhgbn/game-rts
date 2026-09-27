@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_banner.gdshader" id="1_yxsaq"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_yxsaq")
+shader_parameter/amp = null
+shader_parameter/freq = null

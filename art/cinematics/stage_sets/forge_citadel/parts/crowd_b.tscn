@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/crowd_b.res" id="1_fr37a"]
+
+[node name="crowd_b" type="Node3D" unique_id=1836558155]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=217605532]
+mesh = ExtResource("1_fr37a")

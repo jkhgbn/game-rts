@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/wayshrine.res" id="1_q4r2o"]
+
+[node name="wayshrine" type="Node3D" unique_id=1479534208]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=952309822]
+mesh = ExtResource("1_q4r2o")

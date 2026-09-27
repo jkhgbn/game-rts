@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/greywater_lodge.res" id="1_ayy3v"]
+
+[node name="greywater_lodge" type="Node3D" unique_id=1125983639]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=976343936]
+mesh = ExtResource("1_ayy3v")

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/great_bridge.res" id="1_a3a6p"]
+
+[node name="great_bridge" type="Node3D" unique_id=1428055320]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=610597972]
+mesh = ExtResource("1_a3a6p")

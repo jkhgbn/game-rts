@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/dome.res" id="1_klgrn"]
+
+[node name="dome" type="Node3D" unique_id=363832433]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=12336893]
+mesh = ExtResource("1_klgrn")

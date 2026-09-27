@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/shadow_hall.res" id="1_ah88o"]
+
+[node name="shadow_hall" type="Node3D" unique_id=876811903]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=2048872185]
+mesh = ExtResource("1_ah88o")

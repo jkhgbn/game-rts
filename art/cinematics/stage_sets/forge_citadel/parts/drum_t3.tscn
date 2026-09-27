@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/drum_t3.res" id="1_twt0x"]
+
+[node name="drum_t3" type="Node3D" unique_id=1207768505]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1067579242]
+mesh = ExtResource("1_twt0x")

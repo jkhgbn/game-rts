@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/ice_keep.res" id="1_vy5n1"]
+
+[node name="ice_keep" type="Node3D" unique_id=749974734]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1107802608]
+mesh = ExtResource("1_vy5n1")

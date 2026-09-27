@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/road_bridge.res" id="1_8dkpx"]
+
+[node name="road_bridge" type="Node3D" unique_id=1950917129]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1937049589]
+mesh = ExtResource("1_8dkpx")

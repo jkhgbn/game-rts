@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/hovel.res" id="1_mejrv"]
+
+[node name="hovel" type="Node3D" unique_id=687362329]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1203792060]
+mesh = ExtResource("1_mejrv")

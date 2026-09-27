@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/aqueduct.res" id="1_tk0i7"]
+
+[node name="aqueduct" type="Node3D" unique_id=1234291072]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1349578467]
+mesh = ExtResource("1_tk0i7")

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_citadel/parts/kits/fire_keep.res" id="1_5kwp1"]
+
+[node name="fire_keep" type="Node3D" unique_id=478598667]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1350577766]
+mesh = ExtResource("1_5kwp1")
