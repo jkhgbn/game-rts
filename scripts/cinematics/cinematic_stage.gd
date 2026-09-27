@@ -22,6 +22,12 @@ const MIN_SCALE := 0.5
 @export var render_scale := true
 @export var force_recording := false
 @export var quit_when_done := true
+## Added 2026-09-27 (campaign prologue): actor tag -> NodePath (from this node) for actors that are neither a set's
+## `puppet(tag)` nor a direct child named after the tag (written by tools/cine/cine_stage_export.gd).
+@export var actor_paths: Dictionary = {}
+## A LightingRig (art/environment/lighting) under this stage: `set_active_set` applies the set's `lighting`
+## (LightingPreset), else the rig's own preset. Empty = sets light themselves.
+@export var lighting_rig: NodePath = NodePath("")
 
 var player: CinematicPlayer = null
 var _actors: Dictionary = {}
@@ -30,6 +36,8 @@ var _saved_scale := -1.0
 var _saved_mode := -1
 var _black: ColorRect = null
 var _black_layer: CanvasLayer = null
+var _rig: Node = null
+var _rig_default: Resource = null
 
 
 func is_recording() -> bool:
@@ -37,6 +45,14 @@ func is_recording() -> bool:
 
 
 func _ready() -> void:
+	for tag: Variant in actor_paths:
+		var n := get_node_or_null(actor_paths[tag] as NodePath) as Node3D
+		if n != null:
+			register_actor(StringName(str(tag)), n)
+	if not lighting_rig.is_empty():
+		_rig = get_node_or_null(lighting_rig)
+		if _rig != null:
+			_rig_default = _rig.get(&"preset") as Resource
 	if render_scale:
 		_apply_render_scale()
 	if autoplay and autoplay_script != null:
@@ -184,13 +200,18 @@ func active_set_id() -> StringName:
 
 func set_active_set(id: StringName) -> void:
 	_active_set = id
+	var lp: Resource = _rig_default
 	for s in sets():
 		var on := StringName(str(s.get(&"set_id"))) == id
+		if on and s.get(&"lighting") is Resource:
+			lp = s.get(&"lighting")
 		if s.has_method(&"set_active"):
 			s.call(&"set_active", on)
 		else:
 			s.visible = on
 			s.process_mode = Node.PROCESS_MODE_INHERIT if on else Node.PROCESS_MODE_DISABLED
+	if _rig != null and is_instance_valid(_rig) and _rig.is_inside_tree() and lp != null and _rig.has_method(&"apply"):
+		_rig.call(&"apply", lp)
 
 
 ## Camera markers for a shot prefix in the given set (or the active one): see CinematicPlayer.read_markers.

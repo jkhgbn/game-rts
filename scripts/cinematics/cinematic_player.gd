@@ -22,6 +22,8 @@ const FOLLOW_SMOOTH := 6.0
 const EPS := 0.000001
 ## Timed kinds: their duration comes from `_action_duration`.
 const COSMETIC_KINDS: Array[StringName] = [&"vfx", &"sfx", &"anim", &"clip", &"shake"]
+## Voice lines (Voice Forge WAVs peak at -1 dBFS; room for the music bed, like cine's preview and VoicePlayer).
+const VOICE_DB := -2.0
 
 ## Options (set before `play`).
 var recording := false
@@ -86,6 +88,8 @@ var _fired: Dictionary = {}                 # kind -> count (tools / tests)
 var _perf: Dictionary = {}
 var _perf_last := 0
 var _current_title := ""
+var _timed_vfx: Array[Dictionary] = []      # {node, t0, life}: scene vfx with set_cine_age (posed by the clock)
+var _firing_t := 0.0
 
 
 # ------------------------------------------------------------------ static helpers
@@ -158,7 +162,7 @@ func play(script: CinematicScript, context: Node = null) -> String:
 		_overlay.set(&"subtitles_enabled", not recording)
 		_overlay.call(&"open", script.letterbox_aspect)
 	if script.music_cue != &"":
-		_start_music(String(script.music_cue), 0.0, 0.0)
+		_start_music(String(script.music_cue), script.music_volume_db, 0.0, true)
 	if log_enabled:
 		print("[cine] play %s (%d shots, %.2f s, mode %d)" % [script.id, _shots.size(), _total, script.world_mode])
 	started.emit(script.id)
@@ -415,7 +419,7 @@ func _build_timeline() -> void:
 			if l == null:
 				continue
 			var ls := t + clampf(l.at, 0.0, dur)
-			var le := minf(ls + l.effective_duration(), t + dur)
+			var le := ls + l.effective_duration() if _script.lines_over_cuts else minf(ls + l.effective_duration(), t + dur)
 			if le > ls:
 				_lines.append({"start": ls, "end": le, "line": l})
 		t += dur
@@ -423,6 +427,11 @@ func _build_timeline() -> void:
 	_events.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return a["t"] < b["t"] or (a["t"] == b["t"] and a["order"] < b["order"]))
 	_lines.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["start"] < b["start"])
+	if _script.lines_over_cuts:
+		# cine rule: a line runs on over cuts until the next line starts (and the cinematic ends)
+		for li in _lines.size():
+			var nxt: float = _lines[li + 1]["start"] if li + 1 < _lines.size() else _total
+			_lines[li]["end"] = minf(float(_lines[li]["end"]), minf(nxt, _total))
 	var rng := RandomNumberGenerator.new()
 	rng.seed = _script.shake_seed
 	_noise_f.clear()
@@ -444,6 +453,7 @@ func _reset_state() -> void:
 	_snapshot.clear()
 	_posed.clear()
 	_spawned.clear()
+	_timed_vfx.clear()
 	_changed_modes.clear()
 	_hud_restore.clear()
 	_skip_armed = 0.0
@@ -477,6 +487,7 @@ func _process(delta: float) -> void:
 		_perf_sample()
 	_t += delta
 	_advance_to(_t)
+	_update_timed_vfx()
 	_sync_line(_t, false)
 	_apply_frame(delta, false)
 	if _t >= _total - EPS:
@@ -812,11 +823,12 @@ func _sync_line(t: float, force_show: bool) -> void:
 	var L2: Dictionary = _lines[idx]
 	var line: CinematicLine = L2["line"]
 	if _overlay:
-		_overlay.call(&"show_line", line.speaker, line.text, float(L2["end"]) - t)
+		var who := &"" if _script.voice_over.has(line.speaker) else line.speaker
+		_overlay.call(&"show_line", who, line.text, float(L2["end"]) - t)
 	if force_show:
 		return
 	if line.voice != "" and ResourceLoader.exists(line.voice):
-		_play_sfx(line.voice, 0.0)
+		_play_sfx(line.voice, VOICE_DB)
 	line_shown.emit(line)
 	line_started.emit(line.speaker, line.text)
 
@@ -826,6 +838,7 @@ func _sync_line(t: float, force_show: bool) -> void:
 func _fire(e: Dictionary, now: float) -> void:
 	var a: CinematicAction = e["action"]
 	var te: float = e["t"]
+	_firing_t = te
 	if _seeking and COSMETIC_KINDS.has(a.kind):
 		return
 	var n: Node3D = actor(a.actor) if a.actor != &"" else null
@@ -1051,15 +1064,56 @@ func _do_vfx(a: CinematicAction, n: Node3D) -> void:
 	if ps == null:
 		return
 	var inst := ps.instantiate()
-	_spawn_parent().add_child(inst)
+	var parent := _spawn_parent()
+	var life := float(a.params.get("life", 3.0))
 	if inst is Node3D:
-		(inst as Node3D).global_position = a.target
+		# placed before it enters the tree (cine fx read their position / scale in _ready), like cine's preview
+		var n3 := inst as Node3D
+		n3.position = (parent as Node3D).to_local(a.target) if parent is Node3D and (parent as Node3D).is_inside_tree() else a.target
+		if a.params.has("yaw"):
+			n3.rotation.y = deg_to_rad(float(a.params["yaw"]))
+		if a.params.has("scale"):
+			n3.scale = Vector3.ONE * float(a.params["scale"])
+		if a.params.has("to") and n3.has_method(&"set_cine_target"):
+			n3.call(&"set_cine_target", a.params["to"])
+	parent.add_child(inst)
 	if _script.world_mode == CinematicScript.WorldMode.PAUSE:
 		inst.process_mode = Node.PROCESS_MODE_ALWAYS
-	var life := float(a.params.get("life", 3.0))
+	if inst.has_method(&"set_cine_age"):
+		# time-driven effect (art/cinematics/fx): posed from the cinematic clock every frame, freed after `life`
+		_timed_vfx.append({"node": inst, "t0": _t0_of(a), "life": life})
+		inst.call(&"set_cine_age", _t - _t0_of(a))
+		return
 	get_tree().create_timer(life, true).timeout.connect(func() -> void:
 		if is_instance_valid(inst):
 			inst.queue_free())
+
+
+## Start time on the cinematic clock of the action being fired (set by `_fire`).
+func _t0_of(_a: CinematicAction) -> float:
+	return _firing_t
+
+
+func _update_timed_vfx() -> void:
+	for i in range(_timed_vfx.size() - 1, -1, -1):
+		var v: Dictionary = _timed_vfx[i]
+		var n: Node = v["node"]
+		if not is_instance_valid(n):
+			_timed_vfx.remove_at(i)
+			continue
+		var age := _t - float(v["t0"])
+		if age > float(v["life"]):
+			n.queue_free()
+			_timed_vfx.remove_at(i)
+		else:
+			n.call(&"set_cine_age", age)
+
+
+func _clear_timed_vfx() -> void:
+	for v: Dictionary in _timed_vfx:
+		if is_instance_valid(v["node"]):
+			(v["node"] as Node).queue_free()
+	_timed_vfx.clear()
 
 
 func _do_spawn(a: CinematicAction) -> void:
@@ -1133,12 +1187,21 @@ func _bus(names: Array) -> StringName:
 	return &"Master"
 
 
-func _start_music(path: String, volume_db: float, from: float) -> void:
+func _start_music(path: String, volume_db: float, from: float, loop: bool = false) -> void:
 	if path == "" or not ResourceLoader.exists(path):
 		return
 	var st := load(path) as AudioStream
 	if st == null:
 		return
+	var length := st.get_length()
+	if loop and st is AudioStreamWAV and length > 0.0 and length < _total:
+		# a bed shorter than the cinematic loops (cine's preview does the same); a copy, the cached one is untouched
+		var w := (st as AudioStreamWAV).duplicate() as AudioStreamWAV
+		w.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		w.loop_begin = 0
+		w.loop_end = int(length * w.mix_rate)
+		st = w
+		from = fmod(maxf(from, 0.0), length)
 	_music.stream = st
 	_music.volume_db = volume_db
 	_music.bus = _bus(["Cinematic", "Music"])
@@ -1209,6 +1272,7 @@ func _restore_snapshot(t: float) -> void:
 				n.get_parent().remove_child(n)
 	_spawned.clear()
 	_posed.clear()
+	_clear_timed_vfx()
 	for n in _snapshot.keys():
 		if not is_instance_valid(n):
 			continue
@@ -1229,7 +1293,7 @@ func _restore_snapshot(t: float) -> void:
 		_overlay.call(&"hide_title")
 	_music.stop()
 	if _script.music_cue != &"":
-		_start_music(String(_script.music_cue), 0.0, t)
+		_start_music(String(_script.music_cue), _script.music_volume_db, t, true)
 	if _active_set != _initial_set:
 		_switch_set(_initial_set)
 
@@ -1384,6 +1448,7 @@ func _finish(skipped: bool) -> void:
 		return
 	var id := _script.id
 	_music.stop()
+	_clear_timed_vfx()
 	_leave_world_mode()
 	if _overlay:
 		_overlay.call(&"close")

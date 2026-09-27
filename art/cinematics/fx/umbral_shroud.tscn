@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://tools/cine/fx/cine_fx.gd" id="1_fx"]
+[ext_resource type="Script" path="res://art/cinematics/fx/cine_fx.gd" id="1_fx"]
 
 [node name="umbral_shroud" type="Node3D"]
 script = ExtResource("1_fx")

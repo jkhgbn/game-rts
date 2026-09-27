@@ -92,7 +92,7 @@ east side. Party shots S01-S04 are cut to keep each pair (Vessa-dancer, Vessa-Ve
 | B2 | Dancers: 5 soldiers in a ring + the Vessa pair | systems-coder (cine) | Today: `move` one ring step (72 deg) per shot + `play_level_up` hops + `face` turns (in the draft). Motion Lab later: a simple **bob / step-dance loop** clip for any `character_model` (0.5 s bob, arms up), a pair spin, a clap loop for Vey |
 | B3 | Wren the runner | tech-artist | Stand-in today: Wildwood Archer (on foot) + `glade_outrider` (the approach) + a Grove Stag; later a young Nature runner model (small, scorched green cloak, ash on the face) |
 | B4 | Stand-ins | - | Old Vey = Flame Guard until 19.V20; Ashby = Flame Guard until 19.V11 |
-| B5 | Props / VFX | tech-artist | Ysolde's seed-pod token (S10), sparks burst over the lanterns (S04; `tools/cine/fx/fire_burst.tscn` today), Vey's blade spark (S12), the horizon glow (S14) |
+| B5 | Props / VFX | tech-artist | Ysolde's seed-pod token (S10), sparks burst over the lanterns (S04; `art/cinematics/fx/fire_burst.tscn` today), Vey's blade spark (S12), the horizon glow (S14) |
 | B6 | Audio (Sound Forge, tool 9) | ui-coder | `assets/audio/forge/music/ep2_opening.wav`: a folk reel (fiddle, hand drum, whistle) 0:00-0:20, **hard cut** at 0:20.2 (rider), low drone 0:20-0:51, Vessa's fire motif rising 0:51-1:12, title sting. SFX: `feast_crowd` (cheers, mugs, laughter), `horn_far` (0:19), `hooves_gallop` (0:20). Missing = WARN in `cine check` |
 | B7 | Voice | done | 28 lines rendered (below). Re-render only if a line or a voice changes |
 | B8 | Timeline | systems-coder-high | Point `ep2_opening.cine` at the real set's marks once B1 lands, `cine stills` + `perf`, bake, hook into StoryFlow as the first thing Episode 2 plays |

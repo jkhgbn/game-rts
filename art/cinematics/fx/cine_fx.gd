@@ -1,8 +1,8 @@
 extends Node3D
-## Cine-only spell / story effects for the prologue (tools/cine/fx/, owner: cine). Every look is a pure function of the
+## Cine-only spell / story effects for the prologue (art/cinematics/fx/, owner: cine). Every look is a pure function of the
 ## effect's age: CinePreview calls `set_cine_age(age)` each frame and for every still, so stills, seek and Movie Maker
 ## recordings show the same picture. 0 lights: emissive, additive meshes (the set's glow makes them bloom).
-## Used from a .cine: `at 0.4 vfx pillar scene=res://tools/cine/fx/fire_pillar.tscn at=vessa life=2.6`
+## Used from a .cine: `at 0.4 vfx pillar scene=res://art/cinematics/fx/fire_pillar.tscn at=vessa life=2.6`
 ## (`to=` = where a streak / fireball flies, `scale=`, `yaw=`).
 
 @export_enum("streak", "pillar", "ring", "dome", "orbs", "burst") var kind: String = "streak"

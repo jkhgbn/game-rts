@@ -25,6 +25,9 @@ Owner: systems-coder-high. Tools 2 (`cine`), 6 (World Forge) and 10 (Script Desk
 | `fallback_text` | String = `""` | VIDEO fallback card |
 | `return_focus` | Vector3 = `Vector3.INF` | in-mission camera return point (INF = the wizard) |
 | `shake_seed` | int = 1 | seeds the camera-shake noise |
+| `music_volume_db` | float = 0.0 | (added 2026-09-27) volume of `music_cue`; the cue loops when shorter than the movie |
+| `voice_over` | Array[StringName] = [] | (added) speakers whose subtitles show no name (cine's hidden narrator) |
+| `lines_over_cuts` | bool = false | (added) cine rule: a line runs over cuts until the next line starts |
 Methods: `total_duration() -> float`, `shot_index_of(shot_id) -> int`, `static find(id) -> CinematicScript`
 (`res://data/cinematics/<id>.tres`, null if missing).
 
@@ -120,6 +123,15 @@ Helpers: `static make(at, kind, actor, target, params)`, `static is_known_kind(k
   `markers_for(prefix) -> Dictionary`; recording mode when `Engine.get_write_movie_path() != ""` or
   `force_recording` (0.5 s black head / tail, then `get_tree().quit()` unless `quit_when_done` is false; signal `recording_done`).
   `start(script) -> String` plays on demand; signal `cinematic_done(id, skipped)`; `is_black()`; `register_actor(tag, node)`.
+  Added 2026-09-27: `@export actor_paths` (tag -> NodePath, registered at `_ready`), `@export lighting_rig` (a
+  LightingRig child: `set_active_set` applies the set's `lighting`, else the rig's own preset).
+- **Campaign prologue** (2026-09-27): `scenes/cinematics/prologue_3min.tscn` (CinematicStage, 5 World Forge sets, cast,
+  dragon flocks) + `data/cinematics/prologue_3min.tres`, both written by `tools/cine/cine_stage_export.gd`. `MenuFlow.
+  start_campaign_mission` plays it before mission 1 until `CampaignState.is_seen(&"prologue_3min")`; the Campaign
+  menu's "Watch prologue" replays it (`MenuFlow.play_prologue`). Test: `tests/test_campaign_prologue.gd`.
+- `vfx` with `scene`: `yaw` / `scale` / `to` (`set_cine_target`) are applied before it enters the tree; a scene with
+  `set_cine_age(age)` (art/cinematics/fx) is posed from the cinematic clock every frame and freed after `life`.
+  Line voices play at -2 dB.
 - `CinematicInput` (`cinematic_input.gd`): `static ensure_actions()`; the node reads `cinematic_skip` /
   `cinematic_advance` / `cinematic_pause` in `_input` and consumes them.
 - `CastProxy` (`cast_proxy.gd`, `extends Node3D`, group `"heroes"`): `setup(model, kingdom)`, `get_model()`,

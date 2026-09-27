@@ -86,7 +86,7 @@ shot S04 4.0  cam=frame "ms on ashby, 3/4 right, low"  push=0.3
   at 0.3  line ashby "Three relics! One Colossus! Drink!"  dur=3.7
   at 0.6  anim ashby play_level_up
   at 1.6  anim vessa play_cast  arg=fireball
-  at 2.0  vfx sparks scene=res://tools/cine/fx/fire_burst.tscn at=(2, 14, -2) life=2.0 scale=2.0
+  at 2.0  vfx sparks scene=res://art/cinematics/fx/fire_burst.tscn at=(2, 14, -2) life=2.0 scale=2.0
   at 2.1  sfx res://assets/audio/sfx/fireball_explode.wav
   at 3.2  sfx res://assets/audio/forge/sfx/horn_far.wav
 

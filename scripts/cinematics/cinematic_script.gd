@@ -12,7 +12,7 @@ const DATA_DIR := "res://data/cinematics/"
 @export var title: String = ""
 @export var kind: Kind = Kind.ENGINE
 @export var world_mode: WorldMode = WorldMode.STAGE
-## STAGE: the scene StoryFlow loads (`missions/cinematics/<id>.tscn`).
+## STAGE: the scene StoryFlow loads (`missions/cinematics/<id>.tscn`, or `scenes/cinematics/<id>.tscn`).
 @export var stage_scene: String = ""
 ## VIDEO: `res://art/cinematics/video/<id>.ogv`.
 @export var video_path: String = ""
@@ -33,6 +33,13 @@ const DATA_DIR := "res://data/cinematics/"
 @export var return_focus: Vector3 = Vector3.INF
 ## Camera-shake seed (recordings repeat exactly).
 @export var shake_seed: int = 1
+## Added 2026-09-27 (campaign prologue): volume of `music_cue` (`use music ... vol=`); it loops when shorter than the
+## cinematic.
+@export var music_volume_db: float = 0.0
+## Speakers heard as a voice-over (a hidden cine cast, e.g. the Master narrating): subtitles show no name.
+@export var voice_over: Array[StringName] = []
+## cine rule: a line may run on over later cuts until the next line starts (else it is cut at its shot's end).
+@export var lines_over_cuts: bool = false
 
 
 ## Sum of shot durations (branch shots included; the player drops those whose flag fails). VIDEO: last line's end.

@@ -125,8 +125,8 @@ Actions (indented `at <seconds> <action> ...`, time from the shot start):
   speaker (`cast narrator capsule hidden=1 speaker=master`) = voice-over: no name above the subtitle.
 - `use music <path> vol=<dB>`; the music loops.
 - Time-driven nodes: every pose calls `set_cine_time(t)` on group `cine_timed` (dragon flocks) and `set_cine_age(age)`
-  on `vfx ... scene=` nodes, so stills / seek / record agree. Cine effects: `tools/cine/fx/*.tscn` (`cine_fx.gd`:
-  streak, pillar, ring, dome, orbs, burst; `vfx x scene=res://tools/cine/fx/fire_pillar.tscn at=(..) [to=(..)] life= scale= yaw=`).
+  on `vfx ... scene=` nodes, so stills / seek / record agree. Cine effects: `art/cinematics/fx/*.tscn` (`cine_fx.gd`:
+  streak, pillar, ring, dome, orbs, burst; `vfx x scene=res://art/cinematics/fx/fire_pillar.tscn at=(..) [to=(..)] life= scale= yaw=`).
 - Continuity (180-degree rule) now judges only the line between the two shots' subjects (faces), not crowd extras.
 
 ### Upgrade U2 (2026-09-27)
@@ -157,6 +157,12 @@ Actions (indented `at <seconds> <action> ...`, time from the shot start):
 - Stills are slow-ish (~2 s per frame): `shot=S3` for one shot while iterating.
 - Recording: 10 s at 30 fps ~ 300 PNG (~0.7 MB each at 1600x900). The frame size follows the project window.
   Converting to .ogv / .mp4 needs ffmpeg = ask the user first.
+
+## 5b. Into the game (2026-09-27)
+`$GODOT --headless --path . -s tools/cine/cine_stage_export.gd --quit-after 3000 -- prologue_3min` bakes
+`data/cinematics/<id>.tres` and saves the runtime stage `scenes/cinematics/<id>.tscn` (CinematicStage: the sets, props and
+cast posed like cine, a LightingRig, `actor_paths` for every tag). Re-run it after changing the .cine or a set. The game
+never loads tools/ (excluded from the export): cine effects live in `art/cinematics/fx/`.
 
 ## 6. Files
 `run_cine.ps1` (CLI), `cine_main.gd` (verbs), `cine_doc.gd` (parser, shared `tools/common/tool_spec.gd`), `cine_stage.gd`

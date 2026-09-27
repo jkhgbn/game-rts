@@ -31,6 +31,7 @@ var mission_buttons: Array[Button] = []          ## One per mission of CampaignS
 var mission_ids: Array[StringName] = []
 var campaign_difficulty_buttons: Array[Button] = []
 var campaign_start_button: Button
+var prologue_button: Button                       ## Campaign panel: replays the prologue cinematic.
 
 var _difficulty := 1   # Commander.Difficulty.NORMAL
 var _enemy: StringName = &"shadow"
@@ -290,7 +291,12 @@ func is_mission_playable(id: StringName) -> bool:
 func start_mission() -> Node:
 	if _mission == &"":
 		return null
-	return MenuFlow.start_mission(get_tree(), mission_scene(_mission), _difficulty)
+	return MenuFlow.start_campaign_mission(get_tree(), _mission, mission_scene(_mission), _difficulty)
+
+
+## "Watch prologue": replays the campaign prologue, then back to the main menu.
+func watch_prologue() -> Node:
+	return MenuFlow.play_prologue(get_tree(), "", _difficulty)
 
 
 ## The scene of a mission (CampaignState, fallback mission 1 = res://missions/mission_01.tscn).
@@ -505,6 +511,11 @@ func _build_campaign_panel(parent: Control) -> PanelContainer:
 	var back := _menu_button(actions, "Back")
 	back.custom_minimum_size = Vector2(180, 48)
 	back.pressed.connect(show_main)
+	prologue_button = _menu_button(actions, "Watch prologue")
+	prologue_button.custom_minimum_size = Vector2(220, 48)
+	prologue_button.tooltip_text = "The story so far (3 min). Plays before mission 1 the first time."
+	prologue_button.disabled = not MenuFlow.prologue_available()
+	prologue_button.pressed.connect(watch_prologue)
 	campaign_start_button = _menu_button(actions, "Start")
 	campaign_start_button.custom_minimum_size = Vector2(220, 48)
 	UIStyle.style_button(campaign_start_button, UIStyle.GOLD)

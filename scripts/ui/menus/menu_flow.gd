@@ -9,6 +9,10 @@ const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
 const SKIRMISH := "res://scenes/skirmish.tscn"
 const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"   ## Skirmish.kingdom_available(k) (8.S2).
 const BOT_NODE := &"ShadowBot"
+## The campaign prologue (tools/cine bake of data/cinematics/src/prologue_3min.cine + its runtime stage).
+const PROLOGUE_ID := &"prologue_3min"
+const PROLOGUE_STAGE := "res://scenes/cinematics/prologue_3min.tscn"
+const PROLOGUE_SCRIPT := "res://data/cinematics/prologue_3min.tres"
 
 static var difficulty := -1                  ## Commander.Difficulty chosen in the menu (-1 = none yet).
 ## The player's kingdom (8.U1): &"fire" / &"shadow" / &"ice" / &"nature". Set on the Skirmish node as
@@ -65,6 +69,42 @@ static func start_mission(tree: SceneTree, scene_path: String, bot_difficulty: i
 	install_hooks(tree)
 	var level := (load(scene_path) as PackedScene).instantiate()
 	return _launch(tree, level, bot_difficulty)
+
+
+## Campaign start (2026-09-27): mission 1 is preceded by the 3-minute prologue (in-engine, the baked cine movie on its
+## stage scene) the first time; the campaign save remembers it ("seen"). The Campaign menu's "Watch prologue" replays it.
+static func start_campaign_mission(tree: SceneTree, mission_id: StringName, scene_path: String, bot_difficulty: int) -> Node:
+	if mission_id == CampaignState.FIRST_MISSION and prologue_available():
+		var cs := CampaignState.open()
+		if not cs.is_seen(PROLOGUE_ID):
+			return play_prologue(tree, scene_path, bot_difficulty)
+	return start_mission(tree, scene_path, bot_difficulty)
+
+
+## True when the prologue's stage scene and baked script exist.
+static func prologue_available() -> bool:
+	return ResourceLoader.exists(PROLOGUE_STAGE) and ResourceLoader.exists(PROLOGUE_SCRIPT)
+
+
+## Plays the prologue full screen (its CinematicStage autoplays; Esc / Space skip per the runtime). When it ends or is
+## skipped it is marked seen, then `then_scene` starts as a mission ("" = back to the main menu). Returns the stage.
+static func play_prologue(tree: SceneTree, then_scene: String = "", bot_difficulty: int = 1) -> Node:
+	if not prologue_available():
+		if then_scene != "":
+			return start_mission(tree, then_scene, bot_difficulty)
+		return null
+	difficulty = bot_difficulty
+	var stage := (load(PROLOGUE_STAGE) as PackedScene).instantiate()
+	stage.set(&"quit_when_done", false)
+	var after := func(id: StringName, _skipped: bool) -> void:
+		CampaignState.open().mark_seen(id)
+		if then_scene != "":
+			start_mission(tree, then_scene, bot_difficulty)
+		else:
+			quit_to_menu(tree)
+	if stage.has_signal(&"cinematic_done"):
+		stage.connect(&"cinematic_done", after, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+	return _launch(tree, stage, bot_difficulty)
 
 
 ## Sets `enemy_kingdom` on a skirmish level when it has that property (systems 7.S2). True if set.

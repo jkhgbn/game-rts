@@ -53,12 +53,19 @@ var completed: Array[StringName] = []
 var flags: Dictionary = {}    # String -> bool
 var items: Dictionary = {}    # CampaignItems snapshot ({} = nothing carried yet)
 var companion: Dictionary = {}   # {id, variant, items, purse[, class]} ({} = no companion)
+## Cinematics already watched (ids, e.g. "prologue_3min"): the campaign prologue auto-plays once, the
+## CinematicPlayer's skip is one press once seen. Saved as "seen": [...] (old saves: none).
+var seen: Array[StringName] = []
 var path: String = SAVE_PATH
+## The file `open()` reads when no path is given (tests point it at their own file; "" = SAVE_PATH).
+static var default_path: String = ""
 
 
-## A state loaded from `save_path` (a fresh campaign when there is no file).
-static func open(save_path: String = SAVE_PATH) -> CampaignState:
+## A state loaded from `save_path` (a fresh campaign when there is no file). "" = `default_path` / SAVE_PATH.
+static func open(save_path: String = "") -> CampaignState:
 	var cs := CampaignState.new()
+	if save_path == "":
+		save_path = default_path if default_path != "" else SAVE_PATH
 	cs.path = save_path
 	cs.load()
 	return cs
@@ -99,6 +106,10 @@ func load() -> bool:
 	var it: Variant = d.get("items", {})
 	items = it if it is Dictionary else {}
 	companion = _clean_companion(d.get("companion", {}))
+	var sn: Variant = d.get("seen", [])
+	if sn is Array:
+		for id: Variant in sn:
+			_add_unique(seen, StringName(str(id)))
 	return true
 
 
@@ -123,6 +134,7 @@ func reset_in_memory() -> void:
 	flags = {}
 	items = {}
 	companion = {}
+	seen = []
 
 
 func to_dict() -> Dictionary:
@@ -132,8 +144,11 @@ func to_dict() -> Dictionary:
 	var c: Array = []
 	for id in completed:
 		c.append(String(id))
+	var s: Array = []
+	for id in seen:
+		s.append(String(id))
 	return {"version": VERSION, "unlocked": u, "completed": c, "flags": flags.duplicate(), "items": items.duplicate(true),
-			"companion": companion.duplicate(true)}
+			"companion": companion.duplicate(true), "seen": s}
 
 
 # ---------------------------------------------------------------- queries
@@ -156,6 +171,17 @@ func is_completed(id: StringName) -> bool:
 
 func flag(name: String) -> bool:
 	return bool(flags.get(name, false))
+
+
+## True once the cinematic `id` was watched (or skipped) in this campaign (CinematicPlayer reads it).
+func is_seen(id: StringName) -> bool:
+	return seen.has(StringName(id))
+
+
+## Records the cinematic `id` as watched and saves at once.
+func mark_seen(id: StringName) -> Error:
+	_add_unique(seen, StringName(id))
+	return save()
 
 
 func owned_artifacts() -> Array:

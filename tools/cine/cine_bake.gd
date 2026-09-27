@@ -858,9 +858,23 @@ func to_resource() -> Resource:
 	cs.set(&"shake_seed", doc.rng_seed)
 	if doc.music != "":
 		cs.set(&"music_cue", StringName(doc.music))
-	var stage_path := "res://missions/cinematics/tool_demo/%s.tscn" % doc.id
-	if ResourceLoader.exists(stage_path):
-		cs.set(&"stage_scene", stage_path)
+		if &"music_volume_db" in cs:
+			cs.set(&"music_volume_db", doc.music_vol)
+	# runtime fields added 2026-09-27 (campaign prologue): voice-over speakers, cine's line rule
+	if &"voice_over" in cs:
+		var vo: Array[StringName] = []
+		for tag: String in doc.cast:
+			var c: Dictionary = doc.cast[tag]
+			if bool(c.get("hidden", false)):
+				for sp: String in [tag, String(c.get("speaker", ""))]:
+					if sp != "" and not StringName(sp) in vo:
+						vo.append(StringName(sp))
+		cs.set(&"voice_over", vo)
+	if &"lines_over_cuts" in cs:
+		cs.set(&"lines_over_cuts", true)
+	for stage_path: String in ["res://missions/cinematics/tool_demo/%s.tscn" % doc.id, "res://scenes/cinematics/%s.tscn" % doc.id]:
+		if ResourceLoader.exists(stage_path):
+			cs.set(&"stage_scene", stage_path)
 	var shot_arr: Array = cs.get(&"shots")
 	for b: Dictionary in shots:
 		var sh: Resource = SShot.new()
