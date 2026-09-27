@@ -36,7 +36,7 @@ seats = Array[Dictionary]([{
 spots = Array[Dictionary]([{
 "id": "keep_a1",
 "kind": "keep",
-"pos": Vector3(-62, 0, 62),
+"pos": Vector3(-62, 0, 28),
 "props": {
 "footprint": 6.0
 },
@@ -46,7 +46,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "keep_a2",
 "kind": "keep",
-"pos": Vector3(-62, 0, -62),
+"pos": Vector3(-62, 0, -28),
 "props": {
 "footprint": 6.0
 },
@@ -56,7 +56,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "keep_b1",
 "kind": "keep",
-"pos": Vector3(62, 0, -62),
+"pos": Vector3(62, 0, -28),
 "props": {
 "footprint": 6.0
 },
@@ -66,7 +66,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "keep_b2",
 "kind": "keep",
-"pos": Vector3(62, 0, 62),
+"pos": Vector3(62, 0, 28),
 "props": {
 "footprint": 6.0
 },
@@ -76,7 +76,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "hub_a1",
 "kind": "start",
-"pos": Vector3(-55, 0, 55),
+"pos": Vector3(-55, 0, 21),
 "props": {},
 "sub": "",
 "team": 0,
@@ -84,7 +84,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "hub_a2",
 "kind": "start",
-"pos": Vector3(-55, 0, -55),
+"pos": Vector3(-55, 0, -21),
 "props": {},
 "sub": "",
 "team": 3,
@@ -92,7 +92,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "hub_b1",
 "kind": "start",
-"pos": Vector3(55, 0, -55),
+"pos": Vector3(55, 0, -21),
 "props": {},
 "sub": "",
 "team": 1,
@@ -100,7 +100,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "hub_b2",
 "kind": "start",
-"pos": Vector3(55, 0, 55),
+"pos": Vector3(55, 0, 21),
 "props": {},
 "sub": "",
 "team": 4,
@@ -108,7 +108,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_a_a1",
 "kind": "node",
-"pos": Vector3(-65, 0, 53),
+"pos": Vector3(-65, 0, 19),
 "props": {
 "amount": 2000.0
 },
@@ -118,7 +118,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_a_a2",
 "kind": "node",
-"pos": Vector3(-65, 0, -53),
+"pos": Vector3(-65, 0, -19),
 "props": {
 "amount": 2000.0
 },
@@ -128,7 +128,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_a_b1",
 "kind": "node",
-"pos": Vector3(65, 0, -53),
+"pos": Vector3(65, 0, -19),
 "props": {
 "amount": 2000.0
 },
@@ -138,7 +138,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_a_b2",
 "kind": "node",
-"pos": Vector3(65, 0, 53),
+"pos": Vector3(65, 0, 19),
 "props": {
 "amount": 2000.0
 },
@@ -148,7 +148,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_b_a1",
 "kind": "node",
-"pos": Vector3(-53, 0, 65),
+"pos": Vector3(-53, 0, 31),
 "props": {
 "amount": 2000.0
 },
@@ -158,7 +158,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_b_a2",
 "kind": "node",
-"pos": Vector3(-53, 0, -65),
+"pos": Vector3(-53, 0, -31),
 "props": {
 "amount": 2000.0
 },
@@ -168,7 +168,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_b_b1",
 "kind": "node",
-"pos": Vector3(53, 0, -65),
+"pos": Vector3(53, 0, -31),
 "props": {
 "amount": 2000.0
 },
@@ -178,7 +178,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "node_b_b2",
 "kind": "node",
-"pos": Vector3(53, 0, 65),
+"pos": Vector3(53, 0, 31),
 "props": {
 "amount": 2000.0
 },
@@ -228,7 +228,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "glade_vein_a1",
 "kind": "node",
-"pos": Vector3(-60, 0, 15.5),
+"pos": Vector3(-58, 0, 60),
 "props": {
 "amount": 1500.0
 },
@@ -238,7 +238,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "glade_vein_a2",
 "kind": "node",
-"pos": Vector3(-60, 0, -15.5),
+"pos": Vector3(-58, 0, -60),
 "props": {
 "amount": 1500.0
 },
@@ -248,7 +248,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "glade_vein_b1",
 "kind": "node",
-"pos": Vector3(60, 0, -15.5),
+"pos": Vector3(58, 0, -60),
 "props": {
 "amount": 1500.0
 },
@@ -258,7 +258,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "glade_vein_b2",
 "kind": "node",
-"pos": Vector3(60, 0, 15.5),
+"pos": Vector3(58, 0, 60),
 "props": {
 "amount": 1500.0
 },
@@ -268,7 +268,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "stag_a1",
 "kind": "camp",
-"pos": Vector3(-56, 0, 9),
+"pos": Vector3(-56, 0, 68),
 "props": {
 "tier": 3.0
 },
@@ -278,7 +278,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "stag_a2",
 "kind": "camp",
-"pos": Vector3(-56, 0, -9),
+"pos": Vector3(-56, 0, -68),
 "props": {
 "tier": 3.0
 },
@@ -288,7 +288,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "stag_b1",
 "kind": "camp",
-"pos": Vector3(56, 0, -9),
+"pos": Vector3(56, 0, -68),
 "props": {
 "tier": 3.0
 },
@@ -298,7 +298,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "stag_b2",
 "kind": "camp",
-"pos": Vector3(56, 0, 9),
+"pos": Vector3(56, 0, 68),
 "props": {
 "tier": 3.0
 },
@@ -444,7 +444,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "wallow_a1",
 "kind": "camp",
-"pos": Vector3(-40, 0, 72),
+"pos": Vector3(-48, 0, 46),
 "props": {
 "tier": 1.0
 },
@@ -454,7 +454,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "wallow_a2",
 "kind": "camp",
-"pos": Vector3(-40, 0, -72),
+"pos": Vector3(-48, 0, -46),
 "props": {
 "tier": 1.0
 },
@@ -464,7 +464,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "wallow_b1",
 "kind": "camp",
-"pos": Vector3(40, 0, -72),
+"pos": Vector3(48, 0, -46),
 "props": {
 "tier": 1.0
 },
@@ -474,7 +474,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "wallow_b2",
 "kind": "camp",
-"pos": Vector3(40, 0, 72),
+"pos": Vector3(48, 0, 46),
 "props": {
 "tier": 1.0
 },
@@ -548,7 +548,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fen_post_a1",
 "kind": "post",
-"pos": Vector3(-74, 0, 30),
+"pos": Vector3(-76, 0, 10),
 "props": {},
 "sub": "",
 "team": -1,
@@ -556,7 +556,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fen_post_a2",
 "kind": "post",
-"pos": Vector3(-74, 0, -30),
+"pos": Vector3(-76, 0, -10),
 "props": {},
 "sub": "",
 "team": -1,
@@ -564,7 +564,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fen_post_b1",
 "kind": "post",
-"pos": Vector3(74, 0, -30),
+"pos": Vector3(76, 0, -10),
 "props": {},
 "sub": "",
 "team": -1,
@@ -572,7 +572,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fen_post_b2",
 "kind": "post",
-"pos": Vector3(74, 0, 30),
+"pos": Vector3(76, 0, 10),
 "props": {},
 "sub": "",
 "team": -1,
@@ -612,7 +612,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "heath_lair_a1",
 "kind": "lair",
-"pos": Vector3(-77, 0, 42),
+"pos": Vector3(-44, 0, 74),
 "props": {
 "r": 4.0
 },
@@ -622,7 +622,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "heath_lair_a2",
 "kind": "lair",
-"pos": Vector3(-77, 0, -42),
+"pos": Vector3(-44, 0, -74),
 "props": {
 "r": 4.0
 },
@@ -632,7 +632,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "heath_lair_b1",
 "kind": "lair",
-"pos": Vector3(77, 0, -42),
+"pos": Vector3(44, 0, -74),
 "props": {
 "r": 4.0
 },
@@ -642,7 +642,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "heath_lair_b2",
 "kind": "lair",
-"pos": Vector3(77, 0, 42),
+"pos": Vector3(44, 0, 74),
 "props": {
 "r": 4.0
 },
@@ -692,7 +692,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "cache_a1",
 "kind": "cache",
-"pos": Vector3(-44, 0, 40),
+"pos": Vector3(-40, 0, 58),
 "props": {},
 "sub": "",
 "team": -1,
@@ -700,7 +700,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "cache_a2",
 "kind": "cache",
-"pos": Vector3(-44, 0, -40),
+"pos": Vector3(-40, 0, -58),
 "props": {},
 "sub": "",
 "team": -1,
@@ -708,7 +708,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "cache_b1",
 "kind": "cache",
-"pos": Vector3(44, 0, -40),
+"pos": Vector3(40, 0, -58),
 "props": {},
 "sub": "",
 "team": -1,
@@ -716,7 +716,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "cache_b2",
 "kind": "cache",
-"pos": Vector3(44, 0, 40),
+"pos": Vector3(40, 0, 58),
 "props": {},
 "sub": "",
 "team": -1,
@@ -724,7 +724,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fordwatch_a1",
 "kind": "point",
-"pos": Vector3(-8, 0, 29),
+"pos": Vector3(-7, 0, 34),
 "props": {},
 "sub": "watchtower",
 "team": -1,
@@ -732,7 +732,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fordwatch_a2",
 "kind": "point",
-"pos": Vector3(-8, 0, -29),
+"pos": Vector3(-7, 0, -34),
 "props": {},
 "sub": "watchtower",
 "team": -1,
@@ -740,7 +740,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fordwatch_b1",
 "kind": "point",
-"pos": Vector3(8, 0, -29),
+"pos": Vector3(7, 0, -34),
 "props": {},
 "sub": "watchtower",
 "team": -1,
@@ -748,7 +748,7 @@ spots = Array[Dictionary]([{
 }, {
 "id": "fordwatch_b2",
 "kind": "point",
-"pos": Vector3(8, 0, 29),
+"pos": Vector3(7, 0, 34),
 "props": {},
 "sub": "watchtower",
 "team": -1,
@@ -973,51 +973,51 @@ crossings = Array[Dictionary]([{
 }])
 roads = Array[Dictionary]([{
 "id": "ring",
-"poly": PackedVector3Array(-55, 0, 55, -72, 0, 30, -70, 0, 4, -70, 0, 0),
+"poly": PackedVector3Array(-55, 0, 21, -70, 0, 12, -70, 0, 0),
 "width": 3.0
 }, {
 "id": "ring_a2",
-"poly": PackedVector3Array(-55, 0, -55, -72, 0, -30, -70, 0, -4, -70, 0, 0),
+"poly": PackedVector3Array(-55, 0, -21, -70, 0, -12, -70, 0, 0),
 "width": 3.0
 }, {
 "id": "ring_b1",
-"poly": PackedVector3Array(55, 0, -55, 72, 0, -30, 70, 0, -4, 70, 0, 0),
+"poly": PackedVector3Array(55, 0, -21, 70, 0, -12, 70, 0, 0),
 "width": 3.0
 }, {
 "id": "ring_b2",
-"poly": PackedVector3Array(55, 0, 55, 72, 0, 30, 70, 0, 4, 70, 0, 0),
+"poly": PackedVector3Array(55, 0, 21, 70, 0, 12, 70, 0, 0),
 "width": 3.0
 }, {
 "id": "south",
-"poly": PackedVector3Array(-55, 0, 55, -30, 0, 70, 0, 0, 68),
+"poly": PackedVector3Array(-55, 0, 21, -50, 0, 46, -30, 0, 70, 0, 0, 68),
 "width": 3.0
 }, {
 "id": "south_a2",
-"poly": PackedVector3Array(-55, 0, -55, -30, 0, -70, 0, 0, -68),
+"poly": PackedVector3Array(-55, 0, -21, -50, 0, -46, -30, 0, -70, 0, 0, -68),
 "width": 3.0
 }, {
 "id": "south_b1",
-"poly": PackedVector3Array(55, 0, -55, 30, 0, -70, 0, 0, -68),
+"poly": PackedVector3Array(55, 0, -21, 50, 0, -46, 30, 0, -70, 0, 0, -68),
 "width": 3.0
 }, {
 "id": "south_b2",
-"poly": PackedVector3Array(55, 0, 55, 30, 0, 70, 0, 0, 68),
+"poly": PackedVector3Array(55, 0, 21, 50, 0, 46, 30, 0, 70, 0, 0, 68),
 "width": 3.0
 }, {
 "id": "lane",
-"poly": PackedVector3Array(-55, 0, 55, -9.02, 0, 9.02),
+"poly": PackedVector3Array(-55, 0, 21, -9.02, 0, 9.02),
 "width": 5.0
 }, {
 "id": "lane_a2",
-"poly": PackedVector3Array(-55, 0, -55, -9.02, 0, -9.02),
+"poly": PackedVector3Array(-55, 0, -21, -9.02, 0, -9.02),
 "width": 5.0
 }, {
 "id": "lane_b1",
-"poly": PackedVector3Array(55, 0, -55, 9.02, 0, -9.02),
+"poly": PackedVector3Array(55, 0, -21, 9.02, 0, -9.02),
 "width": 5.0
 }, {
 "id": "lane_b2",
-"poly": PackedVector3Array(55, 0, 55, 9.02, 0, 9.02),
+"poly": PackedVector3Array(55, 0, 21, 9.02, 0, 9.02),
 "width": 5.0
 }])
 zones = Array[Dictionary]([{
@@ -1199,4 +1199,4 @@ blocks = Array[Dictionary]([{
 "yaw": 0.0
 }])
 source = "res://data/maps/gloamspine_divide.map"
-source_hash = "7713cb9e3af3"
+source_hash = "00138d4d847d"

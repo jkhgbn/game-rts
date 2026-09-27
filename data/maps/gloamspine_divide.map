@@ -5,27 +5,30 @@ seat 0  name="player (A1 south-west)"   side=0  frame=identity
 seat 3  name="ally (A2 north-west)"     side=0  frame=mirror_z
 seat 1  name="enemy (B1 north-east)"    side=1  frame=rot180
 seat 4  name="enemy 2 (B2 south-east)"  side=1  frame=mirror_x
-keep    keep        at=(-62,62)  footprint=6
-start   hub         at=(-55,55)
-node    node_a      at=(-65,53)  amount=2000
-node    node_b      at=(-53,65)  amount=2000
+# Ally-keeps pass (map-2v2-audit.md 6, user 2026-09-27 "2 to 3 times longer to the enemy than to the ally"): the keep
+# moved from the corner (-62,62) to the spine's west gap (-62,28), allies 56 m apart around the spine's west end, the
+# facing enemy ~2.5x farther (ford); the glade vein + stag moved to the old corner.
+keep    keep        at=(-62,28)  footprint=6
+start   hub         at=(-55,21)
+node    node_a      at=(-65,19)  amount=2000
+node    node_b      at=(-53,31)  amount=2000
 node    natural     at=(-35,25)  amount=2500
-node    glade_vein  at=(-60,15.5) amount=1500
-camp    stag        at=(-56,9)   tier=3
+node    glade_vein  at=(-58,60)  amount=1500
+camp    stag        at=(-56,68)  tier=3
 node    rich        at=(-14,58)  amount=2500
 slot    X2          at=(-22,60)
 point   fenwatch    at=(-8,50)   sub=watchtower
 point   well        at=(-26,12)  sub=well
-camp    wallow      at=(-40,72)  tier=1
+camp    wallow      at=(-48,46)  tier=1
 tavern  tavern      at=(-18,22)
 peddler peddler     at=(-30,44)
-post    fen_post    at=(-74,30)
+post    fen_post    at=(-76,10)
 post    spine_post  at=(-30,74)
-lair    heath_lair  at=(-77,42)  r=4
+lair    heath_lair  at=(-44,74)  r=4
 lair    mouth_lair  at=(-12,76)  r=5
-cache   cache       at=(-44,40)
+cache   cache       at=(-40,58)
 # 2v2 audit fixes (docs/design/map-2v2-audit.md): per-seat river objectives (points 10 -> 14, camps 12 -> 16)
-point   fordwatch   at=(-8,29)   sub=watchtower
+point   fordwatch   at=(-7,34)   sub=watchtower
 camp    bridge_nest at=(-5,58)   tier=2
 guild   den         at=(-76,0)
 guild   lodge       at=(-64,0)
@@ -35,9 +38,9 @@ camp    hollow      at=(-40,0)   tier=2
 block   spine_e     at=(-25,0)   size=(22,4)  yaw=0
 crown   crown       at=(0,0)
 camp    ford_nest   at=(0,36)    tier=2
-road  ring   poly=[(-55,55),(-72,30),(-70,4),(-70,0)]  width=3
-road  south  poly=[(-55,55),(-30,70),(0,68)]  width=3
-road  lane   poly=[(-55,55),(-9.02,9.02)]  width=5
+road  ring   poly=[(-55,21),(-70,12),(-70,0)]  width=3
+road  south  poly=[(-55,21),(-50,46),(-30,70),(0,68)]  width=3
+road  lane   poly=[(-55,21),(-9.02,9.02)]  width=5
 zone  mud_ford      circle((-5,36),3)       biome=marsh
 zone  mud_gate      circle((-40,4),3)       biome=marsh
 zone  forest_spine  rect((-60,2),(-44,8))   biome=old_wood

@@ -41,8 +41,10 @@ static func get_profile(map_name: String) -> Dictionary:
 					{"team": 1, "name": "enemy (B1 north-east)", "side": 1},
 					{"team": 4, "name": "enemy 2 (B2 south-east)", "side": 1}],
 				"spec": "docs/design/map-2v2.md",
-				# map-2v2.md 1 / 2.9: keep -> ally ~142 m by road on its own bank, -> facing enemy ~142, -> diagonal ~187.
-				"targets": {"ally_keep": 142.0, "enemy_keep_near": 142.0, "enemy_keep_far": 187.0},
+				# Ally-keeps pass (docs/design/map-2v2-audit.md 6, user 2026-09-27: the enemy 2-3x farther than the ally): keeps
+				# at (+-66, +-30), Map Lab paths keep -> ally ~52 m on its own bank, -> facing enemy ~139, -> diagonal ~140
+				# (ally / nearest enemy 0.37-0.38; was 142 / 142 / 187 in map-2v2.md 1 / 2.9 before the pass).
+				"targets": {"ally_keep": 52.0, "enemy_keep_near": 139.0, "enemy_keep_far": 140.0},
 				"ally_dry": true,
 				"settings": {},
 			}

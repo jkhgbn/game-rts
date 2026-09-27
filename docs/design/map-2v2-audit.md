@@ -22,6 +22,10 @@ Divide** GD `data/maps/gloamspine_divide.map`), against **Crown Hollow** (CH, 1v
   travel time so the facing enemy reaches them in 1.27-1.32x the owner's time (the 1v1's "raidable" band; KV 1.35-1.43x, see 4.2 item 5). FH: points 10 -> 14,
   camps 12 -> 16 (= 2x CH), contested + raidable spots 3 -> 11. Map Lab FH **97 -> 97** (same lab version), symmetry M1-M4 / F1
   PASS before and after.
+- **Ally-keeps pass (section 6, same day, 15:15-16:00)**: user request "2 to 3 times longer to the enemy than to the ally".
+  FH and GD keeps moved from the far corners to the ally midline; enemy / ally soldier time is now **FH 2.49x, KV 2.57x
+  (unchanged), GD 2.49x** (was 1.00 / 2.57 / 1.00), equivalent seats within 0.7 %, Map Lab FH 98 (was 97), GD 93 (92), KV 90 (90).
+  Sections 3.2 / 3.3 below are the "before" numbers; section 6 has the after table.
 
 ## 1. Method
 - **Content**: World Forge `L4` counts of each built layout (`docs/tools/world_forge/out/<map>/report_map.md`), split per
@@ -162,7 +166,7 @@ markers, not obstacles: the same 235 navmesh polygons / 27 073 m² before and af
    (FH: a lair on the ally midline would be shared, not per seat). Otherwise shorter lair respawns in 2v2.
 2. **Crown**: 86 m / 17 s from every FH keep (CH 54 m / 11 s), shared by 4. Keep it (a 2v2 crown fight should be a team
    decision), but its first spawn could come 1 min later than the 1v1 so the new river objectives come first.
-3. **Ally distance** (FH, GD): the ally is as far as the facing enemy (123.5 vs 124.0 m, 25 s): an ally cannot reinforce before
+3. **Ally distance** (FH, GD) — **done in section 6** (the keeps moved; kept here as the "before" reasoning): the ally is as far as the facing enemy (123.5 vs 124.0 m, 25 s): an ally cannot reinforce before
    a rush lands (the Map Lab A1 rule "ally <= 1.25x enemy" passes at 0.91, but for "help in time" the ratio should be < 0.8).
    FH is a built design (district reused through `seat_frame`), so this is a map-choice fact, not a fix: **KV is the team-play
    map** (ally 51.5 m / 10 s, 0.39). Say it in the lobby hook lines.
@@ -176,6 +180,55 @@ markers, not obstacles: the same 235 navmesh polygons / 27 073 m² before and af
 7. **Scene adoption** (systems-coder, NM.C1 / 20.C4): the 2 new spots per seat on FH exist only in the spec; `skirmish_2v2`
    tables and `map-2v2.md` 2.8 counts (10 points / 12 camps) need the same 2 rows (map-2v2.md 2.4 "level" table) when the lead
    accepts this audit. Camp kind for `bridge_nest`: a Mirefang nest (T2, like the ford nests); tower = a Millwatch copy.
+
+## 6. Ally-keeps pass (2026-09-27 afternoon): the enemy 2-3x farther than the ally
+User request (JS): "try to make so it take like 2 to 3 time more get to enemy than allies". Target: for every seat, soldier
+time to the **nearest** enemy keep = 2-3x (aim 2.5x) the time to the ally keep; equivalent seats within 5 %; symmetry PASS;
+Map Lab score >= today's. A 168 m map cannot stretch an enemy path to 2.5 x 124 m, so the allies had to come together.
+
+### 6.1 Before / after (travel tool, keep rim to keep rim, soldier 5.0 m/s; every seat's number within 0.3 %)
+| Map | Ally keep m (s) | Facing enemy m (s) | Diagonal enemy m (s) | **Nearest enemy / ally** | Map Lab A1 ally / nearest | Map Lab score |
+|---|---|---|---|---|---|---|
+| FH before | 123.5 (24.7) | 124.0 (24.8) | 176.2 (35.2) | **1.00** | 0.91 | 97 |
+| **FH after** | **51.5 (10.3)** | 128.4 (25.7) | 136.5 (27.3) | **2.49** (diagonal 2.65) | 0.37-0.38 | **98** (only F2 WARN; T1 now PASS) |
+| KV before = after (spec unchanged) | 51.5 (10.3) | 132.4 (26.5) | 140.2 (28.0) | **2.57** (diagonal 2.72) | 0.39 | 90 |
+| GD before | 115.5 (23.1) | 116.0 (23.2) | 164.9 (33.0) | **1.00** | ~1.0 | 92 |
+| **GD after** | **47.5 (9.5)** | 118.3 (23.7) | 128.1 (25.6) | **2.49** (diagonal 2.70) | 0.38-0.39 | **93** |
+
+Fairness after: max spread between equivalent seats on any objective 0.7 % (all 3 maps, target 5 %); M1-M4 / F1 PASS on FH
+and GD (F1 7272 / 7272 FH, M3 0.00 %); A1 PASS 4 / 4 (ally path equal per side, never across the river). Contested + raidable
+spots: FH 11 -> **15**, GD 11 -> 11, KV 8. Engine noise unchanged in kind: FH F2 (NavigationServer pairs) 94.5 -> 95.4 %
+within 2 %; GD keeps its N3 (spine tops) / F2 / T1 WARN rows and gains a C2 WARN (keep -> facing keep: the engine takes the
+ford on one seat, the isle on its twin: a route choice, not a width; 4.2 item 4).
+
+### 6.2 What moved (canonical A1 quadrant; World Forge places the 4 images)
+- **FH**: keep `(-66,66)` -> **`(-66,30)`** (hub / node_a / node_b follow with the same offsets: the KV base shape); the old
+  corner becomes the third expansion: `glade_vein` `(-64,19.5)` -> `(-64,64)`, `stag_glade` `(-60,13)` -> `(-60,72)`, slot X3
+  -> `(-56,58)`; `bristleback` T1 `(-40,80)` -> `(-52,48)` (16 m / 3.2 s from the keep rim, was 23 m), `heath_lair` `(-78,40)`
+  -> `(-44,78)`, `heron_ford` post `(-76,24)` -> `(-80,10)`, midline `gloomcap` / `mid_cache` swapped (T2 camp at `(-40,0)`,
+  off the ally road), `fordwatch` `(-8,31)` -> `(-7,36)` (0.70 -> 0.76). **The 4 diagonal crown bridges are removed** (10 -> 6
+  crossings) and the steps widened 6 -> 8 m: each team now enters the isle by its own steps on the ally midline (as KV's
+  causeways). Why: with keeps 24 deg off the midline the diagonal bridge and the steps tied within 0.4 m, so seats took
+  different doors (first two tries: C2 / F1 / D1 WARN, score 89). Roads (`ring`, new `ally`, `lane` to the steps) and zones redrawn.
+- **GD**: keep `(-62,62)` -> **`(-62,28)`** (allies meet around the spine's west end, past the den / shrine / lodge; the spine
+  still splits the team's east midline); `glade_vein` -> `(-58,60)`, `stag` `(-56,9)` -> `(-56,68)`, `wallow` T1 `(-40,72)` ->
+  `(-48,46)`, `fen_post` `(-74,30)` -> `(-76,10)`, `heath_lair` `(-77,42)` -> `(-44,74)`, `cache` `(-44,40)` -> `(-40,58)`,
+  `fordwatch` `(-8,29)` -> `(-7,34)` (0.72 after the keep move -> 0.76); roads redrawn. Crossings unchanged (the facing enemy
+  goes by the ford, the diagonal one through the isle).
+- **KV**: nothing (already 2.57x).
+- **Map Lab 2v2 profile** (`tools/map_lab/map_profiles.gd`): targets 142 / 142 / 187 -> ally 52, near enemy 139, far 140 (the
+  new FH, Map Lab path lengths).
+
+### 6.3 Side effects to playtest / follow-ups
+- Everything on the home side got closer: natural expansion FH 39 -> 22 m, GD 39 -> 22 m (worker ~5 s); crown FH 86 -> 67 m
+  (13.4 s), GD 81 -> 63 m (12.5 s); the ally midline services (guilds, shrine, midline T2 camp) are 23-33 m from both keeps
+  (truly shared now). Trading posts: FH `heron_ford` 17.5 m from the keep rim, GD `fen_post` 16 m (were 38 / 29 m): if caravan
+  pay scales with distance, the far post (`millstone_cross` / `spine_post`) is the paying one.
+- Rushes: a rush now reaches its target in ~26 s while the ally arrives in ~10 s; the ally can hold, which is the goal.
+- **Map Lab A1 rule** (lead / map_checks.gd owner): A1 only warns above ally > 1.25 x nearest enemy. For team maps, add a
+  profile key (proposal `ally_ratio: [0.33, 0.5]`) so A1 warns when ally / nearest enemy leaves 0.33-0.5 (= enemy 2-3x).
+- **Scene adoption**: `skirmish_2v2` (not built yet) and `map-2v2.md` 1 / 2.3 / 2.9 (keeps at (+-66, +-66), 142 / 142 / 187 m,
+  10 crossings) must take the new keep positions and the 6 crossings (game-designer + systems-coder).
 
 ## 5. Files
 - Specs changed: `data/maps/fourfold_hollow.map` (+2 lines), new `data/maps/kinhearth_vale.map`, `data/maps/gloamspine_divide.map`
