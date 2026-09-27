@@ -143,6 +143,7 @@ var keep_hp: ProgressBar
 var keep_hp_text: Label
 var queue_buttons: Array[Button] = []
 var queue_progress: ProgressBar
+var queue_count: Label   ## "Training <unit>  37 %" / "3 in queue" beside the queue slots.
 var rally_label: Label
 var building_info: Label    ## Site progress / builders, pop bonus, tower stats.
 var site_row: HBoxContainer
@@ -1685,19 +1686,31 @@ func _update_keep(keep: Node3D) -> void:
 	var queue: Array = _queue_of(keep)
 	for i in QUEUE_SLOTS:
 		var b := queue_buttons[i]
+		var tex: Texture2D = null
 		if i < queue.size() and queue[i] != null:
 			var type_name := str(queue[i].get("display_name"))
-			b.text = UIStyle.abbrev(type_name)
+			# The unit's icon (art/icons/units/<id>.png, like the command card), else its name as text.
+			tex = ItemTooltip.HudSkin.icon("units", str(queue[i].get("id")))
+			b.text = "" if tex != null else type_name
 			b.tooltip_text = "%s\nClick to cancel (full refund)." % type_name
 			b.modulate.a = 1.0
 		else:
 			b.text = ""
 			b.tooltip_text = ""
 			b.modulate.a = 0.45
+		if b.icon != tex:
+			b.icon = tex
 	var progress := 0.0
 	if not queue.is_empty() and keep.has_method("train_progress"):
 		progress = float(keep.call("train_progress"))
 	queue_progress.value = clampf(progress, 0.0, 1.0)
+	# "Training Cinder Hand 37 %" + "3 in queue" beside the slots (the Bazaar's block shows its own count).
+	queue_count.visible = not market
+	if queue.is_empty() or queue[0] == null:
+		queue_count.text = "Nothing in training"
+	else:
+		queue_count.text = "Training %s  %d %%\n%d in queue" % [str(queue[0].get("display_name")),
+				floori(clampf(progress, 0.0, 1.0) * 100.0), queue.size()]
 	var on_node := keep.has_method("rally_is_node") and bool(keep.call("rally_is_node"))
 	rally_label.text = "Rally: gather node" if on_node else "Rally: set"
 
@@ -2555,8 +2568,13 @@ func _build_keep_view() -> VBoxContainer:
 		queue_row.add_child(col)
 		var b := Button.new()
 		b.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+		b.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		b.focus_mode = Control.FOCUS_NONE
-		b.add_theme_font_size_override("font_size", 14)
+		b.add_theme_font_size_override("font_size", 11)
+		b.expand_icon = true
+		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART   # the name fallback: "Cinder / Hand" on 2 lines
+		b.clip_text = true
 		UIStyle.style_button(b)
 		_skin_buttons.append(b)
 		b.pressed.connect(cancel_slot.bind(i))
@@ -2567,7 +2585,7 @@ func _build_keep_view() -> VBoxContainer:
 			queue_progress.show_percentage = false
 			queue_progress.max_value = 1.0
 			queue_progress.step = 0.0
-			queue_progress.custom_minimum_size = Vector2(ICON_SIZE, 6)
+			queue_progress.custom_minimum_size = Vector2(ICON_SIZE, 8)
 			queue_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			var bg := StyleBoxFlat.new()
 			bg.bg_color = Color(0.12, 0.12, 0.14)
@@ -2576,6 +2594,10 @@ func _build_keep_view() -> VBoxContainer:
 			queue_progress.add_theme_stylebox_override("background", bg)
 			queue_progress.add_theme_stylebox_override("fill", fill)
 			col.add_child(queue_progress)
+	queue_count = UIStyle.panel_label("Nothing in training", 13)
+	queue_count.name = "QueueCount"
+	queue_count.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	queue_row.add_child(queue_count)
 	rally_label = UIStyle.panel_label("Rally: set", 13)
 	_muted_labels.append(rally_label)
 	box.add_child(rally_label)

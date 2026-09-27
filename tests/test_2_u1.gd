@@ -379,7 +379,9 @@ func _train_at_barracks() -> void:
 		_error = "Z did not queue a Flame Guard (queue %d, crystals %d)" % [_hall.queue.size(), eco.crystals]
 		return
 	panel.refresh()
-	if panel.keep_name.text != "Ember Hall" or panel.queue_buttons[0].text != "FG" or not panel.rally_label.visible:
+	var slot1: Button = panel.queue_buttons[0]
+	if panel.keep_name.text != "Ember Hall" or (slot1.icon == null and slot1.text != "Flame Guard") \
+			or not panel.rally_label.visible:
 		_error = "Ember Hall panel: name '%s', slot 1 '%s'" % [panel.keep_name.text, panel.queue_buttons[0].text]
 
 

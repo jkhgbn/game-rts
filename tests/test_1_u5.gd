@@ -150,7 +150,10 @@ func _step() -> void:
 			if panel.current_view() != "keep" or panel.keep_name.text != "Keep":
 				_error = "keep selected shows view '%s'" % panel.current_view()
 				return
-			if panel.queue_buttons[0].text != "CH" or panel.queue_buttons[1].text != "CH" or panel.queue_buttons[2].text != "":
+			# Filled slots show the unit's icon (or its name when it has none); empty slots show nothing.
+			var qb: Array[Button] = panel.queue_buttons
+			if (qb[0].icon == null and qb[0].text != "Cinder Hand") or (qb[1].icon == null and qb[1].text != "Cinder Hand") \
+					or qb[2].text != "" or qb[2].icon != null:
 				_error = "queue slots show %s / %s / %s" % [panel.queue_buttons[0].text,
 						panel.queue_buttons[1].text, panel.queue_buttons[2].text]
 				return
