@@ -1,6 +1,6 @@
 class_name ArtLabCalibration
 extends RefCounted
-## Art Lab v3 calibration set (docs/plan/art-lab.md "Calibration", task 1.C): 12 known cases with expected score bands.
+## Art Lab v3 calibration set (docs/plan/art-lab.md "Calibration", task 1.C): 13 known cases with expected score bands (v3.1: + the low effort-trial Vinelasher, craft).
 ## 6 good finished assets + 6 planted-bad variants built IN MEMORY from real assets (calib_plant.gd; the real scenes are
 ## never edited or saved). The whole set runs as ONE v3 batch (ArtLabBatch.run_all: one Godot process, the stage built
 ## once) with quick=1 (no references / frame cost: B13 is noise on a busy PC) and log=0. Every scorecard lands in
@@ -26,8 +26,10 @@ const AQUEDUCT := "res://art/environment/landmarks/aqueduct.tscn"
 const GUN_VFX := "res://art/vfx/unit_fire_gun_vfx.gd"
 const DEER := "res://art/units/neutral/critters/deer.tscn"
 const DRAGON := "res://art/units/titans/frost_dragon/frost_dragon.tscn"
+## v3.1 craft case: the effort trial's low-effort Vinelasher (docs/art/lab/effort-trial/low.md).
+const VL_LOW := "res://art/units/_effort_trial/low/vinelasher.tscn"
 
-## The 12 cases. `plant` = calib_plant.gd mode applied to `scene` (planted-bad), "" = the real asset as it is.
+## The 13 cases. `plant` = calib_plant.gd mode applied to `scene` (planted-bad), "" = the real asset as it is.
 ## Bands set 2026-09-27 from two windowed batch runs on the laptop (lab v3 phase 1, 1.C thresholds), min - 3 / max + 3:
 ##   shade 98.1 / 98.0 (96.1 with the OC3 R5 flake: band 94), dusk_steed 97.7 / 97.1, aqueduct 98.2 / 98.2, fire_gun_vfx 100 / 100 (93.7 in a run where V6
 ##   flaked, OC2: band 90), deer 98.5 / 98.5, frost_dragon 97.9 / 98.0, green 81.9 / 84.8, glow40 91.9 / 91.8,
@@ -37,10 +39,10 @@ const DRAGON := "res://art/units/titans/frost_dragon/frost_dragon.tscn"
 const CASES: Array[Dictionary] = [
 	# ---- good finished assets
 	{"id": "shade", "scene": SHADE, "args": ["kind=unit", "kingdom=shadow"], "plant": "",
-		"quality": [94.0, 100.0], "result": ["PASS", "WARN"], "expect": {"R3": ["PASS"], "R6": ["PASS"], "B9": ["PASS"], "R9": ["PASS"]},
+		"quality": [91.0, 100.0], "result": ["PASS", "WARN"], "expect": {"R3": ["PASS"], "R6": ["PASS"], "B9": ["PASS"], "R9": ["PASS"]},
 		"allow": {"R5c": ["WARN"], "R5": ["WARN"]}},   # open cases OC1 (R5c noisy on a dark body: dL +2..+14 over 4 runs), OC3 (the eye glow sits at the bloom level: median 0 / 1 flips)
 	{"id": "dusk_steed", "scene": STEED, "args": ["kind=mount", "kingdom=shadow"], "plant": "",
-		"quality": [94.0, 100.0], "result": ["PASS", "WARN"], "expect": {"R3": ["PASS"], "R5": ["PASS"], "B4": ["PASS"]},
+		"quality": [91.5, 100.0], "result": ["PASS", "WARN"], "expect": {"R3": ["PASS"], "R5": ["PASS"], "B4": ["PASS"]},
 		"allow": {"R5c": ["WARN"]}},   # open case OC1: R5c ring is mostly bright grass around a dark head (dL -4..+0)
 	{"id": "aqueduct", "scene": AQUEDUCT, "args": ["kind=landmark", "kingdom=neutral"], "plant": "",
 		"quality": [95.0, 100.0], "result": ["PASS", "WARN"], "expect": {"R3": ["PASS"], "R9": ["PASS"]},
@@ -54,15 +56,20 @@ const CASES: Array[Dictionary] = [
 	{"id": "frost_dragon", "scene": DRAGON, "args": ["kind=titan", "kingdom=ice"], "plant": "",
 		"quality": [94.5, 100.0], "result": ["PASS", "WARN"], "expect": {"R3": ["PASS"], "R6": ["PASS"], "B9": ["PASS"]},
 		"allow": {}},
+	# ---- v3.1: the plain, blocky effort-trial Vinelasher (969 verts, box limbs): passes every read rule but the craft
+	# checks (C1-C4) must hold it ~7-10 points under the richer trial models (medium / high / xhigh 94-96)
+	{"id": "vinelasher_low", "scene": VL_LOW, "args": ["kind=unit", "kingdom=nature", "tier=soldier", "reach=3.0"], "plant": "",
+		"quality": [82.0, 91.0], "result": ["PASS", "WARN"], "expect": {"C1": ["INFO"], "C2": ["INFO"], "A3r": ["PASS"], "R3": ["PASS"]},
+		"allow": {"R4k": ["WARN"], "R4": ["WARN"]}},   # old_wood dE 15-18 (known WARN of the trial); heath swings around 10
 	# ---- planted-bad variants (built at run time from the real assets above)
 	{"id": "plant_green_shade", "scene": SHADE, "args": ["kind=unit", "kingdom=shadow", "tier=soldier"], "plant": "green",
-		"quality": [79.0, 88.0], "result": ["FAIL", "WARN"], "expect": {"R3": ["FAIL"]},
+		"quality": [77.0, 88.0], "result": ["FAIL", "WARN"], "expect": {"R3": ["FAIL"]},
 		"allow": {"R6": ["WARN", "FAIL"], "R6cb": ["WARN"], "R3t": ["WARN"], "R4": ["WARN"], "R4k": ["WARN"], "R5c": ["WARN"], "R5w": ["WARN"], "R5": ["WARN"], "A2": ["WARN"]}},   # one green material everywhere: no team cloth, no kit shader (A2 dissolve)
 	{"id": "plant_glow40_frost_dragon", "scene": DRAGON, "args": ["kind=titan", "kingdom=ice", "tier=titan"], "plant": "glow40",
 		"quality": [88.5, 95.0], "result": ["WARN", "FAIL"], "expect": {"R5": ["WARN"]},
 		"allow": {"R5w": ["WARN"], "R5c": ["WARN"]}},
 	{"id": "plant_verts20k_shade", "scene": SHADE, "args": ["kind=unit", "kingdom=shadow", "tier=soldier", "fail_fast=1"], "plant": "verts20k",
-		"quality": [91.0, 97.5], "result": ["FAIL"], "expect": {"B4": ["FAIL"]},
+		"quality": [86.5, 97.5], "result": ["FAIL"], "expect": {"B4": ["FAIL"]},
 		"allow": {}},
 	{"id": "plant_float_deer", "scene": DEER, "args": ["kind=critter", "kingdom=neutral", "tier=deer"], "plant": "float",
 		"quality": [86.5, 93.5], "result": ["FAIL"], "expect": {"R9": ["FAIL"]},
@@ -71,7 +78,7 @@ const CASES: Array[Dictionary] = [
 		"quality": [86.0, 92.0], "result": ["FAIL"], "expect": {"B9": ["FAIL"]},
 		"allow": {}},
 	{"id": "plant_team_dusk_steed", "scene": STEED, "args": ["kind=mount", "kingdom=shadow", "tier=mount"], "plant": "team",
-		"quality": [90.5, 97.0], "result": ["WARN", "FAIL"], "expect": {"R6": ["WARN", "FAIL"], "R6cb": ["WARN"]},
+		"quality": [87.5, 97.0], "result": ["WARN", "FAIL"], "expect": {"R6": ["WARN", "FAIL"], "R6cb": ["WARN"]},
 		"allow": {"R5c": ["WARN"]}},   # OC1
 ]
 

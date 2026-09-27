@@ -121,8 +121,8 @@ static func run_all(parent: Node, list: Array[PackedStringArray], shared: Dictio
 			row["improve"] = r.rep.improve_next()
 		rows.append(row)
 		if progress:
-			print("ART LAB BATCH %d / %d: %s %s %.0f (%.1f s)" % [rows.size(), list.size(), row["asset"], row["result"],
-				float(row["quality"]), sec])
+			print("ART LAB BATCH %d / %d: %s %s %d (%.1f s)" % [rows.size(), list.size(), row["asset"], row["result"],
+				ArtLabScore.shown(float(row["quality"])), sec])
 		r.queue_free()
 		await parent.get_tree().process_frame
 	var stages := pool.size()

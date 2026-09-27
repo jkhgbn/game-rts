@@ -307,13 +307,28 @@ static func frame_cost(ctx: ArtLabRunner) -> void:
 			if is_instance_valid(u) and u.has_method(&"play_attack"):
 				u.call(&"play_attack")
 	var meas: Vector3 = await measure(ctx, 120, tick)
-	for mm2: Node3D in inst:
-		ctx.free_model(mm2)
+	var per := maxf(meas.x - base.x, 0.0) / float(maxi(inst.size(), 1))   # < 0 = noise
+	var lim := ArtLabBudgets.limit(row, "frame_ms")
+	# v3.1 (trial note 6): over the budget = measure again before judging (the same Shade measured 0.28 ms then 0: a
+	# busy PC spikes one window); the lower of the two runs is kept, both are in the notes
+	if not lim.is_empty() and per > float(lim["limit"]):
+		var meas2: Vector3 = await measure(ctx, 120, tick)
+		for mm3: Node3D in inst:
+			ctx.free_model(mm3)
+		await ctx.frames(10)
+		var base2: Vector3 = await measure(ctx, 90)
+		var per2 := maxf(meas2.x - base2.x, 0.0) / float(maxi(inst.size(), 1))
+		ctx.rep.notes.append("B13 over the budget on the first window (%s ms): re-measured %s ms, kept the lower" % [ctx.fmt(per, 4), ctx.fmt(per2, 4)])
+		if per2 < per:
+			per = per2
+			meas = meas2
+			base = base2
+	else:
+		for mm2: Node3D in inst:
+			ctx.free_model(mm2)
 	ctx.holder.visible = true
 	ArtLabStage.freeze(ctx.target, false)
 	await ctx.frames(2)
-	var per := maxf(meas.x - base.x, 0.0) / float(maxi(inst.size(), 1))   # < 0 = noise
-	var lim := ArtLabBudgets.limit(row, "frame_ms")
 	var st := ArtLabScore.budget_status(per, lim)
 	if st == "FAIL" and per <= float(lim.get("limit", 0.0)) * 1.5:
 		st = "WARN"   # v2 noise band: 1-1.5 x the budget on a loaded PC is not a verdict; re-run quiet to confirm

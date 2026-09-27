@@ -4,12 +4,13 @@ extends RefCounted
 ## rule + fix hint) and writes scorecard.md / scorecard.json, the contact sheet PNG and a line in
 ## docs/art/lab/improvement-log.md. The numbers (grades, 0-100 quality, "Improve next" ranking) come from lab_score.gd.
 
-const VERSION := "2.0"
+const VERSION := "3.1"
 ## Kept for callers of the pre-v3 API (tools/common/tool_report.gd extends this class): the weights live in lab_score.gd.
 const GROUP_WEIGHT := ArtLabScore.GROUP_WEIGHT
 const GROUP_TITLE := {"health": "Health (errors, allocations, hooks)", "budget": "Budgets", "read": "Readability at 40 m",
-	"anim": "Animation", "polish": "Polish (scored, never fails)", "decor": "Decor set", "vfx": "VFX family"}
-const GROUP_ORDER: Array[String] = ["health", "budget", "read", "anim", "decor", "vfx", "polish"]
+	"anim": "Animation", "polish": "Polish (scored, never fails)", "decor": "Decor set", "vfx": "VFX family",
+	"craft": "Craft: shape and detail at the close-up / 25 m (scored, never fails)"}
+const GROUP_ORDER: Array[String] = ["health", "budget", "read", "anim", "decor", "vfx", "craft", "polish"]
 
 var asset: String = ""
 var scene: String = ""
@@ -101,8 +102,8 @@ func compare_markdown() -> String:
 		return ""
 	var q0 := float(compare.get("prev_quality", -1.0))
 	var q1 := quality()
-	var s := "## Before / after (vs the run of %s in `%s`: quality %.0f -> %.0f, %s)\n" % [compare.get("prev_started", "?"),
-		compare.get("against", ""), q0, q1, ArtLabDiff.signed(roundf(q1) - roundf(q0))]
+	var s := "## Before / after (vs the run of %s in `%s`: quality %d -> %d, %s)\n" % [compare.get("prev_started", "?"),
+		compare.get("against", ""), ArtLabScore.shown(q0), ArtLabScore.shown(q1), ArtLabScore.delta_text(q0, q1)]
 	var worse: Array = compare.get("worse", [])
 	s += "### What got worse (%d)\n" % worse.size()
 	if worse.is_empty():
@@ -154,8 +155,8 @@ func to_markdown() -> String:
 		kingdom, ground, started, VERSION, " · **headless: render checks skipped**" if headless else ""]
 	var delta := ""
 	if previous_score >= 0.0:
-		delta = " (previous run %.0f, %+d)" % [previous_score, int(round(q - previous_score))]
-	s += "## Result: **%s** · quality **%.0f / 100**%s\n\n" % [result(), q, delta]
+		delta = " (previous run %d, %s)" % [ArtLabScore.shown(previous_score), ArtLabScore.delta_text(previous_score, q)]
+	s += "## Result: **%s** · quality **%d / 100** (%.1f)%s\n\n" % [result(), ArtLabScore.shown(q), snappedf(q, 0.1), delta]
 	s += "%d FAIL · %d WARN · %d PASS · %d info · %d skipped · %.0f s\n\n" % [count("FAIL"), count("WARN"), count("PASS"),
 		count("INFO"), count("SKIP"), seconds]
 	if focus_note != "":
@@ -233,13 +234,13 @@ func append_log(log_path: String, out_dir: String) -> void:
 	var q := quality()
 	var d := ""
 	if previous_score >= 0.0:
-		d = " (%+d)" % int(round(q - previous_score))
+		d = " (%s)" % ArtLabScore.delta_text(previous_score, q)
 	var tops: Array[String] = []
 	for it: Dictionary in improve_next():
 		if tops.size() >= 3:
 			break
 		tops.append(String(it["title"]))
-	f.store_string("| %s | %s | %s / %s | %.0f%s | %s (%dF %dW) | %s | %s |\n" % [started, asset, kind, tier, q, d,
+	f.store_string("| %s | %s | %s / %s | %d%s | %s (%dF %dW) | %s | %s |\n" % [started, asset, kind, tier, ArtLabScore.shown(q), d,
 		result(), count("FAIL"), count("WARN"), "; ".join(tops), out_dir.path_join("scorecard.md").replace("res://", "")])
 	f.close()
 
@@ -279,8 +280,8 @@ func contact_sheet(parent: Node, tiles: Array[Dictionary], cols: int = 4) -> Ima
 	var q := quality()
 	var qd := ""
 	if previous_score >= 0.0:
-		qd = "  (prev %.0f)" % previous_score
-	_label(vp, "%s   quality %.0f / 100%s   %d FAIL  %d WARN  %d PASS" % [res, q, qd, count("FAIL"), count("WARN"),
+		qd = "  (prev %d, %s)" % [ArtLabScore.shown(previous_score), ArtLabScore.delta_text(previous_score, q)]
+	_label(vp, "%s   quality %d / 100%s   %d FAIL  %d WARN  %d PASS" % [res, ArtLabScore.shown(q), qd, count("FAIL"), count("WARN"),
 		count("PASS")], Vector2(12, 42), 22, col)
 	var lines: Array[String] = []
 	if not compare.is_empty() and not (compare.get("worse", []) as Array).is_empty():

@@ -5,7 +5,10 @@ extends RefCounted
 ## and ranks the checks with headroom into the "Improve next" list (topped up with the kind's ideas, `add_extras`).
 ## ArtLabReport (lab_report.gd) stores the checks and writes them; it asks this file for the numbers.
 
-const GROUP_WEIGHT := {"budget": 1.0, "health": 1.5, "read": 2.0, "anim": 1.0, "polish": 1.0, "decor": 1.5, "vfx": 1.5}
+## "craft" (v3.1, checks/craft.gd C1-C4): shape craft / detail at the close-up and 25 m, weighted so a plain blocky
+## model scores ~6-10 points under richer ones of the same tier (effort trial, art-lab.md "Calibration").
+const GROUP_WEIGHT := {"budget": 1.0, "health": 1.5, "read": 2.0, "anim": 1.0, "polish": 1.0, "decor": 1.5, "vfx": 1.5,
+	"craft": 2.0}
 
 
 ## A check's 0-1 score from its status and `graded` (0-1 how far inside / outside the rule, -1 = from the status):
@@ -22,6 +25,18 @@ static func score_of(status: String, graded: float) -> float:
 		"INFO":
 			return -1.0 if graded < 0.0 else g
 	return -1.0
+
+
+## The quality as every report shows it (v3.1 fix: console, scorecard, contact sheet, diff and log all print this):
+## rounded from the 0.1-snapped value that scorecard.json stores, so "previous run" numbers read back from the json
+## and the number the previous run printed are the same.
+static func shown(q: float) -> int:
+	return int(roundf(snappedf(q, 0.1)))
+
+
+## Signed delta between two shown qualities ("+2", "-1", "+0").
+static func delta_text(q0: float, q1: float) -> String:
+	return "%+d" % (shown(q1) - shown(q0))
 
 
 ## Grades a value against a "bad" and a "good" end (either direction): 0 at bad, 1 at good.

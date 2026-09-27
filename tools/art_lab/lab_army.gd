@@ -169,7 +169,7 @@ static func backlog(assets_in: Array) -> Array[Dictionary]:
 					continue
 				took_other = true
 			var row := it.duplicate()
-			for k: String in ["name", "kind", "kingdom", "ground", "quality", "result", "source", "out"]:
+			for k: String in ["name", "kind", "kingdom", "ground", "quality", "result", "source", "out", "scene"]:
 				row["asset_" + k] = a.get(k, "")
 			out.append(row)
 	out.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return _before(x, y))
@@ -189,9 +189,13 @@ static func backlog_line(i: int, it: Dictionary) -> String:
 	var what := "%s %s" % [it["id"], it["name"]]
 	if String(it.get("value", "")) != "":
 		what += " (%s)" % _clip(String(it["value"]), 60)
-	return "| %d | %s | %s | %s | %s: %s | +%.1f | %d | %.2f | %s | `%s` |" % [i, it["asset_name"], it["asset_kingdom"],
+	# v3.1 (trial note 9): the asset cell carries the real scene path (keeps and towers live in art/buildings/, not in a
+	# kingdom folder) and the re-check command runs that path
+	var scene := String(it.get("asset_scene", "")).trim_prefix("res://")
+	var asset_cell := ("%s (`%s`)" % [it["asset_name"], scene]) if scene != "" else String(it["asset_name"])
+	return "| %d | %s | %s | %s | %s: %s | +%.1f | %d | %.2f | %s | `%s` |" % [i, asset_cell, it["asset_kingdom"],
 		it["status"], _cell(what), _cell(_clip(String(it["text"]), 260)), float(it["gain"]), int(it["minutes"]),
-		float(it["rate"]), OWNER, recheck_cmd(String(it["asset_name"]), String(it["asset_kind"]),
+		float(it["rate"]), OWNER, recheck_cmd(scene if scene.ends_with(".tscn") else String(it["asset_name"]), String(it["asset_kind"]),
 		String(it["asset_kingdom"]), String(it["asset_ground"]))]
 
 
@@ -792,7 +796,7 @@ static func _backlog_md(rows: Array, pairs: Array[Dictionary], groups_of: Dictio
 					"gain": 5.0, "minutes": float(MINUTES["R2"]), "rate": 5.0 / float(MINUTES["R2"])})
 		assets_in.append({"name": r["asset"], "kind": r["kind"], "kingdom": groups_of.get(r["asset"], r["kingdom"]),
 			"ground": r["ground"], "quality": r["quality"], "result": r["result"], "checks": r["checks"],
-			"source": "sweep", "out": r["out"], "extra_items": extra})
+			"source": "sweep", "out": r["out"], "extra_items": extra, "scene": String(r.get("scene", ""))})
 	var older := 0
 	if include_old:
 		var d := DirAccess.open(LAB_DIR)
@@ -811,7 +815,7 @@ static func _backlog_md(rows: Array, pairs: Array[Dictionary], groups_of: Dictio
 					"kingdom": String(j.get("kingdom", "neutral")), "ground": String(j.get("ground", "")),
 					"quality": float(j.get("quality", 0.0)), "result": String(j.get("result", "")),
 					"checks": j.get("checks", []), "source": "scorecard %s" % String(j.get("started", "")).left(10),
-					"out": LAB_DIR.path_join(sub)})
+					"out": LAB_DIR.path_join(sub), "scene": String(j.get("scene", ""))})
 	var items := backlog(assets_in)
 	var s := "# Art backlog (ranked by the Art Lab)\n\n"
 	s += "Generated %s by `.\\tools\\art_lab\\run_art_lab.ps1 -Sweep all` (lab v%s): %d swept assets + %d older windowed scorecards (decor sets, VFX, landmarks... from `docs/art/lab/<name>/`). Army sweep: [army.md](%s).\n\n" % [

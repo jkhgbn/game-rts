@@ -19,14 +19,30 @@ const PHASE_IDS := {
 	"hooks": ["A1"],
 	"actions": ["B10"],
 	"geometry": ["R8", "R8w", "R9", "R10"],
-	"read40": ["R1", "R3", "R3t", "R4", "R4k", "R5", "R6", "R7", "A3", "P1", "P3", "P4", "P5", "R5c", "R5w", "R6cb", "R11", "R12", "S1"],
+	"read40": ["R1", "R3", "R3t", "R4", "R4k", "R5", "R6", "R7", "A3", "A3r", "P1", "P3", "P4", "P5", "R5c", "R5w", "R6cb", "R11", "R12", "S1"],
 	"anim": ["A2"],
 	"refs": ["R2", "R2r", "P2"],
 	"frame": ["B13"],
+	"craft_geo": ["C1", "C2"],
+	"craft": ["C3", "C4"],
 	"always": ["H0", "H1", "H2"],
 }
 ## Passes that need the render shots (the 40 / 55 / 25 m + close-up frames also set the model box).
-const RENDER_PHASES: Array[String] = ["read40", "anim", "refs", "frame"]
+const RENDER_PHASES: Array[String] = ["read40", "anim", "refs", "frame", "craft"]
+## v3.1 (trial note 1): checks that measure the same thing on another ground / colour / light. A focus on the first id
+## re-measures the linked ones too (a colour fix for R3 moves R3t / R4 / R4k as well; keeping them from the old run
+## would hide a new WARN there).
+const LINKED := {
+	"R3": ["R3t", "R4", "R4k"],
+	"R4": ["R4k"],
+	"R4k": ["R4"],
+	"R5": ["R5c", "P5"],
+	"R6": ["R3t", "R6cb"],
+	"A3": ["A3r"],
+	"A3r": ["A3"],
+	"C1": ["C2"],
+	"C3": ["C4"],
+}
 const ALIASES := {
 	"contrast": ["R3", "R3t", "R4", "R4k"],
 	"grounds": ["R4", "R4k"],
@@ -40,6 +56,8 @@ const ALIASES := {
 	"geometry": ["R8", "R8w", "R9", "R10"],
 	"anim": ["A1", "A2", "A3"],
 	"polish": ["P1", "P2", "P3", "P4", "P5"],
+	"craft": ["C1", "C2", "C3", "C4"],
+	"reach": ["A3", "A3r"],
 	"health": ["H1", "H2", "B9", "B9m", "B10"],
 	"budgets": ["B1", "B1a", "B2", "B3", "B4", "B4t", "B5", "B6", "B6l", "B6p", "B7", "B8", "B11", "B12", "B9", "B9m",
 		"B10", "B13"],
@@ -75,7 +93,25 @@ static func focus_set(spec: String) -> Dictionary:
 				out[a] = true
 		else:
 			out[norm_id(w)] = true
+	for id: String in out.keys():
+		for l: String in LINKED.get(id, []):
+			out[l] = true
 	return out
+
+
+## One line for the console / scorecard: which checks a focus run re-measures (the set after aliases + LINKED) and
+## which passes it runs.
+static func focus_text(focus: Dictionary) -> String:
+	var ids: Array[String] = []
+	for k: String in focus:
+		ids.append(k)
+	ids.sort()
+	var phases: Array[String] = []
+	for p: String in PHASE_IDS:
+		if p != "always" and needs(focus, p):
+			phases.append(p)
+	return "re-measures %s (passes: %s%s)" % [", ".join(ids), ", ".join(phases),
+		"; unknown id: every pass runs" if has_unknown(focus) else ""]
 
 
 ## `r3T` -> `R3t`, `b4t` -> `B4t`, `h1` -> `H1` (letters before the number upper case, after it lower case).
@@ -448,7 +484,8 @@ static func summary_line(asset: String, cmp: Dictionary) -> String:
 	var worse: Array[String] = []
 	for r: Dictionary in cmp.get("worse", []):
 		worse.append("%s %s%s" % [r["id"], (String(r["new_status"]) + " ") if r["new_status"] != r["old_status"] else "", signed(float(r["delta"]))])
-	return "ART LAB %s: vs previous run quality %.0f -> %.0f (%s); worse: %s; better: %d%s" % [asset, q0, q1, signed(roundf(q1) - roundf(q0)),
+	return "ART LAB %s: vs previous run quality %d -> %d (%s); worse: %s; better: %d%s" % [asset, ArtLabScore.shown(q0),
+		ArtLabScore.shown(q1), ArtLabScore.delta_text(q0, q1),
 		", ".join(worse) if not worse.is_empty() else "none", (cmp.get("better", []) as Array).size(),
 		("; " + String(cmp["sheet"])) if cmp.has("sheet") else ""]
 
@@ -480,7 +517,8 @@ static func render_sheet(ctx: ArtLabRunner, cmp: Dictionary, tiles: Array[Dictio
 		Color(0.95, 0.95, 0.95))
 	var worse: Array = cmp.get("worse", [])
 	var col := Color(1.0, 0.45, 0.4) if not worse.is_empty() or q1 < q0 - 0.5 else Color(0.4, 0.9, 0.45)
-	_label(vp, "quality %.0f -> %.0f (%s)   %d worse, %d better, %d unchanged" % [q0, q1, signed(roundf(q1) - roundf(q0)), worse.size(),
+	_label(vp, "quality %d -> %d (%s)   %d worse, %d better, %d unchanged" % [ArtLabScore.shown(q0), ArtLabScore.shown(q1),
+		ArtLabScore.delta_text(q0, q1), worse.size(),
 		(cmp.get("better", []) as Array).size(), int(cmp.get("unchanged", 0))], Vector2(12, 40), 20, col)
 	var y := 70.0
 	for r: Dictionary in worse.slice(0, 3):

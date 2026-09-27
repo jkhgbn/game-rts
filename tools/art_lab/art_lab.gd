@@ -181,5 +181,5 @@ func _batch(args: PackedStringArray) -> void:
 	var res: Dictionary = await ArtLabBatch.run_all(root, list, shared)
 	print(ArtLabBatch.summary(res, float(Time.get_ticks_msec() - t0) / 1000.0))
 	for row: Dictionary in res["rows"]:
-		print("  | %s %s %.0f (%.1f s)" % [row["asset"], row["result"], float(row["quality"]), float(row["seconds"])])
+		print("  | %s %s %d (%.1f s)" % [row["asset"], row["result"], ArtLabScore.shown(float(row["quality"])), float(row["seconds"])])
 	quit(int(res["code"]))

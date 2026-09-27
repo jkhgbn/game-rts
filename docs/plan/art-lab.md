@@ -25,13 +25,17 @@ each other only through public (non-`_`) functions. One owner per file in a phas
 | `checks/readability.gd` | `ArtLabCheckRead` | R1, R2 / R2r (`references`), R3 / R3t / R4 / R4k (`add_contrast`), R5 (`glow_phase`, `glow_report`), R6 (`team_pass`), R7, R8 / R8w, R9, R10 (`check_geometry`) | 1.D |
 | `checks/animation.gd` | `ArtLabCheckAnim` | A1 hooks, A2 `death_check`, A3 `attack_reads` (called from the 40 m pass), animation strip | 1.D (walk cycle) |
 | `checks/polish.gd` | `ArtLabCheckPolish` | P1 / P3 / P4 `shape_value_detail`, P2 `asymmetry`, P5 `glow_placement` (INFO, scored) | 1.D (style bible f) |
+| `checks/craft.gd` | `ArtLabCheckCraft` | v3.1 craft: C1 shape richness + C2 vertex use (`check_geometry`, headless too, after the actions), C3 palette depth + C4 inner detail (`check_render`, close-up + 25 m, after the shots); `measure_geometry` / `measure_image` are pure measures (the probe `calibration/craft_probe.gd` prints them); numbers in `ArtLabBudgets.CRAFT` | v3.1 fix round |
+| `checks/read_v3.gd` | `ArtLabCheckReadV3` | 1.D checks R11 / R5w / R5c / R6cb / R12 / S1, flyer phase match | 1.D |
+| `lab_fixes.gd` | `ArtLabFixes` | fix recipes -> `fixes.json` (colour R3 / R3t / R4k with the team-coloured materials excluded, glow R5, B1 / B2 merge, B4 thin, B5 fake-glow halo, B7, B8 look-alike folds <= dE 15, R1 / R8 / R9 / R10) | 1.A |
+| `lab_diff.gd` | `ArtLabDiff` | `compare=` before / after, `focus=` sets (aliases, LINKED ids, `focus_text`), merge | 1.B |
 | `checks/decor_vfx.gd` | `ArtLabCheckDecorVfx` | decor sets (D1-D9, patch R5 / B13), VFX families (B5, V2-V6, B13) | free (none in phase 1) |
 | `lab_score.gd` | `ArtLabScore` | `score_of`, `grade`, `budget_status`, `quality`, `improve_next`, `GROUP_WEIGHT`, kind ideas `add_extras` | 1.A (+ new `lab_fixes.gd`) |
 | `lab_report.gd` | `ArtLabReport` | the check list, scorecard.md / .json, contact sheet, improvement log; `quality()` / `improve_next()` forward to `ArtLabScore`; `GROUP_WEIGHT` kept as an alias. **`tools/common/tool_report.gd` (`ToolReport`) extends it**: keep its public API (`add`, `count`, `result`, `quality`, `improve_next`, `exit_code`, `to_dict`, `to_markdown`, `_cell`, `write`, `append_log`, `read_previous`, `contact_sheet`); `grade` / `budget_status` moved to `ArtLabScore` (ToolReport has its own copies since 2026-09-27) | 1.B (+ new `lab_diff.gd`) |
 | `lab_stage.gd` | `ArtLabStage` | SubViewport, ground, lights, render modes, cameras, `override` / `restore`, v3 `warm()` / `reset()` | 1.D |
 | `lab_image.gd` / `lab_census.gd` | `ArtLabImage` / `ArtLabCensus` | pixel analysis / scene census (shared helpers) | ask the lead before changing a signature |
 | `lab_budgets.gd` | `ArtLabBudgets` | **all numbers** (incl. `V3`, the 1.D check thresholds) | 1.C only (others send changes by note to `docs/handoff/for-art-lab-1c.md`) |
-| `calibration/calibration.gd` / `calib_plant.gd` | `ArtLabCalibration` / `ArtLabCalibPlant` | the 12 calibration cases + bands, planted-bad variants built in memory (section 11); test `tests/test_art_lab_calibration.gd` | 1.C |
+| `calibration/calibration.gd` / `calib_plant.gd` | `ArtLabCalibration` / `ArtLabCalibPlant` | the 13 calibration cases + bands, planted-bad variants built in memory (section 11); test `tests/test_art_lab_calibration.gd` | 1.C |
 
 ## 1. One command
 Windowed (it renders; `--headless` only runs budgets / health / hooks and marks the render checks SKIP):
@@ -58,11 +62,32 @@ cd C:\Users\elzzo\Documents\four-wizards-rts
 | `table` | print the budget table (Markdown) and quit |
 | `batch=<list or file>` | **v3 batch**: several assets in ONE Godot process (`lab_batch.gd`). The stage (ground, lights, shaders) is built once per light preset and warmed (all 4 render modes) before the first asset; each asset then runs on the reset stage (its nodes freed). A comma list of scenes shares the other args (`'batch=shade,dusk_steed,aqueduct'`); a `.txt` / `.list` file holds one `<scene> [key=value ...]` per line (`#` = comment). `kind=` is guessed from the path when missing; `out_root=<dir>` puts each scorecard in `<dir>/<name>/`. vsync is off in a batch (capped 240 fps; `vsync=1` keeps it): the lab's waits are timers, so the poses are the same. Ends with `ART LAB BATCH done: N assets in S s (s / asset)` + one line per asset; exit 1 if any FAILs. `sweep=` uses the same stage pool |
 | `fail_fast=1` | v3: the headless checks (budgets, health, hooks, allocations) run first; on a FAIL the render passes are skipped (render checks SKIP "fail_fast", note in the scorecard) |
-| `timing=1` | v3: prints the seconds of each phase (headless checks, shots, read_40, turns + anim strip, references, frame cost) |
+| `timing=1` | v3: prints the seconds of each phase (headless checks, shots, craft, read_40, turns + anim strip, references, frame cost) |
+| `compare=` | v3 before / after (`lab_diff.gd`). **Default `prev`**: when the out folder already holds a scorecard, the new run is compared with it: "What got worse" at the top of `scorecard.md`, a per-check score-delta table, the changed pixels per shot and `diff_sheet.png` (before / after / changed mask), plus one console line `vs previous run quality 91 -> 93 (+2); worse: R3 -28`. `compare=off` turns it off; `compare=<dir>` compares with another out folder (e.g. `compare=docs/art/lab/effort-trial/low`, used by the rescore). Example: `.\tools\art_lab\run_art_lab.ps1 thornling unit nature` twice = the second run shows what changed |
+| `focus=` | v3 inner loop (`lab_diff.gd`): re-measure only some checks and merge them into the previous scorecard of the same out folder (the other rows are kept, marked _kept_; H1 errors are always re-checked). Comma list of ids or aliases: `contrast` (R3 R3t R4 R4k), `grounds` (R4 R4k), `glow` (R5 R5c P5), `team` (R6 R3t R6cb), `walk` (R11 R5w), `presets` (R12), `style` (S1), `silhouette` (R1 R2 P1 P2), `refs` (R2 R2r P2), `geometry` (R8 R8w R9 R10), `anim` (A1 A2 A3), `reach` (A3 A3r), `polish` (P1-P5), `craft` (C1-C4), `health`, `budgets`. **Linked ids** (v3.1): a focus on R3 also re-measures R3t / R4 / R4k (a colour fix moves them all), R4 <-> R4k, R5 -> R5c / P5, R6 -> R3t / R6cb, A3 <-> A3r, C1 -> C2, C3 -> C4. The console prints `focus re-measures <ids> (passes: ...)` first. A 40 m focus (`focus=R3`) runs the shots + the 40 m pass (~15 s); a budget focus (`focus=B4`) takes no shots (~3 s); an unknown id runs every pass. Example: `.\tools\art_lab\run_art_lab.ps1 nature_keep building nature -Extra 'focus=R3'`, then a full run before you report |
+| `reach=<m>` | v3.1 A3r: the weapon reach the brief declares (whips, pikes, halberds): the strike frame must show the tip at >= 80 % of it, above the ground. Without it the lab uses the scene's `attack_reach`, else the UnitType's `attack_range` (judged only when >= 2.5 m; ordinary melee ranges of 1.2-2 m are INFO) |
 
 Lead shortcut (v2): `.\tools\art_lab\run_art_lab.ps1 sapling unit nature` (one asset, through the Godot gate),
 `.\tools\art_lab\run_art_lab.ps1 -Sweep ice` (army sweep), `-Extra 'ground=ash','light=ice'`, `-Headless`;
 v3: `.\tools\art_lab\run_art_lab.ps1 -Batch 'shade,dusk_steed,aqueduct' -Extra 'fail_fast=1'` (or a batch file).
+
+**Examples (v3.1)** (PowerShell: quote `'--'` and every comma list):
+```powershell
+# one asset, full run (the scorecard lands in docs/art/lab/<name>/; the second run compares with the first)
+.\tools\art_lab\run_art_lab.ps1 art/units/_effort_trial/low/vinelasher.tscn unit nature -Extra 'reach=3.0','ref=thornling,bramblehorn,burr_slinger'
+# inner loop after a colour change: only the contrast checks (R3 also refreshes R3t / R4 / R4k), merged into the last scorecard
+.\tools\art_lab\run_art_lab.ps1 nature_keep building nature -Extra 'focus=R3'
+# compare with another folder instead of the previous run
+.\tools\art_lab\run_art_lab.ps1 thornling unit nature -Extra 'compare=docs/art/lab/_calibration/shade'
+# batch: several assets in one Godot process; a file holds one "<scene> key=value ..." per line
+.\tools\art_lab\run_art_lab.ps1 -Batch 'shade,dusk_steed,aqueduct' -Extra 'quick=1','fail_fast=1'
+.\tools\art_lab\run_art_lab.ps1 -Batch docs/art/lab/effort-trial/rescore_batch.txt -Extra 'out_root=docs/art/lab/effort-trial/rescore','log=0'
+# army sweep of one kingdom / all (ranking + backlog.md); rebuild only the backlog from the last sweep (headless, seconds)
+.\tools\art_lab\run_art_lab.ps1 -Sweep nature
+.\tools\art_lab\run_art_lab.ps1 -Sweep all -Extra 'backlog_only=1' -Headless
+# the same through the gate directly
+& .\tools\godot_run.ps1 --path . -s res://tools/art_lab/art_lab.gd --quit-after 3600000 '--' 'batch=shade,deer' quick=1
+```
 
 Runtime 20-40 s per asset (GTX 1660); v3 on the RTX 3070 laptop: ~30 s per asset single (+ ~5 s Godot start and the
 gate wait), 27 s per asset in a full batch, 16.5 s with `quick=1 fail_fast=1` (section 9.1). Exit code **1 on any FAIL**, 0 otherwise, 2 = bad arguments. The console ends with
@@ -127,7 +152,12 @@ Budget numbers come from the specs (hard = FAIL when over); "soft" numbers are l
 | R10 | Footprint vs selection radius | x <= radius x 1.4, z <= x 1.4 (x 2.4 quadrupeds), 25 % slack; INFO when there is no UnitType yet. v2: thin "line" parts (two sizes < 8 cm: spear shafts, staffs, bow strings) are ignored and listed |
 | A1 | Standard hooks | the kind's hooks exist (art-units 6.1, cavalry-mounts 10, map-fill 10, art-keep 8.8) |
 | A2 | death_finished | fires <= 2.0 s after `play_death` (gameplay fallback) |
-| A3 | Attack reads at 40 m | biggest silhouette change (1 - IoU rest vs pose) sampled at 0.08 / 0.14 / 0.24 / 0.36 s >= 12 % (titans 8 %, beasts 10 %) |
+| A3 | Attack reads at 40 m | biggest silhouette change (1 - IoU rest vs pose) sampled at 0.08 / 0.14 / 0.24 / 0.36 s >= 12 % (titans 8 %, beasts 10 %). v3.1: the anim strip's "attack (strike)" frame is shot at A3's biggest-change moment |
+| A3r | Weapon reach at the strike (v3.1) | at each A3 moment: the farthest horizontal distance of the drawn geometry from the model's origin, **triangle edges clipped at the ground** (a lash driven into the ground at 1.8 m measures 1.8 m), + a **side frame per sample** (`strike_side.jpg`: red post = declared reach, green box = tip). PASS when the tip reaches >= 80 % of the declared reach (`reach=` / scene `attack_reach` / UnitType `attack_range` >= 2.5 m), else WARN; ordinary melee (`attack_range` < 2.5 m) and no declared reach = INFO |
+| C1 | Shape richness (v3.1, craft) | geometry: separate shapes (vertex-connected mesh islands) per body part (pivot), share of the surface on plain boxes / low-sided prisms / cards (islands with <= 10 face directions), face-normal variety (area-weighted entropy over 128 direction bins). Graded 0-1 between the `CRAFT` ends (3 -> 7 shapes per part, 65 % -> 35 % plain, 0.84 -> 0.92 variety); INFO (scored, never WARN) |
+| C2 | Vertex use vs budget (v3.1, craft) | vertices (critters: triangles) / the tier budget: 30 % -> 65 % graded; under-use counts (detail left on the table), over is B4's job |
+| C3 | Palette depth (v3.1, craft) | close-up: colour steps (L\*a\*b\* bins L 10 / a b 15 with >= 2 % of the body) 8 -> 13, value steps (L\* bins of 8 with >= 3 %) 5 -> 9 |
+| C4 | Inner detail (v3.1, craft) | inner edge pixels (\|grad L\*\| > 8, outline excluded) per outline pixel: close-up 1.3 -> 1.8, 25 m 1.0 -> 1.4 (a box figure has big plain panels for its outline). C1-C4 are graded for units / mounts / titans / beasts; critters, buildings and landmarks get the values as unscored INFO (not calibrated yet) |
 | P1-P5 | Polish (scored, never fail) | silhouette hook (outline complexity >= 2.2), asymmetric secondary element (front asymmetry >= 0.15), tops light / bottoms dark (top third - bottom third >= +10 L*), detail density at 25 m (3-11 mean L* gradient), a glow point in the upper half. v2: **P3 and P5 use world height** (a height pass: unshaded grey = world y / model top), so flat creatures and quadrupeds are judged by what is physically on top, not by screen rows; P5 counts glowing surfaces too |
 | D1-D9 | Decor sets | kinds <= 6 (soft; map total 24), triangles per mesh <= 1200 (soft), only trees / logs / big rocks cast shadows (FAIL), ranges 65 / 90 m, instance-budget coverage, **units hidden by decor** <= 20 % (FAIL > 40 %), **units still read on the decor** mean-colour dE >= 20 (WARN only), coverage <= 55 %, glow points per 144 m2, patch frame cost |
 | V2-V6 | VFX families | lights 0, nodes created per play after warm-up 0 (pooled), no leak 3 s after, 0 materials per play, peak particles 200 / draws 40 (soft), each id visible at 40 m (>= 200 px of the frame change by dE > 10 at its peak, sampled at 0.05 / 0.12 / 0.35 / 0.8 / 1.5 s) |
@@ -166,8 +196,10 @@ except the new `landmark/objective` row; glow ranges per tier live in `GLOW_TIER
 | landmark/objective |  | 32 (soft) |  | 24000 (soft) |  | 0 |  | 3 (soft) |  |  | 10 (soft) |  | 0.05 (soft) | 4 | map-fill.md 9 + mission objective (Crown altar, capture shrines): lab defaults, glow 4-12 |
 
 ## 4. Quality score, "Improve next", improvement log
-- **Quality 0-100** = weighted mean of every scored check (readability x2, health x1.5, decor / VFX x1.5, budgets,
-  animation and polish x1; the main-ground contrast x1.5 more). Checks are graded, not just PASS / FAIL: a PASS lands in
+- **Quality 0-100** = weighted mean of every scored check (readability x2, health x1.5, decor / VFX x1.5, **craft x2**
+  (v3.1, C1-C4 weight 1 each: ~8 of a unit's ~45-55 weight), budgets, animation and polish x1; the main-ground contrast
+  x1.5 more). v3.1: every report prints the same number (`ArtLabScore.shown`: rounded from the 0.1-snapped value that
+  scorecard.json stores), so the console, the scorecard header, the diff line and the next run's "previous" agree. Checks are graded, not just PASS / FAIL: a PASS lands in
   70-100 depending on its margin (e.g. contrast dE 20 scores lower than dE 40), a WARN in 35-69, a FAIL in 0-34, and
   the polish checks (P1-P5) score 0-100 without ever failing. So the score moves when an agent improves something
   that already passes. The scorecard shows the previous run's score in the same out folder (before / after).
@@ -330,6 +362,39 @@ Also done late: P1 / P2 hints say hooks thinner than ~0.25 m do not register at 
   fail_fast on a planted critter-budget FAIL): `PASS art_lab`. `tests/test_tool_cine.gd` (ToolReport extends
   ArtLabReport): PASS.
 
+### 9.2 Art Lab v3.1 fix round (2026-09-27, after the effort trial; notes `docs/plan/art-lab-v3-trial-notes.md`)
+Done (the 9 trial items + craft + reach):
+1. **Manual**: `compare=` / `focus=` / `reach=` rows and a v3.1 examples block (one asset, focus, compare, batch, sweep,
+   backlog rebuild) in section 1; a focus set now also re-measures its **linked** checks (`ArtLabDiff.LINKED`: R3 ->
+   R3t / R4 / R4k ...) and prints `focus re-measures <ids> (passes: ...)` before the run.
+2. **Team-coloured materials**: the team pass records every surface's albedo in each of its 4 kingdom-colour copies;
+   materials whose albedo follows `set_team_color` (`ArtLabFixes.team_labels`, e.g. the nature keep's Leaves) are never
+   a recolour candidate, and the colour recipe says to change the team-colour path instead.
+3. **R3 predictor**: the linear mix model's body shift is scaled by `PRED_SCALE` 0.5 (predicted 18.3 vs measured 10.1).
+4. **B5 fake-glow recipe** (`light_fix`): each extra Light3D -> a camera-facing halo card at the light, all in ONE shared
+   unshaded additive material over the bloom level; the text names +1 material (B8) and the R6 risk of a team-coloured light.
+5. **B8** only folds look-alike pairs (albedo dE <= `MERGE_DE_MAX` 15); the rest is "fold per-part copies into the palette".
+6. **Noise**: B13 over budget is measured a second time and the lower window kept (both in the notes); building scripts'
+   own clocks (`_t = randf() * 10` in the keeps) start at 0 in `_fix_idle_phase`, so R5's 3 phases look at the same
+   moments every run (kit models keep their v2.1 idle phase fix; resetting their `_t` mid-run hid a Vinelasher glow,
+   tried and reverted).
+7. **One quality number**: `ArtLabScore.shown` / `delta_text` everywhere (console, scorecard header, diff line / sheet,
+   contact sheet, log, batch lines); the header also prints the 0.1 value. Header now says lab v3.1.
+8. **References sorted** before the silhouette / lineup shots: a reorder no longer shows as a changed shot.
+9. **backlog.md paths**: each row carries the scene path (`fire_tower (art/buildings/fire_tower.tscn)`) and the re-check
+   command runs that path; rebuilt with `-Sweep all -Extra 'backlog_only=1' -Headless`.
+10. **Craft checks C1-C4** (`checks/craft.gd`, group "craft" x2): shapes per body part / plain-prism share / normal
+    variety, vertex use vs budget, palette depth, inner detail at the close-up and 25 m. Calibrated on the 4 trial
+    Vinelashers + the good set; the low Vinelasher is a new calibration case (section 11). Rescore:
+    `docs/art/lab/effort-trial/rescore.md`.
+11. **A3r weapon reach** at the strike (clipped at the ground) + `strike_side.jpg` (one side frame per A3 sample); the
+    anim strip's strike frame uses A3's best moment.
+Tests: `tests/test_art_lab.gd` `_test_v31` (shown quality, focus links, C1 / C2 on planted box vs rich figures, A3r on
+a lash driven into the ground at 1.8 m = WARN and a level 3 m lash = PASS, team labels, B8 limit, B5 recipe).
+Left: a palette-snap recipe for shared kit materials (low / high trial notes: "recolour" should propose another palette
+entry, not editing a shared material), a combined "all grounds" contrast line, C1-C4 bands for critters / buildings /
+landmarks (INFO today), R6cb hint naming the ground case, R5 part names on merged meshes.
+
 ## 10. v2.1 (2026-09-27, lab review on the laptop, RTX 3070 Laptop)
 Checked the known notes against v2 first: rim light (R5), R3 low-chroma hue gap, P1 / P2 thin hooks, emission crop +
 marked clusters, per-mesh vertex breakdown, B11 surfaces, B12 downward faces, R3t team colours, `ref=` short names,
@@ -348,7 +413,7 @@ Left for later (v2.2): glow-point local contrast (needs the lit 40 m frame sampl
 triangles for decor sets, the windowed army sweep per kingdom, real terrain paint for snow / ash / sand / marsh.
 
 ## 11. Calibration (v3 task 1.C, the lab-on-lab test)
-**Why:** a threshold or rule change must not silently move what the lab says about assets we already know. 12 cases
+**Why:** a threshold or rule change must not silently move what the lab says about assets we already know. 13 cases
 with expected bands; the test fails when a change moves one out of its band. **Any rule / threshold change runs it.**
 ```powershell
 # windowed (the real judge): ~4.5 min in process (260-270 s), one Godot process, one batch
@@ -386,6 +451,15 @@ two windowed runs (2026-09-27, laptop, 3-6 other Godot processes) -/+ 3 points.
 | plant_float_deer | root lifted 0.4 m | **R9 FAIL** (lowest point 0.4 m) | 86.5-93.5 (90.5, 90.6) |
 | plant_permat_dusk_steed | every material duplicated per instance | **B9 FAIL** | 86-92 (89.0, 89.0) |
 | plant_team_dusk_steed | team cloth frozen (path-less shared copies, mesh + overrides) | **R6 WARN** (1-2 %), **R6cb WARN** (3.0-4.7) | 90.5-97 (94.0, 93.7) |
+
+| vinelasher_low (v3.1) | - (the effort trial's plain, blocky low model, `reach=3.0`) | PASS / WARN; C1, C2 INFO, A3r PASS, R3 PASS; R4k / R4 WARN allowed | **82-91** (86.7, 86.8, 86.8) |
+
+**v3.1 band changes (craft checks C1-C4, 3 windowed runs 2026-09-27):** the craft group (x2) measures the Shade as a plain
+early unit (3.4 shapes per body part like the low Vinelasher, 52 % vertex use): shade 96-98 -> **94.0-94.2** (band 94 ->
+**91**-100), plant_verts20k_shade 94.3 -> 89.8 (only C1 / C2 scored in a fail_fast run: **86.5**-97.5), plant_green_shade
+84.7 -> 79.7-80.7 (the green also flattens the palette: **77**-88). The Dusk Steed's palette is dark (10 colour / 6 value
+steps): 97.5 -> 94.7-95.2 (band **91.5**-100), plant_team_dusk_steed 93.7 -> 90.8-91.0 (**87.5**-97). The other cases did
+not move (aqueduct / deer / VFX: C checks INFO or absent; Frost Dragon 97.4-98.1). The 13 cases run in ~310 s.
 
 Planted side effects that are allowed (not false alarms): green also loses the team cloth (R6, R3t, R6cb) and the kit
 shader (A2 dissolve); the 40 beads also flicker (R5w).

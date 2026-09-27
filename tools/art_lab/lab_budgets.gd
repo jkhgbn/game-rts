@@ -100,6 +100,29 @@ const GLOW_HDR := 1.1
 ## A kingdom's home ground (R4 names it on its own line): where its units stand most.
 const KINGDOM_GROUND := {&"fire": &"ash", &"ice": &"snow", &"nature": &"old_wood", &"shadow": &"marsh"}
 
+## Art Lab v3.1 craft checks (checks/craft.gd, C1-C4): bad / good ends of each measure and the check weights (x the
+## "craft" group weight in lab_score.gd). Calibrated on the effort-trial Vinelashers + the good calibration set (see
+## art-lab.md "Calibration" for the measured values). Measured 2026-09-27 (quick batch, laptop), per part / plain /
+## normal variety / vertex use / colour steps / value steps / edges close / edges 25 m:
+##   Vinelasher low    3.4 / 57 % / 0.864 / 38 % / 10 /  9 / 1.44 / 1.16   (the plain, blocky one: box limbs, 969 verts)
+##   Vinelasher medium 11.3 / 61 % / 0.926 / 88 % / 12 / 10 / 1.74 / 1.15
+##   Vinelasher high   8.6 / 38 % / 0.933 / 97 % / 14 / 11 / 1.97 / 1.29
+##   Vinelasher xhigh  8.3 / 56 % / 0.920 / 83 % / 16 / 11 / 1.71 / 1.36
+##   Shade             3.4 / 38 % / 0.839 / 52 % / 14 /  9 / 1.76 / 1.35   (a plain early unit: its band moved, art-lab.md)
+##   Dusk Steed       21.3 / 25 % / 0.880 / 96 % / 10 /  6 / 2.41 / 1.88
+##   Frost Dragon      8.8 / 16 % / 0.903 / 71 % / 17 /  9 / 4.35 / 5.66
+## With these ends and weights (4 checks x 1 x group 2.0 = 8 of ~45-55 weight) low lands ~7-10 points under the other
+## three (86 vs 94-96 in the quick batch); C1-C4 are INFO (scored, never WARN / FAIL).
+const CRAFT := {
+	"per_part_bad": 3.0, "per_part_good": 7.0, "w_per_part": 1.0,
+	"plain_bad": 0.65, "plain_good": 0.35, "w_plain": 1.0,
+	"entropy_bad": 0.84, "entropy_good": 0.92, "w_entropy": 1.0,
+	"use_bad": 0.3, "use_good": 0.65,
+	"palette_bad": 8, "palette_good": 13, "values_bad": 5, "values_good": 9,
+	"edges_bad": 1.3, "edges_good": 1.8, "edges25_bad": 1.0, "edges25_good": 1.4,
+	"weight_c1": 1.0, "weight_c2": 1.0, "weight_c3": 1.0, "weight_c4": 1.0,
+}
+
 ## Art Lab v3 checks of task 1.D (checks/read_v3.gd: R11 walk, R5w flicker, R5c glow local contrast, R6cb colour-blind
 ## team colours, R12 light presets, S1 style bible), moved here as one block (docs/handoff/for-art-lab-1c.md).
 ## Calibrated by task 1.C on the calibration set (docs/plan/art-lab.md "Calibration", 2 windowed runs 2026-09-27):

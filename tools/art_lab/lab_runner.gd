@@ -114,6 +114,8 @@ func run(args: PackedStringArray) -> int:
 	ArtLabCensus.clear_cache()
 	await use_stage(StringName(opts.get("light", "ice" if ground_id == &"snow" else "warm")))
 	print("ART LAB %s (%s / %s, %s) -> %s%s" % [asset, kind, tier, kingdom, out_dir, " [headless: no renders]" if headless else ""])
+	if not focus.is_empty():
+		print("ART LAB %s: focus %s" % [asset, ArtLabDiff.focus_text(focus)])
 	match kind:
 		&"decor_set":
 			await ArtLabCheckDecorVfx.run_decor(self)
@@ -137,7 +139,7 @@ func run(args: PackedStringArray) -> int:
 	if opts.get("log", "1") != "0" and not headless:
 		rep.append_log(opts.get("logfile", LOG_PATH), out_dir)
 	OS.remove_logger(logger)
-	print("ART LAB %s: %s quality %.0f (%d FAIL, %d WARN, %d PASS) in %.0f s -> %s" % [asset, rep.result(), rep.quality(),
+	print("ART LAB %s: %s quality %d (%d FAIL, %d WARN, %d PASS) in %.0f s -> %s" % [asset, rep.result(), ArtLabScore.shown(rep.quality()),
 		rep.count("FAIL"), rep.count("WARN"), rep.count("PASS"), rep.seconds, out_dir.path_join("scorecard.md")])
 	for c: Dictionary in rep.checks:
 		if c["status"] == "FAIL" or c["status"] == "WARN":
@@ -239,7 +241,7 @@ func _lookup_unit_data() -> void:
 			if res == null:
 				continue
 			unit = {"found": true, "file": dir + f}
-			for k: String in ["id", "faction", "body_height", "radius", "is_worker", "move_speed", "flying"]:
+			for k: String in ["id", "faction", "body_height", "radius", "is_worker", "move_speed", "flying", "attack_range"]:
 				var v: Variant = res.get(k)
 				if v != null:
 					unit[k] = v
@@ -385,6 +387,8 @@ func _run_model() -> void:
 		ArtLabCheckAnim.check_hooks(self)
 	if needs("actions"):
 		await ArtLabCheckBudgets.action_cycle(self)
+	if needs("craft_geo"):
+		ArtLabCheckCraft.check_geometry(self)   # v3.1 C1 / C2 (geometry, headless too)
 	lap("headless checks")
 	var stop := fail_fast_stop()
 	if headless or stop:
@@ -400,6 +404,9 @@ func _run_model() -> void:
 		return   # focus= on headless-only checks
 	await ArtLabShots.shots(self)
 	lap("shots")
+	if needs("craft"):
+		await ArtLabCheckCraft.check_render(self)   # v3.1 C3 / C4 (close-up + 25 m)
+		lap("craft")
 	if needs("read40"):
 		await ArtLabCheckRead.read_40(self)
 		lap("read_40")
@@ -530,6 +537,14 @@ func _fix_idle_phase(inst: Node) -> void:
 			n.set(&"_phase_off", 0.0)
 			if &"_flap_p" in n:
 				n.set(&"_flap_p", 0.0)
+			m["phase_fixed"] = int(m.get("phase_fixed", 0)) + 1
+		elif kind in [&"building", &"landmark"] and &"_t" in n and typeof(n.get(&"_t")) == TYPE_FLOAT and n.get_script() != null:
+			# v3.1 (trial note 6): building / landmark scripts start their own clock at random (`_t = randf() * 10.0` in
+			# the keeps), so the glow flicker stood at another moment every run (nature keep R5 35 -> 41 points with no
+			# change). Their clock starts at 0 like the kit models' idle phase. Shader TIME stays global. Buildings /
+			# landmarks only: on a kit model a child's `_t` is its own effect clock (resetting it moved the Frost
+			# Dragon's walk glow count, R5w).
+			n.set(&"_t", 0.0)
 			m["phase_fixed"] = int(m.get("phase_fixed", 0)) + 1
 
 

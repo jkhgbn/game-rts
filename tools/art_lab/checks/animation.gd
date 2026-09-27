@@ -110,9 +110,12 @@ static func anim_strip(ctx: ArtLabRunner) -> void:
 				await ctx.wait(0.6)
 			if ctx.call_hook(ctx.target, &"play_attack"):
 				var wu: Variant = ctx.target.get(&"attack_windup")
-				await ctx.wait(0.35 if ctx.flyer or ctx.kind == &"titan" else (float(wu) if wu != null and float(wu) > 0.0 else 0.1))
+				var t_hit := 0.35 if ctx.flyer or ctx.kind == &"titan" else (float(wu) if wu != null and float(wu) > 0.0 else 0.1)
+				if float(ctx.m.get("a3_t", 0.0)) > 0.0:
+					t_hit = float(ctx.m["a3_t"])   # v3.1: A3's biggest-change moment (a custom timeline peaks elsewhere)
+				await ctx.wait(t_hit)
 				ArtLabStage.freeze(ctx.target, true)
-				strip.append({"img": await ctx.stage.grab(), "label": "attack (strike)"})
+				strip.append({"img": await ctx.stage.grab(), "label": "attack (strike, t %s s)" % ctx.fmt(t_hit, 2)})
 				ArtLabStage.freeze(ctx.target, false)
 				await ctx.wait(1.0)
 			if ctx.kind == &"mount" and ctx.call_hook(ctx.target, &"play_charge"):
@@ -144,6 +147,127 @@ static func anim_strip(ctx: ArtLabRunner) -> void:
 	ctx.save_shot(sheet, "anim")
 
 
+## Reach weapons (whips, pikes, halberds): a declared reach at or above this (m) is judged by A3r; shorter
+## attack_range values of ordinary melee units (1.2-2.0 m, gameplay distance to the target's edge) are INFO only.
+const REACH_JUDGE_MIN := 2.5
+## A3r PASS when the tip reaches this share of the declared reach at one of the A3 moments.
+const REACH_PASS := 0.8
+
+
+## The declared weapon reach: `reach=<m>` (the brief) > the scene's `attack_reach` > the UnitType's `attack_range`.
+## Returns {reach, src, judged} (judged = a reach weapon: reach= / attack_reach, or attack_range >= REACH_JUDGE_MIN).
+static func declared_reach(ctx: ArtLabRunner) -> Dictionary:
+	if ctx.opts.has("reach") and float(ctx.opts["reach"]) > 0.0:
+		return {"reach": float(ctx.opts["reach"]), "src": "reach= (brief)", "judged": true}
+	var ar: Variant = ctx.target.get(&"attack_reach")
+	if ar != null and float(ar) > 0.0:
+		return {"reach": float(ar), "src": "scene attack_reach", "judged": true}
+	if ctx.unit.has("attack_range"):
+		var r := float(ctx.unit["attack_range"])
+		return {"reach": r, "src": "UnitType attack_range (%s)" % String(ctx.unit.get("file", "")).get_file(),
+			"judged": r >= REACH_JUDGE_MIN and r <= 4.0}
+	return {}
+
+
+## Weapon-tip reach of the frozen pose: the farthest horizontal distance from the model's origin of any drawn
+## geometry at or above the ground (triangle edges clipped at y = 0.02, so a lash driven into the ground stops where it
+## meets it). Holder frame (the model's own axes, +Z forward). Returns {reach, fwd, point}.
+static func tip_reach(ctx: ArtLabRunner) -> Dictionary:
+	var inv := ctx.holder.global_transform.affine_inverse()
+	var best := 0.0
+	var best_p := Vector3.ZERO
+	var fwd := 0.0
+	var y0 := 0.02
+	for gi: GeometryInstance3D in ArtLabCensus.geometry(ctx.target):
+		if not gi.is_visible_in_tree() or ArtLabCensus.is_particles(gi) or ArtLabCensus.is_flat_decal(gi, ctx.ground_y):
+			continue
+		if not gi is MeshInstance3D or (gi as MeshInstance3D).mesh == null:
+			continue
+		var mesh := (gi as MeshInstance3D).mesh
+		var xf := inv * gi.global_transform
+		for s: int in mesh.get_surface_count():
+			var arr := mesh.surface_get_arrays(s)
+			if arr.is_empty():
+				continue
+			var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+			var pts := PackedVector3Array()
+			pts.resize(v.size())
+			for i: int in v.size():
+				pts[i] = xf * v[i]
+			var idx: Variant = arr[Mesh.ARRAY_INDEX]
+			var ids: PackedInt32Array = idx if idx is PackedInt32Array and (idx as PackedInt32Array).size() > 0 else PackedInt32Array()
+			var cand: Array[Vector3] = []
+			for p: Vector3 in pts:
+				if p.y >= y0:
+					cand.append(p)
+			for t: int in range(0, ids.size() - 2, 3):
+				for e: int in 3:
+					var a := pts[ids[t + e]]
+					var b := pts[ids[t + (e + 1) % 3]]
+					if (a.y >= y0) != (b.y >= y0):
+						cand.append(a.lerp(b, (y0 - a.y) / (b.y - a.y)))
+			for c: Vector3 in cand:
+				var hr := Vector2(c.x, c.z).length()
+				if hr > best:
+					best = hr
+					best_p = c
+				fwd = maxf(fwd, c.z)
+	return {"reach": best, "fwd": fwd, "point": best_p}
+
+
+static func _side_box(ctx: ArtLabRunner, reach: float) -> AABB:
+	var box: AABB = ctx.m["box"]
+	var far := maxf(reach, maxf(box.size.x, box.size.z) * 0.5) + 0.3
+	var xf := ctx.holder.global_transform
+	box = box.expand(xf * Vector3(0.0, 0.0, far)).expand(xf * Vector3(0.0, 0.0, -0.6))
+	return box
+
+
+## A lit side view of the frozen pose (camera square to the model's facing, low pitch) with the declared reach (red
+## post on the ground) and the measured tip (green box) marked.
+static func _side_frame(ctx: ArtLabRunner, box: AABB, declared: float, rr: Dictionary, t_s: float) -> Image:
+	ctx.stage.fit_cam(box, 6.0, ArtLabRunner.MAIN_YAW + 90.0, 0.9)
+	var img: Image = (await ctx.stage.grab()).duplicate() as Image
+	img.convert(Image.FORMAT_RGBA8)
+	var xf := ctx.holder.global_transform
+	if declared > 0.0:
+		var g := ctx.stage.cam.unproject_position(xf * Vector3(0.0, 0.0, declared))
+		var top := ctx.stage.cam.unproject_position(xf * Vector3(0.0, maxf(ctx.body_height, 1.0), declared))
+		for y: int in range(int(minf(top.y, g.y)), int(maxf(top.y, g.y)) + 1):
+			for dx: int in [-1, 0, 1]:
+				var px := int(g.x) + dx
+				if px >= 0 and y >= 0 and px < img.get_width() and y < img.get_height():
+					img.set_pixel(px, y, Color(1.0, 0.15, 0.1))
+	if float(rr.get("reach", 0.0)) > 0.0:
+		var tp := ctx.stage.cam.unproject_position(xf * (rr["point"] as Vector3))
+		ArtLabShots.mark(img, int(tp.x), int(tp.y), 6, Color(0.2, 1.0, 0.3))
+	var crop := ctx.crop_box(img, box, 0.04)
+	return crop
+
+
+static func reach_report(ctx: ArtLabRunner, declared: Dictionary, best: Dictionary) -> void:
+	var reach := float(best.get("reach", 0.0))
+	var val := "tip reaches %s m from the body centre at t %s s (%s m forward; geometry clipped at the ground)" % [
+		ctx.fmt(reach, 2), ctx.fmt(float(best.get("t", 0.0)), 2), ctx.fmt(float(best.get("fwd", 0.0)), 2)]
+	if declared.is_empty():
+		ctx.rep.add("A3r", "anim", "Weapon reach at the strike", "INFO", val + "; no declared reach (no UnitType, no reach=)",
+			"reach weapons: pass reach=<m> (the brief) or set attack_reach on the scene")
+		return
+	var want := float(declared["reach"])
+	val += "; declared %s m (%s)" % [ctx.fmt(want, 1), declared["src"]]
+	if not bool(declared["judged"]):
+		ctx.rep.add("A3r", "anim", "Weapon reach at the strike", "INFO", val + " - not a reach weapon (< %s m): not judged" % ctx.fmt(REACH_JUDGE_MIN, 1),
+			"judged for reach weapons (declared reach >= %s m, or reach= / attack_reach)" % ctx.fmt(REACH_JUDGE_MIN, 1))
+		return
+	var ratio := reach / maxf(want, 0.01)
+	var st := "PASS" if ratio >= REACH_PASS else "WARN"
+	var hint := "The strike stops at %s m of the declared %s m: aim the strike at the target height (not the ground) and extend the weapon fully at the hit frame (see strike_side.jpg)" % [
+		ctx.fmt(reach, 2), ctx.fmt(want, 1)]
+	ctx.rep.add("A3r", "anim", "Weapon reach at the strike", st, val,
+		"the strike frame shows the weapon tip at >= %d%% of the declared reach, above the ground (side frames: strike_side.jpg)" % int(REACH_PASS * 100.0),
+		hint if st != "PASS" else "", ArtLabScore.grade(ratio, 0.4, 1.0), hint if st != "PASS" else "", "strike_side")
+
+
 ## A3 attack reads at 40 m: the biggest silhouette change (1 - IoU rest vs pose) over 4 moments of play_attack.
 ## Called from the readability pass with the frozen 40 m rest mask; leaves the target frozen again.
 static func attack_reads(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask: ArtLabImage.Mask) -> void:
@@ -155,6 +279,11 @@ static func attack_reads(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask
 		var change := 0.0
 		var strike := 0.0
 		var t_prev := 0.0
+		# v3.1 A3r: weapon-tip reach at every sample (geometry, clipped at the ground) + a side frame per sample
+		var declared := declared_reach(ctx)
+		var reach_best := {"reach": 0.0, "t": 0.0, "fwd": 0.0}
+		var sides: Array[Image] = []
+		var side_box := _side_box(ctx, float(declared.get("reach", 0.0)))
 		for t_s: float in [0.08, 0.14, 0.24, 0.36]:
 			await ctx.wait(t_s - t_prev)
 			t_prev = t_s
@@ -164,8 +293,21 @@ static func attack_reads(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask
 			if ch > change:
 				change = ch
 				strike = t_s
+			if ctx.wants(["A3r"]):
+				var rr := tip_reach(ctx)
+				if float(rr["reach"]) > float(reach_best["reach"]):
+					reach_best = rr
+					reach_best["t"] = t_s
+				sides.append(await _side_frame(ctx, side_box, float(declared.get("reach", 0.0)), rr, t_s))
+				ctx.stage.game_cam(ctx.gp, 40.0)
 			ArtLabStage.freeze(ctx.target, false)
 		await ctx.wait(1.0)
+		ctx.m["a3_t"] = strike   # the anim strip shoots its "attack (strike)" frame at this moment (v3.1)
+		if not sides.is_empty():
+			var sheet := ArtLabImage.grid(sides, 4, 480, 270)
+			ctx.save_shot(sheet, "strike_side")
+			ctx.add_tile(sheet, "A3 strike from the side: t 0.08 / 0.14 / 0.24 / 0.36 s (red = declared reach, green = tip)")
+			reach_report(ctx, declared, reach_best)
 		var st8 := "PASS" if change >= mot else "WARN"
 		ctx.rep.add("A3", "anim", "Attack reads at 40 m", st8, "strike pose changes %d%% of the silhouette (t %s s)" % [int(change * 100.0), ctx.fmt(strike, 2)],
 			">= %d%% (1 - IoU rest vs strike)" % int(mot * 100.0), "Bigger wind-up / strike: the weapon or head should leave the body outline",

@@ -474,6 +474,7 @@ static func team_pass(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask: A
 	# One fresh instance per colour: set_team_color is a spawn-time hook (the kit ignores the scene's own colour and
 	# keeps the first colour on material_override parts), so recolouring one model 4 times would lie.
 	var imgs: Array[Image] = []
+	var surf_cols: Array = []   # v3.1: each instance's surface albedos -> the team-coloured materials (lab_fixes.gd)
 	ctx.holder.visible = false
 	for k: StringName in [&"fire", &"shadow", &"ice", &"nature"]:
 		var inst := ctx.spawn(ctx.scene_path, ctx.gp, ArtLabRunner.MAIN_YAW)
@@ -484,8 +485,10 @@ static func team_pass(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask: A
 		await ctx.settle(inst)
 		ArtLabStage.freeze(inst, true)
 		imgs.append(await ctx.stage.grab())
+		surf_cols.append(ArtLabFixes.surface_colors(inst))
 		ctx.free_model(inst)
 		await ctx.frames(1)
+	ctx.m["team_labels"] = ArtLabFixes.team_labels(surf_cols)
 	ctx.holder.visible = true
 	if imgs.size() < 4:
 		return
@@ -538,6 +541,7 @@ static func team_pass(ctx: ArtLabRunner, rules: Dictionary, roi: Rect2i, mask: A
 
 static func references(ctx: ArtLabRunner) -> void:
 	var refs := await ArtLabScenes.pick_refs(ctx)
+	refs.sort()   # v3.1 (trial note 8): a stable order, so the silhouette / lineup diff never flags a mere reorder
 	if refs.is_empty():
 		ctx.rep.add("R2", "read", "Distinct from references", "INFO", "no reference found", "silhouette IoU <= 0.8")
 		return

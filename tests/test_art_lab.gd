@@ -33,6 +33,7 @@ func _run() -> void:
 	await _test_fixes()   # v3 1.A fix recipes (lab_fixes.gd): its own function, kept apart from the other tasks' cases
 	await _test_army()    # v3 1.E army sweep + backlog (lab_army.gd): its own function
 	_test_read_v3()       # v3 1.D new quality checks (checks/read_v3.gd + lab_image / lab_stage helpers): its own function
+	await _test_v31()     # v3.1 fix round: craft (C1 / C2), A3r reach, recipes (team colour, B5, B8), shown quality, focus links
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
@@ -559,6 +560,139 @@ func _test_fixes() -> void:
 	ctx.free()
 	await process_frame
 
+
+
+## v3.1 fix round (docs/plan/art-lab-v3-trial-notes.md + craft + reach): headless, planted geometry.
+func _test_v31() -> void:
+	# quality shown the same everywhere (console / scorecard / diff): from the 0.1-snapped json value
+	_check(ArtLabScore.shown(82.46) == 83 and ArtLabScore.shown(82.44) == 82 and ArtLabScore.delta_text(82.46, 84.95) == "+2",
+		"v3.1: shown quality / delta (%d, %s)" % [ArtLabScore.shown(82.46), ArtLabScore.delta_text(82.46, 84.95)])
+	# focus links: R3 re-measures R3t / R4 / R4k too
+	var fs := ArtLabDiff.focus_set("R3")
+	_check(fs.has("R3t") and fs.has("R4") and fs.has("R4k") and not fs.has("R6"), "v3.1: focus=R3 also re-measures R3t / R4 / R4k")
+	_check("R3t" in ArtLabDiff.focus_text(fs) and "read40" in ArtLabDiff.focus_text(fs), "v3.1: focus text names the checks and passes")
+	# C1 geometry: 7 box body parts (one box each) = plain; the same with 4 extra spheres per part = richer
+	var ctx := ArtLabRunner.new()
+	root.add_child(ctx)
+	ctx.kind = &"unit"
+	ctx.tier = &"soldier"
+	ctx.kingdom = &"nature"
+	ctx.rep = ArtLabReport.new()
+	ctx.rep.budget_row = ArtLabBudgets.row(&"unit", &"soldier")
+	var built: Array = []
+	for rich: int in 2:
+		var holder := Node3D.new()
+		root.add_child(holder)
+		var model := Node3D.new()
+		holder.add_child(model)
+		for p: int in 7:
+			var piv := Node3D.new()
+			piv.name = "Part%d" % p
+			model.add_child(piv)
+			var mi := MeshInstance3D.new()
+			var bm := BoxMesh.new()
+			bm.size = Vector3(0.2, 0.4, 0.2)
+			mi.mesh = bm
+			mi.position = Vector3(0.0, 0.3 + 0.25 * float(p), 0.0)
+			piv.add_child(mi)
+			if rich == 1:
+				for k: int in 4:
+					var sp := MeshInstance3D.new()
+					var sm := SphereMesh.new()
+					sm.radius = 0.06
+					sm.height = 0.12
+					sp.mesh = sm
+					sp.position = mi.position + Vector3(0.12 * cos(float(k)), 0.1, 0.12 * sin(float(k)))
+					piv.add_child(sp)
+		built.append([holder, model])
+	await process_frame
+	var g0 := ArtLabCheckCraft.measure_geometry(built[0][1], (built[0][0] as Node3D).global_transform, 0.0)
+	var g1 := ArtLabCheckCraft.measure_geometry(built[1][1], (built[1][0] as Node3D).global_transform, 0.0)
+	_check(int(g0["islands"]) == 7 and float(g0["plain_share"]) > 0.95, "v3.1 C1: 7 boxes = 7 plain shapes (%d, %.2f)" % [int(g0["islands"]), float(g0["plain_share"])])
+	_check(int(g1["islands"]) == 35 and float(g1["plain_share"]) < float(g0["plain_share"]) and float(g1["entropy"]) > float(g0["entropy"]),
+		"v3.1 C1: secondary spheres add shapes and normal variety (%d, %.2f, %.3f vs %.3f)" % [int(g1["islands"]),
+		float(g1["plain_share"]), float(g1["entropy"]), float(g0["entropy"])])
+	ctx.target = built[0][1]
+	ctx.holder = built[0][0]
+	ArtLabCheckCraft.check_geometry(ctx)
+	var c1 := {}
+	var c2 := {}
+	for c: Dictionary in ctx.rep.checks:
+		if c["id"] == "C1":
+			c1 = c
+		elif c["id"] == "C2":
+			c2 = c
+	_check(not c1.is_empty() and float(c1["score"]) < 0.3 and String(c1["improve"]) != "", "v3.1 C1: a box figure scores low with a hint (%s)" % str(c1.get("score", -1)))
+	_check(not c2.is_empty() and float(c2["score"]) < 0.1, "v3.1 C2: 168 of 2500 verts is under-use (%s)" % str(c2.get("value", "")))
+	for b: Array in built:
+		(b[0] as Node3D).queue_free()
+	# A3r: a 3 m lash driven into the ground at ~1.8 m must not PASS; the same lash held level passes
+	for level: int in 2:
+		var holder2 := Node3D.new()
+		root.add_child(holder2)
+		var model2 := Node3D.new()
+		holder2.add_child(model2)
+		var lash := MeshInstance3D.new()
+		var cm := CylinderMesh.new()
+		cm.top_radius = 0.02
+		cm.bottom_radius = 0.02
+		cm.height = 3.0
+		lash.mesh = cm
+		var a := Vector3(0.0, 0.8, 0.0)
+		var dir := Vector3(0.0, -0.78, 1.8).normalized() if level == 0 else Vector3(0.0, 0.0, 1.0)
+		lash.transform = Transform3D(Basis(Quaternion(Vector3.UP, dir)), a + dir * 1.5)
+		model2.add_child(lash)
+		await process_frame
+		ctx.target = model2
+		ctx.holder = holder2
+		ctx.opts = {"reach": "3.0"}
+		var rr := ArtLabCheckAnim.tip_reach(ctx)
+		var n0 := ctx.rep.checks.size()
+		ArtLabCheckAnim.reach_report(ctx, ArtLabCheckAnim.declared_reach(ctx), rr)
+		var st := String(ctx.rep.checks[n0]["status"]) if ctx.rep.checks.size() > n0 else "-"
+		if level == 0:
+			_check(float(rr["reach"]) > 1.6 and float(rr["reach"]) < 2.0 and st == "WARN",
+				"v3.1 A3r: a lash in the ground at 1.8 m does not PASS (reach %.2f, %s)" % [float(rr["reach"]), st])
+		else:
+			_check(float(rr["reach"]) > 2.9 and st == "PASS", "v3.1 A3r: a level 3 m lash passes (reach %.2f, %s)" % [float(rr["reach"]), st])
+		holder2.queue_free()
+	# recipes: team-coloured materials are found by their albedo changing between team instances
+	var tl := ArtLabFixes.team_labels([{"Body/Leaves#0": ["Leaves", Color(0.3, 0.6, 0.2)], "Body/Trunk#0": ["Bark", Color(0.3, 0.2, 0.1)]},
+		{"Body/Leaves#0": ["Leaves", Color(0.8, 0.3, 0.1)], "Body/Trunk#0": ["Bark", Color(0.3, 0.2, 0.1)]}])
+	_check(tl.has("Leaves") and not tl.has("Bark"), "v3.1 recipes: team-coloured material found (%s)" % str(tl.keys()))
+	# B8: never proposes folding two different colours (dE 98); B5: a real light becomes a shared-material halo
+	var model3 := Node3D.new()
+	root.add_child(model3)
+	var holder3 := Node3D.new()
+	root.add_child(holder3)
+	for k2: int in 2:
+		var mi2 := MeshInstance3D.new()
+		mi2.mesh = BoxMesh.new()
+		var mat := StandardMaterial3D.new()
+		mat.resource_name = "Leaves" if k2 == 0 else "DarkStone"
+		mat.albedo_color = Color(0.35, 0.75, 0.25) if k2 == 0 else Color(0.08, 0.07, 0.09)
+		mi2.material_override = mat
+		model3.add_child(mi2)
+	var omni := OmniLight3D.new()
+	omni.name = "OrbLight"
+	omni.light_color = ArtLabBudgets.KINGDOM_COLORS[&"fire"]
+	omni.omni_range = 3.0
+	model3.add_child(omni)
+	await process_frame
+	ctx.target = model3
+	ctx.holder = holder3
+	ctx.kingdom = &"fire"
+	ctx.rep.budget_row = {"materials": 1, "lights": 0, "src": "test"}
+	var b8 := ArtLabFixes.materials_fix(ctx, {"id": "B8", "status": "WARN", "name": "Unique materials", "hint": "snap to the palette"})
+	_check((b8.get("changes", []) as Array).is_empty() and "no other pair is a look-alike" in String(b8.get("text", "")),
+		"v3.1 B8: no merge of Leaves / DarkStone (%s)" % String(b8.get("text", "")).left(120))
+	var b5 := ArtLabFixes.light_fix(ctx, {"id": "B5", "status": "FAIL", "name": "Real lights"})
+	var t5 := String(b5.get("text", ""))
+	_check("halo" in t5 and "B8" in t5 and "R6" in t5, "v3.1 B5: fake-glow recipe names B8 and the team-colour R6 risk (%s)" % t5.left(160))
+	model3.queue_free()
+	holder3.queue_free()
+	ctx.queue_free()
+	await process_frame
 
 
 ## v3 1.D (checks/read_v3.gd): colour-blind simulation, glow local contrast, walk / flicker stats, the pure verdicts of

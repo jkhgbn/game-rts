@@ -30,6 +30,13 @@ const COLOR_SKIP: Array[String] = ["rim", "crack", "glow", "emis", "flash", "tea
 const ENERGY_PARAMS: Array[String] = ["energy", "emission_energy", "glow_energy", "emission_strength", "glow_strength",
 	"boost", "intensity"]
 const PASS_SCORE := 0.97
+## v3.1 (trial note 3): the linear mix model over-predicted the R3 gain about 2x (nature_keep: predicted 18.3, measured
+## 10.1): shading, the ground's own bounce and the per-pixel spread absorb part of an albedo change. The predicted body
+## shift is scaled by this factor, so the solver asks for a bigger change and the prediction lands near the re-run.
+const PRED_SCALE := 0.5
+## v3.1 (trial note 5): B8 only proposes folding two materials whose albedos are closer than this (CIE76 dE); the
+## Leaves / DarkStone pair of the nature keep (dE 98) is two different materials, not a look-alike.
+const MERGE_DE_MAX := 15.0
 
 
 # ================================================================ hook (readability.gd, 40 m pass, frozen pose)
@@ -66,6 +73,49 @@ static func capture_40(ctx: ArtLabRunner, roi: Rect2i, mask: ArtLabImage.Mask) -
 				"path": String(ctx.target.get_path_to(gi2))})
 	ctx.m["fix40"] = {"hot": hot, "hot8": hot8, "roi": roi, "mask": mask, "boxes": boxes,
 		"level": ctx.stage.glow_level, "weights": material_weights(ctx.target, ctx.ground_y, to_camera(ctx))}
+
+
+## v3.1 (trial note 2): {"<node path>#<surface>": [label, albedo]} of every drawn surface of `root` (the colour a
+## recolour recipe would edit). The team pass records it for each of its 4 kingdom-colour instances; `team_labels`
+## then names the materials whose albedo followed set_team_color (the kit overwrites e.g. the nature keep's Leaves
+## base_color), which a recipe must not recolour directly.
+static func surface_colors(root: Node) -> Dictionary:
+	var out := {}
+	for gi: GeometryInstance3D in ArtLabCensus.geometry(root):
+		if ArtLabCensus.is_particles(gi):
+			continue
+		var n := 0
+		if gi is MeshInstance3D and (gi as MeshInstance3D).mesh:
+			n = (gi as MeshInstance3D).mesh.get_surface_count()
+		for s: int in n:
+			var m := surface_material(gi, s)
+			if m == null:
+				continue
+			var inf := material_info(m)
+			if inf.has("color"):
+				out["%s#%d" % [String(root.get_path_to(gi)), s]] = [String(inf["label"]), inf["color"]]
+	return out
+
+
+## Labels of the materials whose albedo differs between the team-colour instances (`per_instance`: surface_colors of
+## each), i.e. the team-coloured ones.
+static func team_labels(per_instance: Array) -> Dictionary:
+	var out := {}
+	if per_instance.size() < 2:
+		return out
+	var first: Dictionary = per_instance[0]
+	for key: String in first:
+		var c0: Color = first[key][1]
+		for k: int in range(1, per_instance.size()):
+			var other: Dictionary = per_instance[k]
+			if not other.has(key):
+				continue
+			var c1: Color = other[key][1]
+			if absf(c0.r - c1.r) + absf(c0.g - c1.g) + absf(c0.b - c1.b) > 0.03:
+				out[String(first[key][0])] = true
+				out[String(other[key][0])] = true
+				break
+	return out
 
 
 static func to_camera(ctx: ArtLabRunner) -> Vector3:
@@ -123,6 +173,8 @@ static func build(ctx: ArtLabRunner) -> Dictionary:
 					f = radius_fix(ctx, c)
 				"R8":
 					f = head_fix(ctx, c)
+				"B5":
+					f = light_fix(ctx, c)
 		if f.is_empty():
 			f = generic_fix(c)
 		done[id2] = true
@@ -248,12 +300,20 @@ static func colour_fix(ctx: ArtLabRunner, rules: Dictionary) -> Dictionary:
 		gain[i] = clampf(body_lin[i] / maxf(mix[i], 0.002), 0.05, 8.0)
 	# candidates: the biggest non-team, non-emissive, recolourable materials
 	var cands: Array[Dictionary] = []
+	var tl: Dictionary = ctx.m.get("team_labels", {})   # v3.1: materials set_team_color recolours (measured, team pass)
+	var team_masses: Array[String] = []
 	for key2: String in weights:
 		var e2: Dictionary = weights[key2]
 		var inf: Dictionary = e2["info"]
-		if bool(inf.get("emissive", false)) or bool(inf.get("team", false)) or not inf.has("color") or float(e2["w"]) < 0.06:
+		var is_team := bool(inf.get("team", false)) or tl.has(String(inf.get("label", "")))
+		if is_team and float(e2["w"]) >= 0.1:
+			team_masses.append("`%s` %d%%" % [inf["label"], int(float(e2["w"]) * 100.0)])
+		if bool(inf.get("emissive", false)) or is_team or not inf.has("color") or float(e2["w"]) < 0.06:
 			continue
 		cands.append(e2)
+	var team_note := ""
+	if not team_masses.is_empty():
+		team_note = "; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): %s - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them" % ", ".join(team_masses)
 	cands.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["w"]) > float(b["w"]))
 	cands = cands.slice(0, 4)
 	var measured := {}
@@ -280,7 +340,7 @@ static func colour_fix(ctx: ArtLabRunner, rules: Dictionary) -> Dictionary:
 			"dE_R4": ">= %s (soft)" % ctx.fmt(de_fail + MARGIN_DE, 0), "melt_share": "<= %d%%" % int(melt_warn * 100.0)},
 		"changes": [], "predicted": {}}
 	if best.is_empty():
-		f["text"] = "Body colour: no single recolourable body material found (all team / emissive / tiny): " + String(worst["hint"])
+		f["text"] = "Body colour: no single recolourable body material found (all team / emissive / tiny): " + String(worst["hint"]) + team_note
 		return f
 	var cand2: Dictionary = best["cand"]
 	var info: Dictionary = cand2["info"]
@@ -307,6 +367,9 @@ static func colour_fix(ctx: ArtLabRunner, rules: Dictionary) -> Dictionary:
 		", ".join(lines), ctx.fmt(want, 0), worst_pred,
 		"" if bool(best["ok"]) else "; PARTIAL: best reachable with one material, also recolour the next biggest mass",
 		("; " + String(f["changes"][0]["shared"])) if String(f["changes"][0]["shared"]) != "" else ""]
+	f["text"] += team_note
+	if team_note != "":
+		f["team_coloured"] = team_masses
 	return f
 
 
@@ -327,7 +390,7 @@ static func _solve(cand: Dictionary, gain: Vector3, views: Array) -> Dictionary:
 	var best := {}
 	var eval := func(c: Color) -> Dictionary:
 		var cl := srgb_to_lin(c)
-		var d := (cl - a0_lin) * gain * w
+		var d := (cl - a0_lin) * gain * w * PRED_SCALE
 		var margin := INF
 		var soft_pen := 0.0
 		for b: Array in base:
@@ -367,7 +430,7 @@ static func _solve(cand: Dictionary, gain: Vector3, views: Array) -> Dictionary:
 					best = r2
 					best["color"] = c2
 	var col: Color = best["color"]
-	var d2 := (srgb_to_lin(col) - a0_lin) * gain * w
+	var d2 := (srgb_to_lin(col) - a0_lin) * gain * w * PRED_SCALE
 	var pred := {}
 	for v2: Array in views:
 		pred[v2[0]] = snappedf(lin_to_lab((lab_to_lin(v2[1]) + d2).max(Vector3.ZERO)).distance_to(v2[2]), 0.1)
@@ -991,9 +1054,13 @@ static func materials_fix(ctx: ArtLabRunner, c: Dictionary) -> Dictionary:
 	var gone := {}
 	var changes: Array = []
 	var words: Array[String] = []
+	var too_far := 0
 	for p: Array in pairs:
 		if changes.size() >= over:
 			break
+		if float(p[0]) > MERGE_DE_MAX:
+			too_far += 1
+			continue
 		var i2: int = p[1]
 		var j2: int = p[2]
 		if gone.has(i2) or gone.has(j2):
@@ -1005,8 +1072,11 @@ static func materials_fix(ctx: ArtLabRunner, c: Dictionary) -> Dictionary:
 	var f := {"check": "B8", "status": String(c["status"]), "title": String(c["name"]), "computed": not changes.is_empty(),
 		"measured": {"materials": mats.size()}, "wanted": {"materials": "<= %d" % int(lim["limit"])}, "changes": changes,
 		"predicted": {"materials": mats.size() - changes.size()}}
-	f["text"] = "B8 %d -> %d materials: use one material for look-alike pairs: %s" % [mats.size(), mats.size() - changes.size(),
-		", ".join(words) if not words.is_empty() else "(no look-alike pair of the same shader) " + String(c["hint"])]
+	f["text"] = "B8 %d -> %d materials: use one material for look-alike pairs (albedo dE <= %s): %s" % [mats.size(), mats.size() - changes.size(),
+		ctx.fmt(MERGE_DE_MAX, 0), ", ".join(words) if not words.is_empty() else "(no look-alike pair of the same shader) " + String(c["hint"])]
+	if changes.size() < over:
+		f["text"] += "; %d more to cut: no other pair is a look-alike (the rest differ by dE > %s), so fold per-part copies into the palette materials instead of merging different colours" % [
+			over - changes.size(), ctx.fmt(MERGE_DE_MAX, 0)]
 	return f
 
 
@@ -1084,6 +1154,54 @@ static func head_fix(ctx: ArtLabRunner, c: Dictionary) -> Dictionary:
 		"predicted": {"ratio": 1.0}}
 	f["text"] = "R8: body_height %s -> %s in %s (the head top; x%s now), or lower the head / crest %s m" % [ctx.fmt(bh, 2), ctx.fmt(top, 2),
 		" and ".join(nodes), ctx.fmt(top / maxf(bh, 0.01), 2), ctx.fmt(maxf(top - bh * hmax, 0.0), 2)]
+	return f
+
+
+## B5 (v3.1, trial note 4): every real Light3D over the budget becomes a fake glow: a camera-facing halo card (quad,
+## billboard, additive, unshaded) or a small emissive sphere at the light's position, in ONE shared material for all of
+## them (kit glow / palette material, energy >= 1.3 x the bloom level so R5 counts it). Side effects named in the text:
+## +1 material (B8) unless a kit glow material is reused, and when the light carried the team colour, R6 loses that
+## lit area (put the team colour on the halo tint or a nearby mass).
+static func light_fix(ctx: ArtLabRunner, c: Dictionary) -> Dictionary:
+	var lim := ArtLabBudgets.limit(ctx.rep.budget_row, "lights")
+	var allowed := int(lim.get("limit", 0)) if not lim.is_empty() else 0
+	var lights: Array[Light3D] = []
+	for n: Node in ctx.target.find_children("*", "Light3D", true, false):
+		if (n as Light3D).is_visible_in_tree():
+			lights.append(n as Light3D)
+	var over := lights.size() - allowed
+	if over <= 0:
+		return {}
+	var team_col := ctx.model_color(ctx.target)
+	var team_lab := lin_to_lab(srgb_to_lin(team_col))
+	var level := ctx.stage.glow_level if ctx.stage != null else ArtLabBudgets.GLOW_HDR
+	var changes: Array = []
+	var words: Array[String] = []
+	var team_lit := false
+	# the weakest lights go first (the strongest stays when one light is allowed, e.g. a wizard's staff)
+	lights.sort_custom(func(a: Light3D, b: Light3D) -> bool: return a.light_energy < b.light_energy)
+	for i: int in over:
+		var l: Light3D = lights[i]
+		var col := l.light_color
+		var de_team := lin_to_lab(srgb_to_lin(col)).distance_to(team_lab)
+		var is_team := de_team < 25.0
+		team_lit = team_lit or is_team
+		var rng := float(l.get("omni_range")) if l is OmniLight3D else (float(l.get("spot_range")) if l is SpotLight3D else 0.0)
+		var pos := ctx.holder.global_transform.affine_inverse() * l.global_position
+		var size := clampf(rng * 0.12, 0.15, 0.6)
+		changes.append({"node": String(ctx.target.get_path_to(l)), "action": "replace_light_with_halo",
+			"light_color": "#" + col.to_html(false), "light_energy": snappedf(l.light_energy, 0.01), "range_m": snappedf(rng, 0.01),
+			"halo": {"mesh": "QuadMesh %s m, billboard (camera-facing)" % ctx.fmt(size, 2), "at": _v(pos),
+				"material": "one shared unshaded additive glow material (kit glow / palette), emission x %s the bloom level %s" % [ctx.fmt(GLOW_OVER, 1), ctx.fmt(level, 2)],
+				"tint": "#" + col.to_html(false)}, "team_coloured": is_team})
+		words.append("`%s` (%s, energy %s, range %s m) -> a %s m camera-facing halo card%s" % [l.name, "#" + col.to_html(false),
+			ctx.fmt(l.light_energy, 1), ctx.fmt(rng, 1), ctx.fmt(size, 2), " (team-coloured light)" if is_team else ""])
+	var f := {"check": "B5", "status": String(c["status"]), "title": String(c["name"]), "computed": true,
+		"measured": {"lights": lights.size()}, "wanted": {"lights": "<= %d" % allowed}, "changes": changes,
+		"predicted": {"lights": allowed, "materials_B8": "+1 unless a kit glow material is reused", "R6": "lower" if team_lit else "unchanged"}}
+	f["text"] = "B5 %d -> %d lights: %s; all halos share ONE unshaded additive material (emission >= %s x the bloom level so R5 counts it); adds 1 material (B8) unless you reuse the kit glow material%s" % [
+		lights.size(), allowed, "; ".join(words), ctx.fmt(GLOW_OVER, 1),
+		"; the light was team-coloured: R6 may drop, tint the halo with the team colour (set_team_color) or move the team colour to a nearby mass" if team_lit else ""]
 	return f
 
 
