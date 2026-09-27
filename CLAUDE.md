@@ -192,6 +192,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   end shows the Score tab (`GameHUD.show_score`, `select_end_tab`); the match still ends on kill / concede, score decides
   only at `Skirmish.time_limit_s` (0 = off; `ended_on_score`), set from `GameSettings.time_limit_min` (0 / 30 / 45).
   `GameHUD.is_message_shown() -> bool`. Bot-vs-bot tests end on score at 30:00 ("PASS … (on score)").
+- **STR / INT path** (2026-09-27, `docs/design/level-boons.md` 14): `StrIntPath` (`scripts/units/str_int_path.gd`, child of each skirmish wizard; switch `StrIntPath.ENABLED`): mandatory STR or INT pick at match start, locked; STR +15 % attack_damage / +20 % max_hp + Vigor (regen), INT +15 spell_power / +25 % max_mana + Snow Shield; `ABILITY_DURATION` / `ABILITY_COOLDOWN` constants; key **J** (physical) = use the path ability. Bots pick in `scripts/ai/ai_str_int.gd`. Missions: off.
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).

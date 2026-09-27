@@ -309,7 +309,29 @@ run it only if B vs A shows a 10-20 pt hint. Pass: every kingdom 45-55 % in B, |
 median length change <= 10 %, a wizard owning a Godly wins <= 65 % of those games, Heart of the Sun / Eclipse /
 Winter / Worldroot owners within 8 pts of each other. Fail -> the knobs of section 8 in their order, one per run.
 
+## 14. STR / INT path (JS 2026-09-27, `ideas-inbox.md` STR / INT rows; built with `tests/test_str_int.gd`)
+JS: "STR give more phy attack and hp and INT magic attack and give mana", "u start the have to chose 1 or the other",
+"same for all npc", "str hp regen and int snow shield", "ez to see".
+| Rule | Value |
+|---|---|
+| When | **Mandatory, at 0:00 of a skirmish**, before anything else; **locked** for the match (no respec, kept through death) |
+| STR (Strength) | modifier `path:str`: `attack_damage_pct` **+0.15**, `max_hp_pct` **+0.20** (Vessa L1: 350 -> 420 HP, 14 -> 16.1 dmg) |
+| INT (Intellect) | modifier `path:int`: `spell_power` **+15** (= +15 % spell damage, counts toward the 60 cap), `max_mana_pct` **+0.25** (100 -> 125) |
+| STR ability **Vigor** | `hp_regen` + **2 % max HP / s** (modifier `path:vigor`) for the duration = **40 % max HP** over 20 s |
+| INT ability **Snow Shield** | `add_shield(25 % max HP + 2 x spell_power)` for the duration (Vessa L1: 118); **ends early when broken** |
+| Timing (both) | **active 20 s, cooldown 60 s** (cooldown starts when the effect ends). `ABILITY_DURATION` / `ABILITY_COOLDOWN` are the two constants at the top of `scripts/units/str_int_path.gd`: JS sets them after the playtest ("2 min ability 1 min cooldown" is unconfirmed; 2 min up / 1 min down would be up 67 % of the time = a stat, not a window to punish) |
+| Key | **J** (physical keycode; the only free plain letter after W A S D Q E F Z X C V B G H R T Y U M, reserved I O P K L N) or click the ability button (right edge) |
+| Look (0 lights, built once per wizard, shown / hidden) | STR: pulsing red-gold double ground ring r 2.0 m (heartbeat 1.4 Hz) + red-gold fresnel body shell + rising embers. INT: bright frost dome r 1.7 m with moving frost bands + icy ground ring + snow motes. Gone the moment the buff ends: a wizard with no aura is the one to jump (`art/vfx/str_int/str_int_vfx.gd`) |
+| Bots | pick by kingdom (`scripts/ai/ai_str_int.gd`): **Fire, Ice -> INT** (nuke / control kits), **Shadow, Nature -> STR** (drain / sustain in long fights). Use: STR when HP < 60 % and hit in the last 3 s; INT when HP < 85 % and hit in the last 1.5 s (0.5 s think) |
+| Player UI | a 2-button panel "Choose your path" at 0:00, **game paused until picked**; then the ability button `J  Vigor  ready / ACTIVE n s / n s` |
+| Headless runs, tests, bot-vs-bot | both seats auto-pick with the bot rule |
+| Missions | **skipped** (no path, no panel, no ability) until a mission setting asks for it; `scenes/main.tscn` unchanged |
+| Switch | `StrIntPath.ENABLED` (const, top of `str_int_path.gd`): false = the wizard never creates the node, the game plays as before |
+Balance note: STR ~ +38 % combat power (HP x DPS) at L1, INT ~ +15 % spell damage + mana; roughly one Legendary boon
+each (section 8). Balance Lab arm to add: `{"str_int": "off"}` vs on, per kingdom and per path.
+
 ## Questions for the user
+0. STR / INT ability timing: **20 s active / 60 s cooldown** (default now), or literally 2 min / 1 min, or 1 min / 2 min?
 1. **Spell points stay and boons come on top** (recommended), or should a boon card replace the spell point on
    some levels?
 2. **Godly stays very rare** (~5 % of normal matches see one, ~20-30 % with a Luck build) (recommended), or do you

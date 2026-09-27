@@ -28,7 +28,8 @@ const XP_FAR_SHARE := 0.25          ## Farther away, or dead: 25 % (rounded, min
 const SPELL_MAX_RANK: Array[int] = [3, 3, 2]
 const SPELL_LEVEL_REQUIRED: Array = [[1, 3, 5], [2, 4, 6], [4, 7]]
 const SPELL_CASTER_PATH := "res://scripts/spells/spell_caster.gd"
-const SPELL_HEAL_CAP := 0.6   ## items.md: spell life drain + Spell Feed heal at most 60 % of the damage
+const STR_INT_PATH_SCRIPT := "res://scripts/units/str_int_path.gd"
+const SPELL_HEAL_CAP := 0.6  ## items.md: spell life drain + Spell Feed heal at most 60 % of the damage
 
 ## Stat growth per level above 1 (levels.md; Malrik overrides these in _init).
 @export var hp_per_level := 25.0
@@ -68,6 +69,8 @@ var spell_points := 0
 var spell_caster: Node = null
 ## The items Inventory (scripts/items/, set by Inventory.ensure_for(wizard)); null until then.
 var inventory: Node = null
+## The "StrIntPath" child (scripts/units/str_int_path.gd, STR / INT path) or null when off.
+var str_int: Node = null
 
 var _ranks: Dictionary = {}   # spell_id -> rank (missing = 0)
 
@@ -108,6 +111,7 @@ func _ready() -> void:
 	mana = max_mana
 	add_to_group("heroes")
 	_create_spell_caster()
+	_create_str_int_path()
 	# Spell 1 (F) rank 1 is known at level 1, free; the others start unlearned.
 	var ids := spell_ids()
 	for i in ids.size():
@@ -141,6 +145,24 @@ func _create_spell_caster() -> void:
 	if node.has_signal(&"spell_cast"):
 		node.connect(&"spell_cast", func(id: StringName) -> void: spell_cast.emit(id))
 	spell_cast.connect(_on_spell_cast_model)
+
+
+## Creates the "StrIntPath" child (STR / INT path, level-boons.md) if its script exists and is ENABLED.
+func _create_str_int_path() -> void:
+	if not ResourceLoader.exists(STR_INT_PATH_SCRIPT):
+		return
+	var script := load(STR_INT_PATH_SCRIPT) as Script
+	if script == null or not script.can_instantiate() \
+			or not bool(script.get_script_constant_map().get("ENABLED", false)):
+		return
+	var node := script.new() as Node
+	if node == null:
+		return
+	if node.has_method(&"setup"):
+		node.call(&"setup", self)
+	node.name = "StrIntPath"
+	add_child(node)
+	str_int = node
 
 
 # The body part of a cast (art-units.md 6.5); the spell VFX stay in scripts/vfx/.
