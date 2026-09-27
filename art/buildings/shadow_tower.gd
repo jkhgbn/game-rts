@@ -26,7 +26,7 @@ func _setup() -> void:
 	plinth_top = 0.4
 	wreck_top = 1.2
 	_orb_y = 4.55
-	_light_energy = 1.1
+	_halo_size = 1.6
 	smoke_points = [Vector3(0.3, 2.5, 0.3)]
 	blaze_points = [Vector3(-0.2, 3.2, -0.2)]
 

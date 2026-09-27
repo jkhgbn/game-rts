@@ -3,7 +3,7 @@ extends SmallBuildingModel
 ## Fire tower "Ember Spire" (buildings.md: 1 x 1 cell = 2 x 2 m, height 5, orb blinks on each shot). Task 5.V2.
 ## Read from the RTS camera: a tapering eight-sided stone shaft with lava cracks, a flared team-coloured cup,
 ## four bronze claws holding a glowing ember orb, and an obsidian shard leaning on the shaft (the asymmetric
-## secondary). One small OmniLight (no shadows) at the orb. A.9: stepped plinth, four dark buttress fins at the
+## secondary). No real light (B5, art-keep 0.4): a fake glow halo (additive billboard) around the orb. A.9: stepped plinth, four dark buttress fins at the
 ## foot, two bronze bands, three slits; scaffolding while built, a broken stump with embers after the collapse.
 ## Extra hook for towers: play_shot() (the Tower script calls it each time it fires): the orb blinks 0.1 s.
 ## NightSpireModel (shadow_tower.gd) extends this and only changes the palette and the parts.
@@ -13,9 +13,10 @@ const SHOT_FADE := 0.18
 
 var _orb: MeshInstance3D
 var _orb_mat: ShaderMaterial
-var _orb_light: OmniLight3D
+var _halo: MeshInstance3D
+var _halo_size: float = 1.7
 var _orb_y: float = 4.5
-var _light_energy: float = 1.3
+static var _halo_cache: Dictionary = {}
 var _crown: MultiMeshInstance3D
 var _shot_left: float = 0.0
 var _flicker_amp: float = 0.08
@@ -88,13 +89,57 @@ func _build_parts() -> void:
 	_idle_particles("OrbEmbers", Vector3(0, _orb_y, 0), 10, 1.4, em, true)
 
 
-## The orb (team glow) and its light, shared by both towers.
+## The orb (team glow) and its fake-light halo, shared by both towers.
 func _build_orb(radius: float, energy: float) -> void:
 	_orb_energy = energy
 	_orb_mat = _glow_mat(glow_color, energy, 3.0, true)
 	_orb = _part("Orb", _sphere(radius), _orb_mat, Vector3(0, _orb_y, 0))
 	_floaters.append(_orb)
-	_orb_light = _light("OrbLight", Vector3(0, _orb_y, 0), glow_color, _light_energy, 5.5)
+	# Fake glow instead of an OmniLight: a soft additive halo billboard (one shared quad, one material per colour).
+	_halo = MeshInstance3D.new()
+	_halo.name = "OrbHalo"
+	_halo.mesh = _halo_quad()
+	_halo.material_override = _halo_mat(glow_color)
+	_halo.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_halo.position = Vector3(0, _orb_y, 0)
+	_halo.scale = Vector3.ONE * _halo_size
+	add_child(_halo)
+
+
+static func _halo_quad() -> QuadMesh:
+	if _halo_cache.has(&"quad"):
+		return _halo_cache[&"quad"]
+	var q := QuadMesh.new()
+	q.size = Vector2.ONE
+	_halo_cache[&"quad"] = q
+	return q
+
+
+## Additive radial halo, kept faint (alpha 0.45) so it reads as light spill around the orb, not as a glow point.
+static func _halo_mat(c: Color) -> StandardMaterial3D:
+	if _halo_cache.has(c):
+		return _halo_cache[c]
+	var g := Gradient.new()
+	g.set_color(0, Color(1, 1, 1, 1))
+	g.set_color(1, Color(1, 1, 1, 0))
+	g.add_point(0.35, Color(1, 1, 1, 0.45))
+	var tex := GradientTexture2D.new()
+	tex.gradient = g
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 64
+	tex.height = 64
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+	m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	m.albedo_texture = tex
+	m.albedo_color = Color(c.r, c.g, c.b, 0.45)
+	_halo_cache[c] = m
+	return m
 
 
 # --- Tower hook ---
@@ -120,8 +165,8 @@ func _idle(delta: float) -> void:
 	if _float_appear >= 1.0:
 		_orb.scale = Vector3.ONE * (1.0 + 0.3 * k)
 	var n: float = sin(_t * 7.3) * 0.5 + sin(_t * 12.1) * 0.5
-	_orb_light.light_energy = _light_energy * (1.0 - _flicker_amp + _flicker_amp * n) * (1.0 + 2.0 * k) \
-		* (1.0 if _progress >= 1.0 else 0.0)
+	_halo.position.y = _orb.position.y
+	_halo.scale = Vector3.ONE * _halo_size * (1.0 - _flicker_amp + _flicker_amp * n) * (1.0 + 0.8 * k)
 	_crown_idle(delta)
 
 
@@ -130,18 +175,18 @@ func _crown_idle(_delta: float) -> void:
 
 
 func _on_progress(building: bool) -> void:
-	_orb_light.visible = not building
+	_halo.visible = not building
 
 
 func _on_health(smoke_on: bool, fire_on: bool) -> void:
-	# Below 50 % one claw breaks off; below 25 % the orb dims and its light gutters.
+	# Below 50 % one claw breaks off; below 25 % the orb dims and its halo gutters.
 	_crown.multimesh.visible_instance_count = _crown.multimesh.instance_count - 1 if smoke_on else -1
 	_orb_mat.set_shader_parameter(&"energy", _orb_energy * 0.55 if fire_on else _orb_energy)
 	_flicker_amp = 0.35 if fire_on else 0.08
 
 
 func _on_team_color(g: Color) -> void:
-	_orb_light.light_color = g
+	_halo.material_override = _halo_mat(g)
 
 
 func _on_destroy_start() -> void:
@@ -149,6 +194,6 @@ func _on_destroy_start() -> void:
 
 
 func _on_destroy(t: float) -> void:
-	_orb_light.light_energy = 5.0 if t < 0.2 else maxf(_orb_light.light_energy - 0.1, 0.0)
-	if t >= 0.2:
-		_orb_light.visible = t < 0.8
+	# A last flare of the halo, then it shrinks out.
+	_halo.scale = Vector3.ONE * _halo_size * (2.0 if t < 0.2 else clampf(1.0 - (t - 0.2) / 0.6, 0.0, 1.0))
+	_halo.visible = t < 0.8
