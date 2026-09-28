@@ -481,9 +481,11 @@ func has_clip(id: StringName) -> bool:
 	return DANCE_CLIPS.has(id) and (not _ready_done or can_dance())
 
 
-## True for a standing biped with a chest and at least one arm (not a quadruped, a mount or a seated rider).
+## True for a biped with a chest and at least one arm (not a quadruped or a mount: MountModel has its own dances).
+## A seated rider dances too (Stables16, JS 2026-09-27 "make sure they have dance"): the saddle keeps the hips and
+## legs, the arms / chest / head dance and the reins let go; not during a hop-on / hop-off / thrown.
 func can_dance() -> bool:
-	if not _ready_done or is_quadruped or _rd_on:
+	if not _ready_done or is_quadruped or (_rd_on and _rd_act != &""):
 		return false
 	if _piv[P_MOUNT] != null or _piv[P_CHEST] == null or (_piv[P_ARM_L] == null and _piv[P_ARM_R] == null):
 		return false
@@ -2678,7 +2680,7 @@ func _rd_pose(dt: float) -> void:
 		var cm := _rd_mount as CharacterModel
 		if cm:
 			mv = cm._walk_w
-	_rd_arm_w = move_toward(_rd_arm_w, 0.0 if _action != &"" else 1.0, dt / 0.12)
+	_rd_arm_w = move_toward(_rd_arm_w, 0.0 if _action != &"" or _dn_w > 0.0 else 1.0, dt / 0.12)
 	var h := hs
 	var b := bs
 	var sw: float = 1.0          # astride / in-the-saddle weight

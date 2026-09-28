@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/ice/rimehorn_rider/rimehorn_rider.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"rimehorn_rider"
+display_name = "Rimehorn Rider"
+faction = &"ice"
+is_worker = false
+cost = 250
+pop = 3
+kill_xp = 130
+train_time = 40
+card_key = "C"
+max_hp = 400
+move_speed = 6
+attack_damage = 24
+attack_range = 1.8
+attack_cooldown = 1.2
+aggro_range = 9
+radius = 0.7
+body_height = 2.1
+body_color = Color(0.55, 0.7, 0.85, 1)
+model_scene = ExtResource("2_model")
+requires_tier = 2
+armor = 20
+on_hit_status = &"chill"
+on_hit_duration = 2.0
+sight_radius = 11.0
+model_path = "res://art/units/ice/rimehorn_rider/rimehorn_rider.tscn"

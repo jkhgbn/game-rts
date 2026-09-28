@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/fire/sunforge_cataphract/placeholder/sunforge_cataphract_placeholder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"sunforge_cataphract"
+display_name = "Sunforge Cataphract"
+faction = &"fire"
+is_worker = false
+cost = 400
+pop = 4
+kill_xp = 200
+train_time = 55
+card_key = "V"
+max_hp = 700
+move_speed = 6.4
+attack_damage = 42
+attack_range = 2.1
+attack_cooldown = 1.3
+aggro_range = 10
+radius = 0.8
+body_height = 2.7
+body_color = Color(1, 0.75, 0.25, 1)
+model_scene = ExtResource("2_model")
+requires_tier = 3
+armor = 30
+
+sight_radius = 11.0
+model_path = "res://art/units/fire/sunforge_cataphract/sunforge_cataphract.tscn"

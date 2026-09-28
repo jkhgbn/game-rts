@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/nature/stagrunner/stagrunner.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"stagrunner"
+display_name = "Stagrunner"
+faction = &"nature"
+is_worker = false
+cost = 160
+pop = 2
+kill_xp = 80
+train_time = 26
+card_key = "Z"
+max_hp = 180
+move_speed = 7.8
+attack_damage = 14
+attack_range = 1.7
+attack_cooldown = 0.8
+aggro_range = 9
+radius = 0.6
+body_height = 2.2
+body_color = Color(0.35, 0.7, 0.25, 1)
+model_scene = ExtResource("2_model")
+requires_tier = 1
+armor = 0
+idle_regen_pct = 1.0
+sight_radius = 11.0
+model_path = "res://art/units/nature/stagrunner/stagrunner.tscn"

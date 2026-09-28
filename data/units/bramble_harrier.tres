@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/nature/bramble_harrier/placeholder/bramble_harrier_placeholder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"bramble_harrier"
+display_name = "Bramble Harrier"
+faction = &"nature"
+is_worker = false
+cost = 155
+pop = 2
+kill_xp = 75
+train_time = 26
+card_key = "X"
+max_hp = 165
+move_speed = 7.4
+attack_damage = 13
+attack_range = 6.5
+attack_cooldown = 1.2
+aggro_range = 10
+radius = 0.6
+body_height = 2.2
+body_color = Color(0.45, 0.6, 0.25, 1)
+projectile_speed = 28.0
+model_scene = ExtResource("2_model")
+requires_tier = 1
+armor = 0
+idle_regen_pct = 1.0
+sight_radius = 11.0
+model_path = "res://art/units/nature/bramble_harrier/bramble_harrier.tscn"

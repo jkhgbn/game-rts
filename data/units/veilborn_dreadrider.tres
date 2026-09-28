@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/veilborn_dreadrider/placeholder/veilborn_dreadrider_placeholder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"veilborn_dreadrider"
+display_name = "Veilborn Dreadrider"
+faction = &"shadow"
+is_worker = false
+cost = 400
+pop = 4
+kill_xp = 200
+train_time = 55
+card_key = "V"
+max_hp = 650
+move_speed = 6.8
+attack_damage = 46
+attack_range = 2.1
+attack_cooldown = 1.3
+aggro_range = 10
+radius = 0.8
+body_height = 2.6
+body_color = Color(0.2, 0.1, 0.3, 1)
+model_scene = ExtResource("2_model")
+requires_tier = 3
+armor = 25
+
+sight_radius = 11.0
+model_path = "res://art/units/shadow/veilborn_dreadrider/veilborn_dreadrider.tscn"

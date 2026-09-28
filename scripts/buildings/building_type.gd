@@ -107,6 +107,11 @@ static func buildable_for(faction_id: StringName) -> Array[BuildingType]:
 			if trade == 0:
 				continue
 		out.append(t)
+	# docs/design/stables.md: the kingdom's Stables (key N) last, only in games that have it (Stables16.enabled_here).
+	if Stables16.enabled_here():
+		var st := Stables16.stables_type(faction_id)
+		if st and st.is_buildable():
+			out.append(st)
 	return out
 
 

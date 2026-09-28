@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/duskbolt_harrier/placeholder/duskbolt_harrier_placeholder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"duskbolt_harrier"
+display_name = "Duskbolt Harrier"
+faction = &"shadow"
+is_worker = false
+cost = 165
+pop = 2
+kill_xp = 80
+train_time = 28
+card_key = "X"
+max_hp = 160
+move_speed = 7.2
+attack_damage = 15
+attack_range = 6.5
+attack_cooldown = 1.2
+aggro_range = 10
+radius = 0.6
+body_height = 2
+body_color = Color(0.5, 0.3, 0.7, 1)
+projectile_speed = 28.0
+model_scene = ExtResource("2_model")
+requires_tier = 1
+armor = 0
+
+sight_radius = 11.0
+model_path = "res://art/units/shadow/duskbolt_harrier/duskbolt_harrier.tscn"

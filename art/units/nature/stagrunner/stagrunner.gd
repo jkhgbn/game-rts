@@ -259,3 +259,31 @@ func _owner_target() -> Node3D:
 			return null
 		n = n.get_parent()
 	return null
+
+
+# ================================================================ dances + rank (Stables16, MountedDance)
+
+## Dances on both models (rider from the waist up, mount prance / rear, head low, trot in place). See MountedDance.
+func play_clip(id: StringName) -> bool:
+	return MountedDance.play(self, id)
+
+
+func stop_clip() -> void:
+	MountedDance.stop(self)
+
+
+func current_clip() -> StringName:
+	return MountedDance.current(self)
+
+
+func has_clip(id: StringName) -> bool:
+	return MountedDance.has(self, id)
+
+
+func can_dance() -> bool:
+	return MountedDance.can(self)
+
+
+## Stables16 rank-3 upgrade look (placeholder gold crest until the art lands).
+func set_rank(rank: int) -> void:
+	MountedDance.set_rank(self, rank)

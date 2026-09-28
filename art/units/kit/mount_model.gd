@@ -783,6 +783,66 @@ func _pose_charge(t: float) -> float:
 	return 0.85
 
 
+# ================================================================ dances (Stables16, JS 2026-09-27 "make sure they have dance")
+
+## Mounts dance too (the kit's play_clip / stop_clip / current_clip / has_clip): `dance_victory` = prance, rearing
+## every 4 beats (front legs up, head and tail high; the seated rider rises with the saddle), `dance_surrender` = head
+## low, body sunk, tail down, a slow sway, `dance_random` = a playful trot in place (diagonal pairs). Set false on a
+## mount that must not dance.
+@export var mount_dances: bool = true
+
+
+func can_dance() -> bool:
+	return _ready_done and mount_dances and not _dead and _piv[P_MOUNT] != null
+
+
+func _pose_dance(clip: StringName, t: float, w: float) -> void:
+	var b: float = t * _dn_tempo + _dn_ph
+	var s: float = sin(PI * b)
+	match clip:
+		&"dance_victory":
+			var cyc: float = fmod(b, 4.0)
+			var r: float = sin(PI * clampf((cyc - 2.6) / 1.4, 0.0, 1.0))   # the rear, beats 2.6-4
+			var pr: float = (1.0 - r) * maxf(s, 0.0)
+			var pl: float = (1.0 - r) * maxf(-s, 0.0)
+			rot(P_MOUNT, Vector3(-20.0 * r * DEG * w, 0, 0))
+			pos(P_ROOT, Vector3(0, (0.16 * r + 0.03 * absf(s) * (1.0 - r)) * w, -0.08 * r * w))
+			rot(P_LEG_FL, Vector3((-70.0 * r - 40.0 * pl) * DEG * w, 0, 0))
+			rot(P_LEG_FR, Vector3((-60.0 * r - 40.0 * pr) * DEG * w, 0, 0))
+			pos(P_LEG_FL, Vector3(0, (0.12 * r + 0.08 * pl) * w, 0))
+			pos(P_LEG_FR, Vector3(0, (0.12 * r + 0.08 * pr) * w, 0))
+			rot(P_LEG_BL, Vector3(18.0 * r * DEG * w, 0, 0))
+			rot(P_LEG_BR, Vector3(18.0 * r * DEG * w, 0, 0))
+			rot(P_MOUNT_HEAD, Vector3((-18.0 * r - 6.0 * absf(s)) * DEG * w, 8.0 * sin(TAU * b * 0.5) * DEG * w, 0))
+			xrot(X_NECK, Vector3(-10.0 * r * DEG * w, 0, 0))
+			xrot(X_TAIL, Vector3(tail_gallop_lift_deg * DEG * w, 14.0 * sin(TAU * b) * DEG * w, 0))
+		&"dance_surrender":
+			var k: float = _ease_out(clampf(t / 0.8, 0.0, 1.0))
+			var sw: float = sin(PI * b * 0.5)
+			pos(P_ROOT, Vector3(0, -0.07 * k * w, 0))
+			rot(P_MOUNT, Vector3(4.0 * k * DEG * w, 0, 3.0 * sw * k * DEG * w))
+			rot(P_MOUNT_HEAD, Vector3(28.0 * k * DEG * w, 10.0 * sw * k * DEG * w, 0))
+			xrot(X_NECK, Vector3(18.0 * k * DEG * w, 0, 0))
+			xrot(X_TAIL, Vector3(-12.0 * k * DEG * w, 4.0 * sw * DEG * w, 0))
+			rot(P_LEG_BL, Vector3(-10.0 * k * DEG * w, 0, 0))
+			rot(P_LEG_BR, Vector3(-10.0 * k * DEG * w, 0, 0))
+		&"dance_random":
+			var a: float = maxf(s, 0.0)
+			var c: float = maxf(-s, 0.0)
+			rot(P_LEG_FL, Vector3(-32.0 * a * DEG * w, 0, 0))
+			rot(P_LEG_BR, Vector3(-24.0 * a * DEG * w, 0, 0))
+			rot(P_LEG_FR, Vector3(-32.0 * c * DEG * w, 0, 0))
+			rot(P_LEG_BL, Vector3(-24.0 * c * DEG * w, 0, 0))
+			pos(P_LEG_FL, Vector3(0, 0.08 * a * w, 0))
+			pos(P_LEG_BR, Vector3(0, 0.06 * a * w, 0))
+			pos(P_LEG_FR, Vector3(0, 0.08 * c * w, 0))
+			pos(P_LEG_BL, Vector3(0, 0.06 * c * w, 0))
+			pos(P_ROOT, Vector3(0, 0.035 * absf(s) * w, 0))
+			rot(P_MOUNT, Vector3(0, 6.0 * sin(PI * b * 0.25) * DEG * w, 2.5 * s * DEG * w))
+			rot(P_MOUNT_HEAD, Vector3(8.0 * sin(TAU * b) * DEG * w, 0, 0))
+			xrot(X_TAIL, Vector3(10.0 * DEG * w, 20.0 * sin(TAU * b) * DEG * w, 0))
+
+
 # ================================================================ pose helpers for the extra pivots
 
 ## Adds a rotation offset (radians) to extra pivot j (X_NECK, X_TAIL) for this frame.
@@ -979,7 +1039,8 @@ func _neck_carry(r: Vector3, p: Vector3) -> Vector3:
 
 
 func _fidget_tick(dt: float) -> void:
-	if _action == &"fidget" or fidget_every <= 0.0 or _dead or _action != &"" or _speed >= 0.3 or _tier != 0:
+	if _action == &"fidget" or fidget_every <= 0.0 or _dead or _action != &"" or _speed >= 0.3 or _tier != 0 \
+			or _dn_clip != &"":
 		return
 	_fidget_wait -= dt
 	if _fidget_wait <= 0.0:

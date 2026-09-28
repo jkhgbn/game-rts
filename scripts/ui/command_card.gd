@@ -801,6 +801,8 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 			reason = str(keep.call("can_queue", type))
 		var desc: String = TRAIN_DESCRIPTIONS.get(StringName(str(type.get("id"))),
 				NewUnits12.description(StringName(str(type.get("id")))))
+		if desc == "":   # docs/design/stables.md: the Stables units
+			desc = Stables16.description(StringName(str(type.get("id"))))
 		if desc == "" and type is Object and (type as Object).has_meta(&"card_text"):   # stub types (keep tier button)
 			desc = str((type as Object).get_meta(&"card_text"))
 		var tip := "%s  [%s]\nCost %d crystals · Pop %d · %d s" % [

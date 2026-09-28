@@ -282,6 +282,8 @@ static func create_building(type: BuildingType) -> Building:
 			b = Tower.new()
 		&"market":
 			b = Market.new()
+		&"stables":   # docs/design/stables.md (Stables16)
+			b = StablesBuilding.new()
 		_:
 			b = Building.new()
 	b.building_type = type

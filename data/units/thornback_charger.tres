@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/nature/thornback_charger/placeholder/thornback_charger_placeholder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"thornback_charger"
+display_name = "Thornback Charger"
+faction = &"nature"
+is_worker = false
+cost = 245
+pop = 3
+kill_xp = 125
+train_time = 40
+card_key = "C"
+max_hp = 420
+move_speed = 6.6
+attack_damage = 25
+attack_range = 1.9
+attack_cooldown = 1.2
+aggro_range = 9
+radius = 0.7
+body_height = 2.4
+body_color = Color(0.4, 0.3, 0.18, 1)
+model_scene = ExtResource("2_model")
+requires_tier = 2
+armor = 10
+idle_regen_pct = 1.5
+sight_radius = 11.0
+model_path = "res://art/units/nature/thornback_charger/thornback_charger.tscn"

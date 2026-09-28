@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/fire/pyrehoof_lancer/placeholder/pyrehoof_lancer_placeholder.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"pyrehoof_lancer"
+display_name = "Pyrehoof Lancer"
+faction = &"fire"
+is_worker = false
+cost = 260
+pop = 3
+kill_xp = 130
+train_time = 40
+card_key = "C"
+max_hp = 400
+move_speed = 6.6
+attack_damage = 28
+attack_range = 1.9
+attack_cooldown = 1.2
+aggro_range = 9
+radius = 0.7
+body_height = 2.4
+body_color = Color(0.7, 0.25, 0.08, 1)
+model_scene = ExtResource("2_model")
+requires_tier = 2
+armor = 15
+
+sight_radius = 11.0
+model_path = "res://art/units/fire/pyrehoof_lancer/pyrehoof_lancer.tscn"

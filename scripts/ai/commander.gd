@@ -1618,6 +1618,11 @@ func _rule_train() -> void:
 	if BowmanKit.BOWMEN_ENABLED and BowmanUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # bowmen.md 6
 		_log("BOWMAN UPGRADE (crystals left %d)" % _eco.crystals)
 		return
+	# docs/design/stables.md 6: build the Stables, keep 2 riders queued there, rank-3 at the Citadel (switch Stables16).
+	if Stables16.ENABLED and Stables16.bot_step(int(team), _faction, _eco, _now, _level.build_grid, _workers, _keep,
+			_rally, int(difficulty)):
+		_log("STABLES step (crystals left %d)" % _eco.crystals)
+		return
 	var best: TrainingBuilding = null
 	for b in _barracks:
 		if best == null or b.queue.size() < best.queue.size():
