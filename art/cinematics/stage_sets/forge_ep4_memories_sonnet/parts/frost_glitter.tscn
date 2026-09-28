@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_glitter.res" id="1_e6m42"]
+
+[node name="frost_glitter" type="Node3D" unique_id=1209702209]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=845559687]
+mesh = ExtResource("1_e6m42")

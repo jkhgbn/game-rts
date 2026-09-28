@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/materials/ep3_glow.gdshader" id="1_t5sdi"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_t5sdi")
+shader_parameter/energy = null
+shader_parameter/flicker = null

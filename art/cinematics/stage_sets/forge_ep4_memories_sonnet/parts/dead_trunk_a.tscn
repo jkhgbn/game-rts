@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_a.res" id="1_3ifa4"]
+
+[node name="dead_trunk_a" type="Node3D" unique_id=418874319]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1273017842]
+mesh = ExtResource("1_3ifa4")

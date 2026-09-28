@@ -1,0 +1,85 @@
+# Episode 4 flashback memories (docs/design/episode3-4-opening.md 4.2, shots H03 H04 H05 H08 H09), SONNET trial build.
+# Four corners of one 80x24 stage: winter (x -30), spring (x -10), the Master at the burning hem (x 10), the burned wood (x 30).
+# Corner dressing = baked parts (tools/make_parts.gd, faceted blobs on the shared forge_citadel materials); ONE real
+# light (parts/hem_light, flickers) for the burning hem, everything else fake (emissive + additive glow cards).
+# Mood per corner: parts/mood_zones.gd re-tunes the LightingRig from the camera x (winter overcast / spring gold /
+# amber pre-dawn / grey ash), because a set has only one LightingPreset.
+# Build: tools\world_forge\run_world_forge.ps1 build forge_ep4_memories_sonnet   (stills: ... sheet forge_ep4_memories_sonnet)
+set forge_ep4_memories_sonnet  size=80x24  ground=#5a6a48  light=dawn  seed=44  title="Ep4 memories (Sonnet trial)"
+budget draws<=125 lights<=1
+
+terrain  step=2  smooth=2  noise=0.05  extend=50  rock=stone
+pad  c_winter  at=(-30,-1)  r=13  y=0  edge=6
+pad  c_spring  at=(-10,-1)  r=13  y=0  edge=6
+pad  c_hem     at=(10,-1)   r=13  y=0  edge=6
+pad  c_ash     at=(30,-1)   r=13  y=0  edge=6
+ridge  north  poly=[(-95,-46),(-40,-52),(20,-50),(95,-44)]  width=30  h=16  jag=0.4
+hill   west   at=(-62,-8)  r=18  h=5
+hill   east   at=(62,-6)   r=18  h=5
+sky  mountains=2  dist=170  height=26  color=#4a5264
+
+# mood + light
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/mood_zones.tscn  at=(0,0)  tag=moods
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/hem_light.tscn  at=(9.2,-0.5)  yaw=52  lights=on  tag=hemlight
+
+# ---- corner dressing (one row each, baked)
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/winter.tscn  at=(-30,0)  tag=c_winter  radius=0.05
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/spring.tscn  at=(-10,0)  tag=c_spring  radius=0.05
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_meadow.tscn  at=(10,0)  tag=c_frost_meadow  radius=0.05
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/burned_wood.tscn  at=(30,0)  tag=c_burned_wood  radius=0.05
+
+# ---- air (instanced with a tiny obstacle radius, placed off the camera lines, so M2 / M3 ignore the volumes)
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/far_village_glow.tscn from=(6,-20) to=(6,-20) count=1 scale=0.6
+
+# ---- winter (H03)
+actor seed  res://art/units/nature/sapling.tscn  at=(-30,0)  yaw=0  scale=0.25
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/snow_fir.tscn    from=(-44,-3) to=(-38,3) count=3 yaw=random jitter=1 scale=1
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/snow_fir_b.tscn  from=(-23,-4) to=(-21,2) count=3 yaw=random jitter=1 scale=1
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/snow_fir.tscn    from=(-40,-14) to=(-20,-16) count=6 yaw=random jitter=1.5 scale=1.6
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_fir.tscn   from=(-38,-9) to=(-22,-9) count=5 yaw=random jitter=1.5 scale=1
+
+# ---- spring (H04)
+actor sprout  res://art/units/nature/sapling.tscn  at=(-10,0)  yaw=0  scale=0.8
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/blossom_tree.tscn  at=(-16.5,-3)   yaw=20  scale=1.3
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/blossom_tree.tscn  at=(-3.5,-5.5)  yaw=110 scale=1.15
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/blossom_tree.tscn  at=(-18.5,4)    yaw=200 scale=1
+zone spring_field  rect((-20,-6),(0,9))
+scatter res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/meadow_tufts.tscn  area=spring_field count=30 gap=0.9 seed=5 avoid=cams scale=0.9..1.4
+scatter res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/flower_patch.tscn  area=spring_field count=10 gap=0.9 seed=6 avoid=cams scale=0.9..1.3
+scatter kit:broadleaf  area=rect((-20,-12),(0,-8))  count=5  gap=3.4  seed=7  avoid=cams  scale=1.2..1.7
+
+# ---- the Master and the child (H05)
+actor master  res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/master_robe.tscn  at=(9.2,-0.5)  yaw=52  scale=1
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/hem_flames.tscn  at=(9.2,-0.5)  tag=f_hem_flames  radius=0.05
+actor child   kit:ysolde  at=(10.7,1.0)  yaw=250  scale=0.7
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_ring.tscn  at=(12.4,2.2)  tag=f_frost_ring  radius=0.05
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_fir.tscn    from=(2,-6) to=(5,-4) count=2 yaw=random jitter=0.6 scale=1
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_fir.tscn    from=(15,-6) to=(17.5,-2) count=3 yaw=random jitter=0.8 scale=1.1
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_fir.tscn    from=(0,-12) to=(12,-13) count=5 yaw=random jitter=1 scale=1.5
+
+# ---- the burned wood (H08, H09)
+actor shoot  res://art/units/nature/sapling.tscn  at=(30,0)  yaw=0  scale=0.15
+place res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/green_shoot.tscn  at=(30.02,-0.1)  tag=f_green_shoot  radius=0.05
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/stump_b.tscn  from=(27.2,4.3) to=(27.2,4.3) count=1 yaw=40  scale=1
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/stump_a.tscn  from=(27.6,-1.2) to=(27.6,-1.2) count=1 yaw=110 scale=1.1
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/stump_c.tscn  from=(32.3,-2.4) to=(32.3,-2.4) count=1 yaw=200 scale=1.2
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_a.tscn  from=(26.2,-5) to=(26.2,-5) count=1 yaw=0
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_b.tscn  from=(34,-6.5) to=(34,-6.5) count=1 yaw=90
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_c.tscn  from=(30.8,-4) to=(30.8,-4) count=1 yaw=200
+row kit:giant_stump  from=(35.5,-3) to=(35.5,-3) count=1 yaw=30  scale=0.8
+row kit:shards  from=(26,1.5) to=(26,1.5) count=1 yaw=20  scale=0.5
+row kit:shards  from=(33.5,1.2) to=(33.5,1.2) count=1 yaw=140 scale=0.4
+zone ash_field  rect((21,-12),(39,8))
+scatter res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/stump_a.tscn  area=ash_field count=6 gap=2.5 seed=8 avoid=cams scale=0.8..1.3
+scatter res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/stump_c.tscn  area=ash_field count=5 gap=2.5 seed=9 avoid=cams scale=0.8..1.3
+scatter res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_a.tscn  area=rect((21,-12),(39,-7)) count=6 gap=2.5 seed=10 avoid=cams scale=0.9..1.3
+scatter res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_b.tscn  area=rect((21,-14),(39,-9)) count=4 gap=2 seed=11 avoid=cams scale=0.9..1.2
+scatter res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_c.tscn  area=ash_field count=6 gap=2.5 seed=12 avoid=cams scale=0.9..1.3
+row res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/dead_trunk_b.tscn  from=(21,-15) to=(40,-16) count=6 yaw=random jitter=1.5 scale=1.4
+
+# ---- shots (world coordinates; H03/H04 share the same offsets from their corner for the match cut)
+mark H03  from=(-31.4,0.55,3.6)  to=(-30.8,0.5,2.8)  look=(-30.1,0.36,0.0)  look_to=(-30.05,0.36,0.0)  fov=32  fov_to=27  subject=seed  dur=6
+mark H04  from=(-11.6,0.85,4.8)  to=(-10.9,0.8,4.1)  look=(-10.1,0.95,0.0)  look_to=(-10.05,0.95,0.0)  fov=34  fov_to=30  subject=sprout  dur=5
+mark H05  from=(12.9,1.15,7.4)  to=(12.1,1.2,6.5)  look=(9.9,0.95,0.2)  look_to=(9.9,0.95,0.1)  fov=40  fov_to=36  subject=child  dur=6
+mark H08  from=(27,1.4,9)  to=(30,1.6,7)  look=(30,1.0,-6)  look_to=(30,0.9,-6)  fov=46  fov_to=44  dur=6
+mark H09  from=(30.55,0.4,2.6)  to=(30.4,0.35,2.35)  look=(30.05,0.24,0.0)  look_to=(30.0,0.22,0.0)  fov=22  fov_to=20  subject=shoot  dur=6

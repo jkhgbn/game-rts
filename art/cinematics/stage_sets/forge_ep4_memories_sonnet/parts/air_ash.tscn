@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/air_ash.res" id="1_vp7kg"]
+
+[node name="air_ash" type="Node3D" unique_id=388994253]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=893649854]
+mesh = ExtResource("1_vp7kg")

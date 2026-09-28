@@ -1,0 +1,110 @@
+{
+	"G03": {
+		"from": [
+			-22.9,
+			0.55,
+			3.7
+		],
+		"to": [
+			-22.9,
+			0.55,
+			3.7
+		],
+		"look_from": [
+			-24.4,
+			1.05,
+			-1.4
+		],
+		"look_to": [
+			-24.4,
+			1.05,
+			-1.4
+		],
+		"fov_from": 34.0,
+		"fov_to": 34.0,
+		"subject": "boy",
+		"dur": 5.0,
+		"lens": "low behind the candle: boy, tombstones"
+	},
+	"G04": {
+		"from": [
+			-4.6,
+			1.25,
+			4.0
+		],
+		"to": [
+			-4.6,
+			1.25,
+			4.0
+		],
+		"look_from": [
+			-0.2,
+			1.6,
+			-5.0
+		],
+		"look_to": [
+			-0.2,
+			1.6,
+			-5.0
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "boy_hall",
+		"dur": 5.0,
+		"lens": "over the boy's shoulder, four flames"
+	},
+	"G06": {
+		"from": [
+			-4.6,
+			1.25,
+			4.0
+		],
+		"to": [
+			-4.6,
+			1.25,
+			4.0
+		],
+		"look_from": [
+			-0.2,
+			1.6,
+			-5.0
+		],
+		"look_to": [
+			-0.2,
+			1.6,
+			-5.0
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "boy_hall",
+		"dur": 6.0,
+		"lens": "same corner, flames go out one by one"
+	},
+	"G09": {
+		"from": [
+			26.3,
+			1.0,
+			4.4
+		],
+		"to": [
+			26.3,
+			1.0,
+			4.4
+		],
+		"look_from": [
+			24.3,
+			1.0,
+			-2.0
+		],
+		"look_to": [
+			24.3,
+			1.0,
+			-2.0
+		],
+		"fov_from": 36.0,
+		"fov_to": 36.0,
+		"subject": "stone",
+		"dur": 5.0,
+		"lens": "low over the rubble, the stone pulses amber"
+	}
+}

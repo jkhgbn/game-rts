@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/mood_zones.gd" id="1_k67lm"]
+
+[node name="mood_zones" type="Node3D" unique_id=907829012]
+script = ExtResource("1_k67lm")

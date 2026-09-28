@@ -1,0 +1,24 @@
+# Ep 3 memory set (trial, Sonnet): G03 graveyard (x -24), G04/G06 orrery hall (x 0), G09 Hollow rubble (x 24).
+# All static light is BAKED into vertex colours by tools/make_parts.gd (0 real lights); actors carry additive pools.
+# G06 = the G04 corner with flame_r 1.5, flame_b 2.5, flame_g 3.5, flame_v 4.5 hidden (cine).
+set forge_ep3_memories_sonnet  size=72x36  ground=#07080f  light=res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/materials/ep3_night.tres  seed=3  title="Ep 3 memories (Sonnet trial)"
+budget draws<=90 lights<=0 tris<=300000
+sky  mountains=2  dist=150  height=26  color=#0b0d1a
+
+row res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/corner_g03.tscn  from=(0,0) to=(0,0) count=1
+row res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/corner_g04.tscn  from=(0,0) to=(0,0) count=1
+row res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/corner_g09.tscn  from=(0,0) to=(0,0) count=1
+row res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/candle.tscn  from=(-23.45,0,1.7) to=(-23.45,0,1.7) count=1
+
+actor boy       kit:malrik  at=(-24.9,-1.2)  yaw=25  scale=0.72  lights=off
+actor boy_hall  kit:malrik  at=(-4.0,1.4)  yaw=180  scale=0.72  lights=off
+actor flame_r   res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/flame_r.tscn  at=(-4.2,-3.87)
+actor flame_b   res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/flame_b.tscn  at=(-1.7,-6.27)
+actor flame_g   res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/flame_g.tscn  at=(1.7,-6.27)
+actor flame_v   res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/flame_v.tscn  at=(4.2,-3.87)
+actor stone     res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/stone.tscn  at=(24.3,-1.8)
+
+mark G03  from=(-22.9,0.55,3.7)  look=(-24.4,1.05,-1.4)  fov=34  subject=boy  dur=5  lens="low behind the candle: boy, tombstones"
+mark G04  from=(-4.6,1.25,4.0)  look=(-0.2,1.6,-5.0)  fov=40  subject=boy_hall  dur=5  lens="over the boy's shoulder, four flames"
+mark G06  from=(-4.6,1.25,4.0)  look=(-0.2,1.6,-5.0)  fov=40  subject=boy_hall  dur=6  lens="same corner, flames go out one by one"
+mark G09  from=(26.3,1.0,4.4)  look=(24.3,1.0,-2.0)  fov=36  subject=stone  dur=5  lens="low over the rubble, the stone pulses amber"

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/burned_wood.res" id="1_pousi"]
+
+[node name="burned_wood" type="Node3D" unique_id=831680398]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=417640905]
+mesh = ExtResource("1_pousi")

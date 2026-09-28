@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/far_village_glow.res" id="1_hovsw"]
+
+[node name="far_village_glow" type="Node3D" unique_id=1143211051]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1151385496]
+mesh = ExtResource("1_hovsw")

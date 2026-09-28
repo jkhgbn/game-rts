@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/stump_c.res" id="1_uo6tv"]
+
+[node name="stump_c" type="Node3D" unique_id=32960281]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1910105281]
+mesh = ExtResource("1_uo6tv")

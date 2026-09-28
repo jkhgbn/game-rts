@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_meadow.res" id="1_yeto0"]
+
+[node name="frost_meadow" type="Node3D" unique_id=749297370]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1609091488]
+mesh = ExtResource("1_yeto0")

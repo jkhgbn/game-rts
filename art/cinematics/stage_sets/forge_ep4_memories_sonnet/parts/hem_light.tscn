@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/hem_light_flicker.gd" id="1_nr4h7"]
+
+[node name="hem_light" type="Node3D" unique_id=1855912635]
+
+[node name="Fire" type="OmniLight3D" parent="." unique_id=473521150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0.9)
+light_color = Color(1, 0.55, 0.25, 1)
+light_energy = 3.0
+omni_range = 11.0
+omni_attenuation = 1.2
+script = ExtResource("1_nr4h7")

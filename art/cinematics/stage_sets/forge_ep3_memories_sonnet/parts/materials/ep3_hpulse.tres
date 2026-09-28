@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/materials/ep3_halo_pulse.gdshader" id="1_4c6ly"]
+
+[resource]
+render_priority = 2
+shader = ExtResource("1_4c6ly")
+shader_parameter/energy = null

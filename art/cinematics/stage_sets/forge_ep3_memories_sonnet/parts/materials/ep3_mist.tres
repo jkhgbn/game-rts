@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_ep3_memories_sonnet/parts/materials/ep3_mist.gdshader" id="1_2nr1u"]
+
+[resource]
+render_priority = 1
+shader = ExtResource("1_2nr1u")

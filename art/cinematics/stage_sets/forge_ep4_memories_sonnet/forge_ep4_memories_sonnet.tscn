@@ -1,0 +1,211 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_qpfex"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/forge_ep4_memories_sonnet_lighting.tres" id="2_s6bdv"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/meshes/ground.res" id="3_mp8ox"]
+[ext_resource type="Shape3D" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/meshes/terrain_shape.res" id="4_762i7"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/meshes/mountains.res" id="5_4tk5d"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/mood_zones.tscn" id="6_ng88i"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/mood_zones.gd" id="7_boffh"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/hem_light.tscn" id="8_o0w5y"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/winter.tscn" id="9_grarr"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/spring.tscn" id="10_jxrfe"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_meadow.tscn" id="11_doocx"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/burned_wood.tscn" id="12_2rjv3"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/blossom_tree.tscn" id="13_v4nr8"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/hem_flames.tscn" id="14_x4ufg"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/frost_ring.tscn" id="15_wj71f"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/green_shoot.tscn" id="16_kyv82"]
+[ext_resource type="PackedScene" path="res://art/environment/landmarks/giant_stump.tscn" id="17_efvnu"]
+[ext_resource type="PackedScene" path="res://art/units/nature/sapling.tscn" id="18_ayika"]
+[ext_resource type="Script" path="res://art/units/nature/sapling.gd" id="19_17ntg"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/parts/master_robe.tscn" id="20_o0afd"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/ysolde.tscn" id="21_8ewr4"]
+[ext_resource type="Script" path="res://art/units/wizards/ysolde.gd" id="22_hwtgm"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories_sonnet/meshes/scatter.res" id="23_6qs7a"]
+
+[node name="forge_ep4_memories_sonnet" type="Node3D" unique_id=299158345]
+script = ExtResource("1_qpfex")
+set_id = &"forge_ep4_memories_sonnet"
+lighting = ExtResource("2_s6bdv")
+lights_off = Array[NodePath]([NodePath("Placed/moods"), NodePath("Placed/c_winter"), NodePath("Placed/c_spring"), NodePath("Placed/c_frost_meadow"), NodePath("Placed/c_burned_wood"), NodePath("Placed/blossom_tree_1"), NodePath("Placed/blossom_tree_2"), NodePath("Placed/blossom_tree_3"), NodePath("Placed/f_hem_flames"), NodePath("Placed/f_frost_ring"), NodePath("Placed/f_green_shoot"), NodePath("Placed/giant_stump_1"), NodePath("Puppets/seed"), NodePath("Puppets/sprout"), NodePath("Puppets/master"), NodePath("Puppets/child"), NodePath("Puppets/shoot")])
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1686922554]
+gi_mode = 0
+mesh = ExtResource("3_mp8ox")
+
+[node name="TerrainBody" type="StaticBody3D" parent="." unique_id=842734839]
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="TerrainBody" unique_id=706206749]
+shape = ExtResource("4_762i7")
+
+[node name="Mountains" type="MeshInstance3D" parent="." unique_id=730840272]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("5_4tk5d")
+
+[node name="Placed" type="Node3D" parent="." unique_id=364295600]
+
+[node name="moods" type="Node3D" parent="Placed" unique_id=907829012 instance=ExtResource("6_ng88i")]
+script = ExtResource("7_boffh")
+
+[node name="hemlight" type="Node3D" parent="Placed" unique_id=1855912635 instance=ExtResource("8_o0w5y")]
+transform = Transform3D(0.6156615, 0, 0.7880107, 0, 1, 0, -0.7880107, 0, 0.6156615, 9.2, 0, -0.5)
+
+[node name="c_winter" type="Node3D" parent="Placed" unique_id=735374412 instance=ExtResource("9_grarr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
+
+[node name="c_spring" type="Node3D" parent="Placed" unique_id=1106995927 instance=ExtResource("10_jxrfe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="c_frost_meadow" type="Node3D" parent="Placed" unique_id=749297370 instance=ExtResource("11_doocx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="c_burned_wood" type="Node3D" parent="Placed" unique_id=831680398 instance=ExtResource("12_2rjv3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+
+[node name="blossom_tree_1" type="Node3D" parent="Placed" unique_id=1070226071 instance=ExtResource("13_v4nr8")]
+transform = Transform3D(1.2216004, 0, 0.44462615, 0, 1.3, 0, -0.44462615, 0, 1.2216004, -16.5, 0, -3)
+
+[node name="blossom_tree_2" type="Node3D" parent="Placed" unique_id=20397035 instance=ExtResource("13_v4nr8")]
+transform = Transform3D(-0.39332312, 0, 1.0806465, 0, 1.15, 0, -1.0806465, 0, -0.39332312, -3.5, 0, -5.5)
+
+[node name="blossom_tree_3" type="Node3D" parent="Placed" unique_id=279997455 instance=ExtResource("13_v4nr8")]
+transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, -18.5, 0, 4)
+
+[node name="f_hem_flames" type="Node3D" parent="Placed" unique_id=1459157441 instance=ExtResource("14_x4ufg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.2, 0, -0.5)
+
+[node name="f_frost_ring" type="Node3D" parent="Placed" unique_id=1314163493 instance=ExtResource("15_wj71f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.4, 0, 2.2)
+
+[node name="f_green_shoot" type="Node3D" parent="Placed" unique_id=2084448216 instance=ExtResource("16_kyv82")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.02, 0, -0.1)
+
+[node name="giant_stump_1" type="Node3D" parent="Placed" unique_id=1678396717 groups=["landmarks"] instance=ExtResource("17_efvnu")]
+transform = Transform3D(0.6928203, 0, 0.4, 0, 0.8, 0, -0.4, 0, 0.6928203, 35.5, 0, -3)
+metadata/landmark_id = &"lm_stump"
+metadata/decor_clear_radius = 3.8
+
+[node name="Puppets" type="Node3D" parent="." unique_id=160672470]
+
+[node name="seed" type="Node3D" parent="Puppets" unique_id=2142273756 instance=ExtResource("18_ayika")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -30, 0, 0)
+script = ExtResource("19_17ntg")
+body_height = 1.2
+death_style = &"sink"
+stride_speed = 4.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 24.0
+walk_bounce = 0.05
+
+[node name="sprout" type="Node3D" parent="Puppets" unique_id=544835618 instance=ExtResource("18_ayika")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -10, 0, 0)
+script = ExtResource("19_17ntg")
+body_height = 1.2
+death_style = &"sink"
+stride_speed = 4.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 24.0
+walk_bounce = 0.05
+
+[node name="master" type="Node3D" parent="Puppets" unique_id=1324562344 instance=ExtResource("20_o0afd")]
+transform = Transform3D(0.6156615, 0, 0.7880107, 0, 1, 0, -0.7880107, 0, 0.6156615, 9.2, 0, -0.5)
+
+[node name="child" type="Node3D" parent="Puppets" unique_id=425674548 instance=ExtResource("21_8ewr4")]
+transform = Transform3D(-0.23941404, 0, -0.6577849, 0, 0.7, 0, 0.6577849, 0, -0.23941404, 10.7, 0, 1)
+script = ExtResource("22_hwtgm")
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_speed = 4.8
+idle_period = 3.6
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+walk_bounce = 0.03
+
+[node name="shoot" type="Node3D" parent="Puppets" unique_id=70106471 instance=ExtResource("18_ayika")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 30, 0, 0)
+script = ExtResource("19_17ntg")
+body_height = 1.2
+death_style = &"sink"
+stride_speed = 4.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 24.0
+walk_bounce = 0.05
+
+[node name="Scatter" type="MeshInstance3D" parent="." unique_id=162533435]
+gi_mode = 0
+mesh = ExtResource("23_6qs7a")
+
+[node name="Shots" type="Node3D" parent="." unique_id=167775667]
+
+[node name="H03_from" type="Marker3D" parent="Shots" unique_id=1006598498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.4, 0.55, 3.6)
+metadata/fov = 32.0
+
+[node name="H03_to" type="Marker3D" parent="Shots" unique_id=225735488]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.8, 0.5, 2.8)
+metadata/fov = 27.0
+
+[node name="H03_look_from" type="Marker3D" parent="Shots" unique_id=296814385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.1, 0.36, 0)
+
+[node name="H03_look_to" type="Marker3D" parent="Shots" unique_id=1709451805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.05, 0.36, 0)
+
+[node name="H04_from" type="Marker3D" parent="Shots" unique_id=1072956911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6, 0.85, 4.8)
+metadata/fov = 34.0
+
+[node name="H04_to" type="Marker3D" parent="Shots" unique_id=1067099979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9, 0.8, 4.1)
+metadata/fov = 30.0
+
+[node name="H04_look_from" type="Marker3D" parent="Shots" unique_id=44097600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.1, 0.95, 0)
+
+[node name="H04_look_to" type="Marker3D" parent="Shots" unique_id=1099332782]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.05, 0.95, 0)
+
+[node name="H05_from" type="Marker3D" parent="Shots" unique_id=693452327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.9, 1.15, 7.4)
+metadata/fov = 40.0
+
+[node name="H05_to" type="Marker3D" parent="Shots" unique_id=555297883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1, 1.2, 6.5)
+metadata/fov = 36.0
+
+[node name="H05_look_from" type="Marker3D" parent="Shots" unique_id=99594808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.9, 0.95, 0.2)
+
+[node name="H05_look_to" type="Marker3D" parent="Shots" unique_id=2100683347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.9, 0.95, 0.1)
+
+[node name="H08_from" type="Marker3D" parent="Shots" unique_id=637595118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 1.4, 9)
+metadata/fov = 46.0
+
+[node name="H08_to" type="Marker3D" parent="Shots" unique_id=583400520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 1.6, 7)
+metadata/fov = 44.0
+
+[node name="H08_look_from" type="Marker3D" parent="Shots" unique_id=718688401]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 1, -6)
+
+[node name="H08_look_to" type="Marker3D" parent="Shots" unique_id=970586947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.9, -6)
+
+[node name="H09_from" type="Marker3D" parent="Shots" unique_id=1968214494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.55, 0.4, 2.6)
+metadata/fov = 22.0
+
+[node name="H09_to" type="Marker3D" parent="Shots" unique_id=1063078532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.4, 0.35, 2.35)
+metadata/fov = 20.0
+
+[node name="H09_look_from" type="Marker3D" parent="Shots" unique_id=316221139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.05, 0.24, 0)
+
+[node name="H09_look_to" type="Marker3D" parent="Shots" unique_id=764142421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.22, 0)
