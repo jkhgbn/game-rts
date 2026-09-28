@@ -93,3 +93,17 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 15:51:35 | check | watch_keep | 100 (+0) | PASS (0F 0W) | 0f19e892793b4be3 | Look at the pictures; Timing sheet; Two-run hash | docs/tools/cine/out/watch_keep/report.md |
 | 2026-09-27 15:51:35 | check | prologue_3min | 99 (+0) | PASS (0F 0W) | a5b60f77ec0d0946 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
 | 2026-09-27 15:52:39 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |
+| 2026-09-27 21:19:43 | check | ep2_opening | 93 (+1) | WARN (0F 4W) | 5901a6fcd2ab001b | music res://assets/audio/forge/music/ep2_opening.wav (line 45); sfx res://assets/audio/forge/sfx/feast_crowd.wav (line 46); sfx res://assets/audio/forge/sfx/horn_far.wav (line 92) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 21:20:12 | stills | ep2_opening | 100 | PASS (0F 0W) | 7c53c658840dd7f7 |  | docs/tools/cine/out/ep2_opening/report_stills.md |
+| 2026-09-27 21:22:36 | check | ep2_opening | 93 (+0) | WARN (0F 4W) | 5901a6fcd2ab001b | music res://assets/audio/forge/music/ep2_opening.wav (line 45); sfx res://assets/audio/forge/sfx/feast_crowd.wav (line 46); sfx res://assets/audio/forge/sfx/horn_far.wav (line 92) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 21:23:28 | check | ep2_opening | 93 (+0) | WARN (0F 4W) | 225af412931cc096 | music res://assets/audio/forge/music/ep2_opening.wav (line 45); sfx res://assets/audio/forge/sfx/feast_crowd.wav (line 46); sfx res://assets/audio/forge/sfx/horn_far.wav (line 92) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 21:24:14 | stills | ep2_opening | 100 (+0) | PASS (0F 0W) | 59441d6ea37f71ec |  | docs/tools/cine/out/ep2_opening/report_stills.md |
+| 2026-09-27 21:25:04 | check | ep2_opening | 93 (+0) | WARN (0F 4W) | 386d1fade9c2e8d8 | music res://assets/audio/forge/music/ep2_opening.wav (line 45); sfx res://assets/audio/forge/sfx/feast_crowd.wav (line 46); sfx res://assets/audio/forge/sfx/horn_far.wav (line 92) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 21:26:00 | stills | ep2_opening | 100 (+0) | PASS (0F 0W) | 25fe1ff4e1251556 |  | docs/tools/cine/out/ep2_opening/report_stills.md |
+| 2026-09-27 21:27:21 | check | ep2_opening | 93 (+0) | WARN (0F 4W) | 3348903707d13efb | music res://assets/audio/forge/music/ep2_opening.wav (line 45); sfx res://assets/audio/forge/sfx/feast_crowd.wav (line 46); sfx res://assets/audio/forge/sfx/horn_far.wav (line 92) | docs/tools/cine/out/ep2_opening/report.md |
+| 2026-09-27 21:27:49 | stills | ep2_opening | 100 (+0) | PASS (0F 0W) | ed10d8a5e79064c1 |  | docs/tools/cine/out/ep2_opening/report_stills.md |
+| 2026-09-27 21:28:37 | record | ep2_opening | 100 | PASS (0F 0W) |  |  | docs/tools/cine/out/ep2_opening/report_record.md |
+| 2026-09-27 21:29:51 | record | ep2_opening | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/ep2_opening/report_record.md |
+| 2026-09-27 21:30:02 | reframe | ep2_opening | 100 | PASS (0F 0W) |  |  | docs/tools/cine/out/ep2_opening/report_reframe.md |
+| 2026-09-27 21:30:24 | record | ep2_opening | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/ep2_opening/report_record.md |
+| 2026-09-27 21:30:45 | reframe | ep2_opening | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/ep2_opening/report_reframe.md |

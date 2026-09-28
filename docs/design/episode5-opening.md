@@ -139,7 +139,9 @@ the fastest is Vessa's 16.4).
 [2:22] OSSAVAR    Every blade stopped. Every dragon came|to his hand. Even mine.
 [2:27] OSSAVAR    He gave them one duel a year instead of a war.|First blood, and no further.
 [2:33] OSSAVAR    They bowed to him. Then they bet their|cities on the duels. They saw only gold.
-[2:39] OSSAVAR    So he stopped holding the world alone,|and raised four apprentices to keep it.
+[2:39] OSSAVAR    He left in anger, and never sat there again.
+       (JS 2026-09-28: new line over H17b, +3 s; every timecode after 2:39 shifts +3 s, film now 3:26)
+[2:42] OSSAVAR    So he stopped holding the world alone,|and raised four apprentices to keep it.
 [2:45] MASTER     Vessa. Malrik. The two harbour cities|are yours now. Keep them in peace.
 [2:51] VESSA      Of course, Master! No problem at all!
 [2:53] MALRIK     None whatsoever.
@@ -223,7 +225,9 @@ into their shot; a line may run on over a cut until the next line.
 | H14 | 2:19-2:22 | coinwater_battle | CU on the hood, low, static | Face in shadow, the beard of white-gold light | **Master: Enough.** |
 | H15 | 2:22-2:27 | coinwater_battle | WS, eye, slow push | Every sword lowers on every deck; every dragon lands on the glassy sea around him, heads bowed; Ossavar last | Ossavar: Every blade stopped... |
 | H16 | 2:27-2:33 | tollrock | WS, 3/4, the arena's first day | The first Laurel Duel: two old-style champions on fresh sand; the Master himself in the stone chair; both Archons bow to him | Ossavar: He gave them one duel... |
-| H17 | 2:33-2:39 | tollrock | MS on the chair, slow pull back | **The failure**: the stands full of bettors, coins and tallies changing hands, a champion paid off in a purse behind a gate; the Master alone in his chair; far out, two galleys trading fire at night. He stands and leaves | Ossavar: They bowed to him. Then they bet... |
+| H15b | (inside 2:22-2:27, last 2.5 s of H15) | coinwater_battle | MS, eye, on the glass sea | **The peace (JS 2026-09-28):** the Master stands between the two Archons on the stilled water, takes each by the wrist and joins their hands; both nod, eyes on each other's rings | (under Ossavar: Every blade stopped...) |
+| H17 | 2:33-2:36 | tollrock | MS on the chair, slow pull back | **The failure**: the stands full of bettors, coins and tallies changing hands, a champion paid off in a purse behind a gate; the Master alone in his chair; far out, two galleys trading fire at night | Ossavar: They bowed to him. Then they bet... |
+| H17b | 2:36-2:42 | tollrock | LOW at the south gate, the horse fills frame, then WS from the rim as he rides out | **He leaves in anger (JS 2026-09-28):** he rises, crushes the laurel in his fist and drops it on the sand; a single huge, powerful **white warhorse** (feathered hooves, braided mane, white-gold light in the harness) is led in; he mounts without a word and gallops out the gate across the causeway, sand and coins kicked up behind; the bettors barely look up from their tallies | Ossavar: He left in anger, and never sat there again. |
 | H18 | 2:39-2:45 | citadel | pro. S06 marks (DOLLY in behind the Master at the orrery) | The Master at the brass orrery; four little flames, red, violet, blue, green, light one by one over his open hand | Ossavar: So he stopped holding the world alone... |
 | H19 | 2:45-2:54 | citadel | MS two-shot Vessa + Malrik over the Master's shoulder (he stays back to camera), eye | The orrery dome: young adult Vessa and Malrik kneel before him. He gives the charge; Vessa **bounces to her feet** beaming, Malrik rises slowly with a small cold smile | Master: Vessa. Malrik... / Vessa: Of course, Master! No problem at all! / Malrik: None whatsoever. |
 | H20 | 2:54-2:59 | citadel | CU two-shot, front, as they walk out of the dome past the camera | Out of his sight: Vessa pumps a fist, Malrik rubs his hands; gold glints in both pairs of eyes (the only colour in the grade) | Ossavar: They heard gold, and soldiers, for free. |

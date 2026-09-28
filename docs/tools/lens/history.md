@@ -62,3 +62,6 @@ One row per run (`tools/lens/run_lens.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 17:57:48 | icons | tiers_wave_units | 88 | PASS (0F 0W) | 86eb30cae1fd559a |  | docs/tools/lens/out/tiers_wave_units/report_icons.md |
 | 2026-09-27 18:03:22 | icons | tiers_wave_icons | 88 (+0) | PASS (0F 0W) | f33b52364b50f407 |  | docs/tools/lens/out/tiers_wave_icons/report_icons.md |
 | 2026-09-27 18:08:13 | icons | tiers_wave_units | 88 (+0) | PASS (0F 0W) | 0b348267f0b3addc |  | docs/tools/lens/out/tiers_wave_units/report_icons.md |
+| 2026-09-27 19:32:14 | shoot | dance_victory | 98 | PASS (0F 0W) |  |  | docs/tools/lens/out/dance_victory/report_shoot.md |
+| 2026-09-27 19:32:40 | shoot | dance_surrender | 87 | FAIL (1F 0W) |  |  | docs/tools/lens/out/dance_surrender/report_shoot.md |
+| 2026-09-27 19:33:10 | shoot | dance_surrender | 100 (+13) | PASS (0F 0W) |  |  | docs/tools/lens/out/dance_surrender/report_shoot.md |

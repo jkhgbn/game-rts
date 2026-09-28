@@ -106,3 +106,6 @@
 | 2026-09-27 15:26:45 | map | gloamspine_divide | 100 (+0) | PASS (0F 0W) | be3cde72af15/be36529d8caa |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
 | 2026-09-27 15:29:53 | map | gloamspine_divide | 100 (+0) | PASS (0F 0W) | 00138d4d847d/98165fb91edf |  | docs/tools/world_forge/out/gloamspine_divide/report_map.md |
 | 2026-09-27 15:32:54 | map | fourfold_hollow | 100 (+0) | PASS (0F 0W) | 78c1f9c3562a/1ed095cb2e75 |  | docs/tools/world_forge/out/fourfold_hollow/report_map.md |
+| 2026-09-27 21:14:47 | build | forge_ep2_feast | 71 | FAIL (1F 2W) | 10679d274d33 | Cameras clear of geometry; Subject inside the 2.39 band; Line of sight to the subject | docs/tools/world_forge/out/forge_ep2_feast/report.md |
+| 2026-09-27 21:15:42 | build | forge_ep2_feast | 96 (+25) | WARN (0F 1W) | c7490d8305d0 | Line of sight to the subject | docs/tools/world_forge/out/forge_ep2_feast/report.md |
+| 2026-09-27 21:16:08 | build | forge_ep2_feast | 100 (+4) | PASS (0F 0W) | 374186da5887 |  | docs/tools/world_forge/out/forge_ep2_feast/report.md |
