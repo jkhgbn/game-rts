@@ -1,0 +1,39 @@
+﻿
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+autoload DialogueManager in project.godot: false
+compile: 3.30 ms, cues={ "start": "1", "ashes": "17" }
+--- branch 0 (trust=0 embers=4)
+  say(vessa, "The forge is cold. Nobody has lit it since the Master left.")
+  say(malrik, "Little Vessa. You came after all.")
+  [choice] I am not little anymore.
+  say(vessa, "I lead the Emberguard now. Say what you came to say.")
+  say(malrik, "Then we have nothing to say. Not yet.")
+  say(vessa, "We will see, shadow.")
+--- end branch 0: 5 lines, trust=-1 forge_lit=false
+--- branch 1 (trust=0 embers=4)
+  say(vessa, "The forge is cold. Nobody has lit it since the Master left.")
+  say(malrik, "Little Vessa. You came after all.")
+  [choice] Where is the Master, Malrik?
+  say(malrik, "Gone. Everyone tells my story, but nobody asks me that.")
+  say(malrik, "Then listen. I kept something of his.")
+  say(vessa, "We will see, shadow.")
+--- end branch 1: 5 lines, trust=1 forge_lit=false
+--- branch 2 (trust=0 embers=4)
+  say(vessa, "The forge is cold. Nobody has lit it since the Master left.")
+  say(malrik, "Little Vessa. You came after all.")
+  [choice] Light the forge.
+  say(vessa, "There. Now we can see each other.")
+  say(malrik, "Then we have nothing to say. Not yet.")
+  say(vessa, "We will see, shadow.")
+--- end branch 2: 5 lines, trust=0 forge_lit=true
+  choice "I am not little anymore." condition="" allowed=true
+  choice "Where is the Master, Malrik?" condition="" allowed=true
+  choice "Light the forge." condition="embers >= 3" allowed=false
+embers=0: 2 of 3 choices allowed (expected 2)
+PASS dialogue trial
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+
+

@@ -1,0 +1,23 @@
+~ start
+Vessa: The forge is cold. Nobody has lit it since the Master left.
+Malrik: Little Vessa. You came after all.
+- I am not little anymore.
+	Vessa: I lead the Emberguard now. Say what you came to say.
+	set trust -= 1
+	=> ashes
+- Where is the Master, Malrik?
+	Malrik: Gone. Everyone tells my story, but nobody asks me that.
+	set trust += 1
+	=> ashes
+- Light the forge. [if embers >= 3 /]
+	do light_forge()
+	Vessa: There. Now we can see each other.
+	=> ashes
+
+~ ashes
+if trust > 0
+	Malrik: Then listen. I kept something of his.
+else
+	Malrik: Then we have nothing to say. Not yet.
+Vessa: We will see, shadow.
+=> END
