@@ -18,9 +18,7 @@ GeneralAce135, Zajkonur, Catsu, Starseeker, Pepijn Poolman, Pierre Leducq, Caro 
 - **Phantom Camera** v0.11.0.3 by Marcus Skov (ramokz): `addons/phantom_camera/` (licence `addons/phantom_camera/LICENSE`).
 - **Proton Scatter** 4.0 by HungryProton: `addons/proton_scatter/` (licence `addons/proton_scatter/LICENSE`).
 - **Sky3D** v2.1.0 by Tokisan Games and contributors: `addons/sky_3d/` (licence `addons/sky_3d/LICENSE.txt`).
-- **Dialogue Manager** v4.1.0 by Nathan Hoad: `addons/dialogue_manager/` (licence `addons/dialogue_manager/LICENSE`).
 - **Debug Draw 3D** v1.7.3 by Dmitriy Salnikov: `addons/debug_draw_3d/` (licence `addons/debug_draw_3d/LICENSE`). Dev tool only, not used by the shipped game.
-- **LimboAI** v1.8.1 (GDExtension) by Serhii Snitsaruk and contributors: `addons/limboai/` (licences `addons/limboai/LICENSE.md`, `LOGO_LICENSE.md`).
 
 ## Dev programs (used to make content, not shipped)
 - **Rhubarb Lip Sync** 1.14.0 (MIT) by Daniel S. Wolf: mouth shapes from voice lines (`C:\Tools\rhubarb`).
