@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_evenmead/parts/materials/em_birds.gdshader" id="1_g5kaa"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_g5kaa")
+shader_parameter/tint = Color(0.16, 0.13, 0.12, 1)

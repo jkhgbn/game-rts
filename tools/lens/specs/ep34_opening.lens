@@ -1,0 +1,18 @@
+# Lens words for the close shots of the Episode 3 and Episode 4 openings (docs/design/episode3-4-opening.md 4.1),
+# solved on forge_evenmead's puppets (malrik, torvald, stone / ysolde, vessa, bloom).
+#   tools\lens\run_lens.ps1 marks ep34_opening set=forge_evenmead
+#   -> docs/tools/lens/out/ep34_opening/marks.json; forge_evenmead/tools/merge_lens.gd writes them into the set as marks.
+# Axis Malrik - Ysolde (north - south): Ep3 cameras east of it (Malrik's left), Ep4 cameras west (Ysolde's left).
+lens ep34_opening  res=1600x900  band=2.39  fov=40
+shot N02 "ms on malrik, 3/4-back-left, high, push 0.2"
+shot N07 "mcu on malrik, 3/4-left, low"
+# N10 / S10: the spec says "ecu"; Lens sizes ecu from a character's head, so on a hand-sized prop "fs" (the whole prop at
+# 80 % of the band) is the extreme close-up the spec means.
+shot N10 "fs on stone, front, high, fov 11"
+shot N11 "ms two-shot malrik torvald, 3/4-left, eye"
+shot N13 "cu on malrik, front, eye, push 0.3"
+shot S02 "ms on ysolde, 3/4-back-left, high, push 0.2"
+shot S07 "mcu on ysolde, 3/4-left, low"
+shot S10 "fs on bloom, 3/4-left, high, fov 30"
+shot S11 "ms two-shot ysolde vessa, 3/4-left, eye"
+shot S13 "cu on ysolde, front, eye, push 0.3"

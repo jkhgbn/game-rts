@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_evenmead/parts/materials/em_army_glow.gdshader" id="1_t1sy4"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_t1sy4")
+shader_parameter/energy = null

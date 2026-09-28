@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_evenmead/parts/materials/em_stone.gdshader" id="1_60v8e"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_60v8e")
+shader_parameter/amber = Color(0.95, 0.55, 0.12, 1)
+shader_parameter/core = Color(1, 0.78, 0.35, 1)
+shader_parameter/beat_rate = 0.75

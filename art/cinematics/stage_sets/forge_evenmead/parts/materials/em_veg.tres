@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_evenmead/parts/materials/em_veg.gdshader" id="1_qi2d0"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_qi2d0")
+shader_parameter/wind_dir = Vector2(-0.86, -0.5)
+shader_parameter/sway = 0.13
+shader_parameter/sway_speed = 1.25
+shader_parameter/gust_scale = 0.06
+shader_parameter/gust_speed = 0.8
+shader_parameter/leaf_flutter = 0.025
+shader_parameter/ao_floor = 0.36
+shader_parameter/translucency = 0.5
+shader_parameter/dry_tint = Color(0.86, 0.72, 0.4, 1)
+shader_parameter/dry_amount = 0.55
+shader_parameter/glow = 0.0

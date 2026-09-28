@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gsumu"]
+size = Vector3(0.02, 0.02, 0.02)
+
+[node name="subject_pin" type="Node3D" unique_id=1823616335]
+
+[node name="Pin" type="MeshInstance3D" parent="." unique_id=334249185]
+visible = false
+mesh = SubResource("BoxMesh_gsumu")

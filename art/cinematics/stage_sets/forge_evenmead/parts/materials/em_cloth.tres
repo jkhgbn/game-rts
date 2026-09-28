@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_evenmead/parts/materials/em_cloth.gdshader" id="1_rcxfk"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rcxfk")
+shader_parameter/wind_dir = Vector2(-0.86, -0.5)
+shader_parameter/amp = 0.2
+shader_parameter/freq = 2.4
+shader_parameter/translucency = 0.45

@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/heart_stone.res" id="1_yfldq"]
+
+[node name="heart_stone" type="Node3D" unique_id=671569934]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=2100057277]
+cast_shadow = 0
+extra_cull_margin = 1.0
+gi_mode = 0
+mesh = ExtResource("1_yfldq")

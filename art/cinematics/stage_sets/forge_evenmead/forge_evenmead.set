@@ -1,0 +1,107 @@
+# Evenmead, the last green country (docs/design/episode3-4-opening.md sections 4, 4.1, 8): the shared set of the
+# Episode 3 and Episode 4 openings. A wide valley at golden hour on "the same morning": a slow river with a stone
+# ford, Malrik's ridge to the north (Shadow + Ice), Lark Hill to the south with the Master's lone golden tree
+# (Nature + Fire), knee-high meadow full of wildflowers, oak and birch woods on the flanks, far hills and snowy
+# mountains on the horizon. Axis Malrik - Ysolde runs north-south: Ep3 cameras east of it, Ep4 cameras west.
+# Built from 3 set-only tools (art/cinematics/stage_sets/forge_evenmead/tools/):
+#   make_light.gd  -> art/environment/lighting/preset_golden.tres (E34.V3)
+#   make_world.gd  -> parts/*.tscn: world-space meshes draped on THIS spec's terrain (grass, flowers, trees, river,
+#                     ford, camps, banners, mist, rays, pollen, birds, far land) + the heart-stone / bloom / tree props
+#   bake_armies.gd -> parts/army_*.tscn: the four hosts, real unit models posed and merged, feet on the terrain
+#   merge_lens.gd  -> the "Lens close shots" block at the end (tools/lens/specs/ep34_opening.lens, solved on the puppets)
+# The world meshes are puppets at (0,0,0) (keep_height): the cine can hide or show any layer per shot.
+# Order: make_light, make_world (WINDOWED), bake_armies, build, run_lens marks ep34_opening, merge_lens, build, sheet.
+# Build: tools\world_forge\run_world_forge.ps1 build forge_evenmead   (stills: ... sheet forge_evenmead)
+set forge_evenmead  size=150x120  ground=#5d7431  light=res://art/environment/lighting/preset_golden.tres  seed=34  title="Evenmead: the last green country"
+# Draws: the six kit characters alone are 233 surfaces as they are (Malrik 32, Torvald 41, Hush 46, Ysolde 30, Vessa 37,
+# Vey 47); everything else (land, grass, woods, river, four hosts, camps, air) is 53. Hence 300, not the spec's 150.
+budget draws<=300 lights<=0 tris<=2600000
+
+# ---- land (the battle map's centre at 1:1: river, ford and both hills match data/maps/evenmead.map)
+terrain  step=1.5  smooth=2  noise=0.35  extend=100  rock=#7a7458  seed=34
+ridge  north_ridge  poly=[(-175,-56),(-110,-50),(-55,-46),(-10,-44),(40,-47),(95,-51),(175,-58)]  width=58  h=7  jag=0.12
+hill   malrik_knoll  at=(0,-39)  r=15  h=1.8  flat=0.3
+ridge  south_rise   poly=[(-175,56),(-110,52),(-50,49),(0,50),(55,47),(110,52),(175,58)]  width=52  h=4  jag=0.12
+hill   lark_hill    at=(-6,42)  r=30  h=3.2  flat=0.25
+hill   west_roll    at=(-52,-6)  r=22  h=3
+hill   east_roll    at=(50,12)   r=20  h=2.5
+valley river  poly=[(-175,12),(-120,10),(-75,6),(-44,-3),(-18,4),(4,0),(26,-7),(50,-2),(75,5),(120,2),(175,-4)]  width=20  depth=2.6  flat=0.3
+hill   ford_bar     at=(4,0)  r=7  h=1.3  flat=0.3
+# far land (the terrain extension, 100 m round the set): forested uplands north, rolling farmland west / east / south
+ridge  far_north  poly=[(-175,-125),(-90,-138),(0,-128),(85,-142),(175,-126)]  width=64  h=26  jag=0.45
+ridge  far_west   poly=[(-165,-95),(-150,-20),(-160,60),(-150,140)]  width=56  h=13  jag=0.35
+ridge  far_east   poly=[(165,-95),(152,-15),(162,55),(150,140)]  width=56  h=12  jag=0.35
+ridge  far_south  poly=[(-175,130),(-80,138),(0,128),(90,140),(175,126)]  width=56  h=15  jag=0.35
+pad    crest_n  at=(0,-36)  r=5  edge=9
+pad    crest_s  at=(-4,34.8)  r=5  edge=9
+sky    mountains=2  dist=176  height=34  color=#6d7c98  haze=#d8cbbd  seed=34
+
+# ---- the cast (kit models as they are; Mother Hush and Old Vey = their helper models)
+actor malrik   kit:malrik   at=(0,-36)     yaw=0
+actor torvald  kit:torvald  at=(-3.4,-37)  yaw=8
+actor hush     res://art/units/helpers/helper_hush/helper_hush.tscn  at=(2.8,-37.5)  yaw=-6
+actor ysolde   kit:ysolde   at=(-5,34)     yaw=180
+actor vessa    kit:vessa    at=(-1.6,35)   yaw=188
+actor vey      res://art/units/helpers/helper_vey/helper_vey.tscn  at=(-8.4,35.5)  yaw=176
+actor stone    res://art/cinematics/stage_sets/forge_evenmead/parts/heart_stone.tscn  at=(0.35,8.58,-35.6)  keep_height=1
+actor bloom    res://art/cinematics/stage_sets/forge_evenmead/parts/bloom_patch.tscn  at=(-6.3,32.4)  yaw=180
+
+# ---- landmarks and subjects (tagged places)
+place kit:standing_stones  at=(12,9)  yaw=25  tag=ford_stones
+place res://art/cinematics/stage_sets/forge_evenmead/parts/master_tree.tscn  at=(-16,48.5)  yaw=0  tag=master_tree
+place res://art/cinematics/stage_sets/forge_evenmead/parts/standard_shadow.tscn  at=(-5.6,-25.6)  yaw=0  tag=banner_n  pad=3
+place res://art/cinematics/stage_sets/forge_evenmead/parts/standard_nature.tscn  at=(1.5,21.5)  yaw=0  tag=banner_s  pad=3
+# zero-draw pins: the close-up marks N10 / S10 aim at the heart-stone and the bloom patch themselves
+place res://art/cinematics/stage_sets/forge_evenmead/parts/subject_pin.tscn  at=(0.35,-35.6)  y=8.58  tag=stone_pt
+place res://art/cinematics/stage_sets/forge_evenmead/parts/subject_pin.tscn  at=(-6.3,32.4)  y=4.75  tag=bloom_pt
+
+# ---- the four hosts (real unit models, merged per host: tools/bake_armies.gd)
+actor army_shadow  res://art/cinematics/stage_sets/forge_evenmead/parts/army_shadow.tscn  at=(0,0,0)  keep_height=1
+actor army_ice     res://art/cinematics/stage_sets/forge_evenmead/parts/army_ice.tscn     at=(0,0,0)  keep_height=1
+actor army_nature  res://art/cinematics/stage_sets/forge_evenmead/parts/army_nature.tscn  at=(0,0,0)  keep_height=1
+actor army_fire    res://art/cinematics/stage_sets/forge_evenmead/parts/army_fire.tscn    at=(0,0,0)  keep_height=1
+
+# ---- the world layers (tools/make_world.gd: world-space meshes / MultiMeshes draped on this terrain)
+actor w_ground     res://art/cinematics/stage_sets/forge_evenmead/parts/em_ground.tscn       at=(0,0,0)  keep_height=1
+actor w_grass_near res://art/cinematics/stage_sets/forge_evenmead/parts/em_grass_near.tscn   at=(0,0,0)  keep_height=1
+actor w_grass_mid  res://art/cinematics/stage_sets/forge_evenmead/parts/em_grass_mid.tscn    at=(0,0,0)  keep_height=1
+actor w_grass_far  res://art/cinematics/stage_sets/forge_evenmead/parts/em_grass_far.tscn    at=(0,0,0)  keep_height=1
+actor w_grass_tall res://art/cinematics/stage_sets/forge_evenmead/parts/em_grass_tall.tscn   at=(0,0,0)  keep_height=1
+actor w_flowers    res://art/cinematics/stage_sets/forge_evenmead/parts/em_flowers.tscn      at=(0,0,0)  keep_height=1
+actor w_oak0       res://art/cinematics/stage_sets/forge_evenmead/parts/em_trees_oak0.tscn   at=(0,0,0)  keep_height=1
+actor w_oak1       res://art/cinematics/stage_sets/forge_evenmead/parts/em_trees_oak1.tscn   at=(0,0,0)  keep_height=1
+actor w_oak2       res://art/cinematics/stage_sets/forge_evenmead/parts/em_trees_oak2.tscn   at=(0,0,0)  keep_height=1
+actor w_birch      res://art/cinematics/stage_sets/forge_evenmead/parts/em_trees_birch.tscn  at=(0,0,0)  keep_height=1
+actor w_shrub0     res://art/cinematics/stage_sets/forge_evenmead/parts/em_trees_shrub0.tscn at=(0,0,0)  keep_height=1
+actor w_shrub1     res://art/cinematics/stage_sets/forge_evenmead/parts/em_trees_shrub1.tscn at=(0,0,0)  keep_height=1
+actor w_farwood    res://art/cinematics/stage_sets/forge_evenmead/parts/em_trees_far.tscn    at=(0,0,0)  keep_height=1
+actor w_river      res://art/cinematics/stage_sets/forge_evenmead/parts/em_river.tscn        at=(0,0,0)  keep_height=1
+actor w_riverbed   res://art/cinematics/stage_sets/forge_evenmead/parts/em_riverbed.tscn     at=(0,0,0)  keep_height=1
+actor w_reeds      res://art/cinematics/stage_sets/forge_evenmead/parts/em_reeds.tscn        at=(0,0,0)  keep_height=1
+actor w_camps      res://art/cinematics/stage_sets/forge_evenmead/parts/em_camps.tscn        at=(0,0,0)  keep_height=1
+actor w_mist       res://art/cinematics/stage_sets/forge_evenmead/parts/em_mist.tscn         at=(0,0,0)  keep_height=1
+actor w_glow       res://art/cinematics/stage_sets/forge_evenmead/parts/em_glow.tscn         at=(0,0,0)  keep_height=1
+actor w_rays       res://art/cinematics/stage_sets/forge_evenmead/parts/em_rays.tscn         at=(0,0,0)  keep_height=1
+actor w_birds      res://art/cinematics/stage_sets/forge_evenmead/parts/em_birds.tscn        at=(0,0,0)  keep_height=1
+actor w_far        res://art/cinematics/stage_sets/forge_evenmead/parts/em_far.tscn          at=(0,0,0)  keep_height=1
+
+# ---- landscape marks (explicit, tuned on this terrain); the Lens close shots are merged below
+mark B01   from=(62,42,24)   to=(40,15,14)   look=(-6,2,-6)   look_to=(2,2,-10)  fov=46  fov_to=40  subject=ford_stones  dur=8  lens="golden crane over Evenmead"
+mark N05   from=(-31,3.2,-17.5)  to=(-12,3.6,-18.5)  look=(-15,5.0,-27)  look_to=(-5,6.4,-28)  fov=38  subject=banner_n  dur=6  lens="the Shadow front, travelling low"
+mark N12   from=(2.2,9.4,-39.0)  look=(-10,8.5,40)   fov=22  subject=master_tree  dur=10  lens="long lens over Malrik's shoulder to Lark Hill"
+mark B14   from=(70,40,0)    to=(60,42,-8)   look=(0,2,0)     fov=50  subject=ford_stones  dur=7  lens="both hosts step off"
+mark S06   from=(24,5.0,14.5)  to=(5,5.3,14)  look=(10,4.4,22)  look_to=(0,5.8,22)  fov=38  subject=banner_s  dur=6  lens="Nature and Fire, travelling low"
+mark S12   from=(-7.0,6.4,35.8)  look=(0,9,-36)   fov=22  subject=malrik  dur=9  lens="long lens north: Malrik's ridge"
+mark B14R  from=(-70,40,0)   to=(-60,42,8)   look=(0,2,0)     fov=50  subject=ford_stones  dur=7  lens="the same horns, from the south-west"
+# ---- Lens close shots (merged by tools/merge_lens.gd from docs/tools/lens/out/ep34_opening/marks.json; do not hand-edit)
+mark N02  from=(3.39,10.715,-38.114)  to=(2.847,10.435,-37.571)  look=(0.675,9.318,-35.399)  look_to=(0.675,9.318,-35.399)  fov=40  fov_to=40  subject=malrik  dur=6  lens="ms on malrik, 3/4-back-left, high, push 0.2"
+mark N07  from=(1.976,8.588,-32.901)  to=(1.976,8.588,-32.901)  look=(-0.54,9.475,-35.417)  look_to=(-0.54,9.475,-35.417)  fov=40  fov_to=40  subject=malrik  dur=6.5  lens="mcu on malrik, 3/4-left, low"
+mark N10  from=(0.35,8.943,-34.598)  to=(0.35,8.943,-34.598)  look=(0.35,8.577,-35.604)  look_to=(0.35,8.577,-35.604)  fov=11  fov_to=11  subject=stone_pt  dur=6  lens="fs on stone, front, high, fov 11"
+mark N11  from=(0.955,9.277,-31.635)  to=(0.955,9.277,-31.635)  look=(-1.689,9.277,-36.398)  look_to=(-1.689,9.277,-36.398)  fov=40  fov_to=40  subject=malrik  dur=6  lens="ms two-shot malrik torvald, 3/4-left, eye"
+mark N13  from=(0.007,9.554,-33.19)  to=(0.007,9.554,-34.009)  look=(0.007,9.554,-35.92)  look_to=(0.007,9.554,-35.92)  fov=40  fov_to=40  subject=malrik  dur=5.5  lens="cu on malrik, front, eye, push 0.3"
+mark S02  from=(-8.376,7.617,36.291)  to=(-7.828,7.335,35.743)  look=(-5.637,6.207,33.552)  look_to=(-5.637,6.207,33.552)  fov=40  fov_to=40  subject=ysolde  dur=6  lens="ms on ysolde, 3/4-back-left, high, push 0.2"
+mark S07  from=(-7.064,5.428,31.07)  to=(-7.064,5.428,31.07)  look=(-4.51,6.329,33.624)  look_to=(-4.51,6.329,33.624)  fov=40  fov_to=40  subject=ysolde  dur=6  lens="mcu on ysolde, 3/4-left, low"
+mark S10  from=(-7.896,5.705,30.202)  to=(-7.896,5.705,30.202)  look=(-6.023,4.741,32.075)  look_to=(-6.023,4.741,32.075)  fov=30  fov_to=30  subject=bloom_pt  dur=6  lens="fs on bloom, 3/4-left, high, fov 30"
+mark S11  from=(-5.854,6.214,29.954)  to=(-5.854,6.214,29.954)  look=(-3.295,6.213,34.556)  look_to=(-3.295,6.213,34.556)  fov=40  fov_to=40  subject=ysolde  dur=6  lens="ms two-shot ysolde vessa, 3/4-left, eye"
+mark S13  from=(-4.973,6.449,31.364)  to=(-4.973,6.449,32.174)  look=(-4.973,6.449,34.065)  look_to=(-4.973,6.449,34.065)  fov=40  fov_to=40  subject=ysolde  dur=5  lens="cu on ysolde, front, eye, push 0.3"
+# ---- end Lens

@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/army_nature.res" id="1_1g63e"]
+
+[node name="Army_nature" type="Node3D" unique_id=1689211089]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=116549902]
+gi_mode = 0
+mesh = ExtResource("1_1g63e")

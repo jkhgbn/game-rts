@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_evenmead/parts/materials/em_halo.gdshader" id="1_ai07y"]
+
+[resource]
+render_priority = 2
+shader = ExtResource("1_ai07y")
+shader_parameter/energy = 1.0

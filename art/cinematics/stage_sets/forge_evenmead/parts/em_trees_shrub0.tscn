@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="MultiMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/mm/em_trees_shrub0.res" id="1_gd3mr"]
+
+[node name="em_trees_shrub0" type="Node3D" unique_id=558358899]
+
+[node name="Instances" type="MultiMeshInstance3D" parent="." unique_id=1264706400]
+gi_mode = 0
+multimesh = ExtResource("1_gd3mr")

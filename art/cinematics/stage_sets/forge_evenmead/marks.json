@@ -1,0 +1,461 @@
+{
+	"B01": {
+		"from": [
+			62.0,
+			42.0,
+			24.0
+		],
+		"to": [
+			40.0,
+			15.0,
+			14.0
+		],
+		"look_from": [
+			-6.0,
+			2.0,
+			-6.0
+		],
+		"look_to": [
+			2.0,
+			2.0,
+			-10.0
+		],
+		"fov_from": 46.0,
+		"fov_to": 40.0,
+		"subject": "ford_stones",
+		"dur": 8.0,
+		"lens": "golden crane over Evenmead"
+	},
+	"N05": {
+		"from": [
+			-31.0,
+			3.2,
+			-17.5
+		],
+		"to": [
+			-12.0,
+			3.6,
+			-18.5
+		],
+		"look_from": [
+			-15.0,
+			5.0,
+			-27.0
+		],
+		"look_to": [
+			-5.0,
+			6.4,
+			-28.0
+		],
+		"fov_from": 38.0,
+		"fov_to": 38.0,
+		"subject": "banner_n",
+		"dur": 6.0,
+		"lens": "the Shadow front, travelling low"
+	},
+	"N12": {
+		"from": [
+			2.2,
+			9.4,
+			-39.0
+		],
+		"to": [
+			2.2,
+			9.4,
+			-39.0
+		],
+		"look_from": [
+			-10.0,
+			8.5,
+			40.0
+		],
+		"look_to": [
+			-10.0,
+			8.5,
+			40.0
+		],
+		"fov_from": 22.0,
+		"fov_to": 22.0,
+		"subject": "master_tree",
+		"dur": 10.0,
+		"lens": "long lens over Malrik's shoulder to Lark Hill"
+	},
+	"B14": {
+		"from": [
+			70.0,
+			40.0,
+			0.0
+		],
+		"to": [
+			60.0,
+			42.0,
+			-8.0
+		],
+		"look_from": [
+			0.0,
+			2.0,
+			0.0
+		],
+		"look_to": [
+			0.0,
+			2.0,
+			0.0
+		],
+		"fov_from": 50.0,
+		"fov_to": 50.0,
+		"subject": "ford_stones",
+		"dur": 7.0,
+		"lens": "both hosts step off"
+	},
+	"S06": {
+		"from": [
+			24.0,
+			5.0,
+			14.5
+		],
+		"to": [
+			5.0,
+			5.3,
+			14.0
+		],
+		"look_from": [
+			10.0,
+			4.4,
+			22.0
+		],
+		"look_to": [
+			0.0,
+			5.8,
+			22.0
+		],
+		"fov_from": 38.0,
+		"fov_to": 38.0,
+		"subject": "banner_s",
+		"dur": 6.0,
+		"lens": "Nature and Fire, travelling low"
+	},
+	"S12": {
+		"from": [
+			-7.0,
+			6.4,
+			35.8
+		],
+		"to": [
+			-7.0,
+			6.4,
+			35.8
+		],
+		"look_from": [
+			0.0,
+			9.0,
+			-36.0
+		],
+		"look_to": [
+			0.0,
+			9.0,
+			-36.0
+		],
+		"fov_from": 22.0,
+		"fov_to": 22.0,
+		"subject": "malrik",
+		"dur": 9.0,
+		"lens": "long lens north: Malrik's ridge"
+	},
+	"B14R": {
+		"from": [
+			-70.0,
+			40.0,
+			0.0
+		],
+		"to": [
+			-60.0,
+			42.0,
+			8.0
+		],
+		"look_from": [
+			0.0,
+			2.0,
+			0.0
+		],
+		"look_to": [
+			0.0,
+			2.0,
+			0.0
+		],
+		"fov_from": 50.0,
+		"fov_to": 50.0,
+		"subject": "ford_stones",
+		"dur": 7.0,
+		"lens": "the same horns, from the south-west"
+	},
+	"N02": {
+		"from": [
+			3.39,
+			10.715,
+			-38.114
+		],
+		"to": [
+			2.847,
+			10.435,
+			-37.571
+		],
+		"look_from": [
+			0.675,
+			9.318,
+			-35.399
+		],
+		"look_to": [
+			0.675,
+			9.318,
+			-35.399
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "malrik",
+		"dur": 6.0,
+		"lens": "ms on malrik, 3/4-back-left, high, push 0.2"
+	},
+	"N07": {
+		"from": [
+			1.976,
+			8.588,
+			-32.901
+		],
+		"to": [
+			1.976,
+			8.588,
+			-32.901
+		],
+		"look_from": [
+			-0.54,
+			9.475,
+			-35.417
+		],
+		"look_to": [
+			-0.54,
+			9.475,
+			-35.417
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "malrik",
+		"dur": 6.5,
+		"lens": "mcu on malrik, 3/4-left, low"
+	},
+	"N10": {
+		"from": [
+			0.35,
+			8.943,
+			-34.598
+		],
+		"to": [
+			0.35,
+			8.943,
+			-34.598
+		],
+		"look_from": [
+			0.35,
+			8.577,
+			-35.604
+		],
+		"look_to": [
+			0.35,
+			8.577,
+			-35.604
+		],
+		"fov_from": 11.0,
+		"fov_to": 11.0,
+		"subject": "stone_pt",
+		"dur": 6.0,
+		"lens": "fs on stone, front, high, fov 11"
+	},
+	"N11": {
+		"from": [
+			0.955,
+			9.277,
+			-31.635
+		],
+		"to": [
+			0.955,
+			9.277,
+			-31.635
+		],
+		"look_from": [
+			-1.689,
+			9.277,
+			-36.398
+		],
+		"look_to": [
+			-1.689,
+			9.277,
+			-36.398
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "malrik",
+		"dur": 6.0,
+		"lens": "ms two-shot malrik torvald, 3/4-left, eye"
+	},
+	"N13": {
+		"from": [
+			0.007,
+			9.554,
+			-33.19
+		],
+		"to": [
+			0.007,
+			9.554,
+			-34.009
+		],
+		"look_from": [
+			0.007,
+			9.554,
+			-35.92
+		],
+		"look_to": [
+			0.007,
+			9.554,
+			-35.92
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "malrik",
+		"dur": 5.5,
+		"lens": "cu on malrik, front, eye, push 0.3"
+	},
+	"S02": {
+		"from": [
+			-8.376,
+			7.617,
+			36.291
+		],
+		"to": [
+			-7.828,
+			7.335,
+			35.743
+		],
+		"look_from": [
+			-5.637,
+			6.207,
+			33.552
+		],
+		"look_to": [
+			-5.637,
+			6.207,
+			33.552
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "ysolde",
+		"dur": 6.0,
+		"lens": "ms on ysolde, 3/4-back-left, high, push 0.2"
+	},
+	"S07": {
+		"from": [
+			-7.064,
+			5.428,
+			31.07
+		],
+		"to": [
+			-7.064,
+			5.428,
+			31.07
+		],
+		"look_from": [
+			-4.51,
+			6.329,
+			33.624
+		],
+		"look_to": [
+			-4.51,
+			6.329,
+			33.624
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "ysolde",
+		"dur": 6.0,
+		"lens": "mcu on ysolde, 3/4-left, low"
+	},
+	"S10": {
+		"from": [
+			-7.896,
+			5.705,
+			30.202
+		],
+		"to": [
+			-7.896,
+			5.705,
+			30.202
+		],
+		"look_from": [
+			-6.023,
+			4.741,
+			32.075
+		],
+		"look_to": [
+			-6.023,
+			4.741,
+			32.075
+		],
+		"fov_from": 30.0,
+		"fov_to": 30.0,
+		"subject": "bloom_pt",
+		"dur": 6.0,
+		"lens": "fs on bloom, 3/4-left, high, fov 30"
+	},
+	"S11": {
+		"from": [
+			-5.854,
+			6.214,
+			29.954
+		],
+		"to": [
+			-5.854,
+			6.214,
+			29.954
+		],
+		"look_from": [
+			-3.295,
+			6.213,
+			34.556
+		],
+		"look_to": [
+			-3.295,
+			6.213,
+			34.556
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "ysolde",
+		"dur": 6.0,
+		"lens": "ms two-shot ysolde vessa, 3/4-left, eye"
+	},
+	"S13": {
+		"from": [
+			-4.973,
+			6.449,
+			31.364
+		],
+		"to": [
+			-4.973,
+			6.449,
+			32.174
+		],
+		"look_from": [
+			-4.973,
+			6.449,
+			34.065
+		],
+		"look_to": [
+			-4.973,
+			6.449,
+			34.065
+		],
+		"fov_from": 40.0,
+		"fov_to": 40.0,
+		"subject": "ysolde",
+		"dur": 5.0,
+		"lens": "cu on ysolde, front, eye, push 0.3"
+	}
+}
