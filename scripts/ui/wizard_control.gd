@@ -40,7 +40,8 @@ func _input(event: InputEvent) -> void:
 	if not is_walk_key(code):
 		return
 	if key.pressed:
-		if not _text_focused():
+		if not _text_focused() and not key.ctrl_pressed:   # Ctrl+A = select all units, never a step
+
 			_held[code] = true
 	else:
 		_held.erase(code)

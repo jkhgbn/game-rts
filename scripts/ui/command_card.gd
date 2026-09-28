@@ -646,9 +646,11 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 			func() -> void: sel.begin_order(SelectionManager.ORDER_MOVE), "", SelectionManager.ORDER_MOVE)
 	out[1] = _slot("stop", "ST", "C", "Stop  [C]\nStop and stand still.", sel.stop)
 	out[2] = _slot("hold", "HD", "H", "Hold  [H]\nStay in place; hit only enemies in range.", sel.hold)
-	var fighters := sel.has_fighters()
-	var workers := sel.has_workers()
-	var caravans := sel.has_caravans()
+	# SC2 subgroups: with 2+ unit types selected, the card shows the active type's (Tab cycles it).
+	var group := sel.active_type_units()
+	var fighters := group.any(func(u: Unit) -> bool: return not sel._is_worker(u) and not SelectionManager.is_caravan(u))
+	var workers := group.any(func(u: Unit) -> bool: return sel._is_worker(u))
+	var caravans := group.any(func(u: Unit) -> bool: return SelectionManager.is_caravan(u))
 	if caravans and not workers:
 		out[7 if fighters else 3] = _slot("trade", "TR", "G",
 				"Trade  [G]\nClick a trading post: trade there from now on.\nClick your Bazaar: go home and deliver.",
@@ -661,7 +663,7 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 			am_tip += "\n%s works too." % KeyLabels.of(KEY_X)
 		out[3] = _slot("attack", "AM", am, am_tip,
 				sel.begin_attack_move_targeting, "", SelectionManager.ORDER_ATTACK_MOVE)
-	if sel.has_hero():
+	if sel.has_hero() and group.has(sel.hero):
 		var spell_ids := SpellInfo.ids(sel.hero)
 		for i in mini(spell_ids.size(), 3):
 			out[4 + i] = _spell_slot(spell_ids[i], i)

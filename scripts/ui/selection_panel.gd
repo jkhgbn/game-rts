@@ -13,6 +13,7 @@ const AREA_WIDTH := 680.0
 const ICON_SIZE := 48.0
 const ICONS_PER_ROW := 12
 const MAX_ICONS := 24
+var _icon_gold: Array = []   ## Per icon: true while framed gold (the active Tab subgroup).
 const QUEUE_SLOTS := 5
 const PROGRESS_COLOR := Color(1.0, 0.85, 0.4)
 ## Timed statuses (spells.md "Statuses", kingdom-ice.md 2.1): chip letter, name, tooltip.
@@ -1744,6 +1745,10 @@ func _update_multi(units: Array[Unit]) -> void:
 		parts.append("%d %s" % [counts[unit_name], unit_name])
 	multi_header.text = "%d selected:  %s" % [units.size(), ", ".join(parts)]
 	_icon_units.clear()
+	# SC2 subgroups: with 2+ unit types, the active type's portraits (Tab cycles it) get a gold frame.
+	var active_key: StringName = &""
+	if selection != null and selection.selected_unit_types().size() >= 2:
+		active_key = selection.active_unit_type()
 	for i in MAX_ICONS:
 		var b := icons[i]
 		if i >= units.size():
@@ -1752,6 +1757,12 @@ func _update_multi(units: Array[Unit]) -> void:
 		var u := units[i]
 		_icon_units.append(u)
 		b.visible = true
+		var gold := active_key != &"" and SelectionManager.unit_type_key(u) == active_key
+		if _icon_gold.size() <= i:
+			_icon_gold.resize(MAX_ICONS)
+		if _icon_gold[i] != gold:
+			_icon_gold[i] = gold
+			UIStyle.style_button(b, UIStyle.GOLD if gold else UIStyle.PANEL_BORDER)
 		b.text = UIStyle.abbrev(u.unit_name)
 		b.tooltip_text = "%s  HP %d / %d" % [u.unit_name, ceili(u.hp), int(u.max_hp)]
 		var life := lifetime_of(u)

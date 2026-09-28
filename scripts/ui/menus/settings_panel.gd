@@ -53,6 +53,7 @@ func _ready() -> void:
 	fullscreen_check = _check_row(box, "Fullscreen")
 	edge_pan_check = _check_row(box, "Scroll at screen edge")
 	_controls_row(box)
+	_priority_row(box)
 	_map_detail_row(box)
 	_upscaler_row(box)
 	render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
@@ -103,6 +104,7 @@ func refresh() -> void:
 	upscaler_option.select(GameSettings.upscaler)
 	render_scale_slider.value = GameSettings.render_scale * 100.0
 	render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
+	rebuild_priority_list()
 	_refreshing = false
 
 
@@ -208,6 +210,124 @@ func _controls_row(parent: Control) -> void:
 	controls_hint.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	controls_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	parent.add_child(controls_hint)
+
+
+## Controls > "Unit priority" (playtest 2026-09-27): the Tab order of unit types in a mixed selection (the first one is
+## active first). A kingdom picker, Show / Hide, Reset, then one row per type with + (up) / − (down). Saved in
+## settings.cfg (GameSettings.unit_priority) when changed.
+var priority_kingdom: OptionButton
+var priority_list: VBoxContainer
+var priority_toggle: Button
+const PRIORITY_KINGDOMS: Array[StringName] = [&"fire", &"shadow", &"ice", &"nature"]
+
+
+func _priority_row(parent: Control) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	parent.add_child(row)
+	var name_label := UIStyle.label("Unit priority", 18)
+	name_label.custom_minimum_size = Vector2(190, 0)
+	name_label.tooltip_text = "Tab order of unit types in a selection; the first one is active first."
+	name_label.mouse_filter = Control.MOUSE_FILTER_STOP
+	row.add_child(name_label)
+	priority_kingdom = OptionButton.new()
+	priority_kingdom.add_theme_font_size_override("font_size", 18)
+	priority_kingdom.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for k in PRIORITY_KINGDOMS:
+		priority_kingdom.add_item(String(k).capitalize())
+	priority_kingdom.item_selected.connect(func(_i: int) -> void: rebuild_priority_list())
+	row.add_child(priority_kingdom)
+	priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
+	priority_toggle.pressed.connect(func() -> void:
+		priority_list.visible = not priority_list.visible
+		priority_toggle.text = "Hide" if priority_list.visible else "Show")
+	var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
+	reset.pressed.connect(func() -> void:
+		GameSettings.reset_unit_priority()
+		rebuild_priority_list())
+	priority_list = VBoxContainer.new()
+	priority_list.add_theme_constant_override("separation", 2)
+	priority_list.visible = false
+	parent.add_child(priority_list)
+	rebuild_priority_list()
+
+
+func _small_button(parent: Control, text: String, tip: String) -> Button:
+	var b := Button.new()
+	b.text = text
+	b.tooltip_text = tip
+	b.focus_mode = Control.FOCUS_NONE
+	b.custom_minimum_size = Vector2(34, 30)
+	b.add_theme_font_size_override("font_size", 16)
+	UIStyle.style_button(b, UIStyle.PANEL_BORDER)
+	parent.add_child(b)
+	return b
+
+
+## The kingdom's unit type keys in priority order: the saved order first, then the default (wizard, dearest soldiers,
+## workers last), as SelectionManager.unit_type_rank sorts them.
+static func priority_order(kingdom: StringName) -> Array[StringName]:
+	var types: Array[UnitType] = []
+	for f in DirAccess.get_files_at(UnitType.DIR):
+		var file := f.trim_suffix(".remap")
+		if not file.ends_with(".tres"):
+			continue
+		var t := UnitType.find(file.get_basename())
+		if t != null and t.faction == kingdom and not t.is_caravan:
+			types.append(t)
+	types.sort_custom(func(a: UnitType, b: UnitType) -> bool:
+		if a.is_worker != b.is_worker:
+			return b.is_worker
+		return a.cost > b.cost if a.cost != b.cost else String(a.id) < String(b.id))
+	var base: Array[StringName] = [&"wizard"]
+	for t in types:
+		base.append(t.id)
+	var saved := GameSettings.unit_priority()
+	var out: Array[StringName] = []
+	for k in saved:
+		if base.has(k):
+			out.append(k)
+	for k in base:
+		if not out.has(k):
+			out.append(k)
+	return out
+
+
+## + (`step` -1) / − (+1) on a row: moves it and saves (entries of other kingdoms keep their place after it).
+func move_priority(key: StringName, step: int) -> void:
+	var kingdom := PRIORITY_KINGDOMS[maxi(priority_kingdom.selected, 0)]
+	var shown := priority_order(kingdom)
+	var moved := GameSettings.move_unit_priority(shown, key, step, false)
+	for k in GameSettings.unit_priority():
+		if not moved.has(k):
+			moved.append(k)
+	GameSettings.set_unit_priority(moved)
+	rebuild_priority_list()
+
+
+func rebuild_priority_list() -> void:
+	if priority_list == null:
+		return
+	for c in priority_list.get_children():
+		priority_list.remove_child(c)
+		c.queue_free()
+	var kingdom := PRIORITY_KINGDOMS[maxi(priority_kingdom.selected, 0)]
+	var order := priority_order(kingdom)
+	for i in order.size():
+		var key := order[i]
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		priority_list.add_child(row)
+		var t := UnitType.find(String(key))
+		var label := UIStyle.label("%d. %s" % [i + 1, "Wizard" if key == &"wizard" else (t.display_name if t else String(key))], 15)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(label)
+		var up := _small_button(row, "+", "Higher priority")
+		up.disabled = i == 0
+		up.pressed.connect(move_priority.bind(key, -1))
+		var down := _small_button(row, "−", "Lower priority")
+		down.disabled = i == order.size() - 1
+		down.pressed.connect(move_priority.bind(key, 1))
 
 
 ## "Map detail" + High / Low (faster), then its hint line (font 14, text_muted).

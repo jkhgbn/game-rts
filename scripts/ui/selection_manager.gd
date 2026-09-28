@@ -158,6 +158,8 @@ var _clock := 0.0
 var _last_group_key := 0
 var _last_group_time := -10.0
 var _last_idle_worker: Unit = null     # F3 cycles on from this one
+var _last_army_time := -10.0           # F2 twice = centre on the army
+var _active_unit_type: StringName = &""  # the Tab subgroup (see active_unit_type)
 var _box_ui: Control
 var _target_ring: MeshInstance3D
 var _target_ring_mat: StandardMaterial3D
@@ -236,10 +238,15 @@ func _input(event: InputEvent) -> void:
 	# the GUI's focus navigation never eats it; a focused text field keeps its Tab.
 	if key != null and key.pressed and enabled and not key.ctrl_pressed and not key.alt_pressed \
 			and (key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode) == KEY_TAB \
-			and selected_buildings.size() >= 2:
+			and (selected_buildings.size() >= 2 or selected_unit_types().size() >= 2):
+		# A selection never mixes units and buildings (groups may: a mixed group recalls its units), so Tab cycles
+		# whichever is selected: the active building, or the active unit subgroup (SC2 style).
 		var focus := get_viewport().gui_get_focus_owner()
 		if not (focus is LineEdit or focus is TextEdit):
-			cycle_active_building(-1 if key.shift_pressed else 1)
+			if selected_buildings.size() >= 2:
+				cycle_active_building(-1 if key.shift_pressed else 1)
+			else:
+				cycle_active_unit_type(-1 if key.shift_pressed else 1)
 			get_viewport().set_input_as_handled()
 
 
@@ -424,6 +431,10 @@ func _handle_key(key: InputEventKey) -> bool:
 		else:
 			cast_spell_slot(spell_slot)
 		return true
+	# Ctrl+A (physical) = select all own commandable units (wizard included); Ctrl+Shift+A adds them to the selection.
+	if code == KEY_A and key.ctrl_pressed and not key.alt_pressed:
+		select_all_units(key.shift_pressed)
+		return true
 	# Classic control scheme (UX.1): physical A = attack-move targeting (X too, below).
 	if code == KEY_A and not key.ctrl_pressed and not key.alt_pressed and GameSettings.attack_move_keys().has(KEY_A):
 		begin_attack_move_targeting()
@@ -480,9 +491,15 @@ func _handle_key(key: InputEventKey) -> bool:
 				if home != null:
 					centre_camera_on([home])
 		KEY_F2:
-			select_army()
+			if key.shift_pressed:
+				add_army()
+			else:
+				select_army()
 		KEY_F3:
-			select_idle_worker()
+			if key.ctrl_pressed:
+				select_all_idle_workers()
+			else:
+				select_idle_worker()
 		KEY_ESCAPE:
 			if bounty_mode != null and bounty_mode.active:
 				bounty_mode.exit()
@@ -508,6 +525,7 @@ func select_units(units: Array) -> void:
 		if is_instance_valid(u):
 			u.selected = false
 	selected.clear()
+	_active_unit_type = &""   # a new selection starts on its highest-priority subgroup
 	_clear_building()
 	_clear_inspect()
 	_clear_neutral()
@@ -1700,14 +1718,140 @@ func recall_control_group(group: int) -> void:
 		centre_camera_on(members)
 
 
-## F2: every own living non-worker unit (the wizard included; never a champion).
+## F2: every own living non-worker unit (the wizard included; never a champion). F2 twice within 0.4 s
+## centres the camera on the army.
 func select_army() -> void:
+	var army := army_units()
+	var double_tap := _clock - _last_army_time <= GROUP_DOUBLE_TAP
+	_last_army_time = _clock
+	select_units(army)
+	if double_tap and not army.is_empty():
+		centre_camera_on(army)
+
+
+## Shift+F2: adds every army unit to the current selection (units stay; a building selection is replaced).
+func add_army() -> void:
+	var out: Array = orderable_units()
+	for u in army_units():
+		if not out.has(u):
+			out.append(u)
+	select_units(out)
+
+
+## The player's living commandable non-worker units (F2's army).
+func army_units() -> Array:
 	var army: Array = []
 	for node in get_tree().get_nodes_in_group("units"):
 		var u := node as Unit
 		if u and u.team == Unit.Team.PLAYER and u.is_alive() and not _is_worker(u) and is_commandable_unit(u):
 			army.append(u)
-	select_units(army)
+	return army
+
+
+## Every own living commandable unit, workers and the wizard included (never a building or a champion).
+func all_own_units() -> Array:
+	var out: Array = []
+	for node in get_tree().get_nodes_in_group("units"):
+		var u := node as Unit
+		if u and u.team == Unit.Team.PLAYER and u.is_alive() and is_commandable_unit(u):
+			out.append(u)
+	return out
+
+
+## Ctrl+A: selects every own commandable unit; `add` (Ctrl+Shift+A) keeps the current units too.
+func select_all_units(add := false) -> void:
+	var out: Array = orderable_units() if add else []
+	for u in all_own_units():
+		if not out.has(u):
+			out.append(u)
+	select_units(out)
+
+
+## Ctrl+F3 (or Ctrl+click the idle-worker button): selects every idle worker and centres on them.
+func select_all_idle_workers() -> Array:
+	var idle: Array = idle_workers()
+	if idle.is_empty():
+		message.emit("No idle workers")
+		return []
+	select_units(idle)
+	centre_camera_on(idle)
+	return idle
+
+
+# ---------------------------------------------------------------- unit subgroups (SC2 style, Tab)
+
+## The subgroup key of a unit: &"wizard" for wizards, else its UnitType id (else its name).
+static func unit_type_key(u: Unit) -> StringName:
+	if u is Wizard:
+		return &"wizard"
+	if u.unit_type != null and u.unit_type.id != &"":
+		return u.unit_type.id
+	return StringName(u.unit_name)
+
+
+## Sort rank of a subgroup (lower = earlier in Tab order, active first): the saved Unit priority list
+## (GameSettings.unit_priority()) when it names the type, else wizard, heroes, then dearer soldiers, workers last.
+func unit_type_rank(u: Unit) -> int:
+	var key := unit_type_key(u)
+	var custom: Array = GameSettings.unit_priority()
+	var i := custom.find(key)
+	if i >= 0:
+		return i - 100000
+	if u is Wizard:
+		return 0
+	if u.is_in_group(&"heroes"):
+		return 1
+	if _is_worker(u):
+		return 90000
+	return 10000 - (u.unit_type.cost if u.unit_type != null else 0)
+
+
+## The selected unit subgroups (type keys) in Tab order.
+func selected_unit_types() -> Array[StringName]:
+	var first := {}
+	for u in orderable_units():
+		var k := unit_type_key(u)
+		if not first.has(k):
+			first[k] = u
+	var keys: Array = first.keys()
+	keys.sort_custom(func(a, b) -> bool:
+		var ra := unit_type_rank(first[a])
+		var rb := unit_type_rank(first[b])
+		return ra < rb if ra != rb else String(a) < String(b))
+	var out: Array[StringName] = []
+	for k in keys:
+		out.append(k)
+	return out
+
+
+## The active subgroup: its abilities show on the command card, its portraits get the gold frame. &"" = none.
+func active_unit_type() -> StringName:
+	var types := selected_unit_types()
+	if types.is_empty():
+		return &""
+	if not types.has(_active_unit_type):
+		_active_unit_type = types[0]
+	return _active_unit_type
+
+
+## Tab / Shift+Tab with 2+ unit types selected: the next / previous subgroup becomes active.
+func cycle_active_unit_type(step := 1) -> void:
+	var types := selected_unit_types()
+	if types.size() < 2:
+		return
+	var i := types.find(active_unit_type())
+	_active_unit_type = types[posmod(i + step, types.size())]
+	selection_changed.emit()
+
+
+## The selected units of the active subgroup (all selected units when there is only one type).
+func active_type_units() -> Array[Unit]:
+	var key := active_unit_type()
+	var out: Array[Unit] = []
+	for u in orderable_units():
+		if unit_type_key(u) == key:
+			out.append(u)
+	return out
 
 
 ## Own workers with nothing to do: not gathering, not building, no target, standing still.

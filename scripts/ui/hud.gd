@@ -8,6 +8,7 @@ extends CanvasLayer
 signal fireball_pressed
 
 var minimap: Minimap
+var idle_worker_button: IdleWorkerButton   ## Bottom left, over the minimap corner: idle count, click = F3.
 var top_bar: TopBar
 var command_card: CommandCard
 var selection_panel: SelectionPanel
@@ -114,6 +115,14 @@ func _ready() -> void:
 	_anchor_bottom_left(map_panel, 16.0, 16.0)
 	minimap = Minimap.new()
 	map_panel.add_child(minimap)
+	# Idle-worker button over the minimap's top-right corner (click = next, Ctrl+click = all; hidden at 0).
+	idle_worker_button = IdleWorkerButton.new()
+	idle_worker_button.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	idle_worker_button.offset_left = 16.0 + 240.0 - IdleWorkerButton.SIZE.x - 6.0
+	idle_worker_button.offset_right = idle_worker_button.offset_left + IdleWorkerButton.SIZE.x
+	idle_worker_button.offset_top = -(16.0 + 240.0) + 6.0
+	idle_worker_button.offset_bottom = idle_worker_button.offset_top + IdleWorkerButton.SIZE.y
+	root.add_child(idle_worker_button)
 
 	# Selection panel (bottom, hero column + selection) and command card (bottom right)
 	selection_panel = SelectionPanel.new()
@@ -250,6 +259,7 @@ func setup(hero: Wizard, selection: SelectionManager) -> void:
 	selection_panel.setup(hero, selection)
 	command_card.setup(selection)
 	group_bar.setup(selection)
+	idle_worker_button.setup(selection)
 	inventory_bar.setup(hero, selection)
 	if shop_window != null and is_instance_valid(shop_window):
 		shop_window.hero = hero   # setup again (the player's wizard changed): keep the one window
@@ -455,8 +465,8 @@ static func help_text(wizard_name: String) -> String:
 			+ middle
 			+ "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart\n"
 			% [KeyLabels.join([KEY_F, KEY_Q, KEY_E], "/"), wizard_name, wizard_name]
-			+ "Groups 1-0: Ctrl set · Shift add · Alt steal · N N: centre\n"
-			+ "F2: army    F3: idle worker    F10 twice: surrender    Numpad 1-6: items\n"
+			+ "Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all\n" % k.call(KEY_A)
+			+ "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n"
 			+ "%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop\n" % [pan_keys, k.call(KEY_T)]
 			+ "%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion\n" % [k.call(KEY_R), k.call(KEY_Y)]
 			+ "Flag: %s raise · Delete remove    %s: trade & hunters    %s: trade (caravans)\n"

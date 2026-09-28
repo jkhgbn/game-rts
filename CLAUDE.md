@@ -116,7 +116,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   **X** = attack-move, **C** = stop, **H** = hold, **G** = gather, **B** = build menu (workers only) then
   **Z / X / C** = Hearth / Hall / Spire. Building selected: **Z X C V B** = its training slots 1-5, right-click = rally.
   Construction site selected: **Delete** = cancel. Groups (SC2 style): Ctrl+N set, Shift+N add, Alt+N steal,
-  Shift+Alt+N steal-add, N select, N twice = centre (N = 1-9, 0 = group 10); F2 = all army, F3 = next idle worker.
+  Shift+Alt+N steal-add, N select, N twice = centre (N = 1-9, 0 = group 10); F2 = all army (twice = centre, Shift+F2 = add), F3 = next idle worker (Ctrl+F3 = all; idle button on the minimap: click next, Ctrl+click all); Ctrl+A = all own units (Ctrl+Shift+A adds); Tab / Shift+Tab = next / previous unit type (order: Settings > Unit priority).
   **R** = bounty mode (Shift+click stays), **Y** = tavern window, **F5 / F6 / F7** = centre on champion 1 / 2 / 3;
   bounty flag selected: **Z** = raise +25 (Shift+Z +100), **Delete** = remove.
   Trade: **U** = trade window (Bazaar wares / exchange, Lodge contracts); worker build menu **B** then **B** = Bazaar;

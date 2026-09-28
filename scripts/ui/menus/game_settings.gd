@@ -199,6 +199,51 @@ static func load_settings() -> void:
 	upscaler = upscaler_from_id(str(cfg.get_value(SECTION, "upscaler", UPSCALER_IDS[UPSCALER_OFF])))
 	render_scale = clampf(float(cfg.get_value(SECTION, "render_scale", render_scale)), RENDER_SCALE_MIN,
 			RENDER_SCALE_MAX)
+	unit_priority_order.clear()
+	var order: Variant = cfg.get_value(SECTION, "unit_priority", [])
+	if order is Array:
+		for k in order:
+			unit_priority_order.append(StringName(str(k)))
+
+
+## Settings > Controls "Unit priority": the saved Tab / active-subgroup order of unit type keys ("wizard" or a
+## UnitType id). Empty = the default (wizard, heroes, dearer soldiers first, workers last; SelectionManager).
+static var unit_priority_order: Array[StringName] = []
+
+
+static func unit_priority() -> Array[StringName]:
+	ensure_read()
+	return unit_priority_order
+
+
+## Stores a full order (the settings list after + / -); `save` writes the file.
+static func set_unit_priority(order: Array, save := true) -> void:
+	ensure_read()
+	unit_priority_order.clear()
+	for k in order:
+		unit_priority_order.append(StringName(str(k)))
+	if save:
+		save_settings()
+
+
+## Moves `key` one place up (`step` -1, the "+" button) or down (+1, "−") in `order` (the list as shown) and saves.
+## Returns the new order.
+static func move_unit_priority(order: Array, key: StringName, step: int, save := true) -> Array[StringName]:
+	var out: Array[StringName] = []
+	for k in order:
+		out.append(StringName(str(k)))
+	var i := out.find(key)
+	var j := i + step
+	if i >= 0 and j >= 0 and j < out.size():
+		out[i] = out[j]
+		out[j] = key
+	set_unit_priority(out, save)
+	return out
+
+
+## "Reset": back to the default order.
+static func reset_unit_priority(save := true) -> void:
+	set_unit_priority([], save)
 
 
 static func save_settings() -> Error:
@@ -215,6 +260,10 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "map_detail", String(map_detail_from_id(String(map_detail))))
 	cfg.set_value(SECTION, "upscaler", UPSCALER_IDS[clampi(upscaler, UPSCALER_OFF, UPSCALER_FSR2)])
 	cfg.set_value(SECTION, "render_scale", render_scale)
+	var order: Array[String] = []
+	for k in unit_priority_order:
+		order.append(String(k))
+	cfg.set_value(SECTION, "unit_priority", order)
 	return cfg.save(PATH)
 
 
