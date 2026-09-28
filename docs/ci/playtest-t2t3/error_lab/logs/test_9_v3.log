@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes (blob included): 18
+instance 0: draw instances 14
+instance 1: draw instances 14
+materials: 5 own + 1 shared (res://art/units/champions/coin_cutter/coin_cutter_charcoal.tres, res://art/units/champions/coin_cutter/coin_cutter_burgundy.tres, res://art/units/champions/coin_cutter/coin_cutter_brass.tres, res://art/units/champions/coin_cutter/coin_cutter_gold_glow.tres, res://art/units/champions/coin_cutter/coin_cutter_pennon.tres, res://art/units/kit/materials/unit_shadow_blob.tres); vertices 3663
+hood top y: 1.83
+footprint reach at rest: 0.60
+team colour: 1 pennon surfaces recoloured, 0 other
+cast cutpurse: ended true, pouch false, coin top -99.00, lunge 0.50
+cast smoke_pouch: ended true, pouch true, coin top -99.00, lunge 0.00
+cast marked_for_coin: ended true, pouch false, coin top 2.20, lunge 0.00
+cast some_unknown_id: ended true, pouch false, coin top -99.00, lunge 0.50
+PASS 9.v3
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

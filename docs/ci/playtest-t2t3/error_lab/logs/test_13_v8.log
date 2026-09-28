@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+hips to seat 0.080 m (seat_offset (0.0, 0.08, 0.0))
+rider budget: parts 9, draw instances 9, vertices 4299, lights 0, particles 1 (max amount 10); rhino instances 8, parts 12
+  Root/Hips/LegL/Merged: 5 surfaces, 404 vertices, shadow false
+  Root/Hips/LegR/Merged: 5 surfaces, 404 vertices, shadow false
+  Root/Hips/Merged: 6 surfaces, 296 vertices, shadow false
+  Root/Chest/Head/VetTrim: 1 surfaces, 105 vertices, shadow false
+  Root/Chest/Head/Merged: 7 surfaces, 941 vertices, shadow true
+  Root/Chest/ArmL/Merged: 8 surfaces, 713 vertices, shadow false
+  Root/Chest/ArmR/Axe: 6 surfaces, 367 vertices, shadow false
+  Root/Chest/ArmR/Merged: 4 surfaces, 265 vertices, shadow true
+  Root/Chest/Merged: 5 surfaces, 804 vertices, shadow true
+own materials (1): rimehorn_rider_fur.tres
+rider bounds y 1.02..2.89, x -0.98..0.77, z -0.60..0.58; rhino y 0..2.00, z -1.29..2.33
+rest: axe angle -8.0, axe head (0.49, 2.56, 0.26); shield centre (-0.94, 1.58, 0.61), face (-0.83, 0.55, 0.00)
+gait: walk gallop 0.00, gallop 1.00, rider bob 0.081 m
+swing: wind-up axe angle -150.0, strike angle 110.0, axe_struck x1 at 0.150 s, blade at (1.01, 1.22, 1.12), lowest head y 0.76, after -8.0
+charge 0.12 s: rhino action charge, shield centre (0.01, 1.44, 1.18), axe head (0.91, 2.80, 0.47)
+axe edge glow 1.00
+hit flash rider 0.58, rhino 0.58, axe 0.00
+slot collisions: 0
+death 0.4 s: hips to seat 0.08, glow 0.00, frost 0.44
+death 0.8 s: rider root visible false
+PASS 13.v8
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,38 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 12
+HollowStag: draw instances 14, vertices 4185, triangles 3950, keep_separate 5, lights 0
+HollowStag: draw instances 14, vertices 4185, triangles 3950, keep_separate 5, lights 0
+own materials (7): hollow_stag_hide.tres, hollow_stag_shade.tres, hollow_stag_bark.tres, hollow_stag_hollow.tres, hollow_stag_leaf_glow.tres, hollow_stag_moss.tres, hollow_stag_heart_glow.tres
+shared materials (0): 
+glow hollow_stag_leaf_glow.tres colour (0.48, 1.0, 0.26, 1.0) energy 2.50
+glow hollow_stag_heart_glow.tres colour (0.42, 1.0, 0.55, 1.0) energy 3.00
+hide colour (0.82, 0.8, 0.72, 1.0) (v 0.82, s 0.12)
+  Root/Mount/Head/Crown/Leaves (GPUParticles3D): 0 vertices, shadow 0
+  Root/Mount/Head/Crown/Skull (MeshInstance3D): 1371 vertices, shadow 1
+  Root/Mount/Head/Merged (MeshInstance3D): 262 vertices, shadow 1
+  Root/Mount/LegFL/Lower/Shin (MeshInstance3D): 150 vertices, shadow 0
+  Root/Mount/LegFL/Merged (MeshInstance3D): 114 vertices, shadow 0
+  Root/Mount/LegFR/Lower/Shin (MeshInstance3D): 150 vertices, shadow 0
+  Root/Mount/LegFR/Merged (MeshInstance3D): 114 vertices, shadow 0
+  Root/Mount/LegBL/Lower/Shin (MeshInstance3D): 150 vertices, shadow 0
+  Root/Mount/LegBL/Merged (MeshInstance3D): 100 vertices, shadow 0
+  Root/Mount/LegBR/Lower/Shin (MeshInstance3D): 150 vertices, shadow 0
+  Root/Mount/LegBR/Merged (MeshInstance3D): 100 vertices, shadow 0
+  Root/Mount/Merged (MeshInstance3D): 1520 vertices, shadow 1
+  Fx/Shed (GPUParticles3D): 0 vertices, shadow 0
+  Shadow (MeshInstance3D): 4 vertices, shadow 0
+rest AABB top 3.749, bottom 0.000, x -1.46 .. 1.69, z -1.33 .. 1.98
+body (no antlers) top 2.64
+deer AABB [P: (-0.47, -0.00031, -0.84), S: (0.94, 2.70031, 2.032326)] (w 0.94, h 2.70, l 2.03)
+heart glow 0.80 .. 1.25, leaves 1.00
+walk: max fore-leg swing 26.0 deg, shin fold 61.9 deg
+gore: neck windup 30.4, crown 23.9, lunge z 0.32, neck toss -13.0
+sweep: root yaw -22.5 -> 24.1, neck yaw -35.5 -> 39.2, flare 0.93, sheds 0 -> 1
+hit: crown roll 8.9, neck -13.2
+death 0.76 s: root roll 72.0 deg, root y -0.05, heart 0.00, leaves 0.00, lowest body -0.059, lowest all -0.059
+PASS 12.v23
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

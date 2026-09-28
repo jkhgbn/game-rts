@@ -1,0 +1,30 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes 14 / 14, draw instances 16 (incl. 2 particle systems), vertices 17131, lights 0
+  Root/Mount/Neck/Merged: 4 surfaces, 1734 vertices
+  Root/Mount/Head/Merged: 7 surfaces, 1287 vertices
+  Root/Mount/LegFL/Merged: 4 surfaces, 1399 vertices
+  Root/Mount/LegFR/Merged: 4 surfaces, 1399 vertices
+  Root/Mount/LegBL/Merged: 4 surfaces, 1428 vertices
+  Root/Mount/LegBR/Merged: 4 surfaces, 1428 vertices
+  Root/Mount/Tail/Merged: 2 surfaces, 802 vertices
+  Root/Mount/Merged: 7 surfaces, 2821 vertices
+  Root/Chest/Head/Merged: 4 surfaces, 1957 vertices
+  Root/Chest/ArmL/Merged: 5 surfaces, 425 vertices
+  Root/Chest/ArmR/Lance: 6 surfaces, 770 vertices
+  Root/Chest/ArmR/Merged: 2 surfaces, 252 vertices
+  Root/Chest/Merged: 6 surfaces, 1425 vertices
+  Shadow: 1 surfaces, 4 vertices
+own materials: ["nk_hide.tres", "nk_plate.tres", "nk_smoke.tres", "nk_flame.tres"]
+knight (no lance) y -0.00..4.29, z -1.85..2.09, x -0.97..0.81; with the lance top 5.56; Shadow Knight top 3.10
+footprint 7.0 m2 vs Shadow Knight 2.7 m2
+gallop: rider-seat drift 0.004 m, rider bob 0.096 m, lance -5.0 deg, smoke true, galloping true
+hit flash: horse 0.58, rider 0.58, shield arm 0.58
+attack: lance 3.0 deg at 0.14 s, thrust 0.44 m
+charge: lance 1.0 deg, chest lean 24.7 deg, crest glow 1.00 -> 2.60, struck at (0.489378, 1.923899, 4.950274) (local)
+death: finished at 1.70 s, roll -84 deg, violet flare 0.56, fade 1.00, smoke true (18 ms)
+PASS 13.v15
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

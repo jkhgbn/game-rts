@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Could not find type "IdleWorkerButton" in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:11)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:119)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:121)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:122)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:124)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/ui/selection_manager.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/test_unit_dances.gd:0)
+ERROR: Failed to load script "res://tests/test_unit_dances.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _ready (res://scripts/world/main.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/world/main.gd:91)
+  flame_guard (fire) dances dance_victory, arm moved 2.86 rad
+  pyre_adept (fire) dances dance_surrender, arm moved 1.52 rad
+  rimeshield (ice) dances dance_random, arm moved 2.89 rad
+  shardguard (ice) dances dance_victory, arm moved 2.78 rad
+  thornling (nature) dances dance_surrender, arm moved 1.52 rad
+  vinelasher (nature) dances dance_random, arm moved 2.88 rad
+  shade (shadow) dances dance_victory, arm moved 1.34 rad
+  hexweaver (shadow) dances dance_surrender, arm moved 1.04 rad
+  vessa.tscn (fire) dances dance_random, arm moved 0.79 rad
+  torvald.tscn (ice) dances dance_victory, arm moved 2.93 rad
+  ysolde.tscn (nature) dances dance_surrender, arm moved 1.53 rad
+  malrik.tscn (shadow) dances dance_random, arm moved 2.89 rad
+FAIL unit_dances: timed out at step 2
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

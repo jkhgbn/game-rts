@@ -1,0 +1,20 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+147 checks
+  - bleakbow projectile_speed: got 26.000, want 25.000
+  - briar_roc projectile_speed: got 22.000, want 25.000
+  - cinder_arbalest projectile_speed: got 32.000, want 25.000
+  - frost_mortar projectile_speed: got 18.000, want 25.000
+  - frostbow projectile_speed: got 30.000, want 25.000
+  - hexweaver projectile_speed: got 24.000, want 25.000
+  - hoarlight_magebow projectile_speed: got 28.000, want 25.000
+  - pyre_adept projectile_speed: got 24.000, want 25.000
+  - scorchbow projectile_speed: got 26.000, want 25.000
+  - stormbottle_genie projectile_speed: got 40.000, want 25.000
+  - thistle_darter projectile_speed: got 26.000, want 25.000
+  - Unit.MAX_UNIT_RADIUS 1.10 >= 1.20
+FAIL 12.C9: 12 problem(s)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

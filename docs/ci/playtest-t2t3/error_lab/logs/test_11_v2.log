@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 22
+spear        draw instances 15, own materials 5, bow visible false
+sword_shield draw instances 15, own materials 5, bow visible false
+two_hand     draw instances 15, own materials 5, bow visible false
+wizard       draw instances 15, own materials 5, bow visible false
+(archetype)  draw instances 15, own materials 5, bow visible true
+spear        clearance: lantern pole 0.072 m, hat axis at brim height 0.745 m
+sword_shield clearance: lantern pole 0.579 m, hat axis at brim height inf m
+two_hand     clearance: lantern pole 0.505 m, hat axis at brim height 0.825 m
+wizard       clearance: lantern pole 0.646 m, hat axis at brim height 0.552 m
+spear        flare grab: hand (-0.395002, 1.954356, -0.609492), lantern glass (-0.239573, 2.170154, -0.721643) (0.29 m)
+spear        trailblaze: weapon axis (0.109999, 0.990411, -0.083586), tip (0.625152, 3.244143, 0.407267), lantern glow 4.61
+sword_shield flare grab: hand (-0.391197, 1.918305, -0.634344), lantern glass (-0.2336, 2.130034, -0.745445) (0.29 m)
+sword_shield trailblaze: weapon axis (0.301532, 0.91614, -0.264134), tip (0.67924, 2.538434, 0.163848), lantern glow 4.61
+two_hand     flare grab: hand (-0.393646, 1.941652, -0.61835), lantern glass (-0.231756, 2.157854, -0.747238) (0.30 m)
+two_hand     trailblaze: weapon axis (0.010782, 0.996449, -0.083505), tip (0.632566, 3.008361, 0.004027), lantern glow 4.61
+wizard       flare grab: hand (-0.392646, 1.932187, -0.624879), lantern glass (-0.230889, 2.146544, -0.748554) (0.30 m)
+wizard       trailblaze: weapon axis (0.105327, 0.987447, -0.117707), tip (0.567841, 2.344844, 0.108668), lantern glow 4.61
+PASS 11.v2
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

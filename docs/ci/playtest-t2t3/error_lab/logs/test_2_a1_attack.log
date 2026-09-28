@@ -1,0 +1,139 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START normal bot (shadow_default), team 1, shadow
+BOT 1 [0:00] TRAIN Gloom Thrall (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+BOT 1 [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+BOT 1 [0:19] TRAIN Gloom Thrall (4 workers + 2 queued)
+BOT 1 [0:47] TRAIN Shade (soldier pop 0, crystals left 90)
+BOT 1 [0:48] TRAIN Nightbolt (soldier pop 0, crystals left 0)
+BOT 1 [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+BOT 1 [1:03] TRAIN Grave Hound (soldier pop 1, crystals left 50)
+BOT 1 [1:23] TRAIN Bleakbow (soldier pop 2, crystals left 115)
+BOT 1 [1:37] TRAIN Shade (soldier pop 3, crystals left 165)
+BOT 1 [1:44] SQUAD 2 units to Stonemere Well
+BOT 1 [1:59] TRAIN Nightbolt (soldier pop 4, crystals left 265)
+BOT 1 [2:00] SCOUT Grave Hound to (12, 22)
+BOT 1 [2:08] SCOUT next (17, 47) via (20, 32)
+BOT 1 [2:08] SQUAD back: Stonemere Well done
+BOT 1 [2:12] SCOUT next (-2, 44) via (12, 49)
+BOT 1 [2:15] TRAIN Shade (soldier pop 5, crystals left 325)
+BOT 1 [2:15] SCOUT next (-16, 6)
+BOT 1 [2:20] SQUAD 2 units to Saltwatch
+BOT 1 [2:21] SCOUT next (-27, 27)
+BOT 1 [2:24] SCOUT next (-24, 36)
+BOT 1 [2:34] SQUAD back: Saltwatch done
+BOT 1 [2:35] TRAIN Barrow Ghoul (soldier pop 6, crystals left 435)
+BOT 1 [2:38] CREEP Bristleback Wallow (tier 1) 3 units str 315 (army 545) vs 200 (x1.6) + wizard
+BOT 1 [2:40] SQUAD 2 units to Owlwatch
+BOT 1 [2:44] SCOUT home
+BOT 1 [2:48] SQUAD leaves Owlwatch for East Wayshrine
+BOT 1 [2:51] TRAIN Shadow Knight (soldier pop 7, crystals left 315)
+BOT 1 [2:51] CREEP over (cleared): Bristleback Wallow
+BOT 1 [2:51] WIZARD picks up Item_ember_draught after the creep
+BOT 1 [2:51] WIZARD job: pickup Item_ember_draught
+BOT 1 [2:52] BUILD V1 triggered
+BOT 1 [2:55] PLACE V1 Hovel at (50, -46), 1 builder(s), crystals left 275
+BOT 1 [3:06] SQUAD back: East Wayshrine done
+BOT 1 [3:08] CHAMPION hire coin_cutter (Sable Quint) #1: 225 crystals + 75 essence, crystals 375 -> 150, from (-15, -15)
+BOT 1 [3:13] SQUAD 2 units to Owlwatch
+BOT 1 [3:22] STARVE pass: one unit through the 425-crystal reserve (180 crystals left)
+BOT 1 [3:22] TRAIN Shade (soldier pop 8, crystals left 180)
+BOT 1 [3:32] SQUAD back: Owlwatch done
+BOT 1 [3:44] SQUAD 2 units to Mossmere Well
+BOT 1 [3:49] STARVE pass: one unit through the 425-crystal reserve (310 crystals left)
+BOT 1 [3:49] TRAIN Nightbolt (soldier pop 11, crystals left 310)
+BOT 1 [4:00] KEEP UPGRADE to Stronghold (crystals left 210)
+BOT 1 [4:00] SCOUT Grave Hound to (-24, -48) via (-12, -49)
+BOT 1 [4:07] SCOUT next (-36, -48)
+BOT 1 [4:08] SCOUT next (-36, -36)
+BOT 1 [4:09] STARVE pass: one unit through the 425-crystal reserve (210 crystals left)
+BOT 1 [4:09] TRAIN Shade (soldier pop 12, crystals left 210)
+BOT 1 [4:09] SCOUT next (-48, -36)
+BOT 1 [4:10] BUILD X1 triggered
+BOT 1 [4:11] SCOUT next (-48, -24)
+BOT 1 [4:12] SCOUT next (-48, 12) via (-49, -11)
+BOT 1 [4:13] PLACE X1 Gloom Hall at (23, -9), 2 builder(s), crystals left 100
+BOT 1 [4:13] SQUAD back: Mossmere Well done
+BOT 1 [4:25] ATTACK #1 6 units (6 pop) str 1045 (power 1309) vs seen 0 (ready) + wizard -> SHRINE
+BOT 1 [4:26] SQUAD 2 units to Rookwatch
+BOT 1 [4:35] STARVE pass: one unit through the 425-crystal reserve (150 crystals left)
+BOT 1 [4:35] TRAIN Shade (soldier pop 12, crystals left 150)
+BOT 1 [4:35] SCOUT home
+BOT 1 [4:43] WIZARD learns Q1 (soul_siphon rank 1) at level 2
+BOT 1 [4:50] EXPANSION done: 3 workers to the natural node
+BOT 1 [4:51] SQUAD back: Rookwatch done
+BOT 1 [4:53] SHRINE row over (taken)
+BOT 1 [4:56] STARVE pass: one unit through the 425-crystal reserve (210 crystals left)
+BOT 1 [4:56] TRAIN Gloom Thrall (6 workers + 1 queued)
+BOT 1 [5:00] BUILD S1 triggered
+BOT 1 [5:04] PLACE S1 Night Spire at (37, -29), 1 builder(s), crystals left 160
+BOT 1 [5:05] SQUAD 2 units to Millwatch
+BOT 1 [5:06] ATTACK to the enemy keep (-43, 43)
+BOT 1 [5:12] WIZARD learns F2 (shadow_lance rank 2) at level 3
+a Shadow soldier reached the Fire base at 321 s
+BOT 1 [5:22] RETREAT 3 units: HP 177 of 450
+BOT 1 [5:22] PLUS UPGRADE (crystals left 270)
+BOT 1 [5:22] WIZARD walks to the shop (next item affordable)
+BOT 1 [5:26] STARVE pass: one unit through the 425-crystal reserve (250 crystals left)
+BOT 1 [5:26] TRAIN Gloom Thrall (7 workers + 1 queued)
+BOT 1 [5:32] SQUAD back: Millwatch done
+BOT 1 [5:34] ITEM bought bone_charm (list #2), essence 556 -> 306
+BOT 1 [5:36] ATTACK over: back at the rally
+BOT 1 [5:36] CREEP Bristleback Wallow (tier 1) 5 units str 480 (army 970) vs 230 (x2.1) + wizard
+BOT 1 [5:41] BUILD M1 triggered
+BOT 1 [5:45] PLACE M1 Gloom Bazaar at (45, -27), 1 builder(s), crystals left 335
+BOT 1 [5:48] CREEP over (cleared): Bristleback Wallow
+BOT 1 [5:52] ATTACK #2 7 units (7 pop) str 990 (power 1388) vs seen 200 (ready) + wizard -> MID
+BOT 1 [5:53] CHAMPION hire oathwall (Garran Stoneward) #2: 275 crystals + 100 essence, crystals 435 -> 160, from (-15, -15)
+BOT 1 [5:54] TRAIN Gloom Thrall (8 workers + 1 queued)
+BOT 1 [5:55] TRAIN Bleakbow (soldier pop 11, crystals left 15)
+BOT 1 [6:00] TRAIN Shade (soldier pop 11, crystals left 5)
+BOT 1 [6:00] ATTACK to the enemy keep (-43, 43)
+BOT 1 [6:00] WIZARD goes for the crown at (0, 0)
+BOT 1 [6:01] SCOUT Shade to (48, 24) via (48, 6)
+BOT 1 [6:04] WIZARD wears the crown
+BOT 1 [6:06] TRAIN Grave Hound (soldier pop 11, crystals left 15)
+BOT 1 [6:12] TRAIN Grave Hound (soldier pop 10, crystals left 5)
+BOT 1 [6:12] SCOUT next (48, 36)
+BOT 1 [6:15] SCOUT next (-36, 48) via (12, 49)
+BOT 1 [6:17] SCOUT next (-36, 12) via (12, 49)
+BOT 1 [6:19] TRAIN Nightbolt (soldier pop 12, crystals left 5)
+BOT 1 [6:19] SCOUT next (-48, 48) via (12, 49)
+BOT 1 [6:22] SCOUT next (-48, 24) via (12, 49)
+BOT 1 [6:23] TRAIN Shade (soldier pop 11, crystals left 5)
+BOT 1 [6:30] TRAIN Shade (soldier pop 12, crystals left 5)
+BOT 1 [6:34] TRAIN Barrow Ghoul (soldier pop 13, crystals left 25)
+BOT 1 [6:41] TRAIN Caravan (0 caravans + 1 queued, target 4, crystals left 60)
+BOT 1 [6:45] RETREAT 4 units: HP 198 of 523
+BOT 1 [6:45] WIZARD walks to the shop (next item affordable)
+BOT 1 [6:56] KEEP UPGRADE to Citadel (crystals left 20)
+BOT 1 [7:00] TRAIN Shade (soldier pop 14, crystals left 0)
+BOT 1 [7:02] ITEM bought grave_pact (list #3), essence 553 -> 253
+BOT 1 [7:03] ATTACK over: back at the rally
+BOT 1 [7:03] SCOUT home
+BOT 1 [7:03] ITEM bought ember_draught (list #4), essence 254 -> 134
+BOT 1 [7:04] ATTACK #3 12 units (12 pop) str 1615 (power 2097) vs seen 200 (ready) + wizard -> SHRINE
+BOT 1 [7:08] TRAIN Nightbolt (soldier pop 16, crystals left 10)
+BOT 1 [7:13] TRAIN Shade (soldier pop 16, crystals left 20)
+BOT 1 [7:19] SHRINE row over (taken)
+BOT 1 [7:21] TRAIN Caravan (1 caravans + 1 queued, target 4, crystals left 75)
+BOT 1 [7:24] ATTACK to the enemy keep (-43, 43)
+BOT 1 [7:25] TRAIN Hexweaver (soldier pop 17, crystals left 10)
+BOT 1 [7:28] TRADE 1 caravan(s) far to Heron Ford (154 gold / trip; str 1595 vs seen 200)
+BOT 1 [7:31] TRAIN Nightbolt (soldier pop 18, crystals left 0)
+BOT 1 [7:36] TRAIN Grave Hound (soldier pop 18, crystals left 0)
+BOT 1 [7:38] WIZARD learns E1 (umbral_shroud rank 1) at level 4
+BOT 1 [7:41] TRAIN Shade (soldier pop 18, crystals left 20)
+BOT 1 [7:49] TRAIN Caravan (2 caravans + 1 queued, target 4, crystals left 55)
+first attack 266 s (3 launched), reached the Fire base 321 s, first Fire building lost 470 s, winner -1
+Shadow at 470 s: crystals 85, gathered 4700, pop 34 / 40, strength 1565, seen 0
+bot ticks 469, avg 3.752 ms, max 506.282 ms (at 48 s)
+rule usec totals: { 0: 140794, 1: 20179, 17: 25655, 20: 41085, 2: 7403, 3: 3979, 4: 82446, 5: 14459, 6: 17997, 7: 47519, 8: 147206, 18: 36389, 9: 703540, 10: 56329, 11: 46063, 21: 97910, 12: 37388, 13: 2319, 14: 18614, 15: 123951, 19: 5125, 16: 65782 }
+PASS 2.A1 attack
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

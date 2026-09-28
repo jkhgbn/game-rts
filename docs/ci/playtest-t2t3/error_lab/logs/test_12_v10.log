@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  ow_ferns           variants 126 / 180 / 108 tris, size 1.98 x 0.98 x 1.98
+  ow_glowcaps        variants 420 / 316 / 358 tris, size 1.43 x 1.03 x 1.10
+  ow_roots           variants 156 / 240 / 222 tris, size 2.35 x 0.84 x 1.85
+  ow_cobwebs         variants 78 / 104 / 79 tris, size 1.24 x 1.33 x 1.14
+  ow_moss_boulders   variants 251 / 141 / 238 tris, size 2.37 x 1.22 x 1.90
+  ow_fallen_trunk    variants 446 / 480 / 403 tris, size 4.73 x 1.60 x 1.92
+  old wood area 2679 m2 (weighted, both woods), 23.0 per 100 m2 -> 616 instances (budget 900)
+PASS 12.V10
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Navigation baked after 1 frames
+Units spawned: player=13 enemy=15
+Army near mid camp? hero at (-23.10997, 0.0, 20.92531)
+Fireball cast: ok
+After mid fight: player=12 enemy=9 hero_hp=375
+Guardians left: 5, player=7
+GAME OVER at frame 3840: victory=true player=7 enemy=5
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

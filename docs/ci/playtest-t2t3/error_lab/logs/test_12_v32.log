@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+heath_wallow.tscn      Model     6134 tris, 2 surfaces
+heath_wallow.tscn      Active    1050 tris, 1 surfaces
+heath_wallow.tscn      Dormant    320 tris, 1 surfaces
+crag_nest.tscn         Model     9280 tris, 2 surfaces
+crag_nest.tscn         Active     588 tris, 1 surfaces
+crag_nest.tscn         Dormant    256 tris, 1 surfaces
+crag_nest.tscn         2438 nest vertices over the head, crown 2.80 m
+crag_nest.tscn (east)  2438 nest vertices over the head, crown 2.80 m
+greymane_hollow.tscn   Model     7362 tris, 2 surfaces
+greymane_hollow.tscn   Active    1450 tris, 2 surfaces
+greymane_hollow.tscn   Dormant    300 tris, 1 surfaces
+old_wood_den.tscn      Model     4452 tris, 2 surfaces
+old_wood_den.tscn      Active    1094 tris, 1 surfaces
+old_wood_den.tscn      Dormant    131 tris, 2 surfaces
+old_wood_den.tscn      boulder 4.1 m from the pier, 0 wet, 0 outside
+old_wood_den.tscn (east) boulder 4.1 m from the pier, 0 wet, 0 outside
+PASS 12.v32
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

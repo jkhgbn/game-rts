@@ -1,0 +1,37 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ART LAB mirefang (unit / creature, neutral) -> user://art_lab_test/run [headless: no renders]
+ART LAB mirefang: PASS quality 98 (0 FAIL, 0 WARN, 15 PASS) in 0 s -> user://art_lab_test/run/scorecard.md
+ART LAB mirefang: vs previous run quality 98 -> 98 (+0); worse: none; better: 0
+ART LAB ERROR: scene not found: res://nope.tscn
+ART LAB ERROR: scene not found: res://nope.tscn
+ART LAB mirefang (unit / creature, neutral) -> user://art_lab_test/batch/mirefang [headless: no renders]
+ART LAB mirefang: PASS quality 98 (0 FAIL, 0 WARN, 15 PASS) in 0 s -> user://art_lab_test/batch/mirefang/scorecard.md
+ART LAB mirefang: vs previous run quality 98 -> 98 (+0); worse: none; better: 0
+ART LAB mirefang_ff (critter / rabbit, neutral) -> user://art_lab_test/batch/mirefang_ff [headless: no renders]
+ART LAB mirefang_ff: fail_fast after B4t, B8 (render checks skipped)
+ART LAB mirefang_ff: FAIL quality 84 (2 FAIL, 2 WARN, 8 PASS) in 0 s -> user://art_lab_test/batch/mirefang_ff/scorecard.md
+  WARN B2 Draw instances at rest: 10
+  FAIL B4t Triangles: 2534
+  FAIL B8 Unique materials: 6
+  WARN A1 Standard hooks: missing: play_idle, play_move, play_flee
+ART LAB mirefang_ff: vs previous run quality 80 -> 84 (+4); worse: none; better: 0
+ART LAB mirefang (unit / creature, neutral) -> user://art_lab_test/diff [headless: no renders]
+ART LAB mirefang: focus re-measures B4 (passes: budgets)
+ART LAB mirefang: PASS quality 98 (0 FAIL, 0 WARN, 15 PASS) in 0 s -> user://art_lab_test/diff/scorecard.md
+  focus=B4: 2 check(s) re-measured, 25 kept from the run of 2026-09-27 21:17:49
+ART LAB mirefang: vs previous run quality 98 -> 98 (+0); worse: none; better: 1
+  diff: headless focus=B4 0.2 s vs full 0.3 s
+ART LAB SWEEP v3 neutral: 1 assets (neutral 1) [headless: budgets only]
+ART LAB mirefang (unit / creature, neutral) -> user://art_lab_test/army/assets/mirefang [headless: no renders]
+ART LAB mirefang: PASS quality 98 (0 FAIL, 0 WARN, 15 PASS) in 0 s -> user://art_lab_test/army/assets/mirefang/scorecard.md
+ART LAB mirefang: vs previous run quality 98 -> 98 (+0); worse: none; better: 0
+ART LAB BATCH 1 / 1: mirefang PASS 98 (0.2 s)
+ART LAB SWEEP v3 done: 1 assets, 0 FAIL, 0 pairs read alike, batch 0 s (0.2 s / asset), silhouettes 0 s (0 models), total 0 s -> user://art_lab_test/army/army.md, user://art_lab_test/army_backlog.md
+ART LAB SWEEP backlog rebuilt from 1 scorecards, 0 pairs -> user://art_lab_test/army_backlog.md
+ART LAB ERROR: sweep=bogus: use all or a comma list of ["fire", "ice", "nature", "shadow", "neutral"]
+PASS art_lab
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

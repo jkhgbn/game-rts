@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+script chain:  > FlyerModel
+authored meshes (blob included) 8, particle systems 2, draw instances 10
+materials (A): 5 own + 1 shared (res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_scale_a.tres, res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_claw.tres, res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_fin_a.tres, res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_ice_a.tres, res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_eye_a.tres, res://art/units/kit/materials/unit_shadow_blob.tres)
+triangles 12896, vertices 8298, shadow casters HeadMesh, BodyMesh
+KITFIX AUDIT OK (frost wyrm: slot map, no collision)
+air: chest y 4.03, head joint y 4.75, lowest 3.29, extent x 1.35 z 11.35, spine 12.50 m
+frost dragon rest length 7.01 m vs the wyrm's 11.35 m
+hover: tail tip swing 1.36 m over 2.5 s
+moving: head joint y 4.24 (hover 4.75)
+turning toward +X: head joint x 1.94
+coil: ratio 0.50 at 0.4 s, 1.00 at 0.9 s; body bones on the ground 16 / 16, radius 1.98 m, centroid (-0.19, -0.46), wound 421 deg, chest y 0.62, head joint (1.18, 2.03, 2.91)
+coil: foreleg claw y -0.08
+breath: released at 0.33 s, jaw max 42 deg, throat glow 2.70
+dive: climbs to 5.30, lands at 0.98 s (head joint y 0.39, at (-0.159364, 0.0, 4.167549)), ratio after 1.00
+tail lash: strike at 0.33 s, tail tip sweep 6.47 m, lift 1.37 m
+dive fallback: takes off 6.03 s after the impact
+blizzard: released at 0.73 s, head joint rises 2.12 -> 4.55, jaw 46 deg
+B materials: wyrm_claw.tres, wyrm_eye_b.tres, wyrm_fin_b.tres, wyrm_ice_b.tres, wyrm_scale_b.tres
+head top A 4.91, B 5.05 (horns)
+B airborne chest y 3.96
+death (air): crashed at 0.93 s, chest y at crash 0.46, finished after 1.87 s
+death (coiled): crashed at 0.53 s, finished after 1.87 s
+wyrm pose + skeleton write: 0.176 ms per wyrm per frame
+test wall time 1.2 s
+PASS 13c.v8
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

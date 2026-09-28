@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  melee_hit played at frame 2
+  spell_kindle played
+PASS 6.s1 (voices 16/16 busy, dropped 87, plays { &"alert_path_int": 1, &"melee_hit": 1, &"spell_kindle": 1, &"bolt_impact": 1, &"bolt_shot": 1, &"fireball_cast": 1, &"fireball_explode": 1, &"spell_ember_step": 1, &"spell_shadow_lance": 1, &"spell_soul_siphon": 1, &"spell_umbral_shroud": 1, &"death_fire": 1, &"death_shadow": 1, &"building_hit": 1, &"building_collapse": 1, &"construction_done": 1, &"unit_trained": 1, &"level_up": 1 })
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

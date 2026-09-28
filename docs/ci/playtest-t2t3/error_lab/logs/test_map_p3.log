@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+plateau fit: 640 ground vertices checked, 0 over a hole, 0 above the plateau
+horizon: 8 meshes, 96407 tris, 1 material, min 12.4 m outside, clearance under the sight line 4.1 m
+PASS MAP.P3
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

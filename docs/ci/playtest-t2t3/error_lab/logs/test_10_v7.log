@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 16
+GreywaterTracker: draw instances 10 (separate 2), vertices 2498, lights 0
+GreywaterTracker: draw instances 10 (separate 2), vertices 2498, lights 0
+own materials (4): tracker_oilskin.tres, tracker_fur.tres, tracker_pennon.tres, tracker_glow.tres
+shared kit materials (7): fire_leather.tres, warden_metal.tres, fire_sec_worker.tres, shadow_bone.tres, fire_skin.tres, unit_eye_dark.tres, fire_wood.tres
+  Root/Hips/LegL/Merged: 3 surfaces, 123 vertices
+  Root/Hips/LegR/Merged: 3 surfaces, 123 vertices
+  Root/Hips/Merged: 5 surfaces, 492 vertices
+  Root/Chest/Head/Merged: 5 surfaces, 401 vertices
+  Root/Chest/ArmL/Merged: 3 surfaces, 196 vertices
+  Root/Chest/ArmR/Crossbow: 5 surfaces, 388 vertices
+  Root/Chest/ArmR/Merged: 2 surfaces, 99 vertices
+  Root/Chest/Merged: 6 surfaces, 672 vertices
+  Shadow: 1 surfaces, 4 vertices
+rest AABB top 1.970, bottom 0.000, x -0.52 .. 1.05, z -0.68 .. 0.82
+head (skin) top 1.798
+tip glow at rest 0.55
+tip glow while aiming 2.65
+PASS 10.v7
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

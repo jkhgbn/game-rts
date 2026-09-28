@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 14
+Direwolf (variant 0): draw instances 14, vertices 3686, triangles 2801, lights 0
+Direwolf (variant 1): draw instances 14, vertices 2570, triangles 2336, lights 0
+Direwolf (variant 1): draw instances 14, vertices 2570, triangles 2336, lights 0
+A materials (7): direwolf_pale_a.tres, direwolf_dark.tres, direwolf_mouth.tres, direwolf_teeth.tres, direwolf_fur_a.tres, direwolf_mane_a.tres, direwolf_eye_a.tres
+B materials (7): direwolf_pale_b.tres, direwolf_dark.tres, direwolf_mouth.tres, direwolf_teeth.tres, direwolf_fur_b.tres, direwolf_mane_b.tres, direwolf_eye_b.tres
+B eye glow (0.6, 0.84, 1.0, 1.0) energy 2.60
+fur A (0.47, 0.475, 0.49, 1.0) (v 0.49 s 0.04), fur B (0.73, 0.76, 0.82, 1.0) (v 0.82 s 0.11), mane A v 0.28
+A AABB x -0.62..0.64 y 0.00..2.13 z -1.71..1.76
+B AABB x -0.39..0.41 y 0.00..2.13 z -1.66..1.72
+body width A 0.93 B 0.62, withers A 1.90 B 1.75; neck/mane width A 1.25 B 0.56, top A 1.89 B 1.78
+grave hound AABB h 1.12 l 1.99
+trot: FL~FR -1.00 FL~BR 1.00; gallop: FL~FR 0.73; fold 71.4 deg, tail 40.0 deg
+bite: neck windup 25.5, jaw 40.9 -> 5.0, lunge z 0.31, rip yaw -19.8
+pounce: crouch y -0.15, peak y 0.94, jaw 42.4, fore legs -52.2, flare 0.93, eye 2.10, pounces 0 -> 1
+howl: neck -29.8, skull -26.0, jaw 26.5
+hit: neck -6.3, tail -17.8, jaw 20.8
+  lowest vertex: Root/Mount/Head/Neck -0.054
+death 0 at 0.76 s: root roll 74.0 deg, root y 0.08, eye 0.00, lowest -0.054
+  lowest vertex: Root/Mount/LegBL/Thigh -0.065
+death 1 at 0.76 s: root roll 74.0 deg, root y -0.04, eye 0.00, lowest -0.065
+PASS 12.v29
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

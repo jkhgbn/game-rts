@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+budget: meshes 14, draw instances 15, vertices 5824, lights 0, particle systems 1
+  Root/Mount/Head/Jaw/Merged: 3 surfaces, 118 vertices, shadow false
+  Root/Mount/Head/Merged: 6 surfaces, 578 vertices, shadow false
+  Root/Mount/LegFL/Merged: 3 surfaces, 256 vertices, shadow false
+  Root/Mount/LegFR/Merged: 3 surfaces, 256 vertices, shadow false
+  Root/Mount/LegBL/Merged: 3 surfaces, 277 vertices, shadow false
+  Root/Mount/LegBR/Merged: 3 surfaces, 277 vertices, shadow false
+  Root/Mount/TreeA/Crown/Merged: 2 surfaces, 410 vertices, shadow true
+  Root/Mount/TreeA/Merged: 3 surfaces, 163 vertices, shadow false
+  Root/Mount/TreeB/Crown/Merged: 2 surfaces, 356 vertices, shadow true
+  Root/Mount/TreeB/Merged: 1 surfaces, 108 vertices, shadow false
+  Root/Mount/TreeC/Crown/Merged: 2 surfaces, 302 vertices, shadow false
+  Root/Mount/TreeC/Merged: 1 surfaces, 108 vertices, shadow false
+  Root/Mount/Merged: 13 surfaces, 2611 vertices, shadow true
+  Shadow: 1 surfaces, 4 vertices, shadow false
+own materials (7): mossback_skin.tres, mossback_scale.tres, mossback_moss.tres, mossback_leaf.tres, mossback_lantern.tres, mossback_shell_dark.tres, mossback_shell.tres
+palette materials (12): nature_thorn.tres, unit_eye_dark.tres, nature_skin.tres, nature_bark_dark.tres, nature_stone.tres, nature_bark.tres, nature_burr_b.tres, nature_leaf_dark.tres, nature_hair.tres, nature_glow.tres, nature_cloth.tres, nature_cloth_dark.tres
+rest bounds x -1.47..1.49, y 0.02..3.00, z -1.76..2.49
+body (shell + grove ground + stones) y to 2.28, x -1.46..1.46
+crowns: lowest leaf 1.98, spread across 2.10 m
+grove stag top 2.96 vs mossback 3.00
+walk: leg 24.0 deg, body bob 0.087 m, tree sway 14.9 deg, gallop 0.00, footfalls 10
+bite: neck out 0.62 m, beak tip +0.68 m, jaw open 39.8 deg, jaw at the snap 2.5 deg
+canopy on: blend 0.91 at 0.35 s, crown scale (1.6, 0.78, 1.6), glow 0.55 -> 2.19, spread 2.11 -> 3.07 m, leaves true, changed [true]
+canopy off: crown scale (1.0, 1.0, 1.0), glow 0.55, leaves false, changed [true, false]
+hit flash: body 0.58, jaw 0.58, tree 0.58, crown 0.58
+slot collisions: 0
+death 0.5 s: head -0.62 m, leg up 0.40 m, crown scale 0.80, crown glow 0.00, rune glow 0.00, leaves false
+death end: top -0.61, finished true
+PASS 13b.v4
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 25, archetype chest vertices 2993
+  spear        beam origin (model) (1.088157, 1.820912, 1.709435)
+  sword_shield beam origin (model) (0.645233, 0.723541, 1.006085)
+  two_hand     beam origin (model) (0.713357, 2.528611, -0.573713)
+  wizard       beam origin (model) (0.649981, 2.030298, 0.368927)
+quiver grip (-0.42, 1.28, -0.5), inner edge below the rim x = -0.301
+PASS 11.v5
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

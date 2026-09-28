@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes 13, draw instances 14, materials 8 (nature_bark_dark, nature_bark, nature_leaf_dark, nature_skin, nature_stone, nature_cloth, nature_glow_hero, nature_blossom), own 0
+staff y 0.01..2.86, body top 2.48 (variant A top 2.48, B top 2.35)
+crown 0.71 x 0.71 m, top 2.86
+antlers A 0.65 wide, top 2.48; B 0.64 wide, top 2.35
+cloak / chest y -0.00..1.73, x -0.65..0.69; robe x -0.36..0.38
+slot audit: 18 geometries, 0 collisions
+KITFIX AUDIT OK (wildcaller: slot map, no collision)
+attack release: crown (0.392087, 2.337779, 1.827933), staff axis (0.0, 0.642788, 0.766045), crown glow 4.93 (rest 1.42)
+thornsnare     1.00 s, bloom false, glow max 6.89, flares 1, root y min -0.14, crown y max 3.30, at 0.52: { "crown": (0.435945, 2.42758, 0.590629), "foot": (0.435945, -0.067932, 0.440899), "axis": (0.0, 0.998205, 0.059892) }
+call_the_pack  1.30 s, bloom true, glow max 7.66, flares 2, root y min -0.02, crown y max 3.52, at 0.60: { "crown": (0.401095, 3.49897, -0.146606), "foot": (0.401095, 1.002089, -0.27145), "axis": (-0.0, 0.998752, 0.049938) }
+wild_stampede  1.30 s, bloom true, glow max 6.66, flares 2, root y min -0.10, crown y max 2.53, at 0.64: { "crown": (0.329523, 1.552043, 2.42822), "foot": (0.329523, 1.303283, -0.059373), "axis": (-0.0, 0.099504, 0.995037) }
+arc_bolt       0.60 s, bloom false, glow max 5.18, flares 1, root y min -0.02, crown y max 2.62, at 0.20: { "crown": (0.394634, 2.11295, 1.963461), "foot": (0.394634, 0.862949, -0.201603), "axis": (0.0, 0.5, 0.866025) }
+slipstep       0.52 s, bloom false, glow max 4.22, flares 1, root y min -0.01, crown y max 2.71, at 0.15: { "crown": (0.0111, 0.05526, 0.00573), "foot": (0.0076, -0.009176, 0.002872), "axis": (0.05419, 0.99755, 0.044238) }
+starfall       1.20 s, bloom true, glow max 6.48, flares 2, root y min -0.02, crown y max 3.50, at 0.50: { "crown": (0.417547, 3.449773, -0.113956), "foot": (0.417547, 0.95177, -0.213876), "axis": (0.0, 0.999201, 0.039968) }
+gravity_well   1.00 s, bloom false, glow max 5.03, flares 2, root y min -0.15, crown y max 2.55, at 0.50: { "crown": (0.594338, 1.612299, 1.801914), "foot": (0.594338, 0.644218, -0.503041), "axis": (-0.0, 0.387233, 0.921982) }
+comet_rain     1.40 s, bloom false, glow max 5.64, flares 4, root y min -0.04, crown y max 3.37, at 0.68: { "crown": (0.45, 3.364783, 0.587956), "foot": (0.45, 0.976672, -0.151587), "axis": (0.0, 0.955245, 0.295817) }
+astral_form    1.20 s, bloom true, glow max 5.09, flares 1, root y min -0.01, crown y max 3.08, at 0.60: { "crown": (0.776577, 3.077964, 0.149851), "foot": (0.776577, 0.577964, 0.149851), "axis": (0.0, 1.0, -0.0) }
+call start: root y -3.41, head y -1.85, calling true
+call 0.4 s: crown y 1.75, head y -0.16
+call plant: foot (0.417547, 0.025031, 0.323009), bloom true
+call end: root y 0.00, finished true
+death: head y -1.25, crown glow 0.00, finished true
+PASS 13c.v5
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

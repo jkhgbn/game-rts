@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  meadow_tufts       variants 75 / 63 / 81 tris, size 0.78 x 0.77 x 0.81
+  meadow_clover      variants 156 / 231 / 234 tris, size 0.96 x 0.23 x 0.90
+  meadow_daisies     variants 312 / 360 / 282 tris, size 0.90 x 0.27 x 1.00
+  meadow_dandelions  variants 271 / 315 / 249 tris, size 0.94 x 0.44 x 0.85
+  meadow_fruit_bush  variants 788 / 680 / 860 tris, size 1.78 x 1.55 x 1.73
+  meadow_hay         variants 484 / 252 / 338 tris, size 2.41 x 2.46 x 2.51
+  meadow area 2459 m2 (weighted, both hubs), 52.0 per 100 m2 -> 1278 instances (budget 1800)
+PASS 12.V8
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

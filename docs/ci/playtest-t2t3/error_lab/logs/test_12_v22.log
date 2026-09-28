@@ -1,0 +1,45 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+elder: authored 8, draw instances 10, vertices 3180, triangles 4548, lights 0
+elder: authored 8, draw instances 10, vertices 3180, triangles 4548, lights 0
+  Root/Hips/LegL/Merged (MeshInstance3D): 250 triangles
+  Root/Hips/LegR/Merged (MeshInstance3D): 250 triangles
+  Root/Hips/Merged (MeshInstance3D): 238 triangles
+  Root/Chest/Head/Merged (MeshInstance3D): 1750 triangles
+  Root/Chest/ArmL/Merged (MeshInstance3D): 542 triangles
+  Root/Chest/ArmR/Merged (MeshInstance3D): 736 triangles
+  Root/Chest/Merged (MeshInstance3D): 780 triangles
+  Fx/Spores (GPUParticles3D): 0 triangles
+  Fx/Burst (GPUParticles3D): 0 triangles
+  Shadow (MeshInstance3D): 2 triangles
+elder materials (7): gloomcap_root.tres, gloomcap_stalk.tres, gloomcap_cap.tres, gloomcap_cap_rim.tres, gloomcap_gills.tres, gloomcap_spots.tres, gloomcap_glow.tres
+elder: AABB bottom -0.004 top 2.154, x -0.88 .. 1.02, z -0.86 .. 0.88; cap top 1.944, cap width 1.74
+sprout: authored 7, draw instances 8, vertices 1205, triangles 1682, lights 0
+sprout: authored 7, draw instances 8, vertices 1205, triangles 1682, lights 0
+  Root/Hips/LegL/Merged (MeshInstance3D): 104 triangles
+  Root/Hips/LegR/Merged (MeshInstance3D): 104 triangles
+  Root/Chest/Head/Merged (MeshInstance3D): 892 triangles
+  Root/Chest/ArmL/Merged (MeshInstance3D): 92 triangles
+  Root/Chest/ArmR/Merged (MeshInstance3D): 92 triangles
+  Root/Chest/Merged (MeshInstance3D): 396 triangles
+  Fx/Puff (GPUParticles3D): 0 triangles
+  Shadow (MeshInstance3D): 2 triangles
+sprout materials (6): gloomcap_root.tres, gloomcap_cap.tres, gloomcap_gills.tres, gloomcap_spots.tres, gloomcap_stalk.tres, gloomcap_glow.tres
+sprout: AABB bottom -0.004 top 0.749, x -0.33 .. 0.37, z -0.38 .. 0.33; cap top 0.749, cap width 0.70
+elder: beam origin (0.852139, 2.043712, 0.312379)
+elder walk: max leg swing 25.9 deg
+spore_bolt: arm x windup -13.6, release 28.5 deg, bulb glow_boost 2.93
+spore_burst 0.36 s: swell 1.00, head scale 1.120, arm x -41.9 deg
+spore_burst 0.5 s: bursts 1, head x 16.8 deg, bulb 2.83
+elder death 0.6 s: root roll 70.0 deg, bursts 2
+sprout variety: scale 0.918 / 0.973, cap rest (0.108745, 3.046851, 0.038327) / (0.124721, 0.877456, -0.058313)
+sprout walk: max leg swing 35.5 deg
+cap_bonk: chest x windup -14.6, strike 27.9 deg, hop z 0.21
+sprout cast: squash y 0.77 at 0.25 s, puffs 1
+sprout hop: max root y 0.16
+sprout death 0.45 s: root scale (1.3, 0.38, 1.3), puffs 2
+PASS 12.v22
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

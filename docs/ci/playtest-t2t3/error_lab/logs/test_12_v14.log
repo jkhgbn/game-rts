@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+aqueduct         tris 4812, surfaces 2, colliders 2, top 6.30 m
+barge            tris 1991, surfaces 1, colliders 0, top 2.38 m
+standing_stones  tris 4698, surfaces 3, colliders 6, top 3.50 m
+navmesh: 84 polygons, 8 colliders checked, 0 ground polygons inside, 3 unreachable top-cap polygons
+PASS 12.v14
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,130 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---- part static
+static: F4 caravan targets and earned_since checked
+static bot log (last lines):
+  [0:00] START normal bot (shadow_default), team 1, shadow
+  [0:00] TRAIN Gloom Thrall (3 workers + 1 queued)
+  [0:00] BUILD H1 triggered
+  [0:00] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+  [0:00] WIZARD casting now driven by the Commander (reaction 1.5 s)
+---- part recovery
+recovery: 0 workers, Bazaar, 3 caravans, 600 gold, 0 crystals at 0:05
+recovery: exchanged after 1 tick(s): gold 0, crystals 480
+recovery: worker queued after 2 tick(s)
+recovery bot log (last lines):
+  [0:01] START normal bot (shadow_default), team 1, shadow
+  [0:01] TRAIN Gloom Thrall (3 workers + 1 queued)
+  [0:01] BUILD H1 triggered
+  [0:01] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+  [0:01] WIZARD casting now driven by the Commander (reaction 1.5 s)
+  [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+  [0:05] RECOVERY on: 0 workers, 0 crystals, 600 gold
+  [0:05] RECOVERY: 0 workers, exchanging 600 gold -> crystals (gold 600 -> 0)
+  [0:06] TRAIN Gloom Thrall (0 workers + 1 queued, recovery)
+---- part notrips
+notrips: 0 workers, 0 soldiers, Bazaar, 3 idle caravans, 80 gold from a trip at 0:05
+notrips: conceded 123.0 s after the last trip (all-in, caravans 3, Bazaar true, winner 0)
+notrips bot log (last lines):
+  [0:01] START normal bot (shadow_default), team 1, shadow
+  [0:01] TRAIN Gloom Thrall (3 workers + 1 queued)
+  [0:01] BUILD H1 triggered
+  [0:01] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 50
+  [0:01] WIZARD casting now driven by the Commander (reaction 1.5 s)
+  [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+  [0:05] RECOVERY on: 0 workers, 0 crystals, 80 gold
+  [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+  [2:07] ALL-IN: nothing left to mine or buy (0 crystals, 0 workers, 8 nodes left)
+  [2:07] CONCEDE all-in (workers 0, soldiers 0, caravans 3, crystals 0, gold 80, all-in true)
+---- part hardstop
+hardstop: no keep, 0 workers, 0 soldiers, Bazaar, 3 caravans, 300 gold kept at 0:05
+hardstop: conceded 151.0 s after the start (hard stop, winner 0)
+hardstop bot log (last lines):
+  [2:13] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:14] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:16] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:17] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:18] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:19] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:20] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:21] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:22] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:23] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:24] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:25] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:26] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:27] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:28] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:29] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:30] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:31] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:32] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:33] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:34] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:35] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:36] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+  [2:37] CONCEDE hard stop (workers 0, soldiers 0, caravans 3, crystals 0, gold 300, all-in true)
+  [2:37] RECOVERY: 0 workers, exchanging 300 gold -> crystals (gold 300 -> 0)
+---- part trickle
+trickle: keep, Bazaar, 3 caravans, 100 trade gold every 20 s, every worker killed at 0:05
+trickle: conceded 151.0 s after the start (hard stop, workers queued meanwhile: true)
+trickle bot log (last lines):
+  [0:01] TRAIN Gloom Thrall (3 workers + 2 queued)
+  [0:06] RECOVERY on: 0 workers, 0 crystals, 100 gold
+  [0:06] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [0:07] TRAIN Gloom Thrall (0 workers + 1 queued, recovery)
+  [0:26] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [0:27] TRAIN Gloom Thrall (0 workers + 1 queued, recovery)
+  [0:28] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [0:37] HOPELESS: no soldier, no delivery for 31 s (0 workers, 10 crystals, 3 caravans): hard stop in 119 s
+  [0:46] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [0:47] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [0:50] ITEM bought ember_shard (list #1), essence 200 -> 0
+  [1:06] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [1:07] TRAIN Gloom Thrall (0 workers + 1 queued, recovery)
+  [1:08] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [1:26] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [1:27] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [1:31] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [1:46] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [1:47] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [2:06] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [2:07] TRAIN Gloom Thrall (0 workers + 1 queued, recovery)
+  [2:08] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [2:27] RECOVERY: 0 workers, exchanging 100 gold -> crystals (gold 100 -> 0)
+  [2:28] TRAIN Gloom Thrall (0 workers + 2 queued, recovery)
+  [2:37] CONCEDE hard stop (workers 0, soldiers 0, caravans 3, crystals 40, gold 0, all-in false)
+---- part starve
+starve: hire coin_cutter due at 3:00, crystals held at 200
+starve: 4 unit(s) queued in 100 s, passes at [200.000000000051, 230.000000000075, 250.000000000091, 281.000000000073]
+starve bot log (last lines):
+  [3:46] SQUAD 2 units to Mossmere Well
+  [3:50] STARVE pass: one unit through the 375-crystal reserve (100 crystals left)
+  [3:50] TRAIN Nightbolt (soldier pop 11, crystals left 100)
+  [4:00] KEEP UPGRADE to Stronghold (crystals left 0)
+  [4:01] SCOUT Grave Hound to (-24, -12) via (-12, -49)
+  [4:10] STARVE pass: one unit through the 375-crystal reserve (120 crystals left)
+  [4:10] TRAIN Shade (soldier pop 12, crystals left 120)
+  [4:12] SCOUT next (-36, -36)
+  [4:14] SCOUT next (-48, -24)
+  [4:15] BUILD X1 triggered
+  [4:15] SQUAD back: Mossmere Well done
+  [4:16] SCOUT next (-36, -48)
+  [4:18] SCOUT next (-36, 12) via (-49, -9)
+  [4:19] PLACE X1 Gloom Hall at (23, -9), 2 builder(s), crystals left 50
+  [4:25] SCOUT next (-48, 24)
+  [4:26] ATTACK #1 6 units (6 pop) str 1045 (power 1309) vs seen 0 (ready) + wizard -> SHRINE
+  [4:28] SQUAD 2 units to Rookwatch
+  [4:41] STARVE pass: one unit through the 375-crystal reserve (120 crystals left)
+  [4:41] TRAIN Shade (soldier pop 12, crystals left 120)
+  [4:43] WIZARD learns Q1 (soul_siphon rank 1) at level 2
+  [4:46] SCOUT home
+  [4:54] SQUAD back: Rookwatch done
+  [4:55] SHRINE row over (taken)
+  [4:56] EXPANSION done: 3 workers to the natural node
+  [5:00] BUILD S1 triggered
+PASS 20.A2
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

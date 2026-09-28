@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 25
+draw instances after merge: 16  ["Root/Hips/LegL/Merged", "Root/Hips/LegR/Merged", "Root/Hips/Merged", "Root/Chest/Head/Variant", "Root/Chest/Head/Merged", "Root/Chest/ArmL/Jar", "Root/Chest/ArmL/Merged", "Root/Chest/ArmR/Staff/StaffMesh", "Root/Chest/ArmR/Staff/Censer/Kettle", "Root/Chest/ArmR/Staff/Censer/Core", "Root/Chest/ArmR/Staff/Censer/Steam", "Root/Chest/ArmR/Merged", "Root/Chest/Jars", "Root/Chest/Merged", "Fx/Burst", "Shadow"]
+materials: ["res://art/units/champions/mender/mender_painted.tres", "res://art/units/champions/mender/mender_glow.tres", "res://art/units/champions/mender/mender_cloth.tres", "res://art/units/champions/mender/mender_cloth_dark.tres", "res://art/units/champions/mender/mender_pennon.tres", "res://art/units/kit/materials/unit_shadow_blob.tres"]
+vertices: 7934  ["Root/Hips/LegL/Merged 225", "Root/Hips/LegR/Merged 225", "Root/Hips/Merged 707", "Root/Chest/Head/Variant 270", "Root/Chest/Head/Merged 884", "Root/Chest/ArmL/Jar 120", "Root/Chest/ArmL/Merged 338", "Root/Chest/ArmR/Staff/StaffMesh 544", "Root/Chest/ArmR/Staff/Censer/Kettle 510", "Root/Chest/ArmR/Staff/Censer/Core 432", "Root/Chest/ArmR/Merged 338", "Root/Chest/Jars 344", "Root/Chest/Merged 2993", "Shadow 4"]
+  reference wizards/vessa vertices: 4201
+  reference wizards/ysolde vertices: 7565
+  reference nature/bloomtender vertices: 2509
+head top (A, no bun): 1.727
+recoloured surfaces (B, shadow): ["Root/Chest/Merged/1 mender_cloth", "Root/Chest/Merged/2 mender_cloth_dark", "Root/Chest/Merged/3 mender_pennon"]
+beam origin (model): (0.707, 1.915542, 0.295391)
+cast mending_draught: censer swings up to 62 deg
+cast soothing_circle: censer swings up to 74 deg
+cast lifeline: censer swings up to 60 deg
+cast something_else: censer swings up to 62 deg
+PASS 9.v4
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

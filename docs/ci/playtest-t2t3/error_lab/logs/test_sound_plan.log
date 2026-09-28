@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  static: 48 planned cues, 0 fails so far
+SCRIPT ERROR: Parse Error: Could not find type "IdleWorkerButton" in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:11)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:119)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:121)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:122)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:124)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/ui/selection_manager.gd:0)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/ui/menus/pause_menu.gd:0)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+ERROR: Failed to load script "res://scripts/ui/menus/pause_menu.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/test_sound_plan.gd:61)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _ready (res://scripts/world/main.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/world/main.gd:91)
+       [1] _process (res://tests/test_sound_plan.gd:62)
+  - navigation never finished baking
+FAIL sound_plan: 1 problem(s)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

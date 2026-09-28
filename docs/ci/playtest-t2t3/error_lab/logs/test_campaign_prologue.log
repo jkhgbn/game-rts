@@ -1,0 +1,80 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Could not find type "IdleWorkerButton" in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:11)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:119)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:121)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:122)
+SCRIPT ERROR: Parse Error: Identifier "IdleWorkerButton" not declared in the current scope.
+   at: GDScript::reload (res://scripts/ui/hud.gd:124)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/ui/selection_manager.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/ui/menus/pause_menu.gd:0)
+ERROR: Failed to load script "res://scripts/ui/menus/pause_menu.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+WARNING: More than one material in instance export the same instance shader uniform 'phase', but they do it with different indices. Only the first one (in order) will display correctly.
+   at: materials_append (servers/rendering/instance_uniforms.cpp:62)
+   GDScript backtrace (most recent call first):
+       [0] baked (res://art/cinematics/flocks/flock_kinds.gd:124)
+       [1] _make_draw (res://art/cinematics/flocks/dragon_flock.gd:502)
+       [2] rebuild (res://art/cinematics/flocks/dragon_flock.gd:101)
+       [3] _ready (res://art/cinematics/flocks/dragon_flock.gd:86)
+       [4] _launch (res://scripts/ui/menus/menu_flow.gd:124)
+       [5] play_prologue (res://scripts/ui/menus/menu_flow.gd:107)
+       [6] start_campaign_mission (res://scripts/ui/menus/menu_flow.gd:80)
+       [7] start_mission (res://scripts/ui/menus/main_menu.gd:294)
+       [8] _process (res://tests/test_campaign_prologue.gd:53)
+WARNING: More than one material in instance export the same instance shader uniform 'phase', but they do it with different indices. Only the first one (in order) will display correctly.
+   at: materials_append (servers/rendering/instance_uniforms.cpp:62)
+   GDScript backtrace (most recent call first):
+       [0] baked (res://art/cinematics/flocks/flock_kinds.gd:124)
+       [1] _make_draw (res://art/cinematics/flocks/dragon_flock.gd:502)
+       [2] rebuild (res://art/cinematics/flocks/dragon_flock.gd:101)
+       [3] _ready (res://art/cinematics/flocks/dragon_flock.gd:86)
+       [4] _launch (res://scripts/ui/menus/menu_flow.gd:124)
+       [5] play_prologue (res://scripts/ui/menus/menu_flow.gd:107)
+       [6] start_campaign_mission (res://scripts/ui/menus/menu_flow.gd:80)
+       [7] start_mission (res://scripts/ui/menus/main_menu.gd:294)
+       [8] _process (res://tests/test_campaign_prologue.gd:53)
+WARNING: More than one material in instance export the same instance shader uniform 'phase', but they do it with different indices. Only the first one (in order) will display correctly.
+   at: materials_append (servers/rendering/instance_uniforms.cpp:62)
+   GDScript backtrace (most recent call first):
+       [0] baked (res://art/cinematics/flocks/flock_kinds.gd:124)
+       [1] _make_draw (res://art/cinematics/flocks/dragon_flock.gd:502)
+       [2] rebuild (res://art/cinematics/flocks/dragon_flock.gd:101)
+       [3] _ready (res://art/cinematics/flocks/dragon_flock.gd:86)
+       [4] _launch (res://scripts/ui/menus/menu_flow.gd:124)
+       [5] play_prologue (res://scripts/ui/menus/menu_flow.gd:107)
+       [6] start_campaign_mission (res://scripts/ui/menus/menu_flow.gd:80)
+       [7] start_mission (res://scripts/ui/menus/main_menu.gd:294)
+       [8] _process (res://tests/test_campaign_prologue.gd:53)
+[cine] play prologue_3min (36 shots, 180.00 s, mode 0)
+[cine] finished prologue_3min skipped=true t=31.083
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: Mission01._ready (res://scripts/world/main.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/world/main.gd:91)
+       [1] _ready (res://scripts/world/skirmish.gd:407)
+       [2] _ready (res://scripts/campaign/mission_01.gd:253)
+       [3] _launch (res://scripts/ui/menus/menu_flow.gd:124)
+       [4] start_mission (res://scripts/ui/menus/menu_flow.gd:71)
+       [5] <anonymous lambda> (res://scripts/ui/menus/menu_flow.gd:102)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: Mission01._ready (res://scripts/world/main.gd:91)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/world/main.gd:91)
+       [1] _ready (res://scripts/world/skirmish.gd:407)
+       [2] _ready (res://scripts/campaign/mission_01.gd:253)
+       [3] _launch (res://scripts/ui/menus/menu_flow.gd:124)
+       [4] start_mission (res://scripts/ui/menus/menu_flow.gd:71)
+       [5] start_campaign_mission (res://scripts/ui/menus/menu_flow.gd:81)
+       [6] _process (res://tests/test_campaign_prologue.gd:125)
+PASS campaign_prologue
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

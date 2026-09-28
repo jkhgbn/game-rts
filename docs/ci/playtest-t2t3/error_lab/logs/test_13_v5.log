@@ -1,0 +1,34 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 11 / 11
+plain: draw instances 8, vertices 6717, lights 0, particles 0
+  Root/Mount/Neck/Merged: 3 surfaces, 244 vertices, shadow false
+  Root/Mount/Head/Merged: 8 surfaces, 2684 vertices, shadow false
+  Root/Mount/LegFL/Merged: 4 surfaces, 289 vertices, shadow false
+  Root/Mount/LegFR/Merged: 4 surfaces, 289 vertices, shadow false
+  Root/Mount/LegBL/Merged: 4 surfaces, 343 vertices, shadow false
+  Root/Mount/LegBR/Merged: 4 surfaces, 343 vertices, shadow false
+  Root/Mount/Merged: 8 surfaces, 2521 vertices, shadow true
+  Shadow: 1 surfaces, 4 vertices, shadow false
+surfaces: 36
+own materials (3): grove_stag_hide.tres, grove_stag_bloom.tres, grove_stag_antler.tres
+palette materials (8): nature_moss.tres, nature_leaf.tres, nature_bark_dark.tres, nature_glow.tres, nature_leaf_dark.tres, nature_bark.tres, nature_cloth.tres, nature_cloth_dark.tres
+rest bounds y 0.02..2.98, x -1.34..1.20, z -1.25..1.51; body top 1.93; rack x -1.34..1.20
+blossom petals: glow surfaces 1, vertices left / centre / right [175, 175, 175]
+hollow stag bounds: top 3.67, width 3.02, length 3.28 (grove: top 2.98, rack 2.54, length 2.76)
+red deer bounds: top 2.67, width 0.94, length 2.04
+seat (model space) (-0.004012, 1.646963, -0.203404)
+walk: leg swing 21.9 deg, gallop blend 0.00
+gallop: blend 1.00, bounce 0.090, seat bob 0.113, leg swing 38.0 deg, strides/s 2, neck 3.0 deg, head carried 0.076 m
+hit: body flash 0.58, leg 0.58, neck 0.58, root z -0.083
+charge: head 36.0 deg (rack levelled), lunge z 0.41, toss -34.6 deg, blossom glow 1.00 -> 2.60
+fidget: neck -1.9 -> 33.7 deg (grazing)
+barded: draw instances 8, vertices 9301, body surfaces 8 -> 9
+team colour on the barded body: [(0.85, 0.3, 0.12, 1.0), (0.3825, 0.135, 0.054, 1.0)]
+slot collisions: 0
+death: roll -27.6 -> -86.0 deg, lying bounds y -0.03..1.76, wither 0.12, blossoms 0.00, finished true
+PASS 13.v5
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+authored meshes: 8 / 8
+plain: draw instances 8, vertices 4932, lights 0, particles 0
+  Root/Mount/Head/Merged: 9 surfaces, 1395 vertices, shadow false
+  Root/Mount/LegFL/Merged: 4 surfaces, 237 vertices, shadow false
+  Root/Mount/LegFR/Merged: 4 surfaces, 237 vertices, shadow false
+  Root/Mount/LegBL/Merged: 4 surfaces, 261 vertices, shadow false
+  Root/Mount/LegBR/Merged: 4 surfaces, 261 vertices, shadow false
+  Root/Mount/Tail/Merged: 2 surfaces, 198 vertices, shadow false
+  Root/Mount/Merged: 10 surfaces, 2339 vertices, shadow true
+  Shadow: 1 surfaces, 4 vertices, shadow false
+own materials (3): roan_courser_coat.tres, roan_courser_chestnut.tres, roan_courser_wool.tres
+palette materials (11): fire_hair.tres, shadow_bone.tres, unit_eye_dark.tres, fire_fur.tres, weapon_leather.tres, weapon_brass.tres, weapon_iron.tres, fire_leather.tres, weapon_ash.tres, fire_cloth.tres, fire_cloth_dark.tres
+rest AABB y -0.01..2.20, x -0.56..0.53, z -1.19..1.45
+  FAILED: nothing below the ground at rest (-0.010)
+body merge AABB (Mount space) [P: (-0.553781, -0.394, -0.885317), S: (1.077091, 1.0835, 1.695317)]
+seat (model space) (-0.003905, 1.530416, -0.104508)
+walk: leg swing 19.9 deg, gallop blend 0.00
+gallop: blend 1.00, bounce 0.070, seat bob 0.082, leg swing 32.0 deg, strides/s 3, tail lift 26.0 deg
+hit: body flash 0.58, leg flash 0.58, root z -0.083
+charge: head 14.5 deg, lunge z 0.41, toss -29.8 deg
+graze: head 49.5 deg, lifted 2.3 deg
+team colour on the body: [(0.45, 0.75, 0.95, 1.0), (0.2025, 0.3375, 0.4275, 1.0)]
+slot collisions: 0
+death: roll -86.0 deg, lying AABB y 0.01..1.09, finished true
+FAIL 13.v6: nothing below the ground at rest (-0.010)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

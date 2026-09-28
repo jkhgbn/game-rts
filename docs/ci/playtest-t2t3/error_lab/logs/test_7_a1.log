@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT 1 [0:00] START ice_hard bot (ice_default), team 1, ice
+BOT 1 [0:00] TRAIN Rime Hauler (3 workers + 1 queued)
+BOT 1 [0:00] BUILD H1 triggered
+BOT 1 [0:00] PLACE H1 Frost Hall at (27, -45), 1 builder(s), crystals left 50
+BOT 1 [0:00] WIZARD casting now driven by the Commander (reaction 0.5 s)
+Ice bot profile ice_hard (ice_default)
+BOT 1 [0:01] TRAIN Rime Hauler (3 workers + 2 queued)
+BOT 1 [0:19] TRAIN Rime Hauler (4 workers + 2 queued)
+BOT 1 [0:50] ITEM bought frostglass_shard (list #1), essence 200 -> 0
+BOT 1 [0:55] TRAIN Rimeshield (soldier pop 0, crystals left 135)
+BOT 1 [0:56] TRAIN Shardcaster (soldier pop 0, crystals left 35)
+BOT 1 [1:00] BUILD S1 triggered
+BOT 1 [1:08] PLACE S1 Rime Spire at (37, -29), 1 builder(s), crystals left 15
+BOT 1 [1:23] TRAIN Rime Seer (soldier pop 1, crystals left 15)
+BOT 1 [1:30] SCOUT Rimeshield to (16, -6)
+BOT 1 [1:36] SCOUT next (12, 22)
+BOT 1 [1:43] TRAIN Frostbow (soldier pop 2, crystals left 15)
+BOT 1 [1:43] SCOUT next (17, 47) via (20, 32)
+BOT 1 [1:49] SCOUT next (-2, 44) via (12, 49)
+BOT 1 [1:51] BUILD W1 triggered
+BOT 1 [1:51] PLACE W1 Ice Wall at (35, -29), 1 builder(s), crystals left 45
+Ice bot at 112 s: { "gathered": true, "hall": true, "spire": true, "wall": true, "soldier": true }
+[0:00] START ice_hard bot (ice_default), team 1, ice
+[0:00] PLACE H1 Frost Hall at (27, -45), 1 builder(s), crystals left 50
+[1:08] PLACE S1 Rime Spire at (37, -29), 1 builder(s), crystals left 15
+[1:51] PLACE W1 Ice Wall at (35, -29), 1 builder(s), crystals left 45
+BOT 1 [0:02] START mission_01 bot (mission_01), team 1, shadow
+BOT 1 [0:02] TRAIN Gloom Thrall (3 workers + 1 queued)
+BOT 1 [0:02] BUILD H1 triggered
+BOT 1 [0:02] PLACE H1 Gloom Hall at (27, -45), 1 builder(s), crystals left 5050
+BOT 1 [0:02] WIZARD casting now driven by the Commander (reaction 4.0 s)
+BOT 1 [0:02] ITEM bought wisp_lantern (list #1), essence 152 -> 2
+Gloom Hall destroyed at 48 s
+BOT 1 [0:48] BUILD V1 triggered
+BOT 1 [1:04] PLACE V1 Hovel at (50, -46), 1 builder(s), crystals left 5240
+BOT 1 [1:50] WIZARD follows 1 scripted units
+scripted Shade moved 0.0 m
+normal Shade is 4.6 m from the rally
+Malrik is 4.7 m from the followed unit
+mission bot: max workers 4, max soldiers 13, attacks 0
+PASS 7.A1
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

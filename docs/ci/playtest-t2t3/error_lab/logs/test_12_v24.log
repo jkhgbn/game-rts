@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  bristleback  Ground   tris   612 surfaces 1 params []
+  bristleback  Base     tris  4623 surfaces 3 params ["wet"]
+  mirefang     Base     tris  1891 surfaces 2 params []
+  mirefang     Active   tris  3231 surfaces 2 params ["lit"]
+  mirefang     Cleared  tris  3987 surfaces 1 params []
+  gloomcap     Ground   tris   612 surfaces 1 params []
+  gloomcap     Base     tris  7561 surfaces 3 params ["lit"]
+  gloomcap     Active   tris   411 surfaces 3 params ["lit"]
+  gloomcap     Cleared  tris   278 surfaces 2 params []
+  hollow_stag  Ground   tris   612 surfaces 1 params []
+  hollow_stag  Base     tris  4888 surfaces 3 params ["lit"]
+PASS 12.v24
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
