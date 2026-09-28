@@ -240,7 +240,7 @@ When the user says "run wave N session X":
 **Godot gate (2026-09-26):** agents and scripts launch Godot through `tools/godot_run.ps1` (same arguments as the
 exe; at most 4 runs at once via a named semaphore, waits while 6+ Godot processes run, 15-min max wait). Today 20-30
 parallel Godot runs made every test slow and every perf number noise.
-**Model rule (user 2026-09-27, after a trial):** Haiku only for simple jobs (run tests, sort logs, small data edits: fast but wrong on complex code reasoning); art = Opus MEDIUM (blind effort trial winner); AI / perf / contracts = Opus high.
+**Model rule (user 2026-09-27, after a trial):** never use Haiku; art = Opus MEDIUM (blind effort trial winner); AI / perf / contracts = Opus high.
 **Effort rule (user 2026-09-26):** HIGH effort for complex code (river / nav, AI, contracts, labs like Replay),
 debugging and design specs; MEDIUM effort for serial art / VFX (another rider, a decor set in the known format),
 small test fixes and simple docs — the Art / Perf labs catch quality issues. Saves ~20-30 % of the budget on art.
