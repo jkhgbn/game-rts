@@ -1,0 +1,80 @@
+{
+	"asset": "ep2_opening",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "",
+			"id": "P1",
+			"improve": "",
+			"name": "frames",
+			"rule": "plays to the end",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "36 frames, 3.5 s cinematic time, wall 11.8 s, worst frame 407.5 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "use run_cine.ps1 record <id> (it adds --write-movie)",
+			"id": "P2",
+			"improve": "",
+			"name": "movie",
+			"rule": "Movie Maker PNG sequence + WAV outside res://",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\ep2_opening\\ep2_opening.png",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "",
+			"id": "P3",
+			"improve": "",
+			"name": "size / fps",
+			"rule": "res= and fps= honoured",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "Movie Maker frame 1600x900 (project viewport size), 10 fps; reframed to 1920x804 by the reframe pass (2.39 band crop, no bars drawn)",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 1,
+		"PASS": 2,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"play": "Playback"
+	},
+	"hash": "",
+	"hash_note": "",
+	"headless": false,
+	"id": "ep2_opening",
+	"improve_next": [],
+	"kind": "record",
+	"kingdom": "",
+	"notes": [
+		"Movie Maker writes <name>00000000.png ... + <name>.wav; convert to video only with the user's OK (no ffmpeg here)",
+		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
+	],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 15.2,
+	"shots": {},
+	"started": "2026-09-27 21:30:24",
+	"tier": "",
+	"tool": "cine",
+	"verb": "record"
+}

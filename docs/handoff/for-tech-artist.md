@@ -376,3 +376,11 @@ the Rimehorn: riding, walk, gallop, mount, thrown, z40, silhouette).
 - Gameplay uses the ranged-soldier model contract (same as ember_archer / burr_slinger: attack anim + projectile from
   gameplay). Until a scene exists the .tres points at an existing archer scene; tell gameplay (or edit `model_scene`) when
   yours lands.
+
+## From cine (2026-09-27): a public dance seek on CharacterModel
+`cine stills` freezes the stage and poses each frame at a time t, so it cannot let `play_clip` run on its own clock.
+Today `tools/cine/cine_preview.gd` `_pose_clips()` calls `play_clip` / `stop_clip`, then sets the private `_dn_t`,
+`_dn_w`, `_dn_last`, `_force_write` and calls `_animate(0.0)`. Please add a public
+`seek_clip(id: StringName, t: float, weight: float = 1.0) -> void` (pose the dance `id` at clip time `t`, blend `weight`,
+same per-instance phase / variant; `id = &""` = no dance) so cine can drop the private access. Used by the Ep 2 opening
+party (`data/cinematics/src/ep2_opening.cine`, S01-S04).

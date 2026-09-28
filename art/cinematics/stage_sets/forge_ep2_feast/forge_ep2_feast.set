@@ -1,0 +1,74 @@
+# The Victory Feast: the Emberfall watch-keep courtyard at night, dressed for a party (Episode 2 opening, B1 of
+# docs/design/episode2-opening.md). Same layout as data/cinematics/src/ep2_opening.cine: keep to the south (z +16),
+# bonfire at the centre, feast tables west / east, lantern posts + strings, the gate to the north (z -24), a dark road
+# beyond it and a faint red / blue glow on the northern horizon (the wood burning and freezing, S14).
+# 0 real lights: the glow comes from emissive parts (forge_citadel/parts) + additive glow cards (parts/glow_*.tscn).
+# Build: tools\world_forge\run_world_forge.ps1 build forge_ep2_feast   (stills: ... sheet forge_ep2_feast)
+set forge_ep2_feast  size=64x104  ground=dirt  light=nightfall  seed=12  title="The Victory Feast"
+budget draws<=200 lights<=0
+
+# the keep (faces the courtyard) and the curtain wall with the north gate
+place kit:fire_keep  at=(0,16)  yaw=180  tag=keep  lights=off
+wall  curtain  poly=[(-20,12),(-20,-24),(20,-24),(20,12)]  height=4.5  thick=1.4  gate=(0.5,-24)  gate_width=5  color=stone
+path  court  poly=[(0.5,-23),(0.5,-6)]  width=3  kit=flagstone
+path  gate_road  poly=[(0.5,-25),(0.5,-34),(-2,-48)]  width=3.6  kit=road
+
+# the feast: bonfire, tables, lanterns, banners
+place res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  at=(0,0)  scale=1.4  tag=bonfire
+place res://art/cinematics/stage_sets/forge_citadel/parts/feast_table.tscn  at=(-7.5,0)  yaw=90  tag=table_w
+place res://art/cinematics/stage_sets/forge_citadel/parts/feast_table.tscn  at=(9,3)  yaw=90  tag=table_e
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(-6,-14)  tag=lamp1
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(7.5,-14)  tag=lamp2
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(-5,10.5)  tag=lamp3
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(5,10.5)  tag=lamp4
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_string.tscn  at=(0,-14)  y=3.2
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_string.tscn  at=(0,10.5)  y=3.2
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(-3.4,-22.3)  tag=gate_l
+place res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(3.9,-22.3)  tag=gate_r
+place res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn  at=(-2.6,12.5)
+place res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn  at=(2.6,12.5)
+place forge:brazier  at=(-16,-18)
+place forge:brazier  at=(16,-18)
+place forge:brazier  at=(-16,8)
+place forge:brazier  at=(16,8)
+place forge:crate  at=(-9.5,-3.2)  yaw=15
+place forge:crate  at=(11,-0.4)  yaw=40
+place forge:crate  at=(11.6,0.8)  yaw=10
+
+# glow cards (additive billboards, no lights): bonfire, lantern heads, the strings, the gate, the horizon
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_fire.tscn  at=(0,0)  y=3.0  scale=5
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(-6,-14)  y=2.7  scale=1.8
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(7.5,-14)  y=2.7  scale=1.8
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(-5,10.5)  y=2.7  scale=1.8
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(5,10.5)  y=2.7  scale=1.8
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(-2.5,-14)  y=3.0  scale=1.1
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(2.5,-14)  y=3.0  scale=1.1
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(-2.5,10.5)  y=3.0  scale=1.1
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(2.5,10.5)  y=3.0  scale=1.1
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(-3.4,-22.3)  y=2.7  scale=1.8
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn  at=(3.9,-22.3)  y=2.7  scale=1.8
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_red.tscn  at=(-14,-51)  y=5  scale=22
+place res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_blue.tscn  at=(12,-51)  y=5  scale=22
+
+# the dark wood beyond the gate (baked: one draw per material)
+zone  courtyard  rect((-21,-25),(21,24))
+scatter kit:pine     area=rect((-31,-51),(31,-28))  count=22  gap=3.4  seed=12  avoid=cams,courtyard  scale=0.9..1.3
+scatter kit:fir      area=rect((-31,-26),(-23,20))  count=8   gap=3.0  seed=13  avoid=cams,courtyard
+scatter kit:fir      area=rect((23,-26),(31,20))    count=8   gap=3.0  seed=14  avoid=cams,courtyard
+scatter kit:boulder  area=rect((-30,-50),(30,-27))  count=8   gap=4.0  seed=15  avoid=cams,courtyard  scale=0.6..1.1
+
+# camera marks per shot id of ep2_opening.cine (the .cine names its own cam= for every shot; these match them, set-local)
+mark S01  from=(16,13,-22)  to=(10,4.5,-11)  look=(0,3,0)  look_to=(1,1.2,0)  fov=50  fov_to=44  subject=bonfire  dur=5
+mark S02  from=(9.6,1.6,-6.2)  to=(9.3,1.6,-5.8)  look=(6.2,1.4,-1.9)  fov=38  dur=5
+mark S03  from=(11,6,-14)  to=(9.5,5,-12.5)  look=(0,1.2,-1)  look_to=(-1,1.2,-1)  fov=48  subject=bonfire  dur=6
+mark S04  from=(4.2,1.0,-0.6)  to=(4.5,1.0,-0.3)  look=(7.5,1.9,3.2)  fov=40  subject=table_e  dur=4
+mark S05  from=(5,1.3,-10)  look=(0.5,1.6,-26)  fov=46  subject=gate_r  dur=3
+mark S06  from=(7,1.6,-7.2)  look=(2.8,1.4,-5.4)  fov=38  dur=6
+mark S07  from=(5,1.6,-7.4)  look=(2.8,1.5,-6.6)  fov=30  dur=5.5
+mark S08  from=(8.5,4,-9.5)  look=(2.8,1.2,-5)  fov=42  dur=6
+mark S09  from=(4.8,1.6,-6.2)  to=(4.6,1.6,-6)  look=(2.8,1.5,-4.6)  fov=32  dur=4.5
+mark S10  from=(6.6,0.9,-7.6)  look=(2.8,1.2,-5.6)  fov=38  dur=6
+mark S11  from=(5.9,1.0,-2.7)  to=(5.7,1.0,-2.9)  look=(2.8,1.4,-4.6)  fov=40  dur=6
+mark S12  from=(7.2,1.6,-5.6)  look=(3.6,1.4,-3.8)  fov=38  dur=5
+mark S13  from=(4.8,1.0,5.8)  look=(7.5,1.8,3.2)  fov=40  dur=3
+mark S14  from=(9,3,-9)  to=(18,16,-30)  look=(2.8,1.4,-5)  look_to=(1,1,-12)  fov=40  fov_to=48  subject=bonfire  dur=7

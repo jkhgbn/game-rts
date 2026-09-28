@@ -291,6 +291,7 @@ func _stills(cli: ToolCli, id: String, animatic: bool, diff: bool = false) -> in
 	var prev := CinePreview.new()
 	root.add_child(prev)
 	prev.setup(ev, p["stage"], cap.viewport, false)
+	prev.pose_clips = true
 	cap.camera.current = false
 	# freeze the models (idle fidgets, random phases) so two stills runs give the same pixels (diff / goldens)
 	# (CharacterModel seeds its idle phase from the instance id, which changes every run: pin it; no public setter yet,

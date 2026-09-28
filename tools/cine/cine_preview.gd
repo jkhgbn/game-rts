@@ -35,6 +35,10 @@ var voices := true
 var voice_db := -2.0   # Voice Forge WAVs peak at -1 dBFS; leaves room for the music bed (VoicePlayer uses -2 too)
 var music_db := -8.0
 var _voice_players: Array[AudioStreamPlayer] = []
+## Stills: pose the actors' dance clips at the still's time (the stage is frozen, cues never fire there).
+var pose_clips := false
+var _clip_events: Array[Dictionary] = []
+var _clip_scanned := false
 
 
 func setup(p_ev: CineEval, p_stage: CineStage, cam_parent: Node, overlay: bool = true) -> void:
@@ -92,8 +96,67 @@ func pose(at: float) -> void:
 		var a := ev.actor(tag, tt)
 		stage.pose_actor(tag, a["pos"], a["yaw"], a["visible"])
 	_pose_vfx(tt)
+	if pose_clips:
+		_pose_clips(tt)
 	if is_inside_tree():
 		get_tree().call_group(&"cine_timed", &"set_cine_time", tt)
+
+
+## Stills (models frozen, no cues fired): poses each actor's in-game dance clip (`clip <actor> dance_*`, stopped by
+## `anim <actor> stop_clip` / an attack / a cast) exactly as it is at `tt`, so a still shows the dance the movie plays.
+## Uses the model's own play_clip / stop_clip, then sets its clip clock and blend (CharacterModel has no public seek
+## yet: requested in docs/handoff/for-tech-artist.md) and poses it once.
+func _pose_clips(tt: float) -> void:
+	if _clip_events.is_empty() and not _clip_scanned:
+		_clip_scanned = true
+		for i: int in ev.shots.size():
+			for a: Dictionary in ev.shots[i]["actions"]:
+				var k := String(a["kind"])
+				var at: float = ev.starts[i] + float(a["at"])
+				var p: Dictionary = a["params"]
+				if k == "clip" and String(p.get("id", "")).begins_with("dance_"):
+					_clip_events.append({"t": at, "tag": String(a["actor"]), "id": String(p["id"])})
+				elif k == "anim" and String(p.get("hook", "")) in ["stop_clip", "play_attack", "play_cast", "play_mine", "play_death"]:
+					_clip_events.append({"t": at, "tag": String(a["actor"]), "id": ""})
+		_clip_events.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return float(x["t"]) < float(y["t"]))
+	var st: Dictionary = {}   # tag -> {id, t0, off}
+	var dancers: Dictionary = {}
+	for e: Dictionary in _clip_events:
+		var tag := String(e["tag"])
+		if String(e["id"]) != "":
+			dancers[tag] = true
+		if float(e["t"]) > tt:
+			continue
+		var cur: Dictionary = st.get(tag, {})
+		if String(e["id"]) != "":
+			if cur.is_empty() or cur.has("off") or String(cur["id"]) != String(e["id"]):
+				st[tag] = {"id": String(e["id"]), "t0": float(e["t"])}
+		elif not cur.is_empty() and not cur.has("off"):
+			cur["off"] = float(e["t"])
+	for tag: String in dancers:
+		var n: Node3D = stage.actors.get(tag, null)
+		if n == null or not n.has_method(&"play_clip") or not n.has_method(&"_animate") or not "_dn_t" in n:
+			continue
+		var s: Dictionary = st.get(tag, {})
+		if s.is_empty():
+			n.call(&"stop_clip")
+			n.set(&"_dn_w", 0.0)
+		else:
+			var id := StringName(String(s["id"]))
+			if StringName(n.call(&"current_clip")) != id:
+				n.call(&"play_clip", id)
+			var t0 := float(s["t0"])
+			if s.has("off"):
+				var off := float(s["off"])
+				n.call(&"stop_clip")
+				n.set(&"_dn_last", id)
+				n.set(&"_dn_t", off - t0)
+				n.set(&"_dn_w", clampf((off - t0) / 0.3, 0.0, 1.0) * clampf(1.0 - (tt - off) / 0.3, 0.0, 1.0))
+			else:
+				n.set(&"_dn_t", tt - t0)
+				n.set(&"_dn_w", clampf((tt - t0) / 0.3, 0.0, 1.0))
+		n.set(&"_force_write", true)
+		n.call(&"_animate", 0.0)
 
 
 ## Framing is authored on 16:9 (the band is the middle 2.39 strip). A wider viewport (a 1920x804 recording) keeps the

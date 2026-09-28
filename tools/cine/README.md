@@ -106,7 +106,7 @@ Actions (indented `at <seconds> <action> ...`, time from the shot start):
 | `move <actor> to=<pos> [speed=2]` | `at 1.2 move shade to=(1.2, 0, -11.5) speed=1.1` (faces the way) |
 | `teleport <actor> to=<pos> [yaw=]` / `face <actor> yaw=<deg> \| to=<actor\|pos> [time=0.3]` | |
 | `anim <actor> <play_hook> [arg=]` | `at 0.4 anim vessa play_cast arg=fireball` (hook must exist on the model: did-you-mean) |
-| `clip <actor> <clip_id>` | tool 5 clip; without tool 5 these ids fall back to hooks (WARN): `cast attack hit death level_up staff_slam draw_knife slash kneel bow point nod turn_head_left turn_head_right` |
+| `clip <actor> <clip_id>` | tool 5 clip; without tool 5 these ids fall back to hooks (WARN): `cast attack hit death level_up staff_slam draw_knife slash kneel bow point nod turn_head_left turn_head_right`. **Dances** (2026-09-27): `clip d1 dance_victory` / `dance_random` / `dance_surrender` = the unit's SAME in-game clip (`play_clip`, art/units/kit/README.md); valid when the model's `has_clip(id)` is true, else FAIL. Stop with `anim d1 stop_clip` (an attack / cast stops it too; walking fades it). Stills pose the dance at the frame's time |
 | `vfx <id> [at=] [to=] [scene=res://..]` | tool 7 id (missing tool = WARN) or any scene |
 | `sfx <res path> [vol=]` / `music <res path>` | a missing file = FAIL (under `assets/audio/forge/` without tool 9 = WARN) |
 | `fade [color=#000] [alpha=1] [time=0.5]` / `shake <0..1>` / `title "text" [sub=] [time=3]` | |

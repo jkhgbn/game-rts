@@ -2,29 +2,21 @@
 # 0:00-0:20 the victory feast at the Emberfall watch-keep (lanterns, bonfire, a dance ring) · 0:20-0:40 a young runner
 # of the Sighing Wood bursts in: Ysolde's army is destroyed (Shadow AND Ice) · 0:40-1:12 Vessa takes it in and asks
 # her army and Old Vey for help -> Episode 2 mission 1 "The Burning Grove".
-# Voice: data/voice/lines/ep2_opening.json (28 lines, same text here). Set: forge_ep2_feast (not built yet = WARN; this
-# file stages its own props so the check can frame it). Stand-ins: Vey and Ashby = Flame Guards (19.V20 / 19.V11),
+# Voice: data/voice/lines/ep2_opening.json (28 lines, same text here). Set: forge_ep2_feast (World Forge, built
+# 2026-09-27: keep, walls + north gate, bonfire, tables, lantern posts / strings, glow cards, banners, 0 lights, marks
+# S01-S14). Stand-ins: Vey and Ashby = Flame Guards (19.V20 / 19.V11),
 # the runner Wren = a Wildwood Archer, her mount = a Grove Stag (glade_outrider on the approach).
 # Axis: Vessa - Wren runs north-south (x = 2.8); every camera of the talk (S06-S13) stays east of it (+x).
+# Dances (JS 2026-09-27 "make sure they have dance and add it to cutscene"): the party uses the units' SAME in-game
+# clips (`clip <actor> dance_victory | dance_random`, art/units/kit/README.md; cine check FAILs a clip the model lacks):
+# the crowd dance_victory, a few dance_random, Vessa joins after "One dance", Old Vey claps instead (play_attack);
+# everyone stops (`anim <actor> stop_clip`) when the rider bursts in at 0:20.
 cine ep2_opening  title="Four Wizards: Episode 2 opening"  letterbox=2.39  seed=2  length=66..76
 use set forge_ep2_feast
 env night  moon_yaw=200  moon_pitch=-30  energy=0.6  color=#9fb4ff
 
-# the courtyard: keep to the south, bonfire in the middle, tables, lantern posts, the gate to the north (z -24)
-prop  keep      res://art/buildings/fire_keep.tscn  at=(0, 0, 16)
-prop  bonfire   res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  at=(0, 0, 0)  scale=1.4
-prop  table_w   res://art/cinematics/stage_sets/forge_citadel/parts/feast_table.tscn   at=(-7.5, 0, 0)  yaw=90
-prop  table_e   res://art/cinematics/stage_sets/forge_citadel/parts/feast_table.tscn   at=(9, 0, 3)  yaw=90
-prop  lamp1     res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(-5, 0, -6)
-prop  lamp2     res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(5, 0, -6)
-prop  lamp3     res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(-5, 0, 6)
-prop  lamp4     res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(5, 0, 6)
-prop  string1   res://art/cinematics/stage_sets/forge_citadel/parts/lantern_string.tscn  at=(0, 3.2, -6)
-prop  string2   res://art/cinematics/stage_sets/forge_citadel/parts/lantern_string.tscn  at=(0, 3.2, 6)
-prop  gate_l    res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(-3, 0, -24)
-prop  gate_r    res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn  at=(3, 0, -24)
-prop  banner1   res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn   at=(-3, 0, 9)
-prop  banner2   res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn   at=(3, 0, 9)
+# the courtyard lives in the set: keep to the south, bonfire in the middle, tables west / east, lantern posts + strings,
+# the gate to the north (z -24)
 
 # people (tag = speaker id where they speak)
 cast  vessa     res://art/units/wizards/vessa.tscn          at=(6, 0, -1.2)   yaw=200
@@ -38,6 +30,9 @@ cast  d2        res://art/units/fire/ember_archer.tscn      at=(0.99, 0, 3.04)  
 cast  d3        res://art/units/fire/cinder_hand.tscn       at=(-2.59, 0, 1.88)  yaw=-144
 cast  d4        res://art/units/fire/flame_guard.tscn       at=(-2.59, 0, -1.88) yaw=144
 cast  d5        res://art/units/fire/ember_archer.tscn      at=(0.99, 0, -3.04)  yaw=72
+# two more revelers dancing by the west table
+cast  r2        res://art/units/fire/cinder_hand.tscn       at=(-5.2, 0, 2.6)    yaw=120
+cast  r3        res://art/units/fire/ash_hurler.tscn        at=(-4.6, 0, -3.2)   yaw=60
 # the runner: on the stag for the approach, on foot after
 cast  rider     res://art/units/nature/glade_outrider/glade_outrider.tscn  at=(0.5, 0, -46)  yaw=0  hidden=1
 cast  stag      res://art/units/mounts/grove_stag/grove_stag.tscn          at=(0.8, 0, -13)  yaw=20  hidden=1
@@ -45,56 +40,73 @@ cast  messenger res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=
 
 # ---------------------------------------------------------------- 0:00-0:20 the feast
 # Night. Crane down over lantern strings into the courtyard: bonfire, full tables, a ring of soldiers dancing
+# (in-game dances: the ring + the revelers dance_victory, d3 / d5 / r2 / the archer dance_random; Vessa watches)
 shot S01 5.0  cam=crane  from=(16, 13, -22)  to=(10, 4.5, -11)  look=(0, 3, 0)>(1, 1.2, 0)  fov=50>44  in=fade_black:1.0
   at 0.0  music res://assets/audio/forge/music/ep2_opening.wav
   at 0.0  sfx res://assets/audio/forge/sfx/feast_crowd.wav
-  at 0.3  move d1 to=(0.99, 0, 3.04)  speed=1.3
-  at 0.3  move d2 to=(-2.59, 0, 1.88)  speed=1.3
-  at 0.3  move d3 to=(-2.59, 0, -1.88)  speed=1.3
-  at 0.3  move d4 to=(0.99, 0, -3.04)  speed=1.3
-  at 0.3  move d5 to=(3.2, 0, 0)  speed=1.3
+  at 0.0  clip d1 dance_victory
+  at 0.1  clip d2 dance_victory
+  at 0.2  clip d3 dance_random
+  at 0.0  clip d4 dance_victory
+  at 0.3  clip d5 dance_random
+  at 0.2  clip reveler dance_victory
+  at 0.4  clip ashby dance_victory
+  at 0.1  clip dancer dance_random
+  at 0.3  clip r2 dance_random
+  at 0.5  clip r3 dance_victory
   at 1.2  line reveler "To Vessa! To the Ember Queen!"  dur=3.8
   at 2.0  anim reveler play_level_up
-  at 2.6  anim d2 play_level_up
-  at 3.0  anim d4 play_level_up
-# The archer grabs Vessa's hands; they spin as a pair beside the ring
-shot S02 5.0  cam=frame "ms on vessa and dancer, 3/4 left, eye"  push=0.4
+# The archer grabs Vessa's hands; they spin as a pair beside the ring; Vessa gives in and dances (dance_victory)
+shot S02 5.0  cam=dolly  from=(10.6, 1.7, -5.4)  to=(10.1, 1.65, -4.9)  look=(6.2, 1.2, -1.9)  fov=40  faces=vessa,dancer
   at 0.3  line dancer "Come on, my queen! One dance!"  dur=2.1
   at 1.0  face vessa to=dancer  time=0.3
   at 2.1  line vessa "One dance. Then I'm eating everything."  dur=2.6
-  at 2.6  anim vessa play_level_up
+  at 2.4  clip vessa dance_victory
   at 3.0  face vessa yaw=20  time=0.4
   at 3.0  face dancer yaw=200  time=0.4
-  at 3.6  anim dancer play_level_up
   at 4.2  face vessa yaw=200  time=0.4
   at 4.2  face dancer yaw=20  time=0.4
-# Vessa spins past the fire and shouts at Old Vey, who sits at the west table clapping off the beat
+# The ring steps one place round (the dance fades while they walk, then picks up again); Vessa dances past the fire
+# and shouts at Old Vey, who sits at the west table clapping off the beat instead of dancing
 shot S03 6.0  cam=dolly  from=(11, 6, -14)  to=(9.5, 5, -12.5)  look=(0, 1.2, -1)>(-1, 1.2, -1)  fov=48  faces=vessa,vey
-  at 0.0  move d1 to=(-2.59, 0, 1.88)  speed=1.3
-  at 0.0  move d2 to=(-2.59, 0, -1.88)  speed=1.3
-  at 0.0  move d3 to=(0.99, 0, -3.04)  speed=1.3
-  at 0.0  move d4 to=(3.2, 0, 0)  speed=1.3
-  at 0.0  move d5 to=(0.99, 0, 3.04)  speed=1.3
+  at 0.0  move d1 to=(0.99, 0, 3.04)  speed=1.3
+  at 0.0  move d2 to=(-2.59, 0, 1.88)  speed=1.3
+  at 0.0  move d3 to=(-2.59, 0, -1.88)  speed=1.3
+  at 0.0  move d4 to=(0.99, 0, -3.04)  speed=1.3
+  at 0.0  move d5 to=(3.2, 0, 0)  speed=1.3
   at 0.3  line vessa "Vey! Get up and dance!"  dur=1.6
-  at 0.3  anim vessa play_level_up
   at 1.9  line vey "I felled a mountain yesterday, girl. I'll clap."  dur=4.1
+  at 1.2  anim vey play_attack
   at 2.5  anim vey play_attack
   at 3.4  anim vey play_attack
   at 4.6  anim vey play_attack
-# Ashby climbs on the east table, mug up; Vessa throws a fireball straight up: it bursts into sparks over the lanterns
+# Ashby dances by the east table, mug up; Vessa stops to throw a fireball straight up (sparks over the lanterns), then
+# dances on; at 0:19 a far horn
 shot S04 4.0  cam=frame "ms on ashby, 3/4 right, low"  push=0.3
   at 0.3  line ashby "Three relics! One Colossus! Drink!"  dur=3.7
   at 0.6  anim ashby play_level_up
   at 1.6  anim vessa play_cast  arg=fireball
   at 2.0  vfx sparks scene=res://art/cinematics/fx/fire_burst.tscn at=(2, 14, -2) life=2.0 scale=2.0
   at 2.1  sfx res://assets/audio/sfx/fireball_explode.wav
+  at 2.8  clip vessa dance_victory
   at 3.2  sfx res://assets/audio/forge/sfx/horn_far.wav
 
 # ---------------------------------------------------------------- 0:20-0:40 the messenger
-# Low at the gate: out of the dark a stag rider bursts in; lanterns swing, dancers scatter; the music dies
+# Low at the gate: out of the dark a stag rider bursts in; the dancing stops; dancers scatter; the music dies
 shot S05 3.0  cam=static  from=(5, 1.3, -10)  look=(0.5, 1.6, -26)  fov=46
   at 0.0  show rider
   at 0.0  move rider to=(0.8, 0, -13)  speed=12
+  at 0.0  anim vessa stop_clip
+  at 0.0  anim dancer stop_clip
+  at 0.1  anim d1 stop_clip
+  at 0.1  anim d4 stop_clip
+  at 0.1  anim reveler stop_clip
+  at 0.2  anim d2 stop_clip
+  at 0.2  anim d5 stop_clip
+  at 0.2  anim ashby stop_clip
+  at 0.3  anim d3 stop_clip
+  at 0.3  anim r2 stop_clip
+  at 0.3  anim r3 stop_clip
   at 0.1  sfx res://assets/audio/forge/sfx/hooves_gallop.wav
   at 0.4  line ashby "Rider at the gate! Make way!"  dur=2.6
   at 0.6  move d5 to=(2.4, 0, 4.4)  speed=3

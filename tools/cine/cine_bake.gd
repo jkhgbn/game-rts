@@ -792,6 +792,18 @@ func _action(a: Dictionary, dur: float) -> Variant:
 func _clip_ok(cid: String, l: ToolSpecLine, tag: String) -> bool:
 	if partner["motion"] == "present" and cid in _clip_ids:
 		return true
+	# the unit's own in-game clip library (dances, art/units/kit/README.md): a cutscene must use the SAME clips as the
+	# game (ideas-inbox 2026-09-27), so a clip the model answers with has_clip() is valid, one it lacks is a FAIL
+	var node: Node3D = stage.actors.get(tag, null)
+	if cid.begins_with("dance_") and stage.animatic:
+		return true
+	if node != null and node.has_method(&"has_clip"):
+		if bool(node.call(&"has_clip", StringName(cid))):
+			return true
+		if cid.begins_with("dance_"):
+			problem("FAIL", "resolve", "clip %s %s" % [tag, cid], "this model has no in-game clip %s (can_dance false?)" % cid,
+				"cutscene dances = the unit's in-game clips (play_clip)", "cast a standing biped (not a mount / seated rider) or drop the clip", l)
+			return false
 	if CLIP_FALLBACK.has(cid):
 		if partner["motion"] == "missing":
 			problem("WARN", "resolve", "clip %s %s" % [tag, cid], "tool 5 Motion Lab missing: falls back to %s" % CLIP_FALLBACK[cid][0],

@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="Gradient" id="Gradient_g"]
+offsets = PackedFloat32Array(0, 0.35, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.45, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t"]
+gradient = SubResource("Gradient_g")
+width = 64
+height = 64
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m"]
+resource_name = "GlowCard"
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+disable_receive_shadows = true
+disable_fog = true
+billboard_mode = 1
+billboard_keep_scale = true
+albedo_color = Color(1, 0.62, 0.28, 0.75)
+albedo_texture = SubResource("GradientTexture2D_t")
+
+[sub_resource type="QuadMesh" id="QuadMesh_q"]
+material = SubResource("StandardMaterial3D_m")
+size = Vector2(1, 1)
+
+[node name="glow_warm" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("QuadMesh_q")

@@ -1,0 +1,430 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_by83j"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_ep2_feast/forge_ep2_feast_lighting.tres" id="2_vohu2"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep2_feast/meshes/ground.res" id="3_gtjbs"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep2_feast/meshes/paths.res" id="4_uxt7t"]
+[ext_resource type="PackedScene" path="res://art/buildings/fire_keep.tscn" id="5_f25nu"]
+[ext_resource type="Script" path="res://art/buildings/fire_keep.gd" id="6_i3hw2"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_painted.gdshader" id="7_mv0hd"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="8_nnkdf"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_glow.gdshader" id="9_a724l"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_runes.gdshader" id="10_w87nq"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_banner.gdshader" id="11_up4ae"]
+[ext_resource type="Shader" path="res://art/buildings/fire_keep_ground.gdshader" id="12_xyk2s"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn" id="13_oxee5"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/parts/feast_table.tscn" id="14_wxw5k"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/parts/lantern_post.tscn" id="15_ipuj4"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/parts/lantern_string.tscn" id="16_ao2v8"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn" id="17_fdg8y"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_fire.tscn" id="18_j8wrs"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_warm.tscn" id="19_o1u4u"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_red.tscn" id="20_qfrbk"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep2_feast/parts/glow_blue.tscn" id="21_g85l0"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep2_feast/meshes/scatter.res" id="22_v6cbw"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep2_feast/meshes/masonry.res" id="23_y1c02"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d826m"]
+resource_local_to_scene = true
+resource_name = "FirePainted"
+render_priority = 0
+shader = ExtResource("7_mv0hd")
+shader_parameter/base_colors = PackedColorArray(0.33, 0.28, 0.25, 1, 0.1, 0.08, 0.09, 1, 0.17, 0.14, 0.13, 1, 0.66, 0.43, 0.17, 1, 0.85, 0.3, 0.12, 1)
+shader_parameter/spec_strengths = PackedFloat32Array(0, 0.4, 0, 0.45, 0.12)
+shader_parameter/crack_strengths = PackedFloat32Array(0.55, 1, 0, 0, 0)
+shader_parameter/patterns = PackedInt32Array(1, 3, 1, 4, 2)
+shader_parameter/block_sizes = PackedVector2Array(1, 0.5, 1, 1, 0.8, 0.42, 1.1, 10, 0.5, 0.34)
+shader_parameter/joint_widths = PackedFloat32Array(0.07, 0.07, 0.06, 0.05, 0.05)
+shader_parameter/block_tints = PackedFloat32Array(0.18, 0.18, 0.26, 0.2, 0.24)
+shader_parameter/noise_tex = ExtResource("8_nnkdf")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/rim_color = Color(0.55, 0.65, 0.85, 1)
+shader_parameter/rim_strength = 0.25
+shader_parameter/crack_color = Color(1, 0.5, 0.12, 1)
+shader_parameter/crack_speed = 1.2
+shader_parameter/crack_scale = 0.8
+shader_parameter/damage = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3eenh"]
+resource_local_to_scene = true
+resource_name = "FireGlow"
+render_priority = 0
+shader = ExtResource("9_a724l")
+shader_parameter/noise_tex = ExtResource("8_nnkdf")
+shader_parameter/boost = 1.0
+shader_parameter/gate_boost = 1.0
+shader_parameter/core_boost = 1.0
+shader_parameter/team_glow = Color(1, 0.6, 0.18, 1)
+shader_parameter/glow_color = Color(1, 0.55, 0.15, 1)
+shader_parameter/window_color = Color(1, 0.45, 0.1, 1)
+shader_parameter/window_hot = Color(1, 0.85, 0.45, 1)
+shader_parameter/window_energy = 2.3
+shader_parameter/heart_color = Color(1, 0.5, 0.12, 1)
+shader_parameter/heart_core = Color(1, 0.9, 0.6, 1)
+shader_parameter/heart_energy = 3.6
+shader_parameter/heart_pulse_speed = 4.2
+shader_parameter/lava_core = Color(1, 0.86, 0.45, 1)
+shader_parameter/lava_hot = Color(1, 0.42, 0.08, 1)
+shader_parameter/lava_crust = Color(0.16, 0.05, 0.03, 1)
+shader_parameter/lava_energy = 2.4
+shader_parameter/lava_flow_speed = 0.45
+shader_parameter/lava_agitation = 0.0
+shader_parameter/lava_cool = 0.0
+shader_parameter/void_color = Color(0.035, 0.015, 0.01, 1)
+shader_parameter/outline_energy = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rlq03"]
+resource_local_to_scene = true
+resource_name = "Runes"
+render_priority = 0
+shader = ExtResource("10_w87nq")
+shader_parameter/glow_color = Color(1, 0.6, 0.18, 1)
+shader_parameter/energy = 2.6
+shader_parameter/cells = 26.0
+shader_parameter/boost = 1.0
+shader_parameter/pulse_speed = 1.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ognt6"]
+resource_local_to_scene = true
+resource_name = "Banner"
+render_priority = 0
+shader = ExtResource("11_up4ae")
+shader_parameter/cloth_color = Color(0.85, 0.3, 0.12, 1)
+shader_parameter/stripe_color = Color(0.55, 0.08, 0.05, 1)
+shader_parameter/trim_color = Color(0.8, 0.55, 0.22, 1)
+shader_parameter/glyph_color = Color(1, 0.75, 0.3, 1)
+shader_parameter/glyph_energy = 0.9
+shader_parameter/amplitude = 0.11
+shader_parameter/speed = 2.4
+shader_parameter/rim_color = Color(0.89500004, 0.51, 0.384, 1)
+shader_parameter/rim_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_873du"]
+resource_local_to_scene = true
+resource_name = "Ground"
+render_priority = -1
+shader = ExtResource("12_xyk2s")
+shader_parameter/noise_tex = ExtResource("8_nnkdf")
+shader_parameter/scorch_color = Color(0.05, 0.03, 0.02, 0.66)
+shader_parameter/crack_color = Color(1, 0.45, 0.1, 1)
+shader_parameter/crack_energy = 2.2
+shader_parameter/rune_energy = 1.3
+shader_parameter/darkness = 0.0
+shader_parameter/size_m = 13.0
+
+[node name="forge_ep2_feast" type="Node3D" unique_id=1164656164]
+script = ExtResource("1_by83j")
+set_id = &"forge_ep2_feast"
+lighting = ExtResource("2_vohu2")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/bonfire"), NodePath("Placed/table_w"), NodePath("Placed/table_e"), NodePath("Placed/lamp1"), NodePath("Placed/lamp2"), NodePath("Placed/lamp3"), NodePath("Placed/lamp4"), NodePath("Placed/lantern_string_1"), NodePath("Placed/lantern_string_2"), NodePath("Placed/gate_l"), NodePath("Placed/gate_r"), NodePath("Placed/banner_fire_1"), NodePath("Placed/banner_fire_2"), NodePath("Placed/glow_fire_1"), NodePath("Placed/glow_warm_1"), NodePath("Placed/glow_warm_2"), NodePath("Placed/glow_warm_3"), NodePath("Placed/glow_warm_4"), NodePath("Placed/glow_warm_5"), NodePath("Placed/glow_warm_6"), NodePath("Placed/glow_warm_7"), NodePath("Placed/glow_warm_8"), NodePath("Placed/glow_warm_9"), NodePath("Placed/glow_warm_10"), NodePath("Placed/glow_red_1"), NodePath("Placed/glow_blue_1")])
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1059411985]
+gi_mode = 0
+mesh = ExtResource("3_gtjbs")
+
+[node name="Paths" type="MeshInstance3D" parent="." unique_id=921570857]
+gi_mode = 0
+mesh = ExtResource("4_uxt7t")
+
+[node name="Placed" type="Node3D" parent="." unique_id=1021100520]
+
+[node name="keep" type="Node3D" parent="Placed" unique_id=1190447692 instance=ExtResource("5_f25nu")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 16)
+script = ExtResource("6_i3hw2")
+painted_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_d826m")])
+glow_materials = Array[ShaderMaterial]([SubResource("ShaderMaterial_3eenh"), SubResource("ShaderMaterial_rlq03")])
+gate_material = SubResource("ShaderMaterial_3eenh")
+cap_material = SubResource("ShaderMaterial_d826m")
+banner_material = SubResource("ShaderMaterial_ognt6")
+crystal_material = SubResource("ShaderMaterial_3eenh")
+heart_material = SubResource("ShaderMaterial_3eenh")
+ground_material = SubResource("ShaderMaterial_873du")
+lava_material = SubResource("ShaderMaterial_3eenh")
+rune_material = SubResource("ShaderMaterial_rlq03")
+
+[node name="bonfire" type="Node3D" parent="Placed" unique_id=984822497 instance=ExtResource("13_oxee5")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
+
+[node name="table_w" type="Node3D" parent="Placed" unique_id=1587493241 instance=ExtResource("14_wxw5k")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.5, 0, 0)
+
+[node name="table_e" type="Node3D" parent="Placed" unique_id=1249465353 instance=ExtResource("14_wxw5k")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 9, 0, 3)
+
+[node name="lamp1" type="Node3D" parent="Placed" unique_id=36937199 instance=ExtResource("15_ipuj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -14)
+
+[node name="lamp2" type="Node3D" parent="Placed" unique_id=738032179 instance=ExtResource("15_ipuj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, -14)
+
+[node name="lamp3" type="Node3D" parent="Placed" unique_id=485312125 instance=ExtResource("15_ipuj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 10.5)
+
+[node name="lamp4" type="Node3D" parent="Placed" unique_id=1474276658 instance=ExtResource("15_ipuj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 10.5)
+
+[node name="lantern_string_1" type="Node3D" parent="Placed" unique_id=1587213334 instance=ExtResource("16_ao2v8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, -14)
+
+[node name="lantern_string_2" type="Node3D" parent="Placed" unique_id=1209639762 instance=ExtResource("16_ao2v8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 10.5)
+
+[node name="gate_l" type="Node3D" parent="Placed" unique_id=1153929789 instance=ExtResource("15_ipuj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4, 0, -22.3)
+
+[node name="gate_r" type="Node3D" parent="Placed" unique_id=467480486 instance=ExtResource("15_ipuj4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9, 0, -22.3)
+
+[node name="banner_fire_1" type="Node3D" parent="Placed" unique_id=442501477 instance=ExtResource("17_fdg8y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 0, 12.5)
+
+[node name="banner_fire_2" type="Node3D" parent="Placed" unique_id=1633664682 instance=ExtResource("17_fdg8y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 12.5)
+
+[node name="glow_fire_1" type="Node3D" parent="Placed" unique_id=1433320002 instance=ExtResource("18_j8wrs")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 3, 0)
+
+[node name="glow_warm_1" type="Node3D" parent="Placed" unique_id=513170758 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -6, 2.7, -14)
+
+[node name="glow_warm_2" type="Node3D" parent="Placed" unique_id=1165882435 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 7.5, 2.7, -14)
+
+[node name="glow_warm_3" type="Node3D" parent="Placed" unique_id=670735651 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -5, 2.7, 10.5)
+
+[node name="glow_warm_4" type="Node3D" parent="Placed" unique_id=1292443200 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 5, 2.7, 10.5)
+
+[node name="glow_warm_5" type="Node3D" parent="Placed" unique_id=146740633 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -2.5, 3, -14)
+
+[node name="glow_warm_6" type="Node3D" parent="Placed" unique_id=1982540526 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 2.5, 3, -14)
+
+[node name="glow_warm_7" type="Node3D" parent="Placed" unique_id=59727103 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -2.5, 3, 10.5)
+
+[node name="glow_warm_8" type="Node3D" parent="Placed" unique_id=443548028 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 2.5, 3, 10.5)
+
+[node name="glow_warm_9" type="Node3D" parent="Placed" unique_id=81713423 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -3.4, 2.7, -22.3)
+
+[node name="glow_warm_10" type="Node3D" parent="Placed" unique_id=961994084 instance=ExtResource("19_o1u4u")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 3.9, 2.7, -22.3)
+
+[node name="glow_red_1" type="Node3D" parent="Placed" unique_id=1290363289 instance=ExtResource("20_qfrbk")]
+transform = Transform3D(22, 0, 0, 0, 22, 0, 0, 0, 22, -14, 5, -51)
+
+[node name="glow_blue_1" type="Node3D" parent="Placed" unique_id=356422072 instance=ExtResource("21_g85l0")]
+transform = Transform3D(22, 0, 0, 0, 22, 0, 0, 0, 22, 12, 5, -51)
+
+[node name="Puppets" type="Node3D" parent="." unique_id=1253026307]
+
+[node name="Scatter" type="MeshInstance3D" parent="." unique_id=451940672]
+gi_mode = 0
+mesh = ExtResource("22_v6cbw")
+
+[node name="Masonry" type="MeshInstance3D" parent="." unique_id=1974006600]
+gi_mode = 0
+mesh = ExtResource("23_y1c02")
+
+[node name="Shots" type="Node3D" parent="." unique_id=1171521774]
+
+[node name="S01_from" type="Marker3D" parent="Shots" unique_id=946603068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 13, -22)
+metadata/fov = 50.0
+
+[node name="S01_to" type="Marker3D" parent="Shots" unique_id=303735634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4.5, -11)
+metadata/fov = 44.0
+
+[node name="S01_look_from" type="Marker3D" parent="Shots" unique_id=2042793837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="S01_look_to" type="Marker3D" parent="Shots" unique_id=414293642]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.2, 0)
+
+[node name="S02_from" type="Marker3D" parent="Shots" unique_id=1493712267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.6, 1.6, -6.2)
+metadata/fov = 38.0
+
+[node name="S02_to" type="Marker3D" parent="Shots" unique_id=791734662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.3, 1.6, -5.8)
+metadata/fov = 38.0
+
+[node name="S02_look_from" type="Marker3D" parent="Shots" unique_id=265765118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 1.4, -1.9)
+
+[node name="S02_look_to" type="Marker3D" parent="Shots" unique_id=1805054740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 1.4, -1.9)
+
+[node name="S03_from" type="Marker3D" parent="Shots" unique_id=2043489609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 6, -14)
+metadata/fov = 48.0
+
+[node name="S03_to" type="Marker3D" parent="Shots" unique_id=58088474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 5, -12.5)
+metadata/fov = 48.0
+
+[node name="S03_look_from" type="Marker3D" parent="Shots" unique_id=139289119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1)
+
+[node name="S03_look_to" type="Marker3D" parent="Shots" unique_id=1902736458]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.2, -1)
+
+[node name="S04_from" type="Marker3D" parent="Shots" unique_id=367403254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 1, -0.6)
+metadata/fov = 40.0
+
+[node name="S04_to" type="Marker3D" parent="Shots" unique_id=1566604140]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1, -0.3)
+metadata/fov = 40.0
+
+[node name="S04_look_from" type="Marker3D" parent="Shots" unique_id=1635104329]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.9, 3.2)
+
+[node name="S04_look_to" type="Marker3D" parent="Shots" unique_id=1932554305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.9, 3.2)
+
+[node name="S05_from" type="Marker3D" parent="Shots" unique_id=5772200]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.3, -10)
+metadata/fov = 46.0
+
+[node name="S05_to" type="Marker3D" parent="Shots" unique_id=232526013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.3, -10)
+metadata/fov = 46.0
+
+[node name="S05_look_from" type="Marker3D" parent="Shots" unique_id=944253989]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.6, -26)
+
+[node name="S05_look_to" type="Marker3D" parent="Shots" unique_id=2054642045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.6, -26)
+
+[node name="S06_from" type="Marker3D" parent="Shots" unique_id=1220443332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.6, -7.2)
+metadata/fov = 38.0
+
+[node name="S06_to" type="Marker3D" parent="Shots" unique_id=939940160]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.6, -7.2)
+metadata/fov = 38.0
+
+[node name="S06_look_from" type="Marker3D" parent="Shots" unique_id=1742602771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.4, -5.4)
+
+[node name="S06_look_to" type="Marker3D" parent="Shots" unique_id=1557310767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.4, -5.4)
+
+[node name="S07_from" type="Marker3D" parent="Shots" unique_id=1731699284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.6, -7.4)
+metadata/fov = 30.0
+
+[node name="S07_to" type="Marker3D" parent="Shots" unique_id=1576132822]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.6, -7.4)
+metadata/fov = 30.0
+
+[node name="S07_look_from" type="Marker3D" parent="Shots" unique_id=1460255763]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.5, -6.6)
+
+[node name="S07_look_to" type="Marker3D" parent="Shots" unique_id=76061092]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.5, -6.6)
+
+[node name="S08_from" type="Marker3D" parent="Shots" unique_id=171983036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 4, -9.5)
+metadata/fov = 42.0
+
+[node name="S08_to" type="Marker3D" parent="Shots" unique_id=226859040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 4, -9.5)
+metadata/fov = 42.0
+
+[node name="S08_look_from" type="Marker3D" parent="Shots" unique_id=2134963154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.2, -5)
+
+[node name="S08_look_to" type="Marker3D" parent="Shots" unique_id=25215563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.2, -5)
+
+[node name="S09_from" type="Marker3D" parent="Shots" unique_id=1062717025]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8, 1.6, -6.2)
+metadata/fov = 32.0
+
+[node name="S09_to" type="Marker3D" parent="Shots" unique_id=466552260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 1.6, -6)
+metadata/fov = 32.0
+
+[node name="S09_look_from" type="Marker3D" parent="Shots" unique_id=82263525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.5, -4.6)
+
+[node name="S09_look_to" type="Marker3D" parent="Shots" unique_id=1611049843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.5, -4.6)
+
+[node name="S10_from" type="Marker3D" parent="Shots" unique_id=2003929661]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0.9, -7.6)
+metadata/fov = 38.0
+
+[node name="S10_to" type="Marker3D" parent="Shots" unique_id=283212597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0.9, -7.6)
+metadata/fov = 38.0
+
+[node name="S10_look_from" type="Marker3D" parent="Shots" unique_id=1732819098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.2, -5.6)
+
+[node name="S10_look_to" type="Marker3D" parent="Shots" unique_id=1228213802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.2, -5.6)
+
+[node name="S11_from" type="Marker3D" parent="Shots" unique_id=957751897]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9, 1, -2.7)
+metadata/fov = 40.0
+
+[node name="S11_to" type="Marker3D" parent="Shots" unique_id=1801927840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7, 1, -2.9)
+metadata/fov = 40.0
+
+[node name="S11_look_from" type="Marker3D" parent="Shots" unique_id=17674359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.4, -4.6)
+
+[node name="S11_look_to" type="Marker3D" parent="Shots" unique_id=669396672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.4, -4.6)
+
+[node name="S12_from" type="Marker3D" parent="Shots" unique_id=1068701710]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 1.6, -5.6)
+metadata/fov = 38.0
+
+[node name="S12_to" type="Marker3D" parent="Shots" unique_id=611134583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 1.6, -5.6)
+metadata/fov = 38.0
+
+[node name="S12_look_from" type="Marker3D" parent="Shots" unique_id=378089545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1.4, -3.8)
+
+[node name="S12_look_to" type="Marker3D" parent="Shots" unique_id=902911226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1.4, -3.8)
+
+[node name="S13_from" type="Marker3D" parent="Shots" unique_id=2088221903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8, 1, 5.8)
+metadata/fov = 40.0
+
+[node name="S13_to" type="Marker3D" parent="Shots" unique_id=1082192717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8, 1, 5.8)
+metadata/fov = 40.0
+
+[node name="S13_look_from" type="Marker3D" parent="Shots" unique_id=103830351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.8, 3.2)
+
+[node name="S13_look_to" type="Marker3D" parent="Shots" unique_id=231570711]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.8, 3.2)
+
+[node name="S14_from" type="Marker3D" parent="Shots" unique_id=570854372]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3, -9)
+metadata/fov = 40.0
+
+[node name="S14_to" type="Marker3D" parent="Shots" unique_id=1730354439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 16, -30)
+metadata/fov = 48.0
+
+[node name="S14_look_from" type="Marker3D" parent="Shots" unique_id=925166531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.4, -5)
+
+[node name="S14_look_to" type="Marker3D" parent="Shots" unique_id=1354157953]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -12)
