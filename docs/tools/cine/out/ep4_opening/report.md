@@ -1,10 +1,10 @@
 # cine build: ep4_opening
 
-2026-09-28 18:25:45 - `tools/cine/run_cine.ps1 build ep4_opening` - hash `b7769bb7010d056a` (2 runs identical)
+2026-09-28 18:46:45 - `tools/cine/run_cine.ps1 build ep4_opening` - hash `b7769bb7010d056a` (2 runs identical)
 
 ## Result: **PASS** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 0 WARN, 35 PASS, 25 info, 0 skipped, 5 s
+0 FAIL, 0 WARN, 35 PASS, 25 info, 0 skipped, 14 s
 
 ## Improve next
 1. **S02 face ysolde** (PASS): keep ysolde nearer the band centre in S02 _(from F2 S02 face ysolde, shot S02)_

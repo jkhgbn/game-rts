@@ -2,9 +2,9 @@
 
 [ext_resource type="MultiMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/mm/em_flowers.res" id="1_6i0k2"]
 
-[node name="em_flowers" type="Node3D" unique_id=1940909843]
+[node name="em_flowers" type="Node3D" unique_id=271806123]
 
-[node name="Instances" type="MultiMeshInstance3D" parent="." unique_id=1672746053]
+[node name="Instances" type="MultiMeshInstance3D" parent="." unique_id=2126488256]
 cast_shadow = 0
 gi_mode = 0
 multimesh = ExtResource("1_6i0k2")

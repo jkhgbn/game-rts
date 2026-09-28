@@ -2,9 +2,9 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/em_reeds.res" id="1_wyjf5"]
 
-[node name="em_reeds" type="Node3D" unique_id=835316343]
+[node name="em_reeds" type="Node3D" unique_id=2019681988]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1989398944]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1861072703]
 cast_shadow = 0
 gi_mode = 0
 mesh = ExtResource("1_wyjf5")

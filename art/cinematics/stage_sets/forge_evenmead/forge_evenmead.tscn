@@ -50,23 +50,23 @@
 [ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_evenmead/parts/em_birds.tscn" id="48_7kmyw"]
 [ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_evenmead/parts/em_far.tscn" id="49_qigp7"]
 
-[node name="forge_evenmead" type="Node3D" unique_id=2097203350]
+[node name="forge_evenmead" type="Node3D" unique_id=829784083]
 script = ExtResource("1_6g4lr")
 set_id = &"forge_evenmead"
 lighting = ExtResource("2_y62fy")
 lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/master_tree"), NodePath("Placed/banner_n"), NodePath("Placed/banner_s"), NodePath("Placed/stone_pt"), NodePath("Placed/bloom_pt"), NodePath("Puppets/malrik"), NodePath("Puppets/torvald"), NodePath("Puppets/hush"), NodePath("Puppets/ysolde"), NodePath("Puppets/vessa"), NodePath("Puppets/vey"), NodePath("Puppets/stone"), NodePath("Puppets/bloom"), NodePath("Puppets/army_shadow"), NodePath("Puppets/army_ice"), NodePath("Puppets/army_nature"), NodePath("Puppets/army_fire"), NodePath("Puppets/w_ground"), NodePath("Puppets/w_grass_near"), NodePath("Puppets/w_grass_mid"), NodePath("Puppets/w_grass_far"), NodePath("Puppets/w_grass_tall"), NodePath("Puppets/w_flowers"), NodePath("Puppets/w_oak0"), NodePath("Puppets/w_oak1"), NodePath("Puppets/w_oak2"), NodePath("Puppets/w_birch"), NodePath("Puppets/w_shrub0"), NodePath("Puppets/w_shrub1"), NodePath("Puppets/w_farwood"), NodePath("Puppets/w_river"), NodePath("Puppets/w_riverbed"), NodePath("Puppets/w_reeds"), NodePath("Puppets/w_camps"), NodePath("Puppets/w_mist"), NodePath("Puppets/w_glow"), NodePath("Puppets/w_rays"), NodePath("Puppets/w_birds"), NodePath("Puppets/w_far")])
 
-[node name="Ground" type="MeshInstance3D" parent="." unique_id=34366582]
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1161913174]
 gi_mode = 0
 mesh = ExtResource("3_pxiby")
 
-[node name="TerrainBody" type="StaticBody3D" parent="." unique_id=469628154]
+[node name="TerrainBody" type="StaticBody3D" parent="." unique_id=919353388]
 collision_mask = 0
 
-[node name="Shape" type="CollisionShape3D" parent="TerrainBody" unique_id=1426383954]
+[node name="Shape" type="CollisionShape3D" parent="TerrainBody" unique_id=771598013]
 shape = ExtResource("4_ce528")
 
-[node name="Placed" type="Node3D" parent="." unique_id=1136948222]
+[node name="Placed" type="Node3D" parent="." unique_id=1144651480]
 
 [node name="ford_stones" type="Node3D" parent="Placed" unique_id=1287974121 groups=["landmarks"] instance=ExtResource("5_5830c")]
 transform = Transform3D(0.90630776, 0, 0.42261827, 0, 1, 0, -0.42261827, 0, 0.90630776, 12, -0.02048108, 9)
@@ -74,24 +74,24 @@ metadata/landmark_id = &"lm_stones"
 metadata/decor_clear_radius = 4.3
 metadata/foam_rocks = PackedVector3Array()
 
-[node name="master_tree" type="Node3D" parent="Placed" unique_id=39514814 instance=ExtResource("6_er1tm")]
+[node name="master_tree" type="Node3D" parent="Placed" unique_id=483524087 instance=ExtResource("6_er1tm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 6.826885, 48.5)
 
-[node name="banner_n" type="Node3D" parent="Placed" unique_id=525009339 instance=ExtResource("7_vcxef")]
+[node name="banner_n" type="Node3D" parent="Placed" unique_id=1598936549 instance=ExtResource("7_vcxef")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6, 2.7847013, -25.6)
 
-[node name="banner_s" type="Node3D" parent="Placed" unique_id=1642315660 instance=ExtResource("8_c0yr0")]
+[node name="banner_s" type="Node3D" parent="Placed" unique_id=2106837781 instance=ExtResource("8_c0yr0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.82365483, 21.5)
 
-[node name="stone_pt" type="Node3D" parent="Placed" unique_id=1855891782 instance=ExtResource("9_tmfbk")]
+[node name="stone_pt" type="Node3D" parent="Placed" unique_id=118543096 instance=ExtResource("9_tmfbk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42, 8.84, -35.38)
 
-[node name="bloom_pt" type="Node3D" parent="Placed" unique_id=762486157 instance=ExtResource("9_tmfbk")]
+[node name="bloom_pt" type="Node3D" parent="Placed" unique_id=2038420335 instance=ExtResource("9_tmfbk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 4.75, 32.4)
 
-[node name="Puppets" type="Node3D" parent="." unique_id=1644017910]
+[node name="Puppets" type="Node3D" parent="." unique_id=692135469]
 
-[node name="malrik" type="Node3D" parent="Puppets" unique_id=1731996537 instance=ExtResource("10_sacil")]
+[node name="malrik" type="Node3D" parent="Puppets" unique_id=709909773 instance=ExtResource("10_sacil")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.4342318, -36)
 script = ExtResource("11_5icj8")
 light_energy = 1.0
@@ -103,7 +103,7 @@ stride_time = 1.1
 stride_speed = 4.4
 kingdom_color = Color(0.42, 0.22, 0.6, 1)
 
-[node name="torvald" type="Node3D" parent="Puppets" unique_id=739362769 instance=ExtResource("12_s642u")]
+[node name="torvald" type="Node3D" parent="Puppets" unique_id=1662264415 instance=ExtResource("12_s642u")]
 transform = Transform3D(0.99026805, 0, 0.1391731, 0, 1, 0, -0.1391731, 0, 0.99026805, -3.4, 7.4342318, -37)
 script = ExtResource("13_kbsmx")
 body_height = 2.1
@@ -116,7 +116,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 24.0
 walk_bounce = 0.05
 
-[node name="hush" type="Node3D" parent="Puppets" unique_id=1793622261 instance=ExtResource("14_ao2uw")]
+[node name="hush" type="Node3D" parent="Puppets" unique_id=1199135095 instance=ExtResource("14_ao2uw")]
 transform = Transform3D(0.9945219, 0, -0.104528464, 0, 1, 0, 0.104528464, 0, 0.9945219, 2.8, 7.4342318, -37.5)
 script = ExtResource("15_oqej1")
 light_energy = 0.0
@@ -128,7 +128,7 @@ stride_speed = 5.2
 kingdom_color = Color(0.42, 0.22, 0.6, 1)
 leg_swing_deg = 32.0
 
-[node name="ysolde" type="Node3D" parent="Puppets" unique_id=1662050548 instance=ExtResource("16_0ggp0")]
+[node name="ysolde" type="Node3D" parent="Puppets" unique_id=413973485 instance=ExtResource("16_0ggp0")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -5, 4.5060773, 34)
 script = ExtResource("17_524lw")
 body_height = 2.0
@@ -139,7 +139,7 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="vessa" type="Node3D" parent="Puppets" unique_id=1964761224 instance=ExtResource("18_m1xg5")]
+[node name="vessa" type="Node3D" parent="Puppets" unique_id=1530791783 instance=ExtResource("18_m1xg5")]
 transform = Transform3D(-0.99026805, 0, -0.1391731, 0, 1, 0, 0.1391731, 0, -0.99026805, -1.6, 4.5060773, 35)
 script = ExtResource("19_ylr5g")
 body_height = 2.0
@@ -147,7 +147,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="vey" type="Node3D" parent="Puppets" unique_id=956243335 instance=ExtResource("20_im1ij")]
+[node name="vey" type="Node3D" parent="Puppets" unique_id=492238062 instance=ExtResource("20_im1ij")]
 transform = Transform3D(-0.9975641, 0, 0.06975647, 0, 1, 0, -0.06975647, 0, -0.9975641, -8.4, 4.5062175, 35.5)
 script = ExtResource("21_cbpfe")
 light_energy = 0.0
@@ -159,7 +159,7 @@ leg_swing_deg = 30.0
 [node name="stone" type="Node3D" parent="Puppets" unique_id=811303761 instance=ExtResource("22_nod1c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42, 8.78, -35.38)
 
-[node name="bloom" type="Node3D" parent="Puppets" unique_id=1379056170 instance=ExtResource("23_x2cjv")]
+[node name="bloom" type="Node3D" parent="Puppets" unique_id=914015607 instance=ExtResource("23_x2cjv")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -6.3, 4.5060773, 32.4)
 
 [node name="army_shadow" type="Node3D" parent="Puppets" unique_id=1736696233 instance=ExtResource("24_krvla")]
@@ -170,286 +170,286 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -6.3
 
 [node name="army_fire" type="Node3D" parent="Puppets" unique_id=395489392 instance=ExtResource("27_pprw1")]
 
-[node name="w_ground" type="Node3D" parent="Puppets" unique_id=839579170 instance=ExtResource("28_ws2of")]
+[node name="w_ground" type="Node3D" parent="Puppets" unique_id=1229653663 instance=ExtResource("28_ws2of")]
 
-[node name="w_grass_near" type="Node3D" parent="Puppets" unique_id=714539296 instance=ExtResource("29_ovd6f")]
+[node name="w_grass_near" type="Node3D" parent="Puppets" unique_id=290443471 instance=ExtResource("29_ovd6f")]
 
-[node name="w_grass_mid" type="Node3D" parent="Puppets" unique_id=264211210 instance=ExtResource("30_lt5q8")]
+[node name="w_grass_mid" type="Node3D" parent="Puppets" unique_id=266565819 instance=ExtResource("30_lt5q8")]
 
-[node name="w_grass_far" type="Node3D" parent="Puppets" unique_id=647991959 instance=ExtResource("31_35l3x")]
+[node name="w_grass_far" type="Node3D" parent="Puppets" unique_id=885465335 instance=ExtResource("31_35l3x")]
 
-[node name="w_grass_tall" type="Node3D" parent="Puppets" unique_id=846954278 instance=ExtResource("32_o8xxo")]
+[node name="w_grass_tall" type="Node3D" parent="Puppets" unique_id=2025938224 instance=ExtResource("32_o8xxo")]
 
-[node name="w_flowers" type="Node3D" parent="Puppets" unique_id=1940909843 instance=ExtResource("33_0jaqg")]
+[node name="w_flowers" type="Node3D" parent="Puppets" unique_id=271806123 instance=ExtResource("33_0jaqg")]
 
-[node name="w_oak0" type="Node3D" parent="Puppets" unique_id=1846181566 instance=ExtResource("34_7xb4i")]
+[node name="w_oak0" type="Node3D" parent="Puppets" unique_id=1117055431 instance=ExtResource("34_7xb4i")]
 
-[node name="w_oak1" type="Node3D" parent="Puppets" unique_id=702473802 instance=ExtResource("35_652xx")]
+[node name="w_oak1" type="Node3D" parent="Puppets" unique_id=109514775 instance=ExtResource("35_652xx")]
 
-[node name="w_oak2" type="Node3D" parent="Puppets" unique_id=709642116 instance=ExtResource("36_hye3f")]
+[node name="w_oak2" type="Node3D" parent="Puppets" unique_id=1690479188 instance=ExtResource("36_hye3f")]
 
-[node name="w_birch" type="Node3D" parent="Puppets" unique_id=1162886144 instance=ExtResource("37_xtyxi")]
+[node name="w_birch" type="Node3D" parent="Puppets" unique_id=825608259 instance=ExtResource("37_xtyxi")]
 
-[node name="w_shrub0" type="Node3D" parent="Puppets" unique_id=312680174 instance=ExtResource("38_0umlb")]
+[node name="w_shrub0" type="Node3D" parent="Puppets" unique_id=1803950549 instance=ExtResource("38_0umlb")]
 
-[node name="w_shrub1" type="Node3D" parent="Puppets" unique_id=1244065204 instance=ExtResource("39_offrn")]
+[node name="w_shrub1" type="Node3D" parent="Puppets" unique_id=1691166593 instance=ExtResource("39_offrn")]
 
-[node name="w_farwood" type="Node3D" parent="Puppets" unique_id=514278577 instance=ExtResource("40_57pbn")]
+[node name="w_farwood" type="Node3D" parent="Puppets" unique_id=214058676 instance=ExtResource("40_57pbn")]
 
-[node name="w_river" type="Node3D" parent="Puppets" unique_id=2130642656 instance=ExtResource("41_qwlli")]
+[node name="w_river" type="Node3D" parent="Puppets" unique_id=1471421213 instance=ExtResource("41_qwlli")]
 
-[node name="w_riverbed" type="Node3D" parent="Puppets" unique_id=1509329121 instance=ExtResource("42_hdk6l")]
+[node name="w_riverbed" type="Node3D" parent="Puppets" unique_id=1291176252 instance=ExtResource("42_hdk6l")]
 
-[node name="w_reeds" type="Node3D" parent="Puppets" unique_id=835316343 instance=ExtResource("43_4djfh")]
+[node name="w_reeds" type="Node3D" parent="Puppets" unique_id=2019681988 instance=ExtResource("43_4djfh")]
 
-[node name="w_camps" type="Node3D" parent="Puppets" unique_id=1844207433 instance=ExtResource("44_wegqb")]
+[node name="w_camps" type="Node3D" parent="Puppets" unique_id=1357181455 instance=ExtResource("44_wegqb")]
 
-[node name="w_mist" type="Node3D" parent="Puppets" unique_id=452795754 instance=ExtResource("45_ggm6y")]
+[node name="w_mist" type="Node3D" parent="Puppets" unique_id=764049807 instance=ExtResource("45_ggm6y")]
 
-[node name="w_glow" type="Node3D" parent="Puppets" unique_id=1691750472 instance=ExtResource("46_uw4ge")]
+[node name="w_glow" type="Node3D" parent="Puppets" unique_id=1648508802 instance=ExtResource("46_uw4ge")]
 
-[node name="w_rays" type="Node3D" parent="Puppets" unique_id=337814388 instance=ExtResource("47_ss7mh")]
+[node name="w_rays" type="Node3D" parent="Puppets" unique_id=1431188781 instance=ExtResource("47_ss7mh")]
 
-[node name="w_birds" type="Node3D" parent="Puppets" unique_id=1440754310 instance=ExtResource("48_7kmyw")]
+[node name="w_birds" type="Node3D" parent="Puppets" unique_id=1179159780 instance=ExtResource("48_7kmyw")]
 
-[node name="w_far" type="Node3D" parent="Puppets" unique_id=542197402 instance=ExtResource("49_qigp7")]
+[node name="w_far" type="Node3D" parent="Puppets" unique_id=1875016248 instance=ExtResource("49_qigp7")]
 
-[node name="Shots" type="Node3D" parent="." unique_id=855570942]
+[node name="Shots" type="Node3D" parent="." unique_id=541325103]
 
-[node name="B01_from" type="Marker3D" parent="Shots" unique_id=345610419]
+[node name="B01_from" type="Marker3D" parent="Shots" unique_id=1017719329]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62, 42, 24)
 metadata/fov = 46.0
 
-[node name="B01_to" type="Marker3D" parent="Shots" unique_id=1557672919]
+[node name="B01_to" type="Marker3D" parent="Shots" unique_id=806244772]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 15, 14)
 metadata/fov = 40.0
 
-[node name="B01_look_from" type="Marker3D" parent="Shots" unique_id=2083339868]
+[node name="B01_look_from" type="Marker3D" parent="Shots" unique_id=930772517]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, -6)
 
-[node name="B01_look_to" type="Marker3D" parent="Shots" unique_id=974698110]
+[node name="B01_look_to" type="Marker3D" parent="Shots" unique_id=969871066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -10)
 
-[node name="N05_from" type="Marker3D" parent="Shots" unique_id=1341648614]
+[node name="N05_from" type="Marker3D" parent="Shots" unique_id=406452401]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 3.2, -17.5)
 metadata/fov = 38.0
 
-[node name="N05_to" type="Marker3D" parent="Shots" unique_id=1848338643]
+[node name="N05_to" type="Marker3D" parent="Shots" unique_id=1271106844]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 3.6, -18.5)
 metadata/fov = 38.0
 
-[node name="N05_look_from" type="Marker3D" parent="Shots" unique_id=1883554916]
+[node name="N05_look_from" type="Marker3D" parent="Shots" unique_id=418917021]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5, -27)
 
-[node name="N05_look_to" type="Marker3D" parent="Shots" unique_id=1532127256]
+[node name="N05_look_to" type="Marker3D" parent="Shots" unique_id=434020551]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 6.4, -28)
 
-[node name="N12_from" type="Marker3D" parent="Shots" unique_id=609707072]
+[node name="N12_from" type="Marker3D" parent="Shots" unique_id=1144814950]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 9.4, -39)
 metadata/fov = 22.0
 
-[node name="N12_to" type="Marker3D" parent="Shots" unique_id=1013565615]
+[node name="N12_to" type="Marker3D" parent="Shots" unique_id=1769203386]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 9.4, -39)
 metadata/fov = 22.0
 
-[node name="N12_look_from" type="Marker3D" parent="Shots" unique_id=964733905]
+[node name="N12_look_from" type="Marker3D" parent="Shots" unique_id=213528259]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8.5, 40)
 
-[node name="N12_look_to" type="Marker3D" parent="Shots" unique_id=124841040]
+[node name="N12_look_to" type="Marker3D" parent="Shots" unique_id=417543367]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8.5, 40)
 
-[node name="B14_from" type="Marker3D" parent="Shots" unique_id=830079777]
+[node name="B14_from" type="Marker3D" parent="Shots" unique_id=1370177515]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 40, 0)
 metadata/fov = 50.0
 
-[node name="B14_to" type="Marker3D" parent="Shots" unique_id=36359159]
+[node name="B14_to" type="Marker3D" parent="Shots" unique_id=1096239133]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 42, -8)
 metadata/fov = 50.0
 
-[node name="B14_look_from" type="Marker3D" parent="Shots" unique_id=1041895402]
+[node name="B14_look_from" type="Marker3D" parent="Shots" unique_id=428803762]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
-[node name="B14_look_to" type="Marker3D" parent="Shots" unique_id=1131997938]
+[node name="B14_look_to" type="Marker3D" parent="Shots" unique_id=1751911175]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
-[node name="S06_from" type="Marker3D" parent="Shots" unique_id=2021381168]
+[node name="S06_from" type="Marker3D" parent="Shots" unique_id=1335770362]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5, 14.5)
 metadata/fov = 38.0
 
-[node name="S06_to" type="Marker3D" parent="Shots" unique_id=47895240]
+[node name="S06_to" type="Marker3D" parent="Shots" unique_id=815590850]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 5.3, 14)
 metadata/fov = 38.0
 
-[node name="S06_look_from" type="Marker3D" parent="Shots" unique_id=136152725]
+[node name="S06_look_from" type="Marker3D" parent="Shots" unique_id=1799777731]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4.4, 22)
 
-[node name="S06_look_to" type="Marker3D" parent="Shots" unique_id=874087838]
+[node name="S06_look_to" type="Marker3D" parent="Shots" unique_id=879396284]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8, 22)
 
-[node name="S12_from" type="Marker3D" parent="Shots" unique_id=555382369]
+[node name="S12_from" type="Marker3D" parent="Shots" unique_id=850649289]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 6.4, 35.8)
 metadata/fov = 22.0
 
-[node name="S12_to" type="Marker3D" parent="Shots" unique_id=561690195]
+[node name="S12_to" type="Marker3D" parent="Shots" unique_id=314831969]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 6.4, 35.8)
 metadata/fov = 22.0
 
-[node name="S12_look_from" type="Marker3D" parent="Shots" unique_id=2022014579]
+[node name="S12_look_from" type="Marker3D" parent="Shots" unique_id=1101715157]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -36)
 
-[node name="S12_look_to" type="Marker3D" parent="Shots" unique_id=1315440407]
+[node name="S12_look_to" type="Marker3D" parent="Shots" unique_id=872367855]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -36)
 
-[node name="B14R_from" type="Marker3D" parent="Shots" unique_id=252077763]
+[node name="B14R_from" type="Marker3D" parent="Shots" unique_id=1435409330]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 40, 0)
 metadata/fov = 50.0
 
-[node name="B14R_to" type="Marker3D" parent="Shots" unique_id=949806575]
+[node name="B14R_to" type="Marker3D" parent="Shots" unique_id=1139616971]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 42, 8)
 metadata/fov = 50.0
 
-[node name="B14R_look_from" type="Marker3D" parent="Shots" unique_id=513905960]
+[node name="B14R_look_from" type="Marker3D" parent="Shots" unique_id=503788438]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
-[node name="B14R_look_to" type="Marker3D" parent="Shots" unique_id=540311068]
+[node name="B14R_look_to" type="Marker3D" parent="Shots" unique_id=1624569093]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
-[node name="N02_from" type="Marker3D" parent="Shots" unique_id=1351341010]
+[node name="N02_from" type="Marker3D" parent="Shots" unique_id=511597687]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.392, 10.713, -38.119)
 metadata/fov = 40.0
 
-[node name="N02_to" type="Marker3D" parent="Shots" unique_id=2032155137]
+[node name="N02_to" type="Marker3D" parent="Shots" unique_id=1628672413]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.849, 10.434, -37.576)
 metadata/fov = 40.0
 
-[node name="N02_look_from" type="Marker3D" parent="Shots" unique_id=1684574792]
+[node name="N02_look_from" type="Marker3D" parent="Shots" unique_id=1483960298]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.675, 9.314, -35.402)
 
-[node name="N02_look_to" type="Marker3D" parent="Shots" unique_id=1087919436]
+[node name="N02_look_to" type="Marker3D" parent="Shots" unique_id=988563191]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.675, 9.314, -35.402)
 
-[node name="N07_from" type="Marker3D" parent="Shots" unique_id=106665027]
+[node name="N07_from" type="Marker3D" parent="Shots" unique_id=1551418897]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.551, 8.376, -32.399)
 metadata/fov = 32.0
 
-[node name="N07_to" type="Marker3D" parent="Shots" unique_id=489914756]
+[node name="N07_to" type="Marker3D" parent="Shots" unique_id=1980109189]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.551, 8.376, -32.399)
 metadata/fov = 32.0
 
-[node name="N07_look_from" type="Marker3D" parent="Shots" unique_id=1663101346]
+[node name="N07_look_from" type="Marker3D" parent="Shots" unique_id=740270671]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.732, 9.449, -36.3)
 
-[node name="N07_look_to" type="Marker3D" parent="Shots" unique_id=268474658]
+[node name="N07_look_to" type="Marker3D" parent="Shots" unique_id=902070898]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.732, 9.449, -36.3)
 
-[node name="N10_from" type="Marker3D" parent="Shots" unique_id=2115447561]
+[node name="N10_from" type="Marker3D" parent="Shots" unique_id=1297271478]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.485, 8.057, -31.892)
 metadata/fov = 32.0
 
-[node name="N10_to" type="Marker3D" parent="Shots" unique_id=143786486]
+[node name="N10_to" type="Marker3D" parent="Shots" unique_id=1285899994]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.163, 8.266, -32.449)
 metadata/fov = 32.0
 
-[node name="N10_look_from" type="Marker3D" parent="Shots" unique_id=309114094]
+[node name="N10_look_from" type="Marker3D" parent="Shots" unique_id=69512797]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.658, 9.449, -35.604)
 
-[node name="N10_look_to" type="Marker3D" parent="Shots" unique_id=2059244848]
+[node name="N10_look_to" type="Marker3D" parent="Shots" unique_id=800760616]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.658, 9.449, -35.604)
 
-[node name="N11_from" type="Marker3D" parent="Shots" unique_id=581817651]
+[node name="N11_from" type="Marker3D" parent="Shots" unique_id=736674460]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.971, 9.271, -31.641)
 metadata/fov = 40.0
 
-[node name="N11_to" type="Marker3D" parent="Shots" unique_id=213021830]
+[node name="N11_to" type="Marker3D" parent="Shots" unique_id=1255462106]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.971, 9.271, -31.641)
 metadata/fov = 40.0
 
-[node name="N11_look_from" type="Marker3D" parent="Shots" unique_id=2096195972]
+[node name="N11_look_from" type="Marker3D" parent="Shots" unique_id=391473440]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.696, 9.271, -36.399)
 
-[node name="N11_look_to" type="Marker3D" parent="Shots" unique_id=1507050574]
+[node name="N11_look_to" type="Marker3D" parent="Shots" unique_id=348281928]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.696, 9.271, -36.399)
 
-[node name="N13_from" type="Marker3D" parent="Shots" unique_id=2067896917]
+[node name="N13_from" type="Marker3D" parent="Shots" unique_id=1505905713]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 8.644, -32.836)
 metadata/fov = 40.0
 
-[node name="N13_to" type="Marker3D" parent="Shots" unique_id=1821151003]
+[node name="N13_to" type="Marker3D" parent="Shots" unique_id=1577683390]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 8.878, -33.773)
 metadata/fov = 40.0
 
-[node name="N13_look_from" type="Marker3D" parent="Shots" unique_id=467120260]
+[node name="N13_look_from" type="Marker3D" parent="Shots" unique_id=1411607183]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 9.422, -35.957)
 
-[node name="N13_look_to" type="Marker3D" parent="Shots" unique_id=207246130]
+[node name="N13_look_to" type="Marker3D" parent="Shots" unique_id=137071585]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 9.422, -35.957)
 
-[node name="S02_from" type="Marker3D" parent="Shots" unique_id=1177446862]
+[node name="S02_from" type="Marker3D" parent="Shots" unique_id=1172684140]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.376, 7.617, 36.291)
 metadata/fov = 40.0
 
-[node name="S02_to" type="Marker3D" parent="Shots" unique_id=543817133]
+[node name="S02_to" type="Marker3D" parent="Shots" unique_id=1546673353]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.828, 7.335, 35.743)
 metadata/fov = 40.0
 
-[node name="S02_look_from" type="Marker3D" parent="Shots" unique_id=1814875291]
+[node name="S02_look_from" type="Marker3D" parent="Shots" unique_id=763775436]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.637, 6.207, 33.552)
 
-[node name="S02_look_to" type="Marker3D" parent="Shots" unique_id=1192471555]
+[node name="S02_look_to" type="Marker3D" parent="Shots" unique_id=420486258]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.637, 6.207, 33.552)
 
-[node name="S07_from" type="Marker3D" parent="Shots" unique_id=171711323]
+[node name="S07_from" type="Marker3D" parent="Shots" unique_id=1252432370]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.064, 5.428, 31.07)
 metadata/fov = 40.0
 
-[node name="S07_to" type="Marker3D" parent="Shots" unique_id=1204420085]
+[node name="S07_to" type="Marker3D" parent="Shots" unique_id=1963917299]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.064, 5.428, 31.07)
 metadata/fov = 40.0
 
-[node name="S07_look_from" type="Marker3D" parent="Shots" unique_id=445835802]
+[node name="S07_look_from" type="Marker3D" parent="Shots" unique_id=725891657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.51, 6.329, 33.624)
 
-[node name="S07_look_to" type="Marker3D" parent="Shots" unique_id=1062144778]
+[node name="S07_look_to" type="Marker3D" parent="Shots" unique_id=2003346354]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.51, 6.329, 33.624)
 
-[node name="S10_from" type="Marker3D" parent="Shots" unique_id=431271816]
+[node name="S10_from" type="Marker3D" parent="Shots" unique_id=53618595]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.896, 5.705, 30.202)
 metadata/fov = 30.0
 
-[node name="S10_to" type="Marker3D" parent="Shots" unique_id=46040839]
+[node name="S10_to" type="Marker3D" parent="Shots" unique_id=2085567737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.896, 5.705, 30.202)
 metadata/fov = 30.0
 
-[node name="S10_look_from" type="Marker3D" parent="Shots" unique_id=1919108366]
+[node name="S10_look_from" type="Marker3D" parent="Shots" unique_id=291313677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.023, 4.741, 32.075)
 
-[node name="S10_look_to" type="Marker3D" parent="Shots" unique_id=738789573]
+[node name="S10_look_to" type="Marker3D" parent="Shots" unique_id=2069308689]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.023, 4.741, 32.075)
 
-[node name="S11_from" type="Marker3D" parent="Shots" unique_id=2021186929]
+[node name="S11_from" type="Marker3D" parent="Shots" unique_id=1533093763]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.854, 6.214, 29.954)
 metadata/fov = 40.0
 
-[node name="S11_to" type="Marker3D" parent="Shots" unique_id=1589074786]
+[node name="S11_to" type="Marker3D" parent="Shots" unique_id=1147839877]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.854, 6.214, 29.954)
 metadata/fov = 40.0
 
-[node name="S11_look_from" type="Marker3D" parent="Shots" unique_id=779964156]
+[node name="S11_look_from" type="Marker3D" parent="Shots" unique_id=486556488]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.295, 6.213, 34.556)
 
-[node name="S11_look_to" type="Marker3D" parent="Shots" unique_id=1592681422]
+[node name="S11_look_to" type="Marker3D" parent="Shots" unique_id=625213947]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.295, 6.213, 34.556)
 
-[node name="S13_from" type="Marker3D" parent="Shots" unique_id=1229985235]
+[node name="S13_from" type="Marker3D" parent="Shots" unique_id=984581060]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.973, 6.449, 31.364)
 metadata/fov = 40.0
 
-[node name="S13_to" type="Marker3D" parent="Shots" unique_id=156560428]
+[node name="S13_to" type="Marker3D" parent="Shots" unique_id=842369696]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.973, 6.449, 32.174)
 metadata/fov = 40.0
 
-[node name="S13_look_from" type="Marker3D" parent="Shots" unique_id=662994384]
+[node name="S13_look_from" type="Marker3D" parent="Shots" unique_id=682833239]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.973, 6.449, 34.065)
 
-[node name="S13_look_to" type="Marker3D" parent="Shots" unique_id=1397246260]
+[node name="S13_look_to" type="Marker3D" parent="Shots" unique_id=1974873174]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.973, 6.449, 34.065)

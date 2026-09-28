@@ -2,8 +2,8 @@
 
 [ext_resource type="MultiMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/mm/em_trees_oak1.res" id="1_he8x7"]
 
-[node name="em_trees_oak1" type="Node3D" unique_id=702473802]
+[node name="em_trees_oak1" type="Node3D" unique_id=109514775]
 
-[node name="Instances" type="MultiMeshInstance3D" parent="." unique_id=1937273688]
+[node name="Instances" type="MultiMeshInstance3D" parent="." unique_id=773641222]
 gi_mode = 0
 multimesh = ExtResource("1_he8x7")

@@ -85,7 +85,7 @@ func _materials() -> void:
 		return m
 	var defs := {
 		"veg": sh.call("em_veg"),
-		"veg_gold": sh.call("em_veg", 0, {"glow": 0.35, "dry_amount": 0.0, "translucency": 0.8, "tree_tint": 0.0}),
+		"veg_gold": sh.call("em_veg", 0, {"glow": 0.45, "dry_amount": 0.0, "translucency": 0.8, "tree_tint": 0.0}),
 		"ground": sh.call("em_ground"),
 		"water": sh.call("em_water", 1),
 		"cloth": sh.call("em_cloth"),
@@ -1546,21 +1546,26 @@ func _ring(mb: EM, rx: float, rz: float, depth: float, peak_fn: Callable, snow_l
 		var pk: float = peak_fn.call(ang)
 		var lit := clampf(nrm.dot(L.SUN) * 2.2 + 0.38, 0.0, 1.0)
 		var sky := clampf(nrm.y, 0.0, 1.0)
-		# distant rock is cool (blue-violet shade, a soft warm lilac where the low sun strikes)
-		var rock := Color(0.22, 0.26, 0.46).lerp(Color(0.74, 0.60, 0.60), lit)
-		var forest := Color(0.12, 0.22, 0.26).lerp(Color(0.30, 0.38, 0.30), lit)
+		# rock: dark cool slate in shade (a little sky on the upward facets), warm ochre-rose where the low sun strikes;
+		# the sun-side paint pass (2026-09-28): darker rock + more snow, so the range keeps a clear snow line and real
+		# contrast when the camera looks toward the sun (N05 read lilac-pale: all shaded rock, no snow on steep peaks)
+		var amb := 0.72 + 0.28 * sky
+		var rock := Color(0.21 * amb, 0.18 * amb, 0.25 * amb).lerp(Color(0.74, 0.52, 0.38), lit)
+		var forest := Color(0.10, 0.18, 0.22).lerp(Color(0.30, 0.38, 0.30), lit)
 		var fy := p.y - base_y
 		var jit := 6.0 * (fbm(p.x, p.z, 9.0, seed + 13) - 0.5)
 		var col := forest.lerp(rock, smoothstep(pk * forest_top * 0.7, pk * forest_top * 1.25, fy + jit))
-		# snow on the upper part of the high crests (a fraction of the local crest height), gentler faces only: steep
-		# faces stay bare rock
-		var hk := fy / maxf(pk, 1.0) + 0.16 * (fbm(p.x, p.z, 6.0, seed + 11) - 0.5)
-		var snowy := smoothstep(snow_line - 0.05, snow_line + 0.05, hk) * smoothstep(0.45, 0.7, sky) * smoothstep(22.0, 34.0, pk)
-		col = col.lerp(Color(0.56, 0.62, 0.86).lerp(Color(1.0, 0.95, 0.88), lit), snowy)
+		# snow above a clear line on the high crests (a fraction of the local crest height); only the steepest faces stay
+		# bare rock (ribs between the snowfields)
+		var hk := fy / maxf(pk, 1.0) + 0.12 * (fbm(p.x, p.z, 6.0, seed + 11) - 0.5)
+		var cap := smoothstep(snow_line + 0.18, snow_line + 0.26, hk) * smoothstep(0.1, 0.22, sky)
+		var snowy := smoothstep(snow_line - 0.04, snow_line + 0.03, hk) * maxf(smoothstep(0.28, 0.46, sky), cap) * smoothstep(20.0, 32.0, pk)
+		col = col.lerp(Color(0.58, 0.60, 0.80).lerp(Color(1.0, 0.93, 0.80), lit), snowy)
 		# aerial perspective: the low rows and the far side of the band melt into the haze, crests stay crisp
 		var air := haze_k * (0.55 + 0.45 * t) * (1.0 - 0.45 * smoothstep(0.0, pk, fy))
 		col = col.lerp(haze, clampf(air, 0.0, 0.9))
-		col.a = 1.0
+		# alpha carries the snow mask to em_far.gdshader (rim light on snow when the view looks toward the sun)
+		col.a = snowy
 		return col
 	for j in rows:
 		for i in na:
@@ -1595,7 +1600,7 @@ func _far() -> void:
 		var nn: float = north.call(ang)
 		var ss := clampf(sin(ang), 0.0, 1.0)
 		return 24.0 + 36.0 * pow(nn, 1.5) - 6.0 * ss
-	_ring(mb, 196.0, 186.0, 24.0, main, 0.72, 901, 0.45, haze, 0.2, -8.0)
+	_ring(mb, 196.0, 186.0, 24.0, main, 0.6, 901, 0.45, haze, 0.2, -8.0)
 	_save_mesh("em_far", [[mb, "far"]], false)
 
 
@@ -1611,34 +1616,75 @@ func _props() -> void:
 		var a := TAU * (k + 0.2) / 6.0
 		_limb(gt, Vector3(cos(a) * 1.9, -0.35, sin(a) * 1.9), Vector3(cos(a) * 0.3, 1.6, sin(a) * 0.3), 0.3, 0.55, bark.darkened(0.12), 6, 2, 71 + k, 0.0, 0.0)
 	# gold leaves glow even in shade (a lit-from-within crown; the old brown underside read as dead leaves)
-	var gfn := _crown_fn(Color(1.0, 0.82, 0.30), Color(0.64, 0.40, 0.10), Color(0.52, 0.30, 0.08))
+	var gfn := _crown_fn(Color(1.0, 0.82, 0.30), Color(0.76, 0.50, 0.13), Color(0.80, 0.50, 0.13))
 	for k in 7:
 		var a := TAU * (k + 0.4) / 7.0
 		var bend := top + Vector3(cos(a) * 4.6, 2.2 + 1.4 * h01(float(k), 1.0, 72), sin(a) * 4.6)
 		_limb(gt, top, bend, 0.42, 0.18, bark, 7, 3, 80 + k, 0.03, 0.2)
 		_limb(gt, bend, bend + Vector3(cos(a + 0.5) * 2.4, 1.6, sin(a + 0.5) * 2.4), 0.18, 0.07, bark, 5, 2, 90 + k, 0.2, 0.35)
-	# a broad layered dome: ~40 leafy lobes (leaf-cluster cards over soft cores, crown-level shading) and a drooping
-	# fringe round the rim; gaps between the lobes let the limbs show (the old 146 smooth clumps read as cauliflower)
+	# ONE broad, flat umbrella canopy (the Master's tree pass, 2026-09-28): a continuous leafy shell with a flat, lumpy
+	# underside, shallow leafy bumps on top and a drooping scalloped rim. Every vertex is then re-lit from the SHELL's
+	# own normal (an ellipsoid), not its lobe's: the old per-lobe light read as clustered balls from N12's long lens,
+	# and the old underside (lobes with sky between them) read as blotchy flakes from S06 below.
 	var cc := top + Vector3(0, 5.6, 0)
-	# one broad inner canopy mass under the lobes: seen from below (S06) the crown reads as one roof of leaves, not
-	# floating clumps with sky between them
-	var inner_fn := func(d: Vector3) -> Color:
-		var c0: Color = gfn.call(d)
-		return Color(c0.r * 0.8, c0.g * 0.78, c0.b * 0.75)
-	gt.blob(top + Vector3(0, 5.0, 0), Vector3(7.4, 2.8, 7.4), 6, 16, inner_fn, Vector2(0.25, 2), 0.5, 699, 0.12, 0.0, 0.6, cc, 0.6)
-	for k in 40:
-		var f := (k + 0.5) / 40.0
+	var sh_r := 8.9
+	var sh_h := 2.9
+	var c0 := gt.v.size()
+	gt.blob(cc, Vector3(sh_r, sh_h, sh_r), 10, 30, gfn, Vector2(0.25, 2), 0.5, 699, 0.07, 0.0, 0.62, cc, 1.0)
+	# the underside: hanging leaf masses pressed into the shell, core only (no cards, so nothing floats as flakes)
+	for k in 30:
+		var f := (k + 0.5) / 30.0
+		var a := TAU * k * 0.618034 + 0.4
+		var rr := 7.6 * sqrt(f)
+		var rad := 1.25 + 0.55 * h01(float(k), 11.0, 73)
+		var c := cc + Vector3(cos(a) * rr, -sh_h * 0.62 + rad * 0.12 - 0.12 * h01(float(k), 12.0, 73), sin(a) * rr)
+		if rr < 6.2:
+			# interior: small leaf cards hugging the lower face (leafy texture; the shell behind them, never sky)
+			_lobe(gt, c, Vector3(rad, rad * 0.42, rad), gfn, Vector2(0.3, 2), h01(float(k), 13.0, 73), 900 + k, cc, 22, 0.34, 4, 9, 1.0, 0.16, true)
+		else:
+			gt.blob(c, Vector3(rad, rad * 0.42, rad), 4, 9, gfn, Vector2(0.3, 2), h01(float(k), 13.0, 73), 900 + k, 0.16, 0.0)
+	# a few broad low domes on the top break the umbrella into an old oak's billowing crown (not a flat pancake)
+	for k in 7:
+		var a := TAU * (k + 0.3 * h01(float(k), 14.0, 73)) / 7.0 + 0.5
+		var rr := 4.4 + 1.2 * h01(float(k), 15.0, 73)
+		var ys := sh_h * sqrt(maxf(0.0, 1.0 - pow(rr / sh_r, 2.0)))
+		var rad := 3.0 + 0.8 * h01(float(k), 16.0, 73)
+		gt.blob(cc + Vector3(cos(a) * rr, ys - rad * 0.12, sin(a) * rr), Vector3(rad, rad * 0.36, rad), 5, 14, gfn, Vector2(0.3, 2), 0.5, 960 + k, 0.08, 0.0, 0.3)
+	gt.blob(cc + Vector3(0.4, sh_h - 0.5, -0.3), Vector3(3.6, 1.5, 3.6), 5, 14, gfn, Vector2(0.3, 2), 0.5, 959, 0.08, 0.0, 0.3)
+	# the top: shallow leafy bumps sitting IN the shell (a third of each shows), leaf cards on their upper half
+	for k in 58:
+		var f := (k + 0.5) / 58.0
 		var a := TAU * k * 0.618034
-		var rr := 7.6 * sqrt(f) * (0.85 + 0.25 * h01(float(k), 2.0, 73))
-		var c := top + Vector3(cos(a) * rr, 4.6 + (1.0 - f * f) * 3.4 + (h01(float(k), 3.0, 73) - 0.5) * 1.3, sin(a) * rr)
-		var rad := 1.55 + 0.75 * h01(float(k), 4.0, 73)
-		_lobe(gt, c, Vector3(rad, rad * 0.72, rad), gfn, Vector2(0.3 + 0.3 * f, 2), h01(float(k), 5.0, 73), 700 + k, cc, 64, 0.42, 4, 7, 0.9, 0.16, true)
-	for k in 16:
-		var a := TAU * (k + 0.5 * h01(float(k), 6.0, 73)) / 16.0
-		var rr := 8.4 + 0.8 * h01(float(k), 7.0, 73)
-		var c := top + Vector3(cos(a) * rr, 3.1 + 1.2 * h01(float(k), 8.0, 73), sin(a) * rr)
-		var rad := 1.1 + 0.5 * h01(float(k), 9.0, 73)
-		_lobe(gt, c, Vector3(rad, rad * 1.2, rad), gfn, Vector2(0.55, 2), h01(float(k), 10.0, 73), 800 + k, cc, 36, 0.38, 4, 7, 0.9, 0.2, true)
+		var rr := (sh_r - 0.9) * sqrt(f) * (0.92 + 0.12 * h01(float(k), 2.0, 73))
+		var ys := sh_h * sqrt(maxf(0.0, 1.0 - pow(rr / sh_r, 2.0)))
+		var rad := 1.35 + 0.6 * h01(float(k), 4.0, 73)
+		var c := cc + Vector3(cos(a) * rr, ys - rad * 0.3 + (h01(float(k), 3.0, 73) - 0.5) * 0.35, sin(a) * rr)
+		_lobe(gt, c, Vector3(rad, rad * 0.5, rad), gfn, Vector2(0.3 + 0.3 * f, 2), h01(float(k), 5.0, 73), 700 + k, cc, 34, 0.4, 4, 8, 0.92, 0.12, false)
+	# the rim: a drooping scalloped fringe hung on the shell's edge (continuous, cards on the outer / upper side only)
+	for k in 26:
+		var a := TAU * (k + 0.4 * h01(float(k), 6.0, 73)) / 26.0
+		var rr := sh_r - 0.5 + 0.5 * h01(float(k), 7.0, 73)
+		var rad := 1.0 + 0.75 * h01(float(k), 9.0, 73)
+		var c := cc + Vector3(cos(a) * rr, -0.45 - 1.0 * h01(float(k), 8.0, 73), sin(a) * rr)
+		_lobe(gt, c, Vector3(rad, rad * 0.8, rad), gfn, Vector2(0.55, 2), h01(float(k), 10.0, 73), 800 + k, cc, 26, 0.36, 4, 8, 0.92, 0.12, false)
+	# re-light the whole canopy as one mass: shell normal (a rounder ellipsoid than the mesh, so the rim still turns to
+	# the side), colour mostly from it with a little of the part's own tone for leafy texture, and a lifted AO floor
+	# on the underside (warm lit-from-within gold, not a dark hole)
+	var vv := gt.v
+	var nn := gt.n
+	var cl := gt.c
+	var u2 := gt.uv2
+	for i in range(c0, vv.size()):
+		var q := vv[i] - cc
+		var ne := Vector3(q.x / (sh_r * sh_r), q.y / (3.6 * 3.6), q.z / (sh_r * sh_r)).normalized()
+		var col: Color = (gfn.call(ne) as Color).lerp(cl[i], 0.3)
+		col.a = cl[i].a
+		cl[i] = col
+		nn[i] = ne.lerp(nn[i], 0.25).normalized()
+		u2[i] = Vector2(u2[i].x, 0.6 + 0.4 * clampf(0.5 + 0.5 * ne.y, 0.0, 1.0))
+	gt.n = nn
+	gt.c = cl
+	gt.uv2 = u2
 	# fallen gold leaves on the grass round the trunk
 	for k in 220:
 		var a := TAU * h01(float(k), 1.0, 74)

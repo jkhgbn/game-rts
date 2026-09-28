@@ -1,10 +1,10 @@
 # cine build: ep3_opening
 
-2026-09-28 18:25:03 - `tools/cine/run_cine.ps1 build ep3_opening` - hash `b22831560f12fa71` (2 runs identical)
+2026-09-28 18:45:03 - `tools/cine/run_cine.ps1 build ep3_opening` - hash `b22831560f12fa71` (2 runs identical)
 
 ## Result: **PASS** - quality **97 / 100** (previous run 97, +0)
 
-0 FAIL, 0 WARN, 36 PASS, 25 info, 0 skipped, 5 s
+0 FAIL, 0 WARN, 36 PASS, 25 info, 0 skipped, 15 s
 
 ## Improve next
 1. **N02 face malrik** (PASS): keep malrik nearer the band centre in N02 _(from F2 N02 face malrik, shot N02)_

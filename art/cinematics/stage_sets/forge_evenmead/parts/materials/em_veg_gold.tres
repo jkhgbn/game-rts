@@ -15,5 +15,5 @@ shader_parameter/ao_floor = 0.36
 shader_parameter/translucency = 0.8
 shader_parameter/dry_tint = Color(0.86, 0.72, 0.4, 1)
 shader_parameter/dry_amount = 0.0
-shader_parameter/glow = 0.35
+shader_parameter/glow = 0.45
 shader_parameter/tree_tint = 0.0

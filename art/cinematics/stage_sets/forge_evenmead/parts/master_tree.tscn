@@ -2,8 +2,8 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/master_tree.res" id="1_nfe32"]
 
-[node name="master_tree" type="Node3D" unique_id=39514814]
+[node name="master_tree" type="Node3D" unique_id=483524087]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1130426120]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=155944920]
 gi_mode = 0
 mesh = ExtResource("1_nfe32")
