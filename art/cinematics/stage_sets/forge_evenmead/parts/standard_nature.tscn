@@ -2,8 +2,8 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/standard_nature.res" id="1_w6ks8"]
 
-[node name="standard_nature" type="Node3D" unique_id=272516721]
+[node name="standard_nature" type="Node3D" unique_id=1642315660]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=957070102]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=537804540]
 gi_mode = 0
 mesh = ExtResource("1_w6ks8")

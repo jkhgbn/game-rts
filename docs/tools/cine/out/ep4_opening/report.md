@@ -1,6 +1,6 @@
 # cine build: ep4_opening
 
-2026-09-28 17:53:34 - `tools/cine/run_cine.ps1 build ep4_opening` - hash `b7769bb7010d056a` (2 runs identical)
+2026-09-28 18:25:45 - `tools/cine/run_cine.ps1 build ep4_opening` - hash `b7769bb7010d056a` (2 runs identical)
 
 ## Result: **PASS** - quality **98 / 100** (previous run 98, +0)
 
@@ -89,7 +89,7 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | b7769bb7010d056a / b7769bb7010d056a | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 8f60ac11aacd20d3) |  |  |
+| D2 | vs previous run | INFO | same |  |  |
 | B1 | bake | PASS 100 | data/cinematics/ep4_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

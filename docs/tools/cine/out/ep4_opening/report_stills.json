@@ -29,7 +29,7 @@
 		"diff": "Changes vs the previous stills run",
 		"stills": "Stills"
 	},
-	"hash": "90520ebf591e7e50",
+	"hash": "0bead9a8dc140f77",
 	"hash_note": "",
 	"headless": false,
 	"id": "ep4_opening",
@@ -41,11 +41,11 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 26.9,
+	"seconds": 26.4,
 	"shots": {
 		"contact sheet": "stills.png"
 	},
-	"started": "2026-09-28 17:53:41",
+	"started": "2026-09-28 18:25:11",
 	"tier": "",
 	"tool": "cine",
 	"verb": "stills"

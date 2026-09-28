@@ -811,7 +811,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 11a5068010d2ba42)",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -908,13 +908,13 @@
 		"source `data/cinematics/src/ep3_opening.cine` (116 lines), 91.0 s, 14 shots, stage: set forge_evenmead",
 		"the .cine has 116 lines (demo budget <= 80)"
 	],
-	"previous_quality": 96.8,
+	"previous_quality": 96.9,
 	"quality": 96.9,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 5.4,
+	"seconds": 5.3,
 	"shots": {},
-	"started": "2026-09-28 17:43:21",
+	"started": "2026-09-28 18:25:03",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

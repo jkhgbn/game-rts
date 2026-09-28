@@ -1,10 +1,10 @@
 # cine stills: ep4_opening
 
-2026-09-28 17:53:41 - `tools/cine/run_cine.ps1 stills ep4_opening` - hash `90520ebf591e7e50`
+2026-09-28 18:25:11 - `tools/cine/run_cine.ps1 stills ep4_opening` - hash `0bead9a8dc140f77`
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 1 PASS, 0 info, 0 skipped, 27 s
+0 FAIL, 0 WARN, 1 PASS, 0 info, 0 skipped, 26 s
 
 ## Improve next
 

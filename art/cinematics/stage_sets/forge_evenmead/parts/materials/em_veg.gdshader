@@ -23,6 +23,9 @@ uniform float translucency = 0.5;
 uniform vec3 dry_tint : source_color = vec3(0.86, 0.72, 0.4);
 uniform float dry_amount = 0.55;
 uniform float glow = 0.0;
+// per-tree tint (leaves only, MultiMesh instances): each tree draws a cool deep, a mid or a warm yellow-green crown, so a
+// wood never reads as one repeated shape (0 = off, the single-mesh props)
+uniform float tree_tint = 1.0;
 
 varying vec3 v_col;
 varying float v_kind;
@@ -68,6 +71,12 @@ void vertex() {
 		col *= mix(vec3(0.94, 1.0, 1.05), vec3(1.06, 1.02, 0.9), r);
 	}
 	col *= 1.0 + 0.12 * clamp(INSTANCE_CUSTOM.z, -1.0, 1.0);
+	if (kind > 1.5 && kind < 2.5 && tree_tint > 0.0) {
+		float ri = INSTANCE_CUSTOM.x;
+		vec3 tint = mix(vec3(0.72, 0.86, 0.92), vec3(1.0), smoothstep(0.0, 0.45, ri));
+		tint = mix(tint, vec3(1.14, 1.06, 0.78), smoothstep(0.6, 1.0, ri));
+		col *= mix(vec3(1.0), tint, tree_tint);
+	}
 	v_col = col;
 	// wind: world-space sway, stronger at the tips, travelling gusts
 	if (w > 0.0 && !hidden) {

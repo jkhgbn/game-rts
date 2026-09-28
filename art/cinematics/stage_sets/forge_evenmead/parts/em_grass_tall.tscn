@@ -2,9 +2,9 @@
 
 [ext_resource type="MultiMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/mm/em_grass_tall.res" id="1_3mclm"]
 
-[node name="em_grass_tall" type="Node3D" unique_id=789535652]
+[node name="em_grass_tall" type="Node3D" unique_id=846954278]
 
-[node name="Instances" type="MultiMeshInstance3D" parent="." unique_id=1791177113]
+[node name="Instances" type="MultiMeshInstance3D" parent="." unique_id=1036988744]
 cast_shadow = 0
 gi_mode = 0
 multimesh = ExtResource("1_3mclm")

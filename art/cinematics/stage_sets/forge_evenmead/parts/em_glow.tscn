@@ -2,9 +2,9 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/em_glow.res" id="1_46lpq"]
 
-[node name="em_glow" type="Node3D" unique_id=1686946486]
+[node name="em_glow" type="Node3D" unique_id=1691750472]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1860527164]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=546433816]
 cast_shadow = 0
 extra_cull_margin = 12.0
 gi_mode = 0

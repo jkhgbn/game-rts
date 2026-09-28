@@ -69,7 +69,9 @@ void fragment() {
 		vec3 fc = pow(flower_col(UV.y, h), vec3(2.2));
 		float near = smoothstep(55.0, 18.0, vd) * smoothstep(3.0, 9.0, vd);
 		col = mix(col, fc, dot_ * near * 0.9);
-		col = mix(col, fc, fl * 0.16 * (1.0 - near));
+		// far away: a warm wash only (the palette's blues / pinks, interpolated across the skin, turned the shaded
+		// hillsides into grey-blue puddles from the crane shots)
+		col = mix(col, pow(vec3(0.96, 0.86, 0.5), vec3(2.2)), fl * 0.12 * (1.0 - near));
 	}
 	ALBEDO = col;
 	ROUGHNESS = 0.94;

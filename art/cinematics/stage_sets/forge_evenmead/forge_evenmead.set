@@ -28,13 +28,14 @@ hill   east_roll    at=(50,12)   r=20  h=2.5
 valley river  poly=[(-175,12),(-120,10),(-75,6),(-44,-3),(-18,4),(4,0),(26,-7),(50,-2),(75,5),(120,2),(175,-4)]  width=20  depth=2.6  flat=0.3
 hill   ford_bar     at=(4,0)  r=7  h=1.3  flat=0.3
 # far land (the terrain extension, 100 m round the set): forested uplands north, rolling farmland west / east / south
-ridge  far_north  poly=[(-175,-125),(-90,-138),(0,-128),(85,-142),(175,-126)]  width=64  h=26  jag=0.45
+ridge  far_north  poly=[(-175,-125),(-90,-138),(0,-128),(85,-142),(175,-126)]  width=64  h=15  jag=0.45
 ridge  far_west   poly=[(-165,-95),(-150,-20),(-160,60),(-150,140)]  width=56  h=13  jag=0.35
 ridge  far_east   poly=[(165,-95),(152,-15),(162,55),(150,140)]  width=56  h=12  jag=0.35
 ridge  far_south  poly=[(-175,130),(-80,138),(0,128),(90,140),(175,126)]  width=56  h=15  jag=0.35
 pad    crest_n  at=(0,-36)  r=5  edge=9
 pad    crest_s  at=(-4,34.8)  r=5  edge=9
-sky    mountains=2  dist=176  height=34  color=#6d7c98  haze=#d8cbbd  seed=34
+# the mountains are the far ring of tools/make_world.gd (parts/em_far.tscn: snowy north, all round, painted light)
+sky    mountains=0
 
 # ---- the cast (kit models as they are; Mother Hush and Old Vey = their helper models)
 actor malrik   kit:malrik   at=(0,-36)     yaw=0

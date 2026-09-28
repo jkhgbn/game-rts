@@ -2,9 +2,9 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/em_birds.res" id="1_jc5an"]
 
-[node name="em_birds" type="Node3D" unique_id=883856307]
+[node name="em_birds" type="Node3D" unique_id=1440754310]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=848563804]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1195947188]
 cast_shadow = 0
 extra_cull_margin = 30.0
 gi_mode = 0
