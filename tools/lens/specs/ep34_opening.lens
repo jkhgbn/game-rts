@@ -5,12 +5,18 @@
 # Axis Malrik - Ysolde (north - south): Ep3 cameras east of it (Malrik's left), Ep4 cameras west (Ysolde's left).
 lens ep34_opening  res=1600x900  band=2.39  fov=40
 shot N02 "ms on malrik, 3/4-back-left, high, push 0.2"
-shot N07 "mcu on malrik, 3/4-left, low"
+# N07 (Ep3 polish): 25 deg off his front, not 45, so Mother Hush stands in the frame behind him (the cine moves her there)
+shot N07 "mcu on malrik, angle=25, low, thirds-left, fov 32"
 # N10 / S10: the spec says "ecu"; Lens sizes ecu from a character's head, so on a hand-sized prop "fs" (the whole prop at
 # 80 % of the band) is the extreme close-up the spec means.
-shot N10 "fs on stone, front, high, fov 11"
+# N10 (Ep3 polish): the stone now floats at his claw, chest-high (forge_evenmead actor stone); the cine frames it with
+# his visor above it; Lens frames one subject and measures the glowing stone with its halo, so the mark is on him (the
+# cine's cam=dolly is this camera 1.2 m closer, the stone lower-left, the visor upper-right)
+shot N10 "mcu on malrik, angle=30, height=-18, thirds-right, fov 32, push 0.15"
 shot N11 "ms two-shot malrik torvald, 3/4-left, eye"
-shot N13 "cu on malrik, front, eye, push 0.3"
+# N13 (Ep3 polish): low, so he looms against the sky on "I will not stop"; mcu pushing in (a cu here puts his chest
+# out of the band, which World Forge M1 reads as his "subject" point)
+shot N13 "mcu on malrik, front, low, push 0.3"
 shot S02 "ms on ysolde, 3/4-back-left, high, push 0.2"
 shot S07 "mcu on ysolde, 3/4-left, low"
 shot S10 "fs on bloom, 3/4-left, high, fov 30"

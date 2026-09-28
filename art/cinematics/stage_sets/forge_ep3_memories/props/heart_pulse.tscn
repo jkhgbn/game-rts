@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.gd" id="1_c5pse"]
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/mem_glow.gdshader" id="2_tfqdk"]
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_wave.gdshader" id="3_mulk0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tuvvk"]
+render_priority = 0
+shader = ExtResource("2_tfqdk")
+shader_parameter/color = Color(1, 0.66, 0.26, 1)
+shader_parameter/energy = 0.0
+shader_parameter/mode = 0
+shader_parameter/radial = 0.0
+shader_parameter/falloff = 2.0
+shader_parameter/fres = 1.4
+shader_parameter/phase = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_f7oee"]
+radius = 0.16
+height = 0.32
+radial_segments = 20
+rings = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yywrc"]
+render_priority = 0
+shader = ExtResource("3_mulk0")
+shader_parameter/color = Color(1, 0.55, 0.2, 1)
+shader_parameter/energy = 0.0
+shader_parameter/width = null
+
+[sub_resource type="SphereMesh" id="SphereMesh_iv8cr"]
+radial_segments = 20
+rings = 10
+
+[node name="HeartPulse" type="Node3D" unique_id=188641347]
+script = ExtResource("1_c5pse")
+
+[node name="Flash" type="MeshInstance3D" parent="." unique_id=199171121]
+material_override = SubResource("ShaderMaterial_tuvvk")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_f7oee")
+
+[node name="Wave" type="MeshInstance3D" parent="." unique_id=489029651]
+material_override = SubResource("ShaderMaterial_yywrc")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_iv8cr")

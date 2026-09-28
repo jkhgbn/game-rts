@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://art/units/wizards/ysolde.tscn" id="1_ys"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep4_memories/props/child_ysolde_model.gd" id="2_child"]
+
+[node name="ChildYsoldeModel" instance=ExtResource("1_ys")]
+script = ExtResource("2_child")

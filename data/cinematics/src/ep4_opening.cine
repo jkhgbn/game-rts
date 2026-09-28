@@ -2,15 +2,23 @@
 # The other side of the same morning: Ysolde tells her life from Lark Hill (14 lines, voice-over through the hidden
 # `narrator` cast, speaker ysolde = bf_emma; one line by Vessa, on screen). Voice: data/voice/manifest.json, same text
 # as data/voice/lines/ep4_opening.json. B01 is Ep3's opening shot frame for frame ("the same morning").
-# Sets: forge_evenmead (E34-A: marks B01 S06 S12 B14R; the close shots are `cam=dolly` solved from the Lens words of 4.1
-# on the set puppets by forge_ep3_memories/tools/evenmead_cams.gd until the Lens marks S02 S07 S10 S11 S13 are merged), forge_ep4_memories (the flashbacks
-# H03 H04 H05 H08 H09, warm memory grade in its light preset). H03 -> H04 is a match cut: the same place and framing,
+# Sets: forge_evenmead (E34-A: landscape marks B01 S06 S12 B14R + the merged Lens marks S02 S07 S10 S11 S13),
+# forge_ep4_memories (the flashbacks H03 H04 H05 H08 H09; four moods in one set: props/mood_zones.gd applies
+# mood_winter / spring / frost / ash from the camera x). H03 -> H04 is a match cut: the same place and framing,
 # winter then spring. Memories cut in on fade_white:0.4 and out on blend:0.3. Music / sfx: assets/audio/forge/.
 # Axis: every Ep4 camera stays WEST of the Malrik - Ysolde line (Ep4 is the reverse angle of Ep3).
 cine ep4_opening  title="Episode 4: What Grows Back"  letterbox=2.39  seed=34  length=85..91
 use set forge_evenmead
 use music res://assets/audio/forge/music/ep4_opening.wav  vol=-15
 env day  moon_yaw=150  moon_pitch=-30  energy=1.0
+# Evenmead close shots: S07 and S11 = forge_evenmead's merged Lens marks (tools/lens/specs/ep34_opening.lens; no cam=).
+# S02 S10 S13 are re-aimed from their Lens marks as cam=dolly (a .cine `marks` override is not seen by the runtime
+# player, which reads the set's markers: check RT1): Lens frames Ysolde from her Head pivot, so her antler crown was cut
+# at the band top. S02 pulled back over her left shoulder (the valley, the ford and both hosts read; the mark was all
+# back and crown), S10 the same 3/4-left side but ground-low through the bloom up to her face (Lens's "fs on bloom" alone
+# in the tall grass did not read), S13 a low MCU (face and crown against the sky). cam=lens "<words>" solved at
+# bake framed her chest / the wrong hill on this set. S12 (landscape mark) is now a long-lens over-the-shoulder: Ysolde
+# on the right third, Malrik and Torvald at the top of the path across the valley.
 # Ysolde narrates (voice-over: hidden, no name on the subtitles)
 cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=ysolde
 
@@ -19,8 +27,8 @@ shot B01 8.0  in=fade_black:1.0
   at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-6
   at 3.0  line ysolde "Malrik tells his life as a list of wounds. Mine is a list of winters."  dur=4.6
 # Ysolde on Lark Hill, the valley and Malrik's ridge beyond
-# Lens: "ms on ysolde, 3/4-back-left, high, push 0.2" (solved on the set puppets by tools/evenmead_cams.gd)
-shot S02 6.0  cam=dolly  from=(-8.42, 7.63, 36.26)  to=(-7.87, 7.35, 35.71)  look=(-5.67, 6.22, 33.52)  fov=40  faces=ysolde
+# Lens mark "ms on ysolde, 3/4-back-left, high, push 0.2", re-aimed: over her shoulder to the ford and the hosts
+shot S02 6.0  cam=dolly  from=(-9.75,7.9,37.0)  to=(-9.25,7.7,36.5)  look=(-4.0,6.02,30.0)>(-4.0,5.98,30.0)  fov=40>38  faces=ysolde
   at 0.3  line ysolde "I was born on that hill, the year nothing grew. Not one blade of grass."  dur=5.0
 
 # ---------------------------------------------------------------- memory: the year nothing grew
@@ -34,42 +42,42 @@ shot H04 5.0  set=forge_ep4_memories
 # The frost clearing: the child coaxes a rimed sapling; the tall man with the burning hem behind her
 shot H05 6.0  set=forge_ep4_memories
   at 0.3  line ysolde "A tall man with a burning hem found me coaxing a sapling through the frost."  dur=5.1
-  at 0.8  anim y_child play_cast  arg=wild_bloom
-  at 3.4  anim y_child play_cast  arg=wild_bloom
 
 # ---------------------------------------------------------------- back on Lark Hill
 # Nature and Fire ranks, travelling the other way on screen
 shot S06 6.0  in=blend:0.3
   at 0.3  line ysolde "He said: show me again. So I did, for twenty years, until he was gone."  dur=5.0
   at 1.0  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-6
-# Lens: "mcu on ysolde, 3/4-left, low"
-shot S07 6.0  cam=dolly  from=(-7.14, 5.43, 30.98)  to=(-6.98, 5.45, 31.28)  look=(-4.52, 6.36, 33.60)  fov=40  faces=ysolde
+# Lens mark: "mcu on ysolde, 3/4-left, low"
+shot S07 6.0  faces=ysolde
   at 0.3  line ysolde "They call me soft. Neutral. Slow. Slow is how an oak outlives an army."  dur=5.0
 
 # ---------------------------------------------------------------- memory: the burned wood
 # Black trunks capped with frost, ice through the ash, her army frozen where it fell; she stands among them
 shot H08 6.0  set=forge_ep4_memories  in=fade_white:0.4
+  at 0.0  hide shoot
   at 0.3  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-8
   at 0.3  line ysolde "Last winter they burned my wood and froze the ashes. My army with it."  dur=5.0
-# Ground level: one green shoot in the black
+# Ground level: one green shoot in the black, against the low sun between the trunks (Ysolde stepped out of frame)
 shot H09 6.0  set=forge_ep4_memories
+  at 0.0  hide y_ysolde
+  at 0.0  show shoot
   at 0.3  line ysolde "I knelt in the black, and I waited. Something green came up. It always does."  dur=5.2
   at 3.0  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-10
 
 # ---------------------------------------------------------------- what grows back
-# The flowers by her hand lean toward it
-# Lens intent "ecu on bloom, 3/4-left, high", widened over the tall grass: the flowers at her feet, her face above
-shot S10 6.0  cam=dolly  from=(-6.7, 6.3, 31.0)  to=(-6.45, 6.2, 31.5)  look=(-5.5, 5.6, 35.2)  fov=38>35  in=blend:0.3  faces=ysolde
+# The flowers by her hand lean toward it: ground-low through the bloom, Ysolde (and Vessa) above against the sky
+shot S10 6.0  cam=dolly  from=(-7.3,5.0,31.35)  to=(-7.14,5.02,31.55)  look=(-5.0,5.84,33.9)>(-5.0,5.86,33.9)  fov=44>41  in=blend:0.3  faces=ysolde
   at 0.3  line ysolde "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."  dur=5.3
-# Lens: "ms two-shot ysolde vessa, 3/4-left, eye"
-shot S11 6.0  cam=dolly  from=(-5.84, 6.23, 29.92)  to=(-5.70, 6.23, 30.25)  look=(-3.30, 6.23, 34.56)  fov=40  faces=ysolde,vessa
+# Lens mark: "ms two-shot ysolde vessa, 3/4-left, eye"
+shot S11 6.0  faces=ysolde,vessa
   at 0.3  line ysolde "The Master planted this country with his own hands. He left it to me to keep."  dur=5.1
-# Long lens north: Malrik's ridge, an amber glint
-shot S12 9.0
+# Long lens north over her shoulder: Malrik's ridge, his amber staff, Torvald beside him
+shot S12 9.0  cam=dolly  from=(-7.1,6.65,41.0)  to=(-7.0,6.65,40.4)  look=(-0.3,9.3,-36)  fov=22>20
   at 0.3  line ysolde "Malrik stands up there with his candle, his stone, and Torvald's winter."  dur=4.6
   at 5.1  line ysolde "Let them come. Cut it. Burn it. Freeze it."  dur=3.2
-# Lens: "cu on ysolde, front, eye, push 0.3"
-shot S13 5.0  cam=dolly  from=(-5.03, 6.46, 31.35)  to=(-5.03, 6.46, 32.16)  look=(-5.03, 6.46, 34.06)  fov=40  faces=ysolde
+# Lens mark "cu on ysolde, front, eye, push 0.3", re-aimed: a low MCU, the crown against the sky, slow push
+shot S13 5.0  cam=dolly  from=(-4.973,5.95,30.8)  to=(-4.973,6.0,31.45)  look=(-4.973,6.42,34.065)  fov=40  faces=ysolde
   at 0.3  line vessa "Ysolde. They're moving."  dur=1.8
   at 2.6  line ysolde "It will not stop."  dur=2.0
 # The same horns, from the south-west; the title

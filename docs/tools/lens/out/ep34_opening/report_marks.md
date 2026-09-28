@@ -1,6 +1,6 @@
 # lens marks: ep34_opening
 
-2026-09-28 16:58:54 - `tools/lens/run_lens.ps1 marks ep34_opening` - hash `401b697644f80e6c`
+2026-09-28 17:41:42 - `tools/lens/run_lens.ps1 marks ep34_opening` - hash `bf4b02801d07faa4`
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
@@ -25,11 +25,11 @@
 | S_N02_band | N02 faces in band (predicted) | PASS 100 | all in | every framed face inside the 2.39 band |  |
 | S_N07_cov | N07 mcu coverage (1600x900) | PASS 100 | 0.61 (target 0.61) | +-10 % of the vocabulary target |  |
 | S_N07_band | N07 faces in band (predicted) | PASS 100 | all in | every framed face inside the 2.39 band |  |
-| S_N10_cov | N10 fs coverage (1600x900) | PASS 100 | 0.80 (target 0.80) | +-10 % of the vocabulary target |  |
+| S_N10_cov | N10 mcu coverage (1600x900) | PASS 100 | 0.61 (target 0.61) | +-10 % of the vocabulary target |  |
 | S_N10_band | N10 faces in band (predicted) | PASS 100 | all in | every framed face inside the 2.39 band |  |
 | S_N11_cov | N11 ms coverage (1600x900) | PASS 100 | 0.51 (target 0.51) | +-10 % of the vocabulary target |  |
 | S_N11_band | N11 faces in band (predicted) | PASS 100 | all in | every framed face inside the 2.39 band |  |
-| S_N13_cov | N13 cu coverage (1600x900) | PASS 100 | 0.78 (target 0.78) | +-10 % of the vocabulary target |  |
+| S_N13_cov | N13 mcu coverage (1600x900) | PASS 100 | 0.61 (target 0.61) | +-10 % of the vocabulary target |  |
 | S_N13_band | N13 faces in band (predicted) | PASS 100 | all in | every framed face inside the 2.39 band |  |
 | S_S02_cov | S02 ms coverage (1600x900) | PASS 100 | 0.60 (target 0.60) | +-10 % of the vocabulary target |  |
 | S_S02_band | S02 faces in band (predicted) | PASS 100 | all in | every framed face inside the 2.39 band |  |

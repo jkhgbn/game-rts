@@ -1180,8 +1180,7 @@ func _apprentices() -> Array:
 		var at := p + dir * 0.7 + Vector3(signf(p.x) * 0.75, 0, 0)
 		var yaw := rad_to_deg(atan2(-at.x, -at.z))
 		out.append(IB.unit(who[k], at, yaw, "idle", 10, 0.62))
-	# the boy (young Malrik) apart at the east edge, by the violet flame, looking in
-	out.append(IB.unit(MALRIK, Vector3(4.3, 0.2, 1.9), -128.0, "idle", 10, 0.62))
+	# the boy (young Malrik) is not baked here any more: forge_ep3_memories.set actor m_boy_o (props/boy.tscn, ep3_extras.gd)
 	return out
 
 

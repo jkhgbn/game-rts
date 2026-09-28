@@ -150,3 +150,26 @@
 | 2026-09-28 17:00:21 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 58787cbde480 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
 | 2026-09-28 17:01:05 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 58787cbde480 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
 | 2026-09-28 17:02:27 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 58787cbde480 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:14:08 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | 00f2fc89822f |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:16:11 | build | forge_ep3_memories | 100 (+0) | PASS (0F 0W) | 7246268719fc |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 17:16:56 | build | forge_evenmead | 84 (-8) | FAIL (1F 0W) | ffba15f126fe | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:18:12 | build | forge_ep4_memories | 92 (-8) | WARN (0F 1W) | 69df0ae0de15 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:23:42 | build | forge_ep4_memories | 83 (-8) | FAIL (1F 0W) | 0667395d8ee7 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:25:18 | build | forge_ep3_memories | 100 (+0) | PASS (0F 0W) | f5294a38eb8e |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 17:27:29 | build | forge_ep4_memories | 100 (+17) | PASS (0F 0W) | dd17dc9e38db |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:30:38 | build | forge_ep4_memories | 83 (-17) | FAIL (1F 0W) | d55000d53387 | Cameras clear of geometry | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:32:53 | build | forge_evenmead | 76 (-8) | FAIL (1F 1W) | 61e1e119a58f | Subject inside the 2.39 band; Cameras clear of geometry | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:33:26 | build | forge_ep4_memories | 100 (+17) | PASS (0F 0W) | a4b02423255c |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:35:53 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | a4b02423255c |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:37:34 | build | forge_ep3_memories | 83 (-17) | FAIL (1F 0W) | b59d4a8e0b9f | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 17:37:45 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | 5d4cd3b31a29 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:38:55 | build | forge_ep3_memories | 100 (+17) | PASS (0F 0W) | 5215fc25ad8d |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 17:39:05 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | adfc94d511b3 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:40:12 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | efd37dac5826 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:40:49 | build | forge_evenmead | 84 (+8) | FAIL (1F 0W) | 3ea0e23fd9c6 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:41:54 | build | forge_evenmead | 100 (+16) | PASS (0F 0W) | 04655a7d2d5e |  | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:42:48 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | efd37dac5826 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:44:37 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | ad9cf3766195 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:46:14 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | ad9cf3766195 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:46:46 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | ad9cf3766195 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 17:48:42 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | ad9cf3766195 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |

@@ -27,7 +27,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "144 surfaces (19 particles / multimesh)",
+			"value": "116 surfaces (15 particles / multimesh)",
 			"weight": 2.0
 		},
 		{
@@ -41,7 +41,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0 visible Light3D; 2 switched off by lights=off",
+			"value": "0 visible Light3D; 1 switched off by lights=off",
 			"weight": 2.0
 		},
 		{
@@ -55,7 +55,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "82596",
+			"value": "81894",
 			"weight": 1.0
 		},
 		{
@@ -125,7 +125,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "764b89b14d54 vs 764b89b14d54",
+			"value": "5215fc25ad8d vs 5215fc25ad8d",
 			"weight": 1.5
 		}
 	],
@@ -149,7 +149,7 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "764b89b14d54",
+	"hash": "5215fc25ad8d",
 	"hash_note": "",
 	"headless": false,
 	"id": "forge_ep3_memories",
@@ -157,20 +157,20 @@
 	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"Mark projections: G03_a ndc (0.24, -0.05), G03_b ndc (0.26, -0.04), G03_c ndc (0.28, -0.04), G04_a ndc (0.00, 0.03), G04_b ndc (-0.03, 0.04), G04_c ndc (-0.06, 0.06), G06_a ndc (0.20, -0.01), G06_b ndc (0.00, 0.00), G06_c ndc (-0.30, 0.01), G09_a ndc (-0.01, 0.22), G09_b ndc (-0.01, 0.25), G09_c ndc (-0.01, 0.29)",
+		"Mark projections: G03_a ndc (0.24, 0.23), G03_b ndc (0.26, 0.28), G03_c ndc (0.28, 0.35), G04_a ndc (0.00, 0.03), G04_b ndc (-0.03, 0.04), G04_c ndc (-0.06, 0.06), G06_a ndc (0.35, -0.05), G06_b ndc (0.00, 0.00), G06_c ndc (-0.52, 0.08), G09_a ndc (-0.01, 0.22), G09_b ndc (-0.01, 0.25), G09_c ndc (-0.01, 0.29)",
 		"Mesh file md5: ground.res b869d3c6, scatter.res f21951a5, mountains.res dd5de66a",
 		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).",
 		"Files: `art/cinematics/stage_sets/forge_ep3_memories/forge_ep3_memories.tscn`, `art/cinematics/stage_sets/forge_ep3_memories/meshes/ground.res`, `art/cinematics/stage_sets/forge_ep3_memories/meshes/scatter.res`, `art/cinematics/stage_sets/forge_ep3_memories/meshes/mountains.res`, `art/cinematics/stage_sets/forge_ep3_memories/marks.json`, `docs/tools/world_forge/out/forge_ep3_memories/plan.png`"
 	],
-	"previous_quality": 100.0,
+	"previous_quality": 83.3,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 1.9,
+	"seconds": 2.0,
 	"shots": {
 		"plan": "plan.png"
 	},
-	"started": "2026-09-28 16:47:20",
+	"started": "2026-09-28 17:38:55",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "build"

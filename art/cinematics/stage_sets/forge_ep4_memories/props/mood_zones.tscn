@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep4_memories/props/mood_zones.gd" id="1_moods"]
+
+[node name="MoodZones" type="Node3D"]
+script = ExtResource("1_moods")

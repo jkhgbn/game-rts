@@ -43,7 +43,9 @@ actor hush     res://art/units/helpers/helper_hush/helper_hush.tscn  at=(2.8,-37
 actor ysolde   kit:ysolde   at=(-5,34)     yaw=180
 actor vessa    kit:vessa    at=(-1.6,35)   yaw=188
 actor vey      res://art/units/helpers/helper_vey/helper_vey.tscn  at=(-8.4,35.5)  yaw=176
-actor stone    res://art/cinematics/stage_sets/forge_evenmead/parts/heart_stone.tscn  at=(0.35,8.58,-35.6)  keep_height=1
+# the heart-stone (Ep3 N shots): it floats beating at Malrik's claw hand, chest-high (forge_ep3_memories/props/heart_stone_hand.tscn,
+# the Hollow's stone at hand size, glow beating)
+actor stone    res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn  at=(-0.42,8.78,-35.38)  keep_height=1
 actor bloom    res://art/cinematics/stage_sets/forge_evenmead/parts/bloom_patch.tscn  at=(-6.3,32.4)  yaw=180
 
 # ---- landmarks and subjects (tagged places)
@@ -52,7 +54,7 @@ place res://art/cinematics/stage_sets/forge_evenmead/parts/master_tree.tscn  at=
 place res://art/cinematics/stage_sets/forge_evenmead/parts/standard_shadow.tscn  at=(-5.6,-25.6)  yaw=0  tag=banner_n  pad=3
 place res://art/cinematics/stage_sets/forge_evenmead/parts/standard_nature.tscn  at=(1.5,21.5)  yaw=0  tag=banner_s  pad=3
 # zero-draw pins: the close-up marks N10 / S10 aim at the heart-stone and the bloom patch themselves
-place res://art/cinematics/stage_sets/forge_evenmead/parts/subject_pin.tscn  at=(0.35,-35.6)  y=8.58  tag=stone_pt
+place res://art/cinematics/stage_sets/forge_evenmead/parts/subject_pin.tscn  at=(-0.42,-35.38)  y=8.84  tag=stone_pt
 place res://art/cinematics/stage_sets/forge_evenmead/parts/subject_pin.tscn  at=(-6.3,32.4)  y=4.75  tag=bloom_pt
 
 # ---- the four hosts (real unit models, merged per host: tools/bake_armies.gd)
@@ -94,11 +96,11 @@ mark S06   from=(24,5.0,14.5)  to=(5,5.3,14)  look=(10,4.4,22)  look_to=(0,5.8,2
 mark S12   from=(-7.0,6.4,35.8)  look=(0,9,-36)   fov=22  subject=malrik  dur=9  lens="long lens north: Malrik's ridge"
 mark B14R  from=(-70,40,0)   to=(-60,42,8)   look=(0,2,0)     fov=50  subject=ford_stones  dur=7  lens="the same horns, from the south-west"
 # ---- Lens close shots (merged by tools/merge_lens.gd from docs/tools/lens/out/ep34_opening/marks.json; do not hand-edit)
-mark N02  from=(3.39,10.715,-38.114)  to=(2.847,10.435,-37.571)  look=(0.675,9.318,-35.399)  look_to=(0.675,9.318,-35.399)  fov=40  fov_to=40  subject=malrik  dur=6  lens="ms on malrik, 3/4-back-left, high, push 0.2"
-mark N07  from=(1.976,8.588,-32.901)  to=(1.976,8.588,-32.901)  look=(-0.54,9.475,-35.417)  look_to=(-0.54,9.475,-35.417)  fov=40  fov_to=40  subject=malrik  dur=6.5  lens="mcu on malrik, 3/4-left, low"
-mark N10  from=(0.35,8.943,-34.598)  to=(0.35,8.943,-34.598)  look=(0.35,8.577,-35.604)  look_to=(0.35,8.577,-35.604)  fov=11  fov_to=11  subject=stone_pt  dur=6  lens="fs on stone, front, high, fov 11"
-mark N11  from=(0.955,9.277,-31.635)  to=(0.955,9.277,-31.635)  look=(-1.689,9.277,-36.398)  look_to=(-1.689,9.277,-36.398)  fov=40  fov_to=40  subject=malrik  dur=6  lens="ms two-shot malrik torvald, 3/4-left, eye"
-mark N13  from=(0.007,9.554,-33.19)  to=(0.007,9.554,-34.009)  look=(0.007,9.554,-35.92)  look_to=(0.007,9.554,-35.92)  fov=40  fov_to=40  subject=malrik  dur=5.5  lens="cu on malrik, front, eye, push 0.3"
+mark N02  from=(3.392,10.713,-38.119)  to=(2.849,10.434,-37.576)  look=(0.675,9.314,-35.402)  look_to=(0.675,9.314,-35.402)  fov=40  fov_to=40  subject=malrik  dur=6  lens="ms on malrik, 3/4-back-left, high, push 0.2"
+mark N07  from=(2.551,8.376,-32.399)  to=(2.551,8.376,-32.399)  look=(0.732,9.449,-36.3)  look_to=(0.732,9.449,-36.3)  fov=32  fov_to=32  subject=malrik  dur=6.5  lens="mcu on malrik, angle=25, low, thirds-left, fov 32"
+mark N10  from=(1.485,8.057,-31.892)  to=(1.163,8.266,-32.449)  look=(-0.658,9.449,-35.604)  look_to=(-0.658,9.449,-35.604)  fov=32  fov_to=32  subject=malrik  dur=6  lens="mcu on malrik, angle=30, height=-18, thirds-right, fov 32, push 0.15"
+mark N11  from=(0.971,9.271,-31.641)  to=(0.971,9.271,-31.641)  look=(-1.696,9.271,-36.399)  look_to=(-1.696,9.271,-36.399)  fov=40  fov_to=40  subject=malrik  dur=6  lens="ms two-shot malrik torvald, 3/4-left, eye"
+mark N13  from=(0.001,8.644,-32.836)  to=(0.001,8.878,-33.773)  look=(0.001,9.422,-35.957)  look_to=(0.001,9.422,-35.957)  fov=40  fov_to=40  subject=malrik  dur=5.5  lens="mcu on malrik, front, low, push 0.3"
 mark S02  from=(-8.376,7.617,36.291)  to=(-7.828,7.335,35.743)  look=(-5.637,6.207,33.552)  look_to=(-5.637,6.207,33.552)  fov=40  fov_to=40  subject=ysolde  dur=6  lens="ms on ysolde, 3/4-back-left, high, push 0.2"
 mark S07  from=(-7.064,5.428,31.07)  to=(-7.064,5.428,31.07)  look=(-4.51,6.329,33.624)  look_to=(-4.51,6.329,33.624)  fov=40  fov_to=40  subject=ysolde  dur=6  lens="mcu on ysolde, 3/4-left, low"
 mark S10  from=(-7.896,5.705,30.202)  to=(-7.896,5.705,30.202)  look=(-6.023,4.741,32.075)  look_to=(-6.023,4.741,32.075)  fov=30  fov_to=30  subject=bloom_pt  dur=6  lens="fs on bloom, 3/4-left, high, fov 30"

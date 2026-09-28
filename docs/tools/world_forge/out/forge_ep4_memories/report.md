@@ -1,6 +1,6 @@
 # world_forge build: forge_ep4_memories
 
-2026-09-28 16:47:18 - `tools/world_forge/run_world_forge.ps1 build forge_ep4_memories` - hash `3c2fec429205`
+2026-09-28 17:48:42 - `tools/world_forge/run_world_forge.ps1 build forge_ep4_memories` - hash `ad9cf3766195`
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
@@ -16,9 +16,9 @@
 ## Budgets
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| B1 | Draw calls | PASS 100 | 116 surfaces (22 particles / multimesh) | <= 150 (budget line) |  |
+| B1 | Draw calls | PASS 100 | 113 surfaces (21 particles / multimesh) | <= 150 (budget line) |  |
 | B2 | Lights | PASS 100 | 0 visible Light3D; 2 switched off by lights=off | <= 0 (0 = the stage's LightingRig only) |  |
-| B3 | Triangles | PASS 100 | 157891 | <= 700000 |  |
+| B3 | Triangles | PASS 100 | 183566 | <= 700000 |  |
 
 ## Scatter
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -35,13 +35,13 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | Deterministic layout | PASS 100 | 3c2fec429205 vs 3c2fec429205 | same spec + seed = the same layout (every transform) |  |
+| D1 | Deterministic layout | PASS 100 | ad9cf3766195 vs ad9cf3766195 | same spec + seed = the same layout (every transform) |  |
 
 ## Images
 - plan: [plan.png](plan.png)
 
 ## Notes
-- Mark projections: H03_a ndc (0.00, -0.01), H03_b ndc (0.00, -0.00), H03_c ndc (0.00, 0.01), H04_a ndc (0.00, -0.01), H04_b ndc (0.00, -0.00), H04_c ndc (0.00, 0.01), H05_a ndc (-0.05, -0.21), H05_b ndc (-0.05, -0.22), H05_c ndc (-0.05, -0.23), H08_a ndc (-0.05, 0.10), H08_b ndc (-0.04, 0.13), H08_c ndc (-0.02, 0.16), H09_a ndc (0.01, -0.02), H09_b ndc (0.00, 0.00), H09_c ndc (-0.02, 0.03)
-- Mesh file md5: ground.res 5357ee8a, scatter.res 284cc726, mountains.res ba384661
+- Mark projections: H03_a ndc (0.00, -0.01), H03_b ndc (0.00, -0.00), H03_c ndc (0.00, 0.01), H04_a ndc (0.00, -0.01), H04_b ndc (0.00, -0.00), H04_c ndc (0.00, 0.01), H05_a ndc (-0.35, 0.19), H05_b ndc (-0.38, 0.21), H05_c ndc (-0.42, 0.25), H08_a ndc (0.03, 0.19), H08_b ndc (0.03, 0.21), H08_c ndc (0.03, 0.23), H09_a ndc (0.01, 0.00), H09_b ndc (0.00, -0.00), H09_c ndc (-0.01, -0.00)
+- Mesh file md5: ground.res 5357ee8a, scatter.res 284cc726, mountains.res 099a2105
 - Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).
 - Files: `art/cinematics/stage_sets/forge_ep4_memories/forge_ep4_memories.tscn`, `art/cinematics/stage_sets/forge_ep4_memories/meshes/ground.res`, `art/cinematics/stage_sets/forge_ep4_memories/meshes/scatter.res`, `art/cinematics/stage_sets/forge_ep4_memories/meshes/mountains.res`, `art/cinematics/stage_sets/forge_ep4_memories/marks.json`, `docs/tools/world_forge/out/forge_ep4_memories/plan.png`

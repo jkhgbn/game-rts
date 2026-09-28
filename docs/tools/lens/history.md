@@ -74,3 +74,7 @@ One row per run (`tools/lens/run_lens.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-28 16:55:13 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | 0cb68dd1c7178680 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
 | 2026-09-28 16:56:27 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | 6f6f08cf1bdebba2 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
 | 2026-09-28 16:58:54 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | 401b697644f80e6c |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 17:39:18 | marks | ep34_opening | 95 (-5) | FAIL (1F 0W) | 49394cbac6ff7264 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 17:39:40 | marks | ep34_opening | 95 (+0) | FAIL (1F 0W) | 621729326a29ee9d |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 17:40:21 | marks | ep34_opening | 100 (+5) | PASS (0F 0W) | 29753d11b121d808 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 17:41:42 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | bf4b02801d07faa4 |  | docs/tools/lens/out/ep34_opening/report_marks.md |

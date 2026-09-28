@@ -1,0 +1,51 @@
+{
+	"asset": "ep3_opening",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "sheet",
+			"hint": "check the out folder",
+			"id": "SH1",
+			"improve": "",
+			"name": "timing.png",
+			"rule": "written",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "1800x765",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 1,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"sheet": "Timing sheet"
+	},
+	"hash": "c1f07a5bd7c408f1",
+	"hash_note": "",
+	"headless": false,
+	"id": "ep3_opening",
+	"improve_next": [],
+	"kind": "sheet",
+	"kingdom": "",
+	"notes": [],
+	"previous_quality": -1.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 1.1,
+	"shots": {
+		"timing": "timing.png"
+	},
+	"started": "2026-09-28 17:44:08",
+	"tier": "",
+	"tool": "cine",
+	"verb": "sheet"
+}

@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "3 frames in stills/",
+			"value": "42 frames in stills/",
 			"weight": 1.0
 		}
 	],
@@ -29,7 +29,7 @@
 		"diff": "Changes vs the previous stills run",
 		"stills": "Stills"
 	},
-	"hash": "d3b1294b8de3e956",
+	"hash": "2d34ac20dfc8989d",
 	"hash_note": "",
 	"headless": false,
 	"id": "ep3_opening",
@@ -41,11 +41,11 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 3.9,
+	"seconds": 26.7,
 	"shots": {
 		"contact sheet": "stills.png"
 	},
-	"started": "2026-09-28 16:49:14",
+	"started": "2026-09-28 17:43:39",
 	"tier": "",
 	"tool": "cine",
 	"verb": "stills"

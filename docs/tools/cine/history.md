@@ -128,3 +128,54 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-28 16:49:42 | build | ep4_opening | 97 (+0) | PASS (0F 0W) | 0cfed8d3e9ca78ee | S10 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
 | 2026-09-28 16:51:12 | build | ep3_opening | 97 (+0) | PASS (0F 0W) | fa12fb097ec1b64a | G09 face m_malrik; Look at the pictures; Timing sheet | docs/tools/cine/out/ep3_opening/report.md |
 | 2026-09-28 16:51:18 | build | ep4_opening | 97 (+0) | PASS (0F 0W) | 70635b70ebb9d82c | S10 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 17:07:28 | check | ep4_opening | 97 (+0) | PASS (0F 0W) | 1ab848f9b873fee8 | S10 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 17:07:55 | check | ep3_opening | 97 (+0) | PASS (0F 0W) | 8ea6912a1ffec40a | G09 face m_malrik; Look at the pictures; Timing sheet | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 17:08:20 | check | ep3_opening | 40 (-57) | FAIL (32F 0W) | e3bd56669e6925e5 | N07 face w_far; N07 face w_birds; N07 face w_rays | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 17:08:35 | check | ep4_opening | 93 (-4) | FAIL (1F 0W) | 4bebbd87759cd3c9 | S10 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 17:09:21 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | efba2e16d6cd03a2 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:09:26 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 44a92c61ad5a78e5 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:14:21 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 8fedd60f9f1e6855 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:18:20 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 7c285cefb63b941c |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:18:49 | check | ep3_opening | 93 (+52) | FAIL (1F 0W) | 90f7c013416781ca | actor "stone_pt" (line 87); G09 face m_malrik; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 17:19:13 | check | ep3_opening | 93 (+1) | FAIL (1F 0W) | 2b02e58ad44e9c47 | N10 face stone; G09 face m_malrik; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 17:19:34 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 280d8edb693eb0ed |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:21:41 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | aba9b02ce6537e4a |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:22:38 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 42d9662410d38d7a |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:23:51 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 9abd083b3e813551 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:25:27 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 94c8caed8aee20e2 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:27:02 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 07e9a0401765f2f0 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:27:39 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | eac634c661de8b0d |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:30:47 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | c52a78a4f38e8a13 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:33:16 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 652f0b4d0b861f04 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:33:35 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 427bb16a2df826cb |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:35:46 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 9f9bc40d2f9735f8 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:35:57 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 6ee202fcf0e7d3e7 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:37:38 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 661effe2b7531b94 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:37:49 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | f76c021108845abc |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:38:57 | check | ep3_opening | 97 (+4) | PASS (0F 0W) | e49ea3bf80659f3c | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 17:39:08 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 6ae8323ec70ba319 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:40:16 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | e746da2eb629746a |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:40:54 | check | ep3_opening | 97 (+0) | PASS (0F 0W) | 11a5068010d2ba42 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 17:41:31 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 64a2a85854dec563 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:42:13 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | d232bf609673879e |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:42:51 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 5742e2f314456d2e |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:43:21 | build | ep3_opening | 97 (+0) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 17:43:39 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 2d34ac20dfc8989d |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 17:44:08 | sheet | ep3_opening | 100 | PASS (0F 0W) | c1f07a5bd7c408f1 |  | docs/tools/cine/out/ep3_opening/report_sheet.md |
+| 2026-09-28 17:44:40 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | d6754e171a35521a |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:46:18 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | fa1b2597264d1476 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:46:49 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | cb4b3c429969dd00 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:47:58 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | fe7155c1a31dcd0d |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:48:09 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | fe7155c1a31dcd0d |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:48:45 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | e9599c12a4c54e99 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:48:51 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 9ff14c8b0b196240 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:49:14 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 29dab9a6f5e37056 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:49:47 | check | ep4_opening | 97 (+4) | WARN (0F 1W) | a86b3ef3a881e8ef | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 17:49:53 | build | ep4_opening | 97 (+0) | WARN (0F 1W) | a86b3ef3a881e8ef | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 17:50:51 | build | ep4_opening | 98 (+1) | PASS (0F 0W) | 8f60ac11aacd20d3 | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 17:51:08 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 7a54940bea78e760 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:52:31 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | ac27504e7954f51a |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:52:38 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 12c6833b641f141c |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:53:13 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | be4ef17d0e8230a4 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 17:53:34 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 17:53:41 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 90520ebf591e7e50 |  | docs/tools/cine/out/ep4_opening/report_stills.md |

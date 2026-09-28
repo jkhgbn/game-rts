@@ -25,12 +25,21 @@ func _initialize() -> void:
 
 
 func _run() -> void:
+	# optional: '--' "N13|cu on malrik, 3/4-left, low|malrik" ... solves only those (id|words|subjects comma list)
+	var shots: Array = SHOTS
+	var user := OS.get_cmdline_user_args()
+	if not user.is_empty():
+		shots = []
+		for a: String in user:
+			var parts := a.split("|")
+			if parts.size() == 3:
+				shots.append([parts[0], parts[1], Array(parts[2].split(","))])
 	var ls: Script = load("res://tools/lens/lens_solver.gd")
 	var set_node := (load(SET) as PackedScene).instantiate() as Node3D
 	root.add_child(set_node)
 	for k in 20:
 		await process_frame
-	for s: Array in SHOTS:
+	for s: Array in shots:
 		var subs := {}
 		for tag: String in s[2]:
 			var p: Node3D = set_node.call(&"puppet", StringName(tag))

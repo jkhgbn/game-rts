@@ -18,7 +18,7 @@ sky  mountains=1  dist=140  height=20  color=#0c0b11  haze=#110f18
 # ---------------------------------------------------------------- G03 the graveyard (x -34)
 actor graveyard  res://art/cinematics/stage_sets/forge_ep3_memories/props/graveyard.tscn  at=(-34,0)
 scatter kit:fir  area=rect((-47,13.5),(-21,16.8))  count=6  gap=2.4  seed=3  scale=0.9..1.4
-actor m_boy     kit:malrik  at=(-34,0)  yaw=201  scale=0.62
+actor m_boy     res://art/cinematics/stage_sets/forge_ep3_memories/props/boy.tscn  at=(-34,0)  yaw=201
 actor m_candle  res://art/cinematics/stage_sets/forge_ep3_memories/props/candle.tscn  at=(-34.22,0.12,-0.55)  keep_height=1
 actor m_master  res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(-33.2,4.9)  yaw=189
 
@@ -30,6 +30,8 @@ actor flame_b  res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_bl
 actor flame_g  res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_green.tscn   at=(1.6,1.46,-2.9)   keep_height=1
 actor flame_v  res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_violet.tscn  at=(3.3,1.46,-0.6)   keep_height=1
 actor m_sage   res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(0,0.2,-1.3)  yaw=0  keep_height=1
+# the boy apart at the east edge, by the violet flame, looking in (props/boy.tscn: tools/ep3_extras.gd)
+actor m_boy_o   res://art/cinematics/stage_sets/forge_ep3_memories/props/boy.tscn  at=(3.95,0.2,0.9)  yaw=-118  keep_height=1
 
 # ---------------------------------------------------------------- G09 the Hollow (x 34)
 actor hollow  res://art/cinematics/stage_sets/forge_ep3_memories/props/hollow.tscn  at=(34,0)
@@ -45,7 +47,10 @@ mark G03  from=(-31.0,1.45,-6.0)  to=(-31.7,0.85,-4.6)  look=(-33.1,1.1,0.2)  lo
 # G04: the whole room from the south-west: four flames across the north arc, the three apprentices lit, the Master
 # between them, the boy alone at the east edge by the violet flame (slow truck right)
 mark G04  from=(0.2,2.5,8.8)  to=(1.2,2.3,8.0)  look=(0,1.7,-1.2)  look_to=(0.4,1.6,-1.2)  fov=44  fov_to=43  subject=m_sage  dur=6
-# G06: the same room, closer and lower on the four flames as they go out; push toward the violet one
-mark G06  from=(-0.4,1.3,5.4)  to=(0.6,1.35,4.2)  look=(0.2,1.5,-1.8)  look_to=(2.0,1.45,-1.0)  fov=42  fov_to=36  dur=6
-# G09: ground level at the flat stone: the burned candle, the knife, the beating stone; Malrik over them
+# G06: the same room, lower on the four flames as they go out; the camera drifts right onto the violet one and the boy
+# beside it, alone at the edge, as the last flame dies ("So I took")
+mark G06  from=(-0.4,1.3,5.4)  to=(0.5,1.3,4.6)  look=(0.2,1.5,-1.8)  look_to=(3.2,1.2,-0.1)  fov=42  fov_to=38  dur=6
+# G09: ground level at the flat stone: the burned candle, the knife, the beating stone; Malrik over them. (ep3_opening.cine
+# overrides it with a crane: low on the three relics, then up and back to reveal him; a crane cannot keep one subject in
+# the band at a / b / c, which this set's M1 check asks of a mark)
 mark G09  from=(32.3,0.85,2.6)  to=(32.6,0.78,2.1)  look=(34.1,1.1,-0.8)  look_to=(34.1,1.05,-0.8)  fov=44  fov_to=40  subject=m_malrik  dur=6

@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "3 frames in stills/",
+			"value": "42 frames in stills/",
 			"weight": 1.0
 		}
 	],
@@ -29,7 +29,7 @@
 		"diff": "Changes vs the previous stills run",
 		"stills": "Stills"
 	},
-	"hash": "c01b2db9474476a2",
+	"hash": "90520ebf591e7e50",
 	"hash_note": "",
 	"headless": false,
 	"id": "ep4_opening",
@@ -41,11 +41,11 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 3.8,
+	"seconds": 26.9,
 	"shots": {
 		"contact sheet": "stills.png"
 	},
-	"started": "2026-09-28 16:49:21",
+	"started": "2026-09-28 17:53:41",
 	"tier": "",
 	"tool": "cine",
 	"verb": "stills"

@@ -12,19 +12,22 @@
 # Props: forge_ep3_memories/tools/memory_bake.gd only=ep4 (then build). The Master is the ep3 set's prop. 0 lights.
 # Tags are prefixed (y_ / seed / sapling / shoot) so they never collide with forge_evenmead's puppets.
 # Build: tools\world_forge\run_world_forge.ps1 build forge_ep4_memories   (stills: ... sheet forge_ep4_memories)
-set forge_ep4_memories  size=124x36  ground=#4d5536  light=res://art/cinematics/stage_sets/forge_ep4_memories/mood_ep4_memory.tres  seed=44  title="Ysolde remembers"
+set forge_ep4_memories  size=124x36  ground=#4d5536  light=res://art/cinematics/stage_sets/forge_ep4_memories/mood_winter.tres  seed=44  title="Ysolde remembers"
 budget draws<=150 lights<=0 tris<=700000
 sky  mountains=2  dist=150  height=26  color=#6f6a78
+
+# four moods in one set: props/mood_zones re-applies the LightingRig with mood_<corner>.tres from the camera x
+place res://art/cinematics/stage_sets/forge_ep4_memories/props/mood_zones.tscn  at=(0,0)  tag=moods  radius=0.05
 
 # ---------------------------------------------------------------- H03 winter (x -45)
 actor winter    res://art/cinematics/stage_sets/forge_ep4_memories/props/winter.tscn  at=(-45,0)
 actor seed      res://art/cinematics/stage_sets/forge_ep4_memories/props/seed.tscn    at=(-45,0.13,0)  keep_height=1
-actor y_winter  res://art/cinematics/stage_sets/forge_ep4_memories/props/people_winter.tscn  at=(-45,0)
+actor y_winter  res://art/cinematics/stage_sets/forge_ep4_memories/props/people_winter_v2.tscn  at=(-45,0)
 
 # ---------------------------------------------------------------- H04 spring (x -15): the same place, the same framing
 actor spring    res://art/cinematics/stage_sets/forge_ep4_memories/props/spring.tscn  at=(-15,0)
-actor sapling   res://art/cinematics/stage_sets/forge_ep4_memories/props/seedling.tscn  at=(-15,0.13,0)  scale=2.4  keep_height=1
-actor y_spring  res://art/cinematics/stage_sets/forge_ep4_memories/props/people_spring.tscn  at=(-15,0)
+actor sapling   res://art/cinematics/stage_sets/forge_ep4_memories/props/seedling_v2.tscn  at=(-15,0.13,0)  scale=3.0  keep_height=1
+actor y_spring  res://art/cinematics/stage_sets/forge_ep4_memories/props/people_spring_v2.tscn  at=(-15,0)
 zone  seedling  circle((-15,0),1.4)
 zone  spring_cam  rect((-17,-6),(-13,0.5))
 scatter res://art/cinematics/stage_sets/forge_intro_ysolde/kits/meadow_daisies.tscn  area=circle((-15,0),12)  count=45  gap=1.2  seed=4  avoid=seedling,spring_cam
@@ -32,15 +35,16 @@ scatter res://art/cinematics/stage_sets/forge_intro_ysolde/kits/meadow_tufts.tsc
 
 # ---------------------------------------------------------------- H05 the Master (x 15)
 actor frost     res://art/cinematics/stage_sets/forge_ep4_memories/props/frost.tscn  at=(15,0)
-actor sapling_f res://art/cinematics/stage_sets/forge_ep4_memories/props/sapling_frost.tscn  at=(15,0.07,0)  keep_height=1
-actor y_child   kit:ysolde  at=(15.6,0.07,-0.5)  yaw=-50  scale=0.62  keep_height=1
-actor y_master  res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(16.5,0.07,-2.3)  yaw=-27  keep_height=1
+actor sapling_f res://art/cinematics/stage_sets/forge_ep4_memories/props/sapling_frost_v2.tscn  at=(15,0.07,0)  keep_height=1
+actor y_child   res://art/cinematics/stage_sets/forge_ep4_memories/props/child_ysolde_coax.tscn  at=(14.55,0.07,-0.75)  yaw=31  scale=0.55  keep_height=1
+actor y_master  res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(18.2,0.07,-4.2)  yaw=-47  keep_height=1
+actor hem_warmth  res://art/cinematics/stage_sets/forge_ep4_memories/props/hem_warmth_v2.tscn  at=(18.2,0.07,-4.2)  keep_height=1
 
 # ---------------------------------------------------------------- H08 / H09 the burned wood (x 45)
-actor burnt     res://art/cinematics/stage_sets/forge_ep4_memories/props/burnt.tscn  at=(45,0)
-actor fallen    res://art/cinematics/stage_sets/forge_ep4_memories/props/fallen.tscn  at=(45,0)
+actor burnt     res://art/cinematics/stage_sets/forge_ep4_memories/props/burnt_v2.tscn  at=(45,0)
+actor fallen    res://art/cinematics/stage_sets/forge_ep4_memories/props/fallen_v2.tscn  at=(45,0)
 place kit:giant_stump  at=(38.2,-9.0)  yaw=30
-actor shoot     res://art/cinematics/stage_sets/forge_ep4_memories/props/shoot.tscn  at=(45,0.09,0)  keep_height=1
+actor shoot     res://art/cinematics/stage_sets/forge_ep4_memories/props/shoot_v2.tscn  at=(45,0.09,0)  scale=1.8  keep_height=1
 actor y_ysolde  kit:ysolde  at=(43.7,0.09,-1.7)  yaw=38  keep_height=1
 
 # ---------------------------------------------------------------- camera marks (explicit; Lens words = the intent)
@@ -49,8 +53,8 @@ mark H03  from=(-44.5,0.72,-3.7)  to=(-44.65,0.6,-2.95)  look=(-44.9,0.8,3.0)  l
 # H04: the same move in the spring corner (match cut)
 mark H04  from=(-14.5,0.72,-3.7)  to=(-14.65,0.6,-2.95)  look=(-14.9,0.8,3.0)  look_to=(-14.9,0.76,3.0)  fov=44  fov_to=40  dur=5
 # H05: three-shot from the south-east, low: the frosted sapling, the child's hands on it, the Master behind
-mark H05  from=(17.3,1.0,5.3)  to=(16.7,0.95,4.5)  look=(15.7,1.6,-0.9)  look_to=(15.7,1.55,-0.9)  fov=44  fov_to=41  subject=y_child  dur=6
+mark H05  from=(13.9,0.7,2.7)  to=(14.05,0.68,2.3)  look=(15.5,0.72,-1.0)  look_to=(15.5,0.7,-1.0)  fov=40  fov_to=38  subject=y_child  dur=6
 # H08: wide through the black trunks: frozen ash, her fallen army, Ysolde small among them (slow crane down)
-mark H08  from=(50.5,2.6,6.8)  to=(49.4,2.0,5.8)  look=(44.2,1.3,-1.6)  look_to=(44.0,1.2,-1.5)  fov=42  fov_to=38  subject=y_ysolde  dur=6
+mark H08  from=(49.6,0.95,5.4)  to=(49.2,0.9,4.9)  look=(43.9,1.05,-1.2)  look_to=(43.9,1.03,-1.25)  fov=40  fov_to=37  subject=y_ysolde  dur=6
 # H09: ground level on the green shoot; her feet and the black trunks behind (push in)
-mark H09  from=(45.08,0.32,0.72)  to=(45.05,0.3,0.5)  look=(44.98,0.2,0.0)  look_to=(44.99,0.19,0.0)  fov=40  fov_to=32  dur=6
+mark H09  from=(44.86,0.3,1.1)  to=(44.87,0.3,1.0)  look=(44.72,0.34,-0.4)  look_to=(44.73,0.345,-0.42)  fov=37  fov_to=35  dur=6

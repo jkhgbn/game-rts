@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep4_memories/props/child_ysolde.gd" id="1_child"]
+
+[node name="ChildYsolde" type="Node3D"]
+script = ExtResource("1_child")
+pose = &"watch"

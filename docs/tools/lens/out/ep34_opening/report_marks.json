@@ -78,12 +78,12 @@
 			"hint": "check the subject bounds (Head pivot) or pick another size",
 			"id": "S_N10_cov",
 			"improve": "",
-			"name": "N10 fs coverage (1600x900)",
+			"name": "N10 mcu coverage (1600x900)",
 			"rule": "+-10 % of the vocabulary target",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0.80 (target 0.80)",
+			"value": "0.61 (target 0.61)",
 			"weight": 1.0
 		},
 		{
@@ -134,12 +134,12 @@
 			"hint": "check the subject bounds (Head pivot) or pick another size",
 			"id": "S_N13_cov",
 			"improve": "",
-			"name": "N13 cu coverage (1600x900)",
+			"name": "N13 mcu coverage (1600x900)",
 			"rule": "+-10 % of the vocabulary target",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0.78 (target 0.78)",
+			"value": "0.61 (target 0.61)",
 			"weight": 1.0
 		},
 		{
@@ -323,7 +323,7 @@
 		"marks": "Marks",
 		"parse": "Spec"
 	},
-	"hash": "401b697644f80e6c",
+	"hash": "bf4b02801d07faa4",
 	"hash_note": "",
 	"headless": false,
 	"id": "ep34_opening",
@@ -337,9 +337,9 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 7.6,
+	"seconds": 7.7,
 	"shots": {},
-	"started": "2026-09-28 16:58:54",
+	"started": "2026-09-28 17:41:42",
 	"tier": "",
 	"tool": "lens",
 	"verb": "marks"

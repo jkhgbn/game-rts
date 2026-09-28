@@ -27,7 +27,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "116 surfaces (22 particles / multimesh)",
+			"value": "113 surfaces (21 particles / multimesh)",
 			"weight": 2.0
 		},
 		{
@@ -55,7 +55,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "157891",
+			"value": "183566",
 			"weight": 1.0
 		},
 		{
@@ -125,7 +125,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "3c2fec429205 vs 3c2fec429205",
+			"value": "ad9cf3766195 vs ad9cf3766195",
 			"weight": 1.5
 		}
 	],
@@ -149,7 +149,7 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "3c2fec429205",
+	"hash": "ad9cf3766195",
 	"hash_note": "",
 	"headless": false,
 	"id": "forge_ep4_memories",
@@ -157,8 +157,8 @@
 	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"Mark projections: H03_a ndc (0.00, -0.01), H03_b ndc (0.00, -0.00), H03_c ndc (0.00, 0.01), H04_a ndc (0.00, -0.01), H04_b ndc (0.00, -0.00), H04_c ndc (0.00, 0.01), H05_a ndc (-0.05, -0.21), H05_b ndc (-0.05, -0.22), H05_c ndc (-0.05, -0.23), H08_a ndc (-0.05, 0.10), H08_b ndc (-0.04, 0.13), H08_c ndc (-0.02, 0.16), H09_a ndc (0.01, -0.02), H09_b ndc (0.00, 0.00), H09_c ndc (-0.02, 0.03)",
-		"Mesh file md5: ground.res 5357ee8a, scatter.res 284cc726, mountains.res ba384661",
+		"Mark projections: H03_a ndc (0.00, -0.01), H03_b ndc (0.00, -0.00), H03_c ndc (0.00, 0.01), H04_a ndc (0.00, -0.01), H04_b ndc (0.00, -0.00), H04_c ndc (0.00, 0.01), H05_a ndc (-0.35, 0.19), H05_b ndc (-0.38, 0.21), H05_c ndc (-0.42, 0.25), H08_a ndc (0.03, 0.19), H08_b ndc (0.03, 0.21), H08_c ndc (0.03, 0.23), H09_a ndc (0.01, 0.00), H09_b ndc (0.00, -0.00), H09_c ndc (-0.01, -0.00)",
+		"Mesh file md5: ground.res 5357ee8a, scatter.res 284cc726, mountains.res 099a2105",
 		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).",
 		"Files: `art/cinematics/stage_sets/forge_ep4_memories/forge_ep4_memories.tscn`, `art/cinematics/stage_sets/forge_ep4_memories/meshes/ground.res`, `art/cinematics/stage_sets/forge_ep4_memories/meshes/scatter.res`, `art/cinematics/stage_sets/forge_ep4_memories/meshes/mountains.res`, `art/cinematics/stage_sets/forge_ep4_memories/marks.json`, `docs/tools/world_forge/out/forge_ep4_memories/plan.png`"
 	],
@@ -166,11 +166,11 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.1,
+	"seconds": 2.4,
 	"shots": {
 		"plan": "plan.png"
 	},
-	"started": "2026-09-28 16:47:18",
+	"started": "2026-09-28 17:48:42",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "build"

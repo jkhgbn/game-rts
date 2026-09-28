@@ -27,7 +27,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "286 surfaces (35 particles / multimesh)",
+			"value": "289 surfaces (36 particles / multimesh)",
 			"weight": 2.0
 		},
 		{
@@ -55,7 +55,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "960291",
+			"value": "961835",
 			"weight": 1.0
 		},
 		{
@@ -91,13 +91,13 @@
 			"group": "marks",
 			"hint": "aim look= closer to the subject, or raise from= y",
 			"id": "M1",
-			"improve": "aim look= closer to the subject, or raise from= y",
+			"improve": "",
 			"name": "Subject inside the 2.39 band",
 			"rule": "subject point (actor head / place centre / look point) projects inside the central 2.39:1 band (|ndc y| <= 0.744, PASS <= 0.62) at a / b / c",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "N13_c (-0.01, -0.72)",
+			"status": "PASS",
+			"value": "51 mark phases inside |y| <= 0.62",
 			"weight": 2.0
 		},
 		{
@@ -139,16 +139,16 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "58787cbde480 vs 58787cbde480",
+			"value": "04655a7d2d5e vs 04655a7d2d5e",
 			"weight": 1.5
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 0,
-		"PASS": 9,
+		"PASS": 10,
 		"SKIP": 0,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "",
 	"groups": {
@@ -163,36 +163,28 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "58787cbde480",
+	"hash": "04655a7d2d5e",
 	"hash_note": "",
 	"headless": false,
 	"id": "forge_evenmead",
-	"improve_next": [
-		{
-			"rank": 11.0,
-			"source": "M1 Subject inside the 2.39 band",
-			"status": "WARN",
-			"text": "aim look= closer to the subject, or raise from= y",
-			"title": "Subject inside the 2.39 band"
-		}
-	],
+	"improve_next": [],
 	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"Mark projections: B01_a ndc (-0.14, -0.40), B01_b ndc (-0.27, -0.46), B01_c ndc (-0.58, -0.52), N05_a ndc (0.34, 0.10), N05_b ndc (0.35, 0.10), N05_c ndc (0.05, 0.22), N12_a ndc (0.14, 0.24), N12_b ndc (0.14, 0.24), N12_c ndc (0.14, 0.24), B14_a ndc (-0.16, -0.18), B14_b ndc (-0.18, -0.20), B14_c ndc (-0.20, -0.20), S06_a ndc (0.35, 0.07), S06_b ndc (0.35, -0.09), S06_c ndc (-0.07, -0.39), S12_a ndc (0.00, 0.00), S12_b ndc (0.00, 0.00), S12_c ndc (0.00, 0.00), B14R_a ndc (0.12, 0.12), B14R_b ndc (0.14, 0.13), B14R_c ndc (0.16, 0.14), N02_a ndc (0.33, -0.16), N02_b ndc (0.36, -0.18), N02_c ndc (0.41, -0.20), N07_a ndc (0.34, -0.33), N07_b ndc (0.34, -0.33), N07_c ndc (0.34, -0.33), N10_a ndc (0.00, 0.01), N10_b ndc (0.00, 0.01), N10_c ndc (0.00, 0.01), N11_a ndc (0.46, -0.16), N11_b ndc (0.46, -0.16), N11_c ndc (0.46, -0.16), N13_a ndc (-0.00, -0.51), N13_b ndc (-0.00, -0.59), N13_c ndc (-0.01, -0.72), S02_a ndc (0.28, -0.03), S02_b ndc (0.31, -0.03), S02_c ndc (0.34, -0.04), S07_a ndc (0.26, -0.15), S07_b ndc (0.26, -0.15), S07_c ndc (0.26, -0.15), S10_a ndc (0.31, 0.03), S10_b ndc (0.31, 0.03), S10_c ndc (0.31, 0.03), S11_a ndc (0.48, -0.07), S11_b ndc (0.48, -0.07), S11_c ndc (0.48, -0.07), S13_a ndc (0.02, -0.36), S13_b ndc (0.02, -0.42), S13_c ndc (0.02, -0.52)",
+		"Mark projections: B01_a ndc (-0.14, -0.40), B01_b ndc (-0.27, -0.46), B01_c ndc (-0.58, -0.52), N05_a ndc (0.34, 0.10), N05_b ndc (0.35, 0.10), N05_c ndc (0.05, 0.22), N12_a ndc (0.14, 0.24), N12_b ndc (0.14, 0.24), N12_c ndc (0.14, 0.24), B14_a ndc (-0.16, -0.18), B14_b ndc (-0.18, -0.20), B14_c ndc (-0.20, -0.20), S06_a ndc (0.35, 0.07), S06_b ndc (0.35, -0.09), S06_c ndc (-0.07, -0.39), S12_a ndc (0.00, 0.00), S12_b ndc (0.00, 0.00), S12_c ndc (0.00, 0.00), B14R_a ndc (0.12, 0.12), B14R_b ndc (0.14, 0.13), B14R_c ndc (0.16, 0.14), N02_a ndc (0.33, -0.16), N02_b ndc (0.36, -0.18), N02_c ndc (0.41, -0.20), N07_a ndc (-0.35, -0.33), N07_b ndc (-0.35, -0.33), N07_c ndc (-0.35, -0.33), N10_a ndc (0.34, -0.32), N10_b ndc (0.37, -0.34), N10_c ndc (0.41, -0.37), N11_a ndc (0.46, -0.15), N11_b ndc (0.46, -0.15), N11_c ndc (0.46, -0.15), N13_a ndc (-0.00, -0.34), N13_b ndc (-0.00, -0.40), N13_c ndc (-0.00, -0.48), S02_a ndc (0.28, -0.03), S02_b ndc (0.31, -0.03), S02_c ndc (0.34, -0.04), S07_a ndc (0.26, -0.15), S07_b ndc (0.26, -0.15), S07_c ndc (0.26, -0.15), S10_a ndc (0.31, 0.03), S10_b ndc (0.31, 0.03), S10_c ndc (0.31, 0.03), S11_a ndc (0.48, -0.07), S11_b ndc (0.48, -0.07), S11_c ndc (0.48, -0.07), S13_a ndc (0.02, -0.36), S13_b ndc (0.02, -0.42), S13_c ndc (0.02, -0.52)",
 		"Mesh file md5: terrain_shape.res 824b3262, ground.res 4dca4ad5, mountains.res d3b11524",
 		"Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).",
 		"Files: `art/cinematics/stage_sets/forge_evenmead/forge_evenmead.tscn`, `art/cinematics/stage_sets/forge_evenmead/meshes/terrain_shape.res`, `art/cinematics/stage_sets/forge_evenmead/meshes/ground.res`, `art/cinematics/stage_sets/forge_evenmead/meshes/mountains.res`, `art/cinematics/stage_sets/forge_evenmead/marks.json`, `docs/tools/world_forge/out/forge_evenmead/plan.png`"
 	],
-	"previous_quality": 92.0,
-	"quality": 92.0,
-	"result": "WARN",
+	"previous_quality": 84.0,
+	"quality": 100.0,
+	"result": "PASS",
 	"scene": "",
-	"seconds": 5.6,
+	"seconds": 5.7,
 	"shots": {
 		"plan": "plan.png"
 	},
-	"started": "2026-09-28 17:02:27",
+	"started": "2026-09-28 17:41:54",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "build"

@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/memory_grade.gd" id="1_despn"]
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/memory_grade_mix.gdshader" id="2_aeoxn"]
+[ext_resource type="Shader" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/memory_grade_mul.gdshader" id="3_v0j7t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gkqml"]
+render_priority = 126
+shader = ExtResource("2_aeoxn")
+shader_parameter/amount = null
+shader_parameter/saturation = null
+shader_parameter/shadow_col = null
+shader_parameter/high_col = null
+
+[sub_resource type="QuadMesh" id="QuadMesh_vr25f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tphso"]
+render_priority = 127
+shader = ExtResource("3_v0j7t")
+shader_parameter/tint = null
+shader_parameter/vignette = null
+shader_parameter/inner = null
+shader_parameter/outer = null
+
+[sub_resource type="QuadMesh" id="QuadMesh_kiesv"]
+
+[node name="MemoryGrade" type="Node3D" unique_id=1557457199]
+script = ExtResource("1_despn")
+
+[node name="Desat" type="MeshInstance3D" parent="." unique_id=1326758965]
+material_override = SubResource("ShaderMaterial_gkqml")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+ignore_occlusion_culling = true
+gi_mode = 0
+mesh = SubResource("QuadMesh_vr25f")
+
+[node name="Tint" type="MeshInstance3D" parent="." unique_id=195079325]
+material_override = SubResource("ShaderMaterial_tphso")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+ignore_occlusion_culling = true
+gi_mode = 0
+mesh = SubResource("QuadMesh_kiesv")
