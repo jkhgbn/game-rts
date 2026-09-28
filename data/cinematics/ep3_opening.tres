@@ -1,0 +1,626 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_xvsc6"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_e00up"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_0pwnk"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_0i87b"]
+
+[sub_resource type="Resource" id="Resource_lv4b2"]
+script = ExtResource("4_0i87b")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_c51av"]
+script = ExtResource("1_xvsc6")
+at = 3.0
+speaker = &"malrik"
+text = "Everyone tells my story wrong. Let me try."
+duration = 3.4
+voice = "res://assets/audio/voice/malrik/everyone_tells_my_story_b15bf545.wav"
+
+[sub_resource type="Resource" id="Resource_aon7q"]
+script = ExtResource("3_0pwnk")
+id = &"B01"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(62, 42, 24)
+to_pos = Vector3(40, 15, 14)
+look_from = Vector3(-6, 2, -6)
+look_to = Vector3(2, 2, -10)
+fov_from = 46.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.0
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_c51av")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_lv4b2")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"B01"
+
+[sub_resource type="Resource" id="Resource_kmuqt"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "I was a gravedigger's son. I grew up among the dead. They were better company."
+duration = 5.2
+voice = "res://assets/audio/voice/malrik/i_was_a_gravediggers_c1b95674.wav"
+
+[sub_resource type="Resource" id="Resource_7li4r"]
+script = ExtResource("3_0pwnk")
+id = &"N02"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(3.43, 10.69, -38.18)
+to_pos = Vector3(2.88, 10.41, -37.63)
+look_from = Vector3(0.69, 9.28, -35.43)
+look_to = Vector3(0.69, 9.28, -35.43)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_kmuqt")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_tlmly"]
+script = ExtResource("4_0i87b")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/shovel_earth.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_w0tiw"]
+script = ExtResource("4_0i87b")
+at = 3.4
+kind = &"face"
+actor = &"m_boy"
+params = {
+"time": 1.2,
+"yaw_deg": 160.0
+}
+
+[sub_resource type="Resource" id="Resource_c5ihu"]
+script = ExtResource("1_xvsc6")
+at = 0.4
+speaker = &"malrik"
+text = "The Master found me reading tombstones by one candle. He said: this one, too."
+duration = 5.2
+voice = "res://assets/audio/voice/malrik/the_master_found_me_68a72082.wav"
+
+[sub_resource type="Resource" id="Resource_n4e65"]
+script = ExtResource("3_0pwnk")
+id = &"G03"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(-31, 1.45, -6)
+to_pos = Vector3(-31.7, 0.85, -4.6)
+look_from = Vector3(-33.1, 1.1, 0.2)
+look_to = Vector3(-33.23, 1.05, 0.16)
+fov_from = 36.0
+fov_to = 34.0
+transition_in = 2
+transition_time = 0.4
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_c5ihu")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_tlmly"), SubResource("Resource_w0tiw")])
+stage_set = &"forge_ep3_memories"
+marker_prefix = &"G03"
+
+[sub_resource type="Resource" id="Resource_o2r1i"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "Too. Fourth of four. Fire was his joy, ice his patience, the wood his heart."
+duration = 5.2
+voice = "res://assets/audio/voice/malrik/too_fourth_of_four_de85a128.wav"
+
+[sub_resource type="Resource" id="Resource_c0wwd"]
+script = ExtResource("3_0pwnk")
+id = &"G04"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(0.2, 2.5, 8.8)
+to_pos = Vector3(1.2, 2.3, 8)
+look_from = Vector3(0, 1.7, -1.2)
+look_to = Vector3(0.4, 1.6, -1.2)
+fov_from = 44.0
+fov_to = 43.0
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_o2r1i")])
+stage_set = &"forge_ep3_memories"
+marker_prefix = &"G04"
+
+[sub_resource type="Resource" id="Resource_0jo08"]
+script = ExtResource("4_0i87b")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_amxvx"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "And me? He gave me what was left over. The dark. As if it were a kindness."
+duration = 5.0
+voice = "res://assets/audio/voice/malrik/and_me_he_gave_ad0ff01f.wav"
+
+[sub_resource type="Resource" id="Resource_dea66"]
+script = ExtResource("3_0pwnk")
+id = &"N05"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(-31, 3.2, -17.5)
+to_pos = Vector3(-12, 3.6, -18.5)
+look_from = Vector3(-15, 5, -27)
+look_to = Vector3(-5, 6.4, -28)
+fov_from = 38.0
+fov_to = 38.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_amxvx")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_0jo08")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"N05"
+
+[sub_resource type="Resource" id="Resource_gmhid"]
+script = ExtResource("4_0i87b")
+at = 0.9
+kind = &"vfx"
+target = Vector3(0, 2.6, -1.3)
+params = {
+"life": 1.6,
+"scale": 0.35,
+"scene": "res://art/cinematics/fx/regalia_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_dncae"]
+script = ExtResource("4_0i87b")
+at = 1.0
+kind = &"visible"
+actor = &"m_sage"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_7q1lt"]
+script = ExtResource("4_0i87b")
+at = 1.9
+kind = &"visible"
+actor = &"flame_r"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_gg4lv"]
+script = ExtResource("4_0i87b")
+at = 1.9
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_wln3e"]
+script = ExtResource("4_0i87b")
+at = 2.7
+kind = &"visible"
+actor = &"flame_b"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_lnc8a"]
+script = ExtResource("4_0i87b")
+at = 2.7
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -9.0
+}
+
+[sub_resource type="Resource" id="Resource_iijsr"]
+script = ExtResource("4_0i87b")
+at = 3.5
+kind = &"visible"
+actor = &"flame_g"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_tt8ga"]
+script = ExtResource("4_0i87b")
+at = 3.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_tifbj"]
+script = ExtResource("4_0i87b")
+at = 4.6
+kind = &"visible"
+actor = &"flame_v"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_hk6rs"]
+script = ExtResource("4_0i87b")
+at = 4.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_cu3hc"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "Then he vanished and left us nothing. So I took. That is the whole secret."
+duration = 5.0
+voice = "res://assets/audio/voice/malrik/then_he_vanished_and_877f4086.wav"
+
+[sub_resource type="Resource" id="Resource_77ua7"]
+script = ExtResource("3_0pwnk")
+id = &"G06"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(-0.4, 1.3, 5.4)
+to_pos = Vector3(0.6, 1.35, 4.2)
+look_from = Vector3(0.2, 1.5, -1.8)
+look_to = Vector3(2, 1.45, -1)
+fov_from = 42.0
+fov_to = 36.0
+transition_in = 2
+transition_time = 0.4
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_cu3hc")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_gmhid"), SubResource("Resource_dncae"), SubResource("Resource_7q1lt"), SubResource("Resource_gg4lv"), SubResource("Resource_wln3e"), SubResource("Resource_lnc8a"), SubResource("Resource_iijsr"), SubResource("Resource_tt8ga"), SubResource("Resource_tifbj"), SubResource("Resource_hk6rs")])
+stage_set = &"forge_ep3_memories"
+marker_prefix = &"G06"
+
+[sub_resource type="Resource" id="Resource_1q60v"]
+script = ExtResource("4_0i87b")
+at = 2.0
+kind = &"anim"
+actor = &"hush"
+params = {
+"hook": "play_attack"
+}
+
+[sub_resource type="Resource" id="Resource_arj5v"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "I took the dark and taught it to kneel. I took knives, and a woman who never misses."
+duration = 5.6
+voice = "res://assets/audio/voice/malrik/i_took_the_dark_7ada4fa9.wav"
+
+[sub_resource type="Resource" id="Resource_1f3k5"]
+script = ExtResource("3_0pwnk")
+id = &"N07"
+duration = 6.5
+camera_mode = 1
+from_pos = Vector3(2, 8.53, -32.92)
+to_pos = Vector3(1.85, 8.55, -33.25)
+look_from = Vector3(-0.54, 9.43, -35.47)
+look_to = Vector3(-0.54, 9.43, -35.47)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_arj5v")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_1q60v")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_i01tv"]
+script = ExtResource("4_0i87b")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/knife_ring.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_xix8x"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "She missed. Emberfall. Then the Hollow. I lost, and lost, and every time I lost,"
+duration = 5.3
+voice = "res://assets/audio/voice/malrik/she_missed_emberfall_then_fbb05401.wav"
+
+[sub_resource type="Resource" id="Resource_17e63"]
+script = ExtResource("3_0pwnk")
+id = &"W02"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(-1.3, 1.75, 10.8)
+to_pos = Vector3(-0.8, 1.7, 9.2)
+look_from = Vector3(0, 1.55, 5.2)
+look_to = Vector3(0, 1.55, 5.2)
+fov_from = 34.0
+fov_to = 34.0
+transition_in = 2
+transition_time = 0.4
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_xix8x")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_i01tv")])
+stage_set = &"forge_watch_keep"
+marker_prefix = &"W02"
+
+[sub_resource type="Resource" id="Resource_4emhd"]
+script = ExtResource("4_0i87b")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_wk6gu"]
+script = ExtResource("4_0i87b")
+at = 1.65
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -7.0
+}
+
+[sub_resource type="Resource" id="Resource_dw2lw"]
+script = ExtResource("4_0i87b")
+at = 2.2
+kind = &"anim"
+actor = &"m_malrik"
+params = {
+"arg": "soul_siphon",
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_ehiaw"]
+script = ExtResource("4_0i87b")
+at = 2.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_don7s"]
+script = ExtResource("4_0i87b")
+at = 3.95
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -7.0
+}
+
+[sub_resource type="Resource" id="Resource_tmwpr"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "I kept something. A candle. A knife. A stone that still beats in my hand."
+duration = 5.0
+voice = "res://assets/audio/voice/malrik/i_kept_something_a_95e665a5.wav"
+
+[sub_resource type="Resource" id="Resource_61erm"]
+script = ExtResource("3_0pwnk")
+id = &"G09"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(32.3, 0.85, 2.6)
+to_pos = Vector3(32.6, 0.78, 2.1)
+look_from = Vector3(34.1, 1.1, -0.8)
+look_to = Vector3(34.1, 1.05, -0.8)
+fov_from = 44.0
+fov_to = 40.0
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_tmwpr")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_4emhd"), SubResource("Resource_wk6gu"), SubResource("Resource_dw2lw"), SubResource("Resource_ehiaw"), SubResource("Resource_don7s")])
+stage_set = &"forge_ep3_memories"
+marker_prefix = &"G09"
+
+[sub_resource type="Resource" id="Resource_l43bo"]
+script = ExtResource("4_0i87b")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_b5r85"]
+script = ExtResource("1_xvsc6")
+at = 0.5
+speaker = &"malrik"
+text = "It whispers. Let it. I am the one who listens, and I am the one who decides."
+duration = 5.2
+voice = "res://assets/audio/voice/malrik/it_whispers_let_it_f35c4d4b.wav"
+
+[sub_resource type="Resource" id="Resource_t7oi8"]
+script = ExtResource("3_0pwnk")
+id = &"N10"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(1.3, 8.9, -33.4)
+to_pos = Vector3(1.1, 8.85, -33.8)
+look_from = Vector3(0.25, 9, -35.7)
+look_to = Vector3(0.25, 9, -35.7)
+fov_from = 40.0
+fov_to = 36.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_b5r85")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_l43bo")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_xnm38"]
+script = ExtResource("4_0i87b")
+at = 3.0
+kind = &"face"
+actor = &"torvald"
+params = {
+"look_actor": "malrik",
+"time": 0.6,
+"yaw_deg": 73.6104601010091
+}
+
+[sub_resource type="Resource" id="Resource_gkmtv"]
+script = ExtResource("4_0i87b")
+at = 4.6
+kind = &"face"
+actor = &"torvald"
+params = {
+"time": 0.8,
+"yaw_deg": 8.0
+}
+
+[sub_resource type="Resource" id="Resource_fb2ja"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "That is how a gravedigger's son grows strong: he never puts the shovel down."
+duration = 5.2
+voice = "res://assets/audio/voice/malrik/that_is_how_a_dfbf8c00.wav"
+
+[sub_resource type="Resource" id="Resource_x18qi"]
+script = ExtResource("3_0pwnk")
+id = &"N11"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(0.99, 9.25, -31.67)
+to_pos = Vector3(0.8, 9.25, -32)
+look_from = Vector3(-1.69, 9.25, -36.42)
+look_to = Vector3(-1.69, 9.25, -36.42)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_fb2ja")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_xnm38"), SubResource("Resource_gkmtv")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_tffat"]
+script = ExtResource("1_xvsc6")
+at = 0.3
+speaker = &"malrik"
+text = "Look at it. The last green country. Flowers to the knee. The Master's garden."
+duration = 5.1
+voice = "res://assets/audio/voice/malrik/look_at_it_the_489223a3.wav"
+
+[sub_resource type="Resource" id="Resource_7qhss"]
+script = ExtResource("1_xvsc6")
+at = 5.45
+speaker = &"malrik"
+text = "They will stand there and tell me to stop. Fire. Roots. An old man's storm."
+duration = 4.9
+voice = "res://assets/audio/voice/malrik/they_will_stand_there_52f7eb60.wav"
+
+[sub_resource type="Resource" id="Resource_hhkkf"]
+script = ExtResource("3_0pwnk")
+id = &"N12"
+duration = 10.0
+from_pos = Vector3(2.2, 9.4, -39)
+to_pos = Vector3(2.2, 9.4, -39)
+look_from = Vector3(-10, 8.5, 40)
+look_to = Vector3(-10, 8.5, 40)
+fov_from = 22.0
+fov_to = 22.0
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_tffat"), SubResource("Resource_7qhss")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"N12"
+
+[sub_resource type="Resource" id="Resource_e7g22"]
+script = ExtResource("4_0i87b")
+at = 3.2
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "umbral_shroud",
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_hlp1f"]
+script = ExtResource("1_xvsc6")
+at = 0.4
+speaker = &"malrik"
+text = "I have heard “stop” all my life."
+duration = 2.6
+voice = "res://assets/audio/voice/malrik/i_have_heard_stop_28b1860c.wav"
+
+[sub_resource type="Resource" id="Resource_ikiyg"]
+script = ExtResource("1_xvsc6")
+at = 3.3
+speaker = &"malrik"
+text = "I will not stop."
+duration = 2.0
+voice = "res://assets/audio/voice/malrik/i_will_not_stop_0b262bfa.wav"
+
+[sub_resource type="Resource" id="Resource_xbq4y"]
+script = ExtResource("3_0pwnk")
+id = &"N13"
+duration = 5.5
+camera_mode = 1
+from_pos = Vector3(0, 9.53, -33.23)
+to_pos = Vector3(0, 9.53, -34.05)
+look_from = Vector3(0, 9.53, -35.95)
+look_to = Vector3(0, 9.53, -35.95)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_xvsc6")]([SubResource("Resource_hlp1f"), SubResource("Resource_ikiyg")])
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_e7g22")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_lfyhq"]
+script = ExtResource("4_0i87b")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_horns.wav",
+"volume_db": 0.0
+}
+
+[sub_resource type="Resource" id="Resource_elptc"]
+script = ExtResource("4_0i87b")
+at = 3.0
+kind = &"title"
+params = {
+"sub": "The Gravedigger's Son",
+"text": "Episode 3",
+"time": 3.5
+}
+
+[sub_resource type="Resource" id="Resource_fuojv"]
+script = ExtResource("4_0i87b")
+at = 6.2
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_6u3dm"]
+script = ExtResource("3_0pwnk")
+id = &"B14"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(70, 40, 0)
+to_pos = Vector3(60, 42, -8)
+look_from = Vector3(0, 2, 0)
+look_to = Vector3(0, 2, 0)
+fov_from = 50.0
+fov_to = 50.0
+actions = Array[ExtResource("4_0i87b")]([SubResource("Resource_lfyhq"), SubResource("Resource_elptc"), SubResource("Resource_fuojv")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"B14"
+
+[resource]
+script = ExtResource("2_e00up")
+id = &"ep3_opening"
+title = "Episode 3: The Gravedigger's Son"
+shots = Array[ExtResource("3_0pwnk")]([SubResource("Resource_aon7q"), SubResource("Resource_7li4r"), SubResource("Resource_n4e65"), SubResource("Resource_c0wwd"), SubResource("Resource_dea66"), SubResource("Resource_77ua7"), SubResource("Resource_1f3k5"), SubResource("Resource_17e63"), SubResource("Resource_61erm"), SubResource("Resource_t7oi8"), SubResource("Resource_x18qi"), SubResource("Resource_hhkkf"), SubResource("Resource_xbq4y"), SubResource("Resource_6u3dm")])
+music_cue = &"res://assets/audio/forge/music/ep3_opening.wav"
+shake_seed = 34
+music_volume_db = -15.0
+voice_over = Array[StringName]([&"narrator", &"malrik"])
+lines_over_cuts = true

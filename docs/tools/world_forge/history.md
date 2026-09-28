@@ -109,3 +109,44 @@
 | 2026-09-27 21:14:47 | build | forge_ep2_feast | 71 | FAIL (1F 2W) | 10679d274d33 | Cameras clear of geometry; Subject inside the 2.39 band; Line of sight to the subject | docs/tools/world_forge/out/forge_ep2_feast/report.md |
 | 2026-09-27 21:15:42 | build | forge_ep2_feast | 96 (+25) | WARN (0F 1W) | c7490d8305d0 | Line of sight to the subject | docs/tools/world_forge/out/forge_ep2_feast/report.md |
 | 2026-09-27 21:16:08 | build | forge_ep2_feast | 100 (+4) | PASS (0F 0W) | 374186da5887 |  | docs/tools/world_forge/out/forge_ep2_feast/report.md |
+| 2026-09-28 16:24:15 | build | forge_ep3_memories | 48 | FAIL (3F 2W) | 506f4b8735bb | Draw calls; Subject inside the 2.39 band; Cameras clear of geometry | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 16:25:49 | build | forge_ep3_memories | 100 (+52) | PASS (0F 0W) | 225a579c09a0 |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 16:26:27 | build | forge_ep4_memories_sonnet | 50 | FAIL (3F 2W) | 34c8b43e50e2 | Draw calls; Subject inside the 2.39 band; Cameras clear of geometry | docs/tools/world_forge/out/forge_ep4_memories_sonnet/report.md |
+| 2026-09-28 16:29:17 | build | forge_ep3_memories | 100 (+0) | PASS (0F 0W) | 28605de779db |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 16:29:29 | build | forge_ep4_memories_sonnet | 78 (+28) | FAIL (1F 2W) | 5d40793ed65f | Draw calls; Cameras clear of geometry; Scatter counts | docs/tools/world_forge/out/forge_ep4_memories_sonnet/report.md |
+| 2026-09-28 16:30:33 | build | forge_ep3_memories_sonnet | 71 | FAIL (2F 0W) | e35f8ce01381 | Draw calls; Cameras clear of geometry | docs/tools/world_forge/out/forge_ep3_memories_sonnet/report.md |
+| 2026-09-28 16:30:43 | build | forge_ep3_memories_sonnet | 71 (+0) | FAIL (2F 0W) | e35f8ce01381 | Draw calls; Cameras clear of geometry | docs/tools/world_forge/out/forge_ep3_memories_sonnet/report.md |
+| 2026-09-28 16:31:09 | build | forge_ep4_memories_sonnet | 92 (+14) | WARN (0F 2W) | 0b2c5cb1afe9 | Draw calls; Scatter counts | docs/tools/world_forge/out/forge_ep4_memories_sonnet/report.md |
+| 2026-09-28 16:31:18 | build | forge_ep4_memories_sonnet | 98 (+6) | WARN (0F 1W) | d4581e86d5a9 | Scatter counts | docs/tools/world_forge/out/forge_ep4_memories_sonnet/report.md |
+| 2026-09-28 16:31:40 | build | forge_ep4_memories | 79 | FAIL (1F 1W) | 222cc3dca083 | Subject inside the 2.39 band; Line of sight to the subject | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 16:31:42 | build | forge_ep3_memories | 100 (+0) | PASS (0F 0W) | 0067bb9a7a10 |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 16:31:58 | build | forge_ep4_memories | 100 (+21) | PASS (0F 0W) | 43aedbdf42a6 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 16:32:00 | build | forge_ep3_memories_sonnet | 83 (+13) | FAIL (1F 0W) | e35f8ce01381 | Cameras clear of geometry | docs/tools/world_forge/out/forge_ep3_memories_sonnet/report.md |
+| 2026-09-28 16:32:10 | build | forge_ep4_memories_sonnet | 98 (+0) | WARN (0F 1W) | 97c180f8e064 | Scatter counts | docs/tools/world_forge/out/forge_ep4_memories_sonnet/report.md |
+| 2026-09-28 16:32:52 | build | forge_ep3_memories_sonnet | 83 (+0) | FAIL (1F 0W) | d51134c8db4e | Cameras clear of geometry | docs/tools/world_forge/out/forge_ep3_memories_sonnet/report.md |
+| 2026-09-28 16:33:56 | build | forge_ep3_memories | 100 (+0) | PASS (0F 0W) | 764b89b14d54 |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 16:34:05 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | 37d12aeef83a |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 16:35:31 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | 6635d9ed416c |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 16:36:15 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | 3c2fec429205 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 16:37:29 | build | forge_evenmead | 54 | FAIL (3F 1W) | 0ab92f206ec5 | Draw calls; Subject inside the 2.39 band; Cameras clear of geometry | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:38:49 | build | forge_evenmead | 74 (+20) | FAIL (1F 2W) | 51015eae7643 | Subject inside the 2.39 band; Cameras clear of geometry; Placements on flat enough ground | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:42:40 | build | forge_evenmead | 66 (-8) | FAIL (2F 1W) | 43a9220b02c0 | Subject inside the 2.39 band; Cameras clear of geometry; Placements on flat enough ground | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:46:28 | build | forge_evenmead | 84 (+18) | FAIL (1F 0W) | d0f59de95d4c | Cameras clear of geometry | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:46:58 | build | forge_evenmead | 100 (+16) | PASS (0F 0W) | ffad5cd5f3dd |  | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:47:18 | build | forge_ep4_memories | 100 (+0) | PASS (0F 0W) | 3c2fec429205 |  | docs/tools/world_forge/out/forge_ep4_memories/report.md |
+| 2026-09-28 16:47:20 | build | forge_ep3_memories | 100 (+0) | PASS (0F 0W) | 764b89b14d54 |  | docs/tools/world_forge/out/forge_ep3_memories/report.md |
+| 2026-09-28 16:48:16 | build | forge_evenmead | 100 (+0) | PASS (0F 0W) | ffad5cd5f3dd |  | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:50:00 | build | forge_evenmead | 76 (-24) | FAIL (1F 1W) | 2e362bf3ffaf | Subject inside the 2.39 band; Cameras clear of geometry | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:51:46 | build | forge_evenmead | 84 (+8) | WARN (0F 2W) | 4e78c5b466e1 | Subject inside the 2.39 band; Cameras clear of geometry | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:52:42 | build | forge_evenmead | 92 (+8) | WARN (0F 1W) | 3c34e964d95d | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:53:41 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 3c34e964d95d | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:55:09 | build | forge_evenmead | 84 (-8) | FAIL (1F 0W) | 52c283c2a8ed | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:55:24 | build | forge_evenmead | 92 (+8) | WARN (0F 1W) | 54cca6d8350b | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:56:22 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 49e932cf76f7 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:56:38 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | efad3ed2c52e | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:57:45 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | efad3ed2c52e | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:58:50 | build | forge_evenmead | 84 (-8) | FAIL (1F 0W) | a15872f7e593 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 16:59:05 | build | forge_evenmead | 92 (+8) | WARN (0F 1W) | 58787cbde480 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:00:21 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 58787cbde480 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:01:05 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 58787cbde480 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-09-28 17:02:27 | build | forge_evenmead | 92 (+0) | WARN (0F 1W) | 58787cbde480 | Subject inside the 2.39 band | docs/tools/world_forge/out/forge_evenmead/report.md |

@@ -1,0 +1,51 @@
+﻿# Episode 3 flashbacks (E34-B; docs/design/episode3-4-opening.md 4.2): Malrik's memories, three corners of one night.
+#   G03 the graveyard (x -34): the gravedigger's boy reads a tombstone by one candle; behind him the open grave with
+#       his father's spade, rows of leaning stones, a dead tree on the moon; the Master (hooded, beard of light, four-
+#       colour burning hem) has come to stand among the stones: "this one, too"
+#   G04 / G06 the orrery (x 0): four flames on four pedestals (red, blue, green, violet), three young apprentices lit by
+#       theirs, the Master at the centre, the boy at the edge by the violet one. G06 = the same room: the Master is
+#       gone (the cine hides him) and the flames go out one by one (hide flame_r / _b / _g / _v)
+#   G09 the Hollow (x 34): rubble, snapped pillars, violet cracks; on a flat stone the three things he kept: a burned-down
+#       candle, a knife, and the heart-stone, beating; grown Malrik stands over them
+# Memory grade: mood_ep3_memory.tres (desaturated, violet shadows / warm highlights split-tone, heavy vignette, haze).
+# Props: tools/memory_bake.gd (re-run it, then build). 0 lights. Tags are prefixed (m_ / flame_ / hollow_) so they never
+# collide with forge_evenmead's puppets (malrik, stone...) in the same movie.
+# Build: tools\world_forge\run_world_forge.ps1 build forge_ep3_memories   (stills: ... sheet forge_ep3_memories)
+set forge_ep3_memories  size=100x34  ground=#1c1a21  light=res://art/cinematics/stage_sets/forge_ep3_memories/mood_ep3_memory.tres  seed=34  title="Malrik remembers"
+budget draws<=150 lights<=0 tris<=700000
+sky  mountains=1  dist=140  height=20  color=#0c0b11  haze=#110f18
+
+# ---------------------------------------------------------------- G03 the graveyard (x -34)
+actor graveyard  res://art/cinematics/stage_sets/forge_ep3_memories/props/graveyard.tscn  at=(-34,0)
+scatter kit:fir  area=rect((-47,13.5),(-21,16.8))  count=6  gap=2.4  seed=3  scale=0.9..1.4
+actor m_boy     kit:malrik  at=(-34,0)  yaw=201  scale=0.62
+actor m_candle  res://art/cinematics/stage_sets/forge_ep3_memories/props/candle.tscn  at=(-34.22,0.12,-0.55)  keep_height=1
+actor m_master  res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(-33.2,4.9)  yaw=189
+
+# ---------------------------------------------------------------- G04 / G06 the orrery (x 0)
+actor orrery  res://art/cinematics/stage_sets/forge_ep3_memories/props/orrery.tscn  at=(0,0)
+actor apprentices  res://art/cinematics/stage_sets/forge_ep3_memories/props/apprentices.tscn  at=(0,0)
+actor flame_r  res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_red.tscn     at=(-3.3,1.46,-0.6)  keep_height=1
+actor flame_b  res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_blue.tscn    at=(-1.6,1.46,-2.9)  keep_height=1
+actor flame_g  res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_green.tscn   at=(1.6,1.46,-2.9)   keep_height=1
+actor flame_v  res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_violet.tscn  at=(3.3,1.46,-0.6)   keep_height=1
+actor m_sage   res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(0,0.2,-1.3)  yaw=0  keep_height=1
+
+# ---------------------------------------------------------------- G09 the Hollow (x 34)
+actor hollow  res://art/cinematics/stage_sets/forge_ep3_memories/props/hollow.tscn  at=(34,0)
+place kit:ruin_pillar  at=(28.8,-5.2)  yaw=20
+place kit:ruin_pillar  at=(39.6,-6.4)  yaw=-35  scale=1.2
+scatter kit:shards  area=rect((26,-10),(42,-3))  count=5  gap=2.2  seed=9  scale=0.6..1.0
+actor hollow_stone  res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone.tscn  at=(34.02,0.385,-0.04)  keep_height=1
+actor m_malrik  kit:malrik  at=(34.55,0,-1.75)  yaw=-17
+
+# ---------------------------------------------------------------- camera marks (explicit; Lens words = the intent)
+# G03: over the candle, low beside the tombstone, toward the boy's face; the graveyard, the Master and the moon behind him
+mark G03  from=(-31.0,1.45,-6.0)  to=(-31.7,0.85,-4.6)  look=(-33.1,1.1,0.2)  look_to=(-33.23,1.05,0.16)  fov=36  fov_to=34  subject=m_boy  dur=6
+# G04: the whole room from the south-west: four flames across the north arc, the three apprentices lit, the Master
+# between them, the boy alone at the east edge by the violet flame (slow truck right)
+mark G04  from=(0.2,2.5,8.8)  to=(1.2,2.3,8.0)  look=(0,1.7,-1.2)  look_to=(0.4,1.6,-1.2)  fov=44  fov_to=43  subject=m_sage  dur=6
+# G06: the same room, closer and lower on the four flames as they go out; push toward the violet one
+mark G06  from=(-0.4,1.3,5.4)  to=(0.6,1.35,4.2)  look=(0.2,1.5,-1.8)  look_to=(2.0,1.45,-1.0)  fov=42  fov_to=36  dur=6
+# G09: ground level at the flat stone: the burned candle, the knife, the beating stone; Malrik over them
+mark G09  from=(32.3,0.85,2.6)  to=(32.6,0.78,2.1)  look=(34.1,1.1,-0.8)  look_to=(34.1,1.05,-0.8)  fov=44  fov_to=40  subject=m_malrik  dur=6

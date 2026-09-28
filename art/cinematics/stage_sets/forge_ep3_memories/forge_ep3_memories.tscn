@@ -1,0 +1,166 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="1_0pw7w"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_ep3_memories/mood_ep3_memory.tres" id="2_drw7f"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep3_memories/meshes/ground.res" id="3_3byy1"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep3_memories/meshes/mountains.res" id="4_05qc7"]
+[ext_resource type="PackedScene" path="res://art/environment/ruin_pillar.tscn" id="5_el406"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/graveyard.tscn" id="6_l2lnj"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/malrik.tscn" id="7_ei34x"]
+[ext_resource type="Script" path="res://art/units/wizards/malrik.gd" id="8_06msk"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/candle.tscn" id="9_y2ont"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn" id="10_l56kf"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/orrery.tscn" id="11_f1i5q"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/apprentices.tscn" id="12_uwwmj"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_red.tscn" id="13_gsjn1"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_blue.tscn" id="14_uffau"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_green.tscn" id="15_1mrvb"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/flame_violet.tscn" id="16_etjn7"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/hollow.tscn" id="17_6cuwc"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone.tscn" id="18_xbrcu"]
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep3_memories/meshes/scatter.res" id="19_ghjca"]
+
+[node name="forge_ep3_memories" type="Node3D" unique_id=2138828612]
+script = ExtResource("1_0pw7w")
+set_id = &"forge_ep3_memories"
+lighting = ExtResource("2_drw7f")
+lights_off = Array[NodePath]([NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/graveyard"), NodePath("Puppets/m_boy"), NodePath("Puppets/m_candle"), NodePath("Puppets/m_master"), NodePath("Puppets/orrery"), NodePath("Puppets/apprentices"), NodePath("Puppets/flame_r"), NodePath("Puppets/flame_b"), NodePath("Puppets/flame_g"), NodePath("Puppets/flame_v"), NodePath("Puppets/m_sage"), NodePath("Puppets/hollow"), NodePath("Puppets/hollow_stone"), NodePath("Puppets/m_malrik")])
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=179326021]
+gi_mode = 0
+mesh = ExtResource("3_3byy1")
+
+[node name="Mountains" type="MeshInstance3D" parent="." unique_id=1534195903]
+cast_shadow = 0
+gi_mode = 0
+mesh = ExtResource("4_05qc7")
+
+[node name="Placed" type="Node3D" parent="." unique_id=210058585]
+
+[node name="ruin_pillar_1" type="Node3D" parent="Placed" unique_id=1495042401 instance=ExtResource("5_el406")]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 28.8, 0, -5.2)
+
+[node name="ruin_pillar_2" type="Node3D" parent="Placed" unique_id=486428220 instance=ExtResource("5_el406")]
+transform = Transform3D(0.9829825, 0, -0.6882918, 0, 1.2, 0, 0.6882918, 0, 0.9829825, 39.6, 0, -6.4)
+
+[node name="Puppets" type="Node3D" parent="." unique_id=699566625]
+
+[node name="graveyard" type="Node3D" parent="Puppets" unique_id=1529977819 instance=ExtResource("6_l2lnj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0, 0)
+
+[node name="m_boy" type="Node3D" parent="Puppets" unique_id=747726073 instance=ExtResource("7_ei34x")]
+transform = Transform3D(-0.5788199, 0, -0.22218807, 0, 0.62, 0, 0.22218807, 0, -0.5788199, -34, 0, 0)
+script = ExtResource("8_06msk")
+light_energy = 1.0
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+death_style = &"sink"
+stride_time = 1.1
+stride_speed = 4.4
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="m_candle" type="Node3D" parent="Puppets" unique_id=1924281102 instance=ExtResource("9_y2ont")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.22, 0.12, -0.55)
+
+[node name="m_master" type="Node3D" parent="Puppets" unique_id=1297060520 instance=ExtResource("10_l56kf")]
+transform = Transform3D(-0.98768836, 0, -0.15643437, 0, 1, 0, 0.15643437, 0, -0.98768836, -33.2, 0, 4.9)
+
+[node name="orrery" type="Node3D" parent="Puppets" unique_id=1244203382 instance=ExtResource("11_f1i5q")]
+
+[node name="apprentices" type="Node3D" parent="Puppets" unique_id=2026718272 instance=ExtResource("12_uwwmj")]
+
+[node name="flame_r" type="Node3D" parent="Puppets" unique_id=1867552723 instance=ExtResource("13_gsjn1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3, 1.46, -0.6)
+
+[node name="flame_b" type="Node3D" parent="Puppets" unique_id=879565551 instance=ExtResource("14_uffau")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 1.46, -2.9)
+
+[node name="flame_g" type="Node3D" parent="Puppets" unique_id=947367906 instance=ExtResource("15_1mrvb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 1.46, -2.9)
+
+[node name="flame_v" type="Node3D" parent="Puppets" unique_id=1600830689 instance=ExtResource("16_etjn7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.3, 1.46, -0.6)
+
+[node name="m_sage" type="Node3D" parent="Puppets" unique_id=1080580555 instance=ExtResource("10_l56kf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -1.3)
+
+[node name="hollow" type="Node3D" parent="Puppets" unique_id=588941175 instance=ExtResource("17_6cuwc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0, 0)
+
+[node name="hollow_stone" type="Node3D" parent="Puppets" unique_id=1035794301 instance=ExtResource("18_xbrcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.02, 0.385, -0.04)
+
+[node name="m_malrik" type="Node3D" parent="Puppets" unique_id=1493357809 instance=ExtResource("7_ei34x")]
+transform = Transform3D(0.9563048, 0, -0.2923717, 0, 1, 0, 0.2923717, 0, 0.9563048, 34.55, 0, -1.75)
+script = ExtResource("8_06msk")
+light_energy = 1.0
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+death_style = &"sink"
+stride_time = 1.1
+stride_speed = 4.4
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Scatter" type="MeshInstance3D" parent="." unique_id=1194485967]
+gi_mode = 0
+mesh = ExtResource("19_ghjca")
+
+[node name="Shots" type="Node3D" parent="." unique_id=1621957569]
+
+[node name="G03_from" type="Marker3D" parent="Shots" unique_id=875090520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 1.45, -6)
+metadata/fov = 36.0
+
+[node name="G03_to" type="Marker3D" parent="Shots" unique_id=1788471526]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.7, 0.85, -4.6)
+metadata/fov = 34.0
+
+[node name="G03_look_from" type="Marker3D" parent="Shots" unique_id=1677234184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.1, 1.1, 0.2)
+
+[node name="G03_look_to" type="Marker3D" parent="Shots" unique_id=2059116246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.23, 1.05, 0.16)
+
+[node name="G04_from" type="Marker3D" parent="Shots" unique_id=804041715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 2.5, 8.8)
+metadata/fov = 44.0
+
+[node name="G04_to" type="Marker3D" parent="Shots" unique_id=721506762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 2.3, 8)
+metadata/fov = 43.0
+
+[node name="G04_look_from" type="Marker3D" parent="Shots" unique_id=275890184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -1.2)
+
+[node name="G04_look_to" type="Marker3D" parent="Shots" unique_id=1364643696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.6, -1.2)
+
+[node name="G06_from" type="Marker3D" parent="Shots" unique_id=1307949630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 1.3, 5.4)
+metadata/fov = 42.0
+
+[node name="G06_to" type="Marker3D" parent="Shots" unique_id=938903986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.35, 4.2)
+metadata/fov = 36.0
+
+[node name="G06_look_from" type="Marker3D" parent="Shots" unique_id=1448334508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.5, -1.8)
+
+[node name="G06_look_to" type="Marker3D" parent="Shots" unique_id=1635350815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.45, -1)
+
+[node name="G09_from" type="Marker3D" parent="Shots" unique_id=392602035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.3, 0.85, 2.6)
+metadata/fov = 44.0
+
+[node name="G09_to" type="Marker3D" parent="Shots" unique_id=1081309925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.6, 0.78, 2.1)
+metadata/fov = 40.0
+
+[node name="G09_look_from" type="Marker3D" parent="Shots" unique_id=1796693362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.1, 1.1, -0.8)
+
+[node name="G09_look_to" type="Marker3D" parent="Shots" unique_id=739341567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.1, 1.05, -0.8)

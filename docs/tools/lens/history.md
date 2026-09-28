@@ -65,3 +65,12 @@ One row per run (`tools/lens/run_lens.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-27 19:32:14 | shoot | dance_victory | 98 | PASS (0F 0W) |  |  | docs/tools/lens/out/dance_victory/report_shoot.md |
 | 2026-09-27 19:32:40 | shoot | dance_surrender | 87 | FAIL (1F 0W) |  |  | docs/tools/lens/out/dance_surrender/report_shoot.md |
 | 2026-09-27 19:33:10 | shoot | dance_surrender | 100 (+13) | PASS (0F 0W) |  |  | docs/tools/lens/out/dance_surrender/report_shoot.md |
+| 2026-09-28 16:48:21 | marks | ep34_opening | 91 | FAIL (2F 0W) | d22e16e00cb8632e |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:48:53 | marks | ep34_opening | 93 (+2) | FAIL (1F 1W) | 1953230d39d641cd |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:49:12 | marks | ep34_opening | 95 (+2) | WARN (0F 2W) | af26ef284637942b |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:49:30 | marks | ep34_opening | 100 (+5) | PASS (0F 0W) | 9a10a1fa71d7fdbc |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:50:36 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | 6e6d0875c4d1b678 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:52:31 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | c861e709226d9ef0 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:55:13 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | 0cb68dd1c7178680 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:56:27 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | 6f6f08cf1bdebba2 |  | docs/tools/lens/out/ep34_opening/report_marks.md |
+| 2026-09-28 16:58:54 | marks | ep34_opening | 100 (+0) | PASS (0F 0W) | 401b697644f80e6c |  | docs/tools/lens/out/ep34_opening/report_marks.md |

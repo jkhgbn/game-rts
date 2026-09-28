@@ -4,8 +4,8 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 284,
- "total_seconds": 624.62,
+ "count": 285,
+ "total_seconds": 626.86,
  "orphans": [],
  "lines": {
   "aldra/still_water_steady_aim_41ed1299": {
@@ -81,7 +81,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:152",
+     "source": "data/cinematics/src/ep2_opening.cine:164",
      "ref": "ep2_opening/S13@0.1",
      "slot": 2.9,
      "slot_kind": "cine shot",
@@ -114,7 +114,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:99",
+     "source": "data/cinematics/src/ep2_opening.cine:111",
      "ref": "ep2_opening/S05@0.4",
      "slot": 2.6,
      "slot_kind": "cine shot",
@@ -180,7 +180,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:62",
+     "source": "data/cinematics/src/ep2_opening.cine:61",
      "ref": "ep2_opening/S02@0.3",
      "slot": 2.1,
      "slot_kind": "cine shot",
@@ -313,6 +313,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:41",
+     "ref": "ep3_opening/N05@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L5",
      "slot": 5.0,
@@ -338,10 +346,44 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:23",
+     "ref": "ep3_opening/B01@3",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L1",
      "slot": 3.4,
      "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/i_have_heard_stop_28b1860c": {
+   "speaker": "malrik",
+   "text": "I have heard “stop” all my life.",
+   "text_hash": "28b1860ca904ba8c",
+   "path": "res://assets/audio/voice/malrik/i_have_heard_stop_28b1860c.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.24,
+   "peak": 0.8913,
+   "rms_db": -13.7,
+   "clipped": 0,
+   "file_hash": "b0d36abb10733ec1",
+   "gen_s": 1.84,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:93",
+     "ref": "ep3_opening/N13@0.4",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -388,6 +430,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:70",
+     "ref": "ep3_opening/G09@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L9",
      "slot": 5.0,
@@ -411,6 +461,14 @@
    "file_hash": "aa4ffffa09c61949",
    "gen_s": 5.51,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:62",
+     "ref": "ep3_opening/N07@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -438,6 +496,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:26",
+     "ref": "ep3_opening/N02@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L2",
      "slot": 5.2,
@@ -463,6 +529,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:94",
+     "ref": "ep3_opening/N13@3.3",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L15",
      "slot": 2.0,
@@ -486,6 +560,14 @@
    "file_hash": "ea4d932e35fc5977",
    "gen_s": 6.15,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:81",
+     "ref": "ep3_opening/N10@0.5",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -588,6 +670,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:89",
+     "ref": "ep3_opening/N12@0.3",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L12",
      "slot": 4.8,
@@ -638,6 +728,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:66",
+     "ref": "ep3_opening/W02@0.3",
+     "slot": 5.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L8",
      "slot": 5.3,
@@ -661,6 +759,14 @@
    "file_hash": "644b1f97e88b1d85",
    "gen_s": 4.64,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:84",
+     "ref": "ep3_opening/N11@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -688,6 +794,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:32",
+     "ref": "ep3_opening/G03@0.4",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L3",
      "slot": 5.2,
@@ -711,6 +825,14 @@
    "file_hash": "cd1516e5bf95c27f",
    "gen_s": 6.17,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:47",
+     "ref": "ep3_opening/G06@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -738,6 +860,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:90",
+     "ref": "ep3_opening/N12@5.45",
+     "slot": 4.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L13",
      "slot": 4.5,
@@ -761,6 +891,14 @@
    "file_hash": "6aa183fd0e46045b",
    "gen_s": 9.0,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:36",
+     "ref": "ep3_opening/G04@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -1898,7 +2036,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:125",
+     "source": "data/cinematics/src/ep2_opening.cine:137",
      "ref": "ep2_opening/S08@2.1",
      "slot": 2.1,
      "slot_kind": "cine shot",
@@ -1931,7 +2069,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:119",
+     "source": "data/cinematics/src/ep2_opening.cine:131",
      "ref": "ep2_opening/S07@3.9",
      "slot": 1.6,
      "slot_kind": "cine shot",
@@ -1964,7 +2102,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:126",
+     "source": "data/cinematics/src/ep2_opening.cine:138",
      "ref": "ep2_opening/S08@4.2",
      "slot": 1.8,
      "slot_kind": "cine shot",
@@ -1997,7 +2135,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:117",
+     "source": "data/cinematics/src/ep2_opening.cine:129",
      "ref": "ep2_opening/S07@0.3",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -2030,7 +2168,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:109",
+     "source": "data/cinematics/src/ep2_opening.cine:121",
      "ref": "ep2_opening/S06@0.4",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -2063,7 +2201,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:136",
+     "source": "data/cinematics/src/ep2_opening.cine:148",
      "ref": "ep2_opening/S10@2.1",
      "slot": 2.4,
      "slot_kind": "cine shot",
@@ -2096,7 +2234,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:135",
+     "source": "data/cinematics/src/ep2_opening.cine:147",
      "ref": "ep2_opening/S10@0.3",
      "slot": 1.8,
      "slot_kind": "cine shot",
@@ -2129,7 +2267,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:157",
+     "source": "data/cinematics/src/ep2_opening.cine:169",
      "ref": "ep2_opening/S14@0.1",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -2162,7 +2300,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:123",
+     "source": "data/cinematics/src/ep2_opening.cine:135",
      "ref": "ep2_opening/S08@0.3",
      "slot": 1.8,
      "slot_kind": "cine shot",
@@ -2195,7 +2333,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:111",
+     "source": "data/cinematics/src/ep2_opening.cine:123",
      "ref": "ep2_opening/S06@2.1",
      "slot": 2.2,
      "slot_kind": "cine shot",
@@ -2228,7 +2366,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:118",
+     "source": "data/cinematics/src/ep2_opening.cine:130",
      "ref": "ep2_opening/S07@2",
      "slot": 1.9,
      "slot_kind": "cine shot",
@@ -2386,7 +2524,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:56",
+     "source": "data/cinematics/src/ep2_opening.cine:57",
      "ref": "ep2_opening/S01@1.2",
      "slot": 3.8,
      "slot_kind": "cine shot",
@@ -6969,7 +7107,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:143",
+     "source": "data/cinematics/src/ep2_opening.cine:155",
      "ref": "ep2_opening/S11@2.8",
      "slot": 3.3,
      "slot_kind": "cine shot",
@@ -7002,7 +7140,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:158",
+     "source": "data/cinematics/src/ep2_opening.cine:170",
      "ref": "ep2_opening/S14@1.8",
      "slot": 2.2,
      "slot_kind": "cine shot",
@@ -7035,7 +7173,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:142",
+     "source": "data/cinematics/src/ep2_opening.cine:154",
      "ref": "ep2_opening/S11@0.3",
      "slot": 2.5,
      "slot_kind": "cine shot",
@@ -7093,7 +7231,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:138",
+     "source": "data/cinematics/src/ep2_opening.cine:150",
      "ref": "ep2_opening/S10@4.5",
      "slot": 1.5,
      "slot_kind": "cine shot",
@@ -7126,7 +7264,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:132",
+     "source": "data/cinematics/src/ep2_opening.cine:144",
      "ref": "ep2_opening/S09@3",
      "slot": 1.5,
      "slot_kind": "cine shot",
@@ -7159,7 +7297,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:114",
+     "source": "data/cinematics/src/ep2_opening.cine:126",
      "ref": "ep2_opening/S06@4.3",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -7217,7 +7355,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:64",
+     "source": "data/cinematics/src/ep2_opening.cine:63",
      "ref": "ep2_opening/S02@2.1",
      "slot": 2.6,
      "slot_kind": "cine shot",
@@ -7375,7 +7513,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:78",
+     "source": "data/cinematics/src/ep2_opening.cine:77",
      "ref": "ep2_opening/S03@0.3",
      "slot": 1.6,
      "slot_kind": "cine shot",
@@ -7408,7 +7546,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:146",
+     "source": "data/cinematics/src/ep2_opening.cine:158",
      "ref": "ep2_opening/S12@0.3",
      "slot": 1.6,
      "slot_kind": "cine shot",
@@ -7491,6 +7629,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:68",
+     "ref": "ep4_opening/S13@0.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L14",
      "slot": 1.8,
@@ -7519,7 +7665,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:80",
+     "source": "data/cinematics/src/ep2_opening.cine:78",
      "ref": "ep2_opening/S03@1.9",
      "slot": 4.1,
      "slot_kind": "cine shot",
@@ -7555,7 +7701,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:131",
+     "source": "data/cinematics/src/ep2_opening.cine:143",
      "ref": "ep2_opening/S09@0.5",
      "slot": 2.5,
      "slot_kind": "cine shot",
@@ -7647,7 +7793,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:148",
+     "source": "data/cinematics/src/ep2_opening.cine:160",
      "ref": "ep2_opening/S12@1.9",
      "slot": 3.1,
      "slot_kind": "cine shot",
@@ -7680,6 +7826,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:35",
+     "ref": "ep4_opening/H05@0.3",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L5",
      "slot": 5.1,
@@ -7703,6 +7857,14 @@
    "file_hash": "afcaef7702ad8233",
    "gen_s": 4.72,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:42",
+     "ref": "ep4_opening/S06@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -7730,6 +7892,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:54",
+     "ref": "ep4_opening/H09@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L9",
      "slot": 5.2,
@@ -7753,6 +7923,14 @@
    "file_hash": "14a0834fdbed147f",
    "gen_s": 3.5,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:23",
+     "ref": "ep4_opening/S02@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -7780,6 +7958,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:32",
+     "ref": "ep4_opening/H04@0.3",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L4",
      "slot": 4.4,
@@ -7803,6 +7989,14 @@
    "file_hash": "4f7d1b4e41c75dca",
    "gen_s": 2.79,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:69",
+     "ref": "ep4_opening/S13@2.6",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -7830,6 +8024,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:51",
+     "ref": "ep4_opening/H08@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L8",
      "slot": 5.0,
@@ -7853,6 +8055,14 @@
    "file_hash": "20adc4f2054346d5",
    "gen_s": 5.63,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:66",
+     "ref": "ep4_opening/S12@5.1",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -7880,6 +8090,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:65",
+     "ref": "ep4_opening/S12@0.3",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L12",
      "slot": 4.6,
@@ -7903,6 +8121,14 @@
    "file_hash": "64c05c58c2e7115d",
    "gen_s": 12.1,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:20",
+     "ref": "ep4_opening/B01@3",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -7930,6 +8156,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:29",
+     "ref": "ep4_opening/H03@0.4",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L3",
      "slot": 5.1,
@@ -7953,6 +8187,14 @@
    "file_hash": "93daee48488efa82",
    "gen_s": 4.91,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:60",
+     "ref": "ep4_opening/S10@0.3",
+     "slot": 5.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -7980,6 +8222,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:62",
+     "ref": "ep4_opening/S11@0.3",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L11",
      "slot": 5.1,
@@ -8003,6 +8253,14 @@
    "file_hash": "8349116b0758a707",
    "gen_s": 4.39,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:45",
+     "ref": "ep4_opening/S07@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",

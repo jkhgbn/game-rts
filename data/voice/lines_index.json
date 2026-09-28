@@ -6,6 +6,8 @@
   "docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines",
   "scripts/campaign/mission_01.gd: 15 lines",
   "data/cinematics/src/ep2_opening.cine: 28 lines",
+  "data/cinematics/src/ep3_opening.cine: 15 lines",
+  "data/cinematics/src/ep4_opening.cine: 15 lines",
   "data/cinematics/src/prologue_3min.cine: 30 lines",
   "data/cinematics/src/two_wizards.cine: 1 lines",
   "data/cinematics/src/watch_keep.cine: 4 lines",
@@ -16,7 +18,7 @@
   "data/voice/lines/prologue_3min.json: 30 lines",
   "data/voice/lines/unit_barks.json: 176 lines"
  ],
- "count": 284,
+ "count": 285,
  "lines": [
   {
    "id": "aldra/still_water_steady_aim_41ed1299",
@@ -58,7 +60,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:152",
+     "source": "data/cinematics/src/ep2_opening.cine:164",
      "ref": "ep2_opening/S13@0.1",
      "slot": 2.9,
      "slot_kind": "cine shot",
@@ -82,7 +84,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:99",
+     "source": "data/cinematics/src/ep2_opening.cine:111",
      "ref": "ep2_opening/S05@0.4",
      "slot": 2.6,
      "slot_kind": "cine shot",
@@ -130,7 +132,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:62",
+     "source": "data/cinematics/src/ep2_opening.cine:61",
      "ref": "ep2_opening/S02@0.3",
      "slot": 2.1,
      "slot_kind": "cine shot",
@@ -218,6 +220,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:42",
+     "ref": "ep3_opening/N05@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L5",
      "slot": 5.0,
@@ -234,10 +244,34 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:23",
+     "ref": "ep3_opening/B01@3",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L1",
      "slot": 3.4,
      "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/i_have_heard_stop_28b1860c",
+   "speaker": "malrik",
+   "text": "I have heard “stop” all my life.",
+   "text_hash": "28b1860ca904ba8c",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:98",
+     "ref": "ep3_opening/N13@0.4",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -266,6 +300,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:72",
+     "ref": "ep3_opening/G09@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L9",
      "slot": 5.0,
@@ -280,6 +322,14 @@
    "text": "I took the dark and taught it to kneel. I took knives, and a woman who never misses.",
    "text_hash": "7ada4fa9d73373e0",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:64",
+     "ref": "ep3_opening/N07@0.3",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -298,6 +348,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:27",
+     "ref": "ep3_opening/N02@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L2",
      "slot": 5.2,
@@ -314,6 +372,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:99",
+     "ref": "ep3_opening/N13@3.3",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L15",
      "slot": 2.0,
@@ -328,6 +394,14 @@
    "text": "It whispers. Let it. I am the one who listens, and I am the one who decides.",
    "text_hash": "f35c4d4bf0ad4088",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:84",
+     "ref": "ep3_opening/N10@0.5",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -394,6 +468,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:93",
+     "ref": "ep3_opening/N12@0.3",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L12",
      "slot": 4.8,
@@ -426,6 +508,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:68",
+     "ref": "ep3_opening/W02@0.3",
+     "slot": 5.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L8",
      "slot": 5.3,
@@ -440,6 +530,14 @@
    "text": "That is how a gravedigger's son grows strong: he never puts the shovel down.",
    "text_hash": "dfbf8c0015892647",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:88",
+     "ref": "ep3_opening/N11@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -458,6 +556,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:33",
+     "ref": "ep3_opening/G03@0.4",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L3",
      "slot": 5.2,
@@ -472,6 +578,14 @@
    "text": "Then he vanished and left us nothing. So I took. That is the whole secret.",
    "text_hash": "877f408619161872",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:48",
+     "ref": "ep3_opening/G06@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -490,6 +604,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:94",
+     "ref": "ep3_opening/N12@5.45",
+     "slot": 4.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
      "ref": "ep3_opening/L13",
      "slot": 4.5,
@@ -504,6 +626,14 @@
    "text": "Too. Fourth of four. Fire was his joy, ice his patience, the wood his heart.",
    "text_hash": "de85a128714aa26b",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_opening.cine:37",
+     "ref": "ep3_opening/G04@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep3_opening.json",
@@ -1242,7 +1372,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:125",
+     "source": "data/cinematics/src/ep2_opening.cine:137",
      "ref": "ep2_opening/S08@2.1",
      "slot": 2.1,
      "slot_kind": "cine shot",
@@ -1266,7 +1396,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:119",
+     "source": "data/cinematics/src/ep2_opening.cine:131",
      "ref": "ep2_opening/S07@3.9",
      "slot": 1.6,
      "slot_kind": "cine shot",
@@ -1290,7 +1420,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:126",
+     "source": "data/cinematics/src/ep2_opening.cine:138",
      "ref": "ep2_opening/S08@4.2",
      "slot": 1.8,
      "slot_kind": "cine shot",
@@ -1314,7 +1444,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:117",
+     "source": "data/cinematics/src/ep2_opening.cine:129",
      "ref": "ep2_opening/S07@0.3",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -1338,7 +1468,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:109",
+     "source": "data/cinematics/src/ep2_opening.cine:121",
      "ref": "ep2_opening/S06@0.4",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -1362,7 +1492,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:136",
+     "source": "data/cinematics/src/ep2_opening.cine:148",
      "ref": "ep2_opening/S10@2.1",
      "slot": 2.4,
      "slot_kind": "cine shot",
@@ -1386,7 +1516,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:135",
+     "source": "data/cinematics/src/ep2_opening.cine:147",
      "ref": "ep2_opening/S10@0.3",
      "slot": 1.8,
      "slot_kind": "cine shot",
@@ -1410,7 +1540,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:157",
+     "source": "data/cinematics/src/ep2_opening.cine:169",
      "ref": "ep2_opening/S14@0.1",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -1434,7 +1564,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:123",
+     "source": "data/cinematics/src/ep2_opening.cine:135",
      "ref": "ep2_opening/S08@0.3",
      "slot": 1.8,
      "slot_kind": "cine shot",
@@ -1458,7 +1588,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:111",
+     "source": "data/cinematics/src/ep2_opening.cine:123",
      "ref": "ep2_opening/S06@2.1",
      "slot": 2.2,
      "slot_kind": "cine shot",
@@ -1482,7 +1612,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:118",
+     "source": "data/cinematics/src/ep2_opening.cine:130",
      "ref": "ep2_opening/S07@2",
      "slot": 1.9,
      "slot_kind": "cine shot",
@@ -1586,7 +1716,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:56",
+     "source": "data/cinematics/src/ep2_opening.cine:57",
      "ref": "ep2_opening/S01@1.2",
      "slot": 3.8,
      "slot_kind": "cine shot",
@@ -4414,7 +4544,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:143",
+     "source": "data/cinematics/src/ep2_opening.cine:155",
      "ref": "ep2_opening/S11@2.8",
      "slot": 3.3,
      "slot_kind": "cine shot",
@@ -4438,7 +4568,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:158",
+     "source": "data/cinematics/src/ep2_opening.cine:170",
      "ref": "ep2_opening/S14@1.8",
      "slot": 2.2,
      "slot_kind": "cine shot",
@@ -4462,7 +4592,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:142",
+     "source": "data/cinematics/src/ep2_opening.cine:154",
      "ref": "ep2_opening/S11@0.3",
      "slot": 2.5,
      "slot_kind": "cine shot",
@@ -4502,7 +4632,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:138",
+     "source": "data/cinematics/src/ep2_opening.cine:150",
      "ref": "ep2_opening/S10@4.5",
      "slot": 1.5,
      "slot_kind": "cine shot",
@@ -4526,7 +4656,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:132",
+     "source": "data/cinematics/src/ep2_opening.cine:144",
      "ref": "ep2_opening/S09@3",
      "slot": 1.5,
      "slot_kind": "cine shot",
@@ -4550,7 +4680,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:114",
+     "source": "data/cinematics/src/ep2_opening.cine:126",
      "ref": "ep2_opening/S06@4.3",
      "slot": 1.7,
      "slot_kind": "cine shot",
@@ -4590,7 +4720,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:64",
+     "source": "data/cinematics/src/ep2_opening.cine:63",
      "ref": "ep2_opening/S02@2.1",
      "slot": 2.6,
      "slot_kind": "cine shot",
@@ -4694,7 +4824,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:78",
+     "source": "data/cinematics/src/ep2_opening.cine:77",
      "ref": "ep2_opening/S03@0.3",
      "slot": 1.6,
      "slot_kind": "cine shot",
@@ -4718,7 +4848,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:146",
+     "source": "data/cinematics/src/ep2_opening.cine:158",
      "ref": "ep2_opening/S12@0.3",
      "slot": 1.6,
      "slot_kind": "cine shot",
@@ -4774,6 +4904,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:73",
+     "ref": "ep4_opening/S13@0.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L14",
      "slot": 1.8,
@@ -4790,7 +4928,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:80",
+     "source": "data/cinematics/src/ep2_opening.cine:78",
      "ref": "ep2_opening/S03@1.9",
      "slot": 4.1,
      "slot_kind": "cine shot",
@@ -4814,7 +4952,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:131",
+     "source": "data/cinematics/src/ep2_opening.cine:143",
      "ref": "ep2_opening/S09@0.5",
      "slot": 2.5,
      "slot_kind": "cine shot",
@@ -4870,7 +5008,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep2_opening.cine:148",
+     "source": "data/cinematics/src/ep2_opening.cine:160",
      "ref": "ep2_opening/S12@1.9",
      "slot": 3.1,
      "slot_kind": "cine shot",
@@ -4894,6 +5032,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:36",
+     "ref": "ep4_opening/H05@0.3",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L5",
      "slot": 5.1,
@@ -4908,6 +5054,14 @@
    "text": "He said: show me again. So I did, for twenty years, until he was gone.",
    "text_hash": "79d791406f654759",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:43",
+     "ref": "ep4_opening/S06@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -4926,6 +5080,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:56",
+     "ref": "ep4_opening/H09@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L9",
      "slot": 5.2,
@@ -4940,6 +5102,14 @@
    "text": "I was born on that hill, the year nothing grew. Not one blade of grass.",
    "text_hash": "fbe13b971d2a9e95",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:24",
+     "ref": "ep4_opening/S02@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -4958,6 +5128,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:33",
+     "ref": "ep4_opening/H04@0.3",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L4",
      "slot": 4.4,
@@ -4972,6 +5150,14 @@
    "text": "It will not stop.",
    "text_hash": "46dfa508ee291761",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:74",
+     "ref": "ep4_opening/S13@2.6",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -4990,6 +5176,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:53",
+     "ref": "ep4_opening/H08@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L8",
      "slot": 5.0,
@@ -5004,6 +5198,14 @@
    "text": "Let them come. Cut it. Burn it. Freeze it.",
    "text_hash": "d956830a45f84779",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:70",
+     "ref": "ep4_opening/S12@5.1",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -5022,6 +5224,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:69",
+     "ref": "ep4_opening/S12@0.3",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L12",
      "slot": 4.6,
@@ -5036,6 +5246,14 @@
    "text": "Malrik tells his life as a list of wounds. Mine is a list of winters.",
    "text_hash": "52243579a9625344",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:20",
+     "ref": "ep4_opening/B01@3",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -5054,6 +5272,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:30",
+     "ref": "ep4_opening/H03@0.4",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L3",
      "slot": 5.1,
@@ -5068,6 +5294,14 @@
    "text": "That is my strength. Not fire. Not knives. I come back. Every spring. Every time.",
    "text_hash": "ae118cbec0e9f153",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:63",
+     "ref": "ep4_opening/S10@0.3",
+     "slot": 5.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
@@ -5086,6 +5320,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:66",
+     "ref": "ep4_opening/S11@0.3",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",
      "ref": "ep4_opening/L11",
      "slot": 5.1,
@@ -5100,6 +5342,14 @@
    "text": "They call me soft. Neutral. Slow. Slow is how an oak outlives an army.",
    "text_hash": "3535b2b274279f89",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_opening.cine:47",
+     "ref": "ep4_opening/S07@0.3",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_opening.json",

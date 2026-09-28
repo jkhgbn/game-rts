@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/apprentices.res" id="1_mj6o0"]
+
+[node name="Apprentices" type="Node3D" unique_id=2026718272]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1523161690]
+mesh = ExtResource("1_mj6o0")

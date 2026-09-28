@@ -27,7 +27,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "284 unique lines",
+			"value": "285 unique lines",
 			"weight": 1.0
 		},
 		{
@@ -41,7 +41,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "284 entries, 0 bad ",
+			"value": "285 entries, 0 bad ",
 			"weight": 1.0
 		},
 		{
@@ -83,7 +83,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "284 / 284",
+			"value": "285 / 285",
 			"weight": 1.0
 		},
 		{
@@ -129,17 +129,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.969879518072289,
+			"graded": 0.974489795918367,
 			"group": "fit",
 			"hint": "run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line",
 			"id": "F1",
 			"improve": "the lines listed in the notes",
 			"name": "voice fits its slot",
 			"rule": "voice length <= cine slot / subtitle time",
-			"score": 0.679759036144578,
+			"score": 0.681326530612245,
 			"shot": "",
 			"status": "WARN",
-			"value": "5 / 166 over (0 by > 15 %)",
+			"value": "5 / 196 over (0 by > 15 %)",
 			"weight": 1.0
 		},
 		{
@@ -199,17 +199,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.627905578613281,
+			"graded": 0.625853958129883,
 			"group": "audio",
 			"hint": "the import is QOA-compressed (~5x smaller in the build)",
 			"id": "A5",
 			"improve": "",
 			"name": "size",
 			"rule": "<= 40 MB",
-			"score": 0.888371673583984,
+			"score": 0.887756187438965,
 			"shot": "",
 			"status": "PASS",
-			"value": "28.6 MB source WAV, 10.4 min of speech",
+			"value": "28.7 MB source WAV, 10.4 min of speech",
 			"weight": 1.0
 		},
 		{
@@ -242,13 +242,13 @@
 		"fit": "Fit (voice length vs cine slot / subtitle time)",
 		"hook": "Game hookup"
 	},
-	"hash": "05e61876a2c40c7d",
+	"hash": "a9e0a671386326a1",
 	"hash_note": "manifest.json (line keys are content hashes)",
 	"headless": false,
 	"id": "all",
 	"improve_next": [
 		{
-			"rank": 10.3202409638554,
+			"rank": 10.3186734693878,
 			"source": "F1 voice fits its slot",
 			"status": "WARN",
 			"text": "the lines listed in the notes",
@@ -276,6 +276,8 @@
 		"source: docs/design/episode3-4-opening.md ### 3.2 -> data/voice/lines/ep4_opening.json: 15 lines",
 		"source: scripts/campaign/mission_01.gd: 15 lines",
 		"source: data/cinematics/src/ep2_opening.cine: 28 lines",
+		"source: data/cinematics/src/ep3_opening.cine: 15 lines",
+		"source: data/cinematics/src/ep4_opening.cine: 15 lines",
 		"source: data/cinematics/src/prologue_3min.cine: 30 lines",
 		"source: data/cinematics/src/two_wizards.cine: 1 lines",
 		"source: data/cinematics/src/watch_keep.cine: 4 lines",
@@ -290,17 +292,17 @@
 		"over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s",
 		"over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s",
 		"over slot: vessa/an_ember_crown_in_21770f9f L2: 5.59 s > subtitle 5.00 s",
-		"this build: 28.0 rendered, 80.0 unchanged",
-		"last render: 28.0 lines, 47.6 s of audio in 175.0 s (x3.67 real time) on [\"CPUExecutionProvider\"], at 2026-09-27 13:23:24",
-		"total: 284 lines, 10.41 min of speech, 0 speed-fitted, 28 with direction tags"
+		"this build: 1.0 rendered, 284.0 unchanged",
+		"last render: 1.0 lines, 2.2 s of audio in 1.8 s (x0.82 real time) on [\"CPUExecutionProvider\"], at 2026-09-28 16:43:33",
+		"total: 285 lines, 10.45 min of speech, 0 speed-fitted, 28 with direction tags"
 	],
-	"previous_quality": 98.1,
+	"previous_quality": 95.0,
 	"quality": 95.0,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 5.1,
+	"seconds": 0.9,
 	"shots": {},
-	"started": "2026-09-27 18:14:10",
+	"started": "2026-09-28 16:51:24",
 	"tier": "",
 	"tool": "voice_forge",
 	"verb": "check"
