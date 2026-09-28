@@ -1,0 +1,80 @@
+{
+	"asset": "ep4_opening",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "",
+			"id": "P1",
+			"improve": "",
+			"name": "frames",
+			"rule": "plays to the end",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "2672 frames, 89.0 s cinematic time, wall 187.1 s, worst frame 254.2 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "use run_cine.ps1 record <id> (it adds --write-movie)",
+			"id": "P2",
+			"improve": "",
+			"name": "movie",
+			"rule": "Movie Maker PNG sequence + WAV outside res://",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "C:\\Users\\elzzo\\Videos\\four-wizards-rec\\ep4_opening\\ep4_opening.avi",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "play",
+			"hint": "record through run_cine.ps1 (it sets the viewport size override)",
+			"id": "P3",
+			"improve": "",
+			"name": "size / fps",
+			"rule": "AVI size = res= (run_cine.ps1 record runs a sized project copy)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "AVI (MJPEG + PCM WAV) 1920x804 (window 1920x804) = the 2.39 band, no bars drawn, 30 fps, narration + music mixed; res=1920x804",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 3,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"play": "Playback"
+	},
+	"hash": "",
+	"hash_note": "",
+	"headless": false,
+	"id": "ep4_opening",
+	"improve_next": [],
+	"kind": "record",
+	"kingdom": "",
+	"notes": [
+		"Movie Maker AVI: C:\\Users\\elzzo\\Videos\\four-wizards-rec\\ep4_opening\\ep4_opening.avi (plays in VLC / Windows Media Player / Films & TV)",
+		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
+	],
+	"previous_quality": -1.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 192.3,
+	"shots": {},
+	"started": "2026-09-28 19:16:48",
+	"tier": "",
+	"tool": "cine",
+	"verb": "record"
+}

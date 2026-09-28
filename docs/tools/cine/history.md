@@ -279,3 +279,17 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-28 18:46:28 | check | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
 | 2026-09-28 18:46:45 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
 | 2026-09-28 18:47:04 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | a1d49361866d96af |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 18:56:33 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 0ea91e56ad86041b |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 18:59:36 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 35ef889690202eb6 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 19:01:52 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 6c0f5cb4b8360e8c |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 19:03:03 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 38018a619c29bb45 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 19:07:56 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 9b7f64730498aeed |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 19:09:06 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 835973a5df8e56f9 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 19:11:28 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 107fb5af709b136b |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 19:13:26 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | a56dd6cca5751180 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 19:14:32 | check | ep3_opening | 97 (+0) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 19:14:51 | build | ep3_opening | 97 (+0) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 19:15:09 | check | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 19:15:27 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 19:16:48 | record | ep4_opening | 100 | PASS (0F 0W) |  |  | docs/tools/cine/out/ep4_opening/report_record.md |
+| 2026-09-28 19:20:28 | record | ep3_opening | 100 | PASS (0F 0W) |  |  | docs/tools/cine/out/ep3_opening/report_record.md |

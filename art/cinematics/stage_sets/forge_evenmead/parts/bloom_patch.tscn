@@ -2,9 +2,9 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/bloom_patch.res" id="1_dn6v4"]
 
-[node name="bloom_patch" type="Node3D" unique_id=914015607]
+[node name="bloom_patch" type="Node3D" unique_id=2128925826]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1719995601]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=225013376]
 cast_shadow = 0
 gi_mode = 0
 mesh = ExtResource("1_dn6v4")

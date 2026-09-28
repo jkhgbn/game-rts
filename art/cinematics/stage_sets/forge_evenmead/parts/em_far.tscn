@@ -2,9 +2,9 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/em_far.res" id="1_17fqm"]
 
-[node name="em_far" type="Node3D" unique_id=1875016248]
+[node name="em_far" type="Node3D" unique_id=1790441269]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1500674499]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1619998911]
 cast_shadow = 0
 gi_mode = 0
 mesh = ExtResource("1_17fqm")

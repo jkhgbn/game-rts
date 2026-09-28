@@ -3,8 +3,8 @@
 [sub_resource type="BoxMesh" id="BoxMesh_gsumu"]
 size = Vector3(0.02, 0.02, 0.02)
 
-[node name="subject_pin" type="Node3D" unique_id=118543096]
+[node name="subject_pin" type="Node3D" unique_id=701104001]
 
-[node name="Pin" type="MeshInstance3D" parent="." unique_id=1054080373]
+[node name="Pin" type="MeshInstance3D" parent="." unique_id=1848908146]
 visible = false
 mesh = SubResource("BoxMesh_gsumu")

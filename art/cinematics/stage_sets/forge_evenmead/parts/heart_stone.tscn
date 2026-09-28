@@ -2,9 +2,9 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_evenmead/parts/heart_stone.res" id="1_yfldq"]
 
-[node name="heart_stone" type="Node3D" unique_id=1691252484]
+[node name="heart_stone" type="Node3D" unique_id=531583926]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=135700292]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1849233475]
 cast_shadow = 0
 extra_cull_margin = 1.0
 gi_mode = 0

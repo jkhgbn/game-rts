@@ -1348,19 +1348,28 @@ func _camps() -> void:
 		["pav", "shadow", -1.0, -47.5, 3.4, 2.4, 3.2, 180.0], ["pav", "shadow", -13.5, -50.5, 2.5, 2.0, 2.4, 170.0],
 		["pav", "ice", 17.0, -48.5, 2.8, 2.1, 2.8, 190.0], ["pav", "shadow", -27.0, -46.5, 2.3, 1.9, 2.2, 175.0],
 		["pav", "ice", 32.5, -47.0, 2.3, 1.9, 2.3, 185.0],
-		["pav", "nature", -17.5, 53.0, 3.1, 2.2, 3.0, 0.0], ["pav", "fire", 9.0, 52.5, 3.0, 2.2, 3.0, 10.0],
-		["pav", "nature", -31.0, 50.5, 2.3, 1.9, 2.2, 5.0], ["pav", "fire", 23.5, 50.0, 2.3, 1.9, 2.3, 350.0],
+		# south camp. The two Fire pavilions are placed for the Ep4 Lark Hill close shots (S07 / S11 / S10) and Ep3's long
+		# lens N12 / N02: the big one stands down the back of the crest in the gap between Vessa and Ysolde in S11 (it was
+		# right behind Vessa's red hat and staff orb), hides behind Ysolde's shoulders in S07 / S10 and stays clear of the
+		# red Fire standard in N12; the small one hides behind Vessa's robe in S07 (a red-and-white sliver merged with her
+		# red cloak) and frames S11's left.
+		["pav", "nature", -17.5, 53.0, 3.1, 2.2, 3.0, 0.0], ["pav", "fire", 8.6, 56.6, 2.4, 2.0, 2.6, 10.0],
+		["pav", "nature", -31.0, 50.5, 2.3, 1.9, 2.2, 5.0], ["pav", "fire", 21.0, 50.5, 2.2, 1.9, 2.3, 350.0],
 	]
+	var pav_spots: Array = []
 	for t: Array in tents:
 		var x: float = t[2]
 		var z: float = t[3]
 		var r: float = t[4]
 		var y := minf(gh(x, z), minf(gh(x + r, z), minf(gh(x - r, z), minf(gh(x, z + r), gh(x, z - r)))))
 		_pavilion(mt, cl, Vector3(x, y, z), r, t[5], t[6], t[1], t[7])
+		if z > 0.0:   # the south camp only (the north rows stay as they were)
+			pav_spots.append(Vector3(x, z, r))
 	var rows := [["shadow", -46.0, -20.0, -52.5, 175.0], ["shadow", -44.0, -18.0, -57.0, 180.0], ["ice", 8.0, 46.0, -53.5, 185.0],
 		["ice", 10.0, 44.0, -58.0, 180.0], ["shadow", -9.0, 6.0, -56.0, 178.0],
-		["nature", -46.0, -24.0, 57.5, 0.0], ["nature", -12.0, -2.0, 58.5, 355.0], ["fire", 2.0, 38.0, 57.0, 5.0],
-		["fire", 30.0, 44.0, 54.0, 0.0]]
+		["nature", -46.0, -24.0, 57.5, 0.0], ["nature", -12.0, -2.0, 58.5, 355.0], ["fire", 2.0, 38.0, 57.0, 5.0]]
+	# (the short Fire row at z 54, x 30..44, is gone: from Lark Hill it was a red strip under Vessa's red robe in S07 and
+	# behind the small pavilion in S11)
 	for rw: Array in rows:
 		var x: float = rw[1]
 		var ci := 0
@@ -1368,6 +1377,13 @@ func _camps() -> void:
 			ci += 1
 			var z: float = float(rw[3]) + (h01(x, float(ci), 531) - 0.5) * 1.6
 			var y := gh(x, z)
+			var free := true
+			for ps: Vector3 in pav_spots:
+				if Vector2(x - ps.x, z - ps.y).length() < ps.z + 2.4:
+					free = false
+			if not free:
+				x += 4.4 + 1.4 * h01(x, z, 534)
+				continue
 			_ridge_tent(mt, Vector3(x, y, z), float(rw[4]) + (h01(x, z, 532) - 0.5) * 14.0, 1.6, 1.25, 1.9, rw[0])
 			if h01(x, z, 533) < 0.3:
 				_standard(mt, cl, Vector3(x + 1.8, gh(x + 1.8, z + 1.8), z + 1.8), rw[0], 3.4, false, float(rw[4]))

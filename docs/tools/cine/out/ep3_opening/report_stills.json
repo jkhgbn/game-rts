@@ -29,7 +29,7 @@
 		"diff": "Changes vs the previous stills run",
 		"stills": "Stills"
 	},
-	"hash": "ce1f0cbdde92b4a2",
+	"hash": "a56dd6cca5751180",
 	"hash_note": "",
 	"headless": false,
 	"id": "ep3_opening",
@@ -41,11 +41,11 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 60.3,
+	"seconds": 60.9,
 	"shots": {
 		"contact sheet": "stills.png"
 	},
-	"started": "2026-09-28 18:45:23",
+	"started": "2026-09-28 19:13:26",
 	"tier": "",
 	"tool": "cine",
 	"verb": "stills"

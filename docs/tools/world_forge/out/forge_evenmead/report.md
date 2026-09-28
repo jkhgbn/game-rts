@@ -1,10 +1,10 @@
-# world_forge build: forge_evenmead
+# world_forge check: forge_evenmead
 
-2026-09-28 18:44:32 - `tools/world_forge/run_world_forge.ps1 build forge_evenmead` - hash `cfc6965c687c`
+2026-09-28 19:13:00 - `tools/world_forge/run_world_forge.ps1 check forge_evenmead` - hash `cfc6965c687c`
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 10 PASS, 0 info, 0 skipped, 16 s
+0 FAIL, 0 WARN, 10 PASS, 0 info, 0 skipped, 15 s
 
 ## Improve next
 
@@ -18,7 +18,7 @@
 |---|---|---|---|---|---|
 | B1 | Draw calls | PASS 100 | 288 surfaces (36 particles / multimesh) | <= 300 (budget line) |  |
 | B2 | Lights | PASS 100 | 0 visible Light3D; 4 switched off by lights=off | <= 0 (0 = the stage's LightingRig only) |  |
-| B3 | Triangles | PASS 100 | 979564 | <= 2600000 |  |
+| B3 | Triangles | PASS 100 | 979194 | <= 2600000 |  |
 
 ## Scatter
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -47,6 +47,5 @@
 
 ## Notes
 - Mark projections: B01_a ndc (-0.14, -0.40), B01_b ndc (-0.27, -0.46), B01_c ndc (-0.58, -0.52), N05_a ndc (0.34, 0.10), N05_b ndc (0.35, 0.10), N05_c ndc (0.05, 0.22), N12_a ndc (0.14, 0.24), N12_b ndc (0.14, 0.24), N12_c ndc (0.14, 0.24), B14_a ndc (-0.16, -0.18), B14_b ndc (-0.18, -0.20), B14_c ndc (-0.20, -0.20), S06_a ndc (0.35, 0.07), S06_b ndc (0.35, -0.09), S06_c ndc (-0.07, -0.39), S12_a ndc (0.00, 0.00), S12_b ndc (0.00, 0.00), S12_c ndc (0.00, 0.00), B14R_a ndc (0.12, 0.12), B14R_b ndc (0.14, 0.13), B14R_c ndc (0.16, 0.14), N02_a ndc (0.33, -0.16), N02_b ndc (0.36, -0.18), N02_c ndc (0.41, -0.20), N07_a ndc (-0.35, -0.33), N07_b ndc (-0.35, -0.33), N07_c ndc (-0.35, -0.33), N10_a ndc (0.34, -0.32), N10_b ndc (0.37, -0.34), N10_c ndc (0.41, -0.37), N11_a ndc (0.46, -0.15), N11_b ndc (0.46, -0.15), N11_c ndc (0.46, -0.15), N13_a ndc (-0.00, -0.34), N13_b ndc (-0.00, -0.40), N13_c ndc (-0.00, -0.48), S02_a ndc (0.28, -0.03), S02_b ndc (0.31, -0.03), S02_c ndc (0.34, -0.04), S07_a ndc (0.26, -0.15), S07_b ndc (0.26, -0.15), S07_c ndc (0.26, -0.15), S10_a ndc (0.31, 0.03), S10_b ndc (0.31, 0.03), S10_c ndc (0.31, 0.03), S11_a ndc (0.48, -0.07), S11_b ndc (0.48, -0.07), S11_c ndc (0.48, -0.07), S13_a ndc (0.02, -0.36), S13_b ndc (0.02, -0.42), S13_c ndc (0.02, -0.52)
-- Mesh file md5: terrain_shape.res 12a91163, ground.res 97de457b
 - Art Lab decor_set: not wired yet (run `tools/art_lab/run_art_lab.ps1` on the set scene by hand); Lens stills: `sheet` verb (windowed).
-- Files: `art/cinematics/stage_sets/forge_evenmead/forge_evenmead.tscn`, `art/cinematics/stage_sets/forge_evenmead/meshes/terrain_shape.res`, `art/cinematics/stage_sets/forge_evenmead/meshes/ground.res`, `art/cinematics/stage_sets/forge_evenmead/marks.json`, `docs/tools/world_forge/out/forge_evenmead/plan.png`
+- Files: `docs/tools/world_forge/out/forge_evenmead/plan.png`
