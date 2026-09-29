@@ -14,6 +14,8 @@ extends SceneTree
 const TASK_ID := "13b.v4"
 const SCENE := "res://art/units/nature/mossback/mossback.tscn"
 const OWN_DIR := "res://art/units/nature/mossback/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const TREES: Array[String] = ["Root/Mount/TreeA", "Root/Mount/TreeB", "Root/Mount/TreeC"]
 
@@ -98,7 +100,8 @@ func _run() -> void:
 	_check(parts.size() <= 1, "<= 1 particle system (%d)" % parts.size())
 	for p: GPUParticles3D in parts:
 		_check(not p.one_shot and not p.local_coords, "leaf fall: looping, world space")
-	_check(verts <= 6000, "vertices %d <= 6000" % verts)
+	# 6000 + the face (faces pass 2026-09-28: measured 6070 with the Face node; small margin).
+	_check(verts <= 6250, "vertices %d <= 6250 = 6000 + face" % verts)
 	# ---- materials
 	var own: Array = []
 	var shared: Array = []
@@ -108,8 +111,8 @@ func _run() -> void:
 			own.append(path.get_file())
 		else:
 			shared.append(path.get_file() if path != "" else "<built-in>")
-			_check(path.begins_with("res://art/units/nature/materials/") or path.begins_with("res://art/units/kit/materials/"),
-				"material %s is a Nature / kit palette entry" % path)
+			_check(path.begins_with("res://art/units/nature/materials/") or path.begins_with("res://art/units/kit/materials/")
+				or FaceProbe.is_face_mat(mat), "material %s is a Nature / kit palette entry (or the face)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	print("palette materials (%d): %s" % [shared.size(), ", ".join(PackedStringArray(shared))])
 	_check(own.size() <= 7, "<= 7 own materials")

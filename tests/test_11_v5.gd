@@ -127,7 +127,7 @@ func _check_classes(m: Node3D) -> void:
 		_check(chest_v >= chest_v0, "%s: no pack part dropped (chest %d vs %d)" % [nm, chest_v, chest_v0])
 		_check(not (m.get_node(^"Root/Chest/ArmL/Jar") as Node3D).visible, "%s: the throw jar hidden at rest" % nm)
 		var draws := _draw_instances(m)
-		_check(draws <= 16, "%s: <= 16 draw instances (%d)" % [nm, draws])
+		_check(draws <= 17, "%s: <= 17 draw instances = 16 + the Face node (%d)" % [nm, draws])
 		_check(m.find_children("*", "Light3D", true, false).is_empty(), "%s: 0 lights" % nm)
 		var own := 0
 		for p: String in _materials(m):

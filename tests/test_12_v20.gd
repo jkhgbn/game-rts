@@ -60,7 +60,8 @@ func _run() -> void:
 		var lights := m.find_children("*", "Light3D", true, false).size()
 		print("%s: draw instances %d, vertices %d, lights %d" % [m.name, inst, verts, lights])
 		_check(inst <= 10, "draw instances <= 10 (got %d)" % inst)
-		_check(verts <= 2500, "vertices <= 2500 (got %d)" % verts)
+		# 2500 + the face (faces pass 2026-09-28: measured 2550 with the Face node; small margin).
+		_check(verts <= 2650, "vertices <= 2650 = 2500 + face (got %d)" % verts)
 		_check(lights == 0, "0 lights")
 	var mats := _materials(a)
 	var own: Array = []

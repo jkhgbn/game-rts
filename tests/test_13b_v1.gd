@@ -18,6 +18,8 @@ const SCENE := "res://art/units/fire/cinderlock/cinderlock.tscn"
 const MODEL := "res://art/units/fire/cinderlock/cinderlock_model.gd"
 const OWN_DIR := "res://art/units/fire/cinderlock/"
 const KIT_DIR := "res://art/units/kit/materials/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const FIRE := Color(0.85, 0.30, 0.12)
 
@@ -125,7 +127,8 @@ func _run() -> void:
 	_check(lights == 0, "0 lights")
 	_check(particles == 1, "1 particle system (death burn)")
 	for p: String in mats:
-		_check(p.begins_with(KIT_DIR) or p.begins_with(OWN_DIR), "material from the palette or own folder: " + p)
+		_check(p.begins_with(KIT_DIR) or p.begins_with(OWN_DIR) or p == FaceProbe.FACE_MAT,
+			"material from the palette or own folder (or the face): " + p)
 	print("materials: ", mats.keys())
 
 	# ---- glow points
@@ -134,7 +137,9 @@ func _run() -> void:
 	var flasks := m.get_node_or_null("Root/Chest/GlowFireGlow") as GeometryInstance3D
 	_check(flasks != null and glow_nodes.has(flasks), "flask row is a kit-boosted glow node")
 	_check(ember != null and ember.has_meta(&"own_glow") and not glow_nodes.has(ember), "ember is own_glow")
-	_check(glow_nodes.size() == 1, "one kit glow node (flasks) (%d)" % glow_nodes.size())
+	# The kit also drives glow_boost on the Face node (its shader declares it, faces pass 2026-09-28): not a glow point.
+	var glow_parts := glow_nodes.filter(func(g: Node) -> bool: return not (g is FaceRig))
+	_check(glow_parts.size() == 1, "one kit glow node (flasks) besides the face (%d)" % glow_parts.size())
 
 	# ---- kit slot audit (KITFIX rules)
 	var K: GDScript = load(KITFIX)

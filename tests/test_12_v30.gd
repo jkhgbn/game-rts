@@ -17,6 +17,9 @@ extends SceneTree
 const TASK_ID := "12.v30"
 const SCENE := "res://art/units/neutral/beasts/grizzlemaw/grizzlemaw.tscn"
 const OWN_DIR := "res://art/units/neutral/beasts/grizzlemaw/"
+## Faces pass 2026-09-28: the eyes are the CreatureFaceRig's glowing irises (shared face material inside the merged
+## head; amber, red + brighter when enraged by a face mesh swap) instead of the eye_glow / eye_rage glow materials.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const FAKE_UNIT_SRC := "extends Node3D\nvar enraged := false\nfunc has_modifier(id: StringName) -> bool:\n\treturn enraged and id == &\"beast:enrage\"\n"
 
 var _fails: PackedStringArray = PackedStringArray()
@@ -91,18 +94,17 @@ func _run() -> void:
 	print("A materials (%d): %s" % [names_a.size(), ", ".join(names_a)])
 	print("B materials (%d): %s" % [names_b.size(), ", ".join(names_b)])
 	for mat: Material in mats_a + mats_b:
-		_check(mat.resource_path.begins_with(OWN_DIR), "own material only (%s)" % mat.resource_path)
+		_check(mat.resource_path.begins_with(OWN_DIR) or FaceProbe.is_face_mat(mat), "own material only (%s)" % mat.resource_path)
 	_check(names_a.size() >= 7 and names_a.size() <= 10, "A: 7-10 materials (got %d)" % names_a.size())
 	for nm: String in ["grizzlemaw_elder_streak.tres", "grizzlemaw_elder_muzzle.tres", "grizzlemaw_rust.tres",
 			"grizzlemaw_elder_fur.tres"]:
 		_check(nm in names_b and not (nm in names_a), "%s on B only" % nm)
 	_check("grizzlemaw_moss.tres" in names_a and "grizzlemaw_muzzle.tres" in names_a, "A: moss + tan muzzle")
-	_check(_glows(mats_a) == ["grizzlemaw_eye_glow.tres"] and _glows(mats_b) == ["grizzlemaw_eye_glow.tres"],
-		"one glow material shown: the amber eyes")
-	var eg: ShaderMaterial = load(OWN_DIR + "materials/grizzlemaw_eye_glow.tres")
-	var gc: Color = eg.get_shader_parameter(&"glow_color")
-	_check(float(eg.get_shader_parameter(&"energy")) >= 2.5 and gc.r > 0.9 and gc.g > 0.4 and gc.b < 0.3,
-		"amber eyes, energy >= 2.5")
+	var gc: Color = FaceProbe.glow(a)["color"]
+	print("eye glow A %s, B %s" % [gc, FaceProbe.glow(b)["color"]])
+	_check(_glows(mats_a).is_empty() and _glows(mats_b).is_empty() and FaceProbe.glows(a) and FaceProbe.glows(b),
+		"one glow point shown: the amber eyes (the face's glowing irises, no glow material)")
+	_check(_amber(gc) and _amber(FaceProbe.glow(b)["color"]), "amber glowing eyes (%s)" % gc)
 	var moss_a := _area_of(a, "grizzlemaw_moss.tres")
 	var moss_b := _area_of(b, "grizzlemaw_moss.tres")
 	print("moss triangles A %d, B %d" % [moss_a, moss_b])
@@ -250,13 +252,15 @@ func _run() -> void:
 	a.call(&"set_enraged", true)
 	await _wait(0.6)
 	var mats_r := _materials(a)
-	print("enraged: glows %s, eye %.2f (calm %.2f)" % [_glows(mats_r), float(a.call(&"eye_glow")), eye0])
-	_check(_glows(mats_r) == ["grizzlemaw_eye_rage.tres"], "enraged: red eyes (mesh swap)")
+	var rc: Color = FaceProbe.glow(a)["color"]
+	print("enraged: glows %s, eye colour %s, eye %.2f (calm %.2f)" % [_glows(mats_r), rc, float(a.call(&"eye_glow")), eye0])
+	_check(_glows(mats_r).is_empty() and rc.r > 0.8 and (rc.h < 0.045 or rc.h > 0.95) and rc.s > 0.3,
+		"enraged: red eyes (face mesh swap, %s, hue %.2f)" % [rc, rc.h])
 	_check(float(a.call(&"eye_glow")) > eye0 * 1.2, "enraged: brighter eyes")
 	_check(jaw.rotation.x > deg_to_rad(5.0), "enraged: snarl (jaw ajar)")
 	a.call(&"set_enraged", false)
 	await _wait(0.1)
-	_check(_glows(_materials(a)) == ["grizzlemaw_eye_glow.tres"], "calm again: amber eyes")
+	_check(_glows(_materials(a)).is_empty() and _amber(FaceProbe.glow(a)["color"]), "calm again: amber eyes")
 	b.call(&"play_cast", &"enrage")
 	await _wait(0.1)
 	_check(bool(b.call(&"is_enraged")), "play_cast(&\"enrage\") turns the enrage look on")
@@ -469,6 +473,12 @@ func _names(mats: Array) -> PackedStringArray:
 	for m: Material in mats:
 		out.append(m.resource_path.get_file())
 	return out
+
+
+## The calm eye glow: amber (the face iris cores' sRGB vertex colour: the amber iris lightened toward white by
+## CreatureFaceRig.beast_spec, so an orange-yellow hue, not a red one).
+func _amber(c: Color) -> bool:
+	return c.r > 0.85 and c.h > 0.06 and c.h < 0.16 and c.s > 0.3
 
 
 func _glows(mats: Array) -> Array:

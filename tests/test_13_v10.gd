@@ -13,6 +13,8 @@ extends SceneTree
 ## Prints "PASS 13.v10" or "FAIL 13.v10: <reasons>".
 
 const TASK_ID := "13.v10"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const SCENE := "res://art/units/fire/blaze_rider.tscn"
 const BOAR := "res://art/units/mounts/ember_boar/ember_boar.tscn"
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
@@ -121,7 +123,8 @@ func _run() -> void:
 	_check(verts <= 12000, "rider vertices %d <= 12000" % verts)
 	# ---- materials: the kit's Fire palette only
 	for mat: Material in _materials(rb):
-		_check(mat.resource_path.begins_with("res://art/units/kit/materials/"), "material %s from the kit palette" % mat.resource_path)
+		_check(mat.resource_path.begins_with("res://art/units/kit/materials/") or FaceProbe.is_face_mat(mat),
+			"material %s from the kit palette (or the face)" % mat.resource_path)
 	# ---- size
 	var hb := b.get_parent() as Node3D
 	var lance := rb.get_node("Root/Chest/ArmR/Lance") as MeshInstance3D

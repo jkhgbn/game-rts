@@ -9,6 +9,8 @@ extends SceneTree
 const TASK_ID := "9.v2"
 const SCENE := "res://art/units/champions/oathwall/oathwall.tscn"
 const OWN_DIR := "res://art/units/champions/oathwall/materials/"
+## The FaceKit's shared face material (faces pass 2026-09-28: every unit has a Face node, 1 draw call).
+const FACE_MAT := "res://art/units/kit/face/unit_face.tres"
 const FIRE := Color(0.85, 0.30, 0.12)
 const SHADOW := Color(0.42, 0.22, 0.60)
 const HOOKS: Array[String] = ["set_team_color", "set_moving", "play_attack", "play_cast", "play_hit", "play_death",
@@ -122,14 +124,15 @@ func _check_static() -> void:
 	_count(a, acc)
 	_expect(acc[0] + acc[1] <= 16, "draw instances after merge %d + %d particles (<= 16)" % [acc[0], acc[1]])
 	_expect(acc[2] == 0, "lights %d (must be 0)" % acc[2])
-	_expect(acc[3] <= 2500, "vertices %d (<= 2500)" % acc[3])
+	# 2500 + the face (faces pass 2026-09-28: measured 2867 with the Face node; small margin).
+	_expect(acc[3] <= 2950, "vertices %d (<= 2950 = 2500 + face)" % acc[3])
 	var mats: Dictionary = {}
 	_materials(a, mats)
 	var own: int = 0
 	for mat: Material in mats:
 		if mat.resource_path.begins_with(OWN_DIR):
 			own += 1
-		else:
+		elif mat.resource_path != FACE_MAT:
 			fails.append("material outside the Oathwall folder: %s" % mat.resource_path)
 	_expect(own <= 5, "materials %d (<= 5)" % own)
 	print("INFO %s: authored %d, draw instances %d + %d particle systems, lights %d, vertices %d, materials %d" % [

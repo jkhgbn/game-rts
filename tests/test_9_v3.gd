@@ -13,6 +13,8 @@ const TASK_ID := "9.v3"
 const SCENE := "res://art/units/champions/coin_cutter/coin_cutter.tscn"
 const OWN_DIR := "res://art/units/champions/coin_cutter/"
 const BLOB_MAT := "res://art/units/kit/materials/unit_shadow_blob.tres"
+## The FaceKit's shared face material (faces pass 2026-09-28: every unit has a Face node, 1 draw call).
+const FACE_MAT := "res://art/units/kit/face/unit_face.tres"
 const SHADOW := Color(0.42, 0.22, 0.60)
 
 var _fails: PackedStringArray = PackedStringArray()
@@ -107,10 +109,11 @@ func _run() -> void:
 		if p.begins_with(OWN_DIR):
 			own += 1
 		else:
-			_check(p == BLOB_MAT, "material outside the champion folder: '%s'" % p)
+			_check(p == BLOB_MAT or p == FACE_MAT, "material outside the champion folder: '%s'" % p)
 	print("materials: ", own, " own + ", mats.size() - own, " shared (", ", ".join(PackedStringArray(mats.keys())), "); vertices ", verts)
 	_check(own <= 5, "materials %d <= 5" % own)
-	_check(verts <= 4000, "vertices %d <= 4000 (wizard level: Vessa 3 872)" % verts)
+	# Wizard level + the face (faces pass 2026-09-28: measured 4203 with the Face node; small margin).
+	_check(verts <= 4350, "vertices %d <= 4350 (wizard level 4000 + face)" % verts)
 
 	# ---- Exports and size.
 	_check(is_equal_approx(float(m.get(&"body_height")), 1.7), "body_height 1.7")

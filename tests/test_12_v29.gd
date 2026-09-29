@@ -14,6 +14,9 @@ extends SceneTree
 const TASK_ID := "12.v29"
 const SCENE := "res://art/units/neutral/beasts/direwolf/direwolf.tscn"
 const OWN_DIR := "res://art/units/neutral/beasts/direwolf/"
+## Faces pass 2026-09-28: the eyes are the CreatureFaceRig's (shared face material inside the skull mesh): Moonpelt's
+## glow point is the face's glowing pale-blue irises, Greymane's painted amber eyes do not glow.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const HOUND := "res://art/units/shadow/grave_hound.tscn"
 const DATA: Array[String] = ["res://data/units/greymane_direwolf.tres", "res://data/units/moonpelt_direwolf.tres"]
 
@@ -99,7 +102,7 @@ func _run() -> void:
 		for mat: Material in pair[1]:
 			if mat.resource_path.begins_with(OWN_DIR):
 				own.append(mat.resource_path.get_file())
-			else:
+			elif not FaceProbe.is_face_mat(mat):
 				foreign.append(mat.resource_path if mat.resource_path != "" else "<built-in>")
 		print("%s materials (%d): %s" % [pair[0], own.size(), ", ".join(PackedStringArray(own))])
 		_check(foreign.is_empty(), "%s: only own materials (%s)" % [pair[0], ", ".join(PackedStringArray(foreign))])
@@ -107,14 +110,22 @@ func _run() -> void:
 	_check(_same_set(mats_b, mats_c), "B set before / after ready gives the same materials")
 	var glows_a := _glows(mats_a)
 	var glows_b := _glows(mats_b)
-	_check(glows_a.is_empty(), "Greymane: no glow material (got %d)" % glows_a.size())
-	_check(glows_b.size() == 1, "Moonpelt: exactly 1 glow material = the eyes (got %d)" % glows_b.size())
-	if glows_b.size() == 1:
-		var gm: ShaderMaterial = glows_b[0]
-		var gc: Color = gm.get_shader_parameter(&"glow_color")
-		var en: float = float(gm.get_shader_parameter(&"energy"))
-		print("B eye glow %s energy %.2f" % [gc, en])
-		_check(gc.b > 0.9 and gc.b > gc.r + 0.25 and en >= 2.0 and en <= 3.2, "B: pale-blue eyes, faint (energy 2-3.2)")
+	var fg_a := FaceProbe.glow(a)
+	var fg_b := FaceProbe.glow(b)
+	_check(glows_a.is_empty() and int(fg_a["count"]) == 0, "Greymane: no glow (got %d glow materials, %d glowing face vertices)" % [
+		glows_a.size(), fg_a["count"]])
+	_check(glows_b.is_empty() and int(fg_b["count"]) > 0,
+		"Moonpelt: exactly 1 glow point = the eyes, the face's glowing irises (got %d glow materials, %d face vertices)" % [
+		glows_b.size(), fg_b["count"]])
+	if int(fg_b["count"]) > 0:
+		var gc: Color = fg_b["color"]
+		# Emission = the face shader's glow_energy x the iris glow (1 - vertex alpha); the iris core is the iris colour
+		# lightened toward white (CreatureFaceRig.beast_spec), so pale blue = a blue hue with blue on top.
+		var fm := load(FaceProbe.FACE_MAT) as ShaderMaterial
+		var en: float = float(fm.get_shader_parameter(&"glow_energy")) * (1.0 - float(fg_b["min_alpha"]))
+		print("B eye glow %s (hue %.2f) energy %.2f" % [gc, gc.h, en])
+		_check(gc.b > 0.9 and gc.b > gc.r + 0.1 and gc.h > 0.5 and gc.h < 0.7 and en >= 1.0 and en <= 3.2,
+			"B: pale-blue eyes, faint (energy 1-3.2)")
 	var fa: Color = (load(OWN_DIR + "materials/direwolf_fur_a.tres") as ShaderMaterial).get_shader_parameter(&"base_color")
 	var fb: Color = (load(OWN_DIR + "materials/direwolf_fur_b.tres") as ShaderMaterial).get_shader_parameter(&"base_color")
 	var ma: Color = (load(OWN_DIR + "materials/direwolf_mane_a.tres") as ShaderMaterial).get_shader_parameter(&"base_color")
@@ -215,8 +226,14 @@ func _run() -> void:
 	await _until_t(b, 0.125)
 	var rz_hit := root_n.position.z
 	var jaw_hit := float(b.call(&"jaw_open"))
-	await _until_t(b, 0.22)
+	# The rip peaks at 0.22 s; sample its deepest yaw over 0.125-0.30 s (was one frame at 0.22 s: the kit's tier-1
+	# half-rate parity moved that frame's pose by one update, -19.8 vs -15.0 deg, with no change to the bite).
 	var hy_rip := head.rotation.y
+	for i: int in 30:
+		hy_rip = minf(hy_rip, head.rotation.y)
+		if float(b.get(&"_action_t")) >= 0.30:
+			break
+		await process_frame
 	print("bite: neck windup %.1f, jaw %.1f -> %.1f, lunge z %.2f, rip yaw %.1f" % [rad_to_deg(hx_wind), jaw_wind,
 		jaw_hit, rz_hit, rad_to_deg(hy_rip)])
 	_check(hx_wind > deg_to_rad(15.0) and jaw_wind > 25.0, "head low, jaws open in the windup")

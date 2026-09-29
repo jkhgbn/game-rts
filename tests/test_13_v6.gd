@@ -15,6 +15,8 @@ extends SceneTree
 const TASK_ID := "13.v6"
 const SCENE := "res://art/units/mounts/roan_courser/roan_courser.tscn"
 const OWN_DIR := "res://art/units/mounts/roan_courser/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 
 var _fails: PackedStringArray = PackedStringArray()
@@ -79,7 +81,8 @@ func _run() -> void:
 	print("plain: draw instances %d, vertices %d, lights %d, particles %d" % [plain_inst, plain_verts,
 		b.find_children("*", "Light3D", true, false).size(), b.find_children("*", "GPUParticles3D", true, false).size()])
 	_check(plain_inst <= 8, "draw instances <= 8 (got %d)" % plain_inst)
-	_check(plain_verts <= 5000, "vertices <= 5000 (got %d)" % plain_verts)
+	# 5000 + the face (faces pass 2026-09-28: measured 5232 with the face in the head; small margin).
+	_check(plain_verts <= 5400, "vertices <= 5400 = 5000 + face (got %d)" % plain_verts)
 	_check(b.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	_check(b.find_children("*", "GPUParticles3D", true, false).is_empty(), "0 particle systems")
 	for g: Node in b.find_children("*", "MeshInstance3D", true, false):
@@ -96,8 +99,8 @@ func _run() -> void:
 			own.append(path.get_file())
 		else:
 			shared.append(path.get_file() if path != "" else "<built-in>")
-			_check(path.begins_with("res://art/units/kit/materials/") or path.begins_with("res://art/units/champions/weapons/materials/"),
-				"material %s is a kit / champion palette entry" % path)
+			_check(path.begins_with("res://art/units/kit/materials/") or path.begins_with("res://art/units/champions/weapons/materials/")
+				or FaceProbe.is_face_mat(mat), "material %s is a kit / champion palette entry (or the face)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	print("palette materials (%d): %s" % [shared.size(), ", ".join(PackedStringArray(shared))])
 	_check(own.size() <= 3, "<= 3 own materials")
@@ -121,7 +124,13 @@ func _run() -> void:
 		_check(not ("dusk" in mat.resource_path or "shadow_glow" in mat.resource_path), "nothing of the Dusk Steed")
 		if mat is ShaderMaterial:
 			_check(not ((mat as ShaderMaterial).shader.resource_path.ends_with("unit_glow.gdshader")), "no glow material (%s)" % mat.resource_path)
-	_check((b.get(&"_glow_nodes") as Array).is_empty(), "no glow points")
+	# The kit drives glow_boost on the face's node too (the shared face shader declares it, faces pass 2026-09-28):
+	# only the face rig / face carriers may be glow nodes, and the courser's painted eyes have no glowing vertex.
+	var glow_ok := not FaceProbe.glows(b)
+	for gn: GeometryInstance3D in (b.get(&"_glow_nodes") as Array):
+		glow_ok = glow_ok and (gn is FaceRig or not FaceProbe.face_surfaces(gn).is_empty())
+		print("glow node %s (FaceRig %s)" % [b.get_path_to(gn), gn is FaceRig])
+	_check(glow_ok, "no glow points (the face's eyes painted, not glowing)")
 	# ---- size (rest): a stocky cob
 	var box := _aabb(b, b.get_node("Root"))
 	print("rest AABB y %.2f..%.2f, x %.2f..%.2f, z %.2f..%.2f" % [box.position.y, box.end.y, box.position.x, box.end.x,

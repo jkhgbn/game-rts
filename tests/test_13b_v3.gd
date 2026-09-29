@@ -16,6 +16,8 @@ extends SceneTree
 const TASK_ID := "13b.v3"
 const SCENE := "res://art/units/nature/glade_outrider/glade_outrider.tscn"
 const OWN_DIR := "res://art/units/nature/glade_outrider/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const DIRS: Array[Vector3] = [Vector3(0, 0, 1), Vector3(-1, 0, 0), Vector3(1, 0, 0), Vector3(0, 0, -1)]
 const NAMES: Array[String] = ["front", "left", "right", "behind"]
@@ -120,7 +122,7 @@ func _run() -> void:
 				own.append(path.get_file())
 		else:
 			_check(path.begins_with("res://art/units/nature/materials/") or path.begins_with("res://art/units/kit/materials/")
-				or path == "res://art/units/mounts/grove_stag/materials/grove_stag_antler.tres",
+				or path == "res://art/units/mounts/grove_stag/materials/grove_stag_antler.tres" or FaceProbe.is_face_mat(mat),
 				"material %s is a Nature / kit palette entry (or the stag's antler)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	_check(own.size() <= 4, "<= 4 own materials")

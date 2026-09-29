@@ -19,6 +19,8 @@ const TASK_ID := "13c.v8"
 const SCENE := "res://art/units/neutral/beasts/frost_wyrm/frost_wyrm.tscn"
 const DRAGON := "res://art/units/titans/frost_dragon/frost_dragon.tscn"
 const OWN_DIR := "res://art/units/neutral/beasts/frost_wyrm/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const DRAGON_DIR := "res://art/units/titans/frost_dragon/"
 const BLOB_MAT := "res://art/units/kit/materials/unit_shadow_blob.tres"
 const KIT_SLOTS := {"ao_bottom": 1, "ao_height": 2, "hit_flash": 3, "flash_color": 4, "glow_boost": 5, "blob_color": 6}
@@ -128,9 +130,12 @@ func _run() -> void:
 	var geo := m.find_children("*", "GeometryInstance3D", true, false)
 	var meshes := 0
 	var parts := 0
+	var faces := 0
 	for n: Node in geo:
 		if n is GPUParticles3D:
 			parts += 1
+		elif n is FaceRig:
+			faces += 1   # the kit's face node (faces pass 2026-09-28), not an authored mesh
 		elif n is MeshInstance3D or n is MultiMeshInstance3D:
 			meshes += 1
 	print("authored meshes (blob included) %d, particle systems %d, draw instances %d" % [meshes, parts, geo.size()])
@@ -162,7 +167,7 @@ func _run() -> void:
 		if p.begins_with(OWN_DIR):
 			own += 1
 		else:
-			_check(p == BLOB_MAT, "material outside the frost wyrm folder: '%s'" % p)
+			_check(p == BLOB_MAT or p == FaceProbe.FACE_MAT, "material outside the frost wyrm folder: '%s'" % p)
 	print("materials (A): %d own + %d shared (%s)" % [own, mats.size() - own, ", ".join(PackedStringArray(mats.keys()))])
 	print("triangles %d, vertices %d, shadow casters %s" % [tris, verts, ", ".join(casters)])
 	_check(own <= 6, "materials per variant %d <= 6" % own)

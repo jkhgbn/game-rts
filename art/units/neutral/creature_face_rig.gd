@@ -94,6 +94,9 @@ static func beast_spec(center: Vector3, radius: float, eye: Dictionary, hide: Co
 		pal["sclera"] = FaceKit.glow(iris.lerp(Color(1, 1, 0.85), 0.35), glow * 0.55)
 		pal["iris_in"] = FaceKit.glow(iris.lerp(Color(1, 1, 1), 0.45), glow)
 		pal["iris_out"] = FaceKit.glow(iris, glow * 0.8)
+		# FaceKit.eye() re-applies the glow from iris_glow (default 0): without it the irises came out painted (tests
+		# 2026-09-28: the Tusker / Grizzlemaw / Moonpelt eyes had no glowing vertex; only a glowing sclera where kept).
+		pal["iris_glow"] = glow
 	var x := {}
 	for id: StringName in FaceKit.EXPRESSIONS:
 		x[id] = {"blush": 0.0, "lines": false}

@@ -16,6 +16,8 @@ const TASK_ID := "12.v22"
 const ELDER := "res://art/units/neutral/gloomcap/gloomcap_elder.tscn"
 const SPROUT := "res://art/units/neutral/gloomcap/gloomcap_sprout.tscn"
 const OWN_DIR := "res://art/units/neutral/gloomcap/"
+## The FaceKit's shared face material (faces pass 2026-09-28: every unit has a Face node, 1 draw call).
+const FACE_MAT := "res://art/units/kit/face/unit_face.tres"
 const HOOKS: Array[String] = ["set_team_color", "set_moving", "play_attack", "play_cast", "play_hit", "play_death",
 	"play_level_up", "set_veterancy", "set_carrying", "play_mine", "set_status", "revive"]
 
@@ -68,8 +70,9 @@ func _run() -> void:
 	e2.set(&"fidget_every", 0.0)
 	s2.set(&"hop_every", 0.0)
 	_check(e1 is CharacterModel and s1 is CharacterModel, "both extend CharacterModel")
-	await _structure(e1, e2, "elder", 3200, Vector2(1.8, 1.96))
-	await _structure(s1, s2, "sprout", 1500, Vector2(0.6, 0.78))
+	# Vertex caps + the face (faces pass 2026-09-28: measured Elder 3692, Sprout 1651 with the Face node; small margin).
+	await _structure(e1, e2, "elder", 3800, Vector2(1.8, 1.96))
+	await _structure(s1, s2, "sprout", 1720, Vector2(0.6, 0.78))
 	await _elder(e1, e2)
 	await _sprout(s1, s2)
 	if _fails.is_empty():
@@ -100,7 +103,8 @@ func _structure(a: Node3D, b: Node3D, nm: String, max_verts: int, cap_top: Vecto
 	var names: Array = []
 	for mat: Material in mats:
 		names.append(mat.resource_path.get_file())
-		_check(mat.resource_path.begins_with(OWN_DIR + "materials/"), "%s: material %s is the folder's own" % [nm,
+		_check(mat.resource_path.begins_with(OWN_DIR + "materials/") or mat.resource_path == FACE_MAT,
+			"%s: material %s is the folder's own (or the shared face)" % [nm,
 			mat.resource_path])
 		var f := mat.resource_path.get_file()
 		_check(not f.contains("cloth") and not f.contains("cape") and not f.contains("pennon"), "%s: no team cloth" % nm)

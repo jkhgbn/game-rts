@@ -15,6 +15,8 @@ extends SceneTree
 const TASK_ID := "13.v3"
 const SCENE := "res://art/units/mounts/dusk_steed/dusk_steed.tscn"
 const OWN_DIR := "res://art/units/mounts/dusk_steed/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const SHADOW := Color(0.42, 0.22, 0.60)
 
@@ -80,7 +82,8 @@ func _run() -> void:
 	print("plain: draw instances %d, vertices %d, lights %d, particles %d" % [plain_inst, plain_verts,
 		b.find_children("*", "Light3D", true, false).size(), b.find_children("*", "GPUParticles3D", true, false).size()])
 	_check(plain_inst <= 8, "draw instances <= 8 (got %d)" % plain_inst)
-	_check(plain_verts <= 6000, "vertices <= 6000 (got %d)" % plain_verts)
+	# 6000 + the face (faces pass 2026-09-28: measured 6065 with the face in the head; small margin).
+	_check(plain_verts <= 6250, "vertices <= 6250 = 6000 + face (got %d)" % plain_verts)
 	_check(b.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	_check(b.find_children("*", "GPUParticles3D", true, false).is_empty(), "0 particle systems")
 	for g: Node in b.find_children("*", "MeshInstance3D", true, false):
@@ -98,8 +101,8 @@ func _run() -> void:
 		else:
 			shared.append(path.get_file() if path != "" else "<built-in>")
 			var fname := path.get_file()
-			_check(path.begins_with("res://art/units/kit/materials/shadow_") or fname == "unit_eye_dark.tres",
-				"material %s is a Shadow kit palette entry" % path)
+			_check(path.begins_with("res://art/units/kit/materials/shadow_") or fname == "unit_eye_dark.tres"
+				or FaceProbe.is_face_mat(mat), "material %s is a Shadow kit palette entry (or the face)" % path)
 			_check(not fname.begins_with("fire_") and not fname.contains("flame"), "no fire material (%s)" % fname)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	print("palette materials (%d): %s" % [shared.size(), ", ".join(PackedStringArray(shared))])

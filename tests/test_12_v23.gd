@@ -15,6 +15,8 @@ const TASK_ID := "12.v23"
 const SCENE := "res://art/units/neutral/hollow_stag/hollow_stag.tscn"
 const DEER := "res://art/units/neutral/critters/deer.tscn"
 const OWN_DIR := "res://art/units/neutral/hollow_stag/"
+## The FaceKit's shared face material (faces pass 2026-09-28: every unit has a Face node, 1 draw call).
+const FACE_MAT := "res://art/units/kit/face/unit_face.tres"
 
 var _fails: PackedStringArray = PackedStringArray()
 var _world: Node3D
@@ -71,7 +73,8 @@ func _run() -> void:
 		print("%s: draw instances %d, vertices %d, triangles %d, keep_separate %d, lights %d" % [m.name, inst, verts,
 			tris, sep, lights])
 		_check(inst <= 16, "draw instances <= 16 (got %d)" % inst)
-		_check(verts <= 4500, "vertices <= 4500 (got %d)" % verts)
+		# 4500 + the face (faces pass 2026-09-28: measured 4553 / 4621 with the Face node; small margin).
+		_check(verts <= 4750, "vertices <= 4750 = 4500 + face (got %d)" % verts)
 		_check(sep <= 6, "keep_separate <= 6 (got %d)" % sep)
 		_check(lights == 0, "0 lights")
 	for n: String in ["Root/Mount/Head/Crown/Skull", "Root/Mount/LegFL/Lower/Shin", "Root/Mount/LegBR/Lower/Shin",
@@ -84,7 +87,7 @@ func _run() -> void:
 	for mat: Material in mats:
 		if mat.resource_path.begins_with(OWN_DIR):
 			own.append(mat.resource_path.get_file())
-		else:
+		elif mat.resource_path != FACE_MAT:
 			shared.append(mat.resource_path.get_file() if mat.resource_path != "" else "<built-in>")
 		var sm := mat as ShaderMaterial
 		if sm and sm.shader and sm.shader.resource_path.ends_with("unit_glow.gdshader"):

@@ -344,9 +344,11 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	sculpt_fringe(s, hair, fringe_mesh("ember_boar_cuff_v1", 0.10, 0.10, 0.125, 0.125, 0.08, 0.0, 360.0, 6, 0.06, 0.02),
 		Vector3(p.x, 0.40 if front else 0.37, p.z + cz))
 	var tz: float = 0.05 if front else 0.03
+	# hind hooves 1.1 cm higher (2026-09-28): the idle pose sank their soles ~1 cm under the ground (test 13.v2)
+	var hy: float = 0.045 if front else 0.056
 	for k: int in 2:
 		var dx: float = -0.042 if k == 0 else 0.042
-		sculpt_put(s, sphere(0.062, 6, 3), hoof, Vector3(p.x + dx, 0.045, p.z + tz + 0.03), Vector3(0, dx * 180.0, 0),
+		sculpt_put(s, sphere(0.062, 6, 3), hoof, Vector3(p.x + dx, hy, p.z + tz + 0.03), Vector3(0, dx * 180.0, 0),
 			Vector3(0.75, 0.75, 1.35))
 
 

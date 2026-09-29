@@ -15,6 +15,8 @@ const TASK_ID := "12.v27"
 const SCENE := "res://art/units/neutral/beasts/tusker/tusker.tscn"
 const BRISTLEBACK := "res://art/units/neutral/bristleback/bristleback.tscn"
 const OWN_DIR := "res://art/units/neutral/beasts/tusker/"
+## Faces pass 2026-09-28: the shared face material + the glowing-iris probe (the eyes are the CreatureFaceRig's).
+const FaceProbe := preload("res://tests/face_probe.gd")
 
 var _fails: PackedStringArray = PackedStringArray()
 var _world: Node3D
@@ -86,6 +88,8 @@ func _run() -> void:
 	var own: Array = []
 	var glows: Array = []
 	for mat: Material in mats:
+		if FaceProbe.is_face_mat(mat):
+			continue   # the shared face (eyes + brows, inside the merged head)
 		if not mat.resource_path.begins_with(OWN_DIR):
 			_check(false, "foreign material %s" % mat.resource_path)
 		elif not (mat.resource_path.get_file() in own):
@@ -95,7 +99,15 @@ func _run() -> void:
 			glows.append(sm)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	_check(own.size() >= 8 and own.size() <= 16, "8-16 own materials (got %d)" % own.size())
-	_check(glows.size() == 1, "one glow material (the eyes), got %d" % glows.size())
+	# One glow point, the eyes: since the faces pass they are the face's glowing amber irises (no glow material left).
+	var face_glow := FaceProbe.glow(a)
+	print("face glow: %d vertices, iris colour %s" % [face_glow["count"], face_glow["color"]])
+	_check(FaceProbe.glows(a) and glows.size() == 0,
+		"one glow point (the eyes = the face's glowing irises), got %d glow materials + face glow %s" % [glows.size(),
+		FaceProbe.glows(a)])
+	var ic: Color = face_glow["color"]
+	# The iris core is the amber iris lightened toward white (CreatureFaceRig.beast_spec): an orange-yellow hue.
+	_check(ic.r > 0.8 and ic.h > 0.06 and ic.h < 0.16 and ic.s > 0.3, "amber glowing eyes (%s, hue %.2f)" % [ic, ic.h])
 	for g: Node in b.find_children("*", "GeometryInstance3D", true, false):
 		var gi := g as GeometryInstance3D
 		var nv := 0

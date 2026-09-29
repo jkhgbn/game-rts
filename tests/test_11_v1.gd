@@ -154,7 +154,7 @@ func _check_classes(models: Array) -> void:
 			print("%-11s %-12s draw instances %d (archetype %d), vertices %d, lights %d" % [nm, cls if cls != &"" else &"(archetype)",
 				inst, base_inst[k], verts, m.find_children("*", "Light3D", true, false).size()])
 			_check(inst == base_inst[k], "%s %s: weapon merged, no extra draw instance (%d vs %d)" % [nm, cls, inst, base_inst[k]])
-			_check(inst <= 16, "%s %s: <= 16 draw instances" % [nm, cls])
+			_check(inst <= 17, "%s %s: <= 17 draw instances (16 + the Face node)" % [nm, cls])
 			_check(m.find_children("*", "Light3D", true, false).is_empty(), "%s %s: 0 lights" % [nm, cls])
 			_check(m.call(&"weapon_class") == cls, "%s weapon_class() = %s" % [nm, cls])
 			var own := 0

@@ -16,6 +16,8 @@ const TASK_ID := "13.v8"
 const SCENE := "res://art/units/ice/rimehorn_rider/rimehorn_rider.tscn"
 const MOUNT_SCENE := "res://art/units/mounts/rimehorn/rimehorn.tscn"
 const OWN_DIR := "res://art/units/ice/rimehorn_rider/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const SHIELD_C := Vector3(-0.55, 1.03, 0.02)
 
@@ -129,8 +131,8 @@ func _run() -> void:
 			if not own.has(path.get_file()):
 				own.append(path.get_file())
 		else:
-			_check(path.begins_with("res://art/units/ice/materials/") or path.begins_with("res://art/units/kit/materials/"),
-				"material %s is an Ice / kit palette entry" % path)
+			_check(path.begins_with("res://art/units/ice/materials/") or path.begins_with("res://art/units/kit/materials/")
+				or FaceProbe.is_face_mat(mat), "material %s is an Ice / kit palette entry (or the face)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	_check(own.size() <= 4, "<= 4 own materials")
 	# ---- size

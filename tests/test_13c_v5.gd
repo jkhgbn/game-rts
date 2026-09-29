@@ -19,6 +19,8 @@ extends SceneTree
 const TASK_ID := "13c.v5"
 const SCENE := "res://art/units/champions/wildcaller/wildcaller.tscn"
 const OWN_DIR := "res://art/units/champions/wildcaller/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const CLASSES: Array[StringName] = [&"wizard", &"spear", &"sword_shield", &"two_hand", &""]
 const HEART_Y := 1.50
@@ -112,7 +114,12 @@ func _check_budgets(m: Node3D) -> void:
 	_check(authored <= 26, "authored meshes <= 26 (got %d)" % authored)
 	_check(inst <= 16, "draw instances <= 16 (got %d)" % inst)
 	_check(own == 0, "no own / runtime material (got %d)" % own)
-	_check(mats.size() <= 8, "<= 8 shared materials (got %d)" % mats.size())
+	var face_mats := 0
+	for mat: Material in mats:
+		if FaceProbe.is_face_mat(mat):
+			face_mats += 1
+	# The shared face material (faces pass 2026-09-28) comes on top of the 8 palette entries.
+	_check(mats.size() - face_mats <= 8, "<= 8 shared materials + the face (got %d, face %d)" % [mats.size(), face_mats])
 	_check(m.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	var loops := 0
 	for p: Node in m.find_children("*", "GPUParticles3D", true, false):

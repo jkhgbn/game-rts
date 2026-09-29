@@ -20,6 +20,8 @@ const SHARD_GD := "res://art/units/ice/shardcaster.gd"
 const ICE_MATS := "res://art/units/ice/materials/"
 const KIT_MATS := "res://art/units/kit/materials/"
 const GLOW_MAT := "res://art/units/ice/materials/ice_glow_unit.tres"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KIT_SLOTS := {"ao_bottom": 1, "ao_height": 2, "hit_flash": 3, "flash_color": 4, "glow_boost": 5, "blob_color": 6}
 const GRIP_R := Vector3(0.17, 0.99, 0.17)
 const HAND_S := 0.34
@@ -154,8 +156,9 @@ func _run() -> void:
 			if not (n as GPUParticles3D).one_shot:
 				looping += 1
 	print("authored meshes (blob included) %d, draw instances %d (particle systems %d, looping %d)" % [authored, geo.size(), parts, looping])
-	_check(authored > 15 and authored <= 26, "authored meshes %d <= 26" % authored)
-	_check(geo.size() <= 14, "draw instances %d <= 14" % geo.size())
+	# + the Face node (faces pass 2026-09-28: one mesh node, 1 draw call).
+	_check(authored > 15 and authored <= 27, "authored meshes %d <= 27 (26 + face)" % authored)
+	_check(geo.size() <= 15, "draw instances %d <= 15 (14 + face)" % geo.size())
 	_check(looping == 0, "no looping particles")
 	_check(m.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	var mats := {}
@@ -175,7 +178,8 @@ func _run() -> void:
 			if p == GLOW_MAT and not glow_nodes.has(String(m.get_path_to(mi))):
 				glow_nodes.append(String(m.get_path_to(mi)))
 	for p: String in mats:
-		_check(p.begins_with(ICE_MATS) or p.begins_with(KIT_MATS), "material outside the Ice / kit palette: '%s'" % p)
+		_check(p.begins_with(ICE_MATS) or p.begins_with(KIT_MATS) or p == FaceProbe.FACE_MAT,
+			"material outside the Ice / kit palette: '%s'" % p)
 	print("materials (%d): %s" % [mats.size(), ", ".join(PackedStringArray(mats.keys()).duplicate())])
 	print("vertices %d; glow meshes: %s" % [verts, ", ".join(glow_nodes)])
 	_check(verts <= 5000, "vertices %d <= 5000" % verts)
@@ -228,8 +232,9 @@ func _run() -> void:
 	for sc: Node3D in [sc_before, sc_after]:
 		_check(sc.get_node_or_null("Root/Chest/ArmR/Tip") != null, "Shardcaster keeps its rod tip")
 		_check(sc.get_node_or_null("Root/Chest/ArmR/Orbit") != null, "Shardcaster keeps its orbit shards")
-		var hm := sc.get_node_or_null("Root/Chest/Head/Merged") as MeshInstance3D
-		_check(_has_glow(hm), "Shardcaster keeps its eye slit glow")
+		# The eye slit is now the face's glowing ice-cyan irises (faces pass 2026-09-28): the head keeps its glow point.
+		var hf := sc.get_node_or_null("Root/Chest/Head/Face") as MeshInstance3D
+		_check(hf != null and FaceProbe.glows(hf), "Shardcaster keeps its eye glow (the face's glowing irises)")
 	var a1 := sc_before.get_node("Root/Chest/ArmR/Merged") as MeshInstance3D
 	var a2 := sc_after.get_node("Root/Chest/ArmR/Merged") as MeshInstance3D
 	var c1 := sc_before.get_node("Root/Chest/Merged") as MeshInstance3D

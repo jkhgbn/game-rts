@@ -65,7 +65,8 @@ func _run() -> void:
 			m.find_children("*", "Light3D", true, false).size()])
 		_check(inst <= 14, "draw instances <= 14 (got %d)" % inst)
 		_check(sep <= 6, "keep_separate parts <= 6 (got %d)" % sep)
-		_check(verts <= 2500, "vertices <= 2500 (got %d)" % verts)
+		# Soldier + the face (faces pass 2026-09-28: measured 2962 with the Face node; small margin).
+		_check(verts <= 3050, "vertices <= 3050 = 2500 + face (got %d)" % verts)
 		_check(m.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	var mats := _materials(a)
 	var own: Array = []

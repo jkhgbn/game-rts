@@ -14,6 +14,8 @@ extends SceneTree
 const TASK_ID := "13.v1a"
 const SCENE := "res://art/units/mounts/rimehorn/rimehorn.tscn"
 const OWN_DIR := "res://art/units/mounts/rimehorn/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const MOUNT_SCRIPT := "res://art/units/kit/mount_model.gd"
 
@@ -79,7 +81,8 @@ func _run() -> void:
 	print("plain: draw instances %d, vertices %d, lights %d, particles %d" % [plain_inst, plain_verts,
 		b.find_children("*", "Light3D", true, false).size(), b.find_children("*", "GPUParticles3D", true, false).size()])
 	_check(plain_inst <= 8, "draw instances <= 8 (got %d)" % plain_inst)
-	_check(plain_verts <= 5000, "vertices <= 5000 (got %d)" % plain_verts)
+	# 5000 + the face (faces pass 2026-09-28: measured 5278 with the face in the head; small margin).
+	_check(plain_verts <= 5450, "vertices <= 5450 = 5000 + face (got %d)" % plain_verts)
 	_check(b.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	_check(b.find_children("*", "GPUParticles3D", true, false).is_empty(), "0 particle systems")
 	for g: Node in b.find_children("*", "MeshInstance3D", true, false):
@@ -96,8 +99,8 @@ func _run() -> void:
 			own.append(path.get_file())
 		else:
 			shared.append(path.get_file() if path != "" else "<built-in>")
-			_check(path.begins_with("res://art/units/ice/materials/") or path.begins_with("res://art/units/kit/materials/"),
-				"material %s is an Ice / kit palette entry" % path)
+			_check(path.begins_with("res://art/units/ice/materials/") or path.begins_with("res://art/units/kit/materials/")
+				or FaceProbe.is_face_mat(mat), "material %s is an Ice / kit palette entry (or the face)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	print("palette materials (%d): %s" % [shared.size(), ", ".join(PackedStringArray(shared))])
 	_check(own.size() <= 3, "<= 3 own materials")
@@ -229,7 +232,8 @@ func _run() -> void:
 	_check((b.get_node("Root/Mount/LegFL/Merged") as MeshInstance3D).mesh != (a.get_node("Root/Mount/LegFL/Merged") as MeshInstance3D).mesh,
 		"barded front legs (knee cops)")
 	_check(barded_inst == plain_inst, "barding adds no draw instance")
-	_check(barded_verts <= 7000, "barded vertices <= 7000 (got %d)" % barded_verts)
+	# 7000 + the face (faces pass 2026-09-28: measured 7276; small margin).
+	_check(barded_verts <= 7500, "barded vertices <= 7500 = 7000 + face (got %d)" % barded_verts)
 	var has_metal := false
 	for s: int in b_body.mesh.get_surface_count():
 		var mt := b_body.mesh.surface_get_material(s)

@@ -16,6 +16,8 @@ extends SceneTree
 const TASK_ID := "13.v7"
 const SCENE := "res://art/units/shadow/gloam_rider/gloam_rider.tscn"
 const OWN_DIR := "res://art/units/shadow/gloam_rider/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const STEED_DIR := "res://art/units/mounts/dusk_steed/"
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 
@@ -131,7 +133,7 @@ func _run() -> void:
 				own.append(path.get_file())
 		else:
 			_check(path.begins_with("res://art/units/kit/materials/shadow_") or path == "res://art/units/kit/materials/unit_eye_dark.tres"
-				or path.begins_with(STEED_DIR + "materials/"),
+				or path.begins_with(STEED_DIR + "materials/") or FaceProbe.is_face_mat(mat),
 				"material %s is a Shadow palette entry (or the steed's)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	_check(own.size() <= 3, "<= 3 own materials")
@@ -235,8 +237,10 @@ func _run() -> void:
 	_check(not bool(a.call(&"is_charging")), "the charge ends")
 	a.call(&"set_moving", 0.0)
 	# ---- glows: hood eyes
-	var head_mi := rider.get_node("Root/Chest/Head/Merged") as MeshInstance3D
-	_check(float(head_mi.get_instance_shader_parameter(&"glow_boost")) > 0.5, "the hood eyes glow")
+	# The hood eyes are the Face node's glowing eyes since the faces pass 2026-09-28 (were two glow slits in Head/Merged).
+	var head_mi := rider.get_node_or_null("Root/Chest/Head/Face") as MeshInstance3D
+	_check(head_mi != null and FaceProbe.glows(head_mi), "the hood eyes: a face with glowing eyes")
+	_check(FaceProbe.boost(head_mi) > 0.5, "the hood eyes glow")
 	# ---- hit flash on rider and steed
 	a.call(&"play_hit")
 	await _wait(0.05)
@@ -331,7 +335,7 @@ func _run() -> void:
 	a.call(&"play_death")
 	await _wait(0.6)
 	var hd2 := hips.global_position.distance_to(seat.global_position)
-	var gl_dead := float(head_mi.get_instance_shader_parameter(&"glow_boost"))
+	var gl_dead := FaceProbe.boost(head_mi)
 	var gl_lance_dead := float(lance_mi.get_instance_shader_parameter(&"glow_boost"))
 	var tip_dead := _local(a.call(&"get_lance_tip"), holder)
 	print("death 0.6 s: hips to seat %.2f, seat y %.2f, glow %.2f / lance %.2f, tip y %.2f" % [hd2, seat.global_position.y,

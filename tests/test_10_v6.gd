@@ -13,8 +13,11 @@ extends SceneTree
 const TASK_ID := "10.v6"
 const SCENE := "res://art/units/neutral/magpie/magpie.tscn"
 const OWN_DIR := "res://art/units/neutral/magpie/"
+## The FaceKit's shared face material (faces pass 2026-09-28): the Face node carries the eye shine (glowing irises).
+const FACE_MAT := "res://art/units/kit/face/unit_face.tres"
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KIT_OK: Array[String] = ["res://art/units/kit/materials/unit_shadow_blob.tres",
-	"res://art/units/kit/materials/unit_gold_trim.tres"]
+	"res://art/units/kit/materials/unit_gold_trim.tres", FACE_MAT]
 const RADIUS := 0.4
 
 var _fails: PackedStringArray = PackedStringArray()
@@ -33,6 +36,19 @@ func _check(ok: bool, what: String) -> void:
 func _frames(n: int) -> void:
 	for _i: int in n:
 		await process_frame
+
+
+## A glowing surface: a kit glow shader, except the shared face material, which glows only where a vertex alpha is
+## <= 0.5 (FaceKit.glow: the irises, FaceProbe); a face surface without such vertices is painted only.
+func _is_glow_surface(mat: Material, mesh: Mesh, s: int) -> bool:
+	if FaceProbe.is_face_mat(mat):
+		var cols: Variant = mesh.surface_get_arrays(s)[Mesh.ARRAY_COLOR]
+		if cols is PackedColorArray:
+			for c: Color in cols:
+				if c.a <= FaceProbe.GLOW_ALPHA:
+					return true
+		return false
+	return _is_glow(mat)
 
 
 func _is_glow(mat: Material) -> bool:
@@ -84,7 +100,7 @@ func _run() -> void:
 		var mm: Node3D = models[k]
 		var inst := mm.find_children("*", "GeometryInstance3D", true, false).size()
 		print("instance %d: draw instances %d" % [k, inst])
-		_check(inst <= 10, "draw instances %d <= 10" % inst)
+		_check(inst <= 11, "draw instances %d <= 11 (10 + the Face node)" % inst)
 		_check(mm.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	var mats := {}
 	var verts := 0
@@ -102,7 +118,7 @@ func _run() -> void:
 				var mat := mesh.surface_get_material(s)
 				if mat:
 					mats[mat.resource_path] = true
-					if _is_glow(mat):
+					if _is_glow_surface(mat, mesh, s):
 						glow_surfaces += 1
 				nv += (mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX] as PackedVector3Array).size()
 			verts += nv
@@ -116,8 +132,9 @@ func _run() -> void:
 	print("materials: ", own, " own + ", mats.size() - own, " shared (", ", ".join(PackedStringArray(mats.keys())),
 		"); vertices ", verts, "; glow surfaces ", glow_surfaces)
 	_check(own <= 6, "materials %d <= 6" % own)
-	_check(verts <= 2500, "vertices %d <= 2500 (soldier)" % verts)
-	_check(glow_surfaces == 1, "exactly 1 glow point (eye shine), got %d surfaces" % glow_surfaces)
+	# Soldier + the face (faces pass 2026-09-28: measured 2769 with the Face node, 408 of them; small margin).
+	_check(verts <= 2850, "vertices %d <= 2850 (soldier 2500 + face)" % verts)
+	_check(glow_surfaces == 1, "exactly 1 glow point (eye shine = the face's glowing irises), got %d surfaces" % glow_surfaces)
 
 	# ---- Exports and size.
 	_check(is_equal_approx(float(m.get(&"body_height")), 1.6), "body_height 1.6")
@@ -244,7 +261,9 @@ func _run() -> void:
 	await _frames(10)
 
 	# ---- Snatch: 1.5 s, eyes flare, a sack flies onto the back, hidden again (gameplay decides the loot).
-	var eye := m.get_node_or_null("Root/Chest/Head/Merged") as GeometryInstance3D
+	# The eye shine is the Face node's glowing irises (faces pass 2026-09-28; was the eye bar on Head/Merged).
+	var eye := m.get_node_or_null("Root/Chest/Head/Face") as GeometryInstance3D
+	_check(eye != null, "the Face node (eye shine) exists")
 	m.call(&"play_snatch")
 	_check(bool(m.call(&"is_snatching")), "play_snatch -> is_snatching")
 	var saw_sack := false
@@ -256,7 +275,7 @@ func _run() -> void:
 		if sack.visible:
 			saw_sack = true
 		if eye:
-			eye_max = maxf(eye_max, float(eye.get_instance_shader_parameter(&"glow_boost")))
+			eye_max = maxf(eye_max, FaceProbe.boost(eye))
 		reach_z = maxf(reach_z, rt.position.z)
 		if not bool(m.call(&"is_snatching")):
 			frames = i + 1

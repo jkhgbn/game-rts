@@ -12,6 +12,8 @@ const TASK_ID := "10.v5"
 const SCENE := "res://art/units/caravan/caravan.tscn"
 const OWN_DIR := "res://art/units/caravan/"
 const BLOB_MAT := "res://art/units/kit/materials/unit_shadow_blob.tres"
+## The FaceKit's shared face material (faces pass 2026-09-28: the driver has a Face node, 1 draw call).
+const FACE_MAT := "res://art/units/kit/face/unit_face.tres"
 const SHADOW := Color(0.42, 0.22, 0.60)
 
 var _fails: PackedStringArray = PackedStringArray()
@@ -74,7 +76,7 @@ func _run() -> void:
 		for n: Node in mm.find_children("*", "GeometryInstance3D", true, false):
 			inst += 1
 		print("instance %d: draw instances %d" % [k, inst])
-		_check(inst <= 14, "draw instances %d <= 14" % inst)
+		_check(inst <= 15, "draw instances %d <= 15 (14 + the Face node)" % inst)
 		_check(mm.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	var mats := {}
 	var verts := 0
@@ -99,7 +101,7 @@ func _run() -> void:
 		if p.begins_with(OWN_DIR):
 			own += 1
 		else:
-			_check(p == BLOB_MAT, "material outside the caravan folder: '%s'" % p)
+			_check(p == BLOB_MAT or p == FACE_MAT, "material outside the caravan folder: '%s'" % p)
 	print("materials: ", own, " own + ", mats.size() - own, " shared (", ", ".join(PackedStringArray(mats.keys())), "); vertices ", verts)
 	_check(own <= 5, "materials %d <= 5" % own)
 	_check(verts <= 6000, "vertices %d <= 6000" % verts)

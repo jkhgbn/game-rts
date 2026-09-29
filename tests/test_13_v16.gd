@@ -16,6 +16,8 @@ const TASK_ID := "13.v16"
 const SCENE := "res://art/units/titans/war_mammoth/war_mammoth.tscn"
 const HOWDAH := "res://art/units/titans/war_mammoth/howdah.tscn"
 const OWN_DIR := "res://art/units/titans/war_mammoth/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 
 var _fails: PackedStringArray = PackedStringArray()
@@ -113,8 +115,8 @@ func _run() -> void:
 			own.append(path.get_file())
 		else:
 			shared.append(path.get_file() if path != "" else "<built-in>")
-			_check(path.begins_with("res://art/units/ice/materials/") or path.begins_with("res://art/units/kit/materials/"),
-				"material %s is an Ice / kit palette entry" % path)
+			_check(path.begins_with("res://art/units/ice/materials/") or path.begins_with("res://art/units/kit/materials/")
+				or FaceProbe.is_face_mat(mat), "material %s is an Ice / kit palette entry (or the face)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	print("palette materials (%d): %s" % [shared.size(), ", ".join(PackedStringArray(shared))])
 	_check(own.size() <= 6, "<= 6 own materials")

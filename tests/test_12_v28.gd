@@ -16,6 +16,9 @@ extends SceneTree
 const TASK_ID := "12.v28"
 const SCENE := "res://art/units/neutral/beasts/roc/roc.tscn"
 const OWN_DIR := "res://art/units/neutral/beasts/roc/"
+## Faces pass 2026-09-28: the roc's eyes / brows are a Face node on the shared face material (not part of the variant
+## sets: _materials() leaves it out, checked on its own).
+const FaceProbe := preload("res://tests/face_probe.gd")
 const DATA: Array[String] = ["res://data/units/stormcrest_roc.tres", "res://data/units/duskwing_roc.tres"]
 
 var _fails: PackedStringArray = PackedStringArray()
@@ -72,7 +75,8 @@ func _run() -> void:
 		var lights := m.find_children("*", "Light3D", true, false).size()
 		print("%s: draw instances %d, vertices %d, triangles %d, lights %d" % [m.name, inst, verts, tris, lights])
 		_check(inst <= 16, "draw instances <= 16 (got %d)" % inst)
-		_check(verts <= 6000, "vertices <= 6000 (got %d)" % verts)
+		# 6000 + the face (faces pass 2026-09-28: measured 6203 with the Face node; small margin).
+		_check(verts <= 6400, "vertices <= 6400 = 6000 + face (got %d)" % verts)
 		_check(lights == 0, "0 lights")
 	for n: String in ["Root/Body/BodyMesh", "Root/Body/Neck1/Neck2/Head/HeadMesh", "Root/Body/WingR/WingR2/WingR2Mesh",
 			"Root/Body/WingL/WingLMesh", "Root/Body/Tail1/Tail1Mesh", "Root/Body/LegFR/LegFRMesh", "Fx/Feathers", "Shadow"]:
@@ -86,6 +90,8 @@ func _run() -> void:
 	print("A materials: ", _names(ma))
 	print("B materials: ", _names(mb))
 	_check(ma.size() == 3 and mb.size() == 3, "3 materials per variant (feather, horn, eye)")
+	_check(not FaceProbe.face_surfaces(a).is_empty() and not FaceProbe.face_surfaces(b).is_empty(),
+		"painted eyes (the shared face) on both variants")
 	for mat: Material in ma + mb:
 		_check(mat.resource_path.begins_with(OWN_DIR), "own material only (%s)" % mat.resource_path)
 	for mat: Material in ma:
@@ -391,7 +397,7 @@ func _materials(n: Node) -> Array:
 			var mat := mi.get_surface_override_material(s)
 			if mat == null:
 				mat = mi.mesh.surface_get_material(s)
-			if mat and not (mat in out):
+			if mat and not (mat in out) and not FaceProbe.is_face_mat(mat):
 				out.append(mat)
 	return out
 

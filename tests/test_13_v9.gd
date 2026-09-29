@@ -16,6 +16,8 @@ const TASK_ID := "13.v9"
 const SCENE := "res://art/units/nature/stagrunner/stagrunner.tscn"
 const STAG_SCENE := "res://art/units/mounts/grove_stag/grove_stag.tscn"
 const OWN_DIR := "res://art/units/nature/stagrunner/"
+## Faces pass 2026-09-28: the shared FaceKit face material (eyes / brows / lips, 1 draw call) + glow probe.
+const FaceProbe := preload("res://tests/face_probe.gd")
 const KITFIX := "res://art/units/kit/tools/kitfix_glow_check.gd"
 const SPEED := 7.8
 ## Targets for the gallop thrust (unit frame, +Z forward, +X right) and the expected spear yaw (deg).
@@ -143,8 +145,8 @@ func _run() -> void:
 			if not own.has(path.get_file()):
 				own.append(path.get_file())
 		else:
-			_check(path.begins_with("res://art/units/nature/materials/") or path.begins_with("res://art/units/kit/materials/"),
-				"material %s is a Nature / kit palette entry" % path)
+			_check(path.begins_with("res://art/units/nature/materials/") or path.begins_with("res://art/units/kit/materials/")
+				or FaceProbe.is_face_mat(mat), "material %s is a Nature / kit palette entry (or the face)" % path)
 	print("own materials (%d): %s" % [own.size(), ", ".join(PackedStringArray(own))])
 	_check(own.size() <= 4, "<= 4 own materials")
 	# ---- size, the carry at rest

@@ -75,7 +75,7 @@ func _run() -> void:
 	_check(int(b.call(&"authored_mesh_count")) == authored, "second instance counts the same parts")
 	var draws := _draw_instances(a)
 	print("draw instances after merge: ", draws.size(), "  ", draws)
-	_check(draws.size() <= 16, "draw instances <= 16 (%d)" % draws.size())
+	_check(draws.size() <= 17, "draw instances <= 17 = 16 + the Face node (%d)" % draws.size())
 	_check(a.find_children("*", "Light3D", true, false).is_empty(), "0 lights")
 	var mats := _materials(a)
 	print("materials: ", mats)
@@ -83,7 +83,7 @@ func _run() -> void:
 	for p: String in mats:
 		if p.begins_with(OWN_DIR):
 			own += 1
-		elif p != "res://art/units/kit/materials/unit_shadow_blob.tres":
+		elif p != "res://art/units/kit/materials/unit_shadow_blob.tres" and p != "res://art/units/kit/face/unit_face.tres":
 			_check(false, "unexpected material %s" % p)
 	_check(own <= 5, "own materials <= 5 (%d)" % own)
 	var verts := 0
@@ -109,7 +109,8 @@ func _run() -> void:
 					wv += (mi.mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX] as PackedVector3Array).size()
 		print("  reference %s vertices: %d" % [id, wv])
 		w.queue_free()
-	_check(verts <= 8000, "vertices <= 8000, a hero budget like Ysolde (%d)" % verts)
+	# Hero budget + the face (faces pass 2026-09-28: measured 8473 with the Face node; small margin).
+	_check(verts <= 8750, "vertices <= 8750, a hero budget like Ysolde + face (%d)" % verts)
 
 	# ---- shape: head top ~ body_height, blob, staff length, footprint
 	var top := _top_of(a.get_node(^"Root/Chest/Head/Merged") as MeshInstance3D, a)
