@@ -1,0 +1,227 @@
+{
+	"asset": "ysolde",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#ed70a8",
+					"material": "ysolde_blossom",
+					"material_path": "res://art/units/wizards/ysolde_blossom.tres",
+					"node": "Root/Chest/Head/Merged, Root/Chest/ArmR/Staff/Bloom/Petals, Root/Chest/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#ff80bf",
+					"weight": 0.1
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.6,
+				1.4,
+				1.5
+			],
+			"measured": {
+				"body_lab": [
+					59.5,
+					-7.4,
+					27.6
+				],
+				"dE": {
+					"R3 meadow": 22.4,
+					"R3t fire": 43.6,
+					"R3t ice": 37.3,
+					"R3t nature": 22.4,
+					"R3t shadow": 52.4,
+					"R4 ash": 47.2,
+					"R4 heath": 9.6,
+					"R4 marsh": 49.2,
+					"R4 riverbank": 31.3,
+					"R4 sand": 24.0,
+					"R4 snow": 40.9,
+					"R4k old_wood": 32.5
+				},
+				"ground_lab": [
+					61.9,
+					-23.7,
+					42.8
+				],
+				"melt_share": 0.01
+			},
+			"predicted": {
+				"R3 meadow": 24.1,
+				"R3t fire": 44.9,
+				"R3t ice": 38.6,
+				"R3t nature": 24.2,
+				"R3t shadow": 53.6,
+				"R4 ash": 46.5,
+				"R4 heath": 8.8,
+				"R4 marsh": 48.9,
+				"R4 riverbank": 32.1,
+				"R4 sand": 23.4,
+				"R4 snow": 39.4,
+				"R4k old_wood": 32.8
+			},
+			"proposal": "shader_parameter/base_color of `ysolde_blossom` #ed70a8 -> #ff80bf (10% of the visible body): predicted dE R3 meadow 22.4 -> 24.1, R3t fire 43.6 -> 44.9, R3t shadow 52.4 -> 53.6, R3t ice 37.3 -> 38.6, R3t nature 22.4 -> 24.2, R4k old_wood 32.5 -> 32.8 (want >= 24); other grounds heath 8.8, riverbank 32.1, snow 39.4, ash 46.5, sand 23.4, marsh 48.9; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `ysolde_cloth_dark` 13%, `ysolde_cloth` 25% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`ysolde_cloth_dark` 13%",
+				"`ysolde_cloth` 25%"
+			],
+			"text": "shader_parameter/base_color of `ysolde_blossom` #ed70a8 -> #ff80bf (10% of the visible body): predicted dE R3 meadow 22.4 -> 24.1, R3t fire 43.6 -> 44.9, R3t shadow 52.4 -> 53.6, R3t ice 37.3 -> 38.6, R3t nature 22.4 -> 24.2, R4k old_wood 32.5 -> 32.8 (want >= 24); other grounds heath 8.8, riverbank 32.1, snow 39.4, ash 46.5, sand 23.4, marsh 48.9; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `ysolde_cloth_dark` 13%, `ysolde_cloth` 25% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2409,
+					"node": "Root/Chest/Head/Merged",
+					"to": 1205,
+					"words": "`Merged` 2409 -> 1205 verts"
+				},
+				{
+					"from": 2002,
+					"node": "Root/Chest/Head/Face",
+					"to": 1001,
+					"words": "`Face` 2002 -> 1001 verts"
+				},
+				{
+					"from": 1401,
+					"node": "Root/Chest/ArmR/Staff/StaffMesh",
+					"to": 701,
+					"words": "`StaffMesh` 1401 -> 701 verts"
+				},
+				{
+					"from": 747,
+					"node": "Root/Chest/Merged",
+					"to": 374,
+					"words": "`Merged` 747 -> 374 verts"
+				},
+				{
+					"from": 682,
+					"node": "Root/Chest/Cape",
+					"to": 341,
+					"words": "`Cape` 682 -> 341 verts"
+				},
+				{
+					"from": 632,
+					"node": "Root/Hips/Merged",
+					"to": 316,
+					"words": "`Merged` 632 -> 316 verts"
+				},
+				{
+					"from": 441,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 221,
+					"words": "`Merged` 441 -> 221 verts"
+				},
+				{
+					"from": 441,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 221,
+					"words": "`Merged` 441 -> 221 verts"
+				},
+				{
+					"from": 150,
+					"node": "Root/Chest/ArmR/Staff/Bloom/Petals",
+					"to": 75,
+					"words": "`Petals` 150 -> 75 verts"
+				},
+				{
+					"from": 77,
+					"node": "Root/Chest/ArmR/Staff/Bloom/Seed",
+					"to": 39,
+					"words": "`Seed` 77 -> 39 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 8986
+			},
+			"predicted": {
+				"verts": 4498
+			},
+			"proposal": "8986 -> 4498 (want <= 3000): `Merged` 2409 -> 1205 verts; `Face` 2002 -> 1001 verts; `StaffMesh` 1401 -> 701 verts; `Merged` 747 -> 374 verts; `Cape` 682 -> 341 verts; `Merged` 632 -> 316 verts; `Merged` 441 -> 221 verts; `Merged` 441 -> 221 verts; `Petals` 150 -> 75 verts; `Seed` 77 -> 39 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 8986 -> 4498 (want <= 3000): `Merged` 2409 -> 1205 verts; `Face` 2002 -> 1001 verts; `StaffMesh` 1401 -> 701 verts; `Merged` 747 -> 374 verts; `Cape` 682 -> 341 verts; `Merged` 632 -> 316 verts; `Merged` 441 -> 221 verts; `Merged` 441 -> 221 verts; `Petals` 150 -> 75 verts; `Seed` 77 -> 39 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Face 1.67 m, Merged 1.81 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Face 1.67 m, Merged 1.81 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Face 1.67 m, Merged 1.81 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.7 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B6l",
+			"computed": false,
+			"measured": {
+				"value": "2 (CrownPetals, SeedMotes)"
+			},
+			"predicted": {},
+			"proposal": "Looping particle systems: Looping systems only where the spec lists them; stop them beyond 45 m (kit does it for GPUParticles3D)",
+			"rank": 5,
+			"status": "WARN",
+			"text": "B6l Looping particle systems: Looping systems only where the spec lists them; stop them beyond 45 m (kit does it for GPUParticles3D)",
+			"title": "Looping particle systems",
+			"wanted": {
+				"rule": "<= 1 soft (art-units.md 8 (wizard))"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 88.9,
+	"result": "WARN",
+	"scene": "res://art/units/wizards/ysolde.tscn",
+	"tier": "wizard",
+	"version": "1.0"
+}

@@ -2,7 +2,7 @@ extends WizardModel
 ## Ysolde, the Nature Wizard (kingdom-nature.md 7.2; built 8.V3, polished A.14). A young forest-queen read from the
 ## RTS camera by a colour split the grass can't swallow: a dark flowing BARK gown (painted furrows with glowing sap,
 ## a mossy hem, a train and trailing roots behind her) under a team-green leaf bodice, leaf over-skirt, a star-shaped
-## leaf mantle and a curved leaf cape. Auburn hair around a pale face with a glowing eye bar, and a pair of wide
+## leaf mantle and a curved leaf cape. Auburn swept locks around a painted face (FaceKit, 5 expressions), and a pair of wide
 ## living ANTLERS (1.5 m tip to tip, wider than the mantle) with pink blossoms and glowing hearts on every tine.
 ## Her living staff is gnarled wood wound by a vine, sap flowing up into a cradle of three curled prongs that holds
 ## the glowing seed (3.0) inside a closed tulip of 6 petals; the tulip opens into a flower on casts.
@@ -12,10 +12,10 @@ extends WizardModel
 ## Extras: gown sway and cape billow on the walk, staff levelled at the target on the auto-attack, level-up
 ## pirouette with a petal burst, a gasp and reaching hand before the fall (the staff drops, leaves burst), and
 ## (close camera only) idle fidgets: she lets the seed bloom over her palm, listens to the forest, twirls the staff.
-## Glow points: seed 3.0, crown blossom hearts + eye bar (1.5, one separate glow mesh). 5 petals drift from the crown.
+## Glow points: seed 3.0, crown blossom hearts + irises (vertex-colour glow on the FaceKit Face node). 5 petals drift from the crown.
 ## Materials: hero-only art/units/wizards/ysolde_*.tres (ysolde_grove.gdshader: bark, sap, moss, petals; the
 ## *_cloth ones are recoloured by set_team_color) + the Nature palette (leaves, glows).
-## Draw instances: 5 merged pivots + HeadGlow, Cape, StaffMesh, Seed, Petals + 3 particles + blob = 14, 1 light.
+## Draw instances: 5 merged pivots + Face, Cape, StaffMesh, Seed, Petals + 3 particles + blob = 14, 1 light.
 ## Hooks: those of CharacterModel / WizardModel, unchanged.
 
 const YS_DIR := "res://art/units/wizards/"
@@ -40,7 +40,9 @@ static var _draws: Dictionary = {}
 var _staff: Node3D                 # keep_separate: pivots at the fist, tilted / spun by poses
 var _bloom: Node3D                 # seed + petals (the bobbing node)
 var _petals: MultiMeshInstance3D
-var _head_glow: MeshInstance3D
+var _head_glow: MeshInstance3D     # the Face node (irises + crown blossom hearts glow)
+var _face: FaceRig                 # painted face + auburn locks + blossom tie (FaceKit)
+var _expr: StringName = &"neutral"  # requested by set_expression (kept for a call before _ready)
 var _cape: MeshInstance3D
 var _drift: GPUParticles3D
 var _fx: GPUParticles3D            # one pre-built one-shot emitter for every burst (mode swapped per use)
@@ -110,17 +112,10 @@ func _build_parts() -> void:
 	add_part(chest, NatureModel.leaf_ring_mesh(9, 0.12, Vector3(0.20, 0.05, 0.30), -10.0, 20.0), dark, Vector3(0, 1.60, 0))
 	_cape = add_part(chest, _cape_mesh(), null, CAPE_AT, Vector3(CAPE_TILT, 0, 0), Vector3.ONE, true, "Cape")
 
-	# ---- Head: neck, pale face, auburn hair (cap, side locks, fall down the back), antler crown.
-	var hair := _mat(&"ysolde_hair")
+	# ---- Head: neck, pale face, antler crown. Hair (auburn swept locks, blossom tie) + the painted face: the FaceKit
+	# Face node below (face rework 2026-09-28).
 	add_part(head, cyl(0.065, 0.075, 0.16, 8), skin, Vector3(0, 1.63, 0.0))
 	add_part(head, sphere(0.205), skin, Vector3(0, 1.77, 0.05), Vector3.ZERO, Vector3(0.95, 1.05, 0.95))
-	var hp: Array = [
-		[sphere(0.205), Transform3D(Basis().scaled(Vector3(1.08, 0.90, 1.05)), Vector3(0, 1.85, -0.065))],
-		_seg(Vector3(0.165, 1.84, 0.02), Vector3(0.20, 1.44, 0.07), 0.065, 0.035, 6),
-		_seg(Vector3(-0.165, 1.84, 0.02), Vector3(-0.20, 1.44, 0.07), 0.065, 0.035, 6),
-		[sphere(0.20), Transform3D(Basis().scaled(Vector3(0.95, 1.2, 0.7)), Vector3(0, 1.70, -0.12))],
-		_seg(Vector3(0, 1.62, -0.18), Vector3(0.02, 1.30, -0.29), 0.10, 0.03, 8, 1.3, 0.8)]
-	add_part(head, _bake("ys14_hair", hp), hair, Vector3.ZERO)
 	# a wreath of small dark leaves lying on the hair (breaks the round top read from the high camera)
 	add_part(head, NatureModel.leaf_ring_mesh(9, 0.15, Vector3(0.12, 0.03, 0.22), 4.0, 10.0), leaf,
 			Vector3(0, 1.95, -0.05))
@@ -133,11 +128,11 @@ func _build_parts() -> void:
 	for xf: Transform3D in crown["tips"]:
 		fl.append_array(_flower(xf))
 	add_part(head, _bake("ys14_crown_blossoms", fl), _mat(&"ysolde_blossom"), Vector3.ZERO)
-	# Eye bar + blossom hearts: their own glow instance (a glow surface merged with painted ones reads its
-	# instance uniform from the painted slot and shows dull).
-	_head_glow = add_part(head, _head_glow_mesh(), NatureModel.nature(&"nature_glow"), Vector3.ZERO, Vector3.ZERO,
-			Vector3.ONE, true, "HeadGlow")
-	_head_glow.set_meta(&"own_glow", true)
+	# The 8 blossom hearts glow through their vertex alpha on the Face node (the old HeadGlow node: eye bar + hearts).
+	_face = FaceKit.attach(self, head, "ysolde", _face_style())
+	_face.set_expression(_expr)
+	_face.set_meta(&"own_glow", true)   # irises + blossom hearts glow with _crown, written below
+	_head_glow = _face
 
 	# ---- Arms: team-dark leaf sleeves, leaf cuffs, hands; the right fist holds the staff.
 	_arm(arm_l, SHOULDER_L, HAND_L, "l")
@@ -403,14 +398,78 @@ static func _crown_layout() -> Dictionary:
 	return d
 
 
-## Eye bar + the 8 blossom hearts (one surface, nature_glow).
-static func _head_glow_mesh() -> ArrayMesh:
-	if _meshes.has("ys14_head_glow"):
-		return _meshes["ys14_head_glow"]
-	var parts: Array = [[box(Vector3(0.20, 0.045, 0.05)), Transform3D(Basis(), Vector3(0, 1.785, 0.243))]]
-	for xf: Transform3D in _crown_layout()["tips"]:
-		parts.append([sphere(0.5, 8, 4), Transform3D(xf.basis.scaled_local(Vector3.ONE * 0.085), xf.origin + xf.basis.y * 0.025)])
-	return _bake("ys14_head_glow", parts)
+# ================================================================ face / expressions
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout"; aliases
+## angry / sad / cast / happy). Unknown ids = neutral. Safe before _ready and any number of times.
+func set_expression(id: StringName) -> void:
+	_expr = FaceKit.canonical(id)
+	if _face:
+		_face.set_expression(_expr)
+
+
+func get_expression() -> StringName:
+	return _expr
+
+
+## Ysolde's face style: a young forest-queen: leaf-green irises with a soft glow (her old eye-bar read), dark lashes,
+## auburn brows, freckles over the nose and cheeks, rosy blush, a warm closed smile at rest. Hair (hair plan 3): the
+## baked block became auburn swept locks with copper tips: 2 front locks per side falling over the leaf mantle in front
+## of the shoulders (the 25 m read: auburn on green), a fringe swept under the wreath, a back fall, and one front lock
+## tied with a pink blossom. One vertex-coloured surface on the Face node.
+static func _face_style() -> Dictionary:
+	if _meshes.has("ys_face_style"):
+		return _meshes["ys_face_style"]
+	var hair := Color(0.50, 0.19, 0.08)
+	var tip := Color(0.92, 0.55, 0.26)
+	var pink := Color(0.96, 0.60, 0.76)
+	var fc := Vector3(0, 1.77, 0.05)
+	var st := {
+		"canvas": FaceKit.canvas(fc, 0.20, sphere(0.205), Vector3(0.95, 1.05, 0.95)),
+		"palette": {"skin": Color(0.93, 0.78, 0.64), "sclera": Color(0.98, 0.96, 0.90), "iris_in": Color(0.78, 1.0, 0.45),
+			"iris_out": Color(0.14, 0.40, 0.10), "iris_glow": 0.4, "pupil": Color(0.06, 0.10, 0.04), "highlight": Color(1, 1, 0.94),
+			"lash": Color(0.18, 0.08, 0.05), "brow": Color(0.48, 0.19, 0.09), "blush": Color(0.95, 0.46, 0.46),
+			"lip_line": Color(0.46, 0.16, 0.12), "lip": Color(0.88, 0.50, 0.48), "mouth_in": Color(0.34, 0.08, 0.07),
+			"teeth": Color(0.99, 0.97, 0.92), "tongue": Color(0.92, 0.46, 0.46)},
+		"eye": {"c": Vector2(0.066, 0.014), "hw": 0.032, "top": 0.025, "bot": 0.014, "tilt": 0.004, "ir": 0.0168, "lash": 1.15, "flick": 0.010},
+		"brow": {"inner": Vector2(0.030, 0.056), "mid": Vector2(0.066, 0.070), "outer": Vector2(0.100, 0.060), "w": Vector3(0.0052, 0.0050, 0.0020)},
+		"cheek": {"c": Vector2(0.092, -0.030), "r": Vector2(0.028, 0.016)},
+		"mouth": {"c": Vector2(0.0, -0.074), "hw": 0.037, "lip": 0.0028},
+		"extra": func(acc: Dictionary, _id: StringName) -> void:
+			var cv: Dictionary = _meshes["ys_face_style"]["canvas"]
+			var fr := Color(0.72, 0.42, 0.26)
+			for p: Vector2 in [Vector2(0.018, -0.012), Vector2(0.030, -0.020), Vector2(0.044, -0.014), Vector2(0.056, -0.024),
+					Vector2(0.070, -0.018), Vector2(0.084, -0.026), Vector2(0.038, -0.030), Vector2(0.064, -0.034)]:
+				for sx: float in [-1.0, 1.0]:
+					FaceKit.fill(acc, cv, FaceKit.ellipse(Vector2(p.x * sx, p.y), Vector2(0.0022, 0.0022), 0.0, 6), fr, 0.0021, 0.004),
+		"geo": func(acc: Dictionary) -> void:
+			var sph := sphere(1.0, 10, 5)
+			FaceKit.put_mesh(acc, sph, Transform3D(Basis.from_scale(Vector3(0.221, 0.185, 0.215)), Vector3(0, 1.85, -0.065)), hair.darkened(0.12))
+			FaceKit.put_mesh(acc, sph, Transform3D(Basis.from_scale(Vector3(0.19, 0.24, 0.14)), Vector3(0, 1.70, -0.12)), hair.darkened(0.18))
+			for sx: float in [-1.0, 1.0]:
+				FaceKit.lock(acc, [Vector3(0.13 * sx, 1.90, 0.10), Vector3(0.23 * sx, 1.74, 0.15), Vector3(0.20 * sx, 1.54, 0.27),
+					Vector3(0.24 * sx, 1.31, 0.32)], Vector3(0.4 * sx, 0.1, 0.9).normalized(), 0.12, 0.05, hair, tip, 5, 0.6, -20.0 * sx)
+				FaceKit.lock(acc, [Vector3(0.17 * sx, 1.90, -0.02), Vector3(0.28 * sx, 1.70, 0.04), Vector3(0.30 * sx, 1.50, 0.15),
+					Vector3(0.35 * sx, 1.30, 0.18)], Vector3(0.8 * sx, 0.1, 0.5).normalized(), 0.13, 0.055, hair, tip, 5, 0.6, 15.0 * sx)
+			FaceKit.lock(acc, [Vector3(0.0, 1.84, -0.16), Vector3(0.03, 1.66, -0.30), Vector3(-0.02, 1.48, -0.33),
+				Vector3(0.02, 1.30, -0.31)], Vector3(0, 0, -1), 0.24, 0.07, hair, tip, 5, 0.65, 10.0)
+			FaceKit.lock(acc, [Vector3(0.13, 1.93, 0.11), Vector3(0.04, 1.925, 0.205), Vector3(-0.08, 1.885, 0.21),
+				Vector3(-0.17, 1.80, 0.15)], Vector3(0, 0.3, 1).normalized(), 0.10, 0.04, hair, tip, 4, 0.85, 0.0)
+			# the blossom tie on her left front lock
+			var bc := Vector3(-0.215, 1.62, 0.22)
+			for k: int in 5:
+				var a := TAU * float(k) / 5.0
+				FaceKit.put_mesh(acc, sphere(1.0, 6, 3), Transform3D(Basis.from_scale(Vector3(0.024, 0.024, 0.012)),
+					bc + Vector3(cos(a) * 0.024, sin(a) * 0.024, 0.02)), pink)
+			FaceKit.put_mesh(acc, sphere(1.0, 6, 3), Transform3D(Basis.from_scale(Vector3(0.014, 0.014, 0.01)), bc + Vector3(0, 0, 0.03)),
+				FaceKit.glow(Color(1.0, 0.92, 0.45), 0.5))
+			# the 8 blossom hearts of the antler crown (were the HeadGlow node, nature_glow)
+			for xf: Transform3D in _crown_layout()["tips"]:
+				FaceKit.put_mesh(acc, sphere(0.5, 8, 4), Transform3D(xf.basis.scaled_local(Vector3.ONE * 0.085), xf.origin + xf.basis.y * 0.025),
+					FaceKit.glow(Color(0.75, 1.0, 0.40), 1.0)),
+	}
+	_meshes["ys_face_style"] = st
+	return st
 
 
 ## The living staff in grip space (origin = the fist, +Y up): gnarled shaft with knots, a vine winding up it with
@@ -818,6 +877,8 @@ func _wizard_process(dt: float) -> void:
 	if absf(cb - _crown_written) > 0.01:
 		_crown_written = cb
 		_head_glow.set_instance_shader_parameter(&"glow_boost", cb)
+	if _face:
+		_face.auto(self)
 	# Cape: billows with the walk and casts, slow flutter; flops forward on death.
 	var ck := CAPE_TILT + _cape_kick + 1.5 * sin(_t * 2.1 + _phase_off) + 1.0 * sin(_t * 3.7)
 	if _dead:
@@ -890,5 +951,7 @@ func _on_revive() -> void:
 	_staff_written = Vector3(99, 99, 99)
 	_crown_written = -1.0
 	_cape_written = 999.0
+	if _face:
+		_face.reset()
 	if _drift:
 		_drift.emitting = _tier < 2

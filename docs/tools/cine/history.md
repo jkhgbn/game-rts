@@ -293,3 +293,11 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-28 19:15:27 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
 | 2026-09-28 19:16:48 | record | ep4_opening | 100 | PASS (0F 0W) |  |  | docs/tools/cine/out/ep4_opening/report_record.md |
 | 2026-09-28 19:20:28 | record | ep3_opening | 100 | PASS (0F 0W) |  |  | docs/tools/cine/out/ep3_opening/report_record.md |
+| 2026-09-28 20:04:03 | check | ep3_opening | 93 (-3) | FAIL (1F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 20:04:13 | build | ep3_opening | 93 (+0) | FAIL (1F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 20:04:22 | check | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 20:04:30 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 20:05:41 | check | ep3_opening | 97 (+3) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 20:05:50 | build | ep3_opening | 97 (+0) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 20:05:59 | check | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 20:06:07 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |

@@ -1,0 +1,5 @@
+res://art/units/wizards/vessa.tscn
+res://art/units/wizards/malrik.tscn
+res://art/units/wizards/torvald.tscn
+res://art/units/wizards/ysolde.tscn
+res://art/units/helpers/helper_aldra/helper_aldra.tscn name=aldra tier=wizard kingdom=ice

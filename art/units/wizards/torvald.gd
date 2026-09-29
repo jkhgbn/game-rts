@@ -11,7 +11,7 @@ extends WizardModel
 ## and crown blaze, frost rises around him). The snowflake snaps into a star on every cast.
 ## Idle life: slow deep breathing, frost breath puffs, and every 8-14 s (near the camera) a flourish: strokes his
 ## beard, taps his staff or surveys the field. Death style fall; the snowflake shatters when the glows die.
-## Glow points: snowflake 3.0 (ice_glow_hero), crown gem + eye bar (torvald_gem, cyan). Materials: the Ice palette
+## Glow points: snowflake 3.0 (ice_glow_hero), crown gem + irises (vertex-colour glow on the FaceKit Face node, cyan). Materials: the Ice palette
 ## (art/units/ice/materials/) plus the hero-only art/units/wizards/torvald_*.tres (shader torvald_frost.gdshader:
 ## a unit_painted variant with frost dusting, rimed hem, fur streaks and a crystal look; same instance uniforms).
 ## Cost: 7 merged pivots + staff mesh + snowflake + 1 light; 1 looping emitter (8) + 5 pre-built one-shots (<= 16).
@@ -32,7 +32,9 @@ static var _pm_cache: Dictionary = {}
 var _staff: Node3D                 # keep_separate: pivots at the fist, tilted by poses
 var _flake: MultiMeshInstance3D
 var _flake_node: Node3D
-var _head_glow: GeometryInstance3D # merged Head mesh (eye bar + crown gem)
+var _head_glow: GeometryInstance3D # the Face node (crown gem + irises glow)
+var _face: FaceRig                 # painted face + moving brows + frost beard / hair locks (FaceKit)
+var _expr: StringName = &"neutral"  # requested by set_expression (kept for a call before _ready)
 var _burst: GPUParticles3D         # shard burst at the snowflake (casts, shatter)
 var _ring: GPUParticles3D          # frost ring at the staff foot (flash freeze)
 var _rise: GPUParticles3D          # frost rising around him (aegis, level-up)
@@ -98,20 +100,14 @@ func _build_parts() -> void:
 		add_part(chest, sphere(0.16), pale, Vector3(0.24 * sx, 1.60, 0.26), Vector3(0, 30.0 * sx, 0), Vector3(1.0, 1.0, 1.15))
 	add_part(chest, cape(0.95, 1.42), _mat(&"torvald_cape"), Vector3(0, 0.85, -0.55), Vector3(12, 0, 0))
 
-	# --- Head: face, big nose, stern brows, glowing eye bar, beard (cheeks + long spade), hair, crown.
+	# --- Head: face, big nose, beard masses (cheeks + chin), the beard clasp, hair cap, crown. The painted face, the
+	# moving 3D brows, the frost beard / moustache / side locks are the FaceKit Face node (face rework 2026-09-28).
 	add_part(head, sphere(0.26), skin, Vector3(0, 1.85, 0))
 	add_part(head, sphere(0.27), beard, Vector3(0, 1.88, -0.08), Vector3.ZERO, Vector3(1.05, 0.95, 1.0))
 	add_part(head, cyl(0.0, 0.06, 0.17, 6), skin, Vector3(0, 1.81, 0.29), Vector3(105, 0, 0))
-	add_part(head, box(Vector3(0.26, 0.075, 0.06)), _mat(&"torvald_gem"), Vector3(0, 1.875, 0.262))
-	add_part(head, box(Vector3(0.16, 0.075, 0.10)), beard, Vector3(0.10, 1.95, 0.20), Vector3(0, 0, 16))
-	add_part(head, box(Vector3(0.16, 0.075, 0.10)), beard, Vector3(-0.10, 1.95, 0.20), Vector3(0, 0, -16))
 	add_part(head, sphere(0.25), beard, Vector3(0, 1.66, 0.12), Vector3.ZERO, Vector3(1.05, 0.62, 0.95))
-	add_part(head, capsule(0.055, 0.34), beard, Vector3(0.12, 1.745, 0.27), Vector3(0, 0, 62))
-	add_part(head, capsule(0.055, 0.34), beard, Vector3(-0.12, 1.745, 0.27), Vector3(0, 0, -62))
-	# long beard: a round bulge under the chin, then a tapering spade down to a silver clasp and a tip
 	add_part(head, sphere(0.17), beard, Vector3(0, 1.56, 0.34), Vector3(-10, 0, 0), Vector3(1.15, 0.95, 0.75))
-	_seg(head, cyl(0.20, 0.035, 0.64, 8), beard, Vector3(0, 0.98, 0.53), Vector3(0, 1.60, 0.32), Vector3(1.0, 1.0, 0.6))
-	_seg(head, torus(0.045, 0.11), metal, Vector3(0, 1.13, 0.50), Vector3(0, 1.21, 0.475))
+	_seg(head, torus(0.045, 0.11), metal, Vector3(0, 1.13, 0.52), Vector3(0, 1.21, 0.50))
 	add_part(head, sphere(0.24), dark, Vector3(0, 2.06, -0.01), Vector3.ZERO, Vector3(1.0, 0.55, 1.0))
 	add_part(head, cyl(0.27, 0.285, 0.11, 12), metal, Vector3(0, 2.03, 0))
 	# crown: 8 jagged ice spikes, the tallest in front (angle deg, height, radius, tilt deg)
@@ -125,7 +121,9 @@ func _build_parts() -> void:
 		add_part(head, cyl(0.0, s.z, s.y, 6), crystal, Vector3(0, 2.06, 0) + out * 0.22 + b * Vector3(0, s.y * 0.5, 0),
 				b.get_euler() / DEG)
 	add_part(head, cyl(0.075, 0.075, 0.05, 6), metal, Vector3(0, 2.035, 0.27), Vector3(90, 0, 0))
-	add_part(head, sphere(0.075), _mat(&"torvald_gem"), Vector3(0, 2.035, 0.30), Vector3.ZERO, Vector3(1.0, 1.25, 0.8))
+	_face = FaceKit.attach(self, head, "torvald", _face_style())
+	_face.set_expression(_expr)
+	_face.set_meta(&"own_glow", true)   # the irises blaze with the crown gem (_eye_boost), written below
 
 	# --- Arms: wide bell sleeves, fur cuffs, big fists; silver pauldrons with ice crystal horns.
 	for side: float in [-1.0, 1.0]:
@@ -212,9 +210,93 @@ func _build_parts() -> void:
 
 
 func _after_ready() -> void:
-	_head_glow = get_node_or_null(^"Root/Chest/Head/Merged") as GeometryInstance3D
+	_head_glow = _face   # the crown gem + the irises (FaceKit Face node, own_glow)
 	_idle_left = 5.0 + 6.0 * fmod(_phase_off, 1.0)
 	_breath_t = fmod(_phase_off * 1.7, 3.6)
+
+
+# ------------------------------------------------------------------ face / expressions
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout"; aliases
+## angry / sad / cast / happy). Unknown ids = neutral. Safe before _ready and any number of times.
+func set_expression(id: StringName) -> void:
+	_expr = FaceKit.canonical(id)
+	if _face:
+		_face.set_expression(_expr)
+
+
+func get_expression() -> StringName:
+	return _expr
+
+
+## Torvald's face style: kind grandfather under the frost: ice-blue irises that glow a little (his cyan eye read,
+## blazing with the crown gem on casts), heavy lids, rosy apple cheeks above the beard, big white 3D brows that move
+## with the expression, the mouth painted on the beard under an up-curled frost moustache (a warm closed smile at rest).
+## Beard (hair plan 3): split into frost locks: 3 long spade locks through the silver clasp + 2 moustache locks + 2
+## swept side locks under the crown, white on top with a blue-grey underside (separates from the white stole) and
+## icy tips. All on the Face node (one vertex-coloured surface).
+static func _face_style() -> Dictionary:
+	if _own_mats.has(&"_face_style"):
+		return _own_mats[&"_face_style"]
+	var frost := Color(0.95, 0.97, 1.0)
+	var under := Color(0.40, 0.50, 0.70)
+	var icy := Color(0.62, 0.86, 1.0)
+	var st := {
+		"canvas": FaceKit.canvas(Vector3(0, 1.85, 0), 0.26, sphere(0.26)),
+		# the mouth sits on the top-front of the chin bulge, right under the moustache (faces up toward the camera)
+		"mouth_canvas": FaceKit.canvas(Vector3(0, 1.56, 0.34), 0.14, sphere(0.17), Vector3(1.15, 0.95, 0.75), Vector3.INF,
+			Basis(Vector3.RIGHT, -10.0 * DEG), 0.001),
+		"palette": {"skin": Color(0.86, 0.82, 0.84), "sclera": Color(0.96, 0.97, 0.98), "iris_in": Color(0.78, 0.98, 1.0),
+			"iris_out": Color(0.06, 0.28, 0.62), "iris_glow": 0.55, "pupil": Color(0.04, 0.06, 0.12), "highlight": Color(1, 1, 1),
+			"lash": Color(0.14, 0.17, 0.26), "brow": frost, "blush": Color(0.95, 0.50, 0.52), "lip_line": Color(0.24, 0.10, 0.14),
+			"lip": Color(0.80, 0.56, 0.58), "mouth_in": Color(0.30, 0.08, 0.10), "teeth": Color(0.98, 0.97, 0.94), "tongue": Color(0.86, 0.42, 0.44)},
+		"eye": {"c": Vector2(0.078, 0.026), "hw": 0.040, "top": 0.025, "bot": 0.014, "tilt": -0.004, "ir": 0.0195, "lash": 1.4, "flick": 0.0},
+		"base": func(acc: Dictionary, _id: StringName) -> void:
+			# a soft shadow under the brow ridge around each eye (depth on the pale frost face)
+			var cv: Dictionary = _own_mats[&"_face_style"]["canvas"]
+			var sk := Color(0.86, 0.82, 0.84)
+			for sx: float in [-1.0, 1.0]:
+				var so := Vector2(0.078 * sx, 0.030)
+				FaceKit.fill(acc, cv, FaceKit.ellipse(so, Vector2(0.056, 0.036), 0.0, 16), FaceKit.radial(so, Vector2(0.056, 0.036), sk.darkened(0.30), sk, 0.2), 0.0012, 0.007),
+		"brow": {"none": true},
+		"cheek": {"c": Vector2(0.108, -0.028), "r": Vector2(0.042, 0.024)},
+		"mouth": {"c": Vector2(0.0, 0.112), "hw": 0.056, "lip": 0.0045},
+		"x": {&"neutral": {"blush": 1.2, "mouth": {"curve": 1.2}}, &"smile": {"blush": 1.4}, &"worried": {"blush": 0.3}},
+		"extra": func(acc: Dictionary, id: StringName) -> void:
+			# bushy 3D brows: a short thick lock per side, raised / tilted by the expression
+			var x := FaceKit.params(_own_mats[&"_face_style"], id)
+			var dy: Array = x["brow"]
+			for sx: float in [-1.0, 1.0]:
+				var yi := 1.925 + float(dy[0]) * 1.2
+				var yo := 1.935 + float(dy[2]) * 1.2
+				var ym := 1.945 + float(dy[1]) * 1.2
+				var ix := 0.035 + float(x["brow_in_dx"]) * 1.5
+				var b0: int = acc["v"].size()
+				FaceKit.lock(acc, [Vector3(ix * sx, yi, 0.262), Vector3(0.09 * sx, ym + 0.012, 0.262), Vector3(0.15 * sx, (ym + yo) * 0.5, 0.225),
+					Vector3(0.19 * sx, yo - 0.02, 0.17)], Vector3(0.15 * sx, 0.3, 1.0).normalized(), 0.068, 0.066, frost, icy, 5, 0.8, 0.0)
+				FaceKit.shade_under(acc, b0, under, 0.6),
+		"geo": func(acc: Dictionary) -> void:
+			var b0: int = acc["v"].size()
+			for sx: float in [-1.0, 1.0]:
+				# moustache: from under the nose, out and curling UP at the tips (the jolly read over the smile)
+				FaceKit.lock(acc, [Vector3(0.015 * sx, 1.775, 0.335), Vector3(0.11 * sx, 1.755, 0.375), Vector3(0.21 * sx, 1.69, 0.33),
+					Vector3(0.27 * sx, 1.775, 0.26)], Vector3(0.1 * sx, 0.3, 1.0).normalized(), 0.075, 0.062, frost, icy, 5, 0.7, 25.0 * sx)
+				# swept side lock under the crown, framing the temple
+				FaceKit.lock(acc, [Vector3(0.20 * sx, 2.01, 0.12), Vector3(0.29 * sx, 1.93, 0.12), Vector3(0.31 * sx, 1.80, 0.05),
+					Vector3(0.28 * sx, 1.69, 0.0)], Vector3(sx, 0.1, 0.4).normalized(), 0.11, 0.05, frost, icy, 4, 0.7, 12.0 * sx)
+			# the spade: 3 long locks from under the chin, through the clasp, to a point
+			for k: int in 3:
+				var dx := (float(k) - 1.0) * 0.085
+				var w := 0.21 if k == 1 else 0.16
+				FaceKit.lock(acc, [Vector3(dx, 1.62, 0.40), Vector3(dx * 1.6, 1.42, 0.54), Vector3(dx * 0.4, 1.22, 0.53),
+					Vector3(dx * 0.15, 0.96, 0.55)], Vector3(0, 0.1, 1.0).normalized(), w, 0.09, frost, icy, 5, 0.7, (float(k) - 1.0) * 12.0)
+			FaceKit.shade_under(acc, b0, under, 0.85)
+			# the crown gem (was a torvald_gem surface on the merged head): fully glowing vertex colour, blazes with _eye_boost
+			FaceKit.put_mesh(acc, sphere(0.075), Transform3D(Basis.from_scale(Vector3(1.0, 1.25, 0.8)), Vector3(0, 2.035, 0.30)),
+				FaceKit.glow(Color(0.12, 0.55, 0.95), 1.0)),
+	}
+	_own_mats[&"_face_style"] = st
+	return st
 
 
 ## Mesh with its +Y axis from model point a to b (top of a cylinder at b). scl scales the mesh before the rotation.
@@ -599,6 +681,8 @@ func _wizard_process(dt: float) -> void:
 		if eg != _eye_written:
 			_eye_written = eg
 			_head_glow.set_instance_shader_parameter(&"glow_boost", eg)
+	if _face:
+		_face.auto(self)
 	# Frost breath puff and the idle flourishes (near the camera only).
 	if not _dead and _tier == 0:
 		_breath_t += dt
@@ -625,3 +709,5 @@ func _on_revive() -> void:
 	_staff_written = 99.0
 	_eye_written = -1.0
 	_flake_node.visible = true
+	if _face:
+		_face.reset()

@@ -1,6 +1,6 @@
 {
 	"asset": "aldra",
-	"count": 1,
+	"count": 2,
 	"fixes": [
 		{
 			"changes": [
@@ -29,10 +29,10 @@
 					"words": "`Merged` 979 -> 490 verts"
 				},
 				{
-					"from": 551,
+					"from": 651,
 					"node": "Root/Chest/Head/Face",
-					"to": 276,
-					"words": "`Face` 551 -> 276 verts"
+					"to": 326,
+					"words": "`Face` 651 -> 326 verts"
 				},
 				{
 					"from": 378,
@@ -62,25 +62,42 @@
 			"check": "B4",
 			"computed": true,
 			"measured": {
-				"verts": 10857
+				"verts": 10957
 			},
 			"predicted": {
-				"verts": 5452
+				"verts": 5502
 			},
-			"proposal": "10857 -> 5452 (want <= 3000): `Merged` 3339 -> 1670 verts; `Merged` 2495 -> 1248 verts; `Merged` 2285 -> 1143 verts; `Merged` 979 -> 490 verts; `Face` 551 -> 276 verts; `Merged` 378 -> 189 verts; `Merged` 359 -> 180 verts; `Merged` 359 -> 180 verts; `Chips` 72 -> 36 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"proposal": "10957 -> 5502 (want <= 3000): `Merged` 3339 -> 1670 verts; `Merged` 2495 -> 1248 verts; `Merged` 2285 -> 1143 verts; `Merged` 979 -> 490 verts; `Face` 651 -> 326 verts; `Merged` 378 -> 189 verts; `Merged` 359 -> 180 verts; `Merged` 359 -> 180 verts; `Chips` 72 -> 36 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"rank": 1,
 			"status": "WARN",
-			"text": "B4 10857 -> 5452 (want <= 3000): `Merged` 3339 -> 1670 verts; `Merged` 2495 -> 1248 verts; `Merged` 2285 -> 1143 verts; `Merged` 979 -> 490 verts; `Face` 551 -> 276 verts; `Merged` 378 -> 189 verts; `Merged` 359 -> 180 verts; `Merged` 359 -> 180 verts; `Chips` 72 -> 36 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"text": "B4 10957 -> 5502 (want <= 3000): `Merged` 3339 -> 1670 verts; `Merged` 2495 -> 1248 verts; `Merged` 2285 -> 1143 verts; `Merged` 979 -> 490 verts; `Face` 651 -> 326 verts; `Merged` 378 -> 189 verts; `Merged` 359 -> 180 verts; `Merged` 359 -> 180 verts; `Chips` 72 -> 36 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"title": "Vertices",
 			"wanted": {
 				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "ice",
-	"quality": 95.4,
+	"quality": 94.0,
 	"result": "WARN",
 	"scene": "res://art/units/helpers/helper_aldra/helper_aldra.tscn",
 	"tier": "wizard",

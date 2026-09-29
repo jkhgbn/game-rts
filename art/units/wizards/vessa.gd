@@ -7,8 +7,9 @@ extends WizardModel
 ## Casts (6.5): fireball (charge in the off hand, lunge-point with the staff), ember_step (crouch and spring),
 ## kindle (both arms up, crown blazes). Extras: cape billows with the walk, level-up pirouette, head snap on hit,
 ## gasp-and-reach death, and (close camera only) idle fidgets: she plays with a flame in her palm, taps the staff.
-## Face (smile pass): ember eyes with dark pupils and lashes, brows, blush, button nose and a smile, painted as decals
-## on the face sphere; `set_expression(&"neutral" | &"smile" | &"fierce")` for cinematics (see EXPRESSIONS).
+## Face (face rework 2026-09-28): eye whites, glowing ember irises, pupils, highlights, lash lines, lid creases, brows,
+## soft blush, a closed smile at rest; `set_expression(id)` with FaceKit.EXPRESSIONS (neutral / smile / fierce /
+## worried / shout) for cinematics: one vertex-coloured face surface + the hat gem.
 ## Death style fall. Only palette materials (kit/materials); per-unit looks through instance uniforms / node scale.
 
 const FIRE_GLOW := Color(1.0, 0.55, 0.15)
@@ -29,15 +30,14 @@ const FACE_C := Vector3(0.0, 1.78, 0.02)
 const FACE_R := 0.25
 const FACE_SEG := 12
 const FACE_RINGS := 6
-## Expressions: neutral = soft closed smile, ember eyes open (gameplay default: warm, never goofy mid-battle);
-## smile = open laugh, happy-closed glowing eye arcs, raised brows, bigger blush (cinematics, "laughed like sunrise");
-## fierce = brows down, narrowed eyes, a set smirk. Casts / attacks show fierce and a level-up shows smile while the
-## requested expression is neutral (close camera only; the requested one comes back after).
-const EXPRESSIONS: Array[StringName] = [&"neutral", &"smile", &"fierce"]
+## Expressions (face rework 2026-09-28, art/units/kit/face/face_kit.gd): neutral = warm closed smile, eyes open (the
+## resting look); smile = open smile with happy but OPEN eyes; fierce = angry; worried = sad / worried; shout = casting.
+## While the requested expression is neutral: casts shout, attacks turn fierce, a level-up smiles, death looks worried
+## (close camera only; the requested one comes back after).
+const EXPRESSIONS: Array[StringName] = FaceKit.EXPRESSIONS
 
 static var _cape_cache: ArrayMesh
-static var _face_cache: Dictionary = {}       # expression -> ArrayMesh (features + hat gem)
-static var _face_tris: PackedVector3Array     # the face sphere's triangles (centred), for the decal projection
+static var _face_style_c: Dictionary = {}     # FaceKit style (canvas, palette, features), built once
 static var _glow_cache: Dictionary = {}       # name -> ArrayMesh (glow-only parts)
 static var _ember_draw: Dictionary = {}       # size -> QuadMesh (soft round additive ember)
 static var _ember_proc: Dictionary = {}       # key -> ParticleProcessMaterial
@@ -54,9 +54,8 @@ var _cape_kick: float = 0.0         # extra cape lift (deg), set by poses each f
 var _cape_written: float = 999.0
 var _fidget_next: float = 8.0
 var _fidget_alt: bool = false
-var _face: MeshInstance3D
-var _expr: StringName = &"neutral"  # requested by set_expression
-var _face_shown: StringName = &""
+var _face: FaceRig
+var _expr: StringName = &"neutral"  # requested by set_expression (kept for a call before _ready)
 
 
 func _build_parts() -> void:
@@ -69,7 +68,6 @@ func _build_parts() -> void:
 	var dark := palette(&"fire_cloth_dark")
 	var bronze := palette(&"fire_bronze")
 	var skin := palette(&"fire_skin")
-	var hair := palette(&"fire_hair")
 	var gold_cloth := palette(&"fire_sec_archer")
 
 	# ---- Hips: crimson bell gown, painted flame tongues licking up from a dark hem, smouldering ember line.
@@ -115,13 +113,9 @@ func _build_parts() -> void:
 	_cape = add_part(chest, _cape_mesh(), null, Vector3(0, 1.58, -0.02), Vector3(3, 0, 0),
 		Vector3.ONE, true, "Cape")
 
-	# ---- Head: face, dark hair framing it, glowing eye bar, bent crown-hat.
+	# ---- Head: face, button nose, bent crown-hat (hair + painted face: the FaceKit Face node below).
 	add_part(head, sphere(FACE_R, FACE_SEG, FACE_RINGS), skin, FACE_C)
 	add_part(head, sphere(0.024, 8, 4), skin, Vector3(0, 1.762, 0.262), Vector3.ZERO, Vector3(0.9, 0.75, 0.8))   # button nose
-	add_part(head, sphere(0.27), hair, Vector3(0, 1.85, -0.06), Vector3.ZERO, Vector3(1.04, 0.86, 1.0))
-	add_part(head, sphere(0.24, 8, 4), hair, Vector3(0, 1.64, -0.15), Vector3.ZERO, Vector3(1.1, 1.3, 0.8))
-	for sx: float in [-1.0, 1.0]:
-		add_part(head, cyl(0.07, 0.08, 0.38, 6), hair, Vector3(0.20 * sx, 1.66, 0.09), Vector3(0, 0, -8.0 * sx))
 	_hat_part(head, cyl(0.40, 0.47, 0.06, 12), dark, Vector3(0, 0.0, 0))
 	_hat_part(head, cyl(0.265, 0.28, 0.13, 10), bronze, Vector3(0, 0.09, 0))
 	_hat_part(head, cyl(0.16, 0.27, 0.42, 10), dark, Vector3(0, 0.27, 0))
@@ -131,10 +125,10 @@ func _build_parts() -> void:
 	var b2 := Basis.from_euler(Vector3(-12.0 * DEG, 0, 44.0 * DEG))
 	var p2 := p1 + b1 * Vector3(0, 0.33, 0)
 	_hat_part(head, cyl(0.0, 0.09, 0.28, 8), dark, p2 + b2 * Vector3(0, 0.13, 0), b2)
-	# Face (eyes, brows, cheeks, mouth) + the hat gem: ONE keep_separate node whose cached mesh is swapped per
-	# expression (set_expression), so the three faces cost one draw instance (the old HeadGlow eye bar's).
-	_face = add_part(head, _face_mesh(_face_target()), null, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Face")
-	_face_shown = _face_target()
+	# Face (eyes, brows, cheeks, mouth) + hair + the hat gem: ONE FaceRig node whose cached mesh is swapped per
+	# expression (set_expression): one vertex-coloured surface (the gem glows through its vertex alpha).
+	_face = FaceKit.attach(self, head, "vessa", _face_style())
+	_face.set_expression(_expr)
 	# Crown flames: one MultiMesh, 6 tongues (tall / short) around the band, leaning out.
 	_flames = MultiMeshInstance3D.new()
 	_flames.name = "CrownFlames"
@@ -222,254 +216,65 @@ func _glow_part(pivot: Node3D, part_name: String, parts: Array) -> MeshInstance3
 
 # ================================================================ face / expressions
 
-## Cinematic / UI hook: &"neutral" (default), &"smile", &"fierce". Unknown ids fall back to neutral. Safe before
-## _ready and any number of times (swaps a cached mesh: no allocation after the first instance of the type).
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout"; aliases
+## angry / sad / cast / happy). Unknown ids fall back to neutral. Safe before _ready and any number of times (swaps a
+## cached mesh: no allocation after the first instance of the type).
 func set_expression(id: StringName) -> void:
-	_expr = id if EXPRESSIONS.has(id) else &"neutral"
-	_update_face()
+	_expr = FaceKit.canonical(id)
+	if _face:
+		_face.set_expression(_expr)
 
 
 func get_expression() -> StringName:
 	return _expr
 
 
-## The face to show now: the requested one, except that a neutral face turns fierce on casts / attacks and smiles on
-## a level-up (close camera only, alive).
-func _face_target() -> StringName:
-	if _expr != &"neutral" or _dead or _tier != 0:
-		return _expr
-	if _level_t < 1.6 or (_action == &"cast" and _cast_id == FIDGET_FLAME):
-		return &"smile"
-	if (_action == &"cast" and _cast_id != FIDGET_FLAME and _cast_id != FIDGET_STAFF) or _action == &"attack":
-		return &"fierce"
-	return _expr
-
-
+## While the requested expression is neutral: casts shout, attacks turn fierce, a level-up and the palm-flame fidget
+## smile, dying looks worried (FaceRig.auto; close camera only).
 func _update_face() -> void:
-	if _face == null:
-		return
-	var id := _face_target()
-	if id != _face_shown:
-		_face_shown = id
-		_face.mesh = _face_mesh(id)
+	if _face:
+		_face.auto(self, &"smile" if _action == &"cast" and _cast_id == FIDGET_FLAME else &"")
 
 
-## Painted face decals + the hat gem for one expression, cached per type. Surfaces (one per palette material):
-## fire_glow ember eyes, unit_eye_dark lashes / pupils, fire_hair brows, fire_leather mouth, fire_sec_hurler blush /
-## tongue, unit_gold_trim eye highlights, fire_glow_hero hat gem.
-static func _face_mesh(id: StringName) -> ArrayMesh:
-	var cached: ArrayMesh = _face_cache.get(id)
-	if cached:
-		return cached
-	if _face_tris.is_empty():
-		_face_tris = sphere(FACE_R, FACE_SEG, FACE_RINGS).get_faces()
-	var sf: Dictionary = {}
-	var eye := Vector2(0.083, 0.024)
-	for sx: float in [1.0, -1.0]:
-		match id:
-			&"smile":
-				# Happy-closed eyes: glowing arcs with a dark lash line on top, brows up and arched, cheeks raised.
-				var e := eye + Vector2(0, -0.004)
-				_f_strip(sf, &"fire_glow", _fm(_bez(e + Vector2(-0.033, -0.004), e + Vector2(0.0, 0.036), e + Vector2(0.035, 0.0)), sx), Vector3(0.005, 0.0105, 0.0042), 0.0025)
-				_f_strip(sf, &"unit_eye_dark", _fm(_bez(e + Vector2(-0.030, 0.006), e + Vector2(0.002, 0.044), e + Vector2(0.046, 0.012)), sx), Vector3(0.0018, 0.004, 0.0014), 0.004)
-				_f_strip(sf, &"fire_hair", _fm(_bez(Vector2(0.040, 0.078), Vector2(0.084, 0.106), Vector2(0.128, 0.080)), sx), Vector3(0.006, 0.0075, 0.0025), 0.003)
-				_f_fill(sf, &"fire_sec_hurler", _fm(_ellipse(Vector2(0.116, -0.030), Vector2(0.034, 0.017), 10.0, 14), sx), 0.002)
-			&"fierce":
-				_eye_open(sf, eye, 0.036, 0.016, 0.012, 0.012, 0.013, sx)
-				_f_strip(sf, &"fire_hair", _fm(_bez(Vector2(0.034, 0.046), Vector2(0.078, 0.058), Vector2(0.130, 0.080)), sx), Vector3(0.0085, 0.008, 0.003), 0.003)
-			_:
-				_eye_open(sf, eye, 0.036, 0.024, 0.014, 0.005, 0.017, sx)
-				_f_strip(sf, &"fire_hair", _fm(_bez(Vector2(0.042, 0.066), Vector2(0.085, 0.090), Vector2(0.128, 0.068)), sx), Vector3(0.0065, 0.0075, 0.0025), 0.003)
-				_f_fill(sf, &"fire_sec_hurler", _fm(_ellipse(Vector2(0.118, -0.036), Vector2(0.030, 0.014), 8.0, 14), sx), 0.002)
-	match id:
-		&"smile":
-			# Open laugh: a D-shaped mouth, lips turned up at the corners, a rosy tongue.
-			var top := _bez(Vector2(-0.054, -0.066), Vector2(0.0, -0.078), Vector2(0.054, -0.066))
-			var bot := _bez(Vector2(0.054, -0.066), Vector2(0.0, -0.152), Vector2(-0.054, -0.066))
-			var d := PackedVector2Array(top)
-			d.append_array(bot.slice(1, bot.size() - 1))
-			_f_fill(sf, &"fire_leather", d, 0.0025)
-			_f_fill(sf, &"fire_sec_hurler", _ellipse(Vector2(0.0, -0.097), Vector2(0.024, 0.009), 0.0, 14), 0.004)
-			for sx: float in [1.0, -1.0]:
-				_f_strip(sf, &"fire_leather", _fm(PackedVector2Array([Vector2(0.050, -0.068), Vector2(0.060, -0.063), Vector2(0.065, -0.055)]), sx), Vector3(0.0028, 0.0022, 0.0012), 0.003)
-		&"fierce":
-			# A set smirk, one corner up.
-			_f_strip(sf, &"fire_leather", _bez(Vector2(-0.040, -0.086), Vector2(0.004, -0.094), Vector2(0.046, -0.073)), Vector3(0.0025, 0.005, 0.003), 0.003)
-			_f_strip(sf, &"fire_leather", PackedVector2Array([Vector2(0.044, -0.075), Vector2(0.050, -0.066)]), Vector3(0.0025, 0.002, 0.0012), 0.003)
-		_:
-			# Soft closed smile, corners up.
-			_f_strip(sf, &"fire_leather", _bez(Vector2(-0.046, -0.080), Vector2(0.0, -0.103), Vector2(0.046, -0.080)), Vector3(0.0026, 0.0072, 0.0026), 0.003)
-			for sx: float in [1.0, -1.0]:
-				_f_strip(sf, &"fire_leather", _fm(PackedVector2Array([Vector2(0.044, -0.081), Vector2(0.052, -0.074)]), sx), Vector3(0.0026, 0.002, 0.0012), 0.003)
-	var am := ArrayMesh.new()
-	for mat: StringName in [&"fire_glow", &"unit_eye_dark", &"unit_gold_trim", &"fire_hair", &"fire_leather", &"fire_sec_hurler"]:
-		if not sf.has(mat):
-			continue
-		var s: Array = sf[mat]
-		var arrays := []
-		arrays.resize(Mesh.ARRAY_MAX)
-		arrays[Mesh.ARRAY_VERTEX] = s[0]
-		arrays[Mesh.ARRAY_NORMAL] = s[1]
-		arrays[Mesh.ARRAY_INDEX] = s[2]
-		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-		am.surface_set_material(am.get_surface_count() - 1, palette(mat))
-	# The hat gem (was in HeadGlow): hat frame, tilted back.
-	var hat_xf := Transform3D(Basis(Vector3.RIGHT, HAT_TILT * DEG), HAT_O)
-	var st := SurfaceTool.new()
-	st.append_from(sphere(0.085), 0, hat_xf * Transform3D(Basis.IDENTITY, Vector3(0, 0.09, 0.285)))
-	am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, st.commit_to_arrays())
-	am.surface_set_material(am.get_surface_count() - 1, palette(&"fire_glow_hero"))
-	_face_cache[id] = am
-	return am
-
-
-## An open ember eye at `c` (mirrored by sx): glowing almond (half width hw, top / bottom heights, outer corner lifted
-## by `tilt`), dark pupil with a gold highlight, a dark upper lash line ending in a small flick.
-static func _eye_open(sf: Dictionary, c: Vector2, hw: float, top: float, bot: float, tilt: float, pupil_h: float, sx: float) -> void:
-	var up := PackedVector2Array()
-	var lo := PackedVector2Array()
-	for i: int in 9:
-		var t := float(i) / 8.0
-		var x := c.x - hw + 2.0 * hw * t
-		var ty := c.y + tilt * (t - 0.5)
-		up.append(Vector2(x, ty + top * sin(PI * t)))
-		lo.append(Vector2(x, ty - bot * sin(PI * t)))
-	var poly := PackedVector2Array(up)
-	lo.reverse()
-	poly.append_array(lo.slice(1, lo.size() - 1))
-	_f_fill(sf, &"fire_glow", _fm(poly, sx), 0.0025)
-	var pc := c + Vector2(0.002, 0.001)
-	_f_fill(sf, &"unit_eye_dark", _fm(_ellipse(pc, Vector2(0.0115, pupil_h), 0.0, 12), sx), 0.0038)
-	_f_fill(sf, &"unit_gold_trim", _fm(_ellipse(pc + Vector2(0.005, 0.006), Vector2(0.0045, 0.0045), 0.0, 8), sx), 0.0052)
-	var lash := PackedVector2Array(up)
-	lash.append(up[8] + Vector2(0.011, 0.010))
-	_f_strip(sf, &"unit_eye_dark", _fm(lash, sx), Vector3(0.0024, 0.0066, 0.002), 0.0045)
-
-
-## Quadratic Bezier p0 -> p2 (control p1), 12 segments.
-static func _bez(p0: Vector2, p1: Vector2, p2: Vector2) -> PackedVector2Array:
-	var out := PackedVector2Array()
-	for i: int in 13:
-		var t := float(i) / 12.0
-		out.append(p0.lerp(p1, t).lerp(p1.lerp(p2, t), t))
-	return out
-
-
-static func _ellipse(c: Vector2, r: Vector2, rot_deg: float, n: int) -> PackedVector2Array:
-	var out := PackedVector2Array()
-	var b := Transform2D(rot_deg * DEG, Vector2.ZERO)
-	for i: int in n:
-		var a := TAU * float(i) / float(n)
-		out.append(c + b * Vector2(cos(a) * r.x, sin(a) * r.y))
-	return out
-
-
-## Mirror face points to her other side (sx = -1).
-static func _fm(pts: PackedVector2Array, sx: float) -> PackedVector2Array:
-	if sx > 0.0:
-		return pts
-	var out := PackedVector2Array()
-	for p: Vector2 in pts:
-		out.append(Vector2(-p.x, p.y))
-	return out
-
-
-## Face 2D point -> model space on the face sphere's facets, `lift` m out; normal = the sphere direction.
-static func _face_point(p: Vector2, lift: float) -> Array:
-	var az := p.x / FACE_R
-	var el := p.y / FACE_R
-	var d := Vector3(sin(az) * cos(el), sin(el), cos(az) * cos(el))
-	var dist := FACE_R
-	for i: int in range(0, _face_tris.size(), 3):
-		var hit: Variant = Geometry3D.ray_intersects_triangle(Vector3.ZERO, d, _face_tris[i], _face_tris[i + 1], _face_tris[i + 2])
-		if hit != null:
-			dist = (hit as Vector3).length()
-			break
-	return [FACE_C + d * (dist + lift), d]
-
-
-static func _fv(sf: Dictionary, mat: StringName, p: Vector2, lift: float) -> int:
-	if not sf.has(mat):
-		sf[mat] = [PackedVector3Array(), PackedVector3Array(), PackedInt32Array()]
-	var s: Array = sf[mat]
-	var pn := _face_point(p, lift)
-	var v: PackedVector3Array = s[0]
-	var nm: PackedVector3Array = s[1]
-	v.append(pn[0])
-	nm.append(pn[1])
-	s[0] = v
-	s[1] = nm
-	return v.size() - 1
-
-
-## Both windings (the decal is seen from outside only; the inner copy is culled), shared vertices.
-static func _ftri(sf: Dictionary, mat: StringName, a: int, b: int, c: int) -> void:
-	var idx: PackedInt32Array = sf[mat][2]
-	idx.append_array(PackedInt32Array([a, b, c, a, c, b]))
-	sf[mat][2] = idx
-
-
-static func _resample(pts: PackedVector2Array, step: float, closed: bool) -> PackedVector2Array:
-	var out := PackedVector2Array([pts[0]])
-	var n := pts.size()
-	for i: int in range(1, n + (1 if closed else 0)):
-		var a := pts[i - 1]
-		var b := pts[i % n]
-		var k := maxi(1, ceili(a.distance_to(b) / step))
-		for j: int in range(1, k + 1):
-			out.append(a.lerp(b, float(j) / float(k)))
-	if closed:
-		out.remove_at(out.size() - 1)
-	return out
-
-
-## A tapered band along a polyline; w = half widths at start / middle / end.
-static func _f_strip(sf: Dictionary, mat: StringName, pts: PackedVector2Array, w: Vector3, lift: float) -> void:
-	var p := _resample(pts, 0.008, false)
-	var n := p.size()
-	var acc := PackedFloat32Array([0.0])
-	for i: int in range(1, n):
-		acc.append(acc[i - 1] + p[i - 1].distance_to(p[i]))
-	var total := maxf(acc[n - 1], 0.0001)
-	var pa := -1
-	var pb := -1
-	for i: int in n:
-		var t := acc[i] / total
-		var hw := lerpf(w.x, w.y, t * 2.0) if t < 0.5 else lerpf(w.y, w.z, t * 2.0 - 1.0)
-		var dir := (p[mini(i + 1, n - 1)] - p[maxi(i - 1, 0)]).normalized()
-		var nrm := Vector2(-dir.y, dir.x)
-		var ia := _fv(sf, mat, p[i] + nrm * hw, lift)
-		var ib := _fv(sf, mat, p[i] - nrm * hw, lift)
-		if pa >= 0:
-			_ftri(sf, mat, pa, pb, ib)
-			_ftri(sf, mat, pa, ib, ia)
-		pa = ia
-		pb = ib
-
-
-## A filled star-shaped polygon: centroid fan with 1-2 rings (small triangles so the decal follows the facets).
-static func _f_fill(sf: Dictionary, mat: StringName, poly: PackedVector2Array, lift: float) -> void:
-	var b := _resample(poly, 0.010, true)
-	var c := Vector2.ZERO
-	for q: Vector2 in poly:
-		c += q
-	c /= float(poly.size())
-	var n := b.size()
-	var rings := 1 if float(n) * 0.010 < 0.06 else 2      # tiny shapes (pupils, highlights) need no inner ring
-	var ci := _fv(sf, mat, c, lift)
-	var prev: Array[int] = []
-	for r: int in range(1, rings + 1):
-		var ring: Array[int] = []
-		for k: int in n:
-			ring.append(_fv(sf, mat, c.lerp(b[k], float(r) / float(rings)), lift))
-		for k: int in n:
-			var k2 := (k + 1) % n
-			if r == 1:
-				_ftri(sf, mat, ci, ring[k], ring[k2])
-			else:
-				_ftri(sf, mat, prev[k], ring[k], ring[k2])
-				_ftri(sf, mat, prev[k], ring[k2], prev[k2])
-		prev = ring
+## Vessa's face + hair (FaceKit style): ember irises that glow a little (her fire read), warm off-white eye whites,
+## dark lash lines with a flick, ember-brown brows, warm blush, a closed smile at rest. Hair (hair plan 3, mock 70
+## green): copper-brown swept locks with ember-gold tips: 2 long front locks out from under the brim over the collar
+## onto the mantle (the 25 m hook), 2 temple locks framing the face, 2 short side locks, a fringe swept to her off
+## side under the brim, over the old cap + back mass. All one vertex-coloured surface on the Face node.
+static func _face_style() -> Dictionary:
+	if not _face_style_c.is_empty():
+		return _face_style_c
+	var hair := Color(0.34, 0.11, 0.06)
+	var tip := Color(1.0, 0.70, 0.24)
+	_face_style_c = {
+		"canvas": FaceKit.canvas(FACE_C, FACE_R, sphere(FACE_R, FACE_SEG, FACE_RINGS)),
+		"palette": {"skin": Color(0.92, 0.72, 0.55), "sclera": Color(0.99, 0.94, 0.86), "iris_in": Color(1.0, 0.74, 0.22),
+			"iris_out": Color(0.50, 0.14, 0.03), "iris_glow": 0.4, "pupil": Color(0.16, 0.05, 0.03), "highlight": Color(1.0, 0.98, 0.9),
+			"lash": Color(0.17, 0.06, 0.04), "brow": Color(0.33, 0.11, 0.06), "blush": Color(0.93, 0.36, 0.30),
+			"lip_line": Color(0.42, 0.12, 0.08), "lip": Color(0.86, 0.46, 0.40), "mouth_in": Color(0.36, 0.07, 0.06),
+			"teeth": Color(1.0, 0.96, 0.9), "tongue": Color(0.93, 0.44, 0.42)},
+		"eye": {"c": Vector2(0.082, 0.020), "hw": 0.040, "top": 0.030, "bot": 0.017, "tilt": 0.006, "ir": 0.0200, "lash": 1.35, "flick": 0.013},
+		"brow": {"inner": Vector2(0.040, 0.070), "mid": Vector2(0.084, 0.086), "outer": Vector2(0.126, 0.072), "w": Vector3(0.0068, 0.0064, 0.0026)},
+		"cheek": {"c": Vector2(0.116, -0.036), "r": Vector2(0.034, 0.019)},
+		"mouth": {"c": Vector2(0.0, -0.090), "hw": 0.048, "lip": 0.0034},
+		"geo": func(acc: Dictionary) -> void:
+			var sph := sphere(1.0, 10, 5)
+			FaceKit.put_mesh(acc, sph, Transform3D(Basis.from_scale(Vector3(0.281, 0.232, 0.27)), Vector3(0, 1.85, -0.06)), hair.darkened(0.15))
+			FaceKit.put_mesh(acc, sph, Transform3D(Basis.from_scale(Vector3(0.264, 0.312, 0.192)), Vector3(0, 1.64, -0.15)), hair.darkened(0.2))
+			for sx: float in [-1.0, 1.0]:
+				FaceKit.lock(acc, [Vector3(0.20 * sx, 1.98, 0.0), Vector3(0.34 * sx, 1.72, 0.12), Vector3(0.19 * sx, 1.56, 0.42),
+					Vector3(0.31 * sx, 1.37, 0.48)], Vector3(0.5 * sx, 0.2, 0.8).normalized(), 0.19, 0.07, hair, tip, 5, 0.55, -25.0 * sx)
+				FaceKit.lock(acc, [Vector3(0.14 * sx, 2.00, 0.12), Vector3(0.24 * sx, 1.93, 0.19), Vector3(0.28 * sx, 1.80, 0.17),
+					Vector3(0.27 * sx, 1.68, 0.14)], Vector3(0.7 * sx, 0.1, 0.7).normalized(), 0.14, 0.055, hair, tip, 4, 0.72, 10.0 * sx)
+				FaceKit.lock(acc, [Vector3(0.20 * sx, 1.97, -0.08), Vector3(0.34 * sx, 1.78, -0.06), Vector3(0.37 * sx, 1.62, -0.02),
+					Vector3(0.43 * sx, 1.52, 0.02)], Vector3(sx, 0.1, 0.2).normalized(), 0.14, 0.06, hair, tip, 4, 0.7, 20.0 * sx)
+			FaceKit.lock(acc, [Vector3(0.15, 1.99, 0.16), Vector3(0.05, 1.97, 0.27), Vector3(-0.10, 1.93, 0.27),
+				Vector3(-0.23, 1.86, 0.20)], Vector3(0, 0.3, 1).normalized(), 0.12, 0.05, hair, tip, 4, 1.0, 0.0)
+			# the hat gem (was a fire_glow_hero surface): a fully glowing vertex-colour sphere in the hat frame
+			var hat_xf := Transform3D(Basis(Vector3.RIGHT, HAT_TILT * DEG), HAT_O)
+			FaceKit.put_mesh(acc, sphere(0.085), hat_xf * Transform3D(Basis.IDENTITY, Vector3(0, 0.09, 0.285)), FaceKit.glow(Color(1.0, 0.55, 0.16), 1.0)),
+	}
+	return _face_style_c
 
 
 ## A part whose transform is given in the hat frame (brim centre, tilted back).
@@ -838,7 +643,8 @@ func _on_revive() -> void:
 	_flame_boost_written = -1.0
 	_palm_written = -1.0
 	_cape_written = 999.0
-	_face_shown = &""
+	if _face:
+		_face.reset()
 	_update_face()
 	_palm_target = 0.0
 	_cape_kick = 0.0

@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/units/kit/face/unit_face.gdshader" id="1_face"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_noise"]
+
+[resource]
+resource_name = "unit_face"
+render_priority = 0
+shader = ExtResource("1_face")
+shader_parameter/noise_tex = ExtResource("2_noise")
+shader_parameter/noise_scale_a = 0.5
+shader_parameter/noise_scale_b = 0.12
+shader_parameter/noise_amount = 1.0
+shader_parameter/rim_strength = 0.0
+shader_parameter/glow_energy = 2.2

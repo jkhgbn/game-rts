@@ -8,7 +8,8 @@ extends WizardModel
 ## he rises, then pulls the souls into his chest), umbral_shroud (hunches, sinks into his shadow, cape billows).
 ## Death: sink, arms clawing upward, eyes flare and die, the shard rises and shatters.
 ## Extra nodes (all keep_separate, merged here once per type): Staff (child of ArmR, own pivot at the hand),
-## Shard (child of Staff), Glints (eyes + crown gem, child of Head), CapePivot (child of Chest, top edge hinge).
+## Shard (child of Staff), Face (FaceKit FaceRig: face + eyes + strands + crown gem, child of Head; was Glints),
+## CapePivot (child of Chest, top edge hinge). set_expression(id) / get_expression() with FaceKit.EXPRESSIONS.
 ## Palette materials only (kit/materials). Glow points: shard core + halo, eyes + crown gem, cape glyph (faint).
 
 const SHADOW_GLOW := Color(0.70, 0.30, 1.00)
@@ -21,7 +22,7 @@ const SHARD_Y := 1.80                   # shard centre above the hand, along the
 const HUNCH := 4.0 * PI / 180.0         # idle forward loom
 const EYE_BASE := 1.25                    # eyes + gem glow_boost at rest
 
-static var _mcache: Dictionary = {}     # "staff" / "shard" / "glints" -> ArrayMesh, "mist_pm" / "mist_draw"
+static var _mcache: Dictionary = {}     # "staff" / "shard" -> ArrayMesh, "mist_pm" / "mist_draw", "face_style"
 
 var _staff: Node3D
 var _shard: Node3D
@@ -41,6 +42,8 @@ var _staff_pos_w: Vector3 = Vector3(99, 0, 0)
 var _cape_w: float = 99.0
 var _glint_w: float = -1.0
 var _shattered: bool = false
+var _face: FaceRig                 # face emerging from the void + 3 hair strands + crown gem (glow driven here)
+var _expr: StringName = &"neutral"  # requested by set_expression (kept for a call before _ready)
 
 
 # ================================================================ build
@@ -125,8 +128,12 @@ func _build_parts() -> void:
 		add_part(head, cyl(0.0, 0.065, ln, 4), silver, Vector3(0, H + 2.06, -0.03) + out * 0.24 + d * ln * 0.5, _dir_rot(d))
 	for sx: float in [-1.0, 1.0]:
 		_horn(head, sx, bone, obs, iron)
-	_glints = _keep_mesh(head, "Glints", _glints_mesh(head), head)
-	_glints.set_meta(&"own_glow", true)
+	# Face (face rework 2026-09-28): a gaunt face emerging from the hood's void, glowing slit-pupil eyes, a sly smile,
+	# 3 ink-violet strands escaping the hood; the crown gem rides on the same node (it was the old Glints node).
+	_face = FaceKit.attach(self, head, "malrik", _face_style())
+	_face.set_expression(_expr)
+	_face.set_meta(&"own_glow", true)
+	_glints = _face
 
 	# --- Arms: long sleeves with bell cuffs; left hand is a clawed skeletal hand, right hand holds the staff.
 	_arm(arm_l, Vector3(-0.40, H + 1.53, 0), HAND_L, cloth, skin)
@@ -319,18 +326,67 @@ func _cape_mesh() -> Mesh:
 	_mcache["cape"] = m
 	return m
 
-## Eyes (two slanted slits) + crown gem, in Head-local space.
-func _glints_mesh(head: Node3D) -> Mesh:
-	if _mcache.has("glints"):
-		return _mcache["glints"]
-	var o := model_origin(head)
-	var eye := palette(&"shadow_glow_mid")
-	var parts: Array[MeshInstance3D] = [
-		_tmp(box(Vector3(0.15, 0.06, 0.04)), eye, Vector3(0.078, H + 1.87, 0.245) - o, Vector3(-25, 0, 18)),
-		_tmp(box(Vector3(0.15, 0.06, 0.04)), eye, Vector3(-0.078, H + 1.87, 0.245) - o, Vector3(-25, 0, -18)),
-		_tmp(sphere(0.07, 8, 4), palette(&"shadow_glow_hero"), Vector3(0, H + 2.01, 0.235) - o),
-	]
-	return _merge_tmp("glints", parts)
+# ================================================================ face / expressions
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout"; aliases
+## angry / sad / cast / happy). Unknown ids = neutral. Safe before _ready and any number of times.
+func set_expression(id: StringName) -> void:
+	_expr = FaceKit.canonical(id)
+	if _face:
+		_face.set_expression(_expr)
+
+
+func get_expression() -> StringName:
+	return _expr
+
+
+## Malrik's face style: a gaunt grey-lilac face that fades into the hood's void at its edges (vertex-colour gradient),
+## sunken sockets and cheeks, pale lilac eye whites with GLOWING violet irises and slit pupils (his RTS read: two
+## violet points under the horns), sharp slanted brows, thin lips in a sly closed smile at rest; the shout / smile
+## mouths glow violet inside. Hair: 3 ink-violet strands with pale lilac tips escaping the hood lip over the collar.
+static func _face_style() -> Dictionary:
+	if _mcache.has("face_style"):
+		return _mcache["face_style"]
+	var c := Vector3(0, H + 1.85, 0.085)
+	var skin := Color(0.66, 0.62, 0.74)
+	var void_c := Color(0.10, 0.08, 0.11)
+	var ink := Color(0.24, 0.13, 0.34)
+	var lilac := Color(0.86, 0.74, 1.0)
+	var st := {
+		"canvas": FaceKit.canvas(c, 0.19, sphere(0.20), Vector3(1.0, 1.1, 0.8), Vector3.INF, Basis.IDENTITY, 0.004),
+		"palette": {"skin": skin, "sclera": FaceKit.glow(Color(0.84, 0.72, 0.98), 0.3), "iris_in": Color(1.0, 0.80, 1.0), "iris_out": Color(0.62, 0.22, 1.0),
+			"iris_glow": 1.0, "pupil": Color(0.12, 0.02, 0.18), "highlight": Color(1.0, 0.95, 1.0), "lash": Color(0.10, 0.05, 0.14),
+			"brow": Color(0.22, 0.13, 0.30), "blush": skin, "lip_line": Color(0.20, 0.08, 0.24), "lip": Color(0.52, 0.42, 0.62),
+			"mouth_in": Color(0.40, 0.10, 0.62), "mouth_glow": 0.9, "teeth": Color(0.90, 0.88, 0.95), "tongue": Color(0.58, 0.26, 0.60)},
+		"eye": {"c": Vector2(0.056, 0.020), "hw": 0.031, "top": 0.019, "bot": 0.011, "tilt": 0.016, "ir": 0.0150, "pupil": 0.62,
+			"pupil_w": 0.34, "lash": 1.1, "flick": 0.009},
+		"brow": {"inner": Vector2(0.020, 0.047), "mid": Vector2(0.058, 0.058), "outer": Vector2(0.096, 0.070), "w": Vector3(0.0058, 0.0048, 0.0018)},
+		"cheek": {"c": Vector2(0.075, -0.030), "r": Vector2(0.02, 0.012)},
+		"mouth": {"c": Vector2(0.0, -0.074), "hw": 0.036, "lip": 0.0026},
+		"x": {&"neutral": {"blush": 0.0, "mouth": {"curve": 1.35}}, &"smile": {"blush": 0.0}, &"fierce": {"blush": 0.0},
+			&"worried": {"blush": 0.0}, &"shout": {"blush": 0.0}},
+		"base": func(acc: Dictionary, _id: StringName) -> void:
+			var cv: Dictionary = _mcache["face_style"]["canvas"]
+			var fc := Vector2(0.0, -0.008)
+			var fr := Vector2(0.112, 0.150)
+			FaceKit.fill(acc, cv, FaceKit.ellipse(fc, fr, 0.0, 24), FaceKit.radial(fc, fr, skin, void_c, 0.5), 0.0, 0.007)
+			for sx: float in [-1.0, 1.0]:
+				# sunken sockets (a soft shadow around the eyes) and a gaunt shadow line under each cheekbone
+				var so := Vector2(0.056 * sx, 0.024)
+				FaceKit.fill(acc, cv, FaceKit.ellipse(so, Vector2(0.046, 0.031), 0.0, 16), FaceKit.radial(so, Vector2(0.046, 0.031), skin.darkened(0.42), skin, 0.25), 0.0006, 0.006)
+				FaceKit.strip(acc, cv, FaceKit.mirror(FaceKit.bez(Vector2(0.050, -0.018), Vector2(0.070, -0.034), Vector2(0.066, -0.062)), sx),
+					Vector3(0.002, 0.0055, 0.001), skin.darkened(0.28), 0.0008, 0.006),
+		"geo": func(acc: Dictionary) -> void:
+			for sx: float in [-1.0, 1.0]:
+				FaceKit.lock(acc, [Vector3(0.15 * sx, H + 1.86, 0.16), Vector3(0.22 * sx, H + 1.74, 0.24), Vector3(0.18 * sx, H + 1.64, 0.32),
+					Vector3(0.22 * sx, H + 1.57, 0.36)], Vector3(0.4 * sx, 0.2, 0.9).normalized(), 0.075, 0.03, ink, lilac, 5, 0.55, -20.0 * sx)
+			FaceKit.lock(acc, [Vector3(0.09, H + 1.90, 0.20), Vector3(0.15, H + 1.78, 0.26), Vector3(0.11, H + 1.67, 0.32),
+				Vector3(0.13, H + 1.58, 0.35)], Vector3(0.3, 0.2, 0.9).normalized(), 0.05, 0.022, ink, lilac, 4, 0.5, 15.0)
+			# the crown gem (was a shadow_glow_hero surface): fully glowing vertex colour
+			FaceKit.put_mesh(acc, sphere(0.07, 8, 4), Transform3D(Basis.IDENTITY, Vector3(0, H + 2.01, 0.235)), FaceKit.glow(Color(0.72, 0.34, 1.0), 1.0)),
+	}
+	_mcache["face_style"] = st
+	return st
 
 
 ## Thin dark-violet mist rising from the hem (6 soft billboards, MIX blend, world space so it trails).
@@ -557,6 +613,8 @@ func _wizard_process(dt: float) -> void:
 	if g != _glint_w:
 		_glint_w = g
 		_glints.set_instance_shader_parameter(&"glow_boost", g)
+	if _face:
+		_face.auto(self)
 	_staff_off = Vector3.ZERO
 	_staff_push = Vector3.ZERO
 	_cape_off = 0.0
@@ -571,6 +629,8 @@ func _on_revive() -> void:
 	super._on_revive()
 	_shattered = false
 	_glint_w = -1.0
+	if _face:
+		_face.reset()
 	_staff_rot_w = Vector3(99, 0, 0)
 	_staff_pos_w = Vector3(99, 0, 0)
 	_cape_w = 99.0

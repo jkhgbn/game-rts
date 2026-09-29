@@ -284,3 +284,27 @@ Rows of 2026-09-26 = lab v1.0 validation runs (the calibration re-runs were fold
 | 2026-09-27 18:06:49 | scorchling | unit / soldier | 95 (+1) | PASS (0F 0W) | Detail density 25 m / 40 m; Inner detail (close-up / 25 m); Style bible: golden autumn (style-autumn.md 3) | docs/art/lab/scorchling/scorecard.md |
 | 2026-09-27 18:06:30 | maelis | unit / wizard | 88 (+0) | WARN (0F 4W) | Contrast on the other grounds; Distinct from references (black masks); Parts above body_height + 0.4 | docs/art/lab/maelis/scorecard.md |
 | 2026-09-27 18:07:19 | scorchling | unit / soldier | 95 (+0) | PASS (0F 0W) | Detail density 25 m / 40 m; Inner detail (close-up / 25 m); Style bible: golden autumn (style-autumn.md 3) | docs/art/lab/scorchling/scorecard.md |
+| 2026-09-28 19:37:10 | malrik | unit / wizard | 91 (+1) | WARN (0F 3W) | Vertices; Parts above body_height + 0.4; Looping particle systems | docs/art/lab/malrik/scorecard.md |
+| 2026-09-28 19:37:35 | torvald | unit / wizard | 93 (+1) | WARN (0F 3W) | Contrast on the home ground (snow); Parts above body_height + 0.4; Vertices | docs/art/lab/torvald/scorecard.md |
+| 2026-09-28 19:38:01 | ysolde | unit / wizard | 92 (+4) | WARN (0F 3W) | Vertices; Parts above body_height + 0.4; Looping particle systems | docs/art/lab/ysolde/scorecard.md |
+| 2026-09-28 19:38:28 | helper_aldra | unit / soldier | 93 | FAIL (1F 1W) | Vertices; Parts above body_height + 0.4; Palette depth (close-up) | docs/art/lab/helper_aldra/scorecard.md |
+| 2026-09-28 19:53:52 | vessa | unit / wizard | 90 (-1) | WARN (0F 5W) | Head height vs body_height; Contrast in every team colour (meadow); Meshes built per instance | docs/art/lab/vessa/scorecard.md |
+| 2026-09-28 19:54:15 | malrik | unit / wizard | 90 (-1) | WARN (0F 4W) | Vertices; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/malrik/scorecard.md |
+| 2026-09-28 19:54:38 | torvald | unit / wizard | 92 (-1) | WARN (0F 3W) | Contrast on the home ground (snow); Parts above body_height + 0.4; Vertices | docs/art/lab/torvald/scorecard.md |
+| 2026-09-28 19:55:03 | ysolde | unit / wizard | 89 (-3) | WARN (0F 5W) | Contrast on the other grounds; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/ysolde/scorecard.md |
+| 2026-09-28 19:55:26 | aldra | unit / wizard | 94 (-1) | WARN (0F 2W) | Vertices; Meshes built per instance; Palette depth (close-up) | docs/art/lab/aldra/scorecard.md |
+| 2026-09-28 19:57:56 | vessa | unit / wizard | 90 (+0) | WARN (0F 5W) | Head height vs body_height; Contrast in every team colour (meadow); Meshes built per instance | docs/art/lab/vessa/scorecard.md |
+| 2026-09-28 19:58:20 | malrik | unit / wizard | 90 (+0) | WARN (0F 4W) | Vertices; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/malrik/scorecard.md |
+| 2026-09-28 19:58:42 | torvald | unit / wizard | 92 (+0) | WARN (0F 4W) | Contrast on the home ground (snow); Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/torvald/scorecard.md |
+| 2026-09-28 19:59:06 | ysolde | unit / wizard | 90 (+1) | WARN (0F 5W) | Contrast on the other grounds; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/ysolde/scorecard.md |
+| 2026-09-28 19:59:29 | aldra | unit / wizard | 94 (+0) | WARN (0F 2W) | Vertices; Meshes built per instance; Palette depth (close-up) | docs/art/lab/aldra/scorecard.md |
+| 2026-09-28 20:00:38 | vessa | unit / wizard | 90 (+0) | WARN (0F 5W) | Head height vs body_height; Contrast in every team colour (meadow); Meshes built per instance | docs/art/lab/vessa/scorecard.md |
+| 2026-09-28 20:01:02 | malrik | unit / wizard | 90 (+0) | WARN (0F 4W) | Vertices; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/malrik/scorecard.md |
+| 2026-09-28 20:01:25 | torvald | unit / wizard | 92 (+0) | WARN (0F 4W) | Contrast on the home ground (snow); Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/torvald/scorecard.md |
+| 2026-09-28 20:01:49 | ysolde | unit / wizard | 91 (+1) | WARN (0F 4W) | Vertices; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/ysolde/scorecard.md |
+| 2026-09-28 20:02:12 | aldra | unit / wizard | 94 (+0) | WARN (0F 2W) | Vertices; Meshes built per instance; Palette depth (close-up) | docs/art/lab/aldra/scorecard.md |
+| 2026-09-28 20:08:13 | vessa | unit / wizard | 90 (+0) | WARN (0F 5W) | Head height vs body_height; Contrast in every team colour (meadow); Meshes built per instance | docs/art/lab/vessa/scorecard.md |
+| 2026-09-28 20:08:43 | malrik | unit / wizard | 91 (+1) | WARN (0F 4W) | Vertices; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/malrik/scorecard.md |
+| 2026-09-28 20:09:11 | torvald | unit / wizard | 92 (+0) | WARN (0F 4W) | Contrast on the home ground (snow); Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/torvald/scorecard.md |
+| 2026-09-28 20:09:40 | ysolde | unit / wizard | 89 (-2) | WARN (0F 5W) | Contrast on the other grounds; Parts above body_height + 0.4; Meshes built per instance | docs/art/lab/ysolde/scorecard.md |
+| 2026-09-28 20:10:09 | aldra | unit / wizard | 94 (+0) | WARN (0F 2W) | Vertices; Meshes built per instance; Palette depth (close-up) | docs/art/lab/aldra/scorecard.md |

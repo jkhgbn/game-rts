@@ -13,7 +13,8 @@ extends WizardModel
 ##   play_arrival() (3.5 s: crouched in the glass shell, rises, taps the staff: a ringing flash, looks up),
 ##   play_fall() (the kit fall with a stagger onto the staff), play_revive() (alive, rises from one knee, crystal flare),
 ##   set_charge(0..1) (crystal brightness for wind-ups / cinematics), play_gesture(id) + point() / nod() / kneel() /
-##   stand_up() / raise_weapon(), set_expression(&"neutral" | &"smile" | &"fierce"), get_crystal_origin().
+##   stand_up() / raise_weapon(), set_expression(id) (FaceKit.EXPRESSIONS: neutral / smile / fierce / worried /
+##   shout), get_crystal_origin().
 ## Abilities through play_cast(id): aldra_shatter (the chisel raised back then driven down and forward along the line,
 ## lunge; release 0.38), aldra_aegis (staff raised upright before her, off palm pushed out: 1.0 s), aldra_sentinel (both
 ## arms up, the staff slammed into the ground in a crouch at 0.72, held, rise: 1.5 s), aldra_ward (the passive tell: a
@@ -37,7 +38,7 @@ const CRYSTAL_Y := 2.56
 const FACE_C := Vector3(0.0, 1.76, 0.02)
 const FACE_R := 0.19
 const HEAD_SCALE := Vector3(0.92, 1.06, 0.96)
-const EXPRESSIONS: Array[StringName] = [&"neutral", &"smile", &"fierce"]
+const EXPRESSIONS: Array[StringName] = FaceKit.EXPRESSIONS
 const ABILITY_IDS: Array[StringName] = [&"aldra_shatter", &"aldra_aegis", &"aldra_sentinel", &"aldra_ward"]
 const ARRIVAL_ID := &"aldra_arrival"
 const REVIVE_ID := &"aldra_revive"
@@ -47,11 +48,10 @@ const REVIVE_LEN := 1.2
 
 static var _mats: Dictionary = {}
 
-var _face: MeshInstance3D
+var _face: FaceRig
 var _chips: MeshInstance3D
 var _spark: GPUParticles3D
 var _expr: StringName = &"neutral"
-var _face_shown: StringName = &""
 var _charge: float = 0.0
 var _kneeling: bool = false
 var _pending: StringName = &""
@@ -130,9 +130,12 @@ func is_kneeling() -> bool:
 	return _kneeling
 
 
-## Cinematic / UI hook: &"neutral" (default), &"smile", &"fierce". Unknown ids fall back to neutral.
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout"; aliases
+## angry / sad / cast / happy). Unknown ids fall back to neutral. Safe before _ready.
 func set_expression(id: StringName) -> void:
-	_expr = id if EXPRESSIONS.has(id) else &"neutral"
+	_expr = FaceKit.canonical(id)
+	if _face:
+		_face.set_expression(_expr)
 	_update_face()
 
 
@@ -184,8 +187,8 @@ func _build_parts() -> void:
 	add_part(arm_l, _arm_mesh(-1.0), null, Vector3.ZERO)
 	add_part(arm_r, _arm_mesh(1.0), null, Vector3.ZERO)
 	add_part(arm_r, _staff_mesh(), null, Vector3.ZERO)
-	_face = add_part(head, _face_mesh(_face_target()), null, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Face")
-	_face_shown = _face_target()
+	_face = FaceKit.attach(self, head, "aldra", _face_style())
+	_face.set_expression(_expr)
 	# The signature glow: the crystal (own_glow, driven by WizardModel as the orb; it bobs a little over the claws).
 	var cp := Vector3(STAFF_X, CRYSTAL_Y, STAFF_Z)
 	var crystal := add_part(arm_r, _crystal_mesh(), null, cp, Vector3.ZERO, Vector3.ONE, true, "Crystal")
@@ -536,69 +539,65 @@ static func _chips_mesh() -> ArrayMesh:
 
 # ---------------------------------------------------------------- painted face
 
-## Painted face decals for one expression, cached. Surfaces: eye white (ice_hair), iris (aldra_glass_deep), pupil / lash
-## (unit_eye_dark), highlight (ice_hair), brows (aldra_hair), fine lines + mouth (ice_leather), brow rune (aldra_glass_deep).
-static func _face_mesh(id: StringName) -> ArrayMesh:
-	var key := "aldra_face_" + String(id)
-	if HP.cached(key):
-		return HP.cached(key)
-	var f := HP.face_new(FACE_C, FACE_R, CharacterModel.sphere(FACE_R, 12, 6), HEAD_SCALE)
-	var keys := {"white": &"white", "iris": &"iris", "pupil": &"dark", "hi": &"white_hi", "lash": &"dark"}
-	var eye := Vector2(0.066, 0.016)
-	for sx: float in [1.0, -1.0]:
-		match id:
-			&"smile":
-				# soft happy eyes: lower lids up, a smile crease at the outer corner
-				HP.face_eye(f, eye, 0.029, 0.013, 0.004, 0.006, 0.010, sx, keys)
-				HP.face_strip(f, &"brow", HP.mirror(HP.bez(Vector2(0.034, 0.056), Vector2(0.068, 0.076), Vector2(0.104, 0.060)), sx), Vector3(0.006, 0.0065, 0.0025), 0.003)
-				HP.face_strip(f, &"line", HP.mirror(HP.bez(Vector2(0.100, 0.020), Vector2(0.108, 0.008), Vector2(0.104, -0.004)), sx), Vector3(0.0015, 0.002, 0.001), 0.003)
-			&"fierce":
-				HP.face_eye(f, eye, 0.030, 0.012, 0.009, -0.004, 0.011, sx, keys)
-				HP.face_strip(f, &"brow", HP.mirror(HP.bez(Vector2(0.026, 0.040), Vector2(0.062, 0.050), Vector2(0.104, 0.064)), sx), Vector3(0.0075, 0.007, 0.003), 0.003)
-				HP.face_strip(f, &"line", HP.mirror(PackedVector2Array([Vector2(0.018, 0.050), Vector2(0.014, 0.066)]), sx), Vector3(0.0015, 0.0015, 0.001), 0.003)
-			_:
-				HP.face_eye(f, eye, 0.030, 0.016, 0.009, 0.004, 0.011, sx, keys)
-				HP.face_strip(f, &"brow", HP.mirror(HP.bez(Vector2(0.032, 0.052), Vector2(0.068, 0.068), Vector2(0.106, 0.056)), sx), Vector3(0.0065, 0.0065, 0.0025), 0.003)
-		# lines of age: crow's feet, the fold under the eye, cheek line from the nose
-		HP.face_strip(f, &"line", HP.mirror(PackedVector2Array([Vector2(0.102, 0.022), Vector2(0.116, 0.028)]), sx), Vector3(0.0012, 0.0016, 0.0008), 0.003)
-		HP.face_strip(f, &"line", HP.mirror(PackedVector2Array([Vector2(0.103, 0.012), Vector2(0.117, 0.008)]), sx), Vector3(0.0012, 0.0016, 0.0008), 0.003)
-		HP.face_strip(f, &"line", HP.mirror(HP.bez(Vector2(0.046, -0.004), Vector2(0.066, -0.010), Vector2(0.086, -0.004)), sx), Vector3(0.0008, 0.0014, 0.0008), 0.003)
-		HP.face_strip(f, &"line", HP.mirror(HP.bez(Vector2(0.030, -0.040), Vector2(0.050, -0.068), Vector2(0.050, -0.094)), sx), Vector3(0.0012, 0.0018, 0.0008), 0.003)
-	# the brow rune: a small teal chevron with a dot
-	HP.face_strip(f, &"rune", PackedVector2Array([Vector2(-0.016, 0.090), Vector2(0.0, 0.078), Vector2(0.016, 0.090)]), Vector3(0.0025, 0.003, 0.0025), 0.003)
-	HP.face_fill(f, &"rune", HP.ellipse(Vector2(0.0, 0.100), Vector2(0.004, 0.004), 0.0, 8), 0.003)
-	match id:
-		&"smile":
-			HP.face_strip(f, &"mouth", HP.bez(Vector2(-0.040, -0.084), Vector2(0.0, -0.104), Vector2(0.040, -0.084)), Vector3(0.0022, 0.0055, 0.0022), 0.003)
+## Aldra's face style (FaceKit, face rework 2026-09-28): a calm woman in her fifties: teal irises with a faint glow
+## (her glass), grey-blue eye whites, ash-blond brows, lines of age (crow's feet, the fold under the eye, cheek lines, a
+## chin crease), the teal brow rune, a gentle closed smile at rest. One vertex-coloured surface on the Face node; her
+## hair stays the green-scored crown braid of the head mesh.
+static func _face_style() -> Dictionary:
+	if _mats.has("_face_style"):
+		return _mats["_face_style"]
+	var skin := Color(0.86, 0.82, 0.84)
+	var line := Color(0.58, 0.50, 0.54)
+	var teal := FaceKit.glow(Color(0.30, 0.78, 0.74), 0.55)
+	var st := {
+		"canvas": FaceKit.canvas(FACE_C, FACE_R, CharacterModel.sphere(FACE_R, 12, 6), HEAD_SCALE),
+		"palette": {"skin": skin, "sclera": Color(0.95, 0.96, 0.97), "iris_in": Color(0.62, 0.98, 0.90), "iris_out": Color(0.08, 0.38, 0.38),
+			"iris_glow": 0.25, "pupil": Color(0.04, 0.08, 0.09), "highlight": Color(1, 1, 1), "lash": Color(0.20, 0.18, 0.20),
+			"brow": Color(0.56, 0.49, 0.36), "blush": Color(0.90, 0.56, 0.58), "lip_line": Color(0.44, 0.27, 0.30),
+			"lip": Color(0.78, 0.58, 0.60), "mouth_in": Color(0.30, 0.10, 0.12), "teeth": Color(0.97, 0.96, 0.92),
+			"tongue": Color(0.84, 0.45, 0.48)},
+		"eye": {"c": Vector2(0.064, 0.016), "hw": 0.031, "top": 0.020, "bot": 0.012, "tilt": 0.003, "ir": 0.0138, "lash": 1.0, "flick": 0.006},
+		"brow": {"inner": Vector2(0.028, 0.050), "mid": Vector2(0.066, 0.064), "outer": Vector2(0.102, 0.055), "w": Vector3(0.0055, 0.0052, 0.0022)},
+		"cheek": {"c": Vector2(0.088, -0.028), "r": Vector2(0.026, 0.015)},
+		"mouth": {"c": Vector2(0.0, -0.086), "hw": 0.036, "lip": 0.0027},
+		"x": {&"neutral": {"blush": 0.55, "mouth": {"curve": 1.1}}, &"smile": {"blush": 0.8}, &"worried": {"blush": 0.2}, &"shout": {"blush": 0.3}},
+		"extra": func(acc: Dictionary, _id: StringName) -> void:
+			var cv: Dictionary = _mats["_face_style"]["canvas"]
+			var w := Vector3(0.0005, 0.0012, 0.0005)
 			for sx: float in [1.0, -1.0]:
-				HP.face_strip(f, &"mouth", HP.mirror(PackedVector2Array([Vector2(0.038, -0.085), Vector2(0.046, -0.078)]), sx), Vector3(0.002, 0.0016, 0.001), 0.003)
-		&"fierce":
-			HP.face_strip(f, &"mouth", HP.bez(Vector2(-0.036, -0.090), Vector2(0.0, -0.086), Vector2(0.036, -0.092)), Vector3(0.0026, 0.004, 0.0026), 0.003)
-		_:
-			HP.face_strip(f, &"mouth", HP.bez(Vector2(-0.036, -0.088), Vector2(0.0, -0.093), Vector2(0.036, -0.088)), Vector3(0.0022, 0.0045, 0.0022), 0.003)
-	HP.face_strip(f, &"line", HP.bez(Vector2(-0.018, -0.108), Vector2(0.0, -0.111), Vector2(0.018, -0.108)), Vector3(0.001, 0.0018, 0.001), 0.003)
-	return HP.face_commit(f, key, [&"white", &"iris", &"dark", &"white_hi", &"brow", &"line", &"mouth", &"rune"],
-		{&"white": _m("ice_hair"), &"iris": _m("aldra_glass_deep"), &"dark": _m("unit_eye_dark"), &"white_hi": _m("ice_hair"),
-		&"brow": _m("aldra_hair"), &"line": _m("ice_leather"), &"mouth": _m("ice_leather"), &"rune": _m("aldra_glass_deep")})
+				# lines of age: crow's feet, the fold under the eye, cheek line from the nose
+				FaceKit.strip(acc, cv, FaceKit.mirror(PackedVector2Array([Vector2(0.101, 0.022), Vector2(0.114, 0.029)]), sx), w, line, 0.003)
+				FaceKit.strip(acc, cv, FaceKit.mirror(PackedVector2Array([Vector2(0.102, 0.012), Vector2(0.116, 0.008)]), sx), w, line, 0.003)
+				FaceKit.strip(acc, cv, FaceKit.mirror(FaceKit.bez(Vector2(0.046, -0.006), Vector2(0.064, -0.013), Vector2(0.084, -0.006)), sx), w, line, 0.003)
+				FaceKit.strip(acc, cv, FaceKit.mirror(FaceKit.bez(Vector2(0.030, -0.040), Vector2(0.052, -0.066), Vector2(0.052, -0.094)), sx), Vector3(0.0006, 0.0015, 0.0006), line, 0.003)
+			# the brow rune: a small teal chevron with a dot (glows a little, like her glass)
+			FaceKit.strip(acc, cv, PackedVector2Array([Vector2(-0.016, 0.090), Vector2(0.0, 0.078), Vector2(0.016, 0.090)]), Vector3(0.0025, 0.003, 0.0025), teal, 0.003)
+			FaceKit.fill(acc, cv, FaceKit.ellipse(Vector2(0.0, 0.100), Vector2(0.004, 0.004), 0.0, 8), teal, 0.003)
+			FaceKit.strip(acc, cv, FaceKit.bez(Vector2(-0.018, -0.112), Vector2(0.0, -0.115), Vector2(0.018, -0.112)), Vector3(0.0005, 0.0013, 0.0005), line, 0.003),
+	}
+	_mats["_face_style"] = st
+	return st
 
 
-func _face_target() -> StringName:
-	if _expr != &"neutral" or _dead or _tier != 0:
-		return _expr
-	if _level_t < 1.6 or (_action == &"cast" and (_cast_id == &"nod" or _cast_id == REVIVE_ID)):
-		return &"smile"
-	if (_action == &"cast" and (ABILITY_IDS.has(_cast_id) or _cast_id == &"raise_weapon")) or _action == &"attack":
-		return &"fierce"
-	return _expr
-
-
+## The shown expression while the requested one is neutral (close camera only): a level-up, a nod or the revive
+## smile; the big abilities (shatter, sentinel) shout; aegis, ward, raise_weapon and attacks turn fierce; dying looks
+## worried; other gestures (point, kneel, arrival, the rune fidget) keep the resting smile.
 func _update_face() -> void:
 	if _face == null:
 		return
-	var id := _face_target()
-	if id != _face_shown:
-		_face_shown = id
-		_face.mesh = _face_mesh(id)
+	if _tier != 0:
+		_face.far()   # the bold RTS-distance face (30 m+)
+		return
+	var mood := &""
+	if _dead:
+		mood = &"worried"
+	elif _level_t < 1.6 or (_action == &"cast" and (_cast_id == &"nod" or _cast_id == REVIVE_ID)):
+		mood = &"smile"
+	elif _action == &"cast" and (_cast_id == &"aldra_shatter" or _cast_id == &"aldra_sentinel"):
+		mood = &"shout"
+	elif (_action == &"cast" and (ABILITY_IDS.has(_cast_id) or _cast_id == &"raise_weapon")) or _action == &"attack":
+		mood = &"fierce"
+	_face.react(mood)
 
 
 # ================================================================ poses
@@ -784,7 +783,8 @@ func _death_extras() -> void:
 
 func _on_revive() -> void:
 	super._on_revive()
-	_face_shown = &""
+	if _face:
+		_face.reset()
 	_update_face()
 	_fired = false
 	if _chips:

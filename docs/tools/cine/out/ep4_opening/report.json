@@ -73,14 +73,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.890931844711304,
+			"graded": 0.890812635421753,
 			"group": "framing",
 			"hint": "",
 			"id": "F2",
 			"improve": "keep ysolde nearer the band centre in S02",
 			"name": "S02 face ysolde",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.967279553413391,
+			"score": 0.967243790626526,
 			"shot": "S02",
 			"status": "PASS",
 			"value": "worst u 0.79 v 0.67 at 6.00 s",
@@ -867,7 +867,7 @@
 	"id": "ep4_opening",
 	"improve_next": [
 		{
-			"rank": 0.0327204465866089,
+			"rank": 0.0327562093734741,
 			"source": "F2 S02 face ysolde, shot S02",
 			"status": "PASS",
 			"text": "keep ysolde nearer the band centre in S02",
@@ -898,9 +898,9 @@
 	"quality": 97.6,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 14.0,
+	"seconds": 5.3,
 	"shots": {},
-	"started": "2026-09-28 19:15:27",
+	"started": "2026-09-28 20:06:07",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"
