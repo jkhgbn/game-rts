@@ -1,0 +1,235 @@
+{
+ "length": 30.0,
+ "sample_rate": 24000,
+ "speaker": "master",
+ "voice": {
+  "bm_lewis": 0.4,
+  "bm_george": 0.35,
+  "bm_fable": 0.25
+ },
+ "empty_at": 26.09,
+ "lines": [
+  {
+   "id": "L1",
+   "text": "Above the clouds stood the citadel of the Master.",
+   "start": 0.36,
+   "speech_start": 0.4,
+   "end": 3.93,
+   "duration": 3.57,
+   "slot": 4.05,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    0.42,
+    3.82
+   ],
+   "pauses": [
+    [
+     1.63,
+     1.92
+    ]
+   ]
+  },
+  {
+   "id": "L2",
+   "text": "For a thousand years, its bells rang peace.",
+   "start": 4.66,
+   "speech_start": 4.7,
+   "end": 8.139,
+   "duration": 3.479,
+   "slot": 3.65,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    4.71,
+    8.05
+   ],
+   "pauses": [
+    [
+     6.15,
+     6.48
+    ]
+   ]
+  },
+  {
+   "id": "L3",
+   "text": "Kings climbed his bridge with drawn swords,",
+   "start": 8.56,
+   "speech_start": 8.6,
+   "end": 11.76,
+   "duration": 3.2,
+   "slot": 3.35,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    8.59,
+    11.68
+   ],
+   "pauses": [
+    [
+     10.21,
+     10.45
+    ]
+   ]
+  },
+  {
+   "id": "L4",
+   "text": "and walked home as brothers.",
+   "start": 12.16,
+   "speech_start": 12.2,
+   "end": 14.33,
+   "duration": 2.17,
+   "slot": 2.75,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    12.2,
+    14.22
+   ],
+   "pauses": [
+    [
+     13.29,
+     13.39
+    ]
+   ]
+  },
+  {
+   "id": "L5",
+   "text": "Four wizards he raised. Four crowns he gave them.",
+   "start": 15.16,
+   "speech_start": 15.2,
+   "end": 19.01,
+   "duration": 3.85,
+   "slot": 3.95,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    15.2,
+    18.9
+   ],
+   "pauses": [
+    [
+     16.85,
+     17.24
+    ]
+   ]
+  },
+  {
+   "id": "L6a",
+   "text": "Fire.",
+   "start": 19.26,
+   "speech_start": 19.3,
+   "end": 20.17,
+   "duration": 0.91,
+   "slot": 0.94,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    19.3,
+    20.04
+   ],
+   "pauses": []
+  },
+  {
+   "id": "L6b",
+   "text": "Ice.",
+   "start": 20.18,
+   "speech_start": 20.22,
+   "end": 21.04,
+   "duration": 0.86,
+   "slot": 0.92,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    20.22,
+    20.94
+   ],
+   "pauses": []
+  },
+  {
+   "id": "L6c",
+   "text": "Nature.",
+   "start": 21.08,
+   "speech_start": 21.12,
+   "end": 22.15,
+   "duration": 1.07,
+   "slot": 1.1,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    21.12,
+    22.05
+   ],
+   "pauses": []
+  },
+  {
+   "id": "L6d",
+   "text": "Shadow.",
+   "start": 22.16,
+   "speech_start": 22.2,
+   "end": 23.16,
+   "duration": 1.0,
+   "slot": 1.05,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    22.19,
+    23.04
+   ],
+   "pauses": []
+  },
+  {
+   "id": "L7",
+   "text": "Then, in one breath, the throne stood empty.",
+   "start": 23.31,
+   "speech_start": 23.35,
+   "end": 26.6,
+   "duration": 3.29,
+   "slot": 3.6,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    23.36,
+    26.51
+   ],
+   "pauses": [
+    [
+     24.55,
+     24.91
+    ]
+   ]
+  },
+  {
+   "id": "L8",
+   "text": "And the bells fell silent.",
+   "start": 27.06,
+   "speech_start": 27.1,
+   "end": 29.18,
+   "duration": 2.12,
+   "slot": 2.35,
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "fits": true,
+   "voiced": [
+    27.09,
+    29.07
+   ],
+   "pauses": [
+    [
+     27.92,
+     28.08
+    ]
+   ]
+  }
+ ]
+}
