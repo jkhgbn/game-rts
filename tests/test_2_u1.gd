@@ -166,8 +166,8 @@ func _check_help_and_timer() -> void:
 	for node in main.hud.find_children("*", "Label", true, false):
 		var t: String = (node as Label).text
 		if t.contains("W A S D: walk Vessa") and t.contains("B: build (workers)") \
-				and t.contains("Z X C V B: train") and t.contains("Delete: cancel a site") \
-				and t.contains("F10 twice: surrender"):
+				and t.contains("Z X C V B N M ,: train") and t.contains("Delete: cancel a site") \
+				and t.contains("F10 x2: surrender"):   # "F10 x2" since the Tab / unit priority help line (2026-09-27)
 			help_ok = true
 	if not help_ok:
 		_error = "help text does not show the wave 2 keys"

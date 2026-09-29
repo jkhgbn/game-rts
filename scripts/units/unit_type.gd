@@ -14,7 +14,10 @@ const DIR := "res://data/units/"
 ## XP the killing side gets for this unit (levels.md victim table; soldiers ~ cost / 2).
 @export var kill_xp := 0
 @export var train_time := 10.0               ## Seconds.
-@export var card_key := ""                   ## Command card hotkey letter at the keep ("" = none).
+## The key letter of its training button (QWERTY position: Z X C V B N M , by card slot, CLAUDE.md "Keys") at the building
+## that lists it first ("" = not trained). Documentation data: the card places units by slot (SelectionManager.train_slots)
+## and shows that slot's letter; the Data Lab (K1) and tests/test_ui_card_hotkeys.gd check this letter matches.
+@export var card_key := ""
 @export var max_hp := 100.0
 @export var move_speed := 5.0
 @export var attack_damage := 10.0

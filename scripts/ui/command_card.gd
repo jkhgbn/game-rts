@@ -10,6 +10,8 @@ const BUTTON_SIZE := 64.0
 const GAP := 6
 const SIZE := Vector2(294, 224)
 const KEY_COLOR := Color(1.0, 0.85, 0.4)
+## Room kept on the right of a text button for its key badge (keep_badge_room: the text centres in the rest).
+const BADGE_ROOM := 20.0
 const NORMAL_BORDER := Color(0.45, 0.4, 0.35, 0.9)
 const REFRESH_INTERVAL := 0.1
 const LEARN_PULSE_TIME := 2.0
@@ -26,8 +28,9 @@ const TRAIN_DESCRIPTIONS := {
 	&"rime_colossus": "Heavy elite. Chills on hit.",
 	&"caravan": "Trades with a post and brings gold back. Max 6.",
 }
-## Build menu: hotkey_label -> slot (r1c1-r1c3 = Z X C, r1c4 = Back, r2c1 = V: the Ice Wall, r2c2 = B: the Bazaar).
-const BUILD_KEY_SLOTS := {"Z": 0, "X": 1, "C": 2, "V": 4, "B": 5}
+## Build menu: hotkey_label -> slot (r1c1-r1c3 = Z X C, r1c4 = Back, r2c1 = V: the Ice Wall, r2c2 = B: the Bazaar,
+## r2c3 = N: the Stables). Every kingdom puts a building of a given key at the same place.
+const BUILD_KEY_SLOTS := {"Z": 0, "X": 1, "C": 2, "V": 4, "B": 5, "N": 6}
 ## Trade (10.C7, ui-trade.md 5-6): colours of the route buttons' tags and the tracker inspect texts.
 const GOLD_TEXT := Color(1.0, 0.88, 0.5)
 const NEAR_COLOR := Color(0.4, 0.9, 0.4)
@@ -84,9 +87,10 @@ const INSPECT_BOUNTY_ENEMY := "Hunt it with a bounty  "
 ## Map fill (12.C7, ui-mapfill.md 6.3 / 7.2): an epic beast viewed / a game critter selected (all slots empty).
 const BEAST_TEXT := "Epic beast: attack it with your army."
 const CRITTER_TEXT := "Game: hunt it with soldiers or your wizard."
-## tiers.md 5: the Hall whose "+" upgrades page is open (null = its normal training card). Slot of the toggle.
+## tiers.md 5: slot of the Hall's "+" upgrades page toggle (key +, SelectionManager.upgrades_hall = the open page).
 const PLUS_SLOT := 11
-var plus_hall: Node = null
+const PLUS_PAGE_TOOLTIP := "Upgrades  [%s]\n\"+\" research for this Hall's units: +10 %% HP and damage each. Needs a" \
+		+ " Stronghold.\nOn the page each unit's \"+\" has the unit's own key."
 var inspect_block: Control
 var inspect_line: Label       ## "Champions act on their own."
 var inspect_key_line: Label   ## "Bounty  " / "Hunt it with a bounty  " (+ the [R] badge)
@@ -148,19 +152,7 @@ func _ready() -> void:
 		deco.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		b.add_child(deco)
 		_decos.append(deco)
-		var key := HudSkin.text("", 12, KEY_COLOR)
-		key.add_theme_stylebox_override("normal", HudSkin.badge_style())
-		key.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		key.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		key.custom_minimum_size = Vector2(18, 14)
-		key.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-		key.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-		key.grow_vertical = Control.GROW_DIRECTION_BEGIN
-		key.offset_left = -20.0
-		key.offset_right = -2.0
-		key.offset_top = -16.0
-		key.offset_bottom = -2.0
-		b.add_child(key)
+		var key := add_key_badge(b, "")
 		var cost := HudSkin.text("", 10, HudSkin.CRYSTAL_TEXT)
 		var tag := StyleBoxFlat.new()
 		tag.bg_color = Color(0, 0, 0, 0.75)
@@ -207,6 +199,39 @@ func _ready() -> void:
 		_last_id.append("")
 		_build_spell_overlays(b, holder)
 	_build_inspect_block()
+
+
+## A key badge as on the card's buttons (ui-hud.md 1.U2: the letter bottom-right, font 12 in KEY_COLOR, on the 18 x 14
+## dark badge, 2 px from the corner), added to `parent`. The tavern window and the idle-worker button use it too, so
+## every key in the HUD reads the same. Longer texts ("Esc", "F3") use font 10; the badge grows to the left.
+static func add_key_badge(parent: Control, letter: String, font_size := 12) -> Label:
+	var key := HudSkin.text(letter, font_size if letter.length() <= 1 else mini(font_size, 10), KEY_COLOR)
+	key.add_theme_stylebox_override("normal", HudSkin.badge_style())
+	key.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	key.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	key.custom_minimum_size = Vector2(18, 14)
+	key.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	key.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	key.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	key.offset_left = -20.0
+	key.offset_right = -2.0
+	key.offset_top = -16.0
+	key.offset_bottom = -2.0
+	key.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(key)
+	return key
+
+
+## Moves a text button's label left of its key badge: every state's frame gets BADGE_ROOM of right margin. Call it after
+## the button's styling (a re-skin replaces the frames: call it again).
+static func keep_badge_room(b: Button) -> void:
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		var sb := b.get_theme_stylebox(state)
+		if sb == null or sb.content_margin_right >= BADGE_ROOM:
+			continue
+		var roomy := sb.duplicate() as StyleBox
+		roomy.content_margin_right = BADGE_ROOM
+		b.add_theme_stylebox_override(state, roomy)
 
 
 ## The inspect text (ui-champions.md 4): `Champions act on their own.` font 14 muted at panel y 80 and
@@ -533,8 +558,6 @@ func _build_slots() -> Array[Dictionary]:
 		out.append({})
 	if selection == null:
 		return out
-	if plus_hall != null and (not is_instance_valid(plus_hall) or selection.selected_building != plus_hall):
-		plus_hall = null   # the "+" page closes when the Hall is no longer the selected building
 	if selection.selected_bounty != null:
 		_flag_slots(out, selection.selected_bounty)
 	elif selection.selected_building != null:
@@ -548,22 +571,25 @@ func _build_slots() -> Array[Dictionary]:
 	return out
 
 
-## An own tier-3 helper inspected (t3-helpers.md 2.1): r1c1-r1c3 Escort / Vanguard / Hold home, click only (no key).
-## A stance is not an order: the helper stays non-commandable.
+## An own tier-3 helper inspected (t3-helpers.md 2.1): r1c1-r1c3 Escort / Vanguard / Hold home, keys Z X C
+## (SelectionManager.STANCE_KEYS). A stance is not an order: the helper stays non-commandable.
 func _helper_stance_slots(out: Array[Dictionary], h: Variant) -> void:
 	if not (h is Helper) or not is_instance_valid(h) or int((h as Helper).team) != Unit.Team.PLAYER:
 		return
 	var helper := h as Helper
-	var tips := {
-		&"escort": "Escort\nStays 3-7 m from your wizard and fights what threatens it.",
-		&"vanguard": "Vanguard\nFollows your largest army group and fights with it.",
-		&"home": "Hold home\nGuards the keep: fights intruders within 20 m.",
+	var sel := selection
+	var names := {&"escort": "Escort", &"vanguard": "Vanguard", &"home": "Hold home"}
+	var lines := {
+		&"escort": "Stays 3-7 m from your wizard and fights what threatens it.",
+		&"vanguard": "Follows your largest army group and fights with it.",
+		&"home": "Guards the keep: fights intruders within 20 m.",
 	}
 	var abbr := {&"escort": "ES", &"vanguard": "VG", &"home": "HM"}
-	for i in Helper.STANCES.size():
+	for i in mini(Helper.STANCES.size(), SelectionManager.STANCE_KEYS.size()):
 		var st: StringName = Helper.STANCES[i]
-		var tip: String = tips[st] + ("\n(current)" if helper.stance == st else "")
-		var s := _slot("stance_" + String(st), abbr[st], "", tip, func() -> void: helper.set_stance(st))
+		var key := char(SelectionManager.STANCE_KEYS[i])   # the QWERTY letter of the physical key
+		var tip: String = "%s  [%s]\n%s" % [names[st], key, lines[st]] + ("\n(current)" if helper.stance == st else "")
+		var s := _slot("stance_" + String(st), abbr[st], key, tip, func() -> void: sel.set_helper_stance(st))
 		s["active"] = helper.stance == st
 		out[i] = s
 
@@ -648,8 +674,9 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 	out[2] = _slot("hold", "HD", "H", "Hold  [H]\nStay in place; hit only enemies in range.", sel.hold)
 	# SC2 subgroups: with 2+ unit types selected, the card shows the active type's (Tab cycles it).
 	var group := sel.active_type_units()
-	var fighters := group.any(func(u: Unit) -> bool: return not sel._is_worker(u) and not SelectionManager.is_caravan(u))
-	var workers := group.any(func(u: Unit) -> bool: return sel._is_worker(u))
+	var fighters := group.any(func(u: Unit) -> bool:
+			return not SelectionManager.is_worker_unit(u) and not SelectionManager.is_caravan(u))
+	var workers := group.any(func(u: Unit) -> bool: return SelectionManager.is_worker_unit(u))
 	var caravans := group.any(func(u: Unit) -> bool: return SelectionManager.is_caravan(u))
 	if caravans and not workers:
 		out[7 if fighters else 3] = _slot("trade", "TR", "G",
@@ -676,12 +703,13 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 				"" if sel.has_gatherers() or caravans else "Workers can't gather yet", SelectionManager.ORDER_GATHER)
 		out[7 if fighters else 3] = gather
 	if sel.can_build():
-		out[4] = _slot("build", "BU", "B", "Build  [B]\nOpen the build menu: Hearth, hall and spire.",
+		out[4] = _slot("build", "BU", "B", "Build  [B]\nOpen the build menu; each building shows its own key.",
 				sel.open_build_menu)
 
 
-## The build menu (after B): row 1 = the buildings (Z X C), then Back (Esc / right click); a 4th building
-## (the Ice Wall, key V) goes to r2c1 (kingdom-ice.md 5). Slots follow the type's hotkey_label.
+## The build menu (after B): row 1 = the buildings (Z X C), then Back (Esc / right click); row 2 = the Ice Wall (V,
+## kingdom-ice.md 5), the Bazaar (B) and the Stables (N, stables.md 1). Slots follow the type's hotkey_label
+## (BUILD_KEY_SLOTS), the key badge and tooltip show it.
 func _build_menu_slots(out: Array[Dictionary]) -> void:
 	var sel := selection
 	var types := sel.buildable_types()
@@ -776,8 +804,9 @@ func _update_spell_extras(i: int, s: Dictionary) -> void:
 		cooldown_labels[i].visible = false
 
 
-## A selected building: a construction site shows Cancel (Delete); a trainer (keep, hall) shows its
-## training slots Z X C V B and Set Rally right after them; other buildings show nothing.
+## A selected building: a construction site shows Cancel (Delete); a trainer (keep, Hall, Stables, Bazaar) shows its
+## training slots Z X C V B N M , (SelectionManager.train_slots(): each type on the slot of its key, the keep keeps X for
+## its tier button) and Set Rally right after them; other buildings show nothing. An own Hall adds its "+" page.
 func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 	var sel := selection
 	if keep.has_method("is_constructed") and not bool(keep.call("is_constructed")):
@@ -787,13 +816,15 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 				"Cancel  [Delete]\nStop building and get %d crystals back (75 %%)." % refund,
 				func() -> void: sel.cancel_site())
 		return
-	if plus_hall != null and plus_hall == keep and is_instance_valid(keep):
+	if sel.upgrades_open() and sel.upgrades_hall == keep:
 		_plus_slots(out, keep)
 		return
-	var types := sel.trainable_types()
-	var n_train := mini(types.size(), SelectionManager.SLOT_KEYS.size())   # 5, or 8 on a Hall (new-units-12.md)
+	var types := sel.train_slots()
+	var n_train := types.size()   # up to 5, 8 on a Hall (new-units-12.md)
 	for i in n_train:
 		var type: Variant = types[i]
+		if type == null:
+			continue   # the keep's tier slot at the Citadel: kept empty so the other keys never move
 		var type_name := str(type.get("display_name"))
 		var key := sel.train_key(type, i)
 		var reason := ""
@@ -820,38 +851,46 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 		out[n_train] = _slot("rally", "RL", "",
 				"Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining.",
 				func() -> void: sel.begin_order(SelectionManager.ORDER_RALLY), "", SelectionManager.ORDER_RALLY)
-	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c4 (click only).
-	if int(keep.get(&"team")) == Unit.Team.PLAYER and out[PLUS_SLOT].is_empty() \
-			and not UnitUpgrades.ids_for_hall(keep).is_empty():
-		var tip := "Upgrades\n\"+\" research for this Hall's units: +10 % HP and damage each. Needs a Stronghold."
-		out[PLUS_SLOT] = _slot("plus_page", "+", "", tip, func() -> void: plus_hall = keep)
+	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c4 (the + key or a click).
+	if out[PLUS_SLOT].is_empty() and sel.can_open_upgrades():
+		out[PLUS_SLOT] = _slot("plus_page", "+", SelectionManager.UPGRADES_KEY_LABEL,
+				PLUS_PAGE_TOOLTIP % SelectionManager.UPGRADES_KEY_LABEL, sel.open_upgrades)
 
 
-## The "+" upgrades page of a Hall (tiers.md 5): one button per unit (card order), Back at r3c4.
+## The "+" upgrades page of a Hall (tiers.md 5): each unit's "+" on the slot of its training button, with the same key
+## (SelectionManager.buy_upgrade_slot); Back at r3c4 (Esc, or + again).
 func _plus_slots(out: Array[Dictionary], hall: Node) -> void:
+	var sel := selection
 	var rows := UnitUpgrades.options_for(hall)
-	for i in mini(rows.size(), PLUS_SLOT):
-		var r: Dictionary = rows[i]
+	var free := 0   # a "+" whose unit has no training slot (never today) takes the next free place
+	for r: Dictionary in rows:
 		var id: StringName = r["id"]
+		var i := sel.train_slot_of(id)
+		var key := sel.train_key(null, i) if i >= 0 else ""
+		if i < 0 or i >= PLUS_SLOT or not out[i].is_empty():
+			while free < PLUS_SLOT and not out[free].is_empty():
+				free += 1
+			if free >= PLUS_SLOT:
+				break
+			i = free
+			key = ""
 		var state: StringName = r["state"]
 		var reason: String = r["reason"]
 		if state == &"done":
 			reason = "Researched"
 		elif state == &"working":
 			reason = "Researching %d %%" % roundi(float(r["progress"]) * 100.0)
-		var tip := "%s\n%d crystals · %d s\n%s for every %s of your kingdom." % [r["name"], int(r["crystals"]),
+		var head: String = r["name"] if key == "" else "%s  [%s]" % [r["name"], key]
+		var tip := "%s\n%d crystals · %d s\n%s for every %s of your kingdom." % [head, int(r["crystals"]),
 				roundi(float(r["time"])), r["text"], String(r["name"]).trim_suffix("+")]
-		var buy := func() -> void:
-			var bank := UnitUpgrades.for_team(int(hall.get(&"team")))
-			if bank:
-				bank.buy(id, hall)
-		var s := _slot("plus_" + String(id), UIStyle.abbrev(String(r["name"]).trim_suffix("+")) + "+", "", tip,
-				buy, reason)
+		var s := _slot("plus_" + String(id), UIStyle.abbrev(String(r["name"]).trim_suffix("+")) + "+", key, tip,
+				func() -> void: sel.buy_upgrade(id), reason)
 		s["cost"] = int(r["crystals"])
 		s["icon"] = ["units", String(id)]
 		s["active"] = state == &"working" or state == &"done"
 		out[i] = s
-	out[PLUS_SLOT] = _slot("plus_back", "<", "", "Back\nThe Hall's training buttons.", func() -> void: plus_hall = null)
+	out[PLUS_SLOT] = _slot("plus_back", "<", "Esc", "Back  [Esc]\nThe Hall's training buttons (%s does the same)."
+			% SelectionManager.UPGRADES_KEY_LABEL, sel.close_upgrades)
 
 
 ## A Bazaar (building kind &"market").

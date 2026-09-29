@@ -704,8 +704,9 @@ func _check_tavern_rows() -> void:
 	if w.price_crystals.text != "250" or w.price_essence.text != "100" or w.pop_label.text != "Pop 2":
 		_fail("price %s / %s / '%s'" % [w.price_crystals.text, w.price_essence.text, w.pop_label.text])
 		return
+	# The row's own key (2026-09-29): row 1 hires with Z (Y only opens / closes the window).
 	if not w.hire_button.visible or not w.hire_button.disabled or w.reason_label.text != "Max 3 champions" \
-			or not w.reason_label.visible or not w.hire_button.tooltip_text.begins_with("Hire  [Y]"):
+			or not w.reason_label.visible or not w.hire_button.tooltip_text.begins_with("Hire  [Z]"):
 		_fail("Wayfinder Hire: visible %s disabled %s reason '%s'" % [w.hire_button.visible, w.hire_button.disabled,
 				w.reason_label.text])
 		return

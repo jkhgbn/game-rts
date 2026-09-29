@@ -10,7 +10,13 @@ extends Node
 ## F Fireball, Set Rally (card button only). H = hold. C = stop.
 ## Workers only: B = build menu, then Z / X / C (the BuildingType hotkey_label) = placement ghost;
 ## left click places (Shift keeps placing), right click / Esc backs out.
-## Building selected: Z X C V B = its training slots 1-5. Construction site selected: Delete = cancel.
+## Building selected: Z X C V B N M , = its training slots 1-8 (`train_slots()`: the keep keeps X for its tier button,
+## empty at the Citadel, so a unit's key never changes). Construction site selected: Delete = cancel.
+## Hall selected (tiers.md 5): + (the =/+ key, or numpad +) opens / closes its "+" upgrades page; while it is open the
+## slot keys buy the "+" of the unit trained with that key, Esc / Back close it (`upgrades_hall`).
+## Own tier-3 helper inspected (t3-helpers.md 2.1): Z / X / C = its stances Escort / Vanguard / Hold home.
+## Every button of the command card shows the key that does the same (2026-09-29, JS: "each unit / building shows its
+## own hotkey"); the card reads its letters from here (`train_slots`, `train_key`, SLOT_LETTERS, STANCE_KEYS).
 ## Control groups (StarCraft II style), keys 1-9 and 0 (= group 10): Ctrl+N = set, Shift+N = add,
 ## Alt+N = steal (take the selection out of every other group, then set N), Shift+Alt+N = steal and add,
 ## N = select (twice quickly = centre camera). Buildings can be in groups; dead members leave them.
@@ -102,6 +108,13 @@ const FLAG_CLICK_PX := 22.0             # a click this close to a flag's pole se
 const SLOT_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B, KEY_N, KEY_M, KEY_COMMA]
 const SLOT_LETTERS := "ZXCVBNM,"
 const SPELL_KEYS: Array[Key] = [KEY_F, KEY_Q, KEY_E]                  # spells 1-3
+## The Hall's "+" upgrades page (tiers.md 5): the =/+ key (physical, it carries "+" on QWERTY and AZERTY) or numpad +.
+## A layout with its own "+" key (keycode KEY_PLUS) works too. The card shows "+".
+const UPGRADES_KEYS: Array[Key] = [KEY_EQUAL, KEY_KP_ADD]
+const UPGRADES_KEY_LABEL := "+"
+## Own helper inspected: its 3 stances (Helper.STANCES order) on the card's first three letters.
+const STANCE_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C]
+const MSG_NO_UPGRADE := "No upgrade for that unit"
 const GHOST_TEXT_COLOR := Color(1.0, 0.45, 0.4)
 
 var camera: Camera3D
@@ -119,6 +132,9 @@ var selected_buildings: Array[Node3D] = []
 var build_menu_open := false
 ## Read only: the building being placed (ghost under the mouse), or null.
 var placing_type: BuildingType = null
+## Read only: the Hall whose "+" upgrades page the command card shows (tiers.md 5), or null. `upgrades_open()` is true
+## while it is the selected building; any new selection or Tab to another building closes it.
+var upgrades_hall: Node3D = null
 ## W A S D direct control of the wizard.
 var wizard_control: WizardControl
 ## Read only: the bounty flag selected (own or a visible enemy one), or null. Never with units or a building.
@@ -450,11 +466,33 @@ func _handle_key(key: InputEventKey) -> bool:
 		if code == KEY_DELETE:
 			remove_selected_bounty()
 			return true
+	# An own helper inspected (t3-helpers.md 2.1): Z / X / C = its stances, like the card's first three buttons.
+	if not key.ctrl_pressed and not key.alt_pressed and inspected_own_helper() != null:
+		var stance_i := STANCE_KEYS.find(code)
+		if stance_i >= 0 and stance_i < Helper.STANCES.size():
+			set_helper_stance(Helper.STANCES[stance_i])
+			return true
 	# R: bounty mode on / off.
 	if code == KEY_R and not key.ctrl_pressed and not key.alt_pressed and bounty_mode != null:
 		bounty_mode.toggle()
 		return true
-	# Training slots Z X C V B only act while a building is selected.
+	# A Hall's "+" upgrades page (tiers.md 5): + opens / closes it; while it is open the slot keys buy the "+" of the
+	# unit trained with the same key (the card shows those letters on the "+" buttons).
+	if selected_building != null and not key.ctrl_pressed and not key.alt_pressed:
+		if is_upgrades_key(key):
+			if upgrades_open():
+				close_upgrades()
+			elif can_open_upgrades():
+				open_upgrades()
+			else:
+				return false
+			return true
+		if upgrades_open():
+			var up_slot := SLOT_KEYS.find(code)
+			if up_slot >= 0:
+				buy_upgrade_slot(up_slot)
+				return true
+	# Training slots Z X C V B N M , only act while a building is selected.
 	if selected_building != null:
 		var type: Variant = _type_for_key(code)
 		if type != null:
@@ -507,6 +545,8 @@ func _handle_key(key: InputEventKey) -> bool:
 				cancel_targeting()
 			elif build_menu_open:
 				close_build_menu()
+			elif upgrades_open():
+				close_upgrades()   # back to the Hall's training buttons
 			elif inspected != null or selected_bounty != null or selected_neutral != null:
 				select_units([])   # Esc drops the inspect view / the selected flag / post / guild house
 			else:
@@ -589,6 +629,7 @@ func set_active_building(b: Node3D) -> void:
 	if b == null or not selected_buildings.has(b) or b == selected_building:
 		return
 	selected_building = b
+	upgrades_hall = null   # the "+" page belongs to the Hall it was opened on
 	if _pending == ORDER_RALLY or _pending == ORDER_ROUTE:
 		cancel_targeting()
 	selection_changed.emit()
@@ -1599,10 +1640,123 @@ func trainable_types() -> Array:
 	return selected_building.call("trainable_types")
 
 
-## The hotkey letter of training slot `index` (0-4): Z X C V B (QWERTY positions, CLAUDE.md "Keys").
-## `type` is unused (kept for callers); the slot decides the key.
+## The selected building's training card, slot by slot: entry `i` is the type trained with key SLOT_KEYS[i] (Z X C V B
+## N M ,), or null for an empty slot (no trailing nulls). It follows trainable_types(), except the keep: while tiers are
+## on its tier button keeps slot X, empty at the Citadel, so its tier-3 unit stays on C and the helper's call / revive
+## on V at every tier (tiers.md 3, t3-helpers.md 3). The card draws these slots and the keys use them: a letter is
+## always the one on the unit's own button.
+func train_slots() -> Array:
+	var types: Array = trainable_types().duplicate()
+	var keep := selected_building as Keep
+	if keep != null and types.size() > 1 and TierSystem.instance() != null and keep.tier >= 3 \
+			and not keep.is_upgrading():
+		types.insert(1, null)   # Keep.tier_card_type() is null at the Citadel: keep its slot
+	if types.size() > SLOT_KEYS.size():
+		types.resize(SLOT_KEYS.size())
+	while not types.is_empty() and types.back() == null:
+		types.pop_back()
+	return types
+
+
+## The hotkey letter of training slot `index` (0-7): Z X C V B N M , (QWERTY positions, CLAUDE.md "Keys").
+## `type` is unused (kept for callers); the slot decides the key (see train_slots()).
 func train_key(_type: Variant, index: int) -> String:
 	return SLOT_LETTERS[index] if index >= 0 and index < SLOT_LETTERS.length() else ""
+
+
+## The slot of unit type id `id` on the selected building's card (-1 when it is not there).
+func train_slot_of(id: StringName) -> int:
+	var slots := train_slots()
+	for i in slots.size():
+		if slots[i] != null and StringName(str((slots[i] as Object).get(&"id"))) == id:
+			return i
+	return -1
+
+
+# ---------------------------------------------------------------- Hall "+" upgrades page (tiers.md 5)
+
+## True when the selected building is an own living Hall with "+" upgrades (the card shows its "+" button).
+func can_open_upgrades() -> bool:
+	var b := selected_building
+	return b != null and _building_alive(b) and int(b.get(&"team")) == Unit.Team.PLAYER \
+			and not UnitUpgrades.ids_for_hall(b).is_empty()
+
+
+## The card's "+" button / the + key: the command card shows the Hall's "+" page. Ends a pending rally order.
+func open_upgrades() -> void:
+	if not can_open_upgrades():
+		return
+	if _pending == ORDER_RALLY:
+		cancel_targeting()
+	upgrades_hall = selected_building
+	mode_changed.emit()
+
+
+## Back / Esc / + on the "+" page: the Hall's training buttons again.
+func close_upgrades() -> void:
+	if upgrades_hall == null:
+		return
+	upgrades_hall = null
+	mode_changed.emit()
+
+
+## True while the "+" page of the selected Hall is open.
+func upgrades_open() -> bool:
+	return upgrades_hall != null and is_instance_valid(upgrades_hall) and upgrades_hall == selected_building \
+			and _building_alive(upgrades_hall)
+
+
+## True for the key that opens / closes the "+" page: physical =/+ or numpad +, or a layout's own + key.
+static func is_upgrades_key(key: InputEventKey) -> bool:
+	var code := key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode
+	return UPGRADES_KEYS.has(code) or key.keycode == KEY_PLUS
+
+
+## The "+" page's slot `index` (the letter of the unit's training button): buys that unit's "+" at the Hall. "" or the
+## reason (also sent as a message, like a refused training key).
+func buy_upgrade_slot(index: int) -> String:
+	if not upgrades_open():
+		return MSG_NO_UPGRADE
+	var slots := train_slots()
+	if index < 0 or index >= slots.size() or slots[index] == null:
+		return MSG_NO_UPGRADE
+	return buy_upgrade(StringName(str((slots[index] as Object).get(&"id"))))
+
+
+## Buys the "+" of unit `unit_id` at the open "+" page's Hall (UnitUpgrades.buy). "" or the reason (also a message).
+func buy_upgrade(unit_id: StringName) -> String:
+	var hall := upgrades_hall if upgrades_open() else selected_building
+	if hall == null or not UnitUpgrades.ids_for_hall(hall).has(unit_id):
+		message.emit(MSG_NO_UPGRADE)
+		return MSG_NO_UPGRADE
+	var bank := UnitUpgrades.for_team(int(hall.get(&"team")))
+	if bank == null:
+		return MSG_NO_UPGRADE
+	var reason := bank.buy(unit_id, hall)
+	if reason != "":
+		message.emit(reason)
+	mode_changed.emit()   # the card shows the research at once
+	return reason
+
+
+# ---------------------------------------------------------------- helper stances (t3-helpers.md 2.1)
+
+## The own tier-3 helper being inspected (its card shows the 3 stances), or null.
+func inspected_own_helper() -> Helper:
+	if not is_inspecting() or not (inspected is Helper) or int(inspected.team) != Unit.Team.PLAYER:
+		return null
+	return inspected as Helper
+
+
+## Z / X / C (or the card's stance buttons) with an own helper inspected: its stance. Not an order: the helper stays
+## non-commandable. "" or the reason.
+func set_helper_stance(stance: StringName) -> String:
+	var h := inspected_own_helper()
+	if h == null:
+		return "No helper"
+	var r := h.set_stance(stance)
+	mode_changed.emit()   # the card highlights the new stance
+	return r
 
 
 ## The control group of a number key (physical): KEY_1..KEY_9 = 1..9, KEY_0 = 10, else 0.
@@ -2131,9 +2285,15 @@ func _clear_building() -> void:
 			b.call("set_selected", false)
 	selected_buildings.clear()
 	selected_building = null
+	upgrades_hall = null
 
 
 func _is_worker(u: Unit) -> bool:
+	return is_worker_unit(u)
+
+
+## A worker for the card and the orders: it gathers (command_gather) or its type is a worker. Public (the command card).
+static func is_worker_unit(u: Unit) -> bool:
 	return u.has_method("command_gather") or u.is_worker()
 
 
@@ -2374,10 +2534,10 @@ func _prune_groups() -> void:
 		groups_changed.emit()
 
 
-## The trainable type of the slot whose key (Z X C V B, physical) is `code`, or null.
+## The trainable type of the slot whose key (Z X C V B N M , physical) is `code`, or null (see train_slots()).
 func _type_for_key(code: Key) -> Variant:
 	var slot := SLOT_KEYS.find(code)
-	var types := trainable_types()
+	var types := train_slots()
 	if slot < 0 or slot >= types.size():
 		return null
 	return types[slot]

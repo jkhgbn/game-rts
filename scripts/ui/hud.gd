@@ -439,7 +439,8 @@ const HELP_CAPTURE := "Capture: stand near towers, wells and shrines"
 ## (KeyLabels: an AZERTY player reads "Q + click: attack-move", "Z Q S D: walk").
 static func help_text(wizard_name: String) -> String:
 	var k := func(code: Key) -> String: return KeyLabels.of(code)
-	var train := KeyLabels.join([KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B])
+	# The training slot keys (SelectionManager.SLOT_KEYS: Z X C V B, then N M , on a Hall's 8-unit card).
+	var train := KeyLabels.join(SelectionManager.SLOT_KEYS)
 	var spells := KeyLabels.join([KEY_F, KEY_Q, KEY_E], " / ")
 	var middle := ""
 	var pan_keys := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]) if GameSettings.rts_wasd() else "Arrows"

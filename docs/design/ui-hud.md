@@ -46,8 +46,30 @@ The old bottom-left hero panel is removed; its content moves into the selection 
 | Keep | Cinder Hand Z | Set Rally (button only; right-click does the same) | | | | | | |
 | Nothing | | | | | | | | |
 - Pressing a targeted button (Move, Attack-move, Gather, Fireball, Set Rally) shows the cross cursor; left-click confirms, right-click or Esc cancels (reuse the Fireball targeting flow). Hold and Stop apply at once. Attack-move then a click on an enemy = plain attack.
-- Hotkeys are physical keycodes (`KEY_X` etc.) handled by `SelectionManager`; the card only mirrors them. Letters shown are QWERTY positions (the user's AZERTY keyboard prints other letters; that is expected). Move keeps M (a free letter); there is no A key any more (A walks Vessa).
+- Hotkeys are physical keycodes (`KEY_X` etc.) handled by `SelectionManager`; the card only mirrors them. Move keeps M (a free letter). Since UX.1 the letters shown are the ones **printed on the player's keyboard** at that position (`KeyLabels`: an AZERTY player reads W on the Z-position key, Q for A; punctuation shows as its character: the M-position key reads `,` and the `,`-position key `;` on AZERTY, never a key name like "Comma"). Classic (default) attack-move is A (X too), Hero WASD / RTS WASD X.
 - **W A S D** walk Vessa whatever is selected (`Wizard.set_move_input`, camera-relative: W = away from the camera, S = toward it, A / D = left / right); the camera follows her while a key is held and stops following on release. Vessa's walking never changes the selection.
+
+### Every button shows its own key (2026-09-29, JS: "hotkey should the unit or building it its")
+Every button that trains, builds, upgrades, hires, casts or sets a stance shows the key that does the same thing, in the
+badge above (bottom-right, font 12 in `(1.0, 0.85, 0.4)` on the 18 x 14 dark badge; `Esc` / `Del` / `F3` font 10), and its
+tooltip's first line names it: `Name  [key]`. The key always acts on that very button (`tests/test_ui_card_hotkeys.gd`:
+4 kingdoms, every card, no letter twice on a card, AZERTY letters, the key pressed does the button's action).
+
+| Card | Keys (slot = key, QWERTY positions) |
+|---|---|
+| Keep (skirmish) | r1c1 worker **Z** · r1c2 Stronghold / Citadel / Cancel **X** (empty at the Citadel: the other keys never move) · r1c3 tier-3 unit **C** · r1c4 Call / Revive helper **V** · Set Rally after them. Missions (no tiers): worker Z, Set Rally r1c2 |
+| Hall | Z X C V the 4 units · **B** bowman · **N M ,** the 3 new units · r3c1 Set Rally · r3c4 **`+`** = the "+" upgrades page |
+| Hall "+" page (tiers.md 5) | each unit's "+" on its unit's slot with **the unit's own key** (Flame Guard+ = Z ...) · r3c4 Back **Esc** (`+` again closes too). `+` = the physical `=/+` key (it carries + on QWERTY and AZERTY) or numpad +; while the page is open the unit keys buy, never train |
+| Stables | Z X C V the 4 riders · **B / N** rank-3 of the Z / C rider · Set Rally |
+| Bazaar | **Z** caravan · Set Route (click; right-click a post does the same) · **U** wares · the posts' route buttons (click) |
+| Build menu | **Z X C** house, Hall, tower · r1c4 Back **Esc** · r2c1 **V** Ice Wall · r2c2 **B** Bazaar · r2c3 **N** Stables (same place in every kingdom) |
+| Own helper inspected | **Z X C** = Escort / Vanguard / Hold home (a stance, not an order) |
+| Tavern window (open) | **Z X C V** = the row's Hire (Revive when fallen), **Shift** + the key = the gold button, **B** = the Genie; Dismiss stays click-only (two clicks). Y / Esc close |
+| Trade window (open, U) | Bazaar tab **Z X C V** = Buy the 4 wares, **B / N** = exchange to crystals / essence (Shift x5); Lodge tab **Z X** = Hire the 2 tracker contracts. U / Esc close |
+| Idle-worker button | **F3** badge (Ctrl+F3 all) |
+
+Set Rally, Set Route and the route buttons keep no key (right-click does the same; spec 1.U2). `UnitType.card_key` holds
+the letter of the unit's button (data; the Data Lab K1 checks it against the slot).
 
 ## Selection panel
 - Panel 1002 x 224 at (272, 660). Two columns: **hero column** 300 px on the left (always visible), a 2 px separator, **selection area** 680 px.
@@ -91,11 +113,14 @@ W A S D: walk Vessa    F / Q / E: spells    B: build (workers)    Z X C V B: tra
 Ctrl+1-9 / 1-9: groups    F1: Vessa    Space: find Vessa    F9: restart    F10 twice: surrender
 Arrows / edge: pan    Wheel: zoom    Middle drag: rotate
 ```
+(Wave-2 block. The live help is `GameHUD.help_text()`, 12 lines (ui-trade.md 14.1, ui-mapfill.md 12, UX.1 layouts); since
+2026-09-29 its train keys read `Z X C V B N M ,: train`, AZERTY `W X C V B N , ;: train`.)
 
 ## Done when
 - [ ] 1.U1: top bar at (640, 8) shows crystals and `12 / 20` at start, updates on `Economy.changed`, red at cap, flashes on failed spend.
 - [ ] 1.U2: card at (1290, 660), 4 x 3 of 64 px; the slot table above holds for worker / soldier / wizard / mixed / keep / nothing; hotkey letters printed; disabled state + reason tooltip; Fireball button no longer in a hero panel.
 - [ ] 2.U1: X / C / H / G / M act by physical keycode with units selected; A, S, W, D, Q, E, F never trigger an order or a training slot; W A S D walk Vessa and the camera follows while held; the help text is the block above; the card letters match the slot table; Keep shows `Cinder Hand Z`.
+- [x] Keys on every button (2026-09-29): the table "Every button shows its own key" holds for the 4 kingdoms; the help line reads `Z X C V B N M ,: train`; `tests/test_ui_card_hotkeys.gd` passes.
 - [ ] 1.U3: minimap at (16, 644) with the colours above; left-click moves the camera, right-click moves the selection; camera quad drawn; 10 Hz.
 - [ ] Selection panel: hero column always visible; single / multiple / keep views as in the table; queue slots cancel on click.
 - [ ] Nothing in `scripts/ui/` calls a `_private` function of another script.

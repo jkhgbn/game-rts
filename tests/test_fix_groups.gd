@@ -271,8 +271,9 @@ func _check_keys_and_text() -> void:
 	var help_found := false
 	for node in main.hud.find_children("*", "Label", true, false):
 		var t: String = (node as Label).text
+		# "F3: idle (Ctrl all)" since the Tab / unit priority help line (2026-09-27).
 		if t.contains("X: attack-move") and t.contains("C: stop") and t.contains("Alt steal") \
-				and t.contains("F2: army") and t.contains("F3: idle worker") and t.contains("F9: restart"):
+				and t.contains("F2: army") and t.contains("F3: idle") and t.contains("F9: restart"):
 			help_found = true
 	if not help_found:
 		_error = "help text does not show the new keys"

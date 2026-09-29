@@ -90,10 +90,12 @@ func _check_resources() -> void:
 	var hurler := UnitType.find("ash_hurler")
 	if hurler and not hurler.projectile_color.is_equal_approx(Color(0.5, 0.5, 0.5)):
 		_errors.append("ash_hurler bolt colour")
+	# card_key = the letter of the unit's training button (2026-09-29: the old wave-1 Q W E R T keep keys were stale;
+	# the keep trains the Cinder Hand on Z, the Ember Hall its four units on Z X C V).
 	var keys := ""
 	for id in ["cinder_hand", "flame_guard", "ember_archer", "blaze_rider", "ash_hurler"]:
 		keys += UnitType.find(id).card_key
-	if keys != "QWERT":
+	if keys != "ZZXCV":
 		_errors.append("card keys %s" % keys)
 
 

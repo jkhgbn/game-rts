@@ -455,12 +455,13 @@ func _check_labels() -> void:
 	if KeyLabels.of(KEY_A) != "A" or KeyLabels.letter("Q") != "Q" or KeyLabels.letter("Del") != "Del":
 		_error = "headless labels: A -> '%s', Q -> '%s'" % [KeyLabels.of(KEY_A), KeyLabels.letter("Q")]
 		return
-	# AZERTY: physical A prints Q, Q prints A, W prints Z, Z prints W.
-	KeyLabels.overrides = {KEY_A: "Q", KEY_Q: "A", KEY_W: "Z", KEY_Z: "W"}
+	# AZERTY: physical A prints Q, Q prints A, W prints Z, Z prints W; M prints "," and "," prints ";" (label keys, as the
+	# OS reports them: KeyLabels turns KEY_COMMA into ",", not "Comma").
+	KeyLabels.overrides = {KEY_A: "Q", KEY_Q: "A", KEY_W: "Z", KEY_Z: "W", KEY_M: KEY_COMMA, KEY_COMMA: KEY_SEMICOLON}
 	GameSettings.control_scheme = GameSettings.CONTROLS_CLASSIC
 	var help := GameHUD.help_text("Vessa")
 	if not help.contains("Attack-move: Q + click (X too)") or not help.contains("F / A / E: spells") \
-			or not help.contains("W X C V B: train") or not help.contains("Ctrl+F/A/E") \
+			or not help.contains("W X C V B N , ;: train") or not help.contains("Ctrl+F/A/E") \
 			or not help.contains("Flag: W raise"):
 		_error = "AZERTY Classic help:\n%s" % help
 		return

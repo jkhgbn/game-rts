@@ -17,6 +17,9 @@ extends PanelContainer
 ## Classes (step 11, ui-champions.md 15.4): column B has 4 lines at a 20 px step, line 4 = the class line
 ## (`[L2] Class · usually ...` / `· leans ... (71 %)` / glyph + `Sword and Shield · skills 2 / 3`), the hired tile shows
 ## the class badge, hired stats read the champion, and the row flashes gold when its champion chooses a class.
+## Keys (2026-09-29, JS: each champion shows its own key), physical, only while the window is open: Z X C V = the row's
+## Hire (or Revive when fallen), Shift + the key = the gold button, B = the Genie. The Hire / Revive / Genie buttons show
+## the letter in the command card's key badge; Dismiss stays click-only (two clicks to confirm). Y / Esc still close.
 
 signal message(text: String)
 signal opened
@@ -37,6 +40,9 @@ const HIGHLIGHT_FLASH := 0.5
 const HIRE_FLASH := 0.3
 const DISMISS_TOOLTIP := "Dismiss\nThe team gets 50 % of its purse and 50 % of its items' value."
 const BUTTON_GOLD := Vector2(104, 22)   ## Column-C buttons while gold is on (ui-trade.md 11).
+## Row keys (physical, QWERTY positions; the badges show the player's keyboard letters): rows 1-4, then the Genie.
+const ROW_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C, KEY_V]
+const GENIE_KEY := KEY_B
 
 var hero: Node = null
 var hud: Node = null
@@ -55,6 +61,7 @@ var last_result := ""               ## The last hire / revive answer ("" = done)
 var gold_label: Label               ## Title-bar gold (shown only with a GoldBank).
 var _gold_items: Array[Control] = []
 var genie_button: Button            ## Footer "Wonders" button: hire / re-bottle the Stormbottle Genie (T3Kit).
+var genie_key: Label                ## Its key badge (B).
 
 var _dismiss_left: Dictionary = {}  ## row index -> seconds left to confirm the dismiss.
 var _refresh_left := 0.0
@@ -168,6 +175,7 @@ func _ready() -> void:
 	genie_button.visible = false
 	genie_button.pressed.connect(press_genie)
 	_inner.add_child(genie_button)
+	genie_key = CommandCard.add_key_badge(genie_button, KeyLabels.of(GENIE_KEY))
 	roster_label = UIStyle.panel_label("Roster 0 / 3", 12)
 	roster_label.position = Vector2(600, FOOTER_Y)
 	roster_label.size = Vector2(140, 18)
@@ -184,6 +192,7 @@ func apply_skin() -> void:
 	footer.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	_rule.color = UIStyle.token(&"frame_light")
 	_style_stud(_close_button)
+	CommandCard.keep_badge_room(genie_button)
 	for r in rows:
 		r.apply_skin()
 
@@ -300,6 +309,47 @@ func _input(event: InputEvent) -> void:
 			and (event as InputEventKey).physical_keycode == KEY_ESCAPE:
 		close()
 		get_viewport().set_input_as_handled()
+
+
+## Z X C V (physical) = the row's Hire / Revive (Shift = the gold button), B = the Genie, while the window is open.
+## Read after the GUI (a focused text field keeps its letters) and before the selection's keys (no training meanwhile).
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if not visible or key == null or not key.pressed or key.echo or key.ctrl_pressed or key.alt_pressed:
+		return
+	var code := key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode
+	var row := ROW_KEYS.find(code)
+	if row >= 0 and row < rows.size():
+		press_row_key(row, key.shift_pressed)
+		get_viewport().set_input_as_handled()
+	elif code == GENIE_KEY and genie_button != null and genie_button.visible:
+		if not genie_button.disabled:
+			press_genie()
+		else:
+			message.emit(str(genie_button.get_meta(&"reason", "")))
+		get_viewport().set_input_as_handled()
+
+
+## Row `i`'s key: Hire when it can be hired (or refused: the reason shows), Revive when fallen; `gold` = the gold button
+## (only while it is shown). Returns the answer ("" = done), "No action" when the row has none (hired, arriving...).
+func press_row_key(i: int, gold := false) -> String:
+	if i < 0 or i >= rows.size():
+		return "No action"
+	var r := rows[i]
+	var g := guild()
+	if g != null:
+		r.refresh(g)
+	match r.state:
+		&"hireable", &"refused":
+			return press_hire_gold(i) if gold and has_gold() else press_hire(i)
+		&"fallen":
+			return press_revive_gold(i) if gold and has_gold() else press_revive(i)
+	return "No action"
+
+
+## The key letter of row `i` on the player's keyboard ("Z" on QWERTY, "W" on AZERTY).
+static func row_key_label(i: int) -> String:
+	return KeyLabels.of(ROW_KEYS[i]) if i >= 0 and i < ROW_KEYS.size() else ""
 
 
 func _process(delta: float) -> void:
@@ -506,7 +556,10 @@ func _refresh_genie() -> void:
 		_:
 			genie_button.text = "Stormbottle Genie  %d" % T3Kit.GENIE_COST
 	genie_button.disabled = reason != ""
-	genie_button.tooltip_text = "Stormbottle Genie (tier 3, one per team)\n%s\n%s" % [
+	genie_button.set_meta(&"reason", reason)
+	var gk := KeyLabels.of(GENIE_KEY)
+	genie_key.text = gk
+	genie_button.tooltip_text = "Stormbottle Genie  [%s]  (tier 3, one per team)\n%s\n%s" % [gk,
 			T3Kit.description(T3Kit.GENIE_ID), reason if reason != "" else "%d crystals · Pop 4 · %d s" % [
 			T3Kit.GENIE_COST, roundi(T3Kit.GENIE_TIME)]]
 
@@ -553,6 +606,8 @@ class Row extends Panel:
 	var hire_button: Button
 	var revive_button: Button
 	var dismiss_button: Button
+	var hire_key: Label            ## Key badges (the row key, e.g. Z) on Hire and Revive.
+	var revive_key: Label
 	# Gold payment (step 10, ui-trade.md 11): shown only while the window has a GoldBank.
 	var gold_price_box: HBoxContainer   ## Price B: coin + gold · flame + essence (font 11).
 	var gold_price_label: Label
@@ -700,6 +755,8 @@ class Row extends Panel:
 		dismiss_button = _button("Dismiss", Vector2(628, 62))
 		dismiss_button.tooltip_text = TavernWindow.DISMISS_TOOLTIP
 		dismiss_button.pressed.connect(func() -> void: window.press_dismiss(index))
+		hire_key = CommandCard.add_key_badge(hire_button, TavernWindow.row_key_label(index))
+		revive_key = CommandCard.add_key_badge(revive_button, TavernWindow.row_key_label(index))
 		_build_gold()
 		apply_skin()
 
@@ -780,6 +837,8 @@ class Row extends Panel:
 		class_rest.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 		TavernWindow.style_primary(hire_button)
 		TavernWindow.style_primary(revive_button)
+		CommandCard.keep_badge_room(hire_button)
+		CommandCard.keep_badge_room(revive_button)
 		if hire_gold_button != null:
 			TradeWindow.style_gold(hire_gold_button)
 			TradeWindow.style_gold(revive_gold_button)
@@ -943,7 +1002,9 @@ class Row extends Panel:
 					else UIStyle.ESSENCE_TEXT)
 			hire_button.disabled = reason != ""
 			hire_button.modulate.a = 0.45 if reason != "" else 1.0
-			hire_button.tooltip_text = "Hire  [Y]\n%d crystals · %d essence · %d pop%s" % [cost.x, cost.y,
+			var rk := TavernWindow.row_key_label(index)
+			hire_key.text = rk
+			hire_button.tooltip_text = "Hire  [%s]\n%d crystals · %d essence · %d pop%s" % [rk, cost.x, cost.y,
 					ChampionBar.POP, "\n" + reason if reason != "" else ""]
 		elif state == &"arriving":
 			status_label.text = "Hired · Level 1"
@@ -974,7 +1035,9 @@ class Row extends Panel:
 				revive_button.disabled = why != ""
 				revive_button.modulate.a = 0.45 if why != "" else 1.0
 				revive_button.add_theme_color_override("font_disabled_color", UIStyle.WARN)
-				revive_button.tooltip_text = "Revive  \n%d essence · returns at your keep%s" % [rcost,
+				var rk := TavernWindow.row_key_label(index)
+				revive_key.text = rk
+				revive_button.tooltip_text = "Revive  [%s]\n%d essence · returns at your keep%s" % [rk, rcost,
 						"\n" + why if why != "" else ""]
 		if state != &"reviving":
 			intent_label.position.y = 22
@@ -1028,8 +1091,8 @@ class Row extends Panel:
 					else UIStyle.ESSENCE_TEXT)
 			hire_gold_button.disabled = why != ""
 			hire_gold_button.modulate.a = 0.45 if why != "" else 1.0
-			hire_gold_button.tooltip_text = "Hire with gold  [Y]\n%d gold · %d essence · %d pop%s" % [gold_cost, ess,
-					ChampionBar.POP, "\n" + why if why != "" else ""]
+			hire_gold_button.tooltip_text = "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s" % [
+					TavernWindow.row_key_label(index), gold_cost, ess, ChampionBar.POP, "\n" + why if why != "" else ""]
 		elif fallen:
 			var rcost := int(g.call(&"revive_cost", champion, true)) if g.has_method(&"revive_cost") \
 					else 2 * ChampionBar.revive_cost(g, champion)
@@ -1039,8 +1102,8 @@ class Row extends Panel:
 			revive_gold_button.disabled = why != ""
 			revive_gold_button.modulate.a = 0.45 if why != "" else 1.0
 			revive_gold_button.add_theme_color_override("font_disabled_color", UIStyle.WARN)
-			revive_gold_button.tooltip_text = "Revive with gold\n%d gold · returns at your keep%s" % [rcost,
-					"\n" + why if why != "" else ""]
+			revive_gold_button.tooltip_text = "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s" % [
+					TavernWindow.row_key_label(index), rcost, "\n" + why if why != "" else ""]
 
 	func _place(c: Control, at: Vector2) -> void:
 		c.position = at

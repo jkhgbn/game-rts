@@ -750,26 +750,36 @@ func _check_trains() -> void:
 # ---------------------------------------------------------------- K: hotkeys
 
 func check_keys() -> void:
-	# K1 training slots (Z X C V B by index)
+	# K1 training slots (Z X C V B N M , by index): at most 8 per building's data list, and each listed unit's card_key
+	# is the letter of its slot there (the card shows the slot's letter; card_key documents it). Slots the code adds
+	# (Hall bowman / new units, Stables, the keep's tier-3 unit) are checked by tests/test_ui_card_hotkeys.gd.
 	var issues: Array = []
 	var n := 0
 	for e: Dictionary in buildings:
 		var b := e["res"] as BuildingType
-		var count := b.trains.size() if not b.trains.is_empty() else b.train_ids.size()
-		if count == 0:
+		var listed: Array = []
+		if not b.trains.is_empty():
+			listed = b.trains
+		else:
+			for uid in b.train_ids:
+				listed.append(UnitType.find(String(uid)))
+		if listed.is_empty():
 			continue
 		n += 1
-		if count > Rules.TRAIN_SLOT_KEYS.size():
-			issues.append({"sev": "FAIL", "where": _short(e["path"]), "what": "%d trainable units, only %d slot keys (Z X C V B)" % [count, Rules.TRAIN_SLOT_KEYS.size()], "fix": "at most 5 per building"})
+		if listed.size() > Rules.TRAIN_SLOT_KEYS.size():
+			issues.append({"sev": "FAIL", "where": _short(e["path"]), "what": "%d trainable units, only %d slot keys %s" % [listed.size(), Rules.TRAIN_SLOT_KEYS.size(), str(Rules.TRAIN_SLOT_KEYS)], "fix": "at most 8 per building"})
 		var seen := {}
-		for t in b.trains:
+		for i in listed.size():
+			var t: UnitType = listed[i]
 			if t == null or t.card_key == "":
 				continue
 			var k := t.card_key.to_upper()
 			if seen.has(k):
 				issues.append({"sev": "FAIL", "where": _short(e["path"]), "what": "card_key %s used by `%s` and `%s`" % [k, seen[k], t.id], "fix": "unique keys per card"})
 			seen[k] = t.id
-	report.add_check("K1", "keys", "Training card keys", "<= 5 units per building (Z X C V B by slot), card_key unique per card", n, issues, "fix the card")
+			if i < Rules.TRAIN_SLOT_KEYS.size() and k != Rules.TRAIN_SLOT_KEYS[i]:
+				issues.append({"sev": "WARN", "where": "data/units/%s.tres" % t.id, "what": "card_key %s but `%s` trains it on slot %d = %s" % [k, b.id, i + 1, Rules.TRAIN_SLOT_KEYS[i]], "fix": "card_key = the slot letter"})
+	report.add_check("K1", "keys", "Training card keys", "<= 8 units per building (Z X C V B N M , by slot), card_key = the slot letter, unique per card", n, issues, "fix the card")
 	# K2 build menu per faction
 	issues = []
 	n = 0
@@ -792,7 +802,7 @@ func check_keys() -> void:
 		per_faction[fk][k] = b.id
 		if not b.is_buildable():
 			issues.append({"sev": "WARN", "where": _short(e["path"]), "what": "hotkey_label %s on a building that is not buildable" % k, "fix": "clear it"})
-	report.add_check("K2", "keys", "Build menu keys", "hotkey_label in Z X C V B, unique per kingdom build menu (trade on = all entries)", n, issues, "fix the key")
+	report.add_check("K2", "keys", "Build menu keys", "hotkey_label in Z X C V B N, unique per kingdom build menu (trade on = all entries)", n, issues, "fix the key")
 	# K3 spell keys
 	issues = []
 	n = 0
@@ -826,13 +836,15 @@ func check_keys() -> void:
 		if k3 == "":
 			continue
 		n += 1
-		# card_key is read by no code today (slots use Z X C V B by index): a reserved letter is a stale trap, WARN.
+		# card_key documents the unit's training slot letter (the card shows the slot's letter): a reserved letter or a
+		# letter that is no training slot is stale data.
 		if Rules.RESERVED_LETTERS.has(k3):
-			issues.append({"sev": "WARN", "where": _short(e["path"]), "what": "card_key %s is a reserved letter (W A S D walk in Hero WASD, Q E F spells); stale: no code reads card_key" % k3,
-				"fix": "clear card_key (slots use Z X C V B) or set the slot letter"})
-		else:
-			issues.append({"sev": "INFO", "where": _short(e["path"]), "what": "card_key %s is set but no code reads UnitType.card_key" % k3, "fix": ""})
-	report.add_check("K4", "keys", "Reserved keys respected", "no data key on W A S D Q E F (Controls setting Classic / Hero WASD, CLAUDE.md Keys)", n, issues, "pick a free key")
+			issues.append({"sev": "WARN", "where": _short(e["path"]), "what": "card_key %s is a reserved letter (W A S D walk in Hero WASD, Q E F spells)" % k3,
+				"fix": "set the slot letter (Z X C V B N M ,)"})
+		elif not Rules.TRAIN_SLOT_KEYS.has(k3):
+			issues.append({"sev": "WARN", "where": _short(e["path"]), "what": "card_key %s is not a training slot key %s" % [k3, str(Rules.TRAIN_SLOT_KEYS)],
+				"fix": "set the slot letter"})
+	report.add_check("K4", "keys", "Reserved keys respected", "no data key on W A S D Q E F (Controls setting Classic / Hero WASD, CLAUDE.md Keys); card_key a slot letter", n, issues, "pick a free key")
 
 
 # ---------------------------------------------------------------- T: text

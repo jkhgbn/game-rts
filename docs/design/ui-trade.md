@@ -472,6 +472,10 @@ rows; owned row: 1 px `GOLD` rim at alpha 0.6. Offsets from the row's top-left:
 - `buy_ware(id) == ""`: the row flashes `GOLD` 0.3 s (as a hire), the tile rim turns gold, the message `Bought Masons'
   Charter` comes from the HUD's listener (section 13); the gold number in the title bar pops as the top bar's does.
 - `press_buy(i) -> String` for tests.
+- Keys (2026-09-29, JS: every offered thing shows its own key; physical, only while the window is open): Bazaar tab
+  **Z X C V** = the 4 rows' Buy, **B / N** = the exchange buttons A / B (Shift = x5); Lodge tab **Z X** = the contracts'
+  Hire. Each of those buttons carries the command card's key badge and its tooltip's first line ends with the key
+  (`Buy Iron-shod Axles  [Z]`, `Exchange  [B]`, `Hire Outriders  [Z]`). `press_key(code, shift)` for tests.
 
 **Exchange block** 740 x 96 at (430, 486):
 | Part | Rect | Content |
@@ -553,8 +557,8 @@ When `GoldBank.for_team(0)` is null nothing changes. With gold, column C (x 626-
 | Price A | (628, 2), h 14 | Crystal diamond 10 + `250` `CRYSTAL_TEXT` · flame 10 + `100` `ESSENCE_TEXT`, font 12 number (as today, 2 px higher) |
 | Price B | (628, 16), h 14 | Coin 10 + `250` `GOLD_TEXT` · flame 10 + `100` `ESSENCE_TEXT`, font 11 number (`hire_cost(id, true)`: `gold` = the crystal part 1:1, `essence` unchanged); the gold number `WARN` when `can_hire(id, true) == "Not enough gold"` |
 | Pop / reason | (628, 29), h 12, font 10 | `Pop 2` `text_muted`; when `can_hire(id)` refuses: the reason in `WARN` on that line instead (`Population cap reached` = 114 px, fits 106 with ellipsis at worst; the full text is in both buttons' tooltips) |
-| Hire (crystals) | 104 x 22 at (628, 40) | As today (display font `HIRE`, primary); disabled when `can_hire(id) != ""`; tooltip `Hire  [Y]\n250 crystals · 100 essence · 2 pop\n<reason>` |
-| Hire (gold) | 104 x 22 at (628, 64) | `HIRE · GOLD` display font 12 (82 px), primary style with the rim in `GOLD_COIN` instead of `trim_glow`; calls `guild.hire(id, true)`; disabled when `can_hire(id, true) != ""` (`Not enough gold` in place of crystals); tooltip `Hire with gold  [Y]\n250 gold · 100 essence · 2 pop\n<reason>` |
+| Hire (crystals) | 104 x 22 at (628, 40) | As today (display font `HIRE`, primary); disabled when `can_hire(id) != ""`; tooltip `Hire  [Z]\n250 crystals · 100 essence · 2 pop\n<reason>` (the row's key Z / X / C / V + a key badge, 2026-09-29) |
+| Hire (gold) | 104 x 22 at (628, 64) | `HIRE · GOLD` display font 12 (82 px), primary style with the rim in `GOLD_COIN` instead of `trim_glow`; calls `guild.hire(id, true)`; disabled when `can_hire(id, true) != ""` (`Not enough gold` in place of crystals); tooltip `Hire with gold  [Shift+Z]\n250 gold · 100 essence · 2 pop\n<reason>` (Shift + the row's key, 2026-09-29) |
 | Fallen: Revive (essence) | 104 x 22 at (628, 18) | `Revive 90` as today (font 13) |
 | Fallen: Revive (gold) | 104 x 22 at (628, 42) | `Revive 180 gold` font 12 (90 px; `revive_cost(ch, true)` = 2 x essence), gold-rim primary; calls `guild.revive(ch, true)`; disabled + `Not enough gold` in the tooltip when refused |
 | Fallen: Dismiss | 104 x 22 at (628, 66) | As today (2-click rule) |

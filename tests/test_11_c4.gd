@@ -396,7 +396,7 @@ func _check_tavern_unhired() -> void:
 		_expect(tavern.rows[k].class_line_text() == usual[k], "row %d line 4 '%s'" % [k, tavern.rows[k].class_line_text()])
 	_expect(o.price_crystals.text == "225" and o.price_essence.text == "75", "first hire price %s / %s" % [
 			o.price_crystals.text, o.price_essence.text])
-	_expect(o.hire_button.tooltip_text.begins_with("Hire  [Y]\n225 crystals · 75 essence · 2 pop"),
+	_expect(o.hire_button.tooltip_text.begins_with("Hire  [X]\n225 crystals · 75 essence · 2 pop"),   # row 2's key
 			"hire tooltip '%s'" % o.hire_button.tooltip_text)
 	var w: Node = tavern.rows[0]
 	_expect(w.ability_labels[0].text.begins_with("Signal Flare · "), "Wayfinder ability 1 '%s'" % w.ability_labels[0].text)

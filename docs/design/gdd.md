@@ -48,7 +48,9 @@ Only Fire and Shadow exist before wave 5. The other two are names and colours on
 | Esc | Cancel a pending targeted order |
 | Arrows or screen edge, wheel, middle drag | Pan, zoom, rotate camera |
 
-Keys use **physical keycodes** (AZERTY keyboard): a hotkey letter is the QWERTY position, and the command card shows that letter.
+Keys use **physical keycodes** (AZERTY keyboard): a hotkey is a QWERTY position, and the command card shows the letter
+printed on that key of the player's own keyboard (UX.1 `KeyLabels`: W on the Z-position key on AZERTY). Every unit,
+building, upgrade and spell button shows its own key (2026-09-29, `ui-hud.md` "Every button shows its own key").
 
 ## Vertical-slice scope (waves 1-3)
 | Wave | Adds |

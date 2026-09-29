@@ -37,7 +37,9 @@ Keep card slot 2 (key **X**, right after the worker): `Stronghold` / `Citadel` w
 `Cancel Stronghold` (tooltip: progress %, seconds left, refund). Refusals in the tooltip (`Available at 3:30`,
 `Needs a completed Hall`, `Not enough crystals`). Message `The Keep is now a Stronghold`. Keep look: model
 `set_tier(t)` / `play_tier_up()` if present, else placeholder gold rings over the roof (1 = Stronghold, 2 = Citadel).
-Hall card r3c4 **+** opens the "+" page (one button per unit, Back at r3c4; click only for now).
+Hall card r3c4 **+** opens the "+" page (one button per unit, Back at r3c4). Keys (2026-09-29): the `=/+` key (or numpad
++) opens / closes it; on the page each unit's "+" sits on its unit's slot and uses the unit's own training key (Flame
+Guard+ = Z); Back = Esc. While the page is open the unit keys buy, never train.
 
 ## 4. Bots
 Commander rule 5 (`TierSystem.bot_try_upgrade`): from the start time below the bot saves crystals (no soldiers, at most

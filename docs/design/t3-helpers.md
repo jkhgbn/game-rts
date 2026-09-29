@@ -52,14 +52,15 @@ Mage Archer, Old Vey in the story: ep1 Q5 recommends "autonomous ally"); the sta
 | **Escort** (default) | Stay 3-7 m from the bonded wizard; fight what threatens her / him first (the story brains of 19.A2) | Called |
 | **Vanguard** | Follow the largest own soldier group (the Mender's centre rule, ch. 8.3) and fight with it | - |
 | **Hold home** | Stand between the keep and the Citadel's door, fight intruders within 20 m | - |
-Set by 3 buttons on the helper's inspect card (click only; no new letter key). Bounty flags do **not** steer helpers (they are
+Set by 3 buttons on the helper's inspect card (click, or Z / X / C while it is inspected: the card's own slot letters, no
+new letter key; 2026-09-29). Bounty flags do **not** steer helpers (they are
 not mercenaries). If the wizard is dead, Escort acts as Vanguard until the respawn. Brain rules R2 (flee under **25 %** HP to the
 keep, rest 2 % / s within 15 m) and R4 (fight) of ch. 8.1 apply.
 
 ## 3. Calling, one per team, death, revive
 | Rule | Value |
 |---|---|
-| Where | The **keep card slot r1c4, key N**: the slot that said "Upgrade to Stronghold / Citadel" says **`Call Old Vey`** (the kingdom's helper) once the Citadel is complete. Same key, the tier ladder continues. Queue = the keep's upgrade lane (beside the worker queue) |
+| Where | The **keep card slot r1c4, key N**: the slot that said "Upgrade to Stronghold / Citadel" says **`Call Old Vey`** (the kingdom's helper) once the Citadel is complete. Same key, the tier ladder continues. Queue = the keep's upgrade lane (beside the worker queue). *As built (tiers.md 3, ui-hud.md, 2026-09-29): the tier button is r1c2 key X, the tier-3 unit r1c3 key C, Call / Revive r1c4 key **V**; the keys never move (X stays empty at the Citadel).* |
 | Gate | Research on: a completed **Citadel** (`"Needs a Citadel"`). Research off: an own completed **Lair** (`"Requires a Lair"`, t3. 2 rule). `helpers_enabled` false: hidden |
 | Price | **350 crystals + 200 essence**, **60 s**, pop **4** (from the queue on, while alive and while fallen). No upkeep, no dismiss |
 | Arrives | At the keep door, at its wizard's **current level**, full HP, stance Escort; arrival set-piece + voice line (10.2) |

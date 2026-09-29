@@ -916,8 +916,9 @@ func _check_tavern() -> void:
 			and _at(r0.pop_label, row0 + Vector2(628, 29)), "price A / B / pop rects")
 	_expect(r0.gold_price_label.text == "250" and r0.gold_essence_label.text == "100", "price B '%s' / '%s'" % [
 			r0.gold_price_label.text, r0.gold_essence_label.text])
+	# Row keys (2026-09-29): Z hires row 1, Shift+Z with gold.
 	_expect(r0.hire_gold_button.text == "Hire · Gold" and r0.hire_gold_button.tooltip_text.begins_with(
-			"Hire with gold  [Y]\n250 gold · 100 essence · 2 pop"), "Hire gold text / tooltip '%s'" % r0.hire_gold_button.tooltip_text)
+			"Hire with gold  [Shift+Z]\n250 gold · 100 essence · 2 pop"), "Hire gold text / tooltip '%s'" % r0.hire_gold_button.tooltip_text)
 	_expect(tav.press_hire_gold(0) == "" and guild.hires == [[&"wayfinder", true]], "press_hire_gold: %s" % [guild.hires])
 	var row3 := Vector2(430, 204 + 96 * 3)
 	_expect(r3.state == &"fallen" and r3.revive_gold_button.visible and r3.revive_gold_button.text == "Revive 180 gold",

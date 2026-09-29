@@ -2,12 +2,14 @@ class_name IdleWorkerButton
 extends Button
 ## Idle-worker button (playtest 2026-09-27): over the minimap's top-right corner, shows how many own workers are idle.
 ## Click = next idle worker (F3), Ctrl+click = all idle workers (Ctrl+F3). Hidden while no worker is idle.
+## Its key shows on it (2026-09-29): the command card's key badge "F3" bottom-right.
 
 const SIZE := Vector2(48, 34)
 const POLL := 0.25   ## Seconds between idle counts.
 
 var selection: SelectionManager
 var count_badge: Label
+var key_badge: Label   ## "F3".
 var _left := 0.0
 
 
@@ -18,7 +20,9 @@ func _ready() -> void:
 	text = "Idle"
 	add_theme_font_size_override("font_size", 12)
 	UIStyle.style_button(self)
-	tooltip_text = "Idle workers\nClick / F3: next idle worker\nCtrl+click / Ctrl+F3: all idle workers"
+	CommandCard.keep_badge_room(self)
+	key_badge = CommandCard.add_key_badge(self, "F3")
+	tooltip_text = "Idle workers  [F3]\nClick / F3: next idle worker\nCtrl+click / Ctrl+F3: all idle workers"
 	count_badge = Label.new()
 	count_badge.add_theme_font_size_override("font_size", 12)
 	count_badge.add_theme_color_override("font_color", Color.BLACK)

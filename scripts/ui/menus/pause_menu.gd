@@ -123,7 +123,7 @@ func quit_to_menu() -> void:
 
 
 ## True when Esc would open the menu: nothing else paused the game and the selection has no
-## pending order, placement ghost or open build menu (Esc cancels those first).
+## pending order, placement ghost, open build menu or open Hall "+" page (Esc closes those first).
 func can_open() -> bool:
 	if get_tree().paused:
 		return false
@@ -131,7 +131,7 @@ func can_open() -> bool:
 	var sel: Variant = level.get(&"selection") if level != null else null
 	if sel is SelectionManager:
 		var sm := sel as SelectionManager
-		if sm.get_pending_order() != &"" or sm.build_menu_open:
+		if sm.get_pending_order() != &"" or sm.build_menu_open or sm.upgrades_open():
 			return false
 	return true
 

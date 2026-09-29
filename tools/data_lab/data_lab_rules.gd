@@ -42,7 +42,7 @@ const REQUIRED := {
 
 const FACTIONS: Array[StringName] = [&"fire", &"shadow", &"ice", &"nature"]
 const UNIT_FACTIONS: Array[StringName] = [&"fire", &"shadow", &"ice", &"nature", &"neutral", &""]
-const BUILDING_KINDS: Array[StringName] = [&"keep", &"barracks", &"house", &"tower", &"wall", &"market"]
+const BUILDING_KINDS: Array[StringName] = [&"keep", &"barracks", &"house", &"tower", &"wall", &"market", &"stables"]
 const SUPPORT_KINDS: Array[StringName] = [&"", &"shield", &"heal"]
 const ATTACK_STYLES: Array[StringName] = [&"spear_thrust", &"sword_slash", &"great_cleave", &"staff_bolt"]
 ## Documented sentinel values allowed below 0 (field -> value): AIProfile.first_scout_time -1 = use scout_interval.
@@ -58,9 +58,10 @@ const SPREAD_FACTOR := 2.5
 ## Groups need at least this many members before spread outliers are flagged.
 const SPREAD_MIN_GROUP := 4
 
-## Hotkeys. Training slots use Z X C V B by card index (CLAUDE.md Keys), the build menu reads hotkey_label.
-const TRAIN_SLOT_KEYS: Array[String] = ["Z", "X", "C", "V", "B"]
-const BUILD_MENU_KEYS: Array[String] = ["Z", "X", "C", "V", "B"]   # command_card.gd BUILD_KEY_SLOTS
+## Hotkeys. Training slots use Z X C V B N M , by card index (CLAUDE.md Keys, SelectionManager.SLOT_KEYS: 8 on a Hall with
+## its bowman and new units), the build menu reads hotkey_label; UnitType.card_key = the letter of the unit's slot.
+const TRAIN_SLOT_KEYS: Array[String] = ["Z", "X", "C", "V", "B", "N", "M", ","]
+const BUILD_MENU_KEYS: Array[String] = ["Z", "X", "C", "V", "B", "N"]   # command_card.gd BUILD_KEY_SLOTS (N = Stables)
 const SPELL_KEYS: Array[String] = ["F", "Q", "E"]
 ## CLAUDE.md Keys: "Letters W A S D Q E F are never used for anything else" (Hero WASD walks, F / Q / E spells).
 const RESERVED_LETTERS: Array[String] = ["W", "A", "S", "D", "Q", "E", "F"]

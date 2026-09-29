@@ -13,6 +13,9 @@ extends PanelContainer
 ## Every step-10 part (GoldBank, Market, HuntersGuild, TradeNetwork) is reached untyped: groups, has_method, get.
 ## This file also holds the shared trade looks (GOLD_COIN, GOLD_TEXT, NEAR, FAR, OWNED, draw_coin) and the lookups
 ## the other 10.C8 files use (gold_bank_of, market_of, hunters_guild_of, trade_network_of).
+## Keys (2026-09-29, JS: everything offered shows its own key), physical, only while the window is open: Bazaar tab
+## Z X C V = the 4 wares' Buy, B / N = exchange to crystals / essence (Shift = x5, like Shift+click); Lodge tab Z X = the
+## contracts' Hire. The buttons show the letter in the command card's key badge and name it in their tooltip.
 
 signal message(text: String)
 signal opened
@@ -80,6 +83,9 @@ const CONTRACT_INFO := {
 			"desc": "Three trackers walk your mines and roads in turn, attack every Magpie they find and chase looters."},
 }
 const LODGE_OPEN_TIME := 300.0
+## Row keys (ware rows on the Bazaar tab, contract rows on the Lodge tab) and the two exchange buttons.
+const ROW_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C, KEY_V]
+const EXCHANGE_KEYS: Array[Key] = [KEY_B, KEY_N]
 const REWARD_PER_MAGPIE := 10
 const NO_BAZAAR := "No Bazaar"
 const NO_GOLD := "Not enough gold"
@@ -268,6 +274,7 @@ func _build_bazaar() -> void:
 		b.set_meta(&"to", spec[0])
 		b.pressed.connect(_on_exchange_pressed.bind(StringName(spec[0])))
 		_bazaar_page.add_child(b)
+		b.set_meta(&"key_badge", CommandCard.add_key_badge(b, KeyLabels.of(EXCHANGE_KEYS[exchange_buttons.size()])))
 		exchange_buttons.append(b)
 	exchange_hint = _label(_bazaar_page, "Shift+click: 500 gold at once · no reverse exchange · needs your Bazaar", 12,
 			Vector2(8, EXCHANGE_Y + 72), 470)
@@ -280,6 +287,7 @@ func _build_lodge() -> void:
 	for k in CONTRACT_KINDS.size():
 		var r := ContractRow.new()
 		r.window = self
+		r.index = k
 		r.kind = CONTRACT_KINDS[k]
 		r.position = Vector2(0, CONTRACT_Y + CONTRACT_STEP * k)
 		_lodge_page.add_child(r)
@@ -550,22 +558,47 @@ func _show_tab(tab: StringName) -> void:
 
 
 ## U toggles (physical key, no modifiers); ignored while the game is paused (pause menu, briefing) or a text field
-## has the focus.
+## has the focus. While the window is open the row keys act on the shown tab (see press_key); they never reach the
+## selection meanwhile (no training behind the window).
 func _unhandled_key_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
-	if key == null or not key.pressed or key.echo or key.ctrl_pressed or key.alt_pressed or key.shift_pressed \
-			or key.meta_pressed:
+	if key == null or not key.pressed or key.echo or key.ctrl_pressed or key.alt_pressed or key.meta_pressed:
 		return
 	var code := key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode
-	if code != KEY_U or get_tree().paused:
+	if get_tree().paused:
 		return
 	var focus := get_viewport().gui_get_focus_owner()
 	if focus is LineEdit or focus is TextEdit:
 		return
-	if not visible and gold_bank() == null:
-		return   # trade off: U does nothing
-	toggle()
-	get_viewport().set_input_as_handled()
+	if code == KEY_U and not key.shift_pressed:
+		if not visible and gold_bank() == null:
+			return   # trade off: U does nothing
+		toggle()
+		get_viewport().set_input_as_handled()
+	elif visible and (ROW_KEYS.has(code) or EXCHANGE_KEYS.has(code)):
+		press_key(code, key.shift_pressed)
+		get_viewport().set_input_as_handled()
+
+
+## A row key while the window is open: Bazaar tab Z X C V = Buy ware 1-4, B / N = exchange to crystals / essence
+## (`shift` = x5); Lodge tab Z X = Hire contract 1-2. Returns the answer ("" = done), "No action" for a key the tab
+## does not use.
+func press_key(code: Key, shift := false) -> String:
+	var row := ROW_KEYS.find(code)
+	if _tab == BAZAAR:
+		if row >= 0 and row < ware_rows.size():
+			return press_buy(row)
+		var ex := EXCHANGE_KEYS.find(code)
+		if ex >= 0 and ex < exchange_buttons.size():
+			return press_exchange(StringName(exchange_buttons[ex].get_meta(&"to")), 5 if shift else 1)
+	elif row >= 0 and row < contract_rows.size():
+		return press_hire(contract_rows[row].kind)
+	return "No action"
+
+
+## The key letter of row `i` on the player's keyboard ("Z" on QWERTY, "W" on AZERTY).
+static func row_key_label(i: int) -> String:
+	return KeyLabels.of(ROW_KEYS[i]) if i >= 0 and i < ROW_KEYS.size() else ""
 
 
 func _input(event: InputEvent) -> void:
@@ -806,15 +839,18 @@ func _refresh_bazaar(b: Node) -> void:
 		r.refresh()
 	var times := 5 if _shift else 1
 	var amount := EXCHANGE_STEP * times
-	for button in exchange_buttons:
+	for i in exchange_buttons.size():
+		var button := exchange_buttons[i]
 		var to: StringName = button.get_meta(&"to")
 		var received := times * int(EXCHANGE_RATES[to])
 		button.text = "%d gold  ->  %d %s" % [amount, received, String(to)]
 		var why := exchange_reason(amount, to)
 		button.disabled = why != ""
 		button.modulate.a = 0.45 if why != "" else 1.0
-		button.tooltip_text = "Exchange\n100 gold -> %d %s · Shift: x5%s" % [int(EXCHANGE_RATES[to]), String(to),
-				"\n" + why if why != "" else ""]
+		var ek := KeyLabels.of(EXCHANGE_KEYS[i])
+		(button.get_meta(&"key_badge") as Label).text = ek
+		button.tooltip_text = "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s" % [ek, int(EXCHANGE_RATES[to]),
+				String(to), "\n" + why if why != "" else ""]
 	var earned := _earned(b, &"")
 	ledger_labels[0].text = "Gold earned %s" % thousands(earned)
 	ledger_labels[1].text = "trade %s · loot %s · rewards %s" % [thousands(_earned(b, &"trade")),
@@ -1058,6 +1094,7 @@ class WareRow extends TradeRow:
 	var price_label: Label
 	var note_label: Label          ## `one-time`, or the refusal in WARN.
 	var buy_button: Button
+	var buy_key: Label             ## Its key badge (the row key, Z X C V).
 	var owned_label: Label         ## `Owned` centred in column C.
 
 	func _ready() -> void:
@@ -1090,6 +1127,7 @@ class WareRow extends TradeRow:
 		note_label.size.y = 12
 		buy_button = _row_button("Buy", Vector2(628, 34))
 		buy_button.pressed.connect(func() -> void: window.press_buy(index))
+		buy_key = CommandCard.add_key_badge(buy_button, TradeWindow.row_key_label(index))
 		owned_label = _row_label("Owned", 13, Vector2(628, 38), 104)
 		owned_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		owned_label.add_theme_color_override("font_color", TradeWindow.OWNED)
@@ -1119,7 +1157,9 @@ class WareRow extends TradeRow:
 		show_refusal(reason)
 		buy_button.disabled = reason != ""
 		buy_button.modulate.a = 0.45 if reason != "" else 1.0
-		buy_button.tooltip_text = "Buy %s\n%d gold · once\n%s%s" % [str(info.get("name", id)), price,
+		var rk := TradeWindow.row_key_label(index)
+		buy_key.text = rk
+		buy_button.tooltip_text = "Buy %s  [%s]\n%d gold · once\n%s%s" % [str(info.get("name", id)), rk, price,
 				str(info.get("effect", "")), "\n" + reason if reason != "" else ""]
 		rim = Color(UIStyle.GOLD, 0.6) if owned else Color(0, 0, 0, 0)
 		tile.set_rim(UIStyle.GOLD if owned else UIStyle.token(&"frame_metal"))
@@ -1136,6 +1176,7 @@ class WareRow extends TradeRow:
 
 ## One 740 x 90 contract row (ui-trade.md 10.3): hireable, refused, running (time bar) or cooldown.
 class ContractRow extends TradeRow:
+	var index := 0                 ## Row 0 / 1: its key Z / X.
 	var kind: StringName = &""
 	var state := &"hireable"       ## &"hireable", &"refused", &"running", &"cooldown".
 	var reason := ""
@@ -1151,6 +1192,7 @@ class ContractRow extends TradeRow:
 	var time_label: Label          ## `1:42 left` / `24 s`.
 	var time_bar: Control          ## 104 x 6, fill = time left / duration.
 	var hire_button: Button
+	var hire_key: Label            ## Its key badge (the row key).
 	var time_ratio := 0.0
 
 	func _ready() -> void:
@@ -1202,6 +1244,7 @@ class ContractRow extends TradeRow:
 		add_child(time_bar)
 		hire_button = _row_button("Hire", Vector2(628, 62))
 		hire_button.pressed.connect(func() -> void: window.press_hire(kind))
+		hire_key = CommandCard.add_key_badge(hire_button, TradeWindow.row_key_label(index))
 		apply_skin()
 
 	func apply_skin() -> void:
@@ -1271,8 +1314,10 @@ class ContractRow extends TradeRow:
 		reason_label.text = reason if state == &"refused" else ""
 		hire_button.disabled = state != &"hireable"
 		hire_button.modulate.a = 0.45 if hire_button.disabled else 1.0
-		hire_button.tooltip_text = "Hire %s\n%d gold · %d trackers · %d s%s" % [str(info.get("name", kind)), cost,
-				trackers, roundi(duration), "\n" + reason if reason != "" else ""]
+		var rk := TradeWindow.row_key_label(index)
+		hire_key.text = rk
+		hire_button.tooltip_text = "Hire %s  [%s]\n%d gold · %d trackers · %d s%s" % [str(info.get("name", kind)), rk,
+				cost, trackers, roundi(duration), "\n" + reason if reason != "" else ""]
 		var glow := UIStyle.token(&"trim_glow")
 		rim = Color(glow.r, glow.g, glow.b, 0.6) if state == &"running" else Color(0, 0, 0, 0)
 		tile.set_rim(glow if state == &"running" else UIStyle.token(&"frame_metal"))

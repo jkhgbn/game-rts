@@ -161,14 +161,24 @@ func _check_unit_tables() -> void:
 	if _ids() != ["move", "stop", "hold", "attack", "fireball", "ember_step", "kindle", ""]:
 		_error = "wizard shows %s" % [_ids()]
 		return
+	# Mixed (2026-09-27 "Tab by unit type", SC2 subgroups): the card shows the active subgroup, the wizard first; Tab
+	# walks to the soldier, then the worker (Gather G), then back to the wizard.
 	sel.select_units([main.hero, _soldier, _workers[0]])
 	card.refresh()
-	if _ids() != ["move", "stop", "hold", "attack", "fireball", "ember_step", "kindle", "gather"]:
-		_error = "mixed shows %s" % [_ids()]
+	if _ids() != ["move", "stop", "hold", "attack", "fireball", "ember_step", "kindle", ""]:
+		_error = "mixed (wizard subgroup) shows %s" % [_ids()]
 		return
-	if _keys() != ["M", "C", "H", "X", "F", "Q", "E", "G"]:
-		_error = "mixed hotkey letters %s, expected M C H X F Q E G" % [_keys()]
+	if _keys() != ["M", "C", "H", "X", "F", "Q", "E", ""]:
+		_error = "mixed hotkey letters %s, expected M C H X F Q E" % [_keys()]
 		return
+	sel.cycle_active_unit_type(1)
+	sel.cycle_active_unit_type(1)
+	card.refresh()
+	if _ids() != ["move", "stop", "hold", "gather", "", "", "", ""] or _keys() != ["M", "C", "H", "G", "", "", "", ""]:
+		_error = "mixed (worker subgroup) shows %s / %s, expected Gather G" % [_ids(), _keys()]
+		return
+	sel.cycle_active_unit_type(1)
+	card.refresh()
 	if card.buttons[8].visible:
 		_error = "empty slot r3c1 is visible"
 		return
