@@ -725,10 +725,9 @@ func _cinderlock() -> Node3D:
 	# Cartridge satchel on the right hip, behind.
 	part(p.Chest, "Satchel", box(0.19, 0.17, 0.09), Vector3(0.25, 0.60, -0.20), "fire_leather", Vector3(0, 32, 0))
 	part(p.Chest, "SatchelFlap", box(0.20, 0.07, 0.10), Vector3(0.25, 0.675, -0.20), "fire_bronze", Vector3(0, 32, 0))
-	# ---- head: face, nose, eye bar, curled moustache + goatee, hair mane, bronze gorget.
+	# ---- head: face (eyes / brows / mouth: the FaceKit face FireModel attaches, faces pass 2026-09-28), nose, curled moustache + goatee, hair mane, bronze gorget.
 	part(p.Head, "Face", sph(0.175, 10, 6), Vector3(0, 1.37, 0.06), "fire_skin", Vector3.ZERO, false, Vector3(1.0, 1.05, 0.95))
 	part(p.Head, "Nose", sph(0.05, 8, 4), Vector3(0, 1.355, 0.225), "fire_skin")
-	part(p.Head, "Eyes", box(0.19, 0.055, 0.05), Vector3(0, 1.405, 0.205), "eye_dark")
 	geo(p.Head, tube([Vector3(-0.17, 1.36, 0.14), Vector3(-0.08, 1.31, 0.215), Vector3(0.0, 1.322, 0.228),
 		Vector3(0.08, 1.31, 0.215), Vector3(0.17, 1.36, 0.14)], [0.0, 0.034, 0.03, 0.034, 0.0], 6), "fire_hair")
 	part(p.Head, "Goatee", cone(0.045, 0.12, 6), Vector3(0, 1.225, 0.185), "fire_hair", Vector3(160, 0, 0))

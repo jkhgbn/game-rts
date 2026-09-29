@@ -1,7 +1,7 @@
 extends FireModel
 ## Scorchling, Fire T1 swarm imp (rush-balance.md 5.4, new-units-12.md 6; tiers wave, medium effort). Height 1.1.
 ## A knee-high fire imp with a huge head: charred red-brown hide, long bat ears swept out sideways and two pale horn
-## nubs (the silhouette hook: a wide "T" head on a tiny body), a wide dark grin, a team scarf with a torn tail and a
+## nubs (the silhouette hook: a wide "T" head on a tiny body), a wide painted grin (FaceKit face), a team scarf with a torn tail and a
 ## team loincloth, long skinny arms ending in pale claws, a whip tail with a team spade tip.
 ## Glow points (2): the coal belly (pulses, faster as HP falls: reads the parent Unit's hp every 0.5 s, else each
 ## play_hit speeds it up) and a flame tuft on the crown (flickers).
@@ -52,9 +52,7 @@ func _build_parts() -> void:
 	var cloth := palette(&"fire_cloth")
 	var cdark := palette(&"fire_cloth_dark")
 	var horn := palette(&"fire_sec_worker")
-	var eye := palette(&"fire_sec_archer")
 	var skull := palette(&"fire_sec_hurler")
-	var dark := palette(&"unit_eye_dark")
 	# ---- Legs: short crooked legs, charred shins, splayed clawed feet.
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
@@ -91,11 +89,18 @@ func _build_parts() -> void:
 	# ---- Head: huge round head, big bat ears out sideways, pale horn nubs, wide dark grin, pale yellow eyes.
 	add_part(head, sphere(0.24, 10, 6), skull, Vector3(0, 0.84, 0.03), Vector3.ZERO, Vector3(1.1, 0.95, 1.0))
 	add_part(head, box(Vector3(0.3, 0.05, 0.08)), hide, Vector3(0, 0.92, 0.2), Vector3(-15, 0, 0))
-	add_part(head, box(Vector3(0.26, 0.04, 0.04)), dark, Vector3(0, 0.75, 0.245), Vector3(8, 0, 0))
+	# Face (faces pass 2026-09-28, beast rule: eyes + expression, no hair): big pale-yellow imp eyes with slit-dark
+	# pupils and a wide grin that snarls on the pounce (FaceKit; replaces the mesh eyes, pupils and the grin bar).
+	_face = UnitFaces.attach_lean(self, head, "scorchling", {"center": Vector3(0, 0.84, 0.03), "radius": 0.24,
+		"head_mesh": sphere(0.24, 10, 6), "head_scale": Vector3(1.1, 0.95, 1.0), "preset": &"plain", "detail": &"low",
+		"skin": Color(0.6, 0.35, 0.25), "hair": Color(0.16, 0.05, 0.03), "eyes": Color(0.98, 0.62, 0.10), "ears": &"none",
+		"palette": {"sclera": Color(1.0, 0.92, 0.55), "blush": Color(0.75, 0.25, 0.12), "lip": Color(0.40, 0.12, 0.08),
+			"lip_line": Color(0.12, 0.03, 0.02), "mouth_in": Color(0.18, 0.03, 0.02)},
+		"eye": {"c": Vector2(0.085, 0.030), "hw": 0.050, "top": 0.040, "bot": 0.024, "ir": 0.026},
+		"mouth": {"c": Vector2(0.0, -0.088), "hw": 0.10, "lip": 0.005},
+		"x": {&"neutral": {"blush": 0.0, "mouth": {"curve": 1.8, "w": 1.0}}, &"smile": {"blush": 0.0},
+			&"worried": {"blush": 0.0}, &"shout": {"blush": 0.0}}}, false)
 	for s: float in [-1.0, 1.0]:
-		add_part(head, box(Vector3(0.04, 0.035, 0.03)), dark, Vector3(0.14 * s, 0.77, 0.23), Vector3(8, 0, -30 * s))
-		add_part(head, sphere(0.045, 6, 3), eye, Vector3(0.085 * s, 0.87, 0.225))
-		add_part(head, sphere(0.022, 4, 2), dark, Vector3(0.085 * s, 0.87, 0.262))
 		# bat ears: a long cone out sideways with a dark inner fold
 		add_part(head, cyl(0.0, 0.085, 0.38, 6), skull, Vector3(0.36 * s, 0.93, -0.01), Vector3(0, 0, -72 * s),
 			Vector3(1.0, 1.0, 0.45))

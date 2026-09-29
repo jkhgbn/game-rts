@@ -4,7 +4,7 @@ extends FireModel
 ## with the kit's CharacterModel.set_seated (13.V1b); the scene that pairs it with the boar is art/units/fire/
 ## blaze_rider.tscn (BlazeRiderModel, the unit's model_scene). The old one-piece Blaze Rider's look, taken to hero
 ## quality: a stocky lancer in an orange gambeson under a bronze cuirass and a team tabard with a bronze sun disc, big
-## team pauldrons with bronze rims, a short team cape; a bronze helm with a dark eye slit, a nasal and cheek guards,
+## team pauldrons with bronze rims, a short team cape; a bronze helm with a nasal and cheek guards over a painted FaceKit face (eyes, brows, a grin),
 ## sweeping ivory horns and a team horsehair crest streaming back; a short red beard. A round team shield with a bronze
 ## rim, boss and a dark flame sigil on the left forearm; in the right fist a 3.1 m lance (bronze vamplate, bands, a
 ## glowing ember leaf head) with a swallow-tailed team pennon.
@@ -130,7 +130,18 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if leg.name == "LegL" else 1.0
 		_sculpt(leg, "br_leg_%s_v1" % sx, func(s: Dictionary) -> void: _leg_sculpt(s, sx))
 	_sculpt($Root/Chest, "br_chest_v1", _chest_sculpt)
-	_sculpt($Root/Chest/Head, "br_head_v1", _head_sculpt)
+	_sculpt($Root/Chest/Head, "br_head_v3", _head_sculpt)
+	# Face (faces pass 2026-09-28): a grinning red-bearded lancer under the helm, amber eyes; the mouth sits on the top
+	# of the beard mass (mouth canvas). Replaces the dark eye slit: one FaceRig surface.
+	var red := Color(0.62, 0.20, 0.08)
+	_face = FaceKit.attach(self, $Root/Chest/Head, "blaze_rider_rider", {"center": Vector3(0, 1.60, 0.05), "radius": 0.145,
+		"head_mesh": sphere(0.145, 10, 6), "head_scale": Vector3(0.95, 1.05, 0.95), "preset": &"stern", "detail": &"low",
+		"skin": FIRE_SKIN, "hair": red, "hair_tip": Color(0.85, 0.38, 0.12), "eyes": Color(0.80, 0.48, 0.10), "ears": &"none",
+		"eye": {"c": Vector2(0.050, 0.006), "hw": 0.027, "top": 0.018, "ir": 0.013},
+		"palette": {"brow": Color(0.40, 0.10, 0.04)},
+		"mouth_canvas": FaceKit.canvas(Vector3(0, 1.515, 0.125), 0.10, sphere(0.11, 8, 4), Vector3(1.15, 0.8, 0.75),
+			Vector3.INF, Basis(Vector3.RIGHT, deg_to_rad(20.0)), 0.002),
+		"mouth": {"c": Vector2(0.0, 0.055), "hw": 0.030}})
 	_sculpt($Root/Chest/ArmL, "br_arm_l_v1", _arm_l_sculpt)
 	_sculpt($Root/Chest/ArmR, "br_arm_r_v1", _arm_r_sculpt)
 	# Own (keep_separate) parts: the lance at the fist (+ the pennon on it), the level-4 helm band.
@@ -295,7 +306,6 @@ func _head_sculpt(s: Dictionary) -> void:
 	var hair := m("fire_hair")
 	var bronze := m("fire_bronze")
 	var cloth := m("fire_cloth")
-	var eye := m("unit_eye_dark")
 	_put(s, cyl(0.075, 0.085, 0.12, 8), skin, Vector3(0, 1.50, 0.02))
 	# leather coif under the helm: covers the nape and the sides of the neck
 	_put(s, sphere(0.165, 10, 5), m("fire_leather"), Vector3(0, 1.575, -0.035), Vector3.ZERO, Vector3(1.08, 0.95, 1.0))
@@ -304,14 +314,13 @@ func _head_sculpt(s: Dictionary) -> void:
 	_put(s, sphere(0.11, 8, 4), hair, Vector3(0, 1.515, 0.125), Vector3(20, 0, 0), Vector3(1.15, 0.8, 0.75))
 	MountModel.sculpt_add(s, cyl(0.0, 0.06, 0.12, 6), Transform3D(_to_dir(Vector3(0, -1.0, 0.45)).scaled_local(
 		Vector3(1.0, 1.0, 0.6)), Vector3(0, 1.43, 0.19)), hair)
-	# the helm: dome, brow rim, the dark eye slit behind a nasal, cheek guards
+	# the helm: dome, brow rim, a nasal, cheek guards (the eyes: the FaceKit face)
 	var hp := PackedVector2Array([Vector2(0.205, 1.635), Vector2(0.217, 1.70), Vector2(0.203, 1.775), Vector2(0.158, 1.845),
 		Vector2(0.08, 1.888), Vector2(0.0, 1.897)])
 	MountModel.sculpt_add(s, MountModel.lathe_mesh("br_helm_v1", hp, 14),
 		Transform3D(Basis.from_scale(Vector3(1.0, 1.0, 1.08)), Vector3(0, 0, -0.01)), bronze)
 	_put(s, torus(0.195, 0.232, 16), bronze, Vector3(0, 1.645, -0.01), Vector3.ZERO, Vector3(1.0, 1.0, 1.08))
-	_put(s, box(Vector3(0.25, 0.05, 0.05)), eye, Vector3(0, 1.618, 0.178))
-	_put(s, box(Vector3(0.045, 0.13, 0.035)), bronze, Vector3(0, 1.585, 0.205), Vector3(-8, 0, 0))
+	_put(s, box(Vector3(0.045, 0.07, 0.035)), bronze, Vector3(0, 1.618, 0.20), Vector3(-8, 0, 0))
 	for sx: float in [-1.0, 1.0]:
 		_put(s, box(Vector3(0.04, 0.17, 0.15)), bronze, Vector3(0.175 * sx, 1.55, 0.06), Vector3(-6, 0, 8.0 * sx))
 		# ivory horns sweeping out, up and forward (the helm read)

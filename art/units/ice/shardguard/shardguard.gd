@@ -111,11 +111,21 @@ func _build_parts() -> void:
 	for k: int in 5:
 		var x: float = -0.28 + 0.14 * k
 		add_crystal(chest, Vector3(x, 0.37, -0.43), Vector3(0.05 * (k - 2), -1.0, -0.12), 0.03, 0.16 + 0.05 * float(k % 2), frost, 0.6)
-	# ---- Head: tall steel helm, pale brow plate, glowing visor slit, cheek guards, a crest of 3 glass fins.
+	# ---- Head: tall open-faced steel helm, pale brow plate with a glowing slit, cheek guards, a crest of 3 glass fins.
 	add_part(head, cyl(0.19, 0.22, 0.38, 10), steel, Vector3(0, 1.94, 0.02))
 	add_part(head, cyl(0.02, 0.19, 0.16, 10), steel, Vector3(0, 2.20, 0.02))
 	add_part(head, box(Vector3(0.40, 0.08, 0.10)), plate, Vector3(0, 2.02, 0.19), Vector3(-10, 0, 0))
-	add_part(head, box(Vector3(0.28, 0.05, 0.05)), glow, Vector3(0, 1.94, 0.22))
+	# The visor slit is now a glowing line on the brow plate: the face (faces pass 2026-09-28) looks out of the open
+	# helm front: a grim halberdier, steel-grey moustache, grey-blue eyes. The face sphere is part of the FaceKit mesh.
+	add_part(head, box(Vector3(0.28, 0.035, 0.04)), glow, Vector3(0, 2.02, 0.245), Vector3(-10, 0, 0))
+	var fc := Vector3(0, 1.88, 0.17)
+	_face = UnitFaces.attach_lean(self, head, "shardguard", {"center": fc, "radius": 0.13, "head_mesh": sphere(0.13, 10, 6),
+		"preset": &"stern", "detail": &"low", "skin": ICE_SKIN, "hair": Color(0.50, 0.53, 0.58), "hair_tip": Color(0.80, 0.84, 0.90),
+		"eyes": Color(0.34, 0.50, 0.68), "ears": &"none", "beard": &"moustache",
+		"palette": {"brow": Color(0.30, 0.32, 0.38), "lash": Color(0.10, 0.10, 0.14)},
+		"eye": {"hw": 0.030, "top": 0.019, "ir": 0.014}, "mouth": {"c": Vector2(0.0, -0.060), "hw": 0.030},
+		"hair_fn": func(acc: Dictionary) -> void: FaceKit.put_mesh(acc, sphere(0.13, 10, 6), Transform3D(Basis.IDENTITY, fc), ICE_SKIN)},
+		false)
 	for sx: float in [-1.0, 1.0]:
 		add_part(head, box(Vector3(0.06, 0.20, 0.14)), plate, Vector3(0.17 * sx, 1.84, 0.12), Vector3(0, 12 * sx, 0))
 	add_part(head, box(Vector3(0.05, 0.14, 0.40)), cloth, Vector3(0, 2.18, -0.02))

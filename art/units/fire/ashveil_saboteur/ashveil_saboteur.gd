@@ -1,7 +1,7 @@
 extends FireModel
 ## Ashveil Saboteur, Fire T3 spy / sapper (t3-helpers.md 7.2 / 7.3; tiers wave, medium effort). Height 1.7.
 ## The TRUE form (the disguise is the enemy kingdom's own worker scene, swapped by gameplay; `play_reveal()` bursts
-## the embers the disguise burns away in). A lean figure in a long ash-grey coat under a scorched rust hood, a soot mask over the lower
+## the embers the disguise burns away in). A lean figure in a long ash-grey coat under a scorched rust hood, a soot mask pulled down under the painted face (FaceKit), the lower
 ## face and brass goggles pushed up on the hood, a team scarf whose tail streams behind, a diagonal bandolier of five
 ## brass powder flasks. Silhouette hooks: a small powder keg strapped slanting over the LEFT shoulder (asymmetry) and a
 ## round powder bomb in the left hand; a short dagger in the right. The only glow: the lit fuse-cord hanging from a
@@ -74,13 +74,13 @@ func _build_parts() -> void:
 				Vector3(6, 0, 0), Vector3(1.0, 1.4, 1.0))
 		add_part(leg, sphere(0.075, 7, 3), soot, Vector3(0.12 * sx, 0.06, 0.05), Vector3.ZERO, Vector3(1.0, 0.75, 1.6))
 	# ---- Hips: the long coat skirt split at the front (dark slit), team-dark hem, belt, pouches, the fuse coil.
-	add_part(hips, cyl(0.2, 0.31, 0.56, 11), coat, Vector3(0, 0.63, -0.01), Vector3(4, 0, 0))
+	add_part(hips, cyl(0.2, 0.31, 0.56, 9), coat, Vector3(0, 0.63, -0.01), Vector3(4, 0, 0))
 	add_part(hips, box(Vector3(0.07, 0.5, 0.05)), soot, Vector3(0, 0.62, 0.27), Vector3(-11, 0, 0))
-	add_part(hips, torus(0.28, 0.33, 8), cdark, Vector3(0, 0.37, 0.0), Vector3(4, 0, 0), Vector3(1.0, 1.3, 1.0))
-	add_part(hips, cyl(0.215, 0.215, 0.07, 10), leather, Vector3(0, 0.90, 0.01))
+	add_part(hips, torus(0.28, 0.33, 7), cdark, Vector3(0, 0.37, 0.0), Vector3(4, 0, 0), Vector3(1.0, 1.3, 1.0))
+	add_part(hips, cyl(0.215, 0.215, 0.07, 8), leather, Vector3(0, 0.90, 0.01))
 	add_part(hips, box(Vector3(0.07, 0.06, 0.03)), bronze, Vector3(0, 0.90, 0.22))
 	add_part(hips, box(Vector3(0.1, 0.11, 0.07)), leather, Vector3(-0.19, 0.83, 0.1), Vector3(0, -30, 0))
-	add_part(hips, torus(0.04, 0.075, 7), leather, Vector3(0.21, 0.84, 0.10), Vector3(0, 0, 90), Vector3(1.0, 1.0, 1.3))
+	add_part(hips, torus(0.04, 0.075, 6), leather, Vector3(0.21, 0.84, 0.10), Vector3(0, 0, 90), Vector3(1.0, 1.0, 1.3))
 	add_part(hips, _sb_path("sb_fuse", PackedVector3Array([Vector3(0.235, 0.80, 0.13), Vector3(0.27, 0.72, 0.17),
 		Vector3(0.275, 0.66, 0.16), FUSE_TIP]), PackedFloat32Array([0.018, 0.017, 0.016, 0.015]), 5), leather, Vector3.ZERO)
 	add_part(hips, sphere(0.07, 8, 4), palette(&"fire_glow_hero"), FUSE_TIP, Vector3.ZERO, Vector3(1.0, 1.25, 1.0))
@@ -92,7 +92,7 @@ func _build_parts() -> void:
 	# ---- Chest: grey coat torso, high collar, bandolier of five brass flasks, team scarf with a streaming tail.
 	add_part(chest, sphere(0.22, 8, 4), coat, Vector3(0, 1.14, 0), Vector3(6, 0, 0), Vector3(1.0, 1.3, 0.82))
 	add_part(chest, cyl(0.15, 0.12, 0.14, 8), hood, Vector3(0, 1.40, -0.01), Vector3(-8, 0, 0))
-	add_part(chest, torus(0.09, 0.16, 7), cloth, Vector3(0, 1.38, 0.01), Vector3(-10, 0, 0), Vector3(1.0, 1.6, 1.0))
+	add_part(chest, torus(0.09, 0.16, 6), cloth, Vector3(0, 1.38, 0.01), Vector3(-10, 0, 0), Vector3(1.0, 1.6, 1.0))
 	add_part(chest, _sb_path("sb_scarf", PackedVector3Array([Vector3(0.06, 1.37, -0.12), Vector3(0.13, 1.25, -0.24),
 		Vector3(0.22, 1.12, -0.31), Vector3(0.30, 1.02, -0.36)]), PackedFloat32Array([0.06, 0.055, 0.05, 0.035]), 5),
 		cloth, Vector3.ZERO, Vector3.ZERO, Vector3(1.0, 1.0, 1.0))
@@ -104,25 +104,32 @@ func _build_parts() -> void:
 		add_part(chest, cyl(0.03, 0.038, 0.11, 5), bronze, p + Vector3(0, 0, 0.025), Vector3(-6, 0, 38))
 	# The powder keg slanting over the left shoulder (the silhouette hook), bronze hoops, a stub of fuse on top.
 	var keg := Vector3(-0.15, 1.36, -0.24)
-	add_part(chest, cyl(0.1, 0.1, 0.32, 10), wood, keg, Vector3(0, 0, 28))
+	add_part(chest, cyl(0.1, 0.1, 0.32, 8), wood, keg, Vector3(0, 0, 28))
 	for s: float in [-1.0, 1.0]:
-		add_part(chest, torus(0.1, 0.12, 7), bronze, keg + Vector3(0.056 * s, -0.105 * s, 0), Vector3(0, 0, 28))
+		add_part(chest, torus(0.1, 0.12, 6), bronze, keg + Vector3(0.056 * s, -0.105 * s, 0), Vector3(0, 0, 28))
 	add_part(chest, cyl(0.075, 0.075, 0.02, 6), soot, keg + Vector3(-0.078, 0.145, 0), Vector3(0, 0, 28))
 	add_part(chest, _sb_path("sb_kegfuse", PackedVector3Array([keg + Vector3(-0.08, 0.15, 0), keg + Vector3(-0.12, 0.25, 0.02),
 		keg + Vector3(-0.09, 0.31, 0.06)]), PackedFloat32Array([0.016, 0.014, 0.012]), 4), leather, Vector3.ZERO)
 	add_part(chest, box(Vector3(0.05, 0.5, 0.03)), leather, Vector3(-0.02, 1.28, -0.2), Vector3(12, 0, -40))
-	# ---- Head: deep grey hood with a team lining round the face, pale eye band, soot mask, goggles up on the brow.
+	# ---- Head: deep grey hood with a team lining round the face, the soot mask pulled down onto the neck, goggles up on
+	# the brow. The face (faces pass 2026-09-28): a sly soot-smudged sapper, black fringe, amber eyes, a smirk at rest
+	# (FaceKit, replaces the pale eye band + eye dots).
 	add_part(head, sphere(0.17, 8, 4), hood, Vector3(0, 1.58, -0.01), Vector3.ZERO, Vector3(1.0, 1.1, 1.15))
 	add_part(head, cyl(0.0, 0.1, 0.26, 6), hood, Vector3(0, 1.66, -0.21), Vector3(-116, 0, 0))
-	add_part(head, sphere(0.12, 8, 4), soot, Vector3(0, 1.56, 0.07), Vector3.ZERO, Vector3(0.95, 1.05, 0.9))
-	add_part(head, torus(0.115, 0.155, 8), cloth, Vector3(0, 1.57, 0.13), Vector3(78, 0, 0), Vector3(1.0, 1.0, 1.15))
-	add_part(head, box(Vector3(0.15, 0.05, 0.04)), skin, Vector3(0, 1.605, 0.165))
-	for ex: float in [-0.035, 0.035]:
-		add_part(head, box(Vector3(0.035, 0.02, 0.02)), palette(&"unit_eye_dark"), Vector3(ex, 1.607, 0.185))
-	add_part(head, sphere(0.1, 8, 4), soot, Vector3(0, 1.535, 0.115), Vector3(-10, 0, 0), Vector3(0.95, 0.72, 0.85))
+	add_part(head, sphere(0.12, 8, 4), skin, Vector3(0, 1.56, 0.105), Vector3.ZERO, Vector3(0.95, 1.05, 0.9))
+	add_part(head, torus(0.115, 0.155, 7), cloth, Vector3(0, 1.57, 0.13), Vector3(78, 0, 0), Vector3(1.0, 1.0, 1.15))
+	add_part(head, sphere(0.1, 8, 4), soot, Vector3(0, 1.455, 0.10), Vector3(-10, 0, 0), Vector3(1.0, 0.62, 0.85))
+	var hair := Color(0.12, 0.08, 0.07)
+	var fc := Vector3(0, 1.56, 0.105)
+	_face = UnitFaces.attach_lean(self, head, "ashveil_saboteur", {"center": fc, "radius": 0.12,
+		"head_mesh": sphere(0.12, 8, 4), "head_scale": Vector3(0.95, 1.05, 0.9), "preset": &"gentle", "detail": &"low",
+		"skin": FIRE_SKIN, "hair": hair, "hair_tip": Color(0.30, 0.20, 0.16), "eyes": Color(0.82, 0.52, 0.12),
+		"ears": &"none", "eye": {"c": Vector2(0.040, 0.010)}, "x": {&"neutral": {"mouth": {"kind": "smirk"}}},
+		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, fc, 0.12, hair, Color(0.30, 0.20, 0.16), -1.0, 0.9)},
+		false)
 	for gx: float in [-0.055, 0.055]:
 		add_part(head, cyl(0.04, 0.04, 0.035, 6), bronze, Vector3(gx, 1.71, 0.10), Vector3(62, 0, 0))
-	add_part(head, cyl(0.172, 0.172, 0.025, 10, false), leather, Vector3(0, 1.69, -0.01), Vector3(-26, 0, 0))
+	add_part(head, cyl(0.172, 0.172, 0.025, 8, false), leather, Vector3(0, 1.69, -0.01), Vector3(-26, 0, 0))
 	var trim := add_part(head, torus(0.13, 0.17, 10), palette(&"unit_gold_trim"), Vector3(0, 1.74, -0.04),
 		Vector3.ZERO, Vector3.ONE, true, "VetTrim")
 	if trim:

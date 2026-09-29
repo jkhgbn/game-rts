@@ -39,7 +39,7 @@ func _build_parts() -> void:
 	add_part(chest, cyl(0.16, 0.25, 0.10, 8), dark, Vector3(0, 1.31, 0))
 	# Head: face, white beard, pale hood + peak, crystal circlet (3 points) and glowing brow gem.
 	add_part(head, sphere(0.15), skin, Vector3(0, 1.40, 0.03))
-	add_part(head, cyl(0.13, 0.0, 0.34, 6), ice(&"ice_hair"), Vector3(0, 1.24, 0.12), Vector3(-12, 0, 0))
+	add_part(head, cyl(0.13, 0.0, 0.34, 6), ice(&"ice_hair"), Vector3(0, 1.18, 0.12), Vector3(-12, 0, 0))
 	add_part(head, sphere(0.20), robe, Vector3(0, 1.44, -0.04))
 	add_part(head, cyl(0.0, 0.14, 0.28, 6), robe, Vector3(0, 1.65, -0.10), Vector3(-24, 0, 0))
 	add_part(head, torus(0.17, 0.215), metal, Vector3(0, 1.52, -0.01), Vector3(-10, 0, 0))
@@ -47,7 +47,15 @@ func _build_parts() -> void:
 	add_crystal(head, Vector3(-0.13, 1.57, 0.12), Vector3(-0.35, 1.0, 0.25), 0.045, 0.17, frost, 0.55)
 	add_crystal(head, Vector3(0.13, 1.57, 0.12), Vector3(0.35, 1.0, 0.25), 0.045, 0.17, frost, 0.55)
 	add_part(head, sphere(0.06, 6, 3), glow, Vector3(0, 1.535, 0.205))
-	add_part(head, box(Vector3(0.16, 0.04, 0.04)), palette(&"unit_eye_dark"), Vector3(0, 1.43, 0.165))
+	# Face (faces pass 2026-09-28): an old seer, lined face, grey-white brows, pale blue eyes, the mouth just above the
+	# white beard (lowered 6 cm to show it; the beard is his hair read under the hood). FaceKit, replaces the eye bar.
+	var white := Color(0.94, 0.95, 0.97)
+	_face = FaceKit.attach(self, head, "rime_seer", {"center": Vector3(0, 1.40, 0.03), "radius": 0.15,
+		"head_mesh": sphere(0.15), "preset": &"elder", "detail": &"low", "skin": ICE_SKIN, "hair": white,
+		"hair_tip": Color(0.78, 0.88, 1.0), "eyes": Color(0.50, 0.72, 0.92), "ears": &"none",
+		"palette": {"brow": Color(0.52, 0.56, 0.66), "lash": Color(0.16, 0.16, 0.22)},
+		"eye": {"c": Vector2(0.054, 0.020)}, "brow": {"w": Vector3(0.0075, 0.0070, 0.0030)},
+		"mouth": {"c": Vector2(0.0, -0.026), "hw": 0.032}})
 	var trim := add_part(head, torus(0.20, 0.25), palette(&"unit_gold_trim"), Vector3(0, 1.50, -0.02),
 		Vector3(-10, 0, 0), Vector3.ONE, true, "VetTrim")
 	if trim:

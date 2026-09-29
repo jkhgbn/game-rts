@@ -3,7 +3,7 @@ extends IceModel
 ## A squat frost goblin: a big head with a long nose, bat ears and two pale tusks in a team hood whose floppy tip
 ## falls to the left, a pale fur mantle, a pot belly in team cloth over a dark fur kilt, two ICICLE SHIVS held low
 ## (the right one longer), 3 icicle trophies at the left hip and a frozen crystal hump on the back (asymmetry).
-## One glow point: the eye slit. Frost-breath puffs every ~2.6 s.
+## One glow point: the painted eyes (FaceKit irises). Frost-breath puffs every ~2.6 s.
 ## Attack `dual_slash` (kit): the two shivs slash one after the other. play_cast(&"frostbite") 0.6 s: both shivs
 ## raised overhead, crossed, stabbed down, a breath puff. Fidget: scrapes the shivs together. Death: freezes, shatters.
 
@@ -30,7 +30,6 @@ func _build_parts() -> void:
 	var fur := ice(&"ice_fur")
 	var pale := ice(&"ice_fur_pale")
 	var frost := ice(&"ice_frost_crystal")
-	var glow := ice(&"ice_glow_unit")
 	# ---- Legs: short bowed fur legs, pale fur cuffs, big leather feet.
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
@@ -40,11 +39,11 @@ func _build_parts() -> void:
 		add_part(leg, sphere(0.08, 8, 4), leather, Vector3(0.125 * sx, 0.05, 0.07), Vector3.ZERO, Vector3(1.0, 0.6, 1.55))
 	# ---- Chest: pot belly (team), dark fur kilt, leather belt + pouch, pale fur mantle, icicle trophies at the left
 	# hip, frozen crystal hump on the back.
-	add_part(chest, sphere(0.24, 10, 6), cloth, Vector3(0, 0.61, 0.03), Vector3.ZERO, Vector3(1.05, 0.95, 1.0))
+	add_part(chest, sphere(0.24, 10, 5), cloth, Vector3(0, 0.61, 0.03), Vector3.ZERO, Vector3(1.05, 0.95, 1.0))
 	add_part(chest, cyl(0.21, 0.26, 0.15, 10, false), fur, Vector3(0, 0.45, 0.0))
-	add_part(chest, cyl(0.235, 0.235, 0.055, 10), leather, Vector3(0, 0.52, 0.02))
+	add_part(chest, cyl(0.235, 0.235, 0.055, 8), leather, Vector3(0, 0.52, 0.02))
 	add_part(chest, box(Vector3(0.11, 0.12, 0.08)), leather, Vector3(0.20, 0.46, 0.14), Vector3(0, -30, 0))
-	add_part(chest, cyl(0.12, 0.27, 0.13, 10), pale, Vector3(0, 0.77, -0.01))
+	add_part(chest, cyl(0.12, 0.27, 0.13, 8), pale, Vector3(0, 0.77, -0.01))
 	add_part(chest, box(Vector3(0.14, 0.26, 0.04)), cdark, Vector3(0, 0.60, 0.25), Vector3(-10, 0, 0))
 	# value breaks on the belly: a leather baldric strap, an iron buckle, a dark fur patch on the right flank
 	add_part(chest, box(Vector3(0.06, 0.50, 0.04)), leather, Vector3(0.02, 0.64, 0.225), Vector3(-12, 0, -38))
@@ -57,27 +56,38 @@ func _build_parts() -> void:
 	add_crystal(chest, Vector3(-0.06, 0.66, -0.22), Vector3(-0.3, 0.7, -1.0), 0.045, 0.17, frost, 0.5)
 	add_crystal(chest, Vector3(0.0, 0.58, -0.24), Vector3(0.05, 0.4, -1.0), 0.04, 0.13, frost, 0.5)
 	# ---- Head: big goblin head, long nose, bat ears, tusks, team hood with a floppy tip (left), fur rim, eye slit.
-	add_part(head, sphere(0.19, 10, 6), skin, Vector3(0, 0.90, 0.05), Vector3.ZERO, Vector3(1.15, 0.95, 1.0))
+	add_part(head, sphere(0.19, 10, 5), skin, Vector3(0, 0.90, 0.05), Vector3.ZERO, Vector3(1.15, 0.95, 1.0))
 	add_part(head, cyl(0.0, 0.05, 0.17, 6), skin, Vector3(0, 0.87, 0.28), Vector3(80, 0, 0))
 	for s: float in [-1.0, 1.0]:
 		add_part(head, cyl(0.0, 0.065, 0.28, 6), skin, Vector3(0.26 * s, 0.95, -0.02), Vector3(-10, 0, -72.0 * s),
 			Vector3(1.0, 1.0, 0.45))
 		add_part(head, cyl(0.0, 0.022, 0.07, 5), pale, Vector3(0.055 * s, 0.82, 0.19), Vector3(-15, 0, 10.0 * s))
-	add_part(head, sphere(0.235, 10, 6), cloth, Vector3(0, 0.96, -0.08), Vector3.ZERO, Vector3(1.05, 1.0, 1.05))
+	add_part(head, sphere(0.235, 10, 5), cloth, Vector3(0, 0.96, -0.08), Vector3.ZERO, Vector3(1.05, 1.0, 1.05))
 	var tip_rot := Vector3(-55, 0, 24)
 	var tip_c := Vector3(-0.07, 1.12, -0.24)
 	add_part(head, cyl(0.0, 0.125, 0.34, 7), cloth, tip_c, tip_rot)
 	add_part(head, sphere(0.055, 7, 4), pale, tip_c + Basis.from_euler(tip_rot * DEG) * Vector3(0, 0.17, 0))
-	add_part(head, torus(0.13, 0.195, 12), pale, Vector3(0, 0.93, 0.13), Vector3(78, 0, 0))
-	add_part(head, box(Vector3(0.19, 0.045, 0.04)), glow, Vector3(0, 0.935, 0.225))
+	add_part(head, torus(0.13, 0.195, 10), pale, Vector3(0, 0.93, 0.13), Vector3(78, 0, 0))
+	# Face (faces pass 2026-09-28, goblin: eyes + mouth, no hair): mean narrow eyes with glowing ice-blue irises (the
+	# head's glow point, was the eye slit) and a toothy grin between the tusks (FaceKit).
+	var gsk := ICE_SKIN
+	_face = UnitFaces.attach_lean(self, head, "rimeling", {"center": Vector3(0, 0.90, 0.05), "radius": 0.19,
+		"head_mesh": sphere(0.19, 10, 5), "head_scale": Vector3(1.15, 0.95, 1.0), "preset": &"plain", "detail": &"low",
+		"skin": gsk, "hair": Color(0.20, 0.24, 0.32), "eyes": Color(0.55, 0.90, 1.0), "ears": &"none",
+		"palette": {"iris_glow": 0.9, "sclera": Color(0.90, 0.95, 1.0), "lip": gsk.darkened(0.25), "lip_line": Color(0.10, 0.12, 0.20),
+			"mouth_in": Color(0.10, 0.10, 0.20)},
+		"eye": {"c": Vector2(0.068, 0.032), "hw": 0.036, "top": 0.020, "ir": 0.017},
+		"mouth": {"c": Vector2(0.0, -0.080), "hw": 0.060},
+		"x": {&"neutral": {"blush": 0.0, "cut_in": 0.35, "mouth": {"kind": "closed", "curve": 2.2, "w": 1.0}}, &"smile": {"blush": 0.0},
+			&"worried": {"blush": 0.0}, &"shout": {"blush": 0.0}, &"fierce": {"blush": 0.0}}}, false)
 	var trim := add_part(head, torus(0.17, 0.21, 12), palette(&"unit_gold_trim"), Vector3(0, 1.07, -0.06),
 		Vector3(-8, 0, 0), Vector3.ONE, true, "VetTrim")
 	if trim:
 		trim.set_meta(&"vet_trim", true)
 		trim.visible = false
 	# ---- Arms: dark fur sleeves, pale fur shoulder tufts, leather mitts, the two icicle shivs (held low, forward).
-	add_limb(arm_l, SH_L, FIST_L, 0.058, fur, 0.07, leather)
-	add_limb(arm_r, SH_R, FIST_R, 0.058, fur, 0.07, leather)
+	add_limb(arm_l, SH_L, FIST_L, 0.058, fur, 0.07, leather, true)   # cheap capsules: they pay for the face
+	add_limb(arm_r, SH_R, FIST_R, 0.058, fur, 0.07, leather, true)
 	add_part(arm_l, sphere(0.085, 8, 4), pale, SH_L + Vector3(-0.02, 0.01, 0), Vector3.ZERO, Vector3(1.0, 0.8, 1.0))
 	add_part(arm_r, sphere(0.085, 8, 4), pale, SH_R + Vector3(0.02, 0.01, 0), Vector3.ZERO, Vector3(1.0, 0.8, 1.0))
 	add_part(arm_l, cyl(0.05, 0.05, 0.07, 6), leather, FIST_L + Vector3(0, -0.02, 0.06), Vector3(70, 0, 0))

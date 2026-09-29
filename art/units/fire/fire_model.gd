@@ -85,6 +85,8 @@ var _ball_t: float = -1.0
 var _ball_heat: float = -1.0
 var _burn_v: float = 0.0
 var _burn_fired: bool = false
+## Painted face (FaceKit, faces pass 2026-09-28): set by the unit's face_spec() / _build_parts; null = faceless.
+var _face: FaceRig
 
 
 func _after_ready() -> void:
@@ -124,6 +126,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	if _ball == null:
 		return
 	if _ball_t >= 0.0:
@@ -141,6 +145,8 @@ func _extra_process(dt: float) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_set_drawn(false)
 	_ball_t = -1.0
 	_burn_fired = false
@@ -148,6 +154,78 @@ func _on_revive() -> void:
 	if _ball:
 		_ball.visible = true
 		_set_ball_heat(BALL_IDLE)
+
+
+# ================================================================ face (FaceKit, faces pass 2026-09-28)
+
+## Scene-authored Fire units (build_fire_units.gd / build_cinderlock.gd scenes: _build_parts is not overridden) get
+## their painted face here, by fire_kind: ONE FaceRig under Root/Chest/Head (1 draw call; the old dark eye bars were
+## removed from the scenes, -1 surface). Code-built units attach their own face in their _build_parts.
+func _build_parts() -> void:
+	var head := get_node_or_null(^"Root/Chest/Head") as Node3D
+	var spec := scene_face_spec(fire_kind)
+	if head and not spec.is_empty():
+		# the musketeer's scene is over the vertex budget already: the lean face (no highlights / creases at rest)
+		if fire_kind == &"musketeer":
+			_face = UnitFaces.attach_lean(self, head, "fire_musketeer", spec)
+		else:
+			_face = FaceKit.attach(self, head, "fire_" + String(fire_kind), spec)
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+const FIRE_SKIN := Color(0.92, 0.72, 0.55)
+
+
+## Face specs of the scene-authored Fire units (model space, feet origin, +Z = face). {} = none.
+static func scene_face_spec(kind: StringName) -> Dictionary:
+	var sph := func(r: float, a: int = 10, b: int = 5) -> Mesh: return CharacterModel.sphere(r, a, b)
+	match kind:
+		&"worker":
+			# Cinder Hand: stout bearded miner under the hard-hat (it hides the hair; the old bushy beard mesh is his hair
+			# read), round ears, brown eyes; the mouth sits on the top of the beard (mouth canvas).
+			return {"center": Vector3(0, 1.13, 0.03), "radius": 0.26, "head_mesh": sph.call(0.26), "preset": &"plain",
+				"detail": &"low", "skin": FIRE_SKIN, "hair": Color(0.30, 0.11, 0.06), "hair_tip": Color(0.48, 0.20, 0.09),
+				"eyes": Color(0.42, 0.24, 0.10), "ears": &"round",
+				"eye": {"c": Vector2(0.086, 0.004)}, "brow": {"w": Vector3(0.0085, 0.0080, 0.0034)},
+				"mouth_canvas": FaceKit.canvas(Vector3(0, 0.95, 0.17), 0.19, sph.call(0.21), Vector3(1.22, 0.85, 0.72),
+					Vector3.INF, Basis(Vector3.RIGHT, deg_to_rad(-10.0)), 0.002),
+				"mouth": {"c": Vector2(0.0, 0.085), "hw": 0.066, "lip": 0.0045},
+				"palette": {"lip": Color(0.78, 0.42, 0.36), "lip_line": Color(0.32, 0.08, 0.05)}}
+		&"guard":
+			# Flame Guard: an open bucket helm frames a broad face: stern, a black moustache, amber eyes.
+			return {"center": Vector3(0, 1.36, 0.22), "radius": 0.16, "head_mesh": sph.call(0.16, 10, 6), "preset": &"stern",
+				"detail": &"low", "skin": FIRE_SKIN.darkened(0.04), "hair": Color(0.14, 0.07, 0.05), "hair_tip": Color(0.28, 0.12, 0.07),
+				"eyes": Color(0.78, 0.46, 0.10), "ears": &"none", "beard": &"moustache",
+				"eye": {"hw": 0.034, "top": 0.022, "ir": 0.016}, "mouth": {"c": Vector2(0.0, -0.078), "hw": 0.040},
+				# the face sphere itself is part of the FaceKit mesh (no skin surface on the helm pivot)
+				"hair_fn": func(acc: Dictionary) -> void: FaceKit.put_mesh(acc, sph.call(0.16, 10, 6),
+					Transform3D(Basis.IDENTITY, Vector3(0, 1.36, 0.22)), FIRE_SKIN.darkened(0.04))}
+		&"archer":
+			# Ember Archer: a young face in the hood opening, copper fringe, green eyes, freckle-warm blush.
+			return {"center": Vector3(0, 1.395, 0.20), "radius": 0.18, "head_mesh": sph.call(0.18),
+				"head_scale": Vector3(1.0, 0.92, 0.55), "preset": &"bright", "detail": &"low", "skin": FIRE_SKIN,
+				"hair": Color(0.74, 0.30, 0.10), "hair_tip": Color(0.95, 0.55, 0.20), "eyes": Color(0.28, 0.52, 0.22),
+				"ears": &"none", "hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, Vector3(0, 1.395, 0.20), 0.18,
+					Color(0.74, 0.30, 0.10), Color(0.95, 0.55, 0.20), 1.0, 0.55)}
+		&"hurler":
+			# Ash Hurler: a sooty older engineer, goggles pushed up on the cap, ash-grey brows, hazel eyes.
+			return {"center": Vector3(0, 1.28, 0.14), "radius": 0.25, "head_mesh": sph.call(0.25), "preset": &"elder",
+				"detail": &"low", "skin": FIRE_SKIN.darkened(0.10), "hair": Color(0.40, 0.36, 0.33), "hair_tip": Color(0.62, 0.58, 0.54),
+				"eyes": Color(0.52, 0.42, 0.16), "ears": &"none",
+				"brow": {"w": Vector3(0.0085, 0.0080, 0.0034)}}
+		&"musketeer":
+			# Cinderlock: the dashing musketeer: dark mane, curled moustache + goatee (meshes), amber eyes, a smirk.
+			return {"center": Vector3(0, 1.37, 0.06), "radius": 0.175, "head_mesh": sph.call(0.175, 10, 6),
+				"head_scale": Vector3(1.0, 1.05, 0.95), "preset": &"stern", "detail": &"low", "skin": FIRE_SKIN,
+				"hair": Color(0.20, 0.06, 0.04), "eyes": Color(0.80, 0.50, 0.14), "ears": &"round",
+				"eye": {"hw": 0.031, "top": 0.020, "ir": 0.015}, "mouth": {"c": Vector2(0.0, -0.085), "hw": 0.034},
+				"x": {&"neutral": {"mouth": {"kind": "smirk"}}}}
+	return {}
 
 
 # ================================================================ walk flavour (on top of the kit's cycle)

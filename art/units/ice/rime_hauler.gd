@@ -38,12 +38,19 @@ func _build_parts() -> void:
 	add_part(chest, box(Vector3(0.58, 0.08, 0.10)), wood, Vector3(0, 1.28, -0.30))
 	add_part(chest, cyl(0.05, 0.10, 0.07, 6), metal, Vector3(0.33, 1.16, -0.26))
 	add_part(chest, sphere(0.09), ice(&"ice_glow_unit"), Vector3(0.33, 1.06, -0.26))
-	# Head: face, team hood with a short pointed back, pale fur ring around the face, dark eye bar.
+	# Head: face, team hood with a short pointed back, pale fur ring around the face. The painted face (faces pass
+	# 2026-09-28): a ruddy hauler with a straw-blond fringe and moustache, grey-blue eyes (FaceKit, replaces the eye bar).
 	add_part(head, sphere(0.21), ice(&"ice_skin"), Vector3(0, 1.12, 0.04))
 	add_part(head, sphere(0.27), cloth, Vector3(0, 1.17, -0.07), Vector3.ZERO, Vector3(1.0, 1.05, 1.0))
 	add_part(head, cyl(0.0, 0.16, 0.30, 6), cloth, Vector3(0, 1.30, -0.26), Vector3(-62, 0, 0))
 	add_part(head, torus(0.15, 0.25), pale, Vector3(0, 1.13, 0.13), Vector3(90, 0, 0))
-	add_part(head, box(Vector3(0.20, 0.06, 0.05)), palette(&"unit_eye_dark"), Vector3(0, 1.14, 0.24))
+	var hair := Color(0.86, 0.74, 0.46)
+	_face = UnitFaces.attach_lean(self, head, "rime_hauler", {"center": Vector3(0, 1.12, 0.04), "radius": 0.21,
+		"head_mesh": sphere(0.21), "preset": &"plain", "detail": &"low", "skin": ICE_SKIN, "hair": hair,
+		"hair_tip": Color(0.98, 0.92, 0.72), "eyes": Color(0.36, 0.52, 0.66), "ears": &"none", "beard": &"moustache",
+		"palette": {"brow": hair.darkened(0.35)}, "brow": {"w": Vector3(0.0085, 0.0080, 0.0034)},
+		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, Vector3(0, 1.12, 0.04), 0.21, hair,
+			Color(0.98, 0.92, 0.72), 1.0)})
 	# Legs: dark fur trousers + big boots.
 	add_part(leg_l, capsule(0.12, 0.34), fur, Vector3(-0.15, 0.28, 0))
 	add_part(leg_r, capsule(0.12, 0.34), fur, Vector3(0.15, 0.28, 0))

@@ -675,12 +675,11 @@ func _cinder_hand() -> Node3D:
 	# Belt (team) + bronze buckle.
 	part(p.Hips, "Belt", band(0.388, 0.043), Vector3(0, 0.43, 0), "fire_cloth", Vector3.ZERO, false, Vector3(1, 1.3, 0.93))
 	part(p.Hips, "Buckle", box(0.15, 0.13, 0.05), Vector3(0, 0.43, 0.375), "fire_bronze")
-	# Head: big round face, nose, a bushy beard, dark eye bar.
+	# Head: big round face, nose, a bushy beard. Eyes, brows, mouth, ears, hair: the FaceKit face FireModel attaches
+	# at runtime (faces pass 2026-09-28; the old dark eye bar is gone).
 	part(p.Head, "Head", sph(0.26), Vector3(0, 1.13, 0.03), "fire_skin")
 	part(p.Head, "Nose", sph(0.075, 8, 4), Vector3(0, 1.10, 0.30), "fire_skin")
 	part(p.Head, "Beard", sph(0.21), Vector3(0, 0.95, 0.17), "fire_hair", Vector3(-10, 0, 0), false, Vector3(1.22, 0.85, 0.72))
-	# Eye bar in the (near-black) hair material: one mesh less on the Head pivot (worker budget 22).
-	part(p.Head, "Eyes", box(0.22, 0.07, 0.05), Vector3(0, 1.185, 0.268), "fire_hair")
 	# Miner's hard-hat (team) with a brim; bronze lamp housing and the glowing lamp (the unit's one glow), mounted
 	# high on the hat front and tipped up so it reads over the head from the game camera.
 	geo(p.Head, lathe([Vector2(0.335, 1.20), Vector2(0.335, 1.232), Vector2(0.28, 1.25), Vector2(0.272, 1.32),
@@ -753,11 +752,11 @@ func _flame_guard() -> Node3D:
 		part(p.Chest, "PauldronRim", band(0.313, 0.032), pf * Vector3(0, -0.07, 0), "fire_bronze",
 			Vector3(0, 0, -rad_to_deg(atan2(0.50, 1.0)) * s), false, Vector3(1, 1.2, 1.08))
 		part(p.Chest, "PauldronStud", sph(0.07, 6, 3), pf * Vector3(0, 0.19, 0), "fire_bronze")
-	# Helm: bronze bucket with a flared rim, glowing eye slit, nose guard, flame crest (team).
+	# Helm: bronze bucket with a flared rim, open at the front (the FaceKit face + its face sphere look out of it,
+	# faces pass 2026-09-28: FireModel attaches it), a glowing band above the brows, flame crest (team).
 	geo(p.Head, lathe([Vector2(0.315, 1.20), Vector2(0.325, 1.235), Vector2(0.285, 1.26), Vector2(0.285, 1.45),
 		Vector2(0.265, 1.56), Vector2(0.20, 1.65), Vector2(0.10, 1.70), Vector2(0.0, 1.71)], 10), "fire_bronze")
-	part(p.Head, "Visor", box(0.32, 0.08, 0.06), Vector3(0, 1.44, 0.268), "fire_glow")
-	part(p.Head, "NoseGuard", box(0.075, 0.15, 0.06), Vector3(0, 1.335, 0.285), "fire_bronze")
+	part(p.Head, "Visor", box(0.30, 0.05, 0.06), Vector3(0, 1.565, 0.262), "fire_glow", Vector3(-12, 0, 0))
 	for s: int in [-1, 1]:
 		part(p.Head, "Brow", box(0.17, 0.06, 0.08), Vector3(0.095 * s, 1.505, 0.262), "fire_bronze", Vector3(-8, 0, 16 * s))
 	geo(p.Head, extrude(_poly([Vector2(0.21, 1.60), Vector2(0.10, 1.685), Vector2(0.0, 1.705), Vector2(-0.12, 1.675),
@@ -833,7 +832,6 @@ func _ember_archer() -> Node3D:
 	geo(p.Head, tube([Vector3(0, 1.87, -0.13), Vector3(0.03, 1.86, -0.30), Vector3(0.10, 1.74, -0.42),
 		Vector3(0.17, 1.56, -0.45)], [0.07, 0.06, 0.045, 0.0], 6), "fire_cloth")
 	part(p.Head, "Face", sph(0.18), Vector3(0, 1.395, 0.20), "fire_skin", Vector3.ZERO, false, Vector3(1.0, 0.92, 0.55))
-	part(p.Head, "Eyes", box(0.20, 0.065, 0.05), Vector3(0, 1.425, 0.29), "eye_dark")
 	vet_trim(p.Head, Vector3(0, 1.36, -0.07), Vector3(-15, 0, 0), 1.35)
 	# Arms: coat sleeves, leather bracers, bare hands.
 	arm(p, sh, Vector3(0.37, 0.94, 0.0), Vector3(0.38, 0.80, 0.02), [0.10, 0.09, 0.085], "fire_sec_archer",
@@ -919,16 +917,17 @@ func _ash_hurler() -> Node3D:
 	part(p.Chest, "HarnessB", box(0.08, 0.60, 0.05), Vector3(0, 0.90, 0.30), "fire_leather", Vector3(-4, 0, -30))
 	part(p.Chest, "Scarf", torus(0.15, 0.30), Vector3(0, 1.10, 0.08), "fire_cloth", Vector3(-12, 0, 0), false, Vector3(1, 1.5, 1))
 	part(p.Chest, "ScarfTail", box(0.15, 0.36, 0.05), Vector3(0.12, 0.93, -0.25), "fire_cloth", Vector3(-20, 0, -10))
-	# Head (forward), leather cap with flaps, glowing goggles on a strap, bronze respirator.
+	# Head (forward), leather cap with flaps, glowing goggles pushed UP onto the cap, the bronze respirator pulled
+	# down under the chin: the face shows (FaceKit face attached by FireModel, faces pass 2026-09-28).
 	part(p.Head, "Head", sph(0.25), Vector3(0, 1.28, 0.14), "fire_skin")
-	geo(p.Head, lathe([Vector2(0.27, 1.25), Vector2(0.27, 1.34), Vector2(0.24, 1.44), Vector2(0.15, 1.51),
-		Vector2(0.0, 1.53)], 10, Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.12))), "fire_leather")
+	geo(p.Head, lathe([Vector2(0.27, 1.37), Vector2(0.267, 1.43), Vector2(0.235, 1.49), Vector2(0.15, 1.54),
+		Vector2(0.0, 1.56)], 10, Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.12))), "fire_leather")
 	for s: int in [-1, 1]:
-		part(p.Head, "Flap", box(0.07, 0.18, 0.13), Vector3(0.245 * s, 1.20, 0.12), "fire_leather")
-		part(p.Head, "Lens", cyl(0.078, 0.078, 0.06, 10), Vector3(0.095 * s, 1.325, 0.365), "fire_glow", Vector3(90, 0, 0))
-		part(p.Head, "LensRim", band(0.097, 0.02), Vector3(0.095 * s, 1.325, 0.35), "fire_bronze", Vector3(90, 0, 0))
-	part(p.Head, "Strap", band(0.277, 0.02), Vector3(0, 1.33, 0.13), "fire_leather", Vector3(-4, 0, 0), false, Vector3(1, 1.4, 1))
-	part(p.Head, "Respirator", cyl(0.09, 0.10, 0.13, 8), Vector3(0, 1.16, 0.345), "fire_bronze", Vector3(80, 0, 0))
+		part(p.Head, "Flap", box(0.07, 0.19, 0.13), Vector3(0.245 * s, 1.285, 0.12), "fire_leather")
+		part(p.Head, "Lens", cyl(0.078, 0.078, 0.06, 10), Vector3(0.095 * s, 1.47, 0.345), "fire_glow", Vector3(52, 0, 0))
+		part(p.Head, "LensRim", band(0.097, 0.02), Vector3(0.095 * s, 1.465, 0.335), "fire_bronze", Vector3(52, 0, 0))
+	part(p.Head, "Strap", band(0.272, 0.02), Vector3(0, 1.44, 0.13), "fire_leather", Vector3(-4, 0, 0), false, Vector3(1, 1.4, 1))
+	part(p.Head, "Respirator", cyl(0.09, 0.10, 0.13, 8), Vector3(0, 1.06, 0.30), "fire_bronze", Vector3(118, 0, 0))
 	vet_trim(p.Head, Vector3(0, 1.26, 0.12), Vector3.ZERO, 1.25)
 	# Arms: sleeves + big bronze gloves.
 	arm(p, sh, Vector3(0.43, 0.82, 0.10), Vector3(0.44, 0.68, 0.12), [0.11, 0.10, 0.09], "fire_sec_hurler",

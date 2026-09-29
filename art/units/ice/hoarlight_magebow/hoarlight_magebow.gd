@@ -78,24 +78,24 @@ func _build_parts() -> void:
 		add_part(leg, _path("hmb_boot", PackedVector3Array([Vector3(0, 0.40, -0.01), Vector3(0, 0.20, 0.0),
 			Vector3(0, 0.06, -0.01), Vector3(0, 0.045, 0.11), Vector3(0, 0.035, 0.18)]),
 			PackedFloat32Array([0.078, 0.07, 0.068, 0.055, 0.03]), 7), leather, Vector3(x, 0, 0))
-		add_part(leg, cyl(0.095, 0.088, 0.06, 9), pale, Vector3(x, 0.40, 0.0))
+		add_part(leg, cyl(0.095, 0.088, 0.06, 7), pale, Vector3(x, 0.40, 0.0))
 	# ---- Chest: team coat (lathe), long dark coat tails, silver belt, rune gorget, short dark cape + fur collar,
 	# rune-tome at the right hip.
 	add_part(chest, _path("hmb_torso", PackedVector3Array([Vector3(0, 0.84, 0), Vector3(0, 0.98, 0.0),
 		Vector3(0, 1.16, 0.01), Vector3(0, 1.28, 0.0), Vector3(0, 1.36, 0.0)]),
-		PackedFloat32Array([0.17, 0.18, 0.215, 0.215, 0.14]), 9), cloth, Vector3.ZERO, Vector3.ZERO,
+		PackedFloat32Array([0.17, 0.18, 0.215, 0.215, 0.14]), 8), cloth, Vector3.ZERO, Vector3.ZERO,
 		Vector3(1.0, 1.0, 0.85))
-	add_part(chest, cyl(0.18, 0.30, 0.52, 9, false), cdark, Vector3(0, 0.62, -0.02), Vector3(4, 0, 0))
+	add_part(chest, cyl(0.18, 0.30, 0.52, 8, false), cdark, Vector3(0, 0.62, -0.02), Vector3(4, 0, 0))
 	add_part(chest, _path("hmb_tabard", PackedVector3Array([Vector3(0, 0.22, 0), Vector3(0, 0.0, 0.0),
 		Vector3(0, -0.24, 0.03)]), PackedFloat32Array([0.07, 0.08, 0.10]), 6), cloth, Vector3(0, 0.64, 0.25),
 		Vector3(-12, 0, 0), Vector3(1.0, 1.0, 0.3))
-	add_part(chest, cyl(0.19, 0.19, 0.06, 10), metal, Vector3(0, 0.90, 0), Vector3.ZERO, Vector3(1.0, 1.0, 0.88))
+	add_part(chest, cyl(0.19, 0.19, 0.06, 8), metal, Vector3(0, 0.90, 0), Vector3.ZERO, Vector3(1.0, 1.0, 0.88))
 	add_part(chest, box(Vector3(0.09, 0.08, 0.04)), metal, Vector3(0, 0.90, 0.17))
 	add_part(chest, cyl(0.12, 0.20, 0.09, 8), metal, Vector3(0, 1.31, 0.0))
 	add_part(chest, _path("hmb_cape", PackedVector3Array([Vector3(0, 0.26, 0), Vector3(0, 0.0, -0.03),
 		Vector3(0, -0.26, -0.07)]), PackedFloat32Array([0.22, 0.25, 0.28]), 8), cdark, Vector3(0, 1.08, -0.21),
 		Vector3(8, 0, 0), Vector3(1.0, 1.0, 0.16))
-	add_part(chest, torus(0.12, 0.21, 10), pale, Vector3(0, 1.37, -0.03), Vector3(-8, 0, 0), Vector3(1.0, 1.4, 1.0))
+	add_part(chest, torus(0.12, 0.21, 8), pale, Vector3(0, 1.37, -0.03), Vector3(-8, 0, 0), Vector3(1.0, 1.4, 1.0))
 	add_part(chest, box(Vector3(0.07, 0.20, 0.17)), leather, Vector3(0.23, 0.82, 0.03), Vector3(0, 0, 8))
 	add_part(chest, box(Vector3(0.075, 0.05, 0.12)), steel, Vector3(0.25, 0.82, 0.03), Vector3(0, 0, 8))
 	add_crystal(chest, Vector3(0.26, 0.93, 0.05), Vector3(0.2, -1.0, 0.1), 0.02, 0.10, frost, 0.6)
@@ -104,12 +104,19 @@ func _build_parts() -> void:
 	add_part(head, sphere(0.165, 9, 5), cloth, Vector3(0, 1.56, -0.03), Vector3(-8, 0, 0), Vector3(1.0, 1.08, 1.1))
 	add_part(head, cyl(0.0, 0.085, 0.16, 6), cloth, Vector3(0, 1.66, 0.10), Vector3(72, 0, 0), Vector3(1.4, 1.0, 0.7))
 	add_part(head, cyl(0.10, 0.16, 0.20, 9, false), cdark, Vector3(0, 1.44, -0.08), Vector3(-10, 0, 0))
-	add_part(head, torus(0.15, 0.175, 10), metal, Vector3(0, 1.63, -0.01), Vector3(-12, 0, 0))
+	add_part(head, torus(0.15, 0.175, 8), metal, Vector3(0, 1.63, -0.01), Vector3(-12, 0, 0))
 	add_crystal(head, Vector3(0, 1.66, 0.13), Vector3(0, 1.0, 0.25), 0.032, 0.22, frost, 0.6)
 	add_crystal(head, Vector3(-0.10, 1.66, 0.09), Vector3(-0.5, 1.0, 0.1), 0.024, 0.14, frost, 0.6)
 	add_crystal(head, Vector3(0.10, 1.66, 0.09), Vector3(0.5, 1.0, 0.1), 0.024, 0.14, frost, 0.6)
-	for ex: float in [-0.045, 0.045]:
-		add_part(head, box(Vector3(0.045, 0.025, 0.04)), palette(&"unit_eye_dark"), Vector3(ex, 1.535, 0.16))
+	# Face (faces pass 2026-09-28): a young mage, silver-lilac fringe under the peak, violet-blue eyes (FaceKit,
+	# replaces the eye dots).
+	var hair := Color(0.80, 0.80, 0.92)
+	_face = UnitFaces.attach_lean(self, head, "hoarlight_magebow", {"center": Vector3(0, 1.52, 0.055), "radius": 0.115,
+		"head_mesh": sphere(0.115, 8, 5), "preset": &"bright", "detail": &"low", "skin": ICE_SKIN, "hair": hair,
+		"hair_tip": Color(0.72, 0.84, 1.0), "eyes": Color(0.52, 0.48, 0.92), "ears": &"none",
+		"palette": {"brow": Color(0.50, 0.50, 0.64)}, "eye": {"c": Vector2(0.042, 0.014)},
+		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, Vector3(0, 1.52, 0.055), 0.115, hair,
+			Color(0.72, 0.84, 1.0), 1.0)}, false)
 	var trim := add_part(head, torus(0.18, 0.21, 12), palette(&"unit_gold_trim"), Vector3(0, 1.55, -0.04),
 		Vector3(-10, 0, 0), Vector3.ONE, true, "VetTrim")
 	if trim:

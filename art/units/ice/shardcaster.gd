@@ -3,7 +3,7 @@ extends IceModel
 ## CRYSTAL ROD level across the body (1.4 m, faceted ice, the brightest line of the army), a quiver of 3 ice shards
 ## over the left shoulder, 3 shards orbiting the rod tip. Ranged: caster_fire, release 0.12 s.
 ## Glow points: rod tip (ice_glow_unit; charges up over the wind-up, flares + a burst of motes at the release) and
-## the eye slit. Read at 40 m: dark narrow body + bright horizontal line + pointed hood.
+## the painted FaceKit irises (were the eye slit). Read at 40 m: dark narrow body + bright horizontal line + pointed hood.
 ## Idle fidget: lifts the rod, the shards whirl. Death: freezes over, shatters. Level 4: gold trim ring on the hood.
 
 const ROD_DIR := Vector3(-0.92, 0.08, 0.38)   # model space: held sideways across the body, tip front-left
@@ -16,6 +16,22 @@ var _burst: GPUParticles3D
 var _flare: float = 0.0
 var _spin_speed: float = 1.6
 var _tip_written: float = -1.0
+
+
+## FaceKit face (faces pass 2026-09-28): a young caster, silver-white fringe under the hood, glowing ice-cyan irises.
+## The Frostrune Rifleman (extends this script) overrides both.
+func _face_key() -> String:
+	return "shardcaster"
+
+
+func _face_spec() -> Dictionary:
+	var hair := Color(0.90, 0.93, 0.98)
+	var tip := Color(0.70, 0.86, 1.0)
+	return {"center": Vector3(0, 1.40, 0.03), "radius": 0.16, "head_mesh": sphere(0.16), "preset": &"bright",
+		"detail": &"low", "skin": ICE_SKIN, "hair": hair, "hair_tip": tip, "eyes": Color(0.45, 0.85, 1.0), "ears": &"none",
+		"palette": {"iris_glow": 0.8, "brow": Color(0.55, 0.62, 0.74), "lash": Color(0.12, 0.14, 0.22)},
+		"eye": {"c": Vector2(0.056, 0.008)},
+		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, Vector3(0, 1.40, 0.03), 0.16, hair, tip, -1.0)}
 
 
 func _build_parts() -> void:
@@ -50,11 +66,12 @@ func _build_parts() -> void:
 	add_crystal(chest, Vector3(-0.13, 1.30, -0.29), Vector3(-0.38, 1.0, 0.0), 0.06, 0.34, frost, 0.5)
 	add_crystal(chest, Vector3(-0.07, 1.30, -0.34), Vector3(-0.25, 1.0, -0.2), 0.05, 0.28, frost, 0.5)
 	add_crystal(chest, Vector3(-0.19, 1.26, -0.24), Vector3(-0.5, 1.0, 0.15), 0.045, 0.24, frost, 0.5)
-	# Head: face, team hood cowl + tall pointed hood tip leaning back, glowing eye slit.
+	# Head: face, team hood cowl + tall pointed hood tip leaning back. The painted face (faces pass 2026-09-28) replaces
+	# the glowing eye slit: its irises glow instead (the head keeps its glow point).
 	add_part(head, sphere(0.16), skin, Vector3(0, 1.40, 0.03))
 	add_part(head, sphere(0.215), cloth, Vector3(0, 1.44, -0.05))
 	add_part(head, cyl(0.0, 0.17, 0.42, 6), cloth, Vector3(0, 1.69, -0.14), Vector3(-30, 0, 0))
-	add_part(head, box(Vector3(0.22, 0.05, 0.05)), glow, Vector3(0, 1.41, 0.18))
+	_face = FaceKit.attach(self, head, _face_key(), _face_spec())
 	var trim := add_part(head, torus(0.18, 0.23), palette(&"unit_gold_trim"), Vector3(0, 1.56, -0.06),
 		Vector3(-12, 0, 0), Vector3.ONE, true, "VetTrim")
 	if trim:

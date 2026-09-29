@@ -79,15 +79,15 @@ _surfaces = [{
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_5hhjb"]
 _surfaces = [{
-"aabb": AABB(-0.24366067, -0.16578819, 0.021097064, 0.48732138, 0.44578815, 0.29780588),
-"attribute_data": PackedByteArray("AAAAAAAAAADNzMw9AAAAAM3MTD4AAAAAmpmZPgAAAADNzMw+AAAAAAAAAD8AAAAAmpkZPwAAAAAzMzM/AAAAAM3MTD8AAAAAZmZmPwAAAAAAAIA/AAAAAAAAAACrqio+zczMPauqKj7NzEw+q6oqPpqZmT6rqio+zczMPquqKj4AAAA/q6oqPpqZGT+rqio+MzMzP6uqKj7NzEw/q6oqPmZmZj+rqio+AACAP6uqKj4AAAAAq6qqPs3MzD2rqqo+zcxMPquqqj6amZk+q6qqPs3MzD6rqqo+AAAAP6uqqj6amRk/q6qqPjMzMz+rqqo+zcxMP6uqqj5mZmY/q6qqPgAAgD+rqqo+AAAAAAAAAD/NzMw9AAAAP83MTD4AAAA/mpmZPgAAAD/NzMw+AAAAPwAAAD8AAAA/mpkZPwAAAD8zMzM/AAAAP83MTD8AAAA/ZmZmPwAAAD8AAIA/AAAAPwAAAACrqio/zczMPauqKj/NzEw+q6oqP5qZmT6rqio/zczMPquqKj8AAAA/q6oqP5qZGT+rqio/MzMzP6uqKj/NzEw/q6oqP2ZmZj+rqio/AACAP6uqKj8AAAAAVVVVP83MzD1VVVU/zcxMPlVVVT+amZk+VVVVP83MzD5VVVU/AAAAP1VVVT+amRk/VVVVPzMzMz9VVVU/zcxMP1VVVT9mZmY/VVVVPwAAgD9VVVU/AAAAAAAAgD/NzMw9AACAP83MTD4AAIA/mpmZPgAAgD/NzMw+AACAPwAAAD8AAIA/mpkZPwAAgD8zMzM/AACAP83MTD8AAIA/ZmZmPwAAgD8AAIA/AACAPwAAAAAAAAAAq6oqPwAAAACrqqo+AAAAAAAAgD8AAAAAAAAAAAAAAD+rqio/AAAAP6uqqj4AAAA/AACAPwAAAD+rqqo+AAAAAAAAAAAAAAA/q6oqPwAAAACrqqo+AAAAP6uqqj4AAAA/AAAAAAAAgD+rqio/AAAAP6uqqj4AAIA/q6qqPgAAAD+rqio/AAAAP6uqKj8AAAA/AACAPwAAAD+rqqo+AACAP6uqKj8AAIA/q6oqPwAAgD8AAIA/AACAPw=="),
+"aabb": AABB(-0.24366067, -0.16578819, 0.021097064, 0.48732138, 0.35157636, 0.29780588),
+"attribute_data": PackedByteArray("AAAAAAAAAADNzMw9AAAAAM3MTD4AAAAAmpmZPgAAAADNzMw+AAAAAAAAAD8AAAAAmpkZPwAAAAAzMzM/AAAAAM3MTD8AAAAAZmZmPwAAAAAAAIA/AAAAAAAAAACrqio+zczMPauqKj7NzEw+q6oqPpqZmT6rqio+zczMPquqKj4AAAA/q6oqPpqZGT+rqio+MzMzP6uqKj7NzEw/q6oqPmZmZj+rqio+AACAP6uqKj4AAAAAq6qqPs3MzD2rqqo+zcxMPquqqj6amZk+q6qqPs3MzD6rqqo+AAAAP6uqqj6amRk/q6qqPjMzMz+rqqo+zcxMP6uqqj5mZmY/q6qqPgAAgD+rqqo+AAAAAAAAAD/NzMw9AAAAP83MTD4AAAA/mpmZPgAAAD/NzMw+AAAAPwAAAD8AAAA/mpkZPwAAAD8zMzM/AAAAP83MTD8AAAA/ZmZmPwAAAD8AAIA/AAAAPwAAAACrqio/zczMPauqKj/NzEw+q6oqP5qZmT6rqio/zczMPquqKj8AAAA/q6oqP5qZGT+rqio/MzMzP6uqKj/NzEw/q6oqP2ZmZj+rqio/AACAP6uqKj8AAAAAVVVVP83MzD1VVVU/zcxMPlVVVT+amZk+VVVVP83MzD5VVVU/AAAAP1VVVT+amRk/VVVVPzMzMz9VVVU/zcxMP1VVVT9mZmY/VVVVPwAAgD9VVVU/AAAAAAAAgD/NzMw9AACAP83MTD4AAIA/mpmZPgAAgD/NzMw+AACAPwAAAD8AAIA/mpkZPwAAgD8zMzM/AACAP83MTD8AAIA/ZmZmPwAAgD8AAIA/AACAPw=="),
 "format": 34359742487,
-"index_count": 396,
-"index_data": PackedByteArray("AAABAAsAAQAMAAsAAQACAAwAAgANAAwAAgADAA0AAwAOAA0AAwAEAA4ABAAPAA4ABAAFAA8ABQAQAA8ABQAGABAABgARABAABgAHABEABwASABEABwAIABIACAATABIACAAJABMACQAUABMACQAKABQACgAVABQACwAMABYADAAXABYADAANABcADQAYABcADQAOABgADgAZABgADgAPABkADwAaABkADwAQABoAEAAbABoAEAARABsAEQAcABsAEQASABwAEgAdABwAEgATAB0AEwAeAB0AEwAUAB4AFAAfAB4AFAAVAB8AFQAgAB8AFgAXACEAFwAiACEAFwAYACIAGAAjACIAGAAZACMAGQAkACMAGQAaACQAGgAlACQAGgAbACUAGwAmACUAGwAcACYAHAAnACYAHAAdACcAHQAoACcAHQAeACgAHgApACgAHgAfACkAHwAqACkAHwAgACoAIAArACoAIQAiACwAIgAtACwAIgAjAC0AIwAuAC0AIwAkAC4AJAAvAC4AJAAlAC8AJQAwAC8AJQAmADAAJgAxADAAJgAnADEAJwAyADEAJwAoADIAKAAzADIAKAApADMAKQA0ADMAKQAqADQAKgA1ADQAKgArADUAKwA2ADUALAAtADcALQA4ADcALQAuADgALgA5ADgALgAvADkALwA6ADkALwAwADoAMAA7ADoAMAAxADsAMQA8ADsAMQAyADwAMgA9ADwAMgAzAD0AMwA+AD0AMwA0AD4ANAA/AD4ANAA1AD8ANQBAAD8ANQA2AEAANgBBAEAANwA4AEIAOABDAEIAOAA5AEMAOQBEAEMAOQA6AEQAOgBFAEQAOgA7AEUAOwBGAEUAOwA8AEYAPABHAEYAPAA9AEcAPQBIAEcAPQA+AEgAPgBJAEgAPgA/AEkAPwBKAEkAPwBAAEoAQABLAEoAQABBAEsAQQBMAEsATQBPAFEATwBTAFEATgBQAFIAUABUAFIAVQBXAFkAVwBbAFkAVgBYAFoAWABcAFoAXQBfAGEAXwBjAGEAXgBgAGIAYABkAGIA"),
+"index_count": 360,
+"index_data": PackedByteArray("AAABAAsAAQAMAAsAAQACAAwAAgANAAwAAgADAA0AAwAOAA0AAwAEAA4ABAAPAA4ABAAFAA8ABQAQAA8ABQAGABAABgARABAABgAHABEABwASABEABwAIABIACAATABIACAAJABMACQAUABMACQAKABQACgAVABQACwAMABYADAAXABYADAANABcADQAYABcADQAOABgADgAZABgADgAPABkADwAaABkADwAQABoAEAAbABoAEAARABsAEQAcABsAEQASABwAEgAdABwAEgATAB0AEwAeAB0AEwAUAB4AFAAfAB4AFAAVAB8AFQAgAB8AFgAXACEAFwAiACEAFwAYACIAGAAjACIAGAAZACMAGQAkACMAGQAaACQAGgAlACQAGgAbACUAGwAmACUAGwAcACYAHAAnACYAHAAdACcAHQAoACcAHQAeACgAHgApACgAHgAfACkAHwAqACkAHwAgACoAIAArACoAIQAiACwAIgAtACwAIgAjAC0AIwAuAC0AIwAkAC4AJAAvAC4AJAAlAC8AJQAwAC8AJQAmADAAJgAxADAAJgAnADEAJwAyADEAJwAoADIAKAAzADIAKAApADMAKQA0ADMAKQAqADQAKgA1ADQAKgArADUAKwA2ADUALAAtADcALQA4ADcALQAuADgALgA5ADgALgAvADkALwA6ADkALwAwADoAMAA7ADoAMAAxADsAMQA8ADsAMQAyADwAMgA9ADwAMgAzAD0AMwA+AD0AMwA0AD4ANAA/AD4ANAA1AD8ANQBAAD8ANQA2AEAANgBBAEAANwA4AEIAOABDAEIAOAA5AEMAOQBEAEMAOQA6AEQAOgBFAEQAOgA7AEUAOwBGAEUAOwA8AEYAPABHAEYAPAA9AEcAPQBIAEcAPQA+AEgAPgBJAEgAPgA/AEkAPwBKAEkAPwBAAEoAQABLAEoAQABBAEsAQQBMAEsA"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 101,
-"vertex_data": PackedByteArray("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")
+"vertex_count": 77,
+"vertex_data": PackedByteArray("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")
 }]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_t2pao"]
@@ -458,7 +458,7 @@ size = Vector2(0.35, 0.35)
 [sub_resource type="PlaneMesh" id="PlaneMesh_l5awn"]
 size = Vector2(1, 1)
 
-[node name="CinderHand" type="Node3D" unique_id=268459566]
+[node name="CinderHand" type="Node3D" unique_id=1863685548]
 script = ExtResource("1_inidp")
 fire_kind = &"worker"
 body_height = 1.4
@@ -469,90 +469,90 @@ idle_period = 2.6
 leg_swing_deg = 32.0
 walk_bounce = 0.06
 
-[node name="Root" type="Node3D" parent="." unique_id=1617121135]
+[node name="Root" type="Node3D" parent="." unique_id=286226852]
 
-[node name="Hips" type="Node3D" parent="Root" unique_id=612466391]
+[node name="Hips" type="Node3D" parent="Root" unique_id=1304888875]
 
-[node name="LegL" type="Node3D" parent="Root/Hips" unique_id=1659026530]
+[node name="LegL" type="Node3D" parent="Root/Hips" unique_id=101078315]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.4, 0)
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=615427093]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=1747083003]
 material_override = ExtResource("2_4kuga")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_bee4y")
 
-[node name="LegR" type="Node3D" parent="Root/Hips" unique_id=161170628]
+[node name="LegR" type="Node3D" parent="Root/Hips" unique_id=1576900492]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.4, 0)
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=210838552]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=1075581313]
 material_override = ExtResource("2_4kuga")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_pswwg")
 
-[node name="FireCloth" type="MeshInstance3D" parent="Root/Hips" unique_id=1281708445]
+[node name="FireCloth" type="MeshInstance3D" parent="Root/Hips" unique_id=1674967292]
 material_override = ExtResource("3_k3xcq")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_7sv0k")
 
-[node name="FireBronze" type="MeshInstance3D" parent="Root/Hips" unique_id=110946850]
+[node name="FireBronze" type="MeshInstance3D" parent="Root/Hips" unique_id=1289584413]
 material_override = ExtResource("4_f4vqa")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_fg8wq")
 
-[node name="Chest" type="Node3D" parent="Root" unique_id=2133720827]
+[node name="Chest" type="Node3D" parent="Root" unique_id=1391323222]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, 0)
 
-[node name="Head" type="Node3D" parent="Root/Chest" unique_id=1784449393]
+[node name="Head" type="Node3D" parent="Root/Chest" unique_id=591871681]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=826353305]
+[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=2063321395]
 material_override = ExtResource("5_0163p")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_fs8ei")
 
-[node name="FireHair" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1977390355]
+[node name="FireHair" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1063580612]
 material_override = ExtResource("6_it8di")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_5hhjb")
 
-[node name="FireCloth" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=757584141]
+[node name="FireCloth" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1895791514]
 material_override = ExtResource("3_k3xcq")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_t2pao")
 
-[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=686218373]
+[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=680999128]
 material_override = ExtResource("4_f4vqa")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_st5gl")
 
-[node name="GlowFireGlow" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1581893153]
+[node name="GlowFireGlow" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=2137949186]
 material_override = ExtResource("7_8vnwt")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_vxsl0")
 metadata/keep_separate = true
 
-[node name="ArmL" type="Node3D" parent="Root/Chest" unique_id=1147904282]
+[node name="ArmL" type="Node3D" parent="Root/Chest" unique_id=1756853536]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.45999998, 0)
 
-[node name="FireSecWorker" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1525747436]
+[node name="FireSecWorker" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=834093097]
 material_override = ExtResource("8_cgu74")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_pbua2")
 
-[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=846116743]
+[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1802553436]
 material_override = ExtResource("5_0163p")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_0bu6g")
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1477161218]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1319386093]
 material_override = ExtResource("2_4kuga")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_tniga")
 
-[node name="ArmR" type="Node3D" parent="Root/Chest" unique_id=727451417]
+[node name="ArmR" type="Node3D" parent="Root/Chest" unique_id=1383803267]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.45999998, 0)
 
-[node name="MineSparks" type="GPUParticles3D" parent="Root/Chest/ArmR" unique_id=178288295]
+[node name="MineSparks" type="GPUParticles3D" parent="Root/Chest/ArmR" unique_id=1323822292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2644044, 0.6611749, -0.063952625)
 cast_shadow = 0
 emitting = false
@@ -565,32 +565,32 @@ process_material = SubResource("ParticleProcessMaterial_krpc1")
 draw_pass_1 = SubResource("QuadMesh_4xjll")
 metadata/keep_separate = true
 
-[node name="FireSecWorker" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=661859729]
+[node name="FireSecWorker" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1160619130]
 material_override = ExtResource("8_cgu74")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_x7si1")
 
-[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=119381637]
+[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=856678859]
 material_override = ExtResource("5_0163p")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_mnudu")
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1959206354]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=744286950]
 material_override = ExtResource("2_4kuga")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_j36qg")
 
-[node name="FireWood" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1903375952]
+[node name="FireWood" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=484660305]
 material_override = ExtResource("9_upxne")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_j7eob")
 
-[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=858949796]
+[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=351958414]
 material_override = ExtResource("4_f4vqa")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_oo5no")
 
-[node name="Crystals" type="MeshInstance3D" parent="Root/Chest" unique_id=1672662879]
+[node name="Crystals" type="MeshInstance3D" parent="Root/Chest" unique_id=1698379518]
 visible = false
 material_override = ExtResource("10_ntio1")
 cast_shadow = 0
@@ -598,24 +598,24 @@ mesh = SubResource("ArrayMesh_kunun")
 metadata/keep_separate = true
 metadata/carry = true
 
-[node name="FireSecWorker" type="MeshInstance3D" parent="Root/Chest" unique_id=684205706]
+[node name="FireSecWorker" type="MeshInstance3D" parent="Root/Chest" unique_id=802454403]
 material_override = ExtResource("8_cgu74")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_m1i55")
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest" unique_id=1528689357]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest" unique_id=333495685]
 material_override = ExtResource("2_4kuga")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_ygewa")
 
-[node name="FireWood" type="MeshInstance3D" parent="Root/Chest" unique_id=703987706]
+[node name="FireWood" type="MeshInstance3D" parent="Root/Chest" unique_id=1610645310]
 material_override = ExtResource("9_upxne")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_v7hfu")
 
-[node name="Fx" type="Node3D" parent="." unique_id=1924623108]
+[node name="Fx" type="Node3D" parent="." unique_id=1344253560]
 
-[node name="BurnEmbers" type="GPUParticles3D" parent="Fx" unique_id=359233914]
+[node name="BurnEmbers" type="GPUParticles3D" parent="Fx" unique_id=799521412]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 cast_shadow = 0
 emitting = false
@@ -629,7 +629,7 @@ draw_pass_1 = SubResource("QuadMesh_w4mql")
 metadata/keep_separate = true
 metadata/burn_fx = true
 
-[node name="AshPuff" type="GPUParticles3D" parent="Fx" unique_id=92472627]
+[node name="AshPuff" type="GPUParticles3D" parent="Fx" unique_id=1552160089]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0)
 cast_shadow = 0
 emitting = false
@@ -641,7 +641,7 @@ draw_pass_1 = SubResource("QuadMesh_rxpsg")
 metadata/keep_separate = true
 metadata/burn_fx = true
 
-[node name="Shadow" type="MeshInstance3D" parent="." unique_id=2095419847]
+[node name="Shadow" type="MeshInstance3D" parent="." unique_id=1259511801]
 transform = Transform3D(1.092, 0, 0, 0, 1, 0, 0, 0, 1.092, 0, 0.02, 0)
 material_override = ExtResource("11_ycu2r")
 cast_shadow = 0

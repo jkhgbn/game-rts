@@ -111,7 +111,18 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if leg.name == "LegL" else 1.0
 		_sculpt(leg, "rrr_leg_%s_v1" % sx, func(s: Dictionary) -> void: _leg_sculpt(s, sx))
 	_sculpt($Root/Chest, "rrr_chest_v1", _chest_sculpt)
-	_sculpt($Root/Chest/Head, "rrr_head_v1", _head_sculpt)
+	_sculpt($Root/Chest/Head, "rrr_head_v3", _head_sculpt)
+	# Face (faces pass 2026-09-28): a weathered axeman, pale brows, ice-grey eyes; the mouth sits on the pale beard
+	# under the moustache (mouth canvas). Replaces the two dark eye beads: one FaceRig surface.
+	_face = FaceKit.attach(self, $Root/Chest/Head, "rimehorn_rider_axeman", {"center": Vector3(0, 1.72, 0.05), "radius": 0.145,
+		"head_mesh": sphere(0.145, 10, 6), "head_scale": Vector3(0.95, 1.05, 0.95), "preset": &"stern", "detail": &"low",
+		"skin": ICE_SKIN, "hair": Color(0.90, 0.92, 0.95), "eyes": Color(0.50, 0.62, 0.74), "ears": &"none",
+		"palette": {"brow": Color(0.56, 0.58, 0.64), "lash": Color(0.10, 0.10, 0.14)},
+		"eye": {"c": Vector2(0.052, -0.006), "hw": 0.027, "top": 0.017, "ir": 0.013},
+		"brow": {"inner": Vector2(0.024, 0.026), "mid": Vector2(0.050, 0.030), "outer": Vector2(0.076, 0.024)},
+		"mouth_canvas": FaceKit.canvas(Vector3(0, 1.59, 0.12), 0.11, sphere(0.125, 9, 5), Vector3(1.0, 0.9, 0.8), Vector3.INF,
+			Basis.IDENTITY, 0.002),
+		"mouth": {"c": Vector2(0.0, 0.040), "hw": 0.030}})
 	_sculpt($Root/Chest/ArmL, "rrr_arm_l_v1", _arm_l_sculpt)
 	_sculpt($Root/Chest/ArmR, "rrr_arm_r_v1", _arm_r_sculpt)
 	# the axe: own node at the fist (turned by the wrist every animated frame)
@@ -322,18 +333,16 @@ func _head_sculpt(s: Dictionary) -> void:
 	var metal := m("ice_metal")
 	var frost := m("ice_frost_crystal")
 	var fur := m("rimehorn_rider_fur")
-	var eye := palette(&"unit_eye_dark")
 	_put(s, cyl(0.085, 0.10, 0.14, 8), skin, Vector3(0, 1.585, 0.02))
 	_put(s, sphere(0.145, 10, 6), skin, Vector3(0, 1.72, 0.05), Vector3.ZERO, Vector3(0.95, 1.05, 0.95))
 	for sx: float in [-1.0, 1.0]:
-		_put(s, sphere(0.026, 6, 3), eye, Vector3(0.052 * sx, 1.745, 0.178), Vector3.ZERO, Vector3(1.2, 0.7, 0.6))
 		_put(s, box(Vector3(0.05, 0.17, 0.15)), steel, Vector3(0.145 * sx, 1.71, 0.07), Vector3(0, 12.0 * sx, 0))
 	# the pale beard: a full chin, a long braid with a silver ring, a moustache
-	_put(s, sphere(0.125, 9, 5), hair, Vector3(0, 1.635, 0.12), Vector3.ZERO, Vector3(1.0, 0.9, 0.8))
-	_seg(s, hair, Vector3(0, 1.58, 0.16), Vector3(0, 1.36, 0.22), 0.09, 0.02, 7)
+	_put(s, sphere(0.125, 9, 5), hair, Vector3(0, 1.59, 0.12), Vector3.ZERO, Vector3(1.0, 0.9, 0.8))
+	_seg(s, hair, Vector3(0, 1.55, 0.16), Vector3(0, 1.34, 0.22), 0.09, 0.02, 7)
 	_put(s, torus(0.035, 0.07, 8), metal, Vector3(0, 1.46, 0.195), Vector3(15, 0, 0))
 	for sx: float in [-1.0, 1.0]:
-		_seg(s, hair, Vector3(0.0, 1.69, 0.185), Vector3(0.10 * sx, 1.63, 0.16), 0.03, 0.012, 5)
+		_seg(s, hair, Vector3(0.0, 1.672, 0.19), Vector3(0.10 * sx, 1.615, 0.165), 0.03, 0.012, 5)
 	# steel helm with a fur brim and a nose guard
 	_put(s, sphere(0.17, 12, 6), steel, Vector3(0, 1.83, 0.03), Vector3.ZERO, Vector3(1.05, 0.88, 1.08))
 	_put(s, torus(0.155, 0.195, 14), metal, Vector3(0, 1.805, 0.03))

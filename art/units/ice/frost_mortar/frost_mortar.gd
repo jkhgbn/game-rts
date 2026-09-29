@@ -25,6 +25,7 @@ var _flare: float = 0.0
 var _charge: float = 0.0
 var _big: float = 1.0
 var _muzzle_written: float = -1.0
+var _face_loader: FaceRig                 # the kneeling loader's face (on the sled pivot); _face = the gunner's
 
 
 func _build_parts() -> void:
@@ -100,7 +101,15 @@ func _build_parts() -> void:
 	add_part(mount, sphere(0.2, 9, 5), cloth, lo + Vector3(0, 0.84, -0.02), Vector3.ZERO, Vector3(1.0, 1.05, 1.0))
 	add_part(mount, cyl(0.0, 0.12, 0.24, 6), cloth, lo + Vector3(0, 0.95, -0.2), Vector3(-60, 0, 0))
 	add_part(mount, torus(0.11, 0.19, 10), pale, lo + Vector3(0, 0.81, 0.13), Vector3(80, 0, 0))
-	add_part(mount, box(Vector3(0.15, 0.05, 0.04)), palette(&"unit_eye_dark"), lo + Vector3(0, 0.82, 0.21))
+	# the loader's face (faces pass 2026-09-28): its own FaceRig on the sled pivot (replaces the eye bar: the eye_dark
+	# surface of the sled merge goes, the face node comes: same draw count). A young loader, straw fringe.
+	var lh := Color(0.88, 0.80, 0.56)
+	_face_loader = UnitFaces.attach_lean(self, mount, "frost_mortar_loader", {"center": lo + Vector3(0, 0.80, 0.06), "radius": 0.16,
+		"head_mesh": sphere(0.16, 9, 5), "preset": &"bright", "detail": &"low", "skin": ICE_SKIN, "hair": lh,
+		"hair_tip": Color(0.98, 0.94, 0.78), "eyes": Color(0.40, 0.60, 0.80), "ears": &"none",
+		"palette": {"brow": lh.darkened(0.4)}, "eye": {"c": Vector2(0.056, 0.016)},
+		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, lo + Vector3(0, 0.80, 0.06), 0.16, lh,
+			Color(0.98, 0.94, 0.78), -1.0)}, false)
 	for s: float in [-1.0, 1.0]:
 		add_limb(mount, lo + Vector3(0.22 * s, 0.62, 0.0), lo + Vector3(0.10 + 0.08 * s, 0.50, 0.26), 0.07, cloth, 0.08, leather)
 	add_part(mount, sphere(0.10, 8, 4), frost, lo + Vector3(0.10, 0.56, 0.30), Vector3.ZERO, Vector3(1.0, 1.25, 1.0))
@@ -120,7 +129,11 @@ func _build_parts() -> void:
 	add_part(head, sphere(0.245, 10, 6), cloth, G + Vector3(0, 1.25, -0.05), Vector3.ZERO, Vector3(1.0, 1.05, 1.0))
 	add_part(head, cyl(0.0, 0.15, 0.30, 6), cloth, G + Vector3(0, 1.38, -0.24), Vector3(-62, 0, 0))
 	add_part(head, torus(0.14, 0.23, 12), pale, G + Vector3(0, 1.21, 0.14), Vector3(90, 0, 0))
-	add_part(head, box(Vector3(0.19, 0.055, 0.05)), palette(&"unit_eye_dark"), G + Vector3(0, 1.22, 0.24))
+	# the gunner's face (faces pass 2026-09-28): a grizzled hauler, grey moustache, grey-blue eyes (replaces the eye bar)
+	_face = UnitFaces.attach_lean(self, head, "frost_mortar_gunner", {"center": G + Vector3(0, 1.20, 0.06), "radius": 0.19,
+		"head_mesh": sphere(0.19, 10, 5), "preset": &"elder", "detail": &"low", "skin": ICE_SKIN,
+		"hair": Color(0.62, 0.64, 0.68), "hair_tip": Color(0.86, 0.88, 0.92), "eyes": Color(0.40, 0.52, 0.66), "ears": &"none",
+		"beard": &"moustache", "palette": {"brow": Color(0.40, 0.42, 0.46)}, "eye": {"c": Vector2(0.066, 0.02)}}, false)
 	var trim := add_part(head, torus(0.19, 0.24, 12), palette(&"unit_gold_trim"), G + Vector3(0, 1.38, -0.05),
 		Vector3(-10, 0, 0), Vector3.ONE, true, "VetTrim")
 	if trim:
@@ -215,6 +228,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _ice_process(dt: float) -> void:
+	if _face_loader:
+		_face_loader.auto(self)
 	if _walk_w > 0.0 and not _dead:
 		# the gunner pushes: lean in, hands stay on the bar (cancel the kit's arm swing)
 		var s: float = sin(TAU * _walk_p)
@@ -232,6 +247,8 @@ func _ice_process(dt: float) -> void:
 
 
 func _ice_revive() -> void:
+	if _face_loader:
+		_face_loader.reset()
 	_flare = 0.0
 	_charge = 0.0
 	_muzzle_written = -1.0

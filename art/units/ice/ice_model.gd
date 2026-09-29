@@ -18,6 +18,8 @@ extends CharacterModel
 
 const ICE_MAT_DIR := "res://art/units/ice/materials/"
 const ICE_GLOW := Color(0.75, 0.92, 1.0)
+## ice_skin's colour (FaceKit faces paint over it with vertex colours).
+const ICE_SKIN := Color(0.86, 0.82, 0.84)
 const FREEZE_COLOR := Vector3(0.40, 0.72, 1.0)
 ## Cool (blue-black) ground blob for every Ice unit.
 const BLOB_TINT := Color(0.03, 0.05, 0.11, 0.5)
@@ -42,6 +44,8 @@ var _ice_nodes: Array[GeometryInstance3D] = []
 var _shattered: bool = false
 var _freeze_written: float = 0.0
 var _fidget_wait: float = 0.0
+## Painted face (FaceKit, faces pass 2026-09-28): attached by the unit's _build_parts; null = faceless (golems).
+var _face: FaceRig
 
 
 ## Ice palette material by name (loaded once, shared). Unknown Ice names fall back to the kit palette.
@@ -55,13 +59,27 @@ static func ice(name: StringName) -> Material:
 # ================================================================ part helpers
 
 ## Capsule limb from model point a to b (radius r), plus an optional end sphere (fist / foot) at b.
+## `lo` = the cheap capsule (1 ring per cap: 81 vertices instead of 162; faces pass budget trims).
 func add_limb(pivot: Node3D, a: Vector3, b: Vector3, r: float, mat: Material, end_r: float = 0.0,
-		end_mat: Material = null) -> void:
+		end_mat: Material = null, lo: bool = false) -> void:
 	var d := b - a
 	var e := Basis(Quaternion(Vector3.DOWN, d.normalized())).get_euler() * (180.0 / PI)
-	add_part(pivot, capsule(r, d.length() + r), mat, a + d * 0.5, e)
+	add_part(pivot, capsule_lo(r, d.length() + r) if lo else capsule(r, d.length() + r), mat, a + d * 0.5, e)
 	if end_r > 0.0:
 		add_part(pivot, sphere(end_r), end_mat if end_mat else mat, b)
+
+
+## A cheaper capsule (8 sides, 1 ring per cap: 81 vertices; the kit's capsule() is 162). Cached.
+static func capsule_lo(r: float, h: float) -> Mesh:
+	var key := "caplo%s_%s" % [r, h]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var m := CapsuleMesh.new()
+	m.radius = r
+	m.height = maxf(h, r * 2.0)
+	m.radial_segments = 8
+	m.rings = 1
+	return _cached(key, m)
 
 
 ## Ring of n hexagonal ice spikes (cones, 6 segments) around `centre` (model space), tips leaning outward.
@@ -153,6 +171,8 @@ func play_hit() -> void:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	if _breath and breath_interval > 0.0 and not _dead:
 		_breath_t += dt
 		if _breath_t >= breath_interval:
@@ -191,6 +211,8 @@ func _next_fidget() -> float:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_shattered = false
 	_write_freeze(0.0)
 	var root := _piv[P_ROOT]
@@ -241,6 +263,15 @@ func _find_ice_nodes(n: Node) -> void:
 					_ice_nodes.append(c as GeometryInstance3D)
 					break
 		_find_ice_nodes(c)
+
+
+# ================================================================ face (FaceKit)
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+## No-op on faceless units.
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
 
 
 # ================================================================ subclass hooks

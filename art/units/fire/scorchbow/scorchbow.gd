@@ -97,7 +97,7 @@ func _build_parts() -> void:
 	add_part(chest, _path("sb_bracket", PackedVector3Array([Vector3(0.10, 1.05, -0.22), Vector3(0.18, 1.28, -0.24),
 		POT + Vector3(0, -0.07, 0)]), PackedFloat32Array([0.025, 0.022, 0.02]), 5), bronze, Vector3.ZERO)
 	add_part(chest, cyl(0.10, 0.06, 0.12, 8, false), bronze, POT)
-	add_part(chest, torus(0.085, 0.115, 8), bronze, POT + Vector3(0, 0.06, 0))
+	add_part(chest, torus(0.085, 0.115, 7), bronze, POT + Vector3(0, 0.06, 0))
 	add_part(chest, cyl(0.085, 0.065, 0.03, 8), hair, POT + Vector3(0, 0.03, 0))
 	_pot_fire = add_part(chest, _flame_mesh(), flame, POT + Vector3(0, 0.05, 0), Vector3.ZERO, Vector3.ONE, true,
 		"PotFire")
@@ -114,23 +114,29 @@ func _build_parts() -> void:
 		Vector3(0, 1.17, 0.01), Vector3(0, 1.30, 0.0), Vector3(0, 1.38, 0.0)]),
 		PackedFloat32Array([0.22, 0.235, 0.27, 0.27, 0.17]), 8), cdark, Vector3.ZERO, Vector3.ZERO,
 		Vector3(1.0, 1.0, 0.82))
-	add_part(chest, sphere(0.25, 10, 5), bronze, Vector3(0, 1.14, 0.05), Vector3(-6, 0, 0), Vector3(1.0, 0.95, 0.78))
-	add_part(chest, torus(0.20, 0.235, 10), leather, Vector3(0, 1.03, 0.03), Vector3(-6, 0, 0), Vector3(1.0, 1.4, 0.85))
+	add_part(chest, sphere(0.25, 9, 5), bronze, Vector3(0, 1.14, 0.05), Vector3(-6, 0, 0), Vector3(1.0, 0.95, 0.78))
+	add_part(chest, torus(0.20, 0.235, 8), leather, Vector3(0, 1.03, 0.03), Vector3(-6, 0, 0), Vector3(1.0, 1.4, 0.85))
 	add_part(chest, cyl(0.07, 0.10, 0.32, 6), cdark, Vector3(0, 0.84, 0.215), Vector3(-8, 0, 0), Vector3(1.0, 1.0, 0.35))
-	add_part(chest, torus(0.12, 0.23, 10), fur, Vector3(0, 1.36, 0.0), Vector3.ZERO, Vector3(1.0, 1.6, 0.9))
+	add_part(chest, torus(0.12, 0.23, 8), fur, Vector3(0, 1.36, 0.0), Vector3.ZERO, Vector3(1.0, 1.6, 0.9))
 	# Big bronze pauldron on the bow shoulder: two stacked lames + a dark rim.
 	add_part(chest, sphere(0.16, 8, 4), bronze, SH_L + Vector3(-0.04, 0.03, 0.0), Vector3(0, 0, 18),
 		Vector3(1.15, 0.75, 1.1))
 	add_part(chest, sphere(0.14, 8, 4), bronze, SH_L + Vector3(-0.09, -0.07, 0.0), Vector3(0, 0, 30),
 		Vector3(1.05, 0.55, 1.05))
-	# ---- Head: bearded face under a bronze kettle helm (dome + wide brim + a crest ridge), dark eye band.
+	# ---- Head: bearded face under a bronze kettle helm (dome + wide brim + a crest ridge). The face (faces pass
+	# 2026-09-28): a gruff veteran, dark-auburn brows, brown eyes, the mouth just above the (lowered) beard; FaceKit,
+	# replaces the dark eye band.
 	add_part(head, sphere(0.125, 8, 5), skin, Vector3(0, 1.53, 0.06))
-	add_part(head, _path("sb_beard", PackedVector3Array([Vector3(0, 1.52, 0.10), Vector3(0, 1.44, 0.14),
-		Vector3(0, 1.36, 0.13)]), PackedFloat32Array([0.10, 0.085, 0.0]), 7), hair, Vector3.ZERO, Vector3.ZERO,
+	add_part(head, _path("sb_beard_v2", PackedVector3Array([Vector3(0, 1.47, 0.125), Vector3(0, 1.41, 0.15),
+		Vector3(0, 1.33, 0.135)]), PackedFloat32Array([0.085, 0.075, 0.0]), 7), hair, Vector3.ZERO, Vector3.ZERO,
 		Vector3(1.0, 1.0, 0.8))
-	add_part(head, box(Vector3(0.17, 0.035, 0.04)), palette(&"unit_eye_dark"), Vector3(0, 1.55, 0.175))
+	_face = UnitFaces.attach_lean(self, head, "scorchbow", {"center": Vector3(0, 1.53, 0.06), "radius": 0.125,
+		"head_mesh": sphere(0.125, 8, 5), "preset": &"stern", "detail": &"low", "skin": FIRE_SKIN,
+		"hair": Color(0.30, 0.09, 0.05), "eyes": Color(0.45, 0.26, 0.10), "ears": &"none",
+		"eye": {"c": Vector2(0.044, 0.018), "hw": 0.024, "top": 0.016, "ir": 0.012},
+		"mouth": {"c": Vector2(0.0, -0.032), "hw": 0.026}}, false)
 	add_part(head, sphere(0.155, 9, 5), bronze, Vector3(0, 1.60, 0.0), Vector3.ZERO, Vector3(1.0, 0.85, 1.05))
-	add_part(head, cyl(0.34, 0.31, 0.04, 12), bronze, Vector3(0, 1.585, 0.01), Vector3(-6, 0, 0))
+	add_part(head, cyl(0.34, 0.31, 0.04, 10), bronze, Vector3(0, 1.585, 0.01), Vector3(-6, 0, 0))
 	# Crest ridge + a swept-back team horsehair plume (the head hook; the Ember Archer's hood point droops instead).
 	add_part(head, _path("sb_ridge", PackedVector3Array([Vector3(0, 1.70, 0.12), Vector3(0, 1.75, 0.0),
 		Vector3(0, 1.73, -0.12)]), PackedFloat32Array([0.02, 0.035, 0.03]), 5), bronze, Vector3.ZERO)

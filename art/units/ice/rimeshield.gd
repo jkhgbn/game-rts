@@ -1,7 +1,7 @@
 extends IceModel
 ## Rimeshield, Ice melee line (kingdom-ice.md 8.2; polish A.6). Height 1.7, radius 0.5. A square armored guard in
 ## CRYSTAL ARMOUR over dark blue steel: faceted ice pauldrons (2 crystals each, the widest shoulders of the army), an
-## ice gem set in the breastplate, a box helm with an ice crest and a glowing visor (ice_glow_unit, the single glow
+## ice gem set in the breastplate, a box helm with an ice crest, an open front (painted FaceKit face) and a glowing brow band (ice_glow_unit, the single glow
 ## point; the pale Ice glow needs 3.4 to read as light on a pale unit). Behind a ROUND
 ## SHIELD OF CLEAR ICE (0.9 m, translucent: the team snowflake shows through it, silver rim, crystal boss) and an axe
 ## with an ice blade. Read at 40 m: wide square block + big pale disc in front.
@@ -35,9 +35,19 @@ func _build_parts() -> void:
 	# Hips: dark fur tassets (dark base under the armour).
 	add_part(hips, cyl(0.31, 0.38, 0.30, 8), fur, Vector3(0, 0.66, 0))
 	add_part(hips, cyl(0.32, 0.33, 0.07, 8), metal, Vector3(0, 0.80, 0))
-	# Head: box helm, visor, ice crest (3 crystals in a row) on a team ridge.
+	# Head: box helm, glowing brow band (the old visor, raised), ice crest (3 crystals in a row) on a team ridge. The
+	# face (faces pass 2026-09-28) looks out of the helm front: a stern veteran, platinum moustache, pale blue eyes. The
+	# face sphere is part of the FaceKit mesh (vertex colour = ice_skin): no extra surface on the head.
 	add_part(head, box(Vector3(0.46, 0.44, 0.46)), steel, Vector3(0, 1.52, 0))
-	add_part(head, box(Vector3(0.32, 0.09, 0.06)), ice(&"ice_glow_unit"), Vector3(0, 1.52, 0.24))
+	add_part(head, box(Vector3(0.34, 0.07, 0.06)), ice(&"ice_glow_unit"), Vector3(0, 1.665, 0.235))
+	var fc := Vector3(0, 1.49, 0.17)
+	_face = UnitFaces.attach_lean(self, head, "rimeshield", {"center": fc, "radius": 0.15, "head_mesh": sphere(0.15, 10, 6),
+		"preset": &"stern", "detail": &"low", "skin": ICE_SKIN, "hair": Color(0.88, 0.88, 0.84), "hair_tip": Color(1, 1, 0.97),
+		"eyes": Color(0.40, 0.64, 0.86), "ears": &"none", "beard": &"moustache",
+		"palette": {"brow": Color(0.46, 0.46, 0.50), "lash": Color(0.12, 0.12, 0.16)},
+		"eye": {"hw": 0.032, "top": 0.021, "ir": 0.015}, "mouth": {"c": Vector2(0.0, -0.066), "hw": 0.036},
+		"hair_fn": func(acc: Dictionary) -> void: FaceKit.put_mesh(acc, sphere(0.15, 10, 6), Transform3D(Basis.IDENTITY, fc), ICE_SKIN)},
+		false)
 	add_part(head, box(Vector3(0.12, 0.10, 0.50)), cloth, Vector3(0, 1.78, 0))
 	add_crystal(head, Vector3(0, 1.80, 0.12), Vector3(0, 1.0, 0.25), 0.075, 0.40, frost)
 	add_crystal(head, Vector3(0, 1.81, -0.04), Vector3(0, 1.0, -0.1), 0.07, 0.32, frost)
@@ -48,13 +58,14 @@ func _build_parts() -> void:
 		trim.set_meta(&"vet_trim", true)
 		trim.visible = false
 	# Legs: team-dark trousers + silver boots.
-	add_part(leg_l, capsule(0.12, 0.44), dark, Vector3(-0.18, 0.36, 0))
-	add_part(leg_r, capsule(0.12, 0.44), dark, Vector3(0.18, 0.36, 0))
+	# (cheap capsules: the faces pass paid for the face with them, -324 vertices)
+	add_part(leg_l, capsule_lo(0.12, 0.44), dark, Vector3(-0.18, 0.36, 0))
+	add_part(leg_r, capsule_lo(0.12, 0.44), dark, Vector3(0.18, 0.36, 0))
 	add_part(leg_l, box(Vector3(0.26, 0.14, 0.36)), steel, Vector3(-0.18, 0.07, 0.05))
 	add_part(leg_r, box(Vector3(0.26, 0.14, 0.36)), steel, Vector3(0.18, 0.07, 0.05))
 	# Arms: team-dark sleeves + silver gauntlets.
-	add_limb(arm_l, Vector3(-0.48, 1.27, 0), Vector3(-0.50, 0.86, 0.10), 0.10, dark, 0.12, steel)
-	add_limb(arm_r, Vector3(0.48, 1.27, 0), Vector3(0.48, 0.86, 0.02), 0.10, dark, 0.12, steel)
+	add_limb(arm_l, Vector3(-0.48, 1.27, 0), Vector3(-0.50, 0.86, 0.10), 0.10, dark, 0.12, steel, true)
+	add_limb(arm_r, Vector3(0.48, 1.27, 0), Vector3(0.48, 0.86, 0.02), 0.10, dark, 0.12, steel, true)
 	# Round shield of clear ice, front-left, face +Z: 0.9 m disc (12 facets), silver rim, crystal boss, and the team
 	# snowflake (3 crossed bars) inside the ice.
 	var sc := Vector3(-0.40, 0.98, 0.36)

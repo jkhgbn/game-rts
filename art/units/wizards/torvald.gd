@@ -241,24 +241,36 @@ static func _face_style() -> Dictionary:
 	var frost := Color(0.95, 0.97, 1.0)
 	var under := Color(0.40, 0.50, 0.70)
 	var icy := Color(0.62, 0.86, 1.0)
+	var warm := Color(0.93, 0.79, 0.74)
+	var brow := Color(0.34, 0.40, 0.54)
 	var st := {
 		"canvas": FaceKit.canvas(Vector3(0, 1.85, 0), 0.26, sphere(0.26)),
 		# the mouth sits on the top-front of the chin bulge, right under the moustache (faces up toward the camera)
 		"mouth_canvas": FaceKit.canvas(Vector3(0, 1.56, 0.34), 0.14, sphere(0.17), Vector3(1.15, 0.95, 0.75), Vector3.INF,
 			Basis(Vector3.RIGHT, -10.0 * DEG), 0.001),
-		"palette": {"skin": Color(0.86, 0.82, 0.84), "sclera": Color(0.96, 0.97, 0.98), "iris_in": Color(0.78, 0.98, 1.0),
-			"iris_out": Color(0.06, 0.28, 0.62), "iris_glow": 0.55, "pupil": Color(0.04, 0.06, 0.12), "highlight": Color(1, 1, 1),
-			"lash": Color(0.14, 0.17, 0.26), "brow": frost, "blush": Color(0.95, 0.50, 0.52), "lip_line": Color(0.24, 0.10, 0.14),
+		"palette": {"skin": warm, "sclera": Color(0.95, 0.95, 0.96), "iris_in": Color(0.70, 0.95, 1.0),
+			"iris_out": Color(0.03, 0.20, 0.52), "iris_glow": 0.55, "pupil": Color(0.03, 0.04, 0.10), "highlight": Color(1, 1, 1),
+			"lash": Color(0.08, 0.10, 0.18), "brow": brow, "blush": Color(0.95, 0.50, 0.52), "lip_line": Color(0.24, 0.10, 0.14),
 			"lip": Color(0.80, 0.56, 0.58), "mouth_in": Color(0.30, 0.08, 0.10), "teeth": Color(0.98, 0.97, 0.94), "tongue": Color(0.86, 0.42, 0.44)},
-		"eye": {"c": Vector2(0.078, 0.026), "hw": 0.040, "top": 0.025, "bot": 0.014, "tilt": -0.004, "ir": 0.0195, "lash": 1.4, "flick": 0.0},
+		# harsh-review fix (2026-09-28, was 62): bigger eyes with darker lash lines and irises, a warm face patch, a
+		# deeper socket shadow, grey-blue brows and a shadow line under the moustache, so the eyes read off the white beard.
+		"eye": {"c": Vector2(0.080, 0.024), "hw": 0.050, "top": 0.033, "bot": 0.018, "tilt": -0.004, "ir": 0.0245, "lash": 1.9, "flick": 0.0},
 		"base": func(acc: Dictionary, _id: StringName) -> void:
-			# a soft shadow under the brow ridge around each eye (depth on the pale frost face)
 			var cv: Dictionary = _own_mats[&"_face_style"]["canvas"]
 			var sk := Color(0.86, 0.82, 0.84)
+			# warm face: ruddy centre fading out to the ice-pale head at the edges
+			FaceKit.fill(acc, cv, FaceKit.ellipse(Vector2(0, -0.005), Vector2(0.185, 0.125), 0.0, 24),
+				FaceKit.radial(Vector2(0, -0.005), Vector2(0.185, 0.125), warm, sk, 0.55), 0.0008, 0.012)
+			# a deeper cool shadow under the brow ridge around each eye (the eye whites no longer sit on white)
 			for sx: float in [-1.0, 1.0]:
-				var so := Vector2(0.078 * sx, 0.030)
-				FaceKit.fill(acc, cv, FaceKit.ellipse(so, Vector2(0.056, 0.036), 0.0, 16), FaceKit.radial(so, Vector2(0.056, 0.036), sk.darkened(0.30), sk, 0.2), 0.0012, 0.007),
+				var so := Vector2(0.080 * sx, 0.030)
+				FaceKit.fill(acc, cv, FaceKit.ellipse(so, Vector2(0.068, 0.045), 0.0, 16),
+					FaceKit.radial(so, Vector2(0.068, 0.045), Color(0.52, 0.44, 0.50), warm, 0.25), 0.0012, 0.007)
+			# the shadow line where the moustache leaves the face
+			FaceKit.strip(acc, cv, FaceKit.bez(Vector2(-0.20, -0.050), Vector2(0.0, -0.072), Vector2(0.20, -0.050)),
+				Vector3(0.006, 0.013, 0.006), Color(0.34, 0.36, 0.48), 0.0014),
 		"brow": {"none": true},
+		"bold": 2.6,   # the RTS-distance face: extra-thick lash lines / pupils so the eyes still make dark pixels
 		"cheek": {"c": Vector2(0.108, -0.028), "r": Vector2(0.042, 0.024)},
 		"mouth": {"c": Vector2(0.0, 0.112), "hw": 0.056, "lip": 0.0045},
 		"x": {&"neutral": {"blush": 1.2, "mouth": {"curve": 1.2}}, &"smile": {"blush": 1.4}, &"worried": {"blush": 0.3}},
@@ -267,14 +279,14 @@ static func _face_style() -> Dictionary:
 			var x := FaceKit.params(_own_mats[&"_face_style"], id)
 			var dy: Array = x["brow"]
 			for sx: float in [-1.0, 1.0]:
-				var yi := 1.925 + float(dy[0]) * 1.2
-				var yo := 1.935 + float(dy[2]) * 1.2
-				var ym := 1.945 + float(dy[1]) * 1.2
+				var yi := 1.934 + float(dy[0]) * 1.2
+				var yo := 1.944 + float(dy[2]) * 1.2
+				var ym := 1.954 + float(dy[1]) * 1.2
 				var ix := 0.035 + float(x["brow_in_dx"]) * 1.5
 				var b0: int = acc["v"].size()
 				FaceKit.lock(acc, [Vector3(ix * sx, yi, 0.262), Vector3(0.09 * sx, ym + 0.012, 0.262), Vector3(0.15 * sx, (ym + yo) * 0.5, 0.225),
-					Vector3(0.19 * sx, yo - 0.02, 0.17)], Vector3(0.15 * sx, 0.3, 1.0).normalized(), 0.068, 0.066, frost, icy, 5, 0.8, 0.0)
-				FaceKit.shade_under(acc, b0, under, 0.6),
+					Vector3(0.19 * sx, yo - 0.02, 0.17)], Vector3(0.15 * sx, 0.3, 1.0).normalized(), 0.068, 0.066, brow, frost, 5, 0.75, 0.0)
+				FaceKit.shade_under(acc, b0, Color(0.22, 0.26, 0.38), 0.7),
 		"geo": func(acc: Dictionary) -> void:
 			var b0: int = acc["v"].size()
 			for sx: float in [-1.0, 1.0]:

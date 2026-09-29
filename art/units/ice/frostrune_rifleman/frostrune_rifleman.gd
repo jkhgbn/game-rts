@@ -7,7 +7,7 @@ extends "res://art/units/ice/shardcaster.gd"
 ## shatter death, cool blob); then only the rod hands are replaced and two parts are restyled:
 ##   - the crystal rod, its arms and orbit shards are removed (ArmL / ArmR emptied before the merge);
 ##   - the pale fur collar becomes a big shaggy PALE FUR MANTLE with an ice-silver right pauldron (the stock side);
-##   - the glowing eye slit becomes an ice-silver visor band (the glow moves to the rifle).
+##   - an ice-silver visor band pushed up on the brow over its own painted face (the glow moves to the rifle).
 ## New: two bent arms holding a VERY LONG RUNE-ETCHED RIFLE level in front (2.0 m, longer than the 1.9 m body): dark
 ## wood stock and forestock with silver bands, a long ice-silver barrel with 3 glowing rune collars, a crystal muzzle
 ## crown, a dark steel scope with a crystal objective and a glowing lens, and a FOLDED ICE MONOPOD under the forestock.
@@ -148,6 +148,22 @@ func authored_mesh_count() -> int:
 
 # ================================================================ build
 
+## Face (faces pass 2026-09-28): a weathered marksman, steel-grey fringe and stubble-grey moustache, cold grey eyes
+## (no iris glow: the rifle holds the glow).
+func _face_key() -> String:
+	return "frostrune_rifleman"
+
+
+func _face_spec() -> Dictionary:
+	var hair := Color(0.52, 0.55, 0.60)
+	var tip := Color(0.72, 0.76, 0.82)
+	return {"center": Vector3(0, 1.40, 0.03), "radius": 0.16, "head_mesh": sphere(0.16), "preset": &"stern",
+		"detail": &"low", "skin": ICE_SKIN, "hair": hair, "hair_tip": tip, "eyes": Color(0.46, 0.54, 0.62), "ears": &"none",
+		"beard": &"moustache", "palette": {"brow": Color(0.30, 0.32, 0.36)}, "eye": {"c": Vector2(0.056, 0.006)},
+		"mouth": {"c": Vector2(0.0, -0.068), "hw": 0.032},
+		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, Vector3(0, 1.40, 0.03), 0.16, hair, tip, 1.0)}
+
+
 func _build_parts() -> void:
 	var first: bool = not _merged.has(_type_key + "|Root/Chest")
 	super._build_parts()   # the whole Shardcaster (see the header)
@@ -171,10 +187,9 @@ func _build_parts() -> void:
 			mi.material_override = null
 			mi.position = -model_origin(chest)
 			mi.rotation = Vector3.ZERO
-	for c: Node in head.get_children():
-		if c is MeshInstance3D and (c as MeshInstance3D).material_override == ice(&"ice_glow_unit"):
-			(c as MeshInstance3D).material_override = ice(&"ice_metal")
-			(c as MeshInstance3D).scale = Vector3(1.12, 1.5, 1.7)
+	# The Shardcaster's glowing eye slit is gone (faces pass 2026-09-28: a painted face): the ice-silver visor band now
+	# sits pushed up on the brow, over the hood edge, above the rifleman's own face (_face_spec below).
+	add_part(head, box(Vector3(0.25, 0.055, 0.07)), ice(&"ice_metal"), Vector3(0, 1.475, 0.165), Vector3(-18, 0, 0))
 	# 3. Arms (one merged mesh each: sleeve, forearm, glove) and the rifle (own glow, keeps its pitch level).
 	add_part(arm_r, _arm_mesh(true), null, Vector3.ZERO)
 	add_part(arm_l, _arm_mesh(false), null, Vector3.ZERO)
