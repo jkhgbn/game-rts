@@ -1,10 +1,10 @@
 # Art Lab scorecard: vinelasher_low
 
-Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-27 13:52:23 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-29 00:27:30 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **87 / 100** (86.8)
+## Result: **PASS** · quality **87 / 100** (86.9)
 
-0 FAIL · 0 WARN · 16 PASS · 8 info · 6 skipped · 8 s
+0 FAIL · 0 WARN · 16 PASS · 8 info · 6 skipped · 0 s
 
 ## Improve next
 1. **Shape richness (secondary shapes)** (INFO): Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, ArmL, Chest; 57% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.86): tilt, curve and rotate parts so the light breaks on them _(from C1 Shape richness (secondary shapes), shot close)_
@@ -45,7 +45,7 @@ Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tie
 | R3 | Contrast vs ground | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R5 | Glow points at 40 m | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | headless | needs a windowed run (1600 x 900) |  |
-| R9 | Feet on the ground | PASS 100 | lowest point 0.019 m | -0.08 .. +0.05 m (art-units 1.6) |  |
+| R9 | Feet on the ground | PASS 100 | lowest point 0.02 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R8 | Head height vs body_height | PASS 97 | head top 1.89 m / body_height 1.8 (x1.05) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) |  |
 | R10 | Footprint vs selection radius | INFO | x 0.55 / z 0.29 m (radius 0.45, default) | x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
 
@@ -53,7 +53,7 @@ Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tie
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 0.96 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |

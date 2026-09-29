@@ -1,10 +1,10 @@
-# cine build: ep3_opening
+# cine check: ep3_opening
 
-2026-09-28 20:05:50 - `tools/cine/run_cine.ps1 build ep3_opening` - hash `b22831560f12fa71` (2 runs identical)
+2026-09-28 22:48:02 - `tools/cine/run_cine.ps1 check ep3_opening` - hash `ab6058b79dfc480e` (2 runs identical)
 
 ## Result: **PASS** - quality **97 / 100** (previous run 97, +0)
 
-0 FAIL, 0 WARN, 36 PASS, 25 info, 0 skipped, 6 s
+0 FAIL, 0 WARN, 35 PASS, 25 info, 0 skipped, 26 s
 
 ## Improve next
 1. **N02 face malrik** (PASS): keep malrik nearer the band centre in N02 _(from F2 N02 face malrik, shot N02)_
@@ -14,7 +14,7 @@
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P0 | grammar | PASS 100 | 116 lines, 0 errors | tools/cine/README.md grammar |  |
+| P0 | grammar | PASS 100 | 128 lines, 0 errors | tools/cine/README.md grammar |  |
 
 ## Resolve (set, markers, actors, clips, vfx, audio, lines)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -70,28 +70,27 @@
 |---|---|---|---|---|---|
 | S1 | B01 line 1 (src 26) | PASS 99 | malrik "Everyone tells my story wrong. Let me tr.." 12.4 cps, 3.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S2 | N02 line 1 (src 30) | PASS 91 | malrik "I was a gravedigger's son. I grew up amo.." 15.0 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S3 | G03 line 1 (src 36) | PASS 92 | malrik "The Master found me reading tombstones b.." 14.8 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S4 | G04 line 1 (src 40) | PASS 92 | malrik "Too. Fourth of four. Fire was his joy, i.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S5 | N05 line 1 (src 45) | PASS 92 | malrik "And me? He gave me what was left over. T.." 14.8 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S6 | G06 line 1 (src 51) | PASS 92 | malrik "Then he vanished and left us nothing. So.." 14.8 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S7 | N07 line 1 (src 68) | PASS 91 | malrik "I took the dark and taught it to kneel. .." 15.0 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S8 | W02 line 1 (src 72) | PASS 91 | malrik "She missed. Emberfall. Then the Hollow. .." 15.1 cps, 5.3 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S9 | G09 line 1 (src 77) | PASS 92 | malrik "I kept something. A candle. A knife. A s.." 14.6 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S10 | N10 line 1 (src 95) | PASS 92 | malrik "It whispers. Let it. I am the one who li.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S11 | N11 line 1 (src 99) | PASS 92 | malrik "That is how a gravedigger's son grows st.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S12 | N12 line 1 (src 104) | PASS 91 | malrik "Look at it. The last green country. Flow.." 15.1 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S13 | N12 line 2 (src 105) | PASS 90 | malrik "They will stand there and tell me to sto.." 15.3 cps, 4.9 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S14 | N13 line 1 (src 109) | PASS 99 | malrik "I have heard “stop” all my life." 12.3 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S15 | N13 line 2 (src 110) | PASS 100 | malrik "I will not stop." 8.0 cps, 2.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S3 | G03 line 1 (src 38) | PASS 92 | malrik "The Master found me reading tombstones b.." 14.8 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S4 | G04 line 1 (src 42) | PASS 92 | malrik "Too. Fourth of four. Fire was his joy, i.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S5 | N05 line 1 (src 47) | PASS 92 | malrik "And me? He gave me what was left over. T.." 14.8 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S6 | G06 line 1 (src 53) | PASS 92 | malrik "Then he vanished and left us nothing. So.." 14.8 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S7 | N07 line 1 (src 70) | PASS 91 | malrik "I took the dark and taught it to kneel. .." 15.0 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S8 | W02 line 1 (src 77) | PASS 91 | malrik "She missed. Emberfall. Then the Hollow. .." 15.1 cps, 5.3 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S9 | G09 line 1 (src 82) | PASS 92 | malrik "I kept something. A candle. A knife. A s.." 14.6 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S10 | N10 line 1 (src 101) | PASS 92 | malrik "It whispers. Let it. I am the one who li.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S11 | N11 line 1 (src 107) | PASS 92 | malrik "That is how a gravedigger's son grows st.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S12 | N12 line 1 (src 114) | PASS 91 | malrik "Look at it. The last green country. Flow.." 15.1 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S13 | N12 line 2 (src 115) | PASS 90 | malrik "They will stand there and tell me to sto.." 15.3 cps, 4.9 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S14 | N13 line 1 (src 119) | PASS 99 | malrik "I have heard “stop” all my life." 12.3 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S15 | N13 line 2 (src 122) | PASS 100 | malrik "I will not stop." 8.0 cps, 2.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | V1 | voice files | PASS 100 | 15 / 15 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | b22831560f12fa71 / b22831560f12fa71 | same spec + seed = same bytes |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ab6058b79dfc480e / ab6058b79dfc480e | same spec + seed = same bytes |  |
 | D2 | vs previous run | INFO | same |  |  |
-| B1 | bake | PASS 100 | data/cinematics/ep3_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -105,5 +104,5 @@
 | RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (m_boy in G04 (cine -200, runtime 160 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
-- source `data/cinematics/src/ep3_opening.cine` (116 lines), 91.0 s, 14 shots, stage: set forge_evenmead
-- the .cine has 116 lines (demo budget <= 80)
+- source `data/cinematics/src/ep3_opening.cine` (128 lines), 91.0 s, 14 shots, stage: set forge_evenmead
+- the .cine has 128 lines (demo budget <= 80)

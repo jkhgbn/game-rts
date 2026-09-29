@@ -1,10 +1,10 @@
 # Art Lab scorecard: plant_glow40_frost_dragon
 
-Scene `res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-09-27 13:52:39 · lab v3.1 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-09-29 00:27:30 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **98 / 100** (97.9)
+## Result: **PASS** · quality **99 / 100** (98.8)
 
-0 FAIL · 0 WARN · 12 PASS · 9 info · 6 skipped · 9 s
+0 FAIL · 0 WARN · 12 PASS · 9 info · 6 skipped · 0 s
 
 ## Improve next
 1. **Surfaces per instance** (IDEA): Merge surfaces that share a material (47 surfaces for 17 meshes = 47 draw calls) _(from B11)_
@@ -33,7 +33,7 @@ Scene `res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn` �
 | B8 | Unique materials | INFO | 9 | no budget for titan/titan |  |
 | B1a | Authored build parts (before the merge) | INFO | 17 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes), v1 limit 36 |  |
 | B11 | Surfaces per instance | INFO | 47 surfaces over 17 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
-| B12 | Downward-facing triangles | INFO | 2233 of 13418 triangles (16%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
+| B12 | Downward-facing triangles | INFO | 2227 of 13418 triangles (16%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
 | B13 | Frame cost | SKIP | headless | needs a windowed run (1600 x 900) |  |
 
 ## Readability at 40 m
@@ -44,18 +44,18 @@ Scene `res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn` �
 | R3 | Contrast vs ground | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R5 | Glow points at 40 m | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | headless | needs a windowed run (1600 x 900) |  |
-| R9 | Feet on the ground | INFO | flyer: lowest point 1.92 m (hovers) | flyers hover (FlyerModel fly_height) |  |
+| R9 | Feet on the ground | INFO | flyer: lowest point 1.9 m (hovers) | flyers hover (FlyerModel fly_height) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 1.74 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 90 | 181 shapes over 16 body parts (11.3 per part: Jaw 13, Head 38, Neck2 3, Neck1 4, WingL2 19, WingL 8, WingR2 19, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 26); 22% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.895 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C1 | Shape richness (secondary shapes) | INFO 97 | 181 shapes over 16 body parts (11.3 per part: Jaw 13, Head 38, Neck2 3, Neck1 4, WingL2 19, WingL 8, WingR2 19, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 26); 17% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.913 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
 | C2 | Vertex use vs budget | INFO 100 | 72% of the 12000 verts budget used (8736) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, cavalry-mounts.md 10, titans-2.md 11)

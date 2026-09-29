@@ -194,7 +194,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "2233 of 13418 triangles (16%) face steeply down (normal y < -0.7)",
+			"value": "2227 of 13418 triangles (16%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -240,17 +240,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.897729906905487,
+			"graded": 0.970944963449445,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.897729906905487,
+			"score": 0.970944963449445,
 			"shot": "close",
 			"status": "INFO",
-			"value": "181 shapes over 16 body parts (11.3 per part: Jaw 13, Head 38, Neck2 3, Neck1 4, WingL2 19, WingL 8, WingR2 19, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 26); 22% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.895",
+			"value": "181 shapes over 16 body parts (11.3 per part: Jaw 13, Head 38, Neck2 3, Neck1 4, WingL2 19, WingL 8, WingR2 19, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 26); 17% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.913",
 			"weight": 1.0
 		},
 		{
@@ -278,7 +278,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 1.74 s",
+			"value": "after 0.0 s",
 			"weight": 1.0
 		},
 		{
@@ -376,7 +376,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "flyer: lowest point 1.92 m (hovers)",
+			"value": "flyer: lowest point 1.9 m (hovers)",
 			"weight": 1.0
 		},
 		{
@@ -434,11 +434,11 @@
 		"3 materials are built in code (fine when cached per type: see B9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 97.9,
+	"quality": 98.8,
 	"result": "PASS",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn",
-	"seconds": 8.9,
+	"seconds": 0.1,
 	"shots": {},
-	"started": "2026-09-27 13:52:39",
+	"started": "2026-09-29 00:27:30",
 	"tier": "titan"
 }

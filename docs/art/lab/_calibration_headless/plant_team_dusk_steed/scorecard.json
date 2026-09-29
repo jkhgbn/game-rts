@@ -26,7 +26,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "root Node3D, 20 nodes",
+			"value": "root Node3D, 21 nodes",
 			"weight": 1.0
 		},
 		{
@@ -58,17 +58,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.564287697861705,
+			"graded": 0.50097195223549,
 			"group": "budget",
 			"hint": "",
 			"id": "B4",
 			"improve": "",
 			"name": "Vertices",
 			"rule": "<= 6000 soft (cavalry-mounts.md 10 (mount))",
-			"score": 0.869286309358511,
+			"score": 0.850291585670647,
 			"shot": "",
 			"status": "PASS",
-			"value": "5769 (biggest: Merged 2229, Merged 1747, Merged 402, Merged 402)",
+			"value": "5997 (biggest: Merged 2229, Merged 1975, Merged 402, Merged 402)",
 			"weight": 1.0
 		},
 		{
@@ -124,7 +124,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "12",
+			"value": "13",
 			"weight": 1.0
 		},
 		{
@@ -138,7 +138,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "8 (model says 10)",
+			"value": "9 (model says 10)",
 			"weight": 1.0
 		},
 		{
@@ -152,7 +152,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "34 surfaces over 8 meshes (each surface = 1 draw call)",
+			"value": "35 surfaces over 8 meshes (each surface = 1 draw call)",
 			"weight": 1.0
 		},
 		{
@@ -166,7 +166,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "713 of 6724 triangles (10%) face steeply down (normal y < -0.7)",
+			"value": "699 of 7368 triangles (9%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -212,17 +212,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.837201146982475,
+			"graded": 0.832684609094391,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.837201146982475,
+			"score": 0.832684609094391,
 			"shot": "close",
 			"status": "INFO",
-			"value": "149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.881",
+			"value": "161 shapes over 7 body parts (23.0 per part: Head 63, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88",
 			"weight": 1.0
 		},
 		{
@@ -236,7 +236,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "96% of the 6000 verts budget used (5765)",
+			"value": "99% of the 6000 verts budget used (5993)",
 			"weight": 1.0
 		},
 		{
@@ -250,7 +250,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.95 s",
+			"value": "after 0.0 s",
 			"weight": 1.0
 		},
 		{
@@ -394,7 +394,7 @@
 			"rank": 0.0,
 			"source": "B11",
 			"status": "IDEA",
-			"text": "Merge surfaces that share a material (34 surfaces for 8 meshes = 34 draw calls)",
+			"text": "Merge surfaces that share a material (35 surfaces for 8 meshes = 35 draw calls)",
 			"title": "Surfaces per instance"
 		},
 		{
@@ -416,15 +416,16 @@
 	"kingdom": "shadow",
 	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Root/Mount/Merged 2229 v / 6 s; Root/Mount/Head/Merged 1747 v / 8 s; Root/Mount/LegBL/Merged 402 v / 4 s; Root/Mount/LegBR/Merged 402 v / 4 s; Root/Mount/LegFL/Merged 339 v / 4 s; Root/Mount/LegFR/Merged 339 v / 4 s; Root/Mount/Tail/Merged 307 v / 3 s; Shadow 4 v / 1 s",
+		"Per-mesh vertices (biggest first): Root/Mount/Merged 2229 v / 6 s; Root/Mount/Head/Merged 1975 v / 9 s; Root/Mount/LegBL/Merged 402 v / 4 s; Root/Mount/LegBR/Merged 402 v / 4 s; Root/Mount/LegFL/Merged 339 v / 4 s; Root/Mount/LegFR/Merged 339 v / 4 s; Root/Mount/Tail/Merged 307 v / 3 s; Shadow 4 v / 1 s",
+		"1 hidden parts at rest (toggled states, not counted as draws)",
 		"2 materials are built in code (fine when cached per type: see B9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 97.1,
+	"quality": 97.0,
 	"result": "PASS",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn",
-	"seconds": 8.0,
+	"seconds": 0.0,
 	"shots": {},
-	"started": "2026-09-27 13:53:13",
+	"started": "2026-09-29 00:27:30",
 	"tier": "mount"
 }

@@ -1,10 +1,10 @@
 # Art Lab scorecard: aqueduct
 
-Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-27 13:51:46 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-29 00:27:29 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **99 / 100** (99.2)
 
-0 FAIL · 0 WARN · 10 PASS · 7 info · 6 skipped · 5 s
+0 FAIL · 0 WARN · 10 PASS · 7 info · 6 skipped · 0 s
 
 ## Improve next
 1. **Dominant vertical + asymmetric secondary** (IDEA): Push the one dominant vertical 10-15 % taller and make the secondary element clearly one-sided _(from silhouette)_

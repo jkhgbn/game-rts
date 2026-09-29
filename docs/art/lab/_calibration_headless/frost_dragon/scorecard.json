@@ -194,7 +194,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "2220 of 13258 triangles (16%) face steeply down (normal y < -0.7)",
+			"value": "2217 of 13258 triangles (16%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -240,17 +240,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.880177391182935,
+			"graded": 0.954835129830168,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.880177391182935,
+			"score": 0.954835129830168,
 			"shot": "close",
 			"status": "INFO",
-			"value": "141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 16% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.891",
+			"value": "141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 13% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.909",
 			"weight": 1.0
 		},
 		{
@@ -278,7 +278,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 1.77 s",
+			"value": "after 0.0 s",
 			"weight": 1.0
 		},
 		{
@@ -376,7 +376,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "flyer: lowest point 2.01 m (hovers)",
+			"value": "flyer: lowest point 2.0 m (hovers)",
 			"weight": 1.0
 		},
 		{
@@ -434,11 +434,11 @@
 		"2 materials are built in code (fine when cached per type: see B9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 97.8,
+	"quality": 98.6,
 	"result": "PASS",
 	"scene": "res://art/units/titans/frost_dragon/frost_dragon.tscn",
-	"seconds": 9.2,
+	"seconds": 0.2,
 	"shots": {},
-	"started": "2026-09-27 13:52:14",
+	"started": "2026-09-29 00:27:29",
 	"tier": "titan"
 }

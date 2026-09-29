@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "2762 frames, 92.0 s cinematic time, wall 183.7 s, worst frame 431.1 ms",
+			"value": "2762 frames, 92.0 s cinematic time, wall 81.1 s, worst frame 218.2 ms",
 			"weight": 1.0
 		},
 		{
@@ -67,13 +67,13 @@
 		"Movie Maker AVI: C:\\Users\\elzzo\\Videos\\four-wizards-rec\\ep3_opening\\ep3_opening.avi (plays in VLC / Windows Media Player / Films & TV)",
 		"player: cine preview (CinePreview); tool 1 CinematicPlayer present"
 	],
-	"previous_quality": -1.0,
+	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 190.5,
+	"seconds": 84.2,
 	"shots": {},
-	"started": "2026-09-28 19:20:28",
+	"started": "2026-09-28 22:39:48",
 	"tier": "",
 	"tool": "cine",
 	"verb": "record"

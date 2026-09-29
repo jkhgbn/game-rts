@@ -1,10 +1,10 @@
-# cine check: prologue_3min
+# cine build: prologue_3min
 
-2026-09-27 15:51:35 - `tools/cine/run_cine.ps1 check prologue_3min` - hash `a5b60f77ec0d0946` (2 runs identical)
+2026-09-28 23:31:51 - `tools/cine/run_cine.ps1 build prologue_3min` - hash `ccce6fe42ffc83ea` (2 runs identical)
 
 ## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 0 WARN, 66 PASS, 51 info, 0 skipped, 43 s
+0 FAIL, 0 WARN, 67 PASS, 51 info, 0 skipped, 17 s
 
 ## Improve next
 1. **S16 face vessa** (PASS): keep vessa nearer the band centre in S16 _(from F18 S16 face vessa, shot S16)_
@@ -17,7 +17,7 @@
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P0 | grammar | PASS 100 | 385 lines, 0 errors | tools/cine/README.md grammar |  |
+| P0 | grammar | PASS 100 | 394 lines, 0 errors | tools/cine/README.md grammar |  |
 
 ## Resolve (set, markers, actors, clips, vfx, audio, lines)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -44,7 +44,7 @@
 | F8 | S08 face vessa | PASS 95 | worst u 0.50 v 0.74 at 3.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F9 | S09 face malrik | PASS 100 | worst u 0.46 v 0.42 at 3.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | S10 face torvald | PASS 100 | worst u 0.50 v 0.38 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F11 | S11 face ysolde | PASS 100 | worst u 0.50 v 0.48 at 1.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F11 | S11 face ysolde | PASS 100 | worst u 0.50 v 0.48 at 1.25 s | head inside the 2.39 band safe area (90 %) |  |
 | F12 | S12 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F13 | S13 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F14 | S14 face vessa_young | PASS 100 | worst u 0.50 v 0.46 at 3.25 s | head inside the 2.39 band safe area (90 %) |  |
@@ -127,30 +127,31 @@
 | S12 | S12 line 1 (src 139) | PASS 100 | master "Four heirs. One empty throne." 10.4 cps, 2.8 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S13 | S13 line 1 (src 145) | PASS 100 | master "I know this tale well, child. I was that.." 9.4 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S14 | S14 line 1 (src 155) | PASS 100 | master "Vessa, the youngest. She lit her first s.." 11.7 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S15 | S15 line 1 (src 167) | PASS 100 | master "Give her a wall, and she will burn a doo.." 8.0 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S16 | S16 line 1 (src 195) | PASS 100 | master "But she never waits. And fire that will .." 10.5 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S17 | S17 line 1 (src 202) | PASS 100 | master "Still, she laughed like sunrise. Vessa w.." 8.9 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S18 | S18 line 1 (src 212) | PASS 100 | master "Malrik. I found him reading tombstones b.." 11.8 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S19 | S19 line 1 (src 220) | PASS 100 | master "Nothing is hidden from him. The dark its.." 9.7 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S20 | S20 line 1 (src 250) | PASS 100 | master "But he is never full. Whatever he holds,.." 9.8 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S21 | S21 line 1 (src 256) | PASS 100 | master "He thinks I gave him leftovers. I gave t.." 10.7 cps, 7.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S22 | S22 line 1 (src 266) | PASS 100 | master "Torvald, the eldest. Where he stands, th.." 11.2 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S23 | S23 line 1 (src 279) | PASS 100 | master "Nothing breaks him. Not armies, not wint.." 8.2 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S24 | S24 line 1 (src 311) | PASS 100 | master "But he waits too long, and trusts slow i.." 10.2 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S25 | S25 line 1 (src 318) | PASS 100 | master "I left him my coldest secret. Torvald wa.." 9.6 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S26 | S26 line 1 (src 334) | PASS 100 | master "Ysolde. I found her coaxing a sapling th.." 8.5 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S27 | S27 line 1 (src 343) | PASS 100 | master "Burn her forest down, and it grows back..." 10.0 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S28 | S28 line 1 (src 367) | PASS 100 | master "But she will not take a side, not even w.." 10.9 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S29 | S29 line 1 (src 373) | PASS 100 | master "I would say: show me again. And she alwa.." 10.3 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S30 | S30 line 1 (src 379) | PASS 100 | master "I loved all four of them. And still, the.." 9.6 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S15 | S15 line 1 (src 168) | PASS 100 | master "Give her a wall, and she will burn a doo.." 8.0 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S16 | S16 line 1 (src 196) | PASS 100 | master "But she never waits. And fire that will .." 10.5 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S17 | S17 line 1 (src 204) | PASS 100 | master "Still, she laughed like sunrise. Vessa w.." 8.9 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S18 | S18 line 1 (src 215) | PASS 100 | master "Malrik. I found him reading tombstones b.." 11.8 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S19 | S19 line 1 (src 224) | PASS 100 | master "Nothing is hidden from him. The dark its.." 9.7 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S20 | S20 line 1 (src 254) | PASS 100 | master "But he is never full. Whatever he holds,.." 9.8 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S21 | S21 line 1 (src 260) | PASS 100 | master "He thinks I gave him leftovers. I gave t.." 10.7 cps, 7.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S22 | S22 line 1 (src 271) | PASS 100 | master "Torvald, the eldest. Where he stands, th.." 11.2 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S23 | S23 line 1 (src 284) | PASS 100 | master "Nothing breaks him. Not armies, not wint.." 8.2 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S24 | S24 line 1 (src 317) | PASS 100 | master "But he waits too long, and trusts slow i.." 10.2 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S25 | S25 line 1 (src 324) | PASS 100 | master "I left him my coldest secret. Torvald wa.." 9.6 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S26 | S26 line 1 (src 341) | PASS 100 | master "Ysolde. I found her coaxing a sapling th.." 8.5 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S27 | S27 line 1 (src 351) | PASS 100 | master "Burn her forest down, and it grows back..." 10.0 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S28 | S28 line 1 (src 375) | PASS 100 | master "But she will not take a side, not even w.." 10.9 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S29 | S29 line 1 (src 381) | PASS 100 | master "I would say: show me again. And she alwa.." 10.3 cps, 6.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S30 | S30 line 1 (src 388) | PASS 100 | master "I loved all four of them. And still, the.." 9.6 cps, 5.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | V1 | voice files | PASS 100 | 30 / 30 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | a5b60f77ec0d0946 / a5b60f77ec0d0946 | same spec + seed = same bytes |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ccce6fe42ffc83ea / ccce6fe42ffc83ea | same spec + seed = same bytes |  |
 | D2 | vs previous run | INFO | same |  |  |
+| B1 | bake | PASS 100 | data/cinematics/prologue_3min.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -164,5 +165,5 @@
 | RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (foe in S22 (cine 180, runtime -180 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
-- source `data/cinematics/src/prologue_3min.cine` (385 lines), 180.0 s, 36 shots, stage: set forge_citadel
-- the .cine has 385 lines (demo budget <= 80)
+- source `data/cinematics/src/prologue_3min.cine` (394 lines), 180.0 s, 36 shots, stage: set forge_citadel
+- the .cine has 394 lines (demo budget <= 80)

@@ -1,6 +1,6 @@
 {
 	"asset": "plant_float_deer",
-	"count": 2,
+	"count": 1,
 	"fixes": [
 		{
 			"changes": [
@@ -26,29 +26,12 @@
 			"wanted": {
 				"lowest_m": "-0.08 .. +0.05"
 			}
-		},
-		{
-			"changes": [],
-			"check": "A2",
-			"computed": false,
-			"measured": {
-				"value": "never (3 s)"
-			},
-			"predicted": {},
-			"proposal": "death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
-			"rank": 2,
-			"status": "WARN",
-			"text": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
-			"title": "death_finished",
-			"wanted": {
-				"rule": "emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7)"
-			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "critter",
 	"kingdom": "neutral",
-	"quality": 84.9,
+	"quality": 87.9,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
 	"tier": "deer",

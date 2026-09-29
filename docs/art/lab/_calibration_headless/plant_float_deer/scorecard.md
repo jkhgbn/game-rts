@@ -1,15 +1,15 @@
 # Art Lab scorecard: plant_float_deer
 
-Scene `res://tools/art_lab/calibration/virtual/plant_float_deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-27 13:52:56 · lab v3.1 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_float_deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-29 00:27:30 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **FAIL** · quality **85 / 100** (84.9)
+## Result: **FAIL** · quality **88 / 100** (87.9)
 
-1 FAIL · 1 WARN · 9 PASS · 9 info · 6 skipped · 9 s
+1 FAIL · 0 WARN · 10 PASS · 9 info · 6 skipped · 0 s
 
 ## Improve next
 1. **Feet on the ground** (FAIL): R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m) [fixes.json #1] _(from R9 Feet on the ground)_
-2. **death_finished** (WARN): A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #2] _(from A2 death_finished)_
-3. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
+2. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
+3. **Detail density at 25 m** (IDEA): Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m _(from shot z25)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -49,7 +49,7 @@ Scene `res://tools/art_lab/calibration/virtual/plant_float_deer.tscn` · kind **
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 5 present | play_idle, play_move, play_flee, play_hit, play_death |  |
-| A2 | death_finished | **WARN** 45 | never (3 s) | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) | Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) |
+| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -62,4 +62,4 @@ Scene `res://tools/art_lab/calibration/virtual/plant_float_deer.tscn` · kind **
 
 ## Notes
 - Per-mesh vertices (biggest first): Mesh 673 v / 1 s
-- Fix recipes: 2 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))
+- Fix recipes: 1 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))

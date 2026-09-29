@@ -301,3 +301,32 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-28 20:05:50 | build | ep3_opening | 97 (+0) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
 | 2026-09-28 20:05:59 | check | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
 | 2026-09-28 20:06:07 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 22:29:31 | check | ep3_opening | 97 (+0) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 22:29:41 | check | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 22:29:49 | check | prologue_3min | 99 (+0) | PASS (0F 0W) | a702c691724031f2 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-28 22:30:20 | build | ep3_opening | 97 (+0) | PASS (0F 0W) | b22831560f12fa71 | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 22:30:29 | build | ep4_opening | 98 (+0) | PASS (0F 0W) | b7769bb7010d056a | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 22:30:38 | build | prologue_3min | 99 (+0) | PASS (0F 0W) | a702c691724031f2 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-28 22:30:57 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 89976fd8e1dc43a2 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 22:31:30 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 111af19faf51d6d0 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 22:32:03 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 1aaec793ceeadb18 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-28 22:35:23 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | 703425b2cc83b10e |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 22:35:32 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 15c4116fc38c4cb2 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 22:38:27 | build | ep3_opening | 97 (+0) | PASS (0F 0W) | ab6058b79dfc480e | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 22:38:36 | build | ep4_opening | 93 (-5) | FAIL (1F 0W) | 1b81e50ff4afcf83 | anim y_child set_expression (line 46); S02 face ysolde; Look at the pictures | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 22:38:45 | build | prologue_3min | 99 (+0) | PASS (0F 0W) | 33f8a958a895ba14 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-28 22:39:20 | build | ep4_opening | 98 (+5) | PASS (0F 0W) | 5970f62d28cc23dd | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 22:39:48 | record | ep3_opening | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/ep3_opening/report_record.md |
+| 2026-09-28 22:41:49 | record | ep4_opening | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/ep4_opening/report_record.md |
+| 2026-09-28 22:43:21 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |
+| 2026-09-28 22:48:02 | check | ep3_opening | 97 (+0) | PASS (0F 0W) | ab6058b79dfc480e | N02 face malrik; N07 face hush; Look at the pictures | docs/tools/cine/out/ep3_opening/report.md |
+| 2026-09-28 22:48:55 | check | ep4_opening | 98 (+0) | PASS (0F 0W) | 5970f62d28cc23dd | S02 face ysolde; Look at the pictures; Timing sheet | docs/tools/cine/out/ep4_opening/report.md |
+| 2026-09-28 22:49:39 | check | prologue_3min | 99 (+0) | PASS (0F 0W) | 33f8a958a895ba14 | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-28 22:51:00 | stills | ep3_opening | 100 (+0) | PASS (0F 0W) | 08e59632a341be34 |  | docs/tools/cine/out/ep3_opening/report_stills.md |
+| 2026-09-28 22:52:37 | stills | ep4_opening | 100 (+0) | PASS (0F 0W) | b494f5c6463555b0 |  | docs/tools/cine/out/ep4_opening/report_stills.md |
+| 2026-09-28 23:31:31 | check | prologue_3min | 99 (+0) | PASS (0F 0W) | ccce6fe42ffc83ea | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-28 23:31:51 | build | prologue_3min | 99 (+0) | PASS (0F 0W) | ccce6fe42ffc83ea | S16 face vessa; S15U face scorchbow; S08 face vessa | docs/tools/cine/out/prologue_3min/report.md |
+| 2026-09-28 23:32:18 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 5da4ee367aca37f9 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-28 23:32:30 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 1b975567be8ce4af |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-28 23:32:40 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 09fa0330deaedca3 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
+| 2026-09-28 23:33:06 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |

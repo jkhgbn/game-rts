@@ -1,30 +1,12 @@
 {
 	"asset": "deer",
-	"count": 1,
-	"fixes": [
-		{
-			"changes": [],
-			"check": "A2",
-			"computed": false,
-			"measured": {
-				"value": "never (3 s)"
-			},
-			"predicted": {},
-			"proposal": "death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
-			"rank": 1,
-			"status": "WARN",
-			"text": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
-			"title": "death_finished",
-			"wanted": {
-				"rule": "emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7)"
-			}
-		}
-	],
+	"count": 0,
+	"fixes": [],
 	"ground": "meadow",
 	"kind": "critter",
 	"kingdom": "neutral",
-	"quality": 96.0,
-	"result": "WARN",
+	"quality": 99.0,
+	"result": "PASS",
 	"scene": "res://art/units/neutral/critters/deer.tscn",
 	"tier": "deer",
 	"version": "1.0"

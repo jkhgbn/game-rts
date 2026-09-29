@@ -1,10 +1,10 @@
-# cine build: ep4_opening
+# cine check: ep4_opening
 
-2026-09-28 20:06:07 - `tools/cine/run_cine.ps1 build ep4_opening` - hash `b7769bb7010d056a` (2 runs identical)
+2026-09-28 22:48:55 - `tools/cine/run_cine.ps1 check ep4_opening` - hash `5970f62d28cc23dd` (2 runs identical)
 
 ## Result: **PASS** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 0 WARN, 35 PASS, 25 info, 0 skipped, 5 s
+0 FAIL, 0 WARN, 34 PASS, 25 info, 0 skipped, 18 s
 
 ## Improve next
 1. **S02 face ysolde** (PASS): keep ysolde nearer the band centre in S02 _(from F2 S02 face ysolde, shot S02)_
@@ -14,7 +14,7 @@
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P0 | grammar | PASS 100 | 87 lines, 0 errors | tools/cine/README.md grammar |  |
+| P0 | grammar | PASS 100 | 99 lines, 0 errors | tools/cine/README.md grammar |  |
 
 ## Resolve (set, markers, actors, clips, vfx, audio, lines)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -69,28 +69,27 @@
 |---|---|---|---|---|---|
 | S1 | B01 line 1 (src 28) | PASS 91 | ysolde "Malrik tells his life as a list of wound.." 15.0 cps, 4.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S2 | S02 line 1 (src 32) | PASS 93 | ysolde "I was born on that hill, the year nothin.." 14.2 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S3 | H03 line 1 (src 38) | PASS 92 | ysolde "My mother buried seed in the snow. The v.." 14.7 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S4 | H04 line 1 (src 41) | PASS 92 | ysolde "In spring it came up green. I have never.." 14.8 cps, 4.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S5 | H05 line 1 (src 44) | PASS 92 | ysolde "A tall man with a burning hem found me c.." 14.7 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S6 | S06 line 1 (src 49) | PASS 94 | ysolde "He said: show me again. So I did, for tw.." 14.0 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S7 | S07 line 1 (src 53) | PASS 94 | ysolde "They call me soft. Neutral. Slow. Slow i.." 14.0 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S8 | H08 line 1 (src 60) | PASS 95 | ysolde "Last winter they burned my wood and froz.." 13.8 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S9 | H09 line 1 (src 65) | PASS 92 | ysolde "I knelt in the black, and I waited. Some.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S10 | S10 line 1 (src 71) | PASS 90 | ysolde "That is my strength. Not fire. Not knive.." 15.3 cps, 5.3 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S11 | S11 line 1 (src 74) | PASS 91 | ysolde "The Master planted this country with his.." 15.1 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S12 | S12 line 1 (src 77) | PASS 89 | ysolde "Malrik stands up there with his candle, .." 15.7 cps, 4.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S13 | S12 line 2 (src 78) | PASS 97 | ysolde "Let them come. Cut it. Burn it. Freeze i.." 13.1 cps, 3.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S14 | S13 line 1 (src 81) | PASS 98 | vessa "Ysolde. They're moving." 12.8 cps, 1.8 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S15 | S13 line 2 (src 82) | PASS 100 | ysolde "It will not stop." 8.5 cps, 2.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S3 | H03 line 1 (src 39) | PASS 92 | ysolde "My mother buried seed in the snow. The v.." 14.7 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S4 | H04 line 1 (src 42) | PASS 92 | ysolde "In spring it came up green. I have never.." 14.8 cps, 4.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S5 | H05 line 1 (src 45) | PASS 92 | ysolde "A tall man with a burning hem found me c.." 14.7 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S6 | S06 line 1 (src 51) | PASS 94 | ysolde "He said: show me again. So I did, for tw.." 14.0 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S7 | S07 line 1 (src 55) | PASS 94 | ysolde "They call me soft. Neutral. Slow. Slow i.." 14.0 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S8 | H08 line 1 (src 64) | PASS 95 | ysolde "Last winter they burned my wood and froz.." 13.8 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S9 | H09 line 1 (src 70) | PASS 92 | ysolde "I knelt in the black, and I waited. Some.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S10 | S10 line 1 (src 76) | PASS 90 | ysolde "That is my strength. Not fire. Not knive.." 15.3 cps, 5.3 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S11 | S11 line 1 (src 81) | PASS 91 | ysolde "The Master planted this country with his.." 15.1 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S12 | S12 line 1 (src 86) | PASS 89 | ysolde "Malrik stands up there with his candle, .." 15.7 cps, 4.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S13 | S12 line 2 (src 87) | PASS 97 | ysolde "Let them come. Cut it. Burn it. Freeze i.." 13.1 cps, 3.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S14 | S13 line 1 (src 90) | PASS 98 | vessa "Ysolde. They're moving." 12.8 cps, 1.8 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S15 | S13 line 2 (src 94) | PASS 100 | ysolde "It will not stop." 8.5 cps, 2.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | V1 | voice files | PASS 100 | 15 / 15 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | b7769bb7010d056a / b7769bb7010d056a | same spec + seed = same bytes |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 5970f62d28cc23dd / 5970f62d28cc23dd | same spec + seed = same bytes |  |
 | D2 | vs previous run | INFO | same |  |  |
-| B1 | bake | PASS 100 | data/cinematics/ep4_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -104,5 +103,5 @@
 | RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg, position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
-- source `data/cinematics/src/ep4_opening.cine` (87 lines), 88.0 s, 14 shots, stage: set forge_evenmead
-- the .cine has 87 lines (demo budget <= 80)
+- source `data/cinematics/src/ep4_opening.cine` (99 lines), 88.0 s, 14 shots, stage: set forge_evenmead
+- the .cine has 99 lines (demo budget <= 80)

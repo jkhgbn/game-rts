@@ -256,14 +256,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.213522274229507,
+			"graded": 0.214232263010674,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, ArmL, Chest; 57% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.86): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.213522274229507,
+			"score": 0.214232263010674,
 			"shot": "close",
 			"status": "INFO",
 			"value": "24 shapes over 7 body parts (3.4 per part: LegL 2, LegR 2, Hips 7, Head 3, ArmL 2, ArmR 6, Chest 2); 57% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.864",
@@ -294,7 +294,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.96 s",
+			"value": "after 0.0 s",
 			"weight": 1.0
 		},
 		{
@@ -392,18 +392,18 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "lowest point 0.019 m",
+			"value": "lowest point 0.02 m",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.905154493119982,
+			"graded": 0.90458705690172,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.971546347935994,
+			"score": 0.971376117070516,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.89 m / body_height 1.8 (x1.05)",
@@ -449,7 +449,7 @@
 	"headless": true,
 	"improve_next": [
 		{
-			"rank": 1.57295545154099,
+			"rank": 1.57153547397865,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, ArmL, Chest; 57% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.86): tilt, curve and rotate parts so the light breaks on them",
@@ -479,11 +479,11 @@
 		"3 materials are built in code (fine when cached per type: see B9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 86.8,
+	"quality": 86.9,
 	"result": "PASS",
 	"scene": "res://art/units/_effort_trial/low/vinelasher.tscn",
-	"seconds": 8.1,
+	"seconds": 0.1,
 	"shots": {},
-	"started": "2026-09-27 13:52:23",
+	"started": "2026-09-29 00:27:30",
 	"tier": "soldier"
 }

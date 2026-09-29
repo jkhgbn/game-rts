@@ -238,19 +238,17 @@
 			"weight": 1.0
 		},
 		{
-			"fix": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #2]",
-			"fix_rank": 2,
-			"graded": 0.3,
+			"graded": 1.0,
 			"group": "anim",
 			"hint": "Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
 			"id": "A2",
 			"improve": "",
 			"name": "death_finished",
 			"rule": "emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7)",
-			"score": 0.452,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "never (3 s)",
+			"status": "PASS",
+			"value": "after 0.0 s",
 			"weight": 1.0
 		},
 		{
@@ -385,9 +383,9 @@
 	"counts": {
 		"FAIL": 1,
 		"INFO": 9,
-		"PASS": 9,
+		"PASS": 10,
 		"SKIP": 6,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "meadow",
 	"headless": true,
@@ -400,18 +398,18 @@
 			"title": "Feet on the ground"
 		},
 		{
-			"rank": 10.548,
-			"source": "A2 death_finished",
-			"status": "WARN",
-			"text": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier) [fixes.json #2]",
-			"title": "death_finished"
-		},
-		{
 			"rank": 0.0,
 			"source": "anim strip",
 			"status": "IDEA",
 			"text": "Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m",
 			"title": "Idle / attack beats"
+		},
+		{
+			"rank": 0.0,
+			"source": "shot z25",
+			"status": "IDEA",
+			"text": "Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m",
+			"title": "Detail density at 25 m"
 		}
 	],
 	"kind": "critter",
@@ -419,14 +417,14 @@
 	"lab_version": "3.1",
 	"notes": [
 		"Per-mesh vertices (biggest first): Mesh 673 v / 1 s",
-		"Fix recipes: 2 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))"
+		"Fix recipes: 1 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))"
 	],
 	"previous_quality": -1.0,
-	"quality": 84.9,
+	"quality": 87.9,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
-	"seconds": 8.9,
+	"seconds": 0.0,
 	"shots": {},
-	"started": "2026-09-27 13:52:56",
+	"started": "2026-09-29 00:27:30",
 	"tier": "deer"
 }
