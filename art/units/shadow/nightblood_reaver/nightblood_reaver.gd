@@ -62,13 +62,13 @@ func _build_parts() -> void:
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
 		add_part(leg, _nr_path("nr_leg_%s" % sx, PackedVector3Array([Vector3(0.14 * sx, 1.08, 0.0),
-			Vector3(0.15 * sx, 0.62, 0.04), Vector3(0.15 * sx, 0.14, 0.0)]), PackedFloat32Array([0.1, 0.075, 0.065]), 6),
+			Vector3(0.15 * sx, 0.62, 0.04), Vector3(0.15 * sx, 0.14, 0.0)]), PackedFloat32Array([0.1, 0.075, 0.065]), 5),
 			plate, Vector3.ZERO)
-		add_part(leg, sphere(0.085, 7, 4), blood, Vector3(0.15 * sx, 0.62, 0.08), Vector3.ZERO, Vector3(1.0, 1.1, 0.8))
+		add_part(leg, sphere(0.085, 5, 2), blood, Vector3(0.15 * sx, 0.62, 0.08), Vector3.ZERO, Vector3(1.0, 1.1, 0.8))
 		add_part(leg, cyl(0.0, 0.03, 0.12, 4), silver, Vector3(0.15 * sx, 0.70, 0.14), Vector3(-60, 0, 0))
-		add_part(leg, cyl(0.0, 0.075, 0.28, 6), iron, Vector3(0.15 * sx, 0.06, 0.12), Vector3(90, 0, 0), Vector3(1.0, 1.0, 0.6))
+		add_part(leg, cyl(0.0, 0.075, 0.28, 5, false), iron, Vector3(0.15 * sx, 0.06, 0.12), Vector3(90, 0, 0), Vector3(1.0, 1.0, 0.6))
 	# ---- Hips: black fauld, oxblood tassets flaring out, team tabard front and back, a belt with a silver clasp.
-	add_part(hips, cyl(0.24, 0.31, 0.3, 9), plate, Vector3(0, 0.98, 0))
+	add_part(hips, cyl(0.24, 0.31, 0.3, 7), plate, Vector3(0, 0.98, 0))
 	for k: int in 4:
 		var a: float = deg_to_rad(-65.0 + 43.0 * k)
 		var d := Vector3(sin(a), 0, cos(a))
@@ -77,12 +77,12 @@ func _build_parts() -> void:
 	add_part(hips, box(Vector3(0.2, 0.7, 0.03)), cloth, Vector3(0, 0.66, 0.31), Vector3(-7, 0, 0))
 	add_part(hips, cyl(0.0, 0.1, 0.14, 4), cloth, Vector3(0, 0.25, 0.35), Vector3(180, 45, 0), Vector3(1.0, 1.0, 0.25))
 	add_part(hips, box(Vector3(0.2, 0.6, 0.03)), cdark, Vector3(0, 0.7, -0.3), Vector3(7, 0, 0))
-	add_part(hips, cyl(0.25, 0.25, 0.07, 10), leather, Vector3(0, 1.1, 0.0))
-	add_part(hips, sphere(0.05, 6, 3), silver, Vector3(0, 1.1, 0.25), Vector3.ZERO, Vector3(1.2, 1.0, 0.6))
+	add_part(hips, cyl(0.25, 0.25, 0.07, 7), leather, Vector3(0, 1.1, 0.0))
+	add_part(hips, sphere(0.05, 5, 2), silver, Vector3(0, 1.1, 0.25), Vector3.ZERO, Vector3(1.2, 1.0, 0.6))
 	# ---- Chest: black breastplate with a silver ridge, oxblood ribbing, the fan collar, the torn bat-wing cape.
-	add_part(chest, sphere(0.28, 8, 5), plate, Vector3(0, 1.44, 0.0), Vector3(-4, 0, 0), Vector3(1.05, 1.2, 0.82))
+	add_part(chest, sphere(0.28, 8, 3), plate, Vector3(0, 1.44, 0.0), Vector3(-4, 0, 0), Vector3(1.05, 1.2, 0.82))
 	add_part(chest, box(Vector3(0.035, 0.36, 0.05)), silver, Vector3(0, 1.46, 0.225), Vector3(-10, 0, 0))
-	add_part(chest, torus(0.2, 0.26, 8), blood, Vector3(0, 1.22, 0.0), Vector3.ZERO, Vector3(1.0, 1.8, 0.85))
+	add_part(chest, torus(0.2, 0.26, 5), blood, Vector3(0, 1.22, 0.0), Vector3.ZERO, Vector3(1.0, 1.8, 0.85))
 	add_part(chest, cyl(0.08, 0.1, 0.16, 6, false), iron, Vector3(0, 1.73, 0.0))
 	for k: int in 5:
 		var a: float = deg_to_rad(-120.0 + 60.0 * k)
@@ -102,35 +102,45 @@ func _build_parts() -> void:
 	add_part(chest, _nr_path("nr_wingrib_r", PackedVector3Array([Vector3(0.2, 1.68, -0.26), Vector3(0.44, 1.36, -0.42),
 		Vector3(0.47, 0.72, -0.47)]), PackedFloat32Array([0.03, 0.025, 0.012]), 3), plate, Vector3.ZERO)
 	# ---- Head: gaunt pale face, slick dark hair with a widow's peak, pointed ears, faint violet eyes.
-	add_part(head, sphere(0.12, 8, 5), skin, Vector3(0, 1.86, 0.03), Vector3.ZERO, Vector3(0.84, 1.15, 0.95))
-	add_part(head, sphere(0.125, 8, 4), leather, Vector3(0, 1.91, -0.02), Vector3(-15, 0, 0), Vector3(0.95, 0.9, 1.1))
+	var hc := Vector3(0, 1.86, 0.03)
+	add_part(head, sphere(0.12, 8, 4), skin, hc, Vector3.ZERO, Vector3(0.84, 1.15, 0.95))
+	# Face (FaceKit, face rework 2026-09-28; were 2 glow bars + a mouth line): red-violet glowing eyes, arched cruel
+	# brows, a thin sneer (fangs bared on the slash / drink); the slick hair and pointed ears are his own parts.
+	_face = FaceKit.attach(self, head, "nightblood_reaver", {
+		"center": hc, "radius": 0.12, "head_mesh": sphere(0.12, 8, 4), "head_scale": Vector3(0.84, 1.15, 0.95), "head_at": hc,
+		"preset": &"stern", "skin": ShadowFaces.SKIN, "hair": ShadowFaces.INK, "eyes": ShadowFaces.BLOOD, "detail": &"low",
+		"x": NatureFaces.lean_x(1.1, {&"neutral": {"mouth": {"kind": "smirk"}, "cut_in": 0.2}}),
+		"palette": ShadowFaces.pal(ShadowFaces.SKIN, ShadowFaces.BLOOD, 0.7),
+		"eye": {"c": Vector2(0.036, 0.016), "hw": 0.022, "top": 0.015, "bot": 0.009, "ir": 0.011, "tilt": 0.012},
+		"brow": {"inner": Vector2(0.014, 0.040), "mid": Vector2(0.036, 0.050), "outer": Vector2(0.058, 0.044)},
+		"mouth": {"c": Vector2(0.0, -0.046), "hw": 0.020, "lip": 0.0020},
+	})
+	add_part(head, sphere(0.125, 6, 3), leather, Vector3(0, 1.91, -0.02), Vector3(-15, 0, 0), Vector3(0.95, 0.9, 1.1))
 	add_part(head, cyl(0.0, 0.05, 0.1, 4), leather, Vector3(0, 1.935, 0.1), Vector3(160, 0, 0), Vector3(1.0, 1.0, 0.5))
 	for s: float in [-1.0, 1.0]:
 		add_part(head, cyl(0.0, 0.028, 0.12, 4), skin, Vector3(0.12 * s, 1.89, 0.0), Vector3(-20, 0, -62 * s))
-		add_part(head, box(Vector3(0.05, 0.026, 0.024)), palette(&"shadow_glow_hero"), Vector3(0.042 * s, 1.875, 0.132), Vector3(0, 0, -12 * s))
-	add_part(head, box(Vector3(0.05, 0.012, 0.02)), palette(&"unit_eye_dark"), Vector3(0, 1.8, 0.135))
 	var trim := add_part(head, torus(0.12, 0.16, 8), palette(&"unit_gold_trim"), Vector3(0, 1.99, -0.01),
 		Vector3.ZERO, Vector3.ONE, true, "VetTrim")
 	if trim:
 		trim.set_meta(&"vet_trim", true)
 	# ---- Left arm: small pauldron with an oxblood rim, iron arm, clawed silver gauntlet.
-	add_part(arm_l, sphere(0.14, 7, 4), plate, Vector3(-0.35, 1.68, 0.0), Vector3(0, 0, 20), Vector3(1.15, 0.8, 1.1))
+	add_part(arm_l, sphere(0.14, 6, 2), plate, Vector3(-0.35, 1.68, 0.0), Vector3(0, 0, 20), Vector3(1.15, 0.8, 1.1))
 	add_part(arm_l, torus(0.13, 0.16, 6), blood, Vector3(-0.37, 1.63, 0.0), Vector3(0, 0, 25), Vector3(1.0, 1.0, 1.0))
 	add_part(arm_l, _nr_path("nr_arm_l", PackedVector3Array([Vector3(-0.34, 1.64, 0.0), Vector3(-0.38, 1.38, 0.03),
-		HAND_L + Vector3(0, 0.08, -0.03)]), PackedFloat32Array([0.075, 0.068, 0.07]), 6), iron, Vector3.ZERO)
+		HAND_L + Vector3(0, 0.08, -0.03)]), PackedFloat32Array([0.075, 0.068, 0.07]), 5), iron, Vector3.ZERO)
 	add_part(arm_l, cyl(0.075, 0.09, 0.14, 6), plate, HAND_L + Vector3(0, 0.1, -0.03), Vector3(18, 0, 0))
-	add_part(arm_l, sphere(0.065, 7, 4), silver, HAND_L)
+	add_part(arm_l, sphere(0.065, 5, 2), silver, HAND_L)
 	add_part(arm_l, _claws_mesh(), silver, Vector3.ZERO)
 	# ---- Right arm: big spiked pauldron (3 silver spikes), iron arm, the long curved sabre held forward-down.
-	add_part(arm_r, sphere(0.18, 8, 4), plate, Vector3(0.36, 1.70, 0.0), Vector3(0, 0, -18), Vector3(1.2, 0.8, 1.15))
-	add_part(arm_r, torus(0.17, 0.2, 8), blood, Vector3(0.38, 1.64, 0.0), Vector3(0, 0, -22))
+	add_part(arm_r, sphere(0.18, 6, 3), plate, Vector3(0.36, 1.70, 0.0), Vector3(0, 0, -18), Vector3(1.2, 0.8, 1.15))
+	add_part(arm_r, torus(0.17, 0.2, 5), blood, Vector3(0.38, 1.64, 0.0), Vector3(0, 0, -22))
 	for k: int in 3:
 		add_part(arm_r, cyl(0.0, 0.04, 0.24 - 0.04 * k, 4), silver, Vector3(0.38 + 0.05 * k, 1.84 - 0.04 * k, -0.08 + 0.08 * k),
 			Vector3(0, 0, -30 - 12 * k))
 	add_part(arm_r, _nr_path("nr_arm_r", PackedVector3Array([Vector3(0.34, 1.64, 0.0), Vector3(0.39, 1.38, 0.03),
-		HAND_R + Vector3(0, 0.08, -0.03)]), PackedFloat32Array([0.075, 0.068, 0.07]), 6), iron, Vector3.ZERO)
+		HAND_R + Vector3(0, 0.08, -0.03)]), PackedFloat32Array([0.075, 0.068, 0.07]), 5), iron, Vector3.ZERO)
 	add_part(arm_r, cyl(0.075, 0.09, 0.14, 6), plate, HAND_R + Vector3(0, 0.1, -0.03), Vector3(18, 0, 0))
-	add_part(arm_r, sphere(0.065, 7, 4), iron, HAND_R)
+	add_part(arm_r, sphere(0.065, 5, 2), iron, HAND_R)
 	add_part(arm_r, cyl(0.025, 0.025, 0.22, 5, false), leather, HAND_R + Vector3(0, 0.02, -0.02), Vector3(-45, 0, 0))
 	add_part(arm_r, _nr_path("nr_guard", PackedVector3Array([HAND_R + Vector3(-0.11, -0.03, 0.02), HAND_R + Vector3(0, -0.06, 0.07),
 		HAND_R + Vector3(0.12, -0.01, 0.06)]), PackedFloat32Array([0.018, 0.028, 0.012]), 5), blood, Vector3.ZERO)
@@ -152,7 +162,7 @@ func _build_parts() -> void:
 # ================================================================ meshes (cached, model space)
 
 ## Tapered tube through `pts` (radii per point), one cached mesh.
-static func _nr_path(key: String, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int = 6) -> Mesh:
+static func _nr_path(key: String, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int = 5) -> Mesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var st := SurfaceTool.new()
@@ -250,7 +260,7 @@ static func _claws_mesh() -> Mesh:
 		var dx: float = (float(k) - 1.0) * 0.04
 		var base := HAND_L + Vector3(dx, -0.02, 0.04)
 		_nr_append(st, PackedVector3Array([base, base + Vector3(dx * 0.5, -0.07, 0.08), base + Vector3(dx, -0.15, 0.10)]),
-			PackedFloat32Array([0.018, 0.013, 0.0]), 4)
+			PackedFloat32Array([0.018, 0.013, 0.0]), 3)
 	st.index()
 	return _cached(KEY, st.commit())
 

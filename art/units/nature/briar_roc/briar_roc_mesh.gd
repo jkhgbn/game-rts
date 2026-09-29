@@ -154,7 +154,7 @@ static func neck2_mesh() -> ArrayMesh:
 	return bake("neck2", [[bk, BARK]])
 
 
-## Head: bark skull with a pale face, dark brow ridges and eyes, a pale hooked thorn beak, the ANTLER CREST (two
+## Head: bark skull with a pale face, dark brow ridges (the eyes: briar_roc.gd's FaceKit rig), a pale hooked thorn beak, the ANTLER CREST (two
 ## branching bark antlers with pale tines, a glowing seed bud on each main tip) and three leaves behind.
 static func head_mesh() -> ArrayMesh:
 	if _meshes.has("head"):
@@ -169,8 +169,7 @@ static func head_mesh() -> ArrayMesh:
 	for sx: float in [-1.0, 1.0]:
 		RM.blob(bk, Vector3(0.115 * sx, 4.69, 1.27), Vector3(0.075, 0.045, 0.15), RM.flat_col(Color(0.0, 0.0, 0.7, 0.0)),
 			Basis(Vector3.UP, 0.25 * sx) * Basis(Vector3.FORWARD, 0.35 * sx), 0.02, 7, 4)
-		RM.blob(bk, Vector3(0.162 * sx, 4.618, 1.25), Vector3(0.05, 0.045, 0.055), RM.flat_col(Color(0.0, 0.0, 1.0, 0.0)),
-			Basis(Vector3.UP, 0.4 * sx), 0.0, 6, 4)
+		# (the dark eye blobs are gone: FaceKit paints the eyes, briar_roc.gd, face rework 2026-09-28)
 	# hooked thorn beak
 	var bpts: Array[Vector3] = [Vector3(0, 4.605, 1.34), Vector3(0, 4.60, 1.49), Vector3(0, 4.555, 1.60),
 		Vector3(0, 4.47, 1.67), RM.BEAK_TIP]

@@ -173,7 +173,20 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if leg.name == "LegL" else 1.0
 		_sculpt(leg, "gor_leg_%s_v1" % sx, func(s: Dictionary) -> void: _leg_sculpt(s, sx))
 	_sculpt(chest, "gor_chest_v1", _chest_sculpt)
-	_sculpt($Root/Chest/Head, "gor_head_v1", _head_sculpt)
+	_sculpt($Root/Chest/Head, "gor_head_v2", _head_sculpt)
+	# Face (FaceKit, face rework 2026-09-28): keen amber-green eyes, a calm mouth, pointed leaf ears out of the hood, a
+	# straw fringe under it.
+	var hc := Vector3(0, 1.63, 0.06)
+	_face = FaceKit.attach(self, $Root/Chest/Head, "glade_outrider_rider", {
+		"center": hc, "radius": 0.15, "head_mesh": sphere(0.15, 10, 6), "head_scale": Vector3(0.95, 1.08, 0.95), "head_at": hc,
+		"preset": &"gentle", "skin": NatureFaces.SKIN, "hair": NatureFaces.STRAW, "eyes": Color(0.55, 0.60, 0.18),
+		"detail": &"low", "x": NatureFaces.lean_x(1.05), "palette": NatureFaces.pal(NatureFaces.STRAW),
+		"eye": {"c": Vector2(0.050, 0.020)},
+		"hair_fn": func(acc: Dictionary) -> void:
+			for sx: float in [-1.0, 1.0]:
+				NatureFaces.ear_leaf(acc, hc, 0.145, sx, NatureFaces.SKIN, 0.95, 0.40, 0.30)
+			NatureFaces.fringe(acc, hc + Vector3(0, 0.005, 0), 0.15, 2, NatureFaces.STRAW, NatureFaces.STRAW_TIP, 0.6, 0.75, 0.2),
+	})
 	_sculpt(arm_l, "gor_arm_l_v1", _arm_l_sculpt)
 	_sculpt(arm_r, "gor_arm_r_v1", _arm_r_sculpt)
 	# Own (keep_separate) parts: forearm (elbow), bow (grip) with the arrow, the cloak (upper back).
@@ -384,18 +397,14 @@ func _head_sculpt(s: Dictionary) -> void:
 	var skin := m("nature_skin")
 	var cloth := m("nature_cloth")
 	var dark := m("nature_cloth_dark")
-	var eye := m("unit_eye_dark")
 	var leaf := m("glade_outrider_leaf")
 	var ant := m("antler")
 	var moss := m("nature_moss")
 	var glow := m("nature_glow")
 	_put(s, cyl(0.065, 0.075, 0.14, 8), skin, Vector3(0, 1.50, 0.02))
-	# face, the masked lower face, eyes, nose
+	# face (FaceKit rig, _build_parts: the mask is pulled down to a team-dark neck scarf so the mouth shows)
 	_put(s, sphere(0.15, 10, 6), skin, Vector3(0, 1.63, 0.06), Vector3.ZERO, Vector3(0.95, 1.08, 0.95))
-	_put(s, sphere(0.155, 10, 5), dark, Vector3(0, 1.575, 0.075), Vector3.ZERO, Vector3(1.03, 0.55, 1.02))
-	for sx: float in [-1.0, 1.0]:
-		_put(s, sphere(0.03, 6, 3), eye, Vector3(0.056 * sx, 1.66, 0.185), Vector3.ZERO, Vector3(1.1, 0.7, 0.6))
-	_put(s, box(Vector3(0.20, 0.035, 0.05)), dark, Vector3(0, 1.705, 0.175), Vector3(-10, 0, 0))
+	_put(s, sphere(0.155, 10, 5), dark, Vector3(0, 1.495, 0.035), Vector3.ZERO, Vector3(0.92, 0.42, 0.95))
 	# the hood (team), its long pointed tail, a dark rim round the face, leaf trims
 	_put(s, sphere(0.20, 12, 6), cloth, Vector3(0, 1.68, -0.02), Vector3.ZERO, Vector3(1.06, 1.0, 1.10))
 	MountModel.sculpt_add(s, MountModel.tube_mesh("gor_hood_tail_v1", PackedVector3Array([Vector3(0, 1.74, -0.12),
@@ -570,6 +579,7 @@ func _on_action_event(ev: StringName) -> void:
 
 ## Timers, the aim azimuth and the smoothed twist (runs on every animated frame before the seated pose).
 func _extra_process(dt: float) -> void:
+	_face_tick()
 	_dt = dt
 	_rel_t += dt
 	if _hold > 0.0:
@@ -803,6 +813,7 @@ func _ik(s: Vector3, h: Vector3, a: float, b: float, pole: Vector3) -> void:
 
 
 func _on_revive() -> void:
+	_face_reset()
 	_aim_w = 0.0
 	_hold = 0.0
 	_twist = 0.0

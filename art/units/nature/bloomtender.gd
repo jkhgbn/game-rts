@@ -47,7 +47,7 @@ func _rod(pivot: Node3D, a: Vector3, b: Vector3, r: float, mat: Material, end_r:
 	var d := b - a
 	add_part(pivot, cyl(r, r, d.length(), 6), mat, a + d * 0.5, Basis(Quaternion(Vector3.UP, d.normalized())).get_euler() / DEG)
 	if end_r > 0.0:
-		add_part(pivot, sphere(end_r, 8, 4), end_mat if end_mat else mat, b)
+		add_part(pivot, sphere(end_r, 6, 3), end_mat if end_mat else mat, b)
 
 
 ## Ring of n leaves (one cached mesh): bases on the ring, tips outward, tilted by tilt_deg (negative = drooping).
@@ -79,15 +79,21 @@ func _build_parts() -> void:
 		Vector2(0.44, 0.30), Vector2(0.50, 0.14), Vector2(0.53, 0.02)])
 	add_part(hips, lathe("a21_bt_robe", robe, 18, 9, 0.07, 1, 0.03), bark, Vector3.ZERO)
 	add_leaf_crown(hips, Vector3(0, 0.25, 0), 9, 0.44, Vector3(0.30, 0.05, 0.26), -64.0, cloth, 20.0)
-	add_leaf_crown(hips, Vector3(0, 0.88, 0), 7, 0.26, Vector3(0.22, 0.05, 0.28), -58.0, dark, 10.0)
+	add_leaf_crown(hips, Vector3(0, 0.88, 0), 5, 0.26, Vector3(0.26, 0.05, 0.28), -58.0, dark, 10.0)   # 7 -> 5 (face budget)
 	# Chest: team torso, lime leaf ruff around the neck, a blossom brooch.
 	add_part(chest, cyl(0.20, 0.27, 0.40, 10), cloth, Vector3(0, 1.08, 0))
-	add_leaf_crown(chest, Vector3(0, 1.26, 0), 6, 0.16, Vector3(0.20, 0.05, 0.26), 18.0, leaf, 12.0)
-	add_part(chest, sphere(0.075, 8, 4), bloom, Vector3(0, 1.17, 0.26), Vector3.ZERO, Vector3(1.2, 1.2, 0.6))
-	# Head: face + dark eye bar (under the hat rim), a team-dark hood behind it that frames the face.
-	add_part(head, sphere(0.20), skin, Vector3(0, 1.40, 0.06))
-	add_part(head, sphere(0.215), dark, Vector3(0, 1.43, -0.035))
-	add_part(head, box(Vector3(0.22, 0.07, 0.06)), palette(&"unit_eye_dark"), Vector3(0, 1.42, 0.245))
+	add_leaf_crown(chest, Vector3(0, 1.26, 0), 5, 0.16, Vector3(0.22, 0.05, 0.26), 18.0, leaf, 12.0)   # 6 -> 5 (face budget)
+	add_part(chest, sphere(0.075, 6, 3), bloom, Vector3(0, 1.17, 0.26), Vector3.ZERO, Vector3(1.2, 1.2, 0.6))
+	# Head: face (FaceKit: gentle hazel eyes, a kind smile; the hat and the hood hide hair and ears), a team-dark hood
+	# behind it that frames the face.
+	var hc := Vector3(0, 1.40, 0.06)
+	add_part(head, sphere(0.20), skin, hc)
+	add_part(head, sphere(0.215, 8, 4), dark, Vector3(0, 1.43, -0.035))
+	_face = FaceKit.attach(self, head, "bloomtender", {
+		"center": hc, "radius": 0.20, "head_mesh": sphere(0.20), "preset": &"gentle", "skin": NatureFaces.SKIN,
+		"hair": NatureFaces.STRAW, "eyes": NatureFaces.EYE_HAZEL, "detail": &"low", "x": NatureFaces.lean_x(1.05),
+		"palette": NatureFaces.pal(NatureFaces.STRAW), "eye": {"c": Vector2(0.064, 0.022)},
+	})
 	# Hat: one baked, wobbling node (keep_separate).
 	_hat = Node3D.new()
 	_hat.name = "Hat"
@@ -99,7 +105,7 @@ func _build_parts() -> void:
 		Vector2(0.275, 0.245), Vector2(0.295, 0.16), Vector2(0.31, 0.10)])
 	var hat_parts: Array = [
 		# 6-lobed bell: its ridges run down into the 6 petals (turned 30 deg like them)
-		[lathe("a21_bt_bell6", bell, 24, 6, 0.09, 1), Transform3D(Basis(Vector3.UP, PI / 6.0), Vector3.ZERO),
+		[lathe("a21_bt_bell6_18", bell, 18, 6, 0.09, 1), Transform3D(Basis(Vector3.UP, PI / 6.0), Vector3.ZERO),
 			nature(&"nature_bell_cloth")],
 		[cyl(0.30, 0.30, 0.012, 12), Transform3D(Basis(), Vector3(0, 0.12, 0)), dark],
 		[cyl(0.03, 0.045, 0.24, 6), Transform3D(Basis(Vector3.RIGHT, -18.0 * DEG), Vector3(0, 0.57, -0.035)), ldark],
@@ -119,7 +125,7 @@ func _build_parts() -> void:
 	trim.visible = false
 	# Arms: team bell sleeves; the right hand holds the pole.
 	add_part(arm_l, cyl(0.07, 0.14, 0.44, 8), cloth, Vector3(-0.32, 1.00, 0.02))
-	add_part(arm_l, sphere(0.09, 8, 4), skin, Vector3(-0.33, 0.76, 0.05))
+	add_part(arm_l, sphere(0.09, 6, 3), skin, Vector3(-0.33, 0.76, 0.05))
 	_rod(arm_r, Vector3(0.31, 1.20, 0), Vector3(0.46, 0.98, 0.15), 0.09, cloth, 0.09, skin)
 	# Pole: shaft, crook curling forward over the hat, two leaves at the top.
 	add_part(arm_r, cyl(0.042, 0.042, 2.0, 6), bark, Vector3(0.47, 1.02, 0.15))
@@ -139,11 +145,11 @@ func _build_parts() -> void:
 		[cyl(0.035, 0.12, 0.08, 8), Transform3D(Basis(), Vector3(0, -0.235, 0)), ldark],
 		[cyl(0.0, 0.10, 0.13, 8), Transform3D(Basis(Vector3.RIGHT, PI), c + Vector3(0, -0.15, 0)), bdark],
 	]
-	_ring_parts(pod, Vector3(0, -0.26, 0), 5, 0.08, Vector3(0.09, 0.03, 0.13), -50.0, ldark, 0.0)
-	for k: int in 3:
-		var bs := Basis(Vector3.UP, PI * float(k) / 3.0) * Basis(Vector3.RIGHT, PI * 0.5)
+	_ring_parts(pod, Vector3(0, -0.26, 0), 3, 0.08, Vector3(0.11, 0.03, 0.14), -50.0, ldark, 0.0)   # 5 -> 3 (face budget)
+	for k: int in 2:   # 3 -> 2 ribs (face budget)
+		var bs := Basis(Vector3.UP, PI * 0.25 + PI * float(k) / 2.0) * Basis(Vector3.RIGHT, PI * 0.5)
 		pod.append([torus(0.13, 0.16, 7), Transform3D(bs, c), bark])
-	pod.append([sphere(0.13, 8, 5), Transform3D(Basis().scaled(Vector3(1.0, 1.15, 1.0)), c), nature(&"nature_glow")])
+	pod.append([sphere(0.13, 8, 4), Transform3D(Basis().scaled(Vector3(1.0, 1.15, 1.0)), c), nature(&"nature_glow")])
 	_core = add_part(_censer, bake("a21_bt_censer", pod), null, HOOK, Vector3.ZERO, Vector3.ONE, true, "Pod")
 	_core.set_meta(&"own_glow", true)
 	# Pollen from the censer: a puff on each heal / shot, a small drift every ~3 s nearby (pre-built one-shots).

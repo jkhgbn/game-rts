@@ -55,7 +55,7 @@ static func burr_mesh() -> Mesh:
 	var parts: Array = [[sphere(0.11, 6, 3), Transform3D.IDENTITY]]
 	var dirs: Array[Vector3] = [Vector3.UP, Vector3.DOWN, Vector3(1, 0.2, 0.9), Vector3(-1, 0.2, -0.9),
 		Vector3(1, -0.4, -0.8), Vector3(-1, -0.4, 0.8), Vector3(0.2, 0.9, -1), Vector3(-0.2, -0.9, 1)]
-	var spike := cyl(0.0, 0.05, 0.18, 4)
+	var spike := cyl(0.0, 0.05, 0.18, 4, false)   # base inside the ball: no cap (face budget)
 	for d: Vector3 in dirs:
 		var n := d.normalized()
 		parts.append([spike, Transform3D(Basis(Quaternion(Vector3.UP, n)), n * 0.17)])
@@ -108,14 +108,23 @@ func _build_parts() -> void:
 	# ---- Head: face, dark bark hood (Art Lab R3: a green hood melted into the meadow), team leaf flaps framing the
 	# face, a big team leaf curling over the hood with its tip trailing back and up, a dark eye bar (bare-faced
 	# ranged: no glow on the face).
-	add_part(head, sphere(0.21, 10, 5), skin, Vector3(0, 1.24, 0.10))
+	var hc := Vector3(0, 1.24, 0.10)
+	add_part(head, sphere(0.21, 10, 5), skin, hc)
+	# Face (FaceKit): amber eyes, a cocky grin, a chestnut fringe out of the hood (was a dark eye bar).
+	_face = FaceKit.attach(self, head, "burr_slinger", {
+		"center": hc, "radius": 0.21, "head_mesh": sphere(0.21, 10, 5), "preset": &"plain", "skin": NatureFaces.SKIN,
+		"hair": NatureFaces.CHESTNUT, "eyes": NatureFaces.EYE_AMBER, "detail": &"low",
+		"x": NatureFaces.lean_x(1.05, {&"neutral": {"mouth": {"kind": "smirk"}}}), "palette": NatureFaces.pal(NatureFaces.CHESTNUT),
+		"eye": {"c": Vector2(0.066, 0.030)}, "mouth": {"c": Vector2(0.0, -0.082)},
+		"hair_fn": func(acc: Dictionary) -> void:
+			NatureFaces.fringe(acc, hc, 0.21, 3, NatureFaces.AMBER, NatureFaces.AMBER_TIP, 0.55, 0.75, 0.16),
+	})
 	add_part(head, sphere(0.25, 10, 5), bdark, Vector3(0, 1.29, 0.0), Vector3.ZERO, Vector3(1.06, 1.04, 1.0))
 	for sx: float in [-1.0, 1.0]:   # leaf hood flaps framing the face
 		add_leaf(head, Vector3(0.19 * sx, 1.21, 0.14), Vector3(0.16, 0.05, 0.34), cloth, Vector3(78, 12.0 * sx, -18.0 * sx))
 	add_part(head, cyl(0.0, 0.045, 0.10, 5), skin, Vector3(0, 1.21, 0.33), Vector3(90, 0, 0))
 	add_leaf(head, Vector3(0, 1.47, -0.02), Vector3(0.40, 0.08, 0.66), cloth, Vector3(-16, 180, 0))
 	add_leaf(head, Vector3(0, 1.43, 0.14), Vector3(0.30, 0.07, 0.30), cloth, Vector3(-8, 0, 0))
-	add_part(head, box(Vector3(0.22, 0.06, 0.06)), bdark, Vector3(0, 1.27, 0.285))
 	# ---- Arms (ochre sleeves): both hands on the pod.
 	var d := POD_DIR.normalized()
 	var grip_l := GRIP + d * 0.62
@@ -155,7 +164,7 @@ func _build_parts() -> void:
 ## Cheaper spare burr for the sack (5 spikes; the sack burrs are half hidden).
 static func _spare_burr_mesh() -> Mesh:
 	var parts: Array = [[sphere(0.11, 5, 3), Transform3D.IDENTITY]]
-	var spike := cyl(0.0, 0.05, 0.18, 4)
+	var spike := cyl(0.0, 0.05, 0.18, 4, false)   # base inside the ball: no cap (face budget)
 	for d: Vector3 in [Vector3.UP, Vector3(1, 0.3, 0.6), Vector3(-1, 0.3, 0.5), Vector3(0.2, 0.5, -1), Vector3(0.1, 0.4, 1)]:
 		var n := d.normalized()
 		parts.append([spike, Transform3D(Basis(Quaternion(Vector3.UP, n)), n * 0.17)])
@@ -165,9 +174,9 @@ static func _spare_burr_mesh() -> Mesh:
 ## 3 spare burrs poking out of the sack over the left shoulder (one mesh, model space).
 static func _sack_burrs_mesh() -> Mesh:
 	var b := _spare_burr_mesh()
-	return _combine("slinger_sack_burrs_a22", [[b, Transform3D(Basis().scaled(Vector3.ONE * 0.75), Vector3(-0.16, 1.14, -0.30))],
-		[b, Transform3D(Basis(Vector3.UP, 0.6).scaled(Vector3.ONE * 0.7), Vector3(0.04, 1.12, -0.34))],
-		[b, Transform3D(Basis(Vector3.RIGHT, 0.5).scaled(Vector3.ONE * 0.62), Vector3(-0.08, 1.24, -0.24))]])
+	# 3 -> 2 burrs (face rework 2026-09-28: pays for the face), the pair a little bigger
+	return _combine("slinger_sack_burrs_f1", [[b, Transform3D(Basis().scaled(Vector3.ONE * 0.8), Vector3(-0.14, 1.16, -0.30))],
+		[b, Transform3D(Basis(Vector3.UP, 0.6).scaled(Vector3.ONE * 0.74), Vector3(0.05, 1.14, -0.33))]])
 
 
 ## Two team leaf fins on the seed chamber (top and bottom, lying along the pod, tips toward the back).

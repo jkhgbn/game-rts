@@ -89,12 +89,25 @@ func _build_parts() -> void:
 		add_part(leg, _hoof_mesh(), bdark, Vector3(p.x, 0, p.z + 0.05))
 	# ---- Head: heavy skull and dark muzzle, a pale bony boss across the forehead joining the horns (a battering
 	# ram), two glowing slits under it, a moss beard, huge horns wrapped in dark brambles and thorns.
-	add_part(head, sphere(0.46, 10, 6), hide, Vector3(0, 1.10, 1.12), Vector3(-8, 0, 0), Vector3(1.1, 0.9, 1.05))
+	var hc := Vector3(0, 1.10, 1.12)
+	add_part(head, sphere(0.46, 10, 6), hide, hc, Vector3(-8, 0, 0), Vector3(1.1, 0.9, 1.05))
+	# Eyes (FaceKit beast face, was two glowing slits): sap-glowing eyes under the bony boss with lids that narrow into
+	# a glare on the charge (fierce) and droop when it falls (worried); the mouth hides under the muzzle.
+	_face = FaceKit.attach(self, head, "bramblehorn", NatureFaces.style({
+		"center": hc, "radius": 0.45, "head_mesh": sphere(0.46, 10, 6), "head_scale": Vector3(1.1, 0.9, 1.05), "head_at": hc,
+		"preset": &"stern", "skin": NatureFaces.BARK, "eyes": Color(0.75, 1.0, 0.40), "detail": &"low",
+		"x": NatureFaces.lean_x(1.2, {&"neutral": {"cut_in": 0.35}}),
+		"palette": NatureFaces.beast_palette(NatureFaces.BARK, Color(0.60, 0.95, 0.25), 1.0),
+		"eye": {"c": Vector2(0.20, 0.115), "hw": 0.075, "top": 0.042, "bot": 0.030, "ir": 0.032, "tilt": 0.02},
+		"brow": {"inner": Vector2(0.12, 0.175), "mid": Vector2(0.20, 0.19), "outer": Vector2(0.28, 0.17),
+			"w": Vector3(0.016, 0.015, 0.006)},
+		"mouth": NatureFaces.beast_mouth(Vector2(0, -0.36)),
+	}, Vector3(-8, 0, 0), 0.006))
+	_face.set_meta(&"own_glow", true)
 	add_part(head, sphere(0.30, 10, 5), hide, Vector3(0, 0.92, 1.42), Vector3(12, 0, 0), Vector3(1.2, 0.78, 1.0))
 	add_part(head, _nostrils_mesh(), bdark, Vector3.ZERO)
 	add_part(head, sphere(0.30, 10, 5), horn, Vector3(0, 1.40, 1.30), Vector3(-20, 0, 0), Vector3(1.5, 0.45, 1.0))
 	add_part(head, _tusks_mesh(), horn, Vector3.ZERO)
-	add_part(head, _eyes_mesh(), glow, Vector3.ZERO)
 	add_part(head, cyl(0.26, 0.0, 0.50, 7), moss, Vector3(0, 0.72, 1.28), Vector3(12, 0, 0))
 	for sx: float in [-1.0, 1.0]:
 		add_part(head, _horn_mesh(sx), horn, Vector3.ZERO)
@@ -223,18 +236,6 @@ static func _hoof_mesh() -> Mesh:
 	var st := SurfaceTool.new()
 	for s: float in [-1.0, 1.0]:
 		st.append_from(sphere(0.13, 6, 3), 0, Transform3D(Basis().scaled(Vector3(1.0, 0.8, 1.35)), Vector3(0.09 * s, 0.10, 0.02)))
-	return _cached(KEY, _indexed(st))
-
-
-## Two eye slits under the brow, following the skull's curve, half sunk.
-static func _eyes_mesh() -> Mesh:
-	const KEY := "bramblehorn_eyes_a22"
-	if _mesh_cache.has(KEY):
-		return _mesh_cache[KEY]
-	var st := SurfaceTool.new()
-	for s: float in [-1.0, 1.0]:
-		var b := Basis.from_euler(Vector3(-0.25, 0.42 * s, 0.34 * s))
-		st.append_from(box(Vector3(0.17, 0.065, 0.07)), 0, Transform3D(b, Vector3(0.20 * s, 1.27, 1.505)))
 	return _cached(KEY, _indexed(st))
 
 
@@ -410,8 +411,8 @@ func _pose_fidget(t: float) -> float:
 
 
 func _war_process(dt: float) -> void:
-	# Eye flare (charge / snort): written on the merged head (its only glow surface is the eyes).
-	if _head_mi == null:
+	# Eye flare (charge / snort): written on the face rig (the glowing eyes, own_glow).
+	if _face == null:
 		return
 	if _action != &"attack":
 		_eye_flare = maxf(0.0, _eye_flare - dt / 0.35)
@@ -420,7 +421,7 @@ func _war_process(dt: float) -> void:
 	var b: float = glow_level() * (1.0 + 1.6 * _eye_flare)
 	if absf(b - _eye_written) > 0.02 or (_eye_flare == 0.0 and b != _eye_written):
 		_eye_written = b
-		_head_mi.set_instance_shader_parameter(&"glow_boost", b)
+		_face.set_instance_shader_parameter(&"glow_boost", b)
 
 
 func _war_revive() -> void:

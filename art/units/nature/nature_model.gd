@@ -21,12 +21,17 @@ extends CharacterModel
 ## nature_glow_hero, nature_moss, nature_thorn, nature_hair, nature_stone, nature_wither (Sapling end),
 ## nature_sec_<unit> (secondary cloth per unit; 8.V4 adds its own nature_sec_* files next to them).
 ## Team colour: nature_cloth / nature_cloth_dark / nature_cape are recoloured by set_team_color like the kit's cloth.
+## Faces (face rework 2026-09-28): a unit puts its FaceKit rig in `_face` (spec from NatureFaces); the per-frame
+## scripts call `_face_tick()` (expression reactions + the bold RTS face) and `_face_reset()` on revive.
+## add_limb uses `lean_capsule` (6 x 2 segments, 70 vertices instead of the kit capsule's 162) to pay for the faces.
 
 const NATURE_MAT_DIR := "res://art/units/nature/materials/"
 const NATURE_GLOW := Color(0.75, 1.0, 0.40)
 const NATURE_TEAM := Color(0.35, 0.70, 0.25)
 
 static var _nature_cache: Dictionary = {}
+
+var _face: FaceRig
 
 
 ## Nature palette material by name (loaded once, shared). Unknown names fall back to the kit palette.
@@ -42,9 +47,35 @@ func add_limb(pivot: Node3D, a: Vector3, b: Vector3, r: float, mat: Material, en
 		end_mat: Material = null) -> void:
 	var d := b - a
 	var e := Basis(Quaternion(Vector3.DOWN, d.normalized())).get_euler() * (180.0 / PI)
-	add_part(pivot, capsule(r, d.length() + r), mat, a + d * 0.5, e)
+	add_part(pivot, lean_capsule(r, d.length() + r), mat, a + d * 0.5, e)
 	if end_r > 0.0:
-		add_part(pivot, sphere(end_r), end_mat if end_mat else mat, b)
+		add_part(pivot, sphere(end_r, 8, 4), end_mat if end_mat else mat, b)
+
+
+## The face rig's per-frame update (call it from the model's _extra_process): reactions at close range, the bold
+## far face at the RTS zoom.
+func _face_tick() -> void:
+	if _face:
+		_face.auto(self)
+
+
+## After a revive: show the requested expression again.
+func _face_reset() -> void:
+	if _face:
+		_face.reset()
+
+
+## A low capsule (6 radial x 2 ring segments, 70 vertices; the kit's capsule() is 8 x 4 = 162): limbs, thin legs.
+static func lean_capsule(r: float, h: float) -> Mesh:
+	var key := "leancap%s_%s" % [r, h]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var m := CapsuleMesh.new()
+	m.radius = r
+	m.height = maxf(h, r * 2.0)
+	m.radial_segments = 6
+	m.rings = 2
+	return _cached(key, m)
 
 
 ## Ring of n thorn cones (6 segments) around `centre` (model space), tips leaning outward by tilt_deg. One part.
@@ -135,7 +166,7 @@ static func thorn_ring_mesh(n: int, ring_r: float, r: float, h: float, tilt_deg:
 		var out := Vector3(sin(a), 0, cos(a))
 		var b := Basis(Vector3.UP.cross(out).normalized(), tilt_deg * DEG)
 		xs.append(Transform3D(b, out * ring_r + b * Vector3(0, h * 0.5, 0)))
-	return cluster_mesh(key, cyl(0.0, r, h, 6), xs)
+	return cluster_mesh(key, cyl(0.0, r, h, 6, false), xs)   # base caps hidden in the body (face budget)
 
 
 ## Bakes one copy of `base` (surface 0) per transform into a single cached ArrayMesh (no negative scales).

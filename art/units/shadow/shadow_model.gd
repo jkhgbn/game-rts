@@ -11,6 +11,10 @@ extends CharacterModel
 ## - thrall lantern pendulum / mining / crystals, nightbolt bolt reload + muzzle puff, hound jaw + tail, knight
 ##   sparks, warden no team colour.
 ## Everything is per-instance (instance uniforms, transparency); no material is created or duplicated.
+## Faces (face rework 2026-09-28): _build_parts gives the thrall, shade, nightbolt, knight and hound a FaceKit rig
+## (ShadowFaces: a gaunt pale face painted on the dark head part, glowing violet eyes that replace the old glowing eye
+## bar, expressions; the hound gets beast eyes). Subclasses that build their own parts set `_face` themselves; this
+## script ticks it (_extra_process) and resets it on revive. The warden (a stone construct) has none.
 
 ## thrall, shade, nightbolt, hound, knight, warden
 @export var unit_kind: StringName = &""
@@ -19,6 +23,9 @@ extends CharacterModel
 
 const DISSOLVE_FLASH := Vector3(0.48, 0.16, 1.0)
 const POOL := Color(0.34, 0.10, 0.60, 0.72)
+## The face's glowing eyes are small next to the old glowing eye bars: their glow_boost is written here (own_glow) at
+## this multiple of glow_level() so they still make the unit's glow point at 40 m.
+const EYE_GLOW := 4.0
 
 var _lantern: Node3D
 var _lantern_orb: GeometryInstance3D
@@ -35,6 +42,8 @@ var _jaw: Node3D
 var _tail: Node3D
 var _lantern_pulsing: bool = false
 var _jaw_last: float = 0.0
+var _face: FaceRig
+var _eye_glow_written: float = -1.0
 var _tail_last: Vector3 = Vector3.ZERO
 
 # Dissolve / crumble state (only touched while dying).
@@ -44,6 +53,120 @@ var _blob_color: Color = Color(0.05, 0.03, 0.02, 0.45)
 var _fade_written: float = 0.0
 var _dflash_written: float = 0.0
 var _rubble_fired: bool = false
+
+
+func _build_parts() -> void:
+	match unit_kind:
+		&"thrall":
+			_base_face("Root/Chest/Head", "MeshInstance3D2", "MeshInstance3D4", {"preset": &"hollow", "detail": &"low",
+				"eye": {"c": Vector2(0.040, 0.018), "hw": 0.023, "top": 0.019, "bot": 0.012, "ir": 0.012},
+				"brow": {"inner": Vector2(0.017, 0.043), "mid": Vector2(0.040, 0.052), "outer": Vector2(0.062, 0.044),
+					"w": Vector3(0.0050, 0.0048, 0.0020)},
+				"mouth": {"c": Vector2(0.0, -0.048), "hw": 0.020, "lip": 0.0022},
+				"x": NatureFaces.lean_x(1.1, {&"neutral": {"mouth": {"kind": "frown", "curve": 0.6, "open": 0.0}}})},
+				Vector2(0, -0.004), Vector2(0.074, 0.094), 0.0)
+		&"shade":
+			_base_face("Root/Chest/Head", "MeshInstance3D3", "MeshInstance3D4", {"preset": &"hollow", "detail": &"low", "sparks": 0.03,
+				"eye": {"c": Vector2(0.046, -0.004), "hw": 0.028, "top": 0.018, "bot": 0.011, "ir": 0.013, "tilt": 0.012},
+				"brow": {"inner": Vector2(0.020, 0.022), "mid": Vector2(0.046, 0.030), "outer": Vector2(0.072, 0.024),
+					"w": Vector3(0.0055, 0.0052, 0.0022)},
+				"mouth": {"c": Vector2(0.0, -0.074), "hw": 0.024, "lip": 0.0024},
+				"x": NatureFaces.lean_x(1.1, {&"neutral": {"mouth": {"kind": "smirk"}, "cut_in": 0.25}})},
+				Vector2(0, -0.024), Vector2(0.085, 0.100), 0.0)
+		&"nightbolt":
+			var hc := _model_xf(get_node("Root/Chest/Head/MeshInstance3D") as Node3D).origin
+			_base_face("Root/Chest/Head", "MeshInstance3D", "MeshInstance3D5", {"preset": &"hollow", "detail": &"low",
+				"eye": {"c": Vector2(0.050, 0.020), "hw": 0.030, "top": 0.022, "bot": 0.013, "ir": 0.015},
+				"brow": {"inner": Vector2(0.022, 0.050), "mid": Vector2(0.050, 0.060), "outer": Vector2(0.078, 0.052),
+					"w": Vector3(0.006, 0.0056, 0.0024)},
+				"mouth": {"c": Vector2(0.0, -0.060), "hw": 0.026, "lip": 0.0024},
+				"x": NatureFaces.lean_x(1.1),
+				"hair_fn": func(acc: Dictionary) -> void:
+					ShadowFaces.strands(acc, [hc + Vector3(0.15, 0.09, 0.06), hc + Vector3(-0.15, 0.09, 0.06),
+						hc + Vector3(0.17, 0.08, -0.06), hc + Vector3(-0.17, 0.08, -0.06)], 0.24, 0.035,
+						ShadowFaces.SILVER, ShadowFaces.SILVER_TIP, Vector3(0.03, 0, -0.02))},
+				Vector2(0, -0.006), Vector2(0.098, 0.118), 0.0)
+		&"knight":
+			_base_face("Root/Chest/Head", "MeshInstance3D", "MeshInstance3D6", {"preset": &"stern", "detail": &"low",
+				"radius": 0.25, "center_dy": 0.0,
+				"eye": {"c": Vector2(0.044, 0.018), "hw": 0.027, "top": 0.018, "bot": 0.011, "ir": 0.013, "tilt": 0.01},
+				"brow": {"inner": Vector2(0.018, 0.046), "mid": Vector2(0.044, 0.054), "outer": Vector2(0.070, 0.046),
+					"w": Vector3(0.0075, 0.007, 0.003)},
+				"mouth": {"c": Vector2(0.0, -0.058), "hw": 0.026, "lip": 0.0026},
+				"x": NatureFaces.lean_x(1.15, {&"neutral": {"mouth": {"kind": "frown", "curve": 0.5, "open": 0.0}, "cut_in": 0.2}})},
+				Vector2(0, -0.004), Vector2(0.072, 0.090), 0.016)
+		&"hound":
+			_base_face("Root/Mount/Head", "MeshInstance3D", "MeshInstance3D4", {"preset": &"stern", "detail": &"low",
+				"radius": 0.12, "center_dy": 0.02, "center_dz": -0.02, "beast": true,
+				"eye": {"c": Vector2(0.056, 0.030), "hw": 0.040, "top": 0.028, "bot": 0.020, "ir": 0.021, "tilt": 0.014},
+				"brow": {"inner": Vector2(0.024, 0.066), "mid": Vector2(0.056, 0.076), "outer": Vector2(0.090, 0.066),
+					"w": Vector3(0.007, 0.0065, 0.003)},
+				"mouth": NatureFaces.beast_mouth(Vector2(0, -0.16)),
+				"x": NatureFaces.lean_x(1.2, {&"neutral": {"cut_in": 0.4}})},
+				Vector2.ZERO, Vector2.ZERO, 0.0)
+
+
+## A FaceKit face on an authored head part (`face_node` under `head_path`: its mesh + model transform are the canvas),
+## the old glowing eye bar (`eye_node`) removed (the glowing irises are the glow point now). `oval_r` > 0 paints a pale
+## face oval first (+ a dark rim `rim` wide: helm openings). spec: FaceKit spec keys + radius / center_dy / center_dz /
+## beast (bone skull, no oval, the kit mouth hidden).
+func _base_face(head_path: String, face_node: String, eye_node: String, spec: Dictionary, oval_c: Vector2, oval_r: Vector2,
+		rim: float) -> void:
+	var head := get_node_or_null(head_path) as Node3D
+	var fn := get_node_or_null(head_path + "/" + face_node) as MeshInstance3D
+	if head == null or fn == null:
+		return
+	var eb := get_node_or_null(head_path + "/" + eye_node)
+	if eb:
+		eb.get_parent().remove_child(eb)
+		eb.free()
+	var xf := _model_xf(fn)
+	var m := fn.mesh
+	var r: float = spec.get("radius", (m as SphereMesh).radius if m is SphereMesh else 0.2)
+	var c := xf.origin + Vector3(0, spec.get("center_dy", 0.0), spec.get("center_dz", 0.0))
+	var beast: bool = spec.get("beast", false)
+	var skin: Color = ShadowFaces.BONE if beast else ShadowFaces.PALE
+	var full := {"center": c, "radius": r, "skin": skin, "hair": ShadowFaces.INK, "eyes": ShadowFaces.GLOW,
+		"palette": ShadowFaces.pal(skin)}
+	for k: String in spec:
+		if not k in ["radius", "center_dy", "center_dz", "beast", "sparks"]:
+			full[k] = spec[k]
+	var st := FaceKit.style_from(full)
+	var cv := ShadowFaces.node_canvas(c, r, m, xf, 0.004)
+	st["canvas"] = cv
+	var spark: float = spec.get("sparks", 0.0)
+	if spark > 0.0:
+		var geo: Callable = st["geo"]
+		var ec: Vector2 = spec["eye"]["c"]
+		st["geo"] = func(acc: Dictionary) -> void:
+			geo.call(acc)
+			ShadowFaces.sparks(acc, cv, ec, spark, spark * 0.6)
+	if oval_r != Vector2.ZERO:
+		st["base"] = func(acc: Dictionary, _id: StringName) -> void:
+			ShadowFaces.base_oval(acc, cv, oval_c, oval_r, skin, rim)
+	_face = FaceKit.attach(self, head, String(scene_file_path.get_file().get_basename()) if scene_file_path != "" else String(unit_kind), st)
+
+
+## Eye glow (own_glow on the Face node): glow_level() x EYE_GLOW, flaring with the unit's other glows (haste,
+## veterancy, frenzy...), off once the kit turns the glows off in a death.
+func _write_eye_glow() -> void:
+	if not _face.has_meta(&"own_glow"):
+		_face.set_meta(&"own_glow", true)
+		_glow_nodes.erase(_face)
+	var g: float = 0.0 if _glows_off else glow_level() * EYE_GLOW
+	if absf(g - _eye_glow_written) > 0.01:
+		_eye_glow_written = g
+		_face.set_instance_shader_parameter(&"glow_boost", g)
+
+
+## Model-space rest transform of an authored node (the pivots are unrotated at rest).
+func _model_xf(n: Node3D) -> Transform3D:
+	var xf := Transform3D.IDENTITY
+	var c: Node = n
+	while c and c != self:
+		xf = (c as Node3D).transform * xf
+		c = c.get_parent()
+	return xf
 
 
 func _after_ready() -> void:
@@ -125,6 +248,9 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
+		_eye_glow_written = -1.0
 	if _bolt:
 		_bolt.visible = true
 	if _jaw:
@@ -144,6 +270,9 @@ func _on_revive() -> void:
 # ================================================================ per frame (after the kit's pose)
 
 func _extra_process(_dt: float) -> void:
+	if _face:
+		_face.auto(self)
+		_write_eye_glow()
 	if _dead:
 		if unit_kind == &"warden":
 			_crumble_extra(_death_t)

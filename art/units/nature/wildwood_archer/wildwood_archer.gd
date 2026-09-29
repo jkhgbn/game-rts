@@ -79,18 +79,18 @@ func _build_parts() -> void:
 		add_part(leg, tapered_path_mesh("wa_leg_%s" % sx, PackedVector3Array([Vector3(0.11 * sx, 0.86, 0.0),
 			Vector3(0.12 * sx, 0.48, 0.04), Vector3(0.12 * sx, 0.08, -0.01)]), PackedFloat32Array([0.085, 0.065, 0.055])),
 			bdark, Vector3.ZERO)
-		add_part(leg, cyl(0.07, 0.065, 0.05, 7), thorn, Vector3(0.12 * sx, 0.30, 0.02))
-		add_part(leg, sphere(0.07, 7, 4), bdark, Vector3(0.12 * sx, 0.055, 0.06), Vector3.ZERO, Vector3(1.0, 0.7, 1.6))
+		add_part(leg, cyl(0.07, 0.065, 0.05, 6, false), thorn, Vector3(0.12 * sx, 0.30, 0.02))
+		add_part(leg, sphere(0.07, 6, 3), bdark, Vector3(0.12 * sx, 0.055, 0.06), Vector3.ZERO, Vector3(1.0, 0.7, 1.6))
 	# ---- Hips: bark belt + team-dark leaf kilt, a small pouch.
 	add_part(hips, cyl(0.19, 0.19, 0.08, 9), bark, Vector3(0, 0.87, 0))
-	add_part(hips, leaf_ring_mesh(7, 0.15, Vector3(0.16, 0.035, 0.30), -72.0, 12.0), bark, Vector3(0, 0.88, 0))
+	add_part(hips, leaf_ring_mesh(5, 0.15, Vector3(0.20, 0.035, 0.30), -72.0, 12.0), bark, Vector3(0, 0.88, 0))   # 7 -> 5 (face budget)
 	add_part(hips, sphere(0.07, 6, 3), bark, Vector3(-0.20, 0.80, 0.08), Vector3.ZERO, Vector3(0.9, 1.1, 0.7))
 	# ---- Chest: bark-leather jerkin (lathe), team leaf capelet, a leather baldric, the bark quiver on the back.
 	add_part(chest, tapered_path_mesh("wa_torso", PackedVector3Array([Vector3(0, 0.84, 0), Vector3(0, 1.00, 0.0),
 		Vector3(0, 1.16, 0.01), Vector3(0, 1.30, 0.0)]), PackedFloat32Array([0.18, 0.19, 0.22, 0.2]), 8, false),
 		suede, Vector3.ZERO, Vector3.ZERO, Vector3(1.0, 1.0, 0.82))
-	add_part(chest, leaf_ring_mesh(7, 0.13, Vector3(0.22, 0.05, 0.28), -40.0, 0.0), cdark, Vector3(0, 1.30, 0.0))
-	add_part(chest, cyl(0.075, 0.10, 0.10, 8), skin, Vector3(0, 1.36, 0.01))
+	add_part(chest, leaf_ring_mesh(6, 0.13, Vector3(0.24, 0.05, 0.28), -40.0, 0.0), cdark, Vector3(0, 1.30, 0.0))   # 7 -> 6 (face budget)
+	add_part(chest, cyl(0.075, 0.10, 0.10, 6, false), skin, Vector3(0, 1.36, 0.01))
 	add_part(chest, box(Vector3(0.05, 0.62, 0.03)), bdark, Vector3(0.0, 1.08, 0.18), Vector3(-6, 0, -34))
 	var qa := Vector3(0.36, 0.93, 0.0)
 	var qc := Vector3(0.04, 1.10, -0.23)
@@ -100,13 +100,22 @@ func _build_parts() -> void:
 	add_part(chest, _quiver_shafts_mesh(qtop, qa), bdark, Vector3.ZERO)
 	add_part(chest, _fletch_mesh(qtop, qa), leaf, Vector3.ZERO)
 	# ---- Head: bare face, tied-back hair, a leaf circlet with two long team leaves sweeping back like feathers.
-	add_part(head, sphere(0.13, 9, 5), skin, Vector3(0, 1.50, 0.03), Vector3.ZERO, Vector3(0.92, 1.08, 1.0))
-	add_part(head, sphere(0.135, 9, 5), hair, Vector3(0, 1.54, -0.02), Vector3(-15, 0, 0), Vector3(1.0, 1.0, 1.05))
+	var hc := Vector3(0, 1.50, 0.03)
+	add_part(head, sphere(0.13, 9, 5), skin, hc, Vector3.ZERO, Vector3(0.92, 1.08, 1.0))
+	# Face (FaceKit, was two dark eye boxes): keen leaf-green eyes, a calm mouth, round ears (her own chestnut hair).
+	_face = FaceKit.attach(self, head, "wildwood_archer", {
+		"center": hc, "radius": 0.13, "head_mesh": sphere(0.13, 9, 5), "head_scale": Vector3(0.92, 1.08, 1.0),
+		"head_at": hc, "preset": &"gentle", "skin": NatureFaces.SKIN, "hair": NatureFaces.CHESTNUT,
+		"eyes": NatureFaces.EYE_LEAF, "detail": &"low", "x": NatureFaces.lean_x(1.05),
+		"palette": NatureFaces.pal(NatureFaces.CHESTNUT), "eye": {"c": Vector2(0.041, 0.014)},
+		"hair_fn": func(acc: Dictionary) -> void:
+			for sx: float in [-1.0, 1.0]:
+				NatureFaces.ear_round(acc, hc, 0.125, sx, NatureFaces.SKIN),
+	})
+	add_part(head, sphere(0.135, 8, 4), hair, Vector3(0, 1.54, -0.02), Vector3(-15, 0, 0), Vector3(1.0, 1.0, 1.05))
 	add_part(head, tapered_path_mesh("wa_tail", PackedVector3Array([Vector3(0, 1.52, -0.13), Vector3(0, 1.42, -0.20),
 		Vector3(0, 1.30, -0.19)]), PackedFloat32Array([0.05, 0.045, 0.0]), 6), hair, Vector3.ZERO)
-	for ex: float in [-0.042, 0.042]:
-		add_part(head, box(Vector3(0.04, 0.025, 0.04)), palette(&"unit_eye_dark"), Vector3(ex, 1.515, 0.14))
-	add_part(head, torus(0.12, 0.15, 10), bdark, Vector3(0, 1.58, 0.0), Vector3(-10, 0, 0))
+	add_part(head, torus(0.12, 0.15, 8), bdark, Vector3(0, 1.58, 0.0), Vector3(-10, 0, 0))
 	for sx: float in [-1.0, 1.0]:
 		add_leaf(head, Vector3(0.10 * sx, 1.66, -0.14), Vector3(0.11, 0.04, 0.42), cloth, Vector3(-38, 180 - 14 * sx, 0))
 	add_leaf(head, Vector3(0, 1.62, 0.12), Vector3(0.10, 0.03, 0.16), cloth, Vector3(-20, 0, 0))
@@ -118,7 +127,7 @@ func _build_parts() -> void:
 	# ---- Arms: bark-leather sleeves, skin hands, a thorn bracer on the bow arm.
 	add_limb(arm_l, SH_L, GRIP_L, 0.06, bark, 0.068, skin)
 	var dl := (GRIP_L - SH_L).normalized()
-	add_part(arm_l, cyl(0.075, 0.07, 0.15, 7), thorn, SH_L.lerp(GRIP_L, 0.72), _euler_up(dl))
+	add_part(arm_l, cyl(0.075, 0.07, 0.15, 6, false), thorn, SH_L.lerp(GRIP_L, 0.72), _euler_up(dl))
 	add_limb(arm_r, SH_R, HAND_R, 0.06, bark, 0.068, skin)
 	# ---- The longbow (keep_separate container under the bow arm, counter-rotated to stay upright on the draw).
 	_bow = Node3D.new()

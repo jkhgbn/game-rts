@@ -51,50 +51,63 @@ func _build_parts() -> void:
 		add_part(leg, _hw_path("hw_leg_%s" % sx, PackedVector3Array([Vector3(0.11 * sx, 0.78, 0.0),
 			Vector3(0.12 * sx, 0.42, 0.03), Vector3(0.12 * sx, 0.08, 0.0)]), PackedFloat32Array([0.06, 0.05, 0.045]), 5, false), leather,
 			Vector3.ZERO)
-		add_part(leg, sphere(0.06, 8, 4), leather, Vector3(0.12 * sx, 0.05, 0.08), Vector3(-10, 0, 0), Vector3(0.9, 0.7, 2.0))
+		add_part(leg, sphere(0.06, 6, 3), leather, Vector3(0.12 * sx, 0.05, 0.08), Vector3(-10, 0, 0), Vector3(0.9, 0.7, 2.0))
 	# ---- Hips: long dark robe skirt to the ankles, a cord belt with bone charms.
-	add_part(hips, cyl(0.21, 0.38, 0.66, 12), cdark, Vector3(0, 0.47, 0.0), Vector3(-5, 0, 0))
-	add_part(hips, cyl(0.215, 0.225, 0.07, 10), leather, Vector3(0, 0.78, 0.02))
+	add_part(hips, cyl(0.21, 0.38, 0.66, 10), cdark, Vector3(0, 0.47, 0.0), Vector3(-5, 0, 0))
+	add_part(hips, cyl(0.215, 0.225, 0.07, 8), leather, Vector3(0, 0.78, 0.02))
 	add_part(hips, box(Vector3(0.04, 0.10, 0.03)), bone, Vector3(-0.12, 0.70, 0.19), Vector3(0, 0, 8))
 	add_part(hips, box(Vector3(0.035, 0.08, 0.03)), bone, Vector3(-0.05, 0.69, 0.22), Vector3(0, 0, -6))
 	# ---- Chest: the hunch. A forward-leaning team robe torso, a rounded dark hump behind, a shawl, a skull pendant.
 	add_part(chest, _hw_path("hw_torso", PackedVector3Array([Vector3(0, 0.78, 0.01), Vector3(0, 1.02, 0.07),
 		Vector3(0, 1.19, 0.15)]), PackedFloat32Array([0.21, 0.22, 0.16]), 10, false), cloth, Vector3.ZERO)
-	add_part(chest, sphere(0.2, 10, 5), cdark, Vector3(0, 1.21, -0.08), Vector3(-25, 12, 6), Vector3(1.2, 1.0, 1.05))
-	add_part(chest, cyl(0.10, 0.28, 0.15, 10), cdark, Vector3(0, 1.21, 0.10), Vector3(32, 10, -5))
-	add_part(chest, sphere(0.05, 8, 4), bone, Vector3(0, 1.08, 0.29), Vector3(-15, 0, 0), Vector3(1.0, 1.1, 0.8))
+	add_part(chest, sphere(0.2, 8, 4), cdark, Vector3(0, 1.21, -0.08), Vector3(-25, 12, 6), Vector3(1.2, 1.0, 1.05))
+	add_part(chest, cyl(0.10, 0.28, 0.15, 8), cdark, Vector3(0, 1.21, 0.10), Vector3(32, 10, -5))
+	add_part(chest, sphere(0.05, 6, 3), bone, Vector3(0, 1.08, 0.29), Vector3(-15, 0, 0), Vector3(1.0, 1.1, 0.8))
 	# Left shoulder fetish (the asymmetry opposite the cage): a small beast skull with a hooked bone horn rising back.
-	add_part(chest, sphere(0.065, 8, 4), bone, Vector3(-0.21, 1.27, 0.03), Vector3(0, -20, 0), Vector3(1.0, 0.85, 1.25))
+	add_part(chest, sphere(0.065, 6, 3), bone, Vector3(-0.21, 1.27, 0.03), Vector3(0, -20, 0), Vector3(1.0, 0.85, 1.25))
 	add_part(chest, _hw_path("hw_fetish", PackedVector3Array([Vector3(-0.22, 1.30, 0.0), Vector3(-0.31, 1.42, -0.04),
 		Vector3(-0.39, 1.56, -0.12), Vector3(-0.38, 1.63, -0.25)]), PackedFloat32Array([0.045, 0.034, 0.02, 0.0]), 5),
 		bone, Vector3.ZERO)
 	# ---- Head: pale hook-nosed face in a deep team hood whose point droops behind, a bone charm on the tip.
 	# (the whole head sits low and forward of the shoulders: the hunch read from the game camera)
 	var ho := Vector3(0, -0.03, 0.05)
-	add_part(head, sphere(0.095, 8, 5), skin, Vector3(0, 1.29, 0.23) + ho, Vector3.ZERO, Vector3(0.9, 1.1, 0.95))
+	var hc := Vector3(0, 1.29, 0.23) + ho
+	add_part(head, sphere(0.095, 8, 4), skin, hc, Vector3.ZERO, Vector3(0.9, 1.1, 0.95))
+	# Face (FaceKit, face rework 2026-09-28; were 2 dark dots): small glowing violet eyes under arched brows, a crone's
+	# thin smirk, lank silver hair out of the hood.
+	_face = FaceKit.attach(self, head, "hexweaver", {
+		"center": hc, "radius": 0.10, "head_mesh": sphere(0.095, 8, 4), "head_scale": Vector3(0.9, 1.1, 0.95), "head_at": hc,
+		"preset": &"elder", "skin": ShadowFaces.PALE, "hair": ShadowFaces.SILVER, "eyes": ShadowFaces.GLOW, "detail": &"low",
+		"x": NatureFaces.lean_x(1.1, {&"neutral": {"mouth": {"kind": "smirk"}, "open": 0.85}}),
+		"palette": ShadowFaces.pal(ShadowFaces.PALE, ShadowFaces.GLOW, 1.0, Color(0.55, 0.52, 0.62)),
+		"eye": {"c": Vector2(0.033, 0.024), "hw": 0.019, "top": 0.015, "bot": 0.010, "ir": 0.010},
+		"mouth": {"c": Vector2(0.0, -0.040), "hw": 0.018, "lip": 0.0018},
+		"extra": func(_a: Dictionary, _i: StringName) -> void: pass,
+		"hair_fn": func(acc: Dictionary) -> void:
+			ShadowFaces.strands(acc, [hc + Vector3(0.085, 0.05, -0.035), hc + Vector3(-0.085, 0.05, -0.035)], 0.20, 0.022,
+				ShadowFaces.SILVER, ShadowFaces.SILVER_TIP, Vector3(0.05, 0, -0.02)),
+	})
 	add_part(head, cyl(0.0, 0.028, 0.13, 5), skin, Vector3(0, 1.275, 0.34) + ho, Vector3(105, 0, 0))
-	for ex: float in [-0.038, 0.038]:
-		add_part(head, sphere(0.022, 5, 2), palette(&"unit_eye_dark"), Vector3(ex, 1.315, 0.305) + ho)
 	add_part(head, _hw_path("hw_hood", PackedVector3Array([Vector3(0, 1.17, 0.08), Vector3(0, 1.33, 0.07),
 		Vector3(0, 1.46, 0.0), Vector3(0, 1.54, -0.12), Vector3(0, 1.53, -0.27), Vector3(0, 1.43, -0.37)]),
-		PackedFloat32Array([0.15, 0.165, 0.13, 0.08, 0.045, 0.02]), 9, false), cloth, ho)
-	add_part(head, torus(0.125, 0.16, 12), cdark, Vector3(0, 1.31, 0.165) + ho, Vector3(80, 0, 0), Vector3(1.0, 1.0, 1.15))
+		PackedFloat32Array([0.15, 0.165, 0.13, 0.08, 0.045, 0.02]), 8, false), cloth, ho)
+	add_part(head, torus(0.125, 0.16, 8), cdark, Vector3(0, 1.31, 0.165) + ho, Vector3(80, 0, 0), Vector3(1.0, 1.0, 1.15))
 	add_part(head, sphere(0.04, 6, 3), bone, Vector3(0, 1.41, -0.38) + ho)
-	var trim := add_part(head, torus(0.15, 0.19, 12), palette(&"unit_gold_trim"), Vector3(0, 1.20, 0.08),
+	var trim := add_part(head, torus(0.15, 0.19, 8), palette(&"unit_gold_trim"), Vector3(0, 1.20, 0.08),
 		Vector3.ZERO, Vector3.ONE, true, "VetTrim")
 	if trim:
 		trim.set_meta(&"vet_trim", true)
 	# ---- Left arm: bell sleeve hanging past the wrist, pale clawed hand.
 	add_part(arm_l, _hw_path("hw_sleeve_l", PackedVector3Array([Vector3(-0.22, 1.22, 0.08), Vector3(-0.30, 1.03, 0.14),
-		Vector3(-0.31, 0.90, 0.24)]), PackedFloat32Array([0.07, 0.085, 0.13]), 10), cloth, Vector3.ZERO)
+		Vector3(-0.31, 0.90, 0.24)]), PackedFloat32Array([0.07, 0.085, 0.13]), 8), cloth, Vector3.ZERO)
 	add_part(arm_l, cyl(0.12, 0.015, 0.36, 6), cdark, Vector3(-0.33, 0.72, 0.19), Vector3(-14, 0, -9))
-	add_part(arm_l, sphere(0.05, 8, 4), skin, HAND_L)
+	add_part(arm_l, sphere(0.05, 6, 3), skin, HAND_L)
 	add_part(arm_l, _claws_mesh(), skin, Vector3.ZERO)
 	# ---- Right arm: bell sleeve, the fist on a crooked dark staff.
 	add_part(arm_r, _hw_path("hw_sleeve_r", PackedVector3Array([Vector3(0.22, 1.22, 0.08), Vector3(0.30, 1.05, 0.16),
-		Vector3(0.30, 0.99, 0.27)]), PackedFloat32Array([0.07, 0.085, 0.12]), 10), cloth, Vector3.ZERO)
+		Vector3(0.30, 0.99, 0.27)]), PackedFloat32Array([0.07, 0.085, 0.12]), 8), cloth, Vector3.ZERO)
 	add_part(arm_r, cyl(0.11, 0.015, 0.32, 6), cdark, Vector3(0.32, 0.82, 0.23), Vector3(-14, 0, 9))
-	add_part(arm_r, sphere(0.05, 8, 4), skin, HAND_R)
+	add_part(arm_r, sphere(0.05, 6, 3), skin, HAND_R)
 	add_part(arm_r, _staff_mesh(), leather, Vector3.ZERO)
 	add_part(arm_r, cyl(0.042, 0.042, 0.08, 6), palette(&"shadow_silver"), Vector3(0.30, 1.20, 0.35), Vector3(4, 0, 0))
 	add_part(arm_r, cyl(0.045, 0.045, 0.07, 6), palette(&"shadow_silver"), Vector3(0.30, 1.78, 0.37), Vector3(4, 0, 0))
@@ -105,7 +118,7 @@ func _build_parts() -> void:
 	_cage.position = CROOK_TIP - model_origin(arm_r)
 	arm_r.add_child(_cage)
 	add_part(_cage, _cage_mesh(), bone, CROOK_TIP, Vector3.ZERO, Vector3.ONE, true, "CageBones")
-	_soul = add_part(_cage, sphere(0.085, 8, 4), glow, CROOK_TIP + Vector3(0, -CAGE_DROP + 0.01, 0), Vector3.ZERO,
+	_soul = add_part(_cage, sphere(0.085, 6, 3), glow, CROOK_TIP + Vector3(0, -CAGE_DROP + 0.01, 0), Vector3.ZERO,
 		Vector3(1.0, 1.2, 1.0), true, "CageSoul")
 	# Thin smoke threads rising from the cage (looping, stops beyond 45 m) and the Wither Hex burst.
 	_wisp = make_motes(VIOLET, 5, 1.3, 0.06, 0.45, 0.09)

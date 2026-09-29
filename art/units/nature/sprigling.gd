@@ -33,7 +33,7 @@ func _build_parts() -> void:
 	# Legs: stubby dark root legs with round root-bulb feet (long along +Z, the face side).
 	for side: float in [-1.0, 1.0]:
 		var leg: Node3D = leg_l if side < 0.0 else leg_r
-		add_part(leg, capsule(0.09, 0.30), dark, Vector3(0.12 * side, 0.21, 0))
+		add_part(leg, lean_capsule(0.09, 0.30), dark, Vector3(0.12 * side, 0.21, 0))
 		add_part(leg, sphere(0.12), dark, Vector3(0.12 * side, 0.066, 0.05), Vector3.ZERO, Vector3(0.95, 0.55, 1.3))
 	# Hips: a bark tool belt under the round belly.
 	add_part(hips, torus(0.24, 0.30), bark, Vector3(0, 0.44, 0))
@@ -49,9 +49,20 @@ func _build_parts() -> void:
 	var sh_r: Array[Transform3D] = [leaf_xform(Vector3.ZERO, Vector3(1, 0, 0.15), Vector3(0.19, 0.05, 0.24), -32.0)]
 	add_part(arm_l, cluster_mesh("a21_sprig_sh_l", leaf_mesh(), sh_l), cloth, Vector3(-0.24, 0.79, 0.0))
 	add_part(arm_r, cluster_mesh("a21_sprig_sh_r", leaf_mesh(), sh_r), cloth, Vector3(0.24, 0.79, 0.0))
-	# Head: pale seed-bulb face, dark eye bar, two leaf ears, the dark seed-coat ring the sprout grows from.
-	add_part(head, sphere(0.25), skin, Vector3(0, 1.0, 0.02), Vector3.ZERO, Vector3(1.0, 0.94, 0.96))
-	add_part(head, box(Vector3(0.21, 0.065, 0.05)), palette(&"unit_eye_dark"), Vector3(0, 1.02, 0.255))
+	# Head: pale seed-bulb face (FaceKit: big bright eyes, a smile, a pale new-growth fringe), two leaf ears, the dark
+	# seed-coat ring the sprout grows from.
+	var hc := Vector3(0, 1.0, 0.02)
+	add_part(head, sphere(0.25), skin, hc, Vector3.ZERO, Vector3(1.0, 0.94, 0.96))
+	_face = FaceKit.attach(self, head, "sprigling", {
+		"center": hc, "radius": 0.24, "head_mesh": sphere(0.25), "head_scale": Vector3(1.0, 0.94, 0.96), "head_at": hc,
+		"preset": &"bright", "skin": NatureFaces.SKIN, "hair": NatureFaces.NEW_GROWTH, "eyes": NatureFaces.EYE_LEAF,
+		"detail": &"low", "x": NatureFaces.lean_x(), "palette": NatureFaces.pal(NatureFaces.NEW_GROWTH),
+		"eye": {"c": Vector2(0.080, 0.004), "hw": 0.056, "top": 0.044, "bot": 0.025, "ir": 0.029},
+		"brow": {"inner": Vector2(0.044, 0.066), "mid": Vector2(0.086, 0.080), "outer": Vector2(0.130, 0.066)},
+		"mouth": {"c": Vector2(0.0, -0.080), "hw": 0.046},
+		"hair_fn": func(acc: Dictionary) -> void:
+			NatureFaces.fringe(acc, hc, 0.235, 3, NatureFaces.NEW_GROWTH, NatureFaces.NEW_GROWTH_TIP, 0.45, 0.85),
+	})
 	var ears: Array[Transform3D] = [
 		leaf_xform(Vector3(-0.21, 0.0, 0.0), Vector3(-1, 0, -0.2), Vector3(0.13, 0.04, 0.21), 24.0),
 		leaf_xform(Vector3(0.21, 0.0, 0.0), Vector3(1, 0, -0.2), Vector3(0.13, 0.04, 0.21), 24.0),

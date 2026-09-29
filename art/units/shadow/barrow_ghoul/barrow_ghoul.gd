@@ -38,29 +38,28 @@ func _build_parts() -> void:
 	var vein := palette(&"shadow_sec_bolt")
 	var cloth := palette(&"shadow_cloth")
 	var cdark := palette(&"shadow_cloth_dark")
-	var dark := palette(&"unit_eye_dark")
 	# ---- Legs: crouched, knees forward, grey shins, long clawed feet.
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
 		add_part(leg, _tube("bg_thigh_%s" % sx, PackedVector3Array([Vector3(0.12 * sx, 0.72, 0.0),
-			Vector3(0.15 * sx, 0.44, 0.13)]), PackedFloat32Array([0.08, 0.06]), 7), bone, Vector3.ZERO)
+			Vector3(0.15 * sx, 0.44, 0.13)]), PackedFloat32Array([0.08, 0.06]), 6), bone, Vector3.ZERO)
 		add_part(leg, _tube("bg_shin_%s" % sx, PackedVector3Array([Vector3(0.15 * sx, 0.44, 0.13),
-			Vector3(0.14 * sx, 0.12, -0.02)]), PackedFloat32Array([0.055, 0.042]), 6), grey, Vector3.ZERO)
+			Vector3(0.14 * sx, 0.12, -0.02)]), PackedFloat32Array([0.055, 0.042]), 5), grey, Vector3.ZERO)
 		add_part(leg, sphere(0.06, 6, 3), grey, Vector3(0.14 * sx, 0.05, 0.06), Vector3.ZERO, Vector3(1.0, 0.55, 2.0))
 		for k: int in 3:
 			var tx: float = 0.14 * sx + (float(k) - 1.0) * 0.035
 			add_part(leg, cyl(0.0, 0.016, 0.08, 4), claw, Vector3(tx, 0.03, 0.17), Vector3(84, 0, 0))
 	# ---- Hips: bony pelvis, team-dark loin rag with team tatters.
-	add_part(hips, sphere(0.15, 8, 4), bone, Vector3(0, 0.75, -0.01), Vector3.ZERO, Vector3(1.15, 0.8, 0.9))
+	add_part(hips, sphere(0.15, 6, 3), bone, Vector3(0, 0.75, -0.01), Vector3.ZERO, Vector3(1.15, 0.8, 0.9))
 	add_part(hips, cyl(0.16, 0.21, 0.2, 8), cdark, Vector3(0, 0.66, 0.0))
 	add_part(hips, box(Vector3(0.12, 0.26, 0.025)), cloth, Vector3(0.03, 0.52, 0.17), Vector3(-10, 0, 6))
 	add_part(hips, box(Vector3(0.1, 0.2, 0.025)), cloth, Vector3(-0.07, 0.54, -0.17), Vector3(12, 0, -8))
 	# ---- Chest: forward-leaning torso, ribs, violet flank veins, the hump with a spiked spine ridge, the shroud.
 	add_part(chest, _tube("bg_torso", PackedVector3Array([Vector3(0, 0.78, -0.02), Vector3(0, 0.98, 0.04),
-		Vector3(0, 1.13, 0.18)]), PackedFloat32Array([0.15, 0.21, 0.17]), 10, false), bone, Vector3.ZERO)
-	add_part(chest, sphere(0.2, 10, 5), bone, Vector3(0, 1.1, -0.02), Vector3(-20, 0, 0), Vector3(1.15, 0.95, 1.0))
+		Vector3(0, 1.13, 0.18)]), PackedFloat32Array([0.15, 0.21, 0.17]), 8, false), bone, Vector3.ZERO)
+	add_part(chest, sphere(0.2, 8, 4), bone, Vector3(0, 1.1, -0.02), Vector3(-20, 0, 0), Vector3(1.15, 0.95, 1.0))
 	for k: int in 3:
-		add_part(chest, torus(0.15, 0.17, 10), grey, Vector3(0, 0.9 + 0.07 * k, 0.07 + 0.03 * k), Vector3(-14, 0, 0),
+		add_part(chest, torus(0.15, 0.17, 7), grey, Vector3(0, 0.9 + 0.07 * k, 0.07 + 0.03 * k), Vector3(-14, 0, 0),
 			Vector3(1.0, 1.0, 0.75))
 	for s: float in [-1.0, 1.0]:
 		add_part(chest, _tube("bg_vein_%s" % s, PackedVector3Array([Vector3(0.17 * s, 1.08, 0.06), Vector3(0.2 * s, 0.97, 0.03),
@@ -76,19 +75,35 @@ func _build_parts() -> void:
 			Vector3(18, 0, -8 + 8 * k))
 	add_part(chest, box(Vector3(0.16, 0.26, 0.025)), cdark, Vector3(-0.25, 1.0, 0.1), Vector3(-10, 10, -15))
 	# the shroud's cowl round the neck and shoulders (reads from the game camera above).
-	add_part(chest, cyl(0.13, 0.27, 0.2, 10, false), cloth, Vector3(0, 1.13, 0.1), Vector3(38, 0, 0), Vector3(1.0, 1.0, 0.85))
-	add_part(chest, torus(0.12, 0.16, 10), cdark, Vector3(0, 1.2, 0.16), Vector3(38, 0, 0))
+	add_part(chest, cyl(0.13, 0.27, 0.2, 8, false), cloth, Vector3(0, 1.13, 0.1), Vector3(38, 0, 0), Vector3(1.0, 1.0, 0.85))
+	add_part(chest, torus(0.12, 0.16, 7), cdark, Vector3(0, 1.2, 0.16), Vector3(38, 0, 0))
 	# ---- Head: skull thrust forward, heavy brow, deep sockets with violet eye sparks, swept-back ears, teeth.
-	add_part(head, sphere(0.12, 10, 5), bone, Vector3(0, 1.18, 0.31), Vector3(-10, 0, 0), Vector3(0.95, 0.85, 1.2))
+	var hc := Vector3(0, 1.18, 0.31)
+	add_part(head, sphere(0.12, 8, 4), bone, hc, Vector3(-10, 0, 0), Vector3(0.95, 0.85, 1.2))
+	# Face (FaceKit, face rework 2026-09-28; were 2 dark sockets + 2 violet sparks): violet eyes glowing in black
+	# sockets, brows that knit into a hungry glare on the rake; the hanging jaw
+	# is its mouth (the kit's mouth hides under it). A bald skull (the ears are its own); two violet sparks sit in the
+	# sockets (the glow point: the painted eyes under the brow do not reach the bloom from the RTS camera).
+	var cv := FaceKit.canvas(hc, 0.13, sphere(0.12, 8, 4), Vector3(0.95, 0.85, 1.2), hc, Basis.from_euler(Vector3(-10, 0, 0) * DEG), 0.003)
+	_face = FaceKit.attach(self, head, "barrow_ghoul", NatureFaces.style({
+		"center": hc, "radius": 0.13, "head_mesh": sphere(0.12, 8, 4), "head_scale": Vector3(0.95, 0.85, 1.2), "head_at": hc,
+		"preset": &"hollow", "skin": ShadowFaces.BONE, "hair": ShadowFaces.ASH, "eyes": ShadowFaces.GLOW, "detail": &"low",
+		"x": NatureFaces.lean_x(1.15, {&"neutral": {"cut_in": 0.3, "open": 0.9}}),
+		"palette": ShadowFaces.pal(ShadowFaces.BONE),
+		"eye": {"c": Vector2(0.042, 0.020), "hw": 0.025, "top": 0.020, "bot": 0.015, "ir": 0.014, "pupil": 0.35},
+		"brow": {"inner": Vector2(0.016, 0.046), "mid": Vector2(0.042, 0.052), "outer": Vector2(0.066, 0.044),
+			"w": Vector3(0.007, 0.006, 0.003)},
+		"mouth": NatureFaces.beast_mouth(Vector2(0, -0.10)),
+		"hair_fn": func(acc: Dictionary) -> void:
+			ShadowFaces.sparks(acc, cv, Vector2(0.042, 0.020), 0.03, 0.02),
+	}, Vector3(-10, 0, 0), 0.003))
 	add_part(head, box(Vector3(0.2, 0.04, 0.05)), grey, Vector3(0, 1.25, 0.4), Vector3(-20, 0, 0))
 	add_part(head, cyl(0.035, 0.05, 0.1, 6), grey, Vector3(0, 1.14, 0.45), Vector3(95, 0, 0))
 	for s: float in [-1.0, 1.0]:
-		add_part(head, sphere(0.035, 6, 3), dark, Vector3(0.045 * s, 1.19, 0.425))
-		add_part(head, sphere(0.038, 6, 3), palette(&"shadow_glow_hero"), Vector3(0.05 * s, 1.205, 0.455))
 		add_part(head, cyl(0.0, 0.045, 0.2, 5), bone, Vector3(0.1 * s, 1.23, 0.23), Vector3(-65, 0, -30 * s),
 			Vector3(1.0, 1.0, 0.5))
 	add_part(head, prism(Vector3(0.14, 0.05, 0.02)), bone, Vector3(0, 1.1, 0.46), Vector3(180, 0, 0))
-	var trim := add_part(head, torus(0.11, 0.15, 10), palette(&"unit_gold_trim"), Vector3(0, 1.3, 0.3),
+	var trim := add_part(head, torus(0.11, 0.15, 7), palette(&"unit_gold_trim"), Vector3(0, 1.3, 0.3),
 		Vector3.ZERO, Vector3.ONE, true, "VetTrim")
 	if trim:
 		trim.set_meta(&"vet_trim", true)
@@ -104,13 +119,13 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if arm == arm_l else 1.0
 		var h := HAND * Vector3(sx, 1, 1)
 		add_part(arm, _tube("bg_upper_%s" % sx, PackedVector3Array([Vector3(0.23 * sx, 1.08, 0.12),
-			Vector3(0.33 * sx, 0.8, 0.18)]), PackedFloat32Array([0.065, 0.05]), 7), bone, Vector3.ZERO)
+			Vector3(0.33 * sx, 0.8, 0.18)]), PackedFloat32Array([0.065, 0.05]), 6), bone, Vector3.ZERO)
 		add_part(arm, _tube("bg_fore_%s" % sx, PackedVector3Array([Vector3(0.33 * sx, 0.8, 0.18),
-			h + Vector3(0, 0.05, -0.02)]), PackedFloat32Array([0.05, 0.04]), 6), grey, Vector3.ZERO)
+			h + Vector3(0, 0.05, -0.02)]), PackedFloat32Array([0.05, 0.04]), 5), grey, Vector3.ZERO)
 		add_part(arm, _tube("bg_armvein_%s" % sx, PackedVector3Array([Vector3(0.36 * sx, 0.98, 0.14),
 			Vector3(0.37 * sx, 0.78, 0.2), Vector3(0.33 * sx, 0.5, 0.26)]), PackedFloat32Array([0.016, 0.014, 0.008]), 4,
 			false), vein, Vector3.ZERO)
-		add_part(arm, sphere(0.07, 7, 4), grey, h, Vector3.ZERO, Vector3(1.0, 0.8, 1.3))
+		add_part(arm, sphere(0.07, 6, 3), grey, h, Vector3.ZERO, Vector3(1.0, 0.8, 1.3))
 		add_part(arm, _claws_mesh(sx), claw, Vector3.ZERO)
 	# ---- Fx: feast motes (restarted by the cast), Shadow death motes, violet pool blob.
 	_feast_fx = make_motes(VIOLET, 12, 0.9, 0.25, 1.2, 0.12, false, true)
@@ -127,7 +142,7 @@ func _build_parts() -> void:
 
 # ================================================================ meshes (cached, model space)
 
-static func _tube(key: String, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int = 6,
+static func _tube(key: String, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int = 5,
 		caps: bool = true) -> Mesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
@@ -154,7 +169,7 @@ static func _claws_mesh(side: float) -> Mesh:
 		var dx: float = (float(k) - 1.5) * 0.035
 		var b := h + Vector3(dx, -0.02, 0.06)
 		var m := _tube("bg_claw_%s_%d" % [side, k], PackedVector3Array([b, b + Vector3(dx * 0.4, -0.08, 0.08),
-			b + Vector3(dx * 0.6, -0.17, 0.07)]), PackedFloat32Array([0.017, 0.012, 0.0]), 4)
+			b + Vector3(dx * 0.6, -0.17, 0.07)]), PackedFloat32Array([0.017, 0.012, 0.0]), 3)
 		st.append_from(m, 0, Transform3D.IDENTITY)
 	st.index()
 	return _cached(key, st.commit())

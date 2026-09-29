@@ -153,6 +153,7 @@ func _extra_process(dt: float) -> void:
 	_track_root(dt)
 	_fidget_process(dt)
 	_kin_process(dt)
+	_face_tick()
 
 
 func _on_revive() -> void:
@@ -160,6 +161,7 @@ func _on_revive() -> void:
 	_rv_prev = Vector3.ZERO
 	_racc = Vector3.ZERO
 	_kin_revive()
+	_face_reset()
 
 
 ## True when the kit is on its pure-idle fast path this frame (pose offsets written with rot() / pos() are ignored).

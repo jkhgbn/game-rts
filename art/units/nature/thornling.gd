@@ -42,18 +42,35 @@ func _build_parts() -> void:
 		add_part(leg, _leg_mesh(), dark, Vector3(0.15 * sx, 0, 0))
 		add_part(leg, _foot_mesh(), dark, Vector3(0.16 * sx, 0, 0))
 	# ---- Hips: a skirt of hanging team-dark leaves.
-	add_part(hips, leaf_ring_mesh(7, 0.13, Vector3(0.15, 0.035, 0.30), -68.0, 12.0), cdark, Vector3(0, 0.60, 0.0))
+	add_part(hips, leaf_ring_mesh(6, 0.13, Vector3(0.17, 0.035, 0.30), -68.0, 12.0), cdark, Vector3(0, 0.60, 0.0))
 	# ---- Chest: bark keg leaning forward, team leaf-scales on the back and shoulders, spine + shoulder thorns,
 	# the glowing sap-knot between the shoulder blades.
-	add_part(chest, sphere(0.25, 10, 5), bark, Vector3(0, 0.86, 0.03), Vector3(28, 0, 0), Vector3(1.0, 1.3, 0.92))
+	add_part(chest, sphere(0.25, 8, 4), bark, Vector3(0, 0.86, 0.03), Vector3(28, 0, 0), Vector3(1.0, 1.3, 0.92))
 	add_part(chest, _scales_mesh(), cloth, Vector3.ZERO)
 	add_part(chest, _spine_mesh(), thorn, Vector3.ZERO)
 	add_part(chest, sphere(0.085, 8, 4), glow, Vector3(0, 1.06, -0.13), Vector3.ZERO, Vector3(1.0, 0.8, 1.0))
 	add_leaf(chest, Vector3(0, 0.95, 0.27), Vector3(0.30, 0.06, 0.42), cdark, Vector3(62, 0, 0))
 	# ---- Head: pointed wedge thrust forward, snout, V of glowing eyes, swept thorn crest, team leaf cap, L4 trim.
 	add_part(head, sphere(0.19, 10, 5), bark, Vector3(0, 1.17, 0.27), Vector3(-8, 0, 0), Vector3(1.05, 0.88, 1.28))
-	add_part(head, cyl(0.045, 0.13, 0.24, 6), dark, Vector3(0, 1.10, 0.47), Vector3(96, 0, 0), Vector3(1.0, 1.0, 0.8))
-	add_part(head, _eyes_mesh(), glow, Vector3.ZERO)
+	add_part(head, cyl(0.025, 0.075, 0.13, 6), bark, Vector3(0, 1.14, 0.50), Vector3(100, 0, 0), Vector3(1.0, 1.0, 0.8))
+	# Face (FaceKit): glowing sap eyes (the glow point, was the V eye slits), a wicked grin under the snout, leaf-bark
+	# ears; the thorn crest is its hair.
+	var hc := Vector3(0, 1.17, 0.27)
+	var gl := Color(0.75, 1.0, 0.40)
+	_face = FaceKit.attach(self, head, "thornling", NatureFaces.style({
+		"center": hc, "radius": 0.21, "head_mesh": sphere(0.19, 10, 5), "head_scale": Vector3(1.05, 0.88, 1.28),
+		"head_at": hc, "preset": &"stern", "skin": NatureFaces.BARK.lightened(0.08), "hair": Color(0.20, 0.13, 0.06),
+		"eyes": gl, "detail": &"low", "ears": &"none",
+		"x": NatureFaces.lean_x(1.1, {&"neutral": {"mouth": {"kind": "smirk"}, "cut_in": 0.35}}),
+		"palette": {"sclera": FaceKit.glow(Color(0.86, 1.0, 0.55), 0.55), "iris_in": FaceKit.glow(Color(0.95, 1.0, 0.7), 1.0),
+			"iris_out": FaceKit.glow(Color(0.45, 0.80, 0.15), 0.8), "pupil": Color(0.06, 0.08, 0.02),
+			"lash": Color(0.10, 0.07, 0.03), "brow": Color(0.14, 0.09, 0.04), "mouth_in": Color(0.12, 0.10, 0.03),
+			"teeth": Color(0.90, 0.84, 0.62), "lip": NatureFaces.BARK.darkened(0.2), "lip_line": Color(0.10, 0.07, 0.03)},
+		"eye": {"c": Vector2(0.070, 0.030), "tilt": 0.014}, "mouth": {"c": Vector2(0.0, -0.105), "hw": 0.052},
+		"hair_fn": func(acc: Dictionary) -> void:
+			for sx: float in [-1.0, 1.0]:
+				NatureFaces.ear_leaf(acc, hc + Vector3(0, 0.02, -0.02), 0.19, sx, NatureFaces.BARK.lightened(0.12), 0.75, 0.45, 0.35),
+	}, Vector3(-8, 0, 0), 0.003))
 	add_part(head, _crest_mesh(), thorn, Vector3.ZERO)
 	add_leaf(head, Vector3(0, 1.30, 0.16), Vector3(0.30, 0.06, 0.42), cloth, Vector3(-14, 180, 0))
 	var trim := add_part(head, torus(0.13, 0.17, 10), palette(&"unit_gold_trim"), Vector3(0, 1.27, 0.22), Vector3(-12, 0, 0),
@@ -65,7 +82,7 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if arm == arm_l else 1.0
 		add_part(arm, _arm_mesh(sx), dark, Vector3.ZERO)
 		add_part(arm, cyl(0.075, 0.11, 0.22, 7), cloth, Vector3(0.405 * sx, 0.66, 0.21), Vector3(-38, 0, 0))
-		add_part(arm, sphere(0.085, 8, 4), dark, Vector3(0.40 * sx, 0.56, 0.28))
+		add_part(arm, sphere(0.085, 6, 3), dark, Vector3(0.40 * sx, 0.56, 0.28))
 		add_part(arm, _claws_mesh(sx), thorn, Vector3(0.40 * sx, 0.56, 0.28))
 	# ---- Fx
 	add_hit_burst(Vector3(0, 0.95, 0.05), Color(0.46, 0.66, 0.20), 7)
@@ -133,18 +150,6 @@ static func _spine_mesh() -> Mesh:
 	return _cached(KEY, _indexed(st))
 
 
-## Two slanted eye slits forming a "V" (mischief), sunk halfway into the face (one mesh, model space).
-static func _eyes_mesh() -> Mesh:
-	const KEY := "thornling_eyes_a22"
-	if _mesh_cache.has(KEY):
-		return _mesh_cache[KEY]
-	var st := SurfaceTool.new()
-	for s: float in [-1.0, 1.0]:
-		var b := Basis.from_euler(Vector3(-0.30, 0.45 * s, 0.42 * s))
-		st.append_from(box(Vector3(0.12, 0.055, 0.06)), 0, Transform3D(b, Vector3(0.095 * s, 1.21, 0.48)))
-	return _cached(KEY, _indexed(st))
-
-
 ## Swept-back thorn crest (3 on the crown) + two ear thorns sideways-back (one mesh, model space).
 static func _crest_mesh() -> Mesh:
 	const KEY := "thornling_crest_a22"
@@ -188,7 +193,7 @@ static func _claws_mesh(side: float) -> Mesh:
 		var o := Vector3(spread[i] * side, 0.0, 0.0)
 		var pts := PackedVector3Array([o, o + Vector3(0.015 * side, -0.06, 0.16) * k,
 			o + Vector3(0.03 * side, -0.17, 0.29) * k, o + Vector3(0.025 * side, -0.33, 0.35) * k])
-		var m := tapered_path_mesh("%s_%d" % [key, i], pts, PackedFloat32Array([0.045, 0.04, 0.026, 0.0]))
+		var m := tapered_path_mesh("%s_%d" % [key, i], pts, PackedFloat32Array([0.045, 0.04, 0.026, 0.0]), 4)
 		st.append_from(m, 0, Transform3D.IDENTITY)
 	return _cached(key, _indexed(st))
 

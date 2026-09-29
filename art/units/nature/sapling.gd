@@ -70,8 +70,6 @@ func _build_parts() -> void:
 		[sp, _lobe(Vector3(0.07, 1.26, 0.03) - b, Vector3(0.36, 0.32, 0.36)), bloom],
 		[sp, _lobe(Vector3(-0.11, 1.23, -0.08) - b, Vector3(0.32, 0.28, 0.32)), bloom],
 		[sp, _lobe(Vector3(0.17, 1.17, 0.12) - b, Vector3(0.24, 0.22, 0.24)), leaf],
-		[box(Vector3(0.24, 0.065, 0.06)), Transform3D(Basis(Vector3.RIGHT, -0.12), Vector3(0, 1.055, 0.315) - b),
-			palette(&"unit_eye_dark")],
 	]
 	for i: int in 8:
 		var a := TAU * float(i) / 8.0 + 0.2
@@ -83,6 +81,24 @@ func _build_parts() -> void:
 		parts.append([lm, leaf_xform(Vector3(0.02, 1.37, -0.01) - b + out * 0.04, out, Vector3(0.13, 0.05, 0.22), 58.0),
 			leaf])
 	add_part(_canopy, bake("a21_sap_canopy", parts), null, CANOPY_BASE, Vector3.ZERO, Vector3.ONE, true, "CanopyMesh")
+	# Face (FaceKit, on the front lobe; sways with the canopy): a pale heartwood mask with round sap-green eyes and a
+	# small mouth, the leaves are its hair.
+	var fc := Vector3(0, 1.05, 0.16)
+	var fm := sphere(0.5)
+	var fs := Vector3(0.34, 0.30, 0.34)
+	var cv := FaceKit.canvas(fc, 0.16, fm, fs, fc, Basis.IDENTITY, 0.006)
+	_face = FaceKit.attach(self, _canopy, "sapling", NatureFaces.style({
+		"center": fc, "radius": 0.16, "head_mesh": fm, "head_scale": fs, "head_at": fc, "preset": &"gentle",
+		"skin": NatureFaces.HEARTWOOD, "hair": NatureFaces.BARK, "eyes": NatureFaces.EYE_LEAF, "detail": &"low",
+		"x": NatureFaces.lean_x(), "palette": NatureFaces.pal(NatureFaces.BARK),
+		"eye": {"c": Vector2(0.052, 0.012), "hw": 0.030, "top": 0.026, "bot": 0.016, "ir": 0.017},
+		"brow": {"inner": Vector2(0.024, 0.050), "mid": Vector2(0.052, 0.060), "outer": Vector2(0.080, 0.050)},
+		"mouth": {"c": Vector2(0.0, -0.050), "hw": 0.026},
+		"base": func(acc: Dictionary, _id: StringName) -> void:
+			FaceKit.fill(acc, cv, FaceKit.ellipse(Vector2(0, -0.006), Vector2(0.105, 0.088), 0.0, 18),
+				FaceKit.radial(Vector2(0, -0.006), Vector2(0.105, 0.088), NatureFaces.HEARTWOOD, NatureFaces.HEARTWOOD.darkened(0.25), 0.7),
+				0.0012, 0.008),
+	}, Vector3.ZERO, 0.006))
 	# Arms: branches; the left one forks into a twig, both carry leaf tufts; the right one ends in a burl club.
 	add_limb(arm_l, Vector3(-0.13, 0.72, 0), Vector3(-0.40, 0.50, 0.08), 0.055, bark)
 	add_limb(arm_l, Vector3(-0.33, 0.56, 0.06), Vector3(-0.45, 0.64, 0.12), 0.035, bark)
@@ -123,7 +139,7 @@ static func _tuft() -> Mesh:
 
 ## Stubby foot (reversed cone up to the hip) + 3 roots splayed outward on the ground; side = +1 right, -1 left.
 static func _roots(side: float) -> Mesh:
-	var key := "a21_sapling_roots_%s" % side
+	var key := "a21_sapling_roots_f1_%s" % side
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var xs: Array[Transform3D] = [Transform3D(Basis().scaled(Vector3(1.1, 0.36, 1.1)), Vector3(0, 0.18, 0))]
@@ -133,7 +149,7 @@ static func _roots(side: float) -> Mesh:
 		# Base cone axis (+Y, thick at the bottom) laid outward and down: the thin tip digs into the ground.
 		var bs := Basis(Quaternion(Vector3.UP, (out - Vector3(0, 0.35, 0)).normalized()))
 		xs.append(Transform3D(bs.scaled_local(Vector3(1.05, 0.32, 1.05)), Vector3(0, 0.08, 0) + bs * Vector3(0, 0.16, 0)))
-	return cluster_mesh(key, cyl(0.035, 0.085, 1.0, 6), xs)
+	return cluster_mesh(key, cyl(0.035, 0.085, 1.0, 6, false), xs)   # open ends: in the ground / the hip (face budget)
 
 
 func _kin_ready() -> void:

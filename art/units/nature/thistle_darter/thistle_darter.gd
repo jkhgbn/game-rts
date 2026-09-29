@@ -58,7 +58,7 @@ func _build_parts() -> void:
 		add_part(leg, sphere(0.06, 8, 4), bark, Vector3(0.09 * sx, 0.035, 0.05), Vector3(-6, 0, 0), Vector3(1.0, 0.55, 2.0))
 		add_part(leg, cyl(0.0, 0.03, 0.09, 5), bark, Vector3(0.09 * sx, 0.05, 0.19), Vector3(70, 0, 0))
 	# ---- Hips: dark team leaf skirt.
-	add_part(hips, leaf_ring_mesh(7, 0.10, Vector3(0.12, 0.03, 0.22), -68.0, 12.0), cdark, Vector3(0, 0.62, 0))
+	add_part(hips, leaf_ring_mesh(6, 0.10, Vector3(0.13, 0.03, 0.22), -68.0, 12.0), cdark, Vector3(0, 0.62, 0))
 	# ---- Chest: lean bark jerkin, team sash, thorn belt, the thistle-down cloak + seed filaments.
 	add_part(chest, sphere(0.14, 8, 5), bark, Vector3(0, 0.75, 0.0), Vector3(-4, 0, 0), Vector3(1.0, 1.35, 0.85))
 	add_part(chest, box(Vector3(0.08, 0.40, 0.04)), cloth, Vector3(0.0, 0.76, 0.115), Vector3(-6, 0, -34))
@@ -67,11 +67,22 @@ func _build_parts() -> void:
 	add_part(chest, _filament_mesh(), down, Vector3.ZERO)
 	# ---- Head: tan face, long swept ears, big dark eyes, team thistle-bulb hood with bracts, pink spike crown,
 	# glowing seed in the middle.
-	add_part(head, sphere(0.105, 9, 5), skin, Vector3(0, 1.00, 0.05), Vector3.ZERO, Vector3(0.95, 1.05, 1.0))
+	var hc := Vector3(0, 1.00, 0.05)
+	add_part(head, sphere(0.105, 9, 5), skin, hc, Vector3.ZERO, Vector3(0.95, 1.05, 1.0))
+	# Face (FaceKit, was two dark eye boxes): BIG dark hare eyes, a small mouth; the long ears are its own, the
+	# thistle hood covers the hair (a blossom fringe peeks out).
+	_face = FaceKit.attach(self, head, "thistle_darter", {
+		"center": hc, "radius": 0.105, "head_mesh": sphere(0.105, 9, 5), "head_scale": Vector3(0.95, 1.05, 1.0),
+		"head_at": hc, "preset": &"bright", "skin": NatureFaces.SKIN, "hair": NatureFaces.BLOSSOM,
+		"eyes": Color(0.30, 0.20, 0.10), "detail": &"low", "x": NatureFaces.lean_x(),
+		"palette": NatureFaces.pal(NatureFaces.BLOSSOM),
+		"eye": {"c": Vector2(0.036, 0.016), "hw": 0.024, "top": 0.021, "bot": 0.013, "ir": 0.014, "pupil": 0.6},
+		"mouth": {"c": Vector2(0.0, -0.040), "hw": 0.017},
+		"hair_fn": func(acc: Dictionary) -> void:
+			NatureFaces.fringe(acc, hc + Vector3(0, 0.012, 0), 0.11, 2, NatureFaces.BLOSSOM, NatureFaces.BLOSSOM_TIP, 0.5, 0.7, 0.26),
+	})
 	add_part(head, cyl(0.0, 0.02, 0.05, 5), skin, Vector3(0, 0.99, 0.16), Vector3(80, 0, 0))
 	for s: float in [-1.0, 1.0]:
-		add_part(head, box(Vector3(0.05, 0.035, 0.03)), palette(&"unit_eye_dark"), Vector3(0.042 * s, 1.02, 0.135),
-			Vector3(0, 0, 12.0 * s))
 		add_part(head, cyl(0.0, 0.04, 0.22, 6), skin, Vector3(0.14 * s, 1.05, -0.04), Vector3(-25, 0, -70.0 * s),
 			Vector3(1.0, 1.0, 0.5))
 	add_part(head, sphere(0.14, 8, 5), cloth, Vector3(0, 1.08, -0.035), Vector3(-10, 0, 0), Vector3(1.0, 0.95, 1.12))
@@ -148,7 +159,7 @@ static func _bands_mesh() -> Mesh:
 	var st := SurfaceTool.new()
 	for u: float in [0.14, 0.42, 0.72]:
 		var p := MOUTH.lerp(PIPE_END, u) - S_R
-		st.append_from(cyl(0.034, 0.034, 0.035, 6), 0, Transform3D(Basis(Vector3.RIGHT, PI * 0.5), p))
+		st.append_from(cyl(0.034, 0.034, 0.035, 6, false), 0, Transform3D(Basis(Vector3.RIGHT, PI * 0.5), p))
 	return _cached(KEY, _indexed(st))
 
 
@@ -160,7 +171,7 @@ static func _down_mesh() -> Mesh:
 			Vector4(0.0, 0.55, -0.14, 0.12), Vector4(-0.11, 0.45, -0.11, 0.09), Vector4(0.11, 0.45, -0.11, 0.09),
 			Vector4(-0.19, 0.76, -0.06, 0.08), Vector4(0.19, 0.76, -0.06, 0.08)]:
 		xs.append(Transform3D(Basis.IDENTITY.scaled(Vector3.ONE * d.w), Vector3(d.x, d.y, d.z)))
-	return cluster_mesh("td_down", sphere(1.0, 6, 3), xs)
+	return cluster_mesh("td_down_f1", sphere(1.0, 5, 2), xs)   # 6x3 -> 5x2 balls: lumpier down, pays for the face
 
 
 ## Seed filaments sticking out of the cloak (thin cones, the fluffy edge at 25 m).
@@ -173,7 +184,7 @@ static func _filament_mesh() -> Mesh:
 	for i: int in dirs.size():
 		var d: Vector3 = (dirs[i] as Vector3).normalized()
 		xs.append(Transform3D(Basis(Quaternion(Vector3.UP, d)), (bases[i] as Vector3) + d * 0.07))
-	return cluster_mesh("td_filaments", cyl(0.0, 0.022, 0.15, 5), xs)
+	return cluster_mesh("td_filaments_f1", cyl(0.0, 0.022, 0.15, 5, false), xs)
 
 
 # ================================================================ motion

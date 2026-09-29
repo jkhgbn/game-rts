@@ -161,7 +161,19 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if leg.name == "LegL" else 1.0
 		_sculpt(leg, "grr_leg_%s_v1" % sx, func(s: Dictionary) -> void: _leg_sculpt(s, sx))
 	_sculpt($Root/Chest, "grr_chest_v1", _chest_sculpt)
-	_sculpt($Root/Chest/Head, "grr_head_v1", _head_sculpt)
+	_sculpt($Root/Chest/Head, "grr_head_v2", _head_sculpt)
+	# Face (FaceKit, face rework 2026-09-28; was a dark void with two glow slits): gaunt lilac-pale face, slanted glowing
+	# violet eyes under hard brows, a grim mouth; black-violet strands out of the hood.
+	var hc := Vector3(0, 1.64, 0.06)
+	_face = FaceKit.attach(self, $Root/Chest/Head, "gloam_rider_rider", {
+		"center": hc, "radius": 0.14, "head_mesh": sphere(0.14, 10, 6), "head_scale": Vector3(0.95, 1.08, 0.95), "head_at": hc,
+		"preset": &"hollow", "skin": ShadowFaces.SKIN, "hair": ShadowFaces.INK, "eyes": ShadowFaces.GLOW, "detail": &"low",
+		"x": NatureFaces.lean_x(1.15, {&"neutral": {"cut_in": 0.35, "mouth": {"kind": "frown", "curve": 0.5, "open": 0.0}}}),
+		"palette": ShadowFaces.pal(ShadowFaces.SKIN), "eye": {"c": Vector2(0.050, 0.024), "tilt": 0.016},
+		"hair_fn": func(acc: Dictionary) -> void:
+			ShadowFaces.strands(acc, [hc + Vector3(0.10, 0.07, 0.05), hc + Vector3(-0.10, 0.07, 0.05)], 0.17, 0.028,
+				ShadowFaces.INK, ShadowFaces.INK_TIP, Vector3(0.02, 0, 0.0)),
+	})
 	_sculpt($Root/Chest/ArmL, "grr_arm_l_v1", _arm_l_sculpt)
 	_sculpt(arm_r, "grr_arm_r_v1", _arm_r_sculpt)
 	# Own (keep_separate) parts: forearm (elbow), the lance (hand) with its pennon, the cloak (upper back).
@@ -343,18 +355,14 @@ func _head_sculpt(s: Dictionary) -> void:
 	var skin := m("shadow_skin")
 	var cloth := m("shadow_cloth")
 	var cdark := m("shadow_cloth_dark")
-	var void_m := m("unit_eye_dark")
 	var sil := m("shadow_silver")
-	var glow := m("shadow_glow_hero")
 	var smoke := m("dusk_smoke")
 	var wisp := m("dusk_wisp")
 	_put(s, cyl(0.06, 0.07, 0.12, 8), skin, Vector3(0, 1.5, 0.02))
-	# the face: a dark void, two slanted glowing eyes, a silver half-mask with a dark mouth slit
-	_put(s, sphere(0.14, 10, 6), void_m, Vector3(0, 1.64, 0.06), Vector3.ZERO, Vector3(0.95, 1.08, 0.95))
-	for sx: float in [-1.0, 1.0]:
-		_put(s, box(Vector3(0.075, 0.024, 0.03)), glow, Vector3(0.052 * sx, 1.665, 0.188), Vector3(0, -10.0 * sx, 16.0 * sx))
-	_put(s, sphere(0.13, 10, 5), sil, Vector3(0, 1.585, 0.085), Vector3.ZERO, Vector3(1.0, 0.62, 0.98))
-	_put(s, box(Vector3(0.08, 0.012, 0.02)), void_m, Vector3(0, 1.57, 0.205))
+	# the face (FaceKit rig, _build_parts): a gaunt pale face in the hood, glowing eyes; the silver half-mask is now a
+	# chin guard under the mouth
+	_put(s, sphere(0.14, 10, 6), skin, Vector3(0, 1.64, 0.06), Vector3.ZERO, Vector3(0.95, 1.08, 0.95))
+	_put(s, sphere(0.13, 10, 5), sil, Vector3(0, 1.535, 0.07), Vector3.ZERO, Vector3(0.95, 0.42, 0.95))
 	# the deep hood (team): shell, a brow overhang shading the eyes, a dark rim round the face, the hooked peak
 	_put(s, sphere(0.205, 12, 6), cloth, Vector3(0, 1.69, -0.07), Vector3.ZERO, Vector3(1.06, 1.12, 1.12))
 	_put(s, sphere(0.16, 10, 4), cloth, Vector3(0, 1.8, 0.07), Vector3(-12, 0, 0), Vector3(1.08, 0.48, 1.0))

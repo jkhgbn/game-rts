@@ -68,7 +68,8 @@ static func tapered_path_mesh(key: String, pts: PackedVector3Array, radii: Packe
 		var extra: float = 0.03 if radii[i + 1] > 0.0 else 0.0   # overlap the joints so no gap shows
 		var basis := Basis(Quaternion(Vector3.UP, d.normalized()))
 		var len_total := d.length() + extra
-		var c := cyl(radii[i + 1], radii[i], len_total, seg, caps)
+		# caps only at the path's two ends: the inner joints overlap (face rework 2026-09-28: -16 vertices a joint)
+		var c := cyl(radii[i + 1], radii[i], len_total, seg, caps and (i == 0 or i == pts.size() - 2))
 		st.append_from(c, 0, Transform3D(basis, a + d.normalized() * len_total * 0.5))
 	return _cached(key, _indexed(st))
 
@@ -184,11 +185,13 @@ func _extra_process(dt: float) -> void:
 		var d := _death_t
 		_write_life(LIFE_PEAK * smoothstep(0.0, 0.08, d) * (1.0 - smoothstep(0.12, 0.6, d)))
 	_war_process(dt)
+	_face_tick()
 
 
 func _on_revive() -> void:
 	_write_life(0.0)
 	_war_revive()
+	_face_reset()
 
 
 func _fidget_process(dt: float) -> void:

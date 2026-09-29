@@ -79,11 +79,11 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if leg == leg_l else 1.0
 		var x: float = 0.10 * sx
 		add_part(leg, _path("bb_leg", PackedVector3Array([Vector3(0, 0.86, 0), Vector3(0, 0.50, 0.03),
-			Vector3(0, 0.12, 0.0)]), PackedFloat32Array([0.085, 0.065, 0.055]), 7), leather, Vector3(x, 0, 0))
+			Vector3(0, 0.12, 0.0)]), PackedFloat32Array([0.085, 0.065, 0.055]), 5), leather, Vector3(x, 0, 0))
 		add_part(leg, _path("bb_boot", PackedVector3Array([Vector3(0, 0.26, -0.01), Vector3(0, 0.06, -0.01),
-			Vector3(0, 0.05, 0.12), Vector3(0, 0.04, 0.22)]), PackedFloat32Array([0.07, 0.07, 0.055, 0.0]), 6),
+			Vector3(0, 0.05, 0.12), Vector3(0, 0.04, 0.22)]), PackedFloat32Array([0.07, 0.07, 0.055, 0.0]), 5),
 			iron, Vector3(x, 0, 0))
-		add_part(leg, cyl(0.08, 0.075, 0.05, 7), leather, Vector3(x, 0.27, 0.0))
+		add_part(leg, cyl(0.08, 0.075, 0.05, 6, false), leather, Vector3(x, 0.27, 0.0))
 	# ---- Hips: belt with a bone buckle, three tattered coat tails hanging behind to the calves.
 	add_part(hips, cyl(0.19, 0.25, 0.26, 8, false), cdark, Vector3(0, 0.76, 0))
 	add_part(hips, cyl(0.20, 0.20, 0.06, 8), leather, Vector3(0, 0.88, 0))
@@ -92,7 +92,7 @@ func _build_parts() -> void:
 	# ---- Chest: violet team jerkin (tapered), iron gorget, bone rib harness, the slung quiver + glowing barbs.
 	add_part(chest, _path("bb_torso", PackedVector3Array([Vector3(0, 0.86, 0), Vector3(0, 1.02, 0.01),
 		Vector3(0, 1.20, 0.02), Vector3(0, 1.33, 0.0), Vector3(0, 1.40, 0.0)]),
-		PackedFloat32Array([0.18, 0.19, 0.22, 0.22, 0.13]), 8), cloth, Vector3.ZERO, Vector3.ZERO,
+		PackedFloat32Array([0.18, 0.19, 0.22, 0.22, 0.13]), 7), cloth, Vector3.ZERO, Vector3.ZERO,
 		Vector3(1.0, 1.0, 0.8))
 	add_part(chest, cyl(0.12, 0.25, 0.14, 8), iron, Vector3(0, 1.34, 0))
 	add_part(chest, _ribs_mesh(), palette(&"shadow_silver"), Vector3.ZERO)
@@ -105,17 +105,25 @@ func _build_parts() -> void:
 	add_part(chest, _quiver_shafts_mesh(qtop, qa), leather, Vector3.ZERO)
 	add_part(chest, _barbs_mesh(qtop, qa), glow, Vector3.ZERO)
 	# ---- Head: dark face in a deep team cowl, a pale bone half-mask with fangs, two bone hooks sweeping up-back.
-	add_part(head, sphere(0.115, 8, 5), skin, Vector3(0, 1.53, 0.06))
-	add_part(head, sphere(0.17, 10, 5), cloth, Vector3(0, 1.56, -0.03), Vector3(-8, 0, 0), Vector3(1.0, 1.12, 1.12))
-	add_part(head, torus(0.10, 0.14, 10), cdark, Vector3(0, 1.55, 0.11), Vector3(80, 0, 0), Vector3(1.0, 1.0, 1.2))
+	var hc := Vector3(0, 1.53, 0.06)
+	add_part(head, sphere(0.115, 8, 4), skin, hc)
+	# Face (FaceKit, face rework 2026-09-28; were 2 dark eye boxes): glowing violet hunter's eyes under narrow brows;
+	# the deep cowl hides hair and ears, the bone half-mask is the mouth (the kit's hides under it).
+	_face = FaceKit.attach(self, head, "bleakbow", {
+		"center": hc, "radius": 0.115, "head_mesh": sphere(0.115, 8, 4), "preset": &"hollow", "skin": ShadowFaces.SKIN,
+		"hair": ShadowFaces.INK, "eyes": ShadowFaces.GLOW, "detail": &"low",
+		"x": NatureFaces.lean_x(1.15, {&"neutral": {"cut_in": 0.3}}), "palette": ShadowFaces.pal(ShadowFaces.SKIN),
+		"eye": {"c": Vector2(0.040, 0.024), "hw": 0.024, "top": 0.016, "bot": 0.010, "ir": 0.012, "tilt": 0.01},
+		"mouth": NatureFaces.beast_mouth(Vector2(0, -0.07)),
+	})
+	add_part(head, sphere(0.17, 8, 4), cloth, Vector3(0, 1.56, -0.03), Vector3(-8, 0, 0), Vector3(1.0, 1.12, 1.12))
+	add_part(head, torus(0.10, 0.14, 6), cdark, Vector3(0, 1.55, 0.11), Vector3(80, 0, 0), Vector3(1.0, 1.0, 1.2))
 	add_part(head, _path("bb_mask", PackedVector3Array([Vector3(0, 1.52, 0.13), Vector3(0, 1.46, 0.16),
 		Vector3(0, 1.40, 0.13)]), PackedFloat32Array([0.085, 0.075, 0.045]), 7), bone, Vector3.ZERO, Vector3.ZERO,
 		Vector3(1.0, 1.0, 0.7))
 	add_part(head, _fangs_mesh(), bone, Vector3.ZERO)
-	for ex: float in [-0.042, 0.042]:
-		add_part(head, box(Vector3(0.045, 0.028, 0.04)), palette(&"unit_eye_dark"), Vector3(ex, 1.555, 0.165))
 	add_part(head, _hooks_mesh(), bone, Vector3.ZERO)
-	var trim := add_part(head, torus(0.15, 0.19, 12), palette(&"unit_gold_trim"), Vector3(0, 1.66, -0.03),
+	var trim := add_part(head, torus(0.15, 0.19, 8), palette(&"unit_gold_trim"), Vector3(0, 1.66, -0.03),
 		Vector3(-10, 0, 0), Vector3.ONE, true, "VetTrim")
 	if trim:
 		trim.set_meta(&"vet_trim", true)
@@ -125,8 +133,8 @@ func _build_parts() -> void:
 	var dl := (GRIP_L - SH_L).normalized()
 	add_part(arm_l, cyl(0.08, 0.075, 0.16, 6), bone, SH_L.lerp(GRIP_L, 0.72), _euler_up(dl))
 	_limb(arm_r, SH_R, HAND_R, 0.065, cdark, 0.07, leather)
-	add_part(arm_r, sphere(0.10, 8, 4), iron, SH_R + Vector3(0.03, 0.02, 0.0), Vector3(0, 0, -20), Vector3(1.1, 0.7, 1.0))
-	add_part(arm_l, sphere(0.09, 8, 4), cloth, SH_L + Vector3(-0.02, 0.0, 0.0), Vector3.ZERO, Vector3(1.0, 0.8, 1.0))
+	add_part(arm_r, sphere(0.10, 6, 3), iron, SH_R + Vector3(0.03, 0.02, 0.0), Vector3(0, 0, -20), Vector3(1.1, 0.7, 1.0))
+	add_part(arm_l, sphere(0.09, 6, 3), cloth, SH_L + Vector3(-0.02, 0.0, 0.0), Vector3.ZERO, Vector3(1.0, 0.8, 1.0))
 	# ---- The bow (keep_separate container under the bow arm, counter-rotated to stay upright on the draw).
 	_bow = Node3D.new()
 	_bow.name = "Bow"
@@ -333,18 +341,18 @@ static func _bow_mesh(obsidian: Material, bone: Material) -> Mesh:
 		var pts := PackedVector3Array([Vector3(0, 0.0, 0.03), Vector3(0, 0.25 * L * s, 0.05),
 			Vector3(0, 0.52 * L * s, 0.0), Vector3(0, 0.76 * L * s, -0.10), Vector3(0, 0.92 * L * s, -0.18),
 			Vector3(0, 1.0 * L * s, -0.12)])
-		_path_into(st, pts, PackedFloat32Array([0.055, 0.05, 0.042, 0.034, 0.026, 0.02]), 5)
+		_path_into(st, pts, PackedFloat32Array([0.055, 0.05, 0.042, 0.034, 0.026, 0.02]), 4)
 		# 3 obsidian barbs down the back (+Z) of each limb, raked toward the tip (one value with the limb: calm at 25 m)
 		for k: int in 3:
 			var u: float = 0.28 + 0.2 * k
 			var p := Vector3(0, u * L * s, 0.06 - 0.12 * (u - 0.25) * (u - 0.25) * 4.0)
 			var d := Vector3(0, 0.6 * s, 1.0).normalized()
-			st.append_from(cyl(0.0, 0.032, 0.14, 5), 0, Transform3D(Basis(Quaternion(Vector3.UP, d)), p + d * 0.05))
+			st.append_from(cyl(0.0, 0.032, 0.14, 4, false), 0, Transform3D(Basis(Quaternion(Vector3.UP, d)), p + d * 0.05))
 	st.index()
 	var m: ArrayMesh = st.commit()
 	m.surface_set_material(0, obsidian)
 	var st2 := SurfaceTool.new()
-	st2.append_from(cyl(0.065, 0.065, 0.22, 6), 0, Transform3D.IDENTITY)
+	st2.append_from(cyl(0.065, 0.065, 0.22, 5), 0, Transform3D.IDENTITY)
 	for s: float in [1.0, -1.0]:
 		var L: float = 0.93 if s > 0.0 else 0.88
 		var tip := Vector3(0, 1.0 * L * s, -0.12)

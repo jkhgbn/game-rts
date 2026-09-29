@@ -19,6 +19,7 @@ const LUNGE_Z := 1.8
 static var K_LUNGE := PackedFloat32Array([0.0, 0.0, 0.08, 0.05, 0.18, 1.0, 0.38, 0.9, 0.6, 0.25, 0.8, 0.0])
 
 var _seeds: GPUParticles3D
+var _face: FaceRig   # beast eyes (FaceKit): amber raptor eyes under the brow ridges
 var _seed_bursts: int = 0
 
 
@@ -60,8 +61,27 @@ func _build_parts() -> void:
 	beak.name = "Beak"
 	add_pivot_node(P_HEAD, beak, RM.BEAK_TIP)
 	_mouth = beak
+	# Eyes (FaceKit beast face, face rework 2026-09-28): round amber raptor eyes on the skull sides whose lids glare on
+	# the rake (fierce), widen on the swoop (shout) and droop when it falls (worried). The beak hides the mouth.
+	var sc := Vector3(0.0, 4.60, 1.15)
+	var hide := Color(0.36, 0.25, 0.15)
+	_face = FaceKit.attach(self, _piv[P_HEAD], "briar_roc", NatureFaces.style({
+		"center": sc, "radius": 0.21, "head_mesh": CharacterModel.sphere(1.0, 12, 6), "head_scale": Vector3(0.20, 0.19, 0.26),
+		"head_at": sc, "preset": &"stern", "skin": hide, "eyes": Color(0.85, 0.55, 0.12), "detail": &"low",
+		"x": NatureFaces.lean_x(1.15, {&"neutral": {"cut_in": 0.3}}),
+		"palette": NatureFaces.beast_palette(hide, Color(0.85, 0.55, 0.12)).merged({"sclera": Color(0.95, 0.72, 0.22),
+			"iris_in": Color(0.55, 0.30, 0.08), "iris_out": Color(0.25, 0.12, 0.04)}, true),
+		"eye": {"c": Vector2(0.175, 0.020), "hw": 0.042, "top": 0.036, "bot": 0.032, "ir": 0.024, "pupil": 0.6, "tilt": 0.0},
+		"brow": {"none": true}, "mouth": NatureFaces.beast_mouth(Vector2(0, -0.30)),
+	}, Vector3(-0.12 * 180.0 / PI, 0, 0), 0.004))
 	ensure_shadow_blob(BLOB_SIZE * BLOB_MULT, Color(0.05, 0.035, 0.02, 0.42))
 	_authored += 1
+
+
+func _on_revive() -> void:
+	super()
+	if _face:
+		_face.reset()
 
 
 func _after_ready() -> void:
@@ -77,6 +97,11 @@ func _flare_weight(pi: int) -> float:
 ## Scales the bird (after the Roc's pose, before _apply) and keeps the blob at the smaller size.
 func _extra_process(dt: float) -> void:
 	super(dt)
+	if _face:
+		if _tier != 0 and not _dead:
+			_face.far()
+		else:
+			_face.react(&"worried" if _dead else (&"fierce" if _action == &"attack" else (&"shout" if _action == &"cast" else &"")))
 	_body_scale *= BODY_SCALE
 	if _shadow:
 		_shadow.scale = Vector3(_shadow.scale.x * BLOB_MULT, 1.0, _shadow.scale.z * BLOB_MULT)

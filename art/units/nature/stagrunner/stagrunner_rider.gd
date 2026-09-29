@@ -161,7 +161,16 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if leg.name == "LegL" else 1.0
 		_sculpt(leg, "sgr_leg_%s_v1" % sx, func(s: Dictionary) -> void: _leg_sculpt(s, sx))
 	_sculpt(chest, "sgr_chest_v1", _chest_sculpt)
-	_sculpt($Root/Chest/Head, "sgr_head_v1", _head_sculpt)
+	_sculpt($Root/Chest/Head, "sgr_head_v2", _head_sculpt)
+	# Face (FaceKit, face rework 2026-09-28): fierce hazel eyes under the helm brow band, a hard grin of a lancer.
+	var hc := Vector3(0, 1.62, 0.05)
+	_face = FaceKit.attach(self, $Root/Chest/Head, "stagrunner_rider", {
+		"center": hc, "radius": 0.145, "head_mesh": sphere(0.145, 10, 6), "head_scale": Vector3(0.95, 1.08, 0.95),
+		"head_at": hc, "preset": &"stern", "skin": NatureFaces.SKIN.darkened(0.05), "hair": NatureFaces.CHESTNUT,
+		"eyes": NatureFaces.EYE_HAZEL, "detail": &"low",
+		"x": NatureFaces.lean_x(1.1, {&"neutral": {"mouth": {"kind": "smirk"}}}), "palette": NatureFaces.pal(NatureFaces.CHESTNUT),
+		"eye": {"c": Vector2(0.050, 0.018)},
+	})
 	_sculpt($Root/Chest/ArmL, "sgr_arm_l_v1", _arm_l_sculpt)
 	_sculpt(arm_r, "sgr_arm_r_v1", _arm_r_sculpt)
 	# Own (keep_separate) parts: forearm (elbow), the spear (posed every frame), the two cloak segments.
@@ -369,16 +378,13 @@ func _head_sculpt(s: Dictionary) -> void:
 	var cloth := m("nature_cloth")
 	var dark := m("nature_bark_dark")
 	var bark := m("nature_bark")
-	var eye := m("unit_eye_dark")
 	var gold := m("stagrunner_leaf_gold")
 	var amber := m("stagrunner_leaf_amber")
 	var glow := m("nature_glow")
 	_put(s, cyl(0.065, 0.075, 0.14, 8), skin, Vector3(0, 1.50, 0.02))
-	# face, the team cowl over the lower face, eyes
+	# face (FaceKit rig, _build_parts), the team cowl pulled down to the neck so the mouth shows
 	_put(s, sphere(0.145, 10, 6), skin, Vector3(0, 1.62, 0.05), Vector3.ZERO, Vector3(0.95, 1.08, 0.95))
-	_put(s, sphere(0.155, 10, 5), cloth, Vector3(0, 1.565, 0.07), Vector3.ZERO, Vector3(1.03, 0.55, 1.02))
-	for sx: float in [-1.0, 1.0]:
-		_put(s, sphere(0.03, 6, 3), eye, Vector3(0.055 * sx, 1.655, 0.18), Vector3.ZERO, Vector3(1.1, 0.7, 0.6))
+	_put(s, sphere(0.155, 10, 5), cloth, Vector3(0, 1.49, 0.035), Vector3.ZERO, Vector3(0.95, 0.45, 0.98))
 	# bark half-helm: dome above the brow, a dark brow band, cheek guards, a nasal, a ridge
 	var dome := MountModel.lathe_mesh("sgr_helm_v1", PackedVector2Array([Vector2(0.182, 0.0), Vector2(0.178, 0.05),
 		Vector2(0.15, 0.12), Vector2(0.09, 0.172), Vector2(0.0, 0.19)]), 12)
@@ -557,6 +563,7 @@ func _emit_strike(charge: bool) -> void:
 
 ## Timers, the aim, the flare glow; on foot the spear is posed here (in the saddle: _pose_seated).
 func _extra_process(dt: float) -> void:
+	_face_tick()
 	if _chg_t < CH_LEN:
 		var prev := _chg_t
 		_chg_t += dt
@@ -744,6 +751,7 @@ func _ik(s: Vector3, h: Vector3, a: float, b: float, pole: Vector3) -> void:
 
 
 func _on_revive() -> void:
+	_face_reset()
 	_atk_t = 99.0
 	_chg_t = 99.0
 	_flare = 0.0

@@ -53,41 +53,53 @@ func _build_parts() -> void:
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
 		add_part(leg, _leg_mesh(sx), dark, Vector3.ZERO)
-		add_part(leg, sphere(0.075, 8, 4), dark, Vector3(0.13 * sx, 0.06, 0.06), Vector3.ZERO, Vector3(1.0, 0.7, 1.6))
+		add_part(leg, sphere(0.075, 6, 3), dark, Vector3(0.13 * sx, 0.06, 0.06), Vector3.ZERO, Vector3(1.0, 0.7, 1.6))
 	# ---- Hips: bark belt + team-dark leaf skirt.
-	add_part(hips, cyl(0.19, 0.2, 0.12, 10), dark, Vector3(0, 0.96, 0))
+	add_part(hips, cyl(0.19, 0.2, 0.12, 8), dark, Vector3(0, 0.96, 0))
 	add_part(hips, leaf_ring_mesh(7, 0.15, Vector3(0.16, 0.035, 0.34), -70.0, 10.0), cdark, Vector3(0, 0.98, 0))
 	# ---- Chest: lean bark torso, team sash across it, left leaf pauldron with thorns (the asymmetry).
-	add_part(chest, sphere(0.22, 10, 6), bark, Vector3(0, 1.24, 0), Vector3(-6, 0, 0), Vector3(1.05, 1.35, 0.78))
+	add_part(chest, sphere(0.22, 8, 4), bark, Vector3(0, 1.24, 0), Vector3(-6, 0, 0), Vector3(1.05, 1.35, 0.78))
 	add_part(chest, box(Vector3(0.12, 0.72, 0.06)), cloth, Vector3(0.02, 1.22, 0.16), Vector3(-8, 0, 38))
 	add_part(chest, box(Vector3(0.12, 0.72, 0.06)), cloth, Vector3(0.02, 1.22, -0.16), Vector3(8, 0, 38))
 	add_part(chest, cyl(0.07, 0.09, 0.14, 8), dark, Vector3(0, 1.50, 0.01))
 	add_leaf(chest, Vector3(-0.30, 1.50, 0.0), Vector3(0.34, 0.07, 0.40), cloth, Vector3(0, -90, -30))
 	add_thorns(chest, Vector3(-0.32, 1.52, 0.0), 3, 0.07, 0.035, 0.22, 35.0, thorn)
 	# ---- Head: bark head, dark eye slit, pale thorn horns swept back, team leaf hood.
-	add_part(head, sphere(0.14, 10, 6), bark, Vector3(0, 1.64, 0.03), Vector3.ZERO, Vector3(0.9, 1.15, 1.0))
-	add_part(head, box(Vector3(0.18, 0.035, 0.05)), palette(&"unit_eye_dark"), Vector3(0, 1.67, 0.16))
+	var hc := Vector3(0, 1.64, 0.03)
+	add_part(head, sphere(0.14, 8, 4), bark, hc, Vector3.ZERO, Vector3(0.9, 1.15, 1.0))
+	# Face (FaceKit, was a dark eye slit): narrow amber eyes under heavy brows, a hard mouth, leaf-bark ears, pale
+	# moss vine locks falling from under the leaf hood.
+	_face = FaceKit.attach(self, head, "vinelasher", {
+		"center": hc, "radius": 0.14, "head_mesh": sphere(0.14, 8, 4), "head_scale": Vector3(0.9, 1.15, 1.0),
+		"head_at": hc, "preset": &"stern", "skin": NatureFaces.BARK.lightened(0.18), "hair": NatureFaces.MOSS,
+		"eyes": NatureFaces.EYE_AMBER, "detail": &"low", "x": NatureFaces.lean_x(1.1),
+		"palette": NatureFaces.pal(Color(0.30, 0.22, 0.12)), "eye": {"c": Vector2(0.044, 0.026)},
+		"hair_fn": func(acc: Dictionary) -> void:
+			for sx: float in [-1.0, 1.0]:
+				NatureFaces.ear_leaf(acc, hc, 0.13, sx, NatureFaces.BARK.lightened(0.24), 0.6, 0.3, 0.3)
+			NatureFaces.fringe(acc, hc + Vector3(0, 0.03, 0), 0.14, 2, NatureFaces.MOSS, NatureFaces.MOSS_TIP, 0.85, 1.1, 0.18),
+	})
 	add_part(head, _horns_mesh(), thorn, Vector3.ZERO)
 	add_leaf(head, Vector3(0, 1.76, -0.02), Vector3(0.30, 0.06, 0.46), cloth, Vector3(-18, 180, 0))
-	var trim := add_part(head, torus(0.11, 0.15, 10), palette(&"unit_gold_trim"), Vector3(0, 1.72, 0.02),
+	var trim := add_part(head, torus(0.11, 0.15, 7), palette(&"unit_gold_trim"), Vector3(0, 1.72, 0.02),
 		Vector3.ZERO, Vector3.ONE, true, "VetTrim")
 	if trim:
 		trim.set_meta(&"vet_trim", true)
 	# ---- Left arm: bark limb, thorn bracer.
 	add_part(arm_l, _arm_mesh(-1.0), dark, Vector3.ZERO)
 	add_part(arm_l, cyl(0.07, 0.085, 0.2, 8), thorn, Vector3(-0.33, 1.00, 0.07), Vector3(-20, 0, 0))
-	add_part(arm_l, sphere(0.07, 8, 4), dark, Vector3(-0.33, 0.86, 0.12))
+	add_part(arm_l, sphere(0.07, 6, 3), dark, Vector3(-0.33, 0.86, 0.12))
 	# ---- Right arm: the whip arm. Bark limb, the whip wound 3 times round it, fist, handle with a pink blossom.
 	add_part(arm_r, _arm_mesh(1.0), dark, Vector3.ZERO)
 	add_part(arm_r, _coil_mesh(), thorn, Vector3.ZERO)
-	add_part(arm_r, sphere(0.075, 8, 4), dark, HAND)
+	add_part(arm_r, sphere(0.075, 6, 3), dark, HAND)
 	add_part(arm_r, cyl(0.04, 0.035, 0.30, 6), dark, (HAND + HANDLE_END) * 0.5 + Vector3(0, 0.03, 0))
 	add_part(arm_r, leaf_ring_mesh(5, 0.03, Vector3(0.09, 0.03, 0.12), 20.0), blossom, HAND + Vector3(0, 0.07, 0))
 	# The hanging loop + tail and its glowing tip (shown at rest), the 3 m lash + tip (shown while lashing).
 	_loop = add_part(arm_r, _loop_mesh(), thorn, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "WhipLoop")
-	_loop_tip = add_part(arm_r, sphere(0.075, 8, 4), glow, _loop_tip_pos(), Vector3.ZERO, Vector3.ONE, true, "WhipLoopTip")
+	_loop_tip = add_part(arm_r, sphere(0.075, 6, 3), glow, _loop_tip_pos(), Vector3.ZERO, Vector3.ONE, true, "WhipLoopTip")
 	_lash = add_part(arm_r, _lash_mesh(), thorn, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "WhipLash")
-	_lash_tip = add_part(arm_r, sphere(0.09, 8, 4), glow, _lash_tip_pos(), Vector3.ZERO, Vector3.ONE, true, "WhipLashTip")
+	_lash_tip = add_part(arm_r, sphere(0.09, 6, 3), glow, _lash_tip_pos(), Vector3.ZERO, Vector3.ONE, true, "WhipLashTip")
 	_lash.visible = false
 	_lash_tip.visible = false
 	# ---- Fx

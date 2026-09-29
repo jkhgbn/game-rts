@@ -123,6 +123,7 @@ static var BT_LEG_F := PackedFloat32Array([0.0, 0.0, 0, 0.08, -4.0, 1, 0.20, -10
 static var _fx_cache: Dictionary = {}
 
 var _jaw: Node3D
+var _face: FaceRig   # beast eyes (FaceKit, face rework 2026-09-28)
 var _jaw_mi: MeshInstance3D
 var _trees: Array[Node3D] = [null, null, null]
 var _crowns: Array[Node3D] = [null, null, null]
@@ -155,6 +156,19 @@ func _build_mount() -> void:
 	var head: Node3D = $Root/Mount/Head
 	add_sculpt(body, _body_sculpt)
 	add_sculpt(head, _head_sculpt)
+	# Eyes (FaceKit beast face, face rework 2026-09-28, were two dark wet spheres with a glint): old, heavy-lidded
+	# amber-brown eyes on the skull sides under the scale brows; they narrow on the bite, droop as it sinks. The beak
+	# hides the kit's mouth.
+	var sc := Vector3(0, 1.26, 2.10) + HO
+	var hide := Color(0.37, 0.32, 0.25)
+	_face = FaceKit.attach(self, head, "mossback", NatureFaces.style({
+		"center": sc, "radius": 0.30, "head_mesh": sphere(1.0, 10, 4), "head_scale": Vector3(0.34, 0.29, 0.40), "head_at": sc,
+		"preset": &"elder", "skin": hide, "eyes": Color(0.62, 0.42, 0.14), "detail": &"low",
+		"x": NatureFaces.lean_x(1.15, {&"neutral": {"open": 0.8, "low": 0.3}}),
+		"palette": NatureFaces.beast_palette(hide, Color(0.62, 0.42, 0.14)),
+		"eye": {"c": Vector2(0.345, 0.05), "hw": 0.055, "top": 0.040, "bot": 0.028, "ir": 0.028, "tilt": 0.0},
+		"brow": {"none": true}, "mouth": NatureFaces.beast_mouth(Vector2(0, -0.40)), "extra": func(_a: Dictionary, _i: StringName) -> void: pass,
+	}, Vector3.ZERO, 0.005))
 	_jaw = get_node_or_null(^"Root/Mount/Head/Jaw") as Node3D
 	if _jaw:
 		_jaw.set_meta(&"keep_separate", true)
@@ -453,7 +467,6 @@ func _head_sculpt(s: Dictionary) -> void:
 	var scl := m("mossback_scale")
 	var beak := m("nature_thorn")
 	var dark := m("unit_eye_dark")
-	var pale := m("nature_skin")
 	var moss := m("mossback_moss")
 	# long wrinkled neck (its back half hides inside the shell; the bite slides it out); a thick fold of skin
 	sculpt_add(s, tube_mesh("mossback_neck_v4", PackedVector3Array([Vector3(0, 0.98, 0.86), Vector3(0, 1.02, 1.27),
@@ -470,10 +483,8 @@ func _head_sculpt(s: Dictionary) -> void:
 	sculpt_add(s, cyl(0.0, 0.17, 0.28, 6), Transform3D(Basis(Quaternion(Vector3.UP, bd)) * Basis.from_scale(Vector3(1.0, 1.0,
 		0.75)), Vector3(0, 1.13, 2.44) + HO), beak)
 	_ell(s, beak, Vector3(0, 1.21, 2.40) + HO, Vector3(0.12, 0.06, 0.12), 6, 3)
-	# eyes (dark, wet, a pale glint: the grove's rune is the one glow), heavy brows, a head scale, a lichen patch
+	# heavy scale brows (the eyes: the FaceKit rig above), a head scale, a lichen patch
 	for sx: float in [-1.0, 1.0]:
-		sculpt_put(s, sphere(0.06, 6, 3), dark, Vector3(0.28 * sx, 1.31, 2.21) + HO, Vector3.ZERO, Vector3(0.8, 1.0, 1.0))
-		sculpt_put(s, sphere(0.016, 4, 2), pale, Vector3(0.325 * sx, 1.335, 2.235) + HO)
 		sculpt_put(s, sphere(1.0, 6, 3), scl, Vector3(0.22 * sx, 1.42, 2.20) + HO, Vector3(-12.0, 25.0 * sx, 14.0 * sx),
 			Vector3(0.17, 0.07, 0.15))
 	_ell(s, scl, Vector3(0, 1.53, 2.06) + HO, Vector3(0.18, 0.055, 0.19), 6, 3)
@@ -803,6 +814,8 @@ func _on_footfall(leg: int, _gallop: bool) -> void:
 
 func _mount_process(dt: float) -> void:
 	_canopy_tick(dt)
+	if _face:
+		_face.auto(self)
 	_wilt = smoothstep(0.1, 0.6, _death_t) if _dead else 0.0
 	if not _fast and not _dead:
 		if _walk_w > 0.0:
@@ -972,6 +985,8 @@ func _pose_death(dt: float) -> void:
 
 func _mount_revive() -> void:
 	_wilt = 0.0
+	if _face:
+		_face.reset()
 	if _shadow:
 		_shadow.set_instance_shader_parameter(&"blob_color", BLOB_TINT)
 	_jaw_pose = 0.0
