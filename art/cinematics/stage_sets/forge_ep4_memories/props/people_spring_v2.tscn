@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://art/cinematics/stage_sets/forge_ep4_memories/props/people_spring_v2.res" id="1_vgtpd"]
 
-[node name="PeopleSpringV2" type="Node3D" unique_id=2114844951]
+[node name="PeopleSpringV2" type="Node3D" unique_id=1959732920]
 
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1066378241]
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=402697811]
 mesh = ExtResource("1_vgtpd")

@@ -552,8 +552,12 @@ func _collect(n: Node, holder: Node3D, paint_b: RefCounted, glow_b: RefCounted, 
 		if mi.mesh and mi.is_visible_in_tree():
 			var xf := holder.global_transform.affine_inverse() * mi.global_transform
 			for s in mi.mesh.get_surface_count():
-				var cl: Array = IB._classify(mi.get_active_material(s))
-				if cl[0] == "paint" or cl[0] == "keep":
+				var mat := mi.get_active_material(s)
+				var cl: Array = IB._classify(mat)
+				if _is_face(mat) and not frozen:
+					# FaceKit face (+ hair / ears / beard): its colours are the vertex COLORs (unit_face.gdshader, sRGB)
+					paint_b.add(mi.mesh, s, xf, null)
+				elif cl[0] == "paint" or cl[0] == "keep":
 					var col: Color = cl[1] if cl[1] is Color else Color(0.5, 0.5, 0.5)
 					paint_b.add(mi.mesh, s, xf, Color(col.r, col.g, col.b, 1.0))
 				elif cl[0] == "glow" and not frozen:
@@ -561,3 +565,8 @@ func _collect(n: Node, holder: Node3D, paint_b: RefCounted, glow_b: RefCounted, 
 					glow_b.add(mi.mesh, s, xf, Color(gc.r, gc.g, gc.b, 0.5))
 	for c in n.get_children():
 		_collect(c, holder, paint_b, glow_b, frozen)
+
+
+## The face kit's material (art/units/kit/face/unit_face.gdshader, face rework 2026-09-28): colour per vertex.
+static func _is_face(mat: Material) -> bool:
+	return mat is ShaderMaterial and (mat as ShaderMaterial).shader != null 		and (mat as ShaderMaterial).shader.resource_path.get_file() == "unit_face.gdshader"

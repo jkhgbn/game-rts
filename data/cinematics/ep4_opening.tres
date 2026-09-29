@@ -40,6 +40,16 @@ stage_set = &"forge_evenmead"
 marker_prefix = &"B01"
 
 [sub_resource type="Resource" id="Resource_h1gkp"]
+script = ExtResource("4_b3t22")
+at = 0.3
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_3ftjr"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -47,7 +57,7 @@ text = "I was born on that hill, the year nothing grew. Not one blade of grass."
 duration = 5.0
 voice = "res://assets/audio/voice/ysolde/i_was_born_on_fbe13b97.wav"
 
-[sub_resource type="Resource" id="Resource_3ftjr"]
+[sub_resource type="Resource" id="Resource_1im3q"]
 script = ExtResource("3_88k6v")
 id = &"S02"
 duration = 6.0
@@ -58,10 +68,11 @@ look_from = Vector3(-4, 6.02, 30)
 look_to = Vector3(-4, 5.98, 30)
 fov_from = 40.0
 fov_to = 38.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_h1gkp")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_3ftjr")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_h1gkp")])
 stage_set = &"forge_evenmead"
 
-[sub_resource type="Resource" id="Resource_1im3q"]
+[sub_resource type="Resource" id="Resource_aht1y"]
 script = ExtResource("4_b3t22")
 at = 0.3
 kind = &"sfx"
@@ -70,7 +81,7 @@ params = {
 "volume_db": -10.0
 }
 
-[sub_resource type="Resource" id="Resource_aht1y"]
+[sub_resource type="Resource" id="Resource_msaby"]
 script = ExtResource("1_15my7")
 at = 0.4
 speaker = &"ysolde"
@@ -78,7 +89,7 @@ text = "My mother buried seed in the snow. The village laughed. I watched it sle
 duration = 5.1
 voice = "res://assets/audio/voice/ysolde/my_mother_buried_seed_b7d7b32b.wav"
 
-[sub_resource type="Resource" id="Resource_msaby"]
+[sub_resource type="Resource" id="Resource_xcakf"]
 script = ExtResource("3_88k6v")
 id = &"H03"
 duration = 6.0
@@ -91,12 +102,12 @@ fov_from = 44.0
 fov_to = 40.0
 transition_in = 2
 transition_time = 0.4
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_aht1y")])
-actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_1im3q")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_msaby")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_aht1y")])
 stage_set = &"forge_ep4_memories"
 marker_prefix = &"H03"
 
-[sub_resource type="Resource" id="Resource_xcakf"]
+[sub_resource type="Resource" id="Resource_sssox"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -104,7 +115,7 @@ text = "In spring it came up green. I have never forgotten how that felt."
 duration = 4.4
 voice = "res://assets/audio/voice/ysolde/in_spring_it_came_67120205.wav"
 
-[sub_resource type="Resource" id="Resource_sssox"]
+[sub_resource type="Resource" id="Resource_7n1gy"]
 script = ExtResource("3_88k6v")
 id = &"H04"
 duration = 5.0
@@ -115,11 +126,21 @@ look_from = Vector3(-14.9, 0.8, 3)
 look_to = Vector3(-14.9, 0.76, 3)
 fov_from = 44.0
 fov_to = 40.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_xcakf")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_sssox")])
 stage_set = &"forge_ep4_memories"
 marker_prefix = &"H04"
 
-[sub_resource type="Resource" id="Resource_7n1gy"]
+[sub_resource type="Resource" id="Resource_sr7xh"]
+script = ExtResource("4_b3t22")
+at = 0.3
+kind = &"anim"
+actor = &"y_child"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_rbhl7"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -127,7 +148,7 @@ text = "A tall man with a burning hem found me coaxing a sapling through the fro
 duration = 5.1
 voice = "res://assets/audio/voice/ysolde/a_tall_man_with_160c2abd.wav"
 
-[sub_resource type="Resource" id="Resource_sr7xh"]
+[sub_resource type="Resource" id="Resource_2ol13"]
 script = ExtResource("3_88k6v")
 id = &"H05"
 duration = 6.0
@@ -138,11 +159,12 @@ look_from = Vector3(15.5, 0.72, -1)
 look_to = Vector3(15.5, 0.7, -1)
 fov_from = 40.0
 fov_to = 38.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_7n1gy")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_rbhl7")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_sr7xh")])
 stage_set = &"forge_ep4_memories"
 marker_prefix = &"H05"
 
-[sub_resource type="Resource" id="Resource_rbhl7"]
+[sub_resource type="Resource" id="Resource_0kbli"]
 script = ExtResource("4_b3t22")
 at = 1.0
 kind = &"sfx"
@@ -151,7 +173,7 @@ params = {
 "volume_db": -6.0
 }
 
-[sub_resource type="Resource" id="Resource_2ol13"]
+[sub_resource type="Resource" id="Resource_2nhrd"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -159,7 +181,7 @@ text = "He said: show me again. So I did, for twenty years, until he was gone."
 duration = 5.0
 voice = "res://assets/audio/voice/ysolde/he_said_show_me_79d79140.wav"
 
-[sub_resource type="Resource" id="Resource_0kbli"]
+[sub_resource type="Resource" id="Resource_qey3i"]
 script = ExtResource("3_88k6v")
 id = &"S06"
 duration = 6.0
@@ -172,12 +194,31 @@ fov_from = 38.0
 fov_to = 38.0
 transition_in = 3
 transition_time = 0.3
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_2ol13")])
-actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_rbhl7")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_2nhrd")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_0kbli")])
 stage_set = &"forge_evenmead"
 marker_prefix = &"S06"
 
-[sub_resource type="Resource" id="Resource_2nhrd"]
+[sub_resource type="Resource" id="Resource_erfet"]
+script = ExtResource("4_b3t22")
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_nonm8"]
+script = ExtResource("4_b3t22")
+at = 2.8
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_uxt8j"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -185,7 +226,7 @@ text = "They call me soft. Neutral. Slow. Slow is how an oak outlives an army."
 duration = 5.0
 voice = "res://assets/audio/voice/ysolde/they_call_me_soft_3535b2b2.wav"
 
-[sub_resource type="Resource" id="Resource_qey3i"]
+[sub_resource type="Resource" id="Resource_xrhj6"]
 script = ExtResource("3_88k6v")
 id = &"S07"
 duration = 6.0
@@ -195,11 +236,12 @@ look_from = Vector3(-4.51, 6.329, 33.624)
 look_to = Vector3(-4.51, 6.329, 33.624)
 fov_from = 40.0
 fov_to = 40.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_2nhrd")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_uxt8j")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_erfet"), SubResource("Resource_nonm8")])
 stage_set = &"forge_evenmead"
 marker_prefix = &"S07"
 
-[sub_resource type="Resource" id="Resource_erfet"]
+[sub_resource type="Resource" id="Resource_6yli6"]
 script = ExtResource("4_b3t22")
 kind = &"visible"
 actor = &"shoot"
@@ -207,7 +249,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_nonm8"]
+[sub_resource type="Resource" id="Resource_3mtnm"]
 script = ExtResource("4_b3t22")
 at = 0.3
 kind = &"sfx"
@@ -216,7 +258,17 @@ params = {
 "volume_db": -8.0
 }
 
-[sub_resource type="Resource" id="Resource_uxt8j"]
+[sub_resource type="Resource" id="Resource_riw31"]
+script = ExtResource("4_b3t22")
+at = 0.3
+kind = &"anim"
+actor = &"y_ysolde"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_2woxg"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -224,7 +276,7 @@ text = "Last winter they burned my wood and froze the ashes. My army with it."
 duration = 5.0
 voice = "res://assets/audio/voice/ysolde/last_winter_they_burned_e017cf01.wav"
 
-[sub_resource type="Resource" id="Resource_xrhj6"]
+[sub_resource type="Resource" id="Resource_kp6rm"]
 script = ExtResource("3_88k6v")
 id = &"H08"
 duration = 6.0
@@ -237,12 +289,12 @@ fov_from = 40.0
 fov_to = 37.0
 transition_in = 2
 transition_time = 0.4
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_uxt8j")])
-actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_erfet"), SubResource("Resource_nonm8")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_2woxg")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_6yli6"), SubResource("Resource_3mtnm"), SubResource("Resource_riw31")])
 stage_set = &"forge_ep4_memories"
 marker_prefix = &"H08"
 
-[sub_resource type="Resource" id="Resource_6yli6"]
+[sub_resource type="Resource" id="Resource_wxfhl"]
 script = ExtResource("4_b3t22")
 kind = &"visible"
 actor = &"y_ysolde"
@@ -250,7 +302,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_3mtnm"]
+[sub_resource type="Resource" id="Resource_8r0qs"]
 script = ExtResource("4_b3t22")
 kind = &"visible"
 actor = &"shoot"
@@ -258,7 +310,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_riw31"]
+[sub_resource type="Resource" id="Resource_5qbui"]
 script = ExtResource("4_b3t22")
 at = 3.0
 kind = &"sfx"
@@ -267,7 +319,7 @@ params = {
 "volume_db": -10.0
 }
 
-[sub_resource type="Resource" id="Resource_2woxg"]
+[sub_resource type="Resource" id="Resource_1bsyk"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -275,7 +327,7 @@ text = "I knelt in the black, and I waited. Something green came up. It always d
 duration = 5.2
 voice = "res://assets/audio/voice/ysolde/i_knelt_in_the_143cbc56.wav"
 
-[sub_resource type="Resource" id="Resource_kp6rm"]
+[sub_resource type="Resource" id="Resource_16dww"]
 script = ExtResource("3_88k6v")
 id = &"H09"
 duration = 6.0
@@ -286,12 +338,31 @@ look_from = Vector3(44.72, 0.34, -0.4)
 look_to = Vector3(44.73, 0.345, -0.42)
 fov_from = 37.0
 fov_to = 35.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_2woxg")])
-actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_6yli6"), SubResource("Resource_3mtnm"), SubResource("Resource_riw31")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_1bsyk")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_wxfhl"), SubResource("Resource_8r0qs"), SubResource("Resource_5qbui")])
 stage_set = &"forge_ep4_memories"
 marker_prefix = &"H09"
 
-[sub_resource type="Resource" id="Resource_wxfhl"]
+[sub_resource type="Resource" id="Resource_vg3e6"]
+script = ExtResource("4_b3t22")
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_eklpv"]
+script = ExtResource("4_b3t22")
+at = 2.4
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "fierce",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_sygst"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -299,7 +370,7 @@ text = "That is my strength. Not fire. Not knives. I come back. Every spring. Ev
 duration = 5.3
 voice = "res://assets/audio/voice/ysolde/that_is_my_strength_ae118cbe.wav"
 
-[sub_resource type="Resource" id="Resource_8r0qs"]
+[sub_resource type="Resource" id="Resource_i6fwu"]
 script = ExtResource("3_88k6v")
 id = &"S10"
 duration = 6.0
@@ -312,10 +383,31 @@ fov_from = 44.0
 fov_to = 41.0
 transition_in = 3
 transition_time = 0.3
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_wxfhl")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_sygst")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_vg3e6"), SubResource("Resource_eklpv")])
 stage_set = &"forge_evenmead"
 
-[sub_resource type="Resource" id="Resource_5qbui"]
+[sub_resource type="Resource" id="Resource_a3gxq"]
+script = ExtResource("4_b3t22")
+at = 0.3
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_7vfwi"]
+script = ExtResource("4_b3t22")
+at = 0.3
+kind = &"anim"
+actor = &"vessa"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_c2xjq"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -323,7 +415,7 @@ text = "The Master planted this country with his own hands. He left it to me to 
 duration = 5.1
 voice = "res://assets/audio/voice/ysolde/the_master_planted_this_049c4f15.wav"
 
-[sub_resource type="Resource" id="Resource_1bsyk"]
+[sub_resource type="Resource" id="Resource_c7vwl"]
 script = ExtResource("3_88k6v")
 id = &"S11"
 duration = 6.0
@@ -333,11 +425,12 @@ look_from = Vector3(-3.295, 6.213, 34.556)
 look_to = Vector3(-3.295, 6.213, 34.556)
 fov_from = 40.0
 fov_to = 40.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_5qbui")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_c2xjq")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_a3gxq"), SubResource("Resource_7vfwi")])
 stage_set = &"forge_evenmead"
 marker_prefix = &"S11"
 
-[sub_resource type="Resource" id="Resource_16dww"]
+[sub_resource type="Resource" id="Resource_05kut"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
@@ -345,7 +438,7 @@ text = "Malrik stands up there with his candle, his stone, and Torvald's winter.
 duration = 4.6
 voice = "res://assets/audio/voice/ysolde/malrik_stands_up_there_5121c046.wav"
 
-[sub_resource type="Resource" id="Resource_vg3e6"]
+[sub_resource type="Resource" id="Resource_xs8cl"]
 script = ExtResource("1_15my7")
 at = 5.1
 speaker = &"ysolde"
@@ -353,7 +446,7 @@ text = "Let them come. Cut it. Burn it. Freeze it."
 duration = 3.2
 voice = "res://assets/audio/voice/ysolde/let_them_come_cut_d956830a.wav"
 
-[sub_resource type="Resource" id="Resource_eklpv"]
+[sub_resource type="Resource" id="Resource_qhhao"]
 script = ExtResource("3_88k6v")
 id = &"S12"
 duration = 9.0
@@ -364,10 +457,39 @@ look_from = Vector3(-0.3, 9.3, -36)
 look_to = Vector3(-0.3, 9.3, -36)
 fov_from = 22.0
 fov_to = 20.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_16dww"), SubResource("Resource_vg3e6")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_05kut"), SubResource("Resource_xs8cl")])
 stage_set = &"forge_evenmead"
 
-[sub_resource type="Resource" id="Resource_sygst"]
+[sub_resource type="Resource" id="Resource_xt7cs"]
+script = ExtResource("4_b3t22")
+at = 0.3
+kind = &"anim"
+actor = &"vessa"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_ugrbx"]
+script = ExtResource("4_b3t22")
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_h4a2u"]
+script = ExtResource("4_b3t22")
+at = 2.5
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "fierce",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_dmsy8"]
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"vessa"
@@ -375,7 +497,7 @@ text = "Ysolde. They're moving."
 duration = 1.8
 voice = "res://assets/audio/voice/vessa/ysolde_theyre_moving_a67643f3.wav"
 
-[sub_resource type="Resource" id="Resource_i6fwu"]
+[sub_resource type="Resource" id="Resource_g7pk5"]
 script = ExtResource("1_15my7")
 at = 2.6
 speaker = &"ysolde"
@@ -383,7 +505,7 @@ text = "It will not stop."
 duration = 2.0
 voice = "res://assets/audio/voice/ysolde/it_will_not_stop_46dfa508.wav"
 
-[sub_resource type="Resource" id="Resource_a3gxq"]
+[sub_resource type="Resource" id="Resource_60o2e"]
 script = ExtResource("3_88k6v")
 id = &"S13"
 duration = 5.0
@@ -394,10 +516,11 @@ look_from = Vector3(-4.973, 6.42, 34.065)
 look_to = Vector3(-4.973, 6.42, 34.065)
 fov_from = 40.0
 fov_to = 40.0
-lines = Array[ExtResource("1_15my7")]([SubResource("Resource_sygst"), SubResource("Resource_i6fwu")])
+lines = Array[ExtResource("1_15my7")]([SubResource("Resource_dmsy8"), SubResource("Resource_g7pk5")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_xt7cs"), SubResource("Resource_ugrbx"), SubResource("Resource_h4a2u")])
 stage_set = &"forge_evenmead"
 
-[sub_resource type="Resource" id="Resource_7vfwi"]
+[sub_resource type="Resource" id="Resource_lfepg"]
 script = ExtResource("4_b3t22")
 at = 0.5
 kind = &"sfx"
@@ -406,7 +529,7 @@ params = {
 "volume_db": 0.0
 }
 
-[sub_resource type="Resource" id="Resource_c2xjq"]
+[sub_resource type="Resource" id="Resource_bd0ep"]
 script = ExtResource("4_b3t22")
 at = 3.0
 kind = &"title"
@@ -416,7 +539,7 @@ params = {
 "time": 3.5
 }
 
-[sub_resource type="Resource" id="Resource_c7vwl"]
+[sub_resource type="Resource" id="Resource_7c8tw"]
 script = ExtResource("4_b3t22")
 at = 6.2
 kind = &"fade"
@@ -426,7 +549,7 @@ params = {
 "time": 0.8
 }
 
-[sub_resource type="Resource" id="Resource_05kut"]
+[sub_resource type="Resource" id="Resource_ik5om"]
 script = ExtResource("3_88k6v")
 id = &"B14R"
 duration = 7.0
@@ -437,7 +560,7 @@ look_from = Vector3(0, 2, 0)
 look_to = Vector3(0, 2, 0)
 fov_from = 50.0
 fov_to = 50.0
-actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_7vfwi"), SubResource("Resource_c2xjq"), SubResource("Resource_c7vwl")])
+actions = Array[ExtResource("4_b3t22")]([SubResource("Resource_lfepg"), SubResource("Resource_bd0ep"), SubResource("Resource_7c8tw")])
 stage_set = &"forge_evenmead"
 marker_prefix = &"B14R"
 
@@ -445,7 +568,7 @@ marker_prefix = &"B14R"
 script = ExtResource("2_k7x2m")
 id = &"ep4_opening"
 title = "Episode 4: What Grows Back"
-shots = Array[ExtResource("3_88k6v")]([SubResource("Resource_0ufa7"), SubResource("Resource_3ftjr"), SubResource("Resource_msaby"), SubResource("Resource_sssox"), SubResource("Resource_sr7xh"), SubResource("Resource_0kbli"), SubResource("Resource_qey3i"), SubResource("Resource_xrhj6"), SubResource("Resource_kp6rm"), SubResource("Resource_8r0qs"), SubResource("Resource_1bsyk"), SubResource("Resource_eklpv"), SubResource("Resource_a3gxq"), SubResource("Resource_05kut")])
+shots = Array[ExtResource("3_88k6v")]([SubResource("Resource_0ufa7"), SubResource("Resource_1im3q"), SubResource("Resource_xcakf"), SubResource("Resource_7n1gy"), SubResource("Resource_2ol13"), SubResource("Resource_qey3i"), SubResource("Resource_xrhj6"), SubResource("Resource_kp6rm"), SubResource("Resource_16dww"), SubResource("Resource_i6fwu"), SubResource("Resource_c7vwl"), SubResource("Resource_qhhao"), SubResource("Resource_60o2e"), SubResource("Resource_ik5om")])
 music_cue = &"res://assets/audio/forge/music/ep4_opening.wav"
 shake_seed = 34
 music_volume_db = -15.0

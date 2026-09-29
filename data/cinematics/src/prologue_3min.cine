@@ -153,6 +153,7 @@ shot S14 3.4  set=forge_intro_vessa
   at 0.0  fade alpha=0  time=0.01
   at 0.0  show vessa_young
   at 0.3  line master "Vessa, the youngest. She lit her first spark before she could spell her name."  dur=6.6
+  at 0.3  anim vessa_young set_expression  arg=smile
   at 0.6  anim vessa_young play_cast arg=kindle
   at 0.9  vfx spark scene=res://art/cinematics/fx/ember.tscn at=(-14.8, 1.0, 15.9) to=(-14.8, 3.5, 15.9) life=2.5
 # ...match-cut: grown Vessa hurls a fireball the size of a house into the sky (heroic pose)
@@ -193,6 +194,7 @@ shot S16 7.0  set=forge_intro_vessa
   at 0.0  teleport rider to=(-1.0, 0, -6.0)
   at 0.0  teleport vessa to=(0, 0, 9) yaw=0
   at 0.3  line master "But she never waits. And fire that will not wait burns its own house."  dur=6.6
+  at 0.3  anim vessa set_expression  arg=fierce
   at 0.5  move vessa to=(0, 0, 13) speed=1.2
   at 2.0  vfx wild scene=res://art/cinematics/fx/fire_pillar.tscn at=(-6, 0, -3.5) life=5.0 scale=0.4
   at 2.5  vfx wild2 scene=res://art/cinematics/fx/fire_pillar.tscn at=(7, 0, -4.5) life=4.5 scale=0.3
@@ -200,6 +202,7 @@ shot S16 7.0  set=forge_intro_vessa
 shot S17 6.0  set=forge_intro_vessa
   at 0.0  teleport vessa to=(0, 0, 6) yaw=0
   at 0.3  line master "Still, she laughed like sunrise. Vessa was my joy."  dur=5.6
+  at 0.2  anim vessa set_expression  arg=smile
   at 0.5  anim vessa play_level_up
   at 0.5  vfx ember scene=res://art/cinematics/fx/ember.tscn at=(0.3, 1.9, 6.4) to=(0.8, 8, 6) life=5.4
 
@@ -210,6 +213,7 @@ shot S18 6.0  set=forge_intro_malrik  in=fade_black:0.6
   at 0.0  show fx_master
   at 0.0  show malrik_young
   at 0.3  line master "Malrik. I found him reading tombstones by the light of one candle."  dur=5.6
+  at 0.3  anim malrik_young set_expression  arg=worried
 # Malrik raises one hand: the dark answers...
 shot S19 3.4  set=forge_intro_malrik
   at 0.0  hide fx_master
@@ -254,6 +258,7 @@ shot S20 6.0  set=forge_intro_malrik
 shot S21 8.0  set=forge_intro_malrik
   at 0.0  hide fx_crown
   at 0.3  line master "He thinks I gave him leftovers. I gave the dark to the one it could not frighten."  dur=7.6
+  at 0.3  anim malrik set_expression  arg=fierce
   at 6.9  fade color=#000000  alpha=0.6  time=1.0
 
 # ---------------------------------------------------------------- Torvald (forge_intro_torvald)
@@ -277,6 +282,7 @@ shot S23 3.4  set=forge_intro_torvald
   at 0.0  show fx_burst
   at 0.0  show fx_snow
   at 0.3  line master "Nothing breaks him. Not armies, not winters. Not time."  dur=6.6
+  at 0.3  anim torvald set_expression  arg=fierce
   at 0.0  hide shield1
   at 0.0  hide shield2
   at 0.0  hide shield3
@@ -316,6 +322,7 @@ shot S25 2.6  set=forge_intro_torvald
   at 0.0  face torvald yaw=0  time=0.01
   at 0.0  hide messenger
   at 0.3  line master "I left him my coldest secret. Torvald was my patience."  dur=5.6
+  at 0.2  anim torvald set_expression  arg=smile
 
 # ...he looks down through the clear ice: the Heartfrost sleeps far below
 shot S25D 3.4  set=forge_intro_torvald
@@ -332,6 +339,7 @@ shot S26 7.0  set=forge_intro_ysolde  in=fade_black:0.6
   at 0.0  show ysolde_fx_master
   at 0.0  show ysolde_young
   at 0.3  line master "Ysolde. I found her coaxing a sapling through the frost."  dur=6.6
+  at 0.3  anim ysolde_young set_expression  arg=smile
   at 1.5  anim ysolde_young play_cast arg=wild_bloom
   at 2.0  vfx bloom scene=res://art/cinematics/fx/bloom_wave.tscn at=(21.8, 0, 15.4) life=4.5 scale=0.1
 # Fire sweeps her wood; Ysolde raises her arms: Wild Bloom greens the ash in a wave...
@@ -371,6 +379,7 @@ shot S28 6.0  set=forge_intro_ysolde
 shot S29 7.0  set=forge_intro_ysolde
   at 0.0  hide stag
   at 0.3  line master "I would say: show me again. And she always did. Ysolde was my heart."  dur=6.6
+  at 0.2  anim ysolde set_expression  arg=smile
   at 1.5  vfx blossom scene=res://art/cinematics/fx/blossom.tscn at=(3.3, 1.4, 1.95) life=5.4
 
 # ---------------------------------------------------------------- the end (forge_citadel)

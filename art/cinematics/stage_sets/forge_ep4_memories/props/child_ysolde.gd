@@ -61,3 +61,9 @@ func _ready() -> void:
 	for k: StringName in [&"_phase_off", &"_tier_timer"]:
 		if k in model:
 			model.set(k, 0.0)
+
+
+## The face kit's expression on the wrapped Ysolde model (cine cue `anim y_child set_expression arg=smile`).
+func set_expression(id: StringName) -> void:
+	if model != null and model.has_method(&"set_expression"):
+		model.call(&"set_expression", id)

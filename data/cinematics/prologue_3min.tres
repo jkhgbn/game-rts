@@ -896,6 +896,16 @@ params = {
 
 [sub_resource type="Resource" id="Resource_1ntk6"]
 script = ExtResource("4_wga8u")
+at = 0.3
+kind = &"anim"
+actor = &"vessa_young"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_2uaxm"]
+script = ExtResource("4_wga8u")
 at = 0.6
 kind = &"anim"
 actor = &"vessa_young"
@@ -904,7 +914,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_2uaxm"]
+[sub_resource type="Resource" id="Resource_32p8g"]
 script = ExtResource("4_wga8u")
 at = 0.9
 kind = &"vfx"
@@ -915,7 +925,7 @@ params = {
 "to": Vector3(-14.8, 3.5, 15.9)
 }
 
-[sub_resource type="Resource" id="Resource_32p8g"]
+[sub_resource type="Resource" id="Resource_w0r6d"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -923,7 +933,7 @@ text = "Vessa, the youngest. She lit her first spark before she could spell her 
 duration = 6.6
 voice = "res://assets/audio/voice/master/vessa_the_youngest_she_0f7ca4c7.wav"
 
-[sub_resource type="Resource" id="Resource_w0r6d"]
+[sub_resource type="Resource" id="Resource_55rmp"]
 script = ExtResource("3_4u4ub")
 id = &"S14"
 duration = 3.4
@@ -934,12 +944,12 @@ look_from = Vector3(-15, 1.05, 15.5)
 look_to = Vector3(-15, 1.05, 15.5)
 fov_from = 32.0
 fov_to = 32.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_32p8g")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_0ncpi"), SubResource("Resource_pk4ib"), SubResource("Resource_6c63r"), SubResource("Resource_1ntk6"), SubResource("Resource_2uaxm")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_w0r6d")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_0ncpi"), SubResource("Resource_pk4ib"), SubResource("Resource_6c63r"), SubResource("Resource_1ntk6"), SubResource("Resource_2uaxm"), SubResource("Resource_32p8g")])
 stage_set = &"forge_intro_vessa"
 marker_prefix = &"S14"
 
-[sub_resource type="Resource" id="Resource_55rmp"]
+[sub_resource type="Resource" id="Resource_m51i4"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"vessa_young"
@@ -947,7 +957,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_m51i4"]
+[sub_resource type="Resource" id="Resource_agv1u"]
 script = ExtResource("4_wga8u")
 at = 0.3
 kind = &"anim"
@@ -957,7 +967,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_agv1u"]
+[sub_resource type="Resource" id="Resource_lu4ni"]
 script = ExtResource("4_wga8u")
 at = 0.6
 kind = &"vfx"
@@ -968,7 +978,7 @@ params = {
 "to": Vector3(14, 60, -80)
 }
 
-[sub_resource type="Resource" id="Resource_lu4ni"]
+[sub_resource type="Resource" id="Resource_tonll"]
 script = ExtResource("3_4u4ub")
 id = &"S14B"
 duration = 3.6
@@ -979,10 +989,10 @@ look_from = Vector3(0, 2.7, 5)
 look_to = Vector3(0.4, 4.4, 3)
 fov_from = 46.0
 fov_to = 50.0
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_55rmp"), SubResource("Resource_m51i4"), SubResource("Resource_agv1u")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_m51i4"), SubResource("Resource_agv1u"), SubResource("Resource_lu4ni")])
 stage_set = &"forge_intro_vessa"
 
-[sub_resource type="Resource" id="Resource_tonll"]
+[sub_resource type="Resource" id="Resource_8nv46"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_host"
@@ -990,7 +1000,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_8nv46"]
+[sub_resource type="Resource" id="Resource_ighoc"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_columns"
@@ -998,7 +1008,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_ighoc"]
+[sub_resource type="Resource" id="Resource_c35pm"]
 script = ExtResource("4_wga8u")
 at = 0.2
 kind = &"anim"
@@ -1008,7 +1018,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_c35pm"]
+[sub_resource type="Resource" id="Resource_m0srv"]
 script = ExtResource("4_wga8u")
 at = 0.6
 kind = &"vfx"
@@ -1019,7 +1029,7 @@ params = {
 "scene": "res://art/cinematics/fx/fire_burst.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_m0srv"]
+[sub_resource type="Resource" id="Resource_24gmo"]
 script = ExtResource("4_wga8u")
 at = 0.6
 kind = &"shake"
@@ -1027,7 +1037,7 @@ params = {
 "amount": 0.5
 }
 
-[sub_resource type="Resource" id="Resource_24gmo"]
+[sub_resource type="Resource" id="Resource_1w1gv"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1035,7 +1045,7 @@ text = "Give her a wall, and she will burn a door through it."
 duration = 6.6
 voice = "res://assets/audio/voice/master/give_her_a_wall_e312dd45.wav"
 
-[sub_resource type="Resource" id="Resource_1w1gv"]
+[sub_resource type="Resource" id="Resource_egpkk"]
 script = ExtResource("3_4u4ub")
 id = &"S15"
 duration = 3.4
@@ -1046,12 +1056,12 @@ look_from = Vector3(0.5, 2.2, 3)
 look_to = Vector3(0, 2.4, 2)
 fov_from = 44.0
 fov_to = 44.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_24gmo")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_tonll"), SubResource("Resource_8nv46"), SubResource("Resource_ighoc"), SubResource("Resource_c35pm"), SubResource("Resource_m0srv")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_1w1gv")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_8nv46"), SubResource("Resource_ighoc"), SubResource("Resource_c35pm"), SubResource("Resource_m0srv"), SubResource("Resource_24gmo")])
 stage_set = &"forge_intro_vessa"
 marker_prefix = &"S15"
 
-[sub_resource type="Resource" id="Resource_egpkk"]
+[sub_resource type="Resource" id="Resource_7ja2t"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_volley"
@@ -1059,7 +1069,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_7ja2t"]
+[sub_resource type="Resource" id="Resource_3cemb"]
 script = ExtResource("4_wga8u")
 kind = &"move"
 actor = &"rider"
@@ -1068,7 +1078,7 @@ params = {
 "speed": 6.0
 }
 
-[sub_resource type="Resource" id="Resource_3cemb"]
+[sub_resource type="Resource" id="Resource_kvu6u"]
 script = ExtResource("4_wga8u")
 at = 0.1
 kind = &"anim"
@@ -1077,7 +1087,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_kvu6u"]
+[sub_resource type="Resource" id="Resource_iheoj"]
 script = ExtResource("4_wga8u")
 at = 0.2
 kind = &"anim"
@@ -1086,7 +1096,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_iheoj"]
+[sub_resource type="Resource" id="Resource_3xhjk"]
 script = ExtResource("4_wga8u")
 at = 0.3
 kind = &"anim"
@@ -1096,7 +1106,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_3xhjk"]
+[sub_resource type="Resource" id="Resource_i8xcr"]
 script = ExtResource("4_wga8u")
 at = 0.5
 kind = &"anim"
@@ -1105,7 +1115,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_i8xcr"]
+[sub_resource type="Resource" id="Resource_2fs3i"]
 script = ExtResource("4_wga8u")
 at = 0.6
 kind = &"move"
@@ -1115,7 +1125,7 @@ params = {
 "speed": 2.5
 }
 
-[sub_resource type="Resource" id="Resource_2fs3i"]
+[sub_resource type="Resource" id="Resource_1ovxe"]
 script = ExtResource("4_wga8u")
 at = 0.6
 kind = &"move"
@@ -1125,7 +1135,7 @@ params = {
 "speed": 2.5
 }
 
-[sub_resource type="Resource" id="Resource_1ovxe"]
+[sub_resource type="Resource" id="Resource_pcsfq"]
 script = ExtResource("4_wga8u")
 at = 1.3
 kind = &"anim"
@@ -1134,7 +1144,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_pcsfq"]
+[sub_resource type="Resource" id="Resource_dpsv3"]
 script = ExtResource("4_wga8u")
 at = 1.5
 kind = &"anim"
@@ -1143,7 +1153,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_dpsv3"]
+[sub_resource type="Resource" id="Resource_hvv8q"]
 script = ExtResource("4_wga8u")
 at = 1.8
 kind = &"anim"
@@ -1152,7 +1162,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_hvv8q"]
+[sub_resource type="Resource" id="Resource_a65oj"]
 script = ExtResource("4_wga8u")
 at = 2.0
 kind = &"vfx"
@@ -1162,7 +1172,7 @@ params = {
 "scene": "res://art/cinematics/fx/fire_burst.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_a65oj"]
+[sub_resource type="Resource" id="Resource_5fru7"]
 script = ExtResource("3_4u4ub")
 id = &"S15U"
 duration = 3.6
@@ -1173,11 +1183,11 @@ look_from = Vector3(-1.5, 1.5, -1.8)
 look_to = Vector3(-0.5, 1.7, -2)
 fov_from = 46.0
 fov_to = 46.0
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_egpkk"), SubResource("Resource_7ja2t"), SubResource("Resource_3cemb"), SubResource("Resource_kvu6u"), SubResource("Resource_iheoj"), SubResource("Resource_3xhjk"), SubResource("Resource_i8xcr"), SubResource("Resource_2fs3i"), SubResource("Resource_1ovxe"), SubResource("Resource_pcsfq"), SubResource("Resource_dpsv3"), SubResource("Resource_hvv8q")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_7ja2t"), SubResource("Resource_3cemb"), SubResource("Resource_kvu6u"), SubResource("Resource_iheoj"), SubResource("Resource_3xhjk"), SubResource("Resource_i8xcr"), SubResource("Resource_2fs3i"), SubResource("Resource_1ovxe"), SubResource("Resource_pcsfq"), SubResource("Resource_dpsv3"), SubResource("Resource_hvv8q"), SubResource("Resource_a65oj")])
 stage_set = &"forge_intro_vessa"
 marker_prefix = &"S15U"
 
-[sub_resource type="Resource" id="Resource_5fru7"]
+[sub_resource type="Resource" id="Resource_i3xxu"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_columns"
@@ -1185,7 +1195,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_i3xxu"]
+[sub_resource type="Resource" id="Resource_xhxqk"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_volley"
@@ -1193,7 +1203,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_xhxqk"]
+[sub_resource type="Resource" id="Resource_6dlmv"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_fallen"
@@ -1201,7 +1211,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_6dlmv"]
+[sub_resource type="Resource" id="Resource_q1xso"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_embers"
@@ -1209,25 +1219,25 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_q1xso"]
+[sub_resource type="Resource" id="Resource_lqk4o"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"guard"
 target = Vector3(-1.5, 0, -2)
 
-[sub_resource type="Resource" id="Resource_lqk4o"]
+[sub_resource type="Resource" id="Resource_r32rr"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"guard2"
 target = Vector3(1.8, 0, -2.2)
 
-[sub_resource type="Resource" id="Resource_r32rr"]
+[sub_resource type="Resource" id="Resource_ul5yf"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"rider"
 target = Vector3(-1, 0, -6)
 
-[sub_resource type="Resource" id="Resource_ul5yf"]
+[sub_resource type="Resource" id="Resource_d4c64"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"vessa"
@@ -1236,7 +1246,17 @@ params = {
 "yaw_deg": 0.0
 }
 
-[sub_resource type="Resource" id="Resource_d4c64"]
+[sub_resource type="Resource" id="Resource_og7p5"]
+script = ExtResource("4_wga8u")
+at = 0.3
+kind = &"anim"
+actor = &"vessa"
+params = {
+"arg": "fierce",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_g7qag"]
 script = ExtResource("4_wga8u")
 at = 0.5
 kind = &"move"
@@ -1246,7 +1266,7 @@ params = {
 "speed": 1.2
 }
 
-[sub_resource type="Resource" id="Resource_og7p5"]
+[sub_resource type="Resource" id="Resource_ovf81"]
 script = ExtResource("4_wga8u")
 at = 2.0
 kind = &"vfx"
@@ -1257,7 +1277,7 @@ params = {
 "scene": "res://art/cinematics/fx/fire_pillar.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_g7qag"]
+[sub_resource type="Resource" id="Resource_rcdsd"]
 script = ExtResource("4_wga8u")
 at = 2.5
 kind = &"vfx"
@@ -1268,7 +1288,7 @@ params = {
 "scene": "res://art/cinematics/fx/fire_pillar.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_ovf81"]
+[sub_resource type="Resource" id="Resource_l4h0f"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1276,7 +1296,7 @@ text = "But she never waits. And fire that will not wait burns its own house."
 duration = 6.6
 voice = "res://assets/audio/voice/master/but_she_never_waits_a66dd99c.wav"
 
-[sub_resource type="Resource" id="Resource_rcdsd"]
+[sub_resource type="Resource" id="Resource_l67fc"]
 script = ExtResource("3_4u4ub")
 id = &"S16"
 duration = 7.0
@@ -1287,12 +1307,12 @@ look_from = Vector3(0, 0.8, 3)
 look_to = Vector3(0, 0.9, 2.5)
 fov_from = 42.0
 fov_to = 42.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_ovf81")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_5fru7"), SubResource("Resource_i3xxu"), SubResource("Resource_xhxqk"), SubResource("Resource_6dlmv"), SubResource("Resource_q1xso"), SubResource("Resource_lqk4o"), SubResource("Resource_r32rr"), SubResource("Resource_ul5yf"), SubResource("Resource_d4c64"), SubResource("Resource_og7p5"), SubResource("Resource_g7qag")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_l4h0f")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_i3xxu"), SubResource("Resource_xhxqk"), SubResource("Resource_6dlmv"), SubResource("Resource_q1xso"), SubResource("Resource_lqk4o"), SubResource("Resource_r32rr"), SubResource("Resource_ul5yf"), SubResource("Resource_d4c64"), SubResource("Resource_og7p5"), SubResource("Resource_g7qag"), SubResource("Resource_ovf81"), SubResource("Resource_rcdsd")])
 stage_set = &"forge_intro_vessa"
 marker_prefix = &"S16"
 
-[sub_resource type="Resource" id="Resource_l4h0f"]
+[sub_resource type="Resource" id="Resource_2gs2f"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"vessa"
@@ -1301,7 +1321,17 @@ params = {
 "yaw_deg": 0.0
 }
 
-[sub_resource type="Resource" id="Resource_l67fc"]
+[sub_resource type="Resource" id="Resource_ly6h0"]
+script = ExtResource("4_wga8u")
+at = 0.2
+kind = &"anim"
+actor = &"vessa"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_f1g5l"]
 script = ExtResource("4_wga8u")
 at = 0.5
 kind = &"anim"
@@ -1310,7 +1340,7 @@ params = {
 "hook": "play_level_up"
 }
 
-[sub_resource type="Resource" id="Resource_2gs2f"]
+[sub_resource type="Resource" id="Resource_icdvv"]
 script = ExtResource("4_wga8u")
 at = 0.5
 kind = &"vfx"
@@ -1321,7 +1351,7 @@ params = {
 "to": Vector3(0.8, 8, 6)
 }
 
-[sub_resource type="Resource" id="Resource_ly6h0"]
+[sub_resource type="Resource" id="Resource_v6rxa"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1329,7 +1359,7 @@ text = "Still, she laughed like sunrise. Vessa was my joy."
 duration = 5.6
 voice = "res://assets/audio/voice/master/still_she_laughed_like_57d11b3e.wav"
 
-[sub_resource type="Resource" id="Resource_f1g5l"]
+[sub_resource type="Resource" id="Resource_fxwgu"]
 script = ExtResource("3_4u4ub")
 id = &"S17"
 duration = 6.0
@@ -1340,12 +1370,12 @@ look_from = Vector3(0, 1.72, 6)
 look_to = Vector3(0, 1.72, 6)
 fov_from = 30.0
 fov_to = 30.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_ly6h0")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_l4h0f"), SubResource("Resource_l67fc"), SubResource("Resource_2gs2f")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_v6rxa")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_2gs2f"), SubResource("Resource_ly6h0"), SubResource("Resource_f1g5l"), SubResource("Resource_icdvv")])
 stage_set = &"forge_intro_vessa"
 marker_prefix = &"S17"
 
-[sub_resource type="Resource" id="Resource_icdvv"]
+[sub_resource type="Resource" id="Resource_y77ft"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_vortex"
@@ -1353,7 +1383,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_v6rxa"]
+[sub_resource type="Resource" id="Resource_stg5s"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_master"
@@ -1361,7 +1391,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_fxwgu"]
+[sub_resource type="Resource" id="Resource_o2py4"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"malrik_young"
@@ -1369,7 +1399,17 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_y77ft"]
+[sub_resource type="Resource" id="Resource_lckdn"]
+script = ExtResource("4_wga8u")
+at = 0.3
+kind = &"anim"
+actor = &"malrik_young"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_h00wn"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1377,7 +1417,7 @@ text = "Malrik. I found him reading tombstones by the light of one candle."
 duration = 5.6
 voice = "res://assets/audio/voice/master/malrik_i_found_him_915e2c7f.wav"
 
-[sub_resource type="Resource" id="Resource_stg5s"]
+[sub_resource type="Resource" id="Resource_wm68e"]
 script = ExtResource("3_4u4ub")
 id = &"S18"
 duration = 6.0
@@ -1390,12 +1430,12 @@ fov_from = 38.0
 fov_to = 38.0
 transition_in = 1
 transition_time = 0.6
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_y77ft")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_icdvv"), SubResource("Resource_v6rxa"), SubResource("Resource_fxwgu")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_h00wn")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_y77ft"), SubResource("Resource_stg5s"), SubResource("Resource_o2py4"), SubResource("Resource_lckdn")])
 stage_set = &"forge_intro_malrik"
 marker_prefix = &"S18"
 
-[sub_resource type="Resource" id="Resource_o2py4"]
+[sub_resource type="Resource" id="Resource_t3iif"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_master"
@@ -1403,7 +1443,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_lckdn"]
+[sub_resource type="Resource" id="Resource_fx3qp"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"malrik_army_host"
@@ -1411,7 +1451,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_h00wn"]
+[sub_resource type="Resource" id="Resource_a70um"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_tendrils"
@@ -1419,7 +1459,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_wm68e"]
+[sub_resource type="Resource" id="Resource_twthg"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_vortex"
@@ -1427,7 +1467,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_t3iif"]
+[sub_resource type="Resource" id="Resource_s72aj"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"malrik_young"
@@ -1435,7 +1475,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_fx3qp"]
+[sub_resource type="Resource" id="Resource_8vbl7"]
 script = ExtResource("4_wga8u")
 at = 0.4
 kind = &"anim"
@@ -1445,7 +1485,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_a70um"]
+[sub_resource type="Resource" id="Resource_niuh1"]
 script = ExtResource("4_wga8u")
 at = 0.7
 kind = &"vfx"
@@ -1455,7 +1495,7 @@ params = {
 "scene": "res://art/cinematics/fx/shadow_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_twthg"]
+[sub_resource type="Resource" id="Resource_7lbde"]
 script = ExtResource("4_wga8u")
 at = 0.8
 kind = &"visible"
@@ -1464,7 +1504,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_s72aj"]
+[sub_resource type="Resource" id="Resource_qefxj"]
 script = ExtResource("4_wga8u")
 at = 1.2
 kind = &"visible"
@@ -1473,7 +1513,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_8vbl7"]
+[sub_resource type="Resource" id="Resource_7t6b2"]
 script = ExtResource("4_wga8u")
 at = 1.6
 kind = &"visible"
@@ -1482,7 +1522,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_niuh1"]
+[sub_resource type="Resource" id="Resource_8lqqg"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1490,7 +1530,7 @@ text = "Nothing is hidden from him. The dark itself comes when he calls."
 duration = 6.6
 voice = "res://assets/audio/voice/master/nothing_is_hidden_from_3efbf049.wav"
 
-[sub_resource type="Resource" id="Resource_7lbde"]
+[sub_resource type="Resource" id="Resource_wphm8"]
 script = ExtResource("3_4u4ub")
 id = &"S19"
 duration = 3.4
@@ -1501,12 +1541,12 @@ look_from = Vector3(-0.5, 2.3, -1)
 look_to = Vector3(-0.5, 2.5, -2)
 fov_from = 46.0
 fov_to = 46.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_niuh1")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_o2py4"), SubResource("Resource_lckdn"), SubResource("Resource_h00wn"), SubResource("Resource_wm68e"), SubResource("Resource_t3iif"), SubResource("Resource_fx3qp"), SubResource("Resource_a70um"), SubResource("Resource_twthg"), SubResource("Resource_s72aj"), SubResource("Resource_8vbl7")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_8lqqg")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_t3iif"), SubResource("Resource_fx3qp"), SubResource("Resource_a70um"), SubResource("Resource_twthg"), SubResource("Resource_s72aj"), SubResource("Resource_8vbl7"), SubResource("Resource_niuh1"), SubResource("Resource_7lbde"), SubResource("Resource_qefxj"), SubResource("Resource_7t6b2")])
 stage_set = &"forge_intro_malrik"
 marker_prefix = &"S19"
 
-[sub_resource type="Resource" id="Resource_qefxj"]
+[sub_resource type="Resource" id="Resource_25hjf"]
 script = ExtResource("4_wga8u")
 kind = &"anim"
 actor = &"hexweaver"
@@ -1515,7 +1555,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_7t6b2"]
+[sub_resource type="Resource" id="Resource_h3lwd"]
 script = ExtResource("4_wga8u")
 at = 0.2
 kind = &"anim"
@@ -1524,7 +1564,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_8lqqg"]
+[sub_resource type="Resource" id="Resource_iiwsm"]
 script = ExtResource("4_wga8u")
 at = 0.3
 kind = &"move"
@@ -1534,7 +1574,7 @@ params = {
 "speed": 6.0
 }
 
-[sub_resource type="Resource" id="Resource_wphm8"]
+[sub_resource type="Resource" id="Resource_xx448"]
 script = ExtResource("4_wga8u")
 at = 0.4
 kind = &"move"
@@ -1544,7 +1584,7 @@ params = {
 "speed": 6.0
 }
 
-[sub_resource type="Resource" id="Resource_25hjf"]
+[sub_resource type="Resource" id="Resource_07vd0"]
 script = ExtResource("4_wga8u")
 at = 0.5
 kind = &"anim"
@@ -1553,7 +1593,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_h3lwd"]
+[sub_resource type="Resource" id="Resource_rvv38"]
 script = ExtResource("4_wga8u")
 at = 0.8
 kind = &"anim"
@@ -1562,7 +1602,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_iiwsm"]
+[sub_resource type="Resource" id="Resource_uqwg1"]
 script = ExtResource("4_wga8u")
 at = 1.2
 kind = &"anim"
@@ -1571,7 +1611,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_xx448"]
+[sub_resource type="Resource" id="Resource_ubm45"]
 script = ExtResource("4_wga8u")
 at = 2.2
 kind = &"vfx"
@@ -1581,7 +1621,7 @@ params = {
 "scene": "res://art/cinematics/fx/umbral_shroud.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_07vd0"]
+[sub_resource type="Resource" id="Resource_vrjat"]
 script = ExtResource("3_4u4ub")
 id = &"S19U"
 duration = 3.6
@@ -1592,11 +1632,11 @@ look_from = Vector3(-1, 1.6, -1)
 look_to = Vector3(0, 1.9, -1.5)
 fov_from = 46.0
 fov_to = 46.0
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_qefxj"), SubResource("Resource_7t6b2"), SubResource("Resource_8lqqg"), SubResource("Resource_wphm8"), SubResource("Resource_25hjf"), SubResource("Resource_h3lwd"), SubResource("Resource_iiwsm"), SubResource("Resource_xx448")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_25hjf"), SubResource("Resource_h3lwd"), SubResource("Resource_iiwsm"), SubResource("Resource_xx448"), SubResource("Resource_07vd0"), SubResource("Resource_rvv38"), SubResource("Resource_uqwg1"), SubResource("Resource_ubm45")])
 stage_set = &"forge_intro_malrik"
 marker_prefix = &"S19U"
 
-[sub_resource type="Resource" id="Resource_rvv38"]
+[sub_resource type="Resource" id="Resource_gnakq"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"malrik_army_host"
@@ -1604,7 +1644,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_uqwg1"]
+[sub_resource type="Resource" id="Resource_807fq"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_tendrils"
@@ -1612,7 +1652,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_ubm45"]
+[sub_resource type="Resource" id="Resource_2p6cg"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_vortex"
@@ -1620,7 +1660,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_vrjat"]
+[sub_resource type="Resource" id="Resource_jhtjs"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_crown"
@@ -1628,7 +1668,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_gnakq"]
+[sub_resource type="Resource" id="Resource_qtusx"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"sknight"
@@ -1636,7 +1676,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_807fq"]
+[sub_resource type="Resource" id="Resource_6sue6"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"hexweaver"
@@ -1644,7 +1684,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_2p6cg"]
+[sub_resource type="Resource" id="Resource_yvps7"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shade"
@@ -1652,7 +1692,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_jhtjs"]
+[sub_resource type="Resource" id="Resource_lqflx"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shade2"
@@ -1660,7 +1700,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_qtusx"]
+[sub_resource type="Resource" id="Resource_ukovj"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"nknight"
@@ -1668,7 +1708,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_6sue6"]
+[sub_resource type="Resource" id="Resource_erv32"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"hound"
@@ -1676,7 +1716,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_yvps7"]
+[sub_resource type="Resource" id="Resource_ghc3n"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"hound2"
@@ -1684,7 +1724,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_lqflx"]
+[sub_resource type="Resource" id="Resource_f0u63"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"bleakbow"
@@ -1692,7 +1732,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_ukovj"]
+[sub_resource type="Resource" id="Resource_bqak5"]
 script = ExtResource("4_wga8u")
 at = 2.2
 kind = &"anim"
@@ -1701,7 +1741,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_erv32"]
+[sub_resource type="Resource" id="Resource_u3kp3"]
 script = ExtResource("4_wga8u")
 at = 2.4
 kind = &"vfx"
@@ -1712,7 +1752,7 @@ params = {
 "scene": "res://art/cinematics/fx/regalia_burst.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_ghc3n"]
+[sub_resource type="Resource" id="Resource_jnoep"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1720,7 +1760,7 @@ text = "But he is never full. Whatever he holds, he wants more."
 duration = 5.6
 voice = "res://assets/audio/voice/master/but_he_is_never_adfcea4c.wav"
 
-[sub_resource type="Resource" id="Resource_f0u63"]
+[sub_resource type="Resource" id="Resource_jdkyf"]
 script = ExtResource("3_4u4ub")
 id = &"S20"
 duration = 6.0
@@ -1731,12 +1771,12 @@ look_from = Vector3(1.2, 1.3, 2.5)
 look_to = Vector3(0.9, 1.4, 2.3)
 fov_from = 36.0
 fov_to = 36.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_ghc3n")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_rvv38"), SubResource("Resource_uqwg1"), SubResource("Resource_ubm45"), SubResource("Resource_vrjat"), SubResource("Resource_gnakq"), SubResource("Resource_807fq"), SubResource("Resource_2p6cg"), SubResource("Resource_jhtjs"), SubResource("Resource_qtusx"), SubResource("Resource_6sue6"), SubResource("Resource_yvps7"), SubResource("Resource_lqflx"), SubResource("Resource_ukovj"), SubResource("Resource_erv32")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_jnoep")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_gnakq"), SubResource("Resource_807fq"), SubResource("Resource_2p6cg"), SubResource("Resource_jhtjs"), SubResource("Resource_qtusx"), SubResource("Resource_6sue6"), SubResource("Resource_yvps7"), SubResource("Resource_lqflx"), SubResource("Resource_ukovj"), SubResource("Resource_erv32"), SubResource("Resource_ghc3n"), SubResource("Resource_f0u63"), SubResource("Resource_bqak5"), SubResource("Resource_u3kp3")])
 stage_set = &"forge_intro_malrik"
 marker_prefix = &"S20"
 
-[sub_resource type="Resource" id="Resource_bqak5"]
+[sub_resource type="Resource" id="Resource_q2u4g"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_crown"
@@ -1744,7 +1784,17 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_u3kp3"]
+[sub_resource type="Resource" id="Resource_kldx4"]
+script = ExtResource("4_wga8u")
+at = 0.3
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "fierce",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_77sbt"]
 script = ExtResource("4_wga8u")
 at = 6.9
 kind = &"fade"
@@ -1754,7 +1804,7 @@ params = {
 "time": 1.0
 }
 
-[sub_resource type="Resource" id="Resource_jnoep"]
+[sub_resource type="Resource" id="Resource_6umap"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1762,7 +1812,7 @@ text = "He thinks I gave him leftovers. I gave the dark to the one it could not 
 duration = 7.6
 voice = "res://assets/audio/voice/master/he_thinks_i_gave_10970b83.wav"
 
-[sub_resource type="Resource" id="Resource_jdkyf"]
+[sub_resource type="Resource" id="Resource_g52k3"]
 script = ExtResource("3_4u4ub")
 id = &"S21"
 duration = 8.0
@@ -1773,12 +1823,12 @@ look_from = Vector3(0, 1.8, 2)
 look_to = Vector3(0, 1.8, 2)
 fov_from = 30.0
 fov_to = 30.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_jnoep")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_bqak5"), SubResource("Resource_u3kp3")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_6umap")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_q2u4g"), SubResource("Resource_kldx4"), SubResource("Resource_77sbt")])
 stage_set = &"forge_intro_malrik"
 marker_prefix = &"S21"
 
-[sub_resource type="Resource" id="Resource_q2u4g"]
+[sub_resource type="Resource" id="Resource_mwwkh"]
 script = ExtResource("4_wga8u")
 kind = &"fade"
 params = {
@@ -1787,7 +1837,7 @@ params = {
 "time": 0.01
 }
 
-[sub_resource type="Resource" id="Resource_kldx4"]
+[sub_resource type="Resource" id="Resource_ok5cs"]
 script = ExtResource("4_wga8u")
 kind = &"move"
 actor = &"foe"
@@ -1796,7 +1846,7 @@ params = {
 "speed": 2.2
 }
 
-[sub_resource type="Resource" id="Resource_77sbt"]
+[sub_resource type="Resource" id="Resource_xh0co"]
 script = ExtResource("4_wga8u")
 kind = &"move"
 actor = &"foe2"
@@ -1805,7 +1855,7 @@ params = {
 "speed": 2.0
 }
 
-[sub_resource type="Resource" id="Resource_6umap"]
+[sub_resource type="Resource" id="Resource_047g7"]
 script = ExtResource("4_wga8u")
 kind = &"move"
 actor = &"foe3"
@@ -1814,7 +1864,7 @@ params = {
 "speed": 2.6
 }
 
-[sub_resource type="Resource" id="Resource_g52k3"]
+[sub_resource type="Resource" id="Resource_oj5ig"]
 script = ExtResource("4_wga8u")
 at = 1.0
 kind = &"anim"
@@ -1823,7 +1873,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_mwwkh"]
+[sub_resource type="Resource" id="Resource_ol7dl"]
 script = ExtResource("4_wga8u")
 at = 1.6
 kind = &"anim"
@@ -1832,7 +1882,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_ok5cs"]
+[sub_resource type="Resource" id="Resource_fval8"]
 script = ExtResource("4_wga8u")
 at = 2.4
 kind = &"anim"
@@ -1841,7 +1891,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_xh0co"]
+[sub_resource type="Resource" id="Resource_45ds6"]
 script = ExtResource("4_wga8u")
 at = 3.0
 kind = &"anim"
@@ -1851,7 +1901,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_047g7"]
+[sub_resource type="Resource" id="Resource_jjjwg"]
 script = ExtResource("4_wga8u")
 at = 3.2
 kind = &"vfx"
@@ -1862,7 +1912,7 @@ params = {
 "scene": "res://art/cinematics/fx/freeze_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_oj5ig"]
+[sub_resource type="Resource" id="Resource_0prfi"]
 script = ExtResource("4_wga8u")
 at = 3.4
 kind = &"anim"
@@ -1871,7 +1921,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_ol7dl"]
+[sub_resource type="Resource" id="Resource_nxs64"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -1879,7 +1929,7 @@ text = "Torvald, the eldest. Where he stands, the ice holds, and so does the lin
 duration = 6.6
 voice = "res://assets/audio/voice/master/torvald_the_eldest_where_f5a25caa.wav"
 
-[sub_resource type="Resource" id="Resource_fval8"]
+[sub_resource type="Resource" id="Resource_ujr0m"]
 script = ExtResource("3_4u4ub")
 id = &"S22"
 duration = 7.0
@@ -1892,12 +1942,12 @@ fov_from = 46.0
 fov_to = 46.0
 transition_in = 1
 transition_time = 0.6
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_ol7dl")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_q2u4g"), SubResource("Resource_kldx4"), SubResource("Resource_77sbt"), SubResource("Resource_6umap"), SubResource("Resource_g52k3"), SubResource("Resource_mwwkh"), SubResource("Resource_ok5cs"), SubResource("Resource_xh0co"), SubResource("Resource_047g7"), SubResource("Resource_oj5ig")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_nxs64")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_mwwkh"), SubResource("Resource_ok5cs"), SubResource("Resource_xh0co"), SubResource("Resource_047g7"), SubResource("Resource_oj5ig"), SubResource("Resource_ol7dl"), SubResource("Resource_fval8"), SubResource("Resource_45ds6"), SubResource("Resource_jjjwg"), SubResource("Resource_0prfi")])
 stage_set = &"forge_intro_torvald"
 marker_prefix = &"S22"
 
-[sub_resource type="Resource" id="Resource_45ds6"]
+[sub_resource type="Resource" id="Resource_27w4v"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_line"
@@ -1905,7 +1955,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_jjjwg"]
+[sub_resource type="Resource" id="Resource_xi34q"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_charge"
@@ -1913,7 +1963,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_0prfi"]
+[sub_resource type="Resource" id="Resource_olj74"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_burst"
@@ -1921,7 +1971,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_nxs64"]
+[sub_resource type="Resource" id="Resource_4psxh"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_snow"
@@ -1929,7 +1979,17 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_ujr0m"]
+[sub_resource type="Resource" id="Resource_h3dgs"]
+script = ExtResource("4_wga8u")
+at = 0.3
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "fierce",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_rovpi"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shield1"
@@ -1937,7 +1997,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_27w4v"]
+[sub_resource type="Resource" id="Resource_j7tb1"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shield2"
@@ -1945,7 +2005,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_xi34q"]
+[sub_resource type="Resource" id="Resource_wi57e"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shield3"
@@ -1953,7 +2013,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_olj74"]
+[sub_resource type="Resource" id="Resource_j4pb8"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"foe"
@@ -1962,7 +2022,7 @@ params = {
 "yaw_deg": 180.0
 }
 
-[sub_resource type="Resource" id="Resource_4psxh"]
+[sub_resource type="Resource" id="Resource_wiol8"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"foe2"
@@ -1971,7 +2031,7 @@ params = {
 "yaw_deg": 178.0
 }
 
-[sub_resource type="Resource" id="Resource_h3dgs"]
+[sub_resource type="Resource" id="Resource_e6eg0"]
 script = ExtResource("4_wga8u")
 kind = &"teleport"
 actor = &"foe3"
@@ -1980,7 +2040,7 @@ params = {
 "yaw_deg": 176.0
 }
 
-[sub_resource type="Resource" id="Resource_rovpi"]
+[sub_resource type="Resource" id="Resource_nj0w0"]
 script = ExtResource("4_wga8u")
 at = 0.5
 kind = &"anim"
@@ -1990,7 +2050,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_j7tb1"]
+[sub_resource type="Resource" id="Resource_wanx8"]
 script = ExtResource("4_wga8u")
 at = 0.8
 kind = &"vfx"
@@ -2001,7 +2061,7 @@ params = {
 "scene": "res://art/cinematics/fx/ice_burst.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_wi57e"]
+[sub_resource type="Resource" id="Resource_wjklm"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2009,7 +2069,7 @@ text = "Nothing breaks him. Not armies, not winters. Not time."
 duration = 6.6
 voice = "res://assets/audio/voice/master/nothing_breaks_him_not_9a4ca6da.wav"
 
-[sub_resource type="Resource" id="Resource_j4pb8"]
+[sub_resource type="Resource" id="Resource_y8tve"]
 script = ExtResource("3_4u4ub")
 id = &"S23"
 duration = 3.4
@@ -2020,12 +2080,12 @@ look_from = Vector3(0, 1.9, -1.2)
 look_to = Vector3(0, 2, -1.2)
 fov_from = 44.0
 fov_to = 44.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_wi57e")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_45ds6"), SubResource("Resource_jjjwg"), SubResource("Resource_0prfi"), SubResource("Resource_nxs64"), SubResource("Resource_ujr0m"), SubResource("Resource_27w4v"), SubResource("Resource_xi34q"), SubResource("Resource_olj74"), SubResource("Resource_4psxh"), SubResource("Resource_h3dgs"), SubResource("Resource_rovpi"), SubResource("Resource_j7tb1")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_wjklm")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_27w4v"), SubResource("Resource_xi34q"), SubResource("Resource_olj74"), SubResource("Resource_4psxh"), SubResource("Resource_h3dgs"), SubResource("Resource_rovpi"), SubResource("Resource_j7tb1"), SubResource("Resource_wi57e"), SubResource("Resource_j4pb8"), SubResource("Resource_wiol8"), SubResource("Resource_e6eg0"), SubResource("Resource_nj0w0"), SubResource("Resource_wanx8")])
 stage_set = &"forge_intro_torvald"
 marker_prefix = &"S23"
 
-[sub_resource type="Resource" id="Resource_wiol8"]
+[sub_resource type="Resource" id="Resource_5tyxn"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_line"
@@ -2033,7 +2093,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_e6eg0"]
+[sub_resource type="Resource" id="Resource_lix47"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_charge"
@@ -2041,7 +2101,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_nj0w0"]
+[sub_resource type="Resource" id="Resource_jecsu"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_burst"
@@ -2049,7 +2109,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_wanx8"]
+[sub_resource type="Resource" id="Resource_aklsm"]
 script = ExtResource("4_wga8u")
 at = 0.2
 kind = &"anim"
@@ -2058,7 +2118,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_wjklm"]
+[sub_resource type="Resource" id="Resource_riy80"]
 script = ExtResource("4_wga8u")
 at = 0.5
 kind = &"anim"
@@ -2067,7 +2127,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_y8tve"]
+[sub_resource type="Resource" id="Resource_nymay"]
 script = ExtResource("4_wga8u")
 at = 0.8
 kind = &"anim"
@@ -2076,7 +2136,7 @@ params = {
 "hook": "play_trample"
 }
 
-[sub_resource type="Resource" id="Resource_5tyxn"]
+[sub_resource type="Resource" id="Resource_wyhhj"]
 script = ExtResource("4_wga8u")
 at = 1.2
 kind = &"anim"
@@ -2085,7 +2145,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_lix47"]
+[sub_resource type="Resource" id="Resource_58kyl"]
 script = ExtResource("4_wga8u")
 at = 1.5
 kind = &"vfx"
@@ -2096,7 +2156,7 @@ params = {
 "scene": "res://art/cinematics/fx/freeze_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_jecsu"]
+[sub_resource type="Resource" id="Resource_eamxo"]
 script = ExtResource("3_4u4ub")
 id = &"S23U"
 duration = 3.6
@@ -2107,11 +2167,11 @@ look_from = Vector3(-2, 2, -1.5)
 look_to = Vector3(0, 2.4, -1.5)
 fov_from = 48.0
 fov_to = 48.0
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_wiol8"), SubResource("Resource_e6eg0"), SubResource("Resource_nj0w0"), SubResource("Resource_wanx8"), SubResource("Resource_wjklm"), SubResource("Resource_y8tve"), SubResource("Resource_5tyxn"), SubResource("Resource_lix47")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_5tyxn"), SubResource("Resource_lix47"), SubResource("Resource_jecsu"), SubResource("Resource_aklsm"), SubResource("Resource_riy80"), SubResource("Resource_nymay"), SubResource("Resource_wyhhj"), SubResource("Resource_58kyl")])
 stage_set = &"forge_intro_torvald"
 marker_prefix = &"S23U"
 
-[sub_resource type="Resource" id="Resource_aklsm"]
+[sub_resource type="Resource" id="Resource_57r2a"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_line"
@@ -2119,7 +2179,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_riy80"]
+[sub_resource type="Resource" id="Resource_day5b"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_charge"
@@ -2127,7 +2187,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_nymay"]
+[sub_resource type="Resource" id="Resource_u3uv8"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_icewall"
@@ -2135,7 +2195,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_wyhhj"]
+[sub_resource type="Resource" id="Resource_1y47v"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_cracks"
@@ -2143,7 +2203,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_58kyl"]
+[sub_resource type="Resource" id="Resource_bpuef"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"messenger"
@@ -2151,7 +2211,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_eamxo"]
+[sub_resource type="Resource" id="Resource_0nqww"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"foe"
@@ -2159,7 +2219,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_57r2a"]
+[sub_resource type="Resource" id="Resource_mrt0f"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"foe2"
@@ -2167,7 +2227,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_day5b"]
+[sub_resource type="Resource" id="Resource_2am4k"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"foe3"
@@ -2175,7 +2235,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_u3uv8"]
+[sub_resource type="Resource" id="Resource_oplts"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shield1"
@@ -2183,7 +2243,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_1y47v"]
+[sub_resource type="Resource" id="Resource_n0oay"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shield2"
@@ -2191,7 +2251,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_bpuef"]
+[sub_resource type="Resource" id="Resource_7n7mm"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"shield3"
@@ -2199,7 +2259,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_0nqww"]
+[sub_resource type="Resource" id="Resource_br055"]
 script = ExtResource("4_wga8u")
 at = 3.8
 kind = &"vfx"
@@ -2210,7 +2270,7 @@ params = {
 "scene": "res://art/cinematics/fx/freeze_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_mrt0f"]
+[sub_resource type="Resource" id="Resource_0pfc8"]
 script = ExtResource("4_wga8u")
 at = 4.6
 kind = &"face"
@@ -2220,7 +2280,7 @@ params = {
 "yaw_deg": 150.0
 }
 
-[sub_resource type="Resource" id="Resource_2am4k"]
+[sub_resource type="Resource" id="Resource_v0ffs"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2228,7 +2288,7 @@ text = "But he waits too long, and trusts slow ice more than quick friends."
 duration = 6.6
 voice = "res://assets/audio/voice/master/but_he_waits_too_7019f3d6.wav"
 
-[sub_resource type="Resource" id="Resource_oplts"]
+[sub_resource type="Resource" id="Resource_cq7qd"]
 script = ExtResource("3_4u4ub")
 id = &"S24"
 duration = 7.0
@@ -2239,12 +2299,12 @@ look_from = Vector3(0.9, 1.3, 4.2)
 look_to = Vector3(0.9, 1.3, 4.2)
 fov_from = 40.0
 fov_to = 40.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_2am4k")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_aklsm"), SubResource("Resource_riy80"), SubResource("Resource_nymay"), SubResource("Resource_wyhhj"), SubResource("Resource_58kyl"), SubResource("Resource_eamxo"), SubResource("Resource_57r2a"), SubResource("Resource_day5b"), SubResource("Resource_u3uv8"), SubResource("Resource_1y47v"), SubResource("Resource_bpuef"), SubResource("Resource_0nqww"), SubResource("Resource_mrt0f")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_v0ffs")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_57r2a"), SubResource("Resource_day5b"), SubResource("Resource_u3uv8"), SubResource("Resource_1y47v"), SubResource("Resource_bpuef"), SubResource("Resource_0nqww"), SubResource("Resource_mrt0f"), SubResource("Resource_2am4k"), SubResource("Resource_oplts"), SubResource("Resource_n0oay"), SubResource("Resource_7n7mm"), SubResource("Resource_br055"), SubResource("Resource_0pfc8")])
 stage_set = &"forge_intro_torvald"
 marker_prefix = &"S24"
 
-[sub_resource type="Resource" id="Resource_n0oay"]
+[sub_resource type="Resource" id="Resource_twuox"]
 script = ExtResource("4_wga8u")
 kind = &"face"
 actor = &"torvald"
@@ -2253,7 +2313,7 @@ params = {
 "yaw_deg": 0.0
 }
 
-[sub_resource type="Resource" id="Resource_7n7mm"]
+[sub_resource type="Resource" id="Resource_y8bfq"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"messenger"
@@ -2261,7 +2321,17 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_br055"]
+[sub_resource type="Resource" id="Resource_je74j"]
+script = ExtResource("4_wga8u")
+at = 0.2
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_4vnwb"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2269,7 +2339,7 @@ text = "I left him my coldest secret. Torvald was my patience."
 duration = 5.6
 voice = "res://assets/audio/voice/master/i_left_him_my_5d4b36a7.wav"
 
-[sub_resource type="Resource" id="Resource_0pfc8"]
+[sub_resource type="Resource" id="Resource_d3hnt"]
 script = ExtResource("3_4u4ub")
 id = &"S25"
 duration = 2.6
@@ -2280,12 +2350,12 @@ look_from = Vector3(0, 1.9, -1.2)
 look_to = Vector3(0, 1.9, -1.2)
 fov_from = 15.0
 fov_to = 15.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_br055")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_n0oay"), SubResource("Resource_7n7mm")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_4vnwb")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_twuox"), SubResource("Resource_y8bfq"), SubResource("Resource_je74j")])
 stage_set = &"forge_intro_torvald"
 marker_prefix = &"S25"
 
-[sub_resource type="Resource" id="Resource_v0ffs"]
+[sub_resource type="Resource" id="Resource_8rcnh"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"messenger"
@@ -2293,7 +2363,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_cq7qd"]
+[sub_resource type="Resource" id="Resource_xyj00"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_line"
@@ -2301,7 +2371,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_twuox"]
+[sub_resource type="Resource" id="Resource_siwh0"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"army_charge"
@@ -2309,7 +2379,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_y8bfq"]
+[sub_resource type="Resource" id="Resource_svohr"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_snow"
@@ -2317,7 +2387,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_je74j"]
+[sub_resource type="Resource" id="Resource_0b6q8"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_heart"
@@ -2325,7 +2395,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_4vnwb"]
+[sub_resource type="Resource" id="Resource_i03q6"]
 script = ExtResource("3_4u4ub")
 id = &"S25D"
 duration = 3.4
@@ -2336,11 +2406,11 @@ look_from = Vector3(0, 2.1, -1.2)
 look_to = Vector3(0.5, 0, 7.5)
 fov_from = 30.0
 fov_to = 50.0
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_v0ffs"), SubResource("Resource_cq7qd"), SubResource("Resource_twuox"), SubResource("Resource_y8bfq"), SubResource("Resource_je74j")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_8rcnh"), SubResource("Resource_xyj00"), SubResource("Resource_siwh0"), SubResource("Resource_svohr"), SubResource("Resource_0b6q8")])
 stage_set = &"forge_intro_torvald"
 marker_prefix = &"S25D"
 
-[sub_resource type="Resource" id="Resource_d3hnt"]
+[sub_resource type="Resource" id="Resource_l5ggd"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_vines"
@@ -2348,7 +2418,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_8rcnh"]
+[sub_resource type="Resource" id="Resource_i0sf4"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"ysolde_fx_master"
@@ -2356,7 +2426,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_xyj00"]
+[sub_resource type="Resource" id="Resource_bhe2l"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"ysolde_young"
@@ -2364,7 +2434,17 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_siwh0"]
+[sub_resource type="Resource" id="Resource_8doc3"]
+script = ExtResource("4_wga8u")
+at = 0.3
+kind = &"anim"
+actor = &"ysolde_young"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_ou8y3"]
 script = ExtResource("4_wga8u")
 at = 1.5
 kind = &"anim"
@@ -2374,7 +2454,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_svohr"]
+[sub_resource type="Resource" id="Resource_7ifn8"]
 script = ExtResource("4_wga8u")
 at = 2.0
 kind = &"vfx"
@@ -2385,7 +2465,7 @@ params = {
 "scene": "res://art/cinematics/fx/bloom_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_0b6q8"]
+[sub_resource type="Resource" id="Resource_ped3c"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2393,7 +2473,7 @@ text = "Ysolde. I found her coaxing a sapling through the frost."
 duration = 6.6
 voice = "res://assets/audio/voice/master/ysolde_i_found_her_85d2e563.wav"
 
-[sub_resource type="Resource" id="Resource_i03q6"]
+[sub_resource type="Resource" id="Resource_80nnt"]
 script = ExtResource("3_4u4ub")
 id = &"S26"
 duration = 7.0
@@ -2406,12 +2486,12 @@ fov_from = 36.0
 fov_to = 36.0
 transition_in = 1
 transition_time = 0.6
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_0b6q8")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_d3hnt"), SubResource("Resource_8rcnh"), SubResource("Resource_xyj00"), SubResource("Resource_siwh0"), SubResource("Resource_svohr")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_ped3c")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_l5ggd"), SubResource("Resource_i0sf4"), SubResource("Resource_bhe2l"), SubResource("Resource_8doc3"), SubResource("Resource_ou8y3"), SubResource("Resource_7ifn8")])
 stage_set = &"forge_intro_ysolde"
 marker_prefix = &"S26"
 
-[sub_resource type="Resource" id="Resource_l5ggd"]
+[sub_resource type="Resource" id="Resource_7lwru"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"ysolde_fx_master"
@@ -2419,7 +2499,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_i0sf4"]
+[sub_resource type="Resource" id="Resource_puo8e"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"ysolde_army_host"
@@ -2427,7 +2507,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_bhe2l"]
+[sub_resource type="Resource" id="Resource_8i3nu"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_vines"
@@ -2435,7 +2515,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_8doc3"]
+[sub_resource type="Resource" id="Resource_0ctnl"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"ysolde_young"
@@ -2443,7 +2523,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_ou8y3"]
+[sub_resource type="Resource" id="Resource_uhkfn"]
 script = ExtResource("4_wga8u")
 at = 0.3
 kind = &"anim"
@@ -2453,7 +2533,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_7ifn8"]
+[sub_resource type="Resource" id="Resource_wenok"]
 script = ExtResource("4_wga8u")
 at = 0.6
 kind = &"vfx"
@@ -2463,7 +2543,7 @@ params = {
 "scene": "res://art/cinematics/fx/bloom_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_ped3c"]
+[sub_resource type="Resource" id="Resource_8b8n8"]
 script = ExtResource("4_wga8u")
 at = 1.0
 kind = &"anim"
@@ -2473,7 +2553,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_80nnt"]
+[sub_resource type="Resource" id="Resource_kctch"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2481,7 +2561,7 @@ text = "Burn her forest down, and it grows back. Every spring. Every time."
 duration = 6.6
 voice = "res://assets/audio/voice/master/burn_her_forest_down_16f3dda5.wav"
 
-[sub_resource type="Resource" id="Resource_7lwru"]
+[sub_resource type="Resource" id="Resource_cajc2"]
 script = ExtResource("3_4u4ub")
 id = &"S27"
 duration = 3.4
@@ -2492,12 +2572,12 @@ look_from = Vector3(5, 2.6, -0.5)
 look_to = Vector3(4, 2.8, -1)
 fov_from = 44.0
 fov_to = 44.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_80nnt")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_l5ggd"), SubResource("Resource_i0sf4"), SubResource("Resource_bhe2l"), SubResource("Resource_8doc3"), SubResource("Resource_ou8y3"), SubResource("Resource_7ifn8"), SubResource("Resource_ped3c")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_kctch")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_7lwru"), SubResource("Resource_puo8e"), SubResource("Resource_8i3nu"), SubResource("Resource_0ctnl"), SubResource("Resource_uhkfn"), SubResource("Resource_wenok"), SubResource("Resource_8b8n8")])
 stage_set = &"forge_intro_ysolde"
 marker_prefix = &"S27"
 
-[sub_resource type="Resource" id="Resource_puo8e"]
+[sub_resource type="Resource" id="Resource_qcma1"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_tree"
@@ -2505,7 +2585,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_8i3nu"]
+[sub_resource type="Resource" id="Resource_r6hii"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"archer1"
@@ -2513,7 +2593,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_0ctnl"]
+[sub_resource type="Resource" id="Resource_o8bmn"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"archer2"
@@ -2521,7 +2601,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_uhkfn"]
+[sub_resource type="Resource" id="Resource_q6mg0"]
 script = ExtResource("4_wga8u")
 at = 0.1
 kind = &"anim"
@@ -2530,7 +2610,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_wenok"]
+[sub_resource type="Resource" id="Resource_efagb"]
 script = ExtResource("4_wga8u")
 at = 0.3
 kind = &"anim"
@@ -2539,7 +2619,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_8b8n8"]
+[sub_resource type="Resource" id="Resource_u51dk"]
 script = ExtResource("4_wga8u")
 at = 0.4
 kind = &"move"
@@ -2549,7 +2629,7 @@ params = {
 "speed": 7.0
 }
 
-[sub_resource type="Resource" id="Resource_kctch"]
+[sub_resource type="Resource" id="Resource_kkkdj"]
 script = ExtResource("4_wga8u")
 at = 0.7
 kind = &"anim"
@@ -2558,7 +2638,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_cajc2"]
+[sub_resource type="Resource" id="Resource_ct08o"]
 script = ExtResource("4_wga8u")
 at = 0.8
 kind = &"anim"
@@ -2567,7 +2647,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_qcma1"]
+[sub_resource type="Resource" id="Resource_fqmu1"]
 script = ExtResource("4_wga8u")
 at = 1.0
 kind = &"visible"
@@ -2576,7 +2656,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_r6hii"]
+[sub_resource type="Resource" id="Resource_ggw5i"]
 script = ExtResource("4_wga8u")
 at = 1.0
 kind = &"visible"
@@ -2585,7 +2665,7 @@ params = {
 "on": true
 }
 
-[sub_resource type="Resource" id="Resource_o8bmn"]
+[sub_resource type="Resource" id="Resource_a1d0n"]
 script = ExtResource("4_wga8u")
 at = 1.2
 kind = &"anim"
@@ -2594,7 +2674,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_q6mg0"]
+[sub_resource type="Resource" id="Resource_12j08"]
 script = ExtResource("4_wga8u")
 at = 1.6
 kind = &"anim"
@@ -2603,7 +2683,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_efagb"]
+[sub_resource type="Resource" id="Resource_1wlnp"]
 script = ExtResource("4_wga8u")
 at = 1.7
 kind = &"anim"
@@ -2612,7 +2692,7 @@ params = {
 "hook": "play_attack"
 }
 
-[sub_resource type="Resource" id="Resource_u51dk"]
+[sub_resource type="Resource" id="Resource_vudbo"]
 script = ExtResource("4_wga8u")
 at = 1.8
 kind = &"vfx"
@@ -2623,7 +2703,7 @@ params = {
 "scene": "res://art/cinematics/fx/bloom_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_kkkdj"]
+[sub_resource type="Resource" id="Resource_7sas2"]
 script = ExtResource("3_4u4ub")
 id = &"S27U"
 duration = 3.6
@@ -2634,11 +2714,11 @@ look_from = Vector3(1.5, 1.6, -1.5)
 look_to = Vector3(2.5, 1.9, -1.8)
 fov_from = 46.0
 fov_to = 46.0
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_puo8e"), SubResource("Resource_8i3nu"), SubResource("Resource_0ctnl"), SubResource("Resource_uhkfn"), SubResource("Resource_wenok"), SubResource("Resource_8b8n8"), SubResource("Resource_kctch"), SubResource("Resource_cajc2"), SubResource("Resource_qcma1"), SubResource("Resource_r6hii"), SubResource("Resource_o8bmn"), SubResource("Resource_q6mg0"), SubResource("Resource_efagb"), SubResource("Resource_u51dk")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_qcma1"), SubResource("Resource_r6hii"), SubResource("Resource_o8bmn"), SubResource("Resource_q6mg0"), SubResource("Resource_efagb"), SubResource("Resource_u51dk"), SubResource("Resource_kkkdj"), SubResource("Resource_ct08o"), SubResource("Resource_fqmu1"), SubResource("Resource_ggw5i"), SubResource("Resource_a1d0n"), SubResource("Resource_12j08"), SubResource("Resource_1wlnp"), SubResource("Resource_vudbo")])
 stage_set = &"forge_intro_ysolde"
 marker_prefix = &"S27U"
 
-[sub_resource type="Resource" id="Resource_ct08o"]
+[sub_resource type="Resource" id="Resource_5bpxw"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"ysolde_army_host"
@@ -2646,7 +2726,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_fqmu1"]
+[sub_resource type="Resource" id="Resource_jgut6"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"fx_vines"
@@ -2654,7 +2734,7 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_ggw5i"]
+[sub_resource type="Resource" id="Resource_a6dsi"]
 script = ExtResource("4_wga8u")
 at = 1.8
 kind = &"anim"
@@ -2664,7 +2744,7 @@ params = {
 "hook": "play_cast"
 }
 
-[sub_resource type="Resource" id="Resource_a1d0n"]
+[sub_resource type="Resource" id="Resource_sv8wt"]
 script = ExtResource("4_wga8u")
 at = 2.2
 kind = &"vfx"
@@ -2675,7 +2755,7 @@ params = {
 "scene": "res://art/cinematics/fx/bloom_wave.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_12j08"]
+[sub_resource type="Resource" id="Resource_36vsy"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2683,7 +2763,7 @@ text = "But she will not take a side, not even while the world burns."
 duration = 5.6
 voice = "res://assets/audio/voice/master/but_she_will_not_f0c2364f.wav"
 
-[sub_resource type="Resource" id="Resource_1wlnp"]
+[sub_resource type="Resource" id="Resource_k5bhc"]
 script = ExtResource("3_4u4ub")
 id = &"S28"
 duration = 6.0
@@ -2694,12 +2774,12 @@ look_from = Vector3(-6, 1.2, 15)
 look_to = Vector3(-6, 1.2, 15)
 fov_from = 40.0
 fov_to = 40.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_12j08")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_ct08o"), SubResource("Resource_fqmu1"), SubResource("Resource_ggw5i"), SubResource("Resource_a1d0n")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_36vsy")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_5bpxw"), SubResource("Resource_jgut6"), SubResource("Resource_a6dsi"), SubResource("Resource_sv8wt")])
 stage_set = &"forge_intro_ysolde"
 marker_prefix = &"S28"
 
-[sub_resource type="Resource" id="Resource_vudbo"]
+[sub_resource type="Resource" id="Resource_mowea"]
 script = ExtResource("4_wga8u")
 kind = &"visible"
 actor = &"stag"
@@ -2707,7 +2787,17 @@ params = {
 "on": false
 }
 
-[sub_resource type="Resource" id="Resource_7sas2"]
+[sub_resource type="Resource" id="Resource_88qtw"]
+script = ExtResource("4_wga8u")
+at = 0.2
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_8fub4"]
 script = ExtResource("4_wga8u")
 at = 1.5
 kind = &"vfx"
@@ -2717,7 +2807,7 @@ params = {
 "scene": "res://art/cinematics/fx/blossom.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_5bpxw"]
+[sub_resource type="Resource" id="Resource_037cj"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2725,7 +2815,7 @@ text = "I would say: show me again. And she always did. Ysolde was my heart."
 duration = 6.6
 voice = "res://assets/audio/voice/master/i_would_say_show_1f5d14b4.wav"
 
-[sub_resource type="Resource" id="Resource_jgut6"]
+[sub_resource type="Resource" id="Resource_56agc"]
 script = ExtResource("3_4u4ub")
 id = &"S29"
 duration = 7.0
@@ -2736,12 +2826,12 @@ look_from = Vector3(3, 1.45, 1)
 look_to = Vector3(3, 1.45, 1)
 fov_from = 30.0
 fov_to = 30.0
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_5bpxw")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_vudbo"), SubResource("Resource_7sas2")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_037cj")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_mowea"), SubResource("Resource_88qtw"), SubResource("Resource_8fub4")])
 stage_set = &"forge_intro_ysolde"
 marker_prefix = &"S29"
 
-[sub_resource type="Resource" id="Resource_a6dsi"]
+[sub_resource type="Resource" id="Resource_j5e2g"]
 script = ExtResource("4_wga8u")
 kind = &"vfx"
 target = Vector3(-230, 0, -180)
@@ -2751,7 +2841,7 @@ params = {
 "scene": "res://art/cinematics/fx/fire_pillar.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_sv8wt"]
+[sub_resource type="Resource" id="Resource_jo6mb"]
 script = ExtResource("4_wga8u")
 kind = &"vfx"
 target = Vector3(230, 0, -180)
@@ -2761,7 +2851,7 @@ params = {
 "scene": "res://art/cinematics/fx/fire_pillar.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_36vsy"]
+[sub_resource type="Resource" id="Resource_k5sgu"]
 script = ExtResource("4_wga8u")
 kind = &"vfx"
 target = Vector3(-240, 0, 150)
@@ -2771,7 +2861,7 @@ params = {
 "scene": "res://art/cinematics/fx/fire_pillar.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_k5bhc"]
+[sub_resource type="Resource" id="Resource_esuc7"]
 script = ExtResource("4_wga8u")
 kind = &"vfx"
 target = Vector3(240, 0, 150)
@@ -2781,7 +2871,7 @@ params = {
 "scene": "res://art/cinematics/fx/green_pillar.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_mowea"]
+[sub_resource type="Resource" id="Resource_51g7c"]
 script = ExtResource("4_wga8u")
 at = 4.2
 kind = &"title"
@@ -2791,7 +2881,7 @@ params = {
 "time": 1.8
 }
 
-[sub_resource type="Resource" id="Resource_88qtw"]
+[sub_resource type="Resource" id="Resource_mp3tq"]
 script = ExtResource("4_wga8u")
 at = 4.6
 kind = &"fade"
@@ -2801,7 +2891,7 @@ params = {
 "time": 0.8
 }
 
-[sub_resource type="Resource" id="Resource_8fub4"]
+[sub_resource type="Resource" id="Resource_tbwf0"]
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
@@ -2809,7 +2899,7 @@ text = "I loved all four of them. And still, they went to war."
 duration = 5.6
 voice = "res://assets/audio/voice/master/i_loved_all_four_d534ea63.wav"
 
-[sub_resource type="Resource" id="Resource_037cj"]
+[sub_resource type="Resource" id="Resource_x1ofa"]
 script = ExtResource("3_4u4ub")
 id = &"S30"
 duration = 6.0
@@ -2821,8 +2911,8 @@ look_to = Vector3(0, 62, 0)
 fov_to = 55.0
 transition_in = 1
 transition_time = 0.6
-lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_8fub4")])
-actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_a6dsi"), SubResource("Resource_sv8wt"), SubResource("Resource_36vsy"), SubResource("Resource_k5bhc"), SubResource("Resource_mowea"), SubResource("Resource_88qtw")])
+lines = Array[ExtResource("1_jbvl5")]([SubResource("Resource_tbwf0")])
+actions = Array[ExtResource("4_wga8u")]([SubResource("Resource_j5e2g"), SubResource("Resource_jo6mb"), SubResource("Resource_k5sgu"), SubResource("Resource_esuc7"), SubResource("Resource_51g7c"), SubResource("Resource_mp3tq")])
 stage_set = &"forge_citadel"
 marker_prefix = &"S30"
 
@@ -2831,7 +2921,7 @@ script = ExtResource("2_p7sft")
 id = &"prologue_3min"
 title = "Four Wizards: Prologue"
 stage_scene = "res://scenes/cinematics/prologue_3min.tscn"
-shots = Array[ExtResource("3_4u4ub")]([SubResource("Resource_jvakm"), SubResource("Resource_mh27q"), SubResource("Resource_gul80"), SubResource("Resource_bepgs"), SubResource("Resource_unpi2"), SubResource("Resource_j7ka0"), SubResource("Resource_m867w"), SubResource("Resource_kqu3x"), SubResource("Resource_yvisu"), SubResource("Resource_bckyb"), SubResource("Resource_iau6i"), SubResource("Resource_a8pbl"), SubResource("Resource_gei1d"), SubResource("Resource_w0r6d"), SubResource("Resource_lu4ni"), SubResource("Resource_1w1gv"), SubResource("Resource_a65oj"), SubResource("Resource_rcdsd"), SubResource("Resource_f1g5l"), SubResource("Resource_stg5s"), SubResource("Resource_7lbde"), SubResource("Resource_07vd0"), SubResource("Resource_f0u63"), SubResource("Resource_jdkyf"), SubResource("Resource_fval8"), SubResource("Resource_j4pb8"), SubResource("Resource_jecsu"), SubResource("Resource_oplts"), SubResource("Resource_0pfc8"), SubResource("Resource_4vnwb"), SubResource("Resource_i03q6"), SubResource("Resource_7lwru"), SubResource("Resource_kkkdj"), SubResource("Resource_1wlnp"), SubResource("Resource_jgut6"), SubResource("Resource_037cj")])
+shots = Array[ExtResource("3_4u4ub")]([SubResource("Resource_jvakm"), SubResource("Resource_mh27q"), SubResource("Resource_gul80"), SubResource("Resource_bepgs"), SubResource("Resource_unpi2"), SubResource("Resource_j7ka0"), SubResource("Resource_m867w"), SubResource("Resource_kqu3x"), SubResource("Resource_yvisu"), SubResource("Resource_bckyb"), SubResource("Resource_iau6i"), SubResource("Resource_a8pbl"), SubResource("Resource_gei1d"), SubResource("Resource_55rmp"), SubResource("Resource_tonll"), SubResource("Resource_egpkk"), SubResource("Resource_5fru7"), SubResource("Resource_l67fc"), SubResource("Resource_fxwgu"), SubResource("Resource_wm68e"), SubResource("Resource_wphm8"), SubResource("Resource_vrjat"), SubResource("Resource_jdkyf"), SubResource("Resource_g52k3"), SubResource("Resource_ujr0m"), SubResource("Resource_y8tve"), SubResource("Resource_eamxo"), SubResource("Resource_cq7qd"), SubResource("Resource_d3hnt"), SubResource("Resource_i03q6"), SubResource("Resource_80nnt"), SubResource("Resource_cajc2"), SubResource("Resource_7sas2"), SubResource("Resource_k5bhc"), SubResource("Resource_56agc"), SubResource("Resource_x1ofa")])
 music_cue = &"res://assets/audio/music/music_menu.wav"
 skip_locked_until = 30.0
 shake_seed = 7

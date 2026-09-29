@@ -30,6 +30,7 @@ shot B01 8.0  in=fade_black:1.0
 # Lens mark "ms on ysolde, 3/4-back-left, high, push 0.2", re-aimed: over her shoulder to the ford and the hosts
 shot S02 6.0  cam=dolly  from=(-9.75,7.9,37.0)  to=(-9.25,7.7,36.5)  look=(-4.0,6.02,30.0)>(-4.0,5.98,30.0)  fov=40>38  faces=ysolde
   at 0.3  line ysolde "I was born on that hill, the year nothing grew. Not one blade of grass."  dur=5.0
+  at 0.3  anim ysolde set_expression  arg=worried
 
 # ---------------------------------------------------------------- memory: the year nothing grew
 # A heap of black earth on the snow, the seed's faint breath; the trowel left behind; the child watches it sleep
@@ -42,6 +43,7 @@ shot H04 5.0  set=forge_ep4_memories
 # The frost clearing: the child coaxes a rimed sapling; the tall man with the burning hem behind her
 shot H05 6.0  set=forge_ep4_memories
   at 0.3  line ysolde "A tall man with a burning hem found me coaxing a sapling through the frost."  dur=5.1
+  at 0.3  anim y_child set_expression  arg=smile
 
 # ---------------------------------------------------------------- back on Lark Hill
 # Nature and Fire ranks, travelling the other way on screen
@@ -51,6 +53,8 @@ shot S06 6.0  in=blend:0.3
 # Lens mark: "mcu on ysolde, 3/4-left, low"
 shot S07 6.0  faces=ysolde
   at 0.3  line ysolde "They call me soft. Neutral. Slow. Slow is how an oak outlives an army."  dur=5.0
+  at 0.0  anim ysolde set_expression  arg=neutral
+  at 2.8  anim ysolde set_expression  arg=smile
 
 # ---------------------------------------------------------------- memory: the burned wood
 # Black trunks capped with frost, ice through the ash, her army frozen where it fell; she stands among them
@@ -58,6 +62,7 @@ shot H08 6.0  set=forge_ep4_memories  in=fade_white:0.4
   at 0.0  hide shoot
   at 0.3  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-8
   at 0.3  line ysolde "Last winter they burned my wood and froze the ashes. My army with it."  dur=5.0
+  at 0.3  anim y_ysolde set_expression  arg=worried
 # Ground level: one green shoot in the black, against the low sun between the trunks (Ysolde stepped out of frame)
 shot H09 6.0  set=forge_ep4_memories
   at 0.0  hide y_ysolde
@@ -69,9 +74,13 @@ shot H09 6.0  set=forge_ep4_memories
 # The flowers by her hand lean toward it: ground-low through the bloom, Ysolde (and Vessa) above against the sky
 shot S10 6.0  cam=dolly  from=(-7.3,5.0,31.35)  to=(-7.14,5.02,31.55)  look=(-5.0,5.84,33.9)>(-5.0,5.86,33.9)  fov=44>41  in=blend:0.3  faces=ysolde
   at 0.3  line ysolde "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."  dur=5.3
+  at 0.0  anim ysolde set_expression  arg=neutral
+  at 2.4  anim ysolde set_expression  arg=fierce
 # Lens mark: "ms two-shot ysolde vessa, 3/4-left, eye"
 shot S11 6.0  faces=ysolde,vessa
   at 0.3  line ysolde "The Master planted this country with his own hands. He left it to me to keep."  dur=5.1
+  at 0.3  anim ysolde set_expression  arg=smile
+  at 0.3  anim vessa set_expression  arg=smile
 # Long lens north over her shoulder: Malrik's ridge, his amber staff, Torvald beside him
 shot S12 9.0  cam=dolly  from=(-7.1,6.65,41.0)  to=(-7.0,6.65,40.4)  look=(-0.3,9.3,-36)  fov=22>20
   at 0.3  line ysolde "Malrik stands up there with his candle, his stone, and Torvald's winter."  dur=4.6
@@ -79,6 +88,9 @@ shot S12 9.0  cam=dolly  from=(-7.1,6.65,41.0)  to=(-7.0,6.65,40.4)  look=(-0.3,
 # Lens mark "cu on ysolde, front, eye, push 0.3", re-aimed: a low MCU, the crown against the sky, slow push
 shot S13 5.0  cam=dolly  from=(-4.973,5.95,30.8)  to=(-4.973,6.0,31.45)  look=(-4.973,6.42,34.065)  fov=40  faces=ysolde
   at 0.3  line vessa "Ysolde. They're moving."  dur=1.8
+  at 0.3  anim vessa set_expression  arg=worried
+  at 0.0  anim ysolde set_expression  arg=neutral
+  at 2.5  anim ysolde set_expression  arg=fierce
   at 2.6  line ysolde "It will not stop."  dur=2.0
 # The same horns, from the south-west; the title
 shot B14R 7.0
