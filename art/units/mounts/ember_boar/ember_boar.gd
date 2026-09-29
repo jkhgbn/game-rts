@@ -50,6 +50,8 @@ const DRAPE_COLS := 10
 const DRAPE_A: Array[float] = [0.0, 32.0, 64.0, 94.0]
 
 var _smoulder_v: float = 0.0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 
 
 func _build_mount() -> void:
@@ -57,6 +59,7 @@ func _build_mount() -> void:
 	var head: Node3D = $Root/Mount/Head
 	add_sculpt(body, _body_sculpt)
 	add_sculpt(head, _head_sculpt)
+	_face = CreatureFaceRig.attach(self, head, "ember_boar", face_spec())
 	var legs: Array[Node3D] = [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]
 	for leg: Node3D in legs:
 		var p := model_origin(leg)
@@ -287,11 +290,7 @@ func _head_sculpt(s: Dictionary) -> void:
 		# eyes: a dark socket, a slanted ember slit, an angry brow ridge (inner end low)
 		var eye := SK_B + sd * 0.24 + up * 0.10 + Vector3(0.245 * sx, 0, 0)
 		var eb := Basis(Vector3.UP, 0.42 * sx) * Basis(Vector3.BACK, -0.45 * sx)
-		sculpt_add(s, sphere(0.062, 6, 3), Transform3D(eb.scaled_local(Vector3(0.8, 0.7, 1.3)), eye - Vector3(0.015 * sx, 0, 0)),
-			hair)
-		sculpt_add(s, box(Vector3(0.05, 0.036, 0.12)), Transform3D(eb, eye + Vector3(0.012 * sx, 0, 0)), glow)
-		sculpt_put(s, sphere(0.10, 6, 3), hide, eye + up * 0.07 + Vector3(-0.02 * sx, 0, 0.01),
-			Vector3(-24, 26.0 * sx, 24.0 * sx), Vector3(1.15, 0.5, 1.6))
+		# (the socket, the ember slit and the brow bump: the CreatureFaceRig eyes, faces pass 2026-09-28)
 		# ears: pointed, laid back, a dark bristle tuft on the tip
 		var ear := SK_B + up * 0.25 + Vector3(0.18 * sx, 0, 0) - sd * 0.03
 		var ed := Vector3(0.6 * sx, 0.85, -0.55).normalized()
@@ -472,6 +471,8 @@ func _knee_barding(s: Dictionary, p: Vector3) -> void:
 
 func _mount_ready() -> void:
 	_smoulder_v = 0.0
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 
 
 ## Root and toss: the nose drops to the ground and snuffles side to side, then a head toss that flares the mane,
@@ -493,6 +494,8 @@ func _pose_fidget(t: float) -> float:
 
 ## Death: the hide smoulders (an ember glow rising as it goes down, then dying away).
 func _mount_process(_dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		return
 	var v: float = snappedf(0.17 * smoothstep(0.1, 0.45, _death_t) * (1.0 - 0.85 * smoothstep(0.55, 1.0, _death_t)), 0.01)
@@ -505,7 +508,27 @@ func _mount_process(_dt: float) -> void:
 
 
 func _mount_revive() -> void:
+	if _face:
+		_face.reset()
 	_smoulder_v = 0.0
 	for gi: GeometryInstance3D in _flash_all_targets:
 		gi.set_instance_shader_parameter(&"hit_flash", 0.0)
 		gi.set_instance_shader_parameter(&"flash_color", WHITE)
+
+
+## The eyes (faces pass 2026-09-28; the Fire / Ice pass skipped this mount): slanted glowing ember eyes (the old ember
+## slits: the irises glow) under an angry dark brow ridge (fierce by default when attacking, inner end low). Drawn
+## inside the merged head (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	var sd := (SK_F - SK_B).normalized()
+	var up := Vector3(0, sd.z, -sd.y)
+	var eye := SK_B + sd * 0.24 + up * 0.10 + Vector3(0.245, 0, 0)
+	return CreatureFaceRig.side_eye_spec(eye + Vector3(0.02, 0, 0), Vector3(0.90, 0.14, 0.42), 0.062, Color(0.25, 0.105, 0.068),
+		Color(1.0, 0.62, 0.20), 0.85, {"eye": {"tilt": 0.010}, "palette": {"brow": Color(0.10, 0.04, 0.03)},
+		"brow": {"w": Vector3(0.013, 0.015, 0.006)}, "x": {&"neutral": {"brow": [-0.008, -0.002, 0.004]}}, "lift": 0.03})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

@@ -4,9 +4,10 @@ extends CharacterModel
 ## clasp), two short brass crescent knives (right hand forward grip, left hand reverse grip, the blade trailing
 ## past the elbow), a bulging burgundy LOOT SACK on the left hip and a belt of glowing gold COINS. Team colour only on
 ## the diagonal sash (knot + two waving tails) and the small back pennant (gold coin mark), both `coin_cutter_pennon`,
-## so set_team_color recolours them and nothing else. Face: a shadowed void with the gold eye bar. Wine-red braid on
+## so set_team_color recolours them and nothing else. Face (faces pass 2026-09-28): FaceKit, tan skin, gold glinting
+## irises, a golden fringe out of the hood, the scarf pulled down under the lips (was a void + gold eye bar). Golden braid on
 ## both siblings; Silas (variant B) adds a forked beard: the one toggled node `VariantB` (set_variant).
-## Glow points: coin belt + eye bar (1.5, coin_cutter_gold_glow), the flipped coin during casts.
+## Glow points: coin belt (1.5, coin_cutter_gold_glow) + the gold irises (Face node), the flipped coin during casts.
 ## Attack `slash2`: fast double cut (right forehand, strike 0.08 s, then left backhand), 0.42 s. Casts (play_cast):
 ## cutpurse (coil + deep lunge-stab, gold glint at the tip), smoke_pouch (pulls a pouch from the belt, hurls it at
 ## its feet, knife arm up over the face), marked_for_coin (flips a coin high, catches it and points it at the mark).
@@ -151,7 +152,9 @@ var _pouch: MeshInstance3D
 var _coin: MeshInstance3D
 var _sparks: GPUParticles3D
 var _belt_glow: GeometryInstance3D     # merged Hips (coins), glow driven here
-var _eye_glow: GeometryInstance3D      # merged Head (eye bar), glow driven here
+var _eye_glow: GeometryInstance3D      # the Face node (gold irises), glow driven here
+## Painted face (FaceKit via ChampionFaces, faces pass 2026-09-28).
+var _face: FaceRig
 
 # Secondary motion (springs, radians / metres).
 var _tail_a: Vector2 = Vector2.ZERO    # x = stream back, y = side swing (rot z)
@@ -189,6 +192,34 @@ func set_variant(v: int) -> void:
 	variant = clampi(v, 0, 1)
 	if _variant_node:
 		_variant_node.visible = variant == 1
+	ChampionFaces.switch(_face, "coin_cutter", _face_spec, variant)
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+## Face styles (FaceKit spec per variant; faces pass 2026-09-28). Sable (A): a sly young raider, tan skin, gold glinting
+## irises (the old eye-bar glow), a golden swept fringe out of the hood (her braid is the head mesh), a smirk at
+## rest. Silas (B): the older brother, heavier brows, a short fringe; his forked beard is VariantB.
+static func _face_spec(v: int) -> Dictionary:
+	var skin := Color(0.80, 0.60, 0.46)
+	var gold := Color(0.86, 0.64, 0.26)
+	var tip := Color(1.0, 0.84, 0.46)
+	var fs := sphere(0.19, 12, 6)
+	var spec := {"center": FACE_C, "radius": 0.19, "head_mesh": fs, "preset": &"bright" if v == 0 else &"stern",
+		"skin": skin, "hair": gold, "hair_tip": tip, "eyes": Color(1.0, 0.74, 0.22), "ears": &"none",
+		"palette": {"iris_glow": 0.45, "brow": Color(0.52, 0.34, 0.14), "lash": Color(0.14, 0.09, 0.07),
+			"lip": Color(0.72, 0.40, 0.36)},
+		"x": {&"neutral": {"mouth": {"kind": "smirk"}}},
+		"hair_fn": func(acc: Dictionary) -> void:
+			# the face sphere (was the charcoal void) is part of the face mesh: no skin material on the hood
+			FaceKit.put_mesh(acc, fs, Transform3D(Basis.IDENTITY, FACE_C), skin)
+			# hair framing the face in the hood: Sable a long swept fringe, Silas a short one the other way
+			ChampionFaces.frame_locks(acc, FACE_C, 0.19, gold, tip, 1.0 if v == 0 else -0.7, false)}
+	return spec
 
 
 func play_hit() -> void:
@@ -261,6 +292,9 @@ func _build_parts() -> void:
 	_tail = add_part(head, _tail_mesh(), null, TAIL_AT, Vector3.ZERO, Vector3.ONE, true, "HoodTail")
 	_variant_node = add_part(head, _beard_mesh(), null, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true,
 			"VariantB")
+	# The face (faces pass 2026-09-28): FaceKit, one node; Sable / Silas each their own style (switch on set_variant).
+	_face = ChampionFaces.attach(self, head, "coin_cutter", _face_spec, variant)
+	_face.set_meta(&"own_glow", true)   # the gold irises flare with the casts (was the eye bar): _drive_glows
 
 	# ---- Arms: sleeves, burgundy bracers, gloves; the two crescent knives are the archetype weapon (11.V4).
 	add_part(arm_r, _arm_mesh(1.0), null, Vector3.ZERO)
@@ -286,7 +320,7 @@ func _after_ready() -> void:
 	_variant_node.visible = variant == 1
 	_sack_rest = _sack.position
 	_belt_glow = _merged_nodes.get(P_HIPS)
-	_eye_glow = _merged_nodes.get(P_HEAD)
+	_eye_glow = _face
 	for g: GeometryInstance3D in [_belt_glow, _eye_glow]:
 		if g:
 			_glow_nodes.erase(g)
@@ -567,7 +601,7 @@ static func _sack_mesh() -> ArrayMesh:
 		return _meshes["cc_sack"]
 	var xf := Transform3D(Basis(Vector3.BACK, -20.0 * DEG), SACK_C - SACK_AT)   # neck leans in toward the belt
 	var body := _grid(func(u: float, v: float) -> Vector3: return _sack_point(u, v),
-			func(_u: float, v: float) -> Vector3: return Vector3(0, _sack_point(0.0, v).y, 0), 16, 10)
+			func(_u: float, v: float) -> Vector3: return Vector3(0, _sack_point(0.0, v).y, 0), 12, 8)   # was 16 x 10 (faces pass trim)
 	var neck := xf * Vector3(0, 0.15, 0)
 	var mouth := xf * Vector3(0, 0.21, 0)
 	var m := _bake("cc_sack", [
@@ -696,19 +730,19 @@ static func _pennant_mesh() -> ArrayMesh:
 		[[[_grid(cloth, cloth_c, 4, 7), Transform3D()]], _mat(&"pennon")]])
 
 
-## Burgundy face scarf over the lower face (a patch of a sphere slightly larger than the face, its top edge peaked
-## over the nose), wrapping round into the hood.
+## Burgundy face scarf pulled down under the chin (faces pass 2026-09-28: it used to hide the lower face; a patch of a
+## sphere slightly larger than the face, its top edge peaked at the front), wrapping round into the hood.
 static func _mask_point(u: float, v: float) -> Vector3:
 	const R := 0.198
 	var a := lerpf(-1.9, 1.9, u)
-	var y_top := 1.462 + 0.03 * pow(maxf(0.0, cos(a)), 8.0)
+	var y_top := 1.385 + 0.03 * pow(maxf(0.0, cos(a)), 8.0)   # pulled down under the lips (faces pass)
 	var th_top := acos(clampf((y_top - FACE_C.y) / R, -1.0, 1.0))
 	var th := lerpf(th_top, 2.55, v)
 	return FACE_C + R * Vector3(sin(th) * sin(a), cos(th), sin(th) * cos(a))
 
 
-## Hood shell, the shadowed face poking out of it, the burgundy face scarf with a bandana point, the gold eye bar
-## and the golden braid down the left of the chest (burgundy wrap, tuft).
+## Hood shell, the burgundy face scarf with a bandana point and the golden braid down the left of the chest (burgundy
+## wrap, tuft). The face itself (skin, eyes, lips, fringe) is the FaceKit Face node (faces pass 2026-09-28).
 static func _head_mesh() -> ArrayMesh:
 	if _meshes.has("cc_head"):
 		return _meshes["cc_head"]
@@ -720,13 +754,11 @@ static func _head_mesh() -> ArrayMesh:
 			func(_u: float, _v: float) -> Vector3: return FACE_C, 12, 3)
 	var m := _bake("cc_head", [
 		[[_at(sphere(0.25, 12, 7), Vector3(0, 1.53, -0.02), Vector3.ZERO, Vector3(1.0, 1.08, 1.12)),
-			_at(sphere(0.19, 10, 5), FACE_C),
 			_at(torus(0.14, 0.18, 14), Vector3(0, 1.472, 0.205), Vector3(104, 0, 0), Vector3(1.0, 1.0, 1.15))], _mat(&"charcoal")],
 		[[[mask, Transform3D()], _at(prism(Vector3(0.22, 0.13, 0.03)), Vector3(0, 1.315, 0.225), Vector3(-18, 0, 180)),
 			_seg(end + Vector3(0, 0.02, 0), end + Vector3(0, -0.035, 0), 0.043, 0.043, 8)], _mat(&"burgundy")],
 		[[[braid, Transform3D()], _seg(end + Vector3(0, -0.03, 0), end + Vector3(0.005, -0.12, 0.0), 0.045, 0.0, 8)],
-			_mat(&"brass")],
-		[[_at(box(Vector3(0.20, 0.045, 0.05)), Vector3(0, 1.525, 0.272), Vector3(-6, 0, 0))], _mat(&"gold_glow")]])
+			_mat(&"brass")]])
 	return m
 
 
@@ -739,7 +771,7 @@ static func _tail_mesh() -> ArrayMesh:
 		Vector3(-0.22, 1.40, -0.42), Vector3(-0.31, 1.21, -0.36), Vector3(-0.36, 1.03, -0.27)]
 	for i: int in pts.size():
 		pts[i] -= TAIL_AT
-	var tube := _tube(pts, func(v: float) -> float: return lerpf(0.13, 0.026, pow(v, 0.8)), 7, 12)
+	var tube := _tube(pts, func(v: float) -> float: return lerpf(0.13, 0.026, pow(v, 0.8)), 6, 10)   # was 7 x 12 (faces pass trim)
 	var tip := pts[5]
 	var dir := (pts[5] - pts[4]).normalized()
 	var m := _bake("cc_tail", [
@@ -1063,6 +1095,8 @@ func _is_full() -> bool:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	var full := _is_full()
 	if full and not _dead:
 		_body_extras()
@@ -1171,6 +1205,8 @@ func _drive_glows() -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_tail_a = Vector2.ZERO
 	_tail_v = Vector2.ZERO
 	_sack_a = Vector3.ZERO

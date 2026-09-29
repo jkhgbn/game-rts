@@ -1,0 +1,122 @@
+{
+	"asset": "ruin_warden",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"action": "drop_keep_separate",
+					"node": "Root/Chest/GapLight, Root/Chest/Core",
+					"saves": 1,
+					"words": "`GapLight`, `Core` are keep_separate under `Chest`: keep only the animated / toggled one separate"
+				}
+			],
+			"check": "B2",
+			"computed": true,
+			"measured": {
+				"draw": 12
+			},
+			"predicted": {
+				"draw": 11
+			},
+			"proposal": "12 -> 11 (want <= 10): `GapLight`, `Core` are keep_separate under `Chest`: keep only the animated / toggled one separate",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 12 -> 11 (want <= 10): `GapLight`, `Core` are keep_separate under `Chest`: keep only the animated / toggled one separate",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 10"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.5,
+					"node": "res://data/units/ruin_warden.tres",
+					"param": "radius",
+					"to": 0.56
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.5,
+				"x_m": 0.98,
+				"z_m": 0.72
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.5 -> 0.56, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.5 -> 0.56, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.88",
+				"z_m": "<= 0.88"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1385,
+					"node": "Root/Chest/Merged",
+					"to": 693,
+					"words": "`Merged` 1385 -> 693 verts"
+				},
+				{
+					"from": 816,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 531,
+					"words": "`Merged` 816 -> 531 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3430
+			},
+			"predicted": {
+				"verts": 2453
+			},
+			"proposal": "3430 -> 2453 (want <= 2500): `Merged` 1385 -> 693 verts; `Merged` 816 -> 531 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 3430 -> 2453 (want <= 2500): `Merged` 1385 -> 693 verts; `Merged` 816 -> 531 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.57 m, Merged 1.66 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.57 m, Merged 1.66 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.57 m, Merged 1.66 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 83.9,
+	"result": "FAIL",
+	"scene": "res://art/units/neutral/ruin_warden.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

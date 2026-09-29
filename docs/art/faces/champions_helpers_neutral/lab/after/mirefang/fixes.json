@@ -1,0 +1,57 @@
+{
+	"asset": "mirefang",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 986,
+					"node": "Root/Mount/Head/Merged",
+					"to": 696,
+					"words": "`Merged` 986 -> 696 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 2776
+			},
+			"predicted": {
+				"verts": 2486
+			},
+			"proposal": "2776 -> 2486 (want <= 2500): `Merged` 986 -> 696 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 2776 -> 2486 (want <= 2500): `Merged` 986 -> 696 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 93.9,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/mirefang/mirefang.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

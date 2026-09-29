@@ -1,0 +1,13 @@
+{
+	"asset": "direwolf",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 93.3,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/beasts/direwolf/direwolf.tscn",
+	"tier": "hero",
+	"version": "1.0"
+}

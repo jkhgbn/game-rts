@@ -3,9 +3,10 @@ extends CharacterModel
 ## A square iron-clad wall of a man behind a DOOR-SIZED riveted oak shield (1.2 x 1.6 m, three planks, iron rim, two
 ## riveted straps, an iron boss with a glowing steel-blue OATH RUNE: a ring, four rays and a keyhole bar) in ArmL,
 ## a short war hammer (flat striking face + back spike) in ArmR, a square great helm under a FLAT overhanging lid with
-## a glowing visor slit, a padded roll collar.
+## an open face window (faces pass 2026-09-28: was a glowing visor slit; FaceKit face, steel-blue glowing irises), a
+## padded roll collar.
 ## Palette (4.6): iron, oak (shield boards, trousers, haft, Garran's beard), padded cloth (gambeson, Gerda's braids).
-## Glow (1.5): rune + visor, steel-blue.
+## Glow (1.5): rune + the irises (Face node, the old visor glow), steel-blue.
 ## Team colour ONLY on the waist sash (band, knot, two tails) and the back cape: both use `oathwall_cape`, the one
 ## material `set_team_color` swaps (kit cache per colour; matching `kingdom_color` restores the authored one).
 ## Variant B (Gerda) = ONE toggled node, `Root/Chest/Head/Variant`: its mesh swaps Garran's forked beard (A) for
@@ -105,7 +106,9 @@ var _door_target: Transform3D = Transform3D.IDENTITY
 var _door_fly: float = 0.0
 var _skill_prev: float = 0.0
 var _reach_rot: Vector3 = Vector3.ZERO          # this frame's reach-over-the-shoulder rotation of ArmL
-var _visor_node: GeometryInstance3D         # merged Head (its only glow surface is the visor)
+var _visor_node: GeometryInstance3D         # the Face node (steel-blue irises: the old visor glow)
+## Painted face (FaceKit via ChampionFaces, faces pass 2026-09-28).
+var _face: FaceRig
 var _dust: GPUParticles3D
 var _sparks: GPUParticles3D
 var _rune_flare: float = 0.0
@@ -125,7 +128,58 @@ func set_variant(v: int) -> void:
 	_variant = clampi(v, 0, 1)
 	if _variant_node:
 		_variant_node.mesh = _braids_mesh() if _variant == 1 else _beard_mesh()
+	ChampionFaces.switch(_face, "oathwall", _face_spec, _variant)
 
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+const FACE_C := Vector3(0.0, 1.73, 0.06)
+const FACE_R := 0.16
+
+
+## Face styles (FaceKit, faces pass 2026-09-28) in the helm window: a broad weathered face (the face sphere is part of
+## the face mesh), steel-blue irises with a faint glow (the old visor), heavy brows. Garran (A): stern, oak-brown brows
+## and a thick moustache over his forked beard (the Variant mesh). Gerda (B): a calmer face, flaxen brows and a short
+## flaxen fringe under the brow band (her two braids are the Variant mesh).
+static func _face_spec(v: int) -> Dictionary:
+	var skin := Color(0.95, 0.76, 0.62)   # light: the face sits in the helm's shade
+	var hair := Color(0.36, 0.24, 0.12) if v == 0 else Color(0.80, 0.70, 0.46)
+	var tip := hair.lightened(0.25)
+	var fs := sphere(FACE_R, 12, 6)
+	var spec := {"center": FACE_C, "radius": FACE_R, "head_mesh": fs, "preset": &"stern" if v == 0 else &"gentle",
+		"skin": skin, "hair": hair, "hair_tip": tip, "eyes": Color(0.55, 0.78, 1.0), "ears": &"none",
+		"palette": {"iris_glow": 0.35, "lip": Color(0.72, 0.44, 0.40)},
+		"hair_fn": func(acc: Dictionary) -> void:
+			FaceKit.put_mesh(acc, fs, Transform3D(Basis.IDENTITY, FACE_C), skin)
+			if v == 1:
+				ChampionFaces.frame_locks(acc, FACE_C, FACE_R, hair, tip, 0.8, false)}
+	if v == 0:
+		spec["beard"] = &"moustache"
+	return spec
+
+
+## The great helm with its face window (model space, Head pivot): the back block, two cheek plates and the brow band
+## (flat-shaded frustum pieces keeping the old 0.54 x 0.52 -> 0.58 x 0.56 outline, 0.33 high at y 1.765).
+static func _helm_mesh() -> Mesh:
+	if _own.has("helm"):
+		return _own["helm"]
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	# back block: z -0.26 / -0.28 -> +0.09 / +0.10
+	_frustum_into(st, _xf(Vector3(0, 1.765, -0.087)), Vector2(0.54, 0.35), Vector2(0.58, 0.38), 0.33, Vector2.ZERO)
+	for sx: float in [-1.0, 1.0]:
+		# cheek plates (x 0.15 -> 0.27 / 0.29, z 0.09 -> 0.26 / 0.28), full height
+		_frustum_into(st, _xf(Vector3(0.212 * sx, 1.765, 0.177)), Vector2(0.124, 0.17), Vector2(0.144, 0.19), 0.33, Vector2.ZERO)
+	# brow band over the window (y 1.84 -> 1.93)
+	_frustum_into(st, _xf(Vector3(0, 1.885, 0.182)), Vector2(0.30, 0.18), Vector2(0.30, 0.19), 0.09, Vector2.ZERO)
+	st.index()
+	var m := st.commit()
+	_own["helm"] = m
+	return m
 
 func get_variant() -> int:
 	return _variant
@@ -200,12 +254,12 @@ func _build_parts() -> void:
 	var iron := own(&"oathwall_iron")
 	var oak := own(&"oathwall_oak")
 	var pad := own(&"oathwall_padding")
-	var glow := own(&"oathwall_glow")
 	var team := own(&"oathwall_cape")
 	# Legs (4): short dark leather trousers (the dark base) + chunky flat-shaded iron sabatons.
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
-		add_part(leg, capsule(0.15, 0.64), oak, Vector3(0.22 * sx, 0.42, 0.0))
+		# a plain 8-sided leg (was a 162-vertex capsule; its ends hide in the skirt / sabaton: faces pass trim)
+		add_part(leg, cyl(0.15, 0.15, 0.56, 8), oak, Vector3(0.22 * sx, 0.42, 0.0))
 		add_part(leg, frustum(Vector2(0.32, 0.46), Vector2(0.26, 0.34), 0.24), iron, Vector3(0.22 * sx, 0.12, 0.06))
 	# Hips (2): quilted gambeson skirt + the team sash (band, knot, two tails on the hammer hip).
 	add_part(hips, cyl(0.37, 0.47, 0.40, 8), pad, Vector3(0, 0.80, 0), Vector3(0, 22.5, 0))
@@ -217,12 +271,14 @@ func _build_parts() -> void:
 	add_part(chest, cape(0.84, 1.15), team, Vector3(0, 1.03, -0.41), Vector3(8, 0, 0))
 	# Padded roll collar: a light band between the helm and the cuirass (the head reads apart from the body).
 	add_part(chest, cyl(0.34, 0.38, 0.11, 8), pad, Vector3(0, 1.605, 0.0), Vector3(0, 22.5, 0))
-	# Head (4): square great helm (flat-shaded, a little wider at the top), the flat bevelled lid overhanging it,
-	# the visor slit, the variant.
-	add_part(head, frustum(Vector2(0.54, 0.52), Vector2(0.58, 0.56), 0.33), iron, Vector3(0, 1.765, 0))
+	# Head (3 + face): square great helm (flat-shaded, a little wider at the top) with an OPEN FACE WINDOW (faces pass
+	# 2026-09-28: was a closed box + a glowing visor slit; same outline), the flat bevelled lid overhanging it, the
+	# variant; the face in the window is the FaceKit Face node (its steel-blue irises carry the old visor glow).
+	add_part(head, _helm_mesh(), iron, Vector3.ZERO)
 	add_part(head, frustum(Vector2(0.72, 0.70), Vector2(0.66, 0.64), 0.07), iron, Vector3(0, 1.965, 0))
-	add_part(head, box(Vector3(0.38, 0.07, 0.06)), glow, Vector3(0, 1.80, 0.28))
 	_variant_node = add_part(head, _beard_mesh(), null, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Variant")
+	_face = ChampionFaces.attach(self, head, "oathwall", _face_spec, _variant)
+	_face.set_meta(&"own_glow", true)   # driven with the old visor flare (_write_glows)
 	# ArmL (3): sleeve; the door (ONE keep_separate node, 3 surfaces: iron rim / straps / rivets / boss, three oak
 	# planks, the oath rune); a left gauntlet for the classes that sling the door on the back.
 	_limb(arm_l, Vector3(-0.58, 1.50, 0.0), Vector3(-0.48, 1.04, 0.22), 0.12, pad)
@@ -254,7 +310,7 @@ func _build_parts() -> void:
 
 
 func _after_ready() -> void:
-	_visor_node = _merged_nodes.get(P_HEAD)
+	_visor_node = _face
 	_door_arm_rest = _door_arm.transform
 	_door_back_rest = _door_back.transform
 	# The rune (both doors) and the visor are driven here (flares, the planted-shield glow); the kit keeps the rest.
@@ -302,6 +358,8 @@ func _on_weapon_class(_class_id: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_rune_flare = 0.0
 	_visor_flare = 0.0
 	_death_dust = false
@@ -710,6 +768,8 @@ func _pose_fidget(t: float) -> float:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	_rune_flare = maxf(0.0, _rune_flare - dt / 0.6)
 	_visor_flare = maxf(0.0, _visor_flare - dt / 0.45)
 	_fidget_process(dt)
@@ -830,7 +890,8 @@ static func own(name: StringName) -> Material:
 ## Capsule from model point a to b (radius r), merged with the pivot.
 func _limb(pivot: Node3D, a: Vector3, b: Vector3, r: float, mat: Material) -> void:
 	var d := b - a
-	add_part(pivot, capsule(r, d.length() + r), mat, a + d * 0.5, _euler_deg(_basis_y(d)))
+	# an 8-sided sleeve (was a 162-vertex capsule; the ends hide in the pauldron / gauntlet: faces pass trim)
+	add_part(pivot, cyl(r, r, d.length() + r * 0.6, 8), mat, a + d * 0.5, _euler_deg(_basis_y(d)))
 
 
 ## The door shield in its own frame (face +Z, centre at the origin): one mesh, three surfaces (iron: rim, straps,

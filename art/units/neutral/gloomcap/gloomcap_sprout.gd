@@ -53,6 +53,8 @@ static var H_Y := PackedFloat32Array([0.0, 0.0, 0, 0.12, -0.02, 1, 0.2, 0.02, 2,
 @export var hop_every: float = 6.0
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _puff_fx: GPUParticles3D
 var _hop_wait: float = 0.0
 var _strikes: int = 0
@@ -115,6 +117,7 @@ func _build_parts() -> void:
 	_part($Root/Hips/LegL, _leg_mesh(-1.0))
 	_part($Root/Hips/LegR, _leg_mesh(1.0))
 	_part($Root/Chest, _body_mesh())
+	_face = CreatureFaceRig.attach(self, $Root/Chest, "gloomcap_sprout", face_spec())
 	_part($Root/Chest/Head, _cap_mesh())
 	_part($Root/Chest/ArmL, _arm_mesh(-1.0))
 	_part($Root/Chest/ArmR, _arm_mesh(1.0))
@@ -130,9 +133,13 @@ func _after_ready() -> void:
 		if m and not _flash_hit_targets.has(m):
 			_flash_hit_targets.append(m)
 	_hop_wait = _next_hop() * 0.5
+	if _face:
+		_face.set_host(_merged_nodes.get(P_CHEST))
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_cast_last = -1.0
 
 
@@ -293,6 +300,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if _dead:
 		return
 	if _action == &"hop":
@@ -377,12 +386,11 @@ static func _body_mesh() -> Mesh:
 	GM.lathe(stalk, PackedVector2Array([Vector2(0.0, 0.07), Vector2(0.1, 0.085), Vector2(0.15, 0.13),
 		Vector2(0.165, 0.2), Vector2(0.155, 0.28), Vector2(0.134, 0.37), Vector2(0.118, 0.45), Vector2(0.075, 0.5)]),
 		12, Vector3.ZERO, lump)
+	# the dark eye sockets; the glowing eyes and the little "o" mouth are the sprout's CreatureFaceRig (faces pass
+	# 2026-09-28)
 	for sx: float in [-1.0, 1.0]:
 		GM.ellipsoid(gills, Vector3(0.054 * sx, 0.365, 0.116), Vector3(0.038, 0.042, 0.02), 6, 3)
-		GM.ellipsoid(glow, Vector3(0.054 * sx, 0.365, 0.126), Vector3(0.024, 0.028, 0.014), 6, 3)
-	GM.ellipsoid(gills, Vector3(0.0, 0.3, 0.147), Vector3(0.026, 0.018, 0.012), 6, 3)
-	return GM.commit(KEY, [[stalk, GM.mat(&"gloomcap_stalk")], [gills, GM.mat(&"gloomcap_gills")],
-		[glow, GM.mat(&"gloomcap_glow")]])
+	return GM.commit(KEY, [[stalk, GM.mat(&"gloomcap_stalk")], [gills, GM.mat(&"gloomcap_gills")]])
 
 
 ## A stumpy root foot (LegL / LegR) with two root toes.
@@ -414,3 +422,28 @@ static func _arm_mesh(sx: float) -> Mesh:
 	for d: Vector3 in [Vector3(0.02 * sx, -0.05, 0.03), Vector3(0.035 * sx, -0.04, -0.01)]:
 		GM.root(rt, hd, hd + d, 0.014, 0.004, 3, 0.006, d.z * 30.0, 4)
 	return GM.commit(key, [[rt, GM.mat(&"gloomcap_root")]])
+
+
+## The face (faces pass 2026-09-28): big round faint-teal glowing eyes in the dark sockets, little brows and the small
+## dark "o" mouth (a tiny round open mouth at rest; it grins on a level-up, grimaces on the attack). Drawn inside the
+## merged Chest (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	var gills := Color(0.20, 0.20, 0.28)
+	return CreatureFaceRig.beast_spec(Vector3(0, 0.365, 0.0), 0.137, {"c": Vector2(0.053, 0.0), "hw": 0.026, "top": 0.024,
+		"bot": 0.020, "ir": 0.016, "lash": 0.9, "flick": 0.0}, Color(0.62, 0.58, 0.50), Color(0.42, 0.95, 0.82), 0.8,
+		Vector2(0.0, -0.066), {"head_mesh": CharacterModel.sphere(0.137, 12, 6), "lift": 0.008, "preset": &"bright",
+		"brow": {"inner": Vector2(0.034, 0.036), "mid": Vector2(0.054, 0.042), "outer": Vector2(0.074, 0.034),
+			"w": Vector3(0.004, 0.005, 0.002)},
+		"mouth": {"c": Vector2(0.0, 0.0), "hw": 0.020, "lip": 0.0022},
+		"mouth_canvas": FaceKit.canvas(Vector3(0, 0.30, 0.0), 0.16, CharacterModel.sphere(0.16, 12, 6), Vector3.ONE,
+			Vector3.INF, Basis.IDENTITY, 0.004),
+		"palette": {"sclera": Color(0.10, 0.10, 0.14), "brow": gills, "lash": Color(0.10, 0.10, 0.14), "lip_line": gills,
+			"lip": Color(0.50, 0.46, 0.44), "mouth_in": Color(0.10, 0.10, 0.14), "teeth": Color(0.70, 0.68, 0.62),
+			"tongue": Color(0.40, 0.30, 0.34)},
+		"x": {&"neutral": {"mouth": {"kind": "shout", "w": 0.55, "depth": 0.9}}}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

@@ -1,0 +1,13 @@
+{
+	"asset": "bristleback",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 99.0,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/bristleback/bristleback.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

@@ -459,11 +459,7 @@ static func skull_mesh(v: int) -> Mesh:
 	var hw: float = HEAD_W[v]
 	for sx: float in [-1.0, 1.0]:
 		var mx := Vector3(sx, 1.0, 1.0)
-		# Eyes (almond, slanted) under a heavy brow ridge.
-		var er := Basis(Vector3.UP, 0.55 * sx) * Basis(Vector3.BACK, -0.28 * sx)
-		_ellipsoid(eye, Vector3(EYE.x * hw, EYE.y, EYE.z) * mx, Vector3(0.042, 0.024, 0.03), 7, 4, er)
-		_ellipsoid(mane, Vector3(0.088 * hw * sx, 1.566, 1.085), Vector3(0.06, 0.02, 0.045), 6, 3,
-			Basis(Vector3.BACK, -0.25 * sx))
+		# (the almond eyes and the brow ridge: the direwolf's CreatureFaceRig, faces pass 2026-09-28)
 		# Dark lip line along the muzzle side.
 		var lip := PackedVector3Array()
 		var lr := PackedFloat32Array()

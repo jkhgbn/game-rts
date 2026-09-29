@@ -50,6 +50,8 @@ const SK_R: Array[float] = [0.0, 0.10, 0.135, 0.13, 0.10, 0.083, 0.09, 0.075, 0.
 const SK_X := 0.78
 
 var _dissolve_v: float = -1.0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 
 
 func _build_mount() -> void:
@@ -57,6 +59,7 @@ func _build_mount() -> void:
 	var head: Node3D = $Root/Mount/Head
 	add_sculpt(body, _body_sculpt)
 	add_sculpt(head, _head_sculpt)
+	_face = CreatureFaceRig.attach(self, head, "dusk_steed", face_spec())
 	var legs: Array[Node3D] = [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]
 	for leg: Node3D in legs:
 		var p := model_origin(leg)
@@ -210,12 +213,9 @@ func _head_sculpt(s: Dictionary) -> void:
 		var eye := SK_B + sd * 0.15 + up * 0.055 + side * 0.093
 		var ef := frame(eye, up, sd).basis
 		var eb := Basis(up, 0.38 * sx) * ef * Basis(Vector3.RIGHT, 0.25)
-		sculpt_add(s, sphere(0.055, 6, 3), Transform3D(eb.scaled_local(Vector3(0.55, 0.9, 1.35)), eye - side * 0.008), dark)
-		sculpt_add(s, box(Vector3(0.035, 0.05, 0.13)), Transform3D(eb, eye + side * 0.022), glow)
+		# (the eye socket, the glow slit and the brow bump: the CreatureFaceRig eyes, faces pass 2026-09-28)
 		var wd := (-sd * 0.85 + up * 0.35 + side * 0.25).normalized()
 		_tongue(s, glow, eye + side * 0.02 - sd * 0.04, wd, side, 0.022, 0.17, 0.5)
-		sculpt_add(s, sphere(0.05, 6, 3), Transform3D(eb.scaled_local(Vector3(0.8, 0.55, 1.7)), eye + up * 0.045 +
-			side * 0.004), hd)
 		# ears: tall, sharp, laid slightly back
 		var ear := SK_B + up * 0.09 + side * 0.058 - sd * 0.01
 		var ed := Vector3(0.28 * sx, 1.0, -0.3).normalized()
@@ -393,6 +393,8 @@ func _head_barding(s: Dictionary) -> void:
 
 func _mount_ready() -> void:
 	_dissolve_v = -1.0
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 
 
 ## The dusk rear: a half rear with the fore hooves pawing the air, the head tossed up and shaken, then a snort (the
@@ -417,6 +419,8 @@ func _pose_fidget(t: float) -> float:
 
 ## Death: a violet dissolve flare as it goes down (the Shadow idiom), fading to a faint violet sheen on the body.
 func _mount_process(_dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		return
 	var t := _death_t
@@ -431,7 +435,25 @@ func _mount_process(_dt: float) -> void:
 
 
 func _mount_revive() -> void:
+	if _face:
+		_face.reset()
 	_dissolve_v = -1.0
 	for gi: GeometryInstance3D in _flash_all_targets:
 		gi.set_instance_shader_parameter(&"hit_flash", 0.0)
 		gi.set_instance_shader_parameter(&"flash_color", WHITE)
+
+
+## The eyes (faces pass 2026-09-28): slanted glowing violet eyes (the old glow slits: the irises glow) under a heavy
+## brow ridge that carries the expression; the glow wisps stay. Drawn inside the merged head (CreatureFaceRig host).
+static func face_spec() -> Dictionary:
+	var sd := (SK_F - SK_B).normalized()
+	var up := Vector3(0, sd.z, -sd.y)
+	var eye := SK_B + sd * 0.15 + up * 0.055 + Vector3(0.093, 0, 0)
+	return CreatureFaceRig.side_eye_spec(eye, Vector3(0.92, 0.12, 0.36), 0.040, Color(0.125, 0.105, 0.155),
+		Color(0.78, 0.40, 1.0), 0.9, {"eye": {"tilt": 0.012, "top": 0.022}, "palette": {"brow": Color(0.30, 0.24, 0.40)}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

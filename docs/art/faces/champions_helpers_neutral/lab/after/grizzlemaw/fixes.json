@@ -1,0 +1,31 @@
+{
+	"asset": "grizzlemaw",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 96.5,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/beasts/grizzlemaw/grizzlemaw.tscn",
+	"tier": "hero",
+	"version": "1.0"
+}

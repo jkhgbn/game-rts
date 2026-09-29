@@ -63,6 +63,8 @@ static var _bb_mats: Dictionary = {}
 static var _bb_meshes: Dictionary = {}
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _quills: MeshInstance3D
 var _dust: GPUParticles3D
 var _clods: GPUParticles3D
@@ -120,6 +122,7 @@ func _build_parts() -> void:
 	var mount: Node3D = $Root/Mount
 	_part(mount, _body_mesh(), Vector3.ZERO)
 	_part($Root/Mount/Head, _head_mesh(), Vector3.ZERO)
+	_face = CreatureFaceRig.attach(self, $Root/Mount/Head, "bristleback", face_spec())
 	for leg: Node3D in [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]:
 		var p := model_origin(leg)
 		_part(leg, _leg_mesh(p.z > 0.0, signf(p.x)), Vector3.ZERO)
@@ -144,6 +147,8 @@ func _after_ready() -> void:
 	if _quills and not _flash_hit_targets.has(_quills):
 		_flash_hit_targets.append(_quills)
 	_dig_wait = _next_dig() * 0.6
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 	_write_quills(0.0, 0.0, true)
 
 
@@ -165,6 +170,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_quill_r = 0.0
 	_cast_last = -1.0
 	_write_quills(0.0, 0.0, true)
@@ -328,6 +335,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		if _action == &"dig":
 			if _speed >= 0.3:
@@ -660,10 +669,7 @@ static func _head_mesh() -> Mesh:
 	_put(dark, cyl(0.10, 0.105, 0.07, 9), Transform3D(Basis(Vector3.RIGHT, PI * 0.5), Vector3(0, 0.52, 1.055)))
 	for sx: float in [-1.0, 1.0]:
 		_ellipsoid(eye, Vector3(0.042 * sx, 0.525, 1.092), Vector3(0.024, 0.032, 0.014), 5, 2)
-		# Beady eye + the heavy brow over it.
-		_ellipsoid(eye, Vector3(0.152 * sx, 0.724, 0.73), Vector3(0.03, 0.026, 0.032), 6, 3)
-		_ellipsoid(dark, Vector3(0.132 * sx, 0.768, 0.715), Vector3(0.055, 0.024, 0.065), 5, 2,
-			Basis.from_euler(Vector3(0.25, 0.0, -0.35 * sx)))
+		# (the beady eye and the mean brow: the CreatureFaceRig eyes, faces pass 2026-09-28)
 		# Ear: a flattened cone laid back and out.
 		var ed := Vector3(0.5 * sx, 0.78, -0.40).normalized()
 		var eb := Basis(Quaternion(Vector3.UP, ed)) * Basis.from_scale(Vector3(1.0, 1.0, 0.42))
@@ -737,3 +743,18 @@ static func _quill_mesh() -> Mesh:
 			var dir := Vector3(0.70 * side, 0.55, -0.45).normalized()
 			_spike(dark, bone, base, base + dir * (0.21 - 0.025 * float(j)), 0.032)
 	return _commit(KEY, [[dark, _m(&"bristleback_dark")], [bone, _m(&"bristleback_bone")]])
+
+
+## The eyes (faces pass 2026-09-28): small beady black eyes with a catch-light under a mean dark brow ridge that
+## scowls harder when it charges. Drawn inside the merged head (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	return CreatureFaceRig.side_eye_spec(Vector3(0.152, 0.724, 0.73), Vector3(0.80, 0.34, 0.50), 0.034,
+		Color(0.41, 0.26, 0.17), Color(0.22, 0.12, 0.06), 0.0, {"palette": {"sclera": Color(0.06, 0.04, 0.03),
+		"brow": Color(0.17, 0.12, 0.10)}, "brow": {"w": Vector3(0.008, 0.010, 0.004)},
+		"x": {&"neutral": {"brow": [-0.008, -0.002, 0.004]}}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

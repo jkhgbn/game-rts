@@ -55,6 +55,8 @@ const PALM_C := Vector3(0.92, 2.56, 0.78)
 const BROW_BLOOM := Vector3(0, 2.29, 1.03)
 
 var _wither_v: float = 0.0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 
 
 func _build_mount() -> void:
@@ -64,6 +66,7 @@ func _build_mount() -> void:
 	add_sculpt(body, _body_sculpt)
 	add_sculpt(neck, _neck_sculpt)
 	add_sculpt(head, _head_sculpt)
+	_face = CreatureFaceRig.attach(self, head, "grove_stag", face_spec())
 	var legs: Array[Node3D] = [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]
 	for leg: Node3D in legs:
 		var p := model_origin(leg)
@@ -291,9 +294,7 @@ func _head_sculpt(s: Dictionary) -> void:
 	_ellipsoid(s, dark, SK_B + sd * 0.545 + up * 0.01, Vector3.RIGHT, up, sd, Vector3(0.075, 0.06, 0.05))
 	for sx: float in [-1.0, 1.0]:
 		var eye := SK_B + sd * 0.15 + up * 0.055 + Vector3(0.128 * sx, 0, 0)
-		sculpt_put(s, sphere(0.042, 6, 3), dark, eye, Vector3.ZERO, Vector3(0.8, 0.9, 1.2))
-		sculpt_put(s, sphere(0.06, 6, 3), hide, eye + up * 0.05 + Vector3(-0.01 * sx, 0, -0.01), Vector3.ZERO,
-			Vector3(1.0, 0.5, 1.4))
+		# (the eye and the brow bump: the CreatureFaceRig eyes, faces pass 2026-09-28)
 		# ears: broad leaf-shaped, angled out under the antlers
 		var ear := SK_B + up * 0.08 + Vector3(0.15 * sx, 0, -0.07)
 		var ed := Vector3(1.0 * sx, 0.25, -0.35).normalized()
@@ -503,6 +504,8 @@ func _head_barding(s: Dictionary) -> void:
 
 func _mount_ready() -> void:
 	_wither_v = 0.0
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 
 
 ## Graze and toss: the head goes down to sniff / crop the ground (neck low, a few chews), then comes up with a proud
@@ -526,6 +529,8 @@ func _pose_fidget(t: float) -> float:
 
 ## Death: the moss withers (a faint ochre tint that stays); the head is propped on the rack instead of burying it.
 func _mount_process(_dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		return
 	var roll: float = clampf(_death_t / 0.62, 0.0, 1.0)
@@ -542,7 +547,26 @@ func _mount_process(_dt: float) -> void:
 
 
 func _mount_revive() -> void:
+	if _face:
+		_face.reset()
 	_wither_v = 0.0
 	for gi: GeometryInstance3D in _flash_all_targets:
 		gi.set_instance_shader_parameter(&"hit_flash", 0.0)
 		gi.set_instance_shader_parameter(&"flash_color", WHITE)
+
+
+## The eyes (faces pass 2026-09-28): big soft dark deer eyes with a catch-light and a pale-rimmed lid, a brow ridge that
+## carries the expression. Drawn inside the merged head (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	var sd := (SK_F - SK_B).normalized()
+	var up := Vector3(0, sd.z, -sd.y)
+	var eye := SK_B + sd * 0.15 + up * 0.055 + Vector3(0.128, 0, 0)
+	return CreatureFaceRig.side_eye_spec(eye, Vector3(0.88, 0.10, 0.46), 0.040, Color(0.25, 0.22, 0.14),
+		Color(0.30, 0.18, 0.08), 0.0, {"eye": {"top": 0.034, "bot": 0.026, "ir": 0.028},
+		"palette": {"sclera": Color(0.10, 0.07, 0.05), "brow": Color(0.12, 0.10, 0.06), "lash": Color(0.06, 0.05, 0.03)}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

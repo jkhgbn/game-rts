@@ -12,6 +12,29 @@ extends CharacterModel
 
 ## Hover height of the bottle's foot (the Art Lab reads the model as hovering).
 var fly_height: float = 0.22
+## Painted face (FaceKit, faces pass 2026-09-28).
+var _face: FaceRig
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+## The storm-spirit face: glowing white-gold eyes (gold sclera glow, a bright iris, a small dark pupil) under heavy
+## storm-grey brows, a broad grin of storm lips over the cloud beard (its storm-lump cheeks are the ears). Lean.
+static func _face_spec() -> Dictionary:
+	var cloud := Color(0.80, 0.78, 0.70)
+	return {"center": Vector3(0, 2.3, 0.08), "radius": 0.2, "head_mesh": sphere(0.2, 10, 5),
+		"head_scale": Vector3(0.95, 1.0, 0.95), "preset": &"stern", "detail": &"low", "skin": cloud,
+		"hair": Color(0.46, 0.44, 0.56), "eyes": Color(1.0, 0.95, 0.70), "ears": &"none",
+		"eye": {"c": Vector2(0.068, 0.028), "hw": 0.034, "top": 0.022, "bot": 0.014, "ir": 0.013, "pupil": 0.35},
+		"brow": {"w": Vector3(0.010, 0.011, 0.005)},
+		"mouth": {"c": Vector2(0.0, -0.058), "hw": 0.040, "lip": 0.0036},
+		"palette": {"sclera": FaceKit.glow(Color(1.0, 0.82, 0.36), 0.6), "iris_glow": 0.9, "pupil": Color(0.30, 0.18, 0.05),
+			"lash": Color(0.30, 0.28, 0.38), "lip": Color(0.52, 0.50, 0.62), "lip_line": Color(0.26, 0.24, 0.34),
+			"mouth_in": Color(0.30, 0.22, 0.10), "mouth_glow": 0.6}}
 
 const ATTACK_LEN := 0.6
 const RELEASE := 0.15
@@ -105,11 +128,10 @@ func _build_parts() -> void:
 		for k: int in 2:
 			add_part(chest, cyl(0.0, 0.1 - 0.02 * k, 0.42 - 0.08 * k, 6), storm,
 				Vector3(0.28 * s + 0.12 * s * k, 2.08 - 0.08 * k, -0.28), Vector3(-58 + 8 * k, 0, -28 * s - 12 * s * k))
-	# ---- Head: a broad cloud head, gold eye slits and brow, a pointed cloud beard, the storm crest swept back.
+	# ---- Head: a broad cloud head, a pointed cloud beard, the storm crest swept back; the face (glowing gold eyes, storm
+	# brows, lips) is the FaceKit Face node (faces pass 2026-09-28: was two gold slit boxes + a brow box).
 	add_part(head, sphere(0.2, 10, 5), cloud, Vector3(0, 2.3, 0.08), Vector3.ZERO, Vector3(0.95, 1.0, 0.95))
-	add_part(head, box(Vector3(0.26, 0.06, 0.1)), cloud, Vector3(0, 2.365, 0.22), Vector3(-10, 0, 0))
-	for s: float in [-1.0, 1.0]:
-		add_part(head, box(Vector3(0.075, 0.03, 0.03)), gold, Vector3(0.065 * s, 2.32, 0.268), Vector3(0, 0, -14 * s))
+	_face = UnitFaces.attach_lean(self, head, "stormbottle_genie", _face_spec())
 	add_part(head, cyl(0.0, 0.1, 0.3, 6), storm, Vector3(0, 2.1, 0.2), Vector3(160, 0, 0))
 	for k: int in 3:
 		var sx: float = (float(k) - 1.0) * 0.1
@@ -307,7 +329,14 @@ func _on_action_event(ev: StringName) -> void:
 				_lip_sparks.emitting = false
 
 
+func _extra_process(_dt: float) -> void:
+	if _face:
+		_face.auto(self)
+
+
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_flare = 0.0
 	if _bolt:
 		_bolt.visible = false

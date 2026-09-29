@@ -330,10 +330,10 @@ static func head_mesh() -> Mesh:
 	for sx: float in [-1.0, 1.0]:
 		# Nostrils: two dark hollows on the disc (a darker ring reads as holes at this size).
 		_ellipsoid(hide, Vector3(0.075 * sx, 0.79, 2.045), Vector3(0.04, 0.05, 0.02), 6, 3)
-		# Eye: a small amber glow bead under the helmet rim, a dark socket around it.
+		# Eye: a dark socket under the helmet rim; the amber glowing eye on it is the tusker's CreatureFaceRig (faces
+		# pass 2026-09-28: was a glow bead).
 		var ep := head_point(1.33, 1.02 * sx, 1.0)
 		_ellipsoid(dark, ep + Vector3(0.0, 0.0, -0.01), Vector3(0.085, 0.07, 0.085), 8, 4)
-		_ellipsoid(eye, ep + Vector3(0.018 * sx, 0.0, 0.012), Vector3(0.058, 0.05, 0.058), 8, 4)
 		# Ear: a flattened dark cone laid back and out.
 		var ed := Vector3(0.58 * sx, 0.62, -0.53).normalized()
 		var eb := Basis(Quaternion(Vector3.UP, ed)) * Basis.from_scale(Vector3(1.0, 1.0, 0.4))

@@ -1,0 +1,135 @@
+{
+	"asset": "mage_archer",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-20492",
+					"material_path": "",
+					"to": "StandardMaterial3D#-2757",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-49416",
+					"material_path": "",
+					"to": "StandardMaterial3D#-2757",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 9.6,
+					"material": "shadow_skin",
+					"material_path": "res://art/units/kit/materials/shadow_skin.tres",
+					"to": "shadow_silver",
+					"to_path": "res://art/units/kit/materials/shadow_silver.tres"
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 11
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "11 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-20492` -> `StandardMaterial3D#-2757` (dE 0.0), `StandardMaterial3D#-49416` -> `StandardMaterial3D#-2757` (dE 0.0), `shadow_skin` -> `shadow_silver` (dE 9.6); 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 11 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-20492` -> `StandardMaterial3D#-2757` (dE 0.0), `StandardMaterial3D#-49416` -> `StandardMaterial3D#-2757` (dE 0.0), `shadow_skin` -> `shadow_silver` (dE 9.6); 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2962,
+					"node": "Root/Chest/Head/Variant",
+					"to": 1481,
+					"words": "`Variant` 2962 -> 1481 verts"
+				},
+				{
+					"from": 1333,
+					"node": "Root/Chest/ArmR/Bow",
+					"to": 667,
+					"words": "`Bow` 1333 -> 667 verts"
+				},
+				{
+					"from": 1205,
+					"node": "Root/Chest/Quiver",
+					"to": 603,
+					"words": "`Quiver` 1205 -> 603 verts"
+				},
+				{
+					"from": 805,
+					"node": "Root/Hips/Merged",
+					"to": 403,
+					"words": "`Merged` 805 -> 403 verts"
+				},
+				{
+					"from": 592,
+					"node": "Root/Chest/Merged",
+					"to": 296,
+					"words": "`Merged` 592 -> 296 verts"
+				},
+				{
+					"from": 584,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 292,
+					"words": "`Merged` 584 -> 292 verts"
+				},
+				{
+					"from": 469,
+					"node": "Root/Chest/Head/Merged",
+					"to": 235,
+					"words": "`Merged` 469 -> 235 verts"
+				},
+				{
+					"from": 345,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 173,
+					"words": "`Merged` 345 -> 173 verts"
+				},
+				{
+					"from": 345,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 173,
+					"words": "`Merged` 345 -> 173 verts"
+				},
+				{
+					"from": 228,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 114,
+					"words": "`Merged` 228 -> 114 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 8872
+			},
+			"predicted": {
+				"verts": 4441
+			},
+			"proposal": "8872 -> 4441 (want <= 3000): `Variant` 2962 -> 1481 verts; `Bow` 1333 -> 667 verts; `Quiver` 1205 -> 603 verts; `Merged` 805 -> 403 verts; `Merged` 592 -> 296 verts; `Merged` 584 -> 292 verts; `Merged` 469 -> 235 verts; `Merged` 345 -> 173 verts; `Merged` 345 -> 173 verts; `Merged` 228 -> 114 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 8872 -> 4441 (want <= 3000): `Variant` 2962 -> 1481 verts; `Bow` 1333 -> 667 verts; `Quiver` 1205 -> 603 verts; `Merged` 805 -> 403 verts; `Merged` 592 -> 296 verts; `Merged` 584 -> 292 verts; `Merged` 469 -> 235 verts; `Merged` 345 -> 173 verts; `Merged` 345 -> 173 verts; `Merged` 228 -> 114 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 91.2,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/mage_archer/mage_archer.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

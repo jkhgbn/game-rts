@@ -2,7 +2,7 @@ extends CharacterModel
 ## The Greywater Tracker (market-trade.md 6.1 / 9, task 10.V7): a hired monster-hunter of the Greywater Lodge, sold to a
 ## team by contract. Look: a long slate grey-green OILSKIN duster, a peaked grey-green HOOD whose point hangs back
 ## (a short liripipe), a shaggy pale FUR MANTLE over the shoulders (open in front), a lower-face mask with a dark
-## eye bar, a HOUND SKULL worn on the left shoulder and a necklace of hound fangs on the chest (the trophies), a coil
+## eye bar (faces pass 2026-09-28: the mask is pulled down round the neck, a FaceKit face shows), a HOUND SKULL worn on the left shoulder and a necklace of hound fangs on the chest (the trophies), a coil
 ## of snare rope on the left hip and a bolt case on the right; a HEAVY CROSSBOW (wide steel prod, stirrup, a fang
 ## charm) carried in the right fist, nose down at the side, raised to the shoulder to shoot.
 ## Why a crossbow and not the longbow of the first art list: the lead's brief (10.V7) asked for "crossbow or spear",
@@ -37,6 +37,8 @@ const AIM_TIP_GLOW := 2.1                           # extra while aimed (1.5 ene
 static var _tr_mats: Dictionary = {}
 static var _tr_meshes: Dictionary = {}
 
+## Painted face (FaceKit, faces pass 2026-09-28).
+var _face: FaceRig
 var _authored: int = 0
 var _xbow: MeshInstance3D
 var _spark: GPUParticles3D
@@ -100,9 +102,10 @@ func _build_parts() -> void:
 	_part(chest, _torso_mesh(), null, Vector3.ZERO)
 	_part(chest, _mantle_mesh(), _m(&"tracker_fur"), Vector3.ZERO)
 	_part(chest, _skull_mesh(), null, Vector3.ZERO)
-	# ---- Head: face, mask and eye bar; the peaked hood (+ the contract ribbon on its point)
+	# ---- Head: face + the lowered mask; the peaked hood (+ the contract ribbon on its point); the FaceKit face
 	_part(head, _face_mesh(), null, Vector3.ZERO)
 	_part(head, _hood_mesh(), null, Vector3.ZERO)
+	_face = UnitFaces.attach_lean(self, head, "tracker", _face_spec(), false)
 	# ---- Arms: oilskin sleeves, leather bracers / gloves; team band on the left forearm; the crossbow in the right fist
 	for side: float in [-1.0, 1.0]:
 		var arm: Node3D = arm_r if side > 0.0 else arm_l
@@ -379,14 +382,15 @@ static func _torso_mesh() -> ArrayMesh:
 	var lea := _bucket()
 	var bone := _bucket()
 	var metal := _bucket()
-	_put(oil, cyl(0.285, 0.25, 0.62, 10), _xf(Vector3(0, 1.32, 0)))
+	# the coat torso stops at the shoulders (faces pass 2026-09-28: it used to rise to 1.63 m, over the chin)
+	_put(oil, cyl(0.285, 0.25, 0.52, 10), _xf(Vector3(0, 1.27, 0)))
 	# bandolier: right shoulder -> left hip, 3 pieces following the chest
 	var pieces: Array = [[Vector3(0.16, 1.40, 0.245), -28.0], [Vector3(0.0, 1.24, 0.29), 0.0], [Vector3(-0.16, 1.09, 0.255), 28.0]]
 	for p: Array in pieces:
 		_put(lea, box(Vector3(0.075, 0.25, 0.035)), _xf(p[0], Vector3(0, float(p[1]), 42.0)))
 	_put(metal, box(Vector3(0.07, 0.07, 0.03)), _xf(Vector3(0.0, 1.24, 0.31), Vector3(0, 0, 42)))
-	# clasp cord between the mantle's front edges
-	_seg(lea, Vector3(-0.115, 1.595, 0.205), Vector3(0.115, 1.595, 0.205), 0.018, 0.018, 5)
+	# clasp cord between the mantle's front edges (under the chin since the faces pass)
+	_seg(lea, Vector3(-0.115, 1.455, 0.205), Vector3(0.115, 1.455, 0.205), 0.018, 0.018, 5)
 	# fang necklace: a cord arc over the chest, 5 fangs (the biggest in the middle)
 	var prev := Vector3.ZERO
 	for i: int in 7:
@@ -457,18 +461,30 @@ static func _skull_mesh() -> ArrayMesh:
 
 # ---------------------------------------------------------------- head
 
-## Face (skin), a leather mask over the mouth and nose, the dark eye bar in the gap.
+## Face (skin) and the leather mask pulled down round the neck (faces pass 2026-09-28: it used to cover the mouth and
+## nose, with a dark eye bar in the gap; the eyes, brows and lips are the FaceKit Face node now).
 static func _face_mesh() -> ArrayMesh:
 	if _tr_meshes.has("face"):
 		return _tr_meshes["face"]
 	var skin := _bucket()
 	var lea := _bucket()
-	var dark := _bucket()
 	_put(skin, cyl(0.075, 0.088, 0.16, 6, false), _xf(Vector3(0, 1.47, 0.0)))
 	_put(skin, sphere(0.195, 8, 4), _xf(Vector3(0, 1.61, 0.03), Vector3.ZERO, Vector3(0.95, 1.05, 0.95)))
-	_put(lea, cyl(0.198, 0.178, 0.13, 8, false), _xf(Vector3(0, 1.535, 0.035), Vector3(-6, 0, 0)))
-	_put(dark, box(Vector3(0.21, 0.055, 0.05)), _xf(Vector3(0, 1.628, 0.205)))
-	return _commit("face", [[skin, palette(&"fire_skin")], [lea, palette(&"fire_leather")], [dark, palette(&"unit_eye_dark")]])
+	_put(lea, cyl(0.17, 0.16, 0.10, 8, false), _xf(Vector3(0, 1.455, 0.02), Vector3(-6, 0, 0)))
+	return _commit("face", [[skin, palette(&"fire_skin")], [lea, palette(&"fire_leather")]])
+
+
+## Face (FaceKit, lean: a soldier-budget unit): a weathered hunter, narrowed grey-green eyes, dark brows, a thin hard
+## mouth, a dark swept fringe out of the hood (UnitFaces.hood_fringe).
+static func _face_spec() -> Dictionary:
+	var c := Vector3(0, 1.61, 0.03)
+	var hair := Color(0.20, 0.15, 0.11)
+	return {"center": c, "radius": 0.195, "head_mesh": sphere(0.195, 8, 4), "head_scale": Vector3(0.95, 1.05, 0.95),
+		"preset": &"stern", "detail": &"low", "skin": Color(0.92, 0.72, 0.55), "hair": hair, "eyes": Color(0.40, 0.48, 0.36),
+		"ears": &"none", "palette": {"lip": Color(0.72, 0.44, 0.38)},
+		"x": {&"neutral": {"mouth": {"curve": 0.35}}},
+		"hair_fn": func(acc: Dictionary) -> void:
+			UnitFaces.hood_fringe(acc, c, 0.195, hair, Color(0.34, 0.26, 0.18), -1.0, 0.95)}
 
 
 ## Hood point (model space): the peak of the cowl leans back into a short liripipe.
@@ -675,7 +691,15 @@ func _on_action_event(ev: StringName) -> void:
 				_spark.restart()
 
 
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	var k := clampf(_bow_k, 0.0, 1.0)
 	_bow_k = 0.0
 	if _dead:
@@ -700,6 +724,8 @@ func _extra_process(dt: float) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_aim_s = 0.0
 	_flare = 0.0
 	_cast_prev = 0.0

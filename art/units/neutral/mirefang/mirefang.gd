@@ -65,6 +65,8 @@ static var _mf_mats: Dictionary = {}
 static var _mf_meshes: Dictionary = {}
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _jaw_node: MeshInstance3D
 var _frill_node: MeshInstance3D
 var _tail_node: MeshInstance3D
@@ -136,6 +138,7 @@ func _build_parts() -> void:
 	var head: Node3D = $Root/Mount/Head
 	_part(mount, _body_mesh(), Vector3.ZERO)
 	_part(head, _head_mesh(), Vector3.ZERO)
+	_face = CreatureFaceRig.attach(self, head, "mirefang", face_spec())
 	for leg: Node3D in [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]:
 		var p := model_origin(leg)
 		_part(leg, _leg_mesh(p.z > 0.0, signf(p.x)), Vector3.ZERO)
@@ -166,6 +169,8 @@ func _after_ready() -> void:
 		if n and not _flash_hit_targets.has(n):
 			_flash_hit_targets.append(n)
 	_bob_wait = _next_bob() * 0.6
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 	_write_parts(true)
 
 
@@ -177,6 +182,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_jaw = 0.0
 	_frill = FRILL_REST
 	_jaw_req = -1.0
@@ -337,6 +344,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		if _action == &"bob":
 			if _speed >= 0.3 or _action_t >= BOB_LEN:
@@ -749,8 +758,7 @@ static func _head_mesh() -> Mesh:
 		# Eye bump, the glowing eye on it, the heavy brow over it.
 		_ellipsoid(skin, Vector3(0.088 * sx, 0.372, 0.60), Vector3(0.056, 0.048, 0.062), 6, 3)
 		_ellipsoid(eye, Vector3(0.106 * sx, 0.388, 0.612), Vector3(0.044, 0.04, 0.05), 8, 4)
-		_ellipsoid(dark, Vector3(0.084 * sx, 0.42, 0.585), Vector3(0.052, 0.018, 0.052), 6, 3,
-			Basis(Vector3.BACK, -0.35 * sx))
+		# (the heavy 3D brow: the CreatureFaceRig brow ridge now, faces pass 2026-09-28)
 		# Crown ridge from behind the eye to the neck.
 		_ellipsoid(dark, Vector3(0.05 * sx, 0.40, 0.49), Vector3(0.026, 0.02, 0.075), 6, 3)
 		# Nostril.
@@ -909,3 +917,19 @@ static func _leg_mesh(front: bool, sx: float) -> Mesh:
 		var b := foot + d * 0.03 + Vector3(0, 0.004, 0)
 		_cone(dark, b, b + d * tl + Vector3(0, -0.02, 0), 0.015, 4)
 	return _commit(key, [[skin, _m(&"mirefang_scale")], [dark, _m(&"mirefang_dark")]])
+
+
+## The eyes (faces pass 2026-09-28): the amber glow orbs stay (the glow point); painted on their front, a slit pupil
+## and dark lids, and a dark brow ridge above that carries the expression. Drawn inside the merged head
+## (CreatureFaceRig host mode: the Mirefang keeps its 10 draw instances).
+static func face_spec() -> Dictionary:
+	var out := Vector3(0.62, 0.62, 0.48).normalized()
+	return CreatureFaceRig.side_eye_spec(Vector3(0.106, 0.388, 0.612) + out * 0.042, out, 0.040,
+		Color(0.35, 0.36, 0.16), Color(1.0, 0.62, 0.12), 1.0, {"eye": {"pupil": 0.62, "pupil_w": 0.30, "top": 0.030},
+		"palette": {"brow": Color(0.06, 0.15, 0.12), "lash": Color(0.05, 0.08, 0.05)}, "lift": 0.006})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

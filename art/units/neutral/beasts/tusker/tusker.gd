@@ -75,6 +75,8 @@ static var D_SQUEAL := PackedFloat32Array([0.0, 0.0, 0, 0.12, 1.0, 1, 0.24, 1.0,
 static var _swap_mats: Dictionary = {}          # A material -> B material (resolved once)
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _variant: int = 0
 var _variant_applied: int = -1
 var _bristles: MeshInstance3D
@@ -185,6 +187,7 @@ func _build_parts() -> void:
 	var mount: Node3D = $Root/Mount
 	_part(mount, TM.body_mesh())
 	_part($Root/Mount/Head, TM.head_mesh())
+	_face = CreatureFaceRig.attach(self, $Root/Mount/Head, "tusker", face_spec())
 	for leg: Node3D in [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]:
 		var p := model_origin(leg)
 		_part(leg, TM.leg_mesh(p.z > 0.0, signf(p.x)))
@@ -221,6 +224,8 @@ func _after_ready() -> void:
 		_loop_fx.erase(_trail)
 		_trail.emitting = false
 	_fidget_wait = _next_fidget() * 0.6
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 	_write_bristles(0.0, 0.0, true)
 	_apply_variant()
 
@@ -281,6 +286,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_br_r = 0.0
 	_kick = 0.0
 	_cast_last = -1.0
@@ -509,6 +516,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		if _action == &"fidget":
 			if _speed >= 0.3 or _action_t >= FIDGET_LEN:
@@ -584,3 +593,20 @@ static func _trk(t: float, k: PackedFloat32Array) -> float:
 	else:
 		u = u * u * (3.0 - 2.0 * u)
 	return k[i - 2] + (k[i + 1] - k[i - 2]) * u
+
+
+## The eyes (faces pass 2026-09-28): small mean amber glowing eyes (the old glow beads) on the dark sockets under the
+## helmet rim, a dark brow line under the rim that carries the expression (the B tusker's right eye stays under its
+## scar lid). Drawn inside the merged head (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	var ep := TM.head_point(1.33, 1.02, 1.0)
+	var out := Vector3(0.85, 0.20, 0.48).normalized()
+	return CreatureFaceRig.side_eye_spec(ep + out * 0.08, out, 0.056, Color(0.25, 0.22, 0.21), Color(1.0, 0.66, 0.18), 0.9,
+		{"palette": {"sclera": Color(0.10, 0.06, 0.04), "brow": Color(0.10, 0.08, 0.08)}, "eye": {"pupil": 0.4},
+		"brow": {"w": Vector3(0.010, 0.012, 0.005)}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

@@ -1,0 +1,88 @@
+{
+	"asset": "coin_cutter",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B8",
+			"computed": false,
+			"measured": {
+				"materials": 8
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "8 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): (no look-alike pair of the same shader) Snap to the closed palette (art-units 2.2); no per-part materials; 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 8 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): (no look-alike pair of the same shader) Snap to the closed palette (art-units 2.2); no per-part materials; 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 682,
+					"node": "Root/Chest/Merged",
+					"to": 341,
+					"words": "`Merged` 682 -> 341 verts"
+				},
+				{
+					"from": 672,
+					"node": "Root/Chest/Head/Face",
+					"to": 336,
+					"words": "`Face` 672 -> 336 verts"
+				},
+				{
+					"from": 456,
+					"node": "Root/Chest/Head/Merged",
+					"to": 262,
+					"words": "`Merged` 456 -> 262 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3829
+			},
+			"predicted": {
+				"verts": 2958
+			},
+			"proposal": "3829 -> 2958 (want <= 3000): `Merged` 682 -> 341 verts; `Face` 672 -> 336 verts; `Merged` 456 -> 262 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 3829 -> 2958 (want <= 3000): `Merged` 682 -> 341 verts; `Face` 672 -> 336 verts; `Merged` 456 -> 262 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 90.7,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/coin_cutter/coin_cutter.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

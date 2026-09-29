@@ -12,7 +12,7 @@ extends CharacterModel
 ## (1.5 s channel: lunge, rummage with the left hand while the head snaps around, yank the sack over the shoulder),
 ## `play_smoke_flee()` (also on `set_status(&"shroud", true)`: a smoke puff, arms cross over the face, then a low
 ## sprint with the arms swept back like wings while the shroud lasts), `fall` death in a puff of smoke.
-## Glow: ONE point, the eye shine (1 surface, magpie_eye_glow), flares while snatching.
+## Glow: ONE point, the eye shine (the FaceKit irises on the Face node, faces pass 2026-09-28), flares while snatching.
 ## Budget: 9 authored meshes (blob included) + 1 one-shot emitter; 10 draw instances (6 merged pivots + Tail, Sack,
 ## blob, Puff); 0 lights; 6 own materials + the kit's blob and gold trim.
 
@@ -85,7 +85,9 @@ static var _meshes: Dictionary = {}
 var _tail: MeshInstance3D
 var _sack: MeshInstance3D
 var _puff: GPUParticles3D
-var _eye_glow: GeometryInstance3D     # merged Head (the eye bar surface), driven here
+var _eye_glow: GeometryInstance3D     # the Face node (the glowing irises), driven here
+## Painted face (FaceKit, faces pass 2026-09-28).
+var _face: FaceRig
 
 # Secondary motion (springs).
 var _tail_a: Vector2 = Vector2.ZERO    # x = lift back (rot x), y = side swing (rot z)
@@ -205,8 +207,10 @@ func _build_parts() -> void:
 	_sack = add_part(chest, _sack_mesh(), null, SACK_AT, Vector3.ZERO, Vector3.ONE, true, "Sack")
 	_sack.set_meta(&"carry", true)
 	_sack.visible = false
-	# ---- Head: hood, crest, white beaked half-mask, the eye shine.
+	# ---- Head: hood, crest, white beaked half-mask; the FaceKit face (eyes on the band: the eye shine, brows, lips).
 	add_part(head, _head_mesh(), null, Vector3.ZERO)
+	_face = FaceKit.attach(self, head, "magpie", _face_style())
+	_face.set_meta(&"own_glow", true)   # the eye shine: driven in _drive_eyes
 	# ---- Arms: sleeves, sheen bracers, white wing patch, gloves, reverse-grip knives.
 	add_part(arm_r, _arm_mesh(1.0), null, Vector3.ZERO)
 	add_part(arm_l, _arm_mesh(-1.0), null, Vector3.ZERO)
@@ -221,7 +225,7 @@ func _build_parts() -> void:
 
 func _after_ready() -> void:
 	_sack_rest = _sack.position
-	_eye_glow = _merged_nodes.get(P_HEAD)
+	_eye_glow = _face
 	if _eye_glow:
 		_glow_nodes.erase(_eye_glow)
 	_idle_left = 6.0 + 6.0 * fmod(_phase_off * 3.1, 1.0)
@@ -623,12 +627,40 @@ static func _head_mesh() -> ArrayMesh:
 		crest.append([feather, Transform3D(b.scaled_local(Vector3(0.45, ln, 1.0)), base + b.y * ln * 0.5)])
 	var mid := BEAK_ROOT.lerp(BEAK_TIP, 0.45)
 	var m := _bake("mp_head", [
-		[[_at(sphere(0.24, 12, 6), HOOD_C, Vector3.ZERO, Vector3(1.0, 1.06, 1.12)), _at(sphere(0.185, 8, 4), FACE_C),
+		# (hood 10 x 5, was 12 x 6; the hidden face sphere 6 x 3, was 8 x 4: faces pass 2026-09-28 trims for the face)
+		[[_at(sphere(0.24, 10, 5), HOOD_C, Vector3.ZERO, Vector3(1.0, 1.06, 1.12)), _at(sphere(0.185, 6, 3), FACE_C),
 			[band, Transform3D()], _seg(mid, BEAK_TIP, 0.05, 0.0, 8, false)], _mat(&"black")],
 		[[[mask, Transform3D()], _seg(BEAK_ROOT, mid, 0.09, 0.05, 8, false)], _mat(&"white")],
-		[crest, _mat(&"sheen")],
-		[[_at(box(Vector3(0.19, 0.045, 0.04)), EYE_AT, Vector3(-18, 0, 0))], _mat(&"eye_glow")]])
+		[crest, _mat(&"sheen")]])
 	return m
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+## Face (FaceKit, faces pass 2026-09-28; replaces the glowing eye box): round bird-bright eyes painted on the black
+## bandit band (dark eyes, glowing blue-green irises: the one glow point), black brow strokes on the white mask above
+## them, small painted lips on the mask's chin under the beak. The canvas is the mask sphere, lifted over the band.
+static func _face_style() -> Dictionary:
+	if _meshes.has("_face_style"):
+		return _meshes["_face_style"]
+	var white := Color(0.80, 0.80, 0.78)
+	var spec := {"center": FACE_C, "radius": 0.215, "head_mesh": sphere(0.215, 10, 5), "preset": &"hollow", "detail": &"low",
+		"skin": white, "hair": Color(0.08, 0.08, 0.10), "eyes": EYE, "ears": &"none",
+		"eye": {"c": Vector2(0.072, 0.072), "hw": 0.036, "top": 0.026, "bot": 0.020, "ir": 0.019, "pupil": 0.42},
+		"brow": {"inner": Vector2(0.034, 0.112), "mid": Vector2(0.072, 0.128), "outer": Vector2(0.110, 0.116),
+			"w": Vector3(0.0065, 0.0070, 0.0030)},
+		"mouth": {"c": Vector2(0.0, -0.090), "hw": 0.030, "lip": 0.0030},
+		"palette": {"sclera": FaceKit.glow(Color(0.80, 0.95, 0.92), 0.25), "iris_glow": 0.75, "pupil": Color(0.02, 0.05, 0.05),
+			"lash": Color(0.02, 0.02, 0.03), "brow": Color(0.06, 0.06, 0.08), "lip": Color(0.62, 0.46, 0.46),
+			"lip_line": Color(0.12, 0.10, 0.10), "highlight": Color(0.85, 1.0, 0.95)}}
+	var st := UnitFaces.lean(FaceKit.style_from(spec), false)
+	st["canvas"] = FaceKit.canvas(FACE_C, 0.215, sphere(0.215, 10, 5), Vector3.ONE, Vector3.INF, Basis.IDENTITY, 0.02)
+	_meshes["_face_style"] = st
+	return st
 
 
 ## Knife frame at the fist: +Y along the blade, +X the thin direction (the flat faces up to the RTS camera).
@@ -653,7 +685,7 @@ static func _arm_mesh(side: float) -> ArrayMesh:
 	var d := hand - el
 	var up := el - sh
 	var out := Vector3(side, 0.0, 0.0)
-	var black: Array = [_at(sphere(0.09, 8, 4), sh), _seg(sh, el, 0.078, 0.07, 8, false), _at(sphere(0.07, 6, 3), el),
+	var black: Array = [_at(sphere(0.09, 6, 3), sh), _seg(sh, el, 0.078, 0.07, 8, false), _at(sphere(0.07, 6, 3), el),
 		_seg(el, hand, 0.068, 0.062, 8, false), _at(sphere(0.082, 8, 4), hand),
 		_seg(kx.origin - ky * 0.09, kx.origin + ky * 0.03, 0.026, 0.026, 5, false)]
 	var sheen: Array = [_seg(el + d * 0.35, el + d * 0.78, 0.084, 0.078, 8)]
@@ -885,6 +917,8 @@ func _is_full() -> bool:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	var full := _is_full()
 	if _dead:
 		var g := _k3(_death_t, 0.0, 0.2, 0.3, 0.6, 1.0, 1.0)
@@ -970,6 +1004,8 @@ func _drive_eyes() -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_tail_a = Vector2.ZERO
 	_tail_v = Vector2.ZERO
 	_sack_a = Vector3.ZERO

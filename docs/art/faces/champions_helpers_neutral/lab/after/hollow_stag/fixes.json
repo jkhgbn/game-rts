@@ -1,0 +1,174 @@
+{
+	"asset": "hollow_stag",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 13
+			},
+			"predicted": {
+				"draw": 13
+			},
+			"proposal": "13 -> 13 (want <= 10): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 13 -> 13 (want <= 10): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 10"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.9,
+					"node": "res://data/units/hollow_stag.tres",
+					"param": "radius",
+					"to": 0.96
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.9,
+				"x_m": 1.68,
+				"z_m": 1.98
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.9 -> 0.96, or pull the widest parts in to x <= 1.58 / z <= 2.7 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.9 -> 0.96, or pull the widest parts in to x <= 1.58 / z <= 2.7 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.58",
+				"z_m": "<= 2.7"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1739,
+					"node": "Root/Mount/Head/Crown/Skull",
+					"to": 870,
+					"words": "`Skull` 1739 -> 870 verts"
+				},
+				{
+					"from": 1520,
+					"node": "Root/Mount/Merged",
+					"to": 760,
+					"words": "`Merged` 1520 -> 760 verts"
+				},
+				{
+					"from": 262,
+					"node": "Root/Mount/Head/Merged",
+					"to": 131,
+					"words": "`Merged` 262 -> 131 verts"
+				},
+				{
+					"from": 150,
+					"node": "Root/Mount/LegFL/Lower/Shin",
+					"to": 75,
+					"words": "`Shin` 150 -> 75 verts"
+				},
+				{
+					"from": 150,
+					"node": "Root/Mount/LegFR/Lower/Shin",
+					"to": 75,
+					"words": "`Shin` 150 -> 75 verts"
+				},
+				{
+					"from": 150,
+					"node": "Root/Mount/LegBL/Lower/Shin",
+					"to": 75,
+					"words": "`Shin` 150 -> 75 verts"
+				},
+				{
+					"from": 150,
+					"node": "Root/Mount/LegBR/Lower/Shin",
+					"to": 75,
+					"words": "`Shin` 150 -> 75 verts"
+				},
+				{
+					"from": 114,
+					"node": "Root/Mount/LegFL/Merged",
+					"to": 57,
+					"words": "`Merged` 114 -> 57 verts"
+				},
+				{
+					"from": 114,
+					"node": "Root/Mount/LegFR/Merged",
+					"to": 75,
+					"words": "`Merged` 114 -> 75 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4553
+			},
+			"predicted": {
+				"verts": 2397
+			},
+			"proposal": "4553 -> 2397 (want <= 2500): `Skull` 1739 -> 870 verts; `Merged` 1520 -> 760 verts; `Merged` 262 -> 131 verts; `Shin` 150 -> 75 verts; `Shin` 150 -> 75 verts; `Shin` 150 -> 75 verts; `Shin` 150 -> 75 verts; `Merged` 114 -> 57 verts; `Merged` 114 -> 75 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 4553 -> 2397 (want <= 2500): `Skull` 1739 -> 870 verts; `Merged` 1520 -> 760 verts; `Merged` 262 -> 131 verts; `Shin` 150 -> 75 verts; `Shin` 150 -> 75 verts; `Shin` 150 -> 75 verts; `Shin` 150 -> 75 verts; `Merged` 114 -> 57 verts; `Merged` 114 -> 75 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Skull 3.02 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Skull 3.02 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Skull 3.02 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 5,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 83.5,
+	"result": "FAIL",
+	"scene": "res://art/units/neutral/hollow_stag/hollow_stag.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

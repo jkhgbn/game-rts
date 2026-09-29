@@ -117,6 +117,8 @@ static var D_JOLT := PackedFloat32Array([0.0, 0.0, 0, 0.08, 1.0, 1, 0.3, 0.0, 0]
 @export var fidget_every: float = 12.0
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _variant: int = 0
 var _enraged: bool = false
 var _rage_w: float = 0.0             # 0..1 blend of the enraged pose
@@ -265,6 +267,7 @@ func _build_parts() -> void:
 	_part($Root/Mount, GM.body_mesh(0), Vector3.ZERO)
 	_head_node = $Root/Mount/Head
 	_part(_head_node, GM.head_mesh(0, false), GM.HEAD_PIVOT)
+	_face = CreatureFaceRig.attach(self, _head_node, "grizzlemaw_0_false", face_spec(0, false))
 	_jaw = $Root/Mount/Head/Jaw
 	_jaw_rest = _jaw.position
 	_jaw_mi = _part(_jaw, GM.jaw_mesh(0), GM.JAW_PIVOT, true, "JawMesh")
@@ -302,6 +305,8 @@ func _after_ready() -> void:
 	_head_gi = _merged_nodes.get(P_MOUNT_HEAD)
 	if _head_gi:
 		_glow_nodes.erase(_head_gi)
+	if _face:
+		_face.set_host(_head_gi as MeshInstance3D)
 	_fidget_wait = _next_fidget() * 0.6
 	set_variant(_variant)
 	_write_parts(true)
@@ -315,6 +320,8 @@ func _apply_meshes() -> void:
 	if key == _meshes_key:
 		return
 	_meshes_key = key
+	if _face:
+		_face.switch("grizzlemaw_" + key, face_spec(_variant, _enraged))
 	var v := _variant
 	var body: MeshInstance3D = _merged_nodes.get(P_MOUNT)
 	if body:
@@ -348,6 +355,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_jaw_req = 0.0
 	_lower_req.fill(0.0)
 	_flare = 0.0
@@ -594,6 +603,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		_poll_t -= dt
 		if _poll_t <= 0.0:
@@ -686,3 +697,22 @@ static func _trk(t: float, k: PackedFloat32Array) -> float:
 	else:
 		u = u * u * (3.0 - 2.0 * u)
 	return k[i - 2] + (k[i + 1] - k[i - 2]) * u
+
+
+## The eyes (faces pass 2026-09-28): glowing amber bear eyes (red and brighter when enraged, with a permanent scowl)
+## under a heavy scowling brow ridge (the Elder's is white). Drawn inside the merged head (CreatureFaceRig host mode:
+## no extra draw instance; the head's glow drive lights the irises: flares, enrage, the death fade).
+static func face_spec(v: int, rage: bool) -> Dictionary:
+	var out := Vector3(0.62, 0.22, 0.75).normalized()
+	var iris := Color(1.0, 0.26, 0.14) if rage else Color(1.0, 0.70, 0.20)
+	var o := {"eye": {"top": 0.030, "bot": 0.022, "ir": 0.020}, "brow": {"w": Vector3(0.012, 0.015, 0.006)},
+		"palette": {"brow": Color(0.86, 0.84, 0.78) if v == 1 else Color(0.20, 0.12, 0.07), "lash": Color(0.08, 0.05, 0.03)}}
+	if rage:
+		o["x"] = {&"neutral": {"cut_in": 0.7, "brow": [-0.020, -0.008, 0.010], "brow_in_dx": -0.006}}
+	return CreatureFaceRig.side_eye_spec(GM.EYE + out * 0.02, out, 0.046, Color(0.42, 0.26, 0.14), iris, 0.9, o)
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

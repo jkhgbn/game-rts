@@ -1,0 +1,13 @@
+{
+	"asset": "magpie",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 98.9,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/magpie/magpie.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

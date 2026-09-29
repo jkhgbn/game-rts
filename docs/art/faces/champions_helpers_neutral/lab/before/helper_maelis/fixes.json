@@ -1,0 +1,133 @@
+{
+	"asset": "helper_maelis",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 10540,
+					"node": "Root/Chest/Merged",
+					"to": 5270,
+					"words": "`Merged` 10540 -> 5270 verts"
+				},
+				{
+					"from": 8598,
+					"node": "Root/Chest/ArmR/Staff",
+					"to": 4299,
+					"words": "`Staff` 8598 -> 4299 verts"
+				},
+				{
+					"from": 6449,
+					"node": "Root/Chest/Head/Merged",
+					"to": 3225,
+					"words": "`Merged` 6449 -> 3225 verts"
+				},
+				{
+					"from": 1668,
+					"node": "Root/Hips/Merged",
+					"to": 834,
+					"words": "`Merged` 1668 -> 834 verts"
+				},
+				{
+					"from": 983,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 492,
+					"words": "`Merged` 983 -> 492 verts"
+				},
+				{
+					"from": 530,
+					"node": "Root/Chest/Head/Face",
+					"to": 265,
+					"words": "`Face` 530 -> 265 verts"
+				},
+				{
+					"from": 287,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 144,
+					"words": "`Merged` 287 -> 144 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 29619
+			},
+			"predicted": {
+				"verts": 14813
+			},
+			"proposal": "29619 -> 14813 (want <= 2500): `Merged` 10540 -> 5270 verts; `Staff` 8598 -> 4299 verts; `Merged` 6449 -> 3225 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Face` 530 -> 265 verts; `Merged` 287 -> 144 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 29619 -> 14813 (want <= 2500): `Merged` 10540 -> 5270 verts; `Staff` 8598 -> 4299 verts; `Merged` 6449 -> 3225 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Face` 530 -> 265 verts; `Merged` 287 -> 144 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2.0,
+					"node": "res://art/units/helpers/helper_maelis/helper_maelis.tscn (root)",
+					"param": "body_height",
+					"to": 2.51
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 2.0,
+				"head_top_m": 2.51,
+				"ratio": 1.25
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 2.0 -> 2.51 in res://art/units/helpers/helper_maelis/helper_maelis.tscn (root) (the head top; x1.25 now), or lower the head / crest 0.01 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8: body_height 2.0 -> 2.51 in res://art/units/helpers/helper_maelis/helper_maelis.tscn (root) (the head top; x1.25 now), or lower the head / crest 0.01 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.57 m, Staff 0.71 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.57 m, Staff 0.71 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.57 m, Staff 0.71 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 86.9,
+	"result": "FAIL",
+	"scene": "res://art/units/helpers/helper_maelis/helper_maelis.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

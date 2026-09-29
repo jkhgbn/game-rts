@@ -126,6 +126,8 @@ var _fin_rest: Array[Vector3] = [Vector3.ZERO, Vector3.ZERO]
 var _motes: GPUParticles3D
 var _burst: GPUParticles3D
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 
 # ---- pose buffers (reused every frame)
 var _psi := PackedFloat32Array()
@@ -328,6 +330,7 @@ func _build_parts() -> void:
 	_authored += 1
 	_parts.append(_body_mi)
 	_head_mi = _add(P_HEAD, WM.head_mesh(0), true, "HeadMesh")
+	_face = CreatureFaceRig.attach(self, _piv[P_HEAD], "frost_wyrm", face_spec())
 	_add(P_JAW, WM.jaw_mesh(), false, "JawMesh")
 	_add(P_LEG_FL, WM.leg_mesh(-1.0), false, "LegFLMesh")
 	_add(P_LEG_FR, WM.leg_mesh(1.0), false, "LegFRMesh")
@@ -425,6 +428,8 @@ func _update_tier() -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_g = 1.0 if _grounded else 0.0
 	_action = &""
 	_cast_id = &""
@@ -894,6 +899,8 @@ func _apply() -> void:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if _dead:
 		return
 	_poll_t -= dt
@@ -946,3 +953,19 @@ func _world(p: Vector3) -> Vector3:
 	if root and root.is_inside_tree():
 		return root.global_transform * p
 	return p
+
+
+## The eyes (faces pass 2026-09-28): painted on the front of the cold glowing eye blobs (kept: the glow point), a
+## slit pupil and the lids that narrow on the attack and droop when it dies; the 3D brow ridges stay. Its own Face
+## node (the wyrm is under its 20-draw titan budget).
+static func face_spec() -> Dictionary:
+	var out := Vector3(0.90, 0.10, 0.42).normalized()
+	return CreatureFaceRig.side_eye_spec(Vector3(0.262, 4.178, 4.05) + out * 0.048, out, 0.062, Color(0.55, 0.72, 0.86),
+		Color(0.70, 0.95, 1.0), 0.6, {"palette": {"sclera": Color(0.42, 0.62, 0.86), "brow": Color(0.30, 0.42, 0.60),
+		"lash": Color(0.10, 0.16, 0.26)}, "eye": {"pupil": 0.60, "pupil_w": 0.28, "top": 0.030, "bot": 0.026}, "lift": 0.004})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

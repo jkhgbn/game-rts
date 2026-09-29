@@ -44,6 +44,8 @@ static var _meshes: Dictionary = {}
 static var _dust_pm: ParticleProcessMaterial
 static var _dust_quad: QuadMesh
 
+## The drover's painted face (FaceKit, faces pass 2026-09-28).
+var _face: FaceRig
 var _loaded: bool = false
 var _cargo: MeshInstance3D
 var _lantern: MeshInstance3D
@@ -106,6 +108,7 @@ func _build_parts() -> void:
 	add_part(hips, _wheels_mesh(), null, Vector3.ZERO)
 	add_part(chest, _wagon_mesh(), null, Vector3.ZERO)
 	add_part(head, _drover_head_mesh(), null, Vector3.ZERO)
+	_face = UnitFaces.attach_lean(self, head, "caravan_drover", _drover_face_spec())
 	add_part(mount, _ox_body_mesh(), null, Vector3.ZERO)
 	add_part(mhead, _ox_head_mesh(), null, Vector3.ZERO)
 	for leg: String in ["LegFL", "LegFR", "LegBL", "LegBR"]:
@@ -144,6 +147,8 @@ func _after_ready() -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_lan_a = Vector2.ZERO
 	_lan_v = Vector2.ZERO
 	_lan_written = Vector2(99, 99)
@@ -246,7 +251,34 @@ func _pose_death(dt: float) -> void:
 		set_process(false)
 
 
+## Cinematic / UI hook (the drover): FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+## The jolly drover: tanned face (sphere + big round nose inside the face mesh), small twinkling brown eyes set wide of
+## the nose, ginger brows and sideburns under the hat (they cover the ears), a smile under the moustache. Lean.
+static func _drover_face_spec() -> Dictionary:
+	var c := Vector3(0, 1.61, 0.05)
+	var skin := Color(0.88, 0.64, 0.46)
+	var ginger := Color(0.66, 0.32, 0.12)
+	return {"center": c, "radius": 0.14, "head_mesh": sphere(0.14, 8, 5), "preset": &"plain", "detail": &"low",
+		"skin": skin, "hair": ginger, "hair_tip": Color(0.84, 0.48, 0.20), "eyes": Color(0.36, 0.22, 0.10), "ears": &"none",
+		"eye": {"c": Vector2(0.066, 0.030), "hw": 0.020, "top": 0.015, "bot": 0.010, "ir": 0.010},
+		"brow": {"inner": Vector2(0.040, 0.058), "mid": Vector2(0.066, 0.068), "outer": Vector2(0.092, 0.058),
+			"w": Vector3(0.0065, 0.0065, 0.003)},
+		"mouth": {"c": Vector2(0.0, -0.082), "hw": 0.030, "lip": 0.0032},
+		"palette": {"lip": Color(0.80, 0.44, 0.38)},
+		"hair_fn": func(acc: Dictionary) -> void:
+			FaceKit.put_mesh(acc, sphere(0.14, 8, 5), Transform3D(Basis.IDENTITY, c), skin)
+			FaceKit.put_mesh(acc, sphere(0.055, 6, 3), Transform3D(Basis.IDENTITY, Vector3(0, 1.60, 0.195)), skin.lerp(Color(0.9, 0.5, 0.42), 0.35))
+			ChampionFaces.frame_locks(acc, c, 0.14, ginger, Color(0.84, 0.48, 0.20), 0.0, true, 1.0, 0.7, 3)}
+
+
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	# Wheels: rolling without slipping (ground speed / radius); positive x turns the top toward +Z.
 	if _walk_w > 0.0 and not _dead:
 		_wheel_a = fmod(_wheel_a + dt * _speed * _walk_w / WHEEL_R, TAU)
@@ -597,13 +629,13 @@ static func _wagon_mesh() -> ArrayMesh:
 		[brass, _mat(&"brass")]])
 
 
-## The drover's head (Chest/Head pivot): tanned face, big nose, bushy ginger beard, wide hat with a team band.
+## The drover's head (Chest/Head pivot): bushy ginger beard + moustache, wide hat with a team band. His face (the
+## head sphere, the big nose, eyes, brows, lips, ginger sideburns) is the FaceKit Face node (faces pass
+## 2026-09-28: the face and nose used to be brass-coloured spheres here).
 static func _drover_head_mesh() -> ArrayMesh:
 	if _meshes.has("cv_drover"):
 		return _meshes["cv_drover"]
 	return _bake("cv_drover", [
-		[[_at(sphere(0.14, 8, 5), Vector3(0, 1.61, 0.05)), _at(sphere(0.055, 6, 3), Vector3(0, 1.60, 0.195))],
-			_mat(&"brass")],
 		[[_at(cyl(0.14, 0.03, 0.26, 7), Vector3(0, 1.45, 0.13), Vector3(18, 0, 0)),
 			_at(box(Vector3(0.20, 0.05, 0.06)), Vector3(0, 1.555, 0.18)),
 			_at(cyl(0.27, 0.27, 0.04, 10), Vector3(0, 1.72, 0.04), Vector3(-6, 0, 0)),

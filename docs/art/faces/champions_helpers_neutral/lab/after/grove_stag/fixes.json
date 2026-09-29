@@ -1,0 +1,57 @@
+{
+	"asset": "grove_stag",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 2956,
+					"node": "Root/Mount/Head/Merged",
+					"to": 1917,
+					"words": "`Merged` 2956 -> 1917 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 6989
+			},
+			"predicted": {
+				"verts": 5950
+			},
+			"proposal": "6989 -> 5950 (want <= 6000): `Merged` 2956 -> 1917 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 6989 -> 5950 (want <= 6000): `Merged` 2956 -> 1917 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 6000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "nature",
+	"quality": 93.4,
+	"result": "WARN",
+	"scene": "res://art/units/mounts/grove_stag/grove_stag.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

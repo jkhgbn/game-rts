@@ -60,6 +60,8 @@ static var _arrow_cache: Dictionary = {}   # type key -> Mesh (ArmR + the nocked
 static var _mats: Dictionary = {}
 
 var _frame: MeshInstance3D
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _arm_r_mi: MeshInstance3D
 var _mesh_plain: Mesh
 var _mesh_arrow: Mesh
@@ -115,6 +117,7 @@ func _build_parts() -> void:
 	_o_r = model_origin(arm_r)
 	_sculpt_part(chest, _chest_sculpt)
 	_sculpt_part(head, _head_sculpt)
+	_face = CreatureFaceRig.attach(self, head, "howdah_archer", face_spec())
 	_sculpt_part(arm_l, _arm_l_sculpt)
 	_sculpt_part(arm_r, _arm_r_sculpt)
 	# The static howdah frame: one mesh, cached per type, not a pivot (never animated by the kit).
@@ -262,11 +265,10 @@ func _head_sculpt(s: Dictionary) -> void:
 	var cdark := m("ice_cloth_dark")
 	var pale := m("ice_fur_pale")
 	var shade := m("ice_fur")
-	var glow := m("ice_glow_unit")
 	var c := AXIS
-	# face in the hood's shadow, glowing eye slit, scarf, deep team hood with a long point hanging back, fur rim
+	# face in the hood's shadow (its two glowing eyes: the archer's CreatureFaceRig, faces pass 2026-09-28: was a glowing
+	# eye slit), scarf, deep team hood with a long point hanging back, fur rim
 	MountModel.sculpt_put(s, sphere(0.12, 10, 5), shade, Vector3(c.x, 1.31, c.z + 0.04))
-	MountModel.sculpt_put(s, box(Vector3(0.17, 0.035, 0.04)), glow, Vector3(c.x, 1.33, c.z + 0.155))
 	MountModel.sculpt_put(s, cyl(0.12, 0.14, 0.10, 8), cdark, Vector3(c.x, 1.22, c.z + 0.02))
 	MountModel.sculpt_put(s, sphere(0.175, 10, 5), cloth, Vector3(c.x, 1.35, c.z - 0.02), Vector3.ZERO, Vector3(1.0, 1.06, 1.08))
 	MountModel.sculpt_put(s, cyl(0.0, 0.14, 0.40, 8), cloth, Vector3(c.x, 1.49, c.z - 0.20), Vector3(-48, 0, 0))
@@ -342,6 +344,8 @@ func _after_ready() -> void:
 	if _frame and not _flash_hit_targets.has(_frame):
 		_flash_hit_targets.append(_frame)
 	_arm_r_mi = _merged_nodes.get(P_ARM_R)
+	if _face:
+		_face.set_host(_merged_nodes.get(P_HEAD))
 	if _arm_r_mi:
 		_mesh_plain = _arm_r_mi.mesh
 		_mesh_arrow = _arrow_variant()
@@ -427,6 +431,8 @@ func _aim_at(target: Variant) -> void:
 # ================================================================ animation
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if _dead:
 		return
 	# aim: turn (Root yaw) and pitch (Chest) toward the goal; hold, then drift back to face forward
@@ -558,6 +564,8 @@ func _pose_death(dt: float) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_shot_t = 99.0
 	_aim_yaw = 0.0
 	_aim_pitch = 0.0
@@ -568,3 +576,20 @@ func _on_revive() -> void:
 	_show_arrow(true)
 	_string_last = Vector3(INF, 0, 0)
 	_write_strings(NOCK - _o_l)
+
+
+## The archer's eyes (faces pass 2026-09-28; titans: eyes only): two glowing ice-blue eyes in the hood's shadow with
+## lids and brows for the expression (the aim narrows them), no painted mouth (it hides under the scarf). Drawn inside
+## the merged head (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	var shade := Color(0.16, 0.20, 0.28)
+	return CreatureFaceRig.beast_spec(Vector3(AXIS.x, 1.31, AXIS.z + 0.04), 0.12, {"c": Vector2(0.040, 0.020), "hw": 0.024,
+		"top": 0.013, "bot": 0.010, "ir": 0.011, "lash": 1.0, "flick": 0.0}, shade, Color(0.60, 0.90, 1.0), 0.9,
+		Vector2(0.0, -0.06), {"head_mesh": CharacterModel.sphere(0.12, 10, 5), "lift": 0.006,
+		"palette": {"sclera": FaceKit.glow(Color(0.40, 0.62, 0.80), 0.5), "brow": Color(0.36, 0.44, 0.56)}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

@@ -5,8 +5,9 @@ extends "res://art/units/helpers/helper_vey/helper_model.gd"
 ## TOP-KNOT and swept mane (what pitch 55 sees first) and a long FORKED BEARD over the chest, bronze-ringed, gold-tipped
 ## (the hair hook, hair-redesign-plan rules 1-7). A charcoal storm coat with long split tails, a steel pauldron on the
 ## sword arm and a team-coloured mantle + fur collar on the other shoulder, a torn cape with a gold lightning glyph,
-## an empty scabbard on the left hip. Painted face: stern storm-gold eyes under heavy white brows, crow's feet and a
-## scar through the left eye; `set_expression(&"neutral" | &"smile" | &"fierce")`.
+## an empty scabbard on the left hip. Face (FaceKit, faces pass 2026-09-28): stern storm-gold eyes under heavy white
+## brows, crow's feet and a scar through the left eye; `set_expression(FaceKit.EXPRESSIONS)` (neutral / smile / fierce
+## / worried / shout); vey_stormcall and vey_chain shout.
 ## Abilities (play_cast): vey_lunge (crouch, dash-thrust), vey_chain (off hand up, a bolt leaps from it),
 ## vey_stormcall (sword overhead with both hands, driven into the ground, blade blazing), vey_storm_sworn (passive tell:
 ## the blade crackles; also every 3rd strike). Helper hooks: play_arrival (rises out of the flash, sword dragging
@@ -132,8 +133,8 @@ func _build_parts() -> void:
 	add_part(head, torus(0.035, 0.068, 8), bronze, Vector3(0, 1.965, -0.10), Vector3(-30, 0, 0))
 	for sx: float in [-1.0, 1.0]:
 		add_part(head, torus(0.026, 0.05, 8), bronze, Vector3(0.078 * sx, 1.29, 0.395), Vector3(-4, 0, 0))
-	_face = add_part(head, _face_mesh_for(_face_target()), null, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Face")
-	_face_shown = _face_target()
+	_face = FaceKit.attach(self, head, "helper_vey", _face_style())
+	_face.set_expression(_expr)
 
 	# ---- Arms: coat sleeves; sword arm with a steel bracer and a leather glove, off arm a leather bracer.
 	_arm(arm_l, SHOULDER_L, HAND_L, coat, leather, skin, 0.095)
@@ -390,65 +391,44 @@ static func _tri(dd: Array, a: Vector3, b: Vector3, c: Vector3, n: Vector3) -> v
 
 # ================================================================ face / expressions
 
-## Painted face (projected on the face sphere): white sclera + storm-gold iris + dark pupil, heavy white brows, crow's
-## feet, a forehead line, a scar through the left eye, the mouth under the moustache. Cached per expression.
-func _face_mesh_for(id: StringName) -> Mesh:
-	var key := StringName("face_" + String(id))
-	if _meshes.has(key):
-		return _meshes[key]
-	var ctx := HP.face_ctx(FACE_C, FACE_R, sphere(FACE_R, 12, 6))
-	var eye := Vector2(0.066, 0.022)
-	for sx: float in [1.0, -1.0]:
-		match id:
-			&"smile":
-				# crinkled happy eyes: a lid arc with the gold iris peeking, brows up, deep crow's feet
-				HP.fill(ctx, &"white", HP.fm(HP.almond(eye, 0.027, 0.010, 0.008, 0.004), sx), 0.0025)
-				HP.fill(ctx, &"gold", HP.fm(HP.ellipse(eye + Vector2(0.002, -0.001), Vector2(0.009, 0.007), 0.0, 10), sx), 0.0038)
-				HP.strip(ctx, &"dark", HP.fm(HP.bez(eye + Vector2(-0.03, 0.002), eye + Vector2(0.0, 0.022), eye + Vector2(0.032, 0.004)), sx), Vector3(0.002, 0.0045, 0.002), 0.0048)
-				HP.strip(ctx, &"hair", HP.fm(HP.bez(Vector2(0.030, 0.060), Vector2(0.070, 0.088), Vector2(0.112, 0.066)), sx), Vector3(0.010, 0.013, 0.006), 0.004)
-			&"fierce":
-				HP.fill(ctx, &"white", HP.fm(HP.almond(eye, 0.028, 0.008, 0.008, 0.010), sx), 0.0025)
-				HP.fill(ctx, &"gold", HP.fm(HP.ellipse(eye + Vector2(-0.002, 0.0), Vector2(0.009, 0.008), 0.0, 10), sx), 0.0038)
-				HP.fill(ctx, &"dark", HP.fm(HP.ellipse(eye + Vector2(-0.002, 0.0), Vector2(0.0045, 0.0045), 0.0, 8), sx), 0.005)
-				HP.strip(ctx, &"dark", HP.fm(PackedVector2Array([eye + Vector2(-0.03, 0.004), eye + Vector2(0.0, 0.010), eye + Vector2(0.03, 0.012)]), sx), Vector3(0.0025, 0.0035, 0.002), 0.0048)
-				HP.strip(ctx, &"hair", HP.fm(HP.bez(Vector2(0.022, 0.034), Vector2(0.066, 0.046), Vector2(0.116, 0.066)), sx), Vector3(0.013, 0.013, 0.007), 0.004)
-			_:
-				HP.fill(ctx, &"white", HP.fm(HP.almond(eye, 0.028, 0.012, 0.009, 0.006), sx), 0.0025)
-				HP.fill(ctx, &"gold", HP.fm(HP.ellipse(eye + Vector2(0.001, -0.001), Vector2(0.0095, 0.0095), 0.0, 10), sx), 0.0038)
-				HP.fill(ctx, &"dark", HP.fm(HP.ellipse(eye + Vector2(0.001, -0.001), Vector2(0.0048, 0.0048), 0.0, 8), sx), 0.005)
-				HP.strip(ctx, &"dark", HP.fm(HP.bez(eye + Vector2(-0.03, 0.002), eye + Vector2(0.0, 0.016), eye + Vector2(0.031, 0.008)), sx), Vector3(0.0022, 0.004, 0.002), 0.0048)
-				HP.strip(ctx, &"hair", HP.fm(HP.bez(Vector2(0.026, 0.046), Vector2(0.068, 0.066), Vector2(0.114, 0.058)), sx), Vector3(0.011, 0.013, 0.007), 0.004)
-		# crow's feet (always), deeper when smiling
+## FaceKit face (faces pass 2026-09-28; was a HelperPaint face with 3 expressions): stern storm-gold irises with a
+## faint glow under heavy white brows, crow's feet, the fold under the eye, two forehead lines, the scar from the brow
+## through the left eye (-X) to the cheek, the mouth under the moustache (the mane / beard are the hair mesh). One Face
+## node, every FaceKit expression + the bold far face.
+func _shout_ids() -> Array[StringName]:
+	return [&"vey_stormcall", &"vey_chain"]
+
+
+static func _face_style() -> Dictionary:
+	if _meshes.has("_face_style"):
+		return _meshes["_face_style"]
+	var skin := Color(0.82, 0.62, 0.48)
+	var line := skin.darkened(0.36)
+	var scar := Color(0.66, 0.36, 0.30)
+	var white := Color(0.90, 0.90, 0.93)
+	var st := FaceKit.style_from({"center": FACE_C, "radius": FACE_R, "head_mesh": sphere(FACE_R, 12, 6), "preset": &"stern",
+		"skin": skin, "hair": white, "eyes": Color(0.95, 0.74, 0.20), "ears": &"none",
+		"eye": {"c": Vector2(0.066, 0.022), "hw": 0.028, "top": 0.018, "bot": 0.012, "ir": 0.0105},
+		"brow": {"inner": Vector2(0.026, 0.050), "mid": Vector2(0.068, 0.068), "outer": Vector2(0.114, 0.058),
+			"w": Vector3(0.011, 0.013, 0.007)},
+		"mouth": {"c": Vector2(0.0, -0.100), "hw": 0.036, "lip": 0.0028},
+		"palette": {"iris_glow": 0.3, "brow": white, "lash": Color(0.22, 0.16, 0.12), "lip": Color(0.70, 0.44, 0.38),
+			"lip_line": Color(0.34, 0.16, 0.10)}})
+	var cv: Dictionary = st["canvas"]
+	st["extra"] = func(acc: Dictionary, id: StringName) -> void:
 		var cf := 1.4 if id == &"smile" else 1.0
+		for sx: float in [1.0, -1.0]:
+			for k: int in 2:
+				var a := Vector2(0.098, 0.028 - 0.016 * float(k))
+				FaceKit.strip(acc, cv, FaceKit.mirror(PackedVector2Array([a, a + Vector2(0.022, 0.006 - 0.012 * float(k)) * cf]), sx), Vector3(0.0014, 0.0014, 0.0008), line, 0.003)
+			FaceKit.strip(acc, cv, FaceKit.mirror(FaceKit.bez(Vector2(0.046, 0.004), Vector2(0.066, -0.004), Vector2(0.090, 0.006)), sx), Vector3(0.0008, 0.0014, 0.0008), line, 0.003)
 		for k: int in 2:
-			var a := Vector2(0.098, 0.028 - 0.016 * float(k))
-			HP.strip(ctx, &"line", HP.fm(PackedVector2Array([a, a + Vector2(0.022, 0.006 - 0.012 * float(k)) * cf]), sx), Vector3(0.0022, 0.0018, 0.001), 0.003)
-		# under-eye bag line
-		HP.strip(ctx, &"line", HP.fm(HP.bez(eye + Vector2(-0.02, -0.016), eye + Vector2(0.0, -0.024), eye + Vector2(0.024, -0.016)), sx), Vector3(0.0012, 0.0018, 0.0012), 0.003)
-	# forehead lines
-	for k: int in 2:
-		var y := 0.100 + 0.022 * float(k)
-		HP.strip(ctx, &"line", HP.bez(Vector2(-0.07, y), Vector2(0.0, y + (0.010 if id == &"smile" else 0.004)), Vector2(0.07, y)), Vector3(0.0015, 0.0025, 0.0015), 0.003)
-	# the scar: brow -> cheek through the left eye (-X), drawn over the eye
-	HP.strip(ctx, &"scar", PackedVector2Array([Vector2(-0.050, 0.075), Vector2(-0.066, 0.030), Vector2(-0.080, -0.012), Vector2(-0.090, -0.050)]), Vector3(0.003, 0.0052, 0.0025), 0.0062)
-	match id:
-		&"smile":
-			var top := HP.bez(Vector2(-0.040, -0.092), Vector2(0.0, -0.098), Vector2(0.040, -0.092))
-			var bot := HP.bez(Vector2(0.040, -0.092), Vector2(0.0, -0.140), Vector2(-0.040, -0.092))
-			var dp := PackedVector2Array(top)
-			dp.append_array(bot.slice(1, bot.size() - 1))
-			HP.fill(ctx, &"mouth", dp, 0.0025)
-			HP.fill(ctx, &"white", HP.ellipse(Vector2(0.0, -0.100), Vector2(0.030, 0.006), 0.0, 12), 0.004)
-		&"fierce":
-			HP.fill(ctx, &"mouth", HP.ellipse(Vector2(0.0, -0.104), Vector2(0.038, 0.016), 0.0, 14), 0.0025)
-			HP.fill(ctx, &"white", HP.ellipse(Vector2(0.0, -0.104), Vector2(0.032, 0.008), 0.0, 12), 0.004)
-		_:
-			HP.strip(ctx, &"mouth", HP.bez(Vector2(-0.036, -0.100), Vector2(0.0, -0.104), Vector2(0.036, -0.098)), Vector3(0.002, 0.0048, 0.0022), 0.003)
-	var am := HP.face_commit(ctx, [[&"white", mat(&"vey_hair")], [&"gold", palette(&"unit_gold_trim")],
-		[&"dark", palette(&"unit_eye_dark")], [&"hair", mat(&"vey_hair")], [&"line", palette(&"fire_leather")],
-		[&"scar", palette(&"fire_sec_hurler")], [&"mouth", palette(&"fire_leather")]])
-	_meshes[key] = am
-	return am
+			var y := 0.100 + 0.022 * float(k)
+			FaceKit.strip(acc, cv, FaceKit.bez(Vector2(-0.07, y), Vector2(0.0, y + (0.010 if id == &"smile" else 0.004)), Vector2(0.07, y)), Vector3(0.0012, 0.0020, 0.0012), line, 0.003)
+		# the scar: brow -> cheek through the left eye (-X), over the eye
+		FaceKit.strip(acc, cv, PackedVector2Array([Vector2(-0.050, 0.075), Vector2(-0.066, 0.030), Vector2(-0.080, -0.012), Vector2(-0.090, -0.050)]), Vector3(0.0024, 0.0042, 0.002), scar, 0.0062)
+	_meshes["_face_style"] = st
+	return st
 
 
 # ================================================================ abilities (t3-helpers.md 4.2) + helper poses

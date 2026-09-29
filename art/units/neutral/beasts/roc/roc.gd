@@ -109,6 +109,8 @@ static var K_UP_BEAT := PackedFloat32Array([0.0, 1.0, 0.06, 0.1, 0.8, 0.1, 0.9, 
 @export var feathers_b: ParticleProcessMaterial
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _roc_face: CreatureFaceRig
 var _parts: Array[MeshInstance3D] = []
 var _head_gi: GeometryInstance3D
 var _feathers: GPUParticles3D
@@ -232,6 +234,7 @@ func _build_parts() -> void:
 	_add(P_NECK1, RM.neck1_mesh(), true, "Neck1Mesh")
 	_add(P_NECK2, RM.neck2_mesh(), false, "Neck2Mesh")
 	_head_gi = _add(P_HEAD, RM.head_mesh(), true, "HeadMesh")
+	_roc_face = CreatureFaceRig.attach(self, _piv[P_HEAD], "roc", face_spec())
 	_add(P_JAW, RM.jaw_mesh(), false, "JawMesh")
 	_add(P_WING_L, RM.wing_arm_mesh(-1.0), true, "WingLMesh")
 	_add(P_WING_L2, RM.wing_hand_mesh(-1.0), true, "WingL2Mesh")
@@ -279,6 +282,8 @@ func _apply_variant() -> void:
 
 
 func _on_revive() -> void:
+	if _roc_face:
+		_roc_face.reset()
 	_alt = 0.0
 	_alt_hold = 0.0
 	_shroud = false
@@ -349,6 +354,8 @@ func _update_alt(dt: float) -> void:
 
 ## The blob stays on the ground under the bird: smaller and fainter the higher it climbs.
 func _extra_process(_dt: float) -> void:
+	if _roc_face:
+		_roc_face.auto_any(self)
 	if _shadow == null or _dead:
 		return
 	var k := clampf(_alt / UPDRAFT_RISE, 0.0, 1.0)
@@ -632,3 +639,19 @@ static func _tk(t: float, k: PackedFloat32Array) -> float:
 	var u := (t - k[i - 2]) / (k[i] - k[i - 2])
 	u = u * u * (3.0 - 2.0 * u)
 	return lerpf(k[i - 1], k[i + 1], u)
+
+
+## The eyes (faces pass 2026-09-28): painted on the front of the glowing storm-eye blobs (kept: the glow point), a
+## round dark pupil and the lids that narrow into the raptor glare on a strike and droop when it falls; the 3D brow
+## ridges stay. Its own Face node (the roc is under its 16-draw budget).
+static func face_spec() -> Dictionary:
+	var out := Vector3(0.90, 0.05, 0.44).normalized()
+	return CreatureFaceRig.side_eye_spec(Vector3(0.162, 4.618, 1.25) + out * 0.060, out, 0.050, Color(0.30, 0.46, 0.78),
+		Color(0.90, 0.95, 1.0), 0.8, {"palette": {"sclera": FaceKit.glow(Color(1.0, 0.92, 0.45), 0.6), "brow": Color(0.18, 0.26, 0.48),
+		"lash": Color(0.06, 0.08, 0.14)}, "eye": {"pupil": 0.55, "top": 0.034, "bot": 0.030}, "lift": 0.004})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _roc_face:
+		_roc_face.set_expression(id)

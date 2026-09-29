@@ -2,12 +2,12 @@ extends WizardModel
 ## Shared layer of the T3 helper models (t3-helpers.md 10.1 parity checklist): standard kit hooks + the helper hooks
 ## `play_arrival()`, `play_fall()`, `play_revive()`, `set_charge(0..1)`, `play_gesture(id)` (19.V10: point, nod, kneel,
 ## stand_up, raise_weapon / raise_sword, bow, shrug, push, turn_head_left / right, draw_knives, offer_hand) and
-## `set_expression(id)` (painted face, swapped per expression like Vessa). Abilities come in through
+## `set_expression(id)` (FaceKit face, faces pass 2026-09-28: FaceKit.EXPRESSIONS, one Face node per helper). Abilities come in through
 ## `play_cast(<ability id>)` (the ids of t3-helpers.md 4.2 / 4.3); subclasses pose them in `_pose_ability`.
 ## 0 lights (emission only): WizardModel's orb / light fields stay null here, the subclass drives `_glow_main`.
 ## Preload-only base (no class_name): Old Vey and Mother Hush extend it by path.
 
-const HELPER_EXPRESSIONS: Array[StringName] = [&"neutral", &"smile", &"fierce"]
+const HELPER_EXPRESSIONS: Array[StringName] = FaceKit.EXPRESSIONS
 const ARRIVAL_LEN := 1.5
 const REVIVE_LEN := 1.1
 
@@ -18,8 +18,8 @@ var _glow_main_w: float = -1.0
 var _gest: StringName = &""
 var _kneel_on: bool = false
 var _expr: StringName = &"neutral"
-var _face: MeshInstance3D
-var _face_shown: StringName = &""
+## The FaceKit Face node (the subclass attaches it in _build_parts: FaceKit.attach(self, head, key, style)).
+var _face: FaceRig
 var _veiled: bool = false
 
 
@@ -62,7 +62,9 @@ func play_gesture(id: StringName) -> void:
 
 
 func set_expression(id: StringName) -> void:
-	_expr = id if HELPER_EXPRESSIONS.has(id) else &"neutral"
+	_expr = FaceKit.canonical(id)
+	if _face:
+		_face.set_expression(_expr)
 	_update_face()
 
 
@@ -83,11 +85,6 @@ func set_status(id: StringName, on: bool) -> bool:
 ## Pose one ability / cast id; return its length (s), or -1.0 when the id is not the subclass's (base poses it).
 func _pose_ability(_spell: StringName, _t: float) -> float:
 	return -1.0
-
-
-## The face mesh for an expression (cached per type by the subclass).
-func _face_mesh_for(_id: StringName) -> Mesh:
-	return null
 
 
 func _on_veil(_on: bool) -> void:
@@ -207,32 +204,38 @@ func _wizard_process(dt: float) -> void:
 	_boost = 0.0
 
 
-## The face to show: the requested one; a neutral face turns fierce on attacks / abilities and smiles on a level-up
-## (close camera only, alive).
+## The mood shown over a neutral request (close camera only): dying = worried, a level-up / the revive / a nod or bow
+## = smile, the big abilities (_shout_ids) = shout, attacks and other abilities = fierce; gestures keep the resting face.
 func _face_target() -> StringName:
-	if _expr != &"neutral" or _dead or _tier != 0:
-		return _expr
-	if _level_t < 1.6:
+	if _dead:
+		return &"worried"
+	if _level_t < 1.6 or (_action == &"cast" and (_cast_id == &"revive" or (_cast_id == &"gesture" and (_gest == &"nod" or _gest == &"bow")))):
 		return &"smile"
-	if _action == &"attack" or (_action == &"cast" and _cast_id != &"gesture"):
+	if _action == &"cast" and _shout_ids().has(_cast_id):
+		return &"shout"
+	if _action == &"attack" or (_action == &"cast" and _cast_id != &"gesture" and _cast_id != &"arrival" and _cast_id != &"revive"):
 		return &"fierce"
-	return _expr
+	return &""
+
+
+## Ability ids whose cast shouts (the subclass's big moves).
+func _shout_ids() -> Array[StringName]:
+	return []
 
 
 func _update_face() -> void:
 	if _face == null:
 		return
-	var id := _face_target()
-	if id != _face_shown:
-		var m := _face_mesh_for(id)
-		if m:
-			_face_shown = id
-			_face.mesh = m
+	if _tier != 0:
+		_face.far()   # the bold RTS-distance face (30 m+)
+		return
+	_face.react(_face_target())
 
 
 func _on_revive() -> void:
 	super._on_revive()
 	_glow_main_w = -1.0
-	_face_shown = &""
 	_kneel_on = false
+	if _face:
+		_face.reset()
 	_update_face()

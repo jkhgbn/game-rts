@@ -6,7 +6,7 @@ extends MountModel
 ## crystals on the hump crest and the rump. Team saddle-cloth (ice_cloth) with a dark hem and a snowflake emblem,
 ## leather saddle, steel stirrups. Barding (set_barded): silver-blue plates (ice_metal) on the hump, flanks, chest,
 ## a chanfron + cheek plates on the head (the horn stays bare) and knee cops, steel rivets, ice studs.
-## Glow points: the horn tip and the eye slits (ice_glow_unit), flaring on the charge.
+## Glow points: the horn tip (ice_glow_unit) and the glowing eyes (CreatureFaceRig irises, faces pass 2026-09-28).
 ## Motion: heavy 4-beat walk, a thundering gallop from 3.4 m/s (head low: the horn leads), a "frost shake" fidget,
 ## generic charge (horn levelled, lunge, gore toss) and hit; death: stumbles, rolls onto its side and frosts over.
 ## Budget (section 10 mount): 12 authored meshes incl. the blob (7 sculpts + 4 barding sculpts + blob), 8 draw
@@ -41,6 +41,8 @@ const HORN_P: Array[Vector3] = [Vector3(0, 0.84, 1.54), Vector3(0, 0.95, 1.77), 
 const HORN_R: Array[float] = [0.19, 0.16, 0.125, 0.09, 0.058, 0.0]
 
 var _frost_v: float = 0.0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 
 
 func _build_mount() -> void:
@@ -48,6 +50,7 @@ func _build_mount() -> void:
 	var head: Node3D = $Root/Mount/Head
 	add_sculpt(body, _body_sculpt)
 	add_sculpt(head, _head_sculpt)
+	_face = CreatureFaceRig.attach(self, head, "rimehorn", face_spec())
 	var legs: Array[Node3D] = [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]
 	for leg: Node3D in legs:
 		var p := model_origin(leg)
@@ -215,13 +218,8 @@ func _head_sculpt(s: Dictionary) -> void:
 	for sx: float in [-1.0, 1.0]:
 		var nos := SK_B + sd * 0.78 + up * 0.02 + Vector3(0.085 * sx, 0, 0)
 		sculpt_put(s, sphere(0.05, 6, 3), dark, nos, Vector3.ZERO, Vector3(1.0, 0.7, 0.6))
-		var eye := SK_B + sd * 0.27 + up * 0.10 + Vector3(0.262 * sx, 0, 0)
-		var eb := Basis(Vector3.UP, 0.42 * sx) * Basis(Vector3.BACK, -0.35 * sx)
-		sculpt_add(s, sphere(0.075, 6, 3), Transform3D(eb.scaled_local(Vector3(0.9, 0.75, 1.3)), eye - Vector3(0.02 * sx, 0, 0)), dark)
-		sculpt_add(s, box(Vector3(0.065, 0.06, 0.16)), Transform3D(eb * Basis(Vector3.RIGHT, -0.5), eye + Vector3(0.012 * sx, 0.0,
-			0.0)), glow)
-		sculpt_put(s, sphere(0.10, 6, 3), hide, eye + up * 0.075 + Vector3(-0.015 * sx, 0, 0.0), Vector3(-20, 22.0 * sx, 0),
-			Vector3(1.1, 0.55, 1.7))
+		# (the eyes, their glow and the brow ridges are the CreatureFaceRig: faces pass 2026-09-28; the old dark eye
+		# lumps, glowing slit boxes and 3D brow bumps are gone)
 		# ears: small leaf cones with a wool tip
 		var ear := SK_B + up * 0.26 + Vector3(0.19 * sx, 0, -0.05)
 		var ed := Vector3(0.55 * sx, 1.0, -0.45).normalized()
@@ -391,6 +389,24 @@ func _knee_barding(s: Dictionary, p: Vector3) -> void:
 
 func _mount_ready() -> void:
 	_frost_v = 0.0
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
+
+
+## The eyes (faces pass 2026-09-28): glowing ice-blue eyes under heavy grey brow ridges (the old eye slits were a glow
+## point: the irises glow now), drawn inside the merged head mesh (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	var sd := (SK_F - SK_B).normalized()
+	var up := Vector3(0, sd.z, -sd.y)
+	var eye := SK_B + sd * 0.27 + up * 0.10 + Vector3(0.262, 0, 0)
+	return CreatureFaceRig.side_eye_spec(eye, Vector3(0.86, 0.10, 0.50), 0.060, Color(0.46, 0.51, 0.57),
+		Color(0.55, 0.88, 1.0), 0.85)
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
 
 
 ## The frost shake: a hard shiver runs through the body, the horn sweeps low side to side, a snort (eyes flare).
@@ -409,6 +425,8 @@ func _pose_fidget(t: float) -> float:
 
 ## Death: the body frosts over as it goes down (Ice idiom; the mount stays lying there, no shatter).
 func _mount_process(_dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		return
 	var v: float = snappedf(0.28 * smoothstep(0.15, 0.85, _death_t), 0.02)
@@ -421,6 +439,8 @@ func _mount_process(_dt: float) -> void:
 
 
 func _mount_revive() -> void:
+	if _face:
+		_face.reset()
 	_frost_v = 0.0
 	for gi: GeometryInstance3D in _flash_all_targets:
 		gi.set_instance_shader_parameter(&"hit_flash", 0.0)

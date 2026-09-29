@@ -1,0 +1,162 @@
+{
+	"asset": "wildcaller",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-906",
+					"material_path": "",
+					"to": "StandardMaterial3D#-36376",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-36376",
+					"material_path": "",
+					"to": "StandardMaterial3D#-54111",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 14
+			},
+			"predicted": {
+				"materials": 12
+			},
+			"proposal": "14 -> 12 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-906` -> `StandardMaterial3D#-36376` (dE 0.0), `StandardMaterial3D#-36376` -> `StandardMaterial3D#-54111` (dE 0.0); 7 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 14 -> 12 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-906` -> `StandardMaterial3D#-36376` (dE 0.0), `StandardMaterial3D#-36376` -> `StandardMaterial3D#-54111` (dE 0.0); 7 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 9415,
+					"node": "Root/Chest/Merged",
+					"to": 4708,
+					"words": "`Merged` 9415 -> 4708 verts"
+				},
+				{
+					"from": 8598,
+					"node": "Root/Chest/ArmR/Staff",
+					"to": 4299,
+					"words": "`Staff` 8598 -> 4299 verts"
+				},
+				{
+					"from": 4614,
+					"node": "Root/Chest/Head/Variant",
+					"to": 2307,
+					"words": "`Variant` 4614 -> 2307 verts"
+				},
+				{
+					"from": 1668,
+					"node": "Root/Hips/Merged",
+					"to": 834,
+					"words": "`Merged` 1668 -> 834 verts"
+				},
+				{
+					"from": 983,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 492,
+					"words": "`Merged` 983 -> 492 verts"
+				},
+				{
+					"from": 708,
+					"node": "Root/Chest/Head/Face",
+					"to": 354,
+					"words": "`Face` 708 -> 354 verts"
+				},
+				{
+					"from": 287,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 144,
+					"words": "`Merged` 287 -> 144 verts"
+				},
+				{
+					"from": 284,
+					"node": "Root/Chest/Head/Merged",
+					"to": 142,
+					"words": "`Merged` 284 -> 142 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 27121
+			},
+			"predicted": {
+				"verts": 13564
+			},
+			"proposal": "27121 -> 13564 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4614 -> 2307 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Face` 708 -> 354 verts; `Merged` 287 -> 144 verts; `Merged` 284 -> 142 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 27121 -> 13564 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4614 -> 2307 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Face` 708 -> 354 verts; `Merged` 287 -> 144 verts; `Merged` 284 -> 142 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Staff 0.71 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 85.5,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/wildcaller/wildcaller.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

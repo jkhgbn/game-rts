@@ -89,6 +89,8 @@ enum { PROP_NONE, PROP_FLARE, PROP_SNARE }
 static var _wf_mats: Dictionary = {}
 static var _wf_meshes: Dictionary = {}
 
+## Painted face (FaceKit via ChampionFaces, faces pass 2026-09-28).
+var _face: FaceRig
 var _authored: int = 0              # MeshInstance3D parts authored this build (budget check; blob added in _after_ready)
 var _bow: MeshInstance3D
 var _lantern: MeshInstance3D
@@ -134,6 +136,36 @@ func set_variant(v: int) -> void:
 	variant = clampi(v, 0, 1)
 	if _variant_node:
 		_variant_node.mesh = _variant_mesh(variant)
+	ChampionFaces.switch(_face, "wayfinder", _face_spec, variant)
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+## Face styles (FaceKit, faces pass 2026-09-28; the old dark eye bar under the brim is gone and the coat collar no
+## longer hides the mouth). Weathered scout skin (fire_skin), green eyes, auburn brows (the leather colour). Tamsin
+## (A): a bright open face, a swept auburn fringe under the brim, freckle-warm blush (her back hair and braid are the
+## Variant mesh). Tobin (B): heavier brows, the mouth on the top of his bushy beard under the moustache (Variant).
+static func _face_spec(v: int) -> Dictionary:
+	var c := Vector3(0, 1.60, 0.03)
+	var auburn := Color(0.46, 0.24, 0.11)
+	var spec := {"center": c, "radius": 0.21, "head_mesh": sphere(0.21), "head_scale": Vector3(0.95, 1.05, 0.95),
+		"preset": &"bright" if v == 0 else &"stern", "skin": Color(0.92, 0.72, 0.55), "hair": auburn,
+		"hair_tip": Color(0.66, 0.36, 0.16), "eyes": Color(0.30, 0.50, 0.24), "ears": &"none",
+		"palette": {"lip": Color(0.80, 0.44, 0.38)}}
+	if v == 0:
+		spec["hair_fn"] = func(acc: Dictionary) -> void:
+			ChampionFaces.frame_locks(acc, c, 0.21, auburn, Color(0.66, 0.36, 0.16), 1.0, false, 0.95)
+	else:
+		spec["mouth_canvas"] = FaceKit.canvas(Vector3(0, 1.462, 0.125), 0.14, sphere(0.14), Vector3(1.2, 1.1, 0.85),
+			Vector3.INF, Basis.from_euler(Vector3(-12.0 * DEG, 0, 0)), 0.002)
+		spec["mouth"] = {"c": Vector2(0.0, -0.004), "hw": 0.040, "lip": 0.0038}
+		spec["palette"]["lip_line"] = Color(0.14, 0.05, 0.03)
+		spec["palette"]["lip"] = Color(0.86, 0.50, 0.44)
+	return spec
 
 
 ## Authored MeshInstance3D count of this build (every part, the blob included), for the budget test.
@@ -248,10 +280,11 @@ func _build_parts() -> void:
 	embers.set_meta(&"death_fx", true)
 	embers.position = Vector3(0, -0.22, 0)
 	_lantern.add_child(embers)
-	# ---- Head: face, then the hat (brim, pinched crown, band) with the eye bar; the variant piece
+	# ---- Head: face, then the hat (brim, pinched crown, band); the variant piece; the FaceKit face (eyes, brows, lips)
 	_part(head, _face_mesh(), _skin(), Vector3.ZERO)
 	_part(head, _hat_mesh(), null, Vector3.ZERO)
 	_variant_node = _part(head, _variant_mesh(variant), null, Vector3.ZERO, Vector3.ZERO, true, "Variant")
+	_face = ChampionFaces.attach(self, head, "wayfinder", _face_spec, variant)
 	# ---- Arms: coat sleeves, leather pauldrons / cuffs / gloves; the bow in the right fist
 	for side: float in [-1.0, 1.0]:
 		var arm: Node3D = arm_r if side > 0.0 else arm_l
@@ -537,7 +570,8 @@ static func _torso_mesh() -> ArrayMesh:
 	var lea := _bucket()
 	var vest := _bucket()
 	_put(coat, cyl(0.29, 0.255, 0.50, 12), _xf(Vector3(0, 1.25, 0)))
-	var collar := PackedVector2Array([Vector2(0.255, 1.455), Vector2(0.235, 1.53), Vector2(0.215, 1.60), Vector2(0.225, 1.635)])
+	# turned-up collar, lowered under the chin (faces pass 2026-09-28: it used to hide the mouth)
+	var collar := PackedVector2Array([Vector2(0.255, 1.40), Vector2(0.24, 1.44), Vector2(0.225, 1.475), Vector2(0.232, 1.495)])
 	_lathe(coat, collar, 12, Transform3D(Basis(), Vector3(0, 0, -0.012)), true, 0.02)
 	_put(vest, box(Vector3(0.25, 0.40, 0.07)), _xf(Vector3(0, 1.245, 0.245), Vector3(4, 0, 0)))
 	var pieces: Array = [[Vector3(0.155, 1.43, 0.245), 28.0], [Vector3(0.0, 1.265, 0.292), 0.0], [Vector3(-0.155, 1.10, 0.255), -28.0]]
@@ -639,14 +673,14 @@ static func _brim_point(a: float, r: float, y: float) -> Vector3:
 	return Vector3(s * r, y + lift, c * r * 1.04)
 
 
-## Wide brim (7-point closed-ish profile), pinched crown, leather band; + the dark eye bar (not in the hat frame).
+## Wide brim (7-point closed-ish profile), pinched crown, leather band.
 static func _hat_mesh() -> ArrayMesh:
 	if _wf_meshes.has("hat"):
 		return _wf_meshes["hat"]
 	var dark := _bucket()
 	var lea := _bucket()
 	var hx := _hat_xf()
-	const SEG := 32
+	const SEG := 28   # was 32 (faces pass trim)
 	var prof: Array[Vector2] = [Vector2(0.19, -0.012), Vector2(0.33, -0.012), Vector2(0.455, -0.011), Vector2(0.472, 0.0),
 		Vector2(0.455, 0.012), Vector2(0.33, 0.014), Vector2(0.19, 0.014)]
 	var pts := PackedVector3Array()
@@ -663,7 +697,7 @@ static func _hat_mesh() -> ArrayMesh:
 		Vector2(0.13, 0.262), Vector2(0.065, 0.27), Vector2(0.0, 0.258)]
 	pts = PackedVector3Array()
 	hints = PackedVector3Array()
-	const CSEG := 20
+	const CSEG := 16   # was 20 (faces pass trim)
 	for j: int in cprof.size():
 		var t := cprof[mini(j + 1, cprof.size() - 1)] - cprof[maxi(j - 1, 0)]
 		var n2 := Vector2(t.y, -t.x)
@@ -678,7 +712,6 @@ static func _hat_mesh() -> ArrayMesh:
 	_grid(dark, pts, hints, CSEG, cprof.size() - 1, true)
 	_lathe(lea, PackedVector2Array([Vector2(0.214, 0.012), Vector2(0.214, 0.042), Vector2(0.212, 0.07)]), CSEG,
 		hx * Transform3D(Basis().scaled(Vector3(1.0, 1.0, 1.06)), Vector3.ZERO))
-	_put(dark, box(Vector3(0.22, 0.062, 0.06)), _xf(Vector3(0, 1.625, 0.212)))
 	return _commit("hat", [[dark, _m(&"wayfinder_hat")], [lea, _m(&"wayfinder_leather")]])
 
 
@@ -997,6 +1030,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	# Bow: upright and perpendicular to the arm while aiming; drawn string + arrow while drawn.
 	var k := clampf(_bow_k, 0.0, 1.0)
 	var drawn: int = 1 if (_bow_draw > 0.5 and not _dead) else 0
@@ -1052,6 +1087,8 @@ func _extra_process(dt: float) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_flare = 0.0
 	_kick = 0.0
 	_hold = 0.0

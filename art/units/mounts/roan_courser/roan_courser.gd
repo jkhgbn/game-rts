@@ -58,6 +58,7 @@ func _build_mount() -> void:
 	var head: Node3D = $Root/Mount/Head
 	add_sculpt(body, _body_sculpt)
 	add_sculpt(head, _head_sculpt)
+	_face = CreatureFaceRig.attach(self, head, "roan_courser", face_spec())
 	var legs: Array[Node3D] = [$Root/Mount/LegFL, $Root/Mount/LegFR, $Root/Mount/LegBL, $Root/Mount/LegBR]
 	for leg: Node3D in legs:
 		var p := model_origin(leg)
@@ -231,9 +232,7 @@ func _head_sculpt(s: Dictionary) -> void:
 	for sx: float in [-1.0, 1.0]:
 		var er: float = _sk_r(0.15) * SK_X
 		var ep := SK_B + sd * 0.15 + up * 0.04 + lat * (er * 0.9) * sx
-		sculpt_put(s, sphere(0.043, 6, 3), eye, ep)
-		sculpt_put(s, sphere(0.011, 4, 2), white, ep + lat * 0.035 * sx + up * 0.018 + sd * -0.01)
-		_ell(s, head, ep + up * 0.035 - lat * 0.012 * sx, sf.basis, Vector3(0.05, 0.07, 0.025), 6, 3)
+		# (the eye, its catch-light and the brow: the CreatureFaceRig eyes, faces pass 2026-09-28)
 		var ear := SK_B + Vector3(0.07 * sx, 0.07, 0.01)
 		var ed := Vector3(0.24 * sx, 1.0, 0.26).normalized()
 		sculpt_add(s, cyl(0.0, 0.052, 0.18, 6), Transform3D(Basis(Quaternion(Vector3.UP, ed)).scaled_local(Vector3(1.0, 1.0,
@@ -350,3 +349,41 @@ func _pose_fidget(t: float) -> float:
 	if _fidget_prev < 2.55 and t >= 2.55:
 		_on_mount_event(&"fidget_snort")
 	return 3.2
+
+
+# ================================================================ eyes (faces pass 2026-09-28)
+
+## Eyes + expression (CreatureFaceRig).
+var _face: CreatureFaceRig
+
+
+## Big soft dark horse eyes with a catch-light and a chestnut brow ridge that carries the expression. Drawn inside the
+## merged head (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec() -> Dictionary:
+	var sd := (SK_F - SK_B).normalized()
+	var up := Vector3(0, sd.z, -sd.y)
+	var eye := SK_B + sd * 0.15 + up * 0.04 + Vector3(_sk_r(0.15) * SK_X * 0.9, 0, 0)
+	return CreatureFaceRig.side_eye_spec(eye, Vector3(0.90, 0.10, 0.42), 0.040, Color(0.45, 0.23, 0.13),
+		Color(0.26, 0.14, 0.07), 0.0, {"eye": {"top": 0.034, "bot": 0.026, "ir": 0.028},
+		"palette": {"sclera": Color(0.10, 0.06, 0.04), "brow": Color(0.22, 0.10, 0.05), "lash": Color(0.07, 0.04, 0.02)}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+func _mount_ready() -> void:
+	if _face:
+		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
+
+
+func _mount_process(_dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
+
+
+func _mount_revive() -> void:
+	if _face:
+		_face.reset()

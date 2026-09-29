@@ -1,0 +1,145 @@
+{
+	"asset": "wayfinder",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-2189",
+					"material_path": "",
+					"to": "StandardMaterial3D#-97001",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-84454",
+					"material_path": "",
+					"to": "StandardMaterial3D#-97001",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 10
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "10 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-2189` -> `StandardMaterial3D#-97001` (dE 0.0), `StandardMaterial3D#-84454` -> `StandardMaterial3D#-97001` (dE 0.0); 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 10 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-2189` -> `StandardMaterial3D#-97001` (dE 0.0), `StandardMaterial3D#-84454` -> `StandardMaterial3D#-97001` (dE 0.0); 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1338,
+					"node": "Root/Chest/Merged",
+					"to": 669,
+					"words": "`Merged` 1338 -> 669 verts"
+				},
+				{
+					"from": 1039,
+					"node": "Root/Hips/Merged",
+					"to": 520,
+					"words": "`Merged` 1039 -> 520 verts"
+				},
+				{
+					"from": 713,
+					"node": "Root/Chest/Head/Merged",
+					"to": 357,
+					"words": "`Merged` 713 -> 357 verts"
+				},
+				{
+					"from": 585,
+					"node": "Root/Chest/Head/Variant",
+					"to": 293,
+					"words": "`Variant` 585 -> 293 verts"
+				},
+				{
+					"from": 426,
+					"node": "Root/Chest/Lantern",
+					"to": 213,
+					"words": "`Lantern` 426 -> 213 verts"
+				},
+				{
+					"from": 384,
+					"node": "Root/Chest/ArmR/Bow",
+					"to": 192,
+					"words": "`Bow` 384 -> 192 verts"
+				},
+				{
+					"from": 363,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 182,
+					"words": "`Merged` 363 -> 182 verts"
+				},
+				{
+					"from": 363,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 182,
+					"words": "`Merged` 363 -> 182 verts"
+				},
+				{
+					"from": 358,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 179,
+					"words": "`Merged` 358 -> 179 verts"
+				},
+				{
+					"from": 358,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 179,
+					"words": "`Merged` 358 -> 179 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 5931
+			},
+			"predicted": {
+				"verts": 2970
+			},
+			"proposal": "5931 -> 2970 (want <= 3000): `Merged` 1338 -> 669 verts; `Merged` 1039 -> 520 verts; `Merged` 713 -> 357 verts; `Variant` 585 -> 293 verts; `Lantern` 426 -> 213 verts; `Bow` 384 -> 192 verts; `Merged` 363 -> 182 verts; `Merged` 363 -> 182 verts; `Merged` 358 -> 179 verts; `Merged` 358 -> 179 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 5931 -> 2970 (want <= 3000): `Merged` 1338 -> 669 verts; `Merged` 1039 -> 520 verts; `Merged` 713 -> 357 verts; `Variant` 585 -> 293 verts; `Lantern` 426 -> 213 verts; `Bow` 384 -> 192 verts; `Merged` 363 -> 182 verts; `Merged` 363 -> 182 verts; `Merged` 358 -> 179 verts; `Merged` 358 -> 179 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.6 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.6 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.6 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 88.4,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/wayfinder/wayfinder.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

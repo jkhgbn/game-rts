@@ -126,11 +126,14 @@ const LL_BURST := 0.52
 		variant = clampi(v, 0, 1)
 		if _variant_node:
 			_variant_node.mesh = _variant_mesh(variant)
+		ChampionFaces.switch(_face, "mender", _face_spec, variant)
 
 static var _meshes: Dictionary = {}
 static var _burst_res: Dictionary = {}
 
 var _authored: int = 0
+## Painted face (FaceKit via ChampionFaces, faces pass 2026-09-28): eyes, brows, lips, expressions.
+var _face: FaceRig
 var _staff: Node3D
 var _censer: Node3D
 var _kettle: MeshInstance3D
@@ -176,6 +179,12 @@ var _cast_point_frame: int = -100
 ## 0 = Orla (hair bun), 1 = Osric (beard). Safe before _ready.
 func set_variant(v: int) -> void:
 	variant = v
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
 
 
 ## World position of the censer core: where the attack bolt and the heal effects start. With a class weapon (the
@@ -256,10 +265,11 @@ func _build_parts() -> void:
 	add_part(chest, cape(0.24, 0.38), _mat(&"mender_pennon"), Vector3(0.405, 2.13, -0.60), Vector3(0, 0, 90))
 	_jars = add_part(chest, _m("jars", _geo_jars), glow, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Jars")
 
-	# Head: round face (eye bar, nose, cheeks, smile), hair under a linen kerchief, the variant piece.
+	# Head: round face (nose, cheeks), hair under a linen kerchief, the variant piece; eyes / brows / lips = FaceKit.
 	add_part(head, _m("face", _geo_face), paint, Vector3.ZERO)
 	add_part(head, _m("hair", _geo_hair), paint, Vector3.ZERO)
 	_variant_node = add_part(head, _variant_mesh(variant), paint, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Variant")
+	_face = ChampionFaces.attach(self, head, "mender", _face_spec, variant)
 
 	# Arms: linen puff sleeves rolled at the elbow, bare forearms, round hands.
 	add_part(arm_l, _m("arm_l", _geo_arm.bind(-1.0)), paint, Vector3.ZERO)
@@ -712,6 +722,8 @@ func _kettle_model_pos() -> Vector3:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	# Level-up: the kit raises the weapon arm 40 deg; keep the staff upright so it is lifted, not tipped back.
 	if _level_t < LEVEL_LEN and not _dead:
 		_staff_rot.x += 40.0 * DEG * clampf(sin(PI * clampf(_level_t / 0.3, 0.0, 1.0)) * 1.5, 0.0, 1.0)
@@ -772,6 +784,8 @@ func _update_censer(dt: float) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_flare = 0.0
 	_core_written = -1.0
 	_staff_rot = Vector3.ZERO
@@ -1134,15 +1148,15 @@ func _geo_sash_trim() -> Geo:
 ## and the two leather shoulder straps.
 func _geo_basket() -> Geo:
 	var g := Geo.new()
-	var xf := Transform3D(Basis.from_scale(Vector3(1, 1, 0.55)), Vector3(0, 0, -0.46))
-	g.lathe(_p([0.0, 0.888, 0.24, 0.888, 0.262, 0.905, 0.272, 0.95]), xf, 14, WICKER_DARK, M_WICKER)
-	g.lathe(_p([0.272, 0.95, 0.279, 1.10, 0.29, 1.30, 0.30, 1.44]), xf, 14, WICKER, M_WICKER)
-	g.lathe(_p([0.30, 1.44, 0.318, 1.452, 0.324, 1.478, 0.312, 1.50, 0.29, 1.505, 0.274, 1.49, 0.27, 1.465]), xf, 14,
+	var xf := Transform3D(Basis.from_scale(Vector3(1, 1, 0.55)), Vector3(0, 0, -0.46))   # lathes 12-sided (were 14: faces pass trim)
+	g.lathe(_p([0.0, 0.888, 0.24, 0.888, 0.262, 0.905, 0.272, 0.95]), xf, 12, WICKER_DARK, M_WICKER)
+	g.lathe(_p([0.272, 0.95, 0.279, 1.10, 0.29, 1.30, 0.30, 1.44]), xf, 12, WICKER, M_WICKER)
+	g.lathe(_p([0.30, 1.44, 0.318, 1.452, 0.324, 1.478, 0.312, 1.50, 0.29, 1.505, 0.274, 1.49, 0.27, 1.465]), xf, 12,
 		WICKER_DARK, M_WICKER)
-	g.lathe(_p([0.27, 1.465, 0.262, 1.34, 0.262, 1.34, 0.0, 1.34]), xf, 14, WICKER_DARK, M_CLOTH)
+	g.lathe(_p([0.27, 1.465, 0.262, 1.34, 0.262, 1.34, 0.0, 1.34]), xf, 12, WICKER_DARK, M_CLOTH)
 	for y: float in [1.16]:
 		g.lathe(_p([0.281 + (y - 1.06) * 0.06, y - 0.018, 0.293 + (y - 1.06) * 0.06, y, 0.284 + (y - 1.06) * 0.06, y + 0.018]),
-			xf, 14, WICKER_DARK, M_WICKER)
+			xf, 12, WICKER_DARK, M_WICKER)
 	# shoulder straps: from the pack's front top over the shoulders down onto the apron bib
 	for sd: float in [-1.0, 1.0]:
 		var pts := PackedVector3Array([Vector3(0.16 * sd, 1.41, -0.30), Vector3(0.19 * sd, 1.31, -0.22),
@@ -1285,27 +1299,39 @@ func _geo_face() -> Geo:
 	for sd: float in [-1.0, 1.0]:
 		g.prim(sphere(0.078, 6, 4), _xf(Vector3(0.118 * sd, 1.40, 0.175), Vector3.ZERO, Vector3(1.0, 0.85, 0.8)), SKIN, M_SKIN)
 	g.prim(sphere(0.062, 8, 5), _xf(Vector3(0, 1.448, 0.262)), BLUSH, M_SKIN)
-	# one eye bar, curved round the face with its ends dipping: a happy squint rather than a visor
-	var eye := PackedVector3Array()
-	var erad := PackedFloat32Array()
-	var ehint := PackedVector3Array()
-	for k: int in 7:
-		var u := float(k) / 6.0 * 2.0 - 1.0
-		var a := u * 0.36
-		var d := Vector3(sin(a), 0.0, cos(a))
-		eye.append(Vector3(0, 1.507 - 0.022 * u * u + 0.006 * absf(u), 0.03) + d * 0.222)
-		erad.append(0.021 if absf(u) < 0.9 else 0.014)
-		ehint.append(d)
-	g.tube(eye, erad, 6, EYE, M_CLOTH, true, 0.85, ehint)
-	g.prim(box(Vector3(0.085, 0.022, 0.03)), _xf(Vector3(0, 1.372, 0.238), Vector3(-8, 0, 0)), EYE)
+	# (the eye bar and the mouth box: replaced by the FaceKit face, faces pass 2026-09-28)
 	return g
+
+
+## Face styles (FaceKit, faces pass 2026-09-28): the jolly round apothecary. Big warm brown eyes set high over the
+## round cheeks (the cheek spheres are her blush: no painted blush), chestnut brows just under the hair fringe, a wide
+## happy closed smile at rest, round ears. Osric (B): his bushy brows / moustache / beard are the Variant mesh, so no
+## painted brows and the mouth sits on the beard's top (its own canvas) under the moustache.
+static func _face_spec(v: int) -> Dictionary:
+	var c := Vector3(0, 1.46, 0.03)
+	var spec := {"center": c, "radius": 0.235, "head_mesh": sphere(0.235, 12, 7), "head_scale": Vector3(1.0, 0.97, 0.97),
+		"preset": &"bright" if v == 0 else &"plain", "skin": Color(0.90, 0.70, 0.55), "hair": Color(0.52, 0.25, 0.12),
+		"eyes": Color(0.42, 0.26, 0.12), "ears": &"round",
+		"eye": {"c": Vector2(0.080, 0.040), "hw": 0.036, "top": 0.027, "bot": 0.014, "ir": 0.018},
+		"brow": {"inner": Vector2(0.036, 0.074), "mid": Vector2(0.078, 0.086), "outer": Vector2(0.118, 0.072)},
+		"mouth": {"c": Vector2(0.0, -0.090), "hw": 0.050},
+		"palette": {"lip": Color(0.86, 0.46, 0.42), "lip_line": Color(0.42, 0.14, 0.10)},
+		"x": {&"neutral": {"blush": 0.0, "mouth": {"curve": 1.4, "w": 1.1}}, &"smile": {"blush": 0.0},
+			&"fierce": {"blush": 0.0}, &"worried": {"blush": 0.0}, &"shout": {"blush": 0.0}}}
+	if v == 1:
+		spec["brow"] = {"none": true}
+		spec["mouth_canvas"] = FaceKit.canvas(Vector3(0, 1.335, 0.165), 0.19, sphere(1.0, 12, 6), Vector3(0.232, 0.19, 0.15),
+			Vector3.INF, Basis(Vector3.RIGHT, deg_to_rad(12.0)), 0.002)
+		spec["mouth"] = {"c": Vector2(0.0, 0.022), "hw": 0.042, "lip": 0.004}
+		spec["palette"]["lip_line"] = Color(0.30, 0.10, 0.06)
+	return spec
 
 
 ## Chestnut hair (a tilted cap: fringe at the front, down to the nape) under a linen kerchief knotted at the back.
 func _geo_hair() -> Geo:
 	var g := Geo.new()
-	g.lathe(_cap_profile(0.255, 0.228, 115.0), _xf(Vector3(0, 1.47, 0.012), Vector3(-45, 0, 0)), 14, HAIR, M_HAIR)
-	g.lathe(_cap_profile(0.268, 0.25, 62.0), _xf(Vector3(0, 1.47, 0.012), Vector3(-48, 0, 0)), 14, LINEN, M_CLOTH,
+	g.lathe(_cap_profile(0.255, 0.228, 115.0), _xf(Vector3(0, 1.47, 0.012), Vector3(-45, 0, 0)), 12, HAIR, M_HAIR)
+	g.lathe(_cap_profile(0.268, 0.25, 62.0), _xf(Vector3(0, 1.47, 0.012), Vector3(-48, 0, 0)), 12, LINEN, M_CLOTH,
 		0.0, TAU, 0.03, 6.0, 0.0, 1.0)
 	# knot + two short tails at the back
 	g.prim(sphere(1.0, 8, 5), _xf(Vector3(0, 1.405, -0.235), Vector3.ZERO, Vector3(0.07, 0.055, 0.05)), LINEN)

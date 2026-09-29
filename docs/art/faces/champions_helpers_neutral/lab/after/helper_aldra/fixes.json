@@ -1,0 +1,105 @@
+{
+	"asset": "helper_aldra",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 3339,
+					"node": "Root/Chest/Merged",
+					"to": 1670,
+					"words": "`Merged` 3339 -> 1670 verts"
+				},
+				{
+					"from": 2495,
+					"node": "Root/Chest/Head/Merged",
+					"to": 1248,
+					"words": "`Merged` 2495 -> 1248 verts"
+				},
+				{
+					"from": 2285,
+					"node": "Root/Hips/Merged",
+					"to": 1143,
+					"words": "`Merged` 2285 -> 1143 verts"
+				},
+				{
+					"from": 979,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 490,
+					"words": "`Merged` 979 -> 490 verts"
+				},
+				{
+					"from": 651,
+					"node": "Root/Chest/Head/Face",
+					"to": 326,
+					"words": "`Face` 651 -> 326 verts"
+				},
+				{
+					"from": 378,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 189,
+					"words": "`Merged` 378 -> 189 verts"
+				},
+				{
+					"from": 359,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 180,
+					"words": "`Merged` 359 -> 180 verts"
+				},
+				{
+					"from": 359,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 180,
+					"words": "`Merged` 359 -> 180 verts"
+				},
+				{
+					"from": 72,
+					"node": "Root/Chest/ArmR/Chips",
+					"to": 36,
+					"words": "`Chips` 72 -> 36 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 10957
+			},
+			"predicted": {
+				"verts": 5502
+			},
+			"proposal": "10957 -> 5502 (want <= 2500): `Merged` 3339 -> 1670 verts; `Merged` 2495 -> 1248 verts; `Merged` 2285 -> 1143 verts; `Merged` 979 -> 490 verts; `Face` 651 -> 326 verts; `Merged` 378 -> 189 verts; `Merged` 359 -> 180 verts; `Merged` 359 -> 180 verts; `Chips` 72 -> 36 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 10957 -> 5502 (want <= 2500): `Merged` 3339 -> 1670 verts; `Merged` 2495 -> 1248 verts; `Merged` 2285 -> 1143 verts; `Merged` 979 -> 490 verts; `Face` 651 -> 326 verts; `Merged` 378 -> 189 verts; `Merged` 359 -> 180 verts; `Merged` 359 -> 180 verts; `Chips` 72 -> 36 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Chips 0.38 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Chips 0.38 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Chips 0.38 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 91.8,
+	"result": "FAIL",
+	"scene": "res://art/units/helpers/helper_aldra/helper_aldra.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

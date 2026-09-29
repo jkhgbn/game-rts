@@ -1,0 +1,13 @@
+{
+	"asset": "grizzlemaw",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 98.7,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/beasts/grizzlemaw/grizzlemaw.tscn",
+	"tier": "hero",
+	"version": "1.0"
+}

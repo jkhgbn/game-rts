@@ -1,0 +1,13 @@
+{
+	"asset": "gloomcap_sprout",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 94.5,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/gloomcap/gloomcap_sprout.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

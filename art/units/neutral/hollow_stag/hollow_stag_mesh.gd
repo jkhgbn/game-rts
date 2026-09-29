@@ -518,10 +518,10 @@ static func skull_mesh() -> Mesh:
 	_disc(hide, SKULL_C, SKULL_RX, SKULL_RY, 0, (SKULL_C[0] - SKULL_C[1]).normalized(), 0.05, 10)
 	_disc(shade, SKULL_C, SKULL_RX, SKULL_RY, n - 1, (SKULL_C[n - 1] - SKULL_C[n - 2]).normalized(), 0.03, 10)
 	_ellipsoid(bark, Vector3(0, 1.965, 1.60), Vector3(0.045, 0.03, 0.03), 6, 3)       # nose
-	# The hollow dark eye sockets under dark brows.
+	# The hollow dark eye sockets (the eyes in them and the brow ridges: the stag's CreatureFaceRig, faces pass
+	# 2026-09-28; the 3D bark brows are gone).
 	for sx: float in [-1.0, 1.0]:
 		_ellipsoid(hollow, Vector3(0.115 * sx, 2.16, 1.24), Vector3(0.035, 0.034, 0.05), 6, 3)
-		_ellipsoid(bark, Vector3(0.10 * sx, 2.205, 1.235), Vector3(0.05, 0.016, 0.045), 5, 2)
 		# Ears: broad, out to the side and a little back, pale with a dark inner.
 		var er := Basis(Vector3.BACK, -0.5 * sx) * Basis(Vector3.UP, 0.35 * sx)
 		_ellipsoid(hide, Vector3(0.22 * sx, 2.25, 1.02), Vector3(0.13, 0.045, 0.05), 6, 3, er)

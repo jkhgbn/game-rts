@@ -105,6 +105,8 @@ var _bow_glow_w: float = -1.0
 var _quiver_glow_w: float = -1.0
 var _fan_w: int = -1
 var _quiver_xf_w: Transform3D = Transform3D(Basis.IDENTITY, Vector3(999, 0, 0))
+## Painted face (FaceKit via ChampionFaces, faces pass 2026-09-28).
+var _face: FaceRig
 
 
 static func _robe() -> Material:
@@ -142,6 +144,27 @@ func set_variant(v: int) -> void:
 	variant = clampi(v, 0, 1)
 	if _variant_node:
 		_variant_node.mesh = _variant_mesh(variant)
+	ChampionFaces.switch(_face, "mage_archer", _face_spec, variant)
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+## Face styles (FaceKit, faces pass 2026-09-28). Pale lilac skin (shadow_skin), violet irises with the kingdom glow, a
+## cool calm look, silver-lilac brows, dusky mauve lips. Her hair is the Variant mesh: Veyra (A, hood up) the silver-
+## lilac cheek locks, Vesper (B, hood down) the hair cap + the braid, with a straighter, sterner brow. No ears (hood / hair
+## cap cover them).
+static func _face_spec(v: int) -> Dictionary:
+	var hair := Color(0.80, 0.74, 0.92)
+	var spec := {"center": HEAD_C, "radius": HEAD_R, "head_mesh": sphere(HEAD_R), "head_scale": Vector3(0.92, 1.05, 0.95),
+		"preset": &"gentle" if v == 0 else &"stern", "skin": Color(0.62, 0.60, 0.70), "hair": hair,
+		"hair_tip": Color(0.93, 0.88, 1.0), "eyes": GLOW, "ears": &"none",
+		"palette": {"iris_glow": 0.4, "brow": Color(0.66, 0.60, 0.80), "lash": Color(0.10, 0.06, 0.14),
+			"lip": Color(0.55, 0.36, 0.52), "lip_line": Color(0.26, 0.12, 0.26), "blush": Color(0.72, 0.52, 0.70)}}
+	return spec
 
 
 ## Authored MeshInstance3D count of this build (every part, the blob included), for the budget test.
@@ -271,6 +294,7 @@ func _build_parts() -> void:
 	# ---- Head: face, eyes, circlet; the variant piece (hood up / hood down + braid)
 	_part(head, _face_mesh(), null, Vector3.ZERO)
 	_variant_node = _part(head, _variant_mesh(variant), null, Vector3.ZERO, Vector3.ZERO, true, "Variant")
+	_face = ChampionFaces.attach(self, head, "mage_archer", _face_spec, variant)
 	# ---- Arms: sleeves, gloves; right pauldron + bracer; left bell sleeve. The bow in the right fist.
 	_part(arm_l, _arm_mesh(-1.0), null, Vector3.ZERO)
 	_part(arm_r, _arm_mesh(1.0), null, Vector3.ZERO)
@@ -672,22 +696,20 @@ static func _quiver_mesh(fan: int) -> ArrayMesh:
 
 # ---------------------------------------------------------------- head
 
-## Neck, face (a pointed chin), nose, dark eyes, the silver circlet (its back hides in the hood / hair).
+## Neck, face (a pointed chin), nose, the silver circlet (its back hides in the hood / hair). The eyes, brows and lips
+## are the FaceKit Face node (faces pass 2026-09-28; the old dark eye lumps are gone).
 static func _face_mesh() -> ArrayMesh:
 	if _ma_meshes.has("face"):
 		return _ma_meshes["face"]
 	var skin := _bucket()
-	var dark := _bucket()
 	var sil := _bucket()
 	_seg(skin, Vector3(0.0, 1.52, -0.005), Vector3(0.0, 1.66, 0.005), 0.062, 0.058, 8)
 	_put(skin, sphere(HEAD_R), _xf(HEAD_C, Vector3.ZERO, Vector3(0.92, 1.05, 0.95)))
 	_put(skin, sphere(0.075, 8, 4), _xf(Vector3(0.0, 1.625, 0.095), Vector3.ZERO, Vector3(0.95, 0.9, 1.0)))
 	_put(skin, sphere(0.028, 6, 3), _xf(Vector3(0.0, 1.712, 0.188), Vector3.ZERO, Vector3(0.8, 1.2, 1.0)))
-	for sx: float in [-1.0, 1.0]:
-		_put(dark, sphere(0.03, 8, 4), _xf(Vector3(0.062 * sx, 1.745, 0.156), Vector3(0, 0, -12.0 * sx), Vector3(1.35, 0.55, 0.5)))
 	_put(sil, torus(0.162, 0.178, 20), _xf(Vector3(0.0, 1.80, 0.025), Vector3(-14, 0, 0), Vector3(0.95, 1.0, 1.0)))
 	_put(sil, cyl(0.0, 0.026, 0.06, 4), _xf(Vector3(0.0, 1.79, 0.198), Vector3(180, 0, 0)))
-	return _commit("face", [[skin, _skin()], [dark, _dark()], [sil, _silver()]])
+	return _commit("face", [[skin, _skin()], [sil, _silver()]])
 
 
 ## Hood point: u across the hood (0 = the opening's right edge, 1 = its left edge, going round the back), v 0 = the
@@ -718,8 +740,8 @@ static func _variant_mesh(v: int) -> ArrayMesh:
 	var robe := _bucket()
 	var sil := _bucket()
 	if v == 0:
-		const COLS := 22
-		const ROWS := 14
+		const COLS := 18   # was 22 x 14 (faces pass 2026-09-28: pays part of the face)
+		const ROWS := 12
 		var pts := PackedVector3Array()
 		var hints := PackedVector3Array()
 		for j: int in ROWS + 1:
@@ -1116,6 +1138,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self)
 	# ---- Bow: rest grip -> upright and perpendicular to the raised arm (aim) -> upright in model space (_bow_up).
 	var k := clampf(_bow_k, 0.0, 1.0)
 	var up := clampf(_bow_up, 0.0, 1.0)
@@ -1176,6 +1200,8 @@ func _extra_process(dt: float) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_flare = 0.0
 	_qflare = 0.0
 	_qkick = 0.0

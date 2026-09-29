@@ -61,6 +61,8 @@ static var D_JOLT := PackedFloat32Array([0.0, 0.0, 0, 0.1, 1.0, 1, 0.3, 0.0, 0])
 @export var fidget_every: float = 9.0
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _spores: GPUParticles3D
 var _burst: GPUParticles3D
 var _staff_gi: GeometryInstance3D
@@ -129,6 +131,7 @@ func _build_parts() -> void:
 	_part($Root/Hips/LegL, _leg_mesh(-1.0))
 	_part($Root/Hips/LegR, _leg_mesh(1.0))
 	_part($Root/Chest, _chest_mesh())
+	_face = CreatureFaceRig.attach(self, $Root/Chest, "gloomcap_elder", face_spec())
 	_part($Root/Chest/Head, _cap_mesh())
 	_part($Root/Chest/ArmL, _arm_l_mesh())
 	_part($Root/Chest/ArmR, _arm_r_mesh())
@@ -151,10 +154,14 @@ func _after_ready() -> void:
 	if _staff_gi:
 		_glow_nodes.erase(_staff_gi)
 	_fidget_wait = _next_fidget() * 0.6
+	if _face:
+		_face.set_host(_merged_nodes.get(P_CHEST))
 	_write_glow()
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_flare = 0.0
 	_swell = 0.0
 	_flare_w = -1.0
@@ -331,6 +338,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		if _action == &"fidget":
 			if _speed >= 0.3 or _action_t >= FIDGET_LEN:
@@ -478,8 +487,8 @@ static func _leg_mesh(sx: float) -> Mesh:
 	return GM.commit(key, [[rt, GM.mat(&"gloomcap_root")]])
 
 
-## Stalk body (Chest): the pale stalk up into the cap, the dark ragged skirt (ring), glowing eyes in dark sockets
-## under the brim, a beard of pale lichen strands.
+## Stalk body (Chest): the pale stalk up into the cap, the dark ragged skirt (ring), dark eye sockets under the brim
+## (the eyes: CreatureFaceRig), a beard of pale lichen strands.
 static func _chest_mesh() -> Mesh:
 	const KEY := "elder_chest_v1"
 	if GM.cached(KEY):
@@ -498,9 +507,9 @@ static func _chest_mesh() -> Mesh:
 		return Vector3(1.0 + 0.04 * sin(3.0 * a + 2.0), -0.06 * low * (0.5 + 0.5 * cos(a * 9.0)), 0.0)
 	GM.lathe(gills, PackedVector2Array([Vector2(0.38, 0.8), Vector2(0.355, 0.88), Vector2(0.3, 0.98),
 		Vector2(0.232, 1.05)]), 18, Vector3.ZERO, hem)
+	# the dark eye sockets; the faint glowing eyes in them are the Elder's CreatureFaceRig (faces pass 2026-09-28)
 	for sx: float in [-1.0, 1.0]:
 		GM.ellipsoid(gills, Vector3(0.078 * sx, 1.392, 0.176), Vector3(0.05, 0.047, 0.03), 7, 3)
-		GM.ellipsoid(glow, Vector3(0.078 * sx, 1.392, 0.19), Vector3(0.03, 0.032, 0.02), 7, 3)
 	# Beard: pale lichen strands hanging from the chin (the elder look close up).
 	for k: int in 7:
 		var a: float = lerpf(-0.62, 0.62, float(k) / 6.0)
@@ -586,3 +595,21 @@ static func _arm_r_mesh() -> Mesh:
 		GM.tube(rt, pts, PackedFloat32Array([0.03, 0.024, 0.017, 0.0]), 5)
 	GM.ellipsoid(glow, BULB, Vector3(0.095, 0.105, 0.095), 10, 6)
 	return GM.commit(KEY, [[rt, GM.mat(&"gloomcap_root")], [glow, GM.mat(&"gloomcap_glow")]])
+
+
+## The face (faces pass 2026-09-28): old, heavy-lidded faint-teal glowing eyes in the dark sockets under the brim and
+## a pale stalk-grey brow ridge that carries the expression; the mouth hides under the lichen beard. Drawn inside the
+## merged Chest (CreatureFaceRig host mode: the Elder keeps its draw instances).
+static func face_spec() -> Dictionary:
+	return CreatureFaceRig.beast_spec(Vector3(0, 1.392, 0.0), 0.205, {"c": Vector2(0.080, 0.0), "hw": 0.034, "top": 0.020,
+		"bot": 0.018, "ir": 0.016, "lash": 1.0, "flick": 0.0}, Color(0.62, 0.58, 0.50), Color(0.42, 0.95, 0.82), 0.7,
+		Vector2(0.0, -0.075), {"head_mesh": CharacterModel.sphere(0.205, 14, 7), "lift": 0.012, "preset": &"elder",
+		"brow": {"inner": Vector2(0.046, 0.040), "mid": Vector2(0.080, 0.050), "outer": Vector2(0.114, 0.038),
+			"w": Vector3(0.008, 0.009, 0.004)},
+		"palette": {"sclera": Color(0.10, 0.10, 0.14), "brow": Color(0.40, 0.36, 0.30), "lash": Color(0.12, 0.12, 0.16)}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

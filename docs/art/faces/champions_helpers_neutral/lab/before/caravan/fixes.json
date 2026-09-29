@@ -1,0 +1,94 @@
+{
+	"asset": "caravan",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1710,
+					"node": "Root/Chest/Merged",
+					"to": 855,
+					"words": "`Merged` 1710 -> 855 verts"
+				},
+				{
+					"from": 902,
+					"node": "Root/Mount/Merged",
+					"to": 451,
+					"words": "`Merged` 902 -> 451 verts"
+				},
+				{
+					"from": 582,
+					"node": "Root/Hips/Merged",
+					"to": 291,
+					"words": "`Merged` 582 -> 291 verts"
+				},
+				{
+					"from": 427,
+					"node": "Root/Mount/Head/Merged",
+					"to": 214,
+					"words": "`Merged` 427 -> 214 verts"
+				},
+				{
+					"from": 295,
+					"node": "Root/Chest/Head/Merged",
+					"to": 148,
+					"words": "`Merged` 295 -> 148 verts"
+				},
+				{
+					"from": 231,
+					"node": "Root/Chest/Lantern",
+					"to": 116,
+					"words": "`Lantern` 231 -> 116 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegFL/Merged",
+					"to": 56,
+					"words": "`Merged` 111 -> 56 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegFR/Merged",
+					"to": 56,
+					"words": "`Merged` 111 -> 56 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegBL/Merged",
+					"to": 56,
+					"words": "`Merged` 111 -> 56 verts"
+				},
+				{
+					"from": 111,
+					"node": "Root/Mount/LegBR/Merged",
+					"to": 89,
+					"words": "`Merged` 111 -> 89 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4651
+			},
+			"predicted": {
+				"verts": 2392
+			},
+			"proposal": "4651 -> 2392 (want <= 2500): `Merged` 1710 -> 855 verts; `Merged` 902 -> 451 verts; `Merged` 582 -> 291 verts; `Merged` 427 -> 214 verts; `Merged` 295 -> 148 verts; `Lantern` 231 -> 116 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 89 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 4651 -> 2392 (want <= 2500): `Merged` 1710 -> 855 verts; `Merged` 902 -> 451 verts; `Merged` 582 -> 291 verts; `Merged` 427 -> 214 verts; `Merged` 295 -> 148 verts; `Lantern` 231 -> 116 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 56 verts; `Merged` 111 -> 89 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.8,
+	"result": "FAIL",
+	"scene": "res://art/units/caravan/caravan.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

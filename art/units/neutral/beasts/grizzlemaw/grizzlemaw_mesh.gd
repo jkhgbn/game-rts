@@ -484,7 +484,6 @@ static func head_mesh(v: int, rage: bool) -> Mesh:
 	var mouth := _b(d, "mouth")
 	var claw := _b(d, "claw")
 	var eye := _b(d, "eye_rage" if rage else "eye_glow")
-	var brow := muz if v == 1 else dark
 	# Neck (shaggy) + ruff tufts along its sides.
 	_loft_patch(fur, NECK_C, NECK_RX, NECK_RY, 0, NECK_C.size() - 1, _even(0.0, TAU, 18), 0.05)
 	for sx: float in [-1.0, 1.0]:
@@ -511,9 +510,7 @@ static func head_mesh(v: int, rage: bool) -> Mesh:
 		_cone(claw, Vector3(0.03 * sx, 1.34, 1.85), Vector3(0.03 * sx, 1.29, 1.855), 0.02, 4)
 	# Eyes (glow) under the heavy brow; ears.
 	for sx: float in [-1.0, 1.0]:
-		_ellipsoid(eye, Vector3(EYE.x * sx, EYE.y, EYE.z), Vector3(0.052, 0.04, 0.036), 7, 4)
-		_ellipsoid(brow, Vector3(0.16 * sx, 1.70, 1.575), Vector3(0.115, 0.038, 0.065), 7, 3,
-			Basis(Vector3.BACK, -0.38 * sx))
+		# (the glowing eyes and the scowling brows: the grizzlemaw's CreatureFaceRig, faces pass 2026-09-28)
 		# Small ROUND ears on top of the head: a flat disc, the dark inside painted on its front face.
 		var torn := v == 1 and sx < 0.0
 		var er := Basis(Vector3.BACK, -0.28 * sx) * Basis(Vector3.UP, 0.3 * sx)

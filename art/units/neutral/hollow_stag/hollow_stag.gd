@@ -76,6 +76,8 @@ static var D_JOLT := PackedFloat32Array([0.0, 0.0, 0, 0.08, 1.0, 1, 0.3, 0.0, 0]
 @export var fidget_every: float = 10.0
 
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _crown: Node3D
 var _skull: MeshInstance3D
 var _body_gi: GeometryInstance3D
@@ -167,6 +169,7 @@ func _build_parts() -> void:
 	_skull = _part(_crown, HM.skull_mesh(), HM.SKULL_ORIGIN, true, "Skull")
 	_skull.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	_skull.set_meta(&"own_glow", true)
+	_face = CreatureFaceRig.attach(self, _skull, "hollow_stag", face_spec())
 	for k: int in 4:
 		var leg: Node3D = get_node(LEG_PIVOTS[k])
 		var front: bool = k < 2
@@ -203,6 +206,8 @@ func _after_ready() -> void:
 	if _body_gi:
 		_glow_nodes.erase(_body_gi)
 	_glow_nodes.erase(_skull)
+	if _face:
+		_face.set_host(_skull)
 	_fidget_wait = _next_fidget() * 0.6
 	_write_parts(true)
 	_write_glow(true)
@@ -219,6 +224,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_crown_req = Vector3.ZERO
 	_lower_req.fill(0.0)
 	_flare = 0.0
@@ -402,6 +409,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		if _action == &"fidget":
 			if _speed >= 0.3 or _action_t >= FIDGET_LEN:
@@ -478,3 +487,19 @@ static func _trk(t: float, k: PackedFloat32Array) -> float:
 	else:
 		u = u * u * (3.0 - 2.0 * u)
 	return k[i - 2] + (k[i + 1] - k[i - 2]) * u
+
+
+## The eyes (faces pass 2026-09-28): in the hollow dark sockets, a pale spirit glint (a glowing leaf-green iris on a
+## near-black eye) under a pale bark-grey brow ridge that carries the expression. Drawn inside the Skull mesh
+## (CreatureFaceRig host mode: no extra draw instance; the skull's glow drive lights the irises too).
+static func face_spec() -> Dictionary:
+	var out := Vector3(0.80, 0.18, 0.58).normalized()
+	return CreatureFaceRig.side_eye_spec(Vector3(0.115, 2.16, 1.24) + out * 0.028, out, 0.032, Color(0.82, 0.80, 0.72),
+		Color(0.60, 1.0, 0.40), 0.9, {"palette": {"sclera": Color(0.05, 0.05, 0.04), "brow": Color(0.30, 0.24, 0.18),
+		"lash": Color(0.10, 0.08, 0.06)}, "eye": {"pupil": 0.35}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

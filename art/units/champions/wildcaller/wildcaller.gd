@@ -79,6 +79,8 @@ const COMET_RELS: Array[float] = [0.38, 0.68, 0.98]
 static var _wc_meshes: Dictionary = {}
 static var _wc_mats: Dictionary = {}
 
+## Painted face (FaceKit via ChampionFaces, faces pass 2026-09-28).
+var _face: FaceRig
 var _authored: int = 0
 var _staff: MeshInstance3D
 var _variant_node: MeshInstance3D
@@ -147,7 +149,22 @@ func set_variant(v: int) -> void:
 	variant = clampi(v, 0, 1)
 	if _variant_node:
 		_variant_node.mesh = _variant_mesh(variant)
+	ChampionFaces.switch(_face, "wildcaller", _face_spec, variant)
 
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)
+
+
+func get_expression() -> StringName:
+	return _face.get_expression() if _face else &"neutral"
+
+
+## An extra mood for the face this frame (&"" = the kit's auto moods). The helper Maelis adds her own.
+func _face_mood() -> StringName:
+	return &""
 
 ## Authored MeshInstance3D count of this build (every part, the blob included), for the budget test.
 func authored_mesh_count() -> int:
@@ -267,9 +284,10 @@ func _build_parts() -> void:
 	_part(chest, _torso_mesh(), null, Vector3.ZERO)
 	_part(chest, _mantle_mesh(), null, Vector3.ZERO)
 	_part(chest, _cloak_mesh(), null, Vector3.ZERO)
-	# ---- Head: old face, faint glowing eyes, brows; the variant piece (hood + antlers / mane + beard + antler circlet)
+	# ---- Head: old face; the variant piece (hood + antlers / mane + beard + antler circlet); the FaceKit face
 	_part(head, _face_mesh(), null, Vector3.ZERO)
 	_variant_node = _part(head, _variant_mesh(variant), null, Vector3.ZERO, Vector3.ZERO, true, "Variant")
+	_face = ChampionFaces.attach(self, head, "wildcaller", _face_spec, variant)
 	# ---- Arms: bell sleeves with moss cuffs, old hands; the living staff in the right fist
 	_part(arm_l, _arm_mesh(-1.0), null, Vector3.ZERO)
 	_part(arm_r, _arm_mesh(1.0), null, Vector3.ZERO)
@@ -773,12 +791,12 @@ static func _cloak_mesh() -> ArrayMesh:
 # ---------------------------------------------------------------- head
 
 ## Neck, an old face (long hooked nose, sunken cheeks, a pointed chin), faint glowing eyes deep-set, bushy grey brows.
+## Neck, the old face, chin, the long hooked nose, cheekbones. The eyes (faint green glow), brows, lips, lines of age
+## and the leaf tattoo are the FaceKit Face node (faces pass 2026-09-28: the glow-sphere eyes and brow lumps are gone).
 static func _face_mesh() -> ArrayMesh:
 	if _wc_meshes.has("face"):
 		return _wc_meshes["face"]
 	var skin := _bucket()
-	var glow := _bucket()
-	var fea := _bucket()
 	_seg(skin, Vector3(0.0, 1.50, 0.0), Vector3(0.0, 1.64, 0.03), 0.06, 0.056, 8)
 	_put(skin, sphere(HEAD_R), _xf(HEAD_C, Vector3.ZERO, Vector3(0.88, 1.06, 0.95)))
 	_put(skin, sphere(0.068, 8, 4), _xf(Vector3(0.0, 1.615, 0.10), Vector3.ZERO, Vector3(0.9, 0.95, 1.0)))
@@ -786,10 +804,57 @@ static func _face_mesh() -> ArrayMesh:
 	_seg(skin, Vector3(0.0, 1.735, 0.175), Vector3(0.0, 1.66, 0.235), 0.026, 0.016, 6)
 	_put(skin, sphere(0.02, 6, 3), _xf(Vector3(0.0, 1.662, 0.232)))
 	for sx: float in [-1.0, 1.0]:
-		_put(glow, sphere(0.019, 6, 3), _xf(Vector3(0.052 * sx, 1.738, 0.162), Vector3(0, 0, -10.0 * sx), Vector3(1.3, 0.7, 0.6)))
-		_put(fea, sphere(0.034, 6, 3), _xf(Vector3(0.056 * sx, 1.772, 0.168), Vector3(0, 0, 16.0 * sx), Vector3(1.4, 0.55, 0.7)))
 		_put(skin, sphere(0.03, 6, 3), _xf(Vector3(0.078 * sx, 1.675, 0.14), Vector3.ZERO, Vector3(0.8, 1.1, 0.8)))
-	return _commit("face", [[skin, _skin()], [glow, _glow()], [fea, _feather()]])
+	return _commit("face", [[skin, _skin()]])
+
+
+## Face styles (FaceKit via ChampionFaces, faces pass 2026-09-28; the helper Maelis uses variant A's). An old druid:
+## nature_skin, faint glowing green irises, bushy silver brows, crow's feet, the fold under the eye, the lines from the
+## hooked nose, brow furrows, a thin wry mouth. Maelis (A): the leaf-vein tattoo on her left cheek (her grey cheek locks
+## are the hood mesh). Corwen (B): heavier brows; his mouth sits on the beard under the moustache (Variant mesh).
+static func _face_spec(v: int) -> Dictionary:
+	var skin := Color(0.78, 0.66, 0.48)
+	var line := skin.darkened(0.34)
+	var silver := Color(0.80, 0.80, 0.76)
+	var hs := Vector3(0.88, 1.06, 0.95)
+	var cv := FaceKit.canvas(HEAD_C, HEAD_R, sphere(HEAD_R), hs)
+	var spec := {"center": HEAD_C, "radius": HEAD_R, "head_mesh": sphere(HEAD_R), "head_scale": hs,
+		"preset": &"elder" if v == 0 else &"stern", "skin": skin, "hair": silver, "eyes": Color(0.55, 0.95, 0.35),
+		"ears": &"none",
+		"eye": {"c": Vector2(0.052, 0.026), "hw": 0.024, "top": 0.016, "bot": 0.010, "ir": 0.0115},
+		"brow": {"inner": Vector2(0.020, 0.054), "mid": Vector2(0.052, 0.072), "outer": Vector2(0.088, 0.060),
+			"w": Vector3(0.0075, 0.0080, 0.0042) * (1.0 if v == 0 else 1.25)},
+		"cheek": {"c": Vector2(0.068, -0.030), "r": Vector2(0.020, 0.012)},
+		"mouth": {"c": Vector2(0.0, -0.086), "hw": 0.032, "lip": 0.0026},
+		"palette": {"iris_glow": 0.55, "brow": silver, "lash": Color(0.16, 0.14, 0.10), "lip": Color(0.62, 0.42, 0.34),
+			"lip_line": Color(0.30, 0.16, 0.10), "sclera": Color(0.90, 0.92, 0.84)},
+		"x": {&"neutral": {"mouth": {"kind": "smirk"}}},
+		"extra": func(acc: Dictionary, _id: StringName) -> void:
+			var w := Vector3(0.0006, 0.0013, 0.0006)
+			for sx: float in [1.0, -1.0]:
+				# crow's feet, the fold under the eye, the line from the nose, a jowl line
+				for k: int in 3:
+					var y0 := 0.036 - 0.011 * float(k)
+					FaceKit.strip(acc, cv, FaceKit.mirror(PackedVector2Array([Vector2(0.078, y0), Vector2(0.092, y0 + 0.004 * (1.0 - float(k)))]), sx), w, line, 0.003)
+				FaceKit.strip(acc, cv, FaceKit.mirror(FaceKit.bez(Vector2(0.034, 0.010), Vector2(0.050, 0.003), Vector2(0.066, 0.010)), sx), w, line, 0.003)
+				FaceKit.strip(acc, cv, FaceKit.mirror(FaceKit.bez(Vector2(0.030, -0.030), Vector2(0.050, -0.060), Vector2(0.046, -0.092)), sx), Vector3(0.0008, 0.0016, 0.0008), line, 0.003)
+			for k: int in 2:
+				var y := 0.090 + 0.012 * float(k)
+				FaceKit.strip(acc, cv, FaceKit.bez(Vector2(-0.030, y), Vector2(0.0, y + 0.006), Vector2(0.030, y)), w, line, 0.003)
+			if v == 0:
+				# the leaf-vein tattoo on her left cheek (asymmetric): a stem and three veins
+				var tat := Color(0.20, 0.40, 0.12)
+				var c := Vector2(-0.070, -0.022)
+				FaceKit.strip(acc, cv, FaceKit.bez(c + Vector2(0.010, 0.026), c + Vector2(-0.004, 0.0), c + Vector2(0.006, -0.030)), Vector3(0.0018, 0.0022, 0.001), tat, 0.0032)
+				for k: int in 3:
+					var q := c + Vector2(0.002, 0.014 - 0.014 * float(k))
+					FaceKit.strip(acc, cv, PackedVector2Array([q, q + Vector2(-0.016, 0.008)]), Vector3(0.0014, 0.0012, 0.0007), tat, 0.0032)}
+	if v == 1:
+		spec["mouth_canvas"] = FaceKit.canvas(Vector3(0.0, 1.595, 0.15), 0.09, sphere(0.09, 8, 4), Vector3(1.05, 0.9, 0.85),
+			Vector3.INF, Basis.IDENTITY, 0.002)
+		spec["mouth"] = {"c": Vector2(0.0, 0.004), "hw": 0.030, "lip": 0.0032}
+		spec["palette"]["lip_line"] = Color(0.24, 0.14, 0.08)
+	return spec
 
 
 ## Hood point: u across the hood (0 = the opening's right edge, 1 = its left edge, going round the back), v 0 = the
@@ -845,8 +910,8 @@ static func _variant_mesh(v: int) -> ArrayMesh:
 	var hair := _bucket()
 	var wood := _bucket()
 	if v == 0:
-		const COLS := 22
-		const ROWS := 14
+		const COLS := 18   # was 22 x 14 (faces pass 2026-09-28 trim: pays part of the face)
+		const ROWS := 12
 		var pts := PackedVector3Array()
 		var hints := PackedVector3Array()
 		for j: int in ROWS + 1:
@@ -1328,6 +1393,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto(self, _face_mood())
 	# ---- Staff: rides the fist at rest; a pose points it along _st_d in model space (weight _st_k).
 	var k := clampf(_st_k, 0.0, 1.0)
 	var bl: int = 1 if (_bloom > 0.5 and not _dead) else 0
@@ -1359,6 +1426,8 @@ func _extra_process(dt: float) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_flare = 0.0
 	_hold = 0.0
 	_bloom = 0.0

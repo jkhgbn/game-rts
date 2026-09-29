@@ -1,0 +1,58 @@
+{
+	"asset": "stormbottle_genie",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1353,
+					"node": "Root/Hips/Merged",
+					"to": 677,
+					"words": "`Merged` 1353 -> 677 verts"
+				},
+				{
+					"from": 1172,
+					"node": "Root/Chest/Merged",
+					"to": 586,
+					"words": "`Merged` 1172 -> 586 verts"
+				},
+				{
+					"from": 727,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 364,
+					"words": "`Merged` 727 -> 364 verts"
+				},
+				{
+					"from": 727,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 364,
+					"words": "`Merged` 727 -> 364 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4407
+			},
+			"predicted": {
+				"verts": 2419
+			},
+			"proposal": "4407 -> 2419 (want <= 2500): `Merged` 1353 -> 677 verts; `Merged` 1172 -> 586 verts; `Merged` 727 -> 364 verts; `Merged` 727 -> 364 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 4407 -> 2419 (want <= 2500): `Merged` 1353 -> 677 verts; `Merged` 1172 -> 586 verts; `Merged` 727 -> 364 verts; `Merged` 727 -> 364 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 96.7,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/stormbottle_genie/stormbottle_genie.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

@@ -1,0 +1,111 @@
+{
+	"asset": "helper_vey",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1968,
+					"node": "Root/Chest/Head/Merged",
+					"to": 984,
+					"words": "`Merged` 1968 -> 984 verts"
+				},
+				{
+					"from": 808,
+					"node": "Root/Chest/Merged",
+					"to": 404,
+					"words": "`Merged` 808 -> 404 verts"
+				},
+				{
+					"from": 667,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 334,
+					"words": "`Merged` 667 -> 334 verts"
+				},
+				{
+					"from": 622,
+					"node": "Root/Chest/Head/Face",
+					"to": 311,
+					"words": "`Face` 622 -> 311 verts"
+				},
+				{
+					"from": 590,
+					"node": "Root/Hips/Merged",
+					"to": 295,
+					"words": "`Merged` 590 -> 295 verts"
+				},
+				{
+					"from": 426,
+					"node": "Root/Chest/ArmR/StormRunes",
+					"to": 213,
+					"words": "`StormRunes` 426 -> 213 verts"
+				},
+				{
+					"from": 294,
+					"node": "Root/Chest/Cape",
+					"to": 147,
+					"words": "`Cape` 294 -> 147 verts"
+				},
+				{
+					"from": 279,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 140,
+					"words": "`Merged` 279 -> 140 verts"
+				},
+				{
+					"from": 279,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 140,
+					"words": "`Merged` 279 -> 140 verts"
+				},
+				{
+					"from": 263,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 132,
+					"words": "`Merged` 263 -> 132 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 6200
+			},
+			"predicted": {
+				"verts": 3104
+			},
+			"proposal": "6200 -> 3104 (want <= 2500): `Merged` 1968 -> 984 verts; `Merged` 808 -> 404 verts; `Merged` 667 -> 334 verts; `Face` 622 -> 311 verts; `Merged` 590 -> 295 verts; `StormRunes` 426 -> 213 verts; `Cape` 294 -> 147 verts; `Merged` 279 -> 140 verts; `Merged` 279 -> 140 verts; `Merged` 263 -> 132 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 6200 -> 3104 (want <= 2500): `Merged` 1968 -> 984 verts; `Merged` 808 -> 404 verts; `Merged` 667 -> 334 verts; `Face` 622 -> 311 verts; `Merged` 590 -> 295 verts; `StormRunes` 426 -> 213 verts; `Cape` 294 -> 147 verts; `Merged` 279 -> 140 verts; `Merged` 279 -> 140 verts; `Merged` 263 -> 132 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.1,
+	"result": "FAIL",
+	"scene": "res://art/units/helpers/helper_vey/helper_vey.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

@@ -2,34 +2,29 @@ extends "res://art/units/champions/wildcaller/wildcaller.gd"
 ## Maelis Oakenhollow, the Wildcaller (Nature T3 helper, t3-helpers.md 1 / 4.5 / 10; task TH.V2): the 13c Wildcaller
 ## (art/units/champions/wildcaller/, champion A look: the deep team hood with the tall pale antler lyre, the barred
 ## feather capelet and cloak, the 2.8 m living staff with its glowing crown) RAISED TO THE WIZARD BAR:
-##  - a PAINTED FACE with expressions (the Vessa method, HelperPaint): glowing green druid eyes with dark pupils and lash
-##    lines, bushy silver brows, the lines of age (crow's feet, brow furrows, nasolabial folds), a thin wry mouth and a
-##    leaf-vein tattoo on her left cheek; set_expression(&"neutral" | &"smile" | &"fierce") (the old glow-sphere eyes and
-##    brow lumps are gone);
+##  - a PAINTED FACE with expressions: the Wildcaller's FaceKit face, variant A (faces pass 2026-09-28: was her own
+##    HelperPaint face): glowing green druid eyes, bushy silver brows, the lines of age, a thin wry mouth and a leaf-vein
+##    tattoo on her left cheek; set_expression(FaceKit.EXPRESSIONS: neutral / smile / fierce / worried / shout);
 ##  - HAIR (hair-redesign-plan >= 70): long SILVER locks spilling out of the hood: a thick braid down her left side over
 ##    the capelet to the belt (team ribbon, a pink blossom tie, a wooden bead), two swept locks on the right, a forelock
 ##    under the brim (maelis_hair silver on the dark robe / moss: the 25 m hook);
 ##  - the helper hooks of t3-helpers.md 10.1: play_arrival() (3.5 s: lands crouched like the spirit stag, rises, plants
 ##    the staff in full bloom, looks up), play_fall(), play_revive() (rises from one knee, the crown blooms),
 ##    set_charge(0..1), play_gesture(id) + point() / nod() / kneel() / stand_up() / raise_weapon();
-##  - the hood is merged into the Head pivot (no variant swap: helpers take no B variant), so the face costs no draw.
+##  - the hood is merged into the Head pivot (no variant swap: helpers take no B variant); the face is ONE node.
 ## Abilities: the Wildcaller's own play_cast(&"thornsnare" | &"call_the_pack" | &"wild_stampede") poses, plus
 ## &"maelis_opinions" (the passive tell: a short crown pulse). Attack thorn_bolt (release 0.15). 0 lights.
 
 const HP := preload("res://art/units/helpers/helper_aldra/helper_paint.gd")
 const OWN_DIR := "res://art/units/helpers/helper_maelis/"
-const FACE_R := 0.155
 const HEAD_SCALE := Vector3(0.88, 1.06, 0.95)
-const EXPRESSIONS: Array[StringName] = [&"neutral", &"smile", &"fierce"]
+const EXPRESSIONS: Array[StringName] = FaceKit.EXPRESSIONS
 const ARRIVAL_ID := &"maelis_arrival"
 const REVIVE_ID := &"maelis_revive"
 const PASSIVE_ID := &"maelis_opinions"
 const ARRIVAL_LEN := 3.5
 const REVIVE_LEN := 1.2
 
-var _face: MeshInstance3D
-var _expr: StringName = &"neutral"
-var _face_shown: StringName = &""
 var _charge: float = 0.0
 var _kneeling: bool = false
 var _pending: StringName = &""
@@ -100,15 +95,6 @@ func is_kneeling() -> bool:
 	return _kneeling
 
 
-func set_expression(id: StringName) -> void:
-	_expr = id if EXPRESSIONS.has(id) else &"neutral"
-	_update_face()
-
-
-func get_expression() -> StringName:
-	return _expr
-
-
 ## Helpers take no B variant: the hood stays up.
 func set_variant(_v: int) -> void:
 	variant = 0
@@ -148,13 +134,12 @@ func _build_parts() -> void:
 	_part(chest, _torso_mesh(), null, Vector3.ZERO)
 	_part(chest, _mantle_mesh(), null, Vector3.ZERO)
 	_part(chest, _cloak_mesh(), null, Vector3.ZERO)
-	# Head: the old face (skin only), the hood + antlers (merged), the silver hair, the painted face (swapped per expression)
+	# Head: the old face (skin only), the hood + antlers (merged), the silver hair, the FaceKit face (the Wildcaller's A)
 	_part(head, _skin_mesh(), null, Vector3.ZERO)
 	_part(head, _variant_mesh(0), null, Vector3.ZERO)
 	_part(head, _hair_mesh(), null, Vector3.ZERO)
 	_part(chest, _wolf_mesh(), null, Vector3.ZERO)
-	_face = _part(head, _face_decals(_face_target()), null, Vector3.ZERO, Vector3.ZERO, true, "Face")
-	_face_shown = _face_target()
+	_face = ChampionFaces.attach(self, head, "wildcaller", _face_spec, 0)
 	_part(arm_l, _arm_mesh(-1.0), null, Vector3.ZERO)
 	_part(arm_r, _arm_mesh(1.0), null, Vector3.ZERO)
 	_staff = _part(arm_r, _staff_mesh(0), null, GRIP_R, Vector3.ZERO, true, "Staff")
@@ -271,76 +256,14 @@ static func _wolf_mesh() -> ArrayMesh:
 	return HP.commit("maelis_wolf", [[fur, _own("maelis_wolf")], [dark, _nat("nature_bark_dark")],
 		[pale, _own("maelis_hair")], [eye, CharacterModel.palette(&"unit_eye_dark")]])
 
-## Painted face for one expression (cached): glowing green eyes (nature_glow), pupils / lashes (unit_eye_dark), a pale
-## eye highlight, silver brows (maelis_hair), lines of age and the mouth (nature_bark / nature_bark_dark), the cheek
-## tattoo (nature_leaf_dark).
-static func _face_decals(id: StringName) -> ArrayMesh:
-	var key := "maelis_face_" + String(id)
-	if HP.cached(key):
-		return HP.cached(key)
-	var f := HP.face_new(HEAD_C, FACE_R, CharacterModel.sphere(HEAD_R), HEAD_SCALE)
-	var keys := {"white": &"eye", "iris": &"", "pupil": &"dark", "hi": &"hi", "lash": &"dark"}
-	var eye := Vector2(0.050, 0.026)
-	for sx: float in [1.0, -1.0]:
-		match id:
-			&"smile":
-				HP.face_eye(f, eye, 0.024, 0.009, 0.003, 0.006, 0.008, sx, keys)
-				HP.face_strip(f, &"brow", HP.mirror(HP.bez(Vector2(0.022, 0.058), Vector2(0.052, 0.078), Vector2(0.086, 0.064)), sx), Vector3(0.008, 0.009, 0.004), 0.003)
-				HP.face_strip(f, &"line", HP.mirror(HP.bez(Vector2(0.078, 0.034), Vector2(0.090, 0.020), Vector2(0.086, 0.004)), sx), Vector3(0.0015, 0.002, 0.001), 0.003)
-			&"fierce":
-				HP.face_eye(f, eye, 0.024, 0.010, 0.008, -0.006, 0.009, sx, keys)
-				HP.face_strip(f, &"brow", HP.mirror(HP.bez(Vector2(0.014, 0.040), Vector2(0.046, 0.050), Vector2(0.088, 0.066)), sx), Vector3(0.010, 0.010, 0.005), 0.003)
-			_:
-				HP.face_eye(f, eye, 0.024, 0.012, 0.007, 0.003, 0.009, sx, keys)
-				HP.face_strip(f, &"brow", HP.mirror(HP.bez(Vector2(0.020, 0.054), Vector2(0.052, 0.070), Vector2(0.088, 0.058)), sx), Vector3(0.008, 0.009, 0.0045), 0.003)
-		# crow's feet, the bag under the eye, the nasolabial fold, a jowl line
-		for k: int in 3:
-			var y0 := 0.036 - 0.011 * float(k)
-			HP.face_strip(f, &"line", HP.mirror(PackedVector2Array([Vector2(0.078, y0), Vector2(0.094, y0 + 0.004 * (1.0 - float(k)))]), sx), Vector3(0.001, 0.0015, 0.0008), 0.003)
-		HP.face_strip(f, &"line", HP.mirror(HP.bez(Vector2(0.032, 0.012), Vector2(0.050, 0.004), Vector2(0.068, 0.012)), sx), Vector3(0.0008, 0.0014, 0.0008), 0.003)
-		HP.face_strip(f, &"line", HP.mirror(HP.bez(Vector2(0.030, -0.030), Vector2(0.050, -0.060), Vector2(0.048, -0.090)), sx), Vector3(0.0012, 0.002, 0.001), 0.003)
-	# brow furrows
-	for k: int in 2:
-		var y := 0.088 + 0.012 * float(k)
-		HP.face_strip(f, &"line", HP.bez(Vector2(-0.034, y), Vector2(0.0, y + 0.006), Vector2(0.034, y)), Vector3(0.0008, 0.0014, 0.0008), 0.003)
-	# the leaf-vein tattoo on her left cheek (asymmetric): a stem and three veins
-	var c := Vector2(-0.070, -0.022)
-	HP.face_strip(f, &"tattoo", HP.bez(c + Vector2(0.010, 0.026), c + Vector2(-0.004, 0.0), c + Vector2(0.006, -0.030)), Vector3(0.0022, 0.0026, 0.0012), 0.003)
-	for k: int in 3:
-		var p := c + Vector2(0.002, 0.014 - 0.014 * float(k))
-		HP.face_strip(f, &"tattoo", PackedVector2Array([p, p + Vector2(-0.016, 0.008)]), Vector3(0.0016, 0.0014, 0.0008), 0.003)
-	match id:
-		&"smile":
-			# a wry, lopsided grin (her left corner higher)
-			HP.face_strip(f, &"mouth", HP.bez(Vector2(-0.036, -0.078), Vector2(0.0, -0.100), Vector2(0.034, -0.084)), Vector3(0.0022, 0.0048, 0.0022), 0.003)
-			HP.face_strip(f, &"mouth", PackedVector2Array([Vector2(-0.036, -0.078), Vector2(-0.043, -0.069)]), Vector3(0.002, 0.0016, 0.001), 0.003)
-		&"fierce":
-			HP.face_strip(f, &"mouth", HP.bez(Vector2(-0.034, -0.092), Vector2(0.0, -0.082), Vector2(0.034, -0.092)), Vector3(0.0026, 0.004, 0.0026), 0.003)
-		_:
-			HP.face_strip(f, &"mouth", HP.bez(Vector2(-0.032, -0.086), Vector2(0.0, -0.090), Vector2(0.030, -0.082)), Vector3(0.0022, 0.004, 0.0022), 0.003)
-	return HP.face_commit(f, key, [&"eye", &"dark", &"hi", &"brow", &"line", &"mouth", &"tattoo"],
-		{&"eye": _nat("nature_glow"), &"dark": CharacterModel.palette(&"unit_eye_dark"), &"hi": _nat("nature_sec_sapling"),
-		&"brow": _own("maelis_hair"), &"line": _nat("nature_bark"), &"mouth": _nat("nature_bark_dark"),
-		&"tattoo": _nat("nature_leaf_dark")})
-
-
-func _face_target() -> StringName:
-	if _expr != &"neutral" or _dead or _tier != 0:
-		return _expr
-	if _level_t < 1.6 or (_action == &"cast" and (_cast_id == &"nod" or _cast_id == REVIVE_ID or _cast_id == PASSIVE_ID)):
+## Her moods on top of the kit's (close camera): a nod, the revive and the passive tell smile; her own casts and
+## raise_weapon turn fierce.
+func _face_mood() -> StringName:
+	if _action == &"cast" and (_cast_id == &"nod" or _cast_id == REVIVE_ID or _cast_id == PASSIVE_ID):
 		return &"smile"
-	if (_action == &"cast" and OWN_CAST_IDS.has(_cast_id)) or _action == &"attack" or (_action == &"cast" and _cast_id == &"raise_weapon"):
+	if _action == &"cast" and (OWN_CAST_IDS.has(_cast_id) or _cast_id == &"raise_weapon"):
 		return &"fierce"
-	return _expr
-
-
-func _update_face() -> void:
-	if _face == null:
-		return
-	var id := _face_target()
-	if id != _face_shown:
-		_face_shown = id
-		_face.mesh = _face_decals(id)
+	return &""
 
 
 # ================================================================ poses
@@ -398,7 +321,6 @@ func _pose_cast(spell: StringName, t: float) -> float:
 # ================================================================ per frame
 
 func _extra_process(dt: float) -> void:
-	_update_face()
 	if not _dead:
 		if _charge > 0.001:
 			_hold = maxf(_hold, 2.4 * _charge)
@@ -411,5 +333,3 @@ func _extra_process(dt: float) -> void:
 
 func _on_revive() -> void:
 	super._on_revive()
-	_face_shown = &""
-	_update_face()

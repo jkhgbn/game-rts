@@ -6,8 +6,9 @@ extends "res://art/units/helpers/helper_vey/helper_model.gd"
 ## out of the hood over both shoulders onto the chest with big pale-lilac tips, a braid over the right shoulder
 ## ending in a silver ring and a lilac tassel, and a fringe swept across the mask's brow. Split leather coat open at
 ## the front (long legs, wrapped shins), a belt of throwing knives, a team tabard, a silver-spiked pauldron.
-## Mask painted per expression (`set_expression(&"neutral" | &"smile" | &"fierce")`): eye slits with violet
-## pupils, lilac tear lines, a forehead sigil, no mouth.
+## Mask painted per expression (FaceKit, faces pass 2026-09-28; `set_expression(FaceKit.EXPRESSIONS)`): narrow dark eye
+## slits with glowing violet irises, thin lilac brow strokes, lilac tear lines, a forehead sigil and small painted
+## violet lips (the old mask had only a seam: lips were added so her face speaks too; hush_knives shouts).
 ## Abilities (play_cast): hush_blink (sinks into a crouch, then a double stab from behind), hush_smoke (a smoke
 ## pellet dashed at her feet), hush_knives (Night of Knives: she vanishes 1.5 s, then 6 strikes, reappears), hush_veil
 ## (passive tell) + set_status(&"veiled") thins the smoke. Helper hooks: play_arrival (rises out of her shadow, mask
@@ -118,8 +119,8 @@ func _build_parts() -> void:
 	add_part(head, sphere(0.17, 8, 4), palette(&"unit_eye_dark"), Vector3(0, 1.80, -0.04), Vector3.ZERO, Vector3(1.05, 1.2, 0.8))
 	add_part(head, _hair_mesh(), null, Vector3.ZERO)
 	add_part(head, torus(0.022, 0.045, 8), silver, Vector3(0.215, 1.08, 0.215), Vector3(-10, 0, 8))
-	_face = add_part(head, _face_mesh_for(_face_target()), null, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Face")
-	_face_shown = _face_target()
+	_face = FaceKit.attach(self, head, "helper_hush", _face_style())
+	_face.set_expression(_expr)
 
 	# ---- Arms: slim leather sleeves, pale forearm wraps, dark gloves; a sickle knife in each hand.
 	for pair: Array in [[arm_l, SHOULDER_L, HAND_L], [arm_r, SHOULDER_R, HAND_R]]:
@@ -345,39 +346,41 @@ static func _tri(dd: Array, a: Vector3, b: Vector3, c: Vector3, n: Vector3) -> v
 
 # ================================================================ mask / expressions
 
-## Painted mask (projected on the oval mask): dark eye slits with violet pupils (glow), lilac tear lines, a forehead
-## sigil, a faint seam where a mouth would be. Cached per expression.
-func _face_mesh_for(id: StringName) -> Mesh:
-	var key := StringName("face_" + String(id))
-	if _meshes.has(key):
-		return _meshes[key]
-	var ctx := HP.face_ctx(FACE_C, FACE_R, sphere(FACE_R, 12, 6), FACE_SCL)
-	var eye := Vector2(0.062, 0.032)
-	for sx: float in [1.0, -1.0]:
-		match id:
-			&"smile":
-				# amused: the slits curve up into crescents
-				HP.strip(ctx, &"slit", HP.fm(HP.bez(eye + Vector2(-0.034, -0.004), eye + Vector2(0.0, 0.022), eye + Vector2(0.036, -0.002)), sx), Vector3(0.003, 0.0075, 0.003), 0.003)
-				HP.fill(ctx, &"pupil", HP.fm(HP.ellipse(eye + Vector2(0.0, 0.008), Vector2(0.006, 0.004), 0.0, 8), sx), 0.0045)
-			&"fierce":
-				HP.fill(ctx, &"slit", HP.fm(HP.almond(eye, 0.044, 0.010, 0.012, -0.018), sx), 0.003)
-				HP.fill(ctx, &"pupil", HP.fm(HP.ellipse(eye + Vector2(-0.004, 0.0), Vector2(0.010, 0.0065), 0.0, 10), sx), 0.0045)
-				HP.strip(ctx, &"sigil", HP.fm(PackedVector2Array([Vector2(0.018, 0.058), Vector2(0.06, 0.050), Vector2(0.098, 0.064)]), sx), Vector3(0.002, 0.004, 0.002), 0.003)
-			_:
-				HP.fill(ctx, &"slit", HP.fm(HP.almond(eye, 0.044, 0.012, 0.011, 0.010), sx), 0.003)
-				HP.fill(ctx, &"pupil", HP.fm(HP.ellipse(eye + Vector2(0.002, 0.0), Vector2(0.010, 0.007), 0.0, 10), sx), 0.0045)
-		# tear line: from under the eye down the cheek, a drop at the end
-		HP.strip(ctx, &"tear", HP.fm(HP.bez(eye + Vector2(0.004, -0.014), eye + Vector2(0.010, -0.05), eye + Vector2(0.002, -0.088)), sx), Vector3(0.0022, 0.0030, 0.0012), 0.003)
-		HP.fill(ctx, &"tear", HP.fm(HP.ellipse(eye + Vector2(0.002, -0.096), Vector2(0.006, 0.009), 0.0, 8), sx), 0.003)
-	# forehead sigil: a small diamond over a crescent
-	HP.fill(ctx, &"sigil", PackedVector2Array([Vector2(0.0, 0.118), Vector2(0.012, 0.098), Vector2(0.0, 0.078), Vector2(-0.012, 0.098)]), 0.003)
-	HP.strip(ctx, &"sigil", HP.bez(Vector2(-0.03, 0.084), Vector2(0.0, 0.062), Vector2(0.03, 0.084)), Vector3(0.0015, 0.0035, 0.0015), 0.003)
-	# mouthless: a faint seam line
-	HP.strip(ctx, &"seam", HP.bez(Vector2(-0.022, -0.075), Vector2(0.0, -0.079), Vector2(0.022, -0.075)), Vector3(0.0008, 0.0014, 0.0008), 0.0025)
-	var am := HP.face_commit(ctx, [[&"slit", palette(&"unit_eye_dark")], [&"pupil", mat(&"hush_edge")],
-		[&"tear", mat(&"hush_hair_tip")], [&"sigil", palette(&"shadow_cloth")], [&"seam", mat(&"hush_wrap")]])
-	_meshes[key] = am
-	return am
+func _shout_ids() -> Array[StringName]:
+	return [&"hush_knives"]
+
+
+## The painted porcelain mask (FaceKit style on the oval mask sphere): dark slit eyes with glowing violet irises, lilac
+## brow strokes, small violet painted lips, no blush; tear lines down both cheeks and the forehead sigil (extra).
+static func _face_style() -> Dictionary:
+	if _meshes.has("_face_style"):
+		return _meshes["_face_style"]
+	var lilac := Color(0.74, 0.56, 0.95)
+	var violet := Color(0.42, 0.20, 0.58)
+	var st := FaceKit.style_from({"center": FACE_C, "radius": FACE_R, "head_mesh": sphere(FACE_R, 12, 6),
+		"head_scale": FACE_SCL, "preset": &"hollow", "skin": Color(0.95, 0.94, 0.97), "hair": lilac,
+		"eyes": Color(0.80, 0.42, 1.0), "ears": &"none",
+		"eye": {"c": Vector2(0.062, 0.032), "hw": 0.040, "top": 0.013, "bot": 0.009, "tilt": 0.008, "ir": 0.0095, "lash": 1.3,
+			"flick": 0.012},
+		"brow": {"inner": Vector2(0.024, 0.062), "mid": Vector2(0.060, 0.074), "outer": Vector2(0.098, 0.066),
+			"w": Vector3(0.0022, 0.0026, 0.0010)},
+		"mouth": {"c": Vector2(0.0, -0.076), "hw": 0.026, "lip": 0.0030},
+		"palette": {"sclera": Color(0.10, 0.06, 0.14), "iris_glow": 0.7, "pupil": Color(0.20, 0.04, 0.30), "lash": Color(0.08, 0.05, 0.10),
+			"brow": lilac, "lip": Color(0.62, 0.44, 0.74), "lip_line": Color(0.32, 0.12, 0.42), "mouth_in": Color(0.14, 0.04, 0.20),
+			"highlight": Color(0.92, 0.84, 1.0)},
+		"x": {&"neutral": {"mouth": {"curve": 0.25, "w": 0.9}}}})
+	var cv: Dictionary = st["canvas"]
+	st["extra"] = func(acc: Dictionary, _id: StringName) -> void:
+		var eye := Vector2(0.062, 0.032)
+		for sx: float in [1.0, -1.0]:
+			# tear line: from under the eye down the cheek, a drop at the end
+			FaceKit.strip(acc, cv, FaceKit.mirror(FaceKit.bez(eye + Vector2(0.004, -0.016), eye + Vector2(0.010, -0.05), eye + Vector2(0.002, -0.088)), sx), Vector3(0.0018, 0.0026, 0.0010), lilac, 0.003)
+			FaceKit.fill(acc, cv, FaceKit.mirror(FaceKit.ellipse(eye + Vector2(0.002, -0.096), Vector2(0.006, 0.009), 0.0, 8), sx), lilac, 0.003)
+		# forehead sigil: a small diamond over a crescent
+		FaceKit.fill(acc, cv, PackedVector2Array([Vector2(0.0, 0.118), Vector2(0.012, 0.098), Vector2(0.0, 0.078), Vector2(-0.012, 0.098)]), violet, 0.003)
+		FaceKit.strip(acc, cv, FaceKit.bez(Vector2(-0.03, 0.084), Vector2(0.0, 0.066), Vector2(0.03, 0.084)), Vector3(0.0012, 0.003, 0.0012), violet, 0.003)
+	_meshes["_face_style"] = st
+	return st
 
 
 # ================================================================ abilities (t3-helpers.md 4.3) + helper poses

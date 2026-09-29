@@ -93,6 +93,8 @@ static var D_JOLT := PackedFloat32Array([0.0, 0.0, 0, 0.08, 1.0, 1, 0.32, 0.0, 0
 
 var _variant: int = 0
 var _authored: int = 0
+## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
+var _face: CreatureFaceRig
 var _parts: Array = []                 # [MeshInstance3D, key, front, sx] of every part (the variant swap)
 var _skull: Node3D                     # Head/Skull pivot
 var _skull_mi: MeshInstance3D          # its mesh (the B eyes glow on it)
@@ -208,6 +210,7 @@ func _build_parts() -> void:
 	_skull_mi = _part(_skull, "skull", "Cranium")
 	_skull_mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	_skull_mi.set_meta(&"own_glow", true)
+	_face = CreatureFaceRig.attach(self, _skull_mi, "direwolf_%d" % _variant, face_spec(_variant))
 	_jaw = $Root/Mount/Head/Skull/Jaw
 	_jaw_rest = _jaw.position
 	_part(_jaw, "jaw", "Mandible")
@@ -239,6 +242,8 @@ func _after_ready() -> void:
 		if mi and not _flash_hit_targets.has(mi):
 			_flash_hit_targets.append(mi)
 	_fidget_wait = _next_fidget() * 0.6
+	if _face:
+		_face.set_host(_skull_mi)
 	_write_parts(true)
 	_write_glow(true)
 
@@ -249,6 +254,8 @@ func _apply_variant() -> void:
 		var mi: MeshInstance3D = p[0]
 		if mi:
 			mi.mesh = DM.part(String(p[1]), _variant, bool(p[2]), float(p[3]))
+	if _face:
+		_face.switch("direwolf_%d" % _variant, face_spec(_variant))
 	_eye_w = -1.0
 	_write_glow(true)
 
@@ -264,6 +271,8 @@ func _on_action_event(ev: StringName) -> void:
 
 
 func _on_revive() -> void:
+	if _face:
+		_face.reset()
 	_skull_req = Vector3.ZERO
 	_jaw_req = 0.0
 	_tail_req = Vector3.ZERO
@@ -458,6 +467,8 @@ func _pose_death(dt: float) -> void:
 # ================================================================ per frame extras
 
 func _extra_process(dt: float) -> void:
+	if _face:
+		_face.auto_any(self)
 	if not _dead:
 		if _action == &"fidget":
 			if _speed >= 0.3 or _action_t >= HOWL_LEN:
@@ -543,3 +554,24 @@ static func _trk(t: float, k: PackedFloat32Array) -> float:
 	else:
 		u = u * u * (3.0 - 2.0 * u)
 	return k[i - 2] + (k[i + 1] - k[i - 2]) * u
+
+
+## The eyes (faces pass 2026-09-28): slanted almond wolf eyes with a round pupil under a dark brow ridge (the scowl
+## deepens on the bite / pounce): A (Greymane) painted amber, B (Moonpelt) the faint pale-blue glow (the skull's glow
+## drive lights them). Drawn inside the Cranium mesh (CreatureFaceRig host mode: no extra draw instance).
+static func face_spec(v: int) -> Dictionary:
+	var hw: float = DM.HEAD_W[v]
+	var out := Vector3(0.84, 0.16, 0.52).normalized()
+	var eye := Vector3(DM.EYE.x * hw, DM.EYE.y, DM.EYE.z) + out * 0.012
+	var hide := Color(0.47, 0.475, 0.49) if v == 0 else Color(0.73, 0.76, 0.82)
+	var iris := Color(0.92, 0.62, 0.16) if v == 0 else Color(0.62, 0.86, 1.0)
+	return CreatureFaceRig.side_eye_spec(eye, out, 0.040, hide, iris, 0.0 if v == 0 else 0.8,
+		{"eye": {"tilt": 0.012, "top": 0.022, "bot": 0.018, "ir": 0.017, "pupil": 0.45},
+		"palette": {"sclera": Color(0.86, 0.80, 0.62) if v == 0 else Color(0.80, 0.88, 0.95), "brow": Color(0.16, 0.15, 0.18),
+		"lash": Color(0.05, 0.05, 0.06)}, "brow": {"w": Vector3(0.008, 0.010, 0.004)}})
+
+
+## Cinematic / UI hook: FaceKit.EXPRESSIONS (the eyes and brows: neutral / smile / fierce / worried / shout).
+func set_expression(id: StringName) -> void:
+	if _face:
+		_face.set_expression(id)

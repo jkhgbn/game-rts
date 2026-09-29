@@ -1,0 +1,158 @@
+{
+	"asset": "mage_archer",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-77345",
+					"material_path": "",
+					"to": "StandardMaterial3D#-59610",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-97401",
+					"material_path": "",
+					"to": "StandardMaterial3D#-59610",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 9.6,
+					"material": "shadow_skin",
+					"material_path": "res://art/units/kit/materials/shadow_skin.tres",
+					"to": "shadow_silver",
+					"to_path": "res://art/units/kit/materials/shadow_silver.tres"
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 12
+			},
+			"predicted": {
+				"materials": 9
+			},
+			"proposal": "12 -> 9 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-77345` -> `StandardMaterial3D#-59610` (dE 0.0), `StandardMaterial3D#-97401` -> `StandardMaterial3D#-59610` (dE 0.0), `shadow_skin` -> `shadow_silver` (dE 9.6); 4 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 12 -> 9 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-77345` -> `StandardMaterial3D#-59610` (dE 0.0), `StandardMaterial3D#-97401` -> `StandardMaterial3D#-59610` (dE 0.0), `shadow_skin` -> `shadow_silver` (dE 9.6); 4 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2382,
+					"node": "Root/Chest/Head/Variant",
+					"to": 1191,
+					"words": "`Variant` 2382 -> 1191 verts"
+				},
+				{
+					"from": 1333,
+					"node": "Root/Chest/ArmR/Bow",
+					"to": 667,
+					"words": "`Bow` 1333 -> 667 verts"
+				},
+				{
+					"from": 1205,
+					"node": "Root/Chest/Quiver",
+					"to": 603,
+					"words": "`Quiver` 1205 -> 603 verts"
+				},
+				{
+					"from": 805,
+					"node": "Root/Hips/Merged",
+					"to": 403,
+					"words": "`Merged` 805 -> 403 verts"
+				},
+				{
+					"from": 592,
+					"node": "Root/Chest/Merged",
+					"to": 296,
+					"words": "`Merged` 592 -> 296 verts"
+				},
+				{
+					"from": 584,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 292,
+					"words": "`Merged` 584 -> 292 verts"
+				},
+				{
+					"from": 478,
+					"node": "Root/Chest/Head/Face",
+					"to": 239,
+					"words": "`Face` 478 -> 239 verts"
+				},
+				{
+					"from": 361,
+					"node": "Root/Chest/Head/Merged",
+					"to": 181,
+					"words": "`Merged` 361 -> 181 verts"
+				},
+				{
+					"from": 345,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 173,
+					"words": "`Merged` 345 -> 173 verts"
+				},
+				{
+					"from": 345,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 173,
+					"words": "`Merged` 345 -> 173 verts"
+				},
+				{
+					"from": 228,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 114,
+					"words": "`Merged` 228 -> 114 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 8662
+			},
+			"predicted": {
+				"verts": 4336
+			},
+			"proposal": "8662 -> 4336 (want <= 3000): `Variant` 2382 -> 1191 verts; `Bow` 1333 -> 667 verts; `Quiver` 1205 -> 603 verts; `Merged` 805 -> 403 verts; `Merged` 592 -> 296 verts; `Merged` 584 -> 292 verts; `Face` 478 -> 239 verts; `Merged` 361 -> 181 verts; `Merged` 345 -> 173 verts; `Merged` 345 -> 173 verts; `Merged` 228 -> 114 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 8662 -> 4336 (want <= 3000): `Variant` 2382 -> 1191 verts; `Bow` 1333 -> 667 verts; `Quiver` 1205 -> 603 verts; `Merged` 805 -> 403 verts; `Merged` 592 -> 296 verts; `Merged` 584 -> 292 verts; `Face` 478 -> 239 verts; `Merged` 361 -> 181 verts; `Merged` 345 -> 173 verts; `Merged` 345 -> 173 verts; `Merged` 228 -> 114 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 88.9,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/mage_archer/mage_archer.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}
