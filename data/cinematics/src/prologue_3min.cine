@@ -36,10 +36,10 @@ cast  archer1    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at
 cast  archer2    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(-2.0, 0, -4.8)  yaw=10  set=forge_intro_ysolde  hidden=1
 cast  archer3    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(5.2, 0, -5.4)   yaw=-10 set=forge_intro_ysolde  hidden=1
 cast  archer4    res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(6.4, 0, -5.9)   yaw=-15 set=forge_intro_ysolde  hidden=1
-cast  king_fire   res://art/units/fire/flame_guard.tscn   at=(-14.6, 31, 45.6)  yaw=45   set=forge_citadel
-cast  king_shadow res://art/units/shadow/shadow_knight.tscn at=(-10.4, 31, 45.6)  yaw=-45  set=forge_citadel
-cast  king_ice    res://art/units/ice/rime_seer.tscn     at=(-14.6, 31, 48.8)  yaw=135  set=forge_citadel
-cast  king_nature res://art/units/nature/bloomtender.tscn at=(-10.4, 31, 48.8)  yaw=-135 set=forge_citadel
+cast  king_fire   res://art/units/fire/flame_guard.tscn   at=(-14.6, 30, 45.6)  yaw=45   set=forge_citadel
+cast  king_shadow res://art/units/shadow/shadow_knight.tscn at=(-10.4, 30, 45.6)  yaw=-45  set=forge_citadel
+cast  king_ice    res://art/units/ice/rime_seer.tscn     at=(-14.6, 30, 48.8)  yaw=135  set=forge_citadel
+cast  king_nature res://art/units/nature/bloomtender.tscn at=(-10.4, 30, 48.8)  yaw=-135 set=forge_citadel
 cast  stag       res://art/units/nature/stagrunner/stagrunner.tscn   at=(-7.0, 0, -7.0)  yaw=30   set=forge_intro_ysolde
 cast  vine2      res://art/units/nature/vinelasher/vinelasher.tscn   at=(1.6, 0, -3.4)   yaw=0    set=forge_intro_ysolde
 
