@@ -43,6 +43,12 @@ const CRYSTAL_COLOR := Color(0.6, 0.75, 1.0)
 
 static var _meshes: Dictionary = {}
 static var _mats: Dictionary = {}
+## In-game read pass (2026-09-30): at RTS zoom 30 the class weapons were hair-thin lines. Every piece is built as
+## authored, then widened across its length (piece x / z; the length along y and the grips are unchanged) and the
+## round shield scaled as a whole, so each class keeps one clear weapon silhouette: spear, sword + shield, greatsword,
+## staff.
+const READ_WIDEN := {&"spear": 1.35, &"javelin": 1.25, &"sword": 1.35, &"greatsword": 1.3, &"staff": 1.35}
+const READ_SHIELD := 1.15
 
 
 # ================================================================ public (static)
@@ -164,8 +170,32 @@ static func piece_mesh(piece: StringName) -> ArrayMesh:
 			m = _staff_mesh()
 		_:
 			m = ArrayMesh.new()
+	if READ_WIDEN.has(piece):
+		m = _scaled(m, Vector3(READ_WIDEN[piece], 1.0, READ_WIDEN[piece]))
+	elif piece == &"round_shield":
+		m = _scaled(m, Vector3.ONE * READ_SHIELD)
 	_meshes[piece] = m
 	return m
+
+
+## A copy of `m` scaled by `k` in piece space (normals corrected), same surfaces and materials.
+static func _scaled(m: ArrayMesh, k: Vector3) -> ArrayMesh:
+	var out := ArrayMesh.new()
+	var nb := Basis.from_scale(k).inverse().transposed()
+	for s: int in m.get_surface_count():
+		var arr := m.surface_get_arrays(s)
+		var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+		for i: int in v.size():
+			v[i] = v[i] * k
+		arr[Mesh.ARRAY_VERTEX] = v
+		if arr[Mesh.ARRAY_NORMAL] != null:
+			var n: PackedVector3Array = arr[Mesh.ARRAY_NORMAL]
+			for j: int in n.size():
+				n[j] = (nb * n[j]).normalized()
+			arr[Mesh.ARRAY_NORMAL] = n
+		out.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+		out.surface_set_material(s, m.surface_get_material(s))
+	return out
 
 
 ## Vertex count of a piece (budget tests).

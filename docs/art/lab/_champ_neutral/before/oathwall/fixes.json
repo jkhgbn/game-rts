@@ -1,0 +1,33 @@
+{
+	"asset": "oathwall",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B8",
+			"computed": false,
+			"measured": {
+				"materials": 9
+			},
+			"predicted": {
+				"materials": 9
+			},
+			"proposal": "9 -> 9 materials: use one material for look-alike pairs (albedo dE <= 15): (no look-alike pair of the same shader) Snap to the closed palette (art-units 2.2); no per-part materials; 4 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 9 -> 9 materials: use one material for look-alike pairs (albedo dE <= 15): (no look-alike pair of the same shader) Snap to the closed palette (art-units 2.2); no per-part materials; 4 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 90.8,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/oathwall/oathwall.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

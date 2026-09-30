@@ -1,0 +1,98 @@
+{
+	"asset": "roc",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.9,
+					"node": "res://data/units/duskwing_roc.tres",
+					"param": "radius",
+					"to": 1.53
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.9,
+				"x_m": 2.69,
+				"z_m": 1.68
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.9 -> 1.53, or pull the widest parts in to x <= 1.58 / z <= 2.7 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.9 -> 1.53, or pull the widest parts in to x <= 1.58 / z <= 2.7 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.58",
+				"z_m": "<= 2.7"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "on",
+					"node": "Root/Body/Neck1/Neck1Mesh",
+					"param": "cast_shadow",
+					"to": "SHADOW_CASTING_SETTING_OFF",
+					"volume_m3": 0.836
+				},
+				{
+					"from": "on",
+					"node": "Root/Body/Tail1/Tail1Mesh",
+					"param": "cast_shadow",
+					"to": "SHADOW_CASTING_SETTING_OFF",
+					"volume_m3": 0.853
+				}
+			],
+			"check": "B7",
+			"computed": true,
+			"measured": {
+				"casters": 8
+			},
+			"predicted": {
+				"casters": 6
+			},
+			"proposal": "8 -> 6 casters: cast_shadow off on the 2 smallest: `Neck1Mesh`, `Tail1Mesh`",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B7 8 -> 6 casters: cast_shadow off on the 2 smallest: `Neck1Mesh`, `Tail1Mesh`",
+			"title": "Shadow casters",
+			"wanted": {
+				"casters": "<= 6"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 88.5,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/beasts/roc/roc.tscn",
+	"tier": "hero",
+	"version": "1.0"
+}

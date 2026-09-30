@@ -29,6 +29,10 @@ extends CharacterModel
 ## Emitted when play_call() has finished (she stands on the ground).
 signal call_finished
 
+## B8 material merge (in-game grade 2026-09-30): every painted / glow part folds into ONE palette material
+## (ChampionPalette, art/units/champions/champion_palette.gd); the motes share one draw material. The team cloth
+## (shadow_cloth, shadow_cloth_dark, shadow_cape) keeps its own materials (set_team_color).
+const PAL_KEY := "mage_archer"
 const GLOW := Color(0.70, 0.30, 1.00)
 const SHOULDER_R := Vector3(0.31, 1.50, 0.0)
 const SHOULDER_L := Vector3(-0.31, 1.50, 0.0)
@@ -143,7 +147,7 @@ static func _glow() -> Material:
 func set_variant(v: int) -> void:
 	variant = clampi(v, 0, 1)
 	if _variant_node:
-		_variant_node.mesh = _variant_mesh(variant)
+		_variant_node.mesh = ChampionPalette.fold_mesh(PAL_KEY, _variant_mesh(variant))
 	ChampionFaces.switch(_face, "mage_archer", _face_spec, variant)
 
 
@@ -260,7 +264,8 @@ func _on_weapon_class(_class_id: StringName) -> void:
 func _part(pivot: Node3D, mesh: Mesh, mat: Material, at: Vector3, rot_deg: Vector3 = Vector3.ZERO,
 		keep: bool = false, part_name: String = "") -> MeshInstance3D:
 	_authored += 1
-	return add_part(pivot, mesh, mat, at, rot_deg, Vector3.ONE, keep, part_name)
+	var f := ChampionPalette.fold(PAL_KEY, mesh, mat)
+	return add_part(pivot, f[0], f[1], at, rot_deg, Vector3.ONE, keep, part_name)
 
 
 func _build_parts() -> void:
@@ -285,10 +290,12 @@ func _build_parts() -> void:
 	_quiver.set_meta(&"own_glow", true)
 	var motes := make_motes(GLOW, 6, 1.6, 0.20, 0.16, 0.05)
 	motes.name = "QuiverMotes"
+	ChampionPalette.share_motes(PAL_KEY, motes)
 	motes.position = Vector3(0.0, 0.25, 0.0)
 	_quiver.add_child(motes)
 	var death := make_motes(GLOW, 14, 1.0, 0.25, 1.2, 0.07, false, true)
 	death.name = "DeathMotes"
+	ChampionPalette.share_motes(PAL_KEY, death)
 	death.set_meta(&"death_fx", true)
 	_quiver.add_child(death)
 	# ---- Head: face, eyes, circlet; the variant piece (hood up / hood down + braid)
@@ -302,11 +309,13 @@ func _build_parts() -> void:
 	_bow.set_meta(&"own_glow", true)
 	_spark = make_motes(GLOW, 12, 0.5, 0.05, 1.8, 0.07, false, true)
 	_spark.name = "ReleaseSparks"
+	ChampionPalette.share_motes(PAL_KEY, _spark)
 	_spark.position = ARROW_TIP
 	_bow.add_child(_spark)
 	# ---- the call ring (play_call): violet motes rising from a ring round her feet
 	_call_motes = make_motes(GLOW, 24, 1.3, 0.75, 2.2, 0.08, true, true)
 	_call_motes.name = "CallMotes"
+	ChampionPalette.share_motes(PAL_KEY, _call_motes)
 	_call_motes.position = Vector3(0.0, 0.05, 0.0)
 	var fx := get_node_or_null(^"Fx")
 	if fx:
@@ -320,7 +329,7 @@ func _after_ready() -> void:
 	if _shadow:
 		_authored += 1
 	if _variant_node:
-		_variant_node.mesh = _variant_mesh(variant)
+		_variant_node.mesh = ChampionPalette.fold_mesh(PAL_KEY, _variant_mesh(variant))
 	_q_rest = (Basis(Vector3.BACK, -8.0 * DEG) * Basis(Vector3.RIGHT, 10.0 * DEG) * Basis(Vector3.UP, -90.0 * DEG)).get_rotation_quaternion()
 	_up_basis = Basis(Vector3.UP, -90.0 * DEG)
 	_rest_dir_r = (GRIP_R - SHOULDER_R).normalized()
@@ -1162,7 +1171,7 @@ func _extra_process(dt: float) -> void:
 			_bow.quaternion = q
 		if drawn != _drawn_w:
 			_drawn_w = drawn
-			_bow.mesh = _bow_mesh(drawn == 1)
+			_bow.mesh = ChampionPalette.fold_mesh(PAL_KEY, _bow_mesh(drawn == 1))
 	# ---- Glows: string and quiver x veterancy / haste (0 once dead), flares on looses and level-ups.
 	_flare = maxf(0.0, _flare - dt * 2.4)
 	_qflare = maxf(0.0, _qflare - dt * 2.0)
@@ -1186,7 +1195,7 @@ func _extra_process(dt: float) -> void:
 		return
 	if fan != _fan_w:
 		_fan_w = fan
-		_quiver.mesh = _quiver_mesh(fan)
+		_quiver.mesh = ChampionPalette.fold_mesh(PAL_KEY, _quiver_mesh(fan))
 	if _tier >= 1 and _action == &"" and _walk_w == 0.0 and not _dead and lift == 0.0 and _qkick == 0.0:
 		return
 	var ph := _t + _phase_off

@@ -1,0 +1,60 @@
+{
+	"asset": "wayshrine",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R5",
+			"computed": false,
+			"measured": {
+				"points": 1,
+				"points_this_phase": 1,
+				"spots": [
+					{
+						"above": true,
+						"part": "Float/RuneStone",
+						"peak_x_bloom": 3.83,
+						"px": 52
+					}
+				],
+				"value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): RuneStone; soft glows under the bloom (v1 count, luma > 0.4): 1"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 1 -> 2 (want 2-4): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 1 -> 2 (want 2-4): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_team_color, set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_team_color, set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 2,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_team_color, set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 85.5,
+	"result": "WARN",
+	"scene": "res://art/buildings/capture/wayshrine/wayshrine.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

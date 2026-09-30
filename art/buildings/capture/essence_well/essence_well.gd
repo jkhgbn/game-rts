@@ -64,13 +64,20 @@ var _ready_done: bool = false
 var _body: GeometryInstance3D
 var _essence: GeometryInstance3D
 var _fx: GeometryInstance3D
+var _fx_ground: GeometryInstance3D
 var _mist: GPUParticles3D
+## The Fx mesh split in two (in-game grade 2026-09-30): the standing mist cards stay on Fx, the flat ground glow and
+## pulse ring go to their own flat node "FxGround" (a ground decal, 0.01 m thick: it is not part of the well's
+## silhouette / body read). Same material and instance uniforms; built once from essence_well_fx.res and cached.
+static var _split: Dictionary = {}
 
 
 func _ready() -> void:
 	_body = get_node_or_null(^"Body") as GeometryInstance3D
 	_essence = get_node_or_null(^"Essence") as GeometryInstance3D
 	_fx = get_node_or_null(^"Fx") as GeometryInstance3D
+	_split_body()
+	_split_fx()
 	_mist = get_node_or_null(^"Mist") as GPUParticles3D
 	_ready_done = true
 	_snap()
@@ -79,6 +86,96 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_apply(delta)
+
+
+## Surface arrays keeping only the vertices `index` uses (re-indexed), so the part's AABB is its own.
+static func _compact(arr: Array, index: PackedInt32Array) -> Array:
+	var remap := {}
+	var order := PackedInt32Array()
+	var nix := PackedInt32Array()
+	for i: int in index:
+		if not remap.has(i):
+			remap[i] = order.size()
+			order.append(i)
+		nix.append(int(remap[i]))
+	var out := []
+	out.resize(Mesh.ARRAY_MAX)
+	for k: int in Mesh.ARRAY_MAX:
+		var src: Variant = arr[k]
+		if src == null or k == Mesh.ARRAY_INDEX:
+			continue
+		var per := 1
+		if k == Mesh.ARRAY_TANGENT:
+			per = 4
+		var dst: Variant = src.duplicate()
+		dst.resize(order.size() * per)
+		for j: int in order.size():
+			for c: int in per:
+				dst[j * per + c] = src[order[j] * per + c]
+		out[k] = dst
+	out[Mesh.ARRAY_INDEX] = nix
+	return out
+
+
+## The Body mesh's surface 1 (the shared contact-shadow disc, r 2.95) goes to its own flat node "Contact" (a ground
+## decal like every other building's ContactDecal; in-game grade 2026-09-30: it made the well's body read as a 6 m
+## grass-coloured square). Cached per source mesh.
+func _split_body() -> void:
+	var mi := _body as MeshInstance3D
+	if mi == null or mi.mesh == null or mi.mesh.get_surface_count() < 2:
+		return
+	var src: Mesh = mi.mesh
+	var key := "body_%d" % src.get_instance_id()
+	if not _split.has(key):
+		var body := ArrayMesh.new()
+		body.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, src.surface_get_arrays(0))
+		body.surface_set_material(0, src.surface_get_material(0))
+		var disc := ArrayMesh.new()
+		disc.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, src.surface_get_arrays(1))
+		disc.surface_set_material(0, src.surface_get_material(1))
+		_split[key] = [body, disc]
+	var pair: Array = _split[key]
+	mi.mesh = pair[0]
+	var c := MeshInstance3D.new()
+	c.name = "Contact"
+	c.mesh = pair[1]
+	c.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	c.transform = mi.transform
+	add_child(c)
+
+
+func _split_fx() -> void:
+	var mi := _fx as MeshInstance3D
+	if mi == null or mi.mesh == null:
+		return
+	var src: Mesh = mi.mesh
+	if not _split.has(src.get_instance_id()):
+		# UV2.x = the part mode of build_essence_well.gd: 0 mist cards, 1 ground glow, 2 pulse ring.
+		var arr := src.surface_get_arrays(0)
+		var ix: PackedInt32Array = arr[Mesh.ARRAY_INDEX]
+		var uv2: PackedVector2Array = arr[Mesh.ARRAY_TEX_UV2]
+		var cards := PackedInt32Array()
+		var ground := PackedInt32Array()
+		for t: int in range(0, ix.size(), 3):
+			var flat: bool = uv2[ix[t]].x > 0.5
+			(ground if flat else cards).append_array(PackedInt32Array([ix[t], ix[t + 1], ix[t + 2]]))
+		var out: Array[ArrayMesh] = []
+		for part: PackedInt32Array in [cards, ground]:
+			var m := ArrayMesh.new()
+			m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, _compact(arr, part))
+			m.surface_set_material(0, src.surface_get_material(0))
+			out.append(m)
+		_split[src.get_instance_id()] = out
+	var pair: Array = _split[src.get_instance_id()]
+	mi.mesh = pair[0]
+	var g := MeshInstance3D.new()
+	g.name = "FxGround"
+	g.mesh = pair[1]
+	g.material_override = mi.material_override
+	g.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	g.transform = mi.transform
+	add_child(g)
+	_fx_ground = g
 
 
 # --- Hooks ---
@@ -224,13 +321,14 @@ func _apply(delta: float) -> void:
 		_body.set_instance_shader_parameter(&"select_k", _sel_k)
 	if _essence:
 		_essence.set_instance_shader_parameter(&"flare", flare)
-	if _fx:
-		_fx.set_instance_shader_parameter(&"rune_color", _col)
-		_fx.set_instance_shader_parameter(&"rune_energy", _energy)
-		_fx.set_instance_shader_parameter(&"cap_color", cap_col)
-		_fx.set_instance_shader_parameter(&"cap_ratio", cap)
-		_fx.set_instance_shader_parameter(&"pulse", p)
-		_fx.set_instance_shader_parameter(&"flare", flare)
+	for fx: GeometryInstance3D in [_fx, _fx_ground]:
+		if fx:
+			fx.set_instance_shader_parameter(&"rune_color", _col)
+			fx.set_instance_shader_parameter(&"rune_energy", _energy)
+			fx.set_instance_shader_parameter(&"cap_color", cap_col)
+			fx.set_instance_shader_parameter(&"cap_ratio", cap)
+			fx.set_instance_shader_parameter(&"pulse", p)
+			fx.set_instance_shader_parameter(&"flare", flare)
 	if _mist:
 		_mist.speed_scale = 1.0 + flare * 1.5
 	if not busy:

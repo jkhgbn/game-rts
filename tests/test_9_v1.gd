@@ -98,11 +98,9 @@ func _run() -> void:
 	var head_top := -1.0
 	for mi: MeshInstance3D in face:
 		if mi.get_parent() == head_node:
-			var mesh := mi.mesh
-			for s: int in mesh.get_surface_count():
-				if mesh.surface_get_material(s) == CharacterModel.palette(&"fire_skin"):
-					for v: Vector3 in (mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX] as PackedVector3Array):
-						head_top = maxf(head_top, (a.global_transform.affine_inverse() * mi.global_transform * v).y)
+			# the skin is a ChampionPalette entry since the B8 merge (2026-09-30): read it back per vertex
+			for v: Vector3 in ChampionPalette.vertices_of(mi.mesh, "fire_skin"):
+				head_top = maxf(head_top, (a.global_transform.affine_inverse() * mi.global_transform * v).y)
 	print("head (skin) top %.3f" % head_top)
 	_check(absf(head_top - 1.8) <= 0.1, "head top at body_height 1.8 +- 0.1 (got %.3f)" % head_top)
 	_check(is_equal_approx(float(a.get(&"body_height")), 1.8), "body_height 1.8")
@@ -224,7 +222,12 @@ func _vertices(n: Node) -> int:
 
 
 ## Unique materials on the model's meshes (surface overrides > material_override > mesh surfaces); the blob skipped.
+## The ChampionPalette material (B8 merge, 2026-09-30) is unfolded into the source materials it draws.
 func _materials(n: Node) -> Array:
+	return ChampionPalette.unfold(_drawn_materials(n))
+
+
+func _drawn_materials(n: Node) -> Array:
 	var out: Array = []
 	for g: Node in n.find_children("*", "MeshInstance3D", true, false):
 		var mi := g as MeshInstance3D

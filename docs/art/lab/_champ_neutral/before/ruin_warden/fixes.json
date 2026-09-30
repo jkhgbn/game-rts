@@ -1,0 +1,197 @@
+{
+	"asset": "ruin_warden",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"action": "drop_keep_separate",
+					"node": "Root/Chest/GapLight, Root/Chest/Core",
+					"saves": 1,
+					"words": "`GapLight`, `Core` are keep_separate under `Chest`: keep only the animated / toggled one separate"
+				}
+			],
+			"check": "B2",
+			"computed": true,
+			"measured": {
+				"draw": 12
+			},
+			"predicted": {
+				"draw": 11
+			},
+			"proposal": "12 -> 11 (want <= 10): `GapLight`, `Core` are keep_separate under `Chest`: keep only the animated / toggled one separate",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 12 -> 11 (want <= 10): `GapLight`, `Core` are keep_separate under `Chest`: keep only the animated / toggled one separate",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 10"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "#475242",
+					"material": "warden_stone_dark",
+					"material_path": "res://art/units/kit/materials/warden_stone_dark.tres",
+					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Hips/Merged, Root/Chest/Head/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/kit/materials/warden_stone_dark.tres): give ruin_warden its own copy first, other assets use it too",
+					"snap": {
+						"close": true,
+						"color": "#4d4742",
+						"de_to_wanted": 9.9,
+						"from_folder": "res://art/units/kit/materials",
+						"material_path": "res://art/units/kit/materials/fire_ash_ball.tres"
+					},
+					"to": "#455040",
+					"weight": 0.39
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4"
+			],
+			"gain": [
+				1.7,
+				1.5,
+				1.4
+			],
+			"measured": {
+				"body_lab": [
+					53.4,
+					-2.6,
+					19.7
+				],
+				"dE": {
+					"R3 meadow": 32.3,
+					"R4 ash": 36.7,
+					"R4 heath": 4.4,
+					"R4 marsh": 40.1,
+					"R4 old_wood": 26.4,
+					"R4 riverbank": 29.3,
+					"R4 sand": 30.3,
+					"R4 snow": 41.0
+				},
+				"ground_lab": [
+					62.2,
+					-23.1,
+					43.0
+				],
+				"melt_share": 0.1
+			},
+			"predicted": {
+				"R3 meadow": 32.2,
+				"R4 ash": 36.7,
+				"R4 heath": 4.3,
+				"R4 marsh": 40.0,
+				"R4 old_wood": 26.2,
+				"R4 riverbank": 29.2,
+				"R4 sand": 30.4,
+				"R4 snow": 41.1
+			},
+			"proposal": "shader_parameter/base_color of `warden_stone_dark` #475242 -> #455040 (39% of the visible body): predicted dE R3 meadow 32.3 -> 32.2 (want >= 24); other grounds heath 4.3, old_wood 26.2, riverbank 29.2, snow 41.1, ash 36.7, sand 30.4, marsh 40.0; `warden_stone_dark` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `fire_ash_ball.tres` (#4d4742, dE 9.9 from the wanted colour)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `warden_stone_dark` #475242 -> #455040 (39% of the visible body): predicted dE R3 meadow 32.3 -> 32.2 (want >= 24); other grounds heath 4.3, old_wood 26.2, riverbank 29.2, snow 41.1, ash 36.7, sand 30.4, marsh 40.0; `warden_stone_dark` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `fire_ash_ball.tres` (#4d4742, dE 9.9 from the wanted colour)",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.5,
+					"node": "res://data/units/ruin_warden.tres",
+					"param": "radius",
+					"to": 0.56
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.5,
+				"x_m": 0.98,
+				"z_m": 0.72
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.5 -> 0.56, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.5 -> 0.56, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.88",
+				"z_m": "<= 0.88"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1385,
+					"node": "Root/Chest/Merged",
+					"to": 693,
+					"words": "`Merged` 1385 -> 693 verts"
+				},
+				{
+					"from": 816,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 531,
+					"words": "`Merged` 816 -> 531 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3430
+			},
+			"predicted": {
+				"verts": 2453
+			},
+			"proposal": "3430 -> 2453 (want <= 2500): `Merged` 1385 -> 693 verts; `Merged` 816 -> 531 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B4 3430 -> 2453 (want <= 2500): `Merged` 1385 -> 693 verts; `Merged` 816 -> 531 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 1.66 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 1.66 m so the HP bar reads over the head",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 1.66 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 86.6,
+	"result": "FAIL",
+	"scene": "res://art/units/neutral/ruin_warden.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

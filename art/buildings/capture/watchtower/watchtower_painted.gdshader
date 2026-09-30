@@ -23,6 +23,11 @@ uniform vec3 select_color : source_color = vec3(1.0, 0.8, 0.4);
 uniform vec3 beacon_pos = vec3(1.72, 8.22, 1.72);   // the cresset, model space
 uniform float beacon_reach = 4.2;
 uniform float beacon_light = 0.55;
+// In-game grade 2026-09-30 (row 67, 0 glow points on a neutral tower): an unclaimed tower's cresset is not stone
+// cold any more but SMOULDERS: the crack peaks of the char-black embers glow dull red-orange (sparse points over the
+// bloom level, no fake light), fading out as the owner's fire takes over (glow_energy 0 -> 1).
+uniform vec3 smoulder_color : source_color = vec3(1.0, 0.32, 0.08);
+uniform float smoulder = 2.2;
 
 instance uniform vec3 owner_color : source_color = vec3(0.55, 0.54, 0.50);
 instance uniform float owner_k = 0.0;
@@ -130,6 +135,7 @@ void fragment() {
 		float crack = smoothstep(0.35, 0.75, na + 0.25 * sin(TIME * 3.1 + v_lp.x * 9.0 + v_lp.z * 7.0));
 		albedo = char_color * (0.8 + na * 0.4);
 		emit += glow_color * glow_energy * (0.45 + 0.75 * crack);
+		emit += smoulder_color * smoulder * (1.0 - clamp(glow_energy, 0.0, 1.0)) * crack * crack;
 		moss_ok = 0.0;
 	} else if (kind == 7) {
 		albedo = base;

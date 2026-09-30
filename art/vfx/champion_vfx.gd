@@ -101,6 +101,8 @@ const SMOKE_TIME := 3.0
 const MARK_TIME := 6.0
 const CIRCLE_RADIUS := 5.0
 const CIRCLE_TIME := 5.0
+const CIRCLE_SHOW := 0.7        # the lasting heal circle's radius vs CIRCLE_RADIUS (the cast ring shows the full reach)
+const CIRCLE_ENERGY := 0.45     # its tint (was 1.4: a bright 5 m disc over the fight)
 const LIFELINE_TIME := 5.0
 # Numbers from skills-rework.md 4.2.
 const LUNGE_GAP := 1.0
@@ -633,8 +635,11 @@ func _mending_draught(fx: Fx) -> void:
 func _soothing_circle(fx: Fx) -> void:
 	fx.dur = CIRCLE_TIME
 	fx.vis = VIS_POINT
-	_disc(fx, A_POINT, G_HEAL, _hdr(MEND, 1.4), 0.5, CIRCLE_RADIUS, 0.35, 0.0, 0.0, 0.1, 0.6)
-	_disc(fx, A_POINT, G_SHOCK, _hdr(MEND, 1.5), 0.4, CIRCLE_RADIUS + 0.3, 0.4, 0.0, 0.6, 0.0, 0.3)
+	# In-game grade 2026-09-30: the 5 m green disc hid the fight under it (Ice vs Nature). The cast ring still shows
+	# the real reach (5 m: the heal lands on the allies inside it at the cast) for 0.6 s; the circle that stays for
+	# the heal ticks is a soft 70 % marker under the bloom level (it only says "healing here").
+	_disc(fx, A_POINT, G_HEAL, _hdr(MEND, CIRCLE_ENERGY), 0.5, CIRCLE_RADIUS * CIRCLE_SHOW, 0.35, 0.0, 0.0, 0.1, 0.6)
+	_disc(fx, A_POINT, G_SHOCK, _hdr(MEND, 1.0), 0.4, CIRCLE_RADIUS + 0.3, 0.4, 0.0, 0.6, 0.0, 0.3)
 	if is_instance_valid(fx.caster):
 		_sched(fx, &"green_puff", 0.0, A_WORLD, _hand(fx.caster, fx.point))
 	_sched(fx, &"green_puff", 0.05, A_POINT, Vector3.UP * 0.4, 2.5)
@@ -2264,7 +2269,7 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			_size(m, 0.1, 0.18, &"grow")
 			m.color_ramp = _ramp([Color(mend, 0.0), mend_hot, mend, mend_end])
 		&"circle_motes":
-			_shape_disc(m, 4.6)
+			_shape_disc(m, CIRCLE_RADIUS * CIRCLE_SHOW - 0.1)
 			m.direction = Vector3.UP
 			m.spread = 12.0
 			m.initial_velocity_min = 0.6

@@ -1,0 +1,109 @@
+{
+	"asset": "watchtower_objective",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 3.315,
+					"material": "watchtower_contact_mat",
+					"material_path": "res://art/buildings/capture/watchtower/watchtower_contact_mat.tres",
+					"node": "Body/ContactDecal",
+					"param": "",
+					"peak_x_bloom": 0.39,
+					"want_x_bloom": 1.3,
+					"why": "raise over the bloom level: brightest soft glow 0.39 x the level",
+					"words": "emission x 3.31 on ContactDecal (raise over the bloom level: brightest soft glow 0.39 x the level; no energy / glow-colour parameter found)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 1,
+				"points_this_phase": 1,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Structure",
+						"peak_x_bloom": 4.14,
+						"px": 61
+					},
+					{
+						"above": false,
+						"part": "Body/Structure",
+						"peak_x_bloom": 0.34,
+						"px": 1477
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.39,
+						"px": 700
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.33,
+						"px": 30
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.32,
+						"px": 24
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.32,
+						"px": 19
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.28,
+						"px": 17
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.27,
+						"px": 14
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.27,
+						"px": 6
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.24,
+						"px": 2
+					}
+				],
+				"value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): Structure; soft glows under the bloom (v1 count, luma > 0.4): 1"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 1 -> 4 (want 4-12): watchtower_contact_mat emission x 3.31 on ContactDecal (raise over the bloom level: brightest soft glow 0.39 x the level; no energy / glow-colour parameter found); add 2 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 1 -> 4 (want 4-12): watchtower_contact_mat emission x 3.31 on ContactDecal (raise over the bloom level: brightest soft glow 0.39 x the level; no energy / glow-colour parameter found); add 2 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "4-12 above the bloom level 1.2"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "landmark",
+	"kingdom": "neutral",
+	"quality": 87.0,
+	"result": "WARN",
+	"scene": "res://art/buildings/capture/watchtower/watchtower.tscn",
+	"tier": "objective",
+	"version": "1.0"
+}

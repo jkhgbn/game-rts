@@ -36,7 +36,8 @@ const TYPES := {
 			"res://art/units/neutral/gloomcap/gloomcap_elder.tscn"],
 	&"gloomcap_sprout": [120.0, 0.0, 7.0, 1.2, 1.0, 4.0, 6.0, 7.0, 0.35, 0.7, 12, true,
 			"res://art/units/neutral/gloomcap/gloomcap_sprout.tscn"],
-	&"hollow_stag": [1400.0, 15.0, 30.0, 2.0, 1.6, 5.0, 8.0, 10.0, 0.9, 2.6, 160, true, STAG_PATH],
+	# radius 0.9 -> 1.0 (in-game grade 2026-09-30, Art Lab R10: the antlers / body reach 1.68 m to the side)
+	&"hollow_stag": [1400.0, 15.0, 30.0, 2.0, 1.6, 5.0, 8.0, 10.0, 1.0, 2.6, 160, true, STAG_PATH],
 	&"ironhide_tusker": [1800.0, 20.0, 34.0, 1.8, 1.5, 5.5, 0.0, -1.0, 1.0, -1.0, 110, false,
 			"res://art/units/neutral/beasts/tusker/tusker.tscn"],
 	&"old_scarback": [2160.0, 20.0, 34.0, 1.8, 1.5, 5.5, 0.0, -1.0, 1.0, -1.0, 130, false,

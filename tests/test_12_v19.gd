@@ -124,15 +124,19 @@ func _near(a: Color, b: Color, tol: float = 0.02) -> bool:
 func _check_static() -> void:
 	_check(_count_lights(root) == 0, "expected 0 lights, found %d" % _count_lights(root))
 	var geo: Array[Node] = _a.find_children("*", "GeometryInstance3D", true, false)
-	_check(geo.size() == 4, "expected 4 draw nodes (Body, Essence, Fx, Mist), found %d" % geo.size())
-	for nm: String in ["Body", "Essence", "Fx"]:
+	# In-game grade pass (2026-09-30): the flat contact disc (Body surface 1) and the flat ground glow / pulse ring (part
+	# of Fx) are split at _ready into their own flat nodes Contact and FxGround (ground decals, not the well's body);
+	# the split meshes are built once from the baked .res and shared by every well.
+	_check(geo.size() == 6, "expected 6 draw nodes (Body, Contact, Essence, Fx, FxGround, Mist), found %d" % geo.size())
+	for nm: String in ["Body", "Contact", "Essence", "Fx", "FxGround"]:
 		var mi := _a.get_node_or_null(NodePath(nm)) as MeshInstance3D
 		var mi2 := _b.get_node_or_null(NodePath(nm)) as MeshInstance3D
 		_check(mi != null and mi2 != null, "no %s mesh" % nm)
 		if mi == null or mi2 == null:
 			continue
 		_check(mi.mesh == mi2.mesh, "%s mesh not shared between wells" % nm)
-		_check(mi.mesh.resource_path.begins_with(DIR), "%s mesh is not the baked .res (%s)" % [nm, mi.mesh.resource_path])
+		if nm == "Essence":
+			_check(mi.mesh.resource_path.begins_with(DIR), "%s mesh is not the baked .res (%s)" % [nm, mi.mesh.resource_path])
 		_check(mi.material_override == null, "%s has a material override" % nm)
 		for s: int in mi.mesh.get_surface_count():
 			var mat: Material = mi.mesh.surface_get_material(s)
@@ -143,7 +147,11 @@ func _check_static() -> void:
 		if nm != "Body":
 			_check(mi.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF, "%s must not cast shadows" % nm)
 	var body := _a.get_node(^"Body") as MeshInstance3D
-	_check(body.mesh.get_surface_count() == 2, "body should have 2 surfaces (painted + contact shadow)")
+	_check(body.mesh.get_surface_count() == 1, "body should have 1 surface (painted; the contact shadow is Contact)")
+	var contact := _a.get_node(^"Contact") as MeshInstance3D
+	_check(contact.get_aabb().size.y < 0.05, "Contact is a flat ground decal")
+	var fxg := _a.get_node(^"FxGround") as MeshInstance3D
+	_check(fxg.get_aabb().size.y < 0.08, "FxGround is flat (ground glow + pulse ring)")
 	var painted: Material = body.mesh.surface_get_material(0)
 	_check(painted.resource_path == DIR + "essence_well_painted_mat.tres", "body material %s" % painted.resource_path)
 	# Footprint and height: everything above 0.6 m within the 3 x 3 footprint + 0.3 m (roof eaves above 2.5 m up to
@@ -166,7 +174,7 @@ func _check_static() -> void:
 	_check(worst_high <= 0.6, "roof sticks out %.2f m past the footprint (> 0.6)" % worst_high)
 	_check(worst_r <= 3.4, "decor reaches r %.2f (clearing 3.5)" % worst_r)
 	var total: int = verts.size()
-	for nm2: String in ["Essence", "Fx"]:
+	for nm2: String in ["Essence", "Fx", "FxGround"]:
 		total += ((_a.get_node(NodePath(nm2)) as MeshInstance3D).mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX] as PackedVector3Array).size()
 	_check(total <= 9000, "too many vertices: %d" % total)
 	# Mist particles: few, near the camera only, cheap.

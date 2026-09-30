@@ -1,0 +1,148 @@
+{
+	"asset": "wildcaller",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R4",
+			"computed": false,
+			"covers": [
+				"R3",
+				"R4"
+			],
+			"measured": {
+				"body_lab": [
+					53.0,
+					2.6,
+					13.2
+				],
+				"dE": {
+					"R3 meadow": 40.2,
+					"R4 ash": 32.2,
+					"R4 heath": 6.5,
+					"R4 marsh": 37.2,
+					"R4 old_wood": 28.1,
+					"R4 riverbank": 34.8,
+					"R4 sand": 33.7,
+					"R4 snow": 39.1
+				},
+				"ground_lab": [
+					62.0,
+					-23.1,
+					42.8
+				],
+				"melt_share": 0.02
+			},
+			"predicted": {},
+			"proposal": "Body colour: no single recolourable body material found (all team / emissive / tiny): A value accent that works on dark and light grounds (a pale crest / dark saddle)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Body colour: no single recolourable body material found (all team / emissive / tiny): A value accent that works on dark and light grounds (a pale crest / dark saddle)",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 9415,
+					"node": "Root/Chest/Merged",
+					"to": 4708,
+					"words": "`Merged` 9415 -> 4708 verts"
+				},
+				{
+					"from": 8598,
+					"node": "Root/Chest/ArmR/Staff",
+					"to": 4299,
+					"words": "`Staff` 8598 -> 4299 verts"
+				},
+				{
+					"from": 4226,
+					"node": "Root/Chest/Head/Variant",
+					"to": 2113,
+					"words": "`Variant` 4226 -> 2113 verts"
+				},
+				{
+					"from": 1668,
+					"node": "Root/Hips/Merged",
+					"to": 834,
+					"words": "`Merged` 1668 -> 834 verts"
+				},
+				{
+					"from": 983,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 492,
+					"words": "`Merged` 983 -> 492 verts"
+				},
+				{
+					"from": 287,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 144,
+					"words": "`Merged` 287 -> 144 verts"
+				},
+				{
+					"from": 284,
+					"node": "Root/Chest/Head/Merged",
+					"to": 142,
+					"words": "`Merged` 284 -> 142 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 26025
+			},
+			"predicted": {
+				"verts": 13016
+			},
+			"proposal": "26025 -> 13016 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4226 -> 2113 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Merged` 287 -> 144 verts; `Merged` 284 -> 142 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 26025 -> 13016 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4226 -> 2113 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Merged` 287 -> 144 verts; `Merged` 284 -> 142 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Staff 0.71 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 90.2,
+	"result": "WARN",
+	"scene": "res://art/units/champions/wildcaller/wildcaller.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

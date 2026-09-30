@@ -1,0 +1,238 @@
+{
+	"asset": "magpie_den",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-78062",
+					"material_path": "",
+					"to": "StandardMaterial3D#-31136",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-31136",
+					"material_path": "",
+					"to": "StandardMaterial3D#-94409",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-94409",
+					"material_path": "",
+					"to": "StandardMaterial3D#-61465",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 2.3,
+					"material": "ShaderMaterial#-61643",
+					"material_path": "",
+					"to": "ShaderMaterial#-45454",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 4.5,
+					"material": "ShaderMaterial#-38956",
+					"material_path": "",
+					"to": "ShaderMaterial#-45454",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.8,
+					"material": "ShaderMaterial#-67088",
+					"material_path": "",
+					"to": "ShaderMaterial#-45454",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 19
+			},
+			"predicted": {
+				"materials": 13
+			},
+			"proposal": "19 -> 13 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-78062` -> `StandardMaterial3D#-31136` (dE 0.0), `StandardMaterial3D#-31136` -> `StandardMaterial3D#-94409` (dE 0.0), `StandardMaterial3D#-94409` -> `StandardMaterial3D#-61465` (dE 0.0), `ShaderMaterial#-61643` -> `ShaderMaterial#-45454` (dE 2.3), `ShaderMaterial#-38956` -> `ShaderMaterial#-45454` (dE 4.5), `ShaderMaterial#-67088` -> `ShaderMaterial#-45454` (dE 13.8); 5 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 19 -> 13 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-78062` -> `StandardMaterial3D#-31136` (dE 0.0), `StandardMaterial3D#-31136` -> `StandardMaterial3D#-94409` (dE 0.0), `StandardMaterial3D#-94409` -> `StandardMaterial3D#-61465` (dE 0.0), `ShaderMaterial#-61643` -> `ShaderMaterial#-45454` (dE 2.3), `ShaderMaterial#-38956` -> `ShaderMaterial#-45454` (dE 4.5), `ShaderMaterial#-67088` -> `ShaderMaterial#-45454` (dE 13.8); 5 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 10616,
+					"node": "Body/Structure",
+					"to": 9014,
+					"words": "`Structure` 10616 -> 9014 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 13525
+			},
+			"predicted": {
+				"verts": 11923
+			},
+			"proposal": "13525 -> 11923 (want <= 12000): `Structure` 10616 -> 9014 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B4 13525 -> 11923 (want <= 12000): `Structure` 10616 -> 9014 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.143,
+					"material": "ShaderMaterial#-23927",
+					"material_path": "",
+					"node": "Body/Cloth",
+					"param": "",
+					"peak_x_bloom": 5.24,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 1 point(s), peak 5.24 x the level",
+					"words": "emission x 0.14 on Cloth (dim under the bloom level: 1 point(s), peak 5.24 x the level; no energy / glow-colour parameter found)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 5,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Cloth",
+						"peak_x_bloom": 5.24,
+						"px": 46
+					},
+					{
+						"above": true,
+						"part": "Body/LanternPivot/Halo",
+						"peak_x_bloom": 3.55,
+						"px": 43
+					},
+					{
+						"above": true,
+						"part": "Body/SackPivot/Sack",
+						"peak_x_bloom": 3.55,
+						"px": 30
+					},
+					{
+						"above": true,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 3.55,
+						"px": 29
+					},
+					{
+						"above": true,
+						"part": "Body/LanternPivot/Lantern",
+						"peak_x_bloom": 5.49,
+						"px": 25
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.22,
+						"px": 654
+					},
+					{
+						"above": false,
+						"part": "Body/VanePivot/Vane",
+						"peak_x_bloom": 0.39,
+						"px": 91
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.25,
+						"px": 28
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.39,
+						"px": 21
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.26,
+						"px": 11
+					},
+					{
+						"above": false,
+						"part": "Body/SackPivot/Sack",
+						"peak_x_bloom": 0.22,
+						"px": 8
+					},
+					{
+						"above": false,
+						"part": "Body/VanePivot/Vane",
+						"peak_x_bloom": 0.28,
+						"px": 7
+					},
+					{
+						"above": false,
+						"part": "Body/Rubble",
+						"peak_x_bloom": 0.27,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "Body/SackPivot/Sack",
+						"peak_x_bloom": 0.21,
+						"px": 2
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 5/6/3): Cloth, LightPool, Sack, Rubble, Lantern; soft glows under the bloom (v1 count, luma > 0.4): 5"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 5 -> 4 (want 2-4): ShaderMaterial#-23927 emission x 0.14 on Cloth (dim under the bloom level: 1 point(s), peak 5.24 x the level; no energy / glow-colour parameter found)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "Glow points 5 -> 4 (want 2-4): ShaderMaterial#-23927 emission x 0.14 on Cloth (dim under the bloom level: 1 point(s), peak 5.24 x the level; no energy / glow-colour parameter found)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 4,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 79.0,
+	"result": "FAIL",
+	"scene": "res://art/buildings/guilds/magpie_den/magpie_den.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

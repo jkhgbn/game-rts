@@ -10,7 +10,7 @@ extends Node3D
 ## ground; front = +Z (the default camera side). Footprint: none (units walk through), dais r 1.86, markers to r 2.6,
 ## contact shadow r 2.8 (the clearing is r 3).
 ## States (all blended smoothly, nothing pops):
-##   asleep, neutral  dark: carved runes are dark grooves, no column, the rune stone turns slowly.
+##   asleep, neutral  dark: carved runes are dark grooves, no column, the rune stone turns slowly and glimmers pale blue.
 ##   awake            gold: runes, rune stone, rune circle and a halo glow gold (energy 2.8-3.4), a beam of light flares
 ##                    up out of the rune stone (to 12 m) over a low glow on the dais, golden motes spiral up, the rune
 ##                    stone spins faster.
@@ -32,7 +32,10 @@ extends Node3D
 ## so a sleeping neutral shrine costs 4 draw calls incl. the contact decal. 0 lights, 0 particle nodes, 0 colliders,
 ## shared .tres materials (never duplicated), per-shrine state in instance uniforms.
 
-const FLOAT_Y := 1.6
+## In-game grade 2026-09-30 (row 40, the 40 m read x1.1): the stones (Stone node) and the floating rune stone (Float
+## node) are drawn 10 % larger (their node scale in wayshrine.tscn); the float height follows (1.6 -> 1.76 m).
+## Effects (rune circle, blessing ring, column) keep their sizes: the ring stays on the 6 m capture radius.
+const FLOAT_Y := 1.76
 const STATE_ASLEEP := &"asleep"
 const STATE_AWAKE := &"awake"
 const GOLD := Color(1.0, 0.72, 0.28)
@@ -40,7 +43,9 @@ const DORMANT := Color(0.46, 0.54, 0.70)
 const WAKE_TIME := 1.4          ## s: the column rises from the dais
 const BLESSING_TIME := 1.8      ## s: play_blessing
 ## Rune energies [standing stone, rune stone] per look.
-const E_DORMANT := Vector2(0.1, 0.16)
+## Dormant: the carved runes on the stones stay dark grooves; the floating rune stone GLIMMERS pale blue (in-game grade
+## 2026-09-30: a sleeping shrine had no glow point at all and read as a grey disc; 0.16 -> 3.0, one soft point).
+const E_DORMANT := Vector2(0.1, 3.0)
 const E_OWNED := Vector2(1.5, 2.4)
 const E_AWAKE := Vector2(2.8, 3.4)
 
@@ -225,7 +230,7 @@ func _apply(delta: float) -> void:
 			continue
 		var energy: float = e.y if gi != _stone else e.x
 		if gi == _shards:
-			energy = e.y * 0.8
+			energy = e.y * lerpf(1.0, 0.8, _awake_k)   # the orbiting chips glimmer with the rune stone while asleep
 		gi.set_instance_shader_parameter(&"rune_color", col)
 		gi.set_instance_shader_parameter(&"rune_energy", energy)
 		gi.set_instance_shader_parameter(&"cap_color", _cap_color)

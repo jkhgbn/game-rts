@@ -131,7 +131,8 @@ func _check_kit() -> void:
 	var gs: AABB = (_kit.call(&"piece_mesh", &"greatsword") as Mesh).get_aabb()
 	_check(gs.size.y > 2.0 and gs.size.y < 2.3 and gs.size.x > 0.45, "greatsword 1.6 m blade + grip, wide guard")
 	var sh: AABB = (_kit.call(&"piece_mesh", &"round_shield") as Mesh).get_aabb()
-	_check(absf(sh.size.x - 0.856) < 0.05, "round shield r 0.4 (got %.2f wide)" % sh.size.x)
+	# r 0.4 x READ_SHIELD 1.15 (in-game read pass 2026-09-30)
+	_check(absf(sh.size.x - 0.856 * 1.15) < 0.06, "round shield r 0.46 (got %.2f wide)" % sh.size.x)
 	var st: AABB = (_kit.call(&"piece_mesh", &"staff") as Mesh).get_aabb()
 	_check(st.size.y > 1.8 and st.size.y < 2.2, "staff ~1.8 m + head (got %.2f)" % st.size.y)
 
@@ -448,11 +449,8 @@ func _pivot_has(m: Node3D, pivot: String, mat_part: String) -> bool:
 	var node := m.get_node_or_null(pivot + "/Merged") as MeshInstance3D
 	if node == null or node.mesh == null:
 		return false
-	for s: int in node.mesh.get_surface_count():
-		var mat := node.mesh.surface_get_material(s)
-		if mat and mat.resource_path.get_file().contains(mat_part):
-			return true
-	return false
+	# palette-aware (ChampionPalette B8 merge, 2026-09-30): folded parts are found per vertex by their source material
+	return ChampionPalette.mesh_has(node.mesh, mat_part)
 
 
 ## The team colour on the weapon_team_cloth surface of a pivot (its override), black when none.

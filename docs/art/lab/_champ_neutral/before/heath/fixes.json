@@ -1,0 +1,31 @@
+{
+	"asset": "heath",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "D8",
+			"computed": false,
+			"measured": {
+				"value": "worst unit mean-colour dE 6.5 (per unit in D7)"
+			},
+			"predicted": {},
+			"proposal": "Units still read on this decor: Units drop to dE 6.5 on this decor: desaturate / darken the busiest piece",
+			"rank": 1,
+			"status": "WARN",
+			"text": "D8 Units still read on this decor: Units drop to dE 6.5 on this decor: desaturate / darken the busiest piece",
+			"title": "Units still read on this decor",
+			"wanted": {
+				"rule": "dE >= 20 (WARN only; < 10 = that unit melts into this decor)"
+			}
+		}
+	],
+	"ground": "heath",
+	"kind": "decor_set",
+	"kingdom": "neutral",
+	"quality": 89.1,
+	"result": "WARN",
+	"scene": "res://art/environment/biomes/heath/heath_set.gd",
+	"tier": "set",
+	"version": "1.0"
+}

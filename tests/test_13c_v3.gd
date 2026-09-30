@@ -399,7 +399,8 @@ func _run() -> void:
 	# ---- the Ruin Warden beside it is unchanged
 	var w_draws := _count_draws(warden)
 	_check(StringName(warden.get(&"unit_kind")) == &"warden", "warden unit_kind unchanged")
-	_check(warden.get_node_or_null("Root/Chest/ArmR/MaulRune") != null, "warden keeps its maul rune")
+	# the maul rune is merged into ArmR since the B2 pass (2026-09-30): its slam flash drives the merged node
+	_check(warden.get_node_or_null("Root/Chest/ArmR/Merged") != null, "warden keeps its maul (rune merged in ArmR)")
 	_check(warden.get_node_or_null("Fx/SlamAt/SlamRing") != null, "warden keeps its slam ring")
 	_check(w_draws <= 16, "warden draw instances %d <= 16" % w_draws)
 	var wmats := {}

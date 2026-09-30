@@ -129,7 +129,11 @@ func _check_static() -> void:
 	var mats: Dictionary = {}
 	_materials(a, mats)
 	var own: int = 0
-	for mat: Material in mats:
+	# B8 merge (2026-09-30): the ChampionPalette material draws the painted / glow parts: check its sources instead
+	# (the door paint is a code copy of oathwall_oak, named oathwall_door_paint).
+	for mat: Material in ChampionPalette.unfold(mats.keys()):
+		if mat.resource_path == "" and mat.resource_name.begins_with("oathwall_"):
+			continue
 		if mat.resource_path.begins_with(OWN_DIR):
 			own += 1
 		elif mat.resource_path != FACE_MAT:

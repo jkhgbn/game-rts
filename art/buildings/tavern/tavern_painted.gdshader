@@ -29,10 +29,25 @@ uniform float block_length = 0.78;
 instance uniform float ao_bottom = 0.0;
 instance uniform float ao_height = 6.3;
 
+// PALETTE mode (BuildingPalette, art/buildings/building_palette.gd; B8 material merge 2026-09-30): when
+// `palette` is on, every per-material value above comes per vertex from these arrays (index = UV.x; the patterns
+// use model space, never UV), so ONE material draws all the painted parts of a building. Emissive entries
+// (pal_e.x > 0) stand in for rune_glow.gdshader parts: black albedo, emission = colour x (0.4 + energy x pulse).
+//   pal_a rgb base (linear), a spec · pal_b rgb moss, a moss_top · pal_c rgb patch, a moss_foot ·
+//   pal_d x moss_cut, y pattern, z course_height, w block_length · pal_e x glow energy, y pulse speed, z phase
+uniform bool palette = false;
+uniform vec4 pal_a[24];
+uniform vec4 pal_b[24];
+uniform vec4 pal_c[24];
+uniform vec4 pal_d[24];
+uniform vec4 pal_e[24];
+
 varying vec3 v_wp;
 varying vec3 v_wn;
 varying vec3 v_lp;
 varying vec3 v_ln;
+
+varying float v_spec;
 
 void vertex() {
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -54,30 +69,41 @@ float hash2(vec2 p) {
 }
 
 void fragment() {
+	int p_i = clamp(int(UV.x + 0.5), 0, 23);
+	vec3 p_base = palette ? pal_a[p_i].rgb : base_color;
+	float p_spec = palette ? pal_a[p_i].w : spec_strength;
+	vec3 p_moss = palette ? pal_b[p_i].rgb : moss_color;
+	float p_mtop = palette ? pal_b[p_i].w : moss_top;
+	float p_mfoot = palette ? pal_c[p_i].w : moss_foot;
+	float p_mcut = palette ? pal_d[p_i].x : moss_cut;
+	int p_pat = palette ? int(pal_d[p_i].y + 0.5) : pattern;
+	float p_ch = palette ? pal_d[p_i].z : course_height;
+	float p_bl = palette ? pal_d[p_i].w : block_length;
+	v_spec = p_spec;
 	vec3 n = normalize(v_wn);
 	vec3 ln = normalize(v_ln);
 	float na = triplanar(v_wp, n, noise_scale_a);
 	float nb = triplanar(v_wp + vec3(17.3, 5.1, 9.7), n, noise_scale_b);
-	vec3 albedo = base_color * (1.0 + (na - 0.5) * 0.20) * (1.0 + (nb - 0.5) * 0.12);
+	vec3 albedo = p_base * (1.0 + (na - 0.5) * 0.20) * (1.0 + (nb - 0.5) * 0.12);
 
-	if (pattern == 1) {
+	if (p_pat == 1) {
 		// Stone courses on walls: staggered blocks with their own value, thin mortar lines (faded when sub-pixel).
 		float vert = 1.0 - smoothstep(0.55, 0.85, abs(ln.y));
 		vec2 t = normalize(vec2(-ln.z, ln.x) + vec2(0.0001, 0.0));
 		float u = dot(v_lp.xz, t);
-		float row = floor(v_lp.y / course_height);
-		float fy = fract(v_lp.y / course_height);
-		float cu = u / block_length + row * 0.5 + hash2(vec2(row, 3.0)) * 0.35;
+		float row = floor(v_lp.y / p_ch);
+		float fy = fract(v_lp.y / p_ch);
+		float cu = u / p_bl + row * 0.5 + hash2(vec2(row, 3.0)) * 0.35;
 		float fu = fract(cu);
 		float cell = hash2(vec2(floor(cu), row));
 		albedo *= mix(1.0, 0.86 + cell * 0.26, vert);
-		float d = min(min(fy, 1.0 - fy) * course_height, min(fu, 1.0 - fu) * block_length);
+		float d = min(min(fy, 1.0 - fy) * p_ch, min(fu, 1.0 - fu) * p_bl);
 		float px = fwidth(v_lp.y) + fwidth(u);
 		float mortar = (1.0 - smoothstep(0.018, 0.045, d)) * (1.0 - smoothstep(0.03, 0.09, px));
 		albedo *= 1.0 - mortar * 0.38 * vert;
 		// Tops of blocks (ledges) catch a little more light.
 		albedo *= 1.0 + smoothstep(0.7, 0.95, ln.y) * 0.06;
-	} else if (pattern == 2) {
+	} else if (p_pat == 2) {
 		// Thatch (ridge along local Z): straw streaks run down the slope, so they vary across Z; darker lip
 		// every layer.
 		float slope = smoothstep(0.3, 0.6, abs(ln.y));
@@ -94,10 +120,10 @@ void fragment() {
 	// Moss: patches on up-facing surfaces and creeping up from the ground.
 	float h = v_wp.y - ao_bottom;
 	float up = smoothstep(0.45, 0.8, n.y);
-	float patch_n = smoothstep(moss_cut - 0.08, moss_cut + 0.08, nb * 0.7 + na * 0.3);
-	float foot = moss_foot > 0.0 ? (1.0 - smoothstep(0.0, moss_foot, h)) * smoothstep(0.35, 0.6, na) : 0.0;
-	float m = clamp(moss_top * up * patch_n + foot, 0.0, 1.0);
-	albedo = mix(albedo, moss_color * (0.8 + na * 0.45), m);
+	float patch_n = smoothstep(p_mcut - 0.08, p_mcut + 0.08, nb * 0.7 + na * 0.3);
+	float foot = p_mfoot > 0.0 ? (1.0 - smoothstep(0.0, p_mfoot, h)) * smoothstep(0.35, 0.6, na) : 0.0;
+	float m = clamp(p_mtop * up * patch_n + foot, 0.0, 1.0);
+	albedo = mix(albedo, p_moss * (0.8 + na * 0.45), m);
 
 	// Height gradient (fake sky light + AO) and dark contact band.
 	albedo *= mix(0.72, 1.08, smoothstep(0.0, 1.0, h / max(ao_height, 0.01)));
@@ -107,14 +133,21 @@ void fragment() {
 	ALBEDO = albedo;
 	EMISSION = rim * rim_color * rim_strength;
 	ROUGHNESS = 1.0;
+	if (palette && pal_e[p_i].x > 0.0) {
+		vec4 ge = pal_e[p_i];
+		float gpulse = 0.75 + 0.25 * sin(TIME * ge.y + ge.z);
+		ALBEDO = vec3(0.0);
+		EMISSION = pal_a[p_i].rgb * (0.4 + ge.x * gpulse);
+		v_spec = 0.0;
+	}
 }
 
 void light() {
 	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
 	float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
 	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
-	if (spec_strength > 0.0) {
-		SPECULAR_LIGHT += pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 24.0) * spec_strength * LIGHT_COLOR
+	if (v_spec > 0.0) {
+		SPECULAR_LIGHT += pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 24.0) * v_spec * LIGHT_COLOR
 			* ATTENUATION / PI;
 	}
 }

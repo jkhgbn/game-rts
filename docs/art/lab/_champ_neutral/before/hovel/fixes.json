@@ -1,0 +1,72 @@
+{
+	"asset": "hovel",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-76534",
+					"material_path": "",
+					"to": "StandardMaterial3D#-83678",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-13261",
+					"material_path": "",
+					"to": "StandardMaterial3D#-83678",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 12.5,
+					"material": "ShaderMaterial#-80749",
+					"material_path": "",
+					"to": "ShaderMaterial#-11372",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 13
+			},
+			"predicted": {
+				"materials": 10
+			},
+			"proposal": "13 -> 10 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-76534` -> `StandardMaterial3D#-83678` (dE 0.0), `StandardMaterial3D#-13261` -> `StandardMaterial3D#-83678` (dE 0.0), `ShaderMaterial#-80749` -> `ShaderMaterial#-11372` (dE 12.5); 2 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 13 -> 10 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-76534` -> `StandardMaterial3D#-83678` (dE 0.0), `StandardMaterial3D#-13261` -> `StandardMaterial3D#-83678` (dE 0.0), `ShaderMaterial#-80749` -> `ShaderMaterial#-11372` (dE 12.5); 2 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "17 material(s), 1 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 17 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 17 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 81.7,
+	"result": "FAIL",
+	"scene": "res://art/buildings/hovel.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

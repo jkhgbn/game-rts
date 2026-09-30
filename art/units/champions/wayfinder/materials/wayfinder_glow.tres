@@ -7,5 +7,5 @@ resource_name = "wayfinder_glow"
 render_priority = 0
 shader = ExtResource("1_wf")
 shader_parameter/glow_color = Color(1, 0.8, 0.4, 1)
-shader_parameter/energy = 1.5
+shader_parameter/energy = 1.9
 shader_parameter/pulse_speed = 3.0

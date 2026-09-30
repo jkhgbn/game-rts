@@ -217,7 +217,7 @@ and posts, >= 7 m from road centre lines.
 | `mirefang` | Mirefang | 190 | 0 | 10 | 1.3 | 0.9 | 11.1 | 5.0 | 6 | 8 | 0.45 | 0.8 | **30** | 110 | amphibious (no ford slow) |
 | `gloomcap_elder` | Gloomcap Elder | 420 | 5 | 14 (bolt, speed 14) | 6.0 | 1.6 | 8.8 | 3.2 | 7 | 9 | 0.6 | 1.9 | **50** | 220 | **Spore Burst** |
 | `gloomcap_sprout` | Gloomcap Sprout | 120 | 0 | 7 | 1.2 | 1.0 | 7.0 | 4.0 | 6 | 7 | 0.35 | 0.7 | **12** | 50 | - |
-| `hollow_stag` | Hollow Stag | 1 400 | 15 | 30 | 2.0 | 1.6 | 18.8 | 5.0 | 8 | 10 | 0.9 | 2.6 | **160** | 700 | **Antler Sweep** |
+| `hollow_stag` | Hollow Stag | 1 400 | 15 | 30 | 2.0 | 1.6 | 18.8 | 5.0 | 8 | 10 | 1.0 | 2.6 | **160** | 700 | **Antler Sweep** |
 | Ability | Rule |
 |---|---|
 | Spore Burst (Elder) | Every 10 s while fighting: at its target's position, r 3: **20 damage** + status `marked` 4 s (damage taken x1.15; existing status) on PLAYER / ENEMY units |

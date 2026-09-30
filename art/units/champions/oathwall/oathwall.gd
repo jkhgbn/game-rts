@@ -36,6 +36,13 @@ extends CharacterModel
 ## - The slam dust (release) only plays with the hammer (`weapon_class() == &""`).
 
 const OWN_DIR := "res://art/units/champions/oathwall/materials/"
+## B8 material merge (in-game grade 2026-09-30): every painted / glow part folds into ONE palette material
+## (ChampionPalette, art/units/champions/champion_palette.gd); dust and sparks share one draw material:
+## palette + cape + face + particles + blob = 5 materials.
+const PAL_KEY := "oathwall"
+## The one bright class colour (in-game read at RTS zoom 30): the door's planks are painted heraldic cream (the
+## rune and the iron stay), so the big door reads as a pale shield instead of a brown slab. Palette entry only.
+const DOOR_PAINT := Color(0.9, 0.83, 0.64)
 ## Shield (ArmL): centre in model space, tilt (top 6 deg back toward the body) and yaw (face turned 38 deg outward,
 ## so the body shows beside the door; the casts swing it square to the front).
 const SHIELD_C := Vector3(-0.56, 0.94, 0.36)
@@ -127,7 +134,7 @@ var _death_dust: bool = false
 func set_variant(v: int) -> void:
 	_variant = clampi(v, 0, 1)
 	if _variant_node:
-		_variant_node.mesh = _braids_mesh() if _variant == 1 else _beard_mesh()
+		_variant_node.mesh = ChampionPalette.fold_mesh(PAL_KEY, _braids_mesh() if _variant == 1 else _beard_mesh())
 	ChampionFaces.switch(_face, "oathwall", _face_spec, _variant)
 
 
@@ -237,7 +244,8 @@ func get_beam_origin() -> Vector3:
 func add_part(pivot: Node3D, mesh: Mesh, mat: Material, model_pos: Vector3, rot_deg: Vector3 = Vector3.ZERO,
 		scl: Vector3 = Vector3.ONE, keep_separate: bool = false, part_name: String = "") -> MeshInstance3D:
 	_authored += 1
-	return super.add_part(pivot, mesh, mat, model_pos, rot_deg, scl, keep_separate, part_name)
+	var f := ChampionPalette.fold(PAL_KEY, mesh, mat)
+	return super.add_part(pivot, f[0], f[1], model_pos, rot_deg, scl, keep_separate, part_name)
 
 
 # ================================================================ parts
@@ -304,6 +312,7 @@ func _build_parts() -> void:
 	$Fx.add_child(_dust)
 	_sparks = make_motes(RUNE_COLOR, 12, 0.45, 0.15, 2.4, 0.09, false, true)
 	_sparks.name = "Sparks"
+	_share_dust_material(_sparks)
 	$Fx.add_child(_sparks)
 	ensure_shadow_blob(0.66)
 	_authored += 1   # the blob
@@ -350,6 +359,7 @@ func _weapon_slot(slot: StringName) -> Transform3D:
 
 
 func _on_weapon_class(_class_id: StringName) -> void:
+	ChampionPalette.claim_crystal_glow(self, _class_id)   # the staff crystal glow (palette material, B8 merge)
 	_door_mode = DM_NONE
 	if _door_arm:
 		_door_arm.transform = _door_arm_rest
@@ -880,6 +890,18 @@ static func _k4(t: float, t0: float, t1: float, t2: float, t3: float, t4: float,
 # ================================================================ part helpers
 
 ## Own palette material (art/units/champions/oathwall/materials/), loaded once.
+## The door planks' paint: a painted material built once in code, never drawn (ChampionPalette folds it into the
+## palette material like the .tres entries).
+static func _door_paint() -> Material:
+	if not _own.has("mat_door_paint"):
+		var m := (own(&"oathwall_oak") as ShaderMaterial).duplicate() as ShaderMaterial
+		m.resource_name = "oathwall_door_paint"
+		m.set_shader_parameter(&"base_color", DOOR_PAINT)
+		m.set_shader_parameter(&"spec_strength", 0.06)
+		_own["mat_door_paint"] = m
+	return _own["mat_door_paint"]
+
+
 static func own(name: StringName) -> Material:
 	var key := "mat_" + String(name)
 	if not _own.has(key):
@@ -913,7 +935,7 @@ static func _door_mesh() -> Mesh:
 	_append(rune, _rune_mesh(), Transform3D.IDENTITY)
 	var m := ArrayMesh.new()
 	var k := 0
-	for p: Array in [[metal, own(&"oathwall_iron")], [wood, own(&"oathwall_oak")], [rune, own(&"oathwall_glow")]]:
+	for p: Array in [[metal, own(&"oathwall_iron")], [wood, _door_paint()], [rune, own(&"oathwall_glow")]]:
 		var st: SurfaceTool = p[0]
 		st.index()
 		st.commit(m)
@@ -1193,6 +1215,34 @@ static func _two_surfaces(a: SurfaceTool, ma: Material, b: SurfaceTool, mb: Mate
 
 
 ## Dust puffs (MIX, warm grey-brown), one-shot, restarted wherever a foot, the hammer or the shield hits the ground.
+## B8: the steel-blue sparks draw with the dust's material (vertex colour, alpha blend): their own copy of the kit's
+## mote simulation with an HDR steel-blue colour ramp (it still blooms), on a small quad of the dust material.
+static func _share_dust_material(p: GPUParticles3D) -> void:
+	var dq: QuadMesh = _own.get("dust_quad")
+	if dq == null or p == null:
+		return
+	var pm: ParticleProcessMaterial = _own.get("spark_pm")
+	if pm == null:
+		pm = (p.process_material as ParticleProcessMaterial).duplicate() as ParticleProcessMaterial
+		var ramp := GradientTexture1D.new()
+		ramp.use_hdr = true
+		var g := Gradient.new()
+		var hot := Color(RUNE_COLOR.r * 2.4, RUNE_COLOR.g * 2.4, RUNE_COLOR.b * 2.4, 1.0)
+		g.set_color(0, hot)
+		g.set_color(1, Color(hot.r, hot.g, hot.b, 0.0))
+		ramp.gradient = g
+		pm.color_ramp = ramp
+		_own["spark_pm"] = pm
+	var q: QuadMesh = _own.get("spark_quad")
+	if q == null:
+		q = QuadMesh.new()
+		q.size = (p.draw_pass_1 as QuadMesh).size if p.draw_pass_1 is QuadMesh else Vector2(0.09, 0.09)
+		q.material = dq.material
+		_own["spark_quad"] = q
+	p.process_material = pm
+	p.draw_pass_1 = q
+
+
 static func _make_dust() -> GPUParticles3D:
 	var p := GPUParticles3D.new()
 	p.amount = 10

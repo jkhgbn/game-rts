@@ -101,6 +101,10 @@ var _g_window: ShaderMaterial
 var _g_door: ShaderMaterial
 var _g_lantern: ShaderMaterial
 var _cloth_mat: ShaderMaterial
+## B8 material merge (in-game grade 2026-09-30): ONE palette material (BuildingPalette, magpie_den_painted.gdshader's
+## palette mode) draws every painted part and every blue-green glow; the per-instance materials above stay the source
+## of truth (selection rim, lamps) and are re-read into it (BuildingPalette.refresh) after every change.
+var _pal: ShaderMaterial
 var _l1: Transform3D      # first storey lean (body space)
 var _l12: Transform3D     # second storey + roof lean (body space)
 var _mast_xf: Transform3D  # mast frame (local +Y along the mast), body space
@@ -146,6 +150,8 @@ func _ready() -> void:
 	_build_sack()
 	_build_ground()
 	_build_dust()
+	_pal = BuildingPalette.create(PAINTED, _m["stone"])
+	BuildingPalette.fold_tree(_pal, _body)
 	_open_k = 1.0 if _open else 0.0
 	_sel_k = 1.0 if _selected else 0.0
 	set_notify_transform(true)
@@ -336,7 +342,10 @@ static func _box(size: Vector3) -> Mesh:
 	return _mesh_cache[key]
 
 
+## B4 pass (in-game grade 2026-09-30, 13.5k -> <= 12k vertices): cylinders at most 8 sides (6 under r 0.2), spheres
+## 7 x 4 (6 x 3 under r 0.3), tori 8 x 4 (at 25-40 m the extra facets never show under the paint patterns).
 static func _cyl(top_r: float, bot_r: float, h: float, segs: int) -> Mesh:
+	segs = mini(segs, 8 if maxf(top_r, bot_r) >= 0.2 else 6)   # rods and posts: 6 sides
 	var key: String = "c%.3f_%.3f_%.3f_%d" % [top_r, bot_r, h, segs]
 	if not _mesh_cache.has(key):
 		var m := CylinderMesh.new()
@@ -352,6 +361,8 @@ static func _cyl(top_r: float, bot_r: float, h: float, segs: int) -> Mesh:
 
 
 static func _sphere(r: float, segs: int = 10, rings: int = 5) -> Mesh:
+	segs = mini(segs, 7 if r >= 0.3 else 6)
+	rings = mini(rings, 4 if r >= 0.3 else 3)
 	var key: String = "s%.3f_%d_%d" % [r, segs, rings]
 	if not _mesh_cache.has(key):
 		var m := SphereMesh.new()
@@ -374,13 +385,14 @@ static func _prism(size: Vector3, left: float = 0.5) -> Mesh:
 
 
 static func _torus(inner: float, outer: float, rings: int = 16) -> Mesh:
+	rings = mini(rings, 8)
 	var key: String = "t%.3f_%.3f_%d" % [inner, outer, rings]
 	if not _mesh_cache.has(key):
 		var m := TorusMesh.new()
 		m.inner_radius = inner
 		m.outer_radius = outer
 		m.rings = rings
-		m.ring_segments = 6
+		m.ring_segments = 4
 		_mesh_cache[key] = m
 	return _mesh_cache[key]
 
@@ -1114,7 +1126,7 @@ func _build_ground() -> void:
 	_flat("PathDecal", Vector2(1.9, 3.4), Vector3(DOOR_X, 0.035, 4.3), 0.0,
 		_soft_mat("path", Color(0.28, 0.22, 0.15, 0.7), false, false))
 	_pools.append(_flat("LightPool", Vector2(3.0, 3.0), Vector3(LANTERN_X + 0.3, 0.33, W0 + 0.75), 0.0,
-		_soft_mat("pool", Color(0.3, 1.0, 0.8, 0.26), true, false)))
+		_soft_mat("pool", Color(0.3, 1.0, 0.8, 0.12), true, false)))
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 10808
 	var xf: Array[Transform3D] = []
@@ -1218,12 +1230,14 @@ func _apply_open() -> void:
 	_apply_door()
 	_door_glow.visible = k > 0.01 or _band_t >= 0.0
 	_g_door.set_shader_parameter(&"energy", 0.9 * k)
-	_g_window.set_shader_parameter(&"energy", lerpf(0.3, 1.2, k))
+	_g_window.set_shader_parameter(&"energy", lerpf(0.25, 0.7, k))   # 1.2 -> 0.7: soft slits under the bloom (R5, 2026-09-30)
 	_g_lantern.set_shader_parameter(&"energy", lerpf(0.9, 3.4, k))
 	_halo.transparency = lerpf(0.7, 0.0, k)
 	for p: MeshInstance3D in _pools:
 		p.visible = k > 0.05
 		p.transparency = 1.0 - k
+	if _pal:
+		BuildingPalette.refresh(_pal)
 
 
 func _apply_rim_and_glow() -> void:
@@ -1244,3 +1258,5 @@ func _apply_rim_and_glow() -> void:
 	_door_glow.visible = _open_k > 0.01 or _band_t >= 0.0
 	if not _open and _band_t >= 0.0:
 		_g_door.set_shader_parameter(&"energy", 0.9 * band)
+	if _pal:
+		BuildingPalette.refresh(_pal)

@@ -59,7 +59,8 @@ func _process(_delta: float) -> bool:
 			_check_awake(_a)
 			_check(absf((_a.get_node(^"Float/RuneStone") as Node3D).rotation.y - _spin0) > 0.3, "the rune stone does not spin")
 			var fy: float = (_a.get_node(^"Float") as Node3D).position.y
-			_check(absf(fy - 1.6) < 0.08, "rune stone floats at y %.2f (want 1.6)" % fy)
+			# 1.6 x the read scale 1.1 (wayshrine.gd FLOAT_Y 1.76 since the in-game grade pass, 2026-09-30)
+			_check(absf(fy - 1.76) < 0.08, "rune stone floats at y %.2f (want 1.76)" % fy)
 			_a.call(&"set_state", &"capturing")   # not a model state: ignored
 			_check(_a.call(&"get_state") == &"awake", "an unknown state must be ignored")
 			_a.call(&"set_capture", SHADOW, 0.4)

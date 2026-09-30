@@ -65,6 +65,10 @@ var _body: Node3D
 var _painted: Array[ShaderMaterial] = []
 var _glows: Array[ShaderMaterial] = []
 var _m: Dictionary = {}   # name -> ShaderMaterial
+## B8 material merge (in-game grade 2026-09-30): ONE palette material (BuildingPalette, tavern_painted's palette mode)
+## draws every painted part and every warm glow; the per-instance materials above stay the source of truth (selection
+## rim, lamps) and are re-read into it (BuildingPalette.refresh) after every change.
+var _pal: ShaderMaterial
 var _g_window: ShaderMaterial
 var _g_door: ShaderMaterial
 var _g_lantern: ShaderMaterial
@@ -100,6 +104,8 @@ func _ready() -> void:
 	_build_lantern()
 	_build_ground()
 	_build_smoke()
+	_pal = BuildingPalette.create(PAINTED, _painted[0])
+	BuildingPalette.fold_tree(_pal, _body)
 	_open_k = 1.0 if _open else 0.0
 	_sel_k = 1.0 if _selected else 0.0
 	_apply_open()
@@ -460,7 +466,9 @@ func _add_roof(it: Array) -> void:
 		var eave := Vector3(eave_x * sx, eave_y, 0.0)
 		var b := Basis(Vector3.BACK, -ang * sx)
 		var centre: Vector3 = eave - down * (length * 0.5) + nrm * (thick * 0.5)
-		it.append(_itx(_box(Vector3(length, thick, depth)), Transform3D(b, centre), "thatch"))
+		# Lumpy, gently sagging thatch (LumpySlab; in-game grade 2026-09-30: the flat slab was the biggest plain plane).
+		it.append(_itx(LumpySlab.mesh(Vector3(length, thick, depth), Vector2i(6, 12), 0.08, 0.12, int(sx + 2.0)),
+			Transform3D(b, centre), "thatch"))
 		# Eave roll along the lower edge.
 		it.append(_it(_cyl(0.22, 0.22, depth + 0.1, 10), eave + nrm * (thick * 0.5) + down * 0.02, "thatch",
 			Vector3(90, 0, 0)))
@@ -728,7 +736,7 @@ func _build_ground() -> void:
 	# A worn dirt path out of the door, warm light pools under the lantern.
 	_flat("PathDecal", Vector2(2.2, 4.4), DOOR_DIR_LOCAL * 5.0 + Vector3(0, 0.035, 0), PI * 0.25,
 		_soft_mat("path", Color(0.30, 0.22, 0.13, 0.7), false, false))
-	var pool: StandardMaterial3D = _soft_mat("pool", Color(1.0, 0.7, 0.32, 0.3), true, false)
+	var pool: StandardMaterial3D = _soft_mat("pool", Color(1.0, 0.7, 0.32, 0.2), true, false)   # 0.3 -> 0.2: under the bloom level (R5, 2026-09-30)
 	_pools.append(_flat("LightPoolPorch", Vector2(2.6, 2.6), Vector3(2.35, 0.37, 2.35), 0.0, pool))
 	_pools.append(_flat("LightPoolGround", Vector2(4.2, 4.2), DOOR_DIR_LOCAL * 4.7 + Vector3(0, 0.045, 0), 0.0, pool))
 	# Mossy rubble stones around the plinth (one draw call), none in front of the door.
@@ -808,11 +816,15 @@ func _apply_open() -> void:
 	_door.rotation.y = -deg_to_rad(105.0) * ease(k, -2.0) + PI * 0.25
 	_door_glow.visible = k > 0.01
 	_g_door.set_shader_parameter(&"energy", 1.5 * k)
-	_g_window.set_shader_parameter(&"energy", lerpf(0.7, 1.9, k))
+	# 1.9 -> 1.05 (in-game grade 2026-09-30, R5: 3 windows + door + lantern = 5 glow points): the windows stay a
+	# warm soft glow just under the bloom level; the door and the lantern are the two points.
+	_g_window.set_shader_parameter(&"energy", lerpf(0.5, 1.05, k))
 	for p: MeshInstance3D in _pools:
 		p.visible = k > 0.05
 		p.transparency = 1.0 - k
 	_smoke.emitting = k > 0.5
+	if _pal:
+		BuildingPalette.refresh(_pal)
 
 
 func _apply_rim_and_glow() -> void:
@@ -827,3 +839,5 @@ func _apply_rim_and_glow() -> void:
 	for m: ShaderMaterial in _glows:
 		m.set_shader_parameter(&"boost", boost)
 	_g_door.set_shader_parameter(&"boost", boost + 2.5 * sin(_pulse * PI) * _pulse)
+	if _pal:
+		BuildingPalette.refresh(_pal)

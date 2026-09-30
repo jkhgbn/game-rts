@@ -1,0 +1,13 @@
+{
+	"asset": "essence_well_objective",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "landmark",
+	"kingdom": "neutral",
+	"quality": 87.2,
+	"result": "PASS",
+	"scene": "res://art/buildings/capture/essence_well/essence_well.tscn",
+	"tier": "objective",
+	"version": "1.0"
+}

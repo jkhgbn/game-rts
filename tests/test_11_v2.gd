@@ -282,11 +282,8 @@ func _verts(mesh: Mesh) -> PackedVector3Array:
 func _mesh_has(mesh: Mesh, mat_part: String) -> bool:
 	if mesh == null:
 		return false
-	for s: int in mesh.get_surface_count():
-		var mat := mesh.surface_get_material(s)
-		if mat and mat.resource_path.get_file().contains(mat_part):
-			return true
-	return false
+	# palette-aware (ChampionPalette B8 merge, 2026-09-30): folded parts are found per vertex by their source material
+	return ChampionPalette.mesh_has(mesh, mat_part)
 
 
 func _pivot_has(m: Node3D, pivot: String, mat_part: String) -> bool:

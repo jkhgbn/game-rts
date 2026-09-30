@@ -42,6 +42,10 @@ extends CharacterModel
 signal call_finished
 
 const NAT_DIR := "res://art/units/nature/materials/"
+## B8 material merge (in-game grade 2026-09-30): every painted / glow part folds into ONE palette material
+## (ChampionPalette, art/units/champions/champion_palette.gd); the motes share one draw material (the crown green):
+## palette + nature_cloth (team) + face + motes + blob = 5 materials (was 14).
+const PAL_KEY := "wildcaller"
 const GLOW := Color(0.75, 1.00, 0.40)
 const PINK := Color(0.95, 0.60, 0.75)
 const SHOULDER_R := Vector3(0.30, 1.48, 0.0)
@@ -148,7 +152,7 @@ static func _glow() -> Material:
 func set_variant(v: int) -> void:
 	variant = clampi(v, 0, 1)
 	if _variant_node:
-		_variant_node.mesh = _variant_mesh(variant)
+		_variant_node.mesh = ChampionPalette.fold_mesh(PAL_KEY, _variant_mesh(variant))
 	ChampionFaces.switch(_face, "wildcaller", _face_spec, variant)
 
 
@@ -262,7 +266,8 @@ func _on_weapon_class(_class_id: StringName) -> void:
 func _part(pivot: Node3D, mesh: Mesh, mat: Material, at: Vector3, rot_deg: Vector3 = Vector3.ZERO,
 		keep: bool = false, part_name: String = "") -> MeshInstance3D:
 	_authored += 1
-	return add_part(pivot, mesh, mat, at, rot_deg, Vector3.ONE, keep, part_name)
+	var f := ChampionPalette.fold(PAL_KEY, mesh, mat)
+	return add_part(pivot, f[0], f[1], at, rot_deg, Vector3.ONE, keep, part_name)
 
 
 func _build_parts() -> void:
@@ -274,6 +279,11 @@ func _build_parts() -> void:
 	var arm_l: Node3D = $Root/Chest/ArmL
 	var arm_r: Node3D = $Root/Chest/ArmR
 	_authored = 0
+	# In-game grade 2026-09-30 (R4 heath: the barred cloak averaged to the heath's straw): this champion's palette
+	# entries of the shared bark / stone take a deeper red-brown and a paler cool bone, so the barring reads on every
+	# ground (the shared nature_* .tres stay untouched: ChampionPalette.tint is per champion).
+	ChampionPalette.tint(PAL_KEY, "nature_bark", Color(0.36, 0.2, 0.12))
+	ChampionPalette.tint(PAL_KEY, "nature_stone", Color(0.8, 0.78, 0.72))
 	# ---- Legs: dark leggings, wrapped leather boots (mostly under the robe)
 	_part(leg_l, _leg_mesh(-1.0), null, Vector3.ZERO)
 	_part(leg_r, _leg_mesh(1.0), null, Vector3.ZERO)
@@ -295,20 +305,24 @@ func _build_parts() -> void:
 	_staff.set_meta(&"own_glow", true)
 	var motes := make_motes(GLOW, 6, 1.8, 0.16, 0.14, 0.05)
 	motes.name = "CrownMotes"
+	ChampionPalette.share_motes(PAL_KEY, motes)
 	motes.position = Vector3(0.0, HEART_Y, 0.0)
 	_staff.add_child(motes)
 	_spark = make_motes(GLOW, 14, 0.5, 0.08, 1.9, 0.07, false, true)
 	_spark.name = "ReleaseSparks"
+	ChampionPalette.share_motes(PAL_KEY, _spark)
 	_spark.position = Vector3(0.0, HEART_Y, 0.0)
 	_staff.add_child(_spark)
 	var death := make_motes(PINK, 16, 1.1, 0.26, 1.0, 0.07, false, true)
 	death.name = "DeathMotes"
+	ChampionPalette.share_motes(PAL_KEY, death)
 	death.set_meta(&"death_fx", true)
 	death.position = Vector3(0.0, HEART_Y, 0.0)
 	_staff.add_child(death)
 	# ---- the call ring (play_call): green motes rising from a ring round her feet (the root knot)
 	_call_motes = make_motes(GLOW, 26, 1.4, 0.8, 2.4, 0.08, true, true)
 	_call_motes.name = "CallMotes"
+	ChampionPalette.share_motes(PAL_KEY, _call_motes)
 	_call_motes.position = Vector3(0.0, 0.05, 0.0)
 	var fx := get_node_or_null(^"Fx")
 	if fx:
@@ -322,7 +336,7 @@ func _after_ready() -> void:
 	if _shadow:
 		_authored += 1
 	if _variant_node:
-		_variant_node.mesh = _variant_mesh(variant)
+		_variant_node.mesh = ChampionPalette.fold_mesh(PAL_KEY, _variant_mesh(variant))
 	_q_rest = Quaternion(Vector3.UP, REST_AXIS.normalized())
 	_staff_q_w = Quaternion(9, 9, 9, 9)
 	if _staff:
@@ -1412,7 +1426,7 @@ func _extra_process(dt: float) -> void:
 		_staff.quaternion = q
 	if bl != _bloom_w:
 		_bloom_w = bl
-		_staff.mesh = _staff_mesh(bl)
+		_staff.mesh = ChampionPalette.fold_mesh(PAL_KEY, _staff_mesh(bl))
 	# ---- Crown glow: x veterancy / haste (0 once dead), a slow breath at close range, flares on releases / level-ups.
 	_flare = maxf(0.0, _flare - dt * 2.4)
 	var breath := 0.0

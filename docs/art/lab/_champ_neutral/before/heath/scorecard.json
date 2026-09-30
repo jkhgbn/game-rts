@@ -1,0 +1,251 @@
+{
+	"asset": "heath",
+	"budget": {
+		"lights": 0,
+		"soft": {
+			"frame_ms_patch": 0.1,
+			"kinds": 6,
+			"range": 90.0,
+			"tris_per_mesh": 1200
+		},
+		"src": "map-fill.md 9 / 10 (biome sets)"
+	},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "health",
+			"hint": "",
+			"id": "H0",
+			"improve": "",
+			"name": "Set script loads",
+			"rule": "ENTRIES / BIOME_ID / GROUND_TINT (map-fill.md 10)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "4 entries, biome heath",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "decor",
+			"hint": "Merge look-alike kinds; use the 3 shape variants of nature_painted instead of new meshes",
+			"id": "D1",
+			"improve": "",
+			"name": "Mesh kinds in the set",
+			"rule": "<= 6 soft (map total <= 24 kinds, map-fill.md 9)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "4",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.0,
+			"group": "decor",
+			"hint": "Fewer segments / cards; the vertex wind and the variants carry the detail",
+			"id": "D2",
+			"improve": "",
+			"name": "Triangles per decor mesh",
+			"rule": "<= 1200 soft (lab default)",
+			"score": 0.7,
+			"shot": "",
+			"status": "PASS",
+			"value": "max 1186 (heath_tall_grass 315, heath_heather 880, heath_gorse 1186, heath_lichen_stones 693)",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "decor",
+			"hint": "Set shadow false on small decor",
+			"id": "D3",
+			"improve": "",
+			"name": "Shadow casters",
+			"rule": "map-fill.md 9: only trees, logs, big rocks, landmarks, bridges cast shadows",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "only trees / logs / big rocks cast",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "decor",
+			"hint": "Lower `range` on the small pieces",
+			"id": "D4",
+			"improve": "",
+			"name": "Visibility ranges",
+			"rule": "tufts / flowers / pebbles <= 65 m, bushes / reeds / ferns / mushrooms <= 90 m (map-fill.md 9)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "all within 65 / 90 m",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "decor",
+			"hint": "",
+			"id": "D5",
+			"improve": "",
+			"name": "Instance budget coverage",
+			"rule": "map-fill.md 10 instance budget per set",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "59.6 per 100 m2 -> the 1600-instance budget covers 2684 m2 at full weight",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "budget",
+			"hint": "",
+			"id": "B8",
+			"improve": "",
+			"name": "Unique materials",
+			"rule": "shared nature material + contact disc expected",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "2",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.615810782015768,
+			"group": "decor",
+			"hint": "Lower / thin the tall pieces (tall grass, gorse) or lower their density near open ground",
+			"id": "D7",
+			"improve": "Tall pieces hide up to 16% of a unit: cap them ~0.6 m or thin the clusters",
+			"name": "Units hidden by decor at 40 m",
+			"rule": "<= 20% of a unit's silhouette (FAIL > 40%)",
+			"score": 0.88474323460473,
+			"shot": "z40",
+			"status": "PASS",
+			"value": "worst 16% (flame_guard 0% hidden, dE 52.0; shade 16% hidden, dE 60.3; rimeshield 1% hidden, dE 47.3; thornling 0% hidden, dE 6.5)",
+			"weight": 1.0
+		},
+		{
+			"fix": "D8 Units still read on this decor: Units drop to dE 6.5 on this decor: desaturate / darken the busiest piece [fixes.json #1]",
+			"fix_rank": 1,
+			"graded": 0.0191066081707294,
+			"group": "decor",
+			"hint": "Keep the decor a value step away from unit colours (darker / desaturated under units)",
+			"id": "D8",
+			"improve": "Units drop to dE 6.5 on this decor: desaturate / darken the busiest piece",
+			"name": "Units still read on this decor",
+			"rule": "dE >= 20 (WARN only; < 10 = that unit melts into this decor)",
+			"score": 0.356496246778048,
+			"shot": "z40",
+			"status": "WARN",
+			"value": "worst unit mean-colour dE 6.5 (per unit in D7)",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.768994015389,
+			"group": "decor",
+			"hint": "Lower the densities or cluster more (bare ground between patches)",
+			"id": "D9",
+			"improve": "Leave more bare ground between clumps (coverage 41%)",
+			"name": "Decor coverage at 40 m",
+			"rule": "<= 55% (busy ground hides units and orders)",
+			"score": 0.9306982046167,
+			"shot": "z40",
+			"status": "PASS",
+			"value": "41% of the ground covered",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "read",
+			"hint": "Fewer / dimmer glowing pieces",
+			"id": "R5",
+			"improve": "",
+			"name": "Glow points in the patch (12 x 12 m)",
+			"rule": "<= 12 per 144 m2 (emissive decor only in its biome)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "0",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "budget",
+			"hint": "",
+			"id": "B13",
+			"improve": "",
+			"name": "Patch frame cost (900 m2)",
+			"rule": "script cost ~0 (MultiMesh, vertex-shader wind); GPU for info (soft 0.1 ms)",
+			"score": -1.0,
+			"shot": "",
+			"status": "INFO",
+			"value": "process +0.0 ms, render CPU +0.03 ms, GPU +2.18 ms",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "health",
+			"hint": "Fix the errors listed (full list in the console)",
+			"id": "H1",
+			"improve": "",
+			"name": "Errors from the asset while running",
+			"rule": "0 (its folder + the kit)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "0 error(s), 0 warning(s)",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 3,
+		"PASS": 9,
+		"SKIP": 0,
+		"WARN": 1
+	},
+	"ground": "heath",
+	"headless": false,
+	"improve_next": [
+		{
+			"rank": 1010.96525562983,
+			"source": "D8 Units still read on this decor, shot z40",
+			"status": "WARN",
+			"text": "D8 Units still read on this decor: Units drop to dE 6.5 on this decor: desaturate / darken the busiest piece [fixes.json #1]",
+			"title": "Units still read on this decor"
+		},
+		{
+			"rank": 0.172885148092904,
+			"source": "D7 Units hidden by decor at 40 m, shot z40",
+			"status": "PASS",
+			"text": "Tall pieces hide up to 16% of a unit: cap them ~0.6 m or thin the clusters",
+			"title": "Units hidden by decor at 40 m"
+		},
+		{
+			"rank": 0.10395269307495,
+			"source": "D9 Decor coverage at 40 m, shot z40",
+			"status": "PASS",
+			"text": "Leave more bare ground between clumps (coverage 41%)",
+			"title": "Decor coverage at 40 m"
+		}
+	],
+	"kind": "decor_set",
+	"kingdom": "neutral",
+	"lab_version": "3.1",
+	"notes": [
+		"Fix recipes: 1 in fixes.json (top: D8 Units still read on this decor: Units drop to dE 6.5 on this decor: desaturate / darken the busiest piece)"
+	],
+	"previous_quality": -1.0,
+	"quality": 89.1,
+	"result": "WARN",
+	"scene": "res://art/environment/biomes/heath/heath_set.gd",
+	"seconds": 2.3,
+	"shots": {
+		"close": "close.jpg",
+		"contact_sheet": "contact_sheet.png",
+		"z25": "z25.jpg",
+		"z40": "z40.jpg",
+		"z55": "z55.jpg"
+	},
+	"started": "2026-09-30 11:49:38",
+	"tier": "set"
+}

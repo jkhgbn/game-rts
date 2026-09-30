@@ -19,6 +19,9 @@ void fragment() {
 	float soft = pow(max(facing, 1e-4), 1.6);
 	float top = pow(max(1.0 - v, 1e-4), fade_power) * (1.0 - smoothstep(0.9, 1.0, v));
 	float bottom = smoothstep(0.0, 0.08, v);
-	float bands = 0.7 + 0.3 * sin((v * 4.0 - TIME * band_speed) * 6.2832 + UV.x * 18.85);
-	ALBEDO = tint.rgb * intensity * soft * top * bottom * bands;
+	// In-game grade 2026-09-30 (row 48, 9 glow points): the bands were a spiral (+ UV.x), which broke the column
+	// into ~7 separate bright spots over the bloom level (front + back faces add up). They are rings now, shallower,
+	// and the column 20 % softer: one continuous shaft of light.
+	float bands = 0.82 + 0.18 * sin((v * 4.0 - TIME * band_speed) * 6.2832);
+	ALBEDO = tint.rgb * intensity * soft * top * bottom * bands * 0.8;
 }

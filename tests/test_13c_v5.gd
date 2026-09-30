@@ -102,7 +102,8 @@ func _run() -> void:
 func _check_budgets(m: Node3D) -> void:
 	var authored: int = int(m.call(&"authored_mesh_count"))
 	var inst := _draw_instances(m)
-	var mats := _materials(m)
+	# B8 merge (2026-09-30): the ChampionPalette material stands for its folded sources (all kit palette entries)
+	var mats := ChampionPalette.unfold(_materials(m))
 	var own := 0
 	var names := PackedStringArray()
 	for mat: Material in mats:
@@ -489,11 +490,8 @@ func _surface_bounds(m: Node3D, mi: MeshInstance3D, mat_part: String) -> AABB:
 	var xf := m.global_transform.affine_inverse() * mi.global_transform
 	var first := true
 	var bb := AABB()
-	for s: int in mi.mesh.get_surface_count():
-		var mat := mi.mesh.surface_get_material(s)
-		if mat == null or not mat.resource_path.get_file().contains(mat_part):
-			continue
-		for v: Vector3 in mi.mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX]:
+	if true:   # palette-aware (ChampionPalette B8 merge): the vertices by their source material
+		for v: Vector3 in ChampionPalette.vertices_of(mi.mesh, mat_part):
 			var w := xf * v
 			if first:
 				bb = AABB(w, Vector3.ZERO)
@@ -504,13 +502,8 @@ func _surface_bounds(m: Node3D, mi: MeshInstance3D, mat_part: String) -> AABB:
 
 
 func _mesh_has(mesh: Mesh, mat_part: String) -> bool:
-	if mesh == null:
-		return false
-	for s: int in mesh.get_surface_count():
-		var mat := mesh.surface_get_material(s)
-		if mat and mat.resource_path.get_file().contains(mat_part):
-			return true
-	return false
+	# palette-aware (ChampionPalette B8 merge, 2026-09-30)
+	return ChampionPalette.mesh_has(mesh, mat_part)
 
 
 func _draw_instances(n: Node) -> int:

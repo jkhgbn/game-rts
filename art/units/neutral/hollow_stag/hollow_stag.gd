@@ -95,6 +95,11 @@ var _fade: float = 1.0           # death fade of the glows
 var _heart_w: float = -1.0
 var _leaf_w: float = -1.0
 var _fidget_wait: float = 0.0
+## B2 pass (2026-09-30): the 4 shins draw as ONE skinned mesh (one bone per Lower pivot, posed after the kit's pivot
+## write each frame) instead of 4 keep_separate nodes; the Shin nodes stay (hidden) as the bone sources / test anchors.
+var _shin_skel: Skeleton3D
+var _shin_mi: MeshInstance3D
+static var _shin_cache: Dictionary = {}   # "mesh" -> skinned ArrayMesh, "skin" -> Skin
 var _cast_last: float = -1.0
 var _fidget_last: float = -1.0
 var _gores: int = 0
@@ -209,8 +214,127 @@ func _after_ready() -> void:
 	if _face:
 		_face.set_host(_skull)
 	_fidget_wait = _next_fidget() * 0.6
+	_build_shin_skin()
 	_write_parts(true)
 	_write_glow(true)
+	_sync_shins()
+
+
+## One skinned mesh for the 4 shins (see _shin_skel): vertices in MODEL space at the rest pose (so a static read of
+## the mesh sees the shins where they stand), bind k = the inverse of Lower k's rest transform, bone k = Lower k.
+func _build_shin_skin() -> void:
+	var shins: Array[MeshInstance3D] = []
+	for low: Node3D in _lowers:
+		var sh := low.get_node_or_null(^"Shin") as MeshInstance3D
+		if sh == null:
+			return
+		shins.append(sh)
+	var rest: Array[Transform3D] = []
+	for low2: Node3D in _lowers:
+		rest.append(_model_xf(low2))
+	if not _shin_cache.has("mesh"):
+		var by_mat: Dictionary = {}
+		var order: Array = []
+		for k: int in shins.size():
+			var xf: Transform3D = rest[k] * shins[k].transform
+			var nb := xf.basis.inverse().transposed()
+			var mesh := shins[k].mesh
+			for s: int in mesh.get_surface_count():
+				var mat: Material = mesh.surface_get_material(s)
+				if not by_mat.has(mat):
+					by_mat[mat] = [PackedVector3Array(), PackedVector3Array(), PackedVector2Array(), PackedInt32Array(),
+						PackedInt32Array(), PackedFloat32Array()]
+					order.append(mat)
+				var acc: Array = by_mat[mat]
+				var arr := mesh.surface_get_arrays(s)
+				var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+				var nr: PackedVector3Array = arr[Mesh.ARRAY_NORMAL] if arr[Mesh.ARRAY_NORMAL] != null else PackedVector3Array()
+				var uv: PackedVector2Array = arr[Mesh.ARRAY_TEX_UV] if arr[Mesh.ARRAY_TEX_UV] != null else PackedVector2Array()
+				var ix: PackedInt32Array = arr[Mesh.ARRAY_INDEX] if arr[Mesh.ARRAY_INDEX] != null else PackedInt32Array()
+				var base: int = (acc[0] as PackedVector3Array).size()
+				for j: int in v.size():
+					acc[0].append(xf * v[j])
+					acc[1].append((nb * nr[j]).normalized() if j < nr.size() else Vector3.UP)
+					acc[2].append(uv[j] if j < uv.size() else Vector2.ZERO)
+					acc[4].append_array(PackedInt32Array([k, 0, 0, 0]))
+					acc[5].append_array(PackedFloat32Array([1.0, 0.0, 0.0, 0.0]))
+				if ix.is_empty():
+					for j: int in v.size():
+						acc[3].append(base + j)
+				else:
+					for j: int in ix.size():
+						acc[3].append(base + ix[j])
+		var am := ArrayMesh.new()
+		for mat: Material in order:
+			var acc2: Array = by_mat[mat]
+			var arrays := []
+			arrays.resize(Mesh.ARRAY_MAX)
+			arrays[Mesh.ARRAY_VERTEX] = acc2[0]
+			arrays[Mesh.ARRAY_NORMAL] = acc2[1]
+			arrays[Mesh.ARRAY_TEX_UV] = acc2[2]
+			arrays[Mesh.ARRAY_INDEX] = acc2[3]
+			arrays[Mesh.ARRAY_BONES] = acc2[4]
+			arrays[Mesh.ARRAY_WEIGHTS] = acc2[5]
+			am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+			am.surface_set_material(am.get_surface_count() - 1, mat)
+		var skin := Skin.new()
+		for k2: int in shins.size():
+			skin.add_named_bind("Shin%d" % k2, rest[k2].affine_inverse())
+		_shin_cache["mesh"] = am
+		_shin_cache["skin"] = skin
+	_shin_skel = Skeleton3D.new()
+	_shin_skel.name = "ShinSkeleton"
+	for k3: int in shins.size():
+		_shin_skel.add_bone("Shin%d" % k3)
+	add_child(_shin_skel)
+	_shin_mi = MeshInstance3D.new()
+	_shin_mi.name = "Shins"
+	_shin_mi.mesh = _shin_cache["mesh"]
+	_shin_mi.skin = _shin_cache["skin"]
+	_shin_mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_shin_mi.custom_aabb = AABB(Vector3(-2.0, -0.5, -2.5), Vector3(4.0, 3.5, 5.0))
+	_shin_skel.add_child(_shin_mi)
+	_shin_mi.skeleton = NodePath("..")
+	_shin_mi.set_instance_shader_parameter(&"ao_height", body_height)
+	var glows := false
+	for s2: int in _shin_mi.mesh.get_surface_count():
+		if instance_uniforms_of(_shin_mi.mesh.surface_get_material(s2)).has("glow_boost"):
+			glows = true
+	for sh2: MeshInstance3D in shins:
+		sh2.visible = false
+		_flash_hit_targets.erase(sh2)
+		_flash_all_targets.erase(sh2)
+		_glow_nodes.erase(sh2)
+	_flash_hit_targets.append(_shin_mi)
+	_flash_all_targets.append(_shin_mi)
+	if glows:
+		_glow_nodes.append(_shin_mi)
+
+
+## A node's transform in this model's space (the chain of local transforms up to the model root).
+func _model_xf(n: Node3D) -> Transform3D:
+	var t := Transform3D.IDENTITY
+	var c: Node = n
+	while c and c != self:
+		t = (c as Node3D).transform * t
+		c = c.get_parent()
+	return t
+
+
+## Bone k = Lower pivot k in the skeleton's space (after the kit wrote the pivots this frame).
+func _sync_shins() -> void:
+	if _shin_skel == null or not is_inside_tree():
+		return
+	for k: int in _lowers.size():
+		var t: Transform3D = _model_xf(_lowers[k])   # the skeleton sits at the model origin
+		_shin_skel.set_bone_pose_position(k, t.origin)
+		_shin_skel.set_bone_pose_rotation(k, t.basis.get_rotation_quaternion())
+		_shin_skel.set_bone_pose_scale(k, t.basis.get_scale())
+
+
+func _process(delta: float) -> void:
+	super._process(delta)
+	_sync_shins()
 
 
 # ================================================================ hooks

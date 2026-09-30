@@ -25,6 +25,9 @@ extends CharacterModel
 ## blob; ~5.9k vertices (a hero-grade count; at most 6 champions per match). Kit weapon pieces are shared (not counted).
 
 const WF_DIR := "res://art/units/champions/wayfinder/materials/"
+## B8 material merge (in-game grade 2026-09-30): every painted / glow part folds into ONE palette material
+## (ChampionPalette, art/units/champions/champion_palette.gd); the motes share one draw material.
+const PAL_KEY := "wayfinder"
 const GLOW := Color(1.0, 0.8, 0.4)
 const SHOULDER_R := Vector3(0.34, 1.42, 0.0)
 const SHOULDER_L := Vector3(-0.34, 1.42, 0.0)
@@ -135,7 +138,7 @@ static func _skin() -> Material:
 func set_variant(v: int) -> void:
 	variant = clampi(v, 0, 1)
 	if _variant_node:
-		_variant_node.mesh = _variant_mesh(variant)
+		_variant_node.mesh = ChampionPalette.fold_mesh(PAL_KEY, _variant_mesh(variant))
 	ChampionFaces.switch(_face, "wayfinder", _face_spec, variant)
 
 
@@ -225,6 +228,7 @@ func _weapon_grip(piece: StringName) -> Transform3D:
 ## The release sparks follow the fire: on the bow (arrow tip) before a class, under the lantern with a class weapon
 ## (Signal Flare pulled from it, Trailblaze).
 func _on_weapon_class(class_id: StringName) -> void:
+	ChampionPalette.claim_crystal_glow(self, class_id)   # the staff crystal glow (palette material, B8 merge)
 	_prop_req = PROP_NONE
 	_prop_w = -1
 	_grabbed = false
@@ -241,7 +245,8 @@ func _on_weapon_class(class_id: StringName) -> void:
 func _part(pivot: Node3D, mesh: Mesh, mat: Material, at: Vector3, rot_deg: Vector3 = Vector3.ZERO,
 		keep: bool = false, part_name: String = "") -> MeshInstance3D:
 	_authored += 1
-	return add_part(pivot, mesh, mat, at, rot_deg, Vector3.ONE, keep, part_name)
+	var f := ChampionPalette.fold(PAL_KEY, mesh, mat)
+	return add_part(pivot, f[0], f[1], at, rot_deg, Vector3.ONE, keep, part_name)
 
 
 func _build_parts() -> void:
@@ -273,10 +278,12 @@ func _build_parts() -> void:
 	_lantern.set_meta(&"own_glow", true)
 	_motes = make_motes(GLOW, 5, 1.5, 0.05, 0.28, 0.05)
 	_motes.name = "LanternMotes"
+	ChampionPalette.share_motes(PAL_KEY, _motes)
 	_motes.position = Vector3(0, -0.20, 0)
 	_lantern.add_child(_motes)
 	var embers := make_motes(GLOW, 12, 0.9, 0.12, 1.1, 0.06, false, true)
 	embers.name = "DeathEmbers"
+	ChampionPalette.share_motes(PAL_KEY, embers)
 	embers.set_meta(&"death_fx", true)
 	embers.position = Vector3(0, -0.22, 0)
 	_lantern.add_child(embers)
@@ -303,6 +310,7 @@ func _build_parts() -> void:
 	_hand_prop.visible = false
 	_spark = make_motes(GLOW, 10, 0.55, 0.05, 1.8, 0.07, false, true)
 	_spark.name = "ReleaseSparks"
+	ChampionPalette.share_motes(PAL_KEY, _spark)
 	_spark.position = Vector3(0, 0.0, 0.18)
 	_bow.add_child(_spark)
 	ensure_shadow_blob(0.5)
@@ -312,7 +320,7 @@ func _after_ready() -> void:
 	if _shadow:
 		_authored += 1
 	if _variant_node:
-		_variant_node.mesh = _variant_mesh(variant)
+		_variant_node.mesh = ChampionPalette.fold_mesh(PAL_KEY, _variant_mesh(variant))
 	_lantern_w = -1.0
 	_extra_process(0.0)
 
@@ -1044,7 +1052,7 @@ func _extra_process(dt: float) -> void:
 			_bow.rotation = r
 		if drawn != _drawn_w:
 			_drawn_w = drawn
-			_bow.mesh = _bow_mesh(drawn == 1)
+			_bow.mesh = ChampionPalette.fold_mesh(PAL_KEY, _bow_mesh(drawn == 1))
 	# Lantern: base halo x veterancy / haste (0 once dead), flares on releases and level-ups.
 	_flare = maxf(0.0, _flare - dt * 2.2)
 	var g := glow_level() * (LANTERN_BASE + _flare + _hold)
@@ -1064,7 +1072,7 @@ func _extra_process(dt: float) -> void:
 			_prop_w = pr
 			_hand_prop.visible = pr != PROP_NONE
 			if pr != PROP_NONE:
-				_hand_prop.mesh = _flare_mesh() if pr == PROP_FLARE else _snare_mesh()
+				_hand_prop.mesh = ChampionPalette.fold_mesh(PAL_KEY, _flare_mesh() if pr == PROP_FLARE else _snare_mesh())
 		var pg := glow_level() * 2.6 if pr == PROP_FLARE else 0.0
 		if pg != _prop_glow_w:
 			_prop_glow_w = pg

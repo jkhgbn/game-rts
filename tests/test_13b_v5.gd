@@ -98,7 +98,8 @@ func _run() -> void:
 func _check_budgets(m: Node3D) -> void:
 	var authored: int = int(m.call(&"authored_mesh_count"))
 	var inst := _draw_instances(m)
-	var mats := _materials(m)
+	# B8 merge (2026-09-30): the ChampionPalette material stands for its folded sources (all kit palette entries)
+	var mats := ChampionPalette.unfold(_materials(m))
 	var own := 0
 	var names := PackedStringArray()
 	for mat: Material in mats:
@@ -420,11 +421,8 @@ func _mesh_verts(mesh: Mesh) -> int:
 ## Clusters of glow vertices farther than 6 cm apart (the quiver's heads; the halo ticks are small and close).
 func _glow_clusters(mesh: Mesh) -> int:
 	var cents: Array[Vector3] = []
-	for s: int in mesh.get_surface_count():
-		var mat := mesh.surface_get_material(s)
-		if mat == null or not mat.resource_path.contains("glow"):
-			continue
-		for v: Vector3 in mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX]:
+	if true:   # palette-aware (ChampionPalette B8 merge): the glow vertices by their source material
+		for v: Vector3 in ChampionPalette.vertices_of(mesh, "glow"):
 			if v.y < 0.25:
 				continue   # the heads sit high; the halo ticks are at y <= 0.2
 			var found := false
@@ -494,13 +492,8 @@ func _clearance(m: Node3D, a: MeshInstance3D, others: Array) -> float:
 
 
 func _mesh_has(mesh: Mesh, mat_part: String) -> bool:
-	if mesh == null:
-		return false
-	for s: int in mesh.get_surface_count():
-		var mat := mesh.surface_get_material(s)
-		if mat and mat.resource_path.get_file().contains(mat_part):
-			return true
-	return false
+	# palette-aware (ChampionPalette B8 merge, 2026-09-30)
+	return ChampionPalette.mesh_has(mesh, mat_part)
 
 
 func _draw_instances(n: Node) -> int:

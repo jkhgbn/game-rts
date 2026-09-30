@@ -1,0 +1,130 @@
+{
+	"asset": "hollow_stag",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.187,
+					"from": 1.0,
+					"material": "hollow_stag_hide",
+					"material_path": "res://art/units/neutral/hollow_stag/materials/hollow_stag_hide.tres",
+					"node": "Root/Mount/LegBL/Merged, Root/Mount/LegBR/Merged, Root/Mount/LegFL/Merged",
+					"param": "shader_parameter/crack_strength",
+					"peak_x_bloom": 4.02,
+					"to": 0.187,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 3 point(s), peak 4.02 x the level",
+					"words": "crack_strength 1.0 -> 0.19 on Merged, Merged, Merged (dim under the bloom level: 3 point(s), peak 4.02 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 4,
+				"points_this_phase": 4,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Mount/Head/Crown/Skull",
+						"peak_x_bloom": 4.02,
+						"px": 41
+					},
+					{
+						"above": true,
+						"part": "Root/Mount/LegBL/Merged",
+						"peak_x_bloom": 4.02,
+						"px": 16
+					},
+					{
+						"above": true,
+						"part": "Root/Mount/LegBR/Merged",
+						"peak_x_bloom": 4.02,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Root/Mount/LegFL/Merged",
+						"peak_x_bloom": 4.02,
+						"px": 5
+					}
+				],
+				"value": "4 point(s) above the bloom level 1.2 (median of 4/4/4): Skull, Merged x3, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 4"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 4 -> 1 (want 1-3): hollow_stag_hide crack_strength 1.0 -> 0.19 on Merged, Merged, Merged (dim under the bloom level: 3 point(s), peak 4.02 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 4 -> 1 (want 1-3): hollow_stag_hide crack_strength 1.0 -> 0.19 on Merged, Merged, Merged (dim under the bloom level: 3 point(s), peak 4.02 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-3 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1739,
+					"node": "Root/Mount/Head/Crown/Skull",
+					"to": 870,
+					"words": "`Skull` 1739 -> 870 verts"
+				},
+				{
+					"from": 1520,
+					"node": "Root/Mount/Merged",
+					"to": 760,
+					"words": "`Merged` 1520 -> 760 verts"
+				},
+				{
+					"from": 600,
+					"node": "ShinSkeleton/Shins",
+					"to": 497,
+					"words": "`Shins` 600 -> 497 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4149
+			},
+			"predicted": {
+				"verts": 2417
+			},
+			"proposal": "4149 -> 2417 (want <= 2500): `Skull` 1739 -> 870 verts; `Merged` 1520 -> 760 verts; `Shins` 600 -> 497 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 4149 -> 2417 (want <= 2500): `Skull` 1739 -> 870 verts; `Merged` 1520 -> 760 verts; `Shins` 600 -> 497 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Skull 3.02 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Skull 3.02 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Skull 3.02 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 90.5,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/hollow_stag/hollow_stag.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

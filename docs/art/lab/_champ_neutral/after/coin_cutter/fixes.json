@@ -1,0 +1,40 @@
+{
+	"asset": "coin_cutter",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 682,
+					"node": "Root/Chest/Merged",
+					"to": 517,
+					"words": "`Merged` 682 -> 517 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3157
+			},
+			"predicted": {
+				"verts": 2992
+			},
+			"proposal": "3157 -> 2992 (want <= 3000): `Merged` 682 -> 517 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 3157 -> 2992 (want <= 3000): `Merged` 682 -> 517 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 95.1,
+	"result": "WARN",
+	"scene": "res://art/units/champions/coin_cutter/coin_cutter.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

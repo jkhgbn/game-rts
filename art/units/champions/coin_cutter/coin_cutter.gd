@@ -27,6 +27,9 @@ extends CharacterModel
 ## height in front.
 
 const CC_DIR := "res://art/units/champions/coin_cutter/"
+## B8 material merge (in-game grade 2026-09-30): every painted / glow part folds into ONE palette material
+## (ChampionPalette, art/units/champions/champion_palette.gd): palette + pennon + face + sparks + blob = 5 materials.
+const PAL_KEY := "coin_cutter"
 const COIN_GOLD := Color(1.0, 0.85, 0.3)
 
 # Model-space key points (feet origin, face +Z, weapon hand ArmR at +X).
@@ -261,6 +264,18 @@ func _weapon_slot(slot: StringName) -> Transform3D:
 
 
 # ================================================================ parts
+
+## The Wizard staff crystal keeps its kit weapon-glow drive (the palette material declares glow_boost everywhere).
+func _on_weapon_class(class_id: StringName) -> void:
+	ChampionPalette.claim_crystal_glow(self, class_id)
+
+
+## Every part goes through the champion palette fold (B8): painted / glow materials become palette entries.
+func add_part(pivot: Node3D, mesh: Mesh, mat: Material, model_pos: Vector3, rot_deg: Vector3 = Vector3.ZERO,
+		scl: Vector3 = Vector3.ONE, keep_separate: bool = false, part_name: String = "") -> MeshInstance3D:
+	var f := ChampionPalette.fold(PAL_KEY, mesh, mat)
+	return super.add_part(pivot, f[0], f[1], model_pos, rot_deg, scl, keep_separate, part_name)
+
 
 func _build_parts() -> void:
 	var hips: Node3D = $Root/Hips

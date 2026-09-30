@@ -130,16 +130,18 @@ func _run() -> void:
 	a.call(&"set_variant", 0)
 	_check(va.mesh != vb.mesh, "set_variant(0) swaps back")
 
-	# ---- team colour: only sash (cloth, cloth_dark) + pennant change; cached per colour; no-op for the scene colour
+	# ---- team colour: only sash (+ trim) + pennant change; cached per colour; no-op for the scene colour.
+	# B8 merge (2026-09-30): the sash and its trim draw with the pennant's banner material (flat team cloth), so ONE
+	# material (mender_pennon) is recoloured and it carries the sash, the trim and the pennant.
 	var chest_b := b.get_node(^"Root/Chest/Merged") as MeshInstance3D
 	var changed := _recoloured_surfaces(b)
 	print("recoloured surfaces (B, shadow): ", changed)
-	_check(changed.size() == 3, "set_team_color touches exactly sash, sash trim and pennant (%d)" % changed.size())
+	_check(changed.size() == 1, "set_team_color touches exactly the pennon material (sash + trim + pennant) (%d)" % changed.size())
 	var got_team := false
 	for s: int in chest_b.mesh.get_surface_count():
 		var m := chest_b.get_surface_override_material(s) as ShaderMaterial
-		if m and m.resource_name == "mender_cloth":
-			got_team = (m.get_shader_parameter(&"base_color") as Color).is_equal_approx(SHADOW)
+		if m and m.resource_name == "mender_pennon":
+			got_team = (m.get_shader_parameter(&"cloth_color") as Color).is_equal_approx(SHADOW)
 	_check(got_team, "sash is the team colour")
 	a.call(&"set_team_color", FIRE)
 	_check(_recoloured_surfaces(a).is_empty(), "kingdom colour of the scene = no-op")

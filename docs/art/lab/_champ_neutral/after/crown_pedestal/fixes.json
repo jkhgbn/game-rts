@@ -1,0 +1,280 @@
+{
+	"asset": "crown_pedestal",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.094,
+					"material": "crown_beacon_mat",
+					"material_path": "res://art/environment/crown/crown_beacon_mat.tres",
+					"node": "Beacon",
+					"param": "",
+					"peak_x_bloom": 7.94,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 6 point(s), peak 7.94 x the level (>= 8, clipped)",
+					"words": "emission x 0.09 on Beacon (dim under the bloom level: 6 point(s), peak 7.94 x the level (>= 8, clipped); no energy / glow-colour parameter found)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 9,
+				"points_this_phase": 8,
+				"spots": [
+					{
+						"above": true,
+						"part": "Beacon",
+						"peak_x_bloom": 7.94,
+						"px": 514
+					},
+					{
+						"above": true,
+						"part": "Runes",
+						"peak_x_bloom": 4.42,
+						"px": 31
+					},
+					{
+						"above": true,
+						"part": "Beacon",
+						"peak_x_bloom": 4.39,
+						"px": 30
+					},
+					{
+						"above": true,
+						"part": "Beacon",
+						"peak_x_bloom": 4.39,
+						"px": 28
+					},
+					{
+						"above": true,
+						"part": "Beacon",
+						"peak_x_bloom": 4.39,
+						"px": 25
+					},
+					{
+						"above": true,
+						"part": "Beacon",
+						"peak_x_bloom": 5.46,
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Beacon",
+						"peak_x_bloom": 4.86,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Runes",
+						"peak_x_bloom": 5.46,
+						"px": 7
+					},
+					{
+						"above": false,
+						"part": "Runes",
+						"peak_x_bloom": 0.45,
+						"px": 159
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.31,
+						"px": 91
+					},
+					{
+						"above": false,
+						"part": "Runes",
+						"peak_x_bloom": 0.38,
+						"px": 60
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.29,
+						"px": 58
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.34,
+						"px": 52
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.31,
+						"px": 48
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.23,
+						"px": 34
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.3,
+						"px": 26
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.31,
+						"px": 25
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.26,
+						"px": 24
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.3,
+						"px": 24
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.32,
+						"px": 22
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.24,
+						"px": 22
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.28,
+						"px": 19
+					},
+					{
+						"above": false,
+						"part": "Runes",
+						"peak_x_bloom": 0.25,
+						"px": 17
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.32,
+						"px": 14
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.24,
+						"px": 13
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.25,
+						"px": 11
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.24,
+						"px": 10
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.31,
+						"px": 9
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.25,
+						"px": 9
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.29,
+						"px": 7
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.27,
+						"px": 7
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.29,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "GroundGlow",
+						"peak_x_bloom": 0.21,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "RuinDressing",
+						"peak_x_bloom": 0.21,
+						"px": 5
+					}
+				],
+				"value": "9 point(s) above the bloom level 1.2 (median of 8/9/10): Beacon x7, Runes x2; soft glows under the bloom (v1 count, luma > 0.4): 10"
+			},
+			"predicted": {
+				"points": 3
+			},
+			"proposal": "Glow points 9 -> 3 (want 0-3): crown_beacon_mat emission x 0.09 on Beacon (dim under the bloom level: 6 point(s), peak 7.94 x the level (>= 8, clipped); no energy / glow-colour parameter found)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 9 -> 3 (want 0-3): crown_beacon_mat emission x 0.09 on Beacon (dim under the bloom level: 6 point(s), peak 7.94 x the level (>= 8, clipped); no energy / glow-colour parameter found)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "0-3 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "crown_pedestal",
+					"material_path": "res://art/environment/crown_pedestal.tscn::StandardMaterial3D_xks1f",
+					"to": "StandardMaterial3D#-83541",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 10
+			},
+			"predicted": {
+				"materials": 9
+			},
+			"proposal": "10 -> 9 materials: use one material for look-alike pairs (albedo dE <= 15): `crown_pedestal` -> `StandardMaterial3D#-83541` (dE 0.0); 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B8 10 -> 9 materials: use one material for look-alike pairs (albedo dE <= 15): `crown_pedestal` -> `StandardMaterial3D#-83541` (dE 0.0); 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 6"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "landmark",
+	"kingdom": "neutral",
+	"quality": 87.0,
+	"result": "WARN",
+	"scene": "res://art/environment/crown_pedestal.tscn",
+	"tier": "landmark",
+	"version": "1.0"
+}

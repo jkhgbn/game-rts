@@ -103,6 +103,10 @@ var _painted: Array[ShaderMaterial] = []
 var _glows: Array[ShaderMaterial] = []
 var _flag_mats: Array[ShaderMaterial] = []
 var _m: Dictionary = {}   # name -> ShaderMaterial
+## B8 material merge (in-game grade 2026-09-30): ONE palette material (BuildingPalette, greywater_lodge_painted's
+## palette mode) draws every painted part and every amber / fire glow; the per-instance materials above stay the source
+## of truth (selection rim, lamps, fire) and are re-read into it (BuildingPalette.refresh) after every change.
+var _pal: ShaderMaterial
 var _g_window: ShaderMaterial
 var _g_door: ShaderMaterial
 var _g_lantern: ShaderMaterial
@@ -145,6 +149,8 @@ func _ready() -> void:
 	_build_ground()
 	_build_fire()
 	_build_smoke()
+	_pal = BuildingPalette.create(PAINTED, _painted[0])
+	BuildingPalette.fold_tree(_pal, self)
 	_open_k = 1.0 if _open else 0.0
 	_sel_k = 1.0 if _selected else 0.0
 	_apply_open()
@@ -324,7 +330,9 @@ static func _box(size: Vector3) -> Mesh:
 	return _mesh_cache[key]
 
 
+## B4 pass (2026-09-30): at most 8 sides / spheres 7 x 4 (the plaques, skulls and hound were 10-12 x 5-6).
 static func _cyl(top_r: float, bot_r: float, h: float, segs: int, caps: bool = true) -> Mesh:
+	segs = mini(segs, 8)
 	var key: String = "c%.3f_%.3f_%.3f_%d_%s" % [top_r, bot_r, h, segs, caps]
 	if not _mesh_cache.has(key):
 		var m := CylinderMesh.new()
@@ -340,6 +348,8 @@ static func _cyl(top_r: float, bot_r: float, h: float, segs: int, caps: bool = t
 
 
 static func _sphere(r: float, segs: int = 10, rings: int = 5) -> Mesh:
+	segs = mini(segs, 7)
+	rings = mini(rings, 4)
 	var key: String = "s%.3f_%d_%d" % [r, segs, rings]
 	if not _mesh_cache.has(key):
 		var m := SphereMesh.new()
@@ -356,6 +366,48 @@ static func _prism(size: Vector3) -> Mesh:
 	if not _mesh_cache.has(key):
 		var m := PrismMesh.new()
 		m.size = size
+		_mesh_cache[key] = m
+	return _mesh_cache[key]
+
+
+## A flat ring (r0 = 0: a disc) in the XZ plane facing +Y, `segs` sides (a log end: one face, no side walls).
+static func _ring_face(r0: float, r1: float, segs: int) -> Mesh:
+	var key: String = "rf%.3f_%.3f_%d" % [r0, r1, segs]
+	if not _mesh_cache.has(key):
+		var v := PackedVector3Array()
+		var n := PackedVector3Array()
+		var ix := PackedInt32Array()
+		if r0 <= 0.0:
+			v.append(Vector3.ZERO)
+			for i: int in segs:
+				var a: float = TAU * float(i) / float(segs)
+				v.append(Vector3(cos(a) * r1, 0.0, sin(a) * r1))
+			for i2: int in segs:
+				ix.append_array(PackedInt32Array([0, 1 + i2, 1 + (i2 + 1) % segs]))   # clockwise from +Y = front
+		else:
+			for i: int in segs:
+				var a: float = TAU * float(i) / float(segs)
+				v.append(Vector3(cos(a) * r0, 0.0, sin(a) * r0))
+				v.append(Vector3(cos(a) * r1, 0.0, sin(a) * r1))
+			for i2: int in segs:
+				var a0: int = i2 * 2
+				var b0: int = ((i2 + 1) % segs) * 2
+				ix.append_array(PackedInt32Array([a0, a0 + 1, b0, b0, a0 + 1, b0 + 1]))
+		var tg := PackedFloat32Array()
+		var uv := PackedVector2Array()
+		for k: int in v.size():
+			n.append(Vector3.UP)
+			tg.append_array(PackedFloat32Array([1.0, 0.0, 0.0, 1.0]))
+			uv.append(Vector2(v[k].x, v[k].z))
+		var arr := []
+		arr.resize(Mesh.ARRAY_MAX)
+		arr[Mesh.ARRAY_VERTEX] = v
+		arr[Mesh.ARRAY_NORMAL] = n
+		arr[Mesh.ARRAY_TANGENT] = tg
+		arr[Mesh.ARRAY_TEX_UV] = uv
+		arr[Mesh.ARRAY_INDEX] = ix
+		var m := ArrayMesh.new()
+		m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
 		_mesh_cache[key] = m
 	return _mesh_cache[key]
 
@@ -453,6 +505,7 @@ func _beam(a: Vector3, b: Vector3, w: float, mat: String) -> Array:
 
 ## A round rod (radius `r`) from `a` to `b`.
 func _rod(a: Vector3, b: Vector3, r: float, mat: String, segs: int = 8) -> Array:
+	segs = mini(segs, 6 if r >= 0.06 else 5)   # B4 pass (2026-09-30): rails, poles 6-sided, pegs 5
 	var e: Vector3 = b - a
 	return _itx(_cyl(r, r, snappedf(e.length(), 0.01), segs), Transform3D(_along(e), (a + b) * 0.5), mat)
 
@@ -461,15 +514,18 @@ func _rod(a: Vector3, b: Vector3, r: float, mat: String, segs: int = 8) -> Array
 func _log(it: Array, a: Vector3, b: Vector3, r: float, caps: bool = true) -> void:
 	var e: Vector3 = b - a
 	var bs: Basis = _along(e)
-	it.append(_itx(_cyl(r, r, snappedf(e.length(), 0.01), 10, false), Transform3D(bs, (a + b) * 0.5), "log"))
+	# B4 pass (2026-09-30): 7-sided logs (was 10) and each end ONE outward end-grain disc instead of two capped
+	# 10-sided cylinders (bark ring + end grain): the logs were most of the Lodge's 24k vertices; the bark ring now
+	# reads from the log's own side at the rim.
+	it.append(_itx(_cyl(r, r, snappedf(e.length(), 0.01), 7, false), Transform3D(bs, (a + b) * 0.5), "log"))
 	if not caps:
 		return
 	var d: Vector3 = e.normalized()
-	for end: Array in [[a, -d], [b, d]]:
+	for end: Array in [[a, -d, true], [b, d, false]]:
 		var p: Vector3 = end[0]
 		var o: Vector3 = end[1]
-		it.append(_itx(_cyl(r, r, 0.02, 10), Transform3D(bs, p), "timber"))
-		it.append(_itx(_cyl(r * 0.8, r * 0.8, 0.02, 10), Transform3D(bs, p + o * 0.012), "log_end"))
+		var fb: Basis = bs * Basis(Vector3.RIGHT, PI) if bool(end[2]) else bs   # the face looks outward (along o)
+		it.append(_itx(_ring_face(0.0, r * 0.96, 6), Transform3D(fb, p + o * 0.01), "log_end"))
 
 
 ## Rods through `pts` (in frame `fr`, which may carry a uniform scale), radii per segment, round joints and tip.
@@ -479,11 +535,15 @@ func _chain(it: Array, fr: Transform3D, pts: Array, radii: Array, mat: String) -
 		var r: float = float(radii[mini(i, radii.size() - 1)]) * k
 		var a: Vector3 = fr * (pts[i] as Vector3)
 		var b: Vector3 = fr * (pts[i + 1] as Vector3)
-		it.append(_rod(a, b, snappedf(r, 0.005), mat, 6))
+		# B4 pass (2026-09-30): 5-sided open segments (the joints cover the ends) and 5 x 2 joint balls (were 6-sided
+		# capped rods and 6 x 3 balls: the antler racks and skulls alone were ~5k of the Lodge's vertices).
+		var e: Vector3 = b - a
+		it.append(_itx(_cyl(snappedf(r, 0.005), snappedf(r, 0.005), snappedf(e.length(), 0.01), 5, false),
+			Transform3D(_along(e), (a + b) * 0.5), mat))
 		if i > 0:
-			it.append(_itx(_sphere(snappedf(r, 0.005), 6, 3), Transform3D(Basis.IDENTITY, a), mat))
+			it.append(_itx(_sphere(snappedf(r, 0.005), 5, 2), Transform3D(Basis.IDENTITY, a), mat))
 	var last_r: float = float(radii[mini(pts.size() - 2, radii.size() - 1)]) * k
-	it.append(_itx(_sphere(snappedf(last_r, 0.005), 6, 3), Transform3D(Basis.IDENTITY, fr * (pts[pts.size() - 1] as Vector3)),
+	it.append(_itx(_sphere(snappedf(last_r, 0.005), 5, 2), Transform3D(Basis.IDENTITY, fr * (pts[pts.size() - 1] as Vector3)),
 		mat))
 
 
@@ -1079,13 +1139,15 @@ func _build_ground() -> void:
 	else:
 		_flat("ContactDecal", Vector2(8.4, 8.4), Vector3(-0.1, 0.03, 0.0),
 			_soft_mat("contact", Color(0.05, 0.035, 0.02, 0.62), false, false))
-	_flat("PathDecal", Vector2(1.9, 2.8), Vector3(DOOR_X * 0.5, 0.035, 3.2),
-		_soft_mat("path", Color(0.30, 0.23, 0.14, 0.7), false, false))
+		# B8 pass (2026-09-30): the site ground's own door tongue is the trodden path; this decal only with the fallback.
+		_flat("PathDecal", Vector2(1.9, 2.8), Vector3(DOOR_X * 0.5, 0.035, 3.2),
+			_soft_mat("path", Color(0.30, 0.23, 0.14, 0.7), false, false))
 	var pool: StandardMaterial3D = _soft_mat("pool", Color(1.0, 0.7, 0.32, 0.3), true, false)
 	_pools.append(_flat("LightPoolPorch", Vector2(2.2, 2.2), Vector3(DOOR_X, Y_PLINTH + 0.015, 1.3), pool))
 	_pools.append(_flat("LightPoolGround", Vector2(3.4, 3.4), Vector3(DOOR_X, 0.045, 2.6), pool))
+	# B8 pass: the deck pool shares the porch pools' warm material (was its own orange copy at half strength)
 	_deck_pool = _flat("LightPoolDeck", Vector2(1.7, 1.7), Vector3(FIRE_POS.x + 0.1, DECK_Y + 0.012, FIRE_POS.z - 0.1),
-		_soft_mat("pool_fire", Color(1.0, 0.55, 0.2, 0.16), true, false))
+		pool)
 	# Fieldstones around the footing (one draw call), none on the door path or under the platform.
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 10909
@@ -1099,7 +1161,7 @@ func _build_ground() -> void:
 		xf.append(Transform3D(b.scaled(Vector3(s, s * 0.55, s * 0.8)), Vector3(p.x, s * 0.08, p.y)))
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.mesh = _sphere(0.5, 7, 4)
+	mm.mesh = _sphere(0.5, 6, 3)
 	mm.instance_count = xf.size()
 	for i: int in xf.size():
 		mm.set_instance_transform(i, xf[i])
@@ -1161,7 +1223,7 @@ func _build_fire() -> void:
 	_fire.visibility_aabb = AABB(Vector3(-1, -0.5, -1), Vector3(2, 2.5, 2))
 	_fire.position = FIRE_POS
 	add_child(_fire)
-	_fire_halo = _halo("FireHalo", 2.2,Color(1.0, 0.58, 0.22, 0.6), "halo_fire")
+	_fire_halo = _halo("FireHalo", 2.2,Color(1.0, 0.76, 0.4, 0.55), "halo_amber")   # B8: the lantern's halo material
 	_fire_halo.position = FIRE_POS + Vector3(0, 0.1, 0)
 	add_child(_fire_halo)
 
@@ -1225,6 +1287,8 @@ func _apply_open() -> void:
 	_fire_halo.visible = k > 0.05
 	_fire_halo.transparency = 1.0 - k
 	_smoke.emitting = k > 0.5
+	if _pal:
+		BuildingPalette.refresh(_pal)
 
 
 func _apply_flag() -> void:
@@ -1253,3 +1317,5 @@ func _apply_rim_and_glow() -> void:
 		m.set_shader_parameter(&"boost", boost)
 	_g_lantern.set_shader_parameter(&"boost", boost + 1.2 * flare)
 	_g_fire.set_shader_parameter(&"boost", boost + 1.0 * flare)
+	if _pal:
+		BuildingPalette.refresh(_pal)

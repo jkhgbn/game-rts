@@ -1,0 +1,43 @@
+{
+	"asset": "wayshrine_objective",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R5",
+			"computed": false,
+			"measured": {
+				"points": 1,
+				"points_this_phase": 1,
+				"spots": [
+					{
+						"above": true,
+						"part": "Float/RuneStone",
+						"peak_x_bloom": 3.89,
+						"px": 54
+					}
+				],
+				"value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): RuneStone; soft glows under the bloom (v1 count, luma > 0.4): 1"
+			},
+			"predicted": {
+				"points": 4
+			},
+			"proposal": "Glow points 1 -> 4 (want 4-12): add 3 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 1 -> 4 (want 4-12): add 3 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "4-12 above the bloom level 1.2"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "landmark",
+	"kingdom": "neutral",
+	"quality": 84.9,
+	"result": "WARN",
+	"scene": "res://art/buildings/capture/wayshrine/wayshrine.tscn",
+	"tier": "objective",
+	"version": "1.0"
+}

@@ -128,6 +128,18 @@ Materials: **<= 5 per champion**, in its own folder; shared `art/units/materials
 | Coin-Cutter (1.7 m) | Lean, **hood with a long tail**, two short curved knives, a **bulging loot sack on the hip**, coin belt | Charcoal `(0.16, 0.15, 0.17)`, burgundy `(0.45, 0.12, 0.14)`, brass `(0.70, 0.55, 0.25)` | Coin belt gold `(1.0, 0.85, 0.3)` 1.5, eye bar | `slash2` fast double cut; cast = throws a pouch (smoke) or flips a coin (mark) |
 | Mender (1.7 m) | Round, **wicker backpack stacked with jars**, staff with a hanging censer-kettle, apron | Linen `(0.80, 0.76, 0.62)`, wicker `(0.55, 0.40, 0.20)`, herb green cloth `(0.30, 0.50, 0.30)` | Censer green `(0.5, 1.0, 0.6)` 1.5 (pulse), jars 1.5 | `staff` jab (bolt from the censer); cast = swings the censer in a circle |
 
+**In-game read pass (2026-09-30, `docs/art/ingame_grade/under_90.md` rows 18-21).** At RTS zoom 30 the champions read
+as small brown slabs, so: (1) a hired champion's model is drawn **x1.15** (`Champion.MODEL_SCALE`; the `body_height`
+of `data/champions/*.tres` is the scaled height: Wayfinder 2.07, Oathwall 2.3, Coin-Cutter / Mender 1.96); (2) each
+archetype wears **one bright identity colour** on its biggest top-facing mass, away from the four kingdom colours (the
+team colour stays on the sash / pennant / cape): Wayfinder **saffron coat** `(0.86, 0.60, 0.14)` (was moss),
+Oathwall **heraldic cream door planks** `(0.90, 0.83, 0.64)` (was bare oak), Coin-Cutter **raspberry mantle / loot
+sack** `(0.80, 0.14, 0.36)` (was burgundy), Mender **teal dress** `(0.08, 0.60, 0.58)` (was herb green, lost on the
+meadow); the class weapons (kit, 11.V1) carry the class read; (3) **B8 material merge**: every painted and glow part
+of a champion draws with ONE palette material (`art/units/champions/champion_palette.gd` / `.gdshader`; the Mender's
+own `mender_painted` gained a glow mode), motes share one draw material: 5 materials per champion (Mage Archer 7: her
+three team-cloth materials). Glow energies: lantern 1.9, coin belt 3.2 (the old 1.5 sat under the bloom level).
+
 ## 5. Levels and XP (reuses `levels.md`)
 | Level | 1 | 2 | 3 | 4 | 5 | 6 (max) |
 |---|---|---|---|---|---|---|

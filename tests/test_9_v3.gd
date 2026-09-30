@@ -95,14 +95,16 @@ func _run() -> void:
 		if n is GPUParticles3D:
 			continue
 		var gi := n as GeometryInstance3D
-		if gi.material_override:
-			mats[gi.material_override.resource_path] = true
+		# B8 merge (2026-09-30): the ChampionPalette material stands for its folded sources (unfold)
+		for om: Material in ChampionPalette.unfold([gi.material_override] if gi.material_override else []):
+			mats[om.resource_path] = true
 		if gi is MeshInstance3D and (gi as MeshInstance3D).mesh:
 			var mesh := (gi as MeshInstance3D).mesh
 			for s: int in mesh.get_surface_count():
 				var mat := mesh.surface_get_material(s)
 				if mat:
-					mats[mat.resource_path] = true
+					for um: Material in ChampionPalette.unfold([mat]):
+						mats[um.resource_path] = true
 				verts += (mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX] as PackedVector3Array).size()
 	var own := 0
 	for p: String in mats:

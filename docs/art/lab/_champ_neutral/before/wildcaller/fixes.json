@@ -1,0 +1,231 @@
+{
+	"asset": "wildcaller",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-6370",
+					"material_path": "",
+					"to": "StandardMaterial3D#-96262",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-96262",
+					"material_path": "",
+					"to": "StandardMaterial3D#-90790",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 14
+			},
+			"predicted": {
+				"materials": 12
+			},
+			"proposal": "14 -> 12 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-6370` -> `StandardMaterial3D#-96262` (dE 0.0), `StandardMaterial3D#-96262` -> `StandardMaterial3D#-90790` (dE 0.0); 7 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 14 -> 12 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-6370` -> `StandardMaterial3D#-96262` (dE 0.0), `StandardMaterial3D#-96262` -> `StandardMaterial3D#-90790` (dE 0.0); 7 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": "#85806b",
+					"material": "nature_stone",
+					"material_path": "res://art/units/nature/materials/nature_stone.tres",
+					"node": "Root/Hips/Merged, Root/Chest/Head/Variant, Root/Chest/ArmR/Staff, Root/Chest/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/nature/materials/nature_stone.tres): give wildcaller its own copy first, other assets use it too",
+					"snap": {
+						"close": false,
+						"color": "#756138",
+						"de_to_wanted": 18.3,
+						"from_folder": "res://art/units/nature/materials",
+						"material_path": "res://art/units/nature/materials/nature_sec_bramblehorn_b.tres"
+					},
+					"to": "#85806a",
+					"weight": 0.14
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4"
+			],
+			"gain": [
+				1.9,
+				1.9,
+				1.4
+			],
+			"measured": {
+				"body_lab": [
+					55.9,
+					1.5,
+					28.4
+				],
+				"dE": {
+					"R3 meadow": 29.2,
+					"R4 ash": 43.0,
+					"R4 heath": 9.7,
+					"R4 marsh": 44.2,
+					"R4 old_wood": 31.2,
+					"R4 riverbank": 35.8,
+					"R4 sand": 25.0,
+					"R4 snow": 43.1
+				},
+				"ground_lab": [
+					62.0,
+					-23.2,
+					42.8
+				],
+				"melt_share": 0.02
+			},
+			"predicted": {
+				"R3 meadow": 29.2,
+				"R4 ash": 43.0,
+				"R4 heath": 9.7,
+				"R4 marsh": 44.2,
+				"R4 old_wood": 31.2,
+				"R4 riverbank": 35.8,
+				"R4 sand": 24.9,
+				"R4 snow": 43.1
+			},
+			"proposal": "shader_parameter/base_color of `nature_stone` #85806b -> #85806a (13% of the visible body): predicted dE R3 meadow 29.2 -> 29.2 (want >= 24); other grounds heath 9.7, old_wood 31.2, riverbank 35.8, snow 43.1, ash 43.0, sand 24.9, marsh 44.2; `nature_stone` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_sec_bramblehorn_b.tres` (#756138, dE 18.3 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `nature_stone` #85806b -> #85806a (13% of the visible body): predicted dE R3 meadow 29.2 -> 29.2 (want >= 24); other grounds heath 9.7, old_wood 31.2, riverbank 35.8, snow 43.1, ash 43.0, sand 24.9, marsh 44.2; `nature_stone` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_sec_bramblehorn_b.tres` (#756138, dE 18.3 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy)",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 9415,
+					"node": "Root/Chest/Merged",
+					"to": 4708,
+					"words": "`Merged` 9415 -> 4708 verts"
+				},
+				{
+					"from": 8598,
+					"node": "Root/Chest/ArmR/Staff",
+					"to": 4299,
+					"words": "`Staff` 8598 -> 4299 verts"
+				},
+				{
+					"from": 4226,
+					"node": "Root/Chest/Head/Variant",
+					"to": 2113,
+					"words": "`Variant` 4226 -> 2113 verts"
+				},
+				{
+					"from": 1668,
+					"node": "Root/Hips/Merged",
+					"to": 834,
+					"words": "`Merged` 1668 -> 834 verts"
+				},
+				{
+					"from": 983,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 492,
+					"words": "`Merged` 983 -> 492 verts"
+				},
+				{
+					"from": 287,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 144,
+					"words": "`Merged` 287 -> 144 verts"
+				},
+				{
+					"from": 284,
+					"node": "Root/Chest/Head/Merged",
+					"to": 142,
+					"words": "`Merged` 284 -> 142 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				},
+				{
+					"from": 280,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 140,
+					"words": "`Merged` 280 -> 140 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 26025
+			},
+			"predicted": {
+				"verts": 13016
+			},
+			"proposal": "26025 -> 13016 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4226 -> 2113 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Merged` 287 -> 144 verts; `Merged` 284 -> 142 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 26025 -> 13016 (want <= 3000): `Merged` 9415 -> 4708 verts; `Staff` 8598 -> 4299 verts; `Variant` 4226 -> 2113 verts; `Merged` 1668 -> 834 verts; `Merged` 983 -> 492 verts; `Merged` 287 -> 144 verts; `Merged` 284 -> 142 verts; `Merged` 280 -> 140 verts; `Merged` 280 -> 140 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Staff 0.71 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Staff 0.71 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 5,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 86.8,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/wildcaller/wildcaller.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

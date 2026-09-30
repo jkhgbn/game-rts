@@ -14,7 +14,9 @@ extends CharacterModel
 ## the death (1.0 s, `crumble`) rears up as the core flares, the knees give, the head topples off, the arms fall away
 ## and the body collapses into a burst of rubble and dust while an amber soul rises out of it.
 ## Hooks: those of CharacterModel, unchanged (set_team_color is a no-op: no team colour on the warden).
-## Draw instances: 7 merged pivots + Core, GapLight, MaulRune + blob + motes (+ one-shot emitters while they play).
+## Draw instances: 7 merged pivots + Core + blob + motes = 10 (+ one-shot emitters while they play). B2 pass
+## 2026-09-30: the gap light (static, the kit's glow level) merges into the Chest; the maul rune merges into ArmR and
+## its slam flash drives the merged ArmR node's glow_boost (its only glow surface).
 
 ## Kept for tests / tools that read it (the Shadow army script used the same field).
 @export var unit_kind: StringName = &"warden"
@@ -39,6 +41,7 @@ static var _wfx: Dictionary = {}
 var _core: MeshInstance3D
 var _gap: MeshInstance3D
 var _rune: MeshInstance3D
+var _maul_rune_merged: bool = false   # _build_maul ran: the rune is inside the merged ArmR (subclasses skip it)
 var _maul_tip: Node3D
 var _slam_at: Node3D
 var _ring: MeshInstance3D
@@ -68,13 +71,37 @@ static func _nmat(name: StringName) -> Material:
 
 # ================================================================ parts
 
+## The warden's dark stone (in-game grade 2026-09-30, R4: the olive `warden_stone_dark` averaged to the heath's straw,
+## dE 4): a cool slate copy of it, built once and shared by every warden (the kit palette entry stays as it is for the
+## Shadow units that use it).
+## The floating gap's soft light (a copy of warden_glow at 45 % energy): merged into the Chest since the B2 pass, it
+## read as a 4th glow point beside the core, the eye slit and the maul rune (R5 wants 1-3).
+static func _gap_glow() -> Material:
+	if not _nmats.has(&"_gap"):
+		var m := (palette(&"warden_glow") as ShaderMaterial).duplicate() as ShaderMaterial
+		m.resource_name = "ruin_warden_gap_glow"
+		var e: Variant = m.get_shader_parameter(&"energy")
+		m.set_shader_parameter(&"energy", (float(e) if e != null else 3.0) * 0.45)
+		_nmats[&"_gap"] = m
+	return _nmats[&"_gap"]
+
+
+static func _slate() -> Material:
+	if not _nmats.has(&"_slate"):
+		var m := (palette(&"warden_stone_dark") as ShaderMaterial).duplicate() as ShaderMaterial
+		m.resource_name = "ruin_warden_slate"
+		m.set_shader_parameter(&"base_color", Color(0.24, 0.26, 0.32))
+		_nmats[&"_slate"] = m
+	return _nmats[&"_slate"]
+
+
 func _build_parts() -> void:
 	var hips: Node3D = $Root/Hips
 	var chest: Node3D = $Root/Chest
 	var head: Node3D = $Root/Chest/Head
 	var fx: Node3D = $Fx
 	var stone := _nmat(&"warden_granite")        # light veined stone (warden_stone with finer, calmer veins)
-	var dark := palette(&"warden_stone_dark")
+	var dark := _slate()
 	var moss := palette(&"warden_moss")
 	var glow := palette(&"warden_glow")
 	var bronze := _nmat(&"warden_bronze")
@@ -133,8 +160,7 @@ func _build_parts() -> void:
 	_core = add_part(chest, _octa(), _nmat(&"warden_core_glow"), Vector3(0, 1.36, 0.39), Vector3(90, 0, 0),
 		Vector3(1.0, 1.0, 1.0), true, "Core")
 	_core.set_meta(&"own_glow", true)
-	_gap = add_part(chest, sphere(0.10, 10, 5), glow, Vector3(0, 1.53, 0.16), Vector3.ZERO, Vector3(2.3, 0.45, 2.1),
-		true, "GapLight")
+	_gap = add_part(chest, sphere(0.10, 10, 5), _gap_glow(), Vector3(0, 1.53, 0.16), Vector3.ZERO, Vector3(2.3, 0.45, 2.1))
 
 	# ---- Head: heavy block, overhanging brow, jaw, amber eye slit, bronze circlet with a crest, moss tuft.
 	add_part(head, rough(box(Vector3(0.44, 0.30, 0.40)), 0.035, 23.0), stone, Vector3(0, 1.70, 0.20))
@@ -208,16 +234,16 @@ func _build_maul(arm_r: Node3D, stone: Material, bronze: Material) -> void:
 	var frame := Transform3D(Basis(Vector3.RIGHT, MAUL_TILT * DEG), GRIP)
 	var across := Basis(Vector3.BACK, PI * 0.5)         # cylinder axis Y -> X (the drum lies across the haft)
 	_maul_part(arm_r, frame, cyl(0.075, 0.075, 0.09, 8), bronze, Vector3(0, 0.25, 0), Basis())
-	_maul_part(arm_r, frame, cyl(0.05, 0.06, 0.72, 6), palette(&"warden_stone_dark"), Vector3(0, -0.12, 0), Basis())
+	_maul_part(arm_r, frame, cyl(0.05, 0.06, 0.72, 6), _slate(), Vector3(0, -0.12, 0), Basis())
 	for y: float in [0.12, -0.10]:
 		_maul_part(arm_r, frame, cyl(0.07, 0.07, 0.05, 8), bronze, Vector3(0, y, 0), Basis())
 	_maul_part(arm_r, frame, cyl(0.10, 0.13, 0.10, 8), bronze, Vector3(0, -0.33, 0), Basis())
 	_maul_part(arm_r, frame, fluted(0.21, 0.18, 0.40, 8, 40.0), stone, Vector3(0, -MAUL_HEAD, 0), across)
 	for x: float in [-0.19, 0.19]:
-		_maul_part(arm_r, frame, cyl(0.20, 0.20, 0.04, 8), palette(&"warden_stone_dark"), Vector3(x, -MAUL_HEAD, 0), across)
-	_rune = add_part(arm_r, cyl(0.218, 0.218, 0.06, 8), palette(&"warden_glow"), frame * Vector3(0, -MAUL_HEAD, 0),
-		_deg((frame.basis * across).get_euler()), Vector3.ONE, true, "MaulRune")
-	_rune.set_meta(&"own_glow", true)
+		_maul_part(arm_r, frame, cyl(0.20, 0.20, 0.04, 8), _slate(), Vector3(x, -MAUL_HEAD, 0), across)
+	add_part(arm_r, cyl(0.218, 0.218, 0.06, 8), palette(&"warden_glow"), frame * Vector3(0, -MAUL_HEAD, 0),
+		_deg((frame.basis * across).get_euler()))
+	_maul_rune_merged = true
 	_maul_tip = Node3D.new()
 	_maul_tip.name = "MaulTip"
 	_maul_tip.position = frame * Vector3(0, -MAUL_HEAD, 0) - model_origin(arm_r)
@@ -233,6 +259,12 @@ static func _deg(r: Vector3) -> Vector3:
 
 
 func _after_ready() -> void:
+	# The maul rune is merged into ArmR: this node's glow_boost is the slam flash (the kit leaves it to us).
+	if _maul_rune_merged:
+		_rune = _merged_nodes.get(P_ARM_R)
+	if _rune:
+		_glow_nodes.erase(_rune)
+		_rune.set_meta(&"own_glow", true)
 	var root := get_node_or_null(^"Root")
 	if root:
 		_collect_body(root)

@@ -330,11 +330,13 @@ func _draw_instances(n: Node) -> int:
 	return c
 
 
+## Drawn vertices: hidden parts skipped (the 4 Shin nodes stay hidden as the bone sources of the one skinned
+## "Shins" mesh since the B2 pass, 2026-09-30).
 func _vertices(n: Node) -> int:
 	var c := 0
 	for g: Node in n.find_children("*", "MeshInstance3D", true, false):
 		var mesh := (g as MeshInstance3D).mesh
-		if mesh:
+		if mesh and (g as MeshInstance3D).visible:
 			for s: int in mesh.get_surface_count():
 				c += (mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX] as PackedVector3Array).size()
 	return c

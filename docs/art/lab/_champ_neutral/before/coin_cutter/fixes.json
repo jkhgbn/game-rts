@@ -1,0 +1,88 @@
+{
+	"asset": "coin_cutter",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B8",
+			"computed": false,
+			"measured": {
+				"materials": 8
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "8 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): (no look-alike pair of the same shader) Snap to the closed palette (art-units 2.2); no per-part materials; 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 8 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): (no look-alike pair of the same shader) Snap to the closed palette (art-units 2.2); no per-part materials; 3 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 5"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5",
+			"computed": false,
+			"measured": {
+				"points": 0,
+				"points_this_phase": 1,
+				"spots": [
+					{
+						"above": true,
+						"part": "Shadow",
+						"peak_x_bloom": 5.55,
+						"px": 10
+					}
+				],
+				"value": "0 point(s) above the bloom level 1.2 (median of 1/0/0); soft glows under the bloom (v1 count, luma > 0.4): 3"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 0 -> 1 (want 1-4): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 0 -> 1 (want 1-4): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 682,
+					"node": "Root/Chest/Merged",
+					"to": 517,
+					"words": "`Merged` 682 -> 517 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3157
+			},
+			"predicted": {
+				"verts": 2992
+			},
+			"proposal": "3157 -> 2992 (want <= 3000): `Merged` 682 -> 517 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 3157 -> 2992 (want <= 3000): `Merged` 682 -> 517 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 89.5,
+	"result": "FAIL",
+	"scene": "res://art/units/champions/coin_cutter/coin_cutter.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

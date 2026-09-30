@@ -1,0 +1,152 @@
+{
+	"asset": "watchtower",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 3.315,
+					"material": "watchtower_contact_mat",
+					"material_path": "res://art/buildings/capture/watchtower/watchtower_contact_mat.tres",
+					"node": "Body/ContactDecal",
+					"param": "",
+					"peak_x_bloom": 0.39,
+					"want_x_bloom": 1.3,
+					"why": "raise over the bloom level: brightest soft glow 0.39 x the level",
+					"words": "emission x 3.31 on ContactDecal (raise over the bloom level: brightest soft glow 0.39 x the level; no energy / glow-colour parameter found)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 1,
+				"points_this_phase": 1,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Structure",
+						"peak_x_bloom": 4.14,
+						"px": 61
+					},
+					{
+						"above": false,
+						"part": "Body/Structure",
+						"peak_x_bloom": 0.34,
+						"px": 1477
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.39,
+						"px": 700
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.33,
+						"px": 30
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.32,
+						"px": 24
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.32,
+						"px": 19
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.28,
+						"px": 17
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.27,
+						"px": 14
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.27,
+						"px": 6
+					},
+					{
+						"above": false,
+						"part": "Body/ContactDecal",
+						"peak_x_bloom": 0.24,
+						"px": 2
+					}
+				],
+				"value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): Structure; soft glows under the bloom (v1 count, luma > 0.4): 1"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 1 -> 2 (want 2-4): watchtower_contact_mat emission x 3.31 on ContactDecal (raise over the bloom level: brightest soft glow 0.39 x the level; no energy / glow-colour parameter found)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 1 -> 2 (want 2-4): watchtower_contact_mat emission x 3.31 on ContactDecal (raise over the bloom level: brightest soft glow 0.39 x the level; no energy / glow-colour parameter found)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 6911,
+					"node": "Body/Structure",
+					"to": 5854,
+					"words": "`Structure` 6911 -> 5854 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 7006
+			},
+			"predicted": {
+				"verts": 5949
+			},
+			"proposal": "7006 -> 5949 (want <= 6000): `Structure` 6911 -> 5854 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 7006 -> 5949 (want <= 6000): `Structure` 6911 -> 5854 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 6000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 3,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 86.0,
+	"result": "WARN",
+	"scene": "res://art/buildings/capture/watchtower/watchtower.tscn",
+	"tier": "small",
+	"version": "1.0"
+}

@@ -5,6 +5,9 @@
 // The meshes are baked by mender.gd with  UV.x = palette index  and  UV.y = surface mode  (the kit merge keeps UV):
 //   mode 0 cloth (matte) · 1 wicker weave (object-space rows + stakes) · 2 metal (spec 0.4, patina)
 //   mode 3 hair (vertical strands) · 4 wood (grain) · 5 skin (soft rim, no noise darkening)
+//   mode 6 GLOW (B8 material merge, in-game grade 2026-09-30: was mender_glow.gdshader, its own material): UV.x = glow
+//          colour index (GLOW table), UV.y = 6 +- 0.45 carries the pulse phase; unshaded look (black albedo, emission
+//          = colour x (0.4 + 0.2 rim) + colour x glow_energy x pulse x glow_boost x (0.8 + 0.4 rim), as mender_glow)
 // Palette = sRGB colours of champions.md 4.6 (linen, wicker, herb green) + the neutral extras; index table in mender.gd.
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back;
@@ -16,17 +19,29 @@ uniform vec3 rim_color : source_color = vec3(0.55, 0.65, 0.85);
 uniform float rim_strength = 0.25;
 uniform float weave_scale = 21.0;      // wicker rows per metre (object space)
 uniform float weave_depth = 0.34;      // darkness of the gaps between strands
+uniform float glow_energy = 1.5;       // mode 6 (the old mender_glow energy)
+uniform float glow_pulse_speed = 2.2;  // mode 6 (the old mender_glow pulse_speed)
 
 instance uniform float ao_bottom : instance_index(1) = 0.0;
 instance uniform float ao_height : instance_index(2) = 10.0;
 instance uniform float hit_flash : instance_index(3) = 0.0;
 instance uniform vec3 flash_color : instance_index(4) = vec3(1.0, 1.0, 1.0);
+instance uniform float glow_boost : instance_index(5) = 1.0;
+
+// mode 6 glow colours (the old mender_glow table): 0 censer / draught green (0.5, 1.0, 0.6) (champions.md 4.6) ·
+// 1 honey amber · 2 rose tonic · 3 pale blue salve
+const vec3 GLOW[4] = vec3[4](
+	vec3(0.50, 1.00, 0.60),
+	vec3(1.00, 0.76, 0.34),
+	vec3(1.00, 0.55, 0.62),
+	vec3(0.55, 0.85, 1.00)
+);
 
 // sRGB palette (mender.gd PAL_* constants use the same indices).
 const vec3 PAL[20] = vec3[20](
 	vec3(0.80, 0.76, 0.62),   // 0  linen (apron, blouse, kerchief)
 	vec3(0.55, 0.40, 0.20),   // 1  wicker
-	vec3(0.30, 0.50, 0.30),   // 2  herb green cloth (dress)
+	vec3(0.08, 0.60, 0.58),   // 2  the dress: bright teal (the Mender's class colour, in-game grade 2026-09-30; was herb green 0.30 0.50 0.30, lost on the meadow)
 	vec3(0.90, 0.70, 0.55),   // 3  skin
 	vec3(0.30, 0.19, 0.11),   // 4  leather (boots, straps, pouch)
 	vec3(0.74, 0.44, 0.22),   // 5  copper (the kettle)
@@ -35,7 +50,7 @@ const vec3 PAL[20] = vec3[20](
 	vec3(0.10, 0.08, 0.08),   // 8  eye bar
 	vec3(0.68, 0.54, 0.35),   // 9  cork
 	vec3(0.34, 0.23, 0.11),   // 10 dark wicker (rims, bands, basket inside)
-	vec3(0.17, 0.29, 0.18),   // 11 dark herb (hem, stockings)
+	vec3(0.05, 0.32, 0.33),   // 11 dark teal (hem, stockings)
 	vec3(0.46, 0.66, 0.30),   // 12 fresh herb leaves
 	vec3(0.21, 0.20, 0.21),   // 13 iron (chain, bail)
 	vec3(0.93, 0.58, 0.48),   // 14 blush (nose, cheeks)
@@ -123,6 +138,17 @@ void fragment() {
 	ALBEDO = albedo * tint;
 	EMISSION = emission * tint + flash_color * hit_flash * 2.0;
 	ROUGHNESS = 1.0;
+	if (mode == 6) {
+		// glow (the old mender_glow): unshaded look, colour index in UV.x, pulse phase in UV.y's fraction
+		vec3 gc = srgb_to_linear(GLOW[clamp(pi, 0, 3)]);
+		float ph = (UV.y - 6.0) / 0.9 + 0.5;
+		float pulse = 0.75 + 0.25 * sin(TIME * glow_pulse_speed + ph * 6.3);
+		float grim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 2.0);
+		v_spec = 0.0;
+		ALBEDO = vec3(0.0);
+		EMISSION = gc * (0.4 + 0.2 * grim) + gc * glow_energy * pulse * glow_boost * (0.8 + 0.4 * grim)
+			+ flash_color * hit_flash * 2.0;
+	}
 }
 
 void light() {

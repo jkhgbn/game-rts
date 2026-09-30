@@ -8,6 +8,6 @@ resource_name = "coin_cutter_burgundy"
 render_priority = 0
 shader = ExtResource("1_ccp")
 shader_parameter/noise_tex = ExtResource("2_ccp")
-shader_parameter/base_color = Color(0.45, 0.12, 0.14, 1)
+shader_parameter/base_color = Color(0.8, 0.14, 0.36, 1)
 shader_parameter/spec_strength = 0.05
 shader_parameter/rim_strength = 0.25

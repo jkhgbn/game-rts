@@ -21,6 +21,9 @@ const MOTES_MAT := DIR + "wayshrine_motes_mat.tres"
 const CONTACT_MAT := "res://art/environment/nature_props/nature_contact_mat.tres"
 
 const FLOAT_Y := 1.6
+## In-game grade 2026-09-30: the stones and the floating rune stone are drawn x READ_SCALE (node scale; meshes baked at
+## 1.0); the Float node sits at FLOAT_Y x READ_SCALE (wayshrine.gd FLOAT_Y 1.76). Effects keep their sizes.
+const READ_SCALE := 1.1
 const STONE_TOP := 1.42
 const DAIS_IN := 0.97         # inner tier radius
 const CHANNEL_OUT := 1.25     # dark rune channel between the tiers
@@ -691,7 +694,7 @@ func _pack_scene(m: Dictionary) -> void:
 	var root := Node3D.new()
 	root.name = "Wayshrine"
 	root.set_script(load(SCRIPT_PATH))
-	_mi(root, root, "Stone", m["stone"], true)
+	(_mi(root, root, "Stone", m["stone"], true) as Node3D).scale = Vector3.ONE * READ_SCALE
 	_mi(root, root, "Contact", m["contact"], false)
 	var ring: MeshInstance3D = _mi(root, root, "Ring", m["ring"], false)
 	ring.position = Vector3(0.0, 0.17, 0.0)
@@ -705,7 +708,8 @@ func _pack_scene(m: Dictionary) -> void:
 	motes.visible = false
 	var fl := Node3D.new()
 	fl.name = "Float"
-	fl.position = Vector3(0.0, FLOAT_Y, 0.0)
+	fl.position = Vector3(0.0, FLOAT_Y * READ_SCALE, 0.0)
+	fl.scale = Vector3.ONE * READ_SCALE
 	root.add_child(fl)
 	fl.owner = root
 	_mi(fl, root, "RuneStone", m["rune_stone"], true)

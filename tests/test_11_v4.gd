@@ -261,11 +261,8 @@ func _pivot_has(m: Node3D, pivot: String, mat_part: String) -> bool:
 	var node := m.get_node_or_null(pivot + "/Merged") as MeshInstance3D
 	if node == null or node.mesh == null:
 		return false
-	for s: int in node.mesh.get_surface_count():
-		var mat := node.mesh.surface_get_material(s)
-		if mat and mat.resource_path.get_file().contains(mat_part):
-			return true
-	return false
+	# palette-aware (ChampionPalette B8 merge, 2026-09-30): folded parts are found per vertex by their source material
+	return ChampionPalette.mesh_has(node.mesh, mat_part)
 
 
 func _draw_instances(n: Node) -> int:

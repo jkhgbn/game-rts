@@ -15,6 +15,7 @@
 script = ExtResource("1_j63iy")
 
 [node name="Stone" type="MeshInstance3D" parent="." unique_id=1022470017]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
 gi_mode = 0
 mesh = ExtResource("2_ocwiv")
 
@@ -50,7 +51,7 @@ gi_mode = 0
 mesh = ExtResource("7_bss0b")
 
 [node name="Float" type="Node3D" parent="." unique_id=1637078223]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 1.76, 0)
 
 [node name="RuneStone" type="MeshInstance3D" parent="Float" unique_id=250889389]
 gi_mode = 0

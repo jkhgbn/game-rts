@@ -30,7 +30,8 @@ extends FlyerModel
 ##    wings splayed on the ground, the eyes go dark, then it sinks; death_finished at the end.
 ## Budget (map-fill.md 10 hero: <= 26 meshes, <= 16 draw instances, 0 lights): 12 pivot meshes + the blob = 13 authored
 ## meshes, 14 draw instances with the feather burst (one-shot GPUParticles3D); 6 materials (materials/: A / B x feather,
-## horn, eye) + the kit blob. Shadows: body, neck, head, wings, tail (the big parts); legs / jaw / neck2 off.
+## horn, eye) + the kit blob. Shadows: body, head, the 4 wing parts (6 casters, map-fill.md 10 soft budget; the
+## neck / tail / legs / jaw hide inside the body and wing shadows).
 ## See tests/test_12_v28.gd, previews tools/roc_preview.tscn.
 
 const RM := preload("res://art/units/neutral/beasts/roc/roc_mesh.gd")
@@ -231,7 +232,7 @@ func _build_parts() -> void:
 		wing_axis[side] = (RM.mx(RM.ROOT_TRAIL, sx) - RM.mx(RM.SHOULDER, sx)).normalized()
 		hand_axis[side] = (RM.mx(RM.WRIST_TRAIL, sx) - RM.mx(RM.WRIST, sx)).normalized()
 	_add(P_BODY, RM.body_mesh(), true, "BodyMesh")
-	_add(P_NECK1, RM.neck1_mesh(), true, "Neck1Mesh")
+	_add(P_NECK1, RM.neck1_mesh(), false, "Neck1Mesh")
 	_add(P_NECK2, RM.neck2_mesh(), false, "Neck2Mesh")
 	_head_gi = _add(P_HEAD, RM.head_mesh(), true, "HeadMesh")
 	_roc_face = CreatureFaceRig.attach(self, _piv[P_HEAD], "roc", face_spec())
@@ -240,7 +241,7 @@ func _build_parts() -> void:
 	_add(P_WING_L2, RM.wing_hand_mesh(-1.0), true, "WingL2Mesh")
 	_add(P_WING_R, RM.wing_arm_mesh(1.0), true, "WingRMesh")
 	_add(P_WING_R2, RM.wing_hand_mesh(1.0), true, "WingR2Mesh")
-	_add(P_TAIL1, RM.tail_mesh(), true, "Tail1Mesh")
+	_add(P_TAIL1, RM.tail_mesh(), false, "Tail1Mesh")
 	_add(P_LEG_FL, RM.leg_mesh(-1.0), false, "LegFLMesh")
 	_add(P_LEG_FR, RM.leg_mesh(1.0), false, "LegFRMesh")
 	var beak := Node3D.new()

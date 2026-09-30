@@ -224,6 +224,43 @@ func add_part(pivot: Node3D, mesh: Mesh, mat: Material, model_pos: Vector3, rot_
 	return super.add_part(pivot, mesh, mat, model_pos, rot_deg, scl, keep_separate, part_name)
 
 
+## A glow mesh (UV.x = glow colour, UV.y = pulse phase: the old mender_glow layout) as mode 6 of mender_painted: UV.y
+## = 6 +- 0.45 carries the phase. Cached per key.
+static func _as_glow_paint(key: String, mesh: Mesh) -> Mesh:
+	var ck := "glowpaint_" + key
+	if _meshes.has(ck):
+		return _meshes[ck]
+	var am := ArrayMesh.new()
+	for s: int in mesh.get_surface_count():
+		var arr := mesh.surface_get_arrays(s)
+		var uv: PackedVector2Array = arr[Mesh.ARRAY_TEX_UV]
+		for i: int in uv.size():
+			uv[i] = Vector2(uv[i].x, 6.0 + (fposmod(uv[i].y / 3.0, 1.0) - 0.5) * 0.9)
+		arr[Mesh.ARRAY_TEX_UV] = uv
+		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+		am.surface_set_material(s, _mat(&"mender_painted"))
+	_meshes[ck] = am
+	return am
+
+
+## A team-cloth mesh (sash, trim) for the pennant's banner material: every UV = (0, v) so it draws flat cloth_color
+## (no stripe / glyph, a still edge: banner.gdshader waves by UV.y). Cached per key.
+static func _as_team_cloth(key: String, mesh: Mesh, v: float) -> Mesh:
+	var ck := "teamcloth_" + key
+	if _meshes.has(ck):
+		return _meshes[ck]
+	var am := ArrayMesh.new()
+	for s: int in mesh.get_surface_count():
+		var arr := mesh.surface_get_arrays(s)
+		var uv: PackedVector2Array = arr[Mesh.ARRAY_TEX_UV]
+		for i: int in uv.size():
+			uv[i] = Vector2(0.0, v)
+		arr[Mesh.ARRAY_TEX_UV] = uv
+		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+	_meshes[ck] = am
+	return am
+
+
 static func _mat(name: StringName) -> Material:
 	var key := "mat_" + String(name)
 	if not _meshes.has(key):
@@ -242,9 +279,10 @@ func _build_parts() -> void:
 	var arm_l: Node3D = $Root/Chest/ArmL
 	var arm_r: Node3D = $Root/Chest/ArmR
 	var paint := _mat(&"mender_painted")
-	var cloth := _mat(&"mender_cloth")
-	var cloth_dark := _mat(&"mender_cloth_dark")
-	var glow := _mat(&"mender_glow")
+	# B8 material merge (in-game grade 2026-09-30): the glows are mode 6 of mender_painted (_as_glow_paint) and the team
+	# sash + trim draw with the pennant's banner material as flat team cloth (_as_team_cloth): painted + pennon + face +
+	# motes + blob = 5 materials (was 9: mender_glow, mender_cloth, mender_cloth_dark, 2 mote materials).
+	var team := _mat(&"mender_pennon")
 
 	# Hips: herb-green skirt with a dark rolled hem and soft folds, the linen apron skirt (pocket + pestle), a pouch.
 	add_part(hips, _m("skirt", _geo_skirt), paint, Vector3.ZERO)
@@ -256,14 +294,15 @@ func _build_parts() -> void:
 	# Chest: round bodice + blouse, apron bib, team sash, the wicker backpack with its load, the pennant.
 	add_part(chest, _m("torso", _geo_torso), paint, Vector3.ZERO)
 	add_part(chest, _m("bib", _geo_bib), paint, Vector3.ZERO)
-	add_part(chest, _m("sash", _geo_sash), cloth, Vector3.ZERO)
-	add_part(chest, _m("sash_trim", _geo_sash_trim), cloth_dark, Vector3.ZERO)
+	add_part(chest, _as_team_cloth("sash", _m("sash", _geo_sash), 0.12), team, Vector3.ZERO)
+	add_part(chest, _as_team_cloth("sash_trim", _m("sash_trim", _geo_sash_trim), 0.0), team, Vector3.ZERO)
 	add_part(chest, _m("basket", _geo_basket), paint, Vector3.ZERO)
 	add_part(chest, _m("jar_caps", _geo_jar_caps), paint, Vector3.ZERO)
 	add_part(chest, _m("pack_load", _geo_pack_load), paint, Vector3.ZERO)
 	add_part(chest, _m("pole", _geo_pole), paint, Vector3.ZERO)
 	add_part(chest, cape(0.24, 0.38), _mat(&"mender_pennon"), Vector3(0.405, 2.13, -0.60), Vector3(0, 0, 90))
-	_jars = add_part(chest, _m("jars", _geo_jars), glow, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Jars")
+	_jars = add_part(chest, _as_glow_paint("jars", _m("jars", _geo_jars)), paint, Vector3.ZERO, Vector3.ZERO, Vector3.ONE,
+		true, "Jars")
 
 	# Head: round face (nose, cheeks), hair under a linen kerchief, the variant piece; eyes / brows / lips = FaceKit.
 	add_part(head, _m("face", _geo_face), paint, Vector3.ZERO)
@@ -305,8 +344,8 @@ func _build_parts() -> void:
 	_authored += 1
 	_core = MeshInstance3D.new()
 	_core.name = "Core"
-	_core.mesh = _m("core", _geo_core)
-	_core.material_override = glow
+	_core.mesh = _as_glow_paint("core", _m("core", _geo_core))
+	_core.material_override = paint
 	_core.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_core.set_meta(&"keep_separate", true)
 	_core.set_meta(&"own_glow", true)
@@ -315,12 +354,14 @@ func _build_parts() -> void:
 	# Steam from the spout (looping, the kit stops it beyond 45 m).
 	_steam = make_motes(GLOW_GREEN, 6, 1.5, 0.025, 0.32, 0.08)
 	_steam.name = "Steam"
+	ChampionPalette.share_motes("mender", _steam)
 	_steam.position = SPOUT
 	_censer.add_child(_steam)
 	# One pre-built one-shot emitter for every burst: green puff at the kettle (attack / casts / level-up) and a
 	# spill of herb leaves from the pack on death (mode swapped, same amount so nothing is reallocated).
 	_burst = make_motes(GLOW_GREEN, 12, 0.7, 0.12, 1.3, 0.13, false, true)
 	_burst.name = "Burst"
+	ChampionPalette.share_motes("mender", _burst)
 	_burst.visibility_aabb = AABB(Vector3(-2.5, -2.5, -2.5), Vector3(5, 5, 5))
 	$Fx.add_child(_burst)
 	_cache_burst_modes()
@@ -378,6 +419,7 @@ func _weapon_grip(piece: StringName) -> Transform3D:
 
 
 func _on_weapon_class(class_id: StringName) -> void:
+	ChampionPalette.claim_crystal_glow(self, class_id)   # the staff crystal glow (mender_painted has a glow mode now)
 	# The censer (hidden with the staff for a class) restarts from rest when it comes back; its steam stops while hidden.
 	_staff_rot = Vector3.ZERO
 	_staff_written = Vector3(99, 99, 99)
@@ -1195,8 +1237,10 @@ func _jar_mesh() -> Mesh:
 	pt.lathe(_p([0.0, 0.122, 0.034, 0.122, 0.036, 0.172, 0.0, 0.176]), big, 6, CORK)
 	pt.lathe(_p([0.079, -0.03, 0.083, -0.02, 0.083, 0.02, 0.079, 0.03]), big, 4, LINEN, M_CLOTH, -1.0, 1.3)
 	var am := ArrayMesh.new()
-	for pair: Array in [[gl, _mat(&"mender_glow")], [pt, _mat(&"mender_painted")]]:
+	for pair: Array in [[gl, _mat(&"mender_painted")], [pt, _mat(&"mender_painted")]]:
 		var one: ArrayMesh = (pair[0] as Geo).commit()
+		if pair[0] == gl:
+			one = _as_glow_paint("thrown_jar_glow", one) as ArrayMesh
 		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, one.surface_get_arrays(0))
 		am.surface_set_material(am.get_surface_count() - 1, pair[1])
 	_meshes["thrown_jar"] = am
