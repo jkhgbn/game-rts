@@ -1,7 +1,7 @@
 extends SceneTree
 ## Task 8.S1 (docs/design/kingdom-nature.md section 4 + 1): the 4 Nature BuildingTypes with the spec
-## numbers and build menu (Z X C), a Nature team's pop cap reaches 50 (Fire stays 40) and a 4th Seed
-## Hollow is refused, a damaged Grove Hall regains 1 % / s only after 10 s without damage, friendly
+## numbers and build menu (Z X C), a Nature team's pop cap reaches 200 with 9 Seed Hollows (pop-200 rule,
+## economy.md 2026-09-27: every kingdom 200) and a 10th is refused, a damaged Grove Hall regains 1 % / s only after 10 s without damage, friendly
 ## non-worker units within 8 m of a Bramble Spire get +2 hp_regen (`aura:bramble`), and a frozen worker
 ## pauses its mining timer and the site it builds (rooted workers keep working).
 ## Run:  godot --headless --path . -s tests/test_8_s1.gd --fixed-fps 60 --quit-after 3000
@@ -84,7 +84,7 @@ func _check_types() -> void:
 	var spec := {
 		&"nature_keep": [0, 0.0, 2250.0, Vector2i(3, 3), 6.0, 20, 0, "", &"keep"],
 		&"nature_barracks": [130, 38.0, 1170.0, Vector2i(3, 3), 4.0, 0, 0, "X", &"barracks"],
-		&"nature_hollow": [60, 20.0, 450.0, Vector2i(2, 2), 3.0, 10, 3, "Z", &"house"],
+		&"nature_hollow": [60, 20.0, 450.0, Vector2i(2, 2), 3.0, 20, 9, "Z", &"house"],   # pop-200 rule
 		&"nature_tower": [100, 30.0, 675.0, Vector2i(1, 1), 5.0, 0, 4, "C", &"tower"],
 	}
 	for id: StringName in spec:
@@ -131,15 +131,21 @@ func _check_types() -> void:
 		_errors.append("Grove Hall trains %s" % str(hall_ids))
 
 
-# ---------------------------------------------------------------- pop cap 50, 3 hollows
+# ---------------------------------------------------------------- pop cap 200, 9 hollows
+# Pop-200 rule (docs/design/economy.md, 2026-09-27; was Nature 50 / others 40 with 3 / 2 houses): every kingdom's
+# hard cap is 200 = keep +20 + 9 houses x +20. The Nature-only cap is gone, but the per-kingdom machinery
+# (KINGDOM_POP_CAPS, set_kingdom when the Heartwood completes, the clamp) is still checked here.
+
+const HOUSES := 9
+const HARD_CAP := 200
 
 func _check_pop_cap() -> void:
 	var grid: BuildGrid = main.build_grid
 	var eco := Economy.for_team(Unit.Team.ENEMY)
 	var fire_eco := Economy.for_team(Unit.Team.PLAYER)
-	if Economy.pop_cap_limit_for(&"nature") != 50 or Economy.pop_cap_limit_for(&"fire") != 40:
-		_errors.append("pop_cap_limit_for nature / fire = %d / %d" % [Economy.pop_cap_limit_for(&"nature"),
-				Economy.pop_cap_limit_for(&"fire")])
+	for k: StringName in [&"fire", &"shadow", &"ice", &"nature"]:
+		if Economy.pop_cap_limit_for(k) != HARD_CAP:
+			_errors.append("pop_cap_limit_for %s = %d, want %d" % [k, Economy.pop_cap_limit_for(k), HARD_CAP])
 	var hollow := BuildingType.find("nature_hollow")
 	var keep_t := BuildingType.find("nature_keep")
 	# Keeps are never "buildable": look for a spot with the Grove Hall (same 3 x 3 footprint).
@@ -148,30 +154,42 @@ func _check_pop_cap() -> void:
 		_errors.append("no spot for the Heartwood")
 		return
 	grid.spawn_complete(keep_t, kp, Unit.Team.ENEMY)
-	if eco.kingdom != &"nature" or eco.max_pop_cap != 50 or eco.pop_cap != 20:
+	if eco.kingdom != &"nature" or eco.max_pop_cap != HARD_CAP or eco.pop_cap != 20:
 		_errors.append("after the Heartwood: kingdom %s, max %d, cap %d" % [eco.kingdom, eco.max_pop_cap, eco.pop_cap])
-	# The 4th hollow's spot, found while hollows are still allowed (find_spot skips refused spots).
-	var p4 := grid.find_spot(hollow, NATURE_BASE + Vector3(0.0, 0.0, -16.0), Unit.Team.ENEMY)
-	for i in 3:
-		var p := grid.find_spot(hollow, NATURE_BASE + Vector3(-8.0, 0.0, -6.0 + i * 5.0), Unit.Team.ENEMY)
+	var extra_spot := Vector3.INF
+	for i in HOUSES:
+		if i == HOUSES - 1:
+			# The 10th hollow's spot, found while hollows are still allowed (find_spot skips refused spots).
+			extra_spot = grid.find_spot(hollow, NATURE_BASE + Vector3(0.0, 0.0, -18.0), Unit.Team.ENEMY)
+		var p := grid.find_spot(hollow, NATURE_BASE + Vector3(-12.0 + (i % 3) * 5.0, 0.0, -6.0 + floorf(i / 3.0) * 5.0),
+				Unit.Team.ENEMY)
 		if p == Vector3.INF or grid.check(hollow, p, Unit.Team.ENEMY) != "":
 			_errors.append("hollow %d refused: %s" % [i + 1, grid.check(hollow, p, Unit.Team.ENEMY)])
 			return
+		if extra_spot != Vector3.INF and absf(p.x - extra_spot.x) < 2.0 and absf(p.z - extra_spot.z) < 2.0:
+			_errors.append("test setup: hollow %d took the 10th hollow's spot" % (i + 1))
+			return
 		grid.spawn_complete(hollow, p, Unit.Team.ENEMY)
-	if eco.pop_cap != 50:
-		_errors.append("Heartwood + 3 hollows: pop cap %d, not 50" % eco.pop_cap)
-	var r4 := grid.check(hollow, p4, Unit.Team.ENEMY)
-	if r4 != BuildGrid.MSG_LIMIT:
-		_errors.append("4th hollow: '%s'" % r4)
-	# Even a 4th pop source (bypassing the rules) can't lift the cap above 50.
-	var extra := grid.spawn_complete(hollow, p4, Unit.Team.ENEMY)
-	if eco.pop_cap != 50:
-		_errors.append("pop cap above the Nature cap: %d" % eco.pop_cap)
+		if eco.pop_cap != 20 + 20 * (i + 1):
+			_errors.append("Heartwood + %d hollows: pop cap %d, not %d" % [i + 1, eco.pop_cap, 20 + 20 * (i + 1)])
+			return
+	if eco.pop_cap != HARD_CAP:
+		_errors.append("Heartwood + %d hollows: pop cap %d, not %d" % [HOUSES, eco.pop_cap, HARD_CAP])
+	if extra_spot == Vector3.INF:
+		_errors.append("no spot for a 10th hollow")
+		return
+	var r10 := grid.check(hollow, extra_spot, Unit.Team.ENEMY)
+	if r10 != BuildGrid.MSG_LIMIT:
+		_errors.append("10th hollow: '%s'" % r10)
+	# Even a 10th pop source (bypassing the rules) can't lift the cap above the hard cap.
+	var extra := grid.spawn_complete(hollow, extra_spot, Unit.Team.ENEMY)
+	if eco.pop_cap != HARD_CAP:
+		_errors.append("pop cap above the hard cap: %d" % eco.pop_cap)
 	extra.take_damage(1.0e7, null)
-	if eco.pop_cap != 50:
+	if eco.pop_cap != HARD_CAP:
 		_errors.append("pop cap after losing the extra hollow: %d" % eco.pop_cap)
-	if fire_eco.max_pop_cap != 40 or fire_eco.pop_cap > 40:
-		_errors.append("Fire cap changed: max %d, cap %d" % [fire_eco.max_pop_cap, fire_eco.pop_cap])
+	if fire_eco.max_pop_cap != HARD_CAP or fire_eco.pop_cap > HARD_CAP:
+		_errors.append("Fire cap: max %d, cap %d" % [fire_eco.max_pop_cap, fire_eco.pop_cap])
 
 
 # ---------------------------------------------------------------- Grove Hall regen

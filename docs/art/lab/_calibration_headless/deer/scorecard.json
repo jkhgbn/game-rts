@@ -248,7 +248,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.01 s",
+			"value": "after 0.0 s",
 			"weight": 1.0
 		},
 		{
@@ -422,6 +422,6 @@
 	"scene": "res://art/units/neutral/critters/deer.tscn",
 	"seconds": 0.1,
 	"shots": {},
-	"started": "2026-09-30 10:13:53",
+	"started": "2026-09-30 16:14:37",
 	"tier": "deer"
 }

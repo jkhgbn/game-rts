@@ -1612,15 +1612,20 @@ func _rule_train() -> void:
 		_log("HELPER CALL (crystals left %d)" % _eco.crystals)
 	if helper_step != &"":
 		return
-	if UnitUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # tiers.md 5: "+" upgrades
+	# 9.C9 (champions.md 10): a due champion hire that waits only for crystals comes before the optional spenders
+	# ("+" / bowman upgrades, Stables riders and rank-3); training below still keeps its reserve through _can_spend
+	# (20 s rule). The tier timeline, the helper call and the Stables' own construction stay first, like a waiting
+	# build.
+	var hire_first := champion_ai != null and champion_ai.hire_waits_for_crystals(_level)
+	if not hire_first and UnitUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # tiers.md 5: "+" upgrades
 		_log("PLUS UPGRADE (crystals left %d)" % _eco.crystals)
 		return
-	if BowmanKit.BOWMEN_ENABLED and BowmanUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # bowmen.md 6
+	if not hire_first and BowmanKit.BOWMEN_ENABLED and BowmanUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # bowmen.md 6
 		_log("BOWMAN UPGRADE (crystals left %d)" % _eco.crystals)
 		return
 	# docs/design/stables.md 6: build the Stables, keep 2 riders queued there, rank-3 at the Citadel (switch Stables16).
-	if Stables16.ENABLED and Stables16.bot_step(int(team), _faction, _eco, _now, _level.build_grid, _workers, _keep,
-			_rally, int(difficulty)):
+	if Stables16.ENABLED and Stables16.bot_step(int(team), _faction, _eco, _now, _level.build_grid,
+			_workers, _keep, _rally, int(difficulty), hire_first):
 		_log("STABLES step (crystals left %d)" % _eco.crystals)
 		return
 	var best: TrainingBuilding = null

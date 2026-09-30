@@ -543,6 +543,17 @@ func _looter_stage() -> bool:
 				_notes.append("normal: no living Coin-Cutter for the looter check")
 				return true
 			return false
+		# The rule takes a looter only where the danger (the Magpie's own 80 included) is within the Coin-Cutter's
+		# courage x power x HP (ChampionBrain._choose_raid): spawn it once the champion stands somewhere that safe.
+		# (A CI run spawned it next to a champion near enemy strength: danger 300 vs 261, correctly refused.)
+		var cb: Variant = cc.get(&"brain")
+		if cb != null and _since() <= 60.0:
+			var spot := cc.global_position + Vector3(4.0, 0.0, 4.0)
+			var danger := float((cb.get(&"sense") as Object).call(&"danger_at", spot, ChampionSense.DANGER_RADIUS,
+					cb.call(&"_wizard_mult"))) + 80.0
+			var cp := float(cb.call(&"_trait", "courage", 1.0)) * float(cb.call(&"_power")) * float(cb.call(&"_hp_ratio"))
+			if danger > cp:
+				return false
 		_clear_flags()
 		_s["lt_m"] = _spawn_magpie(cc.global_position + Vector3(4.0, 0.0, 4.0), 30)
 		_s["lt_at"] = _t
@@ -665,6 +676,8 @@ func _raid_stage(check_b7: bool) -> bool:
 		_net().record_workers_raided(ENEMY, node)
 		print("[%s] raid recorded on the natural node at %s" % [part, _clock(_t)])
 		return false
+	if check_b7 and not _s.has("b7") and not _s.has("b7_diag") and _t - float(_s["raid_at"]) >= 5.0:
+		_s["b7_diag"] = _b7_state()
 	if check_b7 and not _s.has("b7") and _has_flag("B7", float(_s["raid_at"])):
 		_s["b7"] = _t
 		print("[%s] B7 Guard on the forward hall %.1f s after the raid" % [part, _t - float(_s["raid_at"])])
@@ -678,8 +691,26 @@ func _raid_stage(check_b7: bool) -> bool:
 			_errors.append("%s: no Spire at S3 150 s after a raid" % part)
 		if check_b7 and not _s.has("b7"):
 			_errors.append("%s: no B7 Guard flag after a raid" % part)
+			# What the bot saw 5 s after the raid (intermittent, 2026-09-30: 1 run in 3), for the next person chasing it.
+			print("  B7 state 5 s after the raid: %s" % str(_s.get("b7_diag", "-")))
 		return true
 	return false
+
+
+## The B7 inputs as the bot sees them now (printed when B7 never came).
+func _b7_state() -> String:
+	var ta: AITrade = bot.get(&"trade_ai")
+	var ca: AIChampions = bot.get(&"champion_ai")
+	var halls: Array[String] = []
+	for b in Building.for_team(ENEMY):
+		if b.building_type and b.building_type.kind == &"barracks":
+			halls.append("%s %s built %s" % [b.name, b.global_position, b.is_constructed()])
+	var bank := EssenceBank.for_team(ENEMY)
+	return "raids %d, raided_hall %s, board %d flags, living champion %s, essence %d, natural node %s, halls %s, last flags %s" % [
+			ta.raids.size() if ta else -1, str(ta.raided_hall(AIChampions.RAID_WINDOW, Building.for_team(ENEMY))) if ta else "-",
+			(_board().get(&"bounties") as Array).size(), str(_living_champion()), bank.essence if bank else -1,
+			str((main.call(&"natural_node", ENEMY) as Node3D).global_position), str(halls),
+			str(ca.flags.slice(maxi(0, ca.flags.size() - 3)) if ca else [])]
 
 
 ## B7 needs an own completed barracks within AITrade.HALL_RADIUS of the raided node. Since 20.A3 the hard bot

@@ -1014,6 +1014,8 @@ static func verts_fix(ctx: ArtLabRunner, c: Dictionary) -> Dictionary:
 	if cen.is_empty() or lim.is_empty():
 		return {}
 	var now := int(cen[key])
+	if key == "verts":   # the face allowance (lab_budgets.gd FACE_VERTS), as B4 counts it
+		now -= mini(int(cen.get("face_verts", 0)), int(ctx.rep.budget_row.get("face_verts", 0)))
 	var over := now - int(lim["limit"])
 	if over <= 0:
 		return {}
@@ -1023,6 +1025,8 @@ static func verts_fix(ctx: ArtLabRunner, c: Dictionary) -> Dictionary:
 	for me: Dictionary in cen["mesh_list"]:
 		if float(cut) >= target:
 			break
+		if String(me["name"]).get_file() == "Face":
+			continue   # the face kit's mesh: generated per expression, thin the body instead
 		var v := int(me[key])
 		var take := mini(v / 2, int(ceil(target)) - cut)
 		if take < 20:

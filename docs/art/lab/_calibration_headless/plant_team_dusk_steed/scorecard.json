@@ -213,14 +213,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.832684609094391,
+			"graded": 0.83300515069168,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.832684609094391,
+			"score": 0.83300515069168,
 			"shot": "close",
 			"status": "INFO",
 			"value": "161 shapes over 7 body parts (23.0 per part: Head 63, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88",
@@ -425,8 +425,8 @@
 	"quality": 97.1,
 	"result": "PASS",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn",
-	"seconds": 0.2,
+	"seconds": 0.1,
 	"shots": {},
-	"started": "2026-09-30 10:13:56",
+	"started": "2026-09-30 16:14:38",
 	"tier": "mount"
 }

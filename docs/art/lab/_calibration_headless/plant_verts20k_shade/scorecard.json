@@ -259,14 +259,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.578273685666482,
+			"graded": 0.578466071651997,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.578273685666482,
+			"score": 0.578466071651997,
 			"shot": "close",
 			"status": "INFO",
 			"value": "44 shapes over 7 body parts (6.3 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 7); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
@@ -399,17 +399,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.784811854362488,
+			"graded": 0.773043215274811,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.935443556308746,
+			"score": 0.931912964582443,
 			"shot": "",
 			"status": "PASS",
-			"value": "head top 1.77 m / body_height 1.6 (x1.11)",
+			"value": "head top 1.78 m / body_height 1.6 (x1.11)",
 			"weight": 1.0
 		},
 		{
@@ -459,7 +459,7 @@
 			"title": "Vertices"
 		},
 		{
-			"rank": 0.843452628667037,
+			"rank": 0.843067856696007,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
@@ -486,8 +486,8 @@
 	"quality": 91.7,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
-	"seconds": 0.5,
+	"seconds": 0.4,
 	"shots": {},
-	"started": "2026-09-30 10:13:55",
+	"started": "2026-09-30 16:14:38",
 	"tier": "soldier"
 }

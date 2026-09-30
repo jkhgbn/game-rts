@@ -80,6 +80,7 @@ static var force_enabled := false
 static var _stubs: Dictionary = {}       # unit id -> stub UnitType (rank-up button)
 static var _bot_next: Dictionary = {}    # team -> next bot check (match s)
 static var _bot_saving: Dictionary = {}  # team -> match s the bot started saving for its Stables
+static var _bot_train_saving: Dictionary = {}   # team -> match s the bot started saving for its next Stables rider
 
 var team := 0
 var researched: Array[StringName] = []   ## Unit ids ranked up (read only).
@@ -345,17 +346,19 @@ func _complete(id: StringName) -> void:
 ## Commander._rule_train calls it (stables.md 6). Builds the Stables from BOT_BUILD_AT, then keeps BOT_QUEUE units queued
 ## in the BOT_MIX, then (Citadel) the rank-3 of the Stables unit it has most of. `workers`: the bot's workers;
 ## `rally`: its army rally point. True when it spent crystals this tick (the Commander then skips its Hall this tick).
+## `build_only`: only the Stables' own construction (a build, which comes before a due champion hire, champions.md
+## 10); no rider, no rank-3 (the Commander passes it while a champion hire waits for crystals).
 static func bot_step(for_team_id: int, faction: StringName, eco: Economy, now: float, grid: BuildGrid, workers: Array,
-		keep: Node3D, rally: Vector3, difficulty: int) -> bool:
+		keep: Node3D, rally: Vector3, difficulty: int, build_only: bool = false) -> bool:
 	if not ENABLED or not enabled_here() or eco == null or grid == null:
 		return false
 	var next := float(_bot_next.get(for_team_id, 0.0))
 	if next - now > BOT_TRAIN_EVERY * 2.0:   # a new match in the same process
 		next = 0.0
-	if now < next:   # between checks: keep saving if the last check started a save
-		var since := float(_bot_saving.get(for_team_id, -1.0))
-		return since >= 0.0 and since <= now and now - since <= BOT_SAVE
-	_bot_next[for_team_id] = now + (2.0 if _bot_saving.has(for_team_id) else BOT_TRAIN_EVERY)
+	if now < next:   # between checks: keep saving if the last check started a save (build or rider)
+		return _saving_now(_bot_saving, for_team_id, now) or _saving_now(_bot_train_saving, for_team_id, now)
+	var saving := _bot_saving.has(for_team_id) or _bot_train_saving.has(for_team_id)
+	_bot_next[for_team_id] = now + (2.0 if saving else BOT_TRAIN_EVERY)
 	var type := stables_type(faction)
 	if type == null:
 		return false
@@ -368,11 +371,20 @@ static func bot_step(for_team_id: int, faction: StringName, eco: Economy, now: f
 	_bot_saving.erase(for_team_id)
 	if not st.is_constructed():
 		return false
+	if build_only:
+		_bot_train_saving.erase(for_team_id)
+		return false
 	if rally != Vector3.INF and Vector2(st.rally_point().x - rally.x, st.rally_point().z - rally.z).length() > 1.0:
 		st.set_rally_point(rally)
 	if _bot_rank(for_team_id, st, eco):
 		return true
-	return _bot_train(for_team_id, st, eco)
+	return _bot_train(for_team_id, st, eco, now)
+
+
+## True while `table` (team -> save start) holds a save of this team that is still inside its BOT_SAVE window.
+static func _saving_now(table: Dictionary, for_team_id: int, now: float) -> bool:
+	var since := float(table.get(for_team_id, -1.0))
+	return since >= 0.0 and since <= now and now - since <= BOT_SAVE
 
 
 static func _bot_build(for_team_id: int, type: BuildingType, eco: Economy, now: float, grid: BuildGrid, workers: Array,
@@ -412,8 +424,14 @@ static func _bot_build(for_team_id: int, type: BuildingType, eco: Economy, now: 
 	return grid.place(type, spot, for_team_id, [best]) != null
 
 
-static func _bot_train(for_team_id: int, st: StablesBuilding, eco: Economy) -> bool:
+## Keeps BOT_QUEUE riders queued in the BOT_MIX. Short of crystals for the rider it wants, it SAVES like the build
+## (true = the Hall trains nothing) for up to BOT_SAVE s; after that the bare price is enough (the 100 kept are waived)
+## while it plays on for BOT_SAVE_PAUSE s, then it saves again: without it
+## the Halls, which train every think tick, spent every crystal before this 8 s check saw cost + BOT_RESERVE, and a
+## hard bot with its Stables up had no rider by 9:00 (test_stables, 2026-09-30).
+static func _bot_train(for_team_id: int, st: StablesBuilding, eco: Economy, now: float) -> bool:
 	if st.queue.size() >= BOT_QUEUE:
+		_bot_train_saving.erase(for_team_id)
 		return false
 	var types := roster_types(st.building_type.faction)
 	var pops: Array[int] = [0, 0, 0, 0]
@@ -434,14 +452,31 @@ static func _bot_train(for_team_id: int, st: StablesBuilding, eco: Economy) -> b
 	var best := -1
 	var best_gap := -INF
 	for i in types.size():
-		if st.can_queue(types[i]) != "" or eco.crystals < types[i].cost + BOT_RESERVE:
-			continue
+		var reason := st.can_queue(types[i])
+		if reason != "" and reason != TrainingBuilding.REASON_NO_CRYSTALS:
+			continue   # tier gate, pop cap, queue full...: not a rider to save for
 		var gap := BOT_MIX[i] - float(pops[i]) / float(maxi(total, 1))
 		if gap > best_gap:
 			best_gap = gap
 			best = i
 	if best < 0:
+		_bot_train_saving.erase(for_team_id)
 		return false
+	if eco.crystals < types[best].cost + BOT_RESERVE:
+		var since := float(_bot_train_saving.get(for_team_id, -1.0))
+		if since < 0.0 or since > now:
+			since = now
+			_bot_train_saving[for_team_id] = now
+		if now - since > BOT_SAVE:
+			# After the save: the bare price is enough (the 100 kept are waived), else play on and retry.
+			if eco.crystals >= types[best].cost:
+				_bot_train_saving.erase(for_team_id)
+				return st.queue_unit(types[best]) == ""
+			if now - since > BOT_SAVE + BOT_SAVE_PAUSE:
+				_bot_train_saving[for_team_id] = now
+			return false
+		return true
+	_bot_train_saving.erase(for_team_id)
 	return st.queue_unit(types[best]) == ""
 
 

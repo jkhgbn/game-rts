@@ -206,6 +206,7 @@ var _fast_left := 0.0
 var _plan_left := 0.0
 var _replan := true
 var _seen_bounty_version := -1
+var _seen_looter_version := 0    ## 10.A3: ChampionSense.looter_version at this brain's last plan (Coin-Cutter only).
 var _was_dead := false
 var _rng := RandomNumberGenerator.new()
 # kinds of the Bounty script (resolved once)
@@ -510,11 +511,14 @@ func _tick() -> void:
 	if unpaid and current_flag != null:
 		_drop_flag()
 		_replan = true
-	# R6-R9
-	if _replan or _plan_left <= 0.0 or sense.bounty_version != _seen_bounty_version or _arrived():
+	# R6-R9 (10.A3: a Coin-Cutter re-plans at once when a looting Magpie comes into view, its Raid default's first
+	# choice; at the 2 s plan tick it could already have walked out of sight of it)
+	var new_looter := archetype == COIN_CUTTER and sense.looter_version != _seen_looter_version
+	if _replan or _plan_left <= 0.0 or sense.bounty_version != _seen_bounty_version or new_looter or _arrived():
 		_replan = false
 		_plan_left = PLAN_TICK
 		_seen_bounty_version = sense.bounty_version
+		_seen_looter_version = sense.looter_version
 		_choose_plan(unpaid)
 	_execute_plan()
 

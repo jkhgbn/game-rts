@@ -7,7 +7,7 @@ extends SceneTree
 ##   living and a newly trained rider get +25 % HP / rank meta / the model's rank crest; not a drop-off.
 ## Part dance: every Stables model (16) and the mounts dance: play_clip(victory / surrender / random) on the unit's
 ##   model, the rider (arms) AND the mount (legs / head) move, stop_clip stops.
-## Part bot: a hard Fire bot (attacks off) builds its Stables and trains at least one rider by 9:00.
+## Part bot: a hard Fire bot (attacks off) builds its Stables and trains at least one rider by 10:00 (BOT_BY).
 ## Run:  godot --headless --path . -s tests/test_stables.gd --fixed-fps 60 --quit-after 60000
 ##   Options after `--`: --only=data|gates|dance|bot
 
@@ -16,7 +16,10 @@ const SCENE := "res://scenes/skirmish.tscn"
 const COMMANDER := preload("res://scripts/ai/commander.gd")
 const PLAYER := 0
 const ENEMY := 1
-const BOT_BY := 540.0
+## First Stables rider by 10:00 (was 9:00). Since 2026-09-30 a due champion hire comes before Stables riders
+## (champions.md 10: a hire keeps price + 150 from training; the hard bot's 3 hires now land by ~7:20 instead of
+## starving), builds still come first, and the Stables saves 30 s for its rider: measured 7:17 to ~9:02 over 4 runs.
+const BOT_BY := 600.0
 const CLIPS: Array[StringName] = [&"dance_victory", &"dance_surrender", &"dance_random"]
 
 var main: Node
@@ -252,7 +255,13 @@ func _run_gates() -> void:
 	_check(st.can_queue(types[4]) == "Already researched", "done: '%s'" % st.can_queue(types[4]))
 	await _game_seconds(z.train_time)
 	_check(not got.is_empty() and int((got[0] as Unit).get_meta(&"rank", 0)) == 3, "new rider not ranked")
-	# Destroyed during a research: 75 % back.
+	# Destroyed during a research: 75 % back. The player's workers stop first: a crystal delivery (10 per trip) inside
+	# the frames below made the balance 10-20 off in some runs.
+	for n in get_nodes_in_group(&"units"):
+		var wu := n as Unit
+		if wu and int(wu.team) == PLAYER and wu.has_method(&"command_gather") and wu.is_alive():
+			wu.command_stop()
+	await _frames(2)
 	c0 = eco.crystals
 	_check(st.queue_unit(types[5]) == "", "rank 2 start: '%s'" % st.can_queue(types[5]))
 	var price := Stables16.rank_price(c.id)

@@ -6,7 +6,7 @@ extends SceneTree
 ## TradePost, GuildHouse, ChampionGuild and the 10.C7 selection side, so it depends on no other step-10 task.
 ## Checks, at 1600 x 900:
 ## - no GoldBank: no gold item, U and open() do nothing; the help text is the 11 lines of 14.1 (<= 438 px each);
-## - with a bank: the bar is 624 x 40 at (488, 8) with the timer + essence + gold, the help panel is at most 458 wide
+## - with a bank: the bar is 644 x 40 at (478, 8) (spec 624 at 488 + the 20 px pop-200 number) with the timer + essence + gold, the help panel is at most 458 wide
 ##   and never meets the bar; spend_failed flashes + "Not enough gold"; a +28 rise pops the number;
 ## - the trade window: rects of section 17, U / Esc / X / show_banner, exclusive with the shop; Bazaar tab (owned /
 ##   hireable / refused wares, press_buy, exchange labels x1 / x5, press_exchange + messages, ledger, the no-Bazaar
@@ -596,8 +596,9 @@ func _check_top_bar() -> void:
 	_expect(bar.gold_label.visible and bar.gold_bank == bank, "gold item not shown with a GoldBank")
 	_expect(bar.timer_label.visible and bar.essence_label.visible, "timer / essence not shown (setup)")
 	var r: Rect2 = bar.get_global_rect()
-	_expect(r.position.distance_to(Vector2(488, 8)) <= 1.0 and r.size.distance_to(Vector2(624, 40)) <= 1.0,
-			"top bar rect %s, expected (488, 8, 624, 40)" % r)
+	# Spec 624 x 40 at (488, 8) + TopBar.POP_EXTRA (20 px: the pop number fits "200 / 200" since pop cap 200).
+	_expect(r.position.distance_to(Vector2(478, 8)) <= 1.0 and r.size.distance_to(Vector2(644, 40)) <= 1.0,
+			"top bar rect %s, expected (478, 8, 644, 40)" % r)
 	_expect(bar.GOLD_EXTRA == 124.0, "GOLD_EXTRA")
 	_expect(bar.gold_label.text == "200", "gold text '%s'" % bar.gold_label.text)
 	var help_panel: Control = hud.get(&"_help_panel")

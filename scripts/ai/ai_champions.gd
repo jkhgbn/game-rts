@@ -173,6 +173,24 @@ func pop_reserve() -> int:
 	return ChampionGuild.POP if hire_due != &"" else 0
 
 
+## True while a due hire waits only for crystals (price + 150, champions.md 10): its essence is there (after a held
+## revive) and its tavern is free. The Commander's optional spenders (the "+" / bowman upgrades, the Stables) then
+## leave the crystals to it, like training does (tiers wave fix 2026-09-30: without it the hard bot's 2nd / 3rd hire
+## waited 5-10 min while upgrades and Stables steps spent every crystal above the reserve). A hire paid in gold
+## (10h) keeps no crystals, so it never blocks them.
+func hire_waits_for_crystals(level: Skirmish) -> bool:
+	if hire_due == &"" or level == null:
+		return false
+	var g := guild()
+	var bank := _bank()
+	if g == null or bank == null or _gold_hire_ok(g):
+		return false
+	if bank.essence - _revive_hold < int(g.hire_cost(hire_due)["essence"]):
+		return false
+	var tavern := chosen_tavern(level)
+	return tavern != null and not g.is_tavern_held(tavern)
+
+
 ## A revive of `cost` may be paid with `essence`: before items (normal / hard) as soon as it is affordable;
 ## after items (easy) only when the next item (`item_price`, 0 = none) is paid for too.
 static func revive_affordable(essence: int, cost: int, item_price: int, before_items: bool) -> bool:

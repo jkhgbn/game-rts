@@ -130,6 +130,10 @@ func _test_budgets() -> void:
 	_check(bool(ArtLabBudgets.limit(r, "meshes")["hard"]), "soldier meshes hard")
 	_check(not bool(ArtLabBudgets.limit(r, "casters")["hard"]), "soldier casters soft")
 	_check(ArtLabBudgets.markdown_table().count("\n") > ArtLabBudgets.BUDGETS.size(), "budget table")
+	# face allowance: every army unit row and the mount row budget the face on top of the body verts
+	for t: String in ArtLabBudgets.tiers_of(&"unit") + ["mount"]:
+		var fr := ArtLabBudgets.row(&"mount" if t == "mount" else &"unit", StringName(t))
+		_check(int(fr.get("face_verts", 0)) >= 500, "face allowance on %s (got %d)" % [t, int(fr.get("face_verts", 0))])
 	# v2 tier rules
 	_check(ArtLabBudgets.read_rules(&"building", &"keep")["glow"] == Vector2i(4, 12), "keep glow 4-12")
 	_check(ArtLabBudgets.read_rules(&"unit", &"soldier")["glow"] == Vector2i(1, 3), "soldier glow 1-3")
@@ -182,6 +186,9 @@ func _test_census() -> void:
 	_check(int(c["draw"]) > 0 and int(c["draw"]) <= 10, "mirefang draw instances 1-10 (got %d)" % int(c["draw"]))
 	_check(int(c["lights"]) == 0, "mirefang has no lights")
 	_check(int(c["verts"]) > 100, "vertices counted")
+	# face kit (2026-09-28): the face surfaces are counted apart for the B4 face allowance (Mirefang 406 of 2776)
+	_check(int(c["face_verts"]) > 100 and int(c["face_verts"]) < int(c["verts"]), "face vertices counted (%d of %d)" % [
+		int(c["face_verts"]), int(c["verts"])])
 	var vb := ArtLabCensus.vertex_bounds(inst, holder.global_transform, 0.0)
 	_check(absf((vb["min"] as Vector3).y) < 0.1, "feet near y 0")
 	_check(ArtLabCensus.has_hook(inst, "play_death") and ArtLabCensus.has_hook(inst, "signal:death_finished"), "hooks found")

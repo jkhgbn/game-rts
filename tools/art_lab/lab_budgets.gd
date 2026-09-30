@@ -13,6 +13,7 @@ extends RefCounted
 ##   casters  shadow-casting geometry instances       materials  unique materials   runtime_mats  materials built
 ##            per instance (not shared by a 2nd instance)
 ##   frame_ms process time per instance (ms) with `n` instances animated in view at zoom 40
+##   face_verts  face-kit vertices allowed on top of `verts` (army units and mounts; not a limit of its own)
 ## Readability rules (READ) are per kind; the lab tunes them on finished assets (art-lab.md "Validation").
 
 const KINDS: Array[StringName] = [&"unit", &"mount", &"titan", &"building", &"beast", &"critter", &"decor_set", &"vfx",
@@ -31,31 +32,38 @@ const DEFAULT_TIER := {
 	&"critter": &"deer", &"decor_set": &"set", &"vfx": &"family", &"landmark": &"landmark",
 }
 
+## Face allowance (face kit 2026-09-28, art/units/kit/face/): every army unit and mount carries a face (eyes, lips,
+## ears, hair, beard: one cached surface). Rows with `face_verts` budget it ON TOP of `verts`: B4 counts the body plus
+## only the face vertices above the allowance, so the body budget is unchanged and a bloated face still shows.
+## Measured 2026-09-30 (census of art/units/, 105 scenes with a face): soldiers 352-1184 (avg 636; Shade 497), champions
+## 590-812, creatures up to 592, mounts ~500, riders / cavalry (rider + mount faces) 880-1082, wizards 1297-2136
+## (full hair). Allowances: one soldier face 800, champion 900, creature / mount 600, rider / cavalry 1200, wizard 2200.
+
 const BUDGETS := {
-	"unit/worker": {"src": "art-units.md 8", "meshes": 22, "draw": 14, "verts": 2500, "lights": 0, "runtime_mats": 0,
+	"unit/worker": {"src": "art-units.md 8", "face_verts": 800, "meshes": 22, "draw": 14, "verts": 2500, "lights": 0, "runtime_mats": 0,
 		"frame_ms": 0.005, "n": 100, "soft": {"separate": 6, "looping": 0, "casters": 4}},
-	"unit/soldier": {"src": "art-units.md 8, tier3-extras.md 12", "meshes": 26, "draw": 14, "verts": 2500, "lights": 0,
+	"unit/soldier": {"src": "art-units.md 8, tier3-extras.md 12", "face_verts": 800, "meshes": 26, "draw": 14, "verts": 2500, "lights": 0,
 		"runtime_mats": 0, "frame_ms": 0.005, "n": 100, "soft": {"separate": 6, "looping": 1, "particles": 10, "casters": 4}},
-	"unit/heavy": {"src": "art-units.md 8 (knight), tier3-extras.md 12 (heavy); verts / casters: lab default for big units",
+	"unit/heavy": {"src": "art-units.md 8 (knight), tier3-extras.md 12 (heavy); verts / casters: lab default for big units", "face_verts": 800,
 		"meshes": 30, "draw": 16, "lights": 0, "looping": 1, "runtime_mats": 0, "frame_ms": 0.005, "n": 100,
 		"soft": {"verts": 6000, "separate": 6, "particles": 16, "casters": 6}},
-	"unit/rider": {"src": "art-units.md 8 (rider = mount + rider)", "meshes": 36, "draw": 16, "lights": 0, "looping": 1,
+	"unit/rider": {"src": "art-units.md 8 (rider = mount + rider)", "face_verts": 1200, "meshes": 36, "draw": 16, "lights": 0, "looping": 1,
 		"particles": 10, "runtime_mats": 0, "frame_ms": 0.005, "n": 100, "soft": {"verts": 5000, "separate": 6, "casters": 5}},
-	"unit/cavalry": {"src": "cavalry-mounts.md 10 (cavalry rider, mount separate)", "meshes": 20, "draw": 12, "lights": 0,
+	"unit/cavalry": {"src": "cavalry-mounts.md 10 (cavalry rider, mount separate)", "face_verts": 1200, "meshes": 20, "draw": 12, "lights": 0,
 		"systems": 1, "particles": 10, "runtime_mats": 0, "frame_ms": 0.005, "n": 100,
 		"soft": {"verts": 2500, "separate": 6, "casters": 4}},
-	"unit/wizard": {"src": "art-units.md 8 (wizard)", "meshes": 26, "draw": 16, "lights": 1, "runtime_mats": 0,
+	"unit/wizard": {"src": "art-units.md 8 (wizard)", "face_verts": 2200, "meshes": 26, "draw": 16, "lights": 1, "runtime_mats": 0,
 		"frame_ms": 0.005, "n": 100, "soft": {"verts": 3000, "separate": 6, "looping": 1, "particles": 8, "casters": 4}},
-	"unit/champion": {"src": "champions.md 4 / 13, tier3-extras.md 12", "meshes": 26, "draw": 16, "lights": 0,
+	"unit/champion": {"src": "champions.md 4 / 13, tier3-extras.md 12", "face_verts": 900, "meshes": 26, "draw": 16, "lights": 0,
 		"materials": 5, "runtime_mats": 0, "frame_ms": 0.005, "n": 100,
 		"soft": {"verts": 3000, "separate": 6, "looping": 1, "particles": 8, "casters": 4}},
-	"unit/creature": {"src": "map-fill.md 10 (camp creature = soldier: 18 / 10)", "meshes": 18, "draw": 10, "lights": 0,
+	"unit/creature": {"src": "map-fill.md 10 (camp creature = soldier: 18 / 10)", "face_verts": 600, "meshes": 18, "draw": 10, "lights": 0,
 		"runtime_mats": 0, "frame_ms": 0.005, "n": 100, "soft": {"verts": 2500, "separate": 6, "looping": 1, "casters": 4}},
 	"beast/hero": {"src": "map-fill.md 10 (epic beast hero budget)", "meshes": 26, "draw": 16, "lights": 0,
 		"runtime_mats": 0, "frame_ms": 0.01, "n": 12, "soft": {"verts": 8000, "looping": 2, "casters": 6}},
 	"beast/titan": {"src": "titans-2.md 11 (Frost Wyrm uses the titan budget)", "meshes": 36, "draw": 20, "lights": 0,
 		"looping": 2, "runtime_mats": 0, "frame_ms": 0.02, "n": 12, "soft": {"verts": 12000, "casters": 8}},
-	"mount/mount": {"src": "cavalry-mounts.md 10 (mount)", "meshes": 12, "draw": 8, "lights": 0, "runtime_mats": 0,
+	"mount/mount": {"src": "cavalry-mounts.md 10 (mount)", "face_verts": 600, "meshes": 12, "draw": 8, "lights": 0, "runtime_mats": 0,
 		"frame_ms": 0.005, "n": 50, "soft": {"verts": 6000, "looping": 1, "casters": 2}},
 	"titan/titan": {"src": "cavalry-mounts.md 10, titans-2.md 11", "meshes": 36, "draw": 20, "lights": 0, "looping": 2,
 		"runtime_mats": 0, "n": 12, "soft": {"verts": 12000, "casters": 12, "frame_ms": 0.02}},
@@ -302,7 +310,7 @@ static func guess_tier(kind: StringName, scene_path: String, unit_data: Dictiona
 
 ## The budget table as Markdown (art-lab.md keeps a copy; `-- table` prints it).
 static func markdown_table() -> String:
-	var cols: Array[String] = ["meshes", "draw", "separate", "verts", "tris", "lights", "systems", "looping", "particles",
+	var cols: Array[String] = ["meshes", "draw", "separate", "verts", "face_verts", "tris", "lights", "systems", "looping", "particles",
 		"casters", "materials", "runtime_mats", "frame_ms", "n"]
 	var s := "| kind/tier | " + " | ".join(cols) + " | source |\n|---|" + "---|".repeat(cols.size()) + "---|\n"
 	for k: String in BUDGETS:

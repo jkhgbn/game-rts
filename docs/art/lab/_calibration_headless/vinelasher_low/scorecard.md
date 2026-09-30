@@ -1,8 +1,8 @@
 # Art Lab scorecard: vinelasher_low
 
-Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-30 10:13:55 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-30 16:14:37 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **87 / 100** (86.9)
+## Result: **PASS** · quality **87 / 100** (86.8)
 
 0 FAIL · 0 WARN · 16 PASS · 8 info · 6 skipped · 0 s
 
@@ -53,7 +53,7 @@ Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tie
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 0.01 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |

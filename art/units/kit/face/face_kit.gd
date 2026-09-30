@@ -905,6 +905,28 @@ static func warm(key: String, style: Dictionary) -> void:
 # ================================================================ one-call attach
 
 static var _styles: Dictionary = {}
+static var _exit_hooked := false
+
+
+## Drops every static cache (styles, meshes, material, UnitFaces' lean styles). Called once when the scene tree's root
+## leaves at quit: a style holds lambdas ("extra", "hair_fn"...) and the engine crashed (0xC0000005 in ntdll) when it
+## freed them with the script statics after the servers, i.e. every game / test that showed a FaceRig exited with a
+## crash (2026-09-28 to 09-30: ~150 CI tests "PASS" then exit -1073741819).
+static func release() -> void:
+	_styles.clear()
+	_cache.clear()
+	_mat = null
+	UnitFaces._lean_cache.clear()
+
+
+static func _hook_exit() -> void:
+	if _exit_hooked:
+		return
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null or tree.root == null:
+		return
+	tree.root.tree_exiting.connect(release, CONNECT_ONE_SHOT)
+	_exit_hooked = true
 
 
 ## Adds a FaceRig (the face + ears + hair + beard: ONE node, one vertex-coloured surface = 1 draw call, plus any
@@ -912,6 +934,7 @@ static var _styles: Dictionary = {}
 ## ready style dictionary (has "canvas"). The style is built once per key (the first instance of the unit type) and
 ## every expression with it: a one-time cost per type, never during a fight.
 static func attach(model: Node3D, head: Node3D, key: String, spec: Dictionary) -> FaceRig:
+	_hook_exit()
 	if not _styles.has(key):
 		_styles[key] = spec if spec.has("canvas") else style_from(spec)
 		warm(key, _styles[key])

@@ -1,5 +1,5 @@
 extends SceneTree
-## Test for 1.U1 (top bar): placement (top centre, 320 x 40, 8 px from the top), crystals and
+## Test for 1.U1 (top bar): placement (top centre, 340 x 40 = spec 320 + the pop-200 number, 8 px from the top), crystals and
 ## "12 / 20" at start, updates on Economy.changed, pop red at the cap, failed spend flashes the
 ## crystal number red for 0.4 s and shows "Not enough crystals".
 ## Run:  godot --headless --path . -s tests/test_1_u1.gd --fixed-fps 60 --quit-after 3000
@@ -61,10 +61,11 @@ func _step() -> void:
 			if bar.economy != eco:
 				_error = "top bar did not find the player's economy"
 				return
-			# Layout: centred, 8 px from the top, 320 x 40 (+100 wide with essence, 4.U1a).
+			# Layout: centred, 8 px from the top, 320 x 40 (+100 wide with essence, 4.U1a), + 20 since the pop cap is 200
+			# (TopBar.POP_EXTRA: the pop number fits "200 / 200").
 			var rect: Rect2 = bar.get_global_rect()
 			var screen: Vector2 = root.get_visible_rect().size
-			var w := 320.0 + (100.0 if bar.get("essence_bank") != null else 0.0)
+			var w := 340.0 + (100.0 if bar.get("essence_bank") != null else 0.0)
 			var expected := Vector2(screen.x * 0.5 - w * 0.5, 8.0)
 			if rect.position.distance_to(expected) > 1.5 or rect.size.distance_to(Vector2(w, 40)) > 1.5:
 				_error = "top bar at %s, expected %s size %d x 40" % [rect, expected, int(w)]

@@ -29,9 +29,16 @@ static func check_budgets(ctx: ArtLabRunner, cen: Dictionary) -> void:
 		["B7", "Shadow casters", "casters", int(cen["casters"]), "cast_shadow only on the 3-4 biggest parts (art-units 1.5 / 8)"],
 		["B8", "Unique materials", "materials", int(cen["materials"]), "Snap to the closed palette (art-units 2.2); no per-part materials"],
 	]
+	# Face allowance (face kit 2026-09-28): army units carry a FaceRig (face + ears + hair in one cached mesh). The
+	# row's `face_verts` is budgeted on top of `verts`: B4 counts the body plus only the face vertices above it.
+	var face_v := int(cen.get("face_verts", 0))
+	var face_allow := int(r.get("face_verts", 0))
+	var face_free := mini(face_v, face_allow)
 	for row_def: Array in rows:
 		var key: String = row_def[2]
 		var v: int = row_def[3]
+		if key == "verts":
+			v -= face_free
 		var lim := ArtLabBudgets.limit(r, key)
 		if lim.is_empty():
 			if key in ["meshes", "draw", "verts", "materials", "casters"] or v > 0:
@@ -55,6 +62,9 @@ static func check_budgets(ctx: ArtLabRunner, cen: Dictionary) -> void:
 			for me: Dictionary in (cen["mesh_list"] as Array).slice(0, 4):
 				top.append("%s %d" % [String(me["name"]).get_file(), int(me["verts"])])
 			extra = " (biggest: %s)" % ", ".join(top)
+			if face_v > 0:
+				extra = " (body + face above its allowance: face %d v, allowance %d, total %d; biggest: %s)" % [face_v,
+					face_allow, int(cen["verts"]), ", ".join(top)]
 		if key == "lights" and v > 0:
 			extra = " (%s)" % ", ".join(PackedStringArray(cen["light_names"]))
 		if key == "looping" and v > 0:
@@ -122,18 +132,26 @@ static func check_instances(ctx: ArtLabRunner) -> void:
 	far.position = ctx.gp + Vector3(400.0, 0.0, 400.0)
 	ctx.stage.world.add_child(far)
 	var second := ctx.spawn(ctx.scene_path, Vector3.ZERO, 0.0, far)
+	# A third instance next to the second (same distance tier): a model may show another CACHED mesh at 400 m than at
+	# the camera (the face kit's bold FAR face, kit LOD tiers), so a mesh counts as built per instance only when
+	# neither the first nor the third instance has it (a per-instance mesh is unique to every instance). The kit
+	# staggers its first distance-tier update over 0-0.5 s per instance (hash of the instance id): wait until both far
+	# instances have switched, else one may still show the near face (B9m flickered in 1 windowed run of 3).
+	var third := ctx.spawn(ctx.scene_path, Vector3(6.0, 0.0, 0.0), 0.0, far)
 	await ctx.frames(4)
+	await ctx.wait(0.6)
 	if second == null:
 		far.queue_free()
 		return
 	var r2 := ArtLabCensus.resource_ids(second)
+	var r3: Dictionary = ArtLabCensus.resource_ids(third) if third != null else {"materials": {}, "meshes": {}}
 	var mats := 0
 	var meshes := 0
 	for id: int in r2["materials"]:
 		if not (r1["materials"] as Dictionary).has(id):
 			mats += 1
 	for id2: int in r2["meshes"]:
-		if not (r1["meshes"] as Dictionary).has(id2):
+		if not (r1["meshes"] as Dictionary).has(id2) and not (r3["meshes"] as Dictionary).has(id2):
 			meshes += 1
 	far.queue_free()
 	var lim := ArtLabBudgets.limit(ctx.rep.budget_row, "runtime_mats")

@@ -1,8 +1,8 @@
 # Art Lab scorecard: shade
 
-Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-30 10:13:52 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-30 16:14:36 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **96 / 100** (96.1)
+## Result: **PASS** · quality **96 / 100** (96.0)
 
 0 FAIL · 0 WARN · 17 PASS · 7 info · 6 skipped · 0 s
 
@@ -46,7 +46,7 @@ Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** ·
 | R5 | Glow points at 40 m | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R9 | Feet on the ground | PASS 100 | lowest point 0.019 m | -0.08 .. +0.05 m (art-units 1.6) |  |
-| R8 | Head height vs body_height | PASS 94 | head top 1.77 m / body_height 1.6 (x1.11) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) |  |
+| R8 | Head height vs body_height | PASS 93 | head top 1.78 m / body_height 1.6 (x1.11) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) |  |
 | R10 | Footprint vs selection radius | PASS 100 | x 0.64 / z 0.33 m (radius 0.45, from shade.tres) | x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
 
 ## Animation

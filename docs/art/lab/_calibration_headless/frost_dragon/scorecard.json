@@ -240,17 +240,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.954835129830168,
+			"graded": 1.0,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.954835129830168,
+			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 13% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.909",
+			"value": "141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 17% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.924",
 			"weight": 1.0
 		},
 		{
@@ -278,7 +278,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.03 s",
+			"value": "after 0.01 s",
 			"weight": 1.0
 		},
 		{
@@ -434,11 +434,11 @@
 		"2 materials are built in code (fine when cached per type: see B9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 98.6,
+	"quality": 99.1,
 	"result": "PASS",
 	"scene": "res://art/units/titans/frost_dragon/frost_dragon.tscn",
-	"seconds": 1.0,
+	"seconds": 0.5,
 	"shots": {},
-	"started": "2026-09-30 10:13:53",
+	"started": "2026-09-30 16:14:37",
 	"tier": "titan"
 }

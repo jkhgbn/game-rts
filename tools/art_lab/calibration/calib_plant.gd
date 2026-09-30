@@ -156,6 +156,11 @@ static func _biggest_meshes(root: Node, n: int) -> Array[MeshInstance3D]:
 		var mi := nd as MeshInstance3D
 		if mi.mesh == null or not mi.is_visible_in_tree() or not mi.mesh is ArrayMesh:
 			continue
+		# Face kit (2026-09-28): a FaceRig swaps its mesh for a cached one per expression / distance tier, so a plant
+		# appended to it vanishes at the next swap (plant_verts20k_shade then passed B4). Plant on body meshes only.
+		# (Host-mode creature faces live inside a merged pivot mesh that is swapped the same way.)
+		if mi is FaceRig or ArtLabCensus.face_verts(mi.mesh) > 0:
+			continue
 		var cnt := 0
 		for s: int in mi.mesh.get_surface_count():
 			cnt += mi.mesh.surface_get_array_len(s)

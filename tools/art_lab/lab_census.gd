@@ -8,6 +8,7 @@ static var _mesh_cache: Dictionary = {}   # mesh instance id -> Vector2i(verts, 
 
 static func clear_cache() -> void:
 	_mesh_cache.clear()
+	_face_cache.clear()
 
 
 static func geometry(root: Node) -> Array[GeometryInstance3D]:
@@ -56,6 +57,28 @@ static func mesh_stats(mesh: Mesh) -> Vector2i:
 	var r := Vector2i(v, t)
 	_mesh_cache[id] = r
 	return r
+
+
+## Face kit material (art/units/kit/face/): every unit's face (eyes, lips, ears, hair) is a surface drawn with it, on
+## its own FaceRig node or appended inside a merged pivot mesh (CreatureFaceRig host mode).
+const FACE_MAT := "res://art/units/kit/face/unit_face.tres"
+static var _face_cache: Dictionary = {}   # mesh instance id -> face vertices
+
+
+## Vertices of `mesh` on face-kit surfaces (cached per mesh).
+static func face_verts(mesh: Mesh) -> int:
+	if mesh == null:
+		return 0
+	var id := mesh.get_instance_id()
+	if _face_cache.has(id):
+		return int(_face_cache[id])
+	var v := 0
+	for s: int in mesh.get_surface_count():
+		var m := mesh.surface_get_material(s)
+		if m != null and m.resource_path == FACE_MAT:
+			v += mesh.surface_get_array_len(s)
+	_face_cache[id] = v
+	return v
 
 
 ## Triangles of `mesh` whose face points down (world normal y < -0.7 through `basis`; a sphere has ~15 %): the RTS camera (pitch 55, from
@@ -165,7 +188,7 @@ static func census(root: Node3D, ground_y: float = 0.0) -> Dictionary:
 		"meshes": 0, "multimeshes": 0, "hidden_parts": 0, "draw": 0, "separate": 0, "verts": 0, "tris": 0,
 		"lights": 0, "systems": 0, "looping": 0, "oneshots": 0, "particles": 0, "casters": 0, "materials": 0,
 		"code_materials": 0, "decals": 0, "nodes": 0, "shader_names": [], "light_names": [], "caster_names": [],
-		"looping_names": [], "surfaces": 0, "down_tris": 0, "mesh_list": [],
+		"looping_names": [], "surfaces": 0, "down_tris": 0, "mesh_list": [], "face_verts": 0,
 	}
 	var mats := {}
 	var shaders := {}
@@ -201,6 +224,7 @@ static func census(root: Node3D, ground_y: float = 0.0) -> Dictionary:
 				var st := mesh_stats(mi.mesh)
 				c["verts"] += st.x
 				c["tris"] += st.y
+				c["face_verts"] += face_verts(mi.mesh)   # face kit surfaces (B4 face allowance, lab_budgets.gd)
 				c["surfaces"] += mi.mesh.get_surface_count()
 				var dn := down_tris(mi.mesh, gi.global_basis)
 				c["down_tris"] += dn

@@ -6,7 +6,7 @@ extends SceneTree
 ## - HUD with Ysolde as the player's wizard: Nature skin (UIStyle tokens), hero column name, help text names
 ##   her, F / Q / E spell tooltips of kingdom-nature.md 3.1, W walks her (wizard_control.gd).
 ## - A Sapling selected alone shows the lifetime bar ("Withers in N s", draining); a Flame Guard does not.
-## - Nature economy: the top bar shows "/ 50" at the Nature cap.
+## - Nature economy: the top bar shows "/ 200" at the cap (pop-200 rule; was "/ 50") and "200 / 200" fits.
 ## Run: godot --headless --path . -s tests/test_8_u1.gd --fixed-fps 60 --quit-after 3000
 
 const TASK_ID := "8.u1"
@@ -243,7 +243,8 @@ func _process(_delta: float) -> bool:
 				return false
 			if hud.selection_panel.single_lifetime.visible:
 				return _finish("a Flame Guard shows a lifetime bar")
-			# Nature economy: the cap reaches 50 and the top bar shows it.
+			# Nature economy: the cap reaches the hard cap (200 for every kingdom since the pop-200 rule,
+			# economy.md 2026-09-27; was Nature 50) and the top bar shows it, clamped, in full.
 			var eco: Node = null
 			for e in get_nodes_in_group(&"economies"):
 				if int(e.get(&"team")) == 0:
@@ -251,11 +252,18 @@ func _process(_delta: float) -> bool:
 			if eco == null:
 				return _finish("no player Economy")
 			eco.set_kingdom(&"nature")
-			eco.add_pop_bonus(60)
+			eco.add_pop_bonus(300)
 			hud.top_bar.refresh()
-			var pop: String = hud.top_bar.pop_label.text
-			if not pop.ends_with("/ 50"):
-				return _finish("top bar pop is '%s', expected '/ 50'" % pop)
+			var pop_label: Label = hud.top_bar.pop_label
+			var pop: String = pop_label.text
+			if not pop.ends_with("/ 200"):
+				return _finish("top bar pop is '%s', expected '/ 200'" % pop)
+			pop_label.text = "200 / 200"
+			var need := pop_label.get_theme_font(&"font").get_string_size("200 / 200", HORIZONTAL_ALIGNMENT_LEFT, -1,
+					pop_label.get_theme_font_size(&"font_size")).x
+			hud.top_bar.refresh()
+			if need > pop_label.size.x + 0.5:
+				return _finish("top bar pop label %.0f px wide, '200 / 200' needs %.0f" % [pop_label.size.x, need])
 			return _finish("")
 	return false
 

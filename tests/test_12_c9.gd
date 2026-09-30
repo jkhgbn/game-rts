@@ -2,7 +2,8 @@ extends SceneTree
 ## Task 12.C9: the creature and beast models are plugged (map-fill.md 10 / 15 row 12.C9).
 ## Small world like test_12_c4 (flat ground, a hand-made navmesh, a stub MapFillVfx). Checks:
 ## - hollow_stag + the 8 beast .tres: model_scene = the model_path scene, body_height (stag 2.6, Tusker 2.1 / 2.4,
-##   Roc 3.6, Direwolf 1.8, Grizzlemaw 2.6 / 3.0); Gloomcap Elder projectile_speed 14, UnitType default 25;
+##   Roc 3.6, Direwolf 1.8, Grizzlemaw 2.6 / 3.0); Gloomcap Elder projectile_speed 14, UnitType default 25 (units
+##   that set no speed fly at 25, tiers-wave units with their own speed stay within 12-45);
 ##   Unit.MAX_UNIT_RADIUS >= every radius in data/units/;
 ## - every spawned creature / beast builds its model (no placeholder) and shows its variant: set_variant comes from
 ##   CreatureAbilities too (a B beast spawned without EpicBeasts, attached before or after entering the tree);
@@ -130,7 +131,17 @@ func _test_data() -> void:
 				continue
 			var ut := load("res://data/units/" + f) as UnitType
 			if ut != null:
-				_near(ut.projectile_speed, 14.0 if ut.id == &"gloomcap_elder" else 25.0, "%s projectile_speed" % ut.id)
+				# Since the tiers wave (2026-09-27) ranged units may set their own bolt speed (Frost Mortar 18 ...
+				# Stormbottle Genie 40): a unit that sets none flies at the default 25, one that sets it stays in a
+				# readable 12-45 m/s band.
+				var sets_speed := FileAccess.get_file_as_string("res://data/units/" + f).contains("projectile_speed")
+				if ut.id == &"gloomcap_elder":
+					_near(ut.projectile_speed, 14.0, "%s projectile_speed" % ut.id)
+				elif not sets_speed:
+					_near(ut.projectile_speed, 25.0, "%s projectile_speed (default)" % ut.id)
+				else:
+					_check(ut.projectile_speed >= 12.0 and ut.projectile_speed <= 45.0,
+							"%s projectile_speed %.1f in 12-45" % [ut.id, ut.projectile_speed])
 				biggest = maxf(biggest, ut.radius)
 	_check(biggest >= 1.1 - 0.001, "the biggest unit radius is the Grizzlemaw's 1.1 (got %.2f)" % biggest)
 	_check(Unit.MAX_UNIT_RADIUS >= biggest - 0.001, "Unit.MAX_UNIT_RADIUS %.2f >= %.2f" % [Unit.MAX_UNIT_RADIUS, biggest])

@@ -378,8 +378,9 @@ func _check_tavern_unhired() -> void:
 		var x := 372.0 + (24.0 if j == 2 else 0.0)
 		_expect(_at(o.ability_labels[j], base + Vector2(x, 6 + 20 * j)), "oathwall ability line %d at %s" % [j,
 				_rect(o.ability_labels[j])])
-		# Height 16 asked; a font-12 Label's minimum is 17 px (the 20 px step leaves 3 px between lines).
-		_expect(o.ability_labels[j].size.y <= 17.5, "ability line %d height %.1f" % [j, o.ability_labels[j].size.y])
+		# Height 16 asked; a font-12 Label's minimum is 18 px with the U7 theme's Alegreya (17 with the fallback
+		# font): the 20 px step still leaves 2 px between lines, so the lines never overlap.
+		_expect(o.ability_labels[j].size.y <= 18.5, "ability line %d height %.1f" % [j, o.ability_labels[j].size.y])
 	_expect(_at(o.lock_badge, base + Vector2(372, 47)), "L4 badge at %s" % _rect(o.lock_badge))
 	_expect(o.class_l2_badge.visible and _at(o.class_l2_badge, base + Vector2(372, 67)),
 			"L2 badge at %s (visible %s)" % [_rect(o.class_l2_badge), o.class_l2_badge.visible])

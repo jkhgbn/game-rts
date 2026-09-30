@@ -1,6 +1,6 @@
 # Art Lab scorecard: deer
 
-Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 10:13:53 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 16:14:37 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **99 / 100** (99.0)
 
@@ -49,7 +49,7 @@ Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 5 present | play_idle, play_move, play_flee, play_hit, play_death |  |
-| A2 | death_finished | PASS 100 | after 0.01 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |

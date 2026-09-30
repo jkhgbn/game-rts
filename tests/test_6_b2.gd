@@ -2,7 +2,7 @@ extends SceneTree
 ## Task 6.B2: balance-1 (docs/design/balance-1.md 2a / 2b / 2d kill essence / 2e crown seal) on the 1v1 map.
 ## - 8 crystal nodes: 2000 / 2000 / 2500 / 2500 per side, rich nodes at (-40, -40) / (40, 40) with clearings
 ##   (no tree / rock near them, the rich hall spot passes build_grid.check);
-## - building data: keeps 2500 HP and 12 dmg / range 10 / 1.5 s, halls 1300, hearths 500, spires 750 / 15 / max 4;
+## - building data: keeps 2500 HP and 12 dmg / range 10 / 1.5 s, halls 1300, hearths 500 (max 9), spires 750 / 15 / max 4;
 ## - the Fire keep shoots an enemy unit in range, units first (an enemy hovel in range is ignored while the
 ##   unit lives), then the building once the unit is dead;
 ## - the Ember Crown can't be claimed before 6:00 (stays visible, seal_refused for a wizard on it),
@@ -112,7 +112,8 @@ func _check_data() -> void:
 	var want := {
 		"fire_keep": [2500.0, 12.0, 10.0, 1.5, 0], "shadow_keep": [2500.0, 12.0, 10.0, 1.5, 0],
 		"fire_barracks": [1300.0, 0.0, 0.0, 1.5, 0], "shadow_barracks": [1300.0, 0.0, 0.0, 1.5, 0],
-		"fire_hearth": [500.0, 0.0, 0.0, 1.5, 2], "shadow_hovel": [500.0, 0.0, 0.0, 1.5, 2],
+		# Houses: max 9 per team since the pop-200 rule (economy.md, 2026-09-27; was 2).
+		"fire_hearth": [500.0, 0.0, 0.0, 1.5, 9], "shadow_hovel": [500.0, 0.0, 0.0, 1.5, 9],
 		"fire_tower": [750.0, 15.0, 11.0, 1.5, 4], "shadow_tower": [750.0, 15.0, 11.0, 1.5, 4],
 	}
 	for id in want:

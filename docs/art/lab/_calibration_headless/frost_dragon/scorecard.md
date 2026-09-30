@@ -1,8 +1,8 @@
 # Art Lab scorecard: frost_dragon
 
-Scene `res://art/units/titans/frost_dragon/frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-09-30 10:13:53 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/titans/frost_dragon/frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-09-30 16:14:37 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **PASS** · quality **99 / 100** (98.6)
+## Result: **PASS** · quality **99 / 100** (99.1)
 
 0 FAIL · 0 WARN · 12 PASS · 9 info · 6 skipped · 1 s
 
@@ -50,12 +50,12 @@ Scene `res://art/units/titans/frost_dragon/frost_dragon.tscn` · kind **titan** 
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 0.03 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.01 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 95 | 141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 13% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.909 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C1 | Shape richness (secondary shapes) | INFO 100 | 141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 17% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.924 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
 | C2 | Vertex use vs budget | INFO 100 | 71% of the 12000 verts budget used (8576) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, cavalry-mounts.md 10, titans-2.md 11)

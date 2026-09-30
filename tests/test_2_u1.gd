@@ -183,9 +183,10 @@ func _check_help_and_timer() -> void:
 	var w := 500.0 if bar.get("essence_bank") != null else 400.0
 	if bar.get("gold_bank") != null:
 		w += 124.0   # step 10 (ui-trade.md 3): gold item, 624 x 40 at (488, 8)
-	# 2026-09-27: the pop number is 100 px wide ("200 / 200", pop cap 200), so the bar may be up to 24 px wider than
-	# the spec widths; it must stay centred.
-	if rect.size.x < w - 1.5 or rect.size.x > w + 24.0 or absf(rect.position.x - (800.0 - rect.size.x * 0.5)) > 1.5:
+	# 2026-09-27: the pop number is 100 px wide ("200 / 200", pop cap 200): every bar width is the spec's + 20
+	# (TopBar.POP_EXTRA, sized explicitly since 2026-09-30 so the rect stays whole-pixel and centred).
+	w += 20.0
+	if absf(rect.size.x - w) > 1.5 or absf(rect.position.x - (800.0 - w * 0.5)) > 1.5:
 		_error = "top bar with the timer at %s, expected %d wide at x %d" % [rect, int(w), int(800.0 - w * 0.5)]
 
 

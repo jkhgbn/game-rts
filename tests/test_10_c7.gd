@@ -722,6 +722,22 @@ func _test_hover_and_ribbon() -> void:
 
 # ---------------------------------------------------------------- caravans
 
+## Selects `units` and walks every unit subgroup with Tab (cycle_active_unit_type): {"caravan" / "worker" / "soldier":
+## [slot ids, slot 4 tooltip]} for each subgroup the card showed.
+func _subgroup_cards(units: Array) -> Dictionary:
+	sel.select_units(units)
+	var out := {}
+	var n: int = (sel.selected_unit_types() as Array).size()
+	for i in n:
+		card.refresh()
+		var first: Unit = (sel.active_type_units() as Array)[0]
+		var kind := "caravan" if SelectionManager.is_caravan(first) else (
+				"worker" if SelectionManager.is_worker_unit(first) else "soldier")
+		out[kind] = [card.slot_ids(), String(card.buttons[3].tooltip_text)]
+		sel.cycle_active_unit_type(1)
+	return out
+
+
 func _make_caravan(at: Vector3, cargo: int, post: Node3D) -> StubCaravan:
 	var c := StubCaravan.new()
 	var t := UnitType.find("caravan")
@@ -755,14 +771,25 @@ func _test_caravans() -> void:
 	_expect(card.key_labels[3].text == "G" and (card.buttons[3].tooltip_text as String).begins_with(
 			"Trade  [G]\nClick a trading post: trade there from now on.\nClick your Bazaar: go home and deliver."),
 			"trade slot '%s'" % card.buttons[3].tooltip_text)
-	# With a worker: the Gather / Trade slot. With a soldier: attack for the soldier, trade at r2c4.
-	sel.select_units([c1, workers[0]])
-	card.refresh()
-	_expect(card.slot_ids()[3] == "gather" and (card.buttons[3].tooltip_text as String).begins_with("Gather / Trade  [G]\n"),
-			"mixed caravan + worker slot 4: %s '%s'" % [card.slot_ids()[3], card.buttons[3].tooltip_text])
-	sel.select_units([c1, soldier])
-	card.refresh()
-	_expect(card.slot_ids()[3] == "attack" and card.slot_ids()[7] == "trade", "caravan + soldier card %s" % [card.slot_ids()])
+	# Mixed selections (2026-09-27 "Tab by unit type", SC2 subgroups): the card shows the ACTIVE subgroup's slots and
+	# Tab cycles them. Caravan + worker: the caravan subgroup shows Trade (G), the worker subgroup Gather (G), both at
+	# r1c4; caravan + soldier: the soldier subgroup shows Attack-move and no Trade, the caravan one Trade and no attack.
+	var seen := _subgroup_cards([c1, workers[0]])
+	_expect(seen.size() == 2 and seen.has("caravan") and seen.has("worker"), "caravan + worker subgroups %s" % [seen.keys()])
+	if seen.has("caravan"):
+		_expect(seen["caravan"][0][3] == "trade" and not (seen["caravan"][0] as Array).has("gather")
+				and String(seen["caravan"][1]).begins_with("Trade  [G]\n"), "caravan subgroup card %s" % [seen["caravan"]])
+	if seen.has("worker"):
+		_expect(seen["worker"][0][3] == "gather" and not (seen["worker"][0] as Array).has("trade")
+				and String(seen["worker"][1]).begins_with("Gather  [G]\n"), "worker subgroup card %s" % [seen["worker"]])
+	seen = _subgroup_cards([c1, soldier])
+	_expect(seen.size() == 2 and seen.has("caravan") and seen.has("soldier"), "caravan + soldier subgroups %s" % [seen.keys()])
+	if seen.has("soldier"):
+		_expect(seen["soldier"][0][3] == "attack" and not (seen["soldier"][0] as Array).has("trade"),
+				"soldier subgroup card %s" % [seen["soldier"][0]])
+	if seen.has("caravan"):
+		_expect(seen["caravan"][0][3] == "trade" and not (seen["caravan"][0] as Array).has("attack"),
+				"caravan subgroup card %s" % [seen["caravan"][0]])
 	# The route ribbon of the first caravan (its Bazaar -> its post).
 	sel.select_units([c1, c2])
 	await _frames(2)

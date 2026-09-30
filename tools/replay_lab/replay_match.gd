@@ -65,6 +65,11 @@ var _timeline: Control = null
 
 func _initialize() -> void:
 	_t0 = Time.get_ticks_msec()
+	# Determinism: Godot's multi-threaded RVO avoidance updates each agent's velocity inside the same parallel pass that
+	# reads its neighbours' (a race: two runs drift ~0.001 m on crowded workers from frame 600). A navigation map reads
+	# this setting when it is created, and the world's map is created lazily, after this point: this process gets a
+	# single-threaded (deterministic) avoidance map while real games keep the multi-threaded default.
+	ProjectSettings.set_setting(&"navigation/avoidance/thread_model/avoidance_use_multiple_threads", false)
 	_parse_args()
 	Engine.physics_ticks_per_second = TICK
 	hooks = load(HOOKS_PATH) as Script

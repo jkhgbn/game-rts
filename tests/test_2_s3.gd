@@ -116,10 +116,14 @@ func _round_a() -> void:
 	# The crown is worn one frame after Vessa stands on it.
 	if not _crown_worn and crown.wearer == hero:
 		_crown_worn = true
-		if not is_equal_approx(hero.max_hp, 450.0) or not is_equal_approx(hero.hp, 450.0) \
-				or not is_equal_approx(hero.max_mana, 150.0):
-			_errors.append("crown bonus: hp %.0f / %.0f mana max %.0f, want 450 / 450, 150" % [
-					hero.hp, hero.max_hp, hero.max_mana])
+		# Crown +100 HP / +50 mana on Vessa's 350 / 100, then her STR / INT path percent (auto-picked at 0:00 in
+		# headless skirmishes; Fire picks INT: +25 % max mana -> 187.5).
+		var want_hp := 450.0 * _hp_mult(hero)
+		var want_mana := 150.0 * _mana_mult(hero)
+		if not is_equal_approx(hero.max_hp, want_hp) or not is_equal_approx(hero.hp, want_hp) \
+				or not is_equal_approx(hero.max_mana, want_mana):
+			_errors.append("crown bonus: hp %.0f / %.0f mana max %.1f, want %.0f / %.0f, %.1f (path %s)" % [
+					hero.hp, hero.max_hp, hero.max_mana, want_hp, want_hp, want_mana, _path(hero)])
 		if not String(main.hud._objective.text).contains("worn by Vessa"):
 			_errors.append("objective line: %s" % main.hud._objective.text)
 	if frame == SETUP + 10:
@@ -131,7 +135,7 @@ func _round_a() -> void:
 		_death_frame = frame
 		if hero.is_alive() or not is_equal_approx(main.respawn_time_left(0), 30.0):
 			_errors.append("after death: alive %s, respawn in %.2f (want 30)" % [hero.is_alive(), main.respawn_time_left(0)])
-		if not is_equal_approx(hero.max_hp, 350.0) or crown.is_available() or crown.wearer != null:
+		if not is_equal_approx(hero.max_hp, 350.0 * _hp_mult(hero)) or crown.is_available() or crown.wearer != null:
 			_errors.append("death: max_hp %.0f, crown available %s" % [hero.max_hp, crown.is_available()])
 	if _death_frame > 0 and not _crown_dropped:
 		var t: int = frame - _death_frame
@@ -152,7 +156,8 @@ func _round_a() -> void:
 			var spot: Vector3 = main.keep.spawn_point()
 			_log.append("Vessa back after %.2f s at %s (keep spawn %s), hp %.0f" % [t2 / 60.0, hero.global_position, spot, hero.hp])
 			if absf(t2 / 60.0 - 30.0) > 0.1 or _flat(hero.global_position, spot) > 1.5 \
-					or not is_equal_approx(hero.hp, 350.0) or not is_equal_approx(hero.max_hp, 350.0):
+					or not is_equal_approx(hero.hp, 350.0 * _hp_mult(hero)) \
+					or not is_equal_approx(hero.max_hp, 350.0 * _hp_mult(hero)):
 				_errors.append("respawn after %.2f s, %.2f m from the keep spawn point, hp %.0f / %.0f" % [
 						t2 / 60.0, _flat(hero.global_position, spot), hero.hp, hero.max_hp])
 			if not main.selection.selected.has(hero):
@@ -170,8 +175,11 @@ func _round_a() -> void:
 	if frame == SETUP + 60 + 300:
 		var gained: float = main.shadow_hero.hp - _malrik_hp0
 		_log.append("Malrik healed %.1f hp in 5 s near his keep" % gained)
-		if absf(gained - 20.0) > 1.0:
-			_errors.append("home healing: +%.1f in 5 s, want 20" % gained)
+		# 1 % of max HP per second: 400 -> 20 in 5 s; with a STR path (+20 % max HP, Shadow's auto-pick) 480 -> 24.
+		var want_heal: float = 0.05 * main.shadow_hero.max_hp
+		if absf(gained - want_heal) > 1.0:
+			_errors.append("home healing: +%.1f in 5 s, want %.1f (1 %% of %.0f max HP per s)" % [gained, want_heal,
+					main.shadow_hero.max_hp])
 		_heal_ok = true
 	_track_dropoff()
 	if not _won and _second_death and _dropoff_ok and _heal_ok and _destroy_frame < 0:
@@ -191,6 +199,20 @@ func _round_a() -> void:
 			_next_round("B")
 		elif frame - _destroy_frame > 60:
 			_errors.append("no victory 1 s after every Shadow building fell")
+
+
+## The wizard's STR / INT path (level-boons.md 14; "" in missions or when the feature is off).
+func _path(w: Node) -> StringName:
+	var p := StrIntPath.of(w)
+	return p.path if p != null else &""
+
+
+func _hp_mult(w: Node) -> float:
+	return 1.0 + float(StrIntPath.STR_STATS["max_hp_pct"]) if _path(w) == StrIntPath.PATH_STR else 1.0
+
+
+func _mana_mult(w: Node) -> float:
+	return 1.0 + float(StrIntPath.INT_STATS["max_mana_pct"]) if _path(w) == StrIntPath.PATH_INT else 1.0
 
 
 func _check_start() -> void:

@@ -5,17 +5,22 @@ extends PanelContainer
 ## Finds the Economy through the group "economies" (team 0), so it works whenever the economy appears.
 ## Pop turns red at the cap; a failed spend flashes the crystal number red and sends `message`.
 ## Essence (items.md, 4.U1a): 4th item, a purple flame + the number, from `EssenceBank.for_team(0)`
-## (found untyped, so the bar works before the items code exists); the bar is then 500 x 40 at (550, 8).
+## (found untyped, so the bar works before the items code exists); the bar is then 520 x 40 at (540, 8).
 ## Gold (market-trade.md 3.3, ui-trade.md 3, task 10.C8): 5th item, a coin + the number in GOLD_TEXT, shown only
-## while the player's team has a GoldBank (group "gold_banks": trade on); the bar is then 624 x 40 at (488, 8).
+## while the player's team has a GoldBank (group "gold_banks": trade on); the bar is then 644 x 40 at (478, 8)
+## (spec 624 x 40 at (488, 8) + POP_EXTRA).
 ## A failed gold spend flashes the number WARN 0.4 s + shake + "Not enough gold"; a rise of 10+ pops the number.
 
 signal message(text: String)
 
-const SIZE := Vector2(320, 40)
-const TIMER_SIZE := Vector2(400, 40)   ## With the match timer (skirmish-1v1.md): 400 x 40 at (600, 8).
-const ESSENCE_EXTRA := 100.0           ## Essence adds 100 px: 500 x 40 at (550, 8) with the timer.
-const GOLD_EXTRA := 124.0              ## Gold adds 124 px (gap 32 + 8 + coin 16 + 8 + number 60): 624 x 40 at (488, 8).
+## Pop cap 200 (2026-09-27): the pop number is 100 px wide ("200 / 200", was 80), so every bar width is 20 px over
+## the ui-hud.md / ui-trade.md numbers. Sized here, not left to the row's content, so the bar keeps whole-pixel,
+## centred rects (content-driven growth centred it at x .5).
+const POP_EXTRA := 20.0
+const SIZE := Vector2(320 + POP_EXTRA, 40)          ## 340 x 40 at (630, 8) (spec 320 + POP_EXTRA).
+const TIMER_SIZE := Vector2(400 + POP_EXTRA, 40)    ## With the match timer (skirmish-1v1.md): 420 x 40 at (590, 8).
+const ESSENCE_EXTRA := 100.0           ## Essence adds 100 px: 520 x 40 at (540, 8) with the timer.
+const GOLD_EXTRA := 124.0              ## Gold adds 124 px (gap 32 + 8 + coin 16 + 8 + number 60): 644 x 40 at (478, 8).
 const GOLD_TEXT_COLOR := Color(1.0, 0.88, 0.5)
 const GOLD_POP_RISE := 10              ## A rise of this much between two polls pops the number.
 const GOLD_POP_TIME := 0.2
@@ -154,7 +159,7 @@ func _ready() -> void:
 	row.add_child(coin)
 	gold_label = UIStyle.number_label("--", 20)
 	# 55, not the spec's 60: the row's 3 separations make the item 5 px wider than GOLD_EXTRA counts, and the bar
-	# must stay 624 wide (`2 140` = 52 px fits; wider numbers grow the bar, which recentres).
+	# must stay 644 wide (`2 140` = 52 px fits; wider numbers grow the bar, which recentres).
 	gold_label.custom_minimum_size = Vector2(55, 0)
 	gold_label.add_theme_color_override("font_color", GOLD_TEXT_COLOR)
 	gold_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

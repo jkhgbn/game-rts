@@ -1,7 +1,7 @@
 extends SceneTree
 ## Test for 4.U1a on the 1v1 map (scenes/skirmish.tscn):
 ## - inventory bar: 6 slots at (282 + i x 40, 834), artifact slot at (526, 834) (1600 x 900);
-## - essence in the top bar (500 x 40 at (550, 8)) matching EssenceBank.for_team(0);
+## - essence in the top bar (520 x 40 at (540, 8); spec 500 at 550 + the 20 px pop-200 number) matching EssenceBank.for_team(0);
 ## - an Ember Shard shows "ES", its tooltip "Ember Shard  [Num 1]" / "+12 damage" / "Sell 100";
 ## - Numpad 2 uses the Ember Draught in slot 2 (a charge goes, cooldown sweep) and never touches groups;
 ## - swap, drop (right click away from shops) and right-click pickup round-trip;
@@ -111,8 +111,9 @@ func _step() -> void:
 				return
 			var r: Rect2 = tb.get_global_rect()
 			# Step 10 (ui-trade.md 3): with a GoldBank the gold item widens the bar to 624 x 40 at (488, 8).
+			# Pop cap 200 (2026-09-27): the pop number is 20 px wider, every bar width + TopBar.POP_EXTRA.
 			var gold_on: bool = tb.get("gold_bank") != null
-			var want := Rect2(488, 8, 624, 40) if gold_on else Rect2(550, 8, 500, 40)
+			var want := Rect2(478, 8, 644, 40) if gold_on else Rect2(540, 8, 520, 40)
 			if root.get_visible_rect().size == Vector2(1600, 900) and (r.position != want.position or r.size != want.size):
 				_error = "top bar rect %s" % r
 				return

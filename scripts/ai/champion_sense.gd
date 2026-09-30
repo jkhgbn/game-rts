@@ -60,6 +60,10 @@ var team := 0
 var now := 0.0                       ## Game seconds since this sense was created (brains share it).
 var version := 0                     ## +1 per refresh.
 var bounty_version := 0              ## +1 whenever the team's bounties change (placed, raised, removed).
+## +1 when a Magpie carrying loot comes into view (10.A3): a Coin-Cutter re-plans at once (its Raid default takes a
+## looter within 30 m first), not at its next 2 s plan tick, when it may already have walked out of sight.
+var looter_version := 0
+var _looters_seen: Dictionary = {}   # instance id of the looters visible at the last pass -> true
 
 var enemies: Array[Dictionary] = []
 var workers_seen: Dictionary = {}    # instance id -> {node: WeakRef, pos, time}
@@ -445,6 +449,8 @@ func refresh() -> void:
 		return
 	_fog = FogOfWar.find()
 	version += 1
+	var looters_now := {}
+	var new_looter := false
 	enemies.clear()
 	structures.clear()
 	own_buildings.clear()
@@ -493,6 +499,10 @@ func refresh() -> void:
 				"hp_ratio": u.hp / maxf(u.max_hp, 1.0),
 				"loot": int(u.get_meta(&"loot", 0)) if u.is_in_group(&"magpies") else 0}   # 10.A3: Magpie loot
 		enemies.append(e)
+		if int(e["loot"]) > 0:
+			looters_now[u.get_instance_id()] = true
+			if not _looters_seen.has(u.get_instance_id()):
+				new_looter = true
 		if worker:
 			workers_seen[u.get_instance_id()] = {"node": weakref(u), "pos": pos, "time": now}
 		var tgt: Variant = u.attack_target
@@ -505,6 +515,9 @@ func refresh() -> void:
 				hits.append({"node": tgt, "pos": (tgt as Node3D).global_position,
 						"building": tgt is Building, "attackers": []})
 			(hits[hit_index[id]]["attackers"] as Array).append(e)
+	_looters_seen = looters_now
+	if new_looter:
+		looter_version += 1
 
 	for node in tree.get_nodes_in_group(&"buildings"):
 		var b := node as Building

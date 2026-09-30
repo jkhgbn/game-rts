@@ -32,6 +32,8 @@ signal class_chosen(champion: Champion, class_id: StringName)
 # Inherited: level_changed(unit, level), died(unit), stats_changed, damage_taken...
 
 const MAX_LEVEL := 6
+## Model scale of a hired champion vs its army-scale model scene (in-game read at RTS zoom 30, 2026-09-30).
+const MODEL_SCALE := 1.15
 ## Total XP to reach level i + 1 (index 0 = level 1): the step-9 curve x1.25 (skills-rework.md 9.2).
 const LEVEL_TOTAL_XP: Array[int] = [0, 190, 500, 940, 1500, 2190]
 ## The class is drawn when the champion reaches this level (skills-rework.md 2.1).
@@ -749,6 +751,9 @@ func refresh_team_color() -> void:
 func _build_visual() -> void:
 	super._build_visual()
 	if _model:
+		# In-game grade 2026-09-30: champions read as small slabs at RTS zoom 30; the hired heroes stand 15 % taller
+		# than their army-scale model (ChampionType.body_height is the scaled height: HP bar, click box).
+		_model.scale = Vector3.ONE * MODEL_SCALE
 		if _model.has_method(&"set_variant"):
 			_model.call(&"set_variant", variant)
 		if champion_class:

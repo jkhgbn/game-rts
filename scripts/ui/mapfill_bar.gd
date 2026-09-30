@@ -503,8 +503,10 @@ func _style_blessing_chip_node(chip: PanelContainer, border: Color) -> void:
 	var s := UIStyle.slate_style(4.0, border)
 	s.content_margin_left = 6.0
 	s.content_margin_right = 6.0
-	s.content_margin_top = 2.5      # 22 px tall with the font-12 line
-	s.content_margin_bottom = 2.5
+	# 22 px tall (CHIP_SIZE): the U7 theme's Alegreya font-12 line is 18 px (18 + 2 + 2); the fallback font's 17 px
+	# line gives 21, which custom_minimum_size rounds up to 22. (2.5 made the chip 23 px with Alegreya.)
+	s.content_margin_top = 2.0
+	s.content_margin_bottom = 2.0
 	chip.add_theme_stylebox_override("panel", s)
 
 

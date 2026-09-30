@@ -1,6 +1,6 @@
 # Art Lab scorecard: plant_float_deer
 
-Scene `res://tools/art_lab/calibration/virtual/plant_float_deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 10:13:56 · lab v3.1 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_float_deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 16:14:38 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **FAIL** · quality **88 / 100** (87.9)
 

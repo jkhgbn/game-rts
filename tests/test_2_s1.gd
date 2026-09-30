@@ -1,7 +1,7 @@
 extends SceneTree
 ## Task 2.S1: buildings (docs/design/buildings.md). The spec's check: place an Ember Hall
 ## (250 -> 100 crystals), 2 workers build it in 30 s +-1, it trains a Flame Guard; a Hearth raises
-## the cap to 30; a 3rd Hearth is refused; cancelling a 120 site refunds 90. Also: the 8 types,
+## the cap to 40; a 10th Hearth is refused (pop-200 rule); cancelling a 120 site refunds 90. Also: the 8 types,
 ## every placement rule's message, 10 % -> 100 % hp, 1 / 1.5 / 2.0 build speed, workers go back
 ## to gathering, the keep trains only workers, the navmesh gets a hole under a new building,
 ## a destroyed Hearth frees its pop, a tower shoots, the Shadow team can place and build.
@@ -195,8 +195,9 @@ func _check_types() -> void:
 				["flame_guard", "ember_archer", "blaze_rider", "ash_hurler"], 0.0, "fire"],
 		"shadow_barracks": [150, 1300.0, Vector2i(3, 3), 0, 0,
 				["shade", "nightbolt", "grave_hound", "shadow_knight"], 0.0, "shadow"],
-		"fire_hearth": [80, 500.0, Vector2i(2, 2), 10, 2, [], 0.0, "fire"],
-		"shadow_hovel": [80, 500.0, Vector2i(2, 2), 10, 2, [], 0.0, "shadow"],
+		# Houses: +20 pop, max 9 per team (pop-200 rule, economy.md 2026-09-27; was +10, max 2).
+		"fire_hearth": [80, 500.0, Vector2i(2, 2), 20, 9, [], 0.0, "fire"],
+		"shadow_hovel": [80, 500.0, Vector2i(2, 2), 20, 9, [], 0.0, "shadow"],
 		"fire_tower": [120, 750.0, Vector2i(1, 1), 0, 4, [], 15.0, "fire"],
 		"shadow_tower": [120, 750.0, Vector2i(1, 1), 0, 4, [], 15.0, "shadow"],
 	}
@@ -345,23 +346,28 @@ func _cancel_test() -> void:
 	_cancel_done = true
 
 
-## Hearth finished: cap 30; a 2nd hearth site is fine, a 3rd is refused; destroying one frees 10.
+## Hearth finished: cap 40; more hearth sites are fine up to 9 hearths (built or not), the 10th is refused;
+## destroying one frees its 20 (pop-200 rule, economy.md 2026-09-27; was cap 30 / 3rd refused / frees 10).
 func _hearth_test() -> void:
 	_hearth_checks = true
-	if eco.pop_cap != 30:
-		_errors.append("cap %d after a hearth, want 30" % eco.pop_cap)
-	eco.crystals = maxi(eco.crystals, 500)
+	if eco.pop_cap != 40:
+		_errors.append("cap %d after a hearth, want 40" % eco.pop_cap)
 	var hearth_t := BuildingType.find("fire_hearth")
-	var second: Building = grid.place(hearth_t, _find_spot(hearth_t, Vector3(-44, 0, 26), Unit.Team.PLAYER),
-			Unit.Team.PLAYER, [])
-	if second == null:
-		_errors.append("2nd hearth refused: %s" % grid.last_reason)
-		return
-	var third_spot := _find_spot_ignoring_cost(hearth_t, Vector3(-20, 0, 30))
-	var reason: String = grid.check(hearth_t, third_spot, Unit.Team.PLAYER)
-	var third: Building = grid.place(hearth_t, third_spot, Unit.Team.PLAYER, [])
-	if reason != "Population limit reached" or third != null or grid.last_reason != reason:
-		_errors.append("3rd hearth: '%s'" % reason)
+	eco.crystals = maxi(eco.crystals, 80 * (hearth_t.max_count - 1) + 100)
+	for i in hearth_t.max_count - 1:
+		var more: Building = grid.place(hearth_t,
+				_find_spot(hearth_t, Vector3(-44 + (i % 4) * 5, 0, 26 + floori(i / 4.0) * 5), Unit.Team.PLAYER),
+				Unit.Team.PLAYER, [])
+		if more == null:
+			_errors.append("hearth %d refused: %s" % [i + 2, grid.last_reason])
+			return
+	if eco.pop_cap != 40:
+		_errors.append("unbuilt hearth sites changed the cap: %d" % eco.pop_cap)
+	var extra_spot := _find_spot_ignoring_cost(hearth_t, Vector3(-20, 0, 30))
+	var reason: String = grid.check(hearth_t, extra_spot, Unit.Team.PLAYER)
+	var extra: Building = grid.place(hearth_t, extra_spot, Unit.Team.PLAYER, [])
+	if reason != "Population limit reached" or extra != null or grid.last_reason != reason:
+		_errors.append("hearth %d: '%s'" % [hearth_t.max_count + 1, reason])
 	var gone := [false]
 	hearth.destroyed.connect(func(_b: Building) -> void: gone[0] = true)
 	hearth.take_damage(9999.0, null)

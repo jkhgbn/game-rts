@@ -257,14 +257,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.214232263010674,
+			"graded": 0.213059014359271,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, ArmL, Chest; 57% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.86): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.214232263010674,
+			"score": 0.213059014359271,
 			"shot": "close",
 			"status": "INFO",
 			"value": "24 shapes over 7 body parts (3.4 per part: LegL 2, LegR 2, Hips 7, Head 3, ArmL 2, ArmR 6, Chest 2); 57% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.864",
@@ -295,7 +295,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.01 s",
+			"value": "after 0.0 s",
 			"weight": 1.0
 		},
 		{
@@ -397,14 +397,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.90458705690172,
+			"graded": 0.901629871792264,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.971376117070516,
+			"score": 0.970488961537679,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.89 m / body_height 1.8 (x1.05)",
@@ -450,7 +450,7 @@
 	"headless": true,
 	"improve_next": [
 		{
-			"rank": 1.57153547397865,
+			"rank": 1.57388197128146,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, ArmL, Chest; 57% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.86): tilt, curve and rotate parts so the light breaks on them",
@@ -480,11 +480,11 @@
 		"3 materials are built in code (fine when cached per type: see B9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 86.9,
+	"quality": 86.8,
 	"result": "PASS",
 	"scene": "res://art/units/_effort_trial/low/vinelasher.tscn",
-	"seconds": 0.3,
+	"seconds": 0.2,
 	"shots": {},
-	"started": "2026-09-30 10:13:55",
+	"started": "2026-09-30 16:14:37",
 	"tier": "soldier"
 }

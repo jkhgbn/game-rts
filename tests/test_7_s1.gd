@@ -81,7 +81,7 @@ func _check_types() -> void:
 	var spec := {
 		&"ice_keep": [0, 0.0, 3000.0, Vector2i(3, 3), 6.0, 20, 0, ""],
 		&"ice_barracks": [150, 54.0, 1560.0, Vector2i(3, 3), 4.0, 0, 0, "X"],
-		&"ice_lodge": [80, 30.0, 600.0, Vector2i(2, 2), 3.0, 10, 2, "Z"],
+		&"ice_lodge": [80, 30.0, 600.0, Vector2i(2, 2), 3.0, 20, 9, "Z"],   # pop-200 rule (economy.md 2026-09-27): +20, max 9
 		&"ice_tower": [130, 42.0, 900.0, Vector2i(1, 1), 5.0, 0, 4, "C"],
 		&"ice_wall": [20, 8.0, 500.0, Vector2i(1, 1), 2.5, 0, 16, "V"],
 	}
@@ -106,16 +106,23 @@ func _check_types() -> void:
 	if wall and wall.sight_radius != 4.0:
 		_errors.append("Ice Wall sight %.1f" % wall.sight_radius)
 	# Step 10: the Bazaar (kind market) joins every build menu while trade is on; it is not part of this check.
+	# docs/design/stables.md: the kingdom's Stables (key N) comes last in skirmish games (Stables16.enabled_here()).
+	var stables_on := Stables16.enabled_here()
 	var ids: Array[StringName] = []
 	for t in BuildingType.buildable_for(&"ice"):
 		if t.kind != &"market":
 			ids.append(t.id)
-	if ids != [&"ice_lodge", &"ice_barracks", &"ice_tower", &"ice_wall"]:
-		_errors.append("Ice build menu is %s" % str(ids))
-	var fire_n := BuildingType.buildable_for(&"fire").filter(func(t: BuildingType) -> bool: return t.kind != &"market").size()
-	var shadow_n := BuildingType.buildable_for(&"shadow").filter(func(t: BuildingType) -> bool: return t.kind != &"market").size()
-	if fire_n != 3 or shadow_n != 3:
-		_errors.append("Fire / Shadow build menus changed")
+	var want_ice: Array[StringName] = [&"ice_lodge", &"ice_barracks", &"ice_tower", &"ice_wall"]
+	if stables_on:
+		want_ice.append(&"ice_stables")
+	if ids != want_ice:
+		_errors.append("Ice build menu is %s, want %s" % [str(ids), str(want_ice)])
+	var core := func(t: BuildingType) -> bool: return t.kind != &"market" and t.kind != &"stables"
+	var fire_n := BuildingType.buildable_for(&"fire").filter(core).size()
+	var shadow_n := BuildingType.buildable_for(&"shadow").filter(core).size()
+	var fire_st := BuildingType.buildable_for(&"fire").filter(func(t: BuildingType) -> bool: return t.kind == &"stables").size()
+	if fire_n != 3 or shadow_n != 3 or fire_st != (1 if stables_on else 0):
+		_errors.append("Fire / Shadow build menus changed (%d / %d core, %d stables)" % [fire_n, shadow_n, fire_st])
 	# Frost Hall trains the 4 Ice soldiers once their UnitTypes exist (7.G2).
 	var hall := BuildingType.find("ice_barracks")
 	if hall and UnitType.find("rimeshield") != null and hall.trains.size() != 4:
