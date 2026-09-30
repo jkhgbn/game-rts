@@ -73,7 +73,7 @@ extends Node
 enum Difficulty { EASY, NORMAL, HARD }
 enum Stage { NONE, CAMP, MID, KEEP, HUNT, RETREAT, CREEP, SHRINE, POINT }
 enum HeroState { ANCHOR, DEFEND, ATTACK, HEAL, CROWN, WAIT, JOB }
-enum UnitKind { SOLDIER, WORKER, CHAMPION, CARAVAN, TRADE, SUMMON, WIZARD }   ## 20.A3 scan cache (_kind_of).
+enum UnitKind { SOLDIER, WORKER, CHAMPION, CARAVAN, TRADE, SUMMON, WIZARD, CASTER }   ## 20.A3 scan cache (_kind_of); CASTER: caster-units.md 8.
 
 const KIND_CACHE_MAX := 2000        ## 20.A3: freed units leave the kind cache once it grows past this.
 static var _snapshot := {}           # 20.A3: _units_by_team() result of _snapshot_frame
@@ -289,6 +289,8 @@ var _enemy_buildings: Array[Building] = []
 var _barracks: Array[TrainingBuilding] = []   # finished, not the keep
 var _champions: Array[Unit] = []          # own living champions (never ordered, 9.C9)
 var _caravans: Array[Unit] = []           # own living caravans (never army, never ordered here, 10.A3)
+var _casters: Array[Unit] = []            # own living caster units (caster-units.md 8: AICasters places them, never the army)
+var casters_ai: AICasters                 ## Read only (caster-units.md 8, CU.A1): training, positioning, casting of the casters.
 var _champion_home := 0.0                 # their power within 20 m of the rally (in own_strength)
 var _wizard: Wizard
 var _keep: Keep
@@ -567,6 +569,9 @@ func _setup() -> void:
 	mapfill_ai = AIMapFill.new(int(team), _enemy_team, ai)
 	mapfill_ai.setup(get_tree(), _level)
 	champion_ai.mapfill = mapfill_ai
+	if CasterKit.ENABLED and casters_ai == null:
+		casters_ai = AICasters.new(self)
+		add_child(casters_ai)
 	_mid_goal = CROWN_SPOT
 	_log("START %s bot (%s), team %d, %s" % [ai.id, ai.profile_id, int(team), _faction])
 
@@ -636,6 +641,7 @@ func _scan() -> void:
 	_barracks.clear()
 	_champions.clear()
 	_caravans.clear()
+	_casters.clear()
 	_champion_home = 0.0
 	own_strength = 0.0
 	_wizard = _level.wizard_of(team)
@@ -666,6 +672,11 @@ func _scan() -> void:
 				_workers.append(u as Worker)
 			UnitKind.SOLDIER:
 				_soldiers.append(u)
+				own_strength += AIMemory.strength_of(u)
+			UnitKind.CASTER:
+				# caster-units.md 8.2: casters never join the army's orders (AICasters keeps them 4 m behind it); they
+				# count cost x 0.5 (x 1.0 with mana) in the strength.
+				_casters.append(u)
 				own_strength += AIMemory.strength_of(u)
 			# TRADE (hired trackers: their contract drives them), SUMMON (8.A1 Saplings), WIZARD: skipped
 	for n: Variant in by_team.get(_enemy_team, []):
@@ -737,6 +748,8 @@ static func _kind_of(u: Unit) -> UnitKind:
 		kind = UnitKind.CARAVAN if TradeNetwork.is_caravan(u) else UnitKind.TRADE
 	elif not u.is_commandable():
 		kind = UnitKind.CHAMPION
+	elif CasterKit.is_caster_unit(u):
+		kind = UnitKind.CASTER
 	elif u is Worker:
 		kind = UnitKind.WORKER
 	elif AICasts.is_summon(u):
@@ -1612,6 +1625,10 @@ func _rule_train() -> void:
 		_log("HELPER CALL (crystals left %d)" % _eco.crystals)
 	if helper_step != &"":
 		return
+	# caster-units.md 8.1: the hard bot queues its caster(s) at the keep before any other Hall unit.
+	if casters_ai != null and casters_ai.try_train(true):
+		_queued_this_tick = true
+		return
 	# 9.C9 (champions.md 10): a due champion hire that waits only for crystals comes before the optional spenders
 	# ("+" / bowman upgrades, Stables riders and rank-3); training below still keeps its reserve through _can_spend
 	# (20 s rule). The tier timeline, the helper call and the Stables' own construction stay first, like a waiting
@@ -1687,6 +1704,7 @@ func _pick_soldier(b: TrainingBuilding) -> UnitType:
 			continue
 		# Slots past the profile mix: the Hall bowman's small share (bowmen.md 6), the new units' (new-units-12.md 5).
 		var target: float = mix[i] if i < mix.size() else BowmanKit.bot_share(types[i].id) + NewUnits12.bot_share(types[i].id)
+		target += AICasters.mix_bonus(int(team), types[i])   # caster-units.md 8.2: 2+ enemy casters seen -> fast units
 		var gap := target - float(pops[i]) / float(maxi(total, 1))
 		if gap > best_gap:
 			best_gap = gap
@@ -2310,6 +2328,59 @@ func _group_centre() -> Vector3:
 
 func _group_out() -> bool:
 	return stage != Stage.NONE and stage != Stage.RETREAT
+
+
+# ---------------------------------------------------------------- read-only views for AICasters (caster-units.md 8)
+
+## The attack group (units; empty while none is out).
+func army_group() -> Array:
+	return _group
+
+
+func rally_point() -> Vector3:
+	return _rally
+
+
+func is_retreating() -> bool:
+	return stage == Stage.RETREAT
+
+
+func group_out() -> bool:
+	return _group_out()
+
+
+func home_keep() -> Keep:
+	return _keep if is_instance_valid(_keep) else null
+
+
+## The enemy units this team sees now (this tick's scan).
+func seen_enemies() -> Array[Unit]:
+	return _enemies
+
+
+## Own living soldiers (no workers, champions, caravans, casters).
+func own_soldiers() -> Array[Unit]:
+	return _soldiers
+
+
+## Own living casters.
+func own_casters() -> Array[Unit]:
+	return _casters
+
+
+## True while rule 1 defends the base.
+func defending() -> bool:
+	return _defending
+
+
+## True when rule 5 already queued a unit this tick.
+func queued_this_tick() -> bool:
+	return _queued_this_tick
+
+
+## A line in the decision log (AICasters).
+func note_log(text: String) -> void:
+	_log(text)
 
 
 ## True while the pop cap can still rise: below the hard cap with a house row free or a house site up.

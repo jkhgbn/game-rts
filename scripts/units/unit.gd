@@ -214,6 +214,9 @@ var _hidden_auto_left := 0.0         # hide_from_auto_target: seconds left
 var order_serial := 0
 ## True = no auto-attacks (a Gloom Deacon channelling Blood Tithe walks but never attacks). Orders are kept.
 var attacks_blocked := false
+## Bot soldiers (AICasters sets it, caster-units.md 8.2): auto-aggro picks an enemy caster in reach first.
+var prefer_casters := false
+const CASTER_PREFERENCE := 100.0
 var _status_range_cap := INF         # hazed: ranged attacks reach at most this far
 var _status_sight_cap := INF         # hazed: fog sight at most this
 var _cast_lock_left := 0.0           # set_cast_lock: no walking, no attacks (a caster's 0.4 s cast)
@@ -2086,12 +2089,18 @@ func _find_nearest_enemy_building(max_distance: float) -> Node3D:
 func _find_nearest_enemy(max_distance: float) -> Unit:
 	var best: Unit = null
 	var best_dist := max_distance
+	var best_score := INF
 	for node in get_tree().get_nodes_in_group("units"):
 		var other := node as Unit
 		if other == null or not is_enemy_of(other) or not other.is_alive() or other._hidden_auto_left > 0.0:
 			continue
 		var d := _flat_distance(other.global_position)
-		if d < best_dist and _in_leash(other):
+		if d >= max_distance or not _in_leash(other):
+			continue
+		# caster-units.md 8.2: bot soldiers (prefer_casters) take an enemy caster in reach before any nearer unit.
+		var score := d - CASTER_PREFERENCE if prefer_casters and other.has_node(^"CasterAbility") else d
+		if score < best_score:
+			best_score = score
 			best_dist = d
 			best = other
 	return best
