@@ -232,9 +232,9 @@ func target_reason(spell_id: StringName, target: Variant) -> String:
 		if spell_id == &"rime_bulwark" and not _wall_spot_ok(p):
 			return CasterKit.REASON_INVALID
 		return ""
-	var u := target as Unit
-	if u == null:
+	if not (target is Unit):
 		return CasterKit.REASON_NO_TARGET
+	var u := target as Unit
 	if not u.is_alive() or not u.is_inside_tree():
 		return CasterKit.REASON_INVALID
 	if kind == &"enemy":
