@@ -1,0 +1,13 @@
+{
+	"asset": "caster_nature_vfx",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "vfx",
+	"kingdom": "nature",
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "res://art/vfx/caster_nature_vfx.gd",
+	"tier": "family",
+	"version": "1.0"
+}

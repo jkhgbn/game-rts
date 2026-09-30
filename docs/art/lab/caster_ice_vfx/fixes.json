@@ -1,0 +1,13 @@
+{
+	"asset": "caster_ice_vfx",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "vfx",
+	"kingdom": "ice",
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "res://art/vfx/caster_ice_vfx.gd",
+	"tier": "family",
+	"version": "1.0"
+}

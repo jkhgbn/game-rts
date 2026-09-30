@@ -25,6 +25,10 @@ const MODULES: Array[String] = [
 	"res://art/vfx/unit_fire_gun_vfx.gd",      # 13b.V6 Gunpowder (Fire): musket_shot, powder_volley, powder_smoke...
 	"res://art/vfx/unit_ice_rifle_vfx.gd",     # 13b.V7 Rune-rifle (Ice)
 	"res://art/vfx/unit_nature_t3_vfx.gd",     # 13b.V9 Nature tier 3
+	"res://art/vfx/caster_fire_vfx.gd",        # CU.V5 Kilnwarden: slag_rain, slagged, mana_scald, stoke
+	"res://art/vfx/caster_shadow_vfx.gd",      # CU.V6 Gloom Deacon: blood_tithe, umbral_passage, passage_step, vigil
+	"res://art/vfx/caster_ice_vfx.gd",         # CU.V5 Rimecarver: rime_bulwark (+ _shatter / _melt), scrying_rune (+ _end)
+	"res://art/vfx/caster_nature_vfx.gd",      # CU.V6 Bramblesage: snagroot, pollen_haze, hazed, seedcloak
 ]
 
 var _families: Array[Node] = []

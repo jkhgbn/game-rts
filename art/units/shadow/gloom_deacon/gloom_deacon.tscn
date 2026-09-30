@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/shadow/gloom_deacon/gloom_deacon.gd" id="1_gd"]
+
+[node name="GloomDeacon" type="Node3D"]
+transform = Transform3D(1.06, 0, 0, 0, 1.06, 0, 0, 0, 1.06, 0, 0, 0)
+script = ExtResource("1_gd")
+unit_kind = &"gloom_deacon"
+glow_gain = 1.8
+body_height = 2.05
+attack_style = &"deacon_bolt"
+attack_windup = 0.12
+death_style = &"sink"
+stride_time = 0.58
+stride_speed = 4.6
+idle_period = 3.8
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+leg_swing_deg = 18.0
+walk_bounce = 0.02
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, 0)
+
+[node name="LegL" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0)
+
+[node name="LegR" type="Node3D" parent="Root/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0.03)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21, 0.52, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21, 0.52, 0)
+
+[node name="Fx" type="Node3D" parent="."]

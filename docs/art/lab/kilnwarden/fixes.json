@@ -1,0 +1,13 @@
+{
+	"asset": "kilnwarden",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 96.1,
+	"result": "PASS",
+	"scene": "res://art/units/fire/kilnwarden/kilnwarden.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

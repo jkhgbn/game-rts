@@ -1,0 +1,31 @@
+{
+	"asset": "rimecarver",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R7",
+			"computed": false,
+			"measured": {
+				"value": "bar hides 10% of the silhouette (gap -8 px)"
+			},
+			"predicted": {},
+			"proposal": "HP bar over the body at 40 m: The HP bar hides 10% of the body: lower / narrow what sticks up, or fix body_height",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R7 HP bar over the body at 40 m: The HP bar hides 10% of the body: lower / narrow what sticks up, or fix body_height",
+			"title": "HP bar over the body at 40 m",
+			"wanted": {
+				"rule": "<= 8% (FAIL > 25%); bar at body_height + 0.5 = 2.2 m, 1.17 m wide"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 95.0,
+	"result": "WARN",
+	"scene": "res://art/units/ice/rimecarver/rimecarver.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}
