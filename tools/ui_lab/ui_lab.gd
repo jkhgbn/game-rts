@@ -4,7 +4,9 @@ extends SceneTree
 ##   & tools/godot_run.ps1 --path . -s res://tools/ui_lab/ui_lab.gd --quit-after 200000 '--' 'res=1600x900,1920x1080,3440x1440'
 ## Args after `--` (key=value):
 ##   res       comma list of WxH (default 1600x900,1920x1080,3440x1440)
-##   screens   comma list (default all): main_menu, skirmish_setup, settings, hud, pause, end_score
+##   screens   comma list (default all): main_menu, skirmish_setup, settings, hud, hud_keep, hud_caster, pause, end_score
+##             (hud_keep = the keep card at the Stronghold, B = the caster; hud_caster = a caster card, Z / V spells:
+##             caster-units.md CU.L1)
 ##   out       output folder (default res://docs/ui/lab): scorecard.md / .json, <WxH>/<screen>.jpg
 ##   match_s   match time before the HUD shot (default 60)     timescale  game speed while waiting (default 8)
 ##   ui_scale  UI scale forced for the run (default 1.0; the saved setting is never written)
@@ -13,9 +15,10 @@ extends SceneTree
 
 const WATCHDOG_S := 900.0
 const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
-const ALL_SCREENS: Array[String] = ["main_menu", "skirmish_setup", "settings", "hud", "pause", "end_score"]
+const ALL_SCREENS: Array[String] = ["main_menu", "skirmish_setup", "settings", "hud", "hud_keep", "hud_caster", "pause",
+		"end_score"]
 const MENU_SCREENS: Array[String] = ["main_menu", "skirmish_setup", "settings"]
-const GAME_SCREENS: Array[String] = ["hud", "pause", "end_score"]
+const GAME_SCREENS: Array[String] = ["hud", "hud_keep", "hud_caster", "pause", "end_score"]
 
 var report := UILabReport.new()
 var out_dir := "res://docs/ui/lab"
@@ -202,6 +205,10 @@ func _run_resolution(res: String, screens: Array[String]) -> void:
 	await _frames(20)
 	if screens.has("hud"):
 		await _capture("hud", res, hud, level)
+	if screens.has("hud_keep"):
+		await _capture_keep_card(res, hud, level)
+	if screens.has("hud_caster"):
+		await _capture_caster_card(res, hud, level)
 	var pause: Node = null
 	for c in level.get_children():
 		if c.has_method(&"open") and c.has_method(&"can_open") and c is CanvasLayer:
@@ -221,6 +228,42 @@ func _run_resolution(res: String, screens: Array[String]) -> void:
 		await _frames(4)
 		var ep: Node = hud.get(&"end_panel")
 		await _capture("end_score", res, ep if ep != null else hud)
+
+
+## caster-units.md CU.L1: the player's keep at the Stronghold (the caster on B, Set Rally r3c1), captured as "hud_keep".
+func _capture_keep_card(res: String, hud: Node, level: Node) -> void:
+	var sel: Node = level.get(&"selection")
+	var keep: Node = level.call(&"keep_of", Unit.Team.PLAYER) if level.has_method(&"keep_of") else level.get(&"keep")
+	if sel == null or keep == null:
+		report.notes.append("%s: no keep to show" % res)
+		return
+	var ts := TierSystem.instance()
+	if ts:
+		ts.set_tier(Unit.Team.PLAYER, 2)
+	sel.call(&"select_building", keep)
+	await _frames(12)
+	await _capture("hud_keep", res, hud, level)
+
+
+## caster-units.md CU.L1: a caster of the player's kingdom selected (M C H A + Z V), captured as "hud_caster".
+func _capture_caster_card(res: String, hud: Node, level: Node) -> void:
+	var sel: Node = level.get(&"selection")
+	var keep: Node3D = level.call(&"keep_of", Unit.Team.PLAYER) if level.has_method(&"keep_of") else level.get(&"keep")
+	var k: StringName = StringName(str(level.call(&"kingdom_of", Unit.Team.PLAYER))) if level.has_method(&"kingdom_of") else &"fire"
+	var t := UnitType.find(String(CasterKit.caster_for(k)))
+	if sel == null or keep == null or t == null:
+		report.notes.append("%s: no caster to show" % res)
+		return
+	var u := t.create_unit()
+	u.team = Unit.Team.PLAYER
+	level.add_child(u)
+	u.global_position = keep.global_position - Vector3(keep.global_position.x, 0, keep.global_position.z).normalized() * 12.0
+	u.command_stop()
+	sel.call(&"select_units", [u])
+	await _frames(12)
+	await _capture("hud_caster", res, hud, level)
+	u.queue_free()
+	await _frames(2)
 
 
 ## Selects the player's commandable units (the wizard and the workers at 1:00): the selection panel and command card
@@ -257,7 +300,7 @@ func _capture(screen: String, res: String, scope: Node, level: Node = null) -> v
 			img = null
 	var controls := UILabChecks.visible_controls(scope)
 	var screen_rect := Rect2(Vector2.ZERO, Vector2(root.get_visible_rect().size))
-	var in_game := screen == "hud"
+	var in_game := screen.begins_with("hud")
 	# 1. overflow: sticking out of the frame by > 6 px = FAIL, cut text = WARN.
 	var ov := UILabChecks.find_overflow(controls)
 	for it: Dictionary in ov:
@@ -277,7 +320,7 @@ func _capture(screen: String, res: String, scope: Node, level: Node = null) -> v
 		if in_game or bool(it["short"]):
 			tips.append(it)
 	report.add_items(screen, res, "tooltip", tips)
-	if screen == "hud":
+	if screen.begins_with("hud"):
 		var hk: Array[Dictionary] = []
 		var card: Node = scope.get(&"command_card")
 		if card != null:

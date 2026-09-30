@@ -746,6 +746,25 @@ Later backlog (user "all suggestions ok"): tutorial, music / voices / alerts, Qo
 army), 4-player FFA / 2v2 map, more maps, campaign episodes 2+ (after step 19), bot personalities, PvP, stats / replays, profile,
 day-night / weather, French UI, graphics / key options, GitHub push (needs the user's sign-in once).
 
+## Step 21: Caster units (JS 2026-09-30)
+JS (verbatim): "find a list of only caster unit like medivac or infestor sc2 and add 1 for the 4 wizzard".
+Spec: `docs/design/caster-units.md` (approved). One spell-casting support unit per kingdom, tier 2, trained at the keep
+on slot 5 (**B**), 150 crystals / pop 2 / 30 s, mana 200 (start 50, 0.8 / s), spells on **Z / V** (Ctrl = autocast):
+Kilnwarden (Fire: Slag Rain, Mana Scald; Stoke), Rimecarver (Ice: Rime Bulwark, Scrying Rune; Stillness), Bramblesage
+(Nature: Snagroot, Pollen Haze; Seedcloak), Gloom Deacon (Shadow: Blood Tithe, Umbral Passage; Vigil).
+Tasks (caster-units.md 9.2): CU.D2 (ui-hud.md section) -> CU.C1 [H] / CU.C2 / CU.U1 in parallel -> CU.A1 [H] -> CU.V1-V7 /
+CU.S1, then CU.T1 (tests), CU.L1 (labs), CU.D3 (Balance Lab tuning).
+Status (2026-09-30, branch `casters`): C1 / C2 / U1 / A1 / T1 built in one pass (models and VFX V1-V6 were already in);
+CU.L1: Data Lab check CU1 and the UI Lab shots `hud_keep` / `hud_caster` added; still open: CU.V7 icons (the buttons show
+abbreviations), CU.S1 sounds and voices, Balance Lab duels C1-C7 + CU.D3, the perf-test caster load (12).
+Done when: caster-units.md 9.3 (tests/test_casters.gd, test_casters_ui.gd, test_casters_ai.gd, test_ui_card_hotkeys.gd;
+smoke victory=true; Data Lab CU1 PASS; Art Lab no FAIL; Balance Lab C1-C7 inside the bands or a knob change in CU.D3).
+Playtest checklist: train each kingdom's caster at the Stronghold keep (B, greyed before); Z / V aim with the range
+ring, one click = one cast by the best caster, Shift keeps aiming; right-click / Ctrl+Z / Ctrl+V autocast (turning gold
+border); the mana bar in the panel and over the unit; Slag Rain on an Ice line, a Rime Bulwark stopping a dive,
+Snagroot on a Frost Mortar, Pollen Haze on archers, Blood Tithe on a hurt ally, Umbral Passage recalling a group;
+a hard bot fields 2 casters by ~6:00 and its soldiers hunt your casters.
+
 ## Decisions waiting for the user
 From the design day: population 1 / 2 / 3 (so mission 1 starts at 12 of 20), wizard death = instant loss,
 Fireball button moves to the command card. Wave 1 uses these unless the user says otherwise.

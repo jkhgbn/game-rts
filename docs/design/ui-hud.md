@@ -41,6 +41,7 @@ The old bottom-left hero panel is removed; its content moves into the selection 
 |---|---|---|---|---|---|---|---|---|
 | Worker(s) | Move M | Stop C | Hold H | Gather G | Build B (opens the build menu, `buildings.md`) | | | |
 | Soldier(s) | Move M | Stop C | Hold H | Attack-move X | | | | |
+| Caster(s) (caster-units.md) | Move M | Stop C | Hold H | Attack-move X | spell 1 **Z** | spell 2 **V** | | |
 | Wizard | Move M | Stop C | Hold H | Attack-move X | Fireball F | Ember Step Q (wave 3) | Kindle E (wave 3) | |
 | Mixed units | Move M | Stop C | Hold H | Attack-move X (if any soldier) | spells F / Q / E (if wizard) | | | Gather G (if any worker) |
 | Keep | Cinder Hand Z | Set Rally (button only; right-click does the same) | | | | | | |
@@ -57,7 +58,8 @@ tooltip's first line names it: `Name  [key]`. The key always acts on that very b
 
 | Card | Keys (slot = key, QWERTY positions) |
 |---|---|
-| Keep (skirmish) | r1c1 worker **Z** · r1c2 Stronghold / Citadel / Cancel **X** (empty at the Citadel: the other keys never move) · r1c3 tier-3 unit **C** · r1c4 Call / Revive helper **V** · Set Rally after them. Missions (no tiers): worker Z, Set Rally r1c2 |
+| Keep (skirmish) | r1c1 worker **Z** · r1c2 Stronghold / Citadel / Cancel **X** (empty at the Citadel: the other keys never move) · r1c3 tier-3 unit **C** · r1c4 Call / Revive helper **V** · r2c1 caster **B** (tier 2; greyed `Requires Stronghold` before) · Set Rally r3c1. Missions (no tiers): worker Z, Set Rally r1c2 |
+| Caster(s) (caster-units.md 3.2) | M C H X/A as soldiers · r2c1 spell 1 **Z** · r2c2 spell 2 **V** (the active subgroup's casters; Z / V act whenever casters are selected, whatever the subgroup). Tooltip `Slag Rain  [Z]\n75 mana · range 10 · autocast on\n<effect>\nRight-click or Ctrl+Z: autocast on / off`; greyed with `Not enough mana` / `Can't cast now`, a cooldown sweep for Umbral Passage; autocast on = a slowly turning gold border (dimmer when only some selected casters have it); **right-click** the button or **Ctrl+Z / Ctrl+V** toggle it for every selected caster |
 | Hall | Z X C V the 4 units · **B** bowman · **N M ,** the 3 new units · r3c1 Set Rally · r3c4 **`+`** = the "+" upgrades page |
 | Hall "+" page (tiers.md 5) | each unit's "+" on its unit's slot with **the unit's own key** (Flame Guard+ = Z ...) · r3c4 Back **Esc** (`+` again closes too). `+` = the physical `=/+` key (it carries + on QWERTY and AZERTY) or numpad +; while the page is open the unit keys buy, never train |
 | Stables | Z X C V the 4 riders · **B / N** rank-3 of the Z / C rider · Set Rally |
@@ -67,6 +69,12 @@ tooltip's first line names it: `Name  [key]`. The key always acts on that very b
 | Tavern window (open) | **Z X C V** = the row's Hire (Revive when fallen), **Shift** + the key = the gold button, **B** = the Genie; Dismiss stays click-only (two clicks). Y / Esc close |
 | Trade window (open, U) | Bazaar tab **Z X C V** = Buy the 4 wares, **B / N** = exchange to crystals / essence (Shift x5); Lodge tab **Z X** = Hire the 2 tracker contracts. U / Esc close |
 | Idle-worker button | **F3** badge (Ctrl+F3 all) |
+
+Caster targeting (caster-units.md 3.2): Z / V show the cross cursor, the area ring at the cursor (Slag Rain 3 m, Pollen
+Haze 3.5 m, Umbral Passage 4 m; unit spells 0.8 m), the **wall ghost** for Rime Bulwark (4 m across the caster -> cursor
+line) and a pale gold **range ring** around the caster that would cast; left click = one cast by the selected caster
+with the most mana in range (else the nearest walks into range), **Shift+click** keeps aiming for the next caster;
+right click / Esc cancel. A minimap click casts a point spell there.
 
 Set Rally, Set Route and the route buttons keep no key (right-click does the same; spec 1.U2). `UnitType.card_key` holds
 the letter of the unit's button (data; the Data Lab K1 checks it against the slot).
@@ -79,8 +87,8 @@ the letter of the unit's button (data; the Data Lab K1 checks it against the slo
 | Selection | Shows |
 |---|---|
 | Nothing | `Nothing selected`, font 16, centred |
-| 1 unit | Name font 20; HP bar 280 x 22 with `HP x / y`; one line font 14: `Damage 12 · Range 1.6 · Speed 5.0`; for the wizard also its mana bar |
-| 2+ units | Grid of 48 x 48 icons, 4 px gap, 12 per row, max 2 rows (24). Each icon: unit abbreviation + a 4 px HP strip under it (green > 50 %, yellow > 25 %, red). Click an icon = select only that unit. Header line font 14: `9 selected:  5 Flame Guard, 4 Ember Archer` (existing format) |
+| 1 unit | Name font 20; HP bar 280 x 22 with `HP x / y`; one line font 14: `Damage 12 · Range 1.6 · Speed 5.0`; for the wizard and a **caster** also its mana bar (`Mana  120 / 200`) |
+| 2+ units | Grid of 48 x 48 icons, 4 px gap, 12 per row, max 2 rows (24). Each icon: unit abbreviation + a 4 px HP strip under it (green > 50 %, yellow > 25 %, red); a caster also gets a 3 px mana strip right above it (its tooltip adds `Mana x / y`). Click an icon = select only that unit. Header line font 14: `9 selected:  5 Flame Guard, 4 Ember Archer` (existing format) |
 | Keep | Name `Keep`, HP bar; then the **training queue**: 5 slots 48 x 48 in a row, slot 1 with a 48 x 6 progress bar under it in `(1.0, 0.85, 0.4)`; click a slot = cancel it; text `Rally: set` / `Rally: gather node` |
 
 ## Minimap (1.U3)
@@ -114,7 +122,9 @@ Ctrl+1-9 / 1-9: groups    F1: Vessa    Space: find Vessa    F9: restart    F10 t
 Arrows / edge: pan    Wheel: zoom    Middle drag: rotate
 ```
 (Wave-2 block. The live help is `GameHUD.help_text()`, 12 lines (ui-trade.md 14.1, ui-mapfill.md 12, UX.1 layouts); since
-2026-09-29 its train keys read `Z X C V B N M ,: train`, AZERTY `W X C V B N , ;: train`.)
+2026-09-29 its train keys read `Z X C V B N M ,: train`, AZERTY `W X C V B N , ;: train`. Since step 21 (caster-units.md)
+its 11th line reads `B, B: Bazaar    Bazaar: Z caravan    Z / V: caster spells (Ctrl: autocast)`; the Bazaar's
+route click stays on its Set Route tooltip.)
 
 ## Done when
 - [ ] 1.U1: top bar at (640, 8) shows crystals and `12 / 20` at start, updates on `Economy.changed`, red at cap, flashes on failed spend.

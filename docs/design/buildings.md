@@ -77,6 +77,7 @@ A ghost placement is **valid** when all of these hold; the first failing rule is
 | Worker(s), build menu open (after B) | Hearth **Z** | Ember Hall **X** | Ember Spire **C** | Back (Esc / right-click) | | | | |
 | Mixed with worker(s) | Move M | Stop C | Hold H | Attack-move X | spells F / Q / E (if wizard, see `spells.md`) | | | Gather G |
 | Keep | Cinder Hand Z | Set Rally (no key) | | | | | | |
+| Keep (skirmish, tiers on) | Worker **Z** | (tiers) **X** | tier-3 unit **C** | helper **V** | Caster **B** (T2, `caster-units.md`) | | | |
 | Ember Hall | Flame Guard Z | Ember Archer X | Blaze Rider C | Ash Hurler V | Set Rally (no key) | | | |
 | Hearth, Ember Spire | | | | | | | | |
 | Construction site | Cancel **Delete** | | | | | | | |

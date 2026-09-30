@@ -192,11 +192,13 @@ static func sight_of(node: Node) -> float:
 	if u:
 		if not u.is_alive():
 			return 0.0
+		var sight := WIZARD_SIGHT if u is Wizard else DEFAULT_UNIT_SIGHT
 		if u.unit_type:
 			if &"sight_radius" in u.unit_type and float(u.unit_type.get(&"sight_radius")) > 0.0:
-				return float(u.unit_type.get(&"sight_radius"))
-			return float(UNIT_SIGHT.get(u.unit_type.id, DEFAULT_UNIT_SIGHT))
-		return WIZARD_SIGHT if u is Wizard else DEFAULT_UNIT_SIGHT
+				sight = float(u.unit_type.get(&"sight_radius"))
+			else:
+				sight = float(UNIT_SIGHT.get(u.unit_type.id, DEFAULT_UNIT_SIGHT))
+		return minf(sight, u.status_sight_cap())   # caster-units.md 3.5: `hazed` caps sight at 4 m
 	var b := node as Building
 	if b:
 		if not b.is_alive():

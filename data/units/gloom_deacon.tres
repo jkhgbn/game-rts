@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/gloom_deacon/gloom_deacon.tscn" id="2_model"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"gloom_deacon"
+display_name = "Gloom Deacon"
+faction = &"shadow"
+is_worker = false
+cost = 150
+pop = 2
+kill_xp = 75
+train_time = 30.0
+card_key = "B"
+requires_tier = 2
+max_hp = 100.0
+move_speed = 4.6
+attack_damage = 5.0
+attack_range = 7.0
+attack_cooldown = 1.6
+aggro_range = 9.0
+radius = 0.45
+body_height = 2.0
+body_color = Color(0.3, 0.18, 0.4, 1)
+projectile_color = Color(0.75, 0.3, 0.55, 1)
+projectile_speed = 22.0
+model_scene = ExtResource("2_model")
+armor = 0.0
+idle_regen_pct = 0.0
+sight_radius = 11.0
+model_path = "res://art/units/shadow/gloom_deacon/gloom_deacon.tscn"

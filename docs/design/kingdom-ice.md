@@ -57,6 +57,8 @@ Independent of the attack timer (the unit keeps shooting). Nothing found: retry 
 | `rime_seer` | Rime Seer | Support, shields | 70 | 5 | 6 | 8.0 | 1.5 | 4.2 | 10 | 0.45 | 1.6 | `(0.85, 0.92, 1.00)`, bolt `(0.60, 0.90, 1.00)` | 120 | 1 | 24 | C | 60 | `shield` 60 for 6 s, every 12 s, range 8 |
 | `rime_colossus` | Rime Colossus | Heavy elite | 520 | 20 | 28 | 1.9 | 1.8 | 3.4 | 10 | 0.8 | 2.6 | `(0.30, 0.45, 0.65)` | 330 | 3 | 52 | V | 165 | on hit `chill` 2 s |
 Bot rule: Rime Colossus only when crystals >= 330 and soldier pop >= 8 (as the Shadow Knight).
+Caster (step 21): **Rimecarver** (`rimecarver`), trained at the keep on **B** from the Stronghold (tier 2), 150 / pop 2 /
+30 s, armour 5: Rime Bulwark (Z), Scrying Rune (V), Stillness. Numbers and spells: `caster-units.md` 4-5.
 
 ## 4. The wizard: Torvald, Ice Wizard (pop 0)
 | id | max_hp | armor | dmg | range | cooldown | speed | aggro | radius | height | Body / hat / orb | Mana | Regen /s |
@@ -93,7 +95,7 @@ Tooltips: `Rime Bolt  [F]\n35 mana · 45 damage · range 13\nChills the target: 
 ## 5. Buildings (BuildingType; `buildings.md` rules unless listed)
 | id | Display name | Cost | Build time | max_hp | Footprint | Height | Gives | Trains / attack | Build key |
 |---|---|---|---|---|---|---|---|---|---|
-| `ice_keep` | Rime Keep | - | - | 1800 | 3 x 3 | 6 | +20 pop, drop-off, shop | Rime Hauler Z | - |
+| `ice_keep` | Rime Keep | - | - | 1800 | 3 x 3 | 6 | +20 pop, drop-off, shop | Rime Hauler Z (+ Rimecarver B from the Stronghold, `caster-units.md`) | - |
 | `ice_barracks` | Frost Hall | 150 | 54 | 1080 | 3 x 3 | 4 | drop-off, shop | Rimeshield Z, Shardcaster X, Rime Seer C, Rime Colossus V | X |
 | `ice_lodge` | Snow Lodge | 80 | 30 | 480 | 2 x 2 | 3 | +10 pop, max 2 (cap 40) | - | Z |
 | `ice_tower` | Rime Spire | 130 | 42 | 720 | 1 x 1 | 5 | sight 16 | dmg 12, range 11, cooldown 1.5, aggro 11, on hit `chill` 2 s, bolt `(0.75, 0.92, 1.00)` | C |

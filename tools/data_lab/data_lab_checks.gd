@@ -845,6 +845,58 @@ func check_keys() -> void:
 			issues.append({"sev": "WARN", "where": _short(e["path"]), "what": "card_key %s is not a training slot key %s" % [k3, str(Rules.TRAIN_SLOT_KEYS)],
 				"fix": "set the slot letter"})
 	report.add_check("K4", "keys", "Reserved keys respected", "no data key on W A S D Q E F (Controls setting Classic / Hero WASD, CLAUDE.md Keys); card_key a slot letter", n, issues, "pick a free key")
+	if scan_code_tables:
+		_check_casters()
+
+
+## CU1 (caster-units.md 9.2 CU.L1): each id of CasterKit.CASTERS has a .tres, requires_tier 2, pop 2, card_key "B" (the
+## keep's slot 5), 2 known spells + 1 known passive, mana numbers > 0; the Z / V spell keys never clash with a reserved
+## letter; the statuses the spells put exist in Unit.STATUSES. K1 unchanged (the keep's data list: its worker only).
+func _check_casters() -> void:
+	var issues: Array = []
+	var n := 0
+	var uids := {}
+	for e: Dictionary in units:
+		uids[String(e["res"].id)] = e["res"]
+	var kingdoms := {}
+	for cid: StringName in CasterKit.CASTERS:
+		n += 1
+		var row: Dictionary = CasterKit.CASTERS[cid]
+		var where := "CasterKit.CASTERS.%s" % cid
+		var t: UnitType = uids.get(String(cid))
+		if t == null:
+			issues.append({"sev": "FAIL", "where": where, "what": "no data/units/%s.tres" % cid, "fix": "add the .tres"})
+			continue
+		kingdoms[row["faction"]] = cid
+		if t.requires_tier != 2 or t.pop != 2 or t.card_key.to_upper() != "B" or t.faction != row["faction"]:
+			issues.append({"sev": "FAIL", "where": "data/units/%s.tres" % cid, "what": "requires_tier %d pop %d card_key '%s' faction %s (want 2 / 2 / B / %s)"
+				% [t.requires_tier, t.pop, t.card_key, t.faction, row["faction"]], "fix": "caster-units.md 4"})
+		var spells: Array = row.get("spells", [])
+		if spells.size() != 2:
+			issues.append({"sev": "FAIL", "where": where, "what": "%d spells (want 2: Z, V)" % spells.size(), "fix": "two spell ids"})
+		for i in spells.size():
+			var sid: StringName = spells[i]
+			var s: Dictionary = CasterKit.SPELLS.get(sid, {})
+			if s.is_empty():
+				issues.append({"sev": "FAIL", "where": where, "what": "spell `%s` unknown to CasterKit.SPELLS" % sid, "fix": "add its row"})
+				continue
+			if String(s.get("key", "")) != ["Z", "V"][mini(i, 1)]:
+				issues.append({"sev": "FAIL", "where": "CasterKit.SPELLS.%s" % sid, "what": "key '%s' (want %s)" % [s.get("key", ""), ["Z", "V"][mini(i, 1)]], "fix": "Z for the first, V for the second"})
+			if Rules.RESERVED_LETTERS.has(String(s.get("key", "")).to_upper()):
+				issues.append({"sev": "FAIL", "where": "CasterKit.SPELLS.%s" % sid, "what": "key on a reserved letter", "fix": "Z / V"})
+			if float(s.get("mana", 0.0)) <= 0.0 or float(s.get("range", 0.0)) <= 0.0 or String(s.get("name", "")) == "" or String(s.get("text", "")) == "":
+				issues.append({"sev": "FAIL", "where": "CasterKit.SPELLS.%s" % sid, "what": "mana / range / name / text missing", "fix": "fill the row"})
+		if not CasterKit.PASSIVES.has(row.get("passive", &"")):
+			issues.append({"sev": "FAIL", "where": where, "what": "passive `%s` unknown to CasterKit.PASSIVES" % row.get("passive", &""), "fix": "add it"})
+	if CasterKit.MAX_MANA <= 0.0 or CasterKit.START_MANA <= 0.0 or CasterKit.MANA_REGEN <= 0.0:
+		issues.append({"sev": "FAIL", "where": "CasterKit", "what": "mana numbers must be > 0", "fix": "MAX_MANA / START_MANA / MANA_REGEN"})
+	for st: StringName in [&"slagged", &"scalded", &"hazed", &"tithed", &"rooted"]:
+		n += 1
+		if not Unit.STATUSES.has(st):
+			issues.append({"sev": "FAIL", "where": "Unit.STATUSES", "what": "caster status `%s` missing" % st, "fix": "caster-units.md 3.5"})
+	if kingdoms.size() != 4:
+		issues.append({"sev": "WARN", "where": "CasterKit.CASTERS", "what": "casters for %d kingdoms (want 4)" % kingdoms.size(), "fix": "one per kingdom"})
+	report.add_check("CU1", "keys", "Casters", "CasterKit.CASTERS: .tres, tier 2, pop 2, key B, 2 spells (Z / V) + a passive, mana > 0, statuses known", n, issues, "fix the caster table")
 
 
 # ---------------------------------------------------------------- T: text

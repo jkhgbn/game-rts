@@ -87,6 +87,11 @@ const INSPECT_BOUNTY_ENEMY := "Hunt it with a bounty  "
 ## Map fill (12.C7, ui-mapfill.md 6.3 / 7.2): an epic beast viewed / a game critter selected (all slots empty).
 const BEAST_TEXT := "Epic beast: attack it with your army."
 const CRITTER_TEXT := "Game: hunt it with soldiers or your wizard."
+## caster-units.md 3.2: the casters' Z / V spell buttons (r2c1 / r2c2); the keep's Set Rally at r3c1 once its caster
+## takes B (r2c1).
+const CASTER_SLOTS: Array[int] = [4, 5]
+const RALLY_KEEP_SLOT := 8
+const AUTOCAST_COLOR := Color(1.0, 0.82, 0.3)
 ## tiers.md 5: slot of the Hall's "+" upgrades page toggle (key +, SelectionManager.upgrades_hall = the open page).
 const PLUS_SLOT := 11
 const PLUS_PAGE_TOOLTIP := "Upgrades  [%s]\n\"+\" research for this Hall's units: +10 %% HP and damage each. Needs a" \
@@ -131,6 +136,7 @@ func _ready() -> void:
 		HudSkin.style_button(b)
 		b.visible = false
 		b.pressed.connect(press_slot.bind(i))
+		b.gui_input.connect(_on_button_input.bind(i))
 		holder.add_child(b)
 		var icon := TextureRect.new()
 		icon.position = ICON_RECT.position
@@ -405,7 +411,7 @@ func _process(delta: float) -> void:
 	if _learn_pulse_left > 0.0:
 		grow = 1.0 + 0.35 * absf(sin(_clock * PI / 0.4))
 	for i in buttons.size():
-		if slots[i].has("spell"):
+		if slots[i].has("spell") or slots[i].has("caster_spell"):
 			_update_cooldown(i)
 		_flash[i] = maxf(_flash[i] - delta, 0.0)
 		_learn_flash[i] = maxf(_learn_flash[i] - delta, 0.0)
@@ -443,9 +449,16 @@ func learn_pulse_active() -> bool:
 
 func _update_cooldown(i: int) -> void:
 	var hero: Node = selection.hero if selection else null
-	var id: StringName = slots[i]["spell"]
-	var left := SpellInfo.cooldown_left(hero, id)
-	var total := SpellInfo.cooldown_total(hero, id)
+	var left := 0.0
+	var total := 0.0
+	if slots[i].has("caster_spell"):
+		var cd := _caster_cooldown(slots[i]["caster_spell"])
+		left = cd.x
+		total = cd.y
+	else:
+		var id: StringName = slots[i]["spell"]
+		left = SpellInfo.cooldown_left(hero, id)
+		total = SpellInfo.cooldown_total(hero, id)
 	var on := left > 0.0 and total > 0.0
 	cooldown_rects[i].visible = on
 	cooldown_labels[i].visible = on
@@ -694,6 +707,11 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 		var spell_ids := SpellInfo.ids(sel.hero)
 		for i in mini(spell_ids.size(), 3):
 			out[4 + i] = _spell_slot(spell_ids[i], i)
+	# caster-units.md 3.2 / ui-hud.md: the active subgroup's casters show Z / V at r2c1 / r2c2.
+	var caster_ids := sel.caster_spell_ids()
+	if not caster_ids.is_empty() and group.any(func(u: Unit) -> bool: return CasterKit.is_caster_unit(u)):
+		for i in mini(caster_ids.size(), CASTER_SLOTS.size()):
+			out[CASTER_SLOTS[i]] = _caster_slot(caster_ids[i], i)
 	if workers:
 		var tip := "Gather  [G]\nMine crystals and carry them to a keep or hall."
 		if caravans:
@@ -797,11 +815,57 @@ func _update_spell_extras(i: int, s: Dictionary) -> void:
 		pip.color = KEY_COLOR if j < r else Color(0.3, 0.3, 0.3)
 	learn_chips[i].visible = is_spell and bool(s.get("learnable", false))
 	learn_chips[i].tooltip_text = "Learn  [Ctrl+%s]" % s.get("key", "") if is_spell else ""
-	if is_spell:
+	if is_spell or s.has("caster_spell"):
 		_update_cooldown(i)
 	else:
 		cooldown_rects[i].visible = false
 		cooldown_labels[i].visible = false
+
+
+## A caster spell button (caster-units.md 3.2, ui-hud.md): `Slag Rain  [Z]` + cost / range / autocast + the effect;
+## disabled with the refusal when no selected caster could cast it (Not enough mana / Recharging / Can't cast now); the
+## turning gold border while autocast is on (`autocast` 1 = all, 2 = some of them); right-click / Ctrl+key toggles it.
+func _caster_slot(spell_id: StringName, slot: int) -> Dictionary:
+	var sel := selection
+	var state := sel.caster_autocast_state(spell_id)
+	var key: String = CasterKit.spell_value(spell_id, "key", "")
+	var reason := sel.caster_ready_reason(spell_id)
+	if reason == CasterKit.REASON_RECHARGING:
+		reason = "On cooldown"   # the sweep shows it; the button stays bright (as the wizard's spells)
+	var s := _slot("caster_" + String(spell_id), UIStyle.abbrev(CasterKit.spell_name(spell_id)), key,
+			CasterKit.spell_tooltip(spell_id, state > 0), func() -> void: sel.cast_caster_slot(slot), reason,
+			StringName(spell_id))
+	s["caster_spell"] = spell_id
+	s["caster_slot"] = slot
+	s["autocast"] = state
+	s["active"] = sel.pending_caster_spell() == spell_id
+	s["icon"] = ["abilities", String(spell_id)]
+	return s
+
+
+## The shortest cooldown (left, total) among the selected casters of `spell_id` (Umbral Passage), else (0, 0).
+func _caster_cooldown(spell_id: StringName) -> Vector2:
+	var best := Vector2(INF, 0.0)
+	for u in selection.selected_casters(CasterKit.caster_of_spell(spell_id)):
+		var ab := CasterKit.ability_of(u)
+		if ab.cooldown_left(spell_id) < best.x:
+			best = Vector2(ab.cooldown_left(spell_id), ab.cooldown_total(spell_id))
+	return best if best.x < INF else Vector2.ZERO
+
+
+## A right click on button `index`: a caster spell toggles its autocast (the same as Ctrl + its key).
+func right_click_slot(index: int) -> void:
+	if index < 0 or index >= slots.size() or not slots[index].has("caster_spell") or selection == null:
+		return
+	selection.toggle_caster_autocast(int(slots[index]["caster_slot"]))
+	refresh()
+
+
+func _on_button_input(event: InputEvent, index: int) -> void:
+	var mb := event as InputEventMouseButton
+	if mb != null and mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
+		right_click_slot(index)
+		buttons[index].accept_event()
 
 
 ## A selected building: a construction site shows Cancel (Delete); a trainer (keep, Hall, Stables, Bazaar) shows its
@@ -834,10 +898,14 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 				NewUnits12.description(StringName(str(type.get("id")))))
 		if desc == "":   # docs/design/stables.md: the Stables units
 			desc = Stables16.description(StringName(str(type.get("id"))))
+		if desc == "":   # caster-units.md 3.3: the keep's caster
+			desc = CasterKit.description(StringName(str(type.get("id"))))
 		if desc == "" and type is Object and (type as Object).has_meta(&"card_text"):   # stub types (keep tier button)
 			desc = str((type as Object).get_meta(&"card_text"))
 		var tip := "%s  [%s]\nCost %d crystals · Pop %d · %d s" % [
 				type_name, key, int(type.get("cost")), int(type.get("pop")), roundi(float(type.get("train_time")))]
+		if CasterKit.is_keep_caster(type):
+			tip += " · Tier %d" % int(type.get("requires_tier"))
 		if desc != "":
 			tip += "\n" + desc
 		out[i] = _slot("train_" + str(type.get("id")), UIStyle.abbrev(type_name), key, tip,
@@ -847,8 +915,10 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 	if is_market(keep):
 		_market_slots(out, keep, n_train)
 		return
+	# caster-units.md 3.3: with the caster on B (r2c1) the keep's Set Rally moves to r3c1 (it has no key).
+	var rally_i := RALLY_KEEP_SLOT if keep is Keep and n_train > CASTER_SLOTS[0] else n_train
 	if keep.has_method("set_rally_point"):
-		out[n_train] = _slot("rally", "RL", "",
+		out[rally_i] = _slot("rally", "RL", "",
 				"Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining.",
 				func() -> void: sel.begin_order(SelectionManager.ORDER_RALLY), "", SelectionManager.ORDER_RALLY)
 	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c4 (the + key or a click).
@@ -1008,6 +1078,8 @@ func draw_deco(d: Control, i: int) -> void:
 		d.draw_rect(r.grow(-0.5), UIStyle.WARN, false, 1.0)   # a route to a post held by the enemy
 	if _hover_a[i] > 0.0:
 		d.draw_rect(r.grow(0.5), Color(HudSkin.token(&"trim_glow"), 0.6 * _hover_a[i]), false, 1.0)
+	if int(slots[i].get("autocast", 0)) > 0:
+		_draw_autocast(d, r.grow(-1.0), int(slots[i]["autocast"]) == 1)
 	if _pending[i]:
 		var a := 0.85 + 0.15 * sin(_clock * TAU * 2.0)
 		d.draw_rect(r.grow(-2.0), Color(KEY_COLOR, a), false, 2.0)
@@ -1015,6 +1087,37 @@ func draw_deco(d: Control, i: int) -> void:
 		d.draw_rect(r.grow(-2.0), Color(HudSkin.token(&"trim_glow"), _flash[i] / READY_FLASH_TIME), false, 2.0)
 	if _learn_flash[i] > 0.0:
 		d.draw_rect(r.grow(-2.0), Color(KEY_COLOR, _learn_flash[i] / LEARN_FLASH_TIME), false, 2.0)
+
+
+## caster-units.md 3.2: a slowly turning gold border on a spell whose autocast is on (dimmer when only some of the
+## selected casters have it on): a faint gold frame and a bright 30 % arc running around it once every 2.5 s.
+func _draw_autocast(d: Control, r: Rect2, all_on: bool) -> void:
+	var a := 1.0 if all_on else 0.55
+	d.draw_rect(r, Color(AUTOCAST_COLOR, 0.35 * a), false, 1.5)
+	var per := 2.0 * (r.size.x + r.size.y)
+	var head := fmod(_clock / 2.5, 1.0) * per
+	var run := per * 0.3
+	var pts := PackedVector2Array()
+	var steps := 12
+	for k in steps + 1:
+		pts.append(_perimeter_point(r, fmod(head + run * float(k) / float(steps), per)))
+	for k in steps:
+		d.draw_line(pts[k], pts[k + 1], Color(AUTOCAST_COLOR, a * (0.3 + 0.7 * float(k) / float(steps))), 2.5)
+
+
+static func _perimeter_point(r: Rect2, t: float) -> Vector2:
+	var w := r.size.x
+	var h := r.size.y
+	if t < w:
+		return r.position + Vector2(t, 0.0)
+	t -= w
+	if t < h:
+		return r.position + Vector2(w, t)
+	t -= h
+	if t < w:
+		return r.position + Vector2(w - t, h)
+	t -= w
+	return r.position + Vector2(0.0, h - t)
 
 
 ## Is the ready flash playing on slot `index` (for tests)?

@@ -38,6 +38,8 @@ static func strength_of(node: Node) -> float:
 			return 0.0
 		if t.id == &"ruin_warden":
 			return STRENGTH_WARDEN
+		if CasterKit.is_caster_unit(node):   # caster-units.md 8.2: cost x 0.5, x 1.0 with mana for two casts
+			return CasterKit.bot_strength(node as Unit) + item_strength(node)
 		return soldier_strength(t.cost, (node as Unit).level) + item_strength(node)
 	if node is Building:
 		var b := node as Building

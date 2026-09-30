@@ -114,6 +114,10 @@ const UPGRADES_KEYS: Array[Key] = [KEY_EQUAL, KEY_KP_ADD]
 const UPGRADES_KEY_LABEL := "+"
 ## Own helper inspected: its 3 stances (Helper.STANCES order) on the card's first three letters.
 const STANCE_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C]
+## Caster units (caster-units.md 3.2 / 3.3): Z / V = the selected casters' first / second spell (Ctrl = autocast on /
+## off), the keep's caster on training slot 5 (B).
+const CASTER_KEYS: Array[Key] = [KEY_Z, KEY_V]
+const CASTER_KEEP_SLOT := 4
 const MSG_NO_UPGRADE := "No upgrade for that unit"
 const GHOST_TEXT_COLOR := Color(1.0, 0.45, 0.4)
 
@@ -185,6 +189,9 @@ var _ghost_center := Vector3.INF
 var _ghost_reason := ""
 var _mouse_pos := Vector2.ZERO
 var _grid: BuildGrid = null
+var _pending_caster_spell: StringName = &""   # a caster spell being aimed (then _pending == the spell id)
+var _caster_ghost: MeshInstance3D              # the Rime Bulwark wall ghost under the cursor
+var _range_ring: MeshInstance3D                # the aiming caster's range ring
 
 
 func _ready() -> void:
@@ -328,6 +335,8 @@ func _process(delta: float) -> void:
 		var ip: Variant = ground_point(_box_ui.get_local_mouse_position())
 		if ip != null:
 			_target_ring.global_position = (ip as Vector3) + Vector3.UP * 0.06
+	if _pending_caster_spell != &"":
+		_update_caster_aim()
 	if _pending_spell != &"":
 		if hero == null or not is_instance_valid(hero) or not hero.is_alive():
 			cancel_targeting()
@@ -504,6 +513,14 @@ func _handle_key(key: InputEventKey) -> bool:
 		if building_type != null:
 			begin_placement(building_type)
 			return true
+	# caster-units.md 3.2: Z / V = the selected casters' spells (any active subgroup), Ctrl+Z / Ctrl+V = autocast.
+	var caster_slot := CASTER_KEYS.find(code)
+	if caster_slot >= 0 and not key.alt_pressed and selected_building == null and caster_type() != &"":
+		if key.ctrl_pressed:
+			toggle_caster_autocast(caster_slot)
+		else:
+			cast_caster_slot(caster_slot)
+		return true
 	match code:
 		KEY_X:
 			begin_attack_move_targeting()
@@ -1092,6 +1109,11 @@ func cancel_targeting() -> void:
 	_pending = &""
 	_pending_spell = &""
 	_pending_item_slot = -1
+	_pending_caster_spell = &""
+	if _caster_ghost:
+		_caster_ghost.visible = false
+	if _range_ring:
+		_range_ring.visible = false
 	_target_ring.visible = false
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	if placing_type != null or was_placing:
@@ -1101,6 +1123,257 @@ func cancel_targeting() -> void:
 		_ghost_center = Vector3.INF
 		_ghost_reason = ""
 		mode_changed.emit()
+
+
+# ---------------------------------------------------------------- caster units (caster-units.md 3.2)
+
+## The selected own casters (of `type_id`, or of any caster type when &"").
+func selected_casters(type_id: StringName = &"") -> Array[Unit]:
+	var out: Array[Unit] = []
+	for u in orderable_units():
+		if not u.is_alive() or u.unit_type == null or not CasterKit.is_caster_unit(u):
+			continue
+		if type_id == &"" or u.unit_type.id == type_id:
+			out.append(u)
+	return out
+
+
+## The caster type Z / V act for: the active subgroup's when it is a caster, else the first caster type selected
+## (&"" = no caster selected).
+func caster_type() -> StringName:
+	var active := active_unit_type()
+	if active != &"" and CasterKit.is_caster(active) and not selected_casters(active).is_empty():
+		return active
+	for u in selected_casters():
+		return u.unit_type.id
+	return &""
+
+
+## The Z / V spells of the selected casters ([] when none).
+func caster_spell_ids() -> Array[StringName]:
+	var t := caster_type()
+	if t == &"":
+		var none: Array[StringName] = []
+		return none
+	return CasterKit.spells_of(t)
+
+
+## The spell being aimed by the casters, or &"".
+func pending_caster_spell() -> StringName:
+	return _pending_caster_spell
+
+
+## Z (slot 0) / V (slot 1): starts aiming that spell (cross cursor, range ring, area preview), or says why no selected
+## caster can cast it (Not enough mana, Recharging, Can't cast now).
+func cast_caster_slot(slot: int) -> void:
+	var ids := caster_spell_ids()
+	if slot < 0 or slot >= ids.size():
+		return
+	begin_caster_spell(ids[slot])
+
+
+func begin_caster_spell(spell_id: StringName) -> void:
+	var casters := selected_casters(CasterKit.caster_of_spell(spell_id))
+	if casters.is_empty():
+		return
+	var reason := caster_ready_reason(spell_id)
+	if reason != "":
+		message.emit(reason)
+		return
+	cancel_targeting()
+	close_build_menu()
+	_end_bounty_mode()
+	var r := float(CasterKit.spell_value(spell_id, "radius", 0.0))
+	if CasterKit.target_kind(spell_id) != &"point" or r <= 0.0:
+		r = 0.8
+	var torus := TorusMesh.new()
+	torus.inner_radius = maxf(r - 0.2, 0.1)
+	torus.outer_radius = r
+	torus.rings = 48
+	_target_ring.mesh = torus
+	_target_ring.scale = Vector3(1.0, 0.1, 1.0)
+	_target_ring.visible = spell_id != &"rime_bulwark"
+	_ensure_caster_aim_meshes()
+	_caster_ghost.visible = spell_id == &"rime_bulwark"
+	var rng := float(CasterKit.spell_value(spell_id, "range", 0.0))
+	(_range_ring.mesh as TorusMesh).inner_radius = maxf(rng - 0.12, 0.1)
+	(_range_ring.mesh as TorusMesh).outer_radius = rng
+	_range_ring.visible = true
+	_pending_caster_spell = spell_id
+	_pending = spell_id
+	Input.set_default_cursor_shape(Input.CURSOR_CROSS)
+	_update_caster_aim()
+
+
+## "" when at least one selected caster could cast `spell_id` (target and range aside), else the best refusal.
+func caster_ready_reason(spell_id: StringName) -> String:
+	var casters := selected_casters(CasterKit.caster_of_spell(spell_id))
+	if casters.is_empty():
+		return CasterKit.REASON_CANT
+	var reasons := {}
+	for u in casters:
+		var ab := CasterKit.ability_of(u)
+		var r := ""
+		if not u.can_act() or u.is_displaced():
+			r = CasterKit.REASON_CANT
+		elif ab.cooldown_left(spell_id) > 0.0:
+			r = CasterKit.REASON_RECHARGING
+		elif ab.mana + 0.001 < ab.mana_cost(spell_id):
+			r = CasterKit.REASON_MANA
+		if r == "":
+			return ""
+		reasons[r] = true
+	for r: String in [CasterKit.REASON_MANA, CasterKit.REASON_RECHARGING, CasterKit.REASON_CANT]:
+		if reasons.has(r):
+			return r
+	return CasterKit.REASON_CANT
+
+
+## One click = one cast (smart-cast): the selected caster with the most mana in range casts, else the nearest walks
+## into range. Returns "" or the refusal (also sent as a message).
+func cast_caster_at(spell_id: StringName, target: Variant) -> String:
+	var casters := selected_casters(CasterKit.caster_of_spell(spell_id))
+	var why: Array = []
+	var u := CasterKit.pick_caster(casters, spell_id, target, why)
+	var result := ""
+	if u == null:
+		result = str(why[0]) if not why.is_empty() else CasterKit.REASON_CANT
+	else:
+		_REPLAY.note(&"caster_cast", [spell_id, target], self)
+		result = CasterKit.ability_of(u).order_cast(spell_id, target)
+	if result != "":
+		message.emit(result)
+	return result
+
+
+## Ctrl+Z / Ctrl+V or a right click on the button: autocast on for every selected caster of that type (off when all
+## of them already have it on). Returns the new state.
+func toggle_caster_autocast(slot: int) -> bool:
+	var ids := caster_spell_ids()
+	if slot < 0 or slot >= ids.size():
+		return false
+	var sid := ids[slot]
+	var casters := selected_casters(CasterKit.caster_of_spell(sid))
+	var all_on := true
+	for u in casters:
+		if not CasterKit.ability_of(u).autocast(sid):
+			all_on = false
+	_REPLAY.note(&"caster_autocast", [sid, not all_on], self)
+	for u in casters:
+		CasterKit.ability_of(u).set_autocast(sid, not all_on)
+	return not all_on
+
+
+## The autocast state of `spell_id` over the selected casters: 0 = off, 1 = on for all, 2 = mixed.
+func caster_autocast_state(spell_id: StringName) -> int:
+	var on := 0
+	var casters := selected_casters(CasterKit.caster_of_spell(spell_id))
+	for u in casters:
+		if CasterKit.ability_of(u).autocast(spell_id):
+			on += 1
+	if on == 0:
+		return 0
+	return 1 if on == casters.size() else 2
+
+
+func _ensure_caster_aim_meshes() -> void:
+	if _caster_ghost == null:
+		_caster_ghost = MeshInstance3D.new()
+		var box := BoxMesh.new()
+		box.size = Vector3(float(CasterKit.spell_value(&"rime_bulwark", "length", 4.0)), 0.25,
+				float(CasterKit.spell_value(&"rime_bulwark", "thick", 0.9)))
+		_caster_ghost.mesh = box
+		var mat := StandardMaterial3D.new()
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.albedo_color = Color(0.55, 0.8, 1.0, 0.45)
+		_caster_ghost.material_override = mat
+		_caster_ghost.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		_caster_ghost.visible = false
+		add_child(_caster_ghost)
+	if _range_ring == null:
+		_range_ring = MeshInstance3D.new()
+		var torus := TorusMesh.new()
+		torus.rings = 64
+		_range_ring.mesh = torus
+		_range_ring.scale = Vector3(1.0, 0.05, 1.0)
+		var rmat := StandardMaterial3D.new()
+		rmat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		rmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		rmat.albedo_color = Color(1.0, 0.85, 0.4, 0.35)
+		_range_ring.material_override = rmat
+		_range_ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		_range_ring.visible = false
+		add_child(_range_ring)
+
+
+# Follows the mouse while a caster spell is aimed: the area ring / wall ghost at the point, the range ring on the
+# caster that would cast (in range: bright, else pale).
+func _update_caster_aim() -> void:
+	var spell := _pending_caster_spell
+	var casters := selected_casters(CasterKit.caster_of_spell(spell))
+	if casters.is_empty():
+		cancel_targeting()
+		return
+	var p: Variant = ground_point(_box_ui.get_local_mouse_position()) if camera != null else null
+	if p == null:
+		return
+	var point := p as Vector3
+	var target: Variant = point
+	if CasterKit.target_kind(spell) != &"point":
+		var hovered := unit_at(_box_ui.get_local_mouse_position()) if camera != null else null
+		target = hovered if hovered != null else point
+	var who: Unit = null
+	if target is Unit or CasterKit.target_kind(spell) == &"point":
+		who = CasterKit.pick_caster(casters, spell, target)
+	if who == null:
+		who = _nearest_caster(casters, point)
+	var in_range := CasterKit.ability_of(who).distance_to_target(target) \
+			<= float(CasterKit.spell_value(spell, "range", 0.0))
+	_target_ring.global_position = point + Vector3.UP * 0.06
+	_target_ring_mat.albedo_color = Color(1.0, 0.5, 0.1, 0.85) if in_range else Color(1.0, 0.8, 0.3, 0.45)
+	_range_ring.global_position = who.global_position + Vector3.UP * 0.05
+	if spell == &"rime_bulwark":
+		var facing := point - who.global_position
+		facing.y = 0.0
+		if facing.length() < 0.01:
+			facing = Vector3.FORWARD
+		var x_axis := Vector3(-facing.normalized().z, 0.0, facing.normalized().x)
+		_caster_ghost.global_transform = Transform3D(Basis(x_axis, Vector3.UP, x_axis.cross(Vector3.UP)),
+				point + Vector3.UP * 0.15)
+		(_caster_ghost.material_override as StandardMaterial3D).albedo_color = Color(0.55, 0.8, 1.0, 0.5) if in_range \
+				else Color(0.8, 0.8, 0.8, 0.3)
+
+
+func _nearest_caster(casters: Array[Unit], point: Vector3) -> Unit:
+	var best: Unit = casters[0]
+	var bd := INF
+	for u in casters:
+		var d := Vector2(u.global_position.x - point.x, u.global_position.z - point.z).length()
+		if d < bd:
+			bd = d
+			best = u
+	return best
+
+
+# Left click while aiming a caster spell: an enemy / own unit under the cursor for the unit spells, else a ground point.
+# Shift keeps the cursor for the next caster.
+func _confirm_caster_spell(spell: StringName, pos: Vector2, keep_aiming: bool) -> void:
+	var kind := CasterKit.target_kind(spell)
+	var target: Variant = null
+	if kind == &"point":
+		target = ground_point(pos)
+	else:
+		var u := unit_at(pos)
+		if u != null and ((kind == &"enemy") == (u.team != Unit.Team.PLAYER)):
+			target = u
+	if target == null:
+		message.emit(CasterKit.REASON_NO_TARGET if kind == &"point" else "Pick a unit")
+		begin_caster_spell(spell)   # the cursor stays: pick again
+		return
+	var r := cast_caster_at(spell, target)
+	if keep_aiming and r == "" and caster_ready_reason(spell) == "":
+		begin_caster_spell(spell)
 
 
 # ---------------------------------------------------------------- items (4.U1a; items code read untyped)
@@ -1651,6 +1924,16 @@ func train_slots() -> Array:
 	if keep != null and types.size() > 1 and TierSystem.instance() != null and keep.tier >= 3 \
 			and not keep.is_upgrading():
 		types.insert(1, null)   # Keep.tier_card_type() is null at the Citadel: keep its slot
+	# caster-units.md 3.3: the keep's caster always sits on slot 5 (key B), whatever the slots before it hold.
+	if keep != null:
+		for i in types.size():
+			if CasterKit.is_keep_caster(types[i]) and i < CASTER_KEEP_SLOT:
+				var c: Variant = types[i]
+				types.remove_at(i)
+				while types.size() < CASTER_KEEP_SLOT:
+					types.append(null)
+				types.insert(CASTER_KEEP_SLOT, c)
+				break
 	if types.size() > SLOT_KEYS.size():
 		types.resize(SLOT_KEYS.size())
 	while not types.is_empty() and types.back() == null:
@@ -2086,7 +2369,14 @@ func confirm_pending_at(point: Vector3) -> bool:
 		return true
 	var order := _pending
 	var spell := _pending_spell
+	var caster_spell := _pending_caster_spell
 	cancel_targeting()
+	if caster_spell != &"":   # a minimap click: point spells cast there, unit spells need the 3D view
+		if CasterKit.target_kind(caster_spell) == &"point":
+			cast_caster_at(caster_spell, point)
+		else:
+			message.emit("Pick a unit")
+		return true
 	if spell != &"":
 		if SpellInfo.target_type(spell) == &"unit":
 			message.emit("Pick a unit")
@@ -2907,7 +3197,11 @@ func _confirm_pending(pos: Vector2) -> void:
 	var order := _pending
 	var spell := _pending_spell
 	var item_slot := _pending_item_slot
+	var caster_spell := _pending_caster_spell
 	cancel_targeting()
+	if caster_spell != &"":
+		_confirm_caster_spell(caster_spell, pos, Input.is_key_pressed(KEY_SHIFT))
+		return
 	if spell != &"":
 		_confirm_spell(spell, pos)
 		return
