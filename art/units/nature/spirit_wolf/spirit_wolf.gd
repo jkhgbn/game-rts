@@ -3,12 +3,14 @@ extends MountModel
 ## the unit's model_scene. A forest spirit in wolf shape, ~1.9 m nose to tail, shoulders ~0.95 m: a BARK-BROWN body of
 ## grained wood-fur, a PALE HEARTWOOD MASK down the long muzzle, a PALE MOSS MANE along the neck and shoulders (the 40 m
 ## cap), a TEAM LEAF MANTLE of broad leaves over the shoulders (nature_cloth: the team colour, top-facing), tall pointed
-## ears, glowing sap-green eyes and a glowing SEED in the chest (the spirit's heart), a long brush of a tail ending in a
-## tuft of pale leaves. Apart from the Direwolf (a grey horse-sized neutral wolf, no glow) and the Grave Hound (Shadow,
+## ears set wide over a broad skull and a pale heartwood jaw, a crown of three small leaves round a glowing bud between
+## the ears, glowing sap-green eyes and a glowing SEED in the chest (the spirit's heart), a pale heartwood ridge down the
+## spine, a long brush of a tail ending in a tuft of pale leaves. Apart from the Direwolf (a grey horse-sized neutral wolf, no glow) and the Grave Hound (Shadow,
 ## near-black bone) by the brown wood and pale moss, the leaf mantle and the green glow; apart from the Nature riders by
 ## having no rider at all.
 ## Palette (Nature in-game fix, under_90.md B): bark-brown / pale heartwood / pale moss, green only on the team mantle.
-## Glow points: the eyes (CreatureFaceRig irises, host mode inside the merged head) and the chest seed (nature_glow).
+## Glow points: the eyes (CreatureFaceRig irises, host mode inside the merged head), the chest seed and the bud of the
+## leaf crown between the ears (nature_glow).
 ## Motion (MountModel + own): a light trot and a long-reaching gallop from 3.0 m/s; the spawn "coalesce" (it grows out
 ## of a swirl of leaves in 0.45 s when it enters the tree; skip_spawn() jumps to the end); `wolf_bite` attack (0.5 s,
 ## strike 0.12 s: the head drops and lunges, the jaws-forward snap, a worrying shake); a HOWL fidget; the generic hit;
@@ -27,12 +29,12 @@ const SPAWN_LEN := 0.45
 const BC := Vector3(0, 0.72, -0.05)
 const SY := 1.15
 const BARREL_Z: Array[float] = [-0.60, -0.54, -0.38, -0.08, 0.24, 0.46, 0.56, 0.60]
-const BARREL_R: Array[float] = [0.00, 0.17, 0.235, 0.25, 0.26, 0.23, 0.15, 0.00]
+const BARREL_R: Array[float] = [0.00, 0.15, 0.20, 0.22, 0.26, 0.25, 0.16, 0.00]
 const CHEST_C := Vector3(0, 0.74, 0.32)
 const CHEST_R := Vector3(0.23, 0.29, 0.24)
-const SKULL_C := Vector3(0, 1.00, 0.70)
-const SKULL_S := Vector3(0.92, 0.86, 1.10)
-const SKULL_R := 0.135
+const SKULL_C := Vector3(0, 0.95, 0.70)
+const SKULL_S := Vector3(1.05, 0.88, 1.05)
+const SKULL_R := 0.14
 const TAIL: Array[Vector3] = [Vector3(0, 0.82, -0.56), Vector3(0, 0.76, -0.78), Vector3(0, 0.66, -0.98),
 	Vector3(0, 0.60, -1.14)]
 const TAIL_R: Array[float] = [0.07, 0.11, 0.10, 0.06]
@@ -65,6 +67,9 @@ func skip_spawn() -> void:
 		_action = &""
 	_spawn_done = true
 	_force_write = true
+	_write_life(0.0)
+	if _spawn_fx:
+		_spawn_fx.emitting = false
 
 
 func set_expression(id: StringName) -> void:
@@ -146,7 +151,6 @@ static func _lens(s: Dictionary, mat: Material, base: Vector3, dir: Vector3, nrm
 
 func _body_sculpt(s: Dictionary) -> void:
 	var bark := m("sw_bark")
-	var grain := m("sw_grain")
 	var moss := m("nature_moss")
 	var cloth := m("nature_cloth")
 	var cdark := m("nature_cloth_dark")
@@ -165,16 +169,14 @@ func _body_sculpt(s: Dictionary) -> void:
 			Vector3(0.262 * sx, 0.78, 0.04), Vector3(0.25 * sx, 0.70, -0.20), Vector3(0.20 * sx, 0.80, -0.42)]),
 			PackedFloat32Array([0.018, 0.026, 0.024, 0.0]), 4, true), Transform3D.IDENTITY, mask)
 	sculpt_add(s, tube_mesh("sw_spine_v1", PackedVector3Array([Vector3(0, 1.0, 0.12), Vector3(0, 0.99, -0.14),
-		Vector3(0, 0.93, -0.40), Vector3(0, 0.86, -0.55)]), PackedFloat32Array([0.035, 0.04, 0.03, 0.0]), 4, true),
-		Transform3D.IDENTITY, grain)
-	# the pale moss mane: a thick shaggy ruff round the neck and over the shoulders (the 40 m cap), locks down the spine
-	sculpt_fringe(s, moss, fringe_mesh("sw_mane_v2", 0.21, 0.21, 0.30, 0.30, 0.18, -140.0, 140.0, 8, 0.10, 0.03, 0.6),
-		CHEST_C + Vector3(0, 0.26, 0.02))
-	sculpt_fringe(s, moss, fringe_mesh("sw_ruff_v1", 0.16, 0.14, 0.22, 0.20, 0.12, -80.0, 80.0, 5, 0.08, 0.025, 0.6),
-		CHEST_C + Vector3(0, 0.02, 0.16))
+		Vector3(0, 0.93, -0.40), Vector3(0, 0.86, -0.55)]), PackedFloat32Array([0.05, 0.06, 0.045, 0.0]), 5, true),
+		Transform3D.IDENTITY, mask)
+	# the pale moss mane: a thick shaggy ruff over the neck and the shoulders (the 40 m cap), two locks down the spine
+	sculpt_fringe(s, moss, fringe_mesh("sw_mane_v3", 0.22, 0.20, 0.31, 0.29, 0.16, -125.0, 125.0, 8, 0.10, 0.03, 0.6),
+		CHEST_C + Vector3(0, 0.24, 0.06), Basis(Vector3.RIGHT, deg_to_rad(-28.0)))
 	for i: int in 2:
 		var z: float = -0.06 - 0.22 * float(i)
-		sculpt_lock(s, moss, Vector3(0, 1.0 - 0.04 * float(i), z), Vector3(0, -0.3, -1.0).normalized(), Vector3.UP,
+		sculpt_lock(s, moss, Vector3(0, 0.99 - 0.04 * float(i), z), Vector3(0, -0.3, -1.0).normalized(), Vector3.UP,
 			0.15 - 0.02 * float(i), 0.26, 0.05)
 	# the team leaf mantle over the shoulders and the back: broad leaves fanning back (a dark team vein leaf in the
 	# middle) = the top-facing team colour
@@ -196,21 +198,31 @@ func _head_sculpt(s: Dictionary) -> void:
 	var mask := m("nature_sec_sprigling")
 	var dark := m("nature_bark_dark")
 	var moss := m("nature_moss")
-	sculpt_add(s, tube_mesh("sw_neck_v1", PackedVector3Array([Vector3(0, 0.80, 0.40), Vector3(0, 0.92, 0.54),
-		Vector3(0, 0.98, 0.64)]), PackedFloat32Array([0.17, 0.14, 0.12]), 7, false), Transform3D.IDENTITY, bark)
+	var leaf := m("nature_leaf")
+	var glow := m("nature_glow")
+	# a thick neck carried low and forward (the wolf's line: the head at the height of the back)
+	sculpt_add(s, tube_mesh("sw_neck_v2", PackedVector3Array([Vector3(0, 0.80, 0.40), Vector3(0, 0.89, 0.53),
+		Vector3(0, 0.93, 0.63)]), PackedFloat32Array([0.18, 0.155, 0.13]), 7, false), Transform3D.IDENTITY, bark)
+	# the broad skull (face canvas), a tapering muzzle, the pale heartwood jaw and cheeks, a dark nose
 	sculpt_put(s, sphere(SKULL_R, 8, 5), bark, SKULL_C, Vector3.ZERO, SKULL_S)
-	# the long muzzle with the pale heartwood mask on top, a dark nose, a lower jaw
-	sculpt_add(s, tube_mesh("sw_muzzle_v1", PackedVector3Array([Vector3(0, 0.98, 0.78), Vector3(0, 0.94, 0.92),
-		Vector3(0, 0.91, 1.02)]), PackedFloat32Array([0.085, 0.065, 0.045]), 6, true), Transform3D.IDENTITY, bark)
-	sculpt_put(s, sphere(0.09, 6, 2), mask, Vector3(0, 1.02, 0.86), Vector3(-14, 0, 0), Vector3(0.75, 0.40, 1.55))
-	sculpt_put(s, spike_mesh(3), dark, Vector3(0, 0.93, 1.03), Vector3(-80, 0, 0), Vector3(0.03, 0.04, 0.025))
-	sculpt_put(s, box(Vector3(0.07, 0.03, 0.18)), dark, Vector3(0, 0.88, 0.90), Vector3(8, 0, 0))
-	# tall pointed ears (bark backs, pale moss insides) and pale cheek ruffs
+	sculpt_add(s, tube_mesh("sw_muzzle_v2", PackedVector3Array([Vector3(0, 0.93, 0.78), Vector3(0, 0.90, 0.89),
+		Vector3(0, 0.885, 0.97)]), PackedFloat32Array([0.08, 0.062, 0.045]), 6, true), Transform3D.IDENTITY, bark)
+	sculpt_put(s, sphere(0.085, 6, 3), mask, Vector3(0, 0.865, 0.84), Vector3(8, 0, 0), Vector3(0.85, 0.55, 1.35))
+	sculpt_put(s, sphere(0.032, 5, 2), dark, Vector3(0, 0.90, 0.985), Vector3.ZERO, Vector3(1.2, 0.9, 1.0))
+	# tall pointed ears set wide (bark backs, pale moss insides)
 	for sx: float in [-1.0, 1.0]:
-		sculpt_put(s, spike_mesh(3), bark, Vector3(0.075 * sx, 1.08, 0.64), Vector3(-12, 0, -16.0 * sx), Vector3(0.06, 0.20, 0.035))
-		sculpt_put(s, spike_mesh(3), moss, Vector3(0.078 * sx, 1.09, 0.665), Vector3(-12, 0, -16.0 * sx), Vector3(0.035, 0.14, 0.02))
-		sculpt_lock(s, moss, Vector3(0.10 * sx, 0.96, 0.70), Vector3(0.6 * sx, -1.0, -0.3).normalized(),
-			Vector3(sx, -0.2, 0.2).normalized(), 0.10, 0.13, 0.04)
+		sculpt_put(s, spike_mesh(3), bark, Vector3(0.085 * sx, 1.04, 0.64), Vector3(-6, 0, -20.0 * sx), Vector3(0.065, 0.19, 0.04))
+		sculpt_put(s, spike_mesh(3), moss, Vector3(0.088 * sx, 1.05, 0.665), Vector3(-6, 0, -20.0 * sx), Vector3(0.038, 0.13, 0.02))
+		# pale moss cheek ruffs sweeping back
+		sculpt_lock(s, moss, Vector3(0.11 * sx, 0.90, 0.70), Vector3(0.5 * sx, -0.6, -0.7).normalized(),
+			Vector3(sx, -0.2, 0.0).normalized(), 0.11, 0.16, 0.04)
+	# the spirit's crown: three small leaves standing between the ears round a glowing bud
+	for k: int in 3:
+		var u: float = float(k) - 1.0
+		var base := Vector3(u * 0.03, 1.06, 0.66)
+		var dir := Vector3(u * 0.45, 1.0, -0.55).normalized()
+		_lens(s, leaf if k != 1 else moss, base, dir, Vector3(0, 0.3, 1.0), Vector3(0.06, 0.02, 0.15 + 0.04 * float(k % 2 == 1)))
+	sculpt_put(s, sphere(0.026, 5, 2), glow, Vector3(0, 1.10, 0.64))
 
 
 static func face_spec() -> Dictionary:
@@ -239,8 +251,8 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	var x := p.x
 	var z := p.z
 	if front:
-		sculpt_add(s, tube_mesh("sw_leg_f_v2", PackedVector3Array([Vector3(0, 0.74, 0), Vector3(0, 0.40, 0.02),
-			Vector3(0, 0.08, 0.04)]), PackedFloat32Array([0.115, 0.075, 0.058]), 6, false),
+		sculpt_add(s, tube_mesh("sw_leg_f_v3", PackedVector3Array([Vector3(0, 0.74, 0), Vector3(0, 0.42, -0.03),
+			Vector3(0, 0.20, 0.0), Vector3(0, 0.07, 0.05)]), PackedFloat32Array([0.12, 0.075, 0.06, 0.055]), 6, false),
 			Transform3D(Basis.IDENTITY, Vector3(x, 0, z)), bark)
 	else:
 		sculpt_add(s, tube_mesh("sw_leg_b_v1", PackedVector3Array([Vector3(0, 0.78, 0.02), Vector3(0, 0.48, -0.12),

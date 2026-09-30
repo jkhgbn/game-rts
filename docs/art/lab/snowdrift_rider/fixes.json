@@ -1,0 +1,13 @@
+{
+	"asset": "snowdrift_rider",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 97.0,
+	"result": "PASS",
+	"scene": "res://art/units/ice/snowdrift_rider/snowdrift_rider.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

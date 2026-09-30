@@ -1,0 +1,13 @@
+{
+	"asset": "thornback_charger",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 95.2,
+	"result": "PASS",
+	"scene": "res://art/units/nature/thornback_charger/thornback_charger.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

@@ -1,0 +1,13 @@
+{
+	"asset": "rime_harrier",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 97.3,
+	"result": "PASS",
+	"scene": "res://art/units/ice/rime_harrier/rime_harrier.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

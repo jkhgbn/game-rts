@@ -1,8 +1,8 @@
 extends SceneTree
 ## In-game readability capture for the six Stables T3 / extra models (read-only tool; the method of
 ## docs/art/ingame_grade/ingame_capture.gd: the real skirmish, real RTS camera, HUD on, fog off). Two lineups that do
-## not fight (40 m apart, hold position): the Ice player line (the three new Ice riders between their Ice siblings) and
-## the Nature enemy line (the three new Nature units between theirs). Shots at the default RTS zoom 30, at 18 and at
+## not fight (both on the player's team, 10 m apart): the Ice line (the three new Ice riders between their Ice
+## siblings) and the Nature line (the three new Nature units between theirs); each unit wears its kingdom colour. Shots at the default RTS zoom 30, at 18 and at
 ## 45, plus both lines walking (the moving read).
 ##   tools\godot_run.ps1 --path . -s res://art/units/ice/frostcrown_juggernaut/tools/t3_ingame.gd --quit-after 60000 --
 ##     --tag=t3 [--out=res://docs/art/ingame_grade/shots]
@@ -73,10 +73,11 @@ func _main() -> void:
 	if ts:
 		ts.call(&"set_tier", 0, 3)
 		ts.call(&"set_tier", 1, 3)
-	var ice_at := Vector3(-24.0, 0.0, 24.0)
-	var nat_at := Vector3(-24.0, 0.0, 44.0)
+	# both lines on the player's team (the team colour comes from the unit's kingdom, not the team): nothing fights
+	var ice_at := Vector3(-16.0, 0.0, 30.0)
+	var nat_at := Vector3(-16.0, 0.0, 40.0)
 	var ice := _line(ICE_LINE, 0, ice_at)
-	var nat := _line(NATURE_LINE, 1, nat_at)
+	var nat := _line(NATURE_LINE, 0, nat_at)
 	for i in 90:
 		await process_frame
 	await _shot("ice_z30", ice_at, 30.0)

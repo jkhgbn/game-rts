@@ -289,9 +289,9 @@ func _chest_sculpt(s: Dictionary) -> void:
 	_put(s, cyl(0.06, 0.07, 0.12, 6, false), skin, Vector3(0, 1.45, 0.03))
 	_put(s, sphere(HEAD_R, 8, 5), skin, HEAD_C, Vector3.ZERO, Vector3(0.95, 1.05, 0.96))
 	# THE STRAW HAT: a wide pale cone (the 40 m cap), a dark bark band, bramble thorns and a sprig of dark berries
-	var hat := PackedVector2Array([Vector2(0.36, 1.695), Vector2(0.34, 1.715), Vector2(0.20, 1.78), Vector2(0.09, 1.85),
+	var hat := PackedVector2Array([Vector2(0.32, 1.70), Vector2(0.30, 1.72), Vector2(0.19, 1.78), Vector2(0.09, 1.85),
 		Vector2(0.0, 1.89)])
-	MountModel.sculpt_add(s, MountModel.lathe_mesh("bhr_hat_v1", hat, 10, true), Transform3D(Basis(Vector3.RIGHT,
+	MountModel.sculpt_add(s, MountModel.lathe_mesh("bhr_hat_v2", hat, 10, true), Transform3D(Basis(Vector3.RIGHT,
 		deg_to_rad(-6.0)), Vector3(0, 0.0, 0.05)), straw)
 	MountModel.sculpt_add(s, cyl(0.17, 0.19, 0.05, 8, false), Transform3D(Basis(Vector3.RIGHT, deg_to_rad(-6.0)),
 		Vector3(0, 1.765, 0.058)), dark)

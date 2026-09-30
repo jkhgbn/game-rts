@@ -7,7 +7,7 @@
 resource_name = "bh_pale"
 render_priority = 0
 shader = ExtResource("1_bh")
-shader_parameter/base_color = Color(0.84, 0.75, 0.56, 1)
+shader_parameter/base_color = Color(0.72, 0.62, 0.44, 1)
 shader_parameter/noise_tex = ExtResource("2_bh")
 shader_parameter/spec_strength = 0.0
 shader_parameter/rim_color = Color(0.95, 0.9, 0.7, 1)
