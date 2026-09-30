@@ -12,6 +12,8 @@ extends SceneTree
 ##   the physical M key and ";" on the physical , key (never "Comma");
 ## - a unit keeps its key: the keep's tier-3 unit and helper call keep C / V from tier 1 to the Citadel;
 ## - UnitType.card_key is the letter of the unit's button (on at least one card that trains it).
+## - caster-units.md 3.2 / 3.3: the keep's caster on B (r2c1, greyed "Requires Stronghold" at tier 1, B at the Citadel),
+##   Set Rally at r3c1; a caster card = M C H X/A + Z V (its spells; the key starts aiming or answers the refusal).
 ## Run:  godot --headless --path . -s tests/test_ui_card_hotkeys.gd --fixed-fps 60 --quit-after 200000
 ##   Options after `--`: kingdoms=fire,ice (default all four)
 
@@ -149,10 +151,17 @@ func _kingdom(k: StringName) -> void:
 	# Keep: tier 1, upgrading, tier 2, Citadel. The tier-3 unit and the helper call keep their keys.
 	var t3_id := "train_" + String(T3Kit.KEEP_UNITS[k])
 	var call_id := "train_" + String(HelperRoster.CALL_ID)
+	var caster_id := "train_" + String(CasterKit.caster_for(k))
 	var select_keep := func() -> void: sel.select_building(keep)
 	var tier1 := await _card("keep tier 1", select_keep)
-	_expect_ids(tier1, ["train_" + String(keep.building_type.trains[0].id), "train_keep_upgrade", t3_id, call_id, "rally"],
-			"keep tier 1")
+	_expect_ids(tier1, ["train_" + String(keep.building_type.trains[0].id), "train_keep_upgrade", t3_id, call_id, caster_id,
+			"rally"], "keep tier 1")
+	if _slot_of(tier1, caster_id) != 4 or _key_of(tier1, caster_id) != "B" or _slot_of(tier1, "rally") != 8:
+		_fail("keep caster on %d key '%s', rally on %d (want B on r2c1, rally r3c1)" % [_slot_of(tier1, caster_id),
+				_key_of(tier1, caster_id), _slot_of(tier1, "rally")])
+	var caster_row: Dictionary = tier1[_ids(tier1).find(caster_id)] if _ids(tier1).has(caster_id) else {}
+	if caster_row.is_empty() or caster_row["reason"] != TierSystem.MSG_T2:
+		_fail("keep caster at tier 1 not greyed with '%s' (%s)" % [TierSystem.MSG_T2, caster_row.get("reason", "-")])
 	var r := keep.upgrade()
 	if r != "":
 		_fail("keep.upgrade() refused: %s" % r)
@@ -162,7 +171,7 @@ func _kingdom(k: StringName) -> void:
 	await _card("keep tier 2", select_keep)
 	ts.set_tier(PLAYER, 3)
 	var tier3 := await _card("keep Citadel", select_keep)
-	for id: String in [t3_id, call_id]:
+	for id: String in [t3_id, call_id, caster_id]:
 		if _key_of(tier1, id) == "" or _key_of(tier1, id) != _key_of(tier3, id):
 			_fail("%s changed key from tier 1 (%s) to the Citadel (%s)" % [id, _key_of(tier1, id), _key_of(tier3, id)])
 	if _key_of(tier3, "train_keep_upgrade") != "" or _slot_of(tier3, t3_id) != 2:
@@ -196,6 +205,21 @@ func _kingdom(k: StringName) -> void:
 		sel.open_build_menu())
 	_check_build_menu_places(menu)
 	await _card("soldier", func() -> void: sel.select_units([soldier]))
+	# caster-units.md: a caster card (M C H X/A + Z V) and a caster + soldier group (Z / V act from any subgroup).
+	var caster: Unit = UnitType.find(String(CasterKit.caster_for(k))).create_unit()
+	caster.team = Unit.Team.PLAYER
+	main.add_child(caster)
+	caster.global_position = keep.global_position + Vector3(8, 0, 4)
+	await _frames(2)
+	var cab := CasterKit.ability_of(caster)
+	if cab:
+		cab.mana = 200.0
+	var ccard := await _card("caster", func() -> void: sel.select_units([caster]))
+	var zv := CasterKit.spells_of(caster.unit_type.id)
+	if _key_of(ccard, "caster_" + String(zv[0])) != "Z" or _key_of(ccard, "caster_" + String(zv[1])) != "V" \
+			or _slot_of(ccard, "caster_" + String(zv[0])) != 4 or _slot_of(ccard, "caster_" + String(zv[1])) != 5:
+		_fail("caster card %s: Z / V on r2c1 / r2c2" % str(_ids(ccard)))
+	await _card("caster + soldier", func() -> void: sel.select_units([caster, soldier]))
 	await _card("wizard", func() -> void: sel.select_units([hero]))
 	await _card("mixed", func() -> void: sel.select_units([hero, soldier, workers[0]]))
 	await _card("caravan", func() -> void: sel.select_units([caravan]))
@@ -299,7 +323,7 @@ func _rows() -> Array:
 ## Needs a key: it trains, builds, upgrades, casts, sets a stance, or opens / closes a page.
 static func _needs_key(id: String) -> bool:
 	return id.begins_with("train_") or id.begins_with("build_") or id.begins_with("plus_") \
-			or id.begins_with("stance_") or SPELL_IDS.has(id) or id in ["move", "stop", "hold", "attack", "gather", \
+			or id.begins_with("stance_") or id.begins_with("caster_") or SPELL_IDS.has(id) or id in ["move", "stop", "hold", "attack", "gather", \
 			"trade", "build", "back", "cancel", "raise", "remove", "wares"]
 
 
@@ -433,6 +457,11 @@ func _press_and_check(where: String, row: Dictionary, setup: Callable) -> void:
 	elif SPELL_IDS.has(id):
 		if sel.get_pending_order() != StringName(id) and _msgs.is_empty():
 			_fail("%s: key %s did not start %s (pending %s)" % [where, row["key"], id, sel.get_pending_order()])
+	elif id.begins_with("caster_"):
+		var sid := StringName(id.trim_prefix("caster_"))
+		if sel.pending_caster_spell() != sid and not (reason != "" and _msgs.has(reason)):
+			_fail("%s: key %s did not start aiming %s (pending %s, msgs %s)" % [where, row["key"], sid,
+					sel.pending_caster_spell(), str(_msgs)])
 	else:
 		var ok := true
 		match id:

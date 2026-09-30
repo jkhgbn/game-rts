@@ -472,8 +472,9 @@ static func help_text(wizard_name: String) -> String:
 			+ "%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion\n" % [k.call(KEY_R), k.call(KEY_Y)]
 			+ "Flag: %s raise · Delete remove    %s: trade & hunters    %s: trade (caravans)\n"
 			% [k.call(KEY_Z), k.call(KEY_U), k.call(KEY_G)]
-			+ "%s, %s: Bazaar    Bazaar: %s caravan · right-click a post: route\n"
-			% [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z)]
+			# caster-units.md 9.1: the casters' spell keys (the Bazaar's route click is on its Set Route tooltip).
+			+ "%s, %s: Bazaar    Bazaar: %s caravan    %s / %s: caster spells (Ctrl: autocast)\n"
+			% [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z), k.call(KEY_Z), k.call(KEY_V)]
 			+ HELP_CAPTURE)
 
 

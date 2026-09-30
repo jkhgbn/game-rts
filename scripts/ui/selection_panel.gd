@@ -28,6 +28,11 @@ const STATUS_INFO := {
 	&"dazed": ["D", "Dazed", "can't move or act"],
 	&"braced": ["B", "Braced", "takes 30 % less damage"],
 	&"marked": ["M", "Marked", "takes 15 % more damage"],
+	# Caster units (caster-units.md 3.5).
+	&"slagged": ["S", "Slagged", "armour -20 (not below 0), slower, takes 10 % more damage"],
+	&"scalded": ["C", "Scalded", "mana burnt; no second Mana Scald yet"],
+	&"hazed": ["P", "Hazed", "ranged attacks reach 2.5 m only, sight 4 m"],
+	&"tithed": ["T", "Tithed", "healed by a Blood Tithe"],
 }
 ## Mark colours of the Ice / Nature statuses (7.U1): chill pale blue, frozen white-blue, rooted green-brown.
 ## Other statuses use Unit.STATUSES[id]["color"].
@@ -103,6 +108,7 @@ var single_lifetime_text: Label     ## "Withers in 18 s".
 var multi_header: Label
 var icons: Array[Button] = []
 var _icon_strips: Array[ColorRect] = []
+var _icon_mana_strips: Array[ColorRect] = []   ## Casters: the 3 px mana strip above the HP strip.
 var _icon_dots: Array = []          ## Array[Array[ColorRect]]: 3 veterancy dots per icon.
 var _icon_status_dots: Array = []   ## Array[Dictionary]: status id -> coloured dot, per icon.
 var _icon_units: Array[Unit] = []
@@ -856,11 +862,16 @@ func _update_single(u: Unit) -> void:
 		var next := _veteran_next(u, level)
 		line += " · XP MAX" if next <= 0 else " · XP %d / %d" % [xp, next]
 	single_stats.text = line
-	single_mana.visible = wiz != null
+	var caster := CasterKit.ability_of(u)   # caster-units.md 9.1 (hud.): the caster's mana bar in the single view
+	single_mana.visible = wiz != null or caster != null
 	if wiz:
 		single_mana.max_value = wiz.max_mana
 		single_mana.value = wiz.mana
 		single_mana_text.text = "Mana  %d / %d" % [int(wiz.mana), int(wiz.max_mana)]
+	elif caster:
+		single_mana.max_value = maxf(1.0, caster.max_mana())
+		single_mana.value = caster.mana
+		single_mana_text.text = "Mana  %d / %d" % [int(caster.mana), int(caster.max_mana())]
 	var life := lifetime_of(u)
 	single_lifetime.visible = life.y > 0.0
 	if life.y > 0.0:
@@ -1772,6 +1783,13 @@ func _update_multi(units: Array[Unit]) -> void:
 		var strip := _icon_strips[i]
 		strip.color = UIStyle.health_color(ratio)
 		strip.size.x = ICON_SIZE * ratio
+		# Casters: a 3 px mana strip right above the HP strip (caster-units.md 9.1).
+		var cab := CasterKit.ability_of(u)
+		var mstrip := _icon_mana_strips[i]
+		mstrip.visible = cab != null
+		if cab:
+			mstrip.size.x = ICON_SIZE * clampf(cab.mana / maxf(1.0, cab.max_mana()), 0.0, 1.0)
+			b.tooltip_text += "  ·  Mana %d / %d" % [int(cab.mana), int(cab.max_mana())]
 		# Veterancy dots: 1-3 gold dots for Veteran / Elite / Paragon soldiers.
 		var marks := 0
 		if not (u is Wizard) and u.get("level") != null:
@@ -2600,6 +2618,14 @@ func _build_multi_view() -> VBoxContainer:
 		strip.position = Vector2(0, ICON_SIZE - 4.0)
 		strip.size = Vector2(ICON_SIZE, 4)
 		b.add_child(strip)
+		var mstrip := ColorRect.new()   # caster mana strip, just above the HP strip
+		mstrip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		mstrip.color = UIStyle.MANA_COLOR
+		mstrip.position = Vector2(0, ICON_SIZE - 7.0)
+		mstrip.size = Vector2(ICON_SIZE, 3)
+		mstrip.visible = false
+		b.add_child(mstrip)
+		_icon_mana_strips.append(mstrip)
 		var dots: Array[ColorRect] = []
 		for j in 3:
 			var dot := ColorRect.new()

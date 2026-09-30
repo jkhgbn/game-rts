@@ -583,6 +583,19 @@ func _execute(kind: StringName, a: Array, sm: Variant) -> bool:
 			else:
 				hero.call(&"command_fireball", a[1])
 			return true
+		&"caster_cast":   # [spell id, target]: the selected casters' smart-cast (caster-units.md 3.2)
+			if not sm is Object or not (sm as Object).has_method(&"cast_caster_at") or a.size() < 2:
+				return false
+			(sm as Object).call(&"cast_caster_at", a[0], a[1])
+			return true
+		&"caster_autocast":   # [spell id, on] for the selected casters of that spell
+			if not sm is Object or not (sm as Object).has_method(&"selected_casters") or a.size() < 2:
+				return false
+			for u in (sm as Object).call(&"selected_casters", &""):
+				var ab: Variant = (u as Node).get_node_or_null(^"CasterAbility")
+				if ab != null and ab.has_method(&"set_autocast"):
+					ab.call(&"set_autocast", a[0], a[1])
+			return true
 		&"learn":
 			if hero == null or not is_instance_valid(hero) or not hero.has_method(&"learn_spell"):
 				return false
