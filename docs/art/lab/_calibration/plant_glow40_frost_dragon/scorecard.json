@@ -194,7 +194,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "2234 of 13418 triangles (16%) face steeply down (normal y < -0.7)",
+			"value": "2232 of 13418 triangles (16%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -240,17 +240,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.989015344876957,
+			"graded": 1.0,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.989015344876957,
+			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "181 shapes over 16 body parts (11.3 per part: Jaw 13, Head 38, Neck2 3, Neck1 4, WingL2 19, WingL 8, WingR2 19, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 26); 11% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.917",
+			"value": "181 shapes over 16 body parts (11.3 per part: Jaw 13, Head 38, Neck2 3, Neck1 4, WingL2 19, WingL 8, WingR2 19, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 26); 16% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.929",
 			"weight": 1.0
 		},
 		{
@@ -278,7 +278,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "flyer: lowest point 1.92 m (hovers)",
+			"value": "flyer: lowest point 1.91 m (hovers)",
 			"weight": 1.0
 		},
 		{
@@ -292,7 +292,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "15 colour steps (L*a*b* bins >= 2 % of the body), 10 value steps (L* bins of 8 >= 3 %)",
+			"value": "19 colour steps (L*a*b* bins >= 2 % of the body), 10 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
@@ -306,7 +306,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 3.79 at the close-up (27880 px), 5.09 at 25 m; close-up outline complexity 14.55",
+			"value": "inner edges per outline px: 3.14 at the close-up (21434 px), 5.12 at 25 m; close-up outline complexity 14.57",
 			"weight": 1.0
 		},
 		{
@@ -314,13 +314,13 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 5467 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 6341 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 900 px (FAIL < 350) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "5467 px (155 x 116 bbox; 55 m: 2771 px)",
+			"value": "6341 px (172 x 111 bbox; 55 m: 3210 px)",
 			"weight": 1.0
 		},
 		{
@@ -328,13 +328,13 @@
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 74.5): value is close to the ground (dL +3): lighten the top / back 15-20 % or add a dark saddle / pale belly band",
+			"improve": "Raise the contrast of the key read on meadow (dE 72.1): value is close to the ground (dL +5): lighten the top / back 15-20 % or add a dark saddle / pale belly band",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 74.5, 0% of the body melts (within dE 15 of the ground); body L* 64.4 C 24.0 vs ground L* 60.7 C 52.4, hue gap n/a (body C* <= 25); top third (world height) dE 77.6, L* 64.0; per-pixel dE 78.5, outline 57.1",
+			"value": "mean-colour dE 72.1, 0% of the body melts (within dE 15 of the ground); body L* 65.8 C 22.4 vs ground L* 60.5 C 51.7, hue gap n/a (body C* <= 25); top third (world height) dE 76.7, L* 62.8; per-pixel dE 76.0, outline 54.3",
 			"weight": 1.5
 		},
 		{
@@ -348,7 +348,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 37.2, 20% melts (snow is where ice units stand most)",
+			"value": "dE 35.2, 18% melts (snow is where ice units stand most)",
 			"weight": 1.0
 		},
 		{
@@ -356,27 +356,27 @@
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On snow the body drops to dE 37.2: add a value accent that separates it there too",
+			"improve": "On snow the body drops to dE 35.2: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 10 on every skirmish ground (WARN only)",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst snow: dE 37.2 (heath dE 54.8, old_wood dE 57.5, riverbank dE 54.4, snow dE 37.2, ash dE 47.6, sand dE 58.6, marsh dE 58.9)",
+			"value": "worst snow: dE 35.2 (heath dE 49.1, old_wood dE 57.1, riverbank dE 51.6, snow dE 35.2, ash dE 48.1, sand dE 56.8, marsh dE 59.2)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.93213828425096,
+			"graded": 0.361352047521421,
 			"group": "read",
 			"hint": "Put the team colour on a big, top-facing mass (cloth, plates, cape, caparison); ~25-45 %% of the surface (art-keep 0.2 / art-units 1.3)",
 			"id": "R6",
-			"improve": "",
+			"improve": "Give the team colour more top-facing area (now 9% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
 			"name": "Team-colour visibility at 40 m",
 			"rule": ">= 8% (FAIL = set_team_color changes nothing)",
-			"score": 0.979641485275288,
+			"score": 0.808405614256426,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "23% of body pixels change between kingdom colours (min pair 22%)",
+			"value": "9% of body pixels change between kingdom colours (min pair 8%)",
 			"weight": 1.0
 		},
 		{
@@ -390,35 +390,35 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst nature colour: dE 53.0 (fire 64.5, shadow 75.0, ice 67.2, nature 53.0)",
+			"value": "worst nature colour: dE 38.2 (fire 42.3, shadow 46.8, ice 43.7, nature 38.2)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.15824684346282,
+			"graded": 0.160414472445514,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.747474053038846,
+			"score": 0.748124341733654,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst pair fire / nature (deutan): dE 7.3 on the team-colour area (normal vision 87.0; 1306 px); deutan: fire / nature dE 7.3; protan: fire / nature dE 25.3; worst vs ground: fire colour (deutan) dE 46.5",
+			"value": "worst pair fire / nature (deutan): dE 7.3 on the team-colour area (normal vision 85.1; 591 px); deutan: fire / nature dE 7.3; protan: fire / nature dE 25.1; worst vs ground: fire colour (deutan) dE 33.5",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.914029632339492,
+			"graded": 0.79340797981391,
 			"group": "read",
 			"hint": "Keep tall parts under body_height + 0.4 or narrower than 0.35 m, or raise body_height to the real head top",
 			"id": "R7",
 			"improve": "",
 			"name": "HP bar over the body at 40 m",
 			"rule": "<= 6% (FAIL > 20%); bar at body_height + 0.5 = 6.0 m, 4.16 m wide",
-			"score": 0.974208889701847,
+			"score": 0.938022393944173,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "bar hides 1% of the silhouette (gap -16 px)",
+			"value": "bar hides 4% of the silhouette (gap -47 px)",
 			"weight": 1.0
 		},
 		{
@@ -432,7 +432,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "tip reaches 4.18 m from the body centre at t 0.14 s (1.91 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
+			"value": "tip reaches 3.79 m from the body centre at t 0.14 s (2.01 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
 			"weight": 1.0
 		},
 		{
@@ -440,13 +440,13 @@
 			"group": "anim",
 			"hint": "Bigger wind-up / strike: the weapon or head should leave the body outline",
 			"id": "A3",
-			"improve": "Push the attack pose: the strike should change >= 20% of the 40 m silhouette (now 71%)",
+			"improve": "Push the attack pose: the strike should change >= 20% of the 40 m silhouette (now 68%)",
 			"name": "Attack reads at 40 m",
 			"rule": ">= 8% (1 - IoU rest vs strike)",
 			"score": 1.0,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "strike pose changes 71% of the silhouette (t 0.14 s)",
+			"value": "strike pose changes 68% of the silhouette (t 0.24 s)",
 			"weight": 1.0
 		},
 		{
@@ -460,65 +460,65 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 5.96",
+			"value": "outline complexity 6.71",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.690929412841797,
+			"graded": 1.0,
 			"group": "polish",
 			"hint": "",
 			"id": "P3",
-			"improve": "Lighten the top masses / darken the legs and base (top - bottom now +6 L*, aim >= +10)",
+			"improve": "",
 			"name": "Tops light, bottoms dark",
 			"rule": "top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top)",
-			"score": 0.690929412841797,
+			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 70.4, bottom third L* 63.7 (+6, screen rows)",
+			"value": "top third L* 71.4, bottom third L* 59.4 (+12, screen rows)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.807822914786415,
+			"graded": 0.673842505977964,
 			"group": "polish",
 			"hint": "",
 			"id": "P4",
-			"improve": "Busy at 25 m (11.8): merge small value changes into bigger blocks so the 40 m read stays clean",
+			"improve": "Busy at 25 m (12.3): merge small value changes into bigger blocks so the 40 m read stays clean",
 			"name": "Detail density 25 m / 40 m",
 			"rule": "about 3-11 at 25 m: readable blocks, no noise",
-			"score": 0.807822914786415,
+			"score": 0.673842505977964,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 11.8 at 25 m, 15.2 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 12.3 at 25 m, 15.3 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.804711844704368,
+			"graded": 0.812140908825539,
 			"group": "read",
 			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
 			"id": "R5c",
 			"improve": "",
 			"name": "Glow points stand out (1 m surround)",
 			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
-			"score": 0.94141355341131,
+			"score": 0.943642272647662,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "worst dL +27 (point 1 dL +31, point 2 dL +27, point 3 dL +38, point 4 dL +28, point 5 dL +37, point 6 dL +33, point 7 dL +27, point 8 dL +38, point 9 dL +34, point 10 dL +32, point 11 dL +36, point 12 dL +39, point 13 dL +41, point 14 dL +31, point 15 dL +36, point 16 dL +32; ring 25 px = 1.0 m at 40 m)",
+			"value": "worst dL +24 (point 1 dL +31, point 2 dL +24, point 3 dL +31, point 4 dL +35, point 5 dL +34, point 6 dL +34, point 7 dL +34, point 8 dL +31, point 9 dL +52, point 10 dL +34, point 11 dL +42, point 12 dL +43, point 13 dL +33, point 14 dL +32, point 15 dL +44, point 16 dL +28, point 17 dL +31, point 18 dL +38, point 19 dL +29, point 20 dL +32, point 21 dL +34, point 22 dL +34, point 23 dL +32; ring 25 px = 1.0 m at 40 m)",
 			"weight": 0.5
 		},
 		{
-			"fix": "Glow points 17 -> 5 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingLMesh, WingL2Mesh (dim under the bloom level: 8 point(s), peak 5.99 x the level); frost_scale glow_energy 1.0 -> 0.13 on Tail2Mesh, LegFRMesh, LegFLMesh (dim under the bloom level: 4 point(s), peak 5.99 x the level) [fixes.json #1]",
+			"fix": "Glow points 18 -> 2 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingL2Mesh, WingLMesh, WingR2Mesh (dim under the bloom level: 16 point(s), peak 5.99 x the level) [fixes.json #1]",
 			"fix_rank": 1,
 			"graded": 0.4,
 			"group": "read",
-			"hint": "Too many glow points read as noise: merge them or dim the small ones below the bloom level (1.2): LegBRMesh, Tail2Mesh, WingLMesh x3, HeadMesh, LegFLMesh, WingRMesh x3, Tail3Mesh, WingR2Mesh x2, JawMesh x2, Neck1Mesh, LegFRMesh",
+			"hint": "Too many glow points read as noise: merge them or dim the small ones below the bloom level (1.2): LegBRMesh, Tail3Mesh x2, ? x4, LegFLMesh, WingRMesh x3, HeadMesh x2, JawMesh x2, Neck1Mesh, WingR2Mesh, LegFRMesh",
 			"id": "R5",
-			"improve": "Too many glow points read as noise: merge them or dim the small ones below the bloom level (1.2): LegBRMesh, Tail2Mesh, WingLMesh x3, HeadMesh, LegFLMesh, WingRMesh x3, Tail3Mesh, WingR2Mesh x2, JawMesh x2, Neck1Mesh, LegFRMesh",
+			"improve": "Too many glow points read as noise: merge them or dim the small ones below the bloom level (1.2): LegBRMesh, Tail3Mesh x2, ? x4, LegFLMesh, WingRMesh x3, HeadMesh x2, JawMesh x2, Neck1Mesh, WingR2Mesh, LegFRMesh",
 			"name": "Glow points at 40 m",
 			"rule": "1-5 above the bloom level (art-units 1.4 / art-keep 0.4)",
 			"score": 0.486,
 			"shot": "glow",
 			"status": "WARN",
-			"value": "17 point(s) above the bloom level 1.2 (median of 16/19/17): LegBRMesh, Tail2Mesh, WingLMesh x3, HeadMesh, LegFLMesh, WingRMesh x3, Tail3Mesh, WingR2Mesh x2, JawMesh x2, Neck1Mesh, LegFRMesh, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 3",
+			"value": "18 point(s) above the bloom level 1.2 (median of 23/18/15): LegBRMesh, Tail3Mesh x2, ? x4, LegFLMesh, WingRMesh x3, HeadMesh x2, JawMesh x2, Neck1Mesh, WingR2Mesh, LegFRMesh, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 8",
 			"weight": 1.0
 		},
 		{
@@ -532,7 +532,7 @@
 			"score": 1.0,
 			"shot": "glow",
 			"status": "INFO",
-			"value": "11 of 16 glow(s) in the upper half of the model's height (world)",
+			"value": "23 of 23 glow(s) in the upper half of the model's height (world)",
 			"weight": 1.0
 		},
 		{
@@ -546,23 +546,23 @@
 			"score": 1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "walk frames vs rest: mean IoU 0.41 (min 0.31), area kept 116-153% (min 6169 px), frame-to-frame IoU min 0.67; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.35 (min 0.32), area kept 115-155% (min 6149 px), frame-to-frame IoU min 0.6; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
-			"fix": "R5w Glow points while walking (flicker): The glow points blink while walking (19/23/27/25/25/24/20/19 per frame): put them on parts the gait does not cover [fixes.json #2]",
+			"fix": "R5w Glow points while walking (flicker): The glow points blink while walking (23/21/17/18/17/21/27/27 per frame): put them on parts the gait does not cover [fixes.json #2]",
 			"fix_rank": 2,
-			"graded": 0.125,
+			"graded": 0.25,
 			"group": "read",
 			"hint": "Glow points that hide behind a swinging limb or dip under the bloom level blink at 40 m: move them to a steady part (head, chest, weapon head) or raise their energy",
 			"id": "R5w",
-			"improve": "The glow points blink while walking (19/23/27/25/25/24/20/19 per frame): put them on parts the gait does not cover",
+			"improve": "The glow points blink while walking (23/21/17/18/17/21/27/27 per frame): put them on parts the gait does not cover",
 			"name": "Glow points while walking (flicker)",
 			"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)",
-			"score": 0.3925,
+			"score": 0.435,
 			"shot": "glow",
 			"status": "WARN",
-			"value": "points per frame 19/23/27/25/25/24/20/19 (median 24, range 8, 0 frame(s) at 0; at rest 17)",
+			"value": "points per frame 23/21/17/18/17/21/27/27 (median 21, range 10, 0 frame(s) at 0; at rest 18)",
 			"weight": 0.5
 		},
 		{
@@ -576,7 +576,7 @@
 			"score": -1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "cast pose changes 68% of the silhouette at its peak (t 0.25 s; 0.12 s 37%, 0.25 s 68%, 0.4 s 51%, 0.6 s 54%)",
+			"value": "cast pose changes 69% of the silhouette at its peak (t 0.25 s; 0.12 s 57%, 0.25 s 69%, 0.4 s 60%, 0.6 s 61%)",
 			"weight": 1.0
 		},
 		{
@@ -622,28 +622,28 @@
 			"rank": 1011.028,
 			"source": "R5 Glow points at 40 m, shot glow",
 			"status": "WARN",
-			"text": "Glow points 17 -> 5 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingLMesh, WingL2Mesh (dim under the bloom level: 8 point(s), peak 5.99 x the level); frost_scale glow_energy 1.0 -> 0.13 on Tail2Mesh, LegFRMesh, LegFLMesh (dim under the bloom level: 4 point(s), peak 5.99 x the level) [fixes.json #1]",
+			"text": "Glow points 18 -> 2 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingL2Mesh, WingLMesh, WingR2Mesh (dim under the bloom level: 16 point(s), peak 5.99 x the level) [fixes.json #1]",
 			"title": "Glow points at 40 m"
 		},
 		{
-			"rank": 10.6075,
+			"rank": 10.565,
 			"source": "R5w Glow points while walking (flicker), shot glow",
 			"status": "WARN",
-			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (19/23/27/25/25/24/20/19 per frame): put them on parts the gait does not cover [fixes.json #2]",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (23/21/17/18/17/21/27/27 per frame): put them on parts the gait does not cover [fixes.json #2]",
 			"title": "Glow points while walking (flicker)"
 		},
 		{
-			"rank": 0.309070587158203,
-			"source": "P3 Tops light, bottoms dark, shot z40",
-			"status": "INFO",
-			"text": "Lighten the top masses / darken the legs and base (top - bottom now +6 L*, aim >= +10)",
-			"title": "Tops light, bottoms dark"
+			"rank": 0.383188771487147,
+			"source": "R6 Team-colour visibility at 40 m, shot teams",
+			"status": "PASS",
+			"text": "Give the team colour more top-facing area (now 9% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"title": "Team-colour visibility at 40 m"
 		},
 		{
-			"rank": 0.192177085213585,
+			"rank": 0.326157494022036,
 			"source": "P4 Detail density 25 m / 40 m, shot z25",
 			"status": "INFO",
-			"text": "Busy at 25 m (11.8): merge small value changes into bigger blocks so the 40 m read stays clean",
+			"text": "Busy at 25 m (12.3): merge small value changes into bigger blocks so the 40 m read stays clean",
 			"title": "Detail density 25 m / 40 m"
 		}
 	],
@@ -656,13 +656,13 @@
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
 		"quick=1: light-preset sweep (R12) and style bible (S1) skipped",
 		"quick=1: references (R2) and frame cost (B13) skipped",
-		"Fix recipes: 2 in fixes.json (top: Glow points 17 -> 5 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingLMesh, WingL2Mesh (dim under the bloom level: 8 point(s), peak 5.99 )"
+		"Fix recipes: 2 in fixes.json (top: Glow points 18 -> 2 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingL2Mesh, WingLMesh, WingR2Mesh (dim under the bloom level: 16 point(s)"
 	],
 	"previous_quality": -1.0,
-	"quality": 94.3,
+	"quality": 94.0,
 	"result": "WARN",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn",
-	"seconds": 27.8,
+	"seconds": 23.7,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -674,6 +674,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-30 11:45:55",
+	"started": "2026-09-30 18:37:59",
 	"tier": "titan"
 }

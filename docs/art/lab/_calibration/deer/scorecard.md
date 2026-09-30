@@ -1,15 +1,17 @@
 # Art Lab scorecard: deer
 
-Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 11:44:31 · lab v3.1
+Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 18:36:42 · lab v3.1
 
-## Result: **PASS** · quality **99 / 100** (99.1)
+## Result: **WARN** · quality **81 / 100** (81.2)
 
-0 FAIL · 0 WARN · 15 PASS · 14 info · 0 skipped · 13 s
+0 FAIL · 1 WARN · 14 PASS · 14 info · 0 skipped · 12 s
 
 ## Improve next
-1. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
-2. **Detail density at 25 m** (IDEA): Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m _(from shot z25)_
-3. **Key-read contrast** (IDEA): Put the lightest value and the team colour on the top-facing masses (seen from pitch 55), darker values low _(from shot z40)_
+1. **Contrast on the other grounds** (WARN): R4 Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too [fixes.json #1] _(from R4 Contrast on the other grounds, shot z40)_
+2. **Inner detail (close-up / 25 m)** (INFO): Big plain panels inside the silhouette (0.33 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams) _(from C4 Inner detail (close-up / 25 m), shot close)_
+3. **Palette depth (close-up)** (INFO): Flat palette (6 colour / 4 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses) _(from C3 Palette depth (close-up), shot close)_
+4. **Tops light, bottoms dark** (INFO): Lighten the top masses / darken the legs and base (top - bottom now -1 L*, aim >= +10) _(from P3 Tops light, bottoms dark, shot z40)_
+5. **Detail density 25 m / 40 m** (INFO): Detail density is low at 25 m (1.6): add 1-2 mid-size value blocks (trim band, belt, plate edge) that read at 25 m and merge at 40 m _(from P4 Detail density 25 m / 40 m, shot z25)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -38,11 +40,11 @@ Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **
 |---|---|---|---|---|---|
 | R9 | Feet on the ground | PASS 100 | lowest point -0.0 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R10 | Footprint vs selection radius | INFO | x 0.47 / z 1.19 m (radius 0.3, default) | x <= radius x 1.4, z <= x 2.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
-| R1 | Silhouette area at 40 m | PASS 100 | 442 px (26 x 49 bbox; 55 m: 226 px) | >= 25 px (FAIL < 8) at 1600 x 900 |  |
-| R3 | Contrast vs ground (meadow) | PASS 99 | mean-colour dE 51.8, 6% of the body melts (within dE 15 of the ground); body L* 38.8 C 33.5 vs ground L* 62.0 C 49.2, hue gap 65 deg; top third (world height) dE 34.0, L* 54.5; per-pixel dE 58.0, outline 43.5 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 7 or > 60 % melting): the body must not melt into the grass |  |
-| R4 | Contrast on the other grounds | PASS 100 | worst heath: dE 24.7 (heath dE 24.7, old_wood dE 30.3, riverbank dE 47.7, snow dE 56.9, ash dE 30.9, sand dE 44.7, marsh dE 28.4) | dE >= 7 on every skirmish ground (WARN only) |  |
-| R5 | Glow points at 40 m | PASS 100 | 0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0 | 0-1 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
-| R11 | Reads while walking (40 m) | PASS 90 | walk frames vs rest: mean IoU 0.67 (min 0.66), area kept 99-102% (min 429 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 25 px (WARN only) |  |
+| R1 | Silhouette area at 40 m | PASS 100 | 435 px (27 x 47 bbox; 55 m: 222 px) | >= 25 px (FAIL < 8) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | PASS 100 | mean-colour dE 47.3, 3% of the body melts (within dE 15 of the ground); body L* 85.5 C 8.3 vs ground L* 62.8 C 48.4, hue gap n/a (body C* <= 25); top third (world height) dE 42.1, L* 84.2; per-pixel dE 47.9, outline 38.7 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 7 or > 60 % melting): the body must not melt into the grass |  |
+| R4 | Contrast on the other grounds | **WARN** 37 | worst snow: dE 5.3 (heath dE 35.3, old_wood dE 57.4, riverbank dE 57.0, snow dE 5.3, ash dE 60.7, sand dE 25.3, marsh dE 67.5) | dE >= 7 on every skirmish ground (WARN only) | A value accent that works on dark and light grounds (a pale crest / dark saddle) |
+| R5 | Glow points at 40 m | PASS 100 | 0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 1 | 0-1 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
+| R11 | Reads while walking (40 m) | PASS 90 | walk frames vs rest: mean IoU 0.67 (min 0.65), area kept 98-102% (min 427 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 25 px (WARN only) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -54,15 +56,15 @@ Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **
 |---|---|---|---|---|---|
 | C1 | Shape richness (secondary shapes) | INFO 100 | 28 shapes over 1 body parts (28.0 per part: (root) 28); 3% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.872 | craft (lab v3.1): >= 7 separate shapes per body part, <= 30% plain boxes / prisms, normal variety >= 0.86 |  |
 | C2 | Vertex use vs budget | INFO 100 | 94% of the 1200 tris budget used (1134) | craft (lab v3.1): a finished model uses >= 80% of its tier budget (under-use = detail left on the table; over is B4) |  |
-| C3 | Palette depth (close-up) | INFO 100 | 12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 10 colour steps and >= 8 value steps at the close-up |  |
-| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 0.89 at the close-up (31604 px), 1.01 at 25 m; close-up outline complexity 17.51 | craft (lab v3.1): >= 0.7 inner edge px per outline px at the close-up, >= 0.7 at 25 m (shape and value breaks inside the silhouette) |  |
+| C3 | Palette depth (close-up) | INFO 10 | 6 colour steps (L*a*b* bins >= 2 % of the body), 4 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 10 colour steps and >= 8 value steps at the close-up |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 4 | inner edges per outline px: 0.33 at the close-up (32008 px), 0.14 at 25 m; close-up outline complexity 17.11 | craft (lab v3.1): >= 0.7 inner edge px per outline px at the close-up, >= 0.7 at 25 m (shape and value breaks inside the silhouette) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P1 | Silhouette hook | INFO 100 | outline complexity 4.78 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
-| P3 | Tops light, bottoms dark | INFO 100 | top third L* 54.5, bottom third L* 17.6 (+36, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
-| P4 | Detail density 25 m / 40 m | INFO 99 | inner detail 11.0 at 25 m, 16.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| P1 | Silhouette hook | INFO 100 | outline complexity 4.4 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 23 | top third L* 84.2, bottom third L* 85.4 (-1, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 65 | inner detail 1.6 at 25 m, 1.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
 
 ## Shots
 - z40: [z40.jpg](z40.jpg)
@@ -81,3 +83,5 @@ Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **
 - terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist
 - quick=1: light-preset sweep (R12) and style bible (S1) skipped
 - quick=1: references (R2) and frame cost (B13) skipped
+- fix recipes: colour not computed (no body material with an albedo among 1 drawn materials)
+- Fix recipes: 1 in fixes.json (top: R4 Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too)

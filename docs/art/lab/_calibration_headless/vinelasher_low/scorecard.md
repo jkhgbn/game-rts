@@ -1,6 +1,6 @@
 # Art Lab scorecard: vinelasher_low
 
-Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-30 16:14:37 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-30 18:12:14 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **87 / 100** (86.8)
 

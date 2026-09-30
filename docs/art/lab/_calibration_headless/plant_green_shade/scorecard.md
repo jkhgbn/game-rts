@@ -1,6 +1,6 @@
 # Art Lab scorecard: plant_green_shade
 
-Scene `res://tools/art_lab/calibration/virtual/plant_green_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-30 16:14:37 · lab v3.1 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_green_shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-30 18:12:14 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **96 / 100** (95.7)
 

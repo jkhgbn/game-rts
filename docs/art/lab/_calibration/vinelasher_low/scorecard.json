@@ -257,14 +257,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.212750314797577,
+			"graded": 0.215604853946849,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, ArmL, Chest; 57% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.86): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.212750314797577,
+			"score": 0.215604853946849,
 			"shot": "close",
 			"status": "INFO",
 			"value": "24 shapes over 7 body parts (3.4 per part: LegL 2, LegR 2, Hips 7, Head 3, ArmL 2, ArmR 6, Chest 2); 57% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.864",
@@ -295,18 +295,18 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "lowest point 0.019 m",
+			"value": "lowest point 0.02 m",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.948613034354316,
+			"graded": 0.949965000152588,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.984583910306295,
+			"score": 0.984989500045776,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.85 m / body_height 1.8 (x1.03)",
@@ -351,7 +351,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 2.12 at the close-up (83853 px), 1.44 at 25 m; close-up outline complexity 8.55",
+			"value": "inner edges per outline px: 2.15 at the close-up (84024 px), 1.42 at 25 m; close-up outline complexity 8.57",
 			"weight": 1.0
 		},
 		{
@@ -359,55 +359,55 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 363 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 362 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 120 px (FAIL < 45) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "363 px (20 x 35 bbox; 55 m: 181 px)",
+			"value": "362 px (20 x 35 bbox; 55 m: 180 px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.486245211432962,
+			"graded": 0.480369287378648,
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 22.5): value is close to the ground (dL -9): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the top third (what reads from pitch 55) is close to the ground (dE 17.5): lighten helmets / shoulders / back; the body sits in the ground's hue (gap 22 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
+			"improve": "Raise the contrast of the key read on meadow (dE 22.3): value is close to the ground (dL -8): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the top third (what reads from pitch 55) is close to the ground (dE 17.3): lighten helmets / shoulders / back; the body sits in the ground's hue (gap 22 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
-			"score": 0.845873563429889,
+			"score": 0.844110786213594,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 22.5, 5% of the body melts (within dE 15 of the ground); body L* 53.9 C 35.4 vs ground L* 63.1 C 47.9, hue gap 22 deg; top third (world height) dE 17.5, L* 61.7; per-pixel dE 39.2, outline 33.7",
+			"value": "mean-colour dE 22.3, 5% of the body melts (within dE 15 of the ground); body L* 54.3 C 35.6 vs ground L* 63.1 C 47.8, hue gap 22 deg; top third (world height) dE 17.3, L* 62.4; per-pixel dE 39.1, outline 33.8",
 			"weight": 1.5
 		},
 		{
-			"graded": 0.952120267427885,
+			"graded": 0.973526000976563,
 			"group": "read",
 			"hint": "A value step against the home ground: pale crests on dark ash / marsh, dark trims on snow",
 			"id": "R4k",
 			"improve": "",
 			"name": "Contrast on the home ground (old_wood)",
 			"rule": "dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh)",
-			"score": 0.985636080228365,
+			"score": 0.992057800292969,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 30.8, 18% melts (old_wood is where nature units stand most)",
+			"value": "dE 31.3, 17% melts (old_wood is where nature units stand most)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.713562965393066,
+			"graded": 0.729286273320516,
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On heath the body drops to dE 23.1: add a value accent that separates it there too",
+			"improve": "On heath the body drops to dE 23.5: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 10 on every skirmish ground (WARN only)",
-			"score": 0.91406888961792,
+			"score": 0.918785881996155,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst heath: dE 23.1 (heath dE 23.1, old_wood dE 30.8, riverbank dE 34.0, snow dE 48.8, ash dE 46.8, sand dE 27.1, marsh dE 46.1)",
+			"value": "worst heath: dE 23.5 (heath dE 23.5, old_wood dE 31.3, riverbank dE 34.4, snow dE 48.8, ash dE 47.3, sand dE 26.7, marsh dE 46.7)",
 			"weight": 1.0
 		},
 		{
@@ -425,30 +425,30 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.572249999413123,
+			"graded": 0.579883428720328,
 			"group": "read",
 			"hint": "Keep the team colour off the silhouette's biggest mass or give it a value step (trim, dark border)",
 			"id": "R3t",
-			"improve": "In the nature team colour the body drops to dE 20.9 on meadow: add a value step around the team-colour area",
+			"improve": "In the nature team colour the body drops to dE 21.1 on meadow: add a value step around the team-colour area",
 			"name": "Contrast in every team colour (meadow)",
 			"rule": "dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours)",
-			"score": 0.871674999823937,
+			"score": 0.873965028616098,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst nature colour: dE 20.9 (fire 41.1, shadow 50.2, ice 34.5, nature 20.9)",
+			"value": "worst nature colour: dE 21.1 (fire 41.4, shadow 50.4, ice 34.7, nature 21.1)",
 			"weight": 1.0
 		},
 		{
 			"fix": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.6): add a value step inside the team-colour area [fixes.json #1]",
 			"fix_rank": 1,
-			"graded": 0.118677322681134,
+			"graded": 0.120917320251465,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.6): add a value step inside the team-colour area",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.390350289711585,
+			"score": 0.391111888885498,
 			"shot": "teams",
 			"status": "WARN",
 			"value": "worst pair fire / nature (deutan): dE 11.6 on the team-colour area (normal vision 63.0; 123 px); deutan: fire / nature dE 11.6; protan: fire / nature dE 19.3; worst vs ground: nature colour (deutan) dE 9.1",
@@ -479,7 +479,7 @@
 			"score": 1.0,
 			"shot": "strike_side",
 			"status": "PASS",
-			"value": "tip reaches 3.21 m from the body centre at t 0.14 s (3.12 m forward; geometry clipped at the ground); declared 3.0 m (reach= (brief))",
+			"value": "tip reaches 3.26 m from the body centre at t 0.24 s (3.25 m forward; geometry clipped at the ground); declared 3.0 m (reach= (brief))",
 			"weight": 1.0
 		},
 		{
@@ -487,13 +487,13 @@
 			"group": "anim",
 			"hint": "Bigger wind-up / strike: the weapon or head should leave the body outline",
 			"id": "A3",
-			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 61%)",
+			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 58%)",
 			"name": "Attack reads at 40 m",
 			"rule": ">= 12% (1 - IoU rest vs strike)",
 			"score": 1.0,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "strike pose changes 61% of the silhouette (t 0.08 s)",
+			"value": "strike pose changes 58% of the silhouette (t 0.14 s)",
 			"weight": 1.0
 		},
 		{
@@ -507,7 +507,7 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 3.94",
+			"value": "outline complexity 3.77",
 			"weight": 1.0
 		},
 		{
@@ -521,35 +521,35 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 61.7, bottom third L* 24.1 (+37, world height)",
+			"value": "top third L* 62.4, bottom third L* 24.1 (+38, world height)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.971320433988991,
+			"graded": 0.865115391010681,
 			"group": "polish",
 			"hint": "",
 			"id": "P4",
-			"improve": "Busy at 25 m (11.1): merge small value changes into bigger blocks so the 40 m read stays clean",
+			"improve": "Busy at 25 m (11.5): merge small value changes into bigger blocks so the 40 m read stays clean",
 			"name": "Detail density 25 m / 40 m",
 			"rule": "about 3-11 at 25 m: readable blocks, no noise",
-			"score": 0.971320433988991,
+			"score": 0.865115391010681,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 11.1 at 25 m, 15.9 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 11.5 at 25 m, 16.2 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.612518518621271,
+			"graded": 0.580784121426669,
 			"group": "read",
 			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
 			"id": "R5c",
 			"improve": "",
 			"name": "Glow points stand out (1 m surround)",
 			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
-			"score": 0.883755555586381,
+			"score": 0.874235236428001,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "worst dL +23 (soft 1 dL +23 (counts); ring 24 px = 1.0 m at 40 m)",
+			"value": "worst dL +21 (soft 1 dL +21 (counts); ring 24 px = 1.0 m at 40 m)",
 			"weight": 0.5
 		},
 		{
@@ -567,17 +567,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.707565750623329,
+			"graded": 0.729263325209446,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only)",
-			"score": 0.912269725186999,
+			"score": 0.918778997562834,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.69 (min 0.59), area kept 93-100% (min 338 px), frame-to-frame IoU min 0.55; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.7 (min 0.58), area kept 93-99% (min 340 px), frame-to-frame IoU min 0.57; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
@@ -591,7 +591,7 @@
 			"score": -1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "cast pose changes 36% of the silhouette at its peak (t 0.4 s; 0.12 s 35%, 0.25 s 36%, 0.4 s 36%, 0.6 s 15%)",
+			"value": "cast pose changes 36% of the silhouette at its peak (t 0.4 s; 0.12 s 34%, 0.25 s 35%, 0.4 s 36%, 0.6 s 18%)",
 			"weight": 1.0
 		},
 		{
@@ -634,14 +634,14 @@
 	"headless": false,
 	"improve_next": [
 		{
-			"rank": 1010.60964971029,
+			"rank": 1010.60888811111,
 			"source": "R6cb Team colours for colour-blind players, shot teams",
 			"status": "WARN",
 			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.6): add a value step inside the team-colour area [fixes.json #1]",
 			"title": "Team colours for colour-blind players"
 		},
 		{
-			"rank": 1.57449937040485,
+			"rank": 1.5687902921063,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, ArmL, Chest; 57% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.86): tilt, curve and rotate parts so the light breaks on them",
@@ -655,24 +655,24 @@
 			"title": "Vertex use vs budget"
 		},
 		{
-			"rank": 0.462379309710334,
+			"rank": 0.467667641359217,
 			"source": "R3 Contrast vs ground (meadow), shot z40",
 			"status": "PASS",
-			"text": "Raise the contrast of the key read on meadow (dE 22.5): value is close to the ground (dL -9): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the top third (what reads from pitch 55) is close to the ground (dE 17.5): lighten helmets / shoulders / back; the body sits in the ground's hue (gap 22 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
+			"text": "Raise the contrast of the key read on meadow (dE 22.3): value is close to the ground (dL -8): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the top third (what reads from pitch 55) is close to the ground (dE 17.3): lighten helmets / shoulders / back; the body sits in the ground's hue (gap 22 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
 			"title": "Contrast vs ground (meadow)"
 		},
 		{
-			"rank": 0.256650000352126,
+			"rank": 0.252069942767803,
 			"source": "R3t Contrast in every team colour (meadow), shot teams",
 			"status": "PASS",
-			"text": "In the nature team colour the body drops to dE 20.9 on meadow: add a value step around the team-colour area",
+			"text": "In the nature team colour the body drops to dE 21.1 on meadow: add a value step around the team-colour area",
 			"title": "Contrast in every team colour (meadow)"
 		},
 		{
-			"rank": 0.17186222076416,
+			"rank": 0.162428236007691,
 			"source": "R4 Contrast on the other grounds, shot z40",
 			"status": "PASS",
-			"text": "On heath the body drops to dE 23.1: add a value accent that separates it there too",
+			"text": "On heath the body drops to dE 23.5: add a value accent that separates it there too",
 			"title": "Contrast on the other grounds"
 		}
 	],
@@ -689,10 +689,10 @@
 		"Fix recipes: 1 in fixes.json (top: R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.6): add a value step insid)"
 	],
 	"previous_quality": -1.0,
-	"quality": 90.8,
+	"quality": 90.6,
 	"result": "WARN",
 	"scene": "res://art/units/_effort_trial/low/vinelasher.tscn",
-	"seconds": 21.3,
+	"seconds": 20.0,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -704,6 +704,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-30 11:45:12",
+	"started": "2026-09-30 18:37:18",
 	"tier": "soldier"
 }

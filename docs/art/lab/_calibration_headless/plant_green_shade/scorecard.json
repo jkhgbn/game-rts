@@ -483,8 +483,8 @@
 	"quality": 95.7,
 	"result": "PASS",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_green_shade.tscn",
-	"seconds": 0.2,
+	"seconds": 0.1,
 	"shots": {},
-	"started": "2026-09-30 16:14:37",
+	"started": "2026-09-30 18:12:14",
 	"tier": "soldier"
 }

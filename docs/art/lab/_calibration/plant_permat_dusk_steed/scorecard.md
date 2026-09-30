@@ -1,10 +1,10 @@
 # Art Lab scorecard: plant_permat_dusk_steed
 
-Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-30 11:46:47 · lab v3.1
+Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-30 18:38:43 · lab v3.1
 
 ## Result: **FAIL** · quality **90 / 100** (89.6)
 
-1 FAIL · 0 WARN · 12 PASS · 7 info · 6 skipped · 8 s
+1 FAIL · 0 WARN · 12 PASS · 7 info · 6 skipped · 9 s
 
 ## Improve next
 1. **Materials built per instance** (FAIL): B9 Materials built per instance: Share the 35 per-instance material(s) (static cache) so 200 units do not build 200 copies [fixes.json #1] _(from B9 Materials built per instance)_
@@ -31,7 +31,7 @@ Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · 
 | B8 | Unique materials | INFO | 35 | no budget for mount/mount |  |
 | B1a | Authored build parts (before the merge) | INFO | 9 (model says 10) | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes), v1 limit 12 |  |
 | B11 | Surfaces per instance | INFO | 35 surfaces over 8 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
-| B12 | Downward-facing triangles | INFO | 698 of 7368 triangles (9%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
+| B12 | Downward-facing triangles | INFO | 699 of 7368 triangles (9%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
 | B13 | Frame cost | SKIP | fail_fast: stopped after a headless FAIL | needs a windowed run (1600 x 900) |  |
 
 ## Readability at 40 m
@@ -42,19 +42,19 @@ Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · 
 | R3 | Contrast vs ground | SKIP | fail_fast: stopped after a headless FAIL | needs a windowed run (1600 x 900) |  |
 | R5 | Glow points at 40 m | SKIP | fail_fast: stopped after a headless FAIL | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | fail_fast: stopped after a headless FAIL | needs a windowed run (1600 x 900) |  |
-| R9 | Feet on the ground | PASS 100 | lowest point 0.009 m | -0.08 .. +0.05 m (art-units 1.6) |  |
+| R9 | Feet on the ground | PASS 100 | lowest point 0.008 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R10 | Footprint vs selection radius | INFO | x 0.4 / z 1.55 m (radius 0.7, default) | x <= radius x 1.4, z <= x 2.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 8 present | set_team_color, set_moving, play_hit, play_death, signal:death_finished, set_barded, play_charge, seat_transform |  |
-| A2 | death_finished | PASS 100 | after 0.9 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.98 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 83 | 161 shapes over 7 body parts (23.0 per part: Head 63, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.879 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C1 | Shape richness (secondary shapes) | INFO 83 | 161 shapes over 7 body parts (23.0 per part: Head 63, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
 | C2 | Vertex use vs budget | INFO 100 | 99% of the 6000 verts budget used (5993) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, cavalry-mounts.md 10 (mount))

@@ -423,7 +423,7 @@
 	"quality": 98.2,
 	"result": "PASS",
 	"scene": "res://art/environment/landmarks/aqueduct.tscn",
-	"seconds": 12.2,
+	"seconds": 10.7,
 	"shots": {
 		"anim": "anim.jpg",
 		"close": "close.jpg",
@@ -433,6 +433,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-30 11:43:52",
+	"started": "2026-09-30 18:36:09",
 	"tier": "landmark"
 }

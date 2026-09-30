@@ -13,6 +13,7 @@ When JS asks for something new, add a line here first, then work on it.
 | 2026-09-29 | Blender file of the prologue castle, epic quality, after a 30 s fast script voiced by the Master (Kokoro) | doing | `art/blender/prologue_castle/` |
 | 2026-09-29 | Hotkey should show on the unit or building it belongs to (JS, garbled: "hotkey should the unit or building it its") | doing | `scripts/ui/command_card.gd`, `docs/design/ui-hud.md` |
 | 2026-09-30 | Caster-only support units like SC2 Medivac or Infestor: list them and add 1 per kingdom (4 wizards) | doing | `docs/design/caster-units.md` |
+| 2026-10-01 | Not sure units can get better (tier up) in the last build: make sure there is a clear way to upgrade to better units, ASAP (JS, garbled) | doing | `docs/design/tiers.md`, keep card |
 | 2026-09-28 | Basic eyes, lips, expression, ears and hair on ALL units, then remake the movies | doing | face kit first (`art/units/kit/`), then one wave per faction, champions, helpers, neutrals |
 | 2026-09-28 | Render Ep 3 and Ep 4 films to video, cutscene art at 90 or more | doing | `art/cinematics/`, `docs/tools/cine/` |
 | 2026-09-28 | List of in-game art under 90 and what it needs | todo (list written, work not started) | `docs/art/ingame_grade/under_90.md` |

@@ -268,31 +268,31 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.325,
 			"group": "craft",
 			"hint": "",
 			"id": "C3",
-			"improve": "",
+			"improve": "Flat palette (7 colour / 5 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses)",
 			"name": "Palette depth (close-up)",
 			"rule": "craft (lab v3.1): >= 10 colour steps and >= 8 value steps at the close-up",
-			"score": 1.0,
+			"score": 0.325,
 			"shot": "close",
 			"status": "INFO",
-			"value": "14 colour steps (L*a*b* bins >= 2 % of the body), 10 value steps (L* bins of 8 >= 3 %)",
+			"value": "7 colour steps (L*a*b* bins >= 2 % of the body), 5 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.0638045540796964,
 			"group": "craft",
 			"hint": "",
 			"id": "C4",
-			"improve": "",
+			"improve": "Big plain panels inside the silhouette (0.35 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
 			"name": "Inner detail (close-up / 25 m)",
 			"rule": "craft (lab v3.1): >= 0.7 inner edge px per outline px at the close-up, >= 0.7 at 25 m (shape and value breaks inside the silhouette)",
-			"score": 1.0,
+			"score": 0.0638045540796964,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 1.08 at the close-up (31711 px), 0.97 at 25 m; close-up outline complexity 17.3",
+			"value": "inner edges per outline px: 0.35 at the close-up (31992 px), 0.17 at 25 m; close-up outline complexity 17.27",
 			"weight": 1.0
 		},
 		{
@@ -300,41 +300,43 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 436 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 448 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 25 px (FAIL < 8) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "436 px (26 x 47 bbox; 55 m: 216 px)",
+			"value": "448 px (28 x 48 bbox; 55 m: 225 px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.928722653493296,
+			"graded": 0.991071428571429,
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 52.8): raise the value step between the big masses and the ground (dL -20 now)",
+			"improve": "Raise the contrast of the key read on meadow (dE 48.4): raise the value step between the big masses and the ground (dL +24 now)",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 7 or > 60 % melting): the body must not melt into the grass",
-			"score": 0.978616796047989,
+			"score": 0.997321428571429,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 52.8, 9% of the body melts (within dE 15 of the ground); body L* 39.7 C 35.2 vs ground L* 60.2 C 49.7, hue gap 67 deg; top third (world height) dE 33.3, L* 52.2; per-pixel dE 58.7, outline 51.9",
+			"value": "mean-colour dE 48.4, 5% of the body melts (within dE 15 of the ground); body L* 84.9 C 9.0 vs ground L* 60.4 C 49.3, hue gap n/a (body C* <= 25); top third (world height) dE 39.6, L* 81.9; per-pixel dE 49.1, outline 35.9",
 			"weight": 1.5
 		},
 		{
-			"graded": 1.0,
+			"fix": "R4 Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too [fixes.json #2]",
+			"fix_rank": 2,
+			"graded": 0.068064774785723,
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On heath the body drops to dE 26.7: add a value accent that separates it there too",
+			"improve": "On snow the body drops to dE 5.3: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 7 on every skirmish ground (WARN only)",
-			"score": 1.0,
+			"score": 0.373142023427146,
 			"shot": "z40",
-			"status": "PASS",
-			"value": "worst heath: dE 26.7 (heath dE 26.7, old_wood dE 32.1, riverbank dE 48.4, snow dE 56.7, ash dE 32.1, sand dE 44.0, marsh dE 29.3)",
+			"status": "WARN",
+			"value": "worst snow: dE 5.3 (heath dE 35.0, old_wood dE 57.0, riverbank dE 55.1, snow dE 5.3, ash dE 59.7, sand dE 24.8, marsh dE 66.3)",
 			"weight": 1.0
 		},
 		{
@@ -348,35 +350,35 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 4.56",
+			"value": "outline complexity 4.66",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.11830228917739,
 			"group": "polish",
 			"hint": "",
 			"id": "P3",
-			"improve": "",
+			"improve": "Lighten the top masses / darken the legs and base (top - bottom now -2 L*, aim >= +10)",
 			"name": "Tops light, bottoms dark",
 			"rule": "top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top)",
-			"score": 1.0,
+			"score": 0.11830228917739,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 52.2, bottom third L* 13.2 (+38, world height)",
+			"value": "top third L* 81.9, bottom third L* 84.9 (-2, world height)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.760167842094365,
+			"graded": 0.6938535415727,
 			"group": "polish",
 			"hint": "",
 			"id": "P4",
-			"improve": "Busy at 25 m (12.0): merge small value changes into bigger blocks so the 40 m read stays clean",
+			"improve": "Detail density is low at 25 m (1.8): add 1-2 mid-size value blocks (trim band, belt, plate edge) that read at 25 m and merge at 40 m",
 			"name": "Detail density 25 m / 40 m",
 			"rule": "about 3-11 at 25 m: readable blocks, no noise",
-			"score": 0.760167842094365,
+			"score": 0.6938535415727,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 12.0 at 25 m, 19.6 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 1.8 at 25 m, 2.0 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
@@ -390,21 +392,21 @@
 			"score": 1.0,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0",
+			"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 1",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.674802157110264,
+			"graded": 0.880971832006871,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 25 px (WARN only)",
-			"score": 0.902440647133079,
+			"score": 0.964291549602061,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.67 (min 0.66), area kept 97-103% (min 431 px), frame-to-frame IoU min 0.78; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.78 (min 0.76), area kept 98-103% (min 434 px), frame-to-frame IoU min 0.78; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
@@ -425,9 +427,9 @@
 	"counts": {
 		"FAIL": 1,
 		"INFO": 14,
-		"PASS": 14,
+		"PASS": 13,
 		"SKIP": 0,
-		"WARN": 0
+		"WARN": 1
 	},
 	"ground": "meadow",
 	"headless": false,
@@ -440,18 +442,39 @@
 			"title": "Feet on the ground"
 		},
 		{
-			"rank": 0.239832157905635,
-			"source": "P4 Detail density 25 m / 40 m, shot z25",
-			"status": "INFO",
-			"text": "Busy at 25 m (12.0): merge small value changes into bigger blocks so the 40 m read stays clean",
-			"title": "Detail density 25 m / 40 m"
+			"rank": 11.2537159531457,
+			"source": "R4 Contrast on the other grounds, shot z40",
+			"status": "WARN",
+			"text": "R4 Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too [fixes.json #2]",
+			"title": "Contrast on the other grounds"
 		},
 		{
-			"rank": 0.0,
-			"source": "anim strip",
-			"status": "IDEA",
-			"text": "Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m",
-			"title": "Idle / attack beats"
+			"rank": 1.87239089184061,
+			"source": "C4 Inner detail (close-up / 25 m), shot close",
+			"status": "INFO",
+			"text": "Big plain panels inside the silhouette (0.35 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
+			"title": "Inner detail (close-up / 25 m)"
+		},
+		{
+			"rank": 1.35,
+			"source": "C3 Palette depth (close-up), shot close",
+			"status": "INFO",
+			"text": "Flat palette (7 colour / 5 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses)",
+			"title": "Palette depth (close-up)"
+		},
+		{
+			"rank": 0.88169771082261,
+			"source": "P3 Tops light, bottoms dark, shot z40",
+			"status": "INFO",
+			"text": "Lighten the top masses / darken the legs and base (top - bottom now -2 L*, aim >= +10)",
+			"title": "Tops light, bottoms dark"
+		},
+		{
+			"rank": 0.3061464584273,
+			"source": "P4 Detail density 25 m / 40 m, shot z25",
+			"status": "INFO",
+			"text": "Detail density is low at 25 m (1.8): add 1-2 mid-size value blocks (trim band, belt, plate edge) that read at 25 m and merge at 40 m",
+			"title": "Detail density 25 m / 40 m"
 		}
 	],
 	"kind": "critter",
@@ -462,13 +485,14 @@
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
 		"quick=1: light-preset sweep (R12) and style bible (S1) skipped",
 		"quick=1: references (R2) and frame cost (B13) skipped",
-		"Fix recipes: 1 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))"
+		"fix recipes: colour not computed (no body material with an albedo among 1 drawn materials)",
+		"Fix recipes: 2 in fixes.json (top: R9: move `Root` 0.4 m down (lowest point 0.4 -> 0.0 m))"
 	],
 	"previous_quality": -1.0,
-	"quality": 92.4,
+	"quality": 76.8,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
-	"seconds": 14.0,
+	"seconds": 11.9,
 	"shots": {
 		"anim": "anim.jpg",
 		"close": "close.jpg",
@@ -478,6 +502,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-30 11:46:32",
+	"started": "2026-09-30 18:38:31",
 	"tier": "deer"
 }

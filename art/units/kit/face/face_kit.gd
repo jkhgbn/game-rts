@@ -846,6 +846,9 @@ static func face_mesh(key: String, style: Dictionary, id: StringName) -> ArrayMe
 	var far := id == FAR
 	id = FAR if far else canonical(id)
 	var ck := key + "|" + String(id)
+	if not _seen_styles.has(key):
+		_seen_styles[key] = style
+		_hook_exit()
 	if _cache.has(ck):
 		return _cache[ck]
 	var x := params(style, id)
@@ -906,6 +909,7 @@ static func warm(key: String, style: Dictionary) -> void:
 
 static var _styles: Dictionary = {}
 static var _exit_hooked := false
+static var _seen_styles: Dictionary = {}   # key -> every style dictionary face_mesh() saw (release() strips them)
 
 
 ## Drops every static cache (styles, meshes, material, UnitFaces' lean styles). Called once when the scene tree's root
@@ -913,10 +917,32 @@ static var _exit_hooked := false
 ## freed them with the script statics after the servers, i.e. every game / test that showed a FaceRig exited with a
 ## crash (2026-09-28 to 09-30: ~150 CI tests "PASS" then exit -1073741819).
 static func release() -> void:
+	# Other static caches keep the same style dictionaries (ChampionFaces, CreatureFaceRig, per-model styles such as
+	# Vessa's): strip the lambdas out of every style face_mesh() saw, so no static anywhere still holds one at exit.
+	for st: Variant in _seen_styles.values():
+		_strip_callables(st)
+	_seen_styles.clear()
 	_styles.clear()
 	_cache.clear()
 	_mat = null
 	UnitFaces._lean_cache.clear()
+
+
+static func _strip_callables(v: Variant) -> void:
+	if v is Dictionary:
+		var d: Dictionary = v
+		for k: Variant in d.keys():
+			if d[k] is Callable:
+				d.erase(k)
+			else:
+				_strip_callables(d[k])
+	elif v is Array:
+		var a: Array = v
+		for i: int in range(a.size() - 1, -1, -1):
+			if a[i] is Callable:
+				a.remove_at(i)
+			else:
+				_strip_callables(a[i])
 
 
 static func _hook_exit() -> void:

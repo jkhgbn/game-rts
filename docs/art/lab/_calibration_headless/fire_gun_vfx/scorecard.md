@@ -1,6 +1,6 @@
 # Art Lab scorecard: fire_gun_vfx
 
-Scene `res://art/vfx/unit_fire_gun_vfx.gd` · kind **vfx** / tier **family** · kingdom fire · ground meadow · 2026-09-30 16:14:36 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/vfx/unit_fire_gun_vfx.gd` · kind **vfx** / tier **family** · kingdom fire · ground meadow · 2026-09-30 18:12:14 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **100 / 100** (100.0)
 

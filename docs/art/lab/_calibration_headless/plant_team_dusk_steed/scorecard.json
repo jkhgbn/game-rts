@@ -425,8 +425,8 @@
 	"quality": 97.1,
 	"result": "PASS",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn",
-	"seconds": 0.1,
+	"seconds": 0.0,
 	"shots": {},
-	"started": "2026-09-30 16:14:38",
+	"started": "2026-09-30 18:12:15",
 	"tier": "mount"
 }

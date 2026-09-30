@@ -1,12 +1,30 @@
 {
 	"asset": "deer",
-	"count": 0,
-	"fixes": [],
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R4",
+			"computed": false,
+			"measured": {
+				"value": "worst snow: dE 5.3 (heath dE 35.3, old_wood dE 57.4, riverbank dE 57.0, snow dE 5.3, ash dE 60.7, sand dE 25.3, marsh dE 67.5)"
+			},
+			"predicted": {},
+			"proposal": "Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R4 Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too",
+			"title": "Contrast on the other grounds",
+			"wanted": {
+				"rule": "dE >= 7 on every skirmish ground (WARN only)"
+			}
+		}
+	],
 	"ground": "meadow",
 	"kind": "critter",
 	"kingdom": "neutral",
-	"quality": 99.1,
-	"result": "PASS",
+	"quality": 81.2,
+	"result": "WARN",
 	"scene": "res://art/units/neutral/critters/deer.tscn",
 	"tier": "deer",
 	"version": "1.0"

@@ -213,7 +213,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "9754 of 40772 triangles (23%) face steeply down (normal y < -0.7)",
+			"value": "9756 of 40772 triangles (23%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -259,17 +259,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.578416859539443,
+			"graded": 0.578466066220308,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.578416859539443,
+			"score": 0.578466066220308,
 			"shot": "close",
 			"status": "INFO",
-			"value": "44 shapes over 7 body parts (6.3 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 7); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
+			"value": "44 shapes over 7 body parts (6.3 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 7); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.84",
 			"weight": 1.0
 		},
 		{
@@ -297,7 +297,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.89 s",
+			"value": "after 0.92 s",
 			"weight": 1.0
 		},
 		{
@@ -399,17 +399,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.78591513633728,
+			"graded": 0.77744472026825,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.935774540901184,
+			"score": 0.933233416080475,
 			"shot": "",
 			"status": "PASS",
-			"value": "head top 1.77 m / body_height 1.6 (x1.11)",
+			"value": "head top 1.78 m / body_height 1.6 (x1.11)",
 			"weight": 1.0
 		},
 		{
@@ -459,7 +459,7 @@
 			"title": "Vertices"
 		},
 		{
-			"rank": 0.843166280921113,
+			"rank": 0.843067867559385,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
@@ -486,8 +486,8 @@
 	"quality": 91.7,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
-	"seconds": 8.4,
+	"seconds": 8.6,
 	"shots": {},
-	"started": "2026-09-30 11:46:24",
+	"started": "2026-09-30 18:38:23",
 	"tier": "soldier"
 }

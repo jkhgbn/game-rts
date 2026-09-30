@@ -167,7 +167,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "698 of 7368 triangles (9%) face steeply down (normal y < -0.7)",
+			"value": "699 of 7368 triangles (9%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -215,17 +215,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.829239310130539,
+			"graded": 0.832434840316844,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.829239310130539,
+			"score": 0.832434840316844,
 			"shot": "close",
 			"status": "INFO",
-			"value": "161 shapes over 7 body parts (23.0 per part: Head 63, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.879",
+			"value": "161 shapes over 7 body parts (23.0 per part: Head 63, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88",
 			"weight": 1.0
 		},
 		{
@@ -253,7 +253,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.9 s",
+			"value": "after 0.98 s",
 			"weight": 1.0
 		},
 		{
@@ -351,7 +351,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "lowest point 0.009 m",
+			"value": "lowest point 0.008 m",
 			"weight": 1.0
 		},
 		{
@@ -429,8 +429,8 @@
 	"quality": 89.6,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn",
-	"seconds": 8.4,
+	"seconds": 8.6,
 	"shots": {},
-	"started": "2026-09-30 11:46:47",
+	"started": "2026-09-30 18:38:43",
 	"tier": "mount"
 }

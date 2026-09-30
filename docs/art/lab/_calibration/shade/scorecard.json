@@ -211,7 +211,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "214 of 2628 triangles (8%) face steeply down (normal y < -0.7)",
+			"value": "206 of 2628 triangles (7%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -257,17 +257,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.565727041270965,
+			"graded": 0.56591971508358,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.565727041270965,
+			"score": 0.56591971508358,
 			"shot": "close",
 			"status": "INFO",
-			"value": "43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838",
+			"value": "43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
 			"weight": 1.0
 		},
 		{
@@ -299,17 +299,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.728977501392365,
+			"graded": 0.74727925658226,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.918693250417709,
+			"score": 0.924183776974678,
 			"shot": "",
 			"status": "PASS",
-			"value": "head top 1.82 m / body_height 1.6 (x1.14)",
+			"value": "head top 1.8 m / body_height 1.6 (x1.13)",
 			"weight": 1.0
 		},
 		{
@@ -337,21 +337,21 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "17 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+			"value": "18 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.827833568999734,
+			"graded": 0.793504894352352,
 			"group": "craft",
 			"hint": "",
 			"id": "C4",
-			"improve": "",
+			"improve": "Big plain panels inside the silhouette (1.76 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
 			"name": "Inner detail (close-up / 25 m)",
 			"rule": "craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette)",
-			"score": 0.827833568999734,
+			"score": 0.793504894352352,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 1.7 at the close-up (95709 px), 1.34 at 25 m; close-up outline complexity 4.99",
+			"value": "inner edges per outline px: 1.76 at the close-up (97142 px), 1.26 at 25 m; close-up outline complexity 5.03",
 			"weight": 1.0
 		},
 		{
@@ -359,13 +359,13 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 487 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 490 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 120 px (FAIL < 45) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "487 px (31 x 34 bbox; 55 m: 255 px)",
+			"value": "490 px (31 x 34 bbox; 55 m: 251 px)",
 			"weight": 1.0
 		},
 		{
@@ -373,13 +373,13 @@
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 89.1): raise the value step between the big masses and the ground (dL -40 now)",
+			"improve": "Raise the contrast of the key read on meadow (dE 95.4): raise the value step between the big masses and the ground (dL -35 now)",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 89.1, 0% of the body melts (within dE 15 of the ground); body L* 23.1 C 32.2 vs ground L* 63.3 C 48.0, hue gap 164 deg; top third (world height) dE 91.3, L* 26.8; per-pixel dE 92.4, outline 66.2",
+			"value": "mean-colour dE 95.4, 0% of the body melts (within dE 15 of the ground); body L* 27.6 C 41.5 vs ground L* 63.3 C 48.0, hue gap 162 deg; top third (world height) dE 95.7, L* 34.9; per-pixel dE 98.0, outline 70.2",
 			"weight": 1.5
 		},
 		{
@@ -393,21 +393,21 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 37.5, 0% melts (marsh is where shadow units stand most)",
+			"value": "dE 46.5, 0% melts (marsh is where shadow units stand most)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.965937932332357,
+			"graded": 1.0,
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On ash the body drops to dE 29.2: add a value accent that separates it there too",
+			"improve": "On ash the body drops to dE 38.0: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 10 on every skirmish ground (WARN only)",
-			"score": 0.989781379699707,
+			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst ash: dE 29.2 (heath dE 50.9, old_wood dE 52.9, riverbank dE 66.8, snow dE 75.3, ash dE 29.2, sand dE 83.1, marsh dE 37.5)",
+			"value": "worst ash: dE 38.0 (heath dE 55.8, old_wood dE 61.6, riverbank dE 75.2, snow dE 75.6, ash dE 38.0, sand dE 85.7, marsh dE 46.5)",
 			"weight": 1.0
 		},
 		{
@@ -421,7 +421,7 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "60% of body pixels change between kingdom colours (min pair 59%)",
+			"value": "59% of body pixels change between kingdom colours (min pair 58%)",
 			"weight": 1.0
 		},
 		{
@@ -435,21 +435,21 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst nature colour: dE 41.7 (fire 66.4, shadow 89.9, ice 65.6, nature 41.7)",
+			"value": "worst nature colour: dE 52.4 (fire 74.7, shadow 94.1, ice 71.5, nature 52.4)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.19990313251142,
+			"graded": 0.114302785650187,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.759970939753426,
+			"score": 0.734290835695056,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst pair fire / nature (deutan): dE 8.4 on the team-colour area (normal vision 73.0; 296 px); deutan: fire / nature dE 8.4; protan: fire / nature dE 20.3; worst vs ground: fire colour (deutan) dE 39.5",
+			"value": "worst pair fire / nature (deutan): dE 6.1 on the team-colour area (normal vision 61.5; 297 px); deutan: fire / nature dE 6.1; protan: fire / nature dE 18.3; worst vs ground: fire colour (deutan) dE 47.2",
 			"weight": 0.5
 		},
 		{
@@ -477,7 +477,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "tip reaches 1.47 m from the body centre at t 0.08 s (1.42 m forward; geometry clipped at the ground); declared 1.6 m (UnitType attack_range (shade.tres)) - not a reach weapon (< 2.5 m): not judged",
+			"value": "tip reaches 1.3 m from the body centre at t 0.14 s (0.93 m forward; geometry clipped at the ground); declared 1.6 m (UnitType attack_range (shade.tres)) - not a reach weapon (< 2.5 m): not judged",
 			"weight": 1.0
 		},
 		{
@@ -485,13 +485,13 @@
 			"group": "anim",
 			"hint": "Bigger wind-up / strike: the weapon or head should leave the body outline",
 			"id": "A3",
-			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 70%)",
+			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 69%)",
 			"name": "Attack reads at 40 m",
 			"rule": ">= 12% (1 - IoU rest vs strike)",
 			"score": 1.0,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "strike pose changes 70% of the silhouette (t 0.14 s)",
+			"value": "strike pose changes 69% of the silhouette (t 0.14 s)",
 			"weight": 1.0
 		},
 		{
@@ -505,7 +505,7 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 2.8",
+			"value": "outline complexity 2.92",
 			"weight": 1.0
 		},
 		{
@@ -519,7 +519,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 26.8, bottom third L* 11.6 (+15, world height)",
+			"value": "top third L* 34.9, bottom third L* 15.2 (+19, world height)",
 			"weight": 1.0
 		},
 		{
@@ -533,49 +533,79 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 8.8 at 25 m, 12.7 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 8.2 at 25 m, 11.6 at 40 m (mean |grad L*| per px)",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.913942510431463,
+			"group": "read",
+			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
+			"id": "R5c",
+			"improve": "",
+			"name": "Glow points stand out (1 m surround)",
+			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
+			"score": 0.974182753129439,
+			"shot": "glow",
+			"status": "PASS",
+			"value": "worst dL +40 (point 1 dL +40; ring 24 px = 1.0 m at 40 m)",
+			"weight": 0.5
+		},
+		{
+			"fix": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2 [fixes.json #1]",
+			"fix_rank": 1,
+			"graded": 0.4,
+			"group": "read",
+			"hint": "Add a glow point (eyes / rune / weapon, emission >= 2.5 so the bloom carries it); 1 soft glow(s) sit under the bloom level: raise one to emission >= 2.4",
+			"id": "R5",
+			"improve": "Add a glow point (eyes / rune / weapon, emission >= 2.5 so the bloom carries it); 1 soft glow(s) sit under the bloom level: raise one to emission >= 2.4",
+			"name": "Glow points at 40 m",
+			"rule": "1-3 above the bloom level (art-units 1.4 / art-keep 0.4)",
+			"score": 0.486,
+			"shot": "glow",
+			"status": "WARN",
+			"value": "0 point(s) above the bloom level 1.2 (median of 1/0/0); soft glows under the bloom (v1 count, luma > 0.4): 1",
 			"weight": 1.0
 		},
 		{
 			"graded": 1.0,
-			"group": "read",
+			"group": "polish",
 			"hint": "",
-			"id": "R5",
+			"id": "P5",
 			"improve": "",
-			"name": "Glow points at 40 m",
-			"rule": "1-3 above the bloom level (art-units 1.4 / art-keep 0.4)",
+			"name": "Glow placement",
+			"rule": "one glow high (head / weapon / crest) reads over crowds",
 			"score": 1.0,
 			"shot": "glow",
-			"status": "PASS",
-			"value": "1 point(s) above the bloom level 1.2 (median of 0/1/1): Face; soft glows under the bloom (v1 count, luma > 0.4): 1",
+			"status": "INFO",
+			"value": "1 of 1 glow(s) in the upper half of the model's height (world)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.5265432804011,
+			"graded": 0.533800925405629,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only)",
-			"score": 0.85796298412033,
+			"score": 0.860140277621689,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 81-86% (min 402 px), frame-to-frame IoU min 0.57; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 82-87% (min 400 px), frame-to-frame IoU min 0.57; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.725,
+			"graded": 1.0,
 			"group": "read",
 			"hint": "Glow points that hide behind a swinging limb or dip under the bloom level blink at 40 m: move them to a steady part (head, chest, weapon head) or raise their energy",
 			"id": "R5w",
 			"improve": "",
 			"name": "Glow points while walking (flicker)",
 			"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)",
-			"score": 0.9175,
+			"score": 1.0,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "points per frame 1/1/1/1/0/1/1/1 (median 1, range 1, 1 frame(s) at 0; at rest 1)",
+			"value": "points per frame 1/1/1/1/1/1/1/1 (median 1, range 0, 0 frame(s) at 0; at rest 0)",
 			"weight": 0.5
 		},
 		{
@@ -589,7 +619,7 @@
 			"score": -1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "cast pose changes 27% of the silhouette at its peak (t 0.4 s; 0.12 s 24%, 0.25 s 26%, 0.4 s 27%, 0.6 s 26%)",
+			"value": "cast pose changes 28% of the silhouette at its peak (t 0.4 s; 0.12 s 25%, 0.25 s 27%, 0.4 s 28%, 0.6 s 27%)",
 			"weight": 1.0
 		},
 		{
@@ -623,34 +653,34 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 14,
+		"INFO": 15,
 		"PASS": 29,
 		"SKIP": 0,
-		"WARN": 0
+		"WARN": 1
 	},
 	"ground": "meadow",
 	"headless": false,
 	"improve_next": [
 		{
-			"rank": 0.868545917458071,
+			"rank": 1011.028,
+			"source": "R5 Glow points at 40 m, shot glow",
+			"status": "WARN",
+			"text": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2 [fixes.json #1]",
+			"title": "Glow points at 40 m"
+		},
+		{
+			"rank": 0.86816056983284,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"title": "Shape richness (secondary shapes)"
 		},
 		{
-			"rank": 0.0,
-			"source": "B11",
-			"status": "IDEA",
-			"text": "Merge surfaces that share a material (17 surfaces for 10 meshes = 17 draw calls)",
-			"title": "Surfaces per instance"
-		},
-		{
-			"rank": 0.0,
-			"source": "anim strip",
-			"status": "IDEA",
-			"text": "Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m",
-			"title": "Idle / attack beats"
+			"rank": 0.412990211295296,
+			"source": "C4 Inner detail (close-up / 25 m), shot close",
+			"status": "INFO",
+			"text": "Big plain panels inside the silhouette (1.76 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
+			"title": "Inner detail (close-up / 25 m)"
 		}
 	],
 	"kind": "unit",
@@ -661,13 +691,14 @@
 		"1 hidden parts at rest (toggled states, not counted as draws)",
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
 		"quick=1: light-preset sweep (R12) and style bible (S1) skipped",
-		"quick=1: references (R2) and frame cost (B13) skipped"
+		"quick=1: references (R2) and frame cost (B13) skipped",
+		"Fix recipes: 1 in fixes.json (top: Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= )"
 	],
 	"previous_quality": -1.0,
-	"quality": 96.5,
-	"result": "PASS",
+	"quality": 94.8,
+	"result": "WARN",
 	"scene": "res://art/units/shadow/shade.tscn",
-	"seconds": 21.4,
+	"seconds": 20.5,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -679,6 +710,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-30 11:43:09",
+	"started": "2026-09-30 18:35:27",
 	"tier": "soldier"
 }

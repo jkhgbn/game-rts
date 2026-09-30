@@ -9,14 +9,16 @@ const REST_FRAMES := 120                  # 2 s of rest
 
 # id: [hp, armor, dmg, range, cooldown, speed, aggro, sight, radius, height, flee,
 #      greed, courage, engage, hunt, explore, guard, escort, names A / B]
+# height: champions stand 1.15x their army-scale model since 2026-09-30 (7b06dd57, Champion.MODEL_SCALE): 1.8 -> 2.07,
+# 2.0 -> 2.3, 1.7 -> 1.96.
 const TABLE := {
-	&"wayfinder": [260.0, 0.0, 13.0, 8.0, 1.1, 5.8, 9.0, 18.0, 0.45, 1.8, 0.40,
+	&"wayfinder": [260.0, 0.0, 13.0, 8.0, 1.1, 5.8, 9.0, 18.0, 0.45, 2.07, 0.40,
 			1.0, 0.9, 10.0, 0.6, 2.0, 0.3, 0.5, "Tamsin Farrow", "Tobin Farrow"],
-	&"oathwall": [520.0, 20.0, 15.0, 1.8, 1.3, 4.3, 10.0, 11.0, 0.6, 2.0, 0.20,
+	&"oathwall": [520.0, 20.0, 15.0, 1.8, 1.3, 4.3, 10.0, 11.0, 0.6, 2.3, 0.20,
 			0.8, 1.6, 20.0, 0.7, 0.2, 2.0, 1.0, "Garran Stoneward", "Gerda Stoneward"],
-	&"coin_cutter": [300.0, 5.0, 17.0, 1.6, 0.9, 5.6, 8.0, 12.0, 0.45, 1.7, 0.35,
+	&"coin_cutter": [300.0, 5.0, 17.0, 1.6, 0.9, 5.6, 8.0, 12.0, 0.45, 1.96, 0.35,
 			1.5, 0.8, 8.0, 1.8, 0.6, 0.3, 0.3, "Sable Quint", "Silas Quint"],
-	&"mender": [280.0, 5.0, 9.0, 7.0, 1.4, 4.8, 9.0, 12.0, 0.45, 1.7, 0.45,
+	&"mender": [280.0, 5.0, 9.0, 7.0, 1.4, 4.8, 9.0, 12.0, 0.45, 1.96, 0.45,
 			0.9, 0.7, 9.0, 0.4, 0.3, 0.8, 2.0, "Orla Fenwick", "Osric Fenwick"],
 }
 

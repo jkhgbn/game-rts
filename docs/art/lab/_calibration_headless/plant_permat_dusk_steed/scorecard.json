@@ -429,8 +429,8 @@
 	"quality": 89.6,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn",
-	"seconds": 0.1,
+	"seconds": 0.0,
 	"shots": {},
-	"started": "2026-09-30 16:14:38",
+	"started": "2026-09-30 18:12:15",
 	"tier": "mount"
 }

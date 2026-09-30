@@ -1,6 +1,6 @@
 {
 	"asset": "plant_float_deer",
-	"count": 1,
+	"count": 2,
 	"fixes": [
 		{
 			"changes": [
@@ -26,12 +26,29 @@
 			"wanted": {
 				"lowest_m": "-0.08 .. +0.05"
 			}
+		},
+		{
+			"changes": [],
+			"check": "R4",
+			"computed": false,
+			"measured": {
+				"value": "worst snow: dE 5.3 (heath dE 35.0, old_wood dE 57.0, riverbank dE 55.1, snow dE 5.3, ash dE 59.7, sand dE 24.8, marsh dE 66.3)"
+			},
+			"predicted": {},
+			"proposal": "Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R4 Contrast on the other grounds: On snow the body drops to dE 5.3: add a value accent that separates it there too",
+			"title": "Contrast on the other grounds",
+			"wanted": {
+				"rule": "dE >= 7 on every skirmish ground (WARN only)"
+			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "critter",
 	"kingdom": "neutral",
-	"quality": 92.4,
+	"quality": 76.8,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
 	"tier": "deer",

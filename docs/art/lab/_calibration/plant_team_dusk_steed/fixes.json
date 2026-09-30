@@ -12,7 +12,7 @@
 			"predicted": {},
 			"proposal": "Team-colour visibility at 40 m: Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
 			"rank": 1,
-			"status": "WARN",
+			"status": "FAIL",
 			"text": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
 			"title": "Team-colour visibility at 40 m",
 			"wanted": {
@@ -23,8 +23,8 @@
 	"ground": "meadow",
 	"kind": "mount",
 	"kingdom": "shadow",
-	"quality": 92.4,
-	"result": "WARN",
+	"quality": 91.0,
+	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_team_dusk_steed.tscn",
 	"tier": "mount",
 	"version": "1.0"

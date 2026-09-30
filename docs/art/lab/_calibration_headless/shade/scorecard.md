@@ -1,6 +1,6 @@
 # Art Lab scorecard: shade
 
-Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-30 16:14:36 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** · kingdom shadow · ground meadow · 2026-09-30 18:12:14 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **96 / 100** (96.0)
 
@@ -45,7 +45,7 @@ Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** ·
 | R3 | Contrast vs ground | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R5 | Glow points at 40 m | SKIP | headless | needs a windowed run (1600 x 900) |  |
 | R6 | Team-colour visibility | SKIP | headless | needs a windowed run (1600 x 900) |  |
-| R9 | Feet on the ground | PASS 100 | lowest point 0.019 m | -0.08 .. +0.05 m (art-units 1.6) |  |
+| R9 | Feet on the ground | PASS 100 | lowest point 0.02 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R8 | Head height vs body_height | PASS 93 | head top 1.78 m / body_height 1.6 (x1.11) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) |  |
 | R10 | Footprint vs selection radius | PASS 100 | x 0.64 / z 0.33 m (radius 0.45, from shade.tres) | x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
 
@@ -58,7 +58,7 @@ Scene `res://art/units/shadow/shade.tscn` · kind **unit** / tier **soldier** ·
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 57 | 43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C1 | Shape richness (secondary shapes) | INFO 57 | 43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
 | C2 | Vertex use vs budget | INFO 100 | 71% of the 2500 verts budget used (1782) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, art-units.md 8, tier3-extras.md 12)
