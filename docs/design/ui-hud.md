@@ -12,7 +12,9 @@ Letters W A S D Q E F are never used for anything else.
 | Panel | x | y | w | h | Anchor |
 |---|---|---|---|---|---|
 | Objective (existing) | 16 | 16 | auto | auto | top-left |
+| Next hint (skirmish, `next_step_hint.gd`) | under the objective | | auto | auto | top-left |
 | **Top bar** | 640 | 8 | 320 | 40 | top-centre |
+| Tier chip (`tier_chip.gd`, `tiers.md` 3) | top bar left + 0 | 52 | auto | ~28 | under the top bar; in the skirmish (map-fill strip there) under the Next hint |
 | Controls help (existing, text updated) | right edge -16 | 16 | auto | auto | top-right |
 | Message line (existing) | centre | 120 | | | top-centre |
 | **Minimap** | 16 | 644 | 240 | 240 | bottom-left |
@@ -58,7 +60,7 @@ tooltip's first line names it: `Name  [key]`. The key always acts on that very b
 
 | Card | Keys (slot = key, QWERTY positions) |
 |---|---|
-| Keep (skirmish) | r1c1 worker **Z** · r1c2 Stronghold / Citadel / Cancel **X** (empty at the Citadel: the other keys never move) · r1c3 tier-3 unit **C** · r1c4 Call / Revive helper **V** · r2c1 caster **B** (tier 2; greyed `Requires Stronghold` before) · Set Rally r3c1. Missions (no tiers): worker Z, Set Rally r1c2 |
+| Keep (skirmish) | r1c1 worker **Z** · r1c2 Stronghold / Citadel / Cancel **X** (empty at the Citadel: the other keys never move; a breathing gold border while it can start, `tiers.md` 3) · r1c3 tier-3 unit **C** · r1c4 Call / Revive helper **V** · r2c1 caster **B** (tier 2; greyed `Requires Stronghold` before) · Set Rally r3c1. Mission 1 (Stronghold only, `mission-01.md` "Tiers"): worker Z, Stronghold X, Kilnwarden B, Set Rally r3c1. A mission without tiers: worker Z, Set Rally r1c2 |
 | Caster(s) (caster-units.md 3.2) | M C H X/A as soldiers · r2c1 spell 1 **Z** · r2c2 spell 2 **V** (the active subgroup's casters; Z / V act whenever casters are selected, whatever the subgroup). Tooltip `Slag Rain  [Z]\n75 mana · range 10 · autocast on\n<effect>\nRight-click or Ctrl+Z: autocast on / off`; greyed with `Not enough mana` / `Can't cast now`, a cooldown sweep for Umbral Passage; autocast on = a slowly turning gold border (dimmer when only some selected casters have it); **right-click** the button or **Ctrl+Z / Ctrl+V** toggle it for every selected caster |
 | Hall | Z X C V the 4 units · **B** bowman · **N M ,** the 3 new units · r3c1 Set Rally · r3c4 **`+`** = the "+" upgrades page |
 | Hall "+" page (tiers.md 5) | each unit's "+" on its unit's slot with **the unit's own key** (Flame Guard+ = Z ...) · r3c4 Back **Esc** (`+` again closes too). `+` = the physical `=/+` key (it carries + on QWERTY and AZERTY) or numpad +; while the page is open the unit keys buy, never train |
