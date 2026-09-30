@@ -1827,6 +1827,9 @@ func _update_keep(keep: Node3D) -> void:
 		_update_site(keep)
 		return
 	building_info.text = _building_info_text(type)
+	var tier_part := keep_tier_text(keep)
+	if tier_part != "":
+		building_info.text = tier_part + ("  ·  " + building_info.text if building_info.text != "" else "")
 	building_info.visible = building_info.text != ""
 	if not trainer:
 		return
@@ -1874,6 +1877,17 @@ func _update_site(site: Node3D) -> void:
 	else:
 		line += "  ·  Paused: right-click it with workers"
 	building_info.text = line
+
+
+## A keep's tier at the head of its info line while the game has tiers: `Tier 2 Stronghold` or `Upgrading to Citadel
+## 40 %` ("" for other buildings or without tiers).
+static func keep_tier_text(b: Node) -> String:
+	var k := b as Keep
+	if k == null or TierSystem.instance() == null:
+		return ""
+	if k.is_upgrading():
+		return "Upgrading to %s %d %%" % [TierSystem.tier_name(k.tier + 1), roundi(k.upgrade_progress() * 100.0)]
+	return "Tier %d %s" % [k.tier, k.tier_name()]
 
 
 ## One line about a finished building: pop bonus, drop-off, tower stats.

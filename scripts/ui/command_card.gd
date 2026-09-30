@@ -92,6 +92,7 @@ const CRITTER_TEXT := "Game: hunt it with soldiers or your wizard."
 const CASTER_SLOTS: Array[int] = [4, 5]
 const RALLY_KEEP_SLOT := 8
 const AUTOCAST_COLOR := Color(1.0, 0.82, 0.3)
+const ATTENTION_PERIOD := 1.0   ## Seconds per breath of the gold "do this now" border (the keep's tier button).
 ## tiers.md 5: slot of the Hall's "+" upgrades page toggle (key +, SelectionManager.upgrades_hall = the open page).
 const PLUS_SLOT := 11
 const PLUS_PAGE_TOOLTIP := "Upgrades  [%s]\n\"+\" research for this Hall's units: +10 %% HP and damage each. Needs a" \
@@ -908,10 +909,16 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 			tip += " · Tier %d" % int(type.get("requires_tier"))
 		if desc != "":
 			tip += "\n" + desc
+		if reason == TierSystem.MSG_T2 or reason == TierSystem.MSG_T3:
+			tip += "\n" + tier_way_line(int(keep.get("team")))
 		out[i] = _slot("train_" + str(type.get("id")), UIStyle.abbrev(type_name), key, tip,
 				func() -> void: sel.train(type), reason)
 		out[i]["cost"] = int(type.get("cost"))
 		out[i]["icon"] = ["units", str(type.get("id"))]
+		# 2026-09-30 (JS: the way up must be obvious): the keep's Stronghold / Citadel button pulses gold while it can start.
+		if str(type.get("id")) == String(Keep.TIER_STUB_ID) and reason == "" and keep is Keep \
+				and not (keep as Keep).is_upgrading():
+			out[i]["attention"] = true
 	if is_market(keep):
 		_market_slots(out, keep, n_train)
 		return
@@ -925,6 +932,26 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 	if out[PLUS_SLOT].is_empty() and sel.can_open_upgrades():
 		out[PLUS_SLOT] = _slot("plus_page", "+", SelectionManager.UPGRADES_KEY_LABEL,
 				PLUS_PAGE_TOOLTIP % SelectionManager.UPGRADES_KEY_LABEL, sel.open_upgrades)
+
+
+## The tooltip line under a unit greyed `Requires Stronghold / Citadel`: where the way up is ("Upgrade your Keep to a
+## Stronghold: select it, press X (from 3:30)", or the upgrade's progress).
+static func tier_way_line(team: int) -> String:
+	var st := TierSystem.status(team)
+	if st.is_empty() or int(st.get("next", 0)) == 0:
+		return ""
+	var keep_name := "Keep"
+	if st.get("keep") is Keep and (st["keep"] as Keep).building_type:
+		keep_name = (st["keep"] as Keep).building_type.display_name
+	if bool(st["upgrading"]):
+		return "%s upgrade in progress: %d %%" % [st["name"], roundi(float(st["progress"]) * 100.0)]
+	var line := "Upgrade your %s to a %s: select it, press %s" % [keep_name, st["name"], KeyLabels.of(KEY_X)]
+	var why := String(st["reason"])
+	if why.begins_with("Available at"):
+		line += " (from %s)" % TierSystem.clock(float(st["from"]))
+	elif why != "":
+		line += " (%s)" % why.to_lower()
+	return line
 
 
 ## The "+" upgrades page of a Hall (tiers.md 5): each unit's "+" on the slot of its training button, with the same key
@@ -1080,6 +1107,8 @@ func draw_deco(d: Control, i: int) -> void:
 		d.draw_rect(r.grow(0.5), Color(HudSkin.token(&"trim_glow"), 0.6 * _hover_a[i]), false, 1.0)
 	if int(slots[i].get("autocast", 0)) > 0:
 		_draw_autocast(d, r.grow(-1.0), int(slots[i]["autocast"]) == 1)
+	if bool(slots[i].get("attention", false)):
+		_draw_attention(d, r)
 	if _pending[i]:
 		var a := 0.85 + 0.15 * sin(_clock * TAU * 2.0)
 		d.draw_rect(r.grow(-2.0), Color(KEY_COLOR, a), false, 2.0)
@@ -1087,6 +1116,19 @@ func draw_deco(d: Control, i: int) -> void:
 		d.draw_rect(r.grow(-2.0), Color(HudSkin.token(&"trim_glow"), _flash[i] / READY_FLASH_TIME), false, 2.0)
 	if _learn_flash[i] > 0.0:
 		d.draw_rect(r.grow(-2.0), Color(KEY_COLOR, _learn_flash[i] / LEARN_FLASH_TIME), false, 2.0)
+
+
+## "Do this now" (the keep's Stronghold / Citadel button while it can start): a thick gold border breathing 0.45 <-> 1.0
+## once a second, with a soft outer glow.
+func _draw_attention(d: Control, r: Rect2) -> void:
+	var a := 0.45 + 0.55 * (0.5 + 0.5 * sin(_clock * TAU / ATTENTION_PERIOD))
+	d.draw_rect(r.grow(2.0), Color(AUTOCAST_COLOR, 0.25 * a), false, 4.0)
+	d.draw_rect(r.grow(-1.5), Color(AUTOCAST_COLOR, a), false, 3.0)
+
+
+## Is slot `index` drawn with the gold "do this now" pulse (tests)?
+func attention_active(index: int) -> bool:
+	return index >= 0 and index < slots.size() and bool(slots[index].get("attention", false)) and buttons[index].visible
 
 
 ## caster-units.md 3.2: a slowly turning gold border on a spell whose autocast is on (dimmer when only some of the

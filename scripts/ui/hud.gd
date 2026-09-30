@@ -37,6 +37,7 @@ var _end_tab_buttons := {}
 var end_restart_button: Button   ## End screen: "Restart (F9)" (reloads the level, like F9).
 var end_menu_button: Button      ## End screen: "Main menu".
 var next_step_hint: Node         ## Skirmish "Next: ..." line under the objective (scripts/ui/next_step_hint.gd), or null.
+var tier_chip: Node              ## Keep tier indicator (scripts/ui/tier_chip.gd) while the game has tiers, or null.
 var chat_line: ChatLine          ## Chat / command line (Enter): "dance 1 / 2 / 3" (scripts/ui/chat_line.gd).
 
 var _hero: Wizard
@@ -279,6 +280,7 @@ func setup(hero: Wizard, selection: SelectionManager) -> void:
 	_setup_trade(selection)
 	_setup_map_fill(selection)
 	next_step_hint = attach_optional("res://scripts/ui/next_step_hint.gd", [self])
+	tier_chip = attach_optional("res://scripts/ui/tier_chip.gd", [self])
 	# The minimap reads the map size and the artifact from the level (main.gd), when present.
 	var level := get_parent()
 	var map_size := 120.0
