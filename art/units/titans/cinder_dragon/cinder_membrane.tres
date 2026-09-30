@@ -8,3 +8,4 @@ resource_name = "cinder_membrane"
 render_priority = 0
 shader = ExtResource("1_cdm")
 shader_parameter/noise_tex = ExtResource("2_cdm")
+shader_parameter/ember_energy = 0.2

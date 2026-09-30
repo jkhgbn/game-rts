@@ -22,6 +22,10 @@ extends CharacterModel
 @export var glow_gain: float = 1.0
 
 const DISSOLVE_FLASH := Vector3(0.48, 0.16, 1.0)
+## Hit flash (kit hit_flash_*): a lilac flash at 55 % instead of the kit's full white (in-game grade 2026-09-30:
+## white flashes turned knights and steeds into white blobs mid-fight).
+const HIT_FLASH_LILAC := Vector3(0.75, 0.5, 1.0)
+const HIT_FLASH_SCALE := 0.55
 const POOL := Color(0.34, 0.10, 0.60, 0.72)
 ## The face's glowing eyes are small next to the old glowing eye bars: their glow_boost is written here (own_glow) at
 ## this multiple of glow_level() so they still make the unit's glow point at 40 m.
@@ -170,6 +174,8 @@ func _model_xf(n: Node3D) -> Transform3D:
 
 
 func _after_ready() -> void:
+	hit_flash_color = HIT_FLASH_LILAC
+	hit_flash_scale = HIT_FLASH_SCALE
 	_lantern = get_node_or_null(^"Root/Chest/ArmR/Lantern") as Node3D
 	_lantern_orb = get_node_or_null(^"Root/Chest/ArmR/Lantern/LanternOrb") as GeometryInstance3D
 	_crystals = get_node_or_null(^"Root/Chest/Crystals") as Node3D

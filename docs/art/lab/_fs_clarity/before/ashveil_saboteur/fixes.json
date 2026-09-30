@@ -1,0 +1,13 @@
+{
+	"asset": "ashveil_saboteur",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 92.9,
+	"result": "PASS",
+	"scene": "res://art/units/fire/ashveil_saboteur/ashveil_saboteur.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

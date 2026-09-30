@@ -1,0 +1,31 @@
+{
+	"asset": "cinder_hand",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B13",
+			"computed": false,
+			"measured": {
+				"value": "0.0073 ms process per instance (100 animated at 40 m: +0.73 ms process, render CPU +1.22 ms, GPU +-0.59 ms)"
+			},
+			"predicted": {},
+			"proposal": "Frame cost: Cut the per-frame script cost (0.0073 ms per instance): write pivots only when they change, skip work at the far tiers",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B13 Frame cost: Cut the per-frame script cost (0.0073 ms per instance): write pivots only when they change, skip work at the far tiers",
+			"title": "Frame cost",
+			"wanted": {
+				"rule": "<= 0.005 ms per instance (art-units.md 8)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 93.5,
+	"result": "WARN",
+	"scene": "res://art/units/fire/cinder_hand.tscn",
+	"tier": "worker",
+	"version": "1.0"
+}

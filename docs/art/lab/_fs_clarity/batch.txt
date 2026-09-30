@@ -1,0 +1,25 @@
+# Fire / Shadow in-game clarity pass (2026-09-30): every asset touched, one Godot process.
+res://art/units/fire/ash_hurler.tscn kind=unit kingdom=fire
+res://art/units/fire/ashveil_saboteur/ashveil_saboteur.tscn kind=unit kingdom=fire
+res://art/units/fire/blaze_rider.tscn kind=unit kingdom=fire
+res://art/units/fire/cinder_arbalest/cinder_arbalest.tscn kind=unit kingdom=fire
+res://art/units/fire/ember_archer.tscn kind=unit kingdom=fire
+res://art/units/fire/flame_guard.tscn kind=unit kingdom=fire
+res://art/units/fire/pyre_adept/pyre_adept.tscn kind=unit kingdom=fire
+res://art/units/fire/scorchbow/scorchbow.tscn kind=unit kingdom=fire
+res://art/units/fire/scorchling/scorchling.tscn kind=unit kingdom=fire
+res://art/units/fire/cinder_hand.tscn kind=unit kingdom=fire
+res://art/units/fire/cinderlock/cinderlock.tscn kind=unit kingdom=fire
+res://art/units/shadow/barrow_ghoul/barrow_ghoul.tscn kind=unit kingdom=shadow
+res://art/units/shadow/bleakbow/bleakbow.tscn kind=unit kingdom=shadow
+res://art/units/shadow/gloam_rider/gloam_rider.tscn kind=unit kingdom=shadow
+res://art/units/shadow/grave_hound.tscn kind=unit kingdom=shadow
+res://art/units/shadow/hexweaver/hexweaver.tscn kind=unit kingdom=shadow
+res://art/units/shadow/hollow_oathsworn/hollow_oathsworn.tscn kind=unit kingdom=shadow
+res://art/units/shadow/nightblood_reaver/nightblood_reaver.tscn kind=unit kingdom=shadow
+res://art/units/shadow/nightbolt.tscn kind=unit kingdom=shadow
+res://art/units/shadow/shade.tscn kind=unit kingdom=shadow
+res://art/units/shadow/shadow_knight.tscn kind=unit kingdom=shadow
+res://art/units/shadow/barrow_giant/barrow_giant.tscn kind=unit kingdom=shadow
+res://art/units/wizards/vessa.tscn kind=unit kingdom=fire
+res://art/units/titans/cinder_dragon/cinder_dragon.tscn kind=titan kingdom=fire

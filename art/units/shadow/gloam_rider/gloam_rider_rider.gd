@@ -180,7 +180,8 @@ func _build_parts() -> void:
 	_fore = _sculpt(arm_r, "grr_fore_v1", _fore_sculpt, ELBOW_R, true, "ForearmR")
 	_lance = _sculpt(_fore, "grr_lance_v1", _lance_sculpt, HAND_R, true, "Lance")
 	_lance.set_meta(&"own_glow", true)
-	_lance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	# No sun shadow for the thin lance (B7: rider + steed already cast 4; a 4 cm line of shadow does not read at zoom 30).
+	_lance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	if _pen_cache.is_empty():
 		for k: int in PENNON_STEPS:
 			var kk := k

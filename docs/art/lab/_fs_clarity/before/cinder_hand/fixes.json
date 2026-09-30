@@ -1,0 +1,13 @@
+{
+	"asset": "cinder_hand",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 94.6,
+	"result": "PASS",
+	"scene": "res://art/units/fire/cinder_hand.tscn",
+	"tier": "worker",
+	"version": "1.0"
+}

@@ -129,19 +129,20 @@ func _build_parts() -> void:
 	# expression (set_expression): one vertex-coloured surface (the gem glows through its vertex alpha).
 	_face = FaceKit.attach(self, head, "vessa", _face_style())
 	_face.set_expression(_expr)
-	# Crown flames: one MultiMesh, 6 tongues (tall / short) around the band, leaning out.
+	# Crown flames: one MultiMesh, 6 tongues (tall / short) around the band, leaning well out: low and wide (in-game
+	# grade 2026-09-30: tall thin tongues read as noise over the hat at zoom 30; a wide low crown reads as a crown).
 	_flames = MultiMeshInstance3D.new()
 	_flames.name = "CrownFlames"
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.mesh = cyl(0.0, 0.10, 0.34, 6)
+	mm.mesh = cyl(0.0, 0.14, 0.25, 6)
 	mm.instance_count = 6
 	for i: int in 6:
 		var a := TAU * (float(i) + 0.5) / 6.0     # a gap at the front for the gem
 		var out := Vector3(sin(a), 0, cos(a))
-		var hs := 1.0 if i % 2 == 0 else 0.72
-		var b := Basis(Vector3.UP.cross(out).normalized(), 20.0 * DEG).scaled(Vector3(1.0, hs, 1.0))
-		mm.set_instance_transform(i, Transform3D(b, out * 0.29 + Vector3(0, 0.10, 0) + b * Vector3(0, 0.17, 0)))
+		var hs := 1.0 if i % 2 == 0 else 0.78
+		var b := Basis(Vector3.UP.cross(out).normalized(), 36.0 * DEG).scaled(Vector3(1.0, hs, 1.0))
+		mm.set_instance_transform(i, Transform3D(b, out * 0.33 + Vector3(0, 0.07, 0) + b * Vector3(0, 0.125, 0)))
 	_flames.multimesh = mm
 	_flames.material_override = palette(&"fire_flame")
 	_flames.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

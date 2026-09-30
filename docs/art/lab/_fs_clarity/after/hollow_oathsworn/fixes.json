@@ -1,0 +1,13 @@
+{
+	"asset": "hollow_oathsworn",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 93.2,
+	"result": "PASS",
+	"scene": "res://art/units/shadow/hollow_oathsworn/hollow_oathsworn.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

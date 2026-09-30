@@ -3,9 +3,10 @@
 [ext_resource type="Script" path="res://art/units/fire/ashveil_saboteur/ashveil_saboteur.gd" id="1_sb"]
 
 [node name="AshveilSaboteur" type="Node3D"]
+transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 0, 0, 0)
 script = ExtResource("1_sb")
 fire_kind = &"saboteur"
-body_height = 1.7
+body_height = 1.9
 attack_style = &"saboteur_stab"
 death_style = &"fall"
 stride_time = 0.46

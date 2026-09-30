@@ -4,6 +4,7 @@
 
 [node name="GloamRiderRider" type="Node3D"]
 script = ExtResource("1_grr")
+glow_gain = 1.6
 body_height = 1.85
 attack_style = &"lance_charge"
 attack_windup = 0.0

@@ -20,6 +20,7 @@ const HAND_R := Vector3(0.2, 0.97, 0.1)
 const HAND_L := Vector3(0.05, 0.99, 0.36)
 const HUB := Vector3(0.265, 1.0, 0.0)   # crank axle (along x)
 const TIP_GLOW := 3.2                   # own_glow boost of the bolt tip at rest
+const GUNMETAL := "res://art/units/fire/cinderlock/materials/fire_gunmetal.tres"
 
 var _bolt: Node3D
 var _tip: GeometryInstance3D
@@ -94,9 +95,12 @@ func _build_parts() -> void:
 		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, Vector3(0, 1.6, 0.02), 0.11, hair,
 			Color(0.95, 0.62, 0.28), 1.0, 1.0)}, false)
 	add_part(head, box(Vector3(0.2, 0.025, 0.03)), palette(&"fire_leather"), Vector3(0, 1.53, 0.07), Vector3(-30, 0, 0))
-	add_part(head, sphere(0.14, 10, 4), bronze, Vector3(0, 1.67, 0.0), Vector3.ZERO, Vector3(1.0, 0.85, 1.0))
-	add_part(head, cyl(0.25, 0.25, 0.025, 12), bronze, Vector3(0, 1.645, 0.0), Vector3(-6, 0, 0))
-	add_part(head, cyl(0.142, 0.142, 0.05, 8), cloth, Vector3(0, 1.67, 0.0))
+	# Blackened-iron kettle hat (in-game grade 2026-09-30: the bronze brim read the same as the Scorchbow's bronze
+	# helm from the RTS camera; a dark disc ringed by the orange band tells the two apart at zoom 30).
+	var iron: Material = load(GUNMETAL)
+	add_part(head, sphere(0.14, 10, 4), iron, Vector3(0, 1.67, 0.0), Vector3.ZERO, Vector3(1.0, 0.85, 1.0))
+	add_part(head, cyl(0.26, 0.26, 0.025, 12), iron, Vector3(0, 1.645, 0.0), Vector3(-6, 0, 0))
+	add_part(head, cyl(0.145, 0.145, 0.06, 8), cloth, Vector3(0, 1.67, 0.0))
 	add_part(head, cyl(0.0, 0.03, 0.07, 5), bronze, Vector3(0, 1.8, 0.0))
 	var trim := add_part(head, torus(0.14, 0.18, 10), palette(&"unit_gold_trim"), Vector3(0, 1.74, 0.0),
 		Vector3.ZERO, Vector3.ONE, true, "VetTrim")

@@ -1,0 +1,13 @@
+{
+	"asset": "scorchbow",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 95.0,
+	"result": "PASS",
+	"scene": "res://art/units/fire/scorchbow/scorchbow.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

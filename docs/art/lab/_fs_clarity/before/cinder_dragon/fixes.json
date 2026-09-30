@@ -1,0 +1,139 @@
+{
+	"asset": "cinder_dragon",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.132,
+					"from": 2.6,
+					"material": "cinder_scale",
+					"material_path": "res://art/units/titans/cinder_dragon/cinder_scale.tres",
+					"node": "Root/Body/LegFL/LegFLMesh, Root/Body/Tail1/Tail2/Tail2Mesh, Root/Body/LegBR/LegBRMesh",
+					"param": "shader_parameter/lava_energy",
+					"peak_x_bloom": 5.68,
+					"to": 0.343,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 4 point(s), peak 5.68 x the level",
+					"words": "lava_energy 2.6 -> 0.34 on LegFLMesh, Tail2Mesh, LegBRMesh (dim under the bloom level: 4 point(s), peak 5.68 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 7,
+				"points_this_phase": 9,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Body/LegFL/LegFLMesh",
+						"peak_x_bloom": 4.52,
+						"px": 35
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Tail1/Tail2/Tail2Mesh",
+						"peak_x_bloom": 5.68,
+						"px": 29
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegBR/LegBRMesh",
+						"peak_x_bloom": 3.61,
+						"px": 18
+					},
+					{
+						"above": true,
+						"part": "Root/Body/WingR/WingRMesh",
+						"peak_x_bloom": 3.76,
+						"px": 16
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
+						"peak_x_bloom": 5.02,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegBR/LegBRMesh",
+						"peak_x_bloom": 4.17,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Root/Body/WingL/WingLMesh",
+						"peak_x_bloom": 3.7,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
+						"peak_x_bloom": 3.67,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/HeadMesh",
+						"peak_x_bloom": 3.26,
+						"px": 3
+					}
+				],
+				"value": "7 point(s) above the bloom level 1.2 (median of 10/7/6): Tail3Mesh x2, WingLMesh x2, LegBRMesh, LegFLMesh, LegBLMesh, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 2"
+			},
+			"predicted": {
+				"points": 3
+			},
+			"proposal": "Glow points 7 -> 3 (want 1-5): cinder_scale lava_energy 2.6 -> 0.34 on LegFLMesh, Tail2Mesh, LegBRMesh (dim under the bloom level: 4 point(s), peak 5.68 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 7 -> 3 (want 1-5): cinder_scale lava_energy 2.6 -> 0.34 on LegFLMesh, Tail2Mesh, LegBRMesh (dim under the bloom level: 4 point(s), peak 5.68 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-5 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5w",
+			"computed": false,
+			"measured": {
+				"value": "points per frame 10/14/14/11/14/14/13/6 (median 14, range 8, 0 frame(s) at 0; at rest 7)"
+			},
+			"predicted": {},
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (10/14/14/11/14/14/13/6 per frame): put them on parts the gait does not cover",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (10/14/14/11/14/14/13/6 per frame): put them on parts the gait does not cover",
+			"title": "Glow points while walking (flicker)",
+			"wanted": {
+				"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "fire",
+	"quality": 89.0,
+	"result": "WARN",
+	"scene": "res://art/units/titans/cinder_dragon/cinder_dragon.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

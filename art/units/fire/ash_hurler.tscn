@@ -452,7 +452,9 @@ size = Vector2(0.35, 0.35)
 size = Vector2(1, 1)
 
 [node name="AshHurler" type="Node3D" unique_id=1844170360]
+transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 0, 0, 0)
 script = ExtResource("1_wnmes")
+body_height = 1.8
 fire_kind = &"hurler"
 attack_style = &"sling_throw"
 attack_windup = 0.15

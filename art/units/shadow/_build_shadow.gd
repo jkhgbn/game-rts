@@ -554,7 +554,7 @@ func _build_shade() -> void:
 			seg(pv, box(0.045, 0.40, 0.055), a + Vector3(0, 0.0, 0.0) + (b - a).cross(out).normalized() * -0.07, b + (b - a).cross(out).normalized() * -0.07, "shadow_glow", out)
 	death_fx(1.6, 0.45)
 	blob(0.45 * 2.6, SHADOW_BLOB)
-	finish("res://art/units/shadow/shade.tscn", SCRIPT_SHADOW, {"stride_speed": 4.8, "kingdom_color": SHADOW_KINGDOM, "unit_kind": &"shade", "attack_style": &"dual_slash", "attack_windup": 0.0, "death_style": &"sink", "stride_time": 0.50, "body_height": 1.6, "is_quadruped": false, "glow_gain": 1.35})
+	finish("res://art/units/shadow/shade.tscn", SCRIPT_SHADOW, {"stride_speed": 4.8, "kingdom_color": SHADOW_KINGDOM, "unit_kind": &"shade", "attack_style": &"dual_slash", "attack_windup": 0.0, "death_style": &"sink", "stride_time": 0.50, "body_height": 1.6, "is_quadruped": false, "glow_gain": 2.2})
 
 
 # ---------------------------------------------------------------- 5.3 Nightbolt (ranged, 1.6 m) - budget 26
@@ -654,7 +654,7 @@ func _build_hound() -> void:
 	piv["Tail"].set_meta(&"keep_separate", true)
 	death_fx(0.9, 0.5)
 	blob(0.4 * 2.6 * 1.2, SHADOW_BLOB)
-	finish("res://art/units/shadow/grave_hound.tscn", SCRIPT_SHADOW, {"stride_speed": 7.0, "idle_period": 2.0, "flinch_push": true, "walk_bounce": 0.05, "kingdom_color": SHADOW_KINGDOM, "unit_kind": &"hound", "attack_style": &"bite", "attack_windup": 0.0, "death_style": &"sink", "stride_time": 0.40, "body_height": 1.0, "is_quadruped": true, "glow_gain": 1.4})
+	finish("res://art/units/shadow/grave_hound.tscn", SCRIPT_SHADOW, {"stride_speed": 7.0, "idle_period": 2.0, "flinch_push": true, "walk_bounce": 0.05, "kingdom_color": SHADOW_KINGDOM, "unit_kind": &"hound", "attack_style": &"bite", "attack_windup": 0.0, "death_style": &"sink", "stride_time": 0.40, "body_height": 1.0, "is_quadruped": true, "glow_gain": 1.8})
 
 
 # ---------------------------------------------------------------- 5.5 Shadow Knight (elite, 2.4 m) - budget 30

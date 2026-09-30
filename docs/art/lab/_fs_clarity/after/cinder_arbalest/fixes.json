@@ -1,0 +1,47 @@
+{
+	"asset": "cinder_arbalest",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.45,
+					"node": "res://data/units/cinder_arbalest.tres",
+					"param": "radius",
+					"to": 0.49
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.45,
+				"x_m": 0.71,
+				"z_m": 0.87
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.45 -> 0.49, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.45 -> 0.49, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.79",
+				"z_m": "<= 0.79"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 93.0,
+	"result": "WARN",
+	"scene": "res://art/units/fire/cinder_arbalest/cinder_arbalest.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

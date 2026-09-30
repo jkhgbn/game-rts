@@ -49,6 +49,9 @@ func _ready() -> void:
 		push_warning("GloamRiderModel: Steed / Rider missing")
 		return
 	_rider.call(&"set_seated", true, _steed)
+	# The steed flashes lilac like its rider (ShadowModel), not the kit's full white (in-game grade 2026-09-30).
+	_steed.set(&"hit_flash_color", ShadowModel.HIT_FLASH_LILAC)
+	_steed.set(&"hit_flash_scale", ShadowModel.HIT_FLASH_SCALE)
 	_steed.connect(&"death_finished", func() -> void: death_finished.emit())
 	_rider.connect(&"charge_struck", func(at: Vector3) -> void: charge_struck.emit(at))
 	_rider.connect(&"lance_struck", func(at: Vector3) -> void: lance_struck.emit(at))

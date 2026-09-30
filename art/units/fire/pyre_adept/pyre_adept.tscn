@@ -3,9 +3,10 @@
 [ext_resource type="Script" path="res://art/units/fire/pyre_adept/pyre_adept.gd" id="1_pa"]
 
 [node name="PyreAdept" type="Node3D"]
+transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 0, 0, 0)
 script = ExtResource("1_pa")
 fire_kind = &"adept"
-body_height = 1.7
+body_height = 1.9
 attack_style = &"caster_fire"
 attack_windup = 0.15
 death_style = &"fall"

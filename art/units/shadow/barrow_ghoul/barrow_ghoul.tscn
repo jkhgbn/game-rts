@@ -5,7 +5,7 @@
 [node name="BarrowGhoul" type="Node3D"]
 script = ExtResource("1_bg")
 unit_kind = &"ghoul"
-glow_gain = 1.6
+glow_gain = 2.4
 body_height = 1.4
 attack_style = &"ghoul_rake"
 death_style = &"sink"

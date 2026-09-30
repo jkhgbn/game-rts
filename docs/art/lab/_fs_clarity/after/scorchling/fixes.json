@@ -1,0 +1,13 @@
+{
+	"asset": "scorchling",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 95.2,
+	"result": "PASS",
+	"scene": "res://art/units/fire/scorchling/scorchling.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

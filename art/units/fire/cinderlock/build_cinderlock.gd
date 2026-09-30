@@ -636,24 +636,24 @@ func _musket_mesh() -> ArrayMesh:
 		Vector2(0.05, 0.018), Vector2(0.70, 0.014), Vector2(0.745, -0.004), Vector2(0.70, -0.030), Vector2(0.10, -0.034),
 		Vector2(0.03, -0.046), Vector2(-0.08, -0.052), Vector2(-0.20, -0.088), Vector2(-0.325, -0.130)]), 0.075, side))
 	# Cheek-piece swell on the butt (chunkier read).
-	_macc(acc, order, "fire_wood", sph(0.075, 8, 4), xf(Vector3(0, -0.035, -0.22), Vector3.ZERO, Vector3(0.62, 0.95, 1.5)))
+	_macc(acc, order, "fire_wood", sph(0.075, 6, 3), xf(Vector3(0, -0.035, -0.22), Vector3.ZERO, Vector3(0.62, 0.95, 1.5)))
 	# Blackened barrel on the stock, long.
 	_macc(acc, order, "fire_gunmetal", tube([Vector3(0, by, -0.10), Vector3(0, by, 0.45), Vector3(0, by, 0.86)],
-		[0.037, 0.035, 0.032], 8))
+		[0.037, 0.035, 0.032], 5))
 	# Hammer (the cinder lock) on the right side.
 	_macc(acc, order, "fire_gunmetal", tube([Vector3(0.05, 0.02, -0.08), Vector3(0.055, 0.08, -0.09),
 		Vector3(0.05, 0.105, -0.05)], [0.018, 0.016, 0.012], 5))
 	# Dark throat of the bell (inner lathe, faces inward).
 	var bell_f: Transform3D = frame(Vector3(0, by, 0), Vector3(0, 0, 1), Vector3(0, 1, 0))
 	_macc(acc, order, "fire_gunmetal", lathe([Vector2(0.146, 1.042), Vector2(0.105, 1.003), Vector2(0.066, 0.960),
-		Vector2(0.034, 0.925), Vector2(0.0, 0.915)], 12, bell_f, true, 1.0, 1.0, false, false))
+		Vector2(0.034, 0.925), Vector2(0.0, 0.915)], 7, bell_f, true, 1.0, 1.0, false, false))
 	# Bronze: the bell mouth (the read), its collar, 2 barrel bands, lock plate, butt plate, trigger guard.
 	_macc(acc, order, "fire_bronze", lathe([Vector2(0.038, 0.80), Vector2(0.045, 0.86), Vector2(0.062, 0.925),
 		Vector2(0.095, 0.975), Vector2(0.138, 1.010), Vector2(0.166, 1.030), Vector2(0.170, 1.044),
-		Vector2(0.146, 1.047)], 12, bell_f, true, 1.0, 1.0, false, false))
-	_macc(acc, order, "fire_bronze", band(0.047, 0.026, 10), frame(Vector3(0, by, 0.83), Vector3(0, 0, 1), Vector3.UP))
+		Vector2(0.146, 1.047)], 7, bell_f, true, 1.0, 1.0, false, false))
+	_macc(acc, order, "fire_bronze", band(0.047, 0.026, 8), frame(Vector3(0, by, 0.83), Vector3(0, 0, 1), Vector3.UP))
 	for z: float in [0.30, 0.60]:
-		_macc(acc, order, "fire_bronze", band(0.052, 0.022, 10), frame(Vector3(0, 0.012, z), Vector3(0, 0, 1), Vector3.UP))
+		_macc(acc, order, "fire_bronze", band(0.052, 0.022, 8), frame(Vector3(0, 0.012, z), Vector3(0, 0, 1), Vector3.UP))
 	_macc(acc, order, "fire_bronze", box(0.022, 0.056, 0.17), xf(Vector3(0.041, 0.018, -0.03)))
 	_macc(acc, order, "fire_bronze", box(0.084, 0.19, 0.026), xf(Vector3(0, -0.04, -0.33)))
 	_macc(acc, order, "fire_bronze", tube([Vector3(0, -0.035, -0.08), Vector3(0, -0.078, -0.05), Vector3(0, -0.082, 0.0),
@@ -683,69 +683,69 @@ func _cinderlock() -> Node3D:
 	for s: int in [-1, 1]:
 		var pv: Node3D = p.LegL if s < 0 else p.LegR
 		var x: float = 0.14 * s
-		geo(pv, tube([Vector3(x, 0.54, 0.0), Vector3(x, 0.45, 0.01), Vector3(x, 0.36, 0.015)], [0.105, 0.10, 0.092], 7),
+		geo(pv, tube([Vector3(x, 0.54, 0.0), Vector3(x, 0.45, 0.01), Vector3(x, 0.36, 0.015)], [0.105, 0.10, 0.092], 5),
 			"fire_cloth_dark")
-		geo(pv, tube([Vector3(x, 0.40, 0.015), Vector3(x, 0.27, 0.012), Vector3(x, 0.14, 0.0)], [0.098, 0.093, 0.085], 7),
+		geo(pv, tube([Vector3(x, 0.40, 0.015), Vector3(x, 0.27, 0.012), Vector3(x, 0.14, 0.0)], [0.098, 0.093, 0.085], 5),
 			"fire_leather")
-		geo(pv, lathe([Vector2(0.092, 0.33), Vector2(0.135, 0.41), Vector2(0.158, 0.455), Vector2(0.148, 0.465)], 9,
+		geo(pv, lathe([Vector2(0.092, 0.33), Vector2(0.135, 0.41), Vector2(0.158, 0.455), Vector2(0.148, 0.465)], 6,
 			xf(Vector3(x, 0.0, 0.02), Vector3(-6, 0, 0)), true, 1.0, 1.0, false, false), "fire_leather")
 		boot(pv, x, 0.02, 1.0, "fire_leather")
 	# ---- coat: long flared tan leather (Fire secondary), dark hem, front seam, belt + buckle, team sash + knot.
 	geo(p.Chest, lathe([Vector2(0.375, 0.33), Vector2(0.335, 0.45), Vector2(0.29, 0.61), Vector2(0.272, 0.72),
-		Vector2(0.295, 0.92), Vector2(0.305, 1.06), Vector2(0.265, 1.17), Vector2(0.15, 1.25), Vector2(0.0, 1.26)], 12,
+		Vector2(0.295, 0.92), Vector2(0.305, 1.06), Vector2(0.265, 1.17), Vector2(0.15, 1.25), Vector2(0.0, 1.26)], 9,
 		Transform3D.IDENTITY, true, 1.0, 0.85), "fire_sec_cinderlock")
-	part(p.Chest, "Hem", band(0.382, 0.032, 12), Vector3(0, 0.345, 0), "fire_cloth_dark", Vector3.ZERO, false,
+	part(p.Chest, "Hem", band(0.382, 0.032, 9), Vector3(0, 0.345, 0), "fire_cloth_dark", Vector3.ZERO, false,
 		Vector3(1, 1.3, 0.86))
 	part(p.Chest, "Seam", box(0.045, 0.36, 0.03), Vector3(0, 0.52, 0.272), "fire_cloth_dark", Vector3(-15, 0, 0))
-	part(p.Chest, "Belt", band(0.283, 0.034, 12), Vector3(0, 0.71, 0), "fire_leather", Vector3.ZERO, false,
+	part(p.Chest, "Belt", band(0.283, 0.034, 9), Vector3(0, 0.71, 0), "fire_leather", Vector3.ZERO, false,
 		Vector3(1, 1.3, 0.87))
 	part(p.Chest, "Buckle", box(0.13, 0.11, 0.05), Vector3(0.0, 0.71, 0.245), "fire_bronze")
-	part(p.Chest, "Sash", band(0.296, 0.036, 12), Vector3(0, 0.79, 0), "fire_cloth", Vector3(0, 0, -7), false,
+	part(p.Chest, "Sash", band(0.296, 0.036, 9), Vector3(0, 0.79, 0), "fire_cloth", Vector3(0, 0, -7), false,
 		Vector3(1, 1.2, 0.87))
-	part(p.Chest, "SashKnot", sph(0.075, 8, 4), Vector3(-0.27, 0.76, 0.10), "fire_cloth")
+	part(p.Chest, "SashKnot", sph(0.075, 6, 3), Vector3(-0.27, 0.76, 0.10), "fire_cloth")
 	part(p.Chest, "SashTail", box(0.10, 0.30, 0.04), Vector3(-0.30, 0.60, 0.10), "fire_cloth", Vector3(4, -60, 8))
 	# Team falling collar and puffed team shoulder rolls (the team read under the hat).
 	geo(p.Chest, lathe([Vector2(0.30, 1.13), Vector2(0.29, 1.165), Vector2(0.22, 1.22), Vector2(0.13, 1.26),
-		Vector2(0.10, 1.27)], 12, Transform3D.IDENTITY, true, 1.0, 0.9, false, false), "fire_cloth")
+		Vector2(0.10, 1.27)], 9, Transform3D.IDENTITY, true, 1.0, 0.9, false, false), "fire_cloth")
 	for s: int in [-1, 1]:
-		part(p.Chest, "ShoulderRoll", sph(0.125, 10, 5), Vector3(0.345 * s, 1.14, 0.0), "fire_cloth", Vector3.ZERO, false,
+		part(p.Chest, "ShoulderRoll", sph(0.125, 7, 3), Vector3(0.345 * s, 1.14, 0.0), "fire_cloth", Vector3.ZERO, false,
 			Vector3(1.05, 0.85, 1.1))
 	# ---- bandolier: right shoulder -> left hip over the chest, round the back; 6 glowing powder flasks (the glow row).
 	var bf: Array = [Vector3(0.26, 1.21, 0.07), Vector3(0.22, 1.15, 0.19), Vector3(0.10, 1.02, 0.262),
 		Vector3(-0.05, 0.87, 0.268), Vector3(-0.19, 0.72, 0.245), Vector3(-0.29, 0.62, 0.17)]
-	geo(p.Chest, tube(bf, [0.036, 0.038, 0.038, 0.038, 0.038, 0.036], 6), "fire_leather")
+	geo(p.Chest, tube(bf, [0.036, 0.038, 0.038, 0.038, 0.038, 0.036], 4), "fire_leather")
 	geo(p.Chest, tube([Vector3(0.26, 1.21, 0.07), Vector3(0.24, 1.22, -0.08), Vector3(0.15, 1.08, -0.245),
 		Vector3(-0.12, 0.80, -0.255), Vector3(-0.29, 0.62, -0.13), Vector3(-0.31, 0.61, 0.03)],
-		[0.036, 0.036, 0.036, 0.036, 0.036, 0.036], 6), "fire_leather")
+		[0.036, 0.036, 0.036, 0.036, 0.036, 0.036], 4), "fire_leather")
 	var flasks: Array = [Vector3(0.235, 1.165, 0.225), Vector3(0.18, 1.105, 0.268), Vector3(-0.125, 0.785, 0.30),
 		Vector3(-0.19, 0.715, 0.285), Vector3(-0.25, 0.648, 0.245)]
 	for fp: Vector3 in flasks:
-		part(p.Chest, "Flask", sph(0.062, 8, 5), fp, "fire_glow", Vector3.ZERO, false, Vector3(1.0, 1.25, 0.85))
-		part(p.Chest, "FlaskCap", cyl(0.026, 0.03, 0.05, 6), fp + Vector3(0, 0.09, -0.005), "fire_bronze")
+		part(p.Chest, "Flask", sph(0.062, 5, 3), fp, "fire_glow", Vector3.ZERO, false, Vector3(1.0, 1.25, 0.85))
+		# (the 5 cm bronze flask caps were cut: below the 0.12 m detail rule, and B4 < 2 500, in-game pass 2026-09-30)
 	# Cartridge satchel on the right hip, behind.
 	part(p.Chest, "Satchel", box(0.19, 0.17, 0.09), Vector3(0.25, 0.60, -0.20), "fire_leather", Vector3(0, 32, 0))
 	part(p.Chest, "SatchelFlap", box(0.20, 0.07, 0.10), Vector3(0.25, 0.675, -0.20), "fire_bronze", Vector3(0, 32, 0))
 	# ---- head: face (eyes / brows / mouth: the FaceKit face FireModel attaches, faces pass 2026-09-28), nose, curled moustache + goatee, hair mane, bronze gorget.
-	part(p.Head, "Face", sph(0.175, 10, 6), Vector3(0, 1.37, 0.06), "fire_skin", Vector3.ZERO, false, Vector3(1.0, 1.05, 0.95))
-	part(p.Head, "Nose", sph(0.05, 8, 4), Vector3(0, 1.355, 0.225), "fire_skin")
+	part(p.Head, "Face", sph(0.175, 8, 4), Vector3(0, 1.37, 0.06), "fire_skin", Vector3.ZERO, false, Vector3(1.0, 1.05, 0.95))
+	part(p.Head, "Nose", sph(0.05, 6, 3), Vector3(0, 1.355, 0.225), "fire_skin")
 	geo(p.Head, tube([Vector3(-0.17, 1.36, 0.14), Vector3(-0.08, 1.31, 0.215), Vector3(0.0, 1.322, 0.228),
-		Vector3(0.08, 1.31, 0.215), Vector3(0.17, 1.36, 0.14)], [0.0, 0.034, 0.03, 0.034, 0.0], 6), "fire_hair")
-	part(p.Head, "Goatee", cone(0.045, 0.12, 6), Vector3(0, 1.225, 0.185), "fire_hair", Vector3(160, 0, 0))
-	part(p.Head, "Mane", sph(0.20, 10, 5), Vector3(0, 1.33, -0.08), "fire_hair", Vector3.ZERO, false, Vector3(1.12, 1.05, 0.9))
-	part(p.Head, "Gorget", band(0.165, 0.04, 10), Vector3(0, 1.215, 0.02), "fire_bronze", Vector3(-8, 0, 0), false,
+		Vector3(0.08, 1.31, 0.215), Vector3(0.17, 1.36, 0.14)], [0.0, 0.034, 0.03, 0.034, 0.0], 5), "fire_hair")
+	part(p.Head, "Goatee", cone(0.045, 0.12, 5), Vector3(0, 1.225, 0.185), "fire_hair", Vector3(160, 0, 0))
+	part(p.Head, "Mane", sph(0.20, 7, 3), Vector3(0, 1.33, -0.08), "fire_hair", Vector3.ZERO, false, Vector3(1.12, 1.05, 0.9))
+	part(p.Head, "Gorget", band(0.165, 0.04, 8), Vector3(0, 1.215, 0.02), "fire_bronze", Vector3(-8, 0, 0), false,
 		Vector3(1, 1.25, 1))
 	# ---- the hat: dark leather crown, team band, broad brim cocked up on the right, bronze brooch, tall team plume.
 	geo(p.Head, lathe([Vector2(0.205, 1.50), Vector2(0.222, 1.58), Vector2(0.212, 1.67), Vector2(0.172, 1.745),
-		Vector2(0.09, 1.782), Vector2(0.0, 1.79)], 12, xf(Vector3(0, 0, -0.01)), true, 1.0, 1.06), "fire_leather")
-	part(p.Head, "HatBand", band(0.224, 0.032, 12), Vector3(0, 1.545, -0.01), "fire_cloth", Vector3.ZERO, false,
+		Vector2(0.09, 1.782), Vector2(0.0, 1.79)], 9, xf(Vector3(0, 0, -0.01)), true, 1.0, 1.06), "fire_leather")
+	part(p.Head, "HatBand", band(0.224, 0.032, 9), Vector3(0, 1.545, -0.01), "fire_cloth", Vector3.ZERO, false,
 		Vector3(1, 1.2, 1.06))
-	geo(p.Head, brim(0.19, 0.44, 1.515, 0.034, 0.25, 0.05, 24), "fire_leather")
-	part(p.Head, "Brooch", sph(0.05, 8, 4), Vector3(0.315, 1.62, 0.04), "fire_bronze")
+	geo(p.Head, brim(0.19, 0.44, 1.515, 0.034, 0.25, 0.05, 12), "fire_leather")
+	part(p.Head, "Brooch", sph(0.05, 6, 3), Vector3(0.315, 1.62, 0.04), "fire_bronze")
 	geo(p.Head, tube([Vector3(0.29, 1.60, 0.06), Vector3(0.34, 1.78, 0.02), Vector3(0.32, 1.96, -0.10),
 		Vector3(0.22, 2.07, -0.28), Vector3(0.09, 2.05, -0.45), Vector3(-0.01, 1.95, -0.55)],
-		[0.035, 0.085, 0.105, 0.095, 0.07, 0.0], 7), "fire_cloth")
+		[0.035, 0.085, 0.105, 0.095, 0.07, 0.0], 5), "fire_cloth")
 	geo(p.Head, tube([Vector3(0.28, 1.60, 0.10), Vector3(0.40, 1.74, 0.06), Vector3(0.45, 1.86, -0.08),
-		Vector3(0.43, 1.85, -0.24)], [0.03, 0.062, 0.058, 0.0], 6), "fire_cloth")
+		Vector3(0.43, 1.85, -0.24)], [0.03, 0.062, 0.058, 0.0], 5), "fire_cloth")
 	vet_trim(p.Head, Vector3(0, 1.60, -0.01), Vector3.ZERO, 0.97)
 	# ---- arms, bent for port arms (rigid; CinderlockModel re-aims them per pose): coat sleeves, flared leather
 	# gauntlets, gloved fists on the stock (right) and under the forestock (left).
@@ -759,12 +759,12 @@ func _cinderlock() -> Node3D:
 		var el: Vector3 = a[2]
 		var wr: Vector3 = a[3]
 		var fist: Vector3 = a[4]
-		geo(pv, tube([s0, el], [0.10, 0.088], 7), "fire_sec_cinderlock")
-		geo(pv, tube([el, wr], [0.088, 0.08], 7), "fire_sec_cinderlock")
+		geo(pv, tube([s0, el], [0.10, 0.088], 5), "fire_sec_cinderlock")
+		geo(pv, tube([el, wr], [0.088, 0.08], 5), "fire_sec_cinderlock")
 		var fd: Vector3 = (wr - el).normalized()
-		geo(pv, lathe([Vector2(0.078, -0.02), Vector2(0.118, 0.10), Vector2(0.126, 0.125)], 9,
+		geo(pv, lathe([Vector2(0.078, -0.02), Vector2(0.118, 0.10), Vector2(0.126, 0.125)], 6,
 			frame(wr - fd * 0.13, fd, Vector3.UP), true, 1.0, 1.0, false, false), "fire_leather")
-		part(pv, "Fist", sph(0.10, 8, 5), fist, "fire_leather")
+		part(pv, "Fist", sph(0.10, 6, 4), fist, "fire_leather")
 	# ---- the musket: own node under the Chest (posed by the model), ember + ramrod children.
 	var mrest: Transform3D = CL.musket_rest()
 	var mk := MeshInstance3D.new()

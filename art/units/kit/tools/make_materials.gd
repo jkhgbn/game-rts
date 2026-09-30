@@ -36,12 +36,12 @@ func _init() -> void:
 		["fire_sec_hurler", Color(0.60, 0.35, 0.25), 0.0, 0.25, 0.0, Color()],
 		# Shadow (10 painted)
 		["shadow_cloth", Color(0.42, 0.22, 0.60), 0.0, 0.25, 0.0, Color()],
-		["shadow_cloth_dark", Color(0.18, 0.08, 0.28), 0.0, 0.25, 0.0, Color()],
+		["shadow_cloth_dark", Color(0.18, 0.08, 0.28), 0.0, 0.3, 0.0, Color()],
 		["shadow_skin", Color(0.62, 0.60, 0.70), 0.0, 0.25, 0.0, Color()],
 		["shadow_silver", Color(0.55, 0.52, 0.66), 0.35, 0.25, 0.0, Color()],
-		["shadow_leather", Color(0.12, 0.09, 0.16), 0.0, 0.25, 0.0, Color()],
-		["shadow_iron", Color(0.10, 0.08, 0.14), 0.2, 0.25, 0.0, Color()],
-		["shadow_obsidian", Color(0.09, 0.07, 0.13), 0.3, 0.6, 0.0, Color()],
+		["shadow_leather", Color(0.12, 0.09, 0.16), 0.0, 0.3, 0.0, Color()],
+		["shadow_iron", Color(0.17, 0.14, 0.24), 0.2, 0.4, 0.0, Color()],
+		["shadow_obsidian", Color(0.13, 0.10, 0.19), 0.3, 0.6, 0.0, Color()],
 		["shadow_bone", Color(0.80, 0.78, 0.70), 0.0, 0.25, 0.0, Color()],
 		["shadow_sec_worker", Color(0.50, 0.45, 0.55), 0.0, 0.25, 0.0, Color()],
 		["shadow_sec_bolt", Color(0.55, 0.30, 0.70), 0.0, 0.25, 0.0, Color()],
@@ -54,9 +54,18 @@ func _init() -> void:
 		["unit_eye_dark", Color(0.10, 0.08, 0.08), 0.0, 0.0, 0.0, Color()],
 		["unit_gold_trim", Color(1.0, 0.85, 0.40), 0.4, 0.25, 0.0, Color()],
 	]
+	# Shadow darks (in-game grade 2026-09-30): a lilac rim + a lighter violet crown on the top-facing planes
+	# (unit_painted top_color / top_lift) so black-and-violet units separate from each other at zoom 30.
+	var lilac := Color(0.72, 0.55, 1.0)
+	var tops := {"shadow_iron": [Color(0.46, 0.38, 0.64), 0.55], "shadow_obsidian": [Color(0.40, 0.32, 0.58), 0.45],
+		"shadow_leather": [Color(0.34, 0.27, 0.46), 0.35], "shadow_cloth_dark": [Color(0.46, 0.28, 0.66), 0.4]}
 	for e: Array in p:
 		var m := ShaderMaterial.new()
 		m.shader = painted
+		if tops.has(e[0]):
+			m.set_shader_parameter(&"rim_color", lilac)
+			m.set_shader_parameter(&"top_color", tops[e[0]][0])
+			m.set_shader_parameter(&"top_lift", tops[e[0]][1])
 		m.set_shader_parameter(&"base_color", e[1])
 		m.set_shader_parameter(&"noise_tex", noise)
 		m.set_shader_parameter(&"spec_strength", e[2])

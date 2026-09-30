@@ -641,6 +641,11 @@ func _build_visual() -> void:
 		model_scene = load(default_model_path) as PackedScene
 	super._build_visual()
 	if model_scene:
+		# The model's body_height is its (scaled) head top, art-units 1.1: the HP bar / chevrons hang above it.
+		# Only ever raised (the collision capsule was already built from the default).
+		var mh: Variant = _model.get(&"body_height") if _model else null
+		if mh != null:
+			body_height = maxf(body_height, float(mh))
 		return
 	# Pointy hat.
 	var hat := MeshInstance3D.new()

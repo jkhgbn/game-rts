@@ -5,7 +5,7 @@
 [node name="Bleakbow" type="Node3D"]
 script = ExtResource("1_bb")
 unit_kind = &"bleakbow"
-glow_gain = 1.7
+glow_gain = 2.1
 body_height = 1.6
 attack_style = &"bow_draw"
 attack_windup = 0.15

@@ -16,6 +16,9 @@ const DEG: float = PI / 180.0
 ## Godot front faces are clockwise; flip if a test render shows inside-out meshes.
 const FLIP: bool = false
 ## unit_glow materials: pre-merged into their own keep_separate node per pivot (see _flush).
+## Fire infantry is drawn 12 % larger than authored (in-game grade 2026-09-30: small at the RTS zoom 30); body_height
+## (scene + UnitType) is the scaled head top. Workers stay 1.0.
+const INFANTRY_SCALE := Vector3(1.12, 1.12, 1.12)
 const GLOW_MATS: Array[String] = ["fire_glow", "fire_glow_hero", "fire_flame", "crystal"]
 
 var M: Dictionary = {}          # material name -> Material
@@ -35,7 +38,12 @@ func _init() -> void:
 	if only.is_empty() or only.has("cinder_hand"):
 		_save(_cinder_hand(), "cinder_hand")
 	if only.is_empty() or only.has("flame_guard"):
+		# The Guard's plates use a brighter polished bronze (Art Lab R3t fire_bronze #9e6629 -> #c57535, 45 % of its
+		# body; in-game grade 2026-09-30): its own material, the rest of the army keeps the kit bronze.
+		var kit_bronze: Material = M["fire_bronze"]
+		M["fire_bronze"] = load("res://art/units/fire/materials/fire_bronze_guard.tres")
 		_save(_flame_guard(), "flame_guard")
+		M["fire_bronze"] = kit_bronze
 	if only.is_empty() or only.has("ember_archer"):
 		_save(_ember_archer(), "ember_archer")
 	if only.is_empty() or only.has("ash_hurler"):
@@ -781,6 +789,11 @@ func _flame_guard() -> Node3D:
 	for q: Vector2 in shield_pts:
 		rim.append(q * 1.075 + Vector2(0, -0.01))
 	geo(p.ArmL, extrude(rim, 0.05, frame(sc - fwd * 0.05, Vector3.UP, fwd)), "fire_bronze")
+	# Dark team foot on the shield face: a value step inside the team colour (Art Lab R6cb, colour-blind fire / nature;
+	# in-game grade 2026-09-30) that also grounds the tall shield shape from the RTS camera.
+	geo(p.ArmL, extrude(_poly([Vector2(-0.37, -0.12), Vector2(-0.37, -0.27), Vector2(-0.28, -0.45), Vector2(0.0, -0.56),
+		Vector2(0.28, -0.45), Vector2(0.37, -0.27), Vector2(0.37, -0.12)]), 0.02, frame(sc + fwd * 0.045, Vector3.UP, fwd)),
+		"fire_cloth_dark")
 	geo(p.ArmL, extrude(_poly([Vector2(0.0, -0.24), Vector2(0.13, -0.13), Vector2(0.15, 0.04), Vector2(0.07, 0.22),
 		Vector2(0.05, 0.10), Vector2(-0.02, 0.32), Vector2(-0.11, 0.13), Vector2(-0.15, -0.04), Vector2(-0.12, -0.15)]),
 		0.03, frame(sc + fwd * 0.05 + Vector3(0, 0.02, 0), Vector3.UP, fwd)), "fire_glow")
@@ -796,7 +809,7 @@ func _flame_guard() -> Node3D:
 		Vector2(0.0, 0.92), Vector2(-0.11, 0.62), Vector2(-0.125, 0.38), Vector2(-0.09, 0.04)]), 0.05,
 		Transform3D(Basis(Vector3.RIGHT, d, -e), fist + d * 0.15)), "fire_bronze")
 	burn_fx(p, 0.8, 0.3)
-	return _finish({"body_height": 1.6, "attack_style": &"melee_swing", "attack_windup": 0.0, "fire_kind": &"guard",
+	return _finish({"scale": INFANTRY_SCALE, "body_height": 2.0, "attack_style": &"melee_swing", "attack_windup": 0.0, "fire_kind": &"guard",
 		"death_style": &"fall", "stride_time": 0.58, "is_quadruped": false, "stride_speed": 5.0,
 		"idle_period": 3.4, "walk_bounce": 0.035, "leg_swing_deg": 24.0})
 
@@ -885,7 +898,7 @@ func _ember_archer() -> Node3D:
 		geo(p.Chest, tube([a0, a0 + ad * alen[i]], [0.022, 0.022], 4), "fire_wood")
 		part(p.Chest, "Fletch", cone(0.06, 0.19, 4), a0 + ad * (alen[i] + 0.06), "fire_flame", Vector3(-7, 0, -(24.0 + fan[i])))
 	burn_fx(p, 0.8, 0.25)
-	return _finish({"body_height": 1.6, "attack_style": &"bow_draw", "attack_windup": 0.15, "fire_kind": &"archer",
+	return _finish({"scale": INFANTRY_SCALE, "body_height": 1.9, "attack_style": &"bow_draw", "attack_windup": 0.15, "fire_kind": &"archer",
 		"death_style": &"fall", "stride_time": 0.52, "is_quadruped": false, "stride_speed": 5.2,
 		"idle_period": 3.0, "walk_bounce": 0.05, "leg_swing_deg": 30.0})
 
@@ -960,6 +973,6 @@ func _ash_hurler() -> Node3D:
 			top + o * 0.12 + pa * 0.43], [0.035, 0.03, 0.026, 0.0], 5), "fire_bronze")
 	part(p.ArmR, "AshBall", sph(0.19), top + pa * 0.25, "fire_ash_ball", Vector3.ZERO, true)
 	burn_fx(p, 0.8, 0.3)
-	return _finish({"body_height": 1.6, "attack_style": &"sling_throw", "attack_windup": 0.15, "fire_kind": &"hurler",
+	return _finish({"scale": INFANTRY_SCALE, "body_height": 1.8, "attack_style": &"sling_throw", "attack_windup": 0.15, "fire_kind": &"hurler",
 		"death_style": &"fall", "stride_time": 0.6, "is_quadruped": false, "stride_speed": 4.0,
 		"idle_period": 3.2, "walk_bounce": 0.045, "leg_swing_deg": 26.0})

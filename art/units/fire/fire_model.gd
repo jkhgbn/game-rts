@@ -18,6 +18,10 @@ const BALL_BACK := 0.8
 const BALL_IDLE := 0.0
 const BURN_T0 := 0.42
 const EMBER := Vector3(1.0, 0.30, 0.05)
+## Hit flash (kit hit_flash_*): a warm ember flash at 55 % instead of the kit's full white (in-game grade 2026-09-30:
+## a white flash on a cavalry boar / a whole infantry body read as a white blob mid-fight and hid the Fire colours).
+const HIT_FLASH_EMBER := Vector3(1.0, 0.38, 0.1)
+const HIT_FLASH_SCALE := 0.55
 
 # Keyframes (static, built once per class): [t, value, ease] triples (value in degrees or metres; ease of the segment arriving at the key:
 # 0 smooth, 1 ease-out = snappy start, 2 ease-in = accelerating into the key).
@@ -90,6 +94,8 @@ var _face: FaceRig
 
 
 func _after_ready() -> void:
+	hit_flash_color = HIT_FLASH_EMBER
+	hit_flash_scale = HIT_FLASH_SCALE
 	var arm_l := get_node_or_null(^"Root/Chest/ArmL")
 	var arm_r := get_node_or_null(^"Root/Chest/ArmR")
 	if arm_l:

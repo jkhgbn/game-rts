@@ -62,7 +62,7 @@ const LOOKS := {
 	&"trail_umbra": [24, 0.55, 0, 0.0, 0.8, 0.0, 0.0],
 	&"ground_flames": [44, 0.75, 2, 0.3, 0.75, 0.0, 0.0],
 	&"ground_smoke": [8, 1.6, 0, 0.0, 0.9, 0.0, 0.0],
-	&"kindle_flames": [150, 0.7, 2, 0.3, 0.75, 0.0, 0.0],
+	&"kindle_flames": [96, 0.6, 2, 0.3, 0.75, 0.0, 0.0],
 	&"siphon_motes": [36, 1.4, 0, 1.0, 0.0, 0.0, 0.0],
 	&"siphon_wisps": [14, 1.6, 0, 0.0, 0.85, 0.0, 0.0],
 	&"shroud_smoke": [30, 1.4, 0, 0.0, 0.85, 0.0, 0.0],
@@ -79,6 +79,10 @@ const RING_POOL := 10
 const BEAM_POOL := 6
 const TENDRIL_CAP := 24
 const SCORCH_POOL := 6
+## Ground decal opacity of the two big area spells (in-game grade 2026-09-30: at 100 % the Kindle and Soul Siphon
+## discs hid the keep and every unit standing in them; the spell still reads by its rim / front and particles).
+const KINDLE_FADE := 0.6
+const SIPHON_FADE := 0.6
 const EMBER_SETS := 3
 const SIPHON_SETS := 3
 const KINDLE_SETS := 2
@@ -297,13 +301,13 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 			_track_hasted(pos, _radius_of(w, id, 8.0))
 		&"soul_siphon":
 			var r := _radius_of(w, id, 4.0)
-			_ring(pos, 0.5, r * 1.12, 0.35, Color(1.4, 0.4, 2.6, 1.0), Color(0.04, 0.0, 0.08, 0.45), 0.1)
+			_ring(pos, 0.5, r, 0.35, Color(1.4, 0.4, 2.6, 1.0), Color(0.04, 0.0, 0.08, 0.27), 0.1)
 			_burst(&"shadow_puff", pos + Vector3.UP * 0.4, r / 3.0)
 			_burst(&"shadow_motes", pos + Vector3.UP * 0.4, r / 3.0)
 			_dress_siphon(pos, w)
 		&"umbral_shroud":
 			var at := w.global_position
-			_ring(at, 3.4, 0.5, 0.32, Color(1.0, 0.25, 1.9, 1.0), Color(0.03, 0.0, 0.06, 0.7), 0.08, true, 0.08)
+			_ring(at, 2.6, 0.5, 0.32, Color(1.0, 0.25, 1.9, 1.0), Color(0.03, 0.0, 0.06, 0.42), 0.08, true, 0.08)
 			_burst(&"implode", at + Vector3.UP * 0.2, 1.0)
 			_burst(&"shadow_motes", at + Vector3.UP * 1.0, 0.8)
 			_tracked[w] = true
@@ -437,7 +441,7 @@ func _fireball_impact(pos: Vector3, radius: float) -> void:
 	_burst(&"impact_sparks", ground + Vector3.UP * 0.3, k)
 	_burst(&"impact_smoke", ground + Vector3.UP * 0.6, k)
 	_scorch(ground, radius * 0.95, 2.4, 4.2)
-	_light_flash(ground + Vector3.UP * 1.6, FIRE_HOT, 6.0, radius * 3.0, 0.45)
+	_light_flash(ground + Vector3.UP * 1.6, FIRE_HOT, 3.5, radius * 1.5, 0.4)   # was 6.0 / radius x 3 (a 21 m lit disc)
 
 
 func _lance_hit(pos: Vector3, dir: Vector3, w: Variant) -> void:
@@ -475,7 +479,7 @@ func _ember_arrive(dest: Vector3, w: Node3D) -> void:
 	_fire_column(dest, 0.9)
 	_burst(&"land_sparks", dest + Vector3.UP * 0.2, 1.0)
 	_scorch(dest, 1.7, 1.0, 2.2, 0.55)
-	_light_flash(dest + Vector3.UP * 1.3, FIRE, 4.5, 8.0, 0.35)
+	_light_flash(dest + Vector3.UP * 1.3, FIRE, 3.0, 4.5, 0.35)   # was 4.5 / 8 m
 	var tw := create_tween()
 	tw.tween_method(_fade_in_body.bind(w), 0.0, 1.0, 0.15)
 
@@ -546,7 +550,9 @@ func _kindle(pos: Vector3, r: float) -> void:
 	root.global_position = pos
 	disc.scale = Vector3(r, 1.0, r)
 	disc.rotation.y = randf() * TAU
-	_sp(disc, {&"burn": 0.22, &"heat": 0.35, &"flames": 0.3, &"rim": 0.0, &"front": 0.0, &"fade": 1.0, &"seed": randf() * 10.0})
+	# In-game grade 2026-09-30: the decal is exactly the AoE (radius 8 / 10 m) and covered the keep and every unit
+	# in it: ~60 % opacity (KINDLE_FADE), a lighter soot and shorter flame tongues; the travelling front still reads.
+	_sp(disc, {&"burn": 0.16, &"heat": 0.24, &"flames": 0.18, &"rim": 0.0, &"front": 0.0, &"fade": KINDLE_FADE, &"seed": randf() * 10.0})
 	flames.visible = true
 	flames.emitting = true
 	flames.restart()
@@ -554,15 +560,17 @@ func _kindle(pos: Vector3, r: float) -> void:
 	var tw := _tw(root)
 	tw.tween_method(_kindle_front.bind(root, r), 0.05, 1.04, 0.45).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tw.tween_callback(func() -> void: flames.emitting = false)
-	tw.tween_method(_ip.bind(disc, &"heat"), 0.35, 0.0, 1.3)
-	tw.parallel().tween_method(_ip.bind(disc, &"flames"), 0.3, 0.0, 0.8)
-	tw.parallel().tween_method(_ip.bind(disc, &"fade"), 1.0, 0.0, 1.3).set_ease(Tween.EASE_IN)
+	tw.tween_method(_ip.bind(disc, &"heat"), 0.24, 0.0, 1.3)
+	tw.parallel().tween_method(_ip.bind(disc, &"flames"), 0.18, 0.0, 0.8)
+	tw.parallel().tween_method(_ip.bind(disc, &"fade"), KINDLE_FADE, 0.0, 1.3).set_ease(Tween.EASE_IN)
 	tw.tween_callback(func() -> void:
 		root.visible = false
 		flames.visible = false)
 	_fire_column(pos, 1.3)
 	_burst(&"land_sparks", pos + Vector3.UP * 0.3, 1.3)
-	_light_flash(pos + Vector3.UP * 2.0, FIRE, 2.2, r + 2.0, 0.55)
+	# The flash lights only the heart of the zone: at energy 2.2 / reach r + 2 it painted a 12 m yellow disc over the
+	# keep and every unit (in-game grade 2026-09-30).
+	_light_flash(pos + Vector3.UP * 1.5, FIRE, 0.9, r * 0.5, 0.45)
 
 
 func _kindle_front(v: float, root: Node3D, r: float) -> void:
@@ -612,7 +620,7 @@ func _update_siphons(delta: float, poll: bool) -> void:
 		var center := root.global_position
 		var f := clampf(t / 0.3, 0.0, 1.0) * clampf((dur - t) / 0.8, 0.0, 1.0)
 		s["pulse"] = maxf(0.0, float(s["pulse"]) - delta * 2.5)
-		disc.set_instance_shader_parameter(&"fade", f)
+		disc.set_instance_shader_parameter(&"fade", f * SIPHON_FADE)
 		disc.set_instance_shader_parameter(&"pulse", s["pulse"])
 		var victims: Dictionary = s["victims"]
 		var ending := t > dur - 0.5
@@ -1671,13 +1679,13 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			_shape_ring(m, 1.0, 0.1, 0.85)
 			m.direction = Vector3.UP
 			m.spread = 10.0
-			m.initial_velocity_min = 1.5
-			m.initial_velocity_max = 3.0
+			m.initial_velocity_min = 1.0
+			m.initial_velocity_max = 2.0
 			m.gravity = Vector3(0, 1.0, 0)
 			m.damping_min = 1.0
 			m.damping_max = 1.5
 			m.particle_flag_align_y = true
-			_size(m, 1.0, 1.7, true)
+			_size(m, 0.65, 1.1, true)
 			m.color_ramp = _ramp(tongues)
 		&"siphon_motes":
 			_shape_ring(m, 3.8, 0.1, 3.0)

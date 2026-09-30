@@ -1,0 +1,13 @@
+{
+	"asset": "pyre_adept",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 96.6,
+	"result": "PASS",
+	"scene": "res://art/units/fire/pyre_adept/pyre_adept.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

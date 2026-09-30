@@ -1,0 +1,13 @@
+{
+	"asset": "bleakbow",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 94.1,
+	"result": "PASS",
+	"scene": "res://art/units/shadow/bleakbow/bleakbow.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

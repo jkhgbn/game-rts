@@ -213,7 +213,7 @@ size = Vector2(1, 1)
 [node name="Shade" type="Node3D" unique_id=1397037138]
 script = ExtResource("1_7rv83")
 unit_kind = &"shade"
-glow_gain = 1.35
+glow_gain = 2.2
 attack_style = &"dual_slash"
 death_style = &"sink"
 stride_time = 0.5

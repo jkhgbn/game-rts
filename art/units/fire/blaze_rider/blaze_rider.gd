@@ -64,6 +64,9 @@ func _ready() -> void:
 		push_warning("BlazeRiderModel: Boar / Rider missing")
 		return
 	_rider.call(&"set_seated", true, _boar)
+	# The boar flashes ember like its rider (FireModel), not the kit's full white (in-game grade 2026-09-30).
+	_boar.set(&"hit_flash_color", FireModel.HIT_FLASH_EMBER)
+	_boar.set(&"hit_flash_scale", FireModel.HIT_FLASH_SCALE)
 	_boar.connect(&"death_finished", _on_boar_death_finished)
 	_rider.connect(&"charge_struck", func(at: Vector3) -> void: charge_struck.emit(at))
 	_rider.connect(&"lance_struck", func(at: Vector3) -> void: lance_struck.emit(at))

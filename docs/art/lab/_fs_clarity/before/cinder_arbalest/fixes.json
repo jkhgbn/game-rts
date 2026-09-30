@@ -1,0 +1,13 @@
+{
+	"asset": "cinder_arbalest",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 95.1,
+	"result": "PASS",
+	"scene": "res://art/units/fire/cinder_arbalest/cinder_arbalest.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

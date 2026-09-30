@@ -213,7 +213,7 @@ size = Vector2(1, 1)
 [node name="GraveHound" type="Node3D" unique_id=839670467]
 script = ExtResource("1_2to6w")
 unit_kind = &"hound"
-glow_gain = 1.4
+glow_gain = 1.8
 body_height = 1.0
 attack_style = &"bite"
 death_style = &"sink"

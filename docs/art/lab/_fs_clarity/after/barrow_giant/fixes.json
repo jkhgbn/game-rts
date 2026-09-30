@@ -1,0 +1,59 @@
+{
+	"asset": "barrow_giant",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 4.5,
+					"node": "res://art/units/shadow/barrow_giant/barrow_giant.tscn (root)",
+					"param": "body_height",
+					"to": 3.05
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 4.5,
+				"head_top_m": 3.05,
+				"ratio": 0.68
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 4.5 -> 3.05 in res://art/units/shadow/barrow_giant/barrow_giant.tscn (root) (the head top; x0.68 now), or lower the head / crest 0.0 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8: body_height 4.5 -> 3.05 in res://art/units/shadow/barrow_giant/barrow_giant.tscn (root) (the head top; x0.68 now), or lower the head / crest 0.0 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Gravestone 1.02 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Gravestone 1.02 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Gravestone 1.02 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 93.6,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/barrow_giant/barrow_giant.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

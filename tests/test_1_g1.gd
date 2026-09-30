@@ -9,10 +9,10 @@ const TIMEOUT_FRAMES := 300
 ## id: [display_name, faction, is_worker, cost, pop, train, hp, dmg, range, cooldown, speed, aggro, radius, height, colour]
 const EXPECTED := {
 	"cinder_hand": ["Cinder Hand", "fire", true, 50, 1, 12.0, 50.0, 4.0, 1.4, 1.2, 4.6, 0.0, 0.4, 1.4, Color(0.80, 0.60, 0.45)],
-	"flame_guard": ["Flame Guard", "fire", false, 90, 1, 18.0, 130.0, 12.0, 1.6, 1.0, 5.0, 8.0, 0.45, 1.6, Color(0.85, 0.30, 0.12)],
-	"ember_archer": ["Ember Archer", "fire", false, 100, 1, 20.0, 70.0, 9.0, 9.0, 1.2, 5.2, 10.0, 0.45, 1.6, Color(0.95, 0.55, 0.20)],
+	"flame_guard": ["Flame Guard", "fire", false, 90, 1, 18.0, 130.0, 12.0, 1.6, 1.0, 5.0, 8.0, 0.45, 2.0, Color(0.85, 0.30, 0.12)],  # body_height 2.0: model x1.12 (Fire clarity pass 2026-09-30), head top
+	"ember_archer": ["Ember Archer", "fire", false, 100, 1, 20.0, 70.0, 9.0, 9.0, 1.2, 5.2, 10.0, 0.45, 1.9, Color(0.95, 0.55, 0.20)],  # body_height 1.9: model x1.12 (2026-09-30)
 	"blaze_rider": ["Blaze Rider", "fire", false, 180, 2, 30.0, 220.0, 18.0, 1.7, 0.9, 7.5, 9.0, 0.6, 2.3, Color(0.95, 0.40, 0.05)],  # body_height 2.3 since 13.V10 (rider on the Ember Boar)
-	"ash_hurler": ["Ash Hurler", "fire", false, 140, 1, 26.0, 60.0, 24.0, 12.0, 2.2, 4.0, 12.0, 0.45, 1.6, Color(0.60, 0.35, 0.25)],
+	"ash_hurler": ["Ash Hurler", "fire", false, 140, 1, 26.0, 60.0, 24.0, 12.0, 2.2, 4.0, 12.0, 0.45, 1.8, Color(0.60, 0.35, 0.25)],  # body_height 1.8: model x1.12 (2026-09-30)
 	"gloom_thrall": ["Gloom Thrall", "shadow", true, 50, 1, 12.0, 50.0, 4.0, 1.4, 1.2, 4.6, 0.0, 0.4, 1.4, Color(0.50, 0.45, 0.55)],
 	"shade": ["Shade", "shadow", false, 80, 1, 16.0, 110.0, 11.0, 1.6, 1.0, 4.8, 8.0, 0.45, 1.6, Color(0.42, 0.22, 0.60)],
 	"nightbolt": ["Nightbolt", "shadow", false, 100, 1, 20.0, 65.0, 10.0, 9.0, 1.3, 5.0, 10.0, 0.45, 1.6, Color(0.55, 0.30, 0.70)],

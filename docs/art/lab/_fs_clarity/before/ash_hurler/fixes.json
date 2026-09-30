@@ -1,0 +1,31 @@
+{
+	"asset": "ash_hurler",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "AshBall 0.38 m, Merged 0.38 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow AshBall 0.38 m, Merged 0.38 m so the HP bar reads over the head",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow AshBall 0.38 m, Merged 0.38 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 95.3,
+	"result": "WARN",
+	"scene": "res://art/units/fire/ash_hurler.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

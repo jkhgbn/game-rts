@@ -425,7 +425,9 @@ size = Vector2(0.35, 0.35)
 size = Vector2(1, 1)
 
 [node name="EmberArcher" type="Node3D" unique_id=927055353]
+transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 0, 0, 0)
 script = ExtResource("1_udhiy")
+body_height = 1.9
 fire_kind = &"archer"
 attack_style = &"bow_draw"
 attack_windup = 0.15

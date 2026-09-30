@@ -15,6 +15,9 @@
 //   crack_speed     float  crack pulse speed
 //   crack_scale     float  metres per crack cell (0.8)
 //   damage          float  0-1, widens cracks and darkens (soot)
+//   top_color       vec3   colour the top-facing planes lean to (helmets, shoulders, hoods seen from the RTS camera)
+//   top_lift        float  0 = off (default: every existing material unchanged); 0.3-0.6 = a lighter crown that
+//                          separates dark units from each other at zoom 30 (Shadow army, in-game grade 2026-09-30)
 // Instance uniforms (per MeshInstance3D / MultiMeshInstance3D, "instance_shader_parameters/..."):
 //   ao_bottom       float  world y of the part's bottom (contact band starts here)
 //   ao_height       float  height of the gradient (use the whole building's height for a building)
@@ -35,6 +38,8 @@ uniform vec3 crack_color : source_color = vec3(1.0, 0.55, 0.15);
 uniform float crack_speed = 1.2;
 uniform float crack_scale = 0.8;
 uniform float damage : hint_range(0.0, 1.0) = 0.0;
+uniform vec3 top_color : source_color = vec3(1.0, 1.0, 1.0);
+uniform float top_lift : hint_range(0.0, 1.0) = 0.0;
 
 instance uniform float ao_bottom : instance_index(1) = 0.0;
 instance uniform float ao_height : instance_index(2) = 10.0;
@@ -63,6 +68,9 @@ void fragment() {
 	float na = triplanar(v_world_pos, n, noise_scale_a);
 	float nb = triplanar(v_world_pos + vec3(17.3, 5.1, 9.7), n, noise_scale_b);
 	vec3 albedo = base_color * (1.0 + (na - 0.5) * 0.20) * (1.0 + (nb - 0.5) * 0.12);
+	if (top_lift > 0.0) {
+		albedo = mix(albedo, top_color * (1.0 + (na - 0.5) * 0.20), top_lift * smoothstep(0.35, 0.9, n.y));
+	}
 
 	// Height gradient (fake sky light + AO) and dark contact band.
 	float h = v_world_pos.y - ao_bottom;

@@ -1,0 +1,64 @@
+{
+	"asset": "ash_hurler",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.45,
+					"node": "res://data/units/ash_hurler.tres",
+					"param": "radius",
+					"to": 0.46
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.45,
+				"x_m": 0.78,
+				"z_m": 0.81
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.45 -> 0.46, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.45 -> 0.46, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.79",
+				"z_m": "<= 0.79"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "AshBall 0.43 m, Merged 0.43 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow AshBall 0.43 m, Merged 0.43 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow AshBall 0.43 m, Merged 0.43 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 94.4,
+	"result": "WARN",
+	"scene": "res://art/units/fire/ash_hurler.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

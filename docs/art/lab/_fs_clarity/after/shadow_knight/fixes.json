@@ -1,0 +1,31 @@
+{
+	"asset": "shadow_knight",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 1.3 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 1.3 m so the HP bar reads over the head",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 1.3 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 90.2,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/shadow_knight.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}
