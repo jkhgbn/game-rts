@@ -122,7 +122,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "process +0.0 ms, render CPU +0.14 ms, GPU +0.24 ms",
+			"value": "process +0.0 ms, render CPU +0.03 ms, GPU +0.53 ms",
 			"weight": 1.0
 		},
 		{
@@ -180,11 +180,11 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "res://art/vfx/unit_fire_gun_vfx.gd",
-	"seconds": 43.6,
+	"seconds": 27.0,
 	"shots": {
 		"contact_sheet": "contact_sheet.png",
 		"effects": "effects.jpg"
 	},
-	"started": "2026-09-27 14:17:53",
+	"started": "2026-09-30 11:44:04",
 	"tier": "family"
 }

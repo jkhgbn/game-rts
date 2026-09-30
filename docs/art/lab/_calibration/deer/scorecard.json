@@ -276,7 +276,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "11 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+			"value": "12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
@@ -290,7 +290,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 1.0 at the close-up (32102 px), 0.84 at 25 m; close-up outline complexity 17.25",
+			"value": "inner edges per outline px: 0.89 at the close-up (31604 px), 1.01 at 25 m; close-up outline complexity 17.51",
 			"weight": 1.0
 		},
 		{
@@ -298,27 +298,27 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 435 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 442 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 25 px (FAIL < 8) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "435 px (28 x 46 bbox; 55 m: 218 px)",
+			"value": "442 px (26 x 49 bbox; 55 m: 226 px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.875331564986737,
+			"graded": 0.975983292725374,
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 50.3): raise the value step between the big masses and the ground (dL -22 now)",
+			"improve": "Raise the contrast of the key read on meadow (dE 51.8): raise the value step between the big masses and the ground (dL -23 now)",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 7 or > 60 % melting): the body must not melt into the grass",
-			"score": 0.962599469496021,
+			"score": 0.992794987817612,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 50.3, 13% of the body melts (within dE 15 of the ground); body L* 40.1 C 36.1 vs ground L* 62.7 C 48.4, hue gap 62 deg; top third (world height) dE 27.0, L* 52.8; per-pixel dE 55.7, outline 41.7",
+			"value": "mean-colour dE 51.8, 6% of the body melts (within dE 15 of the ground); body L* 38.8 C 33.5 vs ground L* 62.0 C 49.2, hue gap 65 deg; top third (world height) dE 34.0, L* 54.5; per-pixel dE 58.0, outline 43.5",
 			"weight": 1.5
 		},
 		{
@@ -326,13 +326,13 @@
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On heath the body drops to dE 26.3: add a value accent that separates it there too",
+			"improve": "On heath the body drops to dE 24.7: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 7 on every skirmish ground (WARN only)",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst heath: dE 26.3 (heath dE 26.3, old_wood dE 31.6, riverbank dE 47.6, snow dE 55.8, ash dE 31.7, sand dE 43.6, marsh dE 28.5)",
+			"value": "worst heath: dE 24.7 (heath dE 24.7, old_wood dE 30.3, riverbank dE 47.7, snow dE 56.9, ash dE 30.9, sand dE 44.7, marsh dE 28.4)",
 			"weight": 1.0
 		},
 		{
@@ -346,7 +346,7 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 4.45",
+			"value": "outline complexity 4.78",
 			"weight": 1.0
 		},
 		{
@@ -360,21 +360,21 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 52.8, bottom third L* 17.9 (+34, world height)",
+			"value": "top third L* 54.5, bottom third L* 17.6 (+36, world height)",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.994301211754042,
 			"group": "polish",
 			"hint": "",
 			"id": "P4",
-			"improve": "",
+			"improve": "Busy at 25 m (11.0): merge small value changes into bigger blocks so the 40 m read stays clean",
 			"name": "Detail density 25 m / 40 m",
 			"rule": "about 3-11 at 25 m: readable blocks, no noise",
-			"score": 1.0,
+			"score": 0.994301211754042,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 10.4 at 25 m, 16.5 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 11.0 at 25 m, 16.8 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
@@ -392,17 +392,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.661969661827496,
+			"graded": 0.67111533246947,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 25 px (WARN only)",
-			"score": 0.898590898548249,
+			"score": 0.901334599740841,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.66 (min 0.65), area kept 98-101% (min 427 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.67 (min 0.66), area kept 99-102% (min 429 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
@@ -431,13 +431,6 @@
 	"headless": false,
 	"improve_next": [
 		{
-			"rank": 0.112201591511937,
-			"source": "R3 Contrast vs ground (meadow), shot z40",
-			"status": "PASS",
-			"text": "Raise the contrast of the key read on meadow (dE 50.3): raise the value step between the big masses and the ground (dL -22 now)",
-			"title": "Contrast vs ground (meadow)"
-		},
-		{
 			"rank": 0.0,
 			"source": "anim strip",
 			"status": "IDEA",
@@ -450,6 +443,13 @@
 			"status": "IDEA",
 			"text": "Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m",
 			"title": "Detail density at 25 m"
+		},
+		{
+			"rank": 0.0,
+			"source": "shot z40",
+			"status": "IDEA",
+			"text": "Put the lightest value and the team colour on the top-facing masses (seen from pitch 55), darker values low",
+			"title": "Key-read contrast"
 		}
 	],
 	"kind": "critter",
@@ -462,10 +462,10 @@
 		"quick=1: references (R2) and frame cost (B13) skipped"
 	],
 	"previous_quality": -1.0,
-	"quality": 98.8,
+	"quality": 99.1,
 	"result": "PASS",
 	"scene": "res://art/units/neutral/critters/deer.tscn",
-	"seconds": 13.2,
+	"seconds": 12.5,
 	"shots": {
 		"anim": "anim.jpg",
 		"close": "close.jpg",
@@ -475,6 +475,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 14:18:37",
+	"started": "2026-09-30 11:44:31",
 	"tier": "deer"
 }

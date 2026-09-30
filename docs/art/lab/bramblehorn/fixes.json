@@ -1,0 +1,31 @@
+{
+	"asset": "bramblehorn",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 12.6 on the team-colour area (normal vision 78.0; 1026 px); deutan: fire / nature dE 12.6; protan: fire / nature dE 23.6; worst vs ground: fire colour (deutan) dE 6.6"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 12.6): add a value step inside the team-colour area",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 12.6): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 92.4,
+	"result": "WARN",
+	"scene": "res://art/units/nature/bramblehorn.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

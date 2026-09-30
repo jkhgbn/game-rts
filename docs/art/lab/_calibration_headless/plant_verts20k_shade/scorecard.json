@@ -2,6 +2,7 @@
 	"asset": "plant_verts20k_shade",
 	"budget": {
 		"draw": 14,
+		"face_verts": 800,
 		"frame_ms": 0.005,
 		"lights": 0,
 		"meshes": 26,
@@ -74,17 +75,19 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.97601598934044,
+			"fix": "B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #1]",
+			"fix_rank": 1,
+			"graded": 0.0,
 			"group": "budget",
-			"hint": "",
+			"hint": "Fewer segments (cylinders 6-8, spheres radial 10 / rings 5), no hidden faces",
 			"id": "B4",
-			"improve": "",
+			"improve": "Fewer segments (cylinders 6-8, spheres radial 10 / rings 5), no hidden faces",
 			"name": "Vertices",
 			"rule": "<= 2500 (art-units.md 8, tier3-extras.md 12)",
-			"score": 0.992804796802132,
+			"score": 0.0,
 			"shot": "",
-			"status": "PASS",
-			"value": "1786 (biggest: Face 497, Merged 295, Merged 253, Merged 229)",
+			"status": "FAIL",
+			"value": "20639 (body + face above its allowance: face 497 v, allowance 800, total 21136; biggest: Merged 19645, Face 497, Merged 253, Merged 229)",
 			"weight": 1.0
 		},
 		{
@@ -196,7 +199,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "17 surfaces over 10 meshes (each surface = 1 draw call)",
+			"value": "18 surfaces over 10 meshes (each surface = 1 draw call)",
 			"weight": 1.0
 		},
 		{
@@ -210,7 +213,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "206 of 2628 triangles (7%) face steeply down (normal y < -0.7)",
+			"value": "9762 of 40772 triangles (23%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -224,23 +227,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0 material(s), 1 mesh(es) not shared by a 2nd instance",
-			"weight": 1.0
-		},
-		{
-			"fix": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary [fixes.json #1]",
-			"fix_rank": 1,
-			"graded": 0.5,
-			"group": "health",
-			"hint": "Build meshes once (static cache or .res) and share them",
-			"id": "B9m",
-			"improve": "Cache the 1 per-instance mesh(es) in a static dictionary",
-			"name": "Meshes built per instance",
-			"rule": "meshes shared per type",
-			"score": 0.52,
-			"shot": "",
-			"status": "WARN",
-			"value": "1 mesh(es) per instance",
+			"value": "0 material(s), 0 mesh(es) not shared by a 2nd instance",
 			"weight": 1.0
 		},
 		{
@@ -272,17 +259,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.565727047407559,
+			"graded": 0.578273685666482,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
-			"improve": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"improve": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.565727047407559,
+			"score": 0.578273685666482,
 			"shot": "close",
 			"status": "INFO",
-			"value": "43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
+			"value": "44 shapes over 7 body parts (6.3 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 7); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
 			"weight": 1.0
 		},
 		{
@@ -296,7 +283,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "71% of the 2500 verts budget used (1782)",
+			"value": "845% of the 2500 verts budget used (21132)",
 			"weight": 1.0
 		},
 		{
@@ -455,34 +442,34 @@
 		}
 	],
 	"counts": {
-		"FAIL": 0,
+		"FAIL": 1,
 		"INFO": 8,
-		"PASS": 16,
+		"PASS": 15,
 		"SKIP": 6,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "meadow",
 	"headless": true,
 	"improve_next": [
 		{
-			"rank": 1010.72,
-			"source": "B9m Meshes built per instance",
-			"status": "WARN",
-			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary [fixes.json #1]",
-			"title": "Meshes built per instance"
+			"rank": 1101.0,
+			"source": "B4 Vertices",
+			"status": "FAIL",
+			"text": "B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #1]",
+			"title": "Vertices"
 		},
 		{
-			"rank": 0.868545905184882,
+			"rank": 0.843452628667037,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
-			"text": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"text": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"title": "Shape richness (secondary shapes)"
 		},
 		{
 			"rank": 0.0,
 			"source": "B11",
 			"status": "IDEA",
-			"text": "Merge surfaces that share a material (17 surfaces for 10 meshes = 17 draw calls)",
+			"text": "Merge surfaces that share a material (18 surfaces for 10 meshes = 18 draw calls)",
 			"title": "Surfaces per instance"
 		}
 	],
@@ -490,16 +477,17 @@
 	"kingdom": "shadow",
 	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Root/Chest/Head/Face 497 v / 1 s; Root/Chest/Merged 295 v / 3 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 191 v / 3 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s",
+		"Per-mesh vertices (biggest first): Root/Chest/Merged 19645 v / 4 s; Root/Chest/Head/Face 497 v / 1 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 191 v / 3 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s",
 		"1 hidden parts at rest (toggled states, not counted as draws)",
-		"Fix recipes: 1 in fixes.json (top: B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary)"
+		"fail_fast=1: stopped after the headless checks (FAIL B4); render checks SKIP",
+		"Fix recipes: 1 in fixes.json (top: B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> )"
 	],
 	"previous_quality": -1.0,
-	"quality": 93.1,
-	"result": "WARN",
+	"quality": 91.7,
+	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
-	"seconds": 0.1,
+	"seconds": 0.5,
 	"shots": {},
-	"started": "2026-09-29 00:27:30",
+	"started": "2026-09-30 10:13:55",
 	"tier": "soldier"
 }

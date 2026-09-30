@@ -23,10 +23,10 @@
 					"words": "`Merged` 229 -> 115 verts"
 				},
 				{
-					"from": 215,
+					"from": 191,
 					"node": "Root/Chest/Head/Merged",
-					"to": 108,
-					"words": "`Merged` 215 -> 108 verts"
+					"to": 96,
+					"words": "`Merged` 191 -> 96 verts"
 				},
 				{
 					"from": 132,
@@ -44,15 +44,15 @@
 			"check": "B4",
 			"computed": true,
 			"measured": {
-				"verts": 20663
+				"verts": 20639
 			},
 			"predicted": {
-				"verts": 10362
+				"verts": 10350
 			},
-			"proposal": "20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"proposal": "20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"rank": 1,
 			"status": "FAIL",
-			"text": "B4 20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"text": "B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"title": "Vertices",
 			"wanted": {
 				"verts": "<= 2500"
@@ -62,7 +62,7 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "shadow",
-	"quality": 89.8,
+	"quality": 91.7,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
 	"tier": "soldier",

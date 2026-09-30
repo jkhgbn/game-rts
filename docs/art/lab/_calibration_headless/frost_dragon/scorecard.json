@@ -278,7 +278,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.0 s",
+			"value": "after 0.03 s",
 			"weight": 1.0
 		},
 		{
@@ -437,8 +437,8 @@
 	"quality": 98.6,
 	"result": "PASS",
 	"scene": "res://art/units/titans/frost_dragon/frost_dragon.tscn",
-	"seconds": 0.2,
+	"seconds": 1.0,
 	"shots": {},
-	"started": "2026-09-29 00:27:29",
+	"started": "2026-09-30 10:13:53",
 	"tier": "titan"
 }

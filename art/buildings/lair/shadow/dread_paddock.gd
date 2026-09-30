@@ -85,7 +85,12 @@ const PAVE_COLOR := Color(0.29, 0.26, 0.35)
 var mat_pave: ShaderMaterial
 var mat_bone: ShaderMaterial
 var mat_horse: ShaderMaterial
-var mat_iron: ShaderMaterial    ## black iron (fence, portcullis, sconces): an alias of mat_dark
+var mat_iron: ShaderMaterial    ## black iron (fence, portcullis, sconces)
+var mat_pave2: ShaderMaterial   ## the darker paving flags
+var mat_tower: ShaderMaterial   ## the gate towers' paler stone
+var mat_kerb: ShaderMaterial    ## fence kerbs and the stalls' base course (between paving and dark stone)
+var mat_stall: ShaderMaterial   ## the stalls' walls: a paler stone than the gatehouse
+var mat_team_dk: ShaderMaterial ## every other stall-roof tile course: the team colour x 0.75
 var _g_torch: ShaderMaterial    ## torch flames (fast flicker)
 var _g_circle: ShaderMaterial   ## call circle runes
 
@@ -195,9 +200,16 @@ func _make_materials() -> void:
 	mat_pave = _painted_mat(PAVE_COLOR, 0.0, 0.0)
 	mat_bone = _painted_mat(BONE_COLOR, 0.15, 0.0)
 	mat_horse = _painted_mat(HORSE_COLOR, 0.25, 0.0)
-	mat_iron = mat_dark   # black iron = the kingdom's dark stone colour (one material less per mesh tier)
+	# 2026-09-30: black iron in its own blue-black with a little shine (the hall draws every painted part with ONE merged
+	# material now, so shades cost nothing: C3 palette depth), a second paving shade, a paler tower stone.
+	mat_iron = _painted_mat(Color(0.12, 0.12, 0.17), 0.3, 0.0)
+	mat_pave2 = _painted_mat(PAVE_COLOR.darkened(0.18), 0.0, 0.0)
+	mat_tower = _painted_mat(stone_color.lightened(0.12), 0.0, crack_strength)
+	mat_kerb = _painted_mat(PAVE_COLOR.lerp(dark_color, 0.5), 0.0, 0.0)
+	mat_stall = _painted_mat(stone_color.lightened(0.22), 0.0, crack_strength)
+	mat_team_dk = _painted_mat(kingdom_color.darkened(0.25), 0.1, 0.0)
 	_g_torch = _glow_mat(3.2, 9.0, 0)
-	_g_circle = _glow_mat(1.8, 1.3, 0)
+	_g_circle = _glow_mat(0.7, 1.3, 0)   # 2026-09-30 R5: the call circle glows under the bloom until it calls
 
 
 func _idle_motion(delta: float) -> void:
@@ -335,7 +347,7 @@ func _build_plinth(box1: BoxMesh) -> void:
 				continue
 			var p := Vector3(c.x + rng.randf_range(-0.05, 0.05), 0.81 + rng.randf_range(0.0, 0.03),
 				c.z + rng.randf_range(-0.05, 0.05))
-			it.append(BMG.item(box1, p, mat_pave, Vector3(0, rng.randf_range(-4.0, 4.0), 0),
+			it.append(BMG.item(box1, p, mat_pave if (gx + gz) % 3 != 0 else mat_pave2, Vector3(0, rng.randf_range(-4.0, 4.0), 0),
 				Vector3(rng.randf_range(1.22, 1.32), 0.05, rng.randf_range(1.22, 1.32))))
 	it.append(BMG.item(box1, Vector3(GATE_X, 0.14, -3.45), mat_dark, Vector3.ZERO, Vector3(2.8, 0.28, 0.55)))
 	it.append(BMG.item(box1, Vector3(GATE_X, 0.5, -3.28), mat_dark, Vector3.ZERO, Vector3(2.4, 0.3, 0.3)))
@@ -383,7 +395,7 @@ func _fence_run(it: Array, box1: BoxMesh, a: Vector2, b: Vector2, post_a: bool, 
 	var bs := Basis(Vector3.UP, yaw)
 	var mid := Vector3((a.x + b.x) * 0.5, 0.0, (a.y + b.y) * 0.5)
 	it.append(BMG.item_xf(box1, Transform3D(bs.scaled_local(Vector3(0.38, 0.18, l + 0.38)), mid + Vector3(0, YARD + 0.09, 0)),
-		mat_dark))
+		mat_kerb))
 	for ry: float in [YARD + 0.58, YARD + 1.45]:
 		it.append(BMG.item_xf(box1, Transform3D(bs.scaled_local(Vector3(0.07, 0.1, l)), mid + Vector3(0, ry, 0)), mat_iron))
 	var n: int = maxi(1, ceili(l / 0.95))
@@ -440,7 +452,7 @@ func _build_gatehouse(box1: BoxMesh) -> void:
 		var c := Vector3(GATE_X + s * TOWER_DX, 0.0, GATE_Z)
 		it.append(BMG.item(box1, c + Vector3(0, YARD + 0.3, 0), mat_dark, Vector3.ZERO, Vector3(1.55, 0.6, 1.55)))
 		it.append(BMG.item(_cyl(TOWER_R1, TOWER_R0, TOWER_TOP - YARD, 4), c + Vector3(0, (YARD + TOWER_TOP) * 0.5, 0),
-			mat_stone, Vector3(0, 45, 0)))
+			mat_tower, Vector3(0, 45, 0)))
 		var rb: float = _tower_hw(3.3) / 0.7071 + 0.07
 		it.append(BMG.item(_cyl(rb, rb, 0.18, 4), c + Vector3(0, 3.3, 0), mat_metal, Vector3(0, 45, 0)))
 		# Corbels flaring into the machicolation cap.
@@ -521,6 +533,9 @@ func _build_gatehouse(box1: BoxMesh) -> void:
 	it = []
 	it.append(BMG.item(_cyl(0.2, 0.2, 0.14, 4), Vector3(0, 3.62, 0), mat_metal, Vector3(0, 45, 0)))
 	it.append(_taper(Vector3(0, 3.55, 0), Vector3(0, 4.9, 0), 0.14, 0.0, mat_metal, 4))
+	# 2026-09-30 P5: a soul-gem caught in the finial, the Lair's one high glow (read over the crowd at 40 m).
+	it.append(BMG.item(_cyl(0.0, 0.13, 0.26, 4), Vector3(0, 4.3, 0), mat_glow, Vector3(0, 45, 0)))
+	it.append(BMG.item(_cyl(0.13, 0.0, 0.18, 4), Vector3(0, 4.08, 0), mat_glow, Vector3(0, 45, 0)))
 	for dv: Vector3 in [Vector3(1, 0, 1), Vector3(-1, 0, 1), Vector3(1, 0, -1), Vector3(-1, 0, -1)]:
 		_spike(it, Vector3(0, 3.62, 0) + dv * 0.1, dv + Vector3(0, 1.4, 0), 0.07, 0.5, mat_metal)
 	var crown := _merged("SpireLCrown", "spire_l_crown", it, spire, false)
@@ -549,8 +564,8 @@ func _build_stalls(box1: BoxMesh) -> Array:
 	var it: Array = []
 	var wl: float = STALL_X1 - STALL_X0
 	var wd: float = STALL_Z1 - STALL_Z0
-	it.append(BMG.item(box1, Vector3(STALL_CX, YARD + 0.2, STALL_CZ), mat_dark, Vector3.ZERO, Vector3(wl + 0.2, 0.4, wd + 0.2)))
-	it.append(BMG.item(box1, Vector3(STALL_CX, (YARD + STALL_EAVE) * 0.5, STALL_CZ), mat_stone, Vector3.ZERO,
+	it.append(BMG.item(box1, Vector3(STALL_CX, YARD + 0.2, STALL_CZ), mat_kerb, Vector3.ZERO, Vector3(wl + 0.2, 0.4, wd + 0.2)))
+	it.append(BMG.item(box1, Vector3(STALL_CX, (YARD + STALL_EAVE) * 0.5, STALL_CZ), mat_stall, Vector3.ZERO,
 		Vector3(wl, STALL_EAVE - YARD, wd)))
 	for c: Vector2 in [Vector2(STALL_X0, STALL_Z0), Vector2(STALL_X1, STALL_Z0), Vector2(STALL_X0, STALL_Z1),
 			Vector2(STALL_X1, STALL_Z1)]:
@@ -593,6 +608,13 @@ func _build_stalls(box1: BoxMesh) -> Array:
 	it = []
 	var depth: float = wl + 0.3
 	_gable_roof(it, 0.0, 0.0, STALL_HALF, STALL_EAVE, STALL_RISE, depth, wl - 0.1, 3, mat_stone, mat_team, mat_metal, 0.3, 9.0)
+	# 2026-09-30 C3: every other tile course a deeper team shade (painted shades are free in the merged material).
+	var tn: int = 0
+	for e: Array in it:
+		if e[2] == mat_team:
+			if tn % 2 == 1:
+				e[2] = mat_team_dk
+			tn += 1
 	var ridge: float = STALL_EAVE + STALL_RISE
 	for lz: float in [-2.05, -0.6, 1.95]:
 		it.append(BMG.item(_cyl(0.0, 0.15, 0.55, 4), Vector3(0, ridge + 0.4, lz), mat_metal, Vector3(0, 45, 0)))
@@ -859,3 +881,8 @@ func _soft_mat(c: Color, billboard: bool) -> StandardMaterial3D:
 		m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
 	m.albedo_texture = tex
 	return m
+
+
+## B8 merge: the deeper tile courses follow the team colour (x 0.75).
+func _vc_team() -> Array:
+	return [mat_team, [mat_team_dk, 0.75]]

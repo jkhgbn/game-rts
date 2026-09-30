@@ -39,17 +39,23 @@ const BEAM_HALF := 1.3
 const PAN_DROP := 0.95
 const BRAZIER := Vector3(-2.3, 0.8, 2.35)
 # Awning: 6 stripes along x, a lean-to from the house wall (back) to the front edge, sagging a little in the middle.
-const AW_X0 := -2.4
+## 2026-09-30 (in-game grade: the awning was the loudest thing in the Fire base, a "circus tent"): 20 % less cloth
+## (0.9 x 0.9) and the stripes in ember red (the team colour x 0.62) / soot cream instead of full team red / white.
+const AW_X0 := -2.16
 const AW_N := 6
-const AW_W := 0.8
+const AW_W := 0.72
 const AW_BACK := Vector2(0.6, 3.2)     ## (z, y)
-const AW_MID := Vector2(-1.0, 3.0)
-const AW_FRONT := Vector2(-2.6, 2.86)
+const AW_MID := Vector2(-0.85, 3.02)
+const AW_FRONT := Vector2(-2.3, 2.88)
+const AW_TEAM := 0.62                  ## awning team stripes: team colour x this (ember red)
 ## Light stripe of every Bazaar awning (cream canvas): the team stripes change colour, this one never does, so the
 ## awning reads as "market" (and apart from the team roofs) from the RTS camera.
 const CANVAS := Color(0.93, 0.83, 0.62)
+const SOOT_CREAM := Color(0.6, 0.53, 0.43)   ## the awning's light stripe (the stall's cloth keeps CANVAS)
 
 var mat_stripe: ShaderMaterial
+var mat_aw_team: ShaderMaterial   ## awning team stripes (team x AW_TEAM)
+var mat_aw_light: ShaderMaterial  ## awning light stripes (soot cream)
 var _scale_pivot: Node3D
 var _beam: Node3D
 var _pans: Array[Node3D] = []
@@ -68,10 +74,17 @@ func _setup_palette() -> void:
 func _make_materials() -> void:
 	super()
 	mat_stripe = _painted_mat(CANVAS, 0.05, 0.0)
+	mat_aw_team = _painted_mat(kingdom_color * AW_TEAM, 0.05, 0.0)
+	mat_aw_light = _painted_mat(SOOT_CREAM, 0.05, 0.0)
 	mat_gate.set_shader_parameter(&"glow_color", GOLD_GLOW)
 	mat_gate.set_shader_parameter(&"rune_bands", 0)
-	mat_gate.set_shader_parameter(&"energy", 1.1)
+	mat_gate.set_shader_parameter(&"energy", 0.75)   # 2026-09-30 R5: the gold gleams under the bloom (beacon + brazier stay the points)
 	mat_gate.set_shader_parameter(&"pulse_speed", 1.7)
+
+
+## B8 merge: the awning's ember-red stripes follow the team colour (x AW_TEAM).
+func _vc_team() -> Array:
+	return [mat_team, [mat_aw_team, AW_TEAM]]
 
 
 func _process(delta: float) -> void:
@@ -270,14 +283,14 @@ func _build_awning(box1: BoxMesh) -> MeshInstance3D:
 	var flap: Array = []
 	for i: int in AW_N:
 		var xc: float = AW_X0 + AW_W * (i + 0.5)
-		var m: ShaderMaterial = mat_team if i % 2 == 0 else mat_stripe
+		var m: ShaderMaterial = mat_aw_team if i % 2 == 0 else mat_aw_light
 		var dst: Array = flap if i == AW_N - 1 else main
 		dst.append(BMG.item_xf(box1, _slab(Vector3(xc, AW_BACK.y, AW_BACK.x), Vector3(xc, AW_MID.y, AW_MID.x),
 			AW_W + 0.02, 0.08), m))
 		dst.append(BMG.item_xf(box1, _slab(Vector3(xc, AW_MID.y, AW_MID.x), Vector3(xc, AW_FRONT.y, AW_FRONT.x - 0.04),
 			AW_W + 0.02, 0.08), m))
 		# Front scallop (points down), in the other colour so the edge reads as a trim.
-		var vm: ShaderMaterial = mat_stripe if i % 2 == 0 else mat_team
+		var vm: ShaderMaterial = mat_aw_light if i % 2 == 0 else mat_aw_team
 		dst.append(BMG.item(_prism(Vector3(AW_W, 0.42, 0.05), 0.5), Vector3(xc, AW_FRONT.y - 0.23, AW_FRONT.x - 0.06),
 			vm, Vector3(0, 0, 180)))
 	# Side valances: 4 scallops per side following the slope.
@@ -287,7 +300,7 @@ func _build_awning(box1: BoxMesh) -> MeshInstance3D:
 		var span: float = AW_BACK.x - AW_FRONT.x
 		for k: int in n:
 			var z: float = AW_FRONT.x + span * (k + 0.5) / n
-			var vm: ShaderMaterial = mat_stripe if k % 2 == 0 else mat_team
+			var vm: ShaderMaterial = mat_aw_light if k % 2 == 0 else mat_aw_team
 			var dst: Array = main if side == 0 else flap
 			dst.append(BMG.item(_prism(Vector3(span / n, 0.38, 0.05), 0.5), Vector3(x, _aw_y(z) - 0.21, z), vm,
 				Vector3(0, 90, 180)))
@@ -299,12 +312,12 @@ func _build_awning(box1: BoxMesh) -> MeshInstance3D:
 	var xf0: float = AW_X0 + AW_W * (AW_N - 0.5)
 	var zc: float = -0.35
 	torn.append(BMG.item_xf(box1, _slab(Vector3(xf0, AW_BACK.y, AW_BACK.x), Vector3(xf0, _aw_y(zc), zc), AW_W, 0.08),
-		mat_team))
+		mat_aw_team))
 	for s: float in [-1.0, 1.0]:
 		var top := Vector3(xf0 + s * 0.22, _aw_y(zc) - 0.02, zc + 0.05)
 		var bot := top + Vector3(s * 0.12, -1.05, -0.28 - 0.12 * s)
-		torn.append(BMG.item_xf(box1, _slab(top, bot, 0.36, 0.06), mat_team))
-	torn.append(BMG.item(_prism(Vector3(0.8, 0.38, 0.05), 0.5), Vector3(AW_X0 + AW_W * AW_N + 0.05, 2.5, -1.6), mat_stripe,
+		torn.append(BMG.item_xf(box1, _slab(top, bot, 0.36, 0.06), mat_aw_team))
+	torn.append(BMG.item(_prism(Vector3(0.8, 0.38, 0.05), 0.5), Vector3(AW_X0 + AW_W * AW_N + 0.05, 2.5, -1.6), mat_aw_light,
 		Vector3(20, 90, 160)))
 	var torn_mi := _merged("AwningTorn", "awning_torn", torn, awning, false)
 	torn_mi.visible = false
@@ -334,9 +347,11 @@ func _build_stall(box1: BoxMesh, rng: RandomNumberGenerator) -> void:
 		it.append(BMG.item(_cyl(0.0, 0.2, 0.5, 6), Vector3(x, 3.65, fz), mat_metal))
 		it.append(BMG.item(_cyl(0.2, 0.2, 0.12, 6), Vector3(x, 3.36, fz), mat_dark))
 		it.append(BMG.item(box1, Vector3(x, 1.975, AW_BACK.x - 0.05), mat_metal, Vector3.ZERO, Vector3(0.24, 2.35, 0.24)))
-	it.append(BMG.item(box1, Vector3(0.0, _aw_y(fz) - 0.15, fz), mat_metal, Vector3.ZERO, Vector3(4.9, 0.2, 0.2)))
-	it.append(BMG.item(box1, Vector3(0.0, AW_BACK.y - 0.14, AW_BACK.x - 0.05), mat_metal, Vector3.ZERO,
-		Vector3(4.9, 0.2, 0.2)))
+	var beam_w: float = AW_W * AW_N + 0.1
+	it.append(BMG.item(box1, Vector3(AW_X0 + AW_W * AW_N * 0.5, _aw_y(fz) - 0.15, fz), mat_metal, Vector3.ZERO,
+		Vector3(beam_w, 0.2, 0.2)))
+	it.append(BMG.item(box1, Vector3(AW_X0 + AW_W * AW_N * 0.5, AW_BACK.y - 0.14, AW_BACK.x - 0.05), mat_metal,
+		Vector3.ZERO, Vector3(beam_w, 0.2, 0.2)))
 	# Two small ember lanterns hanging from the front beam (warm the stall; hidden by the cloth from high up).
 	for x: float in [-1.3, 1.1]:
 		var ly: float = _aw_y(fz) - 0.5

@@ -3,28 +3,67 @@
 	"count": 1,
 	"fixes": [
 		{
-			"changes": [],
-			"check": "B9m",
-			"computed": false,
+			"changes": [
+				{
+					"from": 19645,
+					"node": "Root/Chest/Merged",
+					"to": 9823,
+					"words": "`Merged` 19645 -> 9823 verts"
+				},
+				{
+					"from": 253,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 127,
+					"words": "`Merged` 253 -> 127 verts"
+				},
+				{
+					"from": 229,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 115,
+					"words": "`Merged` 229 -> 115 verts"
+				},
+				{
+					"from": 191,
+					"node": "Root/Chest/Head/Merged",
+					"to": 96,
+					"words": "`Merged` 191 -> 96 verts"
+				},
+				{
+					"from": 132,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 66,
+					"words": "`Merged` 132 -> 66 verts"
+				},
+				{
+					"from": 132,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 66,
+					"words": "`Merged` 132 -> 66 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
 			"measured": {
-				"value": "1 mesh(es) per instance"
+				"verts": 20639
 			},
-			"predicted": {},
-			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"predicted": {
+				"verts": 10350
+			},
+			"proposal": "20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"rank": 1,
-			"status": "WARN",
-			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
-			"title": "Meshes built per instance",
+			"status": "FAIL",
+			"text": "B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
 			"wanted": {
-				"rule": "meshes shared per type"
+				"verts": "<= 2500"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "shadow",
-	"quality": 93.1,
-	"result": "WARN",
+	"quality": 91.7,
+	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
 	"tier": "soldier",
 	"version": "1.0"

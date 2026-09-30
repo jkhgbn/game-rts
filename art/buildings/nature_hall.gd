@@ -87,6 +87,23 @@ func _light_wave(_n: float) -> float:
 	return 1.0
 
 
+## B8: the NatureKit painted / card materials drawn as one merged material each (NatureVC), the hall's particle
+## quads / process materials shared and its rune glows merged (FireHallModel budget passes).
+func _budget_wanted() -> bool:
+	return true
+
+
+func _post_build() -> void:
+	NatureKit.NVC.convert(self, _mats)
+
+
+## B8: the hall's particles use NatureKit's soft dots (the pollen's ADD dot, the leaves / petals atlas for MIX).
+func _make_particle_quads() -> void:
+	super()
+	_add_quad = NatureKit.soft_quad(true)
+	_mix_quad = NatureKit.soft_quad(false)
+
+
 func _idle_motion(delta: float) -> void:
 	var fast: float = 3.0 if _pulse_left > 0.0 else 1.0
 	if _bloom:

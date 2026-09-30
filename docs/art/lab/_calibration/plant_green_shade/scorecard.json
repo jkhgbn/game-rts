@@ -2,6 +2,7 @@
 	"asset": "plant_green_shade",
 	"budget": {
 		"draw": 14,
+		"face_verts": 800,
 		"frame_ms": 0.005,
 		"lights": 0,
 		"meshes": 26,
@@ -28,7 +29,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "root Node3D, 23 nodes",
+			"value": "root Node3D, 24 nodes",
 			"weight": 1.0
 		},
 		{
@@ -42,21 +43,21 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "9 drawn (9 mesh + 0 multimesh); per pivot: Chest 2, (root) 1, ArmL 1, ArmR 1, Head 1, Hips 1",
+			"value": "10 drawn (10 mesh + 0 multimesh); per pivot: Chest 2, Head 2, (root) 1, ArmL 1, ArmR 1, Hips 1",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.978723404255319,
 			"group": "budget",
 			"hint": "",
 			"id": "B2",
 			"improve": "",
 			"name": "Draw instances at rest",
 			"rule": "<= 14 (art-units.md 8, tier3-extras.md 12)",
-			"score": 1.0,
+			"score": 0.993617021276596,
 			"shot": "",
 			"status": "PASS",
-			"value": "9",
+			"value": "10",
 			"weight": 1.0
 		},
 		{
@@ -70,7 +71,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "2",
+			"value": "3",
 			"weight": 1.0
 		},
 		{
@@ -84,7 +85,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "1313 (biggest: Merged 295, Merged 253, Merged 229, Merged 215)",
+			"value": "1289 (body + face above its allowance: face 497 v, allowance 800, total 1786; biggest: Face 497, Merged 295, Merged 253, Merged 229)",
 			"weight": 1.0
 		},
 		{
@@ -182,7 +183,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "26",
+			"value": "27",
 			"weight": 1.0
 		},
 		{
@@ -196,7 +197,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "17 surfaces over 9 meshes (each surface = 1 draw call)",
+			"value": "17 surfaces over 10 meshes (each surface = 1 draw call)",
 			"weight": 1.0
 		},
 		{
@@ -210,7 +211,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "206 of 1596 triangles (12%) face steeply down (normal y < -0.7)",
+			"value": "206 of 2628 triangles (7%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -256,31 +257,31 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.33436614266504,
+			"graded": 0.565727048907655,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
-			"improve": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"improve": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.33436614266504,
+			"score": 0.565727048907655,
 			"shot": "close",
 			"status": "INFO",
-			"value": "24 shapes over 7 body parts (3.4 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 6); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838",
+			"value": "43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.638857142857143,
+			"graded": 1.0,
 			"group": "craft",
 			"hint": "",
 			"id": "C2",
-			"improve": "Only 52% of the vertex budget is used: spend it on the close / 25 m read (bevels, tapers, more sides on the big curved masses, secondary shapes)",
+			"improve": "",
 			"name": "Vertex use vs budget",
 			"rule": "craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4)",
-			"score": 0.638857142857143,
+			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "52% of the 2500 verts budget used (1309)",
+			"value": "71% of the 2500 verts budget used (1782)",
 			"weight": 1.0
 		},
 		{
@@ -298,14 +299,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.729077041149139,
+			"graded": 0.728981673717499,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.918723112344742,
+			"score": 0.91869450211525,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.82 m / body_height 1.6 (x1.14)",
@@ -340,17 +341,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.767467248908297,
+			"graded": 0.800218340611354,
 			"group": "craft",
 			"hint": "",
 			"id": "C4",
-			"improve": "Big plain panels inside the silhouette (2.31 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
+			"improve": "",
 			"name": "Inner detail (close-up / 25 m)",
 			"rule": "craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette)",
-			"score": 0.767467248908297,
+			"score": 0.800218340611354,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 2.31 at the close-up (95746 px), 1.21 at 25 m; close-up outline complexity 4.99",
+			"value": "inner edges per outline px: 2.35 at the close-up (95739 px), 1.24 at 25 m; close-up outline complexity 5.0",
 			"weight": 1.0
 		},
 		{
@@ -368,19 +369,19 @@
 			"weight": 1.0
 		},
 		{
-			"fix": "albedo_color of `StandardMaterial3D#-38053` #8cb847 -> #fffa7f (98% of the visible body): predicted dE R3 meadow 8.4 -> 29.1, R3t fire 8.4 -> 29.1, R3t shadow 8.2 -> 29.1, R3t ice 8.2 -> 29.1, R3t nature 8.4 -> 29.1, R4k marsh 72.2 -> 82.3 (want >= 29); other grounds heath 51.6, old_wood 66.6, riverbank 63.9, snow 48.4, ash 81.4, sand 20.5; built in code or embedded: change it where the model script creates it [fixes.json #1]",
+			"fix": "albedo_color of `StandardMaterial3D#-55365` #8cb847 -> #faff75 (99% of the visible body): predicted dE R3 meadow 9.8 -> 29.2, R3t fire 9.9 -> 29.2, R3t shadow 9.9 -> 29.2, R3t ice 9.9 -> 29.2, R3t nature 9.9 -> 29.3, R4k marsh 74.0 -> 87.1 (want >= 29); other grounds heath 57.7, old_wood 70.1, riverbank 65.9, snow 55.7, ash 86.8, sand 28.6; built in code or embedded: change it where the model script creates it [fixes.json #1]",
 			"fix_rank": 1,
-			"graded": 0.0699375657474293,
+			"graded": 0.112429282244514,
 			"group": "read",
 			"hint": "Melts into the meadow: value is close to the ground (dL +7): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 0 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 8.4): value is close to the ground (dL +7): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 0 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
+			"improve": "Raise the contrast of the key read on meadow (dE 9.8): value is close to the ground (dL +7): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 0 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
-			"score": 0.023778772354126,
+			"score": 0.0382259559631348,
 			"shot": "z40",
 			"status": "FAIL",
-			"value": "mean-colour dE 8.4, 36% of the body melts (within dE 15 of the ground); body L* 70.6 C 52.0 vs ground L* 63.3 C 48.0, hue gap 0 deg; top third (world height) dE 12.1, L* 74.6; per-pixel dE 19.4, outline 27.1",
+			"value": "mean-colour dE 9.8, 36% of the body melts (within dE 15 of the ground); body L* 70.6 C 54.5 vs ground L* 63.3 C 48.0, hue gap 0 deg; top third (world height) dE 13.8, L* 74.9; per-pixel dE 17.5, outline 26.1",
 			"weight": 1.5
 		},
 		{
@@ -394,7 +395,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 72.2, 0% melts (marsh is where shadow units stand most)",
+			"value": "dE 74.0, 0% melts (marsh is where shadow units stand most)",
 			"weight": 1.0
 		},
 		{
@@ -402,60 +403,44 @@
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On sand the body drops to dE 30.2: add a value accent that separates it there too",
+			"improve": "On sand the body drops to dE 32.3: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 10 on every skirmish ground (WARN only)",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst sand: dE 30.2 (heath dE 46.3, old_wood dE 52.7, riverbank dE 45.1, snow dE 54.1, ash dE 72.1, sand dE 30.2, marsh dE 72.2)",
+			"value": "worst sand: dE 32.3 (heath dE 48.6, old_wood dE 54.2, riverbank dE 46.3, snow dE 56.3, ash dE 74.0, sand dE 32.3, marsh dE 74.0)",
 			"weight": 1.0
 		},
 		{
 			"fix": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top [fixes.json #2]",
 			"fix_rank": 2,
-			"graded": 0.0314852840520192,
+			"graded": 0.00410677618069815,
 			"group": "read",
 			"hint": "Put the team colour on a big, top-facing mass (cloth, plates, cape, caparison); ~25-45 %% of the surface (art-keep 0.2 / art-units 1.3)",
 			"id": "R6",
 			"improve": "Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
 			"name": "Team-colour visibility at 40 m",
 			"rule": ">= 8% (FAIL = set_team_color changes nothing)",
-			"score": 0.360704996577687,
+			"score": 0.351396303901437,
 			"shot": "teams",
 			"status": "WARN",
 			"value": "0% of body pixels change between kingdom colours (min pair 0%)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.0857758522033691,
+			"graded": 0.14827038691594,
 			"group": "read",
 			"hint": "Keep the team colour off the silhouette's biggest mass or give it a value step (trim, dark border)",
 			"id": "R3t",
-			"improve": "In the shadow team colour the body drops to dE 8.2 on meadow: add a value step around the team-colour area",
+			"improve": "In the shadow team colour the body drops to dE 9.9 on meadow: add a value step around the team-colour area",
 			"name": "Contrast in every team colour (meadow)",
 			"rule": "dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours)",
-			"score": 0.379163789749146,
+			"score": 0.40041193155142,
 			"shot": "teams",
 			"status": "WARN",
-			"value": "worst shadow colour: dE 8.2 (fire 8.4, shadow 8.2, ice 8.2, nature 8.4)",
+			"value": "worst shadow colour: dE 9.9 (fire 9.9, shadow 9.9, ice 9.9, nature 9.9)",
 			"weight": 1.0
-		},
-		{
-			"fix": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 0.2): add a value step inside the team-colour area [fixes.json #3]",
-			"fix_rank": 3,
-			"graded": 0.0,
-			"group": "read",
-			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
-			"id": "R6cb",
-			"improve": "For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 0.2): add a value step inside the team-colour area",
-			"name": "Team colours for colour-blind players",
-			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.35,
-			"shot": "teams",
-			"status": "WARN",
-			"value": "worst pair shadow / ice (deutan): dE 0.2 on the team-colour area (normal vision 0.4; 6 px); deutan: shadow / ice dE 0.2; protan: shadow / ice dE 0.3; worst vs ground: shadow colour (deutan) dE 8.1",
-			"weight": 0.5
 		},
 		{
 			"graded": 1.0,
@@ -482,7 +467,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "tip reaches 1.47 m from the body centre at t 0.08 s (1.42 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
+			"value": "tip reaches 1.43 m from the body centre at t 0.14 s (1.39 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
 			"weight": 1.0
 		},
 		{
@@ -490,13 +475,13 @@
 			"group": "anim",
 			"hint": "Bigger wind-up / strike: the weapon or head should leave the body outline",
 			"id": "A3",
-			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 69%)",
+			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 67%)",
 			"name": "Attack reads at 40 m",
 			"rule": ">= 12% (1 - IoU rest vs strike)",
 			"score": 1.0,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "strike pose changes 69% of the silhouette (t 0.14 s)",
+			"value": "strike pose changes 67% of the silhouette (t 0.14 s)",
 			"weight": 1.0
 		},
 		{
@@ -514,17 +499,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.733240912942325,
+			"graded": 0.747373244341682,
 			"group": "polish",
 			"hint": "",
 			"id": "P3",
 			"improve": "Lighten the top masses / darken the legs and base (top - bottom now +7 L*, aim >= +10)",
 			"name": "Tops light, bottoms dark",
 			"rule": "top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top)",
-			"score": 0.733240912942325,
+			"score": 0.747373244341682,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 74.6, bottom third L* 67.2 (+7, world height)",
+			"value": "top third L* 74.9, bottom third L* 67.2 (+7, world height)",
 			"weight": 1.0
 		},
 		{
@@ -538,77 +523,51 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 7.0 at 25 m, 9.5 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 7.0 at 25 m, 9.4 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.47071831443093,
+			"fix": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2 [fixes.json #3]",
+			"fix_rank": 3,
+			"graded": 0.4,
 			"group": "read",
-			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
-			"id": "R5c",
-			"improve": "",
-			"name": "Glow points stand out (1 m surround)",
-			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
-			"score": 0.841215494329279,
-			"shot": "glow",
-			"status": "PASS",
-			"value": "worst dL +15 (point 1 dL +15; ring 24 px = 1.0 m at 40 m)",
-			"weight": 0.5
-		},
-		{
-			"graded": 1.0,
-			"group": "read",
-			"hint": "",
+			"hint": "Add a glow point (eyes / rune / weapon, emission >= 2.5 so the bloom carries it)",
 			"id": "R5",
-			"improve": "",
+			"improve": "Add a glow point (eyes / rune / weapon, emission >= 2.5 so the bloom carries it)",
 			"name": "Glow points at 40 m",
 			"rule": "1-3 above the bloom level (art-units 1.4 / art-keep 0.4)",
-			"score": 1.0,
+			"score": 0.486,
 			"shot": "glow",
-			"status": "PASS",
-			"value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1",
+			"status": "WARN",
+			"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
-			"group": "polish",
-			"hint": "",
-			"id": "P5",
-			"improve": "",
-			"name": "Glow placement",
-			"rule": "one glow high (head / weapon / crest) reads over crowds",
-			"score": 1.0,
-			"shot": "glow",
-			"status": "INFO",
-			"value": "1 of 1 glow(s) in the upper half of the model's height (world)",
-			"weight": 1.0
-		},
-		{
-			"graded": 0.526369228829429,
+			"graded": 0.529369091044557,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only)",
-			"score": 0.857910768648829,
+			"score": 0.858810727313367,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 81-86% (min 401 px), frame-to-frame IoU min 0.58; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 81-86% (min 401 px), frame-to-frame IoU min 0.54; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.325,
+			"graded": 0.45,
 			"group": "read",
 			"hint": "Glow points that hide behind a swinging limb or dip under the bloom level blink at 40 m: move them to a steady part (head, chest, weapon head) or raise their energy",
 			"id": "R5w",
 			"improve": "",
 			"name": "Glow points while walking (flicker)",
 			"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)",
-			"score": 0.7975,
+			"score": 0.835,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "points per frame 2/2/2/0/1/0/2/2 (median 2, range 2, 2 frame(s) at 0; at rest 1)",
+			"value": "points per frame 1/1/1/0/0/1/1/1 (median 1, range 1, 2 frame(s) at 0; at rest 0)",
 			"weight": 0.5
 		},
 		{
@@ -636,7 +595,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 1.02 s",
+			"value": "after 1.03 s",
 			"weight": 1.0
 		},
 		{
@@ -656,8 +615,8 @@
 	],
 	"counts": {
 		"FAIL": 1,
-		"INFO": 16,
-		"PASS": 25,
+		"INFO": 15,
+		"PASS": 23,
 		"SKIP": 0,
 		"WARN": 3
 	},
@@ -665,32 +624,32 @@
 	"headless": false,
 	"improve_next": [
 		{
-			"rank": 1102.92866368294,
+			"rank": 1102.88532213211,
 			"source": "R3 Contrast vs ground (meadow), shot z40",
 			"status": "FAIL",
-			"text": "albedo_color of `StandardMaterial3D#-38053` #8cb847 -> #fffa7f (98% of the visible body): predicted dE R3 meadow 8.4 -> 29.1, R3t fire 8.4 -> 29.1, R3t shadow 8.2 -> 29.1, R3t ice 8.2 -> 29.1, R3t nature 8.4 -> 29.1, R4k marsh 72.2 -> 82.3 (want >= 29); other grounds heath 51.6, old_wood 66.6, riverbank 63.9, snow 48.4, ash 81.4, sand 20.5; built in code or embedded: change it where the model script creates it [fixes.json #1]",
+			"text": "albedo_color of `StandardMaterial3D#-55365` #8cb847 -> #faff75 (99% of the visible body): predicted dE R3 meadow 9.8 -> 29.2, R3t fire 9.9 -> 29.2, R3t shadow 9.9 -> 29.2, R3t ice 9.9 -> 29.2, R3t nature 9.9 -> 29.3, R4k marsh 74.0 -> 87.1 (want >= 29); other grounds heath 57.7, old_wood 70.1, riverbank 65.9, snow 55.7, ash 86.8, sand 28.6; built in code or embedded: change it where the model script creates it [fixes.json #1]",
 			"title": "Contrast vs ground (meadow)"
 		},
 		{
-			"rank": 11.2785900068446,
+			"rank": 11.2972073921971,
 			"source": "R6 Team-colour visibility at 40 m, shot teams",
 			"status": "WARN",
 			"text": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 0% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top [fixes.json #2]",
 			"title": "Team-colour visibility at 40 m"
 		},
 		{
-			"rank": 11.2416724205017,
+			"rank": 11.1991761368972,
 			"source": "R3t Contrast in every team colour (meadow), shot teams",
 			"status": "WARN",
-			"text": "In the shadow team colour the body drops to dE 8.2 on meadow: add a value step around the team-colour area",
+			"text": "In the shadow team colour the body drops to dE 9.9 on meadow: add a value step around the team-colour area",
 			"title": "Contrast in every team colour (meadow)"
 		},
 		{
-			"rank": 10.65,
-			"source": "R6cb Team colours for colour-blind players, shot teams",
+			"rank": 11.028,
+			"source": "R5 Glow points at 40 m, shot glow",
 			"status": "WARN",
-			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 0.2): add a value step inside the team-colour area [fixes.json #3]",
-			"title": "Team colours for colour-blind players"
+			"text": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2 [fixes.json #3]",
+			"title": "Glow points at 40 m"
 		},
 		{
 			"rank": 1.5,
@@ -700,10 +659,10 @@
 			"title": "Palette depth (close-up)"
 		},
 		{
-			"rank": 1.33126771466992,
+			"rank": 0.86854590218469,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
-			"text": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"text": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"title": "Shape richness (secondary shapes)"
 		}
 	],
@@ -711,19 +670,19 @@
 	"kingdom": "shadow",
 	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Root/Chest/Merged 295 v / 3 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 215 v / 4 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s; Root/Chest/Cape 16 v / 1 s",
+		"Per-mesh vertices (biggest first): Root/Chest/Head/Face 497 v / 1 s; Root/Chest/Merged 295 v / 3 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 191 v / 3 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s",
 		"1 hidden parts at rest (toggled states, not counted as draws)",
 		"1 materials are built in code (fine when cached per type: see B9)",
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
 		"quick=1: light-preset sweep (R12) and style bible (S1) skipped",
 		"quick=1: references (R2) and frame cost (B13) skipped",
-		"Fix recipes: 3 in fixes.json (top: albedo_color of `StandardMaterial3D#-38053` #8cb847 -> #fffa7f (98% of the visible body): predicted dE R3 meadow 8.4 -> 29.1, R3t fire 8.4 -> 29.1, R3t shadow 8)"
+		"Fix recipes: 3 in fixes.json (top: albedo_color of `StandardMaterial3D#-55365` #8cb847 -> #faff75 (99% of the visible body): predicted dE R3 meadow 9.8 -> 29.2, R3t fire 9.9 -> 29.2, R3t shadow 9)"
 	],
 	"previous_quality": -1.0,
-	"quality": 79.5,
+	"quality": 80.5,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_green_shade.tscn",
-	"seconds": 23.7,
+	"seconds": 21.3,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -735,6 +694,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 14:19:51",
+	"started": "2026-09-30 11:45:33",
 	"tier": "soldier"
 }

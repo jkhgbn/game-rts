@@ -22,6 +22,7 @@ const DESTROY_TIME := 2.5
 const FIRE_RAMP_A := Color(1.0, 0.92, 0.55)
 const FIRE_RAMP_B := Color(1.0, 0.5, 0.1)
 const BMG := preload("res://art/buildings/fire_hall_merge.gd")
+const PVC := preload("res://art/buildings/painted_vc.gd")
 
 static var _mesh_cache: Dictionary = {}
 static var _quad_cache: Dictionary = {}
@@ -41,6 +42,11 @@ var footprint: float = 4.0
 var crack_strength: float = 0.6
 var plinth_top: float = 0.45
 var wreck_top: float = 1.0      # top of the collapsed stub (debris sits on it)
+## B8 opt-in (a subclass sets it in _setup()): after the build, every painted part draws with ONE vertex-coloured
+## material (PaintedVC: the team material with the painted_vc shader; same look). Off by default.
+var vc_merge: bool = false
+var crack_glow: float = 1.0   ## vc_merge: crack emission x this (< 1 keeps the veins under the bloom level)
+var _glow_vc: ShaderMaterial   ## vc_merge: the merged glow material (PaintedVC.convert_glow)
 var smoke_points: Array[Vector3] = []
 var blaze_points: Array[Vector3] = []
 
@@ -109,6 +115,12 @@ func _ready() -> void:
 	_build_ground()
 	_collect_parts()
 	_build_state_nodes()
+	if vc_merge:
+		PVC.convert(self, _m_team, _vc_team(), [_m_hole] if _m_hole else [], _vc_skip())
+		_m_team.set_shader_parameter(&"crack_energy", crack_glow)
+	_post_build()
+	if vc_merge:
+		_glow_vc = PVC.convert_glow(self)   # one glow material; _process copies the sources' state over
 	set_team_color(_team_color)
 	set_construction_progress(_progress)
 	_sel_k = 1.0 if _selected else 0.0
@@ -122,6 +134,7 @@ func _process(delta: float) -> void:
 	_t += delta
 	if _destroyed:
 		_process_destroyed(delta)
+		PVC.sync_glow(_glow_vc)
 		return
 	if _float_appear < 1.0:
 		_float_appear = minf(_float_appear + delta / 0.5, 1.0)
@@ -138,6 +151,7 @@ func _process(delta: float) -> void:
 		_outline_mat.set_shader_parameter(&"energy", 2.0 * _outline_fade)
 		if _outline_fade <= 0.0:
 			_outline.visible = false
+	PVC.sync_glow(_glow_vc)
 
 
 # --- Hooks ---
@@ -278,6 +292,29 @@ func _on_destroy(_t_now: float) -> void:
 
 func _on_team_color(_g: Color) -> void:
 	pass
+
+
+## The billboard quad of the state / idle particles (the shared ADD / MIX dots); the Nature buildings use NatureKit's
+## (same soft dot) so their pollen and leaves share the materials.
+func _quad_for(add: bool) -> Mesh:
+	return _quad(add)
+
+
+## Runs once after the build and the painted merge, before the glow merge (the Nature buildings merge their
+## NatureKit materials here).
+func _post_build() -> void:
+	pass
+
+
+## vc_merge: painted materials whose base_color is the team colour (a material, or [material, multiplier] for a
+## darker team shade). Subclasses add theirs.
+func _vc_team() -> Array:
+	return [_m_team]
+
+
+## vc_merge: painted materials a subclass changes at run time on its own (not through the _painted loops).
+func _vc_skip() -> Array:
+	return []
 
 
 # --- Part helpers (for _build_parts) ---
@@ -862,7 +899,7 @@ func _particles(nm: String, parent: Node3D, pos: Vector3, amount: int, life: flo
 	p.interpolate = true
 	p.local_coords = true
 	p.process_material = pm
-	p.draw_pass_1 = _quad(add)
+	p.draw_pass_1 = _quad_for(add)
 	p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	p.visibility_aabb = AABB(Vector3(-5, -3, -5), Vector3(10, 14, 10))
 	p.position = pos

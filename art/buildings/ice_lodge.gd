@@ -38,6 +38,8 @@ func _setup() -> void:
 	blaze_b = Color(0.45, 0.75, 1.0)
 	stain_color = Color(0.85, 0.92, 1.00, 0.40)
 	footprint = 4.0
+	vc_merge = true   # B8: one vertex-coloured painted material (PaintedVC)
+	crack_glow = 0.45   # R5: the dome's rime veins under the bloom (the lantern and chimney crystal stay the points)
 	crack_strength = 0.45
 	plinth_top = 0.5
 	wreck_top = 1.0
@@ -209,6 +211,11 @@ func _on_health(smoke_on: bool, fire_on: bool) -> void:
 	_window_mat.set_shader_parameter(&"energy", 0.5 if fire_on else 2.4)
 	if _frost_mat:
 		_frost_mat.set_shader_parameter(&"damage", 1.0 if fire_on else (0.5 if smoke_on else 0.0))
+
+
+## B8 merge: the dome blocks are the team colour darkened 35 %.
+func _vc_team() -> Array:
+	return [_m_team, [_m_roof, 0.65]]
 
 
 func _on_team_color(g: Color) -> void:

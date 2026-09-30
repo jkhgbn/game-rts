@@ -1,0 +1,109 @@
+{
+	"asset": "mossback",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#45664f",
+					"material": "mossback_moss",
+					"material_path": "res://art/units/nature/mossback/materials/mossback_moss.tres",
+					"node": "Root/Mount/Head/Merged, Root/Mount/TreeA/Merged, Root/Mount/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#7ac5b5",
+					"weight": 0.16
+				}
+			],
+			"check": "R4k",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.3,
+				1.6,
+				1.6
+			],
+			"measured": {
+				"body_lab": [
+					45.3,
+					-11.1,
+					19.1
+				],
+				"dE": {
+					"R3 meadow": 32.1,
+					"R3t fire": 34.6,
+					"R3t ice": 35.4,
+					"R3t nature": 31.7,
+					"R3t shadow": 39.5,
+					"R4 ash": 33.4,
+					"R4 heath": 13.3,
+					"R4 marsh": 36.0,
+					"R4 riverbank": 16.6,
+					"R4 sand": 40.0,
+					"R4 snow": 49.5,
+					"R4k old_wood": 17.4
+				},
+				"ground_lab": [
+					63.2,
+					-22.7,
+					43.1
+				],
+				"melt_share": 0.01
+			},
+			"predicted": {
+				"R3 meadow": 32.1,
+				"R3t fire": 33.8,
+				"R3t ice": 34.9,
+				"R3t nature": 31.9,
+				"R3t shadow": 38.0,
+				"R4 ash": 37.1,
+				"R4 heath": 16.1,
+				"R4 marsh": 41.7,
+				"R4 riverbank": 18.4,
+				"R4 sand": 38.5,
+				"R4 snow": 44.0,
+				"R4k old_wood": 24.0
+			},
+			"proposal": "shader_parameter/base_color of `mossback_moss` #45664f -> #7ac5b5 (15% of the visible body): predicted dE R3 meadow 32.1 -> 32.1, R3t fire 34.6 -> 33.8, R3t shadow 39.5 -> 38.0, R3t ice 35.4 -> 34.9, R3t nature 31.7 -> 31.9, R4k old_wood 17.4 -> 24.0 (want >= 24); other grounds heath 16.1, riverbank 18.4, snow 44.0, ash 37.1, sand 38.5, marsh 41.7",
+			"rank": 1,
+			"status": "WARN",
+			"text": "shader_parameter/base_color of `mossback_moss` #45664f -> #7ac5b5 (15% of the visible body): predicted dE R3 meadow 32.1 -> 32.1, R3t fire 34.6 -> 33.8, R3t shadow 39.5 -> 38.0, R3t ice 35.4 -> 34.9, R3t nature 31.7 -> 31.9, R4k old_wood 17.4 -> 24.0 (want >= 24); other grounds heath 16.1, riverbank 18.4, snow 44.0, ash 37.1, sand 38.5, marsh 41.7",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6",
+			"computed": false,
+			"measured": {
+				"value": "7% of body pixels change between kingdom colours (min pair 7%)"
+			},
+			"predicted": {},
+			"proposal": "Team-colour visibility at 40 m: Give the team colour more top-facing area (now 7% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 7% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"title": "Team-colour visibility at 40 m",
+			"wanted": {
+				"rule": ">= 8% (FAIL = set_team_color changes nothing)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 90.9,
+	"result": "WARN",
+	"scene": "res://art/units/nature/mossback/mossback.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

@@ -1,0 +1,210 @@
+{
+	"asset": "nature_hall",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 3067,
+					"node": "Body/Walls",
+					"to": 2129,
+					"words": "`Walls` 3067 -> 2129 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 12893
+			},
+			"predicted": {
+				"verts": 11955
+			},
+			"proposal": "12893 -> 11955 (want <= 12000): `Walls` 3067 -> 2129 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 12893 -> 11955 (want <= 12000): `Walls` 3067 -> 2129 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.165,
+					"from": 0.9,
+					"material": "Banner",
+					"material_path": "",
+					"node": "Body/BannersGate, Body/BannersSide",
+					"param": "shader_parameter/glyph_energy",
+					"peak_x_bloom": 4.55,
+					"to": 0.148,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 10 point(s), peak 4.55 x the level",
+					"words": "glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 10 point(s), peak 4.55 x the level)"
+				},
+				{
+					"factor": 0.171,
+					"from": 2.5,
+					"material": "Heart",
+					"material_path": "",
+					"node": "Body/Tree/Bloom, Body/Tree/LanternPivot/Lantern, Body/Hedge",
+					"param": "shader_parameter/energy",
+					"peak_x_bloom": 4.39,
+					"to": 0.427,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 4 point(s), peak 4.39 x the level",
+					"words": "energy 2.5 -> 0.43 on Bloom, Lantern, Hedge (dim under the bloom level: 4 point(s), peak 4.39 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 16,
+				"points_this_phase": 15,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/Tree/Bloom",
+						"peak_x_bloom": 4.39,
+						"px": 575
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.55,
+						"px": 170
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/LanternPivot/Lantern",
+						"peak_x_bloom": 4.39,
+						"px": 123
+					},
+					{
+						"above": true,
+						"part": "Body/HedgeLost",
+						"peak_x_bloom": 4.24,
+						"px": 81
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.33,
+						"px": 55
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 3.33,
+						"px": 24
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 3.33,
+						"px": 24
+					},
+					{
+						"above": true,
+						"part": "Body/Hedge",
+						"peak_x_bloom": 3.33,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Body/Hedge",
+						"peak_x_bloom": 4.39,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.23,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 4.39,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.39,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.39,
+						"px": 3
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.2,
+						"px": 3
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.31,
+						"px": 34
+					},
+					{
+						"above": false,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 0.26,
+						"px": 20
+					},
+					{
+						"above": false,
+						"part": "Body/Walls",
+						"peak_x_bloom": 0.31,
+						"px": 17
+					},
+					{
+						"above": false,
+						"part": "Body/Hedge",
+						"peak_x_bloom": 0.4,
+						"px": 9
+					},
+					{
+						"above": false,
+						"part": "Body/Tree/TreeCrown",
+						"peak_x_bloom": 0.2,
+						"px": 7
+					}
+				],
+				"value": "16 point(s) above the bloom level 1.2 (median of 16/18/16): Petals, BannersGate x5, Lantern, HedgeLost, BannersSide x5, Hedge x2, Walls, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 35"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 16 -> 2 (want 2-4): Banner glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 10 point(s), peak 4.55 x the level); Heart energy 2.5 -> 0.43 on Bloom, Lantern, Hedge (dim under the bloom level: 4 point(s), peak 4.39 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 16 -> 2 (want 2-4): Banner glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 10 point(s), peak 4.55 x the level); Heart energy 2.5 -> 0.43 on Bloom, Lantern, Hedge (dim under the bloom level: 4 point(s), peak 4.39 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 91.2,
+	"result": "FAIL",
+	"scene": "res://art/buildings/nature_hall.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

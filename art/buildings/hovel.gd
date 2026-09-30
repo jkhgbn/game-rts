@@ -34,6 +34,9 @@ func _setup() -> void:
 	wreck_top = 1.15
 	smoke_points = [Vector3(-1.1, 3.4, -1.0)]
 	blaze_points = [Vector3(1.2, 3.5, 0.75)]
+	# B8 (in-game grade 2026-09-30, 13 -> 8 materials): every painted part draws with ONE vertex-coloured material
+	# and the purple glows with one glow material (SmallBuildingModel vc_merge, art/buildings/painted_vc.gd).
+	vc_merge = true
 
 
 func _build_parts() -> void:

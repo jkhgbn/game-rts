@@ -95,6 +95,11 @@ func is_delivery_playing() -> bool:
 	return _tip_t >= 0.0
 
 
+## B8 merge: the cloth is the team colour darkened 40 % (ShadowHallModel._cloth_of).
+func _vc_team() -> Array:
+	return [mat_team, [mat_cloth, 0.6]]
+
+
 func set_team_color(c: Color) -> void:
 	super(c)
 	if _ready_done:

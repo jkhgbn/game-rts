@@ -85,7 +85,7 @@ func _make_materials() -> void:
 	mat_char = _painted_mat(CHAR_COLOR, 0.1, 0.6)
 	mat_char.set_shader_parameter(&"crack_scale", 0.7)
 	mat_char.set_shader_parameter(&"crack_speed", 1.8)
-	mat_lava = _glow_mat(2.3, 1.3, 0)
+	mat_lava = _glow_mat(0.6, 1.3, 0)   # 2026-09-30 R5: seams and ember tips glow under the bloom (the nest core and the gate stay the points)
 	mat_lava.set_shader_parameter(&"glow_color", LAVA_COLOR)
 
 
@@ -367,6 +367,11 @@ func _build_spire(box1: BoxMesh, rng: RandomNumberGenerator) -> void:
 	# Satellite columns: angle (deg, from +X toward +Z), height, radius. The annex side (-52 deg) stays clear.
 	var sats: Array[Vector3] = [Vector3(15, 5.4, 0.7), Vector3(62, 3.3, 0.6), Vector3(105, 6.2, 0.75),
 		Vector3(150, 4.1, 0.62), Vector3(195, 5.1, 0.7), Vector3(240, 2.7, 0.55)]
+	# 2026-09-30 C3 / R4k: the satellite columns in three basalt shades (one merged material: shades are free),
+	# paler ones so the Roost's base parts from dark ash.
+	var basalt: Array = [mat_stone, _painted_mat(stone_color.lightened(0.12), 0.05, crack_strength),
+		_painted_mat(stone_color.lightened(0.22), 0.05, crack_strength * 0.6)]
+	var si: int = 0
 	for sat: Vector3 in sats:
 		var a: float = deg_to_rad(sat.x)
 		var d := Vector3(cos(a), 0.0, sin(a))
@@ -374,7 +379,8 @@ func _build_spire(box1: BoxMesh, rng: RandomNumberGenerator) -> void:
 		var h: float = sat.y
 		var base: Vector3 = s + d * 1.45 + Vector3(0, 0.8, 0)
 		it.append(BMG.item_xf(_cyl(sat.z * 0.92, sat.z, h, 6),
-			Transform3D(lean * Basis(Vector3.UP, rng.randf_range(0.0, 1.0)), base + lean * Vector3(0, h * 0.5, 0)), mat_stone))
+			Transform3D(lean * Basis(Vector3.UP, rng.randf_range(0.0, 1.0)), base + lean * Vector3(0, h * 0.5, 0)), basalt[si % 3]))
+		si += 1
 		# A darker broken top on each column (reads as a column joint from above).
 		it.append(BMG.item_xf(_cyl(sat.z * 0.7, sat.z * 0.9, 0.22, 6),
 			Transform3D(lean, base + lean * Vector3(0, h + 0.09, 0)), mat_dark))
@@ -421,6 +427,12 @@ func _build_gatehouse(box1: BoxMesh) -> void:
 	for sx: float in [-1.0, 1.0]:
 		it.append(BMG.item(box1, g + Vector3(sx * 1.08, 2.2, -0.62), mat_dark, Vector3.ZERO, Vector3(0.42, 2.9, 0.42)))
 	it.append(BMG.item(_prism(Vector3(2.7, 0.75, 1.6), 0.5), g + Vector3(0, 4.07, 0.05), mat_dark))
+	# 2026-09-30 R6: team tiles on both roof slopes (the Roost's team colour only hung in two banners before).
+	var ra: float = atan2(0.75, 1.35)
+	for sx: float in [-1.0, 1.0]:
+		var rb := Basis(Vector3.BACK, -sx * ra)
+		it.append(BMG.item_xf(box1, Transform3D(rb.scaled_local(Vector3(1.5, 0.1, 1.75)),
+			g + Vector3(sx * 0.66, 4.1, 0.05) + rb * Vector3(0, 0.05, 0)), mat_team))
 	it.append(BMG.item(box1, g + Vector3(0, 3.72, 0.05), mat_metal, Vector3.ZERO, Vector3(2.6, 0.14, 1.5)))
 	# Door: dark frame, round arch, glowing interior, keystone.
 	var fz: float = g.z - 0.62
@@ -531,7 +543,7 @@ func _build_nest(box1: BoxMesh, rng: RandomNumberGenerator) -> void:
 			var c: Vector3 = rd * r + Vector3(0, y + rng.randf_range(-0.06, 0.06), 0)
 			var th: float = rng.randf_range(0.26, 0.34)
 			it.append(BMG.item_xf(box1, _strip(c - dir * ln * 0.5, c + dir * ln * 0.5, rd, th, th), mat_char))
-			if ring == 1 and k % 4 == 1:
+			if k % 2 == 1:   # team lashings (every other beam of both rings since 2026-09-30, R6)
 				it.append(BMG.item_xf(box1, _strip(c - dir * 0.2, c + dir * 0.2, rd, th + 0.1, th + 0.1), mat_team))
 	# Ember bed: a dark charred floor with a glowing core (the glow point), dark rocks and bright lumps.
 	it.append(BMG.item(_cyl(1.72, 1.72, 0.1, 10), Vector3(0, 0.86, 0), mat_char))
@@ -571,8 +583,8 @@ func _build_nest(box1: BoxMesh, rng: RandomNumberGenerator) -> void:
 		var band: Vector3 = p0.lerp(p1, 0.72)
 		dst.append(BMG.item_xf(box1, _strip(band - (p1 - p0).normalized() * 0.12, band + (p1 - p0).normalized() * 0.12,
 			Vector3(-rd.z, 0, rd.x), th + 0.1, th + 0.1), mat_metal))
-		if i % 3 == 0:
-			dst.append(BMG.item(box1, p1, mat_glow, Vector3(0, sp.x, 25), Vector3.ONE * 0.26))
+		if i % 3 == 0:   # ember tips: lava-hot, under the bloom since 2026-09-30 (R5: the nest core stays the point)
+			dst.append(BMG.item(box1, p1, mat_lava, Vector3(0, sp.x, 25), Vector3.ONE * 0.26))
 		if dst == lost:
 			# The snapped stub shown instead (< 50 %): a short, splintered beam end.
 			var m: Vector3 = p0.lerp(p1, 0.45)

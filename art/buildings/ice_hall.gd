@@ -349,6 +349,11 @@ func _roof_of(c: Color) -> Color:
 	return c.darkened(0.35)
 
 
+## B8 merge: the roof is the team colour darkened 35 %.
+func _vc_team() -> Array:
+	return [mat_team, [mat_roof, 0.65]]
+
+
 ## The keep's cold idle rim instead of the base one (selection still turns it to the team colour).
 func _apply_rim_and_glow() -> void:
 	super()

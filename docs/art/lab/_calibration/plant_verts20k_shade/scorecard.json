@@ -2,6 +2,7 @@
 	"asset": "plant_verts20k_shade",
 	"budget": {
 		"draw": 14,
+		"face_verts": 800,
 		"frame_ms": 0.005,
 		"lights": 0,
 		"meshes": 26,
@@ -28,7 +29,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "root Node3D, 23 nodes",
+			"value": "root Node3D, 24 nodes",
 			"weight": 1.0
 		},
 		{
@@ -42,21 +43,21 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "9 drawn (9 mesh + 0 multimesh); per pivot: Chest 2, (root) 1, ArmL 1, ArmR 1, Head 1, Hips 1",
+			"value": "10 drawn (10 mesh + 0 multimesh); per pivot: Chest 2, Head 2, (root) 1, ArmL 1, ArmR 1, Hips 1",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.978723404255319,
 			"group": "budget",
 			"hint": "",
 			"id": "B2",
 			"improve": "",
 			"name": "Draw instances at rest",
 			"rule": "<= 14 (art-units.md 8, tier3-extras.md 12)",
-			"score": 1.0,
+			"score": 0.993617021276596,
 			"shot": "",
 			"status": "PASS",
-			"value": "9",
+			"value": "10",
 			"weight": 1.0
 		},
 		{
@@ -70,11 +71,11 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "2",
+			"value": "3",
 			"weight": 1.0
 		},
 		{
-			"fix": "B4 20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #1]",
+			"fix": "B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #1]",
 			"fix_rank": 1,
 			"graded": 0.0,
 			"group": "budget",
@@ -86,7 +87,7 @@
 			"score": 0.0,
 			"shot": "",
 			"status": "FAIL",
-			"value": "20663 (biggest: Merged 19645, Merged 253, Merged 229, Merged 215)",
+			"value": "20639 (body + face above its allowance: face 497 v, allowance 800, total 21136; biggest: Merged 19645, Face 497, Merged 253, Merged 229)",
 			"weight": 1.0
 		},
 		{
@@ -170,7 +171,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "10",
+			"value": "11",
 			"weight": 1.0
 		},
 		{
@@ -184,7 +185,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "26",
+			"value": "27",
 			"weight": 1.0
 		},
 		{
@@ -198,7 +199,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "18 surfaces over 9 meshes (each surface = 1 draw call)",
+			"value": "18 surfaces over 10 meshes (each surface = 1 draw call)",
 			"weight": 1.0
 		},
 		{
@@ -212,7 +213,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "9754 of 39740 triangles (24%) face steeply down (normal y < -0.7)",
+			"value": "9754 of 40772 triangles (23%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -258,17 +259,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.34692251372314,
+			"graded": 0.578416859539443,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
-			"improve": "Plain / blocky shapes: only 3.6 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"improve": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.34692251372314,
+			"score": 0.578416859539443,
 			"shot": "close",
 			"status": "INFO",
-			"value": "25 shapes over 7 body parts (3.6 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 7); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
+			"value": "44 shapes over 7 body parts (6.3 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 7); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
 			"weight": 1.0
 		},
 		{
@@ -282,7 +283,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "826% of the 2500 verts budget used (20659)",
+			"value": "845% of the 2500 verts budget used (21132)",
 			"weight": 1.0
 		},
 		{
@@ -296,7 +297,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.86 s",
+			"value": "after 0.89 s",
 			"weight": 1.0
 		},
 		{
@@ -398,14 +399,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.783743441104889,
+			"graded": 0.78591513633728,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.935123032331467,
+			"score": 0.935774540901184,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.77 m / body_height 1.6 (x1.11)",
@@ -454,21 +455,21 @@
 			"rank": 1101.0,
 			"source": "B4 Vertices",
 			"status": "FAIL",
-			"text": "B4 20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #1]",
+			"text": "B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> 66 verts; `Merged` 132 -> 66 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces) [fixes.json #1]",
 			"title": "Vertices"
 		},
 		{
-			"rank": 1.30615497255372,
+			"rank": 0.843166280921113,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
-			"text": "Plain / blocky shapes: only 3.6 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"text": "Plain / blocky shapes: few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"title": "Shape richness (secondary shapes)"
 		},
 		{
 			"rank": 0.0,
 			"source": "B11",
 			"status": "IDEA",
-			"text": "Merge surfaces that share a material (18 surfaces for 9 meshes = 18 draw calls)",
+			"text": "Merge surfaces that share a material (18 surfaces for 10 meshes = 18 draw calls)",
 			"title": "Surfaces per instance"
 		}
 	],
@@ -476,17 +477,17 @@
 	"kingdom": "shadow",
 	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Root/Chest/Merged 19645 v / 4 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 215 v / 4 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s; Root/Chest/Cape 16 v / 1 s",
+		"Per-mesh vertices (biggest first): Root/Chest/Merged 19645 v / 4 s; Root/Chest/Head/Face 497 v / 1 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 191 v / 3 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s",
 		"1 hidden parts at rest (toggled states, not counted as draws)",
 		"fail_fast=1: stopped after the headless checks (FAIL B4); render checks SKIP",
-		"Fix recipes: 1 in fixes.json (top: B4 20663 -> 10362 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 215 -> 108 verts; `Merged` 132 ->)"
+		"Fix recipes: 1 in fixes.json (top: B4 20639 -> 10350 (want <= 2500): `Merged` 19645 -> 9823 verts; `Merged` 253 -> 127 verts; `Merged` 229 -> 115 verts; `Merged` 191 -> 96 verts; `Merged` 132 -> )"
 	],
 	"previous_quality": -1.0,
-	"quality": 89.8,
+	"quality": 91.7,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_verts20k_shade.tscn",
-	"seconds": 8.2,
+	"seconds": 8.4,
 	"shots": {},
-	"started": "2026-09-27 14:20:51",
+	"started": "2026-09-30 11:46:24",
 	"tier": "soldier"
 }

@@ -1,0 +1,130 @@
+{
+	"asset": "market_nature",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.174,
+					"from": 1.35,
+					"material": "NaturePainted",
+					"material_path": "",
+					"node": "Body/PlinthBase, Body/Canopy/Roof, Body/Tree/PanGold/PanParts, Body/Tree/Beam/BeamParts",
+					"param": "shader_parameter/sap_energy",
+					"peak_x_bloom": 4.3,
+					"to": 0.236,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 4 point(s), peak 4.3 x the level",
+					"words": "sap_energy 1.35 -> 0.24 on PlinthBase, Roof, PanParts, BeamParts (dim under the bloom level: 4 point(s), peak 4.3 x the level)"
+				},
+				{
+					"factor": 0.171,
+					"from": 2.5,
+					"material": "Heart",
+					"material_path": "",
+					"node": "Body/Canopy/LanternPivot1/Lantern, Body/Tree/PanSeed/PanParts",
+					"param": "shader_parameter/energy",
+					"peak_x_bloom": 4.39,
+					"to": 0.427,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 2 point(s), peak 4.39 x the level",
+					"words": "energy 2.5 -> 0.43 on Lantern, PanParts (dim under the bloom level: 2 point(s), peak 4.39 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 9,
+				"points_this_phase": 8,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 4.3,
+						"px": 203
+					},
+					{
+						"above": true,
+						"part": "Body/Canopy/LanternPivot1/Lantern",
+						"peak_x_bloom": 4.27,
+						"px": 183
+					},
+					{
+						"above": true,
+						"part": "Body/Canopy/Roof",
+						"peak_x_bloom": 4.24,
+						"px": 43
+					},
+					{
+						"above": true,
+						"part": "Body/BannerB",
+						"peak_x_bloom": 3.17,
+						"px": 24
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/PanGold/PanParts",
+						"peak_x_bloom": 3.17,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/PanSeed/PanParts",
+						"peak_x_bloom": 4.39,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Body/Tree/Beam/BeamParts",
+						"peak_x_bloom": 3.2,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Body/BannerA",
+						"peak_x_bloom": 3.95,
+						"px": 3
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.38,
+						"px": 19
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.37,
+						"px": 18
+					},
+					{
+						"above": false,
+						"part": "Body/PlinthBase",
+						"peak_x_bloom": 0.32,
+						"px": 11
+					}
+				],
+				"value": "9 point(s) above the bloom level 1.2 (median of 8/12/9): SapMotes, Lantern, Roof x2, BannerB, PanParts x3, BeamParts, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 17"
+			},
+			"predicted": {
+				"points": 3
+			},
+			"proposal": "Glow points 9 -> 3 (want 2-4): NaturePainted sap_energy 1.35 -> 0.24 on PlinthBase, Roof, PanParts, BeamParts (dim under the bloom level: 4 point(s), peak 4.3 x the level); Heart energy 2.5 -> 0.43 on Lantern, PanParts (dim under the bloom level: 2 point(s), peak 4.39 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 9 -> 3 (want 2-4): NaturePainted sap_energy 1.35 -> 0.24 on PlinthBase, Roof, PanParts, BeamParts (dim under the bloom level: 4 point(s), peak 4.3 x the level); Heart energy 2.5 -> 0.43 on Lantern, PanParts (dim under the bloom level: 2 point(s), peak 4.39 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 92.4,
+	"result": "WARN",
+	"scene": "res://art/buildings/market/nature/market_nature.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

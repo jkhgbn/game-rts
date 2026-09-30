@@ -194,7 +194,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "2215 of 13258 triangles (16%) face steeply down (normal y < -0.7)",
+			"value": "2224 of 13258 triangles (16%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -240,17 +240,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.965040126110326,
+			"graded": 1.0,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.965040126110326,
+			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 7% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.912",
+			"value": "141 shapes over 16 body parts (8.8 per part: Jaw 13, Head 28, Neck2 3, Neck1 4, WingL2 9, WingL 8, WingR2 9, WingR 8, Tail3 7, Tail2 4, Tail1 4, LegFL 7, LegFR 7, LegBL 7, LegBR 7, Body 16); 9% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.922",
 			"weight": 1.0
 		},
 		{
@@ -278,7 +278,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "flyer: lowest point 2.01 m (hovers)",
+			"value": "flyer: lowest point 2.02 m (hovers)",
 			"weight": 1.0
 		},
 		{
@@ -292,7 +292,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "18 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+			"value": "17 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
@@ -306,7 +306,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 4.39 at the close-up (28367 px), 5.45 at 25 m; close-up outline complexity 11.17",
+			"value": "inner edges per outline px: 4.39 at the close-up (25670 px), 5.42 at 25 m; close-up outline complexity 10.93",
 			"weight": 1.0
 		},
 		{
@@ -314,13 +314,13 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 5145 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 5167 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 900 px (FAIL < 350) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "5145 px (138 x 115 bbox; 55 m: 2602 px)",
+			"value": "5167 px (139 x 114 bbox; 55 m: 2629 px)",
 			"weight": 1.0
 		},
 		{
@@ -328,13 +328,13 @@
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 76.8): value is close to the ground (dL +1): lighten the top / back 15-20 % or add a dark saddle / pale belly band",
+			"improve": "Raise the contrast of the key read on meadow (dE 76.7): value is close to the ground (dL +1): lighten the top / back 15-20 % or add a dark saddle / pale belly band",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 76.8, 0% of the body melts (within dE 15 of the ground); body L* 62.5 C 26.7 vs ground L* 60.7 C 52.3, hue gap 151 deg; top third (world height) dE 81.2, L* 61.2; per-pixel dE 80.1, outline 60.9",
+			"value": "mean-colour dE 76.7, 0% of the body melts (within dE 15 of the ground); body L* 62.7 C 26.6 vs ground L* 60.7 C 52.3, hue gap 151 deg; top third (world height) dE 81.3, L* 61.1; per-pixel dE 80.0, outline 59.3",
 			"weight": 1.5
 		},
 		{
@@ -348,7 +348,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 40.4, 20% melts (snow is where ice units stand most)",
+			"value": "dE 40.3, 21% melts (snow is where ice units stand most)",
 			"weight": 1.0
 		},
 		{
@@ -356,13 +356,13 @@
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On snow the body drops to dE 40.4: add a value accent that separates it there too",
+			"improve": "On snow the body drops to dE 40.3: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 10 on every skirmish ground (WARN only)",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst snow: dE 40.4 (heath dE 57.2, old_wood dE 58.5, riverbank dE 56.1, snow dE 40.4, ash dE 47.4, sand dE 61.7, marsh dE 58.9)",
+			"value": "worst snow: dE 40.3 (heath dE 57.1, old_wood dE 58.5, riverbank dE 56.0, snow dE 40.3, ash dE 47.5, sand dE 61.6, marsh dE 59.0)",
 			"weight": 1.0
 		},
 		{
@@ -390,32 +390,32 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst nature colour: dE 57.7 (fire 70.4, shadow 82.2, ice 73.6, nature 57.7)",
+			"value": "worst nature colour: dE 58.3 (fire 71.1, shadow 82.8, ice 74.2, nature 58.3)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.147516203743784,
+			"graded": 0.149652442784531,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.744254861123135,
+			"score": 0.744895732835359,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst pair fire / nature (deutan): dE 7.0 on the team-colour area (normal vision 84.0; 1414 px); deutan: fire / nature dE 7.0; protan: fire / nature dE 24.5; worst vs ground: fire colour (deutan) dE 51.1",
+			"value": "worst pair fire / nature (deutan): dE 7.0 on the team-colour area (normal vision 84.6; 1417 px); deutan: fire / nature dE 7.0; protan: fire / nature dE 24.7; worst vs ground: fire colour (deutan) dE 51.6",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.930029154518951,
+			"graded": 0.929359396167989,
 			"group": "read",
 			"hint": "Keep tall parts under body_height + 0.4 or narrower than 0.35 m, or raise body_height to the real head top",
 			"id": "R7",
 			"improve": "",
 			"name": "HP bar over the body at 40 m",
 			"rule": "<= 6% (FAIL > 20%); bar at body_height + 0.5 = 6.0 m, 4.16 m wide",
-			"score": 0.979008746355685,
+			"score": 0.978807818850397,
 			"shot": "z40",
 			"status": "PASS",
 			"value": "bar hides 1% of the silhouette (gap -18 px)",
@@ -432,7 +432,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "tip reaches 4.08 m from the body centre at t 0.08 s (2.31 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
+			"value": "tip reaches 4.06 m from the body centre at t 0.08 s (2.35 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
 			"weight": 1.0
 		},
 		{
@@ -440,13 +440,13 @@
 			"group": "anim",
 			"hint": "Bigger wind-up / strike: the weapon or head should leave the body outline",
 			"id": "A3",
-			"improve": "Push the attack pose: the strike should change >= 20% of the 40 m silhouette (now 71%)",
+			"improve": "Push the attack pose: the strike should change >= 20% of the 40 m silhouette (now 70%)",
 			"name": "Attack reads at 40 m",
 			"rule": ">= 8% (1 - IoU rest vs strike)",
 			"score": 1.0,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "strike pose changes 71% of the silhouette (t 0.14 s)",
+			"value": "strike pose changes 70% of the silhouette (t 0.14 s)",
 			"weight": 1.0
 		},
 		{
@@ -460,21 +460,21 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 5.03",
+			"value": "outline complexity 4.99",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.857236301197725,
+			"graded": 0.791297015021829,
 			"group": "polish",
 			"hint": "",
 			"id": "P3",
-			"improve": "Lighten the top masses / darken the legs and base (top - bottom now +9 L*, aim >= +10)",
+			"improve": "Lighten the top masses / darken the legs and base (top - bottom now +8 L*, aim >= +10)",
 			"name": "Tops light, bottoms dark",
 			"rule": "top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top)",
-			"score": 0.857236301197725,
+			"score": 0.791297015021829,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 70.3, bottom third L* 60.7 (+9, screen rows)",
+			"value": "top third L* 70.1, bottom third L* 61.7 (+8, screen rows)",
 			"weight": 1.0
 		},
 		{
@@ -488,21 +488,21 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 10.8 at 25 m, 14.3 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 10.8 at 25 m, 14.5 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.71666865493312,
+			"graded": 0.730605316162109,
 			"group": "read",
 			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
 			"id": "R5c",
 			"improve": "",
 			"name": "Glow points stand out (1 m surround)",
 			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
-			"score": 0.915000596479936,
+			"score": 0.919181594848633,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "worst dL +27 (point 1 dL +30, point 2 dL +27, point 3 dL +30; ring 25 px = 1.0 m at 40 m)",
+			"value": "worst dL +30 (point 1 dL +30, point 2 dL +30; ring 25 px = 1.0 m at 40 m)",
 			"weight": 0.5
 		},
 		{
@@ -516,7 +516,7 @@
 			"score": 1.0,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "3 point(s) above the bloom level 1.2 (median of 3/3/1): Tail2Mesh, LegFRMesh, JawMesh; soft glows under the bloom (v1 count, luma > 0.4): 3",
+			"value": "3 point(s) above the bloom level 1.2 (median of 2/3/3): LegBRMesh, Tail3Mesh, LegFRMesh, 4 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 2",
 			"weight": 1.0
 		},
 		{
@@ -530,7 +530,7 @@
 			"score": 1.0,
 			"shot": "glow",
 			"status": "INFO",
-			"value": "3 of 3 glow(s) in the upper half of the model's height (world)",
+			"value": "2 of 2 glow(s) in the upper half of the model's height (world)",
 			"weight": 1.0
 		},
 		{
@@ -544,7 +544,7 @@
 			"score": 1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "walk frames vs rest: mean IoU 0.52 (min 0.33), area kept 104-136% (min 6018 px), frame-to-frame IoU min 0.58; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.52 (min 0.35), area kept 100-132% (min 6031 px), frame-to-frame IoU min 0.67; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
@@ -558,7 +558,7 @@
 			"score": 0.85,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "points per frame 2/2/2/3/3/1/2/1 (median 2, range 2, 0 frame(s) at 0; at rest 3)",
+			"value": "points per frame 2/2/2/1/3/3/3/3 (median 3, range 2, 0 frame(s) at 0; at rest 3)",
 			"weight": 0.5
 		},
 		{
@@ -572,7 +572,7 @@
 			"score": -1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "cast pose changes 69% of the silhouette at its peak (t 0.25 s; 0.12 s 56%, 0.25 s 69%, 0.4 s 54%, 0.6 s 55%)",
+			"value": "cast pose changes 70% of the silhouette at its peak (t 0.25 s; 0.12 s 54%, 0.25 s 70%, 0.4 s 53%, 0.6 s 55%)",
 			"weight": 1.0
 		},
 		{
@@ -615,10 +615,10 @@
 	"headless": false,
 	"improve_next": [
 		{
-			"rank": 0.142763698802275,
+			"rank": 0.208702984978171,
 			"source": "P3 Tops light, bottoms dark, shot z40",
 			"status": "INFO",
-			"text": "Lighten the top masses / darken the legs and base (top - bottom now +9 L*, aim >= +10)",
+			"text": "Lighten the top masses / darken the legs and base (top - bottom now +8 L*, aim >= +10)",
 			"title": "Tops light, bottoms dark"
 		},
 		{
@@ -650,7 +650,7 @@
 	"quality": 98.1,
 	"result": "PASS",
 	"scene": "res://art/units/titans/frost_dragon/frost_dragon.tscn",
-	"seconds": 35.1,
+	"seconds": 26.9,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -662,6 +662,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 14:18:51",
+	"started": "2026-09-30 11:44:44",
 	"tier": "titan"
 }

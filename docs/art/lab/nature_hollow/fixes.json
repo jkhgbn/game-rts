@@ -1,0 +1,63 @@
+{
+	"asset": "nature_hollow",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R3",
+			"computed": false,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"measured": {
+				"body_lab": [
+					51.7,
+					-20.3,
+					36.3
+				],
+				"dE": {
+					"R3 meadow": 13.6,
+					"R3t fire": 54.2,
+					"R3t ice": 40.0,
+					"R3t nature": 13.6,
+					"R3t shadow": 68.4,
+					"R4 ash": 50.0,
+					"R4 heath": 18.9,
+					"R4 marsh": 49.5,
+					"R4 riverbank": 18.2,
+					"R4 sand": 35.4,
+					"R4 snow": 52.4,
+					"R4k old_wood": 29.7
+				},
+				"ground_lab": [
+					62.1,
+					-26.0,
+					42.9
+				],
+				"melt_share": 0.05
+			},
+			"predicted": {},
+			"proposal": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 73% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 73% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 18 (rule 14 + margin 4)",
+				"dE_R4": ">= 12 (soft)",
+				"melt_share": "<= 35%"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "nature",
+	"quality": 93.2,
+	"result": "WARN",
+	"scene": "res://art/buildings/nature_hollow.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

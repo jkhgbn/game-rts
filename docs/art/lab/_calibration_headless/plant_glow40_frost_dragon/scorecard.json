@@ -278,7 +278,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 0.0 s",
+			"value": "after 0.02 s",
 			"weight": 1.0
 		},
 		{
@@ -437,8 +437,8 @@
 	"quality": 98.8,
 	"result": "PASS",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn",
-	"seconds": 0.1,
+	"seconds": 0.3,
 	"shots": {},
-	"started": "2026-09-29 00:27:30",
+	"started": "2026-09-30 10:13:55",
 	"tier": "titan"
 }

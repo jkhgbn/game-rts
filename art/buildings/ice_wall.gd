@@ -15,13 +15,20 @@ const GROUP := &"ice_wall_models"
 const ANCHOR_GROUP := &"ice_wall_anchors"
 const CELL := 2.0
 const DIRS: Array[Vector3] = [Vector3(1, 0, 0), Vector3(-1, 0, 0), Vector3(0, 0, 1), Vector3(0, 0, -1)]
-const CORE := 0.64        ## core block apothem at its foot
-const CORE_TOP := 2.05
-const ARM_TOP := 1.66
-const ARM_HALF := 0.56    ## curtain half-thickness
+## 2026-09-30 (Art Lab R1: the 40 m read was 55 % of a building's): the block grew ~20 % (wider core, taller block
+## and curtains, crystals x1.6) inside its 2 m cell.
+const CORE := 0.74        ## core block apothem at its foot
+const CORE_TOP := 2.7
+const ARM_TOP := 2.0
+const ARM_HALF := 0.64    ## curtain half-thickness
+const CRYSTAL_SCALE := 1.6
 const SPIRE_REACH := 1.45 ## curtain length toward a Rime Spire (up to its shaft)
 
 var _m_snow: ShaderMaterial
+var _m_block_a: ShaderMaterial   ## ice-stone courses: a paler and a deeper block (one vertex-coloured material in-game)
+var _m_block_b: ShaderMaterial
+var _m_block_c: ShaderMaterial   ## frost-glazed block (pale)
+var _m_snow_sh: ShaderMaterial   ## snow in shade (drifts at the foot)
 var _wall_mi: MeshInstance3D
 var _plinth_mi: MeshInstance3D
 var _codes: PackedInt32Array = PackedInt32Array([0, 0, 0, 0])   ## per DIRS: 0 free, 1 wall, 2 spire
@@ -39,10 +46,11 @@ func _setup() -> void:
 	blaze_b = Color(0.45, 0.75, 1.0)
 	stain_color = Color(0.85, 0.92, 1.00, 0.35)
 	footprint = 2.0
+	vc_merge = true   # B8: one vertex-coloured painted material (PaintedVC; _swap re-merges a relinked layout)
 	crack_strength = 0.2
 	plinth_top = 0.3
 	wreck_top = 0.75
-	smoke_points = [Vector3(0.1, 1.9, -0.1)]   # no glow on walls: smoke only, no frost flare
+	smoke_points = [Vector3(0.1, 2.3, -0.1)]   # no glow on walls: smoke only, no frost flare
 	blaze_points = []
 
 
@@ -53,6 +61,12 @@ func _build_parts() -> void:
 	_m_team.set_shader_parameter(&"crack_scale", 1.2)
 	_m_team.set_shader_parameter(&"crack_speed", 0.9)
 	_m_stone.set_shader_parameter(&"crack_scale", 1.8)
+	_m_block_a = _painted_mat(stone_color.lightened(0.14), 0.12, crack_strength)
+	_m_block_b = _painted_mat(stone_color.darkened(0.1), 0.05, crack_strength)
+	_m_block_c = _painted_mat(Color(0.62, 0.7, 0.82), 0.3, crack_strength)
+	_m_snow_sh = _painted_mat(Color(0.64, 0.72, 0.84), 0.1, 0.0)
+	for m: ShaderMaterial in [_m_block_a, _m_block_b, _m_block_c]:
+		m.set_shader_parameter(&"crack_scale", 1.8)
 	# World-aligned Body: walls have no gate, and neighbours must line up whatever yaw the Building chose.
 	if is_inside_tree():
 		_body.global_basis = Basis.IDENTITY
@@ -63,7 +77,7 @@ func _build_parts() -> void:
 	_plinth_mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF   # 0.3 m footing: no visible shadow
 	_no_collapse.append(_plinth_mi)
 	_wall_mi = _merged("Wall", _wall_key(free), _wall_items(free))
-	_build_wreck(0.62, 0.75, _m_team, 5051, 4)
+	_build_wreck(0.72, 0.8, _m_team, 5051, 4)
 
 
 ## No rubble ring for walls (it would litter the neighbours' cells).
@@ -102,6 +116,9 @@ func _plinth_items(codes: PackedInt32Array) -> Array:
 		var s: float = 0.3 if i % 2 == 0 else -0.25
 		it.append(_itx(IceShapes.mound(), Transform3D(Basis(Vector3.UP, atan2(d.x, d.z)).scaled_local(Vector3(0.5, 0.13, 0.22)),
 			d * 0.93 + side * s), _m_snow))
+		# A second, smaller drift in the wall's shadow (blue-grey snow).
+		it.append(_itx(IceShapes.mound(), Transform3D(Basis(Vector3.UP, atan2(d.x, d.z) + 0.4).scaled_local(Vector3(0.3, 0.1, 0.16)),
+			d * 0.9 - side * s * 1.6 + Vector3(0, 0.02, 0)), _m_snow_sh))
 	return it
 
 
@@ -111,17 +128,50 @@ func _wall_items(codes: PackedInt32Array) -> Array:
 	var box1: Mesh = _box(Vector3.ONE)
 	var it: Array = []
 	it.append(_it(IceShapes.prism(CORE + 0.09, CORE + 0.09, 0.26, 4), Vector3(0, 0.3, 0), _m_dark))
-	it.append(_it(IceShapes.prism(CORE, CORE - 0.08, CORE_TOP - 0.3, 4), Vector3(0, 0.3, 0), _m_stone))
+	# The block: a dark core (it shows in the joints) laid in five courses of ice-stone blocks, 2 x 2 a course,
+	# each a little off square and of its own shade, snow caught on two course ledges, frost crystals in the joints.
+	it.append(_it(IceShapes.prism(CORE - 0.06, CORE - 0.16, CORE_TOP - 0.3, 4), Vector3(0, 0.3, 0), _m_dark))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7700 + _variant * 31
+	var courses: int = 5
+	var ch: float = (CORE_TOP - 0.3) / float(courses)
+	for k: int in courses:
+		var half: float = lerpf(CORE, CORE - 0.1, (float(k) + 0.5) / float(courses))
+		var y0: float = 0.3 + ch * float(k)
+		var shift: float = 0.12 * (1.0 if k % 2 == 0 else -1.0)
+		for bx: int in 2:
+			for bz: int in 2:
+				var wx: float = half + (shift if bx == 0 else -shift)
+				var cx: float = -half + wx * 0.5 if bx == 0 else half - wx * 0.5
+				var cz: float = half * (-0.5 if bz == 0 else 0.5)
+				var m: ShaderMaterial = [_m_stone, _m_block_a, _m_block_b, _m_stone, _m_block_c][rng.randi() % 5]
+				it.append(_it(box1, Vector3(cx, y0 + ch * 0.5, cz), m,
+					Vector3(rng.randf_range(-3.0, 3.0), rng.randf_range(-5.0, 5.0), rng.randf_range(-3.0, 3.0)),
+					Vector3(wx - 0.04, ch - 0.035, half - 0.04)))
+		if k == 1 or k == 3:
+			var ledge_y: float = y0 + ch + 0.005
+			var face: int = (k + _variant) % 4
+			var fd: Vector3 = DIRS[face]
+			var fs := Vector3(absf(fd.z), 0.0, absf(fd.x))
+			it.append(_it(box1, fd * (half - 0.08) + Vector3(0, ledge_y, 0), _m_snow, Vector3.ZERO,
+				fs * (half * 1.5) + Vector3(0, 0.07, 0) + Vector3(absf(fd.x), 0, absf(fd.z)) * 0.2))
+	for c2: Vector2 in [Vector2(1, 1), Vector2(-1, -1)]:
+		var cp := Vector3(c2.x * (CORE - 0.1), 0.3 + ch * (2.3 + 0.8 * c2.x), c2.y * (CORE - 0.1))
+		var out := Vector3(c2.x, 0.4, c2.y).normalized()
+		it.append(_itx(IceShapes.crystal(0.1, 0.16, 0.22, 0.05), Transform3D(IceShapes.lean(out, 35.0), cp), _m_team))
+		it.append(_itx(IceShapes.crystal(0.07, 0.1, 0.16, 0.04), Transform3D(IceShapes.lean(out + Vector3(0.3, 0, -0.3), 50.0),
+			cp + Vector3(0, -0.12, 0)), _m_team))
 	it.append(_it(IceShapes.prism(CORE - 0.02, CORE - 0.12, 0.18, 4), Vector3(0, CORE_TOP, 0), _m_snow))
 	it.append(_it(IceShapes.mound(), Vector3(-0.05, CORE_TOP + 0.16, 0.04), _m_snow, Vector3(0, 30.0 * _variant, 0),
-		Vector3(0.5, 0.14, 0.44)))
+		Vector3(0.58, 0.16, 0.52)))
 	# Three tilted crystals on the core (rotated per variant so a long wall doesn't repeat).
 	var vb := Basis(Vector3.UP, TAU / 3.0 * _variant + 0.3)
 	for c: Array in [[Vector3(0.05, 0.0, 0.02), Vector3(1, 0, 0.3), 9.0, IceShapes.crystal(0.34, 0.42, 0.66, 0.0)],
 			[Vector3(-0.3, -0.02, 0.22), Vector3(-1, 0, 0.6), 28.0, IceShapes.crystal(0.23, 0.3, 0.48, 0.0)],
 			[Vector3(0.27, -0.02, -0.3), Vector3(0.6, 0, -1), 32.0, IceShapes.crystal(0.2, 0.24, 0.42, 0.0)]]:
-		var p: Vector3 = vb * (c[0] as Vector3) + Vector3(0, CORE_TOP + 0.1, 0)
-		it.append(_itx(c[3], Transform3D(IceShapes.lean(vb * (c[1] as Vector3), c[2]) * vb, p), _m_team))
+		var p: Vector3 = vb * (c[0] as Vector3) * 1.15 + Vector3(0, CORE_TOP + 0.1, 0)
+		it.append(_itx(c[3], Transform3D((IceShapes.lean(vb * (c[1] as Vector3), c[2]) * vb).scaled_local(
+			Vector3.ONE * CRYSTAL_SCALE), p), _m_team))
 	for i: int in 4:
 		var d: Vector3 = DIRS[i]
 		var side := Vector3(absf(d.z), 0.0, absf(d.x))
@@ -144,9 +194,9 @@ func _wall_items(codes: PackedInt32Array) -> Array:
 					+ Vector3(0, ARM_TOP, 0)), _m_snow))
 		else:
 			var yb := Basis(Vector3.UP, atan2(-d.z, d.x))
-			it.append(_itx(_prism(Vector3(0.36, 0.8, 1.18), 0.0), Transform3D(yb, d * (CORE + 0.14) + Vector3(0, 0.7, 0)),
+			it.append(_itx(_prism(Vector3(0.42, 1.0, 1.34), 0.0), Transform3D(yb, d * (CORE + 0.16) + Vector3(0, 0.8, 0)),
 				_m_stone))
-			it.append(_itx(IceShapes.icicle_strip(1.05, 5, 0.45, 0.09, 50 + i), Transform3D(Basis(Vector3.UP,
+			it.append(_itx(IceShapes.icicle_strip(1.2, 5, 0.5, 0.1, 50 + i), Transform3D(Basis(Vector3.UP,
 				0.0 if d.x == 0.0 else PI * 0.5), d * (CORE - 0.06) + Vector3(0, CORE_TOP + 0.02, 0)), _m_snow))
 	return it
 
@@ -229,6 +279,8 @@ func _swap(mi: MeshInstance3D, key: String, items: Array) -> void:
 	var mats: Array[Material] = BMG.materials_of(items)
 	for i: int in mats.size():
 		mi.set_surface_override_material(i, mats[i])
+	if vc_merge and _ready_done and _m_team.shader == PVC.PAINTED_VC:
+		PVC.convert(mi, _m_team, _vc_team(), [_m_hole] if _m_hole else [], _vc_skip())
 
 
 ## A joinable wall (group GROUP) or Rime Spire (ANCHOR_GROUP) of this team standing at `pos`, else null.

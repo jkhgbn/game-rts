@@ -104,6 +104,15 @@ func play_delivery() -> void:
 
 ## Team colour: the base class recolours crystals, banners and sparks; roof tiles take a deeper shade, the awning
 ## stripes and pennants the plain colour.
+## B8 merge: roof = team darkened 35 %, cloth = team; the gold flashes on its own (left out).
+func _vc_team() -> Array:
+	return [mat_team, [mat_roof, 0.65], mat_cloth]
+
+
+func _vc_skip() -> Array:
+	return [mat_gold]
+
+
 func set_team_color(c: Color) -> void:
 	super(c)
 	if not _ready_done:

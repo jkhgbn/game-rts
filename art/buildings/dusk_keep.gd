@@ -5,6 +5,7 @@ extends Node3D
 
 signal destroyed_finished
 
+const PVC := preload("res://art/buildings/painted_vc.gd")
 const DEFAULT_TEAM := Color(0.42, 0.22, 0.60)
 const GLOW_DEFAULT := Color(0.70, 0.30, 1.00)
 const IDLE_RIM := Color(0.62, 0.42, 1.00) # 3.V2b: purple rim so the dark needle reads at 40 m
@@ -119,6 +120,7 @@ static func orb_pos(i: int) -> Vector3:
 
 func _ready() -> void:
 	_make_unique_materials()
+	_merge_painted()
 	# Per-keep copies of what the states edit (the .tscn resources are shared by every instance).
 	_fins.multimesh = _fins.multimesh.duplicate() as MultiMesh
 	_tips.multimesh = _tips.multimesh.duplicate() as MultiMesh
@@ -173,6 +175,150 @@ func _make_unique_materials() -> void:
 			else:
 				_painted_mats.append(d)
 		gi.material_override = dups[mat]
+
+
+## B8 (art-keep.md 9: <= 8 materials): the four painted stones (DarkStone, Stone, Silver, Obsidian: same crack
+## colour / speed / scale) and the gate void become ONE vertex-coloured material (PaintedVC, painted_vc shader: the
+## same shading). The body is the first per-keep painted copy, so the damage / rim loops still reach it.
+func _merge_painted() -> void:
+	if _painted_mats.is_empty():
+		return
+	var holes: Array = []
+	for node: Node in find_children("*", "GeometryInstance3D", true, false):
+		var m: Material = (node as GeometryInstance3D).material_override
+		var sm := m as StandardMaterial3D
+		if sm == null or holes.has(sm):
+			continue
+		if sm.shading_mode == BaseMaterial3D.SHADING_MODE_UNSHADED and sm.transparency == BaseMaterial3D.TRANSPARENCY_DISABLED:
+			holes.append(sm)
+	_add_carving()
+	var body: ShaderMaterial = _painted_mats[0]
+	PVC.convert(self, body, [], holes)
+	# B2 (keep: <= 32 draws): now that they share one material, fold four static painted parts into their neighbour
+	# (same material, same place): the cap into the body, the buttresses into the body, the arch into the gate
+	# frame, the collars into the watch-needle (they tilt with it). One mesh each, baked once for every keep.
+	for pair: Array in [["Body", "BodyCap"], ["Body", "Buttresses"], ["GateFrame", "GateArch"],
+			["WatchNeedle", "WatchNeedle/WatchCollars"]]:
+		_fold(pair[0], pair[1], body)
+
+
+static var _fold_cache: Dictionary = {}
+const BMG := preload("res://art/buildings/fire_hall_merge.gd")
+
+
+## 2026-09-30 detail pass (Art Lab C2 / C3: the keep used a fifth of its vertex budget): two carved string courses round
+## the battered body (a proud block on each face, a paler and a deeper stone), silver rune studs between them, and
+## a ring of fallen masonry on the upper plinth step. One part (it rises with the body), drawn by the merged material.
+func _add_carving() -> void:
+	var stone: ShaderMaterial = null
+	var silver: ShaderMaterial = null
+	for m: ShaderMaterial in _painted_mats:
+		if m.resource_name == "Stone":
+			stone = m
+		elif m.resource_name == "Silver":
+			silver = m
+	if stone == null or silver == null:
+		return
+	var pale: ShaderMaterial = stone.duplicate() as ShaderMaterial
+	pale.set_shader_parameter(&"base_color", Color(0.3, 0.27, 0.38))
+	var deep: ShaderMaterial = stone.duplicate() as ShaderMaterial
+	deep.set_shader_parameter(&"base_color", Color(0.17, 0.14, 0.23))
+	var vio: ShaderMaterial = stone.duplicate() as ShaderMaterial   # a violet-veined stone for the studs' settings
+	vio.set_shader_parameter(&"base_color", Color(0.36, 0.26, 0.5))
+	var box := BoxMesh.new()
+	var stud := CylinderMesh.new()
+	stud.top_radius = 0.07
+	stud.bottom_radius = 0.1
+	stud.height = 0.1
+	stud.radial_segments = 6
+	stud.rings = 0
+	var it: Array = []
+	for course: int in 3:
+		var y: float = 1.2 + [1.4, 3.3, 4.75][course]
+		var r: float = lerpf(2.55, 2.3, (y - 1.2) / 5.0)
+		var ap: float = r * 0.866
+		for i: int in 6:
+			var a: float = deg_to_rad(-30.0 + 60.0 * i)
+			var n := Vector3(cos(a), 0.0, sin(a))
+			var b := Basis(Vector3.UP, -a + PI * 0.5)
+			it.append(BMG.item_xf(box, Transform3D(b.scaled_local(Vector3(r * 0.92, 0.26, 0.14)), n * (ap + 0.04) + Vector3(0, y, 0)),
+				pale if (i + course) % 2 == 0 else deep))
+			if course == 2:
+				continue
+			for k: int in 3:
+				var t: float = -0.3 + 0.3 * float(k)
+				it.append(BMG.item_xf(stud, Transform3D(b * Basis(Vector3.RIGHT, PI * 0.5), n * (ap + 0.12) +
+					b * Vector3(t * r, 0, 0) + Vector3(0, y + 0.95, 0)), silver if k != 1 else vio))
+	var shard := CylinderMesh.new()
+	shard.top_radius = 0.0
+	shard.bottom_radius = 0.16
+	shard.height = 0.7
+	shard.radial_segments = 5
+	shard.rings = 0
+	for i: int in 18:
+		var a2: float = deg_to_rad(10.0 + 20.0 * float(i))
+		var n2 := Vector3(cos(a2), 0.0, sin(a2))
+		var sz := Vector3(0.34 + 0.08 * float(i % 3), 0.16 + 0.04 * float(i % 2), 0.26)
+		it.append(BMG.item_xf(box, Transform3D(Basis(Vector3.UP, -a2 + 0.3 * float(i % 3)).scaled_local(sz),
+			n2 * 2.4 + Vector3(0, 1.2 + sz.y * 0.5, 0)), [deep, pale, vio][i % 3]))
+		if i % 3 == 1:   # obsidian splinters stuck in the rubble
+			var lb := Basis(Vector3.UP.cross(n2).normalized(), deg_to_rad(-25.0 - 5.0 * float(i % 2)))
+			it.append(BMG.item_xf(shard, Transform3D(lb, n2 * 2.5 + Vector3(0, 1.45, 0)), deep))
+	var mi := MeshInstance3D.new()
+	mi.name = "Carving"
+	mi.mesh = BMG.mesh_for("dusk_keep/carving", it)
+	var mats: Array[Material] = BMG.materials_of(it)
+	for i: int in mats.size():
+		mi.set_surface_override_material(i, mats[i])
+	_model.add_child(mi)
+
+
+## Appends part `from_path`'s painted geometry (every instance of a MultiMesh) to the painted surface of
+## `into_path` (both under Model, both already drawn by `body` only) and removes `from_path`.
+func _fold(into_path: String, from_path: String, body: ShaderMaterial) -> void:
+	var into := _model.get_node_or_null(into_path) as MeshInstance3D
+	var from := _model.get_node_or_null(from_path) as GeometryInstance3D
+	if into == null or from == null or into.mesh == null or into.get_surface_override_material(0) != body:
+		return
+	var src_mesh: Mesh = null
+	var xfs: Array[Transform3D] = []
+	var rel: Transform3D = into.global_transform.affine_inverse() * from.global_transform
+	if from is MeshInstance3D:
+		src_mesh = (from as MeshInstance3D).mesh
+		var mi_ok: bool = src_mesh != null and (from as MeshInstance3D).get_surface_override_material(0) == body
+		if not mi_ok or src_mesh.get_surface_count() != 1:
+			return
+		xfs.append(rel)
+	elif from is MultiMeshInstance3D:
+		var mm := (from as MultiMeshInstance3D).multimesh
+		if mm == null or mm.mesh == null or from.material_override != body or mm.mesh.get_surface_count() != 1:
+			return
+		src_mesh = mm.mesh
+		for i: int in mm.instance_count:
+			xfs.append(rel * mm.get_instance_transform(i))
+	if src_mesh == null:
+		return
+	var key := "%s+%s|%d|%d" % [into_path, from_path, into.mesh.get_instance_id(), src_mesh.get_instance_id()]
+	if not _fold_cache.has(key):
+		var am := ArrayMesh.new()
+		for s: int in into.mesh.get_surface_count():
+			if s == 0:
+				var st := SurfaceTool.new()
+				st.create_from(into.mesh, 0)
+				for xf: Transform3D in xfs:
+					st.append_from(src_mesh, 0, xf)
+				st.commit(am)
+			else:
+				am.add_surface_from_arrays(into.mesh.surface_get_primitive_type(s), into.mesh.surface_get_arrays(s))
+		_fold_cache[key] = am
+	var mats: Array[Material] = []
+	for s: int in into.mesh.get_surface_count():
+		mats.append(into.get_surface_override_material(s))
+	into.mesh = _fold_cache[key]
+	for s: int in mats.size():
+		into.set_surface_override_material(s, mats[s])
+	from.get_parent().remove_child(from)
+	from.queue_free()
 
 
 func _process(delta: float) -> void:

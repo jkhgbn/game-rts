@@ -78,6 +78,25 @@ func _build_structure() -> void:
 			mat_stone))
 		it.append(BMG.item_xf(_cyl(0.31, 0.31, 0.22, 8), Transform3D(b * Basis(Vector3.RIGHT, PI * 0.5),
 			g[0] + b * Vector3(0, 0.8, 0)), mat_stone))
+	# 2026-09-30 detail pass (Art Lab C2 / C3): a rim of cracked grave-slabs on the upper plinth tier in two shades
+	# (extra painted shades cost nothing: the hall draws with one merged material), two more small headstones.
+	var drng := RandomNumberGenerator.new()   # its own seed: the older parts keep their layout
+	drng.seed = 6611
+	var slab_a: ShaderMaterial = _painted_mat(stone_color.lightened(0.14), 0.0, 0.0)
+	var slab_b: ShaderMaterial = _painted_mat(dark_color.lightened(0.1), 0.1, 0.0)
+	for k: int in 16:
+		var side: int = k / 4
+		var t: float = -2.2 + 1.47 * float(k % 4)
+		var fp: Vector3 = [Vector3(t, 0, -2.62), Vector3(2.62, 0, t), Vector3(-t, 0, 2.62), Vector3(-2.62, 0, -t)][side]
+		if fp.distance_to(Vector3(0.6, 0, -2.62)) < 1.2 or fp.distance_to(Vector3(2.4, 0, 2.3)) < 1.3:
+			continue   # the gate steps, the little graveyard
+		it.append(BMG.item(box1, fp + Vector3(0, 0.815, 0), slab_a if k % 3 != 1 else slab_b,
+			Vector3(drng.randf_range(-1.5, 1.5), drng.randf_range(-6, 6), drng.randf_range(-1.5, 1.5)),
+			Vector3(1.3, 0.07, 0.5) if side % 2 == 0 else Vector3(0.5, 0.07, 1.3)))
+	for g2: Array in [[Vector3(3.0, 0.8, 2.85), -14.0], [Vector3(1.8, 0.8, 3.0), 9.0]]:
+		var gb := Basis.from_euler(Vector3(deg_to_rad(float(g2[1])), deg_to_rad(float(g2[1]) * 2.0), 0))
+		it.append(BMG.item_xf(box1, Transform3D(gb.scaled_local(Vector3(0.42, 0.55, 0.16)), g2[0] + gb * Vector3(0, 0.27, 0)),
+			slab_a))
 	_merged("PlinthBase", "plinth", it)
 	# --- Walls tier: stone box, base course, corner pillars, pointed gate, lancet windows, buttresses, brazier bowl.
 	it = []
@@ -116,6 +135,12 @@ func _build_structure() -> void:
 	# Soul brazier bowl (front right) with a silver rim; the orb floats above it (own node, animated).
 	it.append(BMG.item(_cyl(0.55, 0.35, 1.0, 6), Vector3(2.65, 1.3, -2.7), mat_dark))
 	it.append(BMG.item(_cyl(0.62, 0.62, 0.14, 6), Vector3(2.65, 1.82, -2.7), mat_metal))
+	# Detail pass: quoins up the four corner pillars (alternating long / short, two shades).
+	for c: Vector2 in [Vector2(-1.8, -2.2), Vector2(2.6, -2.2), Vector2(-1.8, 2.6), Vector2(2.6, 2.6)]:
+		for q: int in 6:
+			var long_x: bool = (q % 2 == 0)
+			it.append(BMG.item(box1, Vector3(c.x, 1.25 + 0.58 * q, c.y), slab_a if q % 2 == 0 else mat_stone,
+				Vector3(0, drng.randf_range(-3, 3), 0), Vector3(0.8 if long_x else 0.68, 0.24, 0.68 if long_x else 0.8)))
 	_merged("Walls", "walls", it)
 	# --- Roof tier: stone gables, 4 slate courses a side, silver ridge + crest of spikes, finials, rose window.
 	it = []
@@ -146,6 +171,14 @@ func _build_structure() -> void:
 	it.append(BMG.item(box1, Vector3(0, 5.2, 0), mat_metal, Vector3.ZERO, Vector3(1.95, 0.4, 1.95)))
 	it.append(BMG.item(box1, Vector3(0, 6.4, 0), mat_glow, Vector3.ZERO, Vector3(1.7, 1.1, 0.5)))
 	it.append(BMG.item(box1, Vector3(0, 6.4, 0), mat_glow, Vector3.ZERO, Vector3(0.5, 1.1, 1.7)))
+	# Detail pass: the tower's stones stand proud in courses (two shades).
+	for k: int in 16:
+		var face: int = k % 4
+		var fy: float = 1.6 + 0.85 * float(k / 4) + 0.3 * float(face % 2)
+		var fd: Vector3 = [Vector3(1, 0, 0), Vector3(0, 0, 1), Vector3(-1, 0, 0), Vector3(0, 0, -1)][face]
+		var along := Vector3(absf(fd.z), 0, absf(fd.x))
+		it.append(BMG.item(box1, fd * 0.82 + along * drng.randf_range(-0.45, 0.45) + Vector3(0, fy, 0),
+			slab_a if k % 2 == 0 else slab_b, Vector3.ZERO, along * 0.55 + fd.abs() * 0.1 + Vector3(0, 0.28, 0)))
 	_merged("TowerStack", "tower_stack", it, tower)
 	it = []
 	it.append(BMG.item(box1, Vector3(0, 7.4, 0), mat_dark, Vector3.ZERO, Vector3(2.05, 0.4, 2.05)))

@@ -133,6 +133,23 @@ func _light_wave(_n: float) -> float:
 	return 1.0
 
 
+## B8: the NatureKit painted (+ Clay) / card materials drawn as one merged material each (NatureVC), the hall's
+## particle quads / process materials shared and its rune glows merged (FireHallModel budget passes).
+func _budget_wanted() -> bool:
+	return true
+
+
+func _post_build() -> void:
+	NatureKit.NVC.convert(self, _mats)
+
+
+## B8: the hall's particles use NatureKit's soft dots (the pollen's ADD dot, the leaves / petals atlas for MIX).
+func _make_particle_quads() -> void:
+	super()
+	_add_quad = NatureKit.soft_quad(true)
+	_mix_quad = NatureKit.soft_quad(false)
+
+
 func _notification(what: int) -> void:
 	# The base class drives `_light` every frame; ours never enters the tree (0 real lights), so free it here.
 	if what == NOTIFICATION_PREDELETE and _light != null and is_instance_valid(_light) and not _light.is_inside_tree():
@@ -241,6 +258,7 @@ func _set_glint(k: float) -> void:
 	_glint = k
 	if _gold:
 		_gold.set_shader_parameter(&"glint", k)
+		NatureKit.NVC.sync_gold(_mats)
 
 
 func _set_ambient(on: bool) -> void:
@@ -1118,6 +1136,7 @@ func _apply_health() -> void:
 	var dmg: float = 1.0 if dying else (0.6 if hurt else (1.0 - _health_ratio) * 0.5)
 	(_mats["Clay"] as ShaderMaterial).set_shader_parameter(&"damage", dmg)
 	_gold.set_shader_parameter(&"damage", dmg)
+	NatureKit.NVC.sync_gold(_mats)
 	_agitated = dying
 	if _ground_mat:
 		_ground_mat.set_shader_parameter(&"damage", 1.0 if dying else (0.5 if hurt else 0.0))
@@ -1137,6 +1156,7 @@ func _apply_rim_and_glow() -> void:
 	clay.set_shader_parameter(&"rim_strength", lerpf(NatureKit.RIM_IDLE_STRENGTH, 0.9, k))
 	_gold.set_shader_parameter(&"rim_color", Color(1.0, 0.86, 0.5).lerp(_team_color.lightened(0.2), k))
 	_gold.set_shader_parameter(&"rim_strength", lerpf(0.3, 0.9, k))
+	NatureKit.NVC.sync_gold(_mats)
 
 
 ## Collapse: the base sequence, then the moss withers, the sap drains and the leaves brown.

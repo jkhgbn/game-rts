@@ -1,0 +1,13 @@
+{
+	"asset": "market_ice",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 94.3,
+	"result": "PASS",
+	"scene": "res://art/buildings/market/ice/market_ice.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

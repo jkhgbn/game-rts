@@ -31,7 +31,7 @@
 	"ground": "meadow",
 	"kind": "critter",
 	"kingdom": "neutral",
-	"quality": 89.3,
+	"quality": 92.4,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
 	"tier": "deer",

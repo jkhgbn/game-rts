@@ -244,12 +244,32 @@ func _check_materials() -> void:
 			if m in b and m is ShaderMaterial:
 				_errors.append("%s shares material %s between instances" % [_name(i), m.resource_name])
 				break
-		var leaves_a: Variant = _find_param(a, &"LeafCard")
-		var leaves_b: Variant = _find_param(b, &"LeafCard")
+		var leaves_a: Variant = _card_colour(_models[i], a)
+		var leaves_b: Variant = _card_colour(_red[i], b)
 		if leaves_a == null or leaves_b == null:
 			_errors.append("%s: no LeafCard material" % _name(i))
 		elif not (leaves_b as Color).is_equal_approx(Color(0.9, 0.2, 0.2)) or (leaves_a as Color).is_equal_approx(leaves_b):
 			_errors.append("%s: team colour not applied per instance (%s / %s)" % [_name(i), leaves_a, leaves_b])
+
+
+## The leaf-card team colour of a model: its LeafCard material, or (B8 merge, 2026-09-30: NatureVC draws the cards
+## with one merged "NatureCards" material) the LeafCard source material, checked against the merged one's channel 0.
+func _card_colour(model: Node, mats: Array[Material]) -> Variant:
+	var direct: Variant = _find_param(mats, &"LeafCard")
+	if direct != null:
+		return direct
+	var src: Variant = model.get(&"_mats")
+	if not (src is Dictionary) or not (src as Dictionary).has("LeafCard"):
+		return null
+	var col: Color = ((src as Dictionary)["LeafCard"] as ShaderMaterial).get_shader_parameter(&"base_color")
+	for m: Material in mats:
+		if m is ShaderMaterial and m.resource_name == "NatureCards":
+			var ch: PackedVector3Array = (m as ShaderMaterial).get_shader_parameter(&"base_color_c")
+			var lin: Color = col.srgb_to_linear()
+			if ch.size() < 1 or Vector3(lin.r, lin.g, lin.b).distance_to(ch[0]) > 0.002:
+				_errors.append("%s: merged card material does not follow the team colour" % model.name)
+			return col
+	return null
 
 
 func _find_param(mats: Array[Material], nm: StringName) -> Variant:

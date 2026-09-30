@@ -2,6 +2,7 @@
 	"asset": "dusk_steed",
 	"budget": {
 		"draw": 8,
+		"face_verts": 600,
 		"frame_ms": 0.005,
 		"lights": 0,
 		"meshes": 12,
@@ -26,7 +27,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "root Node3D, 19 nodes",
+			"value": "root Node3D, 20 nodes",
 			"weight": 1.0
 		},
 		{
@@ -58,17 +59,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.564287697861705,
+			"graded": 0.616495417939461,
 			"group": "budget",
 			"hint": "",
 			"id": "B4",
 			"improve": "",
 			"name": "Vertices",
 			"rule": "<= 6000 soft (cavalry-mounts.md 10 (mount))",
-			"score": 0.869286309358511,
+			"score": 0.884948625381838,
 			"shot": "",
 			"status": "PASS",
-			"value": "5769 (biggest: Merged 2229, Merged 1747, Merged 402, Merged 402)",
+			"value": "5581 (body + face above its allowance: face 416 v, allowance 600, total 5997; biggest: Merged 2229, Merged 1975, Merged 402, Merged 402)",
 			"weight": 1.0
 		},
 		{
@@ -124,7 +125,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "12",
+			"value": "13",
 			"weight": 1.0
 		},
 		{
@@ -138,7 +139,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "8 (model says 10)",
+			"value": "9 (model says 10)",
 			"weight": 1.0
 		},
 		{
@@ -152,7 +153,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "34 surfaces over 8 meshes (each surface = 1 draw call)",
+			"value": "35 surfaces over 8 meshes (each surface = 1 draw call)",
 			"weight": 1.0
 		},
 		{
@@ -166,7 +167,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "712 of 6724 triangles (10%) face steeply down (normal y < -0.7)",
+			"value": "698 of 7368 triangles (9%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -212,17 +213,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.83500382602283,
+			"graded": 0.828751937711774,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.83500382602283,
+			"score": 0.828751937711774,
 			"shot": "close",
 			"status": "INFO",
-			"value": "149 shapes over 7 body parts (21.3 per part: Head 51, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.88",
+			"value": "161 shapes over 7 body parts (23.0 per part: Head 63, LegFL 10, LegFR 10, LegBL 11, LegBR 11, Tail 11, Mount 45); 25% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.879",
 			"weight": 1.0
 		},
 		{
@@ -236,7 +237,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "96% of the 6000 verts budget used (5765)",
+			"value": "99% of the 6000 verts budget used (5993)",
 			"weight": 1.0
 		},
 		{
@@ -292,7 +293,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 2.42 at the close-up (47862 px), 1.9 at 25 m; close-up outline complexity 10.5",
+			"value": "inner edges per outline px: 2.37 at the close-up (47844 px), 1.95 at 25 m; close-up outline complexity 10.81",
 			"weight": 1.0
 		},
 		{
@@ -300,13 +301,13 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 786 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 785 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 150 px (FAIL < 60) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "786 px (39 x 53 bbox; 55 m: 401 px)",
+			"value": "785 px (38 x 53 bbox; 55 m: 399 px)",
 			"weight": 1.0
 		},
 		{
@@ -314,13 +315,13 @@
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 98.4): raise the value step between the big masses and the ground (dL -42 now)",
+			"improve": "Raise the contrast of the key read on meadow (dE 98.5): raise the value step between the big masses and the ground (dL -42 now)",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 98.4, 0% of the body melts (within dE 15 of the ground); body L* 20.1 C 40.7 vs ground L* 62.2 C 48.7, hue gap 167 deg; top third (world height) dE 96.2, L* 21.7; per-pixel dE 101.6, outline 71.0",
+			"value": "mean-colour dE 98.5, 0% of the body melts (within dE 15 of the ground); body L* 19.9 C 40.8 vs ground L* 62.2 C 48.7, hue gap 168 deg; top third (world height) dE 96.9, L* 20.9; per-pixel dE 101.7, outline 71.7",
 			"weight": 1.5
 		},
 		{
@@ -348,7 +349,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst ash: dE 37.5 (heath dE 65.2, old_wood dE 60.9, riverbank dE 75.0, snow dE 81.8, ash dE 37.5, sand dE 90.6, marsh dE 45.0)",
+			"value": "worst ash: dE 37.5 (heath dE 65.3, old_wood dE 61.0, riverbank dE 75.1, snow dE 82.0, ash dE 37.5, sand dE 90.7, marsh dE 45.0)",
 			"weight": 1.0
 		},
 		{
@@ -362,7 +363,7 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "24% of body pixels change between kingdom colours (min pair 24%)",
+			"value": "25% of body pixels change between kingdom colours (min pair 24%)",
 			"weight": 1.0
 		},
 		{
@@ -380,17 +381,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.338409865856884,
+			"graded": 0.326803381818312,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.801522959757065,
+			"score": 0.798041014545494,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst pair fire / nature (deutan): dE 12.1 on the team-colour area (normal vision 81.1; 198 px); deutan: fire / nature dE 12.1; protan: fire / nature dE 23.4; worst vs ground: fire colour (deutan) dE 59.9",
+			"value": "worst pair fire / nature (deutan): dE 11.8 on the team-colour area (normal vision 79.9; 200 px); deutan: fire / nature dE 11.8; protan: fire / nature dE 22.9; worst vs ground: fire colour (deutan) dE 60.0",
 			"weight": 0.5
 		},
 		{
@@ -404,21 +405,21 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 3.89",
+			"value": "outline complexity 3.93",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.975692356334013,
 			"group": "polish",
 			"hint": "",
 			"id": "P3",
 			"improve": "",
 			"name": "Tops light, bottoms dark",
 			"rule": "top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top)",
-			"score": 1.0,
+			"score": 0.975692356334013,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 21.7, bottom third L* 9.3 (+12, world height)",
+			"value": "top third L* 20.9, bottom third L* 9.3 (+11, world height)",
 			"weight": 1.0
 		},
 		{
@@ -432,8 +433,22 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 10.2 at 25 m, 12.8 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 10.3 at 25 m, 12.3 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
+		},
+		{
+			"graded": 0.244378107244318,
+			"group": "read",
+			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
+			"id": "R5c",
+			"improve": "",
+			"name": "Glow points stand out (1 m surround)",
+			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
+			"score": 0.773313432173295,
+			"shot": "glow",
+			"status": "PASS",
+			"value": "worst dL +3 (point 1 dL +3; ring 24 px = 1.0 m at 40 m)",
+			"weight": 0.5
 		},
 		{
 			"graded": 1.0,
@@ -446,35 +461,49 @@
 			"score": 1.0,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "0 point(s) above the bloom level 1.2 (median of 0/0/1); soft glows under the bloom (v1 count, luma > 0.4): 1",
+			"value": "0 point(s) above the bloom level 1.2 (median of 1/0/0); soft glows under the bloom (v1 count, luma > 0.4): 1",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.919355775925224,
+			"graded": 1.0,
+			"group": "polish",
+			"hint": "",
+			"id": "P5",
+			"improve": "",
+			"name": "Glow placement",
+			"rule": "one glow high (head / weapon / crest) reads over crowds",
+			"score": 1.0,
+			"shot": "glow",
+			"status": "INFO",
+			"value": "1 of 1 glow(s) in the upper half of the model's height (world)",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.918857965240826,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 150 px (WARN only)",
-			"score": 0.975806732777567,
+			"score": 0.975657389572248,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.81 (min 0.76), area kept 97-101% (min 765 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.81 (min 0.76), area kept 96-99% (min 762 px), frame-to-frame IoU min 0.8; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.725,
+			"graded": 0.45,
 			"group": "read",
 			"hint": "Glow points that hide behind a swinging limb or dip under the bloom level blink at 40 m: move them to a steady part (head, chest, weapon head) or raise their energy",
 			"id": "R5w",
 			"improve": "",
 			"name": "Glow points while walking (flicker)",
 			"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)",
-			"score": 0.9175,
+			"score": 0.835,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "points per frame 1/1/1/1/1/1/0/1 (median 1, range 1, 1 frame(s) at 0; at rest 0)",
+			"value": "points per frame 1/1/1/1/0/0/1/1 (median 1, range 1, 2 frame(s) at 0; at rest 0)",
 			"weight": 0.5
 		},
 		{
@@ -488,7 +517,7 @@
 			"score": -1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "cast pose changes 31% of the silhouette at its peak (t 0.25 s; 0.12 s 29%, 0.25 s 31%, 0.4 s 28%, 0.6 s 10%)",
+			"value": "cast pose changes 31% of the silhouette at its peak (t 0.25 s; 0.12 s 29%, 0.25 s 31%, 0.4 s 28%, 0.6 s 9%)",
 			"weight": 1.0
 		},
 		{
@@ -502,7 +531,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 1.02 s",
+			"value": "after 1.01 s",
 			"weight": 1.0
 		},
 		{
@@ -522,8 +551,8 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 13,
-		"PASS": 23,
+		"INFO": 14,
+		"PASS": 24,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -541,7 +570,7 @@
 			"rank": 0.0,
 			"source": "B11",
 			"status": "IDEA",
-			"text": "Merge surfaces that share a material (34 surfaces for 8 meshes = 34 draw calls)",
+			"text": "Merge surfaces that share a material (35 surfaces for 8 meshes = 35 draw calls)",
 			"title": "Surfaces per instance"
 		},
 		{
@@ -556,16 +585,17 @@
 	"kingdom": "shadow",
 	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Root/Mount/Merged 2229 v / 6 s; Root/Mount/Head/Merged 1747 v / 8 s; Root/Mount/LegBL/Merged 402 v / 4 s; Root/Mount/LegBR/Merged 402 v / 4 s; Root/Mount/LegFL/Merged 339 v / 4 s; Root/Mount/LegFR/Merged 339 v / 4 s; Root/Mount/Tail/Merged 307 v / 3 s; Shadow 4 v / 1 s",
+		"Per-mesh vertices (biggest first): Root/Mount/Merged 2229 v / 6 s; Root/Mount/Head/Merged 1975 v / 9 s; Root/Mount/LegBL/Merged 402 v / 4 s; Root/Mount/LegBR/Merged 402 v / 4 s; Root/Mount/LegFL/Merged 339 v / 4 s; Root/Mount/LegFR/Merged 339 v / 4 s; Root/Mount/Tail/Merged 307 v / 3 s; Shadow 4 v / 1 s",
+		"1 hidden parts at rest (toggled states, not counted as draws)",
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
 		"quick=1: light-preset sweep (R12) and style bible (S1) skipped",
 		"quick=1: references (R2) and frame cost (B13) skipped"
 	],
 	"previous_quality": -1.0,
-	"quality": 95.0,
+	"quality": 94.5,
 	"result": "PASS",
 	"scene": "res://art/units/mounts/dusk_steed/dusk_steed.tscn",
-	"seconds": 23.8,
+	"seconds": 20.6,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -576,6 +606,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 14:17:08",
+	"started": "2026-09-30 11:43:31",
 	"tier": "mount"
 }

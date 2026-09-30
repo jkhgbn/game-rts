@@ -7,7 +7,7 @@
 			"check": "B9",
 			"computed": false,
 			"measured": {
-				"value": "35 material(s), 1 mesh(es) not shared by a 2nd instance"
+				"value": "35 material(s), 0 mesh(es) not shared by a 2nd instance"
 			},
 			"predicted": {},
 			"proposal": "Materials built per instance: Share the 35 per-instance material(s) (static cache) so 200 units do not build 200 copies",
@@ -23,7 +23,7 @@
 	"ground": "meadow",
 	"kind": "mount",
 	"kingdom": "shadow",
-	"quality": 89.5,
+	"quality": 89.6,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn",
 	"tier": "mount",

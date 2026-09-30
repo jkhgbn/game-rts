@@ -87,6 +87,20 @@ func _run() -> void:
 				leaves_col = m.get_shader_parameter(&"base_color")
 			elif m and m.resource_name == "LeafCard":
 				card_col = m.get_shader_parameter(&"base_color")
+			elif m and (m.resource_name == "NaturePainted" or m.resource_name == "NatureCards"):
+				# B8 merge (2026-09-30, NatureVC): one merged painted and one merged card material; the team colour
+				# lives in the Leaves / LeafCard source materials and in the merged arrays (linear).
+				var srcs: Dictionary = b.get(&"_mats")
+				var key: String = "Leaves" if m.resource_name == "NaturePainted" else "LeafCard"
+				var col: Color = (srcs[key] as ShaderMaterial).get_shader_parameter(&"base_color")
+				var arr: PackedVector3Array = m.get_shader_parameter(&"base_colors" if key == "Leaves" else &"base_color_c")
+				var lin: Color = col.srgb_to_linear()
+				var slot: int = 5 if key == "Leaves" else 0
+				if arr.size() > slot and Vector3(lin.r, lin.g, lin.b).distance_to(arr[slot]) < 0.002:
+					if key == "Leaves":
+						leaves_col = col
+					else:
+						card_col = col
 	_check(leaves_col.is_equal_approx(RED), "set_team_color before _ready recolours the crown (%s)" % leaves_col)
 	_check(card_col.is_equal_approx(RED), "set_team_color recolours the leaf cards (%s)" % card_col)
 	var banner_b := b.get_node_or_null(^"Body/BannerA") as MeshInstance3D
@@ -150,10 +164,16 @@ func _run() -> void:
 	var pm := plinth.mesh as ArrayMesh
 	var plinth_half: float = 0.0
 	for s: int in pm.get_surface_count():
-		if (plinth.get_surface_override_material(s) as ShaderMaterial).resource_name != "Stone":
+		var sname: String = (plinth.get_surface_override_material(s) as ShaderMaterial).resource_name
+		if sname != "Stone" and sname != "NaturePainted":
 			continue
-		for v: Vector3 in pm.surface_get_arrays(s)[Mesh.ARRAY_VERTEX] as PackedVector3Array:
-			plinth_half = maxf(plinth_half, maxf(absf(v.x), absf(v.z)))
+		var arrs: Array = pm.surface_get_arrays(s)
+		var ids: Variant = arrs[Mesh.ARRAY_CUSTOM0]   # B8 merge (NatureVC): the painted index per vertex, 0 = Stone
+		var verts: PackedVector3Array = arrs[Mesh.ARRAY_VERTEX]
+		for vi: int in verts.size():
+			if sname == "NaturePainted" and ids is PackedFloat32Array and absf((ids as PackedFloat32Array)[vi]) > 0.5:
+				continue
+			plinth_half = maxf(plinth_half, maxf(absf(verts[vi].x), absf(verts[vi].z)))
 	print("top %.2f m, plinth top tier half %.2f m, roof / banners / sign reach %.2f m, everything %.2f m" % [top, plinth_half,
 		reach_low, reach_all])
 	_check(top >= 7.0 and top <= 10.0, "height 7-10 m, the sibling Bazaars' masts are 9-10 m (%.2f)" % top)
@@ -227,6 +247,8 @@ func _run() -> void:
 		var m := trunk.get_surface_override_material(s) as ShaderMaterial
 		if m and m.resource_name == "Bark":
 			bark = m
+	if bark == null:   # B8 merge (NatureVC): the Bark source material still takes the rim (mirrored into the merged one)
+		bark = (a.get(&"_mats") as Dictionary)["Bark"]
 	var rim0: float = bark.get_shader_parameter(&"rim_strength")
 	a.call(&"set_selected", true)
 	await _frames(20)

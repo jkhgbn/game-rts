@@ -1,10 +1,10 @@
 # Art Lab scorecard: aqueduct
 
-Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-27 14:17:33 · lab v3.1
+Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-30 11:43:52 · lab v3.1
 
 ## Result: **PASS** · quality **98 / 100** (98.2)
 
-0 FAIL · 0 WARN · 14 PASS · 12 info · 0 skipped · 20 s
+0 FAIL · 0 WARN · 14 PASS · 12 info · 0 skipped · 12 s
 
 ## Improve next
 1. **Contrast on the other grounds** (PASS): On heath the body drops to dE 8.9: add a value accent that separates it there too _(from R4 Contrast on the other grounds, shot z40)_

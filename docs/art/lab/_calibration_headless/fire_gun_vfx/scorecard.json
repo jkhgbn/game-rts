@@ -166,8 +166,8 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "res://art/vfx/unit_fire_gun_vfx.gd",
-	"seconds": 0.1,
+	"seconds": 0.4,
 	"shots": {},
-	"started": "2026-09-29 00:27:29",
+	"started": "2026-09-30 10:13:53",
 	"tier": "family"
 }

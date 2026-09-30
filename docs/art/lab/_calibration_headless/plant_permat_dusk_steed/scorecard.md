@@ -1,8 +1,8 @@
 # Art Lab scorecard: plant_permat_dusk_steed
 
-Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-29 00:27:30 · lab v3.1 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-30 10:13:56 · lab v3.1 · **headless: render checks skipped**
 
-## Result: **FAIL** · quality **90 / 100** (89.5)
+## Result: **FAIL** · quality **90 / 100** (89.6)
 
 1 FAIL · 0 WARN · 12 PASS · 7 info · 6 skipped · 0 s
 
@@ -15,7 +15,7 @@ Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · 
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | H0 | Scene instantiates | PASS 100 | root Node3D, 21 nodes | instantiates without errors |  |
-| B9 | Materials built per instance | **FAIL** 0 | 35 material(s), 1 mesh(es) not shared by a 2nd instance | 0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6) | Cache built materials / meshes in a static dictionary keyed by type (or save them as .tres / .res); per-unit looks go through instance uniforms |
+| B9 | Materials built per instance | **FAIL** 0 | 35 material(s), 0 mesh(es) not shared by a 2nd instance | 0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6) | Cache built materials / meshes in a static dictionary keyed by type (or save them as .tres / .res); per-unit looks go through instance uniforms |
 | B10 | Allocations after _ready (actions) | PASS 100 | 0 node(s) created, net +0, 2nd action cycle: 0 node(s), 0 new material(s) | 0: pre-built emitters restarted, instance uniforms for flashes (art-units 6.10); materials swapped from a cache are not new |  |
 | H1 | Errors from the asset while running | PASS 100 | 0 error(s), 0 warning(s) | 0 (its folder + the kit) |  |
 
@@ -24,7 +24,7 @@ Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · 
 |---|---|---|---|---|---|
 | B1 | Meshes after the kit merge | PASS 100 | 8 drawn (8 mesh + 0 multimesh); per pivot: (root) 1, Head 1, LegBL 1, LegBR 1, LegFL 1, LegFR 1 | <= 12 (cavalry-mounts.md 10 (mount)) |  |
 | B2 | Draw instances at rest | PASS 88 | 8 | <= 8 (cavalry-mounts.md 10 (mount)) |  |
-| B4 | Vertices | PASS 85 | 5997 (biggest: Merged 2229, Merged 1975, Merged 402, Merged 402) | <= 6000 soft (cavalry-mounts.md 10 (mount)) |  |
+| B4 | Vertices | PASS 88 | 5581 (body + face above its allowance: face 416 v, allowance 600, total 5997; biggest: Merged 2229, Merged 1975, Merged 402, Merged 402) | <= 6000 soft (cavalry-mounts.md 10 (mount)) |  |
 | B5 | Real lights | PASS 100 | 0 | <= 0 (cavalry-mounts.md 10 (mount)) |  |
 | B6l | Looping particle systems | PASS 100 | 0 | <= 1 soft (cavalry-mounts.md 10 (mount)) |  |
 | B7 | Shadow casters | PASS 100 | 1 (Merged) | <= 2 soft (cavalry-mounts.md 10 (mount)) |  |
@@ -58,7 +58,7 @@ Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · 
 | C2 | Vertex use vs budget | INFO 100 | 99% of the 6000 verts budget used (5993) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, cavalry-mounts.md 10 (mount))
-`{"draw":8,"frame_ms":0.005,"lights":0,"meshes":12,"n":50,"runtime_mats":0,"soft":{"casters":2,"looping":1,"verts":6000},"src":"cavalry-mounts.md 10 (mount)"}`
+`{"draw":8,"face_verts":600,"frame_ms":0.005,"lights":0,"meshes":12,"n":50,"runtime_mats":0,"soft":{"casters":2,"looping":1,"verts":6000},"src":"cavalry-mounts.md 10 (mount)"}`
 
 ## Notes
 - Per-mesh vertices (biggest first): Root/Mount/Merged 2229 v / 6 s; Root/Mount/Head/Merged 1975 v / 9 s; Root/Mount/LegBL/Merged 402 v / 4 s; Root/Mount/LegBR/Merged 402 v / 4 s; Root/Mount/LegFL/Merged 339 v / 4 s; Root/Mount/LegFR/Merged 339 v / 4 s; Root/Mount/Tail/Merged 307 v / 3 s; Shadow 4 v / 1 s

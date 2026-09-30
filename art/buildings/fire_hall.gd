@@ -23,6 +23,7 @@ const BANNER: Shader = preload("res://art/shaders/banner.gdshader")
 const NOISE: Texture2D = preload("res://art/shaders/paint_noise.tres")
 const RIM_IDLE := Color(0.55, 0.65, 0.85)
 const BMG := preload("res://art/buildings/fire_hall_merge.gd")
+const PVC := preload("res://art/buildings/painted_vc.gd")
 const PULSE_TIME := 0.6
 const DESTROY_TIME := 3.0
 const PLINTH_TOP := 0.8
@@ -40,6 +41,7 @@ var smoke_color := Color(0.16, 0.14, 0.13)
 var dust_color := Color(0.24, 0.21, 0.19)
 var decal_color := Color(0.09, 0.04, 0.02)
 var crack_strength: float = 0.7
+var crack_glow: float = 0.35   ## painted-vc halls: crack emission x this (under the bloom level; 1 = painted.gdshader)
 var light_color := Color(1.0, 0.5, 0.15)
 var light_energy: float = 1.8
 var danger_ramp_hot := Color(1.0, 0.9, 0.5)
@@ -57,6 +59,11 @@ var mat_gate: ShaderMaterial
 var _painted: Array[ShaderMaterial] = []
 var _glows: Array[ShaderMaterial] = []
 var _decal_mat: StandardMaterial3D
+var _glow_vc: ShaderMaterial  ## the merged glow material (PaintedVC.convert_glow), null when not merged
+var _light_pool: MeshInstance3D  ## warm ground pool standing in for the light (painted-vc halls, no real light)
+var _proxy_light: OmniLight3D  ## the detached light _omni made in budget mode (never in the tree)
+static var _hall_quads: Dictionary = {}
+static var _hall_pms: Dictionary = {}
 
 # Nodes filled by _build_structure().
 var _body: Node3D
@@ -90,8 +97,8 @@ var _height: float = 1.0
 var _fall_xf: Transform3D
 
 # State particles / helpers.
-var _add_quad: QuadMesh
-var _mix_quad: QuadMesh
+var _add_quad: Mesh
+var _mix_quad: Mesh
 var _fire_ramp: GradientTexture1D
 var _smoke: Array[GPUParticles3D] = []
 var _blaze: Array[GPUParticles3D] = []
@@ -137,6 +144,20 @@ func _ready() -> void:
 	_build_structure()
 	_collect_parts()
 	_build_state_nodes()
+	if _vc_wanted():
+		# B8: every painted part draws with ONE vertex-coloured material (the team material, painted_vc shader).
+		PVC.convert(self, mat_team, _vc_team(), [mat_hole] if mat_hole else [], _vc_skip())
+		# R5 (hall: 2-4 glow points): the lava / rime veins glow under the bloom level (like the Stables), so the
+		# coals, gate and lanterns stay the building's few bright points.
+		mat_team.set_shader_parameter(&"crack_energy", crack_glow)
+	if _budget_wanted() and mat_banner and mat_banner.shader == BANNER:
+		mat_banner.set_shader_parameter(&"glyph_energy", 0.2)   # R5: the glyph reads as paint, not as a glow point
+	_make_light_pool()
+	_post_build()
+	if _budget_wanted():
+		# B8: every rune glow (coals, gate, windows, outline...) draws with ONE channel-array material; the code keeps
+		# driving the source glow materials, _process copies them over (PaintedVC.sync_glow).
+		_glow_vc = PVC.convert_glow(self, _vc_glow_skip())
 	_ready_done = true
 	set_team_color(_team_color)
 	set_construction_progress(_progress)
@@ -153,6 +174,7 @@ func _process(delta: float) -> void:
 		return
 	if _destroyed:
 		_process_destroyed(delta)
+		PVC.sync_glow(_glow_vc)
 		return
 	_idle_motion(delta)
 	var n: float = sin(_t * 8.1) * 0.5 + sin(_t * 13.7) * 0.5
@@ -165,6 +187,9 @@ func _process(delta: float) -> void:
 		mat_gate.set_shader_parameter(&"boost", boost * _sel_boost())
 		mult = 2.0 if _pulse_left > 0.3 else 1.0
 	_light.light_energy = light_energy * flicker * mult * _progress
+	if _light_pool:
+		_light_pool.visible = _light.visible and _progress > 0.0
+		_light_pool.transparency = clampf(1.0 - _light.light_energy / maxf(light_energy, 0.01) * 0.8, 0.0, 1.0)
 	var target: float = 1.0 if _selected else 0.0
 	if _sel_k != target:
 		_sel_k = move_toward(_sel_k, target, delta / (0.15 if _selected else 0.25))
@@ -174,6 +199,7 @@ func _process(delta: float) -> void:
 		_outline_mat.set_shader_parameter(&"energy", 2.0 * _outline_fade)
 		if _outline_fade <= 0.0:
 			_outline.visible = false
+	PVC.sync_glow(_glow_vc)
 
 
 # --- Hooks ---
@@ -289,6 +315,40 @@ func _cloth_of(c: Color) -> Color:
 	return c
 
 
+## B8 vertex-colour merge (PaintedVC) on when the team material is a plain painted.gdshader one (the Stables bring
+## their own one-material shader and stay as they are).
+func _vc_wanted() -> bool:
+	return mat_team != null and (mat_team.shader == PAINTED or mat_team.shader == PVC.PAINTED_VC)
+
+
+## The other budget passes (shared particle quads / process materials, one decal material for the contact decal and
+## the stains, no real light): the painted-vc halls, and the Nature halls (they override it; their own merge is
+## NatureVC). The Stables keep their own setup.
+func _budget_wanted() -> bool:
+	return _vc_wanted()
+
+
+## Painted materials whose base_color is the team colour (their parts follow set_team_color). Subclasses add theirs.
+func _vc_team() -> Array:
+	return [mat_team]
+
+
+## Painted materials changed at run time on their own (not through the _painted loops): left out of the merge.
+func _vc_skip() -> Array:
+	return []
+
+
+## Runs once after the build and the painted merge, before the glow merge (the Nature halls merge their NatureKit
+## materials here).
+func _post_build() -> void:
+	pass
+
+
+## Glow materials to keep out of the glow merge (none: every change on a source is copied each frame).
+func _vc_glow_skip() -> Array:
+	return []
+
+
 func _light_wave(n: float) -> float:
 	return 1.0 - _flicker_amp + _flicker_amp * n
 
@@ -318,6 +378,21 @@ func _build_structure() -> void:
 		var p := Vector3(-0.6 + rng.randf_range(-0.35, 0.35), 0.04, -4.0 - 0.7 * i)
 		it.append(BMG.item(box1, p, mat_dark, Vector3(0, rng.randf_range(-20, 20), 0),
 			Vector3(rng.randf_range(0.8, 1.05), 0.1, rng.randf_range(0.55, 0.65))))
+	# 2026-09-30 detail pass (Art Lab C2 / C3: the hall used a fifth of its vertex budget): a rim of worn flagstones
+	# on the upper plinth tier, in two stone shades (extra painted shades cost nothing: one merged material).
+	var drng := RandomNumberGenerator.new()   # its own seed: the older parts keep their layout
+	drng.seed = 9901
+	var flag_a: ShaderMaterial = _painted_mat(stone_color.lightened(0.12), 0.0, 0.0)
+	var flag_b: ShaderMaterial = _painted_mat(stone_color.darkened(0.12), 0.0, 0.0)
+	for k: int in 16:
+		var side: int = k / 4
+		var t: float = -2.2 + 1.47 * float(k % 4)
+		var fp: Vector3 = [Vector3(t, 0, -2.62), Vector3(2.62, 0, t), Vector3(-t, 0, 2.62), Vector3(-2.62, 0, -t)][side]
+		if fp.distance_to(Vector3(-0.6, 0, -2.62)) < 1.1:
+			continue   # the gate steps
+		it.append(BMG.item(box1, fp + Vector3(0, 0.815, 0), flag_a if k % 3 != 1 else flag_b,
+			Vector3(drng.randf_range(-1.5, 1.5), drng.randf_range(-6, 6), drng.randf_range(-1.5, 1.5)),
+			Vector3(1.3, 0.07, 0.5) if side % 2 == 0 else Vector3(0.5, 0.07, 1.3)))
 	_merged("PlinthBase", "plinth", it)
 	# --- Walls tier: stone box, dark base course and corner pillars, arched gate, windows, the forge.
 	it = []
@@ -358,6 +433,26 @@ func _build_structure() -> void:
 	# Firewood stacked against the back wall (bronze reads as seasoned wood).
 	for l: Vector3 in [Vector3(-1.2, 1.0, 2.72), Vector3(-1.2, 0.72, 3.02), Vector3(-1.2, 1.38, 2.74)]:
 		it.append(BMG.item(_cyl(0.19, 0.19, 1.6, 7), l, mat_metal, Vector3(0, 0, 90)))
+	# Detail pass: quoins (alternating long / short blocks) up the four corner pillars, a quench barrel with iron
+	# hoops and a water face beside the forge, more coal lumps, and three more logs on the firewood stack.
+	var quoin: ShaderMaterial = _painted_mat(stone_color.lightened(0.08), 0.0, crack_strength * 0.5)
+	for c: Vector2 in [Vector2(-2.8, -1.9), Vector2(2.0, -1.9), Vector2(-2.8, 2.5), Vector2(2.0, 2.5)]:
+		for q: int in 5:
+			var long_x: bool = (q % 2 == 0)
+			it.append(BMG.item(box1, Vector3(c.x, 1.35 + 0.6 * q, c.y), quoin if q % 2 == 0 else mat_stone,
+				Vector3(0, drng.randf_range(-3, 3), 0), Vector3(0.82 if long_x else 0.7, 0.26, 0.7 if long_x else 0.82)))
+	var water: ShaderMaterial = _painted_mat(Color(0.12, 0.16, 0.18), 0.6, 0.0)
+	var bar := Vector3(0.45, 0.8, 2.78)
+	it.append(BMG.item(_cyl(0.3, 0.26, 0.62, 12), bar + Vector3(0, 0.31, 0), mat_metal))
+	for y: float in [0.12, 0.5]:
+		it.append(BMG.item(_cyl(0.315, 0.315, 0.06, 12), bar + Vector3(0, y, 0), mat_dark))
+	it.append(BMG.item(_cyl(0.27, 0.27, 0.02, 12), bar + Vector3(0, 0.6, 0), water))
+	for i: int in 6:
+		var p := Vector3(2.9 + drng.randf_range(-0.3, 0.25), 0.9 + drng.randf_range(0.0, 0.2), -2.6 + drng.randf_range(-0.35, 0.35))
+		it.append(BMG.item(box1, p, mat_dark, Vector3(drng.randf_range(-30, 30), drng.randf() * 90.0, drng.randf_range(-30, 30)),
+			Vector3.ONE * drng.randf_range(0.22, 0.34)))
+	for l: Vector3 in [Vector3(-1.2, 0.72, 2.66), Vector3(-1.2, 1.05, 3.0), Vector3(-1.2, 1.4, 3.06)]:
+		it.append(BMG.item(_cyl(0.16, 0.16, 1.45, 7), l, flag_b if l.y > 1.0 else mat_metal, Vector3(0, 0, 90)))
 	_merged("Walls", "walls", it)
 	# --- Roof tier: stone gable core, 4 tile courses a side, bronze ridge, crossed bargeboards, gable shield.
 	it = []
@@ -390,6 +485,14 @@ func _build_structure() -> void:
 	it.append(BMG.item(_cyl(1.05, 1.28, 3.9, 4), Vector3(0, 5.3, 0), mat_stone, Vector3(0, 45, 0)))
 	for y: float in [4.55, 6.45]:
 		it.append(BMG.item(_cyl(1.34, 1.34, 0.3, 4), Vector3(0, y, 0), mat_metal, Vector3(0, 45, 0)))
+	# Detail pass: the stack's stones stand out in courses (a few proud blocks per face, two shades).
+	for k: int in 12:
+		var face: int = k % 4
+		var fy: float = 0.6 + 0.62 * float(k / 4) + 0.2 * float(face % 2)
+		var fd: Vector3 = [Vector3(1, 0, 0), Vector3(0, 0, 1), Vector3(-1, 0, 0), Vector3(0, 0, -1)][face]
+		var along := Vector3(absf(fd.z), 0, absf(fd.x))
+		it.append(BMG.item(box1, fd * 0.88 + along * drng.randf_range(-0.4, 0.4) + Vector3(0, fy, 0),
+			quoin if k % 2 == 0 else flag_b, Vector3(0, 0, 0), along * 0.6 + fd.abs() * 0.12 + Vector3(0, 0.3, 0)))
 	_merged("ChimneyStack", "chimney_stack", it, chimney)
 	it = []
 	it.append(BMG.item(_cyl(1.55, 1.05, 0.8, 4), Vector3(0, 7.6, 0), mat_dark, Vector3(0, 45, 0)))
@@ -617,6 +720,16 @@ func _build_scaffold(cx: float, cz: float, sx: float, sz: float, top: float) -> 
 
 ## A soft tinted ground stain (ash / scorch / mist colour), art-keep.md 0.5 second colour. No shadow, no depth write.
 func _scorch_decal(pos: Vector3, size: float, col: Color = Color(0.10, 0.05, 0.03, 0.55)) -> MeshInstance3D:
+	if _budget_wanted() and _decal_mat and _decal_mat.vertex_color_use_as_albedo:
+		# B8: the contact decal's material, tinted by the vertex colour (alpha scaled so the centre matches).
+		var sd := MeshInstance3D.new()
+		sd.name = "ScorchDecal"
+		sd.mesh = PVC.tinted_plane(Vector2.ONE * size, Color(col, clampf(col.a / (0.85 * 0.75), 0.0, 1.0)))
+		sd.material_override = _decal_mat
+		sd.position = pos
+		sd.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(sd)
+		return sd
 	var g := Gradient.new()
 	g.set_color(0, col)
 	g.set_color(1, Color(col, 0.0))
@@ -747,13 +860,50 @@ func _omni(pos: Vector3, rng: float) -> OmniLight3D:
 	l.omni_range = rng
 	l.shadow_enabled = false
 	l.light_specular = 0.2
+	if _budget_wanted():
+		# Hall budget (step-12/13 rules, B5): no real light. The light stays a detached proxy the state code keeps
+		# driving (never in the tree, freed with the model); if it stays visible, _ready turns its warmth on the
+		# ground into a tinted pool (_make_light_pool).
+		_proxy_light = l
+		return l
 	_body.add_child(l)
 	return l
 
 
+func _notification(what: int) -> void:
+	# The proxy light (hall budget: no real light) never enters the tree: free it with the model.
+	if what != NOTIFICATION_PREDELETE or _proxy_light == null:
+		return
+	if is_instance_valid(_proxy_light) and not _proxy_light.is_inside_tree():
+		_proxy_light.free()
+
+
+## The proxy light's warmth on the ground: a tinted pool sharing the contact decal's material, flickering with the
+## proxy (per-instance transparency, _process). Only for a proxy the hall keeps visible (a hidden one lit nothing).
+func _make_light_pool() -> void:
+	if _proxy_light == null or _proxy_light != _light or not _proxy_light.visible or _decal_mat == null:
+		return
+	_light_pool = MeshInstance3D.new()
+	_light_pool.name = "LightPool"
+	_light_pool.mesh = PVC.tinted_plane(Vector2.ONE * _proxy_light.omni_range * 0.95, Color(light_color, 0.62))
+	_light_pool.material_override = _decal_mat
+	var p: Vector3 = _proxy_light.position
+	_light_pool.position = Vector3(p.x, 0.045, p.z)
+	_light_pool.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(_light_pool)
+
+
 func _make_particle_quads() -> void:
-	_add_quad = _quad(true)
-	_mix_quad = _quad(false)
+	if _budget_wanted():
+		# B8 / B9: the two particle quads are the same for every hall: one pair for the whole game.
+		if not _hall_quads.has("add"):
+			_hall_quads["add"] = _quad(true)
+			_hall_quads["mix"] = _quad(false)
+		_add_quad = _hall_quads["add"]
+		_mix_quad = _hall_quads["mix"]
+	else:
+		_add_quad = _quad(true)
+		_mix_quad = _quad(false)
 	var g := Gradient.new()
 	g.set_color(0, danger_ramp_hot)
 	g.set_color(1, Color(danger_ramp_end, 0.0))
@@ -790,10 +940,14 @@ func _quad(additive: bool) -> QuadMesh:
 
 ## Contact decal (0.5), rubble ring, all at root scale.
 func _build_ground() -> void:
+	# B8 (painted-vc buildings): the gradient is white and the plane carries decal_color as its vertex colour, so the
+	# scorch stains (_scorch_decal) share this one material with their own tint. Same look.
+	var vc: bool = _budget_wanted()
+	var dc: Color = Color.WHITE if vc else decal_color
 	var g := Gradient.new()
-	g.set_color(0, Color(decal_color, 0.85))
-	g.set_color(1, Color(decal_color, 0.0))
-	g.add_point(0.55, Color(decal_color, 0.55))
+	g.set_color(0, Color(dc, 0.85))
+	g.set_color(1, Color(dc, 0.0))
+	g.add_point(0.55, Color(dc, 0.55))
 	var tex := GradientTexture2D.new()
 	tex.gradient = g
 	tex.fill = GradientTexture2D.FILL_RADIAL
@@ -810,6 +964,10 @@ func _build_ground() -> void:
 	var decal := MeshInstance3D.new()
 	decal.name = "ContactDecal"
 	decal.mesh = pm
+	if vc:
+		_decal_mat.vertex_color_use_as_albedo = true
+		_decal_mat.vertex_color_is_srgb = true
+		decal.mesh = PVC.tinted_plane(Vector2(10.0, 10.0), Color(decal_color, 1.0))
 	decal.material_override = _decal_mat
 	decal.position = Vector3(0, 0.03, 0)
 	decal.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -1090,7 +1248,7 @@ func _particles(nm: String, parent: Node3D, pos: Vector3, amount: int, life: flo
 	p.fixed_fps = 30
 	p.interpolate = true
 	p.local_coords = true
-	p.process_material = pm
+	p.process_material = _shared_pm(nm, pos, pm)
 	p.draw_pass_1 = quad
 	p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	p.visibility_aabb = AABB(Vector3(-7, -4, -7), Vector3(14, 18, 14))
@@ -1098,3 +1256,17 @@ func _particles(nm: String, parent: Node3D, pos: Vector3, amount: int, life: flo
 	p.emitting = false
 	parent.add_child(p)
 	return p
+
+
+## B9: a process material that does not follow the team colour is the same for every instance of a class (the
+## build code is deterministic): share one per class + emitter name + spot. Team-coloured ramps stay per instance.
+func _shared_pm(nm: String, pos: Vector3, pm: ParticleProcessMaterial) -> ParticleProcessMaterial:
+	if not _budget_wanted():
+		return pm
+	var ramp := pm.color_ramp as GradientTexture1D
+	if ramp and ramp.gradient in _team_ramps:
+		return pm
+	var key := "%s|%s|%s" % [get_script().resource_path, nm, pos]
+	if not _hall_pms.has(key):
+		_hall_pms[key] = pm
+	return _hall_pms[key]

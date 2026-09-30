@@ -1,10 +1,10 @@
 # Art Lab scorecard: frost_dragon
 
-Scene `res://art/units/titans/frost_dragon/frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-09-29 00:27:29 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/titans/frost_dragon/frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-09-30 10:13:53 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **99 / 100** (98.6)
 
-0 FAIL · 0 WARN · 12 PASS · 9 info · 6 skipped · 0 s
+0 FAIL · 0 WARN · 12 PASS · 9 info · 6 skipped · 1 s
 
 ## Improve next
 1. **Surfaces per instance** (IDEA): Merge surfaces that share a material (43 surfaces for 17 meshes = 43 draw calls) _(from B11)_
@@ -50,7 +50,7 @@ Scene `res://art/units/titans/frost_dragon/frost_dragon.tscn` · kind **titan** 
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.03 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |

@@ -423,8 +423,8 @@
 	"quality": 87.9,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_float_deer.tscn",
-	"seconds": 0.0,
+	"seconds": 0.1,
 	"shots": {},
-	"started": "2026-09-29 00:27:30",
+	"started": "2026-09-30 10:13:56",
 	"tier": "deer"
 }

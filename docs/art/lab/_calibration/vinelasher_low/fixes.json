@@ -3,98 +3,27 @@
 	"count": 1,
 	"fixes": [
 		{
-			"changes": [
-				{
-					"from": "#bd8038",
-					"material": "nature_sec_slinger_c",
-					"material_path": "res://art/units/nature/materials/nature_sec_slinger_c.tres",
-					"node": "Root/Chest/ArmR/Coil, Root/Chest/ArmR/Merged",
-					"param": "shader_parameter/base_color",
-					"shared": "shared material (res://art/units/nature/materials/nature_sec_slinger_c.tres): give vinelasher_low its own copy first, other assets use it too",
-					"snap": {
-						"close": false,
-						"color": "#99b340",
-						"de_to_wanted": 48.0,
-						"from_folder": "res://art/units/nature/materials",
-						"material_path": "res://art/units/nature/materials/nature_sec_slinger_b.tres"
-					},
-					"to": "#ffba10",
-					"weight": 0.17
-				}
-			],
-			"check": "R4k",
-			"computed": true,
-			"covers": [
-				"R3",
-				"R4k",
-				"R4",
-				"R3t"
-			],
-			"gain": [
-				1.2,
-				0.9,
-				2.0
-			],
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
 			"measured": {
-				"body_lab": [
-					44.3,
-					-2.7,
-					24.6
-				],
-				"dE": {
-					"R3 meadow": 32.1,
-					"R3t fire": 51.7,
-					"R3t ice": 46.3,
-					"R3t nature": 30.9,
-					"R3t shadow": 66.1,
-					"R4 ash": 32.9,
-					"R4 heath": 15.4,
-					"R4 marsh": 33.1,
-					"R4 riverbank": 25.9,
-					"R4 sand": 37.3,
-					"R4 snow": 50.9,
-					"R4k old_wood": 17.6
-				},
-				"ground_lab": [
-					63.1,
-					-21.0,
-					43.0
-				],
-				"melt_share": 0.02
+				"value": "worst pair fire / nature (deutan): dE 11.6 on the team-colour area (normal vision 63.0; 123 px); deutan: fire / nature dE 11.6; protan: fire / nature dE 19.3; worst vs ground: nature colour (deutan) dE 9.1"
 			},
-			"predicted": {
-				"R3 meadow": 28.0,
-				"R3t fire": 47.1,
-				"R3t ice": 41.3,
-				"R3t nature": 26.8,
-				"R3t shadow": 58.0,
-				"R4 ash": 39.7,
-				"R4 heath": 19.2,
-				"R4 marsh": 38.8,
-				"R4 riverbank": 30.7,
-				"R4 sand": 32.8,
-				"R4 snow": 51.1,
-				"R4k old_wood": 24.0
-			},
-			"proposal": "shader_parameter/base_color of `nature_sec_slinger_c` #bd8038 -> #ffba10 (17% of the visible body): predicted dE R3 meadow 32.1 -> 28.0, R3t fire 51.7 -> 47.1, R3t shadow 66.1 -> 58.0, R3t ice 46.3 -> 41.3, R3t nature 30.9 -> 26.8, R4k old_wood 17.6 -> 24.0 (want >= 24); other grounds heath 19.2, riverbank 30.7, snow 51.1, ash 39.7, sand 32.8, marsh 38.8; `nature_sec_slinger_c` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_sec_slinger_b.tres` (#99b340, dE 48.0 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 20% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.6): add a value step inside the team-colour area",
 			"rank": 1,
 			"status": "WARN",
-			"team_coloured": [
-				"`nature_cloth` 20%"
-			],
-			"text": "shader_parameter/base_color of `nature_sec_slinger_c` #bd8038 -> #ffba10 (17% of the visible body): predicted dE R3 meadow 32.1 -> 28.0, R3t fire 51.7 -> 47.1, R3t shadow 66.1 -> 58.0, R3t ice 46.3 -> 41.3, R3t nature 30.9 -> 26.8, R4k old_wood 17.6 -> 24.0 (want >= 24); other grounds heath 19.2, riverbank 30.7, snow 51.1, ash 39.7, sand 32.8, marsh 38.8; `nature_sec_slinger_c` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_sec_slinger_b.tres` (#99b340, dE 48.0 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 20% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
-			"title": "Body colour vs the grounds",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.6): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
 			"wanted": {
-				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
-				"dE_R4": ">= 14 (soft)",
-				"melt_share": "<= 35%"
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "nature",
-	"quality": 86.9,
+	"quality": 90.8,
 	"result": "WARN",
 	"scene": "res://art/units/_effort_trial/low/vinelasher.tscn",
 	"tier": "soldier",

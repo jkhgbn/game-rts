@@ -1,0 +1,13 @@
+{
+	"asset": "market_fire",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 91.8,
+	"result": "PASS",
+	"scene": "res://art/buildings/market/fire/market_fire.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

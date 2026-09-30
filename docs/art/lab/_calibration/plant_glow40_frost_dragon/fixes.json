@@ -9,55 +9,67 @@
 					"from": 1.0,
 					"material": "frost_membrane",
 					"material_path": "res://art/units/titans/frost_dragon/frost_membrane.tres",
-					"node": "Root/Body/WingL/WingLMesh, Root/Body/WingR/WingRMesh, Root/Body/WingL/WingL2/WingL2Mesh",
+					"node": "Root/Body/WingR/WingRMesh, Root/Body/WingL/WingLMesh, Root/Body/WingL/WingL2/WingL2Mesh",
 					"param": "shader_parameter/shimmer_energy",
 					"peak_x_bloom": 5.99,
 					"to": 0.125,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 9 point(s), peak 5.99 x the level",
-					"words": "shimmer_energy 1.0 -> 0.13 on WingLMesh, WingRMesh, WingL2Mesh (dim under the bloom level: 9 point(s), peak 5.99 x the level)"
+					"why": "dim under the bloom level: 8 point(s), peak 5.99 x the level",
+					"words": "shimmer_energy 1.0 -> 0.13 on WingRMesh, WingLMesh, WingL2Mesh (dim under the bloom level: 8 point(s), peak 5.99 x the level)"
 				},
 				{
 					"factor": 0.125,
 					"from": 1.0,
 					"material": "frost_scale",
 					"material_path": "res://art/units/titans/frost_dragon/frost_scale.tres",
-					"node": "Root/Body/LegBR/LegBRMesh, Root/Body/LegFR/LegFRMesh, Root/Body/Neck1/Neck2/Neck2Mesh, Root/Body/Tail1/Tail2/Tail2Mesh",
+					"node": "Root/Body/Tail1/Tail2/Tail2Mesh, Root/Body/LegFR/LegFRMesh, Root/Body/LegFL/LegFLMesh",
 					"param": "shader_parameter/glow_energy",
 					"peak_x_bloom": 5.99,
 					"to": 0.125,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 5 point(s), peak 5.99 x the level",
-					"words": "glow_energy 1.0 -> 0.13 on LegBRMesh, LegFRMesh, Neck2Mesh, Tail2Mesh (dim under the bloom level: 5 point(s), peak 5.99 x the level)"
+					"why": "dim under the bloom level: 4 point(s), peak 5.99 x the level",
+					"words": "glow_energy 1.0 -> 0.13 on Tail2Mesh, LegFRMesh, LegFLMesh (dim under the bloom level: 4 point(s), peak 5.99 x the level)"
 				}
 			],
 			"check": "R5",
 			"computed": true,
 			"measured": {
-				"points": 18,
-				"points_this_phase": 18,
+				"points": 17,
+				"points_this_phase": 17,
 				"spots": [
 					{
 						"above": true,
-						"part": "Root/Body/LegBR/LegBRMesh",
+						"part": "Root/Body/Tail1/Tail2/Tail2Mesh",
 						"peak_x_bloom": 5.99,
-						"px": 275
-					},
-					{
-						"above": true,
-						"part": "Root/Body/WingL/WingLMesh",
-						"peak_x_bloom": 5.99,
-						"px": 31
+						"px": 208
 					},
 					{
 						"above": true,
 						"part": "Root/Body/WingR/WingRMesh",
 						"peak_x_bloom": 5.99,
-						"px": 30
+						"px": 63
 					},
 					{
 						"above": true,
 						"part": "Root/Body/Neck1/Neck2/Head/HeadMesh",
+						"peak_x_bloom": 5.99,
+						"px": 34
+					},
+					{
+						"above": true,
+						"part": "Root/Body/WingL/WingLMesh",
+						"peak_x_bloom": 5.99,
+						"px": 32
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFR/LegFRMesh",
+						"peak_x_bloom": 5.99,
+						"px": 31
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
 						"peak_x_bloom": 5.99,
 						"px": 30
 					},
@@ -65,35 +77,29 @@
 						"above": true,
 						"part": "Root/Body/LegFR/LegFRMesh",
 						"peak_x_bloom": 5.99,
-						"px": 28
-					},
-					{
-						"above": true,
-						"part": "Root/Body/LegBR/LegBRMesh",
-						"peak_x_bloom": 5.99,
-						"px": 18
-					},
-					{
-						"above": true,
-						"part": "Root/Body/Neck1/Neck2/Neck2Mesh",
-						"peak_x_bloom": 5.99,
 						"px": 16
 					},
 					{
 						"above": true,
-						"part": "Root/Body/WingR/WingRMesh",
+						"part": "Root/Body/WingL/WingL2/WingL2Mesh",
 						"peak_x_bloom": 5.99,
 						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFL/LegFLMesh",
+						"peak_x_bloom": 5.99,
+						"px": 13
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
+						"peak_x_bloom": 5.99,
+						"px": 13
 					},
 					{
 						"above": true,
 						"part": "Root/Body/BodyMesh",
-						"peak_x_bloom": 5.99,
-						"px": 14
-					},
-					{
-						"above": true,
-						"part": "Root/Body/WingL/WingL2/WingL2Mesh",
 						"peak_x_bloom": 5.99,
 						"px": 13
 					},
@@ -105,15 +111,9 @@
 					},
 					{
 						"above": true,
-						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
-						"peak_x_bloom": 5.99,
-						"px": 12
-					},
-					{
-						"above": true,
 						"part": "Root/Body/WingL/WingLMesh",
 						"peak_x_bloom": 5.99,
-						"px": 12
+						"px": 11
 					},
 					{
 						"above": true,
@@ -125,7 +125,7 @@
 						"above": true,
 						"part": "Root/Body/WingL/WingLMesh",
 						"peak_x_bloom": 5.99,
-						"px": 7
+						"px": 8
 					},
 					{
 						"above": true,
@@ -137,24 +137,18 @@
 						"above": true,
 						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
 						"peak_x_bloom": 3.67,
-						"px": 5
-					},
-					{
-						"above": true,
-						"part": "Root/Body/Tail1/Tail2/Tail2Mesh",
-						"peak_x_bloom": 5.99,
-						"px": 5
+						"px": 3
 					}
 				],
-				"value": "18 point(s) above the bloom level 1.2 (median of 19/18/16): LegBRMesh, WingLMesh x2, Tail3Mesh x2, LegFLMesh, WingRMesh x3, HeadMesh x4, JawMesh, Neck2Mesh, WingR2Mesh x2, Tail1Mesh, 2 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 5"
+				"value": "17 point(s) above the bloom level 1.2 (median of 16/19/17): LegBRMesh, Tail2Mesh, WingLMesh x3, HeadMesh, LegFLMesh, WingRMesh x3, Tail3Mesh, WingR2Mesh x2, JawMesh x2, Neck1Mesh, LegFRMesh, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 3"
 			},
 			"predicted": {
-				"points": 4
+				"points": 5
 			},
-			"proposal": "Glow points 18 -> 4 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingLMesh, WingRMesh, WingL2Mesh (dim under the bloom level: 9 point(s), peak 5.99 x the level); frost_scale glow_energy 1.0 -> 0.13 on LegBRMesh, LegFRMesh, Neck2Mesh, Tail2Mesh (dim under the bloom level: 5 point(s), peak 5.99 x the level)",
+			"proposal": "Glow points 17 -> 5 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingLMesh, WingL2Mesh (dim under the bloom level: 8 point(s), peak 5.99 x the level); frost_scale glow_energy 1.0 -> 0.13 on Tail2Mesh, LegFRMesh, LegFLMesh (dim under the bloom level: 4 point(s), peak 5.99 x the level)",
 			"rank": 1,
 			"status": "WARN",
-			"text": "Glow points 18 -> 4 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingLMesh, WingRMesh, WingL2Mesh (dim under the bloom level: 9 point(s), peak 5.99 x the level); frost_scale glow_energy 1.0 -> 0.13 on LegBRMesh, LegFRMesh, Neck2Mesh, Tail2Mesh (dim under the bloom level: 5 point(s), peak 5.99 x the level)",
+			"text": "Glow points 17 -> 5 (want 1-5): frost_membrane shimmer_energy 1.0 -> 0.13 on WingRMesh, WingLMesh, WingL2Mesh (dim under the bloom level: 8 point(s), peak 5.99 x the level); frost_scale glow_energy 1.0 -> 0.13 on Tail2Mesh, LegFRMesh, LegFLMesh (dim under the bloom level: 4 point(s), peak 5.99 x the level)",
 			"title": "Glow points at the bloom level",
 			"wanted": {
 				"points": "1-5 above the bloom level 1.2"
@@ -165,13 +159,13 @@
 			"check": "R5w",
 			"computed": false,
 			"measured": {
-				"value": "points per frame 18/26/25/25/20/21/20/28 (median 25, range 10, 0 frame(s) at 0; at rest 18)"
+				"value": "points per frame 19/23/27/25/25/24/20/19 (median 24, range 8, 0 frame(s) at 0; at rest 17)"
 			},
 			"predicted": {},
-			"proposal": "Glow points while walking (flicker): The glow points blink while walking (18/26/25/25/20/21/20/28 per frame): put them on parts the gait does not cover",
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (19/23/27/25/25/24/20/19 per frame): put them on parts the gait does not cover",
 			"rank": 2,
 			"status": "WARN",
-			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (18/26/25/25/20/21/20/28 per frame): put them on parts the gait does not cover",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (19/23/27/25/25/24/20/19 per frame): put them on parts the gait does not cover",
 			"title": "Glow points while walking (flicker)",
 			"wanted": {
 				"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)"
@@ -181,7 +175,7 @@
 	"ground": "meadow",
 	"kind": "titan",
 	"kingdom": "ice",
-	"quality": 92.9,
+	"quality": 94.3,
 	"result": "WARN",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn",
 	"tier": "titan",

@@ -1,0 +1,13 @@
+{
+	"asset": "ice_keep",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 87.2,
+	"result": "PASS",
+	"scene": "res://art/buildings/ice_keep.tscn",
+	"tier": "keep",
+	"version": "1.0"
+}

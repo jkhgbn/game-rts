@@ -2,6 +2,7 @@
 	"asset": "shade",
 	"budget": {
 		"draw": 14,
+		"face_verts": 800,
 		"frame_ms": 0.005,
 		"lights": 0,
 		"meshes": 26,
@@ -28,7 +29,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "root Node3D, 22 nodes",
+			"value": "root Node3D, 23 nodes",
 			"weight": 1.0
 		},
 		{
@@ -42,21 +43,21 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "9 drawn (9 mesh + 0 multimesh); per pivot: Chest 2, (root) 1, ArmL 1, ArmR 1, Head 1, Hips 1",
+			"value": "10 drawn (10 mesh + 0 multimesh); per pivot: Chest 2, Head 2, (root) 1, ArmL 1, ArmR 1, Hips 1",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.978723404255319,
 			"group": "budget",
 			"hint": "",
 			"id": "B2",
 			"improve": "",
 			"name": "Draw instances at rest",
 			"rule": "<= 14 (art-units.md 8, tier3-extras.md 12)",
-			"score": 1.0,
+			"score": 0.993617021276596,
 			"shot": "",
 			"status": "PASS",
-			"value": "9",
+			"value": "10",
 			"weight": 1.0
 		},
 		{
@@ -70,7 +71,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "2",
+			"value": "3",
 			"weight": 1.0
 		},
 		{
@@ -84,7 +85,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "1313 (biggest: Merged 295, Merged 253, Merged 229, Merged 215)",
+			"value": "1289 (body + face above its allowance: face 497 v, allowance 800, total 1786; biggest: Face 497, Merged 295, Merged 253, Merged 229)",
 			"weight": 1.0
 		},
 		{
@@ -168,7 +169,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "10",
+			"value": "11",
 			"weight": 1.0
 		},
 		{
@@ -182,7 +183,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "26",
+			"value": "27",
 			"weight": 1.0
 		},
 		{
@@ -196,7 +197,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "17 surfaces over 9 meshes (each surface = 1 draw call)",
+			"value": "17 surfaces over 10 meshes (each surface = 1 draw call)",
 			"weight": 1.0
 		},
 		{
@@ -210,7 +211,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "206 of 1596 triangles (12%) face steeply down (normal y < -0.7)",
+			"value": "214 of 2628 triangles (8%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -256,31 +257,31 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.334366128990245,
+			"graded": 0.565727041270965,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
-			"improve": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"improve": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.334366128990245,
+			"score": 0.565727041270965,
 			"shot": "close",
 			"status": "INFO",
-			"value": "24 shapes over 7 body parts (3.4 per part: LegL 2, LegR 2, Hips 1, Head 4, ArmL 4, ArmR 5, Chest 6); 38% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838",
+			"value": "43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.638857142857143,
+			"graded": 1.0,
 			"group": "craft",
 			"hint": "",
 			"id": "C2",
-			"improve": "Only 52% of the vertex budget is used: spend it on the close / 25 m read (bevels, tapers, more sides on the big curved masses, secondary shapes)",
+			"improve": "",
 			"name": "Vertex use vs budget",
 			"rule": "craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4)",
-			"score": 0.638857142857143,
+			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "52% of the 2500 verts budget used (1309)",
+			"value": "71% of the 2500 verts budget used (1782)",
 			"weight": 1.0
 		},
 		{
@@ -298,14 +299,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.72899717092514,
+			"graded": 0.728977501392365,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.918699151277542,
+			"score": 0.918693250417709,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.82 m / body_height 1.6 (x1.14)",
@@ -336,21 +337,21 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "16 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+			"value": "17 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.862876031052887,
+			"graded": 0.827833568999734,
 			"group": "craft",
 			"hint": "",
 			"id": "C4",
 			"improve": "",
 			"name": "Inner detail (close-up / 25 m)",
 			"rule": "craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette)",
-			"score": 0.862876031052887,
+			"score": 0.827833568999734,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 1.72 at the close-up (95714 px), 1.36 at 25 m; close-up outline complexity 4.98",
+			"value": "inner edges per outline px: 1.7 at the close-up (95709 px), 1.34 at 25 m; close-up outline complexity 4.99",
 			"weight": 1.0
 		},
 		{
@@ -372,13 +373,13 @@
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 90.1): raise the value step between the big masses and the ground (dL -39 now)",
+			"improve": "Raise the contrast of the key read on meadow (dE 89.1): raise the value step between the big masses and the ground (dL -40 now)",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 90.1, 0% of the body melts (within dE 15 of the ground); body L* 24.1 C 33.9 vs ground L* 63.3 C 48.0, hue gap 163 deg; top third (world height) dE 92.7, L* 29.3; per-pixel dE 93.6, outline 67.4",
+			"value": "mean-colour dE 89.1, 0% of the body melts (within dE 15 of the ground); body L* 23.1 C 32.2 vs ground L* 63.3 C 48.0, hue gap 164 deg; top third (world height) dE 91.3, L* 26.8; per-pixel dE 92.4, outline 66.2",
 			"weight": 1.5
 		},
 		{
@@ -392,21 +393,21 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 38.4, 0% melts (marsh is where shadow units stand most)",
+			"value": "dE 37.5, 0% melts (marsh is where shadow units stand most)",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.965937932332357,
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On ash the body drops to dE 30.2: add a value accent that separates it there too",
+			"improve": "On ash the body drops to dE 29.2: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 10 on every skirmish ground (WARN only)",
-			"score": 1.0,
+			"score": 0.989781379699707,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst ash: dE 30.2 (heath dE 51.2, old_wood dE 53.9, riverbank dE 67.7, snow dE 74.9, ash dE 30.2, sand dE 83.0, marsh dE 38.4)",
+			"value": "worst ash: dE 29.2 (heath dE 50.9, old_wood dE 52.9, riverbank dE 66.8, snow dE 75.3, ash dE 29.2, sand dE 83.1, marsh dE 37.5)",
 			"weight": 1.0
 		},
 		{
@@ -420,7 +421,7 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "59% of body pixels change between kingdom colours (min pair 58%)",
+			"value": "60% of body pixels change between kingdom colours (min pair 59%)",
 			"weight": 1.0
 		},
 		{
@@ -434,21 +435,21 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst nature colour: dE 43.1 (fire 67.6, shadow 90.7, ice 66.7, nature 43.1)",
+			"value": "worst nature colour: dE 41.7 (fire 66.4, shadow 89.9, ice 65.6, nature 41.7)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.200656335970153,
+			"graded": 0.19990313251142,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.760196900791046,
+			"score": 0.759970939753426,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst pair fire / nature (deutan): dE 8.4 on the team-colour area (normal vision 72.5; 291 px); deutan: fire / nature dE 8.4; protan: fire / nature dE 20.2; worst vs ground: fire colour (deutan) dE 40.3",
+			"value": "worst pair fire / nature (deutan): dE 8.4 on the team-colour area (normal vision 73.0; 296 px); deutan: fire / nature dE 8.4; protan: fire / nature dE 20.3; worst vs ground: fire colour (deutan) dE 39.5",
 			"weight": 0.5
 		},
 		{
@@ -476,7 +477,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "tip reaches 1.41 m from the body centre at t 0.14 s (1.06 m forward; geometry clipped at the ground); declared 1.6 m (UnitType attack_range (shade.tres)) - not a reach weapon (< 2.5 m): not judged",
+			"value": "tip reaches 1.47 m from the body centre at t 0.08 s (1.42 m forward; geometry clipped at the ground); declared 1.6 m (UnitType attack_range (shade.tres)) - not a reach weapon (< 2.5 m): not judged",
 			"weight": 1.0
 		},
 		{
@@ -484,13 +485,13 @@
 			"group": "anim",
 			"hint": "Bigger wind-up / strike: the weapon or head should leave the body outline",
 			"id": "A3",
-			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 67%)",
+			"improve": "Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 70%)",
 			"name": "Attack reads at 40 m",
 			"rule": ">= 12% (1 - IoU rest vs strike)",
 			"score": 1.0,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "strike pose changes 67% of the silhouette (t 0.14 s)",
+			"value": "strike pose changes 70% of the silhouette (t 0.14 s)",
 			"weight": 1.0
 		},
 		{
@@ -518,7 +519,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 29.3, bottom third L* 11.7 (+17, world height)",
+			"value": "top third L* 26.8, bottom third L* 11.6 (+15, world height)",
 			"weight": 1.0
 		},
 		{
@@ -532,22 +533,8 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 8.4 at 25 m, 12.6 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 8.8 at 25 m, 12.7 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
-		},
-		{
-			"graded": 0.446624200994318,
-			"group": "read",
-			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
-			"id": "R5c",
-			"improve": "",
-			"name": "Glow points stand out (1 m surround)",
-			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
-			"score": 0.833987260298295,
-			"shot": "glow",
-			"status": "PASS",
-			"value": "worst dL +14 (point 1 dL +14; ring 24 px = 1.0 m at 40 m)",
-			"weight": 0.5
 		},
 		{
 			"graded": 1.0,
@@ -560,49 +547,35 @@
 			"score": 1.0,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "1 point(s) above the bloom level 1.2 (median of 1/1/0): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1",
+			"value": "1 point(s) above the bloom level 1.2 (median of 0/1/1): Face; soft glows under the bloom (v1 count, luma > 0.4): 1",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
-			"group": "polish",
-			"hint": "",
-			"id": "P5",
-			"improve": "",
-			"name": "Glow placement",
-			"rule": "one glow high (head / weapon / crest) reads over crowds",
-			"score": 1.0,
-			"shot": "glow",
-			"status": "INFO",
-			"value": "1 of 1 glow(s) in the upper half of the model's height (world)",
-			"weight": 1.0
-		},
-		{
-			"graded": 0.527427273390277,
+			"graded": 0.5265432804011,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only)",
-			"score": 0.858228182017083,
+			"score": 0.85796298412033,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 81-86% (min 401 px), frame-to-frame IoU min 0.58; 8 frames 0.09 s apart",
+			"value": "walk frames vs rest: mean IoU 0.59 (min 0.53), area kept 81-86% (min 402 px), frame-to-frame IoU min 0.57; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.475,
+			"graded": 0.725,
 			"group": "read",
 			"hint": "Glow points that hide behind a swinging limb or dip under the bloom level blink at 40 m: move them to a steady part (head, chest, weapon head) or raise their energy",
 			"id": "R5w",
 			"improve": "",
 			"name": "Glow points while walking (flicker)",
 			"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)",
-			"score": 0.8425,
+			"score": 0.9175,
 			"shot": "glow",
 			"status": "PASS",
-			"value": "points per frame 2/2/2/0/1/1/2/2 (median 2, range 2, 1 frame(s) at 0; at rest 1)",
+			"value": "points per frame 1/1/1/1/0/1/1/1 (median 1, range 1, 1 frame(s) at 0; at rest 1)",
 			"weight": 0.5
 		},
 		{
@@ -616,7 +589,7 @@
 			"score": -1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "cast pose changes 27% of the silhouette at its peak (t 0.4 s; 0.12 s 24%, 0.25 s 26%, 0.4 s 27%, 0.6 s 27%)",
+			"value": "cast pose changes 27% of the silhouette at its peak (t 0.4 s; 0.12 s 24%, 0.25 s 26%, 0.4 s 27%, 0.6 s 26%)",
 			"weight": 1.0
 		},
 		{
@@ -630,7 +603,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "after 1.02 s",
+			"value": "after 1.01 s",
 			"weight": 1.0
 		},
 		{
@@ -650,8 +623,8 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 15,
-		"PASS": 30,
+		"INFO": 14,
+		"PASS": 29,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -659,42 +632,42 @@
 	"headless": false,
 	"improve_next": [
 		{
-			"rank": 1.33126774201951,
+			"rank": 0.868545917458071,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
-			"text": "Plain / blocky shapes: only 3.4 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
+			"text": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"title": "Shape richness (secondary shapes)"
-		},
-		{
-			"rank": 0.722285714285715,
-			"source": "C2 Vertex use vs budget, shot close",
-			"status": "INFO",
-			"text": "Only 52% of the vertex budget is used: spend it on the close / 25 m read (bevels, tapers, more sides on the big curved masses, secondary shapes)",
-			"title": "Vertex use vs budget"
 		},
 		{
 			"rank": 0.0,
 			"source": "B11",
 			"status": "IDEA",
-			"text": "Merge surfaces that share a material (17 surfaces for 9 meshes = 17 draw calls)",
+			"text": "Merge surfaces that share a material (17 surfaces for 10 meshes = 17 draw calls)",
 			"title": "Surfaces per instance"
+		},
+		{
+			"rank": 0.0,
+			"source": "anim strip",
+			"status": "IDEA",
+			"text": "Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m",
+			"title": "Idle / attack beats"
 		}
 	],
 	"kind": "unit",
 	"kingdom": "shadow",
 	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Root/Chest/Merged 295 v / 3 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 215 v / 4 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s; Root/Chest/Cape 16 v / 1 s",
+		"Per-mesh vertices (biggest first): Root/Chest/Head/Face 497 v / 1 s; Root/Chest/Merged 295 v / 3 s; Root/Chest/ArmR/Merged 253 v / 3 s; Root/Chest/ArmL/Merged 229 v / 2 s; Root/Chest/Head/Merged 191 v / 3 s; Root/Hips/LegL/Merged 132 v / 1 s; Root/Hips/LegR/Merged 132 v / 1 s; Root/Hips/Merged 37 v / 1 s",
 		"1 hidden parts at rest (toggled states, not counted as draws)",
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
 		"quick=1: light-preset sweep (R12) and style bible (S1) skipped",
 		"quick=1: references (R2) and frame cost (B13) skipped"
 	],
 	"previous_quality": -1.0,
-	"quality": 94.3,
+	"quality": 96.5,
 	"result": "PASS",
 	"scene": "res://art/units/shadow/shade.tscn",
-	"seconds": 24.5,
+	"seconds": 21.4,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -706,6 +679,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 14:16:42",
+	"started": "2026-09-30 11:43:09",
 	"tier": "soldier"
 }

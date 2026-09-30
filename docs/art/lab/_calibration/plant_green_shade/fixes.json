@@ -6,13 +6,13 @@
 			"changes": [
 				{
 					"from": "#8cb847",
-					"material": "StandardMaterial3D#-38053",
+					"material": "StandardMaterial3D#-55365",
 					"material_path": "",
-					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Hips/Merged, Root/Chest/Head/Merged",
+					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Hips/Merged, Root/Chest/Head/Face",
 					"param": "albedo_color",
 					"shared": "built in code or embedded: change it where the model script creates it",
-					"to": "#fffa7f",
-					"weight": 0.99
+					"to": "#faff75",
+					"weight": 1.0
 				}
 			],
 			"check": "R3",
@@ -24,29 +24,29 @@
 				"R3t"
 			],
 			"gain": [
-				1.4,
+				1.3,
 				1.0,
-				1.4
+				1.2
 			],
 			"measured": {
 				"body_lab": [
 					70.6,
-					-21.6,
-					47.4
+					-23.0,
+					49.4
 				],
 				"dE": {
-					"R3 meadow": 8.4,
-					"R3t fire": 8.4,
-					"R3t ice": 8.2,
-					"R3t nature": 8.4,
-					"R3t shadow": 8.2,
-					"R4 ash": 72.1,
-					"R4 heath": 46.3,
-					"R4 old_wood": 52.7,
-					"R4 riverbank": 45.1,
-					"R4 sand": 30.2,
-					"R4 snow": 54.1,
-					"R4k marsh": 72.2
+					"R3 meadow": 9.8,
+					"R3t fire": 9.9,
+					"R3t ice": 9.9,
+					"R3t nature": 9.9,
+					"R3t shadow": 9.9,
+					"R4 ash": 74.0,
+					"R4 heath": 48.6,
+					"R4 old_wood": 54.2,
+					"R4 riverbank": 46.3,
+					"R4 sand": 32.3,
+					"R4 snow": 56.3,
+					"R4k marsh": 74.0
 				},
 				"ground_lab": [
 					63.3,
@@ -56,23 +56,23 @@
 				"melt_share": 0.36
 			},
 			"predicted": {
-				"R3 meadow": 29.1,
-				"R3t fire": 29.1,
-				"R3t ice": 29.1,
-				"R3t nature": 29.1,
-				"R3t shadow": 29.1,
-				"R4 ash": 81.4,
-				"R4 heath": 51.6,
-				"R4 old_wood": 66.6,
-				"R4 riverbank": 63.9,
-				"R4 sand": 20.5,
-				"R4 snow": 48.4,
-				"R4k marsh": 82.3
+				"R3 meadow": 29.2,
+				"R3t fire": 29.2,
+				"R3t ice": 29.2,
+				"R3t nature": 29.3,
+				"R3t shadow": 29.2,
+				"R4 ash": 86.8,
+				"R4 heath": 57.7,
+				"R4 old_wood": 70.1,
+				"R4 riverbank": 65.9,
+				"R4 sand": 28.6,
+				"R4 snow": 55.7,
+				"R4k marsh": 87.1
 			},
-			"proposal": "albedo_color of `StandardMaterial3D#-38053` #8cb847 -> #fffa7f (98% of the visible body): predicted dE R3 meadow 8.4 -> 29.1, R3t fire 8.4 -> 29.1, R3t shadow 8.2 -> 29.1, R3t ice 8.2 -> 29.1, R3t nature 8.4 -> 29.1, R4k marsh 72.2 -> 82.3 (want >= 29); other grounds heath 51.6, old_wood 66.6, riverbank 63.9, snow 48.4, ash 81.4, sand 20.5; built in code or embedded: change it where the model script creates it",
+			"proposal": "albedo_color of `StandardMaterial3D#-55365` #8cb847 -> #faff75 (99% of the visible body): predicted dE R3 meadow 9.8 -> 29.2, R3t fire 9.9 -> 29.2, R3t shadow 9.9 -> 29.2, R3t ice 9.9 -> 29.2, R3t nature 9.9 -> 29.3, R4k marsh 74.0 -> 87.1 (want >= 29); other grounds heath 57.7, old_wood 70.1, riverbank 65.9, snow 55.7, ash 86.8, sand 28.6; built in code or embedded: change it where the model script creates it",
 			"rank": 1,
 			"status": "FAIL",
-			"text": "albedo_color of `StandardMaterial3D#-38053` #8cb847 -> #fffa7f (98% of the visible body): predicted dE R3 meadow 8.4 -> 29.1, R3t fire 8.4 -> 29.1, R3t shadow 8.2 -> 29.1, R3t ice 8.2 -> 29.1, R3t nature 8.4 -> 29.1, R4k marsh 72.2 -> 82.3 (want >= 29); other grounds heath 51.6, old_wood 66.6, riverbank 63.9, snow 48.4, ash 81.4, sand 20.5; built in code or embedded: change it where the model script creates it",
+			"text": "albedo_color of `StandardMaterial3D#-55365` #8cb847 -> #faff75 (99% of the visible body): predicted dE R3 meadow 9.8 -> 29.2, R3t fire 9.9 -> 29.2, R3t shadow 9.9 -> 29.2, R3t ice 9.9 -> 29.2, R3t nature 9.9 -> 29.3, R4k marsh 74.0 -> 87.1 (want >= 29); other grounds heath 57.7, old_wood 70.1, riverbank 65.9, snow 55.7, ash 86.8, sand 28.6; built in code or embedded: change it where the model script creates it",
 			"title": "Body colour vs the grounds",
 			"wanted": {
 				"dE_R3_R3t_R4k": ">= 29 (rule 20 + margin 9)",
@@ -99,26 +99,31 @@
 		},
 		{
 			"changes": [],
-			"check": "R6cb",
+			"check": "R5",
 			"computed": false,
 			"measured": {
-				"value": "worst pair shadow / ice (deutan): dE 0.2 on the team-colour area (normal vision 0.4; 6 px); deutan: shadow / ice dE 0.2; protan: shadow / ice dE 0.3; worst vs ground: shadow colour (deutan) dE 8.1"
+				"points": 0,
+				"points_this_phase": 0,
+				"spots": [],
+				"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0"
 			},
-			"predicted": {},
-			"proposal": "Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 0.2): add a value step inside the team-colour area",
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
 			"rank": 3,
 			"status": "WARN",
-			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players shadow / ice (deutan) look alike on this model (dE 0.2): add a value step inside the team-colour area",
-			"title": "Team colours for colour-blind players",
+			"text": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
 			"wanted": {
-				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+				"points": "1-3 above the bloom level 1.2"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "shadow",
-	"quality": 79.5,
+	"quality": 80.5,
 	"result": "FAIL",
 	"scene": "res://tools/art_lab/calibration/virtual/plant_green_shade.tscn",
 	"tier": "soldier",

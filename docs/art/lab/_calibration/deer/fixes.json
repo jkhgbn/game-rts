@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "critter",
 	"kingdom": "neutral",
-	"quality": 98.8,
+	"quality": 99.1,
 	"result": "PASS",
 	"scene": "res://art/units/neutral/critters/deer.tscn",
 	"tier": "deer",

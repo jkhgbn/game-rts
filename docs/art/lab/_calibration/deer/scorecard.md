@@ -1,15 +1,15 @@
 # Art Lab scorecard: deer
 
-Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-27 14:18:37 · lab v3.1
+Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 11:44:31 · lab v3.1
 
-## Result: **PASS** · quality **99 / 100** (98.8)
+## Result: **PASS** · quality **99 / 100** (99.1)
 
 0 FAIL · 0 WARN · 15 PASS · 14 info · 0 skipped · 13 s
 
 ## Improve next
-1. **Contrast vs ground (meadow)** (PASS): Raise the contrast of the key read on meadow (dE 50.3): raise the value step between the big masses and the ground (dL -22 now) _(from R3 Contrast vs ground (meadow), shot z40)_
-2. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
-3. **Detail density at 25 m** (IDEA): Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m _(from shot z25)_
+1. **Idle / attack beats** (IDEA): Give the idle one secondary motion (tail flick, cloth, head turn) and the attack a 0.1 s anticipation pose so it reads at 40 m _(from anim strip)_
+2. **Detail density at 25 m** (IDEA): Add 1-2 mid-size value accents (trim band, belt, plate edge, markings) that read at 25 m and merge into the big mass at 40 m _(from shot z25)_
+3. **Key-read contrast** (IDEA): Put the lightest value and the team colour on the top-facing masses (seen from pitch 55), darker values low _(from shot z40)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -38,11 +38,11 @@ Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **
 |---|---|---|---|---|---|
 | R9 | Feet on the ground | PASS 100 | lowest point -0.0 m | -0.08 .. +0.05 m (art-units 1.6) |  |
 | R10 | Footprint vs selection radius | INFO | x 0.47 / z 1.19 m (radius 0.3, default) | x <= radius x 1.4, z <= x 2.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
-| R1 | Silhouette area at 40 m | PASS 100 | 435 px (28 x 46 bbox; 55 m: 218 px) | >= 25 px (FAIL < 8) at 1600 x 900 |  |
-| R3 | Contrast vs ground (meadow) | PASS 96 | mean-colour dE 50.3, 13% of the body melts (within dE 15 of the ground); body L* 40.1 C 36.1 vs ground L* 62.7 C 48.4, hue gap 62 deg; top third (world height) dE 27.0, L* 52.8; per-pixel dE 55.7, outline 41.7 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 7 or > 60 % melting): the body must not melt into the grass |  |
-| R4 | Contrast on the other grounds | PASS 100 | worst heath: dE 26.3 (heath dE 26.3, old_wood dE 31.6, riverbank dE 47.6, snow dE 55.8, ash dE 31.7, sand dE 43.6, marsh dE 28.5) | dE >= 7 on every skirmish ground (WARN only) |  |
+| R1 | Silhouette area at 40 m | PASS 100 | 442 px (26 x 49 bbox; 55 m: 226 px) | >= 25 px (FAIL < 8) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | PASS 99 | mean-colour dE 51.8, 6% of the body melts (within dE 15 of the ground); body L* 38.8 C 33.5 vs ground L* 62.0 C 49.2, hue gap 65 deg; top third (world height) dE 34.0, L* 54.5; per-pixel dE 58.0, outline 43.5 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 7 or > 60 % melting): the body must not melt into the grass |  |
+| R4 | Contrast on the other grounds | PASS 100 | worst heath: dE 24.7 (heath dE 24.7, old_wood dE 30.3, riverbank dE 47.7, snow dE 56.9, ash dE 30.9, sand dE 44.7, marsh dE 28.4) | dE >= 7 on every skirmish ground (WARN only) |  |
 | R5 | Glow points at 40 m | PASS 100 | 0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0 | 0-1 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
-| R11 | Reads while walking (40 m) | PASS 90 | walk frames vs rest: mean IoU 0.66 (min 0.65), area kept 98-101% (min 427 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 25 px (WARN only) |  |
+| R11 | Reads while walking (40 m) | PASS 90 | walk frames vs rest: mean IoU 0.67 (min 0.66), area kept 99-102% (min 429 px), frame-to-frame IoU min 0.79; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 25 px (WARN only) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -54,15 +54,15 @@ Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **
 |---|---|---|---|---|---|
 | C1 | Shape richness (secondary shapes) | INFO 100 | 28 shapes over 1 body parts (28.0 per part: (root) 28); 3% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.872 | craft (lab v3.1): >= 7 separate shapes per body part, <= 30% plain boxes / prisms, normal variety >= 0.86 |  |
 | C2 | Vertex use vs budget | INFO 100 | 94% of the 1200 tris budget used (1134) | craft (lab v3.1): a finished model uses >= 80% of its tier budget (under-use = detail left on the table; over is B4) |  |
-| C3 | Palette depth (close-up) | INFO 100 | 11 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 10 colour steps and >= 8 value steps at the close-up |  |
-| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 1.0 at the close-up (32102 px), 0.84 at 25 m; close-up outline complexity 17.25 | craft (lab v3.1): >= 0.7 inner edge px per outline px at the close-up, >= 0.7 at 25 m (shape and value breaks inside the silhouette) |  |
+| C3 | Palette depth (close-up) | INFO 100 | 12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 10 colour steps and >= 8 value steps at the close-up |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 0.89 at the close-up (31604 px), 1.01 at 25 m; close-up outline complexity 17.51 | craft (lab v3.1): >= 0.7 inner edge px per outline px at the close-up, >= 0.7 at 25 m (shape and value breaks inside the silhouette) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P1 | Silhouette hook | INFO 100 | outline complexity 4.45 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
-| P3 | Tops light, bottoms dark | INFO 100 | top third L* 52.8, bottom third L* 17.9 (+34, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
-| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 10.4 at 25 m, 16.5 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| P1 | Silhouette hook | INFO 100 | outline complexity 4.78 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 100 | top third L* 54.5, bottom third L* 17.6 (+36, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 99 | inner detail 11.0 at 25 m, 16.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
 
 ## Shots
 - z40: [z40.jpg](z40.jpg)

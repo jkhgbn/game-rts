@@ -43,10 +43,21 @@ func _setup() -> void:
 	smoke_color = Color(0.24, 0.22, 0.17)
 	stain_color = Color(0.20, 0.35, 0.12, 0.45)
 	footprint = 4.0
+	vc_merge = true   # B8: merged glows (PaintedVC) + the NatureKit merge in _post_build
 	plinth_top = 0.4
 	wreck_top = 1.0
 	smoke_points = [Vector3(0.5, 3.6, -0.4)]
 	blaze_points = [Vector3(-0.3, 4.2, 0.3)]
+
+
+## B8: the NatureKit painted / card materials drawn as one merged material each (NatureVC).
+func _post_build() -> void:
+	NatureKit.NVC.convert(self, _mats)
+
+
+## B8: the state particles use NatureKit's soft dots (the pollen's ADD dot, the leaves / petals atlas for MIX).
+func _quad_for(add: bool) -> Mesh:
+	return NatureKit.soft_quad(add)
 
 
 ## The Heartwood's materials (per instance) in the base class slots.

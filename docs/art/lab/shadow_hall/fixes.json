@@ -1,0 +1,13 @@
+{
+	"asset": "shadow_hall",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "shadow",
+	"quality": 90.7,
+	"result": "PASS",
+	"scene": "res://art/buildings/shadow_hall.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

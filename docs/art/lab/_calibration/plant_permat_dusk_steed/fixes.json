@@ -7,13 +7,13 @@
 			"check": "B9",
 			"computed": false,
 			"measured": {
-				"value": "34 material(s), 0 mesh(es) not shared by a 2nd instance"
+				"value": "35 material(s), 0 mesh(es) not shared by a 2nd instance"
 			},
 			"predicted": {},
-			"proposal": "Materials built per instance: Share the 34 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"proposal": "Materials built per instance: Share the 35 per-instance material(s) (static cache) so 200 units do not build 200 copies",
 			"rank": 1,
 			"status": "FAIL",
-			"text": "B9 Materials built per instance: Share the 34 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"text": "B9 Materials built per instance: Share the 35 per-instance material(s) (static cache) so 200 units do not build 200 copies",
 			"title": "Materials built per instance",
 			"wanted": {
 				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"

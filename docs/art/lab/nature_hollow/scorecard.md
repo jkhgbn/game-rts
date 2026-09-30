@@ -1,0 +1,110 @@
+# Art Lab scorecard: nature_hollow
+
+Scene `res://art/buildings/nature_hollow.tscn` · kind **building** / tier **hall** · kingdom nature · ground meadow · 2026-09-30 14:47:11 · lab v3.1
+
+## Result: **WARN** · quality **93 / 100** (93.2) (previous run 93, +0)
+
+0 FAIL · 2 WARN · 19 PASS · 18 info · 0 skipped · 26 s
+
+## Before / after (vs the run of 2026-09-30 12:41:06 in `docs/art/lab/nature_hollow`: quality 93 -> 93, +0)
+### What got worse (0)
+Nothing got worse.
+
+### Score delta per check (2 changed, 39 unchanged)
+| # | Check | Before | After | Delta |
+|---|---|---|---|---|
+| R5c | Glow points stand out (1 m surround) | PASS 95 | PASS 94 | -1.0 (noisy) |
+| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 54 | INFO 55 | +1.0 |
+
+Changed pixels per shot: z40 2.2 %, z55 1.8 %, z25 2.9 %, close 1.1 %, turns 1.0 %, anim 0.8 %, silhouette 0.0 %, lineup 2.2 % · [diff sheet](diff_sheet.png) (before / after / changed mask)
+
+## Improve next
+1. **Contrast vs ground (meadow)** (WARN): Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 73% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them [fixes.json #1] _(from R3 Contrast vs ground (meadow), shot z40)_
+2. **Contrast in every team colour (meadow)** (WARN): In the nature team colour the body drops to dE 13.6 on meadow: add a value step around the team-colour area _(from R3t Contrast in every team colour (meadow), shot teams)_
+3. **Style bible: golden autumn (style-autumn.md 3)** (INFO): On the autumn map the body melts into the ochre floor (dE 25.5): push its main mass out of the L* 25-55 / C* <= 35 band _(from S1 Style bible: golden autumn (style-autumn.md 3), shot z40)_
+4. **Contrast on the other grounds** (PASS): On riverbank the body drops to dE 18.2: add a value accent that separates it there too _(from R4 Contrast on the other grounds, shot z40)_
+
+## Health (errors, allocations, hooks)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| H0 | Scene instantiates | PASS 100 | root Node3D, 24 nodes | instantiates without errors |  |
+| B9 | Materials built per instance | INFO 100 | 12 material(s), 1 mesh(es) not shared by a 2nd instance (per-building copies, accepted by art-keep 8.6) | 0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6) |  |
+| B10 | Allocations after _ready (actions) | PASS 100 | 0 node(s) created, net +0, 2nd action cycle: 0 node(s), 0 new material(s) | 0: pre-built emitters restarted, instance uniforms for flashes (art-units 6.10); materials swapped from a cache are not new |  |
+| H1 | Errors from the asset while running | PASS 100 | 0 error(s), 0 warning(s) | 0 (its folder + the kit) |  |
+
+## Budgets
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| B1 | Meshes after the kit merge | INFO | 8 | no budget for building/hall |  |
+| B2 | Draw instances at rest | PASS 100 | 10 | <= 32 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B4 | Vertices | PASS 100 | 5551 (biggest: Walls 2027, GroundDressing 1587, LeafRoof 1162, Banner 280) | <= 12000 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B5 | Real lights | PASS 100 | 0 | <= 0 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B6 | Particle systems | INFO | 6 | no budget for building/hall |  |
+| B6l | Looping particle systems | INFO | 2 | no budget for building/hall |  |
+| B6p | Looping particles alive | PASS 100 | 13 | <= 90 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B7 | Shadow casters | INFO | 4 | no budget for building/hall |  |
+| B8 | Unique materials | PASS 88 | 8 | <= 8 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B1a | Authored build parts (before the merge) | INFO | 16 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes) |  |
+| B11 | Surfaces per instance | INFO | 16 surfaces over 8 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
+| B12 | Downward-facing triangles | INFO | 968 of 5326 triangles (18%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
+| B13 | Frame cost | PASS 100 | 0.0 ms process per instance (8 animated at 40 m: +-0.03 ms process, render CPU +0.13 ms, GPU +0.09 ms) | <= 0.05 ms per instance (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+
+## Readability at 40 m
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| R9 | Ground contact | PASS 100 | lowest point -0.33 m | touches the ground (<= 0.05 m) and sinks < 1 m (art-keep 0.1 / 0.5) |  |
+| R1 | Silhouette area at 40 m | PASS 100 | 12832 px (155 x 170 bbox; 55 m: 6573 px) | >= 5000 px (FAIL < 2000) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | **WARN** 48 | mean-colour dE 13.6, 5% of the body melts (within dE 15 of the ground); body L* 51.7 C 41.6 vs ground L* 62.1 C 50.2, hue gap 2 deg; top third (world height) dE 9.8, L* 68.3; per-pixel dE 34.0, outline 21.0 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 8 or > 60 % melting): the body must not melt into the grass | Melts into the meadow: the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it |
+| R4k | Contrast on the home ground (old_wood) | PASS 100 | dE 29.7, 14% melts (old_wood is where nature units stand most) | dE >= 14 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
+| R4 | Contrast on the other grounds | PASS 95 | worst riverbank: dE 18.2 (heath dE 18.9, old_wood dE 29.7, riverbank dE 18.2, snow dE 52.4, ash dE 50.0, sand dE 35.4, marsh dE 49.5) | dE >= 8 on every skirmish ground (WARN only) |  |
+| R6 | Team-colour visibility at 40 m | PASS 100 | 50% of body pixels change between kingdom colours (min pair 49%) | >= 8% (FAIL = set_team_color changes nothing) |  |
+| R3t | Contrast in every team colour (meadow) | **WARN** 52 | worst nature colour: dE 13.6 (fire 54.2, shadow 68.4, ice 40.0, nature 13.6) | dE >= 14 in every kingdom colour (WARN only: mirror matches / enemy colours) | Keep the team colour off the silhouette's biggest mass or give it a value step (trim, dark border) |
+| R6cb | Team colours for colour-blind players | PASS 80 | worst pair fire / nature (deutan): dE 12.3 on the team-colour area (normal vision 90.2; 6509 px); deutan: fire / nature dE 12.3; protan: fire / nature dE 26.7; worst vs ground: nature colour (deutan) dE 11.7 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 8 from the ground (WARN only) |  |
+| R5c | Glow points stand out (1 m surround) | PASS 94 | worst dL +14 (point 1 dL +31, point 2 dL +30, point 3 dL +20, point 4 dL +50, point 5 dL +47, soft 1 dL +30 (counts), soft 2 dL +30 (counts), soft 3 dL +24 (counts), soft 4 dL +56 (counts), soft 5 dL +31 (counts), soft 6 dL +50 (counts), soft 7 dL +39 (counts), soft 8 dL +14 (counts), soft 9 dL +35 (counts), soft 10 dL +25 (counts), soft 11 dL +36 (counts), soft 12 dL -3; ring 25 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
+| R5 | Glow points at 40 m | PASS 100 | 4 point(s) above the bloom level 1.2 (median of 5/4/3): Lantern x2, Plinth x2; soft glows under the bloom (v1 count, luma > 0.4): 13 | 2-4 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
+| R2 | Distinct from references (black masks) | PASS 100 | max IoU 0.38 (greywater_lodge 0.38, nature_spire 0.33, nature_stables 0.31, trade_post 0.3, market_nature 0.3, nature_hall 0.21) | IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15) |  |
+
+## Animation
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| A1 | Standard hooks | PASS 100 | all 5 present | set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed |  |
+
+## Craft: shape and detail at the close-up / 25 m (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| C1 | Shape richness (secondary shapes) | INFO 100 | 167 shapes over 3 body parts (55.7 per part: Body 114, LanternPivot 8, (root) 45); 28% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.937 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.83 |  |
+| C2 | Vertex use vs budget | INFO 100 | 46% of the 12000 verts budget used (5547) | craft (lab v3.1): a finished model uses >= 40% of its tier budget (under-use = detail left on the table; over is B4) |  |
+| C3 | Palette depth (close-up) | INFO 100 | 18 colour steps (L*a*b* bins >= 2 % of the body), 11 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 12 colour steps and >= 8 value steps at the close-up |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 4.07 at the close-up (62715 px), 3.48 at 25 m; close-up outline complexity 9.28 | craft (lab v3.1): >= 2.5 inner edge px per outline px at the close-up, >= 2.5 at 25 m (shape and value breaks inside the silhouette) |  |
+
+## Polish (scored, never fails)
+| # | Check | Result | Measured | Rule | Fix hint |
+|---|---|---|---|---|---|
+| P1 | Silhouette hook | INFO 100 | outline complexity 6.89 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 100 | top third L* 68.3, bottom third L* 41.0 (+27, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 5.8 at 25 m, 7.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| P5 | Glow placement | INFO 100 | 3 of 5 glow(s) in the upper half of the model's height (world) | one glow high (head / weapon / crest) reads over crowds |  |
+| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 55 | on the autumn floor: dE 25.5, 11% melts; body L* 49.3 C 40.7 vs floor L* 49.4 C 41.4; nature team colour vs the floor swatches: min dE 55.3 (grass_dry) | units sit outside the autumn floor band (L* 25-55, C* <= 35): body vs floor dE >= 20, <= 35 % melting; team colour dE >= 20 to every floor swatch (INFO until the style-autumn.md 6 runs) |  |
+| P2 | Asymmetric secondary shape | INFO 100 | front-view asymmetry 0.39 | one asymmetric secondary element (art-keep 0.1): >= ~0.15 |  |
+
+## Shots
+- z40: [z40.jpg](z40.jpg)
+- z55: [z55.jpg](z55.jpg)
+- z25: [z25.jpg](z25.jpg)
+- close: [close.jpg](close.jpg)
+- turns: [turns.jpg](turns.jpg)
+- anim: [anim.jpg](anim.jpg)
+- silhouette: [silhouette.png](silhouette.png)
+- lineup: [lineup.jpg](lineup.jpg)
+- diff_sheet: [diff_sheet.png](diff_sheet.png)
+- contact_sheet: [contact_sheet.png](contact_sheet.png)
+
+## Budget used (`tools/art_lab/lab_budgets.gd`, art-keep.md 9 numbers, step-12/13 rules: 0 lights)
+`{"draw":32,"frame_ms":0.05,"lights":0,"materials":8,"n":8,"particles":90,"soft":{"runtime_mats":0},"src":"art-keep.md 9 numbers, step-12/13 rules: 0 lights","verts":12000}`
+
+## Notes
+- Per-mesh vertices (biggest first): Body/Walls 2027 v / 2 s; GroundDressing 1587 v / 3 s; Body/LeafRoof 1162 v / 2 s; Body/Banner 280 v / 3 s; Body/LeafRoofLost 208 v / 2 s; Body/LanternPivot/Lantern 158 v / 2 s; Body/Plinth 125 v / 1 s; ContactDecal 4 v / 1 s
+- 5 hidden parts at rest (toggled states, not counted as draws)
+- 8 materials are built in code (fine when cached per type: see B9)
+- terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist
+- Fix recipes: 1 in fixes.json (top: Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 2 deg): push)

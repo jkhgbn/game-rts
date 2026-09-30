@@ -33,6 +33,7 @@ func _setup() -> void:
 	stain_color = Color(0.22, 0.07, 0.02, 0.35)
 	footprint = 2.0
 	crack_strength = 0.9
+	vc_merge = true   # B8: one vertex-coloured painted material (PaintedVC)
 	plinth_top = 0.4
 	wreck_top = 1.25
 	smoke_points = [Vector3(0.3, 2.6, 0.3)]
@@ -46,15 +47,30 @@ func _build_parts() -> void:
 	var slit_mat: ShaderMaterial = _glow_mat(glow_color, 2.2, 1.5, false)
 	var ember_mat: ShaderMaterial = _glow_mat(glow_color, 2.4, 2.0, false)
 	var it: Array = []
-	it.append(_it(box1, Vector3(0, 0.2, 0), _m_dark, Vector3.ZERO, Vector3(2.3, 0.4, 2.3)))
+	# 2026-09-30 (Art Lab C1): the slab became a battered block (sloped sides catch the light from four more angles).
+	it.append(_itx(_cyl(1.47, 1.66, 0.4, 4), Transform3D(Basis(Vector3.UP, PI * 0.25), Vector3(0, 0.2, 0)), _m_dark))
 	it.append(_itx(_cyl(1.0, 1.08, 0.24, 8), Transform3D(oct, Vector3(0, 0.52, 0)), _m_dark))
+	# 2026-09-30 detail pass (Art Lab C1 / C2 / P2: a plain shaft on a slab): a ring of fallen / set stones round the
+	# plinth in two shades, two smaller obsidian splinters beside the big shard (vc_merge: shades are free).
+	var drng := RandomNumberGenerator.new()
+	drng.seed = 2402
+	var st_a: ShaderMaterial = _painted_mat(stone_color.lightened(0.12), 0.0, 0.0)
+	var st_b: ShaderMaterial = _painted_mat(dark_color.lightened(0.12), 0.1, 0.0)
+	var st_c: ShaderMaterial = _painted_mat(stone_color.lightened(0.24), 0.0, crack_strength * 0.5)
+	for k: int in 10:
+		var a: float = TAU * float(k) / 10.0 + drng.randf_range(-0.15, 0.15)
+		var r: float = drng.randf_range(0.98, 1.1)
+		var sz := Vector3(drng.randf_range(0.26, 0.4), drng.randf_range(0.12, 0.2), drng.randf_range(0.2, 0.3))
+		it.append(_it(box1, Vector3(sin(a) * r, 0.4 + sz.y * 0.5, cos(a) * r), st_a if k % 2 == 0 else st_b,
+			Vector3(drng.randf_range(-8, 8), rad_to_deg(a) + drng.randf_range(-15, 15), drng.randf_range(-8, 8)), sz))
 	_no_collapse.append(_merged("Plinth", "plinth", it))
 	# Shaft tier: tapering octagonal stone shaft, two bronze bands, four dark buttress fins at the foot, three
 	# glowing slits, the obsidian shard leaning on the front-left (asymmetric secondary).
 	it = []
-	it.append(_itx(_cyl(0.55, 0.85, 3.0, 8), Transform3D(oct, Vector3(0, 1.9, 0)), _m_stone))
-	it.append(_itx(_cyl(0.78, 0.8, 0.22, 8), Transform3D(oct, Vector3(0, 1.55, 0)), _m_trim))
-	it.append(_itx(_cyl(0.64, 0.66, 0.2, 8), Transform3D(oct, Vector3(0, 3.1, 0)), _m_trim))
+	# 2026-09-30 (Art Lab C1: eight faces gave too few light directions): the shaft, bands and cup are 12-sided.
+	it.append(_itx(_cyl(0.55, 0.85, 3.0, 12), Transform3D(oct, Vector3(0, 1.9, 0)), _m_stone))
+	it.append(_itx(_cyl(0.78, 0.8, 0.22, 12), Transform3D(oct, Vector3(0, 1.55, 0)), _m_trim))
+	it.append(_itx(_cyl(0.64, 0.66, 0.2, 12), Transform3D(oct, Vector3(0, 3.1, 0)), _m_trim))
 	for i: int in 4:
 		var a: float = PI * 0.25 + PI * 0.5 * i
 		var d := Vector3(sin(a), 0.0, cos(a))
@@ -64,11 +80,49 @@ func _build_parts() -> void:
 		it.append(_it(box1, s[0], slit_mat, Vector3(0, s[1], 0), Vector3(0.14, 0.6, 0.08)))
 	var sb: Basis = _lean(Vector3(-1, 0, -0.4), 22.0)
 	it.append(_itx(_cyl(0.0, 0.3, 1.9, 5), Transform3D(sb, Vector3(-0.72, 0.4, -0.3) + sb * Vector3(0, 0.95, 0)), _m_dark))
+	for sh: Array in [[Vector3(-0.95, 0.4, 0.2), Vector3(-1, 0, 0.5), 30.0, 0.9, 0.17], [Vector3(-0.45, 0.4, -0.85),
+			Vector3(-0.3, 0, -1), 26.0, 0.75, 0.14]]:
+		var sb2: Basis = _lean(sh[1], sh[2])
+		it.append(_itx(_cyl(0.0, sh[4], sh[3], 5), Transform3D(sb2, sh[0] + sb2 * Vector3(0, sh[3] * 0.5, 0)), st_b))
+	# Rivets round both bronze bands (12 each).
+	for band: Vector2 in [Vector2(1.55, 0.8), Vector2(3.1, 0.66)]:
+		for k: int in 12:
+			var ra: float = TAU * (float(k) + 0.5) / 12.0
+			var rd := Vector3(sin(ra), 0.0, cos(ra))
+			it.append(_itx(_cyl(0.035, 0.05, 0.05, 6), Transform3D(Basis(rd.cross(Vector3.UP).normalized(), PI * 0.5),
+				rd * (band.y + 0.01) + Vector3(0, band.x, 0)), st_b))
+	# Masonry courses: three rings of proud blocks round the tapering shaft, alternately set, two shades.
+	for ring: int in 3:
+		var y: float = 0.95 + 0.62 * float(ring) + (0.0 if ring < 2 else 0.7)
+		var rad: float = lerpf(0.85, 0.55, (y - 0.4) / 3.0)
+		for k: int in 8:
+			var a2: float = PI / 8.0 + TAU * float(k) / 8.0 + (PI / 8.0 if ring % 2 == 1 else 0.0)
+			var d2 := Vector3(sin(a2), 0.0, cos(a2))
+			it.append(_itx(box1, Transform3D(Basis(Vector3.UP, a2) * Basis(Vector3.RIGHT, deg_to_rad(drng.randf_range(-4, 4)))
+				.scaled_local(Vector3(rad * 0.62, 0.24, 0.16)), d2 * (rad * 0.99) + Vector3(0, y, 0)), st_a if (k + ring) % 2 == 0 else st_c))
 	_merged("Shaft", "shaft", it)
 	# Cup tier: the flared team cup and its bronze rim.
 	it = []
-	it.append(_itx(_cyl(1.0, 0.6, 0.55, 8), Transform3D(oct, Vector3(0, 3.67, 0)), _m_team))
-	it.append(_itx(_cyl(1.06, 1.06, 0.16, 8), Transform3D(oct, Vector3(0, 4.0, 0)), _m_trim))
+	it.append(_itx(_cyl(1.0, 0.6, 0.55, 12), Transform3D(oct, Vector3(0, 3.67, 0)), _m_team))
+	it.append(_itx(_cyl(1.06, 1.06, 0.16, 12), Transform3D(oct, Vector3(0, 4.0, 0)), _m_trim))
+	# Detail pass: bronze thorns on the rim between the claws, a darker band under the cup.
+	for k: int in 8:
+		var a3: float = TAU * float(k) / 8.0
+		var d3 := Vector3(sin(a3), 0.0, cos(a3))
+		var tb: Basis = _lean(d3, 30.0)
+		it.append(_itx(_cyl(0.0, 0.07, 0.34, 4), Transform3D(tb, d3 * 1.02 + Vector3(0, 4.08, 0) + tb * Vector3(0, 0.17, 0)), _m_trim))
+	it.append(_itx(_cyl(0.66, 0.62, 0.12, 12), Transform3D(oct, Vector3(0, 3.36, 0)), st_b))
+	# A team war-cloth hung from the rim on the +X side (asymmetric secondary, top-facing team colour), notched hem.
+	# Hung on the front-left rim over the obsidian splinters (one heavy side: the asymmetric read), turned to the
+	# diagonal so both cameras and the front see it.
+	var cy: Basis = Basis(Vector3.UP, deg_to_rad(45.0))
+	var cl: Basis = cy * Basis(Vector3.RIGHT, deg_to_rad(8.0))
+	var cp := Vector3(-0.78, 3.5, -0.78)
+	it.append(_itx(box1, Transform3D(cl.scaled_local(Vector3(0.62, 0.95, 0.06)), cp), _m_team))
+	for hs: float in [-1.0, 1.0]:
+		it.append(_itx(_prism(Vector3(0.31, 0.3, 0.06), 0.5), Transform3D(cl * Basis(Vector3.BACK, PI),
+			cp + cl * Vector3(hs * 0.155, -0.6, 0.0)), _m_team))
+	it.append(_itx(box1, Transform3D(cy.scaled_local(Vector3(0.74, 0.08, 0.14)), cp + Vector3(0, 0.49, 0.0)), _m_trim))
 	var cup := _merged("Cup", "cup", it)
 	_build_scaffold(2.3, 4.3, [2.0, 3.7] as Array[float])
 	_build_wreck(0.72, 1.3, ember_mat, 2021, 4)

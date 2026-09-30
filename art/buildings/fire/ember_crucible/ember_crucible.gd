@@ -39,6 +39,7 @@ extends Node3D
 signal forge_poured(at: Vector3)
 
 const DIR := "res://art/buildings/fire/ember_crucible/materials/"
+const PVC := preload("res://art/buildings/painted_vc.gd")
 ## Crucible tilt axis (the trunnion pins), annex space.
 const AXLE := Vector3(0.0, 1.62, 0.35)
 const TILT_DEG := 38.0
@@ -133,6 +134,29 @@ func heat() -> float:
 	return _heat
 
 
+# ---------------------------------------------------------------- standard building hooks (art-keep.md 8.8)
+# The annex is a draw-only child of the Dragon Roost, which drives it with set_crucible / play_forge; these keep the
+# common building contract so tools and a standalone annex behave: selection has nothing to tint, a site shows
+# nothing until built, a dead Roost puts it out. No set_team_color: the forge carries no team colour (the Roost's
+# banners and roof do).
+
+func set_selected(_on: bool) -> void:
+	pass
+
+
+func set_construction_progress(p: float) -> void:
+	visible = p >= 1.0
+
+
+func set_health_ratio(r: float) -> void:
+	if r <= 0.0:
+		set_crucible(false)
+
+
+func play_destroyed() -> void:
+	set_crucible(false)
+
+
 ## World point of the sprue funnel (where the pour lands; the sparks and forge_poured come from here).
 func get_sprue_point() -> Vector3:
 	return global_transform * _sprue()
@@ -142,6 +166,9 @@ func get_sprue_point() -> Vector3:
 
 func _ready() -> void:
 	_build()
+	# B8: the five painted .tres (stone, dark, bronze, iron, leather) are drawn with ONE vertex-coloured material,
+	# ec_painted.tres (PaintedVC, painted_vc shader: the same shading), shared by every annex like the others.
+	PVC.convert(self, m("ec_painted") as ShaderMaterial)
 	_ready_done = true
 	set_notify_transform(true)
 	_update_ao()
@@ -591,6 +618,11 @@ static func _fx_pair(kind: StringName) -> Array:
 			additive = false
 	var q := QuadMesh.new()
 	q.size = Vector2(size, size)
+	var mkey := &"mat_add" if additive else &"mat_mix"
+	if _fx.has(mkey):   # B8: embers and sparks share one additive material (only the quad size differs)
+		q.material = _fx[mkey]
+		_fx[kind] = [pm, q]
+		return _fx[kind]
 	var sm := StandardMaterial3D.new()
 	sm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	sm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -601,6 +633,7 @@ static func _fx_pair(kind: StringName) -> Array:
 	sm.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	sm.albedo_texture = _soft_tex()
 	q.material = sm
+	_fx[mkey] = sm
 	_fx[kind] = [pm, q]
 	return _fx[kind]
 

@@ -37,6 +37,7 @@ const MOTE_DIM := Color(0.55, 0.55, 0.55, 1.0)
 ## Baked meshes (art/buildings/nature/nature_bake.gd writes them; the game only loads them). A mesh without a baked
 ## file is built at runtime (GDScript, ~10-90 ms per building type, once).
 const BAKED_DIR := "res://art/buildings/nature/baked/"
+const NVC := preload("res://art/buildings/nature/nature_vc.gd")
 
 static var _cache: Dictionary = {}
 static var _builders: Dictionary = {}
@@ -937,6 +938,7 @@ static func apply_team(m: Dictionary, c: Color) -> void:
 	ban.set_shader_parameter(&"stripe_color", STRIPE if is_default else c.darkened(0.55))
 	ban.set_shader_parameter(&"glyph_color", glow)
 	(m["Bark"] as ShaderMaterial).set_shader_parameter(&"sap_color", glow)
+	NVC.sync(m)   # the merged painted material (B8), when the building has one
 
 
 ## Selection / construction rim (nature_keep.gd _apply_rim_and_glow): idle = the Heartwood's green rim.
@@ -953,12 +955,14 @@ static func apply_rim(m: Dictionary, team: Color, sel_k: float, building: bool) 
 	var ban: ShaderMaterial = m["Banner"]
 	ban.set_shader_parameter(&"rim_color", team.lightened(0.3))
 	ban.set_shader_parameter(&"rim_strength", 0.6 * sel_k)
+	NVC.sync(m)   # the merged painted material (B8), when the building has one
 
 
 ## Glow boost (selection 1.4, pulses, collapse) on every glowing material of a set.
 static func apply_boost(m: Dictionary, boost: float) -> void:
 	for k: String in GLOW_KEYS:
 		(m[k] as ShaderMaterial).set_shader_parameter(&"boost", boost)
+	NVC.sync_cards(m)   # blossoms / petals glow in the merged card material (B8), when there is one
 
 
 ## Damage looks (nature_keep.gd _apply_health): soot, browning leaves, dropped cards and blossoms, a racing heart,
@@ -982,6 +986,7 @@ static func apply_health(m: Dictionary, r: float, hurt: bool, dying: bool) -> vo
 	(m["Blossom"] as ShaderMaterial).set_shader_parameter(&"drop", 0.85 if dying else (0.5 if hurt else 0.0))
 	(m["Heart"] as ShaderMaterial).set_shader_parameter(&"beat_period", 0.9 if dying else (1.6 if hurt else 2.5))
 	(m["Petal"] as ShaderMaterial).set_shader_parameter(&"glow_energy", 1.4 if dying else (2.1 if hurt else 2.6))
+	NVC.sync(m)   # the merged painted material (B8), when the building has one
 
 
 ## Collapse, 0..1 after the fall: the canopy browns fully, the sap drains, the glow dims to embers.
@@ -989,6 +994,7 @@ static func apply_wreck(m: Dictionary, k: float) -> void:
 	(m["Leaves"] as ShaderMaterial).set_shader_parameter(&"wither", lerpf(0.7, 1.0, k))
 	(m["LeafCard"] as ShaderMaterial).set_shader_parameter(&"wither", lerpf(0.7, 1.0, k))
 	(m["Bark"] as ShaderMaterial).set_shader_parameter(&"sap", lerpf(1.0, 0.15, k))
+	NVC.sync(m)   # the merged painted material (B8), when the building has one
 
 
 ## The moss ground patch (nature_ground.gdshader) for a plinth of half-size `plinth_half`.
@@ -1007,7 +1013,9 @@ static func ground_material(size: float, plinth_half: float, chamfer_sum: float,
 # ============================================================ particles
 
 ## Soft radial dot (ADD or MIX), billboard, vertex colour: pollen, sparks, smoke.
-static func soft_quad(add: bool) -> QuadMesh:
+static func soft_quad(add: bool) -> Mesh:
+	if not add:
+		return atlas_quad(0)   # B8: the MIX dot shares one atlas material with the leaf and petal cut-outs
 	var key: String = "soft_%s" % add
 	if _quads.has(key):
 		return _quads[key]
@@ -1027,11 +1035,60 @@ static func soft_quad(add: bool) -> QuadMesh:
 
 
 ## A tumbling leaf (0) or petal (1) cut-out, MIX, billboard, tinted by the particle colour.
-static func shape_quad(kind: int) -> QuadMesh:
-	var key: String = "shape_%d" % kind
+static func shape_quad(kind: int) -> Mesh:
+	return atlas_quad(1 + kind)   # B8: leaf / petal cut-outs share one atlas material with the MIX soft dot
+
+
+## B8: ONE MIX billboard material for the soft dot (frame 0), the tumbling leaf (1) and the petal (2): a 3-cell atlas
+## texture; each frame is its own quad whose UVs cover one cell (the images are the ones soft_quad / shape_quad drew).
+static func atlas_quad(frame: int) -> Mesh:
+	var key: String = "atlas_%d" % frame
 	if _quads.has(key):
 		return _quads[key]
-	var n: int = 48
+	if not _quads.has("atlas_mat"):
+		var n: int = 64
+		var img := Image.create(n * 3, n, false, Image.FORMAT_RGBA8)
+		var soft := _soft_image(n)
+		img.blit_rect(soft, Rect2i(0, 0, n, n), Vector2i(0, 0))
+		for k: int in 2:
+			img.blit_rect(_shape_image(k, n), Rect2i(0, 0, n, n), Vector2i(n * (k + 1), 0))
+		var m := StandardMaterial3D.new()
+		m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
+		m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+		m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+		m.vertex_color_use_as_albedo = true
+		m.albedo_texture = ImageTexture.create_from_image(img)
+		m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR
+		_quads["atlas_mat"] = m
+	var q := QuadMesh.new()
+	var a: Array = q.surface_get_arrays(0)
+	var uv: PackedVector2Array = a[Mesh.ARRAY_TEX_UV]
+	var inset: float = 0.5 / 64.0
+	for i: int in uv.size():
+		uv[i] = Vector2((float(frame) + lerpf(inset, 1.0 - inset, uv[i].x)) / 3.0, uv[i].y)
+	a[Mesh.ARRAY_TEX_UV] = uv
+	var am := ArrayMesh.new()
+	am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, a)
+	am.surface_set_material(0, _quads["atlas_mat"])
+	_quads[key] = am
+	return am
+
+
+## The soft radial dot (soft_quad's gradient: alpha 1 -> 0.5 at 35 % -> 0) as an image.
+static func _soft_image(n: int) -> Image:
+	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
+	for y: int in n:
+		for x: int in n:
+			var d: float = Vector2((float(x) + 0.5) / float(n) - 0.5, (float(y) + 0.5) / float(n) - 0.5).length() * 2.0
+			var a: float = lerpf(1.0, 0.5, d / 0.35) if d < 0.35 else lerpf(0.5, 0.0, clampf((d - 0.35) / 0.65, 0.0, 1.0))
+			img.set_pixel(x, y, Color(1, 1, 1, a))
+	return img
+
+
+## The leaf (0) / petal (1) cut-out (shape_quad's drawing) as an image.
+static func _shape_image(kind: int, n: int) -> Image:
 	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
 	for y: int in n:
 		for x: int in n:
@@ -1048,9 +1105,7 @@ static func shape_quad(kind: int) -> QuadMesh:
 				inside = clampf((1.0 - d) * 10.0, 0.0, 1.0)
 				shade = lerpf(1.1, 0.85, d)
 			img.set_pixel(x, y, Color(shade, shade, shade, inside))
-	var q := _card_quad(ImageTexture.create_from_image(img), false)
-	_quads[key] = q
-	return q
+	return img
 
 
 static func _card_quad(tex: Texture2D, add: bool) -> QuadMesh:

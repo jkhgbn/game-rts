@@ -1,6 +1,6 @@
 # Art Lab scorecard: vinelasher_low
 
-Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-29 00:27:30 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-09-30 10:13:55 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **87 / 100** (86.9)
 
@@ -53,7 +53,7 @@ Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tie
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A2 | death_finished | PASS 100 | after 0.0 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A2 | death_finished | PASS 100 | after 0.01 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -62,7 +62,7 @@ Scene `res://art/units/_effort_trial/low/vinelasher.tscn` · kind **unit** / tie
 | C2 | Vertex use vs budget | INFO 25 | 38% of the 2500 verts budget used (965) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, art-units.md 8, tier3-extras.md 12)
-`{"draw":14,"frame_ms":0.005,"lights":0,"meshes":26,"n":100,"runtime_mats":0,"soft":{"casters":4,"looping":1,"particles":10,"separate":6},"src":"art-units.md 8, tier3-extras.md 12","verts":2500}`
+`{"draw":14,"face_verts":800,"frame_ms":0.005,"lights":0,"meshes":26,"n":100,"runtime_mats":0,"soft":{"casters":4,"looping":1,"particles":10,"separate":6},"src":"art-units.md 8, tier3-extras.md 12","verts":2500}`
 
 ## Notes
 - Per-mesh vertices (biggest first): Root/Chest/ArmR/Merged 261 v / 4 s; Root/Hips/Merged 175 v / 1 s; Root/Chest/Head/Merged 126 v / 3 s; Root/Chest/Merged 101 v / 2 s; Root/Chest/ArmR/Coil 91 v / 1 s; Root/Chest/ArmL/Merged 79 v / 2 s; Root/Hips/LegL/Merged 66 v / 1 s; Root/Hips/LegR/Merged 66 v / 1 s
