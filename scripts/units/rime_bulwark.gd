@@ -1,9 +1,9 @@
 class_name RimeBulwark
 extends StaticBody3D
 ## The Rimecarver's Rime Bulwark (docs/design/caster-units.md 5.2): an ice wall 4.0 m long, 0.9 m thick, 2.2 m high that
-## stands 8 s and blocks the ground movement of BOTH teams. A StaticBody3D on the world layer (1: units collide with it)
-## plus a NavigationObstacle3D (agents' avoidance slides them along it); no navmesh rebake. Never blocks projectiles,
-## spells, flyers or sight (nothing of those collides with layer 1). Units in its footprint are pushed to the nearer long
+## stands 8 s and blocks the ground movement of BOTH teams. A StaticBody3D on physics layer 3 (Unit.CASTER_WALL_LAYER:
+## ground units collide with it, flyers do not) plus a NavigationObstacle3D on avoidance layer 2 (ground agents slide
+## along it); no navmesh rebake. Never blocks projectiles, spells, flyers or sight. Units in its footprint are pushed to the nearer long
 ## side when it rises. A titan, or a unit of pop >= 3 that presses on it for 1.0 s, shatters it. Max 4 per team (the
 ## oldest melts: CasterAbility). Local x = the long axis. The look is UnitVfx `rime_bulwark` (it follows this node); a
 ## plain translucent box is added only when no UnitVfx is in the level.
@@ -58,7 +58,7 @@ static func spawn(parent: Node, center: Vector3, facing: Vector3, owner_team: in
 
 func _ready() -> void:
 	add_to_group(&"rime_bulwarks")
-	collision_layer = 1
+	collision_layer = Unit.CASTER_WALL_LAYER   # layer 3: ground units only (never flyers, clicks or build checks)
 	collision_mask = 0
 	_left = lifetime
 	var shape := BoxShape3D.new()
@@ -75,6 +75,7 @@ func _ready() -> void:
 			Vector3(-hx, 0, hz)])
 	obstacle.height = height
 	obstacle.avoidance_enabled = true
+	obstacle.avoidance_layers = Unit.CASTER_WALL_AVOIDANCE
 	add_child(obstacle)
 	_push_units_out()
 	var vfx := get_tree().get_first_node_in_group(&"unit_vfx")

@@ -217,6 +217,10 @@ var attacks_blocked := false
 ## Bot soldiers (AICasters sets it, caster-units.md 8.2): auto-aggro picks an enemy caster in reach first.
 var prefer_casters := false
 const CASTER_PREFERENCE := 100.0
+## Physics layer 3 (value 4) = caster walls (Rime Bulwark): ground units collide with it, flyers do not. Avoidance layer
+## 2 (value 2) = its NavigationObstacle3D, avoided by ground units only.
+const CASTER_WALL_LAYER := 4
+const CASTER_WALL_AVOIDANCE := 2
 var _status_range_cap := INF         # hazed: ranged attacks reach at most this far
 var _status_sight_cap := INF         # hazed: fog sight at most this
 var _cast_lock_left := 0.0           # set_cast_lock: no walking, no attacks (a caster's 0.4 s cast)
@@ -270,6 +274,8 @@ func _ready() -> void:
 	add_to_group("units")
 	collision_layer = 2   # "units" layer, so clicks can find us
 	collision_mask = 1    # only collide with the world, avoidance keeps units apart
+	if not HelperAbilities._is_flyer(self):
+		collision_mask |= CASTER_WALL_LAYER   # caster-units.md 5.2: Rime Bulwarks stop ground units, never flyers
 	_build_collision()
 	_build_visual()
 	_build_selection_ring()
@@ -281,6 +287,8 @@ func _ready() -> void:
 	_agent.radius = radius + 0.1
 	_agent.max_speed = move_speed
 	_agent.avoidance_enabled = true
+	if not HelperAbilities._is_flyer(self):
+		_agent.avoidance_mask |= CASTER_WALL_AVOIDANCE   # slide along a Rime Bulwark's obstacle
 	_agent.velocity_computed.connect(_on_velocity_computed)
 	add_child(_agent)
 

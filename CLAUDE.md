@@ -34,7 +34,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 - Unit stats live in data (`UNIT_TYPES` in `scripts/world/main.gd`, moving to `data/units/*.tres` in task 1.G1).
 - Placeholder art is built in code. Keep an `@export var model_scene: PackedScene` so real models can drop in later.
 - Everything must be original: no names, characters or art from existing games.
-- Physics layers: 1 world, 2 units.
+- Physics layers: 1 world, 2 units, 3 caster walls (Rime Bulwark; ground units collide, flyers do not).
 
 ## Contracts (shared interfaces; only the lead changes them)
 - **Unit** (`scripts/units/unit.gd`, group `"units"`): `team`, `command_move(Vector3)`, `command_attack(Unit)`,
