@@ -1,0 +1,13 @@
+{
+	"asset": "shadow_stables",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "shadow",
+	"quality": 92.4,
+	"result": "PASS",
+	"scene": "res://art/buildings/stables/shadow/shadow_stables.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

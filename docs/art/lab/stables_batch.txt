@@ -1,0 +1,4 @@
+res://art/buildings/stables/fire/fire_stables.tscn kind=building kingdom=fire
+res://art/buildings/stables/shadow/shadow_stables.tscn kind=building kingdom=shadow
+res://art/buildings/stables/ice/ice_stables.tscn kind=building kingdom=ice
+res://art/buildings/stables/nature/nature_stables.tscn kind=building kingdom=nature

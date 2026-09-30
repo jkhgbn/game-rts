@@ -1,0 +1,13 @@
+{
+	"asset": "ice_stables",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 93.4,
+	"result": "PASS",
+	"scene": "res://art/buildings/stables/ice/ice_stables.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

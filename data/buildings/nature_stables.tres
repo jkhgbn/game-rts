@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="BuildingType" format=3]
 
 [ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_bt"]
+[ext_resource type="PackedScene" path="res://art/buildings/stables/nature/nature_stables.tscn" id="2_model"]
 
 [resource]
 script = ExtResource("1_bt")
@@ -20,4 +21,5 @@ color = Color(0.35, 0.7, 0.25, 1)
 body_color = Color(0.45, 0.42, 0.32, 1)
 idle_regen_pct = 1.0
 requires_kind = &"barracks"
+model_scene = ExtResource("2_model")
 model_path = "res://art/buildings/stables/nature/nature_stables.tscn"

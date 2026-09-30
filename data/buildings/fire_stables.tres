@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="BuildingType" format=3]
 
 [ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_bt"]
+[ext_resource type="PackedScene" path="res://art/buildings/stables/fire/fire_stables.tscn" id="2_model"]
 
 [resource]
 script = ExtResource("1_bt")
@@ -19,4 +20,5 @@ hotkey_label = "N"
 color = Color(0.85, 0.3, 0.12, 1)
 body_color = Color(0.595, 0.21, 0.084, 1)
 requires_kind = &"barracks"
+model_scene = ExtResource("2_model")
 model_path = "res://art/buildings/stables/fire/fire_stables.tscn"

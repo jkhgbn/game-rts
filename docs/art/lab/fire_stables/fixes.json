@@ -1,0 +1,13 @@
+{
+	"asset": "fire_stables",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 90.5,
+	"result": "PASS",
+	"scene": "res://art/buildings/stables/fire/fire_stables.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}
