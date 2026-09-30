@@ -25,6 +25,7 @@ var _stronghold := [-1.0, -1.0]
 var _lost := [0, 0]
 var _seen := {}          # caster instance id -> team
 var _done := false
+var _last_log := -1
 
 
 func _initialize() -> void:
@@ -90,6 +91,20 @@ func _process(_delta: float) -> bool:
 				if _first_caster[team] < 0.0:
 					_first_caster[team] = t
 				c.died.connect(func(_u: Unit) -> void: _lost[team] += 1)
+	if int(t) / 30 != _last_log:   # every 30 s: where the casters stand, what the army does
+		_last_log = int(t) / 30
+		for team in [0, 1]:
+			for c in CasterKit.casters_of(team):
+				var ab := CasterKit.ability_of(c)
+				var group: Array = bots[team].call(&"army_group")
+				var foes := 0
+				for u in get_nodes_in_group(&"units"):
+					if u is Unit and (u as Unit).is_alive() and c.is_enemy_of(u) \
+							and c.global_position.distance_to((u as Unit).global_position) <= 12.0:
+						foes += 1
+				print("  %s t%d %s mana %d pos %s stage %s group %d foes<12m %d casts %s" % [_mmss(t), team,
+						c.unit_type.id, int(ab.mana), c.global_position.snapped(Vector3.ONE), bots[team].get(&"stage"),
+						group.size(), foes, ab.casts])
 	if t >= limit or bool(main.get(&"game_over")):
 		_report(t)
 		_done = true
@@ -119,7 +134,8 @@ func _report(t: float) -> void:
 			if trained == 0:
 				errors.append("team %d (%s) reached the Stronghold at %s but fielded no caster" % [team, kingdoms[team],
 						_mmss(_stronghold[team])])
-			elif casts < 3 and _first_caster[team] >= 0.0 and _first_caster[team] <= t - 90.0:
+			elif casts < 3 and _first_caster[team] >= 0.0 and _first_caster[team] <= t - 90.0 \
+					and not (kingdoms[team] == "ice" and difficulty < 2):   # normal Rimecarver: dive guard only (8.3)
 				errors.append("team %d (%s) casters cast only %d times" % [team, kingdoms[team], casts])
 	print("  ended at %s%s" % [_mmss(t), " (game over)" if bool(main.get(&"game_over")) else ""])
 	if errors.is_empty():
