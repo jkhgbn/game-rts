@@ -126,8 +126,8 @@ func _checks() -> void:
 	for x in [aa, ab]:
 		for s in x.spell_ids():
 			x.set_autocast(s, false)   # no autocast on the clump while the fog updates
-	aa.mana = 120.0
-	ab.mana = 180.0
+	aa.mana = 60.0   # under Slag Rain's 75: no autocast on the clump while the toggles are checked
+	ab.mana = 60.0
 	await _secs(0.5)
 	for x in [aa, ab]:
 		for s in x.spell_ids():
@@ -169,7 +169,9 @@ func _checks() -> void:
 	_key(KEY_Z, true)
 	await _frames(2)
 	_check(not aa.autocast(&"slag_rain") and not ab.autocast(&"slag_rain"), "Ctrl+Z -> off")
-	# ---- aiming: Z, Esc
+	# ---- aiming: Z, Esc (autocast is off now: the mana goes back up)
+	aa.mana = 120.0
+	ab.mana = 180.0
 	_key(KEY_Z)
 	await _frames(2)
 	_check(sel.pending_caster_spell() == &"slag_rain" and sel.get_pending_order() == &"slag_rain", "Z did not start aiming")
