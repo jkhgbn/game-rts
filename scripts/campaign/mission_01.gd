@@ -116,6 +116,14 @@ const BRIEFING_PARAGRAPHS: Array[String] = [
 ]
 const HINT_START := "Walk Vessa with W A S D. Light the brazier to the north-east."
 const HINT_FIRST_LIT := "Train more soldiers at the Ember Hall (Z / X)."
+## Keep tiers in this mission (mission-01.md "Tiers", 2026-09-30): the Stronghold only (the Citadel comes later in the
+## campaign), same price / time / 3:30 floor as the skirmish; Malrik's keep never upgrades. It opens the Hall's
+## tier-2 units (TIER2_HALL_UNITS, listed after the tier-1 ones so Blaze Rider's later slot never moves them) and the
+## Kilnwarden caster at the keep (key B).
+const MAX_TIER := 2
+const TIER2_HALL_UNITS: Array[StringName] = [&"pyre_adept", &"cinder_arbalest"]
+const HINT_STRONGHOLD := "Your Keep can become a Stronghold: select the Keep and press %s (%d crystals). It opens %s."
+const HINT_STRONGHOLD_SECONDS := 12.0
 const MSG_SEALED_M1 := "The seal holds. Light the three braziers of Emberfall."
 const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
 
@@ -134,6 +142,9 @@ var wait_for_briefing := false
 var mission_hud: Node = null               ## Read only: the MissionHud (null in tests).
 ## Tests turn this off so they don't overwrite the player's campaign save.
 var save_campaign_on_victory := true
+## CasterKit.enabled_here reads it: the keep lists the Kilnwarden (tier 2, key B) in this mission.
+var casters_enabled := true
+var stronghold_hint_shown := false         ## Read only: the "Your Keep can become a Stronghold" message was shown.
 var campaign_save_path := CampaignState.SAVE_PATH
 
 var braziers: Array[MissionBrazier] = []   ## Read only, BRAZIER_TABLE order.
@@ -247,10 +258,18 @@ func hold_time() -> float:
 
 # ---------------------------------------------------------------- setup
 
+func _init() -> void:
+	super()
+	tiers_enabled = true   # Skirmish._init turns tiers off for missions; this one has the Stronghold (MAX_TIER)
+
+
 func _ready() -> void:
 	_hall_type = _make_hall_type()
 	get_tree().node_added.connect(_on_m1_node_added)
 	super()
+	if tier_system:
+		tier_system.max_tier = MAX_TIER
+		tier_system.bots_upgrade = false
 	economy.crystals = START_CRYSTALS_BY_DIFF[clampi(mission_difficulty, 0, 2)]
 	economy.changed.emit()
 
@@ -599,7 +618,8 @@ func _raise_wizard(w: Wizard, to_level: int, learn: Array) -> void:
 
 
 ## A copy of the Ember Hall type with the locked units left out (Ash Hurler: mission 2; Blaze Rider
-## until Westwatch burns). Every Fire hall of this mission gets it (_on_m1_node_added).
+## until Westwatch burns) and the tier-2 pair added (Stronghold). Every Fire hall of this mission gets it
+## (_on_m1_node_added).
 func _make_hall_type() -> BuildingType:
 	var base := BuildingType.find("fire_barracks")
 	if base == null:
@@ -616,9 +636,20 @@ func _apply_hall_unlocks() -> void:
 		return
 	var trains: Array[UnitType] = []
 	for t in base.trains:
-		if t == null or t.id == &"ash_hurler" or (t.id == &"blaze_rider" and not riders_unlocked):
+		if t == null or t.id == &"ash_hurler" or t.id == &"blaze_rider":
 			continue
 		trains.append(t)
+	# Tier 2 (greyed "Requires Stronghold" until the keep upgrade), then the Blaze Rider once Westwatch burns: the
+	# keys never move (Z X guard / archer, C V the tier-2 pair, B the rider).
+	if tiers_enabled and TierSystem.ENABLED:
+		for id in TIER2_HALL_UNITS:
+			var t2 := UnitType.find(String(id))
+			if t2:
+				trains.append(t2)
+	if riders_unlocked:
+		var rider := UnitType.find("blaze_rider")
+		if rider:
+			trains.append(rider)
 	_hall_type.trains = trains
 
 
@@ -645,6 +676,7 @@ func _physics_process(delta: float) -> void:
 		_guard_tick = GUARD_TICK
 		_tick_guards()
 		_check_events()
+		_check_stronghold_hint()
 	_refresh_tick -= delta
 	if _refresh_tick <= 0.0:
 		_refresh_tick = REFRESH_INTERVAL
@@ -717,6 +749,20 @@ func _check_events() -> void:
 		if ItemDrops.item_type(PELL_GIFT) != null:
 			ItemDrops.spawn_pickup(self, PELL_GIFT, pell.global_position + Vector3(0.0, 0.0, 1.5))
 		_set_objective(&"sec_peddler", "done")
+
+
+## Once, when the Stronghold can start (3:30, the Ember Hall standing): a message naming the key, price and new units
+## (the tier chip under the top bar and the keep's X button pulse gold at the same time).
+func _check_stronghold_hint() -> void:
+	if stronghold_hint_shown or tier_system == null or hud == null:
+		return
+	var st := TierSystem.status(Unit.Team.PLAYER)
+	if st.is_empty() or int(st["tier"]) != 1 or bool(st["upgrading"]) or int(st["next"]) != 2 or String(st["reason"]) != "":
+		return
+	stronghold_hint_shown = true
+	var opens := TierSystem.unlock_text(Unit.Team.PLAYER, 2)
+	hud.show_message(HINT_STRONGHOLD % [KeyLabels.of(KEY_X), int(st["crystals"]), opens if opens != "" else "new units"],
+			HINT_STRONGHOLD_SECONDS)
 
 
 # ---------------------------------------------------------------- braziers, seal, crown
