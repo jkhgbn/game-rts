@@ -25,6 +25,8 @@ Metres, seconds. Everything here is original.
 | `bramblehorn` | Bramblehorn | Heavy bruiser (quadruped) | 380 | 18 | 1.8 | 1.2 | 4.6 | 9 | 0.7 | 2.2 | `(0.28, 0.40, 0.18)` | 200 | **2** | 34 | V | 100 | `idle_regen_pct` 3.0 |
 | `sapling` | Sapling (summon, never trained) | Temporary melee | 90 | 9 | 1.5 | 1.0 | 4.8 | 10 | 0.4 | 1.2 | `(0.45, 0.75, 0.30)` | 0 | **0** | - | - | **0** | `lifetime` 25 / 30 s, gives no essence, never levels |
 Bot rule: Bramblehorn only when crystals >= 200 and soldier pop >= 6.
+Caster (step 21): **Bramblesage** (`bramblesage`), trained at the keep on **B** from the Stronghold (tier 2), 150 / pop 2 /
+30 s, `idle_regen_pct` 1.0: Snagroot (Z), Pollen Haze (V), Seedcloak. Numbers and spells: `caster-units.md` 4-5.
 
 ## 3. The wizard: Ysolde, Nature Wizard (pop 0)
 | id | max_hp | dmg | range | cooldown | speed | aggro | radius | height | Body / hat / orb | Mana | Regen /s |
@@ -64,7 +66,7 @@ Saplings are the caster's team, selectable, controllable, show a lifetime bar (8
 ## 4. Buildings (BuildingType; `buildings.md` rules unless listed). All: `idle_regen_pct` 1.0 once completed
 | id | Display name | Cost | Build time | max_hp | Footprint | Height | Gives | Trains / attack | Build key |
 |---|---|---|---|---|---|---|---|---|---|
-| `nature_keep` | Heartwood | - | - | 1350 | 3 x 3 | 6 | +20 pop, drop-off, shop | Sprigling Z | - |
+| `nature_keep` | Heartwood | - | - | 1350 | 3 x 3 | 6 | +20 pop, drop-off, shop | Sprigling Z (+ Bramblesage B from the Stronghold, `caster-units.md`) | - |
 | `nature_barracks` | Grove Hall | 130 | 38 | 810 | 3 x 3 | 4 | drop-off, shop | Thornling Z, Burr Slinger X, Bloomtender C, Bramblehorn V | X |
 | `nature_hollow` | Seed Hollow | 60 | 20 | 360 | 2 x 2 | 3 | +10 pop, **max 3** (cap 50) | - | Z |
 | `nature_tower` | Bramble Spire | 100 | 30 | 540 | 1 x 1 | 5 | sight 15; **aura** r 8: friendly non-worker units `hp_regen` +2 (`aura:bramble`, always on) | dmg 10, range 10, cooldown 1.2, aggro 10, bolt `(0.55, 0.40, 0.20)` | C |

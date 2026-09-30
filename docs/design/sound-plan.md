@@ -88,6 +88,26 @@ Bleed ticks themselves (every 0.5 s) stay silent: a sound per tick would flood t
 
 All 3D. Rimeling frostbite = `fx_chill`. Nightblood (heal on each hit) is passive and stays silent (every hit).
 
+## Casters (step 21, `caster-units.md` 11; PLANNED: not generated / wired yet, task CU.S1)
+
+| Cue | Sound | When (hook) | Who |
+|---|---|---|---|
+| `caster_trained` | a short magical chime over `unit_trained` | a caster leaves the keep | own |
+| `slag_fling` / `slag_land` **3x** | whoosh with a sizzle / a heavy hissing splat | `CasterAbility.spell_cast(&"slag_rain")` / the landing 0.6 s later | 3D |
+| `mana_scald` | a kettle-shriek steam burst | `spell_cast(&"mana_scald")` | 3D |
+| `bulwark_rise` / `bulwark_shatter` / `bulwark_melt` | deep ice groan + crack / glassy smash / soft drip | `RimeBulwark` created / `finished(wall, &"shatter")` / `finished(wall, &"melt")` | 3D |
+| `scry_rune` | a crystal ping with a long tail | `spell_cast(&"scrying_rune")` | own |
+| `snagroot` **3x** | whip crack + creaking vine drag | `spell_cast(&"snagroot")` | 3D |
+| `pollen_haze` | soft whoosh + distant wind-chime shimmer | `spell_cast(&"pollen_haze")`, Seedcloak | 3D |
+| `blood_tithe_loop` | a low heartbeat hum, max 2 at once, fades when the tether ends | `channel_changed(&"blood_tithe", on)` | 3D |
+| `umbral_passage` | a rising reversed whoosh with a hollow choir, then a thump on arrival | `channel_changed(&"umbral_passage", true)` / `spell_cast(&"umbral_passage")` | 3D |
+| `alert_enemy_passage` | a warning horn variant | an enemy Passage rift opens in the player's vision | own |
+| `ui_autocast_on` / `_off` | two-note up / down click | `CasterAbility.autocast_changed` (own casters) | own |
+| `ui_no_mana` | the wizard's "not enough mana" cue | refusal `"Not enough mana"` on the message line | own |
+
+Attack / hit / death: the existing caster family of `UNIT_SFX_FAMILY` (Pyre Adept / Hexweaver). Voices (Kokoro, 4 lines
+each: select, move, cast, low mana): `caster-units.md` 11.2, not rendered yet.
+
 ## UI and economy
 
 | Cue | Sound | When (hook) | Who |

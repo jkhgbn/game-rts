@@ -19,6 +19,7 @@ T2 and T3, train its T2 / T3 units, research "+" upgrades, and call its T3 helpe
   Shadow Nightblood Reaver, Ice Shardguard, Nature Briar Roc, neutral Stormbottle Genie; helpers Old Vey, Mother Hush,
   Aldra Stillwater, Maelis), `requires_tier = 3`, helpers called at the Citadel keep, autonomous with 3 stances.
 - **12 new units** [new-units agent, already running]: `docs/design/new-units-12.md`; T2 ones use `requires_tier = 2`.
+- **Casters** [caster agent, step 21]: `docs/design/caster-units.md`, `requires_tier = 2`, keep slot B (Set Rally r3c1).
 - Models: gameplay uses `model_scene`; if the art isn't ready, a placeholder wrapper (existing kingdom unit, recoloured /
   scaled) in `art/units/<kingdom>/<id>/placeholder.tscn`; art agents replace `model_scene` targets with the real scene
   path written in `docs/handoff/tiers-wave.md`.

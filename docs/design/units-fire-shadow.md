@@ -14,6 +14,8 @@ Ranges and speeds are metres and metres/second. `attack_range` > 3.0 fires a pro
 | `ash_hurler` | Ash Hurler | Long-range artillery | 60 | 24 | 12.0 | 2.2 | 4.0 | 12 | 0.45 | 1.6 | `(0.60, 0.35, 0.25)`, bolt `(0.5, 0.5, 0.5)` | 140 | 1 | 26 | T |
 
 Worker: `aggro_range` 0 (never picks fights). Existing retaliation in `take_damage` is fine for wave 1.
+Caster (step 21): **Kilnwarden** (`kilnwarden`), trained at the keep on **B** from the Stronghold (tier 2), 150 / pop 2 /
+30 s: Slag Rain (Z), Mana Scald (V), Stoke. Numbers and spells: `caster-units.md` 4-5.
 
 ## Shadow (enemy). Pre-placed in wave 1; costs and train times are for the wave 3 AI
 | id | Display name | Role | max_hp | dmg | range | cooldown | speed | aggro | radius | height | Colour | Cost | Pop | Train (s) |
@@ -23,6 +25,8 @@ Worker: `aggro_range` 0 (never picks fights). Existing retaliation in `take_dama
 | `nightbolt` | Nightbolt | Ranged | 65 | 10 | 9.0 | 1.3 | 5.0 | 10 | 0.45 | 1.6 | `(0.55, 0.30, 0.70)`, bolt `(0.7, 0.4, 1.0)` | 100 | 1 | 20 |
 | `grave_hound` | Grave Hound | Fast harasser | 60 | 8 | 1.4 | 0.7 | 7.0 | 9 | 0.4 | 1.0 | `(0.30, 0.28, 0.35)` | 70 | 1 | 14 |
 | `shadow_knight` | Shadow Knight | Heavy elite | 420 | 26 | 1.9 | 1.4 | 4.0 | 10 | 0.7 | 2.4 | `(0.25, 0.12, 0.38)` | 300 | 3 | 45 |
+Caster (step 21): **Gloom Deacon** (`gloom_deacon`), trained at the keep on **B** from the Stronghold (tier 2), 150 /
+pop 2 / 30 s: Blood Tithe (Z), Umbral Passage (V), Vigil. Numbers and spells: `caster-units.md` 4-5.
 
 ## Wizards (pop 0, never trained, one per side)
 | id | Display name | max_hp | dmg | range | cooldown | speed | aggro | radius | height | Body / hat / orb | Mana | Regen /s |

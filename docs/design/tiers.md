@@ -28,7 +28,7 @@ highest tier of its living keeps. Timing check: a good rusher's Stronghold ~4:40
 ## 2. What each tier unlocks
 | Tier | Unlocks |
 |---|---|
-| 2 Stronghold | The Hall's tier-2 units (`requires_tier = 2`: Pyre Adept, Cinder Arbalest, Hexweaver, Hollow Oathsworn, Hoarlight Magebow, Frost Mortar, Vinelasher, Greenheart Oathkeeper) · the "+" upgrades (section 5) |
+| 2 Stronghold | The Hall's tier-2 units (`requires_tier = 2`: Pyre Adept, Cinder Arbalest, Hexweaver, Hollow Oathsworn, Hoarlight Magebow, Frost Mortar, Vinelasher, Greenheart Oathkeeper) · the "+" upgrades (section 5) · the kingdom's **caster** at the keep (B): Kilnwarden, Rimecarver, Bramblesage, Gloom Deacon (`caster-units.md`) |
 | 3 Citadel | The tier-3 units (`requires_tier = 3`, t3-helpers: Ashveil Saboteur, Nightblood Reaver, Shardguard, Briar Roc, Stormbottle Genie) · the kingdom's helper (called at the Citadel keep) |
 Any UnitType / BuildingType can set `requires_tier`; refusals `"Requires Stronghold"` / `"Requires Citadel"`.
 
@@ -37,6 +37,8 @@ Keep card slot 2 (key **X**, right after the worker): `Stronghold` / `Citadel` w
 `Cancel Stronghold` (tooltip: progress %, seconds left, refund). Refusals in the tooltip (`Available at 3:30`,
 `Needs a completed Hall`, `Not enough crystals`). Message `The Keep is now a Stronghold`. Keep look: model
 `set_tier(t)` / `play_tier_up()` if present, else placeholder gold rings over the roof (1 = Stronghold, 2 = Citadel).
+Keep card (caster-units.md 3.3): slot 5 = r2c1, key **B** = the kingdom's caster (greyed `Requires Stronghold` before);
+**Set Rally moves to r3c1** (it has no key). Keys on the keep card: Z X C V B, all different.
 Hall card r3c4 **+** opens the "+" page (one button per unit, Back at r3c4). Keys (2026-09-29): the `=/+` key (or numpad
 +) opens / closes it; on the page each unit's "+" sits on its unit's slot and uses the unit's own training key (Flame
 Guard+ = Z); Back = Esc. While the page is open the unit keys buy, never train.

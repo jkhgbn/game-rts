@@ -114,7 +114,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   the camera follows her while a key is held), **F / Q / E** = Vessa's spells 1 / 2 / 3, **Ctrl+F / Q / E** = learn or rank up that spell, Space = centre on Vessa,
   F1 = select Vessa, F9 = restart, Esc = cancel targeting. Units selected: right-click = move / attack / gather,
   **X** = attack-move, **C** = stop, **H** = hold, **G** = gather, **B** = build menu (workers only) then
-  **Z / X / C** = Hearth / Hall / Spire. Building selected: **Z X C V B** = its training slots 1-5, right-click = rally.
+  **Z / X / C** = Hearth / Hall / Spire, **Z / V** = caster spells (Ctrl+Z / Ctrl+V autocast; any selection holding
+  casters). Building selected: **Z X C V B** = its training slots 1-5 (keep **B** = caster, T2), right-click = rally.
   Construction site selected: **Delete** = cancel. Groups (SC2 style): Ctrl+N set, Shift+N add, Alt+N steal,
   Shift+Alt+N steal-add, N select, N twice = centre (N = 1-9, 0 = group 10); F2 = all army (twice = centre, Shift+F2 = add), F3 = next idle worker (Ctrl+F3 = all; idle button on the minimap: click next, Ctrl+click all); Ctrl+A = all own units (Ctrl+Shift+A adds); Tab / Shift+Tab = next / previous unit type (order: Settings > Unit priority).
   **R** = bounty mode (Shift+click stays), **Y** = tavern window, **F5 / F6 / F7** = centre on champion 1 / 2 / 3;
@@ -193,6 +194,14 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   only at `Skirmish.time_limit_s` (0 = off; `ended_on_score`), set from `GameSettings.time_limit_min` (0 / 30 / 45).
   `GameHUD.is_message_shown() -> bool`. Bot-vs-bot tests end on score at 30:00 ("PASS … (on score)").
 - **STR / INT path** (2026-09-27, `docs/design/level-boons.md` 14): `StrIntPath` (`scripts/units/str_int_path.gd`, child of each skirmish wizard; switch `StrIntPath.ENABLED`): mandatory STR or INT pick at match start, locked; STR +15 % attack_damage / +20 % max_hp + Vigor (regen), INT +15 spell_power / +25 % max_mana + Snow Shield; `ABILITY_DURATION` / `ABILITY_COOLDOWN` constants; key **J** (physical) = use the path ability. Bots pick in `scripts/ai/ai_str_int.gd`. Missions: off.
+- **Casters** (step 21, `docs/design/caster-units.md`): `CasterKit` (`scripts/units/caster_kit.gd`: switch `ENABLED`,
+  `CASTERS` / `SPELLS` / `PASSIVES` tables, `enabled_here`, `keep_types`, `gate_reason`, `description`, `pick_caster`),
+  `CasterAbility` node `"CasterAbility"` on each caster: `mana`, `max_mana()`, `cast(id, target) -> String`,
+  `order_cast(id, target)` (walks into range), `set_autocast(id, on)`, `autocast(id)`, signals `mana_changed`,
+  `spell_cast(id)`; statuses `slagged`, `scalded`, `hazed`, `tithed`; `Unit.displace(to: Vector3, seconds: float)`
+  (+ signal `displaced`), `Unit.set_cast_lock(s)`, `Unit.attacks_blocked`, `Unit.order_serial`, `Unit.prefer_casters`.
+  `RimeBulwark` (group `"rime_bulwarks"`), `CasterHaze` (group `"pollen_hazes"`). Bot: `AICasters` (child of each
+  Commander; `last_cast(team)` test hook).
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).
