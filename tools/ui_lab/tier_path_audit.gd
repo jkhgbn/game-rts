@@ -130,7 +130,8 @@ func _audit_skirmish(k: StringName) -> void:
 	await _frames(6)
 	_log_card(level, "keep card at the Stronghold")
 	var caster := CasterKit.caster_for(k)
-	if caster != &"" and keep.can_queue(UnitType.find(String(caster))) != "":
+	var caster_reason := keep.can_queue(UnitType.find(String(caster))) if caster != &"" else ""
+	if caster_reason == TierSystem.MSG_T2 or caster_reason == TierSystem.MSG_T3:   # pop / crystals don't count here
 		_fail("%s: the caster %s is not open at the Stronghold (%s)" % [k, caster, keep.can_queue(UnitType.find(String(caster)))])
 	await _shot("%s_07_keep_t2" % k)
 	# Citadel.
