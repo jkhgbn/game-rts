@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/fire/sunforge_cataphract/parts/sunforge_boar.gd" id="1_sfb"]
+
+[node name="SunforgeBoar" type="Node3D"]
+script = ExtResource("1_sfb")
+gallop_speed = 3.3
+gallop_time = 0.56
+walk_swing_deg = 22.0
+gallop_swing_deg = 34.0
+step_lift = 0.075
+gallop_bounce = 0.065
+gallop_pitch_deg = 5.0
+gallop_head_deg = 6.0
+tail_swish_deg = 16.0
+tail_gallop_lift_deg = 60.0
+charge_head_deg = 24.0
+fidget_every = 10.0
+body_height = 1.4
+attack_style = &"mount_toss"
+death_style = &"fall"
+stride_time = 0.66
+stride_speed = 1.9
+idle_period = 2.8
+is_quadruped = true
+walk_bounce = 0.03
+flinch_push = true
+kingdom_color = Color(0.85, 0.3, 0.12, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, -0.02)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0.72)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26, -0.12, 0.52)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26, -0.12, 0.52)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.12, -0.5)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.12, -0.5)
+
+[node name="Tail" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, -0.9)
+
+[node name="Seat" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, -0.15)
+
+[node name="Fx" type="Node3D" parent="."]

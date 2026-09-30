@@ -1,0 +1,97 @@
+{
+	"asset": "duskbolt_harrier",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.6,
+					"node": "res://data/units/duskbolt_harrier.tres",
+					"param": "radius",
+					"to": 0.76
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.6,
+				"x_m": 0.62,
+				"z_m": 1.33
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.6 -> 0.76, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.6 -> 0.76, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.05",
+				"z_m": "<= 1.05"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2902,
+					"node": "Steed/Root/Mount/Merged",
+					"to": 1451,
+					"words": "`Merged` 2902 -> 1451 verts"
+				},
+				{
+					"from": 1975,
+					"node": "Steed/Root/Mount/Head/Merged",
+					"to": 988,
+					"words": "`Merged` 1975 -> 988 verts"
+				},
+				{
+					"from": 496,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 248,
+					"words": "`Merged` 496 -> 248 verts"
+				},
+				{
+					"from": 402,
+					"node": "Steed/Root/Mount/LegBL/Merged",
+					"to": 201,
+					"words": "`Merged` 402 -> 201 verts"
+				},
+				{
+					"from": 402,
+					"node": "Steed/Root/Mount/LegBR/Merged",
+					"to": 267,
+					"words": "`Merged` 402 -> 267 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 7878
+			},
+			"predicted": {
+				"verts": 4856
+			},
+			"proposal": "7878 -> 4856 (want <= 5000): `Merged` 2902 -> 1451 verts; `Merged` 1975 -> 988 verts; `Merged` 496 -> 248 verts; `Merged` 402 -> 201 verts; `Merged` 402 -> 267 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 7878 -> 4856 (want <= 5000): `Merged` 2902 -> 1451 verts; `Merged` 1975 -> 988 verts; `Merged` 496 -> 248 verts; `Merged` 402 -> 201 verts; `Merged` 402 -> 267 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 5000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 92.0,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/duskbolt_harrier/duskbolt_harrier.tscn",
+	"tier": "rider",
+	"version": "1.0"
+}

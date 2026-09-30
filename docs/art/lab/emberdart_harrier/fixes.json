@@ -1,0 +1,79 @@
+{
+	"asset": "emberdart_harrier",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.6,
+					"node": "res://data/units/emberdart_harrier.tres",
+					"param": "radius",
+					"to": 0.79
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.6,
+				"x_m": 0.63,
+				"z_m": 1.38
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.6 -> 0.79, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.6 -> 0.79, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.05",
+				"z_m": "<= 1.05"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 3090,
+					"node": "Boar/Root/Mount/Merged",
+					"to": 1545,
+					"words": "`Merged` 3090 -> 1545 verts"
+				},
+				{
+					"from": 1491,
+					"node": "Boar/Root/Mount/Head/Merged",
+					"to": 756,
+					"words": "`Merged` 1491 -> 756 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 7171
+			},
+			"predicted": {
+				"verts": 4891
+			},
+			"proposal": "7171 -> 4891 (want <= 5000): `Merged` 3090 -> 1545 verts; `Merged` 1491 -> 756 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 7171 -> 4891 (want <= 5000): `Merged` 3090 -> 1545 verts; `Merged` 1491 -> 756 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 5000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 93.5,
+	"result": "WARN",
+	"scene": "res://art/units/fire/emberdart_harrier/emberdart_harrier.tscn",
+	"tier": "rider",
+	"version": "1.0"
+}

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://art/units/shadow/barrow_knight/barrow_knight.gd" id="1_bkm"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/barrow_knight/parts/barrow_steed.tscn" id="2_bks"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/barrow_knight/parts/barrow_knight_rider.tscn" id="3_bkr"]
+
+[node name="BarrowKnight" type="Node3D"]
+script = ExtResource("1_bkm")
+body_height = 2.3
+attack_style = &"flail_smash"
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Steed" parent="." instance=ExtResource("2_bks")]
+transform = Transform3D(0.94, 0, 0, 0, 0.94, 0, 0, 0, 0.94, 0, 0, 0)
+
+[node name="Rider" parent="." instance=ExtResource("3_bkr")]
+transform = Transform3D(0.94, 0, 0, 0, 0.94, 0, 0, 0, 0.94, 0, 0, 0)

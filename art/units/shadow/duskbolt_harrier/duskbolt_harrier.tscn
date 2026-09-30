@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://art/units/shadow/duskbolt_harrier/duskbolt_harrier.gd" id="1_dbm"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/duskbolt_harrier/parts/duskbolt_steed.tscn" id="2_dbs"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/duskbolt_harrier/parts/duskbolt_harrier_rider.tscn" id="3_dbr"]
+
+[node name="DuskboltHarrier" type="Node3D"]
+script = ExtResource("1_dbm")
+body_height = 2.0
+attack_style = &"bolt_shot"
+attack_windup = 0.12
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Steed" parent="." instance=ExtResource("2_dbs")]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, 0, 0, 0)
+
+[node name="Rider" parent="." instance=ExtResource("3_dbr")]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, 0, 0, 0)

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://art/units/shadow/veilborn_dreadrider/veilborn_dreadrider.gd" id="1_vbm"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/veilborn_dreadrider/parts/veil_steed.tscn" id="2_vbs"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/veilborn_dreadrider/parts/veilborn_dreadrider_rider.tscn" id="3_vbr"]
+
+[node name="VeilbornDreadrider" type="Node3D"]
+script = ExtResource("1_vbm")
+body_height = 2.6
+attack_style = &"reap"
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Steed" parent="." instance=ExtResource("2_vbs")]
+transform = Transform3D(1.03, 0, 0, 0, 1.03, 0, 0, 0, 1.03, 0, 0, 0)
+
+[node name="Rider" parent="." instance=ExtResource("3_vbr")]
+transform = Transform3D(1.03, 0, 0, 0, 1.03, 0, 0, 0, 1.03, 0, 0, 0)

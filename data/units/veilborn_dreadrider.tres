@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="UnitType" format=3]
 
 [ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
-[ext_resource type="PackedScene" path="res://art/units/shadow/veilborn_dreadrider/placeholder/veilborn_dreadrider_placeholder.tscn" id="2_model"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/veilborn_dreadrider/veilborn_dreadrider.tscn" id="2_model"]
 
 [resource]
 script = ExtResource("1_type")

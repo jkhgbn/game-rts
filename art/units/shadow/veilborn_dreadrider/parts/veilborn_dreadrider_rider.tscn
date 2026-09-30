@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/shadow/veilborn_dreadrider/parts/veilborn_dreadrider_rider.gd" id="1_vbr"]
+
+[node name="VeilbornDreadriderRider" type="Node3D"]
+script = ExtResource("1_vbr")
+body_height = 1.95
+attack_style = &"reap"
+attack_windup = 0.0
+death_style = &"sink"
+stride_time = 0.55
+stride_speed = 3.0
+idle_period = 4.0
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+seat_offset = Vector3(0, 0.06, -0.02)
+seat_leg_forward_deg = 35.0
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.86, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94, 0)
+
+[node name="Head" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56, 0.02)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29, 0.44, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29, 0.44, 0)
+
+[node name="Fx" type="Node3D" parent="."]
