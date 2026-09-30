@@ -15,7 +15,11 @@ const KINGDOM_COLOR := Color(0.35, 0.70, 0.25)
 const GLOW_DEFAULT := Color(0.75, 1.00, 0.40)
 const STRIPE_DEFAULT := Color(0.15, 0.40, 0.15)
 ## Canopy in the default (nature) colour: lighter / cooler than the kingdom green so it reads off the meadow (Art Lab R3).
-const LEAF_DEFAULT := Color("#55ffb5")
+## In-game grade pass (2026-09-30): the canopy body is pale sage / autumn olive in every team (it was team green, then a
+## neon mint, on green meadow). The team colour is on the leaf cards (top-facing, all over the canopy), the moss carpet
+## of the walkway and the banners. LEAF_TEAM_DEFAULT = the kingdom's leaf-card green (a touch lighter than the cloth).
+const CANOPY_COLOR := Color(0.8, 0.78, 0.56)
+const LEAF_TEAM_DEFAULT := Color(0.40, 0.76, 0.28)
 const RIM_IDLE := Color(0.72, 0.88, 0.55)
 const RIM_IDLE_STRENGTH := 0.25
 ## Where the trunk breaks when the keep dies: TrunkLow (with the roots) stays as the stump.
@@ -52,6 +56,7 @@ const WRECK := {
 @export var bark_material: ShaderMaterial
 @export var leaves_material: ShaderMaterial
 @export var leafcard_material: ShaderMaterial
+@export var moss_material: ShaderMaterial
 @export var blossom_material: ShaderMaterial
 @export var petal_material: ShaderMaterial
 @export var heart_material: ShaderMaterial
@@ -318,9 +323,11 @@ func set_team_color(c: Color) -> void:
 		return
 	var glow: Color = _glow_color()
 	var is_default: bool = c.is_equal_approx(KINGDOM_COLOR)
-	var leaf: Color = LEAF_DEFAULT if is_default else c
+	var leaf: Color = LEAF_TEAM_DEFAULT if is_default else c
 	if leaves_material:
-		leaves_material.set_shader_parameter(&"base_color", leaf)
+		leaves_material.set_shader_parameter(&"base_color", CANOPY_COLOR)
+	if moss_material:
+		moss_material.set_shader_parameter(&"base_color", KINGDOM_COLOR if is_default else c)
 	if leafcard_material:
 		leafcard_material.set_shader_parameter(&"base_color", leaf)
 		leafcard_material.set_shader_parameter(&"glow_color", glow)

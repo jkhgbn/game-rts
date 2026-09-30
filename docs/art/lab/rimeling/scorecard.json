@@ -2,6 +2,7 @@
 	"asset": "rimeling",
 	"budget": {
 		"draw": 14,
+		"face_verts": 800,
 		"frame_ms": 0.005,
 		"lights": 0,
 		"meshes": 26,
@@ -28,7 +29,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "root Node3D, 22 nodes",
+			"value": "root Node3D, 23 nodes",
 			"weight": 1.0
 		},
 		{
@@ -42,7 +43,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "7 drawn (7 mesh + 0 multimesh); per pivot: (root) 1, ArmL 1, ArmR 1, Chest 1, Head 1, LegL 1",
+			"value": "8 drawn (8 mesh + 0 multimesh); per pivot: Head 2, (root) 1, ArmL 1, ArmR 1, Chest 1, LegL 1",
 			"weight": 1.0
 		},
 		{
@@ -56,7 +57,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "7",
+			"value": "8",
 			"weight": 1.0
 		},
 		{
@@ -70,21 +71,21 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0",
+			"value": "1",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.569620253164557,
+			"graded": 0.7381745502998,
 			"group": "budget",
 			"hint": "",
 			"id": "B4",
 			"improve": "",
 			"name": "Vertices",
 			"rule": "<= 2500 (art-units.md 8, tier3-extras.md 12)",
-			"score": 0.870886075949367,
+			"score": 0.92145236508994,
 			"shot": "",
 			"status": "PASS",
-			"value": "2396 (biggest: Merged 781, Merged 509, Merged 396, Merged 396)",
+			"value": "2143 (body + face above its allowance: face 416 v, allowance 800, total 2559; biggest: Merged 750, Merged 449, Face 416, Merged 315)",
 			"weight": 1.0
 		},
 		{
@@ -182,7 +183,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "52",
+			"value": "3",
 			"weight": 1.0
 		},
 		{
@@ -196,7 +197,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "26 surfaces over 7 meshes (each surface = 1 draw call)",
+			"value": "26 surfaces over 8 meshes (each surface = 1 draw call)",
 			"weight": 1.0
 		},
 		{
@@ -210,7 +211,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "419 of 2975 triangles (14%) face steeply down (normal y < -0.7)",
+			"value": "381 of 3419 triangles (11%) face steeply down (normal y < -0.7)",
 			"weight": 1.0
 		},
 		{
@@ -256,17 +257,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.910229801701282,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 1.0,
+			"score": 0.910229801701282,
 			"shot": "close",
 			"status": "INFO",
-			"value": "44 shapes over 6 body parts (7.3 per part: LegL 4, LegR 4, Head 11, ArmL 5, ArmR 5, Chest 15); 25% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.928",
+			"value": "61 shapes over 6 body parts (10.2 per part: LegL 4, LegR 4, Head 28, ArmL 5, ArmR 5, Chest 15); 41% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.916",
 			"weight": 1.0
 		},
 		{
@@ -280,7 +281,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "95% of the 2500 verts budget used (2392)",
+			"value": "102% of the 2500 verts budget used (2555)",
 			"weight": 1.0
 		},
 		{
@@ -298,59 +299,59 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.639092717851911,
+			"graded": 0.93671449025472,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.891727815355573,
+			"score": 0.981014347076416,
 			"shot": "",
 			"status": "PASS",
-			"value": "head top 1.24 m / body_height 1.05 (x1.18)",
+			"value": "head top 1.24 m / body_height 1.2 (x1.03)",
 			"weight": 1.0
 		},
 		{
-			"graded": -1.0,
+			"graded": 1.0,
 			"group": "read",
 			"hint": "Pull wide parts in, or raise UnitType.radius",
 			"id": "R10",
 			"improve": "",
 			"name": "Footprint vs selection radius",
 			"rule": "x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored)",
-			"score": -1.0,
+			"score": 1.0,
 			"shot": "",
-			"status": "INFO",
-			"value": "x 0.4 / z 0.6 m (radius 0.45, default)",
+			"status": "PASS",
+			"value": "x 0.4 / z 0.6 m (radius 0.4, from rimeling.tres)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.9,
+			"graded": 1.0,
 			"group": "craft",
 			"hint": "",
 			"id": "C3",
 			"improve": "",
 			"name": "Palette depth (close-up)",
 			"rule": "craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up",
-			"score": 0.9,
+			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+			"value": "13 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.615131578947368,
+			"graded": 0.62987012987013,
 			"group": "craft",
 			"hint": "",
 			"id": "C4",
-			"improve": "Big plain panels inside the silhouette (2.62 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
+			"improve": "Big plain panels inside the silhouette (3.15 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
 			"name": "Inner detail (close-up / 25 m)",
 			"rule": "craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette)",
-			"score": 0.615131578947368,
+			"score": 0.62987012987013,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 2.62 at the close-up (69042 px), 1.09 at 25 m; close-up outline complexity 3.1",
+			"value": "inner edges per outline px: 3.15 at the close-up (68610 px), 1.1 at 25 m; close-up outline complexity 3.15",
 			"weight": 1.0
 		},
 		{
@@ -358,13 +359,13 @@
 			"group": "read",
 			"hint": "Exaggerate the big masses (art-keep 0.1 / art-units 1.1): wider shoulders, bigger weapon / head, a taller vertical",
 			"id": "R1",
-			"improve": "Grow the read at 40 m (now 295 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
+			"improve": "Grow the read at 40 m (now 297 px): push the key shape (weapon, horns, crest, back mass) 15-25 % bigger",
 			"name": "Silhouette area at 40 m",
 			"rule": ">= 120 px (FAIL < 45) at 1600 x 900",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "295 px (22 x 30 bbox; 55 m: 157 px)",
+			"value": "297 px (22 x 30 bbox; 55 m: 155 px)",
 			"weight": 1.0
 		},
 		{
@@ -372,41 +373,41 @@
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 54.0): value is close to the ground (dL +8): lighten the top / back 15-20 % or add a dark saddle / pale belly band",
+			"improve": "Raise the contrast of the key read on meadow (dE 55.6): value is close to the ground (dL +5): lighten the top / back 15-20 % or add a dark saddle / pale belly band",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 54.0, 0% of the body melts (within dE 15 of the ground); body L* 71.6 C 7.0 vs ground L* 63.4 C 48.3, hue gap n/a (body C* <= 25); top third (world height) dE 54.2, L* 88.0; per-pixel dE 60.0, outline 47.3",
+			"value": "mean-colour dE 55.6, 0% of the body melts (within dE 15 of the ground); body L* 68.8 C 8.9 vs ground L* 63.4 C 48.2, hue gap n/a (body C* <= 25); top third (world height) dE 53.8, L* 86.8; per-pixel dE 61.3, outline 47.5",
 			"weight": 1.5
 		},
 		{
-			"graded": 0.589716837956355,
+			"graded": 0.719372675969051,
 			"group": "read",
 			"hint": "A value step against the home ground: pale crests on dark ash / marsh, dark trims on snow",
 			"id": "R4k",
-			"improve": "On its home ground (snow) the body is only dE 21.3: add a value step for that ground",
+			"improve": "",
 			"name": "Contrast on the home ground (snow)",
 			"rule": "dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh)",
-			"score": 0.876915051386907,
+			"score": 0.915811802790715,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 21.3, 56% melts (snow is where ice units stand most)",
+			"value": "dE 24.7, 52% melts (snow is where ice units stand most)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.638859907786051,
+			"graded": 0.779320398966471,
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On snow the body drops to dE 21.3: add a value accent that separates it there too",
+			"improve": "On snow the body drops to dE 24.7: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 10 on every skirmish ground (WARN only)",
-			"score": 0.891657972335815,
+			"score": 0.933796119689941,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst snow: dE 21.3 (heath dE 28.7, old_wood dE 50.6, riverbank dE 51.4, snow dE 21.3, ash dE 49.5, sand dE 40.5, marsh dE 58.6)",
+			"value": "worst snow: dE 24.7 (heath dE 28.1, old_wood dE 49.4, riverbank dE 50.5, snow dE 24.7, ash dE 47.1, sand dE 43.1, marsh dE 56.6)",
 			"weight": 1.0
 		},
 		{
@@ -420,49 +421,49 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "40% of body pixels change between kingdom colours (min pair 39%)",
+			"value": "41% of body pixels change between kingdom colours (min pair 40%)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.936620198763334,
+			"graded": 0.980660218458909,
 			"group": "read",
 			"hint": "Keep the team colour off the silhouette's biggest mass or give it a value step (trim, dark border)",
 			"id": "R3t",
 			"improve": "",
 			"name": "Contrast in every team colour (meadow)",
 			"rule": "dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours)",
-			"score": 0.980986059629,
+			"score": 0.994198065537673,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst nature colour: dE 30.4 (fire 47.0, shadow 73.9, ice 53.2, nature 30.4)",
+			"value": "worst nature colour: dE 31.5 (fire 48.2, shadow 75.7, ice 54.5, nature 31.5)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.404226143014284,
+			"graded": 0.386935273361178,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)",
-			"score": 0.821267842904285,
+			"score": 0.816080582008353,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst pair fire / nature (deutan): dE 13.9 on the team-colour area (normal vision 78.2; 120 px); deutan: fire / nature dE 13.9; protan: fire / nature dE 22.1; worst vs ground: fire colour (deutan) dE 23.6",
+			"value": "worst pair fire / nature (deutan): dE 13.4 on the team-colour area (normal vision 77.2; 124 px); deutan: fire / nature dE 13.4; protan: fire / nature dE 21.8; worst vs ground: fire colour (deutan) dE 25.4",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.959322033898305,
+			"graded": 1.0,
 			"group": "read",
 			"hint": "Keep tall parts under body_height + 0.4 or narrower than 0.35 m, or raise body_height to the real head top",
 			"id": "R7",
 			"improve": "",
 			"name": "HP bar over the body at 40 m",
-			"rule": "<= 8% (FAIL > 25%); bar at body_height + 0.5 = 1.55 m, 1.17 m wide",
-			"score": 0.987796610169492,
+			"rule": "<= 8% (FAIL > 25%); bar at body_height + 0.5 = 1.7 m, 1.04 m wide",
+			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "bar hides 1% of the silhouette (gap -2 px)",
+			"value": "bar hides 0% of the silhouette (gap 0 px)",
 			"weight": 1.0
 		},
 		{
@@ -472,11 +473,11 @@
 			"id": "A3r",
 			"improve": "",
 			"name": "Weapon reach at the strike",
-			"rule": "reach weapons: pass reach=<m> (the brief) or set attack_reach on the scene",
+			"rule": "judged for reach weapons (declared reach >= 2.5 m, or reach= / attack_reach)",
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "tip reaches 0.97 m from the body centre at t 0.14 s (0.97 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
+			"value": "tip reaches 0.94 m from the body centre at t 0.14 s (0.94 m forward; geometry clipped at the ground); declared 1.4 m (UnitType attack_range (rimeling.tres)) - not a reach weapon (< 2.5 m): not judged",
 			"weight": 1.0
 		},
 		{
@@ -494,17 +495,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.534693558158615,
+			"graded": 0.524358921403338,
 			"group": "polish",
 			"hint": "",
 			"id": "P1",
-			"improve": "Give the 40 m silhouette a hook (now 2.0): a shape that breaks the outline, e.g. horns, a raised weapon, a crest, a tail flick, a gap between limbs (at 40 m 1 px = ~4 cm: hooks thinner than ~0.25 m barely register)",
+			"improve": "Give the 40 m silhouette a hook (now 1.98): a shape that breaks the outline, e.g. horns, a raised weapon, a crest, a tail flick, a gap between limbs (at 40 m 1 px = ~4 cm: hooks thinner than ~0.25 m barely register)",
 			"name": "Silhouette hook",
 			"rule": "a blob is ~1.3-1.8; a strong hook >= 2.2",
-			"score": 0.534693558158615,
+			"score": 0.524358921403338,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "outline complexity 2.0",
+			"value": "outline complexity 1.98",
 			"weight": 1.0
 		},
 		{
@@ -518,7 +519,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 88.0, bottom third L* 48.9 (+39, world height)",
+			"value": "top third L* 86.8, bottom third L* 45.9 (+40, world height)",
 			"weight": 1.0
 		},
 		{
@@ -532,49 +533,23 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 9.4 at 25 m, 14.6 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 8.4 at 25 m, 12.8 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.698948946866122,
+			"fix": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2 [fixes.json #1]",
+			"fix_rank": 1,
+			"graded": 0.4,
 			"group": "read",
-			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
-			"id": "R5c",
-			"improve": "",
-			"name": "Glow points stand out (1 m surround)",
-			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
-			"score": 0.909684684059837,
-			"shot": "glow",
-			"status": "PASS",
-			"value": "worst dL +28 (point 1 dL +28; ring 24 px = 1.0 m at 40 m)",
-			"weight": 0.5
-		},
-		{
-			"graded": 1.0,
-			"group": "read",
-			"hint": "",
+			"hint": "Add a glow point (eyes / rune / weapon, emission >= 2.5 so the bloom carries it); 2 soft glow(s) sit under the bloom level: raise one to emission >= 2.4",
 			"id": "R5",
-			"improve": "",
+			"improve": "Add a glow point (eyes / rune / weapon, emission >= 2.5 so the bloom carries it); 2 soft glow(s) sit under the bloom level: raise one to emission >= 2.4",
 			"name": "Glow points at 40 m",
 			"rule": "1-3 above the bloom level (art-units 1.4 / art-keep 0.4)",
-			"score": 1.0,
+			"score": 0.486,
 			"shot": "glow",
-			"status": "PASS",
-			"value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1",
-			"weight": 1.0
-		},
-		{
-			"graded": 1.0,
-			"group": "polish",
-			"hint": "",
-			"id": "P5",
-			"improve": "",
-			"name": "Glow placement",
-			"rule": "one glow high (head / weapon / crest) reads over crowds",
-			"score": 1.0,
-			"shot": "glow",
-			"status": "INFO",
-			"value": "1 of 1 glow(s) in the upper half of the model's height (world)",
+			"status": "WARN",
+			"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 2",
 			"weight": 1.0
 		},
 		{
@@ -588,7 +563,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst autumn: dE 50.0, dL +10 (warm dE 54.0, ice dE 50.2, night dE 53.5, autumn dE 50.0); night = lab stand-in (warm preset, dim moon sun)",
+			"value": "worst autumn: dE 50.9, dL +6 (warm dE 55.5, ice dE 51.8, night dE 55.1, autumn dE 50.9); night = lab stand-in (warm preset, dim moon sun)",
 			"weight": 0.5
 		},
 		{
@@ -602,35 +577,21 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "on the autumn floor: dE 48.6, 0% melts; body L* 69.4 C 2.5 vs floor L* 52.6 C 43.3; ice team colour vs the floor swatches: min dE 60.7 (road_color)",
+			"value": "on the autumn floor: dE 48.8, 0% melts; body L* 65.4 C 3.8 vs floor L* 52.6 C 43.3; ice team colour vs the floor swatches: min dE 60.7 (road_color)",
 			"weight": 0.5
 		},
 		{
-			"graded": 0.851973848246593,
+			"graded": 0.858245103017814,
 			"group": "read",
 			"hint": "The silhouette must survive the gait: keep the key shape (weapon, crest, back mass) out of the swing, damp limbs that sweep the whole outline",
 			"id": "R11",
 			"improve": "",
 			"name": "Reads while walking (40 m)",
 			"rule": "mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only)",
-			"score": 0.955592154473978,
+			"score": 0.957473530905344,
 			"shot": "anim",
 			"status": "PASS",
-			"value": "walk frames vs rest: mean IoU 0.77 (min 0.68), area kept 90-95% (min 269 px), frame-to-frame IoU min 0.66; 8 frames 0.09 s apart",
-			"weight": 0.5
-		},
-		{
-			"graded": 1.0,
-			"group": "read",
-			"hint": "Glow points that hide behind a swinging limb or dip under the bloom level blink at 40 m: move them to a steady part (head, chest, weapon head) or raise their energy",
-			"id": "R5w",
-			"improve": "",
-			"name": "Glow points while walking (flicker)",
-			"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)",
-			"score": 1.0,
-			"shot": "glow",
-			"status": "PASS",
-			"value": "points per frame 1/1/1/1/1/1/1/1 (median 1, range 0, 0 frame(s) at 0; at rest 1)",
+			"value": "walk frames vs rest: mean IoU 0.77 (min 0.67), area kept 88-93% (min 267 px), frame-to-frame IoU min 0.67; 8 frames 0.09 s apart",
 			"weight": 0.5
 		},
 		{
@@ -644,7 +605,7 @@
 			"score": -1.0,
 			"shot": "anim",
 			"status": "INFO",
-			"value": "cast pose changes 44% of the silhouette at its peak (t 0.4 s; 0.12 s 35%, 0.25 s 36%, 0.4 s 44%, 0.6 s 2%)",
+			"value": "cast pose changes 45% of the silhouette at its peak (t 0.4 s; 0.12 s 36%, 0.25 s 38%, 0.4 s 45%, 0.6 s 11%)",
 			"weight": 1.0
 		},
 		{
@@ -672,21 +633,21 @@
 			"score": 1.0,
 			"shot": "silhouette",
 			"status": "INFO",
-			"value": "front-view asymmetry 0.29",
+			"value": "front-view asymmetry 0.28",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.663904750423805,
+			"graded": 0.656096047739225,
 			"group": "read",
 			"hint": "",
 			"id": "R2",
 			"improve": "Make it read apart from rimeling_placeholder (IoU 0.6): change one big shape of the silhouette",
 			"name": "Distinct from references (black masks)",
 			"rule": "IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15)",
-			"score": 0.899171425127142,
+			"score": 0.896828814321767,
 			"shot": "silhouette",
 			"status": "PASS",
-			"value": "max IoU 0.6 (rimeling_placeholder 0.6, magpie 0.54, hoarlight_magebow_placeholder 0.53, rime_hauler 0.45, bristleback 0.39, frost_mortar 0.19)",
+			"value": "max IoU 0.6 (rimeling_placeholder 0.6, magpie 0.53, hoarlight_magebow_placeholder 0.52, rime_hauler 0.45, bristleback 0.39, frost_mortar 0.19)",
 			"weight": 1.0
 		},
 		{
@@ -700,7 +661,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0.001 ms process per instance (100 animated at 40 m: +0.1 ms process, render CPU +1.28 ms, GPU +0.32 ms)",
+			"value": "0.0007 ms process per instance (100 animated at 40 m: +0.07 ms process, render CPU +0.65 ms, GPU +0.15 ms)",
 			"weight": 1.0
 		},
 		{
@@ -728,36 +689,127 @@
 				"id": "C3",
 				"loss": -20.0,
 				"name": "Palette depth (close-up)",
-				"new_score": 90.0,
+				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+				"new_value": "13 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 				"noisy": false,
-				"old_score": 80.0,
+				"old_score": 90.0,
 				"old_status": "INFO",
-				"old_value": "11 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)"
+				"old_value": "12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)"
 			},
 			{
 				"change": "better",
-				"delta": 5.75657894736844,
-				"group": "craft",
-				"id": "C4",
-				"loss": -11.5131578947369,
-				"name": "Inner detail (close-up / 25 m)",
-				"new_score": 61.5131578947368,
-				"new_status": "INFO",
-				"new_value": "inner edges per outline px: 2.62 at the close-up (69042 px), 1.09 at 25 m; close-up outline complexity 3.1",
+				"delta": 8.92865317208428,
+				"group": "read",
+				"id": "R8",
+				"loss": -17.8573063441686,
+				"name": "Head height vs body_height",
+				"new_score": 98.1014347076416,
+				"new_status": "PASS",
+				"new_value": "head top 1.24 m / body_height 1.2 (x1.03)",
 				"noisy": false,
-				"old_score": 55.7565789473684,
-				"old_status": "INFO",
-				"old_value": "inner edges per outline px: 2.46 at the close-up (69095 px), 1.05 at 25 m; close-up outline complexity 3.1"
+				"old_score": 89.1727815355573,
+				"old_status": "PASS",
+				"old_value": "head top 1.24 m / body_height 1.05 (x1.18)"
+			},
+			{
+				"change": "better",
+				"delta": 4.21381473541264,
+				"group": "read",
+				"id": "R4",
+				"loss": -8.42762947082528,
+				"name": "Contrast on the other grounds",
+				"new_score": 93.3796119689941,
+				"new_status": "PASS",
+				"new_value": "worst snow: dE 24.7 (heath dE 28.1, old_wood dE 49.4, riverbank dE 50.5, snow dE 24.7, ash dE 47.1, sand dE 43.1, marsh dE 56.6)",
+				"noisy": false,
+				"old_score": 89.1657972335815,
+				"old_status": "PASS",
+				"old_value": "worst snow: dE 21.3 (heath dE 28.7, old_wood dE 50.6, riverbank dE 51.4, snow dE 21.3, ash dE 49.5, sand dE 40.5, marsh dE 58.6)"
+			},
+			{
+				"change": "better",
+				"delta": 3.88967514038082,
+				"group": "read",
+				"id": "R4k",
+				"loss": -7.77935028076163,
+				"name": "Contrast on the home ground (snow)",
+				"new_score": 91.5811802790715,
+				"new_status": "PASS",
+				"new_value": "dE 24.7, 52% melts (snow is where ice units stand most)",
+				"noisy": false,
+				"old_score": 87.6915051386907,
+				"old_status": "PASS",
+				"old_value": "dE 21.3, 56% melts (snow is where ice units stand most)"
+			},
+			{
+				"change": "better",
+				"delta": 5.05662891405731,
+				"group": "budget",
+				"id": "B4",
+				"loss": -5.05662891405731,
+				"name": "Vertices",
+				"new_score": 92.145236508994,
+				"new_status": "PASS",
+				"new_value": "2143 (body + face above its allowance: face 416 v, allowance 800, total 2559; biggest: Merged 750, Merged 449, Face 416, Merged 315)",
+				"noisy": false,
+				"old_score": 87.0886075949367,
+				"old_status": "PASS",
+				"old_value": "2396 (biggest: Merged 781, Merged 509, Merged 396, Merged 396)"
 			}
 		],
-		"gone": [],
+		"gone": [
+			{
+				"change": "gone",
+				"delta": 0.0,
+				"group": "read",
+				"id": "R5c",
+				"loss": 0.0,
+				"name": "Glow points stand out (1 m surround)",
+				"new_score": -1.0,
+				"new_status": "",
+				"new_value": "",
+				"noisy": true,
+				"old_score": 90.9684684059837,
+				"old_status": "PASS",
+				"old_value": "worst dL +28 (point 1 dL +28; ring 24 px = 1.0 m at 40 m)"
+			},
+			{
+				"change": "gone",
+				"delta": 0.0,
+				"group": "polish",
+				"id": "P5",
+				"loss": 0.0,
+				"name": "Glow placement",
+				"new_score": -1.0,
+				"new_status": "",
+				"new_value": "",
+				"noisy": false,
+				"old_score": 100.0,
+				"old_status": "INFO",
+				"old_value": "1 of 1 glow(s) in the upper half of the model's height (world)"
+			},
+			{
+				"change": "gone",
+				"delta": 0.0,
+				"group": "read",
+				"id": "R5w",
+				"loss": 0.0,
+				"name": "Glow points while walking (flicker)",
+				"new_score": -1.0,
+				"new_status": "",
+				"new_value": "",
+				"noisy": true,
+				"old_score": 100.0,
+				"old_status": "PASS",
+				"old_value": "points per frame 1/1/1/1/1/1/1/1 (median 1, range 0, 0 frame(s) at 0; at rest 1)"
+			}
+		],
 		"new": [],
-		"prev_quality": 94.5,
+		"prev_quality": 95.2,
 		"prev_result": "PASS",
-		"prev_started": "2026-09-27 17:32:35",
-		"quality": 95.2289920716389,
+		"prev_started": "2026-09-27 17:52:21",
+		"quality": 94.3542162436911,
 		"rows": [
 			{
 				"change": "same",
@@ -768,7 +820,7 @@
 				"name": "Scene instantiates",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "root Node3D, 22 nodes",
+				"new_value": "root Node3D, 23 nodes",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
@@ -783,7 +835,7 @@
 				"name": "Meshes after the kit merge",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "7 drawn (7 mesh + 0 multimesh); per pivot: (root) 1, ArmL 1, ArmR 1, Chest 1, Head 1, LegL 1",
+				"new_value": "8 drawn (8 mesh + 0 multimesh); per pivot: Head 2, (root) 1, ArmL 1, ArmR 1, Chest 1, LegL 1",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
@@ -798,7 +850,7 @@
 				"name": "Draw instances at rest",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "7",
+				"new_value": "8",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
@@ -813,26 +865,26 @@
 				"name": "keep_separate parts",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "0",
+				"new_value": "1",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
 				"old_value": "0"
 			},
 			{
-				"change": "worse",
-				"delta": -2.0386409060626,
+				"change": "better",
+				"delta": 5.05662891405731,
 				"group": "budget",
 				"id": "B4",
-				"loss": 2.0386409060626,
+				"loss": -5.05662891405731,
 				"name": "Vertices",
-				"new_score": 87.0886075949367,
+				"new_score": 92.145236508994,
 				"new_status": "PASS",
-				"new_value": "2396 (biggest: Merged 781, Merged 509, Merged 396, Merged 396)",
+				"new_value": "2143 (body + face above its allowance: face 416 v, allowance 800, total 2559; biggest: Merged 750, Merged 449, Face 416, Merged 315)",
 				"noisy": false,
-				"old_score": 89.1272485009993,
+				"old_score": 87.0886075949367,
 				"old_status": "PASS",
-				"old_value": "2294 (biggest: Merged 679, Merged 509, Merged 396, Merged 396)"
+				"old_value": "2396 (biggest: Merged 781, Merged 509, Merged 396, Merged 396)"
 			},
 			{
 				"change": "same",
@@ -922,7 +974,7 @@
 				"noisy": false,
 				"old_score": -1.0,
 				"old_status": "INFO",
-				"old_value": "14"
+				"old_value": "15"
 			},
 			{
 				"change": "same",
@@ -933,11 +985,11 @@
 				"name": "Authored build parts (before the merge)",
 				"new_score": -1.0,
 				"new_status": "INFO",
-				"new_value": "52",
+				"new_value": "3",
 				"noisy": false,
 				"old_score": -1.0,
 				"old_status": "INFO",
-				"old_value": "49"
+				"old_value": "52"
 			},
 			{
 				"change": "same",
@@ -948,11 +1000,11 @@
 				"name": "Surfaces per instance",
 				"new_score": -1.0,
 				"new_status": "INFO",
-				"new_value": "26 surfaces over 7 meshes (each surface = 1 draw call)",
+				"new_value": "26 surfaces over 8 meshes (each surface = 1 draw call)",
 				"noisy": false,
 				"old_score": -1.0,
 				"old_status": "INFO",
-				"old_value": "25 surfaces over 7 meshes (each surface = 1 draw call)"
+				"old_value": "26 surfaces over 7 meshes (each surface = 1 draw call)"
 			},
 			{
 				"change": "same",
@@ -963,11 +1015,11 @@
 				"name": "Downward-facing triangles",
 				"new_score": -1.0,
 				"new_status": "INFO",
-				"new_value": "419 of 2975 triangles (14%) face steeply down (normal y < -0.7)",
+				"new_value": "381 of 3419 triangles (11%) face steeply down (normal y < -0.7)",
 				"noisy": false,
 				"old_score": -1.0,
 				"old_status": "INFO",
-				"old_value": "407 of 2871 triangles (14%) face steeply down (normal y < -0.7)"
+				"old_value": "419 of 2975 triangles (14%) face steeply down (normal y < -0.7)"
 			},
 			{
 				"change": "same",
@@ -1015,19 +1067,19 @@
 				"old_value": "0 node(s) created, net +0, 2nd action cycle: 0 node(s), 0 new material(s)"
 			},
 			{
-				"change": "same",
-				"delta": 1.3888888888889,
+				"change": "worse",
+				"delta": -8.97701982987185,
 				"group": "craft",
 				"id": "C1",
-				"loss": -2.7777777777778,
+				"loss": 17.9540396597437,
 				"name": "Shape richness (secondary shapes)",
-				"new_score": 100.0,
+				"new_score": 91.0229801701282,
 				"new_status": "INFO",
-				"new_value": "44 shapes over 6 body parts (7.3 per part: LegL 4, LegR 4, Head 11, ArmL 5, ArmR 5, Chest 15); 25% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.928",
+				"new_value": "61 shapes over 6 body parts (10.2 per part: LegL 4, LegR 4, Head 28, ArmL 5, ArmR 5, Chest 15); 41% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.916",
 				"noisy": false,
-				"old_score": 98.6111111111111,
+				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "41 shapes over 6 body parts (6.8 per part: LegL 4, LegR 4, Head 11, ArmL 5, ArmR 5, Chest 12); 24% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.927"
+				"old_value": "44 shapes over 6 body parts (7.3 per part: LegL 4, LegR 4, Head 11, ArmL 5, ArmR 5, Chest 15); 25% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.928"
 			},
 			{
 				"change": "same",
@@ -1038,11 +1090,11 @@
 				"name": "Vertex use vs budget",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "95% of the 2500 verts budget used (2392)",
+				"new_value": "102% of the 2500 verts budget used (2555)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "91% of the 2500 verts budget used (2290)"
+				"old_value": "95% of the 2500 verts budget used (2392)"
 			},
 			{
 				"change": "same",
@@ -1060,17 +1112,17 @@
 				"old_value": "lowest point 0.021 m"
 			},
 			{
-				"change": "same",
-				"delta": -0.0449248722621434,
+				"change": "better",
+				"delta": 8.92865317208428,
 				"group": "read",
 				"id": "R8",
-				"loss": 0.0898497445242867,
+				"loss": -17.8573063441686,
 				"name": "Head height vs body_height",
-				"new_score": 89.1727815355573,
+				"new_score": 98.1014347076416,
 				"new_status": "PASS",
-				"new_value": "head top 1.24 m / body_height 1.05 (x1.18)",
+				"new_value": "head top 1.24 m / body_height 1.2 (x1.03)",
 				"noisy": false,
-				"old_score": 89.2177064078195,
+				"old_score": 89.1727815355573,
 				"old_status": "PASS",
 				"old_value": "head top 1.24 m / body_height 1.05 (x1.18)"
 			},
@@ -1081,9 +1133,9 @@
 				"id": "R10",
 				"loss": 0.0,
 				"name": "Footprint vs selection radius",
-				"new_score": -1.0,
-				"new_status": "INFO",
-				"new_value": "x 0.4 / z 0.6 m (radius 0.45, default)",
+				"new_score": 100.0,
+				"new_status": "PASS",
+				"new_value": "x 0.4 / z 0.6 m (radius 0.4, from rimeling.tres)",
 				"noisy": false,
 				"old_score": -1.0,
 				"old_status": "INFO",
@@ -1096,28 +1148,28 @@
 				"id": "C3",
 				"loss": -20.0,
 				"name": "Palette depth (close-up)",
-				"new_score": 90.0,
+				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+				"new_value": "13 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 				"noisy": false,
-				"old_score": 80.0,
+				"old_score": 90.0,
 				"old_status": "INFO",
-				"old_value": "11 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)"
+				"old_value": "12 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)"
 			},
 			{
-				"change": "better",
-				"delta": 5.75657894736844,
+				"change": "same",
+				"delta": 1.47385509227619,
 				"group": "craft",
 				"id": "C4",
-				"loss": -11.5131578947369,
+				"loss": -2.94771018455238,
 				"name": "Inner detail (close-up / 25 m)",
-				"new_score": 61.5131578947368,
+				"new_score": 62.987012987013,
 				"new_status": "INFO",
-				"new_value": "inner edges per outline px: 2.62 at the close-up (69042 px), 1.09 at 25 m; close-up outline complexity 3.1",
+				"new_value": "inner edges per outline px: 3.15 at the close-up (68610 px), 1.1 at 25 m; close-up outline complexity 3.15",
 				"noisy": false,
-				"old_score": 55.7565789473684,
+				"old_score": 61.5131578947368,
 				"old_status": "INFO",
-				"old_value": "inner edges per outline px: 2.46 at the close-up (69095 px), 1.05 at 25 m; close-up outline complexity 3.1"
+				"old_value": "inner edges per outline px: 2.62 at the close-up (69042 px), 1.09 at 25 m; close-up outline complexity 3.1"
 			},
 			{
 				"change": "same",
@@ -1128,11 +1180,11 @@
 				"name": "Silhouette area at 40 m",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "295 px (22 x 30 bbox; 55 m: 157 px)",
+				"new_value": "297 px (22 x 30 bbox; 55 m: 155 px)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "293 px (22 x 30 bbox; 55 m: 157 px)"
+				"old_value": "295 px (22 x 30 bbox; 55 m: 157 px)"
 			},
 			{
 				"change": "same",
@@ -1143,41 +1195,41 @@
 				"name": "Contrast vs ground (meadow)",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "mean-colour dE 54.0, 0% of the body melts (within dE 15 of the ground); body L* 71.6 C 7.0 vs ground L* 63.4 C 48.3, hue gap n/a (body C* <= 25); top third (world height) dE 54.2, L* 88.0; per-pixel dE 60.0, outline 47.3",
+				"new_value": "mean-colour dE 55.6, 0% of the body melts (within dE 15 of the ground); body L* 68.8 C 8.9 vs ground L* 63.4 C 48.2, hue gap n/a (body C* <= 25); top third (world height) dE 53.8, L* 86.8; per-pixel dE 61.3, outline 47.5",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "mean-colour dE 54.0, 0% of the body melts (within dE 15 of the ground); body L* 72.2 C 6.9 vs ground L* 63.4 C 48.3, hue gap n/a (body C* <= 25); top third (world height) dE 54.2, L* 88.2; per-pixel dE 60.1, outline 46.7"
+				"old_value": "mean-colour dE 54.0, 0% of the body melts (within dE 15 of the ground); body L* 71.6 C 7.0 vs ground L* 63.4 C 48.3, hue gap n/a (body C* <= 25); top third (world height) dE 54.2, L* 88.0; per-pixel dE 60.0, outline 47.3"
 			},
 			{
-				"change": "same",
-				"delta": 0.60873765211835,
+				"change": "better",
+				"delta": 3.88967514038082,
 				"group": "read",
 				"id": "R4k",
-				"loss": -1.2174753042367,
+				"loss": -7.77935028076163,
 				"name": "Contrast on the home ground (snow)",
-				"new_score": 87.6915051386906,
+				"new_score": 91.5811802790715,
 				"new_status": "PASS",
-				"new_value": "dE 21.3, 56% melts (snow is where ice units stand most)",
+				"new_value": "dE 24.7, 52% melts (snow is where ice units stand most)",
 				"noisy": false,
-				"old_score": 87.0827674865723,
+				"old_score": 87.6915051386907,
 				"old_status": "PASS",
-				"old_value": "dE 20.8, 58% melts (snow is where ice units stand most)"
+				"old_value": "dE 21.3, 56% melts (snow is where ice units stand most)"
 			},
 			{
-				"change": "same",
-				"delta": 0.659465789794922,
+				"change": "better",
+				"delta": 4.21381473541264,
 				"group": "read",
 				"id": "R4",
-				"loss": -1.31893157958984,
+				"loss": -8.42762947082528,
 				"name": "Contrast on the other grounds",
-				"new_score": 89.1657972335815,
+				"new_score": 93.3796119689941,
 				"new_status": "PASS",
-				"new_value": "worst snow: dE 21.3 (heath dE 28.7, old_wood dE 50.6, riverbank dE 51.4, snow dE 21.3, ash dE 49.5, sand dE 40.5, marsh dE 58.6)",
+				"new_value": "worst snow: dE 24.7 (heath dE 28.1, old_wood dE 49.4, riverbank dE 50.5, snow dE 24.7, ash dE 47.1, sand dE 43.1, marsh dE 56.6)",
 				"noisy": false,
-				"old_score": 88.5063314437866,
+				"old_score": 89.1657972335815,
 				"old_status": "PASS",
-				"old_value": "worst snow: dE 20.8 (heath dE 29.1, old_wood dE 51.0, riverbank dE 51.7, snow dE 20.8, ash dE 50.0, sand dE 40.3, marsh dE 59.1)"
+				"old_value": "worst snow: dE 21.3 (heath dE 28.7, old_wood dE 50.6, riverbank dE 51.4, snow dE 21.3, ash dE 49.5, sand dE 40.5, marsh dE 58.6)"
 			},
 			{
 				"change": "same",
@@ -1188,54 +1240,54 @@
 				"name": "Team-colour visibility at 40 m",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "40% of body pixels change between kingdom colours (min pair 39%)",
+				"new_value": "41% of body pixels change between kingdom colours (min pair 40%)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "41% of body pixels change between kingdom colours (min pair 40%)"
+				"old_value": "40% of body pixels change between kingdom colours (min pair 39%)"
 			},
 			{
 				"change": "same",
-				"delta": -0.277583048893888,
+				"delta": 1.32120059086728,
 				"group": "read",
 				"id": "R3t",
-				"loss": 0.555166097787776,
+				"loss": -2.64240118173456,
 				"name": "Contrast in every team colour (meadow)",
-				"new_score": 98.0986059629,
+				"new_score": 99.4198065537673,
 				"new_status": "PASS",
-				"new_value": "worst nature colour: dE 30.4 (fire 47.0, shadow 73.9, ice 53.2, nature 30.4)",
+				"new_value": "worst nature colour: dE 31.5 (fire 48.2, shadow 75.7, ice 54.5, nature 31.5)",
 				"noisy": false,
-				"old_score": 98.3761890117939,
+				"old_score": 98.0986059629,
 				"old_status": "PASS",
-				"old_value": "worst nature colour: dE 30.6 (fire 47.0, shadow 73.9, ice 53.3, nature 30.6)"
+				"old_value": "worst nature colour: dE 30.4 (fire 47.0, shadow 73.9, ice 53.2, nature 30.4)"
 			},
 			{
 				"change": "same",
-				"delta": 0.224061482233211,
+				"delta": -0.518726089593187,
 				"group": "read",
 				"id": "R6cb",
-				"loss": -0.224061482233211,
+				"loss": 0.518726089593187,
 				"name": "Team colours for colour-blind players",
-				"new_score": 82.1267842904285,
+				"new_score": 81.6080582008353,
 				"new_status": "PASS",
-				"new_value": "worst pair fire / nature (deutan): dE 13.9 on the team-colour area (normal vision 78.2; 120 px); deutan: fire / nature dE 13.9; protan: fire / nature dE 22.1; worst vs ground: fire colour (deutan) dE 23.6",
+				"new_value": "worst pair fire / nature (deutan): dE 13.4 on the team-colour area (normal vision 77.2; 124 px); deutan: fire / nature dE 13.4; protan: fire / nature dE 21.8; worst vs ground: fire colour (deutan) dE 25.4",
 				"noisy": false,
-				"old_score": 81.9027228081953,
+				"old_score": 82.1267842904285,
 				"old_status": "PASS",
-				"old_value": "worst pair fire / nature (deutan): dE 13.7 on the team-colour area (normal vision 75.2; 124 px); deutan: fire / nature dE 13.7; protan: fire / nature dE 21.3; worst vs ground: fire colour (deutan) dE 23.8"
+				"old_value": "worst pair fire / nature (deutan): dE 13.9 on the team-colour area (normal vision 78.2; 120 px); deutan: fire / nature dE 13.9; protan: fire / nature dE 22.1; worst vs ground: fire colour (deutan) dE 23.6"
 			},
 			{
 				"change": "same",
-				"delta": 0.0083299589286554,
+				"delta": 1.22033898305079,
 				"group": "read",
 				"id": "R7",
-				"loss": -0.0166599178573108,
+				"loss": -2.44067796610159,
 				"name": "HP bar over the body at 40 m",
-				"new_score": 98.7796610169491,
+				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "bar hides 1% of the silhouette (gap -2 px)",
+				"new_value": "bar hides 0% of the silhouette (gap 0 px)",
 				"noisy": false,
-				"old_score": 98.7713310580205,
+				"old_score": 98.7796610169492,
 				"old_status": "PASS",
 				"old_value": "bar hides 1% of the silhouette (gap -2 px)"
 			},
@@ -1248,11 +1300,11 @@
 				"name": "Weapon reach at the strike",
 				"new_score": -1.0,
 				"new_status": "INFO",
-				"new_value": "tip reaches 0.97 m from the body centre at t 0.14 s (0.97 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)",
+				"new_value": "tip reaches 0.94 m from the body centre at t 0.14 s (0.94 m forward; geometry clipped at the ground); declared 1.4 m (UnitType attack_range (rimeling.tres)) - not a reach weapon (< 2.5 m): not judged",
 				"noisy": false,
 				"old_score": -1.0,
 				"old_status": "INFO",
-				"old_value": "tip reaches 0.94 m from the body centre at t 0.14 s (0.94 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)"
+				"old_value": "tip reaches 0.97 m from the body centre at t 0.14 s (0.97 m forward; geometry clipped at the ground); no declared reach (no UnitType, no reach=)"
 			},
 			{
 				"change": "same",
@@ -1267,22 +1319,22 @@
 				"noisy": true,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "strike pose changes 43% of the silhouette (t 0.08 s)"
+				"old_value": "strike pose changes 44% of the silhouette (t 0.08 s)"
 			},
 			{
 				"change": "same",
-				"delta": -1.04757239464758,
+				"delta": -1.03346367552766,
 				"group": "polish",
 				"id": "P1",
-				"loss": 1.04757239464758,
+				"loss": 1.03346367552766,
 				"name": "Silhouette hook",
-				"new_score": 53.4693558158615,
+				"new_score": 52.4358921403338,
 				"new_status": "INFO",
-				"new_value": "outline complexity 2.0",
+				"new_value": "outline complexity 1.98",
 				"noisy": false,
-				"old_score": 54.5169282105091,
+				"old_score": 53.4693558158615,
 				"old_status": "INFO",
-				"old_value": "outline complexity 2.01"
+				"old_value": "outline complexity 2.0"
 			},
 			{
 				"change": "same",
@@ -1293,11 +1345,11 @@
 				"name": "Tops light, bottoms dark",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "top third L* 88.0, bottom third L* 48.9 (+39, world height)",
+				"new_value": "top third L* 86.8, bottom third L* 45.9 (+40, world height)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "top third L* 88.2, bottom third L* 47.8 (+40, world height)"
+				"old_value": "top third L* 88.0, bottom third L* 48.9 (+39, world height)"
 			},
 			{
 				"change": "same",
@@ -1308,56 +1360,26 @@
 				"name": "Detail density 25 m / 40 m",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "inner detail 9.4 at 25 m, 14.6 at 40 m (mean |grad L*| per px)",
+				"new_value": "inner detail 8.4 at 25 m, 12.8 at 40 m (mean |grad L*| per px)",
 				"noisy": true,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "inner detail 9.0 at 25 m, 14.3 at 40 m (mean |grad L*| per px)"
+				"old_value": "inner detail 9.4 at 25 m, 14.6 at 40 m (mean |grad L*| per px)"
 			},
 			{
-				"change": "same",
-				"delta": -1.01406305486503,
-				"group": "read",
-				"id": "R5c",
-				"loss": 1.01406305486503,
-				"name": "Glow points stand out (1 m surround)",
-				"new_score": 90.9684684059837,
-				"new_status": "PASS",
-				"new_value": "worst dL +28 (point 1 dL +28; ring 24 px = 1.0 m at 40 m)",
-				"noisy": true,
-				"old_score": 91.9825314608487,
-				"old_status": "PASS",
-				"old_value": "worst dL +30 (point 1 dL +30; ring 24 px = 1.0 m at 40 m)"
-			},
-			{
-				"change": "same",
-				"delta": 0.0,
+				"change": "worse",
+				"delta": -51.4,
 				"group": "read",
 				"id": "R5",
-				"loss": 0.0,
+				"loss": 202.8,
 				"name": "Glow points at 40 m",
-				"new_score": 100.0,
-				"new_status": "PASS",
-				"new_value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1",
+				"new_score": 48.6,
+				"new_status": "WARN",
+				"new_value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 2",
 				"noisy": true,
 				"old_score": 100.0,
 				"old_status": "PASS",
 				"old_value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1"
-			},
-			{
-				"change": "same",
-				"delta": 0.0,
-				"group": "polish",
-				"id": "P5",
-				"loss": 0.0,
-				"name": "Glow placement",
-				"new_score": 100.0,
-				"new_status": "INFO",
-				"new_value": "1 of 1 glow(s) in the upper half of the model's height (world)",
-				"noisy": false,
-				"old_score": 100.0,
-				"old_status": "INFO",
-				"old_value": "1 of 1 glow(s) in the upper half of the model's height (world)"
 			},
 			{
 				"change": "same",
@@ -1368,11 +1390,11 @@
 				"name": "Contrast under every light preset (meadow)",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "worst autumn: dE 50.0, dL +10 (warm dE 54.0, ice dE 50.2, night dE 53.5, autumn dE 50.0); night = lab stand-in (warm preset, dim moon sun)",
+				"new_value": "worst autumn: dE 50.9, dL +6 (warm dE 55.5, ice dE 51.8, night dE 55.1, autumn dE 50.9); night = lab stand-in (warm preset, dim moon sun)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "worst autumn: dE 50.2, dL +10 (warm dE 54.3, ice dE 50.3, night dE 53.6, autumn dE 50.2); night = lab stand-in (warm preset, dim moon sun)"
+				"old_value": "worst autumn: dE 50.0, dL +10 (warm dE 54.0, ice dE 50.2, night dE 53.5, autumn dE 50.0); night = lab stand-in (warm preset, dim moon sun)"
 			},
 			{
 				"change": "same",
@@ -1383,41 +1405,26 @@
 				"name": "Style bible: golden autumn (style-autumn.md 3)",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "on the autumn floor: dE 48.6, 0% melts; body L* 69.4 C 2.5 vs floor L* 52.6 C 43.3; ice team colour vs the floor swatches: min dE 60.7 (road_color)",
+				"new_value": "on the autumn floor: dE 48.8, 0% melts; body L* 65.4 C 3.8 vs floor L* 52.6 C 43.3; ice team colour vs the floor swatches: min dE 60.7 (road_color)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "on the autumn floor: dE 49.0, 0% melts; body L* 69.6 C 2.8 vs floor L* 52.6 C 43.3; ice team colour vs the floor swatches: min dE 60.7 (road_color)"
+				"old_value": "on the autumn floor: dE 48.6, 0% melts; body L* 69.4 C 2.5 vs floor L* 52.6 C 43.3; ice team colour vs the floor swatches: min dE 60.7 (road_color)"
 			},
 			{
 				"change": "same",
-				"delta": -0.329646647740532,
+				"delta": 0.188137643136614,
 				"group": "read",
 				"id": "R11",
-				"loss": 0.329646647740532,
+				"loss": -0.188137643136614,
 				"name": "Reads while walking (40 m)",
-				"new_score": 95.5592154473978,
+				"new_score": 95.7473530905344,
 				"new_status": "PASS",
-				"new_value": "walk frames vs rest: mean IoU 0.77 (min 0.68), area kept 90-95% (min 269 px), frame-to-frame IoU min 0.66; 8 frames 0.09 s apart",
+				"new_value": "walk frames vs rest: mean IoU 0.77 (min 0.67), area kept 88-93% (min 267 px), frame-to-frame IoU min 0.67; 8 frames 0.09 s apart",
 				"noisy": true,
-				"old_score": 95.8888620951383,
+				"old_score": 95.5592154473978,
 				"old_status": "PASS",
-				"old_value": "walk frames vs rest: mean IoU 0.77 (min 0.67), area kept 89-93% (min 268 px), frame-to-frame IoU min 0.66; 8 frames 0.09 s apart"
-			},
-			{
-				"change": "same",
-				"delta": 0.0,
-				"group": "read",
-				"id": "R5w",
-				"loss": 0.0,
-				"name": "Glow points while walking (flicker)",
-				"new_score": 100.0,
-				"new_status": "PASS",
-				"new_value": "points per frame 1/1/1/1/1/1/1/1 (median 1, range 0, 0 frame(s) at 0; at rest 1)",
-				"noisy": true,
-				"old_score": 100.0,
-				"old_status": "PASS",
-				"old_value": "points per frame 1/1/1/1/1/1/1/1 (median 1, range 0, 0 frame(s) at 0; at rest 1)"
+				"old_value": "walk frames vs rest: mean IoU 0.77 (min 0.68), area kept 90-95% (min 269 px), frame-to-frame IoU min 0.66; 8 frames 0.09 s apart"
 			},
 			{
 				"change": "same",
@@ -1428,11 +1435,11 @@
 				"name": "Cast pose reads (play_cast)",
 				"new_score": -1.0,
 				"new_status": "INFO",
-				"new_value": "cast pose changes 44% of the silhouette at its peak (t 0.4 s; 0.12 s 35%, 0.25 s 36%, 0.4 s 44%, 0.6 s 2%)",
+				"new_value": "cast pose changes 45% of the silhouette at its peak (t 0.4 s; 0.12 s 36%, 0.25 s 38%, 0.4 s 45%, 0.6 s 11%)",
 				"noisy": false,
 				"old_score": -1.0,
 				"old_status": "INFO",
-				"old_value": "cast pose changes 44% of the silhouette at its peak (t 0.4 s; 0.12 s 35%, 0.25 s 39%, 0.4 s 44%, 0.6 s 1%)"
+				"old_value": "cast pose changes 44% of the silhouette at its peak (t 0.4 s; 0.12 s 35%, 0.25 s 36%, 0.4 s 44%, 0.6 s 2%)"
 			},
 			{
 				"change": "same",
@@ -1447,7 +1454,7 @@
 				"noisy": true,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "after 1.03 s"
+				"old_value": "after 1.01 s"
 			},
 			{
 				"change": "same",
@@ -1458,41 +1465,41 @@
 				"name": "Asymmetric secondary shape",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "front-view asymmetry 0.29",
+				"new_value": "front-view asymmetry 0.28",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "front-view asymmetry 0.3"
+				"old_value": "front-view asymmetry 0.29"
 			},
 			{
 				"change": "same",
-				"delta": 0.09066927948885,
+				"delta": -0.234261080537451,
 				"group": "read",
 				"id": "R2",
-				"loss": -0.1813385589777,
+				"loss": 0.468522161074901,
 				"name": "Distinct from references (black masks)",
-				"new_score": 89.9171425127142,
+				"new_score": 89.6828814321767,
 				"new_status": "PASS",
-				"new_value": "max IoU 0.6 (rimeling_placeholder 0.6, magpie 0.54, hoarlight_magebow_placeholder 0.53, rime_hauler 0.45, bristleback 0.39, frost_mortar 0.19)",
+				"new_value": "max IoU 0.6 (rimeling_placeholder 0.6, magpie 0.53, hoarlight_magebow_placeholder 0.52, rime_hauler 0.45, bristleback 0.39, frost_mortar 0.19)",
 				"noisy": false,
-				"old_score": 89.8264732332253,
+				"old_score": 89.9171425127142,
 				"old_status": "PASS",
-				"old_value": "max IoU 0.6 (rimeling_placeholder 0.6, magpie 0.53, hoarlight_magebow_placeholder 0.53, rime_hauler 0.45, bristleback 0.39, frost_mortar 0.2)"
+				"old_value": "max IoU 0.6 (rimeling_placeholder 0.6, magpie 0.54, hoarlight_magebow_placeholder 0.53, rime_hauler 0.45, bristleback 0.39, frost_mortar 0.19)"
 			},
 			{
 				"change": "same",
-				"delta": 12.0888848467307,
+				"delta": 0.0,
 				"group": "budget",
 				"id": "B13",
-				"loss": -12.0888848467307,
+				"loss": 0.0,
 				"name": "Frame cost",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "0.001 ms process per instance (100 animated at 40 m: +0.1 ms process, render CPU +1.28 ms, GPU +0.32 ms)",
+				"new_value": "0.0007 ms process per instance (100 animated at 40 m: +0.07 ms process, render CPU +0.65 ms, GPU +0.15 ms)",
 				"noisy": true,
-				"old_score": 87.9111151532693,
+				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "0.0042 ms process per instance (100 animated at 40 m: +0.42 ms process, render CPU +2.02 ms, GPU +-2.72 ms)"
+				"old_value": "0.001 ms process per instance (100 animated at 40 m: +0.1 ms process, render CPU +1.28 ms, GPU +0.32 ms)"
 			},
 			{
 				"change": "same",
@@ -1513,135 +1520,151 @@
 		"sheet": "diff_sheet.png",
 		"shots": [
 			{
-				"changed": 0.0009,
+				"changed": 0.0037,
 				"resized": false,
 				"shot": "z40"
 			},
 			{
-				"changed": 0.0007,
+				"changed": 0.0029,
 				"resized": false,
 				"shot": "z55"
 			},
 			{
-				"changed": 0.0006,
+				"changed": 0.0039,
 				"resized": false,
 				"shot": "z25"
 			},
 			{
-				"changed": 0.0092,
+				"changed": 0.034,
 				"resized": false,
 				"shot": "close"
 			},
 			{
-				"changed": 0.031,
+				"changed": 0.5374,
 				"resized": false,
 				"shot": "strike_side"
 			},
 			{
-				"changed": 0.0057,
+				"changed": 0.0598,
 				"resized": false,
 				"shot": "turns"
 			},
 			{
-				"changed": 0.0093,
+				"changed": 0.0236,
 				"resized": false,
 				"shot": "cast"
 			},
 			{
-				"changed": 0.0166,
+				"changed": 0.025,
 				"resized": false,
 				"shot": "anim"
 			},
 			{
-				"changed": 0.0005,
+				"changed": 0.0017,
 				"resized": false,
 				"shot": "silhouette"
 			},
 			{
-				"changed": 0.0391,
+				"changed": 0.037,
 				"resized": false,
 				"shot": "lineup"
 			}
 		],
-		"unchanged": 47,
+		"unchanged": 40,
 		"worse": [
 			{
 				"change": "worse",
-				"delta": -2.0386409060626,
-				"group": "budget",
-				"id": "B4",
-				"loss": 2.0386409060626,
-				"name": "Vertices",
-				"new_score": 87.0886075949367,
-				"new_status": "PASS",
-				"new_value": "2396 (biggest: Merged 781, Merged 509, Merged 396, Merged 396)",
-				"noisy": false,
-				"old_score": 89.1272485009993,
+				"delta": -51.4,
+				"group": "read",
+				"id": "R5",
+				"loss": 202.8,
+				"name": "Glow points at 40 m",
+				"new_score": 48.6,
+				"new_status": "WARN",
+				"new_value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 2",
+				"noisy": true,
+				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "2294 (biggest: Merged 679, Merged 509, Merged 396, Merged 396)"
+				"old_value": "1 point(s) above the bloom level 1.2 (median of 1/1/1): Merged; soft glows under the bloom (v1 count, luma > 0.4): 1"
+			},
+			{
+				"change": "worse",
+				"delta": -8.97701982987185,
+				"group": "craft",
+				"id": "C1",
+				"loss": 17.9540396597437,
+				"name": "Shape richness (secondary shapes)",
+				"new_score": 91.0229801701282,
+				"new_status": "INFO",
+				"new_value": "61 shapes over 6 body parts (10.2 per part: LegL 4, LegR 4, Head 28, ArmL 5, ArmR 5, Chest 15); 41% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.916",
+				"noisy": false,
+				"old_score": 100.0,
+				"old_status": "INFO",
+				"old_value": "44 shapes over 6 body parts (7.3 per part: LegL 4, LegR 4, Head 11, ArmL 5, ArmR 5, Chest 15); 25% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.928"
 			}
 		]
 	},
 	"counts": {
 		"FAIL": 0,
-		"INFO": 18,
-		"PASS": 32,
+		"INFO": 16,
+		"PASS": 30,
 		"SKIP": 0,
-		"WARN": 0
+		"WARN": 1
 	},
 	"ground": "meadow",
 	"headless": false,
 	"improve_next": [
 		{
-			"rank": 0.769736842105263,
+			"rank": 1011.028,
+			"source": "R5 Glow points at 40 m, shot glow",
+			"status": "WARN",
+			"text": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2 [fixes.json #1]",
+			"title": "Glow points at 40 m"
+		},
+		{
+			"rank": 0.74025974025974,
 			"source": "C4 Inner detail (close-up / 25 m), shot close",
 			"status": "INFO",
-			"text": "Big plain panels inside the silhouette (2.62 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
+			"text": "Big plain panels inside the silhouette (3.15 inner edges per outline px): break the torso / limbs with secondary shapes and value breaks (belt, plates, straps, bark seams)",
 			"title": "Inner detail (close-up / 25 m)"
 		},
 		{
-			"rank": 0.465306441841385,
+			"rank": 0.475641078596662,
 			"source": "P1 Silhouette hook, shot silhouette",
 			"status": "INFO",
-			"text": "Give the 40 m silhouette a hook (now 2.0): a shape that breaks the outline, e.g. horns, a raised weapon, a crest, a tail flick, a gap between limbs (at 40 m 1 px = ~4 cm: hooks thinner than ~0.25 m barely register)",
+			"text": "Give the 40 m silhouette a hook (now 1.98): a shape that breaks the outline, e.g. horns, a raised weapon, a crest, a tail flick, a gap between limbs (at 40 m 1 px = ~4 cm: hooks thinner than ~0.25 m barely register)",
 			"title": "Silhouette hook"
 		},
 		{
-			"rank": 0.246169897226187,
-			"source": "R4k Contrast on the home ground (snow), shot z40",
-			"status": "PASS",
-			"text": "On its home ground (snow) the body is only dE 21.3: add a value step for that ground",
-			"title": "Contrast on the home ground (snow)"
-		},
-		{
-			"rank": 0.216684055328369,
-			"source": "R4 Contrast on the other grounds, shot z40",
-			"status": "PASS",
-			"text": "On snow the body drops to dE 21.3: add a value accent that separates it there too",
-			"title": "Contrast on the other grounds"
-		},
-		{
-			"rank": 0.201657149745717,
+			"rank": 0.206342371356465,
 			"source": "R2 Distinct from references (black masks), shot silhouette",
 			"status": "PASS",
 			"text": "Make it read apart from rimeling_placeholder (IoU 0.6): change one big shape of the silhouette",
 			"title": "Distinct from references (black masks)"
+		},
+		{
+			"rank": 0.132407760620117,
+			"source": "R4 Contrast on the other grounds, shot z40",
+			"status": "PASS",
+			"text": "On snow the body drops to dE 24.7: add a value accent that separates it there too",
+			"title": "Contrast on the other grounds"
 		}
 	],
 	"kind": "unit",
 	"kingdom": "ice",
 	"lab_version": "3.1",
 	"notes": [
-		"Per-mesh vertices (biggest first): Root/Chest/Merged 781 v / 7 s; Root/Chest/Head/Merged 509 v / 4 s; Root/Chest/ArmL/Merged 396 v / 4 s; Root/Chest/ArmR/Merged 396 v / 4 s; Root/Hips/LegL/Merged 155 v / 3 s; Root/Hips/LegR/Merged 155 v / 3 s; Shadow 4 v / 1 s",
+		"Per-mesh vertices (biggest first): Root/Chest/Merged 750 v / 7 s; Root/Chest/Head/Merged 449 v / 3 s; Root/Chest/Head/Face 416 v / 1 s; Root/Chest/ArmL/Merged 315 v / 4 s; Root/Chest/ArmR/Merged 315 v / 4 s; Root/Hips/LegL/Merged 155 v / 3 s; Root/Hips/LegR/Merged 155 v / 3 s; Shadow 4 v / 1 s",
 		"1 hidden parts at rest (toggled states, not counted as draws)",
 		"4 materials are built in code (fine when cached per type: see B9)",
-		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist"
+		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
+		"Fix recipes: 1 in fixes.json (top: Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= )"
 	],
-	"previous_quality": 94.5,
-	"quality": 95.2,
-	"result": "PASS",
+	"previous_quality": 95.2,
+	"quality": 94.4,
+	"result": "WARN",
 	"scene": "res://art/units/ice/rimeling/rimeling.tscn",
-	"seconds": 36.2,
+	"seconds": 23.5,
 	"shots": {
 		"anim": "anim.jpg",
 		"cast": "cast.jpg",
@@ -1656,6 +1679,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-27 17:52:21",
+	"started": "2026-09-30 11:03:13",
 	"tier": "soldier"
 }

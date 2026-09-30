@@ -30,6 +30,9 @@ const META := &"nature_vfx"
 const SUMMON_META := &"nature_vfx_summon"
 const LEAF := Color(0.75, 1.0, 0.40)
 const LEAF_DEEP := Color(0.42, 0.85, 0.25)
+## Pale gold (in-game grade pass 2026-09-30): the Wild Bloom / Call the Thicket circles were the same green as the
+## meadow; their rims, rings and petals are pale gold / cream now so they read on grass.
+const GOLD := Color(1.0, 0.84, 0.48)
 const NATURE_SPELLS: Array[StringName] = [&"thornburst", &"wild_bloom", &"call_the_thicket"]
 const SAPLING_ID := &"sapling"
 const POLL_INTERVAL := 0.25
@@ -296,7 +299,7 @@ func _wild_bloom(pos: Vector3, r: float, dur: float, w: Node3D) -> void:
 	var s := r / 5.0
 	_burst(&"bloom_petals", pos + Vector3.UP * 0.2, s)
 	_burst(&"bloom_sparks", pos + Vector3.UP * 0.2, s)
-	_ring(pos, 0.5, r, LEAF, 0.5, 0.06, 0.12)
+	_ring(pos, 0.5, r, GOLD, 0.5, 0.06, 0.08)
 	_light_flash(pos + Vector3.UP * 2.0, LEAF, 1.6, r + 4.0, 0.8)
 	# Friendly units inside at cast get a `+` every tick while the heal lasts (kingdom-nature.md 3.1: not
 	# buildings, not Saplings).
@@ -335,7 +338,7 @@ func _thicket(pos: Vector3, r: float) -> void:
 	_patch(pos, r * 1.9, _grove_mat, 1.6, 1.0)
 	_burst(&"leaf_cast", pos + Vector3.UP * 0.1, 1.4)
 	_burst(&"dust", pos + Vector3.UP * 0.2, 0.8)
-	_ring(pos, 0.3, r * 2.0, LEAF, 0.45, 0.08, 0.1)
+	_ring(pos, 0.3, r * 2.0, GOLD, 0.45, 0.08, 0.06)
 	_light_flash(pos + Vector3.UP * 1.5, LEAF, 1.4, 7.0, 0.6)
 
 
@@ -620,7 +623,8 @@ func _build_shared() -> void:
 	_beam_mesh.radial_segments = 8
 	_beam_mesh.rings = 1
 	_scar_mat = _ground_mat(Color(0.17, 0.11, 0.06), Color(0.30, 0.46, 0.12), 0.15, 1.6, 0.88, 0.0, 7.0)
-	_grove_mat = _ground_mat(Color(0.20, 0.14, 0.07), Color(0.28, 0.46, 0.13), 0.55, 1.4, 0.8, 1.0, 6.0)
+	_grove_mat = _ground_mat(Color(0.20, 0.14, 0.07), Color(0.40, 0.46, 0.18), 0.55, 1.3, 0.8, 1.0, 6.0)
+	_grove_mat.set_shader_parameter(&"rim_color", GOLD)
 	_mound_mat = _ground_mat(Color(0.24, 0.16, 0.08), Color(0.30, 0.46, 0.13), 0.35, 1.2, 0.85, 0.0, 5.0)
 	_litter_mat = _ground_mat(Color(0.26, 0.17, 0.08), Color(0.55, 0.38, 0.14), 0.7, 0.0, 0.75, 0.0, 5.0)
 	_thorn_mat = ShaderMaterial.new()
@@ -896,8 +900,8 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.turbulence_influence_min = 0.05
 			m.turbulence_influence_max = 0.12
 			_size(m, 0.8, 1.1, true)
-			m.color_initial_ramp = _ramp(_lin([Color(1.0, 0.62, 0.80), Color(1.0, 0.84, 0.90), Color(1.0, 0.95, 0.70),
-					Color(0.72, 0.95, 0.50), Color(1.0, 0.55, 0.74)]))
+			m.color_initial_ramp = _ramp(_lin([Color(1.0, 0.86, 0.50), Color(1.0, 0.95, 0.74), Color(1.0, 0.72, 0.80),
+					Color(0.98, 0.9, 0.58), Color(1.0, 0.8, 0.45)]))
 			m.color_ramp = _ramp([Color(1, 1, 1, 0.0), Color(1, 1, 1, 1.0), Color(1, 1, 1, 1.0), Color(1, 1, 1, 0.0)])
 		&"bloom_sparks":
 			_shape_disc(m, 4.5)

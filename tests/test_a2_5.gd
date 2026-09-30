@@ -133,11 +133,12 @@ func _process(_delta: float) -> bool:
 
 
 ## Keep 0 was recoloured red before _ready; keep 1 must still be in the kingdom colour (materials per instance).
+## In-game grade pass 2026-09-30: the canopy body is sage in every team; the team colour is on the leaf cards.
 func _check_team_colours() -> void:
-	var a: ShaderMaterial = _keeps[0].get(&"leaves_material")
-	var b: ShaderMaterial = _keeps[1].get(&"leaves_material")
+	var a: ShaderMaterial = _keeps[0].get(&"leafcard_material")
+	var b: ShaderMaterial = _keeps[1].get(&"leafcard_material")
 	if a == null or b == null or a == b:
-		_fail("leaves material is shared between keeps")
+		_fail("leaf card material is shared between keeps")
 		return
 	var ca: Color = a.get_shader_parameter(&"base_color")
 	var cb: Color = b.get_shader_parameter(&"base_color")

@@ -1,0 +1,123 @@
+{
+	"asset": "sapling",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#f299bf",
+					"material": "nature_blossom",
+					"material_path": "res://art/units/nature/materials/nature_blossom.tres",
+					"node": "Root/Chest/Head/Canopy/CanopyMesh",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#ffaffa",
+					"weight": 0.08
+				}
+			],
+			"check": "R3",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.6,
+				1.2,
+				1.6
+			],
+			"measured": {
+				"body_lab": [
+					60.3,
+					-12.2,
+					26.2
+				],
+				"dE": {
+					"R3 meadow": 19.7,
+					"R3t fire": 43.5,
+					"R3t ice": 43.5,
+					"R3t nature": 19.9,
+					"R3t shadow": 64.0,
+					"R4 ash": 48.2,
+					"R4 heath": 26.3,
+					"R4 marsh": 50.6,
+					"R4 riverbank": 29.1,
+					"R4 sand": 26.3,
+					"R4 snow": 40.9,
+					"R4k old_wood": 32.1
+				},
+				"ground_lab": [
+					63.5,
+					-20.6,
+					43.7
+				],
+				"melt_share": 0.06
+			},
+			"predicted": {
+				"R3 meadow": 24.0,
+				"R3t fire": 46.3,
+				"R3t ice": 46.4,
+				"R3t nature": 24.3,
+				"R3t shadow": 66.7,
+				"R4 ash": 46.0,
+				"R4 heath": 23.1,
+				"R4 marsh": 49.4,
+				"R4 riverbank": 29.7,
+				"R4 sand": 26.4,
+				"R4 snow": 37.6,
+				"R4k old_wood": 31.9
+			},
+			"proposal": "shader_parameter/base_color of `nature_blossom` #f299bf -> #ffaffa (7% of the visible body): predicted dE R3 meadow 19.7 -> 24.0, R3t fire 43.5 -> 46.3, R3t shadow 64.0 -> 66.7, R3t ice 43.5 -> 46.4, R3t nature 19.9 -> 24.3, R4k old_wood 32.1 -> 31.9 (want >= 24); other grounds heath 23.1, riverbank 29.7, snow 37.6, ash 46.0, sand 26.4, marsh 49.4; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 33% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`nature_cloth` 33%"
+			],
+			"text": "shader_parameter/base_color of `nature_blossom` #f299bf -> #ffaffa (7% of the visible body): predicted dE R3 meadow 19.7 -> 24.0, R3t fire 43.5 -> 46.3, R3t shadow 64.0 -> 66.7, R3t ice 43.5 -> 46.4, R3t nature 19.9 -> 24.3, R4k old_wood 32.1 -> 31.9 (want >= 24); other grounds heath 23.1, riverbank 29.7, snow 37.6, ash 46.0, sand 26.4, marsh 49.4; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 33% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1.2,
+					"node": "res://art/units/nature/sapling.tscn (root), res://data/units/sapling.tres",
+					"param": "body_height",
+					"to": 1.58
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 1.2,
+				"head_top_m": 1.58,
+				"ratio": 1.32
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 1.2 -> 1.58 in res://art/units/nature/sapling.tscn (root) and res://data/units/sapling.tres (the head top; x1.32 now), or lower the head / crest 0.08 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8: body_height 1.2 -> 1.58 in res://art/units/nature/sapling.tscn (root) and res://data/units/sapling.tres (the head top; x1.32 now), or lower the head / crest 0.08 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 91.4,
+	"result": "WARN",
+	"scene": "res://art/units/nature/sapling.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

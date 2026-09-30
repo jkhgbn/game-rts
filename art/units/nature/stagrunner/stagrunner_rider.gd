@@ -480,15 +480,17 @@ func _spear_sculpt(s: Dictionary) -> void:
 
 
 ## Upper cloak segment (keep_separate "Cloak", node-local at CLOAK_O, hanging along -Y, its outer face toward -Z):
-## an amber backing with shingled gold / amber leaves.
+## a TEAM backing with shingled gold / amber leaves (in-game grade pass 2026-09-30: the backing was amber and the
+## unit showed ~13 % team colour; the cloak lies over the stag's rump, the most top-facing cloth of the unit).
 func _cloak_sculpt(s: Dictionary) -> void:
 	var gold := m("stagrunner_leaf_gold")
 	var amber := m("stagrunner_leaf_amber")
+	var team := m("nature_cloth")
 	var dark := m("nature_bark_dark")
 	var l := CLOAK_LEN + 0.03
-	var left := PackedVector3Array([Vector3(-0.22, 0.02, 0.0), Vector3(-0.26, -l * 0.5, -0.03), Vector3(-0.24, -l, -0.02)])
-	var right := PackedVector3Array([Vector3(0.22, 0.02, 0.0), Vector3(0.26, -l * 0.5, -0.03), Vector3(0.24, -l, -0.02)])
-	MountModel.sculpt_add(s, _strip_mesh("sgr_cloak_back_v1", left, right, 0.025), Transform3D.IDENTITY, amber)
+	var left := PackedVector3Array([Vector3(-0.24, 0.02, 0.0), Vector3(-0.29, -l * 0.5, -0.03), Vector3(-0.27, -l, -0.02)])
+	var right := PackedVector3Array([Vector3(0.24, 0.02, 0.0), Vector3(0.29, -l * 0.5, -0.03), Vector3(0.27, -l, -0.02)])
+	MountModel.sculpt_add(s, _strip_mesh("sgr_cloak_back_v2", left, right, 0.025), Transform3D.IDENTITY, team)
 	for sx: float in [-1.0, 1.0]:
 		_put(s, sphere(0.05, 7, 3), dark, Vector3(0.15 * sx, 0.0, 0.0))
 	var back := Vector3(0, 0.12, -1.0).normalized()
@@ -508,9 +510,10 @@ func _cloak_sculpt(s: Dictionary) -> void:
 func _tail_sculpt(s: Dictionary) -> void:
 	var gold := m("stagrunner_leaf_gold")
 	var amber := m("stagrunner_leaf_amber")
-	var left := PackedVector3Array([Vector3(-0.24, 0.03, 0.0), Vector3(-0.21, -0.20, -0.02), Vector3(-0.15, -0.36, -0.01)])
-	var right := PackedVector3Array([Vector3(0.24, 0.03, 0.0), Vector3(0.21, -0.20, -0.02), Vector3(0.15, -0.36, -0.01)])
-	MountModel.sculpt_add(s, _strip_mesh("sgr_tail_back_v1", left, right, 0.025), Transform3D.IDENTITY, amber)
+	var team := m("nature_cloth")
+	var left := PackedVector3Array([Vector3(-0.27, 0.03, 0.0), Vector3(-0.24, -0.20, -0.02), Vector3(-0.17, -0.36, -0.01)])
+	var right := PackedVector3Array([Vector3(0.27, 0.03, 0.0), Vector3(0.24, -0.20, -0.02), Vector3(0.17, -0.36, -0.01)])
+	MountModel.sculpt_add(s, _strip_mesh("sgr_tail_back_v2", left, right, 0.025), Transform3D.IDENTITY, team)
 	var back := Vector3(0, 0.12, -1.0).normalized()
 	for i: int in 3:
 		var u: float = float(i) - 1.0

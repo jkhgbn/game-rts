@@ -1,12 +1,264 @@
 {
 	"asset": "nature_keep",
-	"count": 0,
-	"fixes": [],
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "nature_keep",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_5bgma",
+					"to": "nature_keep",
+					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_0wbuy"
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "nature_keep",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_0wbuy",
+					"to": "nature_keep",
+					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_yhbjq"
+				},
+				{
+					"albedo_dE": 10.6,
+					"material": "Blossom",
+					"material_path": "",
+					"to": "Petal",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.8,
+					"material": "Bark",
+					"material_path": "",
+					"to": "Wood",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 20
+			},
+			"predicted": {
+				"materials": 16
+			},
+			"proposal": "20 -> 16 materials: use one material for look-alike pairs (albedo dE <= 15): `nature_keep` -> `nature_keep` (dE 0.0), `nature_keep` -> `nature_keep` (dE 0.0), `Blossom` -> `Petal` (dE 10.6), `Bark` -> `Wood` (dE 13.8); 8 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 20 -> 16 materials: use one material for look-alike pairs (albedo dE <= 15): `nature_keep` -> `nature_keep` (dE 0.0), `nature_keep` -> `nature_keep` (dE 0.0), `Blossom` -> `Petal` (dE 10.6), `Bark` -> `Wood` (dE 13.8); 8 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.185,
+					"from": 1.4,
+					"material": "Heart",
+					"material_path": "",
+					"node": "Model/Bloom",
+					"param": "shader_parameter/energy",
+					"peak_x_bloom": 4.05,
+					"to": 0.259,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 7 point(s), peak 4.05 x the level",
+					"words": "energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 7 point(s), peak 4.05 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 13,
+				"points_this_phase": 13,
+				"spots": [
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 4.05,
+						"px": 810
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern1/Pod",
+						"peak_x_bloom": 3.17,
+						"px": 218
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 3.42,
+						"px": 48
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 3.14,
+						"px": 24
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 3.14,
+						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Model/BannersGate",
+						"peak_x_bloom": 3.14,
+						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 3.14,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 3.14,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern0/Pod",
+						"peak_x_bloom": 3.14,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern0/Pod",
+						"peak_x_bloom": 3.14,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/Rampart",
+						"peak_x_bloom": 3.14,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 3.14,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Model/Rampart",
+						"peak_x_bloom": 3.29,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Model/CanopyLost",
+						"peak_x_bloom": 0.76,
+						"px": 171
+					},
+					{
+						"above": false,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.81,
+						"px": 114
+					},
+					{
+						"above": false,
+						"part": "Model/BannersGate",
+						"peak_x_bloom": 0.58,
+						"px": 66
+					},
+					{
+						"above": false,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 0.35,
+						"px": 43
+					},
+					{
+						"above": false,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 0.36,
+						"px": 30
+					},
+					{
+						"above": false,
+						"part": "Model/Rampart",
+						"peak_x_bloom": 0.39,
+						"px": 18
+					},
+					{
+						"above": false,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.33,
+						"px": 14
+					},
+					{
+						"above": false,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.25,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.21,
+						"px": 2
+					}
+				],
+				"value": "13 point(s) above the bloom level 1.2 (median of 13/16/13): Petals, Pod x3, Bloom x5, BannersGate, CanopyLost, Rampart x2; soft glows under the bloom (v1 count, luma > 0.4): 54"
+			},
+			"predicted": {
+				"points": 6
+			},
+			"proposal": "Glow points 13 -> 6 (want 4-12): Heart energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 7 point(s), peak 4.05 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 13 -> 6 (want 4-12): Heart energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 7 point(s), peak 4.05 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "4-12 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "22 material(s), 0 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 22 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 22 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.5 on the team-colour area (normal vision 53.8; 19228 px); deutan: fire / nature dE 11.5; protan: fire / nature dE 21.7; worst vs ground: fire colour (deutan) dE 7.4"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.5): add a value step inside the team-colour area",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.5): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
+			}
+		}
+	],
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "nature",
-	"quality": 100.0,
-	"result": "PASS",
+	"quality": 88.2,
+	"result": "FAIL",
 	"scene": "res://art/buildings/nature_keep.tscn",
 	"tier": "keep",
 	"version": "1.0"

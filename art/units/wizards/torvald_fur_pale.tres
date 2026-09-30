@@ -8,6 +8,6 @@ resource_name = "torvald_fur_pale"
 render_priority = 0
 shader = ExtResource("1_tvf")
 shader_parameter/noise_tex = ExtResource("2_tvf")
-shader_parameter/base_color = Color(0.74, 0.80, 0.88, 1)
+shader_parameter/base_color = Color(0.56, 0.63, 0.74, 1)
 shader_parameter/rim_strength = 0.3
 shader_parameter/fur = 0.8

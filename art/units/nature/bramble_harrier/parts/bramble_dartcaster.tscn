@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/nature/bramble_harrier/parts/bramble_dartcaster.gd" id="1_bhd"]
+
+[node name="BrambleDartcaster" type="Node3D"]
+script = ExtResource("1_bhd")
+fidget_every = 8.0
+body_height = 1.8
+attack_style = &"dart_sling"
+attack_windup = 0.12
+death_style = &"fall"
+stride_time = 0.55
+stride_speed = 3.0
+idle_period = 3.2
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+seat_offset = Vector3(0, 0.02, 0)
+seat_leg_forward_deg = 32.0
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Hips" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 0)
+
+[node name="Chest" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="ArmL" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27, 0.44, 0)
+
+[node name="ArmR" type="Node3D" parent="Root/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 0.44, 0)
+
+[node name="Fx" type="Node3D" parent="."]

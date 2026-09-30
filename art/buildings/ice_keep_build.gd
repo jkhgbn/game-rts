@@ -22,16 +22,21 @@ func _initialize() -> void:
 	noise_tex = load("res://art/shaders/paint_noise.tres")
 	var shader: Shader = load("res://art/shaders/painted.gdshader")
 
+	# In-game grade pass (2026-09-30): the keep was the brightest thing on screen. Snow ~17 % darker (blue-grey) and the
+	# silver folded into it (B8 11 -> 8), crystals 15 % darker (ice_keep.gd) with dim cyan cracks, glow parts under the
+	# bloom, GateVoid = DarkStone kept dark by its ao band, one alpha-blended particle material, a hard 1 m frost rim.
 	var S := _painted(shader, "Stone", Color(0.40, 0.49, 0.63), 0.0, 0.45)
 	var D := _painted(shader, "DarkStone", Color(0.30, 0.38, 0.48), 0.0, 0.0)
-	var M := _painted(shader, "Silver", Color(0.70, 0.78, 0.88), 0.35, 0.0)
-	var C := _painted(shader, "Crystal", TEAM, 0.5, 0.9)
+	var C := _painted(shader, "Crystal", Color(0.38, 0.64, 0.81), 0.5, 0.12)
 	C.set_shader_parameter("crack_scale", 1.2)
-	var W := _painted(shader, "Snow", Color(0.86, 0.92, 1.00), 0.15, 0.0)
+	C.set_shader_parameter("crack_color", Color(0.35, 0.82, 1.00))
+	var W := _painted(shader, "Snow", Color(0.70, 0.77, 0.86), 0.25, 0.0)
+	var M := W
 	var G := ShaderMaterial.new()
 	G.resource_name = "Glow"
 	G.shader = load("res://art/buildings/ice_keep_glow.gdshader")
 	G.set_shader_parameter("glow_color", GLOW)
+	G.set_shader_parameter("boost_mult", KeepScript.GLOW_BOOST)
 	var T := ShaderMaterial.new()
 	T.resource_name = "Banner"
 	T.shader = load("res://art/shaders/banner.gdshader")
@@ -41,10 +46,6 @@ func _initialize() -> void:
 	T.set_shader_parameter("glyph_shape", 1)
 	T.set_shader_parameter("amplitude", 0.08)
 	T.set_shader_parameter("speed", 1.4)
-	var black := StandardMaterial3D.new()
-	black.resource_name = "GateVoid"
-	black.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	black.albedo_color = Color(0.02, 0.03, 0.06)
 
 	# A.8: battered (sloped) terraces merged into one mass, four corner watchtowers with crystal
 	# spires, arrow-slit windows glowing with cold light, a bigger asymmetric crown cluster and ice
@@ -140,7 +141,7 @@ func _initialize() -> void:
 	# Gate on -Z: dark-stone gatehouse, silver frame, dark void, glowing slit + keystone.
 	_mesh("Gatehouse", _arch(1.3, 2.4, 0.9), Vector3(0, 0.8, -2.8), D, 0.8, 3.7)
 	_mesh("GateFrame", _arch(1.05, 2.0, 0.14), Vector3(0, 0.8, -3.27), M, 0.8, 3.1)
-	var gv := _mesh("GateVoid", _arch(0.8, 1.85, 0.1), Vector3(0, 0.8, -3.33), black)
+	var gv := _mesh("GateVoid", _arch(0.8, 1.85, 0.1), Vector3(0, 0.8, -3.33), D, 6.0, 1.0)   # below ao_bottom: dark
 	gv.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	var unit_box := BoxMesh.new()
 	var key_b := Basis(Vector3.FORWARD, PI / 4.0).scaled(Vector3(0.42, 0.42, 0.14))
@@ -268,6 +269,8 @@ func _initialize() -> void:
 	dmat.resource_name = "FrostGround"
 	dmat.shader = load("res://art/buildings/ice_keep_ground.gdshader")
 	dmat.set_shader_parameter("size", GROUND_SIZE)
+	dmat.set_shader_parameter("frost_color", Color(0.66, 0.74, 0.84))
+	dmat.set_shader_parameter("frost_alpha", 0.88)
 	decal.material_override = dmat
 	_add(decal, keep, "ContactDecal")
 	# Construction outline: flat glowing square ring 6.4 x 6.4, 0.2 thick (8.2), hidden when built.
@@ -299,8 +302,8 @@ func _initialize() -> void:
 	_add(gl, keep, "GateLight")
 	# Idle particles: falling snow motes (40) + frost mist at the plinth (24) = 64.
 	var soft := _radial([Color(1, 1, 1, 1), Color(1, 1, 1, 0.5), Color(1, 1, 1, 0)], [0.0, 0.35, 1.0])
-	var add_mat := _particle_mat(soft, BaseMaterial3D.BLEND_MODE_ADD, "ParticleAdd")
 	var mix_mat := _particle_mat(soft, BaseMaterial3D.BLEND_MODE_MIX, "ParticleMix")
+	var add_mat := mix_mat   # one alpha-blended material (the additive one at albedo x3 glittered white)
 	var snow := _particles("SnowMotes", keep, 30, 9.0, add_mat, 0.14)
 	snow.position = Vector3(0, 12.0, 0)
 	var snp := snow.process_material as ParticleProcessMaterial
@@ -313,23 +316,23 @@ func _initialize() -> void:
 	snp.gravity = Vector3(0.12, 0, 0)
 	snp.scale_min = 0.7
 	snp.scale_max = 1.3
-	snp.color_ramp = _grad([Color(0.33, 0.37, 0.42, 0), Color(0.33, 0.37, 0.42, 1), Color(0.33, 0.37, 0.42, 1), Color(0.33, 0.37, 0.42, 0)], [0.0, 0.1, 0.85, 1.0])
+	snp.color_ramp = _grad([Color(0.72, 0.8, 0.9, 0), Color(0.72, 0.8, 0.9, 0.8), Color(0.72, 0.8, 0.9, 0.8), Color(0.72, 0.8, 0.9, 0)], [0.0, 0.1, 0.85, 1.0])
 	snow.visibility_aabb = AABB(Vector3(-5, -13, -5), Vector3(10, 14, 10))
-	var mist := _particles("FrostMist", keep, 24, 6.0, mix_mat, 2.2)
+	var mist := _particles("FrostMist", keep, 24, 6.0, mix_mat, 1.2)
 	mist.position = Vector3(0, 0.3, 0)
 	mist.sorting_offset = 1.0
 	var gp := mist.process_material as ParticleProcessMaterial
 	gp.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING
 	gp.emission_ring_axis = Vector3.UP
-	gp.emission_ring_radius = 3.5
-	gp.emission_ring_inner_radius = 2.2
+	gp.emission_ring_radius = 3.9
+	gp.emission_ring_inner_radius = 3.3
 	gp.emission_ring_height = 0.1
-	gp.radial_velocity_min = 0.25
-	gp.radial_velocity_max = 0.25
+	gp.radial_velocity_min = 0.08
+	gp.radial_velocity_max = 0.08
 	gp.initial_velocity_min = 0.0
 	gp.initial_velocity_max = 0.0
 	gp.scale_curve = _curve(0.5, 1.0)
-	gp.color_ramp = _grad([Color(0.85, 0.92, 1.0, 0), Color(0.85, 0.92, 1.0, 0.28), Color(0.85, 0.92, 1.0, 0)], [0.0, 0.3, 1.0])
+	gp.color_ramp = _grad([Color(0.6, 0.7, 0.82, 0), Color(0.6, 0.7, 0.82, 0.13), Color(0.6, 0.7, 0.82, 0)], [0.0, 0.3, 1.0])
 	mist.visibility_aabb = AABB(Vector3(-7, -1, -7), Vector3(14, 4, 14))
 	# Frost swirl: glittering motes rising in a slow spiral around the crown (the script turns the node).
 	var swirl := _particles("FrostSwirl", keep, 30, 7.0, add_mat, 0.16)
@@ -345,7 +348,7 @@ func _initialize() -> void:
 	swp.initial_velocity_min = 0.7
 	swp.initial_velocity_max = 1.1
 	swp.scale_curve = _curve(0.6, 1.0)
-	swp.color_ramp = _grad([Color(0.75, 0.92, 1.0, 0), Color(0.75, 0.92, 1.0, 1), Color(0.55, 0.80, 1.0, 0.8), Color(0.55, 0.80, 1.0, 0)], [0.0, 0.15, 0.7, 1.0])
+	swp.color_ramp = _grad([Color(0.3, 0.78, 1.0, 0), Color(0.3, 0.78, 1.0, 0.9), Color(0.22, 0.6, 0.95, 0.7), Color(0.22, 0.6, 0.95, 0)], [0.0, 0.15, 0.7, 1.0])
 	swirl.visibility_aabb = AABB(Vector3(-4, -1, -4), Vector3(8, 10, 8))
 	var mist2 := mist.duplicate() as GPUParticles3D
 	mist2.emitting = false

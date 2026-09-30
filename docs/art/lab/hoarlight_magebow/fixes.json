@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "ice",
-	"quality": 94.0,
+	"quality": 95.5,
 	"result": "PASS",
 	"scene": "res://art/units/ice/hoarlight_magebow/hoarlight_magebow.tscn",
 	"tier": "soldier",

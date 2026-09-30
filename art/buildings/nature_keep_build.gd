@@ -14,6 +14,10 @@ const KeepScript := preload("res://art/buildings/nature_keep.gd")
 const DIR := "res://art/buildings/nature_keep/"
 const TEAM := Color(0.35, 0.70, 0.25)
 const GLOW := Color(0.75, 1.00, 0.40)
+## In-game grade pass (2026-09-30): the canopy was team green on green meadow (lab dE 4.9, then a neon mint recipe).
+## The foliage body is pale sage / autumn olive now (never team coloured); the team colour sits on the top-facing leaf
+## cards all over the canopy, the banners and the moss carpet on the rampart walkway (nature_keep.gd recolours them).
+const CANOPY := Color(0.8, 0.78, 0.56)
 const COS15 := 0.9659258
 const TRUNK_BASE := 2.6
 const TRUNK_TOP := 10.4
@@ -331,6 +335,9 @@ class MB:
 			tri_s(k, a, b, c, nrms[i], nrms[i], nrms[i + 1], Vector2(0, v0), Vector2(1, v0), Vector2(1, v1), u2)
 			tri_s(k, a, c, d, nrms[i], nrms[i + 1], nrms[i + 1], Vector2(0, v0), Vector2(1, v1), Vector2(0, v1), u2)
 
+	## Indexed surfaces (in-game grade pass 2026-09-30): vertices with the same position, normal, UV, UV2 and colour
+	## are shared (smooth tubes / blobs / cards shared nothing before: 39.6k vertices for 13.2k triangles). Same
+	## triangles, same shading.
 	func commit(materials: Dictionary) -> Array:
 		var mesh := ArrayMesh.new()
 		var used: Array[Material] = []
@@ -338,13 +345,39 @@ class MB:
 			var s: Surf = surfs[k]
 			if s.v.is_empty():
 				continue
+			var seen: Dictionary = {}
+			var pv := PackedVector3Array()
+			var pn := PackedVector3Array()
+			var pu := PackedVector2Array()
+			var pu2 := PackedVector2Array()
+			var pc := PackedColorArray()
+			var ix := PackedInt32Array()
+			for i: int in s.v.size():
+				var v: Vector3 = s.v[i]
+				var n: Vector3 = s.n[i]
+				var u: Vector2 = s.uv[i]
+				var u2: Vector2 = s.uv2[i]
+				var c: Color = s.c[i]
+				var key := "%.4f,%.4f,%.4f|%.3f,%.3f,%.3f|%.4f,%.4f|%.3f,%.3f|%.3f,%.3f,%.3f,%.3f" % [v.x, v.y, v.z,
+					n.x, n.y, n.z, u.x, u.y, u2.x, u2.y, c.r, c.g, c.b, c.a]
+				var at: int = seen.get(key, -1)
+				if at < 0:
+					at = pv.size()
+					seen[key] = at
+					pv.append(v)
+					pn.append(n)
+					pu.append(u)
+					pu2.append(u2)
+					pc.append(c)
+				ix.append(at)
 			var arrays: Array = []
 			arrays.resize(Mesh.ARRAY_MAX)
-			arrays[Mesh.ARRAY_VERTEX] = PackedVector3Array(s.v)
-			arrays[Mesh.ARRAY_NORMAL] = PackedVector3Array(s.n)
-			arrays[Mesh.ARRAY_TEX_UV] = PackedVector2Array(s.uv)
-			arrays[Mesh.ARRAY_TEX_UV2] = PackedVector2Array(s.uv2)
-			arrays[Mesh.ARRAY_COLOR] = PackedColorArray(s.c)
+			arrays[Mesh.ARRAY_VERTEX] = pv
+			arrays[Mesh.ARRAY_NORMAL] = pn
+			arrays[Mesh.ARRAY_TEX_UV] = pu
+			arrays[Mesh.ARRAY_TEX_UV2] = pu2
+			arrays[Mesh.ARRAY_COLOR] = pc
+			arrays[Mesh.ARRAY_INDEX] = ix
 			mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 			used.append(materials[k])
 		return [mesh, used]
@@ -429,6 +462,7 @@ func _initialize() -> void:
 	keep.set(&"glow_materials", [mats["Heart"], mats["Gate"], mats["Lantern"]] as Array[ShaderMaterial])
 	keep.set(&"bark_material", mats["Bark"])
 	keep.set(&"leaves_material", mats["Leaves"])
+	keep.set(&"moss_material", mats["Moss"])
 	keep.set(&"leafcard_material", mats["LeafCard"])
 	keep.set(&"blossom_material", mats["Blossom"])
 	keep.set(&"petal_material", mats["Petal"])
@@ -441,11 +475,15 @@ func _initialize() -> void:
 	keep.set(&"bloom_position", bloom_pos)
 
 	_own(keep, keep)
+	var out_path: String = OUT
+	for a: String in OS.get_cmdline_user_args():
+		if a.begins_with("--out="):
+			out_path = a.substr(6)   # e.g. a scratch copy to compare with the committed scene
 	var ps := PackedScene.new()
 	var err: int = ps.pack(keep)
 	if err == OK:
-		err = ResourceSaver.save(ps, OUT)
-	print("nature_keep_build: saved ", OUT, " err=", err, " verts=", _count_verts(keep))
+		err = ResourceSaver.save(ps, out_path)
+	print("nature_keep_build: saved ", out_path, " err=", err, " verts=", _count_verts(keep))
 	keep.free()
 	quit()
 
@@ -531,26 +569,27 @@ func _make_materials() -> void:
 		"joint_width": 0.07, "block_tint": 0.2, "moss": 0.45, "moss_color": moss_col})
 	mats["Dark"] = _painted("DarkStone", Color(0.26, 0.24, 0.17), 1, {"block_size": Vector2(0.8, 0.42),
 		"joint_width": 0.06, "block_tint": 0.24, "moss": 0.35, "moss_color": moss_col})
-	mats["Bark"] = _painted("Bark", Color(0.40, 0.28, 0.16), 2, {"sap": 1.0, "sap_energy": 1.35,
+	mats["Bark"] = _painted("Bark", Color(0.42, 0.29, 0.16), 2, {"sap": 1.0, "sap_energy": 0.8,
 		"sap_speed": 0.25, "bark_scale": Vector2(1.0, 0.16), "moss": 0.35, "moss_color": moss_col,
 		"spec_strength": 0.04})
 	mats["Wood"] = _painted("Wood", Color(0.56, 0.41, 0.24), 4, {"block_size": Vector2(1.6, 0.26),
 		"joint_width": 0.04, "block_tint": 0.2})
-	mats["Moss"] = _painted("Moss", Color(0.2, 0.3, 0.1), 0, {"moss": 0.3, "moss_color": moss_col})
-	mats["Leaves"] = _painted("Leaves", TEAM, 3, {"noise_scale_a": 0.8, "leaf_scale": 1.35,
-		"foliage_value": 0.62, "top_tint": Color(1.32, 1.22, 0.7)})
+	# The walkway moss carpet is team coloured (a big top-facing team patch the RTS camera sees around the trunk).
+	mats["Moss"] = _painted("Moss", TEAM, 0, {"moss": 0.15, "moss_color": moss_col})
+	mats["Leaves"] = _painted("Leaves", CANOPY, 3, {"noise_scale_a": 0.8, "leaf_scale": 1.35,
+		"foliage_value": 0.62, "top_tint": Color(1.18, 1.1, 0.8)})
 	var leaf := DIR + "nature_keep_leaf.gdshader"
 	mats["LeafCard"] = _shader_mat("LeafCard", leaf, {"shape": 0, "base_color": TEAM, "sway": 0.1,
 		"glow_color": GLOW, "leaf_value": 0.68})
 	mats["Blossom"] = _shader_mat("Blossom", leaf, {"shape": 1, "base_color": Color(0.95, 0.60, 0.75),
-		"edge_color": Color(1.0, 0.9, 0.95), "glow_color": GLOW, "glow_energy": 2.4, "sway": 0.05})
+		"edge_color": Color(1.0, 0.9, 0.95), "glow_color": GLOW, "glow_energy": 1.1, "sway": 0.05})
 	mats["Petal"] = _shader_mat("Petal", leaf, {"shape": 2, "base_color": Color(0.95, 0.52, 0.72),
-		"edge_color": Color(1.0, 0.86, 0.9), "glow_color": GLOW, "glow_energy": 2.6, "sway": 0.06,
+		"edge_color": Color(1.0, 0.86, 0.9), "glow_color": GLOW, "glow_energy": 1.2, "sway": 0.06,
 		"ao_low": 12.0, "ao_span": 4.0})
 	mats["Heart"] = _shader_mat("Heart", DIR + "nature_keep_seed.gdshader", {"glow_color": GLOW,
-		"core_color": Color(0.95, 1.0, 0.72), "noise_tex": noise, "energy": 2.5, "beat_period": 2.5, "boost": 1.0})
+		"core_color": Color(0.95, 1.0, 0.72), "noise_tex": noise, "energy": 1.4, "beat_period": 2.5, "boost": 1.0})
 	var glow := "res://art/shaders/rune_glow.gdshader"
-	mats["Gate"] = _shader_mat("Gate", glow, {"glow_color": GLOW, "energy": 1.6, "pulse_speed": 1.2,
+	mats["Gate"] = _shader_mat("Gate", glow, {"glow_color": GLOW, "energy": 0.9, "pulse_speed": 1.2,
 		"rune_bands": 0, "boost": 1.0, "phase": 0.0})
 	mats["Lantern"] = _shader_mat("Lantern", "res://art/buildings/nature_keep_glow.gdshader",
 		{"glow_color": GLOW, "boost_mult": 1.0})
@@ -558,7 +597,7 @@ func _make_materials() -> void:
 		{"glow_color": GLOW, "boost_mult": 1.0})
 	mats["Banner"] = _shader_mat("Banner", DIR + "nature_keep_banner.gdshader", {"cloth_color": TEAM,
 		"stripe_color": Color(0.15, 0.40, 0.15), "trim_color": Color(0.58, 0.44, 0.25), "glyph_color": GLOW,
-		"glyph_energy": 0.9, "amplitude": 0.09, "speed": 1.7})
+		"glyph_energy": 0.3, "amplitude": 0.09, "speed": 1.7})
 	mats["Ground"] = _shader_mat("Ground", "res://art/buildings/nature_keep_ground.gdshader",
 		{"noise_tex": noise, "size": 13.0, "glow_color": GLOW, "ring_energy": 0.7})
 	(mats["Ground"] as ShaderMaterial).render_priority = -1
@@ -829,7 +868,7 @@ func _build_trunk() -> void:
 			if pts[i].y >= split - 0.3:
 				hp.append(pts[i])
 				hr.append(rad[i])
-		low.tube("Bark", lp, lr, 10, 3.0, 0.08, float(k) * 1.7, false, true)
+		low.tube("Bark", lp, lr, 8, 3.0, 0.08, float(k) * 1.7, false, true)
 		# The strand leaves the trunk top as a limb into its clump.
 		var last: Vector3 = hp[hp.size() - 1]
 		var ci: int = limb_targets[k]
@@ -840,7 +879,7 @@ func _build_trunk() -> void:
 		hr.append(0.36)
 		hp.append(target)
 		hr.append(0.24)
-		high.tube("Bark", hp, hr, 10, 3.0, 0.08, float(k) * 1.7, false, true)
+		high.tube("Bark", hp, hr, 8, 3.0, 0.08, float(k) * 1.7, false, true)
 	# Core (fills the braid).
 	low.tube("Bark", [Vector3(0, TRUNK_BASE, 0), Vector3(0.05, 4.4, 0.0), Vector3(0.0, split + 0.3, 0.05)] as Array[Vector3],
 		[1.2, 1.0, 0.9] as Array[float], 12, 3.0, 0.05, 0.4, false, true)
@@ -1103,8 +1142,8 @@ func _build_canopy() -> void:
 		if i == 0:
 			bloom_pos = b.point(Vector3.UP) - Vector3(0, 0.3, 0)
 		var mb: MB = lost if i in LOST_CLUMPS else main
-		_blob_mesh(mb, b, 3 if i == 0 else 2, float(i) / 10.0, blobs)
-		var n_leaves: int = int(8.0 + CLUMPS[i].w * 8.0)
+		_blob_mesh(mb, b, 2, float(i) / 10.0, blobs)   # the crown clump was sub 3 (+480 vertices)
+		var n_leaves: int = int(6.0 + CLUMPS[i].w * 6.0)
 		var n_bl: int = int(CLUMPS[i].w * 2.5) + (4 if i == 0 else 0)
 		_clump_cards(mb, b, n_leaves, n_bl, blobs)
 		mb.col = Color.WHITE
@@ -1333,7 +1372,7 @@ func _build_ground() -> void:
 	var mb := MB.new()
 	var placed: int = 0
 	var tries: int = 0
-	while placed < 10 and tries < 300:
+	while placed < 8 and tries < 300:
 		tries += 1
 		var a: float = rng.randf() * TAU
 		var r: float = rng.randf_range(3.7, 4.7)
@@ -1348,7 +1387,7 @@ func _build_ground() -> void:
 	mb.xf = Transform3D.IDENTITY
 	placed = 0
 	tries = 0
-	while placed < 8 and tries < 300:
+	while placed < 6 and tries < 300:
 		tries += 1
 		var a: float = rng.randf() * TAU
 		var r: float = rng.randf_range(3.5, 4.4)
@@ -1356,8 +1395,8 @@ func _build_ground() -> void:
 		if _blocked(p):
 			continue
 		placed += 1
-		for f: int in 6:
-			var fa: float = TAU * float(f) / 6.0 + rng.randf() * 0.5
+		for f: int in 5:
+			var fa: float = TAU * float(f) / 5.0 + rng.randf() * 0.5
 			var d := Vector3(cos(fa), 0, sin(fa))
 			var dir: Vector3 = (d * 0.6 + Vector3.UP * rng.randf_range(0.6, 1.0)).normalized()
 			var side: Vector3 = d.cross(Vector3.UP).normalized()
@@ -1368,7 +1407,7 @@ func _build_ground() -> void:
 			mb.strip("LeafCard", pts, side, 0.34, [nn, nn, nn] as Array[Vector3], rng.randf(), rng.randf())
 	placed = 0
 	tries = 0
-	while placed < 4 and tries < 300:
+	while placed < 3 and tries < 300:
 		tries += 1
 		var a: float = rng.randf() * TAU
 		var r: float = rng.randf_range(3.45, 4.1)

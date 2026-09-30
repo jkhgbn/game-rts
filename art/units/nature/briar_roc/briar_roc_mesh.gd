@@ -262,8 +262,9 @@ static func wing_arm_mesh(sx: float) -> ArrayMesh:
 	return bake(key, [[bk, BARK], [dr, DRY], [th, THORN]])
 
 
-## Hand part of a wing: bark hand edge, a fan of dry-leaf coverts and seven long pointed LEAF primaries (the outer
-## four in the team leaf, the inner three dry), curling up at the tips.
+## Hand part of a wing: bark hand edge, a fan of TEAM-leaf coverts and seven long pointed LEAF primaries (the outer
+## five in the team leaf, the inner two dry), curling up at the tips. In-game grade pass (2026-09-30): the hand coverts
+## were dry leaf and the bird showed 8 % team colour; the outer wing is its most top-facing surface.
 static func wing_hand_mesh(sx: float) -> ArrayMesh:
 	var key := "wing_hand%d" % int(sx)
 	if _meshes.has(key):
@@ -293,7 +294,7 @@ static func wing_hand_mesh(sx: float) -> ArrayMesh:
 		return Color(0.7, 0.7, 0.15 * v, 0.0)
 	var cuv := func(u: float, v: float) -> Vector2:
 		return Vector2(u * 0.7, v * 0.7)
-	RM.panel(dr, cmid, cth, ct, cb, cuv, 10, 4)
+	RM.panel(lf, cmid, cth, ct, cb, cuv, 10, 4)
 	var lt := leaf_top()
 	var lb := leaf_bot()
 	for k: int in 7:

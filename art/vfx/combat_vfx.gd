@@ -37,11 +37,16 @@ enum Kind { FIRE, SHADOW, ICE, NATURE, NEUTRAL }
 const KIND_NAMES: Array[StringName] = [&"fire", &"shadow", &"ice", &"nature", &"neutral"]
 
 ## Per kingdom (index = Kind): white-hot core, glow, deep (fade) colours; HDR, kept under ~1.8 for the bloom.
-const HOT: Array[Color] = [Color(1.7, 1.1, 0.45), Color(1.35, 0.8, 1.8), Color(1.25, 1.6, 1.8),
+## Ice (in-game grade pass 2026-09-30): saturated cyan, no white-hot core, every channel <= 1.25 (the Ice line
+## turned into one white smear mid-fight); Ice hit flashes and frost puffs are also half size / half life
+## (ICE_HIT_SCALE, ICE_HIT_LIFE).
+const HOT: Array[Color] = [Color(1.7, 1.1, 0.45), Color(1.35, 0.8, 1.8), Color(0.4, 0.95, 1.25),
 		Color(1.3, 1.65, 0.6), Color(1.5, 1.4, 1.2)]
-const GLOW: Array[Color] = [Color(1.5, 0.55, 0.12), Color(0.85, 0.32, 1.4), Color(0.5, 0.9, 1.5),
+const GLOW: Array[Color] = [Color(1.5, 0.55, 0.12), Color(0.85, 0.32, 1.4), Color(0.12, 0.62, 1.1),
 		Color(0.55, 1.25, 0.25), Color(1.0, 0.88, 0.65)]
-const DEEP: Array[Color] = [Color(0.9, 0.2, 0.04), Color(0.35, 0.1, 0.6), Color(0.25, 0.5, 0.95),
+const ICE_HIT_SCALE := 0.5
+const ICE_HIT_LIFE := 0.5
+const DEEP: Array[Color] = [Color(0.9, 0.2, 0.04), Color(0.35, 0.1, 0.6), Color(0.08, 0.32, 0.75),
 		Color(0.2, 0.55, 0.12), Color(0.5, 0.45, 0.4)]
 ## art-keep.md 0.2 "glow" column (lights, rings).
 const LIGHT: Array[Color] = [Color(1.0, 0.55, 0.15), Color(0.7, 0.3, 1.0), Color(0.75, 0.92, 1.0),
@@ -253,9 +258,11 @@ func _on_attack_landed(target: Variant, _amount: float, attacker: Node3D) -> voi
 	pos += -dir * r * 0.9 + Vector3.UP * h * 0.55
 	var k := _kind_of(attacker, Kind.NEUTRAL)
 	var heavy := _height(attacker) > 2.0
-	_flash(pos, GLOW[k].lerp(HOT[k], 0.4), 1.4 if heavy else 1.05, 0.16, 1.0)
+	var ice_k := k == Kind.ICE
+	_flash(pos, GLOW[k].lerp(HOT[k], 0.4), (1.4 if heavy else 1.05) * (ICE_HIT_SCALE if ice_k else 1.0),
+			0.16 * (ICE_HIT_LIFE if ice_k else 1.0), 0.6 if ice_k else 1.0)
 	if _live.size() < LOD_SPARKS and _near(pos):
-		_burst(StringName("spark_" + KIND_NAMES[k]), pos, dir, 1.25 if heavy else 1.0)
+		_burst(StringName("spark_" + KIND_NAMES[k]), pos, dir, (1.25 if heavy else 1.0) * (0.6 if ice_k else 1.0))
 	else:
 		_n_lod += 1
 
@@ -272,9 +279,11 @@ func _on_projectile_gone(p: Projectile, kind: int) -> void:
 		var s := (p.source as Node3D).global_position
 		dir = Vector3(pos.x - s.x, 0.0, pos.z - s.z)
 		dir = dir.normalized() if dir.length() > 0.01 else Vector3.FORWARD
-	_flash(pos, GLOW[kind].lerp(HOT[kind], 0.4), 0.75, 0.14, 0.8)
+	var ice_k := kind == Kind.ICE
+	_flash(pos, GLOW[kind].lerp(HOT[kind], 0.4), 0.75 * (ICE_HIT_SCALE if ice_k else 1.0),
+			0.14 * (ICE_HIT_LIFE if ice_k else 1.0), 0.5 if ice_k else 0.8)
 	if _live.size() < LOD_SPARKS and _near(pos):
-		_burst(StringName("impact_" + KIND_NAMES[kind]), pos, -dir)   # splash back toward the shooter
+		_burst(StringName("impact_" + KIND_NAMES[kind]), pos, -dir, 0.6 if ice_k else 1.0)   # splash back toward the shooter
 	else:
 		_n_lod += 1
 
@@ -295,7 +304,7 @@ func _on_unit_died(unit: Variant) -> void:
 		s = 1.9
 	var second := _live.size() < LOD_SECONDARY or hero
 	var mid := pos + Vector3.UP * h * 0.5
-	_flash(mid, GLOW[k].lerp(HOT[k], 0.5), 1.5 * s, 0.26, 1.0)
+	_flash(mid, GLOW[k].lerp(HOT[k], 0.5), 1.5 * s * (0.6 if k == Kind.ICE else 1.0), 0.26, 1.0)
 	match k:
 		Kind.FIRE:
 			_burst(&"death_fire", pos + Vector3.UP * h * 0.4, Vector3.FORWARD, s, true)
@@ -967,12 +976,13 @@ func _build_looks() -> void:
 	m.damping_max = 1.0
 	m.particle_flag_align_y = true
 	_size_hold(m, 0.18, 0.4)
-	m.color_initial_ramp = _ramp([Color(0.92, 0.98, 1.0), Color(0.7, 0.86, 1.0), Color(0.5, 0.72, 0.95)], false)
+	m.color_initial_ramp = _ramp([Color(0.55, 0.82, 1.0), Color(0.36, 0.6, 0.86), Color(0.24, 0.42, 0.66)], false)
 	_look(&"death_ice", &"burst", 16, 0.95, &"shard", m)
-	m = _smoke([Color(0.8, 0.9, 1.0, 0.0), Color(0.75, 0.88, 1.0, 0.4), Color(0.6, 0.78, 0.95, 0.0)])
-	m.initial_velocity_max = 2.4
-	_size(m, 0.6, 1.0, true)
-	_look(&"mist_ice", &"puff", 6, 1.0, &"soft_mix", m)
+	# Frost mist: half the old size and life, blue-grey (a white puff the size of a unit read as a render glitch).
+	m = _smoke([Color(0.5, 0.68, 0.86, 0.0), Color(0.48, 0.66, 0.86, 0.32), Color(0.4, 0.56, 0.78, 0.0)])
+	m.initial_velocity_max = 1.4
+	_size(m, 0.3, 0.5, true)
+	_look(&"mist_ice", &"puff", 5, 0.5, &"soft_mix", m)
 	m = _pm()
 	_sphere(m, 0.45)
 	m.direction = Vector3.UP

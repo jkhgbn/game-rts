@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/nature/spirit_wolf/spirit_wolf.gd" id="1_swf"]
+
+[node name="SpiritWolf" type="Node3D"]
+script = ExtResource("1_swf")
+gallop_speed = 3.0
+gallop_time = 0.45
+walk_swing_deg = 26.0
+gallop_swing_deg = 44.0
+step_lift = 0.09
+gallop_bounce = 0.07
+gallop_pitch_deg = 8.0
+gallop_head_deg = 6.0
+tail_swish_deg = 20.0
+tail_gallop_lift_deg = 16.0
+charge_head_deg = 20.0
+fidget_every = 9.0
+body_height = 1.2
+attack_style = &"wolf_bite"
+death_style = &"fall"
+stride_time = 0.5
+stride_speed = 2.2
+idle_period = 3.0
+is_quadruped = true
+walk_bounce = 0.03
+flinch_push = true
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, -0.05)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0.45)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, -0.06, 0.37)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.06, 0.37)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, -0.02, -0.37)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.02, -0.37)
+
+[node name="Tail" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.51)
+
+[node name="Fx" type="Node3D" parent="."]

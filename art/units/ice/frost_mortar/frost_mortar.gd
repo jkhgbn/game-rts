@@ -147,7 +147,8 @@ func _build_parts() -> void:
 	var tip := TUBE_BASE + d * 0.76
 	_muzzle = add_part(mount, cyl(0.2, 0.2, 0.03, 12), glow, tip, e, Vector3.ONE, true, "Muzzle")
 	_muzzle.set_meta(&"own_glow", true)
-	_vapour = _puffs(0.7, 8, 1.6, 0.85, 0.18, Vector3(0, 1, 0.3), 25.0, 0.5, 1.1, Vector3(0, 0.25, 0), 0.7)
+	# Half-size, shorter vapour (in-game grade 2026-09-30: the muzzle cloud read as a white puff the size of a unit).
+	_vapour = _puffs(0.4, 6, 1.0, 0.85, 0.12, Vector3(0, 1, 0.3), 25.0, 0.4, 0.8, Vector3(0, 0.25, 0), 0.45)
 	_vapour.name = "Vapour"
 	_vapour.position = tip + d * 0.05 - model_origin(mount)
 	mount.add_child(_vapour)

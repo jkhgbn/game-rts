@@ -1,151 +1,64 @@
 {
 	"asset": "torvald",
-	"count": 4,
+	"count": 2,
 	"fixes": [
 		{
 			"changes": [
 				{
-					"from": "#bdcce0",
-					"material": "torvald_fur_pale",
-					"material_path": "res://art/units/wizards/torvald_fur_pale.tres",
-					"node": "Root/Hips/Merged, Root/Chest/ArmL/Merged, Root/Chest/ArmR/Merged, Root/Chest/Merged",
-					"param": "shader_parameter/base_color",
-					"shared": "",
-					"to": "#5580ff",
-					"weight": 0.16
-				}
-			],
-			"check": "R4k",
-			"computed": true,
-			"covers": [
-				"R3",
-				"R4k",
-				"R4",
-				"R3t"
-			],
-			"gain": [
-				1.9,
-				1.5,
-				1.2
-			],
-			"measured": {
-				"body_lab": [
-					77.9,
-					-1.1,
-					-9.9
-				],
-				"dE": {
-					"R3 meadow": 58.9,
-					"R3t fire": 48.7,
-					"R3t ice": 57.9,
-					"R3t nature": 39.2,
-					"R3t shadow": 59.6,
-					"R4 ash": 55.6,
-					"R4 heath": 41.9,
-					"R4 marsh": 65.1,
-					"R4 old_wood": 58.0,
-					"R4 riverbank": 56.4,
-					"R4 sand": 42.7,
-					"R4k snow": 17.8
-				},
-				"ground_lab": [
-					62.5,
-					-22.6,
-					42.8
-				],
-				"melt_share": 0.0
-			},
-			"predicted": {
-				"R3 meadow": 64.3,
-				"R3t fire": 55.2,
-				"R3t ice": 63.5,
-				"R3t nature": 45.1,
-				"R3t shadow": 67.3,
-				"R4 ash": 54.3,
-				"R4 heath": 45.7,
-				"R4 marsh": 64.6,
-				"R4 old_wood": 59.3,
-				"R4 riverbank": 58.7,
-				"R4 sand": 49.0,
-				"R4k snow": 24.0
-			},
-			"proposal": "shader_parameter/base_color of `torvald_fur_pale` #bdcce0 -> #5580ff (15% of the visible body): predicted dE R3 meadow 58.9 -> 64.3, R3t fire 48.7 -> 55.2, R3t shadow 59.6 -> 67.3, R3t ice 57.9 -> 63.5, R3t nature 39.2 -> 45.1, R4k snow 17.8 -> 24.0 (want >= 24); other grounds heath 45.7, old_wood 59.3, riverbank 58.7, ash 54.3, sand 49.0, marsh 64.6; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `torvald_cloth_dark` 33% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
-			"rank": 1,
-			"status": "WARN",
-			"team_coloured": [
-				"`torvald_cloth_dark` 33%"
-			],
-			"text": "shader_parameter/base_color of `torvald_fur_pale` #bdcce0 -> #5580ff (15% of the visible body): predicted dE R3 meadow 58.9 -> 64.3, R3t fire 48.7 -> 55.2, R3t shadow 59.6 -> 67.3, R3t ice 57.9 -> 63.5, R3t nature 39.2 -> 45.1, R4k snow 17.8 -> 24.0 (want >= 24); other grounds heath 45.7, old_wood 59.3, riverbank 58.7, ash 54.3, sand 49.0, marsh 64.6; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `torvald_cloth_dark` 33% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
-			"title": "Body colour vs the grounds",
-			"wanted": {
-				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
-				"dE_R4": ">= 14 (soft)",
-				"melt_share": "<= 35%"
-			}
-		},
-		{
-			"changes": [
-				{
-					"from": 1637,
-					"node": "Root/Chest/Head/Face",
-					"to": 819,
-					"words": "`Face` 1637 -> 819 verts"
-				},
-				{
-					"from": 869,
+					"from": 803,
 					"node": "Root/Chest/Head/Merged",
-					"to": 435,
-					"words": "`Merged` 869 -> 435 verts"
+					"to": 402,
+					"words": "`Merged` 803 -> 402 verts"
 				},
 				{
-					"from": 632,
+					"from": 552,
 					"node": "Root/Chest/ArmR/Staff/StaffMesh",
-					"to": 316,
-					"words": "`StaffMesh` 632 -> 316 verts"
+					"to": 276,
+					"words": "`StaffMesh` 552 -> 276 verts"
 				},
 				{
-					"from": 576,
-					"node": "Root/Chest/ArmR/Staff/Snowflake/Flake",
-					"to": 288,
-					"words": "`Flake` 576 -> 288 verts"
-				},
-				{
-					"from": 543,
+					"from": 363,
 					"node": "Root/Chest/Merged",
-					"to": 272,
-					"words": "`Merged` 543 -> 272 verts"
+					"to": 182,
+					"words": "`Merged` 363 -> 182 verts"
 				},
 				{
-					"from": 507,
+					"from": 339,
 					"node": "Root/Chest/ArmL/Merged",
-					"to": 254,
-					"words": "`Merged` 507 -> 254 verts"
+					"to": 170,
+					"words": "`Merged` 339 -> 170 verts"
 				},
 				{
-					"from": 507,
+					"from": 339,
 					"node": "Root/Chest/ArmR/Merged",
-					"to": 254,
-					"words": "`Merged` 507 -> 254 verts"
+					"to": 170,
+					"words": "`Merged` 339 -> 170 verts"
 				},
 				{
-					"from": 390,
+					"from": 268,
 					"node": "Root/Hips/Merged",
-					"to": 195,
-					"words": "`Merged` 390 -> 195 verts"
+					"to": 134,
+					"words": "`Merged` 268 -> 134 verts"
+				},
+				{
+					"from": 192,
+					"node": "Root/Chest/ArmR/Staff/Snowflake/Flake",
+					"to": 96,
+					"words": "`Flake` 192 -> 96 verts"
 				}
 			],
 			"check": "B4",
 			"computed": true,
 			"measured": {
-				"verts": 5713
+				"verts": 4398
 			},
 			"predicted": {
-				"verts": 2885
+				"verts": 2972
 			},
-			"proposal": "5713 -> 2885 (want <= 3000): `Face` 1637 -> 819 verts; `Merged` 869 -> 435 verts; `StaffMesh` 632 -> 316 verts; `Flake` 576 -> 288 verts; `Merged` 543 -> 272 verts; `Merged` 507 -> 254 verts; `Merged` 507 -> 254 verts; `Merged` 390 -> 195 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
-			"rank": 2,
+			"proposal": "4398 -> 2972 (want <= 3000): `Merged` 803 -> 402 verts; `StaffMesh` 552 -> 276 verts; `Merged` 363 -> 182 verts; `Merged` 339 -> 170 verts; `Merged` 339 -> 170 verts; `Merged` 268 -> 134 verts; `Flake` 192 -> 96 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
 			"status": "WARN",
-			"text": "B4 5713 -> 2885 (want <= 3000): `Face` 1637 -> 819 verts; `Merged` 869 -> 435 verts; `StaffMesh` 632 -> 316 verts; `Flake` 576 -> 288 verts; `Merged` 543 -> 272 verts; `Merged` 507 -> 254 verts; `Merged` 507 -> 254 verts; `Merged` 390 -> 195 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"text": "B4 4398 -> 2972 (want <= 3000): `Merged` 803 -> 402 verts; `StaffMesh` 552 -> 276 verts; `Merged` 363 -> 182 verts; `Merged` 339 -> 170 verts; `Merged` 339 -> 170 verts; `Merged` 268 -> 134 verts; `Flake` 192 -> 96 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"title": "Vertices",
 			"wanted": {
 				"verts": "<= 3000"
@@ -160,36 +73,19 @@
 			},
 			"predicted": {},
 			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.81 m so the HP bar reads over the head",
-			"rank": 3,
+			"rank": 2,
 			"status": "WARN",
 			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.81 m so the HP bar reads over the head",
 			"title": "Parts above body_height + 0.4",
 			"wanted": {
 				"rule": "narrower than 0.7 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
 			}
-		},
-		{
-			"changes": [],
-			"check": "B9m",
-			"computed": false,
-			"measured": {
-				"value": "1 mesh(es) per instance"
-			},
-			"predicted": {},
-			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
-			"rank": 4,
-			"status": "WARN",
-			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
-			"title": "Meshes built per instance",
-			"wanted": {
-				"rule": "meshes shared per type"
-			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "ice",
-	"quality": 91.5,
+	"quality": 94.4,
 	"result": "WARN",
 	"scene": "res://art/units/wizards/torvald.tscn",
 	"tier": "wizard",

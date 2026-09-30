@@ -21,8 +21,14 @@ const ICE_GLOW := Color(0.75, 0.92, 1.0)
 ## ice_skin's colour (FaceKit faces paint over it with vertex colours).
 const ICE_SKIN := Color(0.86, 0.82, 0.84)
 const FREEZE_COLOR := Vector3(0.40, 0.72, 1.0)
-## Cool (blue-black) ground blob for every Ice unit.
-const BLOB_TINT := Color(0.03, 0.05, 0.11, 0.5)
+## Ice hit flash (kit hit_flash_*): cyan, half strength, half length (a white flash on the pale armour read as a white
+## puff the size of the unit mid-fight, in-game grade 2026-09-30). Torvald uses the same look.
+const HIT_FLASH_CYAN := Vector3(0.18, 0.66, 1.0)
+const HIT_FLASH_SCALE := 0.5
+const HIT_FLASH_TIME := 0.07
+## Cool (blue-black) ground blob for every Ice unit: the "dark base" that separates the pale Ice line from snow and
+## from each other (in-game grade pass 2026-09-30: 0.5 -> 0.72 alpha).
+const BLOB_TINT := Color(0.03, 0.05, 0.11, 0.72)
 const ICE_SHADERS: Array[String] = ["res://art/units/ice/ice_crystal.gdshader", "res://art/units/ice/ice_clear.gdshader"]
 
 ## Frost breath interval (s); 0 = no breath.
@@ -146,7 +152,7 @@ func add_shatter(model_pos: Vector3, n: int = 14, spread: float = 0.35, shard: f
 	_shatter.name = "Shatter"
 	_shatter.position = model_pos
 	$Fx.add_child(_shatter)
-	_mist = _puffs(0.55 + spread, 6, 1.1, 0.9, spread * 0.8, Vector3.UP, 180.0, 0.3, 0.9, Vector3(0, 0.35, 0), 0.45)
+	_mist = _puffs(0.3 + spread * 0.6, 5, 0.7, 0.9, spread * 0.6, Vector3.UP, 180.0, 0.3, 0.7, Vector3(0, 0.35, 0), 0.4)
 	_mist.name = "FrostMist"
 	_mist.position = model_pos
 	$Fx.add_child(_mist)
@@ -155,6 +161,9 @@ func add_shatter(model_pos: Vector3, n: int = 14, spread: float = 0.35, shard: f
 # ================================================================ kit hooks
 
 func _after_ready() -> void:
+	hit_flash_color = HIT_FLASH_CYAN
+	hit_flash_scale = HIT_FLASH_SCALE
+	hit_flash_time = HIT_FLASH_TIME
 	_fidget_wait = _next_fidget() * 0.6
 	_find_ice_nodes(self)
 	for gi: GeometryInstance3D in _ice_nodes:
@@ -361,11 +370,13 @@ static func _puffs(size: float, amount: int, lifetime: float, explosiveness: flo
 		cv.add_point(Vector2(1, 1.0))
 		sc.curve = cv
 		pm.scale_curve = sc
+		# Blue-grey frost, not white (in-game grade 2026-09-30: white puffs smeared the Ice line mid-fight), and at
+		# most 0.5 alpha whatever the caller asks.
 		var ramp := GradientTexture1D.new()
 		var g := Gradient.new()
-		g.set_color(0, Color(0.92, 0.97, 1.0, 0.0))
-		g.set_color(1, Color(0.85, 0.93, 1.0, 0.0))
-		g.add_point(0.18, Color(0.92, 0.97, 1.0, alpha))
+		g.set_color(0, Color(0.62, 0.78, 0.92, 0.0))
+		g.set_color(1, Color(0.5, 0.66, 0.84, 0.0))
+		g.add_point(0.18, Color(0.62, 0.78, 0.92, minf(alpha, 0.5)))
 		ramp.gradient = g
 		pm.color_ramp = ramp
 		_mat_cache[key] = pm
@@ -434,10 +445,10 @@ static func _shards(amount: int, lifetime: float, radius: float, v_min: float, v
 		m = PrismMesh.new()
 		m.size = Vector3(size, size * 2.2, size * 0.7)
 		var sm := StandardMaterial3D.new()
-		sm.albedo_color = Color(0.70, 0.88, 1.0)
+		sm.albedo_color = Color(0.42, 0.64, 0.84)   # steel-cyan chips (were near-white + glow)
 		sm.emission_enabled = true
-		sm.emission = Color(0.55, 0.82, 1.0)
-		sm.emission_energy_multiplier = 0.9
+		sm.emission = Color(0.18, 0.6, 0.95)
+		sm.emission_energy_multiplier = 0.5
 		sm.roughness = 0.2
 		sm.metallic_specular = 0.9
 		m.material = sm

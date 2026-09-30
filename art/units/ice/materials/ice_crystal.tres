@@ -7,7 +7,7 @@
 resource_name = "ice_crystal"
 render_priority = 0
 shader = ExtResource("1_ice")
-shader_parameter/base_color = Color(0.72, 0.88, 1.0, 1)
+shader_parameter/base_color = Color(0.42, 0.76, 1.0, 1)
 shader_parameter/noise_tex = ExtResource("2_ice")
 shader_parameter/spec_strength = 0.6
-shader_parameter/rim_strength = 0.45
+shader_parameter/rim_strength = 0.3

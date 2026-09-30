@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://art/units/ice/rime_harrier/rime_harrier.gd" id="1_rhm"]
+[ext_resource type="PackedScene" path="res://art/units/ice/rime_harrier/parts/rime_ram.tscn" id="2_rhr"]
+[ext_resource type="PackedScene" path="res://art/units/ice/rime_harrier/parts/rime_harrier_rider.tscn" id="3_rhj"]
+
+[node name="RimeHarrier" type="Node3D"]
+script = ExtResource("1_rhm")
+
+[node name="Ram" parent="." instance=ExtResource("2_rhr")]
+
+[node name="Rider" parent="." instance=ExtResource("3_rhj")]
+transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, 0, 0, 0)

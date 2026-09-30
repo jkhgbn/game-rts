@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/nature/bramble_harrier/parts/bramble_hare.gd" id="1_bhh"]
+
+[node name="BrambleHare" type="Node3D"]
+script = ExtResource("1_bhh")
+gallop_speed = 2.8
+gallop_time = 0.5
+walk_swing_deg = 22.0
+gallop_swing_deg = 46.0
+step_lift = 0.1
+gallop_bounce = 0.14
+gallop_pitch_deg = 10.0
+gallop_head_deg = 4.0
+tail_swish_deg = 8.0
+charge_head_deg = 20.0
+fidget_every = 9.0
+body_height = 1.6
+attack_style = &"dart_hop"
+death_style = &"fall"
+stride_time = 0.62
+stride_speed = 2.0
+idle_period = 3.0
+is_quadruped = true
+walk_bounce = 0.05
+flinch_push = true
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -0.08)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.48)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, -0.18, 0.42)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.18, 0.42)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, -0.08, -0.32)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, -0.08, -0.32)
+
+[node name="Seat" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, -0.04)
+
+[node name="Fx" type="Node3D" parent="."]

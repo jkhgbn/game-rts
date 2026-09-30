@@ -12,6 +12,9 @@ uniform float moss_amount = 0.25;
 uniform float cracks = 7.0;
 uniform float opacity = 0.85;
 uniform float rim_glow = 0.0;          // thin glowing ring at the edge (Call the Thicket circle)
+// Rim ring colour (NatureVfx sets pale gold on the Call the Thicket circle so it reads on meadow). The default is the
+// glow colour, so other users look as before.
+uniform vec3 rim_color : source_color = vec3(0.75, 1.00, 0.40);
 instance uniform float fade = 1.0;
 instance uniform float glow = 1.0;
 instance uniform float seed = 0.0;
@@ -64,7 +67,7 @@ void fragment() {
 	vec3 crack_col = mix(soil_color * 0.25, glow_color * glow_energy, glow);
 	col = mix(col, crack_col, c);
 	float ring = rim_glow * (1.0 - smoothstep(0.0, 0.045, abs(r - 0.93))) * glow;
-	col = mix(col, glow_color * glow_energy, clamp(ring, 0.0, 1.0));
+	col = mix(col, rim_color * min(glow_energy, 1.1), clamp(ring, 0.0, 1.0));
 	float a_out = body * opacity + c * 0.5 * glow + ring;
 	ALBEDO = col;
 	ALPHA = clamp(a_out, 0.0, 1.0) * fade;

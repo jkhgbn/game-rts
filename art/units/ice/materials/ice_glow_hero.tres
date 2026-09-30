@@ -6,6 +6,6 @@
 resource_name = "ice_glow_hero"
 render_priority = 0
 shader = ExtResource("1_ice")
-shader_parameter/glow_color = Color(0.75, 0.92, 1.0, 1)
-shader_parameter/energy = 3.0
+shader_parameter/glow_color = Color(0.2, 0.8, 1.0, 1)
+shader_parameter/energy = 2.6
 shader_parameter/pulse_speed = 3.0

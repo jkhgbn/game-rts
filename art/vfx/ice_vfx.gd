@@ -20,8 +20,13 @@ extends Node3D
 
 const META := &"ice_vfx"
 const SPELL_META := &"spell_vfx"     # CombatVfx skips projectiles carrying this (no double trail)
-const ICE := Color(0.55, 0.86, 1.0)
-const ICE_PALE := Color(0.75, 0.92, 1.0)
+## In-game grade pass (2026-09-30): Ice effects turned the fight white (additive near-white domes, blocks, puffs and
+## rings over the bloom). Now saturated cyan / steel, alpha-blended, every colour <= 1.5 x (most under ~1.1, the
+## bloom threshold), puffs half size, the Rime Aegis dome hollowed to a rim (ice_dome.gdshader).
+const ICE := Color(0.25, 0.74, 1.0)
+const ICE_PALE := Color(0.45, 0.80, 0.98)
+const STEEL := Color(0.30, 0.46, 0.62)
+const RING_ENERGY := 1.25
 const NATURE := Color(0.45, 1.0, 0.35)
 const CHILL_TINT := Color(0.70, 0.85, 1.00)
 const POLL_INTERVAL := 0.25
@@ -36,12 +41,12 @@ const ICE_SPELLS: Array[StringName] = [&"rime_bolt", &"flash_freeze", &"rime_aeg
 const AURA_CAPS := {&"chill": 80, &"frozen": 48, &"rooted": 48, &"dome": 48}
 const POOL_SIZES := {&"frost_cast": 4, &"bolt_shatter": 6, &"freeze_chips": 3, &"snow_puff": 6,
 		&"aegis_rise": 3, &"heal_sparkle": 6}
-const AMOUNTS := {&"frost_cast": 16, &"bolt_shatter": 14, &"freeze_chips": 36, &"snow_puff": 18,
+const AMOUNTS := {&"frost_cast": 16, &"bolt_shatter": 12, &"freeze_chips": 28, &"snow_puff": 10,
 		&"aegis_rise": 30, &"heal_sparkle": 10}
-const LIFETIMES := {&"frost_cast": 0.7, &"bolt_shatter": 0.7, &"freeze_chips": 0.9, &"snow_puff": 1.2,
+const LIFETIMES := {&"frost_cast": 0.7, &"bolt_shatter": 0.6, &"freeze_chips": 0.8, &"snow_puff": 0.7,
 		&"aegis_rise": 1.3, &"heal_sparkle": 0.7}
 const MESH_LOOKS: Array[StringName] = [&"bolt_shatter", &"freeze_chips"]
-const MIX_LOOKS: Array[StringName] = [&"snow_puff"]
+const MIX_LOOKS: Array[StringName] = [&"snow_puff", &"frost_cast", &"aegis_rise", &"bolt_shatter", &"freeze_chips"]
 const TRAIL_POOL := 6
 const BEAM_POOL := 8
 const RING_POOL := 6
@@ -200,7 +205,7 @@ func _on_spell_cast(id: StringName, w: Node3D) -> void:
 	_burst(&"frost_cast", pos + Vector3.UP * 0.1)
 	_ring(pos, 0.3, 1.5, ICE, 0.35, 0.1)
 	if id != &"rime_bolt":
-		_light_flash(pos + Vector3.UP * 1.6, ICE, 2.5, 6.0, 0.3)
+		_light_flash(pos + Vector3.UP * 1.6, ICE, 1.2, 6.0, 0.3)
 
 
 func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
@@ -216,14 +221,14 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 			_burst(&"bolt_shatter", pos + Vector3.UP * 1.0)
 			_burst(&"snow_puff", pos + Vector3.UP * 0.8)
 			_ring(pos, 0.2, 1.3, ICE_PALE, 0.3, 0.12)
-			_light_flash(pos + Vector3.UP * 1.3, ICE, 2.0, 5.0, 0.25)
+			_light_flash(pos + Vector3.UP * 1.3, ICE, 1.0, 5.0, 0.25)
 		&"flash_freeze":
 			_flash_freeze(pos, _radius_of(w, id, 3.0))
 		&"rime_aegis":
 			var r := _radius_of(w, id, 8.0)
-			_ring(pos, 0.5, r, ICE, 0.55, 0.05)
+			_ring(pos, 0.5, r, ICE, 0.55, 0.035)
 			_burst(&"aegis_rise", pos)
-			_light_flash(pos + Vector3.UP * 2.0, ICE, 3.0, r + 3.0, 0.6)
+			_light_flash(pos + Vector3.UP * 2.0, ICE, 1.2, r + 3.0, 0.6)
 		&"rime_aegis_shield":
 			var u := _unit_at(pos)
 			if u:
@@ -250,8 +255,8 @@ func _flash_freeze(pos: Vector3, r: float) -> void:
 	shards.visible = true
 	_burst(&"snow_puff", pos + Vector3.UP * 0.4, r / 3.0)
 	_burst(&"freeze_chips", pos + Vector3.UP * 0.2, r / 3.0)
-	_ring(pos, 0.4, r * 1.15, ICE, 0.3, 0.1)
-	_light_flash(pos + Vector3.UP * 1.8, ICE, 4.0, r * 3.0, 0.8)
+	_ring(pos, 0.4, r * 1.15, ICE, 0.3, 0.07)
+	_light_flash(pos + Vector3.UP * 1.8, ICE, 1.5, r * 2.2, 0.8)
 	var tw := set_root.create_tween()
 	set_root.set_meta(&"tw", tw)
 	tw.tween_property(shards, "scale", Vector3.ONE, 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -322,7 +327,7 @@ func _beam(a: Vector3, b: Vector3, col: Color) -> void:
 	if old is Tween and (old as Tween).is_valid():
 		(old as Tween).kill()
 	var mat := beam.material_override as StandardMaterial3D
-	mat.albedo_color = Color(col.r * 2.5, col.g * 2.5, col.b * 2.5, 1.0)
+	mat.albedo_color = Color(col.r * 1.2, col.g * 1.2, col.b * 1.2, 0.9)
 	var dir := (b - a) / len
 	var side := dir.cross(Vector3.FORWARD if absf(dir.dot(Vector3.FORWARD)) < 0.95 else Vector3.RIGHT).normalized()
 	var fwd := side.cross(dir).normalized()
@@ -490,7 +495,7 @@ func _build_aura(kind: StringName) -> Node3D:
 			disc.material_override = _chill_frost_mat
 			root.add_child(disc)
 			fx.append(disc)
-			var motes := _particles(_pmat(&"chill_motes"), 12, 1.8, true, true)
+			var motes := _particles(_pmat(&"chill_motes"), 8, 1.4, false, true)
 			root.add_child(motes)
 			parts.append(motes)
 		&"frozen":
@@ -633,7 +638,7 @@ func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: f
 	if old is Tween and (old as Tween).is_valid():
 		(old as Tween).kill()
 	var mat := ring.material_override as ShaderMaterial
-	mat.set_shader_parameter(&"fill_color", Color(col, 0.12))
+	mat.set_shader_parameter(&"fill_color", Color(STEEL, 0.06))
 	mat.set_shader_parameter(&"ring_color", Color(col, 1.0))
 	mat.set_shader_parameter(&"ring_width", width)
 	mat.set_shader_parameter(&"fade", 1.0)
@@ -778,13 +783,19 @@ func _build_shared() -> void:
 	_beam_mesh.height = 1.0
 	_beam_mesh.radial_segments = 8
 	_beam_mesh.rings = 1
+	# Blue-grey frost with cyan veins (the stock near-white frost read as snow blobs under every unit).
 	_frost_mat = ShaderMaterial.new()
 	_frost_mat.shader = FROST_SHADER
-	_frost_mat.set_shader_parameter(&"opacity", 0.42)
+	_frost_mat.set_shader_parameter(&"frost_color", Color(0.50, 0.66, 0.80))
+	_frost_mat.set_shader_parameter(&"glow_color", ICE)
+	_frost_mat.set_shader_parameter(&"glow_energy", 1.2)
+	_frost_mat.set_shader_parameter(&"opacity", 0.34)
 	_chill_frost_mat = ShaderMaterial.new()
 	_chill_frost_mat.shader = FROST_SHADER
-	_chill_frost_mat.set_shader_parameter(&"opacity", 0.38)
-	_chill_frost_mat.set_shader_parameter(&"glow_energy", 1.1)
+	_chill_frost_mat.set_shader_parameter(&"frost_color", Color(0.46, 0.62, 0.78))
+	_chill_frost_mat.set_shader_parameter(&"glow_color", ICE)
+	_chill_frost_mat.set_shader_parameter(&"opacity", 0.26)
+	_chill_frost_mat.set_shader_parameter(&"glow_energy", 1.0)
 	_moss_mat = ShaderMaterial.new()
 	_moss_mat.shader = FROST_SHADER
 	_moss_mat.set_shader_parameter(&"frost_color", Color(0.45, 0.32, 0.14))
@@ -802,15 +813,16 @@ func _build_shared() -> void:
 	_bark_mat = StandardMaterial3D.new()
 	_bark_mat.albedo_color = Color(0.32, 0.22, 0.12)
 	_bark_mat.roughness = 0.9
-	_shard_mat = StandardMaterial3D.new()
-	_shard_mat.albedo_color = Color(0.72, 0.90, 1.0)
-	_shard_mat.roughness = 0.12
-	_shard_mat.metallic_specular = 0.9
+	_shard_mat = StandardMaterial3D.new()   # steel-blue crystal with a cyan edge light (was near-white + glow)
+	_shard_mat.albedo_color = Color(0.36, 0.58, 0.78)
+	_shard_mat.roughness = 0.15
+	_shard_mat.metallic_specular = 0.8
 	_shard_mat.emission_enabled = true
-	_shard_mat.emission = Color(0.45, 0.8, 1.0)
-	_shard_mat.emission_energy_multiplier = 0.7
+	_shard_mat.emission = Color(0.16, 0.55, 0.85)
+	_shard_mat.emission_energy_multiplier = 0.45
 	_shard_mat.rim_enabled = true
-	_shard_mat.rim = 0.8
+	_shard_mat.rim = 0.5
+	_shard_mat.rim_tint = 0.6
 	_overlay_mat = StandardMaterial3D.new()
 	_overlay_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_overlay_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -854,7 +866,7 @@ func _build_shared() -> void:
 	for i in RING_POOL:
 		var mat := ShaderMaterial.new()
 		mat.shader = GROUND_SHADER
-		mat.set_shader_parameter(&"ring_energy", 3.0)
+		mat.set_shader_parameter(&"ring_energy", RING_ENERGY)
 		var ring := _mesh(_plane, mat)
 		ring.visible = false
 		add_child(ring)
@@ -900,8 +912,8 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 	if _pmats.has(key):
 		return _pmats[key]
 	var m := ParticleProcessMaterial.new()
-	var ice_hot := Color(1.4, 2.0, 2.6, 1.0)
-	var ice := Color(0.7, 1.4, 2.2, 1.0)
+	var ice_hot := Color(0.55, 1.0, 1.25, 1.0)   # <= 1.5 x: under the bloom (was up to 2.6)
+	var ice := Color(0.25, 0.72, 1.05, 1.0)
 	match key:
 		&"chill_motes":
 			m.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
@@ -911,8 +923,8 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.initial_velocity_min = 0.1
 			m.initial_velocity_max = 0.35
 			m.gravity = Vector3(0, -0.15, 0)
-			_size(m, 0.08, 0.14, true)
-			m.color_ramp = _ramp([Color(0.7, 1.4, 2.2, 0.0), ice, Color(0.5, 0.9, 1.6, 0.0)])
+			_size(m, 0.06, 0.1, true)
+			m.color_ramp = _ramp([Color(0.25, 0.72, 1.05, 0.0), Color(0.25, 0.72, 1.05, 0.85), Color(0.2, 0.5, 0.85, 0.0)])
 		&"frost_cast":
 			_shape_ring(m, 0.8, 0.1)
 			m.direction = Vector3.UP
@@ -923,8 +935,8 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.damping_max = 3.0
 			m.tangential_accel_min = 4.0
 			m.tangential_accel_max = 6.0
-			_size(m, 0.22, 0.36, false)
-			m.color_ramp = _ramp([ice_hot, ice, Color(0.5, 0.9, 1.6, 0.0)])
+			_size(m, 0.16, 0.26, false)
+			m.color_ramp = _ramp([ice_hot, ice, Color(0.2, 0.55, 0.9, 0.0)])
 		&"bolt_shatter":
 			m.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 			m.emission_sphere_radius = 0.25
@@ -938,8 +950,8 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.particle_flag_rotate_y = true
 			m.angle_min = -180.0
 			m.angle_max = 180.0
-			_size(m, 0.7, 1.3, false)
-			m.color_ramp = _ramp([Color(0.9, 0.97, 1.0, 1.0), Color(0.7, 0.9, 1.0, 1.0), Color(0.6, 0.85, 1.0, 0.0)])
+			_size(m, 0.5, 0.9, false)
+			m.color_ramp = _ramp([Color(0.55, 0.85, 1.0, 1.0), Color(0.3, 0.62, 0.9, 1.0), Color(0.22, 0.45, 0.72, 0.0)])
 		&"freeze_chips":
 			_shape_ring(m, 3.0, 0.1)
 			m.emission_ring_inner_radius = 0.5
@@ -951,20 +963,20 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.particle_flag_rotate_y = true
 			m.angle_min = -180.0
 			m.angle_max = 180.0
-			_size(m, 0.9, 1.6, false)
-			m.color_ramp = _ramp([Color(0.9, 0.97, 1.0, 1.0), Color(0.7, 0.9, 1.0, 1.0), Color(0.6, 0.85, 1.0, 0.0)])
+			_size(m, 0.6, 1.1, false)
+			m.color_ramp = _ramp([Color(0.55, 0.85, 1.0, 1.0), Color(0.3, 0.62, 0.9, 1.0), Color(0.22, 0.45, 0.72, 0.0)])
 		&"snow_puff":
 			m.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
-			m.emission_sphere_radius = 1.2
+			m.emission_sphere_radius = 0.6
 			m.direction = Vector3.UP
 			m.spread = 60.0
-			m.initial_velocity_min = 0.8
-			m.initial_velocity_max = 2.0
+			m.initial_velocity_min = 0.5
+			m.initial_velocity_max = 1.3
 			m.gravity = Vector3(0, 0.3, 0)
 			m.damping_min = 1.5
 			m.damping_max = 2.5
-			_size(m, 0.8, 1.4, true)
-			m.color_ramp = _ramp([Color(0.9, 0.96, 1.0, 0.0), Color(0.88, 0.95, 1.0, 0.55), Color(0.8, 0.9, 1.0, 0.0)])
+			_size(m, 0.4, 0.7, true)   # half the old puff: a snow burst, not a white wall
+			m.color_ramp = _ramp([Color(0.55, 0.74, 0.9, 0.0), Color(0.5, 0.72, 0.9, 0.38), Color(0.42, 0.62, 0.82, 0.0)])
 		&"aegis_rise":
 			_shape_ring(m, 1.6, 0.2)
 			m.direction = Vector3.UP
@@ -975,8 +987,8 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.damping_max = 2.0
 			m.tangential_accel_min = 2.0
 			m.tangential_accel_max = 3.0
-			_size(m, 0.18, 0.32, false)
-			m.color_ramp = _ramp([ice_hot, ice, Color(0.5, 0.9, 1.6, 0.0)])
+			_size(m, 0.14, 0.24, false)
+			m.color_ramp = _ramp([ice_hot, ice, Color(0.2, 0.55, 0.9, 0.0)])
 		&"heal_sparkle":
 			m.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 			m.emission_sphere_radius = 0.4
@@ -995,7 +1007,7 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.initial_velocity_max = 0.5
 			m.gravity = Vector3(0, -0.4, 0)
 			_size(m, 0.14, 0.24, false)
-			m.color_ramp = _ramp([Color(0.9, 1.5, 2.0, 1.0), Color(0.5, 1.0, 1.6, 0.8), Color(0.3, 0.6, 1.2, 0.0)])
+			m.color_ramp = _ramp([Color(0.5, 1.0, 1.3, 1.0), Color(0.25, 0.7, 1.05, 0.8), Color(0.15, 0.45, 0.85, 0.0)])
 	_pmats[key] = m
 	return m
 

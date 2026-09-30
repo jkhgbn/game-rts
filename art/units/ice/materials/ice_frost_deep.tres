@@ -14,6 +14,6 @@ shader_parameter/edge_color = Color(0.7, 0.88, 1, 1)
 shader_parameter/fresnel_power = 2.2
 shader_parameter/inner_energy = 0.22
 shader_parameter/edge_energy = 0.35
-shader_parameter/sparkle_energy = 2.0
+shader_parameter/sparkle_energy = 1.1
 shader_parameter/spec_strength = 0.6
 shader_parameter/facets = 1.0

@@ -157,6 +157,12 @@ var _death_emitted: bool = false
 var _glows_off: bool = false
 var _flash_v: float = 0.0
 var _flash_gold: bool = false
+## Hit flash look per model (in-game grade pass 2026-09-30): colour, strength (x the 0-1 flash curve) and fade time.
+## The kit default is a white flash; Ice models use a half-strength, half-length cyan one (a white flash on pale ice
+## armour read as a white puff the size of the unit mid-fight). The level-up gold flash is unchanged.
+var hit_flash_color: Vector3 = WHITE
+var hit_flash_scale: float = 1.0
+var hit_flash_time: float = 0.12
 var _carrying: bool = false
 var _vet_boost: float = 1.0
 var _haste: bool = false
@@ -927,7 +933,7 @@ func _animate(dt: float) -> void:
 		else:
 			rot(P_CHEST, Vector3(-12.0 * DEG * k, 0, 0))
 		_flash_gold = false
-		_set_flash(clampf(1.0 - _hit_t / 0.12, 0.0, 1.0))
+		_set_flash(clampf(1.0 - _hit_t / maxf(hit_flash_time, 0.01), 0.0, 1.0))
 	# level-up
 	if _level_t < LEVEL_LEN:
 		_level_t += dt
@@ -1237,12 +1243,13 @@ func _set_flash(v: float) -> void:
 	if v == _flash_v:
 		return
 	_flash_v = v
-	var col := GOLD if _flash_gold else WHITE
+	var col := GOLD if _flash_gold else hit_flash_color
+	var w := v if _flash_gold else v * hit_flash_scale
 	var targets := _flash_all_targets if _flash_gold else _flash_hit_targets
 	if v == 0.0:
 		targets = _flash_all_targets
 	for gi: GeometryInstance3D in targets:
-		gi.set_instance_shader_parameter(&"hit_flash", v)
+		gi.set_instance_shader_parameter(&"hit_flash", w)
 		gi.set_instance_shader_parameter(&"flash_color", col)
 
 
@@ -2083,8 +2090,8 @@ func _wk_set_pivot_mesh(i: int, pkey: String, mesh: Mesh) -> void:
 		iu.append_array(instance_uniforms_of(mesh.surface_get_material(s)))
 	if iu.has("hit_flash"):
 		node.set_instance_shader_parameter(&"ao_height", body_height)
-		node.set_instance_shader_parameter(&"hit_flash", _flash_v)
-		node.set_instance_shader_parameter(&"flash_color", GOLD if _flash_gold else WHITE)
+		node.set_instance_shader_parameter(&"hit_flash", _flash_v if _flash_gold else _flash_v * hit_flash_scale)
+		node.set_instance_shader_parameter(&"flash_color", GOLD if _flash_gold else hit_flash_color)
 	# The crystal: a pivot whose archetype merge had no glow is driven here (own_glow: WEAPON_GLOW_BASE x the kit
 	# level + the pose flares, in _wk_process); a pivot that already glowed stays with whoever drove it (kit or model).
 	var base_glow: bool = entry.get("glow", false)

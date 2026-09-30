@@ -4,10 +4,10 @@
 	"fixes": [],
 	"ground": "meadow",
 	"kind": "unit",
-	"kingdom": "nature",
-	"quality": 99.2,
+	"kingdom": "neutral",
+	"quality": 95.4,
 	"result": "PASS",
-	"scene": "res://art/units/nature/vinelasher/vinelasher.tscn",
+	"scene": "res://art/units/_effort_trial/high/vinelasher.tscn",
 	"tier": "soldier",
 	"version": "1.0"
 }

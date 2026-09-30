@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art/units/ice/snowdrift_rider/parts/snowdrift_cat.gd" id="1_sdc"]
+
+[node name="SnowdriftCat" type="Node3D"]
+script = ExtResource("1_sdc")
+gallop_speed = 3.0
+gallop_time = 0.5
+walk_swing_deg = 24.0
+gallop_swing_deg = 44.0
+step_lift = 0.1
+gallop_bounce = 0.1
+gallop_pitch_deg = 9.0
+gallop_head_deg = 10.0
+tail_swish_deg = 26.0
+tail_gallop_lift_deg = 10.0
+charge_head_deg = 24.0
+fidget_every = 9.0
+body_height = 1.5
+attack_style = &"cat_swipe"
+death_style = &"fall"
+stride_time = 0.75
+stride_speed = 1.9
+idle_period = 3.6
+is_quadruped = true
+walk_bounce = 0.03
+flinch_push = true
+kingdom_color = Color(0.45, 0.75, 0.95, 1)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Mount" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92, -0.06)
+
+[node name="Head" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.62)
+
+[node name="LegFL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, -0.06, 0.5)
+
+[node name="LegFR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, -0.06, 0.5)
+
+[node name="LegBL" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, -0.06, -0.46)
+
+[node name="LegBR" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, -0.06, -0.46)
+
+[node name="Tail" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.72)
+
+[node name="Seat" type="Node3D" parent="Root/Mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, -0.06)
+
+[node name="Fx" type="Node3D" parent="."]

@@ -7,7 +7,8 @@
 resource_name = "nature_sec_bramblehorn_b"
 render_priority = 0
 shader = ExtResource("1_nat")
-shader_parameter/base_color = Color(0.28, 0.4, 0.18, 1)
+shader_parameter/base_color = Color(0.46, 0.38, 0.22, 1)
 shader_parameter/noise_tex = ExtResource("2_nat")
 shader_parameter/spec_strength = 0.0
-shader_parameter/rim_strength = 0.3
+shader_parameter/rim_color = Color(0.98, 0.88, 0.6, 1)
+shader_parameter/rim_strength = 0.5

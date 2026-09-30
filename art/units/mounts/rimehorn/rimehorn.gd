@@ -388,6 +388,7 @@ func _knee_barding(s: Dictionary, p: Vector3) -> void:
 # ================================================================ motion (on top of MountModel)
 
 func _mount_ready() -> void:
+	hit_flash_color = IceModel.HIT_FLASH_CYAN   # cyan hit flash like the Ice army (strength / length unchanged)
 	_frost_v = 0.0
 	if _face:
 		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))

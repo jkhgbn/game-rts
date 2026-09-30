@@ -16,6 +16,10 @@ extends WizardModel
 ## a unit_painted variant with frost dusting, rimed hem, fur streaks and a crystal look; same instance uniforms).
 ## Cost: 7 merged pivots + staff mesh + snowflake + 1 light; 1 looping emitter (8) + 5 pre-built one-shots (<= 16).
 ## Hooks: those of CharacterModel / WizardModel, unchanged.
+## In-game grade pass (2026-09-30): he vanished in his own white spell domes. One dark-blue mass now (deep robe,
+## mantle and cape in torvald_cloth_dark / torvald_cape), a darker stole, a saturated cyan staff snowflake + orb light,
+## cyan crown crystals; vertices cut (tori 8 rings, arcs 10 segments, the snowflake bars are flat double-sided quads)
+## with the FaceKit face untouched.
 
 const SPIN := 30.0 * DEG
 const FROST := Color(0.75, 0.92, 1.0)
@@ -23,6 +27,9 @@ const STAFF_GRIP := Vector3(0.71, 1.02, 0.22)    # model space: the right fist, 
 const FLAKE_UP := 1.88                           # snowflake centre above the grip (staff space)
 const TV_MAT_DIR := "res://art/units/wizards/"
 const IDLE_IDS: Array[StringName] = [&"idle_beard", &"idle_tap", &"idle_survey"]
+const TR := 8                                    # torus rings (the kit default 16 doubled the arm / belt cost)
+## Saturated cyan staff glow (the snowflake, its light and motes): the cyan read of the Ice hero at 30 m.
+const STAFF_CYAN := Color(0.25, 0.82, 1.0)
 
 static var _staff_mesh: ArrayMesh
 static var _flake_mm: MultiMesh
@@ -80,24 +87,24 @@ func _build_parts() -> void:
 	var gem := IceModel.ice(&"ice_glow_hero")
 
 	# --- Hips: heavy bell robe, dark front panel with a silver medallion, belt, thick fur hem.
-	add_part(hips, cyl(0.42, 0.66, 0.94, 12), dark, Vector3(0, 0.47, 0))
+	add_part(hips, cyl(0.42, 0.66, 0.94, 10), dark, Vector3(0, 0.47, 0))
 	add_part(hips, box(Vector3(0.32, 0.86, 0.05)), cloth, Vector3(0, 0.48, 0.555), Vector3(-14.3, 0, 0))
 	add_part(hips, cyl(0.11, 0.11, 0.04, 6), metal, Vector3(0, 0.66, 0.535), Vector3(75.7, 0, 0))
-	add_part(hips, torus(0.36, 0.49), leather, Vector3(0, 0.94, 0))
+	add_part(hips, torus(0.36, 0.49, TR), leather, Vector3(0, 0.94, 0))
 	add_part(hips, box(Vector3(0.20, 0.15, 0.07)), metal, Vector3(0, 0.94, 0.475))
-	add_part(hips, torus(0.57, 0.75), pale, Vector3(0, 0.095, 0))
+	add_part(hips, torus(0.57, 0.75, TR), pale, Vector3(0, 0.095, 0))
 	# --- Legs: boots hidden under the robe at rest, their toes poke out on each stride.
 	add_part(leg_l, box(Vector3(0.22, 0.16, 0.34)), leather, Vector3(-0.2, 0.08, 0.30))
 	add_part(leg_r, box(Vector3(0.22, 0.16, 0.34)), leather, Vector3(0.2, 0.08, 0.30))
 
 	# --- Chest: barrel torso, the wide team mantle with a silver rim, frosted fur collar, cape.
-	add_part(chest, cyl(0.46, 0.38, 0.62, 10), dark, Vector3(0, 1.25, 0))
+	add_part(chest, cyl(0.46, 0.38, 0.62, 8), dark, Vector3(0, 1.25, 0))
 	# the mantle and the fur stole are open at the front so the beard flows down over the chest
-	add_part(chest, _cone_arc(0.34, 0.73, 0.30, 70.0, 14), dark, Vector3(0, 1.44, 0))
-	add_part(chest, _tube_arc(0.735, 0.04, 70.0, 14, 6), metal, Vector3(0, 1.295, 0))
-	add_part(chest, _tube_arc(0.36, 0.14, 84.0, 14, 8), pale, Vector3(0, 1.60, -0.01))
+	add_part(chest, _cone_arc(0.34, 0.73, 0.30, 70.0, 10), dark, Vector3(0, 1.44, 0))
+	add_part(chest, _tube_arc(0.735, 0.04, 70.0, 10, 4), metal, Vector3(0, 1.295, 0))
+	add_part(chest, _tube_arc(0.36, 0.14, 84.0, 10, 6), pale, Vector3(0, 1.60, -0.01))
 	for sx: float in [-1.0, 1.0]:   # tufted ends of the stole
-		add_part(chest, sphere(0.16), pale, Vector3(0.24 * sx, 1.60, 0.26), Vector3(0, 30.0 * sx, 0), Vector3(1.0, 1.0, 1.15))
+		add_part(chest, sphere(0.16, 8, 4), pale, Vector3(0.24 * sx, 1.60, 0.26), Vector3(0, 30.0 * sx, 0), Vector3(1.0, 1.0, 1.15))
 	add_part(chest, cape(0.95, 1.42), _mat(&"torvald_cape"), Vector3(0, 0.85, -0.55), Vector3(12, 0, 0))
 
 	# --- Head: face, big nose, beard masses (cheeks + chin), the beard clasp, hair cap, crown. The painted face, the
@@ -107,9 +114,9 @@ func _build_parts() -> void:
 	add_part(head, cyl(0.0, 0.06, 0.17, 6), skin, Vector3(0, 1.81, 0.29), Vector3(105, 0, 0))
 	add_part(head, sphere(0.25), beard, Vector3(0, 1.66, 0.12), Vector3.ZERO, Vector3(1.05, 0.62, 0.95))
 	add_part(head, sphere(0.17), beard, Vector3(0, 1.56, 0.34), Vector3(-10, 0, 0), Vector3(1.15, 0.95, 0.75))
-	_seg(head, torus(0.045, 0.11), metal, Vector3(0, 1.13, 0.52), Vector3(0, 1.21, 0.50))
+	_seg(head, torus(0.045, 0.11, TR), metal, Vector3(0, 1.13, 0.52), Vector3(0, 1.21, 0.50))
 	add_part(head, sphere(0.24), dark, Vector3(0, 2.06, -0.01), Vector3.ZERO, Vector3(1.0, 0.55, 1.0))
-	add_part(head, cyl(0.27, 0.285, 0.11, 12), metal, Vector3(0, 2.03, 0))
+	add_part(head, cyl(0.27, 0.285, 0.11, 10), metal, Vector3(0, 2.03, 0))
 	# crown: 8 jagged ice spikes, the tallest in front (angle deg, height, radius, tilt deg)
 	var spikes: Array[Vector4] = [Vector4(0, 0.74, 0.09, 6), Vector4(38, 0.48, 0.075, 15), Vector4(-38, 0.48, 0.075, 15),
 		Vector4(82, 0.62, 0.085, 18), Vector4(-82, 0.62, 0.085, 18), Vector4(128, 0.42, 0.07, 22),
@@ -131,12 +138,12 @@ func _build_parts() -> void:
 		var sh := Vector3(0.56 * side, 1.47, 0)
 		var wrist := Vector3(0.70 * side, 1.11, 0.18) if side > 0.0 else Vector3(-0.66, 1.06, 0.08)
 		var hand := STAFF_GRIP if side > 0.0 else Vector3(-0.67, 0.97, 0.10)
-		_seg(arm, cyl(0.13, 0.21, 1.0, 10), cloth, wrist, sh + (sh - wrist).normalized() * 0.05,
+		_seg(arm, cyl(0.13, 0.21, 1.0, 8), cloth, wrist, sh + (sh - wrist).normalized() * 0.05,
 				Vector3(1.0, (sh - wrist).length() + 0.05, 1.0))
-		_seg(arm, torus(0.12, 0.25), pale, wrist - (wrist - sh).normalized() * 0.02, wrist + (wrist - sh).normalized() * 0.02)
-		add_part(arm, sphere(0.13), skin, hand)
-		add_part(arm, sphere(0.2), iron, Vector3(0.60 * side, 1.56, -0.02), Vector3.ZERO, Vector3(1.0, 0.7, 1.05))
-		add_part(arm, torus(0.17, 0.23), metal, Vector3(0.60 * side, 1.52, -0.02), Vector3(0, 0, -12.0 * side))
+		_seg(arm, torus(0.12, 0.25, TR), pale, wrist - (wrist - sh).normalized() * 0.02, wrist + (wrist - sh).normalized() * 0.02)
+		add_part(arm, sphere(0.13, 8, 4), skin, hand)
+		add_part(arm, sphere(0.2, 8, 4), iron, Vector3(0.60 * side, 1.56, -0.02), Vector3.ZERO, Vector3(1.0, 0.7, 1.05))
+		add_part(arm, torus(0.17, 0.23, TR), metal, Vector3(0.60 * side, 1.52, -0.02), Vector3(0, 0, -12.0 * side))
 		_horn(arm, Vector3(0.62 * side, 1.66, -0.02), 0.40, 0.075, Vector3(-10, 0, -26 * side), crystal)
 		_horn(arm, Vector3(0.52 * side, 1.68, -0.13), 0.28, 0.06, Vector3(-28, 0, -12 * side), crystal)
 
@@ -168,18 +175,18 @@ func _build_parts() -> void:
 	_bob_rest = _flake_node.position
 	_light = OmniLight3D.new()
 	_light.name = "OrbLight"
-	_light.light_color = Color(0.70, 0.88, 1.0)
+	_light.light_color = STAFF_CYAN
 	_light.light_energy = light_energy
 	_light.light_specular = 0.2
 	_light.omni_range = 4.5
 	_light.shadow_enabled = false
 	_light.position = _flake_node.position
 	_staff.add_child(_light)
-	var motes := make_motes(FROST, 8, 1.8, 0.35, 0.25, 0.06)
+	var motes := make_motes(STAFF_CYAN, 8, 1.8, 0.35, 0.25, 0.06)
 	motes.name = "SnowMotes"
 	motes.position = _flake_node.position
 	_staff.add_child(motes)
-	_burst = make_motes(FROST, 16, 0.55, 0.12, 3.2, 0.11, false, true)
+	_burst = make_motes(STAFF_CYAN, 16, 0.55, 0.12, 3.2, 0.11, false, true)
 	_burst.name = "CastBurst"
 	_burst.position = _flake_node.position
 	_staff.add_child(_burst)
@@ -210,6 +217,9 @@ func _build_parts() -> void:
 
 
 func _after_ready() -> void:
+	hit_flash_color = IceModel.HIT_FLASH_CYAN   # cyan, half-strength hit flash like the Ice army
+	hit_flash_scale = IceModel.HIT_FLASH_SCALE
+	hit_flash_time = IceModel.HIT_FLASH_TIME
 	_head_glow = _face   # the crown gem + the irises (FaceKit Face node, own_glow)
 	_idle_left = 5.0 + 6.0 * fmod(_phase_off, 1.0)
 	_breath_t = fmod(_phase_off * 1.7, 3.6)
@@ -333,18 +343,18 @@ static func _get_staff_mesh() -> ArrayMesh:
 		return _staff_mesh
 	var am := ArrayMesh.new()
 	var groups: Array = [
-		[_mat(&"torvald_iron"), [[cyl(0.05, 0.055, 2.42, 8), Vector3(0, 0.24, 0), Vector3.ZERO]]],
-		[IceModel.ice(&"ice_leather"), [[cyl(0.068, 0.068, 0.36, 8), Vector3(0, 0.0, 0), Vector3.ZERO],
-			[cyl(0.062, 0.062, 0.14, 8), Vector3(0, -0.62, 0), Vector3.ZERO]]],
-		[IceModel.ice(&"ice_metal"), [[cyl(0.078, 0.078, 0.06, 8), Vector3(0, 0.62, 0), Vector3.ZERO],
-			[cyl(0.078, 0.078, 0.06, 8), Vector3(0, 1.12, 0), Vector3.ZERO],
-			[cyl(0.03, 0.075, 0.10, 8), Vector3(0, -0.93, 0), Vector3.ZERO],
-			[cyl(0.085, 0.085, 0.05, 8), Vector3(0, 1.40, 0), Vector3.ZERO]]],
+		[_mat(&"torvald_iron"), [[cyl(0.05, 0.055, 2.42, 6), Vector3(0, 0.24, 0), Vector3.ZERO]]],
+		[IceModel.ice(&"ice_leather"), [[cyl(0.068, 0.068, 0.36, 6), Vector3(0, 0.0, 0), Vector3.ZERO],
+			[cyl(0.062, 0.062, 0.14, 6), Vector3(0, -0.62, 0), Vector3.ZERO]]],
+		[IceModel.ice(&"ice_metal"), [[cyl(0.078, 0.078, 0.06, 6), Vector3(0, 0.62, 0), Vector3.ZERO],
+			[cyl(0.078, 0.078, 0.06, 6), Vector3(0, 1.12, 0), Vector3.ZERO],
+			[cyl(0.03, 0.075, 0.10, 6), Vector3(0, -0.93, 0), Vector3.ZERO],
+			[cyl(0.085, 0.085, 0.05, 6), Vector3(0, 1.40, 0), Vector3.ZERO]]],
 		[_mat(&"torvald_crystal"), []],
 	]
 	# dark iron claw: a flared cup and three hooked tines, each capped by an ice crystal
 	var iron: Array = groups[0][1]
-	iron.append([cyl(0.13, 0.06, 0.18, 8), Vector3(0, 1.52, 0), Vector3.ZERO])
+	iron.append([cyl(0.13, 0.06, 0.18, 6), Vector3(0, 1.52, 0), Vector3.ZERO])
 	var cr: Array = groups[3][1]
 	for i: int in 3:
 		var a := TAU * float(i) / 3.0 + PI / 6.0
@@ -370,13 +380,14 @@ static func _get_staff_mesh() -> ArrayMesh:
 	return am
 
 
-## The snowflake: 6 arms, 12 side branches, a 6-bar hexagon core (24 bars of one unit box). Lies in local XY.
+## The snowflake: 6 arms, 12 side branches, a 6-bar hexagon core (24 bars of one unit bar). Lies in local XY and
+## always faces the camera, so each bar is a flat double-sided quad (8 vertices, a box was 24).
 static func _get_flake() -> MultiMesh:
 	if _flake_mm:
 		return _flake_mm
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.mesh = box(Vector3.ONE)
+	mm.mesh = _flat_bar()
 	mm.instance_count = 24
 	var k: int = 0
 	for i: int in 6:
@@ -396,6 +407,24 @@ static func _get_flake() -> MultiMesh:
 		k += 1
 	_flake_mm = mm
 	return mm
+
+
+## A unit bar (1 x 1 in XY) as two quads facing +Z and -Z: 8 vertices.
+static func _flat_bar() -> ArrayMesh:
+	var key := "tv_flat_bar"
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var v := PackedVector3Array()
+	var nr := PackedVector3Array()
+	var ix := PackedInt32Array()
+	for side: float in [1.0, -1.0]:
+		var b := v.size()
+		for p: Vector2 in [Vector2(-0.5, -0.5), Vector2(0.5, -0.5), Vector2(-0.5, 0.5), Vector2(0.5, 0.5)]:
+			v.append(Vector3(p.x, p.y, 0.012 * side))
+			nr.append(Vector3(0, 0, side))
+		_quad(ix, v, nr, b, b + 1, b + 2, b + 3)
+	_mesh_cache[key] = _arrays_mesh(v, nr, ix)
+	return _mesh_cache[key]
 
 
 ## Open cone (a cloak draped on the shoulders): radius r_top at +h/2, r_bot at -h/2, open over `open_deg` at the

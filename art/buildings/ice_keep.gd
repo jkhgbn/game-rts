@@ -8,8 +8,13 @@ signal destroyed_finished
 
 const DEFAULT_TEAM := Color(0.45, 0.75, 0.95)
 const GLOW_DEFAULT := Color(0.75, 0.92, 1.00)
-const IDLE_RIM := Color(0.70, 0.86, 1.00)
-const IDLE_RIM_STRENGTH := 0.35
+const IDLE_RIM := Color(0.45, 0.74, 0.98)
+const IDLE_RIM_STRENGTH := 0.2
+## In-game grade pass (2026-09-30): the keep was the brightest thing on screen. The team-coloured crystals are
+## CRYSTAL_DARKEN darker than the kingdom colour, the snow / silver ~17 % darker (ice_keep.tscn), the glow parts under
+## the bloom (GLOW_BOOST), the ground frost a hard 1 m rim (ice_keep_ground.gdshader).
+const CRYSTAL_DARKEN := 0.15
+const GLOW_BOOST := 0.3
 const HALO_SPEED := deg_to_rad(8.0)
 const HALO_Y := 12.0
 const HALO_R := 2.8
@@ -190,7 +195,7 @@ func set_team_color(c: Color) -> void:
 		return
 	var glow: Color = _glow_color()
 	var is_default: bool = c.is_equal_approx(DEFAULT_TEAM)
-	_crystal_mat.set_shader_parameter(&"base_color", c)
+	_crystal_mat.set_shader_parameter(&"base_color", c.darkened(CRYSTAL_DARKEN))
 	_glow_mat.set_shader_parameter(&"glow_color", glow)
 	_banner_mat.set_shader_parameter(&"cloth_color", c)
 	_banner_mat.set_shader_parameter(&"stripe_color", Color(0.15, 0.35, 0.60) if is_default else c.darkened(0.55))
@@ -442,4 +447,4 @@ func _apply_rim() -> void:
 		m.set_shader_parameter(&"rim_strength", strength)
 	_banner_mat.set_shader_parameter(&"rim_color", rim)
 	_banner_mat.set_shader_parameter(&"rim_strength", lerpf(0.0, 0.9, _sel))
-	_glow_mat.set_shader_parameter(&"boost_mult", lerpf(1.0, 1.4, _sel))
+	_glow_mat.set_shader_parameter(&"boost_mult", lerpf(GLOW_BOOST, GLOW_BOOST * 1.4, _sel))

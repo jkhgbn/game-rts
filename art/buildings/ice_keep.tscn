@@ -65,11 +65,11 @@ _surfaces = [{
 resource_name = "Snow"
 render_priority = 0
 shader = ExtResource("2_1mt18")
-shader_parameter/base_color = Color(0.86, 0.92, 1, 1)
+shader_parameter/base_color = Color(0.7, 0.77, 0.86, 1)
 shader_parameter/noise_tex = ExtResource("3_0jbp6")
 shader_parameter/noise_scale_a = 0.5
 shader_parameter/noise_scale_b = 0.12
-shader_parameter/spec_strength = 0.15
+shader_parameter/spec_strength = 0.25
 shader_parameter/rim_color = Color(0.7, 0.86, 1, 1)
 shader_parameter/rim_strength = 0.35
 shader_parameter/crack_strength = 0.0
@@ -115,15 +115,15 @@ _surfaces = [{
 resource_name = "Crystal"
 render_priority = 0
 shader = ExtResource("2_1mt18")
-shader_parameter/base_color = Color(0.45, 0.75, 0.95, 1)
+shader_parameter/base_color = Color(0.38, 0.64, 0.81, 1)
 shader_parameter/noise_tex = ExtResource("3_0jbp6")
 shader_parameter/noise_scale_a = 0.5
 shader_parameter/noise_scale_b = 0.12
 shader_parameter/spec_strength = 0.5
 shader_parameter/rim_color = Color(0.7, 0.86, 1, 1)
 shader_parameter/rim_strength = 0.35
-shader_parameter/crack_strength = 0.9
-shader_parameter/crack_color = Color(0.8, 0.95, 1, 1)
+shader_parameter/crack_strength = 0.12
+shader_parameter/crack_color = Color(0.35, 0.82, 1, 1)
 shader_parameter/crack_speed = 0.9
 shader_parameter/crack_scale = 1.2
 shader_parameter/damage = 0.0
@@ -161,7 +161,7 @@ resource_name = "Glow"
 render_priority = 0
 shader = ExtResource("4_ufvd2")
 shader_parameter/glow_color = Color(0.75, 0.92, 1, 1)
-shader_parameter/boost_mult = 1.0
+shader_parameter/boost_mult = 0.3
 
 [sub_resource type="BoxMesh" id="BoxMesh_51oht"]
 size = Vector3(0.2, 0.78, 0.06)
@@ -182,23 +182,6 @@ _surfaces = [{
 "vertex_data": PackedByteArray("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")
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbv15"]
-resource_name = "Silver"
-render_priority = 0
-shader = ExtResource("2_1mt18")
-shader_parameter/base_color = Color(0.7, 0.78, 0.88, 1)
-shader_parameter/noise_tex = ExtResource("3_0jbp6")
-shader_parameter/noise_scale_a = 0.5
-shader_parameter/noise_scale_b = 0.12
-shader_parameter/spec_strength = 0.35
-shader_parameter/rim_color = Color(0.7, 0.86, 1, 1)
-shader_parameter/rim_strength = 0.35
-shader_parameter/crack_strength = 0.0
-shader_parameter/crack_color = Color(0.8, 0.95, 1, 1)
-shader_parameter/crack_speed = 0.9
-shader_parameter/crack_scale = 1.8
-shader_parameter/damage = 0.0
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_w7hu0"]
 _surfaces = [{
 "aabb": AABB(-1.05, 0, -0.07, 2.1, 3.05, 0.14),
@@ -208,11 +191,6 @@ _surfaces = [{
 "vertex_count": 156,
 "vertex_data": PackedByteArray("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")
 }]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p51h7"]
-resource_name = "GateVoid"
-shading_mode = 0
-albedo_color = Color(0.02, 0.03, 0.06, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_nu2xx"]
 _surfaces = [{
@@ -395,10 +373,10 @@ resource_name = "FrostGround"
 render_priority = 0
 shader = ExtResource("6_3p4fm")
 shader_parameter/size = 12.5
-shader_parameter/frost_color = Color(0.85, 0.92, 1, 1)
+shader_parameter/frost_color = Color(0.66, 0.74, 0.84, 1)
 shader_parameter/stain_color = Color(0.08, 0.11, 0.18, 1)
 shader_parameter/glow_color = Color(0.75, 0.92, 1, 1)
-shader_parameter/frost_alpha = 0.68
+shader_parameter/frost_alpha = 0.88
 shader_parameter/scorch = 0.0
 shader_parameter/damage = 0.0
 shader_parameter/build = 1.0
@@ -419,7 +397,7 @@ _surfaces = [{
 
 [sub_resource type="Gradient" id="Gradient_0vlqn"]
 offsets = PackedFloat32Array(0, 0.1, 0.85, 1)
-colors = PackedColorArray(0.33, 0.37, 0.42, 0, 0.33, 0.37, 0.42, 1, 0.33, 0.37, 0.42, 1, 0.33, 0.37, 0.42, 0)
+colors = PackedColorArray(0.72, 0.8, 0.9, 0, 0.72, 0.8, 0.9, 0.8, 0.72, 0.8, 0.9, 0.8, 0.72, 0.8, 0.9, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_weaui"]
 gradient = SubResource("Gradient_0vlqn")
@@ -448,14 +426,12 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7b1l6"]
-resource_name = "ParticleAdd"
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l80cb"]
+resource_name = "ParticleMix"
 transparency = 1
-blend_mode = 1
 depth_draw_mode = 2
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_color = Color(3, 3, 3, 1)
 albedo_texture = SubResource("GradientTexture2D_b4chi")
 billboard_mode = 3
 particles_anim_h_frames = 1
@@ -463,12 +439,12 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_gd5nq"]
-material = SubResource("StandardMaterial3D_7b1l6")
+material = SubResource("StandardMaterial3D_l80cb")
 size = Vector2(0.14, 0.14)
 
 [sub_resource type="Gradient" id="Gradient_orjt7"]
 offsets = PackedFloat32Array(0, 0.3, 1)
-colors = PackedColorArray(0.85, 0.92, 1, 0, 0.85, 0.92, 1, 0.28, 0.85, 0.92, 1, 0)
+colors = PackedColorArray(0.6, 0.7, 0.82, 0, 0.6, 0.7, 0.82, 0.13, 0.6, 0.7, 0.82, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_5toqe"]
 gradient = SubResource("Gradient_orjt7")
@@ -484,34 +460,22 @@ curve = SubResource("Curve_2sc3n")
 emission_shape = 6
 emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.1
-emission_ring_radius = 3.5
-emission_ring_inner_radius = 2.2
+emission_ring_radius = 3.9
+emission_ring_inner_radius = 3.3
 emission_ring_cone_angle = 90.0
-radial_velocity_min = 0.25
-radial_velocity_max = 0.25
+radial_velocity_min = 0.08
+radial_velocity_max = 0.08
 gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_oawwf")
 color_ramp = SubResource("GradientTexture1D_5toqe")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l80cb"]
-resource_name = "ParticleMix"
-transparency = 1
-depth_draw_mode = 2
-shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_texture = SubResource("GradientTexture2D_b4chi")
-billboard_mode = 3
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
 [sub_resource type="QuadMesh" id="QuadMesh_pds1r"]
 material = SubResource("StandardMaterial3D_l80cb")
-size = Vector2(2.2, 2.2)
+size = Vector2(1.2, 1.2)
 
 [sub_resource type="Gradient" id="Gradient_wfvej"]
 offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
-colors = PackedColorArray(0.75, 0.92, 1, 0, 0.75, 0.92, 1, 1, 0.55, 0.8, 1, 0.8, 0.55, 0.8, 1, 0)
+colors = PackedColorArray(0.3, 0.78, 1, 0, 0.3, 0.78, 1, 0.9, 0.22, 0.6, 0.95, 0.7, 0.22, 0.6, 0.95, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_m8ade"]
 gradient = SubResource("Gradient_wfvej")
@@ -539,7 +503,7 @@ scale_curve = SubResource("CurveTexture_01c2w")
 color_ramp = SubResource("GradientTexture1D_m8ade")
 
 [sub_resource type="QuadMesh" id="QuadMesh_y6g45"]
-material = SubResource("StandardMaterial3D_7b1l6")
+material = SubResource("StandardMaterial3D_l80cb")
 size = Vector2(0.16, 0.16)
 
 [sub_resource type="Gradient" id="Gradient_hqd7x"]
@@ -626,7 +590,7 @@ scale_curve = SubResource("CurveTexture_yt5fv")
 color_ramp = SubResource("GradientTexture1D_p3v3f")
 
 [sub_resource type="QuadMesh" id="QuadMesh_2j4sl"]
-material = SubResource("StandardMaterial3D_7b1l6")
+material = SubResource("StandardMaterial3D_l80cb")
 size = Vector2(0.9, 0.9)
 
 [sub_resource type="Gradient" id="Gradient_ov4o2"]
@@ -655,7 +619,7 @@ scale_curve = SubResource("CurveTexture_vv7lf")
 color_ramp = SubResource("GradientTexture1D_oqrkx")
 
 [sub_resource type="QuadMesh" id="QuadMesh_uk0ng"]
-material = SubResource("StandardMaterial3D_7b1l6")
+material = SubResource("StandardMaterial3D_l80cb")
 size = Vector2(0.9, 0.9)
 
 [sub_resource type="Gradient" id="Gradient_ogxhh"]
@@ -682,7 +646,7 @@ color = Color(0.75, 0.92, 1, 1)
 color_ramp = SubResource("GradientTexture1D_wvorb")
 
 [sub_resource type="QuadMesh" id="QuadMesh_o7lyt"]
-material = SubResource("StandardMaterial3D_7b1l6")
+material = SubResource("StandardMaterial3D_l80cb")
 size = Vector2(0.15, 0.15)
 
 [sub_resource type="Gradient" id="Gradient_06yj3"]
@@ -715,7 +679,7 @@ color = Color(0.75, 0.92, 1, 1)
 color_ramp = SubResource("GradientTexture1D_yhob6")
 
 [sub_resource type="QuadMesh" id="QuadMesh_5nwnw"]
-material = SubResource("StandardMaterial3D_7b1l6")
+material = SubResource("StandardMaterial3D_l80cb")
 size = Vector2(0.12, 0.12)
 
 [sub_resource type="Gradient" id="Gradient_4eyom"]
@@ -847,15 +811,17 @@ mesh = SubResource("ArrayMesh_m1wxw")
 
 [node name="GateFrame" type="MeshInstance3D" parent="Model" unique_id=652462191]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -3.27)
-material_override = SubResource("ShaderMaterial_kbv15")
+material_override = SubResource("ShaderMaterial_jve46")
 instance_shader_parameters/ao_bottom = 0.8
 instance_shader_parameters/ao_height = 3.1
 mesh = SubResource("ArrayMesh_w7hu0")
 
 [node name="GateVoid" type="MeshInstance3D" parent="Model" unique_id=1981156166]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -3.33)
-material_override = SubResource("StandardMaterial3D_p51h7")
+material_override = SubResource("ShaderMaterial_bab3l")
 cast_shadow = 0
+instance_shader_parameters/ao_bottom = 6.0
+instance_shader_parameters/ao_height = 1.0
 mesh = SubResource("ArrayMesh_nu2xx")
 
 [node name="GateGlow" type="MultiMeshInstance3D" parent="Model" unique_id=752700216]
@@ -866,7 +832,7 @@ instance_shader_parameters/pulse_speed = 1.0
 multimesh = SubResource("MultiMesh_oqjcg")
 
 [node name="BannerPoles" type="MultiMeshInstance3D" parent="Model" unique_id=1485196387]
-material_override = SubResource("ShaderMaterial_kbv15")
+material_override = SubResource("ShaderMaterial_jve46")
 cast_shadow = 0
 instance_shader_parameters/ao_bottom = 0.8
 instance_shader_parameters/ao_height = 4.5
