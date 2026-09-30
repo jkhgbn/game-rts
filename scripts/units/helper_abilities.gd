@@ -172,7 +172,8 @@ func _passive_tick() -> void:
 	match passive_id():
 		&"hush_veil":
 			var near := not _enemies_near(helper.global_position, float(VEIL["near"])).is_empty()
-			veiled = _since_action >= float(VEIL["idle"]) and not near
+			# caster-units.md 5.2: an enemy Scrying Rune over her reveals her (no veil there).
+			veiled = _since_action >= float(VEIL["idle"]) and not near and not CasterKit.revealed_for(helper)
 			if veiled:
 				helper.hide_from_auto_target(TICK + 0.15)
 		&"aldra_ward":

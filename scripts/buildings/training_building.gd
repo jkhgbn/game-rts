@@ -68,6 +68,10 @@ func trainable_types() -> Array[UnitType]:
 		for t3 in T3Kit.keep_types(self):
 			if not types.has(t3):
 				types.append(t3)
+		# caster-units.md 3.3: the kingdom's caster (tier 2), keep slot 5 = key B. Switch CasterKit.ENABLED.
+		for c in CasterKit.keep_types(self):
+			if not types.has(c):
+				types.append(c)
 	return types
 
 
@@ -95,6 +99,9 @@ func can_queue(type: UnitType) -> String:
 	var t3_gate := T3Kit.gate_reason(type, int(team))   # t3-helpers.md 3: "Already called", essence, Saboteur cap
 	if t3_gate != "":
 		return t3_gate
+	var caster_gate := CasterKit.gate_reason(type, int(team))   # caster-units.md 13 Q5: optional cap (off)
+	if caster_gate != "":
+		return caster_gate
 	if queue.size() >= MAX_QUEUE:
 		return REASON_QUEUE_FULL
 	var eco := _get_economy()

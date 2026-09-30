@@ -20,6 +20,8 @@ signal shield_changed(amount: float)
 ## leave_map() was called (a Magpie home at its Den, a tracker at its contract end): the unit is gone
 ## without dying (no `died`, no XP / essence / loot) and frees itself after a 1 s fade.
 signal left_map(unit: Unit)
+## displace() started moving this unit (Snagroot's pull, caster-units.md 5.3): channels and aims break.
+signal displaced(unit: Unit)
 
 ## PLAYER = 0, ENEMY = 1 (values used in data and tests). NEUTRAL = camps hostile to both sides.
 enum Team { PLAYER, ENEMY, NEUTRAL }
@@ -91,6 +93,15 @@ const STATUSES := {
 			"color": Color(1.0, 0.95, 0.55)},
 	&"braced": {"mods": {}, "damage_taken": 0.7, "color": Color(0.6, 0.85, 1.0)},
 	&"marked": {"mods": {}, "damage_taken": 1.15, "color": Color(1.0, 0.8, 0.25)},
+	# Caster units (docs/design/caster-units.md 3.5). "armor_floor_zero": the status' armour loss never takes the
+	# effective armour below 0 (nor lower than it already was); "range_cap": ranged attacks (range > 3) only reach this
+	# far; "sight_cap": fog sight at most this (FogOfWar.sight_of); "no_mark": no placeholder sphere (UnitVfx draws it).
+	&"slagged": {"mods": {&"armor": -20.0, &"move_speed": -0.6}, "damage_taken": 1.10, "hero_mult": 0.5,
+			"armor_floor_zero": true, "no_mark": true, "color": Color(0.95, 0.45, 0.10)},
+	&"scalded": {"mods": {}, "damage_taken": 1.0, "no_mark": true, "color": Color(0.86, 0.94, 1.0)},
+	&"hazed": {"mods": {}, "damage_taken": 1.0, "range_cap": 2.5, "sight_cap": 4.0, "no_mark": true,
+			"color": Color(0.92, 0.80, 0.28)},
+	&"tithed": {"mods": {}, "damage_taken": 1.0, "no_mark": true, "color": Color(0.84, 0.26, 0.92)},
 }
 const FROZEN_IMMUNITY := 2.0     # after `frozen` ends, no new `frozen` for this long
 const IDLE_REGEN_DELAY := 4.0    # UnitType.idle_regen_pct starts this long after the last damage
@@ -198,6 +209,15 @@ var _damage_taken_mult := 1.0
 ## Cleared when the status ends, the source dies, or on death / revive.
 var taunted_by: Node3D = null
 var _hidden_auto_left := 0.0         # hide_from_auto_target: seconds left
+## Caster units (caster-units.md): +1 on every command_move / attack / attack_move / stop / hold, so a system that gave
+## its own order can tell when the player (or a bot) gave another one since. Read only.
+var order_serial := 0
+## True = no auto-attacks (a Gloom Deacon channelling Blood Tithe walks but never attacks). Orders are kept.
+var attacks_blocked := false
+var _status_range_cap := INF         # hazed: ranged attacks reach at most this far
+var _status_sight_cap := INF         # hazed: fog sight at most this
+var _cast_lock_left := 0.0           # set_cast_lock: no walking, no attacks (a caster's 0.4 s cast)
+var _displace: Dictionary = {}       # displace(): {from, to, t, time}
 
 var _agent: NavigationAgent3D
 var _visual: Node3D
@@ -274,6 +294,8 @@ func _ready() -> void:
 		NewUnits12.attach(self)
 	if unit_type and T3Kit.is_t3_unit(unit_type.id):   # t3-helpers.md 7.2: Saboteur, Reaver, Shardguard, Roc, Genie
 		T3Kit.attach(self)
+	if unit_type and CasterKit.is_caster(unit_type.id):   # caster-units.md: mana + the two spells + the passive
+		CasterKit.attach(self)
 
 
 # ---------------------------------------------------------------- orders
@@ -467,6 +489,12 @@ func _compute_stat(stat: StringName) -> float:
 		&"attack_cooldown":
 			value = maxf(value, base * ATTACK_COOLDOWN_FLOOR) * _status_cd_mult
 		&"armor":
+			# caster-units.md 3.5 `slagged`: its armour loss stops at 0 (and never lowers a negative armour further).
+			var slag: Dictionary = _mods.get(&"status_slagged", {})
+			var loss := float(slag.get(&"armor", 0.0))
+			if loss < 0.0:
+				var without := value - loss * (1.0 + pct)
+				value = maxf(value, minf(without, 0.0))
 			value = maxf(value, ARMOR_FLOOR)
 		&"move_speed":
 			value = maxf(0.0, value)
@@ -548,7 +576,7 @@ func apply_status(status_id: StringName, seconds: float, full_duration: bool = f
 		add_modifier(StringName("status_" + String(status_id)), mods)
 	if status_id == &"frozen":
 		_set_model_paused(true)
-	if not _model_status(status_id, true):
+	if not _model_status(status_id, true) and not data.get("no_mark", false):
 		if status_id == &"frozen":
 			_add_ice_block(data["color"])
 		else:
@@ -754,11 +782,15 @@ func _update_damage_taken() -> void:
 	_damage_taken_mult = 1.0
 	_status_cd_mult = 1.0
 	_status_speed_floor = 0.0
+	_status_range_cap = INF
+	_status_sight_cap = INF
 	_can_move_flag = true
 	_can_act_flag = true
 	for status_id: StringName in _statuses:
 		var data: Dictionary = STATUSES[status_id]
 		_damage_taken_mult *= float(data["damage_taken"])
+		_status_range_cap = minf(_status_range_cap, float(data.get("range_cap", INF)))
+		_status_sight_cap = minf(_status_sight_cap, float(data.get("sight_cap", INF)))
 		_status_cd_mult *= float(data.get("cooldown_mult", 1.0))
 		_status_speed_floor = maxf(_status_speed_floor, float(data.get("speed_floor", 0.0)))
 		if data.get("no_move", false):
@@ -1109,6 +1141,7 @@ func _update_chevrons() -> void:
 
 
 func command_move(target: Vector3) -> void:
+	order_serial += 1
 	_model_call(&"stop_clip")   # an order ends a dance (play_clip)
 	attack_target = null
 	_auto_target = false
@@ -1127,6 +1160,7 @@ func command_attack(target) -> void:
 	var node := target as Node3D
 	if node == null or not is_enemy_of(node):
 		return
+	order_serial += 1
 	_model_call(&"stop_clip")
 	attack_target = node
 	_auto_target = false
@@ -1137,6 +1171,7 @@ func command_attack(target) -> void:
 
 ## Walk to target; fight any enemy met within aggro_range on the way, then resume the walk.
 func command_attack_move(target: Vector3) -> void:
+	order_serial += 1
 	_model_call(&"stop_clip")
 	attack_target = null
 	_auto_target = false
@@ -1154,6 +1189,7 @@ func command_hold() -> void:
 
 
 func command_stop() -> void:
+	order_serial += 1
 	_model_call(&"stop_clip")
 	attack_target = null
 	_auto_target = false
@@ -1169,6 +1205,127 @@ func is_attack_moving() -> bool:
 
 func is_holding() -> bool:
 	return _hold
+
+
+## True while the unit walks on a plain move order (not an attack-move): caster autocast waits meanwhile.
+func has_move_order() -> bool:
+	return _has_move_order and not _attack_move
+
+
+## Caster units: for `seconds` the unit neither walks nor attacks (its 0.4 s cast); orders are kept. Never shortens.
+func set_cast_lock(seconds: float) -> void:
+	_cast_lock_left = maxf(_cast_lock_left, seconds)
+
+
+func cast_lock_left() -> float:
+	return maxf(0.0, _cast_lock_left)
+
+
+## Ends a cast lock now (a channel was cancelled by a new order).
+func clear_cast_lock() -> void:
+	_cast_lock_left = 0.0
+
+
+## The fog sight cap of the statuses on this unit (`hazed`: 4 m), INF when none. FogOfWar.sight_of applies it.
+func status_sight_cap() -> float:
+	return _status_sight_cap
+
+
+## The reach of this unit's attacks now: attack_range, capped by `hazed` for ranged units (range > 3).
+func effective_attack_range() -> float:
+	if attack_range > 3.0 and _status_range_cap < attack_range:
+		return _status_range_cap
+	return attack_range
+
+
+## Forced movement (Snagroot's pull, caster-units.md 5.3): slides the unit in a straight line toward `to` over
+## `seconds`, stopping short where the line leaves the navmesh, meets water, a Rime Bulwark or a building. Orders are
+## dropped (command_stop), channels break (signal `displaced`). Returns the end point (the start when blocked at once).
+func displace(to: Vector3, seconds: float) -> Vector3:
+	if _dead or not is_inside_tree():
+		return global_position
+	var from := global_position
+	var end := _displace_end(from, Vector3(to.x, from.y, to.z))
+	command_stop()
+	displaced.emit(self)
+	if end.distance_to(from) < 0.05:
+		return from
+	_displace = {"from": from, "to": end, "t": 0.0, "time": maxf(0.05, seconds)}
+	velocity = Vector3.ZERO
+	if _agent:
+		_agent.velocity = Vector3.ZERO
+	return end
+
+
+## True while displace() moves this unit.
+func is_displaced() -> bool:
+	return not _displace.is_empty()
+
+
+const DISPLACE_STEP := 0.5
+const DISPLACE_NAV_TOLERANCE := 0.6
+
+
+# The furthest point of the line from -> to (0.5 m samples) on the navmesh, dry, outside Bulwarks and buildings.
+func _displace_end(from: Vector3, to: Vector3) -> Vector3:
+	var flat := Vector3(to.x - from.x, 0.0, to.z - from.z)
+	var dist := flat.length()
+	if dist < 0.01:
+		return from
+	var dir := flat / dist
+	var river := get_tree().get_first_node_in_group(&"river")
+	if river != null and not river.has_method(&"is_water"):
+		river = null
+	var map := RID()
+	var world := get_world_3d()
+	if world:
+		map = world.navigation_map
+		if not map.is_valid() or NavigationServer3D.map_get_iteration_id(map) <= 0 \
+				or NavigationServer3D.map_get_regions(map).is_empty():
+			map = RID()
+	var buildings := get_tree().get_nodes_in_group(&"buildings")
+	var last := from
+	var steps := ceili(dist / DISPLACE_STEP)
+	for i in range(1, steps + 1):
+		var p := from + dir * minf(dist, float(i) * DISPLACE_STEP)
+		p.y = from.y
+		if river != null and bool(river.call(&"is_water", p)):
+			break
+		if map.is_valid():
+			var q := NavigationServer3D.map_get_closest_point(map, p)
+			if Vector2(q.x - p.x, q.z - p.z).length() > DISPLACE_NAV_TOLERANCE:
+				break
+		if CasterKit.bulwark_blocks(p, radius):
+			break
+		var hit_building := false
+		for b in buildings:
+			var bn := b as Node3D
+			if bn == null or not bn.has_method(&"is_alive") or not bool(bn.call(&"is_alive")):
+				continue
+			if Vector2(bn.global_position.x - p.x, bn.global_position.z - p.z).length() < radius_of(bn) + radius * 0.5:
+				hit_building = true
+				break
+		if hit_building:
+			break
+		last = p
+	return last
+
+
+func _tick_displace(delta: float) -> void:
+	var d := _displace
+	d["t"] = float(d["t"]) + delta
+	var k := clampf(float(d["t"]) / float(d["time"]), 0.0, 1.0)
+	var from: Vector3 = d["from"]
+	var to: Vector3 = d["to"]
+	var p := from.lerp(to, k)
+	global_position = Vector3(p.x, global_position.y, p.z)
+	velocity = Vector3.ZERO
+	if _agent:
+		_agent.velocity = Vector3.ZERO
+	if k >= 1.0:
+		_displace = {}
+		_last_nav_target = Vector3.INF
+		_anchor = global_position
 
 
 ## True for a Unit or building (anything with a `team`) of another team: PLAYER and ENEMY are
@@ -1290,6 +1447,8 @@ func die() -> void:
 	_dead = true
 	hp = 0.0
 	selected = false
+	_displace = {}
+	_cast_lock_left = 0.0
 	remove_from_group("units")
 	collision_layer = 0
 	_agent.avoidance_enabled = false
@@ -1455,6 +1614,8 @@ func _revive(at: Vector3) -> void:
 	_hit_flash = 0.0
 	_frozen_immune_left = 0.0
 	_hidden_auto_left = 0.0
+	_displace = {}
+	_cast_lock_left = 0.0
 	taunted_by = null
 	hp = max_hp
 	_visual.scale = Vector3.ONE
@@ -1555,8 +1716,21 @@ func _physics_process(delta: float) -> void:
 	if _hidden_auto_left > 0.0:
 		_hidden_auto_left -= delta
 
+	# Pulled (displace): the slide moves the unit by position; nothing else runs until it ends.
+	if not _displace.is_empty():
+		_tick_displace(delta)
+		_agent.avoidance_priority = 1.0
+		return
+
 	# Frozen: nothing runs (no walking, no attacks, no retargeting); every order is kept and resumes.
 	if not _can_act_flag:
+		_agent.avoidance_priority = 1.0
+		_agent.velocity = Vector3.ZERO
+		return
+
+	# A caster's 0.4 s cast (set_cast_lock): it stands still and does not attack; orders are kept.
+	if _cast_lock_left > 0.0:
+		_cast_lock_left -= delta
 		_agent.avoidance_priority = 1.0
 		_agent.velocity = Vector3.ZERO
 		return
@@ -1602,7 +1776,7 @@ func _physics_process(delta: float) -> void:
 			_set_nav_target(_anchor)
 		elif _in_attack_range(attack_target):
 			_face(attack_target.global_position - global_position)
-			if _cooldown_left <= 0.0:
+			if _cooldown_left <= 0.0 and not attacks_blocked:
 				_cooldown_left = attack_cooldown
 				_perform_attack(attack_target)
 		elif not _hold:
@@ -1868,7 +2042,7 @@ func _flat_distance(pos: Vector3) -> float:
 
 
 func _in_attack_range(target: Node3D) -> bool:
-	return _flat_distance(target.global_position) <= attack_range + radius + radius_of(target)
+	return _flat_distance(target.global_position) <= effective_attack_range() + radius + radius_of(target)
 
 
 ## The reach radius of an attack target: target_radius() if it has one, else a building default.

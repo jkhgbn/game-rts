@@ -131,6 +131,8 @@ func _tick_disguise() -> void:
 
 
 func _spotted() -> bool:
+	if CasterKit.revealed_for(unit):   # caster-units.md 5.2: an enemy Scrying Rune sees through the disguise
+		return true
 	var at := unit.global_position
 	for n in unit.get_tree().get_nodes_in_group(&"buildings"):
 		var b := n as Node3D
