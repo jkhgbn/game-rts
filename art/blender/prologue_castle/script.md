@@ -102,14 +102,14 @@ under the Film scene later).
 |---|---|---|---|---|
 | SH01 | 1-108 | 0.00-4.50 | 24 -> 27 mm; (95, -190, 150) -> (62, -140, 86); look (0, 0, 95) -> (0, 0, 62) | From the south-east (side light, the sun's glow on the left) instead of the south; the camera falls through two slabs of volumetric mist (0-1.6 s) = the cloud veils; fade in 0.6 s |
 | SH02 | 109-151 | 4.50-6.30 | 22 mm f/2.8; (46, -78, 34) -> (40, -95, 35.5); look (0, -106, 44 -> 45) | The statue is shot **from the east-north-east against the sun** (silhouette, the sun comes out beside its head) instead of a rail along the deck: the game's statue is blocky up close, its silhouette is not |
-| SH03 | 152-204 | 6.30-8.50 | 40 mm f/2.0; (15.4, -46.8, 44.4) -> (14.1, -44.5, 45.0); look (9.5, -36.2, 49.2) | Camera beside and under the south-east belfry looking up into it; the set's bell was replaced by a new bronze bell (lathe) that swings across the frame and strikes at 7.0 s; a frost dragon crosses above |
+| SH03 | 152-204 | 6.30-8.50 | 28 -> 30 mm f/2.8; (19.6, -30.8, 44.5) -> (18.5, -32.6, 45.0); look (9.5, -36.2, 48.3 -> 47.9) | (pass 2) The whole rebuilt belfry from the east-north-east, low, against the sun (was: under a plain box looking up); the bell swings across the east arch and strikes at 7.0 s; the frost dragon now crosses the sky behind it |
 | SH04 | 205-248 | 8.50-10.33 | 28 mm; (-58, -172, 74) -> (-46, -126, 66); look (0, -120, 33) -> (0, -88, 37) | From the **west**, sun behind the camera: gold light, the citadel's shadow thrown across the cloud sea; an elder cinder dragon glides beside the bridge below the deck |
-| SH05 | 249-288 | 10.33-12.00 | 28 mm f/4; (0, -84, 31.8) -> (0, -77, 32.2); look (0, -64, 35.6 -> 36.2) | The set's braziers stand inside the gate (y -60), so two iron brazier stands with fire were added on the bridge in front of it (x +-3.3, y -69.2); frontal low push |
-| SH06 | 289-360 | 12.00-15.00 | 35 -> 38 mm f/2.8; (-24, -76, 54) -> (-8.5, -62, 37.8); look the feast table (-12.5, -47.2, 31.4) | Ends higher than scripted (the game's crowd figures read as toys up close) |
+| SH05 | 249-288 | 10.33-12.00 | 28 mm f/4; (0, -84, 31.8) -> (0, -77, 32.2); look (0, -64, 35.6 -> 36.2) | The set's braziers stand inside the gate (y -60), so two iron brazier stands with fire were added on the bridge in front of it (x +-3.3, y -69.2); frontal low push. (pass 2) Each fire: 6 flame cards + 2 hot core tongues with HDR emission (orange-gold ramp, no deep reds: AgX turns them salmon) flickering per card, a glowing volume of hot air, live coals in the bowls, 70-120 rising sparks (Geometry Nodes); the sun is dimmed to 3.0 for this shot and the exposure is -0.25 so the fires own the frame |
+| SH06 | 289-360 | 12.00-15.00 | 35 -> 38 mm f/2.8; (-24, -76, 54) -> (-8.5, -62, 37.8); look the feast table (-12.5, -47.2, 31.4) | Ends higher than scripted. (pass 2) The game's 124 capsule figures are found in the scatter mesh and replaced one for one by robed people (oval draped robe, belt, sleeves, hands, head under a hood / cap / hair, some raising a gold cup), in the game's own robe colours, facing the table; the lanterns are lit (glow cue 2.0 in this shot + 56 warm 60 W point lights on the lanterns nearest the table) |
 | SH07 | 361-408 | 15.00-17.00 | 32 mm f/1.8; (-13, -4.4, 50.5) -> (-13, -2.6, 50.3); look (-13, 4, 50.8) | As scripted; the Master's robe is deep violet cloth with sheen; four flames orbit (radius 0.95 m, one turn / 2.1 s) |
-| SH08 | 409-462 | 17.00-19.25 | 24 mm; (26, -52, 112) -> (38, -30, 114); look (0, 0, 46) | High over the summit instead of a side orbit; each keep lights a small crown-fire of its colour at 17.25 s; two dragons cross |
+| SH08 | 409-462 | 17.00-19.25 | 30 -> 32 mm; (12.5, -3, 150) -> (12.5, 3, 140); look (0, 0, 40) | (pass 2) Near-vertical top-down on the summit, the frame turning ~27 degrees and sinking: the four keeps sit at the four corners of the frame round the throne hall, dome and tower (was: a busy 3/4 view). Each keep lights its crown-fire at 17.25 s: bigger coloured core, a 6.5 m glowing volume of its colour and a 36 kW coloured light (shadow x1.6) that pools on the keep and terrace; two dragons cross between camera and city |
 | SH09a-d | 463-484 / 485-506 / 507-532 / 533-554 | 19.25-23.10 | 28 mm, low (z 42), 33 m from each keep, looking up at z 62 | 28 mm instead of 35 (room for the pillar of light); beams = hot core + soft sheath + a 38 kW light on the keep; the earlier beams stay up in the background |
-| SH10 | 555-646 | 23.10-26.90 | 35 mm f/2.0; (0, -25, 51) -> (0, -17.5, 50.2); look the throne (0, -6.8, 50 -> 49.8) | Visible shafts are soft additive light cones (EEVEE 5.2 lights a thin haze too weakly) + four 16 kW coloured spots; the sun drops to 2.2 in this shot; the shafts die at 26.09 / 26.24 / 26.39 / 26.54 s, then a cold blue sky light |
+| SH10 | 555-646 | 23.10-26.90 | 35 mm f/2.0; (0, -25, 51) -> (0, -17.5, 50.2); look the throne (0, -6.8, 50 -> 49.8) | (pass 2) The shafts are volumes now: soft round edge, bright at the window fading to the floor, drifting 4-D noise dust, self-emitting in their colour (EEVEE lights a thin haze too weakly); 5200 dust motes (Geometry Nodes, drifting) sparkle only inside the shafts; four 9 kW spots with soft blend, each aimed at its own patch of the dais (soft coloured pools instead of one white disc). The sun drops to 2.2 in this shot; shafts, motes and pools die at 26.09 / 26.24 / 26.39 / 26.54 s, then a cold blue sky light |
 | SH11 | 647-720 | 26.90-30.00 | 30 -> 22 mm; (0, -34, 62) -> (0, -165, 122); look (0, -2, 50) -> (0, 10, 92) | The look target ends higher so the dusk horizon is in frame; six dragons fly away north (one elder passes over the citadel); stars come out; title "F O U R  W I Z A R D S" 28.2-29.6 s (Film scene / encode); fade to black 29.2-30.0 s |
 
 ### Light as built
@@ -123,8 +123,9 @@ under the Film scene later).
 * Atmosphere: one volume box (12 x 12 km): forward-scattering haze thinning with height (density per shot 0 -
   0.0022, the god rays of SH02-SH04) + a wispy mist sitting on the cloud sea. No world volume (it renders black in
   EEVEE 5.2).
-* Practicals: 4 fires (2 in the gate, 2 on the bridge) with flickering 2.1-2.6 kW lights; 4 orrery flames (45 W);
-  4 crown-fires / beams (6 kW, flash 120 kW, 38 kW); 4 coloured throne shafts (16 kW spots, 17 degrees).
+* Practicals: 4 fires (2 in the gate, 2 on the bridge) with flickering 1.0-1.5 kW lights (pass 2: the fire itself
+  carries the brightness); 4 orrery flames (45 W); 4 crown-fires / beams (36 kW in SH08, then 6 kW, flash 120 kW,
+  38 kW); 4 coloured throne shafts (9 kW spots, 19 degrees, soft blend); 56 lantern lights (60 W, SH06 only).
 * Materials (all procedural, world-space triplanar, from the game's vertex colours): ashlar stone, slate roof tiles,
   strata rock, flagstone paving, weathered statue limestone with moss, snow, cloth / banners (the game's banner
   pattern rebuilt, waving with Geometry Nodes), gold, iron, glass, foliage, wood, waterfalls, emissive windows,
@@ -145,12 +146,22 @@ under the Film scene later).
 * Mix (measured on the mp4): narration about -20 dB RMS (peaks -4 dBFS), bell under L2 -22 dB, wind bed -38 dB in the
   gaps, rising to -33 dB after "empty".
 
-### Weakest shots (honest list)
-1. SH08: the summit seen from above is busy; the four keeps read mostly through their coloured crown-fires.
-2. SH06: the game's market crowd is low-poly capsules; the crane stays high to keep them small.
-3. SH10: the coloured shafts are additive light cones; they read clearly but look more "stage light" than dusty sun.
-4. SH05: the brazier fires are drawn on cards; against the sunlit gate they stay a little pale.
-5. SH03: the belfry is a plain box and we look up under the bell; the swing and the strike read, the form less so.
+### Weakest shots (first pass, 2026-09-29) and what pass 2 did
+1. SH08 was busy from a 3/4 angle -> now a turning top-down with the four keeps at the four corners, each in a pool
+   and glow of its colour. Still dense at the frame edges (the market ring), but the four colours read at a glance.
+2. SH06 capsule crowd -> replaced by 124 procedural robed figures + lit lanterns (`build_crowd`, `build_lanterns`).
+3. SH10 "stage light" cones -> dusty volumetric shafts + drifting motes + soft pools (`mat_sunbeam`, `build_motes`).
+4. SH05 pale card fires -> hot flickering cards, hot-air glow, coals, sparks, dimmer sun (`build_braziers`,
+   `build_embers`). Still cards: seen head-on in a 1.7 s shot they hold up; a close-up would want a simulated fire.
+5. SH03 box belfry -> both belfries rebuilt (`build_belfry`): corner piers with round ribs, 15-voussoir arches with a
+   keystone and hood moulding on colonettes, balustrades, dentil cornice, a slate spire with four gablets and oculi,
+   lead hip ribs, gilt finial and cross; inside an oak bell frame, a bronze bell with a true section (sound bow, lip,
+   bands, crown loop, verdigris), headstock with iron straps and gudgeons, a bell wheel with the rope in its groove and
+   the rope paying out through the floor as the bell swings. New camera (see the table).
+
+Pass 2 build notes: `Kit` (build_castle.py) is a small mesh kit (prism, box, beam, tube, lathe) that paints the set's
+own vertex colours (sampled from the faces it replaces), so the new geometry takes the film's stone / slate / gold
+materials. Geometry-Nodes-generated geometry (motes, sparks) needs a Set Material node: it carries no material slot.
 
 ### Files and how to re-render
 | File | What |
@@ -180,8 +191,10 @@ rem 4. stills of every shot:
 %B% -b art\blender\prologue_castle\prologue_castle.blend -P art\blender\prologue_castle\render_castle.py -- stills res=1920 samples=64
 rem 5. the film (frames go to %TEMP%, a stopped render resumes where it stopped):
 %B% -b art\blender\prologue_castle\prologue_castle.blend -P art\blender\prologue_castle\render_castle.py -- film res=1920 samples=32
-rem    final master quality (PNG frames, 128 samples, ~4x longer):
-%B% -b art\blender\prologue_castle\prologue_castle.blend -P art\blender\prologue_castle\render_castle.py -- film res=1920 samples=128 fmt=PNG frames=%TEMP%\castle_frames_hq out=art\blender\prologue_castle\prologue_castle_film_hq.mp4
+rem    final master quality (PNG frames, 128 samples, ~4x longer); the CRF encode is large -> _hq_big.mp4:
+%B% -b art\blender\prologue_castle\prologue_castle.blend -P art\blender\prologue_castle\render_castle.py -- film res=1920 samples=128 fmt=PNG frames=%TEMP%\castle_frames_hq out=art\blender\prologue_castle\prologue_castle_film_hq_big.mp4
+rem    the library copy (under 19 MB: constant 4.2 Mb/s video + 192 kb/s audio) from the same PNG frames:
+%B% -b art\blender\prologue_castle\prologue_castle.blend -P art\blender\prologue_castle\render_castle.py -- encode frames=%TEMP%\castle_frames_hq ext=png bitrate=4200 out=art\blender\prologue_castle\prologue_castle_film_hq.mp4
 ```
 In the Blender UI: open `prologue_castle.blend`, scene **Citadel** to look through the shot cameras (the markers switch
 them), scene **Film** + Render Animation for the edit with sound.

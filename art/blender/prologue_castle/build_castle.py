@@ -55,9 +55,10 @@ SHOTS = [
     # the colossal Master in silhouette: the camera slides past him and the sun comes out from behind his head
     dict(id="SH02", t0=4.50, t1=6.30, lens=(22, 22), cam=((46, -78, 34.0), (40, -95, 35.5)),
          look=((0, -106, 44.0), (0, -106, 45.0)), fstop=2.8, focus=(0, -106, 45), ease=(0.15, 0.15), shake=0.03),
-    # the great bell, side-backlit, beside the belfry at its own height; it strikes at 7.0 s
-    dict(id="SH03", t0=6.30, t1=8.50, lens=(40, 40), cam=((15.4, -46.8, 44.4), (14.1, -44.5, 45.0)),
-         look=((9.5, -36.2, 49.2), (9.5, -36.2, 49.3)), fstop=2.0, focus=(9.5, -36.2, 49.0), ease=(0.3, 0.3), shake=0.015),
+    # (pass 2) the rebuilt belfry from the east-north-east, low, against the sun: the arcade, the gablet and the
+    # bell swinging across the arch (it strikes at 7.0 s); slow push in
+    dict(id="SH03", t0=6.30, t1=8.50, lens=(28, 30), cam=((19.6, -30.8, 44.5), (18.5, -32.6, 45.0)),
+         look=((9.5, -36.2, 48.3), (9.5, -36.2, 47.9)), fstop=2.8, focus=(9.5, -36.2, 47.0), ease=(0.3, 0.3), shake=0.012),
     # the Great Bridge from the west, sun behind the camera: gold light, long shadows; an elder glides under it
     dict(id="SH04", t0=8.50, t1=10.33, lens=(28, 28), cam=((-58, -172, 74), (-46, -126, 66)),
          look=((0, -120, 33), (0, -88, 37)), fstop=None, ease=(0.1, 0.1), shake=0.02),
@@ -70,9 +71,10 @@ SHOTS = [
     # behind the Master at the orrery: four flames orbit his hand
     dict(id="SH07", t0=15.00, t1=17.00, lens=(32, 32), cam=((-13, -4.4, 50.5), (-13, -2.6, 50.3)),
          look=((-13, 4, 50.8), (-13, 4, 50.8)), fstop=1.8, focus=(-13, 1.4, 50.8), ease=(0.2, 0.2), shake=0.01),
-    # high over the summit: the four keeps, each with its kingdom's small crown-fire
-    dict(id="SH08", t0=17.00, t1=19.25, lens=(24, 24), cam=((26, -52, 112), (38, -30, 114)),
-         look=((0, 0, 46), (0, 0, 46)), fstop=None, ease=(0.2, 0.2), shake=0.0),
+    # (pass 2) straight down on the summit, the frame turning slowly: the four keeps sit at the four corners of the
+    # frame round the throne hall, each crowned with its kingdom's fire (was: a high 3/4 view, too busy)
+    dict(id="SH08", t0=17.00, t1=19.25, lens=(30, 32), cam=((12.5, -3.0, 150), (12.5, 3.0, 140)),
+         look=((0, 0, 40), (0, 0, 40)), fstop=None, ease=(0.2, 0.2), shake=0.0),
     # the four beams, one per word
     dict(id="SH09a", t0=19.25, t1=20.17, lens=(28, 28), cam=((36, -52, 42), (34, -49, 42.5)),
          look=((17.2, -24.6, 62), (17.2, -24.6, 62)), fstop=None, ease=(0.0, 0.3), shake=0.03),
@@ -1834,6 +1836,13 @@ def build_cues(sc, sun):
     key_prop(sc, "sun_elev", [(0, 8.0), (10, 7.0), (19.25, 5.2), (23.1, 4.2), (26.05, 3.6), (26.5, -2.5), (30, -4.0)])
     key_prop(sc, "dusk", [(0, 0.0), (19.25, 0.06), (26.05, 0.14), (26.55, 0.8), (27.3, 1.0)])
     key_prop(sc, "glow_gain", [(0, 0.7), (15, 1.1), (23.1, 1.8), (26.05, 2.2), (26.6, 7.5), (30, 9.0)])
+    # (pass 2) SH06: the market's lanterns are lit (a step up for the shot only)
+    t6a, t6b = SHOT["SH06"]["t0"], SHOT["SH06"]["t1"]
+    for f, v in ((f_of(t6a) - 1, 0.7 + 0.4 * (t6a - 1.0 / FPS) / 15.0), (f_of(t6a), 2.0), (f_of(t6b) - 1, 2.0),
+                 (f_of(t6b), 1.1)):
+        sc["glow_gain"] = v
+        sc.keyframe_insert(data_path='["glow_gain"]', frame=f)
+    set_interp(sc, "LINEAR", '["glow_gain"]')
     ld = sun.data
     t10 = SHOT["SH10"]["t0"]
     for t, e, c in ((0, 8.5, (1.0, 0.71, 0.44)), (19.25, 7.6, (1.0, 0.64, 0.37)), (t10 - 1.0 / FPS, 7.0, (1.0, 0.60, 0.34)),
@@ -1843,6 +1852,12 @@ def build_cues(sc, sun):
         ld.color = c
         ld.keyframe_insert("energy", frame=f_of(t))
         ld.keyframe_insert("color", frame=f_of(t))
+    # (pass 2) SH05 plays with a weaker sun on the gate so its fires own the frame
+    t5a, t5b = SHOT["SH05"]["t0"], SHOT["SH05"]["t1"]
+    e_at = lambda t: 8.5 + (7.6 - 8.5) * t / 19.25
+    for f, e in ((f_of(t5a) - 1, e_at(t5a)), (f_of(t5a), 3.0), (f_of(t5b) - 1, 3.0), (f_of(t5b), e_at(t5b))):
+        ld.energy = e
+        ld.keyframe_insert("energy", frame=f)
     set_interp(ld, "LINEAR")
     # per-shot looks (constant within a shot): haze, mist on the cloud sea, exposure, sky light
     per = {
@@ -1859,7 +1874,7 @@ def build_cues(sc, sun):
             keys.append((EMPTY_AT + 0.3, 1.3))      # after 'empty': a faint cold sky keeps the empty throne readable
             keys.sort()
         key_prop(sc, prop, keys, interp="CONSTANT")
-    exposure = dict(SH01=0.0, SH02=0.0, SH03=0.0, SH04=0.0, SH05=0.0, SH06=0.1, SH07=0.3, SH08=0.0, SH09a=-0.1,
+    exposure = dict(SH01=0.0, SH02=0.0, SH03=0.25, SH04=0.0, SH05=-0.25, SH06=0.1, SH07=0.3, SH08=0.15, SH09a=-0.1,
                     SH09b=-0.1, SH09c=-0.1, SH09d=-0.1, SH10=-0.6, SH11=0.8)
     for i, v in exposure.items():
         sc.view_settings.exposure = v
@@ -2074,8 +2089,15 @@ def build_beams(sc):
             crown.hide_render = h
             crown.keyframe_insert("hide_render", frame=f_of(t))
         es = cm.node_tree.nodes["Emission"].inputs["Strength"]
-        for t, v in ((0.0, 0.0), (SHOT["SH08"]["t0"] + 0.2, 0.0), (SHOT["SH08"]["t0"] + 0.6, 7.0), (EMPTY_AT, 7.0),
-                     (EMPTY_AT + 0.12, 0.0)):
+        # (pass 2) the crowns burn hot in SH08 (they are what the shot is about), then settle under the beams
+        t8 = SHOT["SH08"]["t1"]
+        crown.scale = (1.6, 1.6, 1.6)
+        crown.keyframe_insert("scale", frame=f_of(t8) - 1)
+        crown.scale = (1.0, 1.0, 1.0)
+        crown.keyframe_insert("scale", frame=f_of(t8))
+        set_interp(crown, "CONSTANT")
+        for t, v in ((0.0, 0.0), (SHOT["SH08"]["t0"] + 0.2, 0.0), (SHOT["SH08"]["t0"] + 0.6, 4.5), (t8 - 1.0 / FPS, 4.5),
+                     (t8, 7.0), (EMPTY_AT, 7.0), (EMPTY_AT + 0.12, 0.0)):
             es.default_value = v
             es.keyframe_insert("default_value", frame=f_of(t))
         set_interp(cm.node_tree, "LINEAR")
@@ -2086,7 +2108,9 @@ def build_beams(sc):
         lo = bpy.data.objects.new(f"BeamLight_{key}", ld)
         lo.location = (x, y, base_z + 3.0)
         col.objects.link(lo)
-        for t, e in ((0.0, 0.0), (SHOT["SH08"]["t0"] + 0.2, 0.0), (SHOT["SH08"]["t0"] + 0.6, 6000.0), (t_on - 0.05, 6000.0),
+        e8 = 36000.0 * (1.6 if key == "shadow" else 1.0)
+        for t, e in ((0.0, 0.0), (SHOT["SH08"]["t0"] + 0.2, 0.0), (SHOT["SH08"]["t0"] + 0.6, e8), (t8 - 1.0 / FPS, e8),
+                     (t8, 6000.0), (t_on - 0.05, 6000.0),
                      (t_on, 120000.0), (t_on + 0.4, 38000.0), (EMPTY_AT, 38000.0), (EMPTY_AT + 0.12, 0.0)):
             ld.energy = e
             ld.keyframe_insert("energy", frame=f_of(t))
@@ -2101,45 +2125,51 @@ def build_throne_light(sc, sun):
     col = bpy.data.collections["Props"]
     shafts = (("red", (-5.0, -9.25, 55.8), (1.0, 0.16, 0.06)), ("violet", (-5.0, -12.75, 55.8), (0.6, 0.2, 1.0)),
               ("blue", (5.0, -9.25, 55.8), (0.18, 0.45, 1.0)), ("green", (5.0, -12.75, 55.8), (0.25, 1.0, 0.3)))
-    aim = Vector((0.0, -8.4, 48.8))
+    # (pass 2) each shaft lands on its own patch of the dais round the throne, so the pools overlap only at the
+    # edges instead of burning to one white disc
+    aims = {"red": (-0.75, -7.7, 48.8), "violet": (-0.75, -9.3, 48.8), "blue": (0.75, -7.7, 48.8),
+            "green": (0.75, -9.3, 48.8)}
     t_in, t_out = SHOT["SH10"]["t0"], SHOT["SH10"]["t1"]
+    offs = []
     for k, (name, pos, c) in enumerate(shafts):
+        aim = Vector(aims[name])
         ld = bpy.data.lights.new(f"Shaft_{name}", "SPOT")
         ld.color = c
-        ld.spot_size = math.radians(17)
-        ld.spot_blend = 0.3
-        ld.shadow_soft_size = 0.25
+        ld.spot_size = math.radians(19)
+        ld.spot_blend = 0.85
+        ld.shadow_soft_size = 0.9
         lo = bpy.data.objects.new(f"Shaft_{name}", ld)
         lo.location = pos
         lo.rotation_euler = (aim - Vector(pos)).to_track_quat("-Z", "Y").to_euler()
         col.objects.link(lo)
         off = EMPTY_AT + 0.15 * k
-        for t, e in ((0.0, 0.0), (t_in - 0.01, 0.0), (t_in, 16000.0), (off, 16000.0), (off + 0.06, 0.0)):
+        offs.append(off)
+        for t, e in ((0.0, 0.0), (t_in - 0.01, 0.0), (t_in, 9000.0), (off, 9000.0), (off + 0.06, 0.0)):
             ld.energy = e
             ld.keyframe_insert("energy", frame=f_of(t))
         set_interp(ld, "CONSTANT")
-    # the visible shafts: soft additive light cones from each window to its pool on the dais
+    # the visible shafts: dusty volumes from each window to its pool, soft-edged, fading to the floor
+    beams = []
     for k, (name, pos, c) in enumerate(shafts):
         p0 = Vector(pos)
-        axis = aim - p0
-        length = axis.length
-        me = bpy.data.meshes.new(f"ShaftCone_{name}")
+        axis = Vector(aims[name]) - p0
+        length = axis.length + 0.6
+        me = bpy.data.meshes.new(f"Sunbeam_{name}")
         bm = bmesh.new()
-        bmesh.ops.create_cone(bm, cap_ends=False, segments=32, radius1=0.45, radius2=0.45 + length * math.tan(math.radians(6.5)),
-                              depth=length)
-        bmesh.ops.translate(bm, verts=bm.verts, vec=(0, 0, length / 2))
+        bmesh.ops.create_cube(bm, size=1.0)
+        bmesh.ops.translate(bm, verts=bm.verts, vec=(0, 0, 0.5))
         bm.to_mesh(me)
         bm.free()
-        ob = bpy.data.objects.new(f"ShaftCone_{name}", me)
+        ob = bpy.data.objects.new(f"Sunbeam_{name}", me)
         ob.location = p0
         ob.rotation_euler = axis.to_track_quat("Z", "Y").to_euler()
+        ob.scale = (1.8, 1.8, length)
         col.objects.link(ob)
         ob.visible_shadow = False
-        m, power = mat_beam(f"M_shaft_{name}", c, falloff=3.0, base_fade=0.08)
-        # the gradient runs along the cone (generated z = 0 at the window, 1 on the floor): brighter up high
+        m, power = mat_sunbeam(f"M_sunbeam_{name}", c)
         ob.data.materials.append(m)
-        off = EMPTY_AT + 0.15 * k
-        for t, v_ in ((0.0, 0.0), (t_in - 0.01, 0.0), (t_in, 0.38), (off, 0.38), (off + 0.06, 0.0)):
+        off = offs[k]
+        for t, v_ in ((0.0, 0.0), (t_in - 0.01, 0.0), (t_in, 1.3), (off, 1.3), (off + 0.06, 0.0)):
             power.outputs[0].default_value = v_
             power.outputs[0].keyframe_insert("default_value", frame=f_of(t))
         set_interp(m.node_tree, "CONSTANT")
@@ -2147,6 +2177,8 @@ def build_throne_light(sc, sun):
             ob.hide_render = h
             ob.keyframe_insert("hide_render", frame=f_of(t))
         set_interp(ob, "CONSTANT")
+        beams.append((p0, Vector(aims[name]), 0.85, c))
+    build_motes(beams, t_in, offs)
     # the sun does not scatter in the air during SH10 (the coloured shafts own the haze)
     for t, v_ in ((0.0, 1.0), (t_in, 0.0), (t_out, 1.0)):
         sun.data.volume_factor = v_
@@ -2243,15 +2275,25 @@ def mat_flame_card():
     tear = math_node(nt, "MULTIPLY", math_node(nt, "SUBTRACT", 0.55, n2, x=100, y=-500),
                      math_node(nt, "ADD", math_node(nt, "MULTIPLY", v, 1.1, x=0, y=-650), 0.25, x=100, y=-650), x=200, y=-550)
     inten = math_node(nt, "SUBTRACT", inten, tear, x=320, y=100, clamp=True)
-    col = ramp(nt, inten, [(0.04, (0.35, 0.02, 0.0, 1)), (0.2, (1.0, 0.16, 0.01, 1)), (0.4, (1.0, 0.42, 0.04, 1)),
-                           (0.62, (1.0, 0.74, 0.24, 1)), (0.88, (1.0, 0.95, 0.78, 1))], x=400, y=200)
+    # (no deep reds: AgX turns bright saturated red into salmon pink; fire at this brightness reads orange-gold)
+    col = ramp(nt, inten, [(0.03, (1.0, 0.30, 0.02, 1)), (0.25, (1.0, 0.45, 0.05, 1)), (0.5, (1.0, 0.62, 0.15, 1)),
+                           (0.75, (1.0, 0.80, 0.4, 1)), (0.95, (1.0, 0.95, 0.8, 1))], x=400, y=200)
     em = N(nt, "ShaderNodeEmission", 650, 200)
     L(nt, col, em.inputs["Color"])
-    em.inputs["Strength"].default_value = 1.7
+    # (pass 2) properly hot: HDR emission (it blooms against the sunlit gate), brighter in the core, flickering
+    frame = N(nt, "ShaderNodeValue", 100, 700)
+    frame.outputs[0].driver_add("default_value").driver.expression = "frame"
+    fk = math_node(nt, "ADD", math_node(nt, "MULTIPLY", frame.outputs[0], 1.3, x=250, y=700),
+                   math_node(nt, "MULTIPLY", oi.outputs["Random"], 30.0, x=250, y=600), x=400, y=650)
+    fk = math_node(nt, "ADD", math_node(nt, "MULTIPLY", math_node(nt, "SINE", fk, x=500, y=650), 0.22, x=600, y=650), 1.0,
+                   x=700, y=650)
+    hot = math_node(nt, "ADD", math_node(nt, "MULTIPLY", math_node(nt, "POWER", inten, 1.5, x=450, y=450), 4.5, x=550, y=450),
+                    1.4, x=650, y=450)
+    L(nt, math_node(nt, "MULTIPLY", hot, fk, x=800, y=500), em.inputs["Strength"])
     al = N(nt, "ShaderNodeMapRange", 400, -100)
     L(nt, inten, al.inputs["Value"])
-    al.inputs["From Min"].default_value = 0.04
-    al.inputs["From Max"].default_value = 0.2
+    al.inputs["From Min"].default_value = 0.015
+    al.inputs["From Max"].default_value = 0.05
     tr = N(nt, "ShaderNodeBsdfTransparent", 650, -100)
     mx = N(nt, "ShaderNodeMixShader", 850, 100)
     L(nt, al.outputs["Result"], mx.inputs[0])
@@ -2294,10 +2336,32 @@ def build_braziers(sc):
         stand.data.materials.append(iron)
         col.objects.link(stand)
         stands.append(foot + Vector((0, 0, 2.42)))
+    # (pass 2) a fuller fire: six cards of different sizes round the axis + two narrow hot tongues, a glowing volume
+    # of hot air, a bed of live coals in the bowl, sparks rising
+    glow_m = mat_fire_glow()
+    coal_m = mat_coals()
     for side, base, w, h in [(-1, Vector((-5.0, -60.0, 33.4)), 1.1, 1.6), (1, Vector((5.0, -60.0, 33.4)), 1.1, 1.6),
                              (-2, stands[0], 1.35, 2.2), (2, stands[1], 1.35, 2.2)]:
-        for j, yaw in enumerate((0.0, math.pi / 2, math.pi / 4)):
-            flame_card(f"Flame{side}_{j}", base, w * (1.0 if j < 2 else 0.8), h * (1.0 if j < 2 else 0.85), yaw, fm, col)
+        for j in range(6):
+            yaw = j * math.pi / 6 + 0.2 * side
+            sc_w = (1.0, 0.85, 0.95, 0.8, 1.05, 0.9)[j]
+            sc_h = (1.0, 0.9, 1.1, 0.8, 0.95, 1.15)[j]
+            flame_card(f"Flame{side}_{j}", base + Vector((0.08 * math.cos(j * 2.1), 0.08 * math.sin(j * 2.1), 0)),
+                       w * sc_w, h * sc_h, yaw, fm, col)
+        for j in range(2):
+            flame_card(f"Flame{side}_core{j}", base + Vector((0, 0, 0.02)), w * 0.45, h * 1.25, j * math.pi / 2 + 0.4, fm, col)
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=3, radius=1.0)
+        gob = bpy.context.active_object
+        gob.name = f"FireGlow{side}"
+        for cc in list(gob.users_collection):
+            cc.objects.unlink(gob)
+        col.objects.link(gob)
+        gob.location = base + Vector((0, 0, h * 0.42))
+        gob.scale = (w * 1.25, w * 1.25, h * 0.85)
+        gob.data.materials.append(glow_m)
+        gob.visible_shadow = False
+        build_embers(f"Embers{side}", base + Vector((0, 0, 0.15)), count=120 if abs(side) == 2 else 70,
+                     height=h * 2.2, spread=w * 0.3)
         ld = bpy.data.lights.new(f"Brazier{side}", "POINT")
         ld.color = (1.0, 0.5, 0.18)
         ld.shadow_soft_size = 0.4
@@ -2306,11 +2370,16 @@ def build_braziers(sc):
         col.objects.link(lo)
         for f in range(1, FRAMES + 2, 2):
             t = (f - 1) / FPS
-            ld.energy = 2600.0 * (0.8 + 0.12 * math.sin(t * 17 + side) + 0.08 * math.sin(t * 31 + 2 * side))
+            ld.energy = 1500.0 * (0.8 + 0.12 * math.sin(t * 17 + side) + 0.08 * math.sin(t * 31 + 2 * side))
             if abs(side) == 2:
-                ld.energy *= 0.8
+                ld.energy *= 0.85
             ld.keyframe_insert("energy", frame=f)
         set_interp(ld, "LINEAR")
+    for side, foot in ((-2, stands[0]), (2, stands[1])):
+        ck = Kit(f"Coals{side}")
+        ck.lathe([(0.0, 0.16), (0.2, 0.14), (0.42, 0.07), (0.6, 0.0), (0.0, 0.0)], tuple(foot + Vector((0, 0, -0.06))), 24,
+                 coal_m, (1, 1, 1))
+        ck.finish(col)
 
 
 def build_veils(sc):
@@ -2473,7 +2542,7 @@ def build_dragons(sc):
         ("frost", "Small_SH01a", 0.9, [(40, 30, 104), (24, -8, 108), (-4, -18, 110), (-24, 6, 106)], 0.0, 4.6, 0.75, 42, 20),
         ("frost", "Small_SH01b", 0.7, [(60, 10, 88), (40, -20, 92), (10, -30, 96), (-20, -24, 98)], 0.3, 4.6, 0.7, 42, 22),
         # SH03: a frost dragon crosses the god rays behind the belfry
-        ("frost", "Frost_SH03", 1.3, [(32, -6, 64), (14, -17, 62), (-4, -24, 61), (-22, -24, 60)], 6.2, 8.6, 0.95, 40, 18),
+        ("frost", "Frost_SH03", 1.3, [(-4, -78, 57), (-12, -58, 59), (-22, -38, 61), (-32, -18, 62)], 6.2, 8.6, 0.95, 40, 18),
         # SH04: an elder glides under the Great Bridge
         ("cinder", "Elder_SH04", 2.6, [(-26, -58, 24), (-23, -98, 20), (-20, -138, 19), (-14, -182, 23)], 8.3, 10.6, 2.0, 26, 10),
         # SH08: two circle the summit
@@ -2585,6 +2654,978 @@ def build_compositor(sc):
     return ng
 
 
+# ============================================================================================ pass 2: shot fixes
+# (2026-09-29, second pass) SH03 belfry + bell + rope, SH05 fires, SH06 crowd + lanterns, SH08 crowns, SH10 sunbeams.
+def fout(node):
+    """The float output of a node whose outputs depend on its data type (Random Value...)."""
+    return next((o for o in node.outputs if o.enabled and o.type == "VALUE"), node.outputs[0])
+
+
+def props_col():
+    return bpy.data.collections["Props"]
+
+
+class Kit:
+    """Builds one mesh out of primitives. Points go through self.M (local -> world); every face gets a material and
+    a flat 'Color' (the film materials read the vertex colour)."""
+
+    def __init__(self, name, M=None):
+        self.name = name
+        self.bm = bmesh.new()
+        self.cl = self.bm.loops.layers.float_color.new("Color")
+        self.mats = []
+        self.M = M if M is not None else Matrix.Identity(4)
+
+    def _mi(self, mat):
+        if mat not in self.mats:
+            self.mats.append(mat)
+        return self.mats.index(mat)
+
+    def faces(self, pts, polys, mat, col, smooth=False):
+        vs = [self.bm.verts.new(self.M @ Vector(p)) for p in pts]
+        mi = self._mi(mat)
+        c4 = (col[0], col[1], col[2], 1.0)
+        for poly in polys:
+            try:
+                f = self.bm.faces.new([vs[i] for i in poly])
+            except ValueError:
+                continue
+            f.material_index = mi
+            f.smooth = smooth
+            for lp in f.loops:
+                lp[self.cl] = c4
+
+    def prism(self, poly, y0, y1, mat, col):
+        """2-D polygon [(x, z)] extruded along local y from y0 to y1."""
+        n = len(poly)
+        pts = [(x, y0, z) for x, z in poly] + [(x, y1, z) for x, z in poly]
+        polys = [tuple(range(n)), tuple(range(2 * n - 1, n - 1, -1))]
+        polys += [(k, (k + 1) % n, n + (k + 1) % n, n + k) for k in range(n)]
+        self.faces(pts, polys, mat, col)
+
+    def box(self, c, s, mat, col):
+        x, y, z = c
+        a, b, h = s[0] / 2, s[1] / 2, s[2] / 2
+        self.prism([(x - a, z - h), (x + a, z - h), (x + a, z + h), (x - a, z + h)], y - b, y + b, mat, col)
+
+    def beam(self, p0, p1, w, h, mat, col, up=(0, 0, 1)):
+        p0, p1 = Vector(p0), Vector(p1)
+        d = (p1 - p0).normalized()
+        u = Vector(up)
+        if abs(d.dot(u)) > 0.95:
+            u = Vector((1, 0, 0))
+        side = d.cross(u).normalized()
+        upv = side.cross(d).normalized()
+        pts = [p + side * sx * w / 2 + upv * sz * h / 2 for p in (p0, p1)
+               for sx, sz in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+        self.faces(pts, [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)], mat, col)
+
+    def tube(self, path, r, segs, mat, col, closed=False, smooth=True):
+        """A circle of radius r swept along the points of `path` (caps at the ends unless closed)."""
+        P = [Vector(p) for p in path]
+        n = len(P)
+        pts, rings = [], []
+        prev_side = None
+        for i, p in enumerate(P):
+            if closed:
+                t = (P[(i + 1) % n] - P[i - 1]).normalized()
+            else:
+                t = (P[min(i + 1, n - 1)] - P[max(i - 1, 0)]).normalized()
+            ref = Vector((0, 0, 1)) if abs(t.z) < 0.9 else Vector((1, 0, 0))
+            side = t.cross(ref).normalized() if prev_side is None else (t.cross(prev_side.cross(t))).normalized()
+            if prev_side is not None and side.length < 0.5:
+                side = t.cross(ref).normalized()
+            prev_side = side
+            up = side.cross(t).normalized()
+            ring = []
+            for k in range(segs):
+                a = 2 * math.pi * k / segs
+                ring.append(len(pts))
+                pts.append(p + (side * math.cos(a) + up * math.sin(a)) * r)
+            rings.append(ring)
+        polys = []
+        for i in range(n if closed else n - 1):
+            a, b = rings[i], rings[(i + 1) % n]
+            for k in range(segs):
+                polys.append((a[k], a[(k + 1) % segs], b[(k + 1) % segs], b[k]))
+        if not closed:
+            polys.append(tuple(reversed(rings[0])))
+            polys.append(tuple(rings[-1]))
+        self.faces(pts, polys, mat, col, smooth)
+
+    def lathe(self, profile, c, segs, mat, col, smooth=True, rot=0.0, sx=1.0, sy=1.0):
+        """Surface of revolution about the vertical through c from [(radius, z)] (z relative to c); a ring of radius
+        0 becomes a single pole vertex."""
+        pts, rings = [], []
+        for r, z in profile:
+            if r < 1e-6:
+                rings.append([len(pts)])
+                pts.append((c[0], c[1], c[2] + z))
+                continue
+            ring = []
+            for k in range(segs):
+                a = rot + 2 * math.pi * k / segs
+                ring.append(len(pts))
+                pts.append((c[0] + r * math.cos(a) * sx, c[1] + r * math.sin(a) * sy, c[2] + z))
+            rings.append(ring)
+        polys = []
+        for a, b in zip(rings, rings[1:]):
+            if len(a) == 1 and len(b) == 1:
+                continue
+            if len(a) == 1:
+                polys += [(a[0], b[(k + 1) % segs], b[k]) for k in range(segs)]
+            elif len(b) == 1:
+                polys += [(a[k], a[(k + 1) % segs], b[0]) for k in range(segs)]
+            else:
+                polys += [(a[k], a[(k + 1) % segs], b[(k + 1) % segs], b[k]) for k in range(segs)]
+        self.faces(pts, polys, mat, col, smooth)
+
+    def finish(self, coll=None, recalc=True):
+        if recalc:
+            bmesh.ops.recalc_face_normals(self.bm, faces=self.bm.faces)
+        me = bpy.data.meshes.new(self.name)
+        self.bm.to_mesh(me)
+        self.bm.free()
+        for m in self.mats:
+            me.materials.append(m)
+        ob = bpy.data.objects.new(self.name, me)
+        (coll or props_col()).objects.link(ob)
+        return ob
+
+
+def arc(r, a0, a1, n, cx=0.0, cz=0.0):
+    return [(cx + r * math.cos(a0 + (a1 - a0) * k / n), cz + r * math.sin(a0 + (a1 - a0) * k / n)) for k in range(n + 1)]
+
+
+def remove_box_faces(obj, box):
+    """Deletes the faces of obj whose centre is inside box (x0, x1, y0, y1, z0, z1); returns the mean colour of the
+    deleted faces per material name (to paint the replacement in the set's own colours)."""
+    x0, x1, y0, y1, z0, z1 = box
+    me = obj.data
+    names = [m.name if m else "" for m in me.materials]
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    cl = bm.loops.layers.float_color.get("Color")
+    mw = obj.matrix_world
+    dead, acc = [], {}
+    for f in bm.faces:
+        c = mw @ f.calc_center_median()
+        if x0 < c.x < x1 and y0 < c.y < y1 and z0 < c.z < z1:
+            dead.append(f)
+            if cl is not None:
+                s = acc.setdefault(names[f.material_index], [Vector((0, 0, 0)), 0])
+                for lp in f.loops:
+                    s[0] += Vector(lp[cl][:3])
+                    s[1] += 1
+    bmesh.ops.delete(bm, geom=dead, context="FACES")
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
+    return {k: tuple(v[0] / max(1, v[1])) for k, v in acc.items()}
+
+
+def mat_rope():
+    m, nt = new_mat("M_rope")
+    tc = N(nt, "ShaderNodeTexCoord", -900, 0)
+    mp = N(nt, "ShaderNodeMapping", -700, 0)
+    L(nt, tc.outputs["Object"], mp.inputs[0])
+    mp.label = "feed"
+    wv = N(nt, "ShaderNodeTexWave", -500, 0, wave_type="BANDS", bands_direction="DIAGONAL")
+    L(nt, mp.outputs[0], wv.inputs["Vector"])
+    wv.inputs["Scale"].default_value = 26.0
+    wv.inputs["Distortion"].default_value = 1.5
+    col = ramp(nt, wv.outputs["Fac"], [(0.2, (0.20, 0.13, 0.07, 1)), (0.8, (0.52, 0.40, 0.25, 1))], x=-250, y=100)
+    nrm = bump(nt, wv.outputs["Fac"], 0.6, 0.01, x=-250, y=-250)
+    p = principled(nt, 50, 0, Base_Color=col, Roughness=0.9, Normal=nrm)
+    p.inputs["Sheen Weight"].default_value = 0.6
+    mat_out(nt, p.outputs[0], 350, 0)
+    return m, mp
+
+
+def mat_bronze2():
+    """Cast bronze: warm polished metal on the sound bow, darker patinated waist, verdigris runs from the crown."""
+    m, nt = new_mat("M_bronze")
+    geo = N(nt, "ShaderNodeNewGeometry", -1200, 0)
+    tc = N(nt, "ShaderNodeTexCoord", -1200, -300)
+    sep = N(nt, "ShaderNodeSeparateXYZ", -1000, -300)
+    L(nt, tc.outputs["Object"], sep.inputs[0])
+    fine = noise(nt, 14.0, 6, 0.6, coord=tc.outputs["Object"], x=-800, y=-600)
+    blot = noise(nt, 3.0, 4, 0.65, coord=tc.outputs["Object"], x=-800, y=-900, distortion=0.5)
+    # verdigris: from the top (object z > -1.0), streaked down, in blotches
+    top = N(nt, "ShaderNodeMapRange", -800, -300)
+    L(nt, sep.outputs["Z"], top.inputs["Value"])
+    top.inputs["From Min"].default_value = -1.6
+    top.inputs["From Max"].default_value = -0.3
+    verd = math_node(nt, "MULTIPLY", top.outputs["Result"], math_node(nt, "GREATER_THAN", blot, 0.5, x=-600, y=-900), x=-450, y=-500)
+    verd = math_node(nt, "MINIMUM", math_node(nt, "MULTIPLY", verd, 1.4, x=-300, y=-500), 1.0, x=-150, y=-500)
+    bronze = mix_col(nt, fine, (0.50, 0.29, 0.12, 1), (0.68, 0.43, 0.20, 1), x=-400, y=200)
+    col = mix_col(nt, verd, bronze, (0.20, 0.40, 0.33, 1), x=-150, y=200)
+    metal = math_node(nt, "SUBTRACT", 1.0, math_node(nt, "MULTIPLY", verd, 0.9, x=-150, y=-100), x=0, y=-100)
+    rough = math_node(nt, "ADD", math_node(nt, "MULTIPLY", verd, 0.45, x=-150, y=-250),
+                      math_node(nt, "ADD", math_node(nt, "MULTIPLY", fine, 0.18, x=-300, y=-350), 0.2, x=-150, y=-350),
+                      x=0, y=-250)
+    nrm = bump(nt, math_node(nt, "ADD", fine, math_node(nt, "MULTIPLY", verd, 0.5, x=-150, y=-700), x=0, y=-700), 0.15, 0.01,
+               x=150, y=-600)
+    p = principled(nt, 350, 0, Base_Color=col, Metallic=metal, Roughness=rough, Normal=nrm)
+    mat_out(nt, p.outputs[0], 650, 0)
+    return m
+
+
+def bell_profile(top=-0.27):
+    """A real bell section (crown, shoulder, waist, bands, sound bow, lip; then the inside), top to bottom."""
+    outer = [(0.0, 0.02), (0.20, 0.02), (0.42, 0.0), (0.53, -0.05), (0.585, -0.13), (0.60, -0.30), (0.605, -0.50),
+             (0.625, -0.51), (0.625, -0.56), (0.608, -0.57), (0.625, -0.80), (0.66, -1.05), (0.72, -1.28), (0.81, -1.48),
+             (0.92, -1.64), (0.945, -1.65), (0.955, -1.69), (0.945, -1.70), (1.03, -1.79), (1.10, -1.88), (1.135, -1.96),
+             (1.13, -2.02), (1.095, -2.05), (1.05, -2.045)]
+    inner = [(0.985, -1.97), (0.87, -1.82), (0.74, -1.58), (0.63, -1.25), (0.56, -0.85), (0.515, -0.45), (0.46, -0.18),
+             (0.30, -0.12), (0.0, -0.11)]
+    return [(r, z + top) for r, z in outer + inner]
+
+
+def build_belfry(cx, cy, name, swing=True):
+    """A belfry storey with a proper arcade: corner piers with ribs, a voussoir arch per face on colonettes with a
+    hood moulding, a balustrade, a dentil cornice, a steep slate spire with four gablets and oculi, lead hip ribs,
+    a gilded finial; inside, an oak bell frame. Replaces the set's plain box (pillars + slab + pyramid)."""
+    col = props_col()
+    cs = remove_box_faces(bpy.data.objects["Scatter"], (cx - 3.1, cx + 3.1, cy - 3.1, cy + 3.1, 43.85, 58.0))
+    stone_c = cs.get("M_stone", (0.72, 0.58, 0.45))
+    roof_c = cs.get("M_roof", (0.30, 0.26, 0.38))
+    gold_c = cs.get("M_gold", (0.9, 0.65, 0.3))
+    S, R, G, W, I, D, P = (MATS["stone"], MATS["roof"], MATS["gold"], MATS["wood"], MATS["iron"], MATS["dark"],
+                           MATS["paving"])
+    wood_c, iron_c, dark_c = (0.42, 0.28, 0.17), (0.2, 0.2, 0.21), (0.03, 0.025, 0.03)
+    lead_c = (0.32, 0.33, 0.36)
+    Z0, ZS, RI, RO, ZT = 44.35, 46.45, 1.6, 1.95, 48.5
+    T = Matrix.Translation((cx, cy, 0.0))
+    k = Kit(name, T)
+    # floor, plinth moulding
+    k.box((0, 0, 44.125), (6.0, 6.0, 0.45), P, stone_c)
+    k.box((0, 0, 43.99), (6.3, 6.3, 0.18), S, stone_c)
+    # corner piers: plinth, shaft, impost; rounded corner ribs
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            k.box((2.2 * sx, 2.2 * sy, Z0 + 0.15), (1.42, 1.42, 0.3), S, stone_c)
+            k.box((2.2 * sx, 2.2 * sy, (Z0 + ZT) / 2), (1.2, 1.2, ZT - Z0), S, stone_c)
+            k.box((2.2 * sx, 2.2 * sy, ZS - 0.11), (1.36, 1.36, 0.22), S, stone_c)
+            k.tube([(2.8 * sx, 2.8 * sy, Z0 + 0.3), (2.8 * sx, 2.8 * sy, ZT)], 0.14, 12, S, stone_c)
+    # the four faces (local: outward = -y, the wall between y -2.8 and -2.1)
+    for face in range(4):
+        k.M = T @ Matrix.Rotation(face * math.pi / 2, 4, "Z")
+        n = 15
+        for i in range(n):
+            a0 = math.pi * i / n + 0.012
+            a1 = math.pi * (i + 1) / n - 0.012
+            ro, y0, y1 = (2.14, -2.9, -2.04) if i == n // 2 else (RO, -2.8, -2.1)
+            k.prism([(RI * math.cos(a0), ZS + RI * math.sin(a0)), (ro * math.cos(a0), ZS + ro * math.sin(a0)),
+                     (ro * math.cos(a1), ZS + ro * math.sin(a1)), (RI * math.cos(a1), ZS + RI * math.sin(a1))], y0, y1, S,
+                    stone_c)
+        spand = arc(RO, math.pi, 0.0, 16, 0.0, ZS) + [(RO, ZT), (-RO, ZT)]
+        k.prism(spand, -2.75, -2.15, S, stone_c)
+        k.tube([(x, -2.86, z) for x, z in arc(RO + 0.09, 0.0, math.pi, 24, 0.0, ZS)], 0.075, 8, S, stone_c)
+        for sx in (-1, 1):
+            k.box((sx * (RO + 0.12), -2.86, ZS - 0.02), (0.26, 0.16, 0.2), S, stone_c)       # label stops
+            k.tube([(sx * 1.7, -2.76, Z0 + 0.3), (sx * 1.7, -2.76, ZS - 0.3)], 0.085, 10, S, stone_c)   # colonettes
+            k.box((sx * 1.7, -2.76, ZS - 0.28), (0.26, 0.26, 0.16), S, stone_c)
+            k.box((sx * 1.7, -2.76, Z0 + 0.36), (0.24, 0.24, 0.12), S, stone_c)
+        # balustrade
+        k.box((0, -2.45, Z0 + 0.06), (3.2, 0.5, 0.12), S, stone_c)
+        k.box((0, -2.45, Z0 + 0.78), (3.2, 0.56, 0.13), S, stone_c)
+        for j in range(9):
+            x = -1.36 + 2.72 * j / 8
+            k.lathe([(0.0, 0.66), (0.075, 0.66), (0.05, 0.6), (0.05, 0.5), (0.085, 0.36), (0.075, 0.2), (0.045, 0.12),
+                     (0.07, 0.04), (0.0, 0.04)], (x, -2.45, Z0 + 0.08), 10, S, stone_c)
+        # dentils
+        for j in range(19):
+            x = -2.7 + 5.4 * j / 18
+            k.box((x, -2.93, 48.9), (0.14, 0.14, 0.14), S, stone_c)
+        # gablet: roof ridge running into the spire, stone gable with an oculus, a small gilt finial
+        k.prism([(-1.62, 49.12), (1.62, 49.12), (0.0, 51.6)], -3.02, -0.9, R, roof_c)
+        k.prism([(-1.36, 49.28), (1.36, 49.28), (0.0, 51.34)], -3.1, -3.0, S, stone_c)
+        k.prism([(x, z) for x, z in arc(0.34, 0.0, 2 * math.pi, 20, 0.0, 50.05)][:-1], -3.16, -3.08, D, dark_c)
+        k.tube([(x, -3.13, z) for x, z in arc(0.4, 0.0, 2 * math.pi, 24, 0.0, 50.05)][:-1], 0.055, 8, S, stone_c,
+               closed=True)
+        k.lathe([(0.0, 0.5), (0.03, 0.45), (0.07, 0.2), (0.05, 0.08), (0.08, 0.0), (0.0, 0.0)], (0, -3.03, 51.5), 10,
+                G, gold_c)
+    k.M = T
+    # frieze + cornice (a ring, the inside stays open up to the ceiling)
+    for sx, sy, w, d in ((0, -1, 5.7, 0.8), (0, 1, 5.7, 0.8), (-1, 0, 0.8, 4.1), (1, 0, 0.8, 4.1)):
+        k.box((sx * 2.45, sy * 2.45, 48.68), (w, d, 0.36), S, stone_c)
+    for sx, sy, w, d in ((0, -1, 6.3, 1.1), (0, 1, 6.3, 1.1), (-1, 0, 1.1, 4.1), (1, 0, 1.1, 4.1)):
+        k.box((sx * 2.6, sy * 2.6, 49.08), (w, d, 0.22), S, stone_c)
+    k.box((0, 0, 49.25), (6.1, 6.1, 0.12), S, stone_c)
+    # the spire (square, rotated lathe) with a flared eave, lead hip ribs, the finial and its cross
+    s2 = math.sqrt(2.0)
+    k.lathe([(0.0, 57.35), (0.05 * s2, 57.3), (2.72 * s2, 49.95), (3.14 * s2, 49.32), (3.0 * s2, 49.3), (0.0, 49.3)],
+            (0, 0, 0), 4, R, roof_c, smooth=False, rot=math.pi / 4)
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            k.tube([(3.12 * sx, 3.12 * sy, 49.34), (2.72 * sx, 2.72 * sy, 49.97), (0.06 * sx, 0.06 * sy, 57.3)], 0.075, 8,
+                   I, lead_c)
+    k.lathe([(0.0, 59.0), (0.025, 59.0), (0.045, 58.3), (0.08, 58.05), (0.27, 57.9), (0.31, 57.7), (0.27, 57.5),
+             (0.1, 57.4), (0.15, 57.3), (0.19, 57.2), (0.0, 57.2)], (0, 0, 0), 16, G, gold_c)
+    k.box((0, 0, 58.62), (0.56, 0.07, 0.07), G, gold_c)
+    # inside: plank ceiling + joists, the oak bell frame (sills, posts, braces, bearing beams set into the piers)
+    k.box((0, 0, 49.27), (4.3, 4.3, 0.06), W, wood_c)
+    for y in (-1.4, 0.0, 1.4):
+        k.box((0, y, 49.1), (4.3, 0.24, 0.28), W, wood_c)
+    for sx in (-1, 1):
+        x = 1.55 * sx
+        k.box((x, 0, Z0 + 0.11), (0.28, 3.4, 0.22), W, wood_c)
+        k.box((x, 0, 47.94), (0.3, 3.9, 0.32), W, wood_c)
+        for sy in (-1, 1):
+            k.box((x, 1.3 * sy, (Z0 + 47.8) / 2), (0.24, 0.24, 47.8 - Z0), W, wood_c)
+            k.beam((x, 1.3 * sy, 46.7), (x, 0.55 * sy, 47.8), 0.16, 0.16, W, wood_c)
+    ob = k.finish(col)
+    log(f"belfry {name} at ({cx}, {cy}): {len(ob.data.polygons)} faces; colours stone {tuple(round(c, 2) for c in stone_c)}")
+    # the bell (+ headstock, gudgeons, wheel, rope), swinging about X (the axle runs east-west)
+    pivot = bpy.data.objects.new(name + "_BellPivot", None)
+    pivot.location = (cx, cy, 48.2)
+    col.objects.link(pivot)
+    bk = Kit(name + "_Bell")
+    bk.lathe(bell_profile(), (0, 0, 0), 64, MATS["bronze"], (1, 1, 1))
+    bk.tube([(0.0, y, z) for y, z in arc(0.13, 0.0, math.pi, 12, 0.0, -0.25)], 0.045, 8, MATS["bronze"], (1, 1, 1))
+    bell = bk.finish(col)
+    bell.parent = pivot
+    hk = Kit(name + "_Headstock")
+    hk.box((0, 0, -0.06), (3.0, 0.4, 0.44), W, wood_c)
+    for x in (-0.55, 0.55):
+        hk.box((x, 0, -0.1), (0.1, 0.44, 0.5), I, iron_c)          # iron straps
+        hk.beam((x, 0.0, -0.3), (x * 0.6, 0.0, -0.45), 0.08, 0.3, I, iron_c)
+    for sx in (-1, 1):
+        hk.tube([(1.45 * sx, 0, 0), (1.66 * sx, 0, 0)], 0.07, 12, I, iron_c)
+    # the bell wheel (YZ plane at x = 1.28), rim with a rope groove, six spokes, the rope wrapped on half the rim
+    WX, WR = 1.28, 1.05
+    hk.tube([(WX - 0.06, WR * math.cos(a), WR * math.sin(a)) for a in [2 * math.pi * j / 40 for j in range(40)]], 0.045, 8,
+            W, wood_c, closed=True)
+    hk.tube([(WX + 0.06, WR * math.cos(a), WR * math.sin(a)) for a in [2 * math.pi * j / 40 for j in range(40)]], 0.045, 8,
+            W, wood_c, closed=True)
+    hk.tube([(WX, (WR - 0.02) * math.cos(a), (WR - 0.02) * math.sin(a))
+             for a in [-math.pi * 0.5 + math.pi * j / 20 for j in range(21)]], 0.03, 6, MATS["rope"], (1, 1, 1))
+    for j in range(6):
+        a = 2 * math.pi * j / 6 + 0.3
+        hk.beam((WX, 0.12 * math.cos(a), 0.12 * math.sin(a)), (WX, (WR - 0.03) * math.cos(a), (WR - 0.03) * math.sin(a)),
+                0.07, 0.07, W, wood_c)
+    hk.tube([(WX - 0.14, 0, 0), (WX + 0.12, 0, 0)], 0.14, 12, W, wood_c)
+    head = hk.finish(col)
+    head.parent = pivot
+    ck = Kit(name + "_Clapper")
+    ck.lathe([(0.0, 0.0), (0.035, 0.0), (0.05, -0.3), (0.045, -1.45), (0.14, -1.6), (0.17, -1.72), (0.13, -1.85),
+              (0.05, -1.92), (0.0, -1.93)], (0, 0, 0), 16, I, iron_c)
+    clap = ck.finish(col)
+    clap.location = (0, 0, -0.38)
+    clap.parent = pivot
+    rope_mat, feed = MATS["rope"], MATS["rope_feed"]
+    rk = Kit(name + "_Rope")
+    rk.tube([(0, 0, 0.0), (0, 0, -7.0)], 0.03, 8, rope_mat, (1, 1, 1))
+    rope = rk.finish(col)
+    rope.location = (cx + WX, cy + WR - 0.02, 48.2)
+    pivot.rotation_mode = "XYZ"
+    clap.rotation_mode = "XYZ"
+    if swing:
+        for f in range(1, FRAMES + 2):
+            t = (f - 1) / FPS
+            a = math.radians(21.0) * math.sin(2 * math.pi * (t - 6.55) / 1.8)
+            pivot.rotation_euler = (a, 0.0, 0.0)
+            pivot.keyframe_insert("rotation_euler", frame=f)
+            lag = math.radians(21.0) * math.sin(2 * math.pi * (t - 6.55 - 0.12) / 1.8) - a
+            clap.rotation_euler = (lag * 0.9, 0.0, 0.0)
+            clap.keyframe_insert("rotation_euler", frame=f)
+            # the rope pays in and out with the wheel (its twist scrolls; the rope also sways a little)
+            feed.inputs["Location"].default_value[2] = -a * WR
+            feed.inputs["Location"].keyframe_insert("default_value", index=2, frame=f)
+            rope.rotation_euler = (math.radians(1.2) * math.sin(2 * math.pi * (t - 6.9) / 1.8), 0.0, 0.0)
+            rope.keyframe_insert("rotation_euler", frame=f)
+        for idd in (pivot, clap, rope):
+            set_interp(idd, "LINEAR")
+        set_interp(rope_mat.node_tree, "LINEAR")
+    return pivot
+
+
+def build_belfries(sc):
+    MATS["bronze"] = mat_bronze2()
+    MATS["rope"], MATS["rope_feed"] = mat_rope()
+    build_belfry(9.5, -36.2, "BelfrySE", swing=True)
+    build_belfry(-9.5, -36.2, "BelfrySW", swing=False)
+
+
+# ---------------------------------------------------------------------------------------- SH06: the crowd + lanterns
+def mat_skin():
+    m, nt = new_mat("M_skin")
+    vc = vcol(nt)
+    p = principled(nt, 200, 0, Base_Color=vc, Roughness=0.55)
+    p.inputs["Subsurface Weight"].default_value = 0.25
+    p.inputs["Subsurface Radius"].default_value = (0.9, 0.35, 0.2)
+    p.inputs["Subsurface Scale"].default_value = 0.02
+    mat_out(nt, p.outputs[0], 500, 0)
+    return m
+
+
+def find_figures(obj, box, nmin=55, nmax=115):
+    """The game's crowd figures baked into the scatter mesh: clusters of faces (joined by shared vertex positions)
+    of person size. Returns [(base centre, height, robe colour, face indices)]."""
+    x0, x1, y0, y1, z0, z1 = box
+    me = obj.data
+    mw = obj.matrix_world
+    names = [m.name if m else "" for m in me.materials]
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.faces.ensure_lookup_table()
+    cl = bm.loops.layers.float_color.get("Color")
+    inbox = []
+    for f in bm.faces:
+        c = mw @ f.calc_center_median()
+        if x0 < c.x < x1 and y0 < c.y < y1 and z0 < c.z < z1:
+            inbox.append(f.index)
+    key = lambda v: (round(v.co.x, 3), round(v.co.y, 3), round(v.co.z, 3))
+    pos2f = {}
+    for fi in inbox:
+        for v in bm.faces[fi].verts:
+            pos2f.setdefault(key(v), []).append(fi)
+    seen, out = set(), []
+    for fi in inbox:
+        if fi in seen:
+            continue
+        seen.add(fi)
+        stack, comp = [fi], []
+        while stack:
+            g = stack.pop()
+            comp.append(g)
+            for v in bm.faces[g].verts:
+                for h in pos2f.get(key(v), ()):
+                    if h not in seen:
+                        seen.add(h)
+                        stack.append(h)
+        if not (nmin <= len(comp) <= nmax):
+            continue
+        vs = [mw @ v.co for g in comp for v in bm.faces[g].verts]
+        mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs)))
+        mx = Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))
+        d = mx - mn
+        if not (d.x < 0.8 and d.y < 0.8 and 1.05 < d.z < 1.95 and 29.8 < mn.z < 31.2):
+            continue
+        # robe colour = area-weighted colour of the lower body faces
+        acc, wsum = Vector((0, 0, 0)), 0.0
+        for g in comp:
+            f = bm.faces[g]
+            c = mw @ f.calc_center_median()
+            if c.z < mn.z + 0.65 * d.z and cl is not None:
+                a = f.calc_area()
+                acc += Vector(sum((Vector(lp[cl][:3]) for lp in f.loops), Vector()) / len(f.loops)) * a
+                wsum += a
+        robe = tuple(acc / wsum) if wsum > 0 else (0.4, 0.3, 0.25)
+        out.append((Vector(((mn.x + mx.x) / 2, (mn.y + mx.y) / 2, mn.z)), d.z, robe, comp))
+    dead = [bm.faces[g] for fig in out for g in fig[3]]
+    bmesh.ops.delete(bm, geom=dead, context="FACES")
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
+    return out
+
+
+def build_crowd(sc):
+    """SH06: the game's crowd (capsule bodies, cube heads) is replaced, figure for figure, by robed people: a draped
+    robe (lathe, oval), belt, sleeves and hands, a head under a hood or a cap; some raise a cup to the table.
+    Colours are the game's own robe colours. Everyone near the feast table faces it."""
+    rnd = np.random.default_rng(7)
+    figs = find_figures(bpy.data.objects["Scatter"], (-45, 20, -85, -20, 29.5, 33.5))
+    skin_m = mat_skin()
+    MATS["skin"] = skin_m
+    cloth, gold, dark = MATS["cloth"], MATS["gold"], MATS["dark"]
+    skins = [(0.62, 0.40, 0.29), (0.45, 0.28, 0.18), (0.72, 0.52, 0.40), (0.33, 0.20, 0.13), (0.58, 0.38, 0.26)]
+    k = Kit("Crowd")
+    robe_prof = [(0.0, 0.0), (0.27, 0.0), (0.275, 0.05), (0.25, 0.25), (0.215, 0.55), (0.19, 0.85), (0.185, 1.05),
+                 (0.20, 1.2), (0.215, 1.29), (0.2, 1.35), (0.14, 1.41), (0.075, 1.45), (0.07, 1.5), (0.0, 1.5)]
+    table = (-19.4, -6.2, -48.3)          # the feast table's long axis (x from, x to, y)
+    for base, h, robe, _ in figs:
+        s = h / 1.72
+        tx = min(max(base.x, table[0]), table[1])
+        dx, dy = tx - base.x, table[2] - base.y
+        near = abs(dy) < 3.2 and table[0] - 1.0 < base.x < table[1] + 1.0
+        if near and abs(dy) > 0.05:
+            yaw = math.atan2(0.0, -dy) if abs(dx) < 0.3 else math.atan2(dx, -dy)
+        else:
+            cx, cy = -12.5 - base.x, -47.2 - base.y
+            yaw = math.atan2(cx, -cy) + rnd.uniform(-1.2, 1.2)
+        yaw += rnd.uniform(-0.25, 0.25)
+        k.M = Matrix.Translation(base) @ Matrix.Rotation(yaw, 4, "Z") @ Matrix.Diagonal((s, s, s, 1.0))
+        rc = tuple(max(0.02, c * rnd.uniform(0.85, 1.1)) for c in robe)
+        dark_rc = tuple(c * 0.55 for c in rc)
+        sk = skins[int(rnd.integers(len(skins)))]
+        k.lathe(robe_prof, (0, 0, 0), 20, cloth, rc, sx=1.0, sy=0.78)
+        k.tube([(0.207 * math.cos(a), 0.207 * 0.78 * math.sin(a), 0.9) for a in [2 * math.pi * j / 20 for j in range(20)]],
+               0.028, 6, dark, (0.12, 0.08, 0.05), closed=True)
+        cup = rnd.random() < 0.3 and near
+        for sx in (-1, 1):
+            sh = Vector((0.2 * sx, 0.0, 1.3))
+            if cup and sx == 1:
+                el = Vector((0.24, -0.12, 1.02))
+                hand = Vector((0.16, -0.36, 1.22))
+            else:
+                el = Vector((0.25 * sx, -0.02, 1.0))
+                hand = Vector((0.19 * sx, -0.14, 0.8))
+            k.tube([sh, el, hand + (el - hand) * 0.25], 0.062, 8, cloth, dark_rc if rnd.random() < 0.3 else rc)
+            k.lathe([(0.0, 0.05), (0.035, 0.035), (0.045, 0.0), (0.035, -0.035), (0.0, -0.05)], tuple(hand), 8, skin_m, sk)
+            if cup and sx == 1:
+                k.lathe([(0.0, 0.14), (0.05, 0.14), (0.045, 0.06), (0.012, 0.03), (0.012, 0.0), (0.035, -0.01), (0.0, -0.01)],
+                        tuple(hand + Vector((0, 0, 0.03))), 10, gold, (0.9, 0.62, 0.28))
+        # head, then a hood (most), a cap or a bare head with hair
+        hc = Vector((0.0, -0.02, 1.61))
+        k.lathe([(0.0, 0.12), (0.06, 0.105), (0.095, 0.06), (0.105, 0.0), (0.09, -0.06), (0.055, -0.1), (0.0, -0.115)],
+                tuple(hc), 12, skin_m, sk)
+        style = rnd.random()
+        if style < 0.55:
+            hood = Vector((0.0, 0.035, 1.625))
+            k.lathe([(0.0, 0.16), (0.08, 0.15), (0.13, 0.1), (0.15, 0.02), (0.145, -0.06), (0.16, -0.14), (0.2, -0.2),
+                     (0.0, -0.2)], tuple(hood), 14, cloth, dark_rc if rnd.random() < 0.5 else rc, sx=1.0, sy=1.05)
+        elif style < 0.8:
+            capc = tuple(c * 0.8 for c in (rnd.uniform(0.2, 0.7), rnd.uniform(0.1, 0.4), rnd.uniform(0.1, 0.4)))
+            k.lathe([(0.0, 0.16), (0.07, 0.15), (0.11, 0.1), (0.12, 0.06), (0.16, 0.05), (0.16, 0.03), (0.0, 0.03)],
+                    tuple(hc + Vector((0, 0.01, 0.03))), 14, cloth, capc)
+        else:
+            k.lathe([(0.0, 0.13), (0.07, 0.12), (0.105, 0.07), (0.112, 0.01), (0.0, 0.01)],
+                    tuple(hc + Vector((0, 0.012, 0.0))), 12, dark, (0.06, 0.04, 0.03))
+    ob = k.finish(props_col())
+    log(f"crowd: {len(figs)} figures replaced ({len(ob.data.polygons)} faces)")
+    return figs
+
+
+def build_lanterns(sc):
+    """SH06: the market's lantern strings are real lights (small warm points on the M_glow lanterns near the feast
+    table), on during the market shot."""
+    ob = bpy.data.objects["Scatter"]
+    me = ob.data
+    mw = ob.matrix_world
+    gi = [k for k, m in enumerate(me.materials) if m is not None and m.name == "M_glow"]
+    pts = []
+    for p_ in me.polygons:
+        if p_.material_index in gi:
+            c = mw @ p_.center
+            if -34 < c.x < 8 and -66 < c.y < -30 and 31.0 < c.z < 40.0:
+                pts.append(c)
+    cells = {}
+    for c in pts:
+        cells.setdefault((round(c.x / 0.7), round(c.y / 0.7), round(c.z / 0.7)), []).append(c)
+    cents = [sum(v, Vector()) / len(v) for v in cells.values()]
+    cents.sort(key=lambda c: (c - Vector((-12.5, -47.2, 33))).length)
+    col = props_col()
+    t0, t1 = SHOT["SH06"]["t0"], SHOT["SH06"]["t1"]
+    n = 0
+    for c in cents[:56]:
+        ld = bpy.data.lights.new(f"Lantern{n}", "POINT")
+        ld.color = (1.0, 0.6, 0.28)
+        ld.shadow_soft_size = 0.15
+        ld.use_shadow = False
+        lo = bpy.data.objects.new(f"Lantern{n}", ld)
+        lo.location = c
+        col.objects.link(lo)
+        for t, e in ((0.0, 0.0), (t0 - 1.0 / FPS, 0.0), (t0, 60.0), (t1 - 1.0 / FPS, 60.0), (t1, 0.0)):
+            ld.energy = e
+            ld.keyframe_insert("energy", frame=f_of(t))
+        set_interp(ld, "CONSTANT")
+        n += 1
+    log(f"lanterns: {len(pts)} glow faces -> {len(cents)} lanterns, {n} lit")
+
+
+# ---------------------------------------------------------------------------------------- SH10: volumetric sunbeams
+def mat_sunbeam(name, color):
+    """A dusty shaft of light as a volume: soft round edge, bright at the window and fading to the floor, drifting dust
+    (4-D noise in world space); it emits its own colour (EEVEE's froxel lighting of a thin haze is too weak)."""
+    m, nt = new_mat(name, method="BLENDED")
+    tc = N(nt, "ShaderNodeTexCoord", -1400, 0)
+    sep = N(nt, "ShaderNodeSeparateXYZ", -1200, 0)
+    L(nt, tc.outputs["Generated"], sep.inputs[0])
+    du = math_node(nt, "SUBTRACT", sep.outputs["X"], 0.5, x=-1000, y=100)
+    dv = math_node(nt, "SUBTRACT", sep.outputs["Y"], 0.5, x=-1000, y=0)
+    rr = math_node(nt, "SQRT", math_node(nt, "ADD", math_node(nt, "MULTIPLY", du, du, x=-850, y=100),
+                                         math_node(nt, "MULTIPLY", dv, dv, x=-850, y=0), x=-700, y=50), x=-560, y=50)
+    edge = N(nt, "ShaderNodeMapRange", -420, 50, interpolation_type="SMOOTHERSTEP")
+    L(nt, rr, edge.inputs["Value"])
+    edge.inputs["From Min"].default_value = 0.5
+    edge.inputs["From Max"].default_value = 0.08
+    along = ramp(nt, sep.outputs["Z"], [(0.0, (0, 0, 0, 1)), (0.06, (1, 1, 1, 1)), (0.55, (0.62, 0.62, 0.62, 1)),
+                                        (1.0, (0.22, 0.22, 0.22, 1))], x=-700, y=-250)
+    abw = N(nt, "ShaderNodeRGBToBW", -450, -250)
+    L(nt, along, abw.inputs[0])
+    geo = N(nt, "ShaderNodeNewGeometry", -1400, -500)
+    frame = N(nt, "ShaderNodeValue", -1400, -700)
+    frame.outputs[0].driver_add("default_value").driver.expression = "frame"
+    wz = math_node(nt, "MULTIPLY", frame.outputs[0], 1.0 / 60.0, x=-1200, y=-700)
+    big = N(nt, "ShaderNodeTexNoise", -1000, -500, noise_dimensions="4D")
+    L(nt, geo.outputs["Position"], big.inputs["Vector"])
+    L(nt, wz, big.inputs["W"])
+    big.inputs["Scale"].default_value = 0.9
+    big.inputs["Detail"].default_value = 3.0
+    fine = N(nt, "ShaderNodeTexNoise", -1000, -800, noise_dimensions="4D")
+    L(nt, geo.outputs["Position"], fine.inputs["Vector"])
+    L(nt, math_node(nt, "MULTIPLY", wz, 2.2, x=-1150, y=-850), fine.inputs["W"])
+    fine.inputs["Scale"].default_value = 5.0
+    fine.inputs["Detail"].default_value = 2.0
+    dust = N(nt, "ShaderNodeMapRange", -800, -500)
+    L(nt, big.outputs["Fac"], dust.inputs["Value"])
+    dust.inputs["From Min"].default_value = 0.3
+    dust.inputs["From Max"].default_value = 0.72
+    dust.inputs["To Min"].default_value = 0.3
+    dust.inputs["To Max"].default_value = 1.15
+    grain = math_node(nt, "ADD", math_node(nt, "MULTIPLY", fine.outputs["Fac"], 0.5, x=-800, y=-800), 0.75, x=-650, y=-800)
+    dens = math_node(nt, "MULTIPLY", math_node(nt, "MULTIPLY", edge.outputs["Result"], abw.outputs[0], x=-250, y=0),
+                     math_node(nt, "MULTIPLY", dust.outputs["Result"], grain, x=-500, y=-600), x=-100, y=-100)
+    power = N(nt, "ShaderNodeValue", -250, 250)
+    power.label = "power"
+    power.outputs[0].default_value = 0.0
+    vp = N(nt, "ShaderNodeVolumePrincipled", 150, 0)
+    vp.inputs["Color"].default_value = (*color, 1)
+    vp.inputs["Emission Color"].default_value = (*[0.12 + 0.88 * c for c in color], 1)
+    L(nt, math_node(nt, "MULTIPLY", dens, power.outputs[0], x=0, y=150), vp.inputs["Emission Strength"])
+    L(nt, math_node(nt, "MULTIPLY", math_node(nt, "MINIMUM", power.outputs[0], 0.02, x=-100, y=300), dens, x=0, y=300),
+      vp.inputs["Density"])
+    mat_out(nt, None, 450, 0, volume=vp.outputs[0])
+    return m, power
+
+
+def mat_motes(beams):
+    """Dust motes: tiny specks that shine only inside the four shafts (distance to each shaft's axis, in the shader),
+    twinkling; transparent elsewhere."""
+    m, nt = new_mat("M_motes", method="BLENDED")
+    geo = N(nt, "ShaderNodeNewGeometry", -1600, 0)
+    at = N(nt, "ShaderNodeAttribute", -1600, -300, attribute_type="GEOMETRY")
+    at.attribute_name = "rnd"
+    frame = N(nt, "ShaderNodeValue", -1600, -500)
+    frame.outputs[0].driver_add("default_value").driver.expression = "frame"
+    tw = math_node(nt, "SINE", math_node(nt, "ADD", math_node(nt, "MULTIPLY", frame.outputs[0], 0.35, x=-1400, y=-500),
+                                         math_node(nt, "MULTIPLY", at.outputs["Fac"], 60.0, x=-1400, y=-350), x=-1250, y=-400),
+                   x=-1100, y=-400)
+    tw = math_node(nt, "ADD", math_node(nt, "MULTIPLY", tw, 0.3, x=-950, y=-400), 0.75, x=-800, y=-400)
+    total = None
+    powers = []
+    for k, (p0, p1, radius, c) in enumerate(beams):
+        p0, p1 = Vector(p0), Vector(p1)
+        ax = (p1 - p0)
+        ln = ax.length
+        ax.normalize()
+        y = 300 - k * 260
+        rel = N(nt, "ShaderNodeVectorMath", -1300, y, operation="SUBTRACT")
+        L(nt, geo.outputs["Position"], rel.inputs[0])
+        rel.inputs[1].default_value = p0
+        t = N(nt, "ShaderNodeVectorMath", -1150, y, operation="DOT_PRODUCT")
+        L(nt, rel.outputs[0], t.inputs[0])
+        t.inputs[1].default_value = ax
+        proj = N(nt, "ShaderNodeVectorMath", -1000, y - 60, operation="SCALE")
+        proj.inputs[0].default_value = ax
+        L(nt, t.outputs["Value"], proj.inputs["Scale"])
+        perp = N(nt, "ShaderNodeVectorMath", -850, y, operation="SUBTRACT")
+        L(nt, rel.outputs[0], perp.inputs[0])
+        L(nt, proj.outputs[0], perp.inputs[1])
+        dist = N(nt, "ShaderNodeVectorMath", -700, y, operation="LENGTH")
+        L(nt, perp.outputs[0], dist.inputs[0])
+        rad = N(nt, "ShaderNodeMapRange", -550, y, interpolation_type="SMOOTHSTEP")
+        L(nt, dist.outputs["Value"], rad.inputs["Value"])
+        rad.inputs["From Min"].default_value = radius
+        rad.inputs["From Max"].default_value = radius * 0.2
+        inside = math_node(nt, "MULTIPLY", math_node(nt, "GREATER_THAN", t.outputs["Value"], 0.2, x=-850, y=y - 150),
+                           math_node(nt, "LESS_THAN", t.outputs["Value"], ln, x=-700, y=y - 150), x=-550, y=y - 150)
+        pw = N(nt, "ShaderNodeValue", -550, y - 220)
+        pw.label = f"power{k}"
+        pw.outputs[0].default_value = 0.0
+        powers.append(pw)
+        mk = math_node(nt, "MULTIPLY", math_node(nt, "MULTIPLY", rad.outputs["Result"], inside, x=-400, y=y),
+                       pw.outputs[0], x=-250, y=y)
+        cc = mix_col(nt, mk, (0, 0, 0, 1), (*[0.45 + 0.55 * x for x in c], 1), x=-100, y=y)
+        total = cc if total is None else mix_col(nt, 1.0, total, cc, blend="ADD", x=50, y=y)
+        msum = mk if k == 0 else math_node(nt, "ADD", msum, mk, x=50, y=y - 120)
+    em = N(nt, "ShaderNodeEmission", 250, 0)
+    L(nt, total, em.inputs["Color"])
+    L(nt, math_node(nt, "MULTIPLY", tw, 40.0, x=100, y=-300), em.inputs["Strength"])
+    tr = N(nt, "ShaderNodeBsdfTransparent", 250, -200)
+    # dithered: a speck exists only inside a shaft (outside it is fully transparent, and the volume stays behind it)
+    mx = N(nt, "ShaderNodeMixShader", 450, 0)
+    L(nt, math_node(nt, "MINIMUM", math_node(nt, "MULTIPLY", msum, 3.0, x=200, y=-450), 1.0, x=320, y=-450), mx.inputs[0])
+    L(nt, tr.outputs[0], mx.inputs[1])
+    L(nt, em.outputs[0], mx.inputs[2])
+    mat_out(nt, mx.outputs[0], 650, 0)
+    m.surface_render_method = "DITHERED"
+    m.use_backface_culling = False
+    return m, powers
+
+
+def build_motes(beams, t_in, offs):
+    """Points in a box round the throne; Geometry Nodes put a tiny speck on each and let them drift (noise + a slow
+    fall + a slow rise in the warm air)."""
+    rnd = np.random.default_rng(11)
+    n = 5200
+    co = np.column_stack([rnd.uniform(-5.2, 5.2, n), rnd.uniform(-15.5, -2.5, n), rnd.uniform(48.2, 56.5, n)])
+    me = bpy.data.meshes.new("Motes")
+    me.vertices.add(n)
+    me.vertices.foreach_set("co", co.astype(np.float32).ravel())
+    me.update()
+    ob = bpy.data.objects.new("Motes", me)
+    props_col().objects.link(ob)
+    g = bpy.data.node_groups.new("MoteDrift", "GeometryNodeTree")
+    g.interface.new_socket("Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
+    g.interface.new_socket("Geometry", in_out="INPUT", socket_type="NodeSocketGeometry")
+    nt = g
+    gi = N(nt, "NodeGroupInput", -1400, 0)
+    go = N(nt, "NodeGroupOutput", 900, 0)
+    m2p = N(nt, "GeometryNodeMeshToPoints", -1200, 0)
+    L(nt, gi.outputs[0], m2p.inputs["Mesh"])
+    pos = N(nt, "GeometryNodeInputPosition", -1400, -300)
+    tm = N(nt, "GeometryNodeInputSceneTime", -1400, -500)
+    nz = N(nt, "ShaderNodeTexNoise", -1000, -300, noise_dimensions="4D")
+    L(nt, pos.outputs[0], nz.inputs["Vector"])
+    L(nt, math_node(nt, "MULTIPLY", tm.outputs["Seconds"], 0.12, x=-1200, y=-500), nz.inputs["W"])
+    nz.inputs["Scale"].default_value = 0.35
+    cen = N(nt, "ShaderNodeVectorMath", -800, -300, operation="SUBTRACT")
+    L(nt, nz.outputs["Color"], cen.inputs[0])
+    cen.inputs[1].default_value = (0.5, 0.5, 0.5)
+    drift = N(nt, "ShaderNodeVectorMath", -650, -300, operation="SCALE")
+    L(nt, cen.outputs[0], drift.inputs[0])
+    drift.inputs["Scale"].default_value = 1.6
+    rise = N(nt, "ShaderNodeCombineXYZ", -800, -550)
+    L(nt, math_node(nt, "MULTIPLY", tm.outputs["Seconds"], 0.05, x=-1000, y=-600), rise.inputs["Z"])
+    L(nt, math_node(nt, "MULTIPLY", tm.outputs["Seconds"], 0.02, x=-1000, y=-700), rise.inputs["X"])
+    off = N(nt, "ShaderNodeVectorMath", -500, -400, operation="ADD")
+    L(nt, drift.outputs[0], off.inputs[0])
+    L(nt, rise.outputs[0], off.inputs[1])
+    sp = N(nt, "GeometryNodeSetPosition", -300, 0)
+    L(nt, m2p.outputs[0], sp.inputs["Geometry"])
+    L(nt, off.outputs[0], sp.inputs["Offset"])
+    rv = N(nt, "FunctionNodeRandomValue", -300, -300, data_type="FLOAT")
+    rv2 = N(nt, "FunctionNodeRandomValue", -300, -500, data_type="FLOAT")
+    rv2.inputs["Min"].default_value = 0.4
+    rv2.inputs["Max"].default_value = 1.3
+    rv2.inputs["Seed"].default_value = 3
+    ico = N(nt, "GeometryNodeMeshIcoSphere", -300, 250)
+    ico.inputs["Radius"].default_value = 0.009
+    ico.inputs["Subdivisions"].default_value = 1
+    inst = N(nt, "GeometryNodeInstanceOnPoints", 0, 0)
+    L(nt, sp.outputs[0], inst.inputs["Points"])
+    L(nt, ico.outputs[0], inst.inputs["Instance"])
+    L(nt, fout(rv2), inst.inputs["Scale"])
+    st = N(nt, "GeometryNodeStoreNamedAttribute", 250, 0, data_type="FLOAT", domain="INSTANCE")
+    st.inputs["Name"].default_value = "rnd"
+    L(nt, inst.outputs[0], st.inputs["Geometry"])
+    L(nt, fout(rv), st.inputs["Value"])
+    real = N(nt, "GeometryNodeRealizeInstances", 500, 0)
+    L(nt, st.outputs[0], real.inputs[0])
+    mm, powers = mat_motes(beams)
+    setm = N(nt, "GeometryNodeSetMaterial", 700, 0)      # generated geometry carries no material of its own
+    L(nt, real.outputs[0], setm.inputs["Geometry"])
+    setm.inputs["Material"].default_value = mm
+    L(nt, setm.outputs[0], go.inputs[0])
+    mod = ob.modifiers.new("drift", "NODES")
+    mod.node_group = g
+    ob.data.materials.append(mm)
+    ob.visible_shadow = False
+    t_out = SHOT["SH10"]["t1"]
+    for k, pw in enumerate(powers):
+        for t, v_ in ((0.0, 0.0), (t_in - 0.01, 0.0), (t_in, 1.0), (offs[k], 1.0), (offs[k] + 0.06, 0.0)):
+            pw.outputs[0].default_value = v_
+            pw.outputs[0].keyframe_insert("default_value", frame=f_of(t))
+    set_interp(mm.node_tree, "CONSTANT")
+    for t, h in ((0.0, True), (t_in, False), (t_out, True)):
+        ob.hide_render = h
+        ob.keyframe_insert("hide_render", frame=f_of(t))
+    set_interp(ob, "CONSTANT")
+    return ob
+
+
+# ---------------------------------------------------------------------------------------- SH05: fire
+def mat_fire_glow():
+    """The hot air round a fire: an emissive volume, brightest low in the middle, flickering."""
+    m, nt = new_mat("M_fire_glow", method="BLENDED")
+    tc = N(nt, "ShaderNodeTexCoord", -1000, 0)
+    ln = N(nt, "ShaderNodeVectorMath", -800, 0, operation="LENGTH")
+    L(nt, tc.outputs["Object"], ln.inputs[0])
+    fall = N(nt, "ShaderNodeMapRange", -600, 0, interpolation_type="SMOOTHSTEP")
+    L(nt, ln.outputs["Value"], fall.inputs["Value"])
+    fall.inputs["From Min"].default_value = 1.0
+    fall.inputs["From Max"].default_value = 0.0
+    f2 = math_node(nt, "POWER", fall.outputs["Result"], 2.2, x=-400, y=0)
+    oi = N(nt, "ShaderNodeObjectInfo", -1000, -300)
+    frame = N(nt, "ShaderNodeValue", -1000, -500)
+    frame.outputs[0].driver_add("default_value").driver.expression = "frame"
+    fl = math_node(nt, "ADD", math_node(nt, "MULTIPLY", math_node(nt, "SINE", math_node(nt, "ADD", math_node(
+        nt, "MULTIPLY", frame.outputs[0], 0.9, x=-850, y=-500), math_node(nt, "MULTIPLY", oi.outputs["Random"], 40.0,
+                                                                           x=-850, y=-350), x=-700, y=-450), x=-550, y=-450),
+        0.18, x=-400, y=-450), 1.0, x=-250, y=-450)
+    vp = N(nt, "ShaderNodeVolumePrincipled", 0, 0)
+    vp.inputs["Density"].default_value = 0.0
+    vp.inputs["Emission Color"].default_value = (1.0, 0.42, 0.12, 1)
+    L(nt, math_node(nt, "MULTIPLY", math_node(nt, "MULTIPLY", f2, fl, x=-200, y=0), 2.5, x=-80, y=100),
+      vp.inputs["Emission Strength"])
+    mat_out(nt, None, 300, 0, volume=vp.outputs[0])
+    return m
+
+
+def mat_coals():
+    m, nt = new_mat("M_coals")
+    frame = N(nt, "ShaderNodeValue", -1000, -500)
+    frame.outputs[0].driver_add("default_value").driver.expression = "frame"
+    geo = N(nt, "ShaderNodeNewGeometry", -1000, 0)
+    nz = N(nt, "ShaderNodeTexVoronoi", -800, 0, voronoi_dimensions="4D", feature="F1")
+    L(nt, geo.outputs["Position"], nz.inputs["Vector"])
+    L(nt, math_node(nt, "MULTIPLY", frame.outputs[0], 0.02, x=-900, y=-400), nz.inputs["W"])
+    nz.inputs["Scale"].default_value = 9.0
+    hot = ramp(nt, nz.outputs["Distance"], [(0.0, (1.0, 0.75, 0.3, 1)), (0.25, (1.0, 0.3, 0.04, 1)), (0.5, (0.25, 0.03, 0.0, 1)),
+                                            (0.75, (0.02, 0.01, 0.01, 1))], x=-500, y=0)
+    p = principled(nt, -100, 0, Base_Color=(0.03, 0.02, 0.02), Roughness=0.9)
+    L(nt, hot, p.inputs["Emission Color"])
+    p.inputs["Emission Strength"].default_value = 9.0
+    mat_out(nt, p.outputs[0], 250, 0)
+    return m
+
+
+def build_embers(name, base, count=110, height=4.2, spread=0.35):
+    """Sparks rising from a fire (Geometry Nodes): each spark loops (phase = fract(time * rate + seed)), rises and
+    drifts in a swirl, shrinks and cools (stored 'heat' -> the material's colour ramp)."""
+    me = bpy.data.meshes.new(name)
+    me.vertices.add(count)
+    me.vertices.foreach_set("co", np.zeros(count * 3, np.float32))
+    me.update()
+    ob = bpy.data.objects.new(name, me)
+    ob.location = base
+    props_col().objects.link(ob)
+    g = bpy.data.node_groups.get("Embers")
+    if g is None:
+        g = bpy.data.node_groups.new("Embers", "GeometryNodeTree")
+        g.interface.new_socket("Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
+        g.interface.new_socket("Geometry", in_out="INPUT", socket_type="NodeSocketGeometry")
+        for nm, dv in (("Height", 4.0), ("Spread", 0.35), ("Seed", 0)):
+            s = g.interface.new_socket(nm, in_out="INPUT", socket_type="NodeSocketFloat" if nm != "Seed" else "NodeSocketInt")
+            s.default_value = dv
+        nt = g
+        gi = N(nt, "NodeGroupInput", -1800, 0)
+        go = N(nt, "NodeGroupOutput", 1000, 0)
+        m2p = N(nt, "GeometryNodeMeshToPoints", -1500, 200)
+        L(nt, gi.outputs["Geometry"], m2p.inputs["Mesh"])
+        tm = N(nt, "GeometryNodeInputSceneTime", -1800, -600)
+
+        def rv(seed_off, lo, hi, y):
+            r = N(nt, "FunctionNodeRandomValue", -1500, y, data_type="FLOAT")
+            r.inputs["Min"].default_value = lo
+            r.inputs["Max"].default_value = hi
+            L(nt, math_node(nt, "ADD", gi.outputs["Seed"], float(seed_off), x=-1650, y=y), r.inputs["Seed"])
+            return fout(r)
+        r_rate, r_ph, r_ang, r_rad, r_sw = (rv(1, 0.35, 0.8, -100), rv(2, 0, 1, -250), rv(3, 0, 6.283, -400),
+                                            rv(4, 0.1, 1.0, -550), rv(5, 0, 50, -700))
+        ph = math_node(nt, "FRACT", math_node(nt, "ADD", math_node(nt, "MULTIPLY", tm.outputs["Seconds"], r_rate, x=-1300, y=-100),
+                                              r_ph, x=-1150, y=-150), x=-1000, y=-150)
+        rise = math_node(nt, "MULTIPLY", math_node(nt, "POWER", ph, 0.8, x=-850, y=-150), gi.outputs["Height"], x=-700, y=-150)
+        rad = math_node(nt, "MULTIPLY", math_node(nt, "MULTIPLY", r_rad, gi.outputs["Spread"], x=-1150, y=-550),
+                        math_node(nt, "ADD", math_node(nt, "MULTIPLY", ph, 1.6, x=-1000, y=-650), 0.4, x=-850, y=-650),
+                        x=-700, y=-550)
+        swirl = math_node(nt, "ADD", r_ang, math_node(nt, "MULTIPLY", math_node(nt, "ADD", tm.outputs["Seconds"], r_sw, x=-1150, y=-750),
+                                                      1.7, x=-1000, y=-750), x=-850, y=-450)
+        px = math_node(nt, "MULTIPLY", math_node(nt, "COSINE", swirl, x=-700, y=-400), rad, x=-550, y=-400)
+        py = math_node(nt, "MULTIPLY", math_node(nt, "SINE", swirl, x=-700, y=-500), rad, x=-550, y=-500)
+        cp = N(nt, "ShaderNodeCombineXYZ", -400, -300)
+        L(nt, px, cp.inputs["X"])
+        L(nt, py, cp.inputs["Y"])
+        L(nt, rise, cp.inputs["Z"])
+        sp = N(nt, "GeometryNodeSetPosition", -250, 200)
+        L(nt, m2p.outputs[0], sp.inputs["Geometry"])
+        L(nt, cp.outputs[0], sp.inputs["Position"])
+        heat = math_node(nt, "SUBTRACT", 1.0, ph, x=-600, y=100)
+        ico = N(nt, "GeometryNodeMeshIcoSphere", -250, 400)
+        ico.inputs["Radius"].default_value = 1.0
+        ico.inputs["Subdivisions"].default_value = 1
+        sc_ = N(nt, "ShaderNodeCombineXYZ", -250, 0)
+        sz = math_node(nt, "MULTIPLY", math_node(nt, "POWER", heat, 0.5, x=-450, y=50), 0.022, x=-350, y=50)
+        L(nt, sz, sc_.inputs["X"])
+        L(nt, sz, sc_.inputs["Y"])
+        L(nt, math_node(nt, "MULTIPLY", sz, 2.6, x=-350, y=-50), sc_.inputs["Z"])
+        inst = N(nt, "GeometryNodeInstanceOnPoints", 0, 200)
+        L(nt, sp.outputs[0], inst.inputs["Points"])
+        L(nt, ico.outputs[0], inst.inputs["Instance"])
+        L(nt, sc_.outputs[0], inst.inputs["Scale"])
+        st = N(nt, "GeometryNodeStoreNamedAttribute", 250, 200, data_type="FLOAT", domain="INSTANCE")
+        st.inputs["Name"].default_value = "heat"
+        L(nt, inst.outputs[0], st.inputs["Geometry"])
+        L(nt, heat, st.inputs["Value"])
+        real = N(nt, "GeometryNodeRealizeInstances", 500, 200)
+        L(nt, st.outputs[0], real.inputs[0])
+        L(nt, real.outputs[0], go.inputs[0])
+    # per-fire parameters: a copy of the group with its own input defaults (the modifier starts from them)
+    g = g.copy()
+    g.name = "Embers_" + name
+    for nm, v in (("Height", height), ("Spread", spread), ("Seed", sum(ord(ch) for ch in name) % 1000)):
+        sock = next(s for s in g.interface.items_tree if getattr(s, "name", "") == nm and s.in_out == "INPUT")
+        sock.default_value = v
+    mod = ob.modifiers.new("embers", "NODES")
+    mod.node_group = g
+    m = bpy.data.materials.get("M_embers")
+    if m is None:
+        m, nt = new_mat("M_embers")
+        at = N(nt, "ShaderNodeAttribute", -600, 0, attribute_type="GEOMETRY")
+        at.attribute_name = "heat"
+        c = ramp(nt, at.outputs["Fac"], [(0.0, (0.5, 0.1, 0.0, 1)), (0.35, (1.0, 0.35, 0.03, 1)), (0.7, (1.0, 0.6, 0.15, 1)),
+                                         (1.0, (1.0, 0.92, 0.6, 1))], x=-350, y=0)
+        em = N(nt, "ShaderNodeEmission", 0, 0)
+        L(nt, c, em.inputs["Color"])
+        L(nt, math_node(nt, "MULTIPLY", math_node(nt, "POWER", at.outputs["Fac"], 1.5, x=-350, y=-250), 14.0, x=-200, y=-250),
+          em.inputs["Strength"])
+        mat_out(nt, em.outputs[0], 250, 0)
+    ob.data.materials.append(m)
+    # generated geometry carries no material of its own: set it in this fire's copy of the group
+    real = next(n for n in g.nodes if n.bl_idname == "GeometryNodeRealizeInstances")
+    gout = next(n for n in g.nodes if n.bl_idname == "NodeGroupOutput")
+    setm = g.nodes.new("GeometryNodeSetMaterial")
+    setm.location = (750, 200)
+    g.links.new(real.outputs[0], setm.inputs["Geometry"])
+    setm.inputs["Material"].default_value = m
+    g.links.new(setm.outputs[0], gout.inputs[0])
+    ob.visible_shadow = False
+    return ob
+
+
+# ---------------------------------------------------------------------------------------- SH08: the four crowns
+def mat_crown_halo(name, color):
+    m, nt = new_mat(name, method="BLENDED")
+    tc = N(nt, "ShaderNodeTexCoord", -900, 0)
+    ln = N(nt, "ShaderNodeVectorMath", -700, 0, operation="LENGTH")
+    L(nt, tc.outputs["Object"], ln.inputs[0])
+    fall = N(nt, "ShaderNodeMapRange", -500, 0, interpolation_type="SMOOTHSTEP")
+    L(nt, ln.outputs["Value"], fall.inputs["Value"])
+    fall.inputs["From Min"].default_value = 1.0
+    fall.inputs["From Max"].default_value = 0.0
+    f2 = math_node(nt, "POWER", fall.outputs["Result"], 2.0, x=-300, y=0)
+    power = N(nt, "ShaderNodeValue", -300, 200)
+    power.label = "power"
+    vp = N(nt, "ShaderNodeVolumePrincipled", 0, 0)
+    vp.inputs["Density"].default_value = 0.0
+    vp.inputs["Emission Color"].default_value = (*color, 1)
+    L(nt, math_node(nt, "MULTIPLY", f2, power.outputs[0], x=-150, y=100), vp.inputs["Emission Strength"])
+    mat_out(nt, None, 300, 0, volume=vp.outputs[0])
+    return m, power
+
+
+def build_crown_halos(sc):
+    """SH08: each keep's crown-fire sits in a soft glowing sphere of its colour, seen from above as a coloured bloom
+    over the keep (only during SH08; the beams take over in SH09)."""
+    t0, t1 = SHOT["SH08"]["t0"], SHOT["SH08"]["t1"]
+    for key, (t_on, (x, y), c) in KEEPS.items():
+        crown = bpy.data.objects[f"Crown_{key}"]
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=3, radius=1.0)
+        ob = bpy.context.active_object
+        ob.name = f"CrownHalo_{key}"
+        for cc in list(ob.users_collection):
+            cc.objects.unlink(ob)
+        props_col().objects.link(ob)
+        ob.location = crown.location
+        ob.scale = (6.5, 6.5, 6.5)
+        ob.visible_shadow = False
+        m, power = mat_crown_halo(f"M_crown_halo_{key}", c)
+        ob.data.materials.append(m)
+        boost = 1.7 if key == "shadow" else (1.25 if key == "ice" else 1.0)
+        for t, v_ in ((0.0, 0.0), (t0 + 0.2, 0.0), (t0 + 0.7, 0.6 * boost), (t1 - 1.0 / FPS, 0.6 * boost), (t1, 0.0)):
+            power.outputs[0].default_value = v_
+            power.outputs[0].keyframe_insert("default_value", frame=f_of(t))
+        set_interp(m.node_tree, "LINEAR")
+        for t, h in ((0.0, True), (t0, False), (t1, True)):
+            ob.hide_render = h
+            ob.keyframe_insert("hide_render", frame=f_of(t))
+        set_interp(ob, "CONSTANT")
+
+
 # ============================================================================================ the edit
 TITLE = "F O U R    W I Z A R D S"
 
@@ -2656,8 +3697,13 @@ def main(full=True):
     if not full:
         return sc
     build_cues(sc, sun)
-    build_bell(sc)
+    col = bpy.data.collections.new("Props")
+    sc.collection.children.link(col)
+    build_belfries(sc)          # (pass 2: replaces build_bell)
+    build_crowd(sc)
+    build_lanterns(sc)
     build_beams(sc)
+    build_crown_halos(sc)
     build_throne_light(sc, sun)
     build_orrery_flames(sc)
     build_braziers(sc)

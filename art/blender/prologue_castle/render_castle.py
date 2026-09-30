@@ -14,6 +14,7 @@ Options (after --):
     out=FILE.mp4           film: output (default prologue_castle_film.mp4 next to this script)
     fmt=JPEG|PNG           film frames format (default JPEG 95; PNG for the final master)
     start=1 end=720        film: a frame range (encode still uses every frame found)
+    bitrate=4200           film / encode: constant video bitrate in kb/s instead of CRF (size-capped delivery)
 """
 import os
 import sys
@@ -105,10 +106,10 @@ def film(o):
     print(f"FILM frames {sc.frame_start}-{sc.frame_end} rendered in {render_s / 60:.1f} min -> {frames}", flush=True)
     if sc.frame_start != 1 or sc.frame_end != bc.FRAMES:
         return
-    encode(sc, frames, ext, o.get("out", os.path.join(HERE, "prologue_castle_film.mp4")))
+    encode(sc, frames, ext, o.get("out", os.path.join(HERE, "prologue_castle_film.mp4")), int(o.get("bitrate", 0)))
 
 
-def encode(sc, frames, ext, out):
+def encode(sc, frames, ext, out, bitrate=0):
     """Picture (the rendered frames) + narration + bell + wind + title -> H.264 / AAC mp4."""
     ed_scene = bpy.data.scenes.new("Encode")
     ed_scene.render.resolution_x, ed_scene.render.resolution_y = sc.render.resolution_x, sc.render.resolution_y
@@ -162,6 +163,15 @@ def encode(sc, frames, ext, out):
     r.ffmpeg.codec = "H264"
     r.ffmpeg.constant_rate_factor = "HIGH"
     r.ffmpeg.ffmpeg_preset = "GOOD"
+    if bitrate:
+        # size-capped delivery (the project library takes files up to 20 MB): constant bitrate in kb/s
+        r.ffmpeg.constant_rate_factor = "NONE"
+        r.ffmpeg.ffmpeg_preset = "BEST"
+        r.ffmpeg.video_bitrate = bitrate
+        r.ffmpeg.minrate = 0
+        r.ffmpeg.maxrate = int(bitrate * 1.25)
+        r.ffmpeg.buffersize = int(bitrate * 2)
+        r.ffmpeg.gopsize = 24
     r.ffmpeg.audio_codec = "AAC"
     r.ffmpeg.audio_bitrate = 192
     r.ffmpeg.audio_channels = "STEREO"
@@ -186,6 +196,7 @@ if __name__ == "__main__":
     elif o["mode"] == "encode":
         sc = bpy.data.scenes["Citadel"]
         setup(sc, int(o.get("res", 1920)), 1)
-        encode(sc, o["frames"], o.get("ext", "jpg"), o.get("out", os.path.join(HERE, "prologue_castle_film.mp4")))
+        encode(sc, o["frames"], o.get("ext", "jpg"), o.get("out", os.path.join(HERE, "prologue_castle_film.mp4")),
+               int(o.get("bitrate", 0)))
     else:
         print("usage: -- stills | film | encode frames=DIR")
