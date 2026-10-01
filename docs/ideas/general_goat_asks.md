@@ -8,6 +8,8 @@ This project is separate from Four Wizards. Its files live outside this repo (se
 
 | Date | Ask (JS's words, short) | Status | Where |
 |---|---|---|---|
+| 2026-09-30 | Website has too much information and text: simplify | done | 5 tab groups with sub-tabs, dropdown filters, long text folded into "How this works", 3 cards + "More lists", popup extras folded |
+| 2026-09-30 | Battle locations with death counts; find the towns, villages, lakes fought over most | done | "Battles → Map" tab (8,950 battles on a world map), most fought-over places with type filter, deadliest battles and places; place + deaths in each battle popup (`places.py`) |
 | 2026-09-28 | Dynasty Elo with sub-categories, on the SAME site (not a separate one) | done | new "Dynasties" tab: type / region / era filters, family feuds, "Born to it?" lists (`dynasty.py`) |
 | 2026-09-28 | Family tree for each general, plus birth / fame / dynasty scores and how much they overachieved from where they were born. Just an extra: must not change the Elo | done | `family.py`, "Family tree and origins" section in each general's popup |
 | 2026-09-28 | Check all names and dates: who is the right person, which mistakes are Wikipedia's and which are mine | done | results in "Name and date audit" below; fixes rebuilt into the site |
@@ -109,3 +111,5 @@ Checked the 244 people shown on the site (top 100, each language's top 10, all f
 35. make it just a extra
 36. no add dynastie elo whif sub category similar no current site
 37. its the same site just whif dynasties in it
+38. can u add battle location where there is death count u can seach for town village or lake that has benn fight over
+39. after fix the ui website to much information and text

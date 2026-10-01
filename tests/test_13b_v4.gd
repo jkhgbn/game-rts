@@ -331,6 +331,7 @@ func _run() -> void:
 	print("death end: top %.2f, finished %s" % [sunk.end.y, got[0]])
 	_check(got[0], "death_finished within 1.65 s")
 	_check(sunk.end.y < 0.05, "sunk under the ground (%.2f)" % sunk.end.y)
+	a.set(&"fidget_every", 0.0)   # the random idle fidget (head shoots out) may start right after a revive
 	a.call(&"revive")
 	await _wait(0.3)
 	_check(absf(root_n.position.y) < 0.06 and absf(head.position.z - hz0) < 0.05, "revive resets the pose")

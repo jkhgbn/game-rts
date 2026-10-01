@@ -1625,15 +1625,18 @@ func _rule_train() -> void:
 		_log("HELPER CALL (crystals left %d)" % _eco.crystals)
 	if helper_step != &"":
 		return
-	# caster-units.md 8.1: the hard bot queues its caster(s) at the keep before any other Hall unit.
-	if casters_ai != null and casters_ai.try_train(true):
+	# 9.C9 (champions.md 10): a due champion hire that waits only for crystals comes before the optional spenders
+	# ("+" / bowman upgrades, Stables riders and rank-3, casters); training below still keeps its reserve through
+	# _can_spend (20 s rule). The tier timeline, the helper call and the Stables' own construction stay first, like a
+	# waiting build.
+	var hire_first := champion_ai != null and champion_ai.hire_waits_for_crystals(_level)
+	# caster-units.md 8.1: the hard bot queues its caster(s) at the keep before any other Hall unit (normal: its first
+	# one, saving the crystals for it meanwhile); a due champion hire goes first.
+	if casters_ai != null and not hire_first and casters_ai.try_train(true):
 		_queued_this_tick = true
 		return
-	# 9.C9 (champions.md 10): a due champion hire that waits only for crystals comes before the optional spenders
-	# ("+" / bowman upgrades, Stables riders and rank-3); training below still keeps its reserve through _can_spend
-	# (20 s rule). The tier timeline, the helper call and the Stables' own construction stay first, like a waiting
-	# build.
-	var hire_first := champion_ai != null and champion_ai.hire_waits_for_crystals(_level)
+	if casters_ai != null and not hire_first and casters_ai.saving_for_caster():
+		return
 	if not hire_first and UnitUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # tiers.md 5: "+" upgrades
 		_log("PLUS UPGRADE (crystals left %d)" % _eco.crystals)
 		return
@@ -2366,6 +2369,21 @@ func own_soldiers() -> Array[Unit]:
 ## Own living casters.
 func own_casters() -> Array[Unit]:
 	return _casters
+
+
+## True when `cost` crystals may be spent now without starving a waiting build (rule 4's reserve, 20 s starve rule).
+func can_spend_now(cost: int) -> bool:
+	return _can_spend(cost)
+
+
+## True while a build row waits for crystals (rule 4 reserves them).
+func build_waiting() -> bool:
+	return _pending_cost > 0
+
+
+## The own wizard while alive, else null.
+func own_wizard() -> Wizard:
+	return _wizard if is_instance_valid(_wizard) and _wizard.is_alive() else null
 
 
 ## True while rule 1 defends the base.

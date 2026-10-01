@@ -420,8 +420,8 @@
 	"quality": 99.0,
 	"result": "PASS",
 	"scene": "res://art/units/neutral/critters/deer.tscn",
-	"seconds": 0.0,
+	"seconds": 0.1,
 	"shots": {},
-	"started": "2026-09-30 18:12:14",
+	"started": "2026-09-30 23:57:35",
 	"tier": "deer"
 }

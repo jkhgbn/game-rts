@@ -1,6 +1,6 @@
 # Art Lab calibration run
 
-2026-09-30 18:12:15, lab v3.1, headless, 13 cases in 1 s. Bands: tools/art_lab/calibration/calibration.gd; manual: docs/plan/art-lab.md "Calibration".
+2026-09-30 23:57:37, lab v3.1, headless, 13 cases in 4 s. Bands: tools/art_lab/calibration/calibration.gd; manual: docs/plan/art-lab.md "Calibration".
 
 | case | plant | result | quality | band | WARN / FAIL | verdict |
 |---|---|---|---|---|---|---|

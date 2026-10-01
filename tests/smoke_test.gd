@@ -50,9 +50,13 @@ func _process(_delta: float) -> bool:
 	if frame == 2400 and is_instance_valid(main.hero):
 		main.camera_rig.focus_on(main.hero.global_position)
 		_shot("04_ruins")
-		# Everyone fights the guardians, then the wizard walks to the crown.
+		# The army fights the guardians while the wizard supports it with Fireballs from behind (she is the mission:
+		# if she dies it is lost), then she walks to the crown.
 		for u in _player_units():
-			u.command_attack(_nearest_enemy_to(u.global_position)) if _nearest_enemy_to(u.global_position) else null
+			if u != main.hero:
+				u.command_attack(_nearest_enemy_to(u.global_position)) if _nearest_enemy_to(u.global_position) else null
+	if frame > 2400 and frame < 3600 and frame % 30 == 0 and is_instance_valid(main.hero) and main.hero.is_alive():
+		_support_from_behind()
 	if frame == 3600 and is_instance_valid(main.hero):
 		print("Guardians left: %d, player=%d" % [_count(1), _count(0)])
 		main.hero.command_move(main.ARTIFACT_POS)
@@ -64,6 +68,22 @@ func _process(_delta: float) -> bool:
 		print("TIMEOUT: player=%d enemy=%d" % [_count(0), _count(1)])
 		return true
 	return false
+
+
+# Ruins fight: Fireball the nearest guardian in range (16 m) when she can; step 10 m back toward the mid camp when
+# she is under 40 % HP with an enemy close.
+func _support_from_behind() -> void:
+	var h = main.hero   # untyped: Wizard fields (hp, command_fireball)
+	var e := _nearest_enemy_to(h.global_position)
+	if e == null:
+		return
+	var d: float = e.global_position.distance_to(h.global_position)
+	if h.hp < h.max_hp * 0.4 and d < 8.0:
+		var back: Vector3 = (main.MID_CAMP - h.global_position)
+		back.y = 0.0
+		h.command_move(h.global_position + back.normalized() * 10.0)
+	elif d <= 16.0:
+		h.command_fireball(e.global_position)
 
 
 func _player_units() -> Array:

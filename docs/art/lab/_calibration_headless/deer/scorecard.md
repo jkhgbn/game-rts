@@ -1,6 +1,6 @@
 # Art Lab scorecard: deer
 
-Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 18:12:14 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/neutral/critters/deer.tscn` · kind **critter** / tier **deer** · kingdom neutral · ground meadow · 2026-09-30 23:57:35 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **99 / 100** (99.0)
 

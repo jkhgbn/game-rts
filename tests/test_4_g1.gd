@@ -24,6 +24,7 @@ var hero_hp_start := 0.0
 var burn_hp_start := 0.0
 var fb_hp_start := 0.0
 var fb_expected := 0.0
+var fb_from_hero := 0.0
 var spell_hits: Array = []
 var ember_base := 0.0
 
@@ -133,6 +134,10 @@ func _setup() -> void:
 		spell_hits.append([t, amount, id, (t as Unit).has_status(&"smoulder") if t is Unit else false]))
 	s_fb = _spawn("shade", 1, Vector3(0, 0, -12), 1000.0)
 	fb_hp_start = s_fb.hp
+	# Count only Vessa's damage: the mission army (flame guards, aggro 8) stands near and may hit the shade too.
+	s_fb.damage_taken.connect(func(amount: float, by: Node3D) -> void:
+		if by == h:
+			fb_from_hero += amount)
 	h.add_modifier(&"test_sp", {"spell_power": 60.0})
 	var fb: SpellType = SpellType.find(&"fireball")
 	fb_expected = fb.damage_at(h.spell_rank(&"fireball")) * 1.6
@@ -184,7 +189,8 @@ func _check_burn_and_fireball() -> void:
 	var lost: float = burn_hp_start - s_burn.hp
 	_expect(is_equal_approx(lost, 16.0), "burn dealt 16 over 2 s (got %.2f)" % lost)
 	_expect(not s_burn.has_status(&"burn"), "burn ended")
-	var fb_lost: float = fb_hp_start - s_fb.hp
+	var fb_lost: float = fb_from_hero
+	_expect(fb_hp_start - s_fb.hp >= fb_lost - 0.01, "shade HP lost %.2f covers Vessa's %.2f" % [fb_hp_start - s_fb.hp, fb_lost])
 	_expect(absf(fb_lost - fb_expected) < 0.01, "Fireball x1.6 with 60 spell power: %.2f vs %.2f" % [fb_lost, fb_expected])
 	var hit_ok := false
 	for e: Array in spell_hits:

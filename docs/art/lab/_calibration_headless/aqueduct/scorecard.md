@@ -1,6 +1,6 @@
 # Art Lab scorecard: aqueduct
 
-Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-30 18:12:14 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/environment/landmarks/aqueduct.tscn` · kind **landmark** / tier **landmark** · kingdom neutral · ground meadow · 2026-09-30 23:57:34 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **99 / 100** (99.2)
 

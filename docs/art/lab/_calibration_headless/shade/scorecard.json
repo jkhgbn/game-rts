@@ -257,17 +257,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.565919717091136,
+			"graded": 0.565919734946283,
 			"group": "craft",
 			"hint": "",
 			"id": "C1",
 			"improve": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
 			"name": "Shape richness (secondary shapes)",
 			"rule": "craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92",
-			"score": 0.565919717091136,
+			"score": 0.565919734946283,
 			"shot": "close",
 			"status": "INFO",
-			"value": "43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.839",
+			"value": "43 shapes over 7 body parts (6.1 per part: LegL 2, LegR 2, Hips 1, Head 23, ArmL 4, ArmR 5, Chest 6); 37% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.838",
 			"weight": 1.0
 		},
 		{
@@ -393,18 +393,18 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "lowest point 0.02 m",
+			"value": "lowest point 0.019 m",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.774686217308044,
+			"graded": 0.773874700069427,
 			"group": "read",
 			"hint": "Set body_height (UnitType + scene) to the head top, or rescale the body",
 			"id": "R8",
 			"improve": "",
 			"name": "Head height vs body_height",
 			"rule": "x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5)",
-			"score": 0.932405865192413,
+			"score": 0.932162410020828,
 			"shot": "",
 			"status": "PASS",
 			"value": "head top 1.78 m / body_height 1.6 (x1.11)",
@@ -450,7 +450,7 @@
 	"headless": true,
 	"improve_next": [
 		{
-			"rank": 0.868160565817729,
+			"rank": 0.868160530107435,
 			"source": "C1 Shape richness (secondary shapes), shot close",
 			"status": "INFO",
 			"text": "Plain / blocky shapes: only 6.1 shapes per body part (aim >= 7): add secondary / tertiary shapes (straps, plates, bark ridges, cuffs, knuckles, a collar) on LegL, LegR, Hips; few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them",
@@ -482,8 +482,8 @@
 	"quality": 96.0,
 	"result": "PASS",
 	"scene": "res://art/units/shadow/shade.tscn",
-	"seconds": 0.1,
+	"seconds": 0.3,
 	"shots": {},
-	"started": "2026-09-30 18:12:14",
+	"started": "2026-09-30 23:57:34",
 	"tier": "soldier"
 }

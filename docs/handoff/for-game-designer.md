@@ -63,3 +63,14 @@ it) and note the answer in the kingdom specs; the Balance Lab can then test the 
 ## Caravans cost no supply (lead, 2026-09-27, user request)
 market-trade.md still says caravan pop 1: the data is now pop 0 (user: 'make caravan no supply'). Update the doc and the balance notes; include it in the next Balance Lab pass.
 
+
+## Caster bots: fight rules added beyond caster-units.md 8 (lead fixer, 2026-09-30, after the casters merge)
+tests/test_casters_bots.gd measured normal bots casting 0 times in 12 min (Fire / Nature): the section-5 autocast rules
+wait for targets bot fights rarely offer (4 units in 3 m, an enemy caster or siege, 4 archers in 3.5 m) and the casters
+stood 4 m behind an army that was rarely out. `scripts/ai/ai_casters.gd` now (bots only): **joins fights** (a caster with
+mana for a spell walks to 6-8 m from an enemy clump an own soldier / the wizard fights, within 45 m); **fight casts**
+on enemies an own unit fights: Kilnwarden Mana Scald on the enemy wizard from 25 mana, Slag Rain on 3+ units in 3 m or a
+hero / champion; Bramblesage Pollen Haze on 3+ ranged units, Snagroot on a ranged unit (2+ own fighters near), a hero /
+champion (3+), a melee unit from 175 mana (3+); the normal bot also queues its **first** caster before Hall units and
+saves crystals for it. Please confirm or replace these in section 8.3 (and 8.1), and say how many casts per fight you
+want measured (bot fights at 12 min normal are 3-6 short skirmishes of 10-40 s).

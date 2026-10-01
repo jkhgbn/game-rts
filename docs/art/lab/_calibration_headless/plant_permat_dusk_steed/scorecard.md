@@ -1,6 +1,6 @@
 # Art Lab scorecard: plant_permat_dusk_steed
 
-Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-30 18:12:15 · lab v3.1 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_permat_dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-30 23:57:36 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **FAIL** · quality **90 / 100** (89.6)
 

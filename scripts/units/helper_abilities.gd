@@ -395,7 +395,8 @@ func _do(id: StringName, target: Variant) -> bool:
 					if not helper.is_alive():
 						helper.visible = true
 						return
-					var alive := victims.filter(func(v: Unit) -> bool: return is_instance_valid(v) and v.is_alive())
+					# Untyped parameter: a victim freed during the strikes cannot convert to Unit (engine error).
+					var alive := victims.filter(func(v: Variant) -> bool: return is_instance_valid(v) and (v as Unit).is_alive())
 					if not alive.is_empty():
 						var v: Unit = alive[slot % alive.size()]
 						var dmg := float(KNIVES["damage"]) * f
@@ -444,7 +445,7 @@ func _do(id: StringName, target: Variant) -> bool:
 					if e.is_alive():
 						e.apply_status(&"rooted", float(THORNSNARE["root"])))
 		&"call_the_pack":
-			wolves = wolves.filter(func(w: Unit) -> bool: return is_instance_valid(w) and w.is_alive())
+			wolves = wolves.filter(func(w: Variant) -> bool: return is_instance_valid(w) and (w as Unit).is_alive())
 			for i in int(PACK["count"]):
 				var side := Vector3(1.2 if i == 0 else -1.2, 0.0, 0.8)
 				var w := _summon(String(PACK["unit"]), at + side, float(PACK["life"]), f)
