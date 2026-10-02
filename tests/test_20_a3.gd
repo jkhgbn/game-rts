@@ -1,8 +1,15 @@
 extends SceneTree
 ## Task 20.A3 (bot think-time budget + attacks happen), scenes/skirmish.tscn, one normal bot per side (Fire = PLAYER seat,
 ## Shadow = ENEMY), the 30:00 time limit. Checks:
-##   budget   each bot's median think tick <= MEDIAN_BUDGET_MS, p95 <= P95_BUDGET_MS, slowest <= MAX_BUDGET_MS (p95 / max
-##            only when the machine is not oversubscribed: tick average <= BUSY_AVG_RATIO x median).
+##   budget   each bot's median think tick <= MEDIAN_BUDGET_CAL calibration units (see below), p95 <= P95_BUDGET_MS,
+##            slowest <= MAX_BUDGET_MS (p95 / max only when the machine is not oversubscribed: tick average <=
+##            BUSY_AVG_RATIO x median).
+##   calibration (2026-10-02): the same code measured 0.83 to 1.85 ms median think on this laptop from run to run (CPU
+##            clock / boost / load: every step scaled together, the scan as much as the rules), so a fixed ms budget
+##            flipped between PASS and FAIL. The test now times a fixed GDScript workload (_calib_once: 2048 Vector3 /
+##            Dictionary iterations) every CAL_EVERY frames in the same run, best of CAL_REPEAT, and judges the think
+##            median as a RATIO of that loop's median: same machine, same moment, same interpreter. The ms numbers stay
+##            in the log for the ai.md target (< 0.3 ms per think was the quiet-machine goal of the early bot).
 ##   attack   each bot launches its first real attack (rule 7, not a creep) by ATTACK_BY seconds (15:00), unless rule 7's
 ##            own gates (strength, rally, regrow) were < 20 % of its blocked ticks (it had no army to send).
 ## Prints the economy, the per-step think cost (median / average / max with the match time of the max), the named
@@ -20,7 +27,13 @@ const FIRE := 0
 const SHADOW := 1
 ## ai.md: < 0.3 ms per think on a quiet machine. These limits leave room for a busy one (agents running in parallel:
 ## the OS alone stalls a tick 50-250 ms now and then, so the max only catches real multi-second hitches).
-const MEDIAN_BUDGET_MS := 1.5
+const MEDIAN_BUDGET_MS := 1.5   ## info only now (the old absolute line, printed next to the ratio verdict)
+## Median think <= this many calibration-loop medians. Quiet laptop 2026-10-02: loop 0.232 ms, think 0.95-1.09 ms =
+## 4.1-4.7 loops; 6.5 loops = the old 1.5 ms line on that quiet machine (~1.4x headroom). A run sharing the PC with
+## another 16-minute bot match: loop 0.562 ms, think 1.62-1.88 ms = 2.9-3.3 loops (the old ms line failed it).
+const MEDIAN_BUDGET_CAL := 6.5
+const CAL_EVERY := 30
+const CAL_REPEAT := 3
 const P95_BUDGET_MS := 20.0
 const MAX_BUDGET_MS := 1000.0
 const ATTACK_BY := 900.0
@@ -39,6 +52,10 @@ var _kingdoms := {FIRE: &"", SHADOW: &""}
 var _deaths := false
 var _frame := 0
 var _last_alive := {}
+var _cal_pts: Array[Vector3] = []
+var _cal_dict := {}
+var _cal_samples: Array[int] = []
+var _cal_sink := 0.0
 
 
 func _initialize() -> void:
@@ -57,6 +74,10 @@ func _initialize() -> void:
 			_kingdoms[FIRE] = StringName(a.trim_prefix("--fire="))
 		elif a.begins_with("--shadow="):
 			_kingdoms[SHADOW] = StringName(a.trim_prefix("--shadow="))
+	for i in 256:
+		_cal_pts.append(Vector3(float((i * 37) % 101) - 50.0, 0.0, float((i * 53) % 97) - 48.0))
+	for i in 64:
+		_cal_dict[i] = i * 0.5
 	main = load(SCENE).instantiate()
 	main.set(&"time_limit_s", LIMIT_SECONDS)
 	if _kingdoms[FIRE] != &"":
@@ -90,6 +111,11 @@ func _process(_delta: float) -> bool:
 		return false
 	var t: float = main.match_time()
 	_frame += 1
+	if _frame % CAL_EVERY == 0:
+		var best := 1 << 30
+		for r in CAL_REPEAT:
+			best = mini(best, _calib_once())
+		_cal_samples.append(best)
 	if _deaths and _frame % 20 == 0:
 		_track_deaths(t)
 	if t >= _next_report:
@@ -98,6 +124,31 @@ func _process(_delta: float) -> bool:
 	if main.game_over or t >= _minutes * 60.0:
 		return _finish(t)
 	return false
+
+
+## The calibration workload (usec): a fixed loop of Vector3 math, typed-array reads and Dictionary lookups, the kind of
+## work a Commander tick is made of.
+func _calib_once() -> int:
+	var t0 := Time.get_ticks_usec()
+	var acc := 0.0
+	var n := _cal_pts.size()
+	for r in 8:
+		for i in n:
+			var p := _cal_pts[i]
+			var d := p.distance_squared_to(_cal_pts[(i * 7 + r) % n])
+			if d < 400.0:
+				acc += sqrt(d)
+			acc += float(_cal_dict.get(i & 63, 0.0))
+	_cal_sink += acc
+	return Time.get_ticks_usec() - t0
+
+
+func _cal_median_usec() -> float:
+	if _cal_samples.is_empty():
+		return 0.0
+	var s := _cal_samples.duplicate()
+	s.sort()
+	return float(s[s.size() / 2])
 
 
 ## --deaths: every soldier of either bot that dies is printed with where it died and its last attack target.
@@ -168,6 +219,8 @@ func _report(t: float) -> void:
 func _finish(t: float) -> bool:
 	_report(t)
 	var errors: Array[String] = []
+	var cal_ms := _cal_median_usec() / 1000.0
+	print("calibration loop: median %.3f ms over %d samples (best of %d)" % [cal_ms, _cal_samples.size(), CAL_REPEAT])
 	for b in bots:
 		var med: float = b.tick_usec_median() / 1000.0
 		var mx: float = b.tick_usec_max / 1000.0
@@ -181,8 +234,14 @@ func _finish(t: float) -> bool:
 		var busy := avg > BUSY_AVG_RATIO * maxf(med, 0.001)
 		print("bot %d think: median %.3f ms, avg %.3f ms, p95 %.3f ms, max %.3f ms at %.0f s%s" % [int(b.team), med, avg,
 				p95, mx, b.tick_max_at, " (BUSY machine: p95 / max not judged)" if busy else ""])
-		if med > MEDIAN_BUDGET_MS:
-			errors.append("bot %d median think %.3f ms > %.1f ms" % [int(b.team), med, MEDIAN_BUDGET_MS])
+		var ratio := med / cal_ms if cal_ms > 0.0 else INF
+		print("bot %d think ratio: median %.2f calibration loops (budget %.2f; %.3f ms, the old %.1f ms line %s)" % [
+				int(b.team), ratio, MEDIAN_BUDGET_CAL, med, MEDIAN_BUDGET_MS, "over" if med > MEDIAN_BUDGET_MS else "under"])
+		if cal_ms <= 0.0:
+			errors.append("no calibration sample (the match never started?)")
+		elif ratio > MEDIAN_BUDGET_CAL:
+			errors.append("bot %d median think %.2f calibration loops > %.2f (%.3f ms, loop %.3f ms)" % [int(b.team), ratio,
+					MEDIAN_BUDGET_CAL, med, cal_ms])
 		if not busy and p95 > P95_BUDGET_MS:
 			errors.append("bot %d p95 think %.1f ms > %.0f ms" % [int(b.team), p95, P95_BUDGET_MS])
 		if not busy and mx > MAX_BUDGET_MS:
