@@ -7,9 +7,9 @@ extends SceneTree
 ##   living and a newly trained rider get +25 % HP / rank meta / the model's rank crest; not a drop-off.
 ## Part dance: every Stables model (16) and the mounts dance: play_clip(victory / surrender / random) on the unit's
 ##   model, the rider (arms) AND the mount (legs / head) move, stop_clip stops.
-## Part bot: a hard Fire bot (attacks off) builds its Stables and trains at least one rider by 10:00 (BOT_BY).
+## Part bot: a hard Fire bot (attacks off) builds its Stables and trains at least one rider by 12:00 (BOT_BY).
 ## Run:  godot --headless --path . -s tests/test_stables.gd --fixed-fps 60 --quit-after 60000
-##   Options after `--`: --only=data|gates|dance|bot
+##   Options after `--`: --only=data|gates|dance|bot, --by=<s> (bot deadline, to measure the first rider)
 
 const TASK_ID := "stables"
 const SCENE := "res://scenes/skirmish.tscn"
@@ -19,7 +19,9 @@ const ENEMY := 1
 ## First Stables rider by 10:00 (was 9:00). Since 2026-09-30 a due champion hire comes before Stables riders
 ## (champions.md 10: a hire keeps price + 150 from training; the hard bot's 3 hires now land by ~7:20 instead of
 ## starving), builds still come first, and the Stables saves 30 s for its rider: measured 7:17 to ~9:02 over 4 runs.
-const BOT_BY := 600.0
+## 12:00 since the casters (2026-10-02, caster-units.md 8.1): the hard bot queues its 2 Stronghold casters (150 each)
+## before any other Hall unit, measured 10:31 / 10:43 / 10:51 over 3 runs.
+const BOT_BY := 720.0
 const CLIPS: Array[StringName] = [&"dance_victory", &"dance_surrender", &"dance_random"]
 
 var main: Node
@@ -31,6 +33,7 @@ var _busy := false
 var _errors: Array[String] = []
 var _bot: Node
 var _bot_trained := false
+var _bot_by := BOT_BY
 
 
 func _initialize() -> void:
@@ -39,6 +42,8 @@ func _initialize() -> void:
 		if a.begins_with("--only="):
 			for p in a.trim_prefix("--only=").split(",", false):
 				only.append(p)
+		elif a.begins_with("--by="):   # measuring: a later deadline for the bot part
+			_bot_by = float(a.trim_prefix("--by="))
 	for p in ["data", "gates", "dance", "bot"]:
 		if only.is_empty() or only.has(p):
 			_queue.append(p)
@@ -389,9 +394,13 @@ func _tick_bot() -> void:
 		print("bot: Stables + first rider at %d:%02d" % [int(t) / 60, int(t) % 60])
 		_end_part()
 		return
-	if t > BOT_BY:
+	if t > _bot_by:
 		var has_st := false
 		for b in Building.for_team(ENEMY):
 			has_st = has_st or b is StablesBuilding
-		_check(false, "no Stables rider by %d s (Stables %s)" % [int(BOT_BY), has_st])
+		var eco := Economy.for_team(ENEMY)
+		print("  bot at %d s: crystals %d, pop %d / %d, casters %d, tier %d" % [int(t), eco.crystals if eco else -1,
+				eco.pop_used if eco else -1, eco.pop_cap if eco else -1, CasterKit.casters_of(ENEMY).size(),
+				TierSystem.tier_of(ENEMY)])
+		_check(false, "no Stables rider by %d s (Stables %s)" % [int(_bot_by), has_st])
 		_end_part()
