@@ -32,7 +32,7 @@ if ($Changed -or $Files.Count -gt 0) {
 }
 if ($ListOnly) { exit 0 }
 if (@($tests).Count -eq 0) { Write-Host "ci_quick: no test picked"; exit 0 }
-$a = @("-Dir", $root, "-SmokeRuns", "1", "-Parallel", "$Parallel", "-NoHistory", "-Tests", ($tests -join ","))
-if ($SkipPerf) { $a += "-SkipPerf" }
+$a = @{ Dir = $root; SmokeRuns = 1; Parallel = $Parallel; NoHistory = $true; Tests = @($tests) }
+if ($SkipPerf) { $a["SkipPerf"] = $true }
 & (Join-Path $PSScriptRoot "ci.ps1") @a
 exit $LASTEXITCODE
