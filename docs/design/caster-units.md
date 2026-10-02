@@ -302,13 +302,16 @@ Knobs if a caster dominates (first ones to turn): Slag armour -20 -> -15; Bulwar
 | Rule | Easy | Normal | Hard |
 |---|---|---|---|
 | Casters kept alive | 0 | 1 at tier 2, 2 at tier 3 | 2 at tier 2, 3 at tier 3 |
-| When | - | Tier >= 2, the keep's queue holds no worker (or workers >= target), crystals >= 150 + `BOT_RESERVE` 100 | same, and before the first T2 Hall unit |
+| When | - | Tier >= 2, the keep's queue holds no worker (or workers >= target), crystals >= 150 + `BOT_RESERVE` 100 (the first caster: 150, see below) | same, and before the first T2 Hall unit |
 | Cap | - | Casters <= 10 % of soldier pop (rounded up) | same |
 | Where | the keep closest to the army's rally point | | |
 Knobs: `CasterKit.BOT_KEEP := {0: 0, 1: 1, 2: 2}` (+1 at the Citadel), `BOT_SHARE_CAP 0.10`.
 Normal saving (implementation, `AICasters.saving_for_caster`): while the first caster is due, rule 5 keeps the crystals
 for **45 s** at a time (`SAVE_FOR`, like the tier upgrade's 45 s window), then spends normally for 30 s (`SAVE_PAUSE`).
 2026-10-02: 25 s windows left a Fire bot at 45-245 of its 250 crystals for 7 minutes (no caster all game).
+The **first** caster (none alive or queued) needs only its cost (150), not cost + `BOT_RESERVE` (the 2nd / 3rd keep the
+reserve): with the 250 bar, bot economies hovered at 45-245 crystals for whole games; with 150 the first casters came at
+5:36-7:07 in 4 / 4 bot games (2026-10-02).
 The first caster also comes **before the Citadel** (normal, hard): at the Stronghold with no caster alive or queued,
 `Commander._rule_train` queues it ahead of the Citadel upgrade when the crystals allow (a starved Fire bot spent its
 crystals on the Citadel, champion hires and the Stables instead).

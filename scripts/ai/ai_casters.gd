@@ -3,7 +3,8 @@ extends Node
 ## The bot's caster units (docs/design/caster-units.md 8; task CU.A1): one AICasters node per Commander (its child,
 ## made in Commander._setup), ticking every 0.5 s while the Commander is enabled and the match runs.
 ## 8.1 Training: Easy none; Normal 1 caster at tier 2 (2 at the Citadel); Hard 2 (3). Tier >= 2, no worker in the keep's
-##   queue, crystals >= 150 + 100, casters <= 10 % of the soldier pop (rounded up), at the keep closest to the rally.
+##   queue, crystals >= 150 + 100 (the first caster: 150), casters <= 10 % of the soldier pop (rounded up), at the
+##   keep closest to the rally.
 ##   Hard queues it before any other Hall unit (Commander._rule_train calls try_train(true) first); Normal from its
 ##   own tick (after the rule-5 spending).
 ## 8.2 Positioning: each caster stands 4 m behind the centre of the army group it follows (the attack group while one
@@ -173,7 +174,7 @@ func enemy_casters_seen() -> int:
 
 ## Queues one caster at the keep when the 8.1 rules allow it. `priority` = the call from rule 5 before any Hall unit:
 ## the hard bot's, and the normal bot's while its first caster is due (none alive or queued; else its crystals never
-## reach 150 + 100 and it never fields one). True = queued now.
+## reach its 150 and it never fields one). True = queued now.
 func try_train(priority: bool) -> bool:
 	if not CasterKit.enabled_here() or commander == null or difficulty <= 0:
 		return false
@@ -198,8 +199,9 @@ func try_train(priority: bool) -> bool:
 		train_block = "have %d / %d (want %d, cap %d of soldier pop %d)" % [have, allowed, want, cap, soldier_pop]
 		return false
 	var eco := Economy.for_team(team)
-	if eco == null or eco.crystals < type.cost + CasterKit.BOT_RESERVE:
-		train_block = "crystals %d < %d" % [eco.crystals if eco else 0, type.cost + CasterKit.BOT_RESERVE]
+	var need := _crystals_needed(type, have)
+	if eco == null or eco.crystals < need:
+		train_block = "crystals %d < %d" % [eco.crystals if eco else 0, need]
 		return false
 	var keep := _training_keep()
 	if keep == null or keep.queue.size() >= 2:
@@ -235,8 +237,8 @@ func first_caster_due() -> bool:
 
 
 ## Normal bot: rule 5 keeps its crystals (no Hall unit, upgrade or Stables step) while the first caster is due, the
-## army is big enough for one (10 % cap) and the crystals are under 150 + 100: at tier 2 a few seconds of income. At
-## most SAVE_FOR s at a time, then SAVE_PAUSE s of normal spending (never a stall). Never blocks workers or a due
+## army is big enough for one (10 % cap) and the crystals are under its cost (150: the first caster needs no
+## reserve). At most SAVE_FOR s at a time, then SAVE_PAUSE s of normal spending (never a stall). Never blocks workers or a due
 ## champion hire (the Commander asks after it).
 func saving_for_caster() -> bool:
 	if difficulty != 1 or not first_caster_due():   # hard: its 8.1 priority call is enough (it saves elsewhere)
@@ -244,7 +246,7 @@ func saving_for_caster() -> bool:
 		return false
 	var type := UnitType.find(String(CasterKit.caster_for(commander.get(&"faction"))))
 	var eco := Economy.for_team(team)
-	if eco == null or eco.crystals >= type.cost + CasterKit.BOT_RESERVE:
+	if eco == null or eco.crystals >= _crystals_needed(type, 0):
 		return false
 	if _training_keep() == null or _valid(commander.call(&"own_soldiers")).is_empty():
 		return false
@@ -254,6 +256,12 @@ func saving_for_caster() -> bool:
 	if now - _save_since >= SAVE_FOR + SAVE_PAUSE:
 		_save_since = now   # a new saving window
 	return now - _save_since < SAVE_FOR
+
+
+# Crystals the bot must hold to queue a caster: its cost + BOT_RESERVE (8.1), but the cost alone for the first one
+# (none alive or queued): bot economies hovered at 45-245 of the 250 for whole games and never fielded it (2026-10-02).
+static func _crystals_needed(type: UnitType, have: int) -> int:
+	return type.cost + (0 if have == 0 else CasterKit.BOT_RESERVE)
 
 
 # The own keep of tier >= 2 closest to the rally point.
