@@ -83,8 +83,10 @@ const FAST_SPEED := 6.5
 ## Difficulty (Commander.Difficulty: 0 easy, 1 normal, 2 hard) -> the casters' autocast reaction (s).
 const REACTION := {0: 1.5, 1: 0.5, 2: 0.25}
 const HISTORY_MAX := 50
-const SAVE_FOR := 25.0       ## saving_for_caster(): seconds of saving at a time...
-const SAVE_PAUSE := 35.0     ## ...then this many seconds of normal spending
+## saving_for_caster(): seconds of saving at a time (45 like the tier upgrade's TierSystem.BOT_SAVE_WINDOW; 25 s was too
+## short: a Fire bot hovered at 45-245 of the 250 crystals for 7 minutes and never trained its caster, 2026-10-02)...
+const SAVE_FOR := 45.0
+const SAVE_PAUSE := 30.0     ## ...then this many seconds of normal spending
 
 static var _last := {}        # team -> {id, target, time, rule}
 static var _history := {}     # team -> Array of those

@@ -1614,6 +1614,13 @@ func _rule_train() -> void:
 	_keep_rally()
 	if _queued_this_tick or _barracks.is_empty():
 		return
+	# caster-units.md 8.1: the Stronghold's first caster comes before the Citadel (normal / hard): when the crystals
+	# allow it, a due first caster is queued ahead of the Citadel upgrade (a starved Fire bot spent its 300 on the
+	# Citadel, then on hires and the Stables, and never fielded its caster, 2026-10-02).
+	if casters_ai != null and _keep != null and is_instance_valid(_keep) and _keep.tier == 2 \
+			and not _keep.is_upgrading() and casters_ai.first_caster_due() and casters_ai.try_train(true):
+		_queued_this_tick = true
+		return
 	# tiers.md 4: Stronghold / Citadel on the difficulty's timeline (true = started, or saving crystals for it).
 	if TierSystem.bot_try_upgrade(team, _keep, _eco, int(difficulty)):
 		if _keep.is_upgrading():

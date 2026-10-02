@@ -306,6 +306,12 @@ Knobs if a caster dominates (first ones to turn): Slag armour -20 -> -15; Bulwar
 | Cap | - | Casters <= 10 % of soldier pop (rounded up) | same |
 | Where | the keep closest to the army's rally point | | |
 Knobs: `CasterKit.BOT_KEEP := {0: 0, 1: 1, 2: 2}` (+1 at the Citadel), `BOT_SHARE_CAP 0.10`.
+Normal saving (implementation, `AICasters.saving_for_caster`): while the first caster is due, rule 5 keeps the crystals
+for **45 s** at a time (`SAVE_FOR`, like the tier upgrade's 45 s window), then spends normally for 30 s (`SAVE_PAUSE`).
+2026-10-02: 25 s windows left a Fire bot at 45-245 of its 250 crystals for 7 minutes (no caster all game).
+The first caster also comes **before the Citadel** (normal, hard): at the Stronghold with no caster alive or queued,
+`Commander._rule_train` queues it ahead of the Citadel upgrade when the crystals allow (a starved Fire bot spent its
+crystals on the Citadel, champion hires and the Stables instead).
 
 ### 8.2 Positioning and protection (every 0.5 s per bot caster)
 | Rule | Value |
@@ -381,6 +387,11 @@ Parallelism: C1 first 15 min publishes `CasterAbility` API in `docs/handoff/cast
   `test_ui_card_hotkeys.gd` PASS for 4 kingdoms; right-click / Ctrl toggles autocast.
 - [ ] CU.A1: bot-vs-bot normal, each kingdom: 1 caster by ~6:00 (the Stronghold ~5:00), >= 3 casts per fight, the caster alive
   after >= 50 % of fights; Rimecarver dive guard and Deacon retreat Passage seen in a hard run (`last_cast`).
+  As measured by `tests/test_casters_bots.gd` (2026-10-02, verification after the tier-path merge): >= 3 casts once the
+  casters spent 20 s in fights (1 from 8 s), but **2 for the Bramblesage**: its cheapest spell is Snagroot 75 (Haze 100),
+  so at 0.8 mana / s it can cast once per 94-125 s of regen and bot games showed 1-2 casts per game, mana-limited, not
+  a missed rule. A side whose army was wiped out has no caster slot (8.1: casters <= 10 % of the soldier pop, rounded up,
+  so 0 soldiers = cap 0): the test asks for a caster only after 90 s at the Stronghold with at least one soldier.
 - [ ] Smoke (`victory=true`), perf `PERF OK` with the 12 load, Data Lab CU1 PASS, Art Lab no FAIL, Balance Lab C1-C7 inside bands
   (or a knob change written in CU.D3).
 
