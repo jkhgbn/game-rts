@@ -194,6 +194,7 @@ func _test_stag() -> void:
 	_victim(Vector3(S.x - 1.8, 0.0, S.z))
 	await _wait(3)
 	var m := u.get_model()
+	_skip_opening_delay(ab, &"antler_sweep")
 	_eq(ab.cast(&"antler_sweep"), "", "antler sweep cast")
 	await _wait(120)
 	_check(int(m.call(&"sweep_count")) == 1, "stag model played the antler sweep (%d)" % int(m.call(&"sweep_count")))
@@ -208,6 +209,7 @@ func _test_tusker() -> void:
 	var v := _victim(T + Vector3(7.0, 0.0, 7.0))   # 9.9 m away, diagonal (the tusker faces +Z at spawn)
 	await _wait(3)
 	var c0 := int(m.call(&"charge_count"))
+	_skip_opening_delay(ab, &"gore_charge")
 	_eq(ab.cast(&"gore_charge", v), "", "gore charge cast")
 	await _wait(4)
 	var fwd := m.global_transform.basis.z
@@ -234,6 +236,7 @@ func _test_roc() -> void:
 	var m := u.get_model()
 	var v := _victim(R + Vector3(8.0, 0.0, 0.0))
 	await _wait(3)
+	_skip_opening_delay(ab, &"gale_swoop")
 	_eq(ab.cast(&"gale_swoop", v), "", "gale swoop cast")
 	await _wait(100)
 	_check(int(m.call(&"swoop_count")) == 1, "roc model played the gale swoop")
@@ -247,6 +250,7 @@ func _test_roc() -> void:
 	var ab2: CreatureAbilities = arr2[1]
 	var v2 := _victim(u2.global_position + Vector3(8.0, 0.0, 0.0))
 	await _wait(3)
+	_skip_opening_delay(ab2, &"shrieking_dive")
 	_eq(ab2.cast(&"shrieking_dive", v2), "", "shrieking dive cast")
 	await _wait(100)
 	_check(int(u2.get_model().call(&"swoop_count")) == 1, "duskwing model played the shrieking dive")
@@ -261,6 +265,7 @@ func _test_direwolf() -> void:
 	var m := u.get_model()
 	var v := _victim(D + Vector3(7.0, 0.0, 0.0))
 	await _wait(3)
+	_skip_opening_delay(ab, &"pounce")
 	_eq(ab.cast(&"pounce", v), "", "pounce cast")
 	await _wait(2)
 	var fwd := m.global_transform.basis.z
@@ -277,10 +282,12 @@ func _test_grizzlemaw() -> void:
 	var m := u.get_model()
 	var v := _victim(G + Vector3(2.5, 0.0, 0.0))
 	await _wait(3)
+	_skip_opening_delay(ab, &"maul")
 	_eq(ab.cast(&"maul", v), "", "maul cast")
 	await _wait(90)
 	_check(int(m.call(&"maul_count")) == 1, "grizzlemaw model played the maul")
 	u.hp = u.max_hp * 0.45
+	_skip_opening_delay(ab, &"rending_roar")
 	_eq(ab.cast(&"rending_roar"), "", "rending roar cast")
 	await _wait(150)
 	_check(int(m.call(&"roar_count")) == 1, "grizzlemaw model played the rending roar")
@@ -358,6 +365,20 @@ func _test_held_reach() -> void:
 
 
 # ---------------------------------------------------------------- helpers
+
+## The casts here test the model hooks, not the fight rules. A creature that sees its fight start (its first
+## _think after spawn, staggered over 0.5 s by instance id, so it may land inside the 3-frame settle wait) puts every
+## ability on CreatureAbilities.OPENING_DELAY (1.5 s): cast() then answers "On cooldown" by design. Which run hits it
+## depends on the instance ids (more objects since the casters merge), so 1 run in ~4 failed under parallel CI.
+## Only that opening delay is skipped here; any longer (real) cooldown still fails the check.
+func _skip_opening_delay(ab: CreatureAbilities, id: StringName) -> void:
+	var left := ab.cooldown_left(id)
+	if left <= 0.0:
+		return
+	_check(left <= CreatureAbilities.OPENING_DELAY + 0.001,
+			"%s: only the fight's opening delay may run before the cast (%.2f s left)" % [id, left])
+	ab.reset_cooldowns()
+
 
 func _creature(id: String, pos: Vector3) -> Array:
 	var u := UnitType.find(id).create_unit()
