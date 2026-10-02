@@ -116,6 +116,12 @@ var _rune_at := -INF
 var _adopted := {}            # caster instance id -> true
 var _save_since := -INF       # start of the current first-caster saving window
 var _rule_of := {}            # CasterAbility instance id -> the rule of its cast in flight (spell_cast lands later)
+# 20.A3 perf: one decision pass (Commander rule 5, or think()) asks first_caster_due / try_train / saving_for_caster up
+# to 5 times, each a full scan of "units" + "buildings" (T3Kit.count_alive) and of "buildings" (_training_keep). The
+# answers are kept for the pass: new_pass() clears them, a queued caster too (nothing else changes them mid-pass).
+var _pass_count := {}         # caster type id -> T3Kit.count_alive(team, id, true)
+var _pass_keep: Variant = false   # false = not looked up yet this pass, else the Keep or null
+var _pass_frames := [-1, -1]  # [physics, process] frame of the pass: a call from another frame (tests, UI) counts afresh
 
 
 func _init(cmd: Node = null) -> void:
@@ -194,7 +200,7 @@ func try_train(priority: bool) -> bool:
 		soldier_pop += u.unit_type.pop if u.unit_type else 1
 	var cap := ceili(CasterKit.BOT_SHARE_CAP * float(soldier_pop))
 	var allowed := mini(want, cap)
-	var have := T3Kit.count_alive(team, type.id, true)
+	var have := _count_alive(type.id)
 	if have >= allowed:
 		train_block = "have %d / %d (want %d, cap %d of soldier pop %d)" % [have, allowed, want, cap, soldier_pop]
 		return false
@@ -222,6 +228,7 @@ func try_train(priority: bool) -> bool:
 		return false
 	train_block = ""
 	trained += 1
+	new_pass()   # the queue changed: count again
 	if commander.has_method(&"note_log"):
 		commander.call(&"note_log", "CASTER TRAIN %s (%d / %d, soldier pop %d, crystals left %d)" % [type.display_name,
 				have + 1, allowed, soldier_pop, eco.crystals])
@@ -233,7 +240,7 @@ func first_caster_due() -> bool:
 	if not CasterKit.enabled_here() or commander == null or difficulty <= 0 or TierSystem.tier_of(team) < 2:
 		return false
 	var type := UnitType.find(String(CasterKit.caster_for(commander.get(&"faction"))))
-	return type != null and T3Kit.count_alive(team, type.id, true) == 0
+	return type != null and _count_alive(type.id) == 0
 
 
 ## Normal bot: rule 5 keeps its crystals (no Hall unit, upgrade or Stables step) while the first caster is due, the
@@ -264,8 +271,37 @@ static func _crystals_needed(type: UnitType, have: int) -> int:
 	return type.cost + (0 if have == 0 else CasterKit.BOT_RESERVE)
 
 
-# The own keep of tier >= 2 closest to the rally point.
+## Starts a decision pass (Commander rule 5 calls it before asking; think() does too): forgets the cached counts.
+func new_pass() -> void:
+	_pass_count.clear()
+	_pass_keep = false
+	_pass_frames = [Engine.get_physics_frames(), Engine.get_process_frames()]
+
+
+# A cached answer is only reused inside the pass that took it (same frame); any other caller starts a new pass.
+func _check_pass() -> void:
+	if int(_pass_frames[0]) != Engine.get_physics_frames() or int(_pass_frames[1]) != Engine.get_process_frames():
+		new_pass()
+
+
+# T3Kit.count_alive(team, type_id, true) (alive + queued), once per decision pass.
+func _count_alive(type_id: StringName) -> int:
+	_check_pass()
+	if not _pass_count.has(type_id):
+		_pass_count[type_id] = T3Kit.count_alive(team, type_id, true)
+	return int(_pass_count[type_id])
+
+
+# The own keep of tier >= 2 closest to the rally point (once per decision pass).
 func _training_keep() -> Keep:
+	_check_pass()
+	if _pass_keep is bool:
+		_pass_keep = _find_training_keep()
+	var k: Variant = _pass_keep
+	return k as Keep if k != null and is_instance_valid(k) else null
+
+
+func _find_training_keep() -> Keep:
 	var rally: Vector3 = commander.call(&"rally_point")
 	var best: Keep = null
 	var bd := INF
@@ -299,6 +335,7 @@ func _physics_process(delta: float) -> void:
 func think() -> void:
 	if not CasterKit.ENABLED:
 		return
+	new_pass()
 	if difficulty >= 1 and not bool(commander.call(&"queued_this_tick")):
 		try_train(false)
 	var casters := _valid(commander.call(&"own_casters"))

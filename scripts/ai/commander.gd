@@ -1614,6 +1614,8 @@ func _rule_train() -> void:
 	_keep_rally()
 	if _queued_this_tick or _barracks.is_empty():
 		return
+	if casters_ai != null:
+		casters_ai.new_pass()   # 20.A3 perf: its unit / keep counts are taken once for the calls below
 	# caster-units.md 8.1: the Stronghold's first caster comes before the Citadel (normal / hard): when the crystals
 	# allow it, a due first caster is queued ahead of the Citadel upgrade (a starved Fire bot spent its 300 on the
 	# Citadel, then on hires and the Stables, and never fielded its caster, 2026-10-02).
