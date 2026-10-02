@@ -1,6 +1,6 @@
 # Art Lab scorecard: dusk_steed
 
-Scene `res://art/units/mounts/dusk_steed/dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-09-30 23:57:34 · lab v3.1 · **headless: render checks skipped**
+Scene `res://art/units/mounts/dusk_steed/dusk_steed.tscn` · kind **mount** / tier **mount** · kingdom shadow · ground meadow · 2026-10-02 12:30:55 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **97 / 100** (97.1)
 

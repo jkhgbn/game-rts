@@ -1,6 +1,6 @@
 # Art Lab scorecard: plant_glow40_frost_dragon
 
-Scene `res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-09-30 23:57:36 · lab v3.1 · **headless: render checks skipped**
+Scene `res://tools/art_lab/calibration/virtual/plant_glow40_frost_dragon.tscn` · kind **titan** / tier **titan** · kingdom ice · ground meadow · 2026-10-02 12:30:55 · lab v3.1 · **headless: render checks skipped**
 
 ## Result: **PASS** · quality **99 / 100** (99.1)
 
