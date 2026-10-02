@@ -11,7 +11,11 @@ extends SceneTree
 ## Part 3: bot vs bot matrix, both sides normal bots of any kingdom (PLAYER team too), 12 game-minutes max each:
 ##   winner / time or "no winner", army sizes. Pairs "player:enemy". Unavailable kingdoms are skipped.
 ## Run:  godot --headless --path . -s tests/test_8_a1.gd --fixed-fps 60 --quit-after 200000
-##   Options after `--`: --only=nature | --only=matrix, --pairs=fire:ice,shadow:nature, --minutes=12
+##   Options after `--`: --only=nature | --only=matrix, --pairs=fire:ice,shadow:nature, --minutes=12, --full
+## Early stop (fast CI, 2026-10-02): part 1 ends as soon as every value it judges is recorded (each is the first time
+##   seen, so the verdict cannot change after); before, it always ran to 5:30. --full restores the 5:30 run.
+##   Part 2 already ends at the second attack; the matrix (part 3) runs its full minutes (its runtime is the
+##   bot-vs-bot coverage).
 
 const TASK_ID := "8.A1"
 const SCENE := "res://scenes/skirmish.tscn"
@@ -36,6 +40,7 @@ var _errors: Array[String] = []
 var _notes: Array[String] = []
 var _minutes := 12.0
 var _nature_ok := false
+var _full := false                   # --full: part 1 runs to NATURE_TIME even once its verdict is known
 
 # part 1
 var _n := {}
@@ -66,6 +71,8 @@ func _initialize() -> void:
 				pairs.append(p)
 		elif a.begins_with("--minutes="):
 			_minutes = a.trim_prefix("--minutes=").to_float()
+		elif a == "--full":
+			_full = true
 	_nature_ok = _kingdom_ok(&"nature")
 	_part0()
 	if only != "matrix":
@@ -289,8 +296,12 @@ func _nature_tick() -> void:
 		if _n["scout_at"] < 0.0 and sc != null and is_instance_valid(sc):
 			_n["scout_at"] = _t
 			_n["scout_type"] = str((sc as Unit).unit_type.id) if (sc as Unit).unit_type else "?"
-	if _t < NATURE_TIME and not main.game_over:
+	var decided := not _full and _nature_decided()
+	if _t < NATURE_TIME and not main.game_over and not decided:
 		return
+	if decided and _t < NATURE_TIME:
+		print("part 1: EARLY STOP at %.0f s (frame %d): every judged value is recorded (--full runs to %.0f s)" % [_t,
+				_frame, NATURE_TIME])
 	print("Nature bot at %.0f s: %s, keep queue max %d" % [_t, str(_n), _keep_queue_max])
 	for line in bot.log_lines:
 		if line.contains("PLACE") or line.contains("START") or line.contains("SCOUT ") or line.begins_with("[0:0"):
@@ -314,6 +325,14 @@ func _nature_tick() -> void:
 	if _n["x1_at"] < 0.0 or _n["x1_at"] > 300.0:
 		_errors.append("Nature: expansion hall at %.0f s (want by 5:00)" % _n["x1_at"])
 	_end_part()
+
+
+## Part 1's verdict is final once every value it judges is recorded: each one is stored the first time it is seen
+## (hall, 3 queued, scout, X1 times; gathered / soldier / V3 row flags) and the queue max only grows.
+func _nature_decided() -> bool:
+	if _n.get("checked") == null:
+		return false
+	return float(_n["hall_at"]) >= 0.0 and float(_n["queued3_at"]) >= 0.0 and _keep_queue_max >= 3 			and bool(_n["gathered"]) and bool(_n["soldier"]) and float(_n["scout_at"]) >= 0.0 and bool(_n["v3_row"]) 			and float(_n["x1_at"]) >= 0.0
 
 
 # ---------------------------------------------------------------- part 2: retreat + regrow

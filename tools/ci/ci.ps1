@@ -1,12 +1,15 @@
 # CI: full integration check of a project folder: import, smoke x3 (victory=true), perf 100 / 200 units (PERF OK),
 # then every tests/test_*.gd through the Error Lab (parallel, caps, owners, log tails, fix-agent briefs).
-# Every Godot run goes through tools/godot_run.ps1 (the Godot gate). Windows PowerShell 5.1. Never runs git.
+# Every Godot run goes through tools/godot_run.ps1 (the Godot gate). Windows PowerShell 5.1. Never changes git (it only
+# reads the HEAD commit for its history row, so tools\ci\ci_quick.ps1 -Changed -Base last-green can diff from it).
 # Docs: docs/plan/error-lab.md section "CI".
 #
 #   tools\ci\ci.ps1                                  # the CI copy if it exists (desktop), else this repo in place
 #   tools\ci\ci.ps1 -Dir .                           # this repo in place
 #   tools\ci\ci.ps1 -Tests test_16a,test_12_c2       # import + smoke + perf + a test subset
 #   tools\ci\ci.ps1 -SkipTests -SmokeRuns 1          # quick gate (import, 1 smoke, perf)
+#   tools\ci\ci.ps1 -Parallel 3                      # default 4 (= the gate's slots; was 3 before 2026-10-02)
+# Everyday runs: tools\ci\ci_quick.ps1 (no slow simulations) or ci_quick.ps1 -Changed (tests of the changed files).
 param(
 	[string]$Dir = "",
 	[string]$ResultFile = "",         # extra copy of the result lines (the old scratchpad ci_result.txt)
@@ -19,12 +22,12 @@ param(
 	[switch]$SkipSmoke,
 	[switch]$SkipPerf,
 	[switch]$SkipTests,
-	[int]$Parallel = 3,
+	[int]$Parallel = 4,
 	[int]$RunTimeoutSec = 1800,
 	[switch]$NoHistory
 )
 $ErrorActionPreference = "Stop"
-$CiVersion = "2.0"
+$CiVersion = "2.1"
 $LabRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $Gate = Join-Path $LabRoot "tools\godot_run.ps1"
 $ErrorLab = Join-Path $LabRoot "tools\error_lab\error_lab.ps1"
@@ -159,7 +162,14 @@ $md.Add(""); $md.Add("Logs: ``$LogDir``.")
 [IO.File]::WriteAllLines((Join-Path $OutDir "ci_result.txt"), $out, $Utf8)
 if ($ResultFile) { New-Item -ItemType Directory -Force (Split-Path $ResultFile) | Out-Null; [IO.File]::WriteAllLines($ResultFile, $out, $Utf8) }
 if (-not $NoHistory) {
-	$h = [pscustomobject]@{ run = $Run; time = $now; dir = $Dir; result = $result; steps = @($Steps | ForEach-Object { "$($_.step)=$($_.status)" })
+	# The tested commit (read only), for ci_quick.ps1 -Changed -Base last-green.
+	$commit = ""
+	try {
+		$gitExe = "git"; if (-not (Get-Command git -ErrorAction SilentlyContinue)) { $gitExe = "C:\Program Files\Git\cmd\git.exe" }
+		$commit = (& $gitExe -C $Dir rev-parse HEAD 2>$null | Select-Object -First 1)
+		if ($LASTEXITCODE -ne 0) { $commit = "" }
+	} catch { $commit = "" }
+	$h = [pscustomobject]@{ run = $Run; time = $now; dir = $Dir; commit = "$commit"; result = $result; steps = @($Steps | ForEach-Object { "$($_.step)=$($_.status)" })
 		tests = $(if ($el) { @($el.tests).Count } else { 0 }); failed = $(if ($el) { @($el.failed_tests) } else { @() }) }
 	[IO.File]::AppendAllText((Join-Path $LabRoot "docs\ci\history.jsonl"), ($h | ConvertTo-Json -Depth 4 -Compress) + "`n", $Utf8)
 }

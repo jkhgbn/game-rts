@@ -8,7 +8,9 @@ extends SceneTree
 ## Part 2: the human's Vessa (PLAYER, no Commander for her team) with the same setup never casts by herself.
 ## Part 3: fire:shadow bot vs bot (both normal bots, "player:enemy"), cap 24:00: winner / time, casts per rule.
 ## Run:  godot --headless --path . -s tests/test_8_a2.gd --fixed-fps 60 --quit-after 100000
-##   Options after `--`: --skip-match (parts 1-2 only), --minutes=24
+##   Options after `--`: --skip-match (parts 1-2 only), --minutes=24, --full (play part 3 out)
+## Early stop (fast CI, 2026-10-02): part 3's only check is "the Fire bot casts in the match", so it ends at the Fire
+##   bot's first cast (the match line says "EARLY STOP"); --full plays the match out for the winner / casts report.
 
 const TASK_ID := "8.A2"
 const SCENE := "res://scenes/skirmish.tscn"
@@ -29,6 +31,7 @@ var _frame := 0
 var _errors: Array[String] = []
 var _results: Array[String] = []
 var _minutes := 24.0
+var _full := false
 
 # parts 1 / 2
 var _step := 0
@@ -51,6 +54,8 @@ func _initialize() -> void:
 			skip_match = true
 		elif a.begins_with("--minutes="):
 			_minutes = a.trim_prefix("--minutes=").to_float()
+		elif a == "--full":
+			_full = true
 	_queue = [1, 2]
 	if not skip_match:
 		_queue.append(3)
@@ -327,11 +332,14 @@ func _match_tick() -> void:
 				int(_t) % 60, _army_pop(PLAYER), _army_pop(ENEMY), Economy.for_team(PLAYER).gathered_total,
 				Economy.for_team(ENEMY).gathered_total, str(bot2.vessa_casts), _match_casts[PLAYER],
 				_match_casts[ENEMY]])
-	if not main.game_over and _t < _minutes * 60.0:
+	var early := not _full and int(_match_casts[PLAYER]) > 0
+	if not main.game_over and _t < _minutes * 60.0 and not early:
 		return
 	var winner := "no winner"
 	if main.game_over and int(main.winner_team) >= 0:
 		winner = "%s wins" % ("fire" if int(main.winner_team) == PLAYER else "shadow")
+	elif early:
+		winner = "EARLY STOP (frame %d): the Fire bot cast, --full plays the match out" % _frame
 	var line := "MATCH fire:shadow: %s at %d:%02d | army pop %d / %d (max %d / %d) | gathered %d / %d | attacks %d / %d | wizard lvl %d / %d | casts %d / %d | Vessa rules %s" % [
 			winner, int(_t) / 60, int(_t) % 60, _army_pop(PLAYER), _army_pop(ENEMY), _army_max[PLAYER],
 			_army_max[ENEMY], Economy.for_team(PLAYER).gathered_total, Economy.for_team(ENEMY).gathered_total,

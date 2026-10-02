@@ -7,7 +7,11 @@ extends SceneTree
 ## from 8 s: a caster can only cast near enemies); easy sides must never train one. Fights: a caster with an enemy unit
 ## within 10 m; each new fight prints the casters' mana and the units around them.
 ## Run:  godot --headless --path . -s tests/test_casters_bots.gd --fixed-fps 60 --quit-after 90000 -- pair=ice:shadow difficulty=normal limit=720
-##   pair=P:E (fire / shadow / ice / nature), difficulty=easy|normal|hard (both sides), limit=<game s> (default 720)
+##   pair=P:E (fire / shadow / ice / nature), difficulty=easy|normal|hard (both sides), limit=<game s> (default 720),
+##   full (run to the limit even once the verdict is known)
+## Early stop (fast CI, 2026-10-02): normal / hard end as soon as each side has trained a caster and its casters cast
+##   3+ times (or it is the exempt normal Ice side): trained and casts only grow and the bar is at most 3 casts, so
+##   the verdict at the limit could only be PASS. Easy (must NEVER train one) always runs to the limit.
 # error_lab: quit-after=90000
 
 const TASK_ID := "casters_bots"
@@ -28,6 +32,7 @@ var _stronghold := [-1.0, -1.0]
 var _lost := [0, 0]
 var _seen := {}          # caster instance id -> team
 var _done := false
+var _full := false
 var _last_log := -1
 ## Fights: a caster with an enemy unit within FIGHT_NEAR m. Seconds in fights and fight count per team (a new fight
 ## starts after FIGHT_GAP s without one), sampled every 0.5 s of match time.
@@ -43,6 +48,8 @@ var _sample_t := -1.0
 
 func _initialize() -> void:
 	for a in OS.get_cmdline_user_args():
+		if a.trim_prefix("--") == "full":
+			_full = true
 		var kv := a.trim_prefix("--").split("=", true, 1)
 		if kv.size() < 2:
 			continue
@@ -140,11 +147,40 @@ func _process(_delta: float) -> bool:
 				print("  %s t%d %s mana %d pos %s stage %s group %d foes<12m %d casts %s" % [_mmss(t), team,
 						c.unit_type.id, int(ab.mana), c.global_position.snapped(Vector3.ONE), bots[team].get(&"stage"),
 						group.size(), foes, ab.casts])
-	if t >= limit or bool(main.get(&"game_over")):
+	var early := not _full and t < limit and _verdict_final()
+	if early:
+		print("  EARLY STOP at %s: every side trained a caster and cast enough, the verdict cannot change (full = run to %s)" % [
+				_mmss(t), _mmss(limit)])
+	if early or t >= limit or bool(main.get(&"game_over")):
 		_report(t)
 		_done = true
 		return true
 	return false
+
+
+## True when _report at any later time could only PASS: for each side a caster was trained and its casts reached the
+## top bar (3), or it is the normal Ice side (casts not judged). Easy never stops early (no caster ever is the check).
+func _verdict_final() -> bool:
+	if difficulty == 0:
+		return false
+	for team in [0, 1]:
+		var trained := false
+		for k: Variant in _seen:
+			if int(_seen[k]) == team:
+				trained = true
+				break
+		if not trained:
+			return false
+		if kingdoms[team] == "ice" and difficulty < 2:
+			continue
+		var ai: Variant = bots[team].get(&"casters_ai") if bots[team] else null
+		var rules: Dictionary = ai.get(&"casts_by_rule") if ai else {}
+		var casts := 0
+		for r: Variant in rules:
+			casts += int(rules[r])
+		if casts < 3:
+			return false
+	return true
 
 
 func _report(t: float) -> void:

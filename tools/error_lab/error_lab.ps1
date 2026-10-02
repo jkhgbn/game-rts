@@ -15,7 +15,7 @@ param(
 	[string]$OutDir = "",
 	[string]$Run = "",
 	[int]$Parallel = 3,
-	[int]$TimeoutSec = 2400,
+	[int]$TimeoutSec = 2400,   # wall-clock kill per test: at least this, more for big caps (Get-TestTimeout)
 	[switch]$NoHistory,
 	[switch]$ListOnly,
 	[string]$HistoryFile = "",
@@ -23,7 +23,7 @@ param(
 	[int]$TailLines = 15        # log lines quoted per failed test in the scorecard and the briefs
 )
 $ErrorActionPreference = "Stop"
-$LabVersion = "1.2"
+$LabVersion = "1.3"
 $LabRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $Root = $LabRoot
 if ($ProjectDir) {
@@ -54,6 +54,24 @@ function Get-Cap([string]$name) {
 	if ($Caps.ContainsKey($name)) { return $Caps[$name] }
 	if ($name -match "bot_vs_bot") { return 116000 }
 	return $DefaultCap
+}
+
+# Wall-clock kill per test (v1.3, fast CI 2026-10-02): the larger of -TimeoutSec and 1.5 wall s per game second of
+# the cap plus the gate's longest wait (900 s; the clock starts before the gate grants a slot). A flat 2400 s killed
+# test_20_a3 (57600 frames) on a loaded PC although it was still running.
+function Get-TestTimeout([int]$cap) {
+	return [int][math]::Max($TimeoutSec, [math]::Ceiling($cap / 60.0 * 1.5) + 900)
+}
+
+# Longest-first (v1.3): the slow bot / AI simulations listed in tools/ci/slow_tests.txt start first, so a full run
+# does not end on a 30-minute test that was queued last (alphabetical order put test_8_a1 near the end).
+$SlowFile = Join-Path $LabRoot "tools\ci\slow_tests.txt"
+$SlowList = @()
+if (Test-Path $SlowFile) { $SlowList = @(Get-Content $SlowFile | ForEach-Object { ($_ -replace '#.*$', '').Trim() } | Where-Object { $_ }) }
+function Sort-SlowFirst([string[]]$names) {
+	$slow = @($SlowList | Where-Object { $names -contains $_ })
+	$rest = @($names | Where-Object { $SlowList -notcontains $_ } | Sort-Object)
+	return @($slow + $rest)
 }
 
 # Verdict mode (lab v1.2). Default: any line starting with FAIL fails the test. Tests that print planted / inner
@@ -208,7 +226,8 @@ if (-not $Logs) {
 	if ($Tests.Count -gt 0) { $names = @($Tests | ForEach-Object { $_ -split ',' } | ForEach-Object { ($_.Trim() -replace '\.gd$', '' -replace '^.*[\\/]', '') } | Where-Object { $_ }) }
 	elseif ($Changed.Count -gt 0) { $names = Get-ChangedTests $Changed }
 	else { $names = @(Get-ChildItem (Join-Path $Root "tests") -Filter "test_*.gd" | ForEach-Object { $_.BaseName } | Sort-Object) }
-	if ($ListOnly) { Write-Host "ERROR LAB: would run $($names.Count) tests"; $names | ForEach-Object { Write-Host ("  {0} (cap {1}, owner {2})" -f $_, (Get-Cap $_), (Get-TestOwner $_)) }; exit 0 }
+	$names = Sort-SlowFirst $names
+	if ($ListOnly) { Write-Host "ERROR LAB: would run $($names.Count) tests (slow ones first)"; $names | ForEach-Object { Write-Host ("  {0} (cap {1}, timeout {2} s, owner {3})" -f $_, (Get-Cap $_), (Get-TestTimeout (Get-Cap $_)), (Get-TestOwner $_)) }; exit 0 }
 	New-Item -ItemType Directory -Force $logDir | Out-Null
 	if ($names.Count -eq 0) { Write-Host "ERROR LAB: no tests picked"; }
 	if (-not (Test-Path $Gate)) { Write-Host "ERROR LAB: Godot gate not found: $Gate"; exit 2 }
@@ -226,7 +245,7 @@ if (-not $Logs) {
 			$cmd = "powershell -NoProfile -ExecutionPolicy Bypass -File `"$Gate`" --headless --path `"$Root`" -s tests/$n.gd --fixed-fps 60 --quit-after $cap > `"$log`" 2>&1"
 			$p = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "`"$cmd`"" -WorkingDirectory $Root -WindowStyle Hidden -PassThru
 			$null = $p.Handle  # PS 5.1: keep the handle so ExitCode is readable later
-			$running += [pscustomobject]@{ name = $n; proc = $p; start = Get-Date; cap = $cap }
+			$running += [pscustomobject]@{ name = $n; proc = $p; start = Get-Date; cap = $cap; timeout = (Get-TestTimeout $cap) }
 		}
 		Start-Sleep -Milliseconds 500
 		$still = @()
@@ -238,10 +257,10 @@ if (-not $Logs) {
 				$el = ((Get-Date) - $runStart).TotalMinutes
 				$eta = if ($done -gt 0) { $el / $done * ($names.Count - $done) } else { 0 }
 				Write-Host ("  [{0}/{1}] {2,-28} exit {3}  {4:N0} s  (ETA ~{5:N0} min)" -f $done, $names.Count, $r.name, $r.proc.ExitCode, $secs, $eta)
-			} elseif ($secs -gt $TimeoutSec) {
+			} elseif ($secs -gt $r.timeout) {
 				& taskkill.exe /T /F /PID $r.proc.Id | Out-Null   # our own cmd -> gate -> Godot tree only
 				$done++
-				$testStatus[$r.name] = @{ exit = -1; seconds = [math]::Round($secs, 1); cap = $r.cap; note = "killed after $TimeoutSec s"; timed_out = $true }
+				$testStatus[$r.name] = @{ exit = -1; seconds = [math]::Round($secs, 1); cap = $r.cap; note = "killed after $($r.timeout) s"; timed_out = $true }
 				Write-Host "  $($r.name) TIMEOUT (killed)"
 			} else { $still += $r }
 		}
@@ -356,7 +375,7 @@ foreach ($t in ($testStatus.Keys | Sort-Object)) {
 	$kind = ""; $hint = ""
 	if (-not $ok) {
 		if ($s.note -eq "missing test file") { $kind = "missing"; $hint = "tests/$t.gd does not exist (renamed or removed): drop it from the list." }
-		elseif ($s.timed_out) { $kind = "timeout"; $hint = "Wall-clock kill after $TimeoutSec s: the run hung (an await that never resolves, a modal wait) or the PC was saturated; rerun alone with a larger -TimeoutSec to tell." }
+		elseif ($s.timed_out) { $kind = "timeout"; $hint = "Wall-clock kill ($($s.note)): the run hung (an await that never resolves, a modal wait) or the PC was saturated; rerun alone with a larger -TimeoutSec to tell." }
 		elseif ($s.crashed) { $kind = "crash"; $hint = "Godot crashed (see the backtrace in the tail): engine crash or a native call on a freed object; rerun alone to confirm." }
 		elseif ($s.fail_line) { $kind = "assert"; $hint = "The test's own check failed: read the FAIL line, reproduce with the repro command, fix the code (or the test if the rule changed)." }
 		elseif ($s.script_errors -gt 0) { $kind = "script error"; $hint = "A script error stopped the test before its PASS line: fix the first FAIL-class error listed for this test." }

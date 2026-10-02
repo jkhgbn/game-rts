@@ -27,7 +27,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tests\test_error_lab.ps1
 | `-OutDir` | default `docs/errors/lab/<run>/` (logs go to `<OutDir>/logs/` in run mode) |
 | `-Run` | run name, default `yyyy-MM-dd_HHmm` |
 | `-Parallel N` | tests launched at once (default 3; the gate itself caps Godot at 4 runs) |
-| `-TimeoutSec` | wall-clock kill of one test's own process tree (default 2400 s) |
+| `-TimeoutSec` | wall-clock kill of one test's own process tree: at least this (default 2400 s); v1.3: tests with a big cap get `1.5 x cap / 60 + 900` s (game seconds of the cap x 1.5, plus the gate's longest wait) |
 | `-ListOnly` | print the picked tests and their caps, run nothing (check a `-Changed` pick) |
 | `-NoHistory` | no row in `docs/errors/lab/history.jsonl` (experiments, fix-agent re-checks) |
 | `-HistoryFile` | another history file (the test uses a temp one) |
@@ -38,7 +38,8 @@ Each test runs as `tools/godot_run.ps1 --headless --path <root> -s tests/<t>.gd 
 through `cmd /c ... > log 2>&1`, so stdout and stderr land in one full log per test. Caps (ONE table, the CI runs its
 tests through this lab): default 40000; `*bot_vs_bot*` 116000; `test_9_c9`, `test_10_a3` 150000; `test_8_a1` 200000;
 `test_12_a1`, `test_20_a2` 60000; `test_20_a3` 80000; `test_9_c11`, `test_2_a1_attack`, `test_8_b3` 95000; `test_8_a2`
-100000 (`$Caps` at the top of the script). **A test can declare its own cap** in its first 20 lines:
+100000 (`$Caps` at the top of the script). v1.3: the tests in `tools/ci/slow_tests.txt` start first (longest-first), the
+rest in name order. **A test can declare its own cap** in its first 20 lines:
 `# error_lab: quit-after=95000` (wins over the table; the task agent sets it with the test, nobody edits the lab). Exit code **1 when the result is FAIL**, else 0. The console ends with
 `ERROR LAB: <RESULT> score <N> / 100 (...)` and the top 3 errors.
 
@@ -108,12 +109,69 @@ tools\ci\ci.ps1 -SkipTests -SmokeRuns 1          # quick gate
 tools\ci\ci.ps1 -Dir C:\path\to\copy -ResultFile <scratchpad>\ci_result.txt   # the old desktop call still works
 ```
 Every Godot run goes through `tools/godot_run.ps1` (before: the exe directly, sequential, no timeout). Tests run
-through the Error Lab (`-ProjectDir`, parallel `-Parallel 3`, the caps above, owners, briefs) instead of a second copy
+through the Error Lab (`-ProjectDir`, parallel `-Parallel 4` since v2.1 (was 3; `-Parallel 3` when agents share the PC), the caps above, owners, briefs) instead of a second copy
 of the cap table. Perf OVER BUDGET while other Godot runs share the PC (and no stuck units) is a **WARN (noise)**, not
 a FAIL. Output: `docs/ci/<run>/ci.md` (steps, tests by owner, the classic result lines), `ci_result.txt`, `logs/`,
 `error_lab/` (the full Error Lab scorecard), and a row in `docs/ci/history.jsonl`. Exit 1 on FAIL.
 Laptop check 2026-09-27 (`-SkipImport -SmokeRuns 1 -PerfUnits 100 -Tests test_1_g1`): smoke PASS, perf WARN (11.5 ms
 with 6 Godot runs on the PC), test PASS, CI WARN.
+
+## 3c-bis. Fast CI (2026-10-02): early stop, changed-only, longest-first, gate fixes
+JS: "make testing faster". The full suite was 4.9 test-hours at `-Parallel 1` (269 tests); 12 long bot / AI tests took
+2.9 h, the 228 others under a minute each. Four changes, none of them weakens a check:
+
+**1. Early stop in the long simulations.** A test ends (PASS / FAIL + quit) as soon as its verdict cannot change any more;
+the `--quit-after` caps stay as the hard limit for the failure case, and **`--full`** (test_casters_bots: `full`) runs the
+old full horizon (balance data, match length notes).
+
+| Test | What decides it | Early stop |
+|---|---|---|
+| `test_8_a2` | part 3: "the Fire bot casts in the match" | at the Fire bot's first cast (was: the whole 24:00 match) |
+| `test_casters_bots` | per side: a caster trained + >= 3 casts (normal Ice: trained only); easy: never one | normal / hard: once every side has both (they only grow, the bar is at most 3); easy runs to the limit |
+| `test_9_c11` | both sides hire + a bounty of each kind paid + no champion ever orderable | once both hired and all 4 kinds are paid; the orderable check ran on every scan until then (was: the match end, 14-22 min) |
+| `test_8_a1` | part 1 (Nature bot): first-time values (hall, 3 queued, scout, X1, gathered, soldier, V3 row) | part 1 once every value is recorded (was: always 5:30); parts 2-3 unchanged |
+| `test_9_c9`, `test_10_a3` | stage machines per part | already event-driven (each part ends at its last stage; PART_LIMIT only on failure): unchanged |
+| `test_20_a3` | think-time **median / p95 / max over 16:00** + first attack by 15:00 | **not shortened**: the median over the fixed horizon is the measurement |
+| `test_2_a1_bot_vs_bot` | a winner (kill / concede, or on score at 30:00) | **not shortened**: the win is the verdict; it already ends at game over |
+| `test_8_b3` | Nature worker caps and relaunch rule over the whole match, Ice X1 by 6:00 | **not shortened**: invariants over the match (a later relaunch can still fail) |
+| `test_8_a1` part 3 | the bot-vs-bot matrix (3 pairs x 12:00): only a faction check, the rest is a report | **not shortened**: its 36 game minutes are the any-kingdom bot-vs-bot run-time coverage (script errors) |
+| `test_4_i1`, `test_4_u1b`, `test_4_i2` | 200-500 frames | not slow: 49 s alone; 450-966 s in the CI was time spent waiting for the gate and a loaded PC. Removed from the slow list (ci_quick runs them) |
+
+Measured before / after: the table in section 3c-ter (wall seconds, same PC load).
+
+**2. Changed-only mode:** `tools\ci\ci_quick.ps1 -Changed [-Base <ref>] [-ListOnly] [-IncludeSlow]` (selection in
+`tools/ci/select_tests.ps1`; read-only git: `diff --name-only <base>` + new untracked files, Godot's `.uid` files skipped).
+- Base: default `HEAD` (= uncommitted changes), any ref (`HEAD~3`, `main`, a hash), or `last-green` (the commit of the
+  last PASS / WARN row of `docs/ci/history.jsonl`; ci.ps1 v2.1 writes `commit` in its rows). `-Files a,b` skips git.
+- Each changed file -> tests: `tests/test_x.gd` itself; else the tests whose text contains its `res://` path, its
+  `class_name` or its base name as a word (>= 4 letters); else up to 2 hops through the scripts / scenes that load it
+  (`caster_ice_wall.gdshader` -> `caster_ice_vfx.gd` -> `unit_vfx.gd` -> the tests naming UnitVfx); else its nearest
+  specific folder name (`art/units/ice/rimecarver/textures/x.png` -> `rimecarver`); `tools/<lab>/` -> `test_<lab>`.
+- Always the core set `test_tiers`, `test_ui_card_hotkeys`, `test_casters`, `test_stables` (+ the CI's 1 smoke + perf).
+- **Full ci_quick list** when a core file changes: `project.godot`, `scripts/core/`, `scripts/ui/command_card.gd`,
+  `scenes/main.tscn`, `scenes/skirmish.tscn`, `scripts/world/main.gd`, `skirmish.gd`, `unit.gd`, `unit_type.gd`,
+  `building.gd`, `building_type.gd`, `scripts/ai/commander.gd`, `addons/`, `tests/_template.gd`, `tools/godot_run.ps1`
+  (`$FullTriggers` at the top of select_tests.ps1).
+- Docs, `*.md`, `tools/ci/`, `tools/error_lab/` select nothing (a `tools/error_lab` change prints "also run
+  tests\test_error_lab.ps1"). Slow tests that get picked are listed as "slow, not run" unless `-IncludeSlow` or their own
+  file changed.
+- It prints every changed file with how it mapped, then every picked test with its reasons.
+
+**3. Longest-first + timeouts (Error Lab v1.3):** the tests of `tools/ci/slow_tests.txt` (ONE list, also ci_quick's skip
+list) start first, so a full run no longer ends on test_8_a1 queued near the end; the wall-clock kill scales with the
+cap (`-ListOnly` prints each test's timeout): test_20_a3 2900 s (it was killed at 2400 s on a loaded PC), test_8_a1 5900 s.
+
+**4. Gate (`tools/godot_run.ps1`):** one named mutex per slot instead of one semaphore: a run killed by a timeout used to
+leak its slot for good (the Error Lab's taskkill of a timed-out test left 3 slots, then 2...); an abandoned mutex is
+taken over by the next run. The hard cap (6) now counts engine processes only: each console run is 2 processes (the
+`_console` wrapper + the engine), so the old count allowed only 3 runs at once, never the 4 slots.
+
+**ci.ps1 v2.1:** default `-Parallel 4` (was 3; the gate's 4 slots), `commit` in its history rows.
+
+Measurement caveat (2026-10-02, laptop, 16 GB RAM): wall time is dominated by the PC's state, not by CPU. With 4-5 Godot
+runs (commit charge ~22 / 27 GB) the first frame of `main.tscn` once took 140 s (8 s minutes later with the same runs),
+and long simulations used ~10 % of one core. Compare frames / game seconds, or re-measure on a quiet PC; `-Parallel 3`
+when agents also run.
 
 ## 3d. v1.2 (tools upgrade U6, 2026-09-27): verdict=last for lab-on-lab tests
 Lab tests that plant bad cases on purpose (`test_art_lab`, `test_art_lab_calibration`) print inner lines such as
