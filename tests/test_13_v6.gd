@@ -135,7 +135,9 @@ func _run() -> void:
 	var box := _aabb(b, b.get_node("Root"))
 	print("rest AABB y %.2f..%.2f, x %.2f..%.2f, z %.2f..%.2f" % [box.position.y, box.end.y, box.position.x, box.end.x,
 		box.position.z, box.end.z])
-	_check(box.position.y >= -0.01, "nothing below the ground at rest (%.3f)" % box.position.y)
+	# 1.5 cm: the hooves sit ~1 cm into the ground and the sampled breath (idle phase from the instance id) moved the
+	# lowest point between -0.0099 and -0.0101 with unrelated code changes (2026-10-02).
+	_check(box.position.y >= -0.015, "nothing below the ground at rest (%.4f)" % box.position.y)
 	_check(box.end.y >= 1.9 and box.end.y <= 2.3, "ear tips 1.9-2.3 m (%.2f)" % box.end.y)
 	_check(box.size.z >= 2.3 and box.size.z <= 2.9, "length 2.3-2.9 m (%.2f)" % box.size.z)
 	_check(box.size.x >= 0.85 and box.size.x <= 1.2, "width 0.85-1.2 m with the bags (%.2f)" % box.size.x)

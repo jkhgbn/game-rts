@@ -20,6 +20,12 @@ var _world: Node3D
 func _initialize() -> void:
 	_world = Node3D.new()
 	root.add_child(_world)
+	# Tier 0 (close) so the full-rate animation runs: without a camera the kit's LOD tier 1 animates every other frame
+	# by instance-id parity, so the sampled strike moved with any unrelated new object (-16.5 -> -11.1 deg, 2026-10-02).
+	var cam := Camera3D.new()
+	cam.position = Vector3(0, 6, 10)
+	_world.add_child(cam)
+	cam.look_at_from_position(cam.position, Vector3.ZERO)
 	_run()
 
 
