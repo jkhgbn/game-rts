@@ -6,6 +6,10 @@ extends SceneTree
 ## no champion is ever orderable through the player's selection; the match ends between 14:00 and 22:00 (reported,
 ## a note only if outside: balance is 9.D4's job); frame time reported.
 ## Run:  godot --headless --path . -s tests/test_9_c11.gd --fixed-fps 60 --quit-after 95000 -- --pair=fire:shadow
+##   Options: --minutes=24, --no-champions (9.D4 control run), --full (play the match out).
+## Early stop (fast CI, 2026-10-02): the run ends as soon as both sides have hired and a bounty of every kind is paid
+## (those only grow, so the verdict cannot turn); the "never orderable" check runs on every scan until then. --full
+## plays the match out (the old behaviour, for the 9.D4 match length note); the control run always plays it out.
 
 const TASK_ID := "9.C11"
 const SCENE := "res://scenes/skirmish.tscn"
@@ -37,6 +41,8 @@ var _boards := {}                              # instance id -> true (connected)
 var _escorts_done := 0
 var _hunt_done := {}
 var _control := false
+var _full := false
+var _early := false
 var _orderable_leaks := 0
 var _max_level := {PLAYER: 0, ENEMY: 0}
 var _usec := 0
@@ -51,6 +57,8 @@ func _initialize() -> void:
 			_kingdoms = {PLAYER: StringName(ks[0]), ENEMY: StringName(ks[1] if ks.size() > 1 else "shadow")}
 		elif a.begins_with("--minutes="):
 			_minutes = a.trim_prefix("--minutes=").to_float()
+		elif a == "--full":
+			_full = true
 		elif a == "--no-champions":   # control run for 9.D4: same match without taverns (checks are skipped)
 			_control = true
 	main = load(SCENE).instantiate()
@@ -111,8 +119,23 @@ func _process(_delta: float) -> bool:
 			if not _hunt_done.has(team):
 				_place_hunt(team)
 	if not main.game_over and _t < _minutes * 60.0:
-		return false
+		if _full or _control or _frame % 30 != 0 or not _verdict_reached():
+			return false
+		_early = true
+		print("EARLY STOP at %s (frame %d): both sides hired and every bounty kind is paid (--full plays the match out)" % [
+				_clock(_t), _frame])
 	_finish()
+	return true
+
+
+## The positive checks only grow (hires, paid bounties): once all hold, the verdict is final but for the
+## "never orderable" check, which _scan has run up to here.
+func _verdict_reached() -> bool:
+	if (_hires[PLAYER] as Array).is_empty() or (_hires[ENEMY] as Array).is_empty():
+		return false
+	for k in 4:
+		if _paid[k] == 0:
+			return false
 	return true
 
 
@@ -269,7 +292,9 @@ func _finish() -> void:
 			_errors.append("no %s bounty paid (placed %d)" % [KIND_NAMES[k], _placed[k]])
 	if _orderable_leaks > 0:
 		_errors.append("a champion was orderable %d times" % _orderable_leaks)
-	if not main.game_over or _t < 14.0 * 60.0 or _t > 22.0 * 60.0:
+	if _early:
+		_notes.append("stopped early at %s, match length not measured (--full for 9.D4)" % _clock(_t))
+	elif not main.game_over or _t < 14.0 * 60.0 or _t > 22.0 * 60.0:
 		_notes.append("match length %s outside 14:00-22:00 (%s): for 9.D4" % [_clock(_t), winner])
 	for n in _notes:
 		print("note: " + n)

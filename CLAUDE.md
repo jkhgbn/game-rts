@@ -20,6 +20,10 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `$GODOT --headless --path . -s tests/perf_test.gd --fixed-fps 60 --quit-after 3000`
 - Per-task tests: `tests/test_<task-id>.gd`, copied from `tests/_template.gd`.
 - Always pass `--quit-after` so a script error can't hang the run.
+- **Fast CI** (2026-10-02, `docs/plan/error-lab.md` 3c-bis): everyday `tools\ci\ci_quick.ps1` (no slow simulations, list in
+  `tools/ci/slow_tests.txt`); after a change `tools\ci\ci_quick.ps1 -Changed [-Base HEAD~N | last-green] [-ListOnly]` runs only
+  the tests that name the changed files + the core set (full list when a core file changes); milestones `tools\ci\ci.ps1`
+  (`-Parallel 4` default). Long bot tests stop as soon as their verdict is final; `-- --full` replays the whole match.
 - Test scripts compile **before autoloads exist**: never write `Events` in a test. In game code, reach
   autoloads with `get_node_or_null(^"/root/Events")` so tests that use `Unit`, `Wizard`... still compile.
 - Play: desktop shortcut "Four Wizards - Play", or open the editor ("Four Wizards - Editor") and press F5.

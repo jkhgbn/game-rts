@@ -1,0 +1,14 @@
+# The long bot / AI simulation tests (each several minutes), longest first. ONE list, read by:
+#  - tools/error_lab/error_lab.ps1: starts these first (longest-first scheduling: the suite does not end on a
+#    35-minute test that started last);
+#  - tools/ci/ci_quick.ps1: skips them (everyday runs); tools/ci/ci.ps1 (full CI) runs them.
+# Measured 2026-10-02 (docs/plan/error-lab.md "Fast CI"). One test name per line; '#' starts a comment.
+test_20_a3
+test_8_a1
+test_9_c11
+test_9_c9
+test_10_a3
+test_8_b3
+test_2_a1_bot_vs_bot
+test_8_a2
+test_casters_bots
