@@ -44,7 +44,7 @@ Each lit brazier draws a flame line on the minimap toward the crown and adds a c
 |---|---|
 | Vessa | Level 1, Fireball rank 1, full HP / mana, empty inventory (campaign start); **level cap 5** this mission |
 | Crystals / essence | 300 / 150 (essence +1 / s as the 1v1) |
-| Buildings | Keep, Ember Hall (complete) |
+| Buildings | Keep (tier 1, Stronghold from 3:30: section "Tiers"), Ember Hall (complete) |
 | Units | 5 Cinder Hands gathering (3 on `m1_fire_a`, 2 on `m1_fire_b`), 4 Flame Guards + 2 Ember Archers at `PLAYER_START + (4, -4)` |
 | Population | 11 / 20 |
 | Malrik's side | Dusk Keep, Gloom Hall, Night Spire, Hovel, 4 Gloom Thralls gathering, 4 Shades at his rally `(30, -30)`, Malrik level **3** (Lance r2, Siphon r1) at `(36, -36)` |
@@ -53,7 +53,8 @@ Each lit brazier draws a flame line on the minimap toward the crown and adds a c
 | Kind | Available | Locked (comes later) |
 |---|---|---|
 | Buildings | Hearth, Ember Hall, Ember Spire | - |
-| Units | Cinder Hand, Flame Guard, Ember Archer; **Blaze Rider when Brazier 2 is lit** | Ash Hurler (mission 2) |
+| Units | Cinder Hand, Flame Guard, Ember Archer; **Blaze Rider when Brazier 2 is lit**; **from the Stronghold** (section "Tiers"): Pyre Adept, Cinder Arbalest (Ember Hall), Kilnwarden (keep, B) | Ash Hurler (mission 2); the Citadel, Ashveil Saboteur, Old Vey |
+| Keep | **Stronghold** upgrade (X, 200 crystals, 60 s, from 3:30) | Citadel |
 | Spells | Fireball (L1), Ember Step (L2+), Kindle (L4+) | Nothing extra; cap L5 |
 | Items | Base shop (keep, halls): 10 components, mids, Ember Draught, Dusk Vial, Homeward Seal, the exchange. Peddler stock after he is freed | Top items are sold but out of reach on purpose (~2 000 essence max) |
 
@@ -97,7 +98,7 @@ gathers, trains and defends its base. Malrik stays at his anchor until the final
 | E2 | Vessa within 16 m of Brazier 1 | L4 (Malrik appears as a voice only) |
 | E3 | Brazier 1 lit | L5; `obj_braziers` 1 / 3; hint `Train more soldiers at the Ember Hall (Z / X).`; W1 armed |
 | E4 | G2 jailers dead + Vessa at the cage | Cage opens (box fades 1 s); L6; peddler shop works; Pell drops a **Vital Root** at his feet; `sec_peddler` done |
-| E5 | Brazier 2 lit | L7-L8; Blaze Rider unlocked in the Ember Hall (slot C) + 2 free Blaze Riders spawn beside the brazier; W2 fires |
+| E5 | Brazier 2 lit | L7-L8; Blaze Rider unlocked in the Ember Hall (slot B, after the tier-2 pair on C / V, 2026-09-30) + 2 free Blaze Riders spawn beside the brazier; W2 fires |
 | E6 | Brazier 3 lit (third brazier, any order) | L9-L10; the seal shatters (flash at the crown, 1 s white ring r 12); G5 wakes up; `obj_crown` active |
 | E7 | Crown claimed | L11-L12; `obj_hold` active with a 2:00 countdown; the Final wave spawns |
 | E8 | Hold done (120 s, or Malrik killed during it) | L13-L14; remaining Shadow units walk back to the Dusk Keep; `Events.mission_ended(true)` after 4 s |
@@ -123,6 +124,23 @@ if Southgate is lit 2nd, E5's unlock still happens on Westwatch).
 | L13 | E8 | Malrik | Keep it warm for me. The other three will come for it now. |
 | L14 | E8 | Narrator | Far away, three apprentices feel the crown wake up, and begin to worry. |
 | L15 | E9 | Vessa | Tell the others... I was winning. |
+
+## Tiers (2026-09-30, JS: "a way to get better units, asap")
+The keep can become a **Stronghold** here (`tiers.md` 6); the **Citadel** stays for later chapters. Same numbers as
+the skirmish: X on the keep card, 200 crystals, 60 s, from **3:30**, needs a completed Hall (the Ember Hall is pre-built).
+| Item | Value |
+|---|---|
+| Code | `Mission01._init`: `tiers_enabled = true`; `_ready`: `tier_system.max_tier = 2`, `bots_upgrade = false`; `casters_enabled = true` |
+| Ember Hall | Z Flame Guard, X Ember Archer, **C Pyre Adept, V Cinder Arbalest** (greyed `Requires Stronghold` until then), **B Blaze Rider** after Westwatch (so no key moves when it unlocks) |
+| Keep | Z Cinder Hand, **X Stronghold** (gold pulse when it can start), **B Kilnwarden** (tier 2), Set Rally r3c1; no Citadel button |
+| "+" upgrades | from the Stronghold at the Ember Hall (before 2026-09-30 they were open from 0:00: no TierSystem meant "tier 3") |
+| Hint | once, when the upgrade can start: message (12 s) `Your Keep can become a Stronghold: select the Keep and press X (200 crystals). It opens Pyre Adept, Cinder Arbalest (Ember Hall) · Kilnwarden (Keep).`; the tier chip under the top bar reads `Tier 1 Keep · Stronghold ready: X`. The skirmish Next hint is off in missions |
+| Malrik | his keep never upgrades (the bot's rule 5 is off: `bots_upgrade = false`); scripted waves and guards unchanged |
+Balance: the tier-2 pair costs 130 / 135 and 26 s each and the upgrade 200 + 60 s, so the first tier-2 units land
+around 5:00-5:30, after W1 (4:00) and before G3 Westwatch (7:00-9:00, the skill check). They make Westwatch and the
+Final wave a little easier; the fights keep their numbers (the 70 % rule was written for tier-1 armies and now has
+headroom). Keep HP x1.2 at the Stronghold makes "Fire keep destroyed" rarer. Watch in the next playtest: if Westwatch
+becomes trivial, raise G3 by one Nightbolt on normal / hard.
 
 ## Win / lose
 | Event | Result |

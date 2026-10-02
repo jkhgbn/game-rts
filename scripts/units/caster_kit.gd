@@ -6,8 +6,8 @@ extends RefCounted
 ## where they are trained (keep_types / gate_reason), the attach hook (Unit._ready), the team registries shared by the
 ## spells (Rime Bulwarks, Scrying Runes, Blood Tithe tethers) and the smart-cast pick used by the UI and the bots.
 ## Instance side: CasterAbility (scripts/units/caster_ability.gd), the node "CasterAbility" on each caster.
-## Everything hangs on ENABLED (and only in the plain skirmish: missions and scenes/main.tscn never list them; tests set
-## `force_enabled`).
+## Everything hangs on ENABLED (and only in the plain skirmish, or a mission that sets `casters_enabled` (mission 1 from
+## 2026-09-30); scenes/main.tscn never lists them; tests set `force_enabled`).
 ## Hooks: TrainingBuilding.trainable_types (keep_types, after T3Kit's), TrainingBuilding.can_queue (gate_reason),
 ## Unit._ready (attach), Unit.displace (bulwark_blocks), T3UnitAbility / HelperAbilities (revealed_for: Scrying Rune),
 ## AIMemory.strength_of (bot_strength), commander._think / _rule_train (AICasters).
@@ -125,7 +125,10 @@ static func enabled_here() -> bool:
 	if tree == null or tree.current_scene == null:
 		return false
 	var s: Variant = tree.current_scene.get_script()
-	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
+	if s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT:
+		return true
+	# A campaign mission opts in with `casters_enabled = true` (mission-01.md "Tiers": its Stronghold opens the caster).
+	return &"casters_enabled" in tree.current_scene and bool(tree.current_scene.get(&"casters_enabled"))
 
 
 static func is_caster(type_id: StringName) -> bool:

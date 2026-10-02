@@ -36,6 +36,9 @@ var _up_left := 0.0
 var _up_paid := 0
 var _tier_emblem: Node3D
 var _tier_stub: UnitType
+var _card_text_busy := false
+var _card_text_ms := -100000
+var _card_text_for := 0
 
 
 func _physics_process(delta: float) -> void:
@@ -169,7 +172,7 @@ func set_tier_now(t: int) -> void:
 ## starts the upgrade (can_queue / queue_unit below); while upgrading it becomes "Cancel <tier> n %" (full refund).
 ## Null when tiers are off, the keep is a site / destroyed, or it is a Citadel.
 func tier_card_type() -> UnitType:
-	if TierSystem.instance() == null or _dead or not is_constructed() or (tier >= 3 and _up_to == 0):
+	if TierSystem.instance() == null or _dead or not is_constructed() or (tier >= TierSystem.cap() and _up_to == 0):
 		return null
 	if _tier_stub == null:
 		_tier_stub = UnitType.new()
@@ -183,15 +186,46 @@ func tier_card_type() -> UnitType:
 		_tier_stub.train_time = upgrade_time_left()
 		_tier_stub.set_meta(&"card_text", "%s %d %%: %d s left. Cancel = full refund (%d crystals)." % [name_to,
 				roundi(upgrade_progress() * 100.0), ceili(upgrade_time_left()), _up_paid])
+		_card_text_for = 0   # the upgrade text is rebuilt once the button is back
 	else:
 		var to := tier + 1
 		_tier_stub.display_name = TierSystem.tier_name(to)
 		_tier_stub.cost = upgrade_cost()
 		_tier_stub.train_time = upgrade_time()
-		_tier_stub.set_meta(&"card_text", "Upgrade the keep: +%d %% HP, +%d damage. %s" % [
-				roundi((TierSystem.HP_MULT[to - 1] - 1.0) * 100.0), roundi(TierSystem.DAMAGE_BONUS[to - 1]),
-				"Opens the tier-2 units and the \"+\" upgrades." if to == 2 else "Opens the tier-3 units and your helper."])
+		# The text lists the other buildings' units (their trainable_types() call back here): cached 1 s, no re-entry.
+		var now_ms := Time.get_ticks_msec()
+		if not _card_text_busy and (now_ms - _card_text_ms > 1000 or _card_text_for != to):
+			_card_text_busy = true
+			_tier_stub.set_meta(&"card_text", tier_card_text(to))
+			_card_text_busy = false
+			_card_text_ms = now_ms
+			_card_text_for = to
 	return _tier_stub
+
+
+## The tier button's tooltip body (tiers.md 3, 2026-09-30 "make the way up obvious"): the effect, the exact list of what
+## the tier opens (TierSystem.unlock_text), and what it needs (time floor, a completed Hall).
+func tier_card_text(to: int) -> String:
+	var lines: Array[String] = ["Upgrade the keep: +%d %% HP, +%d damage." % [
+			roundi((TierSystem.HP_MULT[to - 1] - 1.0) * 100.0), roundi(TierSystem.DAMAGE_BONUS[to - 1])]]
+	var opens: Array[String] = []
+	if TierSystem.unlock_text(int(team), to) != "":
+		opens.append(TierSystem.unlock_text(int(team), to))
+	if to == 2 and UnitUpgrades.ENABLED:
+		opens.append("the \"+\" upgrades at the Hall")
+	if not opens.is_empty():
+		lines.append("Opens: " + " · ".join(opens))
+	var ts := TierSystem.instance()
+	var needs: Array[String] = []
+	if ts and ts.time_gates and ts.start_time(to) > 0.0:
+		needs.append("from %s" % TierSystem.clock(ts.start_time(to)))
+	if bool((TierSystem.UPGRADES.get(to, {}) as Dictionary).get("needs_hall", false)):
+		needs.append("a completed Hall")
+	if to == 3:
+		needs.push_front("the Stronghold")
+	if not needs.is_empty():
+		lines.append("Needs " + ", ".join(needs) + ".")
+	return "\n".join(lines)
 
 
 func can_queue(type: UnitType) -> String:

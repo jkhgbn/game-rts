@@ -112,8 +112,16 @@ read `get_meta(&"campaign_flags")` -> spawn the branch content (Pell or the cach
 | Kind | Available | Locked |
 |---|---|---|
 | Buildings | Hearth, Ember Hall, Ember Spire | - |
-| Units | Cinder Hand, Flame Guard, Ember Archer, Blaze Rider, **Ash Hurler (new, V at the Ember Hall)** | - |
+| Units | Cinder Hand, Flame Guard, Ember Archer, Blaze Rider, **Ash Hurler (new, V at the Ember Hall)**; from the Stronghold: Pyre Adept (B), Cinder Arbalest (N) at the Ember Hall, Kilnwarden (keep, B) | Citadel units, Old Vey |
+| Keep | **Stronghold** (X, 200 crystals, 60 s, from 3:30; section "Tiers") | Citadel |
 | Spells | Fireball, Ember Step (L2+), Kindle (L4+); cap L6 | - |
+
+## Tiers (2026-09-30, `tiers.md` 6)
+As mission 1 "Tiers": `tiers_enabled = true` in `_init`, `tier_system.max_tier = 2`, `bots_upgrade = false` (Torvald's /
+Malrik's keep stays tier 1), `casters_enabled = true`. The Ember Hall copy lists Z Flame Guard, X Ember Archer, C Blaze
+Rider, V Ash Hurler, **B Pyre Adept, N Cinder Arbalest** (greyed `Requires Stronghold` until then); the "+" upgrades open
+at the Stronghold. The one-time message when the upgrade opens is the same as mission 1's. W1 lands at 5:00, the
+Stronghold at 4:30 at the earliest: the player chooses between the upgrade and more Ash Hurlers for the Heartfrost.
 | Items | Base shop incl. the 4 Ice items (`kingdom-ice.md` 6); Pell's stock if he is here | Top items stay out of reach on purpose |
 
 ## Campaign flag branches
@@ -259,7 +267,7 @@ Speaker colours: Vessa `(1.0, 0.45, 0.1)`, **Torvald `(0.55, 0.80, 1.00)`**, Mal
 `LostCache` for the cart, the `Skirmish` kingdom table (`enemy_kingdom = &"ice"`) for Torvald and his respawn text.
 
 ## Done when (step 9 ids; the lead adds them to `waves.md`)
-- [ ] M9.S1 (systems): `MissionBase` extracted, mission 1 tests still pass; `missions/mission_02.tscn` builds Glasswater Mere (seed 1202, nodes 1 500 / 1 500 / 2 000 / 1 500, lake disc r 22, 28 snowbanks with the 4 gaps and the path test, Ice base pre-built, clearings); Heartfrost (1 500 HP, damage only from Vessa and Ash Hurlers, regen 15 / s with Ice within 10 m); 3 ice blocks (3 m / 3 s, squads at veterancy 2); flag branches (Pell or the cart cache); Sentinels dormant; start state via `apply_to_start` (Vessa L2 + 1 point, cap 6, 300 / 150 + carried, 15 of 20) and the no-save fallback.
+- [ ] M9.S1 (systems): `MissionBase` extracted, mission 1 tests still pass; `missions/mission_02.tscn` builds Glasswater Mere (seed 1202, nodes 1 500 / 1 500 / 2 000 / 1 500, lake disc r 22, 28 snowbanks with the 4 gaps and the path test, Ice base pre-built, clearings); Heartfrost (1 500 HP, damage only from Vessa and Ash Hurlers, regen 15 / s with Ice within 10 m); 3 ice blocks (3 m / 3 s, squads at veterancy 2); flag branches (Pell or the cart cache); Sentinels dormant; start state via `apply_to_start` (Vessa L2 + 1 point, cap 6, 300 / 150 + carried, 15 of 20) and the no-save fallback; section "Tiers" (Stronghold only, the Hall copy with B / N, `tests/test_tier_path.gd` gets a mission 2 part).
 - [ ] M9.S2 (systems-high): floes F0-F7 (crack sources, weight 12 pop / 5 s, knitting, break at 4 with 80 / 40 damage + chill 4 s + displacement, wedge obstacle + rebake, refreeze 45 s, no building at r <= 23); `FogOfWar.sight_scale` per team and blizzards B1 / B2; the dig (0.02 % / s per working hauler, relief every 40 s, 50 / 75 / 90 % messages). Test: 4 Fireballs on F3 break it, a Rimeshield on it takes 70 and ends outside the hole, the lane path goes around it until it refreezes; `PERF OK` with a break during a 100-unit fight.
 - [ ] M9.S3 (systems-high): objectives and events E1-E14 in order, the 16 lines with both flag branches, waves W1 / Dusk raid / W2 / Relief / W3 / Pursuit, shore walls at E11 (wall path test), Torvald's levels and 60 s respawn, win / lose table, difficulty table; victory saves `m02` with `MISSION_REWARDS[&"m02"]` (orb in owned + equipped, flags, +300 if `sec_dig`). Needs `data/items/stillwater_orb.tres` + the Stillwater passive (items-coder's files: the lead adds a small items task beside S3).
 - [ ] M9.U1 (ui): briefing (3 paragraphs + 3 primary objectives + the dig line), objectives panel with the percent counters (`obj_dig` turns orange at 50 %, red at 75 %), Torvald's speaker colour, the Heartfrost HP bar, the blizzard warning; layout from ui-designer.

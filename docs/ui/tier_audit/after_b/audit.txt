@@ -1,0 +1,119 @@
+
+=== SKIRMISH nature (vs shadow, easy bot)
+[start | 0:00] hint: Next: build a Grove Hall: select a worker, press B then X (130 crystals) | tier chip: Tier 1 Keep · next: Stronghold at 3:30 | crystals 250
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_00_start.jpg
+  keep card at 0:0x:
+    r1c1 [Z] train_sprigling -> OK | Sprigling  [Z] / Cost 40 crystals · Pop 1 · 10 s
+    r1c2 [X] train_keep_upgrade -> Available at 3:30 | Stronghold  [X] / Cost 200 crystals · Pop 0 · 60 s / Upgrade the keep: +20 % HP, +4 damage. / Opens: Vinelasher, Greenheart Oathkeeper (Grove Hall) · Bramblesage (Heartwo
+    r1c3 [C] train_briar_roc -> Requires Citadel | Briar Roc  [C] / Cost 380 crystals · Pop 4 · 55 s / Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s. / Upgrade your Heartwood to a Stronghold: s
+    r1c4 [V] train_call_helper -> Requires Citadel | Call Maelis Oakenhollow  [V] / Cost 350 crystals · Pop 4 · 60 s / Maelis Oakenhollow, The Wildcaller. 200 essence too. Autonomous; its level is your wizard's. Stance on i
+    r2c1 [B] train_bramblesage -> Requires Stronghold | Bramblesage  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units. / Upgrade your Heartwood to a Stronghold
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_01_keep_t1.jpg
+[3:20 (Hall done) | 3:20] hint: Next: train soldiers: select the Grove Hall, press Z X C V
+Soon: Stronghold at 3:30 (in 0:11): 200 crystals, X on your Heartwood | tier chip: Tier 1 Keep · next: Stronghold at 3:30 | crystals 1210
+  keep card at 3:20:
+    r1c1 [Z] train_sprigling -> OK | Sprigling  [Z] / Cost 40 crystals · Pop 1 · 10 s
+    r1c2 [X] train_keep_upgrade -> Available at 3:30 | Stronghold  [X] / Cost 200 crystals · Pop 0 · 60 s / Upgrade the keep: +20 % HP, +4 damage. / Opens: Vinelasher, Greenheart Oathkeeper (Grove Hall) · Bramblesage (Heartwo
+    r1c3 [C] train_briar_roc -> Requires Citadel | Briar Roc  [C] / Cost 380 crystals · Pop 4 · 55 s / Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s. / Upgrade your Heartwood to a Stronghold: s
+    r1c4 [V] train_call_helper -> Requires Citadel | Call Maelis Oakenhollow  [V] / Cost 350 crystals · Pop 4 · 60 s / Maelis Oakenhollow, The Wildcaller. 200 essence too. Autonomous; its level is your wizard's. Stance on i
+    r2c1 [B] train_bramblesage -> Requires Stronghold | Bramblesage  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units. / Upgrade your Heartwood to a Stronghold
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_02_keep_320.jpg
+[3:32 (Stronghold due) | 3:32] hint: Next: train soldiers: select the Grove Hall, press Z X C V | tier chip: Tier 1 Keep · Stronghold ready: X | crystals 1870
+  keep card at 3:32:
+    r1c1 [Z] train_sprigling -> OK | Sprigling  [Z] / Cost 40 crystals · Pop 1 · 10 s
+    r1c2 [X] train_keep_upgrade [GOLD PULSE] -> OK | Stronghold  [X] / Cost 200 crystals · Pop 0 · 60 s / Upgrade the keep: +20 % HP, +4 damage. / Opens: Vinelasher, Greenheart Oathkeeper (Grove Hall) · Bramblesage (Heartwo
+    r1c3 [C] train_briar_roc -> Requires Citadel | Briar Roc  [C] / Cost 380 crystals · Pop 4 · 55 s / Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s. / Upgrade your Heartwood to a Stronghold: s
+    r1c4 [V] train_call_helper -> Requires Citadel | Call Maelis Oakenhollow  [V] / Cost 350 crystals · Pop 4 · 60 s / Maelis Oakenhollow, The Wildcaller. 200 essence too. Autonomous; its level is your wizard's. Stance on i
+    r2c1 [B] train_bramblesage -> Requires Stronghold | Bramblesage  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units. / Upgrade your Heartwood to a Stronghold
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_03_keep_332.jpg
+X pressed: upgrading to Stronghold (60 s)
+[upgrading | 3:32] hint: Next: train soldiers: select the Grove Hall, press Z X C V | tier chip: Upgrading to Stronghold 0 % · 60 s | crystals 1670
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_04_upgrading.jpg
+after the Stronghold: message 'The Keep is now a Stronghold. New: Vinelasher, Greenheart Oathkeeper (Grove Hall) · Bramblesage (Heartwood)'
+[Stronghold done | 4:32] hint: Next: train soldiers: select the Grove Hall, press Z X C V | tier chip: Tier 2 Stronghold · next: Citadel at 5:45 | crystals 1990
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_05_stronghold_done.jpg
+  Hall card at the Stronghold:
+    r1c1 [Z] train_thornling -> OK | Thornling  [Z] / Cost 60 crystals · Pop 1 · 12 s
+    r1c2 [X] train_burr_slinger -> OK | Burr Slinger  [X] / Cost 70 crystals · Pop 1 · 14 s
+    r1c3 [C] train_bloomtender -> OK | Bloomtender  [C] / Cost 90 crystals · Pop 1 · 18 s
+    r1c4 [V] train_bramblehorn -> OK | Bramblehorn  [V] / Cost 200 crystals · Pop 2 · 34 s
+    r2c1 [B] train_wildwood_archer -> OK | Wildwood Archer  [B] / Cost 85 crystals · Pop 1 · 16 s
+    r2c2 [N] train_thistle_darter -> OK | Thistle Darter  [N] / Cost 65 crystals · Pop 1 · 12 s / Tier 1 skirmisher. Skitter: faster for 1.5 s after each dart.
+    r2c3 [M] train_vinelasher -> OK | Vinelasher  [M] / Cost 120 crystals · Pop 1 · 20 s / Tier 2 whip. Snare Lash: 10 and rooted 1.5 s (10 s). / Tier 2: requires Stronghold
+    r2c4 [,] train_greenheart_oathkeeper -> OK | Greenheart Oathkeeper  [,] / Cost 170 crystals · Pop 2 · 32 s / Tier 2 swordsman. Grove Oath: taunts enemies in 5 m and braces (14 s). / Tier 2: requires Stronghold
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+    r3c4 [+] plus_page -> OK | Upgrades  [+] / "+" research for this Hall's units: +10 % HP and damage each. Needs a Stronghold. / On the page each unit's "+" has the unit's own key.
+Hall tier-2 units open: Vinelasher, Greenheart Oathkeeper
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_06_hall_t2.jpg
+  keep card at the Stronghold:
+    r1c1 [Z] train_sprigling -> OK | Sprigling  [Z] / Cost 40 crystals · Pop 1 · 10 s
+    r1c2 [X] train_keep_upgrade -> Available at 5:45 | Citadel  [X] / Cost 300 crystals · Pop 0 · 90 s / Upgrade the keep: +40 % HP, +8 damage. / Opens: Briar Roc, Maelis Oakenhollow (helper) (Heartwood) / Needs the Stronghol
+    r1c3 [C] train_briar_roc -> Requires Citadel | Briar Roc  [C] / Cost 380 crystals · Pop 4 · 55 s / Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s. / Upgrade your Heartwood to a Citadel: sele
+    r1c4 [V] train_call_helper -> Requires Citadel | Call Maelis Oakenhollow  [V] / Cost 350 crystals · Pop 4 · 60 s / Maelis Oakenhollow, The Wildcaller. 200 essence too. Autonomous; its level is your wizard's. Stance on i
+    r2c1 [B] train_bramblesage -> OK | Bramblesage  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units.
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_07_keep_t2.jpg
+[5:47 (Citadel due) | 5:47] hint: Next: train soldiers: select the Grove Hall, press Z X C V | tier chip: Tier 2 Stronghold · Citadel ready: X | crystals 3170
+  keep card at 5:47:
+    r1c1 [Z] train_sprigling -> OK | Sprigling  [Z] / Cost 40 crystals · Pop 1 · 10 s
+    r1c2 [X] train_keep_upgrade [GOLD PULSE] -> OK | Citadel  [X] / Cost 300 crystals · Pop 0 · 90 s / Upgrade the keep: +40 % HP, +8 damage. / Opens: Briar Roc, Maelis Oakenhollow (helper) (Heartwood) / Needs the Stronghol
+    r1c3 [C] train_briar_roc -> Requires Citadel | Briar Roc  [C] / Cost 380 crystals · Pop 4 · 55 s / Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s. / Upgrade your Heartwood to a Citadel: sele
+    r1c4 [V] train_call_helper -> Requires Citadel | Call Maelis Oakenhollow  [V] / Cost 350 crystals · Pop 4 · 60 s / Maelis Oakenhollow, The Wildcaller. 200 essence too. Autonomous; its level is your wizard's. Stance on i
+    r2c1 [B] train_bramblesage -> OK | Bramblesage  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units.
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_08_keep_547.jpg
+after the Citadel: message 'The Keep is now a Citadel. New: Briar Roc, Maelis Oakenhollow (helper) (Heartwood)'
+[Citadel done | 7:17] hint: Next: train soldiers: select the Grove Hall, press Z X C V | tier chip: Upgrading to Citadel 100 % · 1 s | crystals 3210
+  keep card at the Citadel:
+    r1c1 [Z] train_sprigling -> OK | Sprigling  [Z] / Cost 40 crystals · Pop 1 · 10 s
+    r1c3 [C] train_briar_roc -> OK | Briar Roc  [C] / Cost 380 crystals · Pop 4 · 55 s / Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s.
+    r1c4 [V] train_call_helper -> OK | Call Maelis Oakenhollow  [V] / Cost 350 crystals · Pop 4 · 60 s / Maelis Oakenhollow, The Wildcaller. 200 essence too. Autonomous; its level is your wizard's. Stance on i
+    r2c1 [B] train_bramblesage -> OK | Bramblesage  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units.
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+keep tier-3 content open: Briar Roc, Call Maelis Oakenhollow
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/nature_09_keep_t3.jpg
+
+=== MISSION res://missions/mission_01.tscn (normal)
+TierSystem in this mission: yes
+[start | 0:00] hint: (no hint) | tier chip: Tier 1 Keep · next: Stronghold at 3:30 | crystals 300
+  keep card at the start:
+    r1c1 [Z] train_cinder_hand -> Population cap reached | Cinder Hand  [Z] / Cost 50 crystals · Pop 1 · 12 s / Worker. Gathers crystals.
+    r1c2 [X] train_keep_upgrade -> Available at 3:30 | Stronghold  [X] / Cost 200 crystals · Pop 0 · 60 s / Upgrade the keep: +20 % HP, +4 damage. / Opens: Pyre Adept, Cinder Arbalest (Ember Hall) · Kilnwarden (Keep) · the "+
+    r2c1 [B] train_kilnwarden -> Requires Stronghold | Kilnwarden  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Slag Rain melts armour; Mana Scald burns an enemy caster's mana. / Upgrade your Keep to a Stronghold
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/mission_01_00_keep.jpg
+  Hall card at the start:
+    r1c1 [Z] train_flame_guard -> Population cap reached | Flame Guard  [Z] / Cost 90 crystals · Pop 1 · 18 s / Melee line unit.
+    r1c2 [X] train_ember_archer -> Population cap reached | Ember Archer  [X] / Cost 100 crystals · Pop 1 · 20 s / Ranged unit.
+    r1c3 [C] train_pyre_adept -> Requires Stronghold | Pyre Adept  [C] / Cost 130 crystals · Pop 1 · 26 s / Tier 2 caster. Flame Burst: 30 to a clump of 3+ enemies (14 s). / Tier 2: requires Stronghold / Upgrade your Keep to 
+    r1c4 [V] train_cinder_arbalest -> Requires Stronghold | Cinder Arbalest  [V] / Cost 135 crystals · Pop 1 · 26 s / Tier 2 crossbow. Piercing bolt: half damage to the enemy behind. / Tier 2: requires Stronghold / Upgrade your Ke
+    r2c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+    r3c4 [+] plus_page -> OK | Upgrades  [+] / "+" research for this Hall's units: +10 % HP and damage each. Needs a Stronghold. / On the page each unit's "+" has the unit's own key.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/mission_01_01_hall.jpg
+[3:35 | 3:35] hint: (no hint) | tier chip: Tier 1 Keep · Stronghold ready: X | crystals 2140
+  keep card at 3:35:
+    r1c1 [Z] train_cinder_hand -> Population cap reached | Cinder Hand  [Z] / Cost 50 crystals · Pop 1 · 12 s / Worker. Gathers crystals.
+    r1c2 [X] train_keep_upgrade [GOLD PULSE] -> OK | Stronghold  [X] / Cost 200 crystals · Pop 0 · 60 s / Upgrade the keep: +20 % HP, +4 damage. / Opens: Pyre Adept, Cinder Arbalest (Ember Hall) · Kilnwarden (Keep) · the "+
+    r2c1 [B] train_kilnwarden -> Requires Stronghold | Kilnwarden  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Slag Rain melts armour; Mana Scald burns an enemy caster's mana. / Upgrade your Keep to a Stronghold
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/mission_01_02_keep_335.jpg
+X on the keep: upgrading=true (Upgrade in progress)
+after the Stronghold: message 'The Keep is now a Stronghold. New: Pyre Adept, Cinder Arbalest (Ember Hall) · Kilnwarden (Keep)'
+  Hall card at the Stronghold:
+    r1c1 [Z] train_flame_guard -> Population cap reached | Flame Guard  [Z] / Cost 90 crystals · Pop 1 · 18 s / Melee line unit.
+    r1c2 [X] train_ember_archer -> Population cap reached | Ember Archer  [X] / Cost 100 crystals · Pop 1 · 20 s / Ranged unit.
+    r1c3 [C] train_pyre_adept -> Population cap reached | Pyre Adept  [C] / Cost 130 crystals · Pop 1 · 26 s / Tier 2 caster. Flame Burst: 30 to a clump of 3+ enemies (14 s). / Tier 2: requires Stronghold
+    r1c4 [V] train_cinder_arbalest -> Population cap reached | Cinder Arbalest  [V] / Cost 135 crystals · Pop 1 · 26 s / Tier 2 crossbow. Piercing bolt: half damage to the enemy behind. / Tier 2: requires Stronghold
+    r2c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+    r3c4 [+] plus_page -> OK | Upgrades  [+] / "+" research for this Hall's units: +10 % HP and damage each. Needs a Stronghold. / On the page each unit's "+" has the unit's own key.
+Hall tier-2 units open: Pyre Adept, Cinder Arbalest
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/mission_01_03_hall_t2.jpg
+  keep card at the Stronghold:
+    r1c1 [Z] train_cinder_hand -> Population cap reached | Cinder Hand  [Z] / Cost 50 crystals · Pop 1 · 12 s / Worker. Gathers crystals.
+    r2c1 [B] train_kilnwarden -> Population cap reached | Kilnwarden  [B] / Cost 150 crystals · Pop 2 · 30 s · Tier 2 / Caster: Slag Rain melts armour; Mana Scald burns an enemy caster's mana.
+    r3c1 [] rally -> OK | Set Rally  (right click) / New units walk here. Click a crystal node to send new workers mining.
+  shot: C:/Users/elzzo/Documents/four-wizards-rts-casters/docs/ui/tier_audit/after_b/mission_01_04_keep_t2.jpg
+mission over? game_over=false
