@@ -139,6 +139,17 @@ old full horizon (balance data, match length notes).
 
 Measured before / after: the table in section 3c-ter (wall seconds, same PC load).
 
+### 3c-ter. Before / after (2026-10-02, laptop, through the gate, 2-4 other Godot runs on the PC)
+Wall seconds swing 3-10x with the PC's state (see the caveat below), so the frames / game time are the firm numbers.
+
+| Test | Before (full horizon) | After (early stop) | Notes |
+|---|---|---|---|
+| `test_8_a2` | 440 s, match to 15:55 (57300 frames in part 3) | **78 s**, part 3 stops at 2:26 (frame 8761) | PASS both |
+| `test_9_c11` | 683 s, match to 24:00 (86400 frames); 2267 s on a loaded PC (match 19:21) | **229 s**, stops at 9:06 (frame 32820) | PASS both |
+| `test_8_a1` | 2876 s (loaded PC) | 1110 s | part 1 ends at 3:48 instead of 5:30 (-102 game s of ~2700): most of the gap is PC load, not the change; the 3 x 12:00 matrix stays |
+| `test_casters_bots` | 308 s (`full`, PASS) | 287-301 s | no early stop happened: 3 of 4 runs FAIL "team 0 reached the Stronghold but fielded no caster" (ice:shadow 2 x, fire:shadow 1 x): a bot regression for ai-coder, not the change |
+| `test_4_i1` / `u1b` / `i2` | 450-966 s in the CI | 49 s alone (quiet), 209-277 s with 3 other runs | never slow tests: removed from the slow list |
+
 **2. Changed-only mode:** `tools\ci\ci_quick.ps1 -Changed [-Base <ref>] [-ListOnly] [-IncludeSlow]` (selection in
 `tools/ci/select_tests.ps1`; read-only git: `diff --name-only <base>` + new untracked files, Godot's `.uid` files skipped).
 - Base: default `HEAD` (= uncommitted changes), any ref (`HEAD~3`, `main`, a hash), or `last-green` (the commit of the
