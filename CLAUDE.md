@@ -194,13 +194,23 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   only at `Skirmish.time_limit_s` (0 = off; `ended_on_score`), set from `GameSettings.time_limit_min` (0 / 30 / 45).
   `GameHUD.is_message_shown() -> bool`. Bot-vs-bot tests end on score at 30:00 ("PASS … (on score)").
 - **STR / INT path** (2026-09-27, `docs/design/level-boons.md` 14): `StrIntPath` (`scripts/units/str_int_path.gd`, child of each skirmish wizard; switch `StrIntPath.ENABLED`): mandatory STR or INT pick at match start, locked; STR +15 % attack_damage / +20 % max_hp + Vigor (regen), INT +15 spell_power / +25 % max_mana + Snow Shield; `ABILITY_DURATION` / `ABILITY_COOLDOWN` constants; key **J** (physical) = use the path ability. Bots pick in `scripts/ai/ai_str_int.gd`. Missions: off.
+- **Keep tiers** (`docs/design/tiers.md`): `TierSystem` (`scripts/buildings/tier_system.gd`, group `"tier_systems"`, one
+  per game; switch `ENABLED`): `tier_of(team)` (1-3; 3 without a TierSystem), `instance()`, `gate_reason(needed, team)`,
+  `tier_name(tier)`, `status(team) -> Dictionary` (the UI's view of the next upgrade: tier, next, name, upgrading,
+  progress, left, reason, crystals, time, from, short_crystals, keep), `unlocks(team, tier) -> Array[Dictionary]`,
+  `unlock_text`, `announce_text`, `bot_try_upgrade`, signal `tier_changed(team, tier)`; campaign knobs `max_tier`
+  (mission 1: 2 = Stronghold only) and `bots_upgrade` (missions false). `Keep.tier`, `upgrade()`, `can_upgrade()`,
+  `is_upgrading()`, `upgrade_progress()`, `upgrade_time_left()`, signal `tier_changed(keep, tier)`.
+  `Skirmish.tiers_enabled` (missions off except mission 1). UI: `hud.tier_chip` (`TierChip`, `scripts/ui/tier_chip.gd`,
+  null without tiers) + the Next hint (`NextStepHint`).
 - **Casters** (step 21, `docs/design/caster-units.md`): `CasterKit` (`scripts/units/caster_kit.gd`: switch `ENABLED`,
   `CASTERS` / `SPELLS` / `PASSIVES` tables, `enabled_here`, `keep_types`, `gate_reason`, `description`, `pick_caster`),
   `CasterAbility` node `"CasterAbility"` on each caster: `mana`, `max_mana()`, `cast(id, target) -> String`,
   `order_cast(id, target)` (walks into range), `set_autocast(id, on)`, `autocast(id)`, signals `mana_changed`,
   `spell_cast(id)`; statuses `slagged`, `scalded`, `hazed`, `tithed`; `Unit.displace(to: Vector3, seconds: float)`
   (+ signal `displaced`), `Unit.set_cast_lock(s)`, `Unit.attacks_blocked`, `Unit.order_serial`, `Unit.prefer_casters`.
-  `RimeBulwark` (group `"rime_bulwarks"`), `CasterHaze` (group `"pollen_hazes"`). Bot: `AICasters` (child of each
+  `RimeBulwark` (group `"rime_bulwarks"`), `CasterHaze` (group `"pollen_hazes"`). Skirmish only, plus a mission that
+  sets `casters_enabled := true` (mission 1: its Stronghold opens the caster). Bot: `AICasters` (child of each
   Commander; `last_cast(team)` test hook).
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
