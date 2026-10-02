@@ -15,6 +15,7 @@ When JS asks for something new, add a line here first, then work on it.
 | 2026-09-30 | Caster-only support units like SC2 Medivac or Infestor: list them and add 1 per kingdom (4 wizards) | doing | `docs/design/caster-units.md` |
 | 2026-10-01 | Not sure units can get better (tier up) in the last build: make sure there is a clear way to upgrade to better units, ASAP (JS, garbled) | doing | `docs/design/tiers.md`, keep card |
 | 2026-10-02 | More story missions: write the scripts, a possible ending, and say how long the RTS story mode is and how many missions remain | doing | `docs/design/campaign-outline.md` |
+| 2026-10-02 | More maps, easy to make; I pick the number and technique (30+ maps) | doing | `docs/design/map-production.md` |
 | 2026-09-28 | Basic eyes, lips, expression, ears and hair on ALL units, then remake the movies | doing | face kit first (`art/units/kit/`), then one wave per faction, champions, helpers, neutrals |
 | 2026-09-28 | Render Ep 3 and Ep 4 films to video, cutscene art at 90 or more | doing | `art/cinematics/`, `docs/tools/cine/` |
 | 2026-09-28 | List of in-game art under 90 and what it needs | todo (list written, work not started) | `docs/art/ingame_grade/under_90.md` |
