@@ -1,0 +1,15 @@
+{
+	"half_size": 40.0,
+	"name": "tpl_tollrock",
+	"scene": "res://docs/tools/world_forge/out/tpl_tollrock/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template tollrock"
+}

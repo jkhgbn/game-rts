@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/gtest_s4/preview_level.gd" id="1_45u3e"]
+[ext_resource type="Resource" path="res://data/maps/gen/gtest_s4_layout.tres" id="2_otlpv"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=1610203083]
+script = ExtResource("1_45u3e")
+layout = ExtResource("2_otlpv")

@@ -1146,7 +1146,7 @@ func _slipstep_destination() -> Vector3:
 		while dist >= SLIP_MIN - 0.01:
 			var want := me + dir * dist
 			dist -= 1.0
-			if absf(want.x) > FogOfWar.MAP_HALF or absf(want.z) > FogOfWar.MAP_HALF:
+			if not MapInfo.contains(want):   # MT1: the running map's size
 				continue
 			var p := _on_navmesh(want)
 			if p == Vector3.INF or _flat_dist(p, me) > reach + 0.5:
@@ -1368,7 +1368,7 @@ func _flare_explore_point() -> Vector3:
 	for dist in FLARE_DISTANCES:
 		for ang in FLARE_ANGLES:
 			var p := me + dir.rotated(Vector3.UP, ang) * dist
-			if absf(p.x) > FogOfWar.MAP_HALF or absf(p.z) > FogOfWar.MAP_HALF:
+			if not MapInfo.contains(p):   # MT1: the running map's size
 				continue
 			var s := fog.state_at(team, p)
 			if s < best_state:

@@ -1,0 +1,3 @@
+# A Wayshrine (map-production.md 2.3, Points; map-fill.md 4.1).
+template shrine  title="Wayshrine"
+point shrine  sub=shrine  at=(0,0)

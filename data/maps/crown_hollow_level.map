@@ -1,0 +1,56 @@
+# Crown Hollow as a LayoutLevel (map-production.md 2.8, MT2 regression gate): the exported spots of crown_hollow.map
+# (base) + everything skirmish.gd still keeps in constants: the forest generator with its seeds (forest 7, Old Wood 13,
+# willows 17), the ring road, the landmarks, the bot slots, the Magpie ambush / worker spots, the deer and rabbits.
+# Rebuild: run_world_forge.ps1 map crown_hollow_level   Play: scenes/layout_level.tscn layout_path=res://data/maps/crown_hollow_level_layout.tres
+# Regression: tests/test_mt2_layout_level.gd (same spots, same colliders, same path table as scenes/skirmish.tscn).
+map crown_hollow_level  base=crown_hollow  title="Crown Hollow (1v1)"  biome=grass
+
+rules archetype=river_split  tempo=standard  players=2  keep_enemy=100..150  natural=40..60  rich=70..95  crown=50..75  contest=5
+
+# the skirmish.gd forest: pre = the clearings checked before the size draw (start 18, natural node 7, crown 12, house slot 4)
+forest seed=7  clusters=9  trees=5..9  spread=50  cluster_r=6  tree_size=0.8..1.3  rocks=11  rock_spread=54  rock_size=0.8..2.2  half=xz  pre=[(-36,36,18),(-16,6,7),(0,0,12),(-50,46,4)]  lane=[(-36,36),(36,-36)]  pillars=(0,0,8)  pillar_count=10  pillar_gap=4  pillar_h=2..4.5  grove_seed=13
+grove old_wood_n  at=(-30,-56)  r=4    trees=7
+grove old_wood_w  at=(-57,-32)  r=3.5  trees=6
+willows seed=17  draws=40  river_draws=30  arc=140..310  spacing=4  gap=1.5..4  crossing_gap=3.5  arm=0
+
+# the trade ring (hub -> w_door -> nw1 -> nw2 -> n_door -> hub_e; the half-turn makes the other half)
+road ring  poly=[(-36,36),(-49,1),(-48,-44),(-44,-48),(1,-49),(36,-36)]  width=5
+set heron_ford  door=(-49,1)
+set millstone_cross  door=(-1,49)
+set MagpieDenNorthWest  door=(-51,-45)
+set GreywaterLodgeNorthWest  door=(-45,-51)
+
+# landmarks with colliders (map-fill.md 3.2); `clear` keeps trees and rocks off them
+prop lm_colossus   scene=res://art/environment/landmarks/colossus.tscn         at=(-57,-16)    clear=4.5  colliders=[(1.0,-0.7,2.2),(-1.0,1.6,1.0)]
+prop lm_stump      scene=res://art/environment/landmarks/giant_stump.tscn      at=(-30,20)     clear=4    colliders=[(0,0,2)]
+prop lm_stones     scene=res://art/environment/landmarks/standing_stones.tscn  at=(-54,20)     clear=4.5  colliders=[(3,0,0.5),(1.5,2.6,0.5),(-1.5,2.6,0.5),(-1.5,-2.6,0.5),(1.5,-2.6,0.5)]
+prop lm_aqueduct   scene=res://art/environment/landmarks/aqueduct.tscn         at=(-13.4,-55)  clear=0    colliders=[(-4.1,0,0.9),(4.1,0,0.9)]
+prop lm_barge      scene=res://art/environment/landmarks/barge.tscn            at=(-6.2,-24.5) clear=0
+
+# the bot's slots (ai.md, balance-1, market-trade.md 7): clear=0 = no extra clearing (the forest above has them)
+slot natural_hall   sub=natural_hall   at=(-23,9)    clear=0
+slot rich_hall      sub=rich_hall      at=(-33,-33)  clear=5
+slot house          sub=house          at=(-50,46)   clear=0
+slot market         sub=market         at=(-45,27)   clear=0
+slot tower_natural  sub=tower_natural  at=(-19,1)    clear=0
+slot tower_rich     sub=tower_rich     at=(-37,-45)  clear=0
+# Magpie ambush spots on the roads and beside the remote nodes (market-trade.md 2.4)
+slot A1  sub=ambush       at=(-44,15)   clear=0
+slot A2  sub=ambush       at=(-15,44)   clear=0
+slot A3  sub=ambush       at=(-48,-22)  clear=0
+slot A4  sub=ambush       at=(-22,-48)  clear=0
+slot W1  sub=worker_spot  at=(-8,16)    clear=0
+slot W2  sub=worker_spot  at=(-50,-30)  clear=0
+# huntable deer (north-west herd; the half-turn is the south-east herd) and rabbit homes (map-fill.md 3.4)
+slot g1  sub=graze   at=(-36,-53)  clear=0
+slot g2  sub=graze   at=(-52,-36)  clear=0
+slot g3  sub=graze   at=(-44,-30)  clear=0
+slot g4  sub=graze   at=(-30,-32)  clear=0
+slot g5  sub=graze   at=(-56,-22)  clear=0
+slot g6  sub=graze   at=(-40,-50)  clear=0
+slot r1  sub=rabbit  at=(-30,52)   clear=0
+slot r2  sub=rabbit  at=(-52,22)   clear=0
+slot r3  sub=rabbit  at=(-24,30)   clear=0
+slot r4  sub=rabbit  at=(-40,8)    clear=0
+slot r5  sub=rabbit  at=(-10,47)   clear=0
+slot r6  sub=rabbit  at=(-54,-8)   clear=0

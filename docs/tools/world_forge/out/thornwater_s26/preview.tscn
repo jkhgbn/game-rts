@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/thornwater_s26/preview_level.gd" id="1_tk31w"]
+[ext_resource type="Resource" path="res://data/maps/gen/thornwater_s26_layout.tres" id="2_sqb5o"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=360527004]
+script = ExtResource("1_tk31w")
+layout = ExtResource("2_sqb5o")

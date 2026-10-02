@@ -1,0 +1,7 @@
+# A ridge with a gate (map-production.md 2.3, Chokes): two cliff blocks on the local x axis with a `$gate` m gap at
+# (0,0). The gate is a named C2 exception (a main route may narrow to it).
+template spine_gate  title="Ridge with one gate"
+param gate=7
+param len=24
+block ridge_w  at=(-16,0)  size=($len,4)  kind=cliff
+block ridge_e  at=(16,0)   size=($len,4)  kind=cliff

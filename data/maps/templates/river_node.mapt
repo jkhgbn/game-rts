@@ -1,0 +1,6 @@
+# A node on a river bank (map-production.md 2.3, Resources), with a nest in the nearby ford. Local frame: (0,0) = the
+# node, +z = away from the water.
+template river_node  title="Bank node beside a ford nest"
+param amount=1500
+node  node  at=(0,0)    role=third  amount=$amount
+camp  nest  sub=mirefang  at=(0,-9)

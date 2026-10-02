@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_baf7q"]
+
+[resource]
+script = ExtResource("1_baf7q")
+id = &"tpl_wall_gates"
+title = "Template wall_gates"
+size = 144.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-63, 0, 63),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+blocks = Array[Dictionary]([{
+"center": Vector3(-38, 0, 0),
+"half": Vector3(10, 1.5, 1.5),
+"height": 3.0,
+"id": "t_wall_1",
+"kind": "wall",
+"yaw": 0.0
+}, {
+"center": Vector3(-10.5, 0, 0),
+"half": Vector3(7, 1.5, 1.5),
+"height": 3.0,
+"id": "t_wall_2",
+"kind": "wall",
+"yaw": 0.0
+}, {
+"center": Vector3(10.5, 0, 0),
+"half": Vector3(7, 1.5, 1.5),
+"height": 3.0,
+"id": "t_wall_3",
+"kind": "wall",
+"yaw": 0.0
+}, {
+"center": Vector3(38, 0, 0),
+"half": Vector3(10, 1.5, 1.5),
+"height": 3.0,
+"id": "t_wall_4",
+"kind": "wall",
+"yaw": 0.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_wall_gates/tpl_wall_gates.map"
+source_hash = "d29f33437d5b"
+size_x = 144.0
+size_z = 144.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["wall_gates t at (0.0, 0.0) yaw 0"])

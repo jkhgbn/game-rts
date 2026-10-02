@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_river_straight/preview_level.gd" id="1_a0a2i"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_river_straight/tpl_river_straight_layout.tres" id="2_gvojf"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=1727120485]
+script = ExtResource("1_a0a2i")
+layout = ExtResource("2_gvojf")

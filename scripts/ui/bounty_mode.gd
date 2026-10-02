@@ -736,7 +736,7 @@ func _guess_kind(target: Node3D) -> int:
 func _valid_target(kind: int, target: Node3D, pos: Vector3) -> bool:
 	match kind:
 		EXPLORE:
-			return absf(pos.x) <= MAP_HALF_FALLBACK and absf(pos.z) <= MAP_HALF_FALLBACK
+			return MapInfo.contains(pos)   # MT1: the running map's size
 		HUNT:
 			if target == null or not is_instance_valid(target) or not target.is_inside_tree():
 				return false

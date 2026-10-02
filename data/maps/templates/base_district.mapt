@@ -1,0 +1,11 @@
+# Base district (map-production.md 2.3, Bases): Crown Hollow's 1v1 district, unchanged so the bot's build rows and
+# walls work (LayoutLevel.bot_point moves Crown Hollow's slots rigidly onto this keep). Local frame: (0,0) = the keep,
+# +z = toward the map centre. Place it with `use base_district <prefix> at=(x,z)` (face=center is the default).
+template base_district  title="1v1 base district: keep, wizard start, 2 home nodes, house and market slots"
+param amount=2000
+keep  keep    at=(0,0)
+start start   at=(0,9.9)
+node  a       at=(8.49,4.24)   role=a  amount=$amount
+node  b       at=(-8.49,4.24)  role=b  amount=$amount
+slot  house   sub=house   at=(2.83,-7.07)  clear=4
+slot  market  sub=market  at=(12.73,9.9)   clear=0

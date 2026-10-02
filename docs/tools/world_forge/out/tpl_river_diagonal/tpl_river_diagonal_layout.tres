@@ -1,0 +1,122 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_x46tq"]
+
+[resource]
+script = ExtResource("1_x46tq")
+id = &"tpl_river_diagonal"
+title = "Template river_diagonal"
+size = 168.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-75, 0, 75),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+river = Array[Dictionary]([{
+"half_width": 2.5,
+"id": "t_arm",
+"poly": PackedVector3Array(-15, 0, -62, -12, 0, -48.7, -9, 0, -38, -8, 0, -30, -5, 0, -21, -2.5, 0, -12.5)
+}, {
+"half_width": 2.5,
+"id": "t_arm2",
+"poly": PackedVector3Array(2.5, 0, 12.5, 5, 0, 21, 8, 0, 30, 9, 0, 38, 12, 0, 48.7, 15, 0, 62)
+}])
+moat = {
+"center": Vector3(0, 0, 0),
+"half_width": 1.75,
+"radius": 12.75
+}
+crossings = Array[Dictionary]([{
+"center": Vector3(-12, 0, -48.7),
+"dir": Vector3(1, 0, -0.022),
+"id": "t_x_bridge_road_n",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_x_bridge_road_n",
+"width": 6.0
+}, {
+"center": Vector3(12, 0, 48.7),
+"dir": Vector3(-1, 0, 0.022),
+"id": "t_x_bridge_road_s",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_x_bridge_road_s",
+"width": 6.0
+}, {
+"center": Vector3(-8.5, 0, -34),
+"dir": Vector3(0.124, 0, 0.992),
+"id": "t_x_ford_n",
+"kind": "ford",
+"length": 7.0,
+"name": "t_x_ford_n",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(8.5, 0, 34),
+"dir": Vector3(0.124, 0, 0.992),
+"id": "t_x_ford_s",
+"kind": "ford",
+"length": 7.0,
+"name": "t_x_ford_s",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(-9.02, 0, 9.02),
+"dir": Vector3(-0.707, 0, 0.707),
+"id": "t_x_bridge_crown_w",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "t_x_bridge_crown_w",
+"width": 8.0
+}, {
+"center": Vector3(9.02, 0, -9.02),
+"dir": Vector3(0.707, 0, -0.707),
+"id": "t_x_bridge_crown_e",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "t_x_bridge_crown_e",
+"width": 8.0
+}, {
+"center": Vector3(-9.02, 0, -9.02),
+"dir": Vector3(-0.707, 0, -0.707),
+"id": "t_x_steps_nw",
+"kind": "steps",
+"length": 6.0,
+"name": "t_x_steps_nw",
+"radius": 3.0,
+"width": 6.0
+}, {
+"center": Vector3(9.02, 0, 9.02),
+"dir": Vector3(0.707, 0, 0.707),
+"id": "t_x_steps_se",
+"kind": "steps",
+"length": 6.0,
+"name": "t_x_steps_se",
+"radius": 3.0,
+"width": 6.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_river_diagonal/tpl_river_diagonal.map"
+source_hash = "8d9ba9b0910d"
+size_x = 168.0
+size_z = 168.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["crossing_set_cross x at (0.0, 0.0) yaw 0", "river_diagonal t at (0.0, 0.0) yaw 0"])

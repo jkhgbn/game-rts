@@ -1,0 +1,15 @@
+{
+	"half_size": 84.0,
+	"name": "tpl_gorge",
+	"scene": "res://docs/tools/world_forge/out/tpl_gorge/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template gorge"
+}

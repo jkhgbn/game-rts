@@ -1,0 +1,5 @@
+map tpl_camp_trio  size=104  symmetry=none  title="Template camp_trio"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-43.0,43.0)  team=0  solo
+use camp_trio t  at=(0,0)  yaw=0

@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_15tnq"]
+
+[resource]
+script = ExtResource("1_15tnq")
+id = &"tpl_crossing_set_cross"
+title = "Template crossing_set_cross"
+size = 64.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-23, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+crossings = Array[Dictionary]([{
+"center": Vector3(-12, 0, -48.7),
+"dir": Vector3(1, 0, -0.022),
+"id": "t_bridge_road_n",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_bridge_road_n",
+"width": 6.0
+}, {
+"center": Vector3(12, 0, 48.7),
+"dir": Vector3(-1, 0, 0.022),
+"id": "t_bridge_road_s",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_bridge_road_s",
+"width": 6.0
+}, {
+"center": Vector3(-8.5, 0, -34),
+"dir": Vector3(0.124, 0, 0.992),
+"id": "t_ford_n",
+"kind": "ford",
+"length": 7.0,
+"name": "t_ford_n",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(8.5, 0, 34),
+"dir": Vector3(0.124, 0, 0.992),
+"id": "t_ford_s",
+"kind": "ford",
+"length": 7.0,
+"name": "t_ford_s",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(-9.02, 0, 9.02),
+"dir": Vector3(-0.707, 0, 0.707),
+"id": "t_bridge_crown_w",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "t_bridge_crown_w",
+"width": 8.0
+}, {
+"center": Vector3(9.02, 0, -9.02),
+"dir": Vector3(0.707, 0, -0.707),
+"id": "t_bridge_crown_e",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "t_bridge_crown_e",
+"width": 8.0
+}, {
+"center": Vector3(-9.02, 0, -9.02),
+"dir": Vector3(-0.707, 0, -0.707),
+"id": "t_steps_nw",
+"kind": "steps",
+"length": 6.0,
+"name": "t_steps_nw",
+"radius": 3.0,
+"width": 6.0
+}, {
+"center": Vector3(9.02, 0, 9.02),
+"dir": Vector3(0.707, 0, 0.707),
+"id": "t_steps_se",
+"kind": "steps",
+"length": 6.0,
+"name": "t_steps_se",
+"radius": 3.0,
+"width": 6.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_crossing_set_cross/tpl_crossing_set_cross.map"
+source_hash = "88324adf1530"
+size_x = 64.0
+size_z = 64.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["crossing_set_cross t at (0.0, 0.0) yaw 0"])

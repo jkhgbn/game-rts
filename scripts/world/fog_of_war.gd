@@ -1,8 +1,9 @@
 class_name FogOfWar
 extends Node
 ## Fog of war (docs/design/fog-of-war.md). One node per level (group "fog", `main.fog`).
-## - A 60 x 60 grid of 2 m cells per team (PLAYER and ENEMY; NEUTRAL has no fog), cell i covers
-##   x in [2i, 2i + 2), i in -30..29 (the BuildGrid cells). States UNEXPLORED / EXPLORED / VISIBLE.
+## - A grid of 2 m cells per team (PLAYER and ENEMY; NEUTRAL has no fog), sized from MapInfo at _ready (MT1,
+##   map-production.md 2.8: 60 x 60 on the 120 m maps, W/2 x D/2 on a W x D layout); cell i covers x in [2i, 2i + 2),
+##   i in -grid_w/2 .. grid_w/2 - 1 (the BuildGrid cells). States UNEXPLORED / EXPLORED / VISIBLE.
 ## - Updated at 5 Hz per team (the two teams alternate every 0.1 s): the "visible now" layer is
 ##   cleared, then every living unit / building of the team stamps a circle of its sight radius
 ##   (precomputed row spans; one stamp per cell and radius per pass). Stamping also marks "explored".
@@ -19,10 +20,10 @@ signal updated   ## After each team pass (5 Hz per team). The minimap redraws on
 enum { UNEXPLORED, EXPLORED, VISIBLE }
 
 const CELL := 2.0
-const SIZE := 60
+const SIZE := 60                       ## The 120 m maps' grid (default; the running level's is grid_w x grid_d).
 const HALF := 30
 const CELLS := SIZE * SIZE
-const MAP_HALF := CELL * HALF          ## 60 m.
+const MAP_HALF := CELL * HALF          ## 60 m: the default map's half size (the running map: MapInfo.half_x / half_z).
 const TICK := 0.1                      ## One team pass per tick, so each team updates at 5 Hz.
 const START_REVEAL := 20.0             ## Explored circle around a team's start (fog-of-war.md).
 const EXPLORED_ALPHA := 0.55
@@ -47,6 +48,11 @@ const SITE_SIGHT := 6.0
 
 var enabled := true: set = set_enabled
 var local_team: int = Unit.Team.PLAYER   ## Whose view is drawn and hides the others.
+var grid_w := SIZE                       ## Cells along x (MapInfo.size_x / CELL, even), read only after _ready.
+var grid_d := SIZE                       ## Cells along z.
+var _hx := HALF                          ## grid_w / 2: the cell index of x = 0.
+var _hz := HALF
+var _cells := CELLS
 
 # Per team: 255 = visible now / explored. Separate members (packed arrays are copied on write when
 # taken out of a container, so every write goes straight to a member).
@@ -75,19 +81,35 @@ var _tex_vis: ImageTexture
 var _tex_exp: ImageTexture
 
 
-func _ready() -> void:
-	add_to_group("fog")
-	_vis_p.resize(CELLS)
-	_exp_p.resize(CELLS)
-	_vis_e.resize(CELLS)
-	_exp_e.resize(CELLS)
+func _init() -> void:
+	_alloc_grid()
+
+
+## Sizes the grids from MapInfo (MT1). Called at creation and again in _ready if the map size changed in between.
+func _alloc_grid() -> void:
+	grid_w = maxi(2, int(ceil(MapInfo.size_x / CELL / 2.0)) * 2)
+	grid_d = maxi(2, int(ceil(MapInfo.size_z / CELL / 2.0)) * 2)
+	_hx = grid_w / 2
+	_hz = grid_d / 2
+	_cells = grid_w * grid_d
+	_vis_p.resize(_cells)
+	_exp_p.resize(_cells)
+	_vis_e.resize(_cells)
+	_exp_e.resize(_cells)
 	_vis_p.fill(0)
 	_exp_p.fill(0)
 	_vis_e.fill(0)
 	_exp_e.fill(0)
-	_mark_tick.resize(CELLS)
+	_mark_tick.resize(_cells)
 	_mark_tick.fill(-1)
-	_mark_r.resize(CELLS)
+	_mark_r.resize(_cells)
+	_grid_images.clear()
+
+
+func _ready() -> void:
+	add_to_group("fog")
+	if grid_w != maxi(2, int(ceil(MapInfo.size_x / CELL / 2.0)) * 2) or grid_d != maxi(2, int(ceil(MapInfo.size_z / CELL / 2.0)) * 2):
+		_alloc_grid()
 	_ghost_mat = StandardMaterial3D.new()
 	_ghost_mat.albedo_color = GHOST_COLOR
 	_ghost_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -142,7 +164,7 @@ func get_state(world_pos: Vector3) -> int:
 func grid_image(team: int) -> Image:
 	var img: Image = _grid_images.get(team)
 	if img == null:
-		img = Image.create_empty(SIZE, SIZE, false, Image.FORMAT_R8)
+		img = Image.create_empty(grid_w, grid_d, false, Image.FORMAT_R8)
 		_grid_images[team] = img
 		_grid_image_pass[team] = -2
 	var stamp: int = _team_pass[team] if team == Unit.Team.PLAYER or team == Unit.Team.ENEMY else 0
@@ -151,16 +173,16 @@ func grid_image(team: int) -> Image:
 		return img
 	_grid_image_pass[team] = key
 	var data := PackedByteArray()
-	data.resize(CELLS)
+	data.resize(_cells)
 	if key == -1 or (team != Unit.Team.PLAYER and team != Unit.Team.ENEMY):
 		data.fill(255)
 	elif team == Unit.Team.PLAYER:
-		for i in CELLS:
+		for i in _cells:
 			data[i] = 255 if _vis_p[i] != 0 else (140 if _exp_p[i] != 0 else 0)
 	else:
-		for i in CELLS:
+		for i in _cells:
 			data[i] = 255 if _vis_e[i] != 0 else (140 if _exp_e[i] != 0 else 0)
-	img.set_data(SIZE, SIZE, false, Image.FORMAT_R8, data)
+	img.set_data(grid_w, grid_d, false, Image.FORMAT_R8, data)
 	return img
 
 
@@ -170,18 +192,18 @@ func reveal(team: int, world_pos: Vector3, radius: float) -> void:
 		return
 	var spans := _spans_for(radius)
 	var r := (spans.size() - 1) / 2
-	var cx := clampi(floori(world_pos.x / CELL) + HALF, 0, SIZE - 1)
-	var cz := clampi(floori(world_pos.z / CELL) + HALF, 0, SIZE - 1)
+	var cx := clampi(floori(world_pos.x / CELL) + _hx, 0, grid_w - 1)
+	var cz := clampi(floori(world_pos.z / CELL) + _hz, 0, grid_d - 1)
 	for dz in range(-r, r + 1):
 		var z := cz + dz
-		if z < 0 or z >= SIZE:
+		if z < 0 or z >= grid_d:
 			continue
 		var w := spans[dz + r]
-		for x in range(maxi(cx - w, 0), mini(cx + w, SIZE - 1) + 1):
+		for x in range(maxi(cx - w, 0), mini(cx + w, grid_w - 1) + 1):
 			if team == Unit.Team.PLAYER:
-				_exp_p[x + z * SIZE] = 255
+				_exp_p[x + z * grid_w] = 255
 			else:
-				_exp_e[x + z * SIZE] = 255
+				_exp_e[x + z * grid_w] = 255
 	if team == local_team:
 		_upload()
 
@@ -270,12 +292,12 @@ func update_team(team: int) -> void:
 func _stamp(team: int, pos: Vector3, radius: float) -> void:
 	if radius <= 0.0:
 		return
-	var cx := floori(pos.x / CELL) + HALF
-	var cz := floori(pos.z / CELL) + HALF
-	if cx < 0 or cx >= SIZE or cz < 0 or cz >= SIZE:
+	var cx := floori(pos.x / CELL) + _hx
+	var cz := floori(pos.z / CELL) + _hz
+	if cx < 0 or cx >= grid_w or cz < 0 or cz >= grid_d:
 		return
 	var key := int(radius * 10.0)
-	var centre := cx + cz * SIZE
+	var centre := cx + cz * grid_w
 	if _mark_tick[centre] == _pass_id and _mark_r[centre] >= key:
 		return   # a same-or-bigger circle was already stamped from this cell in this pass
 	_mark_tick[centre] = _pass_id
@@ -283,19 +305,20 @@ func _stamp(team: int, pos: Vector3, radius: float) -> void:
 	var spans := _spans_for(radius)
 	var r := (spans.size() - 1) / 2
 	var z0 := maxi(cz - r, 0)
-	var z1 := mini(cz + r, SIZE - 1)
+	var z1 := mini(cz + r, grid_d - 1)
+	var x_max := grid_w - 1
 	if team == Unit.Team.PLAYER:
 		for z in range(z0, z1 + 1):
 			var w := spans[z - cz + r]
-			var row := z * SIZE
-			for x in range(maxi(cx - w, 0), mini(cx + w, SIZE - 1) + 1):
+			var row := z * grid_w
+			for x in range(maxi(cx - w, 0), mini(cx + w, x_max) + 1):
 				_vis_p[row + x] = 255
 				_exp_p[row + x] = 255
 	else:
 		for z in range(z0, z1 + 1):
 			var w := spans[z - cz + r]
-			var row := z * SIZE
-			for x in range(maxi(cx - w, 0), mini(cx + w, SIZE - 1) + 1):
+			var row := z * grid_w
+			for x in range(maxi(cx - w, 0), mini(cx + w, x_max) + 1):
 				_vis_e[row + x] = 255
 				_exp_e[row + x] = 255
 
@@ -316,9 +339,19 @@ func _spans_for(radius: float) -> PackedInt32Array:
 
 
 func _index(world_pos: Vector3) -> int:
-	var cx := clampi(floori(world_pos.x / CELL) + HALF, 0, SIZE - 1)
-	var cz := clampi(floori(world_pos.z / CELL) + HALF, 0, SIZE - 1)
-	return cx + cz * SIZE
+	var cx := clampi(floori(world_pos.x / CELL) + _hx, 0, grid_w - 1)
+	var cz := clampi(floori(world_pos.z / CELL) + _hz, 0, grid_d - 1)
+	return cx + cz * grid_w
+
+
+## The world point of grid cell (i, j)'s low corner (i in 0..grid_w; i = grid_w = the far edge).
+func cell_origin(i: int, j: int) -> Vector3:
+	return Vector3(CELL * float(i - _hx), 0.0, CELL * float(j - _hz))
+
+
+## Grid cell (i, j) of world_pos, clamped to the grid (the minimap's fog lookup).
+func cell_of(world_pos: Vector3) -> Vector2i:
+	return Vector2i(clampi(floori(world_pos.x / CELL) + _hx, 0, grid_w - 1), clampi(floori(world_pos.z / CELL) + _hz, 0, grid_d - 1))
 
 
 func _local_vis(world_pos: Vector3) -> bool:
@@ -425,8 +458,8 @@ func _update_artifact() -> void:
 # ---------------------------------------------------------------- overlay
 
 func _build_overlay() -> void:
-	_img_vis = Image.create_empty(SIZE, SIZE, false, Image.FORMAT_R8)
-	_img_exp = Image.create_empty(SIZE, SIZE, false, Image.FORMAT_R8)
+	_img_vis = Image.create_empty(grid_w, grid_d, false, Image.FORMAT_R8)
+	_img_exp = Image.create_empty(grid_w, grid_d, false, Image.FORMAT_R8)
 	_tex_vis = ImageTexture.create_from_image(_img_vis)
 	_tex_exp = ImageTexture.create_from_image(_img_exp)
 	var shader := Shader.new()
@@ -436,7 +469,7 @@ func _build_overlay() -> void:
 	_overlay_mat.render_priority = -100   # before the other see-through things (rings, HP bars, VFX)
 	_overlay_mat.set_shader_parameter(&"vis_tex", _tex_vis)
 	_overlay_mat.set_shader_parameter(&"exp_tex", _tex_exp)
-	_overlay_mat.set_shader_parameter(&"map_half", MAP_HALF)
+	_overlay_mat.set_shader_parameter(&"map_half", Vector2(CELL * float(_hx), CELL * float(_hz)))
 	_overlay_mat.set_shader_parameter(&"explored_alpha", EXPLORED_ALPHA)
 	var box := BoxMesh.new()
 	box.size = Vector3(600.0, 400.0, 600.0)   # the camera is always inside: back faces cover the screen
@@ -455,8 +488,8 @@ func _upload() -> void:
 		return
 	var vis := _vis_p if local_team == Unit.Team.PLAYER else _vis_e
 	var ex := _exp_p if local_team == Unit.Team.PLAYER else _exp_e
-	_img_vis.set_data(SIZE, SIZE, false, Image.FORMAT_R8, vis)
-	_img_exp.set_data(SIZE, SIZE, false, Image.FORMAT_R8, ex)
+	_img_vis.set_data(grid_w, grid_d, false, Image.FORMAT_R8, vis)
+	_img_exp.set_data(grid_w, grid_d, false, Image.FORMAT_R8, ex)
 	_tex_vis.update(_img_vis)
 	_tex_exp.update(_img_exp)
 
@@ -480,7 +513,7 @@ render_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_m
 uniform sampler2D vis_tex : filter_linear, repeat_disable;
 uniform sampler2D exp_tex : filter_linear, repeat_disable;
 uniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;
-uniform float map_half = 60.0;
+uniform vec2 map_half = vec2(60.0, 60.0);
 uniform float explored_alpha = 0.55;
 
 void fragment() {
@@ -488,7 +521,7 @@ void fragment() {
 	vec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);
 	view.xyz /= view.w;
 	vec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;
-	vec2 uv = (world.xz + vec2(map_half)) / (2.0 * map_half);
+	vec2 uv = (world.xz + map_half) / (2.0 * map_half);
 	ALBEDO = vec3(0.0);
 	if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {
 		ALPHA = 0.0;

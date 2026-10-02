@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_7ff1v"]
+
+[resource]
+script = ExtResource("1_7ff1v")
+id = &"tpl_rich_pocket"
+title = "Template rich_pocket"
+size = 80.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-31, 0, 31),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}, {
+"id": "t_node",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(0, 0, 0),
+"props": {
+"amount": 2500.0,
+"role": "rich"
+},
+"sub": "",
+"team": -1,
+"twin_of": "t_node"
+}, {
+"id": "t_hall",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(0, 0, 9.9),
+"props": {
+"clear": 5.0
+},
+"sub": "rich_hall",
+"team": -1,
+"twin_of": "t_hall"
+}, {
+"id": "t_tower",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-6, 0, 3),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_rich",
+"team": -1,
+"twin_of": "t_tower"
+}, {
+"id": "t_den",
+"image": "identity",
+"kind": "guild",
+"pos": Vector3(-14, 0, -6),
+"props": {},
+"sub": "den",
+"team": -1,
+"twin_of": "t_den"
+}, {
+"id": "t_lodge",
+"image": "identity",
+"kind": "guild",
+"pos": Vector3(-6, 0, -14),
+"props": {},
+"sub": "lodge",
+"team": -1,
+"twin_of": "t_lodge"
+}, {
+"id": "t_hollow",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(-15, 0, -15),
+"props": {},
+"sub": "gloomcap",
+"team": -1,
+"twin_of": "t_hollow"
+}])
+source = "res://docs/tools/world_forge/out/tpl_rich_pocket/tpl_rich_pocket.map"
+source_hash = "430e6faf24d0"
+size_x = 80.0
+size_z = 80.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["rich_pocket t at (0.0, 0.0) yaw 0"])

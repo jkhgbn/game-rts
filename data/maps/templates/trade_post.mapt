@@ -1,0 +1,4 @@
+# A trading post with its door toward the road (map-production.md 2.3, Services; market-trade.md 4.3): the post at
+# the anchor, the door 4 m along local +z (point the template's +z at the road).
+template trade_post  title="Trading post, door toward +z"
+post  post  at=(0,0)  door=(0,4)

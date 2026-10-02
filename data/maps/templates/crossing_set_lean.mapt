@@ -1,0 +1,12 @@
+# Six crossings on a straight river on the local z axis (map-production.md 2.3, Crossings): 2 road bridges, 2 fords,
+# 2 lane bridges onto a moat of radius `$moat`. Global; pairs with river_straight.
+template crossing_set_lean  title="2 road bridges, 2 fords, 2 moat lane bridges (straight river)"
+param road=56
+param ford=32
+param moat=13
+crossing bridge_n  kind=bridge_road  at=(0,-$road)  width=6  length=9    dir=(1,0)
+crossing bridge_s  kind=bridge_road  at=(0,$road)   width=6  length=9    dir=(1,0)
+crossing ford_n    kind=ford         at=(0,-$ford)  width=7  length=7    dir=(0,1)
+crossing ford_s    kind=ford         at=(0,$ford)   width=7  length=7    dir=(0,1)
+crossing lane_w    kind=bridge_lane  at=(-$moat,0)  width=8  length=6.5  dir=(-1,0)
+crossing lane_e    kind=bridge_lane  at=($moat,0)   width=8  length=6.5  dir=(1,0)

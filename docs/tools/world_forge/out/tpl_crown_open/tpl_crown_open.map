@@ -1,0 +1,5 @@
+map tpl_crown_open  size=72  symmetry=none  title="Template crown_open"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-27.0,27.0)  team=0  solo
+use crown_open t  at=(0,0)  yaw=0

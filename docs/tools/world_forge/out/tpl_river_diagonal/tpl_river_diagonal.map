@@ -1,0 +1,5 @@
+map tpl_river_diagonal  size=168  symmetry=none  title="Template river_diagonal"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-75.0,75.0)  team=0  solo
+use river_diagonal t  at=(0,0)  yaw=0

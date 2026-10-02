@@ -101,8 +101,11 @@ func check(type: BuildingType, center: Vector3, team: int) -> String:
 		return MSG_UNKNOWN
 	var c := snap(center, type.footprint)
 	var cells := cells_of(c, type.footprint)
+	# MT1: the buildable cells follow the running map (MapInfo; 120 m = -29..28, the outer ring excluded).
+	var max_x := int(ceil(MapInfo.half_x() / CELL)) - 2
+	var max_z := int(ceil(MapInfo.half_z() / CELL)) - 2
 	for cell in cells:
-		if cell.x < MIN_CELL or cell.x > MAX_CELL or cell.y < MIN_CELL or cell.y > MAX_CELL:
+		if cell.x < -max_x - 1 or cell.x > max_x or cell.y < -max_z - 1 or cell.y > max_z:
 			return MSG_OUTSIDE
 	var rect := _rect(c, type.footprint)
 	if _overlaps_building(rect):

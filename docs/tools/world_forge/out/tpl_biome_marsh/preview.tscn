@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_biome_marsh/preview_level.gd" id="1_m8nyg"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_biome_marsh/tpl_biome_marsh_layout.tres" id="2_sw351"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=1326334433]
+script = ExtResource("1_m8nyg")
+layout = ExtResource("2_sw351")

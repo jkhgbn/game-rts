@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_oqudh"]
+
+[resource]
+script = ExtResource("1_oqudh")
+id = &"tpl_crown_open"
+title = "Template crown_open"
+size = 72.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-27, 0, 27),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}, {
+"id": "t_crown",
+"image": "identity",
+"kind": "crown",
+"pos": Vector3(0, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "t_crown"
+}])
+blocks = Array[Dictionary]([{
+"center": Vector3(10, 0, 10),
+"half": Vector3(1.25, 1.5, 1.25),
+"height": 3.0,
+"id": "t_stone",
+"kind": "ruin",
+"yaw": 45.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_crown_open/tpl_crown_open.map"
+source_hash = "2c0afd93a5f6"
+size_x = 72.0
+size_z = 72.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["crown_open t at (0.0, 0.0) yaw 0"])

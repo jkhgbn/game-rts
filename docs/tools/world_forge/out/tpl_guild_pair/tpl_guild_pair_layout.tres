@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_ytod7"]
+
+[resource]
+script = ExtResource("1_ytod7")
+id = &"tpl_guild_pair"
+title = "Template guild_pair"
+size = 64.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-23, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}, {
+"id": "t_den",
+"image": "identity",
+"kind": "guild",
+"pos": Vector3(-6, 0, 0),
+"props": {
+"door": Vector3(-6, 0, 4)
+},
+"sub": "den",
+"team": -1,
+"twin_of": "t_den"
+}, {
+"id": "t_lodge",
+"image": "identity",
+"kind": "guild",
+"pos": Vector3(6, 0, 0),
+"props": {
+"door": Vector3(6, 0, 4)
+},
+"sub": "lodge",
+"team": -1,
+"twin_of": "t_lodge"
+}])
+source = "res://docs/tools/world_forge/out/tpl_guild_pair/tpl_guild_pair.map"
+source_hash = "8e893cf43888"
+size_x = 64.0
+size_z = 64.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["guild_pair t at (0.0, 0.0) yaw 0"])

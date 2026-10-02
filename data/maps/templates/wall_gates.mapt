@@ -1,0 +1,7 @@
+# A wall with three gates (map-production.md 2.3, Chokes; Hundred Winters): four wall blocks on the local x axis,
+# gates 7 m wide at x = -21, 0, 21.
+template wall_gates  title="Wall with three 7 m gates"
+block wall_1  at=(-38,0)    size=(20,3)  kind=wall
+block wall_2  at=(-10.5,0)  size=(14,3)  kind=wall
+block wall_3  at=(10.5,0)   size=(14,3)  kind=wall
+block wall_4  at=(38,0)     size=(20,3)  kind=wall

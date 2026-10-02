@@ -1,0 +1,6 @@
+# The standard camp trio (map-production.md 2.3, Camps; map-fill.md 5.2): a T1 Bristleback Wallow nearest the owner,
+# a T2 Gloomcap Hollow, a T3 Stag Glade farthest. Anchor = the wallow; +z = toward the owner's keep.
+template camp_trio  title="T1 wallow, T2 hollow, T3 stag in a line away from the owner"
+camp wallow  sub=bristleback  at=(0,0)
+camp hollow  sub=gloomcap     at=(0,-16)
+camp stag    sub=hollow_stag  at=(4,-30)

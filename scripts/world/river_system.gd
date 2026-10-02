@@ -84,6 +84,7 @@ var _obstacles: Array[NavigationObstacle3D] = []
 var _visuals: Node3D
 var _near := PackedByteArray()                # GRID_CELL cells: 1 = water or a ford within reach (unit pass)
 var _grid_n := 0
+var _grid_half := GRID_HALF                   # the near grid's half extent (MT1: the running map's size + a margin)
 var _ford_centers := PackedVector2Array()     # fords and steps (unit pass)
 var _ford_radii := PackedFloat32Array()
 
@@ -266,8 +267,13 @@ func water_polygons() -> Array[PackedVector2Array]:
 func mask_image() -> Image:
 	if _mask:
 		return _mask
+	# MT1: the mask covers the running map (MapInfo): 240 x 240 on a 120 m map, (W / 0.5) x (D / 0.5) on a W x D one.
+	var mw := maxi(2, int(ceil(MapInfo.size_x / MASK_CELL)))
+	var mh := maxi(2, int(ceil(MapInfo.size_z / MASK_CELL)))
+	var ox := float(mw) * MASK_CELL * 0.5
+	var oz := float(mh) * MASK_CELL * 0.5
 	var data := PackedByteArray()
-	data.resize(MASK_SIZE * MASK_SIZE * 3)
+	data.resize(mw * mh * 3)
 	data.fill(0)
 	var boxes: Array[Rect2] = []
 	boxes.append_array(_piece_boxes)
@@ -277,17 +283,17 @@ func mask_image() -> Image:
 		boxes.append(Rect2(cp - Vector2(r, r), Vector2(r, r) * 2.0))
 	var done := {}
 	for box in boxes:
-		var i0 := clampi(int(floor((box.position.x + MAP_HALF) / MASK_CELL)), 0, MASK_SIZE - 1)
-		var i1 := clampi(int(ceil((box.end.x + MAP_HALF) / MASK_CELL)), 0, MASK_SIZE - 1)
-		var j0 := clampi(int(floor((box.position.y + MAP_HALF) / MASK_CELL)), 0, MASK_SIZE - 1)
-		var j1 := clampi(int(ceil((box.end.y + MAP_HALF) / MASK_CELL)), 0, MASK_SIZE - 1)
+		var i0 := clampi(int(floor((box.position.x + ox) / MASK_CELL)), 0, mw - 1)
+		var i1 := clampi(int(ceil((box.end.x + ox) / MASK_CELL)), 0, mw - 1)
+		var j0 := clampi(int(floor((box.position.y + oz) / MASK_CELL)), 0, mh - 1)
+		var j1 := clampi(int(ceil((box.end.y + oz) / MASK_CELL)), 0, mh - 1)
 		for j in range(j0, j1 + 1):
 			for i in range(i0, i1 + 1):
-				var idx := j * MASK_SIZE + i
+				var idx := j * mw + i
 				if done.has(idx):
 					continue
 				done[idx] = true
-				var p := Vector2(-MAP_HALF + MASK_CELL * (float(i) + 0.5), -MAP_HALF + MASK_CELL * (float(j) + 0.5))
+				var p := Vector2(-ox + MASK_CELL * (float(i) + 0.5), -oz + MASK_CELL * (float(j) + 0.5))
 				var at := Vector3(p.x, 0.0, p.y)
 				if _is_water_2d(p):
 					data[idx * 3] = 255
@@ -295,7 +301,7 @@ func mask_image() -> Image:
 					data[idx * 3 + 1] = 255
 				if is_bridge(at):
 					data[idx * 3 + 2] = 255
-	_mask = Image.create_from_data(MASK_SIZE, MASK_SIZE, false, Image.FORMAT_RGB8, data)
+	_mask = Image.create_from_data(mw, mh, false, Image.FORMAT_RGB8, data)
 	return _mask
 
 
@@ -384,8 +390,8 @@ func unit_pass() -> void:
 		if u == null:
 			continue
 		var gp := u.global_position
-		var ci := int((gp.x + GRID_HALF) / GRID_CELL)
-		var cj := int((gp.z + GRID_HALF) / GRID_CELL)
+		var ci := int((gp.x + _grid_half) / GRID_CELL)
+		var cj := int((gp.z + _grid_half) / GRID_CELL)
 		var near := ci >= 0 and cj >= 0 and ci < _grid_n and cj < _grid_n and _near[cj * _grid_n + ci] != 0
 		if not near and not tracking:
 			continue   # far from any water and ford: the common case, nothing to do
@@ -675,7 +681,8 @@ func _build_divider() -> void:
 
 ## Flags the GRID_CELL cells a unit can stand in while in deep water or (hysteresis included) a ford circle.
 func _build_near_grid() -> void:
-	_grid_n = int(GRID_HALF * 2.0 / GRID_CELL)
+	_grid_half = maxf(GRID_HALF, ceil(MapInfo.half_max() / GRID_CELL) * GRID_CELL + 4.0)   # MT1: bigger maps
+	_grid_n = int(_grid_half * 2.0 / GRID_CELL)
 	_near = PackedByteArray()
 	_near.resize(_grid_n * _grid_n)
 	_near.fill(0)
@@ -683,7 +690,7 @@ func _build_near_grid() -> void:
 	var mc := Vector2(_moat.x, _moat.y)
 	for j in _grid_n:
 		for i in _grid_n:
-			var c := Vector2(-GRID_HALF + GRID_CELL * (float(i) + 0.5), -GRID_HALF + GRID_CELL * (float(j) + 0.5))
+			var c := Vector2(-_grid_half + GRID_CELL * (float(i) + 0.5), -_grid_half + GRID_CELL * (float(j) + 0.5))
 			var hit := false
 			if _moat.z > 0.0 and absf(c.distance_to(mc) - _moat.z) < _moat.w + margin:
 				hit = true

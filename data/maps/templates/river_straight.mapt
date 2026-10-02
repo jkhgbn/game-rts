@@ -1,0 +1,9 @@
+# A straight river on the local z axis into a moat (map-production.md 2.3, Rivers; Fourfold Hollow's arms on x = 0
+# at yaw 0): mirror-x and mirror-z symmetric, so a fourfold map keeps its 4 seats fair. Global: use it once at=(0,0).
+template river_straight  title="Straight river through a central moat (2 arms)"
+param hw=2.5
+param reach=80
+param moat=13
+river arm_n  poly=[(0,-$reach),(0,-$moat)]  half_width=$hw
+river arm_s  poly=[(0,$moat),(0,$reach)]    half_width=$hw
+moat  center=(0,0)  radius=$moat  half_width=1.75

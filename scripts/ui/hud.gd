@@ -283,10 +283,9 @@ func setup(hero: Wizard, selection: SelectionManager) -> void:
 	tier_chip = attach_optional("res://scripts/ui/tier_chip.gd", [self])
 	# The minimap reads the map size and the artifact from the level (main.gd), when present.
 	var level := get_parent()
-	var map_size := 120.0
+	var map_size := MapInfo.size_max()   # MT1: the running map (a non-square one is letterboxed in the square view)
 	var artifact: Node3D = null
 	if level and level.get_script():
-		map_size = float((level.get_script() as Script).get_script_constant_map().get("MAP_SIZE", map_size))
 		artifact = level.get("artifact") as Node3D
 	var rig: RTSCamera = null
 	if selection.camera:

@@ -1,0 +1,7 @@
+# The natural expansion (map-production.md 2.3, Resources; economy.md: 2 500 crystals): node + forward hall slot X1
+# + the bot's Spire slot S3. Local frame: (0,0) = the node, +z = toward the owner's keep.
+template natural  title="Natural expansion: node 2 500, hall slot X1, tower slot S3"
+param amount=2500
+node  node   at=(0,0)      role=mid  amount=$amount
+slot  hall   sub=natural_hall   at=(0,7.6)   clear=5
+slot  tower  sub=tower_natural  at=(5.5,-1)  clear=0

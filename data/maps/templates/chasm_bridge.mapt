@@ -1,0 +1,6 @@
+# A chasm with a bridge (map-production.md 2.3, Chokes; the `chasm` archetype): a rift of blocks on the local x axis
+# with a 6 m crossing at (0,0) (islands without new river code).
+template chasm_bridge  title="Rift of blocks with one 6 m bridge gap"
+param len=30
+block rift_w  at=(-18,0)  size=($len,5)  kind=cliff
+block rift_e  at=(18,0)   size=($len,5)  kind=cliff

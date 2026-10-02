@@ -1,0 +1,15 @@
+{
+	"half_size": 32.0,
+	"name": "tpl_point_cluster_river",
+	"scene": "res://docs/tools/world_forge/out/tpl_point_cluster_river/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template point_cluster_river"
+}

@@ -1,0 +1,5 @@
+# A Gloomcap hollow in a gated corner (map-production.md 2.3, Camps): the camp behind two rocks that leave a 6 m gate.
+template hollow_gate  title="Gloomcap hollow behind a rock gate"
+camp  hollow  sub=gloomcap  at=(0,-6)
+block rock_w  at=(-6,2)  size=(6,3)  kind=rock
+block rock_e  at=(6,2)   size=(6,3)  kind=rock

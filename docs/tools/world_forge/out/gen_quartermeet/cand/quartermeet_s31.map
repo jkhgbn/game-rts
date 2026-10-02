@@ -1,0 +1,47 @@
+# generated: gen quartermeet archetype=river_split seed=31 players=4 tempo=standard biome=autumn size=176 (do not hand-edit; copy to data/maps/<id>.map to adopt)
+map quartermeet_s31  size=176  symmetry=fourfold  biome=autumn  title="Quartermeet (seed 31)"  spec=docs/design/map-production.md
+rules archetype=river_split  tempo=standard  players=4  seed=31  ally=60..72  enemy_ally=2..3  keep_enemy=130..185  natural=32..56  rich=50..95  crown=60..95  contest=3
+seat 0  name="A1 south-west"  side=0  frame=identity
+seat 3  name="A2 north-west"  side=0  frame=mirror_z
+seat 1  name="B1 north-east"  side=1  frame=rot180
+seat 4  name="B2 south-east"  side=1  frame=mirror_x
+
+use base_district  home  at=(-71.3,32.0)
+use natural  nat  at=(-36.0,15.6)  yaw=-65.0
+use rich_node  rich  at=(-14.3,51.8)  yaw=-109.1
+use third_far  third  at=(-78.9,64.2)  yaw=166.6
+
+# centre and river (x = 0)
+use crown_isle  centre  at=(0,0)  face=none
+use river_straight  river  at=(0,0)  face=none  reach=90  moat=13
+use crossing_set_lean  x  at=(0,0)  face=none  road=60.5  ford=36.7  moat=13
+
+# capture points, camps, lairs (A1 quadrant; the symmetry places the other three)
+point tower_r  sub=watchtower  at=(-18.7,61.2)
+point tower_c  sub=watchtower  at=(-22.5,10.0)
+point well     sub=well        at=(-35.8,47.7)
+point shrine   sub=shrine      at=(-53.7,11.1)
+camp wallow  sub=bristleback  at=(-78.5,47.9)
+use nest_in_ford  ford  at=(0,36.7)  face=none
+camp stag  sub=hollow_stag  at=(-34.6,71.9)
+use lair_pair  lairs  at=(-55.0,81.2)  yaw=0  a=tusker  b=direwolf
+
+# services
+tavern inn  at=(-28.3,26.1)
+peddler peddler  at=(-64.6,21.7)
+cache cache_a  at=(-48.4,64.3)
+cache cache_b  at=(-4.8,23.1)
+post post_w  at=(-82.0,14.6)  door=(-78.7,16.8)
+post post_s  at=(-20.3,78.5)  door=(-22.9,75.4)
+road trade  poly=[(-78.7,16.8),(-62.2,28.0),(-22.9,75.4)]  width=5
+use guild_pair  guilds  at=(-78.3,76.4)  yaw=134.3
+
+forest seed=245496  pre=auto  density=1.00  pillars=(0,0,8)  pillar_count=8  pillar_gap=-1
+willows seed=978  draws=30  river_draws=30  arc=90..180
+slot graze0  sub=graze  at=(-67.9,63.5)  clear=0
+slot graze1  sub=graze  at=(-57.3,60.7)  clear=0
+slot graze2  sub=graze  at=(-50.3,63.3)  clear=0
+slot rabbit0  sub=rabbit  at=(-32.2,35.0)  clear=0
+slot rabbit1  sub=rabbit  at=(-46.1,30.5)  clear=0
+slot rabbit2  sub=rabbit  at=(-57.0,31.7)  clear=0
+use biome_autumn  ground  at=(-42.8,19.2)  face=none  r=26

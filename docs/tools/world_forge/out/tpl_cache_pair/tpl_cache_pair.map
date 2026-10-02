@@ -1,0 +1,5 @@
+map tpl_cache_pair  size=96  symmetry=none  title="Template cache_pair"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-39.0,39.0)  team=0  solo
+use cache_pair t  at=(0,0)  yaw=0

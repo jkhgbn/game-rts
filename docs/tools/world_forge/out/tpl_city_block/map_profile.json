@@ -1,0 +1,15 @@
+{
+	"half_size": 36.0,
+	"name": "tpl_city_block",
+	"scene": "res://docs/tools/world_forge/out/tpl_city_block/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template city_block"
+}

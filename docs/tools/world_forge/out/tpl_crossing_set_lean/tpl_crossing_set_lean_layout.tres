@@ -1,0 +1,90 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_8e8pj"]
+
+[resource]
+script = ExtResource("1_8e8pj")
+id = &"tpl_crossing_set_lean"
+title = "Template crossing_set_lean"
+size = 64.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-23, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+crossings = Array[Dictionary]([{
+"center": Vector3(0, 0, -56),
+"dir": Vector3(1, 0, 0),
+"id": "t_bridge_n",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_bridge_n",
+"width": 6.0
+}, {
+"center": Vector3(0, 0, 56),
+"dir": Vector3(1, 0, 0),
+"id": "t_bridge_s",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_bridge_s",
+"width": 6.0
+}, {
+"center": Vector3(0, 0, -32),
+"dir": Vector3(0, 0, 1),
+"id": "t_ford_n",
+"kind": "ford",
+"length": 7.0,
+"name": "t_ford_n",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(0, 0, 32),
+"dir": Vector3(0, 0, 1),
+"id": "t_ford_s",
+"kind": "ford",
+"length": 7.0,
+"name": "t_ford_s",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(-13, 0, 0),
+"dir": Vector3(-1, 0, 0),
+"id": "t_lane_w",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "t_lane_w",
+"width": 8.0
+}, {
+"center": Vector3(13, 0, 0),
+"dir": Vector3(1, 0, 0),
+"id": "t_lane_e",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "t_lane_e",
+"width": 8.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_crossing_set_lean/tpl_crossing_set_lean.map"
+source_hash = "6bbaf78b7ef7"
+size_x = 64.0
+size_z = 64.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["crossing_set_lean t at (0.0, 0.0) yaw 0"])

@@ -1,0 +1,15 @@
+{
+	"half_size": 32.0,
+	"name": "tpl_twin_wells",
+	"scene": "res://docs/tools/world_forge/out/tpl_twin_wells/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template twin_wells"
+}

@@ -1,0 +1,6 @@
+# A city block (map-production.md 2.3, Chokes; Gravenhold, Adamarch): four houses round a small square, 5 m streets.
+template city_block  title="Four buildings round a square, 5 m streets"
+block house_nw  at=(-7,-7)  size=(9,9)  kind=city
+block house_ne  at=(7,-7)   size=(9,9)  kind=city
+block house_sw  at=(-7,7)   size=(9,9)  kind=city
+block house_se  at=(7,7)    size=(9,9)  kind=city

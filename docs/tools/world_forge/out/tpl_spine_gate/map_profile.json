@@ -1,0 +1,15 @@
+{
+	"half_size": 52.0,
+	"name": "tpl_spine_gate",
+	"scene": "res://docs/tools/world_forge/out/tpl_spine_gate/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template spine_gate"
+}

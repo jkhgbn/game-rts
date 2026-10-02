@@ -43,6 +43,9 @@ const START_HINT := "Click your Keep (bottom-left) to train workers — select w
 
 
 func _ready() -> void:
+	# MT1 (map-production.md 2.8): the running map's size, read by the fog, BuildGrid, river, minimap and camera.
+	var sz := _map_size()
+	MapInfo.setup(sz.x, sz.y, _map_id())
 	# One Economy per team, created before any unit so every unit's pop is counted.
 	economy = _add_economy(Unit.Team.PLAYER)
 	_add_economy(Unit.Team.ENEMY)
@@ -59,7 +62,7 @@ func _ready() -> void:
 	fog = FogOfWar.new()
 	fog.name = "FogOfWar"
 	add_child(fog)
-	fog.reveal(Unit.Team.PLAYER, PLAYER_START, FogOfWar.START_REVEAL)
+	fog.reveal(Unit.Team.PLAYER, _player_start(), FogOfWar.START_REVEAL)
 
 	if EnvProps.available() and not _SIM.enabled:   # trees / rocks / pillars drawn as MultiMeshes (6.S2)
 		env_props = EnvProps.new()
@@ -69,7 +72,7 @@ func _ready() -> void:
 	if env_props:
 		env_props.commit()
 	# Map edge dressing (cliffs, border forest, grass/flowers) from the tech-artist (A.10). Draw-only.
-	if ResourceLoader.exists("res://art/environment/map_dressing.tscn") and not _SIM.enabled:
+	if ResourceLoader.exists("res://art/environment/map_dressing.tscn") and not _SIM.enabled and _use_map_dressing():
 		add_child(load(MapDressingArt.SCENE_PATH).instantiate())
 	# Cosmetic ambient critters (12.V16, draw-only; builds itself once the hero exists; Map detail Low = none).
 	if ResourceLoader.exists(CRITTER_SYSTEM_PATH) and not _SIM.enabled:
@@ -81,6 +84,7 @@ func _ready() -> void:
 			critters.call(&"setup", self)
 
 	camera_rig = RTSCamera.new()
+	camera_rig.bounds = MapInfo.bounds().grow(-2.0)   # MT1: 116 x 116 on the 120 m maps (the old default)
 	add_child(camera_rig)
 	camera_rig.focus_on(keep.position + START_FOCUS_FROM_KEEP)
 
@@ -300,6 +304,26 @@ func _build_nav_region() -> void:
 	_build_ground()
 
 
+## The map's playable size in metres (x width, z depth). MAP_SIZE square here; a LayoutLevel returns its layout's.
+func _map_size() -> Vector2:
+	return Vector2(MAP_SIZE, MAP_SIZE)
+
+
+## Where the player's wizard starts (the first fog reveal). PLAYER_START here; a LayoutLevel returns its seat's.
+func _player_start() -> Vector3:
+	return PLAYER_START
+
+
+## True when the Crown Hollow edge dressing (art/environment/map_dressing.tscn, 120 m) fits this map.
+func _use_map_dressing() -> bool:
+	return true
+
+
+## The map id for MapInfo (&"" for the hand-built maps).
+func _map_id() -> StringName:
+	return &""
+
+
 ## Trees, rocks, pillars, the keep and the crystal nodes (all before the first navmesh bake).
 func _build_map() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -350,7 +374,7 @@ func _build_ground() -> void:
 	var ground := StaticBody3D.new()
 	ground.collision_layer = 1
 	var shape := BoxShape3D.new()
-	shape.size = Vector3(MAP_SIZE, 1.0, MAP_SIZE)
+	shape.size = Vector3(MapInfo.size_x, 1.0, MapInfo.size_z)   # MT1: 120 x 120 on the hand-built maps
 	var col := CollisionShape3D.new()
 	col.shape = shape
 	col.position.y = -0.5
@@ -358,7 +382,7 @@ func _build_ground() -> void:
 
 	var mesh := MeshInstance3D.new()
 	var plane := PlaneMesh.new()
-	plane.size = Vector2(MAP_SIZE, MAP_SIZE)
+	plane.size = Vector2(MapInfo.size_x, MapInfo.size_z)
 	mesh.mesh = plane
 	# The lowest surface shadows nothing; off also keeps the ground shader's river discard (12.V2) out of the sun's
 	# shadow cascades.
@@ -367,7 +391,7 @@ func _build_ground() -> void:
 	nav_region.add_child(ground)
 	if _SIM.enabled:
 		return   # Bot Lab sim: the collider only (no ground paint)
-	var painted := EnvProps.ground_material(PLAYER_START, _lane_end(), _ground_spots())
+	var painted := EnvProps.ground_material(_player_start(), _lane_end(), _ground_spots())
 	if painted:
 		mesh.material_override = painted
 		return

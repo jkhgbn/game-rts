@@ -1,0 +1,5 @@
+# The open crown (map-production.md 2.3, Centre objectives): the crown on the centre, no moat, four standing stones
+# round it (blocks) that split the approach.
+template crown_open  title="Ember Crown on open ground with 4 standing stones"
+crown crown   at=(0,0)  solo
+block stone   at=(10,10)  size=(2.5,2.5)  yaw=45  kind=ruin

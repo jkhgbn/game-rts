@@ -315,8 +315,9 @@ func _on_fog_updated() -> void:
 func fog_alpha_at(world: Vector3) -> float:
 	if _fog_img == null or _fog == null or not is_instance_valid(_fog):
 		return 0.0
-	var i := clampi(floori(world.x / FogOfWar.CELL) + FogOfWar.HALF, 0, _fog_img.get_width() - 1)
-	var j := clampi(floori(world.z / FogOfWar.CELL) + FogOfWar.HALF, 0, _fog_img.get_height() - 1)
+	var c := _fog.cell_of(world)
+	var i := clampi(c.x, 0, _fog_img.get_width() - 1)
+	var j := clampi(c.y, 0, _fog_img.get_height() - 1)
 	return _fog_img.get_pixel(i, j).a
 
 
@@ -898,8 +899,9 @@ func _draw() -> void:
 	# Fog of war (fog-of-war.md "Minimap"): one 60 x 60 texture over the ground, under the icons.
 	# Things the fog hides have visible == false (FogOfWar sets it): they are skipped below.
 	if _fog_tex != null and _fog != null and is_instance_valid(_fog):
-		var a := world_to_map(Vector3(-FogOfWar.MAP_HALF, 0.0, -FogOfWar.MAP_HALF))
-		var b := world_to_map(Vector3(FogOfWar.MAP_HALF, 0.0, FogOfWar.MAP_HALF))
+		# MT1: the fog grid covers the running map (MapInfo); a non-square map is letterboxed in the square view.
+		var a := world_to_map(_fog.cell_origin(0, 0))
+		var b := world_to_map(_fog.cell_origin(_fog.grid_w, _fog.grid_d))
 		draw_texture_rect(_fog_tex, Rect2(a, b - a), false)
 
 	_draw_sight_rings(tree)

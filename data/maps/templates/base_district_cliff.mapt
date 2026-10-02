@@ -1,0 +1,11 @@
+# Base district behind cliffs with one mouth toward the centre (map-production.md 2.3, Bases). Local frame as
+# base_district: (0,0) = the keep, +z = toward the map centre. The mouth is `$mouth` m wide.
+template base_district_cliff  title="1v1 base district walled by cliffs, one mouth toward the centre"
+param amount=2000
+param mouth=12
+use   base_district  in  at=(0,0)  yaw=0  amount=$amount
+block cliff_back   at=(0,-15)    size=(34,4)   kind=cliff
+block cliff_left   at=(-17,0)    size=(4,30)   kind=cliff
+block cliff_right  at=(17,0)     size=(4,30)   kind=cliff
+block lip_left     at=(-11,17)   size=(8,3)    yaw=-12  kind=cliff
+block lip_right    at=(11,17)    size=(8,3)    yaw=12   kind=cliff

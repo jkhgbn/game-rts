@@ -1,0 +1,7 @@
+# Two epic-beast lairs (map-production.md 2.3, Camps; map-fill.md 5.5): `$a` and `$b` = tusker / roc / direwolf /
+# grizzlemaw (the id words heath / crag / hollow / den work too).
+template lair_pair  title="Two epic-beast lairs 18 m apart"
+param a=tusker
+param b=direwolf
+lair  one  sub=$a  at=(-9,0)
+lair  two  sub=$b  at=(9,0)

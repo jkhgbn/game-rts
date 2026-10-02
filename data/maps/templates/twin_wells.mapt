@@ -1,0 +1,5 @@
+# Twin wells (map-production.md 2.3, Centre objectives): two Wells of Plenty either side of the anchor on the local x
+# axis (each seat's image gets its pair).
+template twin_wells  title="Two wells either side of the anchor"
+point well_a  sub=well  at=(-9,0)
+point well_b  sub=well  at=(9,0)

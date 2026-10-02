@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_camp_trio/preview_level.gd" id="1_sfnr3"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_camp_trio/tpl_camp_trio_layout.tres" id="2_sk5si"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=716885519]
+script = ExtResource("1_sfnr3")
+layout = ExtResource("2_sk5si")

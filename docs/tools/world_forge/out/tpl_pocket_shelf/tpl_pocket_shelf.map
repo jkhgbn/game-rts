@@ -1,0 +1,5 @@
+map tpl_pocket_shelf  size=80  symmetry=none  title="Template pocket_shelf"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-31.0,31.0)  team=0  solo
+use pocket_shelf t  at=(0,0)  yaw=0

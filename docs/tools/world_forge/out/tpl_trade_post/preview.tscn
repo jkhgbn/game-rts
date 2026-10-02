@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_trade_post/preview_level.gd" id="1_hbk7u"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_trade_post/tpl_trade_post_layout.tres" id="2_mf1nj"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=807682678]
+script = ExtResource("1_hbk7u")
+layout = ExtResource("2_mf1nj")

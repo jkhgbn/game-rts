@@ -1,0 +1,5 @@
+map tpl_gorge  size=168  symmetry=none  title="Template gorge"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-75.0,75.0)  team=0  solo
+use gorge t  at=(0,0)  yaw=0

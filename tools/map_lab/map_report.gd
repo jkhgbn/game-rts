@@ -24,6 +24,7 @@ var notes: Array[String] = []
 var extras: Array[Dictionary] = []     # fallback "Improve next" ideas {title, text, source}
 var previous_score: float = -1.0
 var counts_scanned: Dictionary = {}    # kind -> number of resources checked
+var fixes: Array = []                  # Map Lab v2: auto-fixable moves [{id, move: Vector3, why}] (World Forge `fix`)
 
 
 ## Adds one check built from its findings. `total` = items looked at (units, keys...), `issues` = [{sev, where,

@@ -1,0 +1,6 @@
+# Thawmere's safe node behind a ridge (map-production.md 2.3, Bases): a third node reached around the ridge's end.
+# Local frame: (0,0) = the node, +z = toward the owner's keep.
+template pocket_shelf  title="Safe third node behind a ridge"
+param amount=1500
+node  shelf  at=(0,0)   role=third  amount=$amount
+block ridge  at=(3,-7)  size=(16,3)  yaw=0  kind=cliff

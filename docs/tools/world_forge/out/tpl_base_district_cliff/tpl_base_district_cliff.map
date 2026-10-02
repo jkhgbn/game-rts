@@ -1,0 +1,4 @@
+map tpl_base_district_cliff  size=112  symmetry=none  title="Template base_district_cliff"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+use base_district_cliff t  at=(0,0)  yaw=0

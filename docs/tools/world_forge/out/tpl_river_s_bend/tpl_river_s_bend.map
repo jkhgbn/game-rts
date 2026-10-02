@@ -1,0 +1,5 @@
+map tpl_river_s_bend  size=168  symmetry=none  title="Template river_s_bend"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-75.0,75.0)  team=0  solo
+use river_s_bend t  at=(0,0)  yaw=0

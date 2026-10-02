@@ -1,0 +1,3 @@
+# A Mirefang nest in a ford (map-production.md 2.3, Camps; Crown Hollow's Reed / Willow Ford Nests).
+template nest_in_ford  title="T2 Mirefang nest on a ford"
+camp nest  sub=mirefang  at=(0,0)

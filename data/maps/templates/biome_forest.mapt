@@ -1,0 +1,5 @@
+# Biome preset "forest" (map-production.md 2.3, Biomes): a ground zone of radius $r round the anchor. Look only: the
+# gameplay terrain patches follow terrain.md (about 28 % of the map).
+template biome_forest  title="Biome zone: forest"
+param r=24
+zone  forest  circle((0,0),$r)  biome=forest

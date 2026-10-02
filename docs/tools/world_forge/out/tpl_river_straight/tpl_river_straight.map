@@ -1,0 +1,5 @@
+map tpl_river_straight  size=184  symmetry=none  title="Template river_straight"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-83.0,83.0)  team=0  solo
+use river_straight t  at=(0,0)  yaw=0

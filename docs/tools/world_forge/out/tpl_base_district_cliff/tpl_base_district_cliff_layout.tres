@@ -1,0 +1,130 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_l8tif"]
+
+[resource]
+script = ExtResource("1_l8tif")
+id = &"tpl_base_district_cliff"
+title = "Template base_district_cliff"
+size = 112.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "t_in_keep",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(0, 0, 0),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "t_in_keep"
+}, {
+"id": "t_in_start",
+"image": "identity",
+"kind": "start",
+"pos": Vector3(0, 0, 9.9),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "t_in_start"
+}, {
+"id": "t_in_a",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(8.49, 0, 4.24),
+"props": {
+"amount": 2000.0,
+"role": "a"
+},
+"sub": "",
+"team": -1,
+"twin_of": "t_in_a"
+}, {
+"id": "t_in_b",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(-8.49, 0, 4.24),
+"props": {
+"amount": 2000.0,
+"role": "b"
+},
+"sub": "",
+"team": -1,
+"twin_of": "t_in_b"
+}, {
+"id": "t_in_house",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(2.83, 0, -7.07),
+"props": {
+"clear": 4.0
+},
+"sub": "house",
+"team": -1,
+"twin_of": "t_in_house"
+}, {
+"id": "t_in_market",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(12.73, 0, 9.9),
+"props": {
+"clear": 0.0
+},
+"sub": "market",
+"team": -1,
+"twin_of": "t_in_market"
+}])
+blocks = Array[Dictionary]([{
+"center": Vector3(0, 0, -15),
+"half": Vector3(17, 1.5, 2),
+"height": 3.0,
+"id": "t_cliff_back",
+"kind": "cliff",
+"yaw": 0.0
+}, {
+"center": Vector3(-17, 0, 0),
+"half": Vector3(2, 1.5, 15),
+"height": 3.0,
+"id": "t_cliff_left",
+"kind": "cliff",
+"yaw": 0.0
+}, {
+"center": Vector3(17, 0, 0),
+"half": Vector3(2, 1.5, 15),
+"height": 3.0,
+"id": "t_cliff_right",
+"kind": "cliff",
+"yaw": 0.0
+}, {
+"center": Vector3(-11, 0, 17),
+"half": Vector3(4, 1.5, 1.5),
+"height": 3.0,
+"id": "t_lip_left",
+"kind": "cliff",
+"yaw": -12.0
+}, {
+"center": Vector3(11, 0, 17),
+"half": Vector3(4, 1.5, 1.5),
+"height": 3.0,
+"id": "t_lip_right",
+"kind": "cliff",
+"yaw": 12.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_base_district_cliff/tpl_base_district_cliff.map"
+source_hash = "f2410e6faa62"
+size_x = 112.0
+size_z = 112.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["base_district in at (0.0, 0.0) yaw 0", "base_district_cliff t at (0.0, 0.0) yaw 0"])

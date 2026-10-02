@@ -1,0 +1,15 @@
+{
+	"half_size": 40.0,
+	"name": "tpl_pocket_shelf",
+	"scene": "res://docs/tools/world_forge/out/tpl_pocket_shelf/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template pocket_shelf"
+}

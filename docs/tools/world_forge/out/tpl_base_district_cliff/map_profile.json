@@ -1,0 +1,15 @@
+{
+	"half_size": 56.0,
+	"name": "tpl_base_district_cliff",
+	"scene": "res://docs/tools/world_forge/out/tpl_base_district_cliff/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template base_district_cliff"
+}

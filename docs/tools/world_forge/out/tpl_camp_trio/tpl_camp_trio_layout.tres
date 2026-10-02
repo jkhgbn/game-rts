@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_hqyla"]
+
+[resource]
+script = ExtResource("1_hqyla")
+id = &"tpl_camp_trio"
+title = "Template camp_trio"
+size = 104.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-43, 0, 43),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}, {
+"id": "t_wallow",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(0, 0, 0),
+"props": {},
+"sub": "bristleback",
+"team": -1,
+"twin_of": "t_wallow"
+}, {
+"id": "t_hollow",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(0, 0, -16),
+"props": {},
+"sub": "gloomcap",
+"team": -1,
+"twin_of": "t_hollow"
+}, {
+"id": "t_stag",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(4, 0, -30),
+"props": {},
+"sub": "hollow_stag",
+"team": -1,
+"twin_of": "t_stag"
+}])
+source = "res://docs/tools/world_forge/out/tpl_camp_trio/tpl_camp_trio.map"
+source_hash = "a1d1dbee4213"
+size_x = 104.0
+size_z = 104.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["camp_trio t at (0.0, 0.0) yaw 0"])

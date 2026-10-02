@@ -1,0 +1,56 @@
+# generated: gen gtest archetype=river_split seed=4 players=2 tempo=standard biome=grass size=120 (do not hand-edit; copy to data/maps/<id>.map to adopt)
+map gtest_s4  size=120  symmetry=rot180  biome=grass  title="Gtest (seed 4)"  spec=docs/design/map-production.md
+rules archetype=river_split  tempo=standard  players=2  seed=4  keep_enemy=116..150  natural=38..58  rich=65..95  crown=50..72  contest=5
+seat 0  name="south-west"  side=0  frame=identity
+seat 1  name="north-east"  side=1  frame=rot180
+
+# base, expansions (templates; resource templates face the owner's keep)
+use base_district  home  at=(-35.3,45.0)
+use natural  nat  at=(-15.7,9.0)  yaw=-28.5
+use rich_pocket  rich  at=(-43.2,-35.5)  yaw=5.6
+use third_far  third  at=(19.1,46.9)  yaw=-92.0
+
+# centre and river
+use crown_isle  centre  at=(0,0)  face=none
+river arm  poly=[(-61.9,-25.0),(-48.4,-19.2),(-37.5,-14.2),(-26.0,-13.9),(-19.2,-6.0),(-12.1,-4.9)]  half_width=2.5
+river arm2 poly=[(12.1,4.9),(19.2,6.0),(26.0,13.9),(37.5,14.2),(48.4,19.2),(61.9,25.0)]  half_width=2.5
+moat center=(0,0)  radius=12.75  half_width=1.75
+crossing bridge_road_a  kind=bridge_road  at=(-49.1,-19.5)  width=6  length=9  dir=(-0.4,0.9)
+crossing bridge_road_b  kind=bridge_road  at=(49.1,19.5)  width=6  length=9  dir=(0.4,-0.9)
+crossing ford_a  kind=ford  at=(-29.6,-14.0)  width=7  length=7  dir=(1.0,0.0)
+crossing ford_b  kind=ford  at=(29.6,14.0)  width=7  length=7  dir=(1.0,0.0)
+crossing bridge_crown_a  kind=bridge_lane  at=(-7.9,10.0)  width=8  length=6.5  dir=(-0.6,0.8)
+crossing bridge_crown_b  kind=bridge_lane  at=(7.9,-10.0)  width=8  length=6.5  dir=(0.6,-0.8)
+
+# capture points, camps, lairs
+point tower_a  sub=watchtower  at=(-26.2,-37.7)
+point tower_b  sub=watchtower  at=(0.7,39.3)
+point well     sub=well        at=(-32.3,-17.0)
+point shrine   sub=shrine      at=(-23.9,-4.3)
+camp wallow  sub=bristleback  at=(-5.8,54.0)
+use nest_in_ford  ford  at=(-29.6,-14.0)  face=none
+camp stag  sub=hollow_stag  at=(-34.1,-5.9)
+use lair_pair  lairs_w  at=(-53.8,4.0)  yaw=128.1  a=tusker  b=roc
+use lair_pair  lairs_n  at=(-48.5,-40.4)  yaw=218.1  a=direwolf  b=grizzlemaw
+
+# services: tavern + peddler (contested axis), caches, guild houses, trade posts on the ring road
+use tavern_peddler  inn  at=(-15.7,-14.6)  yaw=218.1
+cache cache_a  at=(-28.3,4.6)
+cache cache_b  at=(-0.6,28.1)
+post post_a  at=(-51.4,6.1)  door=(-49.0,9.4)
+post post_b  at=(5.8,51.4)  door=(2.1,49.9)
+road ring  poly=[(-29.2,37.2),(-49.0,9.4),(-52.9,-37.9),(-49.4,-42.3),(-2.1,-49.9),(29.2,-37.2)]  width=5
+use guild_pair  guilds  at=(-51.0,-43.3)  yaw=49.6
+
+# forest (the main.gd generator as data), bank willows, wildlife
+forest seed=31683  pre=auto  density=1.00  pillars=(0,0,8)  pillar_count=10  pillar_gap=4
+willows seed=141  draws=36  river_draws=28
+slot graze0  sub=graze  at=(-27.1,-40.4)  clear=0
+slot graze1  sub=graze  at=(-22.3,-43.6)  clear=0
+slot graze2  sub=graze  at=(-33.0,-41.2)  clear=0
+slot graze3  sub=graze  at=(-25.5,-50.3)  clear=0
+slot rabbit0  sub=rabbit  at=(-8.8,27.4)  clear=0
+slot rabbit1  sub=rabbit  at=(-24.1,27.2)  clear=0
+slot rabbit2  sub=rabbit  at=(-15.7,39.4)  clear=0
+slot rabbit3  sub=rabbit  at=(-31.6,36.0)  clear=0
+use biome_meadow  ground  at=(-19.4,24.8)  face=none  r=22

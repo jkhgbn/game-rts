@@ -1,0 +1,4 @@
+map tpl_base_district  size=72  symmetry=none  title="Template base_district"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+use base_district t  at=(0,0)  yaw=0

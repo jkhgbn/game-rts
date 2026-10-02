@@ -13,14 +13,24 @@ const _SIM := preload("res://scripts/core/sim_mode.gd")
 const MAPS_DIR := "res://data/maps"
 const OUT_DIR := "res://docs/tools/world_forge/out"
 const LEVEL_SCRIPT := "res://tools/world_forge/forge_map_level.gd"
+const LIVE_SCENE := "res://scenes/layout_level.tscn"
+
+const Grammar := preload("res://tools/world_forge/forge_map_grammar.gd")
 
 const SPOT_KINDS: Array[String] = ["keep", "node", "point", "camp", "tavern", "post", "guild", "peddler", "cache", "lair", "crown", "start", "slot"]
-const OTHER: Array[String] = ["map", "seat", "river", "moat", "crossing", "road", "zone", "block", "navmesh"]
+const OTHER: Array[String] = ["map", "seat", "river", "moat", "crossing", "road", "zone", "block", "navmesh",
+	# grammar v2 (map-production.md 2.2)
+	"forest", "grove", "willows", "prop", "rules", "closed_seat", "bounds", "mark", "trigger", "path", "terrain", "hill",
+	"ridge", "valley", "pad"]
 const SYMS: Array[String] = ["none", "mirror_x", "mirror_z", "rot180", "fourfold"]
 const FRAMES: Array[String] = ["identity", "mirror_x", "mirror_z", "rot180"]
 const CROSS_KINDS: Array[String] = ["bridge_road", "bridge_lane", "ford", "steps"]
+const BLOCK_KINDS: Array[String] = ["rock", "cliff", "wall", "ruin", "city", "forest", "ice"]
+const SPOT_KEYS: Array[String] = ["at", "sub", "team", "twin", "footprint", "amount", "r", "tier", "name", "clear", "role",
+	"first", "respawn", "kind", "radius", "door", "sign", "yaw", "count"]
 const DEDUPE := 0.05
-const LAB_MIN := 90.0
+## Map Lab acceptance score (JS 2026-10-02, map-production.md 9: was 90).
+const LAB_MIN := 75.0
 
 var spec := Spec.new()
 var report := Report.new()
@@ -31,6 +41,11 @@ var holder: Node3D
 var opts := {}
 var t0 := 0
 var export_ref: Array = []
+var lab_score := -1.0        ## the last Map Lab run (map verb): score, result, FAIL checks, fixable moves
+var lab_result := ""
+var lab_fails := 0
+var lab_fixes: Array = []
+var l2_fixes: Array = []     ## L2 out-of-bounds spots moved inward (fix verb)
 var _ready_frame := -1   ## round trip: the exported live spots [{id, kind, pos}]
 
 
@@ -67,12 +82,14 @@ static func suffix_of(sym: String, image: String) -> String:
 # ---------------------------------------------------------------- compile
 
 func compile(path: String) -> bool:
-	var sts := spec.read_file(path)
 	layout = MapLayout.new()
 	layout.source = path
-	if not spec.ok():
+	var gram := Grammar.new(spec)
+	var sts := gram.expand(path)
+	if sts.is_empty() and not spec.ok():
 		return false
-	layout.source_hash = FileAccess.get_file_as_string(path).md5_text().substr(0, 12)
+	layout.source_hash = gram.hash_text()
+	layout.templates_used.assign(gram.templates_used)
 	var canon: Array = []   # spot statements
 	var seat_frames := {}   # frame name -> seat dict
 	for st: Dictionary in sts:
@@ -81,21 +98,28 @@ func compile(path: String) -> bool:
 			canon.append(st)
 			continue
 		if not OTHER.has(kw):
-			spec.err(st["line"], kw, "unknown statement \"%s\"" % kw, SPOT_KINDS + OTHER)
+			spec.err(st.get("via", st["line"]), kw, "unknown statement \"%s\"" % kw, SPOT_KINDS + OTHER + ["use", "remove", "move"])
 			continue
 		match kw:
 			"map":
-				spec.check_keys(st, ["size", "symmetry", "title", "spec"])
+				spec.check_keys(st, ["size", "symmetry", "title", "spec", "biome", "base", "variant", "light"])
 				if st["args"].is_empty():
 					spec.err(st["line"], "map", "map wants an id: map <id> size=168 symmetry=fourfold")
 					continue
 				layout.id = StringName(st["args"][0])
-				layout.size = spec.num(st, "size", 120.0)
+				var sz := _size_of(st)
+				layout.size_x = sz.x
+				layout.size_z = sz.y
+				layout.size = maxf(sz.x, sz.y)
 				layout.symmetry = String(st["kv"].get("symmetry", "none"))
 				if not SYMS.has(layout.symmetry):
 					spec.err(st["line"], layout.symmetry, "unknown symmetry", SYMS)
 					layout.symmetry = "none"
 				layout.title = String(st["kv"].get("title", String(layout.id)))
+				layout.biome = String(st["kv"].get("biome", ""))
+				layout.light = String(st["kv"].get("light", ""))
+				layout.base = String(st["kv"].get("base", ""))
+				layout.variant = String(st["kv"].get("variant", ""))
 				opts["spec_doc"] = String(st["kv"].get("spec", "-"))
 			"seat":
 				spec.check_keys(st, ["name", "side", "frame"])
@@ -110,6 +134,60 @@ func compile(path: String) -> bool:
 					"side": int(spec.num(st, "side", 0)), "frame": frame_xf(fr), "frame_name": fr}
 				layout.seats.append(seat)
 				seat_frames[fr] = seat
+				if (st["args"] as Array).has("scripted"):
+					layout.scripted_seats.append(int(st["args"][0]))
+			"closed_seat":
+				spec.check_keys(st, ["becomes"])
+				if st["args"].is_empty() or not String(st["args"][0]).is_valid_int():
+					spec.err(st["line"], "closed_seat", "closed_seat wants a team number: closed_seat 4 becomes=neutral")
+					continue
+				layout.closed_seats.append(int(st["args"][0]))
+			"forest", "willows":
+				_c_forest(st)
+			"grove":
+				spec.check_keys(st, ["at", "r", "trees"])
+				var gat: Variant = spec.vec(st, "at")
+				if gat == null:
+					spec.err(st["line"], "grove", "grove wants at=(x,z) r=4 trees=7")
+					continue
+				layout.groves.append({"id": st["args"][0] if not st["args"].is_empty() else "grove%d" % layout.groves.size(),
+					"center": gat, "r": spec.num(st, "r", 4.0), "trees": int(spec.num(st, "trees", 6.0))})
+			"rules":
+				_c_rules(st)
+			"bounds":
+				var ba: Variant = Spec.parse_area(st["args"][0] if not st["args"].is_empty() else "")
+				if ba == null or String(ba["kind"]) != "rect":
+					spec.err(st["line"], "bounds", "bounds wants rect((x0,z0),(x1,z1))")
+					continue
+				layout.bounds = Rect2(ba["min"].x, ba["min"].z, ba["max"].x - ba["min"].x, ba["max"].z - ba["min"].z)
+			"mark":
+				spec.check_keys(st, ["at"])
+				var mat: Variant = spec.vec(st, "at")
+				if mat == null or st["args"].is_empty():
+					spec.err(st["line"], "mark", "mark wants: mark <id> at=(x,z)")
+					continue
+				layout.marks[String(st["args"][0])] = mat
+			"trigger":
+				var ta: Variant = Spec.parse_area(st["args"][1] if st["args"].size() > 1 else "")
+				if ta == null:
+					spec.err(st["line"], "trigger", "trigger wants: trigger <id> circle((x,z),r) | ring(...) | rect(...)")
+					continue
+				layout.triggers[String(st["args"][0])] = ta
+			"path":
+				spec.check_keys(st, ["poly"])
+				var pp: Variant = Spec.parse_poly(st["kv"].get("poly", ""))
+				if pp == null or st["args"].is_empty():
+					spec.err(st["line"], "path", "path wants: path <id> poly=[(x,z),...]")
+					continue
+				layout.paths[String(st["args"][0])] = pp
+			"terrain", "hill", "ridge", "valley", "pad":
+				var op := {"op": kw, "id": st["args"][0] if not st["args"].is_empty() else kw}
+				for k: String in st["kv"]:
+					var v: Variant = Spec.parse_vec(st["kv"][k])
+					if v == null:
+						v = Spec.parse_poly(st["kv"][k])
+					op[k] = v if v != null else (st["kv"][k].to_float() if String(st["kv"][k]).is_valid_float() else st["kv"][k])
+				layout.terrain.append(op)
 			"river":
 				spec.check_keys(st, ["poly", "half_width"])
 				var poly: Variant = Spec.parse_poly(st["kv"].get("poly", ""))
@@ -144,16 +222,13 @@ func compile(path: String) -> bool:
 					spec.err(st["line"], np, "navmesh wants an existing res:// NavigationMesh (export-map writes one)")
 					continue
 				layout.navmeshes.append({"path": np, "xf": Transform3D(Basis(), spec.vec(st, "origin", Vector3.ZERO))})
-			"road", "zone", "block":
+			"road", "zone", "block", "prop":
 				_c_mirrored(st)
 	# spots, mirrored
 	var imgs := images_of(layout.symmetry)
-	for fr in imgs:
-		if fr != "identity" and not seat_frames.has(fr) and not layout.seats.is_empty() and layout.symmetry != "fourfold":
-			pass
 	for st: Dictionary in canon:
 		var kind: String = st["kw"]
-		spec.check_keys(st, ["at", "sub", "team", "twin", "footprint", "amount", "r", "tier", "name"])
+		spec.check_keys(st, SPOT_KEYS)
 		if st["args"].is_empty():
 			spec.err(st["line"], kind, "%s wants an id: %s <id> at=(x,z)" % [kind, kind])
 			continue
@@ -194,11 +269,117 @@ func compile(path: String) -> bool:
 					team = int(seat_frames[fr]["team"])
 				elif fr == "identity" and not st["kv"].has("team"):
 					team = 0
+			var props_i := props
+			if st["kv"].has("door"):   # a door is a point: it follows the image
+				var dv: Variant = Spec.parse_vec(st["kv"]["door"])
+				if dv != null:
+					props_i = props.duplicate()
+					props_i["door"] = frame_xf(fr) * (dv as Vector3)
 			layout.spots.append({"id": this_id, "kind": kind, "sub": String(st["kv"].get("sub", "")), "pos": p, "team": team,
-				"twin_of": sid, "props": props, "line": st["line"]})
+				"twin_of": sid, "props": props_i, "line": st["line"], "image": fr})
 	if String(layout.id) == "":
 		spec.err(1, "map", "the spec needs `map <id> size=<m> symmetry=<none|mirror_x|mirror_z|rot180|fourfold>`")
+	for t in layout.closed_seats:
+		var found := false
+		for s in layout.seats:
+			found = found or int(s["team"]) == t
+		if not found:
+			spec.err(1, "closed_seat", "closed_seat %d: no `seat %d` line" % [t, t])
 	return spec.ok()
+
+
+## `size=120` (square) or `size=150x120` (W x D) -> Vector2(width, depth).
+func _size_of(st: Dictionary) -> Vector2:
+	var s := String(st["kv"].get("size", "120")).to_lower()
+	if s.contains("x"):
+		var p := s.split("x")
+		if p.size() == 2 and p[0].is_valid_float() and p[1].is_valid_float():
+			return Vector2(p[0].to_float(), p[1].to_float())
+		spec.err(st["line"], s, "size= wants metres: size=120 or size=150x120")
+		return Vector2(120, 120)
+	if not s.is_valid_float():
+		spec.err(st["line"], s, "size= wants metres: size=120 or size=150x120")
+		return Vector2(120, 120)
+	return Vector2(s.to_float(), s.to_float())
+
+
+## `forest` (the main.gd / skirmish.gd generator as data) and `willows` (river-bank trees): layout.forest.
+func _c_forest(st: Dictionary) -> void:
+	if st["kw"] == "willows":
+		spec.check_keys(st, ["seed", "draws", "river_draws", "arc", "spacing", "gap", "crossing_gap", "arm", "size"])
+		layout.forest["willows"] = {"seed": int(spec.num(st, "seed", 17.0)), "draws": int(spec.num(st, "draws", 40.0)),
+			"river_draws": int(spec.num(st, "river_draws", 30.0)), "arc": spec.rng(st, "arc", Vector2(140, 310)),
+			"spacing": spec.num(st, "spacing", 4.0), "gap": spec.rng(st, "gap", Vector2(1.5, 4.0)),
+			"crossing_gap": spec.num(st, "crossing_gap", 3.5), "arm": int(spec.num(st, "arm", 0.0)),
+			"size": spec.rng(st, "size", Vector2(0.95, 1.2))}
+		return
+	spec.check_keys(st, ["seed", "clusters", "trees", "spread", "cluster_r", "tree_size", "rocks", "rock_spread", "rock_size",
+		"half", "pre", "lane", "clear", "pillars", "pillar_count", "pillar_gap", "pillar_h", "grove_seed", "kinds", "density"])
+	var half_default: String = {"rot180": "xz", "mirror_x": "x", "mirror_z": "z", "fourfold": "quad"}.get(layout.symmetry, "all")
+	var f := layout.forest
+	var hx := layout.size_x * 0.5
+	var density := spec.num(st, "density", 1.0)
+	var area_k := layout.size_x * layout.size_z / 14400.0 * density
+	f["seed"] = int(spec.num(st, "seed", 7.0))
+	f["clusters"] = int(spec.num(st, "clusters", roundf(9.0 * area_k)))
+	f["trees"] = spec.rng(st, "trees", Vector2(5, 9))
+	f["spread"] = spec.num(st, "spread", minf(layout.size_x, layout.size_z) * 0.5 - 10.0)
+	f["cluster_r"] = spec.num(st, "cluster_r", 6.0)
+	f["tree_size"] = spec.rng(st, "tree_size", Vector2(0.8, 1.3))
+	f["rocks"] = int(spec.num(st, "rocks", roundf(11.0 * area_k)))
+	f["rock_spread"] = spec.num(st, "rock_spread", minf(layout.size_x, layout.size_z) * 0.5 - 6.0)
+	f["rock_size"] = spec.rng(st, "rock_size", Vector2(0.8, 2.2))
+	f["half"] = String(st["kv"].get("half", half_default))
+	f["clear"] = String(st["kv"].get("clear", "auto"))
+	f["kinds"] = String(st["kv"].get("kinds", ""))
+	f["grove_seed"] = int(spec.num(st, "grove_seed", 13.0))
+	var pre: Array = []
+	if st["kv"].has("pre"):
+		if String(st["kv"]["pre"]) == "auto":
+			f["pre_auto"] = true
+		else:
+			var pp: Variant = Spec.parse_poly(st["kv"]["pre"])
+			if pp == null:
+				spec.err(st["line"], st["kv"]["pre"], "pre= wants [(x,z,r),...] (clearings checked before the tree size draw) or auto")
+			else:
+				for v: Vector3 in pp:
+					pre.append([Vector3(v.x, 0.0, v.y), v.z])
+	else:
+		f["pre_auto"] = true
+	f["pre"] = pre
+	var lane: Variant = Spec.parse_poly(st["kv"].get("lane", "[]")) if st["kv"].has("lane") else PackedVector3Array()
+	if lane == null:
+		spec.err(st["line"], st["kv"]["lane"], "lane= wants [(x,z),(x,z)]")
+		lane = PackedVector3Array()
+	f["lane"] = lane
+	f["pillars"] = null
+	if st["kv"].has("pillars"):
+		var pv: Variant = Spec.parse_vec(st["kv"]["pillars"])
+		if pv == null:
+			spec.err(st["line"], st["kv"]["pillars"], "pillars= wants (x,z,ring radius)")
+		else:
+			f["pillars"] = pv
+	f["pillar_count"] = int(spec.num(st, "pillar_count", 10.0))
+	f["pillar_gap"] = int(spec.num(st, "pillar_gap", -1.0))
+	f["pillar_h"] = spec.rng(st, "pillar_h", Vector2(2.0, 4.5))
+	if hx <= 0.0:
+		return
+
+
+## `rules archetype= tempo= <target>=a..b ... contest=5`: the Map Lab R1 / R3 targets.
+func _c_rules(st: Dictionary) -> void:
+	var targets := {}
+	for k: String in st["kv"]:
+		if k in ["archetype", "tempo", "contest", "players", "biome", "seed"]:
+			continue
+		var r: Variant = Spec.parse_range(String(st["kv"][k]))
+		if r == null:
+			spec.err(st["line"], String(st["kv"][k]), "rules %s= wants a band a..b (metres, or a ratio for enemy_ally)" % k)
+			continue
+		targets[k] = r
+	layout.rules = {"archetype": String(st["kv"].get("archetype", "")), "tempo": String(st["kv"].get("tempo", "")),
+		"targets": targets, "contest": spec.num(st, "contest", -1.0), "players": int(spec.num(st, "players", 0.0)),
+		"seed": int(spec.num(st, "seed", -1.0))}
 
 
 func _c_mirrored(st: Dictionary) -> void:
@@ -239,20 +420,122 @@ func _c_mirrored(st: Dictionary) -> void:
 				z["biome"] = String(st["kv"].get("biome", ""))
 				layout.zones.append(z)
 		"block":
-			spec.check_keys(st, ["at", "size", "yaw"])
+			spec.check_keys(st, ["at", "size", "yaw", "kind", "height"])
 			var at: Variant = spec.vec(st, "at")
 			var sz: Variant = spec.vec(st, "size", Vector3(2, 0, 2))
 			if at == null:
 				spec.err(st["line"], sid, "block wants at=(x,z) size=(w,d) yaw=deg")
 				return
+			var bk := String(st["kv"].get("kind", "rock"))
+			if not BLOCK_KINDS.has(bk):
+				spec.err(st["line"], bk, "unknown block kind", BLOCK_KINDS)
+			var placed: Array[Vector3] = []
 			for fr in imgs:
 				var xf := frame_xf(fr)
 				var yaw := spec.num(st, "yaw", 0.0)
 				# a mirror flips the yaw's sign; a half turn keeps it (a box is symmetric under 180 deg)
 				if fr == "mirror_x" or fr == "mirror_z":
 					yaw = -yaw
-				layout.blocks.append({"id": sid + ("" if fr == "identity" else suffix_of(layout.symmetry, fr)), "center": xf * (at as Vector3),
-					"half": Vector3(absf(sz.x) * 0.5, 1.5, absf(sz.z) * 0.5), "yaw": yaw})
+				var c: Vector3 = xf * (at as Vector3)
+				var dup := false
+				for q in placed:
+					dup = dup or q.distance_to(c) < DEDUPE
+				if dup:
+					continue   # a block on a mirror axis appears once
+				placed.append(c)
+				var b := {"id": sid + ("" if fr == "identity" else suffix_of(layout.symmetry, fr)), "center": c,
+					"half": Vector3(absf(sz.x) * 0.5, 1.5, absf(sz.z) * 0.5), "yaw": yaw}
+				if bk != "rock" or st["kv"].has("height"):
+					b["kind"] = bk
+					b["height"] = spec.num(st, "height", 3.0)
+				layout.blocks.append(b)
+		"prop":
+			spec.check_keys(st, ["scene", "at", "yaw", "clear", "colliders"])
+			var pat: Variant = spec.vec(st, "at")
+			if pat == null:
+				spec.err(st["line"], sid, "prop wants: prop <id> scene=res://...tscn at=(x,z) yaw=deg clear=4 colliders=[(x,z,r),...]")
+				return
+			var cols: Array = []
+			if st["kv"].has("colliders"):
+				var cp: Variant = Spec.parse_poly(st["kv"]["colliders"])
+				if cp == null:
+					spec.err(st["line"], st["kv"]["colliders"], "colliders= wants [(local x,local z,radius),...]")
+				else:
+					for v: Vector3 in cp:
+						cols.append(Vector3(v.x, v.y, v.z))   # (x, z, r) as written
+			var yaw0 := spec.num(st, "yaw", 0.0)
+			for fr in imgs:
+				var xf := frame_xf(fr)
+				var yaw := yaw0
+				match fr:
+					"rot180":
+						yaw = yaw0 + 180.0
+					"mirror_x":
+						yaw = -yaw0
+					"mirror_z":
+						yaw = 180.0 - yaw0
+				layout.props.append({"id": sid + ("" if fr == "identity" else suffix_of(layout.symmetry, fr)),
+					"scene": String(st["kv"].get("scene", "")), "pos": xf * (pat as Vector3), "yaw": deg_to_rad(yaw),
+					"clear": spec.num(st, "clear", 0.0), "colliders": cols, "image": fr})
+
+
+# ---------------------------------------------------------------- fix (map-production.md 2.5)
+
+## Applies Map Lab v2 fixable moves to a `.map`: one `move <id> at=(x,z)  # autofix: ...` line per spot (replacing an
+## earlier autofix line of the same spot; moves of one round add up, <= 5 m). Returns the changed lines. Never touches
+## seats, the river or the symmetry: only spot positions (the canonical twin; the symmetry moves the others).
+static func apply_fixes(path: String, lay: MapLayout, fixes: Array, round_no: int) -> Array[String]:
+	var moves := {}
+	var whys := {}
+	for f: Dictionary in fixes:
+		var fid := String(f["id"])
+		moves[fid] = (moves.get(fid, Vector3.ZERO) as Vector3) + (f["move"] as Vector3)
+		if not whys.has(fid):
+			whys[fid] = []
+		(whys[fid] as Array).append(String(f.get("why", "")))
+	var lines := FileAccess.get_file_as_string(path).split("\n")
+	var out: Array[String] = []
+	var changed: Array[String] = []
+	var pos := {}
+	for fid: String in moves:
+		var s := {}
+		for sp: Dictionary in lay.spots:
+			if String(sp.get("image", "identity")) == "identity" and (String(sp["id"]) == fid or String(sp.get("twin_of", "")) == fid):
+				s = sp
+				break
+		if s.is_empty():
+			continue
+		var mv: Vector3 = moves[fid]
+		if mv.length() > 5.0:
+			mv = mv.normalized() * 5.0
+		var np: Vector3 = (s["pos"] as Vector3) + mv
+		var hx := lay.size_x * 0.5 - 3.0
+		var hz := lay.size_z * 0.5 - 3.0
+		np = Vector3(clampf(np.x, -hx, hx), 0.0, clampf(np.z, -hz, hz))
+		pos[String(s.get("twin_of", fid))] = [np, mv.length(), ", ".join(whys[fid])]
+	for l in lines:
+		var t := l.strip_edges()
+		var drop := false
+		for fid: String in pos:
+			if t.begins_with("move %s " % fid):
+				drop = true
+		if not drop:
+			out.append(l)
+	while not out.is_empty() and out[out.size() - 1].strip_edges() == "":
+		out.pop_back()
+	if not pos.is_empty() and not "\n".join(out).contains("# autofix"):
+		out.append("")
+		out.append("# autofix (run_world_forge.ps1 fix): moves of the Map Lab v2 fixable findings; delete a line to undo it")
+	for fid: String in pos:
+		var e: Array = pos[fid]
+		var p: Vector3 = e[0]
+		var line := "move %s  at=(%.1f,%.1f)  # autofix round %d: moved %.1f m (%s)" % [fid, p.x, p.z, round_no, float(e[1]), e[2]]
+		out.append(line)
+		changed.append(line)
+	var f2 := FileAccess.open(path, FileAccess.WRITE)
+	f2.store_string("\n".join(out) + "\n")
+	f2.close()
+	return changed
 
 
 # ---------------------------------------------------------------- map verb
@@ -275,7 +558,7 @@ func start_map(id: String, p_opts: Dictionary, p_holder: Node3D) -> String:
 	# save the layout
 	for s in layout.spots:
 		s.erase("line")
-	var lpath := "%s/%s_layout.tres" % [MAPS_DIR, id]
+	var lpath := "%s/%s_layout.tres" % [path.get_base_dir(), id]   # next to its .map (data/maps, data/maps/gen, an out folder)
 	var e := ResourceSaver.save(layout, lpath)
 	if e != OK:
 		return "WORLD FORGE map %s: could not save %s (error %d)" % [id, lpath, e]
@@ -313,6 +596,14 @@ func start_map(id: String, p_opts: Dictionary, p_holder: Node3D) -> String:
 	pf.store_string(JSON.stringify(prof, "\t"))
 	pf.close()
 	report.files.append(od + "/map_profile.json")
+	if String(opts.get("live", "0")) == "1":
+		# live=1 (MT2): the Map Lab judges the playable LayoutLevel itself (sim mode, bots off), not the preview
+		level.free()
+		_SIM.enabled = true
+		level = (load(LIVE_SCENE) as PackedScene).instantiate()
+		level.set(&"layout", layout)
+		MapLab._disable_bots(level)
+		report.notes.append("live=1: the Map Lab ran on %s with this layout (sim mode, bots off)." % LIVE_SCENE)
 	holder.add_child(level)
 	return ""
 
@@ -342,7 +633,8 @@ func profile_dict() -> Dictionary:
 
 
 func _layout_checks() -> void:
-	var half := layout.size * 0.5
+	var hx := layout.size_x * 0.5
+	var hz := layout.size_z * 0.5
 	# L1 keeps per seat
 	var keeps := layout.spots_of("keep")
 	var teams := {}
@@ -357,12 +649,16 @@ func _layout_checks() -> void:
 		"each seat's frame maps the canonical keep onto that seat", "add `seat <team> frame=<mirror>` for every image of the symmetry", 2.0)
 	# L2 in bounds
 	var out: Array[String] = []
+	l2_fixes.clear()
 	for s in layout.spots:
 		var p: Vector3 = s["pos"]
-		if absf(p.x) > half - 2.0 or absf(p.z) > half - 2.0:
+		if absf(p.x) > hx - 2.0 or absf(p.z) > hz - 2.0:
 			out.append("%s %s" % [s["id"], _v(p)])
+			if String(s.get("image", "identity")) == "identity":   # fixable: 0.5 m inside the 2 m margin
+				var inside := Vector3(clampf(p.x, -hx + 2.5, hx - 2.5), 0.0, clampf(p.z, -hz + 2.5, hz - 2.5))
+				l2_fixes.append({"id": String(s.get("twin_of", s["id"])), "move": inside - p, "why": "L2 outside the map"})
 	report.fcheck("L2", "Spots inside the map", "FAIL" if not out.is_empty() else "PASS", "ok" if out.is_empty() else ", ".join(out),
-		"|x|, |z| <= size/2 - 2", "move the spot inward (map line %s)" % [layout.source.get_file()])
+		"|x| <= W/2 - 2, |z| <= D/2 - 2 (%.0f x %.0f m)" % [layout.size_x, layout.size_z], "move the spot inward (map line %s)" % [layout.source.get_file()])
 	# L3 spacing
 	var close: Array[String] = []
 	for i in layout.spots.size():
@@ -389,8 +685,9 @@ func _layout_checks() -> void:
 func tick_map(frame: int) -> Dictionary:
 	if level == null:
 		return {"code": 2, "line": "no level"}
+	MapLab._disable_bots(level)
 	if level.get(&"match_started") != true:
-		if frame > 3000:
+		if frame > 7000:
 			report.fcheck("N0", "Navmesh bake", "FAIL", "not ready after %d frames" % frame, "the preview bakes", "")
 			return _end_map()
 		return {}
@@ -400,17 +697,29 @@ func tick_map(frame: int) -> Dictionary:
 		return {}
 	var nav := level.get(&"nav_region") as NavigationRegion3D
 	var polys := nav.navigation_mesh.get_polygon_count() if nav and nav.navigation_mesh else 0
-	report.fcheck("N0", "Navmesh bakes", "PASS" if polys > 0 else "FAIL", "%d polygons in %.1f s" % [polys, float(level.get(&"bake_seconds"))],
-		"the preview navmesh is ready: baked (flat ground, river / moat / keeps / blocks as obstacles) or loaded from `navmesh` lines", "check the river / block lines", 1.5)
+	var bake_s: Variant = level.get(&"bake_seconds")
+	report.fcheck("N0", "Navmesh bakes", "PASS" if polys > 0 else "FAIL", "%d polygons%s" % [polys, " in %.1f s" % float(bake_s) if bake_s != null else ""],
+		"the preview navmesh is ready: baked (flat ground, river / moat / keeps / blocks / forest as obstacles) or loaded from `navmesh` lines", "check the river / block lines", 1.5)
+	var fp: Variant = level.get(&"forest_plan")
+	if fp is Dictionary and (fp as Dictionary).has("hash"):
+		report.notes.append("Forest (MapForest): %d trees, %d rocks, %d pillars, hash %s." % [(fp["trees"] as Array).size(),
+			(fp["rocks"] as Array).size(), (fp["pillars"] as Array).size(), fp["hash"]])
 	var od := "%s/%s" % [OUT_DIR, map_id]
 	var lab_opts := {"out": od + "/map_lab", "run": "world_forge_" + map_id, "log": "0", "scene": od + "/preview.tscn"}
 	var lab = MapLab.run_on(level, profile_dict(), lab_opts, t0, frame)
-	var score: float = lab.quality()
-	var res: String = lab.result()
-	var st := "PASS" if res != "FAIL" and score >= LAB_MIN else ("WARN" if res != "FAIL" and score >= 75.0 else "FAIL")
-	report.fcheck("LAB", "Map Lab", st, "%s, score %.0f / 100" % [res, score], "Map Lab PASS / WARN and score >= %.0f" % LAB_MIN,
-		"open map_lab/scorecard.md: its Improve next names the spot", 3.0)
+	lab_score = lab.quality()
+	lab_result = lab.result()
+	lab_fixes = lab.fixes.duplicate()
+	lab_fixes.append_array(l2_fixes)
+	lab_fails = lab.count("FAIL")
+	var score: float = lab_score
+	var res: String = lab_result
+	var st := "PASS" if res != "FAIL" and score >= LAB_MIN else "FAIL"
+	report.fcheck("LAB", "Map Lab", st, "%s, score %.0f / 100" % [res, score], "Map Lab 0 FAIL and score >= %.0f (map-production.md 9)" % LAB_MIN,
+		"open map_lab/scorecard.md: its Improve next names the spot; `run_world_forge.ps1 fix %s` moves fixable spots" % map_id, 3.0)
 	for c: Dictionary in lab.checks:
+		if String(c["id"]).begins_with("R") and c["status"] in ["PASS", "WARN", "FAIL"]:
+			report.fcheck("LAB." + String(c["id"]), String(c["name"]), String(c["status"]), String(c.get("value", "")), "Map Lab v2 " + String(c["id"]), "", 0.5)
 		if String(c["id"]).begins_with("M") or String(c["id"]) == "F1":
 			report.fcheck("LAB." + String(c["id"]), String(c["name"]), String(c["status"]) if c["status"] in ["PASS", "WARN", "FAIL"] else "INFO",
 				String(c.get("value", "")) if String(c.get("value", "")) != "" else "%d items" % int(c.get("count", 0)), "Map Lab " + String(c["id"]), "", 0.5)
@@ -688,6 +997,10 @@ static func collect_spots(lv: Node) -> Array:
 			if nd is Node3D and lv.is_ancestor_of(nd):
 				out.append({"id": _id_of(nd), "kind": groups[g], "pos": _flat((nd as Node3D).global_position), "team": -1})
 	var s: Script = lv.get_script()
+	if lv.has_method(&"lair_spots"):   # LayoutLevel (MT2): the layout's lairs, not Crown Hollow's constant
+		for d: Dictionary in lv.call(&"lair_spots"):
+			out.append({"id": String(d.get("id", "lair")), "kind": "lair", "pos": _flat(d.get("center", d.get("pos", Vector3.ZERO))), "team": -1})
+		s = null
 	while s != null:
 		var m := s.get_script_constant_map()
 		if m.has("LAIR_SPOTS"):

@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_40p20"]
+
+[resource]
+script = ExtResource("1_40p20")
+id = &"tpl_chasm_bridge"
+title = "Template chasm_bridge"
+size = 112.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-47, 0, 47),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+blocks = Array[Dictionary]([{
+"center": Vector3(-18, 0, 0),
+"half": Vector3(15, 1.5, 2.5),
+"height": 3.0,
+"id": "t_rift_w",
+"kind": "cliff",
+"yaw": 0.0
+}, {
+"center": Vector3(18, 0, 0),
+"half": Vector3(15, 1.5, 2.5),
+"height": 3.0,
+"id": "t_rift_e",
+"kind": "cliff",
+"yaw": 0.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_chasm_bridge/tpl_chasm_bridge.map"
+source_hash = "04216480e136"
+size_x = 112.0
+size_z = 112.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["chasm_bridge t at (0.0, 0.0) yaw 0"])

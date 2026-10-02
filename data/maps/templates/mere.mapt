@@ -1,0 +1,10 @@
+# The mere (map-production.md 2.3, Rivers): a big ring moat round an isle, the long way round; two lane bridges and two
+# steps reach the isle. Global: use it once at=(0,0).
+template mere  title="Great moat round a central isle (no river arms)"
+param r=20
+param hw=3.5
+moat  center=(0,0)  radius=$r  half_width=$hw
+crossing mere_bridge_w  kind=bridge_lane  at=(-$r,0)  width=8  length=9  dir=(-1,0)
+crossing mere_bridge_e  kind=bridge_lane  at=($r,0)   width=8  length=9  dir=(1,0)
+crossing mere_steps_n   kind=steps        at=(0,-$r)  width=7  length=7  dir=(0,-1)
+crossing mere_steps_s   kind=steps        at=(0,$r)   width=7  length=7  dir=(0,1)

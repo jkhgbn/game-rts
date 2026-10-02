@@ -1,0 +1,4 @@
+# A watchtower seeing a bridge and a ford (map-production.md 2.3, Points; map-fill.md 4.1): the tower 9 m from the
+# anchor (a crossing) on the local -z side, clear of the 8 m crossing rule.
+template tower_over_crossing  title="Watchtower 9 m off a crossing"
+point tower  sub=watchtower  at=(0,-9)

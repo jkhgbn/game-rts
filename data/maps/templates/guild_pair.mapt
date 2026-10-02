@@ -1,0 +1,5 @@
+# A Magpie Den and a Greywater Lodge (map-production.md 2.3, Services; market-trade.md 2.3), 12 m apart, doors toward
+# local +z.
+template guild_pair  title="Magpie Den + Greywater Lodge"
+guild  den    sub=den    at=(-6,0)  door=(-6,4)
+guild  lodge  sub=lodge  at=(6,0)   door=(6,4)

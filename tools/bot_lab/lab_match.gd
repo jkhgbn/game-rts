@@ -29,6 +29,7 @@ extends SceneTree
 ## Test-script rules (CLAUDE.md): compiled before autoloads; untyped access to anything newer than the lab's commit.
 
 const SCENE := "res://scenes/skirmish.tscn"
+const LAYOUT_SCENE := "res://scenes/layout_level.tscn"
 const COMMANDER_PATH := "res://scripts/ai/commander.gd"
 const SIM_MODE_PATH := "res://scripts/core/sim_mode.gd"
 const SCORE_KEEPER_PATH := "res://scripts/world/score_keeper.gd"
@@ -125,8 +126,13 @@ func _initialize() -> void:
 			sim_supported = true   # "full": the build-time hooks too; else "partial" (per-frame savings only)
 		if not args.has("ui"):
 			ui_off = true
-	var packed := load(SCENE) as PackedScene
+	# --layout=<_layout.tres or .map> (map-production.md MT2 / MT8): the match runs on scenes/layout_level.tscn with
+	# that layout (--scene= overrides the scene). Default: Crown Hollow (scenes/skirmish.tscn).
+	var scene_path := String(args.get("scene", LAYOUT_SCENE if args.has("layout") else SCENE))
+	var packed := load(scene_path) as PackedScene
 	main = packed.instantiate()
+	if args.has("layout") and &"layout_path" in main:
+		main.set(&"layout_path", String(args["layout"]))
 	main.set(&"player_kingdom", StringName(kingdoms[PLAYER]))
 	main.set(&"enemy_kingdom", StringName(kingdoms[ENEMY]))
 	if &"time_limit_s" in main:
@@ -727,7 +733,7 @@ func _finish(reason: String, winner: int, error: String) -> bool:
 		"seed": seed_value, "difficulty": _side_text(difficulty), "style": _side_text(style),
 		"style_applied": style_applied[0] and style_applied[1],
 		"sim": _sim_text(), "frozen_art": _frozen, "tick": tick, "ui": "off" if ui_off else "on", "bake": "real" if bake_real else "fast",
-		"commit": String(args.get("commit", "")),
+		"commit": String(args.get("commit", "")), "map": String(args.get("layout", "crown_hollow")),
 		"winner_team": winner, "winner": kingdoms[winner] if winner == PLAYER or winner == ENEMY else "none",
 		"winner_side": SIDES[winner] if winner == PLAYER or winner == ENEMY else "none",
 		"end_reason": reason, "end_time": snappedf(t, 0.1), "end_clock": _clock(t),

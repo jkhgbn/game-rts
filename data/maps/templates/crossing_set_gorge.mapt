@@ -1,0 +1,8 @@
+# Gorge crossings (map-production.md 2.3, Crossings): 2 road bridges (one near each home), 1 middle ford, 2 lane
+# bridges. Global; used by gorge.
+template crossing_set_gorge  title="Gorge: 2 home bridges, 2 lane bridges, 1 ford"
+crossing home_bridge_w  kind=bridge_road  at=(-40,0)  width=6  length=9    dir=(0,1)
+crossing home_bridge_e  kind=bridge_road  at=(40,0)   width=6  length=9    dir=(0,1)
+crossing lane_w         kind=bridge_lane  at=(-16,0)  width=7  length=9    dir=(0,1)
+crossing lane_e         kind=bridge_lane  at=(16,0)   width=7  length=9    dir=(0,1)
+crossing mid_ford       kind=ford         at=(0,0)    width=7  length=7    dir=(1,0)

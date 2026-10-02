@@ -1,0 +1,5 @@
+map tpl_spine_gate  size=104  symmetry=none  title="Template spine_gate"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-43.0,43.0)  team=0  solo
+use spine_gate t  at=(0,0)  yaw=0

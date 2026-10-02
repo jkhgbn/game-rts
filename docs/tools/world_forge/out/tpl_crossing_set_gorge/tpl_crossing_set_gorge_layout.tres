@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_lxktj"]
+
+[resource]
+script = ExtResource("1_lxktj")
+id = &"tpl_crossing_set_gorge"
+title = "Template crossing_set_gorge"
+size = 64.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-23, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+crossings = Array[Dictionary]([{
+"center": Vector3(-40, 0, 0),
+"dir": Vector3(0, 0, 1),
+"id": "t_home_bridge_w",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_home_bridge_w",
+"width": 6.0
+}, {
+"center": Vector3(40, 0, 0),
+"dir": Vector3(0, 0, 1),
+"id": "t_home_bridge_e",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "t_home_bridge_e",
+"width": 6.0
+}, {
+"center": Vector3(-16, 0, 0),
+"dir": Vector3(0, 0, 1),
+"id": "t_lane_w",
+"kind": "bridge_lane",
+"length": 9.0,
+"name": "t_lane_w",
+"width": 7.0
+}, {
+"center": Vector3(16, 0, 0),
+"dir": Vector3(0, 0, 1),
+"id": "t_lane_e",
+"kind": "bridge_lane",
+"length": 9.0,
+"name": "t_lane_e",
+"width": 7.0
+}, {
+"center": Vector3(0, 0, 0),
+"dir": Vector3(1, 0, 0),
+"id": "t_mid_ford",
+"kind": "ford",
+"length": 7.0,
+"name": "t_mid_ford",
+"radius": 3.5,
+"width": 7.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_crossing_set_gorge/tpl_crossing_set_gorge.map"
+source_hash = "d761865f769c"
+size_x = 64.0
+size_z = 64.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["crossing_set_gorge t at (0.0, 0.0) yaw 0"])

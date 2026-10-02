@@ -1,0 +1,15 @@
+{
+	"half_size": 56.0,
+	"name": "tpl_chasm_bridge",
+	"scene": "res://docs/tools/world_forge/out/tpl_chasm_bridge/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template chasm_bridge"
+}

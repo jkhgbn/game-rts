@@ -1,0 +1,5 @@
+map tpl_nest_in_ford  size=64  symmetry=none  title="Template nest_in_ford"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-23.0,23.0)  team=0  solo
+use nest_in_ford t  at=(0,0)  yaw=0

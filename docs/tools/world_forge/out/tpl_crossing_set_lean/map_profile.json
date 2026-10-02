@@ -1,0 +1,15 @@
+{
+	"half_size": 32.0,
+	"name": "tpl_crossing_set_lean",
+	"scene": "res://docs/tools/world_forge/out/tpl_crossing_set_lean/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template crossing_set_lean"
+}

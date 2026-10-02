@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_xwmrt"]
+
+[resource]
+script = ExtResource("1_xwmrt")
+id = &"tpl_third_far"
+title = "Template third_far"
+size = 64.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-23, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}, {
+"id": "t_node",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(0, 0, 0),
+"props": {
+"amount": 1500.0,
+"role": "third"
+},
+"sub": "",
+"team": -1,
+"twin_of": "t_node"
+}, {
+"id": "t_hall",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(0, 0, 7.6),
+"props": {
+"clear": 5.0
+},
+"sub": "third_hall",
+"team": -1,
+"twin_of": "t_hall"
+}])
+source = "res://docs/tools/world_forge/out/tpl_third_far/tpl_third_far.map"
+source_hash = "afc0e405e4e3"
+size_x = 64.0
+size_z = 64.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["third_far t at (0.0, 0.0) yaw 0"])

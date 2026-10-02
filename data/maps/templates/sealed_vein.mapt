@@ -1,0 +1,6 @@
+# A sealed vein (map-production.md 2.3, Resources): node 1 500 behind a T3 Stag Glade. Local frame: (0,0) = the node,
+# +z = toward the owner's keep.
+template sealed_vein  title="Node 1 500 guarded by a Stag Glade"
+param amount=1500
+node  vein  at=(0,0)   role=third  amount=$amount
+camp  stag  sub=hollow_stag  at=(0,6)

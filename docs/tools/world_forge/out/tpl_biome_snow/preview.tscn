@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_biome_snow/preview_level.gd" id="1_l0ie3"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_biome_snow/tpl_biome_snow_layout.tres" id="2_kq8ft"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=686446731]
+script = ExtResource("1_l0ie3")
+layout = ExtResource("2_kq8ft")

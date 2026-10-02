@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_pocket_shelf/preview_level.gd" id="1_7sbir"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_pocket_shelf/tpl_pocket_shelf_layout.tres" id="2_uww4e"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=378337962]
+script = ExtResource("1_7sbir")
+layout = ExtResource("2_uww4e")

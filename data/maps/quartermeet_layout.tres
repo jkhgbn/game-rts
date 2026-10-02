@@ -1,0 +1,1720 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_gtd1o"]
+
+[resource]
+script = ExtResource("1_gtd1o")
+id = &"quartermeet"
+title = "Quartermeet (2v2)"
+size = 176.0
+symmetry = "fourfold"
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "A1 south-west",
+"side": 0,
+"team": 0
+}, {
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0),
+"frame_name": "mirror_z",
+"name": "A2 north-west",
+"side": 0,
+"team": 3
+}, {
+"frame": Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0),
+"frame_name": "rot180",
+"name": "B1 north-east",
+"side": 1,
+"team": 1
+}, {
+"frame": Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "mirror_x",
+"name": "B2 south-east",
+"side": 1,
+"team": 4
+}])
+spots = Array[Dictionary]([{
+"id": "home_keep_a1",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-71.6, 0, 32.4),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "home_keep"
+}, {
+"id": "home_keep_a2",
+"image": "mirror_z",
+"kind": "keep",
+"pos": Vector3(-71.6, 0, -32.4),
+"props": {},
+"sub": "",
+"team": 3,
+"twin_of": "home_keep"
+}, {
+"id": "home_keep_b1",
+"image": "rot180",
+"kind": "keep",
+"pos": Vector3(71.6, 0, -32.4),
+"props": {},
+"sub": "",
+"team": 1,
+"twin_of": "home_keep"
+}, {
+"id": "home_keep_b2",
+"image": "mirror_x",
+"kind": "keep",
+"pos": Vector3(71.6, 0, 32.4),
+"props": {},
+"sub": "",
+"team": 4,
+"twin_of": "home_keep"
+}, {
+"id": "home_start_a1",
+"image": "identity",
+"kind": "start",
+"pos": Vector3(-62.58, 0, 28.319),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "home_start"
+}, {
+"id": "home_start_a2",
+"image": "mirror_z",
+"kind": "start",
+"pos": Vector3(-62.58, 0, -28.319),
+"props": {},
+"sub": "",
+"team": 3,
+"twin_of": "home_start"
+}, {
+"id": "home_start_b1",
+"image": "rot180",
+"kind": "start",
+"pos": Vector3(62.58, 0, -28.319),
+"props": {},
+"sub": "",
+"team": 1,
+"twin_of": "home_start"
+}, {
+"id": "home_start_b2",
+"image": "mirror_x",
+"kind": "start",
+"pos": Vector3(62.58, 0, 28.319),
+"props": {},
+"sub": "",
+"team": 4,
+"twin_of": "home_start"
+}, {
+"id": "home_a_a1",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(-71.237, 0, 22.917),
+"props": {
+"amount": 2000.0,
+"role": "a"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_a"
+}, {
+"id": "home_a_a2",
+"image": "mirror_z",
+"kind": "node",
+"pos": Vector3(-71.237, 0, -22.917),
+"props": {
+"amount": 2000.0,
+"role": "a"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_a"
+}, {
+"id": "home_a_b1",
+"image": "rot180",
+"kind": "node",
+"pos": Vector3(71.237, 0, -22.917),
+"props": {
+"amount": 2000.0,
+"role": "a"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_a"
+}, {
+"id": "home_a_b2",
+"image": "mirror_x",
+"kind": "node",
+"pos": Vector3(71.237, 0, 22.917),
+"props": {
+"amount": 2000.0,
+"role": "a"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_a"
+}, {
+"id": "home_b_a1",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(-64.237, 0, 38.387),
+"props": {
+"amount": 2000.0,
+"role": "b"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_b"
+}, {
+"id": "home_b_a2",
+"image": "mirror_z",
+"kind": "node",
+"pos": Vector3(-64.237, 0, -38.387),
+"props": {
+"amount": 2000.0,
+"role": "b"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_b"
+}, {
+"id": "home_b_b1",
+"image": "rot180",
+"kind": "node",
+"pos": Vector3(64.237, 0, -38.387),
+"props": {
+"amount": 2000.0,
+"role": "b"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_b"
+}, {
+"id": "home_b_b2",
+"image": "mirror_x",
+"kind": "node",
+"pos": Vector3(64.237, 0, 38.387),
+"props": {
+"amount": 2000.0,
+"role": "b"
+},
+"sub": "",
+"team": -1,
+"twin_of": "home_b"
+}, {
+"id": "home_house_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-79.208, 0, 32.736),
+"props": {
+"clear": 4.0
+},
+"sub": "house",
+"team": -1,
+"twin_of": "home_house"
+}, {
+"id": "home_house_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-79.208, 0, -32.736),
+"props": {
+"clear": 4.0
+},
+"sub": "house",
+"team": -1,
+"twin_of": "home_house"
+}, {
+"id": "home_house_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(79.208, 0, -32.736),
+"props": {
+"clear": 4.0
+},
+"sub": "house",
+"team": -1,
+"twin_of": "home_house"
+}, {
+"id": "home_house_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(79.208, 0, 32.736),
+"props": {
+"clear": 4.0
+},
+"sub": "house",
+"team": -1,
+"twin_of": "home_house"
+}, {
+"id": "home_market_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-67.829, 0, 16.721),
+"props": {
+"clear": 0.0
+},
+"sub": "market",
+"team": -1,
+"twin_of": "home_market"
+}, {
+"id": "home_market_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-67.829, 0, -16.721),
+"props": {
+"clear": 0.0
+},
+"sub": "market",
+"team": -1,
+"twin_of": "home_market"
+}, {
+"id": "home_market_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(67.829, 0, -16.721),
+"props": {
+"clear": 0.0
+},
+"sub": "market",
+"team": -1,
+"twin_of": "home_market"
+}, {
+"id": "home_market_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(67.829, 0, 16.721),
+"props": {
+"clear": 0.0
+},
+"sub": "market",
+"team": -1,
+"twin_of": "home_market"
+}, {
+"id": "nat_node_a1",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(-35.3, 0, 17.8),
+"props": {
+"amount": 2500.0,
+"role": "mid"
+},
+"sub": "",
+"team": -1,
+"twin_of": "nat_node"
+}, {
+"id": "nat_node_a2",
+"image": "mirror_z",
+"kind": "node",
+"pos": Vector3(-35.3, 0, -17.8),
+"props": {
+"amount": 2500.0,
+"role": "mid"
+},
+"sub": "",
+"team": -1,
+"twin_of": "nat_node"
+}, {
+"id": "nat_node_b1",
+"image": "rot180",
+"kind": "node",
+"pos": Vector3(35.3, 0, -17.8),
+"props": {
+"amount": 2500.0,
+"role": "mid"
+},
+"sub": "",
+"team": -1,
+"twin_of": "nat_node"
+}, {
+"id": "nat_node_b2",
+"image": "mirror_x",
+"kind": "node",
+"pos": Vector3(35.3, 0, 17.8),
+"props": {
+"amount": 2500.0,
+"role": "mid"
+},
+"sub": "",
+"team": -1,
+"twin_of": "nat_node"
+}, {
+"id": "nat_hall_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-42.352, 0, 20.635),
+"props": {
+"clear": 5.0
+},
+"sub": "natural_hall",
+"team": -1,
+"twin_of": "nat_hall"
+}, {
+"id": "nat_hall_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-42.352, 0, -20.635),
+"props": {
+"clear": 5.0
+},
+"sub": "natural_hall",
+"team": -1,
+"twin_of": "nat_hall"
+}, {
+"id": "nat_hall_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(42.352, 0, -20.635),
+"props": {
+"clear": 5.0
+},
+"sub": "natural_hall",
+"team": -1,
+"twin_of": "nat_hall"
+}, {
+"id": "nat_hall_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(42.352, 0, 20.635),
+"props": {
+"clear": 5.0
+},
+"sub": "natural_hall",
+"team": -1,
+"twin_of": "nat_hall"
+}, {
+"id": "nat_tower_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-32.321, 0, 22.53),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_natural",
+"team": -1,
+"twin_of": "nat_tower"
+}, {
+"id": "nat_tower_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-32.321, 0, -22.53),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_natural",
+"team": -1,
+"twin_of": "nat_tower"
+}, {
+"id": "nat_tower_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(32.321, 0, -22.53),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_natural",
+"team": -1,
+"twin_of": "nat_tower"
+}, {
+"id": "nat_tower_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(32.321, 0, 22.53),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_natural",
+"team": -1,
+"twin_of": "nat_tower"
+}, {
+"id": "rich_node_a1",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(-14.6, 0, 52.2),
+"props": {
+"amount": 2500.0,
+"role": "rich"
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich_node"
+}, {
+"id": "rich_node_a2",
+"image": "mirror_z",
+"kind": "node",
+"pos": Vector3(-14.6, 0, -52.2),
+"props": {
+"amount": 2500.0,
+"role": "rich"
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich_node"
+}, {
+"id": "rich_node_b1",
+"image": "rot180",
+"kind": "node",
+"pos": Vector3(14.6, 0, -52.2),
+"props": {
+"amount": 2500.0,
+"role": "rich"
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich_node"
+}, {
+"id": "rich_node_b2",
+"image": "mirror_x",
+"kind": "node",
+"pos": Vector3(14.6, 0, 52.2),
+"props": {
+"amount": 2500.0,
+"role": "rich"
+},
+"sub": "",
+"team": -1,
+"twin_of": "rich_node"
+}, {
+"id": "rich_hall_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-23.955, 0, 48.961),
+"props": {
+"clear": 5.0
+},
+"sub": "rich_hall",
+"team": -1,
+"twin_of": "rich_hall"
+}, {
+"id": "rich_hall_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-23.955, 0, -48.961),
+"props": {
+"clear": 5.0
+},
+"sub": "rich_hall",
+"team": -1,
+"twin_of": "rich_hall"
+}, {
+"id": "rich_hall_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(23.955, 0, -48.961),
+"props": {
+"clear": 5.0
+},
+"sub": "rich_hall",
+"team": -1,
+"twin_of": "rich_hall"
+}, {
+"id": "rich_hall_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(23.955, 0, 48.961),
+"props": {
+"clear": 5.0
+},
+"sub": "rich_hall",
+"team": -1,
+"twin_of": "rich_hall"
+}, {
+"id": "rich_tower_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-15.472, 0, 45.549),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_rich",
+"team": -1,
+"twin_of": "rich_tower"
+}, {
+"id": "rich_tower_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-15.472, 0, -45.549),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_rich",
+"team": -1,
+"twin_of": "rich_tower"
+}, {
+"id": "rich_tower_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(15.472, 0, -45.549),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_rich",
+"team": -1,
+"twin_of": "rich_tower"
+}, {
+"id": "rich_tower_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(15.472, 0, 45.549),
+"props": {
+"clear": 0.0
+},
+"sub": "tower_rich",
+"team": -1,
+"twin_of": "rich_tower"
+}, {
+"id": "third_node_a1",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(-77.8, 0, 63.5),
+"props": {
+"amount": 1500.0,
+"role": "third"
+},
+"sub": "",
+"team": -1,
+"twin_of": "third_node"
+}, {
+"id": "third_node_a2",
+"image": "mirror_z",
+"kind": "node",
+"pos": Vector3(-77.8, 0, -63.5),
+"props": {
+"amount": 1500.0,
+"role": "third"
+},
+"sub": "",
+"team": -1,
+"twin_of": "third_node"
+}, {
+"id": "third_node_b1",
+"image": "rot180",
+"kind": "node",
+"pos": Vector3(77.8, 0, -63.5),
+"props": {
+"amount": 1500.0,
+"role": "third"
+},
+"sub": "",
+"team": -1,
+"twin_of": "third_node"
+}, {
+"id": "third_node_b2",
+"image": "mirror_x",
+"kind": "node",
+"pos": Vector3(77.8, 0, 63.5),
+"props": {
+"amount": 1500.0,
+"role": "third"
+},
+"sub": "",
+"team": -1,
+"twin_of": "third_node"
+}, {
+"id": "third_hall_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-76.324, 0, 56.045),
+"props": {
+"clear": 5.0
+},
+"sub": "third_hall",
+"team": -1,
+"twin_of": "third_hall"
+}, {
+"id": "third_hall_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-76.324, 0, -56.045),
+"props": {
+"clear": 5.0
+},
+"sub": "third_hall",
+"team": -1,
+"twin_of": "third_hall"
+}, {
+"id": "third_hall_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(76.324, 0, -56.045),
+"props": {
+"clear": 5.0
+},
+"sub": "third_hall",
+"team": -1,
+"twin_of": "third_hall"
+}, {
+"id": "third_hall_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(76.324, 0, 56.045),
+"props": {
+"clear": 5.0
+},
+"sub": "third_hall",
+"team": -1,
+"twin_of": "third_hall"
+}, {
+"id": "centre_crown",
+"image": "identity",
+"kind": "crown",
+"pos": Vector3(0, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "centre_crown"
+}, {
+"id": "tower_r_a1",
+"image": "identity",
+"kind": "point",
+"pos": Vector3(-15.7, 0, 64.4),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_r"
+}, {
+"id": "tower_r_a2",
+"image": "mirror_z",
+"kind": "point",
+"pos": Vector3(-15.7, 0, -64.4),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_r"
+}, {
+"id": "tower_r_b1",
+"image": "rot180",
+"kind": "point",
+"pos": Vector3(15.7, 0, -64.4),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_r"
+}, {
+"id": "tower_r_b2",
+"image": "mirror_x",
+"kind": "point",
+"pos": Vector3(15.7, 0, 64.4),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_r"
+}, {
+"id": "tower_c_a1",
+"image": "identity",
+"kind": "point",
+"pos": Vector3(-21.3, 0, 7.6),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_c"
+}, {
+"id": "tower_c_a2",
+"image": "mirror_z",
+"kind": "point",
+"pos": Vector3(-21.3, 0, -7.6),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_c"
+}, {
+"id": "tower_c_b1",
+"image": "rot180",
+"kind": "point",
+"pos": Vector3(21.3, 0, -7.6),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_c"
+}, {
+"id": "tower_c_b2",
+"image": "mirror_x",
+"kind": "point",
+"pos": Vector3(21.3, 0, 7.6),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "tower_c"
+}, {
+"id": "well_a1",
+"image": "identity",
+"kind": "point",
+"pos": Vector3(-39.7, 0, 50.1),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "well_a2",
+"image": "mirror_z",
+"kind": "point",
+"pos": Vector3(-39.7, 0, -50.1),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "well_b1",
+"image": "rot180",
+"kind": "point",
+"pos": Vector3(39.7, 0, -50.1),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "well_b2",
+"image": "mirror_x",
+"kind": "point",
+"pos": Vector3(39.7, 0, 50.1),
+"props": {},
+"sub": "well",
+"team": -1,
+"twin_of": "well"
+}, {
+"id": "shrine_a1",
+"image": "identity",
+"kind": "point",
+"pos": Vector3(-52.1, 0, 11.1),
+"props": {},
+"sub": "shrine",
+"team": -1,
+"twin_of": "shrine"
+}, {
+"id": "shrine_a2",
+"image": "mirror_z",
+"kind": "point",
+"pos": Vector3(-52.1, 0, -11.1),
+"props": {},
+"sub": "shrine",
+"team": -1,
+"twin_of": "shrine"
+}, {
+"id": "shrine_b1",
+"image": "rot180",
+"kind": "point",
+"pos": Vector3(52.1, 0, -11.1),
+"props": {},
+"sub": "shrine",
+"team": -1,
+"twin_of": "shrine"
+}, {
+"id": "shrine_b2",
+"image": "mirror_x",
+"kind": "point",
+"pos": Vector3(52.1, 0, 11.1),
+"props": {},
+"sub": "shrine",
+"team": -1,
+"twin_of": "shrine"
+}, {
+"id": "wallow_a1",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(-78.5, 0, 47.6),
+"props": {},
+"sub": "bristleback",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "wallow_a2",
+"image": "mirror_z",
+"kind": "camp",
+"pos": Vector3(-78.5, 0, -47.6),
+"props": {},
+"sub": "bristleback",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "wallow_b1",
+"image": "rot180",
+"kind": "camp",
+"pos": Vector3(78.5, 0, -47.6),
+"props": {},
+"sub": "bristleback",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "wallow_b2",
+"image": "mirror_x",
+"kind": "camp",
+"pos": Vector3(78.5, 0, 47.6),
+"props": {},
+"sub": "bristleback",
+"team": -1,
+"twin_of": "wallow"
+}, {
+"id": "ford_nest_a1",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(0, 0, 34.9),
+"props": {},
+"sub": "mirefang",
+"team": -1,
+"twin_of": "ford_nest"
+}, {
+"id": "ford_nest_a2",
+"image": "mirror_z",
+"kind": "camp",
+"pos": Vector3(0, 0, -34.9),
+"props": {},
+"sub": "mirefang",
+"team": -1,
+"twin_of": "ford_nest"
+}, {
+"id": "stag_a1",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(-34.6, 0, 73.8),
+"props": {},
+"sub": "hollow_stag",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "stag_a2",
+"image": "mirror_z",
+"kind": "camp",
+"pos": Vector3(-34.6, 0, -73.8),
+"props": {},
+"sub": "hollow_stag",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "stag_b1",
+"image": "rot180",
+"kind": "camp",
+"pos": Vector3(34.6, 0, -73.8),
+"props": {},
+"sub": "hollow_stag",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "stag_b2",
+"image": "mirror_x",
+"kind": "camp",
+"pos": Vector3(34.6, 0, 73.8),
+"props": {},
+"sub": "hollow_stag",
+"team": -1,
+"twin_of": "stag"
+}, {
+"id": "lairs_one_a1",
+"image": "identity",
+"kind": "lair",
+"pos": Vector3(-64.9, 0, 80),
+"props": {},
+"sub": "tusker",
+"team": -1,
+"twin_of": "lairs_one"
+}, {
+"id": "lairs_one_a2",
+"image": "mirror_z",
+"kind": "lair",
+"pos": Vector3(-64.9, 0, -80),
+"props": {},
+"sub": "tusker",
+"team": -1,
+"twin_of": "lairs_one"
+}, {
+"id": "lairs_one_b1",
+"image": "rot180",
+"kind": "lair",
+"pos": Vector3(64.9, 0, -80),
+"props": {},
+"sub": "tusker",
+"team": -1,
+"twin_of": "lairs_one"
+}, {
+"id": "lairs_one_b2",
+"image": "mirror_x",
+"kind": "lair",
+"pos": Vector3(64.9, 0, 80),
+"props": {},
+"sub": "tusker",
+"team": -1,
+"twin_of": "lairs_one"
+}, {
+"id": "lairs_two_a1",
+"image": "identity",
+"kind": "lair",
+"pos": Vector3(-46.9, 0, 80),
+"props": {},
+"sub": "direwolf",
+"team": -1,
+"twin_of": "lairs_two"
+}, {
+"id": "lairs_two_a2",
+"image": "mirror_z",
+"kind": "lair",
+"pos": Vector3(-46.9, 0, -80),
+"props": {},
+"sub": "direwolf",
+"team": -1,
+"twin_of": "lairs_two"
+}, {
+"id": "lairs_two_b1",
+"image": "rot180",
+"kind": "lair",
+"pos": Vector3(46.9, 0, -80),
+"props": {},
+"sub": "direwolf",
+"team": -1,
+"twin_of": "lairs_two"
+}, {
+"id": "lairs_two_b2",
+"image": "mirror_x",
+"kind": "lair",
+"pos": Vector3(46.9, 0, 80),
+"props": {},
+"sub": "direwolf",
+"team": -1,
+"twin_of": "lairs_two"
+}, {
+"id": "inn_a1",
+"image": "identity",
+"kind": "tavern",
+"pos": Vector3(-29.2, 0, 22.8),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "inn"
+}, {
+"id": "inn_a2",
+"image": "mirror_z",
+"kind": "tavern",
+"pos": Vector3(-29.2, 0, -22.8),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "inn"
+}, {
+"id": "inn_b1",
+"image": "rot180",
+"kind": "tavern",
+"pos": Vector3(29.2, 0, -22.8),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "inn"
+}, {
+"id": "inn_b2",
+"image": "mirror_x",
+"kind": "tavern",
+"pos": Vector3(29.2, 0, 22.8),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "inn"
+}, {
+"id": "peddler_a1",
+"image": "identity",
+"kind": "peddler",
+"pos": Vector3(-64.2, 0, 22.4),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "peddler_a2",
+"image": "mirror_z",
+"kind": "peddler",
+"pos": Vector3(-64.2, 0, -22.4),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "peddler_b1",
+"image": "rot180",
+"kind": "peddler",
+"pos": Vector3(64.2, 0, -22.4),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "peddler_b2",
+"image": "mirror_x",
+"kind": "peddler",
+"pos": Vector3(64.2, 0, 22.4),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "peddler"
+}, {
+"id": "cache_a_a1",
+"image": "identity",
+"kind": "cache",
+"pos": Vector3(-46.3, 0, 64.7),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_a"
+}, {
+"id": "cache_a_a2",
+"image": "mirror_z",
+"kind": "cache",
+"pos": Vector3(-46.3, 0, -64.7),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_a"
+}, {
+"id": "cache_a_b1",
+"image": "rot180",
+"kind": "cache",
+"pos": Vector3(46.3, 0, -64.7),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_a"
+}, {
+"id": "cache_a_b2",
+"image": "mirror_x",
+"kind": "cache",
+"pos": Vector3(46.3, 0, 64.7),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_a"
+}, {
+"id": "cache_b_a1",
+"image": "identity",
+"kind": "cache",
+"pos": Vector3(-7.9, 0, 25.5),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_b"
+}, {
+"id": "cache_b_a2",
+"image": "mirror_z",
+"kind": "cache",
+"pos": Vector3(-7.9, 0, -25.5),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_b"
+}, {
+"id": "cache_b_b1",
+"image": "rot180",
+"kind": "cache",
+"pos": Vector3(7.9, 0, -25.5),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_b"
+}, {
+"id": "cache_b_b2",
+"image": "mirror_x",
+"kind": "cache",
+"pos": Vector3(7.9, 0, 25.5),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "cache_b"
+}, {
+"id": "post_w_a1",
+"image": "identity",
+"kind": "post",
+"pos": Vector3(-81.4, 0, 13),
+"props": {
+"door": Vector3(-78.3, 0, 15.5)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_w"
+}, {
+"id": "post_w_a2",
+"image": "mirror_z",
+"kind": "post",
+"pos": Vector3(-81.4, 0, -13),
+"props": {
+"door": Vector3(-78.3, 0, -15.5)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_w"
+}, {
+"id": "post_w_b1",
+"image": "rot180",
+"kind": "post",
+"pos": Vector3(81.4, 0, -13),
+"props": {
+"door": Vector3(78.3, 0, -15.5)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_w"
+}, {
+"id": "post_w_b2",
+"image": "mirror_x",
+"kind": "post",
+"pos": Vector3(81.4, 0, 13),
+"props": {
+"door": Vector3(78.3, 0, 15.5)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_w"
+}, {
+"id": "post_s_a1",
+"image": "identity",
+"kind": "post",
+"pos": Vector3(-20.5, 0, 79.1),
+"props": {
+"door": Vector3(-23, 0, 76.1)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_s"
+}, {
+"id": "post_s_a2",
+"image": "mirror_z",
+"kind": "post",
+"pos": Vector3(-20.5, 0, -79.1),
+"props": {
+"door": Vector3(-23, 0, -76.1)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_s"
+}, {
+"id": "post_s_b1",
+"image": "rot180",
+"kind": "post",
+"pos": Vector3(20.5, 0, -79.1),
+"props": {
+"door": Vector3(23, 0, -76.1)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_s"
+}, {
+"id": "post_s_b2",
+"image": "mirror_x",
+"kind": "post",
+"pos": Vector3(20.5, 0, 79.1),
+"props": {
+"door": Vector3(23, 0, 76.1)
+},
+"sub": "",
+"team": -1,
+"twin_of": "post_s"
+}, {
+"id": "guilds_den_a1",
+"image": "identity",
+"kind": "guild",
+"pos": Vector3(-74.795, 0, 82.08),
+"props": {
+"door": Vector3(-71.942, 0, 79.276)
+},
+"sub": "den",
+"team": -1,
+"twin_of": "guilds_den"
+}, {
+"id": "guilds_den_a2",
+"image": "mirror_z",
+"kind": "guild",
+"pos": Vector3(-74.795, 0, -82.08),
+"props": {
+"door": Vector3(-71.942, 0, -79.276)
+},
+"sub": "den",
+"team": -1,
+"twin_of": "guilds_den"
+}, {
+"id": "guilds_den_b1",
+"image": "rot180",
+"kind": "guild",
+"pos": Vector3(74.795, 0, -82.08),
+"props": {
+"door": Vector3(71.942, 0, -79.276)
+},
+"sub": "den",
+"team": -1,
+"twin_of": "guilds_den"
+}, {
+"id": "guilds_den_b2",
+"image": "mirror_x",
+"kind": "guild",
+"pos": Vector3(74.795, 0, 82.08),
+"props": {
+"door": Vector3(71.942, 0, 79.276)
+},
+"sub": "den",
+"team": -1,
+"twin_of": "guilds_den"
+}, {
+"id": "guilds_lodge_a1",
+"image": "identity",
+"kind": "guild",
+"pos": Vector3(-83.205, 0, 73.521),
+"props": {
+"door": Vector3(-80.352, 0, 70.717)
+},
+"sub": "lodge",
+"team": -1,
+"twin_of": "guilds_lodge"
+}, {
+"id": "guilds_lodge_a2",
+"image": "mirror_z",
+"kind": "guild",
+"pos": Vector3(-83.205, 0, -73.521),
+"props": {
+"door": Vector3(-80.352, 0, -70.717)
+},
+"sub": "lodge",
+"team": -1,
+"twin_of": "guilds_lodge"
+}, {
+"id": "guilds_lodge_b1",
+"image": "rot180",
+"kind": "guild",
+"pos": Vector3(83.205, 0, -73.521),
+"props": {
+"door": Vector3(80.352, 0, -70.717)
+},
+"sub": "lodge",
+"team": -1,
+"twin_of": "guilds_lodge"
+}, {
+"id": "guilds_lodge_b2",
+"image": "mirror_x",
+"kind": "guild",
+"pos": Vector3(83.205, 0, 73.521),
+"props": {
+"door": Vector3(80.352, 0, 70.717)
+},
+"sub": "lodge",
+"team": -1,
+"twin_of": "guilds_lodge"
+}, {
+"id": "graze0_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-66, 0, 63.5),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze0"
+}, {
+"id": "graze0_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-66, 0, -63.5),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze0"
+}, {
+"id": "graze0_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(66, 0, -63.5),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze0"
+}, {
+"id": "graze0_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(66, 0, 63.5),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze0"
+}, {
+"id": "graze1_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-58.2, 0, 62.9),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze1"
+}, {
+"id": "graze1_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-58.2, 0, -62.9),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze1"
+}, {
+"id": "graze1_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(58.2, 0, -62.9),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze1"
+}, {
+"id": "graze1_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(58.2, 0, 62.9),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze1"
+}, {
+"id": "graze2_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-49.7, 0, 62.3),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze2"
+}, {
+"id": "graze2_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-49.7, 0, -62.3),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze2"
+}, {
+"id": "graze2_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(49.7, 0, -62.3),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze2"
+}, {
+"id": "graze2_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(49.7, 0, 62.3),
+"props": {
+"clear": 0.0
+},
+"sub": "graze",
+"team": -1,
+"twin_of": "graze2"
+}, {
+"id": "rabbit0_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-30, 0, 30.2),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit0"
+}, {
+"id": "rabbit0_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-30, 0, -30.2),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit0"
+}, {
+"id": "rabbit0_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(30, 0, -30.2),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit0"
+}, {
+"id": "rabbit0_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(30, 0, 30.2),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit0"
+}, {
+"id": "rabbit1_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-45.7, 0, 30.6),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit1"
+}, {
+"id": "rabbit1_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-45.7, 0, -30.6),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit1"
+}, {
+"id": "rabbit1_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(45.7, 0, -30.6),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit1"
+}, {
+"id": "rabbit1_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(45.7, 0, 30.6),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit1"
+}, {
+"id": "rabbit2_a1",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-53.7, 0, 30.1),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit2"
+}, {
+"id": "rabbit2_a2",
+"image": "mirror_z",
+"kind": "slot",
+"pos": Vector3(-53.7, 0, -30.1),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit2"
+}, {
+"id": "rabbit2_b1",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(53.7, 0, -30.1),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit2"
+}, {
+"id": "rabbit2_b2",
+"image": "mirror_x",
+"kind": "slot",
+"pos": Vector3(53.7, 0, 30.1),
+"props": {
+"clear": 0.0
+},
+"sub": "rabbit",
+"team": -1,
+"twin_of": "rabbit2"
+}])
+river = Array[Dictionary]([{
+"half_width": 2.5,
+"id": "river_arm_n",
+"poly": PackedVector3Array(0, 0, -90, 0, 0, -13)
+}, {
+"half_width": 2.5,
+"id": "river_arm_s",
+"poly": PackedVector3Array(0, 0, 13, 0, 0, 90)
+}])
+moat = {
+"center": Vector3(0, 0, 0),
+"half_width": 1.75,
+"radius": 13.0
+}
+crossings = Array[Dictionary]([{
+"center": Vector3(0, 0, -63.6),
+"dir": Vector3(1, 0, 0),
+"id": "x_bridge_n",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "x_bridge_n",
+"width": 6.0
+}, {
+"center": Vector3(0, 0, 63.6),
+"dir": Vector3(1, 0, 0),
+"id": "x_bridge_s",
+"kind": "bridge_road",
+"length": 9.0,
+"name": "x_bridge_s",
+"width": 6.0
+}, {
+"center": Vector3(0, 0, -34.9),
+"dir": Vector3(0, 0, 1),
+"id": "x_ford_n",
+"kind": "ford",
+"length": 7.0,
+"name": "x_ford_n",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(0, 0, 34.9),
+"dir": Vector3(0, 0, 1),
+"id": "x_ford_s",
+"kind": "ford",
+"length": 7.0,
+"name": "x_ford_s",
+"radius": 3.5,
+"width": 7.0
+}, {
+"center": Vector3(-13, 0, 0),
+"dir": Vector3(-1, 0, 0),
+"id": "x_lane_w",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "x_lane_w",
+"width": 8.0
+}, {
+"center": Vector3(13, 0, 0),
+"dir": Vector3(1, 0, 0),
+"id": "x_lane_e",
+"kind": "bridge_lane",
+"length": 6.5,
+"name": "x_lane_e",
+"width": 8.0
+}])
+roads = Array[Dictionary]([{
+"id": "trade",
+"poly": PackedVector3Array(-78.3, 0, 15.5, -62.6, 0, 28.3, -23, 0, 76.1),
+"width": 5.0
+}, {
+"id": "trade_a2",
+"poly": PackedVector3Array(-78.3, 0, -15.5, -62.6, 0, -28.3, -23, 0, -76.1),
+"width": 5.0
+}, {
+"id": "trade_b1",
+"poly": PackedVector3Array(78.3, 0, -15.5, 62.6, 0, -28.3, 23, 0, -76.1),
+"width": 5.0
+}, {
+"id": "trade_b2",
+"poly": PackedVector3Array(78.3, 0, 15.5, 62.6, 0, 28.3, 23, 0, 76.1),
+"width": 5.0
+}])
+zones = Array[Dictionary]([{
+"biome": "autumn",
+"center": Vector3(-43, 0, 19.4),
+"id": "ground_autumn",
+"kind": "circle",
+"r0": 0.0,
+"r1": 26.0
+}, {
+"biome": "autumn",
+"center": Vector3(-43, 0, -19.4),
+"id": "ground_autumn_a2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 26.0
+}, {
+"biome": "autumn",
+"center": Vector3(43, 0, -19.4),
+"id": "ground_autumn_b1",
+"kind": "circle",
+"r0": 0.0,
+"r1": 26.0
+}, {
+"biome": "autumn",
+"center": Vector3(43, 0, 19.4),
+"id": "ground_autumn_b2",
+"kind": "circle",
+"r0": 0.0,
+"r1": 26.0
+}])
+source = "res://data/maps/quartermeet.map"
+source_hash = "0981ecdfb2d1"
+size_x = 176.0
+size_z = 176.0
+biome = "autumn"
+forest = {
+"clear": "auto",
+"cluster_r": 6.0,
+"clusters": 19,
+"grove_seed": 13,
+"half": "quad",
+"kinds": "",
+"lane": PackedVector3Array(),
+"pillar_count": 8,
+"pillar_gap": -1,
+"pillar_h": Vector2(2, 4.5),
+"pillars": Vector3(0, 0, 8),
+"pre": [],
+"pre_auto": true,
+"rock_size": Vector2(0.8, 2.2),
+"rock_spread": 82.0,
+"rocks": 24,
+"seed": 126711,
+"spread": 78.0,
+"tree_size": Vector2(0.8, 1.3),
+"trees": Vector2(5, 9),
+"willows": {
+"arc": Vector2(90, 180),
+"arm": 0,
+"crossing_gap": 3.5,
+"draws": 30,
+"gap": Vector2(1.5, 4),
+"river_draws": 30,
+"seed": 513,
+"size": Vector2(0.95, 1.2),
+"spacing": 4.0
+}
+}
+rules = {
+"archetype": "river_split",
+"contest": 3.0,
+"players": 4,
+"seed": 16,
+"targets": {
+"ally": Vector2(60, 72),
+"crown": Vector2(60, 95),
+"enemy_ally": Vector2(2, 3),
+"keep_enemy": Vector2(130, 185),
+"natural": Vector2(32, 56),
+"rich": Vector2(50, 95)
+},
+"tempo": "standard"
+}
+templates_used = Array[String](["base_district home at (-71.6, 32.4) yaw 114", "natural nat at (-35.3, 17.8) yaw -68", "rich_node rich at (-14.6, 52.2) yaw -109", "third_far third at (-77.8, 63.5) yaw 169", "crown_isle centre at (0.0, 0.0) yaw 0", "river_straight river at (0.0, 0.0) yaw 0", "crossing_set_lean x at (0.0, 0.0) yaw 0", "nest_in_ford ford at (0.0, 34.9) yaw 0", "lair_pair lairs at (-55.9, 80.0) yaw 0", "guild_pair guilds at (-79.0, 77.8) yaw 135", "biome_autumn ground at (-43.0, 19.4) yaw 0"])

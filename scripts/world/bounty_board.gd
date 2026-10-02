@@ -440,7 +440,7 @@ func _existing_for(kind: int, target: Node3D, pos: Vector3) -> Bounty:
 func _target_ok(kind: int, target: Node3D, pos: Vector3) -> bool:
 	match kind:
 		Bounty.EXPLORE:
-			if absf(pos.x) > FogOfWar.MAP_HALF or absf(pos.z) > FogOfWar.MAP_HALF:
+			if not MapInfo.contains(pos):   # MT1: the running map's size
 				return false
 			return not _on_water(pos)
 		Bounty.HUNT:

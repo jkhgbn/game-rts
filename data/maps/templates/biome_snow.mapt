@@ -1,0 +1,5 @@
+# Biome preset "snow" (map-production.md 2.3, Biomes): a ground zone of radius $r round the anchor. Look only: the
+# gameplay terrain patches follow terrain.md (about 28 % of the map).
+template biome_snow  title="Biome zone: snow"
+param r=24
+zone  snow  circle((0,0),$r)  biome=snow

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_hollow_gate/preview_level.gd" id="1_efqnn"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_hollow_gate/tpl_hollow_gate_layout.tres" id="2_oh02o"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=889038001]
+script = ExtResource("1_efqnn")
+layout = ExtResource("2_oh02o")

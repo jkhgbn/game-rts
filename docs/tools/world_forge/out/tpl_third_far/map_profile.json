@@ -1,0 +1,15 @@
+{
+	"half_size": 32.0,
+	"name": "tpl_third_far",
+	"scene": "res://docs/tools/world_forge/out/tpl_third_far/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template third_far"
+}

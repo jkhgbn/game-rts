@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_drbwe"]
+
+[resource]
+script = ExtResource("1_drbwe")
+id = &"tpl_city_block"
+title = "Template city_block"
+size = 72.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-27, 0, 27),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+blocks = Array[Dictionary]([{
+"center": Vector3(-7, 0, -7),
+"half": Vector3(4.5, 1.5, 4.5),
+"height": 3.0,
+"id": "t_house_nw",
+"kind": "city",
+"yaw": 0.0
+}, {
+"center": Vector3(7, 0, -7),
+"half": Vector3(4.5, 1.5, 4.5),
+"height": 3.0,
+"id": "t_house_ne",
+"kind": "city",
+"yaw": 0.0
+}, {
+"center": Vector3(-7, 0, 7),
+"half": Vector3(4.5, 1.5, 4.5),
+"height": 3.0,
+"id": "t_house_sw",
+"kind": "city",
+"yaw": 0.0
+}, {
+"center": Vector3(7, 0, 7),
+"half": Vector3(4.5, 1.5, 4.5),
+"height": 3.0,
+"id": "t_house_se",
+"kind": "city",
+"yaw": 0.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_city_block/tpl_city_block.map"
+source_hash = "b085848b7afc"
+size_x = 72.0
+size_z = 72.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["city_block t at (0.0, 0.0) yaw 0"])

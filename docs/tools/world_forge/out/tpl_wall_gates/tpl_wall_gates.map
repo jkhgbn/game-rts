@@ -1,0 +1,5 @@
+map tpl_wall_gates  size=144  symmetry=none  title="Template wall_gates"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-63.0,63.0)  team=0  solo
+use wall_gates t  at=(0,0)  yaw=0

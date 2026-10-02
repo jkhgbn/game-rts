@@ -1,0 +1,22 @@
+{
+	"half_size": 60.0,
+	"name": "thornwater_s26",
+	"scene": "res://docs/tools/world_forge/out/thornwater_s26/preview.tscn",
+	"seats": [
+		{
+			"name": "south-west",
+			"side": 0,
+			"team": 0
+		},
+		{
+			"name": "north-east",
+			"side": 1,
+			"team": 1
+		}
+	],
+	"spec": "docs/design/map-production.md",
+	"symmetries": [
+		"half_turn"
+	],
+	"title": "Thornwater (seed 26)"
+}

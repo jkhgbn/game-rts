@@ -1,0 +1,94 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_k1j5v"]
+
+[resource]
+script = ExtResource("1_k1j5v")
+id = &"tpl_base_district"
+title = "Template base_district"
+size = 72.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "t_keep",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(0, 0, 0),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "t_keep"
+}, {
+"id": "t_start",
+"image": "identity",
+"kind": "start",
+"pos": Vector3(0, 0, 9.9),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "t_start"
+}, {
+"id": "t_a",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(8.49, 0, 4.24),
+"props": {
+"amount": 2000.0,
+"role": "a"
+},
+"sub": "",
+"team": -1,
+"twin_of": "t_a"
+}, {
+"id": "t_b",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(-8.49, 0, 4.24),
+"props": {
+"amount": 2000.0,
+"role": "b"
+},
+"sub": "",
+"team": -1,
+"twin_of": "t_b"
+}, {
+"id": "t_house",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(2.83, 0, -7.07),
+"props": {
+"clear": 4.0
+},
+"sub": "house",
+"team": -1,
+"twin_of": "t_house"
+}, {
+"id": "t_market",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(12.73, 0, 9.9),
+"props": {
+"clear": 0.0
+},
+"sub": "market",
+"team": -1,
+"twin_of": "t_market"
+}])
+source = "res://docs/tools/world_forge/out/tpl_base_district/tpl_base_district.map"
+source_hash = "472324d8d402"
+size_x = 72.0
+size_z = 72.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["base_district t at (0.0, 0.0) yaw 0"])

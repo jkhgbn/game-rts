@@ -1,0 +1,15 @@
+{
+	"half_size": 48.0,
+	"name": "tpl_cache_pair",
+	"scene": "res://docs/tools/world_forge/out/tpl_cache_pair/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template cache_pair"
+}

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/quartermeet_s27/preview_level.gd" id="1_cphbc"]
+[ext_resource type="Resource" path="res://data/maps/gen/quartermeet_s27_layout.tres" id="2_ra12p"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=1861256859]
+script = ExtResource("1_cphbc")
+layout = ExtResource("2_ra12p")

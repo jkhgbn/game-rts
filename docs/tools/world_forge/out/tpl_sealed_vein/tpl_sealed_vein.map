@@ -1,0 +1,5 @@
+map tpl_sealed_vein  size=64  symmetry=none  title="Template sealed_vein"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-23.0,23.0)  team=0  solo
+use sealed_vein t  at=(0,0)  yaw=0

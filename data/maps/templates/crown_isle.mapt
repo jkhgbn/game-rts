@@ -1,0 +1,4 @@
+# The Crown Isle (map-production.md 2.3, Centre objectives): the Ember Crown with its Ruin Wardens on the centre (the
+# crown is always solo on the centre); the moat comes with the river template (river_diagonal / river_straight / mere).
+template crown_isle  title="Ember Crown on the centre (wardens, pillar ring from the forest line)"
+crown crown  at=(0,0)  solo

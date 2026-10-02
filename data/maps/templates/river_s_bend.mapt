@@ -1,0 +1,7 @@
+# An S-bend river through the centre (map-production.md 2.3, Rivers): point-mirrored (rot180) arms into a moat.
+# Global: use it once at=(0,0); yaw turns the whole course.
+template river_s_bend  title="S-bend river, point-mirrored, into a moat"
+param hw=2.5
+river arm_a  poly=[(-62,-30),(-44,-22),(-30,-26),(-18,-16),(-9,-8.5)]  half_width=$hw
+river arm_b  poly=[(9,8.5),(18,16),(30,26),(44,22),(62,30)]            half_width=$hw
+moat  center=(0,0)  radius=12.5  half_width=1.75

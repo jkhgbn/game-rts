@@ -558,9 +558,10 @@ func _setup() -> void:
 		_node_refs[suffix] = _level.node_of(int(team), suffix)
 	for n in _home_nodes():
 		_home_start += n.crystals_left
-	var steps := int(FogOfWar.MAP_HALF / SCOUT_GRID)
-	for i in range(-steps + 1, steps):
-		for j in range(-steps + 1, steps):
+	var steps_x := int(MapInfo.half_x() / SCOUT_GRID)   # MT1: the running map's size (120 m: 5)
+	var steps_z := int(MapInfo.half_z() / SCOUT_GRID)
+	for i in range(-steps_x + 1, steps_x):
+		for j in range(-steps_z + 1, steps_z):
 			_scout_grid.append(Vector3(i * SCOUT_GRID, 0.0, j * SCOUT_GRID))
 	_next_scout = ai.first_scout_time if ai.first_scout_time >= 0.0 else ai.scout_interval
 	items = AIItems.new(int(team), ai.item_build, ai.potion_stock)
@@ -3222,8 +3223,11 @@ func _distance_to_base(pos: Vector3) -> float:
 	return best
 
 
-## `p` given for the Shadow side, mirrored for a Fire bot.
+## `p` given for the Shadow side, mirrored for a Fire bot. On a LayoutLevel (map-production.md MT2) the level maps
+## these Crown Hollow points onto its own seats (`bot_point`; identity on Crown Hollow itself).
 func _side(p: Vector3) -> Vector3:
+	if _level != null and _level.has_method(&"bot_point"):
+		return _level.call(&"bot_point", int(team), p)
 	return p if team == Unit.Team.ENEMY else -p
 
 

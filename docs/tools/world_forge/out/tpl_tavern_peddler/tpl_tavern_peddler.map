@@ -1,0 +1,5 @@
+map tpl_tavern_peddler  size=64  symmetry=none  title="Template tavern_peddler"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-23.0,23.0)  team=0  solo
+use tavern_peddler t  at=(0,0)  yaw=0

@@ -1,0 +1,11 @@
+# Crown Hollow's 8 crossings (map-production.md 2.3, Crossings): 2 road bridges, 2 fords, 2 lane bridges to the isle,
+# 2 Crown Steps; widths 6 / 7 / 8 m. Global; used by river_diagonal.
+template crossing_set_cross  title="2 road bridges, 2 fords, 2 lane bridges, 2 steps (Crown Hollow)"
+crossing bridge_road_n  kind=bridge_road  at=(-12.000,-48.700)  width=6  length=9    dir=(1.000,-0.022)
+crossing bridge_road_s  kind=bridge_road  at=(12.000,48.700)    width=6  length=9    dir=(-1.000,0.022)
+crossing ford_n         kind=ford         at=(-8.500,-34.000)   width=7  length=7    dir=(0.124,0.992)
+crossing ford_s         kind=ford         at=(8.500,34.000)     width=7  length=7    dir=(0.124,0.992)
+crossing bridge_crown_w kind=bridge_lane  at=(-9.020,9.020)     width=8  length=6.5  dir=(-0.707,0.707)
+crossing bridge_crown_e kind=bridge_lane  at=(9.020,-9.020)     width=8  length=6.5  dir=(0.707,-0.707)
+crossing steps_nw       kind=steps        at=(-9.020,-9.020)    width=6  length=6    dir=(-0.707,-0.707)
+crossing steps_se       kind=steps        at=(9.020,9.020)      width=6  length=6    dir=(0.707,0.707)

@@ -189,3 +189,174 @@
 | 2026-09-28 18:33:28 | build | forge_evenmead | 100 (+0) | PASS (0F 0W) | cfc6965c687c |  | docs/tools/world_forge/out/forge_evenmead/report.md |
 | 2026-09-28 18:36:51 | build | forge_evenmead | 100 (+0) | PASS (0F 0W) | cfc6965c687c |  | docs/tools/world_forge/out/forge_evenmead/report.md |
 | 2026-09-28 18:44:32 | build | forge_evenmead | 100 (+0) | PASS (0F 0W) | cfc6965c687c |  | docs/tools/world_forge/out/forge_evenmead/report.md |
+| 2026-10-02 17:17:40 | map | tpl_base_district | 100 | PASS (0F 0W) | 472324d8d402/d1031dffaa98 |  | docs/tools/world_forge/out/tpl_base_district/report_map.md |
+| 2026-10-02 17:18:31 | map | tpl_base_district | 100 (+0) | PASS (0F 0W) | 472324d8d402/d1031dffaa98 |  | docs/tools/world_forge/out/tpl_base_district/report_map.md |
+| 2026-10-02 17:18:33 | map | tpl_base_district_cliff | 100 | PASS (0F 0W) | f2410e6faa62/f6e356505aea |  | docs/tools/world_forge/out/tpl_base_district_cliff/report_map.md |
+| 2026-10-02 17:18:36 | map | tpl_biome_ash | 100 | PASS (0F 0W) | 2b1d991f5b37/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_ash/report_map.md |
+| 2026-10-02 17:18:37 | map | tpl_biome_autumn | 100 | PASS (0F 0W) | 6d8e443cc098/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_autumn/report_map.md |
+| 2026-10-02 17:18:38 | map | tpl_biome_crypt | 100 | PASS (0F 0W) | 617127663058/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_crypt/report_map.md |
+| 2026-10-02 17:18:38 | map | tpl_biome_forest | 100 | PASS (0F 0W) | 58bfff147a6f/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_forest/report_map.md |
+| 2026-10-02 17:18:39 | map | tpl_biome_marsh | 100 | PASS (0F 0W) | fc4f84166e89/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_marsh/report_map.md |
+| 2026-10-02 17:18:40 | map | tpl_biome_meadow | 100 | PASS (0F 0W) | dbfb9814579c/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_meadow/report_map.md |
+| 2026-10-02 17:18:42 | map | tpl_biome_salt | 100 | PASS (0F 0W) | fa7deb4d0a6e/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_salt/report_map.md |
+| 2026-10-02 17:18:42 | map | tpl_biome_sand | 100 | PASS (0F 0W) | d3aa795a5a17/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_sand/report_map.md |
+| 2026-10-02 17:18:43 | map | tpl_biome_snow | 100 | PASS (0F 0W) | 108964761585/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_snow/report_map.md |
+| 2026-10-02 17:18:44 | map | tpl_cache_pair | 71 | FAIL (1F 0W) | def6b0088ab6/1482432d137b | Map Lab | docs/tools/world_forge/out/tpl_cache_pair/report_map.md |
+| 2026-10-02 17:18:47 | map | tpl_camp_trio | 100 | PASS (0F 0W) | a1d1dbee4213/90df6d1aa320 |  | docs/tools/world_forge/out/tpl_camp_trio/report_map.md |
+| 2026-10-02 17:18:50 | map | tpl_chasm_bridge | 100 | PASS (0F 0W) | 04216480e136/8cc4da09af86 |  | docs/tools/world_forge/out/tpl_chasm_bridge/report_map.md |
+| 2026-10-02 17:18:52 | map | tpl_city_block | 100 | PASS (0F 0W) | b085848b7afc/706c3a61b5ba |  | docs/tools/world_forge/out/tpl_city_block/report_map.md |
+| 2026-10-02 17:18:53 | map | tpl_crossing_set_cross | 71 | FAIL (1F 0W) | 88324adf1530/2c529f423ba6 | Map Lab | docs/tools/world_forge/out/tpl_crossing_set_cross/report_map.md |
+| 2026-10-02 17:18:57 | map | tpl_crossing_set_gorge | 71 | FAIL (1F 0W) | d761865f769c/2c529f423ba6 | Map Lab | docs/tools/world_forge/out/tpl_crossing_set_gorge/report_map.md |
+| 2026-10-02 17:18:58 | map | tpl_crossing_set_lean | 100 | PASS (0F 0W) | 6bbaf78b7ef7/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_crossing_set_lean/report_map.md |
+| 2026-10-02 17:19:01 | map | tpl_crown_isle | 100 | PASS (0F 0W) | 21999524e5cd/7ef086b9ac00 |  | docs/tools/world_forge/out/tpl_crown_isle/report_map.md |
+| 2026-10-02 17:19:03 | map | tpl_crown_open | 71 | FAIL (1F 0W) | 2c0afd93a5f6/aa3d3a91746b | Map Lab | docs/tools/world_forge/out/tpl_crown_open/report_map.md |
+| 2026-10-02 17:19:04 | map | tpl_gorge | 100 | PASS (0F 0W) | 73952f937bdf/2d47f114974f |  | docs/tools/world_forge/out/tpl_gorge/report_map.md |
+| 2026-10-02 17:19:17 | map | tpl_guild_pair | 100 | PASS (0F 0W) | 8e893cf43888/b05e6af1ac1a |  | docs/tools/world_forge/out/tpl_guild_pair/report_map.md |
+| 2026-10-02 17:19:18 | map | tpl_hollow_gate | 71 | FAIL (1F 0W) | 004b788ec0fc/be84169a28f0 | Map Lab | docs/tools/world_forge/out/tpl_hollow_gate/report_map.md |
+| 2026-10-02 17:19:19 | map | tpl_lair_pair | 100 | PASS (0F 0W) | db7dbb7a8198/a798cc2270cb |  | docs/tools/world_forge/out/tpl_lair_pair/report_map.md |
+| 2026-10-02 17:19:20 | map | tpl_mere | 71 | FAIL (1F 0W) | 239d1a7f9e83/2c529f423ba6 | Map Lab | docs/tools/world_forge/out/tpl_mere/report_map.md |
+| 2026-10-02 17:19:22 | map | tpl_natural | 100 | PASS (0F 0W) | 1bd47b3d3d11/9bace486e549 |  | docs/tools/world_forge/out/tpl_natural/report_map.md |
+| 2026-10-02 17:19:23 | map | tpl_nest_in_ford | 100 | PASS (0F 0W) | 168f0ac7b4df/5be98ad5eec9 |  | docs/tools/world_forge/out/tpl_nest_in_ford/report_map.md |
+| 2026-10-02 17:19:25 | map | tpl_pocket_shelf | 71 | FAIL (1F 0W) | 23db6de9067b/994e59645807 | Map Lab | docs/tools/world_forge/out/tpl_pocket_shelf/report_map.md |
+| 2026-10-02 17:19:27 | map | tpl_point_cluster_river | 100 | PASS (0F 0W) | f28ae40de763/cbc37b2202dd |  | docs/tools/world_forge/out/tpl_point_cluster_river/report_map.md |
+| 2026-10-02 17:19:29 | map | tpl_rich_pocket | 100 | PASS (0F 0W) | 430e6faf24d0/159b306bb846 |  | docs/tools/world_forge/out/tpl_rich_pocket/report_map.md |
+| 2026-10-02 17:19:32 | map | tpl_river_diagonal | 71 | FAIL (1F 0W) | 8d9ba9b0910d/2d47f114974f | Map Lab | docs/tools/world_forge/out/tpl_river_diagonal/report_map.md |
+| 2026-10-02 17:19:47 | map | tpl_river_node | 71 | FAIL (1F 0W) | 67df59a0b4dd/8ef14f53beb4 | Map Lab | docs/tools/world_forge/out/tpl_river_node/report_map.md |
+| 2026-10-02 17:19:49 | map | tpl_river_s_bend | 71 | FAIL (1F 0W) | 37af9ba2f064/2d47f114974f | Map Lab | docs/tools/world_forge/out/tpl_river_s_bend/report_map.md |
+| 2026-10-02 17:19:53 | map | tpl_river_straight | 66 | FAIL (2F 0W) | 84b29935ba53/aa20e7e049a9 | Map Lab | docs/tools/world_forge/out/tpl_river_straight/report_map.md |
+| 2026-10-02 17:20:00 | map | tpl_sealed_vein | 100 | PASS (0F 0W) | 99b12e9012b9/1d9c27a07603 |  | docs/tools/world_forge/out/tpl_sealed_vein/report_map.md |
+| 2026-10-02 17:20:02 | map | tpl_shrine | 71 | FAIL (1F 0W) | 866228eb6b16/bdcd71e021b5 | Map Lab | docs/tools/world_forge/out/tpl_shrine/report_map.md |
+| 2026-10-02 17:20:03 | map | tpl_spine_gate | 100 | PASS (0F 0W) | cf8d731a4af7/d7d778d416c9 |  | docs/tools/world_forge/out/tpl_spine_gate/report_map.md |
+| 2026-10-02 17:20:04 | map | tpl_tavern_peddler | 100 | PASS (0F 0W) | 68d67344fd43/3c31d87974ae |  | docs/tools/world_forge/out/tpl_tavern_peddler/report_map.md |
+| 2026-10-02 17:20:07 | map | tpl_third_far | 71 | FAIL (1F 0W) | afc0e405e4e3/fd79cf6f446f | Map Lab | docs/tools/world_forge/out/tpl_third_far/report_map.md |
+| 2026-10-02 17:20:08 | map | tpl_tollrock | 71 | FAIL (1F 0W) | f298de099c1d/d9e1d759d90e | Map Lab | docs/tools/world_forge/out/tpl_tollrock/report_map.md |
+| 2026-10-02 17:20:11 | map | tpl_tower_over_crossing | 71 | FAIL (1F 0W) | 6ca7078458f9/2183b2e13fb6 | Map Lab | docs/tools/world_forge/out/tpl_tower_over_crossing/report_map.md |
+| 2026-10-02 17:20:12 | map | tpl_trade_post | 100 | PASS (0F 0W) | fe0239aa73bc/71230dcc4ed3 |  | docs/tools/world_forge/out/tpl_trade_post/report_map.md |
+| 2026-10-02 17:20:13 | map | tpl_twin_wells | 100 | PASS (0F 0W) | ba3985a0cb4c/0806e6b7c6eb |  | docs/tools/world_forge/out/tpl_twin_wells/report_map.md |
+| 2026-10-02 17:20:15 | map | tpl_wall_gates | 100 | PASS (0F 0W) | d29f33437d5b/6c8134b4bb8f |  | docs/tools/world_forge/out/tpl_wall_gates/report_map.md |
+| 2026-10-02 17:20:18 | map | tpl_well | 100 | PASS (0F 0W) | 8f0d213c536c/c44cb4cb2924 |  | docs/tools/world_forge/out/tpl_well/report_map.md |
+| 2026-10-02 17:20:20 | map | gtest_s4 | 87 | FAIL (1F 3W) | 423a096b8880/312a29a5bb73 | Spots inside the map | docs/tools/world_forge/out/gtest_s4/report_map.md |
+| 2026-10-02 17:46:29 | map | thornwater_s2 | 88 | FAIL (1F 2W) | d94632e960db/7bab50363ae1 | Spots inside the map; Spot spacing | docs/tools/world_forge/out/thornwater_s2/report_map.md |
+| 2026-10-02 17:52:39 | map | thornwater_s26 | 56 | FAIL (3F 3W) | c6a655268cbf/9c2bd4bc7553 | Map Lab; Spots inside the map; Spot spacing | docs/tools/world_forge/out/thornwater_s26/report_map.md |
+| 2026-10-02 17:55:16 | map | thornwater_s26 | 90 (+34) | FAIL (1F 1W) | fb8b93971af0/92d002155894 | Spots inside the map; Spot spacing | docs/tools/world_forge/out/thornwater_s26/report_map.md |
+| 2026-10-02 17:56:04 | map | thornwater_s40 | 62 | FAIL (3F 1W) | ee8c6e3688ac/3a48ce0674f5 | Map Lab; Spots inside the map | docs/tools/world_forge/out/thornwater_s40/report_map.md |
+| 2026-10-02 17:57:40 | map | thornwater_s40 | 60 (-2) | FAIL (3F 2W) | 25b1cd034383/e5cbc5d7345c | Map Lab; Spots inside the map | docs/tools/world_forge/out/thornwater_s40/report_map.md |
+| 2026-10-02 17:55:42 | map | quartermeet_s18 | 55 | FAIL (4F 2W) | 1f660e4c38fc/ae183dcaec37 | Map Lab; Spots inside the map | docs/tools/world_forge/out/quartermeet_s18/report_map.md |
+| 2026-10-02 18:02:13 | map | thornwater_s40 | 62 (+2) | FAIL (3F 1W) | d1ec0d419fde/97fc7e45f9a9 | Map Lab; Spots inside the map | docs/tools/world_forge/out/thornwater_s40/report_map.md |
+| 2026-10-02 18:12:53 | map | thornwater_s40 | 64 (+2) | FAIL (3F 0W) | d1ec0d419fde/97fc7e45f9a9 | Map Lab; Spots inside the map | docs/tools/world_forge/out/thornwater_s40/report_map.md |
+| 2026-10-02 18:24:06 | map | tpl_base_district | 100 (+0) | PASS (0F 0W) | 472324d8d402/d1031dffaa98 |  | docs/tools/world_forge/out/tpl_base_district/report_map.md |
+| 2026-10-02 18:24:19 | map | tpl_base_district_cliff | 71 (-29) | FAIL (1F 0W) | f2410e6faa62/f6e356505aea | Map Lab | docs/tools/world_forge/out/tpl_base_district_cliff/report_map.md |
+| 2026-10-02 18:24:31 | map | tpl_biome_ash | 100 (+0) | PASS (0F 0W) | 2b1d991f5b37/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_ash/report_map.md |
+| 2026-10-02 18:24:39 | map | tpl_biome_autumn | 100 (+0) | PASS (0F 0W) | 6d8e443cc098/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_autumn/report_map.md |
+| 2026-10-02 18:24:45 | map | tpl_biome_crypt | 100 (+0) | PASS (0F 0W) | 617127663058/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_crypt/report_map.md |
+| 2026-10-02 18:24:54 | map | tpl_biome_forest | 100 (+0) | PASS (0F 0W) | 58bfff147a6f/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_forest/report_map.md |
+| 2026-10-02 18:25:03 | map | tpl_biome_marsh | 100 (+0) | PASS (0F 0W) | fc4f84166e89/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_marsh/report_map.md |
+| 2026-10-02 18:25:10 | map | tpl_biome_meadow | 100 (+0) | PASS (0F 0W) | dbfb9814579c/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_meadow/report_map.md |
+| 2026-10-02 18:25:18 | map | tpl_biome_salt | 100 (+0) | PASS (0F 0W) | fa7deb4d0a6e/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_salt/report_map.md |
+| 2026-10-02 18:25:24 | map | tpl_biome_sand | 100 (+0) | PASS (0F 0W) | d3aa795a5a17/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_sand/report_map.md |
+| 2026-10-02 18:25:30 | map | tpl_biome_snow | 100 (+0) | PASS (0F 0W) | 108964761585/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_snow/report_map.md |
+| 2026-10-02 18:25:37 | map | tpl_cache_pair | 100 (+29) | PASS (0F 0W) | def6b0088ab6/1482432d137b |  | docs/tools/world_forge/out/tpl_cache_pair/report_map.md |
+| 2026-10-02 18:25:57 | map | tpl_camp_trio | 100 (+0) | PASS (0F 0W) | a1d1dbee4213/90df6d1aa320 |  | docs/tools/world_forge/out/tpl_camp_trio/report_map.md |
+| 2026-10-02 18:26:25 | map | tpl_chasm_bridge | 100 (+0) | PASS (0F 0W) | 04216480e136/8cc4da09af86 |  | docs/tools/world_forge/out/tpl_chasm_bridge/report_map.md |
+| 2026-10-02 18:26:38 | map | tpl_city_block | 100 (+0) | PASS (0F 0W) | b085848b7afc/706c3a61b5ba |  | docs/tools/world_forge/out/tpl_city_block/report_map.md |
+| 2026-10-02 18:26:45 | map | tpl_crossing_set_cross | 71 (+0) | FAIL (1F 0W) | 88324adf1530/2c529f423ba6 | Map Lab | docs/tools/world_forge/out/tpl_crossing_set_cross/report_map.md |
+| 2026-10-02 18:27:03 | map | tpl_crossing_set_gorge | 71 (+0) | FAIL (1F 0W) | d761865f769c/2c529f423ba6 | Map Lab | docs/tools/world_forge/out/tpl_crossing_set_gorge/report_map.md |
+| 2026-10-02 18:27:16 | map | tpl_crossing_set_lean | 71 (-29) | FAIL (1F 0W) | 6bbaf78b7ef7/2c529f423ba6 | Map Lab | docs/tools/world_forge/out/tpl_crossing_set_lean/report_map.md |
+| 2026-10-02 18:27:27 | map | tpl_crown_isle | 100 (+0) | PASS (0F 0W) | 21999524e5cd/7ef086b9ac00 |  | docs/tools/world_forge/out/tpl_crown_isle/report_map.md |
+| 2026-10-02 18:27:32 | map | tpl_crown_open | 71 (+0) | FAIL (1F 0W) | 2c0afd93a5f6/aa3d3a91746b | Map Lab | docs/tools/world_forge/out/tpl_crown_open/report_map.md |
+| 2026-10-02 18:27:39 | map | tpl_gorge | 71 (-29) | FAIL (1F 0W) | 73952f937bdf/2d47f114974f | Map Lab | docs/tools/world_forge/out/tpl_gorge/report_map.md |
+| 2026-10-02 18:28:46 | map | tpl_guild_pair | 100 (+0) | PASS (0F 0W) | 8e893cf43888/b05e6af1ac1a |  | docs/tools/world_forge/out/tpl_guild_pair/report_map.md |
+| 2026-10-02 18:28:47 | map | tpl_hollow_gate | 100 (+29) | PASS (0F 0W) | 004b788ec0fc/be84169a28f0 |  | docs/tools/world_forge/out/tpl_hollow_gate/report_map.md |
+| 2026-10-02 18:28:49 | map | tpl_lair_pair | 100 (+0) | PASS (0F 0W) | db7dbb7a8198/a798cc2270cb |  | docs/tools/world_forge/out/tpl_lair_pair/report_map.md |
+| 2026-10-02 18:28:50 | map | tpl_mere | 71 (+0) | FAIL (1F 0W) | 239d1a7f9e83/2c529f423ba6 | Map Lab | docs/tools/world_forge/out/tpl_mere/report_map.md |
+| 2026-10-02 18:28:52 | map | tpl_natural | 100 (+0) | PASS (0F 0W) | 1bd47b3d3d11/9bace486e549 |  | docs/tools/world_forge/out/tpl_natural/report_map.md |
+| 2026-10-02 18:28:53 | map | tpl_nest_in_ford | 100 (+0) | PASS (0F 0W) | 168f0ac7b4df/5be98ad5eec9 |  | docs/tools/world_forge/out/tpl_nest_in_ford/report_map.md |
+| 2026-10-02 18:28:55 | map | tpl_pocket_shelf | 100 (+29) | PASS (0F 0W) | 23db6de9067b/994e59645807 |  | docs/tools/world_forge/out/tpl_pocket_shelf/report_map.md |
+| 2026-10-02 18:28:56 | map | tpl_point_cluster_river | 100 (+0) | PASS (0F 0W) | f28ae40de763/cbc37b2202dd |  | docs/tools/world_forge/out/tpl_point_cluster_river/report_map.md |
+| 2026-10-02 18:29:03 | map | tpl_rich_node | 71 | FAIL (1F 0W) | 11f2b2a5fc45/393b5bd7b2f5 | Map Lab | docs/tools/world_forge/out/tpl_rich_node/report_map.md |
+| 2026-10-02 18:29:13 | map | tpl_rich_pocket | 100 (+0) | PASS (0F 0W) | 430e6faf24d0/159b306bb846 |  | docs/tools/world_forge/out/tpl_rich_pocket/report_map.md |
+| 2026-10-02 18:29:29 | map | tpl_river_diagonal | 71 (+0) | FAIL (1F 0W) | 8d9ba9b0910d/2d47f114974f | Map Lab | docs/tools/world_forge/out/tpl_river_diagonal/report_map.md |
+| 2026-10-02 18:30:57 | map | tpl_river_node | 100 (+29) | PASS (0F 0W) | 67df59a0b4dd/8ef14f53beb4 |  | docs/tools/world_forge/out/tpl_river_node/report_map.md |
+| 2026-10-02 18:30:58 | map | tpl_river_s_bend | 100 (+29) | PASS (0F 0W) | 37af9ba2f064/2d47f114974f |  | docs/tools/world_forge/out/tpl_river_s_bend/report_map.md |
+| 2026-10-02 18:31:04 | map | tpl_river_straight | 100 (+34) | PASS (0F 0W) | 75f806883180/485364a3a851 |  | docs/tools/world_forge/out/tpl_river_straight/report_map.md |
+| 2026-10-02 18:31:10 | map | tpl_sealed_vein | 100 (+0) | PASS (0F 0W) | 99b12e9012b9/1d9c27a07603 |  | docs/tools/world_forge/out/tpl_sealed_vein/report_map.md |
+| 2026-10-02 18:31:11 | map | tpl_shrine | 100 (+29) | PASS (0F 0W) | 866228eb6b16/bdcd71e021b5 |  | docs/tools/world_forge/out/tpl_shrine/report_map.md |
+| 2026-10-02 18:31:12 | map | tpl_spine_gate | 100 (+0) | PASS (0F 0W) | cf8d731a4af7/d7d778d416c9 |  | docs/tools/world_forge/out/tpl_spine_gate/report_map.md |
+| 2026-10-02 18:31:14 | map | tpl_tavern_peddler | 100 (+0) | PASS (0F 0W) | 68d67344fd43/3c31d87974ae |  | docs/tools/world_forge/out/tpl_tavern_peddler/report_map.md |
+| 2026-10-02 18:31:16 | map | tpl_third_far | 100 (+29) | PASS (0F 0W) | afc0e405e4e3/fd79cf6f446f |  | docs/tools/world_forge/out/tpl_third_far/report_map.md |
+| 2026-10-02 18:31:17 | map | tpl_tollrock | 100 (+29) | PASS (0F 0W) | f298de099c1d/d9e1d759d90e |  | docs/tools/world_forge/out/tpl_tollrock/report_map.md |
+| 2026-10-02 18:31:19 | map | tpl_tower_over_crossing | 100 (+29) | PASS (0F 0W) | 6ca7078458f9/2183b2e13fb6 |  | docs/tools/world_forge/out/tpl_tower_over_crossing/report_map.md |
+| 2026-10-02 18:31:20 | map | tpl_trade_post | 100 (+0) | PASS (0F 0W) | fe0239aa73bc/71230dcc4ed3 |  | docs/tools/world_forge/out/tpl_trade_post/report_map.md |
+| 2026-10-02 18:31:21 | map | tpl_twin_wells | 100 (+0) | PASS (0F 0W) | ba3985a0cb4c/0806e6b7c6eb |  | docs/tools/world_forge/out/tpl_twin_wells/report_map.md |
+| 2026-10-02 18:31:23 | map | tpl_wall_gates | 100 (+0) | PASS (0F 0W) | d29f33437d5b/6c8134b4bb8f |  | docs/tools/world_forge/out/tpl_wall_gates/report_map.md |
+| 2026-10-02 18:31:26 | map | tpl_well | 100 (+0) | PASS (0F 0W) | 8f0d213c536c/c44cb4cb2924 |  | docs/tools/world_forge/out/tpl_well/report_map.md |
+| 2026-10-02 18:29:12 | map | thornwater | 90 | FAIL (1F 1W) | bba880124783/92d002155894 | Spots inside the map; Spot spacing | docs/tools/world_forge/out/thornwater/report_map.md |
+| 2026-10-02 18:35:59 | map | tpl_rich_node | 100 (+29) | PASS (0F 0W) | 11f2b2a5fc45/393b5bd7b2f5 |  | docs/tools/world_forge/out/tpl_rich_node/report_map.md |
+| 2026-10-02 18:24:41 | map | quartermeet_s11 | 64 | FAIL (3F 0W) | 52e0f621b0ec/5835ae1c65c7 | Map Lab; Spots inside the map | docs/tools/world_forge/out/quartermeet_s11/report_map.md |
+| 2026-10-02 18:40:40 | map | tpl_crossing_set_cross | 100 (+29) | PASS (0F 0W) | 88324adf1530/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_crossing_set_cross/report_map.md |
+| 2026-10-02 18:43:28 | map | tpl_base_district | 100 (+0) | PASS (0F 0W) | 472324d8d402/d1031dffaa98 |  | docs/tools/world_forge/out/tpl_base_district/report_map.md |
+| 2026-10-02 18:43:37 | map | tpl_base_district_cliff | 100 (+29) | PASS (0F 0W) | f2410e6faa62/f6e356505aea |  | docs/tools/world_forge/out/tpl_base_district_cliff/report_map.md |
+| 2026-10-02 18:43:59 | map | tpl_biome_ash | 100 (+0) | PASS (0F 0W) | 2b1d991f5b37/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_ash/report_map.md |
+| 2026-10-02 18:44:05 | map | tpl_biome_autumn | 100 (+0) | PASS (0F 0W) | 6d8e443cc098/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_autumn/report_map.md |
+| 2026-10-02 18:44:10 | map | tpl_biome_crypt | 100 (+0) | PASS (0F 0W) | 617127663058/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_crypt/report_map.md |
+| 2026-10-02 18:44:16 | map | tpl_biome_forest | 100 (+0) | PASS (0F 0W) | 58bfff147a6f/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_forest/report_map.md |
+| 2026-10-02 18:44:21 | map | tpl_biome_marsh | 100 (+0) | PASS (0F 0W) | fc4f84166e89/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_marsh/report_map.md |
+| 2026-10-02 18:44:26 | map | tpl_biome_meadow | 100 (+0) | PASS (0F 0W) | dbfb9814579c/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_meadow/report_map.md |
+| 2026-10-02 18:44:32 | map | tpl_biome_salt | 100 (+0) | PASS (0F 0W) | fa7deb4d0a6e/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_salt/report_map.md |
+| 2026-10-02 18:44:40 | map | tpl_biome_sand | 100 (+0) | PASS (0F 0W) | d3aa795a5a17/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_sand/report_map.md |
+| 2026-10-02 18:44:46 | map | tpl_biome_snow | 100 (+0) | PASS (0F 0W) | 108964761585/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_snow/report_map.md |
+| 2026-10-02 18:44:50 | map | tpl_cache_pair | 100 (+0) | PASS (0F 0W) | def6b0088ab6/1482432d137b |  | docs/tools/world_forge/out/tpl_cache_pair/report_map.md |
+| 2026-10-02 18:47:33 | map | tpl_base_district | 100 (+0) | PASS (0F 0W) | 472324d8d402/d1031dffaa98 |  | docs/tools/world_forge/out/tpl_base_district/report_map.md |
+| 2026-10-02 18:47:44 | map | tpl_base_district_cliff | 100 (+0) | PASS (0F 0W) | f2410e6faa62/f6e356505aea |  | docs/tools/world_forge/out/tpl_base_district_cliff/report_map.md |
+| 2026-10-02 18:48:08 | map | tpl_biome_ash | 100 (+0) | PASS (0F 0W) | 2b1d991f5b37/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_ash/report_map.md |
+| 2026-10-02 18:48:14 | map | tpl_biome_autumn | 100 (+0) | PASS (0F 0W) | 6d8e443cc098/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_autumn/report_map.md |
+| 2026-10-02 18:48:20 | map | tpl_biome_crypt | 100 (+0) | PASS (0F 0W) | 617127663058/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_crypt/report_map.md |
+| 2026-10-02 18:48:28 | map | tpl_biome_forest | 100 (+0) | PASS (0F 0W) | 58bfff147a6f/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_forest/report_map.md |
+| 2026-10-02 18:48:35 | map | tpl_biome_marsh | 100 (+0) | PASS (0F 0W) | fc4f84166e89/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_marsh/report_map.md |
+| 2026-10-02 18:48:40 | map | tpl_biome_meadow | 100 (+0) | PASS (0F 0W) | dbfb9814579c/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_meadow/report_map.md |
+| 2026-10-02 18:48:50 | map | tpl_biome_salt | 100 (+0) | PASS (0F 0W) | fa7deb4d0a6e/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_salt/report_map.md |
+| 2026-10-02 18:48:57 | map | tpl_biome_sand | 100 (+0) | PASS (0F 0W) | d3aa795a5a17/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_sand/report_map.md |
+| 2026-10-02 18:49:02 | map | tpl_biome_snow | 100 (+0) | PASS (0F 0W) | 108964761585/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_biome_snow/report_map.md |
+| 2026-10-02 18:49:08 | map | tpl_cache_pair | 100 (+0) | PASS (0F 0W) | def6b0088ab6/1482432d137b |  | docs/tools/world_forge/out/tpl_cache_pair/report_map.md |
+| 2026-10-02 18:49:27 | map | tpl_camp_trio | 100 (+0) | PASS (0F 0W) | a1d1dbee4213/90df6d1aa320 |  | docs/tools/world_forge/out/tpl_camp_trio/report_map.md |
+| 2026-10-02 18:49:49 | map | tpl_chasm_bridge | 100 (+0) | PASS (0F 0W) | 04216480e136/8cc4da09af86 |  | docs/tools/world_forge/out/tpl_chasm_bridge/report_map.md |
+| 2026-10-02 18:50:00 | map | tpl_city_block | 100 (+0) | PASS (0F 0W) | b085848b7afc/706c3a61b5ba |  | docs/tools/world_forge/out/tpl_city_block/report_map.md |
+| 2026-10-02 18:50:04 | map | tpl_crossing_set_cross | 100 (+0) | PASS (0F 0W) | 88324adf1530/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_crossing_set_cross/report_map.md |
+| 2026-10-02 18:50:20 | map | tpl_crossing_set_gorge | 100 (+29) | PASS (0F 0W) | d761865f769c/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_crossing_set_gorge/report_map.md |
+| 2026-10-02 18:50:34 | map | tpl_crossing_set_lean | 100 (+29) | PASS (0F 0W) | 6bbaf78b7ef7/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_crossing_set_lean/report_map.md |
+| 2026-10-02 18:50:52 | map | tpl_crown_isle | 100 (+0) | PASS (0F 0W) | 21999524e5cd/7ef086b9ac00 |  | docs/tools/world_forge/out/tpl_crown_isle/report_map.md |
+| 2026-10-02 18:50:59 | map | tpl_crown_open | 100 (+29) | PASS (0F 0W) | 2c0afd93a5f6/aa3d3a91746b |  | docs/tools/world_forge/out/tpl_crown_open/report_map.md |
+| 2026-10-02 18:51:12 | map | tpl_gorge | 100 (+29) | PASS (0F 0W) | 73952f937bdf/2d47f114974f |  | docs/tools/world_forge/out/tpl_gorge/report_map.md |
+| 2026-10-02 18:52:44 | map | tpl_guild_pair | 100 (+0) | PASS (0F 0W) | 8e893cf43888/b05e6af1ac1a |  | docs/tools/world_forge/out/tpl_guild_pair/report_map.md |
+| 2026-10-02 18:52:50 | map | tpl_hollow_gate | 100 (+0) | PASS (0F 0W) | 004b788ec0fc/be84169a28f0 |  | docs/tools/world_forge/out/tpl_hollow_gate/report_map.md |
+| 2026-10-02 18:52:59 | map | tpl_lair_pair | 100 (+0) | PASS (0F 0W) | db7dbb7a8198/a798cc2270cb |  | docs/tools/world_forge/out/tpl_lair_pair/report_map.md |
+| 2026-10-02 18:53:09 | map | tpl_mere | 100 (+29) | PASS (0F 0W) | 239d1a7f9e83/2c529f423ba6 |  | docs/tools/world_forge/out/tpl_mere/report_map.md |
+| 2026-10-02 18:53:21 | map | tpl_natural | 100 (+0) | PASS (0F 0W) | 1bd47b3d3d11/9bace486e549 |  | docs/tools/world_forge/out/tpl_natural/report_map.md |
+| 2026-10-02 18:53:28 | map | tpl_nest_in_ford | 100 (+0) | PASS (0F 0W) | 168f0ac7b4df/5be98ad5eec9 |  | docs/tools/world_forge/out/tpl_nest_in_ford/report_map.md |
+| 2026-10-02 18:53:37 | map | tpl_pocket_shelf | 100 (+0) | PASS (0F 0W) | 23db6de9067b/994e59645807 |  | docs/tools/world_forge/out/tpl_pocket_shelf/report_map.md |
+| 2026-10-02 18:53:47 | map | tpl_point_cluster_river | 100 (+0) | PASS (0F 0W) | f28ae40de763/cbc37b2202dd |  | docs/tools/world_forge/out/tpl_point_cluster_river/report_map.md |
+| 2026-10-02 18:53:55 | map | tpl_rich_node | 100 (+0) | PASS (0F 0W) | 11f2b2a5fc45/393b5bd7b2f5 |  | docs/tools/world_forge/out/tpl_rich_node/report_map.md |
+| 2026-10-02 18:54:00 | map | tpl_rich_pocket | 100 (+0) | PASS (0F 0W) | 430e6faf24d0/159b306bb846 |  | docs/tools/world_forge/out/tpl_rich_pocket/report_map.md |
+| 2026-10-02 18:54:18 | map | tpl_river_diagonal | 100 (+29) | PASS (0F 0W) | 8d9ba9b0910d/2d47f114974f |  | docs/tools/world_forge/out/tpl_river_diagonal/report_map.md |
+| 2026-10-02 18:55:31 | map | tpl_river_node | 100 (+0) | PASS (0F 0W) | 67df59a0b4dd/8ef14f53beb4 |  | docs/tools/world_forge/out/tpl_river_node/report_map.md |
+| 2026-10-02 18:55:32 | map | tpl_river_s_bend | 100 (+0) | PASS (0F 0W) | 37af9ba2f064/2d47f114974f |  | docs/tools/world_forge/out/tpl_river_s_bend/report_map.md |
+| 2026-10-02 18:55:37 | map | tpl_river_straight | 100 (+0) | PASS (0F 0W) | 75f806883180/485364a3a851 |  | docs/tools/world_forge/out/tpl_river_straight/report_map.md |
+| 2026-10-02 18:55:42 | map | tpl_sealed_vein | 100 (+0) | PASS (0F 0W) | 99b12e9012b9/1d9c27a07603 |  | docs/tools/world_forge/out/tpl_sealed_vein/report_map.md |
+| 2026-10-02 18:55:43 | map | tpl_shrine | 100 (+0) | PASS (0F 0W) | 866228eb6b16/bdcd71e021b5 |  | docs/tools/world_forge/out/tpl_shrine/report_map.md |
+| 2026-10-02 18:55:44 | map | tpl_spine_gate | 100 (+0) | PASS (0F 0W) | cf8d731a4af7/d7d778d416c9 |  | docs/tools/world_forge/out/tpl_spine_gate/report_map.md |
+| 2026-10-02 18:55:45 | map | tpl_tavern_peddler | 100 (+0) | PASS (0F 0W) | 68d67344fd43/3c31d87974ae |  | docs/tools/world_forge/out/tpl_tavern_peddler/report_map.md |
+| 2026-10-02 18:55:47 | map | tpl_third_far | 100 (+0) | PASS (0F 0W) | afc0e405e4e3/fd79cf6f446f |  | docs/tools/world_forge/out/tpl_third_far/report_map.md |
+| 2026-10-02 18:55:48 | map | tpl_tollrock | 100 (+0) | PASS (0F 0W) | f298de099c1d/d9e1d759d90e |  | docs/tools/world_forge/out/tpl_tollrock/report_map.md |
+| 2026-10-02 18:55:49 | map | tpl_tower_over_crossing | 100 (+0) | PASS (0F 0W) | 6ca7078458f9/2183b2e13fb6 |  | docs/tools/world_forge/out/tpl_tower_over_crossing/report_map.md |
+| 2026-10-02 18:55:50 | map | tpl_trade_post | 100 (+0) | PASS (0F 0W) | fe0239aa73bc/71230dcc4ed3 |  | docs/tools/world_forge/out/tpl_trade_post/report_map.md |
+| 2026-10-02 18:55:51 | map | tpl_twin_wells | 100 (+0) | PASS (0F 0W) | ba3985a0cb4c/0806e6b7c6eb |  | docs/tools/world_forge/out/tpl_twin_wells/report_map.md |
+| 2026-10-02 18:55:52 | map | tpl_wall_gates | 100 (+0) | PASS (0F 0W) | d29f33437d5b/6c8134b4bb8f |  | docs/tools/world_forge/out/tpl_wall_gates/report_map.md |
+| 2026-10-02 18:55:55 | map | tpl_well | 100 (+0) | PASS (0F 0W) | 8f0d213c536c/c44cb4cb2924 |  | docs/tools/world_forge/out/tpl_well/report_map.md |
+| 2026-10-02 18:55:40 | map | crown_hollow_level | 98 | WARN (0F 1W) | 3fce17dee01d/9efcf7c5e5d2 |  | docs/tools/world_forge/out/crown_hollow_level/report_map.md |
+| 2026-10-02 18:54:03 | map | quartermeet_s16 | 98 | WARN (0F 1W) | 3c165dc4e320/a602eaf5d398 |  | docs/tools/world_forge/out/quartermeet_s16/report_map.md |
+| 2026-10-02 18:59:28 | map | thornwater | 90 (+0) | FAIL (1F 1W) | bba880124783/92d002155894 | Spots inside the map; Spot spacing | docs/tools/world_forge/out/thornwater/report_map.md |
+| 2026-10-02 18:57:45 | map | quartermeet_s25 | 68 | FAIL (2F 1W) | f9fa74210663/2464980b905e | Map Lab | docs/tools/world_forge/out/quartermeet_s25/report_map.md |
+| 2026-10-02 19:00:15 | map | thornwater | 97 (+6) | WARN (0F 1W) | 71462d2eabe5/7bc72982d5a0 | Spot spacing | docs/tools/world_forge/out/thornwater/report_map.md |
+| 2026-10-02 19:00:23 | map | quartermeet_s25 | 70 (+2) | FAIL (2F 0W) | d8f9a7fa4bd4/4b00610fcf46 | Map Lab | docs/tools/world_forge/out/quartermeet_s25/report_map.md |
+| 2026-10-02 19:08:02 | map | quartermeet | 98 | WARN (0F 1W) | 0981ecdfb2d1/a602eaf5d398 |  | docs/tools/world_forge/out/quartermeet/report_map.md |
+| 2026-10-02 19:11:36 | map | thornwater | 95 (-2) | WARN (0F 2W) | 71462d2eabe5/7bc72982d5a0 | Spot spacing | docs/tools/world_forge/out/thornwater/report_map.md |

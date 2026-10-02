@@ -1,0 +1,5 @@
+# Tavern + Ruin Peddler (map-production.md 2.3, Services; champions.md 2, items.md): the tavern at the anchor, the
+# peddler 9 m away on the local x axis.
+template tavern_peddler  title="Neutral tavern with a Ruin Peddler beside it"
+tavern  tavern   at=(0,0)
+peddler peddler  at=(10,0)

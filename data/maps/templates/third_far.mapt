@@ -1,0 +1,6 @@
+# A far third base (map-production.md 2.3, Resources): node + its hall slot. Local frame: (0,0) = the node, +z =
+# toward the owner's keep.
+template third_far  title="Far third node with a hall slot"
+param amount=1500
+node  node  at=(0,0)   role=third  amount=$amount
+slot  hall  sub=third_hall  at=(0,7.6)  clear=5

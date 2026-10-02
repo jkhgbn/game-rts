@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_wnphf"]
+
+[resource]
+script = ExtResource("1_wnphf")
+id = &"tpl_sealed_vein"
+title = "Template sealed_vein"
+size = 64.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-23, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}, {
+"id": "t_vein",
+"image": "identity",
+"kind": "node",
+"pos": Vector3(0, 0, 0),
+"props": {
+"amount": 1500.0,
+"role": "third"
+},
+"sub": "",
+"team": -1,
+"twin_of": "t_vein"
+}, {
+"id": "t_stag",
+"image": "identity",
+"kind": "camp",
+"pos": Vector3(0, 0, 6),
+"props": {},
+"sub": "hollow_stag",
+"team": -1,
+"twin_of": "t_stag"
+}])
+source = "res://docs/tools/world_forge/out/tpl_sealed_vein/tpl_sealed_vein.map"
+source_hash = "99b12e9012b9"
+size_x = 64.0
+size_z = 64.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["sealed_vein t at (0.0, 0.0) yaw 0"])

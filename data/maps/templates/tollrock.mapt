@@ -1,0 +1,6 @@
+# Tollrock (map-production.md 2.3, Centre objectives; Two Harbours): an arena ring of stones round the crown with a
+# lighthouse watchtower beside it.
+template tollrock  title="Arena ring round the crown, lighthouse watchtower"
+crown crown       at=(0,0)  solo
+point lighthouse  sub=watchtower  at=(0,-16)
+block ring_stone  at=(9,9)  size=(3,3)  yaw=45  kind=ruin

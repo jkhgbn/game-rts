@@ -1,0 +1,5 @@
+map tpl_chasm_bridge  size=112  symmetry=none  title="Template chasm_bridge"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-47.0,47.0)  team=0  solo
+use chasm_bridge t  at=(0,0)  yaw=0

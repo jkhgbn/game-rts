@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_rich_node/preview_level.gd" id="1_y177e"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_rich_node/tpl_rich_node_layout.tres" id="2_17hvq"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=1847401290]
+script = ExtResource("1_y177e")
+layout = ExtResource("2_17hvq")

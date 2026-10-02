@@ -1,0 +1,57 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/layout_level.gd" id="1_layout"]
+[ext_resource type="Script" path="res://scripts/ai/commander.gd" id="2_bot"]
+[ext_resource type="Script" path="res://art/vfx/spell_vfx.gd" id="3_vfx"]
+[ext_resource type="Script" path="res://art/vfx/combat_vfx.gd" id="4_combat"]
+[ext_resource type="Script" path="res://art/vfx/ice_vfx.gd" id="5_ice"]
+[ext_resource type="Script" path="res://scripts/audio/game_audio.gd" id="6_audio"]
+[ext_resource type="Script" path="res://art/vfx/nature_vfx.gd" id="7_nature"]
+[ext_resource type="Script" path="res://art/vfx/champion_vfx.gd" id="8_champion"]
+[ext_resource type="Script" path="res://art/vfx/trade_vfx.gd" id="9_trade"]
+[ext_resource type="PackedScene" path="res://art/environment/horizon/horizon.tscn" id="10_horizon"]
+[ext_resource type="Script" path="res://art/vfx/mapfill_vfx.gd" id="11_mapfill"]
+[ext_resource type="Script" path="res://art/vfx/titan_vfx.gd" id="12_titan"]
+[ext_resource type="Script" path="res://art/vfx/unit_vfx.gd" id="13_unit"]
+[ext_resource type="Script" path="res://art/vfx/cavalry_vfx.gd" id="14_cav"]
+
+[node name="LayoutLevel" type="Node3D"]
+script = ExtResource("1_layout")
+
+[node name="ShadowBot" type="Node" parent="."]
+script = ExtResource("2_bot")
+
+[node name="SpellVfx" type="Node3D" parent="."]
+script = ExtResource("3_vfx")
+
+[node name="CombatVfx" type="Node3D" parent="."]
+script = ExtResource("4_combat")
+
+[node name="IceVfx" type="Node3D" parent="."]
+script = ExtResource("5_ice")
+
+[node name="NatureVfx" type="Node3D" parent="."]
+script = ExtResource("7_nature")
+
+[node name="ChampionVfx" type="Node3D" parent="."]
+script = ExtResource("8_champion")
+
+[node name="TradeVfx" type="Node3D" parent="."]
+script = ExtResource("9_trade")
+
+[node name="MapFillVfx" type="Node3D" parent="."]
+script = ExtResource("11_mapfill")
+
+[node name="TitanVfx" type="Node3D" parent="."]
+script = ExtResource("12_titan")
+
+[node name="UnitVfx" type="Node3D" parent="."]
+script = ExtResource("13_unit")
+
+[node name="CavalryVfx" type="Node3D" parent="."]
+script = ExtResource("14_cav")
+
+[node name="GameAudio" type="Node3D" parent="."]
+script = ExtResource("6_audio")
+
+[node name="Horizon" parent="." instance=ExtResource("10_horizon")]

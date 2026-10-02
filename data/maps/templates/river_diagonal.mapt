@@ -1,0 +1,9 @@
+# Crown Hollow's river (map-production.md 2.3, Rivers; map-fill.md 2): two arms into the Crown Isle moat, the 8
+# crossings of crossing_set_cross. Global statements (not mirrored): use it once at=(0,0). The engine limits hold:
+# one half width, 2 banks, 4 ford / steps circles, 10 segments.
+template river_diagonal  title="Crown Hollow's diagonal river, Crown Isle moat and 8 crossings"
+param hw=2.5
+river arm  poly=[(-15.00,-62.00),(-12.00,-48.70),(-9.00,-38.00),(-8.00,-30.00),(-5.00,-21.00),(-2.50,-12.50)]  half_width=$hw
+river arm2 poly=[(2.50,12.50),(5.00,21.00),(8.00,30.00),(9.00,38.00),(12.00,48.70),(15.00,62.00)]  half_width=$hw
+moat  center=(0,0)  radius=12.75  half_width=1.75
+use   crossing_set_cross  x  at=(0,0)  yaw=0

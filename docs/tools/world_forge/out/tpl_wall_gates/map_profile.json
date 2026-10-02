@@ -1,0 +1,15 @@
+{
+	"half_size": 72.0,
+	"name": "tpl_wall_gates",
+	"scene": "res://docs/tools/world_forge/out/tpl_wall_gates/preview.tscn",
+	"seats": [
+		{
+			"name": "ref",
+			"side": 0,
+			"team": 0
+		}
+	],
+	"spec": "-",
+	"symmetries": [],
+	"title": "Template wall_gates"
+}

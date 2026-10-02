@@ -12,9 +12,16 @@ tools\world_forge\run_world_forge.ps1 <verb> <id> [key=value...]
 | `check <set>` | parse + build in memory + all checks, writes the report (no scene saved) | ~5 s |
 | `build <set>` | parse, build, **save** the set scene + marks.json + lighting + baked meshes, reload it, check, plan.png, report, history row | ~5 s |
 | `sheet <set>` | **windowed**: renders every mark at a / b / c (start / middle / end) at 1600x900 with the 2.39 bars + a top-down view -> `sheet.png`, `stills/*.png` (run `build` first) | ~20 s |
-| `map <map>` | `data/maps/<map>.map` -> `data/maps/<map>_layout.tres` (MapLayout) + navmesh-baked preview + **Map Lab** run + layout.png | 45-150 s |
+| `map <map>` | `data/maps/<map>.map` -> `data/maps/<map>_layout.tres` (MapLayout, saved next to the `.map`) + navmesh-baked preview (forest included) + **Map Lab v1 + v2** run + layout.png. `live=1`: the Map Lab judges the playable LayoutLevel itself (sim mode) | 45-150 s |
+| `fix <map>` | `map`, then the **auto-fix loop** (map-production.md 2.5 / 9): the Map Lab v2 fixable findings become `move <id> at=...  # autofix` lines, up to `rounds=3`; stops at 0 FAIL and score >= 75 | 1-6 min |
+| `gen <id>` | **generator** (2.4): `archetype=river_split\|open\|spine players=2\|4 tempo=rush\|standard\|macro biome= seed=1 count=40 full=3`: writes `count` candidates, scores them on the grid pre-filter, runs `fix` on the best `full`, writes `data/maps/gen/<id>_s<seed>.map`, `out/gen_<id>/gen.md` and `contact_sheet.png` (top 3) | 5-20 min |
+| `template <name\|all>` | the mini Lab check of one template (or all): wraps it in a small map (+ a reference keep), bakes, Map Lab N2 / R4 / R5 | ~15 s each |
+| `mapsheet <map>` | **windowed** (MT7): the playable level rendered top-down + plan + heat map + Map Lab / travel-time text -> `out/<map>/mapsheet.png` (2048 x 1024) and the lobby preview `data/maps/previews/<map>.png` (512 x 512; also the minimap background). Run `map` first | ~40 s |
 | `export-map crown_hollow` | reads the live spots of an existing map scene into `data/maps/crown_hollow.map` (also `scene=res://x.tscn as=<id>`) | ~40 s |
 | `demo` | the acceptance demo: build forge_watch_keep, map fourfold_hollow, export-map + map crown_hollow | ~5 min |
+
+**Play any map** (MT2): `scenes/layout_level.tscn` (`LayoutLevel`, scripts/world/layout_level.gd) with `layout_path=res://data/maps/<map>_layout.tres`
+(or a `.map`); bot vs bot: `tools\godot_run.ps1 --headless --path . -s tools/bot_lab/lab_match.gd --fixed-fps 60 --quit-after 130000 '--' --layout=res://data/maps/<map>_layout.tres --sim=1 --limit=1800`.
 
 Exit codes: 0 PASS / WARN, 1 FAIL, 2 bad input. Specs are read by the shared reader `tools/common/tool_spec.gd`
 (same grammar and errors as every tool: `file:line: message -> did you mean "x"?`); reports are the shared
@@ -190,7 +197,8 @@ A spot exactly on a mirror axis appears once per distinct image (midline objects
 Outputs: `data/maps/<id>_layout.tres` (`MapLayout`, `data/maps/map_layout.gd`: `spots_of(kind)`, `keep_of(team)`,
 `seat_frame(team)`, `spot(id)`), `docs/tools/world_forge/out/<id>/{report_map.md, layout.png, map_profile.json,
 preview.tscn, preview_level.gd, map_lab/scorecard.md, map_lab/heatmap.png}`. Checks: L1 keep per seat, L2 in bounds,
-L3 spacing, L4 counts, N0 navmesh bakes, LAB (Map Lab result + score >= 90), LAB.M1-M4 / F1 symmetry rows, and after
+L3 spacing, L4 counts, N0 navmesh bakes, LAB (Map Lab 0 FAIL + score >= 75, map-production.md 9), LAB.M1-M4 / F1 symmetry
+rows, LAB.R1-R6 (Map Lab v2), and after
 an `export-map`: R1 round trip (every live spot rebuilt within 0.1 m), R2 path table (every spot pair's
 NavigationServer path on the preview = the live one, <= 0.01 m).
 `navmesh <res> origin=(x,y,z)` (written by export-map): the preview loads that navmesh instead of baking a flat one,
@@ -215,9 +223,57 @@ Demo maps: `fourfold_hollow.map` (map-2v2.md 2.3-2.7: 95 Map Lab spots, 10 cross
 M1-M4 / F1 PASS), `crown_hollow.map` (exported from `scenes/skirmish.tscn`, 51 spots, round trip 0.000 m, path table
 1275 pairs identical; Map Lab on the rebuild = the live Crown Hollow run: WARN 98, same 42 F2 findings).
 
-## Limits (v1)
-- A new map (no `navmesh` line) previews on flat ground + water + keep footprints + blocks: no forest / cliffs.
-  Lairs reach the Map Lab through a generated `LAIR_SPOTS` constant. Navigation links are not exported (WARN E5).
+### Grammar v2 (map-production.md 2.2, MT3; every v1 `.map` builds the same spots)
+| Statement | Keys | Notes |
+|---|---|---|
+| `map <id>` | + `size=WxD` (non-square: `size=150x120`), `biome=`, `light=` (night / dawn / storm / winter), `base=<map>` + `variant=` (mission overlay / variant: the base map's statements first, this file's map keys win) | `MapLayout.size_x / size_z` (`size` = the larger), `biome`, `light`, `base`, `variant` |
+| `use <template> [<prefix>]` | `at=(x,z)`, `yaw=<deg>` or `face=center` (default: local +z toward the map centre) / `face=none`, `mirror=x`, the template's `param`s | expands `data/maps/templates/<template>.mapt` (a `.map` fragment: `template <name> title=`, `param <k>=<default>`, `$k` placeholders, (0,0) = anchor); ids become `<prefix>_<id>` (default prefix = the template name); points / dirs / polylines / areas / block and prop yaws are moved; `MapLayout.templates_used` lists them |
+| `forest` | `seed= clusters= trees=a..b spread= cluster_r= tree_size=a..b rocks= rock_spread= rock_size=a..b half=xz\|x\|z\|quad\|all pre=[(x,z,r),...]\|auto lane=[(x,z),(x,z)] clear=auto\|none pillars=(x,z,ring r) pillar_count= pillar_gap= pillar_h=a..b grove_seed= density=` | the main.gd / skirmish.gd generator as data (**MapForest**, scripts/world/map_forest.gd): draws in the canonical region, copied to every symmetry image; `pre` = clearings checked before the size draw (Crown Hollow: start 18, natural 7, crown 12, house slot 4; `auto` = every start 18, crown 12, nodes 7, hall / house slots 4); every spot then clears by kind (node 7, crown 12, peddler 5, cache 3, tavern 6, post 5, guild 6, camp 3.5 + r, point 4 / 3.5 / 3 + r, slot 4; `clear=` on a spot wins), roads (half width + r), deep water 1.2 + r, crossings 2 + r, blocks |
+| `grove <id>` / `willows` | `at= r= trees=` / `seed= draws= river_draws= arc=a..b spacing= gap=a..b crossing_gap= arm=` | Old Wood clusters (own rng, `grove_seed`) and bank willows (own rng) as in skirmish.gd |
+| `prop <id>` | `scene=res://... at= yaw= clear= colliders=[(x,z,r),...]` | landmarks with colliders, mirrored (half turn: yaw + 180) |
+| `block <id>` | + `kind=` rock / cliff / wall / ruin / city / forest / ice, `height=` | the dressing reads `kind`; a block on a mirror axis appears once |
+| `rules` | `archetype= tempo= players= contest= <target>=a..b` (targets: `keep_enemy natural rich third crown ally` in path metres, `enemy_ally` = nearest enemy / ally ratio) | Map Lab R1 / R3 read them; a map without `rules` is not judged on content (R2) or contest (R3) |
+| `closed_seat <team>` | `becomes=neutral` | that seat's district stays neutral land (no keep at runtime; its nodes stay) |
+| `seat <team> ... scripted` | | mission seats driven by a script (`MapLayout.scripted_seats`) |
+| `mark <id> at=` / `trigger <id> <area>` / `path <id> poly=` / `bounds rect(...)` | | mission overlay data: `MapLayout.mark(id) / trigger(id) / path(id) / play_bounds()`; Map Lab R6 checks they are reachable |
+| `move <id> at=` / `remove <id>` / `set <id> key=value` | | overlay edits on the canonical statements (after templates); `fix` writes `move` lines |
+| `terrain` / `hill` / `ridge` / `valley` / `pad` | the stage-set shapes | stored in `MapLayout.terrain` (v2 limit: the runtime level and the preview are still flat) |
+| spot keys | + `role=` (nodes: a / b / mid / rich / third), `amount=`, `clear=`, `door=(x,z)` (posts / guilds, mirrored), `name=`, `tier=`, `first=` (camps), `sign=` | `slot` subs read by LayoutLevel: `natural_hall rich_hall market tower_natural tower_rich house ambush worker_spot graze rabbit` |
+
+**Templates** (`data/maps/templates/*.mapt`, 45, MT4; `template all` checks them): bases `base_district` (Crown Hollow's district:
+keep, start 9.9 m toward the centre, home nodes at (+-8.49, 4.24), house / market slots), `base_district_cliff`, `pocket_shelf`;
+resources `natural`, `rich_pocket`, `sealed_vein`, `third_far`, `river_node`; rivers `river_diagonal` (Crown Hollow's), `river_straight`
+(x = 0, fourfold), `river_s_bend`, `mere`, `gorge`; crossings `crossing_set_cross`, `crossing_set_gorge`, `crossing_set_lean`; chokes
+`spine_gate`, `wall_gates`, `chasm_bridge`, `city_block`; centre `crown_isle`, `crown_open`, `twin_wells`, `tollrock`; points
+`tower_over_crossing`, `well`, `shrine`, `point_cluster_river`; camps `camp_trio`, `nest_in_ford`, `hollow_gate`, `lair_pair`; services
+`tavern_peddler`, `trade_post`, `guild_pair`, `cache_pair`; biomes `biome_ash|autumn|crypt|forest|marsh|meadow|salt|sand|snow`.
+Resource templates expect local +z toward the owner's keep (pass `yaw=`); river / crossing templates are global (use once at (0,0)).
+
+### Map Lab v2 (map-production.md 2.5, MT6) and the 75 bar (section 9)
+After the v1 checks, a level carrying a MapLayout gets **R1** targets per seat (FAIL > 10 % outside a `rules` band, WARN 5-10 %),
+**R2** content per seat (Crown Hollow per side, new-maps.md 1: +-1 WARN, missing kind FAIL), **R3** contested + raidable
+objectives per seat (own / nearest enemy path 0.9-1.1 / 1.1-1.45; 1v1 >= 5, team >= 3), **R4** clearances (points >= 7 m and camps
+>= 9 m from road centre lines, no spot within 8 m of a crossing, ford nests excepted), **R5** engine limits (one half width, <= 2
+arms, <= 4 ford / steps circles, <= 16 segments, <= 192 m, <= 140 spots, raster <= 4x Crown Hollow), **R6** mission marks /
+triggers / paths reachable. R1 (natural / rich / third) and R4 findings carry fix moves (<= 5 m, canonical twin only); `fix`
+applies them. **Acceptance: 0 FAIL and score >= 75** (LAB row). Seats, the river and the symmetry are never auto-fixed.
+
+### Runtime (MT1 / MT2)
+`MapInfo` (scripts/core/map_info.gd) holds the running map's W x D: fog grid (W/2 x D/2 cells), BuildGrid cells, river mask and
+unit grid, minimap (letterboxed square), camera bounds, bounty / champion map checks. `LayoutLevel` (scenes/layout_level.tscn)
+builds a playable skirmish from any layout: open seats (first seat of side 0 = player, first of side 1 = bot; other seats neutral),
+keeps, nodes with roles, crown + wardens, river, roads + trade posts + guild houses (TradeNetwork from the road graph), points,
+camps, lairs, herds, props, blocks, the MapForest forest; Commander's Crown Hollow slots through `bot_point(team, p)`.
+Regression: `crown_hollow_level.map` (= crown_hollow.map + forest / road / prop / slot lines) rebuilds Crown Hollow exactly
+(tests/test_mt2_layout_level.gd: 51 spots 0.000 m, 133 colliders same hash, 1275-pair path table 0.000 m).
+
+## Limits (v2)
+- A new map without a `navmesh` line previews on flat ground + water + keep footprints + blocks + the `forest` colliders
+  (no buildings other than keeps). Lairs reach the Map Lab through a generated `LAIR_SPOTS` constant (preview) or
+  `LayoutLevel.lair_spots()`. Navigation links are not exported (WARN E5). Terrain heights are stored, not applied.
+- LayoutLevel plays 2 seats (a 4-seat map is played 1v1 on its first seat of each side; the 2v2 rules are step 20).
+- Commander uses Crown Hollow's slots moved rigidly onto each seat (`bot_point`): on maps unlike Crown Hollow the bot
+  falls back to find_spot more often (MT10 = bots read the layout).
 - Sets: terrain is a height field (no overhangs / cliffs, no caves), no per-shot acting (`AnimationPlayer` "Acting" is honoured if added later),
   no Art Lab `decor_set` run yet, marks need explicit coordinates until Lens (tool 3) lands.
 - `forge_spec.gd` / `forge_report.gd` are thin adapters over `tools/common/` (ToolSpec / ToolReport): budget tokens

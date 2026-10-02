@@ -1,0 +1,7 @@
+# The gorge (map-production.md 2.3, Rivers; Cinderstep Gorge): a straight river on the local x axis with a home
+# bridge near each end and a ford in the middle (crossing_set_gorge). Global: use it once at=(0,0).
+template gorge  title="Straight gorge river with home bridges and a middle ford"
+param hw=3
+param reach=62
+river gorge  poly=[(-$reach,0),(-20,0),(20,0),($reach,0)]  half_width=$hw
+use   crossing_set_gorge  x  at=(0,0)  yaw=0

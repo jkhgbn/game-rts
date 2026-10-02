@@ -1,0 +1,5 @@
+# The audit's per-seat river cluster (map-production.md 2.3, Points; map-2v2-audit.md: contest ratio 1.27-1.32x): a
+# watchtower on the bank and a T2 nest in the ford it watches. Anchor = the ford; +z = toward the owner's keep.
+template point_cluster_river  title="River watchtower + ford nest"
+point tower  sub=watchtower  at=(0,10)
+camp  nest   sub=mirefang    at=(0,0)

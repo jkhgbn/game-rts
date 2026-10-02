@@ -1,0 +1,5 @@
+map tpl_tower_over_crossing  size=64  symmetry=none  title="Template tower_over_crossing"
+seat 0 name="ref" side=0 frame=identity
+rules archetype=template
+keep ref  at=(-23.0,23.0)  team=0  solo
+use tower_over_crossing t  at=(0,0)  yaw=0

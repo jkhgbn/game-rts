@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_1iykg"]
+
+[resource]
+script = ExtResource("1_1iykg")
+id = &"tpl_tollrock"
+title = "Template tollrock"
+size = 80.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-31, 0, 31),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}, {
+"id": "t_crown",
+"image": "identity",
+"kind": "crown",
+"pos": Vector3(0, 0, 0),
+"props": {},
+"sub": "",
+"team": -1,
+"twin_of": "t_crown"
+}, {
+"id": "t_lighthouse",
+"image": "identity",
+"kind": "point",
+"pos": Vector3(0, 0, -16),
+"props": {},
+"sub": "watchtower",
+"team": -1,
+"twin_of": "t_lighthouse"
+}])
+blocks = Array[Dictionary]([{
+"center": Vector3(9, 0, 9),
+"half": Vector3(1.5, 1.5, 1.5),
+"height": 3.0,
+"id": "t_ring_stone",
+"kind": "ruin",
+"yaw": 45.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_tollrock/tpl_tollrock.map"
+source_hash = "f298de099c1d"
+size_x = 80.0
+size_z = 80.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["tollrock t at (0.0, 0.0) yaw 0"])

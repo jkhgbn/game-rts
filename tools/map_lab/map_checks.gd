@@ -8,6 +8,7 @@ extends RefCounted
 
 const Grid := preload("res://tools/map_lab/map_grid.gd")
 const Report := preload("res://tools/map_lab/map_report.gd")
+const V2 := preload("res://tools/map_lab/map_checks_v2.gd")
 
 ## Rules (all numbers in one place).
 const ASYM_WARN := 0.02          ## path pair vs its mirror twin: > 2 % longer = WARN...
@@ -102,6 +103,12 @@ func run() -> void:
 	_travel_times()
 	_check_crossings()
 	_check_routes()
+	# Map Lab v2 (map-production.md 2.5, MT6): R1-R6 when the level carries a MapLayout (World Forge preview / LayoutLevel)
+	var lay: Variant = level.get(&"layout") if &"layout" in level else null
+	if lay is MapLayout:
+		var v2: RefCounted = V2.new(self, lay)
+		v2.call(&"run")
+		report.fixes = v2.get(&"fixes")
 	if heat_on:
 		_write_heat()
 	report.notes.append("Navmesh raster %.2f s (%d polygons, %d cells of %.2f m), spot / mirror checks %.2f s, %d paths %.2f s." % [
@@ -134,7 +141,10 @@ func _collect_spots() -> void:
 				_add_spot(_id_of(nd), groups[g], (nd as Node3D).global_position)
 	# Lairs: the map script's LAIR_SPOTS (EpicBeasts keeps no lair nodes before a beast spawns).
 	var consts := _script_constants()
-	if consts.has("LAIR_SPOTS"):
+	if level.has_method(&"lair_spots"):   # a LayoutLevel (map-production.md MT2): the layout's lairs
+		for d: Dictionary in level.call(&"lair_spots"):
+			_add_spot(String(d.get("id", "lair")), "lair", d.get("center", d.get("pos", Vector3.ZERO)))
+	elif consts.has("LAIR_SPOTS"):
 		for d: Dictionary in consts["LAIR_SPOTS"]:
 			_add_spot(String(d.get("id", "lair")), "lair", d.get("center", d.get("pos", Vector3.ZERO)))
 	var river := _river()
@@ -412,6 +422,12 @@ func _entry(e: Variant, label: String) -> Dictionary:
 
 
 func _check_constants() -> void:
+	if level.has_method(&"map_layout"):
+		# a LayoutLevel (map-production.md MT2) places everything from its layout: the base script's Crown Hollow
+		# constants are not this map's (M1 / M4 / F1 judge the live spots instead).
+		report.add_check("M2", "mirror", "Spot constants mirror", "LayoutLevel: positions come from the layout (no spot constants)", 1, [],
+			"", "", 1.5, "layout %s" % String((level.call(&"map_layout") as Resource).get(&"id")))
+		return
 	var consts := _script_constants()
 	var issues: Array = []
 	var total := 0

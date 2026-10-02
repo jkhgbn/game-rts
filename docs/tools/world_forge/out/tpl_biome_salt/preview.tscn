@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://docs/tools/world_forge/out/tpl_biome_salt/preview_level.gd" id="1_rq0fm"]
+[ext_resource type="Resource" path="res://docs/tools/world_forge/out/tpl_biome_salt/tpl_biome_salt_layout.tres" id="2_ofjbp"]
+
+[node name="ForgeMapPreview" type="Node3D" unique_id=1950925865]
+script = ExtResource("1_rq0fm")
+layout = ExtResource("2_ofjbp")

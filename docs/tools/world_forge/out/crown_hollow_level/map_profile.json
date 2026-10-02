@@ -1,0 +1,22 @@
+{
+	"half_size": 60.0,
+	"name": "crown_hollow_level",
+	"scene": "res://docs/tools/world_forge/out/crown_hollow_level/preview.tscn",
+	"seats": [
+		{
+			"name": "player (south-west)",
+			"side": 0,
+			"team": 0
+		},
+		{
+			"name": "enemy (north-east)",
+			"side": 1,
+			"team": 1
+		}
+	],
+	"spec": "docs/design/skirmish-1v1.md,",
+	"symmetries": [
+		"half_turn"
+	],
+	"title": "Crown Hollow (1v1)"
+}

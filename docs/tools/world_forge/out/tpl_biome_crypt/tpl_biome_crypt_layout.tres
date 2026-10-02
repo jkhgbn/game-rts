@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_7u5k8"]
+
+[resource]
+script = ExtResource("1_7u5k8")
+id = &"tpl_biome_crypt"
+title = "Template biome_crypt"
+size = 64.0
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "ref",
+"side": 0,
+"team": 0
+}])
+spots = Array[Dictionary]([{
+"id": "ref",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-23, 0, 23),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "ref"
+}])
+zones = Array[Dictionary]([{
+"biome": "crypt",
+"center": Vector3(0, 0, 0),
+"id": "t_crypt",
+"kind": "circle",
+"r0": 0.0,
+"r1": 24.0
+}])
+source = "res://docs/tools/world_forge/out/tpl_biome_crypt/tpl_biome_crypt.map"
+source_hash = "617127663058"
+size_x = 64.0
+size_z = 64.0
+rules = {
+"archetype": "template",
+"contest": -1.0,
+"players": 0,
+"seed": -1,
+"targets": {},
+"tempo": ""
+}
+templates_used = Array[String](["biome_crypt t at (0.0, 0.0) yaw 0"])

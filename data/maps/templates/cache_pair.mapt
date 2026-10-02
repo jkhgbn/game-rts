@@ -1,0 +1,5 @@
+# Two Lost Caches (map-production.md 2.3, Services; items.md): `$gap` m apart on the local x axis.
+template cache_pair  title="Two Lost Caches"
+param gap=24
+cache  one  at=(-$gap,0)
+cache  two  at=(0,0)
