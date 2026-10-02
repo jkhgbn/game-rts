@@ -199,6 +199,9 @@ func _run_skirmish() -> void:
 		u.team = PLAYER as Unit.Team
 		main.add_child(u)
 		u.global_position = hall.global_position + Vector3(4.0 + i, 0.0, 4.0)
+		# Re-anchor here: _ready anchored it at the origin (the map centre), so a soldier that chased a passing enemy
+		# past its leash walked "home" into the Ruin Wardens and died, and the hint fell back to "train soldiers".
+		u.command_stop()
 	eco.add(1000)
 	await _run_to(140.0)
 	var hint := _hint()
@@ -283,6 +286,10 @@ func _run_skirmish() -> void:
 			"Stronghold message '%s'" % msg)
 	_check(SelectionPanel.keep_tier_text(keep) == "Tier 2 Stronghold", "selection panel '%s'" % SelectionPanel.keep_tier_text(keep))
 	hint.refresh()
+	if hint.step != NextStepHint.STEP_NEW_UNITS:
+		var st := hint.read_state()
+		print("  hint state: army %d trained %d pop %d/%d new_units %d" % [int(st.army), int(st.trained), int(st.pop_used),
+				int(st.pop_cap), (st.new_units as Array).size()])
 	_check(hint.step == NextStepHint.STEP_NEW_UNITS, "hint step after the Stronghold = %s" % hint.step)
 	var nt := hint.label.text
 	var adept_key := KeyLabels.letter(SelectionManager.SLOT_LETTERS[hall.trainable_types().find(UnitType.find("pyre_adept"))])
