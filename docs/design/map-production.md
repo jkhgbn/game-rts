@@ -253,7 +253,7 @@ The Map Lab already judges a `.map` preview (N1-N3, M1-M4, F1-F2, D1, A1, T1, C1
 (moved <= 5 m along the path gradient), a clearance (pushed out), a crossing under 4 m (widened <= 2 m), a choke under 3 m on a
 main route (the nearest block shortened). It rewrites the canonical `.map` lines with `# autofix: moved 3.2 m (R1 natural)`
 and runs again. It **never** touches symmetry, river course or seat frames (those are FAILs for a human). It stops when
-there is 0 FAIL and the score is >= 90, or after 5 loops (report "needs a designer").
+there is 0 FAIL and the score is >= 75, or after 5 loops (report "needs a designer").
 
 ### 2.6 Quick preview
 - `layout.png` exists (spots by kind on the plan). New **`mapsheet <id>`** (windowed, ~20 s): one 2048 x 1024 PNG with
@@ -300,7 +300,7 @@ suggests. Even then it must read and write `.map` (one source of truth).
 | Step | Who | Skirmish map (generated) | Skirmish map (hand, templates) | Campaign base map | Mission variant / overlay |
 |---|---|---|---|---|---|
 | 1. Brief: archetype, size, seats, biome, hook, targets (a row in `map-production.md` 1.4 + `rules`) | game-designer (5 briefs per task) | 0.2 h | 0.3 h | inside the mission spec | inside the mission spec |
-| 2. Layout: `gen` sweep + pick, or `use` templates; forge `map`; auto-fix; Map Lab >= 90 | map-maker (four-wizards-high, owns `data/maps/`) | 1.0 h | 2.0 h | 2.5 h (terrain, forest seed, mission R6) | 1.0 h (overlay from the spec table) |
+| 2. Layout: `gen` sweep + pick, or `use` templates; forge `map`; auto-fix; Map Lab >= 75 | map-maker (four-wizards-high, owns `data/maps/`) | 1.0 h | 2.0 h | 2.5 h (terrain, forest seed, mission R6) | 1.0 h (overlay from the spec table) |
 | 3. Sign-off (scorecard, heat map, contact sheet; numbers into this doc) | game-designer (batch 3-5 maps) | 0.3 h | 0.3 h | 0.3 h | - |
 | 4. Dressing: biome kit params, landmarks, block meshes (crags / walls / city), edge + horizon, lobby preview | tech-artist (one per map) | 2.0 h | 2.0 h | 2.5 h | 0.5 h (light, biome override) |
 | 5. Bots: read the layout, rush / scout / creep order fine (only if the gate fails) | ai-coder | 0.5 h (share) | 0.5 h | campaign bot profile is a mission task | - |
@@ -358,7 +358,7 @@ Picked to (a) prove the runtime on 1v1, 2v2 and asymmetric campaign maps, (b) un
 | MT2 | `LayoutLevel` (2.8) incl. the `forest` port of `main.gd` `_build_map`, `Skirmish.layout_path`, `Skirmish2v2` on a layout (= NM.C1) | systems-coder [H] | L (~10 h) | regression gate (CH round trip R1 / R2, Emberfall tree hash); Fourfold loads headless, 4 seats spawn, 2 / 4 bots play 10 min with 0 script errors; live Map Lab within 2 points of the preview |
 | MT3 | Grammar v2 (2.2): `size=WxD`, `use`, terrain statements, `forest`, `block kind=`, `rules`, `closed_seat`, mission overlays; `MapLayout.mark / trigger / path / bounds / rules` | four-wizards-high | M (~6 h) | every v1 `.map` builds byte-identical layouts; a test overlay on CH round-trips; README section 2 updated |
 | MT4 | Template library v1 (~30 `.mapt`, 2.3), each with a mini Lab check; rewrite Cinderstep Gorge with `use` | four-wizards-high + game-designer (numbers) | M (~6 h) | all templates PASS alone; Gorge from templates = the 4.1 draft +-0.5 m |
-| MT5 | `gen` verb (2.4): 8 archetypes, 2 / 4 players, tempo, biome, seed sweep with the grid pre-filter, contact sheet | four-wizards-high [H] | L (~10 h) | 3 archetypes x 2 player counts each give >= 3 candidates with 0 FAIL and score >= 90 from a 40-seed sweep in <= 20 min on the laptop |
+| MT5 | `gen` verb (2.4): 8 archetypes, 2 / 4 players, tempo, biome, seed sweep with the grid pre-filter, contact sheet | four-wizards-high [H] | L (~10 h) | 3 archetypes x 2 player counts each give >= 3 candidates with 0 FAIL and score >= 75 from a 40-seed sweep in <= 20 min on the laptop |
 | MT6 | Map Lab v2 (2.5): R1-R6, 1 m grid for big maps, `fix` auto-fix loop | four-wizards-high (Map Lab owner) | M (~8 h) | `tests/test_map_lab.gd` extended (synthetic cases per new check); auto-fix takes a seeded broken Gorge (3 spots off by 4 m) to PASS in <= 3 loops |
 | MT7 | `mapsheet` PNG + lobby preview + minimap background render | four-wizards-high | S (~3 h) | sheets for the 4 existing layouts; previews 512 x 512 |
 | MT8 | Map gate script `tools/ci/map_gate.ps1 <map>`: Bot Lab fairness matrix + rush matrix + perf + load time (4.3), one scorecard | lead (with the Bot Lab owner) | S (~4 h) | runs on CH and reproduces today's numbers; one command per map |
@@ -372,7 +372,7 @@ when MT2 + MT3 land; maps 9-10 wait for MT5.
 | Gate | Threshold |
 |---|---|
 | World Forge `map` | exit 0; L1-L3 PASS; R5 engine limits PASS |
-| Map Lab | **score >= 90, 0 FAIL**; mirrored maps: N2 / M1-M4 / F1 PASS, D1 <= 2 % per seat, T1 seats within 3 s and 3 %; C1 crossings >= 4 m of navmesh; C2 no main-route choke < 3 m except named gates; R1 targets met; R2 content per seat; R3 contest (1v1 >= 5, team >= 2.5 per seat); team maps: A1 PASS and enemy / ally soldier time 2.0-3.0x; campaign: R6 PASS |
+| Map Lab | **score >= 75 (JS 2026-10-02, was 90), 0 FAIL**; mirrored maps: N2 / M1-M4 / F1 PASS, D1 <= 2 % per seat, T1 seats within 3 s and 3 %; C1 crossings >= 4 m of navmesh; C2 no main-route choke < 3 m except named gates; R1 targets met; R2 content per seat; R3 contest (1v1 >= 5, team >= 2.5 per seat); team maps: A1 PASS and enemy / ally soldier time 2.0-3.0x; campaign: R6 PASS |
 | Bot fairness (MT8), per map | Bot Lab, both seats swapped, **3 difficulties (easy / normal / hard) x 4 kingdom mirrors (Fire-Fire, Shadow-Shadow, Ice-Ice, Nature-Nature), 10 games per cell (120 games, laptop, sim mode)**: pooled seat win rate **45-55 %** per difficulty, no cell over 65 %; kingdom-vs-kingdom on that map 40-60 % (the global 45-55 % stays `rush-balance.md`'s job); 0 script errors, `stuck = 0`, every game ends (kill or score at 30:00). Rush maps: `rush-balance.md` 11 matrix in band, <= 15 % of rush games over before 8:00. 2v2 / FFA: 4-bot games end with a winner, each seat wins 20-30 % (FFA) or each side 45-55 % (2v2) |
 | Performance | 1v1: `perf_test.gd -- map=<id>` prints `PERF OK`; 2v2 / FFA: 300 units <= 15.0 ms per frame (quiet desktop), 400-unit stress <= 22 ms; first navmesh bake <= 5 s on the desktop, runtime rebake <= 1.5 s; decor <= 12 000 instances and <= 140 draw nodes; RAM <= +60 MB vs a CH match; load to playable <= 10 s on the GTX 1660 desktop; >= 60 fps at max zoom over the busiest metre (heat map) in the windowed lead check |
 | Art | Art Lab R4k PASS for the biome; units readable on the ground (contrast check, as the golden-autumn rule) |
@@ -404,3 +404,14 @@ Tools MT1-MT10 ~62 h; maps: 3 adoptions (~3.5 h each, ~11), 2 hand skirmish (~11
 - True 3-player maps (`rot120`) are after 1.0; 3 players play a 4-seat map with one seat closed.
 - Three Rills (S4) and Emberwater Cross (D6) need river changes (3 / 4 banks) and are scheduled last; if those changes
   are refused, they are replaced by two more generated maps.
+
+## 9. Faster map production and the lower bar (JS 2026-10-02)
+JS: "find any way to make it faster and lower score of new map to 75". Decisions (recommended option):
+1. **Map Lab acceptance score is 75 (was 90)**, still 0 FAIL and the fairness checks (symmetry, seats within 2 %, enemy 2-3x farther than ally on team maps) stay hard gates. A 75 map ships; polish passes (score 90) only for hero/campaign signature maps and only after playtest.
+2. **Auto-fix loop: 3 rounds, not 5.** Stop at >= 75 with 0 FAIL; do not chase the last points.
+3. **Bot fairness in two passes:** 40 games (3 difficulties x 4 mirrors, seats swapped) as the gate, the 120-game run only for maps that are close to the 45-55 % edge or that are signature/ranked maps.
+4. **Contact sheet of the top 3 only**, no windowed 'sheet' for every candidate; the preview PNG is the lobby image. One windowed look per shipped map.
+5. **Parallel batches:** after MT1-MT3, build 6 maps at once (the Godot gate allows 4 parallel runs; the laptop is dedicated) instead of one by one; the seed sweep runs 4 seeds in parallel.
+6. **Reuse before create:** 4 campaign maps are reuse and 17 are variants (night, winter, past, partial) at ~1.5 agent-hours: do these first; filler 1v1/2v2/FFA maps come from `gen` only (about 1-1.5 agent-hours each with a contact-sheet pick).
+7. **Generated maps need no hand polish pass:** accept the best of the sweep if it clears the 75 bar, add one hook row, ship.
+8. **Estimate with the bar at 75:** about 3 agent-hours for a generated skirmish map (was 4.5), 4 for a hand map from templates (was 5.5), 4.5 for a campaign base map (was 6); the 40-map total drops from about 370 to about 300 agent-hours, batch 1 from about 140 to about 110.
