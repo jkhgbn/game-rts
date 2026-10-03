@@ -49,6 +49,7 @@ const RETREAT_CHASE := 8.0
 const RUNE_EVERY := 30.0
 const RUNE_AHEAD := 10.0
 const RUNE_BLIND_RADIUS := 12.0
+const RUNE_BLIND_EVERY := 6.0   ## at most one "hit from the fog" rune per this many seconds (per bot)
 const PASSAGE_RETREAT_DIST := 25.0
 const PASSAGE_HOME_DIST := 35.0
 ## Joining fights (8.2 + 8.3: a caster "follows" its army, but the autocast rules need enemies in spell range): an
@@ -113,6 +114,8 @@ var _orders := {}             # caster instance id -> [pos, time]
 var _dive_at := {}            # soldier instance id -> time of its last dive order
 var _bulwark_at := -INF
 var _rune_at := -INF
+var _rune_blind_at := -INF
+var _last_hit := {}           # own unit instance id -> [time, WeakRef of the attacker or null] (rune_blind)
 var _adopted := {}            # caster instance id -> true
 var _save_since := -INF       # start of the current first-caster saving window
 var _rule_of := {}            # CasterAbility instance id -> the rule of its cast in flight (spell_cast lands later)
@@ -140,6 +143,13 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	if _by_team.get(team) == self:
 		_by_team.erase(team)
+
+
+## Forgets the previous match's casts (last_cast / history). Called by every level's _ready (main.gd) next to
+## CasterKit.reset(): after F9 last_cast(team) never returns the old match's cast (code review M4).
+static func reset_history() -> void:
+	_last.clear()
+	_history.clear()
 
 
 ## The last cast of a bot caster of `team` ({} when none): {id, target, time, rule}.
@@ -550,7 +560,8 @@ func _fight_spot(c: Unit, ab: CasterAbility, enemies: Array[Unit]) -> Variant:
 	side = side.normalized() if side.length() > 0.05 else Vector3.FORWARD
 	var spot := foe + side * float(STANDOFF.get(c.unit_type.id if c.unit_type else &"", 7.0))
 	# Casters spread 2.5 m apart across the line (never one clump the enemy can dive, and room to flee).
-	spot += side.cross(Vector3.UP).normalized() * (float(c.get_instance_id() % 3) - 1.0) * FIGHT_SPREAD
+	# (The caster's spawn order, never its instance id: replays must not drift, code review L5.)
+	spot += side.cross(Vector3.UP).normalized() * (float(ab.serial % 3) - 1.0) * FIGHT_SPREAD
 	spot.y = 0.0
 	var ally := ab.tithe_target()
 	if ally != null and _flat(ally.global_position, spot) > 6.0:
@@ -726,7 +737,7 @@ func _kilnwarden_fight(c: Unit, ab: CasterAbility, enemies: Array[Unit]) -> bool
 		for e in enemies:
 			if is_instance_valid(e) and e.is_alive() and e is Wizard and (e as Wizard).mana >= FIGHT_SCALD_WIZARD \
 					and ab.distance_to_target(e) <= srng and ab.target_reason(&"mana_scald", e) == "" \
-					and _try(ab, &"mana_scald", e, "fight_scald"):
+					and not ab.claimed_elsewhere(&"mana_scald", e) and _try(ab, &"mana_scald", e, "fight_scald"):
 				return true
 	if ab.cooldown_left(&"slag_rain") > 0.0 or ab.mana + 0.001 < ab.mana_cost(&"slag_rain"):
 		return false
@@ -738,8 +749,8 @@ func _kilnwarden_fight(c: Unit, ab: CasterAbility, enemies: Array[Unit]) -> bool
 	for e in enemies:
 		if not is_instance_valid(e) or not e.is_alive() or _flat(e.global_position, c.global_position) > rng:
 			continue
-		if not _engaged(e, soldiers):
-			continue
+		if not _engaged(e, soldiers) or ab.claimed_elsewhere(&"slag_rain", e.global_position):
+			continue   # (another Kilnwarden's glob is already on its way there: code review M2)
 		var n := 0
 		var slagged := 0
 		for o in enemies:
@@ -774,7 +785,7 @@ func _bramblesage_fight(c: Unit, ab: CasterAbility, enemies: Array[Unit]) -> boo
 			for o in ranged:
 				if _flat(o.global_position, e.global_position) <= hr:
 					n += 1
-			if n > best_n and not _own_haze_covers(e.global_position):
+			if n > best_n and not _own_haze_covers(e.global_position) and not ab.claimed_elsewhere(&"pollen_haze", e.global_position):
 				best_n = n
 				best = Vector3(e.global_position.x, 0.0, e.global_position.z)
 		if best != null and _try(ab, &"pollen_haze", best, "fight_haze"):
@@ -795,7 +806,8 @@ func _bramblesage_fight(c: Unit, ab: CasterAbility, enemies: Array[Unit]) -> boo
 		if not is_instance_valid(e) or not e.is_alive():
 			continue
 		var d := ab.distance_to_target(e)
-		if d > rng or _flat(e.global_position, c.global_position) < FIGHT_SNAG_MIN or ab.target_reason(&"snagroot", e) != "":
+		if d > rng or _flat(e.global_position, c.global_position) < FIGHT_SNAG_MIN or ab.target_reason(&"snagroot", e) != "" \
+				or ab.claimed_elsewhere(&"snagroot", e):
 			continue
 		var score := -1.0
 		if CasterKit.is_big_target(e):
@@ -887,10 +899,17 @@ func _rimecarver(_c: Unit, ab: CasterAbility, group: Array[Unit], centre: Vector
 				_bulwark_at = now
 				return true
 	# c) Runes (hard): a unit hit from the fog -> a rune on it; every 30 s while attacking, one 10 m ahead.
-	for u in group:
-		if u.seconds_since_damage() < 0.6 and not _any_enemy_near(u.global_position, enemies, RUNE_BLIND_RADIUS):
-			if _try(ab, &"scrying_rune", u.global_position, "rune_blind"):
-				return true
+	# "From the fog" = by an enemy-team unit that is not seen (code review M1): towers, keeps, neutral creeps and seen
+	# enemies never count (sieging a base or creeping a camp spammed 25-mana runes and starved the dive-guard wall),
+	# and at most one such rune per RUNE_BLIND_EVERY s.
+	if now - _rune_blind_at >= RUNE_BLIND_EVERY:
+		for u in group:
+			_watch_hits(u)
+			if u.seconds_since_damage() < 0.6 and hit_from_fog(u, enemies) \
+					and not _any_enemy_near(u.global_position, enemies, RUNE_BLIND_RADIUS):
+				if _try(ab, &"scrying_rune", u.global_position, "rune_blind"):
+					_rune_blind_at = now
+					return true
 	if bool(commander.call(&"group_out")) and now - _rune_at >= RUNE_EVERY and not group.is_empty():
 		var rally: Vector3 = commander.call(&"rally_point")
 		var ahead := centre - rally
@@ -903,6 +922,36 @@ func _rimecarver(_c: Unit, ab: CasterAbility, group: Array[Unit], centre: Vector
 				_rune_at = now
 				return true
 	return false
+
+
+# Records who hits the group's units (their damage_taken), once per unit (a meta flag), for hit_from_fog().
+func _watch_hits(u: Unit) -> void:
+	if u.has_meta(&"ai_casters_hits"):
+		return
+	u.set_meta(&"ai_casters_hits", true)
+	u.damage_taken.connect(_on_member_hit.bind(weakref(u)))
+
+
+func _on_member_hit(_amount: float, attacker: Node3D, ref: WeakRef) -> void:
+	var u := ref.get_ref() as Unit
+	if u == null:
+		return
+	_last_hit[u.get_instance_id()] = [CasterKit.now_s(), weakref(attacker) if attacker != null else null]
+
+
+## True when `u`'s last hit (within 0.6 s) came from a unit of a hostile player team that is not among the seen
+## `enemies` (a building, a neutral creep, a seen enemy or an unknown source: false).
+func hit_from_fog(u: Unit, enemies: Array[Unit]) -> bool:
+	var rec: Array = _last_hit.get(u.get_instance_id(), [])
+	if rec.is_empty():
+		return false
+	if CasterKit.now_s() - float(rec[0]) > 0.6 or rec[1] == null:
+		_last_hit.erase(u.get_instance_id())   # stale: the table only holds fresh hits
+		return false
+	var a := (rec[1] as WeakRef).get_ref() as Unit
+	if a == null or int(a.team) == team or int(a.team) == Unit.Team.NEUTRAL:
+		return false
+	return not enemies.has(a)
 
 
 func _deacon(c: Unit, ab: CasterAbility, group: Array[Unit], centre: Vector3, _now: float) -> bool:
@@ -958,8 +1007,8 @@ func _prefer_casters(enemy_casters: Array[Unit]) -> void:
 	for u in soldiers:
 		if u.is_holding():
 			continue
-		var cur := u.attack_target as Unit
-		if cur != null and is_instance_valid(cur) and cur.is_alive():
+		var cur: Unit = u.attack_target as Unit if is_instance_valid(u.attack_target) else null   # (may be freed this frame)
+		if cur != null and cur.is_alive():
 			if CasterKit.is_caster_unit(cur):
 				continue
 			if (cur is Wizard or cur.is_in_group(&"heroes") or cur.is_in_group(&"enemy_heroes")) \
@@ -988,7 +1037,9 @@ func _prefer_casters(enemy_casters: Array[Unit]) -> void:
 				_dive_at[key] = now
 				u.command_attack(best)
 		elif u.attack_target != null or u.is_attack_moving() or not u.has_move_order():
-			u.attack_target = best   # keeps its attack-move: back on the way once the caster falls
+			# Its own auto-aggro target (keeps its attack-move; the chase leash and the attack-move chase limit hold:
+			# a fleeing caster never drags the soldier across the map, code review H1).
+			u.set_auto_target(best)
 
 
 static func _flat(a: Vector3, b: Vector3) -> float:

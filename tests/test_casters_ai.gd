@@ -10,6 +10,10 @@ extends SceneTree
 ## - 8.3 casting: Rimecarver dive guard (a Bulwark in front of a Shardcaster a Flame Guard dives, rule "dive_guard"),
 ##   Gloom Deacon retreat Passage (a retreating group 30 m away is recalled, rule "retreat_passage"), the anchor Deacon
 ##   stays home with 2 Deacons; every bot caster autocasts (bot_controlled).
+## - code review 2026-10-02: H1 an idle bot soldier pointed at a player caster keeps its chase leash (the caster jumps
+##   40 m away, the soldier stops within aggro x 2); M1 the hard Rimecarver spends no rune on a keep's hits and at most
+##   one per 6 s on hits from an unseen enemy; M4 the next level's main.gd _ready clears a live rune, a claim and
+##   AICasters.last_cast / history (unit.gd set_auto_target, caster_kit.gd reset, ai_casters.gd).
 ## Run:  godot --headless --path . -s tests/test_casters_ai.gd --fixed-fps 60 --quit-after 60000
 
 const TASK_ID := "casters_ai"
@@ -23,6 +27,7 @@ var cmd: Node
 var _errors: Array[String] = []
 var _cases := 0
 var _k: StringName = &""
+var _check_restart := false   # the next _level checks that the previous match's caster state is gone (review M4)
 
 
 func _initialize() -> void:
@@ -32,7 +37,11 @@ func _initialize() -> void:
 func _run() -> void:
 	await _level(&"ice", 2)
 	await _ice_hard()
+	await _leash()
+	await _rune_spam()
+	_leave_state()
 	await _unload()
+	_check_restart = true
 	await _level(&"shadow", 1)
 	await _shadow_normal()
 	await _unload()
@@ -80,6 +89,13 @@ func _level(enemy_kingdom: StringName, difficulty: int) -> void:
 			n.set(&"difficulty", difficulty)
 	root.add_child(main)
 	current_scene = main
+	if _check_restart:
+		# main.gd _ready (a new match / F9) cleared the old match's rune, claim and bot cast history.
+		_check_restart = false
+		_check(CasterKit.runes_of(-1).is_empty(), "restart: a Scrying Rune of the old match survived")
+		_check(CasterKit.claims_of(ENEMY).is_empty(), "restart: an old claim survived")
+		_check(AICasters.last_cast(ENEMY).is_empty() and AICasters.history(ENEMY).is_empty(),
+				"restart: AICasters.last_cast kept the old match's cast %s" % str(AICasters.last_cast(ENEMY)))
 	var t0 := Time.get_ticks_msec()
 	while not bool(main.get(&"match_started")):
 		await process_frame
@@ -272,12 +288,130 @@ func _ice_hard() -> void:
 	await _frames(3)
 
 
+# ---------------------------------------------------------------- code review fixes (H1, M1, M4)
+
+## H1: an idle bot soldier the caster rule points at a player caster keeps its chase leash: the caster jumps 40 m
+## away and the soldier gives up within aggro_range x 2 of where it stood (it used to chase it across the map).
+func _leash() -> void:
+	print("---- leash on a caster chase (review H1)")
+	var rally: Vector3 = cmd.call(&"rally_point")
+	var toward := -Vector3(rally.x, 0, rally.z).normalized()
+	var p := rally + toward * 22.0
+	p.y = 0.0
+	var s := _sturdy(_spawn("rimeshield", ENEMY, p, true))
+	var k := _sturdy(_spawn("kilnwarden", PLAYER, p + toward * (s.aggro_range + 1.0), true))
+	k.command_hold()
+	var kab := CasterKit.ability_of(k)
+	for sid in kab.spell_ids():
+		kab.set_autocast(sid, false)
+	await _frames(2)
+	s.command_stop()   # idle, anchored at p; the caster stands beyond its own aggro range, inside the rule's reach
+	var picked := false
+	for i in 60:
+		await _secs(0.1)
+		if s.attack_target == k:
+			picked = true
+			break
+	_check(picked, "the bot's caster rule never pointed the idle soldier at the player caster (target %s, move order %s, own %s, seen %s, aggro %.1f, d %.1f)"
+			% [str(s.attack_target), s.has_move_order(), (cmd.call(&"own_soldiers") as Array).has(s),
+			(cmd.call(&"seen_enemies") as Array).has(k), s.aggro_range, _flat(s.global_position, k.global_position)])
+	if picked:
+		_check(bool(s.get(&"_auto_target")), "the caster pick is not an auto target (no leash)")
+	k.global_position = p + toward * 40.0   # the caster runs off
+	var far := 0.0
+	for i in 80:
+		await _secs(0.1)
+		far = maxf(far, _flat(s.global_position, p))
+	var leash := s.aggro_range * 2.0
+	_check(far <= leash + 3.0, "the soldier chased the caster %.1f m from its spot (leash %.1f)" % [far, leash])
+	_check(s.attack_target != k, "the soldier still targets the caster 40 m away")
+	for n in [s, k]:
+		if is_instance_valid(n):
+			n.queue_free()
+	await _frames(3)
+
+
+## M1: the hard Rimecarver's "rune_blind" rule ignores hits from buildings (towers, keeps) and spends at most one
+## rune per RUNE_BLIND_EVERY s on hits from an unseen enemy unit (it cast a 25-mana rune every second under tower fire).
+func _rune_spam() -> void:
+	print("---- rune spam (review M1)")
+	var ai: AICasters = cmd.get(&"casters_ai")
+	var rally: Vector3 = cmd.call(&"rally_point")
+	var casters := _enemy_casters(&"rimecarver")
+	_check(not casters.is_empty(), "no Rimecarver left for the rune test")
+	var member: Unit = null
+	for u: Unit in cmd.call(&"own_soldiers"):
+		if is_instance_valid(u) and u.is_alive() and _flat(u.global_position, rally) <= AICasters.HOME_GROUP_RADIUS - 3.0:
+			member = u
+			break
+	if member == null:
+		member = _sturdy(_spawn("rimeshield", ENEMY, rally, true))
+	# It stays in the rally group: held (no chase after the attacker) and put back on its spot before each hit.
+	var spot := rally + (member.global_position - rally).limit_length(4.0)
+	spot.y = member.global_position.y
+	var pin := func() -> void:
+		member.command_hold()
+		member.global_position = spot
+	var keep: Node3D = main.keep
+	var count := func() -> int: return int(ai.casts_by_rule.get("rune_blind", 0))
+	var before: int = count.call()
+	for i in 20:   # 6 s of hits from the player's keep (a building: never "from the fog")
+		for c in casters:
+			if is_instance_valid(c):
+				CasterKit.ability_of(c).mana = 200.0
+		pin.call()
+		member.take_damage(0.5, keep)
+		member.heal(0.5)
+		await _secs(0.3)
+	_check(int(count.call()) == before, "building hits spent %d runes (want 0)" % (int(count.call()) - before))
+	var seen: Array[Unit] = []
+	for e: Variant in cmd.call(&"seen_enemies"):
+		if is_instance_valid(e) and e is Unit:
+			seen.append(e)
+	_check(not ai.hit_from_fog(member, seen), "a keep's hit counts as from the fog")
+	# An enemy unit out of the bot's sight (at the player's keep) hits the member for 8 s: 1, at most 2 runes.
+	var hidden := _spawn("flame_guard", PLAYER, keep.global_position + Vector3(0, 0, 4), true)
+	hidden.command_hold()
+	await _frames(2)
+	_check(not (cmd.call(&"seen_enemies") as Array).has(hidden), "the hidden attacker is seen by the bot")
+	before = count.call()
+	for c in casters:   # within the rune's 12 m of the member (the casters' 8.2 spot may be farther after the tests)
+		if is_instance_valid(c):
+			c.global_position = spot + Vector3(2.0, 0, 0)
+			c.command_stop()
+	for i in 27:
+		for c in casters:
+			if is_instance_valid(c):
+				CasterKit.ability_of(c).mana = 200.0
+		pin.call()
+		member.take_damage(0.5, hidden)
+		member.heal(0.5)
+		await _secs(0.3)
+	var got: int = int(count.call()) - before
+	var diag := []
+	for c in casters:
+		if is_instance_valid(c):
+			diag.append("%.1f m, mana %d" % [_flat(c.global_position, member.global_position), int(CasterKit.ability_of(c).mana)])
+	_check(got >= 1 and got <= 2, "hits from the fog for 8 s: %d runes (want 1-2, one per %.0f s; member %.1f m from the rally, casters %s, last %s)"
+			% [got, AICasters.RUNE_BLIND_EVERY, _flat(member.global_position, rally), str(diag), str(AICasters.last_cast(ENEMY))])
+	member.command_stop()
+	hidden.queue_free()
+	await _frames(3)
+
+
+## M4: leaves a live rune, a claim and the bot's cast history for the next level's _ready to clear.
+func _leave_state() -> void:
+	CasterKit.register_rune(ENEMY, Vector3.ZERO, 10.0, CasterKit.now_s() + 9999.0, null, null)
+	CasterKit.claim(ENEMY, &"slag_rain", Vector3.ZERO, main, CasterKit.now_s() + 9999.0)
+	_check(not CasterKit.runes_of(-1).is_empty() and not CasterKit.claims_of(ENEMY).is_empty(), "staged rune / claim")
+	_check(not AICasters.last_cast(ENEMY).is_empty(), "the hard Ice bot cast nothing (no history to carry over)")
+
+
 # ---------------------------------------------------------------- Shadow, normal
 
 func _shadow_normal() -> void:
 	var ai: AICasters = cmd.get(&"casters_ai")
 	var rally: Vector3 = cmd.call(&"rally_point")
-	_check(absf(float(AICasters.REACTION[1]) - 0.5) < 0.01, "normal reaction")
 	# Normal at tier 2 wants 1 caster (cap allowing).
 	var eco := Economy.for_team(ENEMY)
 	eco.add(6000)
@@ -287,6 +421,9 @@ func _shadow_normal() -> void:
 	var d2 := _spawn("gloom_deacon", ENEMY, rally + Vector3(1.5, 0, 0), true)
 	await _secs(1.5)
 	_check(ai.anchor == d1 or ai.anchor == d2, "no anchor Deacon with 2 Deacons")
+	# The normal bot adopted them with its reaction (0.5 s), not just the table value (review L11).
+	var dab := CasterKit.ability_of(d1)
+	_check(dab.bot_controlled and absf(dab.reaction - 0.5) < 0.01, "normal reaction on the adopted Deacon (%.2f)" % dab.reaction)
 	d2.queue_free()
 	await _secs(1.0)
 	_check(ai.anchor == null, "anchor kept with one Deacon")

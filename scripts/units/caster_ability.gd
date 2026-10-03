@@ -44,6 +44,12 @@ var reaction := CasterKit.AUTOCAST_TICK
 ## Hard bots: the Kilnwarden holds Mana Scald for an enemy caster's cast (1.5 s), the Bramblesage holds Pollen Haze for
 ## 5 ranged units in the first 5 s of a fight.
 var bot_hard := false
+## Spawn order of this caster in the match (CasterKit.attach): the deterministic stagger of its autocast tick.
+var serial := 0
+
+## Spells whose target the team claims while they are cast / in flight (CasterKit.claim, code review M2), and the
+## claim radius of a point spell (another caster's point within it counts as the same clump).
+const CLAIMED_SPELLS := [&"slag_rain", &"mana_scald", &"snagroot", &"pollen_haze"]
 
 var _autocast := {}          # spell id -> bool
 var _cd := {}                # spell id -> seconds left (Umbral Passage)
@@ -84,7 +90,7 @@ func _ready() -> void:
 	mana = minf(CasterKit.START_MANA, max_mana())
 	for s in spell_ids():
 		_autocast[s] = bool(CasterKit.spell_value(s, "autocast", false))
-	_auto_left = CasterKit.AUTOCAST_TICK * float(get_instance_id() % 5) / 5.0
+	_auto_left = CasterKit.AUTOCAST_TICK * float(serial % 5) / 5.0   # spawn order, never the instance id (replays)
 	unit.level_changed.connect(_on_level_changed)
 	unit.displaced.connect(_on_displaced)
 	unit.damage_taken.connect(_on_damage_taken)
@@ -205,6 +211,12 @@ func can_cast(spell_id: StringName, target: Variant) -> String:
 	if unit == null or not unit.is_alive() or not unit.can_act() or unit.is_displaced() or is_casting():
 		return CasterKit.REASON_CANT
 	if cooldown_left(spell_id) > 0.0 or _gcd > 0.0:
+		# Only the 1 s global cooldown blocks and the target is out of range: "Out of range", so smart-cast and
+		# order_cast walk it in (the cast waits for the cooldown on arrival, _tick_approach). Code review L1.
+		if cooldown_left(spell_id) <= 0.0 and _channel.get("id", &"") != &"umbral_passage" \
+				and mana + 0.001 >= mana_cost(spell_id) and target_reason(spell_id, target) == "" \
+				and distance_to_target(target) > float(CasterKit.spell_value(spell_id, "range", 0.0)) + 0.1:
+			return CasterKit.REASON_RANGE
 		return CasterKit.REASON_RECHARGING
 	if _channel.get("id", &"") == &"umbral_passage":
 		return CasterKit.REASON_CANT
@@ -397,22 +409,62 @@ func _begin(spell_id: StringName, target: Variant) -> void:
 		unit.set_cast_lock(CasterKit.CAST_TIME)
 	unit.model_call(&"play_cast", [spell_id])
 	_pending = {"id": spell_id, "target": target, "left": CasterKit.CAST_TIME}
+	if CLAIMED_SPELLS.has(spell_id):
+		CasterKit.claim(int(unit.team), spell_id, target, self, CasterKit.now_s() + CasterKit.CAST_TIME
+				+ _claim_after_release(spell_id))
+
+
+# How long the team claim outlives the release: Slag Rain until the glob lands, Snagroot until the pull ends (the
+# status that tells the others, `slagged` / `rooted`, comes then); Mana Scald and Pollen Haze mark at release.
+static func _claim_after_release(spell_id: StringName) -> float:
+	match spell_id:
+		&"slag_rain":
+			return float(CasterKit.spell_value(&"slag_rain", "flight", 0.6)) + 0.1
+		&"snagroot":
+			return float(CasterKit.spell_value(&"snagroot", "hit", 0.25)) \
+					+ float(CasterKit.spell_value(&"snagroot", "drag_time", 0.5)) + 0.1
+	return 0.1
+
+
+# The 0.4 s cast ends without a release (interrupted, target gone): nothing spent, the team claim dropped.
+func _clear_pending() -> void:
+	if _pending.is_empty():
+		return
+	var sid: StringName = _pending["id"]
+	_pending = {}
+	if CLAIMED_SPELLS.has(sid) and unit != null and is_instance_valid(unit):
+		CasterKit.release_claim(int(unit.team), sid, self)
+
+
+## True when another caster of this team is already casting `spell_id` at `target` (the same unit, or for a point
+## spell a point within its radius): autocast and the bot's fight casts skip it (code review M2).
+func claimed_elsewhere(spell_id: StringName, target: Variant) -> bool:
+	if unit == null:
+		return false
+	var r := float(CasterKit.spell_value(spell_id, "radius", 0.0)) if CasterKit.target_kind(spell_id) == &"point" else 0.0
+	return CasterKit.is_claimed(int(unit.team), spell_id, target, self, r)
 
 
 func _tick_pending(delta: float) -> void:
 	if not unit.can_act() or unit.is_displaced():
-		_pending = {}   # dazed / frozen / pulled: cancelled, nothing spent
+		_clear_pending()   # dazed / frozen / pulled: cancelled, nothing spent
 		return
 	_pending["left"] = float(_pending["left"]) - delta
 	if float(_pending["left"]) > 0.0:
 		return
 	var sid: StringName = _pending["id"]
 	var target: Variant = _pending["target"]
-	_pending = {}
 	# The target may have died, hidden or drifted during the cast: re-check (a little range slack), nothing spent if not.
 	if target_reason(sid, target) != "" or mana + 0.001 < mana_cost(sid) \
 			or distance_to_target(target) > float(CasterKit.spell_value(sid, "range", 0.0)) + RELEASE_SLACK:
+		_clear_pending()
 		return
+	_pending = {}
+	if CLAIMED_SPELLS.has(sid):
+		if sid == &"mana_scald" or sid == &"pollen_haze":
+			CasterKit.release_claim(int(unit.team), sid, self)   # `scalded` / the haze mark it from now on
+		else:
+			CasterKit.claim(int(unit.team), sid, target, self, CasterKit.now_s() + _claim_after_release(sid))
 	mana -= mana_cost(sid)
 	_emit_mana(true)
 	var ctx := {"xp": 0}
@@ -896,34 +948,46 @@ func _auto_slag_point() -> Variant:
 	var s := CasterKit.spell(&"slag_rain")
 	var r := float(s["radius"])
 	var rng := float(s["range"])
+	# One scan of "units" per decision (code review M3): every unit within r (+ its radius) of a candidate in range is
+	# within range + r of the caster, so the groups are counted from this list (O(E^2) on a small list, no new array).
 	var enemies := _enemies_near(unit.global_position, rng + r)
+	var info: Array = []   # per enemy: [armored, titan, slagged > 4 s]
+	info.resize(enemies.size())
+	for i in enemies.size():
+		var g := enemies[i]
+		info[i] = [g.get_stat(&"armor") >= 10.0, CasterKit.is_titan(g), g.status_time_left(&"slagged") > 4.0]
 	var best: Variant = null
 	var best_score := 0
 	for e in enemies:
 		if _flat(e.global_position, unit.global_position) > rng or not _team_sees(e.global_position):
 			continue
-		var group := _enemies_near(e.global_position, r)
+		var count := 0
 		var armored := 0
 		var titan := false
 		var slagged := 0
-		for g in group:
-			if g.get_stat(&"armor") >= 10.0:
+		for j in enemies.size():
+			var g := enemies[j]
+			if _flat(g.global_position, e.global_position) > r + g.radius:
+				continue
+			count += 1
+			var gi: Array = info[j]
+			if gi[0]:
 				armored += 1
-			if CasterKit.is_titan(g):
+			if gi[1]:
 				titan = true
-			if g.status_time_left(&"slagged") > 4.0:
+			if gi[2]:
 				slagged += 1
-		if group.size() < 4 and armored < 2 and not titan:
+		if count < 4 and armored < 2 and not titan:
 			continue
 		var landing := false
 		for q in _slag_inflight:
 			if _flat(q, e.global_position) <= r:
 				landing = true
-		if landing:
+		if landing or claimed_elsewhere(&"slag_rain", e.global_position):
+			continue   # mine or a teammate's glob is already on its way there
+		if slagged * 2 >= count:
 			continue
-		if slagged * 2 >= group.size():
-			continue
-		var score := group.size() + armored + (3 if titan else 0)
+		var score := count + armored + (3 if titan else 0)
 		if score > best_score:
 			best_score = score
 			best = e.global_position
@@ -938,7 +1002,7 @@ func _auto_scald_target() -> Variant:
 	var wizard: Unit = null
 	var now := CasterKit.now_s()
 	for e in _enemies_near(unit.global_position, rng + 1.5):
-		if distance_to_target(e) > rng or target_reason(&"mana_scald", e) != "":
+		if distance_to_target(e) > rng or target_reason(&"mana_scald", e) != "" or claimed_elsewhere(&"mana_scald", e):
 			continue
 		var ab := CasterKit.ability_of(e)
 		if ab:
@@ -949,6 +1013,9 @@ func _auto_scald_target() -> Variant:
 			wizard = e
 	if best != null and bot_hard and wizard != null:
 		# 8.3 hard: with the enemy wizard in range too, wait for the caster's next cast (or 1.5 s), then hit it.
+		for k: Variant in _scald_wait.keys():   # stale waits (a target that left, a dead one) never carry over (review L2)
+			if now - float(_scald_wait[k]) > 3.0:
+				_scald_wait.erase(k)
 		var key := best.get_instance_id()
 		if not _scald_wait.has(key):
 			_scald_wait[key] = now
@@ -969,7 +1036,7 @@ func _auto_snag_target() -> Variant:
 	for e in _enemies_near(unit.global_position, rng + 1.5):
 		if distance_to_target(e) > rng or _flat(e.global_position, unit.global_position) <= 4.0:
 			continue
-		if target_reason(&"snagroot", e) != "":
+		if target_reason(&"snagroot", e) != "" or claimed_elsewhere(&"snagroot", e):
 			continue
 		if CasterKit.is_caster_unit(e):
 			caster = e
@@ -1010,7 +1077,7 @@ func _auto_haze_point() -> Variant:
 		for o in ranged:
 			if _flat(o.global_position, e.global_position) <= r:
 				n += 1
-		if n > best_n and not _haze_covers(e.global_position):
+		if n > best_n and not _haze_covers(e.global_position) and not claimed_elsewhere(&"pollen_haze", e.global_position):
 			best_n = n
 			best = e.global_position
 	return best
@@ -1020,19 +1087,34 @@ func _auto_haze_point() -> Variant:
 # when under 50 %).
 func _auto_tithe_target() -> Variant:
 	var rng := float(CasterKit.spell_value(&"blood_tithe", "range", 7.0))
+	var max_tethers := int(CasterKit.spell_value(&"blood_tithe", "max_tethers", 2))
 	var best: Unit = null
 	var best_score := INF
+	# The team's tethers, counted once per decision from the same "units" scan (target_reason's tethers_on() rescans
+	# every unit for each candidate: code review M3).
+	var tethers := {}   # ally instance id -> tethers on it
+	var candidates: Array[Unit] = []
 	for n in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u == null or u == unit or not u.is_alive() or int(u.team) != int(unit.team) or u.is_worker():
+		if u == null or not u.is_alive() or int(u.team) != int(unit.team):
+			continue
+		if u.unit_type != null and u.unit_type.id == &"gloom_deacon":
+			var ab := CasterKit.ability_of(u)
+			var t := ab.tithe_target() if ab else null
+			if t != null:
+				tethers[t.get_instance_id()] = int(tethers.get(t.get_instance_id(), 0)) + 1
+		if u == unit or u.is_worker():
 			continue
 		if u.unit_type != null and (u.unit_type.is_caravan or u.unit_type.lifetime > 0.0):
 			continue
 		if distance_to_target(u) > rng:
 			continue
+		candidates.append(u)
+	for u in candidates:
 		var pct := u.hp / maxf(1.0, u.max_hp)
-		if pct >= 0.85 or target_reason(&"blood_tithe", u) != "":
-			continue
+		if pct >= 0.85 or u.hp >= u.max_hp - 0.01 or not u.is_inside_tree() \
+				or int(tethers.get(u.get_instance_id(), 0)) >= max_tethers:
+			continue   # = target_reason(&"blood_tithe", u) without its per-candidate scan
 		var score := pct
 		if CasterKit.is_big_target(u) and pct < 0.5:
 			score -= 1.0
@@ -1050,8 +1132,10 @@ func dive_guard_spot() -> Variant:
 	for e in _enemies_near(unit.global_position, rng + 9.0):
 		if e.attack_range > 3.0:
 			continue
+		if not is_instance_valid(e.attack_target):
+			continue   # none, or freed this frame (casting a freed object is a script error)
 		var v := e.attack_target as Unit
-		if v == null or not is_instance_valid(v) or not v.is_alive() or int(v.team) != int(unit.team):
+		if v == null or not v.is_alive() or int(v.team) != int(unit.team):
 			continue
 		if not (v.attack_range > 3.0 or CasterKit.is_caster_unit(v) or v is Wizard):
 			continue
@@ -1100,14 +1184,14 @@ func _on_level_changed(_u: Unit, lvl: int) -> void:
 
 
 func _on_displaced(_u: Unit) -> void:
-	_pending = {}
+	_clear_pending()
 	_approach = {}
 	if not _channel.is_empty():
 		stop_channel()
 
 
 func _on_died(_u: Unit) -> void:
-	_pending = {}
+	_clear_pending()
 	_approach = {}
 	if not _channel.is_empty():
 		stop_channel()

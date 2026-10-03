@@ -278,3 +278,38 @@ func _checks() -> void:
 	var dups := UILabChecks.find_duplicate_help_keys(joined).filter(func(d: Dictionary) -> bool:
 		return String(d["value"]).contains("Z") or String(d["value"]).contains("V"))
 	_check(dups.is_empty(), "caster help keys used twice: %s" % str(dups))
+	await _check_bulwark_ghost(at + side * 14.0, dir, side)
+
+
+## Code review L4: the Rime Bulwark that rises lies like the aiming ghost (the click sends {at, facing}), even when the
+## picked Rimecarver arrives from another angle (here: moved sideways while it walks in).
+func _check_bulwark_ghost(base: Vector3, dir: Vector3, side: Vector3) -> void:
+	var rc := _spawn("rimecarver", PLAYER, base)
+	var point := base + dir * 14.0   # out of range (10): it walks in
+	var eye := _spawn("flame_guard", PLAYER, point + side * 3.0)   # own sight on the wall spot
+	await _secs(1.0)   # the fog updates (a point in the fog is "Invalid target")
+	var rab := CasterKit.ability_of(rc)
+	rab.mana = 200.0
+	sel.select_units([rc])
+	await _frames(2)
+	sel.begin_caster_spell(&"rime_bulwark")
+	_check(sel.pending_caster_spell() == &"rime_bulwark", "Z did not aim the Bulwark")
+	_msgs.clear()
+	_check(sel.confirm_pending_at(point), "Bulwark confirm refused")
+	await _frames(3)
+	_check(rab.is_approaching(), "the Rimecarver does not walk into range (%s, can_cast '%s')" % [str(_msgs),
+			rab.can_cast(&"rime_bulwark", point)])
+	rc.global_position = base + side * 6.0   # it arrives at another angle
+	var t := 0.0
+	while t < 6.0 and CasterKit.bulwarks_of(PLAYER).is_empty():
+		await _secs(0.1)
+		t += 0.1
+	var walls := CasterKit.bulwarks_of(PLAYER)
+	_check(not walls.is_empty(), "no Bulwark rose in 6 s")
+	if not walls.is_empty():
+		var w: Node3D = walls[walls.size() - 1]
+		var along := absf(w.global_transform.basis.x.normalized().dot(dir))
+		_check(along < 0.15, "the Bulwark is turned from the ghost (long axis . aim = %.2f, want ~0)" % along)
+	for n in [rc, eye]:
+		n.queue_free()
+	await _frames(3)

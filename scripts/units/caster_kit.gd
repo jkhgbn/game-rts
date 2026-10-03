@@ -114,6 +114,16 @@ static var force_enabled := false
 ## dictionaries]}. Pruned when read.
 static var _bulwarks: Dictionary = {}
 static var _runes: Dictionary = {}
+## Team claims (code review M2): the spells a caster of the team is casting or has in flight, so a second caster of
+## the same team never autocasts the same spell on the same target / clump in that window.
+## {team: [{spell, point (Vector3 or null), target_id (int, 0 = a point), owner_id, until}]}. Pruned when read.
+static var _claims: Dictionary = {}
+## Per-match spawn counter of the casters (attach order): the deterministic stagger of their autocast ticks and of
+## the bot's fight spread (never instance ids, which depend on everything the process made before: Replay Lab, L5).
+static var _spawn_serial := 0
+
+## LayoutLevel (generated maps, scripts/world/layout_level.gd extends Skirmish) counts as the plain skirmish.
+const LAYOUT_LEVEL_SCRIPT := "res://scripts/world/layout_level.gd"
 
 
 static func enabled_here() -> bool:
@@ -124,11 +134,29 @@ static func enabled_here() -> bool:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null or tree.current_scene == null:
 		return false
-	var s: Variant = tree.current_scene.get_script()
-	if s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT:
+	if is_plain_skirmish(tree.current_scene):
 		return true
 	# A campaign mission opts in with `casters_enabled = true` (mission-01.md "Tiers": its Stronghold opens the caster).
 	return &"casters_enabled" in tree.current_scene and bool(tree.current_scene.get(&"casters_enabled"))
+
+
+## True for the plain skirmish level (skirmish.gd itself) and for a generated map (a LayoutLevel, or a script
+## extending it, that is not a mission: no `objectives()`). Code review L10.
+static func is_plain_skirmish(scene: Node) -> bool:
+	if scene == null:
+		return false
+	var s := scene.get_script() as Script
+	if s == null:
+		return false
+	if s.resource_path == SKIRMISH_SCRIPT:
+		return true
+	if scene.has_method(&"objectives"):
+		return false   # a mission: it opts in with casters_enabled
+	while s != null:
+		if s.resource_path == LAYOUT_LEVEL_SCRIPT:
+			return true
+		s = s.get_base_script()
+	return false
 
 
 static func is_caster(type_id: StringName) -> bool:
@@ -245,6 +273,8 @@ static func attach(u: Unit) -> void:
 	n.name = CasterAbility.NODE_NAME
 	n.unit = u
 	n.id = u.unit_type.id
+	_spawn_serial += 1
+	n.serial = _spawn_serial
 	u.add_child(n)
 
 
@@ -408,7 +438,10 @@ static func runes_of(team: int) -> Array:
 			if float(r["until"]) > now:
 				keep.append(r)
 				out.append(r)
-		_runes[t] = keep
+		if keep.is_empty():
+			_runes.erase(t)   # an empty registry keeps revealed_for()'s early-out (code review M4)
+		else:
+			_runes[t] = keep
 	return out
 
 
@@ -430,10 +463,83 @@ static func revealed_for(u: Node3D) -> bool:
 	return false
 
 
-## Clears the registries (a new level, tests).
+## Clears the registries, the claims and the spawn counter. Called by every level's _ready (main.gd: a new match,
+## F9 restart, menu restart) and by tests: nothing of the previous match (a Scrying Rune, a claim) leaks into the next.
 static func reset() -> void:
 	_bulwarks.clear()
 	_runes.clear()
+	_claims.clear()
+	_spawn_serial = 0
+
+
+# ---------------------------------------------------------------- team claims (code review M2)
+
+## Records that `owner` (a CasterAbility) is casting `spell_id` at `target` (a Vector3 / {at, facing} point or a Unit)
+## until match time `until`. One claim per owner and spell: a new one replaces it.
+static func claim(team: int, spell_id: StringName, target: Variant, owner: Object, until: float) -> void:
+	var list: Array = _claims.get(team, [])
+	var oid := owner.get_instance_id() if owner else 0
+	for i in range(list.size() - 1, -1, -1):
+		var c: Dictionary = list[i]
+		if int(c["owner_id"]) == oid and c["spell"] == spell_id:
+			list.remove_at(i)
+	var tid := 0
+	var point: Variant = null
+	if target is Unit and is_instance_valid(target):
+		tid = (target as Unit).get_instance_id()
+	else:
+		point = CasterAbility._point_of(target)
+	list.append({"spell": spell_id, "point": point, "target_id": tid, "owner_id": oid, "until": until})
+	_claims[team] = list
+
+
+## Drops `owner`'s claim on `spell_id` (a cancelled cast).
+static func release_claim(team: int, spell_id: StringName, owner: Object) -> void:
+	var list: Array = _claims.get(team, [])
+	var oid := owner.get_instance_id() if owner else 0
+	for i in range(list.size() - 1, -1, -1):
+		var c: Dictionary = list[i]
+		if int(c["owner_id"]) == oid and c["spell"] == spell_id:
+			list.remove_at(i)
+	if list.is_empty():
+		_claims.erase(team)
+
+
+## True when another caster of `team` (not `except_owner`) claims `spell_id` on `target`: the same unit, or (a point
+## target / `radius` > 0) a claimed point within `radius` m of the target's position.
+static func is_claimed(team: int, spell_id: StringName, target: Variant, except_owner: Object = null,
+		radius: float = 0.0) -> bool:
+	if not _claims.has(team):
+		return false
+	var now := now_s()
+	var list: Array = _claims[team]
+	var live: Array = []
+	for c: Dictionary in list:
+		if float(c["until"]) > now:
+			live.append(c)
+	if live.is_empty():
+		_claims.erase(team)
+		return false
+	_claims[team] = live
+	var oid := except_owner.get_instance_id() if except_owner else 0
+	var tid := (target as Unit).get_instance_id() if target is Unit and is_instance_valid(target) else 0
+	var p: Variant = CasterAbility._point_of(target)
+	for c: Dictionary in live:
+		if c["spell"] != spell_id or (oid != 0 and int(c["owner_id"]) == oid):
+			continue
+		if tid != 0 and int(c["target_id"]) == tid:
+			return true
+		if radius > 0.0 and p != null and c["point"] is Vector3:
+			var q: Vector3 = c["point"]
+			if Vector2(q.x - (p as Vector3).x, q.z - (p as Vector3).z).length() <= radius:
+				return true
+	return false
+
+
+## The live claims of `team` (tests).
+static func claims_of(team: int) -> Array:
+	var now := now_s()
+	return (_claims.get(team, []) as Array).filter(func(c: Dictionary) -> bool: return float(c["until"]) > now)
 
 
 # ---------------------------------------------------------------- the bot (AIMemory hook)

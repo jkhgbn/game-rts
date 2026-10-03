@@ -923,7 +923,8 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 		_market_slots(out, keep, n_train)
 		return
 	# caster-units.md 3.3: with the caster on B (r2c1) the keep's Set Rally moves to r3c1 (it has no key).
-	var rally_i := RALLY_KEEP_SLOT if keep is Keep and n_train > CASTER_SLOTS[0] else n_train
+	# (The keep's caster slot itself, not the spell-button list that happens to start there: code review L7.)
+	var rally_i := RALLY_KEEP_SLOT if keep is Keep and n_train > SelectionManager.CASTER_KEEP_SLOT else n_train
 	if keep.has_method("set_rally_point"):
 		out[rally_i] = _slot("rally", "RL", "",
 				"Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining.",

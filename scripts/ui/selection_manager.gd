@@ -1334,15 +1334,36 @@ func _update_caster_aim() -> void:
 	_target_ring_mat.albedo_color = Color(1.0, 0.5, 0.1, 0.85) if in_range else Color(1.0, 0.8, 0.3, 0.45)
 	_range_ring.global_position = who.global_position + Vector3.UP * 0.05
 	if spell == &"rime_bulwark":
-		var facing := point - who.global_position
-		facing.y = 0.0
-		if facing.length() < 0.01:
-			facing = Vector3.FORWARD
+		var facing := _bulwark_facing(who, point)
 		var x_axis := Vector3(-facing.normalized().z, 0.0, facing.normalized().x)
 		_caster_ghost.global_transform = Transform3D(Basis(x_axis, Vector3.UP, x_axis.cross(Vector3.UP)),
 				point + Vector3.UP * 0.15)
 		(_caster_ghost.material_override as StandardMaterial3D).albedo_color = Color(0.55, 0.8, 1.0, 0.5) if in_range \
 				else Color(0.8, 0.8, 0.8, 0.3)
+
+
+# The Rime Bulwark lies across this (the line from the caster the ghost shows to the point). The click sends it with
+# the point ({at, facing}), so the wall that rises matches the ghost even when the caster walks in first (review L4).
+static func _bulwark_facing(who: Unit, point: Vector3) -> Vector3:
+	var facing := point - who.global_position if who != null else Vector3.FORWARD
+	facing.y = 0.0
+	if facing.length() < 0.01:
+		facing = Vector3.FORWARD
+	return facing
+
+
+# A Rime Bulwark click (3D view or minimap) at `target` (a Vector3) -> {at, facing} with the facing the ghost showed:
+# from the caster smart-cast picks, else the nearest (as _update_caster_aim). Other spells: `target` unchanged.
+func _with_bulwark_facing(spell: StringName, target: Variant) -> Variant:
+	if spell != &"rime_bulwark" or not (target is Vector3):
+		return target
+	var casters := selected_casters(CasterKit.caster_of_spell(spell))
+	if casters.is_empty():
+		return target
+	var who := CasterKit.pick_caster(casters, spell, target)
+	if who == null:
+		who = _nearest_caster(casters, target as Vector3)
+	return {"at": target, "facing": _bulwark_facing(who, target as Vector3)}
 
 
 func _nearest_caster(casters: Array[Unit], point: Vector3) -> Unit:
@@ -1371,7 +1392,7 @@ func _confirm_caster_spell(spell: StringName, pos: Vector2, keep_aiming: bool) -
 		message.emit(CasterKit.REASON_NO_TARGET if kind == &"point" else "Pick a unit")
 		begin_caster_spell(spell)   # the cursor stays: pick again
 		return
-	var r := cast_caster_at(spell, target)
+	var r := cast_caster_at(spell, _with_bulwark_facing(spell, target))
 	if keep_aiming and r == "" and caster_ready_reason(spell) == "":
 		begin_caster_spell(spell)
 
@@ -2373,7 +2394,7 @@ func confirm_pending_at(point: Vector3) -> bool:
 	cancel_targeting()
 	if caster_spell != &"":   # a minimap click: point spells cast there, unit spells need the 3D view
 		if CasterKit.target_kind(caster_spell) == &"point":
-			cast_caster_at(caster_spell, point)
+			cast_caster_at(caster_spell, _with_bulwark_facing(caster_spell, point))
 		else:
 			message.emit("Pick a unit")
 		return true

@@ -123,6 +123,10 @@ func _run() -> void:
 	await _check_autocast()
 	await _check_smart_cast()
 	await _check_levels()
+	print("---- code review fixes")
+	await _check_double_cast()
+	await _check_walk_while_recharging()
+	_check_registries()
 	_done = true
 
 
@@ -300,8 +304,10 @@ func _check_slag() -> void:
 	_check(_near(heavy.get_stat(&"armor"), 5.0, 0.01), "armour 25 -> 5, got %.1f" % heavy.get_stat(&"armor"))
 	_check(_near(speed0 - armored.move_speed, 0.6, 0.01), "move -0.6 (%.2f -> %.2f)" % [speed0, armored.move_speed])
 	_check(_near(armored.status_time_left(&"slagged"), 10.0 - 0.2, 0.3), "slag 10 s (%.2f left)" % armored.status_time_left(&"slagged"))
+	_check(enemy_hero != null, "no enemy wizard for the hero slag check")
 	if enemy_hero:
-		_check(enemy_hero.has_status(&"slagged") and enemy_hero.status_time_left(&"slagged") <= 5.0,
+		# Same timing as the 10 s check above: landed 0.2 s ago (review L11: "<= 5" also passed at 0.1 s).
+		_check(enemy_hero.has_status(&"slagged") and _near(enemy_hero.status_time_left(&"slagged"), 5.0 - 0.2, 0.3),
 				"the enemy wizard slagged 5 s (%.2f)" % enemy_hero.status_time_left(&"slagged"))
 	var h0 := bare.hp
 	bare.take_damage(10.0, null)
@@ -336,6 +342,7 @@ func _check_scald() -> void:
 			% [vab.mana, hp1 - victim.hp])
 	# The enemy wizard: its own mana pool.
 	var wiz: Wizard = main.wizard_of(ENEMY)
+	_check(wiz != null, "no enemy wizard for the Scald-on-a-wizard check")
 	if wiz:
 		var pos0 := wiz.global_position
 		wiz.global_position = at + _dir * 7.0
@@ -744,6 +751,99 @@ func _check_smart_cast() -> void:
 	await _secs(4.0)
 	_check(int(CasterKit.ability_of(c).casts.get(&"slag_rain", 0)) == 1, "the caster walked into range and cast")
 	await _cleanup([a, b, c, foe])
+
+
+# ---------------------------------------------------------------- code review fixes (M2, L1, M4, L5)
+
+## M2: two casters of one team on autocast never cast the same spell on the same target / clump in the cast + flight
+## window (team claims in CasterKit): one Slag Rain on a clump, one Mana Scald on an enemy caster, one Snagroot.
+func _check_double_cast() -> void:
+	var at := _spot + _side * 30.0
+	# Slag Rain: 2 Kilnwardens, a clump of 5 in front of both.
+	var k1 := await _caster("kilnwarden", at)
+	var k2 := await _caster("kilnwarden", at + _side * 2.0)
+	var clump: Array = []
+	for i in 5:
+		clump.append(_dummy(at + _side * 1.0 + _dir * 7.0 + _side * (float(i) - 2.0) * 0.7))
+	await _frames(20)
+	for k in [k1, k2]:
+		CasterKit.ability_of(k).set_autocast(&"slag_rain", true)
+	await _secs(2.5)
+	var slags := int(CasterKit.ability_of(k1).casts.get(&"slag_rain", 0)) + int(CasterKit.ability_of(k2).casts.get(&"slag_rain", 0))
+	_check(slags == 1, "two Kilnwardens autocast %d Slag Rains on one clump (want 1)" % slags)
+	for k in [k1, k2]:
+		CasterKit.ability_of(k).set_autocast(&"slag_rain", false)
+	await _cleanup(clump)
+	# Mana Scald: the same 2 Kilnwardens, an enemy Deacon with 150 mana in range of both.
+	var foe := await _caster("gloom_deacon", at + _side * 1.0 + _dir * 6.0, ENEMY, 150.0)
+	for k in [k1, k2]:
+		CasterKit.ability_of(k).mana = 200.0
+	await _frames(20)
+	for k in [k1, k2]:
+		CasterKit.ability_of(k).set_autocast(&"mana_scald", true)
+	await _secs(1.5)
+	var scalds := int(CasterKit.ability_of(k1).casts.get(&"mana_scald", 0)) + int(CasterKit.ability_of(k2).casts.get(&"mana_scald", 0))
+	_check(scalds == 1, "two Kilnwardens autocast %d Mana Scalds on one caster (want 1)" % scalds)
+	await _cleanup([k1, k2, foe])
+	# Snagroot: 2 Bramblesages, an enemy caster 7 m away.
+	var b1 := await _caster("bramblesage", at)
+	var b2 := await _caster("bramblesage", at + _side * 2.0)
+	var mark := await _caster("kilnwarden", at + _side * 1.0 + _dir * 7.0, ENEMY, 0.0)
+	mark.add_modifier(&"test_sturdy", {&"max_hp_pct": 100.0})
+	await _frames(20)
+	for b in [b1, b2]:
+		CasterKit.ability_of(b).set_autocast(&"snagroot", true)
+	await _secs(2.0)
+	var snags := int(CasterKit.ability_of(b1).casts.get(&"snagroot", 0)) + int(CasterKit.ability_of(b2).casts.get(&"snagroot", 0))
+	_check(snags == 1, "two Bramblesages autocast %d Snagroots on one caster (want 1)" % snags)
+	await _cleanup([b1, b2, mark])
+	# A cancelled cast drops its claim at once.
+	var k3 := await _caster("kilnwarden", at)
+	var p := at + _dir * 6.0
+	_check(await _cast(k3, &"slag_rain", p) == "", "slag for the claim check")
+	_check(CasterKit.is_claimed(PLAYER, &"slag_rain", p, null, 3.0), "a Slag Rain being cast is not claimed")
+	k3.apply_status(&"dazed", 0.5)
+	await _frames(3)
+	_check(not CasterKit.is_claimed(PLAYER, &"slag_rain", p, null, 3.0), "an interrupted Slag Rain keeps its claim")
+	await _cleanup([k3])
+
+
+## L1: a caster on its 1 s global cooldown that is out of range is still smart-cast's walk-in pick (it walks, then
+## casts once the cooldown is over) instead of answering "Recharging".
+func _check_walk_while_recharging() -> void:
+	var at := _spot + _side * 30.0
+	var c := await _caster("kilnwarden", at)
+	var ab := CasterKit.ability_of(c)
+	var near := at + _dir * 5.0
+	var far := at + _dir * 15.0
+	var foe := _spawn("shade", PLAYER, far + _side * 1.5, true)   # own sight on the far point (no fog refusal)
+	await _frames(20)
+	_check(await _cast(c, &"slag_rain", near) == "", "first slag (starts the global cooldown)")
+	await _frames(30)   # released; the 1 s global cooldown runs
+	_check(ab.gcd_left() > 0.0, "global cooldown running")
+	_check(ab.can_cast(&"slag_rain", far) == CasterKit.REASON_RANGE, "recharging + out of range: '%s' (want Out of range)"
+			% ab.can_cast(&"slag_rain", far))
+	_check(ab.can_cast(&"slag_rain", near) == CasterKit.REASON_RECHARGING, "recharging in range still says Recharging")
+	_check(CasterKit.pick_caster([c], &"slag_rain", far) == c, "smart-cast does not send the recharging caster")
+	_check(ab.order_cast(&"slag_rain", far) == "" and ab.is_approaching(), "order_cast does not walk it in")
+	await _secs(4.0)
+	_check(int(ab.casts.get(&"slag_rain", 0)) == 2, "it walked in and cast after the cooldown (%d casts)" % int(ab.casts.get(&"slag_rain", 0)))
+	await _cleanup([c, foe])
+
+
+## M4 / L5: an expired rune leaves no empty team key (revealed_for's early-out), casters get spawn-order serials.
+func _check_registries() -> void:
+	CasterKit.register_rune(ENEMY, _spot, 10.0, CasterKit.now_s() - 1.0, null, null)
+	_check(CasterKit.runes_of(-1).is_empty() and CasterKit._runes.is_empty(), "an expired rune leaves an empty team key")
+	var a := UnitType.find("kilnwarden").create_unit()
+	var b := UnitType.find("kilnwarden").create_unit()
+	main.add_child(a)
+	main.add_child(b)
+	var sa := CasterKit.ability_of(a).serial
+	var sb := CasterKit.ability_of(b).serial
+	_check(sa > 0 and sb == sa + 1, "caster serials follow the spawn order (%d, %d)" % [sa, sb])
+	a.queue_free()
+	b.queue_free()
 
 
 func _check_levels() -> void:

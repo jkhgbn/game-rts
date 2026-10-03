@@ -96,7 +96,8 @@ const STATUSES := {
 	# Caster units (docs/design/caster-units.md 3.5). "armor_floor_zero": the status' armour loss never takes the
 	# effective armour below 0 (nor lower than it already was); "range_cap": ranged attacks (range > 3) only reach this
 	# far; "sight_cap": fog sight at most this (FogOfWar.sight_of); "no_mark": no placeholder sphere (UnitVfx draws it).
-	&"slagged": {"mods": {&"armor": -20.0, &"move_speed": -0.6}, "damage_taken": 1.10, "hero_mult": 0.5,
+	# (No "hero_mult": Slag Rain picks the hero duration itself, slag_big, and applies it with full_duration.)
+	&"slagged": {"mods": {&"armor": -20.0, &"move_speed": -0.6}, "damage_taken": 1.10,
 			"armor_floor_zero": true, "no_mark": true, "color": Color(0.95, 0.45, 0.10)},
 	&"scalded": {"mods": {}, "damage_taken": 1.0, "no_mark": true, "color": Color(0.86, 0.94, 1.0)},
 	&"hazed": {"mods": {}, "damage_taken": 1.0, "range_cap": 2.5, "sight_cap": 4.0, "no_mark": true,
@@ -1182,6 +1183,17 @@ func command_attack(target) -> void:
 	_hold = false
 
 
+## Points the unit's own auto-aggro at `target` (an enemy Unit or building), as if it had picked it itself: the
+## attack-move "don't chase across the map" rule and the chase leash (_chase_leash() from its anchor) still apply,
+## and the current order (attack-move, idle) is kept. Not a player order: order_serial does not change. Used by the
+## bot's target preference (AICasters), which must never send soldiers on an unleashed chase.
+func set_auto_target(target: Node3D) -> void:
+	if not _target_alive(target) or is_non_combatant() or not is_enemy_of(target):
+		return
+	attack_target = target
+	_auto_target = true
+
+
 ## Walk to target; fight any enemy met within aggro_range on the way, then resume the walk.
 func command_attack_move(target: Vector3) -> void:
 	order_serial += 1
@@ -2131,7 +2143,6 @@ func _find_nearest_enemy_building(max_distance: float) -> Node3D:
 
 func _find_nearest_enemy(max_distance: float) -> Unit:
 	var best: Unit = null
-	var best_dist := max_distance
 	var best_score := INF
 	for node in get_tree().get_nodes_in_group("units"):
 		var other := node as Unit
@@ -2144,7 +2155,6 @@ func _find_nearest_enemy(max_distance: float) -> Unit:
 		var score := d - CASTER_PREFERENCE if prefer_casters and other.has_node(^"CasterAbility") else d
 		if score < best_score:
 			best_score = score
-			best_dist = d
 			best = other
 	return best
 

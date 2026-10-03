@@ -7,6 +7,11 @@ extends SceneTree
 ## and its casters cast at least 3 times once they spent 20 s in fights (2 for the mana-limited Bramblesage; 1 cast
 ## from 8 s: a caster can only cast near enemies); easy sides must never train one. Fights: a caster with an enemy unit
 ## within 10 m; each new fight prints the casters' mana and the units around them.
+## Code review M5 (2026-10-02): only fight casts count (FIGHT_RULES: autocast + fight_* for the Kilnwarden /
+## Bramblesage, dive_guard / retreat_cover for the Rimecarver, autocast + passages for the Deacon; never the runes),
+## a normal / hard side that misses the Stronghold by BOT_START + 180 s FAILS, and a judged side whose casters never
+## fought (< 8 s) without meeting the bar is reported INCONCLUSIVE on the verdict line (never a silent PASS; not a FAIL:
+## the Rimecarver stays behind its army by design, so a hard Ice side often logs < 8 s "in fights").
 ## Run:  godot --headless --path . -s tests/test_casters_bots.gd --fixed-fps 60 --quit-after 90000 -- pair=ice:shadow difficulty=normal limit=720
 ##   pair=P:E (fire / shadow / ice / nature), difficulty=easy|normal|hard (both sides), limit=<game s> (default 720),
 ##   log=0|1 (that bot prints its decisions)
@@ -51,6 +56,17 @@ var _sample_t := -1.0
 ## ARMED_FOR such seconds.
 const ARMED_FOR := 90.0
 var _armed_s := [0.0, 0.0]
+## The casts that count (code review M5): per caster kind, the rules that are fight casts. Never rune_blind /
+## rune_ahead (a hard Rimecarver could meet the bar with runes alone and hide a broken Slag Rain / Haze autocast).
+const FIGHT_RULES := {
+	&"kilnwarden": ["autocast", "fight_scald", "fight_slag"],
+	&"bramblesage": ["autocast", "fight_haze", "fight_snag"],
+	&"rimecarver": ["dive_guard", "retreat_cover"],
+	&"gloom_deacon": ["autocast", "retreat_passage", "home_passage"],
+}
+## A normal / hard side must reach the Stronghold by TierSystem.BOT_START[difficulty][0] + this (save window, the
+## upgrade itself, a lost fight or two); later = FAIL (it hid every caster check before, code review M5).
+const STRONGHOLD_SLACK := 180.0
 var _log_team := -1
 
 
@@ -174,8 +190,9 @@ func _process(_delta: float) -> bool:
 	return false
 
 
-## True when _report at any later time could only PASS: for each side a caster was trained and its casts reached the
-## top bar (3), or it is the normal Ice side (casts not judged). Easy never stops early (no caster ever is the check).
+## True when _report at any later time could only PASS: for each side a caster was trained and its fight casts reached
+## its top bar (3, the mana-limited Bramblesage 2), or it is the normal Ice side (casts not judged). Easy never stops
+## early (no caster ever is the check).
 func _verdict_final() -> bool:
 	if difficulty == 0:
 		return false
@@ -189,34 +206,60 @@ func _verdict_final() -> bool:
 			return false
 		if kingdoms[team] == "ice" and difficulty < 2:
 			continue
-		var ai: Variant = bots[team].get(&"casters_ai") if bots[team] else null
-		var rules: Dictionary = ai.get(&"casts_by_rule") if ai else {}
-		var casts := 0
-		for r: Variant in rules:
-			casts += int(rules[r])
-		if casts < 3:
+		if _fight_casts(team) < _full_bar(team):
 			return false
 	return true
 
 
+## The casts of `team`'s casters that count: the rules of FIGHT_RULES for its kingdom's caster.
+func _fight_casts(team: int, out_rules: Dictionary = {}) -> int:
+	var ai: Variant = bots[team].get(&"casters_ai") if bots[team] else null
+	var rules: Dictionary = ai.get(&"casts_by_rule") if ai else {}
+	var counted: Array = FIGHT_RULES.get(CasterKit.caster_for(StringName(kingdoms[team])), [])
+	var n := 0
+	for r: Variant in rules:
+		if counted.has(String(r)):
+			n += int(rules[r])
+			out_rules[r] = int(rules[r])
+	return n
+
+
+# 3 casts once the casters spent FIGHT_FULL s in fights; 2 for a caster whose cheapest spell costs more than 50 mana.
+func _full_bar(team: int) -> int:
+	return 3 if _cheapest_spell(kingdoms[team]) <= 50.0 else 2
+
+
 func _report(t: float) -> void:
 	var errors: Array[String] = []
+	var inconclusive: Array[String] = []   # nothing was tested for that side: reported on the verdict line, not a FAIL
 	for team in [0, 1]:
 		var ai: Variant = bots[team].get(&"casters_ai") if bots[team] else null
 		var rules: Dictionary = ai.get(&"casts_by_rule") if ai else {}
-		var casts := 0
+		var all_casts := 0
 		for r: Variant in rules:
-			casts += int(rules[r])
+			all_casts += int(rules[r])
+		var supplied := {}
+		var casts := _fight_casts(team, supplied)
 		var trained := 0
 		for k: Variant in _seen:
 			if int(_seen[k]) == team:
 				trained += 1
-		print("  team %d %-6s stronghold %s  first caster %s  trained %d  lost %d  casts %d %s  fights %d (%d s)" % [team,
-				kingdoms[team], _mmss(_stronghold[team]), _mmss(_first_caster[team]), trained, _lost[team], casts,
-				str(rules), _fights[team], int(_fight_s[team])])
+		print("  team %d %-6s stronghold %s  first caster %s  trained %d  lost %d  casts %d (all %d %s)  fights %d (%d s)" % [
+				team, kingdoms[team], _mmss(_stronghold[team]), _mmss(_first_caster[team]), trained, _lost[team], casts,
+				all_casts, str(rules), _fights[team], int(_fight_s[team])])
+		print("  team %d counted casts by rule: %s" % [team, str(supplied)])
 		if difficulty == 0:
 			if trained > 0:
 				errors.append("easy team %d trained %d casters" % [team, trained])
+			continue
+		# The Stronghold by a known time (TierSystem.BOT_START + slack): a bot whose tiering broke used to PASS silently.
+		var deadline := float((TierSystem.BOT_START.get(difficulty, TierSystem.BOT_START[1]) as Array)[0]) + STRONGHOLD_SLACK
+		if _stronghold[team] < 0.0:
+			if t >= deadline:
+				errors.append("team %d (%s) never reached the Stronghold (by %s)" % [team, kingdoms[team], _mmss(deadline)])
+			else:
+				inconclusive.append("team %d (%s): the run ended at %s before its Stronghold (due by %s), no caster check ran"
+						% [team, kingdoms[team], _mmss(t), _mmss(deadline)])
 			continue
 		if _stronghold[team] >= 0.0 and _stronghold[team] <= t - 90.0:
 			if trained == 0 and _armed_s[team] < ARMED_FOR:
@@ -231,14 +274,21 @@ func _report(t: float) -> void:
 				# FIGHT_SOME s (a skirmish with a scout), none when they never met an enemy. A caster whose cheapest
 				# spell costs more than 50 mana (the Bramblesage: Snagroot 75, Haze 100 = one cast per 94-125 s of
 				# 0.8 / s regen) is mana-limited: 2 casts (caster-units.md 9.3).
-				var full := 3 if _cheapest_spell(kingdoms[team]) <= 50.0 else 2
+				var full := _full_bar(team)
 				var need := full if _fight_s[team] >= FIGHT_FULL else (1 if _fight_s[team] >= FIGHT_SOME else 0)
 				if casts < need:
-					errors.append("team %d (%s) casters cast only %d times in %d s of fights (want %d)" % [team,
-							kingdoms[team], casts, int(_fight_s[team]), need])
+					errors.append("team %d (%s) casters cast only %d fight casts in %d s of fights (want %d; %s)" % [team,
+							kingdoms[team], casts, int(_fight_s[team]), need, str(supplied)])
+				elif _fight_s[team] < FIGHT_SOME and casts < full:
+					# Casters that never met an enemy tested no casting at all: not a pass (code review M5).
+					inconclusive.append("team %d (%s): its casters spent %d s in fights (want >= %d) and cast %d fight casts"
+							% [team, kingdoms[team], int(_fight_s[team]), int(FIGHT_SOME), casts])
 	print("  ended at %s%s" % [_mmss(t), " (game over)" if bool(main.get(&"game_over")) else ""])
+	for line in inconclusive:
+		print("  INCONCLUSIVE %s" % line)
 	if errors.is_empty():
-		print("PASS %s %s:%s" % [TASK_ID, kingdoms[0], kingdoms[1]])
+		print("PASS %s %s:%s%s" % [TASK_ID, kingdoms[0], kingdoms[1],
+				"" if inconclusive.is_empty() else " (INCONCLUSIVE: %s)" % "; ".join(inconclusive)])
 	else:
 		print("FAIL %s %s:%s: %s" % [TASK_ID, kingdoms[0], kingdoms[1], "; ".join(errors)])
 	quit(0 if errors.is_empty() else 1)
