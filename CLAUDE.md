@@ -207,6 +207,22 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   reward, by)`, `CritterSystem` (cosmetic), `MapFillVfx`. BuildGrid messages `"Can't build on water"`, `"Too close to a
   crossing"`, `"Too close to a monster camp"`. `Skirmish.river_enabled / points_enabled / camps_enabled / beasts_enabled
   := true` (missions: no river). Settings `map_detail` (`&"high"` / `&"low"`). Ground river uniforms: 12.V2 `shader_params()`.
+- **Map layouts** (map tools MT1-MT7, `docs/design/map-production.md` 2.8; review fixes 2026-10-02). `MapInfo`
+  (`scripts/core/map_info.gd`, static): `size_x`, `size_z`, `map_id`, `setup(w, d, id, by)` (main.gd `_ready`, first thing),
+  `reset()`, `release(by)` (the level leaving the tree gives the 120 m default back), `half_x/half_z/half_max/size_max`,
+  `bounds()`, `contains(p, margin)`, `clamp_point(p, margin)`; fog, BuildGrid, river, minimap, camera and the ground
+  shader (`main.gd apply_map_size`: `map_half_xz`) read it, never a 120 m constant. `MapLayout` (`data/maps/map_layout.gd`,
+  `data/maps/<id>_layout.tres`, built by World Forge `map <id>` from `<id>.map`): `id`, `size_x/size_z`, `symmetry`,
+  `seats` ({team, side, frame, frame_name}), `closed_seats`, `spots` ({id, kind, sub, pos, team, twin_of, props, image}),
+  `spots_of(kind)`, `spot(id)`, `seat_frame(team)`, `keep_of(team)`, river / moat / crossings / roads / blocks / props /
+  forest, `rules`, and the mission accessors `mark(id)`, `trigger(id)`, `path(id)`, `play_bounds()`, `open_seats()`,
+  `target(key)`. `LayoutLevel extends Skirmish` (`scripts/world/layout_level.gd`, `scenes/layout_level.tscn`): set
+  `layout_path` (or `layout`) before it enters the tree; `load_layout(path)` (static, null on failure), `layout_error()`
+  ("" = ok; set = the HUD says why and the match never starts), `map_layout()`, the Skirmish slot API from the layout
+  (`base_center`, `start_position`, `node_of`, `natural_hall_spot`, `rich_hall_spot`, `market_slot`, `tower_slot`,
+  `cache_spots`), `bot_point(team, p)` for Commander's Crown Hollow points and `bot_vector(team, v)` for its relative
+  offsets (never `bot_point` on an offset). The layout's terrain (river, crossings, landmark props) is always built; a
+  mission subclass's `river_enabled = false` only turns the ford slow off.
 - **Score** (step 16a): `ScoreKeeper` (`scripts/world/score_keeper.gd`, group `"score"`, `instance(tree)`, `score(team)`,
   `breakdown(team)`, `history(team)`, `leader()`, `margin()`, `table_text()`; WEIGHTS table at the top). Every skirmish
   end shows the Score tab (`GameHUD.show_score`, `select_end_tab`); the match still ends on kill / concede, score decides

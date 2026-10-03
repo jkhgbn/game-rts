@@ -1,6 +1,6 @@
 # Map production: how many maps, how we make them fast, and the first batch
 
-Owner: map / level designer + tools planner. Written 2026-10-02. Status: **design only, nothing here is built.**
+Owner: map / level designer + tools planner. Written 2026-10-02. Status (2026-10-02): **MT1-MT7 built** (commit d1599f24 + the code-review fixes of `docs/reviews/review-map-tools.md`); MT2 and MT5 are only partly done (their "Done when" rows in 4.2 say what is still open); MT8-MT11 not started.
 Recommended option taken everywhere (JS: no questions).
 
 User request (JS, 2026-10-02, verbatim): "more map and should be ez the make for map i will let u figure the number and
@@ -227,10 +227,10 @@ Steps (all in the canonical region; the symmetry makes the rest):
 3. **Expansions** by ring sampling: natural, rich and third candidates scored on a quick **2D grid path** (generator's own
    coarse A* on a 1 m grid with water and blocks as walls: no Godot bake, ~50 ms) against the tempo targets.
 4. **Objectives by contest ratio** (`map-2v2-audit.md` metric): own points at 0.75-1.0x the enemy's time, raidable ones at
-   1.27-1.32x, contested on the axis (1.0x); per seat >= 5 contested + raidable objectives on 1v1, >= 2.5 on team maps.
+   1.27-1.32x, contested on the axis (1.0x); per seat >= 5 contested + raidable objectives on 1v1, >= 3 on team maps (`CONTEST_MIN_TEAM`).
 5. **Services**: tavern, peddler, trade ring, guilds, caches, lairs, from the templates with their distance bands.
 6. **Roads and lanes** (ring road through the posts, lane keep -> crown), **zones** (biome + ~28 % gameplay terrain).
-7. **Clearance solver**: pushes spots apart (L3 >= 3 m, camp >= 9 m and point >= 7 m from road centre lines, nothing within
+7. **Clearance solver**: pushes spots apart (L3 >= 3 m, structures >= 6 m, camp >= 9 m and point >= 7 m from road centre lines, nothing within
    8 m of a crossing), moves <= 5 m each.
 8. **Write** `data/maps/gen/<id>_s<seed>.map` with a header line `# generated: gen archetype=... seed=... (do not hand-edit;
    copy to data/maps/<id>.map to adopt)`.
@@ -244,16 +244,16 @@ The Map Lab already judges a `.map` preview (N1-N3, M1-M4, F1-F2, D1, A1, T1, C1
 |---|---|
 | R1 Targets | every `rules targets=` band met (unit path lengths); FAIL > 10 % out, WARN 5-10 % |
 | R2 Content per seat | the `new-maps.md` 1 table per seat (2 home nodes, natural, rich, 2 posts, tavern, peddler, 2 caches, T1 / T2 / T3 camps, 2-4 lairs, 2 towers + well + shrine, the crown); +-1 = WARN, missing kind = FAIL |
-| R3 Contest | contested + raidable objectives per seat (2.4 step 4): 1v1 >= 5, team >= 2.5 (WARN under) |
-| R4 Clearances | `map-fill.md` 4.1 / 5.2 / 5.5 and `terrain.md` 4.1 distances; spot inside a forest clearing radius |
-| R5 Engine limits | one `half_width`, 2 banks, <= 4 ford / steps circles, <= 16 river segments, size <= 192, spots <= 140, navmesh cells <= 4x the 1v1 (FAIL) |
+| R3 Contest | contested + raidable objectives per seat (2.4 step 4): 1v1 >= 5, team >= 3 (WARN under) |
+| R4 Clearances | `map-fill.md` 4.1 / 5.2 / 5.5 and `terrain.md` 4.1 distances; spot inside a forest clearing radius; spacing (`tools/world_forge/forge_spacing.gd`, shared with World Forge L3 and the gen score): spots >= 3 m apart, structures (keep, tavern, peddler, post, guild, point) >= 6 m, one den + one lodge per image = FAIL |
+| R5 Engine limits | one `half_width`, 2 banks, <= 4 ford / steps circles, <= 16 river segments, size <= 192, spots <= 140, navmesh raster (0.25 m cells) <= 2.5x Crown Hollow's, i.e. a 189 m square (FAIL) |
 | R6 Mission mode (`symmetry=none` + overlay) | every `mark` / `trigger` / `path` reachable from the player start; the spec's timing lines (`Dusk Keep -> Stone Ford 51 m`, read from a `rules targets=` block in the overlay) within +-5 %; spawn marks out of the player's start sight; no forest inside a mark's clearing |
 | Big maps | the 1 m Dijkstra grid for `half_size > 70` (map-lab.md 6) so a 180 m map runs in <= 3 min |
-**Auto-fix** (`run_world_forge.ps1 fix <id>`, max 5 loops): reads the report's fixable rows: a spot off its target band
+**Auto-fix** (`run_world_forge.ps1 fix <id>`, max 3 loops): reads the report's fixable rows: a spot off its target band
 (moved <= 5 m along the path gradient), a clearance (pushed out), a crossing under 4 m (widened <= 2 m), a choke under 3 m on a
 main route (the nearest block shortened). It rewrites the canonical `.map` lines with `# autofix: moved 3.2 m (R1 natural)`
-and runs again. It **never** touches symmetry, river course or seat frames (those are FAILs for a human). It stops when
-there is 0 FAIL and the score is >= 75, or after 5 loops (report "needs a designer").
+and runs again. A fixed spot that is the anchor of a `use` expansion (natural / rich / third node) takes its template group along (hall and tower slots); only `# autofix` lines are replaced (hand-written `move` lines stay); a final round worse than an earlier one is rolled back to that round. It **never** touches symmetry, river course or seat frames (those are FAILs for a human). It stops when
+there is 0 FAIL and the score is >= 75, or after 3 loops (report "needs a designer").
 
 ### 2.6 Quick preview
 - `layout.png` exists (spots by kind on the plan). New **`mapsheet <id>`** (windowed, ~20 s): one 2048 x 1024 PNG with
@@ -355,10 +355,10 @@ Picked to (a) prove the runtime on 1v1, 2v2 and asymmetric campaign maps, (b) un
 | Id | Task | Owner | Size | Done when |
 |---|---|---|---|---|
 | MT1 | `MapInfo` + size-generic fog (shader `map_half`, grid), BuildGrid, river mask, minimap letterbox, camera bounds (= `map-2v2.md` 20.L1 / 20.C*) | lead (contract) + systems-coder | M (~6 h) | CH unchanged (smoke, perf, Map Lab 98); a 168 m and a 150 x 120 level load with correct fog / minimap |
-| MT2 | `LayoutLevel` (2.8) incl. the `forest` port of `main.gd` `_build_map`, `Skirmish.layout_path`, `Skirmish2v2` on a layout (= NM.C1) | systems-coder [H] | L (~10 h) | regression gate (CH round trip R1 / R2, Emberfall tree hash); Fourfold loads headless, 4 seats spawn, 2 / 4 bots play 10 min with 0 script errors; live Map Lab within 2 points of the preview |
+| MT2 | `LayoutLevel` (2.8) incl. the `forest` port of `main.gd` `_build_map`, `Skirmish.layout_path`, `Skirmish2v2` on a layout (= NM.C1) | systems-coder [H] | L (~10 h) | regression gate (CH round trip R1 / R2, Emberfall tree hash); Fourfold loads headless, 4 seats spawn, 2 / 4 bots play 10 min with 0 script errors; live Map Lab within 2 points of the preview. **Open (2026-10-02):** the CH round trip and 1v1 LayoutLevel bot games pass; `Skirmish2v2` on a layout (4 seats spawn, 4 bots) is not built |
 | MT3 | Grammar v2 (2.2): `size=WxD`, `use`, terrain statements, `forest`, `block kind=`, `rules`, `closed_seat`, mission overlays; `MapLayout.mark / trigger / path / bounds / rules` | four-wizards-high | M (~6 h) | every v1 `.map` builds byte-identical layouts; a test overlay on CH round-trips; README section 2 updated |
 | MT4 | Template library v1 (~30 `.mapt`, 2.3), each with a mini Lab check; rewrite Cinderstep Gorge with `use` | four-wizards-high + game-designer (numbers) | M (~6 h) | all templates PASS alone; Gorge from templates = the 4.1 draft +-0.5 m |
-| MT5 | `gen` verb (2.4): 8 archetypes, 2 / 4 players, tempo, biome, seed sweep with the grid pre-filter, contact sheet | four-wizards-high [H] | L (~10 h) | 3 archetypes x 2 player counts each give >= 3 candidates with 0 FAIL and score >= 75 from a 40-seed sweep in <= 20 min on the laptop |
+| MT5 | `gen` verb (2.4): 8 archetypes, 2 / 4 players, tempo, biome, seed sweep with the grid pre-filter, contact sheet | four-wizards-high [H] | L (~10 h) | 3 archetypes x 2 player counts each give >= 3 candidates with 0 FAIL and score >= 75 from a 40-seed sweep in <= 20 min on the laptop. **Open (2026-10-02):** only river_split was run (1v1 Thornwater, 2v2 Quartermeet); open / spine and the 3 x 2 matrix are not proven |
 | MT6 | Map Lab v2 (2.5): R1-R6, 1 m grid for big maps, `fix` auto-fix loop | four-wizards-high (Map Lab owner) | M (~8 h) | `tests/test_map_lab.gd` extended (synthetic cases per new check); auto-fix takes a seeded broken Gorge (3 spots off by 4 m) to PASS in <= 3 loops |
 | MT7 | `mapsheet` PNG + lobby preview + minimap background render | four-wizards-high | S (~3 h) | sheets for the 4 existing layouts; previews 512 x 512 |
 | MT8 | Map gate script `tools/ci/map_gate.ps1 <map>`: Bot Lab fairness matrix + rush matrix + perf + load time (4.3), one scorecard | lead (with the Bot Lab owner) | S (~4 h) | runs on CH and reproduces today's numbers; one command per map |
@@ -372,7 +372,7 @@ when MT2 + MT3 land; maps 9-10 wait for MT5.
 | Gate | Threshold |
 |---|---|
 | World Forge `map` | exit 0; L1-L3 PASS; R5 engine limits PASS |
-| Map Lab | **score >= 75 (JS 2026-10-02, was 90), 0 FAIL**; mirrored maps: N2 / M1-M4 / F1 PASS, D1 <= 2 % per seat, T1 seats within 3 s and 3 %; C1 crossings >= 4 m of navmesh; C2 no main-route choke < 3 m except named gates; R1 targets met; R2 content per seat; R3 contest (1v1 >= 5, team >= 2.5 per seat); team maps: A1 PASS and enemy / ally soldier time 2.0-3.0x; campaign: R6 PASS |
+| Map Lab | **score >= 75 (JS 2026-10-02, was 90), 0 FAIL**; mirrored maps: N2 / M1-M4 / F1 PASS, D1 <= 2 % per seat, T1 seats within 3 s and 3 %; C1 crossings >= 4 m of navmesh; C2 no main-route choke < 3 m except named gates; R1 targets met; R2 content per seat; R3 contest (1v1 >= 5, team >= 3 per seat); team maps: A1 PASS and enemy / ally soldier time 2.0-3.0x; campaign: R6 PASS |
 | Bot fairness (MT8), per map | Bot Lab, both seats swapped, **3 difficulties (easy / normal / hard) x 4 kingdom mirrors (Fire-Fire, Shadow-Shadow, Ice-Ice, Nature-Nature), 10 games per cell (120 games, laptop, sim mode)**: pooled seat win rate **45-55 %** per difficulty, no cell over 65 %; kingdom-vs-kingdom on that map 40-60 % (the global 45-55 % stays `rush-balance.md`'s job); 0 script errors, `stuck = 0`, every game ends (kill or score at 30:00). Rush maps: `rush-balance.md` 11 matrix in band, <= 15 % of rush games over before 8:00. 2v2 / FFA: 4-bot games end with a winner, each seat wins 20-30 % (FFA) or each side 45-55 % (2v2) |
 | Performance | 1v1: `perf_test.gd -- map=<id>` prints `PERF OK`; 2v2 / FFA: 300 units <= 15.0 ms per frame (quiet desktop), 400-unit stress <= 22 ms; first navmesh bake <= 5 s on the desktop, runtime rebake <= 1.5 s; decor <= 12 000 instances and <= 140 draw nodes; RAM <= +60 MB vs a CH match; load to playable <= 10 s on the GTX 1660 desktop; >= 60 fps at max zoom over the busiest metre (heat map) in the windowed lead check |
 | Art | Art Lab R4k PASS for the biome; units readable on the ground (contrast check, as the golden-autumn rule) |
