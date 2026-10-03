@@ -10,8 +10,15 @@ extends CharacterModel
 ## Death ("Unbottled"): the cloud is sucked down into the bottle, which drops to the ground (1.0 s).
 ## Draws: merged pivots + bolt (keep_separate) + lip sparks + blob + hidden vet trim; one-shot bursts. 0 lights.
 
-## Hover height of the bottle's foot (the Art Lab reads the model as hovering).
-var fly_height: float = 0.22
+## Hover height of the bottle's foot. A const: the bottle foot is built at this height into the model's merged mesh,
+## which is cached per type, so a per-instance value could never take effect.
+const FLY_HEIGHT := 0.22
+## Read-only mirror of FLY_HEIGHT (the Art Lab detects hovering models with get(&"fly_height")); writes are ignored.
+var fly_height: float:
+	get:
+		return FLY_HEIGHT
+	set(_v):
+		pass
 ## Painted face (FaceKit, faces pass 2026-09-28).
 var _face: FaceRig
 
@@ -85,7 +92,7 @@ func _build_parts() -> void:
 	var storm := palette(&"shadow_skin")
 	var deep := palette(&"shadow_sec_worker")
 	# ---- Hips: the brass bottle (foot, round belly, shoulder, neck, lip), gold bands, team cord, the spiral tail.
-	add_part(hips, cyl(0.15, 0.19, 0.07, 10), brass, Vector3(0, fly_height + 0.035, 0))
+	add_part(hips, cyl(0.15, 0.19, 0.07, 10), brass, Vector3(0, FLY_HEIGHT + 0.035, 0))
 	add_part(hips, sphere(0.3, 12, 6), brass, Vector3(0, 0.5, 0), Vector3.ZERO, Vector3(1.0, 0.85, 1.0))
 	add_part(hips, torus(0.27, 0.32, 14), gold, Vector3(0, 0.5, 0), Vector3.ZERO, Vector3(1.0, 1.2, 1.0))
 	add_part(hips, torus(0.2, 0.235, 12), dark, Vector3(0, 0.36, 0), Vector3.ZERO, Vector3(1.0, 1.0, 1.0))
@@ -341,7 +348,7 @@ func _on_revive() -> void:
 	if _bolt:
 		_bolt.visible = false
 	if _lip_sparks:
-		_lip_sparks.emitting = true
+		_lip_sparks.emitting = _tier < 2   # as CharacterModel._update_tier does for loop fx
 	_apply_glow(true)
 
 
@@ -380,6 +387,9 @@ func _pose_walk(w: float, _rate: float) -> void:
 func _pose_death(dt: float) -> void:
 	_death_t += dt
 	var t := _death_t
+	# play_death cuts an attack / cast without attack_end / cast_end: the bolt must not linger through the death.
+	if _bolt and _bolt.visible:
+		_bolt.visible = false
 	var k: float = _ease_in(clampf(t / 0.75, 0.0, 1.0))
 	rot(P_CHEST, Vector3(0, 540.0 * DEG * k, 0))
 	pos(P_CHEST, Vector3(0, -0.9 * k, 0))
@@ -387,7 +397,7 @@ func _pose_death(dt: float) -> void:
 	rot(P_ARM_R, Vector3(0, 0, -70.0 * DEG * k))
 	_root_scale *= Vector3(lerpf(1.0, 0.45, k), lerpf(1.0, 0.3, k), lerpf(1.0, 0.45, k))
 	var drop: float = _ease_in(clampf((t - 0.6) / 0.25, 0.0, 1.0))
-	pos(P_ROOT, Vector3(0, -fly_height * 0.3 * drop, 0))
+	pos(P_ROOT, Vector3(0, -FLY_HEIGHT * 0.3 * drop, 0))
 	rot(P_ROOT, Vector3(0, 0, 70.0 * DEG * drop))
 	if t >= 0.3:
 		_glows_dead()

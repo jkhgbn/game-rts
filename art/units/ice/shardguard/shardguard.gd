@@ -42,6 +42,8 @@ var _braced: bool = false
 var _brace_w: float = 0.0
 var _ring_t: float = 99.0     # time since the cast's ring flash
 var _planted: bool = false
+var _brace_written: float = 0.0   # brace weight last written to the pivots (fast path bookkeeping)
+var _fast_frame: bool = false     # set by _idle_fast: this frame took the kit's fast idle path
 
 
 ## Hold the Line ready -> braced stance + faint glass ring (gameplay calls it; also via set_status(&"braced")).
@@ -323,8 +325,15 @@ func _ice_process(dt: float) -> void:
 		_ring.visible = true
 	elif _ring.visible:
 		_ring.visible = false
+	# Full write only while the stance blends; settled braced idle takes the fast path (_idle_fast adds the offsets).
+	if _brace_w > 0.0 and _brace_w < 1.0:
+		_force_write = true
+	var fast := _fast_frame
+	_fast_frame = false
+	if fast:
+		return   # the fast idle path: rot()/pos() offsets are not applied there (and must not pile up)
+	_brace_written = _brace_w
 	if _brace_w > 0.0:
-		_force_write = true   # keep the full pose path while braced (the idle fast path ignores offsets)
 		var w: float = _brace_w
 		rot(P_ARM_R, Vector3(18.0 * DEG * w, 0, 4.0 * DEG * w))
 		rot(P_ARM_L, Vector3(-38.0 * DEG * w, 0, 8.0 * DEG * w))
@@ -339,9 +348,32 @@ func _ice_process(dt: float) -> void:
 		rot(P_CHEST, Vector3(4.0 * DEG * _walk_w, 0, 0))
 
 
+## Fast idle path (pure idle, no full write): the kit's breathing plus the braced stance at its current weight, written
+## straight to the pivots (only the values that changed are set).
+func _idle_fast() -> void:
+	_fast_frame = true
+	if _brace_w <= 0.0 and _brace_written <= 0.0:
+		super._idle_fast()
+		return
+	var w: float = _brace_w
+	var ph: float = (_t + _phase_off) * TAU / idle_period
+	var s: float = sin(ph)
+	_write_pos(P_ROOT, _rest_pos[P_ROOT] + Vector3(0, 0.02 * s - 0.06 * w, 0))
+	_write_rot(P_CHEST, _rest_rot[P_CHEST] + Vector3(1.5 * DEG * s + 7.0 * DEG * w, -10.0 * DEG * w, 0))
+	if _tier == 0:
+		_write_rot(P_HEAD, _rest_rot[P_HEAD] + Vector3(0, 4.0 * DEG * sin(0.5 * ph + 1.0), 0))
+	_write_rot(P_ARM_R, _rest_rot[P_ARM_R] + Vector3(18.0 * DEG * w, 0, 4.0 * DEG * w))
+	_write_rot(P_ARM_L, _rest_rot[P_ARM_L] + Vector3(-38.0 * DEG * w, 0, 8.0 * DEG * w))
+	_write_rot(P_LEG_L, _rest_rot[P_LEG_L] + Vector3(-16.0 * DEG * w, 0, 0))
+	_write_rot(P_LEG_R, _rest_rot[P_LEG_R] + Vector3(12.0 * DEG * w, 0, 0))
+	_brace_written = w
+
+
 func _ice_revive() -> void:
 	_ring_t = 99.0
 	_brace_w = 0.0
+	_brace_written = 0.0
+	_fast_frame = false
 	_ring.visible = false
 
 

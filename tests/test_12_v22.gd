@@ -114,7 +114,9 @@ func _structure(a: Node3D, b: Node3D, nm: String, max_verts: int, cap_top: Vecto
 	var head_box := _aabb(a.get_node("Root/Chest/Head"), a.get_node("Root"))
 	print("%s: AABB bottom %.3f top %.3f, x %.2f .. %.2f, z %.2f .. %.2f; cap top %.3f, cap width %.2f" % [nm,
 		box.position.y, box.end.y, box.position.x, box.end.x, box.position.z, box.end.z, head_box.end.y, head_box.size.x])
-	_check(box.position.y >= -0.015, "%s: nothing below y 0 (got %.3f)" % [nm, box.position.y])
+	# -0.03: the staff foot rests at ~-0.003 and the idle root bob adds up to -0.012 at a phase that depends on the
+	# instance id (_phase_off), so -0.015 failed depending on how many objects were allocated before (2026-10-03).
+	_check(box.position.y >= -0.03, "%s: nothing below y 0 (got %.3f)" % [nm, box.position.y])
 	_check(head_box.end.y >= cap_top.x and head_box.end.y <= cap_top.y, "%s: cap top %.2f-%.2f m (got %.3f)" % [nm,
 		cap_top.x, cap_top.y, head_box.end.y])
 	# Team colour: none.

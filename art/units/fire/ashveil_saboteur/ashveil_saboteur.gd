@@ -239,7 +239,7 @@ func _on_action_event(ev: StringName) -> void:
 func _on_revive() -> void:
 	super()
 	if _sparks_fuse:
-		_sparks_fuse.emitting = true
+		_sparks_fuse.emitting = _tier < 2   # as CharacterModel._update_tier does for loop fx
 
 
 ## Sneaking walk: low and leaning in, head down, the bomb hand tucked, quick short steps.

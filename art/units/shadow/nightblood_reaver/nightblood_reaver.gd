@@ -312,7 +312,8 @@ func _on_action_event(ev: StringName) -> void:
 		&"cast_start":
 			if _drink and _tier < 2:
 				_drink.restart()
-		&"cast_end", &"death_glow_off":
+		&"cast_end", &"death_glow_off", &"attack_start":
+			# attack_start: an auto-attack can replace a running cast (no cast_end), so the flare resets here too.
 			if _flare != 0.0:
 				_flare = 0.0
 				_apply_glow(true)

@@ -814,6 +814,10 @@ func _ik(s: Vector3, h: Vector3, a: float, b: float, pole: Vector3) -> void:
 
 func _on_revive() -> void:
 	_face_reset()
+	# a fresh life aims forward: drop the old target and the head look (set_aim_target(null) clears phi / elev / valid)
+	set_aim_target(null)
+	_aim_point = Vector3.ZERO
+	_look_w = 0.0
 	_aim_w = 0.0
 	_hold = 0.0
 	_twist = 0.0
