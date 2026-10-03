@@ -29,13 +29,20 @@ $NoTestRx = '^(docs/|\.claude/|\.github/|README|LICENSE|\.gitignore|\.gitattribu
 $GenericDirs = @("art", "units", "buildings", "scripts", "data", "scenes", "vfx", "environment", "tools", "assets", "audio",
 	"textures", "models", "materials", "ui", "ai", "world", "core", "items", "spells", "champions", "fire", "ice", "nature",
 	"shadow", "neutral", "tests", "common", "src", "lib", "economy", "campaign", "missions", "cinematics", "sfx", "music",
-	"voice", "fonts", "icons", "shaders", "meshes", "anims", "animations")
+	"voice", "fonts", "icons", "shaders", "meshes", "anims", "animations", "export", "maps", "previews")
 
 function Invoke-Git([string[]]$a) {
 	$git = "git"
 	if (-not (Get-Command git -ErrorAction SilentlyContinue)) { $git = "C:\Program Files\Git\cmd\git.exe" }
-	$out = & $git -C $Root @a 2>$null
-	if ($LASTEXITCODE -ne 0) { throw "git $($a -join ' ') failed (exit $LASTEXITCODE)" }
+	# PS 5.1: with $ErrorActionPreference = "Stop", redirected native stderr (a CRLF warning...) becomes a terminating
+	# error record. Run git with "Continue", drop its stderr lines and judge by the exit code only.
+	$eap = $ErrorActionPreference
+	$ErrorActionPreference = "Continue"
+	try {
+		$out = @(& $git -C $Root @a 2>&1 | Where-Object { $_ -isnot [System.Management.Automation.ErrorRecord] } | ForEach-Object { "$_" })
+		$code = $LASTEXITCODE
+	} finally { $ErrorActionPreference = $eap }
+	if ($code -ne 0) { throw "git $($a -join ' ') failed (exit $code)" }
 	return @($out)
 }
 
@@ -51,11 +58,16 @@ if ($Files.Count -gt 0) {
 		$hist = Join-Path $Root "docs\ci\history.jsonl"
 		if (Test-Path $hist) {
 			$rows = @(Get-Content $hist -Encoding UTF8 | Where-Object { $_.Trim() } | ForEach-Object { try { $_ | ConvertFrom-Json } catch { $null } } | Where-Object { $_ })
-			$g = @($rows | Where-Object { $_.commit -and ($_.result -eq "PASS" -or $_.result -eq "WARN") } | Select-Object -Last 1)
-			if ($g.Count -gt 0) { $Base = $g[0].commit; Write-Host "select: last green CI run $($g[0].run) ($($g[0].result)) at $Base" }
+			# Only FULL runs count (ci.ps1 writes scope "full"; -Tests / -SkipTests runs are "subset" / "no-tests", and
+			# rows from before the scope field never counted the whole suite for sure).
+			$g = @($rows | Where-Object { $_.commit -and $_.scope -eq "full" -and ($_.result -eq "PASS" -or $_.result -eq "WARN") } | Select-Object -Last 1)
+			if ($g.Count -gt 0) { $Base = $g[0].commit; Write-Host "select: last green full CI run $($g[0].run) ($($g[0].result)) at $Base" }
 		}
-		if (-not $Base) { $Base = "HEAD~1"; Write-Host "select: no green CI row with a commit in docs/ci/history.jsonl yet, using HEAD~1" }
+		if (-not $Base) { $Base = "HEAD~1"; Write-Host "select: no green full CI row with a commit in docs/ci/history.jsonl yet, using HEAD~1" }
 	}
+	# A base this clone does not know (a last-green commit from the other machine): HEAD~1 instead of an abort.
+	try { $null = Invoke-Git @("rev-parse", "--verify", "--quiet", "$Base^{commit}") }
+	catch { Write-Host "select: unknown base '$Base' in this clone, using HEAD~1"; $Base = "HEAD~1" }
 	$baseUsed = $Base
 	$changed = @(Invoke-Git @("diff", "--name-only", $Base))
 	# New files too, except Godot's generated .uid companions (the script itself is listed when it is new).
@@ -112,6 +124,31 @@ function Get-ClassName([string]$p) {
 # missions/ (read once, only when a file has no direct test).
 $script:SrcText = $null
 function Get-Referencers([string]$p) {
+	Read-Sources
+	$needles = @("res://$p")
+	$c = Get-ClassName $p
+	$out = @()
+	foreach ($k in $script:SrcText.Keys) {
+		if ($k -eq $p) { continue }
+		$t = $script:SrcText[$k]
+		if ($t.Contains("res://$p") -or ($c -and $t -match ('(?<![A-Za-z0-9_])' + [regex]::Escape($c) + '(?![A-Za-z0-9_])'))) { $out += $k }
+	}
+	return @($out | Sort-Object)
+}
+# The scripts that extend $p (`extends ClassName` or `extends "res://path"`): their tests must run when a base class
+# changes (MissionBase -> Mission01 -> test_m7_s1...), even when some test names the base class directly.
+function Get-Subclasses([string]$p) {
+	if ($p -notmatch '\.gd$') { return @() }
+	Read-Sources
+	$c = Get-ClassName $p
+	$rx = '(?m)^\s*extends\s+(?:"res://' + [regex]::Escape($p) + '"' + $(if ($c) { '|' + [regex]::Escape($c) + '(?![A-Za-z0-9_])' } else { '' }) + ')'
+	$out = @()
+	foreach ($k in $script:SrcText.Keys) {
+		if ($k -ne $p -and $k -match '\.gd$' -and $script:SrcText[$k] -match $rx) { $out += $k }
+	}
+	return @($out | Sort-Object)
+}
+function Read-Sources {
 	if ($null -eq $script:SrcText) {
 		$script:SrcText = @{}
 		foreach ($dir in @("scripts", "art", "tools", "missions", "scenes")) {
@@ -126,15 +163,6 @@ function Get-Referencers([string]$p) {
 			}
 		}
 	}
-	$needles = @("res://$p")
-	$c = Get-ClassName $p
-	$out = @()
-	foreach ($k in $script:SrcText.Keys) {
-		if ($k -eq $p) { continue }
-		$t = $script:SrcText[$k]
-		if ($t.Contains("res://$p") -or ($c -and $t -match ('(?<![A-Za-z0-9_])' + [regex]::Escape($c) + '(?![A-Za-z0-9_])'))) { $out += $k }
-	}
-	return @($out | Sort-Object)
 }
 
 $full = $false
@@ -160,6 +188,21 @@ foreach ($f in $changed) {
 	$d = Get-DirectHits $p
 	$hits = @($d.hits)
 	$how = $d.how
+	# 3b. Always (even with direct hits): the tests of every script that extends this one, up to 3 levels down
+	#     (a base-class change must run its subclasses' regression tests: MissionBase -> Mission01 -> test_m7_s1).
+	$subFrontier = @($p); $subSeen = @($p)
+	for ($lvl = 1; $lvl -le 3 -and $subFrontier.Count -gt 0; $lvl++) {
+		$subs = @()
+		foreach ($q in $subFrontier) { $subs += @(Get-Subclasses $q | Where-Object { $subSeen -notcontains $_ }) }
+		$subs = @($subs | Sort-Object -Unique)
+		foreach ($s in $subs) {
+			$sd = Get-DirectHits $s
+			if (@($sd.hits).Count -gt 0) { $hits += @($sd.hits); $how = (@($how, "subclass $s") | Where-Object { $_ }) -join ", " }
+		}
+		$subSeen += $subs
+		$subFrontier = $subs
+	}
+	$hits = @($hits | Sort-Object -Unique)
 	# 4. Up to 2 hops: the scripts / scenes that load this file (res:// path or class_name), mapped the same way
 	#    (art/vfx/caster_ice_wall.gdshader -> art/vfx/caster_ice_vfx.gd -> art/vfx/unit_vfx.gd -> tests naming UnitVfx).
 	$frontier = @($p)

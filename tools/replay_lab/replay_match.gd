@@ -70,6 +70,9 @@ func _initialize() -> void:
 	# this setting when it is created, and the world's map is created lazily, after this point: this process gets a
 	# single-threaded (deterministic) avoidance map while real games keep the multi-threaded default.
 	ProjectSettings.set_setting(&"navigation/avoidance/thread_model/avoidance_use_multiple_threads", false)
+	# run_replay.ps1 reads this line instead of guessing from project.godot (review-mission-ci.md L8).
+	print("REPLAY avoidance_multithreaded=%s" % str(bool(ProjectSettings.get_setting(
+			&"navigation/avoidance/thread_model/avoidance_use_multiple_threads", true))).to_lower())
 	_parse_args()
 	Engine.physics_ticks_per_second = TICK
 	hooks = load(HOOKS_PATH) as Script

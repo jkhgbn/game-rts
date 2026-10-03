@@ -9,7 +9,14 @@
 #   tools\ci\ci.ps1 -Tests test_16a,test_12_c2       # import + smoke + perf + a test subset
 #   tools\ci\ci.ps1 -SkipTests -SmokeRuns 1          # quick gate (import, 1 smoke, perf)
 #   tools\ci\ci.ps1 -Parallel 3                      # default 4 (= the gate's slots; was 3 before 2026-10-02)
+#   tools\ci\ci.ps1 -Full                            # also play the early-stop bot tests to the end (-- --full)
+#   tools\ci\ci.ps1 -NoFull                          # a full-suite run WITHOUT the long tails
 # Everyday runs: tools\ci\ci_quick.ps1 (no slow simulations) or ci_quick.ps1 -Changed (tests of the changed files).
+# Milestone / nightly CI = `tools\ci\ci.ps1` with no -Tests: it runs the whole suite AND turns -Full on by itself, so the
+# early-stop bot tests ($EarlyStopTests: they stop once their verdict is final) still play their late game once per
+# milestone and a late-game SCRIPT ERROR fails the CI. -NoFull opts out; -Full also works with -Tests.
+# History (docs/ci/history.jsonl): every row has `scope` = "full" (whole suite, with the long tails), "full-short"
+# (whole suite, -NoFull), "subset" (-Tests) or "no-tests" (-SkipTests); ci_quick -Base last-green only trusts "full".
 param(
 	[string]$Dir = "",
 	[string]$ResultFile = "",         # extra copy of the result lines (the old scratchpad ci_result.txt)
@@ -24,10 +31,18 @@ param(
 	[switch]$SkipTests,
 	[int]$Parallel = 4,
 	[int]$RunTimeoutSec = 1800,
-	[switch]$NoHistory
+	[switch]$NoHistory,
+	[switch]$Full,
+	[switch]$NoFull
 )
 $ErrorActionPreference = "Stop"
-$CiVersion = "2.1"
+$CiVersion = "2.2"
+# Tests with an early stop (their verdict is final before the match ends); `-- --full` plays the whole match.
+$EarlyStopTests = @("test_8_a1", "test_8_a2", "test_9_c11", "test_casters_bots")
+$wholeSuite = (-not $SkipTests) -and $Tests.Count -eq 0
+if ($wholeSuite -and -not $NoFull) { $Full = [switch]$true }   # milestone CI: the long tails run once per milestone
+if ($NoFull) { $Full = [switch]$false }
+$Scope = if ($SkipTests) { "no-tests" } elseif ($Tests.Count -gt 0) { "subset" } elseif ($Full) { "full" } else { "full-short" }
 $LabRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $Gate = Join-Path $LabRoot "tools\godot_run.ps1"
 $ErrorLab = Join-Path $LabRoot "tools\error_lab\error_lab.ps1"
@@ -121,7 +136,8 @@ if (-not $SkipTests) {
 	$elArgs = @{ ProjectDir = $Dir; OutDir = $elOut; Run = "ci-$Run"; Parallel = $Parallel }
 	if ($Tests.Count -gt 0) { $elArgs.Tests = @($Tests | ForEach-Object { $_ -split ',' } | Where-Object { $_ }) }
 	if ($NoHistory -or $Tests.Count -gt 0) { $elArgs.NoHistory = $true }   # only full runs go into the Error Lab history
-	Write-Host "CI: tests through the Error Lab ($elOut)..."
+	if ($Full) { $elArgs.FullTests = $EarlyStopTests }
+	Write-Host "CI: tests through the Error Lab ($elOut)$(if ($Full) { ' with the long tails (--full: ' + ($EarlyStopTests -join ', ') + ')' })..."
 	& $ErrorLab @elArgs | ForEach-Object { Write-Host $_ }
 	$jf = Join-Path $elOut "scorecard.json"
 	if (Test-Path $jf) {
@@ -144,7 +160,7 @@ $out.Insert(0, $summary)
 $now = Get-Date -Format "yyyy-MM-dd HH:mm"
 $md = New-Object System.Collections.Generic.List[string]
 $md.Add("# CI: $Run"); $md.Add("")
-$md.Add("$now - ci v$CiVersion - project ``$Dir``"); $md.Add("")
+$md.Add("$now - ci v$CiVersion - project ``$Dir`` - scope **$Scope**"); $md.Add("")
 $md.Add("## Result: **$result**"); $md.Add("")
 $md.Add("| Step | Result | Detail | Fix |"); $md.Add("|---|---|---|---|")
 foreach ($s in $Steps) { $md.Add("| $($s.step) | $(if ($s.status -eq 'FAIL') { '**FAIL**' } else { $s.status }) | $($s.detail -replace '\|', '\|') | $($s.fix -replace '\|', '\|') |") }
@@ -169,7 +185,7 @@ if (-not $NoHistory) {
 		$commit = (& $gitExe -C $Dir rev-parse HEAD 2>$null | Select-Object -First 1)
 		if ($LASTEXITCODE -ne 0) { $commit = "" }
 	} catch { $commit = "" }
-	$h = [pscustomobject]@{ run = $Run; time = $now; dir = $Dir; commit = "$commit"; result = $result; steps = @($Steps | ForEach-Object { "$($_.step)=$($_.status)" })
+	$h = [pscustomobject]@{ run = $Run; time = $now; dir = $Dir; commit = "$commit"; result = $result; scope = $Scope; steps =@($Steps | ForEach-Object { "$($_.step)=$($_.status)" })
 		tests = $(if ($el) { @($el.tests).Count } else { 0 }); failed = $(if ($el) { @($el.failed_tests) } else { @() }) }
 	[IO.File]::AppendAllText((Join-Path $LabRoot "docs\ci\history.jsonl"), ($h | ConvertTo-Json -Depth 4 -Compress) + "`n", $Utf8)
 }

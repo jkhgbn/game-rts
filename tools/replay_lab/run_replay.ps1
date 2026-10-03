@@ -75,8 +75,11 @@ function Get-HeadSha([string]$root) {
 }
 $HeadSha = Get-HeadSha $Dir
 $Commit12 = if ($HeadSha.Length -ge 12) { $HeadSha.Substring(0, 12) } else { "" }
-# replay-lab.md step 0: multi-threaded avoidance is the known drift source until project.godot says otherwise.
-$AvoidanceMT = -not (Select-String -Path (Join-Path $Dir "project.godot") -Pattern "avoidance_use_multiple_threads\s*=\s*false" -Quiet)
+# replay-lab.md step 0: multi-threaded avoidance is the known drift source. Real games use project.godot's setting
+# ($AvoidanceProject); replay_match.gd turns the threads off in its own process and prints the effective value
+# ("REPLAY avoidance_multithreaded=false"), which each run's log gives back ($it.AvoidMT; $AvoidanceMT = any run true).
+$AvoidanceProject = -not (Select-String -Path (Join-Path $Dir "project.godot") -Pattern "avoidance_use_multiple_threads\s*=\s*false" -Quiet)
+$AvoidanceMT = $false
 
 # Reads a .replay (JSON lines) summary without Godot: header, counts, end.
 function Read-ReplayInfo([string]$file) {
@@ -114,7 +117,7 @@ if ($Inputs.Count -eq 0 -and -not $Record) { throw "No .replay / .zip found in: 
 
 Write-Host ("Replay Lab: {0} input(s){1}, {2} at a time, project {3} ({4}){5}" -f $Inputs.Count,
 	$(if ($Record) { " + 1 fresh bot recording ($Pair, seed $Seed, $RecordMinutes min)" } else { "" }), $Parallel, $Dir,
-	$(if ($Commit12) { $Commit12 } else { "no commit" }), $(if ($AvoidanceMT) { "; avoidance multi-threaded (replay-lab.md step 0 not done: expect pos drift)" } else { "" }))
+	$(if ($Commit12) { $Commit12 } else { "no commit" }), $(if ($AvoidanceProject) { "; real games use multi-threaded avoidance (only lab-recorded replays are deterministic; the replay process runs single-threaded)" } else { "" }))
 if ($DryRun) {
 	foreach ($i in $Inputs) { Write-Host ("  {0}  ({1:yyyy-MM-dd HH:mm}, {2:N0} KB)" -f $i.FullName, $i.LastWriteTime, ($i.Length / 1KB)) }
 	Write-Host "Dry run: nothing started."
@@ -199,9 +202,16 @@ while ($Queue.Count -gt 0 -or $Running.Count -gt 0) {
 		if (Test-Path $it.Result) { try { $it.R = Get-Content $it.Result -Raw | ConvertFrom-Json } catch { $it.Error = "unreadable result file" } }
 		elseif (-not $it.Error) { $it.Error = "no result (exit code $($it.Proc.ExitCode))" }
 		$it.ScriptErrors = 0
+		$it.AvoidMT = $null
 		foreach ($f in @((Join-Path $OutDir "logs\$($it.Name).log"), (Join-Path $OutDir "logs\$($it.Name).err"))) {
-			if (Test-Path $f) { $it.ScriptErrors += @(Select-String -Path $f -Pattern "SCRIPT ERROR" -SimpleMatch).Count }
+			if (Test-Path $f) {
+				$it.ScriptErrors += @(Select-String -Path $f -Pattern "SCRIPT ERROR" -SimpleMatch).Count
+				$am = Select-String -Path $f -Pattern "REPLAY avoidance_multithreaded=(true|false)" | Select-Object -First 1
+				if ($am) { $it.AvoidMT = ($am.Matches[0].Groups[1].Value -eq "true") }
+			}
 		}
+		if ($null -eq $it.AvoidMT) { $it.AvoidMT = $AvoidanceProject }   # an older runner without the line: assume the project's
+		if ($it.AvoidMT) { $AvoidanceMT = $true }
 		Write-Host ("  done {0}: {1} ({2} s)" -f $it.Name, $(if ($it.R) { "ok=$($it.R.ok) checks $($it.R.checks_ok)/$($it.R.checks)" } else { $it.Error }), $it.RealS)
 	}
 	$Running = $still
@@ -238,7 +248,8 @@ foreach ($it in $Items) {
 			$status = "WARN"
 			$hints += "Recorded on $game, replayed on $(if ($Commit12) { $Commit12 } else { 'this tree' }) (+ uncommitted work): game changes since then break old replays. Replay it on its own commit (lab worktree) to check."
 		}
-		if ($onlyPos -and $AvoidanceMT) { $hints += "Only unit positions drift: multi-threaded avoidance (replay-lab.md step 0: project.godot avoidance_use_multiple_threads=false, lead)." }
+		if ($onlyPos -and $it.AvoidMT) { $hints += "Only unit positions drift: this replay ran with multi-threaded avoidance (replay-lab.md step 0: project.godot avoidance_use_multiple_threads=false, lead)." }
+		elseif ($onlyPos -and $AvoidanceProject -and [string]$h.bake -eq "thread") { $hints += "Only unit positions drift: recorded in a real game, which uses multi-threaded avoidance (not deterministic); the replay itself ran single-threaded." }
 		if ([string]$h.bake -eq "thread") { $hints += "A real-game recording (thread bakes): _process gameplay and idle timers drift in a window (replay-lab.md step 2: owners move them to _physics_process)." }
 		if ($diffs | Where-Object { $_ -match "^(ess|gold|cry|gath):" }) { $hints += "Economy numbers differ: look for gameplay in _process (essence trickle) or an unrecorded UI command (replay-lab.md 'Not recorded yet')." }
 		if ($hints.Count -eq 0) { $hints += "Record the same seed twice with --dump=<frame just before $df> and diff the DUMP lines to find the unit that drifts (replay-lab.md 'How to use')." }
@@ -256,7 +267,7 @@ foreach ($it in $Items) {
 		checks = $(if ($r) { [int]$r.checks } else { 0 }); checks_ok = $(if ($r) { [int]$r.checks_ok } else { 0 })
 		end_match = $(if ($r) { [bool]$r.end_match } else { $false }); partial = $(if ($r) { [bool]$r.partial } else { $false })
 		divergence_frame = $(if ($r -and $r.divergence -and $null -ne $r.divergence.f) { [int]$r.divergence.f } else { -1 })
-		real_s = $it.RealS; script_errors = $it.ScriptErrors
+		real_s = $it.RealS; script_errors = $it.ScriptErrors; avoidance_multithreaded = [bool]$it.AvoidMT
 	}
 }
 
@@ -276,7 +287,10 @@ $md.Add("")
 $md.Add("**$Result, score $Score / 100**: $n replay(s), $pass PASS, $warn WARN, $fail FAIL. $When, project commit ``$(if ($Commit12) { $Commit12 } else { '?' })`` (+ uncommitted work), wall $Wall s.")
 $md.Add("")
 if ($AvoidanceMT) {
-	$md.Add("> Avoidance runs on several threads (``project.godot`` has no ``avoidance_use_multiple_threads=false``, replay-lab.md step 0): replays are expected to drift on unit positions after 10-20 s. That FAIL is the determinism signal, not a broken lab.")
+	$md.Add("> Avoidance ran on several threads in at least one replay process (its log says ``REPLAY avoidance_multithreaded=true``, or an older runner): those replays are expected to drift on unit positions after 10-20 s. That FAIL is the determinism signal, not a broken lab.")
+	$md.Add("")
+} elseif ($AvoidanceProject) {
+	$md.Add("> Every replay process ran single-threaded avoidance (``replay_match.gd``). Real games still use multi-threaded avoidance (``project.godot``), so only lab-recorded replays (sync bakes) are deterministic; a real-game recording can drift on positions.")
 	$md.Add("")
 }
 $md.Add("PASS = every checkpoint + the end hash (a file cut mid-match: every checkpoint). WARN = nothing to compare, or recorded on another commit. FAIL = diverged on this commit, no result, SCRIPT ERROR.")

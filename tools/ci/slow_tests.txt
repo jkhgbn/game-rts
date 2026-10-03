@@ -12,3 +12,4 @@ test_8_b3
 test_2_a1_bot_vs_bot
 test_8_a2
 test_casters_bots
+test_map_big_e2e

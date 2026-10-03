@@ -20,7 +20,8 @@ param(
 	[switch]$ListOnly,
 	[string]$HistoryFile = "",
 	[string]$ProjectDir = "",   # run the tests of another checkout (the CI copy); default = this repo
-	[int]$TailLines = 15        # log lines quoted per failed test in the scorecard and the briefs
+	[int]$TailLines = 15,       # log lines quoted per failed test in the scorecard and the briefs
+	[string[]]$FullTests = @()  # these tests get `-- --full` (early stops off: the whole match; tools\ci\ci.ps1 -Full)
 )
 $ErrorActionPreference = "Stop"
 $LabVersion = "1.3"
@@ -227,6 +228,8 @@ if (-not $Logs) {
 	elseif ($Changed.Count -gt 0) { $names = Get-ChangedTests $Changed }
 	else { $names = @(Get-ChildItem (Join-Path $Root "tests") -Filter "test_*.gd" | ForEach-Object { $_.BaseName } | Sort-Object) }
 	$names = Sort-SlowFirst $names
+	$fullSet = @($FullTests | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim() -replace '\.gd$', '' } | Where-Object { $_ })
+	if ($fullSet.Count -gt 0) { Write-Host "ERROR LAB: --full (whole match, no early stop) for: $(@($names | Where-Object { $fullSet -contains $_ }) -join ', ')" }
 	if ($ListOnly) { Write-Host "ERROR LAB: would run $($names.Count) tests (slow ones first)"; $names | ForEach-Object { Write-Host ("  {0} (cap {1}, timeout {2} s, owner {3})" -f $_, (Get-Cap $_), (Get-TestTimeout (Get-Cap $_)), (Get-TestOwner $_)) }; exit 0 }
 	New-Item -ItemType Directory -Force $logDir | Out-Null
 	if ($names.Count -eq 0) { Write-Host "ERROR LAB: no tests picked"; }
@@ -242,7 +245,9 @@ if (-not $Logs) {
 			if (-not (Test-Path (Join-Path $Root "tests\$n.gd"))) { $testStatus[$n] = @{ exit = -2; seconds = 0; cap = 0; note = "missing test file" }; $done++; continue }
 			$cap = Get-Cap $n
 			$log = Join-Path $logDir "$n.log"
-			$cmd = "powershell -NoProfile -ExecutionPolicy Bypass -File `"$Gate`" --headless --path `"$Root`" -s tests/$n.gd --fixed-fps 60 --quit-after $cap > `"$log`" 2>&1"
+			# "++" = Godot's other user-args separator ("--" would be eaten by powershell -File on the way to the gate).
+			$userArgs = if ($fullSet -contains $n) { " ++ --full" } else { "" }
+			$cmd = "powershell -NoProfile -ExecutionPolicy Bypass -File `"$Gate`" --headless --path `"$Root`" -s tests/$n.gd --fixed-fps 60 --quit-after $cap$userArgs > `"$log`" 2>&1"
 			$p = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "`"$cmd`"" -WorkingDirectory $Root -WindowStyle Hidden -PassThru
 			$null = $p.Handle  # PS 5.1: keep the handle so ExitCode is readable later
 			$running += [pscustomobject]@{ name = $n; proc = $p; start = Get-Date; cap = $cap; timeout = (Get-TestTimeout $cap) }
