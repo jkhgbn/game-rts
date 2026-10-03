@@ -89,6 +89,9 @@ uniform vec3 road_dark : source_color = vec3(0.36, 0.295, 0.215);
 uniform vec3 cobble_color : source_color = vec3(0.55, 0.52, 0.47);
 // Border outside the map square.
 uniform float map_half = 60.0;
+// Per-axis half size (x, z) of a non-120 m map (MapInfo halves; main.gd _build_ground sets it). (0, 0), the default,
+// means "square, use map_half" so the old materials (menu diorama, plateau) keep their look.
+uniform vec2 map_half_xz = vec2(0.0);
 uniform bool expand_edge = true;
 uniform float expand_to = 260.0;
 uniform float border_mode = 1.0;      // 1 = scree + rock rim + canopy outside map_half, 0 = plain grass everywhere
@@ -161,13 +164,19 @@ vec3 tint_factor(vec3 t, vec3 srgb, vec3 ref) {
 	return sqrt(lin) / ref;
 }
 
+// The map's half extents (x, z): map_half_xz when set, else the square map_half.
+vec2 halves() {
+	return map_half_xz.x > 0.0 ? map_half_xz : vec2(map_half);
+}
+
 void vertex() {
 	if (expand_edge) {
-		// Only the outer vertices of the map plane (|v| == map_half) move out.
-		if (abs(VERTEX.x) > map_half - 0.05) {
+		// Only the outer vertices of the map plane (|v| == the map's half size on that axis) move out.
+		vec2 hh = halves();
+		if (abs(VERTEX.x) > hh.x - 0.05) {
 			VERTEX.x = sign(VERTEX.x) * expand_to;
 		}
-		if (abs(VERTEX.z) > map_half - 0.05) {
+		if (abs(VERTEX.z) > hh.y - 0.05) {
 			VERTEX.z = sign(VERTEX.z) * expand_to;
 		}
 	}
@@ -768,7 +777,7 @@ void fragment() {
 	float edge = (mid - 0.5) * edge_noise + (fine - 0.5) * 0.9 + (micro - 0.5) * 0.35;
 	// Area harmony: the outer ring of the map (last ~20 m before the cliffs) turns a little darker and cooler,
 	// a painted frame that keeps the eye on the play space; the plaza and the bases stay in the warm light.
-	vec2 inside = vec2(map_half) - abs(p);
+	vec2 inside = halves() - abs(p);
 	float in_map = step(0.0, min(inside.x, inside.y));
 	float outer = (1.0 - smoothstep(3.0, 22.0, min(inside.x, inside.y) + (mid - 0.5) * 7.0)) * in_map * outer_cool;
 	grass = mix(grass, grass * vec3(0.86, 0.93, 1.0), outer);
@@ -900,7 +909,7 @@ void fragment() {
 	}
 
 	// Border outside the map square.
-	vec2 outv = max(abs(p) - vec2(map_half), vec2(0.0));
+	vec2 outv = max(abs(p) - halves(), vec2(0.0));
 	float od = length(outv);
 	od += (edge * 0.6) * smoothstep(0.0, 0.5, od);
 	if (forest_floor > 0.5) {

@@ -45,7 +45,7 @@ const START_HINT := "Click your Keep (bottom-left) to train workers — select w
 func _ready() -> void:
 	# MT1 (map-production.md 2.8): the running map's size, read by the fog, BuildGrid, river, minimap and camera.
 	var sz := _map_size()
-	MapInfo.setup(sz.x, sz.y, _map_id())
+	MapInfo.setup(sz.x, sz.y, _map_id(), self)
 	# One Economy per team, created before any unit so every unit's pop is counted.
 	economy = _add_economy(Unit.Team.PLAYER)
 	_add_economy(Unit.Team.ENEMY)
@@ -304,6 +304,13 @@ func _build_nav_region() -> void:
 	_build_ground()
 
 
+## Review L1: the level gives MapInfo back (the 120 m default) when it leaves the tree, unless a newer level already
+## set its own size. A notification, so subclasses' own _exit_tree (mission 1) cannot skip it.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_EXIT_TREE:
+		MapInfo.release(self)
+
+
 ## The map's playable size in metres (x width, z depth). MAP_SIZE square here; a LayoutLevel returns its layout's.
 func _map_size() -> Vector2:
 	return Vector2(MAP_SIZE, MAP_SIZE)
@@ -393,6 +400,7 @@ func _build_ground() -> void:
 		return   # Bot Lab sim: the collider only (no ground paint)
 	var painted := EnvProps.ground_material(_player_start(), _lane_end(), _ground_spots())
 	if painted:
+		apply_map_size(painted)
 		mesh.material_override = painted
 		return
 
@@ -410,6 +418,17 @@ func _build_ground() -> void:
 	mat.uv1_scale = Vector3(4.0, 4.0, 1.0)
 	mat.roughness = 0.95
 	mesh.material_override = mat
+
+
+## Tells the painted ground (art/environment/ground.gdshader) the running map's size (review H1): the border scree /
+## rim / canopy start at the map edge on both axes and the plane's outer vertices are pushed out to a skirt at least
+## 200 m wide, so a 176 m map is not painted as off-map and a 112 m map does not end in a hard cut.
+static func apply_map_size(mat: ShaderMaterial) -> void:
+	if mat == null:
+		return
+	mat.set_shader_parameter(&"map_half", MapInfo.half_max())
+	mat.set_shader_parameter(&"map_half_xz", Vector2(MapInfo.half_x(), MapInfo.half_z()))
+	mat.set_shader_parameter(&"expand_to", maxf(260.0, MapInfo.half_max() + 200.0))
 
 
 ## Painted ground spots Vector4(x, z, radius, kind: 0 dirt, 1 flagstones), max 4 (the skirmish overrides).

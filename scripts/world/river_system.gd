@@ -31,7 +31,6 @@ const KIND_FORD := &"ford"
 const KIND_STEPS := &"steps"
 const MASK_SIZE := 240            ## mask_image(): 240 x 240 pixels...
 const MASK_CELL := 0.5            ## ...of 0.5 m, pixel (0, 0) at world (-60, -60).
-const MAP_HALF := 60.0
 const PASS_INTERVAL := 0.2        ## The unit pass: 5 Hz.
 const FORD_HYSTERESIS := 0.3      ## A slowed unit keeps the ford modifier until this far outside the circle.
 const CARVE_Y := -0.5

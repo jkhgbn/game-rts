@@ -11,18 +11,29 @@ const DEFAULT_SIZE := 120.0
 static var size_x := DEFAULT_SIZE   ## Map width (x) in metres.
 static var size_z := DEFAULT_SIZE   ## Map depth (z) in metres.
 static var map_id := &""            ## The layout id when the level came from a MapLayout, else "".
+static var _owner_id := 0           ## instance id of the level that set the size (0 = a tool / test / default)
 
 
 ## Sets the running map's size (call before anything that reads it: fog, BuildGrid, river, minimap, camera).
-static func setup(width: float, depth: float, id: StringName = &"") -> void:
+## `by` = the level that owns it (main.gd passes itself): its `release` puts the default back when it leaves the tree.
+static func setup(width: float, depth: float, id: StringName = &"", by: Object = null) -> void:
 	size_x = maxf(width, 8.0)
 	size_z = maxf(depth, 8.0)
 	map_id = id
+	_owner_id = by.get_instance_id() if by != null else 0
 
 
 ## Back to the 120 m default (tests that build a level by hand).
 static func reset() -> void:
 	setup(DEFAULT_SIZE, DEFAULT_SIZE)
+
+
+## Review L1: the level `by` leaves the tree; if it still owns the size (no newer level set one, e.g. F9 or the menu
+## loading the next map first), the size goes back to the 120 m default, so a later tool, test or level without its
+## own `setup` never inherits the last map's size.
+static func release(by: Object) -> void:
+	if by != null and _owner_id == by.get_instance_id():
+		reset()
 
 
 static func half_x() -> float:

@@ -82,7 +82,8 @@ const FISH_VIEW_RANGE := 26.0
 const BRIDGES_FALLBACK: Array[Vector2] = [Vector2(-12, -48.7), Vector2(12, 48.7), Vector2(-9.02, 9.02),
 	Vector2(9.02, -9.02)]
 const BRIDGE_CLEAR := 6.5
-const MAP_LIMIT := 56.0
+const MAP_LIMIT := 56.0             ## Crown Hollow (120 m); other maps: their half size - 4 m (_limit).
+const GRID_CELL := 4.0              ## Reaction pass cells (metres).
 
 ## Tests / tools: &"low" or &"high" here beats the settings store (empty = read GameSettings.map_detail).
 static var map_detail_override: StringName = &""
@@ -131,7 +132,13 @@ var _water := false
 var _fish_spots := PackedVector3Array()
 var _next_fish := 0.0
 var _splash_end := PackedFloat32Array()
-# Reaction pass scratch: 4 m cells over [-64, 64].
+# Map scale (review L3): the spot tables are Crown Hollow's (120 m); on another map size they are stretched by
+# MapInfo half / 60 per axis (1, 1 on Crown Hollow), and the water / reaction limits follow the map.
+var _k := Vector2.ONE
+var _limit := MAP_LIMIT
+# Reaction pass scratch: GRID_CELL cells over [-_grid_half, _grid_half] (Crown Hollow: 32 x 32 over [-64, 64]).
+var _grid_half := 64.0
+var _grid_n := 32
 var _mask := PackedByteArray()
 var _marked := PackedInt32Array()
 var _t_pos := PackedVector3Array()
@@ -328,6 +335,10 @@ func _build() -> void:
 	_rng.seed = 1216
 	_fog = FogOfWar.find()
 	_built = true
+	_k = Vector2(MapInfo.half_x() / 60.0, MapInfo.half_z() / 60.0)
+	_limit = minf(MapInfo.half_x(), MapInfo.half_z()) - 4.0
+	_grid_half = maxf(64.0, ceilf((MapInfo.half_max() + 4.0) / GRID_CELL) * GRID_CELL)
+	_grid_n = int(_grid_half * 2.0 / GRID_CELL)
 	if map_detail() == MAP_DETAIL_LOW:
 		return
 	var model := _water_model()
@@ -386,7 +397,8 @@ func _build() -> void:
 		mm.use_custom_data = true
 		mm.mesh = mesh
 		mm.instance_count = slot
-		mm.custom_aabb = AABB(Vector3(-70, -2, -70), Vector3(140, 22, 140))
+		var ext := MapInfo.half_max() + 10.0   # Crown Hollow: 70
+		mm.custom_aabb = AABB(Vector3(-ext, -2, -ext), Vector3(ext * 2.0, 22, ext * 2.0))
 		var mmi := MultiMeshInstance3D.new()
 		mmi.name = "Critters_%s" % KIND_IDS[k]
 		mmi.multimesh = mm
@@ -413,7 +425,7 @@ func _build() -> void:
 	_next_fish = _clock + _rng.randf_range(FISH_INTERVAL.x, FISH_INTERVAL.y)
 	for i: int in _n:
 		_write(i)
-	_mask.resize(32 * 32)
+	_mask.resize(_grid_n * _grid_n)
 	_mask.fill(0)
 	_focus = _camera_focus()
 	if _enabled:
@@ -422,9 +434,9 @@ func _build() -> void:
 
 func _build_birds(out: Array) -> void:
 	for p: Vector2 in BIRD_SPOTS_HALF:
-		_spots.append(Vector3(p.x, 0, p.y))
+		_spots.append(Vector3(p.x * _k.x, 0, p.y * _k.y))
 	for p: Vector2 in BIRD_SPOTS_HALF:
-		_spots.append(Vector3(-p.x, 0, -p.y))
+		_spots.append(Vector3(-p.x * _k.x, 0, -p.y * _k.y))
 	for s: int in _spots.size():
 		_spots[s] = _free_spot(_spots[s], 3.0)
 		var offs := PackedVector3Array()
@@ -457,7 +469,7 @@ func _build_butterflies(out: Array) -> void:
 			var pal := _rng.randi_range(0, 3)
 			for j: int in BUTTERFLIES_PER_PATCH:
 				var a := _rng.randf() * TAU
-				var o := Vector3(c.x * side + cos(a) * 1.5, 0, c.y * side + sin(a) * 1.5)
+				var o := Vector3(c.x * _k.x * side + cos(a) * 1.5, 0, c.y * _k.y * side + sin(a) * 1.5)
 				# Mostly one colour per patch, now and then another.
 				var p := pal if _rng.randf() < 0.65 else _rng.randi_range(0, 3)
 				out.append({"origin": o, "yaw": 0.0, "scale": _rng.randf_range(1.2, 1.45),
@@ -476,13 +488,13 @@ func _build_fireflies(out: Array, bank: PackedVector3Array) -> void:
 			for j: int in cnt:
 				var a := _rng.randf() * TAU
 				var r := sqrt(_rng.randf()) * w.w
-				var o := Vector3(w.x * side + cos(a) * r, 0, w.y * side + sin(a) * r)
+				var o := Vector3(w.x * _k.x * side + cos(a) * r, 0, w.y * _k.y * side + sin(a) * r)
 				out.append(_firefly(o, _rng.randf_range(0.9, 1.6)))
 	for p: Vector3 in bank:
 		out.append(_firefly(p, _rng.randf_range(1.0, 1.8)))
 	while extra > 0:   # rounding leftovers
 		extra -= 1
-		out.append(_firefly(Vector3(-50.0, 0, -44.0) * (1.0 if extra % 2 == 0 else -1.0), 2.0))
+		out.append(_firefly(Vector3(-50.0 * _k.x, 0, -44.0 * _k.y) * (1.0 if extra % 2 == 0 else -1.0), 2.0))
 
 
 func _firefly(o: Vector3, radius: float) -> Dictionary:
@@ -565,7 +577,7 @@ func _water_spots(params: Dictionary) -> Dictionary:
 			cands.append({"p": Vector2(moat.x, moat.y) + dir * moat.z, "t": Vector2(-dir.y, dir.x), "hw": moat.w,
 				"moat": true})
 	var ok_water := func(p: Vector2) -> bool:
-		if absf(p.x) > MAP_LIMIT or absf(p.y) > MAP_LIMIT:
+		if absf(p.x) > _limit or absf(p.y) > _limit:
 			return false
 		for f: Vector4 in fords:
 			if f.z > 0.0 and p.distance_to(Vector2(f.x, f.y)) < f.z + 1.2:
@@ -579,7 +591,7 @@ func _water_spots(params: Dictionary) -> Dictionary:
 			return false
 		return true
 	var ok_bank := func(p: Vector2, lo: float, hi: float) -> bool:
-		if absf(p.x) > MAP_LIMIT or absf(p.y) > MAP_LIMIT:
+		if absf(p.x) > _limit or absf(p.y) > _limit:
 			return false
 		var wd := float(gp.call(&"water_distance", params, p))
 		if wd < lo or wd > hi:
@@ -690,14 +702,20 @@ func _blocked(p: Vector3, r: float) -> bool:
 
 ## `p` or the nearest free point on a small spiral around it.
 func _free_spot(p: Vector3, r: float) -> Vector3:
-	if not _blocked(p, r):
+	if not _blocked(p, r) and not _wet(p):
 		return p
 	for k: int in 24:
 		var a := float(k) * 2.4
 		var q := p + Vector3(cos(a), 0, sin(a)) * (1.5 + float(k) * 0.5)
-		if not _blocked(q, r):
+		if not _blocked(q, r) and not _wet(q):
 			return q
 	return p
+
+
+## True when `p` is in the river / moat (a stretched Crown Hollow spot can land in another map's water).
+func _wet(p: Vector3) -> bool:
+	var river := _river()
+	return river != null and river.has_method(&"is_water") and bool(river.call(&"is_water", p))
 
 
 # ---------------------------------------------------------------- instances
@@ -1147,13 +1165,13 @@ func _react() -> void:
 	for t: int in _t_pos.size():
 		var p := _t_pos[t]
 		var r := sqrt(_t_r2[t])
-		var x0 := clampi(int((p.x - r + 64.0) * 0.25), 0, 31)
-		var x1 := clampi(int((p.x + r + 64.0) * 0.25), 0, 31)
-		var z0 := clampi(int((p.z - r + 64.0) * 0.25), 0, 31)
-		var z1 := clampi(int((p.z + r + 64.0) * 0.25), 0, 31)
+		var x0 := clampi(int((p.x - r + _grid_half) / GRID_CELL), 0, _grid_n - 1)
+		var x1 := clampi(int((p.x + r + _grid_half) / GRID_CELL), 0, _grid_n - 1)
+		var z0 := clampi(int((p.z - r + _grid_half) / GRID_CELL), 0, _grid_n - 1)
+		var z1 := clampi(int((p.z + r + _grid_half) / GRID_CELL), 0, _grid_n - 1)
 		for z: int in range(z0, z1 + 1):
 			for x: int in range(x0, x1 + 1):
-				var c := x + z * 32
+				var c := x + z * _grid_n
 				if _mask[c] == 0:
 					_mask[c] = 1
 					_marked.append(c)
@@ -1162,9 +1180,9 @@ func _react() -> void:
 		if u == null or not u.visible:
 			continue   # hidden by the fog for the local team (own units are always visible)
 		var p := u.global_position
-		var cx := int((p.x + 64.0) * 0.25)
-		var cz := int((p.z + 64.0) * 0.25)
-		if cx < 0 or cx > 31 or cz < 0 or cz > 31 or _mask[cx + cz * 32] == 0:
+		var cx := int((p.x + _grid_half) / GRID_CELL)
+		var cz := int((p.z + _grid_half) / GRID_CELL)
+		if cx < 0 or cx >= _grid_n or cz < 0 or cz >= _grid_n or _mask[cx + cz * _grid_n] == 0:
 			continue
 		if u.has_method(&"is_alive") and not bool(u.call(&"is_alive")):
 			continue

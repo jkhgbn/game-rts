@@ -343,7 +343,8 @@ func world_to_map(world: Vector3) -> Vector2:
 func map_to_world(point: Vector2) -> Vector3:
 	var p := point.clamp(Vector2.ZERO, Vector2(SIZE, SIZE))
 	var w := (p - Vector2(SIZE, SIZE) * 0.5) / _scale() + view_center
-	return Vector3(w.x, 0.0, w.y)
+	# review L5: a click in the letterbox of a non-square map lands on the map's edge, never off the map
+	return MapInfo.clamp_point(Vector3(w.x, 0.0, w.y))
 
 
 ## Zooms the minimap to `z` (clamped 1-3); the world point under `anchor` (minimap pixels; the centre when omitted)

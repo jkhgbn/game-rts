@@ -37,7 +37,6 @@ const RAISE_BIG := 100
 const MAX_STAKE := 500
 const MAX_ACTIVE := 5
 const EXPLORE_MERGE := 8.0
-const MAP_HALF_FALLBACK := 60.0
 
 const MSG_NO_CHAMPIONS := "No champions"
 const MSG_TOO_MANY := "Too many bounties"
