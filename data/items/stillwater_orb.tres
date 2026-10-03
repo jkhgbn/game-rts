@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_stillw"]
+
+[resource]
+script = ExtResource("1_stillw")
+id = &"stillwater_orb"
+display_name = "Stillwater Orb"
+tier = 4
+stats = {
+"armor": 10.0,
+"mana_regen": 1.5,
+"max_mana": 60.0
+}
+passive_id = &"stillwater"
+is_artifact = true
+campaign_only = true
+icon_abbrev = "SO"
+tooltip = "Stillwater Orb
++60 mana · +1.5 mana regen · +10 armor
+Stillwater: chill and freeze last half as long on you.
+Artifact (cannot be sold)"

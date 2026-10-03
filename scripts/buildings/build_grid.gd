@@ -169,6 +169,13 @@ func map_fill_reason(rect: Rect2) -> String:
 				var sp := n.global_position if n.is_inside_tree() else n.position
 				if _rect_distance(rect, Vector2(sp.x, sp.z)) < CAMP_CLEARANCE:
 					return MSG_CAMP
+	# Mission no-build zones (mission-02.md: the frozen lake): nodes in group "no_build_zones" answer
+	# `no_build_reason(rect: Rect2) -> String` ("" = fine).
+	for zone in tree.get_nodes_in_group(&"no_build_zones"):
+		if zone.has_method(&"no_build_reason"):
+			var why := String(zone.call(&"no_build_reason", rect))
+			if why != "":
+				return why
 	return ""
 
 

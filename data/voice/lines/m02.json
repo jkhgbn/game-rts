@@ -1,0 +1,26 @@
+{
+ "cine_id": "m02",
+ "source": "docs/design/mission-02.md",
+ "note": "Mission 2 'The Orb Beneath the Ice' in-game lines (M9.O1 renders them). dur = slot in seconds. Line ids keep the ep1 numbering (L15 Whisper, L16-L17 Aldra). Speakers: narrator, vessa, torvald, pell, malrik, whisper, aldra (new in Speakers.TABLE).",
+ "lines": [
+  {"id": "L1", "speaker": "narrator", "dur": 5.0, "text": "Glasswater Mere has not thawed in a hundred winters. Something at the bottom still shines."},
+  {"id": "L2", "speaker": "vessa", "dur": 5.0, "text": "Malrik's diggers on Torvald's lake. Torvald must be thrilled."},
+  {"id": "L3", "speaker": "torvald", "dur": 5.0, "text": "Two children, fighting on my lake. Finish it quickly, and leave my ice alone."},
+  {"id": "L4a", "speaker": "pell", "dur": 6.0, "text": "You again! My wheels froze to the road, so I suppose I'm open. Take this, it's on the house. The house is frozen too."},
+  {"id": "L4b", "speaker": "vessa", "dur": 5.0, "text": "Pell's cart, and no Pell. Maybe I should have opened that cage. Well. Finders keepers."},
+  {"id": "L5", "speaker": "vessa", "dur": 5.0, "text": "Emberguard, on your feet! Stamp a bit. Your toes will come back. Probably."},
+  {"id": "L6a", "speaker": "malrik", "dur": 5.0, "text": "More diggers, more knives. You should have burned my hall when you had the chance."},
+  {"id": "L6b", "speaker": "malrik", "dur": 5.0, "text": "Someone burned my barracks, so I brought fewer friends. Very petty. I respect it."},
+  {"id": "L7", "speaker": "vessa", "dur": 5.0, "text": "Thin ice! Ha! I am absolutely doing that again."},
+  {"id": "L8", "speaker": "torvald", "dur": 5.0, "text": "That ice has kept a secret for a hundred winters, ember. Think before you melt it."},
+  {"id": "L9", "speaker": "vessa", "dur": 5.0, "text": "A hundred winters of ice, and it took me one afternoon. Somebody write that down."},
+  {"id": "L10", "speaker": "torvald", "dur": 5.0, "text": "So be it. My lake will see you out. Slowly."},
+  {"id": "L15", "speaker": "whisper", "dur": 3.0, "text": "Two. You're doing so well."},
+  {"id": "L16", "speaker": "aldra", "dur": 3.0, "text": "Wake. We have guests."},
+  {"id": "L17", "speaker": "aldra", "dur": 5.0, "text": "Through my glass already? Go, then. The mere remembers every footstep."},
+  {"id": "L11", "speaker": "torvald", "dur": 5.0, "text": "Run, little ember. Every relic you carry makes the Hollow hungrier. You will see."},
+  {"id": "L12", "speaker": "narrator", "dur": 5.0, "text": "Two relics answer to fire. In the north, Ice watches, and says nothing."},
+  {"id": "L13", "speaker": "vessa", "dur": 5.0, "text": "Too... cold... should have... brought a coat..."},
+  {"id": "L14", "speaker": "malrik", "dur": 5.0, "text": "Patience was never my virtue. Luckily, I brought shovels."}
+ ]
+}

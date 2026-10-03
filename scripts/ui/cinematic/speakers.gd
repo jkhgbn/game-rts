@@ -19,6 +19,7 @@ const TABLE := {
 	&"pell": ["Pell", Color(0.85, 0.75, 0.5)],
 	&"bettany": ["Bettany Crook", Color(0.80, 0.65, 0.45)],
 	&"maelis": ["Maelis", Color(0.60, 0.85, 0.50)],
+	&"aldra": ["Aldra", Color(0.62, 0.95, 0.88)],   # mission-02.md (M9.U1): Torvald's voice on the Glass Ridge
 }
 const DEFAULT_COLOR := Color(0.92, 0.92, 0.92)
 const PORTRAIT_DIR := "res://art/portraits/"

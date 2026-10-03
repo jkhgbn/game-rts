@@ -31,14 +31,19 @@ const CORRUPT_SUFFIX := ".corrupt"   ## A copy of an unreadable save (never sile
 const META_CARRIED_ESSENCE := &"carried_essence"
 const PLAYER_TEAM := 0   # Unit.Team.PLAYER
 const FIRST_MISSION := &"m01"
+## The episode's opening mission (mission-00.md: the new prologue M0 plays before mission 1 on a new campaign).
+const OPENING_MISSION := &"m00"
+## Unlocked on a new campaign (mission-00.md "Reward": m00 and m01 both unlocked by default).
+const START_UNLOCKED: Array[StringName] = [&"m00", &"m01"]
 ## Champion companion (docs/design/champions.md 11).
 const COMPANION_SLOTS := 4
 const COMPANION_PURSE_RATIO := 0.5
 const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
-const MISSION_ORDER: Array[StringName] = [&"m01", &"m02"]
+const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02"]
 const MISSION_SCENES := {
+	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
 	&"m02": "res://missions/mission_02.tscn",
 }
@@ -48,15 +53,28 @@ const MISSION_SCENES := {
 ## "unlock" (more mission ids), "save_items" (false = flags only). A mission missing here falls back to its
 ## MissionConfig.rewards (reward_of); its computed flags / track counters come from mission_flags() / mission_flag_adds().
 const MISSION_REWARDS := {
+	# docs/design/mission-00.md "Reward carried to mission 1": flags only (nothing carried, the save's items untouched).
+	&"m00": {
+		"flags": {"m0_hush_driven": "sec_hush", "m0_escort_saved": "sec_guards"},
+		"next": &"m01",
+		"save_items": false,
+	},
 	&"m01": {
 		"artifact": "ember_crown",
 		"flags": {"m1_peddler_freed": "sec_peddler", "m1_outpost_burned": "sec_outpost"},
 		"bonus_essence": {"sec_outpost": 300},
 		"next": &"m02",
 	},
+	# docs/design/mission-02.md "Reward carried to mission 3".
+	&"m02": {
+		"artifact": "stillwater_orb",
+		"flags": {"m2_emberguard_sworn": "sec_emberguard", "m2_dig_under_half": "sec_dig"},
+		"bonus_essence": {"sec_dig": 300},
+		"next": &"m03",
+	},
 }
 
-var unlocked: Array[StringName] = [FIRST_MISSION]
+var unlocked: Array[StringName] = START_UNLOCKED.duplicate()
 var completed: Array[StringName] = []
 var flags: Dictionary = {}    # String -> bool
 var items: Dictionary = {}    # CampaignItems snapshot ({} = nothing carried yet)
@@ -146,7 +164,8 @@ func _from_dict(d: Dictionary) -> void:
 	unlocked.clear()
 	for id: Variant in d.get("unlocked", []):
 		_add_unique(unlocked, StringName(str(id)))
-	_add_unique(unlocked, FIRST_MISSION)
+	for id in START_UNLOCKED:
+		_add_unique(unlocked, id)
 	for id: Variant in d.get("completed", []):
 		_add_unique(completed, StringName(str(id)))
 	var f: Variant = d.get("flags", {})
@@ -204,7 +223,7 @@ func reset() -> void:
 
 
 func reset_in_memory() -> void:
-	unlocked = [FIRST_MISSION]
+	unlocked = START_UNLOCKED.duplicate()
 	completed = []
 	flags = {}
 	items = {}
@@ -229,7 +248,7 @@ func to_dict() -> Dictionary:
 
 # ---------------------------------------------------------------- queries
 
-## Unlocked mission ids in campaign order (always at least &"m01").
+## Unlocked mission ids in campaign order (always at least START_UNLOCKED: &"m00", &"m01").
 func unlocked_missions() -> Array[StringName]:
 	var out: Array[StringName] = []
 	for id in MISSION_ORDER:

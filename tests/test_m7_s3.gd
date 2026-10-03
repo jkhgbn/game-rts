@@ -39,7 +39,7 @@ func _run() -> void:
 	# --- fresh campaign
 	var cs: Object = CS.call(&"open")
 	cs.call(&"reset")
-	if cs.call(&"unlocked_missions") != [&"m01"]:
+	if cs.call(&"unlocked_missions") != [&"m00", &"m01"]:   # mission-00.md: m00 and m01 both open on a new campaign
 		_errors.append("fresh unlocked %s" % str(cs.call(&"unlocked_missions")))
 	if CS.call(&"mission_scene", &"m01") != "res://missions/mission_01.tscn":
 		_errors.append("mission_scene(m01) wrong")

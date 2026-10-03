@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map gate thornwater (easy)</title>
+<style>
+:root{--bg:#f7f5f0;--fg:#1d1b18;--mute:#6b665d;--line:#d9d3c7;--good:#d7efd9;--pass:#f7e7bf;--bad:#f5d0cb;--head:#ece7dc}
+@media (prefers-color-scheme: dark){:root{--bg:#171613;--fg:#ebe6dc;--mute:#a39d91;--line:#3a362f;--good:#1f4526;--pass:#4a3d17;--bad:#552520;--head:#24221d}}
+body{background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,Segoe UI,sans-serif;margin:0 auto;max-width:1100px;padding:16px}
+h1{font-size:22px}h2{font-size:17px;margin-top:28px;border-bottom:1px solid var(--line);padding-bottom:4px}
+p{color:var(--fg)}.wrap{overflow-x:auto}table{border-collapse:collapse;margin:8px 0;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;white-space:nowrap}th{background:var(--head)}
+td.good{background:var(--good)}td.pass{background:var(--pass)}td.bad{background:var(--bad)}
+</style></head><body>
+<h1>Map gate thornwater (easy)</h1>
+<p>12 matches (0 failed). Commit: main@2d77698292. difficulty easy, style balanced, sim full, tick 60, limit 30:00, early on (12).</p>
+<p>Targets (rush-balance.md 8): win 45-55 % [ok] (pass band [near]: pairs 33-67 %, kingdoms 43-57 %; else [OUT]), median length 15:00-20:00 [ok] (per pair 13:30-21:30 [near]), no winner at 24:00 &lt;= 10 %, mirrors 40-60 % player side. Small N: read the counts.</p>
+<h2>Win % matrix (row kingdom vs column kingdom, both side orders)</h2>
+<p>Cell: row win % (wins-games). Diagonal: mirror, player-side win %.</p>
+<div class="wrap"><table>
+<tr><th></th><th>Fire</th><th>Shadow</th><th>Ice</th><th>Nature</th></tr>
+<tr><td><b>Fire</b></td><td class="bad">100 % (3-3)</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><b>Shadow</b></td><td>-</td><td class="bad">67 % (2-3)</td><td>-</td><td>-</td></tr>
+<tr><td><b>Ice</b></td><td>-</td><td>-</td><td class="bad">100 % (3-3)</td><td>-</td></tr>
+<tr><td><b>Nature</b></td><td>-</td><td>-</td><td>-</td><td class="bad">0 % (0-3)</td></tr>
+</table></div>
+<h2>Per kingdom (non-mirror games)</h2>
+<div class="wrap"><table>
+<tr><th>Kingdom</th><th>Win %</th><th>W-G</th><th>Median length</th><th>Peak army pop</th><th>Peak workers</th><th>Crystals gathered</th><th>Attacks</th></tr>
+<tr><td>Fire</td><td>-</td><td>0-0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Shadow</td><td>-</td><td>0-0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Ice</td><td>-</td><td>0-0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>Nature</td><td>-</td><td>0-0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+</table></div>
+<h2>Match length</h2>
+<p>Overall: median <b>30:00</b> [OUT], p90 30:00, min 20:39, max 30:00 (n = 12).</p>
+<div class="wrap"><table>
+<tr><th>Pair (unordered)</th><th>Games</th><th>Median</th><th>p90</th><th>Pair win %</th></tr>
+<tr><td>Fire vs Fire</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 100 %</td></tr>
+<tr><td>Shadow vs Shadow</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 67 %</td></tr>
+<tr><td>Ice vs Ice</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 100 %</td></tr>
+<tr><td>Nature vs Nature</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 0 %</td></tr>
+</table></div>
+<h2>How matches ended</h2>
+<div class="wrap"><table>
+<tr><th>Reason</th><th>Matches</th><th>Share</th></tr>
+<tr><td>concede</td><td>2</td><td>17 %</td></tr>
+<tr><td>time-score</td><td>10</td><td>83 %</td></tr>
+</table></div>
+<p>No real winner (kill / concede) by 24:00: <b>92 %</b> (11 of 12) [OUT]. Early-score and time-score ends count here.</p>
+<h2>Stalls</h2>
+<p>No stall flag raised.</p>
+<h2>Speed</h2>
+<p>Median sim speed x1.6 (game seconds per real second, one process). Sum of match real time 187:13 for 347:41 of game time; average 936 s per match.</p>
+<p>CPU time 106:42 in total: 368 CPU s per 20 game minutes (the cost on a free core).</p>
+<p>Batch wall clock 83:33 with 4 in parallel: <b>9 matches per hour</b>.</p>
+<h2>Start-up (medians, real s; same machine load as the batch)</h2>
+<p>Load 10.6 s, level build 0.0 s, first navmesh bake 19.9 s, whole start-up 31.6 s, whole match 1089 s (n = 12).</p>
+<p>Navmesh cache: the first bake is only 1.8 % of a match (19.9 s): not worth a main.gd hook.</p>
+<h2>Next steps</h2>
+<p>Nothing flagged by this batch.</p>
+<h2>Matches</h2>
+<div class="wrap"><table>
+<tr><th>Pair</th><th>Seed</th><th>Winner</th><th>Reason</th><th>Time</th><th>Score (P-E)</th><th>Peak army (P-E)</th><th>Workers peak (P-E)</th><th>Stall flags</th><th>Real s</th></tr>
+<tr><td>fire:fire</td><td>1</td><td>Fire</td><td>time-score</td><td>30:00</td><td>14569-14403</td><td>14-16</td><td>6-6</td><td></td><td>439</td></tr>
+<tr><td>fire:fire</td><td>2</td><td>Fire</td><td>time-score</td><td>30:00</td><td>14799-13454</td><td>14-14</td><td>6-6</td><td></td><td>1293</td></tr>
+<tr><td>fire:fire</td><td>3</td><td>Fire</td><td>concede</td><td>27:01</td><td>14434-12722</td><td>16-18</td><td>6-6</td><td></td><td>1013</td></tr>
+<tr><td>ice:ice</td><td>1</td><td>Ice</td><td>time-score</td><td>30:00</td><td>13959-13547</td><td>15-15</td><td>6-6</td><td></td><td>462</td></tr>
+<tr><td>ice:ice</td><td>2</td><td>Ice</td><td>time-score</td><td>30:00</td><td>15375-13213</td><td>17-14</td><td>6-6</td><td></td><td>1251</td></tr>
+<tr><td>ice:ice</td><td>3</td><td>Ice</td><td>time-score</td><td>30:00</td><td>14489-13870</td><td>15-17</td><td>6-6</td><td></td><td>1131</td></tr>
+<tr><td>nature:nature</td><td>1</td><td>Nature</td><td>time-score</td><td>30:00</td><td>13976-14802</td><td>17-24</td><td>6-6</td><td></td><td>495</td></tr>
+<tr><td>nature:nature</td><td>2</td><td>Nature</td><td>concede</td><td>20:38</td><td>13250-13841</td><td>19-21</td><td>6-6</td><td></td><td>1046</td></tr>
+<tr><td>nature:nature</td><td>3</td><td>Nature</td><td>time-score</td><td>30:00</td><td>13466-14722</td><td>13-17</td><td>6-6</td><td></td><td>1181</td></tr>
+<tr><td>shadow:shadow</td><td>1</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>14145-13845</td><td>15-14</td><td>6-6</td><td></td><td>459</td></tr>
+<tr><td>shadow:shadow</td><td>2</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>14070-13367</td><td>18-14</td><td>6-6</td><td></td><td>1280</td></tr>
+<tr><td>shadow:shadow</td><td>3</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>13198-13376</td><td>15-16</td><td>6-6</td><td></td><td>1182</td></tr>
+</table></div>
+</body></html>

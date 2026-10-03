@@ -9,7 +9,8 @@ extends Control
 const TAGLINE := "Four apprentices. One vanished master. Every artifact is a step to his throne."
 const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty order
 ## Campaign mission titles (mission-01.md); ids and scenes come from CampaignState.
-const MISSION_TITLES := {&"m01": "The Crown in the Ashes"}
+const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
+		&"m02": "The Orb Beneath the Ice"}
 const MENU_DIORAMA := "res://art/environment/menu_diorama/menu_diorama.tscn"
 const MAP_LIST_W := 250.0     ## MT9 map picker: the list's width (px)...
 const MAP_PREVIEW := 230.0    ## ...the preview square beside it (the mapsheet render, data/maps/previews/<id>.png)...
@@ -444,7 +445,8 @@ func _update_matchup() -> void:
 # ---------------------------------------------------------------- campaign
 
 ## Rebuilds the mission states: unlocked + built = playable, unlocked but not built = "coming soon",
-## else "Locked". Keeps the choice if still playable, else picks the last playable mission.
+## else "Locked". Keeps the choice if still playable, else picks the first playable mission not won yet (else the last
+## playable one).
 func refresh_missions() -> void:
 	var unlocked := _unlocked_missions()
 	for i in mission_ids.size():
@@ -464,10 +466,14 @@ func refresh_missions() -> void:
 			b.text = "   %d.  %s" % [i + 1, title]
 			b.tooltip_text = ""
 	if not is_mission_playable(_mission):
+		# The first playable mission not won yet (a new campaign opens on mission 0), else the last playable one.
 		_mission = &""
+		var cs := CampaignState.open()
 		for i in mission_ids.size():
 			if not mission_buttons[i].disabled:
 				_mission = mission_ids[i]
+				if cs != null and not cs.is_completed(mission_ids[i]):
+					break
 	set_mission(_mission)
 
 

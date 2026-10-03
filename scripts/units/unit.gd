@@ -124,6 +124,8 @@ const AURA_PREFIX := "aura:"
 
 const GRAVITY := 20.0
 const NEUTRAL_LEASH_FACTOR := 2.0   # neutral units fight only within aggro_range * this of home
+## Meta {status id: multiplier} that scales statuses landing on this unit (ItemPassives "stillwater"; mission-02.md).
+const STATUS_TIME_MULT_META := &"status_time_mult"
 const HOME_TOLERANCE := 1.0         # a neutral unit this close to home counts as home
 ## Non-worker units with aggro_range 0 (Magpies, trackers: brains pick their targets) chase an attacker
 ## they answer this far from where they stand (aggro_range x 2 would be 0 m for them).
@@ -580,6 +582,9 @@ func apply_status(status_id: StringName, seconds: float, full_duration: bool = f
 			return
 		if _is_hero_unit():
 			seconds *= float(data.get("hero_mult", 1.0))
+		# Item passives that shorten statuses on the wearer (Stillwater Orb: chill / frozen x 0.5), after the hero rule.
+		if has_meta(STATUS_TIME_MULT_META):
+			seconds *= float((get_meta(STATUS_TIME_MULT_META) as Dictionary).get(status_id, 1.0))
 	var fresh := not _statuses.has(status_id)
 	_statuses[status_id] = seconds
 	if not fresh:

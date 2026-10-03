@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_ajugt"]
+[ext_resource type="PackedScene" path="res://art/buildings/fire_keep.tscn" id="4_model"]
+
+[resource]
+script = ExtResource("1_ajugt")
+id = &"fire_watch_keep"
+display_name = "Emberfall Watch"
+faction = &"fire"
+kind = &"keep"
+build_time = 0.0
+max_hp = 2000.0
+attack_damage = 12.0
+attack_range = 10.0
+attack_cooldown = 1.5
+footprint = Vector2i(3, 3)
+height = 6.0
+pop_bonus = 20
+sight_radius = 16.0
+model_scene = ExtResource("4_model")

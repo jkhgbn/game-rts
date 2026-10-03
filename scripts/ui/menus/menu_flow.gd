@@ -94,8 +94,10 @@ static func start_mission(tree: SceneTree, scene_path: String, bot_difficulty: i
 
 ## Campaign start (2026-09-27): mission 1 is preceded by the 3-minute prologue (in-engine, the baked cine movie on its
 ## stage scene) the first time; the campaign save remembers it ("seen"). The Campaign menu's "Watch prologue" replays it.
+## Since mission 0 (2026-10-03, mission-00.md): a new campaign opens on M0 (prologue -> M0, whose ep1_intro card is its
+## briefing); the prologue also precedes M1 if the player starts there first.
 static func start_campaign_mission(tree: SceneTree, mission_id: StringName, scene_path: String, bot_difficulty: int) -> Node:
-	if mission_id == CampaignState.FIRST_MISSION and prologue_available():
+	if (mission_id == CampaignState.FIRST_MISSION or mission_id == CampaignState.OPENING_MISSION) and prologue_available():
 		var cs := CampaignState.open()
 		if not cs.is_seen(PROLOGUE_ID):
 			return play_prologue(tree, scene_path, bot_difficulty)

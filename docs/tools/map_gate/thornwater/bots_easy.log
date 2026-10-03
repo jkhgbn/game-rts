@@ -1,0 +1,19 @@
+﻿Bot Lab: 12 matches (4 pairs x 3 seeds, sim on, tick 60), 4 in parallel, easy / balanced, limit 1800 s, early on
+Expected wall time: ~15 min on a quiet PC, up to ~1.8 h while other agents run Godot (rough model, lab_eta.ps1).
+Dir C:\Users\elzzo\Documents\four-wizards-rts (main@2d77698292) -> 
+C:\Users\elzzo\Documents\four-wizards-rts\docs\tools\map_gate\thornwater\bots\easy
+[1/12] fire:fire seed 1: fire time-score 30:00 (440.8 s)
+[2/12] shadow:shadow seed 1: shadow time-score 30:00 (460.5 s)
+[3/12] ice:ice seed 1: ice time-score 30:00 (463.5 s)
+[4/12] nature:nature seed 1: nature time-score 30:00 (497 s)
+[5/12] fire:fire seed 2: fire time-score 30:00 (1299.2 s)
+[6/12] shadow:shadow seed 2: shadow time-score 30:00 (1289.3 s)
+[7/12] nature:nature seed 2: nature concede 20:38 (1053 s)
+[8/12] ice:ice seed 2: ice time-score 30:00 (1256.1 s)
+[9/12] fire:fire seed 3: fire concede 27:01 (1016.9 s)
+[10/12] shadow:shadow seed 3: shadow time-score 30:00 (1187.8 s)
+[11/12] ice:ice seed 3: ice time-score 30:00 (1138.4 s)
+[12/12] nature:nature seed 3: nature time-score 30:00 (1185.8 s)
+Done: 12 ok, 0 failed, wall 5013 s, 8.6 matches per hour
+Report: C:\Users\elzzo\Documents\four-wizards-rts\docs\tools\map_gate\thornwater\bots\easy\report.md  /  
+C:\Users\elzzo\Documents\four-wizards-rts\docs\tools\map_gate\thornwater\bots\easy\report.html

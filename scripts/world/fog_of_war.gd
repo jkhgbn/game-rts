@@ -48,6 +48,10 @@ const SITE_SIGHT := 6.0
 
 var enabled := true: set = set_enabled
 var local_team: int = Unit.Team.PLAYER   ## Whose view is drawn and hides the others.
+## Per-team sight multiplier (index = Unit.Team PLAYER / ENEMY; default 1.0), applied to every stamp of that team with
+## a floor of SIGHT_SCALE_FLOOR m (mission-02.md blizzard: x 0.5 for both teams). Missions set it; skirmish leaves it.
+var sight_scale: Array[float] = [1.0, 1.0]
+const SIGHT_SCALE_FLOOR := 5.0
 var grid_w := SIZE                       ## Cells along x (MapInfo.size_x / CELL, even), read only after _ready.
 var grid_d := SIZE                       ## Cells along z.
 var _hx := HALF                          ## grid_w / 2: the cell index of x = 0.
@@ -292,6 +296,8 @@ func update_team(team: int) -> void:
 func _stamp(team: int, pos: Vector3, radius: float) -> void:
 	if radius <= 0.0:
 		return
+	if team >= 0 and team < sight_scale.size() and sight_scale[team] != 1.0:
+		radius = maxf(minf(radius, SIGHT_SCALE_FLOOR), radius * sight_scale[team])
 	var cx := floori(pos.x / CELL) + _hx
 	var cz := floori(pos.z / CELL) + _hz
 	if cx < 0 or cx >= grid_w or cz < 0 or cz >= grid_d:

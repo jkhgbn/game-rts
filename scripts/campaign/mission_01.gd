@@ -27,6 +27,8 @@ const WESTWATCH_SPIRE_HP := 750.0
 const MALRIK_POS := Vector3(36.0, 0.0, -36.0)
 const SHADOW_RALLY := Vector3(30.0, 0.0, -30.0)
 const ARMY_POS := Vector3(-32.0, 0.0, 32.0)          ## PLAYER_START + (4, -4)
+const M0_ESCORT_FLAG := "m0_escort_saved"             ## mission-00.md: + M0_ESCORT_GUARDS Flame Guards at ARMY_POS.
+const M0_ESCORT_GUARDS := 2
 ## id -> [position, crystals]
 const M1_NODES := {
 	&"m1_fire_a": [Vector3(-46.0, 0.0, 34.0), 1500],
@@ -362,6 +364,12 @@ func _on_navigation_ready() -> void:
 	for i in soldiers.size():
 		_spawn(make_unit(soldiers[i]), Unit.Team.PLAYER,
 				ARMY_POS + Vector3(-3.0 + (i % 4) * 1.5, 0.0, -1.0 + (i / 4) * 1.6))
+	# Mission 0's escort (mission-00.md "Reward"): all 8 alive at dawn = 2 more Flame Guards ("the ones who stood with
+	# you"). Read from the campaign save in real play only (tests keep save_campaign_on_victory off).
+	if save_campaign_on_victory and CampaignState.open(campaign_save_path).flag(M0_ESCORT_FLAG):
+		for i in M0_ESCORT_GUARDS:
+			var g := _spawn(make_unit("flame_guard"), Unit.Team.PLAYER, ARMY_POS + Vector3(-2.25 + i * 1.5, 0.0, 2.6))
+			g.set_meta(&"m0_escort", true)
 
 	# --- Shadow (the bot's base)
 	shadow_hero = ShadowWizard.new()

@@ -1,0 +1,4 @@
+﻿Bot Lab: 16 matches (4 pairs x 4 seeds, sim on, tick 60), 4 in parallel, normal / balanced, limit 1800 s, early on
+Expected wall time: ~20 min on a quiet PC, up to ~2.4 h while other agents run Godot (rough model, lab_eta.ps1).
+Dir C:\Users\elzzo\Documents\four-wizards-rts (main@37d3e27460) -> 
+C:\Users\elzzo\Documents\four-wizards-rts\docs\tools\map_gate\thornwater\bots\normal

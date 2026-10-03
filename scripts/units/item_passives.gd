@@ -43,6 +43,9 @@ const PASSIVES := {
 	&"barbs": {"family": &"barbs", "rank": 1, "ratio": 0.2, "melee_range": 3.0},
 	&"blossom": {"family": &"blossom", "rank": 1, "heal_mult": 1.25},
 	&"verdant_ward": {"family": &"verdant_ward", "rank": 1, "radius": 10.0, "stats": {&"hp_regen": 2.0}},
+	# Campaign artifact (mission-02.md "Reward": Stillwater Orb): chill / frozen on the wearer last x 0.5 (after the
+	# hero half rule), through Unit.STATUS_TIME_MULT_META.
+	&"stillwater": {"family": &"stillwater", "rank": 1, "status_mult": {&"chill": 0.5, &"frozen": 0.5}},
 }
 const ALIASES := {
 	&"searing_strikes_ii": &"searing_strikes_2", &"searing_strikes_1": &"searing_strikes",
@@ -69,6 +72,7 @@ const ITEM_BUNDLES := {
 	&"thornweave_vest": [&"barbs"],
 	&"bloomcaller_staff": [&"blossom"],
 	&"heart_of_the_grove": [&"verdant_ward"],
+	&"stillwater_orb": [&"stillwater"],
 }
 const MOD_FEED := &"passive:feed"
 const MOD_SPELL_FEED := &"passive:spell_feed"
@@ -262,6 +266,12 @@ func _refresh() -> void:
 		wizard.remove_aura(VERDANT_WARD_AURA)
 	else:
 		wizard.apply_aura(VERDANT_WARD_AURA, float(verdant["radius"]), verdant["stats"], &"soldiers")
+	var still := _data(&"stillwater")
+	if still.is_empty():
+		if wizard.has_meta(Unit.STATUS_TIME_MULT_META):
+			wizard.remove_meta(Unit.STATUS_TIME_MULT_META)
+	else:
+		wizard.set_meta(Unit.STATUS_TIME_MULT_META, (still["status_mult"] as Dictionary).duplicate())
 	if not _active.has(&"quiet_step") and _quiet_on:
 		_quiet_on = false
 		wizard.remove_modifier(MOD_QUIET)

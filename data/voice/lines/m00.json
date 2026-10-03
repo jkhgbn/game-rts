@@ -1,0 +1,28 @@
+{
+ "cine_id": "m00",
+ "source": "docs/design/mission-00.md",
+ "note": "Mission 0 'The Night of Knives': mission lines L1-L14 (said in game through MissionBase.say_line, scripts/campaign/mission_00.gd DIALOGUE) and the cinematic lines C1-C7 (subtitles of m0_fall / m0_dawn, mission_00.gd CINE_LINES). Mission lines have no shot / t. dur = the slot (5 s unless the spec says otherwise). Speaker ids from Speakers.TABLE / cast.json (vey, vessa, hush, narrator, ashby). Text only: the Voice Forge renders the WAVs (task 19.VO0).",
+ "lines": [
+  {"id": "L01", "speaker": "vey", "dur": 5.0, "subtitle": "Stay behind my sword, girl. Knives hate a long reach.", "text": "Stay behind my sword, girl. Knives hate a long reach."},
+  {"id": "L02", "speaker": "vessa", "dur": 5.0, "subtitle": "I've been stabbed ONE time and I already hate it.", "text": "I've been stabbed ONE time and I already hate it."},
+  {"id": "L03", "speaker": "vey", "dur": 5.0, "subtitle": "Good. Light pushes back the dark. Always has.", "text": "Good. Light pushes back the dark. Always has."},
+  {"id": "L04", "speaker": "vessa", "dur": 5.0, "subtitle": "Dogs! Why is it always dogs?", "text": "Dogs! Why is it always dogs?"},
+  {"id": "L05", "speaker": "hush", "dur": 5.0, "subtitle": "Hold still, little queen. It's kinder.", "text": "Hold still, little queen. It's kinder."},
+  {"id": "L06", "speaker": "vey", "dur": 5.0, "subtitle": "Over my dead body, knife-woman.", "text": "Over my dead body, knife-woman."},
+  {"id": "L07", "speaker": "hush", "dur": 5.0, "subtitle": "The old man bites. How charming.", "text": "The old man bites. How charming."},
+  {"id": "L08", "speaker": "hush", "dur": 5.0, "subtitle": "Another night, little queen. There is always another night.", "text": "Another night, little queen. There is always another night."},
+  {"id": "L09", "speaker": "vessa", "dur": 5.0, "subtitle": "How many knives does one Bishop OWN?", "text": "How many knives does one Bishop OWN?"},
+  {"id": "L10", "speaker": "vey", "dur": 6.0, "subtitle": "Two more hours, girl. Dawn always comes. It's the one thing it's good at.", "text": "Two more hours, girl. Dawn always comes. It's the one thing it's good at."},
+  {"id": "L11", "speaker": "vessa", "dur": 5.0, "subtitle": "You want me? Come and get me. ALL of you.", "text": "You want me? Come and get me. ALL of you."},
+  {"id": "L12", "speaker": "vessa", "dur": 5.0, "subtitle": "Vey... I'm sorry...", "text": "Vey... I'm sorry..."},
+  {"id": "L13", "speaker": "vessa", "dur": 4.0, "subtitle": "You're going to explain the lightning.", "text": "You're going to explain the lightning."},
+  {"id": "L14", "speaker": "vey", "dur": 3.0, "subtitle": "Later. Duck.", "text": "Later. Duck."},
+  {"id": "C1", "speaker": "vey", "dur": 2.5, "subtitle": "Vessa, MOVE!", "text": "Vessa, MOVE!"},
+  {"id": "C2", "speaker": "vessa", "dur": 2.0, "subtitle": "VEY!", "text": "VEY!"},
+  {"id": "C3", "speaker": "vessa", "dur": 2.5, "subtitle": "...Malrik.", "text": "...Malrik."},
+  {"id": "C4", "speaker": "narrator", "dur": 4.0, "subtitle": "Dawn came to Emberfall, and so did the Emberguard.", "text": "Dawn came to Emberfall, and so did the Emberguard."},
+  {"id": "C5", "speaker": "ashby", "dur": 2.5, "subtitle": "My queen! You're hurt-", "text": "My queen! You're hurt-"},
+  {"id": "C6", "speaker": "vessa", "dur": 3.0, "subtitle": "I'm not the one who's hurt, Captain.", "text": "I'm not the one who's hurt, Captain."},
+  {"id": "C7", "speaker": "vessa", "dur": 3.5, "subtitle": "Get the army up. We take the crown today.", "text": "Get the army up. We take the crown today."}
+ ]
+}

@@ -177,20 +177,25 @@ func _check_menu() -> bool:
 	menu.campaign_button.pressed.emit()
 	if not menu.campaign_panel.visible:
 		return _finish("campaign panel did not open")
-	if menu.mission_buttons.is_empty() or not str(menu.mission_buttons[0].text).contains("The Crown in the Ashes"):
+	# Mission 0 (mission-00.md, 2026-10-03) opens the list; mission 1 follows it. Both are unlocked on a new campaign.
+	var m1: int = menu.mission_ids.find(&"m01")
+	if m1 < 0 or not str(menu.mission_buttons[m1].text).contains("The Crown in the Ashes"):
 		return _finish("mission 1 missing from the list")
+	var m0: int = menu.mission_ids.find(&"m00")
+	if m0 != 0 or not str(menu.mission_buttons[0].text).contains("The Night of Knives"):
+		return _finish("mission 0 is not first in the list")
 	if menu.mission_scene(&"m01") != "res://missions/mission_01.tscn":
 		return _finish("mission 1 scene is %s" % menu.mission_scene(&"m01"))
 	if ResourceLoader.exists("res://missions/mission_01.tscn"):
-		if menu.mission_buttons[0].disabled or menu.get_mission() != &"m01" or menu.campaign_start_button.disabled:
-			return _finish("mission 1 exists but is not playable / selected")
+		if menu.mission_buttons[m1].disabled or not (menu.get_mission() in [&"m00", &"m01", &"m02"]) \
+				or menu.campaign_start_button.disabled:
+			return _finish("mission 1 exists but is not playable / no mission selected")
 	else:
-		# Scene not built yet (systems, M7.S*): unlocked but greyed "coming soon", Start disabled.
-		if not menu.mission_buttons[0].disabled or not str(menu.mission_buttons[0].text).contains("coming soon") \
-				or not menu.campaign_start_button.disabled:
+		# Scene not built yet (systems, M7.S*): unlocked but greyed "coming soon".
+		if not menu.mission_buttons[m1].disabled or not str(menu.mission_buttons[m1].text).contains("coming soon"):
 			return _finish("mission 1 without a scene should be greyed 'coming soon'")
 		_notes.append("missions/mission_01.tscn not built yet: mission 1 shows 'coming soon'")
-	for i in range(1, menu.mission_buttons.size()):
+	for i in range(m1 + 1, menu.mission_buttons.size()):
 		if not menu.mission_buttons[i].disabled:
 			_notes.append("mission %d is playable" % (i + 1))
 	menu.campaign_difficulty_buttons[0].pressed.emit()
