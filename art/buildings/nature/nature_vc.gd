@@ -68,15 +68,15 @@ static func sync(m: Dictionary) -> void:
 		bt.append(float(_p(src, &"block_tint", 0.18)))
 		moss.append(float(_p(src, &"moss", 0.0)))
 		mc.append(_lin(_p(src, &"moss_color", Color(0.25, 0.37, 0.12))))
-	body.set_shader_parameter(&"base_colors", cols)
-	body.set_shader_parameter(&"patterns", pats)
-	body.set_shader_parameter(&"noise_scales_a", na)
-	body.set_shader_parameter(&"spec_strengths", spec)
-	body.set_shader_parameter(&"block_sizes", bs)
-	body.set_shader_parameter(&"joint_widths", jw)
-	body.set_shader_parameter(&"block_tints", bt)
-	body.set_shader_parameter(&"mosses", moss)
-	body.set_shader_parameter(&"moss_colors", mc)
+	MatSync.put(body, &"base_colors", cols)
+	MatSync.put(body, &"patterns", pats)
+	MatSync.put(body, &"noise_scales_a", na)
+	MatSync.put(body, &"spec_strengths", spec)
+	MatSync.put(body, &"block_sizes", bs)
+	MatSync.put(body, &"joint_widths", jw)
+	MatSync.put(body, &"block_tints", bt)
+	MatSync.put(body, &"mosses", moss)
+	MatSync.put(body, &"moss_colors", mc)
 	var stone: ShaderMaterial = m["Stone"]
 	var bark: ShaderMaterial = m["Bark"]
 	var leaves: ShaderMaterial = m["Leaves"]
@@ -89,7 +89,7 @@ static func sync(m: Dictionary) -> void:
 	sync_gold(m)
 	var black: Material = m.get(VOID_KEY)
 	if black is BaseMaterial3D:
-		body.set_shader_parameter(&"void_color", (black as BaseMaterial3D).albedo_color)
+		MatSync.put(body, &"void_color", (black as BaseMaterial3D).albedo_color)
 
 
 ## The painted material of array slot i: the seven KEYS, then the building's extra one (the Bazaar's Clay).
@@ -110,7 +110,7 @@ static func sync_gold(m: Dictionary) -> void:
 			[&"rim_color", &"gold_rim_color"], [&"rim_strength", &"gold_rim_strength"], [&"damage", &"gold_damage"]]:
 		var v: Variant = g.get_shader_parameter(pair[0])
 		if v != null:
-			body.set_shader_parameter(pair[1], v)
+			MatSync.put(body, pair[1], v)
 
 
 static func _p(src: ShaderMaterial, p: StringName, fallback: Variant) -> Variant:
@@ -129,13 +129,14 @@ static func _lin(c: Variant) -> Vector3:
 static func _copy(src: ShaderMaterial, dst: ShaderMaterial, p: StringName) -> void:
 	var v: Variant = src.get_shader_parameter(p)
 	if v != null:
-		dst.set_shader_parameter(p, v)
+		MatSync.put(dst, p, v)
 
 
 ## Merges the painted (and Void) surfaces of every MeshInstance3D under `root` drawn with the set `m` into ONE
 ## surface (the merged painted material), and the card surfaces (LeafCard, Blossom, Petal) into ONE more (the merged
 ## card material, nature_cards_vc.gdshader).
 static func convert(root: Node, m: Dictionary) -> void:
+	MeshBake.prune(_cache)
 	var body := material(m)
 	var cards := card_material(m)
 	var index := {}
@@ -213,21 +214,18 @@ static func sync_cards(m: Dictionary) -> void:
 		var vals: Array = []
 		for i: int in 4:
 			var src: ShaderMaterial = m.get(CARD_KEYS[mini(i, CARD_KEYS.size() - 1)])
-			var v: Variant = src.get_shader_parameter(nm) if src else null
-			if v == null and src and src.shader:
-				v = RenderingServer.shader_get_parameter_default(src.shader.get_rid(), nm)
-			vals.append(v)
+			vals.append(MatSync.param(src, nm))   # value, else the shader default (cached: no RenderingServer call)
 		match typ:
 			"int":
 				var a := PackedInt32Array()
 				for v: Variant in vals:
 					a.append(int(v) if v != null else 0)
-				c.set_shader_parameter(StringName(String(nm) + "_c"), a)
+				MatSync.put(c, StringName(String(nm) + "_c"), a)
 			"float":
 				var f := PackedFloat32Array()
 				for v: Variant in vals:
 					f.append(float(v) if v != null else 0.0)
-				c.set_shader_parameter(StringName(String(nm) + "_c"), f)
+				MatSync.put(c, StringName(String(nm) + "_c"), f)
 			"vec3":
 				var a3 := PackedVector3Array()
 				for v: Variant in vals:
@@ -239,7 +237,7 @@ static func sync_cards(m: Dictionary) -> void:
 					if srgb:
 						col = col.srgb_to_linear()
 					a3.append(Vector3(col.r, col.g, col.b))
-				c.set_shader_parameter(StringName(String(nm) + "_c"), a3)
+				MatSync.put(c, StringName(String(nm) + "_c"), a3)
 
 
 ## [ArrayMesh, source surface per new surface (-1 = merged painted, -2 = merged cards)], cached per mesh + ids.
@@ -304,9 +302,7 @@ static func _bake(mesh: Mesh, ids: PackedInt32Array) -> Array:
 	for s: int in mesh.get_surface_count():
 		if ids[s] != KEEP:
 			continue
-		am.add_surface_from_arrays(mesh.surface_get_primitive_type(s), mesh.surface_get_arrays(s))
-		am.surface_set_material(am.get_surface_count() - 1, mesh.surface_get_material(s))
-		am.surface_set_name(am.get_surface_count() - 1, mesh.surface_get_name(s))
+		MeshBake.copy_surface(am, mesh, s)   # keeps the custom-channel format (PaintedVC does the same)
 		src_of.append(s)
 	_cache[key] = [mesh, am, src_of]
 	return [am, src_of]

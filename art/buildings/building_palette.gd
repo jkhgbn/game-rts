@@ -65,7 +65,8 @@ static func index_of(pal: ShaderMaterial, src: Material) -> int:
 	return srcs.size() - 1
 
 
-## Re-reads every source material into the palette arrays (+ the rim of the first painted source).
+## Re-reads every source material into the palette arrays (+ the rim of the first painted source). Only changed values
+## are uploaded, so the per-new-source refresh of index_of while a building is folded stays cheap.
 static func refresh(pal: ShaderMaterial) -> void:
 	var srcs: Array = pal.get_meta(&"pal_srcs")
 	var a := PackedVector4Array()
@@ -98,19 +99,18 @@ static func refresh(pal: ShaderMaterial) -> void:
 			for rp: StringName in [&"rim_color", &"rim_strength"]:
 				var rv: Variant = sm.get_shader_parameter(rp)
 				if rv != null:
-					pal.set_shader_parameter(rp, rv)
-	pal.set_shader_parameter(&"pal_a", a)
-	pal.set_shader_parameter(&"pal_b", b)
-	pal.set_shader_parameter(&"pal_c", c)
-	pal.set_shader_parameter(&"pal_d", d)
-	pal.set_shader_parameter(&"pal_e", e)
+					MatSync.put(pal, rp, rv)
+	# uploads only what changed (a selection rim fade changes the rim, not the 5 arrays)
+	MatSync.put(pal, &"pal_a", a)
+	MatSync.put(pal, &"pal_b", b)
+	MatSync.put(pal, &"pal_c", c)
+	MatSync.put(pal, &"pal_d", d)
+	MatSync.put(pal, &"pal_e", e)
 
 
 ## A material parameter, else the shader's own default, else `fallback`.
 static func _p(sm: ShaderMaterial, name: StringName, fallback: Variant) -> Variant:
-	var v: Variant = sm.get_shader_parameter(name)
-	if v == null and sm.shader:
-		v = RenderingServer.shader_get_parameter_default(sm.shader.get_rid(), name)
+	var v: Variant = MatSync.param(sm, name)   # value, else the shader's cached default
 	if v == null:
 		return fallback
 	if v is Vector3 and fallback is Color:
@@ -212,7 +212,9 @@ static func _uv_mesh(mesh: Mesh, idx: Array) -> Mesh:
 			uv.resize(n)
 			uv.fill(Vector2(float(i), 0.0))
 			arr[Mesh.ARRAY_TEX_UV] = uv
-		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+		# a PrimitiveMesh (BoxMesh...) has no surface_get_primitive_type: its surfaces are triangles
+		var prim: Mesh.PrimitiveType = (mesh as ArrayMesh).surface_get_primitive_type(s) if mesh is ArrayMesh else Mesh.PRIMITIVE_TRIANGLES
+		am.add_surface_from_arrays(prim, arr, [], {}, MeshBake.custom_flags(mesh, s))
 		am.surface_set_material(s, mesh.surface_get_material(s))
 	_meshes[key] = am
 	return am

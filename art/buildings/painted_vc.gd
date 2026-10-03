@@ -376,19 +376,25 @@ static func convert_glow(root: Node, skip: Array = []) -> ShaderMaterial:
 	return g
 
 
+const _GLOW_ARRAYS: Array[StringName] = [&"glow_colors", &"energies", &"pulse_speeds", &"bands", &"boosts", &"phases"]
+
+
 ## Copies the source glow materials' current values into the merged one (call it once per frame while it lives).
-static func sync_glow(g: ShaderMaterial) -> void:
+## Each source is read once; an array is uploaded only when its values changed since the last sync (a Fire Hall at
+## rest re-sent 6 arrays every frame before). Returns the number of arrays uploaded.
+static func sync_glow(g: ShaderMaterial) -> int:
 	if g == null or not g.has_meta(&"glow_src"):
-		return
+		return 0
 	var src: Array = g.get_meta(&"glow_src")
+	if src.is_empty():
+		return 0
 	var cols := PackedVector3Array()
 	var en := PackedFloat32Array()
 	var sp := PackedFloat32Array()
 	var bd := PackedInt32Array()
 	var bo := PackedFloat32Array()
 	var ph := PackedFloat32Array()
-	for i: int in GLOW_MAX:
-		var m: ShaderMaterial = src[mini(i, src.size() - 1)]
+	for m: ShaderMaterial in src:
 		var c: Color = _col(m.get_shader_parameter(&"glow_color"), Color(1.0, 0.55, 0.15)).srgb_to_linear()
 		cols.append(Vector3(c.r, c.g, c.b))
 		en.append(_num(m.get_shader_parameter(&"energy"), 3.0))
@@ -396,24 +402,25 @@ static func sync_glow(g: ShaderMaterial) -> void:
 		bd.append(int(_num(m.get_shader_parameter(&"rune_bands"), 0.0)))
 		bo.append(_num(m.get_shader_parameter(&"boost"), 1.0))
 		ph.append(_num(m.get_shader_parameter(&"phase"), 0.0))
-	g.set_shader_parameter(&"glow_colors", cols)
-	g.set_shader_parameter(&"energies", en)
-	g.set_shader_parameter(&"pulse_speeds", sp)
-	g.set_shader_parameter(&"bands", bd)
-	g.set_shader_parameter(&"boosts", bo)
-	g.set_shader_parameter(&"phases", ph)
+	var last_i := src.size() - 1
+	for i: int in range(src.size(), GLOW_MAX):   # unused channels repeat the last source (as before)
+		cols.append(cols[last_i])
+		en.append(en[last_i])
+		sp.append(sp[last_i])
+		bd.append(bd[last_i])
+		bo.append(bo[last_i])
+		ph.append(ph[last_i])
+	var cur: Array = [cols, en, sp, bd, bo, ph]
+	var sent := 0
+	for k: int in cur.size():
+		if MatSync.put(g, _GLOW_ARRAYS[k], cur[k]):
+			sent += 1
+	return sent
 
 
 ## The custom-channel format bits of a source surface (a painted-vc surface kept by the glow pass keeps CUSTOM0).
 static func _custom_flags(mesh: Mesh, s: int) -> int:
-	if not (mesh is ArrayMesh):
-		return 0
-	var f: int = (mesh as ArrayMesh).surface_get_format(s)
-	var out: int = 0
-	for c: int in 4:
-		var shift: int = Mesh.ARRAY_FORMAT_CUSTOM0_SHIFT + c * Mesh.ARRAY_FORMAT_CUSTOM_BITS
-		out |= f & (Mesh.ARRAY_FORMAT_CUSTOM_MASK << shift)
-	return out
+	return MeshBake.custom_flags(mesh, s)
 
 
 ## A flat ground plane (PlaneMesh layout, facing up) whose vertices carry `col`: decals / stains sharing one
@@ -438,9 +445,4 @@ static func tinted_plane(size: Vector2, col: Color) -> ArrayMesh:
 
 ## Drops cached bakes whose source mesh only the cache still holds (per-instance meshes of freed buildings).
 static func _prune() -> void:
-	if _cache.size() < 256:
-		return
-	for k: String in _cache.keys():
-		var src: Mesh = (_cache[k] as Array)[0]
-		if src.get_reference_count() <= 2:
-			_cache.erase(k)
+	MeshBake.prune(_cache)
