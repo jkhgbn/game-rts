@@ -39,6 +39,7 @@ var _tier_stub: UnitType
 var _card_text_busy := false
 var _card_text_ms := -100000
 var _card_text_for := 0
+var _quiet_tier := false   # set_start_tier: no tier-up flourish
 
 
 func _physics_process(delta: float) -> void:
@@ -142,6 +143,16 @@ func upgrade_time_left() -> float:
 	return maxf(_up_left, 0.0) if _up_to > 0 else 0.0
 
 
+## Campaign start state (mission-e2-01.md "Code", MissionBase / TierSystem.set_start_tier): the keep IS tier `t`
+## (tier HP and attack, the tier look) with no announcement, no timer and no tier-up flourish. Any running upgrade is
+## refunded first. Works mid-mission too (a phase switch).
+func set_start_tier(t: int) -> void:
+	cancel_upgrade()
+	_quiet_tier = true
+	set_tier_now(t)
+	_quiet_tier = false
+
+
 ## Puts the keep at tier `t` now: max HP x1.2 / x1.4 of its base (the gain is healed), attack +4 / +8, the look.
 func set_tier_now(t: int) -> void:
 	t = clampi(t, 1, 3)
@@ -158,7 +169,8 @@ func set_tier_now(t: int) -> void:
 		_update_hp_bar()
 		_call_model(&"set_health_ratio", [hp / maxf(max_hp, 1.0)])
 		_show_tier()
-		_call_model(&"play_tier_up")
+		if not _quiet_tier:
+			_call_model(&"play_tier_up")
 		_call_model(&"set_upgrading", [false])
 	tier_changed.emit(self, tier)
 	queue_changed.emit()

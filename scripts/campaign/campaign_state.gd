@@ -5,7 +5,7 @@ extends RefCounted
 ##   { "version": 1,
 ##     "unlocked": ["m01", "m02"],          # mission ids the menu may start
 ##     "completed": ["m01"],
-##     "flags": {"m1_peddler_freed": true, "m1_outpost_burned": false},
+##     "flags": {"m1_peddler_freed": true, "m1_outpost_burned": false, "e3m2_alarms": 2},   # bools, or int counters
 ##     "items": { CampaignItems.snapshot(): slots, artifacts_owned, artifacts_equipped, essence },
 ##     "companion": {"id": "coin_cutter", "variant": 1, "items": [{"id", "count"} or null x 4], "purse": 150,
 ##                   "class": "two_hand"} }               # {} = none (docs/design/champions.md 11); "class" only
@@ -39,6 +39,9 @@ const MISSION_SCENES := {
 }
 ## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
 ## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
+## Optional keys (docs/design/mission-framework.md): "set_flags" (constant values), "items" (extra owned artifacts),
+## "unlock" (more mission ids), "save_items" (false = flags only). A mission missing here falls back to its
+## MissionConfig.rewards (reward_of); its computed flags / track counters come from mission_flags() / mission_flag_adds().
 const MISSION_REWARDS := {
 	&"m01": {
 		"artifact": "ember_crown",
@@ -59,6 +62,8 @@ var seen: Array[StringName] = []
 var path: String = SAVE_PATH
 ## The file `open()` reads when no path is given (tests point it at their own file; "" = SAVE_PATH).
 static var default_path: String = ""
+## Extra reward entries (MISSION_REWARDS shape) registered at runtime by missions / tests (reward_of reads it last).
+static var registered_rewards: Dictionary = {}
 
 
 ## A state loaded from `save_path` (a fresh campaign when there is no file). "" = `default_path` / SAVE_PATH.
@@ -102,7 +107,7 @@ func load() -> bool:
 	var f: Variant = d.get("flags", {})
 	if f is Dictionary:
 		for k: Variant in f:
-			flags[str(k)] = bool(f[k])
+			flags[str(k)] = _clean_flag(f[k])
 	var it: Variant = d.get("items", {})
 	items = it if it is Dictionary else {}
 	companion = _clean_companion(d.get("companion", {}))
@@ -173,6 +178,40 @@ func flag(name: String) -> bool:
 	return bool(flags.get(name, false))
 
 
+## A flag's raw value (bool, or int for mission-computed counters such as `e3m2_alarms`), `default` when unset.
+func flag_value(name: String, default: Variant = null) -> Variant:
+	return flags.get(name, default)
+
+
+## Writes several flags at once (bools, or ints for counters); `save_now` also saves the file. Returns the save
+## result (OK when not saving).
+func set_flags(values: Dictionary, save_now: bool = false) -> Error:
+	for k: Variant in values:
+		flags[str(k)] = _clean_flag(values[k])
+	return save() if save_now else OK
+
+
+## The reward entry of a mission (MISSION_REWARDS shape): the table above first, else the mission's own
+## `mission_rewards()` (MissionBase reads it from its MissionConfig), else `registered_rewards`. {} = none.
+static func reward_of(mission_id: StringName, level_node: Node = null) -> Dictionary:
+	mission_id = StringName(mission_id)
+	if MISSION_REWARDS.has(mission_id):
+		return MISSION_REWARDS[mission_id]
+	if level_node != null and level_node.has_method(&"mission_rewards"):
+		var r: Variant = level_node.call(&"mission_rewards")
+		if r is Dictionary and not (r as Dictionary).is_empty():
+			return r
+	return registered_rewards.get(mission_id, {})
+
+
+static func _clean_flag(v: Variant) -> Variant:
+	if v is bool:
+		return v
+	if v is int or v is float:
+		return int(v)
+	return bool(v)
+
+
 ## True once the cinematic `id` was watched (or skipped) in this campaign (CinematicPlayer reads it).
 func is_seen(id: StringName) -> bool:
 	return seen.has(StringName(id))
@@ -204,7 +243,11 @@ func carried_essence() -> int:
 ## unlocks the next mission and saves. Returns the save result.
 func on_mission_victory(mission_id: StringName, level_node: Node) -> Error:
 	mission_id = StringName(mission_id)
-	var reward: Dictionary = MISSION_REWARDS.get(mission_id, {})
+	var reward: Dictionary = reward_of(mission_id, level_node)
+	_apply_reward_flags(reward, level_node)
+	if not bool(reward.get("save_items", true)):   # flags-only missions (e.g. episode 5): items / essence untouched
+		_finish_victory(mission_id, reward)
+		return save()
 	var hero := find_hero(level_node)
 	var inventory: Variant = ItemDrops.inventory_of(hero) if hero else null
 	var essence := 0
@@ -219,21 +262,47 @@ func on_mission_victory(mission_id: StringName, level_node: Node) -> Error:
 	var art := str(reward.get("artifact", ""))
 	if art != "" and not owned.has(art):
 		owned.append(art)
+	for extra: Variant in reward.get("items", []):   # e7m4: "items": [&"ossavar_ring"] (owned, not equipped)
+		if str(extra) != "" and not owned.has(str(extra)):
+			owned.append(str(extra))
 	items = CampaignItems.snapshot(inventory if inventory != null else {}, essence, owned)
 	if art != "":
 		_equip_first(art)
+	_finish_victory(mission_id, reward)
+	return save()
+
+
+## Victory flags, in order: "flags" (flag -> objective id, true when that objective is done), "set_flags"
+## (constant values), then the mission's own `mission_flags()` (MissionBase.set_mission_flag: computed counters / bools).
+func _apply_reward_flags(reward: Dictionary, level_node: Node) -> void:
 	var reward_flags: Dictionary = reward.get("flags", {})
 	for flag_name: Variant in reward_flags:
 		flags[str(flag_name)] = objective_done(level_node, str(reward_flags[flag_name]))
+	var constant: Variant = reward.get("set_flags", {})
+	if constant is Dictionary:
+		set_flags(constant)
+	if level_node != null and level_node.has_method(&"mission_flags"):
+		var computed: Variant = level_node.call(&"mission_flags")
+		if computed is Dictionary:
+			set_flags(computed)
+	if level_node != null and level_node.has_method(&"mission_flag_adds"):   # track counters (shadow_stone_uses)
+		var adds: Variant = level_node.call(&"mission_flag_adds")
+		if adds is Dictionary:
+			for k: Variant in adds:
+				flags[str(k)] = int(flags.get(str(k), 0)) + int(adds[k])
+
+
+func _finish_victory(mission_id: StringName, reward: Dictionary) -> void:
 	_add_unique(completed, mission_id)
 	_add_unique(unlocked, mission_id)
-	var next: StringName = reward.get("next", &"")
+	var next: StringName = StringName(reward.get("next", &""))
 	if next == &"":
 		var i := MISSION_ORDER.find(mission_id)
 		next = MISSION_ORDER[i + 1] if i >= 0 and i + 1 < MISSION_ORDER.size() else &""
 	if next != &"":
 		_add_unique(unlocked, next)
-	return save()
+	for id: Variant in reward.get("unlock", []):   # e8m3: several missions at once
+		_add_unique(unlocked, StringName(str(id)))
 
 
 ## Call at the start of the next mission, once its player wizard exists: fills the wizard's inventory

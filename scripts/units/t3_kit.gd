@@ -49,15 +49,43 @@ const BOT_GENIE_RESERVE := 200
 static var force_enabled := false
 
 
+## T3 units (and the Genie, and the bot's T3 use) here: the plain skirmish, a test's `force_enabled`, or a campaign
+## mission that opts in with `t3_enabled = true` (mission-e2-01.md E2M1.G1, like CasterKit reads `casters_enabled`).
 static func enabled_here() -> bool:
 	if not ENABLED:
 		return false
 	if force_enabled:
 		return true
-	var tree := Engine.get_main_loop() as SceneTree
-	if tree == null or tree.current_scene == null:
+	var scene := _scene()
+	if scene == null:
 		return false
-	var s: Variant = tree.current_scene.get_script()
+	if _is_skirmish(scene):
+		return true
+	return &"t3_enabled" in scene and bool(scene.get(&"t3_enabled"))
+
+
+## The helper call / revive on the keep card here: wherever T3 is on in the skirmish (or forced), or a mission with
+## `helpers_enabled = true` (independent of `t3_enabled`: e2m4 has helpers but no T3 unit).
+static func helpers_here() -> bool:
+	if not ENABLED:
+		return false
+	if force_enabled:
+		return true
+	var scene := _scene()
+	if scene == null:
+		return false
+	if &"helpers_enabled" in scene:
+		return bool(scene.get(&"helpers_enabled"))
+	return _is_skirmish(scene)
+
+
+static func _scene() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	return tree.current_scene if tree else null
+
+
+static func _is_skirmish(scene: Node) -> bool:
+	var s: Variant = scene.get_script()
 	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
 
 
@@ -78,14 +106,17 @@ static func description(type_id: StringName) -> String:
 ## Extra keep slots (appended after the worker and the tier upgrade): the kingdom's T3 unit, then Call / Revive helper.
 static func keep_types(building: Building) -> Array[UnitType]:
 	var out: Array[UnitType] = []
-	if building == null or building.building_type == null or building.building_type.kind != &"keep" or not enabled_here():
+	if building == null or building.building_type == null or building.building_type.kind != &"keep":
 		return out
-	var t := UnitType.find(String(KEEP_UNITS.get(building.building_type.faction, &"")))
+	var t3 := enabled_here()
+	if not t3 and not helpers_here():
+		return out
+	var t := UnitType.find(String(KEEP_UNITS.get(building.building_type.faction, &""))) if t3 else null
 	if t:
 		if not t.has_meta(&"card_text"):   # command card tooltip line (stub / extra types)
 			t.set_meta(&"card_text", description(t.id))
 		out.append(t)
-	var roster := HelperRoster.for_team(int(building.team))
+	var roster := HelperRoster.for_team(int(building.team)) if helpers_here() else null
 	if roster:
 		var stub := roster.card_type()
 		if stub:
@@ -93,7 +124,7 @@ static func keep_types(building: Building) -> Array[UnitType]:
 			var text := description(stub.id)
 			if stub.id == HelperRoster.CALL_ID and ht:
 				text = "%s, %s. %d essence too. Autonomous; its level is your wizard's. Stance on its card." % [
-						ht.display_name, ht.title, ht.call_essence]
+						ht.display_name, ht.title, roster.call_essence()]
 			elif ht:
 				text = "%d essence. %s returns at the keep." % [roster.revive_cost(), ht.display_name]
 			stub.set_meta(&"card_text", text)
@@ -377,7 +408,7 @@ static func bot_try_helper(team: int, keep: Keep, eco: Economy, difficulty: int)
 	if stub == null:
 		return &""
 	var bank := EssenceBank.for_team(team)
-	if bank and not bank.can_afford(roster.helper_type().call_essence):
+	if bank and not bank.can_afford(roster.call_essence()):
 		return &""   # essence comes by itself: keep training meanwhile
 	var r := keep.can_queue(stub)
 	if r == "":

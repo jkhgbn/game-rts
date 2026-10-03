@@ -106,9 +106,24 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `scripts/units/support_caster.gd`. Skirmish settings `player_kingdom` (default `&"fire"`) and `enemy_kingdom` (default `&"shadow"`), any of the 4 kingdoms
   (mirror allowed), set on the skirmish node before it enters the tree (the menu does it). House `max_count` is per kingdom
   (2026-09-27: every kingdom cap 200 = keep +20 + 9 houses x +20). Ice wizard: Torvald (`torvald`).
-- **Campaign** (`docs/design/mission-01.md`): missions in `missions/` (`mission_01.tscn` + script in
-  `scripts/campaign/`), objectives through `Events.objective_changed(id, state)`, dialogue through a new
-  `Events.dialogue(speaker: StringName, text: String)` signal (lead adds it), save via `scripts/campaign/campaign_items.gd`.
+- **Campaign** (`docs/design/mission-01.md`, framework `docs/design/mission-framework.md`): missions in `missions/`
+  (`mission_01.tscn` + script in `scripts/campaign/`). Every mission `extends MissionBase` (`scripts/campaign/mission_base.gd`,
+  `extends Skirmish`; `Mission01` is on it): knobs in a `MissionConfig` resource (`_mission_config()` or a `.tres` on
+  `config`: tiers / `max_tier` / `bots_upgrade` / `start_tiers`, `casters_enabled`, `t3_enabled`, `helpers_enabled`,
+  `helper_start_called`, `helper_call_price`, titan values, start level / spell points / spells / `level_cap`, start
+  crystals / essence / pop, `resources_hidden`, `economy_enabled`, `forced_artifacts`, `bot_profile_id`, end texts,
+  `rewards`); API `define_objectives`, `set_objective(id, state)` (→ `Events.objective_changed`), `objective_state`,
+  `objectives()`, `briefing()`, `fire_once` / `add_event` (E-list), `after(s, c)` on `mission_time()` (held time
+  excluded, `hold_world(on, keep_awake)`), `say` / `say_line` (→ `Events.dialogue(speaker, text)`), `play_cutscene(id,
+  end_state)` (end state also when skipped / missing / tests), `win` / `lose(delay)`, `scaled`, `spawn_group`,
+  `spawn_wave_at`, `order_wave`, `set_dormant`, `raise_wizard`, `set_player_hero`, `lock_base`, `set_truce` (meta
+  `truce`, `Unit.in_truce`), seats `add_seat` / `switch_seat_side` / `withdraw_seat`, `set_mission_flag` /
+  `add_track_counter`, `MissionBase.scene_knob`. `CampaignState`: `MISSION_REWARDS` keys `artifact`, `flags`, `bonus_essence`,
+  `set_flags`, `items`, `unlock`, `next`, `save_items`; `set_flags`, `flag_value` (int counters), `reward_of`.
+  Kits: `T3Kit.enabled_here()` reads the scene's `t3_enabled`, `T3Kit.helpers_here()` its `helpers_enabled`;
+  `TierSystem.set_start_tier(team, tier)` / `Keep.set_start_tier(t)` (quiet); `HelperRoster.set_call_price`, `grant()`;
+  `Inventory.use_artifact_power(i)` + signal `artifact_power_used(item_id)`. Tests: `tests/helpers/mission_harness.gd`.
+  Save via `scripts/campaign/campaign_items.gd`.
 - **Wizard direct control**: `Wizard.set_move_input(dir: Vector3)` (world space, length 0-1, `ZERO` = released).
   While non-zero she walks that way and drops her current order; released = stands still, auto-aggro resumes.
 - **Controls setting** (UX.1, `GameSettings.control_scheme`): **Classic (default)** = right-click moves the wizard like any

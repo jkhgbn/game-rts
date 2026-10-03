@@ -128,6 +128,8 @@ const HOME_TOLERANCE := 1.0         # a neutral unit this close to home counts a
 ## they answer this far from where they stand (aggro_range x 2 would be 0 m for them).
 const FIGHT_BACK_LEASH := 15.0
 const LEAVE_MAP_FADE := 1.0         # leave_map(): seconds of fade before the unit is freed
+const TRUCE_META := &"truce"        # MissionBase.set_truce: meta id shared by nodes that must not fight (in_truce)
+const TRUCE_ALL := &"all"           # a truce id at peace with everyone (withdrawn seats)
 const LOOT_META := &"loot"          # a Magpie's carried gold (market-trade.md 5.1): get_loot / set_loot
 const RETARGET_INTERVAL := 0.25
 const MAX_UNIT_RADIUS := 1.1     # biggest unit radius (Grizzlemaw 1.1); held units search this far past their range
@@ -1345,7 +1347,40 @@ func is_enemy_of(other: Node3D) -> bool:
 	if other == null or not is_instance_valid(other):
 		return false
 	var other_team: Variant = other.get(&"team")
-	return other_team != null and int(other_team) != int(team)
+	if other_team == null or int(other_team) == int(team):
+		return false
+	if truce_count > 0 and in_truce(self, other):
+		return false
+	return true
+
+
+## Nodes currently carrying a truce id (set_truce_id keeps it): 0 = no truce anywhere, the hot paths skip the check.
+static var truce_count := 0
+
+
+## Gives `node` the truce id `id` (&"" = removes it). Use this, not set_meta, so truce_count stays right.
+static func set_truce_id(node: Node, id: StringName) -> void:
+	if node == null:
+		return
+	var had := node.has_meta(TRUCE_META)
+	if id == &"":
+		if had:
+			node.remove_meta(TRUCE_META)
+			truce_count = maxi(0, truce_count - 1)
+		return
+	if not had:
+		truce_count += 1
+	node.set_meta(TRUCE_META, id)
+
+
+## Mission truce (MissionBase.set_truce, mission-e7-02.md D8): two nodes with the same meta "truce" id never treat each
+## other as enemies; the id &"all" (MissionBase.withdraw_seat) is at peace with everyone.
+static func in_truce(a: Node, b: Node) -> bool:
+	if truce_count <= 0 or a == null or b == null or (not a.has_meta(TRUCE_META) and not b.has_meta(TRUCE_META)):
+		return false
+	var ta: StringName = StringName(a.get_meta(TRUCE_META, &""))
+	var tb: StringName = StringName(b.get_meta(TRUCE_META, &""))
+	return ta == TRUCE_ALL or tb == TRUCE_ALL or (ta != &"" and ta == tb)
 
 
 func is_neutral() -> bool:

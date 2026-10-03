@@ -18,6 +18,8 @@ const REASON_POP_CAP := "Population cap reached"
 const REASON_DESTROYED := "The building is destroyed"
 const REASON_UNDER_CONSTRUCTION := "Under construction"
 const REASON_UNKNOWN := "Can't train that here"
+const REASON_LOCKED := "Not now"     ## MissionBase.lock_base (docs/design/mission-framework.md).
+const META_LOCKED := &"mission_locked"
 
 var queue: Array[UnitType] = []   ## Read only. Slot 1 (index 0) is the one training.
 
@@ -83,6 +85,11 @@ func train_progress() -> float:
 
 
 ## "" if `type` can be queued now, else the reason to show the player.
+## True while a mission locked this building (MissionBase.lock_base): no new orders, the queue waits.
+func is_locked() -> bool:
+	return has_meta(META_LOCKED) and bool(get_meta(META_LOCKED))
+
+
 func can_queue(type: UnitType) -> String:
 	if _dead:
 		return REASON_DESTROYED
@@ -90,6 +97,8 @@ func can_queue(type: UnitType) -> String:
 		return REASON_UNDER_CONSTRUCTION
 	if type == null or not _trains(type):
 		return REASON_UNKNOWN
+	if is_locked():
+		return REASON_LOCKED
 	var tier_gate := TierSystem.gate_reason(type.requires_tier, int(team))   # tiers.md: Stronghold / Citadel
 	if tier_gate != "":
 		return tier_gate
@@ -203,6 +212,8 @@ func _physics_process(delta: float) -> void:
 	if _dead or queue.is_empty() or not is_constructed():
 		return
 	if T3Kit.is_paused(self):   # t3-helpers.md 7.2: a Saboteur's Powder Charge stops training 10 s
+		return
+	if is_locked():   # MissionBase.lock_base: the queue waits
 		return
 	_train_time += delta
 	if _train_time >= queue[0].train_time:

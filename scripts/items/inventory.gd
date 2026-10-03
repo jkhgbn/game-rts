@@ -24,6 +24,14 @@ signal tithe_paid(amount: int)
 ## The throttled tithe line (`Tithe from Sable Quint: 40`), at most once per TITHE_MESSAGE_INTERVAL.
 ## Shown on the HUD too when the owner is on the local (PLAYER) team.
 signal tithe_announced(text: String, amount: int)
+## A campaign artifact's power was used (use_artifact_power; mission-e3-03.md D4): the mission applies the effect and
+## drives its meter from this signal.
+signal artifact_power_used(item_id: StringName)
+
+const REASON_RECHARGING := "Recharging"
+## Optional mission gate for artifact powers: `func(item_id: StringName) -> String` ("" = allowed, else the refusal,
+## e.g. "The stone holds you"). Invalid = no gate.
+var artifact_power_gate: Callable
 
 const SLOT_COUNT := 6             ## Wizard item slots (the default).
 const ARTIFACT_COUNT := 2         ## Wizard artifact slots (the default).
@@ -355,6 +363,28 @@ func use_item(slot: int, target: Variant = null) -> String:
 	if reason == "":
 		item_used.emit(slot, t)
 	return reason
+
+
+## Uses the power of the artifact in artifact slot `index` (0 = slot 1): "" = used (emits artifact_power_used, the
+## artifact's `active_cooldown` starts), else "Dead", "Empty slot", the mission gate's refusal, or "Recharging".
+## The effect itself belongs to the mission listening to the signal.
+func use_artifact_power(index: int = 0) -> String:
+	if not _is_alive():
+		return "Dead"
+	var slot := ARTIFACT_SLOT + index
+	var t := get_type(slot)
+	if t == null or index < 0 or index >= artifacts.size():
+		return "Empty slot"
+	if artifact_power_gate.is_valid():
+		var gate := str(artifact_power_gate.call(t.id))
+		if gate != "":
+			return gate
+	if cooldown_left(slot) > 0.0:
+		return REASON_RECHARGING
+	if t.active_cooldown > 0.0:
+		start_cooldown(slot, t.active_cooldown)
+	artifact_power_used.emit(t.id)
+	return ""
 
 
 # ---------------------------------------------------------------- shops

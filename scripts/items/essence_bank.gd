@@ -20,6 +20,8 @@ const NEUTRAL_TEAM := 2   # Unit.Team.NEUTRAL
 @export var essence: int = START_ESSENCE
 ## Set false to stop the +1/s trickle (scripted missions, tests).
 @export var trickle_enabled := true
+## Set false so kills pay nothing (MissionBase no-economy / hidden-economy phases, mission-e3-02.md phase 1).
+@export var kill_income_enabled := true
 
 var _trickle_acc := 0.0
 
@@ -111,7 +113,7 @@ func _on_building_destroyed(building: Node) -> void:
 
 
 func _credit(victim: Node) -> void:
-	if victim == null or not is_instance_valid(victim):
+	if victim == null or not is_instance_valid(victim) or not kill_income_enabled:
 		return
 	var killer_team := killer_team_of(victim)
 	if killer_team != team or team == NEUTRAL_TEAM:

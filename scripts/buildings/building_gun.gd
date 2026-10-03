@@ -83,7 +83,8 @@ func _find_target() -> Node3D:
 	var tree := _building.get_tree()
 	for node in tree.get_nodes_in_group("units"):
 		var u := node as Unit
-		if u == null or int(u.team) == own_team or not u.is_alive() or not _in_range(u) or is_ignored(u):
+		if u == null or int(u.team) == own_team or not u.is_alive() or not _in_range(u) or is_ignored(u) \
+				or Unit.in_truce(_building, u):
 			continue
 		var d := _flat_distance(u.global_position)
 		if d < best_d:
@@ -114,7 +115,7 @@ func _in_range(t: Node3D) -> bool:
 
 func _is_enemy(node: Node3D) -> bool:
 	var t: Variant = node.get(&"team")
-	return t != null and int(t) != int(_building.team)
+	return t != null and int(t) != int(_building.team) and not Unit.in_truce(_building, node)
 
 
 static func _reach_of(t: Node3D) -> float:

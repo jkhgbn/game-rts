@@ -31,6 +31,10 @@ var kingdom: StringName = &""
 var genie: Unit = null
 var genie_state: StringName = &"none"
 
+## Mission call price (MissionBase / MissionConfig helper_call_*, mission-e2-01.md "Code reuse"): any of "crystals",
+## "essence", "time" overrides the HelperType's call values (0 = free). {} = the skirmish price. Revive is unchanged.
+var call_price: Dictionary = {}
+
 var _state: StringName = &"none"   # none / queued / alive / fallen / reviving
 var _call_type: UnitType
 var _revive_type: UnitType
@@ -129,10 +133,44 @@ func call_type() -> UnitType:
 		_call_type.requires_tier = 3
 		_call_type.commandable = false
 		_call_type.display_name = "Call %s" % ht.display_name
-		_call_type.cost = ht.call_crystals
 		_call_type.pop = ht.pop
-		_call_type.train_time = ht.call_time
+		_apply_call_price(ht)
 	return _call_type
+
+
+# The stub's cost / time: the mission price where set, else the HelperType's (only on creation and set_call_price, so
+# a test or a cheat that edits the stub keeps its edit).
+func _apply_call_price(ht: HelperType) -> void:
+	_call_type.cost = int(call_price.get("crystals", ht.call_crystals))
+	_call_type.train_time = float(call_price.get("time", ht.call_time))
+
+
+## Essence the call costs here (the mission price when set).
+func call_essence() -> int:
+	var ht := helper_type()
+	return int(call_price.get("essence", ht.call_essence if ht else 0))
+
+
+## Sets the mission call price (keys "crystals", "essence", "time"; {} = back to the skirmish price).
+func set_call_price(price: Dictionary) -> void:
+	call_price = price.duplicate()
+	var ht := helper_type()
+	if _call_type and ht:
+		_apply_call_price(ht)
+
+
+## The helper is already on the field (MissionConfig.helper_start_called, HelperRoster.grant of e2m4 / e2m5): spawns
+## it at the keep door (or `at`) as if called, no price, no queue; its pop is held as usual. Null when there is no
+## helper for the kingdom or it was already called.
+func grant(at: Vector3 = Vector3.INF) -> Helper:
+	if _state != &"none" or helper_type() == null:
+		return null
+	if at == Vector3.INF:
+		var keep := _home_keep()
+		if keep == null:
+			return null
+		at = keep.spawn_point()
+	return spawn_helper(at)
 
 
 func revive_type() -> UnitType:
@@ -172,9 +210,9 @@ func can_call() -> String:
 	var eco := Economy.for_team(team)
 	if eco and not eco.has_pop_for(ht.pop):
 		return TrainingBuilding.REASON_POP_CAP
-	if eco and not eco.can_afford(ht.call_crystals):
+	if eco and not eco.can_afford(call_type().cost):
 		return TrainingBuilding.REASON_NO_CRYSTALS
-	if not _essence_ok(ht.call_essence):
+	if not _essence_ok(call_essence()):
 		return REASON_NO_ESSENCE
 	return ""
 
@@ -211,7 +249,7 @@ func gate_reason(type: UnitType) -> String:
 	if type.id == CALL_ID:
 		if _state != &"none":
 			return REASON_ALREADY
-		if not _essence_ok(helper_type().call_essence):
+		if not _essence_ok(call_essence()):
 			return REASON_NO_ESSENCE
 	elif type.id == REVIVE_ID:
 		if _state != &"fallen":
@@ -225,7 +263,7 @@ func on_queued(type: UnitType) -> void:
 	var bank := EssenceBank.for_team(team)
 	if type.id == CALL_ID:
 		if bank:
-			bank.spend(helper_type().call_essence)
+			bank.spend(call_essence())
 		_state = &"queued"
 		helper_called.emit(team, helper_type().id)
 		_announce(&"calling")
@@ -240,7 +278,7 @@ func on_cancelled(type: UnitType) -> void:
 	var bank := EssenceBank.for_team(team)
 	if type.id == CALL_ID and _state == &"queued":
 		if bank:
-			bank.add(helper_type().call_essence)
+			bank.add(call_essence())
 		_state = &"none"
 	elif type.id == REVIVE_ID and _state == &"reviving":
 		if bank:

@@ -235,6 +235,18 @@ func set_tier(team: int, tier: int) -> void:
 	refresh(team)
 
 
+## Campaign start state (mission-e2-01.md, mission-04.md): every living keep of `team` starts at `tier` quietly
+## (Keep.set_start_tier: no announcement, no timer); a team without a keep reads `tier` too. Mid-mission is fine.
+func set_start_tier(team: int, tier: int) -> void:
+	tier = clampi(tier, 1, 3)
+	_forced[team] = tier
+	for n in get_tree().get_nodes_in_group(&"buildings"):
+		var k := n as Keep
+		if k and int(k.team) == team and k.is_alive():
+			k.set_start_tier(tier)
+	refresh(team)
+
+
 ## Seconds of match time.
 func now() -> float:
 	if match_time_source.is_valid():
