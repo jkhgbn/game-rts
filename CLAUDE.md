@@ -225,6 +225,24 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `cache_spots`), `bot_point(team, p)` for Commander's Crown Hollow points and `bot_vector(team, v)` for its relative
   offsets (never `bot_point` on an offset). The layout's terrain (river, crossings, landmark props) is always built; a
   mission subclass's `river_enabled = false` only turns the ford slow off.
+  **Bots read the layout** (MT10): `bot_reads_layout()` (false on Crown Hollow layouts: the bot keeps Crown Hollow's
+  points, identical to skirmish.tscn), `bot_mark(team, key)` (`crown`, `rally` / `anchor` = a `slot sub=bot_rally /
+  bot_anchor` else 18.4 m from the keep toward the natural / the wizard start, `natural`, `rich`, `hub`; INF = none),
+  `bot_scout_path(team)` (the layout's `path bot_scout`, else own side of the crown -> enemy natural -> enemy rich ->
+  enemy approach). Commander: build rows X1 / X2 / M1 / S3 / S4 on the layout slots, `planned_spot(row_id)`,
+  `scout_loop()` (read only), enemy explore points through the enemy's `bot_point`.
+- **Map catalog + picker + gate** (MT8 / MT9, `docs/design/map-production.md` 4.2). `MapCatalog`
+  (`scripts/world/map_catalog.gd`, `data/maps/catalog.tres`, `load_default()`): entries {id, title, scene | layout, size,
+  seats, biome, kingdom (look), preview (`data/maps/previews/<id>.png`, the World Forge `mapsheet` render), hook, tags,
+  ready, note}; `list(seats, ready_only)`, `entry(id)`, `is_ready`, `pick_random(seats, rng)`, `resolve(id, seats)`
+  (`&"random"` -> a ready map; unknown / not ready -> `&"crown_hollow"`), `instantiate_level(id)` (skirmish.tscn for
+  Crown Hollow, LayoutLevel + `layout_path` otherwise), `mode_note(e)`; `FOUR_SEAT_RUNTIME` false = 4-seat maps play
+  1v1 (one seat per side). Menu: the skirmish setup's map column (1v1 / 2v2 seat filter, list with Random first,
+  preview, info); `GameSettings.map_id` (saved), `MenuFlow.start_skirmish(..., map, seats)`, `MenuFlow.map_id` /
+  `map_layout_path` (the restart hook gives a reloaded LayoutLevel its layout back). Only `ready` maps are listed.
+  Gate: `tools\map_lab\run_map_gate.ps1 <map>` = `tools\world_forge\run_world_forge.ps1 gate <map>` (World Forge + Map
+  Lab >= 75 / 0 FAIL, spacing, symmetry, bot fairness 40 games then 120 when close to the 45-55 % edge, perf,
+  scorecard in `docs/tools/map_gate/<map>/`); a map is `ready` in the catalog only after its gate PASSes.
 - **Score** (step 16a): `ScoreKeeper` (`scripts/world/score_keeper.gd`, group `"score"`, `instance(tree)`, `score(team)`,
   `breakdown(team)`, `history(team)`, `leader()`, `margin()`, `table_text()`; WEIGHTS table at the top). Every skirmish
   end shows the Score tab (`GameHUD.show_score`, `select_end_tab`); the match still ends on kill / concede, score decides
