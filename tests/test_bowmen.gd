@@ -274,11 +274,23 @@ func _check_bleakbow() -> void:
 		await physics_frame
 		max_stacks = maxi(max_stacks, int(target.get_meta(BowmanKit.BLEED_META, 0)))
 	_check(max_stacks == 5, "Serrated Barbs stacks peaked at %d (want 5)" % max_stacks)
+	var drawn := 0
 	for b in bows:
 		b.command_stop()
+		if float(b.get(&"_shot_left")) > 0.0:   # read only, for the log
+			drawn += 1
+	print("  bows stopped with %d drawn shot(s) pending" % drawn)
+	# A bow caught mid-draw keeps its drawn shot through command_stop (Unit D2: the arrow leaves at the model's release
+	# frame, <= Unit.MAX_ATTACK_WINDUP s after play_attack). Teleporting it in the same frame made that arrow leave
+	# from 40 m away (1.6 s of flight at 25 m/s) and refresh the 5 s bleed late: "bleed never ended (0.55 s left)".
+	# Whether a bow is mid-draw at the stop depends on its attack phase, which is not frame-exact from run to run (it
+	# passed alone, failed in a loaded CI run; a scratch repro that stops a bow mid-draw and teleports it in the same
+	# frame left 0.70 s of bleed after 6 s, 0 with this wait). Let every drawn shot leave from 7 m first, then move.
+	await _frames(ceili(Unit.MAX_ATTACK_WINDUP * 60.0) + 3)
+	for b in bows:
 		# Away from the dummy: its 0-damage melee swings would make a stopped bow answer (fight back).
 		b.global_position = target.global_position + Vector3(0.0, 0.0, 40.0)
-	await _frames(360)   # 5 s: the bleed ends, stacks reset on the next hit
+	await _frames(360)   # 6 s > the 5 s bleed from the last arrow (released <= 0.15 s after the stop, 0.3 s flight)
 	_check(target.dot_time_left(&"bleed") <= 0.0, "bleed never ended (%.2f s left, bow0 target %s)"
 			% [target.dot_time_left(&"bleed"), str((bows[0] as Unit).attack_target)])
 	await _cleanup([target] + bows)
