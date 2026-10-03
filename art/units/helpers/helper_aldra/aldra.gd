@@ -591,7 +591,7 @@ func _update_face() -> void:
 	var mood := &""
 	if _dead:
 		mood = &"worried"
-	elif _level_t < 1.6 or (_action == &"cast" and (_cast_id == &"nod" or _cast_id == REVIVE_ID)):
+	elif level_up_age() < FaceRig.SMILE_LEN or (_action == &"cast" and (_cast_id == &"nod" or _cast_id == REVIVE_ID)):
 		mood = &"smile"
 	elif _action == &"cast" and (_cast_id == &"aldra_shatter" or _cast_id == &"aldra_sentinel"):
 		mood = &"shout"

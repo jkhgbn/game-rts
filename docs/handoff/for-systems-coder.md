@@ -691,3 +691,15 @@ look exactly as before, and `ground_material.tres` is unchanged. Only the skirmi
   play `path` on the `Cinematic` bus (or reuse `scripts/ui/voice_player.gd`: `play_line(speaker, text) -> bool`).
   `run_voice_forge.ps1 check` lists lines whose voice is longer than their slot (next line / shot end).
   I did not edit scripts/cinematics or tools/cine.
+
+# Face / model prewarm at level load (tech-artist, 2026-10-02, review-art-faces.md M3)
+- The first unit of each type that spawns mid-match builds its face meshes (5 expressions + FAR) and the kit's merged
+  pivot meshes on its spawn frame. Measured headless 2026-10-02: 100-450 ms per type cold (face part alone 40-110 ms,
+  mean ~80 ms), 2-3 ms for any later instance. Per kingdom 1.7-2.6 s in total, neutral creatures 2.2 s, champions 0.7 s.
+- Art side is ready: `FacePrewarm.warm(parent, kingdoms: Array, champions := false) -> Dictionary` (sync) and
+  `await FacePrewarm.warm_async(parent, kingdoms, champions, ms_per_frame := 50.0)` (spread over frames; a type is
+  never split). `art/units/kit/face/face_prewarm.gd`. Each scene is warmed once per process.
+- Request: call it while a skirmish / mission loads (before the first frame the player sees, or under the load
+  screen), e.g. in `Skirmish._ready` after the kingdoms are known:
+  `FacePrewarm.warm(self, [player_kingdom, enemy_kingdom, &"neutral"], true)` (true = champions; missions: their kingdoms only).
+  Sync costs ~5-6 s for two kingdoms + neutral, so prefer the async form at the match start or under a load screen.

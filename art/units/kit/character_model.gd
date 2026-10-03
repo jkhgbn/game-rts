@@ -151,6 +151,7 @@ var _mine_left: int = 0
 var _hit_t: float = 99.0
 var _last_hit_time: float = -1.0
 var _level_t: float = 99.0
+var _level_at: float = -99.0   # _t at the last play_level_up (level_up_age(); _level_t stops at LEVEL_LEN)
 var _dead: bool = false
 var _death_t: float = 0.0
 var _death_emitted: bool = false
@@ -356,7 +357,34 @@ func play_level_up() -> void:
 	if _dead:
 		return
 	_level_t = 0.0
+	_level_at = _t
 	_on_action_event(&"level_up")
+
+
+## Seconds since the last play_level_up (keeps running, unlike the 0.4 s pose timer; huge before the first one and
+## after a revive). The faces smile while it is below FaceRig.SMILE_LEN.
+func level_up_age() -> float:
+	return _t - _level_at
+
+
+## The model's distance tier (0 < 30 m, 1 < 45 m, 2 beyond: frozen pose). Read by FaceRig.auto.
+func face_tier() -> int:
+	return _tier
+
+
+## The face reaction of the model's state (FaceRig.auto): dying = worried, level-up (FaceRig.SMILE_LEN s) = smile,
+## a cast = shout (casts whose id starts with "_idle" / "idle" are fidgets: &""), an attack = fierce, else &"".
+func face_mood() -> StringName:
+	if _dead:
+		return &"worried"
+	if level_up_age() < FaceRig.SMILE_LEN:
+		return &"smile"
+	if _action == &"cast":
+		var cid := String(_cast_id)
+		return &"" if cid.begins_with("_idle") or cid.begins_with("idle") else &"shout"
+	if _action == &"attack":
+		return &"fierce"
+	return &""
 
 
 func set_veterancy(level: int) -> void:
@@ -400,6 +428,7 @@ func revive() -> void:
 	_action = &""
 	_hit_t = 99.0
 	_level_t = 99.0
+	_level_at = _t - 99.0
 	_speed = 0.0
 	_walk_w = 0.0
 	_dn_clip = &""
@@ -1553,6 +1582,8 @@ func _collect(n: Node) -> void:
 				glowing = glowing or iu.has("glow_boost")
 			if painted:
 				_flash_all_targets.append(gi)
+				if gi.has_meta(&"flash_hit"):   # FaceRig (face + hair + beard): flashes on hits like the head
+					_flash_hit_targets.append(gi)
 			if glowing and not gi.has_meta(&"own_glow"):
 				_glow_nodes.append(gi)
 		_collect(c)

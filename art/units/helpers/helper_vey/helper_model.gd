@@ -209,7 +209,7 @@ func _wizard_process(dt: float) -> void:
 func _face_target() -> StringName:
 	if _dead:
 		return &"worried"
-	if _level_t < 1.6 or (_action == &"cast" and (_cast_id == &"revive" or (_cast_id == &"gesture" and (_gest == &"nod" or _gest == &"bow")))):
+	if level_up_age() < FaceRig.SMILE_LEN or (_action == &"cast" and (_cast_id == &"revive" or (_cast_id == &"gesture" and (_gest == &"nod" or _gest == &"bow")))):
 		return &"smile"
 	if _action == &"cast" and _shout_ids().has(_cast_id):
 		return &"shout"

@@ -113,6 +113,10 @@ static func point(cv: Dictionary, p: Vector2, lift: float) -> Array:
 	var az := p.x / r
 	var el := p.y / r
 	var d := Vector3(sin(az) * cos(el), sin(el), cos(az) * cos(el))
+	# the 6 expressions of a face repeat most points: remember each ray's head distance while warm() runs (exact)
+	var memo: Variant = cv.get("_memo")
+	if memo != null and (memo as Dictionary).has(p):
+		return [(cv["c"] as Vector3) + d * (float(memo[p]) + lift + float(cv.get("lift", 0.0))), d]
 	var tris: PackedVector3Array = cv["tris"]
 	var dirs: PackedVector3Array = cv["dirs"]
 	var dist := -1.0
@@ -128,6 +132,8 @@ static func point(cv: Dictionary, p: Vector2, lift: float) -> Array:
 			break
 	if dist < 0.0:
 		dist = r
+	if memo != null:
+		memo[p] = dist
 	return [(cv["c"] as Vector3) + d * (dist + lift + float(cv.get("lift", 0.0))), d]
 
 
@@ -884,6 +890,7 @@ static func face_mesh(key: String, style: Dictionary, id: StringName) -> ArrayMe
 	am.surface_set_material(0, material())
 	if style.has("surfaces"):
 		(style["surfaces"] as Callable).call(am, id)
+	_dens = DENSITY   # back to the default: outside calls to fill / strip / resample never inherit this face's density
 	_cache[ck] = am
 	return am
 
@@ -900,9 +907,16 @@ static func _append(acc: Dictionary, src: Dictionary) -> void:
 
 ## Builds every expression of a style now (the first attach per key does it, so a cast in battle never builds).
 static func warm(key: String, style: Dictionary) -> void:
+	var cvs: Array[Dictionary] = []
+	for ck: String in ["canvas", "mouth_canvas"]:
+		if style.get(ck) is Dictionary and not (style[ck] as Dictionary).has("_memo"):
+			(style[ck] as Dictionary)["_memo"] = {}
+			cvs.append(style[ck])
 	for id: StringName in EXPRESSIONS:
 		face_mesh(key, style, id)
 	face_mesh(key, style, FAR)
+	for cv: Dictionary in cvs:
+		cv.erase("_memo")
 
 
 # ================================================================ one-call attach

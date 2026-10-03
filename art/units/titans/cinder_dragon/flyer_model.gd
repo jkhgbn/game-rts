@@ -121,6 +121,7 @@ var _action_t: float = 0.0
 var _hit_t: float = 99.0
 var _last_hit_time: float = -9.0
 var _level_t: float = 99.0
+var _level_at: float = -99.0          # _t at the last play_level_up (level_up_age())
 var _dead: bool = false
 var _death_t: float = 0.0
 var _death_emitted: bool = false
@@ -248,6 +249,7 @@ func revive() -> void:
 	_action = &""
 	_hit_t = 99.0
 	_level_t = 99.0
+	_level_at = _t - 99.0
 	_speed = 0.0
 	_move_w = 0.0
 	_bank = 0.0
@@ -274,6 +276,28 @@ func play_level_up() -> void:
 	if _dead:
 		return
 	_level_t = 0.0
+	_level_at = _t
+
+
+## Seconds since the last play_level_up (keeps running; the faces smile below FaceRig.SMILE_LEN).
+func level_up_age() -> float:
+	return _t - _level_at
+
+
+## The distance tier (0 / 1 / 2), read by CreatureFaceRig.auto_any.
+func face_tier() -> int:
+	return _tier
+
+
+## The face reaction (CreatureFaceRig.auto_any): dying = worried, level-up = smile, the breath = fierce, else &"".
+func face_mood() -> StringName:
+	if _dead:
+		return &"worried"
+	if level_up_age() < FaceRig.SMILE_LEN:
+		return &"smile"
+	if _action != &"":
+		return &"fierce"
+	return &""
 
 
 func set_carrying(_on: bool) -> void:

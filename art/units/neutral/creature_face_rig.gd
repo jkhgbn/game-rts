@@ -127,6 +127,25 @@ static func beast_spec(center: Vector3, radius: float, eye: Dictionary, hide: Co
 func auto_any(model: Node, extra_mood: StringName = &"") -> void:
 	if _host and _host.mesh != _assigned:
 		_shown = &""   # the host's mesh was swapped (barding): re-apply
+	# typed kit API first (level_up_age keeps running; the kit's _level_t stops at 0.4 s, so testing it smiled forever)
+	var tier: int = -1
+	var kit_mood: StringName = &""
+	if model is CharacterModel:
+		tier = (model as CharacterModel).face_tier()
+		kit_mood = (model as CharacterModel).face_mood()
+	elif model is FlyerModel:
+		tier = (model as FlyerModel).face_tier()
+		kit_mood = (model as FlyerModel).face_mood()
+	if tier >= 0:
+		if tier != 0:
+			far()
+			return
+		if extra_mood != &"":
+			kit_mood = extra_mood
+		elif kit_mood == &"" and _field(model, &"_action", &"") == &"breath":
+			kit_mood = &"fierce"
+		react(kit_mood)
+		return
 	if int(_field(model, &"_tier", 0)) != 0:
 		far()
 		return
@@ -136,7 +155,7 @@ func auto_any(model: Node, extra_mood: StringName = &"") -> void:
 		var cast_id := str(_field(model, &"_cast_id", ""))
 		if _field(model, &"_dead", false):
 			mood = &"worried"
-		elif float(_field(model, &"_level_t", 99.0)) < 1.6:
+		elif model.has_method(&"level_up_age") and float(model.call(&"level_up_age")) < SMILE_LEN:
 			mood = &"smile"
 		elif action == &"cast" and not (cast_id.begins_with("_idle") or cast_id.begins_with("idle")):
 			mood = &"shout"
