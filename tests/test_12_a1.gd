@@ -16,7 +16,13 @@ extends SceneTree
 ##   (+-6 s) and the shrine captured; the scout takes the river loop ((12, 22) after (16, -6)) and never comes within
 ##   11 m of the crown while the wardens live; the deer is never attacked; two player soldiers taking the bot's well
 ##   are fought (DEFEND or POINT defence) and the well stays / becomes the bot's; the beast is crept (11e, B11
-##   candidate while it runs); PERF: the map-fill rules' median decision cost < 0.1 ms per think tick.
+##   candidate while it runs); PERF: the map-fill rules' median decision cost <= PERF_LIMIT_CAL calibration loops per
+##   think tick (see below; the old line was 0.1 ms).
+## Calibration (2026-10-02, as test_20_a3 in 394f88c3): the same map-fill code measured a 0.068 ms median on a quiet
+##   laptop and 0.130 ms on a saturated one (every number of that run, the whole bot tick included, about 2x), so the
+##   fixed 0.1 ms line flipped. The test times a fixed GDScript loop (_calib_once, the same workload as test_20_a3's)
+##   every CAL_EVERY frames of each part, best of CAL_REPEAT, and judges the map-fill median as a RATIO of that loop's
+##   median in the same part: same machine, same moment. The ms numbers stay in the log.
 ## Part hard: 3-soldier squads, a bot unit at its shrine >= 10 s before it wakes, the own-bank hollow crept.
 ## Part real (only with --only=real): the same normal bot against the REAL step-12 systems of the skirmish (no stubs,
 ##   notes only): prints its creeps, squad / wizard jobs and captures to 7:00.
@@ -30,7 +36,14 @@ const COMMANDER := preload("res://scripts/ai/commander.gd")
 const PLAYER := 0
 const ENEMY := 1
 const NEUTRAL := 2
-const PERF_LIMIT_MS := 0.1
+const PERF_LIMIT_MS := 0.1   ## info only now (the old absolute line, printed next to the ratio verdict)
+## Map-fill median <= this many calibration-loop medians. Quiet laptop 2026-10-02: loop 0.232 ms (test_20_a3's quiet
+## runs), map-fill median 0.068 / 0.080 ms (normal / hard, CI 14:38) = 0.29 / 0.34 loops; 0.43 loops = the old 0.1 ms
+## line on that quiet machine (~1.3x headroom, as before). A saturated run (a background service on 13 of 16 threads):
+## loop 0.75 ms, map-fill 0.132 / 0.118 ms = 0.175 / 0.157 loops (the old ms line failed it).
+const PERF_LIMIT_CAL := 0.43
+const CAL_EVERY := 30
+const CAL_REPEAT := 3
 const PART_LIMIT := {"normal": 435.0, "hard": 345.0, "real": 420.0}
 const SHRINE_E := Vector3(22.0, 0.0, 6.0)
 const WELL_E := Vector3(30.0, 0.0, 24.0)
@@ -299,6 +312,10 @@ var _points_svc: StubPoints
 var _camps_svc: StubCamps
 var _beasts_svc: StubBeasts
 var _deer: StubDeer
+var _cal_pts: Array[Vector3] = []
+var _cal_dict := {}
+var _cal_samples: Array[int] = []
+var _cal_sink := 0.0
 
 
 func _initialize() -> void:
@@ -311,6 +328,10 @@ func _initialize() -> void:
 		if a.begins_with("--only="):
 			for p in a.trim_prefix("--only=").split(",", false):
 				only.append(p)
+	for i in 256:
+		_cal_pts.append(Vector3(float((i * 37) % 101) - 50.0, 0.0, float((i * 53) % 97) - 48.0))
+	for i in 64:
+		_cal_dict[i] = i * 0.5
 	if only.is_empty() or only.has("static"):
 		_static_checks()
 	for p in ["normal", "hard", "real"]:
@@ -474,6 +495,7 @@ func _next_part() -> void:
 	part = _queue.pop_front()
 	_wait = 0
 	_frame = 0
+	_cal_samples.clear()
 	_s = {"shrine_at": -1.0, "scout_near_crown": false, "deer_hit": false, "raid_at": -1.0, "raiders": [],
 			"b10": false, "b11": false, "beast_at": -1.0, "cleared": {}, "squad_max": 0}
 	main = load(SCENE).instantiate()
@@ -571,8 +593,16 @@ func _end_part() -> void:
 		var ms: float = mf.median_ms()
 		print("%s: map-fill median %.4f ms over %d ticks (totals usec %s); bot tick avg %.3f ms (max %.3f ms)" % [part,
 				ms, mf.tick_count, str(mf.usec_parts), bot.tick_usec_average() / 1000.0, bot.tick_usec_max / 1000.0])
-		if ms > PERF_LIMIT_MS:
-			_errors.append("%s: map-fill median %.3f ms per tick (limit %.2f)" % [part, ms, PERF_LIMIT_MS])
+		var cal_ms := _cal_median_usec() / 1000.0
+		var ratio := ms / cal_ms if cal_ms > 0.0 else INF
+		print("%s: calibration loop median %.3f ms over %d samples (best of %d); map-fill median = %.3f loops (budget %.2f; the old %.2f ms line %s)" % [
+				part, cal_ms, _cal_samples.size(), CAL_REPEAT, ratio, PERF_LIMIT_CAL, PERF_LIMIT_MS,
+				"over" if ms > PERF_LIMIT_MS else "under"])
+		if cal_ms <= 0.0:
+			_errors.append("%s: no calibration sample (the match never started?)" % part)
+		elif ratio > PERF_LIMIT_CAL:
+			_errors.append("%s: map-fill median %.3f calibration loops per tick > %.2f (%.3f ms, loop %.3f ms)" % [part,
+					ratio, PERF_LIMIT_CAL, ms, cal_ms])
 		else:
 			print("PERF OK (%s)" % part)
 		_part_checks(mf)
@@ -606,6 +636,11 @@ func _process(_delta: float) -> bool:
 		return false
 	_frame += 1
 	_t = main.match_time()
+	if _frame % CAL_EVERY == 0:
+		var best := 1 << 30
+		for r in CAL_REPEAT:
+			best = mini(best, _calib_once())
+		_cal_samples.append(best)
 	if _frame == 1:
 		if part != "real":
 			_add_stubs()
@@ -623,6 +658,31 @@ func _process(_delta: float) -> bool:
 	if main != null and _t > float(PART_LIMIT[part]):
 		_end_part()
 	return false
+
+
+## The calibration workload (usec), test_20_a3's: a fixed loop of Vector3 math, typed-array reads and Dictionary
+## lookups, the kind of work a bot decision is made of.
+func _calib_once() -> int:
+	var t0 := Time.get_ticks_usec()
+	var acc := 0.0
+	var n := _cal_pts.size()
+	for r in 8:
+		for i in n:
+			var p := _cal_pts[i]
+			var d := p.distance_squared_to(_cal_pts[(i * 7 + r) % n])
+			if d < 400.0:
+				acc += sqrt(d)
+			acc += float(_cal_dict.get(i & 63, 0.0))
+	_cal_sink += acc
+	return Time.get_ticks_usec() - t0
+
+
+func _cal_median_usec() -> float:
+	if _cal_samples.is_empty():
+		return 0.0
+	var s := _cal_samples.duplicate()
+	s.sort()
+	return float(s[s.size() / 2])
 
 
 ## Every few frames: the scout near the crown, the deer, the shrine presence, camps cleared, the raid, flags.
