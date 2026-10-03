@@ -12,6 +12,9 @@ extends SceneTree
 ##            no concede before 150 s, a "hard stop" concede at 150 s.
 ##   trickle  F2 hard stop: trade gold keeps buying workers that die before delivering: "hard stop" at 150 s anyway.
 ##   starve   F5: crystals held under a due champion hire's reserve: exactly one unit per 20 s gets through.
+## Speed (2026-10-02): the step-12 map fill (river, capture points, camps, beasts) is switched off in every part: no part
+##   reads it, and its creatures / passes made each frame dearer (a CI on a saturated PC killed the run at the 2400 s
+##   wall-clock limit in part trickle, about 6x its quiet 230-380 s). Each part prints its wall seconds and frames.
 ## Run:  godot --headless --path . -s tests/test_20_a2.gd --fixed-fps 60 --quit-after 60000
 ##   Options after `--`: --only=static,recovery,notrips,hardstop,trickle,starve
 
@@ -35,6 +38,8 @@ var _gap := 0
 var _t := 0.0
 var _errors: Array[String] = []
 var _s := {}
+var _part_usec := 0
+var _part_frames := 0
 
 
 func _initialize() -> void:
@@ -62,7 +67,12 @@ func _next_part() -> void:
 	part = _queue.pop_front()
 	_wait = 0
 	_s = {"stage": 0}
+	_part_usec = Time.get_ticks_usec()
+	_part_frames = 0
 	main = load(SCENE).instantiate()
+	for f: StringName in [&"river_enabled", &"points_enabled", &"camps_enabled", &"beasts_enabled"]:
+		if f in main:
+			main.set(f, false)   # no part reads the map fill (speed: see the header)
 	bot = _bot_for(ENEMY)
 	root.add_child(main)
 	current_scene = main
@@ -88,6 +98,8 @@ func _bot_for(team: int) -> Node:
 
 
 func _end_part() -> void:
+	print("%s: %.1f wall s, %d frames, match %s" % [part, float(Time.get_ticks_usec() - _part_usec) / 1.0e6,
+			_part_frames, _clock(_t)])
 	if bot:
 		print("%s bot log (last lines):" % part)
 		var lines: Array = bot.log_lines
@@ -107,6 +119,7 @@ func _process(_delta: float) -> bool:
 		return false
 	if main == null:
 		return true
+	_part_frames += 1
 	if not main.match_started:
 		_wait += 1
 		if _wait > 5000:
