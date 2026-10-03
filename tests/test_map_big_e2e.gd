@@ -1,4 +1,5 @@
 extends SceneTree
+# error_lab: quit-after=125000
 ## A map of 150 m or more end to end (code review of the map tools, docs/reviews/review-map-tools.md "Test quality"):
 ## Quartermeet (176 x 176, fourfold, played 1v1 by LayoutLevel) with a normal bot on each side, sim mode, the 30:00
 ## limit. Before the match: spacing (tools/world_forge/forge_spacing.gd) and the R1 `rules` bands (gen grid
