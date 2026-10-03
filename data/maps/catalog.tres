@@ -1,0 +1,88 @@
+[gd_resource type="Resource" script_class="MapCatalog" format=3]
+
+[ext_resource type="Script" path="res://scripts/world/map_catalog.gd" id="1_catalog"]
+
+[resource]
+script = ExtResource("1_catalog")
+maps = Array[Dictionary]([{
+"id": &"crown_hollow",
+"title": "Crown Hollow",
+"scene": "res://scenes/skirmish.tscn",
+"layout": "",
+"size": Vector2(120, 120),
+"seats": 2,
+"biome": "grass",
+"kingdom": "neutral",
+"preview": "res://data/maps/previews/crown_hollow_level.png",
+"hook": "The reference map: a diagonal river, eight crossings and the Ember Crown on its isle.",
+"tags": ["river", "crown", "standard", "hand-made"],
+"ready": true
+}, {
+"id": &"thornwater",
+"title": "Thornwater",
+"scene": "",
+"layout": "res://data/maps/thornwater_layout.tres",
+"size": Vector2(120, 120),
+"seats": 2,
+"biome": "meadow",
+"kingdom": "neutral",
+"preview": "res://data/maps/previews/thornwater.png",
+"hook": "A winding river splits the meadow: two road bridges, two fords and the crown isle in the middle.",
+"tags": ["river", "crown", "standard", "generated"],
+"ready": true
+}, {
+"id": &"quartermeet",
+"title": "Quartermeet",
+"scene": "",
+"layout": "res://data/maps/quartermeet_layout.tres",
+"size": Vector2(176, 176),
+"seats": 4,
+"biome": "autumn",
+"kingdom": "neutral",
+"preview": "res://data/maps/previews/quartermeet.png",
+"hook": "Four golden corners round a straight river; long roads, big expansions.",
+"tags": ["river", "crown", "big", "generated"],
+"ready": true
+}, {
+"id": &"fourfold_hollow",
+"title": "Fourfold Hollow",
+"scene": "",
+"layout": "res://data/maps/fourfold_hollow_layout.tres",
+"size": Vector2(168, 168),
+"seats": 4,
+"biome": "autumn",
+"kingdom": "neutral",
+"preview": "",
+"hook": "Crown Hollow twice over: allies share one bank.",
+"tags": ["river", "crown", "big", "hand-made"],
+"ready": false,
+"note": "Layout in the old v1 format (no size_x / size_z): rebuild it with `run_world_forge.ps1 map fourfold_hollow`, then gate it."
+}, {
+"id": &"kinhearth_vale",
+"title": "Kinhearth Vale",
+"scene": "",
+"layout": "res://data/maps/kinhearth_vale_layout.tres",
+"size": Vector2(176, 176),
+"seats": 4,
+"biome": "meadow",
+"kingdom": "nature",
+"preview": "",
+"hook": "Allies side by side on the Hearth Green: team fights.",
+"tags": ["river", "big", "hand-made"],
+"ready": false,
+"note": "Layout in the old v1 format (no size_x / size_z): rebuild it with `run_world_forge.ps1 map kinhearth_vale`, then gate it."
+}, {
+"id": &"gloamspine_divide",
+"title": "Gloamspine Divide",
+"scene": "",
+"layout": "res://data/maps/gloamspine_divide_layout.tres",
+"size": Vector2(160, 160),
+"seats": 4,
+"biome": "marsh",
+"kingdom": "shadow",
+"preview": "",
+"hook": "A spine ridge: two lanes, three gates.",
+"tags": ["ridge", "lanes", "hand-made"],
+"ready": false,
+"note": "Layout in the old v1 format (no size_x / size_z): rebuild it with `run_world_forge.ps1 map gloamspine_divide`, then gate it."
+}])

@@ -22,14 +22,21 @@ static var kingdom: StringName = &"fire"     ## Legacy alias of player_kingdom (
 ## The skirmish opponent (7.U1, any of the 4 kingdoms since 8.U1, mirror allowed). Set on the Skirmish
 ## node before it enters the tree (and again by the hook on restarts).
 static var enemy_kingdom: StringName = &"shadow"
+## MT9: the map of the running skirmish (a ready MapCatalog id; &"random" is resolved at start, so restarts replay the
+## same map) and its layout path ("" = a scene map: Crown Hollow). The restart hook puts the layout back on the
+## reloaded LayoutLevel before its _ready.
+static var map_id: StringName = &"crown_hollow"
+static var map_layout_path := ""
 static var _enemy_chosen := false             ## True once the menu picked the kingdoms.
 static var _hooked_tree: SceneTree = null
 
 
-## Instances skirmish.tscn, sets the bot's difficulty and both kingdoms before it enters the tree,
-## and makes it the current scene (the old one is freed). Returns the new level.
+## Instances the skirmish level of `map` (MT9: a MapCatalog id or &"random"; &"" = GameSettings.map_id; unknown or
+## not ready = Crown Hollow, scenes/skirmish.tscn), sets the bot's difficulty and both kingdoms before it enters the
+## tree, and makes it the current scene (the old one is freed). `seats` filters Random (2 = 1v1 maps, 4 = 2v2 maps,
+## 0 = any). Returns the new level.
 static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringName = &"",
-		player: StringName = &"") -> Node:
+		player: StringName = &"", map: StringName = &"", seats: int = 0) -> Node:
 	difficulty = bot_difficulty
 	if enemy != &"":
 		enemy_kingdom = enemy
@@ -39,11 +46,25 @@ static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringNa
 		kingdom = player
 		_enemy_chosen = true
 	install_hooks(tree)
-	var level := (load(SKIRMISH) as PackedScene).instantiate()
+	var level := instantiate_map(map if map != &"" else GameSettings.map_id, seats)
 	apply_kingdoms(level)
 	GameSettings.apply_trade(level)
 	GameSettings.apply_time_limit(level)
 	return _launch(tree, level, bot_difficulty)
+
+
+## The level of a catalog map, not in the tree yet (Random resolved now); remembers it in `map_id` / `map_layout_path`.
+## Falls back to scenes/skirmish.tscn (Crown Hollow) when the catalog cannot build it.
+static func instantiate_map(map: StringName, seats: int = 0) -> Node:
+	var cat := MapCatalog.load_default()
+	var id := cat.resolve(map, seats)
+	var level := cat.instantiate_level(id)
+	if level == null:
+		id = MapCatalog.DEFAULT_ID
+		level = (load(SKIRMISH) as PackedScene).instantiate()
+	map_id = id
+	map_layout_path = cat.layout_path_of(id)
+	return level
 
 
 ## Sets `player_kingdom` and `enemy_kingdom` on a skirmish level (each only when it has that
@@ -150,7 +171,11 @@ static func install_hooks(tree: SceneTree) -> void:
 static func _on_node_added(node: Node) -> void:
 	if node is RTSCamera:
 		(node as RTSCamera).edge_pan_enabled = GameSettings.edge_pan
-	elif node.name == &"Skirmish" and node.get_parent() == node.get_tree().root:
+	elif (node.name == &"Skirmish" or node.name == &"LayoutLevel") and node.get_parent() == node.get_tree().root:
+		# MT9: a reloaded LayoutLevel (restart / F9) gets its map back before its _ready
+		if node.name == &"LayoutLevel" and map_layout_path != "" and &"layout_path" in node \
+				and String(node.get(&"layout_path")) == "" and node.get(&"layout") == null:
+			node.set(&"layout_path", map_layout_path)
 		GameSettings.apply_trade(node)   # restart / reload: keep the trade setting
 		GameSettings.apply_time_limit(node)   # and the time limit (16a)
 		if _enemy_chosen:

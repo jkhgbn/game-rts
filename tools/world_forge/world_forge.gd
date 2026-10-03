@@ -657,6 +657,7 @@ func _tick_mapsheet() -> void:
 			var fog: Variant = _ms_level.get(&"fog")
 			if fog is Node:
 				(fog as Node).set(&"enabled", false)
+			_ms_clear_air(_ms_level)
 			_ms_cam = Camera3D.new()
 			_ms_cam.projection = Camera3D.PROJECTION_ORTHOGONAL
 			_ms_cam.size = maxf(_ms_layout.size_x, _ms_layout.size_z) * 1.02
@@ -694,6 +695,19 @@ func _tick_mapsheet() -> void:
 			prev.save_png("%s/previews/%s.png" % [FMap.MAPS_DIR, id])
 			print("WORLD FORGE mapsheet %s: %s/mapsheet.png (2048 x 1024), data/maps/previews/%s.png (512 x 512)" % [id, od, id])
 			_finish(0, "WORLD FORGE mapsheet %s: done" % id)
+
+
+## MT9 lobby preview: the play camera's distance fog washes a 160 m high top-down shot out, so the mapsheet render
+## turns the air off (a copy of each WorldEnvironment's Environment with fog and volumetric fog off). The level is
+## thrown away after the shot.
+static func _ms_clear_air(n: Node) -> void:
+	for c: Node in n.get_children():
+		if c is WorldEnvironment and (c as WorldEnvironment).environment != null:
+			var env := (c as WorldEnvironment).environment.duplicate() as Environment
+			env.fog_enabled = false
+			env.volumetric_fog_enabled = false
+			(c as WorldEnvironment).environment = env
+		_ms_clear_air(c)
 
 
 ## The text block of the map sheet: title, size, score, travel times from the Map Lab scorecard JSON.

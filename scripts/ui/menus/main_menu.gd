@@ -1,7 +1,8 @@
 class_name MainMenu
 extends Control
 ## The title screen (task 5.U1): Skirmish 1v1 (setup panel, 8.U1: You / Enemy rows of 4 kingdom
-## cards, difficulty, Start),
+## cards, difficulty, Start; MT9: the map picker on its left: 1v1 / 2v2 seat filter, the MapCatalog's ready maps with
+## their mapsheet preview, size / players / biome / hook line, a "Random" entry),
 ## Campaign (7.U1: mission list from CampaignState, difficulty, Start), Settings, Quit.
 ## Painted gradient background with drifting embers.
 
@@ -10,6 +11,9 @@ const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty or
 ## Campaign mission titles (mission-01.md); ids and scenes come from CampaignState.
 const MISSION_TITLES := {&"m01": "The Crown in the Ashes"}
 const MENU_DIORAMA := "res://art/environment/menu_diorama/menu_diorama.tscn"
+const MAP_LIST_W := 250.0     ## MT9 map picker: the list's width (px)...
+const MAP_PREVIEW := 230.0    ## ...the preview square beside it (the mapsheet render, data/maps/previews/<id>.png)...
+const MAP_COLUMN_W := MAP_LIST_W + 10.0 + MAP_PREVIEW + 4.0   ## ...and the whole column (lines under both).
 
 var diorama: Node3D   ## MenuDiorama (3D background); null if the scene is missing.
 
@@ -32,11 +36,23 @@ var mission_ids: Array[StringName] = []
 var campaign_difficulty_buttons: Array[Button] = []
 var campaign_start_button: Button
 var prologue_button: Button                       ## Campaign panel: replays the prologue cinematic.
+## MT9 map picker (skirmish panel): the seat filter (1v1 = 2-seat maps, 2v2 = 4-seat maps), the list (item 0 =
+## Random, then the catalog's ready maps of the filter), the preview (data/maps/previews/<id>.png) and the info lines.
+var map_filter_buttons: Array[Button] = []        ## [1v1, 2v2]
+var map_list: ItemList
+var map_preview: TextureRect
+var map_preview_mark: Label                        ## The "?" over the preview while Random is chosen.
+var map_title_label: Label
+var map_info_label: Label
+var map_note_label: Label                          ## "2v2 map: plays as a 1v1 for now..." ("" = hidden).
+var map_list_ids: Array[StringName] = []           ## Item index -> map id (MapCatalog.RANDOM_ID first).
 
 var _difficulty := 1   # Commander.Difficulty.NORMAL
 var _enemy: StringName = &"shadow"
 var _player: StringName = &"fire"
 var _mission: StringName = &""
+var _map: StringName = MapCatalog.DEFAULT_ID
+var _map_seats := MapCatalog.SEATS_1V1
 
 
 func _ready() -> void:
@@ -223,9 +239,194 @@ func matchup_text() -> String:
 			KingdomCard.wizard_name_of(_enemy), KingdomCard.kingdom_name_of(_enemy)]
 
 
-## Launches the 1v1 with the chosen difficulty and kingdoms. Returns the new level.
+## Launches the 1v1 with the chosen difficulty, kingdoms and map (saved as the next default). Returns the new level.
 func start_skirmish() -> Node:
-	return MenuFlow.start_skirmish(get_tree(), _difficulty, _enemy, _player)
+	GameSettings.set_map_id(_map)
+	return MenuFlow.start_skirmish(get_tree(), _difficulty, _enemy, _player, _map, _map_seats)
+
+
+# ---------------------------------------------------------------- map picker (MT9)
+
+## Shows the maps with `seats` players (MapCatalog.SEATS_1V1 = 2 or SEATS_2V2 = 4); keeps the chosen map when it is
+## in the new list, else picks the first map of it (Crown Hollow in 1v1).
+func set_map_filter(seats: int) -> void:
+	_map_seats = MapCatalog.SEATS_2V2 if seats >= MapCatalog.SEATS_2V2 else MapCatalog.SEATS_1V1
+	for i in map_filter_buttons.size():
+		map_filter_buttons[i].set_pressed_no_signal(i == (1 if _map_seats == MapCatalog.SEATS_2V2 else 0))
+	_fill_map_list()
+	if not map_list_ids.has(_map):
+		var first: StringName = map_list_ids[1] if map_list_ids.size() > 1 else MapCatalog.RANDOM_ID
+		if _map_seats == MapCatalog.SEATS_1V1 and map_list_ids.has(MapCatalog.DEFAULT_ID):
+			first = MapCatalog.DEFAULT_ID
+		_map = first
+	select_map(_map)
+
+
+func get_map_filter() -> int:
+	return _map_seats
+
+
+## Chooses a map (a ready catalog id or MapCatalog.RANDOM_ID). A map of the other seat count switches the filter;
+## an unknown or not-ready id is ignored. Updates the list selection, the preview and the info lines.
+func select_map(id: StringName) -> void:
+	var cat := MapCatalog.load_default()
+	if id != MapCatalog.RANDOM_ID:
+		if not cat.is_ready(id):
+			return
+		var seats := int(cat.entry(id).get("seats", 2))
+		if seats != _map_seats and map_list != null:
+			_map = id
+			set_map_filter(seats)
+			return
+	_map = id
+	GameSettings.set_map_id(id, false)
+	if map_list == null:
+		return
+	var idx := map_list_ids.find(id)
+	if idx >= 0 and not (map_list.is_selected(idx) and map_list.get_selected_items().size() == 1):
+		map_list.select(idx)
+		map_list.ensure_current_is_visible()
+	_show_map_info()
+
+
+func get_map() -> StringName:
+	return _map
+
+
+## The map ids the picker lists right now (Random first).
+func listed_maps() -> Array[StringName]:
+	return map_list_ids.duplicate()
+
+
+func _fill_map_list() -> void:
+	if map_list == null:
+		return
+	var cat := MapCatalog.load_default()
+	map_list.clear()
+	map_list_ids.clear()
+	var mode := "2v2" if _map_seats == MapCatalog.SEATS_2V2 else "1v1"
+	var ri := map_list.add_item("Random %s map" % mode, _random_icon())
+	map_list.set_item_tooltip(ri, "A ready map drawn at Start (a restart replays the same map).")
+	map_list_ids.append(MapCatalog.RANDOM_ID)
+	for e: Dictionary in cat.list(_map_seats, true):
+		var id := StringName(e["id"])
+		var sz: Vector2 = e.get("size", Vector2(120, 120))
+		var i := map_list.add_item("%s  ·  %d m" % [String(e.get("title", id)), int(maxf(sz.x, sz.y))], cat.preview_texture(id))
+		map_list.set_item_tooltip(i, "%s\n%s" % [MapCatalog.size_text(e), String(e.get("hook", ""))])
+		map_list_ids.append(id)
+
+
+func _show_map_info() -> void:
+	var cat := MapCatalog.load_default()
+	var mode := "2v2" if _map_seats == MapCatalog.SEATS_2V2 else "1v1"
+	if _map == MapCatalog.RANDOM_ID:
+		map_preview.texture = null
+		map_preview_mark.visible = true
+		map_title_label.text = "Random map"
+		map_info_label.text = "One of the %d ready %s maps, drawn when the match starts." % [cat.list(_map_seats, true).size(), mode]
+		map_note_label.text = MapCatalog.mode_note({"seats": _map_seats})
+	else:
+		var e := cat.entry(_map)
+		map_preview.texture = cat.preview_texture(_map)
+		map_preview_mark.visible = map_preview.texture == null
+		map_title_label.text = String(e.get("title", _map))
+		map_info_label.text = "%s · %s · %s look\n%s" % [MapCatalog.size_text(e), String(e.get("biome", "grass")).capitalize(),
+				String(e.get("kingdom", "neutral")).capitalize(), String(e.get("hook", ""))]
+		map_note_label.text = MapCatalog.mode_note(e)
+	map_note_label.visible = map_note_label.text != ""
+
+
+## A small die face (the Random entry's icon).
+static func _random_icon() -> Texture2D:
+	var img := Image.create(48, 48, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0.16, 0.13, 0.11))
+	for x in 48:
+		for y in 48:
+			if x < 2 or y < 2 or x > 45 or y > 45:
+				img.set_pixel(x, y, UIStyle.GOLD)
+	for c: Vector2i in [Vector2i(13, 13), Vector2i(35, 13), Vector2i(24, 24), Vector2i(13, 35), Vector2i(35, 35)]:
+		for dx in range(-4, 5):
+			for dy in range(-4, 5):
+				if dx * dx + dy * dy <= 16:
+					img.set_pixel(c.x + dx, c.y + dy, Color(0.95, 0.88, 0.7))
+	return ImageTexture.create_from_image(img)
+
+
+func _build_map_column(parent: Control) -> void:
+	var col := VBoxContainer.new()
+	col.custom_minimum_size = Vector2(MAP_COLUMN_W, 0)
+	col.add_theme_constant_override("separation", 8)
+	parent.add_child(col)
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override("separation", 8)
+	col.add_child(head)
+	var tag := UIStyle.display_label("MAP", 22, UIStyle.GOLD)
+	tag.custom_minimum_size = Vector2(70, 40)
+	tag.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	head.add_child(tag)
+	var group := ButtonGroup.new()
+	group.allow_unpress = false
+	map_filter_buttons.clear()
+	for seats: int in [MapCatalog.SEATS_1V1, MapCatalog.SEATS_2V2]:
+		var b := _toggle_button(head, "1v1" if seats == MapCatalog.SEATS_1V1 else "2v2", group)
+		b.custom_minimum_size = Vector2(118, 40)
+		b.tooltip_text = "Maps for 2 players." if seats == MapCatalog.SEATS_1V1 \
+				else "Maps for 4 players (played as a 1v1 until 2v2 skirmish comes)."
+		var s := seats
+		b.pressed.connect(func() -> void: set_map_filter(s))
+		map_filter_buttons.append(b)
+	# the list and the preview side by side (the setup panel must fit a 1600 x 900 window), the lines below them
+	var mid := HBoxContainer.new()
+	mid.add_theme_constant_override("separation", 10)
+	col.add_child(mid)
+	map_list = ItemList.new()
+	map_list.custom_minimum_size = Vector2(MAP_LIST_W, MAP_PREVIEW + 8.0)
+	map_list.fixed_icon_size = Vector2i(44, 44)
+	map_list.icon_mode = ItemList.ICON_MODE_LEFT
+	map_list.select_mode = ItemList.SELECT_SINGLE
+	map_list.allow_reselect = true
+	map_list.focus_mode = Control.FOCUS_ALL
+	map_list.add_theme_font_size_override("font_size", 16)
+	map_list.add_theme_constant_override("v_separation", 6)
+	map_list.add_theme_color_override("font_selected_color", UIStyle.GOLD)
+	map_list.item_selected.connect(_on_map_item_selected)
+	map_list.item_activated.connect(func(_i: int) -> void: start_button.grab_focus())
+	mid.add_child(map_list)
+	var frame := PanelContainer.new()
+	frame.add_theme_stylebox_override("panel", UIStyle.button_style(UIStyle.PANEL_BORDER, Color(0.07, 0.06, 0.06, 0.95)))
+	frame.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	mid.add_child(frame)
+	map_preview = TextureRect.new()
+	map_preview.custom_minimum_size = Vector2(MAP_PREVIEW, MAP_PREVIEW)
+	map_preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	map_preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	frame.add_child(map_preview)
+	map_preview_mark = UIStyle.display_label("?", 96, UIStyle.GOLD)
+	map_preview_mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	map_preview_mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	map_preview_mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.add_child(map_preview_mark)
+	map_title_label = UIStyle.display_label("", 20, UIStyle.GOLD)
+	col.add_child(map_title_label)
+	map_info_label = UIStyle.panel_label("", 15, Color(0.86, 0.82, 0.76))
+	map_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	map_info_label.custom_minimum_size = Vector2(MAP_COLUMN_W, 0)
+	col.add_child(map_info_label)
+	map_note_label = UIStyle.panel_label("", 14, Color(0.95, 0.7, 0.45))
+	map_note_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	map_note_label.custom_minimum_size = Vector2(MAP_COLUMN_W, 0)
+	col.add_child(map_note_label)
+	var cat := MapCatalog.load_default()
+	var want := GameSettings.map_id
+	if want != MapCatalog.RANDOM_ID and not cat.is_ready(want):
+		want = MapCatalog.DEFAULT_ID
+	_map = want
+	set_map_filter(int(cat.entry(want).get("seats", MapCatalog.SEATS_1V1)) if want != MapCatalog.RANDOM_ID else MapCatalog.SEATS_1V1)
+
+
+func _on_map_item_selected(i: int) -> void:
+	if i >= 0 and i < map_list_ids.size():
+		select_map(map_list_ids[i])
 
 
 func _select_card(cards: Array[Button], kingdom: StringName) -> void:
@@ -363,6 +564,16 @@ func _build_skirmish_panel(parent: Control) -> PanelContainer:
 	foe_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(foe_label)
 
+	# MT9: the map picker on the left, the matchup and options on the right.
+	var columns := HBoxContainer.new()
+	columns.add_theme_constant_override("separation", 22)
+	box.add_child(columns)
+	_build_map_column(columns)
+	var outer := box
+	box = VBoxContainer.new()
+	box.add_theme_constant_override("separation", 14)
+	columns.add_child(box)
+
 	# 8.U1: two rows of 4 kingdom cards (You / Enemy), mirror matches allowed.
 	var player_group := ButtonGroup.new()
 	player_group.allow_unpress = false
@@ -424,7 +635,7 @@ func _build_skirmish_panel(parent: Control) -> PanelContainer:
 	var actions := HBoxContainer.new()
 	actions.alignment = BoxContainer.ALIGNMENT_CENTER
 	actions.add_theme_constant_override("separation", 16)
-	box.add_child(actions)
+	outer.add_child(actions)
 	var back := _menu_button(actions, "Back")
 	back.custom_minimum_size = Vector2(180, 48)
 	back.pressed.connect(show_main)
