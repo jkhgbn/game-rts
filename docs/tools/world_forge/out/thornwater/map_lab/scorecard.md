@@ -1,43 +1,43 @@
 # Map Lab: Thornwater (1v1) scorecard: world_forge_thornwater
 
-2026-10-02 19:12 · lab v1.0 · 78.57 s · scanned 65 spots
+2026-10-03 01:56 · lab v1.0 · 892.45 s · scanned 57 spots
 
-## Result: **WARN** · score **93 / 100**
+## Result: **WARN** · score **96 / 100**
 
-0 FAIL · 2 WARN · 16 PASS · 3 info checks; findings: 0 FAIL, 81 WARN, 94 info
+0 FAIL · 3 WARN · 15 PASS · 3 info checks; findings: 0 FAIL, 47 WARN, 103 info
 
 ## Improve next
-1. **Map geometry: path pairs match their mirror twins** (WARN): keep_t0-home_b vs keep_t1-home_b_twin: 5.9 m vs 6.9 m (14.4 %) -> keep_t1-home_b_twin is longer: look for an unmirrored collider on that route (heat map, M3 tiles) (find the unmirrored obstacle on the longer route) _(from F1 1047 / 1056 pairs within 2 % (0 FAIL, 9 WARN, 0 info))_
-2. **Unit paths (NavigationServer): pairs match their twins** (WARN): staticbody3d-steps_b vs staticbody3d_2-steps_a: 95.3 m vs 80.0 m (16.1 %) -> units walk staticbody3d-steps_b the long way: the engine's polygon path, not the map (see F1) (engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it) _(from F2 907 / 1056 pairs within 2 % (0 FAIL, 72 WARN, 77 info))_
-3. **Open the heat map** (IDEA): heatmap.png shows where the shortest paths crowd: the red metres are the likely fights _(from H1)_
+1. **Unit paths (NavigationServer): pairs match their twins** (WARN): stag-steps_a vs stag_twin-steps_b: 34.3 m vs 27.8 m (19.2 %) -> units walk stag-steps_a the long way: the engine's polygon path, not the map (see F1) (engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it) _(from F2 670 / 812 pairs within 2 % (0 FAIL, 42 WARN, 100 info))_
+2. **Keep to nearest camp / point / expansion... equal per seat** (WARN): nearest peddler: 52.0 m vs 54.1 m between seats (3.9 %) -> move the far seat's spot closer (or check its route for a blocker) _(from D1 9 / 10 clean (0 FAIL, 1 WARN))_
+3. **Clearances (roads, crossings, spacing)** (WARN): nat_node: node 7.4 m from crossing bridge_crown_a (want >= 8) -> move it off the crossing approach (auto-fix) _(from R4 45 / 49 clean (0 FAIL, 4 WARN))_
 
 ## Navmesh (reachability, islands)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| N1 | Navmesh baked | PASS 100 | 945 polygons, main area 12263 m² (85 % of the 120 m map), ground y 0.50 | polygons > 0; main walkable area shown |  |
-| N2 | Every spot reachable | PASS 100 | 65 / 65 clean | a path from the first keep ends within 1.0 m of each spot; spot <= 6 m from the navmesh |  |
-| N3 | No navmesh islands | PASS 100 | 16 / 16 clean, 17 info | ground-level components other than the main one < 2 m² |  |
-| R5 | Engine limits | PASS 100 | 1 half widths ok, 2 arms ok, 4 circles ok, 10 segments ok, 120 x 120 m ok, 57 spots ok, 1.0x ok | one half width, <= 2 arms, <= 4 circles, <= 16 segments, <= 192 m, <= 140 spots, raster <= 4x CH |  |
+| N1 | Navmesh baked | PASS 100 | 691 polygons, main area 13015 m² (90 % of the 120 m map), ground y 0.50 | polygons > 0; main walkable area shown |  |
+| N2 | Every spot reachable | PASS 100 | 57 / 57 clean | a path from the first keep ends within 1.0 m of each spot; spot <= 6 m from the navmesh |  |
+| N3 | No navmesh islands | PASS 100 | 2 / 2 clean, 3 info | ground-level components other than the main one < 2 m² |  |
+| R5 | Engine limits | PASS 100 | 1 half widths ok, 2 arms ok, 4 circles ok, 10 segments ok, 120 x 120 m ok, 49 spots ok, 1.00x ok | one half width, <= 2 arms, <= 4 circles, <= 16 segments, <= 192 m, <= 140 spots, raster <= 2.5x CH |  |
 | R6 | Mission marks / triggers / paths | INFO | no mission overlay data |  |  |
 
 ## Mirror / symmetry
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| M1 | Every live spot has its mirror twins | PASS 100 | 65 / 65 clean | same kind within 1.0 m of each symmetry image |  |
-| M4 | Spots meet the navmesh at mirrored points | PASS 100 | 65 / 65 clean | each spot's navmesh point vs its twin's, mirrored back: <= 1 m |  |
-| M2 | Spot constants mirror | PASS 100 | layout thornwater | LayoutLevel: positions come from the layout (no spot constants) |  |
+| M1 | Every live spot has its mirror twins | PASS 100 | 57 / 57 clean | same kind within 1.0 m of each symmetry image |  |
+| M4 | Spots meet the navmesh at mirrored points | PASS 100 | 57 / 57 clean | each spot's navmesh point vs its twin's, mirrored back: <= 1 m |  |
+| M2 | Spot constants mirror | PASS 100 | 1 / 1 clean | every position constant of preview_level.gd: all entries have a twin under each symmetry (+-0.05 m) with the same kind / sizes / timings, or the list is one-sided (mirrored in code) |  |
 | M3 | Navmesh mirrors itself | PASS 100 | 0.00 % (0 cells) | cells walkable on one side only (1-cell edge noise ignored): WARN > 0.3 %, FAIL > 2 % |  |
 
 ## Path fairness (navmesh path lengths between every pair of spots)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | Map geometry: path pairs match their mirror twins | **WARN** 69 | 1047 / 1056 pairs within 2 % (0 FAIL, 9 WARN, 0 info) | octile shortest path on the 0.5 m navmesh grid, every spot pair vs its mirrored pair: WARN > 2 % (and > 0.75 m), FAIL > 5 % (and > 2 m) | find the unmirrored obstacle on the longer route |
-| F2 | Unit paths (NavigationServer): pairs match their twins | **WARN** 67 | 907 / 1056 pairs within 2 % (0 FAIL, 72 WARN, 77 info) | NavigationServer3D.map_get_path length, every spot pair vs its mirrored pair: INFO > 2 % (and > 0.75 m), WARN > 5 % (and > 2 m); the polygon A* is not mirrored, so this is how much the engine's path choice (not the map) favours a side | engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it |
+| F1 | Map geometry: path pairs match their mirror twins | PASS 100 | 812 / 812 pairs within 2 % (0 FAIL, 0 WARN, 0 info) | octile shortest path on the 0.5 m navmesh grid, every spot pair vs its mirrored pair: WARN > 2 % (and > 0.75 m), FAIL > 5 % (and > 2 m) |  |
+| F2 | Unit paths (NavigationServer): pairs match their twins | **WARN** 67 | 670 / 812 pairs within 2 % (0 FAIL, 42 WARN, 100 info) | NavigationServer3D.map_get_path length, every spot pair vs its mirrored pair: INFO > 2 % (and > 0.75 m), WARN > 5 % (and > 2 m); the polygon A* is not mirrored, so this is how much the engine's path choice (not the map) favours a side | engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it |
 
 ## Distances per side
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | Keep to nearest camp / point / expansion... equal per seat | PASS 100 | 10 / 10 clean | per kind, the seats' nearest path lengths differ <= 2 % |  |
+| D1 | Keep to nearest camp / point / expansion... equal per seat | **WARN** 66 | 9 / 10 clean (0 FAIL, 1 WARN) | per kind, the seats' nearest path lengths differ <= 2 % |  |
 | A1 | Ally keeps (team maps) | INFO | no side has 2 seats (1v1): nothing to check |  |  |
 | T1 | Travel times per seat (worker / soldier / cavalry / caravan) | PASS 100 | 5 / 5 clean | path length / UnitType.move_speed with fords and steps at -35 %; seats' times per destination within 3 s (and 3 %) |  |
 | R1 | Targets met (rules bands, per seat) | PASS 100 | 8 / 8 clean | every `rules` band per seat: FAIL > 10 % outside, WARN 5-10 % |  |
@@ -49,7 +49,7 @@
 |---|---|---|---|---|---|
 | C1 | Crossing widths | PASS 100 | 8 / 8 clean | navmesh width across each crossing >= 2.0 m and equal to its twin (+-0.5 m) |  |
 | C2 | Main routes: narrowest corridor matches the twin | PASS 100 | 5 / 5 clean | keep -> crown / enemy keep / nearest expansion: the narrowest navmesh width along the path differs from the mirrored route's by <= 1.0 m |  |
-| R4 | Clearances (roads, crossings) | PASS 100 | 57 / 57 clean | points >= 7 m and camps >= 9 m from road centre lines; no spot within 8 m of a crossing (ford nests excepted) |  |
+| R4 | Clearances (roads, crossings, spacing) | **WARN** 66 | 45 / 49 clean (0 FAIL, 4 WARN) | points >= 7 m and camps >= 9 m from road centre lines; no spot within 8 m of a crossing (ford nests excepted); spots >= 3 m, structures >= 6 m apart, one den + one lodge per image |  |
 
 ## Info
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -59,453 +59,404 @@
 ## Findings (FAIL and WARN)
 | Sev | Check | Where | What | Fix |
 |---|---|---|---|---|
-| WARN | F1 | keep_t0-home_b vs keep_t1-home_b_twin | 5.9 m vs 6.9 m (14.4 %) | keep_t1-home_b_twin is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | rich_node-lairs_n_two vs rich_node_twin-lairs_n_two_twin | 10.3 m vs 11.3 m (8.9 %) | rich_node_twin-lairs_n_two_twin is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | rich_node-staticbody3d vs rich_node_twin-staticbody3d_2 | 10.9 m vs 11.9 m (8.4 %) | rich_node_twin-staticbody3d_2 is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | home_a-home_b vs home_a_twin-home_b_twin | 17.1 m vs 18.1 m (5.5 %) | home_a_twin-home_b_twin is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | rich_node-rich_hollow vs rich_node_twin-rich_hollow_twin | 20.1 m vs 21.1 m (4.7 %) | rich_node_twin-rich_hollow_twin is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | rich_node-MagpieDenNorthWest vs rich_node_twin-MagpieDenSouthEast | 24.3 m vs 25.3 m (3.9 %) | rich_node_twin-MagpieDenSouthEast is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | home_b-lairs_w_one vs home_b_twin-lairs_w_one_twin | 47.8 m vs 48.8 m (2.0 %) | home_b_twin-lairs_w_one_twin is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | home_b-LostCache0 vs home_b_twin-LostCache1 | 48.2 m vs 49.2 m (2.0 %) | home_b_twin-LostCache1 is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F1 | home_b-bridge_crown_a vs home_b_twin-bridge_crown_b | 48.5 m vs 49.5 m (2.0 %) | home_b_twin-bridge_crown_b is longer: look for an unmirrored collider on that route (heat map, M3 tiles) |
-| WARN | F2 | staticbody3d-steps_b vs staticbody3d_2-steps_a | 95.3 m vs 80.0 m (16.1 %) | units walk staticbody3d-steps_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | home_a-GreywaterLodgeNorthWest vs home_a_twin-GreywaterLodgeSouthEast | 88.6 m vs 104.4 m (15.1 %) | units walk home_a_twin-GreywaterLodgeSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | keep_t0-GreywaterLodgeNorthWest vs keep_t1-GreywaterLodgeSouthEast | 97.5 m vs 114.5 m (14.9 %) | units walk keep_t1-GreywaterLodgeSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | tower_b-ford_nest vs tower_b_twin-ford_nest_twin | 17.8 m vs 15.4 m (13.8 %) | units walk tower_b-ford_nest the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | tower_b-ford_b vs tower_b_twin-ford_a | 17.8 m vs 15.4 m (13.8 %) | units walk tower_b-ford_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | home_a-bridge_road_a vs home_a_twin-bridge_road_b | 87.0 m vs 100.2 m (13.2 %) | units walk home_a_twin-bridge_road_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_hollow-GreywaterLodgeSouthEast vs rich_hollow_twin-GreywaterLodgeNorthWest | 169.3 m vs 147.8 m (12.7 %) | units walk rich_hollow-GreywaterLodgeSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d-bridge_crown_a vs staticbody3d_2-bridge_crown_b | 66.8 m vs 76.0 m (12.2 %) | units walk staticbody3d_2-bridge_crown_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_node-shrine vs rich_node_twin-shrine_twin | 41.7 m vs 47.2 m (11.6 %) | units walk rich_node_twin-shrine_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d-lairs_w_one_twin vs staticbody3d_2-lairs_w_one | 123.4 m vs 109.7 m (11.1 %) | units walk staticbody3d-lairs_w_one_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_hollow-bridge_crown_a vs rich_hollow_twin-bridge_crown_b | 79.7 m vs 88.8 m (10.2 %) | units walk rich_hollow_twin-bridge_crown_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d-RuinPeddlerShadow vs staticbody3d_2-RuinPeddlerFire | 103.7 m vs 93.3 m (10.0 %) | units walk staticbody3d-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d-lairs_w_two_twin vs staticbody3d_2-lairs_w_two | 137.3 m vs 123.6 m (10.0 %) | units walk staticbody3d-lairs_w_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d-staticbody3d_4 vs staticbody3d_2-staticbody3d_3 | 151.8 m vs 136.7 m (9.9 %) | units walk staticbody3d-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | wallow-RuinPeddlerFire vs wallow_twin-RuinPeddlerShadow | 63.0 m vs 69.8 m (9.7 %) | units walk wallow_twin-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_node-staticbody3d_4 vs rich_node_twin-staticbody3d_3 | 141.2 m vs 127.7 m (9.6 %) | units walk rich_node-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_hollow-staticbody3d_4 vs rich_hollow_twin-staticbody3d_3 | 163.1 m vs 147.7 m (9.4 %) | units walk rich_hollow-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_node-RuinPeddlerShadow vs rich_node_twin-RuinPeddlerFire | 93.0 m vs 84.3 m (9.4 %) | units walk rich_node-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | well-staticbody3d_4 vs well_twin-staticbody3d_3 | 115.1 m vs 104.7 m (9.1 %) | units walk well-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | MagpieDenNorthWest-staticbody3d_4 vs MagpieDenSouthEast-staticbody3d_3 | 168.5 m vs 153.2 m (9.1 %) | units walk MagpieDenNorthWest-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | tower_b-RuinPeddlerFire vs tower_b_twin-RuinPeddlerShadow | 48.9 m vs 53.7 m (9.0 %) | units walk tower_b_twin-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | TavernFire-staticbody3d_4 vs TavernShadow-staticbody3d_3 | 96.2 m vs 87.6 m (8.9 %) | units walk TavernFire-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_node-rich_hollow_twin vs rich_node_twin-rich_hollow | 150.8 m vs 137.5 m (8.8 %) | units walk rich_node-rich_hollow_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_node-MagpieDenSouthEast vs rich_node_twin-MagpieDenNorthWest | 151.3 m vs 138.0 m (8.8 %) | units walk rich_node-MagpieDenSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d-lairs_n_two_twin vs staticbody3d_2-lairs_n_two | 141.4 m vs 129.3 m (8.5 %) | units walk staticbody3d-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | MagpieDenNorthWest-crown vs MagpieDenSouthEast-crown | 92.0 m vs 84.2 m (8.5 %) | units walk MagpieDenNorthWest-crown the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_node-staticbody3d_2 vs rich_node_twin-staticbody3d | 137.5 m vs 125.9 m (8.4 %) | units walk rich_node-staticbody3d_2 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | MagpieDenNorthWest-staticbody3d_2 vs MagpieDenSouthEast-staticbody3d | 165.3 m vs 151.5 m (8.3 %) | units walk MagpieDenNorthWest-staticbody3d_2 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | post_b-RuinPeddlerFire vs post_b_twin-RuinPeddlerShadow | 62.3 m vs 68.0 m (8.3 %) | units walk post_b_twin-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_hollow-staticbody3d_2 vs rich_hollow_twin-staticbody3d | 159.1 m vs 145.9 m (8.3 %) | units walk rich_hollow-staticbody3d_2 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | well-rich_hollow_twin vs well_twin-rich_hollow | 124.6 m vs 114.4 m (8.2 %) | units walk well-rich_hollow_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | third_node-lairs_n_two vs third_node_twin-lairs_n_two_twin | 118.7 m vs 109.1 m (8.1 %) | units walk third_node-lairs_n_two the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | lairs_n_two-steps_b vs lairs_n_two_twin-steps_a | 80.5 m vs 74.0 m (8.1 %) | units walk lairs_n_two-steps_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | MagpieDenNorthWest-lairs_n_two_twin vs MagpieDenSouthEast-lairs_n_two | 158.6 m vs 145.8 m (8.0 %) | units walk MagpieDenNorthWest-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_node-lairs_n_two_twin vs rich_node_twin-lairs_n_two | 130.8 m vs 120.3 m (8.0 %) | units walk rich_node-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_hollow-lairs_n_two_twin vs rich_hollow_twin-lairs_n_two | 152.3 m vs 140.3 m (7.9 %) | units walk rich_hollow-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | home_a-lairs_n_one vs home_a_twin-lairs_n_one_twin | 83.3 m vs 90.4 m (7.8 %) | units walk home_a_twin-lairs_n_one_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d-lairs_n_one_twin vs staticbody3d_2-lairs_n_one | 140.4 m vs 129.4 m (7.8 %) | units walk staticbody3d-lairs_n_one_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | staticbody3d_3-lairs_n_two_twin vs staticbody3d_4-lairs_n_two | 138.7 m vs 128.3 m (7.5 %) | units walk staticbody3d_3-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | stag-staticbody3d_2 vs stag_twin-staticbody3d | 115.2 m vs 106.7 m (7.4 %) | units walk stag-staticbody3d_2 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | home_a-steps_a vs home_a_twin-steps_b | 63.3 m vs 58.6 m (7.4 %) | units walk home_a-steps_a the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | tower_a-shrine vs tower_a_twin-shrine_twin | 35.8 m vs 38.6 m (7.3 %) | units walk tower_a_twin-shrine_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | well-staticbody3d_2 vs well_twin-staticbody3d | 110.9 m vs 102.9 m (7.2 %) | units walk well-staticbody3d_2 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | nat_node-GreywaterLodgeNorthWest vs nat_node_twin-GreywaterLodgeSouthEast | 86.8 m vs 93.5 m (7.2 %) | units walk nat_node_twin-GreywaterLodgeSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | TavernFire-staticbody3d_2 vs TavernShadow-staticbody3d | 92.5 m vs 85.8 m (7.2 %) | units walk TavernFire-staticbody3d_2 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | keep_t0-rich_node vs keep_t1-rich_node_twin | 85.5 m vs 92.0 m (7.1 %) | units walk keep_t1-rich_node_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | GreywaterLodgeNorthWest-staticbody3d_4 vs GreywaterLodgeSouthEast-staticbody3d_3 | 149.1 m vs 138.6 m (7.1 %) | units walk GreywaterLodgeNorthWest-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | home_a-rich_node vs home_a_twin-rich_node_twin | 76.2 m vs 81.8 m (6.8 %) | units walk home_a_twin-rich_node_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | stag-lairs_n_two_twin vs stag_twin-lairs_n_two | 108.5 m vs 101.1 m (6.8 %) | units walk stag-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | lairs_w_two-ford_b vs lairs_w_two_twin-ford_a | 89.5 m vs 83.4 m (6.8 %) | units walk lairs_w_two-ford_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | TavernFire-GreywaterLodgeNorthWest vs TavernShadow-GreywaterLodgeSouthEast | 51.6 m vs 55.3 m (6.8 %) | units walk TavernShadow-GreywaterLodgeSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | third_node-RuinPeddlerFire vs third_node_twin-RuinPeddlerShadow | 81.8 m vs 87.7 m (6.7 %) | units walk third_node_twin-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | well-lairs_n_two_twin vs well_twin-lairs_n_two | 104.1 m vs 97.2 m (6.6 %) | units walk well-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_hollow-stag_twin vs rich_hollow_twin-stag | 117.6 m vs 125.9 m (6.6 %) | units walk rich_hollow_twin-stag the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | ford_nest-RuinPeddlerFire vs ford_nest_twin-RuinPeddlerShadow | 58.8 m vs 62.9 m (6.5 %) | units walk ford_nest_twin-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | TavernFire-lairs_n_two_twin vs TavernShadow-lairs_n_two | 85.7 m vs 80.2 m (6.4 %) | units walk TavernFire-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | rich_hollow-MagpieDenSouthEast vs rich_hollow_twin-MagpieDenNorthWest | 168.5 m vs 158.0 m (6.2 %) | units walk rich_hollow-MagpieDenSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | stag-staticbody3d_4 vs stag_twin-staticbody3d_3 | 115.6 m vs 108.5 m (6.2 %) | units walk stag-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | lairs_n_two-crown vs lairs_n_two_twin-crown | 65.6 m vs 61.6 m (6.0 %) | units walk lairs_n_two-crown the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | nat_node-post_b vs nat_node_twin-post_b_twin | 37.5 m vs 35.3 m (5.9 %) | units walk nat_node-post_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | ford_nest-ford_a vs ford_nest_twin-ford_b | 89.6 m vs 95.1 m (5.8 %) | units walk ford_nest_twin-ford_b the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | post_b-GreywaterLodgeNorthWest vs post_b_twin-GreywaterLodgeSouthEast | 121.5 m vs 114.5 m (5.8 %) | units walk post_b-GreywaterLodgeNorthWest the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | GreywaterLodgeNorthWest-staticbody3d_2 vs GreywaterLodgeSouthEast-staticbody3d | 145.2 m vs 136.8 m (5.8 %) | units walk GreywaterLodgeNorthWest-staticbody3d_2 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | keep_t0-staticbody3d_3 vs keep_t1-staticbody3d_4 | 92.0 m vs 97.6 m (5.7 %) | units walk keep_t1-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | tower_b-rich_hollow_twin vs tower_b_twin-rich_hollow | 66.2 m vs 70.1 m (5.6 %) | units walk tower_b_twin-rich_hollow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | well-RuinPeddlerShadow vs well_twin-RuinPeddlerFire | 66.4 m vs 62.7 m (5.5 %) | units walk well-RuinPeddlerShadow the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | home_a-lairs_n_two vs home_a_twin-lairs_n_two_twin | 69.3 m vs 73.3 m (5.5 %) | units walk home_a_twin-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | home_a-staticbody3d_3 vs home_a_twin-staticbody3d_4 | 82.6 m vs 87.4 m (5.4 %) | units walk home_a_twin-staticbody3d_4 the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | ford_nest-lairs_n_two_twin vs ford_nest_twin-lairs_n_two | 41.4 m vs 39.2 m (5.4 %) | units walk ford_nest-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | lairs_w_two-lairs_n_one_twin vs lairs_w_two_twin-lairs_n_one | 119.0 m vs 112.9 m (5.1 %) | units walk lairs_w_two-lairs_n_one_twin the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | stag-MagpieDenSouthEast vs stag_twin-MagpieDenNorthWest | 125.0 m vs 118.8 m (5.0 %) | units walk stag-MagpieDenSouthEast the long way: the engine's polygon path, not the map (see F1) |
-| WARN | F2 | keep_t0-lairs_n_two vs keep_t1-lairs_n_two_twin | 79.3 m vs 83.5 m (5.0 %) | units walk keep_t1-lairs_n_two_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | stag-steps_a vs stag_twin-steps_b | 34.3 m vs 27.8 m (19.2 %) | units walk stag-steps_a the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | stag-inn_tavern vs stag_twin-inn_tavern_twin | 26.1 m vs 21.6 m (17.0 %) | units walk stag-inn_tavern the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | stag-crown vs stag_twin-crown | 46.7 m vs 39.6 m (15.3 %) | units walk stag-crown the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | bridge_road_a-bridge_crown_a vs bridge_road_b-bridge_crown_b | 61.7 m vs 72.1 m (14.4 %) | units walk bridge_road_b-bridge_crown_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | post_b-steps_b vs post_b_twin-steps_a | 58.7 m vs 52.3 m (10.9 %) | units walk post_b-steps_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | stag-steps_b vs stag_twin-steps_a | 53.2 m vs 59.6 m (10.8 %) | units walk stag_twin-steps_a the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | cache_b-lairs_w_one vs cache_b_twin-lairs_w_one_twin | 48.2 m vs 53.9 m (10.7 %) | units walk cache_b_twin-lairs_w_one_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | shrine-lairs_n_one_twin vs shrine_twin-lairs_n_one | 75.9 m vs 84.9 m (10.6 %) | units walk shrine_twin-lairs_n_one the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | post_b-lairs_w_two vs post_b_twin-lairs_w_two_twin | 85.3 m vs 95.2 m (10.4 %) | units walk post_b_twin-lairs_w_two_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | home_a-home_b_twin vs home_a_twin-home_b | 112.5 m vs 125.4 m (10.3 %) | units walk home_a_twin-home_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | stag-inn_tavern_twin vs stag_twin-inn_tavern | 61.2 m vs 67.9 m (9.9 %) | units walk stag_twin-inn_tavern the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | shrine-guilds_lodge_twin vs shrine_twin-guilds_lodge | 84.9 m vs 93.9 m (9.6 %) | units walk shrine_twin-guilds_lodge the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | tower_a-lairs_w_two_twin vs tower_a_twin-lairs_w_two | 104.4 m vs 115.3 m (9.5 %) | units walk tower_a_twin-lairs_w_two the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | bridge_road_a-crown vs bridge_road_b-crown | 54.0 m vs 59.6 m (9.4 %) | units walk bridge_road_b-crown the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | guilds_den-cache_b_twin vs guilds_den_twin-cache_b | 62.0 m vs 67.3 m (8.0 %) | units walk guilds_den_twin-cache_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | lairs_w_two-crown vs lairs_w_two_twin-crown | 64.9 m vs 60.0 m (7.7 %) | units walk lairs_w_two-crown the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | cache_b-lairs_w_two vs cache_b_twin-lairs_w_two_twin | 65.6 m vs 70.9 m (7.4 %) | units walk cache_b_twin-lairs_w_two_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | nat_node-guilds_den_twin vs nat_node_twin-guilds_den | 74.9 m vs 80.8 m (7.4 %) | units walk nat_node_twin-guilds_den the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | post_b-inn_peddler_twin vs post_b_twin-inn_peddler | 59.9 m vs 55.5 m (7.4 %) | units walk post_b-inn_peddler_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | cache_a-bridge_crown_b vs cache_a_twin-bridge_crown_a | 38.3 m vs 41.3 m (7.2 %) | units walk cache_a_twin-bridge_crown_a the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | rich_node-inn_tavern vs rich_node_twin-inn_tavern_twin | 33.2 m vs 35.8 m (7.2 %) | units walk rich_node_twin-inn_tavern_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | inn_tavern-cache_b_twin vs inn_tavern_twin-cache_b | 43.0 m vs 46.1 m (6.6 %) | units walk inn_tavern_twin-cache_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | wallow-lairs_n_one vs wallow_twin-lairs_n_one_twin | 117.7 m vs 109.9 m (6.6 %) | units walk wallow-lairs_n_one the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | cache_a-cache_b_twin vs cache_a_twin-cache_b | 55.6 m vs 59.4 m (6.3 %) | units walk cache_a_twin-cache_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | shrine-wallow vs shrine_twin-wallow_twin | 51.9 m vs 55.4 m (6.2 %) | units walk shrine_twin-wallow_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | post_b-cache_a_twin vs post_b_twin-cache_a | 66.8 m vs 62.7 m (6.2 %) | units walk post_b-cache_a_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | keep_t0-lairs_w_one_twin vs keep_t1-lairs_w_one | 106.5 m vs 100.0 m (6.1 %) | units walk keep_t0-lairs_w_one_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | lairs_w_two-bridge_crown_b vs lairs_w_two_twin-bridge_crown_a | 69.9 m vs 74.5 m (6.1 %) | units walk lairs_w_two_twin-bridge_crown_a the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | home_b-inn_peddler vs home_b_twin-inn_peddler_twin | 57.3 m vs 53.8 m (6.1 %) | units walk home_b-inn_peddler the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | tower_b-guilds_lodge vs tower_b_twin-guilds_lodge_twin | 110.1 m vs 103.5 m (6.0 %) | units walk tower_b-guilds_lodge the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | inn_peddler-lairs_n_two_twin vs inn_peddler_twin-lairs_n_two | 90.8 m vs 96.6 m (6.0 %) | units walk inn_peddler_twin-lairs_n_two the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | inn_peddler-lairs_w_two_twin vs inn_peddler_twin-lairs_w_two | 92.1 m vs 97.7 m (5.8 %) | units walk inn_peddler_twin-lairs_w_two the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | wallow-cache_a vs wallow_twin-cache_a_twin | 57.2 m vs 60.7 m (5.7 %) | units walk wallow_twin-cache_a_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | lairs_w_one-bridge_road_b vs lairs_w_one_twin-bridge_road_a | 80.7 m vs 76.1 m (5.7 %) | units walk lairs_w_one-bridge_road_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | nat_node-lairs_w_one vs nat_node_twin-lairs_w_one_twin | 39.1 m vs 41.4 m (5.5 %) | units walk nat_node_twin-lairs_w_one_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | inn_peddler-lairs_n_one_twin vs inn_peddler_twin-lairs_n_one | 86.1 m vs 91.1 m (5.4 %) | units walk inn_peddler_twin-lairs_n_one the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | guilds_lodge-lairs_w_one_twin vs guilds_lodge_twin-lairs_w_one | 113.0 m vs 106.9 m (5.4 %) | units walk guilds_lodge-lairs_w_one_twin the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | rich_node-crown vs rich_node_twin-crown | 53.8 m vs 56.9 m (5.4 %) | units walk rich_node_twin-crown the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | post_a-bridge_road_b vs post_a_twin-bridge_road_a | 89.6 m vs 84.8 m (5.4 %) | units walk post_a-bridge_road_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | post_b-lairs_n_one vs post_b_twin-lairs_n_one_twin | 118.6 m vs 112.5 m (5.1 %) | units walk post_b-lairs_n_one the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | rich_node-stag_twin vs rich_node_twin-stag | 91.9 m vs 96.7 m (5.0 %) | units walk rich_node_twin-stag the long way: the engine's polygon path, not the map (see F1) |
+| WARN | F2 | guilds_lodge-steps_a vs guilds_lodge_twin-steps_b | 58.8 m vs 61.9 m (5.0 %) | units walk guilds_lodge_twin-steps_b the long way: the engine's polygon path, not the map (see F1) |
+| WARN | D1 | nearest peddler | 52.0 m vs 54.1 m between seats (3.9 %) | move the far seat's spot closer (or check its route for a blocker) |
+| WARN | R4 | nat_node | node 7.4 m from crossing bridge_crown_a (want >= 8) | move it off the crossing approach (auto-fix) |
+| WARN | R4 | nat_node_twin | node 7.4 m from crossing bridge_crown_b (want >= 8) | move it off the crossing approach (auto-fix) |
+| WARN | R4 | wallow | camp 6.0 m from a road centre line (want >= 9) | push it off the road (auto-fix) |
+| WARN | R4 | wallow_twin | camp 6.0 m from a road centre line (want >= 9) | push it off the road (auto-fix) |
 
 ## Spot navmesh points (half_turn)
 | Spot | Kind | Position | On navmesh at | Twin | Twin's point, mirrored back | Gap |
 |---|---|---|---|---|---|---|
-| keep_t0 | keep | (-45.0, 41.0) | (-41.9, 40.1) | keep_t1 | (-41.9, 40.1) | 0.0 |
-| keep_t1 | keep | (45.0, -41.0) | (41.9, -40.1) | keep_t0 | (41.9, -40.1) | 0.0 |
-| home_a | home_node | (-47.6, 32.2) | (-45.9, 30.9) | home_a_twin | (-45.9, 30.9) | 0.0 |
-| home_a_twin | home_node | (47.6, -32.2) | (45.9, -30.9) | home_a | (45.9, -30.9) | 0.0 |
-| home_b | home_node | (-36.1, 44.7) | (-37.9, 44.9) | home_b_twin | (-37.9, 44.9) | 0.0 |
-| home_b_twin | home_node | (36.1, -44.7) | (37.9, -44.9) | home_b | (37.9, -44.9) | 0.0 |
-| nat_node | expansion | (-4.5, 15.5) | (-2.4, 14.9) | nat_node_twin | (-2.4, 14.9) | 0.0 |
-| nat_node_twin | expansion | (4.5, -15.5) | (2.4, -14.9) | nat_node | (2.4, -14.9) | 0.0 |
-| rich_node | expansion | (-38.6, -41.7) | (-38.1, -43.4) | rich_node_twin | (-38.1, -43.4) | 0.0 |
-| rich_node_twin | expansion | (38.6, 41.7) | (38.1, 43.4) | rich_node | (38.1, 43.4) | 0.0 |
-| third_node | expansion | (9.1, 56.1) | (8.9, 53.9) | third_node_twin | (8.9, 53.9) | 0.0 |
-| third_node_twin | expansion | (-9.1, -56.1) | (-8.9, -53.9) | third_node | (-8.9, -53.9) | 0.0 |
-| tower_a | point | (-21.8, -41.5) | (-19.1, -40.9) | tower_a_twin | (-19.1, -40.9) | 0.0 |
-| tower_a_twin | point | (21.8, 41.5) | (19.1, 40.9) | tower_a | (19.1, 40.9) | 0.0 |
-| tower_b | point | (-4.0, 39.7) | (-6.4, 38.4) | tower_b_twin | (-6.6, 37.9) | 0.6 |
-| tower_b_twin | point | (4.0, -39.7) | (6.6, -37.9) | tower_b | (6.4, -38.4) | 0.6 |
-| well | point | (-26.3, -24.1) | (-24.1, -23.6) | well_twin | (-24.1, -23.6) | 0.0 |
-| well_twin | point | (26.3, 24.1) | (24.1, 23.6) | well | (24.1, 23.6) | 0.0 |
-| shrine | point | (-22.3, -5.4) | (-22.1, -5.4) | shrine_twin | (-22.1, -5.4) | 0.0 |
-| shrine_twin | point | (22.3, 5.4) | (22.1, 5.4) | shrine | (22.1, 5.4) | 0.0 |
-| rich_hollow | camp | (-52.4, -57.8) | (-52.4, -57.6) | rich_hollow_twin | (-52.4, -57.6) | 0.0 |
-| rich_hollow_twin | camp | (52.4, 57.8) | (52.4, 57.6) | rich_hollow | (52.4, 57.6) | 0.0 |
-| wallow | camp | (-18.3, 55.5) | (-18.1, 55.4) | wallow_twin | (-18.1, 55.4) | 0.0 |
-| wallow_twin | camp | (18.3, -55.5) | (18.1, -55.4) | wallow | (18.1, -55.4) | 0.0 |
-| ford_nest | camp | (7.5, 39.9) | (7.4, 39.9) | ford_nest_twin | (7.4, 39.9) | 0.0 |
-| ford_nest_twin | camp | (-7.5, -39.9) | (-7.4, -39.9) | ford_nest | (-7.4, -39.9) | 0.0 |
-| stag | camp | (-35.5, -14.4) | (-35.4, -14.4) | stag_twin | (-35.4, -14.4) | 0.0 |
-| stag_twin | camp | (35.5, 14.4) | (35.4, 14.4) | stag | (35.4, 14.4) | 0.0 |
-| TavernFire | tavern | (-14.8, -15.2) | (-11.1, -14.6) | TavernShadow | (-11.1, -14.6) | 0.0 |
-| TavernShadow | tavern | (14.8, 15.2) | (11.1, 14.6) | TavernFire | (11.1, 14.6) | 0.0 |
-| post_a | post | (-53.3, -0.3) | (-56.6, 1.4) | post_a_twin | (-56.6, 1.4) | 0.0 |
-| post_a_twin | post | (53.3, 0.3) | (56.6, -1.4) | post_a | (56.6, -1.4) | 0.0 |
-| post_b | post | (-1.3, 53.7) | (-0.4, 50.1) | post_b_twin | (-0.4, 50.1) | 0.0 |
-| post_b_twin | post | (1.3, -53.7) | (0.4, -50.1) | post_b | (0.4, -50.1) | 0.0 |
-| MagpieDenNorthWest | guild | (-52.1, -48.8) | (-55.6, -49.9) | MagpieDenSouthEast | (-55.6, -49.9) | 0.0 |
-| MagpieDenSouthEast | guild | (52.1, 48.8) | (55.6, 49.9) | MagpieDenNorthWest | (55.6, 49.9) | 0.0 |
-| GreywaterLodgeNorthWest | guild | (-43.5, -56.1) | (-39.9, -56.6) | GreywaterLodgeSouthEast | (-39.9, -56.6) | 0.0 |
-| GreywaterLodgeSouthEast | guild | (43.5, 56.1) | (39.9, 56.6) | GreywaterLodgeNorthWest | (39.9, 56.6) | 0.0 |
-| staticbody3d | guild | (-52.5, -46.9) | (-48.9, -44.6) | staticbody3d_2 | (-48.9, -44.6) | 0.0 |
-| staticbody3d_2 | guild | (52.5, 46.9) | (48.9, 44.6) | staticbody3d | (48.9, 44.6) | 0.0 |
-| staticbody3d_3 | guild | (-43.7, -55.1) | (-41.4, -51.6) | staticbody3d_4 | (-41.4, -51.6) | 0.0 |
-| staticbody3d_4 | guild | (43.7, 55.1) | (41.4, 51.6) | staticbody3d_3 | (41.4, 51.6) | 0.0 |
-| RuinPeddlerFire | peddler | (-20.6, -6.9) | (-22.1, -7.4) | RuinPeddlerShadow | (-22.1, -7.4) | 0.0 |
-| RuinPeddlerShadow | peddler | (20.6, 6.9) | (22.1, 7.4) | RuinPeddlerFire | (22.1, 7.4) | 0.0 |
-| LostCache0 | cache | (-31.7, -0.8) | (-31.6, -0.6) | LostCache1 | (-31.6, -0.6) | 0.0 |
-| LostCache1 | cache | (31.7, 0.8) | (31.6, 0.6) | LostCache0 | (31.6, 0.6) | 0.0 |
-| LostCache2 | cache | (-8.1, 29.4) | (-7.9, 29.4) | LostCache3 | (-7.9, 29.4) | 0.0 |
-| LostCache3 | cache | (8.1, -29.4) | (7.9, -29.4) | LostCache2 | (7.9, -29.4) | 0.0 |
-| lairs_w_one | lair | (-46.4, 0.1) | (-46.1, 0.1) | lairs_w_one_twin | (-46.1, 0.1) | 0.0 |
-| lairs_w_one_twin | lair | (46.4, -0.1) | (46.1, -0.1) | lairs_w_one | (46.1, -0.1) | 0.0 |
-| lairs_w_two | lair | (-57.0, -12.1) | (-56.9, -12.1) | lairs_w_two_twin | (-56.9, -12.1) | 0.0 |
-| lairs_w_two_twin | lair | (57.0, 12.1) | (56.9, 12.1) | lairs_w_two | (56.9, 12.1) | 0.0 |
-| lairs_n_one | lair | (-34.0, -51.8) | (-34.1, -51.6) | lairs_n_one_twin | (-34.1, -51.6) | 0.0 |
-| lairs_n_one_twin | lair | (34.0, 51.8) | (34.1, 51.6) | lairs_n_one | (34.1, 51.6) | 0.0 |
-| lairs_n_two | lair | (-46.2, -38.6) | (-46.1, -38.4) | lairs_n_two_twin | (-46.1, -38.4) | 0.0 |
-| lairs_n_two_twin | lair | (46.2, 38.6) | (46.1, 38.4) | lairs_n_two | (46.1, 38.4) | 0.0 |
-| bridge_road_a | crossing_bridge_road | (-13.3, -48.7) | (-13.1, -48.6) | bridge_road_b | (-13.1, -48.6) | 0.0 |
-| bridge_road_b | crossing_bridge_road | (13.3, 48.7) | (13.1, 48.6) | bridge_road_a | (13.1, 48.6) | 0.0 |
-| ford_a | crossing_ford | (-7.5, -39.9) | (-7.4, -39.9) | ford_b | (-7.4, -39.9) | 0.0 |
-| ford_b | crossing_ford | (7.5, 39.9) | (7.4, 39.9) | ford_a | (7.4, 39.9) | 0.0 |
-| bridge_crown_a | crossing_bridge_lane | (-9.4, 8.6) | (-9.4, 8.4) | bridge_crown_b | (-9.4, 8.4) | 0.0 |
-| bridge_crown_b | crossing_bridge_lane | (9.4, -8.6) | (9.4, -8.4) | bridge_crown_a | (9.4, -8.4) | 0.0 |
-| steps_a | crossing_steps | (-8.6, -9.4) | (-8.4, -9.4) | steps_b | (-8.4, -9.4) | 0.0 |
-| steps_b | crossing_steps | (8.6, 9.4) | (8.4, 9.4) | steps_a | (8.4, 9.4) | 0.0 |
+| keep_t0 | keep | (-41.1, 43.9) | (-37.4, 43.6) | keep_t1 | (-37.4, 43.6) | 0.0 |
+| keep_t1 | keep | (41.1, -43.9) | (37.4, -43.6) | keep_t0 | (37.4, -43.6) | 0.0 |
+| home_a | home_node | (-44.4, 35.0) | (-44.4, 34.9) | home_a_twin | (-44.4, 34.9) | 0.0 |
+| home_a_twin | home_node | (44.4, -35.0) | (44.4, -34.9) | home_a | (44.4, -34.9) | 0.0 |
+| home_b | home_node | (-32.0, 46.6) | (-31.9, 46.6) | home_b_twin | (-31.9, 46.6) | 0.0 |
+| home_b_twin | home_node | (32.0, -46.6) | (31.9, -46.6) | home_b | (31.9, -46.6) | 0.0 |
+| nat_node | expansion | (-8.3, 16.7) | (-8.1, 16.6) | nat_node_twin | (-8.1, 16.6) | 0.0 |
+| nat_node_twin | expansion | (8.3, -16.7) | (8.1, -16.6) | nat_node | (8.1, -16.6) | 0.0 |
+| rich_node | expansion | (-40.1, -36.3) | (-39.9, -36.4) | rich_node_twin | (-39.9, -36.4) | 0.0 |
+| rich_node_twin | expansion | (40.1, 36.3) | (39.9, 36.4) | rich_node | (39.9, 36.4) | 0.0 |
+| tower_a | point | (-28.8, -40.4) | (-28.6, -40.4) | tower_a_twin | (-28.6, -40.4) | 0.0 |
+| tower_a_twin | point | (28.8, 40.4) | (28.6, 40.4) | tower_a | (28.6, 40.4) | 0.0 |
+| tower_b | point | (-4.3, 40.5) | (-4.1, 40.4) | tower_b_twin | (-4.1, 40.4) | 0.0 |
+| tower_b_twin | point | (4.3, -40.5) | (4.1, -40.4) | tower_b | (4.1, -40.4) | 0.0 |
+| well | point | (-31.8, -26.0) | (-31.6, -25.9) | well_twin | (-31.6, -25.9) | 0.0 |
+| well_twin | point | (31.8, 26.0) | (31.6, 25.9) | well | (31.6, 25.9) | 0.0 |
+| shrine | point | (-17.5, 2.3) | (-17.4, 2.1) | shrine_twin | (-17.4, 2.1) | 0.0 |
+| shrine_twin | point | (17.5, -2.3) | (17.4, -2.1) | shrine | (17.4, -2.1) | 0.0 |
+| wallow | camp | (-13.2, 54.0) | (-13.1, 53.9) | wallow_twin | (-13.1, 53.9) | 0.0 |
+| wallow_twin | camp | (13.2, -54.0) | (13.1, -53.9) | wallow | (13.1, -53.9) | 0.0 |
+| ford_nest | camp | (13.7, 38.8) | (13.6, 38.6) | ford_nest_twin | (13.6, 38.6) | 0.0 |
+| ford_nest_twin | camp | (-13.7, -38.8) | (-13.6, -38.6) | ford_nest | (-13.6, -38.6) | 0.0 |
+| stag | camp | (-36.9, -8.2) | (-36.9, -8.1) | stag_twin | (-36.9, -8.1) | 0.0 |
+| stag_twin | camp | (36.9, 8.2) | (36.9, 8.1) | stag | (36.9, 8.1) | 0.0 |
+| inn_tavern | tavern | (-15.9, -13.4) | (-15.9, -13.4) | inn_tavern_twin | (-15.9, -13.4) | 0.0 |
+| inn_tavern_twin | tavern | (15.9, 13.4) | (15.9, 13.4) | inn_tavern | (15.9, 13.4) | 0.0 |
+| post_a | post | (-53.5, 0.5) | (-53.4, 0.4) | post_a_twin | (-53.4, 0.4) | 0.0 |
+| post_a_twin | post | (53.5, -0.5) | (53.4, -0.4) | post_a | (53.4, -0.4) | 0.0 |
+| post_b | post | (0.1, 54.0) | (0.1, 53.9) | post_b_twin | (0.1, 53.9) | 0.0 |
+| post_b_twin | post | (-0.1, -54.0) | (-0.1, -53.9) | post_b | (-0.1, -53.9) | 0.0 |
+| guilds_den | guild | (-55.2, -45.4) | (-55.1, -45.4) | guilds_den_twin | (-55.1, -45.4) | 0.0 |
+| guilds_den_twin | guild | (55.2, 45.4) | (55.1, 45.4) | guilds_den | (55.1, 45.4) | 0.0 |
+| guilds_lodge | guild | (-46.8, -54.0) | (-46.6, -53.9) | guilds_lodge_twin | (-46.6, -53.9) | 0.0 |
+| guilds_lodge_twin | guild | (46.8, 54.0) | (46.6, 53.9) | guilds_lodge | (46.6, 53.9) | 0.0 |
+| inn_peddler | peddler | (-23.2, -6.6) | (-23.1, -6.4) | inn_peddler_twin | (-23.1, -6.4) | 0.0 |
+| inn_peddler_twin | peddler | (23.2, 6.6) | (23.1, 6.4) | inn_peddler | (23.1, 6.4) | 0.0 |
+| cache_a | cache | (-28.1, -1.0) | (-28.1, -0.9) | cache_a_twin | (-28.1, -0.9) | 0.0 |
+| cache_a_twin | cache | (28.1, 1.0) | (28.1, 0.9) | cache_a | (28.1, 0.9) | 0.0 |
+| cache_b | cache | (-4.2, 29.3) | (-4.1, 29.1) | cache_b_twin | (-4.1, 29.1) | 0.0 |
+| cache_b_twin | cache | (4.2, -29.3) | (4.1, -29.1) | cache_b | (4.1, -29.1) | 0.0 |
+| lairs_w_one | lair | (-45.2, 3.9) | (-45.1, 3.9) | lairs_w_one_twin | (-45.1, 3.9) | 0.0 |
+| lairs_w_one_twin | lair | (45.2, -3.9) | (45.1, -3.9) | lairs_w_one | (45.1, -3.9) | 0.0 |
+| lairs_w_two | lair | (-57.6, -9.3) | (-57.4, -9.1) | lairs_w_two_twin | (-57.4, -9.1) | 0.0 |
+| lairs_w_two_twin | lair | (57.6, 9.3) | (57.4, 9.1) | lairs_w_two | (57.4, 9.1) | 0.0 |
+| lairs_n_one | lair | (-38.4, -50.3) | (-38.4, -50.1) | lairs_n_one_twin | (-38.4, -50.1) | 0.0 |
+| lairs_n_one_twin | lair | (38.4, 50.3) | (38.4, 50.1) | lairs_n_one | (38.4, 50.1) | 0.0 |
+| lairs_n_two | lair | (-51.6, -37.9) | (-51.4, -37.9) | lairs_n_two_twin | (-51.4, -37.9) | 0.0 |
+| lairs_n_two_twin | lair | (51.6, 37.9) | (51.4, 37.9) | lairs_n_two | (51.4, 37.9) | 0.0 |
+| bridge_road_a | crossing_bridge_road | (-16.1, -49.1) | (-16.1, -48.9) | bridge_road_b | (-16.1, -48.9) | 0.0 |
+| bridge_road_b | crossing_bridge_road | (16.1, 49.1) | (16.1, 48.9) | bridge_road_a | (16.1, 48.9) | 0.0 |
+| ford_a | crossing_ford | (-13.7, -38.8) | (-13.6, -38.6) | ford_b | (-13.6, -38.6) | 0.0 |
+| ford_b | crossing_ford | (13.7, 38.8) | (13.6, 38.6) | ford_a | (13.6, 38.6) | 0.0 |
+| bridge_crown_a | crossing_bridge_lane | (-8.7, 9.3) | (-8.6, 9.1) | bridge_crown_b | (-8.6, 9.1) | 0.0 |
+| bridge_crown_b | crossing_bridge_lane | (8.7, -9.3) | (8.6, -9.1) | bridge_crown_a | (8.6, -9.1) | 0.0 |
+| steps_a | crossing_steps | (-9.3, -8.7) | (-9.1, -8.6) | steps_b | (-9.1, -8.6) | 0.0 |
+| steps_b | crossing_steps | (9.3, 8.7) | (9.1, 8.6) | steps_a | (9.1, 8.6) | 0.0 |
 | crown | crown | (0.0, 0.0) | (0.1, 0.1) | crown | (-0.1, -0.1) | 0.4 |
 
 
-## F1 map geometry: most asymmetric pairs (top 9 of 9)
-| # | Pair | Length | Mirror pair | Length | Diff |
-|---|---|---|---|---|---|
-| 1 | keep_t0 - home_b | 5.9 | keep_t1 - home_b_twin | 6.9 | -14.4 % |
-| 2 | rich_node - lairs_n_two | 10.3 | rich_node_twin - lairs_n_two_twin | 11.3 | -8.9 % |
-| 3 | rich_node - staticbody3d | 10.9 | rich_node_twin - staticbody3d_2 | 11.9 | -8.4 % |
-| 4 | home_a - home_b | 17.1 | home_a_twin - home_b_twin | 18.1 | -5.5 % |
-| 5 | rich_node - rich_hollow | 20.1 | rich_node_twin - rich_hollow_twin | 21.1 | -4.7 % |
-| 6 | rich_node - MagpieDenNorthWest | 24.3 | rich_node_twin - MagpieDenSouthEast | 25.3 | -3.9 % |
-| 7 | home_b - lairs_w_one | 47.8 | home_b_twin - lairs_w_one_twin | 48.8 | -2.0 % |
-| 8 | home_b - LostCache0 | 48.2 | home_b_twin - LostCache1 | 49.2 | -2.0 % |
-| 9 | home_b - bridge_crown_a | 48.5 | home_b_twin - bridge_crown_b | 49.5 | -2.0 % |
+## Spot constants (1)
+| Constant | Entries | Result |
+|---|---|---|
+| LAIR_SPOTS | 8 | mirrored |
 
 
-## F2 unit paths: most asymmetric pairs (top 20 of 149)
+## F2 unit paths: most asymmetric pairs (top 20 of 142)
 | # | Pair | Length | Mirror pair | Length | Diff |
 |---|---|---|---|---|---|
-| 1 | staticbody3d - steps_b | 95.3 | staticbody3d_2 - steps_a | 80.0 | +16.1 % |
-| 2 | home_a - GreywaterLodgeNorthWest | 88.6 | home_a_twin - GreywaterLodgeSouthEast | 104.4 | -15.1 % |
-| 3 | keep_t0 - GreywaterLodgeNorthWest | 97.5 | keep_t1 - GreywaterLodgeSouthEast | 114.5 | -14.9 % |
-| 4 | tower_b - ford_nest | 17.8 | tower_b_twin - ford_nest_twin | 15.4 | +13.8 % |
-| 5 | tower_b - ford_b | 17.8 | tower_b_twin - ford_a | 15.4 | +13.8 % |
-| 6 | home_a - bridge_road_a | 87.0 | home_a_twin - bridge_road_b | 100.2 | -13.2 % |
-| 7 | rich_hollow - GreywaterLodgeSouthEast | 169.3 | rich_hollow_twin - GreywaterLodgeNorthWest | 147.8 | +12.7 % |
-| 8 | staticbody3d - bridge_crown_a | 66.8 | staticbody3d_2 - bridge_crown_b | 76.0 | -12.2 % |
-| 9 | rich_node - shrine | 41.7 | rich_node_twin - shrine_twin | 47.2 | -11.6 % |
-| 10 | staticbody3d - lairs_w_one_twin | 123.4 | staticbody3d_2 - lairs_w_one | 109.7 | +11.1 % |
-| 11 | rich_hollow - bridge_crown_a | 79.7 | rich_hollow_twin - bridge_crown_b | 88.8 | -10.2 % |
-| 12 | staticbody3d - RuinPeddlerShadow | 103.7 | staticbody3d_2 - RuinPeddlerFire | 93.3 | +10.0 % |
-| 13 | staticbody3d - lairs_w_two_twin | 137.3 | staticbody3d_2 - lairs_w_two | 123.6 | +10.0 % |
-| 14 | staticbody3d - staticbody3d_4 | 151.8 | staticbody3d_2 - staticbody3d_3 | 136.7 | +9.9 % |
-| 15 | wallow - RuinPeddlerFire | 63.0 | wallow_twin - RuinPeddlerShadow | 69.8 | -9.7 % |
-| 16 | rich_node - staticbody3d_4 | 141.2 | rich_node_twin - staticbody3d_3 | 127.7 | +9.6 % |
-| 17 | rich_hollow - staticbody3d_4 | 163.1 | rich_hollow_twin - staticbody3d_3 | 147.7 | +9.4 % |
-| 18 | rich_node - RuinPeddlerShadow | 93.0 | rich_node_twin - RuinPeddlerFire | 84.3 | +9.4 % |
-| 19 | well - staticbody3d_4 | 115.1 | well_twin - staticbody3d_3 | 104.7 | +9.1 % |
-| 20 | MagpieDenNorthWest - staticbody3d_4 | 168.5 | MagpieDenSouthEast - staticbody3d_3 | 153.2 | +9.1 % |
+| 1 | stag - steps_a | 34.3 | stag_twin - steps_b | 27.8 | +19.2 % |
+| 2 | stag - inn_tavern | 26.1 | stag_twin - inn_tavern_twin | 21.6 | +17.0 % |
+| 3 | stag - crown | 46.7 | stag_twin - crown | 39.6 | +15.3 % |
+| 4 | bridge_road_a - bridge_crown_a | 61.7 | bridge_road_b - bridge_crown_b | 72.1 | -14.4 % |
+| 5 | post_b - steps_b | 58.7 | post_b_twin - steps_a | 52.3 | +10.9 % |
+| 6 | stag - steps_b | 53.2 | stag_twin - steps_a | 59.6 | -10.8 % |
+| 7 | cache_b - lairs_w_one | 48.2 | cache_b_twin - lairs_w_one_twin | 53.9 | -10.7 % |
+| 8 | shrine - lairs_n_one_twin | 75.9 | shrine_twin - lairs_n_one | 84.9 | -10.6 % |
+| 9 | post_b - lairs_w_two | 85.3 | post_b_twin - lairs_w_two_twin | 95.2 | -10.4 % |
+| 10 | home_a - home_b_twin | 112.5 | home_a_twin - home_b | 125.4 | -10.3 % |
+| 11 | stag - inn_tavern_twin | 61.2 | stag_twin - inn_tavern | 67.9 | -9.9 % |
+| 12 | shrine - guilds_lodge_twin | 84.9 | shrine_twin - guilds_lodge | 93.9 | -9.6 % |
+| 13 | tower_a - lairs_w_two_twin | 104.4 | tower_a_twin - lairs_w_two | 115.3 | -9.5 % |
+| 14 | bridge_road_a - crown | 54.0 | bridge_road_b - crown | 59.6 | -9.4 % |
+| 15 | guilds_den - cache_b_twin | 62.0 | guilds_den_twin - cache_b | 67.3 | -8.0 % |
+| 16 | cache_a - bridge_crown_a | 22.1 | cache_a_twin - bridge_crown_b | 23.9 | -7.7 % |
+| 17 | lairs_w_two - crown | 64.9 | lairs_w_two_twin - crown | 60.0 | +7.7 % |
+| 18 | cache_b - lairs_w_two | 65.6 | cache_b_twin - lairs_w_two_twin | 70.9 | -7.4 % |
+| 19 | nat_node - guilds_den_twin | 74.9 | nat_node_twin - guilds_den | 80.8 | -7.4 % |
+| 20 | post_b - inn_peddler_twin | 59.9 | post_b_twin - inn_peddler | 55.5 | +7.4 % |
 
 
 ## Keep to nearest spot by kind (navmesh path, m)
 | From keep | nearest expansion | nearest point | nearest camp | nearest lair | nearest tavern | nearest post | nearest peddler | nearest cache | nearest crown | enemy keep |
 |---|---|---|---|---|---|---|---|---|---|---|
-| south-west | 47.4 (nat_node) | 35.5 (tower_b) | 28.9 (wallow) | 43.1 (lairs_w_one) | 63.5 (TavernFire) | 41.6 (post_a) | 51.4 (RuinPeddlerFire) | 35.7 (LostCache2) | 58.0 (crown) | 116.0 |
-| north-east | 47.4 (nat_node_twin) | 35.3 (tower_b_twin) | 28.9 (wallow_twin) | 43.1 (lairs_w_one_twin) | 63.5 (TavernShadow) | 41.6 (post_a_twin) | 51.4 (RuinPeddlerShadow) | 35.7 (LostCache3) | 58.0 (crown) | 116.0 |
+| south-west | 39.8 (nat_node) | 33.4 (tower_b) | 26.3 (wallow) | 40.5 (lairs_w_one) | 61.4 (inn_tavern) | 38.9 (post_b) | 54.1 (inn_peddler) | 36.3 (cache_b) | 57.4 (crown) | 114.9 |
+| north-east | 39.8 (nat_node_twin) | 33.4 (tower_b_twin) | 26.3 (wallow_twin) | 40.5 (lairs_w_one_twin) | 61.5 (inn_tavern_twin) | 38.9 (post_b_twin) | 52.0 (inn_peddler_twin) | 36.3 (cache_b_twin) | 57.4 (crown) | 114.9 |
 
 
 ## Every spot from the keeps (half_turn)
 | Spot | Kind | From keep_t0 | Twin | From keep_t1 | Diff |
 |---|---|---|---|---|---|
-| home_b | home_node | 6.2 | home_b_twin | 6.2 | +0.0 % |
-| home_a | home_node | 10.2 | home_a_twin | 10.2 | +0.0 % |
-| wallow | camp | 28.9 | wallow_twin | 28.9 | +0.0 % |
-| tower_b | point | 35.5 | tower_b_twin | 35.3 | +0.6 % |
-| LostCache2 | cache | 35.7 | LostCache3 | 35.7 | +0.0 % |
-| post_a | post | 41.6 | post_a_twin | 41.6 | +0.0 % |
-| LostCache0 | cache | 42.0 | LostCache1 | 42.0 | +0.0 % |
-| lairs_w_one | lair | 43.1 | lairs_w_one_twin | 43.1 | +0.0 % |
-| post_b | post | 45.0 | post_b_twin | 45.0 | +0.0 % |
-| bridge_crown_a | crossing_bridge_lane | 45.4 | bridge_crown_b | 45.4 | +0.0 % |
-| nat_node | expansion | 47.4 | nat_node_twin | 47.4 | +0.0 % |
-| shrine | point | 49.6 | shrine_twin | 49.6 | +0.0 % |
-| RuinPeddlerFire | peddler | 51.4 | RuinPeddlerShadow | 51.4 | +0.0 % |
-| ford_b | crossing_ford | 52.9 | ford_a | 52.9 | +0.0 % |
-| ford_nest | camp | 52.9 | ford_nest_twin | 52.9 | +0.0 % |
-| stag | camp | 54.9 | stag_twin | 54.9 | +0.0 % |
-| third_node | expansion | 54.9 | third_node_twin | 54.9 | +0.0 % |
-| lairs_w_two | lair | 55.4 | lairs_w_two_twin | 55.4 | +0.0 % |
-| crown | crown | 58.0 | crown | 58.0 | +0.0 % |
-| bridge_road_b | crossing_bridge_road | 58.2 | bridge_road_a | 58.2 | +0.0 % |
-| steps_b | crossing_steps | 61.6 | steps_a | 61.6 | +0.0 % |
-| steps_a | crossing_steps | 61.9 | steps_b | 61.9 | +0.0 % |
-| TavernFire | tavern | 63.5 | TavernShadow | 63.5 | +0.0 % |
-| tower_a_twin | point | 64.6 | tower_a | 64.6 | +0.0 % |
-| well | point | 66.2 | well_twin | 66.2 | +0.0 % |
-| TavernShadow | tavern | 66.7 | TavernFire | 66.7 | +0.0 % |
-| bridge_crown_b | crossing_bridge_lane | 70.6 | bridge_crown_a | 70.6 | +0.0 % |
-| well_twin | point | 75.8 | well | 75.8 | +0.0 % |
-| shrine_twin | point | 76.4 | shrine | 76.4 | +0.0 % |
-| RuinPeddlerShadow | peddler | 76.9 | RuinPeddlerFire | 76.9 | +0.0 % |
-| lairs_n_two | lair | 79.3 | lairs_n_two_twin | 83.5 | -5.0 % |
-| lairs_n_one_twin | lair | 79.3 | lairs_n_one | 79.3 | +0.0 % |
-| nat_node_twin | expansion | 82.7 | nat_node | 82.7 | +0.0 % |
-| rich_node_twin | expansion | 83.3 | rich_node | 83.3 | +0.0 % |
-| tower_a | point | 84.2 | tower_a_twin | 84.2 | +0.0 % |
-| rich_node | expansion | 85.5 | rich_node_twin | 92.0 | -7.1 % |
-| staticbody3d | guild | 85.9 | staticbody3d_2 | 89.0 | -3.4 % |
-| staticbody3d_4 | guild | 86.5 | staticbody3d_3 | 86.5 | +0.0 % |
-| LostCache1 | cache | 86.6 | LostCache0 | 86.6 | +0.0 % |
-| ford_a | crossing_ford | 87.8 | ford_b | 87.8 | +0.0 % |
-| ford_nest_twin | camp | 87.8 | ford_nest | 87.8 | +0.0 % |
-| LostCache3 | cache | 89.5 | LostCache2 | 89.5 | +0.0 % |
-| stag_twin | camp | 90.4 | stag | 90.3 | +0.0 % |
-| GreywaterLodgeSouthEast | guild | 90.5 | GreywaterLodgeNorthWest | 90.5 | +0.0 % |
-| staticbody3d_3 | guild | 92.0 | staticbody3d_4 | 97.6 | -5.7 % |
-| lairs_n_one | lair | 92.1 | lairs_n_one_twin | 92.1 | +0.0 % |
-| lairs_n_two_twin | lair | 93.0 | lairs_n_two | 92.1 | +1.0 % |
-| bridge_road_a | crossing_bridge_road | 93.5 | bridge_road_b | 94.8 | -1.4 % |
-| MagpieDenNorthWest | guild | 93.5 | MagpieDenSouthEast | 93.5 | +0.0 % |
-| staticbody3d_2 | guild | 93.9 | staticbody3d | 96.1 | -2.2 % |
-| GreywaterLodgeNorthWest | guild | 97.5 | GreywaterLodgeSouthEast | 114.5 | -14.9 % |
-| tower_b_twin | point | 98.0 | tower_b | 98.5 | -0.6 % |
-| rich_hollow_twin | camp | 100.3 | rich_hollow | 100.3 | +0.0 % |
-| lairs_w_one_twin | lair | 100.8 | lairs_w_one | 101.1 | -0.3 % |
-| rich_hollow | camp | 101.9 | rich_hollow_twin | 101.9 | +0.0 % |
-| post_b_twin | post | 102.4 | post_b | 100.6 | +1.8 % |
-| third_node_twin | expansion | 103.6 | third_node | 101.8 | +1.7 % |
-| MagpieDenSouthEast | guild | 108.2 | MagpieDenNorthWest | 109.2 | -0.9 % |
-| lairs_w_two_twin | lair | 110.1 | lairs_w_two | 109.6 | +0.5 % |
-| home_a_twin | home_node | 113.0 | home_a | 113.0 | +0.0 % |
-| keep_t1 | keep | 116.0 | keep_t0 | 116.0 | +0.0 % |
-| wallow_twin | camp | 116.7 | wallow | 116.7 | +0.0 % |
-| home_b_twin | home_node | 117.0 | home_b | 117.0 | +0.0 % |
-| post_a_twin | post | 120.3 | post_a | 120.3 | +0.0 % |
+| home_b | home_node | 6.3 | home_b_twin | 6.3 | +0.0 % |
+| home_a | home_node | 12.0 | home_a_twin | 11.9 | +0.7 % |
+| wallow | camp | 26.3 | wallow_twin | 26.3 | +0.0 % |
+| tower_b | point | 33.4 | tower_b_twin | 33.4 | -0.0 % |
+| cache_b | cache | 36.3 | cache_b_twin | 36.3 | +0.0 % |
+| post_b | post | 38.9 | post_b_twin | 38.9 | -0.0 % |
+| nat_node | expansion | 39.8 | nat_node_twin | 39.8 | +0.0 % |
+| lairs_w_one | lair | 40.5 | lairs_w_one_twin | 40.5 | +0.0 % |
+| bridge_crown_a | crossing_bridge_lane | 44.9 | bridge_crown_b | 44.9 | +0.0 % |
+| cache_a | cache | 45.5 | cache_a_twin | 45.5 | +0.0 % |
+| post_a | post | 46.3 | post_a_twin | 46.3 | +0.0 % |
+| shrine | point | 47.2 | shrine_twin | 47.1 | +0.1 % |
+| ford_nest | camp | 51.2 | ford_nest_twin | 51.2 | +0.0 % |
+| ford_b | crossing_ford | 51.2 | ford_a | 51.2 | +0.0 % |
+| stag | camp | 51.8 | stag_twin | 51.8 | +0.0 % |
+| bridge_road_b | crossing_bridge_road | 53.8 | bridge_road_a | 53.8 | +0.0 % |
+| inn_peddler | peddler | 54.1 | inn_peddler_twin | 52.0 | +3.9 % |
+| lairs_w_two | lair | 56.6 | lairs_w_two_twin | 56.6 | +0.0 % |
+| crown | crown | 57.4 | crown | 57.4 | +0.0 % |
+| inn_tavern | tavern | 61.4 | inn_tavern_twin | 61.5 | -0.1 % |
+| steps_b | crossing_steps | 61.6 | steps_a | 61.5 | +0.2 % |
+| steps_a | crossing_steps | 61.9 | steps_b | 64.4 | -3.8 % |
+| tower_a_twin | point | 66.1 | tower_a | 66.1 | +0.0 % |
+| inn_tavern_twin | tavern | 69.6 | inn_tavern | 69.4 | +0.2 % |
+| well | point | 69.8 | well_twin | 69.8 | +0.0 % |
+| bridge_crown_b | crossing_bridge_lane | 70.0 | bridge_crown_a | 70.0 | +0.0 % |
+| well_twin | point | 72.4 | well | 72.4 | +0.0 % |
+| inn_peddler_twin | peddler | 75.7 | inn_peddler | 75.6 | +0.1 % |
+| nat_node_twin | expansion | 75.9 | nat_node | 76.0 | -0.0 % |
+| rich_node_twin | expansion | 77.6 | rich_node | 77.6 | -0.0 % |
+| lairs_n_one_twin | lair | 77.6 | lairs_n_one | 77.7 | -0.1 % |
+| shrine_twin | point | 79.7 | shrine | 76.3 | +4.3 % |
+| rich_node | expansion | 80.2 | rich_node_twin | 80.2 | -0.0 % |
+| cache_a_twin | cache | 82.1 | cache_a | 82.0 | +0.1 % |
+| lairs_n_two | lair | 82.7 | lairs_n_two_twin | 82.7 | +0.0 % |
+| tower_a | point | 84.5 | tower_a_twin | 84.5 | +0.0 % |
+| guilds_lodge_twin | guild | 86.7 | guilds_lodge | 86.7 | -0.1 % |
+| ford_a | crossing_ford | 87.5 | ford_b | 87.5 | -0.0 % |
+| ford_nest_twin | camp | 87.5 | ford_nest | 87.5 | -0.0 % |
+| cache_b_twin | cache | 88.6 | cache_b | 88.6 | -0.0 % |
+| lairs_n_two_twin | lair | 88.9 | lairs_n_two | 88.9 | +0.0 % |
+| stag_twin | camp | 89.3 | stag | 89.2 | +0.1 % |
+| guilds_den | guild | 90.8 | guilds_den_twin | 90.8 | +0.0 % |
+| guilds_den_twin | guild | 93.3 | guilds_den | 92.8 | +0.5 % |
+| lairs_n_one | lair | 94.1 | lairs_n_one_twin | 94.1 | +0.0 % |
+| bridge_road_a | crossing_bridge_road | 96.1 | bridge_road_b | 96.0 | +0.0 % |
+| guilds_lodge | guild | 97.9 | guilds_lodge_twin | 97.9 | +0.0 % |
+| tower_b_twin | point | 99.7 | tower_b | 99.7 | -0.0 % |
+| lairs_w_two_twin | lair | 103.1 | lairs_w_two | 103.1 | +0.0 % |
+| lairs_w_one_twin | lair | 106.5 | lairs_w_one | 100.0 | +6.1 % |
+| post_a_twin | post | 107.0 | post_a | 106.9 | +0.0 % |
+| post_b_twin | post | 107.9 | post_b | 107.9 | -0.0 % |
+| wallow_twin | camp | 113.5 | wallow | 113.5 | -0.0 % |
+| home_a_twin | home_node | 113.6 | home_a | 113.6 | +0.0 % |
+| home_b_twin | home_node | 113.8 | home_b | 113.8 | -0.0 % |
+| keep_t1 | keep | 114.9 | keep_t0 | 114.9 | +0.0 % |
 
 
 ## Travel times per seat (m:ss from the keep; terrain speed costs not included)
 | Seat | Destination | Path (m) | Ford (m) | worker (4.6 m/s) | soldier (5.0 m/s) | cavalry (7.5 m/s) | caravan (4.0 m/s) |
 |---|---|---|---|---|---|---|---|
-| south-west | enemy keep (keep_t1) | 116.0 | 0.0 | 0:25 | 0:23 | 0:15 | 0:29 |
-| south-west | nearest expansion (nat_node) | 47.4 | 0.0 | 0:10 | 0:09 | 0:06 | 0:12 |
-| south-west | nearest point (tower_b) | 35.5 | 0.0 | 0:08 | 0:07 | 0:05 | 0:09 |
-| south-west | nearest camp (wallow) | 28.9 | 0.0 | 0:06 | 0:06 | 0:04 | 0:07 |
-| south-west | crown (crown) | 58.0 | 0.0 | 0:13 | 0:12 | 0:08 | 0:14 |
-| north-east | enemy keep (keep_t0) | 116.0 | 0.0 | 0:25 | 0:23 | 0:15 | 0:29 |
-| north-east | nearest expansion (nat_node_twin) | 47.4 | 0.0 | 0:10 | 0:09 | 0:06 | 0:12 |
-| north-east | nearest point (tower_b_twin) | 35.3 | 0.0 | 0:08 | 0:07 | 0:05 | 0:09 |
-| north-east | nearest camp (wallow_twin) | 28.9 | 0.0 | 0:06 | 0:06 | 0:04 | 0:07 |
-| north-east | crown (crown) | 58.0 | 0.0 | 0:13 | 0:12 | 0:08 | 0:14 |
+| south-west | enemy keep (keep_t1) | 114.9 | 0.0 | 0:25 | 0:23 | 0:15 | 0:29 |
+| south-west | nearest expansion (nat_node) | 39.8 | 0.0 | 0:09 | 0:08 | 0:05 | 0:10 |
+| south-west | nearest point (tower_b) | 33.4 | 0.0 | 0:07 | 0:07 | 0:04 | 0:08 |
+| south-west | nearest camp (wallow) | 26.3 | 0.0 | 0:06 | 0:05 | 0:04 | 0:07 |
+| south-west | crown (crown) | 57.4 | 0.0 | 0:12 | 0:11 | 0:08 | 0:14 |
+| north-east | enemy keep (keep_t0) | 114.9 | 0.0 | 0:25 | 0:23 | 0:15 | 0:29 |
+| north-east | nearest expansion (nat_node_twin) | 39.8 | 0.0 | 0:09 | 0:08 | 0:05 | 0:10 |
+| north-east | nearest point (tower_b_twin) | 33.4 | 0.0 | 0:07 | 0:07 | 0:04 | 0:08 |
+| north-east | nearest camp (wallow_twin) | 26.3 | 0.0 | 0:06 | 0:05 | 0:04 | 0:07 |
+| north-east | crown (crown) | 57.4 | 0.0 | 0:12 | 0:11 | 0:08 | 0:14 |
 
 
 ## Crossings (navmesh width = where unit centres can go; real gap ~ +1.0 m agent diameter)
 | Crossing | Kind | Spec width | Navmesh width | ~Real gap | Twin | Twin width |
 |---|---|---|---|---|---|---|
-| bridge_road_a | bridge_road | 6.0 | 5.0 | 6.0 | bridge_road_b | 5.0 |
-| bridge_road_b | bridge_road | 6.0 | 5.0 | 6.0 | bridge_road_a | 5.0 |
-| ford_a | ford | 7.0 | 5.9 | 6.9 | ford_b | 6.0 |
-| ford_b | ford | 7.0 | 6.0 | 7.0 | ford_a | 5.9 |
-| bridge_crown_a | bridge_lane | 8.0 | 6.8 | 7.8 | bridge_crown_b | 6.8 |
-| bridge_crown_b | bridge_lane | 8.0 | 6.8 | 7.8 | bridge_crown_a | 6.8 |
-| steps_a | steps | 6.0 | 4.9 | 5.9 | steps_b | 4.9 |
-| steps_b | steps | 6.0 | 4.9 | 5.9 | steps_a | 4.9 |
+| bridge_road_a | bridge_road | 6.0 | 4.4 | 5.4 | bridge_road_b | 4.4 |
+| bridge_road_b | bridge_road | 6.0 | 4.4 | 5.4 | bridge_road_a | 4.4 |
+| ford_a | ford | 7.0 | 5.1 | 6.1 | ford_b | 5.1 |
+| ford_b | ford | 7.0 | 5.1 | 6.1 | ford_a | 5.1 |
+| bridge_crown_a | bridge_lane | 8.0 | 6.0 | 7.0 | bridge_crown_b | 6.0 |
+| bridge_crown_b | bridge_lane | 8.0 | 6.0 | 7.0 | bridge_crown_a | 6.0 |
+| steps_a | steps | 6.0 | 4.3 | 5.3 | steps_b | 4.3 |
+| steps_b | steps | 6.0 | 4.3 | 5.3 | steps_a | 4.3 |
 
 
 ## Main routes: narrowest corridors (navmesh width; real gap ~ +1.0 m)
 | Route | Length | Narrowest (navmesh m) | At | Chokes < 3 m |
 |---|---|---|---|---|
-| keep_t0 -> crown | 58.0 | 6.9 | (-10.0, 9.8) | - |
-| keep_t0 -> keep_t1 | 116.0 | 6.8 | (-8.7, 8.3) | - |
-| keep_t0 -> nat_node | 47.4 | 10.5 | (-5.0, 18.0) | - |
-| keep_t1 -> crown | 58.0 | 6.9 | (10.2, -9.6) | - |
-| keep_t1 -> nat_node_twin | 47.4 | 10.5 | (5.0, -18.0) | - |
+| keep_t0 -> crown | 57.4 | 4.9 | (-6.7, 8.0) | - |
+| keep_t0 -> keep_t1 | 114.9 | 4.8 | (6.9, -8.0) | - |
+| keep_t0 -> nat_node | 39.8 | 32.8 | (-12.4, 20.6) | - |
+| keep_t1 -> crown | 57.5 | 5.0 | (6.9, -7.8) | - |
+| keep_t1 -> nat_node_twin | 39.8 | 32.8 | (12.4, -20.6) | - |
 
 
 ## R1 targets per seat (navmesh path m; enemy_ally = ratio)
 | Seat | Target | Band | Measured | Miss |
 |---|---|---|---|---|
-| south-west | keep_enemy | 116.00-150.00 | 115.99 | 0.0 % |
-| south-west | natural | 38.00-58.00 | 47.38 | - |
-| south-west | rich | 65.00-95.00 | 85.50 | - |
-| south-west | crown | 50.00-72.00 | 57.99 | - |
-| north-east | keep_enemy | 116.00-150.00 | 115.99 | 0.0 % |
-| north-east | natural | 38.00-58.00 | 47.38 | - |
-| north-east | rich | 65.00-95.00 | 92.00 | - |
-| north-east | crown | 50.00-72.00 | 57.99 | - |
+| south-west | keep_enemy | 116.00-150.00 | 114.89 | 1.0 % |
+| south-west | natural | 38.00-58.00 | 39.81 | - |
+| south-west | rich | 65.00-95.00 | 80.25 | - |
+| south-west | crown | 50.00-72.00 | 57.43 | - |
+| north-east | keep_enemy | 116.00-150.00 | 114.89 | 1.0 % |
+| north-east | natural | 38.00-58.00 | 39.81 | - |
+| north-east | rich | 65.00-95.00 | 80.25 | - |
+| north-east | crown | 50.00-72.00 | 57.43 | - |
 
 
 ## R2 content per seat
 | Seat | home node | natural | rich | post | tavern | peddler | cache | camp T1 | camp T2 | camp T3 | lair | watchtower | well | shrine | crown |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| south-west | 2 | 1 | 1 | 2 | 1 | 1 | 2 | 1 | 2 | 1 | 4 | 2 | 1 | 1 | 1 |
-| north-east | 2 | 1 | 1 | 2 | 1 | 1 | 2 | 1 | 2 | 1 | 4 | 2 | 1 | 1 | 1 |
+| south-west | 2 | 1 | 1 | 2 | 1 | 1 | 2 | 1 | 1 | 1 | 4 | 2 | 1 | 1 | 1 |
+| north-east | 2 | 1 | 1 | 2 | 1 | 1 | 2 | 1 | 1 | 1 | 4 | 2 | 1 | 1 | 1 |
 
 
 ## R3 contest per seat
 | Seat | Contested (0.9-1.1) | Raidable (1.1-1.45) | Own (< 0.9) | Objectives |
 |---|---|---|---|---|
-| south-west | 7 | 2 | 11 | 29 |
-| north-east | 6 | 3 | 11 | 29 |
+| south-west | 5 | 2 | 10 | 25 |
+| north-east | 5 | 2 | 10 | 25 |
 
 
-## Hottest metres (every spot-pair shortest path, 2080 paths)
+## Hottest metres (every spot-pair shortest path, 1596 paths)
 | # | Where (x, z) | Shortest paths through this metre | Share |
 |---|---|---|---|
-| 1 | (-6.5, -9.5) | 212 | 10 % |
-| 2 | (6.5, 9.5) | 210 | 10 % |
-| 3 | (-7.5, -39.5) | 188 | 9 % |
-| 4 | (7.5, 39.5) | 179 | 9 % |
-| 5 | (-11.5, -18.5) | 159 | 8 % |
-| 6 | (11.5, 18.5) | 140 | 7 % |
-| 7 | (-0.5, -1.5) | 126 | 6 % |
-| 8 | (20.5, -6.5) | 125 | 6 % |
-| 9 | (-5.5, 8.5) | 123 | 6 % |
-| 10 | (6.5, -42.5) | 122 | 6 % |
+| 1 | (0.5, 0.5) | 153 | 10 % |
+| 2 | (-9.5, -8.5) | 143 | 9 % |
+| 3 | (6.5, 8.5) | 142 | 9 % |
+| 4 | (13.5, 38.5) | 138 | 9 % |
+| 5 | (-13.5, -38.5) | 137 | 9 % |
+| 6 | (-5.5, 9.5) | 130 | 8 % |
+| 7 | (5.5, -9.5) | 113 | 7 % |
+| 8 | (13.5, -7.5) | 105 | 7 % |
+| 9 | (-13.5, 7.5) | 97 | 6 % |
+| 10 | (7.5, 32.5) | 92 | 6 % |
 
 
-## Info findings (94)
+## Info findings (103)
 | Check | Where | What |
 |---|---|---|
-| N3 | island 2 at (-43.6, -55.6) | 15.9 m² inside the footprint of staticbody3d_3 (unreachable by design) |
-| N3 | island 5 at (1.3, -53.7) | 21.3 m² inside the footprint of post_b_twin (unreachable by design) |
-| N3 | island 7 at (-49.9, -49.9) | 0.8 m² inside the footprint of staticbody3d (unreachable by design) |
-| N3 | island 8 at (-52.2, -47.8) | 10.6 m² inside the footprint of staticbody3d (unreachable by design) |
-| N3 | island 9 at (-53.0, -44.7) | 1.8 m² inside the footprint of staticbody3d (unreachable by design) |
-| N3 | island 13 at (45.1, -40.9) | 14.1 m² inside the footprint of keep_t1 (unreachable by design) |
-| N3 | island 22 at (-14.9, -15.1) | 22.6 m² inside the footprint of TavernFire (unreachable by design) |
-| N3 | island 30 at (-53.3, -0.3) | 20.9 m² inside the footprint of post_a (unreachable by design) |
-| N3 | island 32 at (53.3, 0.3) | 20.9 m² inside the footprint of post_a_twin (unreachable by design) |
-| N3 | island 41 at (14.9, 15.1) | 22.6 m² inside the footprint of TavernShadow (unreachable by design) |
-| N3 | island 50 at (-44.9, 41.1) | 14.1 m² inside the footprint of keep_t0 (unreachable by design) |
-| N3 | island 55 at (52.9, 44.7) | 1.8 m² inside the footprint of staticbody3d_2 (unreachable by design) |
-| N3 | island 56 at (52.2, 47.8) | 10.6 m² inside the footprint of staticbody3d_2 (unreachable by design) |
-| N3 | island 57 at (49.9, 49.9) | 0.8 m² inside the footprint of staticbody3d_2 (unreachable by design) |
-| N3 | island 59 at (-1.3, 53.7) | 21.3 m² inside the footprint of post_b (unreachable by design) |
-| N3 | island 61 at (43.6, 55.6) | 15.9 m² inside the footprint of staticbody3d_4 (unreachable by design) |
-| N3 | raised islands | 46 islands on top of colliders (223 m², more than 0.3 m above / below the ground navmesh): harmless |
-| F2 | LostCache0-steps_a vs LostCache1-steps_b | 26.6 m vs 25.1 m (5.7 %) |
-| F2 | stag-post_a vs stag_twin-post_a_twin | 31.2 m vs 29.5 m (5.4 %) |
-| F2 | TavernFire-bridge_crown_a vs TavernShadow-bridge_crown_b | 25.4 m vs 24.1 m (5.1 %) |
-| F2 | nat_node-ford_nest vs nat_node_twin-ford_nest_twin | 31.0 m vs 29.5 m (5.1 %) |
-| F2 | nat_node-ford_b vs nat_node_twin-ford_a | 31.0 m vs 29.5 m (5.1 %) |
-| F2 | stag-RuinPeddlerShadow vs stag_twin-RuinPeddlerFire | 69.9 m vs 66.4 m (4.9 %) |
-| F2 | stag-steps_b vs stag_twin-steps_a | 54.5 m vs 51.9 m (4.8 %) |
-| F2 | nat_node-rich_node vs nat_node_twin-rich_node_twin | 74.9 m vs 78.6 m (4.8 %) |
-| F2 | well-MagpieDenSouthEast vs well_twin-MagpieDenNorthWest | 120.7 m vs 114.9 m (4.8 %) |
-| F2 | lairs_w_two-bridge_road_b vs lairs_w_two_twin-bridge_road_a | 99.4 m vs 94.8 m (4.7 %) |
-| F2 | shrine-lairs_w_two_twin vs shrine_twin-lairs_w_two | 89.3 m vs 85.1 m (4.7 %) |
-| F2 | stag-ford_a vs stag_twin-ford_b | 40.4 m vs 38.6 m (4.4 %) |
-| F2 | TavernFire-MagpieDenSouthEast vs TavernShadow-MagpieDenNorthWest | 102.2 m vs 97.9 m (4.3 %) |
-| F2 | post_a-MagpieDenSouthEast vs post_a_twin-MagpieDenNorthWest | 137.6 m vs 131.8 m (4.3 %) |
-| F2 | bridge_road_a-steps_a vs bridge_road_b-steps_b | 42.7 m vs 40.9 m (4.2 %) |
-| F2 | home_a-staticbody3d vs home_a_twin-staticbody3d_2 | 75.6 m vs 78.8 m (4.1 %) |
-| F2 | TavernFire-GreywaterLodgeSouthEast vs TavernShadow-GreywaterLodgeNorthWest | 91.5 m vs 87.7 m (4.1 %) |
-| F2 | ford_nest-LostCache3 vs ford_nest_twin-LostCache2 | 73.4 m vs 76.5 m (4.1 %) |
-| F2 | lairs_w_one-bridge_road_a vs lairs_w_one_twin-bridge_road_b | 61.3 m vs 58.9 m (3.9 %) |
-| F2 | post_a-bridge_crown_a vs post_a_twin-bridge_crown_b | 53.0 m vs 55.2 m (3.9 %) |
-| F2 | nat_node-bridge_road_b vs nat_node_twin-bridge_road_a | 40.7 m vs 39.1 m (3.9 %) |
-| F2 | bridge_road_a-ford_b vs bridge_road_b-ford_a | 101.6 m vs 97.7 m (3.8 %) |
-| F2 | nat_node-third_node vs nat_node_twin-third_node_twin | 42.3 m vs 40.7 m (3.7 %) |
-| F2 | shrine-post_b_twin vs shrine_twin-post_b | 53.7 m vs 51.8 m (3.7 %) |
-| F2 | nat_node-tower_a_twin vs nat_node_twin-tower_a | 42.8 m vs 41.2 m (3.7 %) |
-| F2 | post_b-lairs_w_two_twin vs post_b_twin-lairs_w_two | 71.7 m vs 69.1 m (3.7 %) |
-| F2 | post_b-LostCache3 vs post_b_twin-LostCache2 | 86.2 m vs 89.3 m (3.5 %) |
-| F2 | well-GreywaterLodgeSouthEast vs well_twin-GreywaterLodgeNorthWest | 108.5 m vs 104.8 m (3.5 %) |
-| F2 | third_node-LostCache3 vs third_node_twin-LostCache2 | 87.7 m vs 90.8 m (3.4 %) |
-| F2 | LostCache0-bridge_crown_b vs LostCache1-bridge_crown_a | 44.4 m vs 42.9 m (3.4 %) |
-| F2 | keep_t0-staticbody3d vs keep_t1-staticbody3d_2 | 85.9 m vs 89.0 m (3.4 %) |
-| F2 | nat_node-lairs_n_one vs nat_node_twin-lairs_n_one_twin | 79.9 m vs 82.7 m (3.4 %) |
-| F2 | third_node-tower_b_twin vs third_node_twin-tower_b | 96.2 m vs 99.5 m (3.4 %) |
-| F2 | shrine-wallow_twin vs shrine_twin-wallow | 71.3 m vs 68.9 m (3.4 %) |
-| F2 | stag-TavernShadow vs stag_twin-TavernFire | 59.7 m vs 57.7 m (3.4 %) |
-| F2 | third_node-shrine_twin vs third_node_twin-shrine | 54.7 m vs 52.8 m (3.3 %) |
-| F2 | bridge_road_a-crown vs bridge_road_b-crown | 54.6 m vs 52.8 m (3.3 %) |
-| F2 | well-post_a vs well_twin-post_a_twin | 45.9 m vs 44.4 m (3.3 %) |
-| F2 | tower_b-post_b_twin vs tower_b_twin-post_b | 98.4 m vs 95.2 m (3.3 %) |
-| F2 | post_a-crown vs post_a_twin-crown | 63.9 m vs 66.0 m (3.2 %) |
-| F2 | MagpieDenNorthWest-RuinPeddlerShadow vs MagpieDenSouthEast-RuinPeddlerFire | 115.0 m vs 111.3 m (3.2 %) |
-| F2 | third_node-tower_b vs third_node_twin-tower_b_twin | 23.0 m vs 23.7 m (3.2 %) |
-| F2 | tower_a-GreywaterLodgeSouthEast vs tower_a_twin-GreywaterLodgeNorthWest | 118.9 m vs 115.2 m (3.1 %) |
-| F2 | tower_b-bridge_road_b vs tower_b_twin-bridge_road_a | 24.3 m vs 25.1 m (3.1 %) |
-| F2 | ford_nest-post_a_twin vs ford_nest_twin-post_a | 67.1 m vs 69.3 m (3.1 %) |
-| F2 | tower_a-staticbody3d_4 vs tower_a_twin-staticbody3d_3 | 118.7 m vs 115.1 m (3.1 %) |
-| F2 | MagpieDenNorthWest-steps_b vs MagpieDenSouthEast-steps_a | 99.7 m vs 96.6 m (3.0 %) |
-| F2 | nat_node-third_node_twin vs nat_node_twin-third_node | 85.1 m vs 82.5 m (3.0 %) |
-| F2 | shrine-staticbody3d_4 vs shrine_twin-staticbody3d_3 | 99.6 m vs 96.7 m (3.0 %) |
-| F2 | MagpieDenNorthWest-LostCache0 vs MagpieDenSouthEast-LostCache1 | 58.0 m vs 56.3 m (3.0 %) |
-| F2 | post_a-steps_b vs post_a_twin-steps_a | 70.7 m vs 72.9 m (2.9 %) |
-| F2 | bridge_road_a-bridge_crown_a vs bridge_road_b-bridge_crown_b | 61.9 m vs 60.2 m (2.9 %) |
-| F2 | rich_node-GreywaterLodgeSouthEast vs rich_node_twin-GreywaterLodgeNorthWest | 131.6 m vs 127.8 m (2.8 %) |
-| F2 | well-bridge_crown_a vs well_twin-bridge_crown_b | 37.7 m vs 36.7 m (2.8 %) |
-| F2 | wallow-post_b_twin vs wallow_twin-post_b | 114.6 m vs 111.4 m (2.8 %) |
-| F2 | shrine-rich_hollow_twin vs shrine_twin-rich_hollow | 109.4 m vs 106.4 m (2.7 %) |
-| F2 | tower_a-rich_hollow_twin vs tower_a_twin-rich_hollow | 128.3 m vs 124.8 m (2.7 %) |
-| F2 | nat_node-rich_node_twin vs nat_node_twin-rich_node | 62.7 m vs 61.0 m (2.7 %) |
-| F2 | bridge_road_a-steps_b vs bridge_road_b-steps_a | 67.3 m vs 65.5 m (2.7 %) |
-| F2 | staticbody3d-bridge_crown_b vs staticbody3d_2-bridge_crown_a | 73.9 m vs 72.0 m (2.6 %) |
-| F2 | nat_node-lairs_n_one_twin vs nat_node_twin-lairs_n_one | 60.5 m vs 58.9 m (2.6 %) |
-| F2 | tower_b-post_a_twin vs tower_b_twin-post_a | 84.7 m vs 86.9 m (2.6 %) |
-| F2 | ford_nest-post_b_twin vs ford_nest_twin-post_b | 96.2 m vs 98.7 m (2.5 %) |
-| F2 | TavernFire-post_b_twin vs TavernShadow-post_b | 39.7 m vs 40.7 m (2.5 %) |
-| F2 | post_a-RuinPeddlerShadow vs post_a_twin-RuinPeddlerFire | 86.1 m vs 88.2 m (2.4 %) |
-| F2 | LostCache0-LostCache3 vs LostCache1-LostCache2 | 63.5 m vs 61.9 m (2.4 %) |
-| F2 | home_b-staticbody3d_2 vs home_b_twin-staticbody3d | 87.9 m vs 90.0 m (2.4 %) |
-| F2 | nat_node-staticbody3d_4 vs nat_node_twin-staticbody3d_3 | 67.2 m vs 65.6 m (2.4 %) |
-| F2 | home_a-lairs_w_two_twin vs home_a_twin-lairs_w_two | 108.2 m vs 110.8 m (2.3 %) |
-| F2 | nat_node-lairs_n_two_twin vs nat_node_twin-lairs_n_two | 70.0 m vs 68.5 m (2.2 %) |
-| F2 | keep_t0-staticbody3d_2 vs keep_t1-staticbody3d | 93.9 m vs 96.1 m (2.2 %) |
-| F2 | third_node-post_b_twin vs third_node_twin-post_b | 110.5 m vs 113.0 m (2.2 %) |
-| F2 | post_a-lairs_w_one_twin vs post_a_twin-lairs_w_one | 110.0 m vs 112.4 m (2.2 %) |
-| F2 | nat_node-GreywaterLodgeSouthEast vs nat_node_twin-GreywaterLodgeNorthWest | 73.8 m vs 72.3 m (2.1 %) |
-| F2 | nat_node-staticbody3d_2 vs nat_node_twin-staticbody3d | 74.0 m vs 72.5 m (2.1 %) |
-| F2 | shrine-staticbody3d_2 vs shrine_twin-staticbody3d | 96.8 m vs 94.9 m (2.0 %) |
-| F2 | nat_node-rich_hollow_twin vs nat_node_twin-rich_hollow | 80.5 m vs 78.9 m (2.0 %) |
+| N3 | island 4 at (41.1, -43.9) | 22.6 m² inside the footprint of keep_t1 (unreachable by design) |
+| N3 | island 24 at (-41.1, 43.9) | 22.6 m² inside the footprint of keep_t0 (unreachable by design) |
+| N3 | raised islands | 24 islands on top of colliders (471 m², more than 0.3 m above / below the ground navmesh): harmless |
+| F2 | cache_a-bridge_crown_a vs cache_a_twin-bridge_crown_b | 22.1 m vs 23.9 m (7.7 %) |
+| F2 | well-steps_a vs well_twin-steps_b | 28.4 m vs 30.1 m (5.8 %) |
+| F2 | ford_nest-inn_tavern_twin vs ford_nest_twin-inn_tavern | 27.6 m vs 26.2 m (5.0 %) |
+| F2 | guilds_lodge-bridge_crown_a vs guilds_lodge_twin-bridge_crown_b | 78.7 m vs 74.8 m (4.9 %) |
+| F2 | rich_node-bridge_crown_b vs rich_node_twin-bridge_crown_a | 58.6 m vs 61.6 m (4.8 %) |
+| F2 | post_b-lairs_n_two_twin vs post_b_twin-lairs_n_two | 53.7 m vs 56.4 m (4.8 %) |
+| F2 | home_b-lairs_w_one_twin vs home_b_twin-lairs_w_one | 103.8 m vs 98.9 m (4.8 %) |
+| F2 | rich_node-steps_a vs rich_node_twin-steps_b | 41.4 m vs 43.4 m (4.6 %) |
+| F2 | well-bridge_crown_b vs well_twin-bridge_crown_a | 45.7 m vs 47.8 m (4.5 %) |
+| F2 | home_b-post_a_twin vs home_b_twin-post_a | 101.0 m vs 105.8 m (4.5 %) |
+| F2 | home_b-shrine_twin vs home_b_twin-shrine | 78.6 m vs 75.1 m (4.4 %) |
+| F2 | nat_node-lairs_n_one vs nat_node_twin-lairs_n_one_twin | 78.2 m vs 74.8 m (4.4 %) |
+| F2 | rich_node-steps_b vs rich_node_twin-steps_a | 66.6 m vs 69.6 m (4.3 %) |
+| F2 | post_b-guilds_lodge vs post_b_twin-guilds_lodge_twin | 122.9 m vs 117.6 m (4.3 %) |
+| F2 | guilds_den-crown vs guilds_den_twin-crown | 71.3 m vs 74.5 m (4.3 %) |
+| F2 | shrine-wallow_twin vs shrine_twin-wallow | 76.3 m vs 73.0 m (4.3 %) |
+| F2 | keep_t0-shrine_twin vs keep_t1-shrine | 79.7 m vs 76.3 m (4.3 %) |
+| F2 | nat_node-post_a vs nat_node_twin-post_a_twin | 48.1 m vs 50.2 m (4.3 %) |
+| F2 | rich_node-shrine_twin vs rich_node_twin-shrine | 70.2 m vs 73.3 m (4.2 %) |
+| F2 | inn_peddler-bridge_road_b vs inn_peddler_twin-bridge_road_a | 69.6 m vs 72.6 m (4.1 %) |
+| F2 | nat_node-bridge_road_b vs nat_node_twin-bridge_road_a | 42.7 m vs 40.9 m (4.1 %) |
+| F2 | well-stag_twin vs well_twin-stag | 78.9 m vs 82.2 m (4.0 %) |
+| F2 | post_b-lairs_w_one_twin vs post_b_twin-lairs_w_one | 76.5 m vs 73.4 m (4.0 %) |
+| F2 | rich_node-post_b_twin vs rich_node_twin-post_b | 45.2 m vs 43.4 m (3.9 %) |
+| F2 | keep_t0-inn_peddler vs keep_t1-inn_peddler_twin | 54.1 m vs 52.0 m (3.9 %) |
+| F2 | ford_nest-lairs_n_one vs ford_nest_twin-lairs_n_one_twin | 110.0 m vs 105.8 m (3.9 %) |
+| F2 | well-post_a_twin vs well_twin-post_a | 91.3 m vs 95.0 m (3.9 %) |
+| F2 | rich_node-inn_tavern_twin vs rich_node_twin-inn_tavern | 74.9 m vs 77.9 m (3.9 %) |
+| F2 | home_b-steps_a vs home_b_twin-steps_b | 61.4 m vs 63.9 m (3.8 %) |
+| F2 | keep_t0-steps_a vs keep_t1-steps_b | 61.9 m vs 64.4 m (3.8 %) |
+| F2 | well-shrine_twin vs well_twin-shrine | 57.3 m vs 59.5 m (3.8 %) |
+| F2 | guilds_lodge-lairs_w_two_twin vs guilds_lodge_twin-lairs_w_two | 136.5 m vs 131.3 m (3.8 %) |
+| F2 | home_a-shrine_twin vs home_a_twin-shrine | 79.0 m vs 76.0 m (3.8 %) |
+| F2 | well-crown vs well_twin-crown | 40.8 m vs 42.4 m (3.8 %) |
+| F2 | tower_a-guilds_lodge_twin vs tower_a_twin-guilds_lodge | 126.2 m vs 121.4 m (3.8 %) |
+| F2 | lairs_n_one-bridge_crown_a vs lairs_n_one_twin-bridge_crown_b | 70.6 m vs 68.0 m (3.7 %) |
+| F2 | wallow-steps_b vs wallow_twin-steps_a | 60.2 m vs 62.5 m (3.7 %) |
+| F2 | rich_node-guilds_lodge_twin vs rich_node_twin-guilds_lodge | 125.2 m vs 130.0 m (3.6 %) |
+| F2 | rich_node-cache_a_twin vs rich_node_twin-cache_a | 80.5 m vs 83.5 m (3.6 %) |
+| F2 | guilds_den-steps_b vs guilds_den_twin-steps_a | 84.1 m vs 87.2 m (3.6 %) |
+| F2 | cache_a-lairs_n_two_twin vs cache_a_twin-lairs_n_two | 92.6 m vs 96.1 m (3.6 %) |
+| F2 | rich_node-tower_a_twin vs rich_node_twin-tower_a | 103.7 m vs 107.6 m (3.6 %) |
+| F2 | lairs_w_two-bridge_crown_a vs lairs_w_two_twin-bridge_crown_b | 53.3 m vs 55.3 m (3.6 %) |
+| F2 | cache_a-lairs_w_one_twin vs cache_a_twin-lairs_w_one | 76.3 m vs 79.0 m (3.5 %) |
+| F2 | lairs_w_one-steps_a vs lairs_w_one_twin-steps_b | 40.1 m vs 38.7 m (3.4 %) |
+| F2 | nat_node-steps_a vs nat_node_twin-steps_b | 28.3 m vs 27.3 m (3.4 %) |
+| F2 | guilds_den-guilds_lodge_twin vs guilds_den_twin-guilds_lodge | 142.7 m vs 147.6 m (3.3 %) |
+| F2 | tower_b-inn_tavern_twin vs tower_b_twin-inn_tavern | 44.5 m vs 43.0 m (3.2 %) |
+| F2 | cache_b-lairs_n_one vs cache_b_twin-lairs_n_one_twin | 90.7 m vs 87.8 m (3.2 %) |
+| F2 | bridge_road_a-steps_b vs bridge_road_b-steps_a | 67.1 m vs 69.3 m (3.2 %) |
+| F2 | well-cache_a_twin vs well_twin-cache_a | 67.5 m vs 69.8 m (3.2 %) |
+| F2 | rich_node-inn_peddler_twin vs rich_node_twin-inn_peddler | 80.4 m vs 83.1 m (3.2 %) |
+| F2 | guilds_den-cache_a_twin vs guilds_den_twin-cache_a | 98.0 m vs 101.1 m (3.1 %) |
+| F2 | rich_node-well_twin vs rich_node_twin-well | 95.0 m vs 98.0 m (3.1 %) |
+| F2 | ford_nest-cache_a_twin vs ford_nest_twin-cache_a | 41.0 m vs 42.3 m (3.1 %) |
+| F2 | well-lairs_w_one_twin vs well_twin-lairs_w_one | 88.7 m vs 86.0 m (3.1 %) |
+| F2 | tower_a-steps_a vs tower_a_twin-steps_b | 37.3 m vs 38.5 m (3.0 %) |
+| F2 | lairs_n_one-steps_a vs lairs_n_one_twin-steps_b | 50.8 m vs 52.3 m (3.0 %) |
+| F2 | tower_b-lairs_n_two vs tower_b_twin-lairs_n_two_twin | 95.0 m vs 92.3 m (2.9 %) |
+| F2 | well-steps_b vs well_twin-steps_a | 53.6 m vs 55.1 m (2.9 %) |
+| F2 | stag-bridge_crown_b vs stag_twin-bridge_crown_a | 51.7 m vs 53.2 m (2.8 %) |
+| F2 | ford_nest-inn_peddler_twin vs ford_nest_twin-inn_peddler | 34.1 m vs 35.1 m (2.8 %) |
+| F2 | post_a-lairs_n_two_twin vs post_a_twin-lairs_n_two | 114.7 m vs 118.1 m (2.8 %) |
+| F2 | tower_a-lairs_w_one_twin vs tower_a_twin-lairs_w_one | 87.4 m vs 90.0 m (2.8 %) |
+| F2 | inn_peddler-bridge_crown_b vs inn_peddler_twin-bridge_crown_a | 31.9 m vs 32.8 m (2.7 %) |
+| F2 | guilds_den-inn_peddler_twin vs guilds_den_twin-inn_peddler | 98.0 m vs 100.7 m (2.7 %) |
+| F2 | ford_a-steps_b vs ford_b-steps_a | 57.0 m vs 58.6 m (2.7 %) |
+| F2 | ford_nest-steps_a vs ford_nest_twin-steps_b | 58.6 m vs 57.0 m (2.7 %) |
+| F2 | bridge_road_a-bridge_crown_b vs bridge_road_b-bridge_crown_a | 47.6 m vs 48.9 m (2.7 %) |
+| F2 | rich_node-lairs_w_one_twin vs rich_node_twin-lairs_w_one | 95.4 m vs 98.0 m (2.6 %) |
+| F2 | tower_b-guilds_den vs tower_b_twin-guilds_den_twin | 103.2 m vs 100.5 m (2.6 %) |
+| F2 | nat_node-ford_nest vs nat_node_twin-ford_nest_twin | 32.0 m vs 31.1 m (2.6 %) |
+| F2 | nat_node-ford_b vs nat_node_twin-ford_a | 32.0 m vs 31.1 m (2.6 %) |
+| F2 | inn_peddler-steps_b vs inn_peddler_twin-steps_a | 39.8 m vs 38.7 m (2.6 %) |
+| F2 | rich_node-lairs_n_one_twin vs rich_node_twin-lairs_n_one | 117.9 m vs 121.0 m (2.6 %) |
+| F2 | well-inn_tavern_twin vs well_twin-inn_tavern | 61.8 m vs 63.4 m (2.5 %) |
+| F2 | rich_node-lairs_n_two_twin vs rich_node_twin-lairs_n_two | 118.0 m vs 121.0 m (2.5 %) |
+| F2 | tower_b-lairs_n_one vs tower_b_twin-lairs_n_one_twin | 100.9 m vs 98.4 m (2.5 %) |
+| F2 | nat_node-well vs nat_node_twin-well_twin | 49.8 m vs 48.6 m (2.4 %) |
+| F2 | lairs_w_one-ford_b vs lairs_w_one_twin-ford_a | 70.0 m vs 68.3 m (2.4 %) |
+| F2 | wallow-inn_tavern_twin vs wallow_twin-inn_tavern | 58.1 m vs 56.7 m (2.4 %) |
+| F2 | rich_node-post_a_twin vs rich_node_twin-post_a | 104.2 m vs 106.8 m (2.4 %) |
+| F2 | rich_node-lairs_w_two_twin vs rich_node_twin-lairs_w_two | 119.2 m vs 122.2 m (2.4 %) |
+| F2 | tower_b-stag vs tower_b_twin-stag_twin | 59.7 m vs 61.2 m (2.4 %) |
+| F2 | rich_node-guilds_den_twin vs rich_node_twin-guilds_den | 125.5 m vs 128.5 m (2.3 %) |
+| F2 | nat_node-rich_node vs nat_node_twin-rich_node_twin | 63.3 m vs 61.8 m (2.3 %) |
+| F2 | cache_b-steps_a vs cache_b_twin-steps_b | 40.9 m vs 40.0 m (2.3 %) |
+| F2 | guilds_den-lairs_n_two_twin vs guilds_den_twin-lairs_n_two | 135.5 m vs 138.6 m (2.3 %) |
+| F2 | post_a-ford_b vs post_a_twin-ford_a | 78.9 m vs 77.2 m (2.2 %) |
+| F2 | ford_nest-guilds_lodge vs ford_nest_twin-guilds_lodge_twin | 113.8 m vs 111.3 m (2.2 %) |
+| F2 | tower_b-well vs tower_b_twin-well_twin | 73.4 m vs 71.8 m (2.2 %) |
+| F2 | guilds_den-bridge_crown_b vs guilds_den_twin-bridge_crown_a | 76.1 m vs 77.8 m (2.2 %) |
+| F2 | guilds_den-lairs_w_two_twin vs guilds_den_twin-lairs_w_two | 136.7 m vs 139.8 m (2.2 %) |
+| F2 | guilds_den-steps_a vs guilds_den_twin-steps_b | 58.9 m vs 60.1 m (2.1 %) |
+| F2 | tower_b-cache_a_twin vs tower_b_twin-cache_a | 57.9 m vs 59.2 m (2.1 %) |
+| F2 | nat_node-guilds_lodge vs nat_node_twin-guilds_lodge_twin | 82.0 m vs 80.3 m (2.1 %) |
+| F2 | ford_nest-guilds_den_twin vs ford_nest_twin-guilds_den | 42.9 m vs 42.0 m (2.0 %) |
+| F2 | shrine-bridge_road_b vs shrine_twin-bridge_road_a | 59.3 m vs 58.1 m (2.0 %) |
+| F2 | inn_peddler-ford_b vs inn_peddler_twin-ford_a | 58.9 m vs 60.1 m (2.0 %) |
+| F2 | inn_tavern-lairs_n_one vs inn_tavern_twin-lairs_n_one_twin | 43.1 m vs 44.0 m (2.0 %) |
 
 ## Notes
-- Octile grid shortest paths (0.5 m, 65 sources) 45.56 s.
-- Map Lab v2 (map-production.md 2.5): layout thornwater, 2 seats, rules tempo standard, 0 fixable findings.
-- Navmesh raster 1.26 s (945 polygons, 230400 cells of 0.25 m), spot / mirror checks 0.51 s, 2080 paths 0.75 s.
-- Map Thornwater (1v1), scene res://docs/tools/world_forge/out/thornwater/preview.tscn, sim mode on; level load + navmesh bake 29.8 s (12 frames), lab 48.8 s. Spec: docs/design/map-production.md.
+- Octile grid shortest paths (0.5 m, 57 sources) 813.43 s.
+- Map Lab v2 (map-production.md 2.5): layout thornwater, 2 seats, rules tempo standard, 2 fixable findings.
+- Navmesh raster 15.86 s (691 polygons, 230400 cells of 0.25 m), spot / mirror checks 5.71 s, 1596 paths 11.70 s.
+- Map Thornwater (1v1), scene res://docs/tools/world_forge/out/thornwater/preview.tscn, sim mode off; level load + navmesh bake 8.6 s (492 frames), lab 883.9 s. Spec: docs/design/map-production.md.

@@ -42,7 +42,9 @@ func _ready() -> void:
 	NavigationServer3D.region_set_use_async_iterations(nav_region.get_rid(), false)
 	_iter0 = NavigationServer3D.map_get_iteration_id(nav_region.get_navigation_map())
 	MapInfo.setup(layout.size_x, layout.size_z, layout.id)
-	_box(Vector3(0, -0.5, 0), Vector3(layout.size_x * 0.5 + 2.0, 0.5, layout.size_z * 0.5 + 2.0), 0.0, "Ground")
+	# review L6: exactly the live LayoutLevel's ground (main.gd _build_ground), so preview paths cannot hug a strip
+	# outside the map
+	_box(Vector3(0, -0.5, 0), Vector3(layout.size_x * 0.5, 0.5, layout.size_z * 0.5), 0.0, "Ground")
 	_build_water()
 	for b: Dictionary in layout.blocks:
 		_box(b["center"] + Vector3(0, 1.5, 0), Vector3(b["half"].x, 1.5, b["half"].z), float(b.get("yaw", 0.0)), String(b["id"]))

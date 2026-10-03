@@ -5,54 +5,53 @@ seat 0  name="south-west"  side=0  frame=identity
 seat 1  name="north-east"  side=1  frame=rot180
 
 # base, expansions (templates; resource templates face the owner's keep)
-use base_district  home  at=(-42.9,41.3)
-use natural  nat  at=(-17.9,2.1)  yaw=-32.4
-use rich_pocket  rich  at=(-39.6,-43.0)  yaw=-2.2
-use third_far  third  at=(14.3,48.3)  yaw=-97.0
+use base_district  home  at=(-45.0,37.5)
+use natural  nat  at=(-7.7,14.6)  yaw=-58.5
+use rich_node  rich  at=(-37.9,-40.5)  yaw=-5.2
 
 # centre and river
 use crown_isle  centre  at=(0,0)  face=none
-river arm  poly=[(-20.0,-61.9),(-18.1,-47.5),(-12.6,-37.0),(-8.7,-27.3),(-7.8,-18.0),(-4.0,-12.4)]  half_width=2.5
-river arm2 poly=[(4.0,12.4),(7.8,18.0),(8.7,27.3),(12.6,37.0),(18.1,47.5),(20.0,61.9)]  half_width=2.5
+river arm  poly=[(-2.8,-62.0),(-4.4,-48.3),(-2.5,-37.2),(-1.5,-27.3),(-3.3,-18.5),(-0.6,-13.0)]  half_width=2.5
+river arm2 poly=[(0.6,13.0),(3.3,18.5),(1.5,27.3),(2.5,37.2),(4.4,48.3),(2.8,62.0)]  half_width=2.5
 moat center=(0,0)  radius=12.75  half_width=1.75
-crossing bridge_road_a  kind=bridge_road  at=(-18.3,-48.8)  width=6  length=9  dir=(-1.0,0.1)
-crossing bridge_road_b  kind=bridge_road  at=(18.3,48.8)  width=6  length=9  dir=(1.0,-0.1)
-crossing ford_a  kind=ford  at=(-13.8,-39.2)  width=7  length=7  dir=(0.5,0.9)
-crossing ford_b  kind=ford  at=(13.8,39.2)  width=7  length=7  dir=(0.5,0.9)
-crossing bridge_crown_a  kind=bridge_lane  at=(-9.2,8.8)  width=8  length=6.5  dir=(-0.7,0.7)
-crossing bridge_crown_b  kind=bridge_lane  at=(9.2,-8.8)  width=8  length=6.5  dir=(0.7,-0.7)
-crossing steps_a  kind=steps  at=(-8.8,-9.2)  width=6  length=6  dir=(-0.7,-0.7)
-crossing steps_b  kind=steps  at=(8.8,9.2)  width=6  length=6  dir=(0.7,0.7)
+crossing bridge_road_a  kind=bridge_road  at=(-4.3,-49.6)  width=6  length=9  dir=(-1.0,-0.1)
+crossing bridge_road_b  kind=bridge_road  at=(4.3,49.6)  width=6  length=9  dir=(1.0,0.1)
+crossing ford_a  kind=ford  at=(-3.0,-39.7)  width=7  length=7  dir=(0.2,1.0)
+crossing ford_b  kind=ford  at=(3.0,39.7)  width=7  length=7  dir=(0.2,1.0)
+crossing bridge_crown_a  kind=bridge_lane  at=(-9.8,8.2)  width=8  length=6.5  dir=(-0.8,0.6)
+crossing bridge_crown_b  kind=bridge_lane  at=(9.8,-8.2)  width=8  length=6.5  dir=(0.8,-0.6)
+crossing steps_a  kind=steps  at=(-8.2,-9.8)  width=6  length=6  dir=(-0.6,-0.8)
+crossing steps_b  kind=steps  at=(8.2,9.8)  width=6  length=6  dir=(0.6,0.8)
 
 # capture points, camps, lairs
-point tower_a  sub=watchtower  at=(-25.1,-40.4)
-point tower_b  sub=watchtower  at=(-3.5,40.6)
-point well     sub=well        at=(-26.8,-26.0)
-point shrine   sub=shrine      at=(-22.2,-3.6)
-camp wallow  sub=bristleback  at=(-15.2,54.0)
-use nest_in_ford  ford  at=(13.8,39.2)  face=none
-camp stag  sub=hollow_stag  at=(-39.4,-9.8)
-use lair_pair  lairs_w  at=(-51.0,-3.6)  yaw=136.1  a=tusker  b=roc
-use lair_pair  lairs_n  at=(-42.9,-45.7)  yaw=226.1  a=direwolf  b=grizzlemaw
+point tower_a  sub=watchtower  at=(-20.8,-44.9)
+point tower_b  sub=watchtower  at=(-10.8,42.1)
+point well     sub=well        at=(-26.1,-27.9)
+point shrine   sub=shrine      at=(-13.5,0.2)
+camp wallow  sub=bristleback  at=(-18.3,54.0)
+use nest_in_ford  ford  at=(3.0,39.7)  face=none
+camp stag  sub=hollow_stag  at=(-35.7,-10.2)
+use lair_pair  lairs_w  at=(-54.0,-9.3)  yaw=140.2  a=tusker  b=roc
+use lair_pair  lairs_n  at=(-36.6,-50.1)  yaw=230.2  a=direwolf  b=grizzlemaw
 
 # services: tavern + peddler (contested axis), caches, guild houses, trade posts on the ring road
-use tavern_peddler  inn  at=(-14.1,-13.4)  yaw=226.1
-cache cache_a  at=(-30.7,0.7)
-cache cache_b  at=(-6.9,26.2)
-post post_a  at=(-51.3,-0.6)  door=(-49.7,3.0)
-post post_b  at=(-3.3,53.8)  door=(-6.8,51.7)
-road ring  poly=[(-35.7,34.4),(-49.7,3.0),(-47.1,-44.9),(-43.1,-48.8),(6.8,-51.7),(35.7,-34.4)]  width=5
-use guild_pair  guilds  at=(-51.0,-51.0)  yaw=45.0
+use tavern_peddler  inn  at=(-13.2,-16.1)  yaw=230.2
+cache cache_a  at=(-29.9,-2.0)
+cache cache_b  at=(-11.1,27.6)
+post post_a  at=(-52.3,-3.9)  door=(-50.7,-0.2)
+post post_b  at=(-4.4,51.7)  door=(-7.8,49.5)
+road ring  poly=[(-37.4,31.1),(-50.7,-0.2),(-43.7,-48.2),(-39.4,-51.8),(7.8,-49.5),(37.4,-31.1)]  width=5
+use guild_pair  guilds  at=(-44.6,-51.0)  yaw=41.2
 
 # forest (the main.gd generator as data), bank willows, wildlife
 forest seed=190063  pre=auto  density=1.00  pillars=(0,0,8)  pillar_count=10  pillar_gap=4
 willows seed=761  draws=36  river_draws=28
-slot graze0  sub=graze  at=(-23.4,-41.8)  clear=0
-slot graze1  sub=graze  at=(-14.7,-47.5)  clear=0
-slot graze2  sub=graze  at=(-26.3,-45.4)  clear=0
-slot graze3  sub=graze  at=(-17.7,-52.9)  clear=0
-slot rabbit0  sub=rabbit  at=(-15.7,25.8)  clear=0
-slot rabbit1  sub=rabbit  at=(-26.4,23.5)  clear=0
-slot rabbit2  sub=rabbit  at=(-25.4,35.3)  clear=0
-slot rabbit3  sub=rabbit  at=(-35.9,31.5)  clear=0
-use biome_meadow  ground  at=(-23.6,22.7)  face=none  r=22
+slot graze0  sub=graze  at=(-17.1,-43.6)  clear=0
+slot graze1  sub=graze  at=(-13.5,-50.3)  clear=0
+slot graze2  sub=graze  at=(-22.7,-49.3)  clear=0
+slot graze3  sub=graze  at=(-16.7,-52.2)  clear=0
+slot rabbit0  sub=rabbit  at=(-15.1,24.2)  clear=0
+slot rabbit1  sub=rabbit  at=(-29.2,19.6)  clear=0
+slot rabbit2  sub=rabbit  at=(-22.0,34.6)  clear=0
+slot rabbit3  sub=rabbit  at=(-41.6,29.7)  clear=0
+use biome_meadow  ground  at=(-24.7,20.6)  face=none  r=22

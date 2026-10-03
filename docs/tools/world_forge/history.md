@@ -360,3 +360,10 @@
 | 2026-10-02 19:00:23 | map | quartermeet_s25 | 70 (+2) | FAIL (2F 0W) | d8f9a7fa4bd4/4b00610fcf46 | Map Lab | docs/tools/world_forge/out/quartermeet_s25/report_map.md |
 | 2026-10-02 19:08:02 | map | quartermeet | 98 | WARN (0F 1W) | 0981ecdfb2d1/a602eaf5d398 |  | docs/tools/world_forge/out/quartermeet/report_map.md |
 | 2026-10-02 19:11:36 | map | thornwater | 95 (-2) | WARN (0F 2W) | 71462d2eabe5/7bc72982d5a0 | Spot spacing | docs/tools/world_forge/out/thornwater/report_map.md |
+| 2026-10-03 00:33:35 | map | thornwater_s20 | 96 | WARN (0F 2W) | 6daf3e0532a5/99c13715655c |  | docs/tools/world_forge/out/thornwater_s20/report_map.md |
+| 2026-10-03 00:48:34 | map | thornwater_s12 | 70 | FAIL (2F 1W) | 57995eae5bb3/6591eb0f6180 | Map Lab | docs/tools/world_forge/out/thornwater_s12/report_map.md |
+| 2026-10-03 00:59:13 | map | thornwater_s12 | 70 (+0) | FAIL (2F 1W) | 0e82c9aca0bf/92c524324787 | Map Lab | docs/tools/world_forge/out/thornwater_s12/report_map.md |
+| 2026-10-03 01:10:23 | map | thornwater_s12 | 72 (+2) | FAIL (2F 0W) | acdfb3eb2a02/9a6f41325c46 | Map Lab | docs/tools/world_forge/out/thornwater_s12/report_map.md |
+| 2026-10-03 01:23:07 | map | thornwater_s4 | 98 | WARN (0F 1W) | 7eb04dc8e134/e86429840f28 |  | docs/tools/world_forge/out/thornwater_s4/report_map.md |
+| 2026-10-03 01:56:45 | map | thornwater | 98 (+3) | WARN (0F 1W) | ab9043cec5c3/e86429840f28 |  | docs/tools/world_forge/out/thornwater/report_map.md |
+| 2026-10-03 02:44:56 | map | quartermeet | 98 (+0) | WARN (0F 1W) | cf60fcde52fc/a602eaf5d398 |  | docs/tools/world_forge/out/quartermeet/report_map.md |

@@ -8,14 +8,16 @@ extends RefCounted
 ## - R3 Contest: objectives per seat whose own / nearest-enemy path ratio is contested (0.9-1.1) or raidable (1.1-1.45):
 ##   1v1 >= 5, team maps >= 3 (WARN under).
 ## - R4 Clearances (map-fill.md 4.1 / 5.2): points >= 7 m and camps >= 9 m from road centre lines, no spot within 8 m of
-##   a crossing centre (ford nests excepted), spots >= 3 m apart.
+##   a crossing centre (ford nests excepted); spacing (tools/world_forge/forge_spacing.gd, review H2): spots >= 3 m
+##   apart, structures >= 6 m apart, one den + one lodge per image = FAIL.
 ## - R5 Engine limits: one river half width, <= 2 arms (2 banks), <= 4 ford / steps circles, <= 16 river segments, size
-##   <= 192 m, <= 140 spots, navmesh raster <= 4x Crown Hollow's.
+##   <= 192 m, <= 140 spots, navmesh raster (0.25 m cells) <= 2.5x Crown Hollow's.
 ## - R6 Mission mode (layouts with marks / triggers / paths): each reachable from the player's keep; `spawn*` marks out
 ##   of the start's sight (> 20 m).
 ## Fixable findings carry `fix` data {id, move: Vector3 (canonical frame), why} that `run_world_forge.ps1 fix` applies.
 ## No class_name on purpose (preloaded tool script).
 
+const Spacing := preload("res://tools/world_forge/forge_spacing.gd")
 const BAND_WARN := 0.05
 const BAND_FAIL := 0.10
 const MAX_MOVE := 5.0
@@ -30,7 +32,11 @@ const LIMIT_SIZE := 192.0
 const LIMIT_SPOTS := 140
 const LIMIT_CIRCLES := 4
 const LIMIT_SEGMENTS := 16
-const CH_CELLS := 240 * 240        ## Crown Hollow's navmesh raster (120 m / 0.5 m)^2
+const NAV_CELL := 0.25             ## main.gd _build_nav_region: navmesh cell_size
+const CH_CELLS := 480 * 480        ## Crown Hollow's navmesh raster (120 m / 0.25 m)^2
+## Review L7: the raster limit is tighter than the size limit, so it can fail on its own (bake time and per-frame
+## cost grow with the area: Quartermeet 176 m = 2.15x). 2.5x = a 189 m square.
+const LIMIT_RASTER := 2.5
 ## R2 expected per seat: kind key -> [min, max].
 const CONTENT := {"home node": [2, 2], "natural": [1, 1], "rich": [1, 1], "post": [2, 2], "tavern": [1, 1], "peddler": [1, 1],
 	"cache": [2, 2], "camp T1": [1, 2], "camp T2": [1, 3], "camp T3": [1, 1], "lair": [2, 4], "watchtower": [2, 2],
@@ -289,7 +295,7 @@ func _r2_content() -> void:
 
 
 static func _template_for(k: String) -> String:
-	return {"home node": "base_district", "natural": "natural", "rich": "rich_pocket", "post": "trade_post", "tavern": "tavern_peddler",
+	return {"home node": "base_district", "natural": "natural", "rich": "rich_node", "post": "trade_post", "tavern": "tavern_peddler",
 		"peddler": "tavern_peddler", "cache": "cache_pair", "camp T1": "camp_trio", "camp T2": "camp_trio / nest_in_ford",
 		"camp T3": "camp_trio / sealed_vein", "lair": "lair_pair", "watchtower": "tower_over_crossing", "well": "well",
 		"shrine": "shrine", "crown": "crown_isle"}.get(k, "-")
@@ -383,8 +389,10 @@ func _r4_clearances() -> void:
 						"fix": "move it off the crossing approach (auto-fix)"})
 					_fix_push(s, p - cc, CROSSING_CLEAR - d2 + 0.5, "R4 %.1f m from crossing %s" % [d2, cr["id"]])
 					break
-	c.report.add_check("R4", "choke", "Clearances (roads, crossings)", "points >= %.0f m and camps >= %.0f m from road centre lines; no spot within %.0f m of a crossing (ford nests excepted)" % [
-		POINT_ROAD, CAMP_ROAD, CROSSING_CLEAR], maxi(1, total), issues, "", "", 1.0)
+	for f: Dictionary in Spacing.findings(lay):
+		issues.append({"sev": "FAIL", "where": "%s / %s" % [f["a"], f["b"]], "what": Spacing.lines([f])[0], "fix": String(f["hint"])})
+	c.report.add_check("R4", "choke", "Clearances (roads, crossings, spacing)", "points >= %.0f m and camps >= %.0f m from road centre lines; no spot within %.0f m of a crossing (ford nests excepted); spots >= %.0f m, structures >= %.0f m apart, one den + one lodge per image" % [
+		POINT_ROAD, CAMP_ROAD, CROSSING_CLEAR, Spacing.MIN_SPOT, Spacing.STRUCT_GAP], maxi(1, total), issues, "", "", 1.0)
 
 
 func _fix_push(s: Dictionary, away: Vector3, dist: float, why: String) -> void:
@@ -420,15 +428,20 @@ func _r5_limits() -> void:
 		["<= %d river segments" % LIMIT_SEGMENTS, segs <= LIMIT_SEGMENTS, "%d segments" % segs],
 		["size <= %.0f m" % LIMIT_SIZE, maxf(lay.size_x, lay.size_z) <= LIMIT_SIZE, "%.0f x %.0f m" % [lay.size_x, lay.size_z]],
 		["<= %d spots" % LIMIT_SPOTS, nspots <= LIMIT_SPOTS, "%d spots" % nspots],
-		["navmesh raster <= 4x Crown Hollow", lay.size_x * lay.size_z * 4.0 <= 4.0 * CH_CELLS, "%.1fx" % (lay.size_x * lay.size_z * 4.0 / CH_CELLS)],
+		["navmesh raster <= %.1fx Crown Hollow" % LIMIT_RASTER, raster_ratio(lay) <= LIMIT_RASTER, "%.2fx" % raster_ratio(lay)],
 	]
 	var vals: Array[String] = []
 	for row: Array in checks:
 		vals.append("%s %s" % [row[2], "ok" if row[1] else "OVER"])
 		if not row[1]:
 			issues.append({"sev": "FAIL", "where": "engine", "what": "%s: %s" % [row[0], row[2]], "fix": "the map breaks an engine limit (map-production.md 2.5 R5): a designer changes it"})
-	c.report.add_check("R5", "nav", "Engine limits", "one half width, <= 2 arms, <= 4 circles, <= 16 segments, <= 192 m, <= 140 spots, raster <= 4x CH",
+	c.report.add_check("R5", "nav", "Engine limits", "one half width, <= 2 arms, <= 4 circles, <= 16 segments, <= 192 m, <= 140 spots, raster <= %.1fx CH" % LIMIT_RASTER,
 		checks.size(), issues, "", "", 1.5, ", ".join(vals))
+
+
+## The layout's navmesh raster (0.25 m cells) over Crown Hollow's.
+static func raster_ratio(l: MapLayout) -> float:
+	return ceilf(l.size_x / NAV_CELL) * ceilf(l.size_z / NAV_CELL) / float(CH_CELLS)
 
 
 # ---------------------------------------------------------------- R6 mission mode

@@ -33,6 +33,7 @@ var fmap: FMap
 var base_opts := {}
 var fix_round := 0
 var fix_log: Array[String] = []
+var fix_best := {}       ## fix: the best round so far {rank, round, text} (review M3 rollback)
 var gen_runs := {}      ## gen: candidate id -> {grid, text path, lab score / result, fixes} (filled as jobs end)
 var gen_info := {}
 
@@ -103,6 +104,7 @@ func _next_job() -> void:
 			fix_round = int(opts.get("round", 0))
 			if fix_round == 0:
 				fix_log.clear()
+				fix_best = {}
 			if not opts.has("spec") and not FileAccess.file_exists("%s/%s.map" % [FMap.MAPS_DIR, id]) and FileAccess.file_exists("%s/%s.map" % [Gen.GEN_DIR, id]):
 				opts["spec"] = "%s/%s.map" % [Gen.GEN_DIR, id]
 			_start_map()
@@ -378,20 +380,55 @@ func _record_run(code: int) -> void:
 
 # ---------------------------------------------------------------- fix (map-production.md 2.5 / 9: auto-fix, 3 rounds)
 
+## A fix round's rank (higher = better): Map Lab score, minus 100 per FAIL check and 50 for a World Forge FAIL (L1-L3).
+func _fix_rank(code: int) -> float:
+	return fmap.lab_score - 100.0 * float(fmap.lab_fails) - (50.0 if code != 0 else 0.0)
+
+
 func _fix_step(r: Dictionary) -> void:
 	var rounds := int(opts.get("rounds", FIX_ROUNDS))
+	var path := String(opts.get("spec", "%s/%s.map" % [FMap.MAPS_DIR, id]))
 	var ok := fmap.lab_fails == 0 and fmap.lab_score >= FMap.LAB_MIN and fmap.lab_result != "FAIL" and int(r["code"]) == 0
 	fix_log.append("round %d: Map Lab %s %.0f (%d FAIL checks), %d fixable move(s)" % [fix_round, fmap.lab_result, fmap.lab_score,
 		fmap.lab_fails, fmap.lab_fixes.size()])
 	print("  fix %s %s" % [id, fix_log[fix_log.size() - 1]])
+	# review M3: remember the best round's .map text; a final round worse than it is rolled back
+	var rank := _fix_rank(int(r["code"]))
+	if fix_round == 0 or rank > float(fix_best.get("rank", -INF)):
+		fix_best = {"rank": rank, "round": fix_round, "text": FileAccess.get_file_as_string(path)}
+	if bool(opts.get("rollback", false)):
+		# the re-run of the restored best round: report it as is
+		_record_run(0 if ok else 1)
+		var rl := "WORLD FORGE fix %s: rolled back to round %d; Map Lab %s %.0f" % [id, int(opts.get("best_round", 0)), fmap.lab_result, fmap.lab_score]
+		fix_log.clear()
+		fix_best = {}
+		_finish(0 if ok else 1, rl)
+		return
 	if ok or fix_round >= rounds or fmap.lab_fixes.is_empty():
+		if not ok and int(fix_best.get("round", fix_round)) != fix_round:
+			# the last round is worse than an earlier one: restore that round's .map and rebuild its layout once more
+			var best_round := int(fix_best["round"])
+			_write(path, String(fix_best["text"]))
+			print("  fix %s: round %d is worse than round %d: .map restored (layout rebuilt next)" % [id, fix_round, best_round])
+			fix_log.append("round %d worse than round %d: rolled back" % [fix_round, best_round])
+			var again0 := opts.duplicate()
+			again0["round"] = fix_round
+			again0["rollback"] = true
+			again0["best_round"] = best_round
+			queue.push_front(["fix", id, again0])
+			if holder and is_instance_valid(holder):
+				holder.queue_free()
+			holder = null
+			step = -100
+			frame = 0
+			return
 		var why := "PASS" if ok else ("needs a designer (%s)" % ("no fixable finding left" if fmap.lab_fixes.is_empty() else "%d rounds used" % rounds))
 		_record_run(0 if ok else 1)
 		var line := "WORLD FORGE fix %s: %s after %d fix round(s); Map Lab %s %.0f" % [id, why, fix_round, fmap.lab_result, fmap.lab_score]
 		fix_log.clear()
+		fix_best = {}
 		_finish(0 if ok else 1, line)
 		return
-	var path := String(opts.get("spec", "%s/%s.map" % [FMap.MAPS_DIR, id]))
 	var changed := FMap.apply_fixes(path, fmap.layout, fmap.lab_fixes, fix_round + 1)
 	for c in changed:
 		print("    autofix " + c)
@@ -477,22 +514,24 @@ func _start_gen() -> void:
 	cands.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["score"]) < float(b["score"]))
 	var sweep_s := float(Time.get_ticks_usec() - tg0) / 1e6
 	var tg: Dictionary = g.targets()
-	var rows := "| # | Seed | Grid score | Unreachable | %s | contest |\n|---|---|---|---|%s---|\n" % [" | ".join(tg.keys()), "---|".repeat(tg.size())]
+	var rows := "| # | Seed | Grid score | Unreachable | Spacing FAIL | %s | contest |\n|---|---|---|---|---|%s---|\n" % [" | ".join(tg.keys()), "---|".repeat(tg.size())]
 	var k := 1
 	for c: Dictionary in cands:
 		var cells: Array[String] = []
 		var m: Dictionary = c.get("measures", {})
 		for key: String in tg:
 			cells.append("-" if not m.has(key) else ("%.2f" % float(m[key]) if key == "enemy_ally" else "%.0f" % float(m[key])))
-		rows += "| %d | %d | %.2f | %d | %s | %s |\n" % [k, c["seed"], float(c["score"]), int(c.get("unreachable", 0)), " | ".join(cells),
+		rows += "| %d | %d | %.2f | %d | %d | %s | %s |\n" % [k, c["seed"], float(c["score"]), int(c.get("unreachable", 0)), int(c.get("close", 0)), " | ".join(cells),
 			str(m.get("contest", "-"))]
 		k += 1
 	gen_info = {"id": id, "archetype": arch, "players": players, "tempo": tempo, "biome": biome, "size": g.size, "count": count,
 		"sweep_s": sweep_s, "rows": rows, "targets": tg, "cands": cands.slice(0, full)}
 	var picks: Array[String] = []
-	for c: Dictionary in cands.slice(0, full):
-		if is_inf(float(c["score"])):
-			continue
+	# review H2: a candidate with a spacing FAIL (stacked spots, overlapping structures, a doubled guild house) is
+	# rejected before the Map Lab, whatever its grid score
+	var good := cands.filter(func(c: Dictionary) -> bool: return not is_inf(float(c["score"])) and int(c.get("close", 0)) == 0)
+	gen_info["cands"] = good.slice(0, full)
+	for c: Dictionary in good.slice(0, full):
 		var cid := "%s_s%d" % [id, c["seed"]]
 		var gp := "%s/%s.map" % [Gen.GEN_DIR, cid]
 		_write(gp, FileAccess.get_file_as_string(String(c["path"])))

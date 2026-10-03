@@ -1,5 +1,7 @@
 # A Magpie Den and a Greywater Lodge (map-production.md 2.3, Services; market-trade.md 2.3), 12 m apart, doors toward
-# local +z.
+# local +z. One per side, and not on a side whose rich node is a rich_pocket (it already brings both houses; World
+# Forge L3 / Map Lab R4 fail on a doubled den or lodge, review H2). Keep it >= 6 m from any other structure (tavern,
+# peddler, trade post, capture point).
 template guild_pair  title="Magpie Den + Greywater Lodge"
 guild  den    sub=den    at=(-6,0)  door=(-6,4)
 guild  lodge  sub=lodge  at=(6,0)   door=(6,4)

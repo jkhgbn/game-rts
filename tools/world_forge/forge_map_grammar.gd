@@ -191,7 +191,13 @@ func _use(st: Dictionary, depth: int, from_path: String) -> Array:
 	for t: Dictionary in resolved:
 		if t["kw"] in ["template", "param", "map"]:
 			continue
-		out.append(xform_statement(t, xf, rad_to_deg(yaw), mirror, prefix))
+		var moved := xform_statement(t, xf, rad_to_deg(yaw), mirror, prefix)
+		# review M3: the template group (the outermost `use` wins) and whether this member is its anchor (local (0,0)),
+		# so the fix verb moves a whole expansion (node + hall / tower slots) when its anchor spot moves
+		var local: Variant = Spec.parse_vec(String((t["kv"] as Dictionary).get("at", "")))
+		moved["use_group"] = "%s@%d" % [prefix, int(st.get("via", st["line"]))]
+		moved["use_anchor"] = local != null and Vector2((local as Vector3).x, (local as Vector3).z).length() < 0.01
+		out.append(moved)
 	templates_used.append("%s %s at (%.1f, %.1f) yaw %.0f%s" % [tname, prefix, anchor.x, anchor.z, rad_to_deg(yaw), " mirror x" if mirror else ""])
 	return out
 

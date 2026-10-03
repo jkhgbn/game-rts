@@ -41,7 +41,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 0,
-"twin_of": "home_keep"
+"twin_of": "home_keep",
+"use_anchor": true,
+"use_group": "home@10"
 }, {
 "id": "home_keep_a2",
 "image": "mirror_z",
@@ -50,7 +52,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 3,
-"twin_of": "home_keep"
+"twin_of": "home_keep",
+"use_anchor": true,
+"use_group": "home@10"
 }, {
 "id": "home_keep_b1",
 "image": "rot180",
@@ -59,7 +63,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 1,
-"twin_of": "home_keep"
+"twin_of": "home_keep",
+"use_anchor": true,
+"use_group": "home@10"
 }, {
 "id": "home_keep_b2",
 "image": "mirror_x",
@@ -68,7 +74,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 4,
-"twin_of": "home_keep"
+"twin_of": "home_keep",
+"use_anchor": true,
+"use_group": "home@10"
 }, {
 "id": "home_start_a1",
 "image": "identity",
@@ -77,7 +85,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 0,
-"twin_of": "home_start"
+"twin_of": "home_start",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_start_a2",
 "image": "mirror_z",
@@ -86,7 +96,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 3,
-"twin_of": "home_start"
+"twin_of": "home_start",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_start_b1",
 "image": "rot180",
@@ -95,7 +107,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 1,
-"twin_of": "home_start"
+"twin_of": "home_start",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_start_b2",
 "image": "mirror_x",
@@ -104,7 +118,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": 4,
-"twin_of": "home_start"
+"twin_of": "home_start",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_a_a1",
 "image": "identity",
@@ -116,7 +132,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_a"
+"twin_of": "home_a",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_a_a2",
 "image": "mirror_z",
@@ -128,7 +146,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_a"
+"twin_of": "home_a",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_a_b1",
 "image": "rot180",
@@ -140,7 +160,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_a"
+"twin_of": "home_a",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_a_b2",
 "image": "mirror_x",
@@ -152,7 +174,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_a"
+"twin_of": "home_a",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_b_a1",
 "image": "identity",
@@ -164,7 +188,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_b"
+"twin_of": "home_b",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_b_a2",
 "image": "mirror_z",
@@ -176,7 +202,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_b"
+"twin_of": "home_b",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_b_b1",
 "image": "rot180",
@@ -188,7 +216,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_b"
+"twin_of": "home_b",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_b_b2",
 "image": "mirror_x",
@@ -200,7 +230,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "home_b"
+"twin_of": "home_b",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_house_a1",
 "image": "identity",
@@ -211,7 +243,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "house",
 "team": -1,
-"twin_of": "home_house"
+"twin_of": "home_house",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_house_a2",
 "image": "mirror_z",
@@ -222,7 +256,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "house",
 "team": -1,
-"twin_of": "home_house"
+"twin_of": "home_house",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_house_b1",
 "image": "rot180",
@@ -233,7 +269,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "house",
 "team": -1,
-"twin_of": "home_house"
+"twin_of": "home_house",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_house_b2",
 "image": "mirror_x",
@@ -244,7 +282,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "house",
 "team": -1,
-"twin_of": "home_house"
+"twin_of": "home_house",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_market_a1",
 "image": "identity",
@@ -255,7 +295,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "market",
 "team": -1,
-"twin_of": "home_market"
+"twin_of": "home_market",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_market_a2",
 "image": "mirror_z",
@@ -266,7 +308,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "market",
 "team": -1,
-"twin_of": "home_market"
+"twin_of": "home_market",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_market_b1",
 "image": "rot180",
@@ -277,7 +321,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "market",
 "team": -1,
-"twin_of": "home_market"
+"twin_of": "home_market",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "home_market_b2",
 "image": "mirror_x",
@@ -288,7 +334,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "market",
 "team": -1,
-"twin_of": "home_market"
+"twin_of": "home_market",
+"use_anchor": false,
+"use_group": "home@10"
 }, {
 "id": "nat_node_a1",
 "image": "identity",
@@ -300,7 +348,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "nat_node"
+"twin_of": "nat_node",
+"use_anchor": true,
+"use_group": "nat@11"
 }, {
 "id": "nat_node_a2",
 "image": "mirror_z",
@@ -312,7 +362,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "nat_node"
+"twin_of": "nat_node",
+"use_anchor": true,
+"use_group": "nat@11"
 }, {
 "id": "nat_node_b1",
 "image": "rot180",
@@ -324,7 +376,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "nat_node"
+"twin_of": "nat_node",
+"use_anchor": true,
+"use_group": "nat@11"
 }, {
 "id": "nat_node_b2",
 "image": "mirror_x",
@@ -336,7 +390,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "nat_node"
+"twin_of": "nat_node",
+"use_anchor": true,
+"use_group": "nat@11"
 }, {
 "id": "nat_hall_a1",
 "image": "identity",
@@ -347,7 +403,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "natural_hall",
 "team": -1,
-"twin_of": "nat_hall"
+"twin_of": "nat_hall",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "nat_hall_a2",
 "image": "mirror_z",
@@ -358,7 +416,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "natural_hall",
 "team": -1,
-"twin_of": "nat_hall"
+"twin_of": "nat_hall",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "nat_hall_b1",
 "image": "rot180",
@@ -369,7 +429,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "natural_hall",
 "team": -1,
-"twin_of": "nat_hall"
+"twin_of": "nat_hall",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "nat_hall_b2",
 "image": "mirror_x",
@@ -380,7 +442,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "natural_hall",
 "team": -1,
-"twin_of": "nat_hall"
+"twin_of": "nat_hall",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "nat_tower_a1",
 "image": "identity",
@@ -391,7 +455,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_natural",
 "team": -1,
-"twin_of": "nat_tower"
+"twin_of": "nat_tower",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "nat_tower_a2",
 "image": "mirror_z",
@@ -402,7 +468,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_natural",
 "team": -1,
-"twin_of": "nat_tower"
+"twin_of": "nat_tower",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "nat_tower_b1",
 "image": "rot180",
@@ -413,7 +481,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_natural",
 "team": -1,
-"twin_of": "nat_tower"
+"twin_of": "nat_tower",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "nat_tower_b2",
 "image": "mirror_x",
@@ -424,7 +494,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_natural",
 "team": -1,
-"twin_of": "nat_tower"
+"twin_of": "nat_tower",
+"use_anchor": false,
+"use_group": "nat@11"
 }, {
 "id": "rich_node_a1",
 "image": "identity",
@@ -436,7 +508,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "rich_node"
+"twin_of": "rich_node",
+"use_anchor": true,
+"use_group": "rich@12"
 }, {
 "id": "rich_node_a2",
 "image": "mirror_z",
@@ -448,7 +522,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "rich_node"
+"twin_of": "rich_node",
+"use_anchor": true,
+"use_group": "rich@12"
 }, {
 "id": "rich_node_b1",
 "image": "rot180",
@@ -460,7 +536,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "rich_node"
+"twin_of": "rich_node",
+"use_anchor": true,
+"use_group": "rich@12"
 }, {
 "id": "rich_node_b2",
 "image": "mirror_x",
@@ -472,7 +550,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "rich_node"
+"twin_of": "rich_node",
+"use_anchor": true,
+"use_group": "rich@12"
 }, {
 "id": "rich_hall_a1",
 "image": "identity",
@@ -483,7 +563,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "rich_hall",
 "team": -1,
-"twin_of": "rich_hall"
+"twin_of": "rich_hall",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "rich_hall_a2",
 "image": "mirror_z",
@@ -494,7 +576,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "rich_hall",
 "team": -1,
-"twin_of": "rich_hall"
+"twin_of": "rich_hall",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "rich_hall_b1",
 "image": "rot180",
@@ -505,7 +589,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "rich_hall",
 "team": -1,
-"twin_of": "rich_hall"
+"twin_of": "rich_hall",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "rich_hall_b2",
 "image": "mirror_x",
@@ -516,7 +602,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "rich_hall",
 "team": -1,
-"twin_of": "rich_hall"
+"twin_of": "rich_hall",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "rich_tower_a1",
 "image": "identity",
@@ -527,7 +615,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_rich",
 "team": -1,
-"twin_of": "rich_tower"
+"twin_of": "rich_tower",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "rich_tower_a2",
 "image": "mirror_z",
@@ -538,7 +628,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_rich",
 "team": -1,
-"twin_of": "rich_tower"
+"twin_of": "rich_tower",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "rich_tower_b1",
 "image": "rot180",
@@ -549,7 +641,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_rich",
 "team": -1,
-"twin_of": "rich_tower"
+"twin_of": "rich_tower",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "rich_tower_b2",
 "image": "mirror_x",
@@ -560,7 +654,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "tower_rich",
 "team": -1,
-"twin_of": "rich_tower"
+"twin_of": "rich_tower",
+"use_anchor": false,
+"use_group": "rich@12"
 }, {
 "id": "third_node_a1",
 "image": "identity",
@@ -572,7 +668,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "third_node"
+"twin_of": "third_node",
+"use_anchor": true,
+"use_group": "third@13"
 }, {
 "id": "third_node_a2",
 "image": "mirror_z",
@@ -584,7 +682,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "third_node"
+"twin_of": "third_node",
+"use_anchor": true,
+"use_group": "third@13"
 }, {
 "id": "third_node_b1",
 "image": "rot180",
@@ -596,7 +696,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "third_node"
+"twin_of": "third_node",
+"use_anchor": true,
+"use_group": "third@13"
 }, {
 "id": "third_node_b2",
 "image": "mirror_x",
@@ -608,7 +710,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "",
 "team": -1,
-"twin_of": "third_node"
+"twin_of": "third_node",
+"use_anchor": true,
+"use_group": "third@13"
 }, {
 "id": "third_hall_a1",
 "image": "identity",
@@ -619,7 +723,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "third_hall",
 "team": -1,
-"twin_of": "third_hall"
+"twin_of": "third_hall",
+"use_anchor": false,
+"use_group": "third@13"
 }, {
 "id": "third_hall_a2",
 "image": "mirror_z",
@@ -630,7 +736,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "third_hall",
 "team": -1,
-"twin_of": "third_hall"
+"twin_of": "third_hall",
+"use_anchor": false,
+"use_group": "third@13"
 }, {
 "id": "third_hall_b1",
 "image": "rot180",
@@ -641,7 +749,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "third_hall",
 "team": -1,
-"twin_of": "third_hall"
+"twin_of": "third_hall",
+"use_anchor": false,
+"use_group": "third@13"
 }, {
 "id": "third_hall_b2",
 "image": "mirror_x",
@@ -652,7 +762,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "third_hall",
 "team": -1,
-"twin_of": "third_hall"
+"twin_of": "third_hall",
+"use_anchor": false,
+"use_group": "third@13"
 }, {
 "id": "centre_crown",
 "image": "identity",
@@ -661,7 +773,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "",
 "team": -1,
-"twin_of": "centre_crown"
+"twin_of": "centre_crown",
+"use_anchor": true,
+"use_group": "centre@16"
 }, {
 "id": "tower_r_a1",
 "image": "identity",
@@ -850,7 +964,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "mirefang",
 "team": -1,
-"twin_of": "ford_nest"
+"twin_of": "ford_nest",
+"use_anchor": true,
+"use_group": "ford@26"
 }, {
 "id": "ford_nest_a2",
 "image": "mirror_z",
@@ -859,7 +975,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "mirefang",
 "team": -1,
-"twin_of": "ford_nest"
+"twin_of": "ford_nest",
+"use_anchor": true,
+"use_group": "ford@26"
 }, {
 "id": "stag_a1",
 "image": "identity",
@@ -904,7 +1022,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "tusker",
 "team": -1,
-"twin_of": "lairs_one"
+"twin_of": "lairs_one",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "lairs_one_a2",
 "image": "mirror_z",
@@ -913,7 +1033,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "tusker",
 "team": -1,
-"twin_of": "lairs_one"
+"twin_of": "lairs_one",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "lairs_one_b1",
 "image": "rot180",
@@ -922,7 +1044,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "tusker",
 "team": -1,
-"twin_of": "lairs_one"
+"twin_of": "lairs_one",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "lairs_one_b2",
 "image": "mirror_x",
@@ -931,7 +1055,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "tusker",
 "team": -1,
-"twin_of": "lairs_one"
+"twin_of": "lairs_one",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "lairs_two_a1",
 "image": "identity",
@@ -940,7 +1066,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "direwolf",
 "team": -1,
-"twin_of": "lairs_two"
+"twin_of": "lairs_two",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "lairs_two_a2",
 "image": "mirror_z",
@@ -949,7 +1077,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "direwolf",
 "team": -1,
-"twin_of": "lairs_two"
+"twin_of": "lairs_two",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "lairs_two_b1",
 "image": "rot180",
@@ -958,7 +1088,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "direwolf",
 "team": -1,
-"twin_of": "lairs_two"
+"twin_of": "lairs_two",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "lairs_two_b2",
 "image": "mirror_x",
@@ -967,7 +1099,9 @@ spots = Array[Dictionary]([{
 "props": {},
 "sub": "direwolf",
 "team": -1,
-"twin_of": "lairs_two"
+"twin_of": "lairs_two",
+"use_anchor": false,
+"use_group": "lairs@28"
 }, {
 "id": "inn_a1",
 "image": "identity",
@@ -1210,7 +1344,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "den",
 "team": -1,
-"twin_of": "guilds_den"
+"twin_of": "guilds_den",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "guilds_den_a2",
 "image": "mirror_z",
@@ -1221,7 +1357,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "den",
 "team": -1,
-"twin_of": "guilds_den"
+"twin_of": "guilds_den",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "guilds_den_b1",
 "image": "rot180",
@@ -1232,7 +1370,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "den",
 "team": -1,
-"twin_of": "guilds_den"
+"twin_of": "guilds_den",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "guilds_den_b2",
 "image": "mirror_x",
@@ -1243,7 +1383,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "den",
 "team": -1,
-"twin_of": "guilds_den"
+"twin_of": "guilds_den",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "guilds_lodge_a1",
 "image": "identity",
@@ -1254,7 +1396,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "lodge",
 "team": -1,
-"twin_of": "guilds_lodge"
+"twin_of": "guilds_lodge",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "guilds_lodge_a2",
 "image": "mirror_z",
@@ -1265,7 +1409,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "lodge",
 "team": -1,
-"twin_of": "guilds_lodge"
+"twin_of": "guilds_lodge",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "guilds_lodge_b1",
 "image": "rot180",
@@ -1276,7 +1422,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "lodge",
 "team": -1,
-"twin_of": "guilds_lodge"
+"twin_of": "guilds_lodge",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "guilds_lodge_b2",
 "image": "mirror_x",
@@ -1287,7 +1435,9 @@ spots = Array[Dictionary]([{
 },
 "sub": "lodge",
 "team": -1,
-"twin_of": "guilds_lodge"
+"twin_of": "guilds_lodge",
+"use_anchor": false,
+"use_group": "guilds@38"
 }, {
 "id": "graze0_a1",
 "image": "identity",
@@ -1665,7 +1815,7 @@ zones = Array[Dictionary]([{
 "r1": 26.0
 }])
 source = "res://data/maps/quartermeet.map"
-source_hash = "0981ecdfb2d1"
+source_hash = "cf60fcde52fc"
 size_x = 176.0
 size_z = 176.0
 biome = "autumn"

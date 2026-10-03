@@ -1,10 +1,13 @@
 # The contested rich node (map-production.md 2.3, Resources): node 2 500 + hall slot X2 + Spire slot S4, a Magpie
 # Den and a Greywater Lodge and a Gloomcap hollow beside it. Local frame: (0,0) = the node, +z = toward the owner's keep.
+# It BRINGS the side's two guild houses: do not also `use guild_pair` on the same side (World Forge L3 / Map Lab R4
+# fail on a doubled den or lodge; review H2). For the node alone use rich_node.
+# Doors face the owner's keep (+z); the hollow sits 11 m from both houses (BuildGrid camp clearance 8 m).
 template rich_pocket  title="Rich node with guild houses and a hollow"
 param amount=2500
 node   node   at=(0,0)       role=rich  amount=$amount
 slot   hall   sub=rich_hall   at=(0,9.9)    clear=5
 slot   tower  sub=tower_rich  at=(-6,3)     clear=0
-guild  den    sub=den         at=(-14,-6)
-guild  lodge  sub=lodge       at=(-6,-14)
-camp   hollow sub=gloomcap    at=(-15,-15)
+guild  den    sub=den         at=(-14,-6)   door=(-14,-2)
+guild  lodge  sub=lodge       at=(-6,-14)   door=(-2,-12)
+camp   hollow sub=gloomcap    at=(-18,-18)

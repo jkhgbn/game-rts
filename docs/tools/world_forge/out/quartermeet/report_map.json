@@ -33,16 +33,16 @@
 		{
 			"graded": -1.0,
 			"group": "layout",
-			"hint": "a canonical spot too close to its own mirror axis doubles up: move it off the axis or onto it",
+			"hint": "",
 			"id": "L3",
 			"improve": "",
 			"name": "Spot spacing",
-			"rule": ">= 3 m between spots (slots / starts excepted)",
+			"rule": ">= 3 m between spots, >= 6 m between structures (keep, tavern, peddler, post, guild, point), one den + one lodge per image (slots / starts excepted)",
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
 			"value": "ok",
-			"weight": 1.0
+			"weight": 2.0
 		},
 		{
 			"graded": -1.0,
@@ -69,7 +69,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "1116 polygons in 0.5 s",
+			"value": "1129 polygons in 7.8 s",
 			"weight": 1.5
 		},
 		{
@@ -83,7 +83,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "WARN, score 95 / 100",
+			"value": "WARN, score 96 / 100",
 			"weight": 3.0
 		},
 		{
@@ -139,7 +139,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0.00 % (0 cells), 0.00 % (8 cells), 0.00 % (8 cells)",
+			"value": "0.00 % (0 cells), 0.00 % (10 cells), 0.00 % (12 cells)",
 			"weight": 0.5
 		},
 		{
@@ -204,7 +204,7 @@
 			"hint": "",
 			"id": "LAB.R4",
 			"improve": "",
-			"name": "Clearances (roads, crossings)",
+			"name": "Clearances (roads, crossings, spacing)",
 			"rule": "Map Lab v2 R4",
 			"score": 0.5,
 			"shot": "",
@@ -223,7 +223,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "1 half widths ok, 2 arms ok, 2 circles ok, 2 segments ok, 176 x 176 m ok, 91 spots ok, 2.2x ok",
+			"value": "1 half widths ok, 2 arms ok, 2 circles ok, 2 segments ok, 176 x 176 m ok, 91 spots ok, 2.15x ok",
 			"weight": 0.5
 		}
 	],
@@ -247,7 +247,7 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "0981ecdfb2d1/a602eaf5d398",
+	"hash": "cf60fcde52fc/a602eaf5d398",
 	"hash_note": "",
 	"headless": false,
 	"id": "quartermeet",
@@ -255,19 +255,19 @@
 	"kind": "map",
 	"kingdom": "",
 	"notes": [
-		"Forest (MapForest): 52 trees, 40 rocks, 8 pillars, hash cd14a829623f.",
+		"Forest (MapForest): 60 trees, 44 rocks, 8 pillars, hash c7468a407e98.",
 		"Files: `data/maps/quartermeet_layout.tres`, `docs/tools/world_forge/out/quartermeet/preview.tscn`, `docs/tools/world_forge/out/quartermeet/map_profile.json`, `docs/tools/world_forge/out/quartermeet/map_lab/scorecard.md`, `docs/tools/world_forge/out/quartermeet/map_lab/heatmap.png`, `docs/tools/world_forge/out/quartermeet/layout.png`"
 	],
-	"previous_quality": -1.0,
-	"quality": 97.9,
+	"previous_quality": 97.9,
+	"quality": 98.0,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 174.3,
+	"seconds": 1867.2,
 	"shots": {
 		"heatmap": "map_lab/heatmap.png",
 		"layout": "layout.png"
 	},
-	"started": "2026-10-02 19:08:02",
+	"started": "2026-10-03 02:44:56",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "map"

@@ -33,16 +33,16 @@
 		{
 			"graded": -1.0,
 			"group": "layout",
-			"hint": "a canonical spot too close to its own mirror axis doubles up: move it off the axis or onto it",
+			"hint": "",
 			"id": "L3",
-			"improve": "a canonical spot too close to its own mirror axis doubles up: move it off the axis or onto it",
+			"improve": "",
 			"name": "Spot spacing",
-			"rule": ">= 3 m between spots (slots / starts excepted)",
-			"score": 0.5,
+			"rule": ">= 3 m between spots, >= 6 m between structures (keep, tavern, peddler, post, guild, point), one den + one lodge per image (slots / starts excepted)",
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "rich_den-guilds_den 1.9 m, rich_den_twin-guilds_den_twin 1.9 m, rich_lodge-guilds_lodge 1.0 m, rich_lodge_twin-guilds_lodge_twin 1.0 m, shrine-inn_peddler 2.3 m, shrine_twin-inn_peddler_twin 2.3 m",
-			"weight": 1.0
+			"status": "PASS",
+			"value": "ok",
+			"weight": 2.0
 		},
 		{
 			"graded": -1.0,
@@ -55,7 +55,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "keep 2, node 10, point 8, camp 8, tavern 2, post 4, guild 8, peddler 2, cache 4, lair 8, crown 1, start 2, slot 30; crossings 8, roads 2, zones 2, blocks 0",
+			"value": "keep 2, node 8, point 8, camp 6, tavern 2, post 4, guild 4, peddler 2, cache 4, lair 8, crown 1, start 2, slot 28; crossings 8, roads 2, zones 2, blocks 0",
 			"weight": 1.0
 		},
 		{
@@ -69,7 +69,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "945 polygons",
+			"value": "691 polygons in 3.8 s",
 			"weight": 1.5
 		},
 		{
@@ -83,7 +83,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "WARN, score 93 / 100",
+			"value": "WARN, score 96 / 100",
 			"weight": 3.0
 		},
 		{
@@ -97,7 +97,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "65 / 65 clean",
+			"value": "57 / 57 clean",
 			"weight": 0.5
 		},
 		{
@@ -111,7 +111,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "65 / 65 clean",
+			"value": "57 / 57 clean",
 			"weight": 0.5
 		},
 		{
@@ -125,7 +125,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "layout thornwater",
+			"value": "1 / 1 clean",
 			"weight": 0.5
 		},
 		{
@@ -150,10 +150,10 @@
 			"improve": "",
 			"name": "Map geometry: path pairs match their mirror twins",
 			"rule": "Map Lab F1",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "1047 / 1056 pairs within 2 % (0 FAIL, 9 WARN, 0 info)",
+			"status": "PASS",
+			"value": "812 / 812 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
 			"weight": 0.5
 		},
 		{
@@ -204,12 +204,12 @@
 			"hint": "",
 			"id": "LAB.R4",
 			"improve": "",
-			"name": "Clearances (roads, crossings)",
+			"name": "Clearances (roads, crossings, spacing)",
 			"rule": "Map Lab v2 R4",
-			"score": 1.0,
+			"score": 0.5,
 			"shot": "",
-			"status": "PASS",
-			"value": "57 / 57 clean",
+			"status": "WARN",
+			"value": "45 / 49 clean (0 FAIL, 4 WARN)",
 			"weight": 0.5
 		},
 		{
@@ -223,16 +223,16 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "1 half widths ok, 2 arms ok, 4 circles ok, 10 segments ok, 120 x 120 m ok, 57 spots ok, 1.0x ok",
+			"value": "1 half widths ok, 2 arms ok, 4 circles ok, 10 segments ok, 120 x 120 m ok, 49 spots ok, 1.00x ok",
 			"weight": 0.5
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 1,
-		"PASS": 13,
+		"PASS": 14,
 		"SKIP": 0,
-		"WARN": 2
+		"WARN": 1
 	},
 	"ground": "",
 	"groups": {
@@ -247,36 +247,27 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "71462d2eabe5/7bc72982d5a0",
+	"hash": "ab9043cec5c3/e86429840f28",
 	"hash_note": "",
 	"headless": false,
 	"id": "thornwater",
-	"improve_next": [
-		{
-			"rank": 10.5,
-			"source": "L3 Spot spacing",
-			"status": "WARN",
-			"text": "a canonical spot too close to its own mirror axis doubles up: move it off the axis or onto it",
-			"title": "Spot spacing"
-		}
-	],
+	"improve_next": [],
 	"kind": "map",
 	"kingdom": "",
 	"notes": [
-		"live=1: the Map Lab ran on res://scenes/layout_level.tscn with this layout (sim mode, bots off).",
-		"Forest (MapForest): 26 trees, 8 rocks, 8 pillars, hash db5973a70cf2.",
+		"Forest (MapForest): 40 trees, 8 rocks, 8 pillars, hash fbe8d2051809.",
 		"Files: `data/maps/thornwater_layout.tres`, `docs/tools/world_forge/out/thornwater/preview.tscn`, `docs/tools/world_forge/out/thornwater/map_profile.json`, `docs/tools/world_forge/out/thornwater/map_lab/scorecard.md`, `docs/tools/world_forge/out/thornwater/map_lab/heatmap.png`, `docs/tools/world_forge/out/thornwater/layout.png`"
 	],
-	"previous_quality": 96.8,
-	"quality": 94.7,
+	"previous_quality": 94.7,
+	"quality": 98.0,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 89.3,
+	"seconds": 1079.7,
 	"shots": {
 		"heatmap": "map_lab/heatmap.png",
 		"layout": "layout.png"
 	},
-	"started": "2026-10-02 19:11:36",
+	"started": "2026-10-03 01:56:45",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "map"

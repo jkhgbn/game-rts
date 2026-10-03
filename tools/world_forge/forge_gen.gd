@@ -12,6 +12,7 @@ extends RefCounted
 ## trade_post, camp / lair / point templates), so generated maps stay readable and fixable by hand.
 
 const FMap := preload("res://tools/world_forge/forge_map.gd")
+const Spacing := preload("res://tools/world_forge/forge_spacing.gd")
 const GEN_DIR := "res://data/maps/gen"
 const ARCHETYPES: Array[String] = ["river_split", "open", "spine"]
 const TEMPOS: Array[String] = ["rush", "standard", "macro"]
@@ -62,8 +63,14 @@ func targets() -> Dictionary:
 ## The `.map` text of one candidate.
 func map_text(seed: int) -> String:
 	var rng := RandomNumberGenerator.new()
-	rng.seed = hash([id, seed, archetype, players, tempo])
+	rng.seed = rng_seed(seed, archetype, players, tempo)
 	return _text_team(seed, rng) if players >= 4 else _text_1v1(seed, rng)
+
+
+## The candidate RNG seed (review L8): from `seed=` and the knobs only, never the map id (an adopted map keeps its
+## seed under a new name), and plain integer arithmetic instead of Array.hash() (stable across Godot versions).
+static func rng_seed(seed: int, arch: String, n_players: int, p_tempo: String) -> int:
+	return seed * 1000003 + (ARCHETYPES.find(arch) + 1) * 7919 + n_players * 131 + (TEMPOS.find(p_tempo) + 1) * 17
 
 
 static func _p(v: Vector2) -> String:
@@ -137,7 +144,9 @@ func _text_1v1(seed: int, rng: RandomNumberGenerator) -> String:
 	t += "point tower_a  sub=watchtower  at=%s\n" % _p(at.call(-12.0, -46.0, 3.0))
 	t += "point tower_b  sub=watchtower  at=%s\n" % _p(at.call(32.5, 24.0, 3.0))
 	t += "point well     sub=well        at=%s\n" % _p(at.call(4.2, -38.0, 3.0))
-	t += "point shrine   sub=shrine      at=%s\n" % _p(at.call(11.3, -19.8, 3.0))
+	# review H2: the peddler of tavern_peddler sits ~10 m along U from the tavern, i.e. at about (10, -21.2): the old
+	# shrine spot (11.3, -19.8) was on top of it (Thornwater shipped with them 2.3 m apart)
+	t += "point shrine   sub=shrine      at=%s\n" % _p(at.call(11.3, -11.0, 3.0))
 	t += "camp wallow  sub=bristleback  at=%s\n" % _p(at.call(50.2, 30.4, 3.0))
 	if river and not crossings.is_empty():
 		t += "use nest_in_ford  ford  at=%s  face=none\n" % _p(crossings[0])
@@ -330,7 +339,16 @@ func score_file(path: String) -> Dictionary:
 
 func score_layout(lay: MapLayout) -> Dictionary:
 	var out := {"ok": true, "score": 0.0, "measures": {}, "miss": {}, "unreachable": 0}
+	# review L1: MapInfo is process-global; score this layout at its size, then put the running map's size back
+	var prev_size := Vector2(MapInfo.size_x, MapInfo.size_z)
+	var prev_id := MapInfo.map_id
 	MapInfo.setup(lay.size_x, lay.size_z, lay.id)
+	out = _score_layout(lay, out)
+	MapInfo.setup(prev_size.x, prev_size.y, prev_id)
+	return out
+
+
+func _score_layout(lay: MapLayout, out: Dictionary) -> Dictionary:
 	var river: RiverSystem = null
 	if not lay.river.is_empty() or not lay.moat.is_empty():
 		river = RiverSystem.new()
@@ -456,7 +474,8 @@ func score_layout(lay: MapLayout) -> Dictionary:
 			unreach += 1
 	out["unreachable"] = unreach
 	var sc := float(unreach) * 50.0
-	# L2: spots outside the map (2 m margin) and L3: spots closer than 3 m are World Forge FAILs / WARNs
+	# L2: spots outside the map (2 m margin) and L3: spacing (forge_spacing.gd) are World Forge FAILs: both are scored,
+	# and a candidate with a spacing FAIL is rejected (world_forge.gd gen never sends it to the Map Lab; review H2)
 	var outside := 0
 	for sp: Dictionary in lay.spots:
 		var p: Vector3 = sp["pos"]
@@ -464,6 +483,10 @@ func score_layout(lay: MapLayout) -> Dictionary:
 			outside += 1
 	out["outside"] = outside
 	sc += float(outside) * 50.0
+	var close := Spacing.findings(lay)
+	out["close"] = close.size()
+	out["close_lines"] = Spacing.lines(close)
+	sc += float(close.size()) * 200.0
 	var tg: Dictionary = lay.rules.get("targets", {})
 	for key: String in tg:
 		if not m.has(key):

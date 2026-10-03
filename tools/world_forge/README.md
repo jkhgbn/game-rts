@@ -13,8 +13,8 @@ tools\world_forge\run_world_forge.ps1 <verb> <id> [key=value...]
 | `build <set>` | parse, build, **save** the set scene + marks.json + lighting + baked meshes, reload it, check, plan.png, report, history row | ~5 s |
 | `sheet <set>` | **windowed**: renders every mark at a / b / c (start / middle / end) at 1600x900 with the 2.39 bars + a top-down view -> `sheet.png`, `stills/*.png` (run `build` first) | ~20 s |
 | `map <map>` | `data/maps/<map>.map` -> `data/maps/<map>_layout.tres` (MapLayout, saved next to the `.map`) + navmesh-baked preview (forest included) + **Map Lab v1 + v2** run + layout.png. `live=1`: the Map Lab judges the playable LayoutLevel itself (sim mode) | 45-150 s |
-| `fix <map>` | `map`, then the **auto-fix loop** (map-production.md 2.5 / 9): the Map Lab v2 fixable findings become `move <id> at=...  # autofix` lines, up to `rounds=3`; stops at 0 FAIL and score >= 75 | 1-6 min |
-| `gen <id>` | **generator** (2.4): `archetype=river_split\|open\|spine players=2\|4 tempo=rush\|standard\|macro biome= seed=1 count=40 full=3`: writes `count` candidates, scores them on the grid pre-filter, runs `fix` on the best `full`, writes `data/maps/gen/<id>_s<seed>.map`, `out/gen_<id>/gen.md` and `contact_sheet.png` (top 3) | 5-20 min |
+| `fix <map>` | `map`, then the **auto-fix loop** (map-production.md 2.5 / 9): the Map Lab v2 fixable findings become `move <id> at=...  # autofix` lines, up to `rounds=3`; stops at 0 FAIL and score >= 75. A fixed anchor spot of a `use` expansion moves its whole group (hall / tower slots); only `# autofix` lines are replaced (hand-written `move` lines stay); a last round worse than an earlier one is rolled back to it (one more `map` run) | 1-6 min |
+| `gen <id>` | **generator** (2.4): `archetype=river_split\|open\|spine players=2\|4 tempo=rush\|standard\|macro biome= seed=1 count=40 full=3`: writes `count` candidates, scores them on the grid pre-filter, rejects candidates with a spacing FAIL, runs `fix` on the best `full`, writes `data/maps/gen/<id>_s<seed>.map`, `out/gen_<id>/gen.md` and `contact_sheet.png` (top 3) | 5-20 min |
 | `template <name\|all>` | the mini Lab check of one template (or all): wraps it in a small map (+ a reference keep), bakes, Map Lab N2 / R4 / R5 | ~15 s each |
 | `mapsheet <map>` | **windowed** (MT7): the playable level rendered top-down + plan + heat map + Map Lab / travel-time text -> `out/<map>/mapsheet.png` (2048 x 1024) and the lobby preview `data/maps/previews/<map>.png` (512 x 512; also the minimap background). Run `map` first | ~40 s |
 | `export-map crown_hollow` | reads the live spots of an existing map scene into `data/maps/crown_hollow.map` (also `scene=res://x.tscn as=<id>`) | ~40 s |
@@ -197,7 +197,7 @@ A spot exactly on a mirror axis appears once per distinct image (midline objects
 Outputs: `data/maps/<id>_layout.tres` (`MapLayout`, `data/maps/map_layout.gd`: `spots_of(kind)`, `keep_of(team)`,
 `seat_frame(team)`, `spot(id)`), `docs/tools/world_forge/out/<id>/{report_map.md, layout.png, map_profile.json,
 preview.tscn, preview_level.gd, map_lab/scorecard.md, map_lab/heatmap.png}`. Checks: L1 keep per seat, L2 in bounds,
-L3 spacing, L4 counts, N0 navmesh bakes, LAB (Map Lab 0 FAIL + score >= 75, map-production.md 9), LAB.M1-M4 / F1 symmetry
+L3 spacing (FAIL: spots < 3 m, structures < 6 m, a doubled den / lodge; rules in `forge_spacing.gd`), L4 counts, N0 navmesh bakes, LAB (Map Lab 0 FAIL + score >= 75, map-production.md 9), LAB.M1-M4 / F1 symmetry
 rows, LAB.R1-R6 (Map Lab v2), and after
 an `export-map`: R1 round trip (every live spot rebuilt within 0.1 m), R2 path table (every spot pair's
 NavigationServer path on the preview = the live one, <= 0.01 m).

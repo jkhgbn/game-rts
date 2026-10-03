@@ -16,6 +16,7 @@ const LEVEL_SCRIPT := "res://tools/world_forge/forge_map_level.gd"
 const LIVE_SCENE := "res://scenes/layout_level.tscn"
 
 const Grammar := preload("res://tools/world_forge/forge_map_grammar.gd")
+const Spacing := preload("res://tools/world_forge/forge_spacing.gd")
 
 const SPOT_KINDS: Array[String] = ["keep", "node", "point", "camp", "tavern", "post", "guild", "peddler", "cache", "lair", "crown", "start", "slot"]
 const OTHER: Array[String] = ["map", "seat", "river", "moat", "crossing", "road", "zone", "block", "navmesh",
@@ -275,8 +276,12 @@ func compile(path: String) -> bool:
 				if dv != null:
 					props_i = props.duplicate()
 					props_i["door"] = frame_xf(fr) * (dv as Vector3)
-			layout.spots.append({"id": this_id, "kind": kind, "sub": String(st["kv"].get("sub", "")), "pos": p, "team": team,
-				"twin_of": sid, "props": props_i, "line": st["line"], "image": fr})
+			var spot := {"id": this_id, "kind": kind, "sub": String(st["kv"].get("sub", "")), "pos": p, "team": team,
+				"twin_of": sid, "props": props_i, "line": st["line"], "image": fr}
+			if st.has("use_group"):   # review M3: the `use` expansion it came from (the fix verb moves the group)
+				spot["use_group"] = st["use_group"]
+				spot["use_anchor"] = st["use_anchor"]
+			layout.spots.append(spot)
 	if String(layout.id) == "":
 		spec.err(1, "map", "the spec needs `map <id> size=<m> symmetry=<none|mirror_x|mirror_z|rot180|fourfold>`")
 	for t in layout.closed_seats:
@@ -508,16 +513,28 @@ static func apply_fixes(path: String, lay: MapLayout, fixes: Array, round_no: in
 		var mv: Vector3 = moves[fid]
 		if mv.length() > 5.0:
 			mv = mv.normalized() * 5.0
-		var np: Vector3 = (s["pos"] as Vector3) + mv
 		var hx := lay.size_x * 0.5 - 3.0
 		var hz := lay.size_z * 0.5 - 3.0
-		np = Vector3(clampf(np.x, -hx, hx), 0.0, clampf(np.z, -hz, hz))
-		pos[String(s.get("twin_of", fid))] = [np, mv.length(), ", ".join(whys[fid])]
+		# review M3: the anchor of a `use` expansion (natural / rich / third node...) takes its group along (hall and
+		# tower slots, doors stay with their spot), so the bot's slots stay where the template put them
+		var members: Array[Dictionary] = [s]
+		if bool(s.get("use_anchor", false)) and String(s.get("use_group", "")) != "":
+			for sp: Dictionary in lay.spots:
+				if sp != s and String(sp.get("image", "identity")) == "identity" and String(sp.get("use_group", "")) == String(s["use_group"]):
+					members.append(sp)
+		for m: Dictionary in members:
+			var mid := String(m.get("twin_of", m["id"]))
+			if pos.has(mid) and m != s:
+				continue   # a member with its own fix keeps it
+			var np: Vector3 = (m["pos"] as Vector3) + mv
+			np = Vector3(clampf(np.x, -hx, hx), 0.0, clampf(np.z, -hz, hz))
+			pos[mid] = [np, mv.length(), ", ".join(whys[fid]) if m == s else "with %s" % String(s.get("twin_of", fid))]
 	for l in lines:
 		var t := l.strip_edges()
 		var drop := false
 		for fid: String in pos:
-			if t.begins_with("move %s " % fid):
+			# review M3: only earlier autofix lines are replaced; a hand-written `move` stays (the later line wins)
+			if t.begins_with("move %s " % fid) and t.contains("# autofix"):
 				drop = true
 		if not drop:
 			out.append(l)
@@ -659,17 +676,15 @@ func _layout_checks() -> void:
 				l2_fixes.append({"id": String(s.get("twin_of", s["id"])), "move": inside - p, "why": "L2 outside the map"})
 	report.fcheck("L2", "Spots inside the map", "FAIL" if not out.is_empty() else "PASS", "ok" if out.is_empty() else ", ".join(out),
 		"|x| <= W/2 - 2, |z| <= D/2 - 2 (%.0f x %.0f m)" % [layout.size_x, layout.size_z], "move the spot inward (map line %s)" % [layout.source.get_file()])
-	# L3 spacing
-	var close: Array[String] = []
-	for i in layout.spots.size():
-		for j in range(i + 1, layout.spots.size()):
-			var a: Dictionary = layout.spots[i]
-			var b: Dictionary = layout.spots[j]
-			var d := (a["pos"] as Vector3).distance_to(b["pos"])
-			if d < 3.0 and not (a["kind"] in ["slot", "start"] or b["kind"] in ["slot", "start"]):
-				close.append("%s-%s %.1f m" % [a["id"], b["id"], d])
-	report.fcheck("L3", "Spot spacing", "WARN" if not close.is_empty() else "PASS", "ok" if close.is_empty() else ", ".join(close),
-		">= 3 m between spots (slots / starts excepted)", "a canonical spot too close to its own mirror axis doubles up: move it off the axis or onto it")
+	# L3 spacing (review H2: a FAIL; the rules live in forge_spacing.gd, shared with gen and Map Lab R4)
+	var found := Spacing.findings(layout)
+	var hints: Array[String] = []
+	for f: Dictionary in found:
+		if not hints.has(String(f["hint"])):
+			hints.append(String(f["hint"]))
+	report.fcheck("L3", "Spot spacing", "FAIL" if not found.is_empty() else "PASS", "ok" if found.is_empty() else ", ".join(Spacing.lines(found)),
+		">= %.0f m between spots, >= %.0f m between structures (keep, tavern, peddler, post, guild, point), one den + one lodge per image (slots / starts excepted)" % [
+			Spacing.MIN_SPOT, Spacing.STRUCT_GAP], "; ".join(hints), 2.0)
 	# L4 counts
 	var counts := {}
 	for s in layout.spots:
