@@ -90,6 +90,47 @@ static func start_of(layout: MapLayout, keep_spot: Dictionary) -> Vector3:
 	return Vector3(k.x + d.x, 0.0, k.z + d.y)
 
 
+## The auto lanes kept free of forest (`forest pre=auto` without `lane=`), as [from, to] start pairs (review M5): the
+## canonical (identity) seat to its 1v1 opponent (the first open enemy seat with frame rot180, else the first open
+## enemy seat), plus on team maps a second lane to its ally (the first other open seat of the same side). Without
+## seats: the first and last open keep's starts (the old rule).
+static func lane_pairs(layout: MapLayout) -> Array:
+	var start_of_team := {}
+	var order: Array[Vector3] = []
+	for k in layout.spots_of("keep"):
+		if layout.closed_seats.has(int(k["team"])):
+			continue
+		var st := start_of(layout, k)
+		start_of_team[int(k["team"])] = st
+		order.append(st)
+	var me := {}
+	for s: Dictionary in layout.seats:
+		if String(s.get("frame_name", "identity")) == "identity" and start_of_team.has(int(s["team"])):
+			me = s
+			break
+	if me.is_empty():
+		return [[order[0], order[order.size() - 1]]] if order.size() >= 2 else []
+	var a: Vector3 = start_of_team[int(me["team"])]
+	var enemy := {}
+	var ally := {}
+	for s: Dictionary in layout.seats:
+		if s == me or not start_of_team.has(int(s["team"])):
+			continue
+		if int(s["side"]) != int(me["side"]):
+			if enemy.is_empty() or (String(s.get("frame_name", "")) == "rot180" and String(enemy.get("frame_name", "")) != "rot180"):
+				enemy = s
+		elif ally.is_empty():
+			ally = s
+	var out: Array = []
+	if not enemy.is_empty():
+		out.append([a, start_of_team[int(enemy["team"])]])
+	if not ally.is_empty():
+		out.append([a, start_of_team[int(ally["team"])]])
+	if out.is_empty() and order.size() >= 2:
+		out.append([order[0], order[order.size() - 1]])
+	return out
+
+
 ## Placements: {trees: [{pos, s, kind ("tree" / "willow"), yaw}], rocks: [{pos, s, rot}], pillars: [{pos, h}],
 ## hash: String}. `river`: a set-up RiverSystem (distance_to_water / distance_to_crossing) or null.
 static func plan(layout: MapLayout, river: Object) -> Dictionary:
@@ -146,7 +187,8 @@ static func plan(layout: MapLayout, river: Object) -> Dictionary:
 		for i in lp.size() - 1:
 			lane.append([Vector2(lp[i].x, lp[i].z), Vector2(lp[i + 1].x, lp[i + 1].z)])
 	elif starts.size() >= 2 and bool(f.get("pre_auto", false)):
-		lane.append([Vector2(starts[0].x, starts[0].z), Vector2(starts[starts.size() - 1].x, starts[starts.size() - 1].z)])
+		for pair: Array in lane_pairs(layout):
+			lane.append([Vector2(pair[0].x, pair[0].z), Vector2(pair[1].x, pair[1].z)])
 	var roads: Array = []   # [a, b, half width]
 	for r in layout.roads:
 		var poly: PackedVector3Array = r["poly"]

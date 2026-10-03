@@ -1448,6 +1448,12 @@ func _row_base(row: Dictionary) -> Vector3:
 		var p: Vector3 = _level.call(&"tower_slot", int(team), slot)
 		if p != Vector3.INF:
 			return p
+	# Review H4: X2 (the second barracks) is Crown Hollow's rich hall; a LayoutLevel has its own rich_hall slot
+	# (identity on Crown Hollow layouts; the plain skirmish keeps the constant).
+	if row.get("id", &"") == &"X2" and _level.has_method(&"bot_point"):
+		var rh: Vector3 = _level.rich_hall_spot(int(team))
+		if rh != Vector3.INF:
+			return rh
 	return _side(pos)
 
 
@@ -1522,7 +1528,7 @@ func _row_spot(row: Dictionary, type: BuildingType) -> Vector3:
 		_slot_retry_at[id] = _now + SLOT_SEARCH_RETRY
 		return Vector3.INF   # 20.A3: a limit / missing prerequisite refuses every spot: no ring search
 	for shift in SLOT_SHIFTS:
-		var p := base + _side(shift)
+		var p := base + _side_vec(shift)
 		if _level.build_grid.check(type, p, int(team)) == "":
 			return p
 	# 20.A3: find_spot() checks up to 289 spots (each one loops over every unit and crystal node): 0.1-2 s on a busy
@@ -1549,7 +1555,7 @@ func _wall_spot(row: Dictionary, type: BuildingType) -> Vector3:
 	var s1: Variant = _slot_building.get(&"S1")
 	if s1 == null or not is_instance_valid(s1):
 		return Vector3.INF
-	var spot := _level.build_grid.snap((s1 as Building).global_position + _side(row["pos"]), type.footprint)
+	var spot := _level.build_grid.snap((s1 as Building).global_position + _side_vec(row["pos"]), type.footprint)
 	var reason := _level.build_grid.check(type, spot, int(team))
 	var ratio := _rally_path_ratio()
 	if reason != "" or ratio >= ai.wall_path_ratio:
@@ -3229,6 +3235,14 @@ func _side(p: Vector3) -> Vector3:
 	if _level != null and _level.has_method(&"bot_point"):
 		return _level.call(&"bot_point", int(team), p)
 	return p if team == Unit.Team.ENEMY else -p
+
+
+## A relative offset `v` given for the Shadow side (slot shifts, wall offsets), turned for this side. On a LayoutLevel
+## the level's `bot_vector` (the turn of `bot_point` without its translation; review H3).
+func _side_vec(v: Vector3) -> Vector3:
+	if _level != null and _level.has_method(&"bot_vector"):
+		return _level.call(&"bot_vector", int(team), v)
+	return v if team == Unit.Team.ENEMY else -v
 
 
 static func _prune(list: Array, ids: Dictionary) -> void:

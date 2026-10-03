@@ -30,6 +30,7 @@ extends SceneTree
 
 const SCENE := "res://scenes/skirmish.tscn"
 const LAYOUT_SCENE := "res://scenes/layout_level.tscn"
+const LAYOUT_LEVEL_PATH := "res://scripts/world/layout_level.gd"
 const COMMANDER_PATH := "res://scripts/ai/commander.gd"
 const SIM_MODE_PATH := "res://scripts/core/sim_mode.gd"
 const SCORE_KEEPER_PATH := "res://scripts/world/score_keeper.gd"
@@ -129,8 +130,20 @@ func _initialize() -> void:
 	# --layout=<_layout.tres or .map> (map-production.md MT2 / MT8): the match runs on scenes/layout_level.tscn with
 	# that layout (--scene= overrides the scene). Default: Crown Hollow (scenes/skirmish.tscn).
 	var scene_path := String(args.get("scene", LAYOUT_SCENE if args.has("layout") else SCENE))
+	# review M2: a bad --layout path fails loudly (exit 2, "bad layout" JSON) instead of a 30-minute game on an empty map
+	var lay: Variant = null
+	if args.has("layout"):
+		var ll: Script = load(LAYOUT_LEVEL_PATH) as Script if ResourceLoader.exists(LAYOUT_LEVEL_PATH) else null
+		lay = ll.call(&"load_layout", String(args["layout"])) if ll != null else null
+		if lay == null:
+			push_error("LAB: bad --layout=%s (no such _layout.tres / .map, or it does not compile)" % args["layout"])
+			_finish("bad layout", -1, "bad --layout=%s" % args["layout"])
+			quit(2)
+			return
 	var packed := load(scene_path) as PackedScene
 	main = packed.instantiate()
+	if lay != null and &"layout" in main:
+		main.set(&"layout", lay)
 	if args.has("layout") and &"layout_path" in main:
 		main.set(&"layout_path", String(args["layout"]))
 	main.set(&"player_kingdom", StringName(kingdoms[PLAYER]))
@@ -311,7 +324,9 @@ func _sim_freeze(node: Node) -> void:
 	node.process_mode = Node.PROCESS_MODE_DISABLED
 	_frozen += 1
 	var sig := &"died" if owner_node.has_signal(&"died") else &"destroyed"
-	owner_node.connect(sig, _wake.bind(node), CONNECT_ONE_SHOT)
+	var wake := _wake.bind(node)
+	if not owner_node.is_connected(sig, wake):   # a model re-added to the tree (reparented) is frozen again
+		owner_node.connect(sig, wake, CONNECT_ONE_SHOT)
 
 
 func _wake(_who: Variant, node: Node) -> void:

@@ -100,6 +100,12 @@ func map_layout() -> MapLayout:
 	return layout
 
 
+## Why the layout could not be loaded ("" = fine). Set: the level shows it on the HUD and never starts the match
+## (review M2); tools (lab_match) check `load_layout` themselves before building the level.
+func layout_error() -> String:
+	return _layout_error
+
+
 # ---------------------------------------------------------------- seats
 
 func _assign_seats() -> void:
@@ -295,6 +301,13 @@ func bot_point(team: int, p: Vector3) -> Vector3:
 	return MapInfo.clamp_point(_seat_frame(team) * local, 3.0)
 
 
+## Commander's relative offsets (Crown Hollow, Shadow side: slot shifts, wall offsets) on this map for `team`: the
+## turn of `bot_point` without its translation or clamp (review H3), so `bot_point(t, p + v) - bot_point(t, p) ==
+## bot_vector(t, v)` away from the map edge. Crown Hollow: `v` for the enemy, `-v` for the player.
+func bot_vector(team: int, v: Vector3) -> Vector3:
+	return _seat_frame(team).basis * (_canon_rot * -v)
+
+
 ## The epic-beast lairs (Map Lab / World Forge read them here instead of a LAIR_SPOTS constant).
 func lair_spots() -> Array[Dictionary]:
 	return _lairs
@@ -378,8 +391,12 @@ func _use_map_dressing() -> bool:
 # ---------------------------------------------------------------- the map
 
 func _build_map() -> void:
-	if river_enabled:
-		_add_river()
+	# Review M6: the layout's terrain (river, moat, crossings, landmark props) is part of the map the Map Lab approved,
+	# so it is built whatever the gameplay switches say; `river_enabled` (missions: false) only turns the ford slow off
+	# (the map-fill services have their own switches).
+	_add_river()
+	if river and not river_enabled:
+		river.ford_modifier_enabled = false
 	_mapfill_clearings = []
 	# blocks: cliffs / walls / ruins as colliders (layer 1) before the bake
 	for b: Dictionary in layout.blocks:
@@ -391,8 +408,7 @@ func _build_map() -> void:
 	_add_planned_trees("forest")
 	for r: Dictionary in forest_plan["rocks"]:
 		_add_rock(r["pos"], float(r["s"]), float(r["rot"]))
-	if river_enabled:
-		_add_landmarks()
+	_add_landmarks()
 	_add_planned_trees("grove")
 	_add_planned_trees("willow")
 	for pl: Dictionary in forest_plan["pillars"]:
@@ -415,9 +431,17 @@ func _build_map() -> void:
 		peddlers.append(peddler)
 	if tavern_enabled:
 		var spots: Array[Vector3] = []
-		for t: Dictionary in layout.spots_of("tavern"):
+		var tspots := layout.spots_of("tavern")
+		for t: Dictionary in tspots:
 			spots.append(t["pos"])
+		var first := taverns.size()
 		_add_taverns(spots)
+		# review L2: skirmish.gd names a tavern Fire / Shadow by its half of the map; on a fourfold map that gives two of
+		# each (Godot auto-renames the second). The mirror images are named by image, as the peddlers are.
+		for k in range(first, mini(taverns.size(), first + tspots.size())):
+			var img := String(tspots[k - first].get("image", "identity"))
+			if img in ["mirror_x", "mirror_z"] and is_instance_valid(taverns[k]):
+				taverns[k].name = "Tavern%s" % _image_name(tspots[k - first])
 	if trade_enabled:
 		_add_trade_map()
 	if points_enabled:
@@ -860,5 +884,9 @@ func _on_navigation_ready() -> void:
 		_setup_trade()
 	_setup_hud()
 	hud.set_objective(_objective_text())
+	if _layout_error != "":
+		# review M2: no bogus match on an empty map: the HUD says why and the match never starts
+		hud.show_message(_layout_error, 3600.0)
+		return
 	hud.show_message(SKIRMISH_HINT % _barracks_name(Unit.Team.PLAYER), 10.0)
 	_start_match()
