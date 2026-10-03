@@ -10,7 +10,7 @@ of the episode 2-8 specs). Mission 1 runs on it with no behaviour change (`test_
 | `scripts/campaign/mission_config.gd` | `MissionConfig extends Resource`: every knob as data |
 | `scripts/campaign/mission_skeleton.gd` | `MissionSkeleton`: the smallest complete mission (copy it to start one) |
 | `scripts/campaign/mission_01.gd` | `Mission01 extends MissionBase` (the reference for a full mission) |
-| `tests/helpers/mission_harness.gd` | `MissionHarness`: headless scripted-run helper for acceptance tests |
+| `tests/helpers/mission_harness.gd` | `MissionHarness`: headless scripted-run helper for acceptance tests (option `"set"` wins over `"config"`: a config field named in it is also written into a copy of the config; a run with no steps FAILS) |
 | `tests/test_mission_framework.gd` | The skeleton with every knob (parts core / start / runtime / keep / campaign) |
 
 ## 1. How a mission is built
@@ -29,7 +29,8 @@ of the episode 2-8 specs). Mission 1 runs on it with no behaviour change (`test_
    briefing's Begin is pressed).
 5. Overrides as needed: `_intro()`, `objective_text(id, with_counter)`, `_objective_extra(id, o)` (progress, goal,
    counter, time_left, countdown, position), `briefing()`, `_title_line()`, `_refresh_wave_unit(u, mode, hero_at)`,
-   `_on_player_hero_fell()`, `_physics_process` (call `super(delta)` first: Skirmish tick + timers + E-list).
+   `_on_player_hero_fell()`, `_physics_process` (call `super(delta)` first: Skirmish tick + timers + E-list),
+   `_process` (call `super(delta)` too: MissionBase uses it for `withdraw_seat`'s exit check).
 
 ## 2. API (MissionBase)
 
@@ -37,16 +38,16 @@ of the episode 2-8 specs). Mission 1 runs on it with no behaviour change (`test_
 |---|---|
 | Objectives | `define_objectives(rows)`, `set_objective(id, state)` ("hidden" / "active" / "done" / "failed"; emits `Events.objective_changed(id, state)` and `objectives_changed`; done / failed never change; call again with "active" for a counter change), `objective_state(id) -> String` ("" while hidden), `objectives() -> Array[Dictionary]` (MissionHud rows), `objective_text(id, with_counter)`, `primaries_done()`, `briefing() -> {title, paragraphs, objectives, rule}` |
 | Events | `fire_once(id) -> bool` (true the first time), `has_fired(id)`, `add_event(id, condition, action, repeat := false)` (the E-list: checked every `EVENT_TICK` = 1 s in insertion order while the match runs, not held, not ending), signal `event_fired(id)` |
-| Clock | `mission_time()` (match time minus held time), `after(seconds, callable)` (mission time), `hold_world(on, keep_awake := [])` (cinematics.md HOLD: clock stops, every Commander `enabled = false`, every other living unit dormant; `false` restores exactly what it changed), `world_is_held`, signal `world_held(on)` |
+| Clock | `mission_time()` (match time minus held time), `after(seconds, callable)` (mission time), `hold_world(on, keep_awake := [])` (cinematics.md HOLD: clock stops, every Commander `enabled = false`, every other living unit dormant; `false` restores exactly what it changed: a ceasefire, not a freeze, so orders are kept (workers keep gathering / building, armies their move / attack-move, waves their targets) and each unit gets its own `death_guard` back (Rekindle); a unit the mission puts to sleep or wakes with `set_dormant` during the hold, and a Commander `withdraw_seat` turned off during it, keep the mission's state), `world_is_held`, signal `world_held(on)` |
 | Dialogue | `say(speaker, text)`, `say_line(n)` (both: `Events.dialogue`, `dialogue_said`, `dialogue_log`), `speaker_color_of`, `speaker_name_of` |
 | Cinematics | `play_cutscene(id, end_state := Callable()) -> String`: plays `data/cinematics/<id>.tres` in this context; `end_state` runs once at the end, skipped or not; with `cinematics_enabled = false`, no script or a refused play it runs at once (the direct-effect fallback; the 19.C9 skip rule) |
-| End | `win(delay := 0)`, `lose(delay := 0)` (mission time), `is_ending()`, `_end_game(victory)` (campaign save on victory when `save_campaign_on_victory`, then `Events.mission_ended`, banners from the config), keep-lost defeat (`config.defeat_on_keep_lost`, `keep_lost_message`), instant loss (`config.instant_loss_on_wizard_death`, `defeat_delay`; follows `set_player_hero`) |
-| Difficulty | `mission_difficulty` 0-2 (export), `scaled(n, type_id)` (`count_mult`, rounded, min 1; `easy_skip_types` give 0 on easy), `by_difficulty([easy, normal, hard])` |
+| End | `win(delay := 0, force := false)`, `lose(delay := 0, force := false)` (mission time; the first ending decided is final: a later win / lose is ignored while one is pending, unless `force`, which replaces it), `is_ending()`, `_end_game(victory)` (campaign save on victory when `save_campaign_on_victory`, then `Events.mission_ended`, banners from the config), keep-lost defeat (`config.defeat_on_keep_lost`, `keep_lost_message`; armed once the player has had a living keep, so a map without one is never lost by it), instant loss (`config.instant_loss_on_wizard_death`, `defeat_delay`; follows `set_player_hero`) |
+| Difficulty | `mission_difficulty` 0-2 (export), `scaled(n, type_id)` (`count_mult`, rounded, min 1 unless `n` is 0; `easy_skip_types` give 0 on easy), `by_difficulty([easy, normal, hard])` |
 | Spawning | `spawn_group(rows, center, ring, team, hold_spot, fixed_ring := false)` (scripted; guards walk home), `spawn_wave_at(rows, at, team := ENEMY, count_filter := Callable())`, `mark_scripted(n)`, `set_dormant(u, on)`, `is_dormant(u)`, `order_wave(u, mode, target)` (modes `&"point"` (then the keep), `&"hero"` (re-aims at the hero every `REFRESH_INTERVAL` = 3 s), own modes in `_refresh_wave_unit`), `clear_waves()`, `tick_scripted(delta)` (guards + waves when the mission has no own tick), `raise_wizard(w, level, learn)`, `flash_ring(pos, radius)` |
 | Hero / base | `set_player_hero(wizard)` (selection F1 / Space / spells, HUD, level cap, instant loss), `lock_base(on, team := PLAYER)` (training buildings refuse with `"Not now"`, queues wait), `set_resources_hidden(on)`, `force_artifacts(wizard, [slot1, slot2])` ("" = leave) |
-| Truce | `set_truce(nodes, on, id := &"truce")`: meta `truce` = id; `Unit.in_truce(a, b)` (same id, or either id `&"all"`) makes `Unit.is_enemy_of` false both ways (auto-aggro, attack orders) and towers skip them |
-| Seats | `add_seat(seat, team, commander := null)`, `tag_seat(node, seat)` (untagged seat = every node of its team), `seat_nodes(seat)`, `seat_team(seat)`, `switch_seat_side(seat, team, grace := 10, profile_id := &"")` (team of every unit / building + its Commander, orders stopped, `&"all"` truce for `grace` s), `withdraw_seat(seat, exit, walk_time := 30)` (Commander off, units walk to `exit` and `leave_map` there or after `walk_time`, everything at peace with all), signals `seat_switched`, `seat_withdrawn` |
-| Campaign | `mission_rewards()` (= `config.rewards`), `set_mission_flag(name, value)` (computed bools / ints written on victory), `add_track_counter(name, amount)` (added to the saved value, e.g. `shadow_stone_uses`), `mission_flags()`, `mission_flag_adds()` |
+| Truce | `set_truce(nodes, on, id := &"truce")`: meta `truce` = id; `Unit.in_truce(a, b)` (same id, or either id `&"all"`) makes `Unit.is_enemy_of` false both ways (auto-aggro, attack orders) and towers skip them. One id per node: joining another truce leaves the old one (warning). A node that leaves the tree gives its truce back (`Unit.truce_count` returns to 0; MissionBase also resets it in `_ready`). **Limit:** ability / spell area filters that compare `team` directly (caster spells, champion abilities) still hit a truce partner |
+| Seats | `add_seat(seat, team, commander := null)`, `tag_seat(node, seat)` (a seat tagged once = exactly its tagged nodes for good, empty when they are gone; an untagged seat = every untagged node of the team it was declared with, until it switches), `seat_nodes(seat)` (living), `seat_team(seat)`, `switch_seat_side(seat, team, grace := 10, profile_id := &"")` (team of every unit / building + its Commander, orders stopped, the moved nodes are tagged: the seat never grows into the side it joins; `&"all"` truce for `grace` s, then each node's earlier truce id comes back), `withdraw_seat(seat, exit, walk_time := 30)` (Commander off, units walk to `exit` and `leave_map` there or after `walk_time`, everything at peace with all), signals `seat_switched`, `seat_withdrawn` |
+| Campaign | `mission_rewards()` (= `config.rewards`), `set_mission_flag(name, value)` (computed bools / ints / floats written on victory; any other type is refused with an error at once), `add_track_counter(name, amount)` (added to the saved value, e.g. `shadow_stone_uses`; **each mission counts once**: a replayed mission replaces its own previous contribution, the latest victory counts, so a replay never inflates a counter), `mission_flags()`, `mission_flag_adds()`, `grant_carried_essence()` (no-economy mode: adds the essence carried from the last mission, held back until then) |
 | Kits | `static scene_knob(name, default)` (reads a property of the running mission; `default` in the skirmish / tests) |
 | Test switches (set before the tree) | `show_briefing`, `save_campaign_on_victory`, `campaign_save_path`, `cinematics_enabled`, `mission_difficulty`, `config` |
 
@@ -68,6 +69,10 @@ Engine hooks added with it:
   save_now := false)`, `reward_of(id, level)` (`MISSION_REWARDS` first, then the mission's `mission_rewards()`, then
   `registered_rewards`), reward keys `artifact`, `flags`, `bonus_essence`, `set_flags`, `items` (extra owned
   artifacts), `unlock` (several missions), `next`, `save_items` (false = flags only, items / essence untouched).
+  Track counters per mission (`track`, `add_track(mission_id, adds)`). Crash-safe save: `save()` writes `<path>.tmp`,
+  keeps the previous save as `<path>.bak` and renames into place; `load()` never takes an unreadable save for a new
+  campaign (warning, the file kept as `<path>.corrupt`, the `.bak` loads; `loaded_from` says which file was read).
+  `apply_to_start` holds the carried essence back on a no-economy mission (meta `carried_essence`).
 
 ## 3. MissionConfig (the knobs)
 
@@ -76,8 +81,8 @@ Defaults = off / untouched. Difficulty arrays are `[easy, normal, hard]`; one va
 | Knob | Effect | When |
 |---|---|---|
 | `mission_id`, `title` | save id, panel title | `_init` |
-| `count_mult` (0.6 / 1 / 1.4), `easy_skip_types` (`shadow_knight`) | `scaled()` | runtime |
-| `defeat_on_keep_lost` (true), `keep_lost_message` | defeat when the player has no keep | every 0.5 s |
+| `count_mult` ([] = no scaling; mission 1: 0.6 / 1 / 1.4), `easy_skip_types` ([]; mission 1: `shadow_knight`) | `scaled()` | runtime |
+| `defeat_on_keep_lost` (true), `keep_lost_message` | defeat when the player's keep falls (armed only once a living player keep existed) | every 0.5 s |
 | `instant_loss_on_wizard_death`, `defeat_delay` (3 s) | the hero's death = defeat | `begin_mission`, `set_player_hero` |
 | `victory_banner`, `defeat_banner` | end banners | `_end_game` |
 | `rewards` | MISSION_REWARDS-shaped entry when the table has none | victory |
@@ -90,7 +95,7 @@ Defaults = off / untouched. Difficulty arrays are `[easy, normal, hard]`; one va
 | `start_essence` (-1 = 150), `essence_trickle`, `kill_essence` | EssenceBank (carried essence is added later by `CampaignState.apply_to_start`) | `_ready` |
 | `start_pop_bonus` | player pop cap + n | `_ready` |
 | `resources_hidden` | the top bar hidden | `begin_mission` |
-| `economy_enabled` (false = no-economy mode) | 0 crystals, 0 essence, no trickle, no kill income, top bar hidden | `_ready` / `begin_mission` |
+| `economy_enabled` (false = no-economy mode) | 0 crystals, 0 essence (the carried essence waits for `grant_carried_essence()`), no trickle, no kill income, top bar hidden | `_ready` / `begin_mission` |
 | `forced_artifacts` | artifact slots forced (key relic) | `begin_mission` |
 | `bot_profile_id`, `bot_team` | the Commander (AIProfile id; unknown id = passive easy knobs); `&""` = scripted enemy only | `begin_mission` |
 

@@ -3,24 +3,33 @@ extends SceneTree
 ## MissionSkeleton four times through MissionHarness (tests/helpers/mission_harness.gd), one part per group of knobs,
 ## then checks CampaignState alone:
 ##   core     objectives order + Events, briefing(), fire_once, after timers, hold_world (mission_time stops, units
-##            dormant, restored), play_cutscene fallback end state, dialogue lines, the E-list, a scripted victory,
-##            the campaign save (config rewards set_flags, mission flags, a track counter added to the saved value).
+##            dormant, restored with their orders: a worker still gathers, a soldier still attack-moves, the
+##            death_guard comes back, a unit the mission put to sleep during the hold stays asleep), play_cutscene
+##            fallback end state, dialogue lines, the E-list, a scripted victory, the campaign save (config rewards
+##            set_flags, mission flags, a track counter added to the saved value, a replay does not add it twice).
 ##   start    tiers_enabled / max_tier / bots_upgrade / start_tiers (quiet), casters_enabled, t3_enabled,
 ##            helpers_enabled + helper_start_called + helper_call_price, titan knobs (scene_knob), start level /
 ##            spells / spell points / level cap, start crystals by difficulty (player, enemy), start essence + no
 ##            trickle, pop bonus, resources_hidden, forced artifact slot.
-##   runtime  no-economy mode, lock_base, set_truce, artifact_power_used (gate, Recharging), seats
-##            (switch_seat_side with grace, withdraw_seat), set_player_hero + the instant-loss rule.
+##   runtime  no-economy mode (carried essence held back, grant_carried_essence), lock_base, set_truce,
+##            artifact_power_used (gate, Recharging), seats (switch_seat_side with grace that gives an older truce
+##            back, withdraw_seat, an untagged seat switched then withdrawn takes only its own units, a dead tagged
+##            seat stays empty), truce_count bookkeeping, set_player_hero + the instant-loss rule.
 ##   keep     the keep-lost defeat.
-##   campaign CampaignState: int flags round-trip, set_flags, reward_of (registered), "unlock", "save_items" false.
+##   ending   lose(3) then win(0): the first ending stands, no victory save.
+##   nokeep   a map without a player keep is never lost by the keep-lost rule.
+##   campaign CampaignState: int flags round-trip, set_flags, reward_of (registered), "unlock", "save_items" false,
+##            String flags, per-mission track counters, the crash-safe save (.tmp / .bak / .corrupt).
 ## Run: godot --headless --path . -s tests/test_mission_framework.gd --fixed-fps 60 --quit-after 30000
-##   Options after `--`: --only=core|start|runtime|keep|campaign
+##   Options after `--`: --only=core|start|runtime|keep|ending|nokeep|campaign
 
 const TASK_ID := "mission_framework"
 const SAVE := "user://test_mission_framework.json"
 const GAP_FRAMES := 3   # frames between parts: the old scene (banks, rosters, tier system) is really gone
 
-var _parts: Array[String] = ["core", "start", "runtime", "keep", "campaign"]
+const SAVE_END := "user://test_mission_framework_end.json"
+
+var _parts: Array[String] = ["core", "start", "runtime", "keep", "ending", "nokeep", "campaign"]
 var _part := ""
 var h: MissionHarness
 var main: Node
@@ -95,6 +104,17 @@ func _open_next() -> void:
 				main = h.open(self, MissionSkeleton)
 				h.steps.add("keep lost", _keep_lost, 300)
 				return
+			"ending":
+				CampaignState.open(SAVE_END).reset()
+				main = h.open(self, MissionSkeleton, {"set": {"campaign_save_path": SAVE_END}})
+				main.set(&"save_campaign_on_victory", true)
+				h.protect_hero = false
+				h.steps.add("lose(3) then win(0)", _ending_first_wins, 400)
+				return
+			"nokeep":
+				main = h.open(self, NoKeepMission)
+				h.steps.add("no keep, no keep-lost defeat", _no_keep, 300)
+				return
 			"campaign":
 				h = null
 				_campaign_static()
@@ -151,18 +171,47 @@ func _core_hold() -> bool:
 		_v["m0"] = float(main.call(&"match_time"))
 		_v["fired"] = false
 		main.call(&"after", 2.0, func() -> void: _v["fired"] = true)
+		# H1: what the hold must give back. A gathering worker, a marching soldier, a death_guard (Rekindle-like).
+		var workers: Array = main.get_tree().get_nodes_in_group("units").filter(func(n: Node) -> bool:
+			return n.has_method(&"command_gather") and int(n.get(&"team")) == Unit.Team.PLAYER)
+		_ok(workers.size() >= 1 and workers[0].call(&"is_gathering"), "a worker gathers before the hold")
+		_v["worker"] = workers[0] if workers.size() > 0 else null
+		_v["worker_node"] = workers[0].get(&"gather_node") if workers.size() > 0 else null
+		var soldier: Unit = main.call(&"_spawn", main.call(&"make_unit", "flame_guard"), Unit.Team.PLAYER, Vector3(-30.0, 0.0, -30.0))
+		soldier.command_attack_move(Vector3(30.0, 0.0, 30.0))
+		_v["soldier"] = soldier
+		var sleeper: Unit = main.call(&"_spawn", main.call(&"make_unit", "shade"), Unit.Team.ENEMY, Vector3(30.0, 0.0, -30.0))
+		_v["sleeper"] = sleeper
+		var enemy0: Unit = main.get(&"shadow_hero")
+		var guard := func(_a: Variant) -> bool: return false
+		enemy0.death_guard = guard
+		_v["guard"] = guard
 		main.call(&"hold_world", true, [main.get(&"hero")])
 		_t0 = h.frame
 		return false
+	if h.frame - _t0 == 30:   # the mission puts a held unit to sleep itself: it stays asleep after the release
+		main.call(&"set_dormant", _v["sleeper"], true)
 	if h.frame - _t0 == 90:
 		var dm := float(main.call(&"match_time")) - float(_v["m0"])
 		var dt := float(main.call(&"mission_time")) - float(_v["t0"])
 		_ok(dm > 1.4 and dt < 0.05, "held: match +%.2f s, mission +%.2f s" % [dm, dt])
 		_ok(not bool(_v["fired"]), "timer fired while held")
-		var enemy: Node = main.get(&"shadow_hero")
+		var enemy: Unit = main.get(&"shadow_hero")
 		_ok(main.call(&"is_dormant", enemy) and not main.call(&"is_dormant", main.get(&"hero")), "hold: dormant / awake")
 		main.call(&"hold_world", false)
 		_ok(not main.call(&"is_dormant", enemy) and enemy.is_in_group("units"), "hold restored")
+		_ok(enemy.death_guard == _v["guard"], "hold release gives the death_guard back (Rekindle)")
+		var w: Node = _v["worker"]
+		_ok(w != null and w.call(&"is_gathering") and w.get(&"gather_node") == _v["worker_node"],
+				"hold release: the worker still gathers the same node")
+		var s: Unit = _v["soldier"]
+		_ok(s.is_attack_moving() and s.is_in_group("units") and s.aggro_range > 0.0,
+				"hold release: the soldier keeps its attack-move order (aggro %.1f)" % s.aggro_range)
+		_ok(main.call(&"is_dormant", _v["sleeper"]), "a unit the mission put to sleep during the hold stays asleep")
+		main.call(&"set_dormant", _v["sleeper"], false)
+		_ok(not main.call(&"is_dormant", _v["sleeper"]) and (_v["sleeper"] as Unit).is_in_group("units"), "and wakes on demand")
+		MissionHarness.kill([_v["soldier"], _v["sleeper"]])
+		enemy.death_guard = Callable()
 	if h.frame - _t0 > 90 and bool(_v["fired"]):
 		var dt2 := float(main.call(&"mission_time")) - float(_v["t0"])
 		_ok(dt2 >= 2.0 and dt2 < 2.2, "after(2) fired at mission +%.2f" % dt2)
@@ -187,6 +236,11 @@ func _core_saved() -> bool:
 	_ok(cs.is_completed(&"m_skeleton") and cs.flag("skeleton_done"), "saved: completed + set_flags (config rewards)")
 	_ok(int(cs.flag_value("skel_count", 0)) == 3, "saved mission flag %s" % str(cs.flag_value("skel_count")))
 	_ok(int(cs.flag_value("skel_track", 0)) == 7, "track counter 5 + 2 = %s" % str(cs.flag_value("skel_track")))
+	# M7: a replay of the same mission replaces its contribution (the latest victory counts), never adds it again.
+	cs.add_track("m_skeleton", {"skel_track": 2})
+	_ok(int(cs.flag_value("skel_track", 0)) == 7, "replay: track counter stays 7 (%s)" % str(cs.flag_value("skel_track")))
+	cs.add_track("m_skeleton", {"skel_track": 3})
+	_ok(int(cs.flag_value("skel_track", 0)) == 8, "replay with 3 uses: 5 + 3 = %s" % str(cs.flag_value("skel_track")))
 	cs.reset()
 	return true
 
@@ -271,6 +325,14 @@ func _rt_setup() -> bool:
 	_ok(eco.crystals == 0 and bank.essence == 0 and not bank.trickle_enabled and not bank.kill_income_enabled,
 			"no-economy: %d crystals / %d essence, no trickle, no kill income" % [eco.crystals, bank.essence])
 	_ok(not (main.get(&"hud").get(&"top_bar") as Control).visible, "no-economy hides the top bar")
+	# M6: the essence carried from the last mission is held back, then granted when a phase turns the economy on.
+	var carried := CampaignState.new()
+	carried.items = {"essence": 120}
+	carried.apply_to_start(main)
+	_ok(bank.essence == 0 and int(main.get_meta(CampaignState.META_CARRIED_ESSENCE, 0)) == 120,
+			"no-economy: carried essence held back (bank %d, held %s)" % [bank.essence, str(main.get_meta(CampaignState.META_CARRIED_ESSENCE, 0))])
+	_ok(int(main.call(&"grant_carried_essence")) == 120 and bank.essence == 120, "grant_carried_essence: bank %d" % bank.essence)
+	bank.essence = 0
 	var keep: Keep = main.get(&"keep")
 	var worker: UnitType = keep.trainable_types()[0]
 	main.call(&"lock_base", true)
@@ -326,32 +388,66 @@ func _rt_seats() -> bool:
 		var s1: Unit = main.call(&"_spawn", main.call(&"make_unit", "shade"), Unit.Team.ENEMY, at)
 		var s2: Unit = main.call(&"_spawn", main.call(&"make_unit", "shade"), Unit.Team.ENEMY, at + Vector3(1.5, 0, 0))
 		var w1: Unit = main.call(&"_spawn", main.call(&"make_unit", "shade"), Unit.Team.ENEMY, Vector3(-10.0, 0.0, 10.0))
+		var p1: Unit = main.call(&"_spawn", main.call(&"make_unit", "shade"), Unit.Team.ENEMY, at + Vector3(0, 0, 3.0))
 		main.call(&"add_seat", &"turncoat", Unit.Team.ENEMY)
 		main.call(&"add_seat", &"leaver", Unit.Team.ENEMY)
 		for u in [s1, s2]:
 			main.call(&"tag_seat", u, &"turncoat")
 		main.call(&"tag_seat", w1, &"leaver")
+		main.call(&"set_truce", [s2, p1], true, &"pact")   # M2: a truce the switch grace must not erase
 		main.call(&"switch_seat_side", &"turncoat", Unit.Team.PLAYER, 1.0)
 		_ok(int(s1.team) == Unit.Team.PLAYER and int(s2.team) == Unit.Team.PLAYER
 				and main.call(&"seat_team", &"turncoat") == Unit.Team.PLAYER, "switch_seat_side: team changed")
 		_ok(Unit.in_truce(s1, main.get(&"shadow_hero")), "switch_seat_side: grace truce")
 		main.call(&"withdraw_seat", &"leaver", Vector3(-12.0, 0.0, 12.0), 4.0)
 		_ok(not (main.get(&"shadow_hero") as Unit).is_enemy_of(w1), "withdraw_seat: at peace")
+		# H3: an UNTAGGED seat (team NEUTRAL here) switched to the player, then withdrawn: only its own two units go.
+		var n1: Unit = main.call(&"_spawn", main.call(&"make_unit", "shade"), Unit.Team.NEUTRAL, Vector3(14.0, 0.0, 14.0))
+		var n2: Unit = main.call(&"_spawn", main.call(&"make_unit", "shade"), Unit.Team.NEUTRAL, Vector3(15.5, 0.0, 14.0))
+		main.call(&"add_seat", &"allies", Unit.Team.NEUTRAL)
+		var before: Array = main.call(&"seat_nodes", &"allies")
+		_ok(before.has(n1) and before.has(n2), "untagged seat covers its team's untagged units (%d)" % before.size())
+		main.call(&"switch_seat_side", &"allies", Unit.Team.PLAYER, 0.0)
+		var after_switch: Array = main.call(&"seat_nodes", &"allies")
+		var hero: Unit = main.get(&"hero")
+		_ok(after_switch.size() == before.size() and not after_switch.has(hero) and not after_switch.has(main.get(&"keep")),
+				"switched untagged seat = the nodes it moved, not the player's side (%d nodes)" % after_switch.size())
+		main.call(&"withdraw_seat", &"allies", Vector3(16.0, 0.0, 16.0), 4.0)
+		_ok(not hero.has_meta(Unit.TRUCE_META)
+				and not (main.get(&"keep") as Node).has_meta(Unit.TRUCE_META), "withdraw: the player's hero / keep stay in the fight")
+		_ok(n1.has_meta(Unit.TRUCE_META) and n2.has_meta(Unit.TRUCE_META), "withdraw: the seat's own units at peace")
 		_v["seat_a"] = s1
+		_v["seat_b"] = s2
 		_v["leaver"] = w1
+		_v["allies"] = [n1, n2]
 		_t0 = h.frame
 		return false
 	if h.frame - _t0 < 300:
 		return false
 	var s1b: Unit = _v["seat_a"]
 	_ok(not Unit.in_truce(s1b, main.get(&"shadow_hero")), "grace over after 1 s")
+	var s2b: Unit = _v["seat_b"]
+	_ok(StringName(s2b.get_meta(Unit.TRUCE_META, &"")) == &"pact", "grace end gives the 'pact' truce back (%s)"
+			% str(s2b.get_meta(Unit.TRUCE_META, &"")))
 	var w1b: Variant = _v["leaver"]
 	_ok(not is_instance_valid(w1b) or not (w1b as Unit).is_alive(), "withdraw_seat: the unit left the map")
+	_ok((main.call(&"seat_nodes", &"leaver") as Array).is_empty(),
+			"a tagged seat whose units are gone is empty (no fallback to the team)")
+	_ok(_v["allies"].all(func(u: Variant) -> bool: return not is_instance_valid(u) or not (u as Unit).is_alive()),
+			"the switched seat's units left the map")
+	var hero2: Unit = main.get(&"hero")
+	_ok(hero2.is_alive() and hero2.is_in_group("units"), "the player's hero is still here")
+	MissionHarness.kill([_v["seat_a"], _v["seat_b"]])
+	_ok((main.call(&"seat_nodes", &"turncoat") as Array).is_empty(), "a dead tagged seat never covers its new team")
 	return true
 
 
 func _rt_hero() -> bool:
 	if not _v.has("w2"):
+		# L1: Unit.truce_count follows the nodes that really carry a truce (units that left the map gave theirs back).
+		var carrying := main.find_children("*", "", true, false).filter(func(n: Node) -> bool:
+			return n.has_meta(Unit.TRUCE_META)).size()
+		_ok(Unit.truce_count == carrying, "truce_count %d = %d nodes in a truce" % [Unit.truce_count, carrying])
 		var old: Wizard = main.get(&"hero")
 		var w2 := Wizard.new()
 		main.call(&"_spawn", w2, Unit.Team.PLAYER, old.global_position + Vector3(2.0, 0.0, 0.0))
@@ -384,6 +480,46 @@ func _keep_lost() -> bool:
 	return false
 
 
+# ---------------------------------------------------------------- the first ending is final (H2)
+
+func _ending_first_wins() -> bool:
+	if not _v.has("lost"):
+		_v["lost"] = true
+		main.call(&"lose", 3.0)   # the instant-loss shape: defeat pending for 3 s
+		_t0 = h.frame
+		return false
+	if h.frame - _t0 == 1:
+		main.call(&"win", 0.0)    # a later scripted victory (a `destroyed` handler) must not replace it
+		_ok(h.ended == -1, "win(0) after lose(3) did nothing (ended %d)" % h.ended)
+	if h.ended < 0:
+		return false
+	_ok(h.ended == 0, "the pending defeat stands (ended %d)" % h.ended)
+	_ok(h.frame - _t0 >= 170, "defeat after its 3 s delay (%d frames)" % (h.frame - _t0))
+	var cs := CampaignState.open(SAVE_END)
+	_ok(not cs.is_completed(&"m_skeleton") and cs.loaded_from == "", "no victory save written")
+	cs.reset()
+	return true
+
+
+# ---------------------------------------------------------------- no player keep (M4)
+
+## A mission whose map has no player keep (hero-only phase): the keep-lost rule never arms.
+class NoKeepMission extends MissionSkeleton:
+	func _on_navigation_ready() -> void:
+		keep = null
+		super()
+
+
+func _no_keep() -> bool:
+	if not _v.has("t"):
+		_v["t"] = h.frame
+		return false
+	if h.frame - int(_v["t"]) < 150:   # 2.5 s: five keep checks
+		return false
+	_ok(h.ended == -1 and not bool(main.call(&"is_ending")), "no player keep: no 'keep has fallen' defeat (ended %d)" % h.ended)
+	return true
+
+
 # ---------------------------------------------------------------- CampaignState alone
 
 func _campaign_static() -> void:
@@ -407,3 +543,56 @@ func _campaign_static() -> void:
 	CampaignState.registered_rewards.erase(&"x_test")
 	level.free()
 	back.reset()
+	# L4: a String flag value no longer breaks the save (bool(String) does not exist in Godot 4).
+	back.set_flags({"s_yes": "true", "s_no": "nope", "sn": &"1"})
+	_ok(back.flag("s_yes") and not back.flag("s_no") and back.flag("sn"), "String flags cleaned to bools %s" % str(back.flags))
+	back.reset()
+	# M7: track counters per mission; the per-mission table survives a save / load.
+	back.add_track("m_a", {"uses": 2})
+	back.add_track("m_a", {"uses": 2})
+	back.add_track("m_b", {"uses": 3})
+	_ok(int(back.flag_value("uses", 0)) == 5, "track: m_a twice + m_b = %s (not 7)" % str(back.flag_value("uses")))
+	back.save()
+	var again := CampaignState.open(path)
+	again.add_track("m_a", {"uses": 1})
+	_ok(int(again.flag_value("uses", 0)) == 4, "track after load: m_a replay with 1 -> %s" % str(again.flag_value("uses")))
+	again.reset()
+	_campaign_crash_safe()
+
+
+## M1: the save survives a crash mid-write: tmp + rename, the previous save kept as .bak, an unreadable main file
+## is never taken for a new campaign (the .bak loads instead and the bad file is kept as .corrupt).
+func _campaign_crash_safe() -> void:
+	var path := "user://test_mission_framework_crash.json"
+	var cs := CampaignState.open(path)
+	cs.reset()
+	_ok(cs.loaded_from == "", "no save: new campaign")
+	cs.set_flags({"step": 1}, true)
+	cs.completed.append(&"m01")
+	cs.set_flags({"step": 2}, true)
+	_ok(FileAccess.file_exists(path) and FileAccess.file_exists(path + CampaignState.BACKUP_SUFFIX)
+			and not FileAccess.file_exists(path + CampaignState.TMP_SUFFIX), "save: main + .bak, no .tmp left")
+	var ok := CampaignState.open(path)
+	_ok(ok.loaded_from == path and int(ok.flag_value("step", 0)) == 2 and ok.is_completed(&"m01"), "main save loads (step 2)")
+	# The power cut: the main file is truncated mid-write.
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_string('{\n\t"version": 1,\n\t"unlocked": ["m01", "m0')
+	f.close()
+	var back := CampaignState.open(path)
+	_ok(back.loaded_from == path + CampaignState.BACKUP_SUFFIX and int(back.flag_value("step", 0)) == 1,
+			"cut save: the backup loads (step %s from '%s'), not a new campaign" % [str(back.flag_value("step")), back.loaded_from])
+	_ok(FileAccess.file_exists(path + CampaignState.CORRUPT_SUFFIX), "the cut file is kept as .corrupt")
+	# The next save repairs the main file and does not replace the good backup with the cut one.
+	back.set_flags({"step": 3}, true)
+	var fixed := CampaignState.open(path)
+	_ok(fixed.loaded_from == path and int(fixed.flag_value("step", 0)) == 3, "next save repairs the main file")
+	var bak := CampaignState.new()
+	bak.path = path + CampaignState.BACKUP_SUFFIX
+	bak.load()
+	_ok(int(bak.flag_value("step", 0)) == 1, "the backup is still the last good save (step %s)" % str(bak.flag_value("step")))
+	# Crash between the two renames: no main file, only the .bak.
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	var lost := CampaignState.open(path)
+	_ok(lost.loaded_from == path + CampaignState.BACKUP_SUFFIX, "main file missing: the backup loads")
+	cs.reset()
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path + CampaignState.CORRUPT_SUFFIX))

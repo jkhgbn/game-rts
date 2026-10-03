@@ -24,6 +24,11 @@ extends RefCounted
 
 const VERSION := 1
 const SAVE_PATH := "user://campaign.json"
+const BACKUP_SUFFIX := ".bak"        ## The previous save (save() keeps it; load() falls back to it).
+const TMP_SUFFIX := ".tmp"           ## save() writes here first, then renames.
+const CORRUPT_SUFFIX := ".corrupt"   ## A copy of an unreadable save (never silently lost).
+## Meta on the level node: carried essence held back by no-economy mode (MissionBase.grant_carried_essence adds it).
+const META_CARRIED_ESSENCE := &"carried_essence"
 const PLAYER_TEAM := 0   # Unit.Team.PLAYER
 const FIRST_MISSION := &"m01"
 ## Champion companion (docs/design/champions.md 11).
@@ -59,7 +64,12 @@ var companion: Dictionary = {}   # {id, variant, items, purse[, class]} ({} = no
 ## Cinematics already watched (ids, e.g. "prologue_3min"): the campaign prologue auto-plays once, the
 ## CinematicPlayer's skip is one press once seen. Saved as "seen": [...] (old saves: none).
 var seen: Array[StringName] = []
+## Track counters (MissionBase.add_track_counter) per mission: {mission id: {counter: amount}}. Saved as "track".
+## A replayed mission replaces its own contribution instead of adding it again (docs/design/mission-framework.md).
+var track: Dictionary = {}
 var path: String = SAVE_PATH
+## The file load() read: `path`, `path + ".bak"` (the main save was unreadable) or "" (none: a new campaign).
+var loaded_from := ""
 ## The file `open()` reads when no path is given (tests point it at their own file; "" = SAVE_PATH).
 static var default_path: String = ""
 ## Extra reward entries (MISSION_REWARDS shape) registered at runtime by missions / tests (reward_of reads it last).
@@ -89,15 +99,50 @@ static func mission_available(id: StringName) -> bool:
 
 # ---------------------------------------------------------------- file
 
-## Reads the file; false (and a fresh campaign) when missing or unreadable.
+## Reads the file; false (and a fresh campaign) when there is no save at all. A save that does not parse (cut by a
+## crash or power loss) is never taken silently for a new campaign: a warning names it, a copy is kept as
+## `<path>.corrupt`, and the previous save `<path>.bak` (written by save()) is loaded instead. `loaded_from` says
+## which file was read ("" = none).
 func load() -> bool:
 	reset_in_memory()
-	if not FileAccess.file_exists(path):
-		return false
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	loaded_from = ""
+	var main_exists := FileAccess.file_exists(path)
+	if main_exists:
+		var d: Variant = _read_save(path)
+		if d is Dictionary:
+			_from_dict(d)
+			loaded_from = path
+			return true
+		push_warning("CampaignState: the save %s is unreadable (cut or corrupt); a copy is kept as %s%s" % [path, path,
+				CORRUPT_SUFFIX])
+		DirAccess.copy_absolute(ProjectSettings.globalize_path(path), ProjectSettings.globalize_path(path + CORRUPT_SUFFIX))
+	var bak := path + BACKUP_SUFFIX
+	if FileAccess.file_exists(bak):
+		var b: Variant = _read_save(bak)
+		if b is Dictionary:
+			if main_exists:
+				push_warning("CampaignState: loaded the previous save %s instead" % bak)
+			_from_dict(b)
+			loaded_from = bak
+			return true
+		push_error("CampaignState: %s and its backup are both unreadable: a new campaign starts" % path)
+	elif main_exists:
+		push_error("CampaignState: %s is unreadable and there is no backup: a new campaign starts" % path)
+	return false
+
+
+## The parsed save of `file` (a Dictionary of this VERSION), else null.
+static func _read_save(file: String) -> Variant:
+	var json := JSON.new()   # JSON.parse_string would print an engine error on a cut file
+	if json.parse(FileAccess.get_file_as_string(file)) != OK:
+		return null
+	var parsed: Variant = json.data
 	if not parsed is Dictionary or int((parsed as Dictionary).get("version", 0)) != VERSION:
-		return false
-	var d := parsed as Dictionary
+		return null
+	return parsed
+
+
+func _from_dict(d: Dictionary) -> void:
 	unlocked.clear()
 	for id: Variant in d.get("unlocked", []):
 		_add_unique(unlocked, StringName(str(id)))
@@ -115,22 +160,47 @@ func load() -> bool:
 	if sn is Array:
 		for id: Variant in sn:
 			_add_unique(seen, StringName(str(id)))
-	return true
+	var tr: Variant = d.get("track", {})
+	if tr is Dictionary:
+		for m: Variant in tr:
+			if tr[m] is Dictionary:
+				var adds := {}
+				for k: Variant in tr[m]:
+					adds[str(k)] = int(tr[m][k]) if (tr[m][k] is int or tr[m][k] is float) else 0
+				track[str(m)] = adds
 
 
+## Crash-safe: writes `<path>.tmp`, then keeps the current save as `<path>.bak` and renames the new file into place,
+## so a crash or power loss at any moment leaves either the old or the new save readable (load() falls back to .bak).
 func save() -> Error:
-	var f := FileAccess.open(path, FileAccess.WRITE)
+	var tmp := path + TMP_SUFFIX
+	var f := FileAccess.open(tmp, FileAccess.WRITE)
 	if f == null:
 		return FileAccess.get_open_error()
 	f.store_string(JSON.stringify(to_dict(), "\t"))
-	return OK
+	f.flush()
+	var err := f.get_error()
+	f.close()
+	if err != OK:
+		return err
+	var target := ProjectSettings.globalize_path(path)
+	var bak := ProjectSettings.globalize_path(path + BACKUP_SUFFIX)
+	if FileAccess.file_exists(path) and _read_save(path) != null:   # a corrupt file never replaces a good backup
+		if FileAccess.file_exists(path + BACKUP_SUFFIX):
+			DirAccess.remove_absolute(bak)
+		DirAccess.rename_absolute(target, bak)
+	elif FileAccess.file_exists(path):   # unreadable: kept aside as .corrupt, never silently lost
+		DirAccess.copy_absolute(target, target + CORRUPT_SUFFIX)
+		DirAccess.remove_absolute(target)
+	return DirAccess.rename_absolute(ProjectSettings.globalize_path(tmp), target)
 
 
-## New campaign: clears memory and deletes the file.
+## New campaign: clears memory and deletes the save (and its backup / temp files).
 func reset() -> void:
 	reset_in_memory()
-	if FileAccess.file_exists(path):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	for p: String in [path, path + BACKUP_SUFFIX, path + TMP_SUFFIX]:
+		if FileAccess.file_exists(p):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(p))
 
 
 func reset_in_memory() -> void:
@@ -140,6 +210,7 @@ func reset_in_memory() -> void:
 	items = {}
 	companion = {}
 	seen = []
+	track = {}
 
 
 func to_dict() -> Dictionary:
@@ -153,7 +224,7 @@ func to_dict() -> Dictionary:
 	for id in seen:
 		s.append(String(id))
 	return {"version": VERSION, "unlocked": u, "completed": c, "flags": flags.duplicate(), "items": items.duplicate(true),
-			"companion": companion.duplicate(true), "seen": s}
+			"companion": companion.duplicate(true), "seen": s, "track": track.duplicate(true)}
 
 
 # ---------------------------------------------------------------- queries
@@ -209,7 +280,9 @@ static func _clean_flag(v: Variant) -> Variant:
 		return v
 	if v is int or v is float:
 		return int(v)
-	return bool(v)
+	if v is String or v is StringName:   # bool(String) does not exist in Godot 4: "true" / "1" / "yes" = true
+		return String(v).strip_edges().to_lower() in ["true", "1", "yes"]
+	return v != null and not (v is Object and not is_instance_valid(v))
 
 
 ## True once the cinematic `id` was watched (or skipped) in this campaign (CinematicPlayer reads it).
@@ -244,7 +317,7 @@ func carried_essence() -> int:
 func on_mission_victory(mission_id: StringName, level_node: Node) -> Error:
 	mission_id = StringName(mission_id)
 	var reward: Dictionary = reward_of(mission_id, level_node)
-	_apply_reward_flags(reward, level_node)
+	_apply_reward_flags(reward, level_node, String(mission_id))
 	if not bool(reward.get("save_items", true)):   # flags-only missions (e.g. episode 5): items / essence untouched
 		_finish_victory(mission_id, reward)
 		return save()
@@ -274,7 +347,7 @@ func on_mission_victory(mission_id: StringName, level_node: Node) -> Error:
 
 ## Victory flags, in order: "flags" (flag -> objective id, true when that objective is done), "set_flags"
 ## (constant values), then the mission's own `mission_flags()` (MissionBase.set_mission_flag: computed counters / bools).
-func _apply_reward_flags(reward: Dictionary, level_node: Node) -> void:
+func _apply_reward_flags(reward: Dictionary, level_node: Node, mission_id: String = "") -> void:
 	var reward_flags: Dictionary = reward.get("flags", {})
 	for flag_name: Variant in reward_flags:
 		flags[str(flag_name)] = objective_done(level_node, str(reward_flags[flag_name]))
@@ -288,8 +361,29 @@ func _apply_reward_flags(reward: Dictionary, level_node: Node) -> void:
 	if level_node != null and level_node.has_method(&"mission_flag_adds"):   # track counters (shadow_stone_uses)
 		var adds: Variant = level_node.call(&"mission_flag_adds")
 		if adds is Dictionary:
-			for k: Variant in adds:
-				flags[str(k)] = int(flags.get(str(k), 0)) + int(adds[k])
+			add_track(mission_id if mission_id != "" else mission_id_of(level_node), adds)
+
+
+## Adds a mission's track counters (counter -> amount) to the totals in `flags`. Each mission counts once: a replayed
+## mission replaces what it added last time (the latest victory counts), so replays never inflate a counter.
+func add_track(mission_id: String, adds: Dictionary) -> void:
+	var before: Dictionary = track.get(mission_id, {})
+	var now := {}
+	for k: Variant in adds:
+		now[str(k)] = int(adds[k])
+	for k: String in before:
+		if not now.has(k):
+			now[k] = 0
+	for k: String in now:
+		flags[k] = int(flags.get(k, 0)) - int(before.get(k, 0)) + int(now[k])
+	if mission_id != "":
+		track[mission_id] = now
+
+
+static func mission_id_of(level_node: Node) -> String:
+	if level_node != null and &"mission_id" in level_node:
+		return String(level_node.get(&"mission_id"))
+	return ""
 
 
 func _finish_victory(mission_id: StringName, reward: Dictionary) -> void:
@@ -323,9 +417,23 @@ func apply_to_start(level_node: Node) -> bool:
 	if inventory == null or items.is_empty():
 		return inventory != null
 	var essence := CampaignItems.restore(items, inventory)
+	if essence > 0 and not economy_on(level_node):
+		# No-economy mode = 0 essence: held back on the level (MissionBase.grant_carried_essence adds it later).
+		level_node.set_meta(META_CARRIED_ESSENCE, int(level_node.get_meta(META_CARRIED_ESSENCE, 0)) + essence)
+		return true
 	var bank := _bank_in(level_node, _team_of(hero))
 	if bank and essence > 0:
 		bank.add(essence)
+	return true
+
+
+## False when the level is a mission whose MissionConfig turns the economy off (no-economy mode).
+static func economy_on(level_node: Node) -> bool:
+	if level_node == null or not &"config" in level_node:
+		return true
+	var c: Variant = level_node.get(&"config")
+	if c is Object and is_instance_valid(c) and &"economy_enabled" in (c as Object):
+		return bool((c as Object).get(&"economy_enabled"))
 	return true
 
 

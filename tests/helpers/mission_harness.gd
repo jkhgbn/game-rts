@@ -53,9 +53,15 @@ func open(tree: SceneTree, mission: Variant, options: Dictionary = {}) -> Node:
 	main.set(&"cinematics_enabled", false)
 	if options.has("difficulty"):
 		main.set(&"mission_difficulty", int(options["difficulty"]))
-	if options.has("config"):
-		main.set(&"config", options["config"])
 	var extra: Dictionary = options.get("set", {})
+	if options.has("config"):
+		# MissionBase._ready re-copies the switches of a new config onto the node: a "set" value for a config field
+		# (casters_enabled, t3_enabled...) goes into a copy of the config too, so "set" always wins over "config".
+		var c := (options["config"] as Resource).duplicate() as Resource
+		for k: Variant in extra:
+			if StringName(str(k)) in c:
+				c.set(StringName(str(k)), extra[k])
+		main.set(&"config", c)
 	for k: Variant in extra:
 		main.set(StringName(str(k)), extra[k])
 	tree.root.add_child(main)
@@ -78,6 +84,10 @@ func tick() -> bool:
 			return true
 		return false
 	frame += 1
+	if steps.size() == 0:   # a test with nothing to check must not print PASS
+		errors.append("no steps: the test checks nothing")
+		finish()
+		return true
 	var hero: Node = main.get(&"hero")
 	if protect_hero and is_instance_valid(hero) and hero.call(&"is_alive"):
 		hero.call(&"heal", 1.0e6)
@@ -147,6 +157,9 @@ class Steps:
 
 	func add(step_name: String, step: Callable, max_frames: int = 1200) -> void:
 		_list.append([step_name, step, max_frames])
+
+	func size() -> int:
+		return _list.size()
 
 	func current_name() -> String:
 		return String(_list[_i][0]) if _i < _list.size() else "done"

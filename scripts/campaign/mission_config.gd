@@ -9,11 +9,13 @@ extends Resource
 # ---------------------------------------------------------------- identity and end
 @export var mission_id: StringName = &""
 @export var title := ""
-## Easy / normal / hard multipliers of scripted counts (MissionBase.scaled: rounded, min 1).
-@export var count_mult: Array[float] = [0.6, 1.0, 1.4]
-## Unit types dropped from scripted groups on easy (mission 1: no Shadow Knights).
-@export var easy_skip_types: Array[StringName] = [&"shadow_knight"]
-## Defeat when the player has no living keep (`keep_lost_message` on screen).
+## Easy / normal / hard multipliers of scripted counts (MissionBase.scaled: rounded, min 1 unless 0). [] = no scaling
+## (mission 1 sets [0.6, 1.0, 1.4]).
+@export var count_mult: Array[float] = []
+## Unit types dropped from scripted groups on easy ([] = none; mission 1: [&"shadow_knight"]).
+@export var easy_skip_types: Array[StringName] = []
+## Defeat when the player has no living keep (`keep_lost_message` on screen). Armed only once the player has had a
+## living keep at begin_mission or later: a map without a player keep (hero-only phase) is never lost by this rule.
 @export var defeat_on_keep_lost := true
 @export var keep_lost_message := "The keep has fallen"
 ## `instant_loss_on_wizard_death` of the specs: the player's hero (set_player_hero re-points it) dying is a defeat

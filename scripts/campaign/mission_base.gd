@@ -46,6 +46,10 @@ const META_MODE := &"mission_mode"
 const META_TARGET := &"mission_target"
 const META_DORMANT := &"mission_dormant"
 const META_AGGRO := &"mission_aggro"
+const META_HELD := &"mission_held"            ## Asleep because of hold_world (not the mission): the release wakes it.
+const META_GUARD := &"mission_prev_guard"     ## The death_guard a unit had before set_dormant (Rekindle...).
+const META_TRUCE_PREV := &"mission_truce_prev"   ## The truce id a seat node had before its switch grace.
+const META_TRUCE_HOOK := &"mission_truce_hook"   ## tree_exiting is wired to clear its truce (Unit.truce_count).
 const DEFAULT_SPEAKER_COLORS := {
 	&"vessa": Color(1.0, 0.45, 0.1),
 	&"malrik": Color(0.7, 0.3, 1.0),
@@ -108,8 +112,9 @@ var _ending := false
 var _capping := false
 var _intro_done := false
 var _held_total := 0.0
-var _held: Dictionary = {}       # Unit -> true: made dormant by hold_world
-var _held_bots: Dictionary = {}  # Commander -> its `enabled` before the hold
+var _held: Dictionary = {}       # Unit -> true: made dormant by hold_world (meta META_HELD)
+var _held_bots: Dictionary = {}  # Commander -> its `enabled` before the hold (withdraw_seat updates it)
+var _keep_seen := false          # the keep-lost rule is armed once the player had a living keep
 var _mission_flags: Dictionary = {}
 var _track_adds: Dictionary = {}
 var _seats: Dictionary = {}      # seat id -> {team, commander}
@@ -131,6 +136,7 @@ func _ready() -> void:
 		config = MissionConfig.new()
 	if config != _applied_config:   # a scene / test gave another config
 		_apply_switches(config)
+	Unit.truce_count = 0   # static: a truce of the previous scene (F9, mission to mission) must not survive it
 	super()
 	if tier_system:
 		tier_system.max_tier = config.max_tier
@@ -213,6 +219,8 @@ func _begin_intro() -> void:
 ## clock, the Commander (config.bot_profile_id), the objectives in `initial` turned active (in that order), the
 ## MissionHud with its briefing, the helper / artifact knobs, then the intro unless the briefing holds it.
 func begin_mission(initial: Array = []) -> void:
+	if keep != null and is_instance_valid(keep) and keep.is_alive():
+		_keep_seen = true   # arms the keep-lost rule (config.defeat_on_keep_lost)
 	_apply_hero_start()
 	_setup_hud()
 	_start_match()
@@ -471,6 +479,10 @@ func mission_time() -> float:
 
 ## cinematics.md HOLD: the mission clock stops, every Commander pauses, every living unit that is not in
 ## `keep_awake` goes dormant (units already dormant for mission reasons stay so after); false restores exactly that.
+## The hold is a ceasefire, not a freeze: orders are kept (workers keep gathering / building, armies keep their move
+## and attack-move orders, waves their targets) and the release gives each unit back its own death_guard (Rekindle).
+## A unit the mission puts to sleep / wakes itself during the hold (set_dormant) is the mission's again: the release
+## leaves it alone; a Commander the mission switched (withdraw_seat) during the hold keeps that state.
 func hold_world(on: bool, keep_awake: Array = []) -> void:
 	if on == world_is_held:
 		return
@@ -480,15 +492,20 @@ func hold_world(on: bool, keep_awake: Array = []) -> void:
 			var u := node as Unit
 			if u == null or not u.is_alive() or keep_awake.has(u) or u.has_meta(META_DORMANT):
 				continue
-			set_dormant(u, true)
+			_sleep(u)
+			u.set_meta(META_HELD, true)
 			_held[u] = true
 		for bot in _all_commanders():
 			_held_bots[bot] = bool(bot.get(&"enabled"))
 			bot.set(&"enabled", false)
 	else:
 		for u: Variant in _held:
-			if is_instance_valid(u) and (u as Unit).is_alive():
-				set_dormant(u as Unit, false)
+			if not is_instance_valid(u):
+				continue
+			var unit := u as Unit
+			unit.remove_meta(META_HELD)
+			if unit.has_meta(META_DORMANT):
+				_wake(unit)   # orders untouched
 		_held.clear()
 		for bot: Variant in _held_bots:
 			if is_instance_valid(bot):
@@ -615,24 +632,32 @@ func play_cutscene(id: StringName, end_state: Callable = Callable()) -> String:
 
 # ---------------------------------------------------------------- end of the mission
 
-## Victory after `delay` seconds of mission time (0 = now).
-func win(delay := 0.0) -> void:
-	_finish(true, delay)
+## Victory after `delay` seconds of mission time (0 = now). The first ending decided wins: once win / lose (or the
+## keep-lost rule) is pending, later calls are ignored, unless `force` (it then replaces the pending one).
+func win(delay := 0.0, force := false) -> void:
+	_finish(true, delay, force)
 
 
-## Defeat after `delay` seconds of mission time (0 = now).
-func lose(delay := 0.0) -> void:
-	_finish(false, delay)
+## Defeat after `delay` seconds of mission time (0 = now). Same first-ending-is-final rule as win().
+func lose(delay := 0.0, force := false) -> void:
+	_finish(false, delay, force)
 
 
-func _finish(victory: bool, delay: float) -> void:
-	if game_over:
+var _end_serial := 0   # bumped by every accepted ending: a replaced pending one does nothing when its timer fires
+
+
+func _finish(victory: bool, delay: float, force := false) -> void:
+	if game_over or (_ending and not force):
 		return
 	_ending = true
+	_end_serial += 1
+	var serial := _end_serial
 	if delay <= 0.0:
 		_end_game(victory)
 	else:
-		after(delay, func() -> void: _end_game(victory))
+		after(delay, func() -> void:
+			if serial == _end_serial:
+				_end_game(victory))
 
 
 ## True once the mission is ending (win / lose called, or the end game).
@@ -640,10 +665,16 @@ func is_ending() -> bool:
 	return _ending or game_over
 
 
+## config.defeat_on_keep_lost: armed once the player has had a living keep (a map without one is never lost here).
 func _check_end() -> void:
 	if _ending or not config.defeat_on_keep_lost:
 		return
-	if keep == null or not is_instance_valid(keep) or not keep.is_alive():
+	var alive := keep != null and is_instance_valid(keep) and keep.is_alive()
+	if alive:
+		_keep_seen = true
+	if not _keep_seen:
+		return
+	if not alive:
 		_ending = true
 		hud.show_message(config.keep_lost_message, 4.0)
 		_end_game(false)
@@ -668,7 +699,12 @@ func mission_rewards() -> Dictionary:
 
 
 ## Mission-computed campaign flags (counters, bools) written on victory, after the reward table's flags.
+## Only bool / int / float values (floats are saved as ints): anything else is refused with an error at once, so the
+## victory save can never fail on it.
 func set_mission_flag(flag_name: String, value: Variant) -> void:
+	if not (value is bool or value is int or value is float):
+		push_error("set_mission_flag(%s): only bool / int / float values, got %s" % [flag_name, type_string(typeof(value))])
+		return
 	_mission_flags[flag_name] = value
 
 
@@ -754,19 +790,45 @@ func lock_base(on: bool, team: int = Unit.Team.PLAYER) -> void:
 
 ## Truce (mission-e7-02.md D8): every node of `nodes` shares truce `id`; nodes in the same truce never target each
 ## other (Unit.in_truce: auto-aggro, attack orders, towers). off = they fight again. Use the id &"all" to be at peace
-## with everyone.
+## with everyone. A node holds one truce id: joining another truce leaves the old one (a warning says so).
+## Limit: the truce covers `is_enemy_of` (auto-aggro, attack orders) and the tower gun; ability / spell area
+## filters that compare `team` directly (caster spells, champion abilities) still hit a truce partner.
 func set_truce(nodes: Array, on: bool, id: StringName = &"truce") -> void:
 	for n: Variant in nodes:
 		if not is_instance_valid(n):
 			continue
 		var node := n as Node
 		if on:
-			Unit.set_truce_id(node, id)
-			var u := node as Unit
-			if u and u.attack_target != null and is_instance_valid(u.attack_target) and Unit.in_truce(u, u.attack_target):
-				u.command_stop()
+			var old := StringName(node.get_meta(Unit.TRUCE_META, &""))
+			if old != &"" and old != id:
+				push_warning("set_truce: %s leaves truce '%s' for '%s'" % [node.name, old, id])
+			_set_truce_id(node, id)
+			_stop_truce_target(node)
 		elif StringName(node.get_meta(Unit.TRUCE_META, &"")) == id:
 			Unit.set_truce_id(node, &"")
+
+
+func _stop_truce_target(node: Node) -> void:
+	var u := node as Unit
+	if u and u.attack_target != null and is_instance_valid(u.attack_target) and Unit.in_truce(u, u.attack_target):
+		u.command_stop()
+
+
+## Unit.set_truce_id + the node clears its truce when it leaves the tree (dies, leaves the map), so
+## Unit.truce_count goes back to 0 once no truce is left.
+func _set_truce_id(node: Node, id: StringName) -> void:
+	Unit.set_truce_id(node, id)
+	if id != &"" and not node.has_meta(META_TRUCE_HOOK):
+		node.set_meta(META_TRUCE_HOOK, true)
+		node.tree_exiting.connect(_on_truce_node_exiting.bind(node), CONNECT_ONE_SHOT)
+
+
+func _on_truce_node_exiting(node: Node) -> void:
+	if not is_instance_valid(node):
+		return
+	node.remove_meta(META_TRUCE_HOOK)
+	if node.has_meta(Unit.TRUCE_META):
+		Unit.set_truce_id(node, &"")
 
 
 ## Forces the hero's artifact slots: `ids[i]` != "" goes in artifact slot i (moved there if already carried, added
@@ -801,6 +863,17 @@ func force_artifacts(wizard: Node, ids: Array) -> void:
 			inv.swap(at, Inventory.ARTIFACT_SLOT + i)
 
 
+## No-economy mode keeps the essence carried from the previous mission out of the bank (CampaignState.apply_to_start
+## stores it in the meta `carried_essence`): the phase that turns the economy on calls this to add it. Returns it.
+func grant_carried_essence() -> int:
+	var n := int(get_meta(CampaignState.META_CARRIED_ESSENCE, 0))
+	remove_meta(CampaignState.META_CARRIED_ESSENCE)
+	var bank := EssenceBank.for_team(Unit.Team.PLAYER)
+	if bank and n > 0:
+		bank.add(n)
+	return n
+
+
 ## Hides (true) or shows the top bar (crystals, essence, pop).
 func set_resources_hidden(on: bool) -> void:
 	if hud and hud.top_bar:
@@ -819,10 +892,23 @@ static func scene_knob(knob: StringName, default: Variant = null) -> Variant:
 
 # ---------------------------------------------------------------- seats (scripted sides)
 
-## Declares a seat: a named side of the mission (`team`, its Commander or null). Nodes join it with tag_seat (or
-## spawn_group's caller tags them); a seat with no tagged node covers every unit / building of its team.
+## Declares a seat: a named side of the mission (`team`, its Commander or null). Membership:
+## - a **tagged** seat (tag_seat was used for it, before or after add_seat) is exactly its tagged nodes, for good:
+##   once they are all dead it is empty (it never falls back to its team);
+## - an **untagged** seat covers every untagged unit / building of the team it was declared with (so its Commander's
+##   new units join it) until switch_seat_side, which tags every node it moves: from then on the seat is those nodes
+##   only (it never grows into the side it joined).
 func add_seat(seat: StringName, team: int, commander: Node = null) -> void:
-	_seats[seat] = {"team": team, "commander": commander}
+	var tagged := false
+	for group: String in ["units", "buildings"]:
+		for n in get_tree().get_nodes_in_group(group):
+			if StringName(n.get_meta(SEAT_META, &"")) == seat:
+				tagged = true
+				break
+	_seats[seat] = {"team": team, "commander": commander, "tagged": tagged or _tagged_seats.has(seat)}
+
+
+var _tagged_seats: Dictionary = {}   # seat id -> true once tag_seat named it (even before add_seat)
 
 
 func seat_team(seat: StringName) -> int:
@@ -831,24 +917,27 @@ func seat_team(seat: StringName) -> int:
 
 func tag_seat(node: Node, seat: StringName) -> void:
 	node.set_meta(SEAT_META, seat)
+	_tagged_seats[seat] = true
+	if _seats.has(seat):
+		(_seats[seat] as Dictionary)["tagged"] = true
 
 
-## The living units and buildings of `seat`.
+## The living units and buildings of `seat` (see add_seat for who belongs to it).
 func seat_nodes(seat: StringName) -> Array:
 	var out: Array = []
-	var tagged := false
-	var team := seat_team(seat)
-	for group: String in ["units", "buildings"]:
-		for n in get_tree().get_nodes_in_group(group):
-			if n.has_meta(SEAT_META):
-				if StringName(n.get_meta(SEAT_META)) == seat:
-					tagged = true
-					out.append(n)
-	if tagged:
+	if not _seats.has(seat):
 		return out
+	var d: Dictionary = _seats[seat]
+	var tagged := bool(d.get("tagged", false))
+	var team := int(d["team"])
 	for group: String in ["units", "buildings"]:
 		for n in get_tree().get_nodes_in_group(group):
-			if not n.has_meta(SEAT_META) and n.get(&"team") != null and int(n.get(&"team")) == team:
+			if n.is_queued_for_deletion() or (n.has_method(&"is_alive") and not bool(n.call(&"is_alive"))):
+				continue
+			if n.has_meta(SEAT_META):
+				if tagged and StringName(n.get_meta(SEAT_META)) == seat:
+					out.append(n)
+			elif not tagged and n.get(&"team") != null and int(n.get(&"team")) == team:
 				out.append(n)
 	return out
 
@@ -862,12 +951,14 @@ func switch_seat_side(seat: StringName, team: int, grace := 10.0, profile_id: St
 	var nodes := seat_nodes(seat)
 	for n: Variant in nodes:
 		var node := n as Node
+		tag_seat(node, seat)   # the seat is now exactly these nodes (H3: never the whole side it joins)
 		node.set(&"team", team)
 		var u := node as Unit
 		if u and u.is_alive():
 			u.command_stop()
 	var d: Dictionary = _seats[seat]
 	d["team"] = team
+	d["tagged"] = true
 	var bot: Node = d["commander"]
 	if bot and is_instance_valid(bot):
 		bot.set(&"team", team)
@@ -875,11 +966,22 @@ func switch_seat_side(seat: StringName, team: int, grace := 10.0, profile_id: St
 			bot.set(&"profile_id", profile_id)
 	if grace > 0.0:
 		var grace_id := StringName("grace_%s" % seat)
-		set_truce(nodes, true, Unit.TRUCE_ALL)
+		for n: Variant in nodes:   # the grace walk: at peace with everyone; the truce each node had comes back after
+			var node := n as Node
+			var old := StringName(node.get_meta(Unit.TRUCE_META, &""))
+			if old != Unit.TRUCE_ALL:
+				node.set_meta(META_TRUCE_PREV, old)
+				_set_truce_id(node, Unit.TRUCE_ALL)
+				_stop_truce_target(node)
 		after(grace, func() -> void:
 			for n: Variant in nodes:
-				if is_instance_valid(n) and StringName((n as Node).get_meta(Unit.TRUCE_META, &"")) == Unit.TRUCE_ALL:
-					Unit.set_truce_id(n as Node, &"")
+				if not is_instance_valid(n) or not (n as Node).has_meta(META_TRUCE_PREV):
+					continue   # gone, or withdraw_seat made its peace for good
+				var node := n as Node
+				var prev := StringName(node.get_meta(META_TRUCE_PREV))
+				node.remove_meta(META_TRUCE_PREV)
+				if StringName(node.get_meta(Unit.TRUCE_META, &"")) == Unit.TRUCE_ALL:
+					_set_truce_id(node, prev)
 			event_fired.emit(grace_id))
 	seat_switched.emit(seat, team)
 
@@ -893,9 +995,12 @@ func withdraw_seat(seat: StringName, exit: Vector3, walk_time := 30.0) -> void:
 	var bot: Node = (_seats[seat] as Dictionary)["commander"]
 	if bot and is_instance_valid(bot):
 		bot.set(&"enabled", false)
+		if _held_bots.has(bot):
+			_held_bots[bot] = false   # a hold release must not switch a withdrawn seat's Commander back on
 	var walkers: Array = []
 	for n: Variant in seat_nodes(seat):
-		Unit.set_truce_id(n as Node, Unit.TRUCE_ALL)
+		(n as Node).remove_meta(META_TRUCE_PREV)   # a running switch grace must not end this peace
+		_set_truce_id(n as Node, Unit.TRUCE_ALL)
 		var u := n as Unit
 		if u and u.is_alive():
 			u.command_move(exit)
@@ -925,8 +1030,11 @@ func _process(_delta: float) -> void:
 
 # ---------------------------------------------------------------- difficulty and spawning
 
-## `n` scaled by config.count_mult for the difficulty (rounded, min 1); 0 for config.easy_skip_types on easy.
+## `n` scaled by config.count_mult for the difficulty (rounded, min 1 when n > 0; 0 stays 0); 0 for
+## config.easy_skip_types on easy. Empty count_mult = no scaling.
 func scaled(n: int, type_id: String = "") -> int:
+	if n <= 0:
+		return 0
 	var diff := clampi(mission_difficulty, 0, 2)
 	if diff == 0 and config.easy_skip_types.has(StringName(type_id)):
 		return 0
@@ -991,23 +1099,43 @@ func mark_scripted(n: Node) -> void:
 	n.set_meta(SCRIPTED_GROUP, true)
 
 
-## Dormant: out of "units" (nothing targets it), no aggro, hp kept full. Awake: normal unit, orders cleared.
+## Dormant: out of "units" (nothing targets it), no aggro, hp kept full. Awake: normal unit, orders cleared, its own
+## death_guard back (an item passive such as Rekindle). A unit asleep because of hold_world becomes the mission's: it
+## stays as asked after the release.
 func set_dormant(u: Unit, dormant: bool) -> void:
+	if _held.has(u) or u.has_meta(META_HELD):
+		_held.erase(u)
+		u.remove_meta(META_HELD)
 	if dormant:
-		u.set_meta(META_AGGRO, u.aggro_range)
-		u.aggro_range = 0.0
-		u.remove_from_group("units")
-		u.death_guard = func(_attacker: Variant) -> bool:
-			u.hp = u.max_hp
-			return true
-		u.set_meta(META_DORMANT, true)
+		_sleep(u)
 	else:
-		u.aggro_range = float(u.get_meta(META_AGGRO, 8.0))
-		if not u.is_in_group("units"):
-			u.add_to_group("units")
-		u.death_guard = Callable()
-		u.remove_meta(META_DORMANT)
+		if u.has_meta(META_DORMANT):
+			_wake(u)
 		u.command_stop()
+
+
+func _sleep(u: Unit) -> void:
+	if u.has_meta(META_DORMANT):
+		return
+	u.set_meta(META_AGGRO, u.aggro_range)
+	u.aggro_range = 0.0
+	u.remove_from_group("units")
+	u.set_meta(META_GUARD, u.death_guard)
+	u.death_guard = func(_attacker: Variant) -> bool:
+		u.hp = u.max_hp
+		return true
+	u.set_meta(META_DORMANT, true)
+
+
+func _wake(u: Unit) -> void:
+	u.aggro_range = float(u.get_meta(META_AGGRO, 8.0))
+	u.remove_meta(META_AGGRO)
+	if not u.is_in_group("units"):
+		u.add_to_group("units")
+	var guard: Variant = u.get_meta(META_GUARD, Callable())
+	u.death_guard = guard if guard is Callable else Callable()
+	u.remove_meta(META_GUARD)
+	u.remove_meta(META_DORMANT)
 
 
 func is_dormant(u: Variant) -> bool:

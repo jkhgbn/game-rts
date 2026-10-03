@@ -212,6 +212,8 @@ func _mission_config() -> MissionConfig:
 	c.mission_id = MISSION_ID
 	c.title = MISSION_TITLE
 	c.count_mult = COUNT_MULT.duplicate()
+	c.easy_skip_types = [&"shadow_knight"]   # no Shadow Knights on easy (mission-01.md difficulty table)
+	c.defeat_on_keep_lost = true
 	c.tiers_enabled = true   # Skirmish._init turns tiers off for missions; this one has the Stronghold (MAX_TIER)
 	c.max_tier = MAX_TIER
 	c.bots_upgrade = false
