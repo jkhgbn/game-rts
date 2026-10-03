@@ -44,6 +44,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 - **Unit** (`scripts/units/unit.gd`, group `"units"`): `team`, `command_move(Vector3)`, `command_attack(Unit)`,
   `command_stop()`, `take_damage(amount, attacker)`, `heal(amount)`, `is_alive()`, `is_enemy_of(Unit)`,
   signal `died(unit)`. New orders (attack-move, hold) follow the same `command_*` pattern.
+  `set_auto_target(target)` (2026-10-02) points the unit's own auto-aggro at a target (keeps its order, the chase leash
+  and the attack-move chase limit apply; not a player order). New code outside Unit uses it (or `command_attack`), never a direct `attack_target` write.
   Moving units have avoidance priority 1.0, idle ones 0.5 (idle units step aside).
 - **Wizard** (group `"heroes"`): extends Unit. From wave 2, `command_cast(spell_id: StringName, target) -> String`
   (`""` = ok, otherwise the reason) replaces `command_fireball`.
@@ -246,7 +248,9 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   (+ signal `displaced`), `Unit.set_cast_lock(s)`, `Unit.attacks_blocked`, `Unit.order_serial`, `Unit.prefer_casters`.
   `RimeBulwark` (group `"rime_bulwarks"`), `CasterHaze` (group `"pollen_hazes"`). Skirmish only, plus a mission that
   sets `casters_enabled := true` (mission 1: its Stronghold opens the caster). Bot: `AICasters` (child of each
-  Commander; `last_cast(team)` test hook).
+  Commander; `last_cast(team)` test hook). Team claims `CasterKit.claim / is_claimed` + `CasterAbility.claimed_elsewhere`
+  (no two casters of a team cast one spell on one target); `CasterKit.reset()` + `AICasters.reset_history()` run in
+  main.gd `_ready` (every new match / F9).
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).

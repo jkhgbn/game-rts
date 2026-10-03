@@ -40,7 +40,6 @@ const GROUP := &"caster_ice_vfx"
 const EFFECTS: Array[StringName] = [&"rime_bulwark", &"rime_bulwark_shatter", &"rime_bulwark_melt", &"scrying_rune",
 		&"scrying_rune_end"]
 
-const ICE_GLOW := Color(0.75, 0.92, 1.0)
 const CYAN := Color(0.30, 0.82, 1.0)
 const STEEL := Color(0.30, 0.46, 0.66)
 const MIST := Color(0.56, 0.70, 0.86)
@@ -107,6 +106,7 @@ class Fx:
 	var hold := 0.0                # the time the wall / rune stands (s)
 	var lob_from := Vector3.ZERO
 	var lob := false
+	var followed := false          # `follow` was given: the wall melts when that body goes away
 
 
 class Piece:
@@ -128,6 +128,7 @@ class Piece:
 	var lf := -1.0
 	var ld := -1.0
 	var owner_only := false
+	var last: Dictionary = {}     # instance uniform -> the last value sent (_set_p skips unchanged values)
 
 
 var _fx: Array[Fx] = []
@@ -152,6 +153,7 @@ func _ready() -> void:
 	global_transform = Transform3D.IDENTITY
 	_rng.seed = 2107
 	_build_shared()
+	set_process(false)   # woken by _start; sleeps again once nothing runs
 
 
 func _process(delta: float) -> void:
@@ -174,6 +176,18 @@ func _process(delta: float) -> void:
 			p.emitting = false
 			p.visible = false
 			_live_bursts.remove_at(i)
+	if _fx.is_empty() and _live_bursts.is_empty():
+		set_process(false)
+
+
+## Turns _process back on (and refreshes the camera / fog it cached) when an effect starts while idle.
+func _wake() -> void:
+	if is_processing():
+		return
+	set_process(true)
+	_cam = get_viewport().get_camera_3d() if get_viewport() else null
+	_fog_left = FOG_RESCAN
+	_fog = get_tree().get_first_node_in_group(&"fog") if is_inside_tree() else null
 
 
 # ---------------------------------------------------------------- public API
@@ -275,6 +289,7 @@ func _bulwark(at: Variant, target: Variant) -> void:
 	var fx := _new_fx(&"rime_bulwark", c, team)
 	fx.basis = basis
 	fx.follow = anchor
+	fx.followed = anchor != null
 	fx.hold = maxf(hold, RISE_DELAY + RISE_TIME + 0.2)
 	fx.dur = fx.hold + MELT_TIME
 	# The frost crack from the caster's feet to the wall (drawn in over RISE_DELAY + a little).
@@ -308,9 +323,8 @@ func _bulwark(at: Variant, target: Variant) -> void:
 func _end_wall(at: Variant, how: StringName) -> void:
 	var fx := _find(&"rime_bulwark", at, MATCH_DIST)
 	if fx == null:
-		_loose_end(at, how)
-		return
-	if fx.ending != &"":
+		if _find(&"rime_bulwark", at, MATCH_DIST, true) == null:
+			_loose_end(at, how)   # no wall there at all (an ending one there: already going, nothing to add)
 		return
 	fx.ending = how
 	fx.end_t = fx.t
@@ -407,6 +421,8 @@ func _loose_end(at: Variant, how: StringName) -> void:
 func _end_rune(at: Variant) -> void:
 	var fx := _find(&"scrying_rune", at, 1.5)
 	if fx == null:
+		if _find(&"scrying_rune", at, 1.5, true) != null:
+			return   # the rune there is already fading
 		var n := _node(at)
 		var p: Variant = at if at is Vector3 else (n.global_position if n else null)
 		if p == null:
@@ -419,8 +435,6 @@ func _end_rune(at: Variant) -> void:
 		_ring(lf, A_POINT, _hdr(CYAN, 0.9), 1.4, 0.3, 0.6, 0.0, 0.6, 0.0, 0.4, 0.1, 0.2)
 		_sched(lf, &"rune_puff", 0.0, A_POINT, Vector3.UP * 0.1)
 		_start(lf)
-		return
-	if fx.ending != &"":
 		return
 	fx.ending = &"fade"
 	fx.end_t = fx.t
@@ -438,27 +452,30 @@ func _new_fx(id: StringName, point: Vector3, team: int) -> Fx:
 
 
 func _start(fx: Fx) -> void:
+	_wake()
 	_fx.append(fx)
 	_refresh(fx)
 	fx.check_left = CHECK_INTERVAL
 	_tick(fx, 0.0)
 
 
-## The running effect of `id` nearest to `at` (a Vector3 within `dist` m, or the Fx following that Node3D).
-func _find(id: StringName, at: Variant, dist: float) -> Fx:
+## The running effect of `id` that `at` names: the Fx following that Node3D first, else the nearest to `at` (a
+## Vector3, or the node's position) within `dist` m, the oldest on a tie. Effects already ending are skipped unless
+## `ending_too` (then only those are looked at), so a second end call never hits a wall / rune that is already going.
+func _find(id: StringName, at: Variant, dist: float, ending_too := false) -> Fx:
 	var n := _node(at)
+	var p: Variant = at if at is Vector3 else (n.global_position if n else null)
 	var best: Fx = null
 	var bd := dist
-	for fx in _fx:
-		if fx.id != id:
+	for fx in _fx:   # oldest first
+		if fx.id != id or (fx.ending != &"") != ending_too:
 			continue
 		if n and fx.follow == n:
 			return fx
-		var p: Variant = at if at is Vector3 else (n.global_position if n else null)
 		if p == null:
 			continue
 		var d := fx.point.distance_to(p)
-		if d <= bd:
+		if d < bd or (best == null and d <= dist):
 			bd = d
 			best = fx
 	return best
@@ -471,6 +488,8 @@ func _tick(fx: Fx, delta: float) -> bool:
 			fx.point = fx.follow.global_position
 		else:
 			fx.follow = null
+	if fx.followed and fx.follow == null and fx.id == &"rime_bulwark" and fx.ending == &"":
+		_melt_now(fx)   # gameplay's wall body was freed / left the tree without a melt or shatter call
 	fx.check_left -= delta
 	if fx.check_left <= 0.0:
 		fx.check_left += CHECK_INTERVAL
@@ -497,6 +516,14 @@ func _tick(fx: Fx, delta: float) -> bool:
 				if fx.shown:
 					_burst(b["look"], _anchor(fx, b["at"]) + fx.basis * (b["ofs"] as Vector3), b["size"], b["basis"])
 	return fx.t >= fx.dur and fx.bursts_left <= 0
+
+
+## Starts the melt of a standing wall now (its body went away early).
+func _melt_now(fx: Fx) -> void:
+	fx.ending = &"melt"
+	fx.end_t = fx.t
+	fx.dur = fx.t + MELT_TIME + 0.05
+	_sched(fx, &"melt_drips", fx.t, A_POINT, Vector3.UP * 1.2, 1.0, fx.basis)
 
 
 ## The wall's rise / melt / shatter uniforms, and the scrying stone's lob.
@@ -532,11 +559,11 @@ func _tick_wall(fx: Fx, ef: float) -> void:
 	var xf := Transform3D(fx.basis, fx.point)
 	if not xf.is_equal_approx(n.transform):
 		n.transform = xf
-	n.set_instance_shader_parameter(&"rise", rise)
-	n.set_instance_shader_parameter(&"melt", melt)
-	n.set_instance_shader_parameter(&"fade", fade)
+	_set_p(d, &"rise", rise)
+	_set_p(d, &"melt", melt)
+	_set_p(d, &"fade", fade)
 	if lt < 1.5:
-		n.set_instance_shader_parameter(&"age", lt - RISE_TIME + 0.3)
+		_set_p(d, &"age", lt - RISE_TIME + 0.3)
 	var vis := fx.shown and fade > 0.01
 	if n.visible != vis:
 		n.visible = vis
@@ -651,6 +678,15 @@ func _params(d: Piece, params: Dictionary) -> void:
 		return
 	for k: StringName in params:
 		d.n.set_instance_shader_parameter(k, params[k])
+		d.last[k] = params[k]
+
+
+## Sends one instance uniform only when its value changed since the last send on this piece.
+func _set_p(d: Piece, param: StringName, value: Variant) -> void:
+	if d.last.has(param) and d.last[param] == value:
+		return
+	d.last[param] = value
+	d.n.set_instance_shader_parameter(param, value)
 
 
 ## A ground mark (caster_ice_ground.gdshader) of half size `half` (x, -, z metres), at `ofs` (A_POINT: relative to

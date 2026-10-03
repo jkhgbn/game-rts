@@ -59,10 +59,12 @@ const END_FADE := 0.25
 const BURSTS_PER_FRAME := 24
 
 enum { A_POINT, A_TARGET, A_WORLD }
-enum { G_SHOCK, G_WIND, G_HEAL, G_ROPE, G_GLOW, G_SOOT, G_WARD }
+enum { G_SHOCK = 0, G_SOOT = 5 }   # champion_ground.gdshader patterns used here
 
-## Mesh pools (pre-built): pool -> size.
-const POOL_SIZES := {&"disc": 28, &"ring": 20, &"flare": 32, &"beam": 6}
+## Mesh pools (pre-built): pool -> size. `warn` holds only the short slag_rain landing / shock rings and `crust` /
+## `crust_ring` only the long `slagged` looks, so many slagged units (10 s each) never starve the landing warning.
+const POOL_SIZES := {&"disc": 28, &"ring": 20, &"warn": 12, &"flare": 32, &"beam": 6, &"crust": 24, &"crust_ring": 24}
+const DISC_POOLS: Array[StringName] = [&"disc", &"crust"]
 ## One-shot bursts: look -> [amount, lifetime, draw pass, pool size, explosiveness, visibility half-extent (m)].
 const BURSTS := {
 	&"glob_smoke": [5, 0.9, &"mix_smoke", 16, 0.8, 3.0],
@@ -107,7 +109,6 @@ class Fx:
 	var src: Node3D = null           # live source (the Kilnwarden model) for the lash tail
 	var fly := 0.6
 	var arc := 2.0
-	var landed := false
 	var trail_left := 0.0
 	var lash: Piece = null
 	var drips: GPUParticles3D = null
@@ -166,6 +167,7 @@ func _ready() -> void:
 	global_transform = Transform3D.IDENTITY
 	_rng.seed = 5101
 	_build_shared()
+	set_process(false)   # woken by _start; sleeps again once nothing runs
 
 
 func _process(delta: float) -> void:
@@ -188,6 +190,18 @@ func _process(delta: float) -> void:
 			p.emitting = false
 			p.visible = false
 			_live_bursts.remove_at(i)
+	if _fx.is_empty() and _live_bursts.is_empty():
+		set_process(false)
+
+
+## Turns _process back on (and refreshes the camera / fog it cached) when an effect starts while idle.
+func _wake() -> void:
+	if is_processing():
+		return
+	set_process(true)
+	_cam = get_viewport().get_camera_3d() if get_viewport() else null
+	_fog_left = FOG_RESCAN
+	_fog = get_tree().get_first_node_in_group(&"fog") if is_inside_tree() else null
 
 
 # ---------------------------------------------------------------- public API
@@ -276,7 +290,8 @@ func _slag_rain(at: Variant, target: Variant) -> void:
 	fx.dur = FLIGHT + CRUST_TIME
 	var k := radius / SLAG_RADIUS
 	# During the flight: the landing ring (both teams see where it falls) with a faint warm floor.
-	var warn := _ring(fx, A_POINT, _hdr(MOLTEN, 1.25), radius * 0.92, radius, 0.25, 0.0, FLIGHT + 0.06, 0.1, 0.08, 0.07, 0.18)
+	var warn := _ring(fx, A_POINT, _hdr(MOLTEN, 1.25), radius * 0.92, radius, 0.25, 0.0, FLIGHT + 0.06, 0.1, 0.08, 0.07, 0.18,
+		&"warn")
 	_params(warn, {&"fill": Color(0.20, 0.07, 0.02, 0.18)})
 	# The glob: a hot molten flare (its core white-orange) that the tick moves along the arc.
 	var glob := _flare(fx, A_WORLD, from, _hdr(MOLTEN, 2.2), 0.45, 0.62, 0.15, 0.0, FLIGHT + 0.02, 0.04, 0.04, 0.35, 6.0)
@@ -288,7 +303,7 @@ func _slag_rain(at: Variant, target: Variant) -> void:
 	# The impact (scheduled at the landing): flash, shock ring, crust + cooling cracks, splash and smoke.
 	var f := FLIGHT
 	_flare(fx, A_POINT, Vector3.UP * 0.5, _hdr(MOLTEN_HOT, 1.8), 1.0 * k, 2.0 * k, 0.1, f, f + 0.35, 0.0, 0.25, 0.7, 8.0)
-	_ring(fx, A_POINT, _hdr(MOLTEN, 1.6), 0.4, radius * 1.08, 0.28, f, f + 0.55, 0.0, 0.3, 0.1, 0.15)
+	_ring(fx, A_POINT, _hdr(MOLTEN, 1.6), 0.4, radius * 1.08, 0.28, f, f + 0.55, 0.0, 0.3, 0.1, 0.15, &"warn")
 	var soot := _disc(fx, A_POINT, G_SOOT, CRUST, radius * 0.75, radius * 1.02, 0.25, f, f + CRUST_TIME, 0.05, 1.5)
 	if soot:
 		soot.age_until = 0.0
@@ -337,10 +352,10 @@ func _slagged_on(at: Variant, target: Variant) -> void:
 	fx.dur = dur
 	var r := _radius(unit) if unit else 0.45
 	var h := _h(unit) if unit else 1.6
-	var crust := _disc(fx, A_POINT, G_SOOT, CRUST, r * 1.1, r * 1.6, 0.3, 0.0, -0.0001, 0.2, 0.6)
+	var crust := _disc(fx, A_POINT, G_SOOT, CRUST, r * 1.1, r * 1.6, 0.3, 0.0, -0.0001, 0.2, 0.6, &"crust")
 	if crust:
 		crust.age_until = 0.0
-	var glow := _ring(fx, A_POINT, _hdr(SLAG, 1.3), r * 1.1, r * 1.55, 0.3, 0.0, -0.0001, 0.2, 0.6, 0.12, 0.1)
+	var glow := _ring(fx, A_POINT, _hdr(SLAG, 1.3), r * 1.1, r * 1.55, 0.3, 0.0, -0.0001, 0.2, 0.6, 0.12, 0.1, &"crust_ring")
 	if glow:
 		_params(glow, {&"fill": Color(0.09, 0.05, 0.03, 0.45)})
 	if not _drips_free.is_empty():
@@ -457,6 +472,7 @@ func _new_fx(id: StringName, point: Vector3, team: int) -> Fx:
 
 
 func _start(fx: Fx) -> void:
+	_wake()
 	_fx.append(fx)
 	_refresh(fx)
 	fx.check_left = CHECK_INTERVAL
@@ -529,8 +545,6 @@ func _tick_mover(fx: Fx) -> void:
 		if fx.trail_left <= 0.0 and fx.shown and fx.t > 0.02:
 			fx.trail_left = 0.12
 			_burst(&"glob_smoke", p, 1.0, Basis.IDENTITY)
-	if k >= 1.0 and not fx.landed:
-		fx.landed = true
 
 
 ## Stretches the steam lash between the (live) palm and the target head: the head races out in 0.12 s.
@@ -597,7 +611,7 @@ func _tick_piece(fx: Fx, d: Piece, ef: float) -> void:
 	if absf(f - d.lf) > 0.003:
 		d.lf = f
 		n.set_instance_shader_parameter(&"fade", f)
-	if lt <= d.age_until and (d.pool == &"disc" or d.pool == &"flare"):
+	if lt <= d.age_until and (d.is_disc or d.pool == &"flare"):
 		n.set_instance_shader_parameter(&"age", lt)
 	if d.is_disc and absf(s.x - d.lr) > 0.001:
 		d.lr = s.x
@@ -666,7 +680,7 @@ func _piece(fx: Fx, pool: StringName, at: int, ofs: Vector3, on: float, off: flo
 	var d := Piece.new()
 	d.n = free.pop_back()
 	d.pool = pool
-	d.is_disc = pool == &"disc"
+	d.is_disc = DISC_POOLS.has(pool)
 	d.at = at
 	d.ofs = ofs
 	d.o0 = ofs
@@ -705,18 +719,18 @@ func _ramp(d: Piece, param: StringName, c0: Color, c1: Color, time: float) -> vo
 
 
 func _disc(fx: Fx, at: int, pattern: int, tint: Color, r0: float, r1: float, grow: float, on: float, off: float,
-		fin: float, fout: float) -> Piece:
+		fin: float, fout: float, pool: StringName = &"disc") -> Piece:
 	_layer = (_layer + 1) % 8
-	var d := _piece(fx, &"disc", at, Vector3.UP * (0.05 + 0.006 * float(_layer)), on, off, fin, fout)
+	var d := _piece(fx, pool, at, Vector3.UP * (0.05 + 0.006 * float(_layer)), on, off, fin, fout)
 	_grow(d, Vector3(r0, 1.0, r0), Vector3(r1, 1.0, r1), grow)
 	_params(d, {&"pattern": float(pattern), &"tint": tint, &"seed": _rng.randf() * 10.0})
 	return d
 
 
 func _ring(fx: Fx, at: int, tint: Color, r0: float, r1: float, grow: float, on: float, off: float, fin: float,
-		fout: float, width: float = 0.1, glow: float = 0.25) -> Piece:
+		fout: float, width: float = 0.1, glow: float = 0.25, pool: StringName = &"ring") -> Piece:
 	_layer = (_layer + 1) % 8
-	var d := _piece(fx, &"ring", at, Vector3.UP * (0.06 + 0.006 * float(_layer)), on, off, fin, fout)
+	var d := _piece(fx, pool, at, Vector3.UP * (0.06 + 0.006 * float(_layer)), on, off, fin, fout)
 	_grow(d, Vector3(r0, 1.0, r0), Vector3(r1, 1.0, r1), grow)
 	_params(d, {&"tint": tint, &"fill": Color(0, 0, 0, 0), &"width": width, &"glow": glow, &"seed": _rng.randf() * 10.0})
 	return d
@@ -841,9 +855,12 @@ func _build_shared() -> void:
 	plane.size = Vector2(2.0, 2.0)
 	var quad := QuadMesh.new()
 	quad.size = Vector2(1.0, 1.0)
-	var meshes := {&"disc": plane, &"ring": plane, &"flare": quad, &"beam": quad}
-	var mats := {&"disc": _shader_mat(GROUND_SHADER), &"ring": _shader_mat(RING_SHADER),
-			&"flare": _shader_mat(FLARE_SHADER), &"beam": _shader_mat(BEAM_SHADER)}
+	var ground_mat := _shader_mat(GROUND_SHADER)
+	var ring_mat := _shader_mat(RING_SHADER)
+	var meshes := {&"disc": plane, &"ring": plane, &"warn": plane, &"flare": quad, &"beam": quad, &"crust": plane,
+			&"crust_ring": plane}
+	var mats := {&"disc": ground_mat, &"ring": ring_mat, &"warn": ring_mat, &"flare": _shader_mat(FLARE_SHADER),
+			&"beam": _shader_mat(BEAM_SHADER), &"crust": ground_mat, &"crust_ring": ring_mat}
 	for pool: StringName in POOL_SIZES:
 		var arr: Array = []
 		for i in int(POOL_SIZES[pool]):

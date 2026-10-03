@@ -99,7 +99,7 @@ class Fx:
 	var start := Vector3.ZERO      # the victim's feet at the cast
 	var sim_end := Vector3.ZERO    # simulated drag end (Vector3 targets)
 	var chest := 1.0
-	var rooted := false
+	var tracked := false           # a real victim was given: when it dies / goes, its last spot stays (no simulation)
 	# haze
 	var emit: Array = []           # [puffs, motes] while the cloud runs
 	var stop_at := 0.0
@@ -121,6 +121,7 @@ class Piece:
 	var s1 := Vector3.ONE
 	var grow := 0.0
 	var lf := -1.0
+	var last: Dictionary = {}     # instance uniform -> the last value sent (_set_p skips unchanged values)
 
 
 var _fx: Array[Fx] = []
@@ -148,6 +149,7 @@ func _ready() -> void:
 	global_transform = Transform3D.IDENTITY
 	_rng.seed = 3109
 	_build_shared()
+	set_process(false)   # woken by _start; sleeps again once nothing runs
 
 
 func _process(delta: float) -> void:
@@ -178,6 +180,18 @@ func _process(delta: float) -> void:
 				p.visible = false
 			_haze_free.append(h["pair"])
 			_haze_draining.remove_at(i)
+	if _fx.is_empty() and _live_bursts.is_empty() and _haze_draining.is_empty():
+		set_process(false)
+
+
+## Turns _process back on (and refreshes the camera / fog it cached) when an effect starts while idle.
+func _wake() -> void:
+	if is_processing():
+		return
+	set_process(true)
+	_cam = get_viewport().get_camera_3d() if get_viewport() else null
+	_fog_left = FOG_RESCAN
+	_fog = get_tree().get_first_node_in_group(&"fog") if is_inside_tree() else null
 
 
 # ---------------------------------------------------------------- public API
@@ -244,6 +258,7 @@ func _snagroot(at: Variant, target: Variant) -> void:
 		_team_of(caster))
 	fx.follow = caster
 	fx.victim = victim
+	fx.tracked = victim != null
 	fx.hook = h
 	fx.start = feet
 	fx.tpos = feet
@@ -280,7 +295,9 @@ func _snagroot(at: Variant, target: Variant) -> void:
 	_start(fx)
 
 
-func _haze(at: Variant, target: Variant, id: StringName) -> void:
+## `follow`: the cloud rides on this node (Seedcloak: the gameplay haze, CasterHaze, follows the fleeing Bramblesage):
+## the veil and rings sit on fx.point, which _tick moves, and the emitter pair moves with it.
+func _haze(at: Variant, target: Variant, id: StringName, follow: Node3D = null) -> void:
 	var anchor := _node(at)
 	var c: Variant = at if at is Vector3 else (anchor.global_position if anchor else null)
 	if c == null:
@@ -298,6 +315,7 @@ func _haze(at: Variant, target: Variant, id: StringName) -> void:
 	radius = clampf(radius, 1.0, 6.0)
 	time = maxf(time, 1.5)
 	var fx := _new_fx(id, c, team)
+	fx.follow = follow
 	fx.dur = time
 	fx.stop_at = time - 1.2
 	var k := radius / HAZE_RADIUS
@@ -359,7 +377,8 @@ func _seedcloak(at: Variant) -> void:
 	_sched(fx, &"cloak_dust", 0.0, A_POINT, Vector3.UP * 0.5)
 	_sched(fx, &"cloak_flutter", 0.05, A_POINT, Vector3.UP * 1.3)
 	_start(fx)
-	_haze(p, {"radius": CLOAK_RADIUS, "time": CLOAK_TIME, "team": fx.team}, &"pollen_haze")
+	# The cloud follows the Bramblesage like the gameplay haze (CasterHaze.spawn(..., unit)), code review L3.
+	_haze(p, {"radius": CLOAK_RADIUS, "time": CLOAK_TIME, "team": fx.team}, &"pollen_haze", n)
 
 
 # ---------------------------------------------------------------- runtime
@@ -374,6 +393,7 @@ func _new_fx(id: StringName, point: Vector3, team: int) -> Fx:
 
 
 func _start(fx: Fx) -> void:
+	_wake()
 	_fx.append(fx)
 	_refresh(fx)
 	fx.check_left = CHECK_INTERVAL
@@ -402,6 +422,10 @@ func _tick(fx: Fx, delta: float) -> bool:
 		for p: GPUParticles3D in fx.emit:
 			if p.visible != vis:
 				p.visible = vis
+			if fx.follow:   # a following cloud (Seedcloak): new puffs spawn where the Bramblesage is now
+				var o := fx.point + Vector3.UP * 0.9
+				if not p.transform.origin.is_equal_approx(o):
+					p.transform.origin = o
 		if fx.t >= fx.stop_at and (fx.emit[0] as GPUParticles3D).emitting:
 			for p: GPUParticles3D in fx.emit:
 				p.emitting = false
@@ -422,10 +446,12 @@ func _tick(fx: Fx, delta: float) -> bool:
 ## Snagroot: the victim's position (tracked or simulated), the vine curve and growth, the furrow.
 func _tick_snag(fx: Fx) -> void:
 	var t := fx.t
-	if fx.victim and is_instance_valid(fx.victim) and fx.victim.is_inside_tree():
-		fx.tpos = fx.victim.global_position
-	else:
-		fx.victim = null
+	if fx.victim:
+		if is_instance_valid(fx.victim) and fx.victim.is_inside_tree() and _alive(fx.victim):
+			fx.tpos = fx.victim.global_position
+		else:
+			fx.victim = null   # died / freed: tpos stays at its last real spot
+	elif not fx.tracked:
 		var k := _ease(clampf((t - SHOOT) / DRAG, 0.0, 1.0))
 		fx.tpos = fx.start.lerp(fx.sim_end, k)
 	var v := fx.vine
@@ -436,18 +462,18 @@ func _tick_snag(fx: Fx) -> void:
 		elif t > SHOOT + DRAG:
 			grow = 1.0 - _ease(clampf((t - SHOOT - DRAG) / LETGO, 0.0, 1.0))
 		var taut := clampf((t - SHOOT) / 0.1, 0.0, 1.0) * (1.0 - clampf((t - SHOOT - DRAG) / LETGO, 0.0, 1.0))
-		var pulse := exp(-maxf(t - SHOOT, 0.0) * 10.0) * (1.0 if t >= SHOOT else 0.0)
+		var pulse := snappedf(exp(-maxf(t - SHOOT, 0.0) * 10.0), 0.01) * (1.0 if t >= SHOOT else 0.0)
 		var p0 := fx.hook
 		var p2 := fx.tpos + Vector3.UP * fx.chest
 		var mid := (p0 + p2) * 0.5
 		var p1 := mid + Vector3.UP * (0.7 * (1.0 - taut) + 0.1)
-		v.n.set_instance_shader_parameter(&"p0", p0)
-		v.n.set_instance_shader_parameter(&"p1", p1)
-		v.n.set_instance_shader_parameter(&"p2", p2)
-		v.n.set_instance_shader_parameter(&"grow", maxf(grow, 0.001))
-		v.n.set_instance_shader_parameter(&"taut", taut)
-		v.n.set_instance_shader_parameter(&"pulse", pulse)
-		v.n.set_instance_shader_parameter(&"length_m", maxf(p0.distance_to(p2), 0.5))
+		_set_p(v, &"p0", p0)
+		_set_p(v, &"p1", p1)
+		_set_p(v, &"p2", p2)
+		_set_p(v, &"grow", maxf(grow, 0.001))
+		_set_p(v, &"taut", taut)
+		_set_p(v, &"pulse", pulse)
+		_set_p(v, &"length_m", maxf(p0.distance_to(p2), 0.5))
 	var f := fx.furrow
 	if f:
 		var a := fx.start
@@ -461,7 +487,7 @@ func _tick_snag(fx: Fx) -> void:
 			f.ofs = (a + b) * 0.5 + Vector3.UP * 0.045
 			f.s0 = Vector3(0.38, 1.0, maxf(l * 0.5 + 0.2, 0.1))
 			f.s1 = f.s0
-			f.n.set_instance_shader_parameter(&"size", Vector2(0.38, f.s0.z))
+			_set_p(f, &"size", Vector2(0.38, f.s0.z))
 		else:
 			f.s0 = Vector3(0.38, 1.0, 0.1)
 			f.s1 = f.s0
@@ -491,7 +517,7 @@ func _tick_piece(fx: Fx, d: Piece) -> void:
 		if not xf.is_equal_approx(n.transform):
 			n.transform = xf
 		if d.pool == &"ground" and d.grow > 0.0 and lt <= d.grow + 0.05:
-			n.set_instance_shader_parameter(&"size", Vector2(s.x, s.z))
+			_set_p(d, &"size", Vector2(s.x, s.z))
 		if d.pool == &"flare" and lt <= 1.05:
 			n.set_instance_shader_parameter(&"age", lt)
 	if absf(f - d.lf) > 0.003:
@@ -574,6 +600,15 @@ func _params(d: Piece, params: Dictionary) -> void:
 		return
 	for k: StringName in params:
 		d.n.set_instance_shader_parameter(k, params[k])
+		d.last[k] = params[k]
+
+
+## Sends one instance uniform only when its value changed since the last send on this piece.
+func _set_p(d: Piece, param: StringName, value: Variant) -> void:
+	if d.last.has(param) and d.last[param] == value:
+		return
+	d.last[param] = value
+	d.n.set_instance_shader_parameter(param, value)
 
 
 func _ground(fx: Fx, at: int, pattern: int, tint: Color, half: Vector3, ofs: Vector3, rot: Basis, on: float, off: float,
@@ -668,6 +703,12 @@ func _team_of(v: Variant) -> int:
 			return int(team)
 		n = n.get_parent()
 	return -1
+
+
+static func _alive(node: Node3D) -> bool:
+	if node.has_method(&"is_alive"):
+		return bool(node.call(&"is_alive"))
+	return true
 
 
 func _h(n: Variant) -> float:

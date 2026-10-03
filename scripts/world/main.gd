@@ -46,6 +46,10 @@ func _ready() -> void:
 	# MT1 (map-production.md 2.8): the running map's size, read by the fog, BuildGrid, river, minimap and camera.
 	var sz := _map_size()
 	MapInfo.setup(sz.x, sz.y, _map_id(), self)
+	# A new match (first load, F9, menu restart): the casters' static team registries (Scrying Runes, Bulwarks, claims,
+	# spawn counter) and the bot casters' cast history start empty (code review M4).
+	CasterKit.reset()
+	AICasters.reset_history()
 	# One Economy per team, created before any unit so every unit's pop is counted.
 	economy = _add_economy(Unit.Team.PLAYER)
 	_add_economy(Unit.Team.ENEMY)

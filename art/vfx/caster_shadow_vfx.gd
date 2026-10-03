@@ -54,7 +54,7 @@ const END_FADE := 0.25
 const BURSTS_PER_FRAME := 24
 
 enum { A_POINT, A_TARGET, A_WORLD }
-enum { G_SHOCK, G_WIND, G_HEAL, G_ROPE, G_GLOW, G_SOOT, G_WARD }
+enum { G_SOOT = 5 }   # champion_ground.gdshader pattern used here
 
 const POOL_SIZES := {&"disc": 8, &"ring": 18, &"flare": 28, &"beam": 6, &"rope": 12, &"rift": 6}
 const BURSTS := {
@@ -140,6 +140,7 @@ class Piece:
 	var lc := -1.0
 	var free_move := false
 	var hidden := false               # kept hidden by the effect (the drain thread while nothing is drained)
+	var last: Dictionary = {}         # instance uniform -> the last value sent (_set_p skips unchanged values)
 
 
 var _fx: Array[Fx] = []
@@ -165,6 +166,7 @@ func _ready() -> void:
 	global_transform = Transform3D.IDENTITY
 	_rng.seed = 5104
 	_build_shared()
+	set_process(false)   # woken by _start; sleeps again once nothing runs
 
 
 func _process(delta: float) -> void:
@@ -187,6 +189,18 @@ func _process(delta: float) -> void:
 			p.emitting = false
 			p.visible = false
 			_live_bursts.remove_at(i)
+	if _fx.is_empty() and _live_bursts.is_empty():
+		set_process(false)
+
+
+## Turns _process back on (and refreshes the camera / fog it cached) when an effect starts while idle.
+func _wake() -> void:
+	if is_processing():
+		return
+	set_process(true)
+	_cam = get_viewport().get_camera_3d() if get_viewport() else null
+	_fog_left = FOG_RESCAN
+	_fog = get_tree().get_first_node_in_group(&"fog") if is_inside_tree() else null
 
 
 # ---------------------------------------------------------------- public API
@@ -489,11 +503,11 @@ func _tick_tether(fx: Fx, delta: float) -> void:
 	var pulse := 0.5 + 0.5 * sin(fx.t * 7.0)
 	if fx.beam:
 		_axial(fx.beam.n, tip, tip - fx.src_pos, fx.src_pos.distance_to(tip), 1.0)
-		fx.beam.n.set_instance_shader_parameter(&"core", _hdr(TITHE, snappedf(1.5 + 0.8 * pulse, 0.1)))
+		_set_p(fx.beam, &"core", _hdr(TITHE, snappedf(1.5 + 0.8 * pulse, 0.1)))
 	if fx.thread:
 		var l := fx.src_pos.distance_to(tip)
 		_axial(fx.thread.n, tip, tip - fx.src_pos, l, 0.34)
-		fx.thread.n.set_instance_shader_parameter(&"length_m", l)
+		_set_p(fx.thread, &"length_m", snappedf(l, 0.01))
 	var draining := fx.drain != null and is_instance_valid(fx.drain) and fx.drain.is_inside_tree() and _alive(fx.drain)
 	if not draining:
 		fx.drain = null
@@ -503,7 +517,7 @@ func _tick_tether(fx: Fx, delta: float) -> void:
 			var dtip := dp.lerp(fx.tpos, reach)
 			var dl := dp.distance_to(dtip)
 			_axial(fx.dthread.n, dtip, dtip - dp, dl, 0.22)
-			fx.dthread.n.set_instance_shader_parameter(&"length_m", dl)
+			_set_p(fx.dthread, &"length_m", snappedf(dl, 0.01))
 			if fx.dflare:
 				fx.dflare.n.transform = Transform3D(Basis.from_scale(Vector3.ONE * (0.45 + 0.15 * pulse)), dp)
 	# the drain thread and flare stay hidden while nothing is drained
@@ -533,7 +547,7 @@ func _tick_rifts(fx: Fx) -> void:
 		var side := up.cross(nrm).normalized()
 		var bs := Basis(side * (RIFT_W * 0.5) * (0.35 + 0.65 * open), nrm, up * (RIFT_H * 0.5) * maxf(open, 0.02))
 		d.n.transform = Transform3D(bs, base + Vector3.UP * (0.05 + RIFT_H * 0.5 * maxf(open, 0.02)))
-		d.n.set_instance_shader_parameter(&"pulse", snappedf(0.25 * pulse + (0.8 if fx.t > fx.dur - 0.35 else 0.0), 0.05))
+		_set_p(d, &"pulse", snappedf(0.25 * pulse + (0.8 if fx.t > fx.dur - 0.35 else 0.0), 0.05))
 
 
 ## Moves the Vigil wisp along lerp + sin arc; a thin trail of motes; calls play_vigil() on the Deacon on arrival.
@@ -733,13 +747,14 @@ func _new_fx(id: StringName, point: Vector3, team: int) -> Fx:
 
 
 func _start(fx: Fx) -> void:
+	_wake()
 	_fx.append(fx)
 	_refresh(fx)
 	fx.check_left = CHECK_INTERVAL
 	_tick(fx, 0.0)
 
 
-## Advances one effect; true when it is over.
+## Fades a piece the effect positions itself (tether, threads, rifts, wisp).
 func _fade_piece(fx: Fx, d: Piece, ef: float) -> void:
 	var off := d.off if d.off > 0.0 else fx.dur + d.off
 	var lt := fx.t - d.on
@@ -858,6 +873,15 @@ func _params(d: Piece, params: Dictionary) -> void:
 		return
 	for k: StringName in params:
 		d.n.set_instance_shader_parameter(k, params[k])
+		d.last[k] = params[k]
+
+
+## Sends one instance uniform only when its value changed since the last send on this piece.
+func _set_p(d: Piece, param: StringName, value: Variant) -> void:
+	if d.last.has(param) and d.last[param] == value:
+		return
+	d.last[param] = value
+	d.n.set_instance_shader_parameter(param, value)
 
 
 func _ramp(d: Piece, param: StringName, c0: Color, c1: Color, time: float) -> void:
