@@ -275,6 +275,12 @@ var _worker_type: UnitType
 var _eco: Economy
 var _rally := Vector3.ZERO
 var _anchor := Vector3.ZERO
+## MT10: the crown / centre objective of the map (CROWN_SPOT on Crown Hollow; a LayoutLevel's crown spot otherwise).
+var _crown_spot := CROWN_SPOT
+## MT10: true on a LayoutLevel whose bot points come from the layout (`bot_reads_layout()`; Crown Hollow layouts keep
+## the hand-tuned Crown Hollow points, so the bot plays exactly as on skirmish.tscn).
+var _reads_layout := false
+var _scout_loop: Array[Vector3] = []      # MT10: the fixed scout loop in world space (this side), set in _setup
 var _node_refs := {}                      # "a" / "b" / "mid" / "rich" -> CrystalNode (may be freed)
 var _min_soldier_cost := 70
 var _home_start := 0                      # crystals in the home nodes at the start (expansion shares)
@@ -520,8 +526,13 @@ func _setup() -> void:
 	_ready_done = true
 	_enemy_team = Skirmish.enemy_team_of(team)
 	_eco = Economy.for_team(team)
-	_rally = _side(RALLY)
-	_anchor = _side(ANCHOR)
+	_reads_layout = _level.has_method(&"bot_reads_layout") and bool(_level.call(&"bot_reads_layout"))
+	_rally = _layout_mark(&"rally", RALLY)
+	_anchor = _layout_mark(&"anchor", ANCHOR)
+	if _reads_layout and _level.has_method(&"bot_mark"):
+		var c: Vector3 = _level.call(&"bot_mark", int(team), &"crown")
+		if c != Vector3.INF:
+			_crown_spot = c
 	var k := _level.keep_of(team)
 	_faction = _detect_faction(k)
 	faction = _faction
@@ -573,7 +584,7 @@ func _setup() -> void:
 	if CasterKit.ENABLED and casters_ai == null:
 		casters_ai = AICasters.new(self)
 		add_child(casters_ai)
-	_mid_goal = CROWN_SPOT
+	_mid_goal = _crown_spot
 	_log("START %s bot (%s), team %d, %s" % [ai.id, ai.profile_id, int(team), _faction])
 
 
@@ -1003,7 +1014,7 @@ func _detachment(intruders: float) -> Dictionary:
 ## 28 m circle reaches it; the wardens killed whole defending armies there), or inside a living neutral camp or beast
 ## lair (AIMapFill.in_neutral_camp). Such an enemy is left to the neutrals unless it hits a building or a worker.
 func _neutral_ground(pos: Vector3, wardens_alive: bool) -> bool:
-	if wardens_alive and _flat(pos, CROWN_SPOT) < AIMapFill.ISLE_RADIUS:
+	if wardens_alive and _flat(pos, _crown_spot) < AIMapFill.ISLE_RADIUS:
 		return true
 	return mapfill_ai != null and mapfill_ai.in_neutral_camp(pos)
 
@@ -1122,7 +1133,7 @@ func _clear_group() -> void:
 	_hunt_point = Vector3.INF
 	_sortie = {}
 	_sortie_retreat = false
-	_mid_goal = CROWN_SPOT
+	_mid_goal = _crown_spot
 
 
 # ---------------------------------------------------------------- rule 3: economy
@@ -1814,13 +1825,13 @@ func _rule_scout() -> void:
 		if s.hp < SCOUT_HOME_HP * s.max_hp and _scout_wp < path.size():
 			_scout_wp = path.size()
 			_log("SCOUT hurt, coming home")
-		var goal := _rally if _scout_wp >= path.size() else _side(path[_scout_wp])
+		var goal := _rally if _scout_wp >= path.size() else path[_scout_wp]
 		if _flat(s.global_position, goal) <= WAYPOINT_REACH:
 			if _scout_wp >= path.size():
 				_scout_done(s)
 				return
 			_scout_wp += 1
-			goal = _rally if _scout_wp >= path.size() else _side(path[_scout_wp])
+			goal = _rally if _scout_wp >= path.size() else path[_scout_wp]
 		scout_goal = goal
 		_order_move(s, goal, 1.0)
 		return
@@ -1838,7 +1849,7 @@ func _rule_scout() -> void:
 				pick = w
 	if pick == null:
 		return
-	var first := _side(path[0])
+	var first := path[0]
 	if _fog != null:
 		first = _next_scout_point(pick.global_position)
 		if first == Vector3.INF:
@@ -1856,11 +1867,37 @@ func _rule_scout() -> void:
 	_order_move(pick, _scout_via if _scout_via != Vector3.INF else first, 1.0)
 
 
-## 13a: the fixed loop (the river loop over Millstone Bridge when the map has a river), Shadow side.
+## 13a: the fixed loop (the river loop over Millstone Bridge when the map has a river) in world space for this side.
+## MT10: on a LayoutLevel that reads its layout, the level's `bot_scout_path(team)` (the layout's `path bot_scout`, else
+## own side of the crown -> enemy natural -> enemy rich hall -> enemy approach); Crown Hollow's loop moved otherwise.
 func _scout_path() -> Array[Vector3]:
-	if mapfill_ai != null and mapfill_ai.has_river():
-		return AIMapFill.SCOUT_PATH_RIVER
-	return SCOUT_PATH
+	if not _scout_loop.is_empty():
+		return _scout_loop
+	if _reads_layout and _level.has_method(&"bot_scout_path"):
+		var lp: Array = _level.call(&"bot_scout_path", int(team))
+		for p: Vector3 in lp:
+			_scout_loop.append(p)
+		if not _scout_loop.is_empty():
+			return _scout_loop
+	var ch: Array[Vector3] = AIMapFill.SCOUT_PATH_RIVER if mapfill_ai != null and mapfill_ai.has_river() else SCOUT_PATH
+	var out: Array[Vector3] = []
+	for p in ch:
+		out.append(_side(p))
+	return out
+
+
+## MT10 (read only): the scout loop this bot walks, world space.
+func scout_loop() -> Array[Vector3]:
+	return _scout_path()
+
+
+## MT10 (read only): where the build row `row_id` (H1, X1, X2, M1, S3...) goes on this map (before any shift or ring
+## search), INF for an unknown row.
+func planned_spot(row_id: StringName) -> Vector3:
+	for row: Dictionary in ROWS:
+		if row["id"] == row_id:
+			return _row_base(row)
+	return Vector3.INF
 
 
 ## 13a: a road bridge (or cleared ford) to cross first when `goal` is on the other bank; INF otherwise.
@@ -1890,7 +1927,7 @@ func _drive_fog_scout(s: Unit) -> void:
 	# Points of the fixed loop (drawn around the warden camp) are walked to; grid points only until seen.
 	var on_loop := false
 	for p0 in _scout_path():
-		if _flat(_side(p0), scout_goal) < 0.5:
+		if _flat(p0, scout_goal) < 0.5:
 			on_loop = true
 	var leg_over := scout_goal == Vector3.INF or _flat(s.global_position, scout_goal) <= WAYPOINT_REACH \
 			or (not on_loop and _fog.is_visible(int(team), scout_goal)) or _now - _scout_leg_since >= SCOUT_LEG_TIME
@@ -1926,8 +1963,7 @@ func _scout_move(s: Unit, goal: Vector3) -> void:
 ## The first point of the fixed loop still unexplored for this team, else the unexplored grid point
 ## nearest to `from`. INF when everything is explored.
 func _next_scout_point(from: Vector3) -> Vector3:
-	for p0 in _scout_path():
-		var p := _side(p0)
+	for p in _scout_path():
 		if not _fog.is_explored(int(team), p):
 			return p
 	var best := Vector3.INF
@@ -1935,7 +1971,7 @@ func _next_scout_point(from: Vector3) -> Vector3:
 	var camp := _camp_alive()
 	var filter := mapfill_ai != null and mapfill_ai.active()
 	for p in _scout_grid:
-		if _fog.is_explored(int(team), p) or (camp and _flat(p, CROWN_SPOT) < SCOUT_CAMP_AVOID):
+		if _fog.is_explored(int(team), p) or (camp and _flat(p, _crown_spot) < SCOUT_CAMP_AVOID):
 			continue
 		if filter and not mapfill_ai.scout_point_ok(p, camp):
 			continue   # 13a: water, the guarded isle, camps and beast lairs
@@ -2125,7 +2161,7 @@ func _pick_attack_row() -> void:
 			and not _level.crown.is_worn():
 		_set_stage(Stage.CAMP)
 	else:
-		var b := memory.nearest_building(CROWN_SPOT, NEAR_CROWN)
+		var b := memory.nearest_building(_crown_spot, NEAR_CROWN)
 		if b:
 			_hunt(b)
 		else:
@@ -2135,7 +2171,7 @@ func _pick_attack_row() -> void:
 ## Stage.MID toward the crown, or (13b, hard) through the crossing AIMapFill.attack_waypoint() picks when the enemy's
 ## Crown Bridge is held.
 func _enter_mid() -> void:
-	_mid_goal = CROWN_SPOT
+	_mid_goal = _crown_spot
 	if mapfill_ai != null and mapfill_ai.active():
 		var wp := mapfill_ai.attack_waypoint(memory, _now)
 		if wp != Vector3.INF:
@@ -2163,13 +2199,13 @@ func _drive_attack() -> void:
 		Stage.CAMP:
 			if not _camp_alive():
 				_log("CAMP cleared")
-				var b := memory.nearest_building(CROWN_SPOT, NEAR_CROWN)
+				var b := memory.nearest_building(_crown_spot, NEAR_CROWN)
 				if b:
 					_hunt(b)
 				else:
 					_enter_mid()
 				return
-			_group_attack_move(CROWN_SPOT)
+			_group_attack_move(_crown_spot)
 		Stage.MID:
 			_group_attack_move(_mid_goal)
 			var there := 0
@@ -2283,7 +2319,7 @@ func _explore_points() -> Array[Vector3]:
 	for row: Dictionary in ROWS:
 		var p: Vector3 = row["pos"]
 		if p != Vector3.INF and not row.get("trade", false):
-			out.append(-_side(p))
+			out.append(_enemy_side(p))
 	if _fog != null:
 		# 6.A1: after the keep, the spots this team never explored first (buildings it can't know of).
 		var keep_spot: Vector3 = out.pop_front()
@@ -2575,7 +2611,7 @@ func _rule_wizard() -> void:
 			_items_move_start()
 		_hero_state = HeroState.ATTACK
 		var centre := _group_centre()
-		var goal := CROWN_SPOT
+		var goal := _crown_spot
 		match stage:
 			Stage.MID:
 				goal = _mid_goal
@@ -2586,7 +2622,7 @@ func _rule_wizard() -> void:
 				if _hunt_target != null and is_instance_valid(_hunt_target):
 					goal = (_hunt_target as Building).global_position
 			Stage.CREEP, Stage.POINT, Stage.SHRINE:
-				goal = _sortie.get("pos", CROWN_SPOT)
+				goal = _sortie.get("pos", _crown_spot)
 		var dir := goal - centre
 		dir.y = 0.0
 		var follow := centre - (dir.normalized() * HERO_FOLLOW if dir.length() > 0.5 else Vector3.ZERO)
@@ -3235,6 +3271,24 @@ func _side(p: Vector3) -> Vector3:
 	if _level != null and _level.has_method(&"bot_point"):
 		return _level.call(&"bot_point", int(team), p)
 	return p if team == Unit.Team.ENEMY else -p
+
+
+## `p` given for the Shadow side, placed for the ENEMY of this bot (where its buildings may stand): the mirror on
+## Crown Hollow; on a LayoutLevel the level's `bot_point` for the enemy team (its seat frame, not a point mirror).
+func _enemy_side(p: Vector3) -> Vector3:
+	if _level != null and _level.has_method(&"bot_point"):
+		return _level.call(&"bot_point", _enemy_team, p)
+	return -_side(p)
+
+
+## MT10: a named bot point (`rally`, `anchor`): the level's `bot_mark(team, key)` when it reads its layout and has one,
+## else Crown Hollow's Shadow-side `ch` placed for this side.
+func _layout_mark(key: StringName, ch: Vector3) -> Vector3:
+	if _reads_layout and _level.has_method(&"bot_mark"):
+		var p: Vector3 = _level.call(&"bot_mark", int(team), key)
+		if p != Vector3.INF:
+			return p
+	return _side(ch)
 
 
 ## A relative offset `v` given for the Shadow side (slot shifts, wall offsets), turned for this side. On a LayoutLevel

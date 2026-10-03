@@ -30,6 +30,12 @@ const CAMP_KINDS := {"wallow": [&"bristleback", 1, 0.0, "Bristleback Wallow"], "
 const LAIR_KINDS := {"heath": [&"tusker", 4.0, 390.0, 600.0, "Heath"], "crag": [&"roc", 5.0, 510.0, 600.0, "Crag"],
 	"hollow": [&"direwolf", 4.0, 450.0, 600.0, "Greymane Hollow"], "den": [&"grizzlemaw", 5.0, 600.0, 720.0, "Old Wood Den"]}
 const POINT_NAMES := {"watchtower": "Watch", "well": "Well", "shrine": "Wayshrine"}
+## MT10 scout loop: the first point stands this far from the crown (outside AIMapFill.ISLE_RADIUS 15 m), the last
+## this far short of the enemy keep (outside its 13 m start clearing and tower reach).
+const SCOUT_ISLE_GAP := 19.0
+const SCOUT_KEEP_GAP := 22.0
+## MT10 rally: Crown Hollow's rally is 18.4 m in front of the keep; on a layout it stands that far toward the natural.
+const RALLY_DIST := 18.4
 
 ## The layout file: res://data/maps/<id>_layout.tres (or a .map, compiled on load).
 @export var layout_path: String = ""
@@ -306,6 +312,79 @@ func bot_point(team: int, p: Vector3) -> Vector3:
 ## bot_vector(t, v)` away from the map edge. Crown Hollow: `v` for the enemy, `-v` for the player.
 func bot_vector(team: int, v: Vector3) -> Vector3:
 	return _seat_frame(team).basis * (_canon_rot * -v)
+
+
+# ---------------------------------------------------------------- bots read the layout (MT10, NM.A1)
+
+## MT10: true when Commander takes its map points (crown, rally / anchor, scout loop) from this layout through
+## `bot_mark` / `bot_scout_path`. Crown Hollow layouts answer false: the bot keeps Crown Hollow's hand-tuned points
+## (bot_point = identity there), so a Crown Hollow LayoutLevel plays exactly like scenes/skirmish.tscn.
+func bot_reads_layout() -> bool:
+	return not _is_crown_hollow()
+
+
+## MT10: a named bot point of `team` from the layout, or Vector3.INF (Commander then moves Crown Hollow's point with
+## `bot_point`): &"crown" = the crown spot (the map centre without one); &"rally" / &"anchor" = a `slot sub=bot_rally` /
+## `sub=bot_anchor` of the team's image, else read from the layout: the anchor is the wizard start (9.9 m in front of
+## the keep, as on Crown Hollow), the rally stands RALLY_DIST from the keep toward the natural hall (the army covers the
+## first expansion); &"natural" / &"rich" = the team's natural / rich hall spot; &"hub" = the road hub nearest the
+## team's start (`road_graph`).
+func bot_mark(team: int, key: StringName) -> Vector3:
+	match key:
+		&"crown":
+			var c := _first("crown")
+			return c["pos"] if not c.is_empty() else Vector3.ZERO
+		&"rally", &"anchor":
+			var s := _slot(team, "bot_" + String(key))
+			if s != Vector3.INF:
+				return s
+			if key == &"anchor":
+				return _start_pos.get(team, Vector3.INF)
+			var k: Vector3 = _keep_pos.get(team, Vector3.INF)
+			var nat := natural_hall_spot(team)
+			var d := Vector3(nat.x - k.x, 0.0, nat.z - k.z)
+			if k == Vector3.INF or d.length() < RALLY_DIST + 4.0:
+				return Vector3.INF
+			return MapInfo.clamp_point(k + d.normalized() * RALLY_DIST, 4.0)
+		&"natural":
+			return natural_hall_spot(team)
+		&"rich":
+			return rich_hall_spot(team)
+		&"hub":
+			var g := road_graph()
+			var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
+			return hub if hub is Vector3 else Vector3.INF
+	return Vector3.INF
+
+
+## MT10: the bot's fixed scout loop for `team`, world space: the layout's `path bot_scout` (drawn for the canonical
+## seat, moved by the team's seat frame) when it has one, else read from the layout: the own side of the crown isle
+## (outside the warden ring), the enemy's natural hall, the enemy's rich hall, then the approach to the enemy keep
+## (22 m short of it, toward the crown). Empty on Crown Hollow layouts (Commander keeps its Crown Hollow loop).
+func bot_scout_path(team: int) -> Array[Vector3]:
+	var out: Array[Vector3] = []
+	if not bot_reads_layout():
+		return out
+	var drawn := layout.path("bot_scout")
+	if not drawn.is_empty():
+		var frame := _seat_frame(team)
+		for p: Vector3 in drawn:
+			out.append(MapInfo.clamp_point(frame * Vector3(p.x, 0.0, p.z), 3.0))
+		return out
+	var enemy := Skirmish.enemy_team_of(team)
+	var crown := bot_mark(team, &"crown")
+	var own_nat := natural_hall_spot(team)
+	var away := Vector3(own_nat.x - crown.x, 0.0, own_nat.z - crown.z)
+	if away.length() < 0.1:
+		away = Vector3(base_center(team).x - crown.x, 0.0, base_center(team).z - crown.z)
+	out.append(MapInfo.clamp_point(crown + away.normalized() * SCOUT_ISLE_GAP, 3.0))
+	out.append(natural_hall_spot(enemy))
+	out.append(rich_hall_spot(enemy))
+	var ek := base_center(enemy)
+	var to_c := Vector3(crown.x - ek.x, 0.0, crown.z - ek.z)
+	if to_c.length() > SCOUT_KEEP_GAP + 1.0:
+		out.append(MapInfo.clamp_point(ek + to_c.normalized() * SCOUT_KEEP_GAP, 3.0))
+	return out
 
 
 ## The epic-beast lairs (Map Lab / World Forge read them here instead of a LAIR_SPOTS constant).
