@@ -1,7 +1,7 @@
 extends SceneTree
 ## Data Lab test (docs/plan/data-lab.md). Headless:
 ##   & $GODOT --headless --path . -s tests/test_data_lab.gd --fixed-fps 60 --quit-after 900
-## 1. The lab runs on the real data in seconds and writes scorecard.md / .json with a 0-100 score (no history row).
+## 1. The lab runs on the real data within RUN_BUDGET_CAL calibration loops of wall time (see below) and writes scorecard.md / .json with a 0-100 score (no history row).
 ## 2. Synthetic bad data is caught: model_path without model_scene (R2), NaN (F2), negative cost (F3), duplicate
 ##    build key (K2), reserved build key (K4), placeholder text (T2), missing tooltip on an item with an active (F5).
 ## 3. The history log appends a row and reads the score back.
@@ -13,7 +13,20 @@ const Report := preload("res://tools/data_lab/data_lab_report.gd")
 const Checks := preload("res://tools/data_lab/data_lab_checks.gd")
 const OUT := "user://data_lab_test"
 
+## Wall time of the real-data run, judged against a same-run calibration loop (2026-10-02). The run took ~20 s alone
+## and 115 s in a loaded CI run (4 Godot runs in parallel + a background service on 13 of 16 threads) with no code
+## change, so the fixed 60 s line flipped. Lab.run is one blocking call, so a sampler THREAD times the fixed GDScript
+## loop of test_20_a3 (_calib_once, best of CAL_REPEAT) every CAL_SLEEP_MS while the lab runs; the run's wall time is
+## judged in loop medians: same machine, same moment. The loop is 0.232 ms on the quiet laptop, so RUN_BUDGET_CAL =
+## 60 s / 0.232 ms = the old 60 s line on that quiet machine (a hang or a several-x slowdown of the lab still fails).
+const RUN_BUDGET_S := 60.0   ## info only now (the old absolute line, printed next to the ratio verdict)
+const RUN_BUDGET_CAL := 258000.0
+const CAL_REPEAT := 3
+const CAL_SLEEP_MS := 200
+
 var _errors: Array[String] = []
+var _cal_mutex := Mutex.new()
+var _cal_stop := false
 
 
 func _initialize() -> void:
@@ -37,10 +50,28 @@ func _expect(cond: bool, what: String) -> void:
 
 
 func _test_real_data() -> void:
+	var pre := _main_calib_ms()
+	_cal_mutex.lock()
+	_cal_stop = false
+	_cal_mutex.unlock()
+	var sampler := Thread.new()
+	sampler.start(_sampler_loop)
 	var t0 := Time.get_ticks_msec()
 	Lab.run({"out": OUT, "log": "0", "run": "test"})
 	var secs := float(Time.get_ticks_msec() - t0) / 1000.0
-	_expect(secs < 60.0, "real run took %.1f s" % secs)
+	_cal_mutex.lock()
+	_cal_stop = true
+	_cal_mutex.unlock()
+	var samples: Array = sampler.wait_to_finish()
+	var post := _main_calib_ms()
+	var cal_ms := _median(samples)
+	if cal_ms <= 0.0:   # the lab finished before the first sample: fall back on the main-thread loops around it
+		cal_ms = (pre + post) * 0.5
+	var loops := secs * 1000.0 / cal_ms if cal_ms > 0.0 else INF
+	print("  real run %.1f s; calibration loop median %.3f ms over %d samples during the run (main thread before %.3f / after %.3f ms) = %.0f loops (budget %.0f; the old %.0f s line %s)"
+			% [secs, cal_ms, samples.size(), pre, post, loops, RUN_BUDGET_CAL, RUN_BUDGET_S, "over" if secs >= RUN_BUDGET_S else "under"])
+	_expect(loops <= RUN_BUDGET_CAL, "real run took %.0f calibration loops > %.0f (%.1f s, loop %.3f ms)" % [loops,
+			RUN_BUDGET_CAL, secs, cal_ms])
 	_expect(FileAccess.file_exists(OUT.path_join("scorecard.md")), "no scorecard.md")
 	var d: Variant = JSON.parse_string(FileAccess.get_file_as_string(OUT.path_join("scorecard.json")))
 	_expect(d is Dictionary, "scorecard.json unreadable")
@@ -55,6 +86,71 @@ func _test_real_data() -> void:
 			if c["id"] == "L1":
 				_expect(c["status"] == "PASS", "real data: a .tres does not load (%s)" % c["value"])
 		print("  real data: %s score %.0f in %.1f s" % [d.get("result"), q, secs])
+
+
+## Sampler thread: best-of-CAL_REPEAT calibration loops (ms) until _cal_stop. Light: ~1 ms of work per CAL_SLEEP_MS.
+func _sampler_loop() -> Array:
+	var out: Array = []
+	var data := _calib_data()
+	while true:
+		_cal_mutex.lock()
+		var stop := _cal_stop
+		_cal_mutex.unlock()
+		if stop:
+			break
+		var best := 1 << 30
+		for r in CAL_REPEAT:
+			best = mini(best, _calib_once(data[0], data[1]))
+		out.append(float(best) / 1000.0)
+		OS.delay_msec(CAL_SLEEP_MS)
+	return out
+
+
+## The same calibration loop on the main thread (ms, median of 9 best-of-3 samples), before and after the run.
+func _main_calib_ms() -> float:
+	var data := _calib_data()
+	var s: Array = []
+	for k in 9:
+		var best := 1 << 30
+		for r in CAL_REPEAT:
+			best = mini(best, _calib_once(data[0], data[1]))
+		s.append(float(best) / 1000.0)
+	return _median(s)
+
+
+func _calib_data() -> Array:
+	var pts: Array[Vector3] = []
+	var dict := {}
+	for i in 256:
+		pts.append(Vector3(float((i * 37) % 101) - 50.0, 0.0, float((i * 53) % 97) - 48.0))
+	for i in 64:
+		dict[i] = i * 0.5
+	return [pts, dict]
+
+
+## test_20_a3's calibration workload (usec): a fixed loop of Vector3 math, typed-array reads and Dictionary lookups.
+func _calib_once(pts: Array[Vector3], dict: Dictionary) -> int:
+	var t0 := Time.get_ticks_usec()
+	var acc := 0.0
+	var n := pts.size()
+	for r in 8:
+		for i in n:
+			var p := pts[i]
+			var d := p.distance_squared_to(pts[(i * 7 + r) % n])
+			if d < 400.0:
+				acc += sqrt(d)
+			acc += float(dict.get(i & 63, 0.0))
+	if acc < 0.0:
+		print(acc)   # never: keeps the loop's result alive
+	return Time.get_ticks_usec() - t0
+
+
+static func _median(a: Array) -> float:
+	if a.is_empty():
+		return 0.0
+	var s := a.duplicate()
+	s.sort()
+	return float(s[s.size() / 2])
 
 
 func _status(report: RefCounted, id: String) -> String:
@@ -135,7 +231,9 @@ func _test_synthetic() -> void:
 
 
 func _test_history() -> void:
-	var log_path := OUT.path_join("history_test.md")
+	# One file per process: two runs of this test at once (parallel CI / a stress run) appended to one shared file and
+	# counted each other's rows.
+	var log_path := OUT.path_join("history_test_%d.md" % OS.get_process_id())
 	if FileAccess.file_exists(log_path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(log_path))
 	var r := Report.new()
@@ -147,3 +245,4 @@ func _test_history() -> void:
 	var prev := Report.read_previous(log_path)
 	_expect(absf(prev - r.quality()) < 1.0, "history read back %.1f, wrote %.1f" % [prev, r.quality()])
 	_expect(FileAccess.get_file_as_string(log_path).count("| hist |") == 2, "history rows not appended")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(log_path))   # this run's own scratch file
