@@ -170,7 +170,7 @@ func _compare(a: Dictionary, b: Dictionary) -> void:
 	if missing > 0:
 		fails.append("path table: %d pairs missing in the layout level" % missing)
 	if wd > 0.05:
-		fails.append("path table: worst diff %.3f m (%s)" % [wd, wk])
+		fails.append("path table: worst diff %.3f m (%s: live %s, layout %s)" % [wd, wk, str(ta.get(wk)), str(tb.get(wk))])
 	notes.append("R2 path table: %d pairs, %d missing, worst %.3f m (%s)" % [ta.size(), missing, wd, wk])
 	# bot slots: Commander's own mirror (p for the enemy, -p for the player) on Crown Hollow
 	for k: String in b["bot"]:
