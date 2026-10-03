@@ -11,7 +11,13 @@ extends SceneTree
 ##  3. Mender default: a melee Mender follows 1 m behind the army centre, a Wizard Mender 4 m;
 ##  4. flee: Champion.flee_pct with the class delta (Sword and Shield Oathwall 15 %, Wizard Mender 50 %);
 ##  5. decisions use only the team's fog (a Nightbolt in fog is not picked, then is once seen);
-##  6. PERF OK: brains + senses < 0.1 ms per frame with 6 class champions and 200 units.
+##  6. PERF OK: brains + senses <= BUDGET_CAL calibration loops per frame with 6 class champions and 200 units (the
+##     old line was 0.1 ms = 100 us per frame).
+## Calibration (2026-10-02, as test_20_a3 in 394f88c3 / test_12_a1 in e967cb21): the same code measured 52 us per
+##   frame on a quiet laptop and 115.5 us in a loaded CI run (4 Godot runs in parallel + a background service on 13 of
+##   16 threads), so the fixed 100 us line flipped. The timing phase times a fixed GDScript loop (_calib_once, the same
+##   workload as test_20_a3's) every CAL_EVERY frames, best of CAL_REPEAT, and judges brains + senses per frame as a
+##   RATIO of that loop's median: same machine, same moment. The us numbers stay in the log.
 ## Run:  godot --headless --path . -s tests/test_11_a1.gd --fixed-fps 60 --quit-after 12000
 
 const TASK_ID := "11.A1"
@@ -19,7 +25,13 @@ const SCENE := "res://scenes/skirmish.tscn"
 const P := 0
 const E := 1
 const A := Vector3(-30.0, 0.0, 20.0)   # a quiet spot on the player's side
-const BUDGET_USEC := 100.0
+const BUDGET_USEC := 100.0   ## info only now (the old absolute line, printed next to the ratio verdict)
+## Brains + senses per frame <= this many calibration-loop medians. Quiet laptop: loop 0.232 ms (test_20_a3's quiet
+## runs), brains + senses 52 us = 0.22 loops; 0.43 loops = the old 100 us line on that quiet machine (~1.9x headroom,
+## as before). A real regression (2x the work) still fails.
+const BUDGET_CAL := 0.43
+const CAL_EVERY := 30
+const CAL_REPEAT := 3
 const TIMING_FRAMES := 600
 const UNIT_TARGET := 200
 
@@ -409,13 +421,73 @@ func _phase_timing() -> void:
 		have += 1
 		i += 1
 	await _frames(60)
+	_init_calib()
 	var b0 := ChampionBrain.usec_total
 	var s0 := ChampionSense.usec_total
-	await _frames(TIMING_FRAMES)
+	for f in TIMING_FRAMES:
+		await process_frame
+		if f % CAL_EVERY == 0:
+			_sample_calib()
 	var per_frame := float(ChampionBrain.usec_total - b0 + ChampionSense.usec_total - s0) / float(TIMING_FRAMES)
+	var cal_us := _cal_median_usec()
+	var ratio := per_frame / cal_us if cal_us > 0.0 else INF
 	print("timing: %d units, 6 class champions: brains + senses %.1f us per frame" % [
 			get_nodes_in_group(&"units").size(), per_frame])
-	_check(per_frame < BUDGET_USEC, "timing: %.1f us per frame (< %.0f)" % [per_frame, BUDGET_USEC])
-	if per_frame < BUDGET_USEC:
+	print("timing: calibration loop median %.3f ms over %d samples (best of %d); brains + senses = %.3f loops per frame (budget %.2f; the old %.0f us line %s)"
+			% [cal_us / 1000.0, _cal_samples.size(), CAL_REPEAT, ratio, BUDGET_CAL, BUDGET_USEC,
+			"over" if per_frame >= BUDGET_USEC else "under"])
+	_check(cal_us > 0.0 and ratio <= BUDGET_CAL, "timing: %.3f calibration loops per frame (<= %.2f; %.1f us, loop %.3f ms)"
+			% [ratio, BUDGET_CAL, per_frame, cal_us / 1000.0])
+	if cal_us > 0.0 and ratio <= BUDGET_CAL:
 		print("PERF OK")
 	await _clear()
+
+
+# ---------------------------------------------------------------- calibration (test_20_a3's workload)
+
+var _cal_pts: Array[Vector3] = []
+var _cal_dict := {}
+var _cal_samples: Array[int] = []
+var _cal_sink := 0.0
+
+
+func _init_calib() -> void:
+	_cal_pts.clear()
+	_cal_dict.clear()
+	_cal_samples.clear()
+	for i in 256:
+		_cal_pts.append(Vector3(float((i * 37) % 101) - 50.0, 0.0, float((i * 53) % 97) - 48.0))
+	for i in 64:
+		_cal_dict[i] = i * 0.5
+
+
+func _sample_calib() -> void:
+	var best := 1 << 30
+	for r in CAL_REPEAT:
+		best = mini(best, _calib_once())
+	_cal_samples.append(best)
+
+
+## The calibration workload (usec): a fixed loop of Vector3 math, typed-array reads and Dictionary lookups, the kind
+## of work a brain / sense pass is made of.
+func _calib_once() -> int:
+	var t0 := Time.get_ticks_usec()
+	var acc := 0.0
+	var n := _cal_pts.size()
+	for r in 8:
+		for i in n:
+			var p := _cal_pts[i]
+			var d := p.distance_squared_to(_cal_pts[(i * 7 + r) % n])
+			if d < 400.0:
+				acc += sqrt(d)
+			acc += float(_cal_dict.get(i & 63, 0.0))
+	_cal_sink += acc
+	return Time.get_ticks_usec() - t0
+
+
+func _cal_median_usec() -> float:
+	if _cal_samples.is_empty():
+		return 0.0
+	var s := _cal_samples.duplicate()
+	s.sort()
+	return float(s[s.size() / 2])
