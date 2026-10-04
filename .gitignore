@@ -1,3 +1,6 @@
 .godot/
 *.tmp
 docs/art/lab/**/*.import
+
+# parked add-on leftover (archive in Documentsour-wizards-parked); keeps ci_quick -Changed from widening
+addons/limboai/
