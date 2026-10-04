@@ -1,0 +1,72 @@
+{
+	"id": "quartermeet",
+	"result": "PARTIAL",
+	"rows": [
+		{
+			"id": "G1",
+			"name": "World Forge map",
+			"status": "PASS",
+			"value": "WARN 98 / 100; R5 1 half widths ok, 2 arms ok, 2 circles ok, 2 segments ok, 176 x 176 m ok, 91 spots ok, 2.15x ok",
+			"rule": "exit 0 (PASS / WARN), L1 / L2 / N0 / R5 not FAIL"
+		},
+		{
+			"id": "G2",
+			"name": "Map Lab",
+			"status": "PASS",
+			"value": "WARN 96 / 100, 0 FAIL check(s)",
+			"rule": "score >= 75 and 0 FAIL (map-production.md 9)"
+		},
+		{
+			"id": "G3",
+			"name": "Spacing",
+			"status": "PASS",
+			"value": "L3 PASS (ok); R4 WARN (83 / 91 clean (0 FAIL, 8 WARN))",
+			"rule": ">= 3 m between spots, >= 6 m between structures; R4 clearances not FAIL"
+		},
+		{
+			"id": "G4",
+			"name": "Symmetry / fairness",
+			"status": "PASS",
+			"value": "N2 PASS, M1 PASS, M2 PASS, M3 PASS, M4 PASS, F1 PASS, D1 PASS, T1 WARN, C1 PASS, C2 WARN, A1 PASS",
+			"rule": "Map Lab N2, M1-M4, F1, D1, T1, C1, C2 (A1 on team maps) not FAIL"
+		},
+		{
+			"id": "G5",
+			"name": "Bot fairness",
+			"status": "SKIP",
+			"value": "no Bot Lab games",
+			"rule": "45-55 % seat win rate per difficulty"
+		},
+		{
+			"id": "G6",
+			"name": "Performance",
+			"status": "PASS",
+			"value": "skirmish.gd: 10.07 ms/frame, 100 arrived, 0 stuck (MapInfo 120 x 120); layout_level.gd: 11.38 ms/frame, 100 arrived, 0 stuck (MapInfo 176 x 176); note: 11.38 ms/frame is over perf_test.gd's 8.0 ms main.tscn budget (the full skirmish costs more; the gate is the live reference)",
+			"rule": "frame time within live Crown Hollow's (+15 % + 0.5 ms), no stuck unit"
+		},
+		{
+			"id": "G7",
+			"name": "Load (info)",
+			"status": "INFO",
+			"value": "no Bot Lab games",
+			"rule": "first bake <= 5 s, load to playable <= 10 s (desktop, windowed: lead check)"
+		}
+	],
+	"second_pass": false,
+	"bots": {
+		"games": 0,
+		"decided": 0,
+		"ended": 0,
+		"errors": 0,
+		"script_errors": 0,
+		"by_diff": {},
+		"cells": {},
+		"startup_s": -1.0,
+		"bake_s": -1.0,
+		"reasons": {}
+	},
+	"summary": "G5 SKIP",
+	"skips": [
+		"bots"
+	]
+}
