@@ -1,0 +1,28 @@
+{
+ "cine_id": "m03",
+ "source": "docs/design/mission-03.md",
+ "note": "Mission 3 'The Signet in the Sighing Wood' in-game lines (M3.VO1 renders them). dur = slot in seconds. Line ids keep the ep1 numbering (L9 unused; L20 only with Pell; L22 new). Speakers: narrator, vessa, whisper, pell, bettany, ysolde, maelis, malrik, obren (alias of whisper, shown as Obren from L15). New in mission lines: bettany, ysolde, maelis, obren. Cutscene lines (m3_plea / m3_memory / m3_parting) live in Mission03.CINE_LINES.",
+ "lines": [
+  {"id": "L1", "speaker": "narrator", "dur": 5.0, "text": "The Sighing Wood has kept out of every quarrel for a hundred years. Today two armies walked in."},
+  {"id": "L2", "speaker": "vessa", "dur": 5.0, "text": "Malrik's already here. Of course he is. Then I'll borrow a forest."},
+  {"id": "L3", "speaker": "whisper", "dur": 5.0, "text": "The third one sleeps in the old tree. Wake it before he does."},
+  {"id": "L20", "speaker": "pell", "dur": 5.0, "text": "A war! Terrible. Wonderful for business. Terrible."},
+  {"id": "L4", "speaker": "bettany", "dur": 5.0, "text": "The Crooked Lantern is open! Sellswords, cheap ale, no questions. First hire's on the house."},
+  {"id": "L5", "speaker": "vessa", "dur": 5.0, "text": "Sellswords who won't take orders. Perfect. I'll pay them to want what I want."},
+  {"id": "L6", "speaker": "bettany", "dur": 5.0, "text": "Mind the flags, Firelady. Coin on a flag is the only order that lot understands."},
+  {"id": "L7", "speaker": "vessa", "dur": 5.0, "text": "A heart made of roots, pumping green. That's the most Nature thing I have ever seen."},
+  {"id": "L21", "speaker": "vessa", "dur": 5.0, "text": "His Thralls are draining the hearts. If he opens that tree first, I lose it."},
+  {"id": "L8", "speaker": "ysolde", "dur": 5.0, "text": "Fire and Shadow, burning my wood for a trinket. I will remember you both."},
+  {"id": "L10", "speaker": "narrator", "dur": 5.0, "text": "Old Mossjaw wakes in the Hollowfen, and he is hungry."},
+  {"id": "L11", "speaker": "vessa", "dur": 5.0, "text": "Somebody tell the sellswords their bounty's ready. And tell the bear I'm sorry."},
+  {"id": "L12", "speaker": "maelis", "dur": 5.0, "text": "Turn back, fire-child. The wolves already have your scent."},
+  {"id": "L13", "speaker": "ysolde", "dur": 5.0, "text": "Stop, both of you! You don't know what you're opening!"},
+  {"id": "L14", "speaker": "vessa", "dur": 5.0, "text": "A tree. I'm opening a tree. Before HE does."},
+  {"id": "L19", "speaker": "malrik", "dur": 5.0, "text": "Mine. Thank you for the escort, little ember."},
+  {"id": "L22", "speaker": "vessa", "dur": 4.0, "text": "Dropped something, Bishop? Finders keepers."},
+  {"id": "L15", "speaker": "obren", "dur": 6.0, "text": "Three. Thank you, little ember. I'll take it from here."},
+  {"id": "L16", "speaker": "malrik", "dur": 5.0, "text": "Rubble with eyes. Your mess, Vessa. I'll be at my camp, enjoying the view."},
+  {"id": "L17", "speaker": "vessa", "dur": 5.0, "text": "One gate down. Stone breaks. Good to know."},
+  {"id": "L18", "speaker": "vessa", "dur": 5.0, "text": "Tell Malrik... he still dresses like a funeral."}
+ ]
+}

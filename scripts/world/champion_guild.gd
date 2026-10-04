@@ -100,6 +100,11 @@ const NEUTRAL_TEAM := 2
 @export var local_team: int = PLAYER_TEAM
 ## Seconds between upkeep ticks (tests may shorten it).
 var upkeep_interval := UPKEEP_INTERVAL
+## Mission knob (mission-03.md "first drink's on the house"): the crystal part of the team's very first paid hire
+## (-1 = the normal price). Read by hire_cost while `hires_made` is 0.
+var first_hire_crystals := -1
+## Paid hires of this match (read only).
+var hires_made := 0
 
 ## The hired champions (spawned nodes: alive, reviving or fallen), oldest first. Read only.
 var champions: Array = []
@@ -183,6 +188,8 @@ func roster_size() -> int:
 func hire_cost(_id: StringName = &"", pay_gold: bool = false) -> Dictionary:
 	var base: Dictionary = HIRE_COSTS[clampi(roster_size(), 0, HIRE_COSTS.size() - 1)]
 	var crystals := int(base["crystals"])
+	if first_hire_crystals >= 0 and hires_made == 0:
+		crystals = first_hire_crystals
 	if pay_gold:
 		return {"crystals": 0, "essence": int(base["essence"]), "gold": crystals * GOLD_PER_CRYSTAL}
 	return {"crystals": crystals, "essence": int(base["essence"]), "gold": 0}
@@ -243,6 +250,7 @@ func hire(id: StringName, pay_gold: bool = false) -> String:
 	if eco:
 		eco.reserve_pop(POP)
 	_reserved_pending += POP
+	hires_made += 1
 	var variant := _claim_variant(id)
 	_pending.append({"id": id, "variant": variant, "type": type, "tavern": _free_tavern(), "left": HIRE_DELAY,
 			"companion": {}})
