@@ -1,0 +1,32 @@
+{
+ "cine_id": "m04",
+ "source": "docs/design/mission-04.md",
+ "note": "Mission 4 'The Hollow Throne' in-game lines (text only, not rendered yet). dur = slot in seconds. Line ids keep the ep1 numbering (L22 unused; L24-L26 new in mission-04.md). L1-L4 are the m4_war subtitles, L21 the m4_fall subtitle. Speakers: narrator, malrik, vessa, whisper, obren (alias of whisper), vey, pell (all already in cast.json; no new speaker ids).",
+ "lines": [
+  {"id": "L1", "speaker": "narrator", "dur": 5.0, "text": "Crown Hollow. Where the Master once sat, two armies wait for the sun."},
+  {"id": "L2", "speaker": "malrik", "dur": 5.0, "text": "Three relics, little ember. Hand them over and I'll let you keep the hat."},
+  {"id": "L3", "speaker": "vessa", "dur": 5.0, "text": "Come and take them, Bishop. You owe me for Emberfall. And for Vey."},
+  {"id": "L4", "speaker": "whisper", "dur": 5.0, "text": "Yes. Come, both of you. Fight on my roof."},
+  {"id": "L5", "speaker": "obren", "dur": 5.0, "text": "Yes. Fight. Every fallen soldier is a step on my stair."},
+  {"id": "L6", "speaker": "vessa", "dur": 5.0, "text": "The ground is breathing. That can't be good."},
+  {"id": "L7", "speaker": "obren", "dur": 5.0, "text": "A hundred years in the dark. I had time to practise my entrance."},
+  {"id": "L8", "speaker": "vessa", "dur": 5.0, "text": "I had ten minutes to practise running. Those pillars feed it. Break them all!"},
+  {"id": "L9", "speaker": "malrik", "dur": 5.0, "text": "A giant made of rubble, in MY war? Shades, kill the pillars. Then kill Vessa."},
+  {"id": "L10", "speaker": "vessa", "dur": 5.0, "text": "Two down. Keep hitting the glowing parts. It's always the glowing parts."},
+  {"id": "L11", "speaker": "obren", "dur": 5.0, "text": "Enough. I will walk to your little fire and put it out myself."},
+  {"id": "L12", "speaker": "obren", "dur": 5.0, "text": "This body... cracks... No matter. Stone is patient."},
+  {"id": "L13", "speaker": "vessa", "dur": 4.0, "text": "Not the keep! I JUST had it redecorated!"},
+  {"id": "L14", "speaker": "vessa", "dur": 3.0, "text": "Everyone, back to the keep! BACK!"},
+  {"id": "L15", "speaker": "vey", "dur": 5.0, "text": "Stay close, girl. Whatever it throws at you, I'll ground it."},
+  {"id": "L16", "speaker": "vessa", "dur": 5.0, "text": "Crown, orb, signet. Let's see what you do together."},
+  {"id": "L17", "speaker": "obren", "dur": 5.0, "text": "His storm? Impossible! That light should have faded a hundred years ago!"},
+  {"id": "L18", "speaker": "vessa", "dur": 5.0, "text": "Nobody stays faded around here. Ask Vey."},
+  {"id": "L19", "speaker": "vey", "dur": 5.0, "text": "The spark was yours, Vessa. NOW the storm!"},
+  {"id": "L20", "speaker": "vessa", "dur": 5.0, "text": "Somebody... finish my war..."},
+  {"id": "L21", "speaker": "obren", "dur": 3.0, "text": "The Hollow... remembers..."},
+  {"id": "L23", "speaker": "vey", "dur": 4.0, "text": "Just resting my knees. Keep turning that key!"},
+  {"id": "L24", "speaker": "malrik", "dur": 5.0, "text": "One pillar down. You're welcome, little ember. Don't get used to it."},
+  {"id": "L25", "speaker": "malrik", "dur": 5.0, "text": "An old man and a thunderstorm. Shades, fall back. I'll collect whatever is left."},
+  {"id": "L26", "speaker": "pell", "dur": 5.0, "text": "Last stall before the end of the world! Everything must go. Including me, quickly."}
+ ]
+}
