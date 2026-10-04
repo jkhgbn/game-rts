@@ -1,0 +1,153 @@
+{
+	"id": "thornwater",
+	"result": "FAIL",
+	"rows": [
+		{
+			"id": "G1",
+			"name": "World Forge map",
+			"status": "PASS",
+			"value": "WARN 98 / 100; R5 1 half widths ok, 2 arms ok, 4 circles ok, 10 segments ok, 120 x 120 m ok, 49 spots ok, 1.00x ok",
+			"rule": "exit 0 (PASS / WARN), L1 / L2 / N0 / R5 not FAIL"
+		},
+		{
+			"id": "G2",
+			"name": "Map Lab",
+			"status": "PASS",
+			"value": "WARN 96 / 100, 0 FAIL check(s)",
+			"rule": "score >= 75 and 0 FAIL (map-production.md 9)"
+		},
+		{
+			"id": "G3",
+			"name": "Spacing",
+			"status": "PASS",
+			"value": "L3 PASS (ok); R4 WARN (45 / 49 clean (0 FAIL, 4 WARN))",
+			"rule": ">= 3 m between spots, >= 6 m between structures; R4 clearances not FAIL"
+		},
+		{
+			"id": "G4",
+			"name": "Symmetry / fairness",
+			"status": "PASS",
+			"value": "N2 PASS, M1 PASS, M2 PASS, M3 PASS, M4 PASS, F1 PASS, D1 WARN, T1 PASS, C1 PASS, C2 PASS",
+			"rule": "Map Lab N2, M1-M4, F1, D1, T1, C1, C2 (A1 on team maps) not FAIL"
+		},
+		{
+			"id": "G5",
+			"name": "Bot fairness",
+			"status": "FAIL",
+			"value": "40 games (40 decided): easy 8 / 12 = 67 %; normal 5 / 16 = 31 %; hard 3 / 12 = 25 % | easy seat rate 67 %, normal seat rate 31 %, hard seat rate 25 %",
+			"rule": "seat win rate 45-55 % per difficulty, no cell > 65 % (>= 8 games), 0 script errors, every game ends"
+		},
+		{
+			"id": "G6",
+			"name": "Performance",
+			"status": "SKIP",
+			"value": "not run",
+			"rule": "test_mt2_perf.gd prints PASS mt2_perf"
+		},
+		{
+			"id": "G7",
+			"name": "Load (info)",
+			"status": "INFO",
+			"value": "startup 8.3 s, bake 6.1 s (Bot Lab medians, sim mode, headless)",
+			"rule": "first bake <= 5 s, load to playable <= 10 s (desktop, windowed: lead check)"
+		}
+	],
+	"second_pass": false,
+	"bots": {
+		"games": 40,
+		"decided": 40,
+		"ended": 40,
+		"errors": 0,
+		"script_errors": 0,
+		"by_diff": {
+			"easy": {
+				"games": 12,
+				"seat1": 8,
+				"rate": 0.666666666666667
+			},
+			"normal": {
+				"games": 16,
+				"seat1": 5,
+				"rate": 0.3125
+			},
+			"hard": {
+				"games": 12,
+				"seat1": 3,
+				"rate": 0.25
+			}
+		},
+		"cells": {
+			"easy fire": {
+				"games": 3,
+				"seat1": 3,
+				"rate": 1.0
+			},
+			"easy shadow": {
+				"games": 3,
+				"seat1": 2,
+				"rate": 0.666666666666667
+			},
+			"easy ice": {
+				"games": 3,
+				"seat1": 3,
+				"rate": 1.0
+			},
+			"easy nature": {
+				"games": 3,
+				"seat1": 0,
+				"rate": 0.0
+			},
+			"normal ice": {
+				"games": 4,
+				"seat1": 1,
+				"rate": 0.25
+			},
+			"normal shadow": {
+				"games": 4,
+				"seat1": 1,
+				"rate": 0.25
+			},
+			"normal fire": {
+				"games": 4,
+				"seat1": 1,
+				"rate": 0.25
+			},
+			"normal nature": {
+				"games": 4,
+				"seat1": 2,
+				"rate": 0.5
+			},
+			"hard fire": {
+				"games": 3,
+				"seat1": 0,
+				"rate": 0.0
+			},
+			"hard nature": {
+				"games": 3,
+				"seat1": 0,
+				"rate": 0.0
+			},
+			"hard shadow": {
+				"games": 3,
+				"seat1": 1,
+				"rate": 0.333333333333333
+			},
+			"hard ice": {
+				"games": 3,
+				"seat1": 2,
+				"rate": 0.666666666666667
+			}
+		},
+		"startup_s": 8.3,
+		"bake_s": 6.08,
+		"reasons": {
+			"time-score": 10,
+			"concede": 25,
+			"early-score": 5
+		}
+	},
+	"summary": "G5 FAIL, G6 SKIP",
+	"skips": [
+		"perf"
+	]
+}

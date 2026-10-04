@@ -242,7 +242,10 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `map_layout_path` (the restart hook gives a reloaded LayoutLevel its layout back). Only `ready` maps are listed.
   Gate: `tools\map_lab\run_map_gate.ps1 <map>` = `tools\world_forge\run_world_forge.ps1 gate <map>` (World Forge + Map
   Lab >= 75 / 0 FAIL, spacing, symmetry, bot fairness 40 games then 120 when close to the 45-55 % edge, perf,
-  scorecard in `docs/tools/map_gate/<map>/`); a map is `ready` in the catalog only after its gate PASSes.
+  scorecard in `docs/tools/map_gate/<map>/`); a map is `ready` in the catalog only after its gate PASSes (exception
+  2026-10-04: Thornwater / Quartermeet stay ready with G5 FAIL / not run, see map-production.md MT8). A stopped
+  gate goes on with `-Resume` (keeps each difficulty's `results.jsonl`, plays only the missing seeds; only while the
+  map and the bot code are unchanged). `-SkipBots` / `-SkipPerf` give PARTIAL at best; exit 0 PASS / PARTIAL, 1 FAIL.
 - **Score** (step 16a): `ScoreKeeper` (`scripts/world/score_keeper.gd`, group `"score"`, `instance(tree)`, `score(team)`,
   `breakdown(team)`, `history(team)`, `leader()`, `margin()`, `table_text()`; WEIGHTS table at the top). Every skirmish
   end shows the Score tab (`GameHUD.show_score`, `select_end_tab`); the match still ends on kill / concede, score decides
