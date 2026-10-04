@@ -8,9 +8,12 @@ extends Node3D
 const SNOW_AMOUNT := 400
 const BOX := Vector3(40.0, 20.0, 40.0)
 const FOG_COLOR := Color(0.82, 0.88, 0.96)
-const FOG_DENSITY := 0.85   ## depth fog: a white-out from FOG_BEGIN to FOG_END metres from the camera
-const FOG_BEGIN := 8.0
-const FOG_END := 70.0
+## Depth fog from FOG_BEGIN to FOG_END metres from the camera. The game camera sits ~30-40 m from the ground it looks
+## at: the begin is past the near ground so units / walls stay readable and the storm eats the far side of the screen
+## (2026-10-04 screenshot pass: 8 / 70 / 0.85 was a white-out where nothing could be read).
+const FOG_DENSITY := 0.6
+const FOG_BEGIN := 30.0
+const FOG_END := 100.0
 
 var blowing := false        ## Read only.
 var sight_mult := 0.5
@@ -36,9 +39,10 @@ func _ready() -> void:
 	_snow.scale_amount_min = 0.6
 	_snow.scale_amount_max = 1.2
 	var q := QuadMesh.new()
-	q.size = Vector2(0.28, 0.28)
+	q.size = Vector2(0.2, 0.2)
 	var m := StandardMaterial3D.new()
-	m.albedo_color = Color(0.95, 0.97, 1.0, 0.85)
+	m.albedo_color = Color(0.95, 0.97, 1.0, 0.75)
+	m.albedo_texture = _flake_texture()   # a soft round flake, not a square
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
@@ -100,3 +104,18 @@ func _find_env() -> Environment:
 			we.environment = we.environment.duplicate()   # the preset's Environment is a shared resource
 			return we.environment
 	return null
+
+
+static func _flake_texture() -> Texture2D:
+	var g := Gradient.new()
+	g.set_color(0, Color(1.0, 1.0, 1.0, 1.0))
+	g.set_color(1, Color(1.0, 1.0, 1.0, 0.0))
+	g.add_point(0.45, Color(1.0, 1.0, 1.0, 0.8))
+	var t := GradientTexture2D.new()
+	t.gradient = g
+	t.width = 32
+	t.height = 32
+	t.fill = GradientTexture2D.FILL_RADIAL
+	t.fill_from = Vector2(0.5, 0.5)
+	t.fill_to = Vector2(1.0, 0.5)
+	return t

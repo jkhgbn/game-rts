@@ -1004,6 +1004,7 @@ func _physics_process(delta: float) -> void:
 	if _tick <= 0.0:
 		_tick = 1.0
 		_tick_w2()
+		_return_dig_thralls()
 		_tick_malrik()
 		_check_stronghold_hint()
 		_refresh_counters()
@@ -1029,6 +1030,22 @@ func living_dig_thralls() -> int:
 		if is_instance_valid(t) and (t as Unit).is_alive():
 			n += 1
 	return n
+
+
+## Dig Thralls pushed off the ring (a wave walking through the dig, a fight) walk back to their spot when idle, so
+## the dig keeps its 22:50 pace with no player input (measured 2026-10-04: W3 crossing the ring cost ~1:50).
+func _return_dig_thralls() -> void:
+	if not dig_active or heartfrost_freed:
+		return
+	for t: Variant in dig_thralls:
+		if not is_instance_valid(t):
+			continue
+		var u := t as Unit
+		if u == null or not u.is_alive() or u.has_move_order() or u.attack_target != null:
+			continue
+		var spot := dig_spot(int(u.get_meta(&"dig_slot", 0)))
+		if _flat(u.global_position, spot) > 1.5:
+			u.command_move(spot)
 
 
 ## Percent per second with `working` Thralls (difficulty rate).
@@ -1075,10 +1092,18 @@ func _tick_relief(delta: float) -> void:
 func _refresh_counters() -> void:
 	if objective_state("obj_dig") == "active" and int(dig) != _last_dig_pct:
 		_last_dig_pct = int(dig)
-		set_objective(&"obj_dig", "active")
+		_counter_text_changed()
 	if objective_state("obj_heartfrost") == "active" and melt_percent() != _last_melt_pct:
 		_last_melt_pct = melt_percent()
-		set_objective(&"obj_heartfrost", "active")
+		_counter_text_changed()
+
+
+## A percent counter moved: the panel re-reads the texts. No Events.objective_changed (the state did not change; it
+## used to re-send "active" every percent).
+func _counter_text_changed() -> void:
+	objectives_changed.emit()
+	if hud and mission_hud == null:
+		hud.set_objective(_objective_text())
 
 
 func _check_stronghold_hint() -> void:

@@ -689,8 +689,33 @@ func _end_game(victory: bool) -> void:
 	super(victory)
 	if victory:
 		hud.show_banner(config.victory_banner, Color(1.0, 0.85, 0.3))
+		_add_continue_button()
 	else:
 		hud.show_banner(config.defeat_banner, Color(0.9, 0.3, 0.3))
+
+
+## Story flow (ep1 4.2): the victory screen's first button starts the next campaign mission (rewards "next"), when
+## its scene exists: prologue -> M0 -> M1 -> M2 -> ...
+func _add_continue_button() -> void:
+	var next_id := StringName(mission_rewards().get("next", &""))
+	var path := CampaignState.mission_scene(next_id) if next_id != &"" else ""
+	if path == "" or not ResourceLoader.exists(path) or hud == null or hud.end_menu_button == null:
+		return
+	var row := hud.end_menu_button.get_parent()
+	if row == null or row.has_node(^"ContinueNext"):
+		return
+	var i := CampaignState.MISSION_ORDER.find(next_id)
+	var next := Button.new()   # the end screen's own button look (GameHUD._end_button), gold rim: the way on
+	next.name = "ContinueNext"
+	next.text = "Continue: Mission %d" % i if i >= 0 else "Continue"
+	next.focus_mode = Control.FOCUS_NONE
+	next.custom_minimum_size = Vector2(200, 38)
+	next.add_theme_font_size_override("font_size", 17)
+	UIStyle.style_button(next, UIStyle.GOLD)
+	next.process_mode = Node.PROCESS_MODE_ALWAYS
+	next.pressed.connect(func() -> void: MenuFlow.start_mission(get_tree(), path, mission_difficulty))
+	row.add_child(next)
+	row.move_child(next, 0)
 
 
 ## MISSION_REWARDS-shaped entry from the config (CampaignState.reward_of reads it when its table has none).

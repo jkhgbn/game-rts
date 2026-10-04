@@ -282,8 +282,11 @@ func _blink_target() -> Unit:
 	var best: Unit = null
 	var best_pct := INF
 	var hero: Unit = mission.get(&"hero") as Unit
-	for u: Unit in [hero, vey]:
-		if u == null or not is_instance_valid(u) or not u.is_alive():
+	for v: Variant in [hero, vey]:   # untyped: Vey is freed after m0_fall (a typed loop errors on a freed object)
+		if v == null or not is_instance_valid(v):
+			continue
+		var u := v as Unit
+		if u == null or not u.is_alive():
 			continue
 		if u == vey and vey_kneeling:
 			continue

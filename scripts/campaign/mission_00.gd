@@ -90,10 +90,12 @@ const FALL_VEY := Vector3(-34.0, 0.0, 40.0)
 const FALL_MARKS: Array[Vector3] = [Vector3(-32.0, 0.0, 37.0), Vector3(-33.0, 0.0, 35.0), Vector3(-31.0, 0.0, 39.0),
 		Vector3(-31.5, 0.0, 36.0)]
 const FALL_VESSA_END := Vector3(-37.5, 0.0, 40.5)
-## m0_dawn end state: Captain Ashby and 4 Blaze Riders by the courtyard.
-const DAWN_ASHBY := Vector3(-41.0, 0.0, 38.0)
-const DAWN_RIDERS: Array[Vector3] = [Vector3(-43.0, 0.0, 37.0), Vector3(-42.0, 0.0, 35.5), Vector3(-39.5, 0.0, 36.5),
-		Vector3(-40.5, 0.0, 34.5)]
+## m0_dawn end state: Captain Ashby and 4 Blaze Riders by the courtyard (its north-east side: the tall keep south-west
+## of the courtyard would hide them from the game camera).
+const DAWN_ASHBY := Vector3(-35.0, 0.0, 37.0)
+const DAWN_RIDERS: Array[Vector3] = [Vector3(-33.5, 0.0, 35.5), Vector3(-36.5, 0.0, 35.0), Vector3(-32.0, 0.0, 37.5),
+		Vector3(-35.5, 0.0, 33.0)]
+const DAWN_MEET := Vector3(-33.0, 0.0, 38.6)    ## Vessa beside Ashby in the card's shot 3 and the end state.
 const DAWN_ARRIVAL := Vector3(-5.0, 0.0, -1.0)  ## The card opens with the riders this far west of their marks.
 const DAWN_FADE := 6.0
 
@@ -177,6 +179,8 @@ var _knife_left := KNIFE_TICK
 var _dark_next := INF
 var _intro_card := false
 var _light_markers: Array[Node3D] = []
+var _card_hidden: Array = []               ## Units hidden while a card plays (_hide_for_card).
+var _card_actors := {}                      ## tag -> Node3D registered on the cinematic player for the next card.
 
 
 # ---------------------------------------------------------------- setup
@@ -729,6 +733,7 @@ func _fall() -> void:
 		fall_units.append(u)
 	if seam and seam.has_method(&"set_state"):
 		seam.call(&"set_state", &"opening")
+	_hide_for_card(FALL_VESSA, 6.5, [hero, vey] + fall_units)
 	_play_card(&"m0_fall", _fall_card(), _fall_end_state)
 
 
@@ -738,6 +743,7 @@ func _fall_end_state() -> void:
 	if fall_done:
 		return
 	fall_done = true
+	_show_after_card()
 	cast.remove_vey()
 	if hero_alive():
 		hero.global_position = FALL_VESSA_END
@@ -807,6 +813,7 @@ func _dawn() -> void:
 		(u as Unit).command_move(DAWN_ASHBY)
 	# m0_dawn shot 1: the dawn preset fades in over 6 s (it also runs while the PAUSE card holds the tree).
 	EmberfallNight.fade_to(self, EmberfallNight.dawn(), DAWN_FADE, true)
+	_hide_for_card(Vector3(-36.0, 0.0, 38.0), 6.5, [hero] + emberguard)
 	_play_card(&"m0_dawn", _dawn_card(), _dawn_end_state)
 
 
@@ -816,6 +823,7 @@ func _dawn_end_state() -> void:
 	if dawn_done:
 		return
 	dawn_done = true
+	_show_after_card()
 	for u in assassins():
 		u.leave_map()
 	cast.hush_leave()
@@ -826,36 +834,15 @@ func _dawn_end_state() -> void:
 		u.global_position = DAWN_ASHBY if i == 0 else DAWN_RIDERS[(i - 1) % DAWN_RIDERS.size()]
 		u.command_stop()
 		u.face_direction(Vector3(1.0, 0.0, 0.5))
+	if hero_alive():   # beside Ashby, as the card leaves her (played or skipped: the same end state)
+		hero.global_position = DAWN_MEET
+		hero.command_stop()
 	lighting_mood = &"dawn"
 	EmberfallNight.apply_to(self, EmberfallNight.dawn())
 	if fog and &"sight_scale" in fog:
 		var scale: Array[float] = [1.0, 1.0]
 		fog.set(&"sight_scale", scale)
 	win(VICTORY_DELAY, true)
-
-
-func _end_game(victory: bool) -> void:
-	var was_over := game_over
-	super(victory)
-	if was_over or not victory or hud == null or hud.end_menu_button == null:
-		return
-	# Story flow (ep1 4.2): victory -> mission 1 briefing -> mission 1.
-	var row := hud.end_menu_button.get_parent()
-	if row == null or row.has_node(^"ContinueM01"):
-		return
-	var next := Button.new()   # the end screen's own button look (GameHUD._end_button), gold rim: the way on
-	next.name = "ContinueM01"
-	next.text = "Continue: Mission 1"
-	next.tooltip_text = "The Crown in the Ashes"
-	next.focus_mode = Control.FOCUS_NONE
-	next.custom_minimum_size = Vector2(200, 38)
-	next.add_theme_font_size_override("font_size", 17)
-	UIStyle.style_button(next, UIStyle.GOLD)
-	next.process_mode = Node.PROCESS_MODE_ALWAYS
-	next.pressed.connect(func() -> void:
-		MenuFlow.start_mission(get_tree(), CampaignState.mission_scene(&"m01"), mission_difficulty))
-	row.add_child(next)
-	row.move_child(next, 0)
 
 
 # ---------------------------------------------------------------- losses and story beats
@@ -918,6 +905,9 @@ func _on_hush_fled() -> void:
 func _play_card(id: StringName, card: CinematicScript, end_state: Callable) -> void:
 	if cinematics_enabled and card != null and CinematicScript.find(id) == null:
 		var player := CinematicPlayer.instance(get_tree())
+		for tag: StringName in _card_actors:
+			if is_instance_valid(_card_actors[tag]):
+				player.register_actor(tag, _card_actors[tag])
 		if player.play(card, self) == "":
 			player.finished.connect(func(_fid: StringName, _skipped: bool) -> void: end_state.call(), CONNECT_ONE_SHOT)
 			return
@@ -977,11 +967,224 @@ func _ep1_intro_card() -> CinematicScript:
 			Vector3(8.0, 12.0, 11.0), EP1_INTRO_SECONDS + 1.0)
 
 
+## m0_fall (PAUSE, 0:35, mission-00.md "Cinematic hooks"): five shots on the courtyard. The knives close in, Vey
+## shouts and throws himself between them and Vessa (lightning, white flash), he is gone, the seam seals, Vessa
+## rises. The world is frozen: only the actors these actions name move. The end state (_fall_end_state) is applied
+## when it ends or is skipped.
 func _fall_card() -> CinematicScript:
-	return _card(&"m0_fall", "", "", _cine_lines(&"m0_fall"), FALL_VESSA, Vector3(5.0, 6.0, 8.0),
-			Vector3(2.5, 3.0, 5.0), 6.0)
+	_card_actors = {&"vessa": hero, &"vey": vey}
+	for i in mini(fall_units.size(), 3):
+		_card_actors[StringName("shade%d" % (i + 1))] = fall_units[i]
+	var s := _card_script(&"m0_fall", FALL_VESSA_END)
+	var c := FALL_VESSA
+	# 1. Wide: the courtyard at night, the three knives step out of the dark toward her.
+	var s1 := _shot(s, &"fall_wide", 6.0, CinematicShot.CameraMode.CRANE, c + Vector3(10.0, 13.0, 11.0),
+			c + Vector3(7.0, 6.5, 7.5), c + Vector3(1.5, 0.6, -1.0), c + Vector3(1.0, 0.8, -0.5), 40.0, 36.0)
+	s1.transition_in = CinematicShot.Transition.FADE_BLACK
+	s1.transition_time = 0.6
+	for i in 3:
+		_cine_call(s1, 0.6 + 0.3 * i, "cine_face", [StringName("shade%d" % (i + 1)), c])
+	_cine_call(s1, 0.2, "cine_face", [&"vessa", FALL_MARKS[0]])
+	# 2. Vey sees the blades: "Vessa, MOVE!"
+	var s2 := _shot(s, &"fall_vey", 6.0, CinematicShot.CameraMode.DOLLY, FALL_VEY + Vector3(3.4, 2.0, 1.2),
+			FALL_VEY + Vector3(2.4, 1.7, 0.6), Vector3.ZERO, Vector3.ZERO, 38.0, 34.0)
+	s2.look_actor = &"vey"
+	_cine_call(s2, 0.0, "cine_face", [&"vey", FALL_MARKS[0]])
+	s2.add_line(0.8, &"vey", String(CINE_LINES[0][2]), 2.5)
+	_fx_call(s2, 2.6, [&"crackle", FALL_VEY])
+	s2.add_action(3.0, &"anim", &"vey", Vector3.ZERO, {"hook": "play_attack"})
+	# 3. Low and wide: he steps into the knives, lightning, a white flash; she is thrown clear.
+	var s3 := _shot(s, &"fall_strike", 7.0, CinematicShot.CameraMode.STATIC, c + Vector3(1.0, 1.3, 6.0),
+			c + Vector3(1.0, 1.3, 6.0), c + Vector3(2.5, 1.0, -0.5), c + Vector3(2.5, 1.0, -0.5), 44.0, 44.0)
+	var strike := c.lerp(FALL_MARKS[0], 0.55)
+	_cine_call(s3, 0.4, "cine_move", [&"vey", strike, 0.5])
+	_fx_call(s3, 1.3, [&"spark", strike, FALL_MARKS[0]])
+	_fx_call(s3, 1.4, [&"spark", strike, FALL_MARKS[2]])
+	s3.add_action(1.5, &"shake", &"", Vector3.ZERO, {"amount": 0.6})
+	for i in 3:
+		s3.add_action(1.6 + 0.15 * i, &"anim", StringName("shade%d" % (i + 1)), Vector3.ZERO, {"hook": "play_attack"})
+	s3.add_action(2.4, &"fade", &"", Vector3.ZERO, {"color": Color(1.0, 0.97, 0.9), "alpha": 0.85, "time": 0.2})
+	s3.add_action(2.8, &"fade", &"", Vector3.ZERO, {"color": Color(1.0, 0.97, 0.9), "alpha": 0.0, "time": 1.2})
+	_cine_call(s3, 2.7, "cine_move", [&"vessa", FALL_VESSA_END, 0.6, true])
+	s3.add_action(3.2, &"anim", &"vey", Vector3.ZERO, {"hook": "play_hit"})
+	# 4. Close on Vessa: where he stood there is only the smoke. "VEY!"
+	var s4 := _shot(s, &"fall_gone", 8.0, CinematicShot.CameraMode.DOLLY, FALL_VESSA_END + Vector3(5.0, 4.4, 5.6),
+			FALL_VESSA_END + Vector3(3.8, 3.6, 4.4), Vector3.ZERO, Vector3.ZERO, 36.0, 32.0)
+	s4.look_actor = &"vessa"
+	s4.add_action(0.2, &"despawn", &"vey", Vector3.ZERO, {"fade": 1.6})
+	_fx_call(s4, 0.3, [&"smoke", strike])
+	_cine_call(s4, 0.4, "cine_face", [&"vessa", strike])
+	s4.add_line(0.9, &"vessa", String(CINE_LINES[1][2]), 2.0)
+	s4.add_action(4.0, &"call", &"", Vector3.ZERO, {"method": "cine_seam", "args": [&"sealed"]})
+	# 5. She stands up into the firelight: "...Malrik." and back to the game.
+	var s5 := _shot(s, &"fall_rise", 8.0, CinematicShot.CameraMode.CRANE, FALL_VESSA_END + Vector3(3.8, 3.2, 4.6),
+			FALL_VESSA_END + Vector3(7.0, 8.0, 10.0), Vector3.ZERO, Vector3.ZERO, 38.0, 42.0)
+	s5.look_actor = &"vessa"
+	_cine_call(s5, 0.5, "cine_face", [&"vessa", FALL_MARKS[1]])
+	s5.add_line(1.4, &"vessa", String(CINE_LINES[2][2]), 2.5)
+	s5.add_action(3.8, &"anim", &"vessa", Vector3.ZERO, {"hook": "play_cast", "arg": &"fireball"})
+	s5.blend_to_game = true
+	s5.transition_time = 1.0
+	return s
 
 
+## m0_dawn (0:30; the spec's HOLD runs as PAUSE until the player supports HOLD): four shots. The sky pales and the
+## knives melt into the trees, the Emberguard rides in, Ashby and Vessa, the vow. End state: _dawn_end_state.
 func _dawn_card() -> CinematicScript:
-	return _card(&"m0_dawn", "Dawn", "Emberfall", _cine_lines(&"m0_dawn"), VESSA_START + Vector3(-2.0, 0.0, -2.0),
-			Vector3(10.0, 12.0, 14.0), Vector3(6.0, 7.0, 9.0), 8.0)
+	_card_actors = {&"vessa": hero}
+	var knives := assassins()
+	for i in mini(knives.size(), 12):
+		_card_actors[StringName("knife%d" % i)] = knives[i]
+	for i in emberguard.size():
+		_card_actors[&"ashby" if i == 0 else StringName("rider%d" % i)] = emberguard[i]
+	var s := _card_script(&"m0_dawn", VESSA_START)
+	var yard := Vector3(-39.5, 0.0, 39.0)
+	# 1. High over the watch as the sky pales; the knives slip away.
+	var s1 := _shot(s, &"dawn_sky", 7.0, CinematicShot.CameraMode.CRANE, yard + Vector3(16.0, 22.0, 20.0),
+			yard + Vector3(11.0, 13.0, 14.0), yard + Vector3(2.0, 0.0, -2.0), yard, 46.0, 40.0)
+	s1.transition_in = CinematicShot.Transition.FADE_BLACK
+	s1.transition_time = 0.8
+	s1.add_action(0.3, &"title", &"", Vector3.ZERO, {"text": "Dawn", "sub": "Emberfall", "time": 2.5})
+	s1.add_line(1.2, &"narrator", String(CINE_LINES[3][2]), 4.0)
+	for i in mini(knives.size(), 12):
+		s1.add_action(1.5 + 0.25 * i, &"despawn", StringName("knife%d" % i), Vector3.ZERO, {"fade": 1.5})
+	# 2. The Emberguard rides through the south-west gate.
+	var s2 := _shot(s, &"dawn_riders", 8.0, CinematicShot.CameraMode.DOLLY, DAWN_ASHBY + Vector3(6.0, 2.6, 7.0),
+			DAWN_ASHBY + Vector3(4.0, 2.2, 4.5), DAWN_ASHBY + DAWN_ARRIVAL * 0.6 + Vector3(0.0, 1.2, 0.0),
+			DAWN_ASHBY + Vector3(0.0, 1.2, 0.0), 42.0, 38.0)
+	if emberguard.size() > 0:
+		_cine_call(s2, 0.3, "cine_move", [&"ashby", DAWN_ASHBY, 3.5])
+	for i in range(1, emberguard.size()):
+		_cine_call(s2, 0.5 + 0.2 * i, "cine_move", [StringName("rider%d" % i), DAWN_RIDERS[(i - 1) % DAWN_RIDERS.size()],
+				3.5])
+	# 3. Ashby and Vessa.
+	var meet := DAWN_MEET
+	var s3 := _shot(s, &"dawn_ashby", 8.0, CinematicShot.CameraMode.DOLLY, meet + Vector3(-1.0, 3.4, 5.2),
+			meet + Vector3(-0.6, 3.0, 4.4), meet.lerp(DAWN_ASHBY, 0.5) + Vector3(0.0, 1.3, 0.0),
+			meet.lerp(DAWN_ASHBY, 0.5) + Vector3(0.0, 1.3, 0.0), 40.0, 36.0)
+	_cine_call(s3, 0.0, "cine_move", [&"vessa", meet, 0.0])
+	_cine_call(s3, 0.02, "cine_face", [&"vessa", DAWN_ASHBY])
+	_cine_call(s3, 0.02, "cine_face", [&"ashby", meet])
+	s3.add_line(0.5, &"ashby", String(CINE_LINES[4][2]), 2.5)
+	s3.add_line(3.3, &"vessa", String(CINE_LINES[5][2]), 3.0)
+	# 4. The vow; the camera rises over the courtyard and hands back.
+	var s4 := _shot(s, &"dawn_vow", 7.0, CinematicShot.CameraMode.CRANE, meet + Vector3(1.6, 1.7, 2.4),
+			meet + Vector3(6.0, 7.5, 8.0), Vector3.ZERO, Vector3.ZERO, 36.0, 44.0)
+	s4.look_actor = &"vessa"
+	s4.add_line(0.5, &"vessa", String(CINE_LINES[6][2]), 3.5)
+	s4.blend_to_game = true
+	s4.transition_time = 1.0
+	return s
+
+
+func _card_script(id: StringName, focus: Vector3) -> CinematicScript:
+	var s := CinematicScript.new()
+	s.id = id
+	s.kind = CinematicScript.Kind.ENGINE
+	s.world_mode = CinematicScript.WorldMode.PAUSE
+	s.letterbox_aspect = 2.39
+	s.skippable = true
+	s.return_focus = focus
+	return s
+
+
+func _shot(s: CinematicScript, id: StringName, seconds: float, mode: CinematicShot.CameraMode, from: Vector3,
+		to: Vector3, look_from: Vector3, look_to: Vector3, fov_from: float, fov_to: float) -> CinematicShot:
+	var shot := CinematicShot.make(id, seconds, mode)
+	shot.from_pos = from
+	shot.to_pos = to
+	shot.look_from = look_from
+	shot.look_to = look_to
+	shot.fov_from = fov_from
+	shot.fov_to = fov_to
+	s.shots.append(shot)
+	return shot
+
+
+## Card staging: the frozen units that would stand in the close shots (the escort crowds the courtyard) are hidden
+## while a card plays (cinematics on only) and shown again by its end state. Gameplay is untouched (PAUSE).
+func _hide_for_card(center: Vector3, radius: float, keep: Array) -> void:
+	if not cinematics_enabled:
+		return
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u == null or keep.has(u) or not u.is_alive() or not u.visible or _flat(u.global_position, center) > radius:
+			continue
+		u.visible = false
+		_card_hidden.append(u)
+
+
+func _show_after_card() -> void:
+	for u: Variant in _card_hidden:
+		if is_instance_valid(u):
+			(u as Node3D).visible = true
+	_card_hidden.clear()
+
+
+## A cosmetic effect at `at` seconds of `shot` (never replayed by a skip).
+func _fx_call(shot: CinematicShot, at: float, args: Array) -> void:
+	_cine_call(shot, at, "cine_fx", args)
+
+
+## A cosmetic `call` action (not replayed by a skip: the card's end state places everyone). Units are staged through
+## cine_move / cine_face, never the player's move / face actions: those turn the unit's root node, while a Unit
+## turns its visual child (face_direction), so they would leave it walking backwards after the card.
+func _cine_call(shot: CinematicShot, at: float, method: String, args: Array) -> void:
+	var a := shot.add_action(at, &"call", &"", Vector3.ZERO, {"method": method, "args": args})
+	a.on_skip = false
+
+
+## Card staging: slides the actor `tag` to `to` over `seconds` (0 = at once) while the PAUSE card holds the tree,
+## facing the way (`backwards`: facing where it came from, a push).
+func cine_move(tag: StringName, to: Vector3, seconds: float, backwards := false) -> void:
+	var u := _card_actors.get(tag) as Unit
+	if u == null or not is_instance_valid(u):
+		return
+	var dir := to - u.global_position
+	_cine_turn(u, -dir if backwards else dir)
+	if seconds <= 0.0:
+		_cine_place(to, u)
+		return
+	u.reset_physics_interpolation()
+	var tw := u.create_tween()
+	tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tw.tween_method(_cine_place.bind(u), u.global_position, to, seconds).set_trans(Tween.TRANS_SINE) 			.set_ease(Tween.EASE_OUT)
+
+
+func cine_face(tag: StringName, at: Vector3) -> void:
+	var u := _card_actors.get(tag) as Unit
+	if u and is_instance_valid(u):
+		_cine_turn(u, at - u.global_position)
+
+
+## Faces `u` along `dir` for a card. Old Vey's helper model shows its back along face_direction(dir) in the
+## 2026-10-04 card screenshots (it is built facing -Z), so he is turned by -dir.
+func _cine_turn(u: Unit, dir: Vector3) -> void:
+	u.face_direction(-dir if u == vey else dir)
+	u.reset_physics_interpolation()
+
+
+static func _cine_place(p: Vector3, u: Unit) -> void:
+	if is_instance_valid(u):
+		u.global_position = p
+		u.reset_physics_interpolation()
+
+
+## Card effects (`call` actions): the M0 VFX, kept running while the PAUSE card holds the tree.
+func cine_fx(kind: StringName, at: Vector3, to: Vector3 = Vector3.ZERO) -> void:
+	var n: Node = null
+	match kind:
+		&"crackle":
+			n = M00Vfx.crackle_blink(self, at)
+		&"spark":
+			n = M00Vfx.spark_arc(self, at + Vector3(0.0, 1.2, 0.0), to + Vector3(0.0, 1.0, 0.0))
+		&"smoke":
+			n = M00Vfx.smoke_burst(self, at)
+	if n:
+		n.process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+func cine_seam(state: StringName) -> void:
+	if seam and seam.has_method(&"set_state"):
+		seam.process_mode = Node.PROCESS_MODE_ALWAYS
+		seam.call(&"set_state", state)
