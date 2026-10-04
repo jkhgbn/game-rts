@@ -57,7 +57,7 @@ func _initialize() -> void:
 			var perf_text := ""
 			var perf_path := String(opts.get("perf", ""))
 			if not skips.has("perf") and perf_path != "" and FileAccess.file_exists(perf_path):
-				perf_text = FileAccess.get_file_as_string(perf_path)
+				perf_text = read_log(perf_path)
 			var v := evaluate(id, bots, perf_text, skips)
 			var out := String(opts.get("out", "%s/%s" % [OUT_ROOT, id]))
 			write(v, out)
@@ -269,11 +269,23 @@ static func bot_row(summary: Dictionary) -> Dictionary:
 		"second_pass": second}
 
 
+## A log file as text. Windows PowerShell 5.1's `*>` writes UTF-16 LE with a BOM (the runner's perf.log): decode it,
+## else the file is UTF-8 (BOM or not).
+static func read_log(path: String) -> String:
+	var bytes := FileAccess.get_file_as_bytes(path)
+	if bytes.size() >= 2 and bytes[0] == 0xFF and bytes[1] == 0xFE:
+		return bytes.slice(2).get_string_from_utf16()
+	if bytes.size() >= 3 and bytes[0] == 0xEF and bytes[1] == 0xBB and bytes[2] == 0xBF:
+		return bytes.slice(3).get_string_from_utf8()
+	return bytes.get_string_from_utf8()
+
+
 ## G6 from the test_mt2_perf.gd log ("" = skipped).
 static func perf_row(text: String) -> Dictionary:
 	if text == "":
 		return _row("G6", "Performance", "SKIP", "not run", "test_mt2_perf.gd prints PASS mt2_perf")
-	for line: String in text.split("\n"):
+	for raw: String in text.split("\n"):
+		var line := raw.strip_edges()
 		if line.begins_with("PASS mt2_perf"):
 			return _row("G6", "Performance", "PASS", _perf_numbers(text), "frame time within live Crown Hollow's (+15 % + 0.5 ms), no stuck unit")
 		if line.begins_with("FAIL mt2_perf"):

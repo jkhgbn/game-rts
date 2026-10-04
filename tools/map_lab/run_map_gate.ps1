@@ -25,6 +25,10 @@
   tools\map_lab\run_map_gate.ps1 crown_hollow -Pass 2           (the full 120-game matrix at once)
 .EXAMPLE
   tools\map_lab\run_map_gate.ps1 thornwater -Games 12 -Limit 600 (a quick smoke of the pipeline: not a verdict)
+.EXAMPLE
+  tools\map_lab\run_map_gate.ps1 thornwater -Resume              (a stopped gate: keeps each difficulty's results.jsonl
+                                                                 and plays only the seeds whose 4 mirrors are missing;
+                                                                 only valid while the map and the bot code are unchanged)
 #>
 param(
 	[Parameter(Position = 0)][string]$Map = "",
@@ -36,6 +40,7 @@ param(
 	[switch]$SkipForge,
 	[switch]$SkipBots,
 	[switch]$SkipPerf,
+	[switch]$Resume,
 	[string]$OutDir = "",
 	[switch]$DryRun
 )
@@ -109,8 +114,21 @@ function Invoke-BotPass($plan, [int]$from, [string]$label) {
 		$to = [int]$plan[$d]
 		if ($to -lt $from) { continue }
 		$dir = Join-Path $OutDir "bots\$d"
-		Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2}-{3} x 4 mirrors" -f $label, $d, $from, $to)
-		$a = @{ Dir = $Repo; Pairs = @($Mirrors); Seeds = @("$from-$to"); Difficulty = $d; Sim = "on"; Limit = $Limit; OutDir = $dir;
+		$seedList = @($from..$to)
+		if ($Resume) {   # skip the seeds whose 4 mirrors already have a result line (a stopped gate goes on)
+			$rj = Join-Path $dir "results.jsonl"
+			$have = @{}
+			if (Test-Path $rj) {
+				foreach ($line in Get-Content $rj) {
+					try { $r = $line | ConvertFrom-Json; $k = [int]$r.seed; $have[$k] = 1 + $(if ($have.ContainsKey($k)) { $have[$k] } else { 0 }) } catch {}
+				}
+			}
+			$seedList = @($seedList | Where-Object { -not $have.ContainsKey($_) -or $have[$_] -lt 4 })
+			if ($seedList.Count -eq 0) { Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2}-{3} already played (-Resume)" -f $label, $d, $from, $to); continue }
+		}
+		$seedArg = ($seedList | ForEach-Object { "$_" }) -join ","
+		Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2} x 4 mirrors" -f $label, $d, $seedArg)
+		$a = @{ Dir = $Repo; Pairs = @($Mirrors); Seeds = @($seedArg); Difficulty = $d; Sim = "on"; Limit = $Limit; OutDir = $dir;
 			Title = "Map gate $Map ($d)"; TimeoutMin = 75 }
 		if ($Extra -ne "") { $a["Extra"] = $Extra }
 		& $Lab @a *> (Join-Path $OutDir "bots_$d.log")
@@ -123,7 +141,7 @@ if ($SkipBots) {
 } else {
 	foreach ($d in $Diffs) {
 		$dir = Join-Path $OutDir "bots\$d"
-		if (Test-Path (Join-Path $dir "results.jsonl")) { Remove-Item (Join-Path $dir "results.jsonl") }   # a new gate run starts clean
+		if (-not $Resume -and (Test-Path (Join-Path $dir "results.jsonl"))) { Remove-Item (Join-Path $dir "results.jsonl") }   # a new gate run starts clean
 		$BotDirs += $dir
 	}
 	if ($Pass -eq "2") {

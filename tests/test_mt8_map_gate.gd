@@ -8,6 +8,7 @@ extends SceneTree
 ## - G5 on synthetic Bot Lab lines: 50 % -> PASS; 46 % in the 40-game pass -> WARN + second_pass; 30 % -> FAIL; a lopsided
 ##   cell with 10 games -> FAIL (cells are not judged in the 40-game pass); script errors, a stall or a game without a result -> FAIL;
 ## - G6 from a perf log (PASS / FAIL / skipped), the verdict (PASS / PARTIAL / FAIL), the markdown + JSON scorecard;
+## - a perf log written by Windows PowerShell's `*>` (UTF-16 LE + BOM, as the runner writes it) reads as PASS;
 ## - the runner and the World Forge verb exist (help text names the passes and the options).
 ## Run: tools\godot_run.ps1 --headless --path . -s tests/test_mt8_map_gate.gd --fixed-fps 60 --quit-after 3000
 ## Prints "PASS mt8_map_gate" or "FAIL mt8_map_gate: <reasons>".
@@ -24,6 +25,7 @@ func _initialize() -> void:
 	_forge()
 	_bots()
 	_verdict()
+	_utf16_log()
 	_runner()
 	for n in notes:
 		print("  " + n)
@@ -32,6 +34,23 @@ func _initialize() -> void:
 	else:
 		print("FAIL %s: %s" % [TASK_ID, " | ".join(fails)])
 	quit(0 if fails.is_empty() else 1)
+
+
+func _utf16_log() -> void:
+	var path := "user://mt8_perf_utf16.log"
+	var body := "Godot Engine\r\n  live CH 4.1 ms\r\nPASS mt2_perf\r\n"
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_buffer(PackedByteArray([0xFF, 0xFE]) + body.to_utf16_buffer())
+	f.close()
+	var text: String = Gate.read_log(path)
+	if String(Gate.perf_row(text).get("status", "")) != "PASS":
+		fails.append("UTF-16 perf log not read as PASS (%s)" % Gate.perf_row(text))
+	f = FileAccess.open(path, FileAccess.WRITE)
+	f.store_string(body)
+	f.close()
+	if String(Gate.perf_row(Gate.read_log(path)).get("status", "")) != "PASS":
+		fails.append("UTF-8 perf log not read as PASS")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 
 
 func _ids() -> void:

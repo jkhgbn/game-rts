@@ -7,7 +7,7 @@
 param([Parameter(Position = 0)][string]$Verb = "help", [Parameter(Position = 1)][string]$Id = "", [Parameter(ValueFromRemainingArguments = $true)][string[]]$Rest)
 $proj = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $gate = Join-Path $proj "tools\godot_run.ps1"
-# MT8: `gate <map> [games=40] [games2=120] [pass=auto|1|2] [limit=1800] [skip=forge,bots,perf] [fresh=1] [dryrun=1]` = the
+# MT8: `gate <map> [games=40] [games2=120] [pass=auto|1|2] [limit=1800] [skip=forge,bots,perf] [fresh=1] [resume=1] [dryrun=1]` = the
 # map acceptance gate (tools\map_lab\run_map_gate.ps1: World Forge + Map Lab, spacing, symmetry, bot fairness in two
 # passes, perf, one PASS / PARTIAL / FAIL scorecard in docs\tools\map_gate\<map>\).
 if ($Verb -eq "gate") {
@@ -22,8 +22,9 @@ if ($Verb -eq "gate") {
 			"out" { $ga["OutDir"] = $v }
 			"fresh" { $ga["Fresh"] = $true }
 			"dryrun" { $ga["DryRun"] = $true }
+			"resume" { $ga["Resume"] = $true }
 			"skip" { foreach ($s in ($v -split "[, ]+" | Where-Object { $_ })) { $ga["Skip" + (Get-Culture).TextInfo.ToTitleCase($s.Trim().ToLower())] = $true } }
-			default { Write-Host "WORLD FORGE gate: unknown option '$kv' (games= games2= pass= limit= out= skip=forge,bots,perf fresh=1 dryrun=1)"; exit 2 }
+			default { Write-Host "WORLD FORGE gate: unknown option '$kv' (games= games2= pass= limit= out= skip=forge,bots,perf fresh=1 resume=1 dryrun=1)"; exit 2 }
 		}
 	}
 	& (Join-Path $proj "tools\map_lab\run_map_gate.ps1") $Id @ga
