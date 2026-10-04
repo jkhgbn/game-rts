@@ -90,7 +90,7 @@ const DROP_HOLD := 6.0
 const TIDE_MAX_ALIVE := 8
 const TIDE_COUNT := 3
 const LATE_DRAIN_START := 660.0
-const LATE_DRAIN_EVERY := 240.0
+const LATE_DRAIN_EVERY := 180.0   ## spec 240; pacing 2026-10-04 (the ignore run lost at 22:14 with 240)
 const DRAIN_TIMES: Array[float] = [180.0, 420.0, 660.0]
 ## Drain squads D1 / D2 / D3 and the late drains (pacing, 2026-10-04: the spec's 3 Thralls + 3 Shades die to G3 in
 ## 4 s and the wood guardians regenerate 1 % / s between squads, so an ignoring player never lost the race; D2 / D3

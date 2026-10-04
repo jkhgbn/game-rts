@@ -15,3 +15,4 @@ test_casters_bots
 test_map_big_e2e
 test_mt10_layout_bots
 test_m9_sim
+test_m3_sim
