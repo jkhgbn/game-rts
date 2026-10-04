@@ -144,6 +144,8 @@ static func for_id(id: StringName, difficulty: int) -> AIProfile:
 			return nature(difficulty)
 		&"mission_01":
 			return mission_01()
+		&"mission_04":
+			return mission_04()
 	return for_difficulty(difficulty)
 
 
@@ -257,6 +259,30 @@ static func mission_01() -> AIProfile:
 	p.champion_max = 0   # mission 1 has no taverns (champions.md 11)
 	p.trade = false      # no trade in missions 1-3 (market-trade.md 10)
 	p.map_fill = false   # missions: no river, points or camps (map-fill.md 11)
+	return p
+
+
+## docs/design/mission-04.md 19.A1: Shadow normal knobs, the first attack at ~6:00 (min_attack_pop 14), 6 workers, no
+## expansion past X1, at most 20 soldiers, the Gloom Hall never rebuilt, Malrik with every attack. Mission04 itself
+## overrides the army for the pylon strike (group "scripted") and sets min_attack_pop 99 / launch_attacks false for the
+## phase-3 pull-back.
+static func mission_04() -> AIProfile:
+	var p := normal()
+	p.profile_id = &"mission_04"
+	p.id = &"mission_04"
+	p.min_attack_pop = 14
+	p.attack_full_pop = 18
+	p.first_attack_by = 360.0
+	p.worker_target_home = 6
+	p.worker_target_expanded = 6
+	p.worker_target_x2 = 6
+	p.second_expansion = false
+	p.max_soldiers = 20
+	p.rebuild = false
+	p.malrik_joins = MalrikJoins.EVERY_ATTACK
+	p.champion_max = 0
+	p.trade = false
+	p.map_fill = false
 	return p
 
 

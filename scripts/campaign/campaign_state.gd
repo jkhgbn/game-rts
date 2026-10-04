@@ -41,12 +41,13 @@ const COMPANION_PURSE_RATIO := 0.5
 const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
-const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03"]
+const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
 	&"m02": "res://missions/mission_02.tscn",
 	&"m03": "res://missions/mission_03.tscn",
+	&"m04": "res://missions/mission_04.tscn",
 }
 ## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
 ## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
@@ -79,6 +80,13 @@ const MISSION_REWARDS := {
 		"flags": {"m3_mossjaw_slain": "sec_mossjaw", "m3_stakes_held": "sec_stakes", "m3_hired": "sec_champion"},
 		"bonus_essence": {"sec_stakes": 300, "sec_mossjaw": 150},
 		"next": &"m04",
+	},
+	# docs/design/mission-04.md "Rewards / Episode 2 carry-over" (m4_malrik_pylons is a mission-computed flag).
+	&"m04": {
+		"flags": {"m4_seat_taken": "sec_seat", "m4_hall_burned": "sec_hall"},
+		"bonus_essence": {"sec_seat": 300, "sec_hall": 300},
+		"set_flags": {"ep1_complete": true, "ep1_vey_returned": true, "ep1_shard_to_malrik": true},
+		"next": &"e2m1",
 	},
 }
 
