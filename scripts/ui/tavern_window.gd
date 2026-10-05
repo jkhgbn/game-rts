@@ -498,7 +498,7 @@ func refresh() -> void:
 	roster_label.text = "Roster %d / %d" % [used, ChampionBar.MAX_ROSTER]
 	roster_label.add_theme_color_override("font_color", UIStyle.WARN if used >= ChampionBar.MAX_ROSTER
 			else UIStyle.token(&"text"))
-	footer.text = "Upkeep 1 essence / 10 s per champion · Tavern opens at %s" % ChampionBar.OPENS_AT
+	footer.text = "Upkeep 1 essence / 10 s per champion · Tavern opens at %s" % ChampionBar.opens_at_text(self)
 	if not ChampionBar.data_available():
 		footer.text = "Champions not available"
 	var eco := Economy.for_team(team)
@@ -520,7 +520,7 @@ func refresh() -> void:
 			held = held and rows[i].reason == "Enemies hold both taverns"
 	_refresh_genie()
 	if not open_now:
-		closed_label.text = "The tavern opens at %s" % ChampionBar.OPENS_AT
+		closed_label.text = "The tavern opens at %s" % ChampionBar.opens_at_text(self)
 	elif held and any_free:
 		closed_label.text = "Enemies hold both taverns"
 	else:

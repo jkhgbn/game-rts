@@ -34,7 +34,7 @@ const REFRESH_TIME := 0.1
 const IDS: Array[StringName] = [&"wayfinder", &"oathwall", &"coin_cutter", &"mender"]
 const MAX_ROSTER := 3
 const POP := 2
-const OPENS_AT := "2:00"
+const OPENS_AT := "2:00"   ## Fallback only: the shown time comes from the taverns (opens_at_text; mission 3 opens at 0:30).
 ## Hire prices of the 1st / 2nd / 3rd champion (skills-rework.md 9.2), used when the guild has no hire_cost().
 const FALLBACK_COSTS: Array[Vector2i] = [Vector2i(225, 75), Vector2i(275, 100), Vector2i(325, 125)]
 ## Revive price when the guild has no revive_cost(): REVIVE_BASE + REVIVE_PER_LEVEL x level essence.
@@ -438,6 +438,22 @@ static func guild_for_team(tree: SceneTree, p_team: int) -> Node:
 				and int(g.get("team")) == p_team:
 			return g
 	return null
+
+
+## "m:ss" of the earliest tavern `open_time` in `from`'s tree (group "taverns": a mission may move it, mission 3 0:30);
+## OPENS_AT when there is no tavern.
+static func opens_at_text(from: Node) -> String:
+	if from == null or not from.is_inside_tree():
+		return OPENS_AT
+	var best := INF
+	for t: Node in from.get_tree().get_nodes_in_group(&"taverns"):
+		var v: Variant = t.get(&"open_time")
+		if v != null:
+			best = minf(best, float(v))
+	if best == INF:
+		return OPENS_AT
+	var s := int(ceilf(maxf(best, 0.0)))
+	return "%d:%02d" % [s / 60, s % 60]
 
 
 static func guild_is_open(guild: Node) -> bool:
@@ -1353,10 +1369,11 @@ class Slot extends Button:
 		state = &"empty"
 		_last_champion = null
 		_set_filled(false)
-		tavern_label.text = "Y · tavern" if open else "Tavern opens at %s" % ChampionBar.OPENS_AT
+		var at := ChampionBar.opens_at_text(self)
+		tavern_label.text = "Y · tavern" if open else "Tavern opens at %s" % at
 		tavern_label.add_theme_color_override("font_color", UIStyle.GOLD if open else UIStyle.token(&"text_muted"))
 		tooltip_text = "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s" % (
-				"" if open else "\nTavern opens at %s" % ChampionBar.OPENS_AT)
+				"" if open else "\nTavern opens at %s" % at)
 		_unpaid = false
 		_style_badge()
 		_update_alpha()
