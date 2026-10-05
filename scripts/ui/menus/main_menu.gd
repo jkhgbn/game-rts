@@ -15,6 +15,8 @@ const MENU_DIORAMA := "res://art/environment/menu_diorama/menu_diorama.tscn"
 const MAP_LIST_W := 250.0     ## MT9 map picker: the list's width (px)...
 const MAP_PREVIEW := 230.0    ## ...the preview square beside it (the mapsheet render, data/maps/previews/<id>.png)...
 const MAP_COLUMN_W := MAP_LIST_W + 10.0 + MAP_PREVIEW + 4.0   ## ...and the whole column (lines under both).
+## Dev tool (docs/plan/unit-lab.md): the Unit Lab sandbox, opened by `-- --unit-lab` or Ctrl+Shift+U (debug builds).
+const UNIT_LAB_SCENE := "res://scenes/unit_lab.tscn"
 
 var diorama: Node3D   ## MenuDiorama (3D background); null if the scene is missing.
 
@@ -57,6 +59,10 @@ var _map_seats := MapCatalog.SEATS_1V1
 
 
 func _ready() -> void:
+	# Dev only (docs/plan/unit-lab.md): `-- --unit-lab` opens the Unit Lab sandbox instead of the menu.
+	if OS.get_cmdline_user_args().has("--unit-lab") and ResourceLoader.exists(UNIT_LAB_SCENE):
+		get_tree().change_scene_to_file.call_deferred(UNIT_LAB_SCENE)
+		return
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	theme = UIStyle.game_theme()   # U7: Alegreya body text, Cinzel headers (null = engine default)
 	GameSettings.ensure_loaded(get_tree())
@@ -530,7 +536,13 @@ func _mission_available(id: StringName) -> bool:
 
 func _unhandled_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
-	if key and key.pressed and not key.echo and key.physical_keycode == KEY_ESCAPE and not main_panel.visible:
+	# Dev only: Ctrl+Shift+U opens the Unit Lab sandbox (debug builds; not shown in the player menu).
+	if key and key.pressed and not key.echo and key.physical_keycode == KEY_U and key.ctrl_pressed and key.shift_pressed \
+			and OS.is_debug_build() and ResourceLoader.exists(UNIT_LAB_SCENE):
+		get_tree().change_scene_to_file.call_deferred(UNIT_LAB_SCENE)
+		get_viewport().set_input_as_handled()
+		return
+	if key and key.pressed and not key.echo and key.physical_keycode == KEY_ESCAPE and main_panel and not main_panel.visible:
 		if settings_panel.visible:
 			settings_panel.close()
 		else:
