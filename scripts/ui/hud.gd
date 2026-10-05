@@ -101,7 +101,7 @@ func _ready() -> void:
 	help_panel.offset_bottom = 16.0
 	# Keys: CLAUDE.md "Keys" / ui-hud.md (lines kept short so the panel stays right of the top bar).
 	GameSettings.ensure_read()   # the help follows the saved control scheme (UX.1)
-	var help := _label(help_text(_help_name), 13)
+	var help := _label(help_text(_help_name, help_features()), 13)
 	help.modulate = Color(1, 1, 1, 0.8)
 	help.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	help_panel.add_child(help)
@@ -149,6 +149,11 @@ func _ready() -> void:
 	_message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_message.add_theme_color_override("font_color", Color(1.0, 0.85, 0.4))
 	_message.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Readable over bright ground (mission 2's snow, fix 2026-10-04): a thicker outline and a dark backing plate,
+	# shown only while a line is up.
+	_message.add_theme_constant_override("outline_size", 5)
+	_message.add_theme_stylebox_override("normal", message_backing())
+	_message.visible = false
 	root.add_child(_message)
 
 	# Chat / command line (Enter opens it; "dance 1 / 2 / 3"), and the match-end dances (UnitDances).
@@ -256,7 +261,7 @@ func setup(hero: Wizard, selection: SelectionManager) -> void:
 	if UIStyle.skin_version != before:
 		apply_skin()
 	_help_name = wizard_short_name(hero)
-	_help_label.text = help_text(_help_name)
+	_help_label.text = help_text(_help_name, help_features())
 	selection_panel.setup(hero, selection)
 	command_card.setup(selection)
 	group_bar.setup(selection)
@@ -423,9 +428,24 @@ func refresh_help() -> void:
 		return
 	_help_check_left = 60
 	_help_scheme = GameSettings.control_scheme
-	var text := help_text(_help_name)
+	var text := help_text(_help_name, help_features())
 	if _help_label.text != text:
 		_help_label.text = text
+
+
+## The systems the controls help lists keys for: {} (every line) outside a campaign mission; in a mission
+## (MissionBase) champions only with taverns, trade / capture points only when the mission turns them on, caster keys
+## only when it has casters (fix 2026-10-04: the help listed Bazaar / bounty / capture keys that did nothing).
+func help_features() -> Dictionary:
+	var level := get_tree().current_scene if is_inside_tree() else null
+	if not (level is MissionBase):
+		return {}
+	return {
+		&"champions": bool(level.get(&"tavern_enabled")),
+		&"trade": bool(level.get(&"trade_enabled")),
+		&"capture": bool(level.get(&"points_enabled")),
+		&"casters": CasterKit.enabled_here(),
+	}
 
 
 ## The last help line (step 12, ui-mapfill.md 12).
@@ -438,7 +458,10 @@ const HELP_CAPTURE := "Capture: stand near towers, wells and shrines"
 ## UX.1: lines 2-4 follow the control scheme (Classic: right click moves the wizard, A + click = attack-move;
 ## Hero WASD: W A S D walk her, X = attack-move) and every letter is the label on the player's keyboard
 ## (KeyLabels: an AZERTY player reads "Q + click: attack-move", "Z Q S D: walk").
-static func help_text(wizard_name: String) -> String:
+## `features` (fix 2026-10-04): keys of systems the level does not have are left out (missions: no trade, no capture
+## points, champions only with a tavern, caster keys only with casters). Empty = every line (the skirmish / tests).
+static func help_text(wizard_name: String, features: Dictionary = {}) -> String:
+	var has := func(f: StringName) -> bool: return features.is_empty() or bool(features.get(f, false))
 	var k := func(code: Key) -> String: return KeyLabels.of(code)
 	# The training slot keys (SelectionManager.SLOT_KEYS: Z X C V B, then N M , on a Hall's 8-unit card).
 	var train := KeyLabels.join(SelectionManager.SLOT_KEYS)
@@ -469,14 +492,33 @@ static func help_text(wizard_name: String) -> String:
 			% [KeyLabels.join([KEY_F, KEY_Q, KEY_E], "/"), wizard_name, wizard_name]
 			+ "Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all\n" % k.call(KEY_A)
 			+ "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n"
-			+ "%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop\n" % [pan_keys, k.call(KEY_T)]
-			+ "%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion\n" % [k.call(KEY_R), k.call(KEY_Y)]
-			+ "Flag: %s raise · Delete remove    %s: trade & hunters    %s: trade (caravans)\n"
-			% [k.call(KEY_Z), k.call(KEY_U), k.call(KEY_G)]
-			# caster-units.md 9.1: the casters' spell keys (the Bazaar's route click is on its Set Route tooltip).
-			+ "%s, %s: Bazaar    Bazaar: %s caravan    %s / %s: caster spells (Ctrl: autocast)\n"
-			% [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z), k.call(KEY_Z), k.call(KEY_V)]
-			+ HELP_CAPTURE)
+			+ "%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop" % [pan_keys, k.call(KEY_T)]
+			+ _help_lines(k, has))
+
+
+## The feature-dependent tail of help_text (a newline + its lines, or ""): champions, trade, casters, capture points.
+static func _help_lines(k: Callable, has: Callable) -> String:
+	var lines: Array[String] = []
+	if has.call(&"champions"):
+		lines.append("%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion" % [k.call(KEY_R), k.call(KEY_Y)])
+	var row: Array[String] = []
+	if has.call(&"champions"):
+		row.append("Flag: %s raise · Delete remove" % k.call(KEY_Z))
+	if has.call(&"trade"):
+		row.append("%s: trade & hunters    %s: trade (caravans)" % [k.call(KEY_U), k.call(KEY_G)])
+	if not row.is_empty():
+		lines.append("    ".join(row))
+	# caster-units.md 9.1: the casters' spell keys (the Bazaar's route click is on its Set Route tooltip).
+	row = []
+	if has.call(&"trade"):
+		row.append("%s, %s: Bazaar    Bazaar: %s caravan" % [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z)])
+	if has.call(&"casters"):
+		row.append("%s / %s: caster spells (Ctrl: autocast)" % [k.call(KEY_Z), k.call(KEY_V)])
+	if not row.is_empty():
+		lines.append("    ".join(row))
+	if has.call(&"capture"):
+		lines.append(HELP_CAPTURE)
+	return "" if lines.is_empty() else "\n" + "\n".join(lines)
 
 
 ## Re-skins every HUD piece: my panels here, and any child that has `apply_skin()` (convention for 6.U2/6.U3).
@@ -504,10 +546,23 @@ func set_objective(text: String) -> void:
 	_objective.text = text
 
 
+## The message line's plate: near-black at 62 %, rounded, 16 x 5 px padding.
+static func message_backing() -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.04, 0.03, 0.03, 0.62)
+	sb.set_corner_radius_all(6)
+	sb.content_margin_left = 16.0
+	sb.content_margin_right = 16.0
+	sb.content_margin_top = 5.0
+	sb.content_margin_bottom = 5.0
+	return sb
+
+
 func show_message(text: String, seconds := 2.0) -> void:
 	if end_panel.visible and end_body.text != "" and text == end_body.text:
 		return   # the end stats are already in the end panel
 	_message.text = text
+	_message.visible = text != ""
 	_message_time = seconds
 
 
@@ -682,6 +737,7 @@ func _process(delta: float) -> void:
 		_message.modulate.a = clampf(_message_time / MESSAGE_FADE, 0.0, 1.0)
 		if _message_time <= 0.0:
 			_message.text = ""
+			_message.visible = false
 			_message.modulate.a = 1.0
 
 

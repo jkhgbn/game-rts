@@ -60,6 +60,10 @@ var hero_level: Label
 var hero_xp: ProgressBar
 var hero_xp_text: Label     ## "XP  320 / 450" or "XP  MAX".
 var points_chip: PanelContainer   ## "+1 point", only while spell_points > 0.
+## Right of the chip: 0 px, or POINTS_PAD_ARTIFACT while the inventory bar shows its 2nd artifact slot (526, 794), which
+## covered the chip (fix 2026-10-04).
+var points_pad: Control
+const POINTS_PAD_ARTIFACT := 56.0
 var points_text: Label
 var _xp_flash_left := 0.0
 # 6.U1 skin: portrait, hero column aura / trim line, ghost damage, low-HP pulse, level-up ring.
@@ -786,6 +790,7 @@ func _update_level(alive: bool) -> void:
 	var points := int(hero.get("spell_points")) if hero.get("spell_points") != null else 0
 	hero_badge.tooltip_text = "Level %d%s · %d spell point%s" % [level, xp_part, points, "" if points == 1 else "s"]
 	points_chip.visible = points > 0
+	points_pad.custom_minimum_size.x = POINTS_PAD_ARTIFACT if second_artifact_shown(hero) else 0.0
 	if points > 0:
 		points_text.text = "+%d point%s" % [points, "" if points == 1 else "s"]
 		points_chip.modulate.a = 0.85 + 0.15 * sin(_clock * TAU / 0.8)
@@ -1593,6 +1598,15 @@ static func lifetime_of(u: Node) -> Vector2:
 
 ## Shows one chip per active status of `u` ("H 7" = Haste, 7 s left; timers from Unit.status_time_left).
 ## Hides the row when `u` is null or has none.
+## True when `wizard`'s 2nd artifact slot holds something (the inventory bar then shows that slot above the 1st one).
+static func second_artifact_shown(wizard: Node) -> bool:
+	var inv: Variant = wizard.get("inventory") if wizard != null and is_instance_valid(wizard) else null
+	if inv == null or not is_instance_valid(inv):
+		return false
+	var arts: Variant = (inv as Object).get("artifacts")
+	return arts is Array and (arts as Array).size() > 1 and (arts as Array)[1] != null
+
+
 func _update_status_row(row: HBoxContainer, u: Node) -> void:
 	var any := false
 	var can := u != null and is_instance_valid(u) and u.has_method(&"has_status")
@@ -2064,6 +2078,9 @@ func _build_hero_column() -> Control:
 	points_chip.add_child(points_text)
 	points_chip.visible = false
 	status_row.add_child(points_chip)
+	points_pad = Control.new()
+	points_pad.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	status_row.add_child(points_pad)
 	hero_crown = UIStyle.label("", 14)
 	hero_crown.add_theme_color_override("font_color", UIStyle.GOLD)
 	hero_crown.tooltip_text = "Dropped when your wizard dies."
