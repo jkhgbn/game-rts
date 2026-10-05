@@ -277,6 +277,11 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   Commander; `last_cast(team)` test hook). Team claims `CasterKit.claim / is_claimed` + `CasterAbility.claimed_elsewhere`
   (no two casters of a team cast one spell on one target); `CasterKit.reset()` + `AICasters.reset_history()` run in
   main.gd `_ready` (every new match / F9).
+- **Unit Guide** (2026-10-05, `docs/design/unit-guide.md`): main menu / pause menu screen `UnitGuide`
+  (`scripts/ui/menus/unit_guide.gd`); data `UnitGuideData` (roster from the kit / building tables, stats read from the
+  `.tres` at runtime) + hand text `data/ui/unit_guide.json` (role, class, 3 pros, 2-3 cons, tags; rank claims like
+  "Highest HP in the Fire army" are verified). **A new player unit / champion / helper needs a JSON block**:
+  `tools/unit_guide/gen_guide.gd '--' write` makes the skeleton, then edit it; `tests/test_unit_guide.gd` fails otherwise.
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).

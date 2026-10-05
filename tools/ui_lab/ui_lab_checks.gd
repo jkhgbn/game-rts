@@ -38,7 +38,9 @@ static func visible_controls(scope: Node) -> Array[Control]:
 	return out
 
 
-static func _collect(n: Node, out: Array[Control]) -> void:
+## `clip`: the visible rect of the nearest ScrollContainer above (2026-10-05, Unit Guide list): content scrolled out of
+## it (wholly or partly) is not on screen now, so it is not checked (it would read as overflow / offscreen / overlap).
+static func _collect(n: Node, out: Array[Control], clip := Rect2()) -> void:
 	if n is CanvasLayer and not (n as CanvasLayer).visible:
 		return
 	if n is CanvasItem:
@@ -46,11 +48,19 @@ static func _collect(n: Node, out: Array[Control]) -> void:
 		if not ci.visible or ci.modulate.a < 0.05:
 			return
 		if n is Control:
-			out.append(n as Control)
+			var ctl := n as Control
+			if clip.has_area() and not clip.grow(1.0).encloses(ctl.get_global_rect()):
+				if not clip.intersects(ctl.get_global_rect()):
+					return
+			else:
+				out.append(ctl)   # cut by the scroll edge: not checked, its wholly visible children are
 	if n is SubViewportContainer or n is SubViewport:
 		return   # 3D backdrops: not UI
+	if n is ScrollContainer:
+		var r := (n as Control).get_global_rect()
+		clip = r.intersection(clip) if clip.has_area() else r
 	for c in n.get_children():
-		_collect(c, out)
+		_collect(c, out, clip)
 
 
 ## True for controls that show text the player must read. Decorative copies drawn behind their parent (glows) and

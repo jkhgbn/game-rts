@@ -4,7 +4,8 @@ extends SceneTree
 ##   & tools/godot_run.ps1 --path . -s res://tools/ui_lab/ui_lab.gd --quit-after 200000 '--' 'res=1600x900,1920x1080,3440x1440'
 ## Args after `--` (key=value):
 ##   res       comma list of WxH (default 1600x900,1920x1080,3440x1440)
-##   screens   comma list (default all): main_menu, skirmish_setup, settings, hud, hud_keep, hud_caster, pause, end_score
+##   screens   comma list (default all): main_menu, skirmish_setup, settings, unit_guide, unit_guide_compare, hud, hud_keep,
+##             hud_caster, pause, end_score (unit_guide = the menu's Unit Guide on the Sunforge Cataphract; _compare = A / B)
 ##             (hud_keep = the keep card at the Stronghold, B = the caster; hud_caster = a caster card, Z / V spells:
 ##             caster-units.md CU.L1)
 ##   out       output folder (default res://docs/ui/lab): scorecard.md / .json, <WxH>/<screen>.jpg
@@ -15,9 +16,10 @@ extends SceneTree
 
 const WATCHDOG_S := 900.0
 const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
-const ALL_SCREENS: Array[String] = ["main_menu", "skirmish_setup", "settings", "hud", "hud_keep", "hud_caster", "pause",
+const ALL_SCREENS: Array[String] = ["main_menu", "skirmish_setup", "settings", "unit_guide", "unit_guide_compare", "hud",
+		"hud_keep", "hud_caster", "pause",
 		"end_score"]
-const MENU_SCREENS: Array[String] = ["main_menu", "skirmish_setup", "settings"]
+const MENU_SCREENS: Array[String] = ["main_menu", "skirmish_setup", "settings", "unit_guide", "unit_guide_compare"]
 const GAME_SCREENS: Array[String] = ["hud", "hud_keep", "hud_caster", "pause", "end_score"]
 
 var report := UILabReport.new()
@@ -171,6 +173,20 @@ func _run_resolution(res: String, screens: Array[String]) -> void:
 		await _frames(8)
 		var sp: Node = menu.get(&"settings_panel")
 		await _capture("settings", res, sp if sp != null else menu)
+	if (screens.has("unit_guide") or screens.has("unit_guide_compare")) and menu.has_method(&"show_unit_guide"):
+		menu.call(&"show_unit_guide")
+		var ug: Node = menu.get(&"unit_guide")
+		if screens.has("unit_guide"):
+			ug.call(&"select_unit", &"sunforge_cataphract")
+			await _frames(8)
+			await _capture("unit_guide", res, ug)
+		if screens.has("unit_guide_compare"):
+			ug.call(&"set_compare_pair", &"blaze_rider", &"frostcrown_juggernaut")
+			await _frames(8)
+			await _capture("unit_guide_compare", res, ug)
+			ug.call(&"set_compare", false)
+		menu.call(&"show_main")
+		await _frames(2)
 	var wants_game := false
 	for s in GAME_SCREENS:
 		if screens.has(s):
