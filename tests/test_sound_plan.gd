@@ -53,6 +53,7 @@ var _path: Node
 var _nu: FakeNU
 var _t3: FakeT3
 var _helper: FakeUnit
+var _fired_at := -1
 
 
 func _process(_delta: float) -> bool:
@@ -74,9 +75,17 @@ func _process(_delta: float) -> bool:
 			return _finish("no GameAudio in main.tscn")
 		_takes_check()
 		_setup_fakes()
-	elif frame == 110:   # a 1 s rescan has hooked the fakes
-		_fire()
-	elif frame == 140:
+	elif frame >= 110 and _fired_at < 0:   # a 1 s rescan has hooked the fakes
+		# This checks the wiring, not audibility: play_at skips a cue when the camera is > max_hear_distance away or
+		# all 16 voices are busy (a loaded CI run once lost exactly the 7 play_at cues while the play_ui ones played),
+		# so the camera sits on the hero and the shots wait for half the pool to be free (at most 10 s).
+		var rig: Variant = main.get(&"camera_rig")
+		if rig != null and (rig as Object).has_method(&"focus_on"):
+			(rig as Object).call(&"focus_on", (main.get(&"hero") as Node3D).global_position)
+		if _busy_voices() <= 8 or frame > 710:
+			_fire()
+			_fired_at = frame
+	elif _fired_at > 0 and frame == _fired_at + 30:
 		_live_checks()
 		return _finish("")
 	return false
@@ -186,6 +195,28 @@ func _live_checks() -> void:
 			&"ab_sab_plant"]:
 		if int(counts.get(id, 0)) < 1:
 			_fails.append("live: %s did not play" % id)
+	if _fails.size() > 0 or OS.get_cmdline_user_args().has("--diag"):
+		print("  diag: %s" % _diag())
+
+
+## Why play_at could skip: camera distance to the hero / helper, busy voices, drops.
+func _diag() -> String:
+	var cam: Camera3D = root.get_viewport().get_camera_3d()
+	var hero: Node3D = main.get(&"hero")
+	var busy := _busy_voices()
+	return "cam %s (%s) hero %s helper %s dist %.1f busy %d dropped %d frame %d" % [
+		cam.global_position if cam else Vector3.ZERO, cam.get_path() if cam else "none",
+		hero.global_position if hero else Vector3.ZERO, _helper.global_position if _helper else Vector3.ZERO,
+		cam.global_position.distance_to(hero.global_position) if cam and hero else -1.0, busy, int(_ga.get(&"dropped")),
+		Engine.get_process_frames()]
+
+
+func _busy_voices() -> int:
+	var busy := 0
+	for t: float in _ga.get(&"_voice_until"):
+		if t > float(_ga.get(&"_now")):
+			busy += 1
+	return busy
 
 
 func _find_audio(n: Node) -> Node:
