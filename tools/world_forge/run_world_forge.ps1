@@ -3,6 +3,7 @@
 # Verbs: help | check <set> | build <set> | sheet <set> (windowed) | map <map> [live=1] | export-map <crown_hollow|res://scene.tscn> | demo
 #        fix <map> [rounds=3] | gen <id> archetype= players= tempo= biome= seed= count= full= | template <name|all> | mapsheet <map> (windowed)
 #        gate <map> [games= pass= limit= skip=bots,perf fresh=1 dryrun=1] (MT8 acceptance gate, see below)
+#        balance <map> [out=<file.json>] (balance score + predicted G5 seat win rates, no bot games: tools\map_lab\balance\run_balance.ps1)
 # Exit code: 0 PASS / WARN, 1 FAIL, 2 bad input. Goes through tools\godot_run.ps1 (the Godot gate).
 param([Parameter(Position = 0)][string]$Verb = "help", [Parameter(Position = 1)][string]$Id = "", [Parameter(ValueFromRemainingArguments = $true)][string[]]$Rest)
 $proj = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
@@ -28,6 +29,11 @@ if ($Verb -eq "gate") {
 		}
 	}
 	& (Join-Path $proj "tools\map_lab\run_map_gate.ps1") $Id @ga
+	exit $LASTEXITCODE
+}
+# Balance model (docs\tools\map_gate\balance_model.md): `balance <map>` = internal balance score + predicted G5, seconds.
+if ($Verb -eq "balance") {
+	& (Join-Path $proj "tools\map_lab\balance\run_balance.ps1") $Id @Rest
 	exit $LASTEXITCODE
 }
 $user = @("verb=$Verb")
