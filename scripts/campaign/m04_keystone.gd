@@ -17,7 +17,7 @@ signal cracked_leg                         ## Phase 2: the Colossus fell to 70 %
 
 const PYLON_RADIUS := 1.0
 const PYLON_WARDEN_EVERY := 35.0
-const PYLON_WARDENS := 2
+const PYLON_WARDENS := 1         ## Tuned from the spec's 2 per 35 s (19.C5 sim, 2026-10-04): with 2 the Wardens out-traded the Fire army.
 const PYLON_WARDEN_MAX := 4      ## Tuned from the spec's 6 (19.C5 sim, 2026-10-04): 6 Wardens per pylon wiped a 15-20 soldier Fire army; hard x 1.4 = 6.
 const PYLON_WARDEN_RING := 4.0
 const PYLON_WARDEN_AGGRO := 10.0
