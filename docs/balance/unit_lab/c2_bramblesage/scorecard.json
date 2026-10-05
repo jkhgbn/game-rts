@@ -1,0 +1,152 @@
+{
+	"checks": [
+		{
+			"detail": "caster 100 % vs control 100 % = +0 points (band 20..60)",
+			"label": "C2 caster arm vs control",
+			"result": "FAIL"
+		}
+	],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"caster": {
+				"a_wins": 10,
+				"alive": [
+					8.6,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{
+						"pollen_haze": 1.0
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"pollen_haze": {
+							"fights": 10,
+							"median": 1.97
+						}
+					},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.590281442804936,
+					0.0
+				],
+				"lo": 0.722459852695465,
+				"n": 10,
+				"score": 1.0,
+				"time_median": 10.85,
+				"trade": [
+					2.50925286995797,
+					0.398525
+				],
+				"ttk_median": 10.85,
+				"types": [
+					{
+						"bramblesage": {
+							"dealt": 24.1,
+							"dealt_per_100": 16.0666666666667,
+							"dps": 2.28436018957346,
+							"kills": 0.1,
+							"kills_per_100": 0.0666666666666667,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 1.0,
+							"taken": 11.7
+						},
+						"thornling": {
+							"dealt": 535.9,
+							"dealt_per_100": 81.1969696969697,
+							"dps": 5.56547928133763,
+							"kills": 7.9,
+							"kills_per_100": 1.1969696969697,
+							"per_fight": 11.0,
+							"summon": false,
+							"survival": 0.690909090909091,
+							"taken": 354.1
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 365.8,
+							"dealt_per_100": 45.725,
+							"dps": 6.39175257731959,
+							"kills": 3.4,
+							"kills_per_100": 0.425,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 10,
+				"alive": [
+					9.8,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.64843792105907,
+					0.0
+				],
+				"lo": 0.722459852695465,
+				"n": 10,
+				"score": 1.0,
+				"time_median": 9.035,
+				"trade": [
+					2.84636732370312,
+					0.351325
+				],
+				"ttk_median": 9.035,
+				"types": [
+					{
+						"thornling": {
+							"dealt": 560.0,
+							"dealt_per_100": 71.7948717948718,
+							"dps": 5.3156146179402,
+							"kills": 8.0,
+							"kills_per_100": 1.02564102564103,
+							"per_fight": 13.0,
+							"summon": false,
+							"survival": 0.753846153846154,
+							"taken": 332.0
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 332.0,
+							"dealt_per_100": 41.5,
+							"dps": 6.34799235181644,
+							"kills": 3.2,
+							"kills_per_100": 0.4,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "c2_bramblesage",
+	"variants": {}
+}

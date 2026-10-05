@@ -24,6 +24,11 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `tools/ci/slow_tests.txt`); after a change `tools\ci\ci_quick.ps1 -Changed [-Base HEAD~N | last-green] [-ListOnly]` runs only
   the tests that name the changed files + the core set (full list when a core file changes); milestones `tools\ci\ci.ps1`
   (`-Parallel 4` default). Long bot tests stop as soon as their verdict is final; `-- --full` replays the whole match.
+- **Unit Lab** (2026-10-05, `docs/plan/unit-lab.md`): unit-level fights through the real Unit / abilities / casters.
+  Headless: `tools\unit_lab\run_unit_lab.ps1 <preset | spec.json | "6 shade vs 7 flame_guard">` (`-Equal a,b`,
+  `-Matrix`, `-Variants` = Balance Lab variants; presets C1-C7 = caster-units.md 7.2), scorecards in
+  `docs/balance/unit_lab/<run>/`. Sandbox (dev only, SC2-style): `scenes/unit_lab.tscn`, or the game with `-- --unit-lab`,
+  or Ctrl+Shift+U on the main menu (debug builds).
 - Test scripts compile **before autoloads exist**: never write `Events` in a test. In game code, reach
   autoloads with `get_node_or_null(^"/root/Events")` so tests that use `Unit`, `Wizard`... still compile.
 - Play: desktop shortcut "Four Wizards - Play", or open the editor ("Four Wizards - Editor") and press F5.

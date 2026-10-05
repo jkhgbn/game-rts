@@ -1,0 +1,152 @@
+{
+	"checks": [
+		{
+			"detail": "caster 40 % vs control 100 % = -60 points (band 20..60)",
+			"label": "C1 caster arm vs control",
+			"result": "FAIL"
+		}
+	],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"caster": {
+				"a_wins": 4,
+				"alive": [
+					1.1,
+					1.0
+				],
+				"b_wins": 6,
+				"casts": [
+					{
+						"slag_rain": 3.0
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"slag_rain": {
+							"fights": 10,
+							"median": 1.97
+						}
+					},
+					{}
+				],
+				"hi": 0.687330424785614,
+				"hp_left_pct": [
+					0.099098149076951,
+					0.0526561765315383
+				],
+				"lo": 0.168177574872971,
+				"n": 10,
+				"score": 0.4,
+				"time_median": 22.81,
+				"trade": [
+					1.05269379328716,
+					0.949943854876718
+				],
+				"ttk_median": 22.81,
+				"types": [
+					{
+						"flame_guard": {
+							"dealt": 804.28,
+							"dealt_per_100": 148.940740740741,
+							"dps": 10.5659485023647,
+							"kills": 5.5,
+							"kills_per_100": 1.01851851851852,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.116666666666667,
+							"taken": 750.26
+						},
+						"kilnwarden": {
+							"dealt": 208.58,
+							"dealt_per_100": 139.053333333333,
+							"dps": 8.60833677259595,
+							"kills": 0.5,
+							"kills_per_100": 0.333333333333333,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.4,
+							"taken": 62.0
+						}
+					},
+					{
+						"rimeshield": {
+							"dealt": 812.26,
+							"dealt_per_100": 122.144360902256,
+							"dps": 8.56001686162925,
+							"kills": 5.9,
+							"kills_per_100": 0.887218045112782,
+							"per_fight": 7.0,
+							"summon": false,
+							"survival": 0.142857142857143,
+							"taken": 1012.85
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 10,
+				"alive": [
+					3.6,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.268376330301103,
+					0.0
+				],
+				"lo": 0.722459852695465,
+				"n": 10,
+				"score": 1.0,
+				"time_median": 20.285,
+				"trade": [
+					1.24422324920014,
+					0.803714285714286
+				],
+				"ttk_median": 20.285,
+				"types": [
+					{
+						"flame_guard": {
+							"dealt": 1059.0,
+							"dealt_per_100": 147.083333333333,
+							"dps": 8.89841189815982,
+							"kills": 7.0,
+							"kills_per_100": 0.972222222222222,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.45,
+							"taken": 789.89
+						}
+					},
+					{
+						"rimeshield": {
+							"dealt": 789.89,
+							"dealt_per_100": 118.78045112782,
+							"dps": 8.59416820802959,
+							"kills": 4.4,
+							"kills_per_100": 0.661654135338346,
+							"per_fight": 7.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 1059.0
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "c1_kilnwarden",
+	"variants": {}
+}

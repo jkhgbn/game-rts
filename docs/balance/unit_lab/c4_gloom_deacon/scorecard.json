@@ -1,0 +1,152 @@
+{
+	"checks": [
+		{
+			"detail": "caster 0 % vs control 60 % = -60 points (band 20..60)",
+			"label": "C4 caster arm vs control",
+			"result": "FAIL"
+		}
+	],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"caster": {
+				"a_wins": 0,
+				"alive": [
+					0.0,
+					4.7
+				],
+				"b_wins": 10,
+				"casts": [
+					{
+						"blood_tithe": 3.2
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"blood_tithe": {
+							"fights": 10,
+							"median": 2.05
+						}
+					},
+					{}
+				],
+				"hi": 0.277540177106857,
+				"hp_left_pct": [
+					0.0,
+					0.417713675213675
+				],
+				"lo": 0.0,
+				"n": 10,
+				"score": 0.0,
+				"time_median": 15.235,
+				"trade": [
+					0.589285714285714,
+					1.6969696969697
+				],
+				"ttk_median": 15.235,
+				"types": [
+					{
+						"gloom_deacon": {
+							"dealt": 70.25,
+							"dealt_per_100": 46.8333333333333,
+							"dps": 4.7052913596785,
+							"kills": 0.1,
+							"kills_per_100": 0.0666666666666667,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						},
+						"shade": {
+							"dealt": 478.67,
+							"dealt_per_100": 99.7229166666667,
+							"dps": 8.8873004084664,
+							"kills": 2.2,
+							"kills_per_100": 0.458333333333333,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 759.5
+						}
+					},
+					{
+						"flame_guard": {
+							"dealt": 859.5,
+							"dealt_per_100": 136.428571428571,
+							"dps": 9.76482617586912,
+							"kills": 7.0,
+							"kills_per_100": 1.11111111111111,
+							"per_fight": 7.0,
+							"summon": false,
+							"survival": 0.671428571428571,
+							"taken": 548.89
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 6,
+				"alive": [
+					1.5,
+					1.0
+				],
+				"b_wins": 4,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 0.831822395324707,
+				"hp_left_pct": [
+					0.0947036763296926,
+					0.0528698687853617
+				],
+				"lo": 0.312669545412064,
+				"n": 10,
+				"score": 0.6,
+				"time_median": 19.855,
+				"trade": [
+					1.02463265586377,
+					0.975959524886499
+				],
+				"ttk_median": 19.855,
+				"types": [
+					{
+						"shade": {
+							"dealt": 875.14,
+							"dealt_per_100": 136.740625,
+							"dps": 9.00627765771329,
+							"kills": 6.0,
+							"kills_per_100": 0.9375,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.1875,
+							"taken": 808.16
+						}
+					},
+					{
+						"flame_guard": {
+							"dealt": 808.16,
+							"dealt_per_100": 128.279365079365,
+							"dps": 9.42131032874796,
+							"kills": 6.5,
+							"kills_per_100": 1.03174603174603,
+							"per_fight": 7.0,
+							"summon": false,
+							"survival": 0.142857142857143,
+							"taken": 875.14
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "c4_gloom_deacon",
+	"variants": {}
+}
