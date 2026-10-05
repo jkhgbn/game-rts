@@ -85,7 +85,13 @@ func _process(_d: float) -> bool:
 	var lines := report_lines(String(feat["map"]), feat, sc, pr, model)
 	print("\n".join(lines))
 	if opts.has("out"):
-		var o := {"map": feat["map"], "path": resolve(String(opts.get("map", ""))), "seats": feat["seats"], "asym": feat["asym"],
+		var clean: Array = []
+		for st: Dictionary in feat["seats"]:
+			var c := {}
+			for k: String in st:
+				c[k] = st[k] if is_finite(float(st[k])) else null   # JSON has no NaN / INF
+			clean.append(c)
+		var o := {"map": feat["map"], "path": resolve(String(opts.get("map", ""))), "seats": clean, "asym": feat["asym"],
 			"adv": feat["adv"], "abs": feat["abs"], "score": sc["score"], "prediction": pr, "seconds": feat["seconds"]}
 		var f := FileAccess.open(String(opts["out"]), FileAccess.WRITE)
 		if f:

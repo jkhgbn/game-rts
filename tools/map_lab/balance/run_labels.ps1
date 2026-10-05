@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
   Balance model labels (docs/tools/map_gate/balance_model.md): Bot Lab games on many maps, seats alternated as the
   map gate's G5 plays them (odd seeds: the PLAYER bot on seat 0, even seeds: --swap-sides), mirrors fire / shadow /
@@ -24,6 +24,7 @@ param(
 	[string]$RunsDir = "",
 	[int]$Worker = -1,
 	[string]$UnitFile = "",
+	[switch]$Detach,
 	[switch]$DryRun
 )
 $ErrorActionPreference = "Stop"
@@ -43,21 +44,30 @@ function Resolve-Layout([string]$id) {
 
 # ---- worker mode: run the units listed in the unit file for this worker
 if ($Worker -ge 0) {
-	$units = Get-Content $UnitFile | ConvertFrom-Json
+	$ErrorActionPreference = "Continue"
+	$units = @((Get-Content $UnitFile -Raw | ConvertFrom-Json) | ForEach-Object { $_ })   # PS 5.1 hands the JSON array over as one item
+	$wlog = Join-Path $RunsDir "worker$Worker.log"
 	foreach ($u in $units) {
 		if ([int]$u.worker -ne $Worker) { continue }
-		$dest = Join-Path $Labels "$($u.map)\$($u.cell).jsonl"
-		$out = Join-Path $RunsDir "$($u.map)\$($u.cell)_s$($u.seed)"
-		$extra = "--layout=$($u.layout)"
-		if ($u.swap) { $extra = "$extra --swap-sides=1" }
-		& $Lab -Dir $Repo -Pairs $Mirrors -Seeds "$($u.seed)" -Difficulty $u.diff -Limit $Limit -Parallel 1 -Extra $extra `
-			-OutDir $out -Title "balance labels $($u.map) $($u.cell) seed $($u.seed)" -TimeoutMin 240 *>> (Join-Path $RunsDir "worker$Worker.log")
-		$res = Join-Path $out "results.jsonl"
-		if (Test-Path $res) {
-			New-Item -ItemType Directory -Force (Split-Path -Parent $dest) | Out-Null
-			Get-Content $res | Where-Object { $_.Trim() -ne "" } | Add-Content -Path $dest -Encoding utf8
+		try {
+			$dest = Join-Path $Labels "$($u.map)\$($u.cell).jsonl"
+			$out = Join-Path $RunsDir "$($u.map)\$($u.cell)_s$($u.seed)"
+			$extra = "--layout=$($u.layout)"
+			if ($u.swap) { $extra = "$extra --swap-sides=1" }
+			# a child process: nothing run_lab does (exit, errors) can end this worker
+			$p = Start-Process -FilePath "powershell.exe" -WindowStyle Hidden -Wait -PassThru -RedirectStandardOutput "$out.log" -ArgumentList @(
+				"-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "`"$Lab`"", "-Dir", "`"$Repo`"", "-Pairs", $Mirrors, "-Seeds", "$($u.seed)",
+				"-Difficulty", $u.diff, "-Limit", "$Limit", "-Parallel", "1", "-Extra", "`"$extra`"", "-OutDir", "`"$out`"",
+				"-Title", "`"balance labels $($u.map) $($u.cell) seed $($u.seed)`"", "-TimeoutMin", "240")
+			$res = Join-Path $out "results.jsonl"
+			if (Test-Path $res) {
+				New-Item -ItemType Directory -Force (Split-Path -Parent $dest) | Out-Null
+				Get-Content $res | Where-Object { $_.Trim() -ne "" } | Add-Content -Path $dest -Encoding utf8
+			}
+			Add-Content -Path (Join-Path $RunsDir "progress.log") -Value ("{0:HH:mm} worker {1} done {2} {3} seed {4} (exit {5})" -f (Get-Date), $Worker, $u.map, $u.cell, $u.seed, $p.ExitCode)
+		} catch {
+			Add-Content -Path $wlog -Value ("{0:HH:mm} ERROR {1} {2}: {3}" -f (Get-Date), $u.map, $u.cell, $_)
 		}
-		Add-Content -Path (Join-Path $RunsDir "progress.log") -Value ("{0:HH:mm} worker {1} done {2} {3} seed {4}" -f (Get-Date), $Worker, $u.map, $u.cell, $u.seed)
 	}
 	exit 0
 }
@@ -98,5 +108,6 @@ foreach ($w in 0..($Workers - 1)) {
 		"-File", "`"$PSCommandPath`"", "-Worker", "$w", "-UnitFile", "`"$uf`"", "-Limit", "$Limit", "-RunsDir", "`"$RunsDir`"")
 }
 Write-Host ("Started {0} workers (pids {1}); progress: {2}" -f $Workers, (($procs | ForEach-Object { $_.Id }) -join ", "), (Join-Path $RunsDir "progress.log"))
+if ($Detach) { Write-Host "Balance labels: workers detached (watch labels\ or the run logs)"; exit 0 }
 $procs | Wait-Process
 Write-Host "Balance labels: done"
