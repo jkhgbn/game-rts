@@ -1,0 +1,85 @@
+{
+	"name": "C3 Rimecarver dive guard",
+	"notes": "caster-units.md 7.2 C3: 5 Shardcasters + Rimecarver (full mana, the real AICasters bot, rule 8.3 a) waiting, vs 6 Grave Hounds + 2 Shades diving from 20 m; control = 5 Shardcasters + 2 Rimeshields. Pass as C1.",
+	"seeds": "1-10",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "caster",
+			"a": {
+				"groups": [
+					{
+						"id": "shardcaster",
+						"count": 5
+					},
+					{
+						"id": "rimecarver",
+						"count": 1,
+						"mana": "full"
+					}
+				],
+				"order": "idle",
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "grave_hound",
+						"count": 6
+					},
+					{
+						"id": "shade",
+						"count": 2
+					}
+				]
+			}
+		},
+		{
+			"name": "control",
+			"a": {
+				"groups": [
+					{
+						"id": "shardcaster",
+						"count": 5
+					},
+					{
+						"id": "rimeshield",
+						"count": 2
+					}
+				],
+				"order": "idle"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "grave_hound",
+						"count": 6
+					},
+					{
+						"id": "shade",
+						"count": 2
+					}
+				]
+			}
+		}
+	],
+	"checks": [
+		{
+			"type": "wr_delta",
+			"label": "C3 caster arm vs control",
+			"arm": "caster",
+			"control": "control",
+			"min": 20,
+			"max": 60
+		},
+		{
+			"type": "spell_rate",
+			"label": "C3 a Bulwark is raised",
+			"arm": "caster",
+			"side": "a",
+			"spell": "rime_bulwark",
+			"min": 0.5
+		}
+	]
+}

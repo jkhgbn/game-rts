@@ -1,0 +1,62 @@
+{
+	"name": "C2 Bramblesage vs an archer line",
+	"notes": "caster-units.md 7.2 C2: 11 Thornlings + Bramblesage (full mana, autocast) vs 8 Ember Archers from 20 m; control = 13 Thornlings. Pass as C1.",
+	"seeds": "1-10",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "caster",
+			"a": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 11
+					},
+					{
+						"id": "bramblesage",
+						"count": 1,
+						"mana": "full"
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "ember_archer",
+						"count": 8
+					}
+				]
+			}
+		},
+		{
+			"name": "control",
+			"a": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 13
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "ember_archer",
+						"count": 8
+					}
+				]
+			}
+		}
+	],
+	"checks": [
+		{
+			"type": "wr_delta",
+			"label": "C2 caster arm vs control",
+			"arm": "caster",
+			"control": "control",
+			"min": 20,
+			"max": 60
+		}
+	]
+}

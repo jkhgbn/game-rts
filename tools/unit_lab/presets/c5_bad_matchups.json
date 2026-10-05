@@ -1,0 +1,111 @@
+{
+	"name": "C5 casters in their bad matchups",
+	"notes": "caster-units.md 7.2 C5: the Kilnwarden arm of C1 vs 12 Thornlings, the Bramblesage arm of C2 vs 9 Flame Guards; controls = the C1 / C2 control armies. Pass: caster arm >= control - 10 points.",
+	"seeds": "1-10",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "kiln_caster",
+			"a": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 6
+					},
+					{
+						"id": "kilnwarden",
+						"count": 1,
+						"mana": "full"
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					}
+				]
+			}
+		},
+		{
+			"name": "kiln_control",
+			"a": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					}
+				]
+			}
+		},
+		{
+			"name": "sage_caster",
+			"a": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 11
+					},
+					{
+						"id": "bramblesage",
+						"count": 1,
+						"mana": "full"
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 9
+					}
+				]
+			}
+		},
+		{
+			"name": "sage_control",
+			"a": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 13
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 9
+					}
+				]
+			}
+		}
+	],
+	"checks": [
+		{
+			"type": "wr_delta",
+			"label": "C5 Kilnwarden bad matchup",
+			"arm": "kiln_caster",
+			"control": "kiln_control",
+			"min": -10
+		},
+		{
+			"type": "wr_delta",
+			"label": "C5 Bramblesage bad matchup",
+			"arm": "sage_caster",
+			"control": "sage_control",
+			"min": -10
+		}
+	]
+}

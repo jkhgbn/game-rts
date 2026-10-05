@@ -1,0 +1,62 @@
+{
+	"name": "C4 Gloom Deacon sustain",
+	"notes": "caster-units.md 7.2 C4: 6 Shades + Gloom Deacon (full mana, autocast) vs 7 Flame Guards; control = 8 Shades. Pass as C1.",
+	"seeds": "1-10",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "caster",
+			"a": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 6
+					},
+					{
+						"id": "gloom_deacon",
+						"count": 1,
+						"mana": "full"
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 7
+					}
+				]
+			}
+		},
+		{
+			"name": "control",
+			"a": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 8
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 7
+					}
+				]
+			}
+		}
+	],
+	"checks": [
+		{
+			"type": "wr_delta",
+			"label": "C4 caster arm vs control",
+			"arm": "caster",
+			"control": "control",
+			"min": 20,
+			"max": 60
+		}
+	]
+}

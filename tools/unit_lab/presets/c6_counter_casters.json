@@ -1,0 +1,70 @@
+{
+	"name": "C6 counter-casters",
+	"notes": "caster-units.md 7.2 C6: 1 Kilnwarden + 3 Flame Guards vs 1 Bramblesage + 4 Thornlings, both casters full mana, autocast, 10 m apart. Pass: Mana Scald lands before Snagroot in >= 6 / 10, Snagroot is cast in >= 8 / 10.",
+	"seeds": "1-10",
+	"distance": 10,
+	"time_limit": 90,
+	"arms": [
+		{
+			"name": "main",
+			"a": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 3
+					},
+					{
+						"id": "kilnwarden",
+						"count": 1,
+						"mana": "full"
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 4
+					},
+					{
+						"id": "bramblesage",
+						"count": 1,
+						"mana": "full"
+					}
+				]
+			}
+		}
+	],
+	"checks": [
+		{
+			"type": "first_spell",
+			"label": "C6 Scald lands first",
+			"arm": "main",
+			"first": [
+				"a",
+				"mana_scald"
+			],
+			"then": [
+				"b",
+				"snagroot"
+			],
+			"min": 0.6
+		},
+		{
+			"type": "spell_rate",
+			"label": "C6 Snagroot lands",
+			"arm": "main",
+			"side": "b",
+			"spell": "snagroot",
+			"min": 0.8
+		},
+		{
+			"type": "survival",
+			"label": "C6 Kilnwarden kept alive",
+			"arm": "main",
+			"side": "a",
+			"unit": "kilnwarden",
+			"min": 0.6
+		}
+	]
+}

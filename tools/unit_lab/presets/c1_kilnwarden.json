@@ -1,0 +1,62 @@
+{
+	"name": "C1 Kilnwarden vs the Ice line",
+	"notes": "caster-units.md 7.2 C1: 6 Flame Guards + Kilnwarden (full mana, autocast) vs 7 Rimeshields on open ground; control = 8 Flame Guards. Pass: caster arm score >= control + 20 points, <= control + 60.",
+	"seeds": "1-10",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "caster",
+			"a": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 6
+					},
+					{
+						"id": "kilnwarden",
+						"count": 1,
+						"mana": "full"
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					}
+				]
+			}
+		},
+		{
+			"name": "control",
+			"a": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					}
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					}
+				]
+			}
+		}
+	],
+	"checks": [
+		{
+			"type": "wr_delta",
+			"label": "C1 caster arm vs control",
+			"arm": "caster",
+			"control": "control",
+			"min": 20,
+			"max": 60
+		}
+	]
+}

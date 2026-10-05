@@ -1,0 +1,121 @@
+{
+	"name": "C7 Umbral Passage retreat",
+	"notes": "caster-units.md 7.2 C7: 12 Shades at 40 % HP retreat home from 30 m, chased by 10 Flame Guards; a Gloom Deacon at home (full mana, the real AICasters retreat Passage, rule 8.3). Control: no Deacon. 25 s fight; pass: >= 8 Shades alive with the Passage, <= 4 without. The chasers attack-move to (-8, 0) (19 m down the retreat path) and do not hunt beyond their aggro chase.",
+	"seeds": "1-10",
+	"distance": 40,
+	"time_limit": 25,
+	"arms": [
+		{
+			"name": "caster",
+			"a": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 12,
+						"hp_pct": 0.4,
+						"at": [
+							10,
+							0
+						]
+					},
+					{
+						"id": "gloom_deacon",
+						"count": 1,
+						"mana": "full",
+						"at": [
+							-20,
+							0
+						]
+					}
+				],
+				"order": "retreat",
+				"retreat_to": [
+					-24,
+					0
+				],
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 10,
+						"at": [
+							15,
+							0
+						]
+					}
+				],
+				"target": [
+					-8,
+					0
+				],
+				"hunt": false
+			}
+		},
+		{
+			"name": "control",
+			"a": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 12,
+						"hp_pct": 0.4,
+						"at": [
+							10,
+							0
+						]
+					}
+				],
+				"order": "retreat",
+				"retreat_to": [
+					-24,
+					0
+				]
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 10,
+						"at": [
+							15,
+							0
+						]
+					}
+				],
+				"target": [
+					-8,
+					0
+				],
+				"hunt": false
+			}
+		}
+	],
+	"checks": [
+		{
+			"type": "alive_avg",
+			"label": "C7 Shades saved by the Passage",
+			"arm": "caster",
+			"side": "a",
+			"unit": "shade",
+			"min": 8
+		},
+		{
+			"type": "alive_avg",
+			"label": "C7 control loses the Shades",
+			"arm": "control",
+			"side": "a",
+			"unit": "shade",
+			"max": 4
+		},
+		{
+			"type": "spell_rate",
+			"label": "C7 Passage cast",
+			"arm": "caster",
+			"side": "a",
+			"spell": "umbral_passage",
+			"min": 0.8
+		}
+	]
+}

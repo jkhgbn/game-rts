@@ -1,0 +1,9 @@
+{
+	"name": "mirror_flame_guard",
+	"notes": "Sanity: 6 Flame Guards vs 6 Flame Guards must be ~50 % over many seeds (sides alternate teams).",
+	"a": {"groups": [{"id": "flame_guard", "count": 6}]},
+	"b": {"groups": [{"id": "flame_guard", "count": 6}]},
+	"seeds": "1-10",
+	"distance": 16,
+	"time_limit": 90
+}

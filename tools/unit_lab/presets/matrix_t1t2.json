@@ -1,0 +1,21 @@
+{
+	"name": "Matrix: all kingdoms, tier 1-2, casters",
+	"notes": "Every trained tier-1 / tier-2 soldier of the 4 kingdoms + each caster (inside its kingdom line unit, full mana) against every other entry at equal cost (about 720 crystals a side).",
+	"matrix": {
+		"kingdoms": [
+			"fire",
+			"ice",
+			"nature",
+			"shadow"
+		],
+		"tiers": [
+			1,
+			2
+		],
+		"casters": true,
+		"budget": 720
+	},
+	"seeds": "1-4",
+	"distance": 20,
+	"time_limit": 120
+}

@@ -1,0 +1,26 @@
+{
+	"name": "Flame Guard +25 % damage",
+	"notes": "Sanity: 6 Flame Guards with +25 % attack damage (a Stats modifier) vs 6 plain Flame Guards must win clearly (> 60 %).",
+	"a": {
+		"groups": [
+			{
+				"id": "flame_guard",
+				"count": 6,
+				"mods": {
+					"attack_damage_pct": 0.25
+				}
+			}
+		]
+	},
+	"b": {
+		"groups": [
+			{
+				"id": "flame_guard",
+				"count": 6
+			}
+		]
+	},
+	"seeds": "1-20",
+	"distance": 16,
+	"time_limit": 90
+}

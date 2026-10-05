@@ -1,0 +1,10 @@
+{
+	"name": "Grave Hound vs Flame Guard at equal cost",
+	"notes": "Example of the cost-equal normaliser: armies of about 720 crystals each from two ids.",
+	"equal": {
+		"a": "grave_hound",
+		"b": "flame_guard",
+		"budget": 720
+	},
+	"seeds": "1-20"
+}
