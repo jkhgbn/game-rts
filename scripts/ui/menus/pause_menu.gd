@@ -1,6 +1,7 @@
 class_name PauseMenu
 extends CanvasLayer
-## In-game pause menu (task 5.U1): Resume, Settings, Restart, Surrender, Quit to menu.
+## In-game pause menu (task 5.U1): Resume, Settings, Unit Guide (UnitGuide, docs/design/unit-guide.md), Restart,
+## Surrender, Quit to menu.
 ## Self-contained: add scenes/ui/pause_menu.tscn as a child of the level. Esc opens it only when
 ## no targeting / build ghost / build menu is active (those keep Esc = cancel); the tree pauses and
 ## this node keeps running (process_mode ALWAYS). Also applies the saved settings when the level starts.
@@ -13,6 +14,8 @@ var panel: PanelContainer
 var settings_panel: SettingsPanel
 var resume_button: Button
 var settings_button: Button
+var unit_guide_button: Button
+var unit_guide: UnitGuide   ## Built on first open (show_unit_guide).
 var restart_button: Button
 var surrender_button: Button
 var quit_button: Button
@@ -45,6 +48,9 @@ func _ready() -> void:
 	resume_button.pressed.connect(close)
 	settings_button = _button(box, "Settings")
 	settings_button.pressed.connect(show_settings)
+	unit_guide_button = _button(box, "Unit Guide")
+	unit_guide_button.tooltip_text = "Every unit: stats, abilities, pros and cons, counters."
+	unit_guide_button.pressed.connect(show_unit_guide)
 	restart_button = _button(box, "Restart")
 	restart_button.pressed.connect(restart)
 	surrender_button = _button(box, "Surrender")
@@ -74,6 +80,8 @@ func open() -> void:
 	visible = true
 	panel.visible = true
 	settings_panel.visible = false
+	if unit_guide:
+		unit_guide.visible = false
 	var level := get_parent()
 	surrender_button.disabled = level == null or not level.has_method(&"surrender") \
 			or level.get(&"game_over") == true
@@ -102,6 +110,19 @@ func toggle() -> void:
 func show_settings() -> void:
 	panel.visible = false
 	settings_panel.open()
+
+
+## The Unit Guide over the paused game; Back / Esc returns to the pause panel.
+func show_unit_guide() -> void:
+	if unit_guide == null:
+		unit_guide = UnitGuide.new()
+		unit_guide.visible = false
+		dim.add_child(unit_guide)
+		unit_guide.closed.connect(func() -> void:
+			panel.visible = true
+			unit_guide_button.grab_focus())
+	panel.visible = false
+	unit_guide.open()
 
 
 func restart() -> void:

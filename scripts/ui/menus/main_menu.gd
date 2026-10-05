@@ -3,7 +3,8 @@ extends Control
 ## The title screen (task 5.U1): Skirmish 1v1 (setup panel, 8.U1: You / Enemy rows of 4 kingdom
 ## cards, difficulty, Start; MT9: the map picker on its left: 1v1 / 2v2 seat filter, the MapCatalog's ready maps with
 ## their mapsheet preview, size / players / biome / hook line, a "Random" entry),
-## Campaign (7.U1: mission list from CampaignState, difficulty, Start), Settings, Quit.
+## Campaign (7.U1: mission list from CampaignState, difficulty, Start), Unit Guide (UnitGuide, docs/design/unit-guide.md),
+## Settings, Quit.
 ## Painted gradient background with drifting embers.
 
 const TAGLINE := "Four apprentices. One vanished master. Every artifact is a step to his throne."
@@ -26,6 +27,9 @@ var settings_panel: SettingsPanel
 var skirmish_button: Button
 var campaign_button: Button
 var settings_button: Button
+var unit_guide_button: Button
+var unit_guide: UnitGuide   ## Built on first open (show_unit_guide); null before.
+var menu_column: VBoxContainer   ## Title + panels; hidden while the Unit Guide fills the screen.
 var quit_button: Button
 var start_button: Button
 var difficulty_buttons: Array[Button] = []
@@ -93,6 +97,7 @@ func _ready() -> void:
 		add_child(backdrop)
 
 	var column := VBoxContainer.new()
+	menu_column = column
 	column.set_anchors_preset(Control.PRESET_FULL_RECT)
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_theme_constant_override("separation", 18)
@@ -137,6 +142,7 @@ func _ready() -> void:
 # ---------------------------------------------------------------- public
 
 func show_main() -> void:
+	_hide_unit_guide()
 	main_panel.visible = true
 	skirmish_panel.visible = false
 	campaign_panel.visible = false
@@ -169,6 +175,32 @@ func show_settings() -> void:
 	skirmish_panel.visible = false
 	campaign_panel.visible = false
 	settings_panel.open()
+
+
+## The Unit Guide (docs/design/unit-guide.md) over the whole window; Back / Esc returns to the main panel.
+func show_unit_guide() -> void:
+	if unit_guide == null:
+		unit_guide = UnitGuide.new()
+		unit_guide.visible = false
+		add_child(unit_guide)
+		unit_guide.closed.connect(show_main)
+	main_panel.visible = false
+	skirmish_panel.visible = false
+	campaign_panel.visible = false
+	settings_panel.visible = false
+	menu_column.visible = false
+	unit_guide.open()
+
+
+func is_unit_guide_open() -> bool:
+	return unit_guide != null and unit_guide.visible
+
+
+func _hide_unit_guide() -> void:
+	if menu_column:
+		menu_column.visible = true
+	if unit_guide and unit_guide.visible:
+		unit_guide.visible = false
 
 
 ## 0 = Easy, 1 = Normal, 2 = Hard (Commander.Difficulty). Shared by the skirmish and campaign panels.
@@ -561,6 +593,9 @@ func _build_main_panel(parent: Control) -> PanelContainer:
 	skirmish_button.pressed.connect(show_skirmish_setup)
 	campaign_button = _menu_button(box, "Campaign")
 	campaign_button.pressed.connect(show_campaign)
+	unit_guide_button = _menu_button(box, "Unit Guide")
+	unit_guide_button.tooltip_text = "Every unit of the four kingdoms: stats, abilities, pros and cons, counters."
+	unit_guide_button.pressed.connect(show_unit_guide)
 	settings_button = _menu_button(box, "Settings")
 	settings_button.pressed.connect(show_settings)
 	quit_button = _menu_button(box, "Quit")
