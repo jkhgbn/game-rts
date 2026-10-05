@@ -1,0 +1,471 @@
+{
+	"version": 1,
+	"note": "Unit Guide text (docs/design/unit-guide.md). Numbers come from the game data at runtime; rank claims such as 'Highest HP in the Fire army' are checked by tests/test_unit_guide.gd. Regenerate suggestions: tools/unit_guide/gen_guide.gd.",
+	"units": {
+		"cinder_hand": {
+			"role": "worker", "class": "Worker",
+			"abilities": [{"name": "Gather", "key": "G", "text": "Mines crystals and carries them to the keep or a Hall."}, {"name": "Build", "key": "B", "text": "Opens the Fire build menu."}],
+			"pros": ["Gathers crystals and builds every Fire building", "Drops crystals at the keep or at any Hall", "Cheap and quick to replace"],
+			"cons": ["Very weak in a fight", "Every worker lost slows your whole economy"],
+			"strong_against": ["Nothing: it gathers"], "weak_against": ["Raiders", "Cavalry"], "good_with": ["Ember Spire", "Flame Guard"]
+		},
+		"flame_guard": {
+			"role": "melee", "class": "Line infantry",
+			"pros": ["Top 3 for DPS per crystal in the Fire army", "Top 3 for HP per crystal in the Fire army", "Cheap, quick front line that shields archers"],
+			"cons": ["No armour: archers and towers wear it down", "Too slow to catch kiting archers"],
+			"strong_against": ["Archers in reach", "Workers"], "weak_against": ["Heavy cavalry", "Area damage", "Kiting archers"], "good_with": ["Ember Archer", "Scorchbow", "Kilnwarden"]
+		},
+		"ember_archer": {
+			"role": "ranged", "class": "Archer",
+			"pros": ["Cheap all-round ranged damage", "Top 3 for sight in the Fire army", "Outranges melee: kite slow units"],
+			"cons": ["Fragile: dies fast once cavalry reaches it", "Less damage per shot than a Scorchbow"],
+			"strong_against": ["Slow melee", "Casters"], "weak_against": ["Cavalry", "Fast raiders", "Pollen Haze"], "good_with": ["Flame Guard", "Pyre Adept"]
+		},
+		"blaze_rider": {
+			"summary": "Tier 1 shock cavalry from the Ember Hall or Stables: fast, reaches archers and casters first.",
+			"role": "cavalry", "class": "Shock cavalry",
+			"pros": ["Fastest unit in the Fire army", "Top 3 for DPS in the Fire army", "Reaches archers, casters and siege fast"],
+			"cons": ["No armour for its price", "Chill and roots stop it short"],
+			"strong_against": ["Archers", "Casters", "Siege"], "weak_against": ["Chill / roots", "Armoured line", "Towers"], "good_with": ["Ember Archer", "Pyre Adept"]
+		},
+		"ash_hurler": {
+			"role": "siege", "class": "Artillery",
+			"pros": ["Longest range in the Fire army", "Longest sight in any army", "Top 3 for damage per hit in the Fire army"],
+			"cons": ["Worst HP per crystal in any army", "Slowest unit in the Fire army"],
+			"strong_against": ["Slow melee", "Static lines", "Casters"], "weak_against": ["Cavalry", "Fast raiders", "Flank attacks"], "good_with": ["Flame Guard", "Pyrehoof Lancer"]
+		},
+		"scorchbow": {
+			"summary": "Fire's Hall bowman: burning arrows that hit hard but fire slowly.",
+			"role": "ranged", "class": "Bowman",
+			"abilities": [{"name": "Burning Arrows", "key": "Passive", "text": "Every arrow sets the target burning for a few seconds."}, {"name": "Hall research", "key": "Ember Hall", "text": "Heavy Draw, then Pitch Arrows."}],
+			"pros": ["Top 3 for range in the Fire army", "Burn ticks stop enemy regeneration", "Hits harder per shot than an Ember Archer"],
+			"cons": ["Low HP for its price", "Shoots less often than an Ember Archer"],
+			"strong_against": ["Slow melee", "Regenerating units"], "weak_against": ["Cavalry", "Fast raiders", "Divers"], "good_with": ["Flame Guard", "Kilnwarden"]
+		},
+		"scorchling": {
+			"role": "melee", "class": "Fire imp",
+			"pros": ["Best DPS per crystal in any army", "Cheapest unit in any army", "Flashpoint: bursts on death, hurting nearby foes"],
+			"cons": ["Lowest HP in the Fire army", "Dies to any area damage"],
+			"strong_against": ["Clumped melee", "Archers", "Workers"], "weak_against": ["Area damage", "Towers", "Heavy melee"], "good_with": ["Flame Guard", "Blaze Rider"]
+		},
+		"pyre_adept": {
+			"role": "ranged", "class": "Battle mage",
+			"pros": ["Flame Burst punishes clumps of 3+ enemies", "No mana to manage: it fires on its own", "Outranges every melee unit"],
+			"cons": ["Low DPS against a single target", "Low HP for its price"],
+			"strong_against": ["Swarms", "Clumped archers"], "weak_against": ["Cavalry", "Spread-out armies"], "good_with": ["Flame Guard", "Scorchling"]
+		},
+		"cinder_arbalest": {
+			"role": "siege", "class": "Heavy crossbow",
+			"pros": ["Top 3 for range in the Fire army", "Piercing bolt also hits the enemy behind", "Top 3 for armour in the Fire army"],
+			"cons": ["Slow attack and slow feet", "Weak once enemies close in"],
+			"strong_against": ["Infantry lines", "Heavy melee"], "weak_against": ["Cavalry", "Fast raiders"], "good_with": ["Flame Guard", "Ash Hurler"]
+		},
+		"emberdart_harrier": {
+			"role": "cavalry", "class": "Mounted javelins",
+			"pros": ["Top 3 for speed in the Fire army", "Throws javelins on the move: hit and run", "Picks off workers and casters"],
+			"cons": ["Fragile up close for 2 pop", "Far less DPS than a Blaze Rider"],
+			"strong_against": ["Slow melee", "Workers", "Casters"], "weak_against": ["Massed archers", "Towers"], "good_with": ["Blaze Rider", "Pyre Adept"]
+		},
+		"pyrehoof_lancer": {
+			"role": "cavalry", "class": "Heavy boar lancer",
+			"pros": ["Top 3 for HP in the Fire army", "Top 3 for DPS in the Fire army", "Armoured and still fast"],
+			"cons": ["Expensive and heavy on pop", "Kiting and roots waste its time"],
+			"strong_against": ["Archers", "Line infantry", "Siege"], "weak_against": ["Chill / roots", "Armour shred", "Wither Hex"], "good_with": ["Kilnwarden", "Ember Archer"]
+		},
+		"sunforge_cataphract": {
+			"role": "cavalry", "class": "Elite cataphract",
+			"pros": ["Highest HP in the Fire army", "Highest DPS in the Fire army", "Most armour in the Fire army"],
+			"cons": ["Most expensive unit in the Fire army", "Needs a Citadel and 4 pop each"],
+			"strong_against": ["Line infantry", "Archers", "Heavy melee"], "weak_against": ["Slag / armour shred", "Wither Hex", "Roots"], "good_with": ["Kilnwarden", "Flame Guard"]
+		},
+		"kilnwarden": {
+			"role": "caster", "class": "Slag caster",
+			"pros": ["Slag Rain strips armour from a whole clump", "Mana Scald burns enemy casters and wizards", "Stoke refunds mana when slagged foes die"],
+			"cons": ["Lowest DPS in the Fire army", "Low HP for its price"],
+			"strong_against": ["Armoured units", "Casters", "Wizards"], "weak_against": ["Cavalry", "Fast raiders", "Snagroot"], "good_with": ["Sunforge Cataphract", "Ash Hurler"]
+		},
+		"ashveil_saboteur": {
+			"role": "melee", "class": "Spy",
+			"abilities": [{"name": "Disguise", "key": "Passive", "text": "Out of combat the enemy sees one of its own workers; its auto-aggro ignores it."}, {"name": "Powder Charge", "key": "Auto", "text": "Plants a charge on an enemy building: heavy damage and its training stops for a while."}],
+			"pros": ["Looks like an enemy worker out of combat", "Powder Charge hurts a building and stops training", "Top 3 for sight in the Fire army"],
+			"cons": ["Weak in a fair fight for its price", "Max 4 per team"],
+			"strong_against": ["Undefended bases", "Production buildings"], "weak_against": ["Towers", "Any real army", "Scrying Rune"], "good_with": ["Blaze Rider raids", "Emberdart Harrier"]
+		},
+		"helper_vey": {
+			"role": "helper", "class": "The Storm-Sword (helper)",
+			"summary": "Fire's tier-3 helper: a storm-blade duelist who fights beside Vessa. Autonomous; its level is your wizard's.",
+			"abilities": [{"name": "Storm-Sworn", "key": "Passive", "text": "Every third strike chains to 2 nearby enemies for half damage."}, {"name": "Lightning Lunge", "key": "Auto", "text": "Dashes through enemies to a target, dazing those on the path."}, {"name": "Chain Lightning", "key": "Auto", "text": "A bolt jumps between up to 5 clumped enemies."}, {"name": "Stormcall", "key": "Auto, L5", "text": "Bolts rain on enemies around him; nearby allies attack faster."}],
+			"pros": ["Tough duelist with lots of HP and armour", "Chain Lightning and Stormcall wreck clumps", "Levels with your wizard and fights on its own"],
+			"cons": ["Needs a Citadel and a big essence bill", "Autonomous: you set a stance, not orders"],
+			"strong_against": ["Clumps", "Casters", "Ranged units"], "weak_against": ["Kiting archers", "Focus fire"], "good_with": ["Vessa (Fireball bond)", "Fire army"]
+		},
+		"rime_hauler": {
+			"role": "worker", "class": "Worker",
+			"abilities": [{"name": "Gather", "key": "G", "text": "Mines crystals and carries them to the keep or a Hall."}, {"name": "Build", "key": "B", "text": "Opens the Ice build menu (walls included)."}],
+			"pros": ["Gathers crystals and builds every Ice building", "Sturdier than the other kingdoms' workers", "Drops crystals at the keep or at any Hall"],
+			"cons": ["Very weak in a fight", "Every worker lost slows your whole economy"],
+			"strong_against": ["Nothing: it gathers"], "weak_against": ["Raiders", "Cavalry"], "good_with": ["Rime Spire", "Ice Wall"]
+		},
+		"rimeshield": {
+			"role": "melee", "class": "Armoured line infantry",
+			"pros": ["Armoured front line for a tier-1 price", "Top 3 for DPS per crystal in the Ice army", "Holds a choke while Shardcasters shoot"],
+			"cons": ["Slow: archers can kite it", "Slag Rain strips its armour"],
+			"strong_against": ["Archers in reach", "Light melee"], "weak_against": ["Slag Rain", "Kiting archers", "Area damage"], "good_with": ["Shardcaster", "Rime Seer"]
+		},
+		"shardcaster": {
+			"role": "ranged", "class": "Frost archer",
+			"pros": ["Every hit chills: foes move and attack slower", "Top 3 for sight in the Ice army", "Good range for a tier-1 unit"],
+			"cons": ["Low DPS for its price", "Fragile against cavalry that gets through"],
+			"strong_against": ["Cavalry", "Melee rushes", "Fleeing units"], "weak_against": ["Massed archers", "Pollen Haze", "Area damage"], "good_with": ["Rimeshield", "Rime Seer"]
+		},
+		"rime_seer": {
+			"role": "support", "class": "Shield mage",
+			"abilities": [{"name": "Rime Shield", "key": "Auto", "text": "Every few seconds, shields a hurt soldier in range."}],
+			"pros": ["Shields hurt soldiers in range on its own", "Top 3 for sight in the Ice army", "Keeps a line alive through burst damage"],
+			"cons": ["Worst HP per crystal in the Ice army", "Barely fights by itself"],
+			"strong_against": ["Burst damage", "Archer volleys"], "weak_against": ["Cavalry", "Divers", "Snagroot"], "good_with": ["Rimeshield", "Rime Colossus"]
+		},
+		"rime_colossus": {
+			"role": "melee", "class": "Heavy elite",
+			"pros": ["Top 3 for HP in the Ice army", "Top 3 for damage per hit in the Ice army", "Every hit chills its target"],
+			"cons": ["Slowest unit in any army", "Kited forever by fast ranged units"],
+			"strong_against": ["Line infantry", "Cavalry"], "weak_against": ["Kiting archers", "Slag Rain", "Wither Hex"], "good_with": ["Rime Seer", "Shardcaster"]
+		},
+		"frostbow": {
+			"summary": "Ice's Hall bowman: very long range, every arrow chills.",
+			"role": "ranged", "class": "Bowman",
+			"abilities": [{"name": "Frost Arrows", "key": "Passive", "text": "Every arrow chills the target."}, {"name": "Hamstring Shot", "key": "Auto", "text": "Every few seconds, the next arrow at a running unit chills it much longer."}, {"name": "Hall research", "key": "Frost Hall", "text": "Rimed Shafts: longer chill, faster Hamstring."}],
+			"pros": ["Top 3 for range in any army", "Longest sight in the Ice army", "Chills every target; Hamstring slows runners"],
+			"cons": ["Slow rate of fire", "Low HP for its price"],
+			"strong_against": ["Cavalry", "Fleeing units", "Slow melee"], "weak_against": ["Swarms", "Pollen Haze", "Divers"], "good_with": ["Rimeshield", "Shardguard"]
+		},
+		"rimeling": {
+			"role": "melee", "class": "Frost goblin",
+			"pros": ["Cheapest unit in the Ice army", "Best DPS per crystal in the Ice army", "Armoured, and every hit chills"],
+			"cons": ["Lowest HP in the Ice army", "Melts to area damage"],
+			"strong_against": ["Cavalry", "Archers in reach"], "weak_against": ["Area damage", "Heavy melee"], "good_with": ["Rimeshield", "Frostbow"]
+		},
+		"hoarlight_magebow": {
+			"role": "ranged", "class": "Mage archer",
+			"pros": ["Top 3 for range in the Ice army", "Quick to train for a tier-2 unit", "Frost Needle: a big chilling bolt"],
+			"cons": ["Low DPS between needles", "Fragile like every archer"],
+			"strong_against": ["Cavalry", "Casters"], "weak_against": ["Divers", "Area damage", "Pollen Haze"], "good_with": ["Rimeshield", "Rime Seer"]
+		},
+		"frost_mortar": {
+			"role": "siege", "class": "Frost siege",
+			"pros": ["Longest range in any army", "Frost Shell hits and chills a whole area", "Longest sight in the Ice army"],
+			"cons": ["Slowest unit in any army", "Slow to fire and helpless up close"],
+			"strong_against": ["Clumps", "Buildings", "Static lines"], "weak_against": ["Cavalry", "Fast raiders"], "good_with": ["Shardguard", "Rimeshield"]
+		},
+		"snowdrift_rider": {
+			"role": "cavalry", "class": "Armoured scout",
+			"pros": ["Fastest unit in the Ice army", "Armoured, and every hit chills", "Top 3 for DPS per crystal in the Ice army"],
+			"cons": ["Less DPS than the other kingdoms' T1 riders", "Costs 2 pop"],
+			"strong_against": ["Archers", "Casters", "Fleeing units"], "weak_against": ["Heavy cavalry", "Towers"], "good_with": ["Frostbow", "Rime Harrier"]
+		},
+		"rime_harrier": {
+			"role": "cavalry", "class": "Mounted frost javelins",
+			"pros": ["Fastest unit in the Ice army", "Chilling javelins thrown on the move", "Light armour for a skirmisher"],
+			"cons": ["Fragile up close", "Low DPS for 2 pop"],
+			"strong_against": ["Slow melee", "Workers", "Cavalry"], "weak_against": ["Massed archers", "Towers"], "good_with": ["Snowdrift Rider", "Rimecarver"]
+		},
+		"rimehorn_rider": {
+			"role": "cavalry", "class": "Armoured breaker",
+			"pros": ["Top 3 for DPS in the Ice army", "Top 3 for armour in the Ice army", "Every hit chills its target"],
+			"cons": ["Expensive and heavy on pop", "Slower than the light riders"],
+			"strong_against": ["Line infantry", "Archers", "Siege"], "weak_against": ["Slag Rain", "Wither Hex", "Roots"], "good_with": ["Rime Seer", "Frostbow"]
+		},
+		"frostcrown_juggernaut": {
+			"role": "cavalry", "class": "Elite juggernaut",
+			"pros": ["Highest HP in any army", "Most armour in any army", "Highest DPS in the Ice army"],
+			"cons": ["Most expensive unit in any army", "Needs a Citadel and 4 pop each"],
+			"strong_against": ["Heavy melee", "Line infantry", "Archers"], "weak_against": ["Slag Rain", "Wither Hex", "Kiting + roots"], "good_with": ["Rime Seer", "Rimecarver"]
+		},
+		"rimecarver": {
+			"role": "caster", "class": "Wall caster",
+			"pros": ["Rime Bulwark walls off a choke for a while", "Scrying Rune sees into the fog and reveals", "Stillness: faster mana while standing still"],
+			"cons": ["Lowest DPS in the Ice army", "Walls also block your own ground units"],
+			"strong_against": ["Melee rushes", "Divers", "Hidden units"], "weak_against": ["Flyers", "Ranged armies", "Cavalry flanks"], "good_with": ["Frost Mortar", "Frostbow"]
+		},
+		"shardguard": {
+			"role": "melee", "class": "Halberdier",
+			"abilities": [{"name": "Hold the Line", "key": "Auto", "text": "Stops a charging rider in reach and freezes it for a moment."}, {"name": "Challenge", "key": "Auto", "text": "Taunts nearby enemies onto itself."}],
+			"pros": ["Best HP per crystal in any army", "Hold the Line stops charging riders cold", "Challenge taunts divers off your archers"],
+			"cons": ["Slow: easy to kite", "Low damage for 3 pop"],
+			"strong_against": ["Cavalry", "Divers", "Heavy melee"], "weak_against": ["Kiting archers", "Slag Rain", "Casters"], "good_with": ["Frostbow", "Frost Mortar"]
+		},
+		"helper_aldra": {
+			"role": "helper", "class": "The Glass Warden (helper)",
+			"summary": "Ice's tier-3 helper: a glass-warden mage who fights beside Torvald. Autonomous; its level is your wizard's.",
+			"abilities": [{"name": "Glasswater Ward", "key": "Passive", "text": "Aura: allies near her take less damage from arrows and spells."}, {"name": "Shatterglass", "key": "Auto", "text": "A line of glass shards hits and chills up to 6 enemies."}, {"name": "Glass Aegis", "key": "Auto", "text": "Shields the 4 most hurt allies near her."}, {"name": "Wake the Sentinel", "key": "Auto, L5", "text": "A Rime Colossus bursts from the ice and fights for 30 s."}],
+			"pros": ["Ward: allies near her take less ranged damage", "Glass Aegis shields hurt allies", "Long range for a helper; levels with your wizard"],
+			"cons": ["Needs a Citadel and a big essence bill", "Autonomous: you set a stance, not orders"],
+			"strong_against": ["Archer armies", "Casters", "Lines"], "weak_against": ["Divers", "Cavalry"], "good_with": ["Torvald (frost bond)", "Rimeshield"]
+		},
+		"sprigling": {
+			"summary": "Worker. Gathers crystals and builds; regenerates.",
+			"role": "worker", "class": "Worker",
+			"abilities": [{"name": "Gather", "key": "G", "text": "Mines crystals and carries them to the keep or a Hall."}, {"name": "Build", "key": "B", "text": "Opens the Nature build menu."}],
+			"pros": ["Cheapest worker of the four kingdoms", "Regenerates when out of combat", "Gathers crystals and builds every Nature building"],
+			"cons": ["Lowest HP of any worker", "Very weak in a fight"],
+			"strong_against": ["Nothing: it gathers"], "weak_against": ["Raiders", "Cavalry"], "good_with": ["Bramble Spire", "Thornling"]
+		},
+		"thornling": {
+			"summary": "Cheap melee line unit; regenerates out of combat.",
+			"role": "melee", "class": "Line infantry",
+			"pros": ["Cheapest unit in the Nature army", "Best DPS per crystal in the Nature army", "Regenerates out of combat"],
+			"cons": ["No armour and low HP", "Short reach: kited by archers"],
+			"strong_against": ["Archers in reach", "Casters"], "weak_against": ["Area damage", "Heavy melee"], "good_with": ["Burr Slinger", "Bloomtender"]
+		},
+		"burr_slinger": {
+			"summary": "Cheap ranged unit; regenerates out of combat.",
+			"role": "ranged", "class": "Slinger",
+			"pros": ["Top 3 for range in the Nature army", "Cheap and quick to train", "Regenerates out of combat"],
+			"cons": ["Lowest HP in any army", "Low damage per shot"],
+			"strong_against": ["Slow melee"], "weak_against": ["Cavalry", "Area damage", "Fast raiders"], "good_with": ["Thornling", "Bramblehorn"]
+		},
+		"bloomtender": {
+			"summary": "Support. Heals hurt soldiers nearby.",
+			"role": "support", "class": "Healer",
+			"abilities": [{"name": "Bloom", "key": "Auto", "text": "Every few seconds, heals a hurt ally in range."}],
+			"pros": ["Heals hurt allies in range on its own", "Cheap healer that regenerates itself", "Wins long fights for your army"],
+			"cons": ["Barely fights by itself", "Low HP: a priority target"],
+			"strong_against": ["Long fights", "Chip damage"], "weak_against": ["Burst damage", "Cavalry", "Divers"], "good_with": ["Bramblehorn", "Thornling"]
+		},
+		"bramblehorn": {
+			"summary": "Heavy beast of the Grove Hall: big HP, fast regeneration.",
+			"role": "melee", "class": "Heavy beast",
+			"pros": ["Best HP per crystal in the Nature army", "Top 3 for damage per hit in the Nature army", "Fast regeneration out of combat"],
+			"cons": ["No armour despite its size", "Slow: easy to kite"],
+			"strong_against": ["Line infantry", "Ranged in reach"], "weak_against": ["Kiting archers", "Wither Hex", "Bleed / burn"], "good_with": ["Bloomtender", "Burr Slinger"]
+		},
+		"wildwood_archer": {
+			"summary": "Nature's Hall bowman: the cheapest bowman, built up by Grove Hall research.",
+			"role": "ranged", "class": "Bowman",
+			"abilities": [{"name": "Hall research", "key": "Grove Hall", "text": "Keen Eye and Heartseeker give crits; Hunting Party trains a free second archer."}],
+			"pros": ["Longest range in the Nature army", "Cheapest bowman of the four kingdoms", "Research turns it into a crit machine"],
+			"cons": ["Fragile: low HP", "Weak until its Hall research is done"],
+			"strong_against": ["Slow melee", "Late mass fights"], "weak_against": ["Cavalry", "Area damage", "Early rushes"], "good_with": ["Thornling", "Bloomtender"]
+		},
+		"thistle_darter": {
+			"role": "ranged", "class": "Skirmisher",
+			"pros": ["Cheap, quick skirmisher", "Skitter: runs faster after each dart", "Top 3 for sight in the Nature army"],
+			"cons": ["Lowest HP in any army", "Low DPS"],
+			"strong_against": ["Slow melee", "Casters"], "weak_against": ["Cavalry", "Area damage"], "good_with": ["Thornling", "Vinelasher"]
+		},
+		"vinelasher": {
+			"role": "melee", "class": "Whip fighter",
+			"pros": ["Snare Lash roots a target for a moment", "Whip reach: hits from behind the front rank", "Solid HP for its price"],
+			"cons": ["Average damage for a tier-2 unit", "No regeneration, unlike most Nature units"],
+			"strong_against": ["Cavalry", "Fleeing units"], "weak_against": ["Kiting archers", "Area damage"], "good_with": ["Wildwood Archer", "Greenheart Oathkeeper"]
+		},
+		"greenheart_oathkeeper": {
+			"role": "melee", "class": "Oath swordsman",
+			"pros": ["Most armour in the Nature army", "Grove Oath taunts nearby foes and braces", "Top 3 for HP per crystal in the Nature army"],
+			"cons": ["Slowest unit in the Nature army", "Low damage: a wall, not a killer"],
+			"strong_against": ["Divers", "Cavalry", "Melee rushes"], "weak_against": ["Slag Rain", "Kiting archers"], "good_with": ["Wildwood Archer", "Bloomtender"]
+		},
+		"stagrunner": {
+			"role": "cavalry", "class": "Stag skirmisher",
+			"pros": ["Fastest unit in any army", "Top 3 for DPS in the Nature army", "Regenerates between raids"],
+			"cons": ["No armour: towers and archers hurt", "Chill and roots stop it short"],
+			"strong_against": ["Archers", "Workers", "Casters"], "weak_against": ["Chill / roots", "Towers", "Heavy melee"], "good_with": ["Bramble Harrier", "Wildwood Archer"]
+		},
+		"bramble_harrier": {
+			"role": "cavalry", "class": "Mounted thorn darts",
+			"pros": ["Top 3 for speed in the Nature army", "Thorn darts thrown on the move", "Regenerates between raids"],
+			"cons": ["Fragile up close", "Far less DPS than a Stagrunner"],
+			"strong_against": ["Slow melee", "Workers"], "weak_against": ["Massed archers", "Towers"], "good_with": ["Stagrunner", "Glade Outrider"]
+		},
+		"thornback_charger": {
+			"role": "cavalry", "class": "Heavy stag charger",
+			"pros": ["Top 3 for DPS in the Nature army", "Top 3 for armour in the Nature army", "Regenerates fast out of combat"],
+			"cons": ["Expensive and heavy on pop", "Kiting and roots waste its time"],
+			"strong_against": ["Line infantry", "Archers", "Siege"], "weak_against": ["Chill / roots", "Slag Rain", "Wither Hex"], "good_with": ["Bloomtender", "Wildwood Archer"]
+		},
+		"glade_outrider": {
+			"role": "cavalry", "class": "Horse archer",
+			"pros": ["Highest DPS in the Nature army", "Top 3 for speed in any army", "Shoots from range on a fast mount"],
+			"cons": ["Most expensive unit in the Nature army", "Needs a Citadel and 4 pop each"],
+			"strong_against": ["Slow melee", "Casters", "Siege"], "weak_against": ["Wither Hex", "Heavy cavalry", "Towers"], "good_with": ["Greenheart Oathkeeper", "Bramblesage"]
+		},
+		"bramblesage": {
+			"role": "caster", "class": "Vine caster",
+			"pros": ["Snagroot drags one enemy into your army", "Pollen Haze blinds enemy ranged units", "Seedcloak hides it in pollen when hurt"],
+			"cons": ["Lowest DPS in the Nature army", "Worst HP per crystal in the Nature army"],
+			"strong_against": ["Archer armies", "Casters", "Siege"], "weak_against": ["Cavalry", "Mana Scald", "Big units"], "good_with": ["Thornling", "Greenheart Oathkeeper"]
+		},
+		"briar_roc": {
+			"role": "ranged", "class": "Thorn bird (flyer)",
+			"abilities": [{"name": "Flight", "key": "Passive", "text": "Flies: Rime Bulwark walls do not stop it."}, {"name": "Seed Storm", "key": "Auto", "text": "A seed burst on a cooldown that hurts and roots ground enemies."}],
+			"pros": ["Highest HP in the Nature army", "Flies over Rime Bulwark walls", "Seed Storm roots ground enemies"],
+			"cons": ["Most expensive unit in the Nature army", "Low DPS for its price"],
+			"strong_against": ["Melee clumps", "Walls and chokes"], "weak_against": ["Massed archers", "Wither Hex", "Focus fire"], "good_with": ["Thornback Charger", "Bramblesage"]
+		},
+		"helper_maelis": {
+			"role": "helper", "class": "The Wildcaller (helper)",
+			"summary": "Nature's tier-3 helper: a wildcaller archer who fights beside Ysolde. Autonomous; its level is your wizard's.",
+			"abilities": [{"name": "The Forest Has Opinions", "key": "Passive", "text": "Her Spirit Wolves and your Saplings near her attack and move faster."}, {"name": "Thornsnare", "key": "Auto", "text": "A thorn ring hurts and roots ground enemies."}, {"name": "Call the Pack", "key": "Auto", "text": "Summons 2 Spirit Wolves for 20 s."}, {"name": "Wild Stampede", "key": "Auto, L5", "text": "A spirit stampede knocks back and dazes a line of enemies."}],
+			"pros": ["Call the Pack adds Spirit Wolves to fights", "Thornsnare roots groups of enemies", "Long range; levels with your wizard"],
+			"cons": ["Needs a Citadel and a big essence bill", "Autonomous: you set a stance, not orders"],
+			"strong_against": ["Clumps", "Melee rushes"], "weak_against": ["Divers", "Burst damage"], "good_with": ["Ysolde (root bond)", "Thornling"]
+		},
+		"gloom_thrall": {
+			"summary": "Worker. Gathers crystals and builds.",
+			"role": "worker", "class": "Worker",
+			"abilities": [{"name": "Gather", "key": "G", "text": "Mines crystals and carries them to the keep or a Hall."}, {"name": "Build", "key": "B", "text": "Opens the Shadow build menu."}],
+			"pros": ["Gathers crystals and builds every Shadow building", "Drops crystals at the keep or at any Hall", "Cheap and quick to replace"],
+			"cons": ["Very weak in a fight", "Every worker lost slows your whole economy"],
+			"strong_against": ["Nothing: it gathers"], "weak_against": ["Raiders", "Cavalry"], "good_with": ["Night Spire", "Shade"]
+		},
+		"shade": {
+			"summary": "Melee line unit of the Gloom Hall.",
+			"role": "melee", "class": "Line infantry",
+			"pros": ["Top 3 for DPS per crystal in the Shadow army", "Cheap, quick front line", "Shields Nightbolts and Bleakbows"],
+			"cons": ["No armour", "Too slow to catch kiting archers"],
+			"strong_against": ["Archers in reach", "Workers"], "weak_against": ["Area damage", "Heavy melee", "Kiting archers"], "good_with": ["Nightbolt", "Gloom Deacon"]
+		},
+		"nightbolt": {
+			"summary": "Ranged unit of the Gloom Hall.",
+			"role": "ranged", "class": "Bolt thrower",
+			"pros": ["Longest range in the Shadow army", "Longest sight in the Shadow army", "Cheap ranged damage"],
+			"cons": ["Lowest HP in the Shadow army", "Fragile against cavalry"],
+			"strong_against": ["Slow melee", "Casters"], "weak_against": ["Cavalry", "Fast raiders", "Pollen Haze"], "good_with": ["Shade", "Hollow Oathsworn"]
+		},
+		"grave_hound": {
+			"summary": "Fast, cheap harasser. Strong damage for its price, little HP.",
+			"role": "melee", "class": "Fast harasser",
+			"pros": ["Best DPS per crystal in the Shadow army", "Top 3 for speed in the Shadow army", "Longest sight in the Shadow army"],
+			"cons": ["Low HP: dies fast in a real fight", "Short reach"],
+			"strong_against": ["Archers", "Workers", "Casters"], "weak_against": ["Area damage", "Line infantry", "Towers"], "good_with": ["Gloam Rider", "Nightbolt"]
+		},
+		"shadow_knight": {
+			"summary": "Heavy elite of the Gloom Hall: lots of HP, slow.",
+			"role": "melee", "class": "Heavy elite",
+			"pros": ["Best HP per crystal in the Shadow army", "Top 3 for HP in the Shadow army", "A heavy you can train from tier 1"],
+			"cons": ["Slowest unit in the Shadow army", "No armour for a heavy"],
+			"strong_against": ["Line infantry", "Light cavalry"], "weak_against": ["Kiting archers", "Chill / roots", "Wither Hex"], "good_with": ["Gloom Deacon", "Nightbolt"]
+		},
+		"bleakbow": {
+			"summary": "Shadow's Hall bowman: stacking bleed that wears down tough targets.",
+			"role": "ranged", "class": "Bowman",
+			"abilities": [{"name": "Bleeding Arrows", "key": "Passive", "text": "Every arrow adds a bleed stack (up to 3) that keeps ticking."}, {"name": "Hall research", "key": "Gloom Hall", "text": "Serrated Barbs: more bleed stacks."}],
+			"pros": ["Longest range in the Shadow army", "Bleed stacks melt tanks and heroes", "Bleed keeps ticking after the fight"],
+			"cons": ["Worst HP per crystal in the Shadow army", "Bleed spreads thin over many small units"],
+			"strong_against": ["Tanks", "Heroes", "Champions"], "weak_against": ["Swarms", "Cavalry", "Burst"], "good_with": ["Shade", "Hollow Oathsworn"]
+		},
+		"barrow_ghoul": {
+			"role": "melee", "class": "Ghoul",
+			"pros": ["Cheapest unit in the Shadow army", "Grave Feast heals it on each kill", "Top 3 for DPS per crystal in any army"],
+			"cons": ["Low HP", "Short sight"],
+			"strong_against": ["Workers", "Wounded units", "Archers"], "weak_against": ["Area damage", "Heavy melee"], "good_with": ["Shade", "Gloom Deacon"]
+		},
+		"hexweaver": {
+			"role": "ranged", "class": "Hex caster",
+			"pros": ["Wither Hex weakens the costliest enemy", "Top 3 for range in the Shadow army", "Shuts down elites and heroes"],
+			"cons": ["Low DPS", "Fragile"],
+			"strong_against": ["Elite units", "Heroes", "Heavy cavalry"], "weak_against": ["Swarms", "Cavalry", "Area damage"], "good_with": ["Shadow Knight", "Bleakbow"]
+		},
+		"hollow_oathsworn": {
+			"role": "melee", "class": "Oath swordsman",
+			"pros": ["Unbroken Vow: shield and more damage when low", "Top 3 for armour in the Shadow army", "Solid DPS per crystal for a heavy"],
+			"cons": ["Slow", "Vow has a long cooldown"],
+			"strong_against": ["Line infantry", "Burst damage"], "weak_against": ["Kiting archers", "Slag Rain"], "good_with": ["Bleakbow", "Gloom Deacon"]
+		},
+		"gloam_rider": {
+			"role": "cavalry", "class": "Lancer raider",
+			"pros": ["Fastest unit in the Shadow army", "Light armour for a raider", "Ranks up to Gloam Marauder at the Citadel"],
+			"cons": ["Pricey for a tier-1 unit", "Chill and roots stop it short"],
+			"strong_against": ["Archers", "Workers", "Casters"], "weak_against": ["Chill / roots", "Towers", "Heavy melee"], "good_with": ["Grave Hound", "Nightbolt"]
+		},
+		"duskbolt_harrier": {
+			"role": "cavalry", "class": "Mounted crossbow",
+			"pros": ["Fastest unit in the Shadow army", "Crossbow on the move: hit and run", "Picks off workers and casters"],
+			"cons": ["Fragile up close", "No armour"],
+			"strong_against": ["Slow melee", "Workers"], "weak_against": ["Massed archers", "Towers"], "good_with": ["Gloam Rider", "Hexweaver"]
+		},
+		"barrow_knight": {
+			"role": "cavalry", "class": "Grave knight",
+			"pros": ["Top 3 for DPS in the Shadow army", "Top 3 for damage per hit in the Shadow army", "Fast for a heavy rider"],
+			"cons": ["Expensive and heavy on pop", "Roots and chill blunt it"],
+			"strong_against": ["Line infantry", "Archers", "Siege"], "weak_against": ["Chill / roots", "Slag Rain", "Wither Hex"], "good_with": ["Gloom Deacon", "Bleakbow"]
+		},
+		"veilborn_dreadrider": {
+			"role": "cavalry", "class": "Elite dread rider",
+			"pros": ["Highest DPS in any army", "Hardest hitter in any army", "Highest HP in the Shadow army"],
+			"cons": ["Most expensive unit in the Shadow army", "Needs a Citadel and 4 pop each"],
+			"strong_against": ["Heavy melee", "Line infantry", "Archers"], "weak_against": ["Slag Rain", "Wither Hex", "Roots"], "good_with": ["Gloom Deacon", "Hexweaver"]
+		},
+		"gloom_deacon": {
+			"role": "caster", "class": "Blood caster",
+			"pros": ["Blood Tithe heals an ally and drains a foe", "Umbral Passage recalls soldiers from afar", "Vigil: gains mana when soldiers fall near it"],
+			"cons": ["Lowest DPS in the Shadow army", "Tithe ties it to the front line"],
+			"strong_against": ["Long fights", "Trapped armies"], "weak_against": ["Cavalry", "Mana Scald", "Snagroot"], "good_with": ["Shadow Knight", "Barrow Knight"]
+		},
+		"nightblood_reaver": {
+			"role": "melee", "class": "Vampire duelist",
+			"abilities": [{"name": "Nightblood", "key": "Passive", "text": "Heals part of the damage it deals; fire damage halves that for a few seconds."}, {"name": "Blood Frenzy", "key": "Auto", "text": "When badly hurt: attacks faster and drinks more blood for a few seconds."}],
+			"pros": ["Heals from the damage it deals", "Best HP per crystal in the Shadow army", "Blood Frenzy: faster attacks when hurt"],
+			"cons": ["Fire damage halves its healing", "Needs a Citadel; 3 pop each"],
+			"strong_against": ["Line infantry", "Heavy melee", "Long fights"], "weak_against": ["Fire damage", "Kiting archers", "Wither Hex"], "good_with": ["Gloom Deacon", "Shade"]
+		},
+		"helper_hush": {
+			"role": "helper", "class": "The Knife (helper)",
+			"summary": "Shadow's tier-3 helper: an assassin who fights beside Malrik. Autonomous; its level is your wizard's.",
+			"abilities": [{"name": "Mouthless Veil", "key": "Passive", "text": "After a few quiet seconds, far enemies cannot target her; her next strike hits harder."}, {"name": "Blink Strike", "key": "Auto", "text": "Appears behind a weak hero, helper or caster and stabs it."}, {"name": "Smoke Cloak", "key": "Auto", "text": "Smoke that shrouds her and makes enemy shots weaker."}, {"name": "Night of Knives", "key": "Auto, L5", "text": "Vanishes, then strikes up to 6 enemies around her."}],
+			"pros": ["Blink Strike hunts heroes and casters", "Veiled when idle: hard to target from afar", "Night of Knives hits up to 6 foes"],
+			"cons": ["Least HP of the four helpers", "Needs a Citadel; you set a stance, not orders"],
+			"strong_against": ["Casters", "Heroes", "Archers"], "weak_against": ["Area damage", "Heavy melee"], "good_with": ["Malrik (shadow bond)", "Shade"]
+		},
+		"caravan": {
+			"role": "support", "class": "Trade wagon",
+			"abilities": [{"name": "Trade", "key": "G", "text": "Right-click a trading post: it brings gold back to your Bazaar."}],
+			"pros": ["Brings gold back from trading posts", "Armoured wagon with solid HP", "Gold buys wares, hires and contracts"],
+			"cons": ["Cannot fight back", "Magpie thieves raid trade routes"],
+			"strong_against": ["Nothing: it trades"], "weak_against": ["Magpies", "Cavalry raids"], "good_with": ["Greywater Tracker", "Escort riders"]
+		},
+		"wayfinder": {
+			"summary": "Hired scout champion. Sees far and marks enemies; acts on bounties.",
+			"role": "champion", "class": "Scout, ranged",
+			"pros": ["Huge sight radius: scouts the map for you", "Signal Flare reveals and marks an area", "Snare Line roots a target"],
+			"cons": ["Least HP of the four champions", "Autonomous: follows bounties, not orders"],
+			"strong_against": ["Hidden units", "Fleeing units"], "weak_against": ["Divers", "Cavalry"], "good_with": ["Explore bounties", "Hunt bounties"]
+		},
+		"oathwall": {
+			"summary": "Hired guardian champion. Armoured wall that protects allies; acts on bounties.",
+			"role": "champion", "class": "Guardian, melee",
+			"pros": ["Toughest champion: most HP and armour", "Oath of Iron armours itself and allies", "Shield Bash stuns a foe for a moment"],
+			"cons": ["Slow, with low damage", "Autonomous: follows bounties, not orders"],
+			"strong_against": ["Melee rushes", "Divers"], "weak_against": ["Kiting archers", "Slag Rain"], "good_with": ["Guard bounties", "Escort bounties"]
+		},
+		"coin_cutter": {
+			"summary": "Hired raider champion. Fast damage and loot; acts on bounties.",
+			"role": "champion", "class": "Raider, melee",
+			"pros": ["Highest DPS of the four champions", "Cutpurse loots coin from what it hits", "Smoke Pouch makes enemies lose it"],
+			"cons": ["Fragile once surrounded", "Autonomous and greedy for bounties"],
+			"strong_against": ["Workers", "Caravans", "Lone units"], "weak_against": ["Armoured line", "Area damage"], "good_with": ["Hunt bounties", "Raids"]
+		},
+		"mender": {
+			"summary": "Hired healer champion. Heals your soldiers; acts on bounties.",
+			"role": "champion", "class": "Healer, ranged",
+			"pros": ["Mending Draught heals the most hurt ally", "Soothing Circle heals a whole area", "Lifeline saves an ally (level 4)"],
+			"cons": ["Lowest damage of the four champions", "Autonomous; needs an army to heal"],
+			"strong_against": ["Long fights", "Chip damage"], "weak_against": ["Burst damage", "Divers"], "good_with": ["Escort bounties", "Your army"]
+		},
+		"stormbottle_genie": {
+			"role": "ranged", "class": "Wonder hire (tier 3)",
+			"abilities": [{"name": "Storm Chain", "key": "Passive", "text": "Its lightning jumps to 2 more enemies nearby."}, {"name": "Tempest Bolt", "key": "Auto", "text": "A huge bolt every few seconds that also chains; extra damage on titans."}],
+			"pros": ["Lightning chains to 2 more enemies", "Tempest Bolt: a huge strike on a cooldown", "Long range with lots of HP"],
+			"cons": ["One per team, hired at a tavern", "Slow and big: a focus-fire target"],
+			"strong_against": ["Clumps", "Big targets", "Titans"], "weak_against": ["Cavalry", "Focus fire"], "good_with": ["Line infantry", "Any army"]
+		},
+		"greywater_tracker": {
+			"summary": "Hired hunter from a Greywater Lodge contract: hunts Magpie thieves on its own.",
+			"role": "ranged", "class": "Hired hunter",
+			"abilities": [{"name": "Hunt contract", "key": "Lodge", "text": "Hired in pairs or trios at a Greywater Lodge; they hunt Magpies on their own."}],
+			"pros": ["Hunts Magpie thieves and earns gold", "Its hits root the target briefly", "Costs no crystals and no pop"],
+			"cons": ["Autonomous: you cannot order it", "Leaves when the contract ends"],
+			"strong_against": ["Magpies", "Raiders"], "weak_against": ["Real armies"], "good_with": ["Caravans", "Trade routes"]
+		}
+	}
+}
