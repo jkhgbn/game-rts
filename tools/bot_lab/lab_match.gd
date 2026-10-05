@@ -87,6 +87,7 @@ var _score_node: Node = null
 var _score_source := "fallback"
 var _stats := [{}, {}]        # per team: peaks and running values
 var _snapshots := {}
+var _worker_deaths := {}   ## side -> {"<killer kind>@<5-min bucket>": count} (first 15 minutes)
 var _lead_team := -1
 var _lead_since := -1.0
 var _early_call := {}
@@ -436,6 +437,47 @@ func _on_match_started() -> void:
 		early_margin = 3000.0 if _score_source == "score_keeper" else 1500.0
 	for team in [PLAYER, ENEMY]:
 		_stats[team] = {"peak_army_pop": 0, "peak_workers": 0, "peak_army_value": 0}
+	var ev := root.get_node_or_null(^"Events")
+	if ev != null and ev.has_signal(&"unit_died"):
+		ev.connect(&"unit_died", _on_unit_died)
+
+
+## Seat-bias diagnostics: every worker death of the first 15 minutes, by side and by who dealt the blow
+## (enemy / neutral group / none), in the result's "worker_deaths".
+func _on_unit_died(u: Node) -> void:
+	if u == null or not is_instance_valid(u) or not u.has_method(&"command_gather"):
+		return
+	var t: float = float(main.call(&"match_time")) if main != null and is_instance_valid(main) else 0.0
+	if t > 900.0:
+		return
+	var team := int(u.get(&"team"))
+	if team != PLAYER and team != ENEMY:
+		return
+	var k: Variant = u.get(&"killer")
+	var kind := "none"
+	if k is Node and is_instance_valid(k):
+		var kn := k as Node
+		var kt: Variant = kn.get(&"team")
+		kind = "enemy" if kt != null and int(kt) == 1 - team else "own" if kt != null and int(kt) == team else "neutral"
+		for g: StringName in [&"beasts", &"thieves", &"magpies", &"camp_creatures", &"wardens", &"buildings", &"heroes", &"champions"]:
+			if kn.is_in_group(g):
+				kind += ":" + String(g)
+				break
+		if kind == "neutral" and kn.get_script() != null:
+			kind += ":" + (kn.get_script() as Script).resource_path.get_file().get_basename()
+	if k is Node and is_instance_valid(k) and k.get(&"unit_type") != null:
+		kind += ":" + String((k.get(&"unit_type") as Resource).get(&"id"))
+	# where: in the victim's own seat frame (Thornwater-style rot180 layouts: seat 1 = the point mirror)
+	var seat := team if not _swap_sides else 1 - team
+	var at: Vector3 = (u as Node3D).global_position * (1.0 if seat == 0 else -1.0)
+	if not _worker_deaths.has("pts"):
+		_worker_deaths["pts"] = []
+	(_worker_deaths["pts"] as Array).append([int(t), seat, snappedf(at.x, 1.0), snappedf(at.z, 1.0), kind])
+	var side := SIDES[team] as String
+	if not _worker_deaths.has(side):
+		_worker_deaths[side] = {}
+	var key := "%s@%d" % [kind, int(t / 300.0) * 5]
+	_worker_deaths[side][key] = int(_worker_deaths[side].get(key, 0)) + 1
 
 
 func _find_or_create_score() -> void:
@@ -784,6 +826,7 @@ func _finish(reason: String, winner: int, error: String) -> bool:
 		result["score"] = _score_table()
 		result["stats"] = {"player": _final_stats(PLAYER), "enemy": _final_stats(ENEMY)}
 		result["at"] = _snapshots
+		result["worker_deaths"] = _worker_deaths
 	var line := JSON.stringify(result)
 	print("LAB_RESULT " + line)
 	if out_path != "":
