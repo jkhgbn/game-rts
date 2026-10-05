@@ -2918,6 +2918,11 @@ func _learn_spells() -> void:
 func _take_casting(w: Wizard) -> void:
 	if casts_owned:
 		return
+	# Seat-bias fix (2026-10-05): the bot also owns the STR / INT path ability (Vigor / Snow Shield). The human's
+	# wizard never auto-used it, so a bot driving the PLAYER team (Bot Lab, map gate G5) fought without it.
+	var sip := w.get_node_or_null(^"StrIntPath")
+	if sip != null and sip.has_method(&"set_bot_driven"):
+		sip.call(&"set_bot_driven")
 	if "ai_auto_cast" in w:
 		w.set(&"ai_auto_cast", false)
 	elif w.spell_caster == null or not w.spell_caster.has_method(&"suggest_cast"):

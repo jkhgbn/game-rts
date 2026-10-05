@@ -46,6 +46,10 @@ var wizard: Node = null
 var path: StringName = &""
 ## Bots (and every wizard but the human's) use the ability on their own.
 var auto_use := false
+## A bot drives this wizard (its Commander owns the wizard, e.g. a Bot Lab bot on the human's side): the human's
+## wizard then uses the ability by itself too (seat-bias fix 2026-10-05: the PLAYER team's bot never used Vigor /
+## Snow Shield, so every bot-vs-bot match and map gate G5 handicapped team 0).
+var bot_driven := false
 ## false in missions / without a skirmish host: no auto-pick, no panel.
 var in_match := false
 var vfx: Node3D = null
@@ -60,6 +64,12 @@ static func of(w: Node) -> StrIntPath:
 	if w == null or not is_instance_valid(w):
 		return null
 	return w.get_node_or_null(^"StrIntPath") as StrIntPath
+
+
+## The Commander driving `wizard` calls it: the ability is used by the bot rule, whoever's wizard it is.
+func set_bot_driven() -> void:
+	bot_driven = true
+	auto_use = true
 
 
 func setup(w: Node) -> void:
@@ -87,7 +97,7 @@ func _decide_start() -> void:
 		return
 	in_match = true
 	var human: bool = host.get(&"hero") == wizard
-	auto_use = not human
+	auto_use = not human or bot_driven
 	if human and not force_auto and DisplayServer.get_name() != "headless" and _open_panel(host):
 		return
 	choose(default_pick())
