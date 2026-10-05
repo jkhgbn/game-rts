@@ -46,7 +46,7 @@ class FakeUnit extends Node:
 
 
 func _initialize() -> void:
-	pass
+	GameSettings.use_test_file()   # the player's saved map (e.g. a LayoutLevel map) must not leak into Start
 
 
 func _process(_delta: float) -> bool:
@@ -229,6 +229,8 @@ func _check_menu() -> bool:
 
 
 func _finish(reason: String) -> bool:
+	if FileAccess.file_exists(GameSettings.TEST_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(GameSettings.TEST_PATH))
 	for n in _notes:
 		print("note: " + n)
 	if reason == "" and not _errors.is_empty():

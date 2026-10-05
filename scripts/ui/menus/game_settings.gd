@@ -5,6 +5,9 @@ extends RefCounted
 ## Audio buses "Music" and "SFX" are created at runtime when the project has none.
 
 const PATH := "user://settings.cfg"
+const TEST_PATH := "user://settings_test.cfg"   ## use_test_file(): tests never read or write the player's file.
+## The file load / save use (PATH; a test switches it to TEST_PATH so a player's saved map, keys... never leak in).
+static var settings_path := PATH
 const SECTION := "settings"
 const BUS_MASTER := &"Master"
 const BUS_MUSIC := &"Music"
@@ -72,6 +75,16 @@ static func ensure_loaded(tree: SceneTree) -> void:
 	if not _loaded:
 		load_settings()
 	apply(tree)
+
+
+## Tests: load / save a throwaway file from now on (deleted first), every setting at its default (map Crown Hollow).
+static func use_test_file() -> void:
+	settings_path = TEST_PATH
+	if FileAccess.file_exists(TEST_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(TEST_PATH))
+	reset_defaults()
+	unit_priority_order.clear()
+	_loaded = true
 
 
 static func reset_defaults() -> void:
@@ -195,7 +208,7 @@ static func load_settings() -> void:
 	reset_defaults()
 	_loaded = true
 	var cfg := ConfigFile.new()
-	if cfg.load(PATH) != OK:
+	if cfg.load(settings_path) != OK:
 		return
 	master_volume = clampf(float(cfg.get_value(SECTION, "master_volume", master_volume)), 0.0, 1.0)
 	music_volume = clampf(float(cfg.get_value(SECTION, "music_volume", music_volume)), 0.0, 1.0)
@@ -280,7 +293,7 @@ static func save_settings() -> Error:
 	for k in unit_priority_order:
 		order.append(String(k))
 	cfg.set_value(SECTION, "unit_priority", order)
-	return cfg.save(PATH)
+	return cfg.save(settings_path)
 
 
 static func apply(tree: SceneTree) -> void:

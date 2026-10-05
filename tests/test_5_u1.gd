@@ -5,7 +5,7 @@ extends SceneTree
 
 const TASK_ID := "5.u1"
 const TIMEOUT_FRAMES := 3600
-const SETTINGS_PATH := "user://settings.cfg"
+const SETTINGS_PATH := GameSettings.TEST_PATH   ## never the player's file (a saved map / scheme leaked in before)
 
 var menu: Node
 var level: Node
@@ -18,9 +18,7 @@ var _had_backup := false
 
 
 func _initialize() -> void:
-	if FileAccess.file_exists(SETTINGS_PATH):
-		_had_backup = true
-		_backup = FileAccess.get_file_as_bytes(SETTINGS_PATH)
+	GameSettings.use_test_file()   # defaults: Crown Hollow, Classic keys (the picker opens on the default map)
 	menu = load("res://scenes/ui/main_menu.tscn").instantiate()
 	root.add_child(menu)
 	current_scene = menu
