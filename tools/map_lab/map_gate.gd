@@ -205,7 +205,7 @@ static func bot_summary(results: Array[Dictionary]) -> Dictionary:
 				bucket[key[1]] = {"games": 0, "seat1": 0, "rate": 0.0}
 			var b: Dictionary = bucket[key[1]]
 			b["games"] += 1
-			b["seat1"] += 1 if side == "player" else 0
+			b["seat1"] += 1 if _seat1_won(r, side) else 0
 			b["rate"] = float(b["seat1"]) / float(b["games"])
 		if r.get("startup_s") != null:
 			startups.append(float(r["startup_s"]))
@@ -215,6 +215,14 @@ static func bot_summary(results: Array[Dictionary]) -> Dictionary:
 	s["startup_s"] = _median(startups)
 	s["bake_s"] = _median(bakes)
 	return s
+
+
+## Seat 1 (the layout's side-0 seat) won: `winner_seat` when the game was played with --swap-sides (the PLAYER team on
+## the side-1 seat), else the PLAYER team's win (older results have no winner_seat).
+static func _seat1_won(r: Dictionary, side: String) -> bool:
+	if r.has("winner_seat") and int(r["winner_seat"]) >= 0:
+		return int(r["winner_seat"]) == 0
+	return side == "player"
 
 
 ## G5 from a bot summary: {row, second_pass: bool}. In the 40-game pass a rate within CLOSE_BAND of the 45 / 55 % edge

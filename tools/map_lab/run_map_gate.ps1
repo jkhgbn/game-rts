@@ -11,6 +11,8 @@
    2. Bot fairness, two passes (section 9): pass 1 = 40 games over easy / normal / hard x the 4 kingdom mirrors (sim
       mode, the map's layout; a mirror's two seats are the two sides). When a difficulty's seat win rate is within
       3 points of the 45 / 55 % edge or a cell looks lopsided, pass 2 tops it up to 120 games (10 per cell).
+      -Seats alternate (default on layout maps): even seeds swap the teams' seats (lab --swap-sides, results in
+      bots\<d>_swap) and G5 counts SEAT wins, so a bot-side (team) effect cancels; -Seats fixed = the old order.
    3. Performance: tests/test_mt2_perf.gd on the map (PASS mt2_perf = frame time within live Crown Hollow's).
    4. Verdict: tools/map_lab/map_gate.gd reads all of it and writes docs/tools/map_gate/<map>/scorecard.md (+ .json).
   Exit code: 0 PASS or PARTIAL (a step skipped, nothing failed), 1 FAIL, 2 bad input.
@@ -41,6 +43,7 @@ param(
 	[switch]$SkipBots,
 	[switch]$SkipPerf,
 	[switch]$Resume,
+	[ValidateSet("alternate", "fixed")][string]$Seats = "alternate",
 	[string]$OutDir = "",
 	[switch]$DryRun
 )
@@ -108,31 +111,58 @@ if ($SkipForge) {
 }
 
 # 2. Bot fairness (Bot Lab, sim mode; run_lab.ps1 holds the Godot gate's semaphore per match)
+# -Seats alternate (default on a layout map): odd seeds play as laid out (the PLAYER team on the side-0 seat) into
+# bots\<d>, even seeds with --swap-sides (the PLAYER team on the side-1 seat) into bots\<d>_swap. G5 counts seat wins
+# (`winner_seat`), so a bot effect that favours one TEAM (not one seat) cancels out instead of failing the map.
 $BotDirs = @()
+function Get-BotDirs([string]$d) {
+	$out = @(@{ dir = (Join-Path $OutDir "bots\$d"); swap = $false; log = "bots_$d.log" })
+	if ($Seats -eq "alternate" -and $Layout -ne "") { $out += @{ dir = (Join-Path $OutDir "bots\${d}_swap"); swap = $true; log = "bots_${d}_swap.log" } }
+	return $out
+}
 function Invoke-BotPass($plan, [int]$from, [string]$label) {
 	foreach ($d in $Diffs) {
 		$to = [int]$plan[$d]
 		if ($to -lt $from) { continue }
-		$dir = Join-Path $OutDir "bots\$d"
-		$seedList = @($from..$to)
-		if ($Resume) {   # skip the seeds whose 4 mirrors already have a result line (a stopped gate goes on)
-			$rj = Join-Path $dir "results.jsonl"
-			$have = @{}
-			if (Test-Path $rj) {
-				foreach ($line in Get-Content $rj) {
-					try { $r = $line | ConvertFrom-Json; $k = [int]$r.seed; $have[$k] = 1 + $(if ($have.ContainsKey($k)) { $have[$k] } else { 0 }) } catch {}
+		foreach ($bd in (Get-BotDirs $d)) {
+			$dir = $bd.dir
+			$seedList = @($from..$to)
+			if ($Seats -eq "alternate" -and $Layout -ne "") { $seedList = @($seedList | Where-Object { ($_ % 2 -eq 0) -eq $bd.swap }) }
+			if ($seedList.Count -eq 0) { continue }
+			$tag = if ($bd.swap) { "$d, seats swapped" } else { $d }
+			if ($Resume) {   # skip the seeds whose 4 mirrors already have a result line (a stopped gate goes on)
+				$rj = Join-Path $dir "results.jsonl"
+				$have = @{}
+				if (Test-Path $rj) {
+					foreach ($line in Get-Content $rj) {
+						try { $r = $line | ConvertFrom-Json; $k = [int]$r.seed; $have[$k] = 1 + $(if ($have.ContainsKey($k)) { $have[$k] } else { 0 }) } catch {}
+					}
 				}
+				$seedList = @($seedList | Where-Object { -not $have.ContainsKey($_) -or $have[$_] -lt 4 })
+				if ($seedList.Count -eq 0) { Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2}-{3} already played (-Resume)" -f $label, $tag, $from, $to); continue }
 			}
-			$seedList = @($seedList | Where-Object { -not $have.ContainsKey($_) -or $have[$_] -lt 4 })
-			if ($seedList.Count -eq 0) { Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2}-{3} already played (-Resume)" -f $label, $d, $from, $to); continue }
+			$seedArg = ($seedList | ForEach-Object { "$_" }) -join ","
+			Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2} x 4 mirrors" -f $label, $tag, $seedArg)
+			$a = @{ Dir = $Repo; Pairs = @($Mirrors); Seeds = @($seedArg); Difficulty = $d; Sim = "on"; Limit = $Limit; OutDir = $dir;
+				Title = "Map gate $Map ($tag)"; TimeoutMin = 110 }
+			$ex = $Extra
+			if ($bd.swap) { $ex = "$ex --swap-sides=1".Trim() }
+			if ($ex -ne "") { $a["Extra"] = $ex }
+			& $Lab @a *> (Join-Path $OutDir $bd.log)
+			# -Resume replays a whole seed when one of its mirrors is missing: keep one line per (pair, seed), the newest
+			$rjd = Join-Path $dir "results.jsonl"
+			if (Test-Path $rjd) {
+				$byKey = [ordered]@{}
+				foreach ($line in Get-Content $rjd) {
+					if ($line.Trim() -eq "") { continue }
+					try { $r = $line | ConvertFrom-Json; $key = "$($r.pair)|$($r.seed)" } catch { $key = "raw|" + $byKey.Count }
+					if ($byKey.Contains($key)) { $byKey.Remove($key) }
+					$byKey[$key] = $line
+				}
+				[System.IO.File]::WriteAllLines($rjd, [string[]]@($byKey.Values), (New-Object System.Text.UTF8Encoding $false))
+			}
+			Get-Content (Join-Path $OutDir $bd.log) | Select-String "^Done:" | ForEach-Object { Write-Host ("      " + $_.Line) }
 		}
-		$seedArg = ($seedList | ForEach-Object { "$_" }) -join ","
-		Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2} x 4 mirrors" -f $label, $d, $seedArg)
-		$a = @{ Dir = $Repo; Pairs = @($Mirrors); Seeds = @($seedArg); Difficulty = $d; Sim = "on"; Limit = $Limit; OutDir = $dir;
-			Title = "Map gate $Map ($d)"; TimeoutMin = 75 }
-		if ($Extra -ne "") { $a["Extra"] = $Extra }
-		& $Lab @a *> (Join-Path $OutDir "bots_$d.log")
-		Get-Content (Join-Path $OutDir "bots_$d.log") | Select-String "^Done:" | ForEach-Object { Write-Host ("      " + $_.Line) }
 	}
 }
 if ($SkipBots) {
@@ -140,9 +170,11 @@ if ($SkipBots) {
 	Write-Host "[2/4] Bot fairness: skipped (-SkipBots)"
 } else {
 	foreach ($d in $Diffs) {
-		$dir = Join-Path $OutDir "bots\$d"
-		if (-not $Resume -and (Test-Path (Join-Path $dir "results.jsonl"))) { Remove-Item (Join-Path $dir "results.jsonl") }   # a new gate run starts clean
-		$BotDirs += $dir
+		foreach ($bd in (Get-BotDirs $d)) {
+			$dir = $bd.dir
+			if (-not $Resume -and (Test-Path (Join-Path $dir "results.jsonl"))) { Remove-Item (Join-Path $dir "results.jsonl") }   # a new gate run starts clean
+			$BotDirs += $dir
+		}
 	}
 	if ($Pass -eq "2") {
 		Invoke-BotPass $Plan2 1 "pass 2 (120)"

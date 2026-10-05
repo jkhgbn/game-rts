@@ -11,16 +11,16 @@ th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;white-space:n
 td.good{background:var(--good)}td.pass{background:var(--pass)}td.bad{background:var(--bad)}
 </style></head><body>
 <h1>Map gate thornwater (hard)</h1>
-<p>12 matches (0 failed). Commit: main@c8dda2d7ad. difficulty hard, style balanced, sim full, tick 60, limit 30:00, early on (12).</p>
+<p>43 matches (0 failed). Commit: main@c8dda2d7ad, main@f36635d463. difficulty hard, style balanced, sim full, tick 60, limit 30:00, early on (43).</p>
 <p>Targets (rush-balance.md 8): win 45-55 % [ok] (pass band [near]: pairs 33-67 %, kingdoms 43-57 %; else [OUT]), median length 15:00-20:00 [ok] (per pair 13:30-21:30 [near]), no winner at 24:00 &lt;= 10 %, mirrors 40-60 % player side. Small N: read the counts.</p>
 <h2>Win % matrix (row kingdom vs column kingdom, both side orders)</h2>
 <p>Cell: row win % (wins-games). Diagonal: mirror, player-side win %.</p>
 <div class="wrap"><table>
 <tr><th></th><th>Fire</th><th>Shadow</th><th>Ice</th><th>Nature</th></tr>
-<tr><td><b>Fire</b></td><td class="bad">0 % (0-3)</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td><b>Shadow</b></td><td>-</td><td class="bad">33 % (1-3)</td><td>-</td><td>-</td></tr>
-<tr><td><b>Ice</b></td><td>-</td><td>-</td><td class="bad">67 % (2-3)</td><td>-</td></tr>
-<tr><td><b>Nature</b></td><td>-</td><td>-</td><td>-</td><td class="bad">0 % (0-3)</td></tr>
+<tr><td><b>Fire</b></td><td class="bad">25 % (3-12)</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><b>Shadow</b></td><td>-</td><td class="bad">36 % (4-11)</td><td>-</td><td>-</td></tr>
+<tr><td><b>Ice</b></td><td>-</td><td>-</td><td class="bad">30 % (3-10)</td><td>-</td></tr>
+<tr><td><b>Nature</b></td><td>-</td><td>-</td><td>-</td><td class="bad">30 % (3-10)</td></tr>
 </table></div>
 <h2>Per kingdom (non-mirror games)</h2>
 <div class="wrap"><table>
@@ -31,50 +31,82 @@ td.good{background:var(--good)}td.pass{background:var(--pass)}td.bad{background:
 <tr><td>Nature</td><td>-</td><td>0-0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
 </table></div>
 <h2>Match length</h2>
-<p>Overall: median <b>13:44</b> [OUT], p90 18:22, min 10:13, max 26:50 (n = 12).</p>
+<p>Overall: median <b>13:23</b> [OUT], p90 23:17, min 10:13, max 30:00 (n = 43).</p>
 <div class="wrap"><table>
 <tr><th>Pair (unordered)</th><th>Games</th><th>Median</th><th>p90</th><th>Pair win %</th></tr>
-<tr><td>Fire vs Fire</td><td>3</td><td class="bad">11:45</td><td>15:43</td><td>player side 0 %</td></tr>
-<tr><td>Shadow vs Shadow</td><td>3</td><td class="bad">12:25</td><td>23:57</td><td>player side 33 %</td></tr>
-<tr><td>Ice vs Ice</td><td>3</td><td class="good">15:02</td><td>17:48</td><td>player side 67 %</td></tr>
-<tr><td>Nature vs Nature</td><td>3</td><td class="good">16:13</td><td>17:08</td><td>player side 0 %</td></tr>
+<tr><td>Fire vs Fire</td><td>12</td><td class="bad">12:20</td><td>21:50</td><td>player side 25 %</td></tr>
+<tr><td>Shadow vs Shadow</td><td>11</td><td class="bad">11:51</td><td>20:02</td><td>player side 36 %</td></tr>
+<tr><td>Ice vs Ice</td><td>10</td><td class="pass">13:47</td><td>16:55</td><td>player side 30 %</td></tr>
+<tr><td>Nature vs Nature</td><td>10</td><td class="good">15:54</td><td>25:35</td><td>player side 30 %</td></tr>
 </table></div>
 <h2>How matches ended</h2>
 <div class="wrap"><table>
 <tr><th>Reason</th><th>Matches</th><th>Share</th></tr>
-<tr><td>concede</td><td>9</td><td>75 %</td></tr>
-<tr><td>early-score</td><td>3</td><td>25 %</td></tr>
+<tr><td>concede</td><td>36</td><td>84 %</td></tr>
+<tr><td>early-score</td><td>6</td><td>14 %</td></tr>
+<tr><td>time-score</td><td>1</td><td>2 %</td></tr>
 </table></div>
-<p>No real winner (kill / concede) by 24:00: <b>33 %</b> (4 of 12) [OUT]. Early-score and time-score ends count here.</p>
+<p>No real winner (kill / concede) by 24:00: <b>23 %</b> (10 of 43) [OUT]. Early-score and time-score ends count here.</p>
 <h2>Stalls</h2>
 <div class="wrap"><table>
 <tr><th>Flag</th><th>Matches</th></tr>
-<tr><td>player_no_workers</td><td>2</td></tr>
-<tr><td>enemy_no_workers</td><td>1</td></tr>
+<tr><td>player_no_workers</td><td>5</td></tr>
+<tr><td>enemy_no_workers</td><td>4</td></tr>
 </table></div>
 <h2>Speed</h2>
-<p>Median sim speed x2.9 (game seconds per real second, one process). Sum of match real time 64:37 for 179:42 of game time; average 323 s per match.</p>
-<p>CPU time 49:44 in total: 332 CPU s per 20 game minutes (the cost on a free core).</p>
-<p>Batch wall clock 18:42 with 4 in parallel: <b>39 matches per hour</b>.</p>
+<p>Median sim speed x3.1 (game seconds per real second, one process). Sum of match real time 222:01 for 647:22 of game time; average 310 s per match.</p>
+<p>CPU time 180:40 in total: 335 CPU s per 20 game minutes (the cost on a free core).</p>
+<p>Batch wall clock 31:31 with 4 in parallel: <b>82 matches per hour</b>.</p>
 <h2>Start-up (medians, real s; same machine load as the batch)</h2>
-<p>Load 2.2 s, level build 0.0 s, first navmesh bake 5.2 s, whole start-up 7.5 s, whole match 286 s (n = 12).</p>
-<p>Navmesh cache: the first bake is only 1.8 % of a match (5.2 s): not worth a main.gd hook.</p>
+<p>Load 2.2 s, level build 0.0 s, first navmesh bake 5.2 s, whole start-up 7.7 s, whole match 270 s (n = 43).</p>
+<p>Navmesh cache: the first bake is only 1.9 % of a match (5.2 s): not worth a main.gd hook.</p>
 <h2>Next steps</h2>
-<p>- 3 of 12 matches left a side with no worker for over a minute: the bots don't rebuild workers (ai-coder handoff, ai.md) - fix before tuning stats.</p>
+<p>Nothing flagged by this batch.</p>
 <h2>Matches</h2>
 <div class="wrap"><table>
 <tr><th>Pair</th><th>Seed</th><th>Winner</th><th>Reason</th><th>Time</th><th>Score (P-E)</th><th>Peak army (P-E)</th><th>Workers peak (P-E)</th><th>Stall flags</th><th>Real s</th></tr>
 <tr><td>fire:fire</td><td>1</td><td>Fire</td><td>concede</td><td>11:44</td><td>9928-9181</td><td>10-11</td><td>9-9</td><td></td><td>222</td></tr>
 <tr><td>fire:fire</td><td>2</td><td>Fire</td><td>concede</td><td>11:25</td><td>8016-9121</td><td>10-12</td><td>9-9</td><td></td><td>253</td></tr>
 <tr><td>fire:fire</td><td>3</td><td>Fire</td><td>early-score</td><td>16:43</td><td>11632-20981</td><td>7-12</td><td>9-11</td><td></td><td>362</td></tr>
+<tr><td>fire:fire</td><td>4</td><td>Fire</td><td>concede</td><td>12:40</td><td>12031-10966</td><td>13-9</td><td>9-9</td><td></td><td>242</td></tr>
+<tr><td>fire:fire</td><td>5</td><td>Fire</td><td>concede</td><td>10:31</td><td>8338-7881</td><td>7-8</td><td>8-9</td><td></td><td>185</td></tr>
+<tr><td>fire:fire</td><td>6</td><td>Fire</td><td>concede</td><td>10:27</td><td>9901-7306</td><td>9-10</td><td>8-9</td><td></td><td>190</td></tr>
+<tr><td>fire:fire</td><td>6</td><td>Fire</td><td>early-score</td><td>14:45</td><td>7880-13114</td><td>8-12</td><td>9-9</td><td></td><td>270</td></tr>
+<tr><td>fire:fire</td><td>7</td><td>Fire</td><td>concede</td><td>10:24</td><td>10321-7398</td><td>12-9</td><td>9-9</td><td></td><td>190</td></tr>
+<tr><td>fire:fire</td><td>7</td><td>Fire</td><td>concede</td><td>12:48</td><td>9012-13037</td><td>10-9</td><td>9-9</td><td></td><td>248</td></tr>
+<tr><td>fire:fire</td><td>8</td><td>Fire</td><td>concede</td><td>22:24</td><td>23485-26053</td><td>18-8</td><td>12-12</td><td>player_no_workers</td><td>451</td></tr>
+<tr><td>fire:fire</td><td>9</td><td>Fire</td><td>concede</td><td>11:58</td><td>8799-8318</td><td>6-9</td><td>6-9</td><td></td><td>218</td></tr>
+<tr><td>fire:fire</td><td>10</td><td>Fire</td><td>concede</td><td>26:38</td><td>29951-29473</td><td>9-17</td><td>12-12</td><td>enemy_no_workers</td><td>526</td></tr>
 <tr><td>ice:ice</td><td>1</td><td>Ice</td><td>early-score</td><td>15:02</td><td>15265-8624</td><td>15-9</td><td>12-9</td><td></td><td>320</td></tr>
 <tr><td>ice:ice</td><td>2</td><td>Ice</td><td>early-score</td><td>18:29</td><td>21392-14095</td><td>9-9</td><td>9-9</td><td></td><td>421</td></tr>
 <tr><td>ice:ice</td><td>3</td><td>Ice</td><td>concede</td><td>12:20</td><td>8707-11583</td><td>8-9</td><td>9-10</td><td></td><td>233</td></tr>
+<tr><td>ice:ice</td><td>4</td><td>Ice</td><td>early-score</td><td>11:41</td><td>7068-13149</td><td>6-20</td><td>9-9</td><td></td><td>227</td></tr>
+<tr><td>ice:ice</td><td>5</td><td>Ice</td><td>concede</td><td>14:11</td><td>10775-16442</td><td>9-13</td><td>9-9</td><td></td><td>273</td></tr>
+<tr><td>ice:ice</td><td>6</td><td>Ice</td><td>concede</td><td>16:44</td><td>12060-19716</td><td>9-11</td><td>9-9</td><td></td><td>332</td></tr>
+<tr><td>ice:ice</td><td>7</td><td>Ice</td><td>concede</td><td>13:22</td><td>10931-11016</td><td>12-9</td><td>12-9</td><td>enemy_no_workers</td><td>240</td></tr>
+<tr><td>ice:ice</td><td>8</td><td>Ice</td><td>concede</td><td>14:33</td><td>11482-17323</td><td>12-17</td><td>9-12</td><td></td><td>299</td></tr>
+<tr><td>ice:ice</td><td>9</td><td>Ice</td><td>concede</td><td>10:52</td><td>6313-10445</td><td>9-14</td><td>8-9</td><td></td><td>204</td></tr>
+<tr><td>ice:ice</td><td>10</td><td>Ice</td><td>concede</td><td>11:57</td><td>8764-8580</td><td>10-7</td><td>9-9</td><td>player_no_workers</td><td>218</td></tr>
 <tr><td>nature:nature</td><td>1</td><td>Nature</td><td>concede</td><td>10:12</td><td>6560-14816</td><td>8-17</td><td>9-9</td><td></td><td>242</td></tr>
 <tr><td>nature:nature</td><td>2</td><td>Nature</td><td>concede</td><td>17:21</td><td>18332-22809</td><td>22-15</td><td>9-12</td><td>player_no_workers</td><td>472</td></tr>
 <tr><td>nature:nature</td><td>3</td><td>Nature</td><td>concede</td><td>16:12</td><td>17947-15262</td><td>14-13</td><td>11-9</td><td></td><td>326</td></tr>
+<tr><td>nature:nature</td><td>4</td><td>Nature</td><td>concede</td><td>25:05</td><td>26214-21541</td><td>17-10</td><td>12-9</td><td></td><td>594</td></tr>
+<tr><td>nature:nature</td><td>5</td><td>Nature</td><td>concede</td><td>13:40</td><td>16283-16157</td><td>15-15</td><td>9-9</td><td></td><td>328</td></tr>
+<tr><td>nature:nature</td><td>6</td><td>Nature</td><td>concede</td><td>12:17</td><td>10949-13247</td><td>13-15</td><td>9-9</td><td></td><td>284</td></tr>
+<tr><td>nature:nature</td><td>7</td><td>Nature</td><td>concede</td><td>15:34</td><td>15536-17784</td><td>10-14</td><td>12-9</td><td></td><td>350</td></tr>
+<tr><td>nature:nature</td><td>8</td><td>Nature</td><td>concede</td><td>13:52</td><td>12555-17933</td><td>10-18</td><td>11-9</td><td></td><td>339</td></tr>
+<tr><td>nature:nature</td><td>9</td><td>Nature</td><td>concede</td><td>23:30</td><td>25872-24713</td><td>21-19</td><td>9-9</td><td>player_no_workers</td><td>556</td></tr>
+<tr><td>nature:nature</td><td>10</td><td>Nature</td><td>time-score</td><td>30:00</td><td>33920-28830</td><td>18-12</td><td>9-12</td><td></td><td>552</td></tr>
 <tr><td>shadow:shadow</td><td>1</td><td>Shadow</td><td>concede</td><td>12:24</td><td>10282-14732</td><td>10-17</td><td>9-9</td><td>player_no_workers</td><td>248</td></tr>
 <tr><td>shadow:shadow</td><td>2</td><td>Shadow</td><td>concede</td><td>10:54</td><td>12733-10408</td><td>11-12</td><td>9-9</td><td>enemy_no_workers</td><td>252</td></tr>
 <tr><td>shadow:shadow</td><td>3</td><td>Shadow</td><td>concede</td><td>26:49</td><td>24672-33444</td><td>11-12</td><td>9-9</td><td></td><td>527</td></tr>
+<tr><td>shadow:shadow</td><td>4</td><td>Shadow</td><td>concede</td><td>20:01</td><td>22735-20682</td><td>14-7</td><td>12-9</td><td>enemy_no_workers</td><td>425</td></tr>
+<tr><td>shadow:shadow</td><td>5</td><td>Shadow</td><td>concede</td><td>10:40</td><td>10267-8700</td><td>6-11</td><td>9-9</td><td></td><td>192</td></tr>
+<tr><td>shadow:shadow</td><td>6</td><td>Shadow</td><td>concede</td><td>10:56</td><td>8163-11078</td><td>7-18</td><td>9-9</td><td></td><td>212</td></tr>
+<tr><td>shadow:shadow</td><td>6</td><td>Shadow</td><td>concede</td><td>14:53</td><td>15301-19207</td><td>10-12</td><td>9-12</td><td></td><td>305</td></tr>
+<tr><td>shadow:shadow</td><td>7</td><td>Shadow</td><td>concede</td><td>11:50</td><td>12420-7828</td><td>9-9</td><td>12-10</td><td></td><td>221</td></tr>
+<tr><td>shadow:shadow</td><td>8</td><td>Shadow</td><td>early-score</td><td>11:01</td><td>12943-7523</td><td>16-7</td><td>9-7</td><td></td><td>199</td></tr>
+<tr><td>shadow:shadow</td><td>9</td><td>Shadow</td><td>concede</td><td>11:24</td><td>11128-12308</td><td>9-15</td><td>9-9</td><td></td><td>230</td></tr>
+<tr><td>shadow:shadow</td><td>10</td><td>Shadow</td><td>concede</td><td>16:41</td><td>17218-15980</td><td>18-11</td><td>9-9</td><td></td><td>344</td></tr>
 </table></div>
 </body></html>

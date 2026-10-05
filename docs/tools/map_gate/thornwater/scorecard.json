@@ -34,116 +34,116 @@
 			"id": "G5",
 			"name": "Bot fairness",
 			"status": "FAIL",
-			"value": "40 games (40 decided): easy 8 / 12 = 67 %; normal 5 / 16 = 31 %; hard 3 / 12 = 25 % | easy seat rate 67 %, normal seat rate 31 %, hard seat rate 25 %",
+			"value": "123 games (123 decided): easy 20 / 40 = 50 %; normal 15 / 40 = 38 %; hard 13 / 43 = 30 % | normal seat rate 38 %, hard seat rate 30 %, cell easy ice 80 %, cell easy nature 30 %, cell normal fire 10 %, cell hard fire 25 %, cell hard nature 30 %, cell hard ice 30 %",
 			"rule": "seat win rate 45-55 % per difficulty, no cell > 65 % (>= 8 games), 0 script errors, every game ends"
 		},
 		{
 			"id": "G6",
 			"name": "Performance",
 			"status": "PASS",
-			"value": "skirmish.gd: 8.29 ms/frame, 100 arrived, 0 stuck (MapInfo 120 x 120); layout_level.gd: 8.16 ms/frame, 100 arrived, 0 stuck (MapInfo 120 x 120); note: 8.16 ms/frame is over perf_test.gd's 8.0 ms main.tscn budget (the full skirmish costs more; the gate is the live reference)",
+			"value": "skirmish.gd: 8.25 ms/frame, 100 arrived, 0 stuck (MapInfo 120 x 120); layout_level.gd: 8.03 ms/frame, 100 arrived, 0 stuck (MapInfo 120 x 120); note: 8.03 ms/frame is over perf_test.gd's 8.0 ms main.tscn budget (the full skirmish costs more; the gate is the live reference)",
 			"rule": "frame time within live Crown Hollow's (+15 % + 0.5 ms), no stuck unit"
 		},
 		{
 			"id": "G7",
 			"name": "Load (info)",
 			"status": "INFO",
-			"value": "startup 8.3 s, bake 6.1 s (Bot Lab medians, sim mode, headless)",
+			"value": "startup 7.3 s, bake 5.2 s (Bot Lab medians, sim mode, headless)",
 			"rule": "first bake <= 5 s, load to playable <= 10 s (desktop, windowed: lead check)"
 		}
 	],
 	"second_pass": false,
 	"bots": {
-		"games": 40,
-		"decided": 40,
-		"ended": 40,
+		"games": 123,
+		"decided": 123,
+		"ended": 123,
 		"errors": 0,
 		"script_errors": 0,
 		"by_diff": {
 			"easy": {
-				"games": 12,
-				"seat1": 8,
-				"rate": 0.666666666666667
+				"games": 40,
+				"seat1": 20,
+				"rate": 0.5
 			},
 			"normal": {
-				"games": 16,
-				"seat1": 5,
-				"rate": 0.3125
+				"games": 40,
+				"seat1": 15,
+				"rate": 0.375
 			},
 			"hard": {
-				"games": 12,
-				"seat1": 3,
-				"rate": 0.25
+				"games": 43,
+				"seat1": 13,
+				"rate": 0.302325581395349
 			}
 		},
 		"cells": {
 			"easy fire": {
-				"games": 3,
-				"seat1": 3,
-				"rate": 1.0
+				"games": 10,
+				"seat1": 4,
+				"rate": 0.4
 			},
 			"easy shadow": {
-				"games": 3,
-				"seat1": 2,
-				"rate": 0.666666666666667
-			},
-			"easy ice": {
-				"games": 3,
-				"seat1": 3,
-				"rate": 1.0
-			},
-			"easy nature": {
-				"games": 3,
-				"seat1": 0,
-				"rate": 0.0
-			},
-			"normal ice": {
-				"games": 4,
-				"seat1": 1,
-				"rate": 0.25
-			},
-			"normal shadow": {
-				"games": 4,
-				"seat1": 1,
-				"rate": 0.25
-			},
-			"normal fire": {
-				"games": 4,
-				"seat1": 1,
-				"rate": 0.25
-			},
-			"normal nature": {
-				"games": 4,
-				"seat1": 2,
+				"games": 10,
+				"seat1": 5,
 				"rate": 0.5
 			},
+			"easy ice": {
+				"games": 10,
+				"seat1": 8,
+				"rate": 0.8
+			},
+			"easy nature": {
+				"games": 10,
+				"seat1": 3,
+				"rate": 0.3
+			},
+			"normal ice": {
+				"games": 10,
+				"seat1": 5,
+				"rate": 0.5
+			},
+			"normal shadow": {
+				"games": 10,
+				"seat1": 5,
+				"rate": 0.5
+			},
+			"normal fire": {
+				"games": 10,
+				"seat1": 1,
+				"rate": 0.1
+			},
+			"normal nature": {
+				"games": 10,
+				"seat1": 4,
+				"rate": 0.4
+			},
 			"hard fire": {
-				"games": 3,
-				"seat1": 0,
-				"rate": 0.0
+				"games": 12,
+				"seat1": 3,
+				"rate": 0.25
 			},
 			"hard nature": {
-				"games": 3,
-				"seat1": 0,
-				"rate": 0.0
+				"games": 10,
+				"seat1": 3,
+				"rate": 0.3
 			},
 			"hard shadow": {
-				"games": 3,
-				"seat1": 1,
-				"rate": 0.333333333333333
+				"games": 11,
+				"seat1": 4,
+				"rate": 0.363636363636364
 			},
 			"hard ice": {
-				"games": 3,
-				"seat1": 2,
-				"rate": 0.666666666666667
+				"games": 10,
+				"seat1": 3,
+				"rate": 0.3
 			}
 		},
-		"startup_s": 8.3,
-		"bake_s": 6.08,
+		"startup_s": 7.34,
+		"bake_s": 5.16,
 		"reasons": {
-			"time-score": 10,
-			"concede": 25,
-			"early-score": 5
+			"time-score": 37,
+			"concede": 77,
+			"early-score": 9
 		}
 	},
 	"summary": "G5 FAIL",

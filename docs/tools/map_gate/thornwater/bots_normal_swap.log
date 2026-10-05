@@ -1,0 +1,21 @@
+﻿Bot Lab: 16 matches (4 pairs x 4 seeds, sim on, tick 60), 4 in parallel, normal / balanced, limit 1800 s, early on
+Expected wall time: ~20 min on a quiet PC, up to ~2.4 h while other agents run Godot (rough model, lab_eta.ps1).
+Dir C:\Users\elzzo\Documents\four-wizards-rts (main@f36635d463) -> C:\Users\elzzo\Documents\four-wizards-rts\docs\tools\map_gate\thornwater\bots\normal_swap
+[1/16] fire:fire seed 7: fire early-score 12:20 (152.8 s)
+[2/16] shadow:shadow seed 7: shadow concede 17:04 (243.6 s)
+[3/16] ice:ice seed 7: ice concede 20:30 (313.8 s)
+[4/16] fire:fire seed 8: fire concede 11:49 (173.9 s)
+[5/16] nature:nature seed 7: nature time-score 30:00 (571 s)
+[6/16] nature:nature seed 8: nature early-score 11:01 (255.6 s)
+[7/16] ice:ice seed 8: ice concede 15:13 (305.7 s)
+[8/16] shadow:shadow seed 8: shadow concede 18:20 (377 s)
+[9/16] shadow:shadow seed 9: shadow concede 11:20 (220.2 s)
+[10/16] fire:fire seed 9: fire concede 14:34 (282.4 s)
+[11/16] nature:nature seed 9: nature concede 12:40 (272.1 s)
+[12/16] ice:ice seed 9: ice concede 16:17 (342.4 s)
+[13/16] shadow:shadow seed 10: shadow concede 14:41 (290.9 s)
+[14/16] fire:fire seed 10: fire concede 20:00 (412.1 s)
+[15/16] nature:nature seed 10: nature concede 19:06 (434.3 s)
+[16/16] ice:ice seed 10: ice concede 27:53 (520.9 s)
+Done: 16 ok, 0 failed, wall 1414 s, 40.7 matches per hour
+Report: C:\Users\elzzo\Documents\four-wizards-rts\docs\tools\map_gate\thornwater\bots\normal_swap\report.md  /  C:\Users\elzzo\Documents\four-wizards-rts\docs\tools\map_gate\thornwater\bots\normal_swap\report.html

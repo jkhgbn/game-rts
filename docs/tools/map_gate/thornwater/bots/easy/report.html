@@ -11,16 +11,16 @@ th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;white-space:n
 td.good{background:var(--good)}td.pass{background:var(--pass)}td.bad{background:var(--bad)}
 </style></head><body>
 <h1>Map gate thornwater (easy)</h1>
-<p>12 matches (0 failed). Commit: main@2d77698292. difficulty easy, style balanced, sim full, tick 60, limit 30:00, early on (12).</p>
+<p>40 matches (0 failed). Commit: main@2d77698292, main@f36635d463. difficulty easy, style balanced, sim full, tick 60, limit 30:00, early on (40).</p>
 <p>Targets (rush-balance.md 8): win 45-55 % [ok] (pass band [near]: pairs 33-67 %, kingdoms 43-57 %; else [OUT]), median length 15:00-20:00 [ok] (per pair 13:30-21:30 [near]), no winner at 24:00 &lt;= 10 %, mirrors 40-60 % player side. Small N: read the counts.</p>
 <h2>Win % matrix (row kingdom vs column kingdom, both side orders)</h2>
 <p>Cell: row win % (wins-games). Diagonal: mirror, player-side win %.</p>
 <div class="wrap"><table>
 <tr><th></th><th>Fire</th><th>Shadow</th><th>Ice</th><th>Nature</th></tr>
-<tr><td><b>Fire</b></td><td class="bad">100 % (3-3)</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td><b>Shadow</b></td><td>-</td><td class="bad">67 % (2-3)</td><td>-</td><td>-</td></tr>
-<tr><td><b>Ice</b></td><td>-</td><td>-</td><td class="bad">100 % (3-3)</td><td>-</td></tr>
-<tr><td><b>Nature</b></td><td>-</td><td>-</td><td>-</td><td class="bad">0 % (0-3)</td></tr>
+<tr><td><b>Fire</b></td><td class="pass">40 % (4-10)</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><b>Shadow</b></td><td>-</td><td class="good">50 % (5-10)</td><td>-</td><td>-</td></tr>
+<tr><td><b>Ice</b></td><td>-</td><td>-</td><td class="bad">80 % (8-10)</td><td>-</td></tr>
+<tr><td><b>Nature</b></td><td>-</td><td>-</td><td>-</td><td class="bad">30 % (3-10)</td></tr>
 </table></div>
 <h2>Per kingdom (non-mirror games)</h2>
 <div class="wrap"><table>
@@ -31,30 +31,30 @@ td.good{background:var(--good)}td.pass{background:var(--pass)}td.bad{background:
 <tr><td>Nature</td><td>-</td><td>0-0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
 </table></div>
 <h2>Match length</h2>
-<p>Overall: median <b>30:00</b> [OUT], p90 30:00, min 20:39, max 30:00 (n = 12).</p>
+<p>Overall: median <b>30:00</b> [OUT], p90 30:00, min 18:32, max 30:00 (n = 40).</p>
 <div class="wrap"><table>
 <tr><th>Pair (unordered)</th><th>Games</th><th>Median</th><th>p90</th><th>Pair win %</th></tr>
-<tr><td>Fire vs Fire</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 100 %</td></tr>
-<tr><td>Shadow vs Shadow</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 67 %</td></tr>
-<tr><td>Ice vs Ice</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 100 %</td></tr>
-<tr><td>Nature vs Nature</td><td>3</td><td class="bad">30:00</td><td>30:00</td><td>player side 0 %</td></tr>
+<tr><td>Fire vs Fire</td><td>10</td><td class="bad">30:00</td><td>30:00</td><td>player side 40 %</td></tr>
+<tr><td>Shadow vs Shadow</td><td>10</td><td class="bad">30:00</td><td>30:00</td><td>player side 50 %</td></tr>
+<tr><td>Ice vs Ice</td><td>10</td><td class="bad">30:00</td><td>30:00</td><td>player side 80 %</td></tr>
+<tr><td>Nature vs Nature</td><td>10</td><td class="bad">30:00</td><td>30:00</td><td>player side 30 %</td></tr>
 </table></div>
 <h2>How matches ended</h2>
 <div class="wrap"><table>
 <tr><th>Reason</th><th>Matches</th><th>Share</th></tr>
-<tr><td>concede</td><td>2</td><td>17 %</td></tr>
-<tr><td>time-score</td><td>10</td><td>83 %</td></tr>
+<tr><td>concede</td><td>6</td><td>15 %</td></tr>
+<tr><td>time-score</td><td>34</td><td>85 %</td></tr>
 </table></div>
-<p>No real winner (kill / concede) by 24:00: <b>92 %</b> (11 of 12) [OUT]. Early-score and time-score ends count here.</p>
+<p>No real winner (kill / concede) by 24:00: <b>90 %</b> (36 of 40) [OUT]. Early-score and time-score ends count here.</p>
 <h2>Stalls</h2>
 <p>No stall flag raised.</p>
 <h2>Speed</h2>
-<p>Median sim speed x1.6 (game seconds per real second, one process). Sum of match real time 187:13 for 347:41 of game time; average 936 s per match.</p>
-<p>CPU time 106:42 in total: 368 CPU s per 20 game minutes (the cost on a free core).</p>
-<p>Batch wall clock 83:33 with 4 in parallel: <b>9 matches per hour</b>.</p>
+<p>Median sim speed x3.3 (game seconds per real second, one process). Sum of match real time 427:48 for 1152:17 of game time; average 642 s per match.</p>
+<p>CPU time 313:12 in total: 326 CPU s per 20 game minutes (the cost on a free core).</p>
+<p>Batch wall clock 64:14 with 4 in parallel: <b>37 matches per hour</b>.</p>
 <h2>Start-up (medians, real s; same machine load as the batch)</h2>
-<p>Load 10.6 s, level build 0.0 s, first navmesh bake 19.9 s, whole start-up 31.6 s, whole match 1089 s (n = 12).</p>
-<p>Navmesh cache: the first bake is only 1.8 % of a match (19.9 s): not worth a main.gd hook.</p>
+<p>Load 2.2 s, level build 0.0 s, first navmesh bake 5.7 s, whole start-up 7.9 s, whole match 544 s (n = 40).</p>
+<p>Navmesh cache: the first bake is only 1.0 % of a match (5.7 s): not worth a main.gd hook.</p>
 <h2>Next steps</h2>
 <p>Nothing flagged by this batch.</p>
 <h2>Matches</h2>
@@ -63,14 +63,42 @@ td.good{background:var(--good)}td.pass{background:var(--pass)}td.bad{background:
 <tr><td>fire:fire</td><td>1</td><td>Fire</td><td>time-score</td><td>30:00</td><td>14569-14403</td><td>14-16</td><td>6-6</td><td></td><td>439</td></tr>
 <tr><td>fire:fire</td><td>2</td><td>Fire</td><td>time-score</td><td>30:00</td><td>14799-13454</td><td>14-14</td><td>6-6</td><td></td><td>1293</td></tr>
 <tr><td>fire:fire</td><td>3</td><td>Fire</td><td>concede</td><td>27:01</td><td>14434-12722</td><td>16-18</td><td>6-6</td><td></td><td>1013</td></tr>
+<tr><td>fire:fire</td><td>4</td><td>Fire</td><td>time-score</td><td>30:00</td><td>12587-13665</td><td>14-14</td><td>6-6</td><td></td><td>435</td></tr>
+<tr><td>fire:fire</td><td>5</td><td>Fire</td><td>time-score</td><td>30:00</td><td>14420-14263</td><td>15-14</td><td>6-6</td><td></td><td>529</td></tr>
+<tr><td>fire:fire</td><td>6</td><td>Fire</td><td>concede</td><td>27:21</td><td>13348-12865</td><td>15-15</td><td>6-6</td><td></td><td>471</td></tr>
+<tr><td>fire:fire</td><td>7</td><td>Fire</td><td>time-score</td><td>30:00</td><td>13097-13206</td><td>13-16</td><td>6-6</td><td></td><td>568</td></tr>
+<tr><td>fire:fire</td><td>8</td><td>Fire</td><td>time-score</td><td>30:00</td><td>13395-13874</td><td>14-14</td><td>6-6</td><td></td><td>549</td></tr>
+<tr><td>fire:fire</td><td>9</td><td>Fire</td><td>time-score</td><td>30:00</td><td>13542-14110</td><td>14-14</td><td>6-6</td><td></td><td>551</td></tr>
+<tr><td>fire:fire</td><td>10</td><td>Fire</td><td>time-score</td><td>30:00</td><td>13194-13832</td><td>13-14</td><td>6-6</td><td></td><td>528</td></tr>
 <tr><td>ice:ice</td><td>1</td><td>Ice</td><td>time-score</td><td>30:00</td><td>13959-13547</td><td>15-15</td><td>6-6</td><td></td><td>462</td></tr>
 <tr><td>ice:ice</td><td>2</td><td>Ice</td><td>time-score</td><td>30:00</td><td>15375-13213</td><td>17-14</td><td>6-6</td><td></td><td>1251</td></tr>
 <tr><td>ice:ice</td><td>3</td><td>Ice</td><td>time-score</td><td>30:00</td><td>14489-13870</td><td>15-17</td><td>6-6</td><td></td><td>1131</td></tr>
+<tr><td>ice:ice</td><td>4</td><td>Ice</td><td>time-score</td><td>30:00</td><td>16064-13618</td><td>17-15</td><td>6-6</td><td></td><td>468</td></tr>
+<tr><td>ice:ice</td><td>5</td><td>Ice</td><td>time-score</td><td>30:00</td><td>13671-14453</td><td>15-18</td><td>6-6</td><td></td><td>545</td></tr>
+<tr><td>ice:ice</td><td>6</td><td>Ice</td><td>concede</td><td>18:31</td><td>13315-12386</td><td>15-17</td><td>6-6</td><td></td><td>337</td></tr>
+<tr><td>ice:ice</td><td>7</td><td>Ice</td><td>time-score</td><td>30:00</td><td>14985-12184</td><td>15-19</td><td>6-6</td><td></td><td>527</td></tr>
+<tr><td>ice:ice</td><td>8</td><td>Ice</td><td>concede</td><td>19:21</td><td>13476-11702</td><td>15-18</td><td>6-6</td><td></td><td>356</td></tr>
+<tr><td>ice:ice</td><td>9</td><td>Ice</td><td>time-score</td><td>30:00</td><td>13985-13830</td><td>15-15</td><td>6-6</td><td></td><td>564</td></tr>
+<tr><td>ice:ice</td><td>10</td><td>Ice</td><td>time-score</td><td>30:00</td><td>14069-13373</td><td>15-16</td><td>6-6</td><td></td><td>519</td></tr>
 <tr><td>nature:nature</td><td>1</td><td>Nature</td><td>time-score</td><td>30:00</td><td>13976-14802</td><td>17-24</td><td>6-6</td><td></td><td>495</td></tr>
 <tr><td>nature:nature</td><td>2</td><td>Nature</td><td>concede</td><td>20:38</td><td>13250-13841</td><td>19-21</td><td>6-6</td><td></td><td>1046</td></tr>
 <tr><td>nature:nature</td><td>3</td><td>Nature</td><td>time-score</td><td>30:00</td><td>13466-14722</td><td>13-17</td><td>6-6</td><td></td><td>1181</td></tr>
+<tr><td>nature:nature</td><td>4</td><td>Nature</td><td>time-score</td><td>30:00</td><td>14194-13295</td><td>27-24</td><td>6-6</td><td></td><td>540</td></tr>
+<tr><td>nature:nature</td><td>5</td><td>Nature</td><td>time-score</td><td>30:00</td><td>15136-14016</td><td>17-19</td><td>6-6</td><td></td><td>622</td></tr>
+<tr><td>nature:nature</td><td>6</td><td>Nature</td><td>time-score</td><td>30:00</td><td>12514-15205</td><td>23-20</td><td>6-6</td><td></td><td>567</td></tr>
+<tr><td>nature:nature</td><td>7</td><td>Nature</td><td>time-score</td><td>30:00</td><td>13610-15749</td><td>14-21</td><td>6-6</td><td></td><td>603</td></tr>
+<tr><td>nature:nature</td><td>8</td><td>Nature</td><td>time-score</td><td>30:00</td><td>13348-13959</td><td>17-16</td><td>6-6</td><td></td><td>578</td></tr>
+<tr><td>nature:nature</td><td>9</td><td>Nature</td><td>time-score</td><td>30:00</td><td>14952-14479</td><td>13-18</td><td>6-6</td><td></td><td>595</td></tr>
+<tr><td>nature:nature</td><td>10</td><td>Nature</td><td>time-score</td><td>30:00</td><td>13364-14831</td><td>17-19</td><td>6-6</td><td></td><td>513</td></tr>
 <tr><td>shadow:shadow</td><td>1</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>14145-13845</td><td>15-14</td><td>6-6</td><td></td><td>459</td></tr>
 <tr><td>shadow:shadow</td><td>2</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>14070-13367</td><td>18-14</td><td>6-6</td><td></td><td>1280</td></tr>
 <tr><td>shadow:shadow</td><td>3</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>13198-13376</td><td>15-16</td><td>6-6</td><td></td><td>1182</td></tr>
+<tr><td>shadow:shadow</td><td>4</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>14037-13140</td><td>16-18</td><td>6-6</td><td></td><td>454</td></tr>
+<tr><td>shadow:shadow</td><td>5</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>12621-14278</td><td>17-12</td><td>6-6</td><td></td><td>552</td></tr>
+<tr><td>shadow:shadow</td><td>6</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>12815-13484</td><td>13-21</td><td>6-6</td><td></td><td>546</td></tr>
+<tr><td>shadow:shadow</td><td>7</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>12527-12650</td><td>14-15</td><td>6-6</td><td></td><td>513</td></tr>
+<tr><td>shadow:shadow</td><td>8</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>12113-13418</td><td>14-17</td><td>6-6</td><td></td><td>543</td></tr>
+<tr><td>shadow:shadow</td><td>9</td><td>Shadow</td><td>time-score</td><td>30:00</td><td>13501-10355</td><td>18-13</td><td>6-6</td><td></td><td>525</td></tr>
+<tr><td>shadow:shadow</td><td>10</td><td>Shadow</td><td>concede</td><td>19:19</td><td>11402-11380</td><td>14-15</td><td>6-6</td><td></td><td>337</td></tr>
 </table></div>
 </body></html>

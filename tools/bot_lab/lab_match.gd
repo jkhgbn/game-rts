@@ -50,6 +50,7 @@ const KEEP_VALUE := 400
 
 var args := {}
 var main: Node
+var _swap_sides := false   ## --swap-sides applied: the PLAYER plays the layout's side-1 seat
 var bots: Array = [null, null]
 var kingdoms: Array[String] = ["fire", "shadow"]
 var seed_value := 1
@@ -146,6 +147,10 @@ func _initialize() -> void:
 		main.set(&"layout", lay)
 	if args.has("layout") and &"layout_path" in main:
 		main.set(&"layout_path", String(args["layout"]))
+	# --swap-sides (seat-bias diagnostics): the PLAYER plays the layout's side-1 seat, the ENEMY side 0
+	if _flag("swap-sides", false) and &"swap_sides" in main:
+		main.set(&"swap_sides", true)
+		_swap_sides = true
 	main.set(&"player_kingdom", StringName(kingdoms[PLAYER]))
 	main.set(&"enemy_kingdom", StringName(kingdoms[ENEMY]))
 	if &"time_limit_s" in main:
@@ -168,6 +173,10 @@ func _initialize() -> void:
 			main.add_child(b)
 			bots[team] = b
 		_setup_bot(bots[team], team)
+	# --first=player: the player-side bot sits before the scene's (enemy) bot, so it thinks first on a shared frame
+	# (seat-bias diagnostics; default: the scene's bot first).
+	if String(args.get("first", "enemy")) == "player" and bots[PLAYER] != null and bots[ENEMY] != null:
+		main.move_child(bots[PLAYER], (bots[ENEMY] as Node).get_index())
 	node_added.connect(_on_node_added)
 	_t_loaded = Time.get_ticks_usec()
 	root.add_child(main)
@@ -228,6 +237,10 @@ func _parse_args() -> void:
 	profile = _flag("profile", false)
 	out_path = String(args.get("out", ""))
 	_ablate_at = String(args.get("ablate", "-1")).to_float()
+
+
+func _swapped() -> bool:
+	return _swap_sides
 
 
 func _flag(key: String, default: bool) -> bool:
@@ -751,6 +764,8 @@ func _finish(reason: String, winner: int, error: String) -> bool:
 		"commit": String(args.get("commit", "")), "map": String(args.get("layout", "crown_hollow")),
 		"winner_team": winner, "winner": kingdoms[winner] if winner == PLAYER or winner == ENEMY else "none",
 		"winner_side": SIDES[winner] if winner == PLAYER or winner == ENEMY else "none",
+		# the layout seat (side 0 / 1) the winner played: the team's own side, flipped by --swap-sides (map gate G5)
+		"swap_sides": _swapped(), "winner_seat": (winner if not _swapped() else 1 - winner) if winner == PLAYER or winner == ENEMY else -1,
 		"end_reason": reason, "end_time": snappedf(t, 0.1), "end_clock": _clock(t),
 		"limit": limit, "early": early, "early_call": _early_call,
 		"stall_flags": _flags.keys(), "max_quiet_s": snappedf(_max_quiet, 1.0),

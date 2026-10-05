@@ -41,6 +41,8 @@ const RALLY_DIST := 18.4
 @export var layout_path: String = ""
 ## The layout itself (set directly by tests / tools; else loaded from layout_path).
 @export var layout: MapLayout
+## Diagnostics (map gate G5, Bot Lab --swap-sides): the PLAYER plays the layout's side-1 seat and the ENEMY side 0.
+@export var swap_sides := false
 
 var forest_plan: Dictionary = {}     ## MapForest.plan() result (read only).
 var seat_of_team := {}               ## Unit.Team -> seat dict of the layout (PLAYER, ENEMY).
@@ -123,6 +125,8 @@ func _assign_seats() -> void:
 			closed_teams.append(t)
 			continue
 		var side := int(s["side"])
+		if swap_sides:
+			side = 1 - side
 		var team: int = Unit.Team.PLAYER if side == 0 else Unit.Team.ENEMY
 		if seat_of_team.has(team):
 			closed_teams.append(t)   # one seat per side plays (a 2v2 map in a 1v1: the others are neutral land)
