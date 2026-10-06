@@ -44,7 +44,7 @@ const DESCRIPTIONS := {
 	&"cinder_arbalest": "Tier 2 crossbow. Piercing bolt: half damage to the enemy behind.",
 	&"barrow_ghoul": "Tier 1 melee. Grave Feast: heals 30 % on a kill.",
 	&"hexweaver": "Tier 2 caster. Wither Hex: the costliest enemy deals -20 % for 6 s (10 s).",
-	&"hollow_oathsworn": "Tier 2 swordsman. Unbroken Vow: under 35 % HP, shield 100 and +30 % damage (45 s).",
+	&"hollow_oathsworn": "Tier 2 swordsman. Unbroken Vow: under 35 % HP, shield 50 and +15 % damage (45 s).",
 	&"rimeling": "Tier 1. Cheap frost goblin; every hit chills 1 s.",
 	&"hoarlight_magebow": "Tier 2 mage archer, quick to train. Frost Needle: 20 + chill (8 s).",
 	&"frost_mortar": "Tier 2 siege. Frost Shell: full damage and chill in 2 m.",
@@ -70,7 +70,7 @@ const GRAVE_FEAST := {"heal_pct": 0.30}
 const WITHER_HEX := {"cd": 10.0, "range": 9.0, "time": 6.0, "attack_pct": -0.20}
 const WITHER_MOD := &"status_withered"
 const WITHER_META := &"nu12_withered_until"
-const VOW := {"cd": 45.0, "hp_pct": 0.35, "shield": 100.0, "time": 6.0, "attack_pct": 0.30}
+const VOW := {"cd": 45.0, "hp_pct": 0.35, "shield": 50.0, "time": 6.0, "attack_pct": 0.15}
 const VOW_MOD := &"ability:unbroken_vow"
 const FROST_NEEDLE := {"cd": 8.0, "range": 10.0, "damage": 20.0, "chill": 1.0}
 const FROST_SHELL := {"radius": 2.0, "chill": 1.5, "building_mult": 1.5}
@@ -291,7 +291,7 @@ static func apply_withered(target: Unit, seconds: float) -> void:
 			u.remove_modifier(WITHER_MOD))
 
 
-# Hollow Oathsworn: the first hit that leaves it under 35 % HP (every 45 s): shield 100 + attack +30 % for 6 s.
+# Hollow Oathsworn: the first hit that leaves it under 35 % HP (every 45 s): shield 50 + attack +15 % for 6 s (2026-10-06, was 100 / +30 %: Unit Lab balance pass).
 func _on_damage_taken(_amount: float, _attacker: Node3D) -> void:
 	if _cd_left > 0.0 or not unit.is_alive() or unit.hp > unit.max_hp * float(VOW["hp_pct"]):
 		return

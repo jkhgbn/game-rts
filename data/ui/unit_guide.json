@@ -292,7 +292,7 @@
 		"bramblesage": {
 			"role": "caster", "class": "Vine caster",
 			"pros": ["Snagroot drags one enemy into your army", "Pollen Haze blinds enemy ranged units", "Seedcloak hides it in pollen when hurt"],
-			"cons": ["Lowest DPS in the Nature army", "Worst HP per crystal in the Nature army"],
+			"cons": ["Lowest DPS in the Nature army", "Frail for its price"],
 			"strong_against": ["Archer armies", "Casters", "Siege"], "weak_against": ["Cavalry", "Mana Scald", "Big units"], "good_with": ["Thornling", "Greenheart Oathkeeper"]
 		},
 		"briar_roc": {

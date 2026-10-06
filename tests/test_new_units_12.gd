@@ -281,6 +281,9 @@ func _check_abilities() -> void:
 	o.take_damage(o.max_hp * 0.8, null)   # armor 10: ~190 lands, HP 70 < 35 %
 	await _frames(1)
 	_check(o.shield > 0.0 and o.has_modifier(NewUnits12.VOW_MOD), "Unbroken Vow did not fire (shield %.0f)" % o.shield)
+	# 2026-10-06 balance pass (Unit Lab): shield 100 -> 50, attack +30 % -> +15 %.
+	_check(is_equal_approx(o.shield, 50.0) and is_equal_approx(float(NewUnits12.VOW["attack_pct"]), 0.15),
+			"Unbroken Vow shield 50 / +15 %% attack (shield %.0f, attack %.2f)" % [o.shield, float(NewUnits12.VOW["attack_pct"])])
 	await _cleanup([o])
 
 	# Rimeling: every hit chills.
