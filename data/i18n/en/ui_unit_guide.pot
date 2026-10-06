@@ -164,7 +164,7 @@ msgstr ""
 #. back_button = _button(row, "Back", 140)
 #: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:749
 #: scripts/ui/menus/main_menu.gd:835 scripts/ui/menus/settings_panel.gd:105
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:82
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:115
 msgid "Back"
 msgstr ""
 

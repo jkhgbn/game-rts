@@ -31,8 +31,9 @@ msgid "Can't build on the frozen lake"
 msgstr "Pas de construction sur le lac gelé"
 
 #. u.unit_name = "Old Vey"
-#: scripts/campaign/m00_cast.gd:83 scripts/campaign/mission_e2_01.gd:150 data/units/torren_vey.tres:9
-#: data/helpers/helper_vey.tres:9
+#: scripts/campaign/m00_cast.gd:83 scripts/campaign/mission_e2_01.gd:150
+#: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_03.gd:94
+#: data/units/torren_vey.tres:9 data/helpers/helper_vey.tres:9
 msgid "Old Vey"
 msgstr "Old Vey"
 
@@ -42,7 +43,7 @@ msgid "Keystone Colossus"
 msgstr "Keystone Colossus"
 
 #. _pylon_type.display_name = "Keystone Pylon"
-#: scripts/campaign/m04_keystone.gd:142
+#: scripts/campaign/m04_keystone.gd:143
 msgid "Keystone Pylon"
 msgstr "Keystone Pylon"
 
@@ -439,7 +440,7 @@ msgstr "Le sceau tient. Allumez les trois braseros d'Emberfall."
 #. const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
 #: scripts/campaign/mission_01.gd:128 scripts/campaign/mission_02.gd:175
 #: scripts/campaign/mission_03.gd:214 scripts/campaign/mission_04.gd:134
-#: scripts/campaign/mission_e2_01.gd:200 scripts/world/main.gd:139
+#: scripts/campaign/mission_e2_01.gd:200 scripts/campaign/mission_e2_02.gd:222
 msgid "Malrik has fallen back into the shadows"
 msgstr "Malrik s'est replié dans les ombres"
 
@@ -477,7 +478,7 @@ msgid "new units"
 msgstr "de nouvelles unités"
 
 #. hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-#: scripts/campaign/mission_01.gd:651 scripts/world/skirmish.gd:1615
+#: scripts/campaign/mission_01.gd:651 scripts/world/skirmish.gd:1648
 msgid "%s wears the %s"
 msgstr "%s porte : %s"
 
@@ -1423,22 +1424,22 @@ msgid "Episode 1 complete"
 msgstr "Épisode 1 terminé"
 
 #. why = "Cinematics off"
-#: scripts/campaign/mission_base.gd:628
+#: scripts/campaign/mission_base.gd:639
 msgid "Cinematics off"
 msgstr "Cinématiques désactivées"
 
 #. why = "No cinematic %s" % id
-#: scripts/campaign/mission_base.gd:630
+#: scripts/campaign/mission_base.gd:641
 msgid "No cinematic %s"
 msgstr "Aucune cinématique %s"
 
 #. next.text = "Continue: Mission %d" % i if i >= 0 else "Continue"
-#: scripts/campaign/mission_base.gd:721
+#: scripts/campaign/mission_base.gd:732
 msgid "Continue: Mission %d"
 msgstr "Continuer : mission %d"
 
 #. next.text = "Continue: Mission %d" % i if i >= 0 else "Continue"
-#: scripts/campaign/mission_base.gd:721
+#: scripts/campaign/mission_base.gd:732
 msgid "Continue"
 msgstr "Continuer"
 
@@ -1453,7 +1454,7 @@ msgid "The keep has fallen"
 msgstr "Le donjon est tombé"
 
 #. @export var victory_banner := "VICTORY"
-#: scripts/campaign/mission_config.gd:25 scripts/world/skirmish.gd:1667
+#: scripts/campaign/mission_config.gd:25 scripts/world/skirmish.gd:1700
 msgid "VICTORY"
 msgstr "VICTOIRE"
 
@@ -1474,6 +1475,7 @@ msgstr "les ruines de Greenhold"
 
 #. const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"messenger": "Wren", &"ashby": "Captain Ashby",
 #: scripts/campaign/mission_e2_01.gd:150 scripts/campaign/mission_e2_01.gd:317
+#: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_02.gd:344
 msgid "Wren"
 msgstr "Wren"
 
@@ -1668,12 +1670,14 @@ msgid "Hold the glade. Shadow comes from the north-east, Ice from the north-west
 msgstr "Tenez la clairière. L'Ombre arrive du nord-est, la Glace du nord-ouest."
 
 #. const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s).
-#: scripts/campaign/mission_e2_01.gd:195
+#: scripts/campaign/mission_e2_01.gd:195 scripts/campaign/mission_e2_02.gd:215
+#: scripts/campaign/mission_e2_03.gd:147
 msgid "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s). It opens the Ashveil Saboteur (C) and lets you call Old Vey (V)."
 msgstr "Votre Forteresse peut devenir une Citadelle : sélectionnez le Donjon et appuyez sur X (300 cristaux, 90 s). Elle débloque l'Ashveil Saboteur (C) et permet d'appeler Old Vey (V)."
 
 #. const HINT_CALL := "Call Old Vey: select the Keep and press V. He fights on his own; his card sets where (Esco
-#: scripts/campaign/mission_e2_01.gd:196
+#: scripts/campaign/mission_e2_01.gd:196 scripts/campaign/mission_e2_02.gd:216
+#: scripts/campaign/mission_e2_03.gd:148
 msgid "Call Old Vey: select the Keep and press V. He fights on his own; his card sets where (Escort / Vanguard / Hold home)."
 msgstr "Appelez Old Vey : sélectionnez le Donjon et appuyez sur V. Il se bat seul ; sa carte décide où (Escorte / Avant-garde / Garder la base)."
 
@@ -1693,17 +1697,18 @@ msgid "The Heartwood is almost frozen"
 msgstr "Le Heartwood est presque gelé"
 
 #. const MSG_TORVALD_FELL := "Torvald has fallen, the frost will bring him back"
-#: scripts/campaign/mission_e2_01.gd:201 scripts/world/skirmish.gd:298
+#: scripts/campaign/mission_e2_01.gd:201 scripts/campaign/mission_e2_02.gd:223
+#: scripts/world/skirmish.gd:298
 msgid "Torvald has fallen, the frost will bring him back"
 msgstr "Torvald est tombé, le givre le ramènera"
 
 #. const MSG_EAVESDROP_ICE := "Eavesdrop: Ice wave in 0:30 · {units}"
-#: scripts/campaign/mission_e2_01.gd:202
+#: scripts/campaign/mission_e2_01.gd:202 scripts/campaign/mission_e2_02.gd:225
 msgid "Eavesdrop: Ice wave in 0:30 · {units}"
 msgstr "Écoute : vague de Glace dans 0:30 · {units}"
 
 #. const MSG_EAVESDROP_SHADOW := "Eavesdrop: Shadow wave in 0:30 · {units}"
-#: scripts/campaign/mission_e2_01.gd:203
+#: scripts/campaign/mission_e2_01.gd:203 scripts/campaign/mission_e2_02.gd:226
 msgid "Eavesdrop: Shadow wave in 0:30 · {units}"
 msgstr "Écoute : vague d'Ombre dans 0:30 · {units}"
 
@@ -1776,6 +1781,790 @@ msgstr "Fracassez la Frost Hall de Torvald"
 #: scripts/campaign/mission_e2_01.gd:756
 msgid "Raise a Citadel and call Old Vey"
 msgstr "Élevez une Citadelle et appelez Old Vey"
+
+#. const MISSION_TITLE := "Roots and Embers"
+#: scripts/campaign/mission_e2_02.gd:18
+msgid "Roots and Embers"
+msgstr "Racines et braises"
+
+#. const GROVES := {&"A": ["Stumpwood", Vector3(-44.0, 0.0, 14.0), 6.0], &"B": ["Wayshrine Hollow", Vector3(-12.0
+#: scripts/campaign/mission_e2_02.gd:41
+msgid "Stumpwood"
+msgstr "Stumpwood"
+
+#. const GROVES := {&"A": ["Stumpwood", Vector3(-44.0, 0.0, 14.0), 6.0], &"B": ["Wayshrine Hollow", Vector3(-12.0
+#: scripts/campaign/mission_e2_02.gd:41
+msgid "Wayshrine Hollow"
+msgstr "Wayshrine Hollow"
+
+#. &"C": ["Heartseed", Vector3(-33.0, 0.0, -33.0), 7.0]}
+#: scripts/campaign/mission_e2_02.gd:42
+msgid "Heartseed"
+msgstr "Heartseed"
+
+#. {"id": &"millwatch", "name": "Millwatch", "kind": &"watchtower", "pos": Vector3(-20.0, 0.0, 32.0)},
+#: scripts/campaign/mission_e2_02.gd:83 scripts/world/skirmish.gd:168
+msgid "Millwatch"
+msgstr "Millwatch"
+
+#. {"id": &"copperwatch", "name": "Copperwatch", "kind": &"watchtower", "pos": Vector3(-20.0, 0.0, -32.0)},
+#: scripts/campaign/mission_e2_02.gd:84
+msgid "Copperwatch"
+msgstr "Copperwatch"
+
+#. {"id": &"saltwatch", "name": "Saltwatch", "kind": &"watchtower", "pos": Vector3(20.0, 0.0, -32.0)},
+#: scripts/campaign/mission_e2_02.gd:85 scripts/world/skirmish.gd:169
+msgid "Saltwatch"
+msgstr "Saltwatch"
+
+#. {"id": &"gullwatch", "name": "Gullwatch", "kind": &"watchtower", "pos": Vector3(20.0, 0.0, 32.0)},
+#: scripts/campaign/mission_e2_02.gd:86
+msgid "Gullwatch"
+msgstr "Gullwatch"
+
+#. {"id": &"mossmere", "name": "Mossmere Well", "kind": &"well", "pos": Vector3(-34.0, 0.0, 0.0)},
+#: scripts/campaign/mission_e2_02.gd:87 scripts/world/skirmish.gd:170
+msgid "Mossmere Well"
+msgstr "Mossmere Well"
+
+#. {"id": &"stonemere", "name": "Stonemere Well", "kind": &"well", "pos": Vector3(34.0, 0.0, 0.0)},
+#: scripts/campaign/mission_e2_02.gd:88 scripts/world/skirmish.gd:171
+msgid "Stonemere Well"
+msgstr "Stonemere Well"
+
+#. {"id": &"shrine_w", "name": "West Wayshrine", "kind": &"shrine", "pos": Vector3(-12.0, 0.0, 0.0)},
+#: scripts/campaign/mission_e2_02.gd:89 scripts/world/skirmish.gd:172
+msgid "West Wayshrine"
+msgstr "West Wayshrine"
+
+#. {"id": &"shrine_e", "name": "East Wayshrine", "kind": &"shrine", "pos": Vector3(12.0, 0.0, 0.0)},
+#: scripts/campaign/mission_e2_02.gd:90 scripts/world/skirmish.gd:173
+msgid "East Wayshrine"
+msgstr "East Wayshrine"
+
+#. {"id": &"wallow_sw", "name": "Bristleback Wallow", "kind": &"bristleback", "tier": 1, "pos": Vector3(-58.0, 0.
+#: scripts/campaign/mission_e2_02.gd:93 scripts/campaign/mission_e2_02.gd:94
+#: scripts/campaign/mission_e2_02.gd:95 scripts/campaign/mission_e2_02.gd:96
+#: scripts/world/camp_manager.gd:28 scripts/world/layout_level.gd:28
+msgid "Bristleback Wallow"
+msgstr "Bristleback Wallow"
+
+#. {"id": &"nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2, "pos": Vector3(0.0, 0.0, 18.0),
+#: scripts/campaign/mission_e2_02.gd:97 scripts/world/skirmish.gd:183
+msgid "Willow Ford Nest"
+msgstr "Willow Ford Nest"
+
+#. {"id": &"nest_n", "name": "Reed Ford Nest", "kind": &"mirefang", "tier": 2, "pos": Vector3(0.0, 0.0, -18.0), "
+#: scripts/campaign/mission_e2_02.gd:98 scripts/world/skirmish.gd:185
+msgid "Reed Ford Nest"
+msgstr "Reed Ford Nest"
+
+#. {"id": &"hollow_w", "name": "Gloomcap Hollow", "kind": &"gloomcap", "tier": 2, "pos": Vector3(-54.0, 0.0, 0.0)
+#: scripts/campaign/mission_e2_02.gd:99 scripts/campaign/mission_e2_02.gd:100
+#: scripts/world/camp_manager.gd:32 scripts/world/layout_level.gd:29 scripts/world/skirmish.gd:187
+#: scripts/world/skirmish.gd:189
+msgid "Gloomcap Hollow"
+msgstr "Gloomcap Hollow"
+
+#. [&"narrator", "Nature had no kingdom left, only seed. Fire had a border, and a frost fort sitting on it."],
+#: scripts/campaign/mission_e2_02.gd:171
+msgid "Nature had no kingdom left, only seed. Fire had a border, and a frost fort sitting on it."
+msgstr "La Nature n'avait plus de royaume, seulement des graines. Le Feu avait une frontière, et un fort de givre assis dessus."
+
+#. [&"ysolde", "Three groves along your line, Vessa. Give me those, and I can give you a kingdom back."],
+#: scripts/campaign/mission_e2_02.gd:172
+msgid "Three groves along your line, Vessa. Give me those, and I can give you a kingdom back."
+msgstr "Trois bosquets le long de ta ligne, Vessa. Donne-moi ça, et je peux te redonner un royaume."
+
+#. [&"vessa", "Three trees? I can do three trees. Torvald brought a whole fort. That one's mine."],
+#: scripts/campaign/mission_e2_02.gd:173
+msgid "Three trees? I can do three trees. Torvald brought a whole fort. That one's mine."
+msgstr "Trois arbres? Je peux faire trois arbres. Torvald a amené un fort au complet. Celui-là est à moi."
+
+#. [&"ysolde", "This one I can do alone. Keep them off me, and do not set it on fire."],
+#: scripts/campaign/mission_e2_02.gd:174
+msgid "This one I can do alone. Keep them off me, and do not set it on fire."
+msgstr "Celui-ci, je peux le faire seule. Tiens-les loin de moi, et ne mets pas le feu dedans."
+
+#. [&"vessa", "One time. I set ONE tree on fire, one time."],
+#: scripts/campaign/mission_e2_02.gd:175
+msgid "One time. I set ONE tree on fire, one time."
+msgstr "Une fois. J'ai mis le feu à UN arbre, une fois."
+
+#. [&"maelis", "Stumpwood breathes again. The forest has opinions, and today they are about winter."],
+#: scripts/campaign/mission_e2_02.gd:176
+msgid "Stumpwood breathes again. The forest has opinions, and today they are about winter."
+msgstr "Stumpwood respire encore. La forêt a des opinions, et aujourd'hui, elles portent sur l'hiver."
+
+#. [&"ysolde", "Point, and I will go. I am done waiting for wars to pass my wood by."],
+#: scripts/campaign/mission_e2_02.gd:177
+msgid "Point, and I will go. I am done waiting for wars to pass my wood by."
+msgstr "Montre-moi l'endroit, et j'y vais. J'ai fini d'attendre que les guerres passent à côté de mon bois."
+
+#. [&"ashby", "Watchtower's ours, my queen. We can see clear across the Hollowmere."],
+#: scripts/campaign/mission_e2_02.gd:178
+msgid "Watchtower's ours, my queen. We can see clear across the Hollowmere."
+msgstr "La tour de guet est à nous, ma reine. On voit clair de l'autre bord du Hollowmere."
+
+#. [&"malrik", "A gardener and a matchstick. Torvald, they are planting trees at us."],
+#: scripts/campaign/mission_e2_02.gd:179
+msgid "A gardener and a matchstick. Torvald, they are planting trees at us."
+msgstr "Une jardinière et une allumette. Torvald, elles nous plantent des arbres dessus."
+
+#. [&"vessa", "The Citadel's up. Vey, the storm can come any time now. Now would be good."],
+#: scripts/campaign/mission_e2_02.gd:180
+msgid "The Citadel's up. Vey, the storm can come any time now. Now would be good."
+msgstr "La Citadelle est debout. Vey, la tempête peut venir n'importe quand. Là, ce serait bien."
+
+#. [&"vey", "You called twice in two days. I'll start to think you missed me."],
+#: scripts/campaign/mission_e2_02.gd:181
+msgid "You called twice in two days. I'll start to think you missed me."
+msgstr "Tu m'appelles deux fois en deux jours. Je vais finir par croire que je t'ai manqué."
+
+#. [&"torvald", "This bank is mine until the thaw, child. The thaw is a long way off."],
+#: scripts/campaign/mission_e2_02.gd:182
+msgid "This bank is mine until the thaw, child. The thaw is a long way off."
+msgstr "Cette rive est à moi jusqu'au dégel, petite. Le dégel est encore loin."
+
+#. [&"vessa", "I AM the thaw, Torvald. I've been told I'm very warm."],
+#: scripts/campaign/mission_e2_02.gd:183
+msgid "I AM the thaw, Torvald. I've been told I'm very warm."
+msgstr "Le dégel, C'EST moi, Torvald. On m'a dit que je suis très chaleureuse."
+
+#. [&"malrik", "The shrine glade. How fitting. Do pray, Ysolde. Nobody answered last time."],
+#: scripts/campaign/mission_e2_02.gd:184
+msgid "The shrine glade. How fitting. Do pray, Ysolde. Nobody answered last time."
+msgstr "La clairière du sanctuaire. Comme c'est approprié. Prie donc, Ysolde. Personne n'a répondu la dernière fois."
+
+#. [&"torvald", "I gave the wood one winter. I can give it another."],
+#: scripts/campaign/mission_e2_02.gd:185
+msgid "I gave the wood one winter. I can give it another."
+msgstr "J'ai donné un hiver au bois. Je peux lui en donner un autre."
+
+#. [&"ysolde", "Malrik. You burned my people. You will not have their seed."],
+#: scripts/campaign/mission_e2_02.gd:186
+msgid "Malrik. You burned my people. You will not have their seed."
+msgstr "Malrik. Tu as brûlé mon peuple. Tu n'auras pas ses graines."
+
+#. [&"messenger", "Frost on the road! They're going for the Heartseed!"],
+#: scripts/campaign/mission_e2_02.gd:187
+msgid "Frost on the road! They're going for the Heartseed!"
+msgstr "Du givre sur la route! Ils s'en vont vers Heartseed!"
+
+#. [&"ysolde", "Three groves. Enough roots to stand on. Rise."],
+#: scripts/campaign/mission_e2_02.gd:188
+msgid "Three groves. Enough roots to stand on. Rise."
+msgstr "Trois bosquets. Assez de racines pour tenir debout. Lève-toi."
+
+#. [&"vessa", "Huh. You grow a castle out of a seed. I have to build mine out of rocks."],
+#: scripts/campaign/mission_e2_02.gd:189
+msgid "Huh. You grow a castle out of a seed. I have to build mine out of rocks."
+msgstr "Ben voyons. Toi, tu fais pousser un château avec une graine. Moi, je dois bâtir le mien avec des roches."
+
+#. [&"ysolde", "Then we each keep the other's. Fire and Nature, one front."],
+#: scripts/campaign/mission_e2_02.gd:190
+msgid "Then we each keep the other's. Fire and Nature, one front."
+msgstr "Alors chacune garde celui de l'autre. Le Feu et la Nature, un seul front."
+
+#. [&"vessa", "Rimehold's down. Torvald, you left your fort on my bank. I put it back."],
+#: scripts/campaign/mission_e2_02.gd:191
+msgid "Rimehold's down. Torvald, you left your fort on my bank. I put it back."
+msgstr "Rimehold est tombé. Torvald, t'as oublié ton fort sur ma rive. Je te l'ai rangé."
+
+#. [&"narrator", "Two kingdoms on one bank, two across the water. The war has its true shape now."],
+#: scripts/campaign/mission_e2_02.gd:192
+msgid "Two kingdoms on one bank, two across the water. The war has its true shape now."
+msgstr "Deux royaumes sur une rive, deux de l'autre côté de l'eau. La guerre a maintenant sa vraie forme."
+
+#. [&"torvald", "Now, Bishop. Before her roots take hold."],
+#: scripts/campaign/mission_e2_02.gd:193
+msgid "Now, Bishop. Before her roots take hold."
+msgstr "Maintenant, l'Évêque. Avant que ses racines prennent."
+
+#. [&"malrik", "Knights, to the shrine glade. Burn whatever grew there twice."],
+#: scripts/campaign/mission_e2_02.gd:194
+msgid "Knights, to the shrine glade. Burn whatever grew there twice."
+msgstr "Chevaliers, à la clairière du sanctuaire. Brûlez ce qui a repoussé là, deux fois."
+
+#. [&"ysolde", "Three stones in our hands. The land listens to whoever stands on it."],
+#: scripts/campaign/mission_e2_02.gd:195
+msgid "Three stones in our hands. The land listens to whoever stands on it."
+msgstr "Trois pierres entre nos mains. La terre écoute ceux qui se tiennent dessus."
+
+#. [&"ysolde", "They cut it. Then we plant it again. That is the whole of my strength."],
+#: scripts/campaign/mission_e2_02.gd:196
+msgid "They cut it. Then we plant it again. That is the whole of my strength."
+msgstr "Ils l'ont coupé. Alors on le replante. C'est toute ma force."
+
+#. [&"messenger", "We've lost too many carriers. The seed's running out."],
+#: scripts/campaign/mission_e2_02.gd:197
+msgid "We've lost too many carriers. The seed's running out."
+msgstr "On a perdu trop de porteurs. Les graines s'épuisent."
+
+#. [&"torvald", "Two banners on one bank. Malrik, I begin to see why you feared her."],
+#: scripts/campaign/mission_e2_02.gd:198
+msgid "Two banners on one bank. Malrik, I begin to see why you feared her."
+msgstr "Deux bannières sur une rive. Malrik, je commence à comprendre pourquoi tu la craignais."
+
+#. [&"ysolde", "You came when I called, Vessa. Next time, I come when you do."],
+#: scripts/campaign/mission_e2_02.gd:199
+msgid "You came when I called, Vessa. Next time, I come when you do."
+msgstr "Tu es venue quand j'ai appelé, Vessa. La prochaine fois, c'est moi qui viens quand tu appelles."
+
+#. [&"vessa", "Deal. And next time, I bring marshmallows. Kidding. Mostly."],
+#: scripts/campaign/mission_e2_02.gd:200
+msgid "Deal. And next time, I bring marshmallows. Kidding. Mostly."
+msgstr "Marché conclu. Et la prochaine fois, j'apporte des guimauves. Je niaise. Presque."
+
+#. [&"vessa", "Ysolde... keep... planting..."],
+#: scripts/campaign/mission_e2_02.gd:201
+msgid "Ysolde... keep... planting..."
+msgstr "Ysolde... continue... de planter..."
+
+#. [&"ashby", "The Emberwatch is burning! Fall back, fall back!"],
+#: scripts/campaign/mission_e2_02.gd:202
+msgid "The Emberwatch is burning! Fall back, fall back!"
+msgstr "L'Emberwatch brûle! Repliez-vous, repliez-vous!"
+
+#. [&"ysolde", "The roots are cut. All of them. I am sorry, Vessa."],
+#: scripts/campaign/mission_e2_02.gd:203
+msgid "The roots are cut. All of them. I am sorry, Vessa."
+msgstr "Les racines sont coupées. Toutes. Je suis désolée, Vessa."
+
+#. [&"vey", "First time you've called me in twelve years, girl. I came running."],
+#: scripts/campaign/mission_e2_02.gd:204
+msgid "First time you've called me in twelve years, girl. I came running."
+msgstr "La première fois que tu m'appelles en douze ans, ma fille. Je suis arrivé en courant."
+
+#. "Ysolde walked out of her last Heartwood with a pouch of seed, one warden and a girl who never stops running.
+#: scripts/campaign/mission_e2_02.gd:207
+msgid "Ysolde walked out of her last Heartwood with a pouch of seed, one warden and a girl who never stops running. Her army is ash. Her kingdom is whatever she can plant before winter notices."
+msgstr "Ysolde est sortie de son dernier Heartwood avec une bourse de graines, une gardienne et une fille qui n'arrête jamais de courir. Son armée n'est que cendres. Son royaume, c'est tout ce qu'elle peut planter avant que l'hiver s'en aperçoive."
+
+#. "Fire's border runs along the Hollowmere now, and Torvald has already crossed it: a frost fort on Vessa's own
+#: scripts/campaign/mission_e2_02.gd:208
+msgid "Fire's border runs along the Hollowmere now, and Torvald has already crossed it: a frost fort on Vessa's own bank, squatting on the richest crystal seam she owns, and Malrik's knives in the reeds behind it."
+msgstr "La frontière du Feu longe maintenant le Hollowmere, et Torvald l'a déjà franchie : un fort de givre sur la rive même de Vessa, planté sur son plus riche filon de cristal, et les couteaux de Malrik dans les roseaux derrière."
+
+#. "Plant three groves along Fire's line and Nature grows back beside it. Then break the frost fort. Two against
+#: scripts/campaign/mission_e2_02.gd:209
+msgid "Plant three groves along Fire's line and Nature grows back beside it. Then break the frost fort. Two against two, at last. Ysolde says it will be slow. Vessa says that is what the fire is for."
+msgstr "Plantez trois bosquets le long de la ligne du Feu et la Nature repoussera à ses côtés. Puis brisez le fort de givre. Deux contre deux, enfin. Ysolde dit que ce sera lent. Vessa dit que c'est à ça que sert le feu."
+
+#. const BRIEFING_PING_LINE := "Ping a grove site to send Ysolde's column there (Alt+click the site, or the \"Sen
+#: scripts/campaign/mission_e2_02.gd:211
+msgid "Ping a grove site to send Ysolde's column there (Alt+click the site, or the \"Send Ysolde\" buttons)."
+msgstr "Signalez un site de bosquet pour y envoyer la colonne d'Ysolde (Alt+clic sur le site, ou les boutons « Envoyer Ysolde »)."
+
+#. const HINT_GROVE_A := "Ysolde plants, you guard. Keep the enemy out of the grove ring."
+#: scripts/campaign/mission_e2_02.gd:212
+msgid "Ysolde plants, you guard. Keep the enemy out of the grove ring."
+msgstr "Ysolde plante, vous gardez. Tenez l'ennemi hors de l'anneau du bosquet."
+
+#. const HINT_NEXT_GROVE := "Send Ysolde to the next grove: Alt+click its site, or press \"Send Ysolde\" for it (
+#: scripts/campaign/mission_e2_02.gd:213
+msgid "Send Ysolde to the next grove: Alt+click its site, or press \"Send Ysolde\" for it (top right)."
+msgstr "Envoyez Ysolde au prochain bosquet : Alt+clic sur son site, ou « Envoyer Ysolde » pour ce bosquet (en haut à droite)."
+
+#. const HINT_POINTS := "Capture points: stand in the ring with no enemy inside. Watchtowers see far, wells pay e
+#: scripts/campaign/mission_e2_02.gd:214
+msgid "Capture points: stand in the ring with no enemy inside. Watchtowers see far, wells pay essence, the shrine blesses your army."
+msgstr "Points de capture : tenez-vous dans l'anneau sans ennemi dedans. Les tours de guet voient loin, les puits paient de l'essence, le sanctuaire bénit votre armée."
+
+#. const HINT_SABOTEUR := "A Saboteur looks like a Rime Hauler. Walk it past the spires and charge the Frost Hall
+#: scripts/campaign/mission_e2_02.gd:217
+msgid "A Saboteur looks like a Rime Hauler. Walk it past the spires and charge the Frost Hall."
+msgstr "Un Saboteur ressemble à un Rime Hauler. Faites-le passer devant les flèches et minez la Frost Hall."
+
+#. const MSG_PLANTING := "Ysolde is planting {grove}. Keep the enemy out of the grove."
+#: scripts/campaign/mission_e2_02.gd:218
+msgid "Ysolde is planting {grove}. Keep the enemy out of the grove."
+msgstr "Ysolde plante {grove}. Tenez l'ennemi hors du bosquet."
+
+#. const MSG_PAUSED := "The planting stops while the enemy stands in the grove"
+#: scripts/campaign/mission_e2_02.gd:219
+msgid "The planting stops while the enemy stands in the grove"
+msgstr "La plantation arrête tant que l'ennemi est dans le bosquet"
+
+#. const MSG_GROWING := "{grove} is growing again ({n} / 3)"
+#: scripts/campaign/mission_e2_02.gd:220
+msgid "{grove} is growing again ({n} / 3)"
+msgstr "{grove} repousse ({n} / 3)"
+
+#. const MSG_TWO_V_TWO := "The war is two against two."
+#: scripts/campaign/mission_e2_02.gd:221
+msgid "The war is two against two."
+msgstr "La guerre est maintenant à deux contre deux."
+
+#. const MSG_YSOLDE_FELL := "Ysolde has fallen, the forest will regrow her"
+#: scripts/campaign/mission_e2_02.gd:224 scripts/world/skirmish.gd:301
+msgid "Ysolde has fallen, the forest will regrow her"
+msgstr "Ysolde est tombée, la forêt la fera repousser"
+
+#. const BUTTON_SEND := "Send Ysolde: {grove}"
+#: scripts/campaign/mission_e2_02.gd:227
+msgid "Send Ysolde: {grove}"
+msgstr "Envoyer Ysolde : {grove}"
+
+#. c.victory_banner = "VICTORY\nTwo banners on one bank"
+#: scripts/campaign/mission_e2_02.gd:330
+msgid "VICTORY\nTwo banners on one bank"
+msgstr "VICTOIRE\nDeux bannières sur une rive"
+
+#. c.spotlight = {"id": &"ashveil_saboteur", "trigger": &"unlock", "key_hint": "Keep: C",
+#: scripts/campaign/mission_e2_02.gd:335
+msgid "Keep: C"
+msgstr "Donjon : C"
+
+#. "card": "Ashveil Saboteur. Looks like their worker, works for you: blow the hall, stop the army before it's bo
+#: scripts/campaign/mission_e2_02.gd:336
+msgid "Ashveil Saboteur. Looks like their worker, works for you: blow the hall, stop the army before it's born."
+msgstr "Ashveil Saboteur. A l'air de leur ouvrier, travaille pour vous : faites sauter la salle, arrêtez l'armée avant qu'elle naisse."
+
+#. return "Episode 2, Mission 2: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e2_02.gd:391
+msgid "Episode 2, Mission 2: %s"
+msgstr "Épisode 2, mission 2 : %s"
+
+#. var t := _make_story_type("sprigling", &"seed_carrier", "Seed-carrier", 120.0, 4.2)
+#: scripts/campaign/mission_e2_02.gd:656
+msgid "Seed-carrier"
+msgstr "Porte-graines"
+
+#. p.id = StringName("mission_e2_02_%s" % SEAT_NAMES.get(seat, "bot"))
+#: scripts/campaign/mission_e2_02.gd:694
+msgid "mission_e2_02_%s"
+msgstr "mission_e2_02_%s"
+
+#. return "Plant Ysolde's groves along Fire's line (%d / 3)" % groves_standing()
+#: scripts/campaign/mission_e2_02.gd:965
+msgid "Plant Ysolde's groves along Fire's line (%d / 3)"
+msgstr "Plantez les bosquets d'Ysolde le long de la ligne du Feu (%d / 3)"
+
+#. return "Plant Ysolde's groves along Fire's line"
+#: scripts/campaign/mission_e2_02.gd:966
+msgid "Plant Ysolde's groves along Fire's line"
+msgstr "Plantez les bosquets d'Ysolde le long de la ligne du Feu"
+
+#. return "Break Torvald's forward fort (Rimehold)"
+#: scripts/campaign/mission_e2_02.gd:968
+msgid "Break Torvald's forward fort (Rimehold)"
+msgstr "Brisez le fort avancé de Torvald (Rimehold)"
+
+#. return "Hold together against both kingdoms (%d:%02d) (paused: replant)" % [s / 60, s % 60]
+#: scripts/campaign/mission_e2_02.gd:973
+msgid "Hold together against both kingdoms (%d:%02d) (paused: replant)"
+msgstr "Tenez ensemble contre les deux royaumes (%d:%02d) (en pause : replantez)"
+
+#. return "Hold together against both kingdoms (%d:%02d)" % [s / 60, s % 60]
+#: scripts/campaign/mission_e2_02.gd:974
+msgid "Hold together against both kingdoms (%d:%02d)"
+msgstr "Tenez ensemble contre les deux royaumes (%d:%02d)"
+
+#. return "Hold together against both kingdoms"
+#: scripts/campaign/mission_e2_02.gd:975
+msgid "Hold together against both kingdoms"
+msgstr "Tenez ensemble contre les deux royaumes"
+
+#. return "The Emberwatch must stand"
+#: scripts/campaign/mission_e2_02.gd:979
+msgid "The Emberwatch must stand"
+msgstr "L'Emberwatch doit tenir"
+
+#. return "Nature must not fall again"
+#: scripts/campaign/mission_e2_02.gd:981
+msgid "Nature must not fall again"
+msgstr "La Nature ne doit pas tomber de nouveau"
+
+#. return "Lose no more than 2 seed-carriers (%d lost)" % carriers_lost
+#: scripts/campaign/mission_e2_02.gd:984
+msgid "Lose no more than 2 seed-carriers (%d lost)"
+msgstr "Ne perdez pas plus de 2 porte-graines (%d perdus)"
+
+#. return "Lose no more than 2 seed-carriers"
+#: scripts/campaign/mission_e2_02.gd:985
+msgid "Lose no more than 2 seed-carriers"
+msgstr "Ne perdez pas plus de 2 porte-graines"
+
+#. return "Hold 3 capture points at once (%d / 3)" % mini(3, points_held())
+#: scripts/campaign/mission_e2_02.gd:988
+msgid "Hold 3 capture points at once (%d / 3)"
+msgstr "Tenez 3 points de capture en même temps (%d / 3)"
+
+#. return "Hold 3 capture points at once"
+#: scripts/campaign/mission_e2_02.gd:989
+msgid "Hold 3 capture points at once"
+msgstr "Tenez 3 points de capture en même temps"
+
+#. return "Unknown grove"
+#: scripts/campaign/mission_e2_02.gd:1166
+msgid "Unknown grove"
+msgstr "Bosquet inconnu"
+
+#. who = "%s(t%d, %.1f m)" % [u.unit_type.id if u.unit_type else u.name, int(u.team), _flat(u.global_position, s.
+#: scripts/campaign/mission_e2_02.gd:1352
+msgid "%s(t%d, %.1f m)"
+msgstr "%s(t%d, %.1f m)"
+
+#. return "inside %d carriers %d lost %d ysolde %s %s" % [inside, carriers.size(), carriers_lost,
+#: scripts/campaign/mission_e2_02.gd:1353
+msgid "inside %d carriers %d lost %d ysolde %s %s"
+msgstr "inside %d carriers %d lost %d ysolde %s %s"
+
+#. const MISSION_TITLE := "The Salt Road"
+#: scripts/campaign/mission_e2_03.gd:18
+msgid "The Salt Road"
+msgstr "La route du sel"
+
+#. const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"pell": "Pell", &"bettany": "Bettany",
+#: scripts/campaign/mission_e2_03.gd:94
+msgid "Bettany"
+msgstr "Bettany"
+
+#. [&"narrator", "The Salt Road runs from Emberfall to the sea. Everything on it has a price, even the road."],
+#: scripts/campaign/mission_e2_03.gd:98
+msgid "The Salt Road runs from Emberfall to the sea. Everything on it has a price, even the road."
+msgstr "La route du sel va d'Emberfall jusqu'à la mer. Tout ce qui s'y trouve a un prix, même la route."
+
+#. [&"vessa", "Six wagons of gold. I don't own one wagon of gold. I own a lot of rocks. Shiny ones."],
+#: scripts/campaign/mission_e2_03.gd:99
+msgid "Six wagons of gold. I don't own one wagon of gold. I own a lot of rocks. Shiny ones."
+msgstr "Six chariots d'or. J'ai même pas un chariot d'or. J'ai plein de roches. Des brillantes."
+
+#. [&"pell", "Rocks become gold at a post, my queen. Gold becomes everything else. Trust a professional."],
+#: scripts/campaign/mission_e2_03.gd:100
+msgid "Rocks become gold at a post, my queen. Gold becomes everything else. Trust a professional."
+msgstr "Les roches deviennent de l'or au comptoir, ma reine. L'or devient tout le reste. Faites confiance à un professionnel."
+
+#. [&"vey", "I'll ride to Emberfall and find the old stair. Pay the hunters, then call me."],
+#: scripts/campaign/mission_e2_03.gd:101
+msgid "I'll ride to Emberfall and find the old stair. Pay the hunters, then call me."
+msgstr "Je file à Emberfall trouver le vieil escalier. Paie les chasseurs, puis appelle-moi."
+
+#. [&"pell", "You again! The fire one. Last time you let me out of a cage. Today I let you into a market."],
+#: scripts/campaign/mission_e2_03.gd:102
+msgid "You again! The fire one. Last time you let me out of a cage. Today I let you into a market."
+msgstr "Encore vous! Celle du feu. La dernière fois, vous m'avez sorti d'une cage. Aujourd'hui, je vous fais entrer dans un marché."
+
+#. [&"pell", "A Bazaar! Look at it. Smell it. Now put wheels on something and send it somewhere far."],
+#: scripts/campaign/mission_e2_03.gd:103
+msgid "A Bazaar! Look at it. Smell it. Now put wheels on something and send it somewhere far."
+msgstr "Un Bazar! Regardez-le. Sentez-le. Maintenant, mettez des roues sur quelque chose et envoyez ça loin."
+
+#. [&"bettany", "Heads up, Firelady. The Magpies are out. They like their caravans full and their guards absent."
+#: scripts/campaign/mission_e2_03.gd:104
+msgid "Heads up, Firelady. The Magpies are out. They like their caravans full and their guards absent."
+msgstr "Attention, madame du Feu. Les Magpies sont sortis. Ils aiment les caravanes pleines et les gardes absents."
+
+#. [&"vessa", "Bettany? I thought your tavern burned down."],
+#: scripts/campaign/mission_e2_03.gd:105
+msgid "Bettany? I thought your tavern burned down."
+msgstr "Bettany? Je pensais que ta taverne avait brûlé."
+
+#. [&"pell", "Gold! Your first gold. I'm not crying. It's the salt."],
+#: scripts/campaign/mission_e2_03.gd:106
+msgid "Gold! Your first gold. I'm not crying. It's the salt."
+msgstr "De l'or! Votre premier or. Je pleure pas. C'est le sel."
+
+#. [&"malrik", "Every road charges a toll, Vessa. This one charges you."],
+#: scripts/campaign/mission_e2_03.gd:107
+msgid "Every road charges a toll, Vessa. This one charges you."
+msgstr "Chaque route a son péage, Vessa. Celle-ci, c'est toi qui paies."
+
+#. [&"vessa", "A tollbooth. You built a tollbooth. That is the most Malrik thing you've ever done."],
+#: scripts/campaign/mission_e2_03.gd:108
+msgid "A tollbooth. You built a tollbooth. That is the most Malrik thing you've ever done."
+msgstr "Un poste de péage. T'as bâti un poste de péage. C'est la chose la plus Malrik que t'as jamais faite."
+
+#. [&"vessa", "Stables! Javelins on horseback. Sir Crackle will have to wait for a saddle."],
+#: scripts/campaign/mission_e2_03.gd:109
+msgid "Stables! Javelins on horseback. Sir Crackle will have to wait for a saddle."
+msgstr "Des écuries! Des javelots à cheval. Sire Crépitant va devoir attendre sa selle."
+
+#. [&"bettany", "One wagon. Five to go. The hunters count slow and they count twice."],
+#: scripts/campaign/mission_e2_03.gd:110
+msgid "One wagon. Five to go. The hunters count slow and they count twice."
+msgstr "Un chariot. Encore cinq. Les chasseurs comptent lentement, et deux fois."
+
+#. [&"vessa", "What do they even want all this gold for?"],
+#: scripts/campaign/mission_e2_03.gd:111
+msgid "What do they even want all this gold for?"
+msgstr "Qu'est-ce qu'ils veulent faire avec tout cet or, au juste?"
+
+#. [&"pell", "They took the tribute! Get it back! That gold has my fingerprints on it!"],
+#: scripts/campaign/mission_e2_03.gd:112
+msgid "They took the tribute! Get it back! That gold has my fingerprints on it!"
+msgstr "Ils ont pris le tribut! Reprenez-le! Cet or-là a mes empreintes dessus!"
+
+#. [&"vessa", "Got it! Finders keepers, Magpies."],
+#: scripts/campaign/mission_e2_03.gd:113
+msgid "Got it! Finders keepers, Magpies."
+msgstr "Je l'ai! Qui trouve garde, les Magpies."
+
+#. [&"vessa", "Vey, the Citadel's lit. The stair can wait. I've got thieves."],
+#: scripts/campaign/mission_e2_03.gd:114
+msgid "Vey, the Citadel's lit. The stair can wait. I've got thieves."
+msgstr "Vey, la Citadelle est allumée. L'escalier peut attendre. J'ai des voleurs."
+
+#. [&"vey", "Thieves AND a toll? Girl, you do know how to throw a party."],
+#: scripts/campaign/mission_e2_03.gd:115
+msgid "Thieves AND a toll? Girl, you do know how to throw a party."
+msgstr "Des voleurs ET un péage? Ma fille, tu sais organiser un party."
+
+#. [&"ashby", "Shades sitting on Millstone Cross, my queen. No caravan's getting through there."],
+#: scripts/campaign/mission_e2_03.gd:116
+msgid "Shades sitting on Millstone Cross, my queen. No caravan's getting through there."
+msgstr "Des Shades assis sur Millstone Cross, ma reine. Aucune caravane passe par là."
+
+#. [&"malrik", "If I can't have the deep road, nobody walks it. Burn the market."],
+#: scripts/campaign/mission_e2_03.gd:117
+msgid "If I can't have the deep road, nobody walks it. Burn the market."
+msgstr "Si je n'ai pas la route des profondeurs, personne ne la prendra. Brûlez le marché."
+
+#. [&"vessa", "Toll's paid. In fire. Keep the change."],
+#: scripts/campaign/mission_e2_03.gd:118
+msgid "Toll's paid. In fire. Keep the change."
+msgstr "Péage payé. En feu. Garde la monnaie."
+
+#. [&"vessa", "You rebuilt it?! You rebuilt the tollbooth?"],
+#: scripts/campaign/mission_e2_03.gd:119
+msgid "You rebuilt it?! You rebuilt the tollbooth?"
+msgstr "Tu l'as rebâti?! T'as rebâti le poste de péage?"
+
+#. [&"bettany", "Halfway. The old hunters are starting to like you. Don't let it go to your head."],
+#: scripts/campaign/mission_e2_03.gd:120
+msgid "Halfway. The old hunters are starting to like you. Don't let it go to your head."
+msgstr "À mi-chemin. Les vieux chasseurs commencent à vous aimer. Que ça vous monte pas à la tête."
+
+#. [&"bettany", "Eight Magpies. The Lodge remembers who clears its road."],
+#: scripts/campaign/mission_e2_03.gd:121
+msgid "Eight Magpies. The Lodge remembers who clears its road."
+msgstr "Huit Magpies. La Lodge se souvient de qui nettoie sa route."
+
+#. [&"pell", "Robbing Malrik's wagons! You're a natural. I've never been prouder."],
+#: scripts/campaign/mission_e2_03.gd:122
+msgid "Robbing Malrik's wagons! You're a natural. I've never been prouder."
+msgstr "Voler les chariots de Malrik! Vous êtes douée. J'ai jamais été aussi fier."
+
+#. [&"bettany", "Six. Paid in full. Here's your road down: a stair under Emberfall, the Sunrise Road."],
+#: scripts/campaign/mission_e2_03.gd:123
+msgid "Six. Paid in full. Here's your road down: a stair under Emberfall, the Sunrise Road."
+msgstr "Six. Payé au complet. Voici votre route vers le bas : un escalier sous Emberfall, la route de l'Aube."
+
+#. [&"bettany", "Two of ours will guide you. Nobody else has walked it since the Master."],
+#: scripts/campaign/mission_e2_03.gd:124
+msgid "Two of ours will guide you. Nobody else has walked it since the Master."
+msgstr "Deux des nôtres vont vous guider. Personne d'autre ne l'a prise depuis le Maître."
+
+#. [&"malrik", "A map to the deep. How generous. I'll take it off your body."],
+#: scripts/campaign/mission_e2_03.gd:125
+msgid "A map to the deep. How generous. I'll take it off your body."
+msgstr "Une carte des profondeurs. Comme c'est généreux. Je la prendrai sur ton cadavre."
+
+#. [&"bettany", "Guides are with you. Go before the Bishop buys the next one."],
+#: scripts/campaign/mission_e2_03.gd:126
+msgid "Guides are with you. Go before the Bishop buys the next one."
+msgstr "Les guides sont avec vous. Partez avant que l'Évêque achète la prochaine."
+
+#. [&"vessa", "Pell, keep the Bazaar running. Fire just learned what gold is for."],
+#: scripts/campaign/mission_e2_03.gd:127
+msgid "Pell, keep the Bazaar running. Fire just learned what gold is for."
+msgstr "Pell, garde le Bazar ouvert. Le Feu vient d'apprendre à quoi sert l'or."
+
+#. [&"vessa", "Should have... ridden faster..."],
+#: scripts/campaign/mission_e2_03.gd:128
+msgid "Should have... ridden faster..."
+msgstr "J'aurais dû... aller plus vite..."
+
+#. [&"ashby", "The Saltwatch is lost! Get the queen out!"],
+#: scripts/campaign/mission_e2_03.gd:129
+msgid "The Saltwatch is lost! Get the queen out!"
+msgstr "Le Saltwatch est perdu! Sortez la reine de là!"
+
+#. [&"ashby", "Built you a tower on the west road, my queen. Learned that at the Millwatch."],
+#: scripts/campaign/mission_e2_03.gd:130
+msgid "Built you a tower on the west road, my queen. Learned that at the Millwatch."
+msgstr "Je vous ai bâti une tour sur la route de l'ouest, ma reine. Appris ça au Millwatch."
+
+#. [&"pell", "You again! You left me in that cage, you know. I escaped. On my own. Thank you for asking."],
+#: scripts/campaign/mission_e2_03.gd:131
+msgid "You again! You left me in that cage, you know. I escaped. On my own. Thank you for asking."
+msgstr "Encore vous! Vous m'avez laissé dans cette cage, vous savez. Je me suis évadé. Tout seul. Merci de demander."
+
+#. [&"bettany", "It did. The Lodge pays better, and nobody here throws fire at the furniture."],
+#: scripts/campaign/mission_e2_03.gd:132
+msgid "It did. The Lodge pays better, and nobody here throws fire at the furniture."
+msgstr "C'est vrai. La Lodge paie mieux, et personne ici lance du feu sur les meubles."
+
+#. [&"bettany", "Arrows, mostly. And never having to go down there again."],
+#: scripts/campaign/mission_e2_03.gd:133
+msgid "Arrows, mostly. And never having to go down there again."
+msgstr "Des flèches, surtout. Et ne plus jamais avoir à redescendre là."
+
+#. "The three relics point down, under Emberfall, along roads nobody living has walked. Nobody but the Greywater
+#: scripts/campaign/mission_e2_03.gd:136
+msgid "The three relics point down, under Emberfall, along roads nobody living has walked. Nobody but the Greywater hunters, who mapped the deep for a hundred years and have never sold the map."
+msgstr "Les trois reliques pointent vers le bas, sous Emberfall, le long de routes qu'aucun vivant n'a prises. Personne, sauf les chasseurs de Greywater, qui cartographient les profondeurs depuis cent ans et n'ont jamais vendu la carte."
+
+#. "They will sell it now, for gold: six wagons of it, delivered to their Lodge's door at the far end of the Salt
+#: scripts/campaign/mission_e2_03.gd:137
+msgid "They will sell it now, for gold: six wagons of it, delivered to their Lodge's door at the far end of the Salt Road. Their neighbours across the road are the Magpies, who steal for a living. Malrik's men have started charging tolls."
+msgstr "Ils la vendront maintenant, contre de l'or : six chariots, livrés à la porte de leur Lodge, au bout de la route du sel. Leurs voisins d'en face sont les Magpies, qui volent pour gagner leur vie. Les hommes de Malrik ont commencé à exiger des péages."
+
+#. "Fire has never needed gold. Fire has crystals, and a short temper. Pell says that is a fine start for a merch
+#: scripts/campaign/mission_e2_03.gd:138
+msgid "Fire has never needed gold. Fire has crystals, and a short temper. Pell says that is a fine start for a merchant."
+msgstr "Le Feu n'a jamais eu besoin d'or. Le Feu a des cristaux, et un caractère prompt. Pell dit que c'est un bon début pour un marchand."
+
+#. const BRIEFING_LINE := "Build a Bazaar, send caravans to the trading posts, then send tribute to the Greywater
+#: scripts/campaign/mission_e2_03.gd:140
+msgid "Build a Bazaar, send caravans to the trading posts, then send tribute to the Greywater Lodge."
+msgstr "Bâtissez un Bazar, envoyez des caravanes aux comptoirs, puis envoyez le tribut à la Greywater Lodge."
+
+#. const HINT_BUILD_BAZAAR := "Build an Ember Bazaar: select a Cinder Hand, press B then B. It must stand within
+#: scripts/campaign/mission_e2_03.gd:141
+msgid "Build an Ember Bazaar: select a Cinder Hand, press B then B. It must stand within 20 m of the keep."
+msgstr "Bâtissez un Ember Bazaar : sélectionnez un Cinder Hand, appuyez sur B puis B. Il doit être à moins de 20 m du donjon."
+
+#. const HINT_CARAVANS := "Train caravans (Z). They walk to a trading post and bring back gold. Far posts pay mor
+#: scripts/campaign/mission_e2_03.gd:142
+msgid "Train caravans (Z). They walk to a trading post and bring back gold. Far posts pay more, but the road is longer."
+msgstr "Formez des caravanes (Z). Elles vont à un comptoir et rapportent de l'or. Les comptoirs éloignés paient plus, mais la route est plus longue."
+
+#. const HINT_MAGPIES := "Magpies rob loaded caravans. Escort them, hire Outriders at the Lodge (U), or chase the
+#: scripts/campaign/mission_e2_03.gd:143
+msgid "Magpies rob loaded caravans. Escort them, hire Outriders at the Lodge (U), or chase the loot sack before it fades."
+msgstr "Les Magpies volent les caravanes chargées. Escortez-les, engagez des Outriders à la Lodge (U), ou courez après le sac de butin avant qu'il disparaisse."
+
+#. const HINT_TRIBUTE := "Send tribute from the \"Send tribute\" button (top right) once you have {gold} gold."
+#: scripts/campaign/mission_e2_03.gd:144
+msgid "Send tribute from the \"Send tribute\" button (top right) once you have {gold} gold."
+msgstr "Envoyez le tribut avec le bouton « Envoyer le tribut » (en haut à droite) dès que vous avez {gold} or."
+
+#. const HINT_STABLES := "The Ember Stables train the Emberdart Harrier (V): javelins on a gallop, strong against
+#: scripts/campaign/mission_e2_03.gd:145
+msgid "The Ember Stables train the Emberdart Harrier (V): javelins on a gallop, strong against slow melee."
+msgstr "Les Ember Stables forment l'Emberdart Harrier (V) : des javelots au galop, fort contre la mêlée lente."
+
+#. const HINT_HARRIER := "Emberdarts: throw and fall back. The Magpies chase you, not the wagon."
+#: scripts/campaign/mission_e2_03.gd:146
+msgid "Emberdarts: throw and fall back. The Magpies chase you, not the wagon."
+msgstr "Emberdarts : lancez et reculez. Les Magpies vous poursuivent, pas le chariot."
+
+#. const MSG_PAID := "The Greywater Lodge takes the tribute ({n} / 6)"
+#: scripts/campaign/mission_e2_03.gd:149
+msgid "The Greywater Lodge takes the tribute ({n} / 6)"
+msgstr "La Greywater Lodge prend le tribut ({n} / 6)"
+
+#. const MSG_QUEUED := "Tribute: next caravan home"
+#: scripts/campaign/mission_e2_03.gd:150
+msgid "Tribute: next caravan home"
+msgstr "Tribut : prochaine caravane de retour"
+
+#. const BUTTON_TRIBUTE := "Send tribute ({gold} gold)"
+#: scripts/campaign/mission_e2_03.gd:152
+msgid "Send tribute ({gold} gold)"
+msgstr "Envoyer le tribut ({gold} or)"
+
+#. const REFUSE_CARAVAN := "No caravan"
+#: scripts/campaign/mission_e2_03.gd:155
+msgid "No caravan"
+msgstr "Pas de caravane"
+
+#. const REFUSE_ON_ROAD := "Tribute already on the road"
+#: scripts/campaign/mission_e2_03.gd:156
+msgid "Tribute already on the road"
+msgstr "Un tribut est déjà en route"
+
+#. c.victory_banner = "VICTORY\nThe road down is yours"
+#: scripts/campaign/mission_e2_03.gd:240
+msgid "VICTORY\nThe road down is yours"
+msgstr "VICTOIRE\nLa route vers le bas est à vous"
+
+#. c.spotlight = {"id": &"emberdart_harrier", "trigger": &"unlock", "key_hint": "Ember Stables: V",
+#: scripts/campaign/mission_e2_03.gd:245
+msgid "Ember Stables: V"
+msgstr "Ember Stables : V"
+
+#. "card": "Emberdart Harrier. Javelins on a gallop: throw, turn, throw. Nothing on foot catches it."}
+#: scripts/campaign/mission_e2_03.gd:246
+msgid "Emberdart Harrier. Javelins on a gallop: throw, turn, throw. Nothing on foot catches it."
+msgstr "Emberdart Harrier. Des javelots au galop : lance, tourne, lance. Rien à pied ne le rattrape."
+
+#. return "Episode 2, Mission 3: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e2_03.gd:266
+msgid "Episode 2, Mission 3: %s"
+msgstr "Épisode 2, mission 3 : %s"
+
+#. return "Build an Ember Bazaar and send caravans to a trading post"
+#: scripts/campaign/mission_e2_03.gd:528
+msgid "Build an Ember Bazaar and send caravans to a trading post"
+msgstr "Bâtissez un Ember Bazaar et envoyez des caravanes à un comptoir"
+
+#. var head := "Pay the Greywater Lodge: deliver tribute (%d / 6)" % tributes_paid
+#: scripts/campaign/mission_e2_03.gd:532 scripts/campaign/mission_e2_03.gd:535
+msgid "Pay the Greywater Lodge: deliver tribute (%d / 6)"
+msgstr "Payez la Greywater Lodge : livrez le tribut (%d / 6)"
+
+#. var road := "Tribute on the road: %d m to the Lodge" % int(_flat(tribute_caravan.global_position, LODGE_DOOR))
+#: scripts/campaign/mission_e2_03.gd:533
+msgid "Tribute on the road: %d m to the Lodge"
+msgstr "Tribut en route : %d m de la Lodge"
+
+#. return "Pay the Greywater Lodge: deliver tribute"
+#: scripts/campaign/mission_e2_03.gd:536
+msgid "Pay the Greywater Lodge: deliver tribute"
+msgstr "Payez la Greywater Lodge : livrez le tribut"
+
+#. return "Hold until the Lodge's guides reach you (%d:%02d)" % [s / 60, s % 60]
+#: scripts/campaign/mission_e2_03.gd:540
+msgid "Hold until the Lodge's guides reach you (%d:%02d)"
+msgstr "Tenez jusqu'à ce que les guides de la Lodge vous rejoignent (%d:%02d)"
+
+#. return "Hold until the Lodge's guides reach you"
+#: scripts/campaign/mission_e2_03.gd:541
+msgid "Hold until the Lodge's guides reach you"
+msgstr "Tenez jusqu'à ce que les guides de la Lodge vous rejoignent"
+
+#. return "The Saltwatch must stand"
+#: scripts/campaign/mission_e2_03.gd:545
+msgid "The Saltwatch must stand"
+msgstr "Le Saltwatch doit tenir"
+
+#. return "Hunt the Magpies for the Lodge (%d / 8)" % mini(magpies_killed, MAGPIE_GOAL)
+#: scripts/campaign/mission_e2_03.gd:548
+msgid "Hunt the Magpies for the Lodge (%d / 8)"
+msgstr "Chassez les Magpies pour la Lodge (%d / 8)"
+
+#. return "Hunt the Magpies for the Lodge"
+#: scripts/campaign/mission_e2_03.gd:549
+msgid "Hunt the Magpies for the Lodge"
+msgstr "Chassez les Magpies pour la Lodge"
+
+#. return "Take 300 gold from Malrik's caravans (%d / 300)" % mini(raid_gold, RAID_GOAL)
+#: scripts/campaign/mission_e2_03.gd:552
+msgid "Take 300 gold from Malrik's caravans (%d / 300)"
+msgstr "Prenez 300 or aux caravanes de Malrik (%d / 300)"
+
+#. return "Take 300 gold from Malrik's caravans"
+#: scripts/campaign/mission_e2_03.gd:553
+msgid "Take 300 gold from Malrik's caravans"
+msgstr "Prenez 300 or aux caravanes de Malrik"
+
+#. return "Break Malrik's Tollgate (1 / 2)"
+#: scripts/campaign/mission_e2_03.gd:556
+msgid "Break Malrik's Tollgate (1 / 2)"
+msgstr "Brisez le poste de péage de Malrik (1 / 2)"
+
+#. return "Break Malrik's Tollgate"
+#: scripts/campaign/mission_e2_03.gd:557
+msgid "Break Malrik's Tollgate"
+msgstr "Brisez le poste de péage de Malrik"
+
+#. t.display_name = "Grove"
+#: scripts/campaign/mission_grove.gd:20
+msgid "Grove"
+msgstr "Bosquet"
 
 #. t.display_name = "The Last Heartwood"
 #: scripts/campaign/mission_heartwood.gd:32

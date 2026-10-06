@@ -347,14 +347,14 @@ msgid "Three trackers walk your mines and roads in turn, attack every Magpie the
 msgstr ""
 
 #. const NO_BAZAAR := "No Bazaar"
-#: scripts/ui/trade_window.gd:90 scripts/ui/post_panel.gd:407 scripts/economy/caravan.gd:47
-#: scripts/economy/gold_bank.gd:61
+#: scripts/ui/trade_window.gd:90 scripts/ui/post_panel.gd:407 scripts/campaign/mission_e2_03.gd:153
+#: scripts/economy/caravan.gd:47 scripts/economy/gold_bank.gd:61
 msgid "No Bazaar"
 msgstr ""
 
 #. const NO_GOLD := "Not enough gold"
-#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:385 scripts/economy/gold_bank.gd:63
-#: scripts/world/champion_guild.gd:79 scripts/world/hunters_guild.gd:57
+#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:385 scripts/campaign/mission_e2_03.gd:154
+#: scripts/economy/gold_bank.gd:63 scripts/world/champion_guild.gd:79 scripts/world/hunters_guild.gd:57
 msgid "Not enough gold"
 msgstr ""
 

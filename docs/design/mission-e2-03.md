@@ -356,3 +356,16 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** Magpie bands (melee) and slow Shade raids on a caravan road; hit-and-run is strong against slow melee and workers.
 - **Moment:** the first Magpie band (3:00) on caravan 1: "Emberdarts: throw and fall back. The Magpies chase you, not the wagon.".
 - **Intro card:** `Emberdart Harrier. Javelins on a gallop: throw, turn, throw. Nothing on foot catches it.`
+
+## Built (2026-10-06)
+`missions/mission_e2_03.tscn` + `scripts/campaign/mission_e2_03.gd` (`MissionE2_03`), tests `tests/test_e2m3.gd`
+(checks 1-7) and `tests/test_e2m3_sim.gd` (check 8, slow list). Deviations:
+- No Ember Boar (no wizard-mount system exists); E9 = the Ember Stables complete (the Emberdart Harrier spotlight; the
+  mission's Stables card is Z Blaze Rider, X Pyrehoof Lancer, C Sunforge Cataphract, **V Emberdart Harrier** through the
+  `stables_card` scene knob read by `StablesBuilding`); E12 = Vessa picks up a loot sack.
+- "Send tribute" is a mission button (top right), not the Bazaar card's X.
+- D5 timings by shifted clocks on the trade services (posts 1:30, Lodge contracts 2:00, first Magpie band 3:00 / easy
+  4:00); no tribute weighting in `ThiefBand` (ai).
+- Tribute **300 / 380 / 460** gold (spec 200 / 250 / 300): 4 near caravans earned ~190 gold / min in the scripted run.
+- Scripted run (normal, 2026-10-06, tribute 350): victory at 15:54 mission time (16:52 with the cutscene lengths)
+  against 18-24; W1 left 13 of 13; Vey not called by the script.

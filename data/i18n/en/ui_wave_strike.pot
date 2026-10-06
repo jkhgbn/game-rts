@@ -101,42 +101,62 @@ msgstr ""
 msgid "No card"
 msgstr ""
 
+#. return Loc.t("Fire (Vessa)")
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:31
+msgid "Fire (Vessa)"
+msgstr ""
+
+#. return Loc.t("Ice (Torvald)")
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:33
+msgid "Ice (Torvald)"
+msgstr ""
+
+#. return Loc.t("Nature (Ysolde)")
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:35
+msgid "Nature (Ysolde)"
+msgstr ""
+
+#. return Loc.t("Shadow (Malrik)")
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:37
+msgid "Shadow (Malrik)"
+msgstr ""
+
+#. return Loc.t("Random")
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:38
+msgid "Random"
+msgstr ""
+
+#. col.add_child(UIStyle.panel_label(Loc.t("Enemy kingdom"), 17, UIStyle.GOLD))
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:85
+msgid "Enemy kingdom"
+msgstr ""
+
 #. const RULES_TEXT := ("Buy cards: each one sends a unit at every horn (every 40 s, first at 0:30).\n"
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:11
 msgid "Buy cards: each one sends a unit at every horn (every 40 s, first at 0:30).\nCoffers raise your income, the Stronghold opens tier-2 cards and more supply.\nYour wizard guards your half of the lane. Break the enemy Bastion to win."
 msgstr ""
 
 #. var map_l := UIStyle.panel_label("%s\n%s" % [String(e.get("title", "Ashwind Reach")),
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:47 data/maps/catalog.tres:90
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:67 data/maps/catalog.tres:90
 msgid "Ashwind Reach"
 msgstr ""
 
 #. MapCatalog.size_text(e) if not e.is_empty() else "192 x 96 m · 2 players"], 15)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:48
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:68
 msgid "192 x 96 m · 2 players"
 msgstr ""
 
-#. var b := _toggle(krow, "Fire (Vessa)" if k == &"fire" else "Shadow (Malrik)", kg)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:59
-msgid "Fire (Vessa)"
-msgstr ""
-
-#. var b := _toggle(krow, "Fire (Vessa)" if k == &"fire" else "Shadow (Malrik)", kg)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:59
-msgid "Shadow (Malrik)"
-msgstr ""
-
 #. col.add_child(UIStyle.panel_label("Enemy bot", 17, UIStyle.GOLD))
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:64
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:97
 msgid "Enemy bot"
 msgstr ""
 
 #. var b := _toggle(prow, "Steward (economy)" if p == "steward" else "Hammer (aggressive)", pg)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:69
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:102
 msgid "Steward (economy)"
 msgstr ""
 
 #. var b := _toggle(prow, "Steward (economy)" if p == "steward" else "Hammer (aggressive)", pg)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:69
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:102
 msgid "Hammer (aggressive)"
 msgstr ""

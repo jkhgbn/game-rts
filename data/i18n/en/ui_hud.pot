@@ -1360,23 +1360,23 @@ msgid "Wading: -35 % speed"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:38
+#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:39
 msgid "Recruit"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:38
+#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:39
 msgid "Veteran"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
 #: scripts/ui/selection_panel.gd:1767 scripts/ui/wave_strike/wave_strike_hud.gd:231
-#: scripts/units/unit.gd:38
+#: scripts/units/unit.gd:39
 msgid "Elite"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:38
+#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:39
 msgid "Paragon"
 msgstr ""
 

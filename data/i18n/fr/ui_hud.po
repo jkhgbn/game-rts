@@ -1009,7 +1009,7 @@ msgid_plural "Under construction  {pct} %  ·  {n} builders (x{speed})"
 msgstr[0] "En construction  {pct} %  ·  {n} ouvrier (x{speed})"
 msgstr[1] "En construction  {pct} %  ·  {n} ouvriers (x{speed})"
 
-#. return Loc.t("Upgrading to %s %d %%") % [Loc.t(TierSystem.tier_name(k.tier + 1)), roundi(k.upgrade_progress() 
+#. return Loc.t("Upgrading to %s %d %%") % [Loc.t(TierSystem.tier_name(k.tier + 1)), roundi(k.upgrade_progress()
 #: scripts/ui/selection_panel.gd:1935
 msgid "Upgrading to %s %d %%"
 msgstr "Amélioration en %s %d %%"
@@ -1200,12 +1200,12 @@ msgstr "Sur le point le plus dense : 40 dégâts à 2,5 m, étourdi 0,5 s"
 msgid "Onto the most crowded spot: 40 damage within 2.5 m, marked 5 s"
 msgstr "Sur le point le plus dense : 40 dégâts à 2,5 m, marqué 5 s"
 
-#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it", 
+#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it",
 #: scripts/ui/selection_panel.gd:223
 msgid "Once, at 40 % HP"
 msgstr "Une fois, à 40 % PV"
 
-#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it", 
+#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it",
 #: scripts/ui/selection_panel.gd:223
 msgid "Shrouded 4 s, flies to its nest and heals 15 %: chase it"
 msgstr "Voilé 4 s, vole à son nid et soigne 15 % : poursuivez-le"
@@ -1260,7 +1260,7 @@ msgstr "Attaque 30 % plus vite"
 msgid "45 damage and dazed 1.2 s to everyone on its path"
 msgstr "45 dégâts et étourdi 1,2 s à tous sur son passage"
 
-#. &"elder_grizzlemaw": {&"rending_roar": "Dazes enemies within 6 m for 1 s (half on heroes) + taunts soldiers 3 
+#. &"elder_grizzlemaw": {&"rending_roar": "Dazes enemies within 6 m for 1 s (half on heroes) + taunts soldiers 3
 #: scripts/ui/selection_panel.gd:234
 msgid "Dazes enemies within 6 m for 1 s (half on heroes) + taunts soldiers 3 s"
 msgstr "Étourdit les ennemis à 6 m pendant 1 s (moitié sur les héros) + provoque les soldats 3 s"
@@ -1361,23 +1361,23 @@ msgid "Wading: -35 % speed"
 msgstr "À gué : -35 % de vitesse"
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:38
+#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:39
 msgid "Recruit"
 msgstr "Recrue"
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:38
+#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:39
 msgid "Veteran"
 msgstr "Vétéran"
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
 #: scripts/ui/selection_panel.gd:1767 scripts/ui/wave_strike/wave_strike_hud.gd:231
-#: scripts/units/unit.gd:38
+#: scripts/units/unit.gd:39
 msgid "Elite"
 msgstr "Élite"
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:38
+#: scripts/ui/selection_panel.gd:1767 scripts/units/unit.gd:39
 msgid "Paragon"
 msgstr "Parangon"
 
@@ -1638,6 +1638,198 @@ msgstr "Impossible"
 msgid "Can't"
 msgstr "Impossible"
 
+#. return "build %s to start trade: worker, %s (%d crystals, needs %s)" \
+#: scripts/ui/next_step_hint.gd:315
+#, obsolete
+msgid "build %s to start trade: worker, %s (%d crystals, needs %s)"
+msgstr ""
+
+#. + "Delete: cancel a site    %s: walk %s    %s: spells\n"
+#: scripts/ui/hud.gd:476
+#, obsolete
+msgid "Delete: cancel a site    %s: walk %s    %s: spells\n"
+msgstr ""
+
+#. + "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
+#: scripts/ui/hud.gd:474
+#, obsolete
+msgid "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
+msgstr ""
+
+#. middle = ("Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
+#: scripts/ui/hud.gd:472
+#, obsolete
+msgid "Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
+msgstr ""
+
+#. + "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n"
+#: scripts/ui/hud.gd:494
+#, obsolete
+msgid "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop"
+msgstr ""
+
+#. line += " (from %s)" % TierSystem.clock(float(st["from"]))
+#: scripts/ui/command_card.gd:952
+#, obsolete
+msgid " (from %s)"
+msgstr ""
+
+#. var line := "Upgrade your %s to a %s: select it, press %s" % [keep_name, st["name"], KeyLabels.of(KEY_X)]
+#: scripts/ui/command_card.gd:949
+#, obsolete
+msgid "Upgrade your %s to a %s: select it, press %s"
+msgstr ""
+
+#. return "Blocks the way.%s" % (" Max %d." % type.max_count if type.max_count > 0 else "")
+#: scripts/ui/command_card.gd:774
+#, obsolete
+msgid "Blocks the way.%s"
+msgstr ""
+
+#. line += "  ·  Paused: right-click it with workers"
+#: scripts/ui/selection_panel.gd:1892
+#, obsolete
+msgid "  ·  Paused: right-click it with workers"
+msgstr ""
+
+#. hero_badge.tooltip_text = "Level %d%s · %d spell point%s" % [level, xp_part, points, "" if points == 1 else "s
+#: scripts/ui/selection_panel.gd:791
+#, obsolete
+msgid "Level %d%s · %d spell point%s"
+msgstr ""
+
+#. am_tip += "\n%s works too." % KeyLabels.of(KEY_X)
+#: scripts/ui/command_card.gd:704
+#, obsolete
+msgid "\n%s works too."
+msgstr ""
+
+#. return "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s" % [refund, unpaid - refund, pursuers,
+#: scripts/ui/command_card.gd:675
+#, obsolete
+msgid "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s"
+msgstr ""
+
+#. var tip: String = "%s  [%s]\n%s" % [names[st], key, lines[st]] + ("\n(current)" if helper.stance == st else ""
+#: scripts/ui/command_card.gd:605
+#, obsolete
+msgid "\n(current)"
+msgstr ""
+
+#. return "%d unit%s dancing (%s)" % [n, "" if n == 1 else "s", ["victory", "I give up", "random"][int(words[1])
+#: scripts/ui/chat_line.gd:129
+#, obsolete
+msgid "%d unit%s dancing (%s)"
+msgstr ""
+
+#. return "+%d population.%s" % [type.pop_bonus, limit]
+#: scripts/ui/command_card.gd:768
+#, obsolete
+msgid "+%d population.%s"
+msgstr ""
+
+#. var t := "Next: " + step_text(step, kingdom, s)
+#: scripts/ui/next_step_hint.gd:135
+#, obsolete
+msgid "Next: "
+msgstr ""
+
+#. + "Attack-move: %s + click    %s: hold    %s: gather    %s: build\n"
+#: scripts/ui/hud.gd:481
+#, obsolete
+msgid "Attack-move: %s + click    %s: hold    %s: gather    %s: build\n"
+msgstr ""
+
+#. + "%s: train    Delete: cancel a site    %s: spells\n" % [train, spells])
+#: scripts/ui/hud.gd:483 scripts/ui/hud.gd:488
+#, obsolete
+msgid "%s: train    Delete: cancel a site    %s: spells\n"
+msgstr ""
+
+#. + "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build\n"
+#: scripts/ui/hud.gd:486
+#, obsolete
+msgid "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build\n"
+msgstr ""
+
+#. return ("Left click / drag: select    Shift: add    Double-click: all of a type\n"
+#: scripts/ui/hud.gd:489
+#, obsolete
+msgid "Left click / drag: select    Shift: add    Double-click: all of a type\n"
+msgstr ""
+
+#. + "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart\n"
+#: scripts/ui/hud.gd:491
+#, obsolete
+msgid "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart\n"
+msgstr ""
+
+#. var key := "btn_%s_%s_%s" % [rim.to_html(), inner.to_html(), halo]
+#: scripts/ui/ui_style.gd:269
+#, obsolete
+msgid "btn_%s_%s_%s"
+msgstr ""
+
+#. var limit := " Max %d." % type.max_count if type.max_count > 0 else ""
+#: scripts/ui/command_card.gd:767 scripts/ui/command_card.gd:774
+#, obsolete
+msgid " Max %d."
+msgstr ""
+
+#. for n in get_tree().root.find_children("*", "Control", true, false):
+#: scripts/ui/chat_line.gd:87
+#, obsolete
+msgid "Control"
+msgstr ""
+
+#. Loc.t("far") if far else Loc.t("near"), value, RouteLine.per_minute(market, post), line3]
+#: scripts/ui/command_card.gd:1036
+#, obsolete
+msgid "far"
+msgstr ""
+
+#. Loc.t("far") if far else Loc.t("near"), value, RouteLine.per_minute(market, post), line3]
+#: scripts/ui/command_card.gd:1036
+#, obsolete
+msgid "near"
+msgstr ""
+
+#. const SLOT_LETTERS := "ZXCVBNM,"
+#: scripts/ui/selection_manager.gd:109
+#, obsolete
+msgid "ZXCVBNM,"
+msgstr ""
+
+#. head += "  Rank %d / %d" % [r, max_rank(id, slot)]
+#: scripts/ui/spell_info.gd:228
+#, obsolete
+msgid "  Rank %d / %d"
+msgstr ""
+
+#. tip += "\nCtrl+%s: %s" % [key, next_rank_line(wiz, id, r)]
+#: scripts/ui/spell_info.gd:231
+#, obsolete
+msgid "\nCtrl+%s: %s"
+msgstr ""
+
+#. points_text.text = "+%d point%s" % [points, "" if points == 1 else "s"]
+#: scripts/ui/selection_panel.gd:795
+#, obsolete
+msgid "+%d point%s"
+msgstr ""
+
+#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
+#: scripts/ui/key_labels.gd:77
+#, obsolete
+msgid "Maj+"
+msgstr ""
+
+#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
+#: scripts/ui/key_labels.gd:77
+#, obsolete
+msgid "Maj+%s"
+msgstr ""
+
 #. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
 #: scripts/ui/key_labels.gd:77
 #, obsolete
@@ -1828,196 +2020,4 @@ msgstr ""
 #: scripts/ui/next_step_hint.gd:301
 #, obsolete
 msgid "build %s: select a worker, press %s (%d crystals)"
-msgstr ""
-
-#. var t := "Next: " + step_text(step, kingdom, s)
-#: scripts/ui/next_step_hint.gd:135
-#, obsolete
-msgid "Next: "
-msgstr ""
-
-#. return "+%d population.%s" % [type.pop_bonus, limit]
-#: scripts/ui/command_card.gd:768
-#, obsolete
-msgid "+%d population.%s"
-msgstr ""
-
-#. return "%d unit%s dancing (%s)" % [n, "" if n == 1 else "s", ["victory", "I give up", "random"][int(words[1])
-#: scripts/ui/chat_line.gd:129
-#, obsolete
-msgid "%d unit%s dancing (%s)"
-msgstr ""
-
-#. var tip: String = "%s  [%s]\n%s" % [names[st], key, lines[st]] + ("\n(current)" if helper.stance == st else ""
-#: scripts/ui/command_card.gd:605
-#, obsolete
-msgid "\n(current)"
-msgstr ""
-
-#. return "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s" % [refund, unpaid - refund, pursuers,
-#: scripts/ui/command_card.gd:675
-#, obsolete
-msgid "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s"
-msgstr ""
-
-#. am_tip += "\n%s works too." % KeyLabels.of(KEY_X)
-#: scripts/ui/command_card.gd:704
-#, obsolete
-msgid "\n%s works too."
-msgstr ""
-
-#. hero_badge.tooltip_text = "Level %d%s · %d spell point%s" % [level, xp_part, points, "" if points == 1 else "s
-#: scripts/ui/selection_panel.gd:791
-#, obsolete
-msgid "Level %d%s · %d spell point%s"
-msgstr ""
-
-#. line += "  ·  Paused: right-click it with workers"
-#: scripts/ui/selection_panel.gd:1892
-#, obsolete
-msgid "  ·  Paused: right-click it with workers"
-msgstr ""
-
-#. return "Blocks the way.%s" % (" Max %d." % type.max_count if type.max_count > 0 else "")
-#: scripts/ui/command_card.gd:774
-#, obsolete
-msgid "Blocks the way.%s"
-msgstr ""
-
-#. var line := "Upgrade your %s to a %s: select it, press %s" % [keep_name, st["name"], KeyLabels.of(KEY_X)]
-#: scripts/ui/command_card.gd:949
-#, obsolete
-msgid "Upgrade your %s to a %s: select it, press %s"
-msgstr ""
-
-#. line += " (from %s)" % TierSystem.clock(float(st["from"]))
-#: scripts/ui/command_card.gd:952
-#, obsolete
-msgid " (from %s)"
-msgstr ""
-
-#. + "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n"
-#: scripts/ui/hud.gd:494
-#, obsolete
-msgid "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop"
-msgstr ""
-
-#. middle = ("Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
-#: scripts/ui/hud.gd:472
-#, obsolete
-msgid "Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
-msgstr ""
-
-#. + "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
-#: scripts/ui/hud.gd:474
-#, obsolete
-msgid "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
-msgstr ""
-
-#. + "Delete: cancel a site    %s: walk %s    %s: spells\n"
-#: scripts/ui/hud.gd:476
-#, obsolete
-msgid "Delete: cancel a site    %s: walk %s    %s: spells\n"
-msgstr ""
-
-#. return "build %s to start trade: worker, %s (%d crystals, needs %s)" \
-#: scripts/ui/next_step_hint.gd:315
-#, obsolete
-msgid "build %s to start trade: worker, %s (%d crystals, needs %s)"
-msgstr ""
-
-#. + "Attack-move: %s + click    %s: hold    %s: gather    %s: build\n"
-#: scripts/ui/hud.gd:481
-#, obsolete
-msgid "Attack-move: %s + click    %s: hold    %s: gather    %s: build\n"
-msgstr ""
-
-#. + "%s: train    Delete: cancel a site    %s: spells\n" % [train, spells])
-#: scripts/ui/hud.gd:483 scripts/ui/hud.gd:488
-#, obsolete
-msgid "%s: train    Delete: cancel a site    %s: spells\n"
-msgstr ""
-
-#. + "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build\n"
-#: scripts/ui/hud.gd:486
-#, obsolete
-msgid "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build\n"
-msgstr ""
-
-#. return ("Left click / drag: select    Shift: add    Double-click: all of a type\n"
-#: scripts/ui/hud.gd:489
-#, obsolete
-msgid "Left click / drag: select    Shift: add    Double-click: all of a type\n"
-msgstr ""
-
-#. + "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart\n"
-#: scripts/ui/hud.gd:491
-#, obsolete
-msgid "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart\n"
-msgstr ""
-
-#. var key := "btn_%s_%s_%s" % [rim.to_html(), inner.to_html(), halo]
-#: scripts/ui/ui_style.gd:269
-#, obsolete
-msgid "btn_%s_%s_%s"
-msgstr ""
-
-#. var limit := " Max %d." % type.max_count if type.max_count > 0 else ""
-#: scripts/ui/command_card.gd:767 scripts/ui/command_card.gd:774
-#, obsolete
-msgid " Max %d."
-msgstr ""
-
-#. for n in get_tree().root.find_children("*", "Control", true, false):
-#: scripts/ui/chat_line.gd:87
-#, obsolete
-msgid "Control"
-msgstr ""
-
-#. Loc.t("far") if far else Loc.t("near"), value, RouteLine.per_minute(market, post), line3]
-#: scripts/ui/command_card.gd:1036
-#, obsolete
-msgid "far"
-msgstr ""
-
-#. Loc.t("far") if far else Loc.t("near"), value, RouteLine.per_minute(market, post), line3]
-#: scripts/ui/command_card.gd:1036
-#, obsolete
-msgid "near"
-msgstr ""
-
-#. const SLOT_LETTERS := "ZXCVBNM,"
-#: scripts/ui/selection_manager.gd:109
-#, obsolete
-msgid "ZXCVBNM,"
-msgstr ""
-
-#. head += "  Rank %d / %d" % [r, max_rank(id, slot)]
-#: scripts/ui/spell_info.gd:228
-#, obsolete
-msgid "  Rank %d / %d"
-msgstr ""
-
-#. tip += "\nCtrl+%s: %s" % [key, next_rank_line(wiz, id, r)]
-#: scripts/ui/spell_info.gd:231
-#, obsolete
-msgid "\nCtrl+%s: %s"
-msgstr ""
-
-#. points_text.text = "+%d point%s" % [points, "" if points == 1 else "s"]
-#: scripts/ui/selection_panel.gd:795
-#, obsolete
-msgid "+%d point%s"
-msgstr ""
-
-#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
-#: scripts/ui/key_labels.gd:77
-#, obsolete
-msgid "Maj+"
-msgstr ""
-
-#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
-#: scripts/ui/key_labels.gd:77
-#, obsolete
-msgid "Maj+%s"
 msgstr ""

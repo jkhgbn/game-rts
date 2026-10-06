@@ -114,23 +114,26 @@ msgstr ""
 #. &"ashby": ["Captain Ashby", Color(0.95, 0.60, 0.35)],
 #: scripts/ui/cinematic/speakers.gd:18 scripts/campaign/mission_00.gd:112
 #: scripts/campaign/mission_00.gd:808 scripts/campaign/mission_e2_01.gd:150
+#: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_03.gd:95
 msgid "Captain Ashby"
 msgstr ""
 
 #. &"pell": ["Pell", Color(0.85, 0.75, 0.5)],
 #: scripts/ui/cinematic/speakers.gd:19 scripts/campaign/mission_01.gd:93
 #: scripts/campaign/mission_02.gd:139 scripts/campaign/mission_03.gd:154
-#: scripts/campaign/mission_04.gd:91
+#: scripts/campaign/mission_04.gd:91 scripts/campaign/mission_e2_03.gd:94
 msgid "Pell"
 msgstr ""
 
 #. &"bettany": ["Bettany Crook", Color(0.80, 0.65, 0.45)],
 #: scripts/ui/cinematic/speakers.gd:20 scripts/campaign/mission_03.gd:155
+#: scripts/campaign/mission_e2_03.gd:389
 msgid "Bettany Crook"
 msgstr ""
 
 #. &"maelis": ["Maelis", Color(0.60, 0.85, 0.50)],
 #: scripts/ui/cinematic/speakers.gd:21 scripts/campaign/mission_03.gd:155
+#: scripts/campaign/mission_e2_02.gd:167
 msgid "Maelis"
 msgstr ""
 

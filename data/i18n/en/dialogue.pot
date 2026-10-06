@@ -451,7 +451,7 @@ msgid "Hands ready, boss."
 msgstr ""
 
 #. speaker unit_cinder_hand
-#: data/voice/lines/unit_barks.json:cinder_hand_move
+#: data/voice/lines/unit_barks.json:cinder_hand_move scripts/world/ally_channel.gd:22
 msgid "On my way."
 msgstr ""
 

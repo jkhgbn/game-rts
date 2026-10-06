@@ -240,7 +240,7 @@ msgstr "Niveau maximum"
 
 #. const REASON_WORKING := "Already in progress"
 #: scripts/buildings/forge_kit.gd:81 scripts/buildings/unit_upgrades.gd:42
-#: scripts/units/bowman_upgrades.gd:47 scripts/units/stables16.gd:261
+#: scripts/units/bowman_upgrades.gd:47 scripts/units/stables16.gd:263
 msgid "Already in progress"
 msgstr "Déjà en cours"
 
@@ -401,7 +401,7 @@ msgstr "Pas maintenant"
 
 #. const REASON_DONE := "Already researched"
 #: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:46
-#: scripts/units/stables16.gd:259
+#: scripts/units/stables16.gd:261
 msgid "Already researched"
 msgstr "Déjà recherché"
 
@@ -1081,17 +1081,17 @@ msgid "Tier 3 horse archer. Long range, fast; regenerates."
 msgstr "Archer monté de palier 3. Longue portée, rapide ; se régénère."
 
 #. return "No rank-up for that unit"
-#: scripts/units/stables16.gd:257
+#: scripts/units/stables16.gd:259
 msgid "No rank-up for that unit"
 msgstr "Aucune promotion pour cette unité"
 
 #. return "Needs completed Stables"
-#: scripts/units/stables16.gd:264 scripts/units/stables16.gd:267
+#: scripts/units/stables16.gd:266 scripts/units/stables16.gd:269
 msgid "Needs completed Stables"
 msgstr "Exige des Stables terminées"
 
 #. return "The Stables is busy"
-#: scripts/units/stables16.gd:273
+#: scripts/units/stables16.gd:275
 msgid "The Stables is busy"
 msgstr "Les Stables sont occupées"
 
@@ -1150,7 +1150,7 @@ msgstr "Espion de palier 3. Ressemble à un ouvrier ennemi hors combat ; pose d
 msgid "Tier 3 vampire duelist. Heals 35 % of its damage (halved 4 s by fire); Blood Frenzy under 40 % HP."
 msgstr "Duelliste vampire de palier 3. Récupère 35 % de ses dégâts (moitié moins 4 s après du feu) ; Blood Frenzy sous 40 % PV."
 
-#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off 
+#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off
 #: scripts/units/t3_kit.gd:26
 msgid "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off your archers."
 msgstr "Hallebardier de palier 3. Hold the Line : arrête une charge et fige le cavalier 1 s ; provoque les plongeurs loin de vos archers."
@@ -1206,7 +1206,7 @@ msgid "Can't hire that here"
 msgstr "Impossible d'engager ça ici"
 
 #. @export var unit_name := "Soldier"
-#: scripts/units/unit.gd:143
+#: scripts/units/unit.gd:144
 msgid "Soldier"
 msgstr "Soldat"
 
@@ -1414,6 +1414,36 @@ msgstr "Échange par tranches de 100 or"
 msgid "Cannot exchange now"
 msgstr "Échange impossible pour l'instant"
 
+#. const REFUSE_SPAM := "Too many pings"
+#: scripts/world/ally_channel.gd:20
+msgid "Too many pings"
+msgstr "Trop de signaux"
+
+#. const ANSWER_BEHIND := "Right behind you."
+#: scripts/world/ally_channel.gd:23
+msgid "Right behind you."
+msgstr "Juste derrière toi."
+
+#. const ANSWER_NOT_YET := "Not yet: my army is too small. Give me 30 seconds."
+#: scripts/world/ally_channel.gd:24
+msgid "Not yet: my army is too small. Give me 30 seconds."
+msgstr "Pas encore : mon armée est trop petite. Donne-moi 30 secondes."
+
+#. const ANSWER_TOO_STRONG := "Too strong for us. Gather first."
+#: scripts/world/ally_channel.gd:25
+msgid "Too strong for us. Gather first."
+msgstr "Trop fort pour nous. Regroupons-nous d'abord."
+
+#. const ANSWER_BASE := "Your base is under attack! Coming."
+#: scripts/world/ally_channel.gd:26
+msgid "Your base is under attack! Coming."
+msgstr "Ta base est attaquée! J'arrive."
+
+#. const ANSWER_FALLING_BACK := "Falling back."
+#: scripts/world/ally_channel.gd:27
+msgid "Falling back."
+msgstr "Je me replie."
+
 #. return "Claim"
 #: scripts/world/bounty.gd:235
 msgid "Claim"
@@ -1474,22 +1504,10 @@ msgstr "une cible perdue"
 msgid "the %s"
 msgstr "le %s"
 
-#. &"bristleback": {"name": "Bristleback Wallow", "tier": 1,
-#: scripts/world/camp_manager.gd:28 scripts/world/layout_level.gd:28 scripts/world/skirmish.gd:179
-#: scripts/world/skirmish.gd:181
-msgid "Bristleback Wallow"
-msgstr "Bristleback Wallow"
-
 #. &"mirefang": {"name": "Ford Nest", "tier": 2, "amphibious": true,
 #: scripts/world/camp_manager.gd:30 scripts/world/layout_level.gd:28
 msgid "Ford Nest"
 msgstr "Ford Nest"
-
-#. &"gloomcap": {"name": "Gloomcap Hollow", "tier": 2,
-#: scripts/world/camp_manager.gd:32 scripts/world/layout_level.gd:29 scripts/world/skirmish.gd:187
-#: scripts/world/skirmish.gd:189
-msgid "Gloomcap Hollow"
-msgstr "Gloomcap Hollow"
 
 #. &"hollow_stag": {"name": "Stag Glade", "tier": 3,
 #: scripts/world/camp_manager.gd:35 scripts/world/layout_level.gd:29 scripts/world/skirmish.gd:191
@@ -1825,17 +1843,17 @@ msgid "Well"
 msgstr "Well"
 
 #. var line := "Ember Crown: unclaimed"
-#: scripts/world/layout_level.gd:420 scripts/world/skirmish.gd:700
+#: scripts/world/layout_level.gd:420 scripts/world/skirmish.gd:733
 msgid "Ember Crown: unclaimed"
 msgstr "Ember Crown : non réclamée"
 
 #. line = "Ember Crown: sealed until 6:00"
-#: scripts/world/layout_level.gd:422 scripts/world/skirmish.gd:702
+#: scripts/world/layout_level.gd:422 scripts/world/skirmish.gd:735
 msgid "Ember Crown: sealed until 6:00"
 msgstr "Ember Crown : scellée jusqu'à 6:00"
 
 #. line = "Ember Crown: worn by %s" % crown.wearer_name()
-#: scripts/world/layout_level.gd:424 scripts/world/skirmish.gd:704
+#: scripts/world/layout_level.gd:424 scripts/world/skirmish.gd:737
 msgid "Ember Crown: worn by %s"
 msgstr "Ember Crown : portée par %s"
 
@@ -1855,32 +1873,32 @@ msgid "%s herd"
 msgstr "Harde (%s)"
 
 #. const START_HINT := "Click your Keep (bottom-left) to train workers — select workers and press B to build"
-#: scripts/world/main.gd:42
+#: scripts/world/main.gd:46
 msgid "Click your Keep (bottom-left) to train workers — select workers and press B to build"
 msgstr "Cliquez sur votre donjon (en bas à gauche) pour former des ouvriers — sélectionnez des ouvriers et appuyez sur B pour construire"
 
 #. hud.show_message("Baking pathfinding...", 1.0)
-#: scripts/world/main.gd:103
+#: scripts/world/main.gd:111
 msgid "Baking pathfinding..."
 msgstr "Calcul des chemins..."
 
 #. return ("Mission 1: Ruins of the Ember Crown\n"
-#: scripts/world/main.gd:155
+#: scripts/world/main.gd:163
 msgid "Mission 1: Ruins of the Ember Crown\nLead the Fire Wizard to the Ember Crown (north-east).\nYour wizard must survive."
 msgstr "Mission 1 : Ruins of the Ember Crown\nMenez le sorcier du Feu à l'Ember Crown (nord-est).\nVotre sorcier doit survivre."
 
 #. hud.show_message("%s claims the %s!  +%d max mana, stronger Fireball" %
-#: scripts/world/main.gd:205
+#: scripts/world/main.gd:213
 msgid "%s claims the %s!  +%d max mana, stronger Fireball"
 msgstr "%s s'empare de %s !  +%d mana max, Fireball plus puissant"
 
 #. hud.show_banner("VICTORY\nPress F9 to play again", Color(1.0, 0.85, 0.3))
-#: scripts/world/main.gd:225
+#: scripts/world/main.gd:233
 msgid "VICTORY\nPress F9 to play again"
 msgstr "VICTOIRE\nAppuyez sur F9 pour rejouer"
 
 #. hud.show_banner("DEFEAT\nYour wizard has fallen.  Press F9 to retry", Color(0.9, 0.3, 0.3))
-#: scripts/world/main.gd:227
+#: scripts/world/main.gd:235
 msgid "DEFEAT\nYour wizard has fallen.  Press F9 to retry"
 msgstr "DÉFAITE\nVotre sorcier est tombé.  Appuyez sur F9 pour réessayer"
 
@@ -1909,7 +1927,7 @@ msgstr "Millstone Cross"
 msgid "Lantern Wharf"
 msgstr "Lantern Wharf"
 
-#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0), 
+#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0),
 #: scripts/world/skirmish.gd:101
 msgid "Saltgate"
 msgstr "Saltgate"
@@ -1974,46 +1992,6 @@ msgstr "Rookwatch"
 msgid "Owlwatch"
 msgstr "Owlwatch"
 
-#. {"id": &"tower_s", "name": "Millwatch", "kind": &"watchtower", "pos": Vector3(-6.0, 0.0, 40.0)},
-#: scripts/world/skirmish.gd:168
-msgid "Millwatch"
-msgstr "Millwatch"
-
-#. {"id": &"tower_n", "name": "Saltwatch", "kind": &"watchtower", "pos": Vector3(6.0, 0.0, -40.0)},
-#: scripts/world/skirmish.gd:169
-msgid "Saltwatch"
-msgstr "Saltwatch"
-
-#. {"id": &"well_w", "name": "Mossmere Well", "kind": &"well", "pos": Vector3(-30.0, 0.0, -24.0)},
-#: scripts/world/skirmish.gd:170
-msgid "Mossmere Well"
-msgstr "Mossmere Well"
-
-#. {"id": &"well_e", "name": "Stonemere Well", "kind": &"well", "pos": Vector3(30.0, 0.0, 24.0)},
-#: scripts/world/skirmish.gd:171
-msgid "Stonemere Well"
-msgstr "Stonemere Well"
-
-#. {"id": &"shrine_w", "name": "West Wayshrine", "kind": &"shrine", "pos": Vector3(-22.0, 0.0, -6.0)},
-#: scripts/world/skirmish.gd:172
-msgid "West Wayshrine"
-msgstr "West Wayshrine"
-
-#. {"id": &"shrine_e", "name": "East Wayshrine", "kind": &"shrine", "pos": Vector3(22.0, 0.0, 6.0)},
-#: scripts/world/skirmish.gd:173
-msgid "East Wayshrine"
-msgstr "East Wayshrine"
-
-#. {"id": &"camp_nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2,
-#: scripts/world/skirmish.gd:183
-msgid "Willow Ford Nest"
-msgstr "Willow Ford Nest"
-
-#. {"id": &"camp_nest_n", "name": "Reed Ford Nest", "kind": &"mirefang", "tier": 2,
-#: scripts/world/skirmish.gd:185
-msgid "Reed Ford Nest"
-msgstr "Reed Ford Nest"
-
 #. {"id": &"herd_nw", "name": "North-west herd", "count": 3, "respawn": 120.0,
 #: scripts/world/skirmish.gd:227
 msgid "North-west herd"
@@ -2049,108 +2027,103 @@ msgstr "Vessa est tombée, les braises la ramèneront"
 msgid "He"
 msgstr "Il"
 
-#. "fallen": "Ysolde has fallen, the forest will regrow her"},
-#: scripts/world/skirmish.gd:301
-msgid "Ysolde has fallen, the forest will regrow her"
-msgstr "Ysolde est tombée, la forêt la fera renaître"
-
 #. var text := "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\
-#: scripts/world/skirmish.gd:676
+#: scripts/world/skirmish.gd:709
 msgid "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\nCrystals gathered %s\n"
 msgstr "Durée de la partie %s\nUnités formées %d · Unités perdues %d · Unités ennemies tuées %d · Bâtiments détruits %d\nCristaux récoltés %s\n"
 
 #. text += "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n" % [
-#: scripts/world/skirmish.gd:680
+#: scripts/world/skirmish.gd:713
 msgid "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n"
 msgstr "Or gagné %s (commerce %s) · Caravanes perdues %d · Ouvriers perdus aux Magpies %d · Magpies tués %d\n"
 
 #. parts.append("Points held at the end %d / %d" % [s["points_held"], s["points_total"]])
-#: scripts/world/skirmish.gd:685
+#: scripts/world/skirmish.gd:718
 msgid "Points held at the end %d / %d"
 msgstr "Points tenus à la fin %d / %d"
 
 #. parts.append("Camps cleared %d" % s["camps_cleared"])
-#: scripts/world/skirmish.gd:687
+#: scripts/world/skirmish.gd:720
 msgid "Camps cleared %d"
 msgstr "Camps nettoyés %d"
 
 #. parts.append("Blessings %d" % s["blessings"])
-#: scripts/world/skirmish.gd:689
+#: scripts/world/skirmish.gd:722
 msgid "Blessings %d"
 msgstr "Bénédictions %d"
 
 #. parts.append("Game hunted %d" % s["game_hunted"])
-#: scripts/world/skirmish.gd:691
+#: scripts/world/skirmish.gd:724
 msgid "Game hunted %d"
 msgstr "Gibier chassé %d"
 
 #. return text + "F9: play again"
-#: scripts/world/skirmish.gd:694
+#: scripts/world/skirmish.gd:727
 msgid "F9: play again"
 msgstr "F9 : rejouer"
 
 #. return "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n" \
-#: scripts/world/skirmish.gd:705
+#: scripts/world/skirmish.gd:738
 msgid "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n"
 msgstr "Escarmouche : Crown Hollow\nDétruisez tous les bâtiments %s. Gardez-en un des vôtres debout.\n"
 
 #. hud.show_message("%s found %d essence" % [who, int(loot["essence"])], 3.0)
-#: scripts/world/skirmish.gd:1452
+#: scripts/world/skirmish.gd:1485
 msgid "%s found %d essence"
 msgstr "%s a trouvé %d essence"
 
 #. hud.show_message("The Lost Cache holds %d essence" % int(loot["essence"]), 3.0)
-#: scripts/world/skirmish.gd:1457
+#: scripts/world/skirmish.gd:1490
 msgid "The Lost Cache holds %d essence"
 msgstr "La Lost Cache contient %d essence"
 
 #. hud.show_message("The Lost Cache holds %s" % item_name, 3.0)
-#: scripts/world/skirmish.gd:1461
+#: scripts/world/skirmish.gd:1494
 msgid "The Lost Cache holds %s"
 msgstr "La Lost Cache contient %s"
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1523
+#: scripts/world/skirmish.gd:1556
 msgid "%s on score  %s to %s"
 msgstr "%s au pointage  %s à %s"
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1523
+#: scripts/world/skirmish.gd:1556
 msgid "Won"
 msgstr "Victoire"
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1523
+#: scripts/world/skirmish.gd:1556
 msgid "Lost"
 msgstr "Défaite"
 
 #. var names := ["You (%s)" % _kingdom_info(Unit.Team.PLAYER, "name"),
-#: scripts/world/skirmish.gd:1525
+#: scripts/world/skirmish.gd:1558
 msgid "You (%s)"
 msgstr "Vous (%s)"
 
 #. hud.show_message("%s has fallen! %s returns in %d s" % [EmberCrown.short_name(wiz),
-#: scripts/world/skirmish.gd:1591
+#: scripts/world/skirmish.gd:1624
 msgid "%s has fallen! %s returns in %d s"
 msgstr "%s est tombé ! %s revient dans %d s"
 
 #. hud.show_message("%s returns!" % EmberCrown.short_name(wiz), 3.0)
-#: scripts/world/skirmish.gd:1609
+#: scripts/world/skirmish.gd:1642
 msgid "%s returns!"
 msgstr "%s revient !"
 
 #. hud.show_message("The %s lies unclaimed" % dropped.artifact_name, 4.0)
-#: scripts/world/skirmish.gd:1642
+#: scripts/world/skirmish.gd:1675
 msgid "The %s lies unclaimed"
 msgstr "%s n'est pas réclamé"
 
 #. hud.show_message("Press F10 again to surrender", SURRENDER_WINDOW)
-#: scripts/world/skirmish.gd:1685
+#: scripts/world/skirmish.gd:1718
 msgid "Press F10 again to surrender"
 msgstr "Appuyez de nouveau sur F10 pour abandonner"
 
 #. return "a barracks"
-#: scripts/world/skirmish.gd:1764
+#: scripts/world/skirmish.gd:1797
 msgid "a barracks"
 msgstr "une caserne"
 
@@ -2173,6 +2146,30 @@ msgstr "Y : engager des champions"
 #: scripts/world/thieves_guild.gd:71
 msgid "The Magpies are on the roads"
 msgstr "Les Magpies sont sur les routes"
+
+#. {"id": &"camp_nest_n", "name": "Reed Ford Nest", "kind": &"mirefang", "tier": 2,
+#: scripts/world/skirmish.gd:185
+#, obsolete
+msgid "Reed Ford Nest"
+msgstr "Reed Ford Nest"
+
+#. {"id": &"camp_nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2,
+#: scripts/world/skirmish.gd:183
+#, obsolete
+msgid "Willow Ford Nest"
+msgstr "Willow Ford Nest"
+
+#. {"id": &"shrine_e", "name": "East Wayshrine", "kind": &"shrine", "pos": Vector3(22.0, 0.0, 6.0)},
+#: scripts/world/skirmish.gd:173
+#, obsolete
+msgid "East Wayshrine"
+msgstr "East Wayshrine"
+
+#. {"id": &"shrine_w", "name": "West Wayshrine", "kind": &"shrine", "pos": Vector3(-22.0, 0.0, -6.0)},
+#: scripts/world/skirmish.gd:172
+#, obsolete
+msgid "West Wayshrine"
+msgstr "West Wayshrine"
 
 #. var id := StringName("node_%s_%s" % ["shadow" if team == Unit.Team.ENEMY else "fire", suffix])
 #: scripts/world/skirmish.gd:480
@@ -2365,3 +2362,47 @@ msgstr ""
 #, obsolete
 msgid "Torvald has fallen, the frost will bring him back"
 msgstr "Torvald est tombé, le givre le ramènera"
+
+#. {"id": &"well_e", "name": "Stonemere Well", "kind": &"well", "pos": Vector3(30.0, 0.0, 24.0)},
+#: scripts/world/skirmish.gd:171
+#, obsolete
+msgid "Stonemere Well"
+msgstr "Stonemere Well"
+
+#. {"id": &"well_w", "name": "Mossmere Well", "kind": &"well", "pos": Vector3(-30.0, 0.0, -24.0)},
+#: scripts/world/skirmish.gd:170
+#, obsolete
+msgid "Mossmere Well"
+msgstr "Mossmere Well"
+
+#. {"id": &"tower_n", "name": "Saltwatch", "kind": &"watchtower", "pos": Vector3(6.0, 0.0, -40.0)},
+#: scripts/world/skirmish.gd:169
+#, obsolete
+msgid "Saltwatch"
+msgstr "Saltwatch"
+
+#. {"id": &"tower_s", "name": "Millwatch", "kind": &"watchtower", "pos": Vector3(-6.0, 0.0, 40.0)},
+#: scripts/world/skirmish.gd:168
+#, obsolete
+msgid "Millwatch"
+msgstr "Millwatch"
+
+#. &"gloomcap": {"name": "Gloomcap Hollow", "tier": 2,
+#: scripts/world/camp_manager.gd:32 scripts/world/layout_level.gd:29 scripts/world/skirmish.gd:187
+#: scripts/world/skirmish.gd:189
+#, obsolete
+msgid "Gloomcap Hollow"
+msgstr "Gloomcap Hollow"
+
+#. &"bristleback": {"name": "Bristleback Wallow", "tier": 1,
+#: scripts/world/camp_manager.gd:28 scripts/world/layout_level.gd:28 scripts/world/skirmish.gd:179
+#: scripts/world/skirmish.gd:181
+#, obsolete
+msgid "Bristleback Wallow"
+msgstr "Bristleback Wallow"
+
+#. "fallen": "Ysolde has fallen, the forest will regrow her"},
+#: scripts/world/skirmish.gd:301
+#, obsolete
+msgid "Ysolde has fallen, the forest will regrow her"
+msgstr "Ysolde est tombée, la forêt la fera renaître"
