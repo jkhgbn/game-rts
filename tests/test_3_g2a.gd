@@ -56,7 +56,7 @@ func _run() -> void:
 	g.stats_changed.connect(func() -> void: _stats_events += 1)
 	var dmg := g.attack_damage
 	var cd := g.attack_cooldown
-	_check(_near(g.max_hp, 130.0) and _near(g.hp, 130.0), "flame guard base hp %s" % g.max_hp)
+	_check(_near(g.max_hp, 120.0) and _near(g.hp, 120.0), "flame guard base hp %s" % g.max_hp)
 	g.add_modifier(&"flat", {"attack_damage": 5})
 	_check(_near(g.attack_damage, dmg + 5.0) and _near(g.get_stat(&"attack_damage"), dmg + 5.0), "flat dmg")
 	g.add_modifier(&"pct", {"attack_damage_pct": 0.5})
@@ -67,15 +67,15 @@ func _run() -> void:
 	_check(_stats_events >= 4, "stats_changed emitted")
 	# ---- max HP: gain heals the gain, loss clamps
 	g.add_modifier(&"hp", {"max_hp": 50})
-	_check(_near(g.max_hp, 180.0) and _near(g.hp, 180.0), "hp gain heals (%s/%s)" % [g.hp, g.max_hp])
+	_check(_near(g.max_hp, 170.0) and _near(g.hp, 170.0), "hp gain heals (%s/%s)" % [g.hp, g.max_hp])
 	g.take_damage(100.0, null)
-	_check(_near(g.hp, 80.0), "damage after gain")
+	_check(_near(g.hp, 70.0), "damage after gain")
 	g.remove_modifier(&"hp")
-	_check(_near(g.max_hp, 130.0) and _near(g.hp, 80.0), "hp loss keeps hp below max")
+	_check(_near(g.max_hp, 120.0) and _near(g.hp, 70.0), "hp loss keeps hp below max")
 	g.add_modifier(&"hp", {"max_hp": 50})
 	g.heal(1000.0)
 	g.remove_modifier(&"hp")
-	_check(_near(g.hp, 130.0), "hp loss clamps")
+	_check(_near(g.hp, 120.0), "hp loss clamps")
 	# ---- attack cooldown floor (40 % of base)
 	g.add_modifier(&"fast", {"attack_cooldown_pct": -0.9})
 	_check(_near(g.attack_cooldown, cd * 0.4), "cooldown floor")
@@ -90,8 +90,8 @@ func _run() -> void:
 	var sh := _spawn("flame_guard", 0, Vector3(0.0, 0.0, 15.0))
 	var sh_speed := sh.move_speed
 	sh.apply_status(&"shroud", 5.0)
-	sh.take_damage(200.0, null)   # 100 after shroud: a 130 HP guard survives
-	_check(sh.is_alive() and _near(sh.hp, 30.0) and sh.has_status(&"shroud"), "shroud halves (%s)" % sh.hp)
+	sh.take_damage(200.0, null)   # 100 after shroud: a 120 HP guard survives (balance pass 2026-10-06)
+	_check(sh.is_alive() and _near(sh.hp, 20.0) and sh.has_status(&"shroud"), "shroud halves (%s)" % sh.hp)
 	_check(_near(sh.move_speed, sh_speed + 2.0), "shroud speed")
 	sh.apply_status(&"haste", 8.0)
 	_check(_near(sh.attack_cooldown, cd * 0.7) and _near(sh.move_speed, sh_speed + 3.5), "haste")
@@ -109,14 +109,14 @@ func _run() -> void:
 	var v_dmg := v.attack_damage
 	v.add_xp(120)
 	_check(v.level == 2 and v.veterancy_name() == "Veteran", "veteran at 120 xp")
-	_check(_near(v.max_hp, 143.0) and _near(v.hp, 143.0), "veteran hp %s/%s" % [v.hp, v.max_hp])
+	_check(_near(v.max_hp, 132.0) and _near(v.hp, 132.0), "veteran hp %s/%s" % [v.hp, v.max_hp])
 	_check(_near(v.attack_damage, v_dmg * 1.1), "veteran dmg")
 	_check(_near(v.attack_cooldown, cd), "cooldown unchanged")
 	var chev := v.get_node_or_null(^"Chevrons") as Label3D
 	_check(chev != null and chev.visible and chev.text == "^", "chevron ^")
 	v.add_xp(680)   # 800 total: Elite and Champion, one signal per level
 	_check(v.level == 4 and _level_events == 3, "champion, 3 level signals (%d, %d)" % [v.level, _level_events])
-	_check(_near(v.max_hp, 169.0), "champion hp %s" % v.max_hp)
+	_check(_near(v.max_hp, 156.0), "champion hp %s" % v.max_hp)
 	var w := _spawn("cinder_hand", 0, Vector3(0.0, 0.0, 34.0))
 	w.add_xp(500)
 	_check(w.level == 1 and w.xp == 0, "workers never level")

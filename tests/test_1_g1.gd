@@ -9,7 +9,7 @@ const TIMEOUT_FRAMES := 300
 ## id: [display_name, faction, is_worker, cost, pop, train, hp, dmg, range, cooldown, speed, aggro, radius, height, colour]
 const EXPECTED := {
 	"cinder_hand": ["Cinder Hand", "fire", true, 50, 1, 12.0, 50.0, 4.0, 1.4, 1.2, 4.6, 0.0, 0.4, 1.4, Color(0.80, 0.60, 0.45)],
-	"flame_guard": ["Flame Guard", "fire", false, 90, 1, 18.0, 130.0, 12.0, 1.6, 1.0, 5.0, 8.0, 0.45, 2.0, Color(0.85, 0.30, 0.12)],  # body_height 2.0: model x1.12 (Fire clarity pass 2026-09-30), head top
+	"flame_guard": ["Flame Guard", "fire", false, 90, 1, 18.0, 120.0, 11.0, 1.6, 1.0, 5.0, 8.0, 0.45, 2.0, Color(0.85, 0.30, 0.12)],  # body_height 2.0: model x1.12 (Fire clarity pass 2026-09-30), head top; hp 120 / dmg 11 (balance pass 2026-10-06)
 	"ember_archer": ["Ember Archer", "fire", false, 100, 1, 20.0, 70.0, 9.0, 9.0, 1.2, 5.2, 10.0, 0.45, 1.9, Color(0.95, 0.55, 0.20)],  # body_height 1.9: model x1.12 (2026-09-30)
 	"blaze_rider": ["Blaze Rider", "fire", false, 180, 2, 30.0, 220.0, 18.0, 1.7, 0.9, 7.5, 9.0, 0.6, 2.3, Color(0.95, 0.40, 0.05)],  # body_height 2.3 since 13.V10 (rider on the Ember Boar)
 	"ash_hurler": ["Ash Hurler", "fire", false, 140, 1, 26.0, 60.0, 24.0, 12.0, 2.2, 4.0, 12.0, 0.45, 1.8, Color(0.60, 0.35, 0.25)],  # body_height 1.8: model x1.12 (2026-09-30)
@@ -107,7 +107,7 @@ func _check_make_unit() -> void:
 	if by_name == null or by_id == null:
 		_errors.append("make_unit failed")
 		return
-	if by_name.unit_name != "Flame Guard" or by_name.max_hp != 130.0 or by_name.unit_type == null:
+	if by_name.unit_name != "Flame Guard" or by_name.max_hp != 120.0 or by_name.unit_type == null:
 		_errors.append("make_unit('Flame Guard') has wrong stats")
 	var worker: Unit = main.make_unit("Cinder Hand")
 	if worker == null or not worker.is_worker() or by_id.is_worker():

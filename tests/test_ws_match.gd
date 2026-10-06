@@ -1,4 +1,5 @@
 extends SceneTree
+# error_lab: quit-after=130000 (a 30:00 match is 108000 frames; seed 1 ends by bastion at ~29:13 = 105654 frames, ~350 s wall)
 ## Wave Strike M1 headless match (docs/design/wave-strike.md 7.9 "test_ws_bot" + "test_lane_march"): a 1v1 on Ashwind
 ## Reach where BOTH seats are WaveBots (the player's seat on autopilot), run as fast as the CPU allows. PASS when the
 ## match ends (Bastion kill, or the 30:00 rule) inside the limit, no lane unit stalled (LaneMarch.stall_events == 0,

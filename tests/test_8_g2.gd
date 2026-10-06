@@ -335,6 +335,7 @@ func _bloom_ranks_2_3() -> void:
 	for rank in [2, 3]:
 		var p := T0 + Vector3(-8.0 + (rank - 2) * 16.0, 0.0, -4.0)
 		var g := _spawn("flame_guard", Unit.Team.PLAYER, p)
+		g.max_hp = 200.0   # room for the 120 heal (Flame Guard max_hp is 120 since the 2026-10-06 balance pass)
 		g.hp = 1.0
 		hp0[g] = g.hp
 		wb23.append(g)

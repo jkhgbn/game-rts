@@ -125,7 +125,7 @@ func _check_rules() -> void:
 	# Rule 1: HP <= 50 -> the healthiest of those.
 	_spawn("flame_guard", c + Vector3(3.0, 0.0, 0.0), 40.0)
 	var b := _spawn("flame_guard", c + Vector3(10.0, 0.0, 0.0), 50.0)
-	_spawn("flame_guard", c + Vector3(0.0, 0.0, 5.0), 130.0)
+	_spawn("flame_guard", c + Vector3(0.0, 0.0, 5.0), 120.0)
 	if malrik.pick_lance_target() != b:
 		errors.append("rule 1")
 	_free_temp()
@@ -162,7 +162,7 @@ func _start_live_test() -> void:
 
 func _run_live_test() -> void:
 	match phase:
-		1:   # first cast: full hit on a 130 HP guard -> 50 damage, +25 HP
+		1:   # first cast: full hit on a 120 HP guard (balance pass 2026-10-06) -> 50 damage, +25 HP
 			if heals.size() == 1:
 				if casts.size() != 1 or casts[0][1] != victim:
 					errors.append("first cast target")
@@ -170,8 +170,8 @@ func _run_live_test() -> void:
 					errors.append("full hit healed %.2f, want 25" % heals[0][1])
 				if not is_equal_approx(malrik.hp, 325.0):
 					errors.append("Malrik hp %.1f after full hit, want 325" % malrik.hp)
-				if not is_equal_approx(victim.hp, 80.0):
-					errors.append("victim hp %.1f, want 80" % victim.hp)
+				if not is_equal_approx(victim.hp, 70.0):
+					errors.append("victim hp %.1f, want 70" % victim.hp)
 				victim.hp = 20.0   # next hit overkills: deals 20, heals 10
 				phase = 2
 		2:   # second cast must wait for the 8 s cooldown, then heal only 10
