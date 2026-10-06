@@ -1,0 +1,11 @@
+{
+	"name": "ab_t2_both_strong",
+	"notes": "Unit Lab outlier A/B (2026-10-06): ab_t2_cost + ab_t2_hp_strong together. Hollow Oathsworn cost 200, max_hp 200; the four T2 cavalry cost +10 % and max_hp -15 %.",
+	"units": {
+		"hollow_oathsworn": {"cost": 200, "max_hp": 200.0},
+		"rimehorn_rider": {"cost": 275, "max_hp": 340.0},
+		"pyrehoof_lancer": {"cost": 285, "max_hp": 340.0},
+		"barrow_knight": {"cost": 280, "max_hp": 325.0},
+		"thornback_charger": {"cost": 270, "max_hp": 355.0}
+	}
+}

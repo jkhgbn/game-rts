@@ -1,0 +1,11 @@
+{
+	"name": "ab_t2_hp20",
+	"notes": "Unit Lab outlier A/B (2026-10-06): stat-only nerf strong enough for equal pop. Hollow Oathsworn max_hp 260 -> 200, attack_damage 20 -> 17; the four T2 cavalry max_hp -20 % (400 -> 320, 400 -> 320, 380 -> 305, 420 -> 335).",
+	"units": {
+		"hollow_oathsworn": {"max_hp": 200.0, "attack_damage": 17.0},
+		"rimehorn_rider": {"max_hp": 320.0},
+		"pyrehoof_lancer": {"max_hp": 320.0},
+		"barrow_knight": {"max_hp": 305.0},
+		"thornback_charger": {"max_hp": 335.0}
+	}
+}

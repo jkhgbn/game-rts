@@ -1,0 +1,11 @@
+{
+	"name": "ab_t2_hpdmg",
+	"notes": "Unit Lab outlier A/B (2026-10-06): HP and damage -10 % each. Hollow Oathsworn max_hp 260 -> 210, attack_damage 20 -> 16; the four T2 cavalry max_hp -10 % and attack_damage -10 % (Rimehorn 24 -> 21.5, Pyrehoof 28 -> 25, Barrow Knight 30 -> 27, Thornback 25 -> 22.5).",
+	"units": {
+		"hollow_oathsworn": {"max_hp": 210.0, "attack_damage": 16.0},
+		"rimehorn_rider": {"max_hp": 360.0, "attack_damage": 21.5},
+		"pyrehoof_lancer": {"max_hp": 360.0, "attack_damage": 25.0},
+		"barrow_knight": {"max_hp": 340.0, "attack_damage": 27.0},
+		"thornback_charger": {"max_hp": 380.0, "attack_damage": 22.5}
+	}
+}

@@ -1,0 +1,5 @@
+{
+	"name": "mix_fg_hp120",
+	"notes": "Unit Lab mix A/B (2026-10-06): Flame Guard max_hp 130 -> 120 (the Fire mix wins 85 % of mixed-army fights in mix_line_check).",
+	"units": {"flame_guard": {"max_hp": 120.0}}
+}

@@ -1,0 +1,5 @@
+{
+	"name": "mix_fg_both",
+	"notes": "Unit Lab mix A/B (2026-10-06): Flame Guard max_hp 130 -> 120 and attack_damage 12 -> 11.",
+	"units": {"flame_guard": {"max_hp": 120.0, "attack_damage": 11.0}}
+}

@@ -1,0 +1,5 @@
+{
+	"name": "mix_fg_dmg11",
+	"notes": "Unit Lab mix A/B (2026-10-06): Flame Guard attack_damage 12 -> 11 (the Fire mix wins 85 % of mixed-army fights in mix_line_check).",
+	"units": {"flame_guard": {"attack_damage": 11.0}}
+}
