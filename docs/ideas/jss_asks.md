@@ -38,3 +38,5 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-06: 'does the mission introduce a unit per level if possible, like fire episode 3 this is X unit, show the best case for the unit or close to it' -> outline has a New/unlocked column (kits, casters, T3, titans) but no designed showcase moments. Plan: unit-spotlight pass over all mission specs (each introduces 1 unit with a best-case encounter, derived from Unit Lab matchups) + intro card; docs first, built missions 1-4 patched after.
 
 - 2026-10-06: 'try to optimize to have like 4 mission per wizzard' -> read as: restructure the campaign so each of the 4 wizards plays about 4 missions (16 core + Episode 8 finale), merging/cutting the rest, keeping the best beats and unit spotlights. Design proposal only (docs/design/campaign-4-per-wizard.md), current outline untouched until JS approves.
+
+- 2026-10-06: 'try to buff or nerf unit or add siege unit to give huge position advantage and finish game faster, try both' -> two experiments measured on bot-vs-bot match length (variant A: stat/pacing buff-nerf; variant B: new/stronger siege units), then recommend.
