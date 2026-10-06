@@ -197,7 +197,7 @@ func _check_data() -> void:
 		_check(t != null, "%s.tres missing" % cid)
 		if t == null:
 			continue
-		_check(t.requires_tier == 2 and t.cost == 150 and t.pop == 2 and _near(t.train_time, 30.0, 0.01) \
+		_check(t.requires_tier == 2 and t.cost == 120 and t.pop == 2 and _near(t.train_time, 30.0, 0.01) \
 				and t.card_key == "B" and t.kill_xp == 75, "%s tier / cost / pop / time / key / xp" % cid)
 		_check(_near(t.max_hp, hp[cid], 0.01) and _near(t.move_speed, speed[cid], 0.01) \
 				and _near(t.attack_damage, 5.0, 0.01) and _near(t.attack_range, 7.0, 0.01) \

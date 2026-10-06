@@ -206,9 +206,9 @@ func _ice_hard() -> void:
 	var kw := _spawn("kilnwarden", ENEMY, rally + Vector3(0, 0, -30), true)
 	await _frames(3)
 	CasterKit.ability_of(kw).mana = 50.0
-	_check(absf(AIMemory.strength_of(kw) - 75.0) < 0.1, "strength at 50 mana %.1f (want 75)" % AIMemory.strength_of(kw))
+	_check(absf(AIMemory.strength_of(kw) - 60.0) < 0.1, "strength at 50 mana %.1f (want 60 = cost 120 x 0.5)" % AIMemory.strength_of(kw))
 	CasterKit.ability_of(kw).mana = 120.0
-	_check(absf(AIMemory.strength_of(kw) - 150.0) < 0.1, "strength at 120 mana %.1f (want 150)" % AIMemory.strength_of(kw))
+	_check(absf(AIMemory.strength_of(kw) - 120.0) < 0.1, "strength at 120 mana %.1f (want 120 = cost)" % AIMemory.strength_of(kw))
 	kw.queue_free()
 	# 8.3 a) dive guard: a player Flame Guard dives an own Shardcaster 7 m away -> a Bulwark in front of it.
 	var rc := casters[0]

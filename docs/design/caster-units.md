@@ -117,7 +117,7 @@ Holes worth filling (bold rows): armour shred, mana burn, vision / detection, te
 | Data | Ability ids, mana costs, ranges and the autocast defaults live in a const table `CasterKit.CASTERS` (the NewUnits12 / T3Kit pattern): **no new UnitType contract field**. The `.tres` sets only the standard fields |
 | Tier | `requires_tier = 2` (Stronghold; refusal "Requires Stronghold", ti. 2) |
 | Where | The **keep**, slot 5 = r2c1, key **B** (section 3.3). Every own keep of tier >= 2 trains them (expansions included) |
-| Cost / pop / time | **150 crystals, pop 2, 30 s**, kill_xp **75** (cost / 2). No essence, no gold |
+| Cost / pop / time | **120 crystals** (150 until the Unit Lab pass of 2026-10-05, see 7.2b), **pop 2, 30 s**, kill_xp **75** (kept at the old cost / 2). No essence, no gold |
 | No "+" | Casters have no "+" upgrade (ti. 5 is researched at a Hall; casters are keep units, like workers). Their growth is mana (3.4) |
 | Attack | A feeble bolt: **5** damage, range **7**, cooldown **1.6** (DPS 3.1), aggro 9. They defend themselves, they do not fight |
 | Commandable | Yes: selectable, groupable, F2 army includes them. Spells are cast by the player (keys / buttons) or by autocast |
@@ -168,10 +168,10 @@ max HP, +20 max mana, +0.05 mana / s** (not damage). Veterancy names and pips as
 ## 4. The four units: stats (level 1, no items)
 | id | Name | HP | Armor | Regen | Dmg | Range | CD | Speed | Aggro | Sight | Radius | Height | Cost | Pop | Train | kill_xp | Key | Tier |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `kilnwarden` | Kilnwarden | 100 | 0 | - | 5 | 7.0 | 1.6 | 4.6 | 9 | 11 | 0.5 | 1.75 | 150 | 2 | 30 | 75 | B | 2 |
-| `rimecarver` | Rimecarver | 90 | 5 | - | 5 | 7.0 | 1.6 | 4.2 | 9 | 11 | 0.45 | 1.7 | 150 | 2 | 30 | 75 | B | 2 |
-| `bramblesage` | Bramblesage | 85 | 0 | `idle_regen_pct` 1.0 | 5 | 7.0 | 1.6 | 4.8 | 9 | 11 | 0.45 | 1.8 | 150 | 2 | 30 | 75 | B | 2 |
-| `gloom_deacon` | Gloom Deacon | 100 | 0 | - | 5 | 7.0 | 1.6 | 4.6 | 9 | 11 | 0.45 | 1.8 | 150 | 2 | 30 | 75 | B | 2 |
+| `kilnwarden` | Kilnwarden | 100 | 0 | - | 5 | 7.0 | 1.6 | 4.6 | 9 | 11 | 0.5 | 1.75 | 120 | 2 | 30 | 75 | B | 2 |
+| `rimecarver` | Rimecarver | 90 | 5 | - | 5 | 7.0 | 1.6 | 4.2 | 9 | 11 | 0.45 | 1.7 | 120 | 2 | 30 | 75 | B | 2 |
+| `bramblesage` | Bramblesage | 85 | 0 | `idle_regen_pct` 1.0 | 5 | 7.0 | 1.6 | 4.8 | 9 | 11 | 0.45 | 1.8 | 120 | 2 | 30 | 75 | B | 2 |
+| `gloom_deacon` | Gloom Deacon | 100 | 0 | - | 5 | 7.0 | 1.6 | 4.6 | 9 | 11 | 0.45 | 1.8 | 120 | 2 | 30 | 75 | B | 2 |
 Colours (`body_color` = secondary cloth, `projectile_color` = bolt): Kilnwarden `(0.55, 0.30, 0.15)` / `(1.0, 0.55, 0.20)` ·
 Rimecarver `(0.60, 0.70, 0.82)` / `(0.70, 0.92, 1.00)` · Bramblesage `(0.55, 0.62, 0.30)` / `(0.85, 0.95, 0.45)` · Gloom Deacon
 `(0.30, 0.18, 0.40)` / `(0.75, 0.30, 0.55)`. Projectile speed 22.
@@ -254,7 +254,7 @@ casters; Shadow's Passage rescues a group caught in a Pollen Haze or on the wron
 | Rimecarver | Dives and charges (walls), retreats, chokes and bridges, stealth (runes), fights in fog | Mana Scald (50 mana = one fewer wall), big units (pop >= 3) smashing walls, flyers and ranged units (walls stop legs, not arrows), being caught alone (4.2 m/s) | No damage at all from its spells: a badly placed wall traps its own army |
 | Bramblesage | Ranged lines (Ember Archers, Nightbolts, Shardcasters, Magebows), artillery, lone casters and wounded wizards | Melee armies (the haze does nothing to them), Mana Scald, Grave Hounds and cavalry, area burst on its 85 HP | 100 mana for the haze: one per fight; the pull can drag a strong unit **into** a weak army |
 | Gloom Deacon | Long fights, Shade / Knight pushes that trade slowly, rescuing armies, flanks | Burst (it heals 10 / s, not 100), Snagroot and Mana Scald (both break or starve the tether), a Pollen Haze-free rush on it, Fireball on the clump it tethers | Channel: it must stay within 9 m of the ally, in the fight; the Passage telegraphs 2.5 s to both teams |
-Shared: pop 2 for ~3 DPS; 150 crystals; 30 s from the keep's worker queue; the enemy sees the mana bar (section 10) and the
+Shared: pop 2 for ~3 DPS; 120 crystals (150 before 7.2b); 30 s from the keep's worker queue; the enemy sees the mana bar (section 10) and the
 telegraphs (Slag ring, Haze cloud, Passage rifts, Bulwark ghost is local only).
 
 ---
@@ -285,7 +285,21 @@ Each duel runs twice: the **caster arm** and a **control arm** with the caster r
 | C6 | Counter-casters: 1 Kilnwarden vs 1 Bramblesage, both full mana, 10 m, casters only + 3 Flame Guards / 4 Thornlings | autocast on | - | Scald lands first (Kilnwarden kept its caster alive in >= 6 / 10), Snagroot lands in >= 8 / 10 |
 | C7 | Retreat: 12 Shades at 40 % HP 30 m from home chased by 10 Flame Guards; a Deacon at home casts Passage | bot rule 8.3 | no Passage | >= 8 Shades alive vs <= 4 |
 Knobs if a caster dominates (first ones to turn): Slag armour -20 -> -15; Bulwark 8 s -> 6 s; Haze 6 s -> 4 s; Tithe heal
-10 -> 8 / s; Passage 10 pop -> 8. If one is useless: mana start 50 -> 75, cost 150 -> 135.
+10 -> 8 / s; Passage 10 pop -> 8. If one is useless: mana start 50 -> 75, cost 150 -> 135 (2026-10-05: cost 150 -> 120 applied, see 7.2b).
+
+### 7.2b Unit Lab pass (2026-10-05): cost 150 -> 120
+Measured with the Unit Lab (`docs/balance/unit_lab/caster_ab.md`, ~13 000 fights): at level 1, full mana, head-on on flat
+ground, **no caster was worth its 150 crystals in its own line units**, against any of the four kingdoms' T1 mixes. The
+budget-sweep regression (caster arm minus "the same crystals in line units", value margin at exactly equal crystals,
+mean of the 4 opponents): Kilnwarden -9, Bramblesage -27, Gloom Deacon -28, Rimecarver -46 (win-rate delta -17 / -18 /
+-41 / -50 points). Of the three A/B knobs, **only the cost moved anything**: HP +15 % and mana regen +25 % changed the
+margins by 0 +/- 3 points (fights end in 15-30 s, a full bar is never the limit, nobody targets the caster first).
+Applied: **cost 150 -> 120 for all four** (kill_xp stays 75, pop stays 2). Predicted from the sweep slope (points per 30
+crystals): Kilnwarden about parity (margin +3, win -2), Gloom Deacon -16, Bramblesage -23, Rimecarver -38: still below
+parity, so the cut cannot overshoot. The bands of 7.2 are still missed (C1 / C3 / C4 FAIL); the remaining gap is the
+spells' value, a design call, not a cost knob (proposals in `caster_ab.md`: Blood Tithe heal 10 -> 14 / s, Pollen Haze
+trigger >= 4 -> >= 3 ranged units, the Rimecarver judged in its dive / retreat job, the bot's retreat Passage aiming at
+where the group will be). C7 (`passage_units` 0 in 20 / 20 fights) is an AI aiming problem, sent to the ai-coder.
 
 ### 7.3 Fit with each kingdom's identity (and not the wizard's)
 | Kingdom | Identity (gdd / kingdom docs) | Wizard's spells | The caster adds | Kept apart |

@@ -221,3 +221,12 @@ caravan.tres pop 1 -> 0. commander.gd ~2631 still keeps CARAVAN_POP_FREE free po
   Stronghold / Citadel on the per-difficulty timeline `TierSystem.BOT_START`; returns true while saving for it, max 45 s)
   and `UnitUpgrades.bot_try_buy(team, _barracks, _eco, _now)` ("+" upgrades). Feel free to move them into your own rule /
   AIProfile knobs (e.g. `rush_t3` profile times from t3-helpers.md 9).
+
+- 2026-10-05 (Unit Lab caster pass, `docs/balance/unit_lab/caster_ab.md`): **the bot's retreat Umbral Passage carries 0
+  units.** `AICasters._deacon` aims the Passage at `_densest(group)` = where the retreating group stands at cast time; the
+  group keeps walking home (~4.8 m/s) during the 2.5 s channel and is 10-12 m past the 4 m pick circle when it lands
+  (`CasterAbility.passage_candidates` at the END of the channel). Unit Lab C7 (`tools/unit_lab/presets/c7_passage_retreat.json`,
+  the result now records `passage_units`): Passage cast 20 / 20, `passage_units` 0. Suggested fix: aim at the group's
+  predicted position (densest point + the group's mean velocity x the channel time, clamped to the Passage range), or
+  have the commander hold the retreating group for the channel when no enemy is within ~4 m. Re-check with
+  `tools\unit_lab\run_unit_lab.ps1 c7_passage_retreat -Seeds 1-20` (band >= 8 Shades alive).
