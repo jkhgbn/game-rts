@@ -13,7 +13,7 @@ const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty or
 const MAP_WORDS := ["Autumn", "Grass", "Marsh", "Meadow", "Snow", "Neutral", "Fire", "Ice", "Nature", "Shadow"]
 ## Campaign mission titles (mission-01.md); ids and scenes come from CampaignState.
 const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
-		&"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne"}
+		&"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne", &"e2m1": "The Burning Grove"}
 const MENU_DIORAMA := "res://art/environment/menu_diorama/menu_diorama.tscn"
 const MAP_LIST_W := 250.0     ## MT9 map picker: the list's width (px)...
 const MAP_PREVIEW := 230.0    ## ...the preview square beside it (the mapsheet render, data/maps/previews/<id>.png)...

@@ -269,7 +269,7 @@ msgid "Cons"
 msgstr ""
 
 #. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
-#: scripts/ui/menus/unit_guide.gd:737
+#: scripts/ui/menus/unit_guide.gd:737 scripts/ui/mission/spotlight_card.gd:67
 msgid "Strong against"
 msgstr ""
 

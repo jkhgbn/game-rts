@@ -66,6 +66,33 @@ func is_briefing_open() -> bool:
 func _on_briefing_begun() -> void:
 	briefing = null
 	begun.emit()
+	if not _pending_spotlight.is_empty():
+		var data := _pending_spotlight
+		_pending_spotlight = {}
+		show_spotlight(data)
+
+
+var spotlight_card: SpotlightCard   ## The spotlight card on screen (null when none).
+var _pending_spotlight: Dictionary = {}
+
+
+## The mission's unit spotlight card ({id, card, key_hint, short}) under the objectives panel; waits for the briefing.
+func show_spotlight(data: Dictionary) -> void:
+	if is_briefing_open() or not is_node_ready():
+		_pending_spotlight = data
+		return
+	if spotlight_card and is_instance_valid(spotlight_card):
+		spotlight_card.queue_free()
+	spotlight_card = SpotlightCard.new()
+	spotlight_card.setup(data)
+	var parent: Node = get_node_or_null(^"Root")
+	if parent == null:
+		parent = self
+	parent.add_child(spotlight_card)
+	var y := 16.0
+	if objectives_panel and is_instance_valid(objectives_panel):
+		y = objectives_panel.position.y + objectives_panel.size.y + 10.0
+	spotlight_card.position = Vector2(16.0, y)
 
 
 func _hide_skirmish_objective() -> void:

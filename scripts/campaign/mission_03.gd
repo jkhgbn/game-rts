@@ -303,6 +303,8 @@ func _mission_config() -> MissionConfig:
 	c.rewards = {"artifact": "masters_signet", "flags": {"m3_mossjaw_slain": "sec_mossjaw",
 			"m3_stakes_held": "sec_stakes", "m3_hired": "sec_champion"},
 			"bonus_essence": {"sec_stakes": 300, "sec_mossjaw": 150}, "next": &"m04"}
+	c.spotlight = {"id": &"wayfinder", "trigger": &"unlock", "key_hint": "Crooked Lantern: Y",
+			"card": "Wayfinder. A champion you don't command: flag the fog, and she finds what hides in it."}
 	return c
 
 
@@ -958,6 +960,7 @@ func _on_tavern_opened(_tavern: Tavern) -> void:
 	hud.show_message(MSG_TAVERN, 4.0)
 	say_id(&"L4")
 	say_id(&"L5")
+	show_spotlight()   # unit-spotlights.md 2.1: the Wayfinder, hired here
 	after(4.0, func() -> void:
 		if not is_ending():
 			hud.show_message(HINT_HIRE % [KeyLabels.of(KEY_Y), KeyLabels.of(KEY_R)], 10.0))

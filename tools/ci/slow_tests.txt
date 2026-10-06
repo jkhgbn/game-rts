@@ -18,3 +18,4 @@ test_m9_sim
 test_m3_sim
 test_19_c5_sim
 test_ws_match   # Wave Strike bot-vs-bot 1v1, ~29 game min, ~350 s wall (2026-10-06)
+test_e2m1_sim   # e2m1 scripted run, ~18 game min (2026-10-06)

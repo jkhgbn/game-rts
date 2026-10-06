@@ -148,6 +148,7 @@ const BRIEFING_PARAGRAPHS: Array[String] = [
 const HINT_START := "Keep Vessa behind Old Vey's sword. Light the watch braziers to see the knives coming."
 const HINT_FIRST_LIT := "A lit brazier shows its side and warms whoever stands near it."
 const HINT_HUSH := "A violet ring means Hush is coming: Ember Step (Q) out of it."
+const HINT_SPOTLIGHT := "Stand the Guards between Vessa and the gate: the hounds hit the shields, not her."
 const HINT_LEVEL3 := "Level 3: Ctrl+F ranks up Fireball, Ctrl+Q ranks up Ember Step."
 const MSG_FIRES := "The watch-fires burn. The Emberguard will see them at dawn."
 const MSG_WATCH_FALLEN := "The watch has fallen."
@@ -215,6 +216,8 @@ func _mission_config() -> MissionConfig:
 	c.defeat_banner = "DEFEAT"
 	c.rewards = {"flags": {"m0_hush_driven": "sec_hush", "m0_escort_saved": "sec_guards"}, "next": &"m01",
 			"save_items": false}
+	c.spotlight = {"id": &"flame_guard", "trigger": &"start",
+			"card": "Flame Guard. Shields first, spark second: a Guard wall keeps the knives off Vessa."}
 	return c
 
 
@@ -672,6 +675,8 @@ func _fire_wave(id: StringName) -> void:
 		&"A2":
 			if fire_once(&"E3"):
 				say_line(4)
+				hud.show_message(HINT_SPOTLIGHT, 8.0)   # the spotlight moment (unit-spotlights.md 2.1)
+				flash_ring(spawn_point(&"e"), 4.0)
 		&"A3":
 			if fire_once(&"E4"):
 				say_line(5)

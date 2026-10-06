@@ -39,11 +39,16 @@ const RISE_VESSA := Vector3(-11.0, 0.0, 11.0)
 ## The phase-2 walk: the West Crown Bridge, then the lane to the Fire keep (61 m).
 const WALK_PATH: Array[Vector3] = [Vector3(-9.02, 0.0, 9.02), Vector3(-18.0, 0.0, 18.0), Vector3(-28.0, 0.0, 28.0),
 		Vector3(-38.0, 0.0, 38.0)]
-const M4_NODE_AMOUNTS := {&"a": 1500, &"b": 1500, &"mid": 2000, &"rich": 2000}
+## Pacing (2026-10-06): the spec's home nodes 1 500 / 1 500 ran dry at ~4:30 with a full worker line (the scripted run
+## then had to mine the natural beside Crown Isle, inside the isle guard's and later the Colossus's reach); 2 500 each
+## keeps the home economy alive into phase 1 (spec total 7 000 -> 9 000).
+const M4_NODE_AMOUNTS := {&"a": 2500, &"b": 2500, &"mid": 2000, &"rich": 2000}
 
 const ISLE_GUARD_UNTIL := 300.0
 const FIRST_ATTACK_AT := 330.0     ## The bot may launch attacks from here (its first one lands ~6:00).
 const STRIKE_DELAY := 20.0
+const STRIKE_RECRUIT_EVERY := 60.0   ## Phase 1: the bot's new soldiers at its rally join the pylon strike this often.
+const STRIKE_RECRUIT_RADIUS := 16.0
 const RAID_EVERY := 180.0
 const MALRIK_RESPAWN := 60.0
 const DEFEAT_DELAY := 3.0
@@ -128,6 +133,7 @@ const MSG_HOLLOW_25 := "The ground under Crown Hollow is warm."
 const MSG_GUARD_FALLS_BACK := "Malrik's isle guard falls back to his army."
 const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
 const MSG_STAGGER := "The Colossus staggers!"
+const HINT_SPOTLIGHT := "Kilnwarden: Slag Rain the Colossus. Its stone armour melts from 25 to 5."
 const MSG_VEY_DOWN := "Old Vey is down! The storm will return."
 const MSG_SEAT_BLOCKED := "Shadow still holds the isle"
 ## Cinematic fallback cards (ep1 7.4 placeholders until the films exist): [id, title, sub, lines [speaker, text, s]].
@@ -138,6 +144,8 @@ const CARD_CREDITS_TEXT := "Episode 1: The Hollow Throne. Thank you for playing.
 
 ## Test / menu switch (before the tree): campaign flags to use instead of the save ({} = read the save).
 var flag_override: Dictionary = {}
+## Test switch (before the tree): crystals per Fire / Shadow node suffix (a, b, mid, rich).
+var node_amounts: Dictionary = M4_NODE_AMOUNTS.duplicate()
 
 var phase := 0                            ## Read only: 0 war, 1 ward, 2 walk, 3 storm, 4 fallen (-1 while rising).
 var hollow := 0.0                         ## Read only: the Hollow meter in percent.
@@ -177,6 +185,7 @@ var _seat_mat: StandardMaterial3D
 var _card_actors := {}
 var _storm_dark := false
 var _hollow_clock := -1.0
+var _recruit_left := STRIKE_RECRUIT_EVERY
 
 
 # ---------------------------------------------------------------- setup
@@ -218,6 +227,8 @@ func _mission_config() -> MissionConfig:
 	c.rewards = {"flags": {"m4_seat_taken": "sec_seat", "m4_hall_burned": "sec_hall"},
 			"bonus_essence": {"sec_seat": 300, "sec_hall": 300},
 			"set_flags": {"ep1_complete": true, "ep1_vey_returned": true, "ep1_shard_to_malrik": true}, "next": &"e2m1"}
+	c.spotlight = {"id": &"kilnwarden", "trigger": &"start", "key_hint": "Keep: B",
+			"card": "Kilnwarden. Melts armour, burns mana: it makes big things soft and casters empty."}
 	return c
 
 
@@ -270,8 +281,8 @@ func _build_map() -> void:
 	for id: StringName in crystal_nodes:
 		var n := crystal_nodes[id] as CrystalNode
 		var suffix := String(id).get_slice("_", 2)
-		if n and M4_NODE_AMOUNTS.has(StringName(suffix)):
-			n.crystals_left = int(M4_NODE_AMOUNTS[StringName(suffix)])
+		if n and node_amounts.has(StringName(suffix)):
+			n.crystals_left = int(node_amounts[StringName(suffix)])
 	shadow_keep.max_hp = DUSK_KEEP_HP
 	shadow_keep.hp = DUSK_KEEP_HP
 	ember_hall = build_grid.spawn_complete(BuildingType.find("fire_barracks"), EMBER_HALL_POS,
@@ -568,6 +579,11 @@ func _physics_process(delta: float) -> void:
 		if _raid_left <= 0.0:
 			_raid_left = RAID_EVERY
 			_send_raid()
+		if has_fired(&"E7"):
+			_recruit_left -= delta
+			if _recruit_left <= 0.0:
+				_recruit_left = STRIKE_RECRUIT_EVERY
+				_recruit_strike()
 
 
 func _add_hollow(amount: float) -> void:
@@ -817,6 +833,26 @@ func _e7_strike() -> void:
 		strike_units.append(u)
 	for u in strike_units:
 		order_wave(u as Unit, &"strike", _strike_target_pos())
+	_recruit_left = STRIKE_RECRUIT_EVERY
+
+
+## Pacing (2026-10-06): the strike is "a scripted override of the Commander's army orders until both east pylons fall"
+## (mission-04.md): soldiers the bot musters at its rally during phase 1 join it too, so a player who waits for
+## Malrik (the legal slow path) is not stuck forever once the first strike has died. The rally only: the bot's
+## raiders and defenders elsewhere keep their own orders.
+func _recruit_strike() -> void:
+	if phase != 1 or is_ending() or _strike_pylon() == null:
+		return
+	for n in get_tree().get_nodes_in_group("units"):
+		var u := n as Unit
+		if u == null or not u.is_alive() or int(u.team) != Unit.Team.ENEMY or u.has_meta(SCRIPTED_GROUP) \
+				or u.is_worker() or u is Wizard or _flat(u.global_position, SHADOW_RALLY) > STRIKE_RECRUIT_RADIUS:
+			continue
+		u.set_meta(&"m4_strike", true)
+		mark_scripted(u)
+		strike_units.append(u)
+		order_wave(u, &"strike", _strike_target_pos())
+	strike_units = strike_units.filter(func(s: Variant) -> bool: return is_instance_valid(s) and (s as Unit).is_alive())
 
 
 func _strike_pylon() -> Unit:
@@ -946,6 +982,11 @@ func _on_cracked_leg() -> void:
 	fire_once(&"E10")
 	hud.show_message(MSG_STAGGER, 4.0)
 	say_id(&"L12")
+	after(4.0, func() -> void:   # the spotlight moment (unit-spotlights.md 2.1): the Kilnwarden on the boss
+		if is_ending() or not keystone.colossus_alive():
+			return
+		flash_ring(keystone.colossus.global_position, 5.0)
+		hud.show_message(HINT_SPOTLIGHT, 8.0))
 
 
 # ---------------------------------------------------------------- the darkest hour (E12) and phase 3

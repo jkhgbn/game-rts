@@ -79,6 +79,14 @@ extends Resource
 @export var bot_profile_id: StringName = &""
 @export var bot_team := 1
 
+# ---------------------------------------------------------------- spotlight (mission-framework.md 7)
+## The one unit this mission shows at its best (unit-spotlights.md). {} = none. Keys:
+##   "id": UnitType / helper id (or a Dictionary {kingdom: id} resolved from the player's kingdom, Ep8),
+##   "card": the English intro line (<= 110 chars, shown through Loc.sink),
+##   "trigger": &"start" (begin_mission shows it) / &"unlock" / &"manual" (the mission calls show_spotlight()),
+##   "key_hint": e.g. "Ember Hall: V" (optional), "highlight_s": the first unit's gold ring time (default 6.0).
+@export var spotlight: Dictionary = {}
+
 
 ## `values[difficulty]` ([easy, normal, hard]); one value = all; `fallback` when empty.
 static func pick(values: Array, difficulty: int, fallback: Variant = null) -> Variant:

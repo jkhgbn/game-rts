@@ -95,7 +95,7 @@ msgstr "Ranimer {n}"
 msgid "Revive  [{key}]\n{essence} essence · returns at your keep"
 msgstr "Ranimer  [{key}]\n{essence} essence · revient à votre donjon"
 
-#. hire_gold_button.tooltip_text = Loc.t("Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop}
+#. hire_gold_button.tooltip_text = Loc.t("Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop} 
 #: scripts/ui/tavern_window.gd:1107
 msgid "Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop} pop"
 msgstr "Engager avec de l'or  [Maj+{key}]\n{gold} or · {essence} essence · {pop} pop"
@@ -790,38 +790,38 @@ msgstr "  (classe, niveau {n})"
 msgid "Your bounties before level 2 steer its class"
 msgstr "Vos primes avant le niveau 2 orientent sa classe"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:653 scripts/ui/flag_card.gd:268
 #: scripts/ui/idle_worker_button.gd:20 scripts/economy/caravan.gd:188
 msgid "Idle"
 msgstr "Inactif"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:643 scripts/ui/selection_panel.gd:711
 msgid "Fallen"
 msgstr "Tombé"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81 scripts/ui/point_panel.gd:509
 msgid "Fleeing"
 msgstr "En fuite"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81
 msgid "Resting"
 msgstr "Au repos"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81
 msgid "Fighting"
 msgstr "Au combat"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1439
 msgid "Unpaid!"
 msgstr "Impayé !"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81
 msgid "Hunting bounty"
 msgstr "Chasse une prime"
@@ -1766,12 +1766,12 @@ msgstr "Bénédiction ennemie {n} s\n+12 % vitesse, +1,5 PV / s pour leurs sold
 msgid "Click: centre the camera"
 msgstr "Clic : centrer la caméra"
 
-#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw":
+#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
 #: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:206
 msgid "dark breed"
 msgstr "race sombre"
 
-#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw":
+#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
 #: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:206
 msgid "silver breed"
 msgstr "race argentée"
@@ -2117,12 +2117,6 @@ msgstr "Pas un comptoir"
 msgid "Trading Post"
 msgstr "Comptoir"
 
-#. return ["Asleep" if t == INF else "Asleep: wakes in %s" % MapfillBar.mmss(t), muted]
-#: scripts/ui/point_panel.gd:352
-#, obsolete
-msgid "Asleep: wakes in %s"
-msgstr ""
-
 #. return ["Capture fading %s" % progress_text(p), muted]
 #: scripts/ui/point_panel.gd:356
 #, obsolete
@@ -2231,10 +2225,10 @@ msgstr ""
 msgid "Active: %s"
 msgstr ""
 
-#. var key := "heavy|%s" % kingdom()
-#: scripts/ui/item_tooltip.gd:299
+#. revive_gold_button.text = "Revive %d gold" % rcost
+#: scripts/ui/tavern_window.gd:1099
 #, obsolete
-msgid "heavy|%s"
+msgid "Revive %d gold"
 msgstr ""
 
 #. var key := "slot|%s|%s" % [rim.to_html(), inside.to_html()]
@@ -2345,10 +2339,10 @@ msgstr ""
 msgid "The enemy is neutralising %s"
 msgstr ""
 
-#. time_label.text = "%s left" % TradeWindow.mmss(left)
-#: scripts/ui/trade_window.gd:1305
+#. return ["Asleep" if t == INF else "Asleep: wakes in %s" % MapfillBar.mmss(t), muted]
+#: scripts/ui/point_panel.gd:352
 #, obsolete
-msgid "%s left"
+msgid "Asleep: wakes in %s"
 msgstr ""
 
 #. message.emit("Bought %s" % name_of(t))
@@ -2465,12 +2459,6 @@ msgstr ""
 msgid " · %d s cooldown"
 msgstr ""
 
-#. revive_gold_button.text = "Revive %d gold" % rcost
-#: scripts/ui/tavern_window.gd:1099
-#, obsolete
-msgid "Revive %d gold"
-msgstr ""
-
 #. lines.append("%d charge%s" % [count, "" if count == 1 else "s"])
 #: scripts/ui/item_tooltip.gd:179
 #, obsolete
@@ -2577,6 +2565,12 @@ msgstr ""
 #: scripts/ui/champion_bar.gd:174 scripts/units/champion_abilities.gd:98
 #, obsolete
 msgid "Marked for Coin"
+msgstr ""
+
+#. time_label.text = "%s left" % TradeWindow.mmss(left)
+#: scripts/ui/trade_window.gd:1305
+#, obsolete
+msgid "%s left"
 msgstr ""
 
 #. &"mending_draught": {"name": "Mending Draught", "unlock": 1, "cooldown": 7.0,
@@ -2807,12 +2801,6 @@ msgstr ""
 msgid "Raise · %s"
 msgstr ""
 
-#. d["text"] = "%s · %d essence" % [kind_name(shown), price]
-#: scripts/ui/bounty_mode.gd:332
-#, obsolete
-msgid "%s · %d essence"
-msgstr ""
-
 #. return ["Raise +%d · " % amount, word, " %d -> %d" % [stake, mini(stake + amount, MAX_STAKE)]]
 #: scripts/ui/bounty_mode.gd:827
 #, obsolete
@@ -2919,6 +2907,12 @@ msgstr ""
 #: scripts/ui/champion_bar.gd:111
 #, obsolete
 msgid "Tamsin Farrow"
+msgstr ""
+
+#. var key := "heavy|%s" % kingdom()
+#: scripts/ui/item_tooltip.gd:299
+#, obsolete
+msgid "heavy|%s"
 msgstr ""
 
 #. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
@@ -3034,4 +3028,10 @@ msgstr ""
 #: scripts/ui/point_panel.gd:343
 #, obsolete
 msgid "The enemy is capturing %s"
+msgstr ""
+
+#. d["text"] = "%s · %d essence" % [kind_name(shown), price]
+#: scripts/ui/bounty_mode.gd:332
+#, obsolete
+msgid "%s · %d essence"
 msgstr ""

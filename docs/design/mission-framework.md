@@ -49,6 +49,7 @@ of the episode 2-8 specs). Mission 1 runs on it with no behaviour change (`test_
 | Seats | `add_seat(seat, team, commander := null)`, `tag_seat(node, seat)` (a seat tagged once = exactly its tagged nodes for good, empty when they are gone; an untagged seat = every untagged node of the team it was declared with, until it switches), `seat_nodes(seat)` (living), `seat_team(seat)`, `switch_seat_side(seat, team, grace := 10, profile_id := &"")` (team of every unit / building + its Commander, orders stopped, the moved nodes are tagged: the seat never grows into the side it joins; `&"all"` truce for `grace` s, then each node's earlier truce id comes back), `withdraw_seat(seat, exit, walk_time := 30)` (Commander off, units walk to `exit` and `leave_map` there or after `walk_time`, everything at peace with all), signals `seat_switched`, `seat_withdrawn` |
 | Campaign | `mission_rewards()` (= `config.rewards`), `set_mission_flag(name, value)` (computed bools / ints / floats written on victory; any other type is refused with an error at once), `add_track_counter(name, amount)` (added to the saved value, e.g. `shadow_stone_uses`; **each mission counts once**: a replayed mission replaces its own previous contribution, the latest victory counts, so a replay never inflates a counter), `mission_flags()`, `mission_flag_adds()`, `grant_carried_essence()` (no-economy mode: adds the essence carried from the last mission, held back until then) |
 | Kits | `static scene_knob(name, default)` (reads a property of the running mission; `default` in the skirmish / tests) |
+| Spotlight | `show_spotlight()`, `spotlight_target()`, `spotlight_trigger()`, `spotlight_id` / `spotlight_short` / `spotlight_unit`, signals `spotlight_shown(id, card)`, `spotlight_first_unit(unit)` (section 7) |
 | Test switches (set before the tree) | `show_briefing`, `save_campaign_on_victory`, `campaign_save_path`, `cinematics_enabled`, `mission_difficulty`, `config` |
 
 Engine hooks added with it:
@@ -98,6 +99,7 @@ Defaults = off / untouched. Difficulty arrays are `[easy, normal, hard]`; one va
 | `economy_enabled` (false = no-economy mode) | 0 crystals, 0 essence (the carried essence waits for `grant_carried_essence()`), no trickle, no kill income, top bar hidden | `_ready` / `begin_mission` |
 | `forced_artifacts` | artifact slots forced (key relic) | `begin_mission` |
 | `bot_profile_id`, `bot_team` | the Commander (AIProfile id; unknown id = passive easy knobs); `&""` = scripted enemy only | `begin_mission` |
+| `spotlight` | the unit spotlight (section 7): {id, card, trigger, key_hint, highlight_s} | `begin_mission` ("start") / `show_spotlight()` |
 
 ## 4. Skeleton
 
@@ -210,7 +212,24 @@ through the truce, not invulnerable to area spells; `set_player_hero` re-runs `h
 move the wizard between the `"heroes"` / `"enemy_heroes"` groups (call `_claim_wizard` when the new hero changes
 side).
 
-## 7. Proposed: unit spotlight hook (design only, 2026-10-06; not built)
+## 7. Unit spotlight hook (built 2026-10-06; the design table below is kept)
+
+**Built:** `Events.spotlight_shown(id, card)`; `MissionConfig.spotlight` ({id (or {kingdom: id}), card, trigger
+`&"start"` / `&"unlock"` / `&"manual"`, key_hint, highlight_s}); `MissionBase.show_spotlight()` (once per run,
+`fire_once(&"spotlight")`; begin_mission calls it for "start"), `spotlight_target()`, `spotlight_trigger()`, read-only
+`spotlight_id` / `spotlight_short` / `spotlight_unit`, signals `spotlight_shown(id, card)` and
+`spotlight_first_unit(unit)`; the first-unit watch (SceneTree `node_added`, checked one frame later; a unit of that type
+already on the field when the card shows counts): `flash_ring(pos, 2.5)` + a gold ring child `SpotlightRing` for
+`highlight_s` s (no `Unit.set_highlight` look hook: the ring is a mesh under the unit); `SpotlightCard`
+(`scripts/ui/mission/spotlight_card.gd`) shown by `MissionHud.show_spotlight(data)` **under** the objectives panel (the
+panel sits at the left edge), after the briefing closes; click = the pause menu's Unit Guide on that unit; harness
+`saw_spotlight(id)` / `spotlight_log`; test parts `spotlight` and `spot_manual` in `test_mission_framework.gd`.
+**Seen flag:** `spotlight_seen_<id>` is a mission flag (`set_mission_flag`), written by the victory save: a replay after
+a won run shows the short card (a lost run shows the full card again). **Not built:** the Unit Guide's "Spotlight:
+<mission title>" line (ui-coder), `forge_enabled` (with e2m4). Missions m00-m04 and e2m1 fill `spotlight` and say their
+moment's hint (unit-spotlights.md 2.1 / 2.2).
+
+### 7.1 The design (2026-10-06)
 
 Each mission shows one unit at its best (`unit-spotlights.md`). This is the hook every mission uses; a mission adds
 only its own "moment" through the E-list.

@@ -269,7 +269,7 @@ msgid "Cons"
 msgstr "Faiblesses"
 
 #. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
-#: scripts/ui/menus/unit_guide.gd:737
+#: scripts/ui/menus/unit_guide.gd:737 scripts/ui/mission/spotlight_card.gd:67
 msgid "Strong against"
 msgstr "Fort contre"
 
@@ -335,29 +335,29 @@ msgstr "%s (Citadelle)"
 msgid "%s (Wonders)"
 msgstr "%s (Merveilles)"
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
 #: scripts/ui/menus/unit_guide_data.gd:15
 msgid "Melee"
 msgstr "Mêlée"
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
 #: scripts/ui/menus/unit_guide_data.gd:15
 msgid "Ranged"
 msgstr "À distance"
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
 #: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:cinder_hand
 #: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:ash_hurler
 #: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:pyre_adept
 msgid "Cavalry"
 msgstr "Cavalerie"
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
 #: scripts/ui/menus/unit_guide_data.gd:15
 msgid "Caster"
 msgstr "Lanceur de sorts"
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
 #: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:blaze_rider
 #: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:rimehorn_rider
 #: data/ui/unit_guide.json:thornback_charger data/ui/unit_guide.json:glade_outrider
@@ -494,7 +494,7 @@ msgstr "Rang 3 : {name}"
 msgid "Forge"
 msgstr "Forge"
 
-#. "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} /
+#. "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / 
 #: scripts/ui/menus/unit_guide_data.gd:357
 msgid "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / {p2} / {p3} crystals; level 2 needs a Stronghold, level 3 a Citadel)."
 msgstr "Armes +{dmg} % de dégâts et Armure +{armor} d'armure par niveau; {line} : {text} par niveau. 3 niveaux chacun ({p1} / {p2} / {p3} cristaux; le niveau 2 demande une Forteresse, le niveau 3 une Citadelle)."
@@ -509,58 +509,16 @@ msgstr "Améliorations de la Forge"
 msgid "Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}."
 msgstr "Recherche à la Forge quand votre donjon est une Forteresse ({price} cristaux, {time} s) : {text}."
 
-#. bad.append("%s: rank %d for %s" % [line, r, stat])
-#: scripts/ui/menus/unit_guide_data.gd:509
+#. var stables := BuildingType.find("%s_stables" % k)
+#: scripts/ui/menus/unit_guide_data.gd:70
 #, obsolete
-msgid "%s: rank %d for %s"
+msgid "%s_stables"
 msgstr ""
 
-#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
-#: scripts/ui/menus/unit_guide_data.gd:521
+#. var hall := BuildingType.find("%s_barracks" % k)
+#: scripts/ui/menus/unit_guide_data.gd:69 scripts/world/skirmish.gd:1762
 #, obsolete
-msgid "the %s army"
-msgstr ""
-
-#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
-#: scripts/ui/menus/unit_guide_data.gd:521
-#, obsolete
-msgid "any army"
-msgstr ""
-
-#. out.append("%s in %s" % [phrase.capitalize(), where])
-#: scripts/ui/menus/unit_guide_data.gd:525
-#, obsolete
-msgid "%s in %s"
-msgstr ""
-
-#. out.append("Top 3 for %s in %s (rank %d)" % [label, where, r])
-#: scripts/ui/menus/unit_guide_data.gd:529
-#, obsolete
-msgid "Top 3 for %s in %s (rank %d)"
-msgstr ""
-
-#. return ["unknown id"]
-#: scripts/ui/menus/unit_guide_data.gd:538
-#, obsolete
-msgid "unknown id"
-msgstr ""
-
-#. out.append("no entry in %s" % JSON_PATH)
-#: scripts/ui/menus/unit_guide_data.gd:540
-#, obsolete
-msgid "no entry in %s"
-msgstr ""
-
-#. out.append("unknown role '%s'" % e["role"])
-#: scripts/ui/menus/unit_guide_data.gd:543
-#, obsolete
-msgid "unknown role '%s'"
-msgstr ""
-
-#. out.append("ability without a name or text")
-#: scripts/ui/menus/unit_guide_data.gd:566
-#, obsolete
-msgid "ability without a name or text"
+msgid "%s_barracks"
 msgstr ""
 
 #. var keep := BuildingType.find("%s_keep" % k)
@@ -570,76 +528,64 @@ msgstr ""
 msgid "%s_keep"
 msgstr ""
 
-#. var hall := BuildingType.find("%s_barracks" % k)
-#: scripts/ui/menus/unit_guide_data.gd:69 scripts/world/skirmish.gd:1762
+#. out.append("ability without a name or text")
+#: scripts/ui/menus/unit_guide_data.gd:566
 #, obsolete
-msgid "%s_barracks"
+msgid "ability without a name or text"
 msgstr ""
 
-#. var stables := BuildingType.find("%s_stables" % k)
-#: scripts/ui/menus/unit_guide_data.gd:70
+#. out.append("unknown role '%s'" % e["role"])
+#: scripts/ui/menus/unit_guide_data.gd:543
 #, obsolete
-msgid "%s_stables"
+msgid "unknown role '%s'"
 msgstr ""
 
-#. out.append("tag longer than %d: %s" % [TAG_MAX, s])
-#: scripts/ui/menus/unit_guide_data.gd:563
+#. out.append("no entry in %s" % JSON_PATH)
+#: scripts/ui/menus/unit_guide_data.gd:540
 #, obsolete
-msgid "tag longer than %d: %s"
+msgid "no entry in %s"
 msgstr ""
 
-#. out.append("no %s tags" % key)
-#: scripts/ui/menus/unit_guide_data.gd:560
+#. return ["unknown id"]
+#: scripts/ui/menus/unit_guide_data.gd:538
 #, obsolete
-msgid "no %s tags"
+msgid "unknown id"
 msgstr ""
 
-#. out.append("%s line longer than %d: %s" % [key, PRO_MAX, s])
-#: scripts/ui/menus/unit_guide_data.gd:557
+#. out.append("Top 3 for %s in %s (rank %d)" % [label, where, r])
+#: scripts/ui/menus/unit_guide_data.gd:529
 #, obsolete
-msgid "%s line longer than %d: %s"
+msgid "Top 3 for %s in %s (rank %d)"
 msgstr ""
 
-#. out.append("empty line in %s" % key)
-#: scripts/ui/menus/unit_guide_data.gd:555
+#. out.append("%s in %s" % [phrase.capitalize(), where])
+#: scripts/ui/menus/unit_guide_data.gd:525
 #, obsolete
-msgid "empty line in %s"
+msgid "%s in %s"
 msgstr ""
 
-#. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
-#: scripts/ui/menus/unit_guide_data.gd:551
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:521
 #, obsolete
-msgid "%d cons (want 2-3)"
+msgid "any army"
 msgstr ""
 
-#. out.append("%d pros (want 3)" % (e["pros"] as Array).size())
-#: scripts/ui/menus/unit_guide_data.gd:549
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:521
 #, obsolete
-msgid "%d pros (want 3)"
+msgid "the %s army"
 msgstr ""
 
-#. out.append("summary longer than %d" % SUMMARY_MAX)
-#: scripts/ui/menus/unit_guide_data.gd:547
+#. bad.append("%s: rank %d for %s" % [line, r, stat])
+#: scripts/ui/menus/unit_guide_data.gd:509
 #, obsolete
-msgid "summary longer than %d"
+msgid "%s: rank %d for %s"
 msgstr ""
 
-#. out.append("empty summary")
-#: scripts/ui/menus/unit_guide_data.gd:545
+#. bad.append("%s: rank %d for %s in %s" % [line, r, spec[0], scope if scope != &"" else &"any army"])
+#: scripts/ui/menus/unit_guide_data.gd:502
 #, obsolete
-msgid "empty summary"
-msgstr ""
-
-#. out.append({"name": nm, "key": "Auto, L%d" % lv, "text": tx})
-#: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:325
-#, obsolete
-msgid "Auto, L%d"
-msgstr ""
-
-#. return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
-#: scripts/ui/menus/unit_guide_data.gd:405
-#, obsolete
-msgid " (Citadel)"
+msgid "%s: rank %d for %s in %s"
 msgstr ""
 
 #. return Loc.t("%s (Wonders)") % b.trim_suffix(" (Wonders)")
@@ -648,8 +594,62 @@ msgstr ""
 msgid " (Wonders)"
 msgstr ""
 
-#. bad.append("%s: rank %d for %s in %s" % [line, r, spec[0], scope if scope != &"" else &"any army"])
-#: scripts/ui/menus/unit_guide_data.gd:502
+#. return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
+#: scripts/ui/menus/unit_guide_data.gd:405
 #, obsolete
-msgid "%s: rank %d for %s in %s"
+msgid " (Citadel)"
+msgstr ""
+
+#. out.append({"name": nm, "key": "Auto, L%d" % lv, "text": tx})
+#: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:325
+#, obsolete
+msgid "Auto, L%d"
+msgstr ""
+
+#. out.append("empty summary")
+#: scripts/ui/menus/unit_guide_data.gd:545
+#, obsolete
+msgid "empty summary"
+msgstr ""
+
+#. out.append("summary longer than %d" % SUMMARY_MAX)
+#: scripts/ui/menus/unit_guide_data.gd:547
+#, obsolete
+msgid "summary longer than %d"
+msgstr ""
+
+#. out.append("%d pros (want 3)" % (e["pros"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:549
+#, obsolete
+msgid "%d pros (want 3)"
+msgstr ""
+
+#. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:551
+#, obsolete
+msgid "%d cons (want 2-3)"
+msgstr ""
+
+#. out.append("empty line in %s" % key)
+#: scripts/ui/menus/unit_guide_data.gd:555
+#, obsolete
+msgid "empty line in %s"
+msgstr ""
+
+#. out.append("%s line longer than %d: %s" % [key, PRO_MAX, s])
+#: scripts/ui/menus/unit_guide_data.gd:557
+#, obsolete
+msgid "%s line longer than %d: %s"
+msgstr ""
+
+#. out.append("no %s tags" % key)
+#: scripts/ui/menus/unit_guide_data.gd:560
+#, obsolete
+msgid "no %s tags"
+msgstr ""
+
+#. out.append("tag longer than %d: %s" % [TAG_MAX, s])
+#: scripts/ui/menus/unit_guide_data.gd:563
+#, obsolete
+msgid "tag longer than %d: %s"
 msgstr ""

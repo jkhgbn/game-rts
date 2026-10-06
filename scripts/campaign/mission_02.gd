@@ -85,6 +85,7 @@ const M2_CACHE_SPOTS: Array[Vector3] = [Vector3(-12.0, 0.0, 32.0), Vector3(32.0,
 const SENTINEL_SPOTS: Array[Vector3] = [Vector3(-26.0, 0.0, 22.0), Vector3(-22.0, 0.0, 26.0)]
 
 const W1_TIME := 300.0
+const HINT_SPOTLIGHT := "Ash Hurlers crack the ice: shell the floe under them."
 const E6_TIME := 480.0
 const W2_TIME := 540.0
 const W2_MAX_WAIT := 45.0
@@ -260,6 +261,8 @@ func _mission_config() -> MissionConfig:
 	c.defeat_banner = "DEFEAT"
 	c.rewards = {"artifact": "stillwater_orb", "flags": {"m2_emberguard_sworn": "sec_emberguard",
 			"m2_dig_under_half": "sec_dig"}, "bonus_essence": {"sec_dig": 300}, "next": &"m03"}
+	c.spotlight = {"id": &"ash_hurler", "trigger": &"start", "key_hint": "Ember Hall: V",
+			"card": "Ash Hurler. Slow, far, and it melts what swords can't: ice, towers, camps."}
 	return c
 
 
@@ -1415,6 +1418,7 @@ func _fire_w1() -> void:
 	var target := _alive_pos(ember_hall, _alive_pos(keep, PLAYER_START))
 	for u in spawn_wave_at([["shade", 3], ["nightbolt", 2]], _wave_spawn_point()):
 		order_wave(u, &"point", target)
+	hud.show_message(HINT_SPOTLIGHT, 8.0)   # the spotlight moment (unit-spotlights.md 2.1)
 
 
 func _fire_reinforcements() -> void:

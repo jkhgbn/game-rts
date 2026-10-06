@@ -35,6 +35,16 @@ msgstr "Entrée / clic : suivant"
 msgid "Secondary"
 msgstr "Secondaires"
 
+#. tooltip_text = "Open the Unit Guide on this unit"
+#: scripts/ui/mission/spotlight_card.gd:33
+msgid "Open the Unit Guide on this unit"
+msgstr "Ouvrir le Guide des unités sur cette unité"
+
+#. var head := UIStyle.display_label("Spotlight", 12, UIStyle.GOLD)
+#: scripts/ui/mission/spotlight_card.gd:49
+msgid "Spotlight"
+msgstr "À l'honneur"
+
 #. Loc.t("north")
 #: scripts/ui/mission/story_text.gd:18
 msgid "north"
@@ -72,7 +82,7 @@ msgstr "En pause · P : reprendre · Échap / Espace : passer"
 
 #. &"torren": ["Vey", Color(0.95, 0.95, 0.55)],
 #: scripts/ui/cinematic/speakers.gd:8 scripts/ui/cinematic/speakers.gd:9
-#: scripts/campaign/mission_00.gd:111 scripts/campaign/mission_04.gd:86
+#: scripts/campaign/mission_00.gd:111 scripts/campaign/mission_04.gd:91
 msgid "Vey"
 msgstr "Vey"
 
@@ -84,8 +94,8 @@ msgstr "Mère Hush"
 
 #. &"obren": ["Obren", Color(1.0, 0.80, 0.25)],
 #: scripts/ui/cinematic/speakers.gd:15 scripts/ui/cinematic/speakers.gd:36
-#: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_03.gd:1465
-#: scripts/campaign/mission_04.gd:86
+#: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_03.gd:1468
+#: scripts/campaign/mission_04.gd:91
 msgid "Obren"
 msgstr "Obren"
 
@@ -96,21 +106,21 @@ msgstr "Le Maître"
 
 #. &"narrator": ["Narrator", Color(0.9, 0.85, 0.7)],
 #: scripts/ui/cinematic/speakers.gd:17 scripts/campaign/mission_00.gd:112
-#: scripts/campaign/mission_01.gd:90 scripts/campaign/mission_02.gd:137
-#: scripts/campaign/mission_03.gd:154 scripts/campaign/mission_04.gd:85
+#: scripts/campaign/mission_01.gd:93 scripts/campaign/mission_02.gd:138
+#: scripts/campaign/mission_03.gd:154 scripts/campaign/mission_04.gd:90
 msgid "Narrator"
 msgstr "Narrateur"
 
 #. &"ashby": ["Captain Ashby", Color(0.95, 0.60, 0.35)],
 #: scripts/ui/cinematic/speakers.gd:18 scripts/campaign/mission_00.gd:112
-#: scripts/campaign/mission_00.gd:803
+#: scripts/campaign/mission_00.gd:808 scripts/campaign/mission_e2_01.gd:150
 msgid "Captain Ashby"
 msgstr "Capitaine Ashby"
 
 #. &"pell": ["Pell", Color(0.85, 0.75, 0.5)],
-#: scripts/ui/cinematic/speakers.gd:19 scripts/campaign/mission_01.gd:90
-#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_03.gd:154
-#: scripts/campaign/mission_04.gd:86
+#: scripts/ui/cinematic/speakers.gd:19 scripts/campaign/mission_01.gd:93
+#: scripts/campaign/mission_02.gd:139 scripts/campaign/mission_03.gd:154
+#: scripts/campaign/mission_04.gd:91
 msgid "Pell"
 msgstr "Pell"
 
@@ -125,6 +135,7 @@ msgid "Maelis"
 msgstr "Maelis"
 
 #. &"aldra": ["Aldra", Color(0.62, 0.95, 0.88)],   # mission-02.md (M9.U1): Torvald's voice on the Glass Ridge
-#: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:138
+#: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:139
+#: scripts/campaign/mission_e2_01.gd:151
 msgid "Aldra"
 msgstr "Aldra"

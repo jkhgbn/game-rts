@@ -7,6 +7,10 @@ extends SceneTree
 ## both Warden Gates. Must end `victory=true` (spec 20-25 min for a human; the check is 9-26 min).
 ## `-- --idle`: the ignore run: the player turtles at home; Malrik must win the race (defeat 17:00-21:00).
 ## `-- --seed=N` changes the random spread; `-- --verbose` prints the state every 30 s. Slow (20+ min of game).
+## Length (2026-10-06): 10:27 (spec 20-25 for a human). Not tuned further on purpose: the script knows where the three
+## Root Hearts are (no Explore flags, no fog), burns RH1 at 0:40 (spec G1 ~2:30-4:30) and stands at the Oldroot when
+## the barrier falls, so the 75 s muster never becomes a race; the gates were already x3.3 (2026-10-04). The gap is the
+## scouting the mission is built around (the Wayfinder spotlight); more HP would only lengthen the human's grind.
 ## Run:  godot --headless --path . -s tests/test_m3_sim.gd --fixed-fps 60 --quit-after 120000 [-- --idle] [--verbose]
 
 const TASK_ID := "m3_sim"

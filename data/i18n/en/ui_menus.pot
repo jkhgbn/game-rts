@@ -47,8 +47,8 @@ msgstr ""
 
 #. "name": "Fire", "wizard": "Vessa", "kingdom_line": "Fire kingdom", "of_line": "Vessa of Fire", "title": "Vessa
 #: scripts/ui/menus/kingdom_card.gd:16 scripts/ui/cinematic/speakers.gd:7
-#: scripts/campaign/mission_00.gd:111 scripts/campaign/mission_01.gd:90
-#: scripts/campaign/mission_02.gd:137 scripts/campaign/mission_03.gd:154
+#: scripts/campaign/mission_00.gd:111 scripts/campaign/mission_01.gd:93
+#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_03.gd:154
 msgid "Vessa"
 msgstr ""
 
@@ -89,8 +89,8 @@ msgstr ""
 
 #. "name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title"
 #: scripts/ui/menus/kingdom_card.gd:21 scripts/ui/cinematic/speakers.gd:10
-#: scripts/campaign/mission_00.gd:112 scripts/campaign/mission_01.gd:90
-#: scripts/campaign/mission_02.gd:137 scripts/campaign/mission_03.gd:154
+#: scripts/campaign/mission_00.gd:112 scripts/campaign/mission_01.gd:93
+#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_03.gd:154
 msgid "Malrik"
 msgstr ""
 
@@ -131,7 +131,8 @@ msgstr ""
 
 #. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
 #: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/cinematic/speakers.gd:12
-#: scripts/campaign/mission_02.gd:137 scripts/world/skirmish.gd:297
+#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_e2_01.gd:151
+#: scripts/world/skirmish.gd:297
 msgid "Torvald"
 msgstr ""
 
@@ -172,7 +173,8 @@ msgstr ""
 
 #. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
 #: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/cinematic/speakers.gd:13
-#: scripts/campaign/mission_03.gd:155 scripts/world/skirmish.gd:300
+#: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_e2_01.gd:151
+#: scripts/world/skirmish.gd:300
 msgid "Ysolde"
 msgstr ""
 
@@ -318,7 +320,7 @@ msgstr ""
 
 #. const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
 #: scripts/ui/menus/main_menu.gd:15 scripts/campaign/mission_00.gd:19
-#: scripts/campaign/mission_00.gd:966
+#: scripts/campaign/mission_00.gd:971
 msgid "The Night of Knives"
 msgstr ""
 
@@ -327,14 +329,19 @@ msgstr ""
 msgid "The Crown in the Ashes"
 msgstr ""
 
-#. &"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne"}
+#. &"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne", &"e2m1": "The Burning Grove"}
 #: scripts/ui/menus/main_menu.gd:16 scripts/campaign/mission_02.gd:18
 msgid "The Orb Beneath the Ice"
 msgstr ""
 
-#. &"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne"}
+#. &"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne", &"e2m1": "The Burning Grove"}
 #: scripts/ui/menus/main_menu.gd:16 scripts/campaign/mission_04.gd:13
 msgid "The Hollow Throne"
+msgstr ""
+
+#. &"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne", &"e2m1": "The Burning Grove"}
+#: scripts/ui/menus/main_menu.gd:16 scripts/campaign/mission_e2_01.gd:14
+msgid "The Burning Grove"
 msgstr ""
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Four Wizards", 84))

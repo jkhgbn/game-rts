@@ -9,6 +9,10 @@ extends SceneTree
 ## `-- --idle`: the defeat run: the player turtles at home (trains, defends, never melts); the dig must end it in
 ## defeat at about 22:50.
 ## Slow (20+ min of game). `-- --verbose` prints the state every 30 s.
+## Length (2026-10-06): 13:43 of play (spec 18-24 for a human). Not tuned toward the spec on purpose: the scripted run
+## knows every block, the lake path and the right unit mix from 0:00 and never scouts; the mission's own clocks (W1 5:00,
+## the dig ending at ~22:50) are fixed, and the gap is the player's pace. Making the lake slower for the script would
+## make it a slog for a human, who already lands near the dig deadline. Playtest data decides (Playtest Recorder).
 ## Run:  godot --headless --path . -s tests/test_m9_sim.gd --fixed-fps 60 --quit-after 120000 [-- --idle] [--verbose]
 
 const TASK_ID := "m9_sim"

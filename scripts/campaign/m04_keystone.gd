@@ -17,8 +17,10 @@ signal cracked_leg                         ## Phase 2: the Colossus fell to 70 %
 
 const PYLON_RADIUS := 1.0
 const PYLON_WARDEN_EVERY := 35.0
-const PYLON_WARDENS := 1         ## Tuned from the spec's 2 per 35 s (19.C5 sim, 2026-10-04): with 2 the Wardens out-traded the Fire army.
-const PYLON_WARDEN_MAX := 4      ## Tuned from the spec's 6 (19.C5 sim, 2026-10-04): 6 Wardens per pylon wiped a 15-20 soldier Fire army; hard x 1.4 = 6.
+## Back to the spec's 2 per 35 s / max 6 (pacing 2026-10-06): the 2026-10-04 cut (1 / max 4) was for a 15-20 soldier
+## army starved by 1 500-crystal home nodes; with the 2 500 nodes the scripted army is 30+ and phase 1 lasted ~1 min.
+const PYLON_WARDENS := 2
+const PYLON_WARDEN_MAX := 6
 const PYLON_WARDEN_RING := 4.0
 const PYLON_WARDEN_AGGRO := 10.0
 const HURL_RANGE := 30.0
@@ -72,10 +74,14 @@ const HURL_COLOR := Color(1.0, 0.35, 0.1, 0.45)
 const BOLT_COLOR := Color(0.85, 0.9, 1.0)
 
 ## Difficulty tables [easy, normal, hard].
-const COLOSSUS_HP: Array[float] = [7500.0, 10000.0, 12500.0]
+## Pacing (2026-10-06, 19.C5 scripted runs): the spec's 7 500 / 10 000 / 12 500 Colossus and 1 100 / 1 400 / 1 700
+## pylons gave phases 1-3 of ~1:00 / 1:20 / 1:00 against the spec's 4:30-6:00 / 2:00-3:00 / 2:00-3:00 (the whole
+## mission 13:30-17:40 of play for 22-28): x 1.2 Colossus HP (phase 3 starts at 40 % of it; x 1.4 left Vessa and Vey
+## alone short of the last turn of the key in 3 of 4 runs), x 2 pylon HP (x 1.5 still gave a 3:30 phase 1).
+const COLOSSUS_HP: Array[float] = [9000.0, 12000.0, 15000.0]
 const HURL_DAMAGE: Array[float] = [55.0, 70.0, 85.0]
 const CRUSH_DAMAGE := 60.0
-const PYLON_HP: Array[float] = [1100.0, 1400.0, 1700.0]
+const PYLON_HP: Array[float] = [2200.0, 2800.0, 3400.0]
 const STORMCALL_EVERY: Array[float] = [45.0, 45.0, 60.0]
 
 var mission: Node                 ## Mission04 (hero, keep, scaled(), order_wave(), _spawn(), world_is_held).

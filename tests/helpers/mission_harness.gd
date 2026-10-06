@@ -20,6 +20,7 @@ var steps := Steps.new()
 var errors: Array[String] = []
 var objective_log: Array[String] = []     ## "id=state" in emission order
 var dialogue_log: Array[String] = []      ## "speaker: text"
+var spotlight_log: Array[String] = []     ## spotlight ids shown (Events.spotlight_shown), in order
 var ended := -1                           ## -1 running, 0 defeat, 1 victory
 var protect_hero := true                  ## heal the player's hero every frame (scripted runs)
 var nav_timeout_frames := 5000
@@ -42,6 +43,9 @@ func open(tree: SceneTree, mission: Variant, options: Dictionary = {}) -> Node:
 		if ev.has_signal(&"dialogue"):
 			ev.connect(&"dialogue", func(speaker: StringName, text: String) -> void:
 				dialogue_log.append("%s: %s" % [speaker, text]))
+		if ev.has_signal(&"spotlight_shown"):
+			ev.connect(&"spotlight_shown", func(id: StringName, _card: String) -> void:
+				spotlight_log.append(String(id)))
 	if mission is String:
 		main = (load(mission) as PackedScene).instantiate()
 	elif mission is Script:
@@ -145,6 +149,11 @@ static func skip_time(mission: Node, seconds: float) -> void:
 ## True once Events.objective_changed sent `id` = `state`.
 func saw(id: String, state: String) -> bool:
 	return objective_log.has("%s=%s" % [id, state])
+
+
+## True once the mission showed the spotlight card of `id` (Events.spotlight_shown).
+func saw_spotlight(id: String) -> bool:
+	return spotlight_log.has(id)
 
 
 ## A step list: each step is [name, Callable() -> bool (true = done), max frames]. Steps run in order, one per frame

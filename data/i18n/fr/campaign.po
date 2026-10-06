@@ -31,7 +31,8 @@ msgid "Can't build on the frozen lake"
 msgstr "Pas de construction sur le lac gelé"
 
 #. u.unit_name = "Old Vey"
-#: scripts/campaign/m00_cast.gd:83 data/units/torren_vey.tres:9 data/helpers/helper_vey.tres:9
+#: scripts/campaign/m00_cast.gd:83 scripts/campaign/mission_e2_01.gd:150 data/units/torren_vey.tres:9
+#: data/helpers/helper_vey.tres:9
 msgid "Old Vey"
 msgstr "Old Vey"
 
@@ -41,7 +42,7 @@ msgid "Keystone Colossus"
 msgstr "Keystone Colossus"
 
 #. _pylon_type.display_name = "Keystone Pylon"
-#: scripts/campaign/m04_keystone.gd:137
+#: scripts/campaign/m04_keystone.gd:142
 msgid "Keystone Pylon"
 msgstr "Keystone Pylon"
 
@@ -200,282 +201,313 @@ msgstr "Un brasero allumé éclaire son côté et réchauffe qui s'en approche."
 msgid "A violet ring means Hush is coming: Ember Step (Q) out of it."
 msgstr "Un cercle violet annonce Hush : sortez-en avec Ember Step (Q)."
 
-#. const HINT_LEVEL3 := "Level 3: Ctrl+F ranks up Fireball, Ctrl+Q ranks up Ember Step."
+#. const HINT_SPOTLIGHT := "Stand the Guards between Vessa and the gate: the hounds hit the shields, not her."
 #: scripts/campaign/mission_00.gd:151
+msgid "Stand the Guards between Vessa and the gate: the hounds hit the shields, not her."
+msgstr "Placez les Flame Guards entre Vessa et la porte : les chiens frappent les boucliers, pas elle."
+
+#. const HINT_LEVEL3 := "Level 3: Ctrl+F ranks up Fireball, Ctrl+Q ranks up Ember Step."
+#: scripts/campaign/mission_00.gd:152
 msgid "Level 3: Ctrl+F ranks up Fireball, Ctrl+Q ranks up Ember Step."
 msgstr "Niveau 3 : Ctrl+F améliore Fireball, Ctrl+Q améliore Ember Step."
 
 #. const MSG_FIRES := "The watch-fires burn. The Emberguard will see them at dawn."
-#: scripts/campaign/mission_00.gd:152
+#: scripts/campaign/mission_00.gd:153
 msgid "The watch-fires burn. The Emberguard will see them at dawn."
 msgstr "Les feux de guet brûlent. L'Emberguard les verra à l'aube."
 
 #. const MSG_WATCH_FALLEN := "The watch has fallen."
-#: scripts/campaign/mission_00.gd:153
+#: scripts/campaign/mission_00.gd:154
 msgid "The watch has fallen."
 msgstr "La vigie est tombée."
 
 #. const MSG_WARNING := "Knives from the %s!"
-#: scripts/campaign/mission_00.gd:154
+#: scripts/campaign/mission_00.gd:155
 msgid "Knives from the %s!"
 msgstr "Des couteaux, côté %s !"
 
 #. const TEXT_DARK_HOLD := "Light the last watch-fires: the Emberguard is looking for your signal"
-#: scripts/campaign/mission_00.gd:155
+#: scripts/campaign/mission_00.gd:156
 msgid "Light the last watch-fires: the Emberguard is looking for your signal"
 msgstr "Allumez les derniers feux de guet : l'Emberguard cherche votre signal"
 
 #. c.victory_banner = "VICTORY\nThe night is over"
-#: scripts/campaign/mission_00.gd:214
+#: scripts/campaign/mission_00.gd:215
 msgid "VICTORY\nThe night is over"
 msgstr "VICTOIRE\nLa nuit est finie"
 
 #. c.defeat_banner = "DEFEAT"
-#: scripts/campaign/mission_00.gd:215 scripts/campaign/mission_01.gd:229
-#: scripts/campaign/mission_02.gd:260 scripts/campaign/mission_03.gd:302
-#: scripts/campaign/mission_04.gd:217 scripts/campaign/mission_config.gd:26
+#: scripts/campaign/mission_00.gd:216 scripts/campaign/mission_01.gd:232
+#: scripts/campaign/mission_02.gd:261 scripts/campaign/mission_03.gd:302
+#: scripts/campaign/mission_04.gd:226 scripts/campaign/mission_config.gd:26
 msgid "DEFEAT"
 msgstr "DÉFAITE"
 
+#. "card": "Flame Guard. Shields first, spark second: a Guard wall keeps the knives off Vessa."}
+#: scripts/campaign/mission_00.gd:220
+msgid "Flame Guard. Shields first, spark second: a Guard wall keeps the knives off Vessa."
+msgstr "Flame Guard. Le bouclier d'abord, l'étincelle ensuite : un mur de gardes tient les couteaux loin de Vessa."
+
 #. return "Prologue: %s" % MISSION_TITLE
-#: scripts/campaign/mission_00.gd:242
+#: scripts/campaign/mission_00.gd:245
 msgid "Prologue: %s"
 msgstr "Prologue : %s"
 
 #. hearthward.display_name = "Hearthward"
-#: scripts/campaign/mission_00.gd:327 scripts/campaign/mission_01.gd:52
+#: scripts/campaign/mission_00.gd:330 scripts/campaign/mission_01.gd:55
 msgid "Hearthward"
 msgstr "Hearthward"
 
 #. return TEXT_DARK_HOLD if dark_hold else "Survive until dawn (8:00)"
-#: scripts/campaign/mission_00.gd:507
+#: scripts/campaign/mission_00.gd:510
 msgid "Survive until dawn (8:00)"
 msgstr "Survivre jusqu'à l'aube (8:00)"
 
 #. return "Light the watch braziers (%d / 3)" % lit_count if with_counter else "Light the watch braziers"
-#: scripts/campaign/mission_00.gd:509
+#: scripts/campaign/mission_00.gd:512
 msgid "Light the watch braziers (%d / 3)"
 msgstr "Allumer les braseros de guet (%d / 3)"
 
 #. return "Light the watch braziers (%d / 3)" % lit_count if with_counter else "Light the watch braziers"
-#: scripts/campaign/mission_00.gd:509
+#: scripts/campaign/mission_00.gd:512
 msgid "Light the watch braziers"
 msgstr "Allumer les braseros de guet"
 
 #. return "Vessa must survive"
-#: scripts/campaign/mission_00.gd:511 scripts/campaign/mission_01.gd:766
-#: scripts/campaign/mission_02.gd:886 scripts/campaign/mission_03.gd:871
-#: scripts/campaign/mission_04.gd:505 scripts/campaign/mission_skeleton.gd:31
+#: scripts/campaign/mission_00.gd:514 scripts/campaign/mission_01.gd:787
+#: scripts/campaign/mission_02.gd:889 scripts/campaign/mission_03.gd:873
+#: scripts/campaign/mission_04.gd:516 scripts/campaign/mission_e2_01.gd:749
 msgid "Vessa must survive"
 msgstr "Vessa doit survivre"
 
 #. return "Drive off Mother Hush"
-#: scripts/campaign/mission_00.gd:513
+#: scripts/campaign/mission_00.gd:516
 msgid "Drive off Mother Hush"
 msgstr "Repousser Mère Hush"
 
 #. return "Keep your escort alive (%d)" % escort_alive()
-#: scripts/campaign/mission_00.gd:515
+#: scripts/campaign/mission_00.gd:518
 msgid "Keep your escort alive (%d)"
 msgstr "Garder votre escorte en vie (%d)"
 
 #. return _card(EP1_INTRO_ID, "Episode 1", "The Night of Knives", lines, VESSA_START, Vector3(14.0, 22.0, 18.0),
-#: scripts/campaign/mission_00.gd:966 scripts/campaign/mission_04.gd:1085
+#: scripts/campaign/mission_00.gd:971 scripts/campaign/mission_04.gd:1126
 msgid "Episode 1"
 msgstr "Épisode 1"
 
 #. s1.add_action(0.3, &"title", &"", Vector3.ZERO, {"text": "Dawn", "sub": "Emberfall", "time": 2.5})
-#: scripts/campaign/mission_00.gd:1047
+#: scripts/campaign/mission_00.gd:1052
 msgid "Dawn"
 msgstr "L'aube"
 
 #. s1.add_action(0.3, &"title", &"", Vector3.ZERO, {"text": "Dawn", "sub": "Emberfall", "time": 2.5})
-#: scripts/campaign/mission_00.gd:1047
+#: scripts/campaign/mission_00.gd:1052
 msgid "Emberfall"
 msgstr "Emberfall"
 
+#. const HINT_SPOTLIGHT := "Blaze Riders: go around the Shades and ride down the Nightbolts."
+#: scripts/campaign/mission_01.gd:28
+msgid "Blaze Riders: go around the Shades and ride down the Nightbolts."
+msgstr "Blaze Riders : contournez les Shades et fauchez les Nightbolts."
+
+#. const HINT_SPOTLIGHT_TOWER := "Not the tower."
+#: scripts/campaign/mission_01.gd:29
+msgid "Not the tower."
+msgstr "Pas la tour."
+
 #. [&"westwatch", "Westwatch", Vector3(-44.0, 0.0, -20.0), 8.0],
-#: scripts/campaign/mission_01.gd:53
+#: scripts/campaign/mission_01.gd:56
 msgid "Westwatch"
 msgstr "Westwatch"
 
 #. [&"southgate", "Southgate", Vector3(22.0, 0.0, 44.0), 8.0],
-#: scripts/campaign/mission_01.gd:54
+#: scripts/campaign/mission_01.gd:57
 msgid "Southgate"
 msgstr "Southgate"
 
 #. [&"narrator", "The Master is gone. His crown is not."],
-#: scripts/campaign/mission_01.gd:93
+#: scripts/campaign/mission_01.gd:96
 msgid "The Master is gone. His crown is not."
 msgstr "Le Maître est parti. Pas sa couronne."
 
 #. [&"vessa", "An Ember Crown, in a place called Emberfall. I'm not saying it was left for me. I'm not NOT saying
-#: scripts/campaign/mission_01.gd:94
+#: scripts/campaign/mission_01.gd:97
 msgid "An Ember Crown, in a place called Emberfall. I'm not saying it was left for me. I'm not NOT saying it."
 msgstr "Une Ember Crown, dans un lieu nommé Emberfall. Je ne dis pas qu'on l'a laissée pour moi. Je ne dis pas le contraire non plus."
 
 #. [&"vessa", "Three braziers, one seal. How hard can it be to light things? It's my whole personality."],
-#: scripts/campaign/mission_01.gd:95
+#: scripts/campaign/mission_01.gd:98
 msgid "Three braziers, one seal. How hard can it be to light things? It's my whole personality."
 msgstr "Trois braseros, un sceau. Allumer des choses, ça peut être si dur ? C'est toute ma personnalité."
 
 #. [&"malrik", "Little Vessa. You came a long way to lose something you never had."],
-#: scripts/campaign/mission_01.gd:96
+#: scripts/campaign/mission_01.gd:99
 msgid "Little Vessa. You came a long way to lose something you never had."
 msgstr "Petite Vessa. Tu viens de loin pour perdre ce que tu n'as jamais eu."
 
 #. [&"vessa", "One lit. Malrik, you still dress like a funeral that got lost on the way."],
-#: scripts/campaign/mission_01.gd:97
+#: scripts/campaign/mission_01.gd:100
 msgid "One lit. Malrik, you still dress like a funeral that got lost on the way."
 msgstr "Un d'allumé. Malrik, tu t'habilles encore comme un enterrement égaré."
 
 #. [&"pell", "Free at last! Buy something, would you? Shadow soldiers are terrible customers. They never pay, the
-#: scripts/campaign/mission_01.gd:98
+#: scripts/campaign/mission_01.gd:101
 msgid "Free at last! Buy something, would you? Shadow soldiers are terrible customers. They never pay, they just loom."
 msgstr "Enfin libre ! Achetez quelque chose, voulez-vous ? Les soldats de l'Ombre sont d'affreux clients. Ils ne paient jamais, ils rôdent."
 
 #. [&"narrator", "The Westwatch fire rises. Riders who remember the old kingdom ride to meet it."],
-#: scripts/campaign/mission_01.gd:99
+#: scripts/campaign/mission_01.gd:102
 msgid "The Westwatch fire rises. Riders who remember the old kingdom ride to meet it."
 msgstr "Le feu de Westwatch s'élève. Des cavaliers qui se souviennent du vieux royaume accourent."
 
 #. [&"malrik", "Light all the candles you like. The dark just gets a better view."],
-#: scripts/campaign/mission_01.gd:100
+#: scripts/campaign/mission_01.gd:103
 msgid "Light all the candles you like. The dark just gets a better view."
 msgstr "Allume toutes les bougies que tu veux. Le noir n'en voit que mieux."
 
 #. [&"narrator", "Three flames answer. The seal cracks, and the old wardens wake up grumpy."],
-#: scripts/campaign/mission_01.gd:101
+#: scripts/campaign/mission_01.gd:104
 msgid "Three flames answer. The seal cracks, and the old wardens wake up grumpy."
 msgstr "Trois flammes répondent. Le sceau se fend, et les vieux gardiens se réveillent grognons."
 
 #. [&"vessa", "I'm here for the crown, not a lecture. Fine. Both."],
-#: scripts/campaign/mission_01.gd:102
+#: scripts/campaign/mission_01.gd:105
 msgid "I'm here for the crown, not a lecture. Fine. Both."
 msgstr "Je viens pour la couronne, pas pour un sermon. Bon. Les deux."
 
 #. [&"malrik", "Put it down. That crown was never meant for someone who throws fire at her problems."],
-#: scripts/campaign/mission_01.gd:103
+#: scripts/campaign/mission_01.gd:106
 msgid "Put it down. That crown was never meant for someone who throws fire at her problems."
 msgstr "Pose-la. Cette couronne n'a jamais été faite pour qui règle ses problèmes au feu."
 
 #. [&"vessa", "Then it's in the right hands. I throw fire at ALL my problems."],
-#: scripts/campaign/mission_01.gd:104
+#: scripts/campaign/mission_01.gd:107
 msgid "Then it's in the right hands. I throw fire at ALL my problems."
 msgstr "Alors elle est en bonnes mains. Je règle TOUS mes problèmes au feu."
 
 #. [&"malrik", "Keep it warm for me. The other three will come for it now."],
-#: scripts/campaign/mission_01.gd:105
+#: scripts/campaign/mission_01.gd:108
 msgid "Keep it warm for me. The other three will come for it now."
 msgstr "Garde-la au chaud pour moi. Les trois autres vont venir la chercher."
 
 #. [&"narrator", "Far away, three apprentices feel the crown wake up, and begin to worry."],
-#: scripts/campaign/mission_01.gd:106
+#: scripts/campaign/mission_01.gd:109
 msgid "Far away, three apprentices feel the crown wake up, and begin to worry."
 msgstr "Au loin, trois apprentis sentent la couronne s'éveiller, et s'inquiètent."
 
 #. [&"vessa", "Tell the others... I was winning."],
-#: scripts/campaign/mission_01.gd:107
+#: scripts/campaign/mission_01.gd:110
 msgid "Tell the others... I was winning."
 msgstr "Dites aux autres... que je gagnais."
 
 #. "The God Wizard vanished between one breath and the next. He left four apprentices, four kingdoms and not one
-#: scripts/campaign/mission_01.gd:110
+#: scripts/campaign/mission_01.gd:113
 msgid "The God Wizard vanished between one breath and the next. He left four apprentices, four kingdoms and not one word of instruction. His regalia fell across the world like sparks from a kicked fire."
 msgstr "Le Dieu Sorcier a disparu entre deux souffles. Il a laissé quatre apprentis, quatre royaumes et pas un mot d'instruction. Ses regalia se sont dispersés sur le monde comme les étincelles d'un feu qu'on a renversé du pied."
 
 #. "One spark still glows: the Ember Crown, sealed in Emberfall, the Master's burnt-out observatory on the border
-#: scripts/campaign/mission_01.gd:111
+#: scripts/campaign/mission_01.gd:114
 msgid "One spark still glows: the Ember Crown, sealed in Emberfall, the Master's burnt-out observatory on the border between the Fire and Shadow kingdoms. Three old braziers hold the seal shut."
 msgstr "Une étincelle brille encore : l'Ember Crown, scellée à Emberfall, l'observatoire calciné du Maître, à la frontière des royaumes du Feu et de l'Ombre. Trois vieux braseros tiennent le sceau fermé."
 
 #. "Vessa, the youngest and least patient apprentice, rides out the night she hears of it. Malrik of Shadow got t
-#: scripts/campaign/mission_01.gd:112
+#: scripts/campaign/mission_01.gd:115
 msgid "Vessa, the youngest and least patient apprentice, rides out the night she hears of it. Malrik of Shadow got there first and is camped at the far end of the ruins. He cannot light a brazier. She can."
 msgstr "Vessa, la plus jeune et la moins patiente des apprentis, part la nuit même où elle l'apprend. Malrik de l'Ombre est arrivé le premier et campe au bout des ruines. Il ne peut pas allumer un brasero. Elle, si."
 
 #. const HINT_START := "Walk Vessa with W A S D. Light the brazier to the north-east."
-#: scripts/campaign/mission_01.gd:114
+#: scripts/campaign/mission_01.gd:117
 msgid "Walk Vessa with W A S D. Light the brazier to the north-east."
 msgstr "Déplacez Vessa avec W A S D. Allumez le brasero au nord-est."
 
 #. const HINT_FIRST_LIT := "Train more soldiers at the Ember Hall (Z / X)."
-#: scripts/campaign/mission_01.gd:115
+#: scripts/campaign/mission_01.gd:118
 msgid "Train more soldiers at the Ember Hall (Z / X)."
 msgstr "Formez plus de soldats à l'Ember Hall (Z / X)."
 
 #. const HINT_STRONGHOLD := "Your Keep can become a Stronghold: select the Keep and press %s (%d crystals). It op
-#: scripts/campaign/mission_01.gd:122 scripts/campaign/mission_02.gd:125
+#: scripts/campaign/mission_01.gd:125 scripts/campaign/mission_02.gd:126
 #: scripts/campaign/mission_03.gd:139
 msgid "Your Keep can become a Stronghold: select the Keep and press %s (%d crystals). It opens %s."
 msgstr "Votre Donjon peut devenir une Forteresse : sélectionnez le Donjon et appuyez sur %s (%d cristaux). Débloque : %s."
 
 #. const MSG_SEALED_M1 := "The seal holds. Light the three braziers of Emberfall."
-#: scripts/campaign/mission_01.gd:124
+#: scripts/campaign/mission_01.gd:127
 msgid "The seal holds. Light the three braziers of Emberfall."
 msgstr "Le sceau tient. Allumez les trois braseros d'Emberfall."
 
 #. const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
-#: scripts/campaign/mission_01.gd:125 scripts/campaign/mission_02.gd:174
-#: scripts/campaign/mission_03.gd:214 scripts/campaign/mission_04.gd:129 scripts/world/main.gd:139
-#: scripts/world/skirmish.gd:295
+#: scripts/campaign/mission_01.gd:128 scripts/campaign/mission_02.gd:175
+#: scripts/campaign/mission_03.gd:214 scripts/campaign/mission_04.gd:134
+#: scripts/campaign/mission_e2_01.gd:200 scripts/world/main.gd:139
 msgid "Malrik has fallen back into the shadows"
 msgstr "Malrik s'est replié dans les ombres"
 
 #. "title": "Mission 1: %s" % MISSION_TITLE,
-#: scripts/campaign/mission_01.gd:172 scripts/campaign/mission_01.gd:267
+#: scripts/campaign/mission_01.gd:175 scripts/campaign/mission_01.gd:272
 msgid "Mission 1: %s"
 msgstr "Mission 1 : %s"
 
 #. c.keep_lost_message = "The Fire keep has fallen"
-#: scripts/campaign/mission_01.gd:227 scripts/campaign/mission_02.gd:246
-#: scripts/campaign/mission_03.gd:288 scripts/campaign/mission_04.gd:1102
+#: scripts/campaign/mission_01.gd:230 scripts/campaign/mission_02.gd:247
+#: scripts/campaign/mission_03.gd:288 scripts/campaign/mission_04.gd:1143
+#: scripts/campaign/mission_e2_01.gd:273
 msgid "The Fire keep has fallen"
 msgstr "Le donjon du Feu est tombé"
 
 #. c.victory_banner = "VICTORY\nThe Ember Crown is yours"
-#: scripts/campaign/mission_01.gd:228
+#: scripts/campaign/mission_01.gd:231
 msgid "VICTORY\nThe Ember Crown is yours"
 msgstr "VICTOIRE\nL'Ember Crown est à vous"
 
+#. c.spotlight = {"id": &"blaze_rider", "trigger": &"unlock", "key_hint": "Ember Hall: B",
+#: scripts/campaign/mission_01.gd:233
+msgid "Ember Hall: B"
+msgstr "Ember Hall : B"
+
+#. "card": "Blaze Rider. Fast and fierce: ride past the shields and catch the archers."}
+#: scripts/campaign/mission_01.gd:234
+msgid "Blaze Rider. Fast and fierce: ride past the shields and catch the archers."
+msgstr "Blaze Rider. Rapide et féroce : passez les boucliers et rattrapez les archers."
+
 #. hud.show_message(HINT_STRONGHOLD % [KeyLabels.of(KEY_X), int(st["crystals"]), opens if opens != "" else "new u
-#: scripts/campaign/mission_01.gd:558 scripts/campaign/mission_02.gd:1117
-#: scripts/campaign/mission_03.gd:1660
+#: scripts/campaign/mission_01.gd:563 scripts/campaign/mission_02.gd:1120
+#: scripts/campaign/mission_03.gd:1663
 msgid "new units"
 msgstr "de nouvelles unités"
 
 #. hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-#: scripts/campaign/mission_01.gd:630 scripts/world/skirmish.gd:1615
+#: scripts/campaign/mission_01.gd:651 scripts/world/skirmish.gd:1615
 msgid "%s wears the %s"
 msgstr "%s porte : %s"
 
 #. return "Light the braziers of Emberfall"
-#: scripts/campaign/mission_01.gd:759
+#: scripts/campaign/mission_01.gd:780
 msgid "Light the braziers of Emberfall"
 msgstr "Allumer les braseros d'Emberfall"
 
 #. return "Light the braziers of Emberfall (%d / 3)" % lit_count
-#: scripts/campaign/mission_01.gd:760
+#: scripts/campaign/mission_01.gd:781
 msgid "Light the braziers of Emberfall (%d / 3)"
 msgstr "Allumer les braseros d'Emberfall (%d / 3)"
 
 #. return "Claim the Ember Crown"
-#: scripts/campaign/mission_01.gd:762
+#: scripts/campaign/mission_01.gd:783
 msgid "Claim the Ember Crown"
 msgstr "S'emparer de l'Ember Crown"
 
 #. return "Survive Malrik's counterattack (%s)" % _clock(hold_time())
-#: scripts/campaign/mission_01.gd:764
+#: scripts/campaign/mission_01.gd:785
 msgid "Survive Malrik's counterattack (%s)"
 msgstr "Survivre à la contre-attaque de Malrik (%s)"
 
 #. return "Free the Ruin Peddler"
-#: scripts/campaign/mission_01.gd:768
+#: scripts/campaign/mission_01.gd:789
 msgid "Free the Ruin Peddler"
 msgstr "Libérer le colporteur des ruines"
 
 #. return "Burn Malrik's Gloom Hall"
-#: scripts/campaign/mission_01.gd:770 scripts/campaign/mission_04.gd:511
+#: scripts/campaign/mission_01.gd:791 scripts/campaign/mission_04.gd:522
 msgid "Burn Malrik's Gloom Hall"
 msgstr "Brûler la Gloom Hall de Malrik"
 
@@ -494,209 +526,224 @@ msgstr "Sud"
 msgid "North"
 msgstr "Nord"
 
+#. const HINT_SPOTLIGHT := "Ash Hurlers crack the ice: shell the floe under them."
+#: scripts/campaign/mission_02.gd:88
+msgid "Ash Hurlers crack the ice: shell the floe under them."
+msgstr "Les Ash Hurlers fendent la glace : bombardez la banquise sous leurs pieds."
+
 #. [&"narrator", "Glasswater Mere has not thawed in a hundred winters. Something at the bottom still shines."],
-#: scripts/campaign/mission_02.gd:143 data/voice/lines/m02.json:L1
+#: scripts/campaign/mission_02.gd:144 data/voice/lines/m02.json:L1
 msgid "Glasswater Mere has not thawed in a hundred winters. Something at the bottom still shines."
 msgstr "Le Glasswater Mere n'a pas dégelé depuis cent hivers. Au fond, quelque chose brille encore."
 
 #. [&"vessa", "Malrik's diggers on Torvald's lake. Torvald must be thrilled."],
-#: scripts/campaign/mission_02.gd:144 data/voice/lines/m02.json:L2
+#: scripts/campaign/mission_02.gd:145 data/voice/lines/m02.json:L2
 msgid "Malrik's diggers on Torvald's lake. Torvald must be thrilled."
 msgstr "Les fouilleurs de Malrik sur le lac de Torvald. Torvald doit être ravi."
 
 #. [&"torvald", "Two children, fighting on my lake. Finish it quickly, and leave my ice alone."],
-#: scripts/campaign/mission_02.gd:145 data/voice/lines/m02.json:L3
+#: scripts/campaign/mission_02.gd:146 data/voice/lines/m02.json:L3
 msgid "Two children, fighting on my lake. Finish it quickly, and leave my ice alone."
 msgstr "Deux enfants qui se battent sur mon lac. Finissez vite, et laissez ma glace tranquille."
 
 #. [&"pell", "You again! My wheels froze to the road, so I suppose I'm open. Take this, it's on the house. The ho
-#: scripts/campaign/mission_02.gd:146 data/voice/lines/m02.json:L4a
+#: scripts/campaign/mission_02.gd:147 data/voice/lines/m02.json:L4a
 msgid "You again! My wheels froze to the road, so I suppose I'm open. Take this, it's on the house. The house is frozen too."
 msgstr "Encore vous ! Mes roues ont gelé sur la route, donc je suis ouvert. Tenez, c'est la maison qui offre. La maison est gelée aussi."
 
 #. [&"vessa", "Pell's cart, and no Pell. Maybe I should have opened that cage. Well. Finders keepers."],
-#: scripts/campaign/mission_02.gd:147 data/voice/lines/m02.json:L4b
+#: scripts/campaign/mission_02.gd:148 data/voice/lines/m02.json:L4b
 msgid "Pell's cart, and no Pell. Maybe I should have opened that cage. Well. Finders keepers."
 msgstr "La charrette de Pell, sans Pell. J'aurais dû ouvrir cette cage. Bah. Qui trouve garde."
 
 #. [&"vessa", "Emberguard, on your feet! Stamp a bit. Your toes will come back. Probably."],
-#: scripts/campaign/mission_02.gd:148 data/voice/lines/m02.json:L5
+#: scripts/campaign/mission_02.gd:149 data/voice/lines/m02.json:L5
 msgid "Emberguard, on your feet! Stamp a bit. Your toes will come back. Probably."
 msgstr "Emberguard, debout ! Tapez du pied. Vos orteils vont revenir. Sûrement."
 
 #. [&"malrik", "More diggers, more knives. You should have burned my hall when you had the chance."],
-#: scripts/campaign/mission_02.gd:149 data/voice/lines/m02.json:L6a
+#: scripts/campaign/mission_02.gd:150 data/voice/lines/m02.json:L6a
 msgid "More diggers, more knives. You should have burned my hall when you had the chance."
 msgstr "Plus de fouilleurs, plus de couteaux. Fallait brûler ma salle quand tu pouvais."
 
 #. [&"malrik", "Someone burned my barracks, so I brought fewer friends. Very petty. I respect it."],
-#: scripts/campaign/mission_02.gd:150 data/voice/lines/m02.json:L6b
+#: scripts/campaign/mission_02.gd:151 data/voice/lines/m02.json:L6b
 msgid "Someone burned my barracks, so I brought fewer friends. Very petty. I respect it."
 msgstr "On a brûlé ma caserne, alors j'ai moins d'amis. Bien mesquin. Je respecte."
 
 #. [&"vessa", "Thin ice! Ha! I am absolutely doing that again."],
-#: scripts/campaign/mission_02.gd:151 data/voice/lines/m02.json:L7
+#: scripts/campaign/mission_02.gd:152 data/voice/lines/m02.json:L7
 msgid "Thin ice! Ha! I am absolutely doing that again."
 msgstr "Glace mince ! Ha ! Je refais ça, c'est certain."
 
 #. [&"torvald", "That ice has kept a secret for a hundred winters, ember. Think before you melt it."],
-#: scripts/campaign/mission_02.gd:152 data/voice/lines/m02.json:L8
+#: scripts/campaign/mission_02.gd:153 data/voice/lines/m02.json:L8
 msgid "That ice has kept a secret for a hundred winters, ember. Think before you melt it."
 msgstr "Cette glace garde un secret depuis cent hivers, braise. Réfléchis avant de la fondre."
 
 #. [&"vessa", "A hundred winters of ice, and it took me one afternoon. Somebody write that down."],
-#: scripts/campaign/mission_02.gd:153 data/voice/lines/m02.json:L9
+#: scripts/campaign/mission_02.gd:154 data/voice/lines/m02.json:L9
 msgid "A hundred winters of ice, and it took me one afternoon. Somebody write that down."
 msgstr "Cent hivers de glace, et il m'a fallu un après-midi. Que quelqu'un le note."
 
 #. [&"torvald", "So be it. My lake will see you out. Slowly."],
-#: scripts/campaign/mission_02.gd:154 data/voice/lines/m02.json:L10
+#: scripts/campaign/mission_02.gd:155 data/voice/lines/m02.json:L10
 msgid "So be it. My lake will see you out. Slowly."
 msgstr "Soit. Mon lac vous raccompagnera. Lentement."
 
 #. [&"whisper", "Two. You're doing so well."],
-#: scripts/campaign/mission_02.gd:155 data/voice/lines/m02.json:L15
+#: scripts/campaign/mission_02.gd:156 data/voice/lines/m02.json:L15
 msgid "Two. You're doing so well."
 msgstr "Deux. Tu te débrouilles bien."
 
 #. [&"aldra", "Wake. We have guests."],
-#: scripts/campaign/mission_02.gd:156 data/voice/lines/m02.json:L16
+#: scripts/campaign/mission_02.gd:157 data/voice/lines/m02.json:L16
 msgid "Wake. We have guests."
 msgstr "Debout. Nous avons des invités."
 
 #. [&"aldra", "Through my glass already? Go, then. The mere remembers every footstep."],
-#: scripts/campaign/mission_02.gd:157 data/voice/lines/m02.json:L17
+#: scripts/campaign/mission_02.gd:158 data/voice/lines/m02.json:L17
 msgid "Through my glass already? Go, then. The mere remembers every footstep."
 msgstr "Déjà à travers ma glace ? Va, alors. Le lac se souvient de chaque pas."
 
 #. [&"torvald", "Run, little ember. Every relic you carry makes the Hollow hungrier. You will see."],
-#: scripts/campaign/mission_02.gd:158 data/voice/lines/m02.json:L11
+#: scripts/campaign/mission_02.gd:159 data/voice/lines/m02.json:L11
 msgid "Run, little ember. Every relic you carry makes the Hollow hungrier. You will see."
 msgstr "Cours, petite braise. Chaque relique que tu portes affame le Hollow. Tu verras."
 
 #. [&"narrator", "Two relics answer to fire. In the north, Ice watches, and says nothing."],
-#: scripts/campaign/mission_02.gd:159 data/voice/lines/m02.json:L12
+#: scripts/campaign/mission_02.gd:160 data/voice/lines/m02.json:L12
 msgid "Two relics answer to fire. In the north, Ice watches, and says nothing."
 msgstr "Deux reliques répondent au feu. Au nord, la Glace observe, et se tait."
 
 #. [&"vessa", "Too... cold... should have... brought a coat..."],
-#: scripts/campaign/mission_02.gd:160 data/voice/lines/m02.json:L13
+#: scripts/campaign/mission_02.gd:161 data/voice/lines/m02.json:L13
 msgid "Too... cold... should have... brought a coat..."
 msgstr "Trop... froid... aurais dû... prendre un manteau..."
 
 #. [&"malrik", "Patience was never my virtue. Luckily, I brought shovels."],
-#: scripts/campaign/mission_02.gd:161 data/voice/lines/m02.json:L14
+#: scripts/campaign/mission_02.gd:162 data/voice/lines/m02.json:L14
 msgid "Patience was never my virtue. Luckily, I brought shovels."
 msgstr "La patience n'a jamais été ma vertu. Heureusement, j'ai des pelles."
 
 #. "The Ember Crown sits on Vessa's head and will not stop humming. It hums loudest toward the north, where the r
-#: scripts/campaign/mission_02.gd:164
+#: scripts/campaign/mission_02.gd:165
 msgid "The Ember Crown sits on Vessa's head and will not stop humming. It hums loudest toward the north, where the roads turn white and the rivers stop moving."
 msgstr "L'Ember Crown repose sur la tête de Vessa et ne cesse de bourdonner. Elle bourdonne plus fort vers le nord, là où les routes blanchissent et où les rivières s'arrêtent."
 
 #. "The Master's second relic, the Stillwater Orb, lies at the bottom of Glasswater Mere, sealed in Torvald's ice
-#: scripts/campaign/mission_02.gd:165
+#: scripts/campaign/mission_02.gd:166
 msgid "The Master's second relic, the Stillwater Orb, lies at the bottom of Glasswater Mere, sealed in Torvald's ice for a hundred winters. Torvald has closed his lake to both armies. Malrik came anyway: his diggers are cutting down through the ice, one patient block at a time."
 msgstr "La deuxième relique du Maître, le Stillwater Orb, gît au fond du Glasswater Mere, scellée dans la glace de Torvald depuis cent hivers. Torvald a fermé son lac aux deux armées. Malrik est venu quand même : ses fouilleurs creusent la glace, un bloc patient à la fois."
 
 #. "Torvald will not fight for either side, but his lake fights everyone. Fire melts ice. Fire also cracks it.",
-#: scripts/campaign/mission_02.gd:166
+#: scripts/campaign/mission_02.gd:167
 msgid "Torvald will not fight for either side, but his lake fights everyone. Fire melts ice. Fire also cracks it."
 msgstr "Torvald ne se battra pour personne, mais son lac se bat contre tout le monde. Le feu fait fondre la glace. Le feu la fend aussi."
 
 #. const BRIEFING_DIG_LINE := "Malrik's diggers are cutting toward the orb. Do not let them reach it."
-#: scripts/campaign/mission_02.gd:168
+#: scripts/campaign/mission_02.gd:169
 msgid "Malrik's diggers are cutting toward the orb. Do not let them reach it."
 msgstr "Les fouilleurs de Malrik creusent vers l'orbe. Ne les laissez pas l'atteindre."
 
 #. const HINT_START := "Ash Hurlers (V at the Ember Hall) melt ice. Fireballs crack it."
-#: scripts/campaign/mission_02.gd:169
+#: scripts/campaign/mission_02.gd:170
 msgid "Ash Hurlers (V at the Ember Hall) melt ice. Fireballs crack it."
 msgstr "Les Ash Hurlers (V, Ember Hall) font fondre la glace. Les Fireballs la fendent."
 
 #. const HINT_E11 := "Torvald's walls and Sentinels attack both armies. Break through and bring the orb home."
-#: scripts/campaign/mission_02.gd:170
+#: scripts/campaign/mission_02.gd:171
 msgid "Torvald's walls and Sentinels attack both armies. Break through and bring the orb home."
 msgstr "Les murailles et Sentinelles de Torvald attaquent les deux armées. Percez et rapportez l'orbe."
 
 #. const MSG_STORM := "Torvald's storm is coming"
-#: scripts/campaign/mission_02.gd:171
+#: scripts/campaign/mission_02.gd:172
 msgid "Torvald's storm is coming"
 msgstr "La tempête de Torvald approche"
 
 #. const MSG_ONLY_FIRE := "Only fire melts the Heartfrost (Vessa, Ash Hurlers)"
-#: scripts/campaign/mission_02.gd:172
+#: scripts/campaign/mission_02.gd:173
 msgid "Only fire melts the Heartfrost (Vessa, Ash Hurlers)"
 msgstr "Seul le feu fait fondre le Heartfrost (Vessa, Ash Hurlers)"
 
 #. const MSG_OATH := "The Emberguard captain swears the Oath of Embers"
-#: scripts/campaign/mission_02.gd:173
+#: scripts/campaign/mission_02.gd:174
 msgid "The Emberguard captain swears the Oath of Embers"
 msgstr "Le capitaine de l'Emberguard prête le Serment des Braises"
 
 #. const MSG_DIG := "Malrik's dig: %d %%"
-#: scripts/campaign/mission_02.gd:175
+#: scripts/campaign/mission_02.gd:176
 msgid "Malrik's dig: %d %%"
 msgstr "Fouille de Malrik : %d %%"
 
 #. c.victory_banner = "VICTORY\nThe Stillwater Orb is yours"
-#: scripts/campaign/mission_02.gd:259
+#: scripts/campaign/mission_02.gd:260
 msgid "VICTORY\nThe Stillwater Orb is yours"
 msgstr "VICTOIRE\nLe Stillwater Orb est à vous"
 
+#. c.spotlight = {"id": &"ash_hurler", "trigger": &"start", "key_hint": "Ember Hall: V",
+#: scripts/campaign/mission_02.gd:264
+msgid "Ember Hall: V"
+msgstr "Ember Hall : V"
+
+#. "card": "Ash Hurler. Slow, far, and it melts what swords can't: ice, towers, camps."}
+#: scripts/campaign/mission_02.gd:265
+msgid "Ash Hurler. Slow, far, and it melts what swords can't: ice, towers, camps."
+msgstr "Ash Hurler. Lent, longue portée, et il fait fondre ce que les épées n'entament pas : glace, tours, camps."
+
 #. return "Mission 2: %s" % MISSION_TITLE
-#: scripts/campaign/mission_02.gd:301
+#: scripts/campaign/mission_02.gd:304
 msgid "Mission 2: %s"
 msgstr "Mission 2 : %s"
 
 #. pell.display_name = "Pell, Ruin Peddler"
-#: scripts/campaign/mission_02.gd:459 scripts/campaign/mission_03.gd:470
-#: scripts/campaign/mission_04.gd:293 scripts/campaign/mission_peddler.gd:19
+#: scripts/campaign/mission_02.gd:462 scripts/campaign/mission_03.gd:472
+#: scripts/campaign/mission_04.gd:304 scripts/campaign/mission_peddler.gd:19
 msgid "Pell, Ruin Peddler"
 msgstr "Pell, colporteur des ruines"
 
 #. return "Stop Malrik's dig (%d %%)" % int(dig) if with_counter else "Stop Malrik's dig"
-#: scripts/campaign/mission_02.gd:878
+#: scripts/campaign/mission_02.gd:881
 msgid "Stop Malrik's dig (%d %%)"
 msgstr "Arrêter la fouille de Malrik (%d %%)"
 
 #. return "Stop Malrik's dig (%d %%)" % int(dig) if with_counter else "Stop Malrik's dig"
-#: scripts/campaign/mission_02.gd:878
+#: scripts/campaign/mission_02.gd:881
 msgid "Stop Malrik's dig"
 msgstr "Arrêter la fouille de Malrik"
 
 #. return "Melt the Heartfrost (%d %%)" % melt_percent() if with_counter else "Melt the Heartfrost"
-#: scripts/campaign/mission_02.gd:880
+#: scripts/campaign/mission_02.gd:883
 msgid "Melt the Heartfrost (%d %%)"
 msgstr "Faire fondre le Heartfrost (%d %%)"
 
 #. return "Melt the Heartfrost (%d %%)" % melt_percent() if with_counter else "Melt the Heartfrost"
-#: scripts/campaign/mission_02.gd:880
+#: scripts/campaign/mission_02.gd:883
 msgid "Melt the Heartfrost"
 msgstr "Faire fondre le Heartfrost"
 
 #. return "Claim the Stillwater Orb"
-#: scripts/campaign/mission_02.gd:882
+#: scripts/campaign/mission_02.gd:885
 msgid "Claim the Stillwater Orb"
 msgstr "S'emparer du Stillwater Orb"
 
 #. return "Bring the orb home"
-#: scripts/campaign/mission_02.gd:884
+#: scripts/campaign/mission_02.gd:887
 msgid "Bring the orb home"
 msgstr "Rapporter l'orbe au camp"
 
 #. return "Thaw the lost Emberguard (%d / 3)" % thawed if with_counter else "Thaw the lost Emberguard"
-#: scripts/campaign/mission_02.gd:888
+#: scripts/campaign/mission_02.gd:891
 msgid "Thaw the lost Emberguard (%d / 3)"
 msgstr "Dégeler l'Emberguard perdue (%d / 3)"
 
 #. return "Thaw the lost Emberguard (%d / 3)" % thawed if with_counter else "Thaw the lost Emberguard"
-#: scripts/campaign/mission_02.gd:888
+#: scripts/campaign/mission_02.gd:891
 msgid "Thaw the lost Emberguard"
 msgstr "Dégeler l'Emberguard perdue"
 
 #. return "Melt the Heartfrost before the dig reaches 50 %"
-#: scripts/campaign/mission_02.gd:890
+#: scripts/campaign/mission_02.gd:893
 msgid "Melt the Heartfrost before the dig reaches 50 %"
 msgstr "Faire fondre le Heartfrost avant 50 % de fouille"
 
@@ -965,408 +1012,433 @@ msgstr "Old Mossjaw s'éveille"
 msgid "VICTORY\nThe Master's Signet is yours"
 msgstr "VICTOIRE\nLe Master's Signet est à vous"
 
+#. c.spotlight = {"id": &"wayfinder", "trigger": &"unlock", "key_hint": "Crooked Lantern: Y",
+#: scripts/campaign/mission_03.gd:306
+msgid "Crooked Lantern: Y"
+msgstr "Crooked Lantern : Y"
+
+#. "card": "Wayfinder. A champion you don't command: flag the fog, and she finds what hides in it."}
+#: scripts/campaign/mission_03.gd:307
+msgid "Wayfinder. A champion you don't command: flag the fog, and she finds what hides in it."
+msgstr "Wayfinder. Une championne qu'on ne commande pas : plantez un drapeau dans le brouillard, elle trouve ce qui s'y cache."
+
 #. return "Mission 3: %s" % MISSION_TITLE
-#: scripts/campaign/mission_03.gd:342
+#: scripts/campaign/mission_03.gd:344
 msgid "Mission 3: %s"
 msgstr "Mission 3 : %s"
 
 #. t.display_name = "Ember Stake"
-#: scripts/campaign/mission_03.gd:810
+#: scripts/campaign/mission_03.gd:812
 msgid "Ember Stake"
 msgstr "Ember Stake"
 
 #. "objectives": [objective_text(&"obj_hearts", false), "Take the Master's Signet before Malrik",
-#: scripts/campaign/mission_03.gd:846
+#: scripts/campaign/mission_03.gd:848
 msgid "Take the Master's Signet before Malrik"
 msgstr "Prendre le Master's Signet avant Malrik"
 
 #. var base := "Bring down the Root Hearts before Malrik"
-#: scripts/campaign/mission_03.gd:855
+#: scripts/campaign/mission_03.gd:857
 msgid "Bring down the Root Hearts before Malrik"
 msgstr "Abattre les Root Hearts avant Malrik"
 
 #. return "Kill Malrik before he gets home (%d m)" % int(malrik_home_distance()) if with_counter \
-#: scripts/campaign/mission_03.gd:860
+#: scripts/campaign/mission_03.gd:862
 msgid "Kill Malrik before he gets home (%d m)"
 msgstr "Tuer Malrik avant son retour (%d m)"
 
 #. else "Kill Malrik before he gets home"
-#: scripts/campaign/mission_03.gd:861
+#: scripts/campaign/mission_03.gd:863
 msgid "Kill Malrik before he gets home"
 msgstr "Tuer Malrik avant son retour"
 
 #. return "Take the Master's Signet (Malrik marches in %d:%02d)" % [left / 60, left % 60]
-#: scripts/campaign/mission_03.gd:865
+#: scripts/campaign/mission_03.gd:867
 msgid "Take the Master's Signet (Malrik marches in %d:%02d)"
 msgstr "Prendre le Master's Signet (Malrik part dans %d:%02d)"
 
 #. return "Take the Master's Signet (Malrik is racing you)"
-#: scripts/campaign/mission_03.gd:866
+#: scripts/campaign/mission_03.gd:868
 msgid "Take the Master's Signet (Malrik is racing you)"
 msgstr "Prendre le Master's Signet (Malrik fait la course)"
 
 #. var base := "Break the Warden Gates"
-#: scripts/campaign/mission_03.gd:868
+#: scripts/campaign/mission_03.gd:870
 msgid "Break the Warden Gates"
 msgstr "Briser les Warden Gates"
 
 #. return "Hire a champion at the Crooked Lantern"
-#: scripts/campaign/mission_03.gd:873
+#: scripts/campaign/mission_03.gd:875
 msgid "Hire a champion at the Crooked Lantern"
 msgstr "Engager un champion à la Crooked Lantern"
 
 #. return "Put down Old Mossjaw"
-#: scripts/campaign/mission_03.gd:875
+#: scripts/campaign/mission_03.gd:877
 msgid "Put down Old Mossjaw"
 msgstr "Abattre Old Mossjaw"
 
 #. return "Keep every Ember Stake standing"
-#: scripts/campaign/mission_03.gd:877
+#: scripts/campaign/mission_03.gd:879
 msgid "Keep every Ember Stake standing"
 msgstr "Garder chaque Ember Stake debout"
 
 #. mossjaw.unit_name = "Old Mossjaw"
-#: scripts/campaign/mission_03.gd:1000
+#: scripts/campaign/mission_03.gd:1003
 msgid "Old Mossjaw"
 msgstr "Old Mossjaw"
 
 #. hud.show_message("Malrik carried the Signet home", 4.0)
-#: scripts/campaign/mission_03.gd:1571
+#: scripts/campaign/mission_03.gd:1574
 msgid "Malrik carried the Signet home"
 msgstr "Malrik a rapporté le Signet chez lui"
 
 #. return _card(&"m3_oldroot", "The Oldroot Opens", "", [], OLDROOT_POS, Vector3(16.0, 20.0, 16.0),
-#: scripts/campaign/mission_03.gd:1799
+#: scripts/campaign/mission_03.gd:1802
 msgid "The Oldroot Opens"
 msgstr "L'Oldroot s'ouvre"
 
 #. return _card(&"m3_plea", "Ysolde's Plea", "", _cine_lines(&"m3_plea"), OLDROOT_POS, Vector3(7.0, 4.0, 8.0),
-#: scripts/campaign/mission_03.gd:1805
+#: scripts/campaign/mission_03.gd:1808
 msgid "Ysolde's Plea"
 msgstr "La supplique d'Ysolde"
 
 #. return _card(&"m3_memory", "The Signet's Memory", "", _cine_lines(&"m3_memory"), OLDROOT_POS,
-#: scripts/campaign/mission_03.gd:1812
+#: scripts/campaign/mission_03.gd:1815
 msgid "The Signet's Memory"
 msgstr "La mémoire du Signet"
 
 #. return _card(&"m3_parting", "The Wood Will Remember", "", _cine_lines(&"m3_parting"), at, Vector3(6.0, 4.0, 7.
-#: scripts/campaign/mission_03.gd:1819
+#: scripts/campaign/mission_03.gd:1822
 msgid "The Wood Will Remember"
 msgstr "Le bois se souviendra"
 
 #. [&"narrator", "Crown Hollow. Where the Master once sat, two armies wait for the sun."],
-#: scripts/campaign/mission_04.gd:91 data/voice/lines/m04.json:L1
+#: scripts/campaign/mission_04.gd:96 data/voice/lines/m04.json:L1
 msgid "Crown Hollow. Where the Master once sat, two armies wait for the sun."
 msgstr "Crown Hollow. Là où siégeait le Maître, deux armées attendent le soleil."
 
 #. [&"malrik", "Three relics, little ember. Hand them over and I'll let you keep the hat."],
-#: scripts/campaign/mission_04.gd:92 data/voice/lines/m04.json:L2
+#: scripts/campaign/mission_04.gd:97 data/voice/lines/m04.json:L2
 msgid "Three relics, little ember. Hand them over and I'll let you keep the hat."
 msgstr "Trois reliques, petite braise. Donne-les et je te laisse le chapeau."
 
 #. [&"vessa", "Come and take them, Bishop. You owe me for Emberfall. And for Vey."],
-#: scripts/campaign/mission_04.gd:93 data/voice/lines/m04.json:L3
+#: scripts/campaign/mission_04.gd:98 data/voice/lines/m04.json:L3
 msgid "Come and take them, Bishop. You owe me for Emberfall. And for Vey."
 msgstr "Viens les prendre, l'Évêque. Tu me dois Emberfall. Et Vey."
 
 #. [&"whisper", "Yes. Come, both of you. Fight on my roof."],
-#: scripts/campaign/mission_04.gd:94 data/voice/lines/m04.json:L4
+#: scripts/campaign/mission_04.gd:99 data/voice/lines/m04.json:L4
 msgid "Yes. Come, both of you. Fight on my roof."
 msgstr "Oui. Venez, tous deux. Battez-vous sur mon toit."
 
 #. [&"obren", "Yes. Fight. Every fallen soldier is a step on my stair."],
-#: scripts/campaign/mission_04.gd:95 data/voice/lines/m04.json:L5
+#: scripts/campaign/mission_04.gd:100 data/voice/lines/m04.json:L5
 msgid "Yes. Fight. Every fallen soldier is a step on my stair."
 msgstr "Oui. Battez-vous. Chaque mort est une marche de mon escalier."
 
 #. [&"vessa", "The ground is breathing. That can't be good."],
-#: scripts/campaign/mission_04.gd:96 data/voice/lines/m04.json:L6
+#: scripts/campaign/mission_04.gd:101 data/voice/lines/m04.json:L6
 msgid "The ground is breathing. That can't be good."
 msgstr "Le sol respire. Ça ne peut pas être bon."
 
 #. [&"obren", "A hundred years in the dark. I had time to practise my entrance."],
-#: scripts/campaign/mission_04.gd:97 data/voice/lines/m04.json:L7
+#: scripts/campaign/mission_04.gd:102 data/voice/lines/m04.json:L7
 msgid "A hundred years in the dark. I had time to practise my entrance."
 msgstr "Cent ans dans le noir. J'ai eu le temps de répéter mon entrée."
 
 #. [&"vessa", "I had ten minutes to practise running. Those pillars feed it. Break them all!"],
-#: scripts/campaign/mission_04.gd:98 data/voice/lines/m04.json:L8
+#: scripts/campaign/mission_04.gd:103 data/voice/lines/m04.json:L8
 msgid "I had ten minutes to practise running. Those pillars feed it. Break them all!"
 msgstr "J'ai eu dix minutes pour répéter ma fuite. Ces piliers le nourrissent. Brisez-les tous !"
 
 #. [&"malrik", "A giant made of rubble, in MY war? Shades, kill the pillars. Then kill Vessa."],
-#: scripts/campaign/mission_04.gd:99 data/voice/lines/m04.json:L9
+#: scripts/campaign/mission_04.gd:104 data/voice/lines/m04.json:L9
 msgid "A giant made of rubble, in MY war? Shades, kill the pillars. Then kill Vessa."
 msgstr "Un géant de gravats, dans MA guerre ? Shades, détruisez les piliers. Puis tuez Vessa."
 
 #. [&"vessa", "Two down. Keep hitting the glowing parts. It's always the glowing parts."],
-#: scripts/campaign/mission_04.gd:100 data/voice/lines/m04.json:L10
+#: scripts/campaign/mission_04.gd:105 data/voice/lines/m04.json:L10
 msgid "Two down. Keep hitting the glowing parts. It's always the glowing parts."
 msgstr "Deux de tombés. Frappez les parties qui brillent. C'est toujours elles."
 
 #. [&"obren", "Enough. I will walk to your little fire and put it out myself."],
-#: scripts/campaign/mission_04.gd:101 data/voice/lines/m04.json:L11
+#: scripts/campaign/mission_04.gd:106 data/voice/lines/m04.json:L11
 msgid "Enough. I will walk to your little fire and put it out myself."
 msgstr "Assez. J'irai à ton petit feu et je l'éteindrai moi-même."
 
 #. [&"obren", "This body... cracks... No matter. Stone is patient."],
-#: scripts/campaign/mission_04.gd:102 data/voice/lines/m04.json:L12
+#: scripts/campaign/mission_04.gd:107 data/voice/lines/m04.json:L12
 msgid "This body... cracks... No matter. Stone is patient."
 msgstr "Ce corps... se fend... Peu importe. La pierre est patiente."
 
 #. [&"vessa", "Not the keep! I JUST had it redecorated!"],
-#: scripts/campaign/mission_04.gd:103 data/voice/lines/m04.json:L13
+#: scripts/campaign/mission_04.gd:108 data/voice/lines/m04.json:L13
 msgid "Not the keep! I JUST had it redecorated!"
 msgstr "Pas le donjon ! Je VIENS de le redécorer !"
 
 #. [&"vessa", "Everyone, back to the keep! BACK!"],
-#: scripts/campaign/mission_04.gd:104 data/voice/lines/m04.json:L14
+#: scripts/campaign/mission_04.gd:109 data/voice/lines/m04.json:L14
 msgid "Everyone, back to the keep! BACK!"
 msgstr "Tout le monde, au donjon ! REPLI !"
 
 #. [&"vey", "Stay close, girl. Whatever it throws at you, I'll ground it."],
-#: scripts/campaign/mission_04.gd:105 data/voice/lines/m04.json:L15
+#: scripts/campaign/mission_04.gd:110 data/voice/lines/m04.json:L15
 msgid "Stay close, girl. Whatever it throws at you, I'll ground it."
 msgstr "Reste près de moi, petite. Quoi qu'il te lance, je le détourne."
 
 #. [&"vessa", "Crown, orb, signet. Let's see what you do together."],
-#: scripts/campaign/mission_04.gd:106 data/voice/lines/m04.json:L16
+#: scripts/campaign/mission_04.gd:111 data/voice/lines/m04.json:L16
 msgid "Crown, orb, signet. Let's see what you do together."
 msgstr "Couronne, orbe, sceau. Voyons ce que vous faites ensemble."
 
 #. [&"obren", "His storm? Impossible! That light should have faded a hundred years ago!"],
-#: scripts/campaign/mission_04.gd:107 data/voice/lines/m04.json:L17
+#: scripts/campaign/mission_04.gd:112 data/voice/lines/m04.json:L17
 msgid "His storm? Impossible! That light should have faded a hundred years ago!"
 msgstr "Sa tempête ? Impossible ! Cette lumière aurait dû s'éteindre il y a cent ans !"
 
 #. [&"vessa", "Nobody stays faded around here. Ask Vey."],
-#: scripts/campaign/mission_04.gd:108 data/voice/lines/m04.json:L18
+#: scripts/campaign/mission_04.gd:113 data/voice/lines/m04.json:L18
 msgid "Nobody stays faded around here. Ask Vey."
 msgstr "Personne ne reste éteint, ici. Demande à Vey."
 
 #. [&"vey", "The spark was yours, Vessa. NOW the storm!"],
-#: scripts/campaign/mission_04.gd:109 data/voice/lines/m04.json:L19
+#: scripts/campaign/mission_04.gd:114 data/voice/lines/m04.json:L19
 msgid "The spark was yours, Vessa. NOW the storm!"
 msgstr "À toi l'étincelle, Vessa. MAINTENANT, l'orage !"
 
 #. [&"vessa", "Somebody... finish my war..."],
-#: scripts/campaign/mission_04.gd:110 data/voice/lines/m04.json:L20
+#: scripts/campaign/mission_04.gd:115 data/voice/lines/m04.json:L20
 msgid "Somebody... finish my war..."
 msgstr "Finissez... ma guerre..."
 
 #. [&"obren", "The Hollow... remembers..."],
-#: scripts/campaign/mission_04.gd:111 data/voice/lines/m04.json:L21
+#: scripts/campaign/mission_04.gd:116 data/voice/lines/m04.json:L21
 msgid "The Hollow... remembers..."
 msgstr "Le Hollow... se souvient..."
 
 #. [&"vey", "Just resting my knees. Keep turning that key!"],
-#: scripts/campaign/mission_04.gd:112 data/voice/lines/m04.json:L23
+#: scripts/campaign/mission_04.gd:117 data/voice/lines/m04.json:L23
 msgid "Just resting my knees. Keep turning that key!"
 msgstr "Je repose mes genoux. Continue de tourner la clé !"
 
 #. [&"malrik", "One pillar down. You're welcome, little ember. Don't get used to it."],
-#: scripts/campaign/mission_04.gd:113 data/voice/lines/m04.json:L24
+#: scripts/campaign/mission_04.gd:118 data/voice/lines/m04.json:L24
 msgid "One pillar down. You're welcome, little ember. Don't get used to it."
 msgstr "Un pilier de tombé. De rien, petite braise. Prends pas l'habitude."
 
 #. [&"malrik", "An old man and a thunderstorm. Shades, fall back. I'll collect whatever is left."],
-#: scripts/campaign/mission_04.gd:114 data/voice/lines/m04.json:L25
+#: scripts/campaign/mission_04.gd:119 data/voice/lines/m04.json:L25
 msgid "An old man and a thunderstorm. Shades, fall back. I'll collect whatever is left."
 msgstr "Un vieillard et un orage. Shades, repli. Je ramasserai ce qui reste."
 
 #. [&"pell", "Last stall before the end of the world! Everything must go. Including me, quickly."],
-#: scripts/campaign/mission_04.gd:115 data/voice/lines/m04.json:L26
+#: scripts/campaign/mission_04.gd:120 data/voice/lines/m04.json:L26
 msgid "Last stall before the end of the world! Everything must go. Including me, quickly."
 msgstr "Dernier étal avant la fin du monde ! Tout doit partir. Moi aussi, et vite."
 
 #. "The parley failed. Ice and Nature walked away, and Malrik named the place himself: Crown Hollow, at dawn, whe
-#: scripts/campaign/mission_04.gd:118
+#: scripts/campaign/mission_04.gd:123
 msgid "The parley failed. Ice and Nature walked away, and Malrik named the place himself: Crown Hollow, at dawn, where the Master once sat and where this war began over a crown."
 msgstr "Les pourparlers ont échoué. La Glace et la Nature sont parties, et Malrik a lui-même choisi le lieu : Crown Hollow, à l'aube, là où siégeait le Maître et où cette guerre a commencé pour une couronne."
 
 #. "Vessa carries all three relics now: the Ember Crown, the Stillwater Orb and the Master's Signet. They have st
-#: scripts/campaign/mission_04.gd:119
+#: scripts/campaign/mission_04.gd:124
 msgid "Vessa carries all three relics now: the Ember Crown, the Stillwater Orb and the Master's Signet. They have stopped humming. They are pulling, toward the ruined throne on Crown Isle, and the voice inside them sounds very pleased."
 msgstr "Vessa porte maintenant les trois reliques : l'Ember Crown, le Stillwater Orb et le Master's Signet. Elles ne bourdonnent plus. Elles tirent, vers le trône en ruine de Crown Isle, et la voix en elles semble très satisfaite."
 
 #. "Ysolde called the relics a lock. Somewhere under the isle, something has been counting every soldier who fall
-#: scripts/campaign/mission_04.gd:120
+#: scripts/campaign/mission_04.gd:125
 msgid "Ysolde called the relics a lock. Somewhere under the isle, something has been counting every soldier who falls. Vessa means to end the war today. She is about to find out what the war has been feeding."
 msgstr "Ysolde a dit que les reliques étaient une serrure. Quelque part sous l'île, quelque chose compte chaque soldat qui tombe. Vessa veut finir la guerre aujourd'hui. Elle va découvrir ce que la guerre nourrissait."
 
 #. const BRIEFING_HOLLOW_LINE := "Every fallen soldier feeds the Hollow."
-#: scripts/campaign/mission_04.gd:122
+#: scripts/campaign/mission_04.gd:127
 msgid "Every fallen soldier feeds the Hollow."
 msgstr "Chaque soldat tombé nourrit le Hollow."
 
 #. const HINT_START := "Every death feeds the Hollow. Take the Master's seat on Crown Isle when YOU are ready."
-#: scripts/campaign/mission_04.gd:123
+#: scripts/campaign/mission_04.gd:128
 msgid "Every death feeds the Hollow. Take the Master's seat on Crown Isle when YOU are ready."
 msgstr "Chaque mort nourrit le Hollow. Prenez le trône du Maître sur Crown Isle quand VOUS êtes prêt."
 
 #. const HINT_ISLE := "Clear the isle of Shadow, then stand on the Throne stone for 3 s."
-#: scripts/campaign/mission_04.gd:124
+#: scripts/campaign/mission_04.gd:129
 msgid "Clear the isle of Shadow, then stand on the Throne stone for 3 s."
 msgstr "Chassez l'Ombre de l'île, puis tenez-vous sur la pierre du Trône pendant 3 s."
 
 #. const HINT_PYLONS := "Break the four Keystone Pylons. The Colossus cannot be hurt while one stands."
-#: scripts/campaign/mission_04.gd:125
+#: scripts/campaign/mission_04.gd:130
 msgid "Break the four Keystone Pylons. The Colossus cannot be hurt while one stands."
 msgstr "Brisez les quatre Keystone Pylons. Le Colosse est invulnérable tant qu'il en reste un."
 
 #. const HINT_KEY := "Stand within 4 m of the Colossus for 3 s with Vessa. Keep Old Vey close: the Hollow Pulse c
-#: scripts/campaign/mission_04.gd:126
+#: scripts/campaign/mission_04.gd:131
 msgid "Stand within 4 m of the Colossus for 3 s with Vessa. Keep Old Vey close: the Hollow Pulse can't break the key while he grounds it."
 msgstr "Restez à moins de 4 m du Colosse pendant 3 s avec Vessa. Gardez Old Vey près d'elle : la Hollow Pulse ne peut briser la clé tant qu'il la protège."
 
 #. const MSG_HOLLOW_25 := "The ground under Crown Hollow is warm."
-#: scripts/campaign/mission_04.gd:127
+#: scripts/campaign/mission_04.gd:132
 msgid "The ground under Crown Hollow is warm."
 msgstr "Le sol sous Crown Hollow est tiède."
 
 #. const MSG_GUARD_FALLS_BACK := "Malrik's isle guard falls back to his army."
-#: scripts/campaign/mission_04.gd:128
+#: scripts/campaign/mission_04.gd:133
 msgid "Malrik's isle guard falls back to his army."
 msgstr "La garde de l'île de Malrik se replie vers son armée."
 
 #. const MSG_STAGGER := "The Colossus staggers!"
-#: scripts/campaign/mission_04.gd:130
+#: scripts/campaign/mission_04.gd:135
 msgid "The Colossus staggers!"
 msgstr "Le Colosse chancelle !"
 
+#. const HINT_SPOTLIGHT := "Kilnwarden: Slag Rain the Colossus. Its stone armour melts from 25 to 5."
+#: scripts/campaign/mission_04.gd:136
+msgid "Kilnwarden: Slag Rain the Colossus. Its stone armour melts from 25 to 5."
+msgstr "Kilnwarden : Slag Rain sur le Colosse. Son armure de pierre fond de 25 à 5."
+
 #. const MSG_VEY_DOWN := "Old Vey is down! The storm will return."
-#: scripts/campaign/mission_04.gd:131
+#: scripts/campaign/mission_04.gd:137
 msgid "Old Vey is down! The storm will return."
 msgstr "Old Vey est à terre ! La tempête reviendra."
 
 #. const MSG_SEAT_BLOCKED := "Shadow still holds the isle"
-#: scripts/campaign/mission_04.gd:132
+#: scripts/campaign/mission_04.gd:138
 msgid "Shadow still holds the isle"
 msgstr "L'Ombre tient encore l'île"
 
 #. const CARD_RISE_TEXT := "The Throne stone cracks. Amber light pours up through the isle, the pillars fall into
-#: scripts/campaign/mission_04.gd:134
+#: scripts/campaign/mission_04.gd:140
 msgid "The Throne stone cracks. Amber light pours up through the isle, the pillars fall into the moat, and a giant of rubble and old stone climbs out of the Hollow, a burning heart in its chest. Four pillars rise around the water, each feeding it a golden thread."
 msgstr "La pierre du Trône se fend. Une lumière ambrée jaillit de l'île, les piliers tombent dans les douves, et un géant de gravats et de vieille pierre sort du Hollow, un cœur brûlant dans la poitrine. Quatre piliers se dressent autour de l'eau, chacun le nourrissant d'un fil d'or."
 
 #. const CARD_STORM_TEXT := "The Colossus raises its fist over Vessa. Thunder answers. A bolt splits the sky, the
-#: scripts/campaign/mission_04.gd:135
+#: scripts/campaign/mission_04.gd:141
 msgid "The Colossus raises its fist over Vessa. Thunder answers. A bolt splits the sky, the giant staggers to its knees, and out of the storm walks an old man with a sword that hums like a struck bell. Old Vey is alive."
 msgstr "Le Colosse lève le poing sur Vessa. Le tonnerre répond. Un éclair fend le ciel, le géant tombe à genoux, et de l'orage sort un vieil homme dont l'épée vibre comme une cloche frappée. Old Vey est vivant."
 
 #. const CARD_ENDING_TEXT := "Fire and lightning shatter the heart. Obren's body falls. In the grey dawn Malrik p
-#: scripts/campaign/mission_04.gd:136
+#: scripts/campaign/mission_04.gd:142
 msgid "Fire and lightning shatter the heart. Obren's body falls. In the grey dawn Malrik picks up the still-pulsing heart-stone and melts into the mist with it while the Shadow army withdraws. Vey tells Vessa the Master is alive below, and the three relics turn white-gold and point down."
 msgstr "Le feu et la foudre brisent le cœur. Le corps d'Obren s'effondre. Dans l'aube grise, Malrik ramasse la pierre-cœur qui bat encore et se fond dans la brume pendant que l'armée de l'Ombre se retire. Vey dit à Vessa que le Maître est vivant, en bas, et les trois reliques virent à l'or blanc et pointent vers le sol."
 
 #. const CARD_CREDITS_TEXT := "Episode 1: The Hollow Throne. Thank you for playing. Episode 2 begins where the re
-#: scripts/campaign/mission_04.gd:137
+#: scripts/campaign/mission_04.gd:143
 msgid "Episode 1: The Hollow Throne. Thank you for playing. Episode 2 begins where the relics point: down."
 msgstr "Épisode 1 : The Hollow Throne. Merci d'avoir joué. L'épisode 2 commence là où pointent les reliques : en bas."
 
 #. c.victory_banner = "VICTORY\nThe Hollow Throne is broken"
-#: scripts/campaign/mission_04.gd:216
+#: scripts/campaign/mission_04.gd:225
 msgid "VICTORY\nThe Hollow Throne is broken"
 msgstr "VICTOIRE\nLe Hollow Throne est brisé"
 
+#. c.spotlight = {"id": &"kilnwarden", "trigger": &"start", "key_hint": "Keep: B",
+#: scripts/campaign/mission_04.gd:230
+msgid "Keep: B"
+msgstr "Donjon : B"
+
+#. "card": "Kilnwarden. Melts armour, burns mana: it makes big things soft and casters empty."}
+#: scripts/campaign/mission_04.gd:231
+msgid "Kilnwarden. Melts armour, burns mana: it makes big things soft and casters empty."
+msgstr "Kilnwarden. Fait fondre l'armure, brûle le mana : il ramollit les géants et vide les lanceurs de sorts."
+
 #. return "Mission 4: %s" % MISSION_TITLE
-#: scripts/campaign/mission_04.gd:237
+#: scripts/campaign/mission_04.gd:248
 msgid "Mission 4: %s"
 msgstr "Mission 4 : %s"
 
 #. return "Take the Master's seat on Crown Isle (the Hollow stirs: %d %%)" % int(hollow)
-#: scripts/campaign/mission_04.gd:494
+#: scripts/campaign/mission_04.gd:505
 msgid "Take the Master's seat on Crown Isle (the Hollow stirs: %d %%)"
 msgstr "Prendre le trône du Maître sur Crown Isle (le Hollow s'agite : %d %%)"
 
 #. return "Take the Master's seat on Crown Isle"
-#: scripts/campaign/mission_04.gd:495
+#: scripts/campaign/mission_04.gd:506
 msgid "Take the Master's seat on Crown Isle"
 msgstr "Prendre le trône du Maître sur Crown Isle"
 
 #. return "Break the Keystone Pylons (%d / 4)" % pylons_broken if with_counter else "Break the Keystone Pylons"
-#: scripts/campaign/mission_04.gd:497
+#: scripts/campaign/mission_04.gd:508
 msgid "Break the Keystone Pylons (%d / 4)"
 msgstr "Briser les Keystone Pylons (%d / 4)"
 
 #. return "Break the Keystone Pylons (%d / 4)" % pylons_broken if with_counter else "Break the Keystone Pylons"
-#: scripts/campaign/mission_04.gd:497
+#: scripts/campaign/mission_04.gd:508
 msgid "Break the Keystone Pylons"
 msgstr "Briser les Keystone Pylons"
 
 #. return "Stop the Keystone Colossus (%d %%)" % int(round(keystone.colossus_hp_pct() * 100.0))
-#: scripts/campaign/mission_04.gd:500
+#: scripts/campaign/mission_04.gd:511
 msgid "Stop the Keystone Colossus (%d %%)"
 msgstr "Arrêter le Keystone Colossus (%d %%)"
 
 #. return "Stop the Keystone Colossus"
-#: scripts/campaign/mission_04.gd:501
+#: scripts/campaign/mission_04.gd:512
 msgid "Stop the Keystone Colossus"
 msgstr "Arrêter le Keystone Colossus"
 
 #. return "Turn the key: Vessa by the Colossus's heart, with Old Vey beside her"
-#: scripts/campaign/mission_04.gd:503
+#: scripts/campaign/mission_04.gd:514
 msgid "Turn the key: Vessa by the Colossus's heart, with Old Vey beside her"
 msgstr "Tourner la clé : Vessa au cœur du Colosse, Old Vey à ses côtés"
 
 #. return "The Fire keep must stand"
-#: scripts/campaign/mission_04.gd:507
+#: scripts/campaign/mission_04.gd:518
 msgid "The Fire keep must stand"
 msgstr "Le donjon du Feu doit tenir"
 
 #. return "Take the seat before the Hollow wakes on its own"
-#: scripts/campaign/mission_04.gd:509
+#: scripts/campaign/mission_04.gd:520
 msgid "Take the seat before the Hollow wakes on its own"
 msgstr "Prendre le trône avant que le Hollow s'éveille seul"
 
 #. return {"progress": int(hollow), "goal": 100, "counter": "Hollow %d %%" % int(hollow), "position": THRONE_POS}
-#: scripts/campaign/mission_04.gd:520
+#: scripts/campaign/mission_04.gd:531
 msgid "Hollow %d %%"
 msgstr "Hollow %d %%"
 
 #. var card := _card(&"m4_war", "Mission 4", MISSION_TITLE, lines, THRONE_POS, Vector3(-40.0, 34.0, 46.0),
-#: scripts/campaign/mission_04.gd:670
+#: scripts/campaign/mission_04.gd:686
 msgid "Mission 4"
 msgstr "Mission 4"
 
 #. _play_card(&"m4_rise", _text_card(&"m4_rise", "The Rise", CARD_RISE_TEXT, THRONE_POS, 45.0), _rise_end_state)
-#: scripts/campaign/mission_04.gd:730
+#: scripts/campaign/mission_04.gd:746
 msgid "The Rise"
 msgstr "L'éveil"
 
 #. _play_card(&"m4_storm", _text_card(&"m4_storm", "The Darkest Hour", CARD_STORM_TEXT, hero_pos(), 105.0),
-#: scripts/campaign/mission_04.gd:962
+#: scripts/campaign/mission_04.gd:1003
 msgid "The Darkest Hour"
 msgstr "L'heure la plus sombre"
 
 #. hud.show_message("Malrik's army is broken. The Hollow is not.", 4.0)
-#: scripts/campaign/mission_04.gd:1029
+#: scripts/campaign/mission_04.gd:1070
 msgid "Malrik's army is broken. The Hollow is not."
 msgstr "L'armée de Malrik est brisée. Pas le Hollow."
 
 #. _play_card(&"ep1_credits", _text_card(&"ep1_credits", "Episode 1 complete", CARD_CREDITS_TEXT,
-#: scripts/campaign/mission_04.gd:1087
+#: scripts/campaign/mission_04.gd:1128
 msgid "Episode 1 complete"
 msgstr "Épisode 1 terminé"
 
 #. why = "Cinematics off"
-#: scripts/campaign/mission_base.gd:617
+#: scripts/campaign/mission_base.gd:628
 msgid "Cinematics off"
 msgstr "Cinématiques désactivées"
 
 #. why = "No cinematic %s" % id
-#: scripts/campaign/mission_base.gd:619
+#: scripts/campaign/mission_base.gd:630
 msgid "No cinematic %s"
 msgstr "Aucune cinématique %s"
 
 #. next.text = "Continue: Mission %d" % i if i >= 0 else "Continue"
-#: scripts/campaign/mission_base.gd:710
+#: scripts/campaign/mission_base.gd:721
 msgid "Continue: Mission %d"
 msgstr "Continuer : mission %d"
 
 #. next.text = "Continue: Mission %d" % i if i >= 0 else "Continue"
-#: scripts/campaign/mission_base.gd:710
+#: scripts/campaign/mission_base.gd:721
 msgid "Continue"
 msgstr "Continuer"
 
@@ -1384,6 +1456,331 @@ msgstr "Le donjon est tombé"
 #: scripts/campaign/mission_config.gd:25 scripts/world/skirmish.gd:1667
 msgid "VICTORY"
 msgstr "VICTOIRE"
+
+#. &"S1": ["Fernhollow", Vector3(-30.0, 0.0, -4.0), [["grave_hound", 3], ["shade", 1]], 4.0],
+#: scripts/campaign/mission_e2_01.gd:60
+msgid "Fernhollow"
+msgstr "Fernhollow"
+
+#. &"S2": ["Charred Glade", Vector3(26.0, 0.0, 28.0), [["rimeshield", 2], ["shardcaster", 2]], 4.0],
+#: scripts/campaign/mission_e2_01.gd:61
+msgid "Charred Glade"
+msgstr "Charred Glade"
+
+#. &"S3": ["Greenhold ruins", Vector3(43.0, 0.0, 43.0), [["shade", 3], ["nightbolt", 2], ["rimeshield", 1],
+#: scripts/campaign/mission_e2_01.gd:62
+msgid "Greenhold ruins"
+msgstr "les ruines de Greenhold"
+
+#. const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"messenger": "Wren", &"ashby": "Captain Ashby",
+#: scripts/campaign/mission_e2_01.gd:150 scripts/campaign/mission_e2_01.gd:317
+msgid "Wren"
+msgstr "Wren"
+
+#. [&"narrator", "The Sighing Wood kept out of every quarrel for a century. Now it is ash, and the ash is frozen.
+#: scripts/campaign/mission_e2_01.gd:154
+msgid "The Sighing Wood kept out of every quarrel for a century. Now it is ash, and the ash is frozen."
+msgstr "Le Sighing Wood est resté à l'écart de toutes les querelles pendant un siècle. Le voilà en cendres, et la cendre a gelé."
+
+#. [&"vessa", "Fire AND frost. They didn't just burn it. They made sure it stayed dead."],
+#: scripts/campaign/mission_e2_01.gd:155
+msgid "Fire AND frost. They didn't just burn it. They made sure it stayed dead."
+msgstr "Le feu ET le givre. Ils ne l'ont pas juste brûlé. Ils se sont assurés qu'il reste mort."
+
+#. [&"messenger", "The Heartwood is past the old tree. She's inside it."],
+#: scripts/campaign/mission_e2_01.gd:156
+msgid "The Heartwood is past the old tree. She's inside it."
+msgstr "Le Heartwood est derrière le vieil arbre. Elle est dedans."
+
+#. [&"vey", "I'll ride the north road and see what Torvald brought. Light the beacon when you want the storm."],
+#: scripts/campaign/mission_e2_01.gd:157
+msgid "I'll ride the north road and see what Torvald brought. Light the beacon when you want the storm."
+msgstr "Je prends la route du nord voir ce que Torvald a amené. Allume le fanal quand tu voudras l'orage."
+
+#. [&"vessa", "You just got back, and you're leaving again? You're lucky I'm busy."],
+#: scripts/campaign/mission_e2_01.gd:158
+msgid "You just got back, and you're leaving again? You're lucky I'm busy."
+msgstr "Tu viens de revenir et tu repars déjà ? T'es chanceux que je sois occupée."
+
+#. [&"vessa", "Shades in the ashes. Malrik never could resist a funeral."],
+#: scripts/campaign/mission_e2_01.gd:159
+msgid "Shades in the ashes. Malrik never could resist a funeral."
+msgstr "Des Shades dans les cendres. Malrik n'a jamais pu résister à un enterrement."
+
+#. [&"ashby", "Shadow at the camp, my queen! We'll hold the hall. Go!"],
+#: scripts/campaign/mission_e2_01.gd:160
+msgid "Shadow at the camp, my queen! We'll hold the hall. Go!"
+msgstr "L'Ombre attaque le camp, ma reine ! On tient la salle. Allez !"
+
+#. [&"aldra", "Hold the rime. When the green stops beating, the wood is ours."],
+#: scripts/campaign/mission_e2_01.gd:161
+msgid "Hold the rime. When the green stops beating, the wood is ours."
+msgstr "Tenez le givre. Quand le vert cessera de battre, le bois sera à nous."
+
+#. [&"torvald", "So the little ember comes to warm the wood. You are late, child. Winter got here first."],
+#: scripts/campaign/mission_e2_01.gd:162
+msgid "So the little ember comes to warm the wood. You are late, child. Winter got here first."
+msgstr "Alors la petite braise vient réchauffer le bois. Tu arrives trop tard, petite. L'hiver est passé avant toi."
+
+#. [&"aldra", "Cracked. Not broken. Torvald will hear of this."],
+#: scripts/campaign/mission_e2_01.gd:163
+msgid "Cracked. Not broken. Torvald will hear of this."
+msgstr "Fissuré. Pas brisé. Torvald en entendra parler."
+
+#. [&"vessa", "You always said fire was the problem, Ysolde. Today it's the answer."],
+#: scripts/campaign/mission_e2_01.gd:164
+msgid "You always said fire was the problem, Ysolde. Today it's the answer."
+msgstr "Tu as toujours dit que le feu était le problème, Ysolde. Aujourd'hui, c'est la réponse."
+
+#. [&"messenger", "The roots are warm again!"],
+#: scripts/campaign/mission_e2_01.gd:165
+msgid "The roots are warm again!"
+msgstr "Les racines sont chaudes à nouveau !"
+
+#. [&"malrik", "Vessa. Have you noticed whose side the winter is on now?"],
+#: scripts/campaign/mission_e2_01.gd:166
+msgid "Vessa. Have you noticed whose side the winter is on now?"
+msgstr "Vessa. As-tu remarqué de quel côté se range l'hiver, maintenant ?"
+
+#. [&"vessa", "Two of you, one of me. Sounds fair. For me."],
+#: scripts/campaign/mission_e2_01.gd:167
+msgid "Two of you, one of me. Sounds fair. For me."
+msgstr "Vous deux, moi toute seule. Ça me semble équitable. Pour moi."
+
+#. [&"torvald", "I told Malrik no, once. Then I watched you carry three keys toward the Hollow."],
+#: scripts/campaign/mission_e2_01.gd:168
+msgid "I told Malrik no, once. Then I watched you carry three keys toward the Hollow."
+msgstr "J'ai dit non à Malrik, une fois. Puis je t'ai vue porter trois clés vers le Hollow."
+
+#. [&"vessa", "So you picked the man who sends knives at night. Great judgement, Torvald."],
+#: scripts/campaign/mission_e2_01.gd:169
+msgid "So you picked the man who sends knives at night. Great judgement, Torvald."
+msgstr "Alors tu as choisi l'homme qui envoie des couteaux la nuit. Beau jugement, Torvald."
+
+#. [&"vessa", "The beacon's lit. Vey! You said call. I'm calling!"],
+#: scripts/campaign/mission_e2_01.gd:170
+msgid "The beacon's lit. Vey! You said call. I'm calling!"
+msgstr "Le fanal est allumé. Vey ! Tu as dit d'appeler. J'appelle !"
+
+#. [&"vessa", "Twelve years late, then twelve hours. You're improving."],
+#: scripts/campaign/mission_e2_01.gd:171
+msgid "Twelve years late, then twelve hours. You're improving."
+msgstr "Douze ans de retard, puis douze heures. Tu t'améliores."
+
+#. [&"vey", "The spark first. Then the storm!"],
+#: scripts/campaign/mission_e2_01.gd:172
+msgid "The spark first. Then the storm!"
+msgstr "L'étincelle d'abord. Puis l'orage !"
+
+#. [&"messenger", "You're alive! Go south, follow the red banners!"],
+#: scripts/campaign/mission_e2_01.gd:173
+msgid "You're alive! Go south, follow the red banners!"
+msgstr "Vous êtes vivants ! Allez au sud, suivez les bannières rouges !"
+
+#. [&"messenger", "That's everyone who could still walk."],
+#: scripts/campaign/mission_e2_01.gd:174
+msgid "That's everyone who could still walk."
+msgstr "C'est tous ceux qui pouvaient encore marcher."
+
+#. [&"vessa", "That's one hall Torvald won't need to keep cold any more."],
+#: scripts/campaign/mission_e2_01.gd:175
+msgid "That's one hall Torvald won't need to keep cold any more."
+msgstr "Voilà une salle que Torvald n'aura plus besoin de garder au froid."
+
+#. [&"narrator", "Shadow from the east, frost from the north. The two new friends close the vice."],
+#: scripts/campaign/mission_e2_01.gd:176
+msgid "Shadow from the east, frost from the north. The two new friends close the vice."
+msgstr "L'Ombre à l'est, le givre au nord. Les deux nouveaux amis referment l'étau."
+
+#. [&"torvald", "Now, Bishop. Before the spring remembers itself."],
+#: scripts/campaign/mission_e2_01.gd:177
+msgid "Now, Bishop. Before the spring remembers itself."
+msgstr "Maintenant, Évêque. Avant que le printemps se souvienne de lui-même."
+
+#. [&"messenger", "The heart's slowing! Please don't let it stop!"],
+#: scripts/campaign/mission_e2_01.gd:178
+msgid "The heart's slowing! Please don't let it stop!"
+msgstr "Le cœur ralentit ! Je vous en prie, ne le laissez pas s'arrêter !"
+
+#. [&"torvald", "Spring is stubborn. So is winter. This is not over, child."],
+#: scripts/campaign/mission_e2_01.gd:179
+msgid "Spring is stubborn. So is winter. This is not over, child."
+msgstr "Le printemps est têtu. L'hiver aussi. Ce n'est pas fini, petite."
+
+#. [&"ysolde", "You came. I told you to remember. I didn't think you'd listen."],
+#: scripts/campaign/mission_e2_01.gd:180
+msgid "You came. I told you to remember. I didn't think you'd listen."
+msgstr "Tu es venue. Je t'avais dit de te souvenir. Je ne pensais pas que tu écouterais."
+
+#. [&"vessa", "I never listen. I just show up."],
+#: scripts/campaign/mission_e2_01.gd:181
+msgid "I never listen. I just show up."
+msgstr "Je n'écoute jamais. Je me présente, c'est tout."
+
+#. [&"aldra", "The green has stopped. Winter keeps this wood now."],
+#: scripts/campaign/mission_e2_01.gd:182
+msgid "The green has stopped. Winter keeps this wood now."
+msgstr "Le vert s'est arrêté. L'hiver garde ce bois, désormais."
+
+#. [&"vessa", "Ysolde... I came. I really came..."],
+#: scripts/campaign/mission_e2_01.gd:183
+msgid "Ysolde... I came. I really came..."
+msgstr "Ysolde... Je suis venue. Je suis vraiment venue..."
+
+#. [&"messenger", "No. It's gone cold."],
+#: scripts/campaign/mission_e2_01.gd:184
+msgid "No. It's gone cold."
+msgstr "Non. Il est devenu froid."
+
+#. "The feast ended at midnight. By first light the Emberguard was on the road north, and by noon it reached the
+#: scripts/campaign/mission_e2_01.gd:187
+msgid "The feast ended at midnight. By first light the Emberguard was on the road north, and by noon it reached the Sighing Wood, or what is left of it: black trunks under white frost, ash that crunches like snow."
+msgstr "Le festin a pris fin à minuit. À l'aube, l'Emberguard était sur la route du nord, et à midi elle atteignait le Sighing Wood, ou ce qu'il en reste : des troncs noirs sous un givre blanc, une cendre qui craque comme de la neige."
+
+#. "Shadow burned the wood and Ice froze the ashes so nothing could grow back. Wren says one heart still beats: t
+#: scripts/campaign/mission_e2_01.gd:188
+msgid "Shadow burned the wood and Ice froze the ashes so nothing could grow back. Wren says one heart still beats: the Last Heartwood, beside the dead Oldroot, where Ysolde fell back with her final wardens. Torvald's frost is creeping over it."
+msgstr "L'Ombre a brûlé le bois et la Glace a gelé les cendres pour que rien ne repousse. Wren dit qu'un cœur bat encore : le Last Heartwood, près de l'Oldroot mort, où Ysolde s'est repliée avec ses derniers gardiens. Le givre de Torvald gagne du terrain sur lui."
+
+#. "Malrik and Torvald hold the north of the wood, one camp each. Two wizards against one. Vessa has never been g
+#: scripts/campaign/mission_e2_01.gd:189
+msgid "Malrik and Torvald hold the north of the wood, one camp each. Two wizards against one. Vessa has never been good at arithmetic, and she is not about to start."
+msgstr "Malrik et Torvald tiennent le nord du bois, un camp chacun. Deux sorciers contre une. Vessa n'a jamais été bonne en calcul, et elle ne compte pas commencer aujourd'hui."
+
+#. const BRIEFING_FROST_LINE := "Torvald's frost is creeping over the Heartwood. Reach it before it stops beating
+#: scripts/campaign/mission_e2_01.gd:191
+msgid "Torvald's frost is creeping over the Heartwood. Reach it before it stops beating."
+msgstr "Le givre de Torvald gagne le Heartwood. Rejoignez-le avant qu'il cesse de battre."
+
+#. const HINT_START := "Reach the Heartwood past the dead oak. Clear the glade, then hold Vessa beside it to kind
+#: scripts/campaign/mission_e2_01.gd:192
+msgid "Reach the Heartwood past the dead oak. Clear the glade, then hold Vessa beside it to kindle it."
+msgstr "Rejoignez le Heartwood derrière le chêne mort. Nettoyez la clairière, puis gardez Vessa près de lui pour le raviver."
+
+#. const HINT_FOLK := "Wren knows where the survivors hide (green pings). Free them and they walk to your keep."
+#: scripts/campaign/mission_e2_01.gd:193
+msgid "Wren knows where the survivors hide (green pings). Free them and they walk to your keep."
+msgstr "Wren sait où se cachent les survivants (signaux sur la carte). Libérez-les et ils marcheront jusqu'à votre donjon."
+
+#. const HINT_HOLD := "Hold the glade. Shadow comes from the north-east, Ice from the north-west."
+#: scripts/campaign/mission_e2_01.gd:194
+msgid "Hold the glade. Shadow comes from the north-east, Ice from the north-west."
+msgstr "Tenez la clairière. L'Ombre arrive du nord-est, la Glace du nord-ouest."
+
+#. const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s).
+#: scripts/campaign/mission_e2_01.gd:195
+msgid "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s). It opens the Ashveil Saboteur (C) and lets you call Old Vey (V)."
+msgstr "Votre Forteresse peut devenir une Citadelle : sélectionnez le Donjon et appuyez sur X (300 cristaux, 90 s). Elle débloque l'Ashveil Saboteur (C) et permet d'appeler Old Vey (V)."
+
+#. const HINT_CALL := "Call Old Vey: select the Keep and press V. He fights on his own; his card sets where (Esco
+#: scripts/campaign/mission_e2_01.gd:196
+msgid "Call Old Vey: select the Keep and press V. He fights on his own; his card sets where (Escort / Vanguard / Hold home)."
+msgstr "Appelez Old Vey : sélectionnez le Donjon et appuyez sur V. Il se bat seul ; sa carte décide où (Escorte / Avant-garde / Garder la base)."
+
+#. const MSG_KINDLE_BLOCKED := "Clear the glade first: the roots won't open while the enemy stands in it"
+#: scripts/campaign/mission_e2_01.gd:197
+msgid "Clear the glade first: the roots won't open while the enemy stands in it"
+msgstr "Nettoyez d'abord la clairière : les racines ne s'ouvriront pas tant que l'ennemi s'y trouve"
+
+#. const MSG_FROST_HALF := "The frost has taken half the Heartwood"
+#: scripts/campaign/mission_e2_01.gd:198
+msgid "The frost has taken half the Heartwood"
+msgstr "Le givre a pris la moitié du Heartwood"
+
+#. const MSG_FROST_80 := "The Heartwood is almost frozen"
+#: scripts/campaign/mission_e2_01.gd:199
+msgid "The Heartwood is almost frozen"
+msgstr "Le Heartwood est presque gelé"
+
+#. const MSG_TORVALD_FELL := "Torvald has fallen, the frost will bring him back"
+#: scripts/campaign/mission_e2_01.gd:201 scripts/world/skirmish.gd:298
+msgid "Torvald has fallen, the frost will bring him back"
+msgstr "Torvald est tombé, le givre le ramènera"
+
+#. const MSG_EAVESDROP_ICE := "Eavesdrop: Ice wave in 0:30 · {units}"
+#: scripts/campaign/mission_e2_01.gd:202
+msgid "Eavesdrop: Ice wave in 0:30 · {units}"
+msgstr "Écoute : vague de Glace dans 0:30 · {units}"
+
+#. const MSG_EAVESDROP_SHADOW := "Eavesdrop: Shadow wave in 0:30 · {units}"
+#: scripts/campaign/mission_e2_01.gd:203
+msgid "Eavesdrop: Shadow wave in 0:30 · {units}"
+msgstr "Écoute : vague d'Ombre dans 0:30 · {units}"
+
+#. c.victory_banner = "VICTORY\nThe Last Heartwood beats again"
+#: scripts/campaign/mission_e2_01.gd:290
+msgid "VICTORY\nThe Last Heartwood beats again"
+msgstr "VICTOIRE\nLe Last Heartwood bat de nouveau"
+
+#. c.spotlight = {"id": &"helper_vey", "trigger": &"unlock", "key_hint": "Keep: V",
+#: scripts/campaign/mission_e2_01.gd:295
+msgid "Keep: V"
+msgstr "Donjon : V"
+
+#. "card": "Old Vey. Your old teacher, sword and storm: call him at the Citadel and point him at the crowd."}
+#: scripts/campaign/mission_e2_01.gd:296
+msgid "Old Vey. Your old teacher, sword and storm: call him at the Citadel and point him at the crowd."
+msgstr "Old Vey. Ton vieux maître, l'épée et l'orage : appelle-le à la Citadelle et pointe-le vers la foule."
+
+#. _folk_type = _make_story_type("thornling", &"wood_folk", "Wood-folk", 45.0, 4.5)
+#: scripts/campaign/mission_e2_01.gd:316
+msgid "Wood-folk"
+msgstr "Gens des bois"
+
+#. return "Episode 2, Mission 1: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e2_01.gd:343
+msgid "Episode 2, Mission 1: %s"
+msgstr "Épisode 2, mission 1 : %s"
+
+#. t.display_name = "Rime Totem"
+#: scripts/campaign/mission_e2_01.gd:526
+msgid "Rime Totem"
+msgstr "Rime Totem"
+
+#. return "Reach the Heartwood before the frost takes it (%d %%)" % int(frost)
+#: scripts/campaign/mission_e2_01.gd:741
+msgid "Reach the Heartwood before the frost takes it (%d %%)"
+msgstr "Rejoignez le Heartwood avant que le givre l'emporte (%d %%)"
+
+#. return "Reach the Heartwood before the frost takes it"
+#: scripts/campaign/mission_e2_01.gd:742
+msgid "Reach the Heartwood before the frost takes it"
+msgstr "Rejoignez le Heartwood avant que le givre l'emporte"
+
+#. return "Hold the Heartwood (%d:%02d)" % [s / 60, s % 60]
+#: scripts/campaign/mission_e2_01.gd:746
+msgid "Hold the Heartwood (%d:%02d)"
+msgstr "Tenez le Heartwood (%d:%02d)"
+
+#. return "Hold the Heartwood"
+#: scripts/campaign/mission_e2_01.gd:747
+msgid "Hold the Heartwood"
+msgstr "Tenez le Heartwood"
+
+#. return "Bring Ysolde's people to the Emberwatch (%d / 12)" % folk_home if with_counter \
+#: scripts/campaign/mission_e2_01.gd:751
+msgid "Bring Ysolde's people to the Emberwatch (%d / 12)"
+msgstr "Ramenez le peuple d'Ysolde à l'Emberwatch (%d / 12)"
+
+#. else "Bring Ysolde's people to the Emberwatch"
+#: scripts/campaign/mission_e2_01.gd:752
+msgid "Bring Ysolde's people to the Emberwatch"
+msgstr "Ramenez le peuple d'Ysolde à l'Emberwatch"
+
+#. return "Shatter Torvald's Frost Hall"
+#: scripts/campaign/mission_e2_01.gd:754
+msgid "Shatter Torvald's Frost Hall"
+msgstr "Fracassez la Frost Hall de Torvald"
+
+#. return "Raise a Citadel and call Old Vey"
+#: scripts/campaign/mission_e2_01.gd:756
+msgid "Raise a Citadel and call Old Vey"
+msgstr "Élevez une Citadelle et appelez Old Vey"
+
+#. t.display_name = "The Last Heartwood"
+#: scripts/campaign/mission_heartwood.gd:32
+msgid "The Last Heartwood"
+msgstr "The Last Heartwood"
 
 #. [&"narrator", "A quiet field. Something is about to happen."],
 #: scripts/campaign/mission_skeleton.gd:14

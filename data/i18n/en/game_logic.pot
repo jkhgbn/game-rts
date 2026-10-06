@@ -2049,11 +2049,6 @@ msgstr ""
 msgid "He"
 msgstr ""
 
-#. "fallen": "Torvald has fallen, the frost will bring him back"},
-#: scripts/world/skirmish.gd:298
-msgid "Torvald has fallen, the frost will bring him back"
-msgstr ""
-
 #. "fallen": "Ysolde has fallen, the forest will regrow her"},
 #: scripts/world/skirmish.gd:301
 msgid "Ysolde has fallen, the forest will regrow her"

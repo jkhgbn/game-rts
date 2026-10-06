@@ -21,3 +21,6 @@ signal dialogue(speaker: StringName, text: String)
 signal cinematic_started(id: StringName)
 @warning_ignore("unused_signal")
 signal cinematic_finished(id: StringName, skipped: bool)
+## Campaign unit spotlight (mission-framework.md 7): a mission's spotlight card was shown (`card` = the English line).
+@warning_ignore("unused_signal")
+signal spotlight_shown(id: StringName, card: String)

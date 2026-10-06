@@ -41,13 +41,14 @@ const COMPANION_PURSE_RATIO := 0.5
 const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
-const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04"]
+const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
 	&"m02": "res://missions/mission_02.tscn",
 	&"m03": "res://missions/mission_03.tscn",
 	&"m04": "res://missions/mission_04.tscn",
+	&"e2m1": "res://missions/mission_e2_01.tscn",
 }
 ## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
 ## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
@@ -87,6 +88,14 @@ const MISSION_REWARDS := {
 		"bonus_essence": {"sec_seat": 300, "sec_hall": 300},
 		"set_flags": {"ep1_complete": true, "ep1_vey_returned": true, "ep1_shard_to_malrik": true},
 		"next": &"e2m1",
+	},
+	# docs/design/mission-e2-01.md "Reward carried to e2m2" (helper_vey_unlocked always set).
+	&"e2m1": {
+		"flags": {"e2m1_folk_saved": "sec_folk", "e2m1_frosthall_shattered": "sec_frosthall",
+				"e2m1_vey_called": "sec_storm"},
+		"bonus_essence": {"sec_folk": 300, "sec_frosthall": 150},
+		"set_flags": {"helper_vey_unlocked": true},
+		"next": &"e2m2",
 	},
 }
 

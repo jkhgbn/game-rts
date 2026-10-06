@@ -24,6 +24,9 @@ const SHADOW_SPIRE_POS := Vector3(37.0, 0.0, -29.0)
 const HOVEL_POS := Vector3(50.0, 0.0, -46.0)
 const WESTWATCH_SPIRE_POS := Vector3(-39.0, 0.0, -25.0)
 const WESTWATCH_SPIRE_HP := 750.0
+const SPIRE_REACH := 11.0
+const HINT_SPOTLIGHT := "Blaze Riders: go around the Shades and ride down the Nightbolts."
+const HINT_SPOTLIGHT_TOWER := "Not the tower."
 const MALRIK_POS := Vector3(36.0, 0.0, -36.0)
 const SHADOW_RALLY := Vector3(30.0, 0.0, -30.0)
 const ARMY_POS := Vector3(-32.0, 0.0, 32.0)          ## PLAYER_START + (4, -4)
@@ -227,6 +230,8 @@ func _mission_config() -> MissionConfig:
 	c.keep_lost_message = "The Fire keep has fallen"
 	c.victory_banner = "VICTORY\nThe Ember Crown is yours"
 	c.defeat_banner = "DEFEAT"
+	c.spotlight = {"id": &"blaze_rider", "trigger": &"unlock", "key_hint": "Ember Hall: B",
+			"card": "Blaze Rider. Fast and fierce: ride past the shields and catch the archers."}
 	return c
 
 
@@ -575,16 +580,32 @@ func _on_brazier_lit(b: MissionBrazier) -> void:
 		say_line(7)
 		say_line(8)
 		_unlock_riders()
+		show_spotlight()   # unit-spotlights.md 2.1: the Blaze Rider, unlocked here
 		for i in 2:
 			var rider := _spawn(make_unit("blaze_rider"), Unit.Team.PLAYER,
 					b.global_position + Vector3(2.0 + i * 1.5, 0.0, 2.0))
 			rider.set_meta(&"m1_free_rider", true)
 		_fire_w2()
+		hud.show_message(HINT_SPOTLIGHT, 8.0)
+		add_event(&"spotlight_tower", func() -> bool: return _rider_near_spire(), func() -> void:
+			hud.show_message(HINT_SPOTLIGHT_TOWER, 3.0))
 	if lit_count == 3:   # E6
 		say_line(9)
 		say_line(10)
 		_break_seal()
 		_fire_w3()
+
+
+## A Blaze Rider inside the living Westwatch Night Spire's reach (the spotlight's second hint).
+func _rider_near_spire() -> bool:
+	if westwatch_spire == null or not is_instance_valid(westwatch_spire) or not westwatch_spire.is_alive():
+		return false
+	for n in get_tree().get_nodes_in_group("units"):
+		var u := n as Unit
+		if u and u.is_alive() and int(u.team) == Unit.Team.PLAYER and u.unit_type and u.unit_type.id == &"blaze_rider" \
+				and _flat(u.global_position, WESTWATCH_SPIRE_POS) <= SPIRE_REACH:
+			return true
+	return false
 
 
 func _unlock_riders() -> void:

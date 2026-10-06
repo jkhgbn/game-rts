@@ -1150,7 +1150,7 @@ msgstr "Espion de palier 3. Ressemble à un ouvrier ennemi hors combat ; pose d
 msgid "Tier 3 vampire duelist. Heals 35 % of its damage (halved 4 s by fire); Blood Frenzy under 40 % HP."
 msgstr "Duelliste vampire de palier 3. Récupère 35 % de ses dégâts (moitié moins 4 s après du feu) ; Blood Frenzy sous 40 % PV."
 
-#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off
+#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off 
 #: scripts/units/t3_kit.gd:26
 msgid "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off your archers."
 msgstr "Hallebardier de palier 3. Hold the Line : arrête une charge et fige le cavalier 1 s ; provoque les plongeurs loin de vos archers."
@@ -1909,7 +1909,7 @@ msgstr "Millstone Cross"
 msgid "Lantern Wharf"
 msgstr "Lantern Wharf"
 
-#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0),
+#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0), 
 #: scripts/world/skirmish.gd:101
 msgid "Saltgate"
 msgstr "Saltgate"
@@ -2049,11 +2049,6 @@ msgstr "Vessa est tombée, les braises la ramèneront"
 msgid "He"
 msgstr "Il"
 
-#. "fallen": "Torvald has fallen, the frost will bring him back"},
-#: scripts/world/skirmish.gd:298
-msgid "Torvald has fallen, the frost will bring him back"
-msgstr "Torvald est tombé, le givre le ramènera"
-
 #. "fallen": "Ysolde has fallen, the forest will regrow her"},
 #: scripts/world/skirmish.gd:301
 msgid "Ysolde has fallen, the forest will regrow her"
@@ -2179,88 +2174,10 @@ msgstr "Y : engager des champions"
 msgid "The Magpies are on the roads"
 msgstr "Les Magpies sont sur les routes"
 
-#. _hp_shader.code = """
-#: scripts/units/unit.gd:2334
+#. var id := StringName("node_%s_%s" % ["shadow" if team == Unit.Team.ENEMY else "fire", suffix])
+#: scripts/world/skirmish.gd:480
 #, obsolete
-msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform float shield_end = 0.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\n// Frame (UV fractions): soldiers a thin black one; champions a gold one with a black inner line (9.C10).\nuniform vec4 frame_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);\nuniform vec2 frame_size = vec2(0.02, 0.12);\nuniform vec2 inner_size = vec2(0.0, 0.0);\nvoid vertex() {\n\t// Always face the camera (billboard).\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < frame_size.x || UV.x > 1.0 - frame_size.x || UV.y < frame_size.y || UV.y > 1.0 - frame_size.y;\n\tvec2 ie = frame_size + inner_size;\n\tbool inner = UV.x < ie.x || UV.x > 1.0 - ie.x || UV.y < ie.y || UV.y > 1.0 - ie.y;\n\tvec4 c = border ? frame_color : (inner ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color\n\t\t\t: (UV.x < shield_end ? vec4(1.0, 1.0, 1.0, 1.0) : back_color)));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
-msgstr ""
-
-#. _hp_shader.code = """
-#: scripts/buildings/building.gd:728
-#, obsolete
-msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < 0.01 || UV.x > 0.99 || UV.y < 0.12 || UV.y > 0.88;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : back_color);\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
-msgstr ""
-
-#. _mana_shader.code = """
-#: scripts/units/caster_ability.gd:1207
-#, obsolete
-msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
-msgstr ""
-
-#. line2 += " · cooldown %d s" % roundi(float(s.get("cooldown", 0.0)))
-#: scripts/units/caster_kit.gd:232
-#, obsolete
-msgid " · cooldown %d s"
-msgstr ""
-
-#. line2 += " · autocast %s" % ("on" if bool(autocast_on) else "off")
-#: scripts/units/caster_kit.gd:234
-#, obsolete
-msgid " · autocast %s"
-msgstr ""
-
-#. @export_group("Weapon (level 1)")
-#: scripts/units/champion_class.gd:27
-#, obsolete
-msgid "Weapon (level 1)"
-msgstr ""
-
-#. @export_group("Draw and UI")
-#: scripts/units/champion_class.gd:50
-#, obsolete
-msgid "Draw and UI"
-msgstr ""
-
-#. @export_group("Stats (level 1)")
-#: scripts/units/champion_type.gd:24
-#, obsolete
-msgid "Stats (level 1)"
-msgstr ""
-
-#. @export_group("Personality (champions.md 4.2, 8)")
-#: scripts/units/champion_type.gd:43
-#, obsolete
-msgid "Personality (champions.md 4.2, 8)"
-msgstr ""
-
-#. _warn_once("band", "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens" % THIEF_BAND_PATH)
-#: scripts/world/thieves_guild.gd:678
-#, obsolete
-msgid "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens"
-msgstr ""
-
-#. _warn_once("type", "ThievesGuild: no data/units/%s.tres yet, no Magpies leave the Dens" % MAGPIE_TYPE)
-#: scripts/world/thieves_guild.gd:670
-#, obsolete
-msgid "ThievesGuild: no data/units/%s.tres yet, no Magpies leave the Dens"
-msgstr ""
-
-#. return "%s · %d players" % [dims, int(e.get("seats", 2))]
-#: scripts/world/map_catalog.gd:134
-#, obsolete
-msgid "%s · %d players"
-msgstr "%s · %d joueurs"
-
-#. var dims := "%d m" % int(s.x) if is_equal_approx(s.x, s.y) else "%d x %d m" % [int(s.x), int(s.y)]
-#: scripts/world/map_catalog.gd:133
-#, obsolete
-msgid "%d x %d m"
-msgstr "%d x %d m"
-
-#. @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
-#: scripts/units/unit_type.gd:38
-#, obsolete
-msgid "Kingdom mechanics"
+msgid "node_%s_%s"
 msgstr ""
 
 #. return StringName("item:artifact_%d" % (slot - ARTIFACT_SLOT + 1))
@@ -2269,88 +2186,94 @@ msgstr ""
 msgid "item:artifact_%d"
 msgstr ""
 
-#. var id := StringName("node_%s_%s" % ["shadow" if team == Unit.Team.ENEMY else "fire", suffix])
-#: scripts/world/skirmish.gd:480
+#. @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
+#: scripts/units/unit_type.gd:38
 #, obsolete
-msgid "node_%s_%s"
+msgid "Kingdom mechanics"
 msgstr ""
 
-#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
-#: scripts/world/score_keeper.gd:298
+#. var dims := "%d m" % int(s.x) if is_equal_approx(s.x, s.y) else "%d x %d m" % [int(s.x), int(s.y)]
+#: scripts/world/map_catalog.gd:133
 #, obsolete
-msgid "team %d"
+msgid "%d x %d m"
+msgstr "%d x %d m"
+
+#. return "%s · %d players" % [dims, int(e.get("seats", 2))]
+#: scripts/world/map_catalog.gd:134
+#, obsolete
+msgid "%s · %d players"
+msgstr "%s · %d joueurs"
+
+#. _warn_once("type", "ThievesGuild: no data/units/%s.tres yet, no Magpies leave the Dens" % MAGPIE_TYPE)
+#: scripts/world/thieves_guild.gd:670
+#, obsolete
+msgid "ThievesGuild: no data/units/%s.tres yet, no Magpies leave the Dens"
 msgstr ""
 
-#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
-#: scripts/world/score_keeper.gd:298
+#. _warn_once("band", "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens" % THIEF_BAND_PATH)
+#: scripts/world/thieves_guild.gd:678
 #, obsolete
-msgid "leader: %s by %s"
+msgid "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens"
 msgstr ""
 
-#. var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
-#: scripts/world/layout_level.gd:359 scripts/world/layout_level.gd:852
+#. @export_group("Personality (champions.md 4.2, 8)")
+#: scripts/units/champion_type.gd:43
 #, obsolete
-msgid "hub_t%d"
+msgid "Personality (champions.md 4.2, 8)"
 msgstr ""
 
-#. _layout_error = "LayoutLevel: no layout (layout_path=%s)" % layout_path
-#: scripts/world/layout_level.gd:77
+#. @export_group("Stats (level 1)")
+#: scripts/units/champion_type.gd:24
 #, obsolete
-msgid "LayoutLevel: no layout (layout_path=%s)"
+msgid "Stats (level 1)"
 msgstr ""
 
-#. const OVERLAY_SHADER := """
-#: scripts/world/fog_of_war.gd:515
+#. @export_group("Draw and UI")
+#: scripts/units/champion_class.gd:50
 #, obsolete
-msgid "\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n\t\tALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);\n\t}\n}\n"
+msgid "Draw and UI"
 msgstr ""
 
-#. "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn" % String(type_id))
-#: scripts/world/epic_beasts.gd:732
+#. @export_group("Weapon (level 1)")
+#: scripts/units/champion_class.gd:27
 #, obsolete
-msgid "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn"
+msgid "Weapon (level 1)"
 msgstr ""
 
-#. text += " (underdog bonus: +25 % XP)"
-#: scripts/world/epic_beasts.gd:687
+#. line2 += " · autocast %s" % ("on" if bool(autocast_on) else "off")
+#: scripts/units/caster_kit.gd:234
 #, obsolete
-msgid " (underdog bonus: +25 % XP)"
+msgid " · autocast %s"
 msgstr ""
 
-#. _warn_once("brain", "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs" % BRAIN_PATH)
-#: scripts/world/epic_beasts.gd:507
+#. line2 += " · cooldown %d s" % roundi(float(s.get("cooldown", 0.0)))
+#: scripts/units/caster_kit.gd:232
 #, obsolete
-msgid "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs"
+msgid " · cooldown %d s"
 msgstr ""
 
-#. return "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
-#: scripts/world/map_catalog.gd:126
+#. _mana_shader.code = """
+#: scripts/units/caster_ability.gd:1207
 #, obsolete
-msgid "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
-msgstr "Carte 2v2 : se joue en 1v1 pour l'instant (une place par camp ; l'escarmouche 2v2 viendra plus tard)."
-
-#. _cached.maps = [{"id": DEFAULT_ID, "title": "Crown Hollow", "scene": "res://scenes/skirmish.tscn",
-#: scripts/world/map_catalog.gd:42
-#, obsolete
-msgid "Crown Hollow"
-msgstr "Crown Hollow"
-
-#. return StringName("item:%d" % (slot + 1))
-#: scripts/items/inventory.gd:658
-#, obsolete
-msgid "item:%d"
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
 msgstr ""
 
-#. _warn_once("abilities", "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities" % ABILITIE
-#: scripts/world/epic_beasts.gd:488
+#. _hp_shader.code = """
+#: scripts/buildings/building.gd:728
 #, obsolete
-msgid "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities"
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < 0.01 || UV.x > 0.99 || UV.y < 0.12 || UV.y > 0.88;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : back_color);\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
 msgstr ""
 
-#. var id := StringName("herd_%d" % i)
-#: scripts/world/critter_herds.gd:88
+#. _hp_shader.code = """
+#: scripts/units/unit.gd:2334
 #, obsolete
-msgid "herd_%d"
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform float shield_end = 0.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\n// Frame (UV fractions): soldiers a thin black one; champions a gold one with a black inner line (9.C10).\nuniform vec4 frame_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);\nuniform vec2 frame_size = vec2(0.02, 0.12);\nuniform vec2 inner_size = vec2(0.0, 0.0);\nvoid vertex() {\n\t// Always face the camera (billboard).\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < frame_size.x || UV.x > 1.0 - frame_size.x || UV.y < frame_size.y || UV.y > 1.0 - frame_size.y;\n\tvec2 ie = frame_size + inner_size;\n\tbool inner = UV.x < ie.x || UV.x > 1.0 - ie.x || UV.y < ie.y || UV.y > 1.0 - ie.y;\n\tvec4 c = border ? frame_color : (inner ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color\n\t\t\t: (UV.x < shield_end ? vec4(1.0, 1.0, 1.0, 1.0) : back_color)));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
+msgstr ""
+
+#. var key := "held:%d" % LOCAL_TEAM
+#: scripts/economy/caravan.gd:857
+#, obsolete
+msgid "held:%d"
 msgstr ""
 
 #. const MSG_DROPPED := " + %s dropped"
@@ -2359,8 +2282,86 @@ msgstr ""
 msgid " + %s dropped"
 msgstr ""
 
-#. var key := "held:%d" % LOCAL_TEAM
-#: scripts/economy/caravan.gd:857
+#. var id := StringName("herd_%d" % i)
+#: scripts/world/critter_herds.gd:88
 #, obsolete
-msgid "held:%d"
+msgid "herd_%d"
 msgstr ""
+
+#. _warn_once("abilities", "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities" % ABILITIE
+#: scripts/world/epic_beasts.gd:488
+#, obsolete
+msgid "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities"
+msgstr ""
+
+#. return StringName("item:%d" % (slot + 1))
+#: scripts/items/inventory.gd:658
+#, obsolete
+msgid "item:%d"
+msgstr ""
+
+#. _cached.maps = [{"id": DEFAULT_ID, "title": "Crown Hollow", "scene": "res://scenes/skirmish.tscn",
+#: scripts/world/map_catalog.gd:42
+#, obsolete
+msgid "Crown Hollow"
+msgstr "Crown Hollow"
+
+#. return "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
+#: scripts/world/map_catalog.gd:126
+#, obsolete
+msgid "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
+msgstr "Carte 2v2 : se joue en 1v1 pour l'instant (une place par camp ; l'escarmouche 2v2 viendra plus tard)."
+
+#. _warn_once("brain", "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs" % BRAIN_PATH)
+#: scripts/world/epic_beasts.gd:507
+#, obsolete
+msgid "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs"
+msgstr ""
+
+#. text += " (underdog bonus: +25 % XP)"
+#: scripts/world/epic_beasts.gd:687
+#, obsolete
+msgid " (underdog bonus: +25 % XP)"
+msgstr ""
+
+#. "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn" % String(type_id))
+#: scripts/world/epic_beasts.gd:732
+#, obsolete
+msgid "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn"
+msgstr ""
+
+#. const OVERLAY_SHADER := """
+#: scripts/world/fog_of_war.gd:515
+#, obsolete
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n\t\tALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);\n\t}\n}\n"
+msgstr ""
+
+#. _layout_error = "LayoutLevel: no layout (layout_path=%s)" % layout_path
+#: scripts/world/layout_level.gd:77
+#, obsolete
+msgid "LayoutLevel: no layout (layout_path=%s)"
+msgstr ""
+
+#. var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
+#: scripts/world/layout_level.gd:359 scripts/world/layout_level.gd:852
+#, obsolete
+msgid "hub_t%d"
+msgstr ""
+
+#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
+#: scripts/world/score_keeper.gd:298
+#, obsolete
+msgid "leader: %s by %s"
+msgstr ""
+
+#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
+#: scripts/world/score_keeper.gd:298
+#, obsolete
+msgid "team %d"
+msgstr ""
+
+#. "fallen": "Torvald has fallen, the frost will bring him back"},
+#: scripts/world/skirmish.gd:298
+#, obsolete
+msgid "Torvald has fallen, the frost will bring him back"
+msgstr "Torvald est tombé, le givre le ramènera"

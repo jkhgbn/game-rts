@@ -17,10 +17,13 @@ const CUTSCENE_SECONDS := {&"war": 30.0, &"rise": 45.0, &"storm": 105.0, &"fall"
 const STAGING := Vector3(-24.0, 0.0, 24.0)
 const ATTACK_ARMY := 14      ## Phase 1: go for a pylon with this many soldiers...
 const REGROUP_ARMY := 5      ## ...fall back home below this many.
+const EAST_WAIT := 180.0     ## Phase 1: the east pylons are left to Malrik's strike this long after the Rise.
 const WORKERS := 12
 const GUARDS := 6
 const GUARD_POST := Vector3(-42.0, 0.0, 38.0)
-const HALL2 := Vector3(-23.0, 0.0, 9.0)   ## X1, the natural hall spot: drop-off for the mid node
+## A second Ember Hall at home (production; the natural's X1 spot beside Crown Isle is where Malrik's attacks land),
+## then a drop-off hall at the rich node once the home nodes run low.
+const HOME_HALLS: Array[Vector3] = [Vector3(-28.0, 0.0, 38.0), Vector3(-20.0, 0.0, 44.0), Vector3(-36.0, 0.0, 24.0)]
 const HEARTHS: Array[Vector3] = [Vector3(-44.0, 0.0, 52.0), Vector3(-38.0, 0.0, 52.0), Vector3(-52.0, 0.0, 38.0),
 		Vector3(-32.0, 0.0, 52.0), Vector3(-52.0, 0.0, 32.0)]
 
@@ -38,6 +41,7 @@ var _phase_log: Array[String] = []
 var _last_phase := 0
 var _regroup := true
 var _hall2_built := false
+var _rich_hall_built := false
 var _home_guard: Array = []
 var _regroup_since := 0.0
 var _dodging := {}   ## unit instance id -> msec until which the plan leaves it alone (stepping out of a ring)
@@ -238,13 +242,25 @@ func _workers() -> Array[Unit]:
 	return out
 
 
-## The first home / natural / rich node with crystals left (an efficient player moves on when a node runs dry).
+## The first home / rich / natural node with crystals left (an efficient player moves on when a node runs dry; the
+## natural beside Crown Isle comes last: the isle guard, Malrik's attacks and, after the Rise, the Colossus's Hurl
+## reach it).
 func _mine_node() -> CrystalNode:
-	for suffix in ["a", "b", "mid", "rich"]:
+	for suffix in ["a", "b", "rich", "mid"]:
 		var n := main.node_of(Unit.Team.PLAYER, suffix)
 		if n:
 			return n
 	return null
+
+
+## Crystals left on the two home nodes.
+func _home_left() -> int:
+	var n := 0
+	for sfx in ["a", "b"]:
+		var cn := main.node_of(Unit.Team.PLAYER, sfx)
+		if cn:
+			n += cn.crystals_left
+	return n
 
 
 func _economy() -> void:
@@ -265,8 +281,14 @@ func _economy() -> void:
 		_build("fire_hearth", HEARTHS[_hearth_i], workers[0])
 		_hearth_i += 1
 		return
-	if not _hall2_built and eco.crystals >= 450 and not workers.is_empty():
-		_hall2_built = _build("fire_barracks", HALL2, workers[0])
+	if not _hall2_built and eco.crystals >= 450 and not workers.is_empty():   # a second production hall at home
+		for spot in HOME_HALLS:
+			if _build("fire_barracks", spot, workers[0]):
+				_hall2_built = true
+				break
+		return
+	if not _rich_hall_built and eco.crystals >= 450 and not workers.is_empty() and _home_left() < 900:
+		_rich_hall_built = _build("fire_barracks", main.rich_hall_spot(Unit.Team.PLAYER), workers[0])
 		return
 	var k := main.keep
 	if workers.size() < WORKERS and k and k.is_alive() and k.queue.size() < 2 and eco.crystals >= 60:
@@ -370,7 +392,9 @@ func _next_pylon() -> Unit:
 		var p: Unit = main.keystone.pylons[i]
 		if not is_instance_valid(p) or not p.is_alive():
 			continue
-		if i >= 2 and main.mission_time() - main.rise_time < 150.0:
+		if i >= 2:
+			if main.mission_time() - main.rise_time < EAST_WAIT:
+				continue   # P1 / P2 first at home; Malrik's strike works on P3 / P4 meanwhile
 			var shadow := 0
 			for u in _enemies_near(p.global_position, 16.0):
 				if int(u.team) == Unit.Team.ENEMY:
@@ -418,7 +442,9 @@ func _play_phase() -> void:
 				_hero_to(Vector3.ZERO, 1.0)
 		1:
 			var p := _next_pylon()
-			if p == null:
+			if p == null:   # waiting for Malrik on the east bank: hold home, out of the Hurl's 30 m
+				_army_to(STAGING, 4.0)
+				_hero_to(STAGING + Vector3(-3.0, 0.0, 3.0), 3.0)
 				return
 			# Regroup at home when the army is thin, then go in together (Wardens first, then the pylon).
 			var army := _army().size()
@@ -446,12 +472,14 @@ func _play_phase() -> void:
 			var c := k.colossus.global_position
 			var kp := m.keep.global_position
 			var near_keep := _enemies_near(kp, 20.0)
-			if MissionBase._flat(c, kp) < 22.0:
+			# The Shadow push and the Wardens only, never the Colossus's fists (the army must live to phase 3); the
+			# Cracked Leg stagger is the one window to hit it.
+			if k.colossus.cracked_left > 0.0 and MissionBase._flat(c, kp) < 22.0:
 				_army_attack(k.colossus)
-			elif not near_keep.is_empty():
+			elif not near_keep.is_empty() and MissionBase._flat(near_keep[0].global_position, c) > 8.0:
 				_army_to(near_keep[0].global_position, 3.0)
 			else:
-				_army_to(kp + Vector3(8.0, 0.0, -8.0), 4.0)
+				_army_to(kp + Vector3(7.0, 0.0, 8.0), 3.0)   # beside the keep, off the Colossus's lane
 			_hero_to(kp + Vector3(-7.0, 0.0, 7.0), 2.0)
 
 
@@ -466,7 +494,7 @@ func _phase_key() -> void:
 	away.y = 0.0
 	var spot := c + away.normalized() * (k.colossus.radius + 2.5)
 	var hero := m.hero
-	if hero.hp < hero.max_hp * 0.25 and k.key_progress <= 0.0:
+	if hero.hp < hero.max_hp * 0.45 and k.key_progress <= 0.0:
 		_hero_to(c + away.normalized() * 14.0, 2.0)   # breathe; Vey stays with her
 	else:
 		_hero_to(spot, 1.0)

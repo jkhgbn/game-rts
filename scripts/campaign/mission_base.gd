@@ -34,6 +34,8 @@ signal event_fired(id: StringName)                         ## fire_once / the E-
 signal world_held(on: bool)                                ## hold_world changed.
 signal seat_switched(seat: StringName, team: int)
 signal seat_withdrawn(seat: StringName)
+signal spotlight_shown(id: StringName, card: String)       ## Same as Events.spotlight_shown (for tests).
+signal spotlight_first_unit(unit: Unit)                    ## The first PLAYER unit of the spotlit type appeared.
 
 const SCRIPTED_GROUP := &"scripted"
 const EVENT_TICK := 1.0             ## The E-list and the guards are checked once per second.
@@ -121,6 +123,12 @@ var _seats: Dictionary = {}      # seat id -> {team, commander}
 var _loss_hero: Wizard
 var _applied_config: MissionConfig
 var _locked: Array = []          # TrainingBuildings locked by lock_base
+## Read only (spotlight, mission-framework.md 7): the spotlit id once shown, whether it was the short replay card,
+## and the first PLAYER unit of that type (null until it appears).
+var spotlight_id: StringName = &""
+var spotlight_short := false
+var spotlight_unit: Unit = null
+var _spotlight_watch := false
 
 
 # ---------------------------------------------------------------- setup
@@ -230,6 +238,9 @@ func begin_mission(initial: Array = []) -> void:
 		set_objective(StringName(id), "active")
 	_apply_late_knobs()
 	_attach_mission_hud()
+	_watch_spotlight()
+	if spotlight_trigger() == &"start":
+		show_spotlight()
 	if not wait_for_briefing:
 		_begin_intro()
 
@@ -913,6 +924,123 @@ static func scene_knob(knob: StringName, default: Variant = null) -> Variant:
 	if scene == null or not knob in scene:
 		return default
 	return scene.get(knob)
+
+
+# ---------------------------------------------------------------- unit spotlight (mission-framework.md 7)
+
+const SPOTLIGHT_FLAG_PREFIX := "spotlight_seen_"
+const SPOTLIGHT_RING_RADIUS := 2.5
+const SPOTLIGHT_GOLD := Color(1.0, 0.82, 0.3)
+
+
+## The spotlit id of config.spotlight (a {kingdom: id} Dictionary is resolved from the player's kingdom); &"" = none.
+func spotlight_target() -> StringName:
+	if config == null or config.spotlight.is_empty():
+		return &""
+	var v: Variant = config.spotlight.get("id", &"")
+	if v is Dictionary:
+		var by_kingdom := v as Dictionary
+		return StringName(by_kingdom.get(player_kingdom, by_kingdom.get(String(player_kingdom), &"")))
+	return StringName(v)
+
+
+## &"start" / &"unlock" / &"manual" (&"" without a spotlight).
+func spotlight_trigger() -> StringName:
+	if spotlight_target() == &"":
+		return &""
+	return StringName(config.spotlight.get("trigger", &"start"))
+
+
+## Shows the spotlight card once per run (fire_once(&"spotlight")): Events.spotlight_shown + spotlight_shown, the
+## MissionHud card (short one-line card when the save already has `spotlight_seen_<id>`), and the seen flag for the
+## victory save. begin_mission calls it for trigger "start"; the mission calls it for "unlock" / "manual".
+func show_spotlight() -> void:
+	var id := spotlight_target()
+	if id == &"" or not fire_once(&"spotlight"):
+		return
+	spotlight_id = id
+	var flag := SPOTLIGHT_FLAG_PREFIX + String(id)
+	spotlight_short = bool(CampaignState.open(campaign_save_path).flag_value(flag, false))
+	set_mission_flag(flag, true)
+	var card := String(config.spotlight.get("card", ""))
+	var events := get_node_or_null(^"/root/Events")
+	if events and events.has_signal(&"spotlight_shown"):
+		events.emit_signal(&"spotlight_shown", id, card)
+	spotlight_shown.emit(id, card)
+	if mission_hud and mission_hud.has_method(&"show_spotlight"):
+		mission_hud.call(&"show_spotlight", {"id": id, "card": card, "key_hint": String(config.spotlight.get("key_hint", "")),
+				"short": spotlight_short, "mission_title": mission_title})
+	if spotlight_unit == null:   # a unit of that type already on the field (given at start, freed earlier)
+		for n in get_tree().get_nodes_in_group(&"units"):
+			if _is_spotlight_unit(n):
+				_on_spotlight_unit(n as Unit)
+				break
+
+
+## Watches every node that enters the tree for the first PLAYER unit of the spotlit type (trained, called, spawned).
+func _watch_spotlight() -> void:
+	if _spotlight_watch or spotlight_target() == &"":
+		return
+	_spotlight_watch = true
+	get_tree().node_added.connect(_on_spotlight_node_added)
+	tree_exiting.connect(func() -> void:
+		if get_tree() and get_tree().node_added.is_connected(_on_spotlight_node_added):
+			get_tree().node_added.disconnect(_on_spotlight_node_added), CONNECT_ONE_SHOT)
+
+
+func _on_spotlight_node_added(n: Node) -> void:
+	if spotlight_unit == null and n is Unit:
+		_check_spotlight_unit.call_deferred(n)   # team / type are set by the spawner right after add_child
+
+
+func _check_spotlight_unit(n: Variant) -> void:
+	if spotlight_unit == null and is_instance_valid(n) and _is_spotlight_unit(n as Node):
+		_on_spotlight_unit(n as Unit)
+
+
+func _is_spotlight_unit(n: Node) -> bool:
+	var u := n as Unit
+	if u == null or not u.is_inside_tree() or not u.is_alive() or int(u.team) != Unit.Team.PLAYER:
+		return false
+	var id := spotlight_target()
+	if u.unit_type and u.unit_type.id == id:
+		return true
+	return u.has_method(&"type_id") and StringName(u.call(&"type_id")) == id
+
+
+## The first unit of the spotlit type: a flash ring, a gold ring under it for `highlight_s` s, spotlight_first_unit.
+func _on_spotlight_unit(u: Unit) -> void:
+	spotlight_unit = u
+	flash_ring(u.global_position, SPOTLIGHT_RING_RADIUS)
+	_gold_ring(u, float(config.spotlight.get("highlight_s", 6.0)))
+	spotlight_first_unit.emit(u)
+
+
+func _gold_ring(u: Unit, seconds: float) -> void:
+	if seconds <= 0.0:
+		return
+	var ring := TorusMesh.new()
+	ring.inner_radius = maxf(0.6, u.target_radius() + 0.2) if u.has_method(&"target_radius") else 0.8
+	ring.outer_radius = ring.inner_radius + 0.18
+	ring.rings = 32
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = SPOTLIGHT_GOLD
+	mat.emission_enabled = true
+	mat.emission = SPOTLIGHT_GOLD
+	mat.emission_energy_multiplier = 2.0
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	var mi := MeshInstance3D.new()
+	mi.name = "SpotlightRing"
+	mi.mesh = ring
+	mi.material_override = mat
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	u.add_child(mi)
+	mi.position = Vector3(0.0, 0.08, 0.0)
+	var tween := mi.create_tween()
+	tween.tween_interval(maxf(0.0, seconds - 1.0))
+	tween.tween_property(mat, "albedo_color:a", 0.0, 1.0)
+	tween.tween_callback(mi.queue_free)
 
 
 # ---------------------------------------------------------------- seats (scripted sides)

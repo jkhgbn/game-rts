@@ -30,7 +30,7 @@ static func make_type(hp: float, crush: float) -> UnitType:
 	t.display_name = "Keystone Colossus"
 	t.faction = &"neutral"
 	t.max_hp = hp
-	t.move_speed = 1.4
+	t.move_speed = 1.1   # spec 1.4; pacing 2026-10-06: phase 2 lasted ~1:15 against the spec's 2:00-3:00
 	t.attack_damage = crush
 	t.attack_range = 3.0
 	t.attack_cooldown = 2.4

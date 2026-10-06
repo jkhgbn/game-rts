@@ -18,10 +18,13 @@ extends SceneTree
 ##   keep     the keep-lost defeat.
 ##   ending   lose(3) then win(0): the first ending stands, no victory save.
 ##   nokeep   a map without a player keep is never lost by the keep-lost rule.
+##   spotlight  config.spotlight trigger "start": the card once per run, the seen flag for the victory save, the
+##            first-unit highlight on the first own unit of the type only (not an enemy one, not another type).
+##   spot_manual  trigger "manual" (no card until show_spotlight), the {kingdom: id} variant, a seen save = short card.
 ##   campaign CampaignState: int flags round-trip, set_flags, reward_of (registered), "unlock", "save_items" false,
 ##            String flags, per-mission track counters, the crash-safe save (.tmp / .bak / .corrupt).
 ## Run: godot --headless --path . -s tests/test_mission_framework.gd --fixed-fps 60 --quit-after 30000
-##   Options after `--`: --only=core|start|runtime|keep|ending|nokeep|campaign
+##   Options after `--`: --only=core|start|runtime|keep|ending|nokeep|spotlight|spot_manual|campaign
 
 const TASK_ID := "mission_framework"
 const SAVE := "user://test_mission_framework.json"
@@ -29,7 +32,10 @@ const GAP_FRAMES := 3   # frames between parts: the old scene (banks, rosters, t
 
 const SAVE_END := "user://test_mission_framework_end.json"
 
-var _parts: Array[String] = ["core", "start", "runtime", "keep", "ending", "nokeep", "campaign"]
+var _parts: Array[String] = ["core", "start", "runtime", "keep", "ending", "nokeep", "spotlight", "spot_manual",
+		"campaign"]
+const SAVE_SPOT := "user://test_mission_framework_spot.json"
+const SPOT_CARD := "Ash Hurler. Slow, far, and it melts what swords can't: ice, towers, camps."
 var _part := ""
 var h: MissionHarness
 var main: Node
@@ -114,6 +120,25 @@ func _open_next() -> void:
 			"nokeep":
 				main = h.open(self, NoKeepMission)
 				h.steps.add("no keep, no keep-lost defeat", _no_keep, 300)
+				return
+			"spotlight":
+				CampaignState.open(SAVE_SPOT).reset()
+				var c := _skeleton_config()
+				c.spotlight = {"id": &"ash_hurler", "card": SPOT_CARD, "trigger": &"start", "key_hint": "Ember Hall: V",
+						"highlight_s": 2.0}
+				main = h.open(self, MissionSkeleton, {"config": c, "set": {"campaign_save_path": SAVE_SPOT}})
+				h.steps.add("card at start, once", _spot_start, 10)
+				h.steps.add("first unit of the type only", _spot_first_unit, 300)
+				return
+			"spot_manual":
+				var cs := CampaignState.open(SAVE_SPOT)
+				cs.reset()
+				cs.set_flags({"spotlight_seen_blaze_rider": true}, true)
+				var c := _skeleton_config()
+				c.spotlight = {"id": {&"fire": &"blaze_rider", &"shadow": &"grave_hound"}, "card": SPOT_CARD,
+						"trigger": &"manual"}
+				main = h.open(self, MissionSkeleton, {"config": c, "set": {"campaign_save_path": SAVE_SPOT}})
+				h.steps.add("manual card, kingdom variant, seen = short", _spot_manual, 10)
 				return
 			"campaign":
 				h = null
@@ -517,6 +542,63 @@ func _no_keep() -> bool:
 	if h.frame - int(_v["t"]) < 150:   # 2.5 s: five keep checks
 		return false
 	_ok(h.ended == -1 and not bool(main.call(&"is_ending")), "no player keep: no 'keep has fallen' defeat (ended %d)" % h.ended)
+	return true
+
+
+# ---------------------------------------------------------------- unit spotlight (mission-framework.md 7)
+
+func _spot_start() -> bool:
+	_ok(h.saw_spotlight("ash_hurler") and h.spotlight_log.size() == 1, "card shown at start %s" % str(h.spotlight_log))
+	_ok(main.get(&"spotlight_id") == &"ash_hurler" and not bool(main.get(&"spotlight_short")), "full card on a new save")
+	main.call(&"show_spotlight")
+	_ok(h.spotlight_log.size() == 1, "show_spotlight is once per run")
+	_ok(bool((main.call(&"mission_flags") as Dictionary).get("spotlight_seen_ash_hurler", false)),
+			"seen flag for the victory save %s" % str(main.call(&"mission_flags")))
+	_ok(main.get(&"spotlight_unit") == null, "no unit of the type yet")
+	# The card itself (MissionHud.show_spotlight builds it; no MissionHud in headless tests): line, tags, timers.
+	var card := SpotlightCard.new()
+	card.setup({"id": &"ash_hurler", "card": SPOT_CARD, "key_hint": "Ember Hall: V", "short": false})
+	root.add_child(card)
+	_ok(card.card_label.text == SPOT_CARD and is_equal_approx(card.time_left, SpotlightCard.FULL_SECONDS),
+			"SpotlightCard full: '%s' %.0f s" % [card.card_label.text, card.time_left])
+	_ok(card.find_children("*", "Label", true, false).size() >= 4, "card: title, line, tags, key hint")
+	card.queue_free()
+	var short := SpotlightCard.new()
+	short.setup({"id": &"ash_hurler", "card": SPOT_CARD, "short": true})
+	_ok(is_equal_approx(short.time_left, SpotlightCard.SHORT_SECONDS), "SpotlightCard short: 4 s")
+	short.free()
+	var at := Vector3(-28.0, 0.0, 28.0)
+	_v["shade"] = main.call(&"_spawn", main.call(&"make_unit", "ash_hurler"), Unit.Team.ENEMY, at)
+	_v["archer"] = main.call(&"_spawn", main.call(&"make_unit", "ember_archer"), Unit.Team.PLAYER, at + Vector3(2, 0, 0))
+	_t0 = h.frame
+	return true
+
+
+func _spot_first_unit() -> bool:
+	if h.frame - _t0 == 5:
+		_ok(main.get(&"spotlight_unit") == null, "an enemy Ash Hurler / an own Ember Archer is not the spotlight")
+		_v["first"] = main.call(&"_spawn", main.call(&"make_unit", "ash_hurler"), Unit.Team.PLAYER, Vector3(-26.0, 0.0, 30.0))
+	if h.frame - _t0 == 10:
+		var first: Unit = _v["first"]
+		_ok(main.get(&"spotlight_unit") == first, "the first own Ash Hurler is highlighted")
+		_ok(first.get_node_or_null(^"SpotlightRing") != null, "gold ring on it")
+		_v["second"] = main.call(&"_spawn", main.call(&"make_unit", "ash_hurler"), Unit.Team.PLAYER, Vector3(-24.0, 0.0, 30.0))
+	if h.frame - _t0 == 20:
+		_ok(main.get(&"spotlight_unit") == _v["first"] and (_v["second"] as Node).get_node_or_null(^"SpotlightRing") == null,
+				"only the first one")
+	if h.frame - _t0 >= 200:   # highlight_s 2: the ring is gone
+		_ok((_v["first"] as Node).get_node_or_null(^"SpotlightRing") == null, "the ring fades after highlight_s")
+		return true
+	return false
+
+
+func _spot_manual() -> bool:
+	_ok(h.spotlight_log.is_empty(), "manual trigger: no card at start")
+	_ok(main.call(&"spotlight_target") == &"blaze_rider", "kingdom variant resolved to fire (%s)" % str(main.call(&"spotlight_target")))
+	main.call(&"show_spotlight")
+	_ok(h.saw_spotlight("blaze_rider"), "card on show_spotlight()")
+	_ok(bool(main.get(&"spotlight_short")), "a seen spotlight shows the short card")
+	CampaignState.open(SAVE_SPOT).reset()
 	return true
 
 
