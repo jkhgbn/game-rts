@@ -1,0 +1,11 @@
+{
+	"name": "ab_t2_both",
+	"notes": "Unit Lab outlier A/B (2026-10-05): ab_t2_cost + ab_t2_hp together.",
+	"units": {
+		"hollow_oathsworn": {"cost": 200, "max_hp": 220.0},
+		"rimehorn_rider": {"cost": 275, "max_hp": 360.0},
+		"pyrehoof_lancer": {"cost": 285, "max_hp": 360.0},
+		"barrow_knight": {"cost": 280, "max_hp": 340.0},
+		"thornback_charger": {"cost": 270, "max_hp": 380.0}
+	}
+}

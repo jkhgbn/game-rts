@@ -1,0 +1,255 @@
+{
+	"name": "Mixed armies: line + ranged + caster, the 4 kingdoms round robin",
+	"notes": "Unit Lab 2026-10-05 (balance pass): judges the line units (Flame Guard, Rimeshield: 79 % alone at equal crystals) in their real job. Each kingdom's T1 mix = its caster (full mana, the real AICasters 'bot') + its line unit + its T1 ranged unit at ~1035-1080 crystals (fire 1060: 6 Flame Guard + 4 Ember Archer; ice 1035: 5 Rimeshield + 4 Shardcaster; nature 1080: 9 Thornling + 6 Burr Slinger; shadow 1080: 7 Shade + 4 Nightbolt). Arm 'x.y' = mix x (side a) vs mix y; a kingdom's score = its mean over its 3 arms.",
+	"seeds": "1-24",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "fire.ice",
+			"a": {
+				"groups": [
+					{
+						"id": "kilnwarden",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "flame_guard",
+						"count": 6
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "fire mix"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimecarver",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "rimeshield",
+						"count": 5
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "ice mix"
+			}
+		},
+		{
+			"name": "fire.nature",
+			"a": {
+				"groups": [
+					{
+						"id": "kilnwarden",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "flame_guard",
+						"count": 6
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "fire mix"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "bramblesage",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "thornling",
+						"count": 9
+					},
+					{
+						"id": "burr_slinger",
+						"count": 6
+					}
+				],
+				"casters": "bot",
+				"label": "nature mix"
+			}
+		},
+		{
+			"name": "fire.shadow",
+			"a": {
+				"groups": [
+					{
+						"id": "kilnwarden",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "flame_guard",
+						"count": 6
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "fire mix"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "gloom_deacon",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "shade",
+						"count": 7
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "shadow mix"
+			}
+		},
+		{
+			"name": "ice.nature",
+			"a": {
+				"groups": [
+					{
+						"id": "rimecarver",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "rimeshield",
+						"count": 5
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "ice mix"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "bramblesage",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "thornling",
+						"count": 9
+					},
+					{
+						"id": "burr_slinger",
+						"count": 6
+					}
+				],
+				"casters": "bot",
+				"label": "nature mix"
+			}
+		},
+		{
+			"name": "ice.shadow",
+			"a": {
+				"groups": [
+					{
+						"id": "rimecarver",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "rimeshield",
+						"count": 5
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "ice mix"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "gloom_deacon",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "shade",
+						"count": 7
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "shadow mix"
+			}
+		},
+		{
+			"name": "nature.shadow",
+			"a": {
+				"groups": [
+					{
+						"id": "bramblesage",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "thornling",
+						"count": 9
+					},
+					{
+						"id": "burr_slinger",
+						"count": 6
+					}
+				],
+				"casters": "bot",
+				"label": "nature mix"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "gloom_deacon",
+						"count": 1,
+						"mana": "full"
+					},
+					{
+						"id": "shade",
+						"count": 7
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				],
+				"casters": "bot",
+				"label": "shadow mix"
+			}
+		}
+	]
+}

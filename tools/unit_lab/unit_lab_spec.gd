@@ -531,9 +531,18 @@ static func normalize_matrix(raw: Dictionary, errors: Array) -> Dictionary:
 		basis = "cost"
 	var budget := int(raw.get("budget", DEFAULT_BUDGET))
 	var pop_budget := int(raw.get("pop_budget", 0))
+	# "focus": [entries] = only the pairs that hold one of them (an A/B of a few rows against the whole pool; the
+	# other rows' means then cover only their games against the focus entries).
+	var focus: Array[String] = []
+	if raw.get("focus") is Array:
+		for v: Variant in raw["focus"]:
+			if entries.has(String(v)):
+				focus.append(String(v))
+			else:
+				errors.append("focus entry '%s' is not in the matrix" % String(v))
 	return {"entries": entries, "budget": budget, "basis": basis,
 			"pop_budget": pop_budget if pop_budget > 0 else default_pop_budget(budget),
-			"mirror": bool(raw.get("mirror", false)), "kingdom_of": _kingdom_map(entries)}
+			"mirror": bool(raw.get("mirror", false)), "kingdom_of": _kingdom_map(entries), "focus": focus}
 
 
 static func _kingdom_map(entries: Array[String]) -> Dictionary:
@@ -570,12 +579,16 @@ static func roster(kingdom: String, tiers: Array) -> Array[String]:
 	return out
 
 
-## Matrix pairs (i < j; plus i == i when `mirror`), in a stable order.
+## Matrix pairs (i < j; plus i == i when `mirror`), in a stable order; with a non-empty `focus`, only the pairs that
+## hold a focus entry.
 static func matrix_pairs(m: Dictionary) -> Array:
 	var out: Array = []
 	var e: Array = m["entries"]
+	var focus: Array = m.get("focus", [])
 	for i in e.size():
 		for j in range(i if bool(m.get("mirror", false)) else i + 1, e.size()):
+			if not focus.is_empty() and not focus.has(e[i]) and not focus.has(e[j]):
+				continue
 			out.append([e[i], e[j]])
 	return out
 

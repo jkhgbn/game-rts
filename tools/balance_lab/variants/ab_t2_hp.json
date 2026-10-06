@@ -1,0 +1,11 @@
+{
+	"name": "ab_t2_hp",
+	"notes": "Unit Lab outlier A/B (2026-10-05): Hollow Oathsworn max_hp 260 -> 220 (-40 effective HP, the data-side equivalent of Unbroken Vow shield 100 -> 60, which is a code constant in new_units_12.gd VOW); the four T2 cavalry max_hp -10 % (400 -> 360, 400 -> 360, 380 -> 340, 420 -> 380).",
+	"units": {
+		"hollow_oathsworn": {"max_hp": 220.0},
+		"rimehorn_rider": {"max_hp": 360.0},
+		"pyrehoof_lancer": {"max_hp": 360.0},
+		"barrow_knight": {"max_hp": 340.0},
+		"thornback_charger": {"max_hp": 380.0}
+	}
+}

@@ -26,6 +26,7 @@ param(
 	[ValidateSet("cost", "pop", "both")][string]$Basis = "cost",
 	[int]$PopBudget = 0,
 	[string]$Entries = "",
+	[string]$Focus = "",
 	[string]$Equal = "",
 	[string]$Out = "",
 	[string]$RawDir = "",
@@ -48,6 +49,7 @@ $SpecArg = ""
 if ($Matrix -or $Entries -ne "") {
 	$m = @{ budget = $Budget; casters = (-not $NoCasters); basis = $Basis }
 	if ($PopBudget -gt 0) { $m.pop_budget = $PopBudget }
+	if ($Focus -ne "") { $m.focus = @($Focus.Split(",") | ForEach-Object { $_.Trim() }) }
 	if ($Entries -ne "") { $m.ids = @($Entries.Split(",") | ForEach-Object { $_.Trim() }) }
 	else {
 		$m.kingdoms = @($Kingdoms.Split(",") | ForEach-Object { $_.Trim() })

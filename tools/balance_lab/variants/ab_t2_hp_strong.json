@@ -1,0 +1,11 @@
+{
+	"name": "ab_t2_hp_strong",
+	"notes": "Unit Lab outlier A/B (2026-10-05), the equal-pop arm: Hollow Oathsworn max_hp 260 -> 200; the four T2 cavalry max_hp -15 % (400 -> 340, 400 -> 340, 380 -> 325, 420 -> 355).",
+	"units": {
+		"hollow_oathsworn": {"max_hp": 200.0},
+		"rimehorn_rider": {"max_hp": 340.0},
+		"pyrehoof_lancer": {"max_hp": 340.0},
+		"barrow_knight": {"max_hp": 325.0},
+		"thornback_charger": {"max_hp": 355.0}
+	}
+}
