@@ -85,6 +85,165 @@ msgstr ""
 msgid "Must be within %d m of your keep"
 msgstr ""
 
+#. &"weapons": {"name": "Weapons", "stats": {&"attack_damage_pct": 0.06}, "text": "+6 % attack damage"},
+#: scripts/buildings/forge_kit.gd:34
+msgid "Weapons"
+msgstr ""
+
+#. &"weapons": {"name": "Weapons", "stats": {&"attack_damage_pct": 0.06}, "text": "+6 % attack damage"},
+#: scripts/buildings/forge_kit.gd:34
+msgid "+6 % attack damage"
+msgstr ""
+
+#. &"armor": {"name": "Armor", "stats": {&"armor": 6.0}, "text": "+6 armor"},
+#: scripts/buildings/forge_kit.gd:35
+msgid "Armor"
+msgstr ""
+
+#. &"armor": {"name": "Armor", "stats": {&"armor": 6.0}, "text": "+6 armor"},
+#: scripts/buildings/forge_kit.gd:35 scripts/buildings/forge_kit.gd:60
+#: scripts/buildings/forge_kit.gd:65
+msgid "+6 armor"
+msgstr ""
+
+#. &"fire_fury": {"name": "Kindled Fury", "stats": {&"attack_cooldown_pct": -0.04}, "text": "+4 % attack speed"},
+#: scripts/buildings/forge_kit.gd:36
+msgid "Kindled Fury"
+msgstr ""
+
+#. &"fire_fury": {"name": "Kindled Fury", "stats": {&"attack_cooldown_pct": -0.04}, "text": "+4 % attack speed"},
+#: scripts/buildings/forge_kit.gd:36
+msgid "+4 % attack speed"
+msgstr ""
+
+#. &"shadow_shroud": {"name": "Shroudstep", "stats": {&"move_speed_pct": 0.04}, "text": "+4 % move speed"},
+#: scripts/buildings/forge_kit.gd:37
+msgid "Shroudstep"
+msgstr ""
+
+#. &"shadow_shroud": {"name": "Shroudstep", "stats": {&"move_speed_pct": 0.04}, "text": "+4 % move speed"},
+#: scripts/buildings/forge_kit.gd:37
+msgid "+4 % move speed"
+msgstr ""
+
+#. &"ice_hide": {"name": "Rimeforged Hide", "stats": {&"max_hp_pct": 0.05}, "text": "+5 % max HP"},
+#: scripts/buildings/forge_kit.gd:38
+msgid "Rimeforged Hide"
+msgstr ""
+
+#. &"ice_hide": {"name": "Rimeforged Hide", "stats": {&"max_hp_pct": 0.05}, "text": "+5 % max HP"},
+#: scripts/buildings/forge_kit.gd:38
+msgid "+5 % max HP"
+msgstr ""
+
+#. &"nature_sap": {"name": "Sapblood", "stats": {&"hp_regen": 0.25}, "text": "+0.25 HP regeneration per second"},
+#: scripts/buildings/forge_kit.gd:39
+msgid "Sapblood"
+msgstr ""
+
+#. &"nature_sap": {"name": "Sapblood", "stats": {&"hp_regen": 0.25}, "text": "+0.25 HP regeneration per second"},
+#: scripts/buildings/forge_kit.gd:39
+msgid "+0.25 HP regeneration per second"
+msgstr ""
+
+#. &"fire_bowstrings": {"name": "Ember Bowstrings", "units": [&"ember_archer", &"scorchbow"], "stats": {},
+#: scripts/buildings/forge_kit.gd:46
+msgid "Ember Bowstrings"
+msgstr ""
+
+#. "range": 1.0, "text": "+1 attack range"},
+#: scripts/buildings/forge_kit.gd:47 scripts/buildings/forge_kit.gd:53
+#: scripts/buildings/forge_kit.gd:59 scripts/buildings/forge_kit.gd:64
+msgid "+1 attack range"
+msgstr ""
+
+#. &"fire_lances": {"name": "Lance Drill", "units": [&"blaze_rider", &"pyrehoof_lancer"],
+#: scripts/buildings/forge_kit.gd:48
+msgid "Lance Drill"
+msgstr ""
+
+#. "stats": {&"attack_damage_pct": 0.10, &"move_speed": 0.3}, "text": "+10 % damage and +0.3 speed"},
+#: scripts/buildings/forge_kit.gd:49 scripts/buildings/forge_kit.gd:55
+msgid "+10 % damage and +0.3 speed"
+msgstr ""
+
+#. &"fire_caster": {"name": "Kiln Focus", "units": [&"kilnwarden"],
+#: scripts/buildings/forge_kit.gd:50
+msgid "Kiln Focus"
+msgstr ""
+
+#. "stats": {&"max_mana_pct": 0.25, &"mana_regen_pct": 0.25}, "text": "+25 % max mana and mana regeneration"},
+#: scripts/buildings/forge_kit.gd:51 scripts/buildings/forge_kit.gd:57
+#: scripts/buildings/forge_kit.gd:62 scripts/buildings/forge_kit.gd:67
+msgid "+25 % max mana and mana regeneration"
+msgstr ""
+
+#. &"shadow_bowstrings": {"name": "Nightstring", "units": [&"nightbolt", &"bleakbow"], "stats": {},
+#: scripts/buildings/forge_kit.gd:52
+msgid "Nightstring"
+msgstr ""
+
+#. &"shadow_knights": {"name": "Dread Charge", "units": [&"shadow_knight", &"barrow_knight"],
+#: scripts/buildings/forge_kit.gd:54
+msgid "Dread Charge"
+msgstr ""
+
+#. &"shadow_caster": {"name": "Vigil Focus", "units": [&"gloom_deacon"],
+#: scripts/buildings/forge_kit.gd:56
+msgid "Vigil Focus"
+msgstr ""
+
+#. &"ice_bowstrings": {"name": "Rime Fletching", "units": [&"shardcaster", &"frostbow"], "stats": {},
+#: scripts/buildings/forge_kit.gd:58
+msgid "Rime Fletching"
+msgstr ""
+
+#. &"ice_shields": {"name": "Shield Wall", "units": [&"rimeshield"], "stats": {&"armor": 6.0}, "text": "+6 armor"
+#: scripts/buildings/forge_kit.gd:60
+msgid "Shield Wall"
+msgstr ""
+
+#. &"ice_caster": {"name": "Carver's Focus", "units": [&"rimecarver"],
+#: scripts/buildings/forge_kit.gd:61
+msgid "Carver's Focus"
+msgstr ""
+
+#. &"nature_bowstrings": {"name": "Thornstring", "units": [&"wildwood_archer", &"burr_slinger"], "stats": {},
+#: scripts/buildings/forge_kit.gd:63
+msgid "Thornstring"
+msgstr ""
+
+#. &"nature_bark": {"name": "Barkskin", "units": [&"thornling"], "stats": {&"armor": 6.0}, "text": "+6 armor"},
+#: scripts/buildings/forge_kit.gd:65
+msgid "Barkskin"
+msgstr ""
+
+#. &"nature_caster": {"name": "Sage's Focus", "units": [&"bramblesage"],
+#: scripts/buildings/forge_kit.gd:66
+msgid "Sage's Focus"
+msgstr ""
+
+#. const CARD_TEXT_LEVEL := "Level %d of %d: %s per level for every soldier of your kingdom."
+#: scripts/buildings/forge_kit.gd:78
+msgid "Level %d of %d: %s per level for every soldier of your kingdom."
+msgstr ""
+
+#. const CARD_TEXT_UNIT := "%s for every %s, living and future."
+#: scripts/buildings/forge_kit.gd:79
+msgid "%s for every %s, living and future."
+msgstr ""
+
+#. const REASON_MAX := "Max level"
+#: scripts/buildings/forge_kit.gd:80
+msgid "Max level"
+msgstr ""
+
+#. const REASON_WORKING := "Already in progress"
+#: scripts/buildings/forge_kit.gd:81 scripts/buildings/unit_upgrades.gd:42
+#: scripts/units/bowman_upgrades.gd:47 scripts/units/stables16.gd:261
+msgid "Already in progress"
+msgstr ""
+
 #. const REASON_TIERS_OFF := "Tiers are off"
 #: scripts/buildings/keep.gd:21
 msgid "Tiers are off"
@@ -244,12 +403,6 @@ msgstr ""
 #: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:46
 #: scripts/units/stables16.gd:259
 msgid "Already researched"
-msgstr ""
-
-#. const REASON_QUEUED := "Already in progress"
-#: scripts/buildings/unit_upgrades.gd:42 scripts/units/bowman_upgrades.gd:47
-#: scripts/units/stables16.gd:261
-msgid "Already in progress"
 msgstr ""
 
 #. const REASON_BUSY := "The Hall is busy with another upgrade"

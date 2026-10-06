@@ -406,6 +406,11 @@ msgid "Ember Hall"
 msgstr ""
 
 #. name (glossary: stays English)
+#: data/buildings/fire_forge.tres:8
+msgid "Ember Forge"
+msgstr ""
+
+#. name (glossary: stays English)
 #: data/buildings/fire_hearth.tres:11
 msgid "Hearth"
 msgstr ""
@@ -433,6 +438,11 @@ msgstr ""
 #. name (glossary: stays English)
 #: data/buildings/ice_barracks.tres:10
 msgid "Frost Hall"
+msgstr ""
+
+#. name (glossary: stays English)
+#: data/buildings/ice_forge.tres:8
+msgid "Frost Forge"
 msgstr ""
 
 #. name (glossary: stays English)
@@ -471,6 +481,11 @@ msgid "Grove Hall"
 msgstr ""
 
 #. name (glossary: stays English)
+#: data/buildings/nature_forge.tres:8
+msgid "Grove Forge"
+msgstr ""
+
+#. name (glossary: stays English)
 #: data/buildings/nature_hollow.tres:9
 msgid "Seed Hollow"
 msgstr ""
@@ -498,6 +513,11 @@ msgstr ""
 #. name (glossary: stays English)
 #: data/buildings/shadow_barracks.tres:15
 msgid "Gloom Hall"
+msgstr ""
+
+#. name (glossary: stays English)
+#: data/buildings/shadow_forge.tres:8
+msgid "Gloom Forge"
 msgstr ""
 
 #. name (glossary: stays English)

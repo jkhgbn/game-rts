@@ -163,7 +163,7 @@ msgstr ""
 
 #. back_button = _button(row, "Back", 140)
 #: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:749
-#: scripts/ui/menus/main_menu.gd:835 scripts/ui/menus/settings_panel.gd:80
+#: scripts/ui/menus/main_menu.gd:835 scripts/ui/menus/settings_panel.gd:105
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:82
 msgid "Back"
 msgstr ""
@@ -321,17 +321,17 @@ msgid "{cost} (first hire)"
 msgstr ""
 
 #. return Loc.t("Auto, L{n}", {"n": int(k.substr(7))})
-#: scripts/ui/menus/unit_guide_data.gd:372
+#: scripts/ui/menus/unit_guide_data.gd:402
 msgid "Auto, L{n}"
 msgstr ""
 
 #. return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
-#: scripts/ui/menus/unit_guide_data.gd:405 scripts/ui/menus/unit_guide_data.gd:95
+#: scripts/ui/menus/unit_guide_data.gd:435 scripts/ui/menus/unit_guide_data.gd:95
 msgid "%s (Citadel)"
 msgstr ""
 
 #. return Loc.t("%s (Wonders)") % b.trim_suffix(" (Wonders)")
-#: scripts/ui/menus/unit_guide_data.gd:407 scripts/ui/menus/unit_guide_data.gd:99
+#: scripts/ui/menus/unit_guide_data.gd:437 scripts/ui/menus/unit_guide_data.gd:99
 msgid "%s (Wonders)"
 msgstr ""
 
@@ -416,7 +416,7 @@ msgid "Shadow"
 msgstr ""
 
 #. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
-#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/unit_guide_data.gd:389
+#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/unit_guide_data.gd:419
 #: scripts/ui/menus/main_menu.gd:13 scripts/ui/point_panel.gd:321
 msgid "Neutral"
 msgstr ""
@@ -427,9 +427,9 @@ msgid "Tavern"
 msgstr ""
 
 #. var keep_name := keep.display_name if keep else "Keep"
-#: scripts/ui/menus/unit_guide_data.gd:71 scripts/ui/command_card.gd:948
-#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1843
-#: scripts/ui/selection_panel.gd:2723
+#: scripts/ui/menus/unit_guide_data.gd:71 scripts/ui/command_card.gd:950
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1856
+#: scripts/ui/selection_panel.gd:2736
 msgid "Keep"
 msgstr ""
 
@@ -487,4 +487,24 @@ msgstr ""
 #. rk["name_tmpl"] = "Rank 3: {name}"
 #: scripts/ui/menus/unit_guide_data.gd:338
 msgid "Rank 3: {name}"
+msgstr ""
+
+#. var g := _templ({"key": "Forge"},
+#: scripts/ui/menus/unit_guide_data.gd:356 scripts/ui/menus/unit_guide_data.gd:368
+msgid "Forge"
+msgstr ""
+
+#. "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / 
+#: scripts/ui/menus/unit_guide_data.gd:357
+msgid "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / {p2} / {p3} crystals; level 2 needs a Stronghold, level 3 a Citadel)."
+msgstr ""
+
+#. g["name_tmpl"] = "Forge upgrades"
+#: scripts/ui/menus/unit_guide_data.gd:362 scripts/ui/menus/unit_guide_data.gd:364
+msgid "Forge upgrades"
+msgstr ""
+
+#. "Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}.",
+#: scripts/ui/menus/unit_guide_data.gd:369
+msgid "Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}."
 msgstr ""

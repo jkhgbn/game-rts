@@ -197,6 +197,13 @@ func _kingdom(k: StringName) -> void:
 	ts.set_tier(PLAYER, 3)
 	await _card("Stables", func() -> void: sel.select_building(stables))
 	await _card("Bazaar", func() -> void: sel.select_building(market))
+	# docs/design/unit-upgrades.md: the Forge's research card (Z X C V B N, each key queues its research).
+	var forge := _spawn(grid, ForgeKit.forge_type(k), keep, 9, 12)
+	if forge == null:
+		_fail("Forge not placed")
+	else:
+		await _frames(2)
+		await _card("Forge", func() -> void: sel.select_building(forge))
 	await _card("site", func() -> void: sel.select_building(site))
 	# Units: workers, the build menu, a soldier, the wizard, a mixed group, a caravan (Classic and Hero WASD letters).
 	await _card("workers", func() -> void: sel.select_units(workers))

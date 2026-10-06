@@ -112,6 +112,11 @@ static func buildable_for(faction_id: StringName) -> Array[BuildingType]:
 		var st := Stables16.stables_type(faction_id)
 		if st and st.is_buildable():
 			out.append(st)
+	# docs/design/unit-upgrades.md: the kingdom's Forge (key M) after it, in skirmish-type games (ForgeKit.enabled_here).
+	if ForgeKit.enabled_here():
+		var fg := ForgeKit.forge_type(faction_id)
+		if fg and fg.is_buildable():
+			out.append(fg)
 	return out
 
 

@@ -481,7 +481,7 @@ msgstr "Contrat déjà en cours"
 
 #. reason = "On cooldown"
 #: scripts/ui/trade_window.gd:1304 scripts/ui/trade_window.gd:1328 scripts/ui/item_tooltip.gd:216
-#: scripts/ui/command_card.gd:839 scripts/ui/spell_info.gd:153 scripts/units/champion_abilities.gd:64
+#: scripts/ui/command_card.gd:841 scripts/ui/spell_info.gd:153 scripts/units/champion_abilities.gd:64
 msgid "On cooldown"
 msgstr "En recharge"
 
@@ -817,7 +817,7 @@ msgid "Fighting"
 msgstr "Au combat"
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1426
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1439
 msgid "Unpaid!"
 msgstr "Impayé !"
 
@@ -1972,12 +1972,12 @@ msgid "For you: "
 msgstr "Pour vous : "
 
 #. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1036
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1038
 msgid "far"
 msgstr "loin"
 
 #. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1036
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1038
 msgid "near"
 msgstr "proche"
 
@@ -2067,7 +2067,7 @@ msgid "Not held"
 msgstr "Non tenu"
 
 #. action_button.text = "Current route" if is_current else "Set as route"
-#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1034
+#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1036
 msgid "Current route"
 msgstr "Route actuelle"
 
@@ -2116,12 +2116,6 @@ msgstr "Pas un comptoir"
 #: scripts/ui/post_panel.gd:422 scripts/world/trade_post.gd:31
 msgid "Trading Post"
 msgstr "Comptoir"
-
-#. return [("Neutralising %s" if own else "The enemy is neutralising %s") % progress_text(p),
-#: scripts/ui/point_panel.gd:346
-#, obsolete
-msgid "The enemy is neutralising %s"
-msgstr ""
 
 #. return ["Asleep" if t == INF else "Asleep: wakes in %s" % MapfillBar.mmss(t), muted]
 #: scripts/ui/point_panel.gd:352
@@ -2231,10 +2225,10 @@ msgstr ""
 msgid "Items: "
 msgstr ""
 
-#. var first := str(a.get("name", "")) + ("  Locked" if locked else "")
-#: scripts/ui/champion_bar.gd:827 scripts/ui/champion_bar.gd:854
+#. var line := "Active: %s" % active.capitalize()
+#: scripts/ui/item_tooltip.gd:173
 #, obsolete
-msgid "  Locked"
+msgid "Active: %s"
 msgstr ""
 
 #. var key := "heavy|%s" % kingdom()
@@ -2345,10 +2339,10 @@ msgstr ""
 msgid "Buy %s  [%s]\n%d gold · once\n%s%s"
 msgstr ""
 
-#. sub_label.text = "%d Greywater Trackers · %d s" % [trackers, roundi(duration)]
-#: scripts/ui/trade_window.gd:1271
+#. return [("Neutralising %s" if own else "The enemy is neutralising %s") % progress_text(p),
+#: scripts/ui/point_panel.gd:346
 #, obsolete
-msgid "%d Greywater Trackers · %d s"
+msgid "The enemy is neutralising %s"
 msgstr ""
 
 #. time_label.text = "%s left" % TradeWindow.mmss(left)
@@ -2465,12 +2459,6 @@ msgstr ""
 msgid "%s · %s left"
 msgstr ""
 
-#. var line := "Active: %s" % active.capitalize()
-#: scripts/ui/item_tooltip.gd:173
-#, obsolete
-msgid "Active: %s"
-msgstr ""
-
 #. line += " · %d s cooldown" % int(round(cooldown))
 #: scripts/ui/item_tooltip.gd:175
 #, obsolete
@@ -2577,6 +2565,12 @@ msgstr ""
 #: scripts/ui/champion_bar.gd:170 scripts/units/champion_abilities.gd:95
 #, obsolete
 msgid "Smoke Pouch"
+msgstr ""
+
+#. sub_label.text = "%d Greywater Trackers · %d s" % [trackers, roundi(duration)]
+#: scripts/ui/trade_window.gd:1271
+#, obsolete
+msgid "%d Greywater Trackers · %d s"
 msgstr ""
 
 #. &"marked_for_coin": {"name": "Marked for Coin", "unlock": 4, "cooldown": 20.0,
@@ -2807,12 +2801,6 @@ msgstr ""
 msgid "Capturing %s"
 msgstr ""
 
-#. return [("Capturing %s" if own else "The enemy is capturing %s") % progress_text(p),
-#: scripts/ui/point_panel.gd:343
-#, obsolete
-msgid "The enemy is capturing %s"
-msgstr ""
-
 #. d["text"] = "Raise · %s" % d["reason"]
 #: scripts/ui/bounty_mode.gd:322
 #, obsolete
@@ -2919,6 +2907,12 @@ msgstr ""
 #: scripts/ui/trade_window.gd:74 scripts/economy/gold_bank.gd:53
 #, obsolete
 msgid "Quilted Gambesons"
+msgstr ""
+
+#. var first := str(a.get("name", "")) + ("  Locked" if locked else "")
+#: scripts/ui/champion_bar.gd:827 scripts/ui/champion_bar.gd:854
+#, obsolete
+msgid "  Locked"
 msgstr ""
 
 #. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
@@ -3034,4 +3028,10 @@ msgstr ""
 #: scripts/ui/mapfill_bar.gd:62
 #, obsolete
 msgid "Enemy blessing %d s\n+12 %% speed, +1.5 HP / s for their soldiers, wizard and champions"
+msgstr ""
+
+#. return [("Capturing %s" if own else "The enemy is capturing %s") % progress_text(p),
+#: scripts/ui/point_panel.gd:343
+#, obsolete
+msgid "The enemy is capturing %s"
 msgstr ""

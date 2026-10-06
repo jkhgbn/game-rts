@@ -31,7 +31,7 @@ msgid "Hero WASD"
 msgstr "Héros WASD"
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:78 scripts/ui/menus/settings_panel.gd:261
+#: scripts/ui/menus/game_settings.gd:78 scripts/ui/menus/settings_panel.gd:329
 msgid "RTS camera (WASD)"
 msgstr "Caméra libre (WASD)"
 
@@ -399,7 +399,7 @@ msgstr "Toutes les unités des quatre royaumes : stats, capacités, forces et f
 
 #. settings_button = _menu_button(box, "Settings")
 #: scripts/ui/menus/main_menu.gd:656 scripts/ui/menus/pause_menu.gd:49
-#: scripts/ui/menus/settings_panel.gd:51
+#: scripts/ui/menus/settings_panel.gd:62
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -510,27 +510,27 @@ msgid "Quit to menu"
 msgstr "Retour au menu"
 
 #. return Loc.t("%s: walk your wizard (camera follows)  ·  %s + click: attack-move") % [
-#: scripts/ui/menus/settings_panel.gd:135
+#: scripts/ui/menus/settings_panel.gd:164
 msgid "%s: walk your wizard (camera follows)  ·  %s + click: attack-move"
 msgstr "%s : déplacer votre sorcier (la caméra suit)  ·  %s + clic : attaque-déplacement"
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster
-#: scripts/ui/menus/settings_panel.gd:138
+#: scripts/ui/menus/settings_panel.gd:167
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)"
 msgstr "Clic droit : déplace votre sorcier  ·  %s + clic : attaque-déplacement  ·  %s / flèches : caméra (Maj : plus vite)"
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera") % KeyLabels.of(KE
-#: scripts/ui/menus/settings_panel.gd:140
+#: scripts/ui/menus/settings_panel.gd:169
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera"
 msgstr "Clic droit : déplace votre sorcier  ·  %s + clic : attaque-déplacement  ·  Flèches : caméra"
 
 #. return Loc.t("Classic: like most strategy games, right click moves your wizard and %s + click "
-#: scripts/ui/menus/settings_panel.gd:146
+#: scripts/ui/menus/settings_panel.gd:175
 msgid "Classic: like most strategy games, right click moves your wizard and %s + click attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves."
 msgstr "Classique : comme la plupart des jeux de stratégie, le clic droit déplace votre sorcier et %s + clic fait une attaque-déplacement.\nHéros WASD : %s déplacent votre sorcier, %s + clic fait une attaque-déplacement.\nCaméra libre (WASD) : le clic droit déplace votre sorcier, %s déplacent la caméra (Maj = plus vite), %s + clic fait une attaque-déplacement."
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:378 scripts/ui/champion_bar.gd:59
+#: scripts/ui/menus/settings_panel.gd:446 scripts/ui/champion_bar.gd:59
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr "Sorcier"
@@ -561,203 +561,145 @@ msgid "High: full plants and flowers, birds, butterflies and frogs, animated wat
 msgstr "Élevé : plantes et fleurs complètes, oiseaux, papillons et grenouilles, eau animée.\nBas : moitié moins de plantes, pas de petits animaux, eau plus simple."
 
 #. master_slider = _slider_row(box, "Master volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:57
+#: scripts/ui/menus/settings_panel.gd:82
 msgid "Master volume"
 msgstr "Volume principal"
 
 #. music_slider = _slider_row(box, "Music volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:58
+#: scripts/ui/menus/settings_panel.gd:83
 msgid "Music volume"
 msgstr "Volume musique"
 
 #. sfx_slider = _slider_row(box, "Effects volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:59
+#: scripts/ui/menus/settings_panel.gd:84
 msgid "Effects volume"
 msgstr "Volume effets"
 
 #. scale_slider = _slider_row(box, "UI scale", GameSettings.UI_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:60
+#: scripts/ui/menus/settings_panel.gd:85
 msgid "UI scale"
 msgstr "Taille de l'interface"
 
 #. fullscreen_check = _check_row(box, "Fullscreen")
-#: scripts/ui/menus/settings_panel.gd:62
+#: scripts/ui/menus/settings_panel.gd:87
 msgid "Fullscreen"
 msgstr "Plein écran"
 
 #. edge_pan_check = _check_row(box, "Scroll at screen edge")
-#: scripts/ui/menus/settings_panel.gd:63
+#: scripts/ui/menus/settings_panel.gd:88
 msgid "Scroll at screen edge"
 msgstr "Défilement au bord de l'écran"
 
 #. render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:68
+#: scripts/ui/menus/settings_panel.gd:93
 msgid "Render scale"
 msgstr "Échelle de rendu"
 
 #. var name_label := UIStyle.label("Language", 18)
-#: scripts/ui/menus/settings_panel.gd:163
+#: scripts/ui/menus/settings_panel.gd:192
 msgid "Language"
 msgstr "Langue"
 
 #. language_option.tooltip_text = "Game language (voices stay in English; subtitles follow the language)."
-#: scripts/ui/menus/settings_panel.gd:173
+#: scripts/ui/menus/settings_panel.gd:202
 msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr "Langue du jeu (les voix restent en anglais; les sous-titres suivent la langue)."
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:253
+#: scripts/ui/menus/settings_panel.gd:321
 msgid "Controls"
 msgstr "Commandes"
 
 #. controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
-#: scripts/ui/menus/settings_panel.gd:259
+#: scripts/ui/menus/settings_panel.gd:327
 msgid "Classic (right click moves)"
 msgstr "Classique (clic droit pour bouger)"
 
 #. controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
-#: scripts/ui/menus/settings_panel.gd:260
+#: scripts/ui/menus/settings_panel.gd:328
 msgid "Hero WASD (keys walk the wizard)"
 msgstr "Héros WASD (touches pour le sorcier)"
 
 #. var name_label := UIStyle.label("Unit priority", 18)
-#: scripts/ui/menus/settings_panel.gd:283
+#: scripts/ui/menus/settings_panel.gd:351
 msgid "Unit priority"
 msgstr "Priorité des unités"
 
 #. name_label.tooltip_text = "Tab order of unit types in a selection; the first one is active first."
-#: scripts/ui/menus/settings_panel.gd:285
+#: scripts/ui/menus/settings_panel.gd:353
 msgid "Tab order of unit types in a selection; the first one is active first."
 msgstr "Ordre Tab des types d'unités dans une sélection; le premier est actif en premier."
 
 #. priority_kingdom.tooltip_text = "The kingdom whose unit order is shown."
-#: scripts/ui/menus/settings_panel.gd:290
+#: scripts/ui/menus/settings_panel.gd:358
 msgid "The kingdom whose unit order is shown."
 msgstr "Le royaume dont l'ordre des unités est affiché."
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:296 scripts/ui/menus/settings_panel.gd:299
+#: scripts/ui/menus/settings_panel.gd:364 scripts/ui/menus/settings_panel.gd:367
 msgid "Show"
 msgstr "Afficher"
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:296
+#: scripts/ui/menus/settings_panel.gd:364
 msgid "Show / hide the list (Tab cycles unit types in this order)"
 msgstr "Afficher ou masquer la liste (Tab parcourt les types d'unités dans cet ordre)"
 
 #. priority_toggle.text = "Hide" if priority_list.visible else "Show")
-#: scripts/ui/menus/settings_panel.gd:299
+#: scripts/ui/menus/settings_panel.gd:367
 msgid "Hide"
 msgstr "Masquer"
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:300
+#: scripts/ui/menus/settings_panel.gd:368
 msgid "Reset"
 msgstr "Rétablir"
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:300
+#: scripts/ui/menus/settings_panel.gd:368
 msgid "Default order: wizard, dearest soldiers first, workers last"
 msgstr "Ordre par défaut : sorcier, soldats les plus chers d'abord, ouvriers en dernier"
 
 #. var up := _small_button(row, "+", "Higher priority")
-#: scripts/ui/menus/settings_panel.gd:381
+#: scripts/ui/menus/settings_panel.gd:449
 msgid "Higher priority"
 msgstr "Priorité plus haute"
 
 #. var down := _small_button(row, "−", "Lower priority")
-#: scripts/ui/menus/settings_panel.gd:384
+#: scripts/ui/menus/settings_panel.gd:452
 msgid "Lower priority"
 msgstr "Priorité plus basse"
 
 #. var name_label := UIStyle.label("Map detail", 18)
-#: scripts/ui/menus/settings_panel.gd:394
+#: scripts/ui/menus/settings_panel.gd:462
 msgid "Map detail"
 msgstr "Détail de la carte"
 
 #. map_detail_option.add_item("High", 0)
-#: scripts/ui/menus/settings_panel.gd:400
+#: scripts/ui/menus/settings_panel.gd:468
 msgid "High"
 msgstr "Élevé"
 
 #. map_detail_option.add_item("Low (faster)", 1)
-#: scripts/ui/menus/settings_panel.gd:401
+#: scripts/ui/menus/settings_panel.gd:469
 msgid "Low (faster)"
 msgstr "Bas (plus rapide)"
 
 #. var name_label := UIStyle.label("Upscaler", 18)
-#: scripts/ui/menus/settings_panel.gd:415
+#: scripts/ui/menus/settings_panel.gd:483
 msgid "Upscaler"
 msgstr "Mise à l'échelle"
 
-#. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
-#: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:297
+#. row.add_child(_filter_title("Tier"))
+#: scripts/ui/menus/unit_guide.gd:317 scripts/items/recipes.gd:107
 #, obsolete
-msgid "Ice"
+msgid "Tier"
 msgstr ""
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
-#: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:blaze_rider
-#: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:rimehorn_rider
-#: data/ui/unit_guide.json:thornback_charger data/ui/unit_guide.json:glade_outrider
+#. ["crystals", "Crystals", true], ["pop", "Pop", true], ["train_time", "Train time", true],
+#: scripts/ui/menus/unit_guide.gd:28
 #, obsolete
-msgid "Siege"
-msgstr ""
-
-#. parts.append("Ranged attack")
-#: scripts/ui/menus/unit_guide.gd:636
-#, obsolete
-msgid "Ranged attack"
-msgstr ""
-
-#. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
-#: scripts/ui/menus/unit_guide.gd:690
-#, obsolete
-msgid "Weak against"
-msgstr ""
-
-#. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
-#: scripts/ui/menus/unit_guide_data.gd:16
-#, obsolete
-msgid "Titan"
-msgstr ""
-
-#. detail_box.add_child(UIStyle.panel_label("Pick two units to compare.", 16, MUTED))
-#: scripts/ui/menus/unit_guide.gd:726
-#, obsolete
-msgid "Pick two units to compare."
-msgstr ""
-
-#. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
-#: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:300
-#, obsolete
-msgid "Nature"
-msgstr ""
-
-#. var stables := BuildingType.find("%s_stables" % k)
-#: scripts/ui/menus/unit_guide_data.gd:68
-#, obsolete
-msgid "%s_stables"
-msgstr ""
-
-#. const MAP_WORDS := ["Autumn", "Grass", "Marsh", "Meadow", "Snow", "Neutral", "Fire", "Ice", "Nature", "Shadow"
-#: scripts/ui/menus/main_menu.gd:13 scripts/ui/menus/unit_guide_data.gd:347
-#: scripts/ui/point_panel.gd:321
-#, obsolete
-msgid "Neutral"
-msgstr ""
-
-#. unit_guide_button = _menu_button(box, "Unit Guide")
-#: scripts/ui/menus/main_menu.gd:646 scripts/ui/menus/pause_menu.gd:51
-#: scripts/ui/menus/unit_guide.gd:274
-#, obsolete
-msgid "Unit Guide"
-msgstr ""
-
-#. name = "Card_%s" % kingdom
-#: scripts/ui/menus/kingdom_card.gd:78
-#, obsolete
-msgid "Card_%s"
+msgid "Crystals"
 msgstr ""
 
 #. var back := _menu_button(actions, "Back")
@@ -768,16 +710,74 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#. ["crystals", "Crystals", true], ["pop", "Pop", true], ["train_time", "Train time", true],
-#: scripts/ui/menus/unit_guide.gd:28
+#. name = "Card_%s" % kingdom
+#: scripts/ui/menus/kingdom_card.gd:78
 #, obsolete
-msgid "Crystals"
+msgid "Card_%s"
 msgstr ""
 
-#. row.add_child(_filter_title("Tier"))
-#: scripts/ui/menus/unit_guide.gd:317 scripts/items/recipes.gd:107
+#. unit_guide_button = _menu_button(box, "Unit Guide")
+#: scripts/ui/menus/main_menu.gd:646 scripts/ui/menus/pause_menu.gd:51
+#: scripts/ui/menus/unit_guide.gd:274
 #, obsolete
-msgid "Tier"
+msgid "Unit Guide"
+msgstr ""
+
+#. const MAP_WORDS := ["Autumn", "Grass", "Marsh", "Meadow", "Snow", "Neutral", "Fire", "Ice", "Nature", "Shadow"
+#: scripts/ui/menus/main_menu.gd:13 scripts/ui/menus/unit_guide_data.gd:347
+#: scripts/ui/point_panel.gd:321
+#, obsolete
+msgid "Neutral"
+msgstr ""
+
+#. var stables := BuildingType.find("%s_stables" % k)
+#: scripts/ui/menus/unit_guide_data.gd:68
+#, obsolete
+msgid "%s_stables"
+msgstr ""
+
+#. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
+#: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:300
+#, obsolete
+msgid "Nature"
+msgstr ""
+
+#. detail_box.add_child(UIStyle.panel_label("Pick two units to compare.", 16, MUTED))
+#: scripts/ui/menus/unit_guide.gd:726
+#, obsolete
+msgid "Pick two units to compare."
+msgstr ""
+
+#. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
+#: scripts/ui/menus/unit_guide_data.gd:16
+#, obsolete
+msgid "Titan"
+msgstr ""
+
+#. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
+#: scripts/ui/menus/unit_guide.gd:690
+#, obsolete
+msgid "Weak against"
+msgstr ""
+
+#. parts.append("Ranged attack")
+#: scripts/ui/menus/unit_guide.gd:636
+#, obsolete
+msgid "Ranged attack"
+msgstr ""
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:blaze_rider
+#: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:rimehorn_rider
+#: data/ui/unit_guide.json:thornback_charger data/ui/unit_guide.json:glade_outrider
+#, obsolete
+msgid "Siege"
+msgstr ""
+
+#. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
+#: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:297
+#, obsolete
+msgid "Ice"
 msgstr ""
 
 #. ["crystals", "Crystals", true], ["pop", "Pop", true], ["train_time", "Train time", true],
@@ -1120,76 +1120,10 @@ msgstr ""
 msgid "Good with"
 msgstr ""
 
-#. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
-#: scripts/ui/menus/unit_guide.gd:690
+#. out.append("%d pros (want 3)" % (e["pros"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:472
 #, obsolete
-msgid "Strong against"
-msgstr ""
-
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
-#: scripts/ui/menus/unit_guide_data.gd:15
-#, obsolete
-msgid "Caster"
-msgstr ""
-
-#. var where := "From: %s%s" % [e["building"], ("   [%s]" % key) if key != "" else ""]
-#: scripts/ui/menus/unit_guide.gd:618
-#, obsolete
-msgid "From: %s%s"
-msgstr ""
-
-#. _section(detail_box, "Abilities")
-#: scripts/ui/menus/unit_guide.gd:599
-#, obsolete
-msgid "Abilities"
-msgstr ""
-
-#. empty_label.text = "No unit matches these filters." + ("\nTitans are not in the game yet." if _role == "titan"
-#: scripts/ui/menus/unit_guide.gd:501
-#, obsolete
-msgid "\nTitans are not in the game yet."
-msgstr ""
-
-#, obsolete
-msgid "{n} worker"
-msgid_plural "{n} workers"
-msgstr[0] "{n} ouvrier"
-msgstr[1] "{n} ouvriers"
-
-#. empty_label = UIStyle.panel_label("No unit matches these filters.", 15, MUTED)
-#: scripts/ui/menus/unit_guide.gd:373 scripts/ui/menus/unit_guide.gd:501
-#, obsolete
-msgid "No unit matches these filters."
-msgstr ""
-
-#. swap_button = _button(row, "Swap A / B", 130)
-#: scripts/ui/menus/unit_guide.gd:343
-#, obsolete
-msgid "Swap A / B"
-msgstr ""
-
-#. out.append("no %s tags" % key)
-#: scripts/ui/menus/unit_guide_data.gd:483
-#, obsolete
-msgid "no %s tags"
-msgstr ""
-
-#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
-#: scripts/ui/menus/unit_guide.gd:322
-#, obsolete
-msgid "Tier 3: Citadel"
-msgstr ""
-
-#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
-#: scripts/ui/menus/unit_guide.gd:322
-#, obsolete
-msgid "Tier 1: Keep"
-msgstr ""
-
-#. out.append("empty line in %s" % key)
-#: scripts/ui/menus/unit_guide_data.gd:478
-#, obsolete
-msgid "empty line in %s"
+msgid "%d pros (want 3)"
 msgstr ""
 
 #. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
@@ -1198,10 +1132,76 @@ msgstr ""
 msgid "%d cons (want 2-3)"
 msgstr ""
 
-#. out.append("%d pros (want 3)" % (e["pros"] as Array).size())
-#: scripts/ui/menus/unit_guide_data.gd:472
+#. out.append("empty line in %s" % key)
+#: scripts/ui/menus/unit_guide_data.gd:478
 #, obsolete
-msgid "%d pros (want 3)"
+msgid "empty line in %s"
+msgstr ""
+
+#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
+#: scripts/ui/menus/unit_guide.gd:322
+#, obsolete
+msgid "Tier 1: Keep"
+msgstr ""
+
+#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
+#: scripts/ui/menus/unit_guide.gd:322
+#, obsolete
+msgid "Tier 3: Citadel"
+msgstr ""
+
+#. out.append("no %s tags" % key)
+#: scripts/ui/menus/unit_guide_data.gd:483
+#, obsolete
+msgid "no %s tags"
+msgstr ""
+
+#. swap_button = _button(row, "Swap A / B", 130)
+#: scripts/ui/menus/unit_guide.gd:343
+#, obsolete
+msgid "Swap A / B"
+msgstr ""
+
+#. empty_label = UIStyle.panel_label("No unit matches these filters.", 15, MUTED)
+#: scripts/ui/menus/unit_guide.gd:373 scripts/ui/menus/unit_guide.gd:501
+#, obsolete
+msgid "No unit matches these filters."
+msgstr ""
+
+#, obsolete
+msgid "{n} worker"
+msgid_plural "{n} workers"
+msgstr[0] "{n} ouvrier"
+msgstr[1] "{n} ouvriers"
+
+#. empty_label.text = "No unit matches these filters." + ("\nTitans are not in the game yet." if _role == "titan"
+#: scripts/ui/menus/unit_guide.gd:501
+#, obsolete
+msgid "\nTitans are not in the game yet."
+msgstr ""
+
+#. _section(detail_box, "Abilities")
+#: scripts/ui/menus/unit_guide.gd:599
+#, obsolete
+msgid "Abilities"
+msgstr ""
+
+#. var where := "From: %s%s" % [e["building"], ("   [%s]" % key) if key != "" else ""]
+#: scripts/ui/menus/unit_guide.gd:618
+#, obsolete
+msgid "From: %s%s"
+msgstr ""
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15
+#, obsolete
+msgid "Caster"
+msgstr ""
+
+#. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
+#: scripts/ui/menus/unit_guide.gd:690
+#, obsolete
+msgid "Strong against"
 msgstr ""
 
 #. return "Contract from %d gold (Greywater Lodge)" % int(s["gold"])

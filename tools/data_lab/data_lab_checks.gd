@@ -185,7 +185,7 @@ func _check_code_lists() -> void:
 			issues.append({"sev": "FAIL", "where": "BuildingType.ALL_IDS", "what": "`%s` has no data/buildings file" % bid,
 				"fix": "add data/buildings/%s.tres or remove the id" % bid})
 	for b: String in bids:
-		if not BuildingType.ALL_IDS.has(StringName(b)):
+		if not BuildingType.ALL_IDS.has(StringName(b)) and not ForgeKit.FORGE_IDS.values().has(StringName(b)):   # the Forge: listed by buildable_for
 			n += 1
 			issues.append({"sev": "WARN", "where": "data/buildings/%s.tres" % b, "what": "not in BuildingType.ALL_IDS (never in a build menu, find by name misses it)",
 				"fix": "add it to ALL_IDS (systems-coder)"})

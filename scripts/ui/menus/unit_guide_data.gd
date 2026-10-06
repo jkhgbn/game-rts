@@ -339,6 +339,36 @@ static func abilities_of(id: StringName, kind: String = "unit") -> Array[Diction
 		rk["name_args"] = {"name": Stables16.rank_name(id)}
 		rk["name"] = String(rk["name_tmpl"]).format(rk["name_args"])
 		out.append(rk)
+	out.append_array(forge_abilities(id, kind))
+	return out
+
+
+## docs/design/unit-upgrades.md: the Forge research that touches a soldier: its kingdom's 3 generic lines, then its
+## unit-specific line when it has one.
+static func forge_abilities(id: StringName, kind: String = "unit") -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if kind != "unit" or not ForgeKit.ENABLED:
+		return out
+	var t := UnitType.find(String(id))
+	if t == null or t.is_worker or t.is_caravan or not ForgeKit.CARD.has(t.faction):
+		return out
+	var kl: StringName = ForgeKit.KINGDOM_LINE[t.faction]
+	var g := _templ({"key": "Forge"},
+		"Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / {p2} / {p3} crystals; level 2 needs a Stronghold, level 3 a Citadel).",
+		{"dmg": int(round(float(ForgeKit.LINES[&"weapons"]["stats"][&"attack_damage_pct"]) * 100.0)),
+			"armor": int(ForgeKit.LINES[&"armor"]["stats"][&"armor"]), "line": ForgeKit.line_name(kl),
+			"text": ForgeKit.line_text(kl), "p1": ForgeKit.LEVEL_PRICE[0], "p2": ForgeKit.LEVEL_PRICE[1],
+			"p3": ForgeKit.LEVEL_PRICE[2]})
+	g["name_tmpl"] = "Forge upgrades"
+	g["name_args"] = {}
+	g["name"] = "Forge upgrades"
+	out.append(g)
+	var ul := ForgeKit.unit_line_of(id, t.faction)
+	if ul != &"":
+		var u := _templ({"key": "Forge", "name": ForgeKit.line_name(ul)},
+			"Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}.",
+			{"price": ForgeKit.UNIT_PRICE, "time": int(ForgeKit.UNIT_TIME), "text": ForgeKit.line_text(ul)})
+		out.append(u)
 	return out
 
 

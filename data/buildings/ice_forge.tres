@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_bt"]
+
+[resource]
+script = ExtResource("1_bt")
+id = &"ice_forge"
+display_name = "Frost Forge"
+faction = &"ice"
+kind = &"forge"
+cost = 125
+build_time = 40.0
+max_hp = 900.0
+footprint = Vector2i(3, 3)
+height = 4.0
+max_count = 1
+sight_radius = 10.0
+hotkey_label = "M"
+color = Color(0.45, 0.75, 0.95, 1)
+body_color = Color(0.62, 0.7, 0.78, 1)
+model_path = "res://art/buildings/forge/ice/ice_forge.tscn"

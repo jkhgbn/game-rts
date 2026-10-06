@@ -1675,6 +1675,11 @@ func _rule_train() -> void:
 			_workers, _keep, _rally, int(difficulty), hire_first):
 		_log("STABLES step (crystals left %d)" % _eco.crystals)
 		return
+	# docs/design/unit-upgrades.md 4: build the Forge, then its research (never saves; a due champion hire first).
+	if ForgeKit.ENABLED and ForgeKit.bot_step(int(team), _faction, _eco, _now, _level.build_grid, _workers, _keep,
+			int(difficulty), hire_first):
+		_log("FORGE step (crystals left %d)" % _eco.crystals)
+		return
 	var best: TrainingBuilding = null
 	for b in _barracks:
 		if best == null or b.queue.size() < best.queue.size():

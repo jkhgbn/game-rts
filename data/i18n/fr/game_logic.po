@@ -85,6 +85,165 @@ msgstr "Exige : %s terminé"
 msgid "Must be within %d m of your keep"
 msgstr "Doit être à moins de %d m de votre donjon"
 
+#. &"weapons": {"name": "Weapons", "stats": {&"attack_damage_pct": 0.06}, "text": "+6 % attack damage"},
+#: scripts/buildings/forge_kit.gd:34
+msgid "Weapons"
+msgstr "Armes"
+
+#. &"weapons": {"name": "Weapons", "stats": {&"attack_damage_pct": 0.06}, "text": "+6 % attack damage"},
+#: scripts/buildings/forge_kit.gd:34
+msgid "+6 % attack damage"
+msgstr "+6 % de dégâts d'attaque"
+
+#. &"armor": {"name": "Armor", "stats": {&"armor": 6.0}, "text": "+6 armor"},
+#: scripts/buildings/forge_kit.gd:35
+msgid "Armor"
+msgstr "Armure"
+
+#. &"armor": {"name": "Armor", "stats": {&"armor": 6.0}, "text": "+6 armor"},
+#: scripts/buildings/forge_kit.gd:35 scripts/buildings/forge_kit.gd:60
+#: scripts/buildings/forge_kit.gd:65
+msgid "+6 armor"
+msgstr "+6 d'armure"
+
+#. &"fire_fury": {"name": "Kindled Fury", "stats": {&"attack_cooldown_pct": -0.04}, "text": "+4 % attack speed"},
+#: scripts/buildings/forge_kit.gd:36
+msgid "Kindled Fury"
+msgstr ""
+
+#. &"fire_fury": {"name": "Kindled Fury", "stats": {&"attack_cooldown_pct": -0.04}, "text": "+4 % attack speed"},
+#: scripts/buildings/forge_kit.gd:36
+msgid "+4 % attack speed"
+msgstr "+4 % de vitesse d'attaque"
+
+#. &"shadow_shroud": {"name": "Shroudstep", "stats": {&"move_speed_pct": 0.04}, "text": "+4 % move speed"},
+#: scripts/buildings/forge_kit.gd:37
+msgid "Shroudstep"
+msgstr ""
+
+#. &"shadow_shroud": {"name": "Shroudstep", "stats": {&"move_speed_pct": 0.04}, "text": "+4 % move speed"},
+#: scripts/buildings/forge_kit.gd:37
+msgid "+4 % move speed"
+msgstr "+4 % de vitesse de déplacement"
+
+#. &"ice_hide": {"name": "Rimeforged Hide", "stats": {&"max_hp_pct": 0.05}, "text": "+5 % max HP"},
+#: scripts/buildings/forge_kit.gd:38
+msgid "Rimeforged Hide"
+msgstr ""
+
+#. &"ice_hide": {"name": "Rimeforged Hide", "stats": {&"max_hp_pct": 0.05}, "text": "+5 % max HP"},
+#: scripts/buildings/forge_kit.gd:38
+msgid "+5 % max HP"
+msgstr "+5 % de PV max"
+
+#. &"nature_sap": {"name": "Sapblood", "stats": {&"hp_regen": 0.25}, "text": "+0.25 HP regeneration per second"},
+#: scripts/buildings/forge_kit.gd:39
+msgid "Sapblood"
+msgstr ""
+
+#. &"nature_sap": {"name": "Sapblood", "stats": {&"hp_regen": 0.25}, "text": "+0.25 HP regeneration per second"},
+#: scripts/buildings/forge_kit.gd:39
+msgid "+0.25 HP regeneration per second"
+msgstr "+0,25 PV régénérés par seconde"
+
+#. &"fire_bowstrings": {"name": "Ember Bowstrings", "units": [&"ember_archer", &"scorchbow"], "stats": {},
+#: scripts/buildings/forge_kit.gd:46
+msgid "Ember Bowstrings"
+msgstr ""
+
+#. "range": 1.0, "text": "+1 attack range"},
+#: scripts/buildings/forge_kit.gd:47 scripts/buildings/forge_kit.gd:53
+#: scripts/buildings/forge_kit.gd:59 scripts/buildings/forge_kit.gd:64
+msgid "+1 attack range"
+msgstr "+1 de portée d'attaque"
+
+#. &"fire_lances": {"name": "Lance Drill", "units": [&"blaze_rider", &"pyrehoof_lancer"],
+#: scripts/buildings/forge_kit.gd:48
+msgid "Lance Drill"
+msgstr ""
+
+#. "stats": {&"attack_damage_pct": 0.10, &"move_speed": 0.3}, "text": "+10 % damage and +0.3 speed"},
+#: scripts/buildings/forge_kit.gd:49 scripts/buildings/forge_kit.gd:55
+msgid "+10 % damage and +0.3 speed"
+msgstr "+10 % de dégâts et +0,3 de vitesse"
+
+#. &"fire_caster": {"name": "Kiln Focus", "units": [&"kilnwarden"],
+#: scripts/buildings/forge_kit.gd:50
+msgid "Kiln Focus"
+msgstr ""
+
+#. "stats": {&"max_mana_pct": 0.25, &"mana_regen_pct": 0.25}, "text": "+25 % max mana and mana regeneration"},
+#: scripts/buildings/forge_kit.gd:51 scripts/buildings/forge_kit.gd:57
+#: scripts/buildings/forge_kit.gd:62 scripts/buildings/forge_kit.gd:67
+msgid "+25 % max mana and mana regeneration"
+msgstr "+25 % de mana max et de régénération de mana"
+
+#. &"shadow_bowstrings": {"name": "Nightstring", "units": [&"nightbolt", &"bleakbow"], "stats": {},
+#: scripts/buildings/forge_kit.gd:52
+msgid "Nightstring"
+msgstr ""
+
+#. &"shadow_knights": {"name": "Dread Charge", "units": [&"shadow_knight", &"barrow_knight"],
+#: scripts/buildings/forge_kit.gd:54
+msgid "Dread Charge"
+msgstr ""
+
+#. &"shadow_caster": {"name": "Vigil Focus", "units": [&"gloom_deacon"],
+#: scripts/buildings/forge_kit.gd:56
+msgid "Vigil Focus"
+msgstr ""
+
+#. &"ice_bowstrings": {"name": "Rime Fletching", "units": [&"shardcaster", &"frostbow"], "stats": {},
+#: scripts/buildings/forge_kit.gd:58
+msgid "Rime Fletching"
+msgstr ""
+
+#. &"ice_shields": {"name": "Shield Wall", "units": [&"rimeshield"], "stats": {&"armor": 6.0}, "text": "+6 armor"
+#: scripts/buildings/forge_kit.gd:60
+msgid "Shield Wall"
+msgstr ""
+
+#. &"ice_caster": {"name": "Carver's Focus", "units": [&"rimecarver"],
+#: scripts/buildings/forge_kit.gd:61
+msgid "Carver's Focus"
+msgstr ""
+
+#. &"nature_bowstrings": {"name": "Thornstring", "units": [&"wildwood_archer", &"burr_slinger"], "stats": {},
+#: scripts/buildings/forge_kit.gd:63
+msgid "Thornstring"
+msgstr ""
+
+#. &"nature_bark": {"name": "Barkskin", "units": [&"thornling"], "stats": {&"armor": 6.0}, "text": "+6 armor"},
+#: scripts/buildings/forge_kit.gd:65
+msgid "Barkskin"
+msgstr ""
+
+#. &"nature_caster": {"name": "Sage's Focus", "units": [&"bramblesage"],
+#: scripts/buildings/forge_kit.gd:66
+msgid "Sage's Focus"
+msgstr ""
+
+#. const CARD_TEXT_LEVEL := "Level %d of %d: %s per level for every soldier of your kingdom."
+#: scripts/buildings/forge_kit.gd:78
+msgid "Level %d of %d: %s per level for every soldier of your kingdom."
+msgstr "Niveau %d sur %d : %s par niveau pour chaque soldat de votre royaume."
+
+#. const CARD_TEXT_UNIT := "%s for every %s, living and future."
+#: scripts/buildings/forge_kit.gd:79
+msgid "%s for every %s, living and future."
+msgstr "%s pour chaque %s, présent et futur."
+
+#. const REASON_MAX := "Max level"
+#: scripts/buildings/forge_kit.gd:80
+msgid "Max level"
+msgstr "Niveau maximum"
+
+#. const REASON_WORKING := "Already in progress"
+#: scripts/buildings/forge_kit.gd:81 scripts/buildings/unit_upgrades.gd:42
+#: scripts/units/bowman_upgrades.gd:47 scripts/units/stables16.gd:261
+msgid "Already in progress"
+msgstr "Déjà en cours"
+
 #. const REASON_TIERS_OFF := "Tiers are off"
 #: scripts/buildings/keep.gd:21
 msgid "Tiers are off"
@@ -245,12 +404,6 @@ msgstr "Pas maintenant"
 #: scripts/units/stables16.gd:259
 msgid "Already researched"
 msgstr "Déjà recherché"
-
-#. const REASON_QUEUED := "Already in progress"
-#: scripts/buildings/unit_upgrades.gd:42 scripts/units/bowman_upgrades.gd:47
-#: scripts/units/stables16.gd:261
-msgid "Already in progress"
-msgstr "Déjà en cours"
 
 #. const REASON_BUSY := "The Hall is busy with another upgrade"
 #: scripts/buildings/unit_upgrades.gd:43 scripts/units/bowman_upgrades.gd:48
@@ -2026,114 +2179,6 @@ msgstr "Y : engager des champions"
 msgid "The Magpies are on the roads"
 msgstr "Les Magpies sont sur les routes"
 
-#. var key := "held:%d" % LOCAL_TEAM
-#: scripts/economy/caravan.gd:857
-#, obsolete
-msgid "held:%d"
-msgstr ""
-
-#. const MSG_DROPPED := " + %s dropped"
-#: scripts/world/camp_manager.gd:77 scripts/world/epic_beasts.gd:685
-#, obsolete
-msgid " + %s dropped"
-msgstr ""
-
-#. var id := StringName("herd_%d" % i)
-#: scripts/world/critter_herds.gd:88
-#, obsolete
-msgid "herd_%d"
-msgstr ""
-
-#. _warn_once("abilities", "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities" % ABILITIE
-#: scripts/world/epic_beasts.gd:488
-#, obsolete
-msgid "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities"
-msgstr ""
-
-#. return StringName("item:%d" % (slot + 1))
-#: scripts/items/inventory.gd:658
-#, obsolete
-msgid "item:%d"
-msgstr ""
-
-#. return StringName("item:artifact_%d" % (slot - ARTIFACT_SLOT + 1))
-#: scripts/items/inventory.gd:657
-#, obsolete
-msgid "item:artifact_%d"
-msgstr ""
-
-#. @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
-#: scripts/units/unit_type.gd:38
-#, obsolete
-msgid "Kingdom mechanics"
-msgstr ""
-
-#. _cached.maps = [{"id": DEFAULT_ID, "title": "Crown Hollow", "scene": "res://scenes/skirmish.tscn",
-#: scripts/world/map_catalog.gd:42
-#, obsolete
-msgid "Crown Hollow"
-msgstr "Crown Hollow"
-
-#. return "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
-#: scripts/world/map_catalog.gd:126
-#, obsolete
-msgid "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
-msgstr "Carte 2v2 : se joue en 1v1 pour l'instant (une place par camp ; l'escarmouche 2v2 viendra plus tard)."
-
-#. _warn_once("brain", "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs" % BRAIN_PATH)
-#: scripts/world/epic_beasts.gd:507
-#, obsolete
-msgid "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs"
-msgstr ""
-
-#. text += " (underdog bonus: +25 % XP)"
-#: scripts/world/epic_beasts.gd:687
-#, obsolete
-msgid " (underdog bonus: +25 % XP)"
-msgstr ""
-
-#. "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn" % String(type_id))
-#: scripts/world/epic_beasts.gd:732
-#, obsolete
-msgid "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn"
-msgstr ""
-
-#. const OVERLAY_SHADER := """
-#: scripts/world/fog_of_war.gd:515
-#, obsolete
-msgid "\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n\t\tALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);\n\t}\n}\n"
-msgstr ""
-
-#. _layout_error = "LayoutLevel: no layout (layout_path=%s)" % layout_path
-#: scripts/world/layout_level.gd:77
-#, obsolete
-msgid "LayoutLevel: no layout (layout_path=%s)"
-msgstr ""
-
-#. var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
-#: scripts/world/layout_level.gd:359 scripts/world/layout_level.gd:852
-#, obsolete
-msgid "hub_t%d"
-msgstr ""
-
-#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
-#: scripts/world/score_keeper.gd:298
-#, obsolete
-msgid "leader: %s by %s"
-msgstr ""
-
-#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
-#: scripts/world/score_keeper.gd:298
-#, obsolete
-msgid "team %d"
-msgstr ""
-
-#. var id := StringName("node_%s_%s" % ["shadow" if team == Unit.Team.ENEMY else "fire", suffix])
-#: scripts/world/skirmish.gd:480
-#, obsolete
-msgid "node_%s_%s"
-msgstr ""
-
 #. _hp_shader.code = """
 #: scripts/units/unit.gd:2334
 #, obsolete
@@ -2211,3 +2256,111 @@ msgstr "%s · %d joueurs"
 #, obsolete
 msgid "%d x %d m"
 msgstr "%d x %d m"
+
+#. @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
+#: scripts/units/unit_type.gd:38
+#, obsolete
+msgid "Kingdom mechanics"
+msgstr ""
+
+#. return StringName("item:artifact_%d" % (slot - ARTIFACT_SLOT + 1))
+#: scripts/items/inventory.gd:657
+#, obsolete
+msgid "item:artifact_%d"
+msgstr ""
+
+#. var id := StringName("node_%s_%s" % ["shadow" if team == Unit.Team.ENEMY else "fire", suffix])
+#: scripts/world/skirmish.gd:480
+#, obsolete
+msgid "node_%s_%s"
+msgstr ""
+
+#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
+#: scripts/world/score_keeper.gd:298
+#, obsolete
+msgid "team %d"
+msgstr ""
+
+#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
+#: scripts/world/score_keeper.gd:298
+#, obsolete
+msgid "leader: %s by %s"
+msgstr ""
+
+#. var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
+#: scripts/world/layout_level.gd:359 scripts/world/layout_level.gd:852
+#, obsolete
+msgid "hub_t%d"
+msgstr ""
+
+#. _layout_error = "LayoutLevel: no layout (layout_path=%s)" % layout_path
+#: scripts/world/layout_level.gd:77
+#, obsolete
+msgid "LayoutLevel: no layout (layout_path=%s)"
+msgstr ""
+
+#. const OVERLAY_SHADER := """
+#: scripts/world/fog_of_war.gd:515
+#, obsolete
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n\t\tALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);\n\t}\n}\n"
+msgstr ""
+
+#. "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn" % String(type_id))
+#: scripts/world/epic_beasts.gd:732
+#, obsolete
+msgid "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn"
+msgstr ""
+
+#. text += " (underdog bonus: +25 % XP)"
+#: scripts/world/epic_beasts.gd:687
+#, obsolete
+msgid " (underdog bonus: +25 % XP)"
+msgstr ""
+
+#. _warn_once("brain", "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs" % BRAIN_PATH)
+#: scripts/world/epic_beasts.gd:507
+#, obsolete
+msgid "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs"
+msgstr ""
+
+#. return "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
+#: scripts/world/map_catalog.gd:126
+#, obsolete
+msgid "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
+msgstr "Carte 2v2 : se joue en 1v1 pour l'instant (une place par camp ; l'escarmouche 2v2 viendra plus tard)."
+
+#. _cached.maps = [{"id": DEFAULT_ID, "title": "Crown Hollow", "scene": "res://scenes/skirmish.tscn",
+#: scripts/world/map_catalog.gd:42
+#, obsolete
+msgid "Crown Hollow"
+msgstr "Crown Hollow"
+
+#. return StringName("item:%d" % (slot + 1))
+#: scripts/items/inventory.gd:658
+#, obsolete
+msgid "item:%d"
+msgstr ""
+
+#. _warn_once("abilities", "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities" % ABILITIE
+#: scripts/world/epic_beasts.gd:488
+#, obsolete
+msgid "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities"
+msgstr ""
+
+#. var id := StringName("herd_%d" % i)
+#: scripts/world/critter_herds.gd:88
+#, obsolete
+msgid "herd_%d"
+msgstr ""
+
+#. const MSG_DROPPED := " + %s dropped"
+#: scripts/world/camp_manager.gd:77 scripts/world/epic_beasts.gd:685
+#, obsolete
+msgid " + %s dropped"
+msgstr ""
+
+#. var key := "held:%d" % LOCAL_TEAM
+#: scripts/economy/caravan.gd:857
+#, obsolete
+msgid "held:%d"
+msgstr ""

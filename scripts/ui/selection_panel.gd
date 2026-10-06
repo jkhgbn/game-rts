@@ -941,8 +941,21 @@ func _update_mapfill_lines(u: Unit) -> void:
 			row1.append([Loc.t(" · Underdog bonus"), NEAR_COLOR])
 		_set_segments(single_extra_rows[1], row1)
 	else:
-		_set_segments(single_extra_rows[0], [])
+		# docs/design/unit-upgrades.md: the Forge levels that touch this soldier ("Forge: Weapons 2/3 · Lance Drill").
+		var forge := forge_line(u)
+		_set_segments(single_extra_rows[0], [[forge, UIStyle.token(&"text_muted")]] if forge != "" else [])
 		_set_segments(single_extra_rows[1], [])
+
+
+## The Forge row of a soldier (unit-upgrades.md 5): "Forge: Weapons 2/3 · Armor 1/3 · Lance Drill", "" = none.
+static func forge_line(u: Unit) -> String:
+	var parts: PackedStringArray = []
+	for e: Array in ForgeKit.summary_for(u):
+		var nm := Loc.t(String(e[0]))
+		parts.append(nm if int(e[2]) <= 1 else Loc.t("{name} {level}/{max}", {"name": nm, "level": e[1], "max": e[2]}))
+	if parts.is_empty():
+		return ""
+	return Loc.t("Forge: {lines}", {"lines": " · ".join(parts)})
 
 
 ## The camp of a creature (CampManager.camp_of, group "camp_manager"), or null.

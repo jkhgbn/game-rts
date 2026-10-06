@@ -481,7 +481,7 @@ msgstr ""
 
 #. reason = "On cooldown"
 #: scripts/ui/trade_window.gd:1304 scripts/ui/trade_window.gd:1328 scripts/ui/item_tooltip.gd:216
-#: scripts/ui/command_card.gd:839 scripts/ui/spell_info.gd:153 scripts/units/champion_abilities.gd:64
+#: scripts/ui/command_card.gd:841 scripts/ui/spell_info.gd:153 scripts/units/champion_abilities.gd:64
 msgid "On cooldown"
 msgstr ""
 
@@ -817,7 +817,7 @@ msgid "Fighting"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1426
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1439
 msgid "Unpaid!"
 msgstr ""
 
@@ -1972,12 +1972,12 @@ msgid "For you: "
 msgstr ""
 
 #. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1036
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1038
 msgid "far"
 msgstr ""
 
 #. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1036
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1038
 msgid "near"
 msgstr ""
 
@@ -2067,7 +2067,7 @@ msgid "Not held"
 msgstr ""
 
 #. action_button.text = "Current route" if is_current else "Set as route"
-#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1034
+#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1036
 msgid "Current route"
 msgstr ""
 

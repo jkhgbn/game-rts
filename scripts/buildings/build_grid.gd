@@ -294,6 +294,8 @@ static func create_building(type: BuildingType) -> Building:
 			b = Market.new()
 		&"stables":   # docs/design/stables.md (Stables16)
 			b = StablesBuilding.new()
+		&"forge":   # docs/design/unit-upgrades.md (ForgeKit)
+			b = ForgeBuilding.new()
 		_:
 			b = Building.new()
 	b.building_type = type

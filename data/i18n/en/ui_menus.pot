@@ -31,7 +31,7 @@ msgid "Hero WASD"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:78 scripts/ui/menus/settings_panel.gd:261
+#: scripts/ui/menus/game_settings.gd:78 scripts/ui/menus/settings_panel.gd:329
 msgid "RTS camera (WASD)"
 msgstr ""
 
@@ -399,7 +399,7 @@ msgstr ""
 
 #. settings_button = _menu_button(box, "Settings")
 #: scripts/ui/menus/main_menu.gd:656 scripts/ui/menus/pause_menu.gd:49
-#: scripts/ui/menus/settings_panel.gd:51
+#: scripts/ui/menus/settings_panel.gd:62
 msgid "Settings"
 msgstr ""
 
@@ -510,27 +510,27 @@ msgid "Quit to menu"
 msgstr ""
 
 #. return Loc.t("%s: walk your wizard (camera follows)  ·  %s + click: attack-move") % [
-#: scripts/ui/menus/settings_panel.gd:135
+#: scripts/ui/menus/settings_panel.gd:164
 msgid "%s: walk your wizard (camera follows)  ·  %s + click: attack-move"
 msgstr ""
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster
-#: scripts/ui/menus/settings_panel.gd:138
+#: scripts/ui/menus/settings_panel.gd:167
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)"
 msgstr ""
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera") % KeyLabels.of(KE
-#: scripts/ui/menus/settings_panel.gd:140
+#: scripts/ui/menus/settings_panel.gd:169
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera"
 msgstr ""
 
 #. return Loc.t("Classic: like most strategy games, right click moves your wizard and %s + click "
-#: scripts/ui/menus/settings_panel.gd:146
+#: scripts/ui/menus/settings_panel.gd:175
 msgid "Classic: like most strategy games, right click moves your wizard and %s + click attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves."
 msgstr ""
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:378 scripts/ui/champion_bar.gd:59
+#: scripts/ui/menus/settings_panel.gd:446 scripts/ui/champion_bar.gd:59
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr ""
@@ -561,131 +561,131 @@ msgid "High: full plants and flowers, birds, butterflies and frogs, animated wat
 msgstr ""
 
 #. master_slider = _slider_row(box, "Master volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:57
+#: scripts/ui/menus/settings_panel.gd:82
 msgid "Master volume"
 msgstr ""
 
 #. music_slider = _slider_row(box, "Music volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:58
+#: scripts/ui/menus/settings_panel.gd:83
 msgid "Music volume"
 msgstr ""
 
 #. sfx_slider = _slider_row(box, "Effects volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:59
+#: scripts/ui/menus/settings_panel.gd:84
 msgid "Effects volume"
 msgstr ""
 
 #. scale_slider = _slider_row(box, "UI scale", GameSettings.UI_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:60
+#: scripts/ui/menus/settings_panel.gd:85
 msgid "UI scale"
 msgstr ""
 
 #. fullscreen_check = _check_row(box, "Fullscreen")
-#: scripts/ui/menus/settings_panel.gd:62
+#: scripts/ui/menus/settings_panel.gd:87
 msgid "Fullscreen"
 msgstr ""
 
 #. edge_pan_check = _check_row(box, "Scroll at screen edge")
-#: scripts/ui/menus/settings_panel.gd:63
+#: scripts/ui/menus/settings_panel.gd:88
 msgid "Scroll at screen edge"
 msgstr ""
 
 #. render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:68
+#: scripts/ui/menus/settings_panel.gd:93
 msgid "Render scale"
 msgstr ""
 
 #. var name_label := UIStyle.label("Language", 18)
-#: scripts/ui/menus/settings_panel.gd:163
+#: scripts/ui/menus/settings_panel.gd:192
 msgid "Language"
 msgstr ""
 
 #. language_option.tooltip_text = "Game language (voices stay in English; subtitles follow the language)."
-#: scripts/ui/menus/settings_panel.gd:173
+#: scripts/ui/menus/settings_panel.gd:202
 msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr ""
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:253
+#: scripts/ui/menus/settings_panel.gd:321
 msgid "Controls"
 msgstr ""
 
 #. controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
-#: scripts/ui/menus/settings_panel.gd:259
+#: scripts/ui/menus/settings_panel.gd:327
 msgid "Classic (right click moves)"
 msgstr ""
 
 #. controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
-#: scripts/ui/menus/settings_panel.gd:260
+#: scripts/ui/menus/settings_panel.gd:328
 msgid "Hero WASD (keys walk the wizard)"
 msgstr ""
 
 #. var name_label := UIStyle.label("Unit priority", 18)
-#: scripts/ui/menus/settings_panel.gd:283
+#: scripts/ui/menus/settings_panel.gd:351
 msgid "Unit priority"
 msgstr ""
 
 #. name_label.tooltip_text = "Tab order of unit types in a selection; the first one is active first."
-#: scripts/ui/menus/settings_panel.gd:285
+#: scripts/ui/menus/settings_panel.gd:353
 msgid "Tab order of unit types in a selection; the first one is active first."
 msgstr ""
 
 #. priority_kingdom.tooltip_text = "The kingdom whose unit order is shown."
-#: scripts/ui/menus/settings_panel.gd:290
+#: scripts/ui/menus/settings_panel.gd:358
 msgid "The kingdom whose unit order is shown."
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:296 scripts/ui/menus/settings_panel.gd:299
+#: scripts/ui/menus/settings_panel.gd:364 scripts/ui/menus/settings_panel.gd:367
 msgid "Show"
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:296
+#: scripts/ui/menus/settings_panel.gd:364
 msgid "Show / hide the list (Tab cycles unit types in this order)"
 msgstr ""
 
 #. priority_toggle.text = "Hide" if priority_list.visible else "Show")
-#: scripts/ui/menus/settings_panel.gd:299
+#: scripts/ui/menus/settings_panel.gd:367
 msgid "Hide"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:300
+#: scripts/ui/menus/settings_panel.gd:368
 msgid "Reset"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:300
+#: scripts/ui/menus/settings_panel.gd:368
 msgid "Default order: wizard, dearest soldiers first, workers last"
 msgstr ""
 
 #. var up := _small_button(row, "+", "Higher priority")
-#: scripts/ui/menus/settings_panel.gd:381
+#: scripts/ui/menus/settings_panel.gd:449
 msgid "Higher priority"
 msgstr ""
 
 #. var down := _small_button(row, "−", "Lower priority")
-#: scripts/ui/menus/settings_panel.gd:384
+#: scripts/ui/menus/settings_panel.gd:452
 msgid "Lower priority"
 msgstr ""
 
 #. var name_label := UIStyle.label("Map detail", 18)
-#: scripts/ui/menus/settings_panel.gd:394
+#: scripts/ui/menus/settings_panel.gd:462
 msgid "Map detail"
 msgstr ""
 
 #. map_detail_option.add_item("High", 0)
-#: scripts/ui/menus/settings_panel.gd:400
+#: scripts/ui/menus/settings_panel.gd:468
 msgid "High"
 msgstr ""
 
 #. map_detail_option.add_item("Low (faster)", 1)
-#: scripts/ui/menus/settings_panel.gd:401
+#: scripts/ui/menus/settings_panel.gd:469
 msgid "Low (faster)"
 msgstr ""
 
 #. var name_label := UIStyle.label("Upscaler", 18)
-#: scripts/ui/menus/settings_panel.gd:415
+#: scripts/ui/menus/settings_panel.gd:483
 msgid "Upscaler"
 msgstr ""

@@ -29,8 +29,8 @@ const TRAIN_DESCRIPTIONS := {
 	&"caravan": "Trades with a post and brings gold back. Max 6.",
 }
 ## Build menu: hotkey_label -> slot (r1c1-r1c3 = Z X C, r1c4 = Back, r2c1 = V: the Ice Wall, r2c2 = B: the Bazaar,
-## r2c3 = N: the Stables). Every kingdom puts a building of a given key at the same place.
-const BUILD_KEY_SLOTS := {"Z": 0, "X": 1, "C": 2, "V": 4, "B": 5, "N": 6}
+## r2c3 = N: the Stables, r2c4 = M: the Forge). Every kingdom puts a building of a given key at the same place.
+const BUILD_KEY_SLOTS := {"Z": 0, "X": 1, "C": 2, "V": 4, "B": 5, "N": 6, "M": 7}
 ## Trade (10.C7, ui-trade.md 5-6): colours of the route buttons' tags and the tracker inspect texts.
 const GOLD_TEXT := Color(1.0, 0.88, 0.5)
 const NEAR_COLOR := Color(0.4, 0.9, 0.4)
@@ -774,6 +774,8 @@ func _building_description(type: BuildingType) -> String:
 			return Loc.t("Shoots enemies in range (damage %d, range %d).") % [roundi(type.attack_damage), roundi(type.attack_range)]
 		&"market":
 			return Loc.t("Sends caravans to the trading posts for gold. Within 20 m of your keep. One per kingdom.")
+		&"forge":   # docs/design/unit-upgrades.md
+			return Loc.t("Researches Weapons, Armor and kingdom upgrades for all your soldiers, and upgrades for key units. One per kingdom.")
 	if type.kind == &"wall" or String(type.id).ends_with("_wall"):
 		return Loc.t("Blocks the way. Max %d.") % type.max_count if type.max_count > 0 else Loc.t("Blocks the way.")
 	return ""
@@ -929,7 +931,7 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 	# caster-units.md 3.3: with the caster on B (r2c1) the keep's Set Rally moves to r3c1 (it has no key).
 	# (The keep's caster slot itself, not the spell-button list that happens to start there: code review L7.)
 	var rally_i := RALLY_KEEP_SLOT if keep is Keep and n_train > SelectionManager.CASTER_KEEP_SLOT else n_train
-	if keep.has_method("set_rally_point"):
+	if keep.has_method("set_rally_point") and not keep is ForgeBuilding:   # the Forge trains nothing (unit-upgrades.md)
 		out[rally_i] = _slot("rally", "RL", "",
 				Loc.t("Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining."),
 				func() -> void: sel.begin_order(SelectionManager.ORDER_RALLY), "", SelectionManager.ORDER_RALLY)

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuildingType" format=3]
+
+[ext_resource type="Script" path="res://scripts/buildings/building_type.gd" id="1_bt"]
+
+[resource]
+script = ExtResource("1_bt")
+id = &"shadow_forge"
+display_name = "Gloom Forge"
+faction = &"shadow"
+kind = &"forge"
+cost = 125
+build_time = 40.0
+max_hp = 900.0
+footprint = Vector2i(3, 3)
+height = 4.0
+max_count = 1
+sight_radius = 10.0
+hotkey_label = "M"
+color = Color(0.42, 0.22, 0.6, 1)
+body_color = Color(0.294, 0.154, 0.42, 1)
+model_path = "res://art/buildings/forge/shadow/shadow_forge.tscn"

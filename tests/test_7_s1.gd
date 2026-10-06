@@ -115,9 +115,11 @@ func _check_types() -> void:
 	var want_ice: Array[StringName] = [&"ice_lodge", &"ice_barracks", &"ice_tower", &"ice_wall"]
 	if stables_on:
 		want_ice.append(&"ice_stables")
+	if ForgeKit.enabled_here():   # docs/design/unit-upgrades.md: the Forge (key M) after the Stables
+		want_ice.append(&"ice_forge")
 	if ids != want_ice:
 		_errors.append("Ice build menu is %s, want %s" % [str(ids), str(want_ice)])
-	var core := func(t: BuildingType) -> bool: return t.kind != &"market" and t.kind != &"stables"
+	var core := func(t: BuildingType) -> bool: return t.kind != &"market" and t.kind != &"stables" and t.kind != &"forge"
 	var fire_n := BuildingType.buildable_for(&"fire").filter(core).size()
 	var shadow_n := BuildingType.buildable_for(&"shadow").filter(core).size()
 	var fire_st := BuildingType.buildable_for(&"fire").filter(func(t: BuildingType) -> bool: return t.kind == &"stables").size()
