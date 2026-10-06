@@ -24,7 +24,8 @@ signal left_map(unit: Unit)
 signal displaced(unit: Unit)
 
 ## PLAYER = 0, ENEMY = 1 (values used in data and tests). NEUTRAL = camps hostile to both sides.
-enum Team { PLAYER, ENEMY, NEUTRAL }
+## ALLY / ENEMY_2 appended for the 2v2 seats (map-2v2.md 4.1; sides in scripts/core/teams.gd). Values only appended.
+enum Team { PLAYER, ENEMY, NEUTRAL, ALLY, ENEMY_2 }
 
 # ---- Stats (CLAUDE.md "Stats" contract). effective = (base + sum of flat) * (1 + sum of *_pct).
 const STAT_NAMES: Array[StringName] = [&"max_hp", &"max_mana", &"mana_regen", &"hp_regen",
@@ -883,7 +884,7 @@ func _spread_dots(dots: Dictionary, at: Vector3) -> void:
 			var u := node as Unit
 			if u == null or u == self or not u.is_alive():
 				continue
-			var hostile: bool = int(u.team) == int(team)
+			var hostile: bool = Teams.is_allied_fast(int(u.team), int(team))
 			if src_node and src_node.has_method(&"is_enemy_of"):
 				hostile = bool(src_node.call(&"is_enemy_of", u))
 			if not hostile:
@@ -980,7 +981,7 @@ func _refresh_auras() -> void:
 		var prio := float(a["priority"])
 		for node in units:
 			var u := node as Unit
-			if u == null or u.team != team or not u.is_alive():
+			if u == null or not Teams.is_allied_fast(int(u.team), int(team)) or not u.is_alive():
 				continue
 			var dx := u.global_position.x - me.x
 			var dz := u.global_position.z - me.z
@@ -1364,11 +1365,24 @@ func is_enemy_of(other: Node3D) -> bool:
 	if other == null or not is_instance_valid(other):
 		return false
 	var other_team: Variant = other.get(&"team")
-	if other_team == null or int(other_team) == int(team):
+	if other_team == null or Teams.is_allied_fast(int(other_team), int(team)):
 		return false
 	if truce_count > 0 and in_truce(self, other):
 		return false
 	return true
+
+
+## 2v2 (map-2v2.md 5): two seats of one side (or the same team). NEUTRAL is allied only with itself.
+static func are_allies(a: int, b: int) -> bool:
+	return Teams.is_allied_fast(a, b)
+
+
+## `other` is on this unit's side (own team or an allied seat).
+func is_ally_of(other: Node3D) -> bool:
+	if other == null or not is_instance_valid(other):
+		return false
+	var other_team: Variant = other.get(&"team")
+	return other_team != null and Teams.is_allied_fast(int(other_team), int(team))
 
 
 ## Nodes currently carrying a truce id (set_truce_id keeps it): 0 = no truce anywhere, the hot paths skip the check.
@@ -1429,6 +1443,10 @@ static func team_color(t: int) -> Color:
 			return Color(0.3, 1.0, 0.4)
 		Team.NEUTRAL:
 			return Color(0.9, 0.78, 0.42)
+		Team.ALLY:
+			return Color(0.35, 0.75, 1.0)
+		Team.ENEMY_2:
+			return Color(1.0, 0.55, 0.25)
 	return Color(1.0, 0.3, 0.3)
 
 
@@ -1439,6 +1457,10 @@ static func team_hp_color(t: int) -> Color:
 			return Color(0.25, 0.9, 0.3)
 		Team.NEUTRAL:
 			return Color(0.8, 0.7, 0.4)
+		Team.ALLY:
+			return Color(0.3, 0.65, 0.95)
+		Team.ENEMY_2:
+			return Color(0.95, 0.5, 0.2)
 	return Color(0.9, 0.25, 0.3)
 
 
@@ -2067,6 +2089,10 @@ func _team_kingdom() -> StringName:
 					if k != null and KINGDOM_COLORS.has(StringName(str(k))):
 						return StringName(str(k))
 		var scene := get_tree().current_scene
+		if scene and scene.has_method(&"seat_kingdom"):   # 2v2 levels name every seat's kingdom
+			var seat_k: Variant = scene.call(&"seat_kingdom", int(team))
+			if seat_k is StringName and KINGDOM_COLORS.has(seat_k):
+				return seat_k
 		if scene:
 			var sk: Variant = scene.get(&"player_kingdom" if int(team) == Team.PLAYER else &"enemy_kingdom")
 			if sk != null and KINGDOM_COLORS.has(StringName(str(sk))):
@@ -2149,13 +2175,21 @@ func _find_nearest_enemy_building(max_distance: float) -> Node3D:
 func _find_nearest_enemy(max_distance: float) -> Unit:
 	var best: Unit = null
 	var best_score := INF
-	for node in get_tree().get_nodes_in_group("units"):
+	# Hot path (Wave Strike perf pass 2026-10-06: ~300 us per scan at 200 units): cheap typed checks and the squared
+	# distance first; the Variant / virtual checks (is_enemy_of, is_alive, leash) only for units in range. Same result.
+	var me := global_position
+	var max_d2 := max_distance * max_distance
+	for node in get_tree().get_nodes_in_group(&"units"):
 		var other := node as Unit
-		if other == null or not is_enemy_of(other) or not other.is_alive() or other._hidden_auto_left > 0.0:
+		if other == null or other.team == team or other._dead or other._hidden_auto_left > 0.0:
 			continue
-		var d := _flat_distance(other.global_position)
-		if d >= max_distance or not _in_leash(other):
+		var op := other.global_position
+		var dx := op.x - me.x
+		var dz := op.z - me.z
+		var d2 := dx * dx + dz * dz
+		if d2 >= max_d2 or not is_enemy_of(other) or not other.is_alive() or not _in_leash(other):
 			continue
+		var d := sqrt(d2)
 		# caster-units.md 8.2: bot soldiers (prefer_casters) take an enemy caster in reach before any nearer unit.
 		var score := d - CASTER_PREFERENCE if prefer_casters and other.has_node(^"CasterAbility") else d
 		if score < best_score:
