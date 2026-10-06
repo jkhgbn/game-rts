@@ -23,6 +23,13 @@ static var bake_mode := BAKE_THREAD
 ## Set by the lab: the session to start at match start is a player (replay) instead of a recorder. Dictionary
 ## {"mode": "play" / "record", ...options}; empty = auto (record when auto_record).
 static var pending_options := {}
+## Playtest Recorder (docs/design/health-and-playtests.md): set by GameSettings from the "Playtest data" setting (OFF by
+## default). When true, `match_started` also attaches scripts/core/playtest/playtest_recorder.gd to the level.
+const PLAYTEST_PATH := "res://scripts/core/playtest/playtest_recorder.gd"
+static var playtest_enabled := false
+## The running playtest recorder (or null): it hears every player command `note` sees (the same command stream the
+## Replay Lab records, so nothing is noted twice in game code).
+static var listener: Object = null
 
 
 ## A player command at the UI / command level (SelectionManager, WizardControl...). `kind` names the command
@@ -31,6 +38,11 @@ static var pending_options := {}
 static func note(kind: StringName, args: Array = [], selection: Object = null) -> void:
 	if session != null and is_instance_valid(session):
 		session.call(&"note", kind, args, selection)
+	if listener != null:
+		if is_instance_valid(listener):
+			listener.call(&"on_command", kind, args)
+		else:
+			listener = null
 
 
 ## BuildGrid: how to rebake the navmesh now (BAKE_*). While a session defers bakes it also counts the request.
@@ -53,6 +65,8 @@ static func level_ready() -> void:
 static func match_started(level: Node) -> void:
 	if level == null:
 		return
+	if playtest_enabled and pending_options.is_empty():
+		start_playtest(level)
 	if pending_options.is_empty() and not auto_record:
 		return
 	if not ResourceLoader.exists(SESSION_PATH):
@@ -67,3 +81,22 @@ static func match_started(level: Node) -> void:
 	s.name = "ReplaySession"
 	s.call(&"configure", level, pending_options.duplicate(true))
 	level.add_child(s)
+
+
+## Attaches a Playtest Recorder to `level` (skirmish / missions through match_started; another mode such as Wave Strike
+## calls this itself when `playtest_enabled`). `mode` = "" (worked out from the level). Returns the recorder or null.
+static func start_playtest(level: Node, mode := "", options := {}) -> Node:
+	if level == null or not ResourceLoader.exists(PLAYTEST_PATH):
+		return null
+	var script := load(PLAYTEST_PATH) as GDScript
+	if script == null or not script.can_instantiate():
+		push_warning("Playtest: %s can't be instantiated, no recording" % PLAYTEST_PATH)
+		return null
+	var r := script.new() as Node
+	r.name = "PlaytestRecorder"
+	var o: Dictionary = options.duplicate()
+	if mode != "":
+		o["mode"] = mode
+	r.call(&"configure", level, o)
+	level.add_child(r)
+	return r
