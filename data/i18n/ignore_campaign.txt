@@ -1,0 +1,10 @@
+## Literals of scripts/campaign/*.gd that are not player text (node / actor ids, shader code).
+dark_%d
+%s_card
+shade%d
+knife%d
+rider%d
+late%d
+grace_%s
+shader_type spatial;\r\nrender_mode unshaded, depth_test_disabled, cull_disabled;\r\nuniform float ratio = 1.0;\r\nuniform vec4 fill_color : source_color = vec4(0.55, 0.88, 1.0, 1.0);\r\nuniform vec4 back_color : source_color = vec4(0.05, 0.05, 0.08, 0.85);\r\nvoid vertex() {\r\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\r\n}\r\nvoid fragment() {\r\n\tbool edge = UV.y < 0.15 || UV.y > 0.85 || UV.x < 0.01 || UV.x > 0.99;\r\n\tvec4 c = (!edge && UV.x <= ratio) ? fill_color : back_color;\r\n\tALBEDO = c.rgb;\r\n\tALPHA = c.a;\r\n}\r\n
+shader_type spatial;\nrender_mode unshaded, depth_test_disabled, cull_disabled;\nuniform float ratio = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.45, 0.9, 0.35, 1.0);\nuniform vec4 back_color : source_color = vec4(0.05, 0.05, 0.08, 0.85);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool edge = UV.y < 0.15 || UV.y > 0.85 || UV.x < 0.01 || UV.x > 0.99;\n\tvec4 c = (!edge && UV.x <= ratio) ? fill_color : back_color;\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n

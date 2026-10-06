@@ -9,25 +9,26 @@ const CARD_SIZE := Vector2(206, 138)
 const EMBLEM_SIZE := 46.0
 ## Order of the cards (Fire, Shadow, Ice, Nature).
 const ORDER: Array[StringName] = [&"fire", &"shadow", &"ice", &"nature"]
-## Per kingdom: display name, wizard, wizard title, play-style line, spells F / Q / E.
+## Per kingdom: display name, wizard, kingdom line, "<wizard> of <kingdom>", wizard title, play-style line, spells
+## F / Q / E (spell names are proper names: never translated). Text goes through Loc (localization.md).
 const INFO := {
 	&"fire": {
-		"name": "Fire", "wizard": "Vessa", "title": "Vessa, Fire Wizard",
+		"name": "Fire", "wizard": "Vessa", "kingdom_line": "Fire kingdom", "of_line": "Vessa of Fire", "title": "Vessa, Fire Wizard",
 		"style": "Hard-hitting soldiers and blazing spells. Push early, burn it all down.",
 		"spells": ["Fireball", "Ember Step", "Kindle"],
 	},
 	&"shadow": {
-		"name": "Shadow", "wizard": "Malrik", "title": "Malrik, Shadow Wizard",
+		"name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title": "Malrik, Shadow Wizard",
 		"style": "Few but elite warriors that drain life. Strike hard from the dark.",
 		"spells": ["Shadow Lance", "Soul Siphon", "Umbral Shroud"],
 	},
 	&"ice": {
-		"name": "Ice", "wizard": "Torvald", "title": "Torvald, Ice Wizard",
+		"name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torvald, Ice Wizard",
 		"style": "A fortress that walks forward. Tough, armored, and everything chills.",
 		"spells": ["Rime Bolt", "Flash Freeze", "Rime Aegis"],
 	},
 	&"nature": {
-		"name": "Nature", "wizard": "Ysolde", "title": "Ysolde, Nature Wizard",
+		"name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title": "Ysolde, Nature Wizard",
 		"style": "The swarm that grows back. Cheap, many, and heals between fights.",
 		"spells": ["Thornburst", "Wild Bloom", "Call the Thicket"],
 	},
@@ -53,16 +54,21 @@ static func wizard_name_of(k: StringName) -> String:
 	return str((INFO.get(k, INFO[&"fire"]) as Dictionary)["wizard"])
 
 
-## "Fire", "Shadow", "Ice", "Nature".
+## "Fire", "Shadow", "Ice", "Nature" (English: an id-like name; `Loc.t` it to show it).
 static func kingdom_name_of(k: StringName) -> String:
 	return str((INFO.get(k, INFO[&"fire"]) as Dictionary)["name"])
+
+
+## "Vessa of Fire" in the current language.
+static func of_line(k: StringName) -> String:
+	return Loc.t(str((INFO.get(k, INFO[&"fire"]) as Dictionary)["of_line"]))
 
 
 ## The card tooltip: title, play style, spells with their keys.
 static func tooltip_for(k: StringName) -> String:
 	var info: Dictionary = INFO.get(k, INFO[&"fire"])
 	var spells: Array = info["spells"]
-	return "%s\n%s\nSpells: %s [%s] · %s [%s] · %s [%s]" % [info["title"], info["style"], spells[0], KeyLabels.of(KEY_F),
+	return Loc.t("%s\n%s\nSpells: %s [%s] · %s [%s] · %s [%s]") % [Loc.t(info["title"]), Loc.t(info["style"]), spells[0], KeyLabels.of(KEY_F),
 			spells[1], KeyLabels.of(KEY_Q), spells[2], KeyLabels.of(KEY_E)]   # keyboard labels (UX.1)
 
 
@@ -107,7 +113,7 @@ func _ready() -> void:
 	wizard_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
 	wizard_label.add_theme_constant_override("outline_size", 4)
 	names.add_child(wizard_label)
-	kingdom_label = UIStyle.panel_label("%s kingdom" % info["name"], 13, Color(0.78, 0.74, 0.70))
+	kingdom_label = UIStyle.panel_label(str(info["kingdom_line"]), 13, Color(0.78, 0.74, 0.70))
 	kingdom_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	names.add_child(kingdom_label)
 
@@ -157,10 +163,17 @@ func set_unavailable() -> void:
 	disabled = true
 	focus_mode = Control.FOCUS_NONE
 	mouse_default_cursor_shape = Control.CURSOR_ARROW
-	tooltip_text = "%s\nComing soon: this kingdom can't start a skirmish yet." % tooltip_for(kingdom).get_slice("\n", 0)
+	tooltip_text = Loc.t("%s\nComing soon: this kingdom can't start a skirmish yet.") % tooltip_for(kingdom).get_slice("\n", 0)
 	if style_label:
 		style_label.text = "Coming soon"
 	_on_toggled(false)
+
+
+## Live language switch: the tooltip is built in code (the labels redraw by themselves).
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
+		tooltip_text = Loc.t("%s\nComing soon: this kingdom can't start a skirmish yet.") % tooltip_for(kingdom).get_slice(
+				"\n", 0) if disabled else tooltip_for(kingdom)
 
 
 func _on_toggled(on: bool) -> void:

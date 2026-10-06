@@ -503,6 +503,11 @@ static func _is_reason(line: String) -> bool:
 	for p: String in ["Not enough", "Population cap", "No shop", "Needs ", "Not learned", "Cannot", "Can't"]:
 		if line.begins_with(p):
 			return true
+	# The same refusals in French (data/i18n/fr: Loc.sink shows them translated), so they stay red.
+	for p: String in ["Pas assez", "Plafond de population", "Aucune boutique", "Exige", "Requiert", "Non appris",  # LOC_IGNORE
+			"Impossible", "Ne peut", "Échange impossible"]:  # LOC_IGNORE (already French)
+		if line.begins_with(p):
+			return true
 	return false
 
 

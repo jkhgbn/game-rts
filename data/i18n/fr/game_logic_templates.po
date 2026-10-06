@@ -1,0 +1,271 @@
+# Four Wizards: French (Quebec), numeric templates and composed lines of area 'game_logic' (Loc.sink lookups: every number = "#").
+# Hand-kept (not touched by extract_strings.gd merge). Glossary: data/i18n/glossary_fr.md
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. numeric template of "Must be within %d m of your keep"
+msgid "Must be within # m of your keep"
+msgstr "Doit être à moins de # m de votre donjon"
+
+#. keep.gd tier_card_text line 1
+msgid "Upgrade the keep: +# % HP, +# damage."
+msgstr "Améliorer le donjon : +# % PV, +# de dégâts."
+
+#. keep.gd tier_card_text (nothing else unlocked)
+msgid "Opens: the \"+\" upgrades at the Hall"
+msgstr "Débloque : les améliorations « + » à la salle"
+
+#. keep.gd tier_card_text 'Needs' line
+msgid "Needs from #."
+msgstr "Exige : à partir de #."
+
+#. keep.gd tier_card_text 'Needs' line
+msgid "Needs a completed Hall."
+msgstr "Exige : une salle terminée."
+
+#. keep.gd tier_card_text 'Needs' line
+msgid "Needs from #, a completed Hall."
+msgstr "Exige : à partir de #, une salle terminée."
+
+#. keep.gd tier_card_text 'Needs' line
+msgid "Needs the Stronghold, from #."
+msgstr "Exige : la Forteresse, à partir de #."
+
+#. keep.gd tier_card_text 'Needs' line
+msgid "Needs the Stronghold, a completed Hall."
+msgstr "Exige : la Forteresse, une salle terminée."
+
+#. keep.gd tier_card_text 'Needs' line
+msgid "Needs the Stronghold, from #, a completed Hall."
+msgstr "Exige : la Forteresse, à partir de #, une salle terminée."
+
+#. keep.gd tier_card_text 'Needs' line
+msgid "Needs the Stronghold."
+msgstr "Exige : la Forteresse."
+
+#. numeric template of "Cancel %s" (tier names)
+msgid "Cancel Stronghold"
+msgstr "Annuler : Forteresse"
+
+#. keep.gd upgrade-in-progress card text
+msgid "Stronghold # %: # s left. Cancel = full refund (# crystals)."
+msgstr "Forteresse # % : # s restantes. Annuler = remboursement complet (# cristaux)."
+
+#. numeric template of "The Keep is now a %s" (no unlock list)
+msgid "The Keep is now a Stronghold"
+msgstr "Le donjon est maintenant une Forteresse"
+
+#. numeric template of "Cancel %s" (tier names)
+msgid "Cancel Citadel"
+msgstr "Annuler : Citadelle"
+
+#. keep.gd upgrade-in-progress card text
+msgid "Citadel # %: # s left. Cancel = full refund (# crystals)."
+msgstr "Citadelle # % : # s restantes. Annuler = remboursement complet (# cristaux)."
+
+#. numeric template of "The Keep is now a %s" (no unlock list)
+msgid "The Keep is now a Citadel"
+msgstr "Le donjon est maintenant une Citadelle"
+
+#. numeric template of "Available at %s" (clock)
+msgid "Available at #"
+msgstr "Disponible à #"
+
+#. numeric template of "%d mana"
+msgid "# mana"
+msgstr "# mana"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana · range #"
+msgstr "# mana · portée #"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana · range # · autocast on"
+msgstr "# mana · portée # · lancement auto activé"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana · range # · autocast off"
+msgstr "# mana · portée # · lancement auto désactivé"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana · range # · cooldown # s"
+msgstr "# mana · portée # · recharge # s"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana · range # · cooldown # s · autocast on"
+msgstr "# mana · portée # · recharge # s · lancement auto activé"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana · range # · cooldown # s · autocast off"
+msgstr "# mana · portée # · recharge # s · lancement auto désactivé"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana/s (# to start) · range #"
+msgstr "# mana/s (# pour commencer) · portée #"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana/s (# to start) · range # · autocast on"
+msgstr "# mana/s (# pour commencer) · portée # · lancement auto activé"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana/s (# to start) · range # · autocast off"
+msgstr "# mana/s (# pour commencer) · portée # · lancement auto désactivé"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana/s (# to start) · range # · cooldown # s"
+msgstr "# mana/s (# pour commencer) · portée # · recharge # s"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana/s (# to start) · range # · cooldown # s · autocast on"
+msgstr "# mana/s (# pour commencer) · portée # · recharge # s · lancement auto activé"
+
+#. caster_kit.gd spell_tooltip line 2
+msgid "# mana/s (# to start) · range # · cooldown # s · autocast off"
+msgstr "# mana/s (# pour commencer) · portée # · recharge # s · lancement auto désactivé"
+
+#. caster_kit.gd spell_tooltip last line
+msgid "Right-click or Ctrl+Z: autocast on / off"
+msgstr "Clic droit ou Ctrl+Z : lancement auto activé / désactivé"
+
+#. caster_kit.gd spell_tooltip last line
+msgid "Right-click or Ctrl+V: autocast on / off"
+msgstr "Clic droit ou Ctrl+V : lancement auto activé / désactivé"
+
+#. numeric template of "Requires level %d"
+msgid "Requires level #"
+msgstr "Exige le niveau #"
+
+#. numeric template of "Needs level %d"
+msgid "Needs level #"
+msgstr "Exige le niveau #"
+
+#. numeric template of "Returning with %d"
+msgid "Returning with #"
+msgstr "Retour avec #"
+
+msgid "Waiting: posts open at #"
+msgstr "En attente : les comptoirs ouvrent à #"
+
+#. numeric template of "Your caravan was robbed: -%d gold"
+msgid "Your caravan was robbed: -# gold"
+msgstr "Votre caravane a été volée : -# or"
+
+#. numeric template of "%d of your caravans were destroyed"
+msgid "# of your caravans were destroyed"
+msgstr "# de vos caravanes ont été détruites"
+
+msgid "Exchange in steps of # gold"
+msgstr "Échange par tranches de # or"
+
+#. numeric template of "Bounty refunded: %d"
+msgid "Bounty refunded: #"
+msgstr "Prime remboursée : #"
+
+msgid "Blessing of the Wayshrine: +# % speed, +# HP / s for # s"
+msgstr "Bénédiction du Wayshrine : +# % vitesse, +# PV / s pendant # s"
+
+msgid "Max # champions"
+msgstr "Max # champions"
+
+#. numeric template of "Max %d %ss"
+msgid "Max # Saboteurs"
+msgstr "Max # Saboteurs"
+
+msgid "The Lodge opens at #"
+msgstr "Le Lodge ouvre à #"
+
+msgid "The tavern opens at #"
+msgstr "La taverne ouvre à #"
+
+msgid "Ember Crown: sealed until #"
+msgstr "Ember Crown : scellée jusqu'à #"
+
+#. numeric template of "%d x %d m"
+msgid "# x # m"
+msgstr "# x # m"
+
+#. numeric template of "Team %d"
+msgid "Team #"
+msgstr "Équipe #"
+
+#. skirmish.gd end stats
+msgid "Match time #"
+msgstr "Durée de la partie #"
+
+#. skirmish.gd end stats
+msgid "Units trained # · Units lost # · Enemy units killed # · Buildings destroyed #"
+msgstr "Unités formées # · Unités perdues # · Unités ennemies tuées # · Bâtiments détruits #"
+
+#. skirmish.gd end stats (thousands split by a space)
+msgid "Crystals gathered #"
+msgstr "Cristaux récoltés #"
+
+#. skirmish.gd end stats
+msgid "Gold earned # (trade #) · Caravans lost # · Workers lost to Magpies # · Magpies slain #"
+msgstr "Or gagné # (commerce #) · Caravanes perdues # · Ouvriers perdus aux Magpies # · Magpies tués #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Won on score  # to #"
+msgstr "Victoire au pointage  # à #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Lost on score  # to #"
+msgstr "Défaite au pointage  # à #"
+
+#. skirmish.gd end stats
+msgid "Gold earned # (trade # #) · Caravans lost # · Workers lost to Magpies # · Magpies slain #"
+msgstr "Or gagné # (commerce # #) · Caravanes perdues # · Ouvriers perdus aux Magpies # · Magpies tués #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Won on score  # to # #"
+msgstr "Victoire au pointage  # à # #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Lost on score  # to # #"
+msgstr "Défaite au pointage  # à # #"
+
+#. skirmish.gd end stats (thousands split by a space)
+msgid "Crystals gathered # #"
+msgstr "Cristaux récoltés # #"
+
+#. skirmish.gd end stats
+msgid "Gold earned # # (trade #) · Caravans lost # · Workers lost to Magpies # · Magpies slain #"
+msgstr "Or gagné # # (commerce #) · Caravanes perdues # · Ouvriers perdus aux Magpies # · Magpies tués #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Won on score  # # to #"
+msgstr "Victoire au pointage  # # à #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Lost on score  # # to #"
+msgstr "Défaite au pointage  # # à #"
+
+#. skirmish.gd end stats
+msgid "Gold earned # # (trade # #) · Caravans lost # · Workers lost to Magpies # · Magpies slain #"
+msgstr "Or gagné # # (commerce # #) · Caravanes perdues # · Ouvriers perdus aux Magpies # · Magpies tués #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Won on score  # # to # #"
+msgstr "Victoire au pointage  # # à # #"
+
+#. numeric template of "%s on score  %s to %s"
+msgid "Lost on score  # # to # #"
+msgstr "Défaite au pointage  # # à # #"
+
+msgid "Points held at the end # / #"
+msgstr "Points tenus à la fin # / #"
+
+msgid "Camps cleared #"
+msgstr "Camps nettoyés #"
+
+msgid "Blessings #"
+msgstr "Bénédictions #"
+
+msgid "Game hunted #"
+msgstr "Gibier chassé #"
+
+msgid "The Lost Cache holds # essence"
+msgstr "La Lost Cache contient # essence"

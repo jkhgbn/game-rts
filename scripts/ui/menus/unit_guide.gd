@@ -27,7 +27,9 @@ const STAT_ROWS: Array = [
 	["sight", "Sight", false], ["cooldown", "Attack every", true], ["ehp", "Effective HP", false],
 	["crystals", "Crystals", true], ["pop", "Pop", true], ["train_time", "Train time", true],
 ]
-const HINT := "Up / Down: browse    Ctrl+F: search    Compare: pick a second unit    Esc: back"
+## The on-hit statuses the units have (data/units on_hit_status), one sentence each.
+const ON_HIT_TEXT := {"chill": "Every hit: chill", "rooted": "Every hit: rooted"}
+const HINT :="Up / Down: browse    Ctrl+F: search    Compare: pick a second unit    Esc: back"
 
 var search_box: LineEdit
 var kingdom_buttons: Array[Button] = []
@@ -59,7 +61,16 @@ var _compare_a: StringName = &""
 var _compare_b: StringName = &""
 var _visible_ids: Array[StringName] = []
 var _headers: Dictionary = {}   # kingdom -> header Label
+var _row_subs: Dictionary = {}   # id -> the row's "T1 · Role · Class" Label
 var _row_group := ButtonGroup.new()
+
+
+## Live language switch: rebuild the text made in code (static labels / buttons switch by themselves).
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready() and detail_box != null:
+		_refresh_texts()
+		_apply_filters()
+		_show_detail()
 
 
 func _ready() -> void:
@@ -99,6 +110,7 @@ func _ready() -> void:
 	detail_scroll.add_child(detail_box)
 	var hint := UIStyle.panel_label(HINT, 13, MUTED)
 	box.add_child(hint)
+	_refresh_texts()
 	_apply_filters()
 	var ids := UnitGuideData.ids()
 	if not ids.is_empty():
@@ -232,7 +244,7 @@ static func stat_text(e: Dictionary, stat: String) -> String:
 		"damage":
 			return _trim(v, 1)
 		"dps":
-			return "%.1f" % v
+			return Loc.num(v, 1)
 		"range", "sight":
 			return "%s m" % _trim(v, 1)
 		"speed":
@@ -242,11 +254,21 @@ static func stat_text(e: Dictionary, stat: String) -> String:
 	return _trim(v, 1)
 
 
+## A stat row's label in the current language ("HP" = "PV").
+static func stat_name(label: String) -> String:
+	match label:
+		"HP":
+			return Loc.t("HP")
+		"DPS":
+			return Loc.t("DPS")
+	return Loc.t(label)
+
+
 static func _trim(v: float, decimals: int) -> String:
 	var t := ("%." + str(decimals) + "f") % v
 	if t.contains("."):
 		t = t.rstrip("0").trim_suffix(".")
-	return t
+	return t.replace(".", ",") if Loc.is_french() else t
 
 
 # ---------------------------------------------------------------- building
@@ -304,11 +326,9 @@ func _build_filters(parent: Control) -> void:
 	var kg := ButtonGroup.new()
 	kg.allow_unpress = false
 	for k in KINGDOM_FILTERS:
-		var b := _toggle(row, "All" if k == &"" else UnitGuideData.kingdom_name(k), kg, 96)
+		var b := _toggle(row, "All" if k == &"" else String(UnitGuideData.KINGDOM_NAMES[String(k)]), kg, 86)
 		if k != &"":
 			b.add_theme_color_override("font_color", UnitGuideData.kingdom_color(k).lightened(0.2))
-		b.tooltip_text = "Every kingdom." if k == &"" else "Only %s units." % UnitGuideData.kingdom_name(k) \
-				+ (" (champions, the Genie, caravans, trackers)" if k == UnitGuideData.NEUTRAL else "")
 		var kk := k
 		b.pressed.connect(func() -> void: set_kingdom_filter(kk))
 		kingdom_buttons.append(b)
@@ -363,7 +383,7 @@ func _build_list(parent: Control) -> void:
 	for e in UnitGuideData.entries():
 		var k: StringName = e["kingdom"]
 		if k != last_k:
-			var h := UIStyle.display_label(UnitGuideData.kingdom_name(k).to_upper(), 16, UnitGuideData.kingdom_color(k))
+			var h := UIStyle.display_label("", 16, UnitGuideData.kingdom_color(k))
 			h.custom_minimum_size = Vector2(0, 28)
 			h.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 			list_box.add_child(h)
@@ -383,7 +403,6 @@ func _row(e: Dictionary) -> Button:
 	b.button_group = _row_group
 	b.custom_minimum_size = Vector2(LIST_W - 16, ROW_H)
 	b.focus_mode = Control.FOCUS_ALL
-	b.tooltip_text = "%s\n%s" % [e["name"], e["summary"]]
 	UIStyle.style_button(b, UIStyle.PANEL_BORDER)
 	b.add_theme_stylebox_override("hover_pressed", UIStyle.button_style(UIStyle.GOLD, Color(0.3, 0.22, 0.12, 0.95)))
 	b.add_theme_stylebox_override("pressed", UIStyle.button_style(UIStyle.GOLD, Color(0.26, 0.19, 0.11, 0.95)))
@@ -405,8 +424,8 @@ func _row(e: Dictionary) -> Button:
 	var nm := UIStyle.display_label(String(e["name"]), 17, TEXT)
 	nm.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	col.add_child(nm)
-	var sub := UIStyle.panel_label("T%d · %s · %s" % [e["tier"], UnitGuideData.ROLE_NAMES.get(e["role"], e["role"]),
-			e["class"]], 13, MUTED)
+	var sub := UIStyle.panel_label("", 13, MUTED)
+	_row_subs[id] = sub
 	sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sub.clip_text = true
 	sub.custom_minimum_size = Vector2(LIST_W - 100, 0)
@@ -446,6 +465,26 @@ static func portrait(e: Dictionary, size: float) -> Control:
 		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		frame.add_child(l)
 	return frame
+
+
+## The text built in code outside the detail view: kingdom tooltips, list headers, row sub-lines and tooltips.
+func _refresh_texts() -> void:
+	for i in kingdom_buttons.size():
+		var k := KINGDOM_FILTERS[i]
+		if k == &"":
+			kingdom_buttons[i].tooltip_text = "Every kingdom."
+		elif k == UnitGuideData.NEUTRAL:
+			kingdom_buttons[i].tooltip_text = Loc.t("Only Neutral units. (champions, the Genie, caravans, trackers)")
+		else:
+			kingdom_buttons[i].tooltip_text = Loc.t("Only {kingdom} units.", {"kingdom": UnitGuideData.kingdom_label(k)})
+	for k: StringName in _headers:
+		(_headers[k] as Label).text = UnitGuideData.kingdom_label(k).to_upper()
+	for id: StringName in _row_subs:
+		var e := UnitGuideData.entry(id)
+		var cls := String(e["class"])
+		(_row_subs[id] as Label).text = "T%d · %s · %s" % [e["tier"], UnitGuideData.role_label(String(e["role"])),
+				Loc.t(cls) if cls != "" else ""]
+		(row_buttons[id] as Button).tooltip_text = "%s\n%s" % [e["name"], Loc.sink(String(e["summary"]))]
 
 
 func _filter_title(text: String) -> Label:
@@ -498,8 +537,10 @@ func _apply_filters() -> void:
 	for k: StringName in _headers:
 		(_headers[k] as Label).visible = shown_k.has(k) and _kingdom == &""
 	empty_label.visible = _visible_ids.is_empty()
-	empty_label.text = "No unit matches these filters." + ("\nTitans are not in the game yet." if _role == "titan" else "")
-	count_label.text = "%d of %d units" % [_visible_ids.size(), UnitGuideData.entries().size()]
+	empty_label.text = Loc.t("No unit matches these filters.") + (("\n" + Loc.t("Titans are not in the game yet."))
+			if _role == "titan" else "")
+	count_label.text = Loc.t("{shown} of {total} units", {"shown": _visible_ids.size(),
+			"total": UnitGuideData.entries().size()})
 	_link_focus()
 	if not _visible_ids.is_empty():
 		var cur := _compare_b if _compare else _selected
@@ -585,7 +626,7 @@ func _build_single(e: Dictionary) -> void:
 	grid.add_theme_constant_override("v_separation", 6)
 	detail_box.add_child(grid)
 	for row: Array in STAT_ROWS:
-		var lab := UIStyle.panel_label(String(row[1]), 15, MUTED)
+		var lab := UIStyle.panel_label(stat_name(String(row[1])), 15, MUTED)
 		lab.custom_minimum_size = Vector2(110, 0)
 		grid.add_child(lab)
 		var val := UIStyle.number_label(stat_text(e, row[0]), 18, TEXT)
@@ -610,15 +651,19 @@ func _build_single(e: Dictionary) -> void:
 func _head_lines(head: Control, e: Dictionary, name_size: int) -> void:
 	var nm := UIStyle.display_label(String(e["name"]), name_size, UIStyle.GOLD)
 	head.add_child(nm)
-	var role_line := "%s  ·  Tier %d  ·  %s%s" % [UnitGuideData.kingdom_name(e["kingdom"]), e["tier"],
-			UnitGuideData.ROLE_NAMES.get(e["role"], e["role"]), ("  ·  " + String(e["class"])) if e["class"] != "" else ""]
+	var args := {"kingdom": UnitGuideData.kingdom_label(e["kingdom"]), "tier": e["tier"],
+			"role": UnitGuideData.role_label(String(e["role"])), "class": Loc.t(String(e["class"]))}
+	var role_line := Loc.t("{kingdom}  ·  Tier {tier}  ·  {role}  ·  {class}", args) if e["class"] != "" \
+			else Loc.t("{kingdom}  ·  Tier {tier}  ·  {role}", args)
 	var rl := UIStyle.panel_label(role_line, 16, UnitGuideData.kingdom_color(e["kingdom"]).lerp(TEXT, 0.35))
 	head.add_child(rl)
 	var key := String(e.get("card_key", ""))
-	var where := "From: %s%s" % [e["building"], ("   [%s]" % key) if key != "" else ""]
+	var bld := UnitGuideData.building_label(String(e["building"]))
+	var where := Loc.t("From: {building}   [{key}]", {"building": bld, "key": key}) if key != "" \
+			else Loc.t("From: {building}", {"building": bld})
 	head.add_child(UIStyle.panel_label(where, 15, TEXT))
-	head.add_child(UIStyle.panel_label(String(e["cost_text"]), 15, UIStyle.CRYSTAL_TEXT))
-	var sm := UIStyle.panel_label(String(e["summary"]), 15, MUTED)
+	head.add_child(UIStyle.panel_label(UnitGuideData.cost_text(e), 15, UIStyle.CRYSTAL_TEXT))
+	var sm := UIStyle.panel_label(Loc.sink(String(e["summary"])), 15, MUTED)
 	sm.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	sm.custom_minimum_size = Vector2(260, 0)
 	head.add_child(sm)
@@ -629,11 +674,12 @@ static func _extras(e: Dictionary) -> String:
 	var s: Dictionary = e["stats"]
 	var parts: Array[String] = []
 	if float(s.get("regen", 0.0)) > 0.0:
-		parts.append("Regenerates %s %% HP/s out of combat" % _trim(float(s["regen"]), 1))
-	if String(s.get("on_hit", "")) != "":
-		parts.append("Every hit: %s" % String(s["on_hit"]))
+		parts.append(Loc.t("Regenerates {n} % HP/s out of combat", {"n": _trim(float(s["regen"]), 1)}))
+	var on_hit := String(s.get("on_hit", ""))
+	if on_hit != "":
+		parts.append(Loc.t(ON_HIT_TEXT[on_hit]) if ON_HIT_TEXT.has(on_hit) else Loc.t("Every hit: {status}", {"status": on_hit}))
 	if float(s["range"]) > 3.0:
-		parts.append("Ranged attack")
+		parts.append(Loc.t("Ranged attack"))
 	return "   ·   ".join(parts)
 
 
@@ -656,7 +702,7 @@ func _ability_row(a: Dictionary) -> Control:
 	badge.add_theme_stylebox_override("panel", sb)
 	badge.custom_minimum_size = Vector2(92, 0)
 	badge.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	var kl := UIStyle.panel_label(String(a["key"]), 13, UIStyle.GOLD)
+	var kl := UIStyle.panel_label(UnitGuideData.key_label(String(a["key"])), 13, UIStyle.GOLD)
 	kl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	badge.add_child(kl)
 	row.add_child(badge)
@@ -668,7 +714,8 @@ func _ability_row(a: Dictionary) -> Control:
 	t.add_theme_font_size_override("normal_font_size", 15)
 	t.add_theme_font_size_override("bold_font_size", 15)
 	t.add_theme_color_override("default_color", TEXT)
-	t.text = "[b]%s[/b]  %s" % [String(a["name"]).replace("[", "("), String(a["text"]).replace("[", "(")]
+	t.text = "[b]%s[/b]  %s" % [UnitGuideData.ability_name(a).replace("[", "("),
+			UnitGuideData.ability_text(a).replace("[", "(")]
 	row.add_child(t)
 	return row
 
@@ -679,7 +726,7 @@ func _list_column(title: String, lines: Array, color: Color, mark: String) -> Co
 	col.add_theme_constant_override("separation", 4)
 	col.add_child(UIStyle.display_label(title, 19, color))
 	for s: String in lines:
-		var l := UIStyle.panel_label("%s  %s" % [mark, s], 15, TEXT)
+		var l := UIStyle.panel_label("%s  %s" % [mark, Loc.sink(s)], 15, TEXT)
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		l.custom_minimum_size = Vector2(200, 0)
 		col.add_child(l)
@@ -759,7 +806,7 @@ func _build_compare(a: Dictionary, b: Dictionary) -> void:
 		la.custom_minimum_size = Vector2(140, 0)
 		la.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		grid.add_child(la)
-		var name_l := UIStyle.panel_label(String(row[1]), 15, MUTED)
+		var name_l := UIStyle.panel_label(stat_name(String(row[1])), 15, MUTED)
 		name_l.custom_minimum_size = Vector2(130, 0)
 		name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		grid.add_child(name_l)

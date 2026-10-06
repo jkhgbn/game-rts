@@ -74,7 +74,7 @@ static func localize_hints(text: String, qwerty: String) -> String:
 	if shown == qwerty:
 		return text
 	return text.replace("[%s]" % qwerty, "[%s]" % shown).replace("Ctrl+%s" % qwerty, "Ctrl+" + shown) \
-			.replace("Shift+%s" % qwerty, "Shift+" + shown)
+			.replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
 
 
 ## False on the headless display server (no keyboard layout: asking it only prints errors).

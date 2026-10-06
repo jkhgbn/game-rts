@@ -21,6 +21,14 @@ var map_detail_hint: Label
 ## Upscaler: item i = GameSettings.UPSCALER_* (Off / FSR 1 / FSR 2), then the Render scale slider (50-100 %).
 var upscaler_option: OptionButton
 var render_scale_slider: HSlider
+## Playtest data (docs/design/health-and-playtests.md): OFF by default; records each match to a local file.
+var playtest_check: CheckButton
+
+const PLAYTEST_TEXT := "Help improve the game: record my playtest to a local file"
+const PLAYTEST_HINT := ("Off by default. When on, each match saves a small timeline (times, resources, orders, "
+		+ "frame rate) to a file on this computer only. No names or personal data, nothing is sent anywhere.")
+## Language (localization.md): item i = Loc.LANGS[i] (English / Français (Québec)); switches live.
+var language_option: OptionButton
 
 const MAP_DETAIL_HINT := "Applies from the next match. Deer and rabbits stay on every setting."
 const UPSCALER_TOOLTIP := ("Draws the 3D at a lower resolution, then upscales it: higher frame rate.\n"
@@ -33,18 +41,44 @@ var _refreshing := false
 var _scale_dragging := false
 
 
+## The rows between the title and Back scroll when the window is too short for them (1600x900: the panel ran 78 px
+## off the bottom); `_fit` keeps the whole panel on screen with MARGIN px to spare.
+var _scroll: ScrollContainer
+var _rows: VBoxContainer
+var _pad: MarginContainer
+var _fit_passes := 0
+const SCROLLBAR_ROOM := 16
+const MARGIN := 16.0
+const MIN_ROWS_HEIGHT := 160.0
+
+
 func _ready() -> void:
 	add_theme_stylebox_override("panel", UIStyle.panel_style(24.0))
 	custom_minimum_size = Vector2(520, 0)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 12)
-	add_child(box)
+	var outer := VBoxContainer.new()
+	outer.add_theme_constant_override("separation", 10)
+	add_child(outer)
 
 	var title := UIStyle.use_title_font(UIStyle.label("Settings", 34))
 	title.add_theme_color_override("font_color", UIStyle.GOLD)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	box.add_child(title)
+	outer.add_child(title)
 
+	_scroll = ScrollContainer.new()
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_scroll.follow_focus = true
+	outer.add_child(_scroll)
+	_pad = MarginContainer.new()   # room for the scroll bar while the rows scroll
+	_pad.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_pad.add_theme_constant_override("margin_right", 0)
+	_scroll.add_child(_pad)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 10)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_pad.add_child(box)
+	_rows = box
+
+	_language_row(box)
 	master_slider = _slider_row(box, "Master volume", 0.0, 100.0, 1.0, "%d %%")
 	music_slider = _slider_row(box, "Music volume", 0.0, 100.0, 1.0, "%d %%")
 	sfx_slider = _slider_row(box, "Effects volume", 0.0, 100.0, 1.0, "%d %%")
@@ -59,6 +93,13 @@ func _ready() -> void:
 	render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
 			GameSettings.RENDER_SCALE_MAX * 100.0, 1.0, "%d %%")
 	render_scale_slider.tooltip_text = UPSCALER_TOOLTIP
+	playtest_check = _check_row(box, PLAYTEST_TEXT)
+	playtest_check.tooltip_text = PLAYTEST_HINT
+	playtest_check.add_theme_font_size_override("font_size", 16)
+	var playtest_hint := UIStyle.label(PLAYTEST_HINT, 14)
+	playtest_hint.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+	playtest_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(playtest_hint)
 
 	var back := Button.new()
 	back.text = "Back"
@@ -67,7 +108,11 @@ func _ready() -> void:
 	back.add_theme_font_size_override("font_size", 20)
 	UIStyle.style_button(back, UIStyle.PANEL_BORDER)
 	back.pressed.connect(close)
-	box.add_child(back)
+	outer.add_child(back)
+	_scroll.custom_minimum_size.y = box.get_combined_minimum_size().y
+	box.minimum_size_changed.connect(_queue_fit)
+	visibility_changed.connect(_queue_fit)
+	get_viewport().size_changed.connect(_queue_fit)
 
 	master_slider.value_changed.connect(func(v: float) -> void: _changed(&"master_volume", v / 100.0))
 	music_slider.value_changed.connect(func(v: float) -> void: _changed(&"music_volume", v / 100.0))
@@ -86,6 +131,7 @@ func _ready() -> void:
 	map_detail_option.item_selected.connect(func(i: int) -> void: _changed(&"map_detail", i))
 	upscaler_option.item_selected.connect(func(i: int) -> void: _changed(&"upscaler", i))
 	render_scale_slider.value_changed.connect(func(v: float) -> void: _changed(&"render_scale", v / 100.0))
+	playtest_check.toggled.connect(func(on: bool) -> void: _changed(&"playtest_data", on))
 	refresh()
 
 
@@ -100,10 +146,13 @@ func refresh() -> void:
 	edge_pan_check.button_pressed = GameSettings.edge_pan
 	controls_option.select(GameSettings.control_scheme)
 	controls_hint.text = controls_hint_text(GameSettings.control_scheme)
+	controls_option.tooltip_text = controls_tooltip_text()
+	language_option.select(maxi(Loc.LANGS.find(Loc.language), 0))
 	map_detail_option.select(1 if GameSettings.map_detail == GameSettings.MAP_DETAIL_LOW else 0)
 	upscaler_option.select(GameSettings.upscaler)
 	render_scale_slider.value = GameSettings.render_scale * 100.0
 	render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
+	playtest_check.button_pressed = GameSettings.playtest_data
 	rebuild_priority_list()
 	_refreshing = false
 
@@ -112,17 +161,86 @@ func refresh() -> void:
 ## camera" on AZERTY; Hero WASD "Z Q S D: walk your wizard · X + click: attack-move".
 static func controls_hint_text(scheme: int) -> String:
 	if scheme == GameSettings.CONTROLS_HERO_WASD:
-		return "%s: walk your wizard (camera follows)  ·  %s + click: attack-move" % [
+		return Loc.t("%s: walk your wizard (camera follows)  ·  %s + click: attack-move") % [
 				KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]), KeyLabels.of(KEY_X)]
 	if scheme == GameSettings.CONTROLS_RTS_WASD:
-		return "Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)" % [
+		return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)") % [
 				KeyLabels.of(KEY_X), KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])]
-	return "Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera" % KeyLabels.of(KEY_A)
+	return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera") % KeyLabels.of(KEY_A)
+
+
+## The Controls list tooltip (the three schemes, keyboard letters).
+static func controls_tooltip_text() -> String:
+	var wasd := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])
+	return Loc.t("Classic: like most strategy games, right click moves your wizard and %s + click "
+			+ "attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click "
+			+ "moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves.") % [KeyLabels.of(KEY_A),
+			wasd, KeyLabels.of(KEY_X), wasd, KeyLabels.of(KEY_X)]
+
+
+## Live language switch: the text built in code is rebuilt (auto-translated labels redraw by themselves).
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and language_option != null and is_inside_tree():
+		refresh()
+
+
+## "Language" + English / Français (Québec) (each name in its own language, never translated).
+func _language_row(parent: Control) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	parent.add_child(row)
+	var name_label := UIStyle.label("Language", 18)
+	name_label.custom_minimum_size = Vector2(190, 0)
+	row.add_child(name_label)
+	language_option = OptionButton.new()
+	language_option.add_theme_font_size_override("font_size", 18)
+	language_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	language_option.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	for i in Loc.LANG_NAMES.size():
+		language_option.add_item(Loc.LANG_NAMES[i], i)
+	language_option.get_popup().auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	language_option.tooltip_text = "Game language (voices stay in English; subtitles follow the language)."
+	language_option.item_selected.connect(func(i: int) -> void:
+		if not _refreshing:
+			GameSettings.set_language(Loc.LANGS[clampi(i, 0, Loc.LANGS.size() - 1)]))
+	row.add_child(language_option)
 
 
 func open() -> void:
 	refresh()
 	visible = true
+	_queue_fit()
+
+
+func _queue_fit() -> void:
+	_fit_passes = 0
+	_fit.call_deferred()
+
+
+## Sizes the scrolling rows so the panel fits the window: as tall as the rows need, shorter (scrolling) when the panel
+## would cross the window's top or bottom edge. A few deferred passes, as the holder re-centres the panel each time.
+func _fit() -> void:
+	if _scroll == null or not is_inside_tree() or not is_visible_in_tree():
+		return
+	var need := _rows.get_combined_minimum_size().y
+	var vp := get_viewport_rect().size.y
+	var r := get_global_rect()
+	var cur := _scroll.custom_minimum_size.y
+	var over := maxf(r.end.y - (vp - MARGIN), MARGIN - r.position.y)
+	var target := cur
+	if over > 0.5:
+		target = cur - over
+	elif cur < need:
+		target = cur + minf(-over, need - cur)
+	target = clampf(minf(target, need), minf(MIN_ROWS_HEIGHT, need), need)
+	var room := SCROLLBAR_ROOM if target < need - 0.5 else 0
+	if _pad.get_theme_constant(&"margin_right") != room:
+		_pad.add_theme_constant_override("margin_right", room)
+	if absf(target - cur) > 0.5:
+		_scroll.custom_minimum_size.y = target
+		_fit_passes += 1
+		if _fit_passes < 8:
+			_fit.call_deferred()
 
 
 ## Saves and hides.
@@ -160,6 +278,8 @@ func _changed(key: StringName, value: Variant) -> void:
 			render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
 		&"render_scale":
 			GameSettings.render_scale = clampf(value, GameSettings.RENDER_SCALE_MIN, GameSettings.RENDER_SCALE_MAX)
+		&"playtest_data":
+			GameSettings.set_playtest_data(bool(value), false)   # Back saves the file
 	GameSettings.apply(get_tree())
 
 
@@ -178,12 +298,19 @@ func _slider_row(parent: Control, text: String, min_v: float, max_v: float, step
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(slider)
-	var value_label := UIStyle.label(fmt % int(round(min_v)), 18)
+	var value_label := UIStyle.label(_value_text(fmt, min_v), 18)
 	value_label.custom_minimum_size = Vector2(70, 0)
 	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	value_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	row.add_child(value_label)
-	slider.value_changed.connect(func(v: float) -> void: value_label.text = fmt % int(round(v)))
+	slider.value_changed.connect(func(v: float) -> void: value_label.text = _value_text(fmt, v))
 	return slider
+
+
+## "75 %" (French: a no-break space before %, glossary).
+static func _value_text(fmt: String, v: float) -> String:
+	var s := fmt % int(round(v))
+	return s.replace(" %", " %") if Loc.is_french() else s
 
 
 ## "Controls" + the scheme list, then the hint line under it.
@@ -200,11 +327,7 @@ func _controls_row(parent: Control) -> void:
 	controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
 	controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
 	controls_option.add_item("RTS camera (WASD)", GameSettings.CONTROLS_RTS_WASD)
-	var wasd := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])
-	controls_option.tooltip_text = ("Classic: like most strategy games, right click moves your wizard and %s + click "
-			+ "attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click "
-			+ "moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves.") % [KeyLabels.of(KEY_A),
-			wasd, KeyLabels.of(KEY_X), wasd, KeyLabels.of(KEY_X)]
+	controls_option.tooltip_text = controls_tooltip_text()
 	row.add_child(controls_option)
 	controls_hint = UIStyle.label("", 14)
 	controls_hint.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
@@ -232,6 +355,7 @@ func _priority_row(parent: Control) -> void:
 	row.add_child(name_label)
 	priority_kingdom = OptionButton.new()
 	priority_kingdom.add_theme_font_size_override("font_size", 18)
+	priority_kingdom.tooltip_text = "The kingdom whose unit order is shown."
 	priority_kingdom.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for k in PRIORITY_KINGDOMS:
 		priority_kingdom.add_item(String(k).capitalize())
@@ -319,7 +443,7 @@ func rebuild_priority_list() -> void:
 		row.add_theme_constant_override("separation", 8)
 		priority_list.add_child(row)
 		var t := UnitType.find(String(key))
-		var label := UIStyle.label("%d. %s" % [i + 1, "Wizard" if key == &"wizard" else (t.display_name if t else String(key))], 15)
+		var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t else String(key))], 15)
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(label)
 		var up := _small_button(row, "+", "Higher priority")

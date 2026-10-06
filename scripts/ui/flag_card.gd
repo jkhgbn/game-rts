@@ -188,16 +188,16 @@ func refresh() -> void:
 	var own := is_own()
 	var kind := BountyMode.flag_kind(f)
 	var kname := BountyMode.kind_name(kind).to_upper()
-	title_label.text = ("ENEMY %s BOUNTY" if not own else "%s BOUNTY") % kname
+	title_label.text = Loc.t("{kind} BOUNTY", {"kind": kname}) if own else Loc.t("ENEMY {kind} BOUNTY", {"kind": kname})
 	target_label.text = target_text(f)
 	var stake := BountyMode.flag_stake(f)
 	stake_label.text = str(stake)
 	stake_label.reset_size()
 	stake_label.pivot_offset = stake_label.size * 0.5
 	paid_label.position.x = stake_label.position.x + stake_label.size.x + 2.0
-	var paid_text := "  ·  Paid %d" % BountyMode.flag_paid(f) if own else ""
+	var paid_text := "  ·  " + Loc.t("Paid {n}", {"n": BountyMode.flag_paid(f)}) if own else ""
 	if stake >= BountyMode.MAX_STAKE:
-		paid_text += " · max"
+		paid_text += " · " + Loc.t("max")
 	paid_label.text = paid_text
 	if _last_stake >= 0 and stake > _last_stake:
 		_pop_left = POP_TIME   # a raise: the stake pops 1.0 -> 1.3 -> 1.0 in 0.2 s
@@ -215,10 +215,10 @@ func refresh() -> void:
 			var ch: Node = pursuers[i]
 			var n := BountyMode.target_name(ch)
 			b.text = UIStyle.abbrev(n)
-			b.tooltip_text = "%s · %s" % [n, _intent_text(ch)]
+			b.tooltip_text = "%s · %s" % [n, Loc.sink(_intent_text(ch))]
 			b.set_meta(&"champion", ch)
 	# Physical Z as labelled on the player's keyboard ("W" on AZERTY, UX.1).
-	hint_label.text = OWN_HINT.replace("Z", KeyLabels.of(KEY_Z)) if own else ENEMY_HINT
+	hint_label.text = Loc.t(OWN_HINT).replace("Z", KeyLabels.of(KEY_Z)) if own else ENEMY_HINT
 	_tile.queue_redraw()
 
 
@@ -231,18 +231,18 @@ func is_own() -> bool:
 static func target_text(f: Node) -> String:
 	var kind := BountyMode.flag_kind(f)
 	var t := BountyMode.flag_target(f)
-	var n := BountyMode.target_name(t) if t != null else "gone"
+	var n := BountyMode.target_name(t) if t != null else Loc.t("gone")
 	match kind:
 		BountyMode.EXPLORE:
 			var fog := FogOfWar.find()
 			var explored := fog == null or not fog.enabled \
 					or fog.is_explored(BountyMode.flag_team(f), (f as Node3D).global_position)
-			return "Point: %s ground" % ("explored" if explored else "unexplored")
+			return Loc.t("Point: explored ground") if explored else Loc.t("Point: unexplored ground")
 		BountyMode.GUARD:
-			return "Guarding: %s" % n
+			return Loc.t("Guarding: {name}", {"name": n})
 		BountyMode.ESCORT:
-			return "Escorting: %s" % n
-	return "Target: %s" % n
+			return Loc.t("Escorting: {name}", {"name": n})
+	return Loc.t("Target: {name}", {"name": n})
 
 
 ## [text, colour] of the time line: `Time left 1:30` (WARN under 10 s), `Target lost · refund in 42 s` (WARN),
@@ -253,10 +253,11 @@ static func time_line(f: Node) -> Array:
 	match kind:
 		BountyMode.GUARD, BountyMode.ESCORT:
 			var secs := maxi(ceili(maxf(left, 0.0)), 0)
-			return ["Time left %d:%02d" % [secs / 60, secs % 60], UIStyle.WARN if secs < 10 else UIStyle.token(&"text")]
+			return [Loc.t("Time left {time}", {"time": "%d:%02d" % [secs / 60, secs % 60]}),
+					UIStyle.WARN if secs < 10 else UIStyle.token(&"text")]
 		BountyMode.HUNT:
 			if BountyMode.flag_target_lost(f) and left >= 0.0:
-				return ["Target lost · refund in %d s" % ceili(left), UIStyle.WARN]
+				return [Loc.t("Target lost · refund in {n} s", {"n": ceili(left)}), UIStyle.WARN]
 			return ["Until the target dies", UIStyle.token(&"text_muted")]
 	return ["Until a champion reaches it", UIStyle.token(&"text_muted")]
 
@@ -313,4 +314,4 @@ func _draw_tile() -> void:
 ## A pursuer chip button with the styled tooltip panel (ui-style.md 8).
 class ChipButton extends Button:
 	func _make_custom_tooltip(for_text: String) -> Object:
-		return UIStyle.make_tooltip(for_text)
+		return UIStyle.make_tooltip(Loc.sink(for_text))

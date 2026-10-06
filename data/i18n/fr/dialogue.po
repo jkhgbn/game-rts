@@ -1,0 +1,1221 @@
+# Four Wizards: French (Quebec) for area 'dialogue'. Glossary: data/i18n/glossary_fr.md
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. speaker reveler
+#: data/voice/lines/ep2_opening.json:L01
+msgid "To Vessa! To the Ember Queen!"
+msgstr "À Vessa ! À la Reine des Braises !"
+
+#. speaker dancer
+#: data/voice/lines/ep2_opening.json:L02
+msgid "Come on, my queen! One dance!"
+msgstr "Allez, ma reine ! Une danse !"
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L03
+msgid "One dance. Then I'm eating everything."
+msgstr "Une danse. Après, je mange tout."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L04
+msgid "Vey! Get up and dance!"
+msgstr "Vey ! Debout, viens danser !"
+
+#. speaker vey
+#: data/voice/lines/ep2_opening.json:L05
+msgid "I felled a mountain yesterday, girl. I'll clap."
+msgstr "J'ai abattu une montagne hier, petite. J'applaudis."
+
+#. speaker ashby
+#: data/voice/lines/ep2_opening.json:L06
+msgid "Three relics! One Colossus! Drink!"
+msgstr "Trois reliques ! Un Colosse ! À boire !"
+
+#. speaker ashby
+#: data/voice/lines/ep2_opening.json:L07
+msgid "Rider at the gate! Make way!"
+msgstr "Cavalier à la porte ! Place !"
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L08
+msgid "My... my lady?"
+msgstr "Ma... ma dame ?"
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L09
+msgid "The Ember Queen? Which one is..."
+msgstr "La Reine des Braises ? Laquelle est..."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L10
+msgid "Me. Breathe. Who sent you?"
+msgstr "Moi. Respire. Qui t'envoie ?"
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L11
+msgid "Lady Ysolde."
+msgstr "Dame Ysolde."
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L12
+msgid "The wood... Shadow came."
+msgstr "Le bois... l'Ombre est venue."
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L13
+msgid "And Ice. Together."
+msgstr "Et la Glace. Ensemble."
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L14
+msgid "The army... it's gone."
+msgstr "L'armée... elle n'est plus."
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L15
+msgid "All of it. I saw it burn."
+msgstr "Toute. Je l'ai vue brûler."
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L16
+msgid "And then... then it froze."
+msgstr "Et puis... puis elle a gelé."
+
+#. speaker vey
+#: data/voice/lines/ep2_opening.json:L17
+msgid "So Torvald chose a side."
+msgstr "Torvald a donc choisi un camp."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L18
+msgid "Malrik's side."
+msgstr "Celui de Malrik."
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L19
+msgid "She said you'd laugh."
+msgstr "Elle a dit que vous ririez."
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L20
+msgid "She said... remember. She warned you."
+msgstr "Elle a dit... souvenez-vous. Elle vous a prévenue."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L21
+msgid "I'm not laughing."
+msgstr "Je ne ris pas."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L22
+msgid "I know you're tired. I know we just won."
+msgstr "Je sais que vous êtes fatigués. Qu'on vient de gagner."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L23
+msgid "But her people have no one else. I need you. All of you."
+msgstr "Mais son peuple n'a personne d'autre. J'ai besoin de vous. Tous."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L24
+msgid "Vey. Ride with me?"
+msgstr "Vey. Tu viens avec moi ?"
+
+#. speaker vey
+#: data/voice/lines/ep2_opening.json:L25
+msgid "The spark first, girl. Then the storm."
+msgstr "L'étincelle d'abord, petite. Puis la tempête."
+
+#. speaker ashby
+#: data/voice/lines/ep2_opening.json:L26
+msgid "Emberguard! Boots on! We march at first light!"
+msgstr "Emberguard ! Bottes aux pieds ! On part à l'aube !"
+
+#. speaker messenger
+#: data/voice/lines/ep2_opening.json:L27
+msgid "Thank you... thank you."
+msgstr "Merci... merci."
+
+#. speaker vessa
+#: data/voice/lines/ep2_opening.json:L28
+msgid "Hold on, Ysolde. Fire is coming."
+msgstr "Tiens bon, Ysolde. Le feu arrive."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L1
+msgid "Everyone tells my story wrong. Let me try."
+msgstr "Tout le monde raconte mal mon histoire. À mon tour."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L2
+msgid "I was a gravedigger's son. I grew up among the dead. They were better company."
+msgstr "J'étais fils de fossoyeur. J'ai grandi parmi les morts. Meilleure compagnie."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L3
+msgid "The Master found me reading tombstones by one candle. He said: this one, too."
+msgstr "Le Maître m'a trouvé à lire des tombes à la chandelle. Il a dit : lui aussi."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L4
+msgid "Too. Fourth of four. Fire was his joy, ice his patience, the wood his heart."
+msgstr "Aussi. Quatrième de quatre. Le feu, sa joie ; la glace, sa patience ; le bois, son cœur."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L5
+msgid "And me? He gave me what was left over. The dark. As if it were a kindness."
+msgstr "Et moi ? Il m'a donné les restes. Le noir. Comme si c'était une bonté."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L6
+msgid "Then he vanished and left us nothing. So I took. That is the whole secret."
+msgstr "Puis il a disparu sans rien nous laisser. Alors j'ai pris. Tout le secret est là."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L7
+msgid "I took the dark and taught it to kneel. I took knives, and a woman who never misses."
+msgstr "J'ai pris le noir et l'ai fait plier. J'ai pris des couteaux, et une femme qui ne rate jamais."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L8
+msgid "She missed. Emberfall. Then the Hollow. I lost, and lost, and every time I lost,"
+msgstr "Elle a raté. Emberfall. Puis le Hollow. J'ai perdu, perdu, et chaque fois,"
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L9
+msgid "I kept something. A candle. A knife. A stone that still beats in my hand."
+msgstr "j'ai gardé quelque chose. Une chandelle. Un couteau. Une pierre qui bat dans ma main."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L10
+msgid "It whispers. Let it. I am the one who listens, and I am the one who decides."
+msgstr "Elle murmure. Qu'elle murmure. C'est moi qui écoute, et c'est moi qui décide."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L11
+msgid "That is how a gravedigger's son grows strong: he never puts the shovel down."
+msgstr "Voilà comment un fils de fossoyeur devient fort : il ne lâche jamais la pelle."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L12
+msgid "Look at it. The last green country. Flowers to the knee. The Master's garden."
+msgstr "Regardez. Le dernier pays vert. Des fleurs aux genoux. Le jardin du Maître."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L13
+msgid "They will stand there and tell me to stop. Fire. Roots. An old man's storm."
+msgstr "Ils se dresseront là pour me dire d'arrêter. Le feu. Les racines. L'orage d'un vieux."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L14
+msgid "I have heard \"stop\" all my life."
+msgstr "J'ai entendu « arrête » toute ma vie."
+
+#. speaker malrik
+#: data/voice/lines/ep3_opening.json:L15
+msgid "I will not stop."
+msgstr "Je n'arrêterai pas."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L1
+msgid "Malrik tells his life as a list of wounds. Mine is a list of winters."
+msgstr "Malrik raconte sa vie en blessures. La mienne est une liste d'hivers."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L2
+msgid "I was born on that hill, the year nothing grew. Not one blade of grass."
+msgstr "Je suis née sur cette colline, l'année où rien n'a poussé. Pas un brin d'herbe."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L3
+msgid "My mother buried seed in the snow. The village laughed. I watched it sleep."
+msgstr "Ma mère a semé dans la neige. Le village a ri. Moi, je l'ai regardée dormir."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L4
+msgid "In spring it came up green. I have never forgotten how that felt."
+msgstr "Au printemps, elle a levé, verte. Je n'ai jamais oublié ce sentiment."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L5
+msgid "A tall man with a burning hem found me coaxing a sapling through the frost."
+msgstr "Un grand homme à l'ourlet brûlant m'a vue aider une pousse à percer le givre."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L6
+msgid "He said: show me again. So I did, for twenty years, until he was gone."
+msgstr "Il a dit : montre-moi encore. Alors je l'ai fait, vingt ans, jusqu'à son départ."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L7
+msgid "They call me soft. Neutral. Slow. Slow is how an oak outlives an army."
+msgstr "On me dit molle. Neutre. Lente. C'est lent qu'un chêne survit à une armée."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L8
+msgid "Last winter they burned my wood and froze the ashes. My army with it."
+msgstr "L'hiver dernier, ils ont brûlé mon bois et gelé les cendres. Mon armée avec."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L9
+msgid "I knelt in the black, and I waited. Something green came up. It always does."
+msgstr "Je me suis agenouillée dans le noir, et j'ai attendu. Du vert a levé. Toujours."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L10
+msgid "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."
+msgstr "Voilà ma force. Ni feu ni couteaux. Je reviens. Chaque printemps. Chaque fois."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L11
+msgid "The Master planted this country with his own hands. He left it to me to keep."
+msgstr "Le Maître a planté ce pays de ses mains. Il me l'a laissé à garder."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L12
+msgid "Malrik stands up there with his candle, his stone, and Torvald's winter."
+msgstr "Malrik est là-haut avec sa chandelle, sa pierre et l'hiver de Torvald."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L13
+msgid "Let them come. Cut it. Burn it. Freeze it."
+msgstr "Qu'ils viennent. Coupez. Brûlez. Gelez."
+
+#. speaker vessa
+#: data/voice/lines/ep4_opening.json:L14
+msgid "Ysolde. They're moving."
+msgstr "Ysolde. Ils avancent."
+
+#. speaker ysolde
+#: data/voice/lines/ep4_opening.json:L15
+msgid "It will not stop."
+msgstr "Il ne s'arrêtera pas."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L01
+msgid "Once upon a time, the strongest wizard of all time ruled the world."
+msgstr "Il était une fois le plus puissant sorcier de tous les temps, maître du monde."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L02
+msgid "They called him only the Master. For a thousand years, he kept the peace."
+msgstr "On l'appelait simplement le Maître. Mille ans durant, il garda la paix."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L03
+msgid "His citadel rose above the clouds, a city of towers, bridges and bells."
+msgstr "Sa citadelle s'élevait au-dessus des nuages, cité de tours, de ponts et de cloches."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L04
+msgid "Dragons great and small filled its sky, and not one breathed in anger."
+msgstr "Des dragons de toutes tailles peuplaient son ciel, et nul ne crachait la colère."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L05
+msgid "Kings brought him their quarrels, and went home as friends."
+msgstr "Les rois lui portaient leurs querelles et repartaient amis."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L06
+msgid "He raised four apprentices, and gave each of them a kingdom."
+msgstr "Il éleva quatre apprentis et donna à chacun un royaume."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L07
+msgid "Then, between one breath and the next, he was gone."
+msgstr "Puis, entre deux souffles, il disparut."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L08
+msgid "Vessa, of Fire."
+msgstr "Vessa, du Feu."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L09
+msgid "Malrik, of Shadow."
+msgstr "Malrik, de l'Ombre."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L10
+msgid "Torvald, of Ice."
+msgstr "Torvald, de la Glace."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L11
+msgid "Ysolde, of Nature."
+msgstr "Ysolde, de la Nature."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L12
+msgid "Four heirs. One empty throne."
+msgstr "Quatre héritiers. Un trône vide."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L13
+msgid "I know this tale well, child. I was that wizard."
+msgstr "Je connais bien ce conte, enfant. Ce sorcier, c'était moi."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L14
+msgid "Vessa, the youngest. She lit her first spark before she could spell her name."
+msgstr "Vessa, la cadette. Sa première étincelle, avant de savoir épeler son nom."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L15
+msgid "Give her a wall, and she will burn a door through it."
+msgstr "Donnez-lui un mur, elle y brûlera une porte."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L16
+msgid "But she never waits. And fire that will not wait burns its own house."
+msgstr "Mais elle n'attend jamais. Et le feu qui n'attend pas brûle sa propre maison."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L17
+msgid "Still, she laughed like sunrise. Vessa was my joy."
+msgstr "Pourtant, son rire était une aurore. Vessa était ma joie."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L18
+msgid "Malrik. I found him reading tombstones by the light of one candle."
+msgstr "Malrik. Je l'ai trouvé lisant des tombes à la lueur d'une chandelle."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L19
+msgid "Nothing is hidden from him. The dark itself comes when he calls."
+msgstr "Rien ne lui est caché. Le noir lui-même vient à son appel."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L20
+msgid "But he is never full. Whatever he holds, he wants more."
+msgstr "Mais il n'est jamais rassasié. Quoi qu'il tienne, il en veut plus."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L21
+msgid "He thinks I gave him leftovers. I gave the dark to the one it could not frighten."
+msgstr "Il croit avoir eu les restes. J'ai donné le noir à celui qu'il n'effrayait pas."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L22
+msgid "Torvald, the eldest. Where he stands, the ice holds, and so does the line."
+msgstr "Torvald, l'aîné. Là où il se tient, la glace tient, et la ligne aussi."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L23
+msgid "Nothing breaks him. Not armies, not winters. Not time."
+msgstr "Rien ne le brise. Ni armées, ni hivers. Ni le temps."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L24
+msgid "But he waits too long, and trusts slow ice more than quick friends."
+msgstr "Mais il attend trop, et se fie plus à la glace lente qu'aux amis prompts."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L25
+msgid "I left him my coldest secret. Torvald was my patience."
+msgstr "Je lui ai laissé mon plus froid secret. Torvald était ma patience."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L26
+msgid "Ysolde. I found her coaxing a sapling through the frost."
+msgstr "Ysolde. Je l'ai trouvée aidant une pousse à percer le givre."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L27
+msgid "Burn her forest down, and it grows back. Every spring. Every time."
+msgstr "Brûlez sa forêt, elle repousse. Chaque printemps. Chaque fois."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L28
+msgid "But she will not take a side, not even while the world burns."
+msgstr "Mais elle ne prend pas parti, pas même quand le monde brûle."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L29
+msgid "I would say: show me again. And she always did. Ysolde was my heart."
+msgstr "Je disais : montre-moi encore. Et elle le faisait. Ysolde était mon cœur."
+
+#. speaker master
+#: data/voice/lines/prologue_3min.json:L30
+msgid "I loved all four of them. And still, they went to war."
+msgstr "Je les aimais tous quatre. Pourtant, ils sont partis en guerre."
+
+#. speaker unit_cinder_hand
+#: data/voice/lines/unit_barks.json:cinder_hand_select
+msgid "Hands ready, boss."
+msgstr "Mains prêtes, patron."
+
+#. speaker unit_cinder_hand
+#: data/voice/lines/unit_barks.json:cinder_hand_move
+msgid "On my way."
+msgstr "J'y vais."
+
+#. speaker unit_cinder_hand
+#: data/voice/lines/unit_barks.json:cinder_hand_attack
+msgid "[angry] I'll swing the pick, then."
+msgstr "[angry] Je manie la pioche, alors."
+
+#. speaker unit_cinder_hand
+#: data/voice/lines/unit_barks.json:cinder_hand_death
+msgid "Ugh... shift's over."
+msgstr "Pfff... fin du quart."
+
+#. speaker unit_ember_archer
+#: data/voice/lines/unit_barks.json:ember_archer_select
+msgid "Bow's strung and warm."
+msgstr "Arc bandé et chaud."
+
+#. speaker unit_ember_archer
+#: data/voice/lines/unit_barks.json:ember_archer_move
+msgid "Moving, keep up!"
+msgstr "On bouge, suivez !"
+
+#. speaker unit_ember_archer
+#: data/voice/lines/unit_barks.json:ember_archer_attack
+msgid "[excited] Light them up."
+msgstr "[excited] Allumez-les."
+
+#. speaker unit_ember_archer
+#: data/voice/lines/unit_barks.json:ember_archer_death
+msgid "My fire... out..."
+msgstr "Mon feu... éteint..."
+
+#. speaker unit_blaze_rider
+#: data/voice/lines/unit_barks.json:blaze_rider_select
+msgid "Saddle's hot. Where to?"
+msgstr "Selle chaude. On va où ?"
+
+#. speaker unit_blaze_rider
+#: data/voice/lines/unit_barks.json:blaze_rider_move
+msgid "Hyah! Riding out."
+msgstr "Hue ! En selle."
+
+#. speaker unit_blaze_rider
+#: data/voice/lines/unit_barks.json:blaze_rider_attack
+msgid "[shout] Charge through them."
+msgstr "[shout] Chargez à travers."
+
+#. speaker unit_blaze_rider
+#: data/voice/lines/unit_barks.json:blaze_rider_death
+msgid "Thrown... from the saddle..."
+msgstr "Désarçonné..."
+
+#. speaker unit_ash_hurler
+#: data/voice/lines/unit_barks.json:ash_hurler_select
+msgid "Pots are packed. Point me."
+msgstr "Pots chargés. Indiquez la cible."
+
+#. speaker unit_ash_hurler
+#: data/voice/lines/unit_barks.json:ash_hurler_move
+msgid "Rolling, careful with the load."
+msgstr "On roule, attention au chargement."
+
+#. speaker unit_ash_hurler
+#: data/voice/lines/unit_barks.json:ash_hurler_attack
+msgid "Loosing! Heads down!"
+msgstr "Tir ! Baissez la tête !"
+
+#. speaker unit_ash_hurler
+#: data/voice/lines/unit_barks.json:ash_hurler_death
+msgid "Should have... kept my distance."
+msgstr "J'aurais dû... garder mes distances."
+
+#. speaker unit_scorchbow
+#: data/voice/lines/unit_barks.json:scorchbow_select
+msgid "Arrow's lit. Name the mark."
+msgstr "Flèche allumée. Nommez la cible."
+
+#. speaker unit_scorchbow
+#: data/voice/lines/unit_barks.json:scorchbow_move
+msgid "Finding a better angle."
+msgstr "Je cherche un meilleur angle."
+
+#. speaker unit_scorchbow
+#: data/voice/lines/unit_barks.json:scorchbow_attack
+msgid "Let them burn a little."
+msgstr "Qu'ils brûlent un peu."
+
+#. speaker unit_scorchbow
+#: data/voice/lines/unit_barks.json:scorchbow_death
+msgid "Missed... the last one..."
+msgstr "Raté... la dernière..."
+
+#. speaker unit_scorchling
+#: data/voice/lines/unit_barks.json:scorchling_select
+msgid "[excited] Hee hee! Me? Me!"
+msgstr "[excited] Hi hi ! Moi ? Moi !"
+
+#. speaker unit_scorchling
+#: data/voice/lines/unit_barks.json:scorchling_move
+msgid "Running, running!"
+msgstr "Je cours, je cours !"
+
+#. speaker unit_scorchling
+#: data/voice/lines/unit_barks.json:scorchling_attack
+msgid "[excited] Bite, burn, bite!"
+msgstr "[excited] Mords, brûle, mords !"
+
+#. speaker unit_scorchling
+#: data/voice/lines/unit_barks.json:scorchling_death
+msgid "Pop!"
+msgstr "Pouf !"
+
+#. speaker unit_pyre_adept
+#: data/voice/lines/unit_barks.json:pyre_adept_select
+msgid "The bowl is lit. Speak."
+msgstr "La coupe est allumée. Parlez."
+
+#. speaker unit_pyre_adept
+#: data/voice/lines/unit_barks.json:pyre_adept_move
+msgid "I carry the flame there."
+msgstr "J'y porte la flamme."
+
+#. speaker unit_pyre_adept
+#: data/voice/lines/unit_barks.json:pyre_adept_attack
+msgid "Gather close, and burn together."
+msgstr "Serrez-vous, et brûlons ensemble."
+
+#. speaker unit_pyre_adept
+#: data/voice/lines/unit_barks.json:pyre_adept_death
+msgid "[sad] The bowl... goes cold."
+msgstr "[sad] La coupe... refroidit."
+
+#. speaker unit_cinder_arbalest
+#: data/voice/lines/unit_barks.json:cinder_arbalest_select
+msgid "Crank's wound. Bolt's glowing."
+msgstr "Manivelle tendue. Carreau ardent."
+
+#. speaker unit_cinder_arbalest
+#: data/voice/lines/unit_barks.json:cinder_arbalest_move
+msgid "Hauling the big one over."
+msgstr "Je traîne la grosse."
+
+#. speaker unit_cinder_arbalest
+#: data/voice/lines/unit_barks.json:cinder_arbalest_attack
+msgid "Line them up. One bolt, two holes."
+msgstr "Alignez-les. Un carreau, deux trous."
+
+#. speaker unit_cinder_arbalest
+#: data/voice/lines/unit_barks.json:cinder_arbalest_death
+msgid "Jammed... at the worst time."
+msgstr "Coincé... au pire moment."
+
+#. speaker unit_ashveil_saboteur
+#: data/voice/lines/unit_barks.json:ashveil_saboteur_select
+msgid "[whisper] You never saw me."
+msgstr "[whisper] Vous ne m'avez jamais vu."
+
+#. speaker unit_ashveil_saboteur
+#: data/voice/lines/unit_barks.json:ashveil_saboteur_move
+msgid "Into the smoke."
+msgstr "Dans la fumée."
+
+#. speaker unit_ashveil_saboteur
+#: data/voice/lines/unit_barks.json:ashveil_saboteur_attack
+msgid "Fuse is short. Step back."
+msgstr "Mèche courte. Reculez."
+
+#. speaker unit_ashveil_saboteur
+#: data/voice/lines/unit_barks.json:ashveil_saboteur_death
+msgid "Ash... to ash."
+msgstr "Cendre... à la cendre."
+
+#. speaker unit_gloom_thrall
+#: data/voice/lines/unit_barks.json:gloom_thrall_select
+msgid "[tired] The master calls. I dig."
+msgstr "[tired] Le maître appelle. Je creuse."
+
+#. speaker unit_gloom_thrall
+#: data/voice/lines/unit_barks.json:gloom_thrall_move
+msgid "Yes. Walking."
+msgstr "Oui. Je marche."
+
+#. speaker unit_gloom_thrall
+#: data/voice/lines/unit_barks.json:gloom_thrall_attack
+msgid "If I must."
+msgstr "S'il le faut."
+
+#. speaker unit_gloom_thrall
+#: data/voice/lines/unit_barks.json:gloom_thrall_death
+msgid "Rest... at last."
+msgstr "Le repos... enfin."
+
+#. speaker shade
+#: data/voice/lines/unit_barks.json:shade_select
+msgid "The dark is listening."
+msgstr "Le noir écoute."
+
+#. speaker shade
+#: data/voice/lines/unit_barks.json:shade_move
+msgid "Through the shadows."
+msgstr "Par les ombres."
+
+#. speaker shade
+#: data/voice/lines/unit_barks.json:shade_attack
+msgid "They will not see me coming."
+msgstr "Ils ne me verront pas venir."
+
+#. speaker shade
+#: data/voice/lines/unit_barks.json:shade_death
+msgid "Back... to the dark."
+msgstr "Retour... au noir."
+
+#. speaker unit_nightbolt
+#: data/voice/lines/unit_barks.json:nightbolt_select
+msgid "A bolt of night, at your word."
+msgstr "Un trait de nuit, à votre mot."
+
+#. speaker unit_nightbolt
+#: data/voice/lines/unit_barks.json:nightbolt_move
+msgid "Quietly, then."
+msgstr "En silence, alors."
+
+#. speaker unit_nightbolt
+#: data/voice/lines/unit_barks.json:nightbolt_attack
+msgid "Pick one. It falls."
+msgstr "Choisissez. Il tombe."
+
+#. speaker unit_nightbolt
+#: data/voice/lines/unit_barks.json:nightbolt_death
+msgid "The night... takes me back."
+msgstr "La nuit... me reprend."
+
+#. speaker unit_shadow_knight
+#: data/voice/lines/unit_barks.json:shadow_knight_select
+msgid "My blade is sworn to Malrik."
+msgstr "Ma lame est jurée à Malrik."
+
+#. speaker unit_shadow_knight
+#: data/voice/lines/unit_barks.json:shadow_knight_move
+msgid "Riding in black."
+msgstr "Je chevauche en noir."
+
+#. speaker unit_shadow_knight
+#: data/voice/lines/unit_barks.json:shadow_knight_attack
+msgid "[shout] Break their line."
+msgstr "[shout] Brisez leur ligne."
+
+#. speaker unit_shadow_knight
+#: data/voice/lines/unit_barks.json:shadow_knight_death
+msgid "My oath... is kept."
+msgstr "Mon serment... est tenu."
+
+#. speaker unit_bleakbow
+#: data/voice/lines/unit_barks.json:bleakbow_select
+msgid "[whisper] I see them. They don't see me."
+msgstr "[whisper] Je les vois. Pas eux."
+
+#. speaker unit_bleakbow
+#: data/voice/lines/unit_barks.json:bleakbow_move
+msgid "Keeping to the edges."
+msgstr "Je longe les bords."
+
+#. speaker unit_bleakbow
+#: data/voice/lines/unit_barks.json:bleakbow_attack
+msgid "Let them bleed slowly."
+msgstr "Qu'ils saignent lentement."
+
+#. speaker unit_bleakbow
+#: data/voice/lines/unit_barks.json:bleakbow_death
+msgid "So cold..."
+msgstr "Si froid..."
+
+#. speaker unit_barrow_ghoul
+#: data/voice/lines/unit_barks.json:barrow_ghoul_select
+msgid "Hungry. Always hungry."
+msgstr "Faim. Toujours faim."
+
+#. speaker unit_barrow_ghoul
+#: data/voice/lines/unit_barks.json:barrow_ghoul_move
+msgid "Crawling, crawling."
+msgstr "Je rampe, je rampe."
+
+#. speaker unit_barrow_ghoul
+#: data/voice/lines/unit_barks.json:barrow_ghoul_attack
+msgid "[excited] Fresh meat."
+msgstr "[excited] De la chair fraîche."
+
+#. speaker unit_barrow_ghoul
+#: data/voice/lines/unit_barks.json:barrow_ghoul_death
+msgid "Back... in the barrow."
+msgstr "Retour... au tertre."
+
+#. speaker unit_hexweaver
+#: data/voice/lines/unit_barks.json:hexweaver_select
+msgid "The threads are ready."
+msgstr "Les fils sont prêts."
+
+#. speaker unit_hexweaver
+#: data/voice/lines/unit_barks.json:hexweaver_move
+msgid "I weave my way there."
+msgstr "Je tisse mon chemin."
+
+#. speaker unit_hexweaver
+#: data/voice/lines/unit_barks.json:hexweaver_attack
+msgid "Wither, little hero."
+msgstr "Flétris, petit héros."
+
+#. speaker unit_hexweaver
+#: data/voice/lines/unit_barks.json:hexweaver_death
+msgid "The thread... is cut."
+msgstr "Le fil... est coupé."
+
+#. speaker unit_hollow_oathsworn
+#: data/voice/lines/unit_barks.json:hollow_oathsworn_select
+msgid "Sworn, and hollow. Command me."
+msgstr "Juré, et vide. Commandez."
+
+#. speaker unit_hollow_oathsworn
+#: data/voice/lines/unit_barks.json:hollow_oathsworn_move
+msgid "The vow walks with me."
+msgstr "Le vœu marche avec moi."
+
+#. speaker unit_hollow_oathsworn
+#: data/voice/lines/unit_barks.json:hollow_oathsworn_attack
+msgid "[angry] I do not break."
+msgstr "[angry] Je ne romps pas."
+
+#. speaker unit_hollow_oathsworn
+#: data/voice/lines/unit_barks.json:hollow_oathsworn_death
+msgid "Forgive me... my lord."
+msgstr "Pardon... mon seigneur."
+
+#. speaker unit_rime_hauler
+#: data/voice/lines/unit_barks.json:rime_hauler_select
+msgid "Sled's empty. What's the job?"
+msgstr "Traîneau vide. C'est quoi, la job ?"
+
+#. speaker unit_rime_hauler
+#: data/voice/lines/unit_barks.json:rime_hauler_move
+msgid "Aye, pulling."
+msgstr "Oui, je tire."
+
+#. speaker unit_rime_hauler
+#: data/voice/lines/unit_barks.json:rime_hauler_attack
+msgid "Right, I'll have a go."
+msgstr "Bon, j'essaie."
+
+#. speaker unit_rime_hauler
+#: data/voice/lines/unit_barks.json:rime_hauler_death
+msgid "Leave the sled... for me."
+msgstr "Laissez le traîneau... pour moi."
+
+#. speaker unit_shardcaster
+#: data/voice/lines/unit_barks.json:shardcaster_select
+msgid "Shards are sharp. Where?"
+msgstr "Éclats affûtés. Où ?"
+
+#. speaker unit_shardcaster
+#: data/voice/lines/unit_barks.json:shardcaster_move
+msgid "Stepping lightly."
+msgstr "Pas légers."
+
+#. speaker unit_shardcaster
+#: data/voice/lines/unit_barks.json:shardcaster_attack
+msgid "Mind the splinters."
+msgstr "Gare aux éclats."
+
+#. speaker unit_shardcaster
+#: data/voice/lines/unit_barks.json:shardcaster_death
+msgid "Shattered..."
+msgstr "Brisé..."
+
+#. speaker unit_rime_seer
+#: data/voice/lines/unit_barks.json:rime_seer_select
+msgid "[calm] I saw you coming."
+msgstr "[calm] Je vous ai vu venir."
+
+#. speaker unit_rime_seer
+#: data/voice/lines/unit_barks.json:rime_seer_move
+msgid "The frost shows the path."
+msgstr "Le givre montre la voie."
+
+#. speaker unit_rime_seer
+#: data/voice/lines/unit_barks.json:rime_seer_attack
+msgid "Winter, take them."
+msgstr "Hiver, prends-les."
+
+#. speaker unit_rime_seer
+#: data/voice/lines/unit_barks.json:rime_seer_death
+msgid "I did not... see this."
+msgstr "Je n'avais pas... vu ça."
+
+#. speaker unit_rime_colossus
+#: data/voice/lines/unit_barks.json:rime_colossus_select
+msgid "[slow] Colossus... awake."
+msgstr "[slow] Colosse... éveillé."
+
+#. speaker unit_rime_colossus
+#: data/voice/lines/unit_barks.json:rime_colossus_move
+msgid "[slow] The ground... shakes."
+msgstr "[slow] Le sol... tremble."
+
+#. speaker unit_rime_colossus
+#: data/voice/lines/unit_barks.json:rime_colossus_attack
+msgid "[slow] Crush."
+msgstr "[slow] Écraser."
+
+#. speaker unit_rime_colossus
+#: data/voice/lines/unit_barks.json:rime_colossus_death
+msgid "[slow] Melting..."
+msgstr "[slow] Je fonds..."
+
+#. speaker unit_frostbow
+#: data/voice/lines/unit_barks.json:frostbow_select
+msgid "Steady hands, cold eyes."
+msgstr "Mains sûres, regard froid."
+
+#. speaker unit_frostbow
+#: data/voice/lines/unit_barks.json:frostbow_move
+msgid "Moving to high ground."
+msgstr "Vers les hauteurs."
+
+#. speaker unit_frostbow
+#: data/voice/lines/unit_barks.json:frostbow_attack
+msgid "Freeze in place."
+msgstr "Gelez sur place."
+
+#. speaker unit_frostbow
+#: data/voice/lines/unit_barks.json:frostbow_death
+msgid "The string... snapped."
+msgstr "La corde... a cassé."
+
+#. speaker unit_rimeling
+#: data/voice/lines/unit_barks.json:rimeling_select
+msgid "[excited] Brr! Ready, ready!"
+msgstr "[excited] Brr ! Prêt, prêt !"
+
+#. speaker unit_rimeling
+#: data/voice/lines/unit_barks.json:rimeling_move
+msgid "Sliding over!"
+msgstr "Je glisse !"
+
+#. speaker unit_rimeling
+#: data/voice/lines/unit_barks.json:rimeling_attack
+msgid "Stab, stab, chill!"
+msgstr "Pique, pique, gèle !"
+
+#. speaker unit_rimeling
+#: data/voice/lines/unit_barks.json:rimeling_death
+msgid "Aww... melted."
+msgstr "Oh... fondu."
+
+#. speaker unit_hoarlight_magebow
+#: data/voice/lines/unit_barks.json:hoarlight_magebow_select
+msgid "The light string hums."
+msgstr "La corde de lumière vibre."
+
+#. speaker unit_hoarlight_magebow
+#: data/voice/lines/unit_barks.json:hoarlight_magebow_move
+msgid "Keeping my distance."
+msgstr "Je garde mes distances."
+
+#. speaker unit_hoarlight_magebow
+#: data/voice/lines/unit_barks.json:hoarlight_magebow_attack
+msgid "A needle of frost for you."
+msgstr "Une aiguille de givre pour toi."
+
+#. speaker unit_hoarlight_magebow
+#: data/voice/lines/unit_barks.json:hoarlight_magebow_death
+msgid "The light... fades."
+msgstr "La lumière... pâlit."
+
+#. speaker unit_frost_mortar
+#: data/voice/lines/unit_barks.json:frost_mortar_select
+msgid "Mortar crew, standing by."
+msgstr "Équipe de mortier, prête."
+
+#. speaker unit_frost_mortar
+#: data/voice/lines/unit_barks.json:frost_mortar_move
+msgid "Pull, lads, pull!"
+msgstr "Tirez, les gars, tirez !"
+
+#. speaker unit_frost_mortar
+#: data/voice/lines/unit_barks.json:frost_mortar_attack
+msgid "Shell away! Cover your ears."
+msgstr "Obus parti ! Les oreilles !"
+
+#. speaker unit_frost_mortar
+#: data/voice/lines/unit_barks.json:frost_mortar_death
+msgid "The tube's cracked!"
+msgstr "Le tube est fendu !"
+
+#. speaker unit_shardguard
+#: data/voice/lines/unit_barks.json:shardguard_select
+msgid "The Shardguard stands."
+msgstr "La Shardguard tient."
+
+#. speaker unit_shardguard
+#: data/voice/lines/unit_barks.json:shardguard_move
+msgid "Where I walk, the ice holds."
+msgstr "Où je marche, la glace tient."
+
+#. speaker unit_shardguard
+#: data/voice/lines/unit_barks.json:shardguard_attack
+msgid "[angry] Stand against the glacier."
+msgstr "[angry] Affrontez le glacier."
+
+#. speaker unit_shardguard
+#: data/voice/lines/unit_barks.json:shardguard_death
+msgid "Even glaciers... fall."
+msgstr "Même les glaciers... tombent."
+
+#. speaker unit_sprigling
+#: data/voice/lines/unit_barks.json:sprigling_select
+msgid "Hello! Something to grow?"
+msgstr "Allô ! Quelque chose à faire pousser ?"
+
+#. speaker unit_sprigling
+#: data/voice/lines/unit_barks.json:sprigling_move
+msgid "Hopping along!"
+msgstr "Je sautille !"
+
+#. speaker unit_sprigling
+#: data/voice/lines/unit_barks.json:sprigling_attack
+msgid "Oh dear. Here goes!"
+msgstr "Oh là là. C'est parti !"
+
+#. speaker unit_sprigling
+#: data/voice/lines/unit_barks.json:sprigling_death
+msgid "Wilting..."
+msgstr "Je fane..."
+
+#. speaker unit_thornling
+#: data/voice/lines/unit_barks.json:thornling_select
+msgid "Finally! Who are we fighting?"
+msgstr "Enfin ! On se bat contre qui ?"
+
+#. speaker unit_thornling
+#: data/voice/lines/unit_barks.json:thornling_select_2
+msgid "You looking at me? Let's go, then."
+msgstr "Tu me regardes ? Allons-y, d'abord."
+
+#. speaker unit_thornling
+#: data/voice/lines/unit_barks.json:thornling_move
+msgid "Fine. There better be a fight there."
+msgstr "Correct. Y a besoin d'avoir une bagarre."
+
+#. speaker unit_thornling
+#: data/voice/lines/unit_barks.json:thornling_move_2
+msgid "Walking? I'd rather be punching."
+msgstr "Marcher ? J'aime mieux cogner."
+
+#. speaker unit_thornling
+#: data/voice/lines/unit_barks.json:thornling_attack
+msgid "[shout] Oh yeah! Come get some."
+msgstr "[shout] Oh ouais ! Venez-vous-en."
+
+#. speaker unit_thornling
+#: data/voice/lines/unit_barks.json:thornling_attack_2
+msgid "[shout] That's what I'm talking about."
+msgstr "[shout] C'est de ça que je parle."
+
+#. speaker unit_thornling
+#: data/voice/lines/unit_barks.json:thornling_death
+msgid "Worth it!"
+msgstr "Ça valait la peine !"
+
+#. speaker unit_burr_slinger
+#: data/voice/lines/unit_barks.json:burr_slinger_select
+msgid "Pockets full of burrs."
+msgstr "Poches pleines de bardanes."
+
+#. speaker unit_burr_slinger
+#: data/voice/lines/unit_barks.json:burr_slinger_move
+msgid "Off through the brush."
+msgstr "Par les broussailles."
+
+#. speaker unit_burr_slinger
+#: data/voice/lines/unit_barks.json:burr_slinger_attack
+msgid "These ones stick!"
+msgstr "Celles-là collent !"
+
+#. speaker unit_burr_slinger
+#: data/voice/lines/unit_barks.json:burr_slinger_death
+msgid "Oh... ouch..."
+msgstr "Oh... ouille..."
+
+#. speaker unit_bloomtender
+#: data/voice/lines/unit_barks.json:bloomtender_select
+msgid "[calm] Who needs mending?"
+msgstr "[calm] Qui a besoin de soins ?"
+
+#. speaker unit_bloomtender
+#: data/voice/lines/unit_barks.json:bloomtender_move
+msgid "I'll follow the green."
+msgstr "Je suis le vert."
+
+#. speaker unit_bloomtender
+#: data/voice/lines/unit_barks.json:bloomtender_attack
+msgid "I would rather heal, but fine."
+msgstr "J'aimerais mieux soigner, mais bon."
+
+#. speaker unit_bloomtender
+#: data/voice/lines/unit_barks.json:bloomtender_death
+msgid "Plant me... somewhere nice."
+msgstr "Plantez-moi... au soleil."
+
+#. speaker unit_bramblehorn
+#: data/voice/lines/unit_barks.json:bramblehorn_select
+msgid "[slow] Hrm. The old wood listens."
+msgstr "[slow] Hum. Le vieux bois écoute."
+
+#. speaker unit_bramblehorn
+#: data/voice/lines/unit_barks.json:bramblehorn_move
+msgid "[slow] Roots, lift."
+msgstr "[slow] Racines, levez-vous."
+
+#. speaker unit_bramblehorn
+#: data/voice/lines/unit_barks.json:bramblehorn_attack
+msgid "[slow] Horns down."
+msgstr "[slow] Cornes baissées."
+
+#. speaker unit_bramblehorn
+#: data/voice/lines/unit_barks.json:bramblehorn_death
+msgid "[slow] Back... to the soil."
+msgstr "[slow] Retour... à la terre."
+
+#. speaker unit_wildwood_archer
+#: data/voice/lines/unit_barks.json:wildwood_archer_select
+msgid "The wood has eyes. Mine."
+msgstr "Le bois a des yeux. Les miens."
+
+#. speaker unit_wildwood_archer
+#: data/voice/lines/unit_barks.json:wildwood_archer_move
+msgid "Slipping between the trees."
+msgstr "Je file entre les arbres."
+
+#. speaker unit_wildwood_archer
+#: data/voice/lines/unit_barks.json:wildwood_archer_attack
+msgid "Aim low. Slow them."
+msgstr "Visez bas. Ralentissez-les."
+
+#. speaker unit_wildwood_archer
+#: data/voice/lines/unit_barks.json:wildwood_archer_death
+msgid "The leaves... are falling."
+msgstr "Les feuilles... tombent."
+
+#. speaker unit_thistle_darter
+#: data/voice/lines/unit_barks.json:thistle_darter_select
+msgid "Quick, quick, what is it?"
+msgstr "Vite, vite, c'est quoi ?"
+
+#. speaker unit_thistle_darter
+#: data/voice/lines/unit_barks.json:thistle_darter_move
+msgid "Zip!"
+msgstr "Zip !"
+
+#. speaker unit_thistle_darter
+#: data/voice/lines/unit_barks.json:thistle_darter_attack
+msgid "Puff, and away!"
+msgstr "Pouf, et parti !"
+
+#. speaker unit_thistle_darter
+#: data/voice/lines/unit_barks.json:thistle_darter_death
+msgid "Blown away..."
+msgstr "Emporté..."
+
+#. speaker unit_vinelasher
+#: data/voice/lines/unit_barks.json:vinelasher_select
+msgid "The vines are restless."
+msgstr "Les lianes s'agitent."
+
+#. speaker unit_vinelasher
+#: data/voice/lines/unit_barks.json:vinelasher_move
+msgid "Creeping forward."
+msgstr "J'avance en rampant."
+
+#. speaker unit_vinelasher
+#: data/voice/lines/unit_barks.json:vinelasher_attack
+msgid "Hold still. Rooted."
+msgstr "Bouge pas. Enraciné."
+
+#. speaker unit_vinelasher
+#: data/voice/lines/unit_barks.json:vinelasher_death
+msgid "Torn... from the ground."
+msgstr "Arraché... du sol."
+
+#. speaker unit_greenheart_oathkeeper
+#: data/voice/lines/unit_barks.json:greenheart_oathkeeper_select
+msgid "My shield is Ysolde's."
+msgstr "Mon bouclier est à Ysolde."
+
+#. speaker unit_greenheart_oathkeeper
+#: data/voice/lines/unit_barks.json:greenheart_oathkeeper_move
+msgid "The grove goes with me."
+msgstr "Le bosquet vient avec moi."
+
+#. speaker unit_greenheart_oathkeeper
+#: data/voice/lines/unit_barks.json:greenheart_oathkeeper_attack
+msgid "[shout] Face me, not them."
+msgstr "[shout] Moi, pas eux !"
+
+#. speaker unit_greenheart_oathkeeper
+#: data/voice/lines/unit_barks.json:greenheart_oathkeeper_death
+msgid "The oath... holds."
+msgstr "Le serment... tient."
+
+#. speaker unit_stormbottle_genie
+#: data/voice/lines/unit_barks.json:stormbottle_genie_select
+msgid "Out of the bottle at last!"
+msgstr "Enfin sorti de la bouteille !"
+
+#. speaker unit_stormbottle_genie
+#: data/voice/lines/unit_barks.json:stormbottle_genie_move
+msgid "Floating over, no rush."
+msgstr "Je flotte, sans me presser."
+
+#. speaker unit_stormbottle_genie
+#: data/voice/lines/unit_barks.json:stormbottle_genie_attack
+msgid "[excited] A little thunder for you."
+msgstr "[excited] Un peu de tonnerre pour toi."
+
+#. speaker unit_stormbottle_genie
+#: data/voice/lines/unit_barks.json:stormbottle_genie_death
+msgid "Back in the bottle..."
+msgstr "Retour dans la bouteille..."
+
+#. speaker vey
+#: data/voice/lines/unit_barks.json:helper_vey_select
+msgid "Still standing, girl. Mostly."
+msgstr "Toujours debout, petite. Ou presque."
+
+#. speaker vey
+#: data/voice/lines/unit_barks.json:helper_vey_death
+msgid "Struck down... again."
+msgstr "Abattu... encore."
+
+#. speaker hush
+#: data/voice/lines/unit_barks.json:helper_hush_select
+msgid "Hush. I am here."
+msgstr "Hush. Je suis là."
+
+#. speaker hush
+#: data/voice/lines/unit_barks.json:helper_hush_death
+msgid "Quiet... at last."
+msgstr "Le silence... enfin."
+
+#. speaker aldra
+#: data/voice/lines/unit_barks.json:helper_aldra_select
+msgid "Still water, steady aim."
+msgstr "Eau calme, visée sûre."
+
+#. speaker aldra
+#: data/voice/lines/unit_barks.json:helper_aldra_death
+msgid "The water... runs out."
+msgstr "L'eau... s'épuise."
+
+#. speaker maelis
+#: data/voice/lines/unit_barks.json:helper_maelis_select
+msgid "The roots are with us."
+msgstr "Les racines sont avec nous."
+
+#. speaker maelis
+#: data/voice/lines/unit_barks.json:helper_maelis_death
+msgid "Return me... to the oak."
+msgstr "Rendez-moi... au chêne."

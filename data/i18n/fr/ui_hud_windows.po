@@ -1,0 +1,3037 @@
+# Four Wizards: French (Quebec) for area 'ui_hud_windows'. Glossary: data/i18n/glossary_fr.md
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. roster_label.text = Loc.t("Roster {used} / {max}", {"used": used, "max": ChampionBar.MAX_ROSTER})
+#: scripts/ui/tavern_window.gd:498
+msgid "Roster {used} / {max}"
+msgstr "Effectif {used} / {max}"
+
+#. footer.text = Loc.t("Upkeep 1 essence / 10 s per champion · Tavern opens at {time}",
+#: scripts/ui/tavern_window.gd:501
+msgid "Upkeep 1 essence / 10 s per champion · Tavern opens at {time}"
+msgstr "Entretien 1 essence / 10 s par champion · Taverne ouverte à {time}"
+
+#. closed_label.text = Loc.t("The tavern opens at {time}", {"time": ChampionBar.opens_at_text(self)})
+#: scripts/ui/tavern_window.gd:524
+msgid "The tavern opens at {time}"
+msgstr "La taverne ouvre à {time}"
+
+#. genie_button.text = Loc.t("Unbottle Genie  {n} e", {"n": T3Kit.GENIE_REVIVE_ESSENCE})
+#: scripts/ui/tavern_window.gd:556
+msgid "Unbottle Genie  {n} e"
+msgstr "Déboucher le Genie  {n} e"
+
+#. genie_button.text = Loc.t("Stormbottle Genie  {n}", {"n": T3Kit.GENIE_COST})
+#: scripts/ui/tavern_window.gd:558
+msgid "Stormbottle Genie  {n}"
+msgstr "Stormbottle Genie  {n}"
+
+#. genie_button.tooltip_text = Loc.t("Stormbottle Genie  [{key}]  (tier 3, one per team)", {"key": gk}) + "\n" \
+#: scripts/ui/tavern_window.gd:563
+msgid "Stormbottle Genie  [{key}]  (tier 3, one per team)"
+msgstr "Stormbottle Genie  [{key}]  (palier 3, un par équipe)"
+
+#. "{crystals} crystals · Pop 4 · {secs} s", {"crystals": T3Kit.GENIE_COST, "secs": roundi(T3Kit.GENIE_TIME)}))
+#: scripts/ui/tavern_window.gd:565
+msgid "{crystals} crystals · Pop 4 · {secs} s"
+msgstr "{crystals} cristaux · Pop 4 · {secs} s"
+
+#. pop_label = _label(Loc.t("Pop {n}", {"n": ChampionBar.POP}), 11, Vector2(628, 22), 106)
+#: scripts/ui/tavern_window.gd:745 scripts/ui/tavern_window.gd:953 scripts/ui/tavern_window.gd:1077
+msgid "Pop {n}"
+msgstr "Pop {n}"
+
+#. class_rest.text = Loc.t(" · skills {n} / 3", {"n": TavernWindow.class_skills_unlocked(champion, cid)})
+#: scripts/ui/tavern_window.gd:912
+msgid " · skills {n} / 3"
+msgstr " · compétences {n} / 3"
+
+#. class_rest.text = Loc.t(" · leans {lean}", {"lean": ChampionBar.lean_text(weights)})
+#: scripts/ui/tavern_window.gd:917
+msgid " · leans {lean}"
+msgstr " · penche {lean}"
+
+#. class_rest.text = Loc.t(" · usually {class}", {"class": ChampionBar.class_display_name(ChampionBar.usual_class
+#: scripts/ui/tavern_window.gd:921
+msgid " · usually {class}"
+msgstr " · souvent {class}"
+
+#. hire_button.tooltip_text = Loc.t("Hire  [{key}]\n{crystals} crystals · {essence} essence · {pop} pop",
+#: scripts/ui/tavern_window.gd:1019
+msgid "Hire  [{key}]\n{crystals} crystals · {essence} essence · {pop} pop"
+msgstr "Engager  [{key}]\n{crystals} cristaux · {essence} essence · {pop} pop"
+
+#. intent_label.text = Loc.t("Arrives in {n} s", {"n": ceili(ChampionBar.hire_left(g, id))})
+#: scripts/ui/tavern_window.gd:1025 scripts/ui/champion_bar.gd:1425
+msgid "Arrives in {n} s"
+msgstr "Arrive dans {n} s"
+
+#. status_label.text = Loc.t("Hired · Level {n}", {"n": _level})
+#: scripts/ui/tavern_window.gd:1028
+msgid "Hired · Level {n}"
+msgstr "Engagé · Niv. {n}"
+
+#. status_label.text = Loc.t("Fallen · Level {n}", {"n": _level})
+#: scripts/ui/tavern_window.gd:1036
+msgid "Fallen · Level {n}"
+msgstr "Tombé · Niv. {n}"
+
+#. intent_label.text = Loc.t("Returns in {n} s", {"n": ceili(ChampionBar.revive_left(g, champion))})
+#: scripts/ui/tavern_window.gd:1041
+msgid "Returns in {n} s"
+msgstr "Revient dans {n} s"
+
+#. revive_button.text = Loc.t("Revive {n}", {"n": rcost})
+#: scripts/ui/tavern_window.gd:1045
+msgid "Revive {n}"
+msgstr "Ranimer {n}"
+
+#. revive_button.tooltip_text = Loc.t("Revive  [{key}]\n{essence} essence · returns at your keep",
+#: scripts/ui/tavern_window.gd:1053
+msgid "Revive  [{key}]\n{essence} essence · returns at your keep"
+msgstr "Ranimer  [{key}]\n{essence} essence · revient à votre donjon"
+
+#. hire_gold_button.tooltip_text = Loc.t("Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop}
+#: scripts/ui/tavern_window.gd:1107
+msgid "Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop} pop"
+msgstr "Engager avec de l'or  [Maj+{key}]\n{gold} or · {essence} essence · {pop} pop"
+
+#. revive_gold_button.text = Loc.t("Revive {n} gold", {"n": rcost})
+#: scripts/ui/tavern_window.gd:1113
+msgid "Revive {n} gold"
+msgstr "Ranimer {n} or"
+
+#. revive_gold_button.tooltip_text = Loc.t("Revive with gold  [Shift+{key}]\n{gold} gold · returns at your keep",
+#: scripts/ui/tavern_window.gd:1119
+msgid "Revive with gold  [Shift+{key}]\n{gold} gold · returns at your keep"
+msgstr "Ranimer avec de l'or  [Maj+{key}]\n{gold} or · revient à votre donjon"
+
+#. return Loc.t("{hp} HP · {dmg} damage · {range} range · {speed} speed · {armor} armor", args)
+#: scripts/ui/tavern_window.gd:1153
+msgid "{hp} HP · {dmg} damage · {range} range · {speed} speed · {armor} armor"
+msgstr "{hp} PV · {dmg} dégâts · {range} portée · {speed} vitesse · {armor} armure"
+
+#. return Loc.t("{hp} HP · {dmg} damage · {range} range · {speed} speed", args)
+#: scripts/ui/tavern_window.gd:1154
+msgid "{hp} HP · {dmg} damage · {range} range · {speed} speed"
+msgstr "{hp} PV · {dmg} dégâts · {range} portée · {speed} vitesse"
+
+#. const DISMISS_TOOLTIP := "Dismiss\nThe team gets 50 % of its purse and 50 % of its items' value."
+#: scripts/ui/tavern_window.gd:41
+msgid "Dismiss\nThe team gets 50 % of its purse and 50 % of its items' value."
+msgstr "Renvoyer\nL'équipe récupère 50 % de sa bourse et 50 % de la valeur de ses objets."
+
+#. _close_button.tooltip_text = "Close  [Y]"
+#: scripts/ui/tavern_window.gd:143
+msgid "Close  [Y]"
+msgstr "Fermer  [Y]"
+
+#. roster_label = UIStyle.panel_label("Roster 0 / 3", 12)
+#: scripts/ui/tavern_window.gd:179
+msgid "Roster 0 / 3"
+msgstr "Effectif 0 / 3"
+
+#. return "No action"
+#: scripts/ui/tavern_window.gd:337 scripts/ui/tavern_window.gd:347 scripts/ui/trade_window.gd:613
+msgid "No action"
+msgstr "Aucune action"
+
+#. return "No tavern"
+#: scripts/ui/tavern_window.gd:398 scripts/ui/tavern_window.gd:439
+msgid "No tavern"
+msgstr "Aucune taverne"
+
+#. return "Not fallen"
+#: scripts/ui/tavern_window.gd:415 scripts/ui/tavern_window.gd:456 scripts/units/helper_roster.gd:22
+#: scripts/world/champion_guild.gd:83
+msgid "Not fallen"
+msgstr "Pas tombé"
+
+#. footer.text = "Champions not available"
+#: scripts/ui/tavern_window.gd:504
+msgid "Champions not available"
+msgstr "Champions non disponibles"
+
+#. closed_label.text = "Enemies hold both taverns"
+#: scripts/ui/tavern_window.gd:526 scripts/world/champion_guild.gd:80
+msgid "Enemies hold both taverns"
+msgstr "L'ennemi tient les deux tavernes"
+
+#. genie_button.text = "Genie: on its way"
+#: scripts/ui/tavern_window.gd:552
+msgid "Genie: on its way"
+msgstr "Genie : en route"
+
+#. genie_button.text = "Genie: hired"
+#: scripts/ui/tavern_window.gd:554
+msgid "Genie: hired"
+msgstr "Genie : engagé"
+
+#. hire_button = _button("Hire", Vector2(628, 62))
+#: scripts/ui/tavern_window.gd:762 scripts/ui/trade_window.gd:1263
+msgid "Hire"
+msgstr "Engager"
+
+#. revive_button = _button("Revive", Vector2(628, 34))
+#: scripts/ui/tavern_window.gd:765
+msgid "Revive"
+msgstr "Ranimer"
+
+#. dismiss_button = _button("Dismiss", Vector2(628, 62))
+#: scripts/ui/tavern_window.gd:767 scripts/ui/tavern_window.gd:1060
+msgid "Dismiss"
+msgstr "Renvoyer"
+
+#. hire_gold_button = _button("Hire · Gold", Vector2(628, 64))
+#: scripts/ui/tavern_window.gd:791
+msgid "Hire · Gold"
+msgstr "Engager · or"
+
+#. revive_gold_button = _button("Revive gold", Vector2(628, 42))
+#: scripts/ui/tavern_window.gd:796
+msgid "Revive gold"
+msgstr "Ranimer (or)"
+
+#. class_word.text = "Class"
+#: scripts/ui/tavern_window.gd:916 scripts/ui/tavern_window.gd:920 scripts/ui/champion_bar.gd:1104
+msgid "Class"
+msgstr "Classe"
+
+#. status_label.text = "Hired · Level 1"
+#: scripts/ui/tavern_window.gd:1023
+msgid "Hired · Level 1"
+msgstr "Engagé · Niv. 1"
+
+#. var why := "" if r == null or (r is bool and r) else ("Cannot revive" if r is bool else str(r))
+#: scripts/ui/tavern_window.gd:1047 scripts/ui/tavern_window.gd:1115
+msgid "Cannot revive"
+msgstr "Impossible de ranimer"
+
+#. dismiss_button.text = "Confirm?" if armed else "Dismiss"
+#: scripts/ui/tavern_window.gd:1060
+msgid "Confirm?"
+msgstr "Confirmer ?"
+
+#. reward_label.text = Loc.t("The Lodge pays {n} gold for every Magpie slain", {"n": REWARD_PER_MAGPIE})
+#: scripts/ui/trade_window.gd:181 scripts/ui/trade_window.gd:312
+msgid "The Lodge pays {n} gold for every Magpie slain"
+msgstr "Le Lodge paie {n} or par Magpie tuée"
+
+#. return Loc.t("crystals") if to == &"crystals" else Loc.t("essence")
+#: scripts/ui/trade_window.gd:186
+msgid "crystals"
+msgstr "cristaux"
+
+#. return Loc.t("crystals") if to == &"crystals" else Loc.t("essence")
+#: scripts/ui/trade_window.gd:186
+msgid "essence"
+msgstr "essence"
+
+#. message.emit(Loc.t("Exchanged {gold} gold for {n} {res}", {"gold": amount, "n": received, "res": res_word(to)}
+#: scripts/ui/trade_window.gd:771
+msgid "Exchanged {gold} gold for {n} {res}"
+msgstr "{gold} or échangés contre {n} {res}"
+
+#. button.text = Loc.t("{gold} gold  ->  {n} {res}", {"gold": amount, "n": received, "res": res_word(to)})
+#: scripts/ui/trade_window.gd:863
+msgid "{gold} gold  ->  {n} {res}"
+msgstr "{gold} or  ->  {n} {res}"
+
+#. button.tooltip_text = Loc.t("Exchange  [{key}]\n100 gold -> {n} {res} · Shift: x5", {"key": ek,
+#: scripts/ui/trade_window.gd:869
+msgid "Exchange  [{key}]\n100 gold -> {n} {res} · Shift: x5"
+msgstr "Échanger  [{key}]\n100 or -> {n} {res} · Maj : x5"
+
+#. ledger_labels[0].text = Loc.t("Gold earned {n}", {"n": thousands(earned)})
+#: scripts/ui/trade_window.gd:872
+msgid "Gold earned {n}"
+msgstr "Or gagné {n}"
+
+#. ledger_labels[1].text = Loc.t("trade {trade} · loot {loot} · rewards {rewards}", {"trade": thousands(_earned(b
+#: scripts/ui/trade_window.gd:873
+msgid "trade {trade} · loot {loot} · rewards {rewards}"
+msgstr "commerce {trade} · butin {loot} · primes {rewards}"
+
+#. ledger_labels[2].text = Loc.t("Gold traded, last 3 min: {n}", {"n": thousands(income)})
+#: scripts/ui/trade_window.gd:877
+msgid "Gold traded, last 3 min: {n}"
+msgstr "Or échangé, 3 dernières min : {n}"
+
+#. footer_right.text = Loc.t("Bazaar: {name}", {"name": building_name(m)})
+#: scripts/ui/trade_window.gd:889
+msgid "Bazaar: {name}"
+msgstr "Bazar : {name}"
+
+#. lodge_header.text = Loc.t("The Lodge opens at 5:00 · in {time}", {"time": mmss(lodge_time_until_open(g))})
+#: scripts/ui/trade_window.gd:899 scripts/ui/post_panel.gd:369
+msgid "The Lodge opens at 5:00 · in {time}"
+msgstr "Le Lodge ouvre à 5:00 · dans {time}"
+
+#. rewards_received_label.text = Loc.t("Rewards received: {n} gold", {"n": thousands(_earned(b, &"reward"))})
+#: scripts/ui/trade_window.gd:906
+msgid "Rewards received: {n} gold"
+msgstr "Primes reçues : {n} or"
+
+#. footer_right.text = Loc.t("Magpies you can see: {n}", {"n": n})
+#: scripts/ui/trade_window.gd:910
+msgid "Magpies you can see: {n}"
+msgstr "Magpies visibles : {n}"
+
+#. buy_button.tooltip_text = Loc.t("Buy {name}  [{key}]\n{gold} gold · once", {"name": str(info.get("name", id)),
+#: scripts/ui/trade_window.gd:1179
+msgid "Buy {name}  [{key}]\n{gold} gold · once"
+msgstr "Acheter {name}  [{key}]\n{gold} or · une fois"
+
+#. sub_label.text = Loc.t("{n} Greywater Trackers · {secs} s", {"n": trackers, "secs": roundi(duration)})
+#: scripts/ui/trade_window.gd:1289
+msgid "{n} Greywater Trackers · {secs} s"
+msgstr "{n} Greywater Trackers · {secs} s"
+
+#. time_label.text = Loc.t("{time} left", {"time": TradeWindow.mmss(left)})
+#: scripts/ui/trade_window.gd:1323
+msgid "{time} left"
+msgstr "{time} restant"
+
+#. hire_button.tooltip_text = Loc.t("Hire {name}  [{key}]\n{gold} gold · {n} trackers · {secs} s", {
+#: scripts/ui/trade_window.gd:1337
+msgid "Hire {name}  [{key}]\n{gold} gold · {n} trackers · {secs} s"
+msgstr "Engager {name}  [{key}]\n{gold} or · {n} pisteurs · {secs} s"
+
+#. "effect": "Caravans move 0.5 m/s faster and gain 60 HP",
+#: scripts/ui/trade_window.gd:66
+msgid "Caravans move 0.5 m/s faster and gain 60 HP"
+msgstr "Les caravanes vont 0,5 m/s plus vite et gagnent 60 PV"
+
+#. "who": "Applies to caravans alive now and built later"},
+#: scripts/ui/trade_window.gd:67
+msgid "Applies to caravans alive now and built later"
+msgstr "S'applique aux caravanes actuelles et futures"
+
+#. "effect": "Every building of yours gets +15 % max HP, now and later",
+#: scripts/ui/trade_window.gd:69
+msgid "Every building of yours gets +15 % max HP, now and later"
+msgstr "Chacun de vos bâtiments gagne +15 % PV max, maintenant et plus tard"
+
+#. "who": "Existing, under construction and future buildings; the gain is healed"},
+#: scripts/ui/trade_window.gd:70
+msgid "Existing, under construction and future buildings; the gain is healed"
+msgstr "Bâtiments existants, en construction et futurs ; le gain est soigné"
+
+#. "effect": "Your soldiers deal +8 % damage",
+#: scripts/ui/trade_window.gd:72
+msgid "Your soldiers deal +8 % damage"
+msgstr "Vos soldats infligent +8 % de dégâts"
+
+#. "who": "Soldiers only: not workers, caravans, wizards, champions or hunters"},
+#: scripts/ui/trade_window.gd:73 scripts/ui/trade_window.gd:76
+msgid "Soldiers only: not workers, caravans, wizards, champions or hunters"
+msgstr "Soldats seulement : ni ouvriers, caravanes, sorciers, champions ni chasseurs"
+
+#. "effect": "Your soldiers take 9 % less damage (+10 armor)",
+#: scripts/ui/trade_window.gd:75
+msgid "Your soldiers take 9 % less damage (+10 armor)"
+msgstr "Vos soldats subissent 9 % de dégâts en moins (+10 armure)"
+
+#. "desc": "Each tracker shadows one of your caravans and shoots any Magpie that comes near it."},
+#: scripts/ui/trade_window.gd:81
+msgid "Each tracker shadows one of your caravans and shoots any Magpie that comes near it."
+msgstr "Chaque pisteur suit une de vos caravanes et tire sur toute Magpie qui s'en approche."
+
+#. "desc": "Three trackers walk your mines and roads in turn, attack every Magpie they find and chase looters."},
+#: scripts/ui/trade_window.gd:83
+msgid "Three trackers walk your mines and roads in turn, attack every Magpie they find and chase looters."
+msgstr "Trois pisteurs parcourent vos mines et vos routes, attaquent chaque Magpie et pourchassent les pillards."
+
+#. const NO_BAZAAR := "No Bazaar"
+#: scripts/ui/trade_window.gd:90 scripts/ui/post_panel.gd:407 scripts/economy/caravan.gd:47
+#: scripts/economy/gold_bank.gd:61
+msgid "No Bazaar"
+msgstr "Aucun Bazar"
+
+#. const NO_GOLD := "Not enough gold"
+#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:385 scripts/economy/gold_bank.gd:63
+#: scripts/world/champion_guild.gd:79 scripts/world/hunters_guild.gd:57
+msgid "Not enough gold"
+msgstr "Pas assez d'or"
+
+#. const NO_LODGE := "No Greywater Lodge"
+#: scripts/ui/trade_window.gd:92
+msgid "No Greywater Lodge"
+msgstr "Aucun Greywater Lodge"
+
+#. const LODGE_HEADER := "Greywater Lodge (Hunters' Guild) · contracts paid in gold · open from 5:00"
+#: scripts/ui/trade_window.gd:93
+msgid "Greywater Lodge (Hunters' Guild) · contracts paid in gold · open from 5:00"
+msgstr "Greywater Lodge (Hunters' Guild) · contrats payés en or · ouvert dès 5:00"
+
+#. "Bands lurk on the roads from 5:00 and raid remote mines from 8:00.",
+#: scripts/ui/trade_window.gd:95
+msgid "Bands lurk on the roads from 5:00 and raid remote mines from 8:00."
+msgstr "Des bandes rôdent sur les routes dès 5:00 et pillent les mines isolées dès 8:00."
+
+#. "Bands skip spots within 20 m of your towers. Soldiers, Hunt flags and hunters kill them.",
+#: scripts/ui/trade_window.gd:96
+msgid "Bands skip spots within 20 m of your towers. Soldiers, Hunt flags and hunters kill them."
+msgstr "Les bandes évitent les lieux à moins de 20 m de vos tours. Soldats, drapeaux de chasse et chasseurs les tuent."
+
+#. "A dead Magpie drops its loot. Walk any unit over a sack to take it.",
+#: scripts/ui/trade_window.gd:97
+msgid "A dead Magpie drops its loot. Walk any unit over a sack to take it."
+msgstr "Une Magpie morte laisse son butin. Passez une unité sur le sac pour le prendre."
+
+#. title_label = UIStyle.display_label("Trade", 20)
+#: scripts/ui/trade_window.gd:198 scripts/buildings/building_type.gd:60 scripts/units/unit_type.gd:55
+msgid "Trade"
+msgstr "Commerce"
+
+#. for spec: Array in [[TAB_A, "Bazaar", BAZAAR, "Bazaar: wares and the gold exchange"],
+#: scripts/ui/trade_window.gd:203 scripts/ui/trade_window.gd:474
+msgid "Bazaar"
+msgstr "Bazar"
+
+#. for spec: Array in [[TAB_A, "Bazaar", BAZAAR, "Bazaar: wares and the gold exchange"],
+#: scripts/ui/trade_window.gd:203
+msgid "Bazaar: wares and the gold exchange"
+msgstr "Bazar : marchandises et échange d'or"
+
+#. [TAB_B, "Greywater Lodge", LODGE, "Hunters' Guild: contracts paid in gold"]]:
+#: scripts/ui/trade_window.gd:204
+msgid "Hunters' Guild: contracts paid in gold"
+msgstr "Hunters' Guild : contrats payés en or"
+
+#. _close_button.tooltip_text = "Close  [U]"
+#: scripts/ui/trade_window.gd:247
+msgid "Close  [U]"
+msgstr "Fermer  [U]"
+
+#. exchange_title = UIStyle.display_label("Exchange", 13)
+#: scripts/ui/trade_window.gd:273
+msgid "Exchange"
+msgstr "Échange"
+
+#. exchange_hint = _label(_bazaar_page, "Shift+click: 500 gold at once · no reverse exchange · needs your Bazaar"
+#: scripts/ui/trade_window.gd:296
+msgid "Shift+click: 500 gold at once · no reverse exchange · needs your Bazaar"
+msgstr "Maj+clic : 500 or d'un coup · aucun échange inverse · exige votre Bazar"
+
+#. rewards_received_label = _label(_lodge_page, "Rewards received: 0 gold", 12, Vector2(432, 260), 300)
+#: scripts/ui/trade_window.gd:314
+msgid "Rewards received: 0 gold"
+msgstr "Primes reçues : 0 or"
+
+#. return "Trade is off"
+#: scripts/ui/trade_window.gd:718 scripts/ui/trade_window.gd:732 scripts/ui/trade_window.gd:747
+#: scripts/ui/trade_window.gd:766
+msgid "Trade is off"
+msgstr "Commerce désactivé"
+
+#. return "Already owned"
+#: scripts/ui/trade_window.gd:724 scripts/economy/gold_bank.gd:62
+msgid "Already owned"
+msgstr "Déjà acquis"
+
+#. footer_left.text = "Build a Bazaar to buy wares and exchange gold"
+#: scripts/ui/trade_window.gd:882
+msgid "Build a Bazaar to buy wares and exchange gold"
+msgstr "Construisez un Bazar pour acheter des marchandises et échanger de l'or"
+
+#. footer_left.text = "Wares are bought once and apply to units made later too"
+#: scripts/ui/trade_window.gd:887
+msgid "Wares are bought once and apply to units made later too"
+msgstr "Achat unique ; s'applique aussi aux unités formées plus tard"
+
+#. lodge_header.text = "The Greywater Lodges are not here"
+#: scripts/ui/trade_window.gd:896
+msgid "The Greywater Lodges are not here"
+msgstr "Les Greywater Lodges ne sont pas ici"
+
+#. footer_left.text = "Trackers act on their own for the contract's time, then leave"
+#: scripts/ui/trade_window.gd:907
+msgid "Trackers act on their own for the contract's time, then leave"
+msgstr "Les pisteurs agissent seuls pendant le contrat, puis repartent"
+
+#. owned_tag = UIStyle.panel_label(" · Owned", 12, TradeWindow.OWNED)
+#: scripts/ui/trade_window.gd:1129
+msgid " · Owned"
+msgstr " · Acquis"
+
+#. buy_button = _row_button("Buy", Vector2(628, 34))
+#: scripts/ui/trade_window.gd:1145 scripts/ui/shop_window.gd:811
+msgid "Buy"
+msgstr "Acheter"
+
+#. owned_label = _row_label("Owned", 13, Vector2(628, 38), 104)
+#: scripts/ui/trade_window.gd:1148
+msgid "Owned"
+msgstr "Acquis"
+
+#. pop_label = _row_label("No pop cost", 11, Vector2(628, 22), 106)
+#: scripts/ui/trade_window.gd:1242
+msgid "No pop cost"
+msgstr "Sans pop."
+
+#. reason = "Contract already running"
+#: scripts/ui/trade_window.gd:1301 scripts/world/hunters_guild.gd:54
+msgid "Contract already running"
+msgstr "Contrat déjà en cours"
+
+#. reason = "On cooldown"
+#: scripts/ui/trade_window.gd:1304 scripts/ui/trade_window.gd:1328 scripts/ui/item_tooltip.gd:216
+#: scripts/ui/command_card.gd:839 scripts/ui/spell_info.gd:153 scripts/units/champion_abilities.gd:64
+msgid "On cooldown"
+msgstr "En recharge"
+
+#. status_label.text = "Running"
+#: scripts/ui/trade_window.gd:1321
+msgid "Running"
+msgstr "En cours"
+
+#. return Loc.t("{name} shop", {"name": str(bt.get("display_name"))})
+#: scripts/ui/shop_window.gd:351
+msgid "{name} shop"
+msgstr "Boutique : {name}"
+
+#. message.emit(Loc.t("Bought {name}", {"name": name_of(t)}))
+#: scripts/ui/shop_window.gd:614
+msgid "Bought {name}"
+msgstr "{name} acheté"
+
+#. message.emit(Loc.t("Sold {name} for {n}", {"name": name_of(t), "n": gained}))
+#: scripts/ui/shop_window.gd:636 scripts/ui/inventory_bar.gd:209
+msgid "Sold {name} for {n}"
+msgstr "{name} vendu pour {n}"
+
+#. message.emit(Loc.t("Not enough crystals"))
+#: scripts/ui/shop_window.gd:650 scripts/ui/top_bar.gd:295 scripts/buildings/build_grid.gd:26
+#: scripts/buildings/training_building.gd:16 scripts/buildings/unit_upgrades.gd:45
+#: scripts/units/bowman_upgrades.gd:50
+msgid "Not enough crystals"
+msgstr "Pas assez de cristaux"
+
+#. message.emit(Loc.t("Exchanged 100 crystals for 40 essence"))
+#: scripts/ui/shop_window.gd:652
+msgid "Exchanged 100 crystals for 40 essence"
+msgstr "100 cristaux échangés contre 40 essence"
+
+#. lines.append(Loc.t("Stacks to {n}", {"n": int(stack)}))
+#: scripts/ui/shop_window.gd:795
+msgid "Stacks to {n}"
+msgstr "S'empile jusqu'à {n}"
+
+#. lines.append(Loc.t("Owned: {n}", {"n": int(counts[id_of(t)])}))
+#: scripts/ui/shop_window.gd:797
+msgid "Owned: {n}"
+msgstr "Possédé : {n}"
+
+#. lines.append(Loc.t("Cost {n}", {"n": price}) if reason == "" or reason.begins_with("Not enough") else Loc.sink
+#: scripts/ui/shop_window.gd:798 scripts/ui/item_tooltip.gd:493
+msgid "Cost {n}"
+msgstr "Coût {n}"
+
+#. lines.append(Loc.t("Sell {n}", {"n": int(total_cost_of(t) / 2)}))
+#: scripts/ui/shop_window.gd:799 scripts/ui/item_tooltip.gd:185 scripts/ui/item_tooltip.gd:492
+msgid "Sell {n}"
+msgstr "Vente {n}"
+
+#. _buy.text = Loc.t("Combine {n}", {"n": price}) if combine else Loc.t("Buy {n}", {"n": price})
+#: scripts/ui/shop_window.gd:827
+msgid "Combine {n}"
+msgstr "Combiner {n}"
+
+#. _buy.text = Loc.t("Combine {n}", {"n": price}) if combine else Loc.t("Buy {n}", {"n": price})
+#: scripts/ui/shop_window.gd:827
+msgid "Buy {n}"
+msgstr "Acheter {n}"
+
+#. const TIER_NAMES := ["Components", "Mid", "Top", "Consumables"]
+#: scripts/ui/shop_window.gd:28
+msgid "Components"
+msgstr "Composants"
+
+#. const TIER_NAMES := ["Components", "Mid", "Top", "Consumables"]
+#: scripts/ui/shop_window.gd:28
+msgid "Mid"
+msgstr "Intermédiaires"
+
+#. const TIER_NAMES := ["Components", "Mid", "Top", "Consumables"]
+#: scripts/ui/shop_window.gd:28
+msgid "Top"
+msgstr "Supérieurs"
+
+#. const TIER_NAMES := ["Components", "Mid", "Top", "Consumables"]
+#: scripts/ui/shop_window.gd:28
+msgid "Consumables"
+msgstr "Consommables"
+
+#. "attack_damage": "damage", "max_hp": "HP", "max_mana": "mana", "mana_regen": "mana regen",
+#: scripts/ui/shop_window.gd:42
+msgid "mana regen"
+msgstr "régén. mana"
+
+#. "hp_regen": "HP regen", "attack_cooldown": "attack cooldown", "move_speed": "speed", "armor": "armor",
+#: scripts/ui/shop_window.gd:43
+msgid "HP regen"
+msgstr "régén. PV"
+
+#. "hp_regen": "HP regen", "attack_cooldown": "attack cooldown", "move_speed": "speed", "armor": "armor",
+#: scripts/ui/shop_window.gd:43
+msgid "attack cooldown"
+msgstr "recharge d'attaque"
+
+#. "spell_power": "spell power", "cooldown_reduction": "cooldown reduction", "lifesteal": "lifesteal",
+#: scripts/ui/shop_window.gd:44
+msgid "spell power"
+msgstr "puissance des sorts"
+
+#. "spell_power": "spell power", "cooldown_reduction": "cooldown reduction", "lifesteal": "lifesteal",
+#: scripts/ui/shop_window.gd:44
+msgid "cooldown reduction"
+msgstr "réduction de recharge"
+
+#. _title = HudSkin.text("Keep shop", 20, HudSkin.token(&"title"), true)
+#: scripts/ui/shop_window.gd:138 scripts/ui/shop_window.gd:352
+msgid "Keep shop"
+msgstr "Boutique du donjon"
+
+#. _missing = UIStyle.label("Items not available", 16)
+#: scripts/ui/shop_window.gd:191 scripts/ui/shop_window.gd:573 scripts/ui/shop_window.gd:610
+#: scripts/ui/shop_window.gd:628 scripts/ui/shop_window.gd:667 scripts/ui/shop_window.gd:810
+msgid "Items not available"
+msgstr "Objets non disponibles"
+
+#. _exchange.text = "Exchange 100 crystals -> 40 essence"
+#: scripts/ui/shop_window.gd:196
+msgid "Exchange 100 crystals -> 40 essence"
+msgstr "Échanger 100 cristaux -> 40 essence"
+
+#. message.emit("No shop nearby")
+#: scripts/ui/shop_window.gd:254 scripts/buildings/keep.gd:321 scripts/items/inventory.gd:476
+#: scripts/items/recipes.gd:59
+msgid "No shop nearby"
+msgstr "Aucune boutique à proximité"
+
+#. return "Nothing selected"
+#: scripts/ui/shop_window.gd:603 scripts/ui/post_panel.gd:397 scripts/ui/selection_panel.gd:292
+msgid "Nothing selected"
+msgstr "Rien de sélectionné"
+
+#. _text.text = "Items not available" if _missing.visible else "Pick an item"
+#: scripts/ui/shop_window.gd:810
+msgid "Pick an item"
+msgstr "Choisissez un objet"
+
+#. var l := ShopWindow.HudSkin.text("Drop an item here to sell", 12, ShopWindow.HudSkin.token(&"text_muted"))
+#: scripts/ui/shop_window.gd:899
+msgid "Drop an item here to sell"
+msgstr "Déposez un objet ici pour le vendre"
+
+#. return Loc.t("{intent} ({stake})", args) if loc else "{intent} ({stake})".format(args)
+#: scripts/ui/champion_bar.gd:707
+msgid "{intent} ({stake})"
+msgstr "{intent} ({stake})"
+
+#. return Loc.t("{intent}: {target} ({stake})", args) if loc else "{intent}: {target} ({stake})".format(args)
+#: scripts/ui/champion_bar.gd:708
+msgid "{intent}: {target} ({stake})"
+msgstr "{intent} : {target} ({stake})"
+
+#. return Loc.t("{intent}: {target}", a2) if loc else "{intent}: {target}".format(a2)
+#: scripts/ui/champion_bar.gd:713
+msgid "{intent}: {target}"
+msgstr "{intent} : {target}"
+
+#. return Loc.t("Items: {list}", {"list": ", ".join(parts)}) if not parts.is_empty() else Loc.t("Items: none")
+#: scripts/ui/champion_bar.gd:758
+msgid "Items: {list}"
+msgstr "Objets : {list}"
+
+#. return Loc.t("Items: {list}", {"list": ", ".join(parts)}) if not parts.is_empty() else Loc.t("Items: none")
+#: scripts/ui/champion_bar.gd:758
+msgid "Items: none"
+msgstr "Objets : aucun"
+
+#. var first := str(a.get("name", "")) + ("  " + Loc.t("Locked") if locked else "")
+#: scripts/ui/champion_bar.gd:840 scripts/ui/champion_bar.gd:861 scripts/ui/champion_bar.gd:1103
+#: scripts/units/champion_abilities.gd:63 scripts/units/creature_abilities.gd:62
+msgid "Locked"
+msgstr "Verrouillé"
+
+#. lines.append(Loc.t("Autocast: {when}", {"when": Loc.t(str(a.get("when", "")))}))
+#: scripts/ui/champion_bar.gd:846
+msgid "Autocast: {when}"
+msgstr "Lancement auto : {when}"
+
+#. lines.append(Loc.t("Unlocks at level {n}", {"n": int(a.get("unlock", 1))}))
+#: scripts/ui/champion_bar.gd:848 scripts/ui/champion_bar.gd:874 scripts/ui/champion_bar.gd:1110
+msgid "Unlocks at level {n}"
+msgstr "Débloqué au niveau {n}"
+
+#. var unpaid := Loc.t("Unpaid: ignores bounties").get_slice(":", 0)
+#: scripts/ui/champion_bar.gd:875 scripts/ui/champion_bar.gd:924 scripts/ui/champion_bar.gd:1601
+msgid "Unpaid: ignores bounties"
+msgstr "Impayé : ignore les primes"
+
+#. lines.append(Loc.t("Level {level} · {xp} · HP {hp} / {max} · Purse {purse}", args) if xp != ""
+#: scripts/ui/champion_bar.gd:921
+msgid "Level {level} · {xp} · HP {hp} / {max} · Purse {purse}"
+msgstr "Niv. {level} · {xp} · PV {hp} / {max} · Bourse {purse}"
+
+#. else Loc.t("Level {level} · HP {hp} / {max} · Purse {purse}", args))
+#: scripts/ui/champion_bar.gd:922
+msgid "Level {level} · HP {hp} / {max} · Purse {purse}"
+msgstr "Niv. {level} · PV {hp} / {max} · Bourse {purse}"
+
+#. return Loc.t("{name} takes up {weapon}", {"name": display_name_of(ch),
+#: scripts/ui/champion_bar.gd:993
+msgid "{name} takes up {weapon}"
+msgstr "{name} prend {weapon}"
+
+#. var weapon := Loc.t("ranged {reach} · {dmg} damage every {cd} s", wargs) if bool(c.get("ranged", false)) \
+#: scripts/ui/champion_bar.gd:1007
+msgid "ranged {reach} · {dmg} damage every {cd} s"
+msgstr "à distance {reach} · {dmg} dégâts toutes les {cd} s"
+
+#. else Loc.t("melee · {dmg} damage every {cd} s · reach {reach}", wargs)
+#: scripts/ui/champion_bar.gd:1008
+msgid "melee · {dmg} damage every {cd} s · reach {reach}"
+msgstr "mêlée · {dmg} dégâts toutes les {cd} s · allonge {reach}"
+
+#. var lines: PackedStringArray = [Loc.t("Class skill {n}", {"n": slot}) + "  " + Loc.t("Locked") if slot > 0
+#: scripts/ui/champion_bar.gd:1103
+msgid "Class skill {n}"
+msgstr "Compétence de classe {n}"
+
+#. lines.append(Loc.t("Chooses a class at level 2 · leans {lean}", {"lean": lean_text(weights)}))
+#: scripts/ui/champion_bar.gd:1105
+msgid "Chooses a class at level 2 · leans {lean}"
+msgstr "Choisit une classe au niveau 2 · penche {lean}"
+
+#. tavern_label.text = "Y · tavern" if open else Loc.t("Tavern opens at {time}", {"time": at})
+#: scripts/ui/champion_bar.gd:1404 scripts/ui/champion_bar.gd:1407
+msgid "Tavern opens at {time}"
+msgstr "Taverne ouverte à {time}"
+
+#. tooltip_text = Loc.t("Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.") + (
+#: scripts/ui/champion_bar.gd:1406
+msgid "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern."
+msgstr "Engager un champion  [Y]\nOuvrez la taverne (Y) ou cliquez sur une taverne."
+
+#. + Loc.t("Hired: walks out of the tavern in {n} s.", {"n": ceili(left)})
+#: scripts/ui/champion_bar.gd:1428
+msgid "Hired: walks out of the tavern in {n} s."
+msgstr "Engagé : sort de la taverne dans {n} s."
+
+#. &"spear": {"display_name": "Spear", "ranged": false, "attack_damage": 13.0, "attack_cooldown": 0.95,
+#: scripts/ui/champion_bar.gd:50 data/champion_classes/spear.tres:8
+msgid "Spear"
+msgstr "Lance"
+
+#. "attack_range": 2.4, "mods": "+0.2 speed", "bounty_kind": &"explore", "takes": "the Spear",
+#: scripts/ui/champion_bar.gd:51
+msgid "+0.2 speed"
+msgstr "+0,2 vitesse"
+
+#. "attack_range": 2.4, "mods": "+0.2 speed", "bounty_kind": &"explore", "takes": "the Spear",
+#: scripts/ui/champion_bar.gd:51
+msgid "the Spear"
+msgstr "la lance"
+
+#. &"sword_shield": {"display_name": "Sword and Shield", "ranged": false, "attack_damage": 12.0, "attack_cooldown
+#: scripts/ui/champion_bar.gd:53 data/champion_classes/sword_shield.tres:8
+msgid "Sword and Shield"
+msgstr "Épée et bouclier"
+
+#. "attack_range": 1.8, "mods": "+10 armor · -0.2 speed", "bounty_kind": &"guard", "takes": "the Sword and Shield
+#: scripts/ui/champion_bar.gd:54
+msgid "+10 armor · -0.2 speed"
+msgstr "+10 armure · -0,2 vitesse"
+
+#. "attack_range": 1.8, "mods": "+10 armor · -0.2 speed", "bounty_kind": &"guard", "takes": "the Sword and Shield
+#: scripts/ui/champion_bar.gd:54
+msgid "the Sword and Shield"
+msgstr "l'épée et le bouclier"
+
+#. &"two_hand": {"display_name": "Two-Hand Sword", "ranged": false, "attack_damage": 24.0, "attack_cooldown": 1.5
+#: scripts/ui/champion_bar.gd:56 data/champion_classes/two_hand.tres:8
+msgid "Two-Hand Sword"
+msgstr "Épée à deux mains"
+
+#. "attack_range": 2.1, "mods": "no stat change", "bounty_kind": &"hunt", "takes": "the Two-Hand Sword",
+#: scripts/ui/champion_bar.gd:57
+msgid "no stat change"
+msgstr "aucun changement de stats"
+
+#. "attack_range": 2.1, "mods": "no stat change", "bounty_kind": &"hunt", "takes": "the Two-Hand Sword",
+#: scripts/ui/champion_bar.gd:57
+msgid "the Two-Hand Sword"
+msgstr "l'épée à deux mains"
+
+#. "attack_range": 7.5, "mods": "-10 % max HP", "bounty_kind": &"escort", "takes": "the Wizard's staff",
+#: scripts/ui/champion_bar.gd:60
+msgid "-10 % max HP"
+msgstr "-10 % PV max"
+
+#. "attack_range": 7.5, "mods": "-10 % max HP", "bounty_kind": &"escort", "takes": "the Wizard's staff",
+#: scripts/ui/champion_bar.gd:60
+msgid "the Wizard's staff"
+msgstr "le bâton de sorcier"
+
+#. const CLASS_MARK := "  (class, level {n})"
+#: scripts/ui/champion_bar.gd:77
+msgid "  (class, level {n})"
+msgstr "  (classe, niveau {n})"
+
+#. const BOUNTY_HINT := "Your bounties before level 2 steer its class"
+#: scripts/ui/champion_bar.gd:78
+msgid "Your bounties before level 2 steer its class"
+msgstr "Vos primes avant le niveau 2 orientent sa classe"
+
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:653 scripts/ui/flag_card.gd:268
+#: scripts/ui/idle_worker_button.gd:20 scripts/economy/caravan.gd:188
+msgid "Idle"
+msgstr "Inactif"
+
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:643 scripts/ui/selection_panel.gd:711
+msgid "Fallen"
+msgstr "Tombé"
+
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#: scripts/ui/champion_bar.gd:81 scripts/ui/point_panel.gd:509
+msgid "Fleeing"
+msgstr "En fuite"
+
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#: scripts/ui/champion_bar.gd:81
+msgid "Resting"
+msgstr "Au repos"
+
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#: scripts/ui/champion_bar.gd:81
+msgid "Fighting"
+msgstr "Au combat"
+
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1426
+msgid "Unpaid!"
+msgstr "Impayé !"
+
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#: scripts/ui/champion_bar.gd:81
+msgid "Hunting bounty"
+msgstr "Chasse une prime"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "Scouting bounty"
+msgstr "Explore une prime"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "Guarding"
+msgstr "Garde"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "Escorting"
+msgstr "Escorte"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "Shopping"
+msgstr "Magasine"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "Exploring"
+msgstr "Explore"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "Patrolling"
+msgstr "Patrouille"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "Raiding"
+msgstr "Pille"
+
+#. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+#: scripts/ui/champion_bar.gd:82
+msgid "With the army"
+msgstr "Avec l'armée"
+
+#. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
+#: scripts/ui/champion_bar.gd:83
+msgid "Capturing"
+msgstr "Capture"
+
+#. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
+#: scripts/ui/champion_bar.gd:83
+msgid "Hunting big game"
+msgstr "Chasse le gros gibier"
+
+#. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
+#: scripts/ui/champion_bar.gd:83
+msgid "Hunting game"
+msgstr "Chasse le gibier"
+
+#. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
+#: scripts/ui/champion_bar.gd:83
+msgid "Returns in # s"
+msgstr "Revient dans # s"
+
+#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
+#: scripts/ui/champion_bar.gd:111 data/ui/unit_guide.json:wayfinder
+msgid "Scout, ranged"
+msgstr "Éclaireur, à distance"
+
+#. "personality_line": "Goes where the map is blank.",
+#: scripts/ui/champion_bar.gd:115
+msgid "Goes where the map is blank."
+msgstr "Va là où la carte est vierge."
+
+#. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
+#: scripts/ui/champion_bar.gd:118 data/ui/unit_guide.json:oathwall
+msgid "Guardian, melee"
+msgstr "Gardien, mêlée"
+
+#. "personality_line": "Would rather stand at your door than walk to theirs.",
+#: scripts/ui/champion_bar.gd:122
+msgid "Would rather stand at your door than walk to theirs."
+msgstr "Préfère garder votre porte que marcher jusqu'à la leur."
+
+#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
+#: scripts/ui/champion_bar.gd:125 data/ui/unit_guide.json:coin_cutter
+msgid "Raider, melee"
+msgstr "Pillard, mêlée"
+
+#. "personality_line": "Loves a bounty more than a fair fight.",
+#: scripts/ui/champion_bar.gd:129
+msgid "Loves a bounty more than a fair fight."
+msgstr "Aime une prime plus qu'un combat loyal."
+
+#. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
+#: scripts/ui/champion_bar.gd:132 data/ui/unit_guide.json:mender
+msgid "Healer, ranged"
+msgstr "Guérisseur, à distance"
+
+#. "personality_line": "Follows the army and keeps it standing.",
+#: scripts/ui/champion_bar.gd:136
+msgid "Follows the army and keeps it standing."
+msgstr "Suit l'armée et la garde debout."
+
+#. "short": "20 dmg, reveals a spot 6 s", "info": "Cooldown 18 s · Range 20",
+#: scripts/ui/champion_bar.gd:143
+msgid "20 dmg, reveals a spot 6 s"
+msgstr "20 dégâts, révèle un lieu 6 s"
+
+#. "short": "20 dmg, reveals a spot 6 s", "info": "Cooldown 18 s · Range 20",
+#: scripts/ui/champion_bar.gd:143
+msgid "Cooldown 18 s · Range 20"
+msgstr "Recharge 18 s · Portée 20"
+
+#. "effect": "Hurls a flare up to 20 m: {20} damage around it, and the spot stays in sight for 6 s.",
+#: scripts/ui/champion_bar.gd:144
+msgid "Hurls a flare up to 20 m: {20} damage around it, and the spot stays in sight for 6 s."
+msgstr "Lance une fusée jusqu'à 20 m : {20} dégâts autour, et le lieu reste visible 6 s."
+
+#. "when": "while exploring: ahead on its path; in a fight: where an enemy just vanished"},
+#: scripts/ui/champion_bar.gd:145
+msgid "while exploring: ahead on its path; in a fight: where an enemy just vanished"
+msgstr "en exploration : devant sur son chemin ; au combat : là où un ennemi vient de disparaître"
+
+#. "short": "15 dmg + roots 1.5 s", "info": "Cooldown 14 s · Range 8",
+#: scripts/ui/champion_bar.gd:147
+msgid "15 dmg + roots 1.5 s"
+msgstr "15 dégâts + immobilise 1,5 s"
+
+#. "short": "15 dmg + roots 1.5 s", "info": "Cooldown 14 s · Range 8",
+#: scripts/ui/champion_bar.gd:147
+msgid "Cooldown 14 s · Range 8"
+msgstr "Recharge 14 s · Portée 8"
+
+#. "effect": "{15} damage and roots one enemy for 1.5 s.",
+#: scripts/ui/champion_bar.gd:148
+msgid "{15} damage and roots one enemy for 1.5 s."
+msgstr "{15} dégâts et immobilise un ennemi 1,5 s."
+
+#. "when": "when fleeing from a chaser, or when its hunt target runs"},
+#: scripts/ui/champion_bar.gd:149
+msgid "when fleeing from a chaser, or when its hunt target runs"
+msgstr "en fuyant un poursuivant, ou quand sa cible de chasse s'enfuit"
+
+#. "short": "haste 5 s, allies 8 m", "info": "Cooldown 30 s · Self, radius 8",
+#: scripts/ui/champion_bar.gd:151
+msgid "haste 5 s, allies 8 m"
+msgstr "hâte 5 s, alliés 8 m"
+
+#. "short": "haste 5 s, allies 8 m", "info": "Cooldown 30 s · Self, radius 8",
+#: scripts/ui/champion_bar.gd:151
+msgid "Cooldown 30 s · Self, radius 8"
+msgstr "Recharge 30 s · Soi, rayon 8"
+
+#. "effect": "Itself and own soldiers within 8 m get Haste for 5 s.",
+#: scripts/ui/champion_bar.gd:152
+msgid "Itself and own soldiers within 8 m get Haste for 5 s."
+msgstr "Lui et vos soldats à moins de 8 m reçoivent Hâte pendant 5 s."
+
+#. "when": "when fleeing, or walking more than 25 m to a flag"},
+#: scripts/ui/champion_bar.gd:153
+msgid "when fleeing, or walking more than 25 m to a flag"
+msgstr "en fuite, ou en marchant plus de 25 m vers un drapeau"
+
+#. "short": "taunts 3 s, +20 armor", "info": "Cooldown 16 s · Self, radius 6",
+#: scripts/ui/champion_bar.gd:155
+msgid "taunts 3 s, +20 armor"
+msgstr "provoque 3 s, +20 armure"
+
+#. "short": "taunts 3 s, +20 armor", "info": "Cooldown 16 s · Self, radius 6",
+#: scripts/ui/champion_bar.gd:155
+msgid "Cooldown 16 s · Self, radius 6"
+msgstr "Recharge 16 s · Soi, rayon 6"
+
+#. "effect": "Enemies within 6 m must attack it for 3 s; it gains 20 armor for 3 s.",
+#: scripts/ui/champion_bar.gd:156
+msgid "Enemies within 6 m must attack it for 3 s; it gains 20 armor for 3 s."
+msgstr "Les ennemis à moins de 6 m doivent l'attaquer 3 s ; il gagne 20 armure pendant 3 s."
+
+#. "when": "when 2+ enemies hit an ally, or 3+ target it"},
+#: scripts/ui/champion_bar.gd:157
+msgid "when 2+ enemies hit an ally, or 3+ target it"
+msgstr "quand 2+ ennemis frappent un allié, ou que 3+ le ciblent"
+
+#. "short": "30 dmg + dazes 0.8 s", "info": "Cooldown 10 s · Range 2.2",
+#: scripts/ui/champion_bar.gd:159
+msgid "30 dmg + dazes 0.8 s"
+msgstr "30 dégâts + étourdit 0,8 s"
+
+#. "short": "30 dmg + dazes 0.8 s", "info": "Cooldown 10 s · Range 2.2",
+#: scripts/ui/champion_bar.gd:159
+msgid "Cooldown 10 s · Range 2.2"
+msgstr "Recharge 10 s · Portée 2,2"
+
+#. "effect": "{30} damage and dazes the target 0.8 s (no move, no act).",
+#: scripts/ui/champion_bar.gd:160
+msgid "{30} damage and dazes the target 0.8 s (no move, no act)."
+msgstr "{30} dégâts et étourdit la cible 0,8 s (ni mouvement ni action)."
+
+#. "when": "on its target; prefers one hitting your building or wizard"},
+#: scripts/ui/champion_bar.gd:161
+msgid "on its target; prefers one hitting your building or wizard"
+msgstr "sur sa cible ; préfère celle qui frappe votre bâtiment ou votre sorcier"
+
+#. "short": "braces allies 6 s", "info": "Cooldown 40 s · Self, radius 5",
+#: scripts/ui/champion_bar.gd:163
+msgid "braces allies 6 s"
+msgstr "protège les alliés 6 s"
+
+#. "short": "braces allies 6 s", "info": "Cooldown 40 s · Self, radius 5",
+#: scripts/ui/champion_bar.gd:163
+msgid "Cooldown 40 s · Self, radius 5"
+msgstr "Recharge 40 s · Soi, rayon 5"
+
+#. "effect": "Plants its shield 6 s: it cannot move; allies within 5 m take 30 % less damage.",
+#: scripts/ui/champion_bar.gd:164
+msgid "Plants its shield 6 s: it cannot move; allies within 5 m take 30 % less damage."
+msgstr "Plante son bouclier 6 s : immobile ; les alliés à moins de 5 m subissent 30 % de dégâts en moins."
+
+#. "when": "when 3+ enemies are near while guarding or near a building"},
+#: scripts/ui/champion_bar.gd:165
+msgid "when 3+ enemies are near while guarding or near a building"
+msgstr "quand 3+ ennemis sont proches en gardant ou près d'un bâtiment"
+
+#. "short": "next hit +25 dmg, +15 purse", "info": "Cooldown 8 s · Melee",
+#: scripts/ui/champion_bar.gd:167
+msgid "next hit +25 dmg, +15 purse"
+msgstr "coup suivant +25 dégâts, +15 bourse"
+
+#. "short": "next hit +25 dmg, +15 purse", "info": "Cooldown 8 s · Melee",
+#: scripts/ui/champion_bar.gd:167
+msgid "Cooldown 8 s · Melee"
+msgstr "Recharge 8 s · Mêlée"
+
+#. "effect": "Its next attack deals {25} extra damage; a kill adds 15 to its purse.",
+#: scripts/ui/champion_bar.gd:168
+msgid "Its next attack deals {25} extra damage; a kill adds 15 to its purse."
+msgstr "Sa prochaine attaque inflige {25} dégâts de plus ; un coup fatal ajoute 15 à sa bourse."
+
+#. "when": "on a target below 50 % HP or a worker"},
+#: scripts/ui/champion_bar.gd:169
+msgid "on a target below 50 % HP or a worker"
+msgstr "sur une cible sous 50 % PV ou un ouvrier"
+
+#. "short": "shroud 3 s, drops targets", "info": "Cooldown 25 s · Self, radius 3",
+#: scripts/ui/champion_bar.gd:171
+msgid "shroud 3 s, drops targets"
+msgstr "voile 3 s, perd les cibles"
+
+#. "short": "shroud 3 s, drops targets", "info": "Cooldown 25 s · Self, radius 3",
+#: scripts/ui/champion_bar.gd:171
+msgid "Cooldown 25 s · Self, radius 3"
+msgstr "Recharge 25 s · Soi, rayon 3"
+
+#. "effect": "Shroud 3 s (half damage, faster); enemies within 6 m lose it as a target.",
+#: scripts/ui/champion_bar.gd:172
+msgid "Shroud 3 s (half damage, faster); enemies within 6 m lose it as a target."
+msgstr "Voile 3 s (dégâts réduits de moitié, plus rapide) ; les ennemis à moins de 6 m le perdent comme cible."
+
+#. "when": "when hurt near its flee point, or when 3+ enemies target it"},
+#: scripts/ui/champion_bar.gd:173
+msgid "when hurt near its flee point, or when 3+ enemies target it"
+msgstr "blessé près de son point de repli, ou quand 3+ ennemis le ciblent"
+
+#. "short": "+15 % damage taken", "info": "Cooldown 20 s · Range 8",
+#: scripts/ui/champion_bar.gd:175
+msgid "+15 % damage taken"
+msgstr "+15 % de dégâts subis"
+
+#. "short": "+15 % damage taken", "info": "Cooldown 20 s · Range 8",
+#: scripts/ui/champion_bar.gd:175 scripts/ui/champion_bar.gd:212
+msgid "Cooldown 20 s · Range 8"
+msgstr "Recharge 20 s · Portée 8"
+
+#. "effect": "Marks one enemy 6 s: it takes 15 % more damage from everything.",
+#: scripts/ui/champion_bar.gd:176
+msgid "Marks one enemy 6 s: it takes 15 % more damage from everything."
+msgstr "Marque un ennemi 6 s : il subit 15 % de dégâts de plus de toute source."
+
+#. "when": "on its hunt or raid target"},
+#: scripts/ui/champion_bar.gd:177
+msgid "on its hunt or raid target"
+msgstr "sur sa cible de chasse ou de pillage"
+
+#. "short": "heals 50", "info": "Cooldown 7 s · Range 9",
+#: scripts/ui/champion_bar.gd:179
+msgid "heals 50"
+msgstr "soigne 50"
+
+#. "short": "heals 50", "info": "Cooldown 7 s · Range 9",
+#: scripts/ui/champion_bar.gd:179
+msgid "Cooldown 7 s · Range 9"
+msgstr "Recharge 7 s · Portée 9"
+
+#. "effect": "Heals the most hurt ally within 9 m by {50}.",
+#: scripts/ui/champion_bar.gd:180
+msgid "Heals the most hurt ally within 9 m by {50}."
+msgstr "Soigne de {50} l'allié le plus blessé à moins de 9 m."
+
+#. "when": "when an ally within 9 m is below 70 % HP"},
+#: scripts/ui/champion_bar.gd:181
+msgid "when an ally within 9 m is below 70 % HP"
+msgstr "quand un allié à moins de 9 m est sous 70 % PV"
+
+#. "short": "6 HP / s for 5 s", "info": "Cooldown 24 s · Range 9, radius 5",
+#: scripts/ui/champion_bar.gd:183
+msgid "6 HP / s for 5 s"
+msgstr "6 PV / s pendant 5 s"
+
+#. "short": "6 HP / s for 5 s", "info": "Cooldown 24 s · Range 9, radius 5",
+#: scripts/ui/champion_bar.gd:183
+msgid "Cooldown 24 s · Range 9, radius 5"
+msgstr "Recharge 24 s · Portée 9, rayon 5"
+
+#. "effect": "A circle that heals allies inside by {6} HP / s for 5 s.",
+#: scripts/ui/champion_bar.gd:184
+msgid "A circle that heals allies inside by {6} HP / s for 5 s."
+msgstr "Un cercle qui soigne les alliés à l'intérieur de {6} PV / s pendant 5 s."
+
+#. "when": "when 3+ allies stand together below 80 % HP"},
+#: scripts/ui/champion_bar.gd:185
+msgid "when 3+ allies stand together below 80 % HP"
+msgstr "quand 3+ alliés sont groupés sous 80 % PV"
+
+#. "short": "100 shield 5 s", "info": "Cooldown 35 s · Range 9",
+#: scripts/ui/champion_bar.gd:187
+msgid "100 shield 5 s"
+msgstr "bouclier de 100, 5 s"
+
+#. "short": "100 shield 5 s", "info": "Cooldown 35 s · Range 9",
+#: scripts/ui/champion_bar.gd:187
+msgid "Cooldown 35 s · Range 9"
+msgstr "Recharge 35 s · Portée 9"
+
+#. "effect": "A {100} shield for 5 s on one ally.",
+#: scripts/ui/champion_bar.gd:188
+msgid "A {100} shield for 5 s on one ally."
+msgstr "Un bouclier de {100} pendant 5 s sur un allié."
+
+#. "when": "when the wizard or a champion is below 35 % HP"},
+#: scripts/ui/champion_bar.gd:189
+msgid "when the wizard or a champion is below 35 % HP"
+msgstr "quand le sorcier ou un champion est sous 35 % PV"
+
+#. "short": "25 dmg + dazes 0.5 s", "info": "Cooldown 14 s · Range 6",
+#: scripts/ui/champion_bar.gd:192
+msgid "25 dmg + dazes 0.5 s"
+msgstr "25 dégâts + étourdit 0,5 s"
+
+#. "short": "25 dmg + dazes 0.5 s", "info": "Cooldown 14 s · Range 6",
+#: scripts/ui/champion_bar.gd:192
+msgid "Cooldown 14 s · Range 6"
+msgstr "Recharge 14 s · Portée 6"
+
+#. "effect": "Darts to its target and strikes: {25} damage, dazed 0.5 s.",
+#: scripts/ui/champion_bar.gd:193
+msgid "Darts to its target and strikes: {25} damage, dazed 0.5 s."
+msgstr "Bondit sur sa cible et frappe : {25} dégâts, étourdie 0,5 s."
+
+#. "when": "on a ranged enemy or caster 3-6 m away, or a hunt target slipping away"},
+#: scripts/ui/champion_bar.gd:194
+msgid "on a ranged enemy or caster 3-6 m away, or a hunt target slipping away"
+msgstr "sur un ennemi à distance ou un lanceur de sorts à 3-6 m, ou une cible de chasse qui s'échappe"
+
+#. "short": "25 dmg + hobbles 3 s", "info": "Cooldown 16 s · Range 10",
+#: scripts/ui/champion_bar.gd:196
+msgid "25 dmg + hobbles 3 s"
+msgstr "25 dégâts + ralentit 3 s"
+
+#. "short": "25 dmg + hobbles 3 s", "info": "Cooldown 16 s · Range 10",
+#: scripts/ui/champion_bar.gd:196
+msgid "Cooldown 16 s · Range 10"
+msgstr "Recharge 16 s · Portée 10"
+
+#. "effect": "A javelin: {25} damage and hobbles the target 3 s (-1.5 speed).",
+#: scripts/ui/champion_bar.gd:197
+msgid "A javelin: {25} damage and hobbles the target 3 s (-1.5 speed)."
+msgstr "Un javelot : {25} dégâts et ralentit la cible 3 s (-1,5 vitesse)."
+
+#. "when": "on an enemy below 60 % HP that runs, or its hunt target"},
+#: scripts/ui/champion_bar.gd:198
+msgid "on an enemy below 60 % HP that runs, or its hunt target"
+msgstr "sur un ennemi sous 60 % PV qui fuit, ou sa cible de chasse"
+
+#. "short": "40 dmg in a 5 m line", "info": "Cooldown 25 s · Line 5 m",
+#: scripts/ui/champion_bar.gd:200
+msgid "40 dmg in a 5 m line"
+msgstr "40 dégâts sur une ligne de 5 m"
+
+#. "short": "40 dmg in a 5 m line", "info": "Cooldown 25 s · Line 5 m",
+#: scripts/ui/champion_bar.gd:200
+msgid "Cooldown 25 s · Line 5 m"
+msgstr "Recharge 25 s · Ligne 5 m"
+
+#. "effect": "A thrust through a 5 m line: {40} damage to every enemy in it.",
+#: scripts/ui/champion_bar.gd:201
+msgid "A thrust through a 5 m line: {40} damage to every enemy in it."
+msgstr "Une estocade sur une ligne de 5 m : {40} dégâts à chaque ennemi touché."
+
+#. "when": "when 3+ enemies stand in a line"},
+#: scripts/ui/champion_bar.gd:202
+msgid "when 3+ enemies stand in a line"
+msgstr "quand 3+ ennemis sont alignés"
+
+#. "short": "returns 10 per hit, 4 s", "info": "Cooldown 22 s · Self, 4 s",
+#: scripts/ui/champion_bar.gd:204
+msgid "returns 10 per hit, 4 s"
+msgstr "renvoie 10 par coup, 4 s"
+
+#. "short": "returns 10 per hit, 4 s", "info": "Cooldown 22 s · Self, 4 s",
+#: scripts/ui/champion_bar.gd:204
+msgid "Cooldown 22 s · Self, 4 s"
+msgstr "Recharge 22 s · Soi, 4 s"
+
+#. "effect": "Melee attackers take {10} damage per hit.",
+#: scripts/ui/champion_bar.gd:205
+msgid "Melee attackers take {10} damage per hit."
+msgstr "Les attaquants en mêlée subissent {10} dégâts par coup."
+
+#. "when": "when 2+ melee enemies attack it"},
+#: scripts/ui/champion_bar.gd:206
+msgid "when 2+ melee enemies attack it"
+msgstr "quand 2+ ennemis de mêlée l'attaquent"
+
+#. "short": "heals 20 % over 4 s", "info": "Cooldown 45 s · Self",
+#: scripts/ui/champion_bar.gd:208
+msgid "heals 20 % over 4 s"
+msgstr "soigne 20 % en 4 s"
+
+#. "short": "heals 20 % over 4 s", "info": "Cooldown 45 s · Self",
+#: scripts/ui/champion_bar.gd:208
+msgid "Cooldown 45 s · Self"
+msgstr "Recharge 45 s · Soi"
+
+#. "effect": "Heals itself 20 % of its max HP over 4 s.",
+#: scripts/ui/champion_bar.gd:209 scripts/units/champion_abilities.gd:126
+msgid "Heals itself 20 % of its max HP over 4 s."
+msgstr "Se soigne de 20 % de ses PV max en 4 s."
+
+#. "when": "below 50 % HP, hit in the last 2 s"},
+#: scripts/ui/champion_bar.gd:210
+msgid "below 50 % HP, hit in the last 2 s"
+msgstr "sous 50 % PV, touché dans les 2 dernières s"
+
+#. "short": "30 / 20 / 10, bounces", "info": "Cooldown 20 s · Range 8",
+#: scripts/ui/champion_bar.gd:212
+msgid "30 / 20 / 10, bounces"
+msgstr "30 / 20 / 10, rebondit"
+
+#. "effect": "Throws its shield: {30} damage, then {20} and {10} to two more enemies within 4 m.",
+#: scripts/ui/champion_bar.gd:213
+msgid "Throws its shield: {30} damage, then {20} and {10} to two more enemies within 4 m."
+msgstr "Lance son bouclier : {30} dégâts, puis {20} et {10} à deux autres ennemis à moins de 4 m."
+
+#. "when": "on a ranged enemy hitting an ally, or a target out of reach 3-8 m away"},
+#: scripts/ui/champion_bar.gd:214
+msgid "on a ranged enemy hitting an ally, or a target out of reach 3-8 m away"
+msgstr "sur un ennemi à distance qui frappe un allié, ou une cible hors d'atteinte à 3-8 m"
+
+#. "short": "next hit splashes 2.5 m", "info": "Cooldown 10 s · Melee",
+#: scripts/ui/champion_bar.gd:216
+msgid "next hit splashes 2.5 m"
+msgstr "coup suivant en zone 2,5 m"
+
+#. "short": "next hit splashes 2.5 m", "info": "Cooldown 10 s · Melee",
+#: scripts/ui/champion_bar.gd:216
+msgid "Cooldown 10 s · Melee"
+msgstr "Recharge 10 s · Mêlée"
+
+#. "effect": "Its next attack also hits every enemy within 2.5 m of the target for full damage.",
+#: scripts/ui/champion_bar.gd:217
+msgid "Its next attack also hits every enemy within 2.5 m of the target for full damage."
+msgstr "Sa prochaine attaque touche aussi chaque ennemi à moins de 2,5 m de la cible, à pleins dégâts."
+
+#. "when": "when its target has 2+ enemies beside it"},
+#: scripts/ui/champion_bar.gd:218
+msgid "when its target has 2+ enemies beside it"
+msgstr "quand sa cible a 2+ ennemis à côté"
+
+#. "short": "30 dmg, -20 armor 6 s", "info": "Cooldown 20 s · Melee",
+#: scripts/ui/champion_bar.gd:220
+msgid "30 dmg, -20 armor 6 s"
+msgstr "30 dégâts, -20 armure 6 s"
+
+#. "short": "30 dmg, -20 armor 6 s", "info": "Cooldown 20 s · Melee",
+#: scripts/ui/champion_bar.gd:220
+msgid "Cooldown 20 s · Melee"
+msgstr "Recharge 20 s · Mêlée"
+
+#. "effect": "{30} damage; an enemy unit loses 20 armor for 6 s.",
+#: scripts/ui/champion_bar.gd:221
+msgid "{30} damage; an enemy unit loses 20 armor for 6 s."
+msgstr "{30} dégâts ; une unité ennemie perd 20 armure pendant 6 s."
+
+#. "when": "on an armored target (10+), a hero or a costly unit"},
+#: scripts/ui/champion_bar.gd:222
+msgid "on an armored target (10+), a hero or a costly unit"
+msgstr "sur une cible blindée (10+), un héros ou une unité coûteuse"
+
+#. "short": "12 dmg / 0.5 s for 2 s", "info": "Cooldown 30 s · Self, radius 3",
+#: scripts/ui/champion_bar.gd:224
+msgid "12 dmg / 0.5 s for 2 s"
+msgstr "12 dégâts / 0,5 s pendant 2 s"
+
+#. "short": "12 dmg / 0.5 s for 2 s", "info": "Cooldown 30 s · Self, radius 3",
+#: scripts/ui/champion_bar.gd:224
+msgid "Cooldown 30 s · Self, radius 3"
+msgstr "Recharge 30 s · Soi, rayon 3"
+
+#. "effect": "Spins 2 s: {12} damage every 0.5 s to every enemy within 3 m ({48} each).",
+#: scripts/ui/champion_bar.gd:225
+msgid "Spins 2 s: {12} damage every 0.5 s to every enemy within 3 m ({48} each)."
+msgstr "Tournoie 2 s : {12} dégâts toutes les 0,5 s à chaque ennemi à moins de 3 m ({48} chacun)."
+
+#. "when": "when 3+ enemies are within 3 m"},
+#: scripts/ui/champion_bar.gd:226
+msgid "when 3+ enemies are within 3 m"
+msgstr "quand 3+ ennemis sont à moins de 3 m"
+
+#. "short": "40 dmg bolt", "info": "Cooldown 10 s · Range 12",
+#: scripts/ui/champion_bar.gd:228
+msgid "40 dmg bolt"
+msgstr "trait de 40 dégâts"
+
+#. "short": "40 dmg bolt", "info": "Cooldown 10 s · Range 12",
+#: scripts/ui/champion_bar.gd:228
+msgid "Cooldown 10 s · Range 12"
+msgstr "Recharge 10 s · Portée 12"
+
+#. "effect": "A bolt: {40} damage to one enemy.",
+#: scripts/ui/champion_bar.gd:229
+msgid "A bolt: {40} damage to one enemy."
+msgstr "Un trait : {40} dégâts à un ennemi."
+
+#. "when": "on an enemy it can finish, else a hero, else the one hitting the most hurt ally"},
+#: scripts/ui/champion_bar.gd:230
+msgid "on an enemy it can finish, else a hero, else the one hitting the most hurt ally"
+msgstr "sur un ennemi qu'il peut achever, sinon un héros, sinon celui qui frappe l'allié le plus blessé"
+
+#. "short": "blinks 8 m away", "info": "Cooldown 22 s · Self, 8 m",
+#: scripts/ui/champion_bar.gd:232
+msgid "blinks 8 m away"
+msgstr "se téléporte à 8 m"
+
+#. "short": "blinks 8 m away", "info": "Cooldown 22 s · Self, 8 m",
+#: scripts/ui/champion_bar.gd:232
+msgid "Cooldown 22 s · Self, 8 m"
+msgstr "Recharge 22 s · Soi, 8 m"
+
+#. "effect": "Blinks up to 8 m away from the nearest melee enemy.",
+#: scripts/ui/champion_bar.gd:233
+msgid "Blinks up to 8 m away from the nearest melee enemy."
+msgstr "Se téléporte jusqu'à 8 m loin de l'ennemi de mêlée le plus proche."
+
+#. "when": "when a melee enemy closes in below 70 % HP, or while fleeing"},
+#: scripts/ui/champion_bar.gd:234
+msgid "when a melee enemy closes in below 70 % HP, or while fleeing"
+msgstr "quand un ennemi de mêlée approche et qu'il est sous 70 % PV, ou en fuite"
+
+#. "short": "45 dmg in radius 3.5", "info": "Cooldown 35 s · Range 12, radius 3.5",
+#: scripts/ui/champion_bar.gd:236
+msgid "45 dmg in radius 3.5"
+msgstr "45 dégâts, rayon 3,5"
+
+#. "short": "45 dmg in radius 3.5", "info": "Cooldown 35 s · Range 12, radius 3.5",
+#: scripts/ui/champion_bar.gd:236
+msgid "Cooldown 35 s · Range 12, radius 3.5"
+msgstr "Recharge 35 s · Portée 12, rayon 3,5"
+
+#. "effect": "A star falls after 1 s: {45} damage to every enemy and building within 3.5 m.",
+#: scripts/ui/champion_bar.gd:237
+msgid "A star falls after 1 s: {45} damage to every enemy and building within 3.5 m."
+msgstr "Une étoile tombe après 1 s : {45} dégâts à chaque ennemi et bâtiment à moins de 3,5 m."
+
+#. "when": "on the enemy with the most neighbours (3+ within 3.5 m)"},
+#: scripts/ui/champion_bar.gd:238
+msgid "on the enemy with the most neighbours (3+ within 3.5 m)"
+msgstr "sur l'ennemi le plus entouré (3+ à moins de 3,5 m)"
+
+#. return "Returns in %d s" % ceili(left) if left > 0.0 else "Fallen"
+#: scripts/ui/champion_bar.gd:643
+msgid "Returns in %d s"
+msgstr "Revient dans %d s"
+
+#. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
+#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:784
+msgid "XP  MAX"
+msgstr "XP  MAX"
+
+#. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
+#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:789
+msgid "XP  %d / %d"
+msgstr "XP  %d / %d"
+
+#. hire_label = UIStyle.panel_label("Hire a champion", 12)
+#: scripts/ui/champion_bar.gd:1343
+msgid "Hire a champion"
+msgstr "Engager un champion"
+
+#. tavern_label = UIStyle.panel_label("Y · tavern", 11, UIStyle.GOLD)
+#: scripts/ui/champion_bar.gd:1347 scripts/ui/champion_bar.gd:1404
+msgid "Y · tavern"
+msgstr "Y · taverne"
+
+#. tooltip_text = ItemTooltip.describe(type, "", maxi(n, 1)) if type != null else "Empty item slot"
+#: scripts/ui/champion_bar.gd:1818
+msgid "Empty item slot"
+msgstr "Emplacement d'objet vide"
+
+#. lines.append(Loc.t("Active: {name} · {n} s cooldown", {"name": active.capitalize(), "n": int(round(cooldown))}
+#: scripts/ui/item_tooltip.gd:176
+msgid "Active: {name} · {n} s cooldown"
+msgstr "Actif : {name} · recharge {n} s"
+
+#. lines.append(Loc.t("Active: {name}", {"name": active.capitalize()}))
+#: scripts/ui/item_tooltip.gd:178 scripts/ui/item_tooltip.gd:491
+msgid "Active: {name}"
+msgstr "Actif : {name}"
+
+#. lines.append(Loc.tn("{n} charge", "{n} charges", count))
+#: scripts/ui/item_tooltip.gd:181
+msgid "{n} charge"
+msgid_plural "{n} charges"
+msgstr[0] "{n} charge"
+msgstr[1] "{n} charges"
+
+#. lines.append(Loc.t("Artifact (cannot be sold)"))
+#: scripts/ui/item_tooltip.gd:183 scripts/ui/item_tooltip.gd:494 scripts/ui/inventory_bar.gd:200
+msgid "Artifact (cannot be sold)"
+msgstr "Artéfact (invendable)"
+
+#. row.add_child(text(rest, 12, WARN if rest.begins_with("Not learned") or rest.begins_with(Loc.t("Not learned"))
+#: scripts/ui/item_tooltip.gd:564 scripts/ui/item_tooltip.gd:216 scripts/ui/spell_info.gd:151
+#: scripts/ui/ui_style.gd:503 scripts/ui/ui_style.gd:539 scripts/units/wizard.gd:446
+msgid "Not learned"
+msgstr "Non appris"
+
+#. &"attack_damage_pct": "% damage",
+#: scripts/ui/item_tooltip.gd:23
+msgid "% damage"
+msgstr "% dégâts"
+
+#. &"attack_cooldown_pct": "% attack cooldown",
+#: scripts/ui/item_tooltip.gd:24
+msgid "% attack cooldown"
+msgstr "% recharge d'attaque"
+
+#. &"hp_regen": "HP / s",
+#: scripts/ui/item_tooltip.gd:27
+msgid "HP / s"
+msgstr "PV / s"
+
+#. &"mana_regen": "mana / s",
+#: scripts/ui/item_tooltip.gd:28
+msgid "mana / s"
+msgstr "mana / s"
+
+#. &"spell_power": "% spell power",
+#: scripts/ui/item_tooltip.gd:31
+msgid "% spell power"
+msgstr "% puissance des sorts"
+
+#. &"cooldown_reduction": "% cooldown reduction",
+#: scripts/ui/item_tooltip.gd:32
+msgid "% cooldown reduction"
+msgstr "% réduction de recharge"
+
+#. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
+#: scripts/ui/item_tooltip.gd:216 scripts/ui/ui_style.gd:503
+msgid "Not enough"
+msgstr "Pas assez"
+
+#. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
+#: scripts/ui/item_tooltip.gd:216 scripts/ui/spell_info.gd:149 scripts/units/champion_abilities.gd:61
+#: scripts/units/creature_abilities.gd:60 scripts/units/helper_abilities.gd:106
+#: scripts/units/str_int_path.gd:166
+msgid "Dead"
+msgstr "Mort"
+
+#. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
+#: scripts/ui/item_tooltip.gd:216
+msgid "Needs"
+msgstr "Exige"
+
+#. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
+#: scripts/ui/item_tooltip.gd:216
+msgid "Population"
+msgstr "Population"
+
+#. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
+#: scripts/ui/item_tooltip.gd:216 scripts/ui/ui_style.gd:503
+msgid "No shop"
+msgstr "Aucune boutique"
+
+#. "can't", "Max rank", "Inventory full", "Not sold", "cannot"]
+#: scripts/ui/item_tooltip.gd:217
+msgid "can't"
+msgstr "impossible"
+
+#. "can't", "Max rank", "Inventory full", "Not sold", "cannot"]
+#: scripts/ui/item_tooltip.gd:217 scripts/units/wizard.gd:413
+msgid "Max rank"
+msgstr "Rang max"
+
+#. "can't", "Max rank", "Inventory full", "Not sold", "cannot"]
+#: scripts/ui/item_tooltip.gd:217 scripts/ui/selection_manager.gd:1549 scripts/items/inventory.gd:459
+#: scripts/items/inventory.gd:480 scripts/items/inventory.gd:528 scripts/items/recipes.gd:67
+msgid "Inventory full"
+msgstr "Inventaire plein"
+
+#. "can't", "Max rank", "Inventory full", "Not sold", "cannot"]
+#: scripts/ui/item_tooltip.gd:217
+msgid "Not sold"
+msgstr "Non vendu"
+
+#. message.emit(Loc.t("Dropped {name}", {"name": ItemTooltip.display_name(type)}))
+#: scripts/ui/inventory_bar.gd:223
+msgid "Dropped {name}"
+msgstr "{name} déposé"
+
+#. d["text"] = Loc.t("Raise +{n} · {kind} {from} -> {to}", {"n": RAISE_STEP, "kind": kind_name(k), "from": stake,
+#: scripts/ui/bounty_mode.gd:320
+msgid "Raise +{n} · {kind} {from} -> {to}"
+msgstr "Relancer +{n} · {kind} {from} -> {to}"
+
+#. d["text"] = Loc.t("Raise · {reason}", {"reason": Loc.sink(d["reason"])})
+#: scripts/ui/bounty_mode.gd:323
+msgid "Raise · {reason}"
+msgstr "Relancer · {reason}"
+
+#. d["text"] = Loc.t("{kind} · {n} essence", {"kind": kind_name(shown), "n": price})
+#: scripts/ui/bounty_mode.gd:333
+msgid "{kind} · {n} essence"
+msgstr "{kind} · {n} essence"
+
+#. return Loc.t(KIND_NAMES[kind]) if kind >= 0 and kind < KIND_NAMES.size() else Loc.t("Bounty")
+#: scripts/ui/bounty_mode.gd:541
+msgid "Bounty"
+msgstr "Prime"
+
+#. if parts[1] != Loc.t("Raise") else text_col)
+#: scripts/ui/bounty_mode.gd:807 scripts/ui/bounty_mode.gd:825
+msgid "Raise"
+msgstr "Relancer"
+
+#. return [Loc.t("Raise +{n} · ", {"n": amount}), word, " %d -> %d" % [stake, mini(stake + amount, MAX_STAKE)]]
+#: scripts/ui/bounty_mode.gd:828
+msgid "Raise +{n} · "
+msgstr "Relancer +{n} · "
+
+#. return ["", word, Loc.t(" · {n} essence", {"n": int(d.get("amount", 0))})]
+#: scripts/ui/bounty_mode.gd:831
+msgid " · {n} essence"
+msgstr " · {n} essence"
+
+#. const KIND_NAMES: Array[String] = ["Hunt", "Explore", "Guard", "Escort"]
+#: scripts/ui/bounty_mode.gd:25 scripts/world/bounty.gd:35
+msgid "Hunt"
+msgstr "Chasse"
+
+#. const KIND_NAMES: Array[String] = ["Hunt", "Explore", "Guard", "Escort"]
+#: scripts/ui/bounty_mode.gd:25 scripts/world/bounty.gd:35
+msgid "Explore"
+msgstr "Exploration"
+
+#. const KIND_NAMES: Array[String] = ["Hunt", "Explore", "Guard", "Escort"]
+#: scripts/ui/bounty_mode.gd:25 scripts/world/bounty.gd:35
+msgid "Guard"
+msgstr "Garde"
+
+#. const KIND_NAMES: Array[String] = ["Hunt", "Explore", "Guard", "Escort"]
+#: scripts/ui/bounty_mode.gd:25 scripts/ui/command_card.gd:596 scripts/world/bounty.gd:35
+msgid "Escort"
+msgstr "Escorte"
+
+#. const MSG_NO_CHAMPIONS := "No champions"
+#: scripts/ui/bounty_mode.gd:41 scripts/ui/bounty_mode.gd:46 scripts/world/bounty_board.gd:207
+#: scripts/world/bounty_board.gd:244
+msgid "No champions"
+msgstr "Aucun champion"
+
+#. const MSG_TOO_MANY := "Too many bounties"
+#: scripts/ui/bounty_mode.gd:42 scripts/world/bounty_board.gd:212 scripts/world/bounty_board.gd:249
+msgid "Too many bounties"
+msgstr "Trop de primes"
+
+#. const MSG_INVALID := "Invalid target"
+#: scripts/ui/bounty_mode.gd:43 scripts/units/caster_kit.gd:102 scripts/units/champion_abilities.gd:65
+#: scripts/units/creature_abilities.gd:68 scripts/items/inventory.gd:351
+#: scripts/items/item_actives.gd:253
+msgid "Invalid target"
+msgstr "Cible invalide"
+
+#. const MSG_NO_ESSENCE := "Not enough essence"
+#: scripts/ui/bounty_mode.gd:44 scripts/ui/top_bar.gd:334 scripts/units/helper_roster.gd:24
+#: scripts/items/inventory.gd:455 scripts/items/inventory.gd:459 scripts/items/inventory.gd:482
+msgid "Not enough essence"
+msgstr "Pas assez d'essence"
+
+#. const MSG_MAX := "Max bounty"
+#: scripts/ui/bounty_mode.gd:45 scripts/world/bounty_board.gd:263 scripts/world/bounty_board.gd:309
+msgid "Max bounty"
+msgstr "Prime maximale"
+
+#. title_label.text = Loc.t("{kind} BOUNTY", {"kind": kname}) if own else Loc.t("ENEMY {kind} BOUNTY", {"kind": k
+#: scripts/ui/flag_card.gd:191
+msgid "{kind} BOUNTY"
+msgstr "PRIME · {kind}"
+
+#. title_label.text = Loc.t("{kind} BOUNTY", {"kind": kname}) if own else Loc.t("ENEMY {kind} BOUNTY", {"kind": k
+#: scripts/ui/flag_card.gd:191
+msgid "ENEMY {kind} BOUNTY"
+msgstr "PRIME ENNEMIE · {kind}"
+
+#. var paid_text := "  ·  " + Loc.t("Paid {n}", {"n": BountyMode.flag_paid(f)}) if own else ""
+#: scripts/ui/flag_card.gd:198
+msgid "Paid {n}"
+msgstr "Payé {n}"
+
+#. paid_text += " · " + Loc.t("max")
+#: scripts/ui/flag_card.gd:200
+msgid "max"
+msgstr "max"
+
+#. var n := BountyMode.target_name(t) if t != null else Loc.t("gone")
+#: scripts/ui/flag_card.gd:234
+msgid "gone"
+msgstr "disparue"
+
+#. return Loc.t("Point: explored ground") if explored else Loc.t("Point: unexplored ground")
+#: scripts/ui/flag_card.gd:240
+msgid "Point: explored ground"
+msgstr "Point : terrain exploré"
+
+#. return Loc.t("Point: explored ground") if explored else Loc.t("Point: unexplored ground")
+#: scripts/ui/flag_card.gd:240
+msgid "Point: unexplored ground"
+msgstr "Point : terrain inexploré"
+
+#. return Loc.t("Guarding: {name}", {"name": n})
+#: scripts/ui/flag_card.gd:242
+msgid "Guarding: {name}"
+msgstr "Garde : {name}"
+
+#. return Loc.t("Escorting: {name}", {"name": n})
+#: scripts/ui/flag_card.gd:244
+msgid "Escorting: {name}"
+msgstr "Escorte : {name}"
+
+#. return Loc.t("Target: {name}", {"name": n})
+#: scripts/ui/flag_card.gd:245
+msgid "Target: {name}"
+msgstr "Cible : {name}"
+
+#. return [Loc.t("Time left {time}", {"time": "%d:%02d" % [secs / 60, secs % 60]}),
+#: scripts/ui/flag_card.gd:256
+msgid "Time left {time}"
+msgstr "Temps restant {time}"
+
+#. return [Loc.t("Target lost · refund in {n} s", {"n": ceili(left)}), UIStyle.WARN]
+#: scripts/ui/flag_card.gd:260
+msgid "Target lost · refund in {n} s"
+msgstr "Cible perdue · remboursement dans {n} s"
+
+#. const OWN_HINT := "Z: raise +25  ·  Shift+Z: +100  ·  Delete: remove"
+#: scripts/ui/flag_card.gd:28
+msgid "Z: raise +25  ·  Shift+Z: +100  ·  Delete: remove"
+msgstr "Z : relancer +25  ·  Maj+Z : +100  ·  Suppr : retirer"
+
+#. const ENEMY_HINT := "An enemy bounty: kill or protect its target."
+#: scripts/ui/flag_card.gd:29
+msgid "An enemy bounty: kill or protect its target."
+msgstr "Une prime ennemie : tuez ou protégez sa cible."
+
+#. pursuers_label = UIStyle.panel_label("Pursuers", 13)
+#: scripts/ui/flag_card.gd:112
+msgid "Pursuers"
+msgstr "Poursuivants"
+
+#. none_label = UIStyle.panel_label("none yet", 13)
+#: scripts/ui/flag_card.gd:114
+msgid "none yet"
+msgstr "aucun encore"
+
+#. return ["Until the target dies", UIStyle.token(&"text_muted")]
+#: scripts/ui/flag_card.gd:261
+msgid "Until the target dies"
+msgstr "Jusqu'à la mort de la cible"
+
+#. return ["Until a champion reaches it", UIStyle.token(&"text_muted")]
+#: scripts/ui/flag_card.gd:262
+msgid "Until a champion reaches it"
+msgstr "Jusqu'à ce qu'un champion l'atteigne"
+
+#. (parts[1] as Label).text = Loc.t("Blessing") if t == own else Loc.t("Enemy blessing")
+#: scripts/ui/mapfill_bar.gd:548 scripts/ui/mapfill_bar.gd:484
+msgid "Blessing"
+msgstr "Bénédiction"
+
+#. (parts[1] as Label).text = Loc.t("Blessing") if t == own else Loc.t("Enemy blessing")
+#: scripts/ui/mapfill_bar.gd:548
+msgid "Enemy blessing"
+msgstr "Bénédiction ennemie"
+
+#. return [str(camp.get(&"display_name")), Loc.t(" · Tier {n}", {"n": tier}),
+#: scripts/ui/mapfill_bar.gd:804
+msgid " · Tier {n}"
+msgstr " · Palier {n}"
+
+#. Loc.t(" · ~{xp} XP · +{essence} essence", {"xp": int(r.get(&"xp", 0)), "essence": int(r.get(&"essence", 0))})]
+#: scripts/ui/mapfill_bar.gd:805
+msgid " · ~{xp} XP · +{essence} essence"
+msgstr " · ~{xp} XP · +{essence} essence"
+
+#. const KIND_NAMES := {&"watchtower": "Watchtower", &"well": "Essence well", &"shrine": "Wayshrine"}
+#: scripts/ui/mapfill_bar.gd:36 scripts/world/capture_point.gd:66
+msgid "Watchtower"
+msgstr "Tour de guet"
+
+#. const KIND_NAMES := {&"watchtower": "Watchtower", &"well": "Essence well", &"shrine": "Wayshrine"}
+#: scripts/ui/mapfill_bar.gd:36
+msgid "Essence well"
+msgstr "Puits d'essence"
+
+#. const KIND_NAMES := {&"watchtower": "Watchtower", &"well": "Essence well", &"shrine": "Wayshrine"}
+#: scripts/ui/mapfill_bar.gd:36 scripts/world/layout_level.gd:32
+msgid "Wayshrine"
+msgstr "Sanctuaire"
+
+#. const BLESSING_OWN_TIP := "Wayfarer's Blessing {n} s\n+12 % speed, +1.5 HP / s for your soldiers, wizard and c
+#: scripts/ui/mapfill_bar.gd:60
+msgid "Wayfarer's Blessing {n} s\n+12 % speed, +1.5 HP / s for your soldiers, wizard and champions\nTake another awake shrine to reset it to 60 s"
+msgstr "Bénédiction du voyageur {n} s\n+12 % vitesse, +1,5 PV / s pour vos soldats, sorcier et champions\nPrenez un autre sanctuaire éveillé pour la remettre à 60 s"
+
+#. const BLESSING_ENEMY_TIP := "Enemy blessing {n} s\n+12 % speed, +1.5 HP / s for their soldiers, wizard and cha
+#: scripts/ui/mapfill_bar.gd:61
+msgid "Enemy blessing {n} s\n+12 % speed, +1.5 HP / s for their soldiers, wizard and champions"
+msgstr "Bénédiction ennemie {n} s\n+12 % vitesse, +1,5 PV / s pour leurs soldats, sorcier et champions"
+
+#. const CLICK_HINT := "Click: centre the camera"
+#: scripts/ui/mapfill_bar.gd:62
+msgid "Click: centre the camera"
+msgstr "Clic : centrer la caméra"
+
+#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw":
+#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:206
+msgid "dark breed"
+msgstr "race sombre"
+
+#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw":
+#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:206
+msgid "silver breed"
+msgstr "race argentée"
+
+#. lines.append("%s · %s" % [str(p.get(&"display_name")), Loc.t(KIND_NAMES.get(StringName(str(p.get(&"kind"))), "
+#: scripts/ui/mapfill_bar.gd:413 scripts/world/layout_level.gd:674
+msgid "Point"
+msgstr "Point"
+
+#. return n if n not in ["", "<null>"] else "Epic beast"
+#: scripts/ui/mapfill_bar.gd:697
+msgid "Epic beast"
+msgstr "Bête épique"
+
+#. return "Enraged"
+#: scripts/ui/mapfill_bar.gd:727
+msgid "Enraged"
+msgstr "Enragé"
+
+#. return "Escaping"
+#: scripts/ui/mapfill_bar.gd:729
+msgid "Escaping"
+msgstr "S'échappe"
+
+#. var subtitle := " · Epic beast"
+#: scripts/ui/mapfill_bar.gd:1076 scripts/ui/selection_panel.gd:910
+msgid " · Epic beast"
+msgstr " · Bête épique"
+
+#. return [Loc.t("Last captured by you") if shrine else Loc.t("Held by you"), NEAR]
+#: scripts/ui/point_panel.gd:318
+msgid "Last captured by you"
+msgstr "Dernière capture : vous"
+
+#. return [Loc.t("Last captured by you") if shrine else Loc.t("Held by you"), NEAR]
+#: scripts/ui/point_panel.gd:318 scripts/ui/post_panel.gd:293
+msgid "Held by you"
+msgstr "Tenu par vous"
+
+#. return [Loc.t("Last captured by the enemy") if shrine else Loc.t("Held by the enemy"), UIStyle.WARN]
+#: scripts/ui/point_panel.gd:320
+msgid "Last captured by the enemy"
+msgstr "Dernière capture : l'ennemi"
+
+#. return [Loc.t("Last captured by the enemy") if shrine else Loc.t("Held by the enemy"), UIStyle.WARN]
+#: scripts/ui/point_panel.gd:320 scripts/economy/caravan.gd:49 scripts/world/trade_network.gd:61
+msgid "Held by the enemy"
+msgstr "Tenu par l'ennemi"
+
+#. return [Loc.t("Not captured yet") if shrine else Loc.t("Neutral"), UIStyle.token(&"text_muted")]
+#: scripts/ui/point_panel.gd:321
+msgid "Not captured yet"
+msgstr "Pas encore capturé"
+
+#. return [Loc.t("Not in sight"), muted]
+#: scripts/ui/point_panel.gd:336
+msgid "Not in sight"
+msgstr "Hors de vue"
+
+#. return [Loc.t("Capturing {progress}", pa) if own else Loc.t("The enemy is capturing {progress}", pa),
+#: scripts/ui/point_panel.gd:344
+msgid "Capturing {progress}"
+msgstr "Capture {progress}"
+
+#. return [Loc.t("Capturing {progress}", pa) if own else Loc.t("The enemy is capturing {progress}", pa),
+#: scripts/ui/point_panel.gd:344
+msgid "The enemy is capturing {progress}"
+msgstr "L'ennemi capture {progress}"
+
+#. return [Loc.t("Neutralising {progress}", pa) if own else Loc.t("The enemy is neutralising {progress}", pa),
+#: scripts/ui/point_panel.gd:347
+msgid "Neutralising {progress}"
+msgstr "Neutralisation {progress}"
+
+#. return [Loc.t("Neutralising {progress}", pa) if own else Loc.t("The enemy is neutralising {progress}", pa),
+#: scripts/ui/point_panel.gd:347
+msgid "The enemy is neutralising {progress}"
+msgstr "L'ennemi neutralise {progress}"
+
+#. return [Loc.t("Contested: both sides are here"), FAR]
+#: scripts/ui/point_panel.gd:350
+msgid "Contested: both sides are here"
+msgstr "Contesté : les deux camps sont ici"
+
+#. return [Loc.t("Asleep") if t == INF else Loc.t("Asleep: wakes in {time}", {"time": MapfillBar.mmss(t)}), muted
+#: scripts/ui/point_panel.gd:353
+msgid "Asleep"
+msgstr "Endormi"
+
+#. return [Loc.t("Asleep") if t == INF else Loc.t("Asleep: wakes in {time}", {"time": MapfillBar.mmss(t)}), muted
+#: scripts/ui/point_panel.gd:353
+msgid "Asleep: wakes in {time}"
+msgstr "Endormi : s'éveille dans {time}"
+
+#. return [Loc.t("Awake: capture it for the blessing"), UIStyle.GOLD]
+#: scripts/ui/point_panel.gd:355
+msgid "Awake: capture it for the blessing"
+msgstr "Éveillé : capturez-le pour la bénédiction"
+
+#. return [Loc.t("Capture fading {progress}", pa), muted]
+#: scripts/ui/point_panel.gd:357
+msgid "Capture fading {progress}"
+msgstr "Capture qui s'estompe {progress}"
+
+#. return [[Loc.t("Sight {n} for its owner", {"n": roundi(sight)}), text, 13]]
+#: scripts/ui/point_panel.gd:368
+msgid "Sight {n} for its owner"
+msgstr "Vision {n} pour son détenteur"
+
+#. segs.append([Loc.t("+{n} essence", {"n": essence}), UIStyle.ESSENCE_TEXT])
+#: scripts/ui/point_panel.gd:460
+msgid "+{n} essence"
+msgstr "+{n} essence"
+
+#. segs.append([Loc.t(", venison heals the hunter "), text])
+#: scripts/ui/point_panel.gd:462
+msgid ", venison heals the hunter "
+msgstr ", la venaison soigne le chasseur de "
+
+#. segs.append([Loc.t("{n} HP", {"n": roundi(venison.x)}), NEAR])
+#: scripts/ui/point_panel.gd:463
+msgid "{n} HP"
+msgstr "{n} PV"
+
+#. return Loc.t("{name} · {hp} HP · Hunt it: {reward}", {"name": n, "hp": roundi(float(c.get(&"max_hp"))),
+#: scripts/ui/point_panel.gd:480
+msgid "{name} · {hp} HP · Hunt it: {reward}"
+msgstr "{name} · {hp} PV · Chassez-le : {reward}"
+
+#. hp_text.text = Loc.t("HP  {hp} / {max}", {"hp": ceili(hp), "max": int(max_hp)})
+#: scripts/ui/point_panel.gd:502
+msgid "HP  {hp} / {max}"
+msgstr "PV  {hp} / {max}"
+
+#. var segs: Array = [[Loc.t("Hunt it: "), UIStyle.token(&"text_muted")]]
+#: scripts/ui/point_panel.gd:503
+msgid "Hunt it: "
+msgstr "Chassez-le : "
+
+#. _set_line(1, [[Loc.t("Your units within 6 m heal {n} HP", {"n": roundi(venison.y)}), UIStyle.token(&"text_mute
+#: scripts/ui/point_panel.gd:506
+msgid "Your units within 6 m heal {n} HP"
+msgstr "Vos unités à moins de 6 m récupèrent {n} PV"
+
+#. const KIND_WORDS := {&"watchtower": "watchtower", &"well": "essence well", &"shrine": "wayshrine"}
+#: scripts/ui/point_panel.gd:34
+msgid "essence well"
+msgstr "puits d'essence"
+
+#. const POINT_HINT := "Capture: stand in the ring with soldiers, champions or your wizard · R: Guard it when you
+#: scripts/ui/point_panel.gd:35
+msgid "Capture: stand in the ring with soldiers, champions or your wizard · R: Guard it when yours"
+msgstr "Capture : tenez-vous dans l'anneau avec soldats, champions ou sorcier · R : le garder s'il est à vous"
+
+#. const CRITTER_HINT := "Right-click with soldiers or your wizard selected to hunt it · workers and caravans ign
+#: scripts/ui/point_panel.gd:36
+msgid "Right-click with soldiers or your wizard selected to hunt it · workers and caravans ignore it"
+msgstr "Clic droit avec soldats ou sorcier sélectionnés pour le chasser · ouvriers et caravanes l'ignorent"
+
+#. const FAR_BANK := "On the enemy bank: capture takes 25 % longer"
+#: scripts/ui/point_panel.gd:37
+msgid "On the enemy bank: capture takes 25 % longer"
+msgstr "Sur la rive ennemie : la capture prend 25 % plus de temps"
+
+#. const WELL_EFFECT := "+0.4 essence / s · +3 mana / s to your wizard within 8 m"
+#: scripts/ui/point_panel.gd:38
+msgid "+0.4 essence / s · +3 mana / s to your wizard within 8 m"
+msgstr "+0,4 essence / s · +3 mana / s à votre sorcier à moins de 8 m"
+
+#. const WELL_LATE := "  ·  pays from 2:30"
+#: scripts/ui/point_panel.gd:39
+msgid "  ·  pays from 2:30"
+msgstr "  ·  rapporte dès 2:30"
+
+#. const SHRINE_EFFECT := "Blessing: +12 % speed, +1.5 HP / s for 60 s"
+#: scripts/ui/point_panel.gd:40
+msgid "Blessing: +12 % speed, +1.5 HP / s for 60 s"
+msgstr "Bénédiction : +12 % vitesse, +1,5 PV / s pendant 60 s"
+
+#. title_suffix.text = " · game"
+#: scripts/ui/point_panel.gd:497
+msgid " · game"
+msgstr " · gibier"
+
+#. _set_line(2, [["Fleeing", FAR, 13]] if fleeing else [["Grazing", UIStyle.token(&"text"), 13]])
+#: scripts/ui/point_panel.gd:509
+msgid "Grazing"
+msgstr "Broute"
+
+#. _set_line(0, [[Loc.t("Opens at 4:00 · in {time}", {"time": TradeWindow.mmss(left)}), UIStyle.WARN]])
+#: scripts/ui/post_panel.gd:277
+msgid "Opens at 4:00 · in {time}"
+msgstr "Ouvre à 4:00 · dans {time}"
+
+#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
+#: scripts/ui/post_panel.gd:284
+msgid "For you: "
+msgstr "Pour vous : "
+
+#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1036
+msgid "far"
+msgstr "loin"
+
+#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1036
+msgid "near"
+msgstr "proche"
+
+#. [Loc.t("{n} gold", {"n": route_value(net, market, post)}), TradeWindow.GOLD_TEXT],
+#: scripts/ui/post_panel.gd:286
+msgid "{n} gold"
+msgstr "{n} or"
+
+#. [Loc.t(" per trip from your Bazaar"), text]])
+#: scripts/ui/post_panel.gd:287
+msgid " per trip from your Bazaar"
+msgstr " par voyage depuis votre Bazar"
+
+#. _set_line(3, [[Loc.t("Your trips here, last 2 min: {trips} · caravans on this route: {caravans}",
+#: scripts/ui/post_panel.gd:298
+msgid "Your trips here, last 2 min: {trips} · caravans on this route: {caravans}"
+msgstr "Vos voyages ici, 2 dernières min : {trips} · caravanes sur cette route : {caravans}"
+
+#. action_button.tooltip_text = Loc.t("Set as route\nYour caravans trade here from now on.") \
+#: scripts/ui/post_panel.gd:314
+msgid "Set as route\nYour caravans trade here from now on."
+msgstr "Définir comme route\nVos caravanes commercent ici dès maintenant."
+
+#. running.append(Loc.t("{name} · {time} left", {"name": str((TradeWindow.CONTRACT_INFO[k] as Dictionary)["name"]
+#: scripts/ui/post_panel.gd:378
+msgid "{name} · {time} left"
+msgstr "{name} · {time} restant"
+
+#. const POST_HINT := "Right-click with your Bazaar selected to set the route · G with caravans: trade here"
+#: scripts/ui/post_panel.gd:27
+msgid "Right-click with your Bazaar selected to set the route · G with caravans: trade here"
+msgstr "Clic droit avec votre Bazar sélectionné pour définir la route · G avec des caravanes : commercer ici"
+
+#. const DEN_TEXT := "Thieves who rob caravans and remote workers. They answer to no one."
+#: scripts/ui/post_panel.gd:28
+msgid "Thieves who rob caravans and remote workers. They answer to no one."
+msgstr "Voleurs qui détroussent caravanes et ouvriers isolés. Ils ne répondent à personne."
+
+#. const DEN_TIMES := "On the roads from 5:00 · raid remote mines from 8:00"
+#: scripts/ui/post_panel.gd:29
+msgid "On the roads from 5:00 · raid remote mines from 8:00"
+msgstr "Sur les routes dès 5:00 · pillent les mines isolées dès 8:00"
+
+#. const DEN_REWARD := "Killing a Magpie pays 10 gold (Greywater Lodge)"
+#: scripts/ui/post_panel.gd:30
+msgid "Killing a Magpie pays 10 gold (Greywater Lodge)"
+msgstr "Tuer une Magpie rapporte 10 or (Greywater Lodge)"
+
+#. const LODGE_TEXT := "Sells Outriders and Sweep contracts for gold · pays 10 gold per Magpie slain"
+#: scripts/ui/post_panel.gd:31
+msgid "Sells Outriders and Sweep contracts for gold · pays 10 gold per Magpie slain"
+msgstr "Vend les contrats Outriders et Sweep contre de l'or · paie 10 or par Magpie tuée"
+
+#. const LODGE_NOTE := "Trackers act on their own and leave when the contract ends"
+#: scripts/ui/post_panel.gd:32
+msgid "Trackers act on their own and leave when the contract ends"
+msgstr "Les pisteurs agissent seuls et repartent à la fin du contrat"
+
+#. title_label.text = str(post.get(&"display_name")) if post.get(&"display_name") != null else "Trading post"
+#: scripts/ui/post_panel.gd:266
+msgid "Trading post"
+msgstr "Comptoir"
+
+#. title_suffix.text = " · trading post"
+#: scripts/ui/post_panel.gd:267
+msgid " · trading post"
+msgstr " · comptoir"
+
+#. _set_line(0, [["Open", TradeWindow.NEAR]])
+#: scripts/ui/post_panel.gd:273 scripts/ui/post_panel.gd:372
+msgid "Open"
+msgstr "Ouvert"
+
+#. _set_line(1, [["Build a Bazaar to trade", muted]])
+#: scripts/ui/post_panel.gd:280
+msgid "Build a Bazaar to trade"
+msgstr "Construisez un Bazar pour commercer"
+
+#. _set_line(2, [["Held by the enemy · your caravans wait", UIStyle.WARN]])
+#: scripts/ui/post_panel.gd:291
+msgid "Held by the enemy · your caravans wait"
+msgstr "Tenu par l'ennemi · vos caravanes attendent"
+
+#. _set_line(2, [["Not held", muted]])
+#: scripts/ui/post_panel.gd:295
+msgid "Not held"
+msgstr "Non tenu"
+
+#. action_button.text = "Current route" if is_current else "Set as route"
+#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1034
+msgid "Current route"
+msgstr "Route actuelle"
+
+#. action_button.text = "Current route" if is_current else "Set as route"
+#: scripts/ui/post_panel.gd:311
+msgid "Set as route"
+msgstr "Définir la route"
+
+#. title_suffix.text = " · Thieves' Guild"
+#: scripts/ui/post_panel.gd:352
+msgid " · Thieves' Guild"
+msgstr " · Thieves' Guild"
+
+#. _set_line(2, [["Magpies you can see: ", UIStyle.token(&"text")],
+#: scripts/ui/post_panel.gd:356
+msgid "Magpies you can see: "
+msgstr "Magpies visibles : "
+
+#. title_suffix.text = " · Hunters' Guild"
+#: scripts/ui/post_panel.gd:365
+msgid " · Hunters' Guild"
+msgstr " · Hunters' Guild"
+
+#. _set_line(2, [["No contract running", UIStyle.token(&"text_muted")]])
+#: scripts/ui/post_panel.gd:381
+msgid "No contract running"
+msgstr "Aucun contrat en cours"
+
+#. action_button.text = "Contracts  [U]"
+#: scripts/ui/post_panel.gd:389
+msgid "Contracts  [U]"
+msgstr "Contrats  [U]"
+
+#. action_button.tooltip_text = "Contracts  [U]\nHire Outriders or a Sweep for gold."
+#: scripts/ui/post_panel.gd:390
+msgid "Contracts  [U]\nHire Outriders or a Sweep for gold."
+msgstr "Contrats  [U]\nEngagez des Outriders ou un Sweep contre de l'or."
+
+#. return "Not a trading post"
+#: scripts/ui/post_panel.gd:404 scripts/buildings/market.gd:27 scripts/economy/caravan.gd:46
+#: scripts/world/trade_network.gd:62
+msgid "Not a trading post"
+msgstr "Pas un comptoir"
+
+#. var nm := str(n.get(&"display_name")) if n.get(&"display_name") != null else "Trading Post"
+#: scripts/ui/post_panel.gd:422 scripts/world/trade_post.gd:31
+msgid "Trading Post"
+msgstr "Comptoir"
+
+#. return [("Neutralising %s" if own else "The enemy is neutralising %s") % progress_text(p),
+#: scripts/ui/point_panel.gd:346
+#, obsolete
+msgid "The enemy is neutralising %s"
+msgstr ""
+
+#. return ["Asleep" if t == INF else "Asleep: wakes in %s" % MapfillBar.mmss(t), muted]
+#: scripts/ui/point_panel.gd:352
+#, obsolete
+msgid "Asleep: wakes in %s"
+msgstr ""
+
+#. return ["Capture fading %s" % progress_text(p), muted]
+#: scripts/ui/point_panel.gd:356
+#, obsolete
+msgid "Capture fading %s"
+msgstr ""
+
+#. return [["Sight %d for its owner" % roundi(sight), text, 13]]
+#: scripts/ui/point_panel.gd:367
+#, obsolete
+msgid "Sight %d for its owner"
+msgstr ""
+
+#. return "Point: %s ground" % ("explored" if explored else "unexplored")
+#: scripts/ui/flag_card.gd:240
+#, obsolete
+msgid "Point: %s ground"
+msgstr ""
+
+#. return "Guarding: %s" % n
+#: scripts/ui/flag_card.gd:242
+#, obsolete
+msgid "Guarding: %s"
+msgstr ""
+
+#. return "Escorting: %s" % n
+#: scripts/ui/flag_card.gd:244
+#, obsolete
+msgid "Escorting: %s"
+msgstr ""
+
+#. return "Target: %s" % n
+#: scripts/ui/flag_card.gd:245
+#, obsolete
+msgid "Target: %s"
+msgstr ""
+
+#. return "%s shop" % str(bt.get("display_name"))
+#: scripts/ui/shop_window.gd:351
+#, obsolete
+msgid "%s shop"
+msgstr ""
+
+#. hire_button.tooltip_text = "Hire %s  [%s]\n%d gold · %d trackers · %d s%s" % [str(info.get("name", kind)), rk,
+#: scripts/ui/trade_window.gd:1319
+#, obsolete
+msgid "Hire %s  [%s]\n%d gold · %d trackers · %d s%s"
+msgstr ""
+
+#. segs.append(["+%d essence" % essence, UIStyle.ESSENCE_TEXT])
+#: scripts/ui/point_panel.gd:459 scripts/ui/selection_panel.gd:926
+#, obsolete
+msgid "+%d essence"
+msgstr ""
+
+#. message.emit("Sold %s for %d" % [name_of(t), gained])
+#: scripts/ui/shop_window.gd:636 scripts/ui/inventory_bar.gd:209
+#, obsolete
+msgid "Sold %s for %d"
+msgstr ""
+
+#. var lines: PackedStringArray = ["Class skill %d  Locked" % slot if slot > 0 else "Class"]
+#: scripts/ui/champion_bar.gd:1073
+#, obsolete
+msgid "Class skill %d  Locked"
+msgstr ""
+
+#. lines.append("Owned: %d" % int(counts[id_of(t)]))
+#: scripts/ui/shop_window.gd:797
+#, obsolete
+msgid "Owned: %d"
+msgstr ""
+
+#. lines.append("Sell %d" % int(total_cost_of(t) / 2))
+#: scripts/ui/shop_window.gd:799 scripts/ui/item_tooltip.gd:183
+#, obsolete
+msgid "Sell %d"
+msgstr ""
+
+#. _buy.text = ("Combine %d" if combine else "Buy %d") % price
+#: scripts/ui/shop_window.gd:827
+#, obsolete
+msgid "Combine %d"
+msgstr ""
+
+#. _buy.text = ("Combine %d" if combine else "Buy %d") % price
+#: scripts/ui/shop_window.gd:827
+#, obsolete
+msgid "Buy %d"
+msgstr ""
+
+#. const CLASS_MARK := "  (class, level %d)"
+#: scripts/ui/champion_bar.gd:77
+#, obsolete
+msgid "  (class, level %d)"
+msgstr ""
+
+#. return "Items: " + (", ".join(parts) if not parts.is_empty() else "none")
+#: scripts/ui/champion_bar.gd:745
+#, obsolete
+msgid "Items: "
+msgstr ""
+
+#. var first := str(a.get("name", "")) + ("  Locked" if locked else "")
+#: scripts/ui/champion_bar.gd:827 scripts/ui/champion_bar.gd:854
+#, obsolete
+msgid "  Locked"
+msgstr ""
+
+#. var key := "heavy|%s" % kingdom()
+#: scripts/ui/item_tooltip.gd:299
+#, obsolete
+msgid "heavy|%s"
+msgstr ""
+
+#. var key := "slot|%s|%s" % [rim.to_html(), inside.to_html()]
+#: scripts/ui/item_tooltip.gd:359
+#, obsolete
+msgid "slot|%s|%s"
+msgstr ""
+
+#. var key := "Num %d" % (i + 1) if i < ITEM_SLOTS else ""
+#: scripts/ui/inventory_bar.gd:246
+#, obsolete
+msgid "Num %d"
+msgstr ""
+
+#. revive_gold_button.tooltip_text = "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s" % [
+#: scripts/ui/tavern_window.gd:1105
+#, obsolete
+msgid "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s"
+msgstr ""
+
+#. var line := "%s HP · %s damage · %s range · %s speed" % [_num(hp), _num(dmg), String.num(snappedf(reach, 0.1),
+#: scripts/ui/tavern_window.gd:1136
+#, obsolete
+msgid "%s HP · %s damage · %s range · %s speed"
+msgstr ""
+
+#. line += " · %s armor" % _num(armor)
+#: scripts/ui/tavern_window.gd:1139
+#, obsolete
+msgid " · %s armor"
+msgstr ""
+
+#. reward_label = _label(_lodge_page, "The Lodge pays %d gold for every Magpie slain" % REWARD_PER_MAGPIE, 12,
+#: scripts/ui/trade_window.gd:295
+#, obsolete
+msgid "The Lodge pays %d gold for every Magpie slain"
+msgstr ""
+
+#. message.emit("Exchanged %d gold for %d %s" % [amount, received, String(to)])
+#: scripts/ui/trade_window.gd:754
+#, obsolete
+msgid "Exchanged %d gold for %d %s"
+msgstr ""
+
+#. button.text = "%d gold  ->  %d %s" % [amount, received, String(to)]
+#: scripts/ui/trade_window.gd:846
+#, obsolete
+msgid "%d gold  ->  %d %s"
+msgstr ""
+
+#. button.tooltip_text = "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s" % [ek, int(EXCHANGE_RATES[to]),
+#: scripts/ui/trade_window.gd:852
+#, obsolete
+msgid "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s"
+msgstr ""
+
+#. ledger_labels[0].text = "Gold earned %s" % thousands(earned)
+#: scripts/ui/trade_window.gd:855
+#, obsolete
+msgid "Gold earned %s"
+msgstr ""
+
+#. ledger_labels[1].text = "trade %s · loot %s · rewards %s" % [thousands(_earned(b, &"trade")),
+#: scripts/ui/trade_window.gd:856
+#, obsolete
+msgid "trade %s · loot %s · rewards %s"
+msgstr ""
+
+#. ledger_labels[2].text = "Gold traded, last 3 min: %s" % thousands(income)
+#: scripts/ui/trade_window.gd:860
+#, obsolete
+msgid "Gold traded, last 3 min: %s"
+msgstr ""
+
+#. return [("Neutralising %s" if own else "The enemy is neutralising %s") % progress_text(p),
+#: scripts/ui/point_panel.gd:346
+#, obsolete
+msgid "Neutralising %s"
+msgstr ""
+
+#. lodge_header.text = "The Lodge opens at 5:00 · in %s" % mmss(lodge_time_until_open(g))
+#: scripts/ui/trade_window.gd:882 scripts/ui/post_panel.gd:367
+#, obsolete
+msgid "The Lodge opens at 5:00 · in %s"
+msgstr ""
+
+#. rewards_received_label.text = "Rewards received: %s gold" % thousands(_earned(b, &"reward"))
+#: scripts/ui/trade_window.gd:889
+#, obsolete
+msgid "Rewards received: %s gold"
+msgstr ""
+
+#. footer_right.text = "Magpies you can see: %d" % n
+#: scripts/ui/trade_window.gd:893
+#, obsolete
+msgid "Magpies you can see: %d"
+msgstr ""
+
+#. buy_button.tooltip_text = "Buy %s  [%s]\n%d gold · once\n%s%s" % [str(info.get("name", id)), rk, price,
+#: scripts/ui/trade_window.gd:1162
+#, obsolete
+msgid "Buy %s  [%s]\n%d gold · once\n%s%s"
+msgstr ""
+
+#. sub_label.text = "%d Greywater Trackers · %d s" % [trackers, roundi(duration)]
+#: scripts/ui/trade_window.gd:1271
+#, obsolete
+msgid "%d Greywater Trackers · %d s"
+msgstr ""
+
+#. time_label.text = "%s left" % TradeWindow.mmss(left)
+#: scripts/ui/trade_window.gd:1305
+#, obsolete
+msgid "%s left"
+msgstr ""
+
+#. message.emit("Bought %s" % name_of(t))
+#: scripts/ui/shop_window.gd:614
+#, obsolete
+msgid "Bought %s"
+msgstr ""
+
+#. &"tempered_steel": {"name": "Tempered Steel", "abbr": "TS", "price": 350,
+#: scripts/ui/trade_window.gd:71 scripts/economy/gold_bank.gd:51
+#, obsolete
+msgid "Tempered Steel"
+msgstr ""
+
+#. &"masons_charter": {"name": "Masons' Charter", "abbr": "MC", "price": 350,
+#: scripts/ui/trade_window.gd:68 scripts/economy/gold_bank.gd:49
+#, obsolete
+msgid "Masons' Charter"
+msgstr ""
+
+#. &"iron_axles": {"name": "Iron-shod Axles", "abbr": "IA", "price": 150,
+#: scripts/ui/trade_window.gd:65 scripts/economy/gold_bank.gd:47
+#, obsolete
+msgid "Iron-shod Axles"
+msgstr ""
+
+#. lines.append("Autocast: " + str(a.get("when", "")))
+#: scripts/ui/champion_bar.gd:833
+#, obsolete
+msgid "Autocast: "
+msgstr ""
+
+#. lines.append("Unlocks at level %d" % int(a.get("unlock", 1)))
+#: scripts/ui/champion_bar.gd:835 scripts/ui/champion_bar.gd:1079
+#, obsolete
+msgid "Unlocks at level %d"
+msgstr ""
+
+#. _set_line(3, [["Your trips here, last 2 min: %d · caravans on this route: %d" % [trips, caravans_on(post)],
+#: scripts/ui/post_panel.gd:296
+#, obsolete
+msgid "Your trips here, last 2 min: %d · caravans on this route: %d"
+msgstr ""
+
+#. lines.append("Level %d%s · HP %d / %d · Purse %d" % [level_of(ch), " · " + xp if xp != "" else "", hp,
+#: scripts/ui/champion_bar.gd:893
+#, obsolete
+msgid "Level %d%s · HP %d / %d · Purse %d"
+msgstr ""
+
+#. return "%s takes up %s" % [display_name_of(ch), str(info.get("takes", "the " + class_display_name(cid)))]
+#: scripts/ui/champion_bar.gd:965
+#, obsolete
+msgid "%s takes up %s"
+msgstr ""
+
+#. var weapon := "ranged %s · %s damage every %s s" % [reach, dmg, cd] if bool(c.get("ranged", false)) \
+#: scripts/ui/champion_bar.gd:977
+#, obsolete
+msgid "ranged %s · %s damage every %s s"
+msgstr ""
+
+#. else "melee · %s damage every %s s · reach %s" % [dmg, cd, reach]
+#: scripts/ui/champion_bar.gd:978
+#, obsolete
+msgid "melee · %s damage every %s s · reach %s"
+msgstr ""
+
+#. lines.append("Chooses a class at level 2 · leans " + lean_text(weights))
+#: scripts/ui/champion_bar.gd:1074
+#, obsolete
+msgid "Chooses a class at level 2 · leans "
+msgstr ""
+
+#. action_button.tooltip_text = "Set as route\nYour caravans trade here from now on.%s" % [
+#: scripts/ui/post_panel.gd:312
+#, obsolete
+msgid "Set as route\nYour caravans trade here from now on.%s"
+msgstr ""
+
+#. tavern_label.text = "Y · tavern" if open else "Tavern opens at %s" % at
+#: scripts/ui/champion_bar.gd:1373
+#, obsolete
+msgid "Tavern opens at %s"
+msgstr ""
+
+#. tooltip_text = "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s" % (
+#: scripts/ui/champion_bar.gd:1375
+#, obsolete
+msgid "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s"
+msgstr ""
+
+#. "" if open else "\nTavern opens at %s" % at)
+#: scripts/ui/champion_bar.gd:1376
+#, obsolete
+msgid "\nTavern opens at %s"
+msgstr ""
+
+#. tooltip_text = "%s  [%s]  %s\nHired: walks out of the tavern in %d s." % [display_name,
+#: scripts/ui/champion_bar.gd:1396
+#, obsolete
+msgid "%s  [%s]  %s\nHired: walks out of the tavern in %d s."
+msgstr ""
+
+#. running.append("%s · %s left" % [str((TradeWindow.CONTRACT_INFO[k] as Dictionary)["name"]),
+#: scripts/ui/post_panel.gd:376
+#, obsolete
+msgid "%s · %s left"
+msgstr ""
+
+#. var line := "Active: %s" % active.capitalize()
+#: scripts/ui/item_tooltip.gd:173
+#, obsolete
+msgid "Active: %s"
+msgstr ""
+
+#. line += " · %d s cooldown" % int(round(cooldown))
+#: scripts/ui/item_tooltip.gd:175
+#, obsolete
+msgid " · %d s cooldown"
+msgstr ""
+
+#. revive_gold_button.text = "Revive %d gold" % rcost
+#: scripts/ui/tavern_window.gd:1099
+#, obsolete
+msgid "Revive %d gold"
+msgstr ""
+
+#. lines.append("%d charge%s" % [count, "" if count == 1 else "s"])
+#: scripts/ui/item_tooltip.gd:179
+#, obsolete
+msgid "%d charge%s"
+msgstr ""
+
+#. hire_button.tooltip_text = "Hire  [%s]\n%d crystals · %d essence · %d pop%s" % [rk, cost.x, cost.y,
+#: scripts/ui/tavern_window.gd:1007
+#, obsolete
+msgid "Hire  [%s]\n%d crystals · %d essence · %d pop%s"
+msgstr ""
+
+#. intent_label.text = "Arrives in %d s" % ceili(ChampionBar.hire_left(g, id))
+#: scripts/ui/tavern_window.gd:1012 scripts/ui/champion_bar.gd:1394
+#, obsolete
+msgid "Arrives in %d s"
+msgstr ""
+
+#. status_label.text = "Hired · Level %d" % _level
+#: scripts/ui/tavern_window.gd:1015
+#, obsolete
+msgid "Hired · Level %d"
+msgstr ""
+
+#. status_label.text = "Fallen · Level %d" % _level
+#: scripts/ui/tavern_window.gd:1023
+#, obsolete
+msgid "Fallen · Level %d"
+msgstr ""
+
+#. revive_button.text = "Revive %d" % rcost
+#: scripts/ui/tavern_window.gd:1032
+#, obsolete
+msgid "Revive %d"
+msgstr ""
+
+#. revive_button.tooltip_text = "Revive  [%s]\n%d essence · returns at your keep%s" % [rk, rcost,
+#: scripts/ui/tavern_window.gd:1040
+#, obsolete
+msgid "Revive  [%s]\n%d essence · returns at your keep%s"
+msgstr ""
+
+#. hire_gold_button.tooltip_text = "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s" % [
+#: scripts/ui/tavern_window.gd:1094
+#, obsolete
+msgid "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s"
+msgstr ""
+
+#. &"snare_line": {"name": "Snare Line", "unlock": 1, "cooldown": 14.0,
+#: scripts/ui/champion_bar.gd:146 scripts/units/champion_abilities.gd:77
+#, obsolete
+msgid "Snare Line"
+msgstr ""
+
+#. footer_right.text = "Bazaar: %s" % building_name(m)
+#: scripts/ui/trade_window.gd:872
+#, obsolete
+msgid "Bazaar: %s"
+msgstr ""
+
+#. &"trailblaze": {"name": "Trailblaze", "unlock": 4, "cooldown": 30.0,
+#: scripts/ui/champion_bar.gd:150 scripts/units/champion_abilities.gd:80
+#, obsolete
+msgid "Trailblaze"
+msgstr ""
+
+#. &"oath_of_iron": {"name": "Oath of Iron", "unlock": 1, "cooldown": 16.0,
+#: scripts/ui/champion_bar.gd:154 scripts/units/champion_abilities.gd:83
+#, obsolete
+msgid "Oath of Iron"
+msgstr ""
+
+#. &"shield_bash": {"name": "Shield Bash", "unlock": 1, "cooldown": 10.0,
+#: scripts/ui/champion_bar.gd:158 scripts/units/champion_abilities.gd:86
+#, obsolete
+msgid "Shield Bash"
+msgstr ""
+
+#. &"bulwark_stand": {"name": "Bulwark Stand", "unlock": 4, "cooldown": 40.0,
+#: scripts/ui/champion_bar.gd:162 scripts/units/champion_abilities.gd:89
+#, obsolete
+msgid "Bulwark Stand"
+msgstr ""
+
+#. &"cutpurse": {"name": "Cutpurse", "unlock": 1, "cooldown": 8.0,
+#: scripts/ui/champion_bar.gd:166 scripts/units/champion_abilities.gd:92
+#, obsolete
+msgid "Cutpurse"
+msgstr ""
+
+#. &"smoke_pouch": {"name": "Smoke Pouch", "unlock": 1, "cooldown": 25.0,
+#: scripts/ui/champion_bar.gd:170 scripts/units/champion_abilities.gd:95
+#, obsolete
+msgid "Smoke Pouch"
+msgstr ""
+
+#. &"marked_for_coin": {"name": "Marked for Coin", "unlock": 4, "cooldown": 20.0,
+#: scripts/ui/champion_bar.gd:174 scripts/units/champion_abilities.gd:98
+#, obsolete
+msgid "Marked for Coin"
+msgstr ""
+
+#. &"mending_draught": {"name": "Mending Draught", "unlock": 1, "cooldown": 7.0,
+#: scripts/ui/champion_bar.gd:178 scripts/units/champion_abilities.gd:101
+#, obsolete
+msgid "Mending Draught"
+msgstr ""
+
+#. &"soothing_circle": {"name": "Soothing Circle", "unlock": 1, "cooldown": 24.0,
+#: scripts/ui/champion_bar.gd:182 scripts/units/champion_abilities.gd:104
+#, obsolete
+msgid "Soothing Circle"
+msgstr ""
+
+#. T3Kit.description(T3Kit.GENIE_ID), reason if reason != "" else "%d crystals · Pop 4 · %d s" % [
+#: scripts/ui/tavern_window.gd:563
+#, obsolete
+msgid "%d crystals · Pop 4 · %d s"
+msgstr ""
+
+#. pop_label = _label("Pop %d" % ChampionBar.POP, 11, Vector2(628, 22), 106)
+#: scripts/ui/tavern_window.gd:733 scripts/ui/tavern_window.gd:941 scripts/ui/tavern_window.gd:1064
+#, obsolete
+msgid "Pop %d"
+msgstr ""
+
+#. class_rest.text = " · skills %d / 3" % TavernWindow.class_skills_unlocked(champion, cid)
+#: scripts/ui/tavern_window.gd:900
+#, obsolete
+msgid " · skills %d / 3"
+msgstr ""
+
+#. class_rest.text = " · leans " + ChampionBar.lean_text(weights)
+#: scripts/ui/tavern_window.gd:905
+#, obsolete
+msgid " · leans "
+msgstr ""
+
+#. class_rest.text = " · usually " + ChampionBar.class_display_name(ChampionBar.usual_class(id))
+#: scripts/ui/tavern_window.gd:909
+#, obsolete
+msgid " · usually "
+msgstr ""
+
+#. message.emit("Dropped %s" % ItemTooltip.display_name(type))
+#: scripts/ui/inventory_bar.gd:223
+#, obsolete
+msgid "Dropped %s"
+msgstr ""
+
+#. d["text"] = "Raise +%d · %s %d -> %d" % [RAISE_STEP, kind_name(k), stake, mini(stake + RAISE_STEP, MAX_STAKE)]
+#: scripts/ui/bounty_mode.gd:320
+#, obsolete
+msgid "Raise +%d · %s %d -> %d"
+msgstr ""
+
+#. &"lifeline": {"name": "Lifeline", "unlock": 4, "cooldown": 35.0,
+#: scripts/ui/champion_bar.gd:186 scripts/units/champion_abilities.gd:108
+#, obsolete
+msgid "Lifeline"
+msgstr ""
+
+#. &"lunge": {"name": "Lunge", "unlock": 2, "cooldown": 14.0, "class": &"spear",
+#: scripts/ui/champion_bar.gd:191 scripts/units/champion_abilities.gd:112
+#, obsolete
+msgid "Lunge"
+msgstr ""
+
+#. &"hobbling_javelin": {"name": "Hobbling Javelin", "unlock": 3, "cooldown": 16.0, "class": &"spear",
+#: scripts/ui/champion_bar.gd:195 scripts/units/champion_abilities.gd:115
+#, obsolete
+msgid "Hobbling Javelin"
+msgstr ""
+
+#. &"skewer": {"name": "Skewer", "unlock": 5, "cooldown": 25.0, "class": &"spear",
+#: scripts/ui/champion_bar.gd:199 scripts/units/champion_abilities.gd:118
+#, obsolete
+msgid "Skewer"
+msgstr ""
+
+#. &"riposte": {"name": "Riposte", "unlock": 2, "cooldown": 22.0, "class": &"sword_shield",
+#: scripts/ui/champion_bar.gd:203 scripts/units/champion_abilities.gd:121
+#, obsolete
+msgid "Riposte"
+msgstr ""
+
+#. &"second_wind": {"name": "Second Wind", "unlock": 3, "cooldown": 45.0, "class": &"sword_shield",
+#: scripts/ui/champion_bar.gd:207 scripts/units/champion_abilities.gd:124
+#, obsolete
+msgid "Second Wind"
+msgstr ""
+
+#. &"shield_throw": {"name": "Shield Throw", "unlock": 5, "cooldown": 20.0, "class": &"sword_shield",
+#: scripts/ui/champion_bar.gd:211 scripts/units/champion_abilities.gd:127
+#, obsolete
+msgid "Shield Throw"
+msgstr ""
+
+#. &"cleave": {"name": "Cleave", "unlock": 2, "cooldown": 10.0, "class": &"two_hand",
+#: scripts/ui/champion_bar.gd:215 scripts/units/champion_abilities.gd:131
+#, obsolete
+msgid "Cleave"
+msgstr ""
+
+#. &"crushing_blow": {"name": "Crushing Blow", "unlock": 3, "cooldown": 20.0, "class": &"two_hand",
+#: scripts/ui/champion_bar.gd:219 scripts/units/champion_abilities.gd:134
+#, obsolete
+msgid "Crushing Blow"
+msgstr ""
+
+#. for b in root_control.find_children("*", "Button", true, false):
+#: scripts/ui/trade_window.gd:348
+#, obsolete
+msgid "Button"
+msgstr ""
+
+#. [TAB_B, "Greywater Lodge", LODGE, "Hunters' Guild: contracts paid in gold"]]:
+#: scripts/ui/trade_window.gd:204 scripts/ui/post_panel.gd:364 scripts/world/guild_house.gd:30
+#, obsolete
+msgid "Greywater Lodge"
+msgstr ""
+
+#. return "Ruin Peddler"
+#: scripts/ui/shop_window.gd:348 scripts/world/ruin_peddler.gd:13
+#, obsolete
+msgid "Ruin Peddler"
+msgstr ""
+
+#. &"sweep": {"name": "Sweep", "abbr": "SW", "cost": 100, "trackers": 3, "duration": 120.0,
+#: scripts/ui/trade_window.gd:82 scripts/world/hunters_guild.gd:33
+#, obsolete
+msgid "Sweep"
+msgstr ""
+
+#. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
+#: scripts/ui/champion_bar.gd:118
+#, obsolete
+msgid "Gerda Stoneward"
+msgstr ""
+
+#. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
+#: scripts/ui/champion_bar.gd:118 data/champions/oathwall.tres:9
+#, obsolete
+msgid "the Oathwall"
+msgstr ""
+
+#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
+#: scripts/ui/champion_bar.gd:125
+#, obsolete
+msgid "Sable Quint"
+msgstr ""
+
+#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
+#: scripts/ui/champion_bar.gd:125
+#, obsolete
+msgid "Silas Quint"
+msgstr ""
+
+#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
+#: scripts/ui/champion_bar.gd:125 data/champions/coin_cutter.tres:9
+#, obsolete
+msgid "the Coin-Cutter"
+msgstr ""
+
+#. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
+#: scripts/ui/champion_bar.gd:132
+#, obsolete
+msgid "Orla Fenwick"
+msgstr ""
+
+#. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
+#: scripts/ui/champion_bar.gd:132
+#, obsolete
+msgid "Osric Fenwick"
+msgstr ""
+
+#. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
+#: scripts/ui/champion_bar.gd:132 data/champions/mender.tres:9
+#, obsolete
+msgid "the Mender"
+msgstr ""
+
+#. &"flare_arrow": {"name": "Signal Flare", "unlock": 1, "cooldown": 18.0,
+#: scripts/ui/champion_bar.gd:142 scripts/units/champion_abilities.gd:73
+#, obsolete
+msgid "Signal Flare"
+msgstr ""
+
+#. closed_label.text = "The tavern opens at %s" % ChampionBar.opens_at_text(self)
+#: scripts/ui/tavern_window.gd:523
+#, obsolete
+msgid "The tavern opens at %s"
+msgstr ""
+
+#. genie_button.text = "Stormbottle Genie  %d" % T3Kit.GENIE_COST
+#: scripts/ui/tavern_window.gd:557
+#, obsolete
+msgid "Stormbottle Genie  %d"
+msgstr ""
+
+#. genie_button.tooltip_text = "Stormbottle Genie  [%s]  (tier 3, one per team)\n%s\n%s" % [gk,
+#: scripts/ui/tavern_window.gd:562
+#, obsolete
+msgid "Stormbottle Genie  [%s]  (tier 3, one per team)\n%s\n%s"
+msgstr ""
+
+#. return [str(camp.get(&"display_name")), " · Tier %d" % tier,
+#: scripts/ui/mapfill_bar.gd:805 scripts/ui/command_card.gd:909
+#, obsolete
+msgid " · Tier %d"
+msgstr ""
+
+#. " · ~%d XP · +%d essence" % [int(r.get(&"xp", 0)), int(r.get(&"essence", 0))]]
+#: scripts/ui/mapfill_bar.gd:806
+#, obsolete
+msgid " · ~%d XP · +%d essence"
+msgstr ""
+
+#. return [("Capturing %s" if own else "The enemy is capturing %s") % progress_text(p),
+#: scripts/ui/point_panel.gd:343
+#, obsolete
+msgid "Capturing %s"
+msgstr ""
+
+#. return [("Capturing %s" if own else "The enemy is capturing %s") % progress_text(p),
+#: scripts/ui/point_panel.gd:343
+#, obsolete
+msgid "The enemy is capturing %s"
+msgstr ""
+
+#. d["text"] = "Raise · %s" % d["reason"]
+#: scripts/ui/bounty_mode.gd:322
+#, obsolete
+msgid "Raise · %s"
+msgstr ""
+
+#. d["text"] = "%s · %d essence" % [kind_name(shown), price]
+#: scripts/ui/bounty_mode.gd:332
+#, obsolete
+msgid "%s · %d essence"
+msgstr ""
+
+#. return ["Raise +%d · " % amount, word, " %d -> %d" % [stake, mini(stake + amount, MAX_STAKE)]]
+#: scripts/ui/bounty_mode.gd:827
+#, obsolete
+msgid "Raise +%d · "
+msgstr ""
+
+#. return ["", word, " · %d essence" % int(d.get("amount", 0))]
+#: scripts/ui/bounty_mode.gd:830
+#, obsolete
+msgid " · %d essence"
+msgstr ""
+
+#. title_label.text = ("ENEMY %s BOUNTY" if not own else "%s BOUNTY") % kname
+#: scripts/ui/flag_card.gd:191
+#, obsolete
+msgid "ENEMY %s BOUNTY"
+msgstr ""
+
+#. title_label.text = ("ENEMY %s BOUNTY" if not own else "%s BOUNTY") % kname
+#: scripts/ui/flag_card.gd:191
+#, obsolete
+msgid "%s BOUNTY"
+msgstr ""
+
+#. var paid_text := "  ·  Paid %d" % BountyMode.flag_paid(f) if own else ""
+#: scripts/ui/flag_card.gd:198
+#, obsolete
+msgid "  ·  Paid %d"
+msgstr ""
+
+#. paid_text += " · max"
+#: scripts/ui/flag_card.gd:200
+#, obsolete
+msgid " · max"
+msgstr ""
+
+#. &"whirlwind": {"name": "Whirlwind", "unlock": 5, "cooldown": 30.0, "class": &"two_hand",
+#: scripts/ui/champion_bar.gd:223 scripts/units/champion_abilities.gd:137
+#, obsolete
+msgid "Whirlwind"
+msgstr ""
+
+#. lines.append("Stacks to %d" % int(stack))
+#: scripts/ui/shop_window.gd:795
+#, obsolete
+msgid "Stacks to %d"
+msgstr ""
+
+#. &"arc_bolt": {"name": "Arc Bolt", "unlock": 2, "cooldown": 10.0, "class": &"wizard",
+#: scripts/ui/champion_bar.gd:227 scripts/units/champion_abilities.gd:140
+#, obsolete
+msgid "Arc Bolt"
+msgstr ""
+
+#. &"slipstep": {"name": "Slipstep", "unlock": 3, "cooldown": 22.0, "class": &"wizard",
+#: scripts/ui/champion_bar.gd:231 scripts/units/champion_abilities.gd:143
+#, obsolete
+msgid "Slipstep"
+msgstr ""
+
+#. &"starfall": {"name": "Starfall", "unlock": 5, "cooldown": 35.0, "class": &"wizard",
+#: scripts/ui/champion_bar.gd:235 scripts/units/champion_abilities.gd:146
+#, obsolete
+msgid "Starfall"
+msgstr ""
+
+#. for l: Label in box.find_children("*", "Label", true, false):
+#: scripts/ui/champion_bar.gd:879
+#, obsolete
+msgid "Label"
+msgstr ""
+
+#. var key := "class|%s|%s" % [id, class_scripts_enabled]
+#: scripts/ui/champion_bar.gd:951
+#, obsolete
+msgid "class|%s|%s"
+msgstr ""
+
+#. if active != "" and not extra.contains("Active:"):
+#: scripts/ui/item_tooltip.gd:174
+#, obsolete
+msgid "Active:"
+msgstr ""
+
+#. &"outriders": {"name": "Outriders", "abbr": "OR", "cost": 120, "trackers": 2, "duration": 180.0,
+#: scripts/ui/trade_window.gd:80 scripts/world/hunters_guild.gd:32
+#, obsolete
+msgid "Outriders"
+msgstr ""
+
+#. &"gambesons": {"name": "Quilted Gambesons", "abbr": "QG", "price": 350,
+#: scripts/ui/trade_window.gd:74 scripts/economy/gold_bank.gd:53
+#, obsolete
+msgid "Quilted Gambesons"
+msgstr ""
+
+#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
+#: scripts/ui/champion_bar.gd:111
+#, obsolete
+msgid "Tamsin Farrow"
+msgstr ""
+
+#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
+#: scripts/ui/champion_bar.gd:111
+#, obsolete
+msgid "Tobin Farrow"
+msgstr ""
+
+#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
+#: scripts/ui/champion_bar.gd:111 data/champions/wayfinder.tres:9
+#, obsolete
+msgid "the Wayfinder"
+msgstr ""
+
+#. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
+#: scripts/ui/champion_bar.gd:118
+#, obsolete
+msgid "Garran Stoneward"
+msgstr ""
+
+#. if t is Resource and str((t as Resource).get(&"display_name")) not in ["", "<null>"]:
+#: scripts/ui/mapfill_bar.gd:694 scripts/ui/mapfill_bar.gd:697
+#, obsolete
+msgid "<null>"
+msgstr ""
+
+#. title_label.text = "Magpie Den"
+#: scripts/ui/post_panel.gd:351 scripts/world/guild_house.gd:30
+#, obsolete
+msgid "Magpie Den"
+msgstr ""
+
+#. segs.append(["%d HP" % roundi(venison.x), NEAR])
+#: scripts/ui/point_panel.gd:462
+#, obsolete
+msgid "%d HP"
+msgstr ""
+
+#. return "%s · %d HP · Hunt it: %s" % [n, roundi(float(c.get(&"max_hp"))), reward]
+#: scripts/ui/point_panel.gd:479
+#, obsolete
+msgid "%s · %d HP · Hunt it: %s"
+msgstr ""
+
+#. hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
+#: scripts/ui/point_panel.gd:500 scripts/ui/selection_panel.gd:694 scripts/ui/selection_panel.gd:857
+#: scripts/ui/selection_panel.gd:1402 scripts/ui/selection_panel.gd:1830
+#, obsolete
+msgid "HP  %d / %d"
+msgstr ""
+
+#. _set_line(1, [["Your units within 6 m heal %d HP" % roundi(venison.y), UIStyle.token(&"text_muted"), 13]] \
+#: scripts/ui/point_panel.gd:504
+#, obsolete
+msgid "Your units within 6 m heal %d HP"
+msgstr ""
+
+#. _set_line(0, [["Opens at 4:00 · in %s" % TradeWindow.mmss(left), UIStyle.WARN]])
+#: scripts/ui/post_panel.gd:277
+#, obsolete
+msgid "Opens at 4:00 · in %s"
+msgstr ""
+
+#. [" · ", text], ["%d gold" % route_value(net, market, post), TradeWindow.GOLD_TEXT],
+#: scripts/ui/post_panel.gd:284
+#, obsolete
+msgid "%d gold"
+msgstr ""
+
+#. roster_label.text = "Roster %d / %d" % [used, ChampionBar.MAX_ROSTER]
+#: scripts/ui/tavern_window.gd:498
+#, obsolete
+msgid "Roster %d / %d"
+msgstr ""
+
+#. footer.text = "Upkeep 1 essence / 10 s per champion · Tavern opens at %s" % ChampionBar.opens_at_text(self)
+#: scripts/ui/tavern_window.gd:501
+#, obsolete
+msgid "Upkeep 1 essence / 10 s per champion · Tavern opens at %s"
+msgstr ""
+
+#. genie_button.text = "Unbottle Genie  %d e" % T3Kit.GENIE_REVIVE_ESSENCE
+#: scripts/ui/tavern_window.gd:555
+#, obsolete
+msgid "Unbottle Genie  %d e"
+msgstr ""
+
+#. return ["Time left %d:%02d" % [secs / 60, secs % 60], UIStyle.WARN if secs < 10 else UIStyle.token(&"text")]
+#: scripts/ui/flag_card.gd:256
+#, obsolete
+msgid "Time left %d:%02d"
+msgstr ""
+
+#. return ["Target lost · refund in %d s" % ceili(left), UIStyle.WARN]
+#: scripts/ui/flag_card.gd:259
+#, obsolete
+msgid "Target lost · refund in %d s"
+msgstr ""
+
+#. const BLESSING_OWN_TIP := ("Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s for your soldiers, wizard and
+#: scripts/ui/mapfill_bar.gd:60
+#, obsolete
+msgid "Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s for your soldiers, wizard and champions\nTake another awake shrine to reset it to 60 s"
+msgstr ""
+
+#. const BLESSING_ENEMY_TIP := "Enemy blessing %d s\n+12 %% speed, +1.5 HP / s for their soldiers, wizard and cha
+#: scripts/ui/mapfill_bar.gd:62
+#, obsolete
+msgid "Enemy blessing %d s\n+12 %% speed, +1.5 HP / s for their soldiers, wizard and champions"
+msgstr ""

@@ -12,6 +12,7 @@ extends PanelContainer
 ## Events.objective_changed(id, state) overrides the state and re-reads objectives(); the panel also polls
 ## objectives() 4 times a second for counters and countdowns. Without a mission node, rows come from events only.
 
+const StoryText := preload("res://scripts/ui/mission/story_text.gd")
 const POLL_SECONDS := 0.25
 const DONE_COLOR := Color(0.3, 0.9, 0.35)
 
@@ -162,8 +163,9 @@ static func _is_primary_dict(d: Dictionary) -> bool:
 
 
 static func _format_text(d: Dictionary) -> String:
-	var text := str(d.get("text", d.get("id", "")))
-	if d.has("goal") and int(d.goal) > 0 and not text.contains("("):
+	var en := str(d.get("text", d.get("id", "")))
+	var text := StoryText.tr_text(en)   # translated before the counter / clock is appended (localization.md 1.3)
+	if d.has("goal") and int(d.goal) > 0 and not en.contains("("):
 		text += " (%d / %d)" % [int(d.get("progress", 0)), int(d.goal)]
 	var left := float(d.get("time_left", -1.0))
 	if left >= 0.0:

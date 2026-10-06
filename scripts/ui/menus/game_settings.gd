@@ -45,6 +45,14 @@ static var control_scheme := CONTROLS_CLASSIC
 const MAP_DETAIL_HIGH := &"high"
 const MAP_DETAIL_LOW := &"low"
 static var map_detail: StringName = MAP_DETAIL_HIGH
+## Settings "Playtest data" (docs/design/health-and-playtests.md): OFF by default. When on, every match (skirmish,
+## missions) writes a compact local timeline to user://playtests/ (no personal data; never sent anywhere). Mirrors
+## ReplayHooks.playtest_enabled, which the recorder hook reads.
+static var playtest_data := false
+const _REPLAY_HOOKS := preload("res://scripts/core/replay/replay_hooks.gd")
+## Language (docs/design/localization.md): "en" / "fr", or "" = not chosen yet (first run: the OS locale, then saved).
+## Applied live by `apply` / `set_language` (Loc.set_language). Scripted runs (tests, labs) stay English (Loc).
+static var language := ""
 ## Upscaler + render scale of the game's 3D (root viewport only; the menu diorama, portraits and labs keep their own
 ## SubViewport settings). Off = native resolution with the project's MSAA. FSR 1 = cheap spatial upscale (softer).
 ## FSR 2 = temporal upscale + anti-aliasing (replaces MSAA, sharper than FSR 1; at 100 % it is native-res AA only).
@@ -99,8 +107,10 @@ static func reset_defaults() -> void:
 	map_id = &"crown_hollow"
 	control_scheme = CONTROLS_CLASSIC
 	map_detail = MAP_DETAIL_HIGH
+	set_playtest_data(false, false)
 	upscaler = UPSCALER_OFF
 	render_scale = RENDER_SCALE_DEFAULT
+	language = ""
 
 
 ## Sets the Map detail (&"high" / &"low"; anything else = high) and saves the file. Applies from the next match.
@@ -204,6 +214,14 @@ static func apply_time_limit(level: Node) -> bool:
 
 
 ## Reads user://settings.cfg (missing file or keys = defaults).
+## Settings "Playtest data": on = record each match to user://playtests/ (applies from the next match start).
+static func set_playtest_data(on: bool, save := true) -> void:
+	playtest_data = on
+	_REPLAY_HOOKS.playtest_enabled = on
+	if save:
+		save_settings()
+
+
 static func load_settings() -> void:
 	reset_defaults()
 	_loaded = true
@@ -224,9 +242,12 @@ static func load_settings() -> void:
 	control_scheme = control_scheme_from_id(str(cfg.get_value(SECTION, "control_scheme",
 			CONTROL_SCHEME_IDS[CONTROLS_CLASSIC])))
 	map_detail = map_detail_from_id(str(cfg.get_value(SECTION, "map_detail", String(MAP_DETAIL_HIGH))))
+	set_playtest_data(bool(cfg.get_value(SECTION, "playtest_data", false)), false)
 	upscaler = upscaler_from_id(str(cfg.get_value(SECTION, "upscaler", UPSCALER_IDS[UPSCALER_OFF])))
 	render_scale = clampf(float(cfg.get_value(SECTION, "render_scale", render_scale)), RENDER_SCALE_MIN,
 			RENDER_SCALE_MAX)
+	var lang := str(cfg.get_value(SECTION, "language", "")).strip_edges().to_lower()
+	language = lang if Loc.LANGS.has(lang) else ""
 	unit_priority_order.clear()
 	var order: Variant = cfg.get_value(SECTION, "unit_priority", [])
 	if order is Array:
@@ -287,8 +308,10 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "map_id", String(map_id))
 	cfg.set_value(SECTION, "control_scheme", CONTROL_SCHEME_IDS[clampi(control_scheme, 0, CONTROL_SCHEME_IDS.size() - 1)])
 	cfg.set_value(SECTION, "map_detail", String(map_detail_from_id(String(map_detail))))
+	cfg.set_value(SECTION, "playtest_data", playtest_data)
 	cfg.set_value(SECTION, "upscaler", UPSCALER_IDS[clampi(upscaler, UPSCALER_OFF, UPSCALER_FSR2)])
 	cfg.set_value(SECTION, "render_scale", render_scale)
+	cfg.set_value(SECTION, "language", language)
 	var order: Array[String] = []
 	for k in unit_priority_order:
 		order.append(String(k))
@@ -297,12 +320,41 @@ static func save_settings() -> Error:
 
 
 static func apply(tree: SceneTree) -> void:
+	apply_language()
 	apply_audio()
 	apply_window(tree)
 	apply_edge_pan(tree.root if tree else null)
 	if tree and tree.root:
 		var o := render_overrides()
 		apply_render(tree.root, int(o.get("upscaler", upscaler)), float(o.get("render_scale", render_scale)))
+
+
+## Sets the game language ("en" / "fr"; it switches live: auto-translated text redraws, screens refresh on
+## NOTIFICATION_TRANSLATION_CHANGED). `save` writes the file.
+static func set_language(lang: String, save := true) -> void:
+	ensure_read()
+	language = lang if Loc.LANGS.has(lang) else Loc.DEFAULT_LANG
+	_language_applied = true
+	if Loc.language != language:
+		Loc.set_language(language)
+	if save:
+		save_settings()
+
+
+static var _language_applied := false
+
+
+## Applies the saved language once per run (set_language switches it later). First run (language ""): the OS locale is
+## chosen and saved, so the game keeps it.
+static func apply_language() -> void:
+	var lang := Loc.resolve_setting(language)
+	if _language_applied:
+		return
+	_language_applied = true
+	Loc.set_language(lang)
+	if language == "" and not Loc.is_scripted_run() and settings_path == PATH:
+		language = lang
+		save_settings()
 
 
 ## "off" / "fsr1" / "fsr2" (saved or command-line text) -> the mode; unknown = Off.

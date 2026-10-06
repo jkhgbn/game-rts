@@ -97,12 +97,14 @@ static func modulate_of(c: CanvasItem) -> Color:
 	return m
 
 
+## The text as drawn: auto-translated controls show `atr(text)` (localization.md), so the French run measures French.
 static func text_of(c: Control) -> String:
 	if c is Label:
 		var l := c as Label
-		return l.text.to_upper() if l.uppercase else l.text
+		var lt := l.atr(l.text)
+		return lt.to_upper() if l.uppercase else lt
 	if c is Button:
-		return (c as Button).text
+		return c.atr((c as Button).text)
 	if c is RichTextLabel:
 		return (c as RichTextLabel).get_parsed_text()
 	if c is LineEdit:

@@ -143,11 +143,13 @@ static func stats_line(type: Variant) -> String:
 	var parts: PackedStringArray = []
 	for key in (stats as Dictionary):
 		var value := float(stats[key])
-		var label := str(STAT_LABELS.get(StringName(key), str(key).replace("_", " ")))
+		var label := Loc.t(str(STAT_LABELS.get(StringName(key), str(key).replace("_", " "))))
 		if str(key).ends_with("_pct"):
 			value *= 100.0
 		var sign := "+" if value >= 0.0 else "-"
 		var number := str(snappedf(absf(value), 0.1)).trim_suffix(".0")
+		if Loc.is_french():
+			number = number.replace(".", ",")
 		parts.append("%s%s %s" % [sign, number, label])
 	return " · ".join(parts)
 
@@ -166,21 +168,21 @@ static func describe(type: Variant, key_label := "", count := 1) -> String:
 		lines.append(stats)
 	var extra := str(field(type, &"tooltip", "")).strip_edges()
 	if extra != "":
-		lines.append(extra)
+		lines.append(Loc.sink(extra))   # the item text (data) in the player's language (game_data.po)
 	var active := str(field(type, &"active_id", ""))
 	var cooldown := float(field(type, &"active_cooldown", 0.0))
 	if active != "" and not extra.contains("Active:"):
-		var line := "Active: %s" % active.capitalize()
 		if cooldown > 0.0:
-			line += " · %d s cooldown" % int(round(cooldown))
-		lines.append(line)
+			lines.append(Loc.t("Active: {name} · {n} s cooldown", {"name": active.capitalize(), "n": int(round(cooldown))}))
+		else:
+			lines.append(Loc.t("Active: {name}", {"name": active.capitalize()}))
 	var t := tier(type)
 	if t == &"consumable":
-		lines.append("%d charge%s" % [count, "" if count == 1 else "s"])
+		lines.append(Loc.tn("{n} charge", "{n} charges", count))
 	if t == &"artifact" or bool(field(type, &"campaign_only", false)):
-		lines.append("Artifact (cannot be sold)")
+		lines.append(Loc.t("Artifact (cannot be sold)"))
 	else:
-		lines.append("Sell %d" % (int(floor(total_cost(type) * 0.5)) * maxi(count, 1)))
+		lines.append(Loc.t("Sell {n}", {"n": int(floor(total_cost(type) * 0.5)) * maxi(count, 1)}))
 	return "\n".join(lines)
 
 
@@ -484,6 +486,12 @@ class HudSkin extends RefCounted:
 		for child in box.get_children():
 			box.remove_child(child)
 			child.queue_free()
+		value = Loc.sink(value)   # an English tooltip_text shows in the player's language (localization.md)
+		# Line markers in the language shown.
+		var active_p := Loc.t("Active: {name}").get_slice("{", 0)
+		var sell_p := Loc.t("Sell {n}").get_slice("{", 0)
+		var cost_p := Loc.t("Cost {n}").get_slice("{", 0)
+		var artifact_p := Loc.t("Artifact (cannot be sold)")
 		var lines := value.split("\n")
 		for i in lines.size():
 			var line := lines[i]
@@ -493,9 +501,10 @@ class HudSkin extends RefCounted:
 			var color := token(&"text_muted")
 			var size := 13
 			if item:
-				if line.begins_with("Active:"):
+				if line.begins_with("Active:") or line.begins_with(active_p):
 					color = token(&"trim_glow")
-				elif line.begins_with("Sell ") or line.begins_with("Artifact"):
+				elif line.begins_with("Sell ") or line.begins_with("Artifact") or line.begins_with(sell_p) \
+						or line == artifact_p:
 					size = 12
 				elif i == 1 and (line.begins_with("+") or line.begins_with("-")):
 					color = token(&"text")
@@ -504,7 +513,7 @@ class HudSkin extends RefCounted:
 					color = GOLD
 				elif _is_reason(line):
 					color = WARN
-				elif i == 1 or line.begins_with("Cost "):
+				elif i == 1 or line.begins_with("Cost ") or line.begins_with(cost_p):
 					color = token(&"text")
 			var l := text(line, size, color)
 			if line.length() > 44:
@@ -513,9 +522,13 @@ class HudSkin extends RefCounted:
 			box.add_child(l)
 
 	static func _is_reason(line: String) -> bool:
-		for r in REASONS:
+		for r: String in REASONS:
 			if line.begins_with(r) or (r == "can't" and line.contains(r)):
 				return true
+			if Loc.is_french():   # the French reason starts (same msgids, data/i18n/fr/ui_hud_windows.po)
+				var fr := Loc.t(r)
+				if fr != r and (line.begins_with(fr) or (r in ["can't", "cannot"] and line.contains(fr))):
+					return true
 		return false
 
 	## Line 1: name (display font 15), the key in an inline gold badge, `Rank n / m` / `Not learned` right.
@@ -548,7 +561,8 @@ class HudSkin extends RefCounted:
 			spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			spacer.custom_minimum_size.x = 8
 			row.add_child(spacer)
-			row.add_child(text(rest, 12, WARN if rest.begins_with("Not learned") else token(&"text_muted")))
+			row.add_child(text(rest, 12, WARN if rest.begins_with("Not learned") or rest.begins_with(Loc.t("Not learned"))
+					else token(&"text_muted")))
 		return row
 
 	## A custom tooltip panel (for `_make_custom_tooltip`).

@@ -1,0 +1,55 @@
+## ui_hud_windows: literals that are not player text (cache keys, node / class names, code markers) and proper names
+## that stay English (champions, champion abilities, Bazaar wares, Lodge contracts, places; glossary_fr.md).
+class|%s|%s
+heavy|%s
+slot|%s|%s
+<null>
+Label
+Button
+Num %d
+Active:
+Tamsin Farrow
+Tobin Farrow
+Garran Stoneward
+Gerda Stoneward
+Sable Quint
+Silas Quint
+Orla Fenwick
+Osric Fenwick
+Signal Flare
+Snare Line
+Trailblaze
+Oath of Iron
+Shield Bash
+Bulwark Stand
+Cutpurse
+Smoke Pouch
+Marked for Coin
+Mending Draught
+Soothing Circle
+Lifeline
+Lunge
+Hobbling Javelin
+Skewer
+Riposte
+Second Wind
+Shield Throw
+Cleave
+Crushing Blow
+Whirlwind
+Arc Bolt
+Slipstep
+Starfall
+Iron-shod Axles
+Masons' Charter
+Tempered Steel
+Quilted Gambesons
+Outriders
+Sweep
+Ruin Peddler
+Greywater Lodge
+Magpie Den
+the Wayfinder
+the Oathwall
+the Coin-Cutter
+the Mender

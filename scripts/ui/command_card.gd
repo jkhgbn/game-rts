@@ -517,7 +517,8 @@ func refresh() -> void:
 		# A spell on cooldown stays bright: the dark sweep shows it.
 		b.modulate.a = 0.45 if disabled and s["reason"] != "On cooldown" else 1.0
 		icons[i].self_modulate = Color(0.55, 0.55, 0.55) if disabled and s["reason"] != "On cooldown" else Color.WHITE
-		b.tooltip_text = s["tooltip"] + ("\n" + s["reason"] if disabled else "")
+		# Refusal reasons (and tooltips other scripts build) stay English in the logic: translated where shown.
+		b.tooltip_text = Loc.sink(s["tooltip"]) + ("\n" + Loc.sink(s["reason"]) if disabled else "")
 		_pending[i] = s["order"] != &"" and s["order"] == pending
 		var highlight: bool = _pending[i]
 		if s.has("active"):
@@ -602,7 +603,8 @@ func _helper_stance_slots(out: Array[Dictionary], h: Variant) -> void:
 	for i in mini(Helper.STANCES.size(), SelectionManager.STANCE_KEYS.size()):
 		var st: StringName = Helper.STANCES[i]
 		var key := char(SelectionManager.STANCE_KEYS[i])   # the QWERTY letter of the physical key
-		var tip: String = "%s  [%s]\n%s" % [names[st], key, lines[st]] + ("\n(current)" if helper.stance == st else "")
+		var tip: String = "%s  [%s]\n%s" % [Loc.t(names[st]), key, Loc.t(lines[st])] \
+				+ ("\n" + Loc.t("(current)") if helper.stance == st else "")
 		var s := _slot("stance_" + String(st), abbr[st], key, tip, func() -> void: sel.set_helper_stance(st))
 		s["active"] = helper.stance == st
 		out[i] = s
@@ -631,7 +633,7 @@ func _update_inspect_block(new_slots: Array[Dictionary]) -> void:
 	inspect_key_line.get_parent().visible = not critter
 	inspect_block.visible = show or critter
 	if critter:
-		inspect_line.text = CRITTER_TEXT
+		inspect_line.text = CRITTER_TEXT   # static msgids: Godot translates the Label itself
 		return
 	if show:
 		var enemy := selection.inspected.team != Unit.Team.PLAYER
@@ -657,7 +659,7 @@ func _flag_slots(out: Array[Dictionary], flag: Node3D) -> void:
 		raise_reason = BountyMode.MSG_MAX
 	elif BountyMode.essence_of(Unit.Team.PLAYER) < mini(BountyMode.RAISE_STEP, BountyMode.MAX_STAKE - stake):
 		raise_reason = BountyMode.MSG_NO_ESSENCE
-	var raise_tip := "Raise +%d  [Z]\nStake %d -> %d (max %d)\nShift+Z: +%d" % [BountyMode.RAISE_STEP, stake,
+	var raise_tip := Loc.t("Raise +%d  [Z]\nStake %d -> %d (max %d)\nShift+Z: +%d") % [BountyMode.RAISE_STEP, stake,
 			mini(stake + BountyMode.RAISE_STEP, BountyMode.MAX_STAKE), BountyMode.MAX_STAKE, BountyMode.RAISE_BIG]
 	out[0] = _slot("raise", "+%d" % BountyMode.RAISE_STEP, "Z", raise_tip,
 			func() -> void: sel.raise_selected_bounty(BountyMode.RAISE_STEP), raise_reason)
@@ -670,10 +672,11 @@ static func remove_tooltip(flag: Node) -> String:
 	var refund := BountyMode.refund_preview(flag)
 	var pursuers := BountyMode.flag_pursuers(flag).size()
 	if pursuers == 0:
-		return "Remove  [Delete]\nRefund %d (100 %%): nobody pursues it." % refund
+		return Loc.t("Remove  [Delete]\nRefund %d (100 %%): nobody pursues it.") % refund
 	var unpaid := maxi(0, BountyMode.flag_stake(flag) - BountyMode.flag_paid(flag))
-	return "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s" % [refund, unpaid - refund, pursuers,
-			"" if pursuers == 1 else "s"]
+	return Loc.tn("Remove  [Delete]\nRefund {refund} (50 %) · {unpaid} to the {n} pursuer",
+			"Remove  [Delete]\nRefund {refund} (50 %) · {unpaid} to the {n} pursuers", pursuers,
+			{"refund": refund, "unpaid": unpaid - refund})
 
 
 ## Slot table (ui-hud.md / buildings.md): workers only = Move Stop Hold Gather / Build;
@@ -682,10 +685,10 @@ static func remove_tooltip(flag: Node) -> String:
 ## caravans never get Attack-move.
 func _unit_slots(out: Array[Dictionary]) -> void:
 	var sel := selection
-	out[0] = _slot("move", "MV", "M", "Move  [M]\nWalk to the clicked point.",
+	out[0] = _slot("move", "MV", "M", Loc.t("Move  [M]\nWalk to the clicked point."),
 			func() -> void: sel.begin_order(SelectionManager.ORDER_MOVE), "", SelectionManager.ORDER_MOVE)
-	out[1] = _slot("stop", "ST", "C", "Stop  [C]\nStop and stand still.", sel.stop)
-	out[2] = _slot("hold", "HD", "H", "Hold  [H]\nStay in place; hit only enemies in range.", sel.hold)
+	out[1] = _slot("stop", "ST", "C", Loc.t("Stop  [C]\nStop and stand still."), sel.stop)
+	out[2] = _slot("hold", "HD", "H", Loc.t("Hold  [H]\nStay in place; hit only enemies in range."), sel.hold)
 	# SC2 subgroups: with 2+ unit types selected, the card shows the active type's (Tab cycles it).
 	var group := sel.active_type_units()
 	var fighters := group.any(func(u: Unit) -> bool:
@@ -694,14 +697,14 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 	var caravans := group.any(func(u: Unit) -> bool: return SelectionManager.is_caravan(u))
 	if caravans and not workers:
 		out[7 if fighters else 3] = _slot("trade", "TR", "G",
-				"Trade  [G]\nClick a trading post: trade there from now on.\nClick your Bazaar: go home and deliver.",
+				Loc.t("Trade  [G]\nClick a trading post: trade there from now on.\nClick your Bazaar: go home and deliver."),
 				func() -> void: sel.begin_order(SelectionManager.ORDER_GATHER), "", SelectionManager.ORDER_GATHER)
 	if fighters:
 		# UX.1: Classic = A (X works too), Hero WASD = X; _slot shows the key as labelled on the player's keyboard.
 		var am := "X" if GameSettings.attack_move_key() == KEY_X else "A"
-		var am_tip := "Attack-move  [%s]\nMove and fight anything met on the way." % am
+		var am_tip := Loc.t("Attack-move  [%s]\nMove and fight anything met on the way.") % am
 		if am != "X":
-			am_tip += "\n%s works too." % KeyLabels.of(KEY_X)
+			am_tip += "\n" + Loc.t("%s works too.") % KeyLabels.of(KEY_X)
 		out[3] = _slot("attack", "AM", am, am_tip,
 				sel.begin_attack_move_targeting, "", SelectionManager.ORDER_ATTACK_MOVE)
 	if sel.has_hero() and group.has(sel.hero):
@@ -714,15 +717,15 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 		for i in mini(caster_ids.size(), CASTER_SLOTS.size()):
 			out[CASTER_SLOTS[i]] = _caster_slot(caster_ids[i], i)
 	if workers:
-		var tip := "Gather  [G]\nMine crystals and carry them to a keep or hall."
+		var tip := Loc.t("Gather  [G]\nMine crystals and carry them to a keep or hall.")
 		if caravans:
-			tip = "Gather / Trade  [G]\nWorkers gather at a crystal node; caravans trade at a post or go home to the Bazaar."
+			tip = Loc.t("Gather / Trade  [G]\nWorkers gather at a crystal node; caravans trade at a post or go home to the Bazaar.")
 		var gather := _slot("gather", "GA", "G", tip,
 				func() -> void: sel.begin_order(SelectionManager.ORDER_GATHER),
 				"" if sel.has_gatherers() or caravans else "Workers can't gather yet", SelectionManager.ORDER_GATHER)
 		out[7 if fighters else 3] = gather
 	if sel.can_build():
-		out[4] = _slot("build", "BU", "B", "Build  [B]\nOpen the build menu; each building shows its own key.",
+		out[4] = _slot("build", "BU", "B", Loc.t("Build  [B]\nOpen the build menu; each building shows its own key."),
 				sel.open_build_menu)
 
 
@@ -745,7 +748,7 @@ func _build_menu_slots(out: Array[Dictionary]) -> void:
 	for entry: Array in placed:
 		var i: int = entry[0]
 		var type: BuildingType = entry[1]
-		var tip := "%s  [%s]\nCost %d crystals · %d s · %d HP\n%s" % [
+		var tip := Loc.t("%s  [%s]\nCost %d crystals · %d s · %d HP\n%s") % [
 				type.display_name, type.hotkey_label, type.cost, roundi(type.build_time), int(type.max_hp),
 				_building_description(type)]
 		var s := _slot("build_" + String(type.id), UIStyle.abbrev(type.display_name), type.hotkey_label, tip,
@@ -754,7 +757,7 @@ func _build_menu_slots(out: Array[Dictionary]) -> void:
 		s["cost"] = type.cost
 		s["icon"] = ["buildings", String(type.id)]
 		out[i] = s
-	out[3] = _slot("back", "<", "Esc", "Back  [Esc]\nClose the build menu (right click does the same).",
+	out[3] = _slot("back", "<", "Esc", Loc.t("Back  [Esc]\nClose the build menu (right click does the same)."),
 			sel.close_build_menu)
 
 
@@ -762,16 +765,17 @@ func _building_description(type: BuildingType) -> String:
 	var faction := String(type.faction).capitalize()
 	match type.kind:
 		&"barracks":
-			return "Trains %s soldiers. Workers can drop crystals here." % faction
+			return Loc.t("Trains %s soldiers. Workers can drop crystals here.") % Loc.t(faction)
 		&"house":
-			var limit := " Max %d." % type.max_count if type.max_count > 0 else ""
-			return "+%d population.%s" % [type.pop_bonus, limit]
+			if type.max_count > 0:
+				return Loc.t("+%d population. Max %d.") % [type.pop_bonus, type.max_count]
+			return Loc.t("+%d population.") % type.pop_bonus
 		&"tower":
-			return "Shoots enemies in range (damage %d, range %d)." % [roundi(type.attack_damage), roundi(type.attack_range)]
+			return Loc.t("Shoots enemies in range (damage %d, range %d).") % [roundi(type.attack_damage), roundi(type.attack_range)]
 		&"market":
-			return "Sends caravans to the trading posts for gold. Within 20 m of your keep. One per kingdom."
+			return Loc.t("Sends caravans to the trading posts for gold. Within 20 m of your keep. One per kingdom.")
 	if type.kind == &"wall" or String(type.id).ends_with("_wall"):
-		return "Blocks the way.%s" % (" Max %d." % type.max_count if type.max_count > 0 else "")
+		return Loc.t("Blocks the way. Max %d.") % type.max_count if type.max_count > 0 else Loc.t("Blocks the way.")
 	return ""
 
 
@@ -782,7 +786,7 @@ func _spell_slot(id: StringName, slot: int) -> Dictionary:
 	var reason := SpellInfo.cast_reason(hero, id)
 	var learn := SpellInfo.learn_reason(hero, id) if hero != null and hero.has_method(&"can_learn") else "n/a"
 	if reason == "Not learned" and learn.begins_with("Needs level"):
-		reason = "Not learned · needs level %s" % learn.get_slice(" ", 2)
+		reason = Loc.t("Not learned · needs level %s") % learn.get_slice(" ", 2)
 	var key: String = SpellInfo.SLOT_KEYS[slot]
 	var action: Callable = selection.cast_spell_slot.bind(slot)
 	if slot == 0 and fireball_action.is_valid():
@@ -815,7 +819,7 @@ func _update_spell_extras(i: int, s: Dictionary) -> void:
 		pip.visible = levels and r > 0 and j < max_r
 		pip.color = KEY_COLOR if j < r else Color(0.3, 0.3, 0.3)
 	learn_chips[i].visible = is_spell and bool(s.get("learnable", false))
-	learn_chips[i].tooltip_text = "Learn  [Ctrl+%s]" % s.get("key", "") if is_spell else ""
+	learn_chips[i].tooltip_text = Loc.t("Learn  [Ctrl+%s]") % s.get("key", "") if is_spell else ""
 	if is_spell or s.has("caster_spell"):
 		_update_cooldown(i)
 	else:
@@ -878,7 +882,7 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 		var type: Variant = keep.get("building_type")
 		var refund := floori(int(type.get("cost")) * 0.75) if type is Object else 0
 		out[0] = _slot("cancel", "CN", "Del",
-				"Cancel  [Delete]\nStop building and get %d crystals back (75 %%)." % refund,
+				Loc.t("Cancel  [Delete]\nStop building and get %d crystals back (75 %%).") % refund,
 				func() -> void: sel.cancel_site())
 		return
 	if sel.upgrades_open() and sel.upgrades_hall == keep:
@@ -903,12 +907,12 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 			desc = CasterKit.description(StringName(str(type.get("id"))))
 		if desc == "" and type is Object and (type as Object).has_meta(&"card_text"):   # stub types (keep tier button)
 			desc = str((type as Object).get_meta(&"card_text"))
-		var tip := "%s  [%s]\nCost %d crystals · Pop %d · %d s" % [
+		var tip := Loc.t("%s  [%s]\nCost %d crystals · Pop %d · %d s") % [
 				type_name, key, int(type.get("cost")), int(type.get("pop")), roundi(float(type.get("train_time")))]
 		if CasterKit.is_keep_caster(type):
-			tip += " · Tier %d" % int(type.get("requires_tier"))
+			tip += Loc.t(" · Tier %d") % int(type.get("requires_tier"))
 		if desc != "":
-			tip += "\n" + desc
+			tip += "\n" + Loc.sink(desc)   # descriptions come from data / other scripts: translated where shown
 		if reason == TierSystem.MSG_T2 or reason == TierSystem.MSG_T3:
 			tip += "\n" + tier_way_line(int(keep.get("team")))
 		out[i] = _slot("train_" + str(type.get("id")), UIStyle.abbrev(type_name), key, tip,
@@ -927,12 +931,12 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 	var rally_i := RALLY_KEEP_SLOT if keep is Keep and n_train > SelectionManager.CASTER_KEEP_SLOT else n_train
 	if keep.has_method("set_rally_point"):
 		out[rally_i] = _slot("rally", "RL", "",
-				"Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining.",
+				Loc.t("Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining."),
 				func() -> void: sel.begin_order(SelectionManager.ORDER_RALLY), "", SelectionManager.ORDER_RALLY)
 	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c4 (the + key or a click).
 	if out[PLUS_SLOT].is_empty() and sel.can_open_upgrades():
 		out[PLUS_SLOT] = _slot("plus_page", "+", SelectionManager.UPGRADES_KEY_LABEL,
-				PLUS_PAGE_TOOLTIP % SelectionManager.UPGRADES_KEY_LABEL, sel.open_upgrades)
+				Loc.t(PLUS_PAGE_TOOLTIP) % SelectionManager.UPGRADES_KEY_LABEL, sel.open_upgrades)
 
 
 ## The tooltip line under a unit greyed `Requires Stronghold / Citadel`: where the way up is ("Upgrade your Keep to a
@@ -944,15 +948,19 @@ static func tier_way_line(team: int) -> String:
 	var keep_name := "Keep"
 	if st.get("keep") is Keep and (st["keep"] as Keep).building_type:
 		keep_name = (st["keep"] as Keep).building_type.display_name
+	# Keep / Stronghold / Citadel are translated names (glossary); one template per variant of the sentence.
+	var tier_n := Loc.t(String(st["name"]))
 	if bool(st["upgrading"]):
-		return "%s upgrade in progress: %d %%" % [st["name"], roundi(float(st["progress"]) * 100.0)]
-	var line := "Upgrade your %s to a %s: select it, press %s" % [keep_name, st["name"], KeyLabels.of(KEY_X)]
+		return Loc.t("%s upgrade in progress: %d %%") % [tier_n, roundi(float(st["progress"]) * 100.0)]
 	var why := String(st["reason"])
+	var args := {"keep": Loc.t(keep_name), "tier": tier_n, "key": KeyLabels.of(KEY_X)}
 	if why.begins_with("Available at"):
-		line += " (from %s)" % TierSystem.clock(float(st["from"]))
+		args["from"] = TierSystem.clock(float(st["from"]))
+		return Loc.t("Upgrade your {keep} to a {tier}: select it, press {key} (from {from})", args)
 	elif why != "":
-		line += " (%s)" % why.to_lower()
-	return line
+		args["why"] = Loc.sink(why).to_lower() if Loc.is_french() else why.to_lower()
+		return Loc.t("Upgrade your {keep} to a {tier}: select it, press {key} ({why})", args)
+	return Loc.t("Upgrade your {keep} to a {tier}: select it, press {key}", args)
 
 
 ## The "+" upgrades page of a Hall (tiers.md 5): each unit's "+" on the slot of its training button, with the same key
@@ -975,19 +983,19 @@ func _plus_slots(out: Array[Dictionary], hall: Node) -> void:
 		var state: StringName = r["state"]
 		var reason: String = r["reason"]
 		if state == &"done":
-			reason = "Researched"
+			reason = Loc.t("Researched")
 		elif state == &"working":
-			reason = "Researching %d %%" % roundi(float(r["progress"]) * 100.0)
+			reason = Loc.t("Researching %d %%") % roundi(float(r["progress"]) * 100.0)
 		var head: String = r["name"] if key == "" else "%s  [%s]" % [r["name"], key]
-		var tip := "%s\n%d crystals · %d s\n%s for every %s of your kingdom." % [head, int(r["crystals"]),
-				roundi(float(r["time"])), r["text"], String(r["name"]).trim_suffix("+")]
+		var tip := Loc.t("%s\n%d crystals · %d s\n%s for every %s of your kingdom.") % [head, int(r["crystals"]),
+				roundi(float(r["time"])), Loc.sink(str(r["text"])), String(r["name"]).trim_suffix("+")]
 		var s := _slot("plus_" + String(id), UIStyle.abbrev(String(r["name"]).trim_suffix("+")) + "+", key, tip,
 				func() -> void: sel.buy_upgrade(id), reason)
 		s["cost"] = int(r["crystals"])
 		s["icon"] = ["units", String(id)]
 		s["active"] = state == &"working" or state == &"done"
 		out[i] = s
-	out[PLUS_SLOT] = _slot("plus_back", "<", "Esc", "Back  [Esc]\nThe Hall's training buttons (%s does the same)."
+	out[PLUS_SLOT] = _slot("plus_back", "<", "Esc", Loc.t("Back  [Esc]\nThe Hall's training buttons (%s does the same).")
 			% SelectionManager.UPGRADES_KEY_LABEL, sel.close_upgrades)
 
 
@@ -1008,10 +1016,10 @@ func _market_slots(out: Array[Dictionary], market: Node, first_free: int) -> voi
 	var closed := _posts_closed(market)
 	var route_i := maxi(first_free, 1)
 	out[route_i] = _slot("route", "RT", "",
-			"Set Route\nClick a trading post: caravans trade there from now on.\nRight-click a post does the same.",
+			Loc.t("Set Route\nClick a trading post: caravans trade there from now on.\nRight-click a post does the same."),
 			func() -> void: sel.begin_order(SelectionManager.ORDER_ROUTE), MSG_POSTS_CLOSED if closed else "",
 			SelectionManager.ORDER_ROUTE)
-	out[route_i + 1] = _slot("wares", "WR", "U", "Wares  [U]\nBuy one-time wares and exchange gold at the Bazaar.",
+	out[route_i + 1] = _slot("wares", "WR", "U", Loc.t("Wares  [U]\nBuy one-time wares and exchange gold at the Bazaar."),
 			open_wares)
 	var posts := route_posts(market)
 	var current: Variant = market.get("route_post")
@@ -1023,9 +1031,9 @@ func _market_slots(out: Array[Dictionary], market: Node, first_free: int) -> voi
 		var value := RouteLine.value_of(market, post)
 		var is_current: bool = current == post
 		var reason := RouteLine.short_reason(RouteLine.route_reason(market, post))
-		var line3 := "Current route" if is_current else "Right-click the post does the same."
-		var tip := "%s · %s\n%d gold per trip · ~%d / min per caravan\n%s" % [pname, "far" if far else "near", value,
-				RouteLine.per_minute(market, post), line3]
+		var line3 := Loc.t("Current route") if is_current else Loc.t("Right-click the post does the same.")
+		var tip := Loc.t("%s · %s\n%d gold per trip · ~%d / min per caravan\n%s") % [pname,
+				Loc.t("far") if far else Loc.t("near"), value, RouteLine.per_minute(market, post), line3]
 		var s := _slot("route_" + pid, POST_ABBREVS.get(StringName(pid), UIStyle.abbrev(pname)), "", tip,
 				func() -> void: sel.set_market_route(post), reason)
 		s["value"] = value

@@ -73,6 +73,7 @@ problems moves the score. Group weights: load x2, fields / refs / keys x1.5, tex
 | T4 | Display names unique per kind | (WARN) |
 | T5 | Tooltip numbers match the data | every number printed in a champion ability text (+ the archetype's `ability_texts`), an item tooltip or a spell tooltip exists in its data: the value, x100 for shares, or a product / ratio of two-three values (4 per tick x 2 s / 0.5 s = 16); level / rank words are skipped (WARN) |
 | T7 | Hard-coded UI strings | INFO: literal UI strings per `scripts/ui/**` script, how many go through `tr()` (French-UI backlog) |
+| T8 | New strings are localized (2026-10-06) | every key of a required area (`I18nExtract.REQUIRED_AREAS`, `docs/design/localization.md`) has a French entry in `data/i18n/fr/` with the same placeholders (FAIL); `T8i` INFO = coverage per area |
 | A1 | Every kingdom has easy / normal / hard | `AIProfile.for_id` resolves the 12 profiles; the source table says data (`data/ai/*.tres`) or code preset (Fire and Shadow play the code `shadow_default`, ai.md) |
 | A2 | AI knobs in range | `Rules.AI_BOUNDS` (from the `ai_profile.gd` comments / ai.md), floor <= ratio, late caravans >= early, S2 after S1 |
 | A3 | AI references | `item_build` items exist and are buyable, `champion_order`, `retreat_spell` is the kingdom's own spell, `ware_order`, `spell_order` (`F2`...), build rows, flag rules |

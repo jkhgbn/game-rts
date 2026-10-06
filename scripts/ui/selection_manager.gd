@@ -1502,7 +1502,7 @@ func pick_up_item(pickup: Node3D) -> void:
 
 func _on_item_picked_up(_pickup: Variant, wizard: Variant, type: Variant) -> void:
 	if wizard == hero:
-		message.emit("Picked up %s" % ItemTooltip.display_name(type))
+		message.emit(Loc.t("Picked up %s") % ItemTooltip.display_name(type))
 
 
 ## The ground item Vessa is walking to, or null.
@@ -1544,9 +1544,9 @@ func _take_pickup(pickup: Node3D) -> void:
 		if result is bool and result:
 			pickup.queue_free()
 	if result is String:
-		message.emit(result if result != "" else "Picked up %s" % name)
+		message.emit(result if result != "" else Loc.t("Picked up %s") % name)
 	elif result is bool:
-		message.emit("Picked up %s" % name if result else "Inventory full")
+		message.emit(Loc.t("Picked up %s") % name if result else "Inventory full")
 
 
 ## A (Classic) or X pressed: the next left click gives an attack-move order (right click / Esc cancels).

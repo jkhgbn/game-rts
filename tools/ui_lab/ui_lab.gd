@@ -12,6 +12,7 @@ extends SceneTree
 ##   match_s   match time before the HUD shot (default 60)     timescale  game speed while waiting (default 8)
 ##   ui_scale  UI scale forced for the run (default 1.0; the saved setting is never written)
 ##   log=0     no improvement-log row
+##   lang      game language for the run (en default, fr = French: localization.md; the saved setting is never written)
 ## Exit code: 0 PASS / WARN, 1 FAIL, 2 bad arguments, 3 watchdog. Last lines: the result and each FAIL / WARN cell.
 
 const WATCHDOG_S := 900.0
@@ -29,6 +30,7 @@ var match_s := 60.0
 var timescale := 8.0
 var ui_scale := 1.0
 var write_log := true
+var lang := "en"
 var _t0 := 0
 var _thumbs := {}   # "screen@res" -> Image (THUMB_W wide)
 const THUMB_W := 480
@@ -62,6 +64,9 @@ func _main() -> void:
 	GameSettings.fullscreen = false   # static only: the saved file is never written
 	GameSettings.ui_scale = ui_scale
 	GameSettings.apply_window(self)
+	if lang != Loc.DEFAULT_LANG:
+		Loc.set_language(lang)
+		report.notes.append("Language: %s (Loc.set_language)" % Loc.language)
 	for sz in sizes:
 		var res := "%dx%d" % [sz.x, sz.y]
 		report.resolutions.append(res)
@@ -118,6 +123,8 @@ func _parse(args: PackedStringArray) -> Dictionary:
 				ui_scale = clampf(float(kv[1]), 0.5, 2.0)
 			"log":
 				write_log = kv[1] != "0"
+			"lang":
+				lang = kv[1].to_lower()
 	return {"res": sizes, "screens": screens}
 
 

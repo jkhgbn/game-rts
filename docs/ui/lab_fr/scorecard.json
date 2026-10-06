@@ -1,0 +1,2558 @@
+{
+  "actual_sizes": {
+    "1600x900": "1600x900",
+    "1920x1080": "1920x1080"
+  },
+  "checks": [
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "5 px from the bottom edge (flush it or keep >= 8 px)",
+          "fail": false,
+          "text": "MainMenu > PanelContainer",
+          "value": 5.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "skirmish_setup",
+      "status": "WARN",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Plein écran\"",
+          "value": 0.16
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 2,
+      "fails": 2,
+      "items": [
+        {
+          "detail": "6898 px2 (21 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Clic gauche / glisser : sélect..\"  x  GameHUD > Label \"Cliquez sur votre donjon pour ..\"",
+          "value": 6898.0
+        },
+        {
+          "detail": "8041 px2 (59 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"  x  NextStepHint > Label \"Prochaine étape : construisez ..\"",
+          "value": 8041.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.384615384615385,
+      "screen": "hud",
+      "status": "FAIL",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.526315789473684,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 8,
+      "fails": 4,
+      "items": [
+        {
+          "detail": "3.57 : 1 (rule 4.5; text 796632 on 0b0807) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Q\"",
+          "value": 3.57
+        },
+        {
+          "detail": "3.59 : 1 (rule 4.5; text 7c6631 on 100906) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"E\"",
+          "value": 3.59
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 72685e on 211f18)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.04
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 73685e on 221e19)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.04
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.185185185185185,
+      "screen": "hud",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 2,
+      "fails": 2,
+      "items": [
+        {
+          "detail": "6898 px2 (21 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Clic gauche / glisser : sélect..\"  x  GameHUD > Label \"Cliquez sur votre donjon pour ..\"",
+          "value": 6898.0
+        },
+        {
+          "detail": "8041 px2 (59 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"  x  NextStepHint > Label \"Prochaine étape : construisez ..\"",
+          "value": 8041.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.384615384615385,
+      "screen": "hud_keep",
+      "status": "FAIL",
+      "type": "overlap"
+    },
+    {
+      "count": 6,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"50\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"300\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"120\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.357142857142857,
+      "screen": "hud_keep",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 8,
+      "fails": 4,
+      "items": [
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 0a0808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"X\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.76 : 1 (rule 4.5; text 5c6f77 on 0a0908) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"300\"",
+          "value": 3.76
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 72685e on 211f18)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.04
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 73685e on 221e19)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.04
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.185185185185185,
+      "screen": "hud_keep",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "hud_keep",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 2,
+      "fails": 2,
+      "items": [
+        {
+          "detail": "6898 px2 (21 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Clic gauche / glisser : sélect..\"  x  GameHUD > Label \"Cliquez sur votre donjon pour ..\"",
+          "value": 6898.0
+        },
+        {
+          "detail": "8041 px2 (59 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"  x  NextStepHint > Label \"Prochaine étape : construisez ..\"",
+          "value": 8041.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.384615384615385,
+      "screen": "hud_caster",
+      "status": "FAIL",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.526315789473684,
+      "screen": "hud_caster",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 7,
+      "fails": 4,
+      "items": [
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 0a0808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Z\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 72685e on 211f18)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.04
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 73685e on 221e19)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.04
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.196078431372549,
+      "screen": "hud_caster",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "hud_caster",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Label \"Choisissez votre voie (fixée p..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"FORCE  +15 % dégâts d'attaque ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"INTELLECT  +15 puissance (+15 ..\"",
+          "value": 0.92
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.526315789473684,
+      "screen": "pause",
+      "status": "WARN",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 2,
+      "fails": 1,
+      "items": [
+        {
+          "detail": "4.19 : 1 (rule 4.5; text ff8c26 on 1c4670)",
+          "fail": false,
+          "text": "ScorePanel > Label \"595\"",
+          "value": 4.19
+        },
+        {
+          "detail": "2.61 : 1 (rule 4.5; text a85cff on 1c4670)",
+          "fail": true,
+          "text": "ScorePanel > Label \"195\"",
+          "value": 2.61
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.476190476190476,
+      "screen": "end_score",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 5,
+      "fails": 3,
+      "items": [
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "SelectionPanel > Button \"Vessa, sorcière du Feu\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "drawn OVER the modal panel GameHUD > PanelContainer (layer 60 vs 1)",
+          "fail": true,
+          "text": "StrIntPanel > Label \"Choisissez votre voie (fixée p..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "drawn OVER the modal panel GameHUD > PanelContainer (layer 60 vs 1)",
+          "fail": true,
+          "text": "StrIntPanel > Button \"FORCE  +15 % dégâts d'attaque ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "drawn OVER the modal panel GameHUD > PanelContainer (layer 60 vs 1)",
+          "fail": true,
+          "text": "StrIntPanel > Button \"INTELLECT  +15 puissance (+15 ..\"",
+          "value": 0.92
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.25,
+      "screen": "end_score",
+      "status": "FAIL",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 2,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Plein écran\"",
+          "value": 0.16
+        },
+        {
+          "detail": "switch (off): only 17 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Aider à améliorer le jeu : enr..\"",
+          "value": 0.17
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.625,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 1,
+      "fails": 1,
+      "items": [
+        {
+          "detail": "4521 px2 (33 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"  x  NextStepHint > Label \"Prochaine étape : construisez ..\"",
+          "value": 4521.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.555555555555556,
+      "screen": "hud",
+      "status": "FAIL",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.526315789473684,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 8,
+      "fails": 2,
+      "items": [
+        {
+          "detail": "3.57 : 1 (rule 4.5; text 796632 on 0b0807) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Q\"",
+          "value": 3.57
+        },
+        {
+          "detail": "3.59 : 1 (rule 4.5; text 7c6631 on 100906) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"E\"",
+          "value": 3.59
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.03 : 1 (rule 4.5; text 73685f on 231f1a)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.03
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 73685f on 231e1a)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.04
+        },
+        {
+          "detail": "3.06 : 1 (rule 4.5; text 72675e on 211d19)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.06
+        },
+        {
+          "detail": "3.07 : 1 (rule 4.5; text 71675d on 1f1d16)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.07
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.227272727272727,
+      "screen": "hud",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 1,
+      "fails": 1,
+      "items": [
+        {
+          "detail": "4521 px2 (33 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"  x  NextStepHint > Label \"Prochaine étape : construisez ..\"",
+          "value": 4521.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.555555555555556,
+      "screen": "hud_keep",
+      "status": "FAIL",
+      "type": "overlap"
+    },
+    {
+      "count": 6,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"50\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"300\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"120\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.357142857142857,
+      "screen": "hud_keep",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 8,
+      "fails": 2,
+      "items": [
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 0a0808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"X\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.75 : 1 (rule 4.5; text 5c6e77 on 0a0808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"300\"",
+          "value": 3.75
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.03 : 1 (rule 4.5; text 73685f on 231f1a)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.03
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 73685f on 231e1a)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.04
+        },
+        {
+          "detail": "3.06 : 1 (rule 4.5; text 72675e on 211d19)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.06
+        },
+        {
+          "detail": "3.07 : 1 (rule 4.5; text 71675d on 1f1d16)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.07
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.227272727272727,
+      "screen": "hud_keep",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "hud_keep",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 1,
+      "fails": 1,
+      "items": [
+        {
+          "detail": "4521 px2 (33 % of the smaller)",
+          "fail": true,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"  x  NextStepHint > Label \"Prochaine étape : construisez ..\"",
+          "value": 4521.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.555555555555556,
+      "screen": "hud_caster",
+      "status": "FAIL",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F5\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F6\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ChampionBar > Label \"F7\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.526315789473684,
+      "screen": "hud_caster",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 7,
+      "fails": 2,
+      "items": [
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 0a0808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Z\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 23201a)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.01 : 1 (rule 4.5; text 73695f on 24201b)",
+          "fail": true,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.01
+        },
+        {
+          "detail": "3.03 : 1 (rule 4.5; text 73685f on 231f1a)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.03
+        },
+        {
+          "detail": "3.04 : 1 (rule 4.5; text 73685f on 231e1a)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.04
+        },
+        {
+          "detail": "3.06 : 1 (rule 4.5; text 72675e on 211d19)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Engager un champion\"",
+          "value": 3.06
+        },
+        {
+          "detail": "3.07 : 1 (rule 4.5; text 71675d on 1f1d16)",
+          "fail": false,
+          "text": "ChampionBar > Label \"Taverne ouverte à 2:00\"",
+          "value": 3.07
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.24390243902439,
+      "screen": "hud_caster",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "hud_caster",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Label \"Choisissez votre voie (fixée p..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"FORCE  +15 % dégâts d'attaque ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"INTELLECT  +15 puissance (+15 ..\"",
+          "value": 0.92
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.526315789473684,
+      "screen": "pause",
+      "status": "WARN",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 2,
+      "fails": 1,
+      "items": [
+        {
+          "detail": "4.19 : 1 (rule 4.5; text ff8c26 on 1c4670)",
+          "fail": false,
+          "text": "ScorePanel > Label \"595\"",
+          "value": 4.19
+        },
+        {
+          "detail": "2.61 : 1 (rule 4.5; text a85cff on 1c4670)",
+          "fail": true,
+          "text": "ScorePanel > Label \"195\"",
+          "value": 2.61
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.476190476190476,
+      "screen": "end_score",
+      "status": "FAIL",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 4,
+      "fails": 3,
+      "items": [
+        {
+          "detail": "shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "GameHUD > Label \"Cliquez sur votre donjon pour ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "drawn OVER the modal panel GameHUD > PanelContainer (layer 60 vs 1)",
+          "fail": true,
+          "text": "StrIntPanel > Label \"Choisissez votre voie (fixée p..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "drawn OVER the modal panel GameHUD > PanelContainer (layer 60 vs 1)",
+          "fail": true,
+          "text": "StrIntPanel > Button \"FORCE  +15 % dégâts d'attaque ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "drawn OVER the modal panel GameHUD > PanelContainer (layer 60 vs 1)",
+          "fail": true,
+          "text": "StrIntPanel > Button \"INTELLECT  +15 puissance (+15 ..\"",
+          "value": 0.92
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.27027027027027,
+      "screen": "end_score",
+      "status": "FAIL",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "end_score",
+      "status": "PASS",
+      "type": "edge"
+    }
+  ],
+  "counts": {
+    "FAIL": 16,
+    "PASS": 145,
+    "SKIP": 0,
+    "WARN": 17
+  },
+  "headless": false,
+  "improve_next": [
+    {
+      "status": "FAIL",
+      "text": "make the modal panel opaque, put a dimmer behind it, or hide the HUD text while it is open. e.g. SelectionPanel > Button \"Vessa, sorcière du Feu\": shows through the modal panel GameHUD > PanelContainer (background alpha 0.92 < 0.95) (at 1600x900, 1920x1080)",
+      "title": "Bleed-through on end_score"
+    },
+    {
+      "status": "FAIL",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"X\": 3.56 : 1 (rule 4.5; text 786632 on 0a0808) (inside a disabled button: WARN only) (at 1600x900, 1920x1080)",
+      "title": "Contrast on hud_keep"
+    },
+    {
+      "status": "FAIL",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"Q\": 3.57 : 1 (rule 4.5; text 796632 on 0b0807) (inside a disabled button: WARN only) (at 1600x900, 1920x1080)",
+      "title": "Contrast on hud"
+    },
+    {
+      "status": "FAIL",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"Z\": 3.56 : 1 (rule 4.5; text 786632 on 0a0808) (inside a disabled button: WARN only) (at 1600x900, 1920x1080)",
+      "title": "Contrast on hud_caster"
+    },
+    {
+      "status": "FAIL",
+      "text": "move one of them, or hide the lower-priority one while the other shows. e.g. GameHUD > Label \"Clic gauche / glisser : sélect..\"  x  GameHUD > Label \"Cliquez sur votre donjon pour ..\": 6898 px2 (21 % of the smaller) (at 1600x900, 1920x1080)",
+      "title": "Overlaps on hud"
+    },
+    {
+      "status": "FAIL",
+      "text": "move one of them, or hide the lower-priority one while the other shows. e.g. GameHUD > Label \"Clic gauche / glisser : sélect..\"  x  GameHUD > Label \"Cliquez sur votre donjon pour ..\": 6898 px2 (21 % of the smaller) (at 1600x900, 1920x1080)",
+      "title": "Overlaps on hud_keep"
+    }
+  ],
+  "lab_version": "2.0",
+  "notes": [
+    "Language: fr (Loc.set_language)",
+    "1600x900: match clock stuck at 0 s",
+    "1920x1080: match clock stuck at 0 s"
+  ],
+  "previous_quality": -1.0,
+  "quality": 90.1,
+  "resolutions": [
+    "1600x900",
+    "1920x1080"
+  ],
+  "result": "FAIL",
+  "screens": [
+    "main_menu",
+    "skirmish_setup",
+    "settings",
+    "unit_guide",
+    "unit_guide_compare",
+    "hud",
+    "hud_keep",
+    "hud_caster",
+    "pause",
+    "end_score"
+  ],
+  "seconds": 278.8,
+  "shots": {
+    "contact_sheet": "contact_sheet.jpg",
+    "end_score@1600x900": "1600x900/end_score.jpg",
+    "end_score@1920x1080": "1920x1080/end_score.jpg",
+    "hud@1600x900": "1600x900/hud.jpg",
+    "hud@1920x1080": "1920x1080/hud.jpg",
+    "hud_caster@1600x900": "1600x900/hud_caster.jpg",
+    "hud_caster@1920x1080": "1920x1080/hud_caster.jpg",
+    "hud_keep@1600x900": "1600x900/hud_keep.jpg",
+    "hud_keep@1920x1080": "1920x1080/hud_keep.jpg",
+    "main_menu@1600x900": "1600x900/main_menu.jpg",
+    "main_menu@1920x1080": "1920x1080/main_menu.jpg",
+    "pause@1600x900": "1600x900/pause.jpg",
+    "pause@1920x1080": "1920x1080/pause.jpg",
+    "settings@1600x900": "1600x900/settings.jpg",
+    "settings@1920x1080": "1920x1080/settings.jpg",
+    "skirmish_setup@1600x900": "1600x900/skirmish_setup.jpg",
+    "skirmish_setup@1920x1080": "1920x1080/skirmish_setup.jpg",
+    "unit_guide@1600x900": "1600x900/unit_guide.jpg",
+    "unit_guide@1920x1080": "1920x1080/unit_guide.jpg",
+    "unit_guide_compare@1600x900": "1600x900/unit_guide_compare.jpg",
+    "unit_guide_compare@1920x1080": "1920x1080/unit_guide_compare.jpg"
+  },
+  "started": "2026-10-06 10:20:59"
+}

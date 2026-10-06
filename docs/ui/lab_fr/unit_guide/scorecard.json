@@ -1,0 +1,376 @@
+{
+  "actual_sizes": {
+    "1600x900": "1600x900",
+    "1920x1080": "1920x1080"
+  },
+  "checks": [
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "unit_guide_compare",
+      "status": "PASS",
+      "type": "edge"
+    }
+  ],
+  "counts": {
+    "FAIL": 0,
+    "PASS": 32,
+    "SKIP": 0,
+    "WARN": 0
+  },
+  "headless": false,
+  "improve_next": [
+    {
+      "status": "IDEA",
+      "text": "every HUD button gets a tooltip with its key and cost, even when its text is clear",
+      "title": "Tooltips everywhere in game"
+    },
+    {
+      "status": "IDEA",
+      "text": "French text runs ~20 % longer: keep 20 % spare width in fixed-size frames",
+      "title": "Headroom for French"
+    },
+    {
+      "status": "IDEA",
+      "text": "at 3440x1440 check that HUD blocks stay anchored to their edges and the centre stays clear",
+      "title": "Ultrawide layout"
+    }
+  ],
+  "lab_version": "2.0",
+  "notes": [
+    "Language: fr (Loc.set_language)"
+  ],
+  "previous_quality": 100.0,
+  "quality": 100.0,
+  "resolutions": [
+    "1600x900",
+    "1920x1080"
+  ],
+  "result": "PASS",
+  "screens": [
+    "unit_guide",
+    "unit_guide_compare"
+  ],
+  "seconds": 17.9,
+  "shots": {
+    "contact_sheet": "contact_sheet.jpg",
+    "unit_guide@1600x900": "1600x900/unit_guide.jpg",
+    "unit_guide@1920x1080": "1920x1080/unit_guide.jpg",
+    "unit_guide_compare@1600x900": "1600x900/unit_guide_compare.jpg",
+    "unit_guide_compare@1920x1080": "1920x1080/unit_guide_compare.jpg"
+  },
+  "started": "2026-10-06 09:13:57"
+}

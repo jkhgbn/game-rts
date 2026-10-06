@@ -165,7 +165,8 @@ static func learn_reason(wiz: Node, id: StringName) -> String:
 
 ## Line 2 of the tooltip: `40 mana · 72 damage · radius 3.75` (numbers of rank `r`).
 static func numbers_line(wiz: Node, id: StringName, r: int) -> String:
-	var parts: Array[String] = ["%s mana" % _num(mana_cost(wiz, id))]
+	# Each part is one translated list item (joined by " · ").
+	var parts: Array[String] = [Loc.t("%s mana") % _num(mana_cost(wiz, id))]
 	var tt := target_type(id)
 	var dmg := value(wiz, id, "damage", r)
 	var cd := value(wiz, id, "cooldown", r)
@@ -176,41 +177,42 @@ static func numbers_line(wiz: Node, id: StringName, r: int) -> String:
 	if summons > 0:
 		# Summon spells (Call the Thicket): `60 mana · 45 s cooldown · 3 Saplings`.
 		if cd > 0.0:
-			parts.append("%s s cooldown" % _num(cd))
+			parts.append(Loc.t("%s s cooldown") % _num(cd))
 		parts.append("%d %s" % [summons, summon_name(id, summons)])
 	elif dmg > 0.0 and (tt == &"unit" or (tt == &"point" and (cd <= 0.0 or id in DAMAGE_RADIUS))):
-		parts.append("%s damage" % _num(dmg))
+		parts.append(Loc.t("%s damage") % _num(dmg))
 		if rad > 0.0 and tt == &"point":
-			parts.append("radius %s" % _num(rad))
+			parts.append(Loc.t("radius %s") % _num(rad))
 		elif rng > 0.0:
-			parts.append("range %s" % _num(rng))
+			parts.append(Loc.t("range %s") % _num(rng))
 	else:
 		if cd > 0.0:
-			parts.append("%s s cooldown" % _num(cd))
+			parts.append(Loc.t("%s s cooldown") % _num(cd))
 		if tt == &"self":
 			if id in SELF_RADIUS and rad > 0.0:
-				parts.append("radius %s" % _num(rad))
+				parts.append(Loc.t("radius %s") % _num(rad))
 			elif dur > 0.0:
 				parts.append("%s s" % _num(dur))
 		elif tt == &"area" and rad > 0.0:
-			parts.append("radius %s" % _num(rad))
+			parts.append(Loc.t("radius %s") % _num(rad))
 		elif rng > 0.0:
-			parts.append("range %s" % _num(rng))
+			parts.append(Loc.t("range %s") % _num(rng))
 	return " · ".join(parts)
 
 
 ## Only what changes from rank r to r + 1: `rank 3 = 85 damage, radius 4.0`.
 static func next_rank_line(wiz: Node, id: StringName, r: int) -> String:
 	if r <= 0:
-		return "learn rank 1"
+		return Loc.t("learn rank 1")
 	var changes: Array[String] = []
-	for f in [["damage", "%s damage"], ["heal", "%s heal"], ["summon_count", "%s " + summon_name(id, 2)],
-			["radius", "radius %s"], ["range", "range %s"], ["duration", "%s s"], ["cooldown", "%s s cooldown"]]:
+	for f in [["damage", Loc.t("%s damage")], ["heal", Loc.t("%s heal")], ["summon_count", "%s " + summon_name(id, 2)],
+			["radius", Loc.t("radius %s")], ["range", Loc.t("range %s")], ["duration", "%s s"],
+			["cooldown", Loc.t("%s s cooldown")]]:
 		var a := value(wiz, id, f[0], r)
 		var b := value(wiz, id, f[0], r + 1)
 		if not is_equal_approx(a, b):
 			changes.append(str(f[1]) % _num(b))
-	return "rank %d = %s" % [r + 1, ", ".join(changes) if not changes.is_empty() else "stronger"]
+	return Loc.t("rank %d = %s") % [r + 1, ", ".join(changes) if not changes.is_empty() else Loc.t("stronger")]
 
 
 ## The full tooltip (levels.md "Tooltip with ranks"); the card adds the disabled reason line.
@@ -221,14 +223,15 @@ static func tooltip(wiz: Node, id: StringName, slot: int) -> String:
 	var desc: String = DESCRIPTIONS.get(id, "")
 	if desc == "" and type_of(id) != null and type_of(id).get("tooltip") != null:
 		desc = str(type_of(id).get("tooltip"))
+	desc = Loc.t(desc) if desc != "" else desc   # the spell descriptions are msgids (spell_info / data/spells)
 	if r <= 0:
-		return "%s  [%s]  Not learned\n%s\n%s" % [display_name(id), key, numbers_line(wiz, id, 1), desc]
+		return Loc.t("%s  [%s]  Not learned\n%s\n%s") % [display_name(id), key, numbers_line(wiz, id, 1), desc]
 	var head := "%s  [%s]" % [display_name(id), key]
 	if levels:
-		head += "  Rank %d / %d" % [r, max_rank(id, slot)]
+		head = Loc.t("%s  [%s]  Rank %d / %d") % [display_name(id), key, r, max_rank(id, slot)]
 	var tip := "%s\n%s\n%s" % [head, numbers_line(wiz, id, r), desc]
 	if levels and learn_reason(wiz, id) == "":
-		tip += "\nCtrl+%s: %s" % [key, next_rank_line(wiz, id, r)]
+		tip += "\n" + Loc.t("Ctrl+%s: %s") % [key, next_rank_line(wiz, id, r)]
 	return tip
 
 
@@ -249,4 +252,4 @@ static func summon_name(id: StringName, count: int) -> String:
 static func _num(v: float) -> String:
 	if is_equal_approx(v, roundf(v)):
 		return str(roundi(v))
-	return String.num(v, 2)
+	return Loc.num(v, 2)   # "3,75" in French

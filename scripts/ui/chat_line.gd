@@ -120,13 +120,14 @@ func run_command(text: String) -> String:
 	if words.size() == 0 or words[0] != "dance":
 		return ""
 	if words.size() != 2 or not words[1].is_valid_int() or int(words[1]) < 1 or int(words[1]) > 3:
-		return "Usage: dance 1 (victory), dance 2 (I give up), dance 3 (random)"
+		return Loc.t("Usage: dance 1 (victory), dance 2 (I give up), dance 3 (random)")
 	var clip: StringName = UnitDances.BY_NUMBER[int(words[1]) - 1]
 	var units := target_units()
 	var n := UnitDances.play_all(units, clip)
 	if n == 0:
-		return "Nobody here can dance"
-	return "%d unit%s dancing (%s)" % [n, "" if n == 1 else "s", ["victory", "I give up", "random"][int(words[1]) - 1]]
+		return Loc.t("Nobody here can dance")
+	var mood: String = [Loc.t("victory"), Loc.t("I give up"), Loc.t("random")][int(words[1]) - 1]
+	return Loc.tn("{n} unit dancing ({mood})", "{n} units dancing ({mood})", n, {"mood": mood})
 
 
 ## The units a command acts on: the selected player units, else every living player unit.

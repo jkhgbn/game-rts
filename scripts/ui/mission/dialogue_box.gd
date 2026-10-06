@@ -7,6 +7,7 @@ extends PanelContainer
 ## Enter (physical, also keypad Enter) or a click on the box skips to the next line.
 ## The speaker name uses the speaker's colour (SPEAKER_COLORS; unknown speakers use the `title` token).
 
+const StoryText := preload("res://scripts/ui/mission/story_text.gd")
 const LINE_SECONDS := 5.0
 const WIDTH := 640.0
 const BOTTOM_GAP := 290.0   ## Distance from the screen bottom to the box's bottom edge (900 - 610).
@@ -160,13 +161,13 @@ func _next() -> void:
 	_time_left = LINE_SECONDS
 	_name_label.text = speaker_name(_speaker)
 	_name_label.add_theme_color_override("font_color", speaker_color(_speaker))
-	_text_label.text = str(line[1])
+	_text_label.text = StoryText.tr_text(str(line[1]))   # subtitle in the player's language; the voice stays English
 	visible = true
 	_fade_to(1.0)
 	reset_size()
 	offset_top = -BOTTOM_GAP - size.y
 	offset_bottom = -BOTTOM_GAP
-	line_started.emit(_speaker, _text_label.text)
+	line_started.emit(_speaker, str(line[1]))   # English: the VoicePlayer finds the voice by its text
 	# Voice Forge: a voiced line stays up as long as its voice (+ VOICE_TAIL); the VoicePlayer child (if any) has just
 	# started it from line_started. Lines without a voice keep LINE_SECONDS. Queued lines wait, so voices never overlap.
 	var vp := get_node_or_null(^"VoicePlayer")

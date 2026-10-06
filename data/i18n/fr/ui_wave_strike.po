@@ -1,0 +1,148 @@
+# Four Wizards: French (Quebec) for area 'ui_wave_strike'. Glossary: data/i18n/glossary_fr.md
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. return Loc.t("Your Bastion (%s)") % Loc.t(k) if team == seat else Loc.t("Enemy Bastion (%s)") % Loc.t(k)
+#: scripts/ui/wave_strike/wave_strike_hud.gd:173
+msgid "Your Bastion (%s)"
+msgstr "Votre Bastion (%s)"
+
+#. return Loc.t("Your Bastion (%s)") % Loc.t(k) if team == seat else Loc.t("Enemy Bastion (%s)") % Loc.t(k)
+#: scripts/ui/wave_strike/wave_strike_hud.gd:173
+msgid "Enemy Bastion (%s)"
+msgstr "Bastion ennemi (%s)"
+
+#. _horn_label.text = Loc.t("Horn %d in %s") % [director.horn_index + 1, _mmss(to_horn)]
+#: scripts/ui/wave_strike/wave_strike_hud.gd:199
+msgid "Horn %d in %s"
+msgstr "Cor %d dans %s"
+
+#. clock += "  ·  " + Loc.t("LAST HORNS")
+#: scripts/ui/wave_strike/wave_strike_hud.gd:203
+msgid "LAST HORNS"
+msgstr "DERNIERS CORS"
+
+#. _tier_button.text = Loc.t("%s reached") % Loc.t(roster.tier_name())
+#: scripts/ui/wave_strike/wave_strike_hud.gd:226
+msgid "%s reached"
+msgstr "%s : atteint"
+
+#. _tier_button.text = Loc.t("%s rising: %d s") % [Loc.t(roster.tier_name(roster.tier + 1)), ceili(roster.upgrade
+#: scripts/ui/wave_strike/wave_strike_hud.gd:228
+msgid "%s rising: %d s"
+msgstr "%s en cours : %d s"
+
+#. _wave_label.text = Loc.t("Next wave: %d units   (last horn: %d)") % [roster.card_total(), director.last_wave_s
+#: scripts/ui/wave_strike/wave_strike_hud.gd:234
+msgid "Next wave: %d units   (last horn: %d)"
+msgstr "Prochaine vague : %d unités   (dernier cor : %d)"
+
+#. var title := UIStyle.use_title_font(UIStyle.label("Muster", 22))
+#: scripts/ui/wave_strike/wave_strike_hud.gd:110
+msgid "Muster"
+msgstr "Rassemblement"
+
+#. var hint := UIStyle.panel_label("Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell", 12)
+#: scripts/ui/wave_strike/wave_strike_hud.gd:127
+msgid "Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell"
+msgstr "Clic / touche = acheter   ·   Ctrl = promouvoir   ·   Alt / clic droit = vendre"
+
+#. _bank_label.text = "Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s" % [
+#: scripts/ui/wave_strike/wave_strike_hud.gd:205
+msgid "Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s"
+msgstr "Cristaux %d   ·   +%d / cor   ·   Coffre %d/%d   ·   Effectif %d/%d   ·   %s%s"
+
+#. roster.cap(), roster.tier_name(), "" if roster.upgrade_left <= 0.0 else " (%s in %ds)" % [
+#: scripts/ui/wave_strike/wave_strike_hud.gd:207
+msgid " (%s in %ds)"
+msgstr " (%s dans %ds)"
+
+#. b.text = "[%s] %s   %d   ·  pop %d   ·  x%d" % [KeyLabels.of(CARD_KEYS[i]), t.display_name if t else String(id
+#: scripts/ui/wave_strike/wave_strike_hud.gd:215
+msgid "[%s] %s   %d   ·  pop %d   ·  x%d"
+msgstr "[%s] %s   %d   ·  pop. %d   ·  x%d"
+
+#. _coffer_button.text = "[%s] Coffer %d   %s   (+%d / horn)" % [KeyLabels.of(KEY_COFFER), bank.coffer_level + 1,
+#: scripts/ui/wave_strike/wave_strike_hud.gd:220
+msgid "[%s] Coffer %d   %s   (+%d / horn)"
+msgstr "[%s] Coffre %d   %s   (+%d / cor)"
+
+#. str(cp) if cp >= 0 else "max", director.rules.coffer_step] if cp >= 0 else "Coffers: all 8 bought"
+#: scripts/ui/wave_strike/wave_strike_hud.gd:221
+msgid "Coffers: all 8 bought"
+msgstr "Coffres : les 8 achetés"
+
+#. _tier_button.text = "[%s] %s   %d   (%s, supply %d)" % [KeyLabels.of(KEY_TIER), roster.tier_name(roster.tier +
+#: scripts/ui/wave_strike/wave_strike_hud.gd:230
+msgid "[%s] %s   %d   (%s, supply %d)"
+msgstr "[%s] %s   %d   (%s, effectif %d)"
+
+#. roster.next_tier_price(), "T2 cards, Drilled" if roster.tier == 1 else "Elite", director.rules.cap_at(roster.t
+#: scripts/ui/wave_strike/wave_strike_hud.gd:231
+msgid "T2 cards, Drilled"
+msgstr "Cartes T2, Aguerris"
+
+#. return "%s: %d HP, %d damage, range %.1f, speed %.1f%s" % [t.display_name, int(t.max_hp), int(t.attack_damage)
+#: scripts/ui/wave_strike/wave_strike_hud.gd:240
+msgid "%s: %d HP, %d damage, range %.1f, speed %.1f%s"
+msgstr "%s : %d PV, %d dégâts, portée %.1f, vitesse %.1f%s"
+
+#. t.attack_range, t.move_speed, "  (Stronghold)" if t.requires_tier >= 2 else ""]
+#: scripts/ui/wave_strike/wave_strike_hud.gd:241
+msgid "  (Stronghold)"
+msgstr "  (Forteresse)"
+
+#. return "No card"
+#: scripts/ui/wave_strike/wave_strike_hud.gd:270 scripts/ui/wave_strike/wave_strike_hud.gd:280
+#: scripts/ui/wave_strike/wave_strike_hud.gd:290
+msgid "No card"
+msgstr "Aucune carte"
+
+#. const RULES_TEXT := ("Buy cards: each one sends a unit at every horn (every 40 s, first at 0:30).\n"
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:11
+msgid "Buy cards: each one sends a unit at every horn (every 40 s, first at 0:30).\nCoffers raise your income, the Stronghold opens tier-2 cards and more supply.\nYour wizard guards your half of the lane. Break the enemy Bastion to win."
+msgstr "Achetez des cartes : chacune envoie une unité à chaque cor (toutes les 40 s, le premier à 0:30).\nLes coffres augmentent votre revenu, la Forteresse ouvre les cartes de palier 2 et plus d'effectif.\nVotre sorcier garde votre moitié du couloir. Brisez le Bastion ennemi pour gagner."
+
+#. var map_l := UIStyle.panel_label("%s\n%s" % [String(e.get("title", "Ashwind Reach")),
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:47 data/maps/catalog.tres:90
+msgid "Ashwind Reach"
+msgstr "Ashwind Reach"
+
+#. MapCatalog.size_text(e) if not e.is_empty() else "192 x 96 m · 2 players"], 15)
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:48
+msgid "192 x 96 m · 2 players"
+msgstr "192 x 96 m · 2 joueurs"
+
+#. var b := _toggle(krow, "Fire (Vessa)" if k == &"fire" else "Shadow (Malrik)", kg)
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:59
+msgid "Fire (Vessa)"
+msgstr "Feu (Vessa)"
+
+#. var b := _toggle(krow, "Fire (Vessa)" if k == &"fire" else "Shadow (Malrik)", kg)
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:59
+msgid "Shadow (Malrik)"
+msgstr "Ombre (Malrik)"
+
+#. col.add_child(UIStyle.panel_label("Enemy bot", 17, UIStyle.GOLD))
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:64
+msgid "Enemy bot"
+msgstr "IA ennemie"
+
+#. var b := _toggle(prow, "Steward (economy)" if p == "steward" else "Hammer (aggressive)", pg)
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:69
+msgid "Steward (economy)"
+msgstr "Intendant (économie)"
+
+#. var b := _toggle(prow, "Steward (economy)" if p == "steward" else "Hammer (aggressive)", pg)
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:69
+msgid "Hammer (aggressive)"
+msgstr "Marteau (agressif)"
+
+#. clock += "  ·  LAST HORNS"
+#: scripts/ui/wave_strike/wave_strike_hud.gd:203
+#, obsolete
+msgid "  ·  LAST HORNS"
+msgstr ""

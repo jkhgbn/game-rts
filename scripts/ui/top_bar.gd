@@ -246,7 +246,7 @@ func _update_timer() -> void:
 		offset_left = -w * 0.5
 		offset_right = w * 0.5
 	if has_timer:
-		timer_label.text = str(level.call(&"match_time_text"))
+		timer_label.text = Loc.sink(str(level.call(&"match_time_text")))
 
 
 func _process(delta: float) -> void:

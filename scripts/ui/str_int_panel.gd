@@ -66,9 +66,9 @@ func _build_choice() -> void:
 	box.add_child(row)
 	var dur := int(StrIntPath.ABILITY_DURATION)
 	var cd := int(StrIntPath.ABILITY_COOLDOWN)
-	row.add_child(_path_button(&"str", "STRENGTH\n\n+15 %% attack damage\n+20 %% max HP\n\nVigor (J): regenerate %d %% max HP\nover %d s, cooldown %d s" % [
+	row.add_child(_path_button(&"str", Loc.t("STRENGTH\n\n+15 %% attack damage\n+20 %% max HP\n\nVigor (J): regenerate %d %% max HP\nover %d s, cooldown %d s") % [
 			roundi(StrIntPath.VIGOR_REGEN_PCT * 100.0 * dur), dur, cd], Color(0.75, 0.25, 0.08)))
-	row.add_child(_path_button(&"int", "INTELLECT\n\n+15 spell power (+15 %% spell damage)\n+25 %% max mana\n\nSnow Shield (J): shield %d %% max HP\nfor %d s, cooldown %d s" % [
+	row.add_child(_path_button(&"int", Loc.t("INTELLECT\n\n+15 spell power (+15 %% spell damage)\n+25 %% max mana\n\nSnow Shield (J): shield %d %% max HP\nfor %d s, cooldown %d s") % [
 			roundi(StrIntPath.SNOW_SHIELD_HP_PCT * 100.0), dur, cd], Color(0.2, 0.5, 0.8)))
 
 
@@ -124,13 +124,13 @@ func _process(_delta: float) -> void:
 	var key := "J"
 	var name_text := str(path_node.call(&"ability_name"))
 	if path_node.call(&"is_active"):
-		_ability.text = "%s  %s  ACTIVE %d s" % [key, name_text, ceili(float(path_node.call(&"time_left")))]
+		_ability.text = Loc.t("%s  %s  ACTIVE %d s") % [key, name_text, ceili(float(path_node.call(&"time_left")))]
 		_ability.modulate = Color(1.3, 1.2, 0.8)
 	elif float(path_node.call(&"cooldown_left")) > 0.0:
 		_ability.text = "%s  %s  %d s" % [key, name_text, ceili(float(path_node.call(&"cooldown_left")))]
 		_ability.modulate = Color(0.6, 0.6, 0.6)
 	else:
-		_ability.text = "%s  %s  ready" % [key, name_text]
+		_ability.text = Loc.t("%s  %s  ready") % [key, name_text]
 		_ability.modulate = Color(1, 1, 1)
 
 

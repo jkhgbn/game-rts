@@ -274,15 +274,17 @@ func _refresh_post(post: Node3D) -> void:
 	else:
 		var left := float(net.call(&"time_until_open")) if net != null and net.has_method(&"time_until_open") \
 				else POSTS_OPEN_TIME
-		_set_line(0, [["Opens at 4:00 · in %s" % TradeWindow.mmss(left), UIStyle.WARN]])
+		_set_line(0, [[Loc.t("Opens at 4:00 · in {time}", {"time": TradeWindow.mmss(left)}), UIStyle.WARN]])
 	# Value for the player.
 	if market == null:
 		_set_line(1, [["Build a Bazaar to trade", muted]])
 	else:
 		var far := is_far(net, market, post)
-		_set_line(1, [["For you: ", text], ["far" if far else "near", TradeWindow.FAR if far else TradeWindow.NEAR],
-				[" · ", text], ["%d gold" % route_value(net, market, post), TradeWindow.GOLD_TEXT],
-				[" per trip from your Bazaar", text]])
+		# Coloured segments (each one a msgid: "For you: ", "far" / "near", "{n} gold", " per trip from your Bazaar").
+		_set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
+				TradeWindow.FAR if far else TradeWindow.NEAR], [" · ", text],
+				[Loc.t("{n} gold", {"n": route_value(net, market, post)}), TradeWindow.GOLD_TEXT],
+				[Loc.t(" per trip from your Bazaar"), text]])
 	# Holder.
 	var holder := int(post.call(&"holder_team")) if post.has_method(&"holder_team") else -1
 	if holder == ENEMY_TEAM:
@@ -293,8 +295,8 @@ func _refresh_post(post: Node3D) -> void:
 		_set_line(2, [["Not held", muted]])
 	# Traffic.
 	var trips := int(net.call(&"trips", PLAYER_TEAM, post, 120.0)) if net != null and net.has_method(&"trips") else 0
-	_set_line(3, [["Your trips here, last 2 min: %d · caravans on this route: %d" % [trips, caravans_on(post)],
-			muted, 13]])
+	_set_line(3, [[Loc.t("Your trips here, last 2 min: {trips} · caravans on this route: {caravans}",
+			{"trips": trips, "caravans": caravans_on(post)}), muted, 13]])
 	hint_label.text = POST_HINT
 	# Button: only with an own Bazaar.
 	action_button.visible = market != null
@@ -309,8 +311,8 @@ func _refresh_post(post: Node3D) -> void:
 		action_button.text = "Current route" if is_current else "Set as route"
 		action_button.disabled = is_current or why != ""
 		action_button.modulate.a = 0.45 if action_button.disabled else 1.0
-		action_button.tooltip_text = "Set as route\nYour caravans trade here from now on.%s" % [
-				"\n" + why if why != "" else ""]
+		action_button.tooltip_text = Loc.t("Set as route\nYour caravans trade here from now on.") \
+				+ ("\n" + Loc.sink(why) if why != "" else "")
 
 
 ## Gold per trip from `market` to `post` (TradeNetwork.route_value, else the Bazaar's own route_value_to).
@@ -364,8 +366,8 @@ func _refresh_lodge() -> void:
 	var g := TradeWindow.hunters_guild_of(get_tree())
 	_set_line(0, [[LODGE_TEXT, UIStyle.token(&"text"), 13]])
 	if g != null and g.has_method(&"is_open") and not bool(g.call(&"is_open")):
-		_set_line(1, [["The Lodge opens at 5:00 · in %s" % TradeWindow.mmss(TradeWindow.lodge_time_until_open(g)),
-				UIStyle.WARN]])
+		_set_line(1, [[Loc.t("The Lodge opens at 5:00 · in {time}",
+				{"time": TradeWindow.mmss(TradeWindow.lodge_time_until_open(g))}), UIStyle.WARN]])
 	else:
 		_set_line(1, [["Open", TradeWindow.NEAR]])
 	var running: PackedStringArray = []
@@ -373,8 +375,8 @@ func _refresh_lodge() -> void:
 		var left := float(g.call(&"contract_time_left", PLAYER_TEAM, k)) if g != null \
 				and g.has_method(&"contract_time_left") else 0.0
 		if left > 0.0:
-			running.append("%s · %s left" % [str((TradeWindow.CONTRACT_INFO[k] as Dictionary)["name"]),
-					TradeWindow.mmss(left)])
+			running.append(Loc.t("{name} · {time} left", {"name": str((TradeWindow.CONTRACT_INFO[k] as Dictionary)["name"]),
+					"time": TradeWindow.mmss(left)}))
 	if running.is_empty():
 		_set_line(2, [["No contract running", UIStyle.token(&"text_muted")]])
 	else:

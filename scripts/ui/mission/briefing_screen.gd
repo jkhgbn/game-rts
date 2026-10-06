@@ -11,6 +11,7 @@ extends CanvasLayer
 
 signal begun
 
+const StoryText := preload("res://scripts/ui/mission/story_text.gd")
 const WIDTH := 760.0
 
 var begin_button: Button
@@ -96,16 +97,16 @@ func _build(data: Dictionary, objectives: Array[String]) -> void:
 	box.add_theme_constant_override("separation", 12)
 	panel.add_child(box)
 
-	var kicker := UIStyle.display_label(str(data.get("subtitle", "Mission briefing")), 13, UIStyle.token(&"text_muted"))
+	var kicker := UIStyle.display_label(StoryText.tr_text(str(data.get("subtitle", "Mission briefing"))), 13, UIStyle.token(&"text_muted"))
 	kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(kicker)
-	title_label = UIStyle.display_label(str(data.get("title", "Mission")), 32)
+	title_label = UIStyle.display_label(StoryText.tr_text(str(data.get("title", "Mission"))), 32)
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title_label)
 	box.add_child(_rule())
 
 	for p in paragraphs_of(data):
-		var l := UIStyle.panel_label(p, 16)
+		var l := UIStyle.panel_label(StoryText.tr_text(p), 16)
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		l.custom_minimum_size = Vector2(WIDTH - 48, 0)
 		box.add_child(l)
@@ -128,7 +129,7 @@ func _build(data: Dictionary, objectives: Array[String]) -> void:
 				mark.draw_rect(Rect2(1, 1, 12, 12), UIStyle.token(&"frame_light"), false, 1.0)
 				mark.draw_rect(Rect2(5, 5, 4, 4), UIStyle.token(&"trim_glow")))
 			row.add_child(mark)
-			var l := UIStyle.panel_label(o, 16, UIStyle.token(&"title"))
+			var l := UIStyle.panel_label(StoryText.tr_text(o), 16, UIStyle.token(&"title"))
 			row.add_child(l)
 			list.add_child(row)
 			objective_labels.append(l)

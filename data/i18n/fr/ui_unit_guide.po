@@ -1,0 +1,635 @@
+# Four Wizards: French (Quebec) for area 'ui_unit_guide'. Glossary: data/i18n/glossary_fr.md
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. return Loc.t("HP")
+#: scripts/ui/menus/unit_guide.gd:261
+msgid "HP"
+msgstr "PV"
+
+#. return Loc.t("DPS")
+#: scripts/ui/menus/unit_guide.gd:263 scripts/ui/menus/unit_guide.gd:25
+msgid "DPS"
+msgstr "DPS"
+
+#. kingdom_buttons[i].tooltip_text = Loc.t("Only Neutral units. (champions, the Genie, caravans, trackers)")
+#: scripts/ui/menus/unit_guide.gd:477
+msgid "Only Neutral units. (champions, the Genie, caravans, trackers)"
+msgstr "Unités neutres seulement. (champions, le Genie, caravanes, pisteurs)"
+
+#. kingdom_buttons[i].tooltip_text = Loc.t("Only {kingdom} units.", {"kingdom": UnitGuideData.kingdom_label(k)})
+#: scripts/ui/menus/unit_guide.gd:479
+msgid "Only {kingdom} units."
+msgstr "Unités du royaume {kingdom} seulement."
+
+#. empty_label.text = Loc.t("No unit matches these filters.") + (("\n" + Loc.t("Titans are not in the game yet.")
+#: scripts/ui/menus/unit_guide.gd:540 scripts/ui/menus/unit_guide.gd:393
+msgid "No unit matches these filters."
+msgstr "Aucune unité ne correspond à ces filtres."
+
+#. empty_label.text = Loc.t("No unit matches these filters.") + (("\n" + Loc.t("Titans are not in the game yet.")
+#: scripts/ui/menus/unit_guide.gd:540
+msgid "Titans are not in the game yet."
+msgstr "Les titans ne sont pas encore dans le jeu."
+
+#. count_label.text = Loc.t("{shown} of {total} units", {"shown": _visible_ids.size(),
+#: scripts/ui/menus/unit_guide.gd:542
+msgid "{shown} of {total} units"
+msgstr "{shown} unités sur {total}"
+
+#. var role_line := Loc.t("{kingdom}  ·  Tier {tier}  ·  {role}  ·  {class}", args) if e["class"] != "" \
+#: scripts/ui/menus/unit_guide.gd:656
+msgid "{kingdom}  ·  Tier {tier}  ·  {role}  ·  {class}"
+msgstr "{kingdom}  ·  Palier {tier}  ·  {role}  ·  {class}"
+
+#. else Loc.t("{kingdom}  ·  Tier {tier}  ·  {role}", args)
+#: scripts/ui/menus/unit_guide.gd:657
+msgid "{kingdom}  ·  Tier {tier}  ·  {role}"
+msgstr "{kingdom}  ·  Palier {tier}  ·  {role}"
+
+#. var where := Loc.t("From: {building}   [{key}]", {"building": bld, "key": key}) if key != "" \
+#: scripts/ui/menus/unit_guide.gd:662
+msgid "From: {building}   [{key}]"
+msgstr "Bâtiment : {building}   [{key}]"
+
+#. else Loc.t("From: {building}", {"building": bld})
+#: scripts/ui/menus/unit_guide.gd:663
+msgid "From: {building}"
+msgstr "Bâtiment : {building}"
+
+#. parts.append(Loc.t("Regenerates {n} % HP/s out of combat", {"n": _trim(float(s["regen"]), 1)}))
+#: scripts/ui/menus/unit_guide.gd:677
+msgid "Regenerates {n} % HP/s out of combat"
+msgstr "Régénère {n} % PV/s hors combat"
+
+#. parts.append(Loc.t(ON_HIT_TEXT[on_hit]) if ON_HIT_TEXT.has(on_hit) else Loc.t("Every hit: {status}", {"status"
+#: scripts/ui/menus/unit_guide.gd:680
+msgid "Every hit: {status}"
+msgstr "Chaque coup : {status}"
+
+#. parts.append(Loc.t("Ranged attack"))
+#: scripts/ui/menus/unit_guide.gd:682
+msgid "Ranged attack"
+msgstr "Attaque à distance"
+
+#. ["hp", "HP", false], ["damage", "Damage", false], ["dps", "DPS", false],
+#: scripts/ui/menus/unit_guide.gd:25
+msgid "Damage"
+msgstr "Dégâts"
+
+#. ["range", "Range", false], ["speed", "Speed", false], ["armor", "Armour", false],
+#: scripts/ui/menus/unit_guide.gd:26
+msgid "Range"
+msgstr "Portée"
+
+#. ["range", "Range", false], ["speed", "Speed", false], ["armor", "Armour", false],
+#: scripts/ui/menus/unit_guide.gd:26
+msgid "Speed"
+msgstr "Vitesse"
+
+#. ["range", "Range", false], ["speed", "Speed", false], ["armor", "Armour", false],
+#: scripts/ui/menus/unit_guide.gd:26
+msgid "Armour"
+msgstr "Armure"
+
+#. ["sight", "Sight", false], ["cooldown", "Attack every", true], ["ehp", "Effective HP", false],
+#: scripts/ui/menus/unit_guide.gd:27
+msgid "Sight"
+msgstr "Vision"
+
+#. ["sight", "Sight", false], ["cooldown", "Attack every", true], ["ehp", "Effective HP", false],
+#: scripts/ui/menus/unit_guide.gd:27
+msgid "Attack every"
+msgstr "Délai d'attaque"
+
+#. ["sight", "Sight", false], ["cooldown", "Attack every", true], ["ehp", "Effective HP", false],
+#: scripts/ui/menus/unit_guide.gd:27
+msgid "Effective HP"
+msgstr "PV effectifs"
+
+#. ["crystals", "Crystals", true], ["pop", "Pop", true], ["train_time", "Train time", true],
+#: scripts/ui/menus/unit_guide.gd:28
+msgid "Crystals"
+msgstr "Cristaux"
+
+#. ["crystals", "Crystals", true], ["pop", "Pop", true], ["train_time", "Train time", true],
+#: scripts/ui/menus/unit_guide.gd:28
+msgid "Pop"
+msgstr "Pop"
+
+#. ["crystals", "Crystals", true], ["pop", "Pop", true], ["train_time", "Train time", true],
+#: scripts/ui/menus/unit_guide.gd:28
+msgid "Train time"
+msgstr "Formation"
+
+#. const ON_HIT_TEXT := {"chill": "Every hit: chill", "rooted": "Every hit: rooted"}
+#: scripts/ui/menus/unit_guide.gd:31
+msgid "Every hit: chill"
+msgstr "Chaque coup : gel"
+
+#. const ON_HIT_TEXT := {"chill": "Every hit: chill", "rooted": "Every hit: rooted"}
+#: scripts/ui/menus/unit_guide.gd:31
+msgid "Every hit: rooted"
+msgstr "Chaque coup : enracine"
+
+#. const HINT :="Up / Down: browse    Ctrl+F: search    Compare: pick a second unit    Esc: back"
+#: scripts/ui/menus/unit_guide.gd:32
+msgid "Up / Down: browse    Ctrl+F: search    Compare: pick a second unit    Esc: back"
+msgstr "Haut / Bas : parcourir    Ctrl+F : chercher    Comparer : choisir une 2e unité    Échap : retour"
+
+#. return "%s m/s" % _trim(v, 1)
+#: scripts/ui/menus/unit_guide.gd:251
+msgid "%s m/s"
+msgstr "%s m/s"
+
+#. var title := UIStyle.use_title_font(UIStyle.label("Unit Guide", 34))
+#: scripts/ui/menus/unit_guide.gd:296 scripts/ui/menus/main_menu.gd:653
+#: scripts/ui/menus/pause_menu.gd:51
+msgid "Unit Guide"
+msgstr "Guide des unités"
+
+#. search_box.placeholder_text = "Search a unit, role or counter (Ctrl+F)"
+#: scripts/ui/menus/unit_guide.gd:306
+msgid "Search a unit, role or counter (Ctrl+F)"
+msgstr "Chercher une unité, un rôle, un contre (Ctrl+F)"
+
+#. search_box.tooltip_text = "Type a name, role, kingdom, building or tag (\"archers\", \"chill\", \"stables\")."
+#: scripts/ui/menus/unit_guide.gd:310
+msgid "Type a name, role, kingdom, building or tag (\"archers\", \"chill\", \"stables\")."
+msgstr "Tapez un nom, un rôle, un royaume, un bâtiment ou une étiquette (« archers », « gel », « écuries »)."
+
+#. back_button = _button(row, "Back", 140)
+#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:749
+#: scripts/ui/menus/main_menu.gd:835 scripts/ui/menus/settings_panel.gd:80
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:82
+msgid "Back"
+msgstr "Retour"
+
+#. back_button.tooltip_text = "Close the guide (Esc)."
+#: scripts/ui/menus/unit_guide.gd:317
+msgid "Close the guide (Esc)."
+msgstr "Fermer le guide (Échap)."
+
+#. row.add_child(_filter_title("Kingdom"))
+#: scripts/ui/menus/unit_guide.gd:325
+msgid "Kingdom"
+msgstr "Royaume"
+
+#. var b := _toggle(row, "All" if k == &"" else String(UnitGuideData.KINGDOM_NAMES[String(k)]), kg, 86)
+#: scripts/ui/menus/unit_guide.gd:329 scripts/ui/menus/unit_guide.gd:341
+msgid "All"
+msgstr "Tous"
+
+#. row.add_child(_filter_title("Tier"))
+#: scripts/ui/menus/unit_guide.gd:337 scripts/items/recipes.gd:107
+msgid "Tier"
+msgstr "Palier"
+
+#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
+#: scripts/ui/menus/unit_guide.gd:342
+msgid "Every tier."
+msgstr "Tous les paliers."
+
+#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
+#: scripts/ui/menus/unit_guide.gd:342
+msgid "Tier 1: Keep"
+msgstr "Palier 1 : Donjon"
+
+#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
+#: scripts/ui/menus/unit_guide.gd:342
+msgid "Tier 2: Stronghold"
+msgstr "Palier 2 : Forteresse"
+
+#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
+#: scripts/ui/menus/unit_guide.gd:342
+msgid "Tier 3: Citadel"
+msgstr "Palier 3 : Citadelle"
+
+#. row.add_child(_filter_title("Role"))
+#: scripts/ui/menus/unit_guide.gd:348
+msgid "Role"
+msgstr "Rôle"
+
+#. role_select.tooltip_text = "Show one role only."
+#: scripts/ui/menus/unit_guide.gd:352
+msgid "Show one role only."
+msgstr "Afficher un seul rôle."
+
+#. role_select.add_item("All roles")
+#: scripts/ui/menus/unit_guide.gd:353
+msgid "All roles"
+msgstr "Tous les rôles"
+
+#. swap_button = _button(row, "Swap A / B", 130)
+#: scripts/ui/menus/unit_guide.gd:363
+msgid "Swap A / B"
+msgstr "Inverser A / B"
+
+#. swap_button.tooltip_text = "Swap the two compared units."
+#: scripts/ui/menus/unit_guide.gd:364
+msgid "Swap the two compared units."
+msgstr "Inverser les deux unités comparées."
+
+#. compare_button = _button(row, "Compare", 140)
+#: scripts/ui/menus/unit_guide.gd:367
+msgid "Compare"
+msgstr "Comparer"
+
+#. compare_button.tooltip_text = "Side by side: the current unit is A; pick unit B in the list."
+#: scripts/ui/menus/unit_guide.gd:369
+msgid "Side by side: the current unit is A; pick unit B in the list."
+msgstr "Côte à côte : l'unité actuelle est A; choisissez l'unité B dans la liste."
+
+#. kingdom_buttons[i].tooltip_text = "Every kingdom."
+#: scripts/ui/menus/unit_guide.gd:475
+msgid "Every kingdom."
+msgstr "Tous les royaumes."
+
+#. _section(detail_box, "Stats")
+#: scripts/ui/menus/unit_guide.gd:622 scripts/units/champion_class.gd:38
+msgid "Stats"
+msgstr "Statistiques"
+
+#. _section(detail_box, "Abilities")
+#: scripts/ui/menus/unit_guide.gd:640
+msgid "Abilities"
+msgstr "Capacités"
+
+#. pc.add_child(_list_column("Pros", e["pros"], PRO_COLOR, "+"))
+#: scripts/ui/menus/unit_guide.gd:646 scripts/ui/menus/unit_guide.gd:827
+msgid "Pros"
+msgstr "Forces"
+
+#. pc.add_child(_list_column("Cons", e["cons"], CON_COLOR, "-"))
+#: scripts/ui/menus/unit_guide.gd:647 scripts/ui/menus/unit_guide.gd:828
+msgid "Cons"
+msgstr "Faiblesses"
+
+#. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
+#: scripts/ui/menus/unit_guide.gd:737
+msgid "Strong against"
+msgstr "Fort contre"
+
+#. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
+#: scripts/ui/menus/unit_guide.gd:737
+msgid "Weak against"
+msgstr "Faible contre"
+
+#. ["Good with", "good_with", UIStyle.GOLD]]:
+#: scripts/ui/menus/unit_guide.gd:738
+msgid "Good with"
+msgstr "Bon avec"
+
+#. detail_box.add_child(UIStyle.panel_label("Pick two units to compare.", 16, MUTED))
+#: scripts/ui/menus/unit_guide.gd:773
+msgid "Pick two units to compare."
+msgstr "Choisissez deux unités à comparer."
+
+#. _section(detail_box, "Stats  (green = better)")
+#: scripts/ui/menus/unit_guide.gd:793
+msgid "Stats  (green = better)"
+msgstr "Statistiques  (vert = meilleur)"
+
+#. return Loc.t("Contract from {gold} gold (Greywater Lodge)", {"gold": int(s["gold"])})
+#: scripts/ui/menus/unit_guide_data.gd:267
+msgid "Contract from {gold} gold (Greywater Lodge)"
+msgstr "Contrat dès {gold} or (Greywater Lodge)"
+
+#. parts.append(Loc.tn("{n} crystal", "{n} crystals", int(s["crystals"])))
+#: scripts/ui/menus/unit_guide_data.gd:270
+msgid "{n} crystal"
+msgid_plural "{n} crystals"
+msgstr[0] "{n} cristal"
+msgstr[1] "{n} cristaux"
+
+#. parts.append(Loc.t("{n} essence", {"n": int(s["essence"])}))
+#: scripts/ui/menus/unit_guide_data.gd:272
+msgid "{n} essence"
+msgstr "{n} essence"
+
+#. parts.append(Loc.t("{n} pop", {"n": int(s["pop"])}))
+#: scripts/ui/menus/unit_guide_data.gd:273
+msgid "{n} pop"
+msgstr "{n} pop."
+
+#. t = Loc.t("{cost} (first hire)", {"cost": t})
+#: scripts/ui/menus/unit_guide_data.gd:278
+msgid "{cost} (first hire)"
+msgstr "{cost} (premier engagement)"
+
+#. return Loc.t("Auto, L{n}", {"n": int(k.substr(7))})
+#: scripts/ui/menus/unit_guide_data.gd:372
+msgid "Auto, L{n}"
+msgstr "Auto, niv. {n}"
+
+#. return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
+#: scripts/ui/menus/unit_guide_data.gd:405 scripts/ui/menus/unit_guide_data.gd:95
+msgid "%s (Citadel)"
+msgstr "%s (Citadelle)"
+
+#. return Loc.t("%s (Wonders)") % b.trim_suffix(" (Wonders)")
+#: scripts/ui/menus/unit_guide_data.gd:407 scripts/ui/menus/unit_guide_data.gd:99
+msgid "%s (Wonders)"
+msgstr "%s (Merveilles)"
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15
+msgid "Melee"
+msgstr "Mêlée"
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15
+msgid "Ranged"
+msgstr "À distance"
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:cinder_hand
+#: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:ash_hurler
+#: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:pyre_adept
+msgid "Cavalry"
+msgstr "Cavalerie"
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15
+msgid "Caster"
+msgstr "Lanceur de sorts"
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:blaze_rider
+#: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:rimehorn_rider
+#: data/ui/unit_guide.json:thornback_charger data/ui/unit_guide.json:glade_outrider
+msgid "Siege"
+msgstr "Siège"
+
+#. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
+#: scripts/ui/menus/unit_guide_data.gd:16
+msgid "Support"
+msgstr "Soutien"
+
+#. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
+#: scripts/ui/menus/unit_guide_data.gd:16
+msgid "Titan"
+msgstr "Titan"
+
+#. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
+#: scripts/ui/menus/unit_guide_data.gd:16 scripts/units/helper.gd:52
+msgid "Helper"
+msgstr "Assistant"
+
+#. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
+#: scripts/ui/menus/unit_guide_data.gd:16 scripts/ui/champion_bar.gd:597 scripts/units/champion.gd:118
+msgid "Champion"
+msgstr "Champion"
+
+#. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
+#: scripts/ui/menus/unit_guide_data.gd:16 data/ui/unit_guide.json:cinder_hand
+#: data/ui/unit_guide.json:rime_hauler data/ui/unit_guide.json:sprigling
+#: data/ui/unit_guide.json:gloom_thrall
+msgid "Worker"
+msgstr "Ouvrier"
+
+#. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
+#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/kingdom_card.gd:16
+#: scripts/ui/menus/main_menu.gd:13 scripts/world/layout_level.gd:545 scripts/world/skirmish.gd:291
+msgid "Fire"
+msgstr "Feu"
+
+#. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
+#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/kingdom_card.gd:26
+#: scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:297
+msgid "Ice"
+msgstr "Glace"
+
+#. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
+#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/kingdom_card.gd:31
+#: scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:300
+msgid "Nature"
+msgstr "Nature"
+
+#. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
+#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/kingdom_card.gd:21
+#: scripts/ui/menus/main_menu.gd:13 scripts/world/layout_level.gd:545 scripts/world/skirmish.gd:294
+msgid "Shadow"
+msgstr "Ombre"
+
+#. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
+#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/unit_guide_data.gd:389
+#: scripts/ui/menus/main_menu.gd:13 scripts/ui/point_panel.gd:321
+msgid "Neutral"
+msgstr "Neutre"
+
+#. const TAVERN := "Tavern"
+#: scripts/ui/menus/unit_guide_data.gd:23 scripts/ui/tavern_window.gd:105 scripts/world/tavern.gd:39
+msgid "Tavern"
+msgstr "Tavern"
+
+#. var keep_name := keep.display_name if keep else "Keep"
+#: scripts/ui/menus/unit_guide_data.gd:71 scripts/ui/command_card.gd:948
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1843
+#: scripts/ui/selection_panel.gd:2723
+msgid "Keep"
+msgstr "Donjon"
+
+#. var hall_name := hall.display_name if hall else "Hall"
+#: scripts/ui/menus/unit_guide_data.gd:72 scripts/ui/next_step_hint.gd:292
+msgid "Hall"
+msgstr "Salle"
+
+#. var stables_name := stables.display_name if stables else "Stables"
+#: scripts/ui/menus/unit_guide_data.gd:73 scripts/ui/menus/unit_guide_data.gd:333
+msgid "Stables"
+msgstr "Écuries"
+
+#. _add(out, seen, &"caravan", "unit", NEUTRAL, "Bazaar (any kingdom)")
+#: scripts/ui/menus/unit_guide_data.gd:96
+msgid "Bazaar (any kingdom)"
+msgstr "Bazar (tout royaume)"
+
+#. _add(out, seen, StringName(HuntersGuild.TRACKER_TYPE_ID), "unit", NEUTRAL, "Greywater Lodge (contract)")
+#: scripts/ui/menus/unit_guide_data.gd:100
+msgid "Greywater Lodge (contract)"
+msgstr "Greywater Lodge (contrat)"
+
+#. s = {"name": "The " + c.title.trim_prefix("the ").strip_edges() if c.title != "" else String(id).capitalize(),
+#: scripts/ui/menus/unit_guide_data.gd:201
+msgid "The "
+msgstr "The "
+
+#. "{text} ({mana} mana)", {"text": str(d.get("text", "")), "mana": int(d.get("mana", 0))}))
+#: scripts/ui/menus/unit_guide_data.gd:302
+msgid "{text} ({mana} mana)"
+msgstr "{text} ({mana} mana)"
+
+#. out.append({"name": str(pd.get("name", p)), "key": "Passive",
+#: scripts/ui/menus/unit_guide_data.gd:306 scripts/ui/selection_panel.gd:218
+#: scripts/ui/selection_panel.gd:226 scripts/units/creature_abilities.gd:63
+msgid "Passive"
+msgstr "Passif"
+
+#. out.append({"name": String(ab).capitalize(), "key": "Auto",
+#: scripts/ui/menus/unit_guide_data.gd:312 scripts/ui/menus/unit_guide_data.gd:330
+msgid "Auto"
+msgstr "Auto"
+
+#. out.append(_templ({"name": nm, "key": "Auto, L%d" % lv}, "Cooldown {n} s.",
+#: scripts/ui/menus/unit_guide_data.gd:325
+msgid "Cooldown {n} s."
+msgstr "Recharge : {n} s."
+
+#. "Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{arm
+#: scripts/ui/menus/unit_guide_data.gd:334
+msgid "Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{armor} armour."
+msgstr "Recherche aux écuries quand votre donjon est une Citadelle ({price} cristaux, {time} s) : +{hp} % PV, +{dmg} % dégâts, +{armor} armure."
+
+#. rk["name_tmpl"] = "Rank 3: {name}"
+#: scripts/ui/menus/unit_guide_data.gd:338
+msgid "Rank 3: {name}"
+msgstr "Rang 3 : {name}"
+
+#. var stables := BuildingType.find("%s_stables" % k)
+#: scripts/ui/menus/unit_guide_data.gd:70
+#, obsolete
+msgid "%s_stables"
+msgstr ""
+
+#. var hall := BuildingType.find("%s_barracks" % k)
+#: scripts/ui/menus/unit_guide_data.gd:69 scripts/world/skirmish.gd:1762
+#, obsolete
+msgid "%s_barracks"
+msgstr ""
+
+#. var keep := BuildingType.find("%s_keep" % k)
+#: scripts/ui/menus/unit_guide_data.gd:68 scripts/units/t3_unit_ability.gd:182
+#: scripts/units/t3_unit_ability.gd:191
+#, obsolete
+msgid "%s_keep"
+msgstr ""
+
+#. out.append("ability without a name or text")
+#: scripts/ui/menus/unit_guide_data.gd:566
+#, obsolete
+msgid "ability without a name or text"
+msgstr ""
+
+#. out.append("tag longer than %d: %s" % [TAG_MAX, s])
+#: scripts/ui/menus/unit_guide_data.gd:563
+#, obsolete
+msgid "tag longer than %d: %s"
+msgstr ""
+
+#. out.append("no %s tags" % key)
+#: scripts/ui/menus/unit_guide_data.gd:560
+#, obsolete
+msgid "no %s tags"
+msgstr ""
+
+#. out.append("%s line longer than %d: %s" % [key, PRO_MAX, s])
+#: scripts/ui/menus/unit_guide_data.gd:557
+#, obsolete
+msgid "%s line longer than %d: %s"
+msgstr ""
+
+#. out.append("empty line in %s" % key)
+#: scripts/ui/menus/unit_guide_data.gd:555
+#, obsolete
+msgid "empty line in %s"
+msgstr ""
+
+#. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:551
+#, obsolete
+msgid "%d cons (want 2-3)"
+msgstr ""
+
+#. out.append("%d pros (want 3)" % (e["pros"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:549
+#, obsolete
+msgid "%d pros (want 3)"
+msgstr ""
+
+#. out.append("summary longer than %d" % SUMMARY_MAX)
+#: scripts/ui/menus/unit_guide_data.gd:547
+#, obsolete
+msgid "summary longer than %d"
+msgstr ""
+
+#. out.append("empty summary")
+#: scripts/ui/menus/unit_guide_data.gd:545
+#, obsolete
+msgid "empty summary"
+msgstr ""
+
+#. out.append({"name": nm, "key": "Auto, L%d" % lv, "text": tx})
+#: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:325
+#, obsolete
+msgid "Auto, L%d"
+msgstr ""
+
+#. return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
+#: scripts/ui/menus/unit_guide_data.gd:405
+#, obsolete
+msgid " (Citadel)"
+msgstr ""
+
+#. return Loc.t("%s (Wonders)") % b.trim_suffix(" (Wonders)")
+#: scripts/ui/menus/unit_guide_data.gd:407
+#, obsolete
+msgid " (Wonders)"
+msgstr ""
+
+#. bad.append("%s: rank %d for %s in %s" % [line, r, spec[0], scope if scope != &"" else &"any army"])
+#: scripts/ui/menus/unit_guide_data.gd:502
+#, obsolete
+msgid "%s: rank %d for %s in %s"
+msgstr ""
+
+#. bad.append("%s: rank %d for %s" % [line, r, stat])
+#: scripts/ui/menus/unit_guide_data.gd:509
+#, obsolete
+msgid "%s: rank %d for %s"
+msgstr ""
+
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:521
+#, obsolete
+msgid "the %s army"
+msgstr ""
+
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:521
+#, obsolete
+msgid "any army"
+msgstr ""
+
+#. out.append("%s in %s" % [phrase.capitalize(), where])
+#: scripts/ui/menus/unit_guide_data.gd:525
+#, obsolete
+msgid "%s in %s"
+msgstr ""
+
+#. out.append("Top 3 for %s in %s (rank %d)" % [label, where, r])
+#: scripts/ui/menus/unit_guide_data.gd:529
+#, obsolete
+msgid "Top 3 for %s in %s (rank %d)"
+msgstr ""
+
+#. return ["unknown id"]
+#: scripts/ui/menus/unit_guide_data.gd:538
+#, obsolete
+msgid "unknown id"
+msgstr ""
+
+#. out.append("no entry in %s" % JSON_PATH)
+#: scripts/ui/menus/unit_guide_data.gd:540
+#, obsolete
+msgid "no entry in %s"
+msgstr ""
+
+#. out.append("unknown role '%s'" % e["role"])
+#: scripts/ui/menus/unit_guide_data.gd:543
+#, obsolete
+msgid "unknown role '%s'"
+msgstr ""

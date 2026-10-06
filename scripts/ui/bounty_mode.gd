@@ -317,9 +317,10 @@ func preview_for(target: Node3D, pos: Vector3) -> Dictionary:
 		d["stake"] = stake
 		d["reason"] = raise_reason(existing, RAISE_STEP)
 		if d["reason"] == "":
-			d["text"] = "Raise +%d · %s %d -> %d" % [RAISE_STEP, kind_name(k), stake, mini(stake + RAISE_STEP, MAX_STAKE)]
+			d["text"] = Loc.t("Raise +{n} · {kind} {from} -> {to}", {"n": RAISE_STEP, "kind": kind_name(k), "from": stake,
+					"to": mini(stake + RAISE_STEP, MAX_STAKE)})
 		else:
-			d["text"] = "Raise · %s" % d["reason"]
+			d["text"] = Loc.t("Raise · {reason}", {"reason": Loc.sink(d["reason"])})
 		return d
 	var kind := kind_for(target, board)
 	d["kind"] = kind
@@ -329,9 +330,9 @@ func preview_for(target: Node3D, pos: Vector3) -> Dictionary:
 	d["stake"] = price
 	d["reason"] = place_reason(kind, target, pos, board)
 	if d["reason"] == "":
-		d["text"] = "%s · %d essence" % [kind_name(shown), price]
+		d["text"] = Loc.t("{kind} · {n} essence", {"kind": kind_name(shown), "n": price})
 	else:
-		d["text"] = "%s · %s" % [kind_name(shown), d["reason"]]
+		d["text"] = "%s · %s" % [kind_name(shown), Loc.sink(d["reason"])]
 	return d
 
 
@@ -537,7 +538,7 @@ static func min_stake(kind: int, board: Node = null) -> int:
 
 
 static func kind_name(kind: int) -> String:
-	return KIND_NAMES[kind] if kind >= 0 and kind < KIND_NAMES.size() else "Bounty"
+	return Loc.t(KIND_NAMES[kind]) if kind >= 0 and kind < KIND_NAMES.size() else Loc.t("Bounty")
 
 
 ## A team's pennant colour: BountyBoard.team_color (the kingdom colour) when the board script exists, else
@@ -803,7 +804,7 @@ func _style_labels() -> void:
 	var refused := str(preview.get("reason", "")) != ""
 	chip_labels[0].add_theme_color_override("font_color", text_col)
 	chip_labels[1].add_theme_color_override("font_color", kind_color(int(preview.get("kind", -1))) \
-			if parts[1] != "Raise" else text_col)
+			if parts[1] != Loc.t("Raise") else text_col)
 	chip_labels[2].add_theme_color_override("font_color", UIStyle.WARN if refused else text_col)
 	if _flash_left > 0.0:
 		for l in chip_labels:
@@ -821,13 +822,13 @@ static func chip_parts(d: Dictionary) -> Array[String]:
 	var word := kind_name(kind if kind >= 0 else EXPLORE)
 	if d.get("raise") != null:
 		if reason != "":
-			return ["", "Raise", " · " + reason]
+			return ["", Loc.t("Raise"), " · " + Loc.sink(reason)]
 		var stake := int(d.get("stake", 0))
 		var amount := int(d.get("amount", RAISE_STEP))
-		return ["Raise +%d · " % amount, word, " %d -> %d" % [stake, mini(stake + amount, MAX_STAKE)]]
+		return [Loc.t("Raise +{n} · ", {"n": amount}), word, " %d -> %d" % [stake, mini(stake + amount, MAX_STAKE)]]
 	if reason != "":
-		return ["", word, " · " + reason]
-	return ["", word, " · %d essence" % int(d.get("amount", 0))]
+		return ["", word, " · " + Loc.sink(reason)]
+	return ["", word, Loc.t(" · {n} essence", {"n": int(d.get("amount", 0))})]
 
 
 ## The chip's whole line (`Hunt · 75 essence`), for tests.

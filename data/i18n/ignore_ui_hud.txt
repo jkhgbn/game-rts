@@ -1,0 +1,26 @@
+## Literals of scripts/ui/*.gd (area ui_hud) that are not player text: node / class names, key names printed as on
+## the keyboard (key badges), KeyLabels hint patterns, style cache keys, proper names (beast abilities stay English,
+## glossary).
+Control
+Del
+Esc
+Ctrl+%s
+Ctrl+
+Shift+%s
+Shift+
+Maj+%s
+Maj+
+ZXCVBNM,
+btn_%s_%s_%s
+Gore Charge
+Bristle Hide
+Gale Swoop
+Shrieking Dive
+Updraft
+Pounce
+Hamstring
+Maul
+Rending Roar
+Enrage
+GROOVE
+AEIOU

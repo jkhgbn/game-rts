@@ -7,6 +7,7 @@ extends RefCounted
 
 const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
 const SKIRMISH := "res://scenes/skirmish.tscn"
+const WAVE_STRIKE := "res://scenes/wave_strike.tscn"   ## Wave Strike (docs/design/wave-strike.md M1).
 const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"   ## Skirmish.kingdom_available(k) (8.S2).
 const BOT_NODE := &"ShadowBot"
 ## The campaign prologue (tools/cine bake of data/cinematics/src/prologue_3min.cine + its runtime stage).
@@ -27,6 +28,8 @@ static var enemy_kingdom: StringName = &"shadow"
 ## reloaded LayoutLevel before its _ready.
 static var map_id: StringName = &"crown_hollow"
 static var map_layout_path := ""
+static var ws_kingdom: StringName = &"fire"     ## Wave Strike: the player's kingdom (the bot plays the other one).
+static var ws_personality := "steward"            ## Wave Strike: the bot's personality (WaveBot.PERSONALITIES).
 static var _enemy_chosen := false             ## True once the menu picked the kingdoms.
 static var _hooked_tree: SceneTree = null
 
@@ -51,6 +54,23 @@ static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringNa
 	GameSettings.apply_trade(level)
 	GameSettings.apply_time_limit(level)
 	return _launch(tree, level, bot_difficulty)
+
+
+## Starts a Wave Strike 1v1 (M1: Ashwind Reach, Fire / Shadow) against the WaveBot. Returns the new level.
+static func start_wave_strike(tree: SceneTree, kingdom: StringName = &"fire", personality: String = "steward") -> Node:
+	ws_kingdom = kingdom
+	ws_personality = personality
+	install_hooks(tree)
+	var level := (load(WAVE_STRIKE) as PackedScene).instantiate()
+	_apply_wave_strike(level)
+	return _launch(tree, level, 1)
+
+
+static func _apply_wave_strike(level: Node) -> void:
+	level.set(&"player_kingdom", ws_kingdom)
+	level.set(&"enemy_kingdom", &"shadow" if ws_kingdom == &"fire" else &"fire")
+	var p: Array[String] = ["hammer", ws_personality]
+	level.set(&"personalities", p)
 
 
 ## The level of a catalog map, not in the tree yet (Random resolved now); remembers it in `map_id` / `map_layout_path`.
@@ -182,5 +202,7 @@ static func _on_node_added(node: Node) -> void:
 		GameSettings.apply_time_limit(node)   # and the time limit (16a)
 		if _enemy_chosen:
 			apply_kingdoms(node)   # restart / reload: keep the chosen kingdoms
+	elif node.name == &"WaveStrike" and node.get_parent() == node.get_tree().root and &"autopilot_player" in node:
+		_apply_wave_strike(node)   # F9 / Restart: same kingdom and bot
 	elif difficulty >= 0 and node is Commander and node.name == BOT_NODE:
 		(node as Commander).difficulty = difficulty as Commander.Difficulty

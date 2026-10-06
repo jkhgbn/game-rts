@@ -9,6 +9,8 @@ extends Control
 
 const TAGLINE := "Four apprentices. One vanished master. Every artifact is a step to his throne."
 const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty order
+## Map picker words shown through Loc.t (biomes and kingdom looks of data/maps/catalog.tres), listed for the extractor.
+const MAP_WORDS := ["Autumn", "Grass", "Marsh", "Meadow", "Snow", "Neutral", "Fire", "Ice", "Nature", "Shadow"]
 ## Campaign mission titles (mission-01.md); ids and scenes come from CampaignState.
 const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
 		&"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne"}
@@ -18,6 +20,7 @@ const MAP_PREVIEW := 230.0    ## ...the preview square beside it (the mapsheet r
 const MAP_COLUMN_W := MAP_LIST_W + 10.0 + MAP_PREVIEW + 4.0   ## ...and the whole column (lines under both).
 ## Dev tool (docs/plan/unit-lab.md): the Unit Lab sandbox, opened by `-- --unit-lab` or Ctrl+Shift+U (debug builds).
 const UNIT_LAB_SCENE := "res://scenes/unit_lab.tscn"
+const WS_LOBBY := "res://scripts/ui/wave_strike/wave_strike_lobby.gd"
 
 var diorama: Node3D   ## MenuDiorama (3D background); null if the scene is missing.
 
@@ -25,6 +28,8 @@ var main_panel: PanelContainer
 var skirmish_panel: PanelContainer
 var settings_panel: SettingsPanel
 var skirmish_button: Button
+var wave_strike_button: Button   ## Wave Strike (docs/design/wave-strike.md M1): opens ws_panel.
+var ws_panel: Control            ## WaveStrikeLobby (scripts/ui/wave_strike/wave_strike_lobby.gd); null if missing.
 var campaign_button: Button
 var settings_button: Button
 var unit_guide_button: Button
@@ -52,6 +57,9 @@ var map_preview_mark: Label                        ## The "?" over the preview w
 var map_title_label: Label
 var map_info_label: Label
 var map_note_label: Label                          ## "2v2 map: plays as a 1v1 for now..." ("" = hidden).
+## [Label, English msgid] of the all-caps tags (MAP / YOU / ENEMY): set through Loc.t (the string extractor skips
+## all-caps plain literals) and re-set on a language switch.
+var _caps_labels: Array = []
 var map_list_ids: Array[StringName] = []           ## Item index -> map id (MapCatalog.RANDOM_ID first).
 
 var _difficulty := 1   # Commander.Difficulty.NORMAL
@@ -123,6 +131,11 @@ func _ready() -> void:
 	main_panel = _build_main_panel(holder)
 	skirmish_panel = _build_skirmish_panel(holder)
 	campaign_panel = _build_campaign_panel(holder)
+	if ResourceLoader.exists(WS_LOBBY):
+		ws_panel = (load(WS_LOBBY) as GDScript).new()
+		holder.add_child(ws_panel)
+		ws_panel.visible = false
+		ws_panel.connect(&"back_requested", show_main)
 	settings_panel = SettingsPanel.new()
 	holder.add_child(settings_panel)
 	settings_panel.visible = false
@@ -139,10 +152,26 @@ func _ready() -> void:
 	show_main()
 
 
+## Live language switch (localization.md): auto-translated labels redraw by themselves; the text built in code
+## (matchup, map list / info, mission list) is rebuilt here.
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED or not is_node_ready():
+		return
+	for p: Array in _caps_labels:
+		(p[0] as Label).text = Loc.t(p[1])
+	_update_matchup()
+	if map_list != null:
+		_fill_map_list()
+		select_map(_map)
+	if not mission_buttons.is_empty():
+		refresh_missions()
+
+
 # ---------------------------------------------------------------- public
 
 func show_main() -> void:
 	_hide_unit_guide()
+	_hide_ws_panel()
 	main_panel.visible = true
 	skirmish_panel.visible = false
 	campaign_panel.visible = false
@@ -152,6 +181,7 @@ func show_main() -> void:
 
 
 func show_skirmish_setup() -> void:
+	_hide_ws_panel()
 	main_panel.visible = false
 	skirmish_panel.visible = true
 	campaign_panel.visible = false
@@ -162,6 +192,7 @@ func show_skirmish_setup() -> void:
 
 ## The campaign panel: the mission list is re-read from the campaign save each time it opens.
 func show_campaign() -> void:
+	_hide_ws_panel()
 	main_panel.visible = false
 	skirmish_panel.visible = false
 	settings_panel.visible = false
@@ -171,6 +202,7 @@ func show_campaign() -> void:
 
 
 func show_settings() -> void:
+	_hide_ws_panel()
 	main_panel.visible = false
 	skirmish_panel.visible = false
 	campaign_panel.visible = false
@@ -188,8 +220,27 @@ func show_unit_guide() -> void:
 	skirmish_panel.visible = false
 	campaign_panel.visible = false
 	settings_panel.visible = false
+	_hide_ws_panel()
 	menu_column.visible = false
 	unit_guide.open()
+
+
+## The Wave Strike lobby (docs/design/wave-strike.md 7.4, M1: Ashwind Reach, your kingdom, Start).
+func show_wave_strike() -> void:
+	if ws_panel == null:
+		return
+	main_panel.visible = false
+	skirmish_panel.visible = false
+	campaign_panel.visible = false
+	settings_panel.visible = false
+	ws_panel.visible = true
+	if ws_panel.has_method(&"focus_start"):
+		ws_panel.call(&"focus_start")
+
+
+func _hide_ws_panel() -> void:
+	if ws_panel:
+		ws_panel.visible = false
 
 
 func is_unit_guide_open() -> bool:
@@ -274,8 +325,7 @@ func get_player_kingdom() -> StringName:
 
 ## "Vessa of Fire  vs  Malrik of Shadow" (the line under the title).
 func matchup_text() -> String:
-	return "%s of %s  vs  %s of %s" % [KingdomCard.wizard_name_of(_player), KingdomCard.kingdom_name_of(_player),
-			KingdomCard.wizard_name_of(_enemy), KingdomCard.kingdom_name_of(_enemy)]
+	return Loc.t("%s  vs  %s") % [KingdomCard.of_line(_player), KingdomCard.of_line(_enemy)]
 
 
 ## Launches the 1v1 with the chosen difficulty, kingdoms and map (saved as the next default). Returns the new level.
@@ -344,14 +394,14 @@ func _fill_map_list() -> void:
 	map_list.clear()
 	map_list_ids.clear()
 	var mode := "2v2" if _map_seats == MapCatalog.SEATS_2V2 else "1v1"
-	var ri := map_list.add_item("Random %s map" % mode, _random_icon())
+	var ri := map_list.add_item(Loc.t("Random %s map") % mode, _random_icon())
 	map_list.set_item_tooltip(ri, "A ready map drawn at Start (a restart replays the same map).")
 	map_list_ids.append(MapCatalog.RANDOM_ID)
 	for e: Dictionary in cat.list(_map_seats, true):
 		var id := StringName(e["id"])
 		var sz: Vector2 = e.get("size", Vector2(120, 120))
 		var i := map_list.add_item("%s  ·  %d m" % [String(e.get("title", id)), int(maxf(sz.x, sz.y))], cat.preview_texture(id))
-		map_list.set_item_tooltip(i, "%s\n%s" % [MapCatalog.size_text(e), String(e.get("hook", ""))])
+		map_list.set_item_tooltip(i, "%s\n%s" % [Loc.sink(MapCatalog.size_text(e)), Loc.t(String(e.get("hook", "")))])
 		map_list_ids.append(id)
 
 
@@ -362,16 +412,17 @@ func _show_map_info() -> void:
 		map_preview.texture = null
 		map_preview_mark.visible = true
 		map_title_label.text = "Random map"
-		map_info_label.text = "One of the %d ready %s maps, drawn when the match starts." % [cat.list(_map_seats, true).size(), mode]
-		map_note_label.text = MapCatalog.mode_note({"seats": _map_seats})
+		map_info_label.text = Loc.t("One of the %d ready %s maps, drawn when the match starts.") % [cat.list(_map_seats, true).size(), mode]
+		map_note_label.text = Loc.sink(MapCatalog.mode_note({"seats": _map_seats}))
 	else:
 		var e := cat.entry(_map)
 		map_preview.texture = cat.preview_texture(_map)
 		map_preview_mark.visible = map_preview.texture == null
 		map_title_label.text = String(e.get("title", _map))
-		map_info_label.text = "%s · %s · %s look\n%s" % [MapCatalog.size_text(e), String(e.get("biome", "grass")).capitalize(),
-				String(e.get("kingdom", "neutral")).capitalize(), String(e.get("hook", ""))]
-		map_note_label.text = MapCatalog.mode_note(e)
+		map_info_label.text = Loc.t("%s · %s · %s look\n%s") % [Loc.sink(MapCatalog.size_text(e)),
+				Loc.t(String(e.get("biome", "grass")).capitalize()), Loc.t(String(e.get("kingdom", "neutral")).capitalize()),
+				Loc.t(String(e.get("hook", "")))]
+		map_note_label.text = Loc.sink(MapCatalog.mode_note(e))
 	map_note_label.visible = map_note_label.text != ""
 
 
@@ -399,7 +450,9 @@ func _build_map_column(parent: Control) -> void:
 	var head := HBoxContainer.new()
 	head.add_theme_constant_override("separation", 8)
 	col.add_child(head)
-	var tag := UIStyle.display_label("MAP", 22, UIStyle.GOLD)
+	var tag := UIStyle.display_label(Loc.t("MAP"), 22, UIStyle.GOLD)
+	tag.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	_caps_labels.append([tag, "MAP"])
 	tag.custom_minimum_size = Vector2(70, 40)
 	tag.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	head.add_child(tag)
@@ -490,15 +543,15 @@ func refresh_missions() -> void:
 	for i in mission_ids.size():
 		var id := mission_ids[i]
 		var b := mission_buttons[i]
-		var title: String = MISSION_TITLES.get(id, "Mission %d" % (i + 1))
+		var title: String = Loc.t(MISSION_TITLES[id]) if MISSION_TITLES.has(id) else Loc.t("Mission %d") % (i + 1)
 		var open := unlocked.has(id)
 		var built := _mission_available(id)
 		b.disabled = not (open and built)
 		if not open:
-			b.text = "   %d.  Locked" % (i + 1)
+			b.text = "   " + Loc.t("%d.  Locked") % (i + 1)
 			b.tooltip_text = "Win the previous mission to unlock it."
 		elif not built:
-			b.text = "   %d.  %s  (coming soon)" % [i + 1, title]
+			b.text = "   " + Loc.t("%d.  %s  (coming soon)") % [i + 1, title]
 			b.tooltip_text = "Coming soon"
 		else:
 			b.text = "   %d.  %s" % [i + 1, title]
@@ -591,6 +644,10 @@ func _build_main_panel(parent: Control) -> PanelContainer:
 	panel.add_child(box)
 	skirmish_button = _menu_button(box, "Skirmish 1v1")
 	skirmish_button.pressed.connect(show_skirmish_setup)
+	if ResourceLoader.exists(WS_LOBBY):
+		wave_strike_button = _menu_button(box, "Wave Strike")
+		wave_strike_button.tooltip_text = "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1v1)."
+		wave_strike_button.pressed.connect(show_wave_strike)
 	campaign_button = _menu_button(box, "Campaign")
 	campaign_button.pressed.connect(show_campaign)
 	unit_guide_button = _menu_button(box, "Unit Guide")
@@ -678,7 +735,7 @@ func _build_skirmish_panel(parent: Control) -> PanelContainer:
 	var limit_group := ButtonGroup.new()
 	time_limit_buttons.clear()
 	for minutes: int in GameSettings.TIME_LIMIT_CHOICES:
-		var lb := _toggle_button(limit_row, "Off" if minutes == 0 else "%d min" % minutes, limit_group)
+		var lb := _toggle_button(limit_row, "Off" if minutes == 0 else Loc.t("%d min") % minutes, limit_group)
 		lb.tooltip_text = "Off: the match ends only when a side has no building left or concedes.\n" \
 				+ "30 / 45 min: at the limit the match ends and the higher score wins."
 		lb.set_pressed_no_signal(GameSettings.time_limit_min == minutes)
@@ -712,7 +769,10 @@ func _card_row(parent: Control, tag: String, sub: String, group: ButtonGroup, ch
 	side.custom_minimum_size = Vector2(92, 0)
 	side.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_child(side)
-	var tag_label := UIStyle.display_label(tag, 22, UIStyle.GOLD if tag == "YOU" else Color(0.95, 0.55, 0.45))
+	var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
+			UIStyle.GOLD if tag == "YOU" else Color(0.95, 0.55, 0.45))
+	tag_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	_caps_labels.append([tag_label, tag])
 	side.add_child(tag_label)
 	var sub_label := UIStyle.panel_label(sub, 13, Color(0.72, 0.68, 0.64))
 	side.add_child(sub_label)

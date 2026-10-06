@@ -1,0 +1,833 @@
+{
+  "actual_sizes": {
+    "1600x900": "1600x900",
+    "1920x1080": "1920x1080"
+  },
+  "checks": [
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "5 px from the bottom edge (flush it or keep >= 8 px)",
+          "fail": false,
+          "text": "MainMenu > PanelContainer",
+          "value": 5.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.769230769230769,
+      "screen": "skirmish_setup",
+      "status": "WARN",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 2,
+      "fails": 2,
+      "items": [
+        {
+          "detail": "78 px outside the 1600x900 screen",
+          "fail": false,
+          "text": "SettingsPanel > Label \"Désactivé par défaut. Activé, ..\"",
+          "value": 78.0
+        },
+        {
+          "detail": "132 px outside the 1600x900 screen",
+          "fail": false,
+          "text": "SettingsPanel > Button \"Retour\"",
+          "value": 132.0
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.384615384615385,
+      "screen": "settings",
+      "status": "FAIL",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 2,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Plein écran\"",
+          "value": 0.16
+        },
+        {
+          "detail": "switch (off): only 17 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Aider à améliorer le jeu : enr..\"",
+          "value": 0.17
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.625,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Label \"Choisissez votre voie (fixée p..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"FORCE  +15 % dégâts d'attaque ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"INTELLECT  +15 puissance (+15 ..\"",
+          "value": 0.92
+        }
+      ],
+      "res": "1600x900",
+      "score": 0.526315789473684,
+      "screen": "pause",
+      "status": "WARN",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1600x900",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "main_menu",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "skirmish_setup",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "bleed"
+    },
+    {
+      "count": 2,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Plein écran\"",
+          "value": 0.16
+        },
+        {
+          "detail": "switch (off): only 17 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty",
+          "fail": false,
+          "text": "SettingsPanel > CheckButton \"Aider à améliorer le jeu : enr..\"",
+          "value": 0.17
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.625,
+      "screen": "settings",
+      "status": "WARN",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "settings",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "font"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Label \"Choisissez votre voie (fixée p..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"FORCE  +15 % dégâts d'attaque ..\"",
+          "value": 0.92
+        },
+        {
+          "detail": "shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95)",
+          "fail": false,
+          "text": "StrIntPanel > Button \"INTELLECT  +15 puissance (+15 ..\"",
+          "value": 0.92
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.526315789473684,
+      "screen": "pause",
+      "status": "WARN",
+      "type": "bleed"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "pause",
+      "status": "PASS",
+      "type": "edge"
+    }
+  ],
+  "counts": {
+    "FAIL": 1,
+    "PASS": 62,
+    "SKIP": 0,
+    "WARN": 5
+  },
+  "headless": false,
+  "improve_next": [
+    {
+      "status": "FAIL",
+      "text": "anchor it to the screen edge it belongs to, or clamp its position to the viewport. e.g. SettingsPanel > Label \"Désactivé par défaut. Activé, ..\": 78 px outside the 1600x900 screen (at 1600x900)",
+      "title": "Off-screen on settings"
+    },
+    {
+      "status": "WARN",
+      "text": "make the modal panel opaque, put a dimmer behind it, or hide the HUD text while it is open. e.g. StrIntPanel > Label \"Choisissez votre voie (fixée p..\": shows through the modal panel PauseMenu > PanelContainer (background alpha 0.92 < 0.95) (at 1600x900, 1920x1080)",
+      "title": "Bleed-through on pause"
+    },
+    {
+      "status": "WARN",
+      "text": "give the off state a visible track / outline; icons need a lighter or darker core than their button. e.g. SettingsPanel > CheckButton \"Plein écran\": switch (off): only 16 % of the icon area is drawn (min 25 %): the track / outline is invisible, the control reads as empty (at 1600x900, 1920x1080)",
+      "title": "Icon contrast on settings"
+    },
+    {
+      "status": "WARN",
+      "text": "move it clear of the edge (>= 8 px; shrink it at small sizes) or flush it. e.g. MainMenu > PanelContainer: 5 px from the bottom edge (flush it or keep >= 8 px) (at 1600x900)",
+      "title": "Edge margin on skirmish_setup"
+    }
+  ],
+  "lab_version": "2.0",
+  "notes": [
+    "Language: fr (Loc.set_language)",
+    "1600x900: match clock stuck at 0 s",
+    "1920x1080: match clock stuck at 0 s"
+  ],
+  "previous_quality": 95.7,
+  "quality": 95.7,
+  "resolutions": [
+    "1600x900",
+    "1920x1080"
+  ],
+  "result": "FAIL",
+  "screens": [
+    "main_menu",
+    "skirmish_setup",
+    "settings",
+    "pause"
+  ],
+  "seconds": 259.9,
+  "shots": {
+    "contact_sheet": "contact_sheet.jpg",
+    "main_menu@1600x900": "1600x900/main_menu.jpg",
+    "main_menu@1920x1080": "1920x1080/main_menu.jpg",
+    "pause@1600x900": "1600x900/pause.jpg",
+    "pause@1920x1080": "1920x1080/pause.jpg",
+    "settings@1600x900": "1600x900/settings.jpg",
+    "settings@1920x1080": "1920x1080/settings.jpg",
+    "skirmish_setup@1600x900": "1600x900/skirmish_setup.jpg",
+    "skirmish_setup@1920x1080": "1920x1080/skirmish_setup.jpg"
+  },
+  "started": "2026-10-06 10:08:18"
+}

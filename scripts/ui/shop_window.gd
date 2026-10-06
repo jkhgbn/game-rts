@@ -348,7 +348,7 @@ func _shop_title(s: Node) -> String:
 		return "Ruin Peddler"
 	var bt: Variant = s.get("building_type")
 	if bt is Object and bt.get("display_name") != null:
-		return "%s shop" % str(bt.get("display_name"))
+		return Loc.t("{name} shop", {"name": str(bt.get("display_name"))})
 	return "Keep shop"
 
 
@@ -461,7 +461,7 @@ static func stats_text(t: Variant) -> String:
 		var v := float(s[key])
 		var pct := k.ends_with("_pct")
 		var base := k.trim_suffix("_pct")
-		var word: String = STAT_WORDS.get(base, base.replace("_", " "))
+		var word: String = Loc.t(STAT_WORDS.get(base, base.replace("_", " ")))
 		var sg := "+" if v >= 0.0 else "-"
 		if pct:
 			bits.append("%s%s %% %s" % [sg, _num(absf(v) * 100.0), word])
@@ -471,7 +471,7 @@ static func stats_text(t: Variant) -> String:
 
 
 static func _num(v: float) -> String:
-	return str(int(v)) if is_equal_approx(v, roundf(v)) else "%.1f" % v
+	return str(int(v)) if is_equal_approx(v, roundf(v)) else Loc.num(v, 1)
 
 
 ## Item id -> count carried (slots and artifact slots).
@@ -611,13 +611,13 @@ func buy(t: Variant) -> String:
 	else:
 		last_buy_result = str(inv.call(&"buy", t))
 	if last_buy_result == "":
-		message.emit("Bought %s" % name_of(t))
+		message.emit(Loc.t("Bought {name}", {"name": name_of(t)}))
 	else:
-		message.emit(last_buy_result)
-		_reason.text = last_buy_result
+		message.emit(Loc.sink(last_buy_result))
+		_reason.text = Loc.sink(last_buy_result)
 	_refresh()
 	if last_buy_result != "":
-		_reason.text = last_buy_result
+		_reason.text = Loc.sink(last_buy_result)
 	return last_buy_result
 
 
@@ -633,7 +633,7 @@ func sell_slot(slot: int) -> int:
 		t = slots[slot].get("type")
 	var gained := int(inv.call(&"sell", slot))
 	if gained > 0 and t != null:
-		message.emit("Sold %s for %d" % [name_of(t), gained])
+		message.emit(Loc.t("Sold {name} for {n}", {"name": name_of(t), "n": gained}))
 	_refresh()
 	return gained
 
@@ -645,11 +645,11 @@ func exchange() -> void:
 	var team: Variant = hero.get("team") if hero != null else 0
 	var r: Variant = shop.call(&"exchange_crystals", int(team) if team != null else 0)
 	if r is String and r != "":
-		message.emit(r)
+		message.emit(Loc.sink(r))
 	elif r is bool and not r:
-		message.emit("Not enough crystals")
+		message.emit(Loc.t("Not enough crystals"))
 	else:
-		message.emit("Exchanged 100 crystals for 40 essence")
+		message.emit(Loc.t("Exchanged 100 crystals for 40 essence"))
 	_refresh()
 
 
@@ -789,14 +789,14 @@ func tooltip_for(t: Variant, price: int, reason: String, counts: Dictionary) -> 
 		lines.append(st)
 	var tip: Variant = t.get("tooltip") if t is Object else null
 	if tip != null and str(tip) != "":
-		lines.append(str(tip))
+		lines.append(Loc.sink(str(tip)))
 	var stack: Variant = t.get("stack_max") if t is Object else null
 	if tier_of(t) == Tier.CONSUMABLE and stack != null and int(stack) > 1:
-		lines.append("Stacks to %d" % int(stack))
+		lines.append(Loc.t("Stacks to {n}", {"n": int(stack)}))
 	if counts.get(id_of(t), 0) > 0:
-		lines.append("Owned: %d" % int(counts[id_of(t)]))
-	lines.append(("Cost %d" % price) if reason == "" or reason.begins_with("Not enough") else reason)
-	lines.append("Sell %d" % int(total_cost_of(t) / 2))
+		lines.append(Loc.t("Owned: {n}", {"n": int(counts[id_of(t)])}))
+	lines.append(Loc.t("Cost {n}", {"n": price}) if reason == "" or reason.begins_with("Not enough") else Loc.sink(reason))
+	lines.append(Loc.t("Sell {n}", {"n": int(total_cost_of(t) / 2)}))
 	return "\n".join(lines)
 
 
@@ -815,7 +815,7 @@ func _show_details() -> void:
 	_name.text = name_of(t)
 	_stats.text = stats_text(t).replace(" · ", "\n")
 	var tip: Variant = t.get("tooltip") if t is Object else null
-	_text.text = str(tip) if tip != null else ""
+	_text.text = Loc.sink(str(tip)) if tip != null else ""
 	# The Buy button always acts on the selected item (hover only previews).
 	var sel: Variant = _selected
 	if sel == null:
@@ -824,9 +824,9 @@ func _show_details() -> void:
 	var price := price_of(sel)
 	var reason := buy_reason(sel)
 	var combine := not parts_of(sel).is_empty() and price < total_cost_of(sel)
-	_buy.text = ("Combine %d" if combine else "Buy %d") % price
+	_buy.text = Loc.t("Combine {n}", {"n": price}) if combine else Loc.t("Buy {n}", {"n": price})
 	_buy.disabled = reason != ""
-	_reason.text = reason
+	_reason.text = Loc.sink(reason)
 
 
 # ---------------------------------------------------------------- inner controls

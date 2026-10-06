@@ -52,6 +52,7 @@ var _root: Control
 var _obj_panel: PanelContainer
 var _help_label: Label
 var _help_name := "your wizard"   # the wizard named in the help
+var _help_lang := ""              # the language the help was written in (refresh on a live switch)
 var _help_scheme := -1            # the control scheme the help was written for
 var _help_check_left := 0         # frames to the next keyboard-layout re-check
 var _map_panel: PanelContainer
@@ -401,24 +402,25 @@ static func kingdom_of(hero: Node) -> StringName:
 ## "Vessa, Fire Wizard" -> "Vessa" (any wizard); "Your wizard" when there is none.
 static func wizard_short_name(hero: Node) -> String:
 	if hero == null or not is_instance_valid(hero):
-		return "Your wizard"
+		return Loc.t("Your wizard")
 	var n := str(hero.get("unit_name")).get_slice(",", 0).strip_edges()
-	return n if n != "" and n != "<null>" else "Your wizard"
+	return n if n != "" and n != "<null>" else Loc.t("Your wizard")
 
 
 ## Tutorial wording for moving the wizard in the current control scheme (UX.1), keyboard labels included:
 ## Classic "Right-click the ground to move Vessa", Hero WASD "Walk Vessa with W A S D" ("Z Q S D" on AZERTY).
 static func walk_hint(wizard_name: String) -> String:
 	if GameSettings.hero_wasd():
-		return "Walk %s with %s" % [wizard_name, KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])]
-	return "Right-click the ground to move %s" % wizard_name
+		return Loc.t("Walk %s with %s") % [wizard_name, KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])]
+	return Loc.t("Right-click the ground to move %s") % wizard_name
 
 
 ## Rewrites the help when the control scheme changed (Settings in the pause menu) or the keyboard layout did.
 func _refresh_help() -> void:
 	_help_check_left -= 1
-	if _help_check_left > 0 and _help_scheme == GameSettings.control_scheme:
+	if _help_check_left > 0 and _help_scheme == GameSettings.control_scheme and _help_lang == Loc.language:
 		return
+	_help_lang = Loc.language
 	refresh_help()
 
 
@@ -467,32 +469,33 @@ static func help_text(wizard_name: String, features: Dictionary = {}) -> String:
 	var train := KeyLabels.join(SelectionManager.SLOT_KEYS)
 	var spells := KeyLabels.join([KEY_F, KEY_Q, KEY_E], " / ")
 	var middle := ""
-	var pan_keys := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]) if GameSettings.rts_wasd() else "Arrows"
+	var pan_keys := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]) if GameSettings.rts_wasd() else Loc.t("Arrows")
+	# One translated template per help line (localization.md); the key labels stay as KeyLabels prints them.
 	if GameSettings.hero_wasd():
-		middle = ("Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
+		middle = (Loc.t("Right click: move / attack / gather / rally    %s: attack-move    %s: stop")
 				% [k.call(KEY_X), k.call(KEY_C)]
-				+ "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
+				+ "\n" + Loc.t("%s: hold    %s: gather    %s: build (workers)    %s: train")
 				% [k.call(KEY_H), k.call(KEY_G), k.call(KEY_B), train]
-				+ "Delete: cancel a site    %s: walk %s    %s: spells\n"
-				% [KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]), wizard_name, spells])
+				+ "\n" + Loc.t("Delete: cancel a site    %s: walk %s    %s: spells")
+				% [KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]), wizard_name, spells] + "\n")
 	elif GameSettings.rts_wasd():
 		# RTS camera (WASD): Classic moves, X = attack-move (A pans the camera, see the pan line below).
-		middle = ("Right click: move (%s too) / attack / gather / rally    %s: stop\n" % [wizard_name, k.call(KEY_C)]
-				+ "Attack-move: %s + click    %s: hold    %s: gather    %s: build\n"
+		middle = (Loc.t("Right click: move (%s too) / attack / gather / rally    %s: stop") % [wizard_name, k.call(KEY_C)]
+				+ "\n" + Loc.t("Attack-move: %s + click    %s: hold    %s: gather    %s: build")
 				% [k.call(KEY_X), k.call(KEY_H), k.call(KEY_G), k.call(KEY_B)]
-				+ "%s: train    Delete: cancel a site    %s: spells\n" % [train, spells])
+				+ "\n" + Loc.t("%s: train    Delete: cancel a site    %s: spells") % [train, spells] + "\n")
 	else:
-		middle = ("Right click: move (%s too) / attack / gather / rally    %s: stop\n" % [wizard_name, k.call(KEY_C)]
-				+ "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build\n"
+		middle = (Loc.t("Right click: move (%s too) / attack / gather / rally    %s: stop") % [wizard_name, k.call(KEY_C)]
+				+ "\n" + Loc.t("Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build")
 				% [k.call(KEY_A), k.call(KEY_X), k.call(KEY_H), k.call(KEY_G), k.call(KEY_B)]
-				+ "%s: train    Delete: cancel a site    %s: spells\n" % [train, spells])
-	return ("Left click / drag: select    Shift: add    Double-click: all of a type\n"
+				+ "\n" + Loc.t("%s: train    Delete: cancel a site    %s: spells") % [train, spells] + "\n")
+	return (Loc.t("Left click / drag: select    Shift: add    Double-click: all of a type") + "\n"
 			+ middle
-			+ "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart\n"
+			+ Loc.t("Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart")
 			% [KeyLabels.join([KEY_F, KEY_Q, KEY_E], "/"), wizard_name, wizard_name]
-			+ "Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all\n" % k.call(KEY_A)
-			+ "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n"
-			+ "%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop" % [pan_keys, k.call(KEY_T)]
+			+ "\n" + Loc.t("Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all") % k.call(KEY_A)
+			+ "\n" + Loc.t("F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender")
+			+ "\n" + Loc.t("%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop") % [pan_keys, k.call(KEY_T)]
 			+ _help_lines(k, has))
 
 
@@ -500,24 +503,24 @@ static func help_text(wizard_name: String, features: Dictionary = {}) -> String:
 static func _help_lines(k: Callable, has: Callable) -> String:
 	var lines: Array[String] = []
 	if has.call(&"champions"):
-		lines.append("%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion" % [k.call(KEY_R), k.call(KEY_Y)])
+		lines.append(Loc.t("%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion") % [k.call(KEY_R), k.call(KEY_Y)])
 	var row: Array[String] = []
 	if has.call(&"champions"):
-		row.append("Flag: %s raise · Delete remove" % k.call(KEY_Z))
+		row.append(Loc.t("Flag: %s raise · Delete remove") % k.call(KEY_Z))
 	if has.call(&"trade"):
-		row.append("%s: trade & hunters    %s: trade (caravans)" % [k.call(KEY_U), k.call(KEY_G)])
+		row.append(Loc.t("%s: trade & hunters    %s: trade (caravans)") % [k.call(KEY_U), k.call(KEY_G)])
 	if not row.is_empty():
 		lines.append("    ".join(row))
 	# caster-units.md 9.1: the casters' spell keys (the Bazaar's route click is on its Set Route tooltip).
 	row = []
 	if has.call(&"trade"):
-		row.append("%s, %s: Bazaar    Bazaar: %s caravan" % [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z)])
+		row.append(Loc.t("%s, %s: Bazaar    Bazaar: %s caravan") % [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z)])
 	if has.call(&"casters"):
-		row.append("%s / %s: caster spells (Ctrl: autocast)" % [k.call(KEY_Z), k.call(KEY_V)])
+		row.append(Loc.t("%s / %s: caster spells (Ctrl: autocast)") % [k.call(KEY_Z), k.call(KEY_V)])
 	if not row.is_empty():
 		lines.append("    ".join(row))
 	if has.call(&"capture"):
-		lines.append(HELP_CAPTURE)
+		lines.append(Loc.t(HELP_CAPTURE))
 	return "" if lines.is_empty() else "\n" + "\n".join(lines)
 
 
@@ -543,7 +546,7 @@ func apply_skin() -> void:
 
 
 func set_objective(text: String) -> void:
-	_objective.text = text
+	_objective.text = Loc.sink(text)   # objectives come from the logic (campaign / skirmish), English there
 
 
 ## The message line's plate: near-black at 62 %, rounded, 16 x 5 px padding.
@@ -559,6 +562,7 @@ static func message_backing() -> StyleBoxFlat:
 
 
 func show_message(text: String, seconds := 2.0) -> void:
+	text = Loc.sink(text)   # logic messages stay English in the logic, translated here (localization.md)
 	if end_panel.visible and end_body.text != "" and text == end_body.text:
 		return   # the end stats are already in the end panel
 	_message.text = text
@@ -577,6 +581,7 @@ func show_banner(text: String, color: Color) -> void:
 		tavern_window.close()   # the match ended
 	if trade_window != null and is_instance_valid(trade_window):
 		trade_window.close()
+	text = Loc.sink(text)
 	_banner.text = text
 	_banner.add_theme_color_override("font_color", color)
 	_banner.visible = true
@@ -586,7 +591,7 @@ func show_banner(text: String, color: Color) -> void:
 	var level := get_parent()
 	var stats := ""
 	if level != null and level.has_method(&"end_screen_text"):
-		stats = str(level.call(&"end_screen_text"))
+		stats = Loc.sink(str(level.call(&"end_screen_text")))
 	end_body.text = stats
 	end_body.visible = stats != "" and not end_tabs.visible
 	if end_tabs.visible:
@@ -620,7 +625,7 @@ func is_banner_shown() -> bool:
 ## `teams` = [the local team, the other], `names` / `colors` per team; `subtitle` = "Won on score ..." or "".
 ## The skirmish calls it after show_banner on every end (victory, defeat, concede, time limit).
 func show_score(keeper: Object, teams: Array, names: Array, colors: Array, subtitle := "") -> void:
-	end_subtitle.text = subtitle
+	end_subtitle.text = Loc.sink(subtitle)
 	end_subtitle.visible = subtitle != ""
 	if keeper != null:
 		score_panel.call(&"show_score", keeper, teams, names, colors)
@@ -752,7 +757,7 @@ func _check_hero_levels() -> void:
 		var before: int = _hero_levels.get(id, -1)
 		if before >= 0 and int(lvl) > before:
 			var short := str(wiz.get("unit_name")).get_slice(",", 0).strip_edges()
-			show_message("%s reaches level %d" % [short, int(lvl)], 3.0)
+			show_message(Loc.t("%s reaches level %d") % [short, int(lvl)], 3.0)
 		_hero_levels[id] = int(lvl)
 
 

@@ -1,0 +1,2645 @@
+# Four Wizards: French (Quebec) for area 'unit_guide'. Glossary: data/i18n/glossary_fr.md
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. text
+#: data/ui/unit_guide.json:cinder_hand data/ui/unit_guide.json:rime_hauler
+#: data/ui/unit_guide.json:sprigling data/ui/unit_guide.json:gloom_thrall
+msgid "Mines crystals and carries them to the keep or a Hall."
+msgstr "Extrait des cristaux et les rapporte au donjon ou à une salle."
+
+#. text
+#: data/ui/unit_guide.json:cinder_hand
+msgid "Opens the Fire build menu."
+msgstr "Ouvre le menu de construction du Feu."
+
+#. pros
+#: data/ui/unit_guide.json:cinder_hand
+msgid "Gathers crystals and builds every Fire building"
+msgstr "Récolte des cristaux, construit tout bâtiment du Feu"
+
+#. pros
+#: data/ui/unit_guide.json:cinder_hand data/ui/unit_guide.json:rime_hauler
+#: data/ui/unit_guide.json:gloom_thrall
+msgid "Drops crystals at the keep or at any Hall"
+msgstr "Dépose ses cristaux au donjon ou à toute salle"
+
+#. pros
+#: data/ui/unit_guide.json:cinder_hand data/ui/unit_guide.json:gloom_thrall
+msgid "Cheap and quick to replace"
+msgstr "Pas cher et vite remplacé"
+
+#. cons
+#: data/ui/unit_guide.json:cinder_hand data/ui/unit_guide.json:rime_hauler
+#: data/ui/unit_guide.json:sprigling data/ui/unit_guide.json:gloom_thrall
+msgid "Very weak in a fight"
+msgstr "Très faible au combat"
+
+#. cons
+#: data/ui/unit_guide.json:cinder_hand data/ui/unit_guide.json:rime_hauler
+#: data/ui/unit_guide.json:gloom_thrall
+msgid "Every worker lost slows your whole economy"
+msgstr "Chaque ouvrier perdu ralentit toute votre économie"
+
+#. strong_against
+#: data/ui/unit_guide.json:cinder_hand data/ui/unit_guide.json:rime_hauler
+#: data/ui/unit_guide.json:sprigling data/ui/unit_guide.json:gloom_thrall
+msgid "Nothing: it gathers"
+msgstr "Rien : il récolte"
+
+#. weak_against
+#: data/ui/unit_guide.json:cinder_hand data/ui/unit_guide.json:rime_hauler
+#: data/ui/unit_guide.json:sprigling data/ui/unit_guide.json:gloom_thrall
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Raiders"
+msgstr "Pillards"
+
+#. class
+#: data/ui/unit_guide.json:flame_guard data/ui/unit_guide.json:pyrehoof_lancer
+#: data/ui/unit_guide.json:sunforge_cataphract data/ui/unit_guide.json:rime_colossus
+#: data/ui/unit_guide.json:rimehorn_rider data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Line infantry"
+msgstr "Infanterie de ligne"
+
+#. pros
+#: data/ui/unit_guide.json:flame_guard
+msgid "Top 3 for DPS per crystal in the Fire army"
+msgstr "Top 3 en DPS par cristal dans l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:flame_guard
+msgid "Top 3 for HP per crystal in the Fire army"
+msgstr "Top 3 en PV par cristal dans l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:flame_guard
+msgid "Cheap, quick front line that shields archers"
+msgstr "Première ligne bon marché et rapide qui protège les archers"
+
+#. cons
+#: data/ui/unit_guide.json:flame_guard
+msgid "No armour: archers and towers wear it down"
+msgstr "Sans armure : archers et tours l'usent"
+
+#. cons
+#: data/ui/unit_guide.json:flame_guard data/ui/unit_guide.json:shade
+msgid "Too slow to catch kiting archers"
+msgstr "Trop lent pour rattraper les archers qui reculent"
+
+#. strong_against
+#: data/ui/unit_guide.json:flame_guard data/ui/unit_guide.json:rimeshield
+#: data/ui/unit_guide.json:rimeling data/ui/unit_guide.json:thornling data/ui/unit_guide.json:shade
+msgid "Archers in reach"
+msgstr "Archers à portée"
+
+#. strong_against
+#: data/ui/unit_guide.json:flame_guard data/ui/unit_guide.json:scorchling
+#: data/ui/unit_guide.json:emberdart_harrier data/ui/unit_guide.json:rime_harrier
+#: data/ui/unit_guide.json:stagrunner data/ui/unit_guide.json:bramble_harrier
+msgid "Workers"
+msgstr "Ouvriers"
+
+#. weak_against
+#: data/ui/unit_guide.json:flame_guard data/ui/unit_guide.json:snowdrift_rider
+#: data/ui/unit_guide.json:glade_outrider data/ui/unit_guide.json:hexweaver
+msgid "Heavy cavalry"
+msgstr "Cavalerie lourde"
+
+#. weak_against
+#: data/ui/unit_guide.json:flame_guard data/ui/unit_guide.json:scorchling
+#: data/ui/unit_guide.json:rimeshield data/ui/unit_guide.json:shardcaster
+#: data/ui/unit_guide.json:rimeling data/ui/unit_guide.json:hoarlight_magebow
+msgid "Area damage"
+msgstr "Dégâts de zone"
+
+#. weak_against
+#: data/ui/unit_guide.json:flame_guard data/ui/unit_guide.json:helper_vey
+#: data/ui/unit_guide.json:rimeshield data/ui/unit_guide.json:rime_colossus
+#: data/ui/unit_guide.json:shardguard data/ui/unit_guide.json:bramblehorn
+msgid "Kiting archers"
+msgstr "Archers mobiles"
+
+#. class
+#: data/ui/unit_guide.json:ember_archer
+msgid "Archer"
+msgstr "Archer"
+
+#. pros
+#: data/ui/unit_guide.json:ember_archer
+msgid "Cheap all-round ranged damage"
+msgstr "Dégâts à distance polyvalents et bon marché"
+
+#. pros
+#: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:ashveil_saboteur
+msgid "Top 3 for sight in the Fire army"
+msgstr "Top 3 en vision dans l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:ember_archer
+msgid "Outranges melee: kite slow units"
+msgstr "Plus de portée que la mêlée : harcèle les unités lentes"
+
+#. cons
+#: data/ui/unit_guide.json:ember_archer
+msgid "Fragile: dies fast once cavalry reaches it"
+msgstr "Fragile : meurt vite quand la cavalerie l'atteint"
+
+#. cons
+#: data/ui/unit_guide.json:ember_archer
+msgid "Less damage per shot than a Scorchbow"
+msgstr "Moins de dégâts par tir qu'un Scorchbow"
+
+#. strong_against
+#: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:ash_hurler
+#: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:emberdart_harrier
+#: data/ui/unit_guide.json:frostbow data/ui/unit_guide.json:rime_harrier
+msgid "Slow melee"
+msgstr "Mêlée lente"
+
+#. strong_against
+#: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:blaze_rider
+#: data/ui/unit_guide.json:ash_hurler data/ui/unit_guide.json:emberdart_harrier
+#: data/ui/unit_guide.json:kilnwarden data/ui/unit_guide.json:helper_vey
+msgid "Casters"
+msgstr "Lanceurs de sorts"
+
+#. weak_against
+#: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:ash_hurler
+#: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:cinder_arbalest
+#: data/ui/unit_guide.json:kilnwarden data/ui/unit_guide.json:frost_mortar
+msgid "Fast raiders"
+msgstr "Pillards rapides"
+
+#. weak_against
+#: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:shardcaster
+#: data/ui/unit_guide.json:frostbow data/ui/unit_guide.json:hoarlight_magebow
+#: data/ui/unit_guide.json:nightbolt scripts/units/caster_kit.gd:56
+msgid "Pollen Haze"
+msgstr "Pollen Haze"
+
+#. summary
+#: data/ui/unit_guide.json:blaze_rider
+msgid "Tier 1 shock cavalry from the Ember Hall or Stables: fast, reaches archers and casters first."
+msgstr "Cavalerie de choc de palier 1 (Ember Hall ou écuries) : rapide, atteint d'abord archers et lanceurs de sorts."
+
+#. class
+#: data/ui/unit_guide.json:blaze_rider
+msgid "Shock cavalry"
+msgstr "Cavalerie de choc"
+
+#. pros
+#: data/ui/unit_guide.json:blaze_rider
+msgid "Fastest unit in the Fire army"
+msgstr "Unité la plus rapide de l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:blaze_rider data/ui/unit_guide.json:pyrehoof_lancer
+msgid "Top 3 for DPS in the Fire army"
+msgstr "Top 3 en DPS dans l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:blaze_rider
+msgid "Reaches archers, casters and siege fast"
+msgstr "Atteint vite archers, lanceurs de sorts et siège"
+
+#. cons
+#: data/ui/unit_guide.json:blaze_rider
+msgid "No armour for its price"
+msgstr "Aucune armure pour son prix"
+
+#. cons
+#: data/ui/unit_guide.json:blaze_rider data/ui/unit_guide.json:stagrunner
+#: data/ui/unit_guide.json:gloam_rider
+msgid "Chill and roots stop it short"
+msgstr "Le gel et les racines l'arrêtent net"
+
+#. strong_against
+#: data/ui/unit_guide.json:blaze_rider data/ui/unit_guide.json:scorchling
+#: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:sunforge_cataphract
+#: data/ui/unit_guide.json:snowdrift_rider data/ui/unit_guide.json:rimehorn_rider
+msgid "Archers"
+msgstr "Archers"
+
+#. weak_against
+#: data/ui/unit_guide.json:blaze_rider data/ui/unit_guide.json:pyrehoof_lancer
+#: data/ui/unit_guide.json:stagrunner data/ui/unit_guide.json:thornback_charger
+#: data/ui/unit_guide.json:shadow_knight data/ui/unit_guide.json:gloam_rider
+msgid "Chill / roots"
+msgstr "Gel / racines"
+
+#. weak_against
+#: data/ui/unit_guide.json:blaze_rider data/ui/unit_guide.json:coin_cutter
+msgid "Armoured line"
+msgstr "Ligne blindée"
+
+#. weak_against
+#: data/ui/unit_guide.json:blaze_rider data/ui/unit_guide.json:scorchling
+#: data/ui/unit_guide.json:emberdart_harrier data/ui/unit_guide.json:ashveil_saboteur
+#: data/ui/unit_guide.json:snowdrift_rider data/ui/unit_guide.json:rime_harrier
+msgid "Towers"
+msgstr "Tours"
+
+#. class
+#: data/ui/unit_guide.json:ash_hurler
+msgid "Artillery"
+msgstr "Artillerie"
+
+#. pros
+#: data/ui/unit_guide.json:ash_hurler
+msgid "Longest range in the Fire army"
+msgstr "Plus longue portée de l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:ash_hurler
+msgid "Longest sight in any army"
+msgstr "Plus longue vision de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:ash_hurler
+msgid "Top 3 for damage per hit in the Fire army"
+msgstr "Top 3 en dégâts par coup dans l'armée de Feu"
+
+#. cons
+#: data/ui/unit_guide.json:ash_hurler
+msgid "Worst HP per crystal in any army"
+msgstr "Pires PV par cristal de toutes les armées"
+
+#. cons
+#: data/ui/unit_guide.json:ash_hurler
+msgid "Slowest unit in the Fire army"
+msgstr "Unité la plus lente de l'armée de Feu"
+
+#. strong_against
+#: data/ui/unit_guide.json:ash_hurler data/ui/unit_guide.json:frost_mortar
+msgid "Static lines"
+msgstr "Lignes statiques"
+
+#. weak_against
+#: data/ui/unit_guide.json:ash_hurler
+msgid "Flank attacks"
+msgstr "Attaques de flanc"
+
+#. summary
+#: data/ui/unit_guide.json:scorchbow
+msgid "Fire's Hall bowman: burning arrows that hit hard but fire slowly."
+msgstr "Archer de la salle du Feu : flèches enflammées puissantes, mais tir lent."
+
+#. class
+#: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:frostbow
+#: data/ui/unit_guide.json:wildwood_archer data/ui/unit_guide.json:bleakbow
+msgid "Bowman"
+msgstr "Archer"
+
+#. text
+#: data/ui/unit_guide.json:scorchbow
+msgid "Every arrow sets the target burning for a few seconds."
+msgstr "Chaque flèche enflamme la cible quelques secondes."
+
+#. text
+#: data/ui/unit_guide.json:scorchbow
+msgid "Heavy Draw, then Pitch Arrows."
+msgstr "Heavy Draw, puis Pitch Arrows."
+
+#. pros
+#: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:cinder_arbalest
+msgid "Top 3 for range in the Fire army"
+msgstr "Top 3 en portée dans l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:scorchbow
+msgid "Burn ticks stop enemy regeneration"
+msgstr "La brûlure bloque la régénération ennemie"
+
+#. pros
+#: data/ui/unit_guide.json:scorchbow
+msgid "Hits harder per shot than an Ember Archer"
+msgstr "Frappe plus fort par tir qu'un Ember Archer"
+
+#. cons
+#: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:pyre_adept
+#: data/ui/unit_guide.json:kilnwarden data/ui/unit_guide.json:frostbow
+msgid "Low HP for its price"
+msgstr "Peu de PV pour son prix"
+
+#. cons
+#: data/ui/unit_guide.json:scorchbow
+msgid "Shoots less often than an Ember Archer"
+msgstr "Tire moins souvent qu'un Ember Archer"
+
+#. strong_against
+#: data/ui/unit_guide.json:scorchbow
+msgid "Regenerating units"
+msgstr "Unités qui se régénèrent"
+
+#. weak_against
+#: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:rime_seer data/ui/unit_guide.json:frostbow
+#: data/ui/unit_guide.json:hoarlight_magebow data/ui/unit_guide.json:rimecarver
+#: data/ui/unit_guide.json:shardguard
+msgid "Divers"
+msgstr "Plongeurs"
+
+#. class
+#: data/ui/unit_guide.json:scorchling
+msgid "Fire imp"
+msgstr "Diablotin de feu"
+
+#. pros
+#: data/ui/unit_guide.json:scorchling
+msgid "Best DPS per crystal in any army"
+msgstr "Meilleur DPS par cristal de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:scorchling
+msgid "Cheapest unit in any army"
+msgstr "Unité la moins chère de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:scorchling
+msgid "Flashpoint: bursts on death, hurting nearby foes"
+msgstr "Flashpoint : explose à sa mort, blesse les ennemis proches"
+
+#. cons
+#: data/ui/unit_guide.json:scorchling
+msgid "Lowest HP in the Fire army"
+msgstr "Moins de PV de l'armée de Feu"
+
+#. cons
+#: data/ui/unit_guide.json:scorchling
+msgid "Dies to any area damage"
+msgstr "Meurt à tout dégât de zone"
+
+#. strong_against
+#: data/ui/unit_guide.json:scorchling
+msgid "Clumped melee"
+msgstr "Mêlée groupée"
+
+#. weak_against
+#: data/ui/unit_guide.json:scorchling data/ui/unit_guide.json:cinder_arbalest
+#: data/ui/unit_guide.json:sunforge_cataphract data/ui/unit_guide.json:rimeling
+#: data/ui/unit_guide.json:frostcrown_juggernaut data/ui/unit_guide.json:shardguard
+msgid "Heavy melee"
+msgstr "Mêlée lourde"
+
+#. class
+#: data/ui/unit_guide.json:pyre_adept
+msgid "Battle mage"
+msgstr "Mage de bataille"
+
+#. pros
+#: data/ui/unit_guide.json:pyre_adept
+msgid "Flame Burst punishes clumps of 3+ enemies"
+msgstr "Flame Burst punit les groupes de 3+ ennemis"
+
+#. pros
+#: data/ui/unit_guide.json:pyre_adept
+msgid "No mana to manage: it fires on its own"
+msgstr "Aucun mana à gérer : il tire tout seul"
+
+#. pros
+#: data/ui/unit_guide.json:pyre_adept
+msgid "Outranges every melee unit"
+msgstr "Plus de portée que toute unité de mêlée"
+
+#. cons
+#: data/ui/unit_guide.json:pyre_adept
+msgid "Low DPS against a single target"
+msgstr "Faible DPS contre une seule cible"
+
+#. strong_against
+#: data/ui/unit_guide.json:pyre_adept data/ui/unit_guide.json:frostbow data/ui/unit_guide.json:bleakbow
+#: data/ui/unit_guide.json:hexweaver
+msgid "Swarms"
+msgstr "Essaims"
+
+#. strong_against
+#: data/ui/unit_guide.json:pyre_adept
+msgid "Clumped archers"
+msgstr "Archers groupés"
+
+#. weak_against
+#: data/ui/unit_guide.json:pyre_adept
+msgid "Spread-out armies"
+msgstr "Armées dispersées"
+
+#. class
+#: data/ui/unit_guide.json:cinder_arbalest
+msgid "Heavy crossbow"
+msgstr "Arbalète lourde"
+
+#. pros
+#: data/ui/unit_guide.json:cinder_arbalest
+msgid "Piercing bolt also hits the enemy behind"
+msgstr "Le carreau perforant touche aussi l'ennemi derrière"
+
+#. pros
+#: data/ui/unit_guide.json:cinder_arbalest
+msgid "Top 3 for armour in the Fire army"
+msgstr "Top 3 en armure dans l'armée de Feu"
+
+#. cons
+#: data/ui/unit_guide.json:cinder_arbalest
+msgid "Slow attack and slow feet"
+msgstr "Attaque lente, pas lents"
+
+#. cons
+#: data/ui/unit_guide.json:cinder_arbalest
+msgid "Weak once enemies close in"
+msgstr "Faible quand l'ennemi s'approche"
+
+#. strong_against
+#: data/ui/unit_guide.json:cinder_arbalest
+msgid "Infantry lines"
+msgstr "Lignes d'infanterie"
+
+#. class
+#: data/ui/unit_guide.json:emberdart_harrier
+msgid "Mounted javelins"
+msgstr "Javelots montés"
+
+#. pros
+#: data/ui/unit_guide.json:emberdart_harrier
+msgid "Top 3 for speed in the Fire army"
+msgstr "Top 3 en vitesse dans l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:emberdart_harrier
+msgid "Throws javelins on the move: hit and run"
+msgstr "Lance ses javelots en mouvement : frappe et fuit"
+
+#. pros
+#: data/ui/unit_guide.json:emberdart_harrier data/ui/unit_guide.json:duskbolt_harrier
+msgid "Picks off workers and casters"
+msgstr "Élimine ouvriers et lanceurs de sorts"
+
+#. cons
+#: data/ui/unit_guide.json:emberdart_harrier
+msgid "Fragile up close for 2 pop"
+msgstr "Fragile au corps à corps pour 2 pop."
+
+#. cons
+#: data/ui/unit_guide.json:emberdart_harrier
+msgid "Far less DPS than a Blaze Rider"
+msgstr "Bien moins de DPS qu'un Blaze Rider"
+
+#. weak_against
+#: data/ui/unit_guide.json:emberdart_harrier data/ui/unit_guide.json:shardcaster
+#: data/ui/unit_guide.json:rime_harrier data/ui/unit_guide.json:bramble_harrier
+#: data/ui/unit_guide.json:briar_roc data/ui/unit_guide.json:duskbolt_harrier
+msgid "Massed archers"
+msgstr "Archers en masse"
+
+#. class
+#: data/ui/unit_guide.json:pyrehoof_lancer
+msgid "Heavy boar lancer"
+msgstr "Lancier lourd sur sanglier"
+
+#. pros
+#: data/ui/unit_guide.json:pyrehoof_lancer
+msgid "Top 3 for HP in the Fire army"
+msgstr "Top 3 en PV dans l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:pyrehoof_lancer
+msgid "Armoured and still fast"
+msgstr "Blindé et pourtant rapide"
+
+#. cons
+#: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:rimehorn_rider
+#: data/ui/unit_guide.json:thornback_charger data/ui/unit_guide.json:barrow_knight
+msgid "Expensive and heavy on pop"
+msgstr "Cher et gourmand en pop."
+
+#. cons
+#: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:thornback_charger
+msgid "Kiting and roots waste its time"
+msgstr "Le harcèlement et les racines lui font perdre son temps"
+
+#. weak_against
+#: data/ui/unit_guide.json:pyrehoof_lancer
+msgid "Armour shred"
+msgstr "Destruction d'armure"
+
+#. weak_against
+#: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:sunforge_cataphract
+#: data/ui/unit_guide.json:rime_colossus data/ui/unit_guide.json:rimehorn_rider
+#: data/ui/unit_guide.json:frostcrown_juggernaut data/ui/unit_guide.json:bramblehorn
+msgid "Wither Hex"
+msgstr "Wither Hex"
+
+#. class
+#: data/ui/unit_guide.json:sunforge_cataphract
+msgid "Elite cataphract"
+msgstr "Cataphractaire d'élite"
+
+#. pros
+#: data/ui/unit_guide.json:sunforge_cataphract
+msgid "Highest HP in the Fire army"
+msgstr "Plus de PV de l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:sunforge_cataphract
+msgid "Highest DPS in the Fire army"
+msgstr "Plus haut DPS de l'armée de Feu"
+
+#. pros
+#: data/ui/unit_guide.json:sunforge_cataphract
+msgid "Most armour in the Fire army"
+msgstr "Plus d'armure de l'armée de Feu"
+
+#. cons
+#: data/ui/unit_guide.json:sunforge_cataphract
+msgid "Most expensive unit in the Fire army"
+msgstr "Unité la plus chère de l'armée de Feu"
+
+#. cons
+#: data/ui/unit_guide.json:sunforge_cataphract data/ui/unit_guide.json:frostcrown_juggernaut
+#: data/ui/unit_guide.json:glade_outrider data/ui/unit_guide.json:veilborn_dreadrider
+msgid "Needs a Citadel and 4 pop each"
+msgstr "Exige une Citadelle et 4 pop. chacun"
+
+#. weak_against
+#: data/ui/unit_guide.json:sunforge_cataphract
+msgid "Slag / armour shred"
+msgstr "Scories / destruction d'armure"
+
+#. weak_against
+#: data/ui/unit_guide.json:sunforge_cataphract data/ui/unit_guide.json:rimehorn_rider
+#: data/ui/unit_guide.json:veilborn_dreadrider
+msgid "Roots"
+msgstr "Racines"
+
+#. class
+#: data/ui/unit_guide.json:kilnwarden
+msgid "Slag caster"
+msgstr "Lanceur de scories"
+
+#. pros
+#: data/ui/unit_guide.json:kilnwarden
+msgid "Slag Rain strips armour from a whole clump"
+msgstr "Slag Rain retire l'armure de tout un groupe"
+
+#. pros
+#: data/ui/unit_guide.json:kilnwarden
+msgid "Mana Scald burns enemy casters and wizards"
+msgstr "Mana Scald brûle lanceurs de sorts et sorciers ennemis"
+
+#. pros
+#: data/ui/unit_guide.json:kilnwarden
+msgid "Stoke refunds mana when slagged foes die"
+msgstr "Stoke rend du mana à la mort des ennemis scoriés"
+
+#. cons
+#: data/ui/unit_guide.json:kilnwarden
+msgid "Lowest DPS in the Fire army"
+msgstr "Plus faible DPS de l'armée de Feu"
+
+#. strong_against
+#: data/ui/unit_guide.json:kilnwarden
+msgid "Armoured units"
+msgstr "Unités blindées"
+
+#. strong_against
+#: data/ui/unit_guide.json:kilnwarden
+msgid "Wizards"
+msgstr "Sorciers"
+
+#. weak_against
+#: data/ui/unit_guide.json:kilnwarden data/ui/unit_guide.json:rime_seer
+#: data/ui/unit_guide.json:gloom_deacon scripts/units/caster_kit.gd:52
+msgid "Snagroot"
+msgstr "Snagroot"
+
+#. class
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Spy"
+msgstr "Espion"
+
+#. text
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Out of combat the enemy sees one of its own workers; its auto-aggro ignores it."
+msgstr "Hors combat, l'ennemi y voit un de ses ouvriers; ses unités ne l'attaquent pas d'elles-mêmes."
+
+#. text
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Plants a charge on an enemy building: heavy damage and its training stops for a while."
+msgstr "Pose une charge sur un bâtiment ennemi : gros dégâts et sa formation s'arrête un moment."
+
+#. pros
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Looks like an enemy worker out of combat"
+msgstr "Ressemble à un ouvrier ennemi hors combat"
+
+#. pros
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Powder Charge hurts a building and stops training"
+msgstr "Powder Charge abîme un bâtiment et arrête la formation"
+
+#. cons
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Weak in a fair fight for its price"
+msgstr "Faible en combat loyal pour son prix"
+
+#. cons
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Max 4 per team"
+msgstr "Max. 4 par équipe"
+
+#. strong_against
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Undefended bases"
+msgstr "Bases sans défense"
+
+#. strong_against
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Production buildings"
+msgstr "Bâtiments de production"
+
+#. weak_against
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Any real army"
+msgstr "Toute vraie armée"
+
+#. weak_against
+#: data/ui/unit_guide.json:ashveil_saboteur scripts/units/caster_kit.gd:49
+msgid "Scrying Rune"
+msgstr "Scrying Rune"
+
+#. good_with
+#: data/ui/unit_guide.json:ashveil_saboteur
+msgid "Blaze Rider raids"
+msgstr "Raids de Blaze Riders"
+
+#. class
+#: data/ui/unit_guide.json:helper_vey
+msgid "The Storm-Sword (helper)"
+msgstr "The Storm-Sword (assistant)"
+
+#. summary
+#: data/ui/unit_guide.json:helper_vey
+msgid "Fire's tier-3 helper: a storm-blade duelist who fights beside Vessa. Autonomous; its level is your wizard's."
+msgstr "Assistant de palier 3 du Feu : un duelliste à lame d'orage aux côtés de Vessa. Autonome; il a le niveau de votre sorcière."
+
+#. text
+#: data/ui/unit_guide.json:helper_vey
+msgid "Every third strike chains to 2 nearby enemies for half damage."
+msgstr "Un coup sur trois rebondit sur 2 ennemis proches à demi-dégâts."
+
+#. text
+#: data/ui/unit_guide.json:helper_vey
+msgid "Dashes through enemies to a target, dazing those on the path."
+msgstr "Fonce à travers les ennemis vers une cible, étourdit ceux sur son passage."
+
+#. text
+#: data/ui/unit_guide.json:helper_vey
+msgid "A bolt jumps between up to 5 clumped enemies."
+msgstr "Un éclair saute entre jusqu'à 5 ennemis groupés."
+
+#. text
+#: data/ui/unit_guide.json:helper_vey
+msgid "Bolts rain on enemies around him; nearby allies attack faster."
+msgstr "Des éclairs pleuvent sur les ennemis autour de lui; les alliés proches attaquent plus vite."
+
+#. pros
+#: data/ui/unit_guide.json:helper_vey
+msgid "Tough duelist with lots of HP and armour"
+msgstr "Duelliste coriace, beaucoup de PV et d'armure"
+
+#. pros
+#: data/ui/unit_guide.json:helper_vey
+msgid "Chain Lightning and Stormcall wreck clumps"
+msgstr "Chain Lightning et Stormcall ravagent les groupes"
+
+#. pros
+#: data/ui/unit_guide.json:helper_vey
+msgid "Levels with your wizard and fights on its own"
+msgstr "Monte de niveau avec votre sorcier, combat seul"
+
+#. cons
+#: data/ui/unit_guide.json:helper_vey data/ui/unit_guide.json:helper_aldra
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Needs a Citadel and a big essence bill"
+msgstr "Exige une Citadelle et beaucoup d'essence"
+
+#. cons
+#: data/ui/unit_guide.json:helper_vey data/ui/unit_guide.json:helper_aldra
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Autonomous: you set a stance, not orders"
+msgstr "Autonome : vous réglez sa posture, pas ses ordres"
+
+#. strong_against
+#: data/ui/unit_guide.json:helper_vey data/ui/unit_guide.json:frost_mortar
+#: data/ui/unit_guide.json:helper_maelis data/ui/unit_guide.json:stormbottle_genie
+msgid "Clumps"
+msgstr "Groupes serrés"
+
+#. strong_against
+#: data/ui/unit_guide.json:helper_vey
+msgid "Ranged units"
+msgstr "Unités à distance"
+
+#. weak_against
+#: data/ui/unit_guide.json:helper_vey data/ui/unit_guide.json:briar_roc
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Focus fire"
+msgstr "Tir concentré"
+
+#. good_with
+#: data/ui/unit_guide.json:helper_vey
+msgid "Vessa (Fireball bond)"
+msgstr "Vessa (lien Fireball)"
+
+#. good_with
+#: data/ui/unit_guide.json:helper_vey
+msgid "Fire army"
+msgstr "Armée de Feu"
+
+#. text
+#: data/ui/unit_guide.json:rime_hauler
+msgid "Opens the Ice build menu (walls included)."
+msgstr "Ouvre le menu de construction de la Glace (murailles comprises)."
+
+#. pros
+#: data/ui/unit_guide.json:rime_hauler
+msgid "Gathers crystals and builds every Ice building"
+msgstr "Récolte des cristaux, construit tout bâtiment de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:rime_hauler
+msgid "Sturdier than the other kingdoms' workers"
+msgstr "Plus robuste que les ouvriers des autres royaumes"
+
+#. class
+#: data/ui/unit_guide.json:rimeshield
+msgid "Armoured line infantry"
+msgstr "Infanterie de ligne blindée"
+
+#. pros
+#: data/ui/unit_guide.json:rimeshield
+msgid "Armoured front line for a tier-1 price"
+msgstr "Première ligne blindée au prix du palier 1"
+
+#. pros
+#: data/ui/unit_guide.json:rimeshield data/ui/unit_guide.json:snowdrift_rider
+msgid "Top 3 for DPS per crystal in the Ice army"
+msgstr "Top 3 en DPS par cristal dans l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:rimeshield
+msgid "Holds a choke while Shardcasters shoot"
+msgstr "Tient un passage pendant que les Shardcasters tirent"
+
+#. cons
+#: data/ui/unit_guide.json:rimeshield
+msgid "Slow: archers can kite it"
+msgstr "Lent : les archers peuvent le harceler"
+
+#. cons
+#: data/ui/unit_guide.json:rimeshield
+msgid "Slag Rain strips its armour"
+msgstr "Slag Rain lui retire son armure"
+
+#. strong_against
+#: data/ui/unit_guide.json:rimeshield
+msgid "Light melee"
+msgstr "Mêlée légère"
+
+#. weak_against
+#: data/ui/unit_guide.json:rimeshield data/ui/unit_guide.json:rime_colossus
+#: data/ui/unit_guide.json:rimehorn_rider data/ui/unit_guide.json:frostcrown_juggernaut
+#: data/ui/unit_guide.json:shardguard data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Slag Rain"
+msgstr "Slag Rain"
+
+#. class
+#: data/ui/unit_guide.json:shardcaster
+msgid "Frost archer"
+msgstr "Archer de givre"
+
+#. pros
+#: data/ui/unit_guide.json:shardcaster
+msgid "Every hit chills: foes move and attack slower"
+msgstr "Chaque coup gèle : l'ennemi bouge et frappe plus lentement"
+
+#. pros
+#: data/ui/unit_guide.json:shardcaster data/ui/unit_guide.json:rime_seer
+msgid "Top 3 for sight in the Ice army"
+msgstr "Top 3 en vision dans l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:shardcaster
+msgid "Good range for a tier-1 unit"
+msgstr "Bonne portée pour une unité de palier 1"
+
+#. cons
+#: data/ui/unit_guide.json:shardcaster data/ui/unit_guide.json:briar_roc
+msgid "Low DPS for its price"
+msgstr "Faible DPS pour son prix"
+
+#. cons
+#: data/ui/unit_guide.json:shardcaster
+msgid "Fragile against cavalry that gets through"
+msgstr "Fragile face à la cavalerie qui perce"
+
+#. strong_against
+#: data/ui/unit_guide.json:shardcaster data/ui/unit_guide.json:rimecarver
+#: data/ui/unit_guide.json:greenheart_oathkeeper data/ui/unit_guide.json:helper_maelis
+#: data/ui/unit_guide.json:oathwall
+msgid "Melee rushes"
+msgstr "Assauts de mêlée"
+
+#. strong_against
+#: data/ui/unit_guide.json:shardcaster data/ui/unit_guide.json:frostbow
+#: data/ui/unit_guide.json:snowdrift_rider data/ui/unit_guide.json:vinelasher
+#: data/ui/unit_guide.json:wayfinder
+msgid "Fleeing units"
+msgstr "Unités en fuite"
+
+#. class
+#: data/ui/unit_guide.json:rime_seer
+msgid "Shield mage"
+msgstr "Mage de bouclier"
+
+#. text
+#: data/ui/unit_guide.json:rime_seer
+msgid "Every few seconds, shields a hurt soldier in range."
+msgstr "À intervalles de quelques secondes, protège un soldat blessé à portée."
+
+#. pros
+#: data/ui/unit_guide.json:rime_seer
+msgid "Shields hurt soldiers in range on its own"
+msgstr "Protège seul les soldats blessés à portée"
+
+#. pros
+#: data/ui/unit_guide.json:rime_seer
+msgid "Keeps a line alive through burst damage"
+msgstr "Garde une ligne en vie face aux dégâts soudains"
+
+#. cons
+#: data/ui/unit_guide.json:rime_seer
+msgid "Worst HP per crystal in the Ice army"
+msgstr "Pires PV par cristal de l'armée de Glace"
+
+#. cons
+#: data/ui/unit_guide.json:rime_seer data/ui/unit_guide.json:bloomtender
+msgid "Barely fights by itself"
+msgstr "Combat à peine par lui-même"
+
+#. strong_against
+#: data/ui/unit_guide.json:rime_seer data/ui/unit_guide.json:bloomtender
+#: data/ui/unit_guide.json:helper_maelis data/ui/unit_guide.json:hollow_oathsworn
+#: data/ui/unit_guide.json:mender
+msgid "Burst damage"
+msgstr "Dégâts soudains"
+
+#. strong_against
+#: data/ui/unit_guide.json:rime_seer
+msgid "Archer volleys"
+msgstr "Volées d'archers"
+
+#. class
+#: data/ui/unit_guide.json:rime_colossus data/ui/unit_guide.json:shadow_knight
+msgid "Heavy elite"
+msgstr "Élite lourde"
+
+#. pros
+#: data/ui/unit_guide.json:rime_colossus
+msgid "Top 3 for HP in the Ice army"
+msgstr "Top 3 en PV dans l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:rime_colossus
+msgid "Top 3 for damage per hit in the Ice army"
+msgstr "Top 3 en dégâts par coup dans l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:rime_colossus data/ui/unit_guide.json:rimehorn_rider
+msgid "Every hit chills its target"
+msgstr "Chaque coup gèle sa cible"
+
+#. cons
+#: data/ui/unit_guide.json:rime_colossus data/ui/unit_guide.json:frost_mortar
+msgid "Slowest unit in any army"
+msgstr "Unité la plus lente de toutes les armées"
+
+#. cons
+#: data/ui/unit_guide.json:rime_colossus
+msgid "Kited forever by fast ranged units"
+msgstr "Harcelé sans fin par les unités à distance rapides"
+
+#. summary
+#: data/ui/unit_guide.json:frostbow
+msgid "Ice's Hall bowman: very long range, every arrow chills."
+msgstr "Archer de la salle de Glace : très longue portée, chaque flèche gèle."
+
+#. text
+#: data/ui/unit_guide.json:frostbow
+msgid "Every arrow chills the target."
+msgstr "Chaque flèche gèle la cible."
+
+#. text
+#: data/ui/unit_guide.json:frostbow
+msgid "Every few seconds, the next arrow at a running unit chills it much longer."
+msgstr "À intervalles de quelques secondes, la flèche suivante sur une unité en course la gèle bien plus longtemps."
+
+#. text
+#: data/ui/unit_guide.json:frostbow
+msgid "Rimed Shafts: longer chill, faster Hamstring."
+msgstr "Rimed Shafts : gel plus long, Hamstring plus rapide."
+
+#. pros
+#: data/ui/unit_guide.json:frostbow
+msgid "Top 3 for range in any army"
+msgstr "Top 3 en portée de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:frostbow data/ui/unit_guide.json:frost_mortar
+msgid "Longest sight in the Ice army"
+msgstr "Plus longue vision de l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:frostbow
+msgid "Chills every target; Hamstring slows runners"
+msgstr "Gèle chaque cible; Hamstring ralentit les fuyards"
+
+#. cons
+#: data/ui/unit_guide.json:frostbow
+msgid "Slow rate of fire"
+msgstr "Cadence de tir lente"
+
+#. class
+#: data/ui/unit_guide.json:rimeling
+msgid "Frost goblin"
+msgstr "Gobelin de givre"
+
+#. pros
+#: data/ui/unit_guide.json:rimeling
+msgid "Cheapest unit in the Ice army"
+msgstr "Unité la moins chère de l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:rimeling
+msgid "Best DPS per crystal in the Ice army"
+msgstr "Meilleur DPS par cristal de l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:rimeling data/ui/unit_guide.json:snowdrift_rider
+msgid "Armoured, and every hit chills"
+msgstr "Blindé, et chaque coup gèle"
+
+#. cons
+#: data/ui/unit_guide.json:rimeling
+msgid "Lowest HP in the Ice army"
+msgstr "Moins de PV de l'armée de Glace"
+
+#. cons
+#: data/ui/unit_guide.json:rimeling
+msgid "Melts to area damage"
+msgstr "Fond sous les dégâts de zone"
+
+#. class
+#: data/ui/unit_guide.json:hoarlight_magebow
+msgid "Mage archer"
+msgstr "Archer mage"
+
+#. pros
+#: data/ui/unit_guide.json:hoarlight_magebow
+msgid "Top 3 for range in the Ice army"
+msgstr "Top 3 en portée dans l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:hoarlight_magebow
+msgid "Quick to train for a tier-2 unit"
+msgstr "Vite formé pour une unité de palier 2"
+
+#. pros
+#: data/ui/unit_guide.json:hoarlight_magebow
+msgid "Frost Needle: a big chilling bolt"
+msgstr "Frost Needle : un gros trait glaçant"
+
+#. cons
+#: data/ui/unit_guide.json:hoarlight_magebow
+msgid "Low DPS between needles"
+msgstr "Faible DPS entre deux aiguilles"
+
+#. cons
+#: data/ui/unit_guide.json:hoarlight_magebow
+msgid "Fragile like every archer"
+msgstr "Fragile comme tout archer"
+
+#. class
+#: data/ui/unit_guide.json:frost_mortar
+msgid "Frost siege"
+msgstr "Siège de givre"
+
+#. pros
+#: data/ui/unit_guide.json:frost_mortar
+msgid "Longest range in any army"
+msgstr "Plus longue portée de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:frost_mortar
+msgid "Frost Shell hits and chills a whole area"
+msgstr "Frost Shell frappe et gèle toute une zone"
+
+#. cons
+#: data/ui/unit_guide.json:frost_mortar
+msgid "Slow to fire and helpless up close"
+msgstr "Tir lent, sans défense au corps à corps"
+
+#. strong_against
+#: data/ui/unit_guide.json:frost_mortar
+msgid "Buildings"
+msgstr "Bâtiments"
+
+#. class
+#: data/ui/unit_guide.json:snowdrift_rider
+msgid "Armoured scout"
+msgstr "Éclaireur blindé"
+
+#. pros
+#: data/ui/unit_guide.json:snowdrift_rider data/ui/unit_guide.json:rime_harrier
+msgid "Fastest unit in the Ice army"
+msgstr "Unité la plus rapide de l'armée de Glace"
+
+#. cons
+#: data/ui/unit_guide.json:snowdrift_rider
+msgid "Less DPS than the other kingdoms' T1 riders"
+msgstr "Moins de DPS que les cavaliers T1 des autres royaumes"
+
+#. cons
+#: data/ui/unit_guide.json:snowdrift_rider
+msgid "Costs 2 pop"
+msgstr "Coûte 2 pop."
+
+#. class
+#: data/ui/unit_guide.json:rime_harrier
+msgid "Mounted frost javelins"
+msgstr "Javelots de givre montés"
+
+#. pros
+#: data/ui/unit_guide.json:rime_harrier
+msgid "Chilling javelins thrown on the move"
+msgstr "Javelots glaçants lancés en mouvement"
+
+#. pros
+#: data/ui/unit_guide.json:rime_harrier
+msgid "Light armour for a skirmisher"
+msgstr "Armure légère pour un tirailleur"
+
+#. cons
+#: data/ui/unit_guide.json:rime_harrier data/ui/unit_guide.json:bramble_harrier
+#: data/ui/unit_guide.json:duskbolt_harrier
+msgid "Fragile up close"
+msgstr "Fragile au corps à corps"
+
+#. cons
+#: data/ui/unit_guide.json:rime_harrier
+msgid "Low DPS for 2 pop"
+msgstr "Faible DPS pour 2 pop."
+
+#. class
+#: data/ui/unit_guide.json:rimehorn_rider
+msgid "Armoured breaker"
+msgstr "Briseur blindé"
+
+#. pros
+#: data/ui/unit_guide.json:rimehorn_rider
+msgid "Top 3 for DPS in the Ice army"
+msgstr "Top 3 en DPS dans l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:rimehorn_rider
+msgid "Top 3 for armour in the Ice army"
+msgstr "Top 3 en armure dans l'armée de Glace"
+
+#. cons
+#: data/ui/unit_guide.json:rimehorn_rider
+msgid "Slower than the light riders"
+msgstr "Plus lent que les cavaliers légers"
+
+#. class
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Elite juggernaut"
+msgstr "Mastodonte d'élite"
+
+#. pros
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Highest HP in any army"
+msgstr "Plus de PV de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Most armour in any army"
+msgstr "Plus d'armure de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Highest DPS in the Ice army"
+msgstr "Plus haut DPS de l'armée de Glace"
+
+#. cons
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Most expensive unit in any army"
+msgstr "Unité la plus chère de toutes les armées"
+
+#. weak_against
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Kiting + roots"
+msgstr "Harcèlement + racines"
+
+#. class
+#: data/ui/unit_guide.json:rimecarver
+msgid "Wall caster"
+msgstr "Lanceur de murailles"
+
+#. pros
+#: data/ui/unit_guide.json:rimecarver
+msgid "Rime Bulwark walls off a choke for a while"
+msgstr "Rime Bulwark bloque un passage un moment"
+
+#. pros
+#: data/ui/unit_guide.json:rimecarver
+msgid "Scrying Rune sees into the fog and reveals"
+msgstr "Scrying Rune voit dans le brouillard et révèle"
+
+#. pros
+#: data/ui/unit_guide.json:rimecarver
+msgid "Stillness: faster mana while standing still"
+msgstr "Stillness : mana plus rapide à l'arrêt"
+
+#. cons
+#: data/ui/unit_guide.json:rimecarver
+msgid "Lowest DPS in the Ice army"
+msgstr "Plus faible DPS de l'armée de Glace"
+
+#. cons
+#: data/ui/unit_guide.json:rimecarver
+msgid "Walls also block your own ground units"
+msgstr "Les murailles bloquent aussi vos unités au sol"
+
+#. strong_against
+#: data/ui/unit_guide.json:rimecarver data/ui/unit_guide.json:wayfinder
+msgid "Hidden units"
+msgstr "Unités cachées"
+
+#. weak_against
+#: data/ui/unit_guide.json:rimecarver
+msgid "Flyers"
+msgstr "Volants"
+
+#. weak_against
+#: data/ui/unit_guide.json:rimecarver
+msgid "Ranged armies"
+msgstr "Armées à distance"
+
+#. weak_against
+#: data/ui/unit_guide.json:rimecarver
+msgid "Cavalry flanks"
+msgstr "Flancs de cavalerie"
+
+#. class
+#: data/ui/unit_guide.json:shardguard
+msgid "Halberdier"
+msgstr "Hallebardier"
+
+#. text
+#: data/ui/unit_guide.json:shardguard
+msgid "Stops a charging rider in reach and freezes it for a moment."
+msgstr "Arrête un cavalier qui charge à portée et le gèle un moment."
+
+#. text
+#: data/ui/unit_guide.json:shardguard
+msgid "Taunts nearby enemies onto itself."
+msgstr "Provoque les ennemis proches pour qu'ils l'attaquent."
+
+#. pros
+#: data/ui/unit_guide.json:shardguard
+msgid "Best HP per crystal in any army"
+msgstr "Meilleurs PV par cristal de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:shardguard
+msgid "Hold the Line stops charging riders cold"
+msgstr "Hold the Line stoppe net les cavaliers qui chargent"
+
+#. pros
+#: data/ui/unit_guide.json:shardguard
+msgid "Challenge taunts divers off your archers"
+msgstr "Challenge détourne les plongeurs de vos archers"
+
+#. cons
+#: data/ui/unit_guide.json:shardguard data/ui/unit_guide.json:bramblehorn
+msgid "Slow: easy to kite"
+msgstr "Lent : facile à harceler"
+
+#. cons
+#: data/ui/unit_guide.json:shardguard
+msgid "Low damage for 3 pop"
+msgstr "Peu de dégâts pour 3 pop."
+
+#. class
+#: data/ui/unit_guide.json:helper_aldra
+msgid "The Glass Warden (helper)"
+msgstr "The Glass Warden (assistant)"
+
+#. summary
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Ice's tier-3 helper: a glass-warden mage who fights beside Torvald. Autonomous; its level is your wizard's."
+msgstr "Assistante de palier 3 de la Glace : une mage gardienne de verre aux côtés de Torvald. Autonome; elle a le niveau de votre sorcier."
+
+#. text
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Aura: allies near her take less damage from arrows and spells."
+msgstr "Aura : les alliés près d'elle subissent moins de dégâts des flèches et des sorts."
+
+#. text
+#: data/ui/unit_guide.json:helper_aldra
+msgid "A line of glass shards hits and chills up to 6 enemies."
+msgstr "Une ligne d'éclats de verre frappe et gèle jusqu'à 6 ennemis."
+
+#. text
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Shields the 4 most hurt allies near her."
+msgstr "Protège les 4 alliés les plus blessés près d'elle."
+
+#. text
+#: data/ui/unit_guide.json:helper_aldra
+msgid "A Rime Colossus bursts from the ice and fights for 30 s."
+msgstr "Un Rime Colossus jaillit de la glace et combat 30 s."
+
+#. pros
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Ward: allies near her take less ranged damage"
+msgstr "Ward : les alliés près d'elle subissent moins de dégâts à distance"
+
+#. pros
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Glass Aegis shields hurt allies"
+msgstr "Glass Aegis protège les alliés blessés"
+
+#. pros
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Long range for a helper; levels with your wizard"
+msgstr "Longue portée pour un assistant; monte avec votre sorcier"
+
+#. strong_against
+#: data/ui/unit_guide.json:helper_aldra data/ui/unit_guide.json:bramblesage
+msgid "Archer armies"
+msgstr "Armées d'archers"
+
+#. strong_against
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Lines"
+msgstr "Lignes"
+
+#. good_with
+#: data/ui/unit_guide.json:helper_aldra
+msgid "Torvald (frost bond)"
+msgstr "Torvald (lien de givre)"
+
+#. summary
+#: data/ui/unit_guide.json:sprigling
+msgid "Worker. Gathers crystals and builds; regenerates."
+msgstr "Ouvrier. Récolte des cristaux et construit; se régénère."
+
+#. text
+#: data/ui/unit_guide.json:sprigling
+msgid "Opens the Nature build menu."
+msgstr "Ouvre le menu de construction de la Nature."
+
+#. pros
+#: data/ui/unit_guide.json:sprigling
+msgid "Cheapest worker of the four kingdoms"
+msgstr "Ouvrier le moins cher des quatre royaumes"
+
+#. pros
+#: data/ui/unit_guide.json:sprigling
+msgid "Regenerates when out of combat"
+msgstr "Se régénère hors combat"
+
+#. pros
+#: data/ui/unit_guide.json:sprigling
+msgid "Gathers crystals and builds every Nature building"
+msgstr "Récolte des cristaux, construit tout bâtiment de Nature"
+
+#. cons
+#: data/ui/unit_guide.json:sprigling
+msgid "Lowest HP of any worker"
+msgstr "Moins de PV de tous les ouvriers"
+
+#. summary
+#: data/ui/unit_guide.json:thornling
+msgid "Cheap melee line unit; regenerates out of combat."
+msgstr "Unité de ligne de mêlée bon marché; se régénère hors combat."
+
+#. pros
+#: data/ui/unit_guide.json:thornling
+msgid "Cheapest unit in the Nature army"
+msgstr "Unité la moins chère de l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:thornling
+msgid "Best DPS per crystal in the Nature army"
+msgstr "Meilleur DPS par cristal de l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:thornling data/ui/unit_guide.json:burr_slinger
+msgid "Regenerates out of combat"
+msgstr "Se régénère hors combat"
+
+#. cons
+#: data/ui/unit_guide.json:thornling
+msgid "No armour and low HP"
+msgstr "Sans armure, peu de PV"
+
+#. cons
+#: data/ui/unit_guide.json:thornling
+msgid "Short reach: kited by archers"
+msgstr "Courte allonge : harcelé par les archers"
+
+#. summary
+#: data/ui/unit_guide.json:burr_slinger
+msgid "Cheap ranged unit; regenerates out of combat."
+msgstr "Unité à distance bon marché; se régénère hors combat."
+
+#. class
+#: data/ui/unit_guide.json:burr_slinger
+msgid "Slinger"
+msgstr "Frondeur"
+
+#. pros
+#: data/ui/unit_guide.json:burr_slinger
+msgid "Top 3 for range in the Nature army"
+msgstr "Top 3 en portée dans l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:burr_slinger
+msgid "Cheap and quick to train"
+msgstr "Pas cher et vite formé"
+
+#. cons
+#: data/ui/unit_guide.json:burr_slinger data/ui/unit_guide.json:thistle_darter
+msgid "Lowest HP in any army"
+msgstr "Moins de PV de toutes les armées"
+
+#. cons
+#: data/ui/unit_guide.json:burr_slinger
+msgid "Low damage per shot"
+msgstr "Peu de dégâts par tir"
+
+#. summary
+#: data/ui/unit_guide.json:bloomtender
+msgid "Support. Heals hurt soldiers nearby."
+msgstr "Soutien. Soigne les soldats blessés proches."
+
+#. class
+#: data/ui/unit_guide.json:bloomtender
+msgid "Healer"
+msgstr "Soigneur"
+
+#. text
+#: data/ui/unit_guide.json:bloomtender
+msgid "Every few seconds, heals a hurt ally in range."
+msgstr "À intervalles de quelques secondes, soigne un allié blessé à portée."
+
+#. pros
+#: data/ui/unit_guide.json:bloomtender
+msgid "Heals hurt allies in range on its own"
+msgstr "Soigne seul les alliés blessés à portée"
+
+#. pros
+#: data/ui/unit_guide.json:bloomtender
+msgid "Cheap healer that regenerates itself"
+msgstr "Soigneur bon marché qui se régénère"
+
+#. pros
+#: data/ui/unit_guide.json:bloomtender
+msgid "Wins long fights for your army"
+msgstr "Fait gagner les longs combats à votre armée"
+
+#. cons
+#: data/ui/unit_guide.json:bloomtender
+msgid "Low HP: a priority target"
+msgstr "Peu de PV : une cible prioritaire"
+
+#. strong_against
+#: data/ui/unit_guide.json:bloomtender data/ui/unit_guide.json:gloom_deacon
+#: data/ui/unit_guide.json:nightblood_reaver data/ui/unit_guide.json:mender
+msgid "Long fights"
+msgstr "Longs combats"
+
+#. strong_against
+#: data/ui/unit_guide.json:bloomtender data/ui/unit_guide.json:mender
+msgid "Chip damage"
+msgstr "Dégâts d'usure"
+
+#. summary
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Heavy beast of the Grove Hall: big HP, fast regeneration."
+msgstr "Bête lourde de la Grove Hall : beaucoup de PV, régénération rapide."
+
+#. class
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Heavy beast"
+msgstr "Bête lourde"
+
+#. pros
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Best HP per crystal in the Nature army"
+msgstr "Meilleurs PV par cristal de l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Top 3 for damage per hit in the Nature army"
+msgstr "Top 3 en dégâts par coup dans l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Fast regeneration out of combat"
+msgstr "Régénération rapide hors combat"
+
+#. cons
+#: data/ui/unit_guide.json:bramblehorn
+msgid "No armour despite its size"
+msgstr "Aucune armure malgré sa taille"
+
+#. strong_against
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Ranged in reach"
+msgstr "Unités à distance à portée"
+
+#. weak_against
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Bleed / burn"
+msgstr "Saignement / brûlure"
+
+#. summary
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Nature's Hall bowman: the cheapest bowman, built up by Grove Hall research."
+msgstr "Archer de la salle de Nature : l'archer le moins cher, renforcé par les recherches de la Grove Hall."
+
+#. text
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Keen Eye and Heartseeker give crits; Hunting Party trains a free second archer."
+msgstr "Keen Eye et Heartseeker donnent des critiques; Hunting Party forme un 2e archer gratuit."
+
+#. pros
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Longest range in the Nature army"
+msgstr "Plus longue portée de l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Cheapest bowman of the four kingdoms"
+msgstr "Archer le moins cher des quatre royaumes"
+
+#. pros
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Research turns it into a crit machine"
+msgstr "Les recherches en font une machine à critiques"
+
+#. cons
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Fragile: low HP"
+msgstr "Fragile : peu de PV"
+
+#. cons
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Weak until its Hall research is done"
+msgstr "Faible avant la fin de ses recherches en salle"
+
+#. strong_against
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Late mass fights"
+msgstr "Grandes batailles tardives"
+
+#. weak_against
+#: data/ui/unit_guide.json:wildwood_archer
+msgid "Early rushes"
+msgstr "Assauts précoces"
+
+#. class
+#: data/ui/unit_guide.json:thistle_darter
+msgid "Skirmisher"
+msgstr "Tirailleur"
+
+#. pros
+#: data/ui/unit_guide.json:thistle_darter
+msgid "Cheap, quick skirmisher"
+msgstr "Tirailleur rapide et bon marché"
+
+#. pros
+#: data/ui/unit_guide.json:thistle_darter
+msgid "Skitter: runs faster after each dart"
+msgstr "Skitter : court plus vite après chaque dard"
+
+#. pros
+#: data/ui/unit_guide.json:thistle_darter
+msgid "Top 3 for sight in the Nature army"
+msgstr "Top 3 en vision dans l'armée de Nature"
+
+#. cons
+#: data/ui/unit_guide.json:thistle_darter data/ui/unit_guide.json:hexweaver
+msgid "Low DPS"
+msgstr "Faible DPS"
+
+#. class
+#: data/ui/unit_guide.json:vinelasher
+msgid "Whip fighter"
+msgstr "Combattant au fouet"
+
+#. pros
+#: data/ui/unit_guide.json:vinelasher
+msgid "Snare Lash roots a target for a moment"
+msgstr "Snare Lash enracine une cible un moment"
+
+#. pros
+#: data/ui/unit_guide.json:vinelasher
+msgid "Whip reach: hits from behind the front rank"
+msgstr "Allonge du fouet : frappe derrière la 1re ligne"
+
+#. pros
+#: data/ui/unit_guide.json:vinelasher
+msgid "Solid HP for its price"
+msgstr "Bons PV pour son prix"
+
+#. cons
+#: data/ui/unit_guide.json:vinelasher
+msgid "Average damage for a tier-2 unit"
+msgstr "Dégâts moyens pour une unité de palier 2"
+
+#. cons
+#: data/ui/unit_guide.json:vinelasher
+msgid "No regeneration, unlike most Nature units"
+msgstr "Aucune régénération, contrairement à la Nature"
+
+#. class
+#: data/ui/unit_guide.json:greenheart_oathkeeper data/ui/unit_guide.json:hollow_oathsworn
+msgid "Oath swordsman"
+msgstr "Épéiste assermenté"
+
+#. pros
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Most armour in the Nature army"
+msgstr "Plus d'armure de l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Grove Oath taunts nearby foes and braces"
+msgstr "Grove Oath provoque les ennemis proches et se raffermit"
+
+#. pros
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Top 3 for HP per crystal in the Nature army"
+msgstr "Top 3 en PV par cristal dans l'armée de Nature"
+
+#. cons
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Slowest unit in the Nature army"
+msgstr "Unité la plus lente de l'armée de Nature"
+
+#. cons
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Low damage: a wall, not a killer"
+msgstr "Peu de dégâts : un mur, pas un tueur"
+
+#. class
+#: data/ui/unit_guide.json:stagrunner
+msgid "Stag skirmisher"
+msgstr "Tirailleur sur cerf"
+
+#. pros
+#: data/ui/unit_guide.json:stagrunner
+msgid "Fastest unit in any army"
+msgstr "Unité la plus rapide de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:stagrunner data/ui/unit_guide.json:thornback_charger
+msgid "Top 3 for DPS in the Nature army"
+msgstr "Top 3 en DPS dans l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:stagrunner data/ui/unit_guide.json:bramble_harrier
+msgid "Regenerates between raids"
+msgstr "Se régénère entre les raids"
+
+#. cons
+#: data/ui/unit_guide.json:stagrunner
+msgid "No armour: towers and archers hurt"
+msgstr "Sans armure : tours et archers font mal"
+
+#. class
+#: data/ui/unit_guide.json:bramble_harrier
+msgid "Mounted thorn darts"
+msgstr "Dards d'épines montés"
+
+#. pros
+#: data/ui/unit_guide.json:bramble_harrier
+msgid "Top 3 for speed in the Nature army"
+msgstr "Top 3 en vitesse dans l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:bramble_harrier
+msgid "Thorn darts thrown on the move"
+msgstr "Dards d'épines lancés en mouvement"
+
+#. cons
+#: data/ui/unit_guide.json:bramble_harrier
+msgid "Far less DPS than a Stagrunner"
+msgstr "Bien moins de DPS qu'un Stagrunner"
+
+#. class
+#: data/ui/unit_guide.json:thornback_charger
+msgid "Heavy stag charger"
+msgstr "Chargeur lourd sur cerf"
+
+#. pros
+#: data/ui/unit_guide.json:thornback_charger
+msgid "Top 3 for armour in the Nature army"
+msgstr "Top 3 en armure dans l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:thornback_charger
+msgid "Regenerates fast out of combat"
+msgstr "Se régénère vite hors combat"
+
+#. class
+#: data/ui/unit_guide.json:glade_outrider
+msgid "Horse archer"
+msgstr "Archer monté"
+
+#. pros
+#: data/ui/unit_guide.json:glade_outrider
+msgid "Highest DPS in the Nature army"
+msgstr "Plus haut DPS de l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:glade_outrider
+msgid "Top 3 for speed in any army"
+msgstr "Top 3 en vitesse de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:glade_outrider
+msgid "Shoots from range on a fast mount"
+msgstr "Tire à distance sur une monture rapide"
+
+#. cons
+#: data/ui/unit_guide.json:glade_outrider data/ui/unit_guide.json:briar_roc
+msgid "Most expensive unit in the Nature army"
+msgstr "Unité la plus chère de l'armée de Nature"
+
+#. class
+#: data/ui/unit_guide.json:bramblesage
+msgid "Vine caster"
+msgstr "Lanceur de lianes"
+
+#. pros
+#: data/ui/unit_guide.json:bramblesage
+msgid "Snagroot drags one enemy into your army"
+msgstr "Snagroot tire un ennemi dans votre armée"
+
+#. pros
+#: data/ui/unit_guide.json:bramblesage
+msgid "Pollen Haze blinds enemy ranged units"
+msgstr "Pollen Haze aveugle les unités à distance ennemies"
+
+#. pros
+#: data/ui/unit_guide.json:bramblesage
+msgid "Seedcloak hides it in pollen when hurt"
+msgstr "Seedcloak le cache dans le pollen s'il est blessé"
+
+#. cons
+#: data/ui/unit_guide.json:bramblesage
+msgid "Lowest DPS in the Nature army"
+msgstr "Plus faible DPS de l'armée de Nature"
+
+#. cons
+#: data/ui/unit_guide.json:bramblesage
+msgid "Frail for its price"
+msgstr "Frêle pour son prix"
+
+#. weak_against
+#: data/ui/unit_guide.json:bramblesage data/ui/unit_guide.json:gloom_deacon
+#: scripts/units/caster_kit.gd:42
+msgid "Mana Scald"
+msgstr "Mana Scald"
+
+#. weak_against
+#: data/ui/unit_guide.json:bramblesage
+msgid "Big units"
+msgstr "Grosses unités"
+
+#. class
+#: data/ui/unit_guide.json:briar_roc
+msgid "Thorn bird (flyer)"
+msgstr "Oiseau d'épines (volant)"
+
+#. text
+#: data/ui/unit_guide.json:briar_roc
+msgid "Flies: Rime Bulwark walls do not stop it."
+msgstr "Vole : les murs de Rime Bulwark ne l'arrêtent pas."
+
+#. text
+#: data/ui/unit_guide.json:briar_roc
+msgid "A seed burst on a cooldown that hurts and roots ground enemies."
+msgstr "Une salve de graines (avec recharge) qui blesse et enracine les ennemis au sol."
+
+#. pros
+#: data/ui/unit_guide.json:briar_roc
+msgid "Highest HP in the Nature army"
+msgstr "Plus de PV de l'armée de Nature"
+
+#. pros
+#: data/ui/unit_guide.json:briar_roc
+msgid "Flies over Rime Bulwark walls"
+msgstr "Survole les murs de Rime Bulwark"
+
+#. pros
+#: data/ui/unit_guide.json:briar_roc
+msgid "Seed Storm roots ground enemies"
+msgstr "Seed Storm enracine les ennemis au sol"
+
+#. strong_against
+#: data/ui/unit_guide.json:briar_roc
+msgid "Melee clumps"
+msgstr "Mêlée groupée"
+
+#. strong_against
+#: data/ui/unit_guide.json:briar_roc
+msgid "Walls and chokes"
+msgstr "Murailles et passages"
+
+#. class
+#: data/ui/unit_guide.json:helper_maelis
+msgid "The Wildcaller (helper)"
+msgstr "The Wildcaller (assistant)"
+
+#. summary
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Nature's tier-3 helper: a wildcaller archer who fights beside Ysolde. Autonomous; its level is your wizard's."
+msgstr "Assistante de palier 3 de la Nature : une archère appelle-bêtes aux côtés d'Ysolde. Autonome; elle a le niveau de votre sorcière."
+
+#. text
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Her Spirit Wolves and your Saplings near her attack and move faster."
+msgstr "Ses Spirit Wolves et vos Saplings près d'elle attaquent et bougent plus vite."
+
+#. text
+#: data/ui/unit_guide.json:helper_maelis
+msgid "A thorn ring hurts and roots ground enemies."
+msgstr "Un anneau d'épines blesse et enracine les ennemis au sol."
+
+#. text
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Summons 2 Spirit Wolves for 20 s."
+msgstr "Invoque 2 Spirit Wolves pour 20 s."
+
+#. text
+#: data/ui/unit_guide.json:helper_maelis
+msgid "A spirit stampede knocks back and dazes a line of enemies."
+msgstr "Une ruée d'esprits repousse et étourdit une ligne d'ennemis."
+
+#. pros
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Call the Pack adds Spirit Wolves to fights"
+msgstr "Call the Pack ajoute des Spirit Wolves aux combats"
+
+#. pros
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Thornsnare roots groups of enemies"
+msgstr "Thornsnare enracine des groupes d'ennemis"
+
+#. pros
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Long range; levels with your wizard"
+msgstr "Longue portée; monte avec votre sorcier"
+
+#. good_with
+#: data/ui/unit_guide.json:helper_maelis
+msgid "Ysolde (root bond)"
+msgstr "Ysolde (lien de racines)"
+
+#. summary
+#: data/ui/unit_guide.json:gloom_thrall
+msgid "Worker. Gathers crystals and builds."
+msgstr "Ouvrier. Récolte des cristaux et construit."
+
+#. text
+#: data/ui/unit_guide.json:gloom_thrall
+msgid "Opens the Shadow build menu."
+msgstr "Ouvre le menu de construction de l'Ombre."
+
+#. pros
+#: data/ui/unit_guide.json:gloom_thrall
+msgid "Gathers crystals and builds every Shadow building"
+msgstr "Récolte des cristaux, construit tout bâtiment d'Ombre"
+
+#. summary
+#: data/ui/unit_guide.json:shade
+msgid "Melee line unit of the Gloom Hall."
+msgstr "Unité de ligne de mêlée de la Gloom Hall."
+
+#. pros
+#: data/ui/unit_guide.json:shade
+msgid "Top 3 for DPS per crystal in the Shadow army"
+msgstr "Top 3 en DPS par cristal dans l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:shade
+msgid "Cheap, quick front line"
+msgstr "Première ligne rapide et bon marché"
+
+#. pros
+#: data/ui/unit_guide.json:shade
+msgid "Shields Nightbolts and Bleakbows"
+msgstr "Protège Nightbolts et Bleakbows"
+
+#. cons
+#: data/ui/unit_guide.json:shade data/ui/unit_guide.json:duskbolt_harrier
+msgid "No armour"
+msgstr "Aucune armure"
+
+#. summary
+#: data/ui/unit_guide.json:nightbolt
+msgid "Ranged unit of the Gloom Hall."
+msgstr "Unité à distance de la Gloom Hall."
+
+#. class
+#: data/ui/unit_guide.json:nightbolt
+msgid "Bolt thrower"
+msgstr "Lance-carreaux"
+
+#. pros
+#: data/ui/unit_guide.json:nightbolt data/ui/unit_guide.json:bleakbow
+msgid "Longest range in the Shadow army"
+msgstr "Plus longue portée de l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:nightbolt data/ui/unit_guide.json:grave_hound
+msgid "Longest sight in the Shadow army"
+msgstr "Plus longue vision de l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:nightbolt
+msgid "Cheap ranged damage"
+msgstr "Dégâts à distance bon marché"
+
+#. cons
+#: data/ui/unit_guide.json:nightbolt
+msgid "Lowest HP in the Shadow army"
+msgstr "Moins de PV de l'armée d'Ombre"
+
+#. cons
+#: data/ui/unit_guide.json:nightbolt
+msgid "Fragile against cavalry"
+msgstr "Fragile face à la cavalerie"
+
+#. summary
+#: data/ui/unit_guide.json:grave_hound
+msgid "Fast, cheap harasser. Strong damage for its price, little HP."
+msgstr "Harceleur rapide et bon marché. Gros dégâts pour son prix, peu de PV."
+
+#. class
+#: data/ui/unit_guide.json:grave_hound
+msgid "Fast harasser"
+msgstr "Harceleur rapide"
+
+#. pros
+#: data/ui/unit_guide.json:grave_hound
+msgid "Best DPS per crystal in the Shadow army"
+msgstr "Meilleur DPS par cristal de l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:grave_hound
+msgid "Top 3 for speed in the Shadow army"
+msgstr "Top 3 en vitesse dans l'armée d'Ombre"
+
+#. cons
+#: data/ui/unit_guide.json:grave_hound
+msgid "Low HP: dies fast in a real fight"
+msgstr "Peu de PV : meurt vite en vrai combat"
+
+#. cons
+#: data/ui/unit_guide.json:grave_hound
+msgid "Short reach"
+msgstr "Courte allonge"
+
+#. summary
+#: data/ui/unit_guide.json:shadow_knight
+msgid "Heavy elite of the Gloom Hall: lots of HP, slow."
+msgstr "Élite lourde de la Gloom Hall : beaucoup de PV, lente."
+
+#. pros
+#: data/ui/unit_guide.json:shadow_knight data/ui/unit_guide.json:nightblood_reaver
+msgid "Best HP per crystal in the Shadow army"
+msgstr "Meilleurs PV par cristal de l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:shadow_knight
+msgid "Top 3 for HP in the Shadow army"
+msgstr "Top 3 en PV dans l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:shadow_knight
+msgid "A heavy you can train from tier 1"
+msgstr "Une unité lourde formable dès le palier 1"
+
+#. cons
+#: data/ui/unit_guide.json:shadow_knight
+msgid "Slowest unit in the Shadow army"
+msgstr "Unité la plus lente de l'armée d'Ombre"
+
+#. cons
+#: data/ui/unit_guide.json:shadow_knight
+msgid "No armour for a heavy"
+msgstr "Aucune armure pour une unité lourde"
+
+#. strong_against
+#: data/ui/unit_guide.json:shadow_knight
+msgid "Light cavalry"
+msgstr "Cavalerie légère"
+
+#. summary
+#: data/ui/unit_guide.json:bleakbow
+msgid "Shadow's Hall bowman: stacking bleed that wears down tough targets."
+msgstr "Archer de la salle d'Ombre : saignements cumulés qui usent les cibles coriaces."
+
+#. text
+#: data/ui/unit_guide.json:bleakbow
+msgid "Every arrow adds a bleed stack (up to 3) that keeps ticking."
+msgstr "Chaque flèche ajoute un saignement (jusqu'à 3) qui continue de frapper."
+
+#. text
+#: data/ui/unit_guide.json:bleakbow
+msgid "Serrated Barbs: more bleed stacks."
+msgstr "Serrated Barbs : plus de saignements cumulés."
+
+#. pros
+#: data/ui/unit_guide.json:bleakbow
+msgid "Bleed stacks melt tanks and heroes"
+msgstr "Les saignements font fondre tanks et héros"
+
+#. pros
+#: data/ui/unit_guide.json:bleakbow
+msgid "Bleed keeps ticking after the fight"
+msgstr "Le saignement continue après le combat"
+
+#. cons
+#: data/ui/unit_guide.json:bleakbow
+msgid "Worst HP per crystal in the Shadow army"
+msgstr "Pires PV par cristal de l'armée d'Ombre"
+
+#. cons
+#: data/ui/unit_guide.json:bleakbow
+msgid "Bleed spreads thin over many small units"
+msgstr "Le saignement se dilue sur de nombreuses petites unités"
+
+#. strong_against
+#: data/ui/unit_guide.json:bleakbow
+msgid "Tanks"
+msgstr "Tanks"
+
+#. strong_against
+#: data/ui/unit_guide.json:bleakbow data/ui/unit_guide.json:hexweaver
+#: data/ui/unit_guide.json:helper_hush
+msgid "Heroes"
+msgstr "Héros"
+
+#. strong_against
+#: data/ui/unit_guide.json:bleakbow
+msgid "Champions"
+msgstr "Champions"
+
+#. weak_against
+#: data/ui/unit_guide.json:bleakbow
+msgid "Burst"
+msgstr "Dégâts soudains"
+
+#. class
+#: data/ui/unit_guide.json:barrow_ghoul
+msgid "Ghoul"
+msgstr "Goule"
+
+#. pros
+#: data/ui/unit_guide.json:barrow_ghoul
+msgid "Cheapest unit in the Shadow army"
+msgstr "Unité la moins chère de l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:barrow_ghoul
+msgid "Grave Feast heals it on each kill"
+msgstr "Grave Feast le soigne à chaque victime"
+
+#. pros
+#: data/ui/unit_guide.json:barrow_ghoul
+msgid "Top 3 for DPS per crystal in any army"
+msgstr "Top 3 en DPS par cristal de toutes les armées"
+
+#. cons
+#: data/ui/unit_guide.json:barrow_ghoul
+msgid "Low HP"
+msgstr "Peu de PV"
+
+#. cons
+#: data/ui/unit_guide.json:barrow_ghoul
+msgid "Short sight"
+msgstr "Vision courte"
+
+#. strong_against
+#: data/ui/unit_guide.json:barrow_ghoul
+msgid "Wounded units"
+msgstr "Unités blessées"
+
+#. class
+#: data/ui/unit_guide.json:hexweaver
+msgid "Hex caster"
+msgstr "Lanceur de maléfices"
+
+#. pros
+#: data/ui/unit_guide.json:hexweaver
+msgid "Wither Hex weakens the costliest enemy"
+msgstr "Wither Hex affaiblit l'ennemi le plus cher"
+
+#. pros
+#: data/ui/unit_guide.json:hexweaver
+msgid "Top 3 for range in the Shadow army"
+msgstr "Top 3 en portée dans l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:hexweaver
+msgid "Shuts down elites and heroes"
+msgstr "Neutralise élites et héros"
+
+#. cons
+#: data/ui/unit_guide.json:hexweaver
+msgid "Fragile"
+msgstr "Fragile"
+
+#. strong_against
+#: data/ui/unit_guide.json:hexweaver
+msgid "Elite units"
+msgstr "Unités d'élite"
+
+#. pros
+#: data/ui/unit_guide.json:hollow_oathsworn
+msgid "Unbroken Vow: shield and more damage when low"
+msgstr "Unbroken Vow : bouclier et plus de dégâts si blessé"
+
+#. pros
+#: data/ui/unit_guide.json:hollow_oathsworn
+msgid "Top 3 for armour in the Shadow army"
+msgstr "Top 3 en armure dans l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:hollow_oathsworn
+msgid "Solid DPS per crystal for a heavy"
+msgstr "Bon DPS par cristal pour une unité lourde"
+
+#. cons
+#: data/ui/unit_guide.json:hollow_oathsworn
+msgid "Slow"
+msgstr "Lent"
+
+#. cons
+#: data/ui/unit_guide.json:hollow_oathsworn
+msgid "Vow has a long cooldown"
+msgstr "Vow a une longue recharge"
+
+#. class
+#: data/ui/unit_guide.json:gloam_rider
+msgid "Lancer raider"
+msgstr "Lancier pillard"
+
+#. pros
+#: data/ui/unit_guide.json:gloam_rider data/ui/unit_guide.json:duskbolt_harrier
+msgid "Fastest unit in the Shadow army"
+msgstr "Unité la plus rapide de l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:gloam_rider
+msgid "Light armour for a raider"
+msgstr "Armure légère pour un pillard"
+
+#. pros
+#: data/ui/unit_guide.json:gloam_rider
+msgid "Ranks up to Gloam Marauder at the Citadel"
+msgstr "Devient Gloam Marauder à la Citadelle"
+
+#. cons
+#: data/ui/unit_guide.json:gloam_rider
+msgid "Pricey for a tier-1 unit"
+msgstr "Cher pour une unité de palier 1"
+
+#. class
+#: data/ui/unit_guide.json:duskbolt_harrier
+msgid "Mounted crossbow"
+msgstr "Arbalète montée"
+
+#. pros
+#: data/ui/unit_guide.json:duskbolt_harrier
+msgid "Crossbow on the move: hit and run"
+msgstr "Arbalète en mouvement : frappe et fuit"
+
+#. class
+#: data/ui/unit_guide.json:barrow_knight
+msgid "Grave knight"
+msgstr "Chevalier des tombes"
+
+#. pros
+#: data/ui/unit_guide.json:barrow_knight
+msgid "Top 3 for DPS in the Shadow army"
+msgstr "Top 3 en DPS dans l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:barrow_knight
+msgid "Top 3 for damage per hit in the Shadow army"
+msgstr "Top 3 en dégâts par coup dans l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:barrow_knight
+msgid "Fast for a heavy rider"
+msgstr "Rapide pour un cavalier lourd"
+
+#. cons
+#: data/ui/unit_guide.json:barrow_knight
+msgid "Roots and chill blunt it"
+msgstr "Racines et gel le freinent"
+
+#. class
+#: data/ui/unit_guide.json:veilborn_dreadrider
+msgid "Elite dread rider"
+msgstr "Cavalier d'effroi d'élite"
+
+#. pros
+#: data/ui/unit_guide.json:veilborn_dreadrider
+msgid "Highest DPS in any army"
+msgstr "Plus haut DPS de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:veilborn_dreadrider
+msgid "Hardest hitter in any army"
+msgstr "Frappe la plus forte de toutes les armées"
+
+#. pros
+#: data/ui/unit_guide.json:veilborn_dreadrider
+msgid "Highest HP in the Shadow army"
+msgstr "Plus de PV de l'armée d'Ombre"
+
+#. cons
+#: data/ui/unit_guide.json:veilborn_dreadrider
+msgid "Most expensive unit in the Shadow army"
+msgstr "Unité la plus chère de l'armée d'Ombre"
+
+#. class
+#: data/ui/unit_guide.json:gloom_deacon
+msgid "Blood caster"
+msgstr "Lanceur de sang"
+
+#. pros
+#: data/ui/unit_guide.json:gloom_deacon
+msgid "Blood Tithe heals an ally and drains a foe"
+msgstr "Blood Tithe soigne un allié et draine un ennemi"
+
+#. pros
+#: data/ui/unit_guide.json:gloom_deacon
+msgid "Umbral Passage recalls soldiers from afar"
+msgstr "Umbral Passage rappelle des soldats de loin"
+
+#. pros
+#: data/ui/unit_guide.json:gloom_deacon
+msgid "Vigil: gains mana when soldiers fall near it"
+msgstr "Vigil : gagne du mana quand des soldats tombent près de lui"
+
+#. cons
+#: data/ui/unit_guide.json:gloom_deacon
+msgid "Lowest DPS in the Shadow army"
+msgstr "Plus faible DPS de l'armée d'Ombre"
+
+#. cons
+#: data/ui/unit_guide.json:gloom_deacon
+msgid "Tithe ties it to the front line"
+msgstr "Tithe le lie à la première ligne"
+
+#. strong_against
+#: data/ui/unit_guide.json:gloom_deacon
+msgid "Trapped armies"
+msgstr "Armées piégées"
+
+#. class
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Vampire duelist"
+msgstr "Duelliste vampire"
+
+#. text
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Heals part of the damage it deals; fire damage halves that for a few seconds."
+msgstr "Se soigne d'une partie de ses dégâts; les dégâts de feu réduisent cela de moitié quelques secondes."
+
+#. text
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "When badly hurt: attacks faster and drinks more blood for a few seconds."
+msgstr "Gravement blessé : attaque plus vite et boit plus de sang quelques secondes."
+
+#. pros
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Heals from the damage it deals"
+msgstr "Se soigne grâce à ses dégâts"
+
+#. pros
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Blood Frenzy: faster attacks when hurt"
+msgstr "Blood Frenzy : attaque plus vite s'il est blessé"
+
+#. cons
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Fire damage halves its healing"
+msgstr "Les dégâts de feu réduisent ses soins de moitié"
+
+#. cons
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Needs a Citadel; 3 pop each"
+msgstr "Exige une Citadelle; 3 pop. chacun"
+
+#. weak_against
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Fire damage"
+msgstr "Dégâts de feu"
+
+#. class
+#: data/ui/unit_guide.json:helper_hush
+msgid "The Knife (helper)"
+msgstr "The Knife (assistant)"
+
+#. summary
+#: data/ui/unit_guide.json:helper_hush
+msgid "Shadow's tier-3 helper: an assassin who fights beside Malrik. Autonomous; its level is your wizard's."
+msgstr "Assistante de palier 3 de l'Ombre : une assassine aux côtés de Malrik. Autonome; elle a le niveau de votre sorcier."
+
+#. text
+#: data/ui/unit_guide.json:helper_hush
+msgid "After a few quiet seconds, far enemies cannot target her; her next strike hits harder."
+msgstr "Après quelques secondes de calme, les ennemis lointains ne peuvent la cibler; son prochain coup frappe plus fort."
+
+#. text
+#: data/ui/unit_guide.json:helper_hush
+msgid "Appears behind a weak hero, helper or caster and stabs it."
+msgstr "Surgit derrière un héros, assistant ou lanceur de sorts affaibli et le poignarde."
+
+#. text
+#: data/ui/unit_guide.json:helper_hush
+msgid "Smoke that shrouds her and makes enemy shots weaker."
+msgstr "Une fumée la voile et affaiblit les tirs ennemis."
+
+#. text
+#: data/ui/unit_guide.json:helper_hush
+msgid "Vanishes, then strikes up to 6 enemies around her."
+msgstr "Disparaît, puis frappe jusqu'à 6 ennemis autour d'elle."
+
+#. pros
+#: data/ui/unit_guide.json:helper_hush
+msgid "Blink Strike hunts heroes and casters"
+msgstr "Blink Strike traque héros et lanceurs de sorts"
+
+#. pros
+#: data/ui/unit_guide.json:helper_hush
+msgid "Veiled when idle: hard to target from afar"
+msgstr "Voilée au repos : dure à cibler de loin"
+
+#. pros
+#: data/ui/unit_guide.json:helper_hush
+msgid "Night of Knives hits up to 6 foes"
+msgstr "Night of Knives frappe jusqu'à 6 ennemis"
+
+#. cons
+#: data/ui/unit_guide.json:helper_hush
+msgid "Least HP of the four helpers"
+msgstr "Moins de PV des quatre assistants"
+
+#. cons
+#: data/ui/unit_guide.json:helper_hush
+msgid "Needs a Citadel; you set a stance, not orders"
+msgstr "Exige une Citadelle; vous réglez sa posture, pas ses ordres"
+
+#. good_with
+#: data/ui/unit_guide.json:helper_hush
+msgid "Malrik (shadow bond)"
+msgstr "Malrik (lien d'ombre)"
+
+#. class
+#: data/ui/unit_guide.json:caravan
+msgid "Trade wagon"
+msgstr "Chariot marchand"
+
+#. text
+#: data/ui/unit_guide.json:caravan
+msgid "Right-click a trading post: it brings gold back to your Bazaar."
+msgstr "Clic droit sur un comptoir : elle rapporte de l'or à votre Bazar."
+
+#. pros
+#: data/ui/unit_guide.json:caravan
+msgid "Brings gold back from trading posts"
+msgstr "Rapporte de l'or des comptoirs"
+
+#. pros
+#: data/ui/unit_guide.json:caravan
+msgid "Armoured wagon with solid HP"
+msgstr "Chariot blindé aux bons PV"
+
+#. pros
+#: data/ui/unit_guide.json:caravan
+msgid "Gold buys wares, hires and contracts"
+msgstr "L'or paie marchandises, embauches et contrats"
+
+#. cons
+#: data/ui/unit_guide.json:caravan
+msgid "Cannot fight back"
+msgstr "Ne peut pas riposter"
+
+#. cons
+#: data/ui/unit_guide.json:caravan
+msgid "Magpie thieves raid trade routes"
+msgstr "Les voleurs Magpie pillent les routes de commerce"
+
+#. strong_against
+#: data/ui/unit_guide.json:caravan
+msgid "Nothing: it trades"
+msgstr "Rien : elle commerce"
+
+#. weak_against
+#: data/ui/unit_guide.json:caravan data/ui/unit_guide.json:greywater_tracker
+#: scripts/world/hunters_guild.gd:581
+msgid "Magpies"
+msgstr "Magpies"
+
+#. weak_against
+#: data/ui/unit_guide.json:caravan
+msgid "Cavalry raids"
+msgstr "Raids de cavalerie"
+
+#. good_with
+#: data/ui/unit_guide.json:caravan
+msgid "Escort riders"
+msgstr "Cavaliers d'escorte"
+
+#. summary
+#: data/ui/unit_guide.json:wayfinder
+msgid "Hired scout champion. Sees far and marks enemies; acts on bounties."
+msgstr "Champion éclaireur engagé. Voit loin et marque les ennemis; agit selon les primes."
+
+#. pros
+#: data/ui/unit_guide.json:wayfinder
+msgid "Huge sight radius: scouts the map for you"
+msgstr "Vision immense : explore la carte pour vous"
+
+#. pros
+#: data/ui/unit_guide.json:wayfinder
+msgid "Signal Flare reveals and marks an area"
+msgstr "Signal Flare révèle et marque une zone"
+
+#. pros
+#: data/ui/unit_guide.json:wayfinder
+msgid "Snare Line roots a target"
+msgstr "Snare Line enracine une cible"
+
+#. cons
+#: data/ui/unit_guide.json:wayfinder
+msgid "Least HP of the four champions"
+msgstr "Moins de PV des quatre champions"
+
+#. cons
+#: data/ui/unit_guide.json:wayfinder data/ui/unit_guide.json:oathwall
+msgid "Autonomous: follows bounties, not orders"
+msgstr "Autonome : suit les primes, pas les ordres"
+
+#. good_with
+#: data/ui/unit_guide.json:wayfinder
+msgid "Explore bounties"
+msgstr "Primes d'exploration"
+
+#. good_with
+#: data/ui/unit_guide.json:wayfinder data/ui/unit_guide.json:coin_cutter
+msgid "Hunt bounties"
+msgstr "Primes de chasse"
+
+#. summary
+#: data/ui/unit_guide.json:oathwall
+msgid "Hired guardian champion. Armoured wall that protects allies; acts on bounties."
+msgstr "Champion gardien engagé. Mur blindé qui protège les alliés; agit selon les primes."
+
+#. pros
+#: data/ui/unit_guide.json:oathwall
+msgid "Toughest champion: most HP and armour"
+msgstr "Champion le plus coriace : plus de PV et d'armure"
+
+#. pros
+#: data/ui/unit_guide.json:oathwall
+msgid "Oath of Iron armours itself and allies"
+msgstr "Oath of Iron renforce l'armure du champion et des alliés"
+
+#. pros
+#: data/ui/unit_guide.json:oathwall
+msgid "Shield Bash stuns a foe for a moment"
+msgstr "Shield Bash étourdit un ennemi un moment"
+
+#. cons
+#: data/ui/unit_guide.json:oathwall
+msgid "Slow, with low damage"
+msgstr "Lent, peu de dégâts"
+
+#. good_with
+#: data/ui/unit_guide.json:oathwall
+msgid "Guard bounties"
+msgstr "Primes de garde"
+
+#. good_with
+#: data/ui/unit_guide.json:oathwall data/ui/unit_guide.json:mender
+msgid "Escort bounties"
+msgstr "Primes d'escorte"
+
+#. summary
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Hired raider champion. Fast damage and loot; acts on bounties."
+msgstr "Champion pillard engagé. Dégâts rapides et butin; agit selon les primes."
+
+#. pros
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Highest DPS of the four champions"
+msgstr "Plus haut DPS des quatre champions"
+
+#. pros
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Cutpurse loots coin from what it hits"
+msgstr "Cutpurse vole de l'or à ce qu'il frappe"
+
+#. pros
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Smoke Pouch makes enemies lose it"
+msgstr "Smoke Pouch le fait perdre de vue aux ennemis"
+
+#. cons
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Fragile once surrounded"
+msgstr "Fragile une fois encerclé"
+
+#. cons
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Autonomous and greedy for bounties"
+msgstr "Autonome et avide de primes"
+
+#. strong_against
+#: data/ui/unit_guide.json:coin_cutter data/ui/unit_guide.json:greywater_tracker
+msgid "Caravans"
+msgstr "Caravanes"
+
+#. strong_against
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Lone units"
+msgstr "Unités isolées"
+
+#. good_with
+#: data/ui/unit_guide.json:coin_cutter
+msgid "Raids"
+msgstr "Raids"
+
+#. summary
+#: data/ui/unit_guide.json:mender
+msgid "Hired healer champion. Heals your soldiers; acts on bounties."
+msgstr "Champion soigneur engagé. Soigne vos soldats; agit selon les primes."
+
+#. pros
+#: data/ui/unit_guide.json:mender
+msgid "Mending Draught heals the most hurt ally"
+msgstr "Mending Draught soigne l'allié le plus blessé"
+
+#. pros
+#: data/ui/unit_guide.json:mender
+msgid "Soothing Circle heals a whole area"
+msgstr "Soothing Circle soigne toute une zone"
+
+#. pros
+#: data/ui/unit_guide.json:mender
+msgid "Lifeline saves an ally (level 4)"
+msgstr "Lifeline sauve un allié (niveau 4)"
+
+#. cons
+#: data/ui/unit_guide.json:mender
+msgid "Lowest damage of the four champions"
+msgstr "Moins de dégâts des quatre champions"
+
+#. cons
+#: data/ui/unit_guide.json:mender
+msgid "Autonomous; needs an army to heal"
+msgstr "Autonome; a besoin d'une armée à soigner"
+
+#. good_with
+#: data/ui/unit_guide.json:mender
+msgid "Your army"
+msgstr "Votre armée"
+
+#. class
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Wonder hire (tier 3)"
+msgstr "Engagé des Merveilles (palier 3)"
+
+#. text
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Its lightning jumps to 2 more enemies nearby."
+msgstr "Sa foudre saute sur 2 autres ennemis proches."
+
+#. text
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "A huge bolt every few seconds that also chains; extra damage on titans."
+msgstr "Un énorme éclair régulier qui rebondit aussi; dégâts bonus contre les titans."
+
+#. pros
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Lightning chains to 2 more enemies"
+msgstr "La foudre rebondit sur 2 autres ennemis"
+
+#. pros
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Tempest Bolt: a huge strike on a cooldown"
+msgstr "Tempest Bolt : une frappe énorme avec recharge"
+
+#. pros
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Long range with lots of HP"
+msgstr "Longue portée, beaucoup de PV"
+
+#. cons
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "One per team, hired at a tavern"
+msgstr "Un par équipe, engagé à une taverne"
+
+#. cons
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Slow and big: a focus-fire target"
+msgstr "Lent et gros : une cible de tir concentré"
+
+#. strong_against
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Big targets"
+msgstr "Grosses cibles"
+
+#. strong_against
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Titans"
+msgstr "Titans"
+
+#. good_with
+#: data/ui/unit_guide.json:stormbottle_genie
+msgid "Any army"
+msgstr "Toute armée"
+
+#. summary
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Hired hunter from a Greywater Lodge contract: hunts Magpie thieves on its own."
+msgstr "Chasseur engagé par contrat à une Greywater Lodge : traque seul les voleurs Magpie."
+
+#. class
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Hired hunter"
+msgstr "Chasseur engagé"
+
+#. text
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Hired in pairs or trios at a Greywater Lodge; they hunt Magpies on their own."
+msgstr "Engagés par deux ou trois à une Greywater Lodge; ils traquent seuls les Magpies."
+
+#. pros
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Hunts Magpie thieves and earns gold"
+msgstr "Traque les voleurs Magpie et gagne de l'or"
+
+#. pros
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Its hits root the target briefly"
+msgstr "Ses coups enracinent brièvement la cible"
+
+#. pros
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Costs no crystals and no pop"
+msgstr "Ne coûte ni cristaux ni pop."
+
+#. cons
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Autonomous: you cannot order it"
+msgstr "Autonome : impossible de lui donner des ordres"
+
+#. cons
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Leaves when the contract ends"
+msgstr "Part à la fin du contrat"
+
+#. weak_against
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Real armies"
+msgstr "Vraies armées"
+
+#. good_with
+#: data/ui/unit_guide.json:greywater_tracker
+msgid "Trade routes"
+msgstr "Routes de commerce"

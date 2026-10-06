@@ -206,7 +206,7 @@ func sell_or_drop(i: int) -> void:
 			if got != "":
 				message.emit(got)
 		elif int(got) > 0:
-			message.emit("Sold %s for %d" % [name, int(got)])
+			message.emit(Loc.t("Sold {name} for {n}", {"name": name, "n": int(got)}))
 		return
 	drop_slot(i)
 
@@ -220,7 +220,7 @@ func drop_slot(i: int) -> void:
 	if r is String and r != "":
 		message.emit(r)
 	else:
-		message.emit("Dropped %s" % ItemTooltip.display_name(type))
+		message.emit(Loc.t("Dropped {name}", {"name": ItemTooltip.display_name(type)}))
 
 
 func swap_slots(a: int, b: int) -> void:

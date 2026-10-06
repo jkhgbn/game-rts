@@ -1001,10 +1001,39 @@ func check_text() -> void:
 		var top: Array[String] = []
 		for r: Dictionary in scan.get("top", []):
 			top.append("%s (%d)" % [String(r["file"]).get_file(), int(r["n"])])
-		report.add_info("T7", "text", "Hard-coded UI strings (French readiness)", "%d literal UI strings (%d distinct) in %d scripts under scripts/ui/, %d wrapped in tr(); no translation table yet; biggest: %s" % [scan["total"], scan.get("unique", 0), scan["files"], scan["tr"], ", ".join(top)],
+		report.add_info("T7", "text", "Hard-coded UI strings (French readiness)", "%d literal UI strings (%d distinct) in %d scripts under scripts/ui/, %d wrapped in tr() (most text is translated by msgid: see T8); biggest: %s" % [scan["total"], scan.get("unique", 0), scan["files"], scan["tr"], ", ".join(top)],
 			"INFO only. Next step (ui-coder): ui_strings.csv in this folder = key, file, line, text of every literal: load it as a Translation (CSV import) and wrap the literals in tr(KEY), biggest scripts first")
 		report.add_table("Hard-coded UI strings per script (T7, INFO)", scan["markdown"])
 		report.extra_files["ui_strings.csv"] = String(scan.get("csv", ""))
+	_check_localization()
+
+
+## T8 (2026-10-06, docs/design/localization.md): new player text must reach the French files. FAIL: a key of a
+## required area (I18nExtract.REQUIRED_AREAS) has no French entry, or a French entry's placeholders differ from the
+## English; INFO: coverage per area.
+func _check_localization() -> void:
+	var ex := I18nExtract.new()
+	ex.quiet = true
+	ex._load_ignore()
+	ex.scan_all()
+	var cov := ex.coverage()
+	var issues: Array = []
+	var n := 0
+	var parts: Array[String] = []
+	for area: String in cov:
+		var c: Dictionary = cov[area]
+		n += int(c["total"])
+		parts.append("%s %d/%d" % [area, int(c["fr"]), int(c["total"])])
+		if I18nExtract.REQUIRED_AREAS.has(area):
+			for m: String in (c["missing"] as PackedStringArray).slice(0, 10):
+				issues.append({"sev": "FAIL", "where": "data/i18n/fr/%s.po" % area, "what": "no French for \"%s\"" % m.substr(0, 60).replace("
+", " "),
+						"fix": "run tools/i18n/extract_strings.gd '--' merge, translate, '--' fix"})
+	for p: String in ex.check_french():
+		issues.append({"sev": "FAIL", "where": "data/i18n/fr", "what": p, "fix": "same placeholders as the English"})
+	report.add_check("T8", "text", "New strings are localized", "every key of a required area (%s) has a French entry with the same placeholders" % ", ".join(I18nExtract.REQUIRED_AREAS),
+			n, issues, "translate it (localization.md 2)")
+	report.add_info("T8i", "text", "Localization coverage (French)", ", ".join(parts), "INFO: data/i18n/coverage.md")
 
 
 ## T5: every number a tooltip prints must exist in the data next to it (so a balance change that forgets the text

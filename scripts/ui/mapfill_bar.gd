@@ -57,9 +57,8 @@ const LEAVE_DELAY := 1.5
 const HOVER_POLL := 0.1
 const HOVER_DELAY := 0.25
 const HOVER_OFFSET := Vector2(18, 12)
-const BLESSING_OWN_TIP := ("Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s for your soldiers, wizard and champions\n"
-		+ "Take another awake shrine to reset it to 60 s")
-const BLESSING_ENEMY_TIP := "Enemy blessing %d s\n+12 %% speed, +1.5 HP / s for their soldiers, wizard and champions"
+const BLESSING_OWN_TIP := "Wayfarer's Blessing {n} s\n+12 % speed, +1.5 HP / s for your soldiers, wizard and champions\nTake another awake shrine to reset it to 60 s"
+const BLESSING_ENEMY_TIP := "Enemy blessing {n} s\n+12 % speed, +1.5 HP / s for their soldiers, wizard and champions"
 const CLICK_HINT := "Click: centre the camera"
 ## Beast type id -> [kind, variant] (EpicBeasts.KIND_TYPES read backwards; the meta wins when set).
 const BEAST_TYPES := {
@@ -411,7 +410,7 @@ const WELL_START := 150.0   ## CapturePoints.WELL_START (2:30).
 ## The 5-line tooltip of a point (lines joined by "\n"): name · kind, owner · state, effect, far bank, click hint.
 func tooltip_for(p: Node3D, team: int, seen: bool, now: float) -> String:
 	var lines: PackedStringArray = []
-	lines.append("%s · %s" % [str(p.get(&"display_name")), KIND_NAMES.get(StringName(str(p.get(&"kind"))), "Point")])
+	lines.append("%s · %s" % [str(p.get(&"display_name")), Loc.t(KIND_NAMES.get(StringName(str(p.get(&"kind"))), "Point"))])
 	var owner_line: String = PointPanel.owner_segment(p, team)[0]
 	var state: String = PointPanel.state_segment(p, team, seen)[0]
 	lines.append(owner_line + (" · " + state if state != "" else ""))
@@ -419,7 +418,7 @@ func tooltip_for(p: Node3D, team: int, seen: bool, now: float) -> String:
 	var far := PointPanel.far_bank_text(p, team)
 	if far != "":
 		lines.append(far)
-	lines.append(CLICK_HINT)
+	lines.append(Loc.t(CLICK_HINT))
 	return "\n".join(lines)
 
 
@@ -546,12 +545,12 @@ func _refresh_blessings() -> void:
 		chip.visible = true
 		var parts := _chip_parts(i)
 		var secs := ceili(float(_chip_left[t]))
-		(parts[1] as Label).text = "Blessing" if t == own else "Enemy blessing"
+		(parts[1] as Label).text = Loc.t("Blessing") if t == own else Loc.t("Enemy blessing")
 		(parts[1] as Label).add_theme_color_override("font_color", UIStyle.GOLD if t == own else ENEMY)
 		(parts[2] as Label).text = " %d s" % secs
 		(parts[2] as Label).add_theme_color_override("font_color", UIStyle.WARN if secs <= 10 else UIStyle.token(&"text"))
 		(parts[0] as Control).queue_redraw()
-		chip.tooltip_text = (BLESSING_OWN_TIP if t == own else BLESSING_ENEMY_TIP) % secs
+		chip.tooltip_text = Loc.t(BLESSING_OWN_TIP if t == own else BLESSING_ENEMY_TIP, {"n": secs})
 
 
 ## The last 10 s: chip alpha pulse 0.6-1.0 at 2 Hz.
@@ -716,7 +715,7 @@ static func beast_kind_variant(beast: Node) -> Array:
 ## The variant-B word (`alpha`, `dark breed`, `silver breed`, `elder`), "" for variant A.
 static func variant_word(beast: Node) -> String:
 	var kv := beast_kind_variant(beast)
-	return str(VARIANT_WORDS.get(kv[0], "")) if int(kv[1]) == 1 else ""
+	return Loc.t(str(VARIANT_WORDS.get(kv[0], ""))) if int(kv[1]) == 1 else ""
 
 
 ## `Enraged` (a Grizzlemaw under 30 % HP) / `Escaping` (a Roc in its Updraft shroud) / "".
@@ -802,8 +801,8 @@ static func tier_color(tier: int) -> Color:
 static func hover_parts(camp: Node) -> Array[String]:
 	var r: Dictionary = camp.call(&"reward_preview") if camp.has_method(&"reward_preview") else {}
 	var tier := int(r.get(&"tier", camp.get(&"tier") if camp.get(&"tier") != null else 1))
-	return [str(camp.get(&"display_name")), " · Tier %d" % tier,
-			" · ~%d XP · +%d essence" % [int(r.get(&"xp", 0)), int(r.get(&"essence", 0))]]
+	return [str(camp.get(&"display_name")), Loc.t(" · Tier {n}", {"n": tier}),
+			Loc.t(" · ~{xp} XP · +{essence} essence", {"xp": int(r.get(&"xp", 0)), "essence": int(r.get(&"essence", 0))})]
 
 
 ## The hover chip's text (tests), "" while hidden.
@@ -941,6 +940,9 @@ static func tooltip_panel(text: String) -> Control:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 2)
 	panel.add_child(box)
+	text = Loc.sink(text)   # an English tooltip_text shows in the player's language
+	var far_p := Loc.t(PointPanel.FAR_BANK).get_slice(":", 0)
+	var click_p := Loc.t(CLICK_HINT).get_slice(":", 0)
 	var lines := text.split("\n")
 	for i in lines.size():
 		var line: String = lines[i]
@@ -957,9 +959,9 @@ static func tooltip_panel(text: String) -> Control:
 		var col := UIStyle.token(&"text_muted")
 		if i == 0:
 			col = UIStyle.token(&"title")
-		elif line.begins_with("On the enemy bank"):
+		elif line.begins_with("On the enemy bank") or line.begins_with(far_p):
 			col = FAR
-		elif line.begins_with("Click:"):
+		elif line.begins_with("Click:") or line.begins_with(click_p + ":"):
 			col = UIStyle.GOLD
 		elif i == 1:
 			col = UIStyle.token(&"text")

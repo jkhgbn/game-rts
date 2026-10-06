@@ -306,7 +306,7 @@ static func match_time_of(tree: SceneTree) -> float:
 
 
 static func kind_word(k: StringName) -> String:
-	return str(KIND_WORDS.get(k, "point"))
+	return Loc.t(str(KIND_WORDS.get(k, "point")))
 
 
 ## [text, colour] of the owner line: towers / wells `Held by you` / `Held by the enemy` / `Neutral`; shrines `Last
@@ -315,10 +315,10 @@ static func owner_segment(p: Node, team: int) -> Array:
 	var owner := int(p.get(&"owner_team")) if p.get(&"owner_team") != null else -1
 	var shrine := StringName(str(p.get(&"kind"))) == &"shrine"
 	if owner == team and owner >= 0:
-		return ["Last captured by you" if shrine else "Held by you", NEAR]
+		return [Loc.t("Last captured by you") if shrine else Loc.t("Held by you"), NEAR]
 	if owner == PLAYER_TEAM or owner == ENEMY_TEAM:
-		return ["Last captured by the enemy" if shrine else "Held by the enemy", UIStyle.WARN]
-	return ["Not captured yet" if shrine else "Neutral", UIStyle.token(&"text_muted")]
+		return [Loc.t("Last captured by the enemy") if shrine else Loc.t("Held by the enemy"), UIStyle.WARN]
+	return [Loc.t("Not captured yet") if shrine else Loc.t("Neutral"), UIStyle.token(&"text_muted")]
 
 
 ## `7 / 12 s` for the point's current progress (T = time_for(capture team, 1), far bank included).
@@ -333,27 +333,28 @@ static func progress_text(p: Node) -> String:
 static func state_segment(p: Node, team: int, seen: bool) -> Array:
 	var muted := UIStyle.token(&"text_muted")
 	if not seen:
-		return ["Not in sight", muted]
+		return [Loc.t("Not in sight"), muted]
 	var st := StringName(str(p.get(&"state")))
 	var cap := int(p.get(&"capture_team"))
 	var prog := float(p.get(&"progress"))
 	var own := cap == team
+	var pa := {"progress": progress_text(p)} if cap != -1 or st in [&"capturing", &"neutralising"] else {}
 	match st:
 		&"capturing":
-			return [("Capturing %s" if own else "The enemy is capturing %s") % progress_text(p),
+			return [Loc.t("Capturing {progress}", pa) if own else Loc.t("The enemy is capturing {progress}", pa),
 					NEAR if own else UIStyle.WARN]
 		&"neutralising":
-			return [("Neutralising %s" if own else "The enemy is neutralising %s") % progress_text(p),
+			return [Loc.t("Neutralising {progress}", pa) if own else Loc.t("The enemy is neutralising {progress}", pa),
 					NEAR if own else UIStyle.WARN]
 		&"contested":
-			return ["Contested: both sides are here", FAR]
+			return [Loc.t("Contested: both sides are here"), FAR]
 		&"asleep":
 			var t := float(p.call(&"time_until_awake")) if p.has_method(&"time_until_awake") else INF
-			return ["Asleep" if t == INF else "Asleep: wakes in %s" % MapfillBar.mmss(t), muted]
+			return [Loc.t("Asleep") if t == INF else Loc.t("Asleep: wakes in {time}", {"time": MapfillBar.mmss(t)}), muted]
 		&"awake":
-			return ["Awake: capture it for the blessing", UIStyle.GOLD]
+			return [Loc.t("Awake: capture it for the blessing"), UIStyle.GOLD]
 	if cap != -1 and prog > 0.0:
-		return ["Capture fading %s" % progress_text(p), muted]
+		return [Loc.t("Capture fading {progress}", pa), muted]
 	return ["", muted]
 
 
@@ -364,13 +365,13 @@ static func effect_segments(p: Node, now: float) -> Array:
 	match StringName(str(p.get(&"kind"))):
 		&"watchtower":
 			var sight := float(p.call(&"sight_radius")) if p.has_method(&"sight_radius") else 22.0
-			return [["Sight %d for its owner" % roundi(sight), text, 13]]
+			return [[Loc.t("Sight {n} for its owner", {"n": roundi(sight)}), text, 13]]
 		&"well":
-			var segs: Array = [[WELL_EFFECT, text, 13]]
+			var segs: Array = [[Loc.t(WELL_EFFECT), text, 13]]
 			if now < WELL_START:
-				segs.append([WELL_LATE, UIStyle.WARN, 13])
+				segs.append([Loc.t(WELL_LATE), UIStyle.WARN, 13])
 			return segs
-	return [[SHRINE_EFFECT, text, 13]]
+	return [[Loc.t(SHRINE_EFFECT), text, 13]]
 
 
 static func effect_text(p: Node, now: float) -> String:
@@ -383,7 +384,7 @@ static func effect_text(p: Node, now: float) -> String:
 ## `On the enemy bank: capture takes 25 % longer` when the point is on the other team's bank (not the isle), else "".
 static func far_bank_text(p: Node, team: int) -> String:
 	var bank := int(p.get(&"bank")) if p.get(&"bank") != null else -1
-	return FAR_BANK if (bank == PLAYER_TEAM or bank == ENEMY_TEAM) and bank != team else ""
+	return Loc.t(FAR_BANK) if (bank == PLAYER_TEAM or bank == ENEMY_TEAM) and bank != team else ""
 
 
 # ---------------------------------------------------------------- point
@@ -456,10 +457,10 @@ static func reward_segments(c: Node, venison: Vector2) -> Array:
 	var segs: Array = []
 	var essence := int(r.get(&"essence", r.get("essence", 0)))
 	if essence > 0:
-		segs.append(["+%d essence" % essence, UIStyle.ESSENCE_TEXT])
+		segs.append([Loc.t("+{n} essence", {"n": essence}), UIStyle.ESSENCE_TEXT])
 	if StringName(str(c.get(&"kind"))) == &"deer":
-		segs.append([", venison heals the hunter ", text])
-		segs.append(["%d HP" % roundi(venison.x), NEAR])
+		segs.append([Loc.t(", venison heals the hunter "), text])
+		segs.append([Loc.t("{n} HP", {"n": roundi(venison.x)}), NEAR])
 	for key: Variant in r.keys():
 		if str(key) == "essence":
 			continue
@@ -476,7 +477,8 @@ static func card_line(c: Node, venison: Vector2) -> String:
 		reward += str(seg[0])
 	var n := str(c.get(&"display_name"))
 	if StringName(str(c.get(&"kind"))) == &"deer":
-		return "%s · %d HP · Hunt it: %s" % [n, roundi(float(c.get(&"max_hp"))), reward]
+		return Loc.t("{name} · {hp} HP · Hunt it: {reward}", {"name": n, "hp": roundi(float(c.get(&"max_hp"))),
+				"reward": reward})
 	return "%s · %s" % [n, reward]
 
 
@@ -497,11 +499,11 @@ func _refresh_critter(c: Node3D) -> void:
 	var max_hp := maxf(float(c.get(&"max_hp")), 1.0)
 	hp_bar.max_value = max_hp
 	hp_bar.value = hp
-	hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
-	var segs: Array = [["Hunt it: ", UIStyle.token(&"text_muted")]]
+	hp_text.text = Loc.t("HP  {hp} / {max}", {"hp": ceili(hp), "max": int(max_hp)})
+	var segs: Array = [[Loc.t("Hunt it: "), UIStyle.token(&"text_muted")]]
 	segs.append_array(reward_segments(c, venison))
 	_set_line(0, segs, 14)
-	_set_line(1, [["Your units within 6 m heal %d HP" % roundi(venison.y), UIStyle.token(&"text_muted"), 13]] \
+	_set_line(1, [[Loc.t("Your units within 6 m heal {n} HP", {"n": roundi(venison.y)}), UIStyle.token(&"text_muted"), 13]] \
 			if deer else [])
 	var fleeing := c.has_method(&"is_fleeing") and bool(c.call(&"is_fleeing"))
 	_set_line(2, [["Fleeing", FAR, 13]] if fleeing else [["Grazing", UIStyle.token(&"text"), 13]])

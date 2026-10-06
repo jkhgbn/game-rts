@@ -1,0 +1,2213 @@
+# Four Wizards: French (Quebec) for area 'game_logic'. Glossary: data/i18n/glossary_fr.md
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. const MSG_OUTSIDE := "Outside the map"
+#: scripts/buildings/build_grid.gd:21
+msgid "Outside the map"
+msgstr "Hors de la carte"
+
+#. const MSG_NOT_WALKABLE := "Not on walkable ground"
+#: scripts/buildings/build_grid.gd:22
+msgid "Not on walkable ground"
+msgstr "Terrain non praticable"
+
+#. const MSG_BLOCKED := "Blocked"
+#: scripts/buildings/build_grid.gd:23
+msgid "Blocked"
+msgstr "Bloqué"
+
+#. const MSG_CRYSTAL := "Too close to a crystal node"
+#: scripts/buildings/build_grid.gd:24
+msgid "Too close to a crystal node"
+msgstr "Trop près d'un gisement de cristaux"
+
+#. const MSG_UNEXPLORED := "Unexplored"   ## Not checked yet: fog of war comes later.
+#: scripts/buildings/build_grid.gd:25
+msgid "Unexplored"
+msgstr "Inexploré"
+
+#. const MSG_LIMIT := "Population limit reached"
+#: scripts/buildings/build_grid.gd:27
+msgid "Population limit reached"
+msgstr "Limite de population atteinte"
+
+#. const MSG_WALL_LIMIT := "Wall limit reached"   ## Ice Wall: max_count 16 (kingdom-ice.md section 5).
+#: scripts/buildings/build_grid.gd:28
+msgid "Wall limit reached"
+msgstr "Limite de murailles atteinte"
+
+#. const MSG_UNKNOWN := "Can't build that"
+#: scripts/buildings/build_grid.gd:29
+msgid "Can't build that"
+msgstr "Impossible de construire ça"
+
+#. const MSG_NEEDS_HALL := "Needs a completed Hall"
+#: scripts/buildings/build_grid.gd:31 scripts/buildings/tier_system.gd:26
+msgid "Needs a completed Hall"
+msgstr "Exige une salle terminée"
+
+#. const MSG_KEEP_DISTANCE := "Must be within 20 m of your keep"
+#: scripts/buildings/build_grid.gd:32
+msgid "Must be within 20 m of your keep"
+msgstr "Doit être à moins de 20 m de votre donjon"
+
+#. const MSG_MARKET_LIMIT := "Only one Bazaar"
+#: scripts/buildings/build_grid.gd:33
+msgid "Only one Bazaar"
+msgstr "Un seul Bazar"
+
+#. const MSG_WATER := "Can't build on water"
+#: scripts/buildings/build_grid.gd:36
+msgid "Can't build on water"
+msgstr "Impossible de construire sur l'eau"
+
+#. const MSG_CROSSING := "Too close to a crossing"
+#: scripts/buildings/build_grid.gd:37
+msgid "Too close to a crossing"
+msgstr "Trop près d'un passage"
+
+#. const MSG_CAMP := "Too close to a monster camp"
+#: scripts/buildings/build_grid.gd:38
+msgid "Too close to a monster camp"
+msgstr "Trop près d'un camp de monstres"
+
+#. return "Needs a completed %s" % String(type.requires_kind).capitalize()
+#: scripts/buildings/build_grid.gd:199
+msgid "Needs a completed %s"
+msgstr "Exige : %s terminé"
+
+#. return "Must be within %d m of your keep" % roundi(type.max_keep_distance)
+#: scripts/buildings/build_grid.gd:215
+msgid "Must be within %d m of your keep"
+msgstr "Doit être à moins de %d m de votre donjon"
+
+#. const REASON_TIERS_OFF := "Tiers are off"
+#: scripts/buildings/keep.gd:21
+msgid "Tiers are off"
+msgstr "Paliers désactivés"
+
+#. const REASON_MAX_TIER := "Already a Citadel"
+#: scripts/buildings/keep.gd:22 scripts/buildings/tier_system.gd:260
+msgid "Already a Citadel"
+msgstr "Déjà une Citadelle"
+
+#. const REASON_UPGRADING := "Upgrade in progress"
+#: scripts/buildings/keep.gd:23
+msgid "Upgrade in progress"
+msgstr "Amélioration en cours"
+
+#. _tier_stub.display_name = "Cancel %s" % name_to
+#: scripts/buildings/keep.gd:196
+msgid "Cancel %s"
+msgstr "Annuler %s"
+
+#. var lines: Array[String] = ["Upgrade the keep: +%d %% HP, +%d damage." % [
+#: scripts/buildings/keep.gd:221
+msgid "Upgrade the keep: +%d %% HP, +%d damage."
+msgstr "Améliorer le donjon : +%d %% PV, +%d de dégâts."
+
+#. opens.append("the \"+\" upgrades at the Hall")
+#: scripts/buildings/keep.gd:227
+msgid "the \"+\" upgrades at the Hall"
+msgstr "les améliorations « + » à la salle"
+
+#. lines.append("Opens: " + " · ".join(opens))
+#: scripts/buildings/keep.gd:229
+msgid "Opens:  · "
+msgstr "Débloque :  · "
+
+#. needs.append("from %s" % TierSystem.clock(ts.start_time(to)))
+#: scripts/buildings/keep.gd:233
+msgid "from %s"
+msgstr "à partir de %s"
+
+#. needs.append("a completed Hall")
+#: scripts/buildings/keep.gd:235
+msgid "a completed Hall"
+msgstr "une salle terminée"
+
+#. needs.push_front("the Stronghold")
+#: scripts/buildings/keep.gd:237
+msgid "the Stronghold"
+msgstr "la Forteresse"
+
+#. lines.append("Needs " + ", ".join(needs) + ".")
+#: scripts/buildings/keep.gd:239
+msgid "Needs , "
+msgstr "Exige , "
+
+#. return "Exchange disabled"
+#: scripts/buildings/keep.gd:319
+msgid "Exchange disabled"
+msgstr "Échange désactivé"
+
+#. return "Not your shop"
+#: scripts/buildings/keep.gd:323
+msgid "Not your shop"
+msgstr "Pas votre boutique"
+
+#. return "Essence not available"
+#: scripts/buildings/keep.gd:326
+msgid "Essence not available"
+msgstr "Essence non disponible"
+
+#. const REASON_CARAVAN_LIMIT := "Caravan limit reached"
+#: scripts/buildings/market.gd:26
+msgid "Caravan limit reached"
+msgstr "Limite de caravanes atteinte"
+
+#. const REASON_ROUTE_TOO_SHORT := "Route too short"
+#: scripts/buildings/market.gd:28 scripts/economy/caravan.gd:48 scripts/world/trade_network.gd:60
+msgid "Route too short"
+msgstr "Route trop courte"
+
+#. const MSG_T2 := "Requires Stronghold"
+#: scripts/buildings/tier_system.gd:15
+msgid "Requires Stronghold"
+msgstr "Exige la Forteresse"
+
+#. const MSG_T3 := "Requires Citadel"
+#: scripts/buildings/tier_system.gd:16
+msgid "Requires Citadel"
+msgstr "Exige la Citadelle"
+
+#. const NAMES: Array[String] = ["Keep", "Stronghold", "Citadel"]
+#: scripts/buildings/tier_system.gd:17
+msgid "Citadel"
+msgstr "Citadelle"
+
+#. const MSG_NOT_HERE := "Not in this mission"
+#: scripts/buildings/tier_system.gd:35
+msgid "Not in this mission"
+msgstr "Pas dans cette mission"
+
+#. var text := "The Keep is now a %s" % tier_name(tier)
+#: scripts/buildings/tier_system.gd:110
+msgid "The Keep is now a %s"
+msgstr "Le donjon est maintenant : %s"
+
+#. text += ". New: " + list
+#: scripts/buildings/tier_system.gd:113
+msgid ". New: "
+msgstr ". Nouveau : "
+
+#. return "%s (helper)" % t.display_name.trim_prefix("Call ")
+#: scripts/buildings/tier_system.gd:173
+msgid "%s (helper)"
+msgstr "%s (assistant)"
+
+#. return "%s (helper)" % t.display_name.trim_prefix("Call ")
+#: scripts/buildings/tier_system.gd:173
+msgid "Call "
+msgstr "Appeler "
+
+#. return "Available at %s" % clock(start_time(to_tier))
+#: scripts/buildings/tier_system.gd:265
+msgid "Available at %s"
+msgstr "Disponible à %s"
+
+#. const REASON_QUEUE_FULL := "Queue is full"
+#: scripts/buildings/training_building.gd:15
+msgid "Queue is full"
+msgstr "File pleine"
+
+#. const REASON_POP_CAP := "Population cap reached"
+#: scripts/buildings/training_building.gd:17 scripts/world/champion_guild.gd:76
+msgid "Population cap reached"
+msgstr "Plafond de population atteint"
+
+#. const REASON_DESTROYED := "The building is destroyed"
+#: scripts/buildings/training_building.gd:18
+msgid "The building is destroyed"
+msgstr "Le bâtiment est détruit"
+
+#. const REASON_UNDER_CONSTRUCTION := "Under construction"
+#: scripts/buildings/training_building.gd:19
+msgid "Under construction"
+msgstr "En construction"
+
+#. const REASON_UNKNOWN := "Can't train that here"
+#: scripts/buildings/training_building.gd:20
+msgid "Can't train that here"
+msgstr "Impossible de former ça ici"
+
+#. const REASON_LOCKED := "Not now"     ## MissionBase.lock_base (docs/design/mission-framework.md).
+#: scripts/buildings/training_building.gd:21
+msgid "Not now"
+msgstr "Pas maintenant"
+
+#. const REASON_DONE := "Already researched"
+#: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:46
+#: scripts/units/stables16.gd:259
+msgid "Already researched"
+msgstr "Déjà recherché"
+
+#. const REASON_QUEUED := "Already in progress"
+#: scripts/buildings/unit_upgrades.gd:42 scripts/units/bowman_upgrades.gd:47
+#: scripts/units/stables16.gd:261
+msgid "Already in progress"
+msgstr "Déjà en cours"
+
+#. const REASON_BUSY := "The Hall is busy with another upgrade"
+#: scripts/buildings/unit_upgrades.gd:43 scripts/units/bowman_upgrades.gd:48
+msgid "The Hall is busy with another upgrade"
+msgstr "La salle est occupée par une autre amélioration"
+
+#. const REASON_HALL := "Needs a completed Hall that trains it"
+#: scripts/buildings/unit_upgrades.gd:44
+msgid "Needs a completed Hall that trains it"
+msgstr "Exige une salle terminée qui forme cette unité"
+
+#. &"frostbow_rimed_shafts": {"name": "Rimed Shafts", "unit": &"frostbow", "crystals": 100, "time": 40.0,
+#: scripts/units/bowman_upgrades.gd:19
+msgid "Rimed Shafts"
+msgstr "Rimed Shafts"
+
+#. "text": "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12)."},
+#: scripts/units/bowman_upgrades.gd:21
+msgid "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12)."
+msgstr "Les flèches des Frostbow ralentissent 2,5 s (avant 1,5) ; Hamstring Shot toutes les 8 s (avant 12)."
+
+#. &"scorchbow_heavy_draw": {"name": "Heavy Draw", "unit": &"scorchbow", "crystals": 100, "time": 35.0,
+#: scripts/units/bowman_upgrades.gd:22
+msgid "Heavy Draw"
+msgstr "Heavy Draw"
+
+#. "text": "Scorchbows +3 arrow damage (17)."},
+#: scripts/units/bowman_upgrades.gd:24
+msgid "Scorchbows +3 arrow damage (17)."
+msgstr "Scorchbows : +3 dégâts par flèche (17)."
+
+#. &"scorchbow_pitch_arrows": {"name": "Pitch Arrows", "unit": &"scorchbow", "crystals": 125, "time": 45.0,
+#: scripts/units/bowman_upgrades.gd:25
+msgid "Pitch Arrows"
+msgstr "Pitch Arrows"
+
+#. "text": "Scorchbow burn: 3.5 damage per second for 4 s (was 2 for 3 s). Needs Heavy Draw."},
+#: scripts/units/bowman_upgrades.gd:27
+msgid "Scorchbow burn: 3.5 damage per second for 4 s (was 2 for 3 s). Needs Heavy Draw."
+msgstr "Brûlure des Scorchbow : 3,5 dégâts par seconde pendant 4 s (avant 2 pendant 3 s). Exige Heavy Draw."
+
+#. &"bleakbow_serrated_barbs": {"name": "Serrated Barbs", "unit": &"bleakbow", "crystals": 100, "time": 40.0,
+#: scripts/units/bowman_upgrades.gd:28
+msgid "Serrated Barbs"
+msgstr "Serrated Barbs"
+
+#. "text": "Bleed stacks up to 5 times (was 3): 7.5 damage per second at full stacks."},
+#: scripts/units/bowman_upgrades.gd:30
+msgid "Bleed stacks up to 5 times (was 3): 7.5 damage per second at full stacks."
+msgstr "Le saignement se cumule jusqu'à 5 fois (avant 3) : 7,5 dégâts par seconde au maximum."
+
+#. &"wildwood_keen_eye": {"name": "Keen Eye", "unit": &"wildwood_archer", "crystals": 75, "time": 30.0,
+#: scripts/units/bowman_upgrades.gd:31
+msgid "Keen Eye"
+msgstr "Keen Eye"
+
+#. "text": "Wildwood Archers: 15 % of arrows crit for double damage."},
+#: scripts/units/bowman_upgrades.gd:33
+msgid "Wildwood Archers: 15 % of arrows crit for double damage."
+msgstr "Wildwood Archers : 15 % des flèches sont critiques (dégâts doublés)."
+
+#. &"wildwood_heartseeker": {"name": "Heartseeker Points", "unit": &"wildwood_archer", "crystals": 100,
+#: scripts/units/bowman_upgrades.gd:34
+msgid "Heartseeker Points"
+msgstr "Heartseeker Points"
+
+#. "text": "Crits: 20 % of arrows, x2.75 damage. Needs Keen Eye."},
+#: scripts/units/bowman_upgrades.gd:36
+msgid "Crits: 20 % of arrows, x2.75 damage. Needs Keen Eye."
+msgstr "Critiques : 20 % des flèches, dégâts x2,75. Exige Keen Eye."
+
+#. &"wildwood_hunting_party": {"name": "Hunting Party", "unit": &"wildwood_archer", "crystals": 200,
+#: scripts/units/bowman_upgrades.gd:37
+msgid "Hunting Party"
+msgstr "Hunting Party"
+
+#. "text": "Every Wildwood Archer trained brings a second one for free (needs 1 free pop). Needs Heartseeker Poin
+#: scripts/units/bowman_upgrades.gd:39
+msgid "Every Wildwood Archer trained brings a second one for free (needs 1 free pop). Needs Heartseeker Points."
+msgstr "Chaque Wildwood Archer formé en amène un second gratuitement (exige 1 pop. libre). Exige Heartseeker Points."
+
+#. const REASON_UNKNOWN := "Unknown upgrade"
+#: scripts/units/bowman_upgrades.gd:45
+msgid "Unknown upgrade"
+msgstr "Amélioration inconnue"
+
+#. const REASON_HALL := "Needs a completed Hall of your kingdom"
+#: scripts/units/bowman_upgrades.gd:49
+msgid "Needs a completed Hall of your kingdom"
+msgstr "Exige une salle terminée de votre royaume"
+
+#. "text": "Caster: Slag Rain melts armour; Mana Scald burns an enemy caster's mana."},
+#: scripts/units/caster_kit.gd:22
+msgid "Caster: Slag Rain melts armour; Mana Scald burns an enemy caster's mana."
+msgstr "Lanceur de sorts : Slag Rain fait fondre l'armure ; Mana Scald brûle le mana d'un lanceur de sorts ennemi."
+
+#. "text": "Caster: Rime Bulwark raises an ice wall for 8 s; Scrying Rune sees and reveals."},
+#: scripts/units/caster_kit.gd:24
+msgid "Caster: Rime Bulwark raises an ice wall for 8 s; Scrying Rune sees and reveals."
+msgstr "Lanceur de sorts : Rime Bulwark dresse un mur de glace 8 s ; Scrying Rune voit et révèle."
+
+#. "text": "Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units."},
+#: scripts/units/caster_kit.gd:26
+msgid "Caster: Snagroot pulls one enemy; Pollen Haze blinds ranged units."
+msgstr "Lanceur de sorts : Snagroot attire un ennemi ; Pollen Haze aveugle les unités à distance."
+
+#. "text": "Caster: Blood Tithe heals an ally and drains a foe; Umbral Passage recalls soldiers."},
+#: scripts/units/caster_kit.gd:28
+msgid "Caster: Blood Tithe heals an ally and drains a foe; Umbral Passage recalls soldiers."
+msgstr "Lanceur de sorts : Blood Tithe soigne un allié et draine un ennemi ; Umbral Passage rappelle des soldats."
+
+#. "text": "Flings molten slag: 12 damage in 3 m, armour -20 (never below 0), slower, +10 % damage taken for 10 s
+#: scripts/units/caster_kit.gd:41
+msgid "Flings molten slag: 12 damage in 3 m, armour -20 (never below 0), slower, +10 % damage taken for 10 s."
+msgstr "Projette des scories en fusion : 12 dégâts sur 3 m, armure -20 (jamais sous 0), ralentit, +10 % de dégâts subis pendant 10 s."
+
+#. "text": "Burns up to 60 mana of an enemy wizard or caster and deals that much damage."},
+#: scripts/units/caster_kit.gd:44
+msgid "Burns up to 60 mana of an enemy wizard or caster and deals that much damage."
+msgstr "Brûle jusqu'à 60 mana d'un sorcier ou lanceur de sorts ennemi et inflige autant de dégâts."
+
+#. &"rime_bulwark": {"name": "Rime Bulwark", "key": "Z", "mana": 50.0, "range": 10.0, "target": &"point", "radius
+#: scripts/units/caster_kit.gd:45
+msgid "Rime Bulwark"
+msgstr "Rime Bulwark"
+
+#. "text": "An ice wall 4 m long for 8 s: blocks ground units of both teams (not arrows or spells)."},
+#: scripts/units/caster_kit.gd:48
+msgid "An ice wall 4 m long for 8 s: blocks ground units of both teams (not arrows or spells)."
+msgstr "Un mur de glace de 4 m pendant 8 s : bloque les unités terrestres des deux camps (pas les flèches ni les sorts)."
+
+#. "text": "A rune-stone for 20 s: sight 10 m and reveals hidden enemies there. Max 3."},
+#: scripts/units/caster_kit.gd:51
+msgid "A rune-stone for 20 s: sight 10 m and reveals hidden enemies there. Max 3."
+msgstr "Une pierre runique pour 20 s : vision 10 m et révèle les ennemis cachés. Max 3."
+
+#. "text": "A vine drags one enemy 7 m toward the Bramblesage (heroes 4 m) and roots it 1 s."},
+#: scripts/units/caster_kit.gd:55
+msgid "A vine drags one enemy 7 m toward the Bramblesage (heroes 4 m) and roots it 1 s."
+msgstr "Une liane tire un ennemi de 7 m vers le Bramblesage (héros : 4 m) et l'enracine 1 s."
+
+#. "text": "A pollen cloud for 6 s: enemy ground units inside only shoot targets within 2.5 m."},
+#: scripts/units/caster_kit.gd:58
+msgid "A pollen cloud for 6 s: enemy ground units inside only shoot targets within 2.5 m."
+msgstr "Un nuage de pollen pendant 6 s : les unités terrestres ennemies dedans ne tirent qu'à 2,5 m ou moins."
+
+#. &"blood_tithe": {"name": "Blood Tithe", "key": "Z", "mana": 10.0, "range": 7.0, "target": &"ally", "radius": 0
+#: scripts/units/caster_kit.gd:59
+msgid "Blood Tithe"
+msgstr "Blood Tithe"
+
+#. "text": "Channel: an ally heals 10 HP/s and the nearest enemy by it loses 5 HP/s. 2.5 mana/s (10 to start)."},
+#: scripts/units/caster_kit.gd:62
+msgid "Channel: an ally heals 10 HP/s and the nearest enemy by it loses 5 HP/s. 2.5 mana/s (10 to start)."
+msgstr "Canalisation : un allié récupère 10 PV/s et l'ennemi le plus proche perd 5 PV/s. 2,5 mana/s (10 pour commencer)."
+
+#. &"umbral_passage": {"name": "Umbral Passage", "key": "V", "mana": 100.0, "range": 45.0, "target": &"point",
+#: scripts/units/caster_kit.gd:63
+msgid "Umbral Passage"
+msgstr "Umbral Passage"
+
+#. "text": "Channel 2.5 s: your soldiers within 4 m of the point (up to 10 pop) step out beside the Deacon."},
+#: scripts/units/caster_kit.gd:65
+msgid "Channel 2.5 s: your soldiers within 4 m of the point (up to 10 pop) step out beside the Deacon."
+msgstr "Canalisation 2,5 s : vos soldats à moins de 4 m du point (jusqu'à 10 pop.) apparaissent près du Deacon."
+
+#. &"stoke": {"name": "Stoke", "mana": 8.0, "every": 0.5,
+#: scripts/units/caster_kit.gd:71
+msgid "Stoke"
+msgstr "Stoke"
+
+#. "text": "Stoke: +8 mana when an enemy it slagged dies slagged."},
+#: scripts/units/caster_kit.gd:72
+msgid "Stoke: +8 mana when an enemy it slagged dies slagged."
+msgstr "Stoke : +8 mana quand un ennemi couvert de scories meurt ainsi."
+
+#. &"stillness": {"name": "Stillness", "still": 3.0, "mult": 1.5,
+#: scripts/units/caster_kit.gd:73
+msgid "Stillness"
+msgstr "Stillness"
+
+#. "text": "Stillness: mana regen x1.5 after 3 s without moving."},
+#: scripts/units/caster_kit.gd:74
+msgid "Stillness: mana regen x1.5 after 3 s without moving."
+msgstr "Stillness : régénération de mana x1,5 après 3 s sans bouger."
+
+#. &"seedcloak": {"name": "Seedcloak", "hp_pct": 0.5, "radius": 2.5, "time": 3.0, "cooldown": 45.0,
+#: scripts/units/caster_kit.gd:75
+msgid "Seedcloak"
+msgstr "Seedcloak"
+
+#. "text": "Seedcloak: under 50 % HP, a free 2.5 m Pollen Haze on itself (every 45 s)."},
+#: scripts/units/caster_kit.gd:76
+msgid "Seedcloak: under 50 % HP, a free 2.5 m Pollen Haze on itself (every 45 s)."
+msgstr "Seedcloak : sous 50 % PV, un Pollen Haze gratuit de 2,5 m sur lui-même (toutes les 45 s)."
+
+#. &"vigil": {"name": "Vigil", "mana": 5.0, "radius": 8.0, "every": 0.5,
+#: scripts/units/caster_kit.gd:77
+msgid "Vigil"
+msgstr "Vigil"
+
+#. "text": "Vigil: +5 mana when one of your soldiers dies within 8 m."},
+#: scripts/units/caster_kit.gd:78
+msgid "Vigil: +5 mana when one of your soldiers dies within 8 m."
+msgstr "Vigil : +5 mana quand un de vos soldats meurt à moins de 8 m."
+
+#. const REASON_RANGE := "Out of range"
+#: scripts/units/caster_kit.gd:98
+msgid "Out of range"
+msgstr "Hors de portée"
+
+#. const REASON_NO_TARGET := "No target"
+#: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:125
+msgid "No target"
+msgstr "Aucune cible"
+
+#. const REASON_RECHARGING := "Recharging"
+#: scripts/units/caster_kit.gd:100 scripts/items/inventory.gd:31
+msgid "Recharging"
+msgstr "En recharge"
+
+#. const REASON_CANT := "Can't cast now"
+#: scripts/units/caster_kit.gd:101
+msgid "Can't cast now"
+msgstr "Impossible de lancer maintenant"
+
+#. var cost := "%d mana" % roundi(float(s.get("mana", 0.0)))
+#: scripts/units/caster_kit.gd:227
+msgid "%d mana"
+msgstr "%d mana"
+
+#. cost = "%s mana/s (%d to start)" % [str(snappedf(float(s.get("per_second", 0.0)), 0.1)), roundi(float(s.get("m
+#: scripts/units/caster_kit.gd:229
+msgid "%s mana/s (%d to start)"
+msgstr "%s mana/s (%d pour commencer)"
+
+#. var line2 := "%s · range %d" % [cost, roundi(float(s.get("range", 0.0)))]
+#: scripts/units/caster_kit.gd:230
+msgid "%s · range %d"
+msgstr "%s · portée %d"
+
+#. return "%s  [%s]\n%s\n%s\nRight-click or Ctrl+%s: autocast on / off" % [spell_name(spell_id), key, line2,
+#: scripts/units/caster_kit.gd:235
+msgid "%s  [%s]\n%s\n%s\nRight-click or Ctrl+%s: autocast on / off"
+msgstr "%s  [%s]\n%s\n%s\nClic droit ou Ctrl+%s : lancement auto activé / désactivé"
+
+#. return "Max %d %ss" % [MAX_PER_TEAM, type.display_name]
+#: scripts/units/caster_kit.gd:263
+msgid "Max %d %ss"
+msgstr "Max %d %s"
+
+#. brain = _create_child(BRAIN_PATH, "Brain")
+#: scripts/units/champion.gd:128
+msgid "Brain"
+msgstr "Cerveau"
+
+#. const REASON_CANNOT_ACT := "Cannot act"
+#: scripts/units/champion_abilities.gd:62 scripts/units/creature_abilities.gd:61
+msgid "Cannot act"
+msgstr "Ne peut pas agir"
+
+#. "text": "Hurls a flare up to 20 m: 20 damage around it, and the spot stays in sight for 6 s."},
+#: scripts/units/champion_abilities.gd:76
+msgid "Hurls a flare up to 20 m: 20 damage around it, and the spot stays in sight for 6 s."
+msgstr "Lance une fusée jusqu'à 20 m : 20 dégâts autour, et l'endroit reste visible 6 s."
+
+#. "text": "Snags one enemy within 8 m: 15 damage and rooted for 1.5 s."},
+#: scripts/units/champion_abilities.gd:79
+msgid "Snags one enemy within 8 m: 15 damage and rooted for 1.5 s."
+msgstr "Accroche un ennemi à moins de 8 m : 15 dégâts et enraciné 1,5 s."
+
+#. "text": "Blazes a trail: itself and allies within 8 m are hasted for 5 s."},
+#: scripts/units/champion_abilities.gd:82
+msgid "Blazes a trail: itself and allies within 8 m are hasted for 5 s."
+msgstr "Ouvre la voie : lui-même et les alliés à moins de 8 m sont accélérés pendant 5 s."
+
+#. "text": "Dares every soldier within 6 m to hit it for 3 s, with +20 armor meanwhile."},
+#: scripts/units/champion_abilities.gd:85
+msgid "Dares every soldier within 6 m to hit it for 3 s, with +20 armor meanwhile."
+msgstr "Défie chaque soldat à moins de 6 m de le frapper pendant 3 s, avec +20 d'armure pendant ce temps."
+
+#. "text": "Slams its shield into a foe: 30 damage and dazed for 0.8 s."},
+#: scripts/units/champion_abilities.gd:88
+msgid "Slams its shield into a foe: 30 damage and dazed for 0.8 s."
+msgstr "Frappe un ennemi de son bouclier : 30 dégâts et étourdi 0,8 s."
+
+#. "text": "Plants its shield for 6 s: it holds its ground, allies within 5 m take 30 % less damage."},
+#: scripts/units/champion_abilities.gd:91
+msgid "Plants its shield for 6 s: it holds its ground, allies within 5 m take 30 % less damage."
+msgstr "Plante son bouclier pendant 6 s : il tient bon, les alliés à moins de 5 m subissent 30 % de dégâts en moins."
+
+#. "text": "Its next strike deals +25 damage; a kill with it pockets 15 essence."},
+#: scripts/units/champion_abilities.gd:94
+msgid "Its next strike deals +25 damage; a kill with it pockets 15 essence."
+msgstr "Sa prochaine frappe inflige +25 dégâts ; un coup fatal avec elle rapporte 15 essence."
+
+#. "text": "A puff of smoke: shrouded for 3 s, and enemies within 6 m lose track of it."},
+#: scripts/units/champion_abilities.gd:97
+msgid "A puff of smoke: shrouded for 3 s, and enemies within 6 m lose track of it."
+msgstr "Un nuage de fumée : dissimulé 3 s, et les ennemis à moins de 6 m perdent sa trace."
+
+#. "text": "Marks one enemy within 8 m for 6 s: it takes 15 % more damage from everyone."},
+#: scripts/units/champion_abilities.gd:100
+msgid "Marks one enemy within 8 m for 6 s: it takes 15 % more damage from everyone."
+msgstr "Marque un ennemi à moins de 8 m pendant 6 s : il subit 15 % de dégâts en plus de tous."
+
+#. "text": "Throws a draught to the most hurt ally within 9 m: heals 50."},
+#: scripts/units/champion_abilities.gd:103
+msgid "Throws a draught to the most hurt ally within 9 m: heals 50."
+msgstr "Lance une potion à l'allié le plus blessé à moins de 9 m : soigne 50."
+
+#. "text": "A calming ring 5 m wide heals every ally inside by 30 over 5 s."},
+#: scripts/units/champion_abilities.gd:107
+msgid "A calming ring 5 m wide heals every ally inside by 30 over 5 s."
+msgstr "Un cercle apaisant de 5 m soigne chaque allié dedans de 30 en 5 s."
+
+#. "text": "Wraps an ally within 9 m in a 100-point shield for 5 s."},
+#: scripts/units/champion_abilities.gd:110
+msgid "Wraps an ally within 9 m in a 100-point shield for 5 s."
+msgstr "Enveloppe un allié à moins de 9 m d'un bouclier de 100 points pendant 5 s."
+
+#. "text": "Darts to a foe within 6 m and strikes: 25 damage and dazed for 0.5 s."},
+#: scripts/units/champion_abilities.gd:114
+msgid "Darts to a foe within 6 m and strikes: 25 damage and dazed for 0.5 s."
+msgstr "Bondit sur un ennemi à moins de 6 m et frappe : 25 dégâts et étourdi 0,5 s."
+
+#. "text": "Throws a javelin at a foe within 10 m: 25 damage and hobbled (-1.5 speed) for 3 s."},
+#: scripts/units/champion_abilities.gd:117
+msgid "Throws a javelin at a foe within 10 m: 25 damage and hobbled (-1.5 speed) for 3 s."
+msgstr "Lance un javelot sur un ennemi à moins de 10 m : 25 dégâts et entravé (-1,5 vitesse) pendant 3 s."
+
+#. "text": "A long thrust through a 5 m line: 40 damage to every enemy in it."},
+#: scripts/units/champion_abilities.gd:120
+msgid "A long thrust through a 5 m line: 40 damage to every enemy in it."
+msgstr "Une longue estocade sur une ligne de 5 m : 40 dégâts à chaque ennemi touché."
+
+#. "text": "For 4 s, melee attackers take 10 damage per hit."},
+#: scripts/units/champion_abilities.gd:123
+msgid "For 4 s, melee attackers take 10 damage per hit."
+msgstr "Pendant 4 s, les attaquants au corps à corps subissent 10 dégâts par coup."
+
+#. "text": "Throws its shield at a foe within 8 m: 30 damage, then it bounces to 2 more foes (20, then 10)."},
+#: scripts/units/champion_abilities.gd:130
+msgid "Throws its shield at a foe within 8 m: 30 damage, then it bounces to 2 more foes (20, then 10)."
+msgstr "Lance son bouclier sur un ennemi à moins de 8 m : 30 dégâts, puis il rebondit sur 2 autres (20, puis 10)."
+
+#. "text": "Its next attack also hits every other enemy within 2.5 m of the target for full damage."},
+#: scripts/units/champion_abilities.gd:133
+msgid "Its next attack also hits every other enemy within 2.5 m of the target for full damage."
+msgstr "Sa prochaine attaque touche aussi tous les autres ennemis à moins de 2,5 m de la cible, dégâts complets."
+
+#. "text": "A two-hand chop: 30 damage, and the foe loses 20 armor for 6 s."},
+#: scripts/units/champion_abilities.gd:136
+msgid "A two-hand chop: 30 damage, and the foe loses 20 armor for 6 s."
+msgstr "Un coup à deux mains : 30 dégâts, et l'ennemi perd 20 d'armure pendant 6 s."
+
+#. "text": "Spins for 2 s: 12 damage every 0.5 s to every enemy within 3 m."},
+#: scripts/units/champion_abilities.gd:139
+msgid "Spins for 2 s: 12 damage every 0.5 s to every enemy within 3 m."
+msgstr "Tournoie 2 s : 12 dégâts toutes les 0,5 s à chaque ennemi à moins de 3 m."
+
+#. "text": "A bolt at a foe within 12 m: 40 damage."},
+#: scripts/units/champion_abilities.gd:142
+msgid "A bolt at a foe within 12 m: 40 damage."
+msgstr "Un éclair sur un ennemi à moins de 12 m : 40 dégâts."
+
+#. "text": "Teleports up to 8 m away from the nearest melee enemy."},
+#: scripts/units/champion_abilities.gd:145
+msgid "Teleports up to 8 m away from the nearest melee enemy."
+msgstr "Se téléporte jusqu'à 8 m loin de l'ennemi de mêlée le plus proche."
+
+#. "text": "A star falls on a spot within 12 m after 1 s: 45 damage to every enemy within 3.5 m."},
+#: scripts/units/champion_abilities.gd:148
+msgid "A star falls on a spot within 12 m after 1 s: 45 damage to every enemy within 3.5 m."
+msgstr "Une étoile tombe sur un point à moins de 12 m après 1 s : 45 dégâts à chaque ennemi à moins de 3,5 m."
+
+#. @export_group("Skills")
+#: scripts/units/champion_class.gd:44
+msgid "Skills"
+msgstr "Compétences"
+
+#. @export_group("Look")
+#: scripts/units/champion_type.gd:67
+msgid "Look"
+msgstr "Apparence"
+
+#. const REASON_BUSY := "Busy"
+#: scripts/units/creature_abilities.gd:64
+msgid "Busy"
+msgstr "Occupé"
+
+#. const REASON_CANNOT_MOVE := "Cannot move"
+#: scripts/units/creature_abilities.gd:65
+msgid "Cannot move"
+msgstr "Ne peut pas bouger"
+
+#. const REASON_NOT_READY := "Not ready"
+#: scripts/units/creature_abilities.gd:67
+msgid "Not ready"
+msgstr "Pas prêt"
+
+#. return "Invalid stance"
+#: scripts/units/helper.gd:210
+msgid "Invalid stance"
+msgstr "Posture invalide"
+
+#. return "Unknown ability"
+#: scripts/units/helper_abilities.gd:111
+msgid "Unknown ability"
+msgstr "Capacité inconnue"
+
+#. return "Requires level %d" % helper.helper_type.signature_level
+#: scripts/units/helper_abilities.gd:113
+msgid "Requires level %d"
+msgstr "Exige le niveau %d"
+
+#. const REASON_ALREADY := "Already called"
+#: scripts/units/helper_roster.gd:21
+msgid "Already called"
+msgstr "Déjà appelé"
+
+#. const REASON_NO_HOME := "No home"
+#: scripts/units/helper_roster.gd:23 scripts/world/champion_guild.gd:85
+msgid "No home"
+msgstr "Pas de foyer"
+
+#. const REASON_NO_HELPER := "No helper for this kingdom"
+#: scripts/units/helper_roster.gd:25
+msgid "No helper for this kingdom"
+msgstr "Aucun assistant pour ce royaume"
+
+#. _call_type.display_name = "Call %s" % ht.display_name
+#: scripts/units/helper_roster.gd:135
+msgid "Call %s"
+msgstr "Appeler %s"
+
+#. _revive_type.display_name = "Revive %s" % ht.display_name
+#: scripts/units/helper_roster.gd:187
+msgid "Revive %s"
+msgstr "Ranimer %s"
+
+#. var name_ := ht.display_name if ht else "The helper"
+#: scripts/units/helper_roster.gd:371
+msgid "The helper"
+msgstr "L'assistant"
+
+#. text = ("%s answers the call" % name_) if own else ("The enemy calls %s!" % name_)
+#: scripts/units/helper_roster.gd:376
+msgid "%s answers the call"
+msgstr "%s répond à l'appel"
+
+#. text = ("%s answers the call" % name_) if own else ("The enemy calls %s!" % name_)
+#: scripts/units/helper_roster.gd:376
+msgid "The enemy calls %s!"
+msgstr "L'ennemi appelle %s !"
+
+#. text = "%s takes the field!" % name_
+#: scripts/units/helper_roster.gd:378
+msgid "%s takes the field!"
+msgstr "%s entre en scène !"
+
+#. text = "%s has fallen" % name_
+#: scripts/units/helper_roster.gd:380 scripts/world/champion_guild.gd:89
+msgid "%s has fallen"
+msgstr "%s est tombé"
+
+#. text = "%s returns" % name_
+#: scripts/units/helper_roster.gd:382
+msgid "%s returns"
+msgstr "%s revient"
+
+#. return "Torvald can't cast Fireball"
+#: scripts/units/ice_wizard.gd:80
+msgid "Torvald can't cast Fireball"
+msgstr "Torvald ne peut pas lancer Fireball"
+
+#. return "Ysolde can't cast Fireball"
+#: scripts/units/nature_wizard.gd:81
+msgid "Ysolde can't cast Fireball"
+msgstr "Ysolde ne peut pas lancer Fireball"
+
+#. &"scorchling": "Tier 1. Fast fire imp. Flashpoint: bursts for 15 on death.",
+#: scripts/units/new_units_12.gd:42
+msgid "Tier 1. Fast fire imp. Flashpoint: bursts for 15 on death."
+msgstr "Palier 1. Diablotin de feu rapide. Flashpoint : explose pour 15 à sa mort."
+
+#. &"pyre_adept": "Tier 2 caster. Flame Burst: 30 to a clump of 3+ enemies (14 s).",
+#: scripts/units/new_units_12.gd:43
+msgid "Tier 2 caster. Flame Burst: 30 to a clump of 3+ enemies (14 s)."
+msgstr "Lanceur de sorts de palier 2. Flame Burst : 30 à un groupe de 3+ ennemis (14 s)."
+
+#. &"cinder_arbalest": "Tier 2 crossbow. Piercing bolt: half damage to the enemy behind.",
+#: scripts/units/new_units_12.gd:44
+msgid "Tier 2 crossbow. Piercing bolt: half damage to the enemy behind."
+msgstr "Arbalétrier de palier 2. Carreau perçant : demi-dégâts à l'ennemi derrière."
+
+#. &"barrow_ghoul": "Tier 1 melee. Grave Feast: heals 30 % on a kill.",
+#: scripts/units/new_units_12.gd:45
+msgid "Tier 1 melee. Grave Feast: heals 30 % on a kill."
+msgstr "Mêlée de palier 1. Grave Feast : soigne 30 % sur un coup fatal."
+
+#. &"hexweaver": "Tier 2 caster. Wither Hex: the costliest enemy deals -20 % for 6 s (10 s).",
+#: scripts/units/new_units_12.gd:46
+msgid "Tier 2 caster. Wither Hex: the costliest enemy deals -20 % for 6 s (10 s)."
+msgstr "Lanceur de sorts de palier 2. Wither Hex : l'ennemi le plus coûteux inflige -20 % pendant 6 s (10 s)."
+
+#. &"hollow_oathsworn": "Tier 2 swordsman. Unbroken Vow: under 35 % HP, shield 50 and +15 % damage (45 s).",
+#: scripts/units/new_units_12.gd:47
+msgid "Tier 2 swordsman. Unbroken Vow: under 35 % HP, shield 50 and +15 % damage (45 s)."
+msgstr "Épéiste de palier 2. Unbroken Vow : sous 35 % PV, bouclier de 50 et +15 % de dégâts (45 s)."
+
+#. &"rimeling": "Tier 1. Cheap frost goblin; every hit chills 1 s.",
+#: scripts/units/new_units_12.gd:48
+msgid "Tier 1. Cheap frost goblin; every hit chills 1 s."
+msgstr "Palier 1. Gobelin du givre bon marché ; chaque coup ralentit 1 s."
+
+#. &"hoarlight_magebow": "Tier 2 mage archer, quick to train. Frost Needle: 20 + chill (8 s).",
+#: scripts/units/new_units_12.gd:49
+msgid "Tier 2 mage archer, quick to train. Frost Needle: 20 + chill (8 s)."
+msgstr "Archer mage de palier 2, rapide à former. Frost Needle : 20 + ralentissement (8 s)."
+
+#. &"frost_mortar": "Tier 2 siege. Frost Shell: full damage and chill in 2 m.",
+#: scripts/units/new_units_12.gd:50
+msgid "Tier 2 siege. Frost Shell: full damage and chill in 2 m."
+msgstr "Siège de palier 2. Frost Shell : dégâts complets et ralentissement sur 2 m."
+
+#. &"thistle_darter": "Tier 1 skirmisher. Skitter: faster for 1.5 s after each dart.",
+#: scripts/units/new_units_12.gd:51
+msgid "Tier 1 skirmisher. Skitter: faster for 1.5 s after each dart."
+msgstr "Tirailleur de palier 1. Skitter : plus rapide 1,5 s après chaque dard."
+
+#. &"vinelasher": "Tier 2 whip. Snare Lash: 10 and rooted 1.5 s (10 s).",
+#: scripts/units/new_units_12.gd:52
+msgid "Tier 2 whip. Snare Lash: 10 and rooted 1.5 s (10 s)."
+msgstr "Fouet de palier 2. Snare Lash : 10 et enraciné 1,5 s (10 s)."
+
+#. &"greenheart_oathkeeper": "Tier 2 swordsman. Grove Oath: taunts enemies in 5 m and braces (14 s).",
+#: scripts/units/new_units_12.gd:53
+msgid "Tier 2 swordsman. Grove Oath: taunts enemies in 5 m and braces (14 s)."
+msgstr "Épéiste de palier 2. Grove Oath : provoque les ennemis à 5 m et se prépare (14 s)."
+
+#. const REASON_T2 := "Requires a Bazaar or a second Hall"
+#: scripts/units/new_units_12.gd:62
+msgid "Requires a Bazaar or a second Hall"
+msgstr "Exige un Bazar ou une deuxième salle"
+
+#. var gate := (REASON_T2 if OWN_T2_GATE else "Tier 2: requires Stronghold") if tier_of(type_id) >= 2 else ""
+#: scripts/units/new_units_12.gd:105
+msgid "Tier 2: requires Stronghold"
+msgstr "Palier 2 : exige la Forteresse"
+
+#. return "Malrik can't cast Fireball"
+#: scripts/units/shadow_wizard.gd:123
+msgid "Malrik can't cast Fireball"
+msgstr "Malrik ne peut pas lancer Fireball"
+
+#. &"blaze_rider": "Blaze Captain", &"pyrehoof_lancer": "Pyrehoof Warlord",
+#: scripts/units/stables16.gd:30
+msgid "Blaze Captain"
+msgstr "Blaze Captain"
+
+#. &"blaze_rider": "Blaze Captain", &"pyrehoof_lancer": "Pyrehoof Warlord",
+#: scripts/units/stables16.gd:30
+msgid "Pyrehoof Warlord"
+msgstr "Pyrehoof Warlord"
+
+#. &"gloam_rider": "Gloam Marauder", &"barrow_knight": "Barrow Dreadlord",
+#: scripts/units/stables16.gd:31
+msgid "Gloam Marauder"
+msgstr "Gloam Marauder"
+
+#. &"gloam_rider": "Gloam Marauder", &"barrow_knight": "Barrow Dreadlord",
+#: scripts/units/stables16.gd:31
+msgid "Barrow Dreadlord"
+msgstr "Barrow Dreadlord"
+
+#. &"snowdrift_rider": "Snowdrift Captain", &"rimehorn_rider": "Rimehorn Warden",
+#: scripts/units/stables16.gd:32
+msgid "Snowdrift Captain"
+msgstr "Snowdrift Captain"
+
+#. &"snowdrift_rider": "Snowdrift Captain", &"rimehorn_rider": "Rimehorn Warden",
+#: scripts/units/stables16.gd:32
+msgid "Rimehorn Warden"
+msgstr "Rimehorn Warden"
+
+#. &"stagrunner": "Elder Stagrunner", &"thornback_charger": "Thornback Warden",
+#: scripts/units/stables16.gd:33
+msgid "Elder Stagrunner"
+msgstr "Elder Stagrunner"
+
+#. &"stagrunner": "Elder Stagrunner", &"thornback_charger": "Thornback Warden",
+#: scripts/units/stables16.gd:33
+msgid "Thornback Warden"
+msgstr "Thornback Warden"
+
+#. &"blaze_rider": "Tier 1 shock cavalry. Beats archers and casters, loses to spears and guards. Rank 3: Blaze Ca
+#: scripts/units/stables16.gd:46
+msgid "Tier 1 shock cavalry. Beats archers and casters, loses to spears and guards. Rank 3: Blaze Captain."
+msgstr "Cavalerie de choc de palier 1. Bat archers et lanceurs de sorts, perd contre lances et gardes. Rang 3 : Blaze Captain."
+
+#. &"emberdart_harrier": "Tier 1 mounted javelins. Hit and run; fragile up close.",
+#: scripts/units/stables16.gd:47
+msgid "Tier 1 mounted javelins. Hit and run; fragile up close."
+msgstr "Javelots montés de palier 1. Frappe et fuit ; fragile de près."
+
+#. &"pyrehoof_lancer": "Tier 2 heavy boar lancer. Breaks lines. Rank 3: Pyrehoof Warlord.",
+#: scripts/units/stables16.gd:48
+msgid "Tier 2 heavy boar lancer. Breaks lines. Rank 3: Pyrehoof Warlord."
+msgstr "Lancier lourd sur sanglier de palier 2. Brise les lignes. Rang 3 : Pyrehoof Warlord."
+
+#. &"sunforge_cataphract": "Tier 3 elite cataphract. Armored, hits very hard.",
+#: scripts/units/stables16.gd:49
+msgid "Tier 3 elite cataphract. Armored, hits very hard."
+msgstr "Cataphractaire d'élite de palier 3. Blindé, frappe très fort."
+
+#. &"gloam_rider": "Tier 1 lancer. Fast raider. Rank 3: Gloam Marauder.",
+#: scripts/units/stables16.gd:50
+msgid "Tier 1 lancer. Fast raider. Rank 3: Gloam Marauder."
+msgstr "Lancier de palier 1. Pillard rapide. Rang 3 : Gloam Marauder."
+
+#. &"duskbolt_harrier": "Tier 1 mounted crossbow. Hit and run; fragile up close.",
+#: scripts/units/stables16.gd:51
+msgid "Tier 1 mounted crossbow. Hit and run; fragile up close."
+msgstr "Arbalète montée de palier 1. Frappe et fuit ; fragile de près."
+
+#. &"barrow_knight": "Tier 2 grave knight. Heavy hitter. Rank 3: Barrow Dreadlord.",
+#: scripts/units/stables16.gd:52
+msgid "Tier 2 grave knight. Heavy hitter. Rank 3: Barrow Dreadlord."
+msgstr "Chevalier des tombes de palier 2. Frappe lourdement. Rang 3 : Barrow Dreadlord."
+
+#. &"veilborn_dreadrider": "Tier 3 elite dread rider. The hardest hitter of the Stables.",
+#: scripts/units/stables16.gd:53
+msgid "Tier 3 elite dread rider. The hardest hitter of the Stables."
+msgstr "Cavalier de l'effroi d'élite de palier 3. Le plus gros frappeur des Stables."
+
+#. &"snowdrift_rider": "Tier 1 armored scout; every hit chills. Rank 3: Snowdrift Captain.",
+#: scripts/units/stables16.gd:54
+msgid "Tier 1 armored scout; every hit chills. Rank 3: Snowdrift Captain."
+msgstr "Éclaireur blindé de palier 1 ; chaque coup ralentit. Rang 3 : Snowdrift Captain."
+
+#. &"rime_harrier": "Tier 1 mounted frost javelins; every hit chills.",
+#: scripts/units/stables16.gd:55
+msgid "Tier 1 mounted frost javelins; every hit chills."
+msgstr "Javelots de givre montés de palier 1 ; chaque coup ralentit."
+
+#. &"rimehorn_rider": "Tier 2 armored breaker; hits chill 2 s. Rank 3: Rimehorn Warden.",
+#: scripts/units/stables16.gd:56
+msgid "Tier 2 armored breaker; hits chill 2 s. Rank 3: Rimehorn Warden."
+msgstr "Briseur blindé de palier 2 ; ses coups ralentissent 2 s. Rang 3 : Rimehorn Warden."
+
+#. &"frostcrown_juggernaut": "Tier 3 elite. The toughest rider; hits chill 2 s.",
+#: scripts/units/stables16.gd:57
+msgid "Tier 3 elite. The toughest rider; hits chill 2 s."
+msgstr "Élite de palier 3. Le cavalier le plus coriace ; ses coups ralentissent 2 s."
+
+#. &"stagrunner": "Tier 1 fast skirmisher; regenerates. Rank 3: Elder Stagrunner.",
+#: scripts/units/stables16.gd:58
+msgid "Tier 1 fast skirmisher; regenerates. Rank 3: Elder Stagrunner."
+msgstr "Tirailleur rapide de palier 1 ; se régénère. Rang 3 : Elder Stagrunner."
+
+#. &"bramble_harrier": "Tier 1 mounted thorn darts; regenerates.",
+#: scripts/units/stables16.gd:59
+msgid "Tier 1 mounted thorn darts; regenerates."
+msgstr "Dards épineux montés de palier 1 ; se régénère."
+
+#. &"thornback_charger": "Tier 2 heavy stag charger; regenerates. Rank 3: Thornback Warden.",
+#: scripts/units/stables16.gd:60
+msgid "Tier 2 heavy stag charger; regenerates. Rank 3: Thornback Warden."
+msgstr "Chargeur lourd sur cerf de palier 2 ; se régénère. Rang 3 : Thornback Warden."
+
+#. &"glade_outrider": "Tier 3 horse archer. Long range, fast; regenerates.",
+#: scripts/units/stables16.gd:61
+msgid "Tier 3 horse archer. Long range, fast; regenerates."
+msgstr "Archer monté de palier 3. Longue portée, rapide ; se régénère."
+
+#. return "No rank-up for that unit"
+#: scripts/units/stables16.gd:257
+msgid "No rank-up for that unit"
+msgstr "Aucune promotion pour cette unité"
+
+#. return "Needs completed Stables"
+#: scripts/units/stables16.gd:264 scripts/units/stables16.gd:267
+msgid "Needs completed Stables"
+msgstr "Exige des Stables terminées"
+
+#. return "The Stables is busy"
+#: scripts/units/stables16.gd:273
+msgid "The Stables is busy"
+msgstr "Les Stables sont occupées"
+
+#. const NAMES := {&"str": "Strength", &"int": "Intellect"}
+#: scripts/units/str_int_path.gd:35
+msgid "Strength"
+msgstr "Force"
+
+#. const NAMES := {&"str": "Strength", &"int": "Intellect"}
+#: scripts/units/str_int_path.gd:35
+msgid "Intellect"
+msgstr "Intelligence"
+
+#. const ABILITY_NAMES := {&"str": "Vigor", &"int": "Snow Shield"}
+#: scripts/units/str_int_path.gd:36
+msgid "Vigor"
+msgstr "Vigor"
+
+#. const ABILITY_NAMES := {&"str": "Vigor", &"int": "Snow Shield"}
+#: scripts/units/str_int_path.gd:36
+msgid "Snow Shield"
+msgstr "Snow Shield"
+
+#. return "Disabled"
+#: scripts/units/str_int_path.gd:119
+msgid "Disabled"
+msgstr "Désactivé"
+
+#. return "Unknown path"
+#: scripts/units/str_int_path.gd:121
+msgid "Unknown path"
+msgstr "Voie inconnue"
+
+#. return "Already chosen"
+#: scripts/units/str_int_path.gd:123
+msgid "Already chosen"
+msgstr "Déjà choisi"
+
+#. return "No path"
+#: scripts/units/str_int_path.gd:164
+msgid "No path"
+msgstr "Aucune voie"
+
+#. return "Active"
+#: scripts/units/str_int_path.gd:168
+msgid "Active"
+msgstr "Actif"
+
+#. &"ashveil_saboteur": "Tier 3 spy. Looks like an enemy worker out of combat; plants Powder Charges (250, pauses
+#: scripts/units/t3_kit.gd:24
+msgid "Tier 3 spy. Looks like an enemy worker out of combat; plants Powder Charges (250, pauses training 10 s). Max 4."
+msgstr "Espion de palier 3. Ressemble à un ouvrier ennemi hors combat ; pose des Powder Charges (250, bloque la formation 10 s). Max 4."
+
+#. &"nightblood_reaver": "Tier 3 vampire duelist. Heals 35 % of its damage (halved 4 s by fire); Blood Frenzy und
+#: scripts/units/t3_kit.gd:25
+msgid "Tier 3 vampire duelist. Heals 35 % of its damage (halved 4 s by fire); Blood Frenzy under 40 % HP."
+msgstr "Duelliste vampire de palier 3. Récupère 35 % de ses dégâts (moitié moins 4 s après du feu) ; Blood Frenzy sous 40 % PV."
+
+#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off
+#: scripts/units/t3_kit.gd:26
+msgid "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off your archers."
+msgstr "Hallebardier de palier 3. Hold the Line : arrête une charge et fige le cavalier 1 s ; provoque les plongeurs loin de vos archers."
+
+#. &"briar_roc": "Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s.",
+#: scripts/units/t3_kit.gd:27
+msgid "Tier 3 thorn bird. Seed Storm every 16 s: 30 and roots ground enemies 1 s."
+msgstr "Oiseau épineux de palier 3. Seed Storm toutes les 16 s : 30 et enracine les ennemis terrestres 1 s."
+
+#. &"stormbottle_genie": "Neutral tier-3 hire. Lightning chains to 2 more; Tempest Bolt 120 (x1.5 on titans).",
+#: scripts/units/t3_kit.gd:28
+msgid "Neutral tier-3 hire. Lightning chains to 2 more; Tempest Bolt 120 (x1.5 on titans)."
+msgstr "Recrue neutre de palier 3. La foudre rebondit sur 2 autres ; Tempest Bolt 120 (x1,5 sur les titans)."
+
+#. const REASON_SABOTEUR_MAX := "Max 4 Saboteurs"
+#: scripts/units/t3_kit.gd:31
+msgid "Max 4 Saboteurs"
+msgstr "Max 4 Saboteurs"
+
+#. const REASON_GENIE_ALREADY := "Already hired"
+#: scripts/units/t3_kit.gd:40 scripts/world/champion_guild.gd:75
+msgid "Already hired"
+msgstr "Déjà engagé"
+
+#. const REASON_NO_TAVERN := "No open tavern"
+#: scripts/units/t3_kit.gd:41
+msgid "No open tavern"
+msgstr "Aucune taverne ouverte"
+
+#. return "Tier 3 helper: your kingdom's ally fights beside your wizard (autonomous, stance on its card). 200 ess
+#: scripts/units/t3_kit.gd:98
+msgid "Tier 3 helper: your kingdom's ally fights beside your wizard (autonomous, stance on its card). 200 essence. Level = your wizard's."
+msgstr "Assistant de palier 3 : l'allié de votre royaume combat aux côtés de votre sorcier (autonome, posture sur sa carte). 200 essence. Niveau = celui de votre sorcier."
+
+#. return "Bring your helper back at the keep (essence)."
+#: scripts/units/t3_kit.gd:100
+msgid "Bring your helper back at the keep (essence)."
+msgstr "Ramenez votre assistant au donjon (essence)."
+
+#. text = "%s, %s. %d essence too. Autonomous; its level is your wizard's. Stance on its card." % [
+#: scripts/units/t3_kit.gd:126
+msgid "%s, %s. %d essence too. Autonomous; its level is your wizard's. Stance on its card."
+msgstr "%s, %s. %d essence aussi. Autonome ; son niveau est celui de votre sorcier. Posture sur sa carte."
+
+#. text = "%d essence. %s returns at the keep." % [roster.revive_cost(), ht.display_name]
+#: scripts/units/t3_kit.gd:129
+msgid "%d essence. %s returns at the keep."
+msgstr "%d essence. %s revient au donjon."
+
+#. return "Can't hire that here"
+#: scripts/units/t3_kit.gd:265 scripts/units/t3_kit.gd:268
+msgid "Can't hire that here"
+msgstr "Impossible d'engager ça ici"
+
+#. @export var unit_name := "Soldier"
+#: scripts/units/unit.gd:143
+msgid "Soldier"
+msgstr "Soldat"
+
+#. return "Needs level %d" % needed
+#: scripts/units/wizard.gd:416
+msgid "Needs level %d"
+msgstr "Exige le niveau %d"
+
+#. return "Your wizard has fallen"
+#: scripts/units/wizard.gd:515
+msgid "Your wizard has fallen"
+msgstr "Votre sorcier est tombé"
+
+#. return "Empty slot"
+#: scripts/items/inventory.gd:344 scripts/items/inventory.gd:377 scripts/items/item_actives.gd:94
+#: scripts/items/item_actives.gd:206 scripts/items/item_actives.gd:237
+msgid "Empty slot"
+msgstr "Emplacement vide"
+
+#. return "Not an active"
+#: scripts/items/inventory.gd:347 scripts/items/inventory.gd:354 scripts/items/inventory.gd:361
+#: scripts/items/item_actives.gd:209 scripts/items/item_actives.gd:240
+msgid "Not an active"
+msgstr "Pas un objet actif"
+
+#. plan["reason"] = "Not sold here"
+#: scripts/items/inventory.gd:460 scripts/items/inventory.gd:478 scripts/items/recipes.gd:61
+#: scripts/items/recipes.gd:63
+msgid "Not sold here"
+msgstr "Pas vendu ici"
+
+#. reason = "Unknown item"
+#: scripts/items/inventory.gd:472 scripts/items/recipes.gd:30
+msgid "Unknown item"
+msgstr "Objet inconnu"
+
+#. var text := "Tithe from %s: %d" % [_owner_name(), amount]
+#: scripts/items/inventory.gd:809
+msgid "Tithe from %s: %d"
+msgstr "Dîme de %s : %d"
+
+#. return "Not carried"
+#: scripts/items/item_actives.gd:141 scripts/items/item_actives.gd:155
+#: scripts/items/item_actives.gd:158
+msgid "Not carried"
+msgstr "Non porté"
+
+#. return "Unique"
+#: scripts/items/item_actives.gd:212 scripts/items/item_actives.gd:243
+msgid "Unique"
+msgstr "Unique"
+
+#. return "Not available yet"
+#: scripts/items/item_actives.gd:216 scripts/items/item_actives.gd:257
+msgid "Not available yet"
+msgstr "Pas encore disponible"
+
+#. @export_flags("Base", "Peddler") var sold_at := 0
+#: scripts/items/item_type.gd:43
+msgid "Base"
+msgstr "Base"
+
+#. @export_flags("Base", "Peddler") var sold_at := 0
+#: scripts/items/item_type.gd:43
+msgid "Peddler"
+msgstr "Colporteur"
+
+#. reason = "Needs %s (%s)" % [display_name(blocked), _where_sold(blocked)]
+#: scripts/items/recipes.gd:65
+msgid "Needs %s (%s)"
+msgstr "Exige %s (%s)"
+
+#. return "another shop"
+#: scripts/items/recipes.gd:346
+msgid "another shop"
+msgstr "une autre boutique"
+
+#. return "neutral peddler"
+#: scripts/items/recipes.gd:349
+msgid "neutral peddler"
+msgstr "colporteur neutre"
+
+#. return "base shop"
+#: scripts/items/recipes.gd:351
+msgid "base shop"
+msgstr "boutique de la base"
+
+#. return "not sold"
+#: scripts/items/recipes.gd:352
+msgid "not sold"
+msgstr "pas en vente"
+
+#. return "Loading"
+#: scripts/economy/caravan.gd:170
+msgid "Loading"
+msgstr "Chargement"
+
+#. return "To %s" % _post_name(_trip_post)
+#: scripts/economy/caravan.gd:172
+msgid "To %s"
+msgstr "Vers %s"
+
+#. return "Trading"
+#: scripts/economy/caravan.gd:174
+msgid "Trading"
+msgstr "Commerce"
+
+#. return "Returning with %d" % cargo if cargo > 0 else "Returning"
+#: scripts/economy/caravan.gd:176
+msgid "Returning with %d"
+msgstr "Retour avec %d"
+
+#. return "Returning with %d" % cargo if cargo > 0 else "Returning"
+#: scripts/economy/caravan.gd:176
+msgid "Returning"
+msgstr "Retour"
+
+#. return "Waiting: posts open at 4:00"
+#: scripts/economy/caravan.gd:180
+msgid "Waiting: posts open at 4:00"
+msgstr "En attente : les comptoirs ouvrent à 4:00"
+
+#. return "Waiting: %s is held" % _post_name(_trip_post)
+#: scripts/economy/caravan.gd:182
+msgid "Waiting: %s is held"
+msgstr "En attente : %s est pris"
+
+#. return "Waiting: no Bazaar"
+#: scripts/economy/caravan.gd:184
+msgid "Waiting: no Bazaar"
+msgstr "En attente : aucun Bazar"
+
+#. return "Waiting: no route"
+#: scripts/economy/caravan.gd:186
+msgid "Waiting: no route"
+msgstr "En attente : aucune route"
+
+#. return "Waiting"
+#: scripts/economy/caravan.gd:187
+msgid "Waiting"
+msgstr "En attente"
+
+#. return "the post"
+#: scripts/economy/caravan.gd:663
+msgid "the post"
+msgstr "le comptoir"
+
+#. return "Your caravan was robbed: -%d gold" % amount
+#: scripts/economy/caravan.gd:850
+msgid "Your caravan was robbed: -%d gold"
+msgstr "Votre caravane a été volée : -%d or"
+
+#. return "Your caravan was destroyed"
+#: scripts/economy/caravan.gd:852
+msgid "Your caravan was destroyed"
+msgstr "Votre caravane a été détruite"
+
+#. return "%d of your caravans were destroyed" % amount
+#: scripts/economy/caravan.gd:853
+msgid "%d of your caravans were destroyed"
+msgstr "%d de vos caravanes ont été détruites"
+
+#. _show("%s is held by the enemy: your caravans wait" % post_name)
+#: scripts/economy/caravan.gd:861
+msgid "%s is held by the enemy: your caravans wait"
+msgstr "%s est aux mains de l'ennemi : vos caravanes attendent"
+
+#. "stats": {&"move_speed": 0.5, &"max_hp": 60.0}, "text": "Caravans +0.5 speed and +60 max HP"},
+#: scripts/economy/gold_bank.gd:48
+msgid "Caravans +0.5 speed and +60 max HP"
+msgstr "Caravanes : +0,5 vitesse et +60 PV max"
+
+#. "stats": {}, "hp_mult": 1.15, "text": "Every building +15% max HP"},
+#: scripts/economy/gold_bank.gd:50
+msgid "Every building +15% max HP"
+msgstr "Chaque bâtiment : +15 % PV max"
+
+#. "stats": {&"attack_damage_pct": 0.08}, "text": "Soldiers +8% attack damage"},
+#: scripts/economy/gold_bank.gd:52
+msgid "Soldiers +8% attack damage"
+msgstr "Soldats : +8 % de dégâts d'attaque"
+
+#. "stats": {&"armor": 10.0}, "text": "Soldiers +10 armor"},
+#: scripts/economy/gold_bank.gd:54
+msgid "Soldiers +10 armor"
+msgstr "Soldats : +10 d'armure"
+
+#. const MSG_UNKNOWN_WARE := "Unknown ware"
+#: scripts/economy/gold_bank.gd:64
+msgid "Unknown ware"
+msgstr "Marchandise inconnue"
+
+#. const MSG_UNKNOWN_RESOURCE := "Unknown resource"
+#: scripts/economy/gold_bank.gd:65
+msgid "Unknown resource"
+msgstr "Ressource inconnue"
+
+#. const MSG_STEP := "Exchange in steps of 100 gold"
+#: scripts/economy/gold_bank.gd:66
+msgid "Exchange in steps of 100 gold"
+msgstr "Échange par tranches de 100 or"
+
+#. const MSG_NO_TARGET := "Cannot exchange now"
+#: scripts/economy/gold_bank.gd:67
+msgid "Cannot exchange now"
+msgstr "Échange impossible pour l'instant"
+
+#. return "Claim"
+#: scripts/world/bounty.gd:235
+msgid "Claim"
+msgstr "Réclamer"
+
+#. var what := "bounty on %s" % _the(b.target)
+#: scripts/world/bounty_board.gd:657
+msgid "bounty on %s"
+msgstr "prime sur %s"
+
+#. what = "claim on %s" % name_of(b.claim_point)
+#: scripts/world/bounty_board.gd:659
+msgid "claim on %s"
+msgstr "réclamation sur %s"
+
+#. what = "scouting bounty"
+#: scripts/world/bounty_board.gd:661
+msgid "scouting bounty"
+msgstr "prime d'éclaireur"
+
+#. notify("%s took your %s" % [name_of(champion), what])
+#: scripts/world/bounty_board.gd:662
+msgid "%s took your %s"
+msgstr "%s a pris votre %s"
+
+#. notify("Bounty paid: %d to %s" % [share, name_of(ch)])
+#: scripts/world/bounty_board.gd:686 scripts/world/bounty_board.gd:705
+msgid "Bounty paid: %d to %s"
+msgstr "Prime payée : %d à %s"
+
+#. var who := name_of(ch) if ch else "a champion"
+#: scripts/world/bounty_board.gd:704
+msgid "a champion"
+msgstr "un champion"
+
+#. notify("Bounty refunded: %d" % amount)
+#: scripts/world/bounty_board.gd:714
+msgid "Bounty refunded: %d"
+msgstr "Prime remboursée : %d"
+
+#. var what := name_of(b.target) if is_named(b.target) else "your %s" % name_of(b.target)
+#: scripts/world/bounty_board.gd:723
+msgid "your %s"
+msgstr "votre %s"
+
+#. victim_board.notify("A bounty of %d is on %s!" % [b.stake, what])
+#: scripts/world/bounty_board.gd:726
+msgid "A bounty of %d is on %s!"
+msgstr "Une prime de %d est sur %s !"
+
+#. return "a lost target"
+#: scripts/world/bounty_board.gd:810
+msgid "a lost target"
+msgstr "une cible perdue"
+
+#. return name_of(node) if is_named(node) else "the %s" % name_of(node)
+#: scripts/world/bounty_board.gd:811
+msgid "the %s"
+msgstr "le %s"
+
+#. &"bristleback": {"name": "Bristleback Wallow", "tier": 1,
+#: scripts/world/camp_manager.gd:28 scripts/world/layout_level.gd:28 scripts/world/skirmish.gd:179
+#: scripts/world/skirmish.gd:181
+msgid "Bristleback Wallow"
+msgstr "Bristleback Wallow"
+
+#. &"mirefang": {"name": "Ford Nest", "tier": 2, "amphibious": true,
+#: scripts/world/camp_manager.gd:30 scripts/world/layout_level.gd:28
+msgid "Ford Nest"
+msgstr "Ford Nest"
+
+#. &"gloomcap": {"name": "Gloomcap Hollow", "tier": 2,
+#: scripts/world/camp_manager.gd:32 scripts/world/layout_level.gd:29 scripts/world/skirmish.gd:187
+#: scripts/world/skirmish.gd:189
+msgid "Gloomcap Hollow"
+msgstr "Gloomcap Hollow"
+
+#. &"hollow_stag": {"name": "Stag Glade", "tier": 3,
+#: scripts/world/camp_manager.gd:35 scripts/world/layout_level.gd:29 scripts/world/skirmish.gd:191
+#: scripts/world/skirmish.gd:193
+msgid "Stag Glade"
+msgstr "Stag Glade"
+
+#. const MSG_CLEARED := "%s cleared: +%d essence"
+#: scripts/world/camp_manager.gd:76
+msgid "%s cleared: +%d essence"
+msgstr "%s nettoyé : +%d essence"
+
+#. const MSG_ENEMY_CLEARED := "The enemy cleared the %s"
+#: scripts/world/camp_manager.gd:78
+msgid "The enemy cleared the %s"
+msgstr "L'ennemi a nettoyé : %s"
+
+#. const MSG_UNDERDOG := "Underdog bonus: +50 %% from the %s"
+#: scripts/world/camp_manager.gd:79
+msgid "Underdog bonus: +50 %% from the %s"
+msgstr "Bonus de l'outsider : +50 %% de %s"
+
+#. const MSG_STAGS := "The Hollow Stags roam the glades"
+#: scripts/world/camp_manager.gd:80
+msgid "The Hollow Stags roam the glades"
+msgstr "Les Hollow Stags errent dans les clairières"
+
+#. return "30 % Ember Draught"
+#: scripts/world/camp_manager.gd:270
+msgid "30 % Ember Draught"
+msgstr "30 % Ember Draught"
+
+#. return "35 % a component"
+#: scripts/world/camp_manager.gd:272
+msgid "35 % a component"
+msgstr "35 % une composante"
+
+#. return "a component · 40 % Warden Scale or Vital Root"
+#: scripts/world/camp_manager.gd:274
+msgid "a component · 40 % Warden Scale or Vital Root"
+msgstr "une composante · 40 % Warden Scale ou Vital Root"
+
+#. const MSG_CAPTURED_OWN := "Your forces captured %s"
+#: scripts/world/capture_points.gd:54
+msgid "Your forces captured %s"
+msgstr "Vos forces ont pris %s"
+
+#. const MSG_CAPTURED_ENEMY := "The enemy captured %s"
+#: scripts/world/capture_points.gd:55
+msgid "The enemy captured %s"
+msgstr "L'ennemi a pris %s"
+
+#. const MSG_NEUTRALISED := "%s was neutralised"
+#: scripts/world/capture_points.gd:56
+msgid "%s was neutralised"
+msgstr "%s a été neutralisé"
+
+#. const MSG_CAPTURING := "Your forces are capturing %s"
+#: scripts/world/capture_points.gd:57
+msgid "Your forces are capturing %s"
+msgstr "Vos forces prennent %s"
+
+#. const MSG_TAKING := "The enemy is taking %s!"
+#: scripts/world/capture_points.gd:58
+msgid "The enemy is taking %s!"
+msgstr "L'ennemi s'empare de %s !"
+
+#. const MSG_WELLS := "The essence wells are brimming"
+#: scripts/world/capture_points.gd:59
+msgid "The essence wells are brimming"
+msgstr "Les puits d'essence débordent"
+
+#. const MSG_SHRINES := "The Wayshrines awaken"
+#: scripts/world/capture_points.gd:60
+msgid "The Wayshrines awaken"
+msgstr "Les Wayshrines s'éveillent"
+
+#. const MSG_SHRINE := "The %s awakens"
+#: scripts/world/capture_points.gd:61
+msgid "The %s awakens"
+msgstr "%s s'éveille"
+
+#. const MSG_BLESSING_OWN := "Blessing of the Wayshrine: +12 % speed, +1.5 HP / s for 60 s"
+#: scripts/world/capture_points.gd:62
+msgid "Blessing of the Wayshrine: +12 % speed, +1.5 HP / s for 60 s"
+msgstr "Bénédiction du Wayshrine : +12 % vitesse, +1,5 PV / s pendant 60 s"
+
+#. const MSG_BLESSING_ENEMY := "The enemy received the Wayshrine's blessing"
+#: scripts/world/capture_points.gd:63
+msgid "The enemy received the Wayshrine's blessing"
+msgstr "L'ennemi a reçu la bénédiction du Wayshrine"
+
+#. const R_CLOSED := "Tavern closed"
+#: scripts/world/champion_guild.gd:73
+msgid "Tavern closed"
+msgstr "Taverne fermée"
+
+#. const R_MAX := "Max 3 champions"
+#: scripts/world/champion_guild.gd:74
+msgid "Max 3 champions"
+msgstr "Max 3 champions"
+
+#. const R_UNKNOWN := "Unknown champion"
+#: scripts/world/champion_guild.gd:81
+msgid "Unknown champion"
+msgstr "Champion inconnu"
+
+#. const R_REVIVING := "Already reviving"
+#: scripts/world/champion_guild.gd:84
+msgid "Already reviving"
+msgstr "Déjà en train de ranimer"
+
+#. const MSG_JOINS := "%s joins you"
+#: scripts/world/champion_guild.gd:87
+msgid "%s joins you"
+msgstr "%s se joint à vous"
+
+#. const MSG_ENEMY_HIRED := "%s hired %s"
+#: scripts/world/champion_guild.gd:88
+msgid "%s hired %s"
+msgstr "%s a engagé %s"
+
+#. const MSG_LEAVES := "%s leaves your service"
+#: scripts/world/champion_guild.gd:91
+msgid "%s leaves your service"
+msgstr "%s quitte votre service"
+
+#. const MSG_UNPAID := "Your champions are unpaid: they ignore bounties"
+#: scripts/world/champion_guild.gd:92
+msgid "Your champions are unpaid: they ignore bounties"
+msgstr "Vos champions ne sont pas payés : ils ignorent les primes"
+
+#. var who := EmberCrown.short_name(wiz) if wiz else "The enemy"
+#: scripts/world/champion_guild.gd:638
+msgid "The enemy"
+msgstr "L'ennemi"
+
+#. return "A champion"
+#: scripts/world/champion_guild.gd:827 scripts/world/champion_guild.gd:838
+msgid "A champion"
+msgstr "Un champion"
+
+#. &"ironhide_tusker": ["An Ironhide Tusker roams the %s", "the Ironhide Tusker"],
+#: scripts/world/epic_beasts.gd:71
+msgid "An Ironhide Tusker roams the %s"
+msgstr "Un Ironhide Tusker erre : %s"
+
+#. &"ironhide_tusker": ["An Ironhide Tusker roams the %s", "the Ironhide Tusker"],
+#: scripts/world/epic_beasts.gd:71
+msgid "the Ironhide Tusker"
+msgstr "l'Ironhide Tusker"
+
+#. &"old_scarback": ["Old Scarback, an alpha Tusker, roams the %s!", "Old Scarback"],
+#: scripts/world/epic_beasts.gd:72
+msgid "Old Scarback, an alpha Tusker, roams the %s!"
+msgstr "Old Scarback, un Tusker alpha, erre : %s !"
+
+#. &"stormcrest_roc": ["A Stormcrest Roc roams the %s", "the Stormcrest Roc"],
+#: scripts/world/epic_beasts.gd:73
+msgid "A Stormcrest Roc roams the %s"
+msgstr "Un Stormcrest Roc erre : %s"
+
+#. &"stormcrest_roc": ["A Stormcrest Roc roams the %s", "the Stormcrest Roc"],
+#: scripts/world/epic_beasts.gd:73
+msgid "the Stormcrest Roc"
+msgstr "le Stormcrest Roc"
+
+#. &"duskwing_roc": ["A Duskwing Roc, a dark breed, roams the %s!", "the Duskwing Roc"],
+#: scripts/world/epic_beasts.gd:74
+msgid "A Duskwing Roc, a dark breed, roams the %s!"
+msgstr "Un Duskwing Roc, une race sombre, erre : %s !"
+
+#. &"duskwing_roc": ["A Duskwing Roc, a dark breed, roams the %s!", "the Duskwing Roc"],
+#: scripts/world/epic_beasts.gd:74
+msgid "the Duskwing Roc"
+msgstr "le Duskwing Roc"
+
+#. &"greymane_direwolf": ["A Greymane Direwolf roams the %s", "the Greymane Direwolf"],
+#: scripts/world/epic_beasts.gd:75
+msgid "A Greymane Direwolf roams the %s"
+msgstr "Un Greymane Direwolf erre : %s"
+
+#. &"greymane_direwolf": ["A Greymane Direwolf roams the %s", "the Greymane Direwolf"],
+#: scripts/world/epic_beasts.gd:75
+msgid "the Greymane Direwolf"
+msgstr "le Greymane Direwolf"
+
+#. &"moonpelt_direwolf": ["A Moonpelt Direwolf, a silver breed, roams the %s!", "the Moonpelt Direwolf"],
+#: scripts/world/epic_beasts.gd:76
+msgid "A Moonpelt Direwolf, a silver breed, roams the %s!"
+msgstr "Un Moonpelt Direwolf, une race argentée, erre : %s !"
+
+#. &"moonpelt_direwolf": ["A Moonpelt Direwolf, a silver breed, roams the %s!", "the Moonpelt Direwolf"],
+#: scripts/world/epic_beasts.gd:76
+msgid "the Moonpelt Direwolf"
+msgstr "le Moonpelt Direwolf"
+
+#. &"grizzlemaw": ["A Grizzlemaw roams the %s", "the Grizzlemaw"],
+#: scripts/world/epic_beasts.gd:77
+msgid "A Grizzlemaw roams the %s"
+msgstr "Un Grizzlemaw erre : %s"
+
+#. &"grizzlemaw": ["A Grizzlemaw roams the %s", "the Grizzlemaw"],
+#: scripts/world/epic_beasts.gd:77
+msgid "the Grizzlemaw"
+msgstr "le Grizzlemaw"
+
+#. &"elder_grizzlemaw": ["An Elder Grizzlemaw roams the %s!", "the Elder Grizzlemaw"],
+#: scripts/world/epic_beasts.gd:78
+msgid "An Elder Grizzlemaw roams the %s!"
+msgstr "Un Elder Grizzlemaw erre : %s !"
+
+#. &"elder_grizzlemaw": ["An Elder Grizzlemaw roams the %s!", "the Elder Grizzlemaw"],
+#: scripts/world/epic_beasts.gd:78
+msgid "the Elder Grizzlemaw"
+msgstr "l'Elder Grizzlemaw"
+
+#. {"id": &"lair_heath_w", "name": "West Heath", "mirror_id": &"lair_heath_e", "mirror_name": "East Heath",
+#: scripts/world/epic_beasts.gd:123 scripts/world/skirmish.gd:199
+msgid "West Heath"
+msgstr "West Heath"
+
+#. {"id": &"lair_heath_w", "name": "West Heath", "mirror_id": &"lair_heath_e", "mirror_name": "East Heath",
+#: scripts/world/epic_beasts.gd:123 scripts/world/skirmish.gd:202
+msgid "East Heath"
+msgstr "East Heath"
+
+#. {"id": &"lair_crag_w", "name": "Colossus Crag", "mirror_id": &"lair_crag_e", "mirror_name": "Colossus Crag",
+#: scripts/world/epic_beasts.gd:127 scripts/world/skirmish.gd:205 scripts/world/skirmish.gd:208
+msgid "Colossus Crag"
+msgstr "Colossus Crag"
+
+#. {"id": &"lair_hollow_w", "name": "Greymane Hollow", "mirror_id": &"lair_hollow_e", "mirror_name": "Greymane Ho
+#: scripts/world/epic_beasts.gd:131 scripts/world/layout_level.gd:31 scripts/world/skirmish.gd:211
+#: scripts/world/skirmish.gd:214
+msgid "Greymane Hollow"
+msgstr "Greymane Hollow"
+
+#. {"id": &"lair_den_w", "name": "Old Wood Den", "mirror_id": &"lair_den_e", "mirror_name": "Old Wood Den",
+#: scripts/world/epic_beasts.gd:135 scripts/world/layout_level.gd:31 scripts/world/skirmish.gd:217
+#: scripts/world/skirmish.gd:220
+msgid "Old Wood Den"
+msgstr "Old Wood Den"
+
+#. var names: Array = NAMES.get(type_id, ["A beast roams the %s", "the beast"])
+#: scripts/world/epic_beasts.gd:474
+msgid "A beast roams the %s"
+msgstr "Une bête erre : %s"
+
+#. var names: Array = NAMES.get(type_id, ["A beast roams the %s", "the beast"])
+#: scripts/world/epic_beasts.gd:474 scripts/world/epic_beasts.gd:675
+msgid "the beast"
+msgstr "la bête"
+
+#. return "The enemy slew %s" % who
+#: scripts/world/epic_beasts.gd:678
+msgid "The enemy slew %s"
+msgstr "L'ennemi a abattu %s"
+
+#. var text := "Your army slew %s" % who
+#: scripts/world/epic_beasts.gd:679
+msgid "Your army slew %s"
+msgstr "Votre armée a abattu %s"
+
+#. "name": "Red deer", "hp": 60.0, "radius": 0.5, "walk": 3.0, "flee": 7.0, "flee_dist": 12.0,
+#: scripts/world/game_critter.gd:39
+msgid "Red deer"
+msgstr "Cerf"
+
+#. "name": "Rabbit", "hp": 12.0, "radius": 0.25, "walk": 2.0, "flee": 6.0, "flee_dist": 5.0,
+#: scripts/world/game_critter.gd:45
+msgid "Rabbit"
+msgstr "Lapin"
+
+#. const GUILD_NAMES := {&"den": "Thieves' Guild", &"lodge": "Hunters' Guild"}
+#: scripts/world/guild_house.gd:31
+msgid "Thieves' Guild"
+msgstr "Thieves' Guild"
+
+#. const GUILD_NAMES := {&"den": "Thieves' Guild", &"lodge": "Hunters' Guild"}
+#: scripts/world/guild_house.gd:31
+msgid "Hunters' Guild"
+msgstr "Hunters' Guild"
+
+#. display_name = String(NAMES.get(kind, "Guild House"))
+#: scripts/world/guild_house.gd:54
+msgid "Guild House"
+msgstr "Guild House"
+
+#. const R_UNKNOWN := "Unknown contract"
+#: scripts/world/hunters_guild.gd:52
+msgid "Unknown contract"
+msgstr "Contrat inconnu"
+
+#. const R_CLOSED := "The Lodge opens at 5:00"
+#: scripts/world/hunters_guild.gd:53
+msgid "The Lodge opens at 5:00"
+msgstr "Le Lodge ouvre à 5:00"
+
+#. const R_NO_CARAVANS := "No caravans to escort"
+#: scripts/world/hunters_guild.gd:56
+msgid "No caravans to escort"
+msgstr "Aucune caravane à escorter"
+
+#. &"outriders": "Outriders hired: 2 trackers guard your caravans",
+#: scripts/world/hunters_guild.gd:60
+msgid "Outriders hired: 2 trackers guard your caravans"
+msgstr "Outriders engagés : 2 pisteurs gardent vos caravanes"
+
+#. &"sweep": "Sweep hired: 3 trackers clear your roads and mines",
+#: scripts/world/hunters_guild.gd:61
+msgid "Sweep hired: 3 trackers clear your roads and mines"
+msgstr "Sweep engagé : 3 pisteurs nettoient vos routes et vos mines"
+
+#. const MSG_REWARD := "Greywater Lodge pays %d gold for %d %s"
+#: scripts/world/hunters_guild.gd:63
+msgid "Greywater Lodge pays %d gold for %d %s"
+msgstr "Greywater Lodge paie %d or pour %d %s"
+
+#. const LAIR_KINDS := {"heath": [&"tusker", 4.0, 390.0, 600.0, "Heath"], "crag": [&"roc", 5.0, 510.0, 600.0, "Cr
+#: scripts/world/layout_level.gd:30
+msgid "Heath"
+msgstr "Heath"
+
+#. const POINT_NAMES := {"watchtower": "Watch", "well": "Well", "shrine": "Wayshrine"}
+#: scripts/world/layout_level.gd:32
+msgid "Watch"
+msgstr "Watch"
+
+#. const POINT_NAMES := {"watchtower": "Watch", "well": "Well", "shrine": "Wayshrine"}
+#: scripts/world/layout_level.gd:32
+msgid "Well"
+msgstr "Well"
+
+#. var line := "Ember Crown: unclaimed"
+#: scripts/world/layout_level.gd:420 scripts/world/skirmish.gd:700
+msgid "Ember Crown: unclaimed"
+msgstr "Ember Crown : non réclamée"
+
+#. line = "Ember Crown: sealed until 6:00"
+#: scripts/world/layout_level.gd:422 scripts/world/skirmish.gd:702
+msgid "Ember Crown: sealed until 6:00"
+msgstr "Ember Crown : scellée jusqu'à 6:00"
+
+#. line = "Ember Crown: worn by %s" % crown.wearer_name()
+#: scripts/world/layout_level.gd:424 scripts/world/skirmish.gd:704
+msgid "Ember Crown: worn by %s"
+msgstr "Ember Crown : portée par %s"
+
+#. return "Skirmish: %s\nDestroy every %s building. Keep one of yours standing.\n" % [layout.title,
+#: scripts/world/layout_level.gd:427
+msgid "Skirmish: %s\nDestroy every %s building. Keep one of yours standing.\n"
+msgstr "Escarmouche : %s\nDétruisez tous les bâtiments %s. Gardez-en un des vôtres debout.\n"
+
+#. return {"identity": "Fire", "rot180": "Shadow", "mirror_x": "East", "mirror_z": "North"}.get(String(s.get("ima
+#: scripts/world/layout_level.gd:545
+msgid "East"
+msgstr "East"
+
+#. herds.append({"id": StringName("herd_" + img), "name": "%s herd" % img.capitalize(), "count": 3, "respawn": 12
+#: scripts/world/layout_level.gd:776
+msgid "%s herd"
+msgstr "Harde (%s)"
+
+#. const START_HINT := "Click your Keep (bottom-left) to train workers — select workers and press B to build"
+#: scripts/world/main.gd:42
+msgid "Click your Keep (bottom-left) to train workers — select workers and press B to build"
+msgstr "Cliquez sur votre donjon (en bas à gauche) pour former des ouvriers — sélectionnez des ouvriers et appuyez sur B pour construire"
+
+#. hud.show_message("Baking pathfinding...", 1.0)
+#: scripts/world/main.gd:103
+msgid "Baking pathfinding..."
+msgstr "Calcul des chemins..."
+
+#. return ("Mission 1: Ruins of the Ember Crown\n"
+#: scripts/world/main.gd:155
+msgid "Mission 1: Ruins of the Ember Crown\nLead the Fire Wizard to the Ember Crown (north-east).\nYour wizard must survive."
+msgstr "Mission 1 : Ruins of the Ember Crown\nMenez le sorcier du Feu à l'Ember Crown (nord-est).\nVotre sorcier doit survivre."
+
+#. hud.show_message("%s claims the %s!  +%d max mana, stronger Fireball" %
+#: scripts/world/main.gd:205
+msgid "%s claims the %s!  +%d max mana, stronger Fireball"
+msgstr "%s s'empare de %s !  +%d mana max, Fireball plus puissant"
+
+#. hud.show_banner("VICTORY\nPress F9 to play again", Color(1.0, 0.85, 0.3))
+#: scripts/world/main.gd:225
+msgid "VICTORY\nPress F9 to play again"
+msgstr "VICTOIRE\nAppuyez sur F9 pour rejouer"
+
+#. hud.show_banner("DEFEAT\nYour wizard has fallen.  Press F9 to retry", Color(0.9, 0.3, 0.3))
+#: scripts/world/main.gd:227
+msgid "DEFEAT\nYour wizard has fallen.  Press F9 to retry"
+msgstr "DÉFAITE\nVotre sorcier est tombé.  Appuyez sur F9 pour réessayer"
+
+#. lines.append("%-16s %16s %16s" % ["SCORE at " + _clock_text(now()), names[0], names[1]])
+#: scripts/world/score_keeper.gd:288
+msgid "SCORE at "
+msgstr "POINTAGE à "
+
+#. return "Team %d" % team
+#: scripts/world/score_keeper.gd:306
+msgid "Team %d"
+msgstr "Équipe %d"
+
+#. {"id": &"heron_ford", "name": "Heron Ford", "center": Vector3(-53.0, 0.0, 1.0), "door": Vector3(-49.0, 0.0, 1.
+#: scripts/world/skirmish.gd:98
+msgid "Heron Ford"
+msgstr "Heron Ford"
+
+#. {"id": &"millstone_cross", "name": "Millstone Cross", "center": Vector3(-1.0, 0.0, 53.0), "door": Vector3(-1.0
+#: scripts/world/skirmish.gd:99
+msgid "Millstone Cross"
+msgstr "Millstone Cross"
+
+#. {"id": &"lantern_wharf", "name": "Lantern Wharf", "center": Vector3(53.0, 0.0, -1.0), "door": Vector3(49.0, 0.
+#: scripts/world/skirmish.gd:100
+msgid "Lantern Wharf"
+msgstr "Lantern Wharf"
+
+#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0),
+#: scripts/world/skirmish.gd:101
+msgid "Saltgate"
+msgstr "Saltgate"
+
+#. const MSG_POSTS_OPEN := "The trading posts open their gates"
+#: scripts/world/skirmish.gd:129
+msgid "The trading posts open their gates"
+msgstr "Les comptoirs ouvrent leurs portes"
+
+#. const HINT_BAZAAR := "Build a Bazaar (B then B with a worker) to send caravans"
+#: scripts/world/skirmish.gd:130
+msgid "Build a Bazaar (B then B with a worker) to send caravans"
+msgstr "Construisez un Bazar (B puis B avec un ouvrier) pour envoyer des caravanes"
+
+#. {"id": &"bridge_road_n", "name": "Saltgate Bridge", "kind": &"bridge_road", "center": Vector3(-12.0, 0.0, -48.
+#: scripts/world/skirmish.gd:147
+msgid "Saltgate Bridge"
+msgstr "Saltgate Bridge"
+
+#. {"id": &"bridge_road_s", "name": "Millstone Bridge", "kind": &"bridge_road", "center": Vector3(12.0, 0.0, 48.7
+#: scripts/world/skirmish.gd:149
+msgid "Millstone Bridge"
+msgstr "Millstone Bridge"
+
+#. {"id": &"ford_n", "name": "Reed Ford", "kind": &"ford", "center": Vector3(-8.5, 0.0, -34.0),
+#: scripts/world/skirmish.gd:151
+msgid "Reed Ford"
+msgstr "Reed Ford"
+
+#. {"id": &"ford_s", "name": "Willow Ford", "kind": &"ford", "center": Vector3(8.5, 0.0, 34.0),
+#: scripts/world/skirmish.gd:153
+msgid "Willow Ford"
+msgstr "Willow Ford"
+
+#. {"id": &"bridge_crown_w", "name": "West Crown Bridge", "kind": &"bridge_lane", "center": Vector3(-9.02, 0.0, 9
+#: scripts/world/skirmish.gd:155
+msgid "West Crown Bridge"
+msgstr "West Crown Bridge"
+
+#. {"id": &"bridge_crown_e", "name": "East Crown Bridge", "kind": &"bridge_lane", "center": Vector3(9.02, 0.0, -9
+#: scripts/world/skirmish.gd:157
+msgid "East Crown Bridge"
+msgstr "East Crown Bridge"
+
+#. {"id": &"steps_nw", "name": "North-west Crown Steps", "kind": &"steps", "center": Vector3(-9.02, 0.0, -9.02),
+#: scripts/world/skirmish.gd:159
+msgid "North-west Crown Steps"
+msgstr "North-west Crown Steps"
+
+#. {"id": &"steps_se", "name": "South-east Crown Steps", "kind": &"steps", "center": Vector3(9.02, 0.0, 9.02),
+#: scripts/world/skirmish.gd:161
+msgid "South-east Crown Steps"
+msgstr "South-east Crown Steps"
+
+#. {"id": &"tower_nw", "name": "Rookwatch", "kind": &"watchtower", "pos": Vector3(-24.0, 0.0, -41.0)},
+#: scripts/world/skirmish.gd:166
+msgid "Rookwatch"
+msgstr "Rookwatch"
+
+#. {"id": &"tower_se", "name": "Owlwatch", "kind": &"watchtower", "pos": Vector3(24.0, 0.0, 41.0)},
+#: scripts/world/skirmish.gd:167
+msgid "Owlwatch"
+msgstr "Owlwatch"
+
+#. {"id": &"tower_s", "name": "Millwatch", "kind": &"watchtower", "pos": Vector3(-6.0, 0.0, 40.0)},
+#: scripts/world/skirmish.gd:168
+msgid "Millwatch"
+msgstr "Millwatch"
+
+#. {"id": &"tower_n", "name": "Saltwatch", "kind": &"watchtower", "pos": Vector3(6.0, 0.0, -40.0)},
+#: scripts/world/skirmish.gd:169
+msgid "Saltwatch"
+msgstr "Saltwatch"
+
+#. {"id": &"well_w", "name": "Mossmere Well", "kind": &"well", "pos": Vector3(-30.0, 0.0, -24.0)},
+#: scripts/world/skirmish.gd:170
+msgid "Mossmere Well"
+msgstr "Mossmere Well"
+
+#. {"id": &"well_e", "name": "Stonemere Well", "kind": &"well", "pos": Vector3(30.0, 0.0, 24.0)},
+#: scripts/world/skirmish.gd:171
+msgid "Stonemere Well"
+msgstr "Stonemere Well"
+
+#. {"id": &"shrine_w", "name": "West Wayshrine", "kind": &"shrine", "pos": Vector3(-22.0, 0.0, -6.0)},
+#: scripts/world/skirmish.gd:172
+msgid "West Wayshrine"
+msgstr "West Wayshrine"
+
+#. {"id": &"shrine_e", "name": "East Wayshrine", "kind": &"shrine", "pos": Vector3(22.0, 0.0, 6.0)},
+#: scripts/world/skirmish.gd:173
+msgid "East Wayshrine"
+msgstr "East Wayshrine"
+
+#. {"id": &"camp_nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2,
+#: scripts/world/skirmish.gd:183
+msgid "Willow Ford Nest"
+msgstr "Willow Ford Nest"
+
+#. {"id": &"camp_nest_n", "name": "Reed Ford Nest", "kind": &"mirefang", "tier": 2,
+#: scripts/world/skirmish.gd:185
+msgid "Reed Ford Nest"
+msgstr "Reed Ford Nest"
+
+#. {"id": &"herd_nw", "name": "North-west herd", "count": 3, "respawn": 120.0,
+#: scripts/world/skirmish.gd:227
+msgid "North-west herd"
+msgstr "Harde du nord-ouest"
+
+#. {"id": &"herd_se", "name": "South-east herd", "count": 3, "respawn": 120.0,
+#: scripts/world/skirmish.gd:230
+msgid "South-east herd"
+msgstr "Harde du sud-est"
+
+#. const SKIRMISH_HINT := "Click your Keep to train workers, then B with a worker selected to build %s"
+#: scripts/world/skirmish.gd:282
+msgid "Click your Keep to train workers, then B with a worker selected to build %s"
+msgstr "Cliquez sur votre donjon pour former des ouvriers, puis B avec un ouvrier sélectionné pour construire %s"
+
+#. const MALRIK_CONCEDES := "Malrik: \"Keep the crown. I will be back for it.\""
+#: scripts/world/skirmish.gd:283
+msgid "Malrik: \"Keep the crown. I will be back for it.\""
+msgstr "Malrik : « Gardez la couronne. Je reviendrai la chercher. »"
+
+#. "wizard": "res://scripts/units/wizard.gd", "name": "Fire", "hero": "Vessa", "pronoun": "She",
+#: scripts/world/skirmish.gd:291 scripts/world/skirmish.gd:300
+msgid "She"
+msgstr "Elle"
+
+#. "fallen": "Vessa has fallen, the embers will bring her back"},
+#: scripts/world/skirmish.gd:292
+msgid "Vessa has fallen, the embers will bring her back"
+msgstr "Vessa est tombée, les braises la ramèneront"
+
+#. "wizard": "res://scripts/units/shadow_wizard.gd", "name": "Shadow", "hero": "Malrik", "pronoun": "He",
+#: scripts/world/skirmish.gd:294 scripts/world/skirmish.gd:297
+msgid "He"
+msgstr "Il"
+
+#. "fallen": "Torvald has fallen, the frost will bring him back"},
+#: scripts/world/skirmish.gd:298
+msgid "Torvald has fallen, the frost will bring him back"
+msgstr "Torvald est tombé, le givre le ramènera"
+
+#. "fallen": "Ysolde has fallen, the forest will regrow her"},
+#: scripts/world/skirmish.gd:301
+msgid "Ysolde has fallen, the forest will regrow her"
+msgstr "Ysolde est tombée, la forêt la fera renaître"
+
+#. var text := "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\
+#: scripts/world/skirmish.gd:676
+msgid "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\nCrystals gathered %s\n"
+msgstr "Durée de la partie %s\nUnités formées %d · Unités perdues %d · Unités ennemies tuées %d · Bâtiments détruits %d\nCristaux récoltés %s\n"
+
+#. text += "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n" % [
+#: scripts/world/skirmish.gd:680
+msgid "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n"
+msgstr "Or gagné %s (commerce %s) · Caravanes perdues %d · Ouvriers perdus aux Magpies %d · Magpies tués %d\n"
+
+#. parts.append("Points held at the end %d / %d" % [s["points_held"], s["points_total"]])
+#: scripts/world/skirmish.gd:685
+msgid "Points held at the end %d / %d"
+msgstr "Points tenus à la fin %d / %d"
+
+#. parts.append("Camps cleared %d" % s["camps_cleared"])
+#: scripts/world/skirmish.gd:687
+msgid "Camps cleared %d"
+msgstr "Camps nettoyés %d"
+
+#. parts.append("Blessings %d" % s["blessings"])
+#: scripts/world/skirmish.gd:689
+msgid "Blessings %d"
+msgstr "Bénédictions %d"
+
+#. parts.append("Game hunted %d" % s["game_hunted"])
+#: scripts/world/skirmish.gd:691
+msgid "Game hunted %d"
+msgstr "Gibier chassé %d"
+
+#. return text + "F9: play again"
+#: scripts/world/skirmish.gd:694
+msgid "F9: play again"
+msgstr "F9 : rejouer"
+
+#. return "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n" \
+#: scripts/world/skirmish.gd:705
+msgid "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n"
+msgstr "Escarmouche : Crown Hollow\nDétruisez tous les bâtiments %s. Gardez-en un des vôtres debout.\n"
+
+#. hud.show_message("%s found %d essence" % [who, int(loot["essence"])], 3.0)
+#: scripts/world/skirmish.gd:1452
+msgid "%s found %d essence"
+msgstr "%s a trouvé %d essence"
+
+#. hud.show_message("The Lost Cache holds %d essence" % int(loot["essence"]), 3.0)
+#: scripts/world/skirmish.gd:1457
+msgid "The Lost Cache holds %d essence"
+msgstr "La Lost Cache contient %d essence"
+
+#. hud.show_message("The Lost Cache holds %s" % item_name, 3.0)
+#: scripts/world/skirmish.gd:1461
+msgid "The Lost Cache holds %s"
+msgstr "La Lost Cache contient %s"
+
+#. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
+#: scripts/world/skirmish.gd:1523
+msgid "%s on score  %s to %s"
+msgstr "%s au pointage  %s à %s"
+
+#. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
+#: scripts/world/skirmish.gd:1523
+msgid "Won"
+msgstr "Victoire"
+
+#. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
+#: scripts/world/skirmish.gd:1523
+msgid "Lost"
+msgstr "Défaite"
+
+#. var names := ["You (%s)" % _kingdom_info(Unit.Team.PLAYER, "name"),
+#: scripts/world/skirmish.gd:1525
+msgid "You (%s)"
+msgstr "Vous (%s)"
+
+#. hud.show_message("%s has fallen! %s returns in %d s" % [EmberCrown.short_name(wiz),
+#: scripts/world/skirmish.gd:1591
+msgid "%s has fallen! %s returns in %d s"
+msgstr "%s est tombé ! %s revient dans %d s"
+
+#. hud.show_message("%s returns!" % EmberCrown.short_name(wiz), 3.0)
+#: scripts/world/skirmish.gd:1609
+msgid "%s returns!"
+msgstr "%s revient !"
+
+#. hud.show_message("The %s lies unclaimed" % dropped.artifact_name, 4.0)
+#: scripts/world/skirmish.gd:1642
+msgid "The %s lies unclaimed"
+msgstr "%s n'est pas réclamé"
+
+#. hud.show_message("Press F10 again to surrender", SURRENDER_WINDOW)
+#: scripts/world/skirmish.gd:1685
+msgid "Press F10 again to surrender"
+msgstr "Appuyez de nouveau sur F10 pour abandonner"
+
+#. return "a barracks"
+#: scripts/world/skirmish.gd:1764
+msgid "a barracks"
+msgstr "une caserne"
+
+#. const MSG_CLOSED := "The tavern opens at 2:00"
+#: scripts/world/tavern.gd:31
+msgid "The tavern opens at 2:00"
+msgstr "La taverne ouvre à 2:00"
+
+#. const MSG_OPEN := "The taverns open their doors"
+#: scripts/world/tavern.gd:33
+msgid "The taverns open their doors"
+msgstr "Les tavernes ouvrent leurs portes"
+
+#. const HINT_HIRE := "Y: hire champions"
+#: scripts/world/tavern.gd:34
+msgid "Y: hire champions"
+msgstr "Y : engager des champions"
+
+#. const MSG_ON_ROADS := "The Magpies are on the roads"
+#: scripts/world/thieves_guild.gd:71
+msgid "The Magpies are on the roads"
+msgstr "Les Magpies sont sur les routes"
+
+#. var key := "held:%d" % LOCAL_TEAM
+#: scripts/economy/caravan.gd:857
+#, obsolete
+msgid "held:%d"
+msgstr ""
+
+#. const MSG_DROPPED := " + %s dropped"
+#: scripts/world/camp_manager.gd:77 scripts/world/epic_beasts.gd:685
+#, obsolete
+msgid " + %s dropped"
+msgstr ""
+
+#. var id := StringName("herd_%d" % i)
+#: scripts/world/critter_herds.gd:88
+#, obsolete
+msgid "herd_%d"
+msgstr ""
+
+#. _warn_once("abilities", "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities" % ABILITIE
+#: scripts/world/epic_beasts.gd:488
+#, obsolete
+msgid "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities"
+msgstr ""
+
+#. return StringName("item:%d" % (slot + 1))
+#: scripts/items/inventory.gd:658
+#, obsolete
+msgid "item:%d"
+msgstr ""
+
+#. return StringName("item:artifact_%d" % (slot - ARTIFACT_SLOT + 1))
+#: scripts/items/inventory.gd:657
+#, obsolete
+msgid "item:artifact_%d"
+msgstr ""
+
+#. @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
+#: scripts/units/unit_type.gd:38
+#, obsolete
+msgid "Kingdom mechanics"
+msgstr ""
+
+#. _cached.maps = [{"id": DEFAULT_ID, "title": "Crown Hollow", "scene": "res://scenes/skirmish.tscn",
+#: scripts/world/map_catalog.gd:42
+#, obsolete
+msgid "Crown Hollow"
+msgstr "Crown Hollow"
+
+#. return "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
+#: scripts/world/map_catalog.gd:126
+#, obsolete
+msgid "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
+msgstr "Carte 2v2 : se joue en 1v1 pour l'instant (une place par camp ; l'escarmouche 2v2 viendra plus tard)."
+
+#. _warn_once("brain", "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs" % BRAIN_PATH)
+#: scripts/world/epic_beasts.gd:507
+#, obsolete
+msgid "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs"
+msgstr ""
+
+#. text += " (underdog bonus: +25 % XP)"
+#: scripts/world/epic_beasts.gd:687
+#, obsolete
+msgid " (underdog bonus: +25 % XP)"
+msgstr ""
+
+#. "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn" % String(type_id))
+#: scripts/world/epic_beasts.gd:732
+#, obsolete
+msgid "EpicBeasts: no data/units/%s.tres yet, that beast does not spawn"
+msgstr ""
+
+#. const OVERLAY_SHADER := """
+#: scripts/world/fog_of_war.gd:515
+#, obsolete
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n\t\tALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);\n\t}\n}\n"
+msgstr ""
+
+#. _layout_error = "LayoutLevel: no layout (layout_path=%s)" % layout_path
+#: scripts/world/layout_level.gd:77
+#, obsolete
+msgid "LayoutLevel: no layout (layout_path=%s)"
+msgstr ""
+
+#. var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
+#: scripts/world/layout_level.gd:359 scripts/world/layout_level.gd:852
+#, obsolete
+msgid "hub_t%d"
+msgstr ""
+
+#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
+#: scripts/world/score_keeper.gd:298
+#, obsolete
+msgid "leader: %s by %s"
+msgstr ""
+
+#. lines.append("leader: %s by %s" % ["tie" if lead < 0 else "team %d" % lead, fmt(margin())])
+#: scripts/world/score_keeper.gd:298
+#, obsolete
+msgid "team %d"
+msgstr ""
+
+#. var id := StringName("node_%s_%s" % ["shadow" if team == Unit.Team.ENEMY else "fire", suffix])
+#: scripts/world/skirmish.gd:480
+#, obsolete
+msgid "node_%s_%s"
+msgstr ""
+
+#. _hp_shader.code = """
+#: scripts/units/unit.gd:2334
+#, obsolete
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform float shield_end = 0.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\n// Frame (UV fractions): soldiers a thin black one; champions a gold one with a black inner line (9.C10).\nuniform vec4 frame_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);\nuniform vec2 frame_size = vec2(0.02, 0.12);\nuniform vec2 inner_size = vec2(0.0, 0.0);\nvoid vertex() {\n\t// Always face the camera (billboard).\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < frame_size.x || UV.x > 1.0 - frame_size.x || UV.y < frame_size.y || UV.y > 1.0 - frame_size.y;\n\tvec2 ie = frame_size + inner_size;\n\tbool inner = UV.x < ie.x || UV.x > 1.0 - ie.x || UV.y < ie.y || UV.y > 1.0 - ie.y;\n\tvec4 c = border ? frame_color : (inner ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color\n\t\t\t: (UV.x < shield_end ? vec4(1.0, 1.0, 1.0, 1.0) : back_color)));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
+msgstr ""
+
+#. _hp_shader.code = """
+#: scripts/buildings/building.gd:728
+#, obsolete
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < 0.01 || UV.x > 0.99 || UV.y < 0.12 || UV.y > 0.88;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : back_color);\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
+msgstr ""
+
+#. _mana_shader.code = """
+#: scripts/units/caster_ability.gd:1207
+#, obsolete
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
+msgstr ""
+
+#. line2 += " · cooldown %d s" % roundi(float(s.get("cooldown", 0.0)))
+#: scripts/units/caster_kit.gd:232
+#, obsolete
+msgid " · cooldown %d s"
+msgstr ""
+
+#. line2 += " · autocast %s" % ("on" if bool(autocast_on) else "off")
+#: scripts/units/caster_kit.gd:234
+#, obsolete
+msgid " · autocast %s"
+msgstr ""
+
+#. @export_group("Weapon (level 1)")
+#: scripts/units/champion_class.gd:27
+#, obsolete
+msgid "Weapon (level 1)"
+msgstr ""
+
+#. @export_group("Draw and UI")
+#: scripts/units/champion_class.gd:50
+#, obsolete
+msgid "Draw and UI"
+msgstr ""
+
+#. @export_group("Stats (level 1)")
+#: scripts/units/champion_type.gd:24
+#, obsolete
+msgid "Stats (level 1)"
+msgstr ""
+
+#. @export_group("Personality (champions.md 4.2, 8)")
+#: scripts/units/champion_type.gd:43
+#, obsolete
+msgid "Personality (champions.md 4.2, 8)"
+msgstr ""
+
+#. _warn_once("band", "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens" % THIEF_BAND_PATH)
+#: scripts/world/thieves_guild.gd:678
+#, obsolete
+msgid "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens"
+msgstr ""
+
+#. _warn_once("type", "ThievesGuild: no data/units/%s.tres yet, no Magpies leave the Dens" % MAGPIE_TYPE)
+#: scripts/world/thieves_guild.gd:670
+#, obsolete
+msgid "ThievesGuild: no data/units/%s.tres yet, no Magpies leave the Dens"
+msgstr ""
+
+#. return "%s · %d players" % [dims, int(e.get("seats", 2))]
+#: scripts/world/map_catalog.gd:134
+#, obsolete
+msgid "%s · %d players"
+msgstr "%s · %d joueurs"
+
+#. var dims := "%d m" % int(s.x) if is_equal_approx(s.x, s.y) else "%d x %d m" % [int(s.x), int(s.y)]
+#: scripts/world/map_catalog.gd:133
+#, obsolete
+msgid "%d x %d m"
+msgstr "%d x %d m"

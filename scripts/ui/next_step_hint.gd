@@ -132,7 +132,7 @@ func refresh() -> void:
 		return
 	var s := read_state()
 	step = pick_step(s)
-	var t := "Next: " + step_text(step, kingdom, s)
+	var t := Loc.t("Next: %s") % step_text(step, kingdom, s)
 	var soon := soon_text(s)
 	if soon != "" and step != STEP_TIER:
 		t += "\n" + soon
@@ -276,12 +276,14 @@ static func building_of(kingdom_id: StringName, kind: StringName) -> BuildingTyp
 
 ## "an Ember Hall" / "a Frost Hall".
 static func a_or_an(noun: String) -> String:
+	if Loc.is_french():
+		return noun   # the French templates carry no article before a proper name ("construisez Ember Hall")
 	return ("an " if noun != "" and "AEIOU".contains(noun.left(1).to_upper()) else "a ") + noun
 
 
 ## "B then X" on the player's keyboard for the build-menu entry of `t`.
 static func build_keys(t: BuildingType) -> String:
-	return "%s then %s" % [KeyLabels.of(KEY_B), KeyLabels.letter(t.hotkey_label)]
+	return Loc.t("%s then %s") % [KeyLabels.of(KEY_B), KeyLabels.letter(t.hotkey_label)]
 
 
 ## The line for `which`: the real next action, with its keys (the keep upgrade is named "Stronghold" / "Citadel").
@@ -295,39 +297,43 @@ static func step_text(which: StringName, kingdom_id: StringName, s: Dictionary) 
 			return new_units_text(s.get("new_units", []), int(s.get("new_tier", 2)))
 		STEP_HALL:
 			if bool(s.get("hall_site", false)):
-				return "your %s is being built (more workers build it faster)" % hall_name
+				return Loc.t("your %s is being built (more workers build it faster)") % hall_name
 			if hall == null:
-				return "build a Hall with a worker"
-			return "build %s: select a worker, press %s (%d crystals)" % [a_or_an(hall_name), build_keys(hall), hall.cost]
+				return Loc.t("build a Hall with a worker")
+			return Loc.t("build {a_hall}: select a worker, press {keys} ({cost} crystals)",
+					{"a_hall": a_or_an(hall_name), "keys": build_keys(hall), "cost": hall.cost})
 		STEP_TRAIN:
 			var n := clampi(hall.trains.size() if hall else 4, 1, 5)
 			var keys: Array = [KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B].slice(0, n)
-			return "train soldiers: select the %s, press %s" % [hall_name, KeyLabels.join(keys)]
+			return Loc.t("train soldiers: select the %s, press %s") % [hall_name, KeyLabels.join(keys)]
 		STEP_HOUSE:
 			var house := building_of(kingdom_id, &"house")
 			if house == null:
-				return "you are near the population cap: build houses"
-			return "population almost full: build %s (%s, %d crystals)" % [a_or_an(house.display_name), build_keys(house), house.cost]
+				return Loc.t("you are near the population cap: build houses")
+			return Loc.t("population almost full: build {a_house} ({keys}, {cost} crystals)",
+					{"a_house": a_or_an(house.display_name), "keys": build_keys(house), "cost": house.cost})
 		STEP_BAZAAR:
 			var bazaar := building_of(kingdom_id, &"market")
 			if bazaar == null:
-				return "build a Bazaar to start trade"
-			return "build %s to start trade: worker, %s (%d crystals, needs %s)" \
-					% [a_or_an(bazaar.display_name), build_keys(bazaar), bazaar.cost, a_or_an(hall_name)]
+				return Loc.t("build a Bazaar to start trade")
+			return Loc.t("build {a_bazaar} to start trade: worker, {keys} ({cost} crystals, needs {a_hall})",
+					{"a_bazaar": a_or_an(bazaar.display_name), "keys": build_keys(bazaar), "cost": bazaar.cost,
+					"a_hall": a_or_an(hall_name)})
 		STEP_CARAVAN:
-			return "select the Bazaar, press %s for a caravan, then right-click a trading post (gold)" % KeyLabels.of(KEY_Z)
+			return Loc.t("select the Bazaar, press %s for a caravan, then right-click a trading post (gold)") % KeyLabels.of(KEY_Z)
 		STEP_TAVERN:
 			var t := float(s.get("time", 0.0))
 			if t < OPEN_TIME:
 				var left := int(ceil(OPEN_TIME - t))
-				return "taverns open at 2:00 (in %d:%02d): then press %s to hire a champion" \
+				return Loc.t("taverns open at 2:00 (in %d:%02d): then press %s to hire a champion") \
 						% [left / 60, left % 60, KeyLabels.of(KEY_Y)]
-			return "taverns are open: press %s to hire a champion" % KeyLabels.of(KEY_Y)
+			return Loc.t("taverns are open: press %s to hire a champion") % KeyLabels.of(KEY_Y)
 	var tower := building_of(kingdom_id, &"tower")
 	var am := KeyLabels.of(GameSettings.attack_move_key())
-	var tower_part := ", guard your base with %s (%s)" % [a_or_an(tower.display_name), build_keys(tower)] if tower else ""
-	return "grow your army%s, then attack: %s + click = attack-move. Destroy every enemy building to win" \
-			% [tower_part, am]
+	if tower:
+		return Loc.t("grow your army, guard your base with {a_tower} ({keys}), then attack: {am} + click = attack-move. Destroy every enemy building to win",
+				{"a_tower": a_or_an(tower.display_name), "keys": build_keys(tower), "am": am})
+	return Loc.t("grow your army, then attack: %s + click = attack-move. Destroy every enemy building to win") % am
 
 
 ## STEP_TIER: "upgrade your Keep to a Stronghold: select it, press X (200 crystals, 60 s)" and, on a second line, the
@@ -338,14 +344,14 @@ static func tier_text(s: Dictionary) -> String:
 	var k: Variant = st.get("keep")
 	if k is Keep and is_instance_valid(k) and (k as Keep).building_type:
 		keep_name = (k as Keep).building_type.display_name
-	var money := "%d crystals, %d s" % [int(st.get("crystals", 0)), roundi(float(st.get("time", 0.0)))]
+	var money := Loc.t("%d crystals, %d s") % [int(st.get("crystals", 0)), roundi(float(st.get("time", 0.0)))]
 	if bool(st.get("short_crystals", false)):
-		money = "save %d crystals; %d s" % [int(st.get("crystals", 0)), roundi(float(st.get("time", 0.0)))]
-	var t := "upgrade your %s to %s: select it, press %s (%s)" % [keep_name, a_or_an(String(st.get("name",
-			"Stronghold"))), KeyLabels.of(KEY_X), money]
+		money = Loc.t("save %d crystals; %d s") % [int(st.get("crystals", 0)), roundi(float(st.get("time", 0.0)))]
+	var t := Loc.t("upgrade your {keep} to {a_tier}: select it, press {key} ({money})", {"keep": Loc.t(keep_name),
+			"a_tier": a_or_an(Loc.t(String(st.get("name", "Stronghold")))), "key": KeyLabels.of(KEY_X), "money": money})
 	var names := unit_names(TierSystem.unlocks(int(s.get("team", 0)), int(st.get("next", 2))))
 	if not names.is_empty():
-		t += "\n      it opens " + ", ".join(names)
+		t += "\n      " + Loc.t("it opens %s") % ", ".join(names)
 	return t
 
 
@@ -364,8 +370,8 @@ static func new_units_text(list: Array, tier: int) -> String:
 		if not (by_where[w] as Array).has(entry):
 			(by_where[w] as Array).append(entry)
 	for w in order:
-		parts.append("the %s: %s" % [w, ", ".join(by_where[w])])
-	return "train your new %s units: select %s" % [TierSystem.tier_name(tier), "; ".join(parts)]
+		parts.append(Loc.t("the %s: %s") % [w, ", ".join(by_where[w])])
+	return Loc.t("train your new %s units: select %s") % [Loc.t(TierSystem.tier_name(tier)), "; ".join(parts)]
 
 
 ## The training key of an unlock entry (TierSystem.unlocks) on its building's card, as printed on the player's keyboard
@@ -412,6 +418,6 @@ static func soon_text(s: Dictionary) -> String:
 	if k is Keep and is_instance_valid(k) and (k as Keep).building_type:
 		keep_name = (k as Keep).building_type.display_name
 	var secs := ceili(left)
-	return "Soon: %s at %s (in %d:%02d): %d crystals, %s on your %s" % [st.get("name", "Stronghold"),
+	return Loc.t("Soon: %s at %s (in %d:%02d): %d crystals, %s on your %s") % [Loc.t(str(st.get("name", "Stronghold"))),
 			TierSystem.clock(float(st.get("from", 0.0))), secs / 60, secs % 60, int(st.get("crystals", 0)),
-			KeyLabels.of(KEY_X), keep_name]
+			KeyLabels.of(KEY_X), Loc.t(keep_name)]

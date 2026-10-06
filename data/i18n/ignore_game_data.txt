@@ -1,0 +1,1 @@
+## game_data: nothing to ignore yet (every description / title is player text; display_name = names, kept English).

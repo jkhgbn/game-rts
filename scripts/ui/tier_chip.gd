@@ -91,21 +91,22 @@ func refresh() -> void:
 ## The chip text for a TierSystem.status dictionary.
 static func line_for(st: Dictionary) -> String:
 	var tier := int(st.get("tier", 1))
-	var now_name := TierSystem.tier_name(tier)
+	var now_name := Loc.t(TierSystem.tier_name(tier))   # tier names are translated (glossary)
 	if bool(st.get("upgrading", false)):
-		return "Upgrading to %s %d %% · %d s" % [st["name"], roundi(float(st["progress"]) * 100.0), ceili(float(st["left"]))]
-	var head := "Tier %d %s" % [tier, now_name]
+		return Loc.t("Upgrading to %s %d %% · %d s") % [Loc.t(str(st["name"])), roundi(float(st["progress"]) * 100.0),
+				ceili(float(st["left"]))]
+	var head := Loc.t("Tier %d %s") % [tier, now_name]
 	if int(st.get("next", 0)) == 0:
 		return head
 	var reason := String(st.get("reason", ""))
-	var nxt := String(st.get("name", ""))
+	var nxt := Loc.t(String(st.get("name", "")))
 	if reason == "":
-		return "%s · %s ready: %s" % [head, nxt, KeyLabels.of(KEY_X)]
+		return Loc.t("%s · %s ready: %s") % [head, nxt, KeyLabels.of(KEY_X)]
 	if reason.begins_with("Available at"):
-		return "%s · next: %s at %s" % [head, nxt, TierSystem.clock(float(st.get("from", 0.0)))]
+		return Loc.t("%s · next: %s at %s") % [head, nxt, TierSystem.clock(float(st.get("from", 0.0)))]
 	if reason == TierSystem.MSG_NEEDS_HALL:
-		return "%s · next: %s (needs a Hall)" % [head, nxt]
-	return "%s · next: %s (%s)" % [head, nxt, reason.to_lower()]
+		return Loc.t("%s · next: %s (needs a Hall)") % [head, nxt]
+	return Loc.t("%s · next: %s (%s)") % [head, nxt, (Loc.sink(reason) if Loc.is_french() else reason).to_lower()]
 
 
 func _draw() -> void:

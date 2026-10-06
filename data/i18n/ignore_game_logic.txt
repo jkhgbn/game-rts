@@ -1,0 +1,33 @@
+## game_logic: literals that are not player text (shaders, export groups, ids, debug logs, sentence fragments).
+\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < 0.01 || UV.x > 0.99 || UV.y < 0.12 || UV.y > 0.88;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : back_color);\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n
+\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n
+\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform float shield_end = 0.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\n// Frame (UV fractions): soldiers a thin black one; champions a gold one with a black inner line (9.C10).\nuniform vec4 frame_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);\nuniform vec2 frame_size = vec2(0.02, 0.12);\nuniform vec2 inner_size = vec2(0.0, 0.0);\nvoid vertex() {\n\t// Always face the camera (billboard).\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < frame_size.x || UV.x > 1.0 - frame_size.x || UV.y < frame_size.y || UV.y > 1.0 - frame_size.y;\n\tvec2 ie = frame_size + inner_size;\n\tbool inner = UV.x < ie.x || UV.x > 1.0 - ie.x || UV.y < ie.y || UV.y > 1.0 - ie.y;\n\tvec4 c = border ? frame_color : (inner ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color\n\t\t\t: (UV.x < shield_end ? vec4(1.0, 1.0, 1.0, 1.0) : back_color)));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n
+\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n\t\tALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);\n\t}\n}\n
+Weapon (level 1)
+Draw and UI
+Stats (level 1)
+Personality (champions.md 4.2, 8)
+Kingdom mechanics
+item:artifact_%d
+item:%d
+held:%d
+herd_%d
+EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities
+EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs
+EpicBeasts: no data/units/%s.tres yet, that beast does not spawn
+LayoutLevel: no layout (layout_path=%s)
+hub_t%d
+leader: %s by %s
+team %d
+node_%s_%s
+ThievesGuild: no data/units/%s.tres yet, no Magpies leave the Dens
+ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens
+ · cooldown %d s
+ · autocast %s
+ + %s dropped
+ (underdog bonus: +25 % XP)
+ENABLED
+SOLD
+BASE
+PEDDLER
+TOTAL

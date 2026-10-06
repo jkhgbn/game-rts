@@ -495,10 +495,11 @@ func refresh() -> void:
 	var used := ChampionBar.roster(g).size() + ChampionBar.pending_ids(g).size()
 	if g.has_method(&"roster_size"):
 		used = int(g.call(&"roster_size"))
-	roster_label.text = "Roster %d / %d" % [used, ChampionBar.MAX_ROSTER]
+	roster_label.text = Loc.t("Roster {used} / {max}", {"used": used, "max": ChampionBar.MAX_ROSTER})
 	roster_label.add_theme_color_override("font_color", UIStyle.WARN if used >= ChampionBar.MAX_ROSTER
 			else UIStyle.token(&"text"))
-	footer.text = "Upkeep 1 essence / 10 s per champion · Tavern opens at %s" % ChampionBar.opens_at_text(self)
+	footer.text = Loc.t("Upkeep 1 essence / 10 s per champion · Tavern opens at {time}",
+			{"time": ChampionBar.opens_at_text(self)})
 	if not ChampionBar.data_available():
 		footer.text = "Champions not available"
 	var eco := Economy.for_team(team)
@@ -520,7 +521,7 @@ func refresh() -> void:
 			held = held and rows[i].reason == "Enemies hold both taverns"
 	_refresh_genie()
 	if not open_now:
-		closed_label.text = "The tavern opens at %s" % ChampionBar.opens_at_text(self)
+		closed_label.text = Loc.t("The tavern opens at {time}", {"time": ChampionBar.opens_at_text(self)})
 	elif held and any_free:
 		closed_label.text = "Enemies hold both taverns"
 	else:
@@ -552,16 +553,16 @@ func _refresh_genie() -> void:
 		&"alive":
 			genie_button.text = "Genie: hired"
 		&"bottled":
-			genie_button.text = "Unbottle Genie  %d e" % T3Kit.GENIE_REVIVE_ESSENCE
+			genie_button.text = Loc.t("Unbottle Genie  {n} e", {"n": T3Kit.GENIE_REVIVE_ESSENCE})
 		_:
-			genie_button.text = "Stormbottle Genie  %d" % T3Kit.GENIE_COST
+			genie_button.text = Loc.t("Stormbottle Genie  {n}", {"n": T3Kit.GENIE_COST})
 	genie_button.disabled = reason != ""
 	genie_button.set_meta(&"reason", reason)
 	var gk := KeyLabels.of(GENIE_KEY)
 	genie_key.text = gk
-	genie_button.tooltip_text = "Stormbottle Genie  [%s]  (tier 3, one per team)\n%s\n%s" % [gk,
-			T3Kit.description(T3Kit.GENIE_ID), reason if reason != "" else "%d crystals · Pop 4 · %d s" % [
-			T3Kit.GENIE_COST, roundi(T3Kit.GENIE_TIME)]]
+	genie_button.tooltip_text = Loc.t("Stormbottle Genie  [{key}]  (tier 3, one per team)", {"key": gk}) + "\n" \
+			+ Loc.sink(T3Kit.description(T3Kit.GENIE_ID)) + "\n" + (Loc.sink(reason) if reason != "" else Loc.t(
+			"{crystals} crystals · Pop 4 · {secs} s", {"crystals": T3Kit.GENIE_COST, "secs": roundi(T3Kit.GENIE_TIME)}))
 
 
 # ---------------------------------------------------------------- one row
@@ -622,6 +623,17 @@ class Row extends Panel:
 	var _flash_total := 0.0
 	var _level := 1
 
+	## Live language switch: the lines built once in _ready (title, ability lines) are rebuilt.
+	func _notification(what: int) -> void:
+		if what != NOTIFICATION_TRANSLATION_CHANGED or title_label == null:
+			return
+		var info := ChampionBar.type_info(id)
+		title_label.text = " · " + Loc.t(str(info.get("title", "")))
+		for l in ability_labels:
+			var ab_id: StringName = l.get_meta(&"ability_id", &"")
+			l.text = "%s · %s" % [ChampionBar.ability_display_name(ab_id, id),
+					Loc.t(str(ChampionBar.ability_info(ab_id).get("short", "")))]
+
 	func _ready() -> void:
 		size = TavernWindow.ROW_SIZE
 		custom_minimum_size = TavernWindow.ROW_SIZE
@@ -666,7 +678,7 @@ class Row extends Panel:
 		clip.add_child(name_row)
 		name_label = UIStyle.display_label("", 16)
 		name_row.add_child(name_label)
-		title_label = UIStyle.panel_label(" · " + str(info.get("title", "")), 13)
+		title_label = UIStyle.panel_label(" · " + Loc.t(str(info.get("title", ""))), 13)
 		title_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		name_row.add_child(title_label)
 		role_label = _label(str(info.get("role", "")), 12, Vector2(92, 26), 270)
@@ -686,7 +698,7 @@ class Row extends Panel:
 				x += 24.0
 			var ab_id: StringName = StringName(str(abilities[j])) if j < abilities.size() else &""
 			var a := ChampionBar.ability_info(ab_id)
-			var l := _label("%s · %s" % [ChampionBar.ability_display_name(ab_id, id), a.get("short", "")], 12,
+			var l := _label("%s · %s" % [ChampionBar.ability_display_name(ab_id, id), Loc.t(str(a.get("short", "")))], 12,
 					Vector2(x, 6 + 20 * j), 622.0 - x)
 			l.size.y = 16
 			l.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -730,7 +742,7 @@ class Row extends Panel:
 		price_box.add_child(window.icon_control(10.0, false))
 		price_essence = UIStyle.number_label("", 12, UIStyle.ESSENCE_TEXT)
 		price_box.add_child(price_essence)
-		pop_label = _label("Pop %d" % ChampionBar.POP, 11, Vector2(628, 22), 106)
+		pop_label = _label(Loc.t("Pop {n}", {"n": ChampionBar.POP}), 11, Vector2(628, 22), 106)
 		status_label = _label("", 12, Vector2(628, 4), 106)
 		intent_label = _label("", 11, Vector2(628, 22), 106)
 		purse_box = HBoxContainer.new()
@@ -897,16 +909,16 @@ class Row extends Panel:
 		if cid != &"":
 			tip = ChampionBar.class_tooltip_for(champion)
 			class_word.text = ChampionBar.class_display_name(cid)
-			class_rest.text = " · skills %d / 3" % TavernWindow.class_skills_unlocked(champion, cid)
+			class_rest.text = Loc.t(" · skills {n} / 3", {"n": TavernWindow.class_skills_unlocked(champion, cid)})
 		elif hired or state == &"arriving":
 			var weights := ChampionBar.class_weights_for(champion if hired else id)
 			tip = ChampionBar.lean_tooltip(weights, 0, true)
 			class_word.text = "Class"
-			class_rest.text = " · leans " + ChampionBar.lean_text(weights)
+			class_rest.text = Loc.t(" · leans {lean}", {"lean": ChampionBar.lean_text(weights)})
 		else:
 			tip = ChampionBar.lean_tooltip(ChampionBar.class_weights_for(id), 0, true)
 			class_word.text = "Class"
-			class_rest.text = " · usually " + ChampionBar.class_display_name(ChampionBar.usual_class(id))
+			class_rest.text = Loc.t(" · usually {class}", {"class": ChampionBar.class_display_name(ChampionBar.usual_class(id))})
 		class_word.tooltip_text = tip
 		class_rest.tooltip_text = tip
 		class_l2_badge.visible = cid == &""
@@ -934,12 +946,12 @@ class Row extends Panel:
 	## The refusal line (WARN, 2 lines max) under the price.
 	func show_reason(text: String) -> void:
 		reason = text
-		reason_label.text = text
+		reason_label.text = Loc.sink(text)
 		reason_label.visible = text != "" and (state == &"hireable" or state == &"refused") and not gold_layout
 		if gold_layout and (state == &"hireable" or state == &"refused"):
 			# Gold layout: the reason replaces `Pop 2` on the font-10 line (the full text is in the tooltips).
-			pop_label.text = text if text != "" else "Pop %d" % ChampionBar.POP
-			pop_label.tooltip_text = text
+			pop_label.text = Loc.sink(text) if text != "" else Loc.t("Pop {n}", {"n": ChampionBar.POP})
+			pop_label.tooltip_text = Loc.sink(text)
 			pop_label.add_theme_color_override("font_color", UIStyle.WARN if text != ""
 					else UIStyle.token(&"text_muted"))
 
@@ -1004,32 +1016,33 @@ class Row extends Panel:
 			hire_button.modulate.a = 0.45 if reason != "" else 1.0
 			var rk := TavernWindow.row_key_label(index)
 			hire_key.text = rk
-			hire_button.tooltip_text = "Hire  [%s]\n%d crystals · %d essence · %d pop%s" % [rk, cost.x, cost.y,
-					ChampionBar.POP, "\n" + reason if reason != "" else ""]
+			hire_button.tooltip_text = Loc.t("Hire  [{key}]\n{crystals} crystals · {essence} essence · {pop} pop",
+					{"key": rk, "crystals": cost.x, "essence": cost.y, "pop": ChampionBar.POP}) \
+					+ ("\n" + Loc.sink(reason) if reason != "" else "")
 		elif state == &"arriving":
 			status_label.text = "Hired · Level 1"
 			status_label.add_theme_color_override("font_color", UIStyle.token(&"title"))
-			intent_label.text = "Arrives in %d s" % ceili(ChampionBar.hire_left(g, id))
+			intent_label.text = Loc.t("Arrives in {n} s", {"n": ceili(ChampionBar.hire_left(g, id))})
 			intent_label.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 		elif state == &"hired":
-			status_label.text = "Hired · Level %d" % _level
+			status_label.text = Loc.t("Hired · Level {n}", {"n": _level})
 			status_label.add_theme_color_override("font_color", UIStyle.token(&"title"))
 			var t := ChampionBar.target_text(champion, g)
-			intent_label.text = t
-			intent_label.tooltip_text = t
+			intent_label.text = ChampionBar.target_text(champion, g, true)
+			intent_label.tooltip_text = intent_label.text
 			intent_label.add_theme_color_override("font_color", ChampionBar.intent_color(t))
 			purse_label.text = str(ChampionBar.purse_of(champion))
 		else:
-			status_label.text = "Fallen · Level %d" % _level
+			status_label.text = Loc.t("Fallen · Level {n}", {"n": _level})
 			status_label.add_theme_color_override("font_color", UIStyle.WARN)
 			if state == &"reviving":
 				intent_label.position.y = 34
 				intent_label.add_theme_font_size_override("font_size", 12)
-				intent_label.text = "Returns in %d s" % ceili(ChampionBar.revive_left(g, champion))
+				intent_label.text = Loc.t("Returns in {n} s", {"n": ceili(ChampionBar.revive_left(g, champion))})
 				intent_label.add_theme_color_override("font_color", UIStyle.WARN)
 			else:
 				var rcost := ChampionBar.revive_cost(g, champion)
-				revive_button.text = "Revive %d" % rcost
+				revive_button.text = Loc.t("Revive {n}", {"n": rcost})
 				var r: Variant = g.call(&"can_revive", champion) if g.has_method(&"can_revive") else ""
 				var why := "" if r == null or (r is bool and r) else ("Cannot revive" if r is bool else str(r))
 				revive_button.disabled = why != ""
@@ -1037,8 +1050,8 @@ class Row extends Panel:
 				revive_button.add_theme_color_override("font_disabled_color", UIStyle.WARN)
 				var rk := TavernWindow.row_key_label(index)
 				revive_key.text = rk
-				revive_button.tooltip_text = "Revive  [%s]\n%d essence · returns at your keep%s" % [rk, rcost,
-						"\n" + why if why != "" else ""]
+				revive_button.tooltip_text = Loc.t("Revive  [{key}]\n{essence} essence · returns at your keep",
+						{"key": rk, "essence": rcost}) + ("\n" + Loc.sink(why) if why != "" else "")
 		if state != &"reviving":
 			intent_label.position.y = 22
 			intent_label.add_theme_font_size_override("font_size", 11)
@@ -1061,7 +1074,7 @@ class Row extends Panel:
 			pop_label.size = Vector2(106, 12 if gold else 16)
 			pop_label.add_theme_font_size_override("font_size", 10 if gold else 11)
 			if not gold:
-				pop_label.text = "Pop %d" % ChampionBar.POP
+				pop_label.text = Loc.t("Pop {n}", {"n": ChampionBar.POP})
 				pop_label.tooltip_text = ""
 				pop_label.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 			_resize(hire_button, Vector2(628, 40) if gold else Vector2(628, 62), gold)
@@ -1091,19 +1104,20 @@ class Row extends Panel:
 					else UIStyle.ESSENCE_TEXT)
 			hire_gold_button.disabled = why != ""
 			hire_gold_button.modulate.a = 0.45 if why != "" else 1.0
-			hire_gold_button.tooltip_text = "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s" % [
-					TavernWindow.row_key_label(index), gold_cost, ess, ChampionBar.POP, "\n" + why if why != "" else ""]
+			hire_gold_button.tooltip_text = Loc.t("Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop} pop",
+					{"key": TavernWindow.row_key_label(index), "gold": gold_cost, "essence": ess, "pop": ChampionBar.POP}) \
+					+ ("\n" + Loc.sink(why) if why != "" else "")
 		elif fallen:
 			var rcost := int(g.call(&"revive_cost", champion, true)) if g.has_method(&"revive_cost") \
 					else 2 * ChampionBar.revive_cost(g, champion)
-			revive_gold_button.text = "Revive %d gold" % rcost
+			revive_gold_button.text = Loc.t("Revive {n} gold", {"n": rcost})
 			var r: Variant = g.call(&"can_revive", champion, true) if g.has_method(&"can_revive") else ""
 			var why := "" if r == null or (r is bool and r) else ("Cannot revive" if r is bool else str(r))
 			revive_gold_button.disabled = why != ""
 			revive_gold_button.modulate.a = 0.45 if why != "" else 1.0
 			revive_gold_button.add_theme_color_override("font_disabled_color", UIStyle.WARN)
-			revive_gold_button.tooltip_text = "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s" % [
-					TavernWindow.row_key_label(index), rcost, "\n" + why if why != "" else ""]
+			revive_gold_button.tooltip_text = Loc.t("Revive with gold  [Shift+{key}]\n{gold} gold · returns at your keep",
+					{"key": TavernWindow.row_key_label(index), "gold": rcost}) + ("\n" + Loc.sink(why) if why != "" else "")
 
 	func _place(c: Control, at: Vector2) -> void:
 		c.position = at
@@ -1133,11 +1147,11 @@ static func stats_line(info: Dictionary, ch: Node = null) -> String:
 		if ch.get("attack_range") != null:
 			reach = float(ch.get("attack_range"))
 	# snappedf: a stat recomputed in float (5.99999) reads 6.0, not 5.9.
-	var line := "%s HP · %s damage · %s range · %s speed" % [_num(hp), _num(dmg), String.num(snappedf(reach, 0.1), 1),
-			String.num(snappedf(speed, 0.1), 1)]
+	var args := {"hp": _num(hp), "dmg": _num(dmg), "range": Loc.num(snappedf(reach, 0.1), 1),
+			"speed": Loc.num(snappedf(speed, 0.1), 1), "armor": _num(armor)}
 	if armor > 0.0:
-		line += " · %s armor" % _num(armor)
-	return line
+		return Loc.t("{hp} HP · {dmg} damage · {range} range · {speed} speed · {armor} armor", args)
+	return Loc.t("{hp} HP · {dmg} damage · {range} range · {speed} speed", args)
 
 
 static func _champion_stat(ch: Node, stat: StringName, fallback: float) -> float:
@@ -1173,7 +1187,7 @@ static func abilities_text(info: Dictionary) -> String:
 	for a: Variant in info.get("ability_ids", []):
 		var aid := StringName(str(a))
 		lines.append("%s · %s" % [ChampionBar.ability_display_name(aid, StringName(str(info.get("id", "")))),
-				ChampionBar.ability_info(aid).get("short", "")])
+				Loc.t(str(ChampionBar.ability_info(aid).get("short", "")))])
 	return "\n".join(lines)
 
 
@@ -1181,4 +1195,4 @@ static func _num(v: Variant) -> String:
 	var f := float(v)
 	if absf(f - roundf(f)) < 0.05:
 		return str(roundi(f))
-	return String.num(f, 1)
+	return Loc.num(f, 1)

@@ -99,7 +99,7 @@ func refresh() -> void:
 		var parts: Array[String] = []
 		for entry in summary:
 			parts.append("%d %s" % [entry[1], entry[0]])
-		b.tooltip_text = "Group %s: %s\nClick: select  ·  Double-click: centre camera" % [
+		b.tooltip_text = Loc.t("Group %s: %s\nClick: select  ·  Double-click: centre camera") % [
 				SelectionManager.group_label(group), ", ".join(parts)]
 	if active != _active:
 		if _active > 0:

@@ -584,7 +584,8 @@ func _update_building_strip() -> bool:
 					if type is Object and type.get("id") != null else null
 			chip.icon = tex
 			chip.text = "" if tex != null else UIStyle.abbrev(type_name)
-			chip.tooltip_text = "%s\nClick: show it  ·  Tab / Shift+Tab: next / previous building" % type_name
+			chip.tooltip_text = Loc.t("%s\nClick: show it  ·  Tab / Shift+Tab: next / previous building") \
+					% (type_name if type is Object else Loc.t(type_name))
 		var max_hp := float(b.get("max_hp")) if b.get("max_hp") != null else 0.0
 		var hp := float(b.get("hp")) if b.get("hp") != null else max_hp
 		var ratio := clampf(hp / max_hp, 0.0, 1.0) if max_hp > 0.0 else 1.0
@@ -691,10 +692,10 @@ func _update_hero() -> void:
 	if alive:
 		hero_hp.max_value = hero.max_hp
 		hero_hp.value = hero.hp
-		hero_hp_text.text = "HP  %d / %d" % [ceili(hero.hp), int(hero.max_hp)]
+		hero_hp_text.text = Loc.t("HP  %d / %d") % [ceili(hero.hp), int(hero.max_hp)]
 		hero_mana.max_value = hero.max_mana
 		hero_mana.value = hero.mana
-		hero_mana_text.text = "Mana  %d / %d" % [int(hero.mana), int(hero.max_mana)]
+		hero_mana_text.text = Loc.t("Mana  %d / %d") % [int(hero.mana), int(hero.max_mana)]
 		if hero_name.disabled:   # back from the dead (Wizard.respawn)
 			hero_name.modulate = Color.WHITE
 			hero_name.disabled = false
@@ -707,14 +708,14 @@ func _update_hero() -> void:
 		hero_name.modulate = Color(0.5, 0.5, 0.5)
 		hero_name.disabled = true
 		var left := _respawn_left()
-		hero_status.text = "%s returns in %d s" % [_short_name(), ceili(left)] if left > 0.0 else "Fallen"
+		hero_status.text = Loc.t("%s returns in %d s") % [_short_name(), ceili(left)] if left > 0.0 else Loc.t("Fallen")
 		hero_status.visible = true
 	_update_level(alive)
 	_update_status_row(hero_statuses, hero if alive else null)
 	var crown := _worn_crown()
 	hero_crown.visible = crown != null
 	if crown != null:
-		hero_crown.text = "%s  +%d HP · +%d mana" % [str(crown.get("artifact_name")),
+		hero_crown.text = Loc.t("%s  +%d HP · +%d mana") % [str(crown.get("artifact_name")),
 				int(crown.get("bonus_hp")), int(crown.get("bonus_mana"))]
 
 
@@ -781,18 +782,23 @@ func _update_level(alive: bool) -> void:
 			hero_xp.max_value = 1.0
 			hero_xp.value = 1.0
 			hero_xp_text.text = "XP  MAX"
-			xp_part = " · XP MAX"
+			xp_part = "MAX"
 		else:
 			hero_xp.max_value = float(next)
 			hero_xp.value = float(xp)
 			hero_xp_text.text = "XP  %d / %d" % [xp, next]
-			xp_part = " · XP %d / %d" % [xp, next]
+			xp_part = "%d / %d" % [xp, next]
 	var points := int(hero.get("spell_points")) if hero.get("spell_points") != null else 0
-	hero_badge.tooltip_text = "Level %d%s · %d spell point%s" % [level, xp_part, points, "" if points == 1 else "s"]
+	if xp_part != "":
+		hero_badge.tooltip_text = Loc.tn("Level {level} · XP {xp} · {n} spell point", "Level {level} · XP {xp} · {n} spell points",
+				points, {"level": level, "xp": xp_part})
+	else:
+		hero_badge.tooltip_text = Loc.tn("Level {level} · {n} spell point", "Level {level} · {n} spell points", points,
+				{"level": level})
 	points_chip.visible = points > 0
 	points_pad.custom_minimum_size.x = POINTS_PAD_ARTIFACT if second_artifact_shown(hero) else 0.0
 	if points > 0:
-		points_text.text = "+%d point%s" % [points, "" if points == 1 else "s"]
+		points_text.text = Loc.tn("+{n} point", "+{n} points", points)
 		points_chip.modulate.a = 0.85 + 0.15 * sin(_clock * TAU / 0.8)
 	var ranks := 0
 	for id in SpellInfo.ids(hero):
@@ -851,38 +857,40 @@ func _update_single(u: Unit) -> void:
 	var veteran := wiz == null and not u.has_method(&"command_gather") and (level > 1 or xp > 0)
 	single_name.text = u.unit_name
 	if veteran and level > 1:
-		single_name.text += " · " + (str(u.call(&"veterancy_name")) if u.has_method(&"veterancy_name") else rank_name(level))
+		single_name.text += " · " + Loc.t(str(u.call(&"veterancy_name")) if u.has_method(&"veterancy_name") else rank_name(level))
 	single_hp.max_value = u.max_hp
 	single_hp.value = u.hp
-	single_hp_text.text = "HP  %d / %d" % [ceili(u.hp), int(u.max_hp)]
+	single_hp_text.text = Loc.t("HP  %d / %d") % [ceili(u.hp), int(u.max_hp)]
 	var dmg := float(u.call(&"get_stat", &"attack_damage")) if u.has_method(&"get_stat") else u.attack_damage
-	var line := "Damage %s · Range %.1f · Speed %.1f" % [_num(dmg), u.attack_range, u.move_speed]
 	# Ice units and Torvald (kingdom-ice.md 3-4) carry base armor: show it when there is any.
 	var armor := float(u.call(&"get_stat", &"armor")) if u.has_method(&"get_stat") else 0.0
-	if armor > 0.0:
-		line += " · Armor %s" % _num(armor)
+	# One template per variant (localization.md: no concatenated fragments).
+	var args := {"dmg": _num(dmg), "range": _dec1(u.attack_range), "speed": _dec1(u.move_speed), "armor": _num(armor),
+			"level": level}
+	var line := Loc.t("Damage {dmg} · Range {range} · Speed {speed} · Armor {armor}", args) if armor > 0.0 \
+			else Loc.t("Damage {dmg} · Range {range} · Speed {speed}", args)
 	if wiz != null and u.get("level") != null:
-		line = "Level %d · %s" % [level, line]
+		line = Loc.t("Level %d · %s") % [level, line]
 	elif veteran:
 		var next := _veteran_next(u, level)
-		line += " · XP MAX" if next <= 0 else " · XP %d / %d" % [xp, next]
+		line = Loc.t("%s · XP MAX") % line if next <= 0 else Loc.t("%s · XP %d / %d") % [line, xp, next]
 	single_stats.text = line
 	var caster := CasterKit.ability_of(u)   # caster-units.md 9.1 (hud.): the caster's mana bar in the single view
 	single_mana.visible = wiz != null or caster != null
 	if wiz:
 		single_mana.max_value = wiz.max_mana
 		single_mana.value = wiz.mana
-		single_mana_text.text = "Mana  %d / %d" % [int(wiz.mana), int(wiz.max_mana)]
+		single_mana_text.text = Loc.t("Mana  %d / %d") % [int(wiz.mana), int(wiz.max_mana)]
 	elif caster:
 		single_mana.max_value = maxf(1.0, caster.max_mana())
 		single_mana.value = caster.mana
-		single_mana_text.text = "Mana  %d / %d" % [int(caster.mana), int(caster.max_mana())]
+		single_mana_text.text = Loc.t("Mana  %d / %d") % [int(caster.mana), int(caster.max_mana())]
 	var life := lifetime_of(u)
 	single_lifetime.visible = life.y > 0.0
 	if life.y > 0.0:
 		single_lifetime.max_value = life.y
 		single_lifetime.value = life.x
-		single_lifetime_text.text = "Withers in %d s" % ceili(life.x)
+		single_lifetime_text.text = Loc.t("Withers in %d s") % ceili(life.x)
 	_update_status_row(single_statuses, u)
 	_update_trade_lines(u)
 	_update_mapfill_lines(u)
@@ -899,15 +907,15 @@ func _update_mapfill_lines(u: Unit) -> void:
 	single_name_variant.visible = false
 	if beast:
 		var kv := beast_kind_variant(u)
-		single_name_suffix.text = " · Epic beast"
+		single_name_suffix.text = Loc.t(" · Epic beast")
 		var word := str(VARIANT_WORDS.get(kv[0], "")) if int(kv[1]) == 1 else ""
 		single_name_variant.visible = word != ""
-		single_name_variant.text = " · " + word
+		single_name_variant.text = " · " + Loc.t(word)
 		var muted := UIStyle.token(&"text_muted")
-		_set_segments(single_extra_rows[0], [["Drops: ", muted], [beast_drop_text(kv[0], int(kv[1])),
+		_set_segments(single_extra_rows[0], [[Loc.t("Drops: "), muted], [beast_drop_text(kv[0], int(kv[1])),
 				UIStyle.token(&"text")]])
 		var lair := _lair_name(u)
-		_set_segments(single_extra_rows[1], [["Roams the " + lair, muted]] if lair != "" else [])
+		_set_segments(single_extra_rows[1], [[Loc.t("Roams the %s") % lair, muted]] if lair != "" else [])
 		_update_beast_block(u)
 	elif camp != null:
 		var r: Dictionary = camp.call(&"reward_preview") if camp.has_method(&"reward_preview") else {}
@@ -918,19 +926,19 @@ func _update_mapfill_lines(u: Unit) -> void:
 		var text_c := UIStyle.token(&"text")
 		var muted := UIStyle.token(&"text_muted")
 		var row0: Array = [[str(camp.get(&"display_name")), text_c], [" · ", muted],
-				["Tier %d" % tier, tier_color(tier)], [" · %d of %d left" % [alive, total], text_c]]
+				[Loc.t("Tier %d") % tier, tier_color(tier)], [Loc.t(" · %d of %d left") % [alive, total], text_c]]
 		if level > 0:
-			row0.append([" · Level %d" % level, muted])
+			row0.append([Loc.t(" · Level %d") % level, muted])
 		_set_segments(single_extra_rows[0], row0)
 		var row1: Array = [["~%d XP" % int(r.get(&"xp", 0)), UIStyle.GOLD], [" · ", muted],
-				["+%d essence" % int(r.get(&"essence", 0)), UIStyle.ESSENCE_TEXT]]
-		var drop := str(r.get(&"drop_text", ""))
+				[Loc.t("+%d essence") % int(r.get(&"essence", 0)), UIStyle.ESSENCE_TEXT]]
+		var drop := Loc.sink(str(r.get(&"drop_text", "")))
 		if drop != "":
 			row1.append_array([[" · ", muted], [drop, muted]])
 		var cm := get_tree().get_first_node_in_group(&"camp_manager")
 		var own_team := int(hero.team) if hero != null and is_instance_valid(hero) else 0
 		if cm != null and cm.has_method(&"underdog_team") and int(cm.call(&"underdog_team")) == own_team:
-			row1.append([" · Underdog bonus", NEAR_COLOR])
+			row1.append([Loc.t(" · Underdog bonus"), NEAR_COLOR])
 		_set_segments(single_extra_rows[1], row1)
 	else:
 		_set_segments(single_extra_rows[0], [])
@@ -1066,13 +1074,13 @@ static func beast_drop_text(kind: StringName, variant: int) -> String:
 			var names: Array[String] = []
 			for it: Variant in items:
 				names.append(item_name(StringName(str(it))))
-			parts.append("%d %% %s" % [roundi(chance * 100.0), " or ".join(names)])
+			parts.append(Loc.t("%d %% %s") % [roundi(chance * 100.0), Loc.t(" or ").join(names)])
 	if comp_at >= 0:
-		parts[comp_at] = "a component" if comps == 1 else "%d components" % comps
+		parts[comp_at] = Loc.t("a component") if comps == 1 else Loc.t("%d components") % comps
 	var trophy: Variant = (table as Dictionary).get("trophy", [])
 	if trophy is Array and variant >= 0 and variant < (trophy as Array).size() \
 			and ItemType.find(StringName(str((trophy as Array)[variant]))) != null:
-		parts.append("a trophy")
+		parts.append(Loc.t("a trophy"))
 	return " · ".join(parts)
 
 
@@ -1098,7 +1106,7 @@ static func beast_ability_tooltip(id: StringName, type_id: StringName) -> String
 	var over: Dictionary = BEAST_ABILITY_OVERRIDES.get(type_id, {})
 	if over.has(id):
 		effect = str(over[id])
-	return "%s\n%s\n%s" % [info[0], info[2], effect]
+	return "%s\n%s\n%s" % [info[0], Loc.t(str(info[2])), Loc.t(effect)]   # the ability name is a proper name
 
 
 func _update_beast_block(u: Node) -> void:
@@ -1174,7 +1182,7 @@ func _update_trade_lines(u: Unit) -> void:
 	var loot := int(u.get_meta(&"loot", 0)) if u.is_in_group(&"magpies") else 0
 	single_stats_extra.visible = loot > 0
 	if loot > 0:
-		single_stats_extra.text = " · Carrying %d gold" % loot
+		single_stats_extra.text = Loc.t(" · Carrying %d gold") % loot
 	if caravan:
 		_update_caravan_lines(u)
 	elif tracker:
@@ -1191,7 +1199,7 @@ func _update_caravan_lines(u: Unit) -> void:
 	var cargo := int(u.get("cargo")) if u.get("cargo") != null else 0
 	var loaded := bool(u.call(&"is_loaded")) if u.has_method(&"is_loaded") else cargo > 0
 	cargo_coin.visible = loaded
-	cargo_labels[0].text = "Cargo %d gold" % cargo if loaded else "Empty"
+	cargo_labels[0].text = Loc.t("Cargo %d gold") % cargo if loaded else "Empty"
 	cargo_labels[0].add_theme_color_override("font_color", GOLD_TEXT if loaded else UIStyle.token(&"text_muted"))
 	var own := is_own(u)
 	for i in range(1, 4):
@@ -1220,7 +1228,7 @@ func _update_caravan_lines(u: Unit) -> void:
 		cargo_labels[3].text = ""
 	single_state.visible = true
 	var state := str(u.call(&"state_text")) if u.has_method(&"state_text") else "Idle"
-	single_state.text = state
+	single_state.text = Loc.sink(state)   # the caravan's state line comes from its logic (English there)
 	single_state.add_theme_color_override("font_color", caravan_state_color(state))
 
 
@@ -1254,10 +1262,10 @@ func tracker_contract_text(u: Node) -> String:
 	if contract == null:
 		return "Contract ended"
 	var kind := str((contract as Node).get("kind")) if (contract as Node).get("kind") != null else ""
-	var name := kind.capitalize() if kind != "" else "Hunters"
+	var name := kind.capitalize() if kind != "" else Loc.t("Hunters")
 	var left := float((contract as Node).call(&"time_left")) if (contract as Node).has_method(&"time_left") else 0.0
 	var secs := maxi(ceili(left), 0)
-	return "Contract: %s · %d:%02d left" % [name, secs / 60, secs % 60]
+	return Loc.t("Contract: %s · %d:%02d left") % [name, secs / 60, secs % 60]
 
 
 ## The visible text lines of the single view under the HP bar (stat or cargo line, then the state / contract line),
@@ -1330,7 +1338,7 @@ func _update_market_block(market: Node3D) -> void:
 			market_value.text = "Held by the enemy · caravans wait"
 			market_value.add_theme_color_override("font_color", UIStyle.WARN)
 		else:
-			market_value.text = "%d gold per trip · ~%d / min each" % [RouteLine.value_of(market, post),
+			market_value.text = Loc.t("%d gold per trip · ~%d / min each") % [RouteLine.value_of(market, post),
 					RouteLine.per_minute(market, post)]
 			market_value.add_theme_color_override("font_color", text_c)
 	else:
@@ -1342,16 +1350,17 @@ func _update_market_block(market: Node3D) -> void:
 	var alive: int = (market.call(&"caravans") as Array).size() if market.has_method(&"caravans") else 0
 	var queued := int(market.call(&"queued_caravans")) if market.has_method(&"queued_caravans") else 0
 	var limit := int(market.get("CARAVAN_LIMIT")) if market.get("CARAVAN_LIMIT") != null else 6
-	market_caravans.text = "Caravans %d / %d" % [alive, limit] + (" (%d queued)" % queued if queued > 0 else "")
+	market_caravans.text = Loc.t("Caravans %d / %d (%d queued)") % [alive, limit, queued] if queued > 0 \
+			else Loc.t("Caravans %d / %d") % [alive, limit]
 	market_caravans.add_theme_color_override("font_color", UIStyle.WARN if alive + queued >= limit else text_c)
 	var team := int(market.get("team"))
 	var net := get_tree().get_first_node_in_group(&"trade_network")
 	var recent := int(net.call(&"trade_income", team, 180.0)) if net != null and net.has_method(&"trade_income") else 0
 	var bank := _gold_bank(team)
 	var total := int(bank.call(&"earned", &"trade")) if bank != null and bank.has_method(&"earned") else 0
-	market_traded.text = "Gold traded, last 3 min: %s · total %s" % [thousands(recent), thousands(total)]
+	market_traded.text = Loc.t("Gold traded, last 3 min: %s · total %s") % [thousands(recent), thousands(total)]
 	var owned: Variant = bank.get("owned_wares") if bank != null else null
-	market_wares.text = "Wares %d / %d owned · " % [(owned as Array).size() if owned is Array else 0, WARE_COUNT]
+	market_wares.text = Loc.t("Wares %d / %d owned · ") % [(owned as Array).size() if owned is Array else 0, WARE_COUNT]
 
 
 ## The GoldBank of `team` (group "gold_banks"), or null.
@@ -1399,7 +1408,7 @@ func _update_champion(ch: Node) -> void:
 	var hp := float(ch.get("hp")) if alive and ch.get("hp") != null else 0.0
 	champion_hp.max_value = max_hp
 	champion_hp.value = hp
-	champion_hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
+	champion_hp_text.text = Loc.t("HP  %d / %d") % [ceili(hp), int(max_hp)]
 	champion_xp.visible = own and ch.get("xp") != null
 	if champion_xp.visible:
 		var xp := int(ch.get("xp"))
@@ -1407,14 +1416,16 @@ func _update_champion(ch: Node) -> void:
 		champion_xp.max_value = float(maxi(next, 1))
 		champion_xp.value = float(xp) if next > 0 else 1.0
 		champion_xp_text.text = ChampionBar.xp_text(ch)
-	champion_stats.text = "Level %d · Damage %s · Range %s · Speed %s · Armor %s" % [ChampionBar.level_of(ch),
-			_num(_stat_of(ch, &"attack_damage")), String.num(_stat_of(ch, &"attack_range"), 1),
-			String.num(_stat_of(ch, &"move_speed"), 1), _num(_stat_of(ch, &"armor"))]
+	champion_stats.text = Loc.t("Level %d · Damage %s · Range %s · Speed %s · Armor %s") % [ChampionBar.level_of(ch),
+			_num(_stat_of(ch, &"attack_damage")), Loc.num(_stat_of(ch, &"attack_range"), 1),
+			Loc.num(_stat_of(ch, &"move_speed"), 1), _num(_stat_of(ch, &"armor"))]
 	if own:
-		var line := ChampionBar.target_text(ch, guild)
+		var line := ChampionBar.target_text(ch, guild)   # English: intent_color below reads it
+		var shown := ChampionBar.target_text(ch, guild, true)   # the player's language (French template)
 		if alive and ChampionBar.is_unpaid(ch):
 			line = "Unpaid!"
-		champion_intent.text = line
+			shown = Loc.sink(line)
+		champion_intent.text = shown
 		champion_intent.add_theme_color_override("font_color", ChampionBar.intent_color(line))
 		champion_purse.text = str(ChampionBar.purse_of(ch))
 	else:
@@ -1519,7 +1530,7 @@ func _update_champion_abilities(ch: Node, own: bool) -> void:
 			var unlock := ChampionBar.CLASS_UNLOCKS[j]
 			slot.show_placeholder(unlock)
 			slot.tooltip_text = ChampionBar.lean_tooltip(weights, j + 1, own)
-			name_label.text = "Skill %d" % (j + 1)
+			name_label.text = Loc.t("Skill %d") % (j + 1)
 			locked_levels.append(unlock)
 			continue
 		var shown := j < row.size()
@@ -1560,7 +1571,7 @@ func _update_champion_abilities(ch: Node, own: bool) -> void:
 			next = l
 	if next == 0 and not locked_levels.is_empty():
 		next = level + 1
-	champion_autocast.text = "Autocast · next at level %d" % next if own and next > 0 else "Autocast"
+	champion_autocast.text = Loc.t("Autocast · next at level %d") % next if own and next > 0 else "Autocast"
 
 
 ## An id list from the champion's abilities node (`method` returns Array[StringName]), [] when it has none.
@@ -1624,7 +1635,7 @@ func _update_status_row(row: HBoxContainer, u: Node) -> void:
 		var left := ceili(float(u.call(&"status_time_left", id)))
 		var info: Array = STATUS_INFO.get(id, ["?", String(id).capitalize(), ""])
 		(chip.get_child(0) as Label).text = "%s %d" % [info[0], left]
-		chip.tooltip_text = "%s: %s · %d s left" % [info[1], info[2], left]
+		chip.tooltip_text = Loc.t("%s: %s · %d s left") % [Loc.t(str(info[1])), Loc.t(str(info[2])), left]
 	row.visible = any
 
 
@@ -1652,7 +1663,7 @@ func _update_mapfill_chip(chip: Control, u: Node) -> bool:
 			var secs := ceili(_blessing_left(int(u.get(&"team")) if u.get(&"team") != null else 0))
 			(chip.get_node(^"Row/Secs") as Label).text = str(secs)
 			chip.set_meta(&"row_text", "Blessing %d" % secs)
-			chip.tooltip_text = "Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s" % secs
+			chip.tooltip_text = Loc.t("Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s") % secs
 		return on
 	var wading := has_mod and bool(u.call(&"has_modifier", FORD_MODIFIER))
 	chip.visible = wading
@@ -1740,7 +1751,7 @@ static func draw_wave_glyph(ci: CanvasItem, o: Vector2) -> void:
 
 ## Soldier level names (levels.md "Unit veterancy"; rank 4 is "Paragon", champions.md 1).
 static func rank_name(level: int) -> String:
-	return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]
+	return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.t
 
 
 ## XP a soldier needs for its next level (cumulative, from Unit.VETERANCY_XP), 0 at Paragon.
@@ -1750,11 +1761,17 @@ func _veteran_next(u: Unit, level: int) -> int:
 	return Unit.VETERANCY_XP[level] if level >= 1 and level < Unit.VETERANCY_XP.size() else 0
 
 
-## 13.2 -> "13.2", 12.0 -> "12".
+## 13.2 -> "13.2", 12.0 -> "12" (French: "13,2").
 func _num(v: float) -> String:
 	if absf(v - roundf(v)) < 0.05:
 		return str(roundi(v))
-	return String.num(v, 1)
+	return Loc.num(v, 1)
+
+
+## "%.1f" (6.0 -> "6.0"), with the decimal comma in French.
+static func _dec1(v: float) -> String:
+	var s := "%.1f" % v
+	return s.replace(".", ",") if Loc.is_french() else s
 
 
 func _update_multi(units: Array[Unit]) -> void:
@@ -1768,7 +1785,7 @@ func _update_multi(units: Array[Unit]) -> void:
 	var parts: Array[String] = []
 	for unit_name in order:
 		parts.append("%d %s" % [counts[unit_name], unit_name])
-	multi_header.text = "%d selected:  %s" % [units.size(), ", ".join(parts)]
+	multi_header.text = Loc.t("%d selected:  %s") % [units.size(), ", ".join(parts)]
 	_icon_units.clear()
 	# SC2 subgroups: with 2+ unit types, the active type's portraits (Tab cycles it) get a gold frame.
 	var active_key: StringName = &""
@@ -1789,10 +1806,11 @@ func _update_multi(units: Array[Unit]) -> void:
 			_icon_gold[i] = gold
 			UIStyle.style_button(b, UIStyle.GOLD if gold else UIStyle.PANEL_BORDER)
 		b.text = UIStyle.abbrev(u.unit_name)
-		b.tooltip_text = "%s  HP %d / %d" % [u.unit_name, ceili(u.hp), int(u.max_hp)]
+		# Tooltip = list items joined by "  ·  " (each item one translated template).
+		b.tooltip_text = Loc.t("%s  HP %d / %d") % [u.unit_name, ceili(u.hp), int(u.max_hp)]
 		var life := lifetime_of(u)
 		if life.y > 0.0:
-			b.tooltip_text += "  ·  withers in %d s" % ceili(life.x)
+			b.tooltip_text += "  ·  " + Loc.t("withers in %d s") % ceili(life.x)
 		var ratio := clampf(u.hp / maxf(u.max_hp, 1.0), 0.0, 1.0)
 		var strip := _icon_strips[i]
 		strip.color = UIStyle.health_color(ratio)
@@ -1803,7 +1821,7 @@ func _update_multi(units: Array[Unit]) -> void:
 		mstrip.visible = cab != null
 		if cab:
 			mstrip.size.x = ICON_SIZE * clampf(cab.mana / maxf(1.0, cab.max_mana()), 0.0, 1.0)
-			b.tooltip_text += "  ·  Mana %d / %d" % [int(cab.mana), int(cab.max_mana())]
+			b.tooltip_text += "  ·  " + Loc.t("Mana %d / %d") % [int(cab.mana), int(cab.max_mana())]
 		# Veterancy dots: 1-3 gold dots for Veteran / Elite / Paragon soldiers.
 		var marks := 0
 		if not (u is Wizard) and u.get("level") != null:
@@ -1856,7 +1874,7 @@ func _update_keep(keep: Node3D) -> void:
 			# The unit's icon (art/icons/units/<id>.png, like the command card), else its name as text.
 			tex = ItemTooltip.HudSkin.icon("units", str(queue[i].get("id")))
 			b.text = "" if tex != null else type_name
-			b.tooltip_text = "%s\nClick to cancel (full refund)." % type_name
+			b.tooltip_text = Loc.t("%s\nClick to cancel (full refund).") % type_name
 			b.modulate.a = 1.0
 		else:
 			b.text = ""
@@ -1873,7 +1891,7 @@ func _update_keep(keep: Node3D) -> void:
 	if queue.is_empty() or queue[0] == null:
 		queue_count.text = "Nothing in training"
 	else:
-		queue_count.text = "Training %s  %d %%\n%d in queue" % [str(queue[0].get("display_name")),
+		queue_count.text = Loc.t("Training %s  %d %%\n%d in queue") % [str(queue[0].get("display_name")),
 				floori(clampf(progress, 0.0, 1.0) * 100.0), queue.size()]
 	var on_node := keep.has_method("rally_is_node") and bool(keep.call("rally_is_node"))
 	rally_label.text = "Rally: gather node" if on_node else "Rally: set"
@@ -1885,11 +1903,12 @@ func _update_site(site: Node3D) -> void:
 	site_progress.value = clampf(progress, 0.0, 1.0)
 	var builders := int(site.call("builder_count")) if site.has_method("builder_count") else 0
 	var speed := float(site.call("build_speed")) if site.has_method("build_speed") else 0.0
-	var line := "Under construction  %d %%" % floori(progress * 100.0)
+	var pct := floori(progress * 100.0)
+	var line := Loc.t("Under construction  %d %%  ·  Paused: right-click it with workers") % pct
 	if builders > 0:
-		line += "  ·  %d builder%s (x%s)" % [builders, "" if builders == 1 else "s", String.num(speed, 1)]
-	else:
-		line += "  ·  Paused: right-click it with workers"
+		line = Loc.tn("Under construction  {pct} %  ·  {n} builder (x{speed})",
+				"Under construction  {pct} %  ·  {n} builders (x{speed})", builders,
+				{"pct": pct, "speed": Loc.num(speed, 1)})
 	building_info.text = line
 
 
@@ -1900,8 +1919,8 @@ static func keep_tier_text(b: Node) -> String:
 	if k == null or TierSystem.instance() == null:
 		return ""
 	if k.is_upgrading():
-		return "Upgrading to %s %d %%" % [TierSystem.tier_name(k.tier + 1), roundi(k.upgrade_progress() * 100.0)]
-	return "Tier %d %s" % [k.tier, k.tier_name()]
+		return Loc.t("Upgrading to %s %d %%") % [Loc.t(TierSystem.tier_name(k.tier + 1)), roundi(k.upgrade_progress() * 100.0)]
+	return Loc.t("Tier %d %s") % [k.tier, Loc.t(k.tier_name())]
 
 
 ## One line about a finished building: pop bonus, drop-off, tower stats.
@@ -1911,12 +1930,12 @@ func _building_info_text(type: Variant) -> String:
 	var t := type as BuildingType
 	var parts: Array[String] = []
 	if t.pop_bonus > 0:
-		parts.append("+%d population" % t.pop_bonus)
+		parts.append(Loc.t("+%d population") % t.pop_bonus)
 	if t.kind == &"keep" or t.kind == &"barracks":
-		parts.append("Crystal drop-off")
+		parts.append(Loc.t("Crystal drop-off"))
 	if t.kind == &"tower":
-		parts.append("Damage %d · Range %d · Every %s s" % [roundi(t.attack_damage), roundi(t.attack_range),
-				String.num(t.attack_cooldown, 1)])
+		parts.append(Loc.t("Damage %d · Range %d · Every %s s") % [roundi(t.attack_damage), roundi(t.attack_range),
+				Loc.num(t.attack_cooldown, 1)])
 	return "  ·  ".join(parts)
 
 
@@ -2064,7 +2083,7 @@ func _build_hero_column() -> Control:
 	status_row.add_child(spacer)
 	points_chip = PanelContainer.new()
 	points_chip.custom_minimum_size = Vector2(70, 20)
-	points_chip.tooltip_text = "Learn a spell: click + on a spell, or Ctrl+%s / Ctrl+%s / Ctrl+%s" % [
+	points_chip.tooltip_text = Loc.t("Learn a spell: click + on a spell, or Ctrl+%s / Ctrl+%s / Ctrl+%s") % [
 			KeyLabels.of(KEY_F), KeyLabels.of(KEY_Q), KeyLabels.of(KEY_E)]   # keyboard labels (UX.1)
 	var chip_style := StyleBoxFlat.new()
 	chip_style.bg_color = UIStyle.GOLD

@@ -14,6 +14,8 @@ const ROLES: Array[String] = ["melee", "ranged", "cavalry", "caster", "siege", "
 		"worker"]
 const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": "Siege",
 		"support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
+## Kingdom display names (English msgids; the screen shows them through kingdom_label).
+const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neutral"}
 ## Text limits (characters), checked by the test and the generator.
 const PRO_MAX := 80
 const TAG_MAX := 24
@@ -258,21 +260,22 @@ static func suggest_role(id: StringName, kind: String = "unit") -> String:
 
 
 ## "180 crystals · 2 pop · 30 s" (champions / helpers add essence; the tracker: its gold contract).
+## In the current language (the screen calls it each time it shows a unit).
 static func cost_text(e: Dictionary) -> String:
 	var s: Dictionary = e["stats"]
 	if int(s["gold"]) > 0:
-		return "Contract from %d gold (Greywater Lodge)" % int(s["gold"])
+		return Loc.t("Contract from {gold} gold (Greywater Lodge)", {"gold": int(s["gold"])})
 	var parts: Array[String] = []
 	if int(s["crystals"]) > 0:
-		parts.append("%d crystals" % int(s["crystals"]))
+		parts.append(Loc.tn("{n} crystal", "{n} crystals", int(s["crystals"])))
 	if int(s["essence"]) > 0:
-		parts.append("%d essence" % int(s["essence"]))
-	parts.append("%d pop" % int(s["pop"]))
+		parts.append(Loc.t("{n} essence", {"n": int(s["essence"])}))
+	parts.append(Loc.t("{n} pop", {"n": int(s["pop"])}))
 	if float(s["train_time"]) > 0.0:
 		parts.append("%d s" % int(round(float(s["train_time"]))))
 	var t := " · ".join(parts)
 	if e["kind"] == "champion":
-		t += " (first hire)"
+		t = Loc.t("{cost} (first hire)", {"cost": t})
 	return t
 
 
@@ -295,8 +298,8 @@ static func abilities_of(id: StringName, kind: String = "unit") -> Array[Diction
 	if CasterKit.is_caster(id):
 		for sp in CasterKit.spells_of(id):
 			var d := CasterKit.spell(sp)
-			out.append({"name": str(d.get("name", sp)), "key": str(d.get("key", "")),
-				"text": "%s (%d mana)" % [str(d.get("text", "")), int(d.get("mana", 0))]})
+			out.append(_templ({"name": str(d.get("name", sp)), "key": str(d.get("key", ""))},
+				"{text} ({mana} mana)", {"text": str(d.get("text", "")), "mana": int(d.get("mana", 0))}))
 		var p := CasterKit.passive_of(id)
 		if p != &"" and CasterKit.PASSIVES.has(p):
 			var pd: Dictionary = CasterKit.PASSIVES[p]
@@ -316,19 +319,58 @@ static func abilities_of(id: StringName, kind: String = "unit") -> Array[Diction
 				var nm := c.ability_name(ab_id, str(d.get("name", String(ab_id).capitalize())))
 				var tx := c.ability_text(ab_id, "")
 				var lv := int(d.get("unlock", 1))
-				out.append({"name": nm, "key": "Auto, L%d" % lv,
-					"text": tx if tx != "" else "Cooldown %d s." % int(d.get("cooldown", 0))})
+				if tx != "":
+					out.append({"name": nm, "key": "Auto, L%d" % lv, "text": tx})
+				else:
+					out.append(_templ({"name": nm, "key": "Auto, L%d" % lv}, "Cooldown {n} s.",
+						{"n": int(d.get("cooldown", 0))}))
 	var t := text_of(id)
 	for a in t.get("abilities", []):
 		if a is Dictionary:
 			out.append({"name": str(a.get("name", "")), "key": str(a.get("key", "Auto")), "text": str(a.get("text", ""))})
 	if Stables16.has_rank_up(id):
 		var bonus: Dictionary = Stables16.RANK_STATS
-		out.append({"name": "Rank 3: " + Stables16.rank_name(id), "key": "Stables",
-			"text": "Stables research once your keep is a Citadel (%d crystals, %d s): +%d %% HP, +%d %% damage, +%d armour." % [
-				Stables16.rank_price(id), int(Stables16.rank_time(id)), int(round(float(bonus[&"max_hp_pct"]) * 100.0)),
-				int(round(float(bonus[&"attack_damage_pct"]) * 100.0)), int(bonus[&"armor"])]})
+		var rk := _templ({"key": "Stables"},
+			"Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{armor} armour.",
+			{"price": Stables16.rank_price(id), "time": int(Stables16.rank_time(id)),
+				"hp": int(round(float(bonus[&"max_hp_pct"]) * 100.0)),
+				"dmg": int(round(float(bonus[&"attack_damage_pct"]) * 100.0)), "armor": int(bonus[&"armor"])})
+		rk["name_tmpl"] = "Rank 3: {name}"
+		rk["name_args"] = {"name": Stables16.rank_name(id)}
+		rk["name"] = String(rk["name_tmpl"]).format(rk["name_args"])
+		out.append(rk)
 	return out
+
+
+## An ability whose text is a template: "text" = the English, "tmpl" / "args" let the screen show it in any language.
+static func _templ(a: Dictionary, tmpl: String, args: Dictionary) -> Dictionary:
+	a["tmpl"] = tmpl
+	a["args"] = args
+	a["text"] = tmpl.format(args)
+	return a
+
+
+## An ability's text in the current language (its "text" arg and plain texts go through Loc.sink).
+static func ability_text(a: Dictionary) -> String:
+	if a.has("tmpl"):
+		var args: Dictionary = (a["args"] as Dictionary).duplicate()
+		if args.has("text"):
+			args["text"] = Loc.sink(String(args["text"]))
+		return Loc.t(String(a["tmpl"]), args)
+	return Loc.sink(String(a["text"]))
+
+
+static func ability_name(a: Dictionary) -> String:
+	if a.has("name_tmpl"):
+		return Loc.t(String(a["name_tmpl"]), a["name_args"])
+	return String(a["name"])
+
+
+## The key badge ("Auto", "Passive", "Auto, L5", a hotkey letter, a building) in the current language.
+static func key_label(k: String) -> String:
+	if k.begins_with("Auto, L") and k.substr(7).is_valid_int():
+		return Loc.t("Auto, L{n}", {"n": int(k.substr(7))})
+	return Loc.t(k) if k.length() > 1 else k
 
 
 # ---------------------------------------------------------------- portraits
@@ -345,6 +387,25 @@ static func icon_of(id: StringName) -> Texture2D:
 
 static func kingdom_name(k: StringName) -> String:
 	return "Neutral" if k == NEUTRAL else String(k).capitalize()
+
+
+## The kingdom name in the current language.
+static func kingdom_label(k: StringName) -> String:
+	return Loc.t(String(KINGDOM_NAMES.get(String(k), kingdom_name(k))))
+
+
+## The role name in the current language.
+static func role_label(role: String) -> String:
+	return Loc.t(String(ROLE_NAMES.get(role, role)))
+
+
+## Where the unit comes from, in the current language (building names stay English).
+static func building_label(b: String) -> String:
+	if b.ends_with(" (Citadel)"):
+		return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
+	if b.ends_with(" (Wonders)"):
+		return Loc.t("%s (Wonders)") % b.trim_suffix(" (Wonders)")
+	return Loc.t(b)
 
 
 static func kingdom_color(k: StringName) -> Color:
@@ -366,13 +427,29 @@ static func filter(kingdom: StringName, tier: int, role: String, search: String)
 		if role != "" and e["role"] != role:
 			continue
 		var ok := true
+		var hay := _search_text(e) if not words.is_empty() else ""
 		for w in words:
-			if not String(e["search"]).contains(w):
+			if not hay.contains(w):
 				ok = false
 				break
 		if ok:
 			out.append(e)
 	return out
+
+
+## The search text of `e`: the English one, plus (another language) its translated class, role, kingdom and tags.
+static func _search_text(e: Dictionary) -> String:
+	if Loc.language == Loc.DEFAULT_LANG:
+		return String(e["search"])
+	var key := "search_" + Loc.language
+	if not e.has(key):
+		var parts: Array[String] = [String(e["search"]), Loc.t(String(e["class"])), role_label(String(e["role"])),
+				kingdom_label(e["kingdom"]), building_label(String(e["building"]))]
+		for f in ["strong", "weak", "good_with"]:
+			for s: String in e[f]:
+				parts.append(Loc.t(s))
+		e[key] = " ".join(parts).to_lower()
+	return String(e[key])
 
 
 # ---------------------------------------------------------------- ranks and claims

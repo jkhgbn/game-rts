@@ -74,8 +74,13 @@ const LEAN_WEIGHT := 20.0
 const LEAN_CAP := 40.0
 const CLASS_SCRIPT := "res://scripts/units/champion_class.gd"
 ## The class-skill tooltip mark and the bounty hint line of the lean tooltip (ui-champions.md 15.5).
-const CLASS_MARK := "  (class, level %d)"
+const CLASS_MARK := "  (class, level {n})"
 const BOUNTY_HINT := "Your bounties before level 2 steer its class"
+## The champion intent words (scripts/ai/champion_brain.gd, scripts/units/champion.gd): msgids for the French file,
+## translated where shown (`Loc.sink`, target_text(..., true)).
+const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting bounty",
+		"Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
+		"Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
 
 ## Tests: false = draw the code glyph even when `art/icons/classes/<id>.png` exists.
 static var class_icons_enabled := true
@@ -602,7 +607,7 @@ static func title_of(ch_or_id: Variant) -> String:
 static func full_name_of(ch: Node) -> String:
 	var title := title_of(ch)
 	var n := display_name_of(ch)
-	return n if title == "" else "%s, %s" % [n, title]
+	return n if title == "" else "%s, %s" % [n, Loc.t(title)]
 
 
 static func level_of(ch: Node) -> int:
@@ -683,8 +688,11 @@ static func node_name(n: Variant) -> String:
 
 ## The intent with its target: "Hunting bounty: Gloom Hall (150)", "Guarding: Ember Hall (50)", "Fighting: Shade";
 ## the intent alone when there is nothing to name ("Fleeing", "Fallen", "Returns in 24 s").
-static func target_text(ch: Node, guild: Node = null) -> String:
+## `loc` = the display text in the player's language (the English one stays the logic / colour key).
+static func target_text(ch: Node, guild: Node = null, loc := false) -> String:
 	var intent := intent_text(ch, guild)
+	if loc:
+		intent = Loc.sink(intent)
 	if ch == null or not is_instance_valid(ch) or not is_alive(ch):
 		return intent
 	var t: Variant = ch.get("intent_target")
@@ -693,11 +701,16 @@ static func target_text(ch: Node, guild: Node = null) -> String:
 	var o := t as Object
 	if o.get("stake") != null:   # a Bounty flag
 		var what := str(o.call(&"target_name")) if o.has_method(&"target_name") else node_name(o.get("target"))
+		var args := {"intent": intent, "target": what, "stake": int(o.get("stake"))}
+		# `loc` = the French template; else the English one (the logic / colour key stays English in every language).
 		if what == "":   # an Explore flag: a point, no name
-			return "%s (%d)" % [intent, int(o.get("stake"))]
-		return "%s: %s (%d)" % [intent, what, int(o.get("stake"))]
+			return Loc.t("{intent} ({stake})", args) if loc else "{intent} ({stake})".format(args)
+		return Loc.t("{intent}: {target} ({stake})", args) if loc else "{intent}: {target} ({stake})".format(args)
 	var n := node_name(o)
-	return "%s: %s" % [intent, n] if n != "" else intent
+	var a2 := {"intent": intent, "target": n}
+	if n == "":
+		return intent
+	return Loc.t("{intent}: {target}", a2) if loc else "{intent}: {target}".format(a2)
 
 
 ## "XP  320 / 400" or "XP  MAX" ("" when the champion has no XP).
@@ -742,7 +755,7 @@ static func items_line(ch: Node) -> String:
 		if types[i] != null:
 			var n := ItemTooltip.display_name(types[i])
 			parts.append(n if int(counts[i]) <= 1 else "%s x%d" % [n, int(counts[i])])
-	return "Items: " + (", ".join(parts) if not parts.is_empty() else "none")
+	return Loc.t("Items: {list}", {"list": ", ".join(parts)}) if not parts.is_empty() else Loc.t("Items: none")
 
 
 ## The name the player's team would get for `id`: the guild's `name_for(id)` when it has one; else name B when
@@ -794,13 +807,13 @@ static func ability_info(id: StringName) -> Dictionary:
 
 ## The effect line with its `{n}` numbers grown to `level` (+ growth per level above 1) and `spell_power`.
 static func ability_effect(id: StringName, level: int, growth := 0.08, spell_power := 0.0) -> String:
-	var text := str(ability_info(id).get("effect", ""))
+	var text := Loc.t(str(ability_info(id).get("effect", "")))   # the French keeps the same {n} marks
 	var mult := (1.0 + growth * float(maxi(level, 1) - 1)) * (1.0 + spell_power / 100.0)
 	var re := RegEx.create_from_string("\\{(\\d+(?:\\.\\d+)?)\\}")
 	var out := text
 	for m in re.search_all(text):
 		var v := float(m.get_string(1)) * mult
-		out = out.replace(m.get_string(), str(roundi(v)) if absf(v - roundf(v)) < 0.05 or v >= 20.0 else String.num(v, 1))
+		out = out.replace(m.get_string(), str(roundi(v)) if absf(v - roundf(v)) < 0.05 or v >= 20.0 else Loc.num(v, 1))
 	return out
 
 
@@ -824,15 +837,15 @@ static func is_class_skill(id: StringName) -> bool:
 static func ability_tooltip(id: StringName, level := 1, growth := 0.08, spell_power := 0.0) -> String:
 	var a := ability_info(id)
 	var locked := level < int(a.get("unlock", 1))
-	var first := str(a.get("name", "")) + ("  Locked" if locked else "")
+	var first := str(a.get("name", "")) + ("  " + Loc.t("Locked") if locked else "")
 	if is_class_skill(id):
-		first += CLASS_MARK % int(a.get("unlock", 1))
+		first += Loc.t(CLASS_MARK, {"n": int(a.get("unlock", 1))})
 	var lines: PackedStringArray = [first]
-	lines.append(str(a.get("info", "")))
+	lines.append(Loc.t(str(a.get("info", ""))))
 	lines.append(ability_effect(id, level, growth, spell_power))
-	lines.append("Autocast: " + str(a.get("when", "")))
+	lines.append(Loc.t("Autocast: {when}", {"when": Loc.t(str(a.get("when", "")))}))
 	if locked:
-		lines.append("Unlocks at level %d" % int(a.get("unlock", 1)))
+		lines.append(Loc.t("Unlocks at level {n}", {"n": int(a.get("unlock", 1))}))
 	return "\n".join(lines)
 
 
@@ -840,36 +853,50 @@ static func ability_tooltip(id: StringName, level := 1, growth := 0.08, spell_po
 ## Step 11 (15.5): a line starting with `Your bounties` in GOLD; line 1's `Locked` in WARN and a class skill's
 ## `(class, level n)` right-aligned, font 12 `text_muted` (like `Rank n / m`).
 static func styled_tooltip(text: String) -> Control:
+	text = Loc.sink(text)   # an English tooltip_text (static literal) shows in the player's language
 	var lines := text.split("\n")
 	var first := lines[0] if lines.size() > 0 else ""
 	var mark := ""
 	var locked := false
-	var re := RegEx.create_from_string("\\s+\\(class, level \\d+\\)$")
+	var locked_word := Loc.t("Locked")
+	# `  (class, level 2)` in either language (CLASS_MARK translated).
+	var mark_re := "\\s+" + _regex_escape(Loc.t(CLASS_MARK).strip_edges()).replace("\\{n\\}", "\\d+") + "$"
+	var re := RegEx.create_from_string(mark_re)
 	var m := re.search(first)
 	if m != null:
 		mark = m.get_string().strip_edges()
 		first = first.substr(0, m.get_start())
-	if first.ends_with("  Locked"):
+	if first.ends_with("  " + locked_word):
 		locked = true
-		first = first.trim_suffix("  Locked")
+		first = first.trim_suffix("  " + locked_word)
 	if mark != "" or locked:
 		lines[0] = first
+	var unlocks := Loc.t("Unlocks at level {n}").get_slice("{", 0)
+	var unpaid := Loc.t("Unpaid: ignores bounties").get_slice(":", 0)
+	var hint := Loc.t(BOUNTY_HINT)
 	var box := UIStyle.make_tooltip("\n".join(lines))
 	for l: Label in box.find_children("*", "Label", true, false):
-		if l.text.begins_with("Unlocks at level") or l.text.begins_with("Unpaid:") or l.text.strip_edges() == "Locked":
+		if l.text.begins_with(unlocks) or l.text.begins_with(unpaid + ":") or l.text.strip_edges() == locked_word:
 			l.add_theme_color_override("font_color", UIStyle.WARN)
-		elif l.text.begins_with("Your bounties"):
+		elif l.text == hint:
 			l.add_theme_color_override("font_color", UIStyle.GOLD)
 	if (mark != "" or locked) and box.get_child_count() > 0 and box.get_child(0) is HBoxContainer:
 		var row := box.get_child(0) as HBoxContainer
 		if locked:
-			row.add_child(UIStyle.panel_label("Locked", 13, UIStyle.WARN))
+			row.add_child(UIStyle.panel_label(locked_word, 13, UIStyle.WARN))
 		if mark != "":
 			var r := UIStyle.panel_label(mark, 12, UIStyle.token(&"text_muted"))
 			r.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			r.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			row.add_child(r)
 	return box
+
+
+static func _regex_escape(s: String) -> String:
+	var out := ""
+	for c in s:
+		out += ("\\" + c) if "\\.^$|?*+()[]{}".contains(c) else c
+	return out
 
 
 ## Two-letter placeholder: "Sable Quint" -> "SQ".
@@ -881,7 +908,7 @@ static func initials(text: String) -> String:
 ## intent with target / items.
 static func tooltip_for(ch: Node, guild: Node, key_name := "") -> String:
 	var lines: PackedStringArray = []
-	var title := title_of(ch)
+	var title := Loc.t(title_of(ch))
 	var cls := class_name_of(ch)
 	if cls != "":   # 15.2: the class rides on the muted title part after the `]`
 		title = "%s · %s" % [title, cls] if title != "" else cls
@@ -890,10 +917,11 @@ static func tooltip_for(ch: Node, guild: Node, key_name := "") -> String:
 	var alive := is_alive(ch)
 	var xp := xp_text(ch).replace("  ", " ")
 	var hp := ceili(float(ch.get("hp"))) if alive and ch.get("hp") != null else 0
-	lines.append("Level %d%s · HP %d / %d · Purse %d" % [level_of(ch), " · " + xp if xp != "" else "", hp,
-			int(max_hp_of(ch)), purse_of(ch)])
-	lines.append(str(type_info(champion_id(ch)).get("personality_line", "")))
-	lines.append("Unpaid: ignores bounties" if alive and is_unpaid(ch) else target_text(ch, guild))
+	var args := {"level": level_of(ch), "xp": xp, "hp": hp, "max": int(max_hp_of(ch)), "purse": purse_of(ch)}
+	lines.append(Loc.t("Level {level} · {xp} · HP {hp} / {max} · Purse {purse}", args) if xp != ""
+			else Loc.t("Level {level} · HP {hp} / {max} · Purse {purse}", args))
+	lines.append(Loc.t(str(type_info(champion_id(ch)).get("personality_line", ""))))
+	lines.append(Loc.t("Unpaid: ignores bounties") if alive and is_unpaid(ch) else target_text(ch, guild, true))
 	lines.append(items_line(ch))
 	return "\n".join(lines)
 
@@ -951,7 +979,7 @@ static func class_info(id: StringName) -> Dictionary:
 
 ## "Sword and Shield" (the class's display name), "" before the choice or for an unknown id.
 static func class_display_name(id: StringName) -> String:
-	return str(class_info(id).get("display_name", ""))
+	return Loc.t(str(class_info(id).get("display_name", "")))
 
 
 ## The champion's class name ("Sword and Shield"), "" before level 2.
@@ -962,7 +990,8 @@ static func class_name_of(ch: Node) -> String:
 ## The class message of 15.7: `Garran Stoneward takes up the Sword and Shield` (`the Wizard's staff` for a wizard).
 static func class_message(ch: Node, cid: StringName) -> String:
 	var info := class_info(cid)
-	return "%s takes up %s" % [display_name_of(ch), str(info.get("takes", "the " + class_display_name(cid)))]
+	return Loc.t("{name} takes up {weapon}", {"name": display_name_of(ch),
+			"weapon": Loc.t(str(info.get("takes", "the " + str(info.get("display_name", "")))))})
 
 
 ## The class tooltip (15.5): name / weapon line / stat change / the 3 skills with unlock levels. `damage` >= 0 =
@@ -974,21 +1003,22 @@ static func class_tooltip(id: StringName, damage := -1.0) -> String:
 	var dmg := num_text(float(c.get("attack_damage", 0.0)) if damage < 0.0 else damage, 1)
 	var cd := num_text(float(c.get("attack_cooldown", 1.0)), 2)
 	var reach := num_text(float(c.get("attack_range", 0.0)), 1)
-	var weapon := "ranged %s · %s damage every %s s" % [reach, dmg, cd] if bool(c.get("ranged", false)) \
-			else "melee · %s damage every %s s · reach %s" % [dmg, cd, reach]
+	var wargs := {"reach": reach, "dmg": dmg, "cd": cd}
+	var weapon := Loc.t("ranged {reach} · {dmg} damage every {cd} s", wargs) if bool(c.get("ranged", false)) \
+			else Loc.t("melee · {dmg} damage every {cd} s · reach {reach}", wargs)
 	var skills: PackedStringArray = []
 	var ids: Array = c.get("ability_ids", [])
 	var levels: Array = c.get("unlock_levels", [2, 3, 5])
 	for j in ids.size():
 		skills.append("%s L%d" % [str(ability_info(ids[j]).get("name", "")), int(levels[j]) if j < levels.size() else 2])
-	return "\n".join([str(c.get("display_name", "")), weapon, str(c.get("mods", "")), " · ".join(skills)])
+	return "\n".join([class_display_name(id), weapon, Loc.t(str(c.get("mods", ""))), " · ".join(skills)])
 
 
 ## `12` for 12.0 / 11.96, else `decimals` digits without trailing zeros (`13.9`, `0.95`, `1.1`).
 static func num_text(v: float, decimals: int) -> String:
 	if absf(v - roundf(v)) < 0.49 * pow(10.0, -decimals):
 		return str(roundi(v))
-	return String.num(v, decimals)
+	return Loc.num(v, decimals)
 
 
 ## The class tooltip for a champion right now: its current attack damage (get_stat).
@@ -1070,13 +1100,14 @@ static func lean_tooltip(weights: Dictionary, slot := 0, own := true) -> String:
 	var parts: PackedStringArray = []
 	for r: Array in ranked:
 		parts.append("%s %d %%" % [class_display_name(r[0]), roundi(100.0 * float(r[1]) / total) if total > 0.0 else 0])
-	var lines: PackedStringArray = ["Class skill %d  Locked" % slot if slot > 0 else "Class"]
-	lines.append("Chooses a class at level 2 · leans " + lean_text(weights))
+	var lines: PackedStringArray = [Loc.t("Class skill {n}", {"n": slot}) + "  " + Loc.t("Locked") if slot > 0
+			else Loc.t("Class")]
+	lines.append(Loc.t("Chooses a class at level 2 · leans {lean}", {"lean": lean_text(weights)}))
 	lines.append(" · ".join(parts))
 	if own:
-		lines.append(BOUNTY_HINT)
+		lines.append(Loc.t(BOUNTY_HINT))
 	if slot > 0:
-		lines.append("Unlocks at level %d" % CLASS_UNLOCKS[clampi(slot - 1, 0, 2)])
+		lines.append(Loc.t("Unlocks at level {n}", {"n": CLASS_UNLOCKS[clampi(slot - 1, 0, 2)]}))
 	return "\n".join(lines)
 
 
@@ -1370,10 +1401,10 @@ class Slot extends Button:
 		_last_champion = null
 		_set_filled(false)
 		var at := ChampionBar.opens_at_text(self)
-		tavern_label.text = "Y · tavern" if open else "Tavern opens at %s" % at
+		tavern_label.text = "Y · tavern" if open else Loc.t("Tavern opens at {time}", {"time": at})
 		tavern_label.add_theme_color_override("font_color", UIStyle.GOLD if open else UIStyle.token(&"text_muted"))
-		tooltip_text = "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s" % (
-				"" if open else "\nTavern opens at %s" % at)
+		tooltip_text = Loc.t("Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.") + (
+				"" if open else "\n" + Loc.t("Tavern opens at {time}", {"time": at}))
 		_unpaid = false
 		_style_badge()
 		_update_alpha()
@@ -1391,10 +1422,10 @@ class Slot extends Button:
 		hp_bar.max_value = 1.0
 		hp_bar.value = 1.0
 		hp_text.text = ""
-		intent_label.text = "Arrives in %d s" % ceili(left)
+		intent_label.text = Loc.t("Arrives in {n} s", {"n": ceili(left)})
 		intent_label.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
-		tooltip_text = "%s  [%s]  %s\nHired: walks out of the tavern in %d s." % [display_name,
-				ChampionBar.KEY_NAMES[index], ChampionBar.title_of(id), ceili(left)]
+		tooltip_text = "%s  [%s]  %s\n" % [display_name, ChampionBar.KEY_NAMES[index], Loc.t(ChampionBar.title_of(id))] \
+				+ Loc.t("Hired: walks out of the tavern in {n} s.", {"n": ceili(left)})
 		_update_alpha()
 
 	## Fills the slot with `ch` (alive, fallen or reviving); plays the hire / level / purse / fall animations.
@@ -1423,7 +1454,7 @@ class Slot extends Button:
 		hp_bar.value = hp
 		hp_text.text = "%d / %d" % [ceili(hp), int(max_hp)]
 		var intent := ChampionBar.intent_text(ch, guild)
-		intent_label.text = intent
+		intent_label.text = Loc.sink(intent)
 		intent_label.add_theme_color_override("font_color", ChampionBar.intent_color(intent))
 		var unpaid := alive and ChampionBar.is_unpaid(ch)
 		if unpaid != _unpaid:
@@ -1565,8 +1596,10 @@ class Slot extends Button:
 		box.add_theme_constant_override("separation", 3)
 		box.add_child(UIStyle.make_tooltip("\n".join(lines.slice(0, 3))))
 		var intent := UIStyle.panel_label(lines[3], 13)
+		# Colour from the English intent (the line itself may be French).
 		intent.add_theme_color_override("font_color", UIStyle.WARN if lines[3].begins_with("Unpaid:")
-				else ChampionBar.intent_color(lines[3]))
+				or lines[3] == Loc.t("Unpaid: ignores bounties") else ChampionBar.intent_color(
+				ChampionBar.intent_text(champion) if Loc.is_french() else lines[3]))
 		box.add_child(intent)
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 4)

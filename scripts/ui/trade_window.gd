@@ -170,6 +170,22 @@ func _ready() -> void:
 	_show_tab(BAZAAR)
 
 
+## Live language switch: the texts built once in _ready (tab names, the reward line) are rebuilt; the rest refreshes
+## at 4 Hz while the window is open.
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED or reward_label == null:
+		return
+	for b in tab_buttons:
+		if b.has_meta(&"tab_text"):
+			b.text = Loc.t(str(b.get_meta(&"tab_text"))).to_upper()
+	reward_label.text = Loc.t("The Lodge pays {n} gold for every Magpie slain", {"n": REWARD_PER_MAGPIE})
+
+
+## "crystals" / "essence" in the player's language (the exchange targets).
+static func res_word(to: StringName) -> String:
+	return Loc.t("crystals") if to == &"crystals" else Loc.t("essence")
+
+
 func _page() -> Control:
 	var p := Control.new()
 	p.size = INNER
@@ -188,7 +204,8 @@ func _build_title_bar() -> void:
 			[TAB_B, "Greywater Lodge", LODGE, "Hunters' Guild: contracts paid in gold"]]:
 		var b := TabButton.new()
 		var r: Rect2 = spec[0]
-		b.text = str(spec[1]).to_upper()
+		b.text = Loc.t(str(spec[1])).to_upper()
+		b.set_meta(&"tab_text", str(spec[1]))   # the English, re-translated on a language switch
 		b.tab_id = spec[2]
 		b.tooltip_text = str(spec[3])
 		b.position = r.position
@@ -292,7 +309,7 @@ func _build_lodge() -> void:
 		r.position = Vector2(0, CONTRACT_Y + CONTRACT_STEP * k)
 		_lodge_page.add_child(r)
 		contract_rows.append(r)
-	reward_label = _label(_lodge_page, "The Lodge pays %d gold for every Magpie slain" % REWARD_PER_MAGPIE, 12,
+	reward_label = _label(_lodge_page, Loc.t("The Lodge pays {n} gold for every Magpie slain", {"n": REWARD_PER_MAGPIE}), 12,
 			Vector2(8, 260), 420)
 	rewards_received_label = _label(_lodge_page, "Rewards received: 0 gold", 12, Vector2(432, 260), 300)
 	rewards_received_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -751,7 +768,7 @@ func press_exchange(to: StringName, times := 1) -> String:
 	var button := exchange_buttons[0] if to == &"crystals" else exchange_buttons[1]
 	if last_result == "":
 		var received := amount / EXCHANGE_STEP * int(EXCHANGE_RATES.get(to, 0))
-		message.emit("Exchanged %d gold for %d %s" % [amount, received, String(to)])
+		message.emit(Loc.t("Exchanged {gold} gold for {n} {res}", {"gold": amount, "n": received, "res": res_word(to)}))
 		_pop(crystals_label if to == &"crystals" else essence_label)
 	else:
 		message.emit(last_result)
@@ -843,21 +860,21 @@ func _refresh_bazaar(b: Node) -> void:
 		var button := exchange_buttons[i]
 		var to: StringName = button.get_meta(&"to")
 		var received := times * int(EXCHANGE_RATES[to])
-		button.text = "%d gold  ->  %d %s" % [amount, received, String(to)]
+		button.text = Loc.t("{gold} gold  ->  {n} {res}", {"gold": amount, "n": received, "res": res_word(to)})
 		var why := exchange_reason(amount, to)
 		button.disabled = why != ""
 		button.modulate.a = 0.45 if why != "" else 1.0
 		var ek := KeyLabels.of(EXCHANGE_KEYS[i])
 		(button.get_meta(&"key_badge") as Label).text = ek
-		button.tooltip_text = "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s" % [ek, int(EXCHANGE_RATES[to]),
-				String(to), "\n" + why if why != "" else ""]
+		button.tooltip_text = Loc.t("Exchange  [{key}]\n100 gold -> {n} {res} · Shift: x5", {"key": ek,
+				"n": int(EXCHANGE_RATES[to]), "res": res_word(to)}) + ("\n" + Loc.sink(why) if why != "" else "")
 	var earned := _earned(b, &"")
-	ledger_labels[0].text = "Gold earned %s" % thousands(earned)
-	ledger_labels[1].text = "trade %s · loot %s · rewards %s" % [thousands(_earned(b, &"trade")),
-			thousands(_earned(b, &"loot")), thousands(_earned(b, &"reward"))]
+	ledger_labels[0].text = Loc.t("Gold earned {n}", {"n": thousands(earned)})
+	ledger_labels[1].text = Loc.t("trade {trade} · loot {loot} · rewards {rewards}", {"trade": thousands(_earned(b, &"trade")),
+			"loot": thousands(_earned(b, &"loot")), "rewards": thousands(_earned(b, &"reward"))})
 	var net := trade_network_of(get_tree())
 	var income := int(net.call(&"trade_income", team, 180.0)) if net != null and net.has_method(&"trade_income") else 0
-	ledger_labels[2].text = "Gold traded, last 3 min: %s" % thousands(income)
+	ledger_labels[2].text = Loc.t("Gold traded, last 3 min: {n}", {"n": thousands(income)})
 	ledger_labels[0].add_theme_color_override("font_color", UIStyle.token(&"text"))
 	ledger_labels[1].add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	ledger_labels[2].add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
@@ -869,7 +886,7 @@ func _refresh_bazaar(b: Node) -> void:
 	else:
 		footer_left.text = "Wares are bought once and apply to units made later too"
 		footer_left.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
-		footer_right.text = "Bazaar: %s" % building_name(m)
+		footer_right.text = Loc.t("Bazaar: {name}", {"name": building_name(m)})
 		footer_right.add_theme_color_override("font_color", UIStyle.token(&"text"))
 
 
@@ -879,18 +896,18 @@ func _refresh_lodge(b: Node) -> void:
 		lodge_header.text = "The Greywater Lodges are not here"
 		lodge_header.add_theme_color_override("font_color", UIStyle.WARN)
 	elif g.has_method(&"is_open") and not bool(g.call(&"is_open")):
-		lodge_header.text = "The Lodge opens at 5:00 · in %s" % mmss(lodge_time_until_open(g))
+		lodge_header.text = Loc.t("The Lodge opens at 5:00 · in {time}", {"time": mmss(lodge_time_until_open(g))})
 		lodge_header.add_theme_color_override("font_color", UIStyle.WARN)
 	else:
 		lodge_header.text = LODGE_HEADER
 		lodge_header.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	for r in contract_rows:
 		r.refresh(g)
-	rewards_received_label.text = "Rewards received: %s gold" % thousands(_earned(b, &"reward"))
+	rewards_received_label.text = Loc.t("Rewards received: {n} gold", {"n": thousands(_earned(b, &"reward"))})
 	footer_left.text = "Trackers act on their own for the contract's time, then leave"
 	footer_left.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	var n := visible_magpies(get_tree())
-	footer_right.text = "Magpies you can see: %d" % n
+	footer_right.text = Loc.t("Magpies you can see: {n}", {"n": n})
 	footer_right.add_theme_color_override("font_color", UIStyle.token(&"text"))
 
 
@@ -955,7 +972,7 @@ class TabButton extends Button:
 ## A button whose tooltip uses the styled slate (ui-style.md 8).
 class TipButton extends Button:
 	func _make_custom_tooltip(for_text: String) -> Object:
-		return UIStyle.make_tooltip(for_text)
+		return UIStyle.make_tooltip(Loc.sink(for_text))
 
 
 ## The row background shared by both tabs: panel_inner alpha 0.55 (hover 0.8), radius 3; a rim colour; a flash tints
@@ -1159,8 +1176,9 @@ class WareRow extends TradeRow:
 		buy_button.modulate.a = 0.45 if reason != "" else 1.0
 		var rk := TradeWindow.row_key_label(index)
 		buy_key.text = rk
-		buy_button.tooltip_text = "Buy %s  [%s]\n%d gold · once\n%s%s" % [str(info.get("name", id)), rk, price,
-				str(info.get("effect", "")), "\n" + reason if reason != "" else ""]
+		buy_button.tooltip_text = Loc.t("Buy {name}  [{key}]\n{gold} gold · once", {"name": str(info.get("name", id)),
+				"key": rk, "gold": price}) + "\n" + Loc.t(str(info.get("effect", ""))) \
+				+ ("\n" + Loc.sink(reason) if reason != "" else "")
 		rim = Color(UIStyle.GOLD, 0.6) if owned else Color(0, 0, 0, 0)
 		tile.set_rim(UIStyle.GOLD if owned else UIStyle.token(&"frame_metal"))
 		_style()
@@ -1168,8 +1186,8 @@ class WareRow extends TradeRow:
 	## The note line: `one-time`, or the refusal in WARN.
 	func show_refusal(text: String) -> void:
 		reason = text if not owned else ""
-		note_label.text = reason if reason != "" else "one-time"
-		note_label.tooltip_text = reason
+		note_label.text = Loc.sink(reason) if reason != "" else "one-time"
+		note_label.tooltip_text = Loc.sink(reason)
 		note_label.add_theme_color_override("font_color", UIStyle.WARN if reason != ""
 				else UIStyle.token(&"text_muted"))
 
@@ -1268,7 +1286,7 @@ class ContractRow extends TradeRow:
 			trackers = int(info.get("trackers", 0))
 		if duration <= 0.0:
 			duration = float(info.get("duration", 0.0))
-		sub_label.text = "%d Greywater Trackers · %d s" % [trackers, roundi(duration)]
+		sub_label.text = Loc.t("{n} Greywater Trackers · {secs} s", {"n": trackers, "secs": roundi(duration)})
 		var left := 0.0
 		var cooldown := 0.0
 		if g != null:
@@ -1302,7 +1320,7 @@ class ContractRow extends TradeRow:
 		if state == &"running":
 			status_label.text = "Running"
 			status_label.add_theme_color_override("font_color", TradeWindow.NEAR)
-			time_label.text = "%s left" % TradeWindow.mmss(left)
+			time_label.text = Loc.t("{time} left", {"time": TradeWindow.mmss(left)})
 			time_label.add_theme_color_override("font_color", UIStyle.WARN if left < 10.0 else UIStyle.token(&"text"))
 			time_ratio = left / duration if duration > 0.0 else 0.0
 			time_bar.queue_redraw()
@@ -1311,13 +1329,14 @@ class ContractRow extends TradeRow:
 			status_label.add_theme_color_override("font_color", UIStyle.WARN)
 			time_label.text = "%d s" % ceili(cooldown)
 			time_label.add_theme_color_override("font_color", UIStyle.token(&"text"))
-		reason_label.text = reason if state == &"refused" else ""
+		reason_label.text = Loc.sink(reason) if state == &"refused" else ""
 		hire_button.disabled = state != &"hireable"
 		hire_button.modulate.a = 0.45 if hire_button.disabled else 1.0
 		var rk := TradeWindow.row_key_label(index)
 		hire_key.text = rk
-		hire_button.tooltip_text = "Hire %s  [%s]\n%d gold · %d trackers · %d s%s" % [str(info.get("name", kind)), rk,
-				cost, trackers, roundi(duration), "\n" + reason if reason != "" else ""]
+		hire_button.tooltip_text = Loc.t("Hire {name}  [{key}]\n{gold} gold · {n} trackers · {secs} s", {
+				"name": str(info.get("name", kind)), "key": rk, "gold": cost, "n": trackers, "secs": roundi(duration)}) \
+				+ ("\n" + Loc.sink(reason) if reason != "" else "")
 		var glow := UIStyle.token(&"trim_glow")
 		rim = Color(glow.r, glow.g, glow.b, 0.6) if state == &"running" else Color(0, 0, 0, 0)
 		tile.set_rim(glow if state == &"running" else UIStyle.token(&"frame_metal"))
@@ -1327,5 +1346,5 @@ class ContractRow extends TradeRow:
 	func show_refusal(text: String) -> void:
 		if state == &"hireable" or state == &"refused":
 			reason = text
-			reason_label.text = text
+			reason_label.text = Loc.sink(text)
 			reason_label.visible = text != ""

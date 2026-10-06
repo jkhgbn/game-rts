@@ -4,6 +4,7 @@ extends CanvasLayer
 ## prologue 2.1 / 2.5). CanvasLayer 85: above the HUD / briefing (80), below the pause menu (90).
 ## Driven by CinematicPlayer; runs with PROCESS_MODE_ALWAYS so it works while the tree is paused.
 
+const StoryText := preload("res://scripts/ui/mission/story_text.gd")
 const LAYER := 85
 const BAR_IN_TIME := 0.4
 const BAR_OUT_TIME := 0.3
@@ -166,7 +167,7 @@ func show_line(speaker: StringName, text: String, duration: float) -> void:
 	_speaker_label.text = Speakers.name_of(speaker) if speaker != &"" else ""
 	_speaker_label.add_theme_color_override("font_color", Speakers.color_of(speaker))
 	_speaker_label.visible = speaker != &""
-	_text_label.text = text
+	_text_label.text = StoryText.tr_text(text)
 	_line_left = maxf(duration, 0.0)
 	_line_on = true
 	_layout()
@@ -221,8 +222,8 @@ func fade_alpha() -> float:
 
 
 func show_title(text: String, sub: String = "", time: float = 3.0) -> void:
-	_title_label.text = text
-	_sub_title_label.text = sub
+	_title_label.text = StoryText.tr_text(text)
+	_sub_title_label.text = StoryText.tr_text(sub)
 	_sub_title_label.visible = sub != ""
 	_title_total = maxf(time, 0.1)
 	_title_left = _title_total
@@ -309,7 +310,7 @@ func _layout() -> void:
 	_text_label.add_theme_font_size_override("font_size", int(round(22.0 * ks)))
 	_speaker_label.add_theme_font_size_override("font_size", int(round(19.0 * ks)))
 	var w := s.x * SUB_WIDTH_FRAC
-	var sub_h := 3.4 * 22.0 * ks + 6.0
+	var sub_h := 4.4 * 22.0 * ks + 6.0   # speaker line + 2 text lines (the wrapped label reserves both: was 5 px off-screen)
 	var y := s.y - sub_h - 8.0 * ks
 	if bar < SUB_MIN_BAR:
 		y = s.y - bar - sub_h - 10.0 * ks

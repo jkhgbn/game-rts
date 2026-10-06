@@ -1,0 +1,25 @@
+## Area ui_unit_guide: literals the extractor picks up that are not player text (ids, claim checker / lint output).
+%s_keep
+%s_barracks
+%s_stables
+ (Citadel)
+ (Wonders)
+Auto, L%d
+%s: rank %d for %s in %s
+%s: rank %d for %s
+the %s army
+any army
+%s in %s
+Top 3 for %s in %s (rank %d)
+unknown id
+no entry in %s
+unknown role '%s'
+empty summary
+summary longer than %d
+%d pros (want 3)
+%d cons (want 2-3)
+empty line in %s
+%s line longer than %d: %s
+no %s tags
+tag longer than %d: %s
+ability without a name or text
