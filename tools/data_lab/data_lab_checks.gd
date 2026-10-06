@@ -336,7 +336,11 @@ func _consistency(res: Resource, kind: String, where: String) -> Array:
 			if b.kind == &"tower" and (b.attack_damage <= 0.0 or b.attack_range <= 0.0):
 				out.append({"sev": "FAIL", "where": where, "what": "tower without attack damage / range", "fix": "set attack_damage and attack_range"})
 			if b.kind in [&"keep", &"barracks"] and b.trains.is_empty() and b.train_ids.is_empty():
-				out.append({"sev": "FAIL", "where": where, "what": "%s trains nothing" % b.kind, "fix": "fill trains or train_ids"})
+				if Rules.NON_TRAINER_BUILDINGS.has(String(b.id)) and not b.is_buildable():
+					out.append({"sev": "INFO", "where": where, "what": "%s trains nothing: allowed, %s" % [b.kind,
+							Rules.NON_TRAINER_BUILDINGS[String(b.id)]], "fix": ""})
+				else:
+					out.append({"sev": "FAIL", "where": where, "what": "%s trains nothing" % b.kind, "fix": "fill trains or train_ids"})
 			if b.kind == &"house" and b.pop_bonus <= 0:
 				out.append({"sev": "WARN", "where": where, "what": "house with pop_bonus 0", "fix": "set pop_bonus"})
 			if b.is_buildable() and b.build_time <= 0.0:

@@ -47,6 +47,11 @@ const SUPPORT_KINDS: Array[StringName] = [&"", &"shield", &"heal"]
 const ATTACK_STYLES: Array[StringName] = [&"spear_thrust", &"sword_slash", &"great_cleave", &"staff_bolt"]
 ## Documented sentinel values allowed below 0 (field -> value): AIProfile.first_scout_time -1 = use scout_interval.
 const SENTINELS := {"first_scout_time": -1.0}
+## Keeps / barracks allowed to train nothing (id -> the reason, shown as INFO). Only mission-only types that no build
+## menu offers (`is_buildable()` false); a buildable one still FAILs F5 "trains nothing".
+const NON_TRAINER_BUILDINGS := {
+	"fire_watch_keep": "mission 0 watch-keep (mission-00.md 19.C7a: 2 000 HP, shoots, cannot train, no tier button)",
+}
 ## Statuses Unit.STATUSES does not list but code applies by name (spell / item specials).
 const EXTRA_STATUSES: Array[StringName] = [&"smoulder", &"glacier_shell"]
 

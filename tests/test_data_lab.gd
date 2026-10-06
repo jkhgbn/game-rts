@@ -211,6 +211,15 @@ func _test_synthetic() -> void:
 	it3.passives = {&"burn": {"duration": 2.0, "interval": 0.5, "per_tick": 4.0}}
 	it3.tooltip = "Burn: attacks burn for 16 over 2 s, then 99 more."
 	checks.items.append({"path": "res://data/items/drift_item.tres", "res": it3})
+	# Keeps that train nothing: the allow-listed mission-only watch-keep passes (INFO), any other keep FAILs.
+	for kid: String in ["fire_watch_keep", "bad_keep"]:
+		var k := BuildingType.new()
+		k.id = StringName(kid)
+		k.display_name = kid.capitalize()
+		k.faction = &"fire"
+		k.kind = &"keep"
+		k.max_hp = 2000.0
+		checks.buildings.append({"path": "res://data/buildings/%s.tres" % kid, "res": k})
 	checks.check_load()
 	checks.check_fields()
 	checks.check_refs()
@@ -224,6 +233,11 @@ func _test_synthetic() -> void:
 		if f["check"] == "T5":
 			t5.append(String(f["what"]))
 	_expect(t5.size() == 1 and t5[0].contains("99"), "T5 should flag only 99: %s" % str(t5))
+	var trains_fail: Array[String] = []
+	for f: Dictionary in report.findings:
+		if String(f["what"]).contains("trains nothing") and String(f["sev"]) == "FAIL":
+			trains_fail.append(String(f["where"]).get_file())
+	_expect(trains_fail == ["bad_keep.tres"], "'trains nothing' FAIL should hit only bad_keep: %s" % str(trains_fail))
 	_expect(report.result() == "FAIL" and report.exit_code() == 1, "synthetic result %s" % report.result())
 	_expect(report.quality() < 80.0, "synthetic score %.0f should be low" % report.quality())
 	var md: String = report.to_markdown()
