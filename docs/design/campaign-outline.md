@@ -75,48 +75,48 @@ one-line brief). Lengths: normal difficulty, including the mission's own cutscen
 ### 3.1 Episode 1 "The Hollow Throne" (Fire, Vessa). Source: ep1 (unchanged)
 Opening: prologue (3:00) then `ep1_intro` (2:00 VIDEO, later production). Between missions: `c1_offer`,
 `c2_two_fronts`, `c3_parley`; in-mission 9 ENGINE cutscenes + 4 VIDEO; ending `ep1_ending` 1:30 + credits 1:30.
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 0 | `m00` | The Night of Knives | Vessa (L2, wounded) + Old Vey ally | Emberfall at night (M1 corner, sight x 0.6) | Survive until dawn, light 3 braziers | 9-12 | The wizard under pressure; no economy | OUTLINE (ep1 5.0) |
-| 1 | `m01` | The Crown in the Ashes | Vessa | Emberfall | Light 3 braziers, claim, hold 2:00 | 15-20 | T1 Fire, Blaze Rider; **Stronghold** (Pyre Adept, Cinder Arbalest, **Kilnwarden** caster, "+" upgrades); items, shops; **Ember Crown** | **BUILT** (no story patches 19.C3 yet) |
-| 2 | `m02` | The Orb Beneath the Ice | Vessa | Glasswater Mere (Torvald's lake, neutral) | Break the Heartfrost before the dig, escape | 18-24 | Ash Hurler, thin ice, blizzard; **Stillwater Orb**, Oath of Embers (secondary); Aldra's voice (th. Q1) | SPEC (old Fire-vs-Ice; ep1 5.2 re-skin to write) |
-| 3 | `m03` | The Signet in the Sighing Wood | Vessa | Sighing Wood (neutral) | Race Malrik to 3 Root Hearts, take the Signet, break 2 gates | 20-25 | **Champions**, tavern, bounty flags, companion; **Master's Signet** | OUTLINE (ep1 5.3) |
-| 4 | `m04` | The Hollow Throne | Vessa (+ Old Vey from the darkest hour) | Crown Hollow at war (river on) | 3-way battle, Hollow meter, boss (Keystone Colossus) | 22-28 | Boss phases, Turn the Key, Vey's storm | OUTLINE (ep1 5.4, 6) |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 0 | `m00` | The Night of Knives | Vessa (L2, wounded) + Old Vey ally | Emberfall at night (M1 corner, sight x 0.6) | Survive until dawn, light 3 braziers | 9-12 | The wizard under pressure; no economy | OUTLINE (ep1 5.0) | Flame Guard |
+| 1 | `m01` | The Crown in the Ashes | Vessa | Emberfall | Light 3 braziers, claim, hold 2:00 | 15-20 | T1 Fire, Blaze Rider; **Stronghold** (Pyre Adept, Cinder Arbalest, **Kilnwarden** caster, "+" upgrades); items, shops; **Ember Crown** | **BUILT** (no story patches 19.C3 yet) | Blaze Rider |
+| 2 | `m02` | The Orb Beneath the Ice | Vessa | Glasswater Mere (Torvald's lake, neutral) | Break the Heartfrost before the dig, escape | 18-24 | Ash Hurler, thin ice, blizzard; **Stillwater Orb**, Oath of Embers (secondary); Aldra's voice (th. Q1) | SPEC (old Fire-vs-Ice; ep1 5.2 re-skin to write) | Ash Hurler |
+| 3 | `m03` | The Signet in the Sighing Wood | Vessa | Sighing Wood (neutral) | Race Malrik to 3 Root Hearts, take the Signet, break 2 gates | 20-25 | **Champions**, tavern, bounty flags, companion; **Master's Signet** | OUTLINE (ep1 5.3) | Wayfinder (champion) |
+| 4 | `m04` | The Hollow Throne | Vessa (+ Old Vey from the darkest hour) | Crown Hollow at war (river on) | 3-way battle, Hollow meter, boss (Keystone Colossus) | 22-28 | Boss phases, Turn the Key, Vey's storm | OUTLINE (ep1 5.4, 6) | Kilnwarden |
 
 ### 3.2 Episode 2 "The Light Below" (Fire, Vessa + Old Vey; Ysolde allied from e2m2). Source: ep1 10, e2o
 Opening: `ep2_opening` (1:12). Between: `c_e2_ashes` "What the Frost Kept" (after e2m1, 1:15: Ysolde in the burnt
 grove, she joins Fire), `c_e2_lodge` "The Price of the Road" (after e2m2, 1:00), `c_e2_stair` "On the Way Down" (after
 e2m3, 1:30: Vey's story, half of it: he was the Master's sword "before the four"; the lightning is "his storm, not
 mine"). Ending `ep2_ending` "All Four, or None" (1:30, ENGINE; VIDEO later if wanted).
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1 | `e2m1` | The Burning Grove | Vessa | Sighing Wood burnt and frozen (M3 map, seed 1303, ash + snow terrain of step 12b) | Reach Ysolde's last Heartwood by 6:00, then hold it 12:00 vs Shadow + Ice (2v1); Wren and the Nature survivors must live | 20-25 | **Citadel** (tier 3: Ashveil Saboteur), **Old Vey becomes the callable helper** at the Citadel; first mission vs Ice units | IDEA (ep1 10, e2o Q1) |
-| 2 | `e2m2` | Roots and Embers | Vessa + Ysolde (allied bot) | 2v2 map (`map-2v2.md`) | First 2v2: escort seed-carriers to replant 3 groves around Fire's line, destroy Torvald's forward Rime outpost | 22-28 | **Allied wizard bot**, Maelis as the ally's helper; neutral camps + capture points (map-fill) | IDEA (ep1 10) |
-| 3 | `e2m3` | The Salt Road | Vessa | Trade map (`market-trade.md` 10 proposal, moved to Ep2 by ep1 9) | Run 6 gold caravans to the Hunters' Lodge to buy its help, while Magpies and Shadow raid the road | 18-24 | **Gold, Bazaar, caravans**, Magpies; **Ember Boar** cavalry (`cavalry-mounts.md` 12) | IDEA |
-| 4 | `e2m4` | Sunrise Road | Vessa + Old Vey | The deep under Emberfall (new underground biome, narrow halls, no base until the Warden forge) | Descend 3 Warden halls; Vey's channel wakes Wardens as friends; small army, light against the dark | 17-23 | **Research** (Forge / Sanctum, `research.md` 12 moved here); friendly Ruin Wardens (story unit) | IDEA (ep1 10) |
-| 5 | `e2m5` | The Light Below | Vessa + Ysolde bot vs Malrik + Torvald bots | The Deep Door cavern (the Master's white-gold door) | 3-way race to the door, then boss: **the Doorwarden** (Obren's jailer-statue, woken by Malrik's shard); the door must hold | 25-31 | Fire titan (`titans-2.md`) as the reward unit; boss bar reuse | IDEA (ep1 10) |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | `e2m1` | The Burning Grove | Vessa | Sighing Wood burnt and frozen (M3 map, seed 1303, ash + snow terrain of step 12b) | Reach Ysolde's last Heartwood by 6:00, then hold it 12:00 vs Shadow + Ice (2v1); Wren and the Nature survivors must live | 20-25 | **Citadel** (tier 3: Ashveil Saboteur), **Old Vey becomes the callable helper** at the Citadel; first mission vs Ice units | IDEA (ep1 10, e2o Q1) | Old Vey (helper) |
+| 2 | `e2m2` | Roots and Embers | Vessa + Ysolde (allied bot) | 2v2 map (`map-2v2.md`) | First 2v2: escort seed-carriers to replant 3 groves around Fire's line, destroy Torvald's forward Rime outpost | 22-28 | **Allied wizard bot**, Maelis as the ally's helper; neutral camps + capture points (map-fill) | IDEA (ep1 10) | Ashveil Saboteur |
+| 3 | `e2m3` | The Salt Road | Vessa | Trade map (`market-trade.md` 10 proposal, moved to Ep2 by ep1 9) | Run 6 gold caravans to the Hunters' Lodge to buy its help, while Magpies and Shadow raid the road | 18-24 | **Gold, Bazaar, caravans**, Magpies; **Ember Boar** cavalry (`cavalry-mounts.md` 12) | IDEA | Emberdart Harrier |
+| 4 | `e2m4` | Sunrise Road | Vessa + Old Vey | The deep under Emberfall (new underground biome, narrow halls, no base until the Warden forge) | Descend 3 Warden halls; Vey's channel wakes Wardens as friends; small army, light against the dark | 17-23 | **Research** (Forge / Sanctum, `research.md` 12 moved here); friendly Ruin Wardens (story unit) | IDEA (ep1 10) | Ember Forge |
+| 5 | `e2m5` | The Light Below | Vessa + Ysolde bot vs Malrik + Torvald bots | The Deep Door cavern (the Master's white-gold door) | 3-way race to the door, then boss: **the Doorwarden** (Obren's jailer-statue, woken by Malrik's shard); the door must hold | 25-31 | Fire titan (`titans-2.md`) as the reward unit; boss bar reuse | IDEA (ep1 10) | Cinder Dragon (titan) |
 Episode ending: the door holds; through it the Master speaks one line to Vessa ("All four of you, or none."); Malrik
 pulls back with the shard and Torvald; both alliances race up toward the last green country: Evenmead.
 
 ### 3.3 Episode 3 "The Gravedigger's Son" (Shadow, Malrik + Mother Hush; Torvald allied). Source: e34.
 Opening: `ep3_opening` (1:31). Between: 3 ENGINE scenes (~1:10 each: Hush and Malrik after Evenmead, the stone's
 first price, Torvald's doubt). Ending `ep3_ending` "I Will Not Stop" (1:00).
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1 | `e3m1` | Take the Ford | Malrik + Torvald (bot) | `evenmead` (north seat) | 2v2 attack: take and hold the stone ford and the foot of Lark Hill | 22-28 | Shadow kit at the Stronghold, **Gloom Deacon** caster; Keystone Shard in Malrik's artifact slot | IDEA (e34. 7) |
-| 2 | `e3m2` | Another Night | Malrik (stays at camp, voice) + Hush's squad | The Fire-Nature camp behind Lark Hill, night | Commando, no base: sabotage 4 supply wagons before dawn; the mirror of M0 ("There is always another night") | 14-18 | **Citadel**; **Hush becomes the callable helper**; Nightblood Reaver T3 | NEW |
-| 3 | `e3m3` | The Stone's Price | Malrik | Malrik's crypt city (Shadow homeland) | Hold the crypt while Wardens rise from Malrik's own dead; the shard offers power that fills a Hollow meter: use it or not (a flag for Ep8) | 20-25 | Keystone Shard active ability (with its cost); Hollow meter from the inside | NEW |
-| 4 | `e3m4` | The Storm on the Ridge | Malrik + Torvald (bot) | Evenmead ridge, after the battle | Hero-boss: Old Vey + Vessa's army; hold 3 points until Vey withdraws (he cannot die); Malrik wins the field, Torvald sees the stone whisper | 24-30 | Nightmare Knight titan | NEW |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | `e3m1` | Take the Ford | Malrik + Torvald (bot) | `evenmead` (north seat) | 2v2 attack: take and hold the stone ford and the foot of Lark Hill | 22-28 | Shadow kit at the Stronghold, **Gloom Deacon** caster; Keystone Shard in Malrik's artifact slot | IDEA (e34. 7) | Gloom Deacon |
+| 2 | `e3m2` | Another Night | Malrik (stays at camp, voice) + Hush's squad | The Fire-Nature camp behind Lark Hill, night | Commando, no base: sabotage 4 supply wagons before dawn; the mirror of M0 ("There is always another night") | 14-18 | **Citadel**; **Hush becomes the callable helper**; Nightblood Reaver T3 | NEW | Mother Hush (helper) |
+| 3 | `e3m3` | The Stone's Price | Malrik | Malrik's crypt city (Shadow homeland) | Hold the crypt while Wardens rise from Malrik's own dead; the shard offers power that fills a Hollow meter: use it or not (a flag for Ep8) | 20-25 | Keystone Shard active ability (with its cost); Hollow meter from the inside | NEW | Nightblood Reaver |
+| 4 | `e3m4` | The Storm on the Ridge | Malrik + Torvald (bot) | Evenmead ridge, after the battle | Hero-boss: Old Vey + Vessa's army; hold 3 points until Vey withdraws (he cannot die); Malrik wins the field, Torvald sees the stone whisper | 24-30 | Nightmare Knight titan | NEW | Nightmare Knight (titan) |
 
 ### 3.4 Episode 4 "What Grows Back" (Nature, Ysolde + Maelis; Vessa allied). Source: e34.
 Opening: `ep4_opening` (1:28). Between: 3 ENGINE scenes. Ending `ep4_ending` "Winter's End" (1:00): a winter truce
 falls on both alliances; the episodes that follow are what the four remember that winter.
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1 | `e4m1` | Hold Lark Hill | Ysolde + Vessa (bot) | `evenmead` (south seat) | Survive until nightfall; save the villagers and the Master's golden tree | 22-28 | Nature kit at the Stronghold, **Bramblesage** caster | IDEA (e34. 7) |
-| 2 | `e4m2` | The Green Road | Ysolde | Evenmead's western woods | Escort 40 villagers to the Fire border through ambushes | 18-22 | **Citadel**; **Maelis becomes the callable helper**; Briar Roc T3 | NEW |
-| 3 | `e4m3` | The Frozen Ashes | Ysolde | The Sighing Wood (burnt + frozen, e2m1's map) | Thaw and regrow 5 groves while Torvald and Aldra hold the wood | 22-26 | Regrowth objective; **Heartwood Seed** artifact (Ysolde's token, new `items.md` row) | NEW |
-| 4 | `e4m4` | Winter's End | Ysolde + Vessa (bot) | Torvald's frontier (ice wall map) | Break "the Wall of a Hundred Winters" and its Rime Colossi; Torvald stops Aldra from finishing Ysolde: the seed of his turn | 24-30 | Elder Treant titan | NEW |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | `e4m1` | Hold Lark Hill | Ysolde + Vessa (bot) | `evenmead` (south seat) | Survive until nightfall; save the villagers and the Master's golden tree | 22-28 | Nature kit at the Stronghold, **Bramblesage** caster | IDEA (e34. 7) | Bramblesage |
+| 2 | `e4m2` | The Green Road | Ysolde | Evenmead's western woods | Escort 40 villagers to the Fire border through ambushes | 18-22 | **Citadel**; **Maelis becomes the callable helper**; Briar Roc T3 | NEW | Maelis (helper) |
+| 3 | `e4m3` | The Frozen Ashes | Ysolde | The Sighing Wood (burnt + frozen, e2m1's map) | Thaw and regrow 5 groves while Torvald and Aldra hold the wood | 22-26 | Regrowth objective; **Heartwood Seed** artifact (Ysolde's token, new `items.md` row) | NEW | Briar Roc |
+| 4 | `e4m4` | Winter's End | Ysolde + Vessa (bot) | Torvald's frontier (ice wall map) | Break "the Wall of a Hundred Winters" and its Rime Colossi; Torvald stops Aldra from finishing Ysolde: the seed of his turn | 24-30 | Elder Treant titan | NEW | Elder Treant (titan) |
 
 ### 3.5 Episode 5 "The Spark and the Candle" (origins: young Vessa, then young Malrik)
 Opening `ep5_opening` ~3:00 **new**: 0:00-0:45 recap of the prologue (re-cut from the rendered prologue, the Master's
@@ -124,42 +124,42 @@ voice, no new render), 0:45-3:00 a bigger version of the prologue's 4-beat block
 Vessa then Malrik, with new scenes. Present-day frame: the winter truce; Vessa turns Vey's old sword-knot, Malrik his
 candle. Ending (0:40): the Master gives them the two harbour cities ("No problem at all!"); straight into Ep7's memory.
 Missions are short, small armies, tier 1, low level caps: they double as a refresher for new players.
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1 | `e5m1` | The First Spark | young Vessa + Old Vey (teacher, in his prime) | The citadel's south valley | Vey's trial: light 5 beacons while border raiders attack (basics refresher) | 12-15 | Nothing new (tutorial-grade) | NEW |
-| 2 | `e5m2` | Burn a Door | young Vessa | A raider fort on the south border | Siege; her weakness as a rule: charging ahead alone springs an ambush, waiting for the army does not | 16-20 | Ember Archer volleys, first siege | NEW |
-| 3 | `e5m3` | Tombstones by Candlelight | young Malrik | A graveyard town | Light and dark: shadows hide his units; find 3 secrets in the crypts before the gravewardens catch him | 12-15 | Stealth-light rule (shadow zones) | NEW |
-| 4 | `e5m4` | Leftovers | young Malrik (vs young Vessa) | The Master's practice field (mirrored) | The Master's trial: a friendly 1v1, first to take 3 banners; Malrik wins by taking | 18-22 | Rivalry 1v1; ends on the cities gift (Ep7 link) | NEW |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | `e5m1` | The First Spark | young Vessa + Old Vey (teacher, in his prime) | The citadel's south valley | Vey's trial: light 5 beacons while border raiders attack (basics refresher) | 12-15 | Nothing new (tutorial-grade) | NEW | Ember Spire |
+| 2 | `e5m2` | Burn a Door | young Vessa | A raider fort on the south border | Siege; her weakness as a rule: charging ahead alone springs an ambush, waiting for the army does not | 16-20 | Ember Archer volleys, first siege | NEW | Ember Archer |
+| 3 | `e5m3` | Tombstones by Candlelight | young Malrik | A graveyard town | Light and dark: shadows hide his units; find 3 secrets in the crypts before the gravewardens catch him | 12-15 | Stealth-light rule (shadow zones) | NEW | Shade |
+| 4 | `e5m4` | Leftovers | young Malrik (vs young Vessa) | The Master's practice field (mirrored) | The Master's trial: a friendly 1v1, first to take 3 banners; Malrik wins by taking | 18-22 | Rivalry 1v1; ends on the cities gift (Ep7 link) | NEW | Grave Hound |
 
 ### 3.6 Episode 6 "The Lake and the Seed" (origins: Torvald, then young Ysolde)
 Opening `ep6_opening` ~3:00 **new**: 0:30 recap (a different cut), then Torvald's and Ysolde's big intros. Ending
 (0:50): from under the earth, the vanishing (pro. S07 seen from below): the four streaks of colour leave the citadel.
 This is how Ysolde knew the relics are a lock (ep1 M3) and why Torvald "felt something counting" (ep1 C3).
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1 | `e6m1` | A Hundred Winters | Torvald + young Aldra | Glasswater Mere, decades ago | Hold the lake through 3 winters (3 waves, blizzards); the Master leaves him the Heartfrost | 16-20 | Aldra (ally, story numbers) | NEW |
-| 2 | `e6m2` | The Rider at the Gate | Torvald | Torvald's ice gate and the town beyond | The weakness scene of pro. S24, played: a rider begs for help; open the gate (costly) or hold (the town burns). Choice saved as a flag for Ep8's Ice road | 18-22 | First story choice flag | NEW |
-| 3 | `e6m3` | The Year Nothing Grew | young Ysolde | Evenmead in the famine winter | Keep 4 seed-gardens alive against frost wolves until spring; the Master finds her ("show me again") | 14-18 | Regrowth rule, small army | NEW |
-| 4 | `e6m4` | The First Crack | young Ysolde + Torvald (ally bot) | Crown Hollow, twelve years ago | The lock fails: amber cracks, Wardens rise; hold the isle while the Master goes down to hold the door | 20-24 | Nature + Ice side by side (the only time before Ep8) | NEW |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | `e6m1` | A Hundred Winters | Torvald + young Aldra | Glasswater Mere, decades ago | Hold the lake through 3 winters (3 waves, blizzards); the Master leaves him the Heartfrost | 16-20 | Aldra (ally, story numbers) | NEW | Rimeshield |
+| 2 | `e6m2` | The Rider at the Gate | Torvald | Torvald's ice gate and the town beyond | The weakness scene of pro. S24, played: a rider begs for help; open the gate (costly) or hold (the town burns). Choice saved as a flag for Ep8's Ice road | 18-22 | First story choice flag | NEW | Frostbow |
+| 3 | `e6m3` | The Year Nothing Grew | young Ysolde | Evenmead in the famine winter | Keep 4 seed-gardens alive against frost wolves until spring; the Master finds her ("show me again") | 14-18 | Regrowth rule, small army | NEW | Thornling |
+| 4 | `e6m4` | The First Crack | young Ysolde + Torvald (ally bot) | Crown Hollow, twelve years ago | The lock fails: amber cracks, Wardens rise; hold the isle while the Master goes down to hold the door | 20-24 | Nature + Ice side by side (the only time before Ep8) | NEW | Wildwood Archer |
 
 ### 3.7 Episode 7 "Gold for Fire" (Ice, Torvald + Aldra; Malrik allied until the turn). Source: e5o
 Opening `ep7_opening` 3:26 (e5o 3-4). Between: 3 ENGINE scenes. Ending `ep7_ending` "No. Not for Now." (1:10):
 Torvald leaves Malrik on the stilled sea; Aldra beside him; Ossavar flies north.
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1 | `e7m1` | The Dragon Auction | Torvald + Malrik (bot) | `two_harbours` (north shore, 2v2) | Hold the Diamond Harbour, win 2 of 3 Dragon Auctions, keep Seraphine alive | 22-28 | Ice kit at the Stronghold, **Rimecarver** caster; Dragon Auction (gold bids, allied beast) | IDEA (e5o 7) |
-| 2 | `e7m2` | First Blood, and No Further | Torvald | The Tollrock arena island | The Laurel is broken by knives (Hush, sent by Malrik to frame Aurivane): capture and hold the Tollrock, find the truth | 18-24 | **Citadel**; **Aldra becomes the callable helper**; Shardguard T3 | NEW |
-| 3 | `e7m3` | The Outwall | Torvald | Adamarch's Outwall quarter | Shelter the dockers from raids by both cities and by Malrik's Shades; choose the people over the diamond pits | 20-25 | Rime Colossus / War Mammoth titan | NEW |
-| 4 | `e7m4` | The Year of Two Skies | Torvald + Malrik (bot, turns enemy) | `two_harbours`, full strait battle | Full fleets and every dragon; at the turn Malrik's bot becomes the enemy; survive and hold the Tollrock with Ossavar | 25-30 | Side switch mid-mission; Ossavar as an ally | NEW |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | `e7m1` | The Dragon Auction | Torvald + Malrik (bot) | `two_harbours` (north shore, 2v2) | Hold the Diamond Harbour, win 2 of 3 Dragon Auctions, keep Seraphine alive | 22-28 | Ice kit at the Stronghold, **Rimecarver** caster; Dragon Auction (gold bids, allied beast) | IDEA (e5o 7) | Rimecarver |
+| 2 | `e7m2` | First Blood, and No Further | Torvald | The Tollrock arena island | The Laurel is broken by knives (Hush, sent by Malrik to frame Aurivane): capture and hold the Tollrock, find the truth | 18-24 | **Citadel**; **Aldra becomes the callable helper**; Shardguard T3 | NEW | Aldra (helper) |
+| 3 | `e7m3` | The Outwall | Torvald | Adamarch's Outwall quarter | Shelter the dockers from raids by both cities and by Malrik's Shades; choose the people over the diamond pits | 20-25 | Rime Colossus / War Mammoth titan | NEW | War Mammoth (titan) |
+| 4 | `e7m4` | The Year of Two Skies | Torvald + Malrik (bot, turns enemy) | `two_harbours`, full strait battle | Full fleets and every dragon; at the turn Malrik's bot becomes the enemy; survive and hold the Tollrock with Ossavar | 25-30 | Side switch mid-mission; Ossavar as an ally | NEW | Shardguard |
 
 ### 3.8 Episode 8 "The Four Keys" (finale; the player picks a kingdom). Details: section 4
 Opening `ep8_opening` ~2:00 **new** (section 4.1). Between: `c_e8_muster` "Especially Malrik" (1:20). Ending
 `ep8_ending` 3:40 + choice + credits 2:00.
-| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1 | `e8m1_<k>` | The Four Roads (4 variants, one per playthrough) | The chosen wizard | Their own land, then the road to Crown Hollow | Each wizard's weakness, overcome (4.2) | 18-22 | Everything of that kingdom, its helper | NEW |
-| 2 | `e8m2` | The Last Muster | The chosen wizard + 3 allied wizard bots | Crown Hollow, 4 seats | All four kingdoms vs the Hollow Host: escort the 4 key-bearers to 4 keyholes; every death feeds the King | 25-30 | The 4-wizard alliance; all titans and helpers | NEW |
-| 3 | `e8m3` | The Hollow King | Same | The Hollow pit | Final boss, "Hold Together" (4 keyholes at once) | 28-35 | - | NEW |
+| # | Id | Title | Plays | Map | Objective type | Length | New / unlocked | Status | Spotlight (`unit-spotlights.md`) |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | `e8m1_<k>` | The Four Roads (4 variants, one per playthrough) | The chosen wizard | Their own land, then the road to Crown Hollow | Each wizard's weakness, overcome (4.2) | 18-22 | Everything of that kingdom, its helper | NEW | Fire Pyre Adept · Shadow Hexweaver · Ice Frost Mortar · Nature Greenheart Oathkeeper |
+| 2 | `e8m2` | The Last Muster | The chosen wizard + 3 allied wizard bots | Crown Hollow, 4 seats | All four kingdoms vs the Hollow Host: escort the 4 key-bearers to 4 keyholes; every death feeds the King | 25-30 | The 4-wizard alliance; all titans and helpers | NEW | Kingdom's T2 heavy rider (Pyrehoof / Barrow Knight / Rimehorn / Thornback) |
+| 3 | `e8m3` | The Hollow King | Same | The Hollow pit | Final boss, "Hold Together" (4 keyholes at once) | 28-35 | - | NEW | Kingdom's T3 elite rider (Cataphract / Dreadrider / Juggernaut / Glade Outrider) |
 
 ## 4. The ending
 ### 4.1 `ep8_opening` "The Four Keys" (~2:00, ENGINE; outline)

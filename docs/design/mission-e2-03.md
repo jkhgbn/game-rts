@@ -349,3 +349,10 @@ term a mission can set), the Tollgate build-and-guard sequence, Bettany as a tal
 - [ ] E2M3.D1 (game-designer): read the lines in game once, trim any line over 2 box lines; write `c_e2_stair` (1:30,
   `episode2-opening.md` format) from the beats above.
 - [ ] Lead: acceptance check 8; a save with no Ep2 progress starts on the fallback.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Emberdart Harrier (spec change: Stables V; X stays the Ember Boar).
+- **Why here:** Magpie bands (melee) and slow Shade raids on a caravan road; hit-and-run is strong against slow melee and workers.
+- **Moment:** the first Magpie band (3:00) on caravan 1: "Emberdarts: throw and fall back. The Magpies chase you, not the wagon.".
+- **Intro card:** `Emberdart Harrier. Javelins on a gallop: throw, turn, throw. Nothing on foot catches it.`

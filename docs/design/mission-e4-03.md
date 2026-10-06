@@ -338,3 +338,10 @@ and this seed in slot 2 by default.
 
 Dependencies: e2m1's map variant and props (E2M1.S1: `MissionHeartwood`, `RimeTotem`, the burnt-wood generator), Ysolde's
 track (E4M1.S3, E4M2.S2), the helper roster with `helper_start_called` (TH + E4M3.G1), Briar Roc (TH), `MissionBase`.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Briar Roc (first trained e4m2).
+- **Why here:** Ice totems, spires and Rimeshield clumps over 5 far glades; Seed Storm roots from the air, out of the totems' reach.
+- **Moment:** Mossgate (15-18): "Rocs fly over the ice. Root the Rimeshields from above.".
+- **Intro card:** `Briar Roc. A thorn bird: walls don't stop it, and its seed storm roots the crowd below.`

@@ -184,3 +184,10 @@ becomes trivial, raise G3 by one Nightbolt on normal / hard.
 - [ ] 7.A1 (ai): profile `mission_01` (easy knobs, `min_attack_pop` 99, workers 4, no expansion, max 8 soldiers, never rebuilds the Gloom Hall); scripted units never join the Commander; Malrik stays home until the Final wave, then follows it.
 - [ ] 7.D1 (designer): read the 15 lines in game once, trim any line longer than 2 lines of the dialogue box.
 - [ ] Lead: a scripted headless run on normal (light 3 braziers, claim, hold) ends `victory=true` in 15-20 game-minutes; the G1 fight leaves >= 5 of the 6 start soldiers alive in 5 / 5 runs.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Blaze Rider.
+- **Why here:** unlocked at Brazier 2; Westwatch and W2 put Nightbolts behind Shades on open ground (riders beat archers and casters); Lab 68 / 72 / 81.
+- **Moment:** the 2 free riders spawn at Westwatch; W2 hint "Blaze Riders: go around the Shades and ride down the Nightbolts." (+ "Not the tower." near the Night Spire).
+- **Intro card:** `Blaze Rider. Fast and fierce: ride past the shields and catch the archers.`

@@ -372,3 +372,10 @@ victory.
 Dependencies: E3M3.M1 map, `MissionBase` (M9.S1), `MissionBrazier` with `is_blocked()` (M4 19.C5a), the Warden Gate family
 and Ruin Warden (19.C6, M3), `HelperRoster` + Hush (TH.G1, TH.S1), the Nightblood Reaver (TH.G2), the Shard item (E3M1.I1),
 19.C1 / 19.C2 for the cutscenes (fallbacks otherwise).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Nightblood Reaver (first trained e3m2).
+- **Why here:** an all-undead, all-melee enemy with no fire at all: the 35 % lifesteal is never halved; strong in long fights and against heavy melee.
+- **Moment:** B3 / B4 open (6:00): 2 Reavers hold a lane alone; "Nightblood Reavers drink: in a long fight with no fire, they never fall.".
+- **Intro card:** `Nightblood Reaver. A duelist that drinks: the longer the fight, the stronger it stands. Fear fire.`

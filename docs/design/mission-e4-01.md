@@ -399,3 +399,10 @@ Dependencies (must exist first): E34.M1 map (shared with e3m1), 19.C1 CinematicP
 the mission plays without them), the 2v2 seat API and ally layer (`ai-2v2.md`, 20.A*), `RiverSystem` / `CapturePoint`
 (step 12), `MissionBase` (M9.S1), the helper ability code (TH / 19.C12) for Maelis, Hush and Old Vey, e3m1's
 `hush_story` (E3M1.G1) and e2m1's `wren` (E2M1.G1).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Bramblesage.
+- **Why here:** ranged lines cross the ford behind melee (Haze), a Gloom Deacon and Frost Mortars to drag (Snagroot); Lab Sage + Thornling 43 / 9 / 14 (it needs a ranged enemy).
+- **Moment:** the W3 ford fight (9:30), hint E9.
+- **Intro card:** `Bramblesage. Pull the caster in, blind the archers: the forest reaches out.`

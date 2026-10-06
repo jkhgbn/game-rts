@@ -354,3 +354,10 @@ auto-target rule; the `splinter_acolyte` type; the Sunwarden conversion (team sw
 - [ ] E2M4.VO (Voice Forge agent): render the 35 lines (`data/voice/lines/e2m4.json`); no new speaker.
 - [ ] E2M4.D1 (game-designer): read the lines in game once, trim any line over 2 box lines.
 - [ ] Lead: acceptance check 9; a save with no Ep2 progress starts on the fallback.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Ember Forge (research).
+- **Why here:** a small army, a long descent and galleries 4-8 m wide: narrow line fights where +armour and +damage on few units count most. Recommended: use the `ForgeKit` lines (`unit-upgrades.md`) through a `forge_enabled` knob instead of the `research.md` names.
+- **Moment:** the first Armor level before W2 (9:00); a ping on the front Guard "Ember Mail: your Guards take less.".
+- **Intro card:** `Ember Forge. Make every soldier better, for good: armour and steel for the long road down.`

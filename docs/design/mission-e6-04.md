@@ -300,3 +300,10 @@ the seal; `TierSystem.set_start_tier` (M4); the prologue Master stand-in (B6) wi
 Dependencies: M4's isle / river / Hollow code (19.C5a-C5c) and art (19.V2, 19.V4), the 2v2 ally layer (20.A*), 19.C1 /
 19.C2 for the hooks (the mission plays without them), `episode6-opening.md` for `ep6_opening` / `ep6_ending` (not written
 here: the outline's next-up list should add it).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Wildwood Archer (first trainable here).
+- **Why here:** an all-slow-melee Host and a hold that pauses within 6 m: kill at range behind Torvald's Rimeshields; Lab 18 / 10 / 23 (exempt).
+- **Moment:** the First Crack (50 %): 6 archers on the isle pillars kill the Breakers before they reach the seal.
+- **Intro card:** `Wildwood Archer. The long bow of the wood: behind a wall of shields, nothing slow comes through.`

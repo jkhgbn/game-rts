@@ -366,3 +366,10 @@ Dependencies: the 2v2 seat API and ally layer (`ai-2v2.md`, 20.A*), the wall sys
 factors; step 18b), the Elder Treant and Elder Circle (`cavalry-mounts.md`, step 13), `aldra_story` and
 `helper_start_called` (E4M3.G1), Ysolde's track with the Heartwood Seed (E4M3.S2 / I1), `MissionBase`, World Forge map
 mode (tool 6).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Elder Treant (Nature titan).
+- **Why here:** the Wall: soldiers deal x0.35, the Treant x1.0 net; the spec's "wallbreaker".
+- **Moment:** the first Treant at the West Gate (9-12), line E8.
+- **Intro card:** `Elder Treant. A walking forest: root it, and it breaks walls that armies can't scratch.`

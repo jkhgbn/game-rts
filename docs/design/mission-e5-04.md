@@ -251,3 +251,10 @@ Fight sizing (normal, F10; values crystals + wizard `170 + 30 x level`):
 - [ ] E5M4.S2 / A1: Vessa runs V1-V7 on a scripted run (charge at 20 s after V3 or 9:00, home guard <= 2 on normal); she yields and returns in 30 s; Malrik's yield and her completed bell both end in defeat; victory after `e5m4_bell` and StoryFlow plays `ep5_ending`.
 - [ ] E5M4.U1 / C1 / V1 / O1: counters, bell, Spoils text, both cutscenes with their skip end states, the Green kit, the lines in game.
 - [ ] Lead: the scripted steal run wins on normal in 18-22 game-minutes in 3 / 3 seeds; the passive run loses; smoke and perf tests pass; Episode 5 end to end (four missions + films or their cards) plays in ~73 min on normal (outline 5.1: 65 min of missions + 8 of films).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Grave Hound.
+- **Why here:** 5 banners, steals x2 faster with +100 Spoils, Vessa's open lawn and archers; the hound is fast and strong against archers and workers.
+- **Moment:** V4, the Charge (9:00): hint E6, 4 hounds steal the Orchard banner while her army is away.
+- **Intro card:** `Grave Hound. Fast teeth: go where her army isn't, take the banner, be gone.`

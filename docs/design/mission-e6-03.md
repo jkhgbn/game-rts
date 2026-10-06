@@ -299,3 +299,10 @@ Maelis helper code (Thornsnare) for her story unit.
 | **E6M3.O1** | Voice Forge agent | `data/voice/lines/e6m3.json` (25 lines) | Lines frozen | Each WAV fits |
 | **E6M3.D1** | game-designer | Lines in game; first-playtest tuning (tending rate, Maelis HP) | Playtest | Written back here |
 | Lead | lead | Headless timing runs; commit | All | Acceptance "Timing" |
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Thornling.
+- **Why here:** frost wolves attack gardens only and never fight units: Thornlings on a garden kill them while they chew; Lab 68 / 24 / 35 (cheap bodies).
+- **Moment:** N1 (3:30): "Thornlings on the gardens: the wolves bite the seeds, your Thornlings bite the wolves.".
+- **Intro card:** `Thornling. Small, cheap, stubborn: plant them where it matters and they never move.`

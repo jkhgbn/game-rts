@@ -360,3 +360,10 @@ Captain at P1 18:30 (go east once the fishers are in), NT3 20:00 at the rows and
 | Lead | lead | Acceptance checks 1-8 | All pass |
 Dependencies: e7m1's systems (trade off except the bank, story units); `MissionBase`; the walking-survivor brain of e2m1
 (E2M1.S1); `RiverSystem` (one sea polyline); War Mammoth (step 13); the helper code (step TH).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** War Mammoth (Ice titan, freed).
+- **Why here:** landing lines and masked Shades on the pit headland; armor 30 grinds lines and buildings.
+- **Moment:** the mammoths are freed (~14:00); the Night Tide pit front (17:00) breaks on them.
+- **Intro card:** `War Mammoth. A titan of the far north: it walks through a line like snow through a fence.`

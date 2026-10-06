@@ -342,3 +342,10 @@ sequence, the pylon strike override, the phase driver listening to `phase_change
 | 4 | ep1 5.4.3 phase 3 | Malrik's army unspecified after the rescue | Pulls back (L25), the bot defends only |
 | 5 | ep1 2 speaker `torren` | `cast.json` uses `vey` (`torren` is an alias) | Lines use `vey` |
 | 6 | ep1 7.2 `m4_rise` shot 1 | Shows Vessa on the stone even on the meter path | Kept: the film reads as the relics drawing her there; the end state is the same on both paths |
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Kilnwarden (unlocked m01, spotlit here).
+- **Why here:** Keystone Colossus armor 25 -> 5 under Slag Rain (titan autocast); Mana Scald on Malrik; Shadow Knights.
+- **Moment:** phase 2, Cracked Leg: ring on the boss + "Kilnwarden: Slag Rain the Colossus. Its stone armour melts from 25 to 5.".
+- **Intro card:** `Kilnwarden. Melts armour, burns mana: it makes big things soft and casters empty.`

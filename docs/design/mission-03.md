@@ -389,3 +389,10 @@ a fixed spawn and no respawn, `HelperType` `helper_maelis` spawned on team NEUTR
 - [ ] Lead: the scripted headless run of check 9 on normal ends `victory=true` in 20-25 game-minutes; the ignore run ends in
   defeat between 17:00 and 21:00; a save from mission 2 with `m1_peddler_freed` true and one with it false start mission 3
   with the right branch.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Wayfinder (champion).
+- **Why here:** Root Hearts hidden in fog in a dense wood; the scout champion is strong against hidden units and on Explore bounties.
+- **Moment:** E3, the first Explore flag: the Wayfinder reveals Root Heart 2 about 60 s before D2 (7:00).
+- **Intro card:** `Wayfinder. A champion you don't command: flag the fog, and she finds what hides in it.`

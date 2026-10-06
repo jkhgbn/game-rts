@@ -323,3 +323,10 @@ side can have then, ep1 4.1 rule; Torvald counted only where his scripted push p
 Dependencies (must exist first): E34.M1 map, 19.C1 CinematicPlayer + 19.C2 StoryFlow (cutscenes only; the mission plays
 without them), the 2v2 seat API and ally layer (`ai-2v2.md`, 20.A*), `RiverSystem` / `CapturePoint` (step 12),
 `MissionBase` (M9.S1), the helper ability code (TH / 19.C12) for Hush.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Gloom Deacon.
+- **Why here:** fords slow 35 %; Umbral Passage carries 10 pop across with no slow; Blood Tithe in the slow grind; Lab Deacon + Shade 82 / 51 / 58.
+- **Moment:** E7 at the ford fight: a rift ring behind G1, "Umbral Passage: bring the army over the water.".
+- **Intro card:** `Gloom Deacon. Heals your soldiers with their enemies' blood, and opens a road through the dark.`

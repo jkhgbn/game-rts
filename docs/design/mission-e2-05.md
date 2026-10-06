@@ -419,3 +419,10 @@ the Malrik tether, Quake, Sunlance hook), `aldra_story`, the Door order for the 
 | 2 | `campaign-outline.md` 3.2 row e2m5 "Fire titan (`titans-2.md`) as the reward unit" | `titans-2.md` 6 makes Fire's second titan option a base upgrade (the Ember Crucible); the Fire titan **unit** is the Cinder Dragon (`cavalry-mounts.md` 5) | This spec offers both at the Dragon Roost; the Cinder Dragon is the story's reward (`fire_titans_unlocked`) |
 | 3 | `t3-helpers.md` 3 "Missions: `helpers_enabled := false`" | Ep2 missions switch helpers on (e2m1-e2m5) and e2m4 / e2m5 grant Vey free at 0:00 | `HelperRoster` gets a mission grant (`grant(team, id)`) and a mission price override (already proposed in e2m1's "Code reuse") |
 | 4 | `map-2v2.md` 4.4 "a seat is out ... a side loses when all its seats are out" | e2m2 makes the `ALLY` seat's fall a defeat; e2m5 makes it no defeat | Missions own their win / lose tables; `Skirmish2v2`'s side rule stays the skirmish rule |
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Cinder Dragon (Fire titan).
+- **Why here:** the Rift blocks ground units and flyers cross it; a titan boss fight.
+- **Moment:** the first Dragon flies straight over the Rift onto Malrik's seal runners (L13).
+- **Intro card:** `Cinder Dragon. Fire from the sky: it flies over the Rift and burns what walks below.`

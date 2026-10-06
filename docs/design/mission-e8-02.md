@@ -377,3 +377,10 @@ channel ~2:00 -> `e8m2_turn` -> **~24-27 min**, 30 with retakes.
 
 Dependencies: step 20 (2v2 seats, `Teams`, frames, AllyChannel, 20.A* ally layer), step 13 / 13c (Lairs, titans), TH
 (helpers), 19.C6 (pylon, Warden Gate), 19.C1 / C2 (cutscenes), `mission-e8-01.md` E8M1.G1 (Host types).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** the kingdom's T2 heavy rider: Pyrehoof Lancer / Barrow Knight / Rimehorn Rider / Thornback Charger (spec change: the unlocks list the Stables).
+- **Why here:** a key-bearer escort over a 168 m map against Warden infantry lines; Lab after the 2026-10-06 pass 55-65 / 70-74 (fair, still strong).
+- **Moment:** the Keyhole Rush: "Heavy riders: break the Rush before it reaches the keyhole.".
+- **Intro card:** `Pyrehoof Lancer. A boar and a lance: lines break where it hits.` (Fire; the other kingdoms' lines: `unit-spotlights.md` 2.8)

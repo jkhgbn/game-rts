@@ -396,3 +396,10 @@ Dependencies (must exist first): E34.M1 `evenmead.map` and e3m1's build (Mission
 with `set_player_hero` / `lock_base` (added by E3M2.S2 if missing), the helper code and `HelperRoster` (TH.G1, TH.S1),
 the Nightblood Reaver (TH.G2), the 2v2 ally layer (`ai-2v2.md`, 20.A*), 19.C1 / 19.C2 for the cutscenes (the mission
 plays on the fallbacks without them).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Mother Hush (helper; played as a hero in phase 1).
+- **Why here:** a night raid, enemy sight x0.6, archer-guarded wagons; Hush is strong against casters, heroes and archers.
+- **Moment:** WG2: Hush blinks past Old Vey's vigil (veil ring hint).
+- **Intro card:** `Mother Hush. The knife in the dark: call her, and the enemy's archers and casters stop sleeping well.`

@@ -926,3 +926,12 @@ militia squad (2 Wildwood Archers + 2 Thornlings, guests) at the Nature seat in 
 
 Dependencies: 19.C1 / 19.C2 (cutscenes only), MissionBase (M9.S1), the helper code (TH), `CampaignState` tracks (outline
 D8), `RiverSystem` (Fire, Nature), Warden Gate (19.C6), the Picker (F8 of the outline).
+
+## Spotlight (`unit-spotlights.md`)
+One spotlight per road (framework hook: `mission-framework.md` 7).
+| Road | Unit | Why here | Moment | Intro card |
+|---|---|---|---|---|
+| `e8m1_fire` | Pyre Adept | a 14:00 hold; Warden tides of 6-14 clump in fords that slow 35 %; Lab 76 / 93 / 77 | H6 at Reed Ford: "Pyre Adepts behind the Guards: the ford is a furnace." | `Pyre Adept. A battle mage for crowds: let them bunch up in the water, then burn the bunch.` |
+| `e8m1_shadow` | Hexweaver | boss hero Hush (3 200 HP) and Risen Barrow Knights; Lab 3 / 27 / 6 (exempt debuff: it needs a boss) | Hush at 75 %: "Hexweavers: hex Hush, not the Shades." | `Hexweaver. A curse for the big ones: heroes, knights and anything worth more than its friends.` |
+| `e8m1_ice` | Frost Mortar | the 240 s Hearth Camp rest (static), the H3 hound pack, the Southway Crack Wardens; Lab 76 / 76 / 78 | H3 at the camp: one shell on the clumped hounds | `Frost Mortar. Far and heavy: when they bunch up, one shell freezes the lot.` |
+| `e8m1_nature` | Greenheart Oathkeeper | hamlets raided by Stone-sworn Shades + Grave Hounds (divers): the taunt keeps them off the archers; Lab 87 / 78 / 86 | Raid P on Pipwell: "Greenheart Oathkeepers: the oath holds the hounds." | `Greenheart Oathkeeper. A sworn blade: it calls the divers to itself and doesn't let them pass.` |

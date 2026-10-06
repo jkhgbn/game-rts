@@ -264,3 +264,10 @@ Fight sizing (normal, F10; player: Malrik `170 + 30 x level` + hounds 140 + Shad
 - [ ] E5M3.G1: candle toggle on J (physical) and on the card; Shades burn only in light; wardens never die; the Reeve's lantern doubles the burn.
 - [ ] E5M3.U1 / C1 / V1 / V2 / O1: meter, counters, pop-ups, the bridge and two cutscenes with their skip end states, the Wickmoor kit at night, the lines in game.
 - [ ] Lead: a scripted stealth run and a scripted loud run on normal both end `victory=true` in 12-15 game-minutes in 3 / 3 seeds; smoke and perf tests pass.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Shade (`shade_wild`).
+- **Why here:** shadow zones: hidden units are seen only within 2.5 m; Lab 88 / 70 / 78; the honest cost: it burns in light.
+- **Moment:** E4, the first grave called: 2 Shades take a lone Gravewarden out of a yew shadow while a lit patrol walks past.
+- **Intro card:** `Shade. Cheap, quiet, many: in the dark they are everywhere. In the light they burn.`

@@ -293,3 +293,10 @@ Fight sizing (normal, F10; player value: Vey 700 + soldiers + Vessa `170 + 30 x 
 - [ ] E5M1.G1 / A1: Vey's kit as the table (no lightning VFX anywhere in the mission, checked by a VFX-id scan of the run log), kneel-and-return, the bark rule; Gannet's hook and flight.
 - [ ] E5M1.U1 / C1 / V2 / E5.V1 / E5.O1: hints in both control schemes, both cutscenes skip to their end states, art and voice in game.
 - [ ] Lead: scripted headless run on normal `victory=true` in 12-15 game-minutes (cutscenes included) in 3 / 3 seeds; the smoke and perf tests still pass.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Ember Spire (tower).
+- **Why here:** Reiver farm raids every 120 s; every raider is weak against towers; tier 1 only.
+- **Moment:** the first farm raid: "Build an Ember Spire by the Millrace farms (worker, B then C)." The next raid breaks on it.
+- **Intro card:** `Ember Spire. A tower that watches while you're away: raiders hate it.`

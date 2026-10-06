@@ -366,3 +366,10 @@ three stages ~21:00-23:00 -> cutscene -> **~24:00 + `ep7_ending`**, 27-28 with r
 Dependencies: everything of e7m1-e7m3; the 2v2 seat API (step 20) **plus** the two new `MissionBase` calls of E7M4.S2 (this
 is the first mission where a seat changes side; later missions may reuse both, e.g. Ep8's allied wizard bots); `DragonAuction`
 (E7M1.S2); the truce flag (E7M2.S2); the helper code (step TH).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Shardguard (first trained e7m2).
+- **Why here:** every kind of charge and dive: 4 Blaze Riders (W1), 6 Grave Hounds (M2), M6; Hold the Line stops charges and taunts divers.
+- **Moment:** M2 after the Turn: "Shardguards beside the Shardcasters: Hold the Line.".
+- **Intro card:** `Shardguard. The halberd that says no: charges stop, divers turn, archers live.`

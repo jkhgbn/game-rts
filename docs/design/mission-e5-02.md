@@ -281,3 +281,10 @@ Fight sizing (normal, F10; player: soldiers + Ashby 300 + Vessa `170 + 30 x leve
 - [ ] E5M2.G1: volleys exactly at >= 4 archers within Ashby's 10 m; Ashby never dies; hidden bands are untargetable until decided.
 - [ ] E5M2.U1 / C1 / V1 / V2 / O1: panel, messages, three cutscenes with their skip end states, the Rookhold kit and the lines in game.
 - [ ] Lead: scripted headless run on normal (army-first) `victory=true` in 16-20 game-minutes in 3 / 3 seeds with `sec_patience` done; a Vessa-first run springs B1; smoke and perf tests pass.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Ember Archer.
+- **Why here:** Ashby's Drill: 4+ archers volley for +25 % with burning arrows; wood takes x2 from fire; slow melee Reivers; Lab 18 / 25 / 26 (exempt: it needs the Guards in front).
+- **Moment:** S1, the sally: Ashby calls the volley (E6).
+- **Intro card:** `Ember Archer. Alone, a bow. Drilled, a volley: keep four together behind the Guards.`

@@ -300,3 +300,10 @@ fire; the Rime Spire type for the three pre-built spires; the cliff / occluder p
 | **E6M2.O1** | Voice Forge agent | `rider` in `cast.json`; `data/voice/lines/e6m2.json` (31 lines) rendered | Lines frozen | Each WAV fits its slot |
 | **E6M2.D1** | game-designer | Lines in game; first-playtest tuning of the open branch's lake split | Playtest | Written back here |
 | Lead | lead | Both headless branch runs; commit | All | Acceptance "Timing" |
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Frostbow (opens here).
+- **Why here:** slow Warden columns through the only gap in the Long Ice; long chill; Lab 16 / 62 / 23 (exempt bowman).
+- **Moment:** the first road column after the choice: Frostbows on the gate line chill it short of the town.
+- **Intro card:** `Frostbow. Every arrow chills: what walks toward it walks slower, and slower.`

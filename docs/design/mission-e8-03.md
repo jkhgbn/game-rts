@@ -344,3 +344,10 @@ Dependencies: `mission-e8-02.md` (seats on one side, Key-Wards, `mission_e8` bot
 step 20 (2v2 seats), steps 13 / 13c (titans), TH (helpers), 19.C1 / 19.C2 (cutscenes), the outline's F1-F9 (the film, the
 pit set, the King's film states, the Master "after" and the child, the VFX, the voice incl. `child`, the choice card,
 the music cue).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** the kingdom's T3 elite rider: Sunforge Cataphract / Veilborn Dreadrider / Frostcrown Juggernaut / Glade Outrider (spec change: the Stables).
+- **Why here:** phase 1 Four Chains: the King tears at the weakest of four far-apart Key-Wards, so elites are the fast reserve; Rubble Sentinels are heavy melee. (The Stormbottle Genie, x1.5 on titans, would also shine here, but taverns are off).
+- **Moment:** the first Rubble Call on a ward under 60 %: "Your elite riders: the King's tearing at that chain. Ride.".
+- **Intro card:** `Sunforge Cataphract. The best of the Stables: armour, speed, and a hit that ends arguments.` (Fire; the others: `unit-spotlights.md` 2.8)

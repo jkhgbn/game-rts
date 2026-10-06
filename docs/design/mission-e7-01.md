@@ -438,3 +438,10 @@ Dependencies (must exist first): E7.M1 map; the D2 rename of `episode5-opening.m
 inner title and `E5.*` ids still read "Episode 5" for the lead's edit); step 10 trade (GoldBank, Market, Caravan); the 2v2 seat
 API and ally layer (`ai-2v2.md`, step 20); `RiverSystem` / `CapturePoint` (step 12); `MissionBase` (M9.S1); the titan flyer code
 (step 13 / 13c); 19.C1 / 19.C2 for the cutscenes only (the mission plays without them).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Rimecarver.
+- **Why here:** a map of doors (6 m causeways, fords, 5 m bridges): a Bulwark closes one with 2 casts; a Rune watches a ford.
+- **Moment:** W1 (4:30), 3 Blaze Riders on a caravan; hint E8 "Bulwark the causeway: the riders stop, the caravan doesn't.".
+- **Intro card:** `Rimecarver. The wall comes to you: close a door in front of the charge, see what hides behind it.`

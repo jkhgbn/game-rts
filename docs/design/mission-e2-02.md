@@ -399,3 +399,10 @@ Fourfold Hollow. New: `MissionGrove` (site + planted building + Sprouts / Seedbe
   script from the beats above (1:00, `episode2-opening.md` format).
 - [ ] Lead: acceptance check 9 (headless runs on normal and the no-Vey run); a save with no Ep2 progress starts on the
   fallback.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Ashveil Saboteur.
+- **Why here:** the Rimehold fort (Frost Hall + 3 Rime Spires) on your own bank; Powder Charge pauses training 10 s; strong against production buildings.
+- **Moment:** before the Rimehold assault: "A Saboteur looks like a Rime Hauler. Walk it past the spires and charge the Frost Hall.".
+- **Intro card:** `Ashveil Saboteur. Looks like their worker, works for you: blow the hall, stop the army before it's born.`

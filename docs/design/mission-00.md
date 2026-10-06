@@ -294,3 +294,10 @@ before her pool runs dry, so she can open with a burst). Two good Fireballs kill
 - [ ] 19.U5 / 19.U3 / 19.V24 / 19.V3 / 19.V25 / 19.V11: countdown, warnings, portraits, night kit, effects and Ashby in game; `PERF OK` with A4 on screen at night.
 - [ ] 19.VO0: the 21 lines rendered; each fits its slot.
 - [ ] Lead: a scripted headless run on normal ends `victory=true` at mission time 8:00 with Vessa alive in 5 / 5 seeds and loses **2-4** escort soldiers in A4 on at least 3 of 5 (the fight-size check); total play time with V1's fallback card 9-12 min.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Flame Guard.
+- **Why here:** the 4 escort Guards against Grave Hounds that always dive Vessa (hounds are weak against line infantry); braziers heal +2 HP/s; Lab 72 / 74 / 81.
+- **Moment:** A2 (1:30): hint + ring on the courtyard gate "Stand the Guards between Vessa and the gate.".
+- **Intro card:** `Flame Guard. Shields first, spark second: a Guard wall keeps the knives off Vessa.`

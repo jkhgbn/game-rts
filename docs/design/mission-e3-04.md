@@ -359,3 +359,10 @@ force able to reach it then; Torvald counted only where he stands).
 Dependencies: E34.M1 map and e3m1's build, E3M3.S2 (the stone's hold code, reused), `MissionBase` (M9.S1), the helper
 code (TH.G1, TH.S1) and Old Vey's kit (19.C11), the Dread Paddock and Nightmare Knight (step 13), the 2v2 ally layer
 (`ai-2v2.md`, 20.A*), `AIStoryCaster` (E2M1.A1), 19.C1 / 19.C2 for the cutscenes (fallbacks otherwise).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Nightmare Knight (Shadow titan).
+- **Why here:** the spec's own design: the charge answers a fast lunging boss (Old Vey); `sec_knight`.
+- **Moment:** A1 (5:30), Vey's first storm; hint E7 "The old man can't stop a horse.".
+- **Intro card:** `Nightmare Knight. A titan at a gallop: its charge breaks a line, or a storm.`

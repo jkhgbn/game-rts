@@ -388,3 +388,10 @@ follow / walk-home brain), `wren` / `wood_folk` UnitTypes.
 - [ ] Lead: a scripted headless run on normal (G1, free S1, clear the glade, kindle, Citadel, call Vey, hold) ends
   `victory=true` in 20-25 game-minutes; the G1 fight leaves >= 13 of the 14 start soldiers alive in 5 / 5 runs; a run
   with no Citadel and no Vey still wins on normal in 3 / 5; a save with no Ep1 progress starts on the fallback.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Old Vey (helper, first call).
+- **Why here:** a 12-minute Heartglade hold against clumping waves (Shardcasters, Nightbolts + Deacon); Vey is strong against clumps, casters and ranged units.
+- **Moment:** the call hint at Citadel complete; his first Stormcall on H3's Nightbolt line (L19).
+- **Intro card:** `Old Vey. Your old teacher, sword and storm: call him at the Citadel and point him at the crowd.`

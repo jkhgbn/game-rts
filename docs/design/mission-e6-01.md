@@ -345,3 +345,10 @@ the carving; the Ice Wall / Rime Colossus types; 19.C1 for the two hooks (direct
 | Lead | lead | Headless timing run (acceptance), commit | All | `victory=true` 3 / 3 |
 Dependencies: M9.S1 / M9.S2 / M9.V1 (mission 2's lake code and kit), 19.C1 / 19.C2 (cutscenes only; the mission plays
 without them), TH.G1 / TH.V3 (Aldra's code and model; a glass-teal placeholder figure until then).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Rimeshield.
+- **Why here:** 4 snowbank gaps the Wardens must use, floes, blizzards; Lab 90 / 93 / 92 (the strongest line unit alone).
+- **Moment:** W1b (4:30) at the SW gap: "Rimeshields in the gap. Nothing gets past armour and patience.".
+- **Intro card:** `Rimeshield. Armour and patience: put it in a gap and the gap is closed.`

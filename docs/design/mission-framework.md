@@ -209,3 +209,22 @@ switched units' pop stays counted by their old Economy until they die; `withdraw
 through the truce, not invulnerable to area spells; `set_player_hero` re-runs `hud.setup` (made for it) but does not
 move the wizard between the `"heroes"` / `"enemy_heroes"` groups (call `_claim_wizard` when the new hero changes
 side).
+
+## 7. Proposed: unit spotlight hook (design only, 2026-10-06; not built)
+
+Each mission shows one unit at its best (`unit-spotlights.md`). This is the hook every mission uses; a mission adds
+only its own "moment" through the E-list.
+
+| Part | Proposal | Owner |
+|---|---|---|
+| Data | `MissionConfig.spotlight: Dictionary = {}`: `id` (UnitType / helper / titan / building id; Ep8 missions: `{kingdom: id}` resolved from the player's kingdom), `card` (the English intro line, <= 110 chars, through `Loc.sink`), `trigger` (`&"start"` / `&"unlock"` / `&"manual"`), `key_hint` (`"Ember Hall: V"`), `highlight_s` (6.0) | systems-coder |
+| Show | `MissionBase.show_spotlight() -> void` (once per run; `fire_once(&"spotlight")`): emits `Events.spotlight_shown(id, card)`; called by `begin_mission` for `start`, by the mission for `unlock` (e.g. m01's Brazier 2 event) or `manual` | systems-coder |
+| First train | MissionBase listens to `Events.unit_spawned` (or the training building's `unit_trained`, whichever exists) for the first PLAYER unit whose type id = `spotlight.id`: `flash_ring(pos, 2.5)`, a gold outline for `highlight_s` (a `Unit.set_highlight(on)` look hook or a decal), signal `spotlight_first_unit(unit)` so the mission plays its own line. Helpers / titans: the same on `HelperRoster` call / Lair spawn | systems-coder (+ gameplay for the look hook) |
+| Card | `SpotlightCard` in the MissionHud, left of the objectives: portrait (`art/icons/units/<id>.png`, else `UIStyle.abbrev`), name, card line, the Unit Guide's `strong_against` tags (`UnitGuideData`), the key hint; 12 s or a click; click = open the Unit Guide on that unit (pause menu). Never holds the world | ui-coder (layout ui-designer) |
+| Save | `CampaignState` flag `spotlight_seen_<id>`: a replay shows the short card (one line, 4 s); the Unit Guide shows "Spotlight: <mission title>" for seen units | systems-coder + ui-coder |
+| Core | `Events.spotlight_shown(id: StringName, card: String)` | lead (core) |
+| Forge knob | `MissionConfig.forge_enabled` read by `ForgeKit.enabled_here()` (today skirmish only) so e2m4 can spotlight the real Forge | systems-coder |
+| Tests | `test_mission_framework.gd` part `spotlight`: card on start / unlock / manual, once only; first-train highlight on the right type only; the seen flag; harness `saw_spotlight(id)`. Strings: `extract_strings.gd merge` + `test_i18n` | systems-coder |
+
+Order: Events signal and MissionConfig field first, then MissionBase, then the card; missions fill `spotlight` in their
+own `_mission_config()`.

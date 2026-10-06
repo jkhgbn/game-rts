@@ -324,3 +324,10 @@ Citadel 5:45-8:00, Aldra ~8:30 -> rock ~9:30 (W3) -> C1 ~10:00, C2 ~11:00 -> W4 
 | Lead | lead | Acceptance checks 1-7 | All pass |
 Dependencies: everything of e7m1; the helper code (step TH) and the Shardguard (TH tier-3 units); `MissionBrazier`; 19.C1 for
 the cutscenes only.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Aldra (helper, first call).
+- **Why here:** the Sun Barricade and the Tollrock's archer garrison; strong against archer armies, casters and lines.
+- **Moment:** the rock assault (~9:30) right after the call: Glasswater Ward under the G2 archers.
+- **Intro card:** `Aldra. The Glass Warden: she shields the army's walk and shatters the line at the end of it.`

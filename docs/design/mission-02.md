@@ -395,3 +395,10 @@ levels, and the Ice Wall `BuildingType` / Rime Colossus `UnitType` for Torvald's
 - [ ] M9.O1 (Voice Forge agent): `data/voice/lines/m02.json` with the 19 lines; render; every WAV fits its slot (5 s, or the listed 3 / 6 s).
 - [ ] Step 19 hooks (owners there): 19.C9 wires `m2_heartfrost` (shot list ep1 7.2) with the skip test; 19.C8 builds `c2_two_fronts`; 19.C2 puts `m02` in `MISSION_ORDER` `[m00 .. m04]`; TH.C1 unlocks `helper_aldra` on the `m02` victory. 19.C13 is not needed (M2 is built from this spec).
 - [ ] Lead: the "Timing" and save checks of "Acceptance checks" pass; playtest after M0 + M1 + M2 in Story mode.
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Ash Hurler.
+- **Why here:** only Vessa and Hurlers damage the Heartfrost; hits crack floes; range 12 > Night Spire 11; a static dig camp; Lab 8 / 41 / 4 (exempt siege: it needs exactly this job).
+- **Moment:** W1 (5:00) on floe F2: "Ash Hurlers crack the ice: shell the floe under them.".
+- **Intro card:** `Ash Hurler. Slow, far, and it melts what swords can't: ice, towers, camps.`

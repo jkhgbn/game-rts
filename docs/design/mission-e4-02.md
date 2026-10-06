@@ -339,3 +339,10 @@ have **at that place** then, the escort split counted: ~65 % of the army escorts
 Dependencies: E4M1 (Ysolde's track, `meadow_folk`, `maelis_story` shares the helper code), the helper roster (TH, the
 e2m1 E2M1.G1 mission opt-ins `t3_enabled` / `helpers_enabled`, `Keep.set_start_tier`), the Briar Roc unit (TH.G*),
 `MissionBase`, e2m1's walker and `RimeTotem`, `hush_story` (E3M1.G1), World Forge map mode (tool 6).
+
+## Spotlight (`unit-spotlights.md`)
+The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
+- **Unit:** Maelis (helper, first call).
+- **Why here:** dormant ambushes on a convoy road; strong against clumps and melee rushes; Thornsnare roots Hush.
+- **Moment:** A3 at Crowstone Clearing: Thornsnare roots Hush and her Shades.
+- **Intro card:** `Maelis. The Wildcaller of the wood: roots, wolves, and an ambush that ambushes back.`
