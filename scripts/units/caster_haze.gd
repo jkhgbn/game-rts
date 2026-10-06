@@ -72,7 +72,7 @@ func _haze_now() -> void:
 	var vfx := get_tree().get_first_node_in_group(&"unit_vfx")
 	for n in get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u == null or not u.is_alive() or int(u.team) == team:
+		if u == null or not u.is_alive() or Teams.is_allied_fast(int(u.team), int(team)):
 			continue
 		if HelperAbilities._is_flyer(u):
 			continue

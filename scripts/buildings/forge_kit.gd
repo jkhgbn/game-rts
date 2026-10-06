@@ -115,8 +115,8 @@ static func enabled_here() -> bool:
 static func enabled_for(scene: Node) -> bool:
 	if scene == null or not ENABLED:
 		return false
-	if scene.has_method(&"define_objectives"):
-		return false
+	if scene.has_method(&"define_objectives"):   # a mission: its forge_enabled knob (MissionConfig, e2m4)
+		return &"forge_enabled" in scene and bool(scene.get(&"forge_enabled"))
 	var s := scene.get_script() as Script
 	while s != null:
 		if s.resource_path == SKIRMISH_SCRIPT:

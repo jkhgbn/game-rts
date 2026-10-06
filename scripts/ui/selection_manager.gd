@@ -3073,7 +3073,7 @@ func _issue_order(pos: Vector2) -> void:
 	if ch.get("node") != null and (bool(ch.get("direct")) or target == null):
 		hunt_critter(ch.get("node"), ground_point(pos), false)
 		return
-	if target != null and target.team != Unit.Team.PLAYER:
+	if target != null and Teams.is_hostile(int(target.team), Unit.Team.PLAYER):
 		_REPLAY.note(&"attack_unit", [target], self)
 		for u in units:
 			if is_caravan(u):
@@ -3084,7 +3084,7 @@ func _issue_order(pos: Vector2) -> void:
 		return
 	var building := building_at(pos)
 	if building != null:
-		if int(building.get("team")) != Unit.Team.PLAYER:
+		if Teams.is_hostile(int(building.get("team")), Unit.Team.PLAYER):
 			attack_building(building)
 			return
 		if _is_unfinished_site(building) and not selected_workers().is_empty():
@@ -3260,7 +3260,7 @@ func _confirm_attack_move(pos: Vector2) -> void:
 		attack_move(at)
 		_spawn_marker(at, Color(1.0, 0.45, 0.2))
 		return
-	if target != null and target.team != Unit.Team.PLAYER:
+	if target != null and Teams.is_hostile(int(target.team), Unit.Team.PLAYER):
 		_REPLAY.note(&"attack_unit", [target], self)
 		for u in units:
 			if is_caravan(u):
@@ -3270,7 +3270,7 @@ func _confirm_attack_move(pos: Vector2) -> void:
 		_spawn_marker(target.global_position, Color(1.0, 0.25, 0.2))
 		return
 	var building := building_at(pos)
-	if building != null and int(building.get("team")) != Unit.Team.PLAYER:
+	if building != null and Teams.is_hostile(int(building.get("team")), Unit.Team.PLAYER):
 		attack_building(building)
 		return
 	var p: Variant = ground_point(pos)

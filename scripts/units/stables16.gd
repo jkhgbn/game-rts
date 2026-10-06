@@ -98,6 +98,8 @@ static func enabled_here() -> bool:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null or tree.current_scene == null:
 		return false
+	if tree.current_scene.has_method(&"define_objectives"):   # a mission: its cavalry_enabled knob (e2m3)
+		return &"cavalry_enabled" in tree.current_scene and bool(tree.current_scene.get(&"cavalry_enabled"))
 	var s: Variant = tree.current_scene.get_script()
 	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
 

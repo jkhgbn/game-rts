@@ -410,13 +410,27 @@ func _ready() -> void:
 # ---------------------------------------------------------------- public helpers (bot, UI, tests)
 
 ## The other kingdom (PLAYER <-> ENEMY).
+## 2v2 (scripts/core/teams.gd): the seat's lane opponent (`Teams.opponent_of`); 1v1 unchanged.
 static func enemy_team_of(team: int) -> int:
+	if Teams.multi:
+		return Teams.opponent_of(team)
 	return Unit.Team.ENEMY if team == Unit.Team.PLAYER else Unit.Team.PLAYER
+
+
+## 2v2: seat -> kingdom for the extra seats (ALLY, ENEMY_2), set by the level before the seat plays.
+var seat_kingdoms: Dictionary = {}
 
 
 ## The kingdom the team plays (&"fire", &"shadow", &"ice", &"nature"), after the availability check.
 func kingdom_of(team: int) -> StringName:
+	if seat_kingdoms.has(team):
+		return seat_kingdoms[team]
 	return enemy_kingdom if team == Unit.Team.ENEMY else player_kingdom
+
+
+## Unit._team_kingdom reads it (2v2 seats' faction colours).
+func seat_kingdom(team: int) -> StringName:
+	return kingdom_of(team)
 
 
 ## True when `kingdom` can start a skirmish now: it is known and its keep, a worker and its wizard script exist.
@@ -431,17 +445,33 @@ static func kingdom_available(kingdom: StringName) -> bool:
 
 ## Where the team's wizard starts (PLAYER_START / SHADOW_START).
 func start_position(team: int) -> Vector3:
+	if seat_starts.has(team):
+		return seat_starts[team]
 	return SHADOW_START if team == Unit.Team.ENEMY else PLAYER_START
+
+
+## 2v2 seats (scripts/core/teams.gd): the extra seats' keep / wizard / base centre / start, set by the level (a mission's
+## activate_seat). The 1v1 PLAYER / ENEMY entries stay `keep` / `shadow_keep` / `hero` / `shadow_hero`.
+var seat_keeps: Dictionary = {}
+var seat_heroes: Dictionary = {}
+var seat_bases: Dictionary = {}
+var seat_starts: Dictionary = {}
 
 
 ## The team's living keep, or null.
 func keep_of(team: int) -> Keep:
-	var k := keep if team == Unit.Team.PLAYER else shadow_keep
+	var k: Keep = null
+	if seat_keeps.has(team):
+		k = seat_keeps[team] as Keep
+	else:
+		k = keep if team == Unit.Team.PLAYER else (null if team > Unit.Team.NEUTRAL else shadow_keep)
 	return k if k != null and is_instance_valid(k) and k.is_alive() else null
 
 
 ## The base centre: the keep's position (also after it falls: its start spot).
 func base_center(team: int) -> Vector3:
+	if seat_bases.has(team):
+		return seat_bases[team]
 	return _mirror(PLAYER_START + KEEP_OFFSET, team)
 
 
@@ -552,6 +582,9 @@ func gold_bank_of(team: int) -> Node:
 
 ## The team's wizard (alive or dead; check is_alive()).
 func wizard_of(team: int) -> Wizard:
+	if seat_heroes.has(team):
+		var w: Variant = seat_heroes[team]
+		return w as Wizard if w != null and is_instance_valid(w) else null
 	return shadow_hero if team == Unit.Team.ENEMY else hero
 
 
@@ -1790,6 +1823,10 @@ func _claim_wizard(wiz: Wizard, team: int) -> void:
 		wiz.add_to_group(&"heroes")
 		if &"ai_auto_cast" in wiz:
 			wiz.set(&"ai_auto_cast", false)
+	elif Teams.multi and Teams.is_ally(team, Unit.Team.PLAYER):   # 2v2: an allied bot's wizard
+		wiz.remove_from_group(&"heroes")
+		wiz.remove_from_group(&"enemy_heroes")
+		wiz.add_to_group(&"ally_heroes")
 	else:
 		wiz.remove_from_group(&"heroes")
 		wiz.add_to_group(&"enemy_heroes")

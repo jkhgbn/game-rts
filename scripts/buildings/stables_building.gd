@@ -16,7 +16,19 @@ func trainable_types() -> Array[UnitType]:
 	var types: Array[UnitType] = []
 	if building_type == null or not Stables16.ENABLED:
 		return types
-	types.append_array(Stables16.roster_types(building_type.faction))
+	# A mission may reorder the Z X C V card (`stables_card` on the scene: unit ids, e.g. e2m3 puts the Emberdart
+	# Harrier on V, unit-spotlights.md); ids outside the kingdom's roster are skipped.
+	var order: Variant = MissionBase.scene_knob(&"stables_card", null)
+	var roster := Stables16.roster_types(building_type.faction)
+	if order is Array and not (order as Array).is_empty():
+		var by_id := {}
+		for t in roster:
+			by_id[t.id] = t
+		roster.clear()
+		for id: Variant in order:
+			if by_id.has(StringName(id)):
+				roster.append(by_id[StringName(id)])
+	types.append_array(roster)
 	types.append_array(Stables16.rank_stubs(building_type.faction))
 	return types
 

@@ -141,6 +141,7 @@ func set_enabled(value: bool) -> void:
 ## UNEXPLORED (0), EXPLORED (1) or VISIBLE (2) for `team` at `world_pos` (clamped to the map).
 ## Fog off, or a team without fog (NEUTRAL): always VISIBLE.
 func state_at(team: int, world_pos: Vector3) -> int:
+	team = _layer(team)
 	if not enabled or (team != Unit.Team.PLAYER and team != Unit.Team.ENEMY):
 		return VISIBLE
 	var idx := _index(world_pos)
@@ -166,6 +167,7 @@ func get_state(world_pos: Vector3) -> int:
 ## the cell at x in [2(i - 30), ...), z in [2(j - 30), ...). Rebuilt at most once per update; don't
 ## modify it. Fog off: all 255.
 func grid_image(team: int) -> Image:
+	team = _layer(team)
 	var img: Image = _grid_images.get(team)
 	if img == null:
 		img = Image.create_empty(grid_w, grid_d, false, Image.FORMAT_R8)
@@ -192,6 +194,7 @@ func grid_image(team: int) -> Image:
 
 ## Marks a circle as explored for `team` (the start circle; scouting effects later).
 func reveal(team: int, world_pos: Vector3, radius: float) -> void:
+	team = _layer(team)
 	if team != Unit.Team.PLAYER and team != Unit.Team.ENEMY:
 		return
 	var spans := _spans_for(radius)
@@ -208,8 +211,21 @@ func reveal(team: int, world_pos: Vector3, radius: float) -> void:
 				_exp_p[x + z * grid_w] = 255
 			else:
 				_exp_e[x + z * grid_w] = 255
-	if team == local_team:
+	if team == _layer(local_team):
 		_upload()
+
+
+## 2v2 (map-2v2.md 5): fog is per SIDE. A seat's layer is the PLAYER layer for side 0 and the ENEMY layer for side 1
+## (1v1: the team itself); NEUTRAL and unknown teams have no fog (-1 -> always visible).
+static func _layer(team: int) -> int:
+	if team == Unit.Team.PLAYER or team == Unit.Team.ENEMY:
+		return team if not Teams.multi else (Unit.Team.PLAYER if Teams.side_of(team) == 0 else Unit.Team.ENEMY)
+	var side := Teams.side_of(team)
+	if side == 0:
+		return Unit.Team.PLAYER
+	if side == 1:
+		return Unit.Team.ENEMY
+	return team
 
 
 ## Sight radius (m) of a unit or building (0 = reveals nothing: dead, projectiles...).
@@ -258,6 +274,7 @@ func _physics_process(delta: float) -> void:
 
 ## Recomputes `team`'s "visible now" layer (normally at 5 Hz; tests may call it directly).
 func update_team(team: int) -> void:
+	team = _layer(team)
 	_pass_id += 1
 	if team == Unit.Team.PLAYER:
 		_vis_p.fill(0)
@@ -266,11 +283,11 @@ func update_team(team: int) -> void:
 	var tree := get_tree()
 	for node in tree.get_nodes_in_group("units"):
 		var u := node as Unit
-		if u and int(u.team) == team:
+		if u and _layer(int(u.team)) == team:
 			_stamp(team, u.global_position, sight_of(u))
 	for node in tree.get_nodes_in_group("buildings"):
 		var b := node as Building
-		if b and int(b.team) == team:
+		if b and _layer(int(b.team)) == team:
 			_stamp(team, b.global_position, sight_of(b))
 	# Other sight sources (champions.md 13): SightMarker, champions... anything in "fog_sources" with
 	# `team` and `sight_radius` (skipped once its is_alive() is false).
@@ -279,7 +296,7 @@ func update_team(team: int) -> void:
 		if src == null:
 			continue
 		var src_team: Variant = src.get(&"team")
-		if src_team == null or int(src_team) != team:
+		if src_team == null or _layer(int(src_team)) != team:
 			continue
 		if src.has_method(&"is_alive") and not bool(src.call(&"is_alive")):
 			continue
@@ -287,7 +304,7 @@ func update_team(team: int) -> void:
 		if src_sight != null:
 			_stamp(team, src.global_position, float(src_sight))
 	_team_pass[team] = _pass_id
-	if team == local_team:
+	if team == _layer(local_team):
 		_upload()
 		_apply_local_view()
 	updated.emit()
@@ -362,12 +379,12 @@ func cell_of(world_pos: Vector3) -> Vector2i:
 
 func _local_vis(world_pos: Vector3) -> bool:
 	var idx := _index(world_pos)
-	return (_vis_p[idx] if local_team == Unit.Team.PLAYER else _vis_e[idx]) != 0
+	return (_vis_p[idx] if _layer(local_team) == Unit.Team.PLAYER else _vis_e[idx]) != 0
 
 
 func _local_exp(world_pos: Vector3) -> bool:
 	var idx := _index(world_pos)
-	return (_exp_p[idx] if local_team == Unit.Team.PLAYER else _exp_e[idx]) != 0
+	return (_exp_p[idx] if _layer(local_team) == Unit.Team.PLAYER else _exp_e[idx]) != 0
 
 
 ## True if the centre or a corner (inset 0.5 m) of a `half` x `half` square is visible now.
@@ -387,13 +404,13 @@ func _apply_local_view() -> void:
 	var tree := get_tree()
 	for node in tree.get_nodes_in_group("units"):
 		var u := node as Unit
-		if u and int(u.team) != local_team and u.is_alive():
+		if u and _layer(int(u.team)) != _layer(local_team) and u.is_alive():
 			var show := not enabled or _local_vis(u.global_position)
 			if u.visible != show:
 				u.visible = show
 	for node in tree.get_nodes_in_group("buildings"):
 		var b := node as Building
-		if b == null or int(b.team) == local_team or not b.is_alive():
+		if b == null or _layer(int(b.team)) == _layer(local_team) or not b.is_alive():
 			continue
 		var half := _half_extent(b)
 		var show := not enabled or _area_vis(b.global_position, half)
@@ -456,7 +473,7 @@ func _update_artifact() -> void:
 	var wearer_v: Variant = art.get(&"wearer") if &"wearer" in art else null
 	var wearer: Node3D = wearer_v as Node3D if wearer_v != null and is_instance_valid(wearer_v) else null
 	if wearer != null:
-		art.visible = not enabled or int(wearer.get(&"team")) == local_team or wearer.visible
+		art.visible = not enabled or _layer(int(wearer.get(&"team"))) == _layer(local_team) or wearer.visible
 	else:
 		art.visible = not enabled or _local_exp(art.global_position)
 
@@ -492,8 +509,8 @@ func _build_overlay() -> void:
 func _upload() -> void:
 	if _tex_vis == null:
 		return
-	var vis := _vis_p if local_team == Unit.Team.PLAYER else _vis_e
-	var ex := _exp_p if local_team == Unit.Team.PLAYER else _exp_e
+	var vis := _vis_p if _layer(local_team) == Unit.Team.PLAYER else _vis_e
+	var ex := _exp_p if _layer(local_team) == Unit.Team.PLAYER else _exp_e
 	_img_vis.set_data(grid_w, grid_d, false, Image.FORMAT_R8, vis)
 	_img_exp.set_data(grid_w, grid_d, false, Image.FORMAT_R8, ex)
 	_tex_vis.update(_img_vis)

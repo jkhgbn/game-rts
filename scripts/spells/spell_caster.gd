@@ -418,7 +418,7 @@ func _cast_kindle(t: SpellType, rank: int) -> void:
 	var team: Variant = wizard.get(&"team")
 	for node in wizard.get_tree().get_nodes_in_group(&"units"):
 		var u := node as Node3D
-		if u == null or u.get(&"team") != team or not _alive(u):
+		if u == null or not _friend_team(u, team) or not _alive(u):
 			continue
 		if u.has_method(&"is_worker") and bool(u.call(&"is_worker")):
 			continue
@@ -501,7 +501,7 @@ func _cast_rime_aegis(t: SpellType, rank: int) -> void:
 	spell_effect.emit(t.id, center)
 	for node in wizard.get_tree().get_nodes_in_group(&"units"):
 		var u := node as Node3D
-		if u == null or u.get(&"team") != team or not _alive(u) or not u.has_method(&"add_shield"):
+		if u == null or not _friend_team(u, team) or not _alive(u) or not u.has_method(&"add_shield"):
 			continue
 		if u != wizard and (_is_worker(u) or _flat(u.global_position - center).length() > r):
 			continue
@@ -541,7 +541,7 @@ func _cast_wild_bloom(t: SpellType, rank: int, pos: Vector3) -> void:
 	var targets: Array[Node3D] = []
 	for node in wizard.get_tree().get_nodes_in_group(&"units"):
 		var u := node as Node3D
-		if u == null or u.get(&"team") != team or not _alive(u) or is_summon(u):
+		if u == null or not _friend_team(u, team) or not _alive(u) or is_summon(u):
 			continue
 		if _flat(u.global_position - pos).length() <= r + edge_radius(u):
 			targets.append(u)
@@ -1114,12 +1114,18 @@ func _in_range(id: StringName, target: Variant) -> bool:
 	return _flat(_target_position(target) - wizard.global_position).length() <= reach
 
 
+## 2v2: an allied seat's unit counts as a friend for heals, shields and buffs (map-2v2.md 4.2).
+static func _friend_team(u: Node, team: Variant) -> bool:
+	var t: Variant = u.get(&"team")
+	return t != null and team != null and Teams.is_allied_fast(int(t), int(team))
+
+
 func _is_enemy(node: Node3D) -> bool:
 	if wizard.has_method(&"is_enemy_of"):
 		return bool(wizard.call(&"is_enemy_of", node))
 	var a: Variant = wizard.get(&"team")
 	var b: Variant = node.get(&"team")
-	return a != null and b != null and int(a) != int(b)
+	return a != null and b != null and not Teams.is_allied_fast(int(a), int(b))
 
 
 func _mana() -> float:

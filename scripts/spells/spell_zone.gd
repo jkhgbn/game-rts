@@ -93,6 +93,6 @@ func _tick() -> void:
 
 func _is_enemy(t: Node3D) -> bool:
 	var other_team: Variant = t.get(&"team")
-	if other_team == null or int(other_team) == team:
+	if other_team == null or Teams.is_allied_fast(int(other_team), int(team)):
 		return false
 	return t.has_method(&"is_alive") and bool(t.call(&"is_alive"))

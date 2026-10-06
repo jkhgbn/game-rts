@@ -108,7 +108,7 @@ func _impact() -> void:
 	if splash_radius > 0.0:
 		for node in get_tree().get_nodes_in_group("units"):
 			var u := node as Unit
-			if u == null or u.team == source_team or not u.is_alive():
+			if u == null or Teams.is_allied_fast(int(u.team), int(source_team)) or not u.is_alive():
 				continue
 			if _flat_distance_to_impact(u) <= splash_radius + u.radius:
 				var before := u.hp
@@ -116,7 +116,7 @@ func _impact() -> void:
 				hit_area.emit(u, before - maxf(0.0, u.hp))
 		for node in get_tree().get_nodes_in_group("buildings"):
 			var b := node as Node3D
-			if b == null or not _alive(b) or b.get(&"team") == null or int(b.get(&"team")) == source_team:
+			if b == null or not _alive(b) or b.get(&"team") == null or Teams.is_allied_fast(int(b.get(&"team")), int(source_team)):
 				continue
 			if _flat_distance_to_impact(b) <= splash_radius + Unit.radius_of(b):
 				var hp_b: Variant = b.get(&"hp")

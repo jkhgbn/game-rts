@@ -94,7 +94,7 @@ func find_target() -> Unit:
 	var r2 := support_range * support_range
 	for node in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
-		if u == null or u == unit or u.team != unit.team or not u.is_alive() or u.max_hp <= 0.0:
+		if u == null or u == unit or not Teams.is_allied_fast(int(u.team), int(unit.team)) or not u.is_alive() or u.max_hp <= 0.0:
 			continue
 		var ratio := u.hp / u.max_hp
 		if ratio >= best_ratio:

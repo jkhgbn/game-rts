@@ -35,6 +35,10 @@ var crystal_nodes: Dictionary = {}   ## node id (StringName) -> CrystalNode
 var build_grid: BuildGrid     ## Building placement (snap / check / place), both teams.
 var fog: FogOfWar             ## Fog of war (scripts/world/fog_of_war.gd), group "fog".
 var env_props: EnvProps       ## The art trees / rocks / pillars (null = placeholder shapes).
+## 2v2 seats (map-2v2.md 4.1, scripts/core/teams.gd): seat -> side, set by a level before it enters the tree (a
+## mission's `_init`). Empty = the 1v1 {PLAYER: 0, ENEMY: 1}. `seat_opponents`: seat -> the seat its bot plays against.
+var seat_sides: Dictionary = {}
+var seat_opponents: Dictionary = {}
 
 ## Start camera focus, relative to the player's keep: the keep sits a little left of and just
 ## below the screen centre, the workers and both home nodes are above the bottom HUD panels.
@@ -46,6 +50,7 @@ func _ready() -> void:
 	# MT1 (map-production.md 2.8): the running map's size, read by the fog, BuildGrid, river, minimap and camera.
 	var sz := _map_size()
 	MapInfo.setup(sz.x, sz.y, _map_id(), self)
+	Teams.configure(seat_sides if not seat_sides.is_empty() else Teams.DEFAULT_SIDES, Unit.Team.PLAYER, seat_opponents, self)
 	# A new match (first load, F9, menu restart): the casters' static team registries (Scrying Runes, Bulwarks, claims,
 	# spawn counter) and the bot casters' cast history start empty (code review M4).
 	CasterKit.reset()
@@ -53,6 +58,9 @@ func _ready() -> void:
 	# One Economy per team, created before any unit so every unit's pop is counted.
 	economy = _add_economy(Unit.Team.PLAYER)
 	_add_economy(Unit.Team.ENEMY)
+	for seat in Teams.seats():   # 2v2: one Economy per extra seat (ALLY, ENEMY_2)
+		if seat != Unit.Team.PLAYER and seat != Unit.Team.ENEMY:
+			_add_economy(seat as Unit.Team)
 	_build_environment()
 	_build_nav_region()
 
@@ -313,6 +321,7 @@ func _build_nav_region() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_EXIT_TREE:
 		MapInfo.release(self)
+		Teams.release(self)
 
 
 ## The map's playable size in metres (x width, z depth). MAP_SIZE square here; a LayoutLevel returns its layout's.
@@ -556,6 +565,6 @@ func _add_crystal_node(id: StringName, pos: Vector3, amount: int) -> CrystalNode
 func _add_economy(team: Unit.Team) -> Economy:
 	var eco := Economy.new()
 	eco.team = team
-	eco.name = "Economy%s" % ("Player" if team == Unit.Team.PLAYER else "Enemy")
+	eco.name = "Economy%s" % {0: "Player", 1: "Enemy", 3: "Ally", 4: "Enemy2"}.get(int(team), str(int(team)))
 	add_child(eco)
 	return eco

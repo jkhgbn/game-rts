@@ -50,6 +50,19 @@ extends Resource
 @export var lair_max := -1
 @export var titan_max_trained := -1
 @export var lair_min_time := -1.0
+## The kingdom's Forge (unit upgrades, ForgeKit) in this mission (e2m4 spotlights it; default off in missions).
+@export var forge_enabled := false
+## The kingdom's Stables (cavalry + the wizard's mount, Stables16) in this mission (e2m3 on; default off in missions).
+@export var cavalry_enabled := false
+
+# ---------------------------------------------------------------- seats (2v2 runtime, scripts/core/teams.gd)
+## Seat -> side ({PLAYER: 0, ALLY: 0, ENEMY: 1, ENEMY_2: 1}); {} = the 1v1. Copied to the level before `_ready`
+## (main.gd configures Teams and one Economy per seat).
+@export var seat_sides: Dictionary = {}
+## Seat -> the seat its Commander plays against (Skirmish.enemy_team_of); {} = the first seat of the other side.
+@export var seat_opponents: Dictionary = {}
+## Seat -> kingdom of the extra seats (ALLY / ENEMY_2), e.g. {ALLY: &"nature", ENEMY_2: &"ice"}.
+@export var seat_kingdoms: Dictionary = {}
 
 # ---------------------------------------------------------------- start state
 ## The player's wizard: level and unspent spell points at start (-1 = untouched), spells learned in order, cap

@@ -179,6 +179,7 @@ func held_by(team: int, kind: StringName = &"") -> Array:
 
 ## Cached presence of `team` at `point` (a wizard counts 2), refreshed once per second.
 func presence(team: int, point: Node3D) -> int:
+	team = FogOfWar._layer(team)   # 2v2: presence is per side (map-2v2.md 4.5)
 	if point == null or not is_instance_valid(point):
 		return 0
 	var counts: Variant = _presence.get(point.get_instance_id())
@@ -189,7 +190,7 @@ func presence(team: int, point: Node3D) -> int:
 
 ## Seconds of blessing `team` has left (0 = none).
 func blessing_time_left(team: int) -> float:
-	return float(_blessing_left.get(team, 0.0))
+	return float(_blessing_left.get(FogOfWar._layer(team), 0.0))
 
 
 ## The next shrine waking: `{point, time, points}` (`time` in match time; `point` null when several wake together or
@@ -225,7 +226,7 @@ func apply_blessing(unit: Node) -> void:
 	if not unit.has_method(&"add_modifier"):
 		return
 	unit.call(&"add_modifier", BLESSING_MODIFIER, BLESSING_STATS)
-	var list: Array = _blessed[int(t)]
+	var list: Array = _blessed[FogOfWar._layer(int(t))]
 	if not list.has(unit):
 		list.append(unit)
 
@@ -245,7 +246,10 @@ static func counts_for_capture(u: Node) -> bool:
 	if u == null or not is_instance_valid(u) or not u.is_in_group(&"units"):
 		return false
 	var t: Variant = u.get(&"team")
-	if t == null or (int(t) != PLAYER_TEAM and int(t) != ENEMY_TEAM):
+	if t == null:
+		return false
+	var side_t := FogOfWar._layer(int(t))   # 2v2: an allied seat counts for its side
+	if side_t != PLAYER_TEAM and side_t != ENEMY_TEAM:
 		return false
 	if u.has_method(&"is_alive") and not bool(u.call(&"is_alive")):
 		return false
@@ -319,7 +323,7 @@ func _scan_presence() -> void:
 			continue
 		var u := node as Node3D
 		var q := Vector2(u.global_position.x, u.global_position.z)
-		var t := int(u.get(&"team"))
+		var t := FogOfWar._layer(int(u.get(&"team")))
 		# A blessed team's unit without the modifier (a wizard revived at the keep during the blessing).
 		if blessed[t] and u.has_method(&"has_modifier") and not bool(u.call(&"has_modifier", BLESSING_MODIFIER)):
 			apply_blessing(u)

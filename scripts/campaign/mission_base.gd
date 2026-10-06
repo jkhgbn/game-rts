@@ -84,6 +84,10 @@ var titans_enabled := false
 var lair_max := -1
 var titan_max_trained := -1
 var lair_min_time := -1.0
+## ForgeKit.enabled_here reads it in a mission (config.forge_enabled).
+var forge_enabled := false
+## Stables16.enabled_here reads it in a mission (config.cavalry_enabled).
+var cavalry_enabled := false
 
 # ---- Test / menu switches.
 ## True: MissionHud (scripts/ui/mission/) is attached with its briefing, which pauses the game; its `begun` signal
@@ -176,6 +180,13 @@ func _apply_switches(c: MissionConfig) -> void:
 	lair_max = c.lair_max
 	titan_max_trained = c.titan_max_trained
 	lair_min_time = c.lair_min_time
+	forge_enabled = c.forge_enabled
+	cavalry_enabled = c.cavalry_enabled
+	if not c.seat_sides.is_empty():
+		seat_sides = c.seat_sides.duplicate()
+		seat_opponents = c.seat_opponents.duplicate()
+	for k: Variant in c.seat_kingdoms:
+		seat_kingdoms[int(k)] = StringName(c.seat_kingdoms[k])
 
 
 func _apply_economy_start() -> void:
@@ -1168,6 +1179,93 @@ func withdraw_seat(seat: StringName, exit: Vector3, walk_time := 30.0) -> void:
 
 
 var _withdraw_watch: Array = []   # [units, exit]: units leave once within 3 m of the exit
+
+
+# ---------------------------------------------------------------- 2v2 seats (map-2v2.md 8, scripts/core/teams.gd)
+
+## The real seat API (the 2v2 runtime): `config.seat_sides` makes ALLY / ENEMY_2 real teams (own Economy, own
+## Commander, hostility by side, fog per side). `activate_seat` brings a seat into the match (at 0:00 or mid-mission:
+## e2m2's Heartwood). `start_state` keys (all optional):
+##   "keep": {"type": id, "pos": Vector3, "tier": int} - the seat's keep (also its base centre);
+##   "buildings": [[type_id, pos], ...] complete buildings; "workers": [[type_id, count, CrystalNode], ...] gathering;
+##   "units": [[type_id, count, pos], ...] around pos (ring 2.5); "wizard": {"pos", "level", "spells"};
+##   "start": Vector3 (the wizard / rally start; default the keep); "crystals": int; "profile": Commander profile id.
+## Returns {keep, buildings, units, workers, wizard, commander}.
+func activate_seat(seat: int, kingdom: StringName, start_state: Dictionary = {}) -> Dictionary:
+	var out := {"keep": null, "buildings": [], "units": [], "workers": [], "wizard": null, "commander": null}
+	if not Teams.has_seat(seat):
+		push_error("activate_seat: seat %d is not in config.seat_sides" % seat)
+		return out
+	seat_kingdoms[seat] = kingdom
+	if Economy.for_team(seat) == null:
+		_add_economy(seat as Unit.Team)
+	var eco := Economy.for_team(seat)
+	if start_state.has("crystals") and eco:
+		eco.crystals = int(start_state["crystals"])
+		eco.changed.emit()
+	var kd: Dictionary = start_state.get("keep", {})
+	if not kd.is_empty():
+		var kt := BuildingType.find(String(kd["type"]))
+		var k := build_grid.spawn_complete(kt, kd["pos"], seat) if kt else null
+		out["keep"] = k
+		if k:
+			seat_keeps[seat] = k
+			seat_bases[seat] = k.global_position
+			if int(kd.get("tier", 1)) > 1 and k is Keep:
+				(k as Keep).set_start_tier(int(kd["tier"]))
+	seat_starts[seat] = start_state.get("start", seat_bases.get(seat, Vector3.ZERO))
+	for row: Array in start_state.get("buildings", []):
+		var bt := BuildingType.find(String(row[0]))
+		if bt:
+			(out["buildings"] as Array).append(build_grid.spawn_complete(bt, row[1], seat))
+	for row: Array in start_state.get("workers", []):
+		var node: CrystalNode = row[2] if row.size() > 2 else null
+		var at: Vector3 = node.global_position if node else seat_starts[seat]
+		for i in int(row[1]):
+			var w := _spawn(make_unit(String(row[0])), seat as Unit.Team, at + Vector3(cos(i * 1.3) * 2.0, 0.0, sin(i * 1.3) * 2.0))
+			if w and node and w.has_method(&"command_gather"):
+				w.call(&"command_gather", node)
+			(out["workers"] as Array).append(w)
+	for row: Array in start_state.get("units", []):
+		var n := int(row[1])
+		for i in n:
+			var a := TAU * float(i) / maxf(1.0, float(n))
+			var u := _spawn(make_unit(String(row[0])), seat as Unit.Team, (row[2] as Vector3) + Vector3(cos(a) * 2.5, 0.0, sin(a) * 2.5))
+			if u:
+				(out["units"] as Array).append(u)
+	var wd: Dictionary = start_state.get("wizard", {})
+	if not wd.is_empty():
+		var wiz := _make_wizard(seat)
+		_spawn(wiz, seat as Unit.Team, wd.get("pos", seat_starts[seat]))
+		_claim_wizard(wiz, seat)
+		if int(wd.get("level", 1)) > 1:
+			raise_wizard(wiz, int(wd["level"]), wd.get("spells", []))
+		ItemDrops.ensure_inventory(wiz)
+		seat_heroes[seat] = wiz
+		out["wizard"] = wiz
+	var profile := StringName(start_state.get("profile", &""))
+	if profile != &"":
+		out["commander"] = _add_commander(seat, profile)
+	var fog_n := get_node_or_null(^"FogOfWar") as FogOfWar
+	if fog_n and seat_bases.has(seat):
+		fog_n.reveal(seat, seat_bases[seat], FogOfWar.START_REVEAL)
+	seat_activated.emit(seat)
+	return out
+
+
+signal seat_activated(seat: int)
+
+
+## A seat is out when it has no defeat-relevant building (map-2v2.md 4.4); a seat never activated is never out.
+func seat_out(seat: int) -> bool:
+	if not seat_keeps.has(seat) and seat != Unit.Team.PLAYER and seat != Unit.Team.ENEMY:
+		return false
+	return Building.defeat_relevant(seat).is_empty()
+
+
+## The 2v2 colour of a team (Unit.team_color by relation to the human seat).
+static func seat_color(team: int) -> Color:
+	return Unit.team_color(team)
 
 
 func _process(_delta: float) -> void:

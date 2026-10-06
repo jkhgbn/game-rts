@@ -247,3 +247,29 @@ only its own "moment" through the E-list.
 
 Order: Events signal and MissionConfig field first, then MissionBase, then the card; missions fill `spotlight` in their
 own `_mission_config()`.
+
+## 8. The 2v2 seat runtime (built 2026-10-06 with e2m2)
+
+`map-2v2.md` 4.1 / 5 in the form missions need it (the 1v1 is unchanged: with 2 seats `Teams.is_hostile(a, b) == (a != b)`):
+- `Teams` (`scripts/core/teams.gd`, static): `configure(sides, human, opponents, by)`, `reset()`, `release(by)`, `seats()`,
+  `side_of`, `seats_of_side`, `is_ally` / `is_allied_fast` / `is_hostile`, `allies_of`, `hostile_seats`, `is_human`,
+  `opponent_of`, `relation(local, team)`, `multi`. main.gd configures it first thing in `_ready` from the level's
+  `seat_sides` / `seat_opponents` (empty = the 1v1) and creates one Economy per seat.
+- `Unit.Team` appended `ALLY = 3`, `ENEMY_2 = 4`; `Unit.are_allies(a, b)`, `is_ally_of(other)`; `is_enemy_of`, towers
+  (`building_gun`), projectiles, spell zones, Pollen Haze, DoT jumps, own-unit auras and building auras, support heals,
+  Kindle / Wild Bloom / Rime Aegis and the right-click attack go by side. Team colours for ALLY / ENEMY_2.
+- FogOfWar is per side (`FogOfWar._layer(team)`: side 0 = the PLAYER layer, side 1 = the ENEMY layer); capture-point
+  presence and blessings count per side (an allied seat captures for its side's layer).
+- Skirmish: `seat_kingdoms` (+ `kingdom_of` / `seat_kingdom`), `seat_keeps` / `seat_heroes` / `seat_bases` /
+  `seat_starts` (`keep_of`, `wizard_of`, `base_center`, `start_position`), `enemy_team_of` = `Teams.opponent_of` in 2v2,
+  `_claim_wizard` puts an allied bot's wizard in `"ally_heroes"`.
+- MissionConfig `seat_sides`, `seat_opponents`, `seat_kingdoms`; MissionBase `activate_seat(seat, kingdom, start_state)`
+  (keep / buildings / workers / units / wizard / crystals / Commander profile; signal `seat_activated`), `seat_out(seat)`.
+- `AllyChannel` (`scripts/world/ally_channel.gd`, group `"ally_channel"`): `ping(kind, pos, from_seat, target)` (max 3 per
+  5 s), `pinged`, `active(side)`, `latest`, `answer(...)` / `answered`, `note_command`, the standard answer lines, and the
+  first input cut (Alt+click = context ping, Alt+right click = retreat; a level's `ping_context(pos)` may name a kind).
+- Not built: Fourfold Hollow for missions (MissionBase extends Skirmish, not LayoutLevel), `owner_seat` on capture
+  points, the AIAlly L-rules (e2m2 scripts its own L1 / L2), per-seat end screens, the 20.D2 HUD (ally card, wheel).
+
+Knobs added with it: `MissionConfig.forge_enabled` (read by `ForgeKit.enabled_for` in a mission: the e2m4 Forge) and
+`cavalry_enabled` (read by `Stables16.enabled_here`: e2m3); a scene's `stables_card` (unit ids) reorders the Stables card.

@@ -430,7 +430,7 @@ func _aura_process(delta: float) -> void:
 	var me := global_position
 	for node in get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
-		if u == null or u.team != team or not u.is_alive():
+		if u == null or not Teams.is_allied_fast(int(u.team), int(team)) or not u.is_alive():   # 2v2: allies too
 			continue
 		if u.unit_type != null and u.unit_type.is_worker:
 			continue
