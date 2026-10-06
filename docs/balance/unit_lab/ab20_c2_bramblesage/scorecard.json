@@ -1,0 +1,704 @@
+{
+	"checks": [
+		{
+			"detail": "caster 100 % vs control 100 % = +0 points (band 20..60)",
+			"label": "C2 caster arm vs control",
+			"result": "FAIL"
+		}
+	],
+	"fights": 200,
+	"stats": {
+		"baseline": {
+			"caster": {
+				"a_wins": 20,
+				"alive": [
+					8.3,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{
+						"pollen_haze": 1.2
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"pollen_haze": {
+							"fights": 20,
+							"median": 1.97
+						}
+					},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.584696061443755,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 10.025,
+				"trade": [
+					2.53304836539223,
+					0.39478125
+				],
+				"ttk_median": 10.025,
+				"types": [
+					{
+						"bramblesage": {
+							"dealt": 23.85,
+							"dealt_per_100": 15.9,
+							"dps": 2.31216674745516,
+							"kills": 0.15,
+							"kills_per_100": 0.1,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.95,
+							"taken": 4.25
+						},
+						"thornling": {
+							"dealt": 536.15,
+							"dealt_per_100": 81.2348484848485,
+							"dps": 5.73790667808219,
+							"kills": 7.85,
+							"kills_per_100": 1.18939393939394,
+							"per_fight": 11.0,
+							"summon": false,
+							"survival": 0.668181818181818,
+							"taken": 367.1
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 371.35,
+							"dealt_per_100": 46.41875,
+							"dps": 6.50521152667075,
+							"kills": 3.7,
+							"kills_per_100": 0.4625,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 20,
+				"alive": [
+					9.95,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.655121741739199,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 9.135,
+				"trade": [
+					2.90202053179526,
+					0.3445875
+				],
+				"ttk_median": 9.135,
+				"types": [
+					{
+						"thornling": {
+							"dealt": 560.0,
+							"dealt_per_100": 71.7948717948718,
+							"dps": 5.30152418820411,
+							"kills": 8.0,
+							"kills_per_100": 1.02564102564103,
+							"per_fight": 13.0,
+							"summon": false,
+							"survival": 0.765384615384615,
+							"taken": 326.45
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 326.45,
+							"dealt_per_100": 40.80625,
+							"dps": 6.27667756200731,
+							"kills": 3.05,
+							"kills_per_100": 0.38125,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			}
+		},
+		"caster_combined": {
+			"caster": {
+				"a_wins": 20,
+				"alive": [
+					8.65,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{
+						"pollen_haze": 1.2
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"pollen_haze": {
+							"fights": 20,
+							"median": 1.97
+						}
+					},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.600562174081269,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 10.365,
+				"trade": [
+					2.62080262080262,
+					0.3815625
+				],
+				"ttk_median": 10.365,
+				"types": [
+					{
+						"bramblesage": {
+							"dealt": 22.05,
+							"dealt_per_100": 18.375,
+							"dps": 2.1438988818668,
+							"kills": 0.15,
+							"kills_per_100": 0.125,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 1.0,
+							"taken": 3.6
+						},
+						"thornling": {
+							"dealt": 537.95,
+							"dealt_per_100": 81.5075757575758,
+							"dps": 5.7366035723807,
+							"kills": 7.85,
+							"kills_per_100": 1.18939393939394,
+							"per_fight": 11.0,
+							"summon": false,
+							"survival": 0.695454545454545,
+							"taken": 358.7
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 362.3,
+							"dealt_per_100": 45.2875,
+							"dps": 6.37066994900651,
+							"kills": 3.35,
+							"kills_per_100": 0.41875,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 20,
+				"alive": [
+					10.05,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.659266494022804,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 9.215,
+				"trade": [
+					2.9433948380213,
+					0.33974375
+				],
+				"ttk_median": 9.215,
+				"types": [
+					{
+						"thornling": {
+							"dealt": 560.0,
+							"dealt_per_100": 71.7948717948718,
+							"dps": 5.18302559118886,
+							"kills": 8.0,
+							"kills_per_100": 1.02564102564103,
+							"per_fight": 13.0,
+							"summon": false,
+							"survival": 0.773076923076923,
+							"taken": 322.6
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 322.6,
+							"dealt_per_100": 40.325,
+							"dps": 6.12260390966028,
+							"kills": 2.95,
+							"kills_per_100": 0.36875,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			}
+		},
+		"caster_cost120": {
+			"caster": {
+				"a_wins": 20,
+				"alive": [
+					8.35,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{
+						"pollen_haze": 1.2
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"pollen_haze": {
+							"fights": 20,
+							"median": 1.97
+						}
+					},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.587727296024728,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 10.25,
+				"trade": [
+					2.57927232279593,
+					0.38770625
+				],
+				"ttk_median": 10.25,
+				"types": [
+					{
+						"bramblesage": {
+							"dealt": 21.79,
+							"dealt_per_100": 18.1583333333333,
+							"dps": 2.09922928709056,
+							"kills": 0.35,
+							"kills_per_100": 0.291666666666667,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 1.0,
+							"taken": 0.0
+						},
+						"thornling": {
+							"dealt": 538.21,
+							"dealt_per_100": 81.5469696969697,
+							"dps": 5.72381154950548,
+							"kills": 7.65,
+							"kills_per_100": 1.15909090909091,
+							"per_fight": 11.0,
+							"summon": false,
+							"survival": 0.668181818181818,
+							"taken": 368.0
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 368.0,
+							"dealt_per_100": 46.0,
+							"dps": 6.40612760031334,
+							"kills": 3.65,
+							"kills_per_100": 0.45625,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 20,
+				"alive": [
+					10.15,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.650925937219786,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 9.215,
+				"trade": [
+					2.87862977222842,
+					0.3473875
+				],
+				"ttk_median": 9.215,
+				"types": [
+					{
+						"thornling": {
+							"dealt": 560.0,
+							"dealt_per_100": 71.7948717948718,
+							"dps": 5.22583053378126,
+							"kills": 8.0,
+							"kills_per_100": 1.02564102564103,
+							"per_fight": 13.0,
+							"summon": false,
+							"survival": 0.780769230769231,
+							"taken": 330.45
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 330.45,
+							"dealt_per_100": 41.30625,
+							"dps": 6.26148744670772,
+							"kills": 2.85,
+							"kills_per_100": 0.35625,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			}
+		},
+		"caster_hp115": {
+			"caster": {
+				"a_wins": 20,
+				"alive": [
+					8.45,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{
+						"pollen_haze": 1.1
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"pollen_haze": {
+							"fights": 20,
+							"median": 1.97
+						}
+					},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.59359149614265,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 10.59,
+				"trade": [
+					2.55946763073281,
+					0.39070625
+				],
+				"ttk_median": 10.59,
+				"types": [
+					{
+						"bramblesage": {
+							"dealt": 21.8,
+							"dealt_per_100": 14.5333333333333,
+							"dps": 2.09414024975985,
+							"kills": 0.15,
+							"kills_per_100": 0.1,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 1.0,
+							"taken": 3.6
+						},
+						"thornling": {
+							"dealt": 538.2,
+							"dealt_per_100": 81.5454545454545,
+							"dps": 5.73712823792773,
+							"kills": 7.85,
+							"kills_per_100": 1.18939393939394,
+							"per_fight": 11.0,
+							"summon": false,
+							"survival": 0.677272727272727,
+							"taken": 365.95
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 369.55,
+							"dealt_per_100": 46.19375,
+							"dps": 6.45107794361526,
+							"kills": 3.55,
+							"kills_per_100": 0.44375,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 20,
+				"alive": [
+					10.0,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.656684398182323,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 9.115,
+				"trade": [
+					2.91263903300384,
+					0.34333125
+				],
+				"ttk_median": 9.115,
+				"types": [
+					{
+						"thornling": {
+							"dealt": 560.0,
+							"dealt_per_100": 71.7948717948718,
+							"dps": 5.2321778940484,
+							"kills": 8.0,
+							"kills_per_100": 1.02564102564103,
+							"per_fight": 13.0,
+							"summon": false,
+							"survival": 0.769230769230769,
+							"taken": 325.2
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 325.2,
+							"dealt_per_100": 40.65,
+							"dps": 6.21500238891543,
+							"kills": 3.0,
+							"kills_per_100": 0.375,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			}
+		},
+		"caster_regen125": {
+			"caster": {
+				"a_wins": 20,
+				"alive": [
+					8.55,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{
+						"pollen_haze": 1.25
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"pollen_haze": {
+							"fights": 20,
+							"median": 1.97
+						}
+					},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.591936891205844,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 10.04,
+				"trade": [
+					2.57599175682638,
+					0.3882
+				],
+				"ttk_median": 10.04,
+				"types": [
+					{
+						"bramblesage": {
+							"dealt": 19.9,
+							"dealt_per_100": 13.2666666666667,
+							"dps": 1.94525904203324,
+							"kills": 0.25,
+							"kills_per_100": 0.166666666666667,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 1.0,
+							"taken": 4.05
+						},
+						"thornling": {
+							"dealt": 540.1,
+							"dealt_per_100": 81.8333333333333,
+							"dps": 5.80066587906777,
+							"kills": 7.75,
+							"kills_per_100": 1.17424242424242,
+							"per_fight": 11.0,
+							"summon": false,
+							"survival": 0.686363636363636,
+							"taken": 360.75
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 364.8,
+							"dealt_per_100": 45.6,
+							"dps": 6.42762752180425,
+							"kills": 3.45,
+							"kills_per_100": 0.43125,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 20,
+				"alive": [
+					9.85,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.647408853880852,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 9.61,
+				"trade": [
+					2.85052556565117,
+					0.3508125
+				],
+				"ttk_median": 9.61,
+				"types": [
+					{
+						"thornling": {
+							"dealt": 560.0,
+							"dealt_per_100": 71.7948717948718,
+							"dps": 5.06100316312698,
+							"kills": 8.0,
+							"kills_per_100": 1.02564102564103,
+							"per_fight": 13.0,
+							"summon": false,
+							"survival": 0.757692307692308,
+							"taken": 333.8
+						}
+					},
+					{
+						"ember_archer": {
+							"dealt": 333.8,
+							"dealt_per_100": 41.725,
+							"dps": 6.22238792058906,
+							"kills": 3.15,
+							"kills_per_100": 0.39375,
+							"per_fight": 8.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 560.0
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "ab20_c2_bramblesage",
+	"variants": {}
+}

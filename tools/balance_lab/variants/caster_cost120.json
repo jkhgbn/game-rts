@@ -1,0 +1,18 @@
+{
+	"name": "caster_cost120",
+	"notes": "Caster A/B (Unit Lab 2026-10-05): the four casters' cost 150 -> 120 (caster-units.md 7.2 'if one is useless' knob, one step further).",
+	"units": {
+		"kilnwarden": {
+			"cost": 120
+		},
+		"rimecarver": {
+			"cost": 120
+		},
+		"bramblesage": {
+			"cost": 120
+		},
+		"gloom_deacon": {
+			"cost": 120
+		}
+	}
+}

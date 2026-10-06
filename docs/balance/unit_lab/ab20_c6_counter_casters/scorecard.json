@@ -1,0 +1,126 @@
+{
+	"checks": [
+		{
+			"detail": "A mana_scald before B snagroot in 6 / 20 fights",
+			"label": "C6 Scald lands first",
+			"result": "FAIL"
+		},
+		{
+			"detail": "snagroot cast by B in 17 / 20 fights (min 80 %)",
+			"label": "C6 Snagroot lands",
+			"result": "PASS"
+		},
+		{
+			"detail": "A kilnwarden survival = 1.00 (min 0.6, max -)",
+			"label": "C6 Kilnwarden kept alive",
+			"result": "PASS"
+		}
+	],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"main": {
+				"a_wins": 20,
+				"alive": [
+					3.65,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{
+						"mana_scald": 0.95,
+						"slag_rain": 1.55
+					},
+					{
+						"snagroot": 0.95
+					}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"mana_scald": {
+							"fights": 19,
+							"median": 6.57
+						},
+						"slag_rain": {
+							"fights": 20,
+							"median": 0.57
+						}
+					},
+					{
+						"snagroot": {
+							"fights": 17,
+							"median": 6.57
+						}
+					}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.632349198685438,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 7.28,
+				"trade": [
+					3.1138967623458,
+					0.321141025641026
+				],
+				"ttk_median": 7.28,
+				"types": [
+					{
+						"flame_guard": {
+							"dealt": 234.265,
+							"dealt_per_100": 86.7648148148148,
+							"dps": 10.7881648629979,
+							"kills": 3.9,
+							"kills_per_100": 1.44444444444444,
+							"per_fight": 3.0,
+							"summon": false,
+							"survival": 0.883333333333333,
+							"taken": 183.05
+						},
+						"kilnwarden": {
+							"dealt": 132.18,
+							"dealt_per_100": 88.12,
+							"dps": 17.5654485049834,
+							"kills": 1.1,
+							"kills_per_100": 0.733333333333333,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 1.0,
+							"taken": 0.0
+						}
+					},
+					{
+						"bramblesage": {
+							"dealt": 21.4,
+							"dealt_per_100": 14.2666666666667,
+							"dps": 2.94158075601375,
+							"kills": 0.05,
+							"kills_per_100": 0.0333333333333333,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 86.36
+						},
+						"thornling": {
+							"dealt": 161.65,
+							"dealt_per_100": 67.3541666666667,
+							"dps": 8.315329218107,
+							"kills": 0.3,
+							"kills_per_100": 0.125,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 280.08
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "ab20_c6_counter_casters",
+	"variants": {}
+}

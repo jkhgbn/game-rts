@@ -99,7 +99,7 @@ micro, flat ground; C3 / C7 test the bot rules, which the lab plays for real.
   matrix), `tests/test_unit_lab_sandbox.gd` PASS (24 checks).
 
 ## Next runs suggested
-1. Equal-**pop** matrix (cavalry and casters are pop 2-3): `-Budget` by pop needs a small normaliser change.
+1. Equal-**pop** matrix: done (`-Basis pop` / `both`, results in `caster_ab.md`).
 2. A/B the top knobs with `-Variants`: hollow_oathsworn cost 200; T2 cavalry cost +10 %; scorchling cost 55; ash_hurler
    HP 85; hexweaver damage 10; casters cost 120.
 3. Ranged entries behind a melee screen ("line + 3 archers" entries) to judge the back line in its real job.

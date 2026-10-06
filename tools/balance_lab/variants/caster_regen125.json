@@ -1,0 +1,19 @@
+{
+	"name": "caster_regen125",
+	"notes": "Caster A/B: mana regen +25 % (0.8 -> 1.0 / s). Not a UnitType field: Unit Lab 'unit_mods' Stats modifier (the Balance Lab ignores it; in the game it is CasterKit.MANA_REGEN).",
+	"units": {},
+	"unit_mods": {
+		"kilnwarden": {
+			"mana_regen_pct": 0.25
+		},
+		"rimecarver": {
+			"mana_regen_pct": 0.25
+		},
+		"bramblesage": {
+			"mana_regen_pct": 0.25
+		},
+		"gloom_deacon": {
+			"mana_regen_pct": 0.25
+		}
+	}
+}

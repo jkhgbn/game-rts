@@ -1,0 +1,36 @@
+{
+	"name": "caster_combined",
+	"notes": "Caster A/B: cost 120 + mana regen +25 % + HP +15 % together.",
+	"units": {
+		"kilnwarden": {
+			"cost": 120,
+			"max_hp": "x1.15"
+		},
+		"rimecarver": {
+			"cost": 120,
+			"max_hp": "x1.15"
+		},
+		"bramblesage": {
+			"cost": 120,
+			"max_hp": "x1.15"
+		},
+		"gloom_deacon": {
+			"cost": 120,
+			"max_hp": "x1.15"
+		}
+	},
+	"unit_mods": {
+		"kilnwarden": {
+			"mana_regen_pct": 0.25
+		},
+		"rimecarver": {
+			"mana_regen_pct": 0.25
+		},
+		"bramblesage": {
+			"mana_regen_pct": 0.25
+		},
+		"gloom_deacon": {
+			"mana_regen_pct": 0.25
+		}
+	}
+}

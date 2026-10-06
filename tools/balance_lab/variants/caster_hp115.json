@@ -1,0 +1,18 @@
+{
+	"name": "caster_hp115",
+	"notes": "Caster A/B: caster max HP +15 % (100 / 90 / 85 / 100 -> 115 / 104 / 98 / 115).",
+	"units": {
+		"kilnwarden": {
+			"max_hp": "x1.15"
+		},
+		"rimecarver": {
+			"max_hp": "x1.15"
+		},
+		"bramblesage": {
+			"max_hp": "x1.15"
+		},
+		"gloom_deacon": {
+			"max_hp": "x1.15"
+		}
+	}
+}
