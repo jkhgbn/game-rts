@@ -1,0 +1,3945 @@
+{
+	"name": "Caster A/B budget sweep: line + caster vs line alone at 6 budgets",
+	"notes": "caster_ab_mix at budgets 840-990 (step 30): integer unit counts leave the caster arm and the control arm up to 50 crystals apart at one budget, so the read is a regression of (caster - control) on their crystal difference: the intercept = the caster's worth at EXACTLY equal crystals, the slope = points per crystal (what a cost cut buys). Analysis: docs/balance/unit_lab/caster_ab.md.",
+	"seeds": "1-12",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "kilnwarden.fire.840.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.840.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.870.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.870.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.900.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.900.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.930.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.930.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.960.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.960.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.990.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.990.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.840.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.840.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.870.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.870.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.900.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.900.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.930.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.930.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.960.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.960.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.990.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.990.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.840.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.840.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.870.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.870.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.900.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.900.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.930.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.930.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.960.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.960.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.990.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.990.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.840.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.840.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.870.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.870.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.900.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.900.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.930.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.930.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.960.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.960.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.990.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.990.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.840.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.840.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.870.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.870.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.900.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.900.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.930.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.930.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.960.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.960.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.990.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.990.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.840.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.840.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.870.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.870.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.900.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.900.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.930.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.930.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.960.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.960.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.990.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.990.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.840.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.840.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.870.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.870.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.900.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.900.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.930.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.930.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.960.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.960.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.990.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.990.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.840.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.840.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 840
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.870.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.870.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 870
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.900.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.900.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.930.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.930.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 930
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.960.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.960.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 960
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.990.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.990.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 990
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.840.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.840.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.870.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.870.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.900.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.900.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.930.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.930.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.960.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.960.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.990.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.990.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.840.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.840.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.870.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.870.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.900.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.900.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.930.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.930.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.960.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.960.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.990.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.990.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.840.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.840.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.870.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.870.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.900.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.900.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.930.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.930.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.960.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.960.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.990.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.990.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.840.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.840.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.870.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.870.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.900.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.900.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.930.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.930.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.960.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.960.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.990.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.990.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.840.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.840.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.870.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.870.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.900.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.900.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.930.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.930.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.960.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.960.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.990.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.990.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.840.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.840.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.870.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.870.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.900.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.900.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.930.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.930.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.960.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.960.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.990.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.990.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.840.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.840.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.870.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.870.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.900.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.900.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.930.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.930.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.960.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.960.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.990.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.990.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.840.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.840.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 840
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.870.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.870.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 870
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.900.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.900.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.930.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.930.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 930
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.960.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.960.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 960
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.990.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.990.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 990
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		}
+	]
+}

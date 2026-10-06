@@ -25,6 +25,7 @@ extends RefCounted
 ## Text line (one fight; see parse_text):
 ##   "6 flame_guard + 1 kilnwarden mana=full vs 7 rimeshield ; dist=20 seeds=10 limit=90"
 ##   "flame_guard ~ rimeshield @720"   (equal-cost: armies of ~720 crystals each)
+##   "flame_guard ~ rimehorn_rider @720 ; basis=pop pop=8"   (equal supply; basis=both: both budgets, see equal_cost)
 
 const PRESET_DIR := "res://tools/unit_lab/presets/"
 const KINGDOMS: Array[String] = ["fire", "ice", "nature", "shadow"]
@@ -33,6 +34,10 @@ const FOCUS: Array[String] = ["none", "lowest_hp", "casters"]
 const CASTER_MODES: Array[String] = ["autocast", "on", "off", "bot"]
 const FORMATIONS: Array[String] = ["auto", "line", "block"]
 const DEFAULT_BUDGET := 720
+## Equal-army bases (equal_cost): crystals, supply, or both budgets at once (whichever binds first).
+const BASES: Array[String] = ["cost", "pop", "both"]
+## Crystals per pop of the median trained T1 / T2 unit: the pop budget that matches a crystal budget (720 -> 8).
+const CRYSTALS_PER_POP := 90.0
 const DEFAULT_LIMIT := 120.0
 const DEFAULT_DISTANCE := 20.0
 const DEFAULT_ARENA := 80.0
@@ -93,6 +98,7 @@ static func preset_names() -> Array[String]:
 ##   {"a": SIDE, "b": SIDE, ...}                       one arm named "main"
 ##   {"arms": [{"name", "a", "b"}], ...}               several arms (caster arm / control arm)
 ##   {"equal": {"a": id, "b": id, "budget": 720}, ...} equal-cost armies built by equal_cost()
+##       (+ "basis": "cost" | "pop" | "both", "pop_budget": 8; the same two keys in "matrix")
 ##   {"matrix": {...}}                                  see matrix_entries()
 static func normalize(raw: Dictionary, errors: Array) -> Dictionary:
 	var spec := {
@@ -114,14 +120,7 @@ static func normalize(raw: Dictionary, errors: Array) -> Dictionary:
 		spec["mode"] = "matrix"
 		return spec
 	if raw.has("equal") and raw["equal"] is Dictionary:
-		var e: Dictionary = raw["equal"]
-		var pair := equal_cost(String(e.get("a", "")), String(e.get("b", "")), int(e.get("budget", DEFAULT_BUDGET)),
-				errors)
-		var a := normalize_side(pair[0], errors)
-		var b := normalize_side(pair[1], errors)
-		_copy_side_opts(e.get("a_opts", {}), a, errors)
-		_copy_side_opts(e.get("b_opts", {}), b, errors)
-		spec["arms"].append({"name": "equal", "a": a, "b": b})
+		spec["arms"].append(equal_arm(raw["equal"] as Dictionary, "equal", errors))
 	if raw.has("a") and raw.has("b"):
 		spec["arms"].append({"name": String(raw.get("arm", "main")),
 				"a": normalize_side(raw["a"], errors), "b": normalize_side(raw["b"], errors)})
@@ -130,11 +129,70 @@ static func normalize(raw: Dictionary, errors: Array) -> Dictionary:
 			errors.append("an arm must be an object")
 			continue
 		var ad: Dictionary = arm
-		spec["arms"].append({"name": String(ad.get("name", "arm%d" % spec["arms"].size())),
-				"a": normalize_side(ad.get("a", {}), errors), "b": normalize_side(ad.get("b", {}), errors)})
+		var arm_name := String(ad.get("name", "arm%d" % spec["arms"].size()))
+		if ad.get("equal") is Dictionary:
+			spec["arms"].append(equal_arm(ad["equal"] as Dictionary, arm_name, errors))
+			continue
+		var na := {"name": arm_name,
+				"a": normalize_side(ad.get("a", {}), errors), "b": normalize_side(ad.get("b", {}), errors)}
+		for s: String in ["a", "b"]:
+			if ad.get("fill_" + s) is Dictionary:
+				var fg := fill_groups(ad["fill_" + s] as Dictionary, errors)
+				na[s]["groups"] = fg
+				na[s]["label"] = side_label(na[s])
+		spec["arms"].append(na)
 	if spec["arms"].is_empty() and errors.is_empty():
 		errors.append("the spec has no fight (a / b, arms, equal or matrix)")
 	return spec
+
+
+## {"a": entry, "b": entry, "budget", "basis", "pop_budget", "mana" (the fixed casters' start mana; default "full"),
+##  "a_opts" / "b_opts" (side keys)} -> one normalized arm. Also accepted inside "arms" ({"name", "equal": {...}}), so
+## one spec can hold several equal-cost duels (e.g. each caster entry vs its own line unit).
+static func equal_arm(e: Dictionary, arm_name: String, errors: Array) -> Dictionary:
+	var pair := equal_cost(String(e.get("a", "")), String(e.get("b", "")), int(e.get("budget", DEFAULT_BUDGET)),
+			errors, String(e.get("basis", "cost")), int(e.get("pop_budget", 0)))
+	if e.has("mana"):
+		for sd: Dictionary in pair:
+			for g: Dictionary in sd.get("groups", []):
+				if CASTER_IDS.has(String(g.get("id", ""))):
+					g["mana"] = e["mana"]
+	var a := normalize_side(pair[0], errors)
+	var b := normalize_side(pair[1], errors)
+	_copy_side_opts(e.get("a_opts", {}), a, errors)
+	_copy_side_opts(e.get("b_opts", {}), b, errors)
+	return {"name": arm_name, "a": a, "b": b}
+
+
+## An arm side's groups filled from an entry at a budget, against any fixed opponent: {"entry":
+## "kilnwarden+flame_guard", "budget": 900, "basis": "cost" | "pop" | "both", "pop_budget", "mana"} -> the groups
+## whose spend is nearest the budget (arms key "fill_a" / "fill_b"; the rest of that side's keys still apply). Built
+## when the spec loads, so a variant's new costs re-size it (a caster arm and a control arm at the same budget).
+static func fill_groups(f: Dictionary, errors: Array) -> Array:
+	var parts := entry_parts(String(f.get("entry", "")), errors)
+	if parts.is_empty():
+		return []
+	var budget := int(f.get("budget", DEFAULT_BUDGET))
+	var basis := String(f.get("basis", "cost"))
+	if not BASES.has(basis):
+		errors.append("unknown basis '%s' (use %s)" % [basis, ", ".join(BASES)])
+		basis = "cost"
+	var pb := float(int(f.get("pop_budget", 0)) if int(f.get("pop_budget", 0)) > 0 else default_pop_budget(budget))
+	var best := 1
+	var best_d := INF
+	for n in range(1, 61):
+		var d := absf(entry_spend(parts, n, basis, budget, pb) - 1.0)
+		if d < best_d:
+			best_d = d
+			best = n
+	var groups: Array = []
+	for g: Dictionary in entry_side(parts, best)["groups"]:
+		if f.has("mana") and CASTER_IDS.has(String(g["id"])):
+			g["mana"] = f["mana"]
+		var ng := normalize_group(g, errors)
+		if not ng.is_empty():
+			groups.append(ng)
+	return groups
 
 
 static func _copy_side_opts(opts: Variant, side: Dictionary, errors: Array) -> void:
@@ -259,7 +317,8 @@ static func parse_text(line: String, errors: Array) -> Dictionary:
 		if at >= 0:
 			budget = b_text.substr(at + 1).strip_edges().to_int()
 			b_text = b_text.substr(0, at).strip_edges()
-		raw["equal"] = {"a": parts[0].strip_edges(), "b": b_text, "budget": budget}
+		raw["equal"] = {"a": parts[0].strip_edges(), "b": b_text, "budget": budget,
+				"basis": String(opts.get("basis", "cost")), "pop_budget": String(opts.get("pop", "0")).to_int()}
 	else:
 		var sides := main_part.split(" vs ")
 		if sides.size() != 2:
@@ -358,35 +417,55 @@ static func parse_group_text(text: String, errors: Array) -> Dictionary:
 ## Two armies of about `budget` crystals each from two ids (cost-equal normaliser). Each entry may be a plain id
 ## ("rimeshield") or a caster entry "kilnwarden+flame_guard" (1 caster, the rest of the budget in the filler).
 ## Counts are picked so the two totals are as close as possible (ratio first, then nearness to the budget).
+## `basis` (BASES): "cost" = equal crystals (default), "pop" = equal supply (`pop_budget`), "both" = each army is
+## sized by whichever budget binds first (spend = max(crystals / budget, pop / pop_budget)), the armies' spends equal:
+## the real-match limit when both the bank and the supply cap count. `pop_budget` <= 0 = budget / CRYSTALS_PER_POP.
 ## Returns [side_a_dict, side_b_dict] (raw sides, normalize_side them).
-static func equal_cost(a: String, b: String, budget: int, errors: Array) -> Array:
+static func equal_cost(a: String, b: String, budget: int, errors: Array, basis: String = "cost",
+		pop_budget: int = 0) -> Array:
 	var ea := entry_parts(a, errors)
 	var eb := entry_parts(b, errors)
 	if ea.is_empty() or eb.is_empty():
 		return [{}, {}]
+	if not BASES.has(basis):
+		errors.append("unknown basis '%s' (use %s)" % [basis, ", ".join(BASES)])
+		basis = "cost"
+	var pb := float(pop_budget if pop_budget > 0 else default_pop_budget(budget))
 	var best := [1, 1]
 	var best_score := INF
-	var ca := float(ea["unit_cost"])
-	var cb := float(eb["unit_cost"])
-	var fa := float(ea["fixed_cost"])
-	var fb := float(eb["fixed_cost"])
-	for na in range(1, 41):
-		var ta := fa + ca * na
-		if ta > budget * 1.6:
+	for na in range(1, 61):
+		var ta := entry_spend(ea, na, basis, budget, pb)
+		if ta > 1.6:
 			break
-		# best nb for this na
-		var nb := maxi(1, roundi((ta - fb) / cb))
-		for k: int in [nb - 1, nb, nb + 1]:
-			if k < 1:
-				continue
-			var tb := fb + cb * k
+		# best nb for this na: scan from 1 up (spend grows with nb)
+		for k in range(1, 61):
+			var tb := entry_spend(eb, k, basis, budget, pb)
 			var ratio := absf(ta / tb - 1.0)
-			var near := absf((ta + tb) * 0.5 / float(budget) - 1.0)
+			var near := absf((ta + tb) * 0.5 - 1.0)
 			var score := ratio + 0.15 * near
 			if score < best_score:
 				best_score = score
 				best = [na, k]
+			if tb > ta * 1.5:
+				break
 	return [entry_side(ea, best[0]), entry_side(eb, best[1])]
+
+
+## What an entry with `n` filler units spends, as a fraction of the budget (see equal_cost's `basis`).
+static func entry_spend(parts: Dictionary, n: int, basis: String, budget: int, pop_budget: float) -> float:
+	var c := (float(parts["fixed_cost"]) + float(parts["unit_cost"]) * n) / maxf(1.0, float(budget))
+	var p := (float(parts["fixed_pop"]) + float(parts["unit_pop"]) * n) / maxf(1.0, pop_budget)
+	match basis:
+		"pop":
+			return p
+		"both":
+			return maxf(c, p)
+	return c
+
+
+## The supply that matches a crystal budget (median trained T1 / T2 unit: ~90 crystals per pop; 720 -> 8 pop).
+static func default_pop_budget(budget: int) -> int:
+	return maxi(1, roundi(float(budget) / CRYSTALS_PER_POP))
 
 
 ## "kilnwarden+flame_guard" -> {fixed: [{id, count, mana}], unit: "flame_guard", unit_cost, fixed_cost}.
@@ -395,6 +474,7 @@ static func entry_parts(entry: String, errors: Array) -> Dictionary:
 	var parts := entry.strip_edges().split("+")
 	var fixed: Array = []
 	var fixed_cost := 0
+	var fixed_pop := 0
 	var unit := parts[parts.size() - 1].strip_edges()
 	for i in range(0, parts.size() - 1):
 		var fid := parts[i].strip_edges()
@@ -404,11 +484,13 @@ static func entry_parts(entry: String, errors: Array) -> Dictionary:
 			return {}
 		fixed.append({"id": fid, "count": 1, "mana": "full" if CASTER_IDS.has(fid) else -1})
 		fixed_cost += ft.cost
+		fixed_pop += ft.pop
 	var t := UnitType.find(unit)
 	if t == null:
 		errors.append("unknown unit id '%s'" % unit)
 		return {}
-	return {"fixed": fixed, "unit": unit, "unit_cost": maxi(1, t.cost), "fixed_cost": fixed_cost, "entry": entry}
+	return {"fixed": fixed, "unit": unit, "unit_cost": maxi(1, t.cost), "fixed_cost": fixed_cost,
+			"unit_pop": maxi(1, t.pop), "fixed_pop": fixed_pop, "entry": entry}
 
 
 static func entry_side(parts: Dictionary, n: int) -> Dictionary:
@@ -443,7 +525,14 @@ static func normalize_matrix(raw: Dictionary, errors: Array) -> Dictionary:
 				var c := String(CasterKit.caster_for(StringName(String(k))))
 				if c != "" and LINE_UNIT.has(String(k)):
 					entries.append("%s+%s" % [c, LINE_UNIT[String(k)]])
-	return {"entries": entries, "budget": int(raw.get("budget", DEFAULT_BUDGET)),
+	var basis := String(raw.get("basis", "cost"))
+	if not BASES.has(basis):
+		errors.append("unknown basis '%s' (use %s)" % [basis, ", ".join(BASES)])
+		basis = "cost"
+	var budget := int(raw.get("budget", DEFAULT_BUDGET))
+	var pop_budget := int(raw.get("pop_budget", 0))
+	return {"entries": entries, "budget": budget, "basis": basis,
+			"pop_budget": pop_budget if pop_budget > 0 else default_pop_budget(budget),
 			"mirror": bool(raw.get("mirror", false)), "kingdom_of": _kingdom_map(entries)}
 
 
@@ -491,9 +580,9 @@ static func matrix_pairs(m: Dictionary) -> Array:
 	return out
 
 
-## One matrix pair -> an arm (equal cost at the matrix budget).
+## One matrix pair -> an arm (equal cost / pop / both at the matrix budgets, `basis`).
 static func matrix_arm(m: Dictionary, a: String, b: String, errors: Array) -> Dictionary:
-	var pair := equal_cost(a, b, int(m["budget"]), errors)
+	var pair := equal_cost(a, b, int(m["budget"]), errors, String(m.get("basis", "cost")), int(m.get("pop_budget", 0)))
 	return {"name": "%s|%s" % [a, b], "a": normalize_side(pair[0], errors), "b": normalize_side(pair[1], errors),
 			"entry_a": a, "entry_b": b}
 

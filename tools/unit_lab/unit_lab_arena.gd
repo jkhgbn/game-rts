@@ -52,7 +52,8 @@ var _commanders: Array = [null, null]
 var _order_left := 0.0
 var _hunt_left := 0.0
 var _warmup := 0
-var _casts: Array = [{}, {}]         # spell id -> count
+var _casts: Array = [{}, {}]         # spell id -> count (+ "passage_units": units an Umbral Passage carried)
+var _carried: Array = [{}, {}]       # CasterAbility instance id -> its passage_units so far
 var _first_cast: Array = [{}, {}]    # spell id -> time
 var _other_dealt: Array[float] = [0.0, 0.0]   # damage by sources that are not tracked units (towers, hazards)
 var _built := false
@@ -259,7 +260,7 @@ func _after_spawn(u: Unit, s: int, g: Dictionary) -> void:
 				ab.set_autocast(sp, false)
 			elif mode == "on":
 				ab.set_autocast(sp, true)
-		ab.spell_cast.connect(_on_spell_cast.bind(s))
+		ab.spell_cast.connect(_on_spell_cast.bind(s, ab))
 	register(u, s)
 	unit_spawned.emit(u, s)
 
@@ -389,9 +390,17 @@ func _on_died(u: Unit) -> void:
 				and records.has(k.get_instance_id()) else ""])
 
 
-func _on_spell_cast(spell_id: StringName, s: int) -> void:
+func _on_spell_cast(spell_id: StringName, s: int, ab: Node = null) -> void:
 	var key := String(spell_id)
 	_casts[s][key] = int(_casts[s].get(key, 0)) + 1
+	# Umbral Passage: how many units it carried (CasterAbility.casts["passage_units"] is per Deacon, cumulative).
+	if spell_id == &"umbral_passage" and ab != null and is_instance_valid(ab):
+		var c: Variant = ab.get(&"casts")
+		if c is Dictionary:
+			var before := int(_carried[s].get(ab.get_instance_id(), 0))
+			var now := int((c as Dictionary).get(&"passage_units", 0))
+			_carried[s][ab.get_instance_id()] = now
+			_casts[s]["passage_units"] = int(_casts[s].get("passage_units", 0)) + now - before
 	if not _first_cast[s].has(key):
 		_first_cast[s][key] = snappedf(time, 0.01)
 	if log_enabled:
@@ -647,6 +656,7 @@ func clear_units() -> void:
 	records.clear()
 	_commanders = [null, null]
 	_casts = [{}, {}]
+	_carried = [{}, {}]
 	_first_cast = [{}, {}]
 	_other_dealt.assign([0.0, 0.0])
 	log_lines.clear()

@@ -58,6 +58,7 @@ powershell -ExecutionPolicy Bypass -File tools\unit_lab\run_unit_lab.ps1 c1_kiln
 | `-Tick` | 60 | Physics ticks per second (30 = faster, coarser) |
 | `-Limit` | the spec's | Time limit per fight (s); at the limit the fight is a draw (the `lead` field says who was ahead) |
 | `-Matrix`, `-Kingdoms`, `-Tiers`, `-NoCasters`, `-Budget`, `-Entries` | all kingdoms, 1-2, casters on, 720 | Matrix mode |
+| `-Basis`, `-PopBudget` | cost, budget / 90 | `cost` = equal crystals, `pop` = equal supply, `both` = each army sized by whichever budget binds first (matrix and `-Equal`; spec key `"basis"` / `"pop_budget"`, text `; basis=pop pop=8`) |
 | `-Equal a,b` | - | Cost-equal duel |
 | `-Out`, `-RawDir`, `-TimeoutMin`, `-Log`, `-DryRun` | | Folders, timeout, per-fight logs in the shard logs, dry run |
 Single process by hand: `godot --headless --path . -s tools/unit_lab/unit_lab_run.gd --fixed-fps 60 --quit-after 9000000 -- --spec=c6_counter_casters --seeds=1-2 --log=1`
@@ -101,7 +102,13 @@ Speed: ~1 s per small fight per process (a 6 v 6 fight of 15 s game time = ~0.4 
   sit in any group of that side.
 - Checks (report, baseline variant): `wr_delta` (arm score - control score, points), `spell_rate` (share of fights with
   a cast), `first_spell` (side/spell X before side/spell Y), `alive_avg` (units alive per fight), `survival`.
-- Variants: `-Variants` reuses the Balance Lab format and code (`balance_match.gd apply_to_resources`, in memory).
+- Variants: `-Variants` reuses the Balance Lab format and code (`balance_match.gd apply_to_resources`, in memory). Extra
+  key `"unit_mods": {id: {stat: value}}` = Stats modifiers on every unit of that id (knobs that are not UnitType fields,
+  e.g. `mana_regen_pct`).
+- An arm may hold its own `"equal": {...}` (several equal-cost duels in one spec), or `"fill_a"` / `"fill_b"`:
+  `{"entry": "kilnwarden+flame_guard", "budget": 900, "basis", "mana"}` sizes that side from an entry against a fixed
+  opponent (built after the variant, so a cost variant re-sizes it). Presets `caster_ab`, `caster_ab_mix`,
+  `caster_ab_sweep` use them (`docs/balance/unit_lab/caster_ab.md`).
 
 ## Scorecard
 - Arms: games, A wins / draws / B wins, **A score** (win 1, draw 0.5) with a **Wilson 95 % interval**, median time to
@@ -148,5 +155,5 @@ equal cost and fail C1 / C3 / C4 / C5-Kilnwarden / C7.
 ## Next steps
 1. Terrain: a river strip with a ford, a ramp, a forest band (the map kit's colliders + navmesh carve) as `"terrain"`.
 2. Kiting micro option for ranged sides; a "bot army" order that reuses the Commander's fight code.
-3. Matrix at several budgets (360 / 720 / 1440) to catch units that scale badly with numbers (splash, Lanchester).
+3. Matrix at several budgets (equal pop / both budgets: done 2026-10-05, `-Basis`, `docs/balance/unit_lab/caster_ab.md`) (360 / 720 / 1440) to catch units that scale badly with numbers (splash, Lanchester).
 4. Feed the matrix means into the Balance Lab suggest step (a unit-level prior instead of the B1 formula).

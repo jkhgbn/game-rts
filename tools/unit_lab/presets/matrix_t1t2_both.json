@@ -1,0 +1,23 @@
+{
+	"name": "Matrix: all kingdoms, tier 1-2, casters, equal crystals + pop",
+	"notes": "As matrix_t1t2, but each army is sized by BOTH budgets, 720 crystals and 8 pop, whichever binds first (cheap swarms are pop-bound, expensive pop-1 units crystal-bound).",
+	"matrix": {
+		"kingdoms": [
+			"fire",
+			"ice",
+			"nature",
+			"shadow"
+		],
+		"tiers": [
+			1,
+			2
+		],
+		"casters": true,
+		"budget": 720,
+		"basis": "both",
+		"pop_budget": 8
+	},
+	"seeds": "1-4",
+	"distance": 20,
+	"time_limit": 120
+}

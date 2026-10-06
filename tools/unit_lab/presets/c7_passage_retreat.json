@@ -1,6 +1,6 @@
 {
 	"name": "C7 Umbral Passage retreat",
-	"notes": "caster-units.md 7.2 C7: 12 Shades at 40 % HP retreat home from 30 m, chased by 10 Flame Guards; a Gloom Deacon at home (full mana, the real AICasters retreat Passage, rule 8.3). Control: no Deacon. 25 s fight; pass: >= 8 Shades alive with the Passage, <= 4 without. The chasers attack-move to (-8, 0) (19 m down the retreat path) and do not hunt beyond their aggro chase.",
+	"notes": "caster-units.md 7.2 C7: 12 Shades at 40 % HP retreat home from 30 m, chased by 10 Flame Guards; a Gloom Deacon at home (full mana, the real AICasters retreat Passage, rule 8.3). Control: no Deacon. 25 s fight; pass: >= 8 Shades alive with the Passage, <= 4 without. 2026-10-05 setup fix: the arena has no home defence (keep, towers), so the chasers attack-move only to (0, 0), the home perimeter 24 m from home where the towers would stand, and do not hunt (before: (-8, 0), 12 m from home, they reached the rift and killed the carried Shades and the Deacon). The result records passage_units (units the Passage carried).",
 	"seeds": "1-10",
 	"distance": 40,
 	"time_limit": 25,
@@ -47,7 +47,7 @@
 					}
 				],
 				"target": [
-					-8,
+					0,
 					0
 				],
 				"hunt": false
@@ -85,7 +85,7 @@
 					}
 				],
 				"target": [
-					-8,
+					0,
 					0
 				],
 				"hunt": false

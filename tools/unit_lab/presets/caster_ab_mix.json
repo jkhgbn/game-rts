@@ -1,0 +1,665 @@
+{
+	"name": "Caster A/B vs mixes: line + caster vs line alone, each against the 4 kingdoms' T1 mixes",
+	"notes": "For each caster: arm 'caster' = 1 caster (full mana) + its kingdom line unit at ~900 crystals, arm 'control' = the line unit alone at ~900 crystals, both against the same fixed T1 mix of each kingdom (line + archers, 1070-1120 crystals, a bit above the ~900 of side A so the fights are close). The caster pays when caster - control > 0 (caster-units.md 7.1 targets: +15..+50 in a good matchup, >= -10 in a bad one). Sides are sized when the spec loads, so a cost variant re-sizes them. Rimecarver: the real AICasters ('bot').",
+	"seeds": "1-24",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "kilnwarden.fire.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.fire.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.ice.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.nature.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.caster",
+			"fill_a": {
+				"entry": "kilnwarden+flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "kilnwarden.shadow.control",
+			"fill_a": {
+				"entry": "flame_guard",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.fire.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.ice.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.nature.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.caster",
+			"fill_a": {
+				"entry": "rimecarver+rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "rimecarver.shadow.control",
+			"fill_a": {
+				"entry": "rimeshield",
+				"budget": 900
+			},
+			"a": {
+				"casters": "bot"
+			},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.fire.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.ice.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.nature.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.caster",
+			"fill_a": {
+				"entry": "bramblesage+thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "bramblesage.shadow.control",
+			"fill_a": {
+				"entry": "thornling",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.fire.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "flame_guard",
+						"count": 8
+					},
+					{
+						"id": "ember_archer",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.ice.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "rimeshield",
+						"count": 7
+					},
+					{
+						"id": "shardcaster",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.nature.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "thornling",
+						"count": 12
+					},
+					{
+						"id": "burr_slinger",
+						"count": 5
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.caster",
+			"fill_a": {
+				"entry": "gloom_deacon+shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		},
+		{
+			"name": "gloom_deacon.shadow.control",
+			"fill_a": {
+				"entry": "shade",
+				"budget": 900
+			},
+			"a": {},
+			"b": {
+				"groups": [
+					{
+						"id": "shade",
+						"count": 9
+					},
+					{
+						"id": "nightbolt",
+						"count": 4
+					}
+				]
+			}
+		}
+	]
+}

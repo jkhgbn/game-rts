@@ -12,6 +12,8 @@ extends SceneTree
 ##                   the first fight (tools/balance_lab/balance_match.gd apply_to_resources); "baseline" = none
 ##   --arm=NAME      plays only that arm;  --out=PATH  the JSONL file (appended);  --log=1  prints each fight's log
 ##   --budget=N      matrix budget override;  --entries=a,b,c  matrix entries override
+##   --basis=cost|pop|both  matrix basis (equal crystals / equal pop / both budgets);  --pop_budget=N  (default budget/90)
+##   Variant JSON extra key "unit_mods": {id: {stat: value}} = Stats modifiers on every unit of that id.
 ## Output line: the arena's result + {"variant", "job"}; a last line "UNIT_LAB done ..." on stdout.
 
 const SPEC := preload("res://tools/unit_lab/unit_lab_spec.gd")
@@ -28,6 +30,7 @@ var variant_name := "baseline"
 var variant_applied: Array = []
 var variant_errors: Array = []
 var _held: Array = []
+var _unit_mods := {}        # variant "unit_mods": unit id -> {stat: value}
 var _t0 := 0
 var _fight_frames := 0
 var _max_frames := 0
@@ -76,6 +79,12 @@ func _build_jobs() -> void:
 		var m: Dictionary = spec["matrix"]
 		if args.has("budget"):
 			m["budget"] = String(args["budget"]).to_int()
+			if not args.has("pop_budget"):
+				m["pop_budget"] = SPEC.default_pop_budget(int(m["budget"]))
+		if args.has("basis") and SPEC.BASES.has(String(args["basis"])):
+			m["basis"] = String(args["basis"])
+		if args.has("pop_budget") and String(args["pop_budget"]).to_int() > 0:
+			m["pop_budget"] = String(args["pop_budget"]).to_int()
 		if args.has("entries"):
 			var es: Array[String] = []
 			for e in String(args["entries"]).split(",", false):
@@ -115,7 +124,36 @@ func _apply_variant(path: String) -> void:
 		return
 	variant_name = String((data as Dictionary).get("name", path.get_file().get_basename()))
 	bm.call(&"apply_to_resources", data, variant_applied, variant_errors, _held)
+	# Unit Lab extension: "unit_mods": {id: {stat: value}} = Stats modifiers on every unit of that id (for knobs that
+	# are not UnitType fields, e.g. the casters' mana_regen; the Balance Lab ignores the key).
+	var um: Variant = (data as Dictionary).get("unit_mods", {})
+	if um is Dictionary:
+		for id: Variant in um:
+			if (um[id] is Dictionary) and UnitType.find(String(id)) != null:
+				var m := {}
+				for k: Variant in um[id]:
+					m[String(k)] = float(um[id][k])
+				_unit_mods[String(id)] = m
+				variant_applied.append({"kind": "unit_mods", "id": String(id), "mods": m})
+			else:
+				variant_errors.append("unit_mods.%s: unknown unit or not an object" % String(id))
 	print("UNIT_LAB variant %s: %d overrides, %d errors" % [variant_name, variant_applied.size(), variant_errors.size()])
+
+
+## The arm with the variant's unit_mods merged into every group of a modded id (added to the group's own mods).
+func _with_unit_mods(arm: Dictionary) -> Dictionary:
+	var out := arm.duplicate(true)
+	for s: String in ["a", "b"]:
+		var side: Dictionary = out.get(s, {})
+		for g: Dictionary in side.get("groups", []):
+			var add: Dictionary = _unit_mods.get(String(g.get("id", "")), {})
+			if add.is_empty():
+				continue
+			var mods: Dictionary = g.get("mods", {})
+			for k: String in add:
+				mods[k] = float(mods.get(k, 0.0)) + float(add[k])
+			g["mods"] = mods
+	return out
 
 
 func _process(_delta: float) -> bool:
@@ -142,8 +180,12 @@ func _start_job(j: Dictionary) -> void:
 		extra["entry_a"] = arm["entry_a"]
 		extra["entry_b"] = arm["entry_b"]
 		extra["budget"] = int((spec["matrix"] as Dictionary)["budget"])
+		extra["basis"] = String((spec["matrix"] as Dictionary).get("basis", "cost"))
+		extra["pop_budget"] = int((spec["matrix"] as Dictionary).get("pop_budget", 0))
 	else:
 		arm = j["arm"]
+	if not _unit_mods.is_empty():
+		arm = _with_unit_mods(arm)
 	arena = ARENA.new()
 	arena.name = "UnitLabArena"
 	arena.set(&"arena_size", float(spec.get("arena", 80.0)))

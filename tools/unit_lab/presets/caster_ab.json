@@ -1,0 +1,95 @@
+{
+	"name": "Caster A/B: line + caster vs the same line, equal cost / equal pop",
+	"notes": "Each caster inside its kingdom's line unit (1 caster at full mana + the line) against the SAME line unit alone, at equal crystals (~1080) and at equal pop (12): does adding the caster beat adding the same crystals / supply of line units? Side A = the caster army; A score > 50 % = the caster pays. Rimecarver runs the real AICasters ('bot': its spells are autocast off). Use an even number of seeds (team alternation).",
+	"seeds": "1-40",
+	"distance": 20,
+	"time_limit": 120,
+	"arms": [
+		{
+			"name": "kilnwarden_cost",
+			"equal": {
+				"a": "kilnwarden+flame_guard",
+				"b": "flame_guard",
+				"budget": 1080,
+				"basis": "cost",
+				"pop_budget": 12
+			}
+		},
+		{
+			"name": "kilnwarden_pop",
+			"equal": {
+				"a": "kilnwarden+flame_guard",
+				"b": "flame_guard",
+				"budget": 1080,
+				"basis": "pop",
+				"pop_budget": 12
+			}
+		},
+		{
+			"name": "rimecarver_cost",
+			"equal": {
+				"a": "rimecarver+rimeshield",
+				"b": "rimeshield",
+				"budget": 1080,
+				"basis": "cost",
+				"pop_budget": 12,
+				"a_opts": {
+					"casters": "bot"
+				}
+			}
+		},
+		{
+			"name": "rimecarver_pop",
+			"equal": {
+				"a": "rimecarver+rimeshield",
+				"b": "rimeshield",
+				"budget": 1080,
+				"basis": "pop",
+				"pop_budget": 12,
+				"a_opts": {
+					"casters": "bot"
+				}
+			}
+		},
+		{
+			"name": "bramblesage_cost",
+			"equal": {
+				"a": "bramblesage+thornling",
+				"b": "thornling",
+				"budget": 1080,
+				"basis": "cost",
+				"pop_budget": 12
+			}
+		},
+		{
+			"name": "bramblesage_pop",
+			"equal": {
+				"a": "bramblesage+thornling",
+				"b": "thornling",
+				"budget": 1080,
+				"basis": "pop",
+				"pop_budget": 12
+			}
+		},
+		{
+			"name": "gloom_deacon_cost",
+			"equal": {
+				"a": "gloom_deacon+shade",
+				"b": "shade",
+				"budget": 1080,
+				"basis": "cost",
+				"pop_budget": 12
+			}
+		},
+		{
+			"name": "gloom_deacon_pop",
+			"equal": {
+				"a": "gloom_deacon+shade",
+				"b": "shade",
+				"budget": 1080,
+				"basis": "pop",
+				"pop_budget": 12
+			}
+		}
+	]
+}

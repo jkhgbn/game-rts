@@ -1,0 +1,23 @@
+{
+	"name": "Matrix: all kingdoms, tier 1-2, casters, equal pop",
+	"notes": "As matrix_t1t2, but the armies are sized at EQUAL POP (8 pop a side = the supply 720 crystals buy at 90 crystals per pop): T2 cavalry and casters pay their pop 3 / 2.",
+	"matrix": {
+		"kingdoms": [
+			"fire",
+			"ice",
+			"nature",
+			"shadow"
+		],
+		"tiers": [
+			1,
+			2
+		],
+		"casters": true,
+		"budget": 720,
+		"basis": "pop",
+		"pop_budget": 8
+	},
+	"seeds": "1-4",
+	"distance": 20,
+	"time_limit": 120
+}

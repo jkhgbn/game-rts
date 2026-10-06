@@ -5,6 +5,7 @@
 #   ... run_unit_lab.ps1 "6 flame_guard + 1 kilnwarden mana=full vs 7 rimeshield ; dist=20" -Seeds 1-10
 #   ... run_unit_lab.ps1 -Equal grave_hound,flame_guard -Budget 720 -Seeds 1-20                      # cost-equal duel
 #   ... run_unit_lab.ps1 -Matrix -Kingdoms fire,ice,nature,shadow -Tiers 1,2 -Seeds 1-4               # matrix
+#   ... run_unit_lab.ps1 -Matrix -Basis pop [-PopBudget 8]       # equal pop (-Basis both: crystals AND pop budgets)
 #   ... run_unit_lab.ps1 c4_gloom_deacon -Variants grave_hound_dps                                    # A/B variants
 # Output: docs\balance\unit_lab\<run>\scorecard.md / .json (+ matrix.md / matrix.csv), raw JSONL in
 # ..\four-wizards-lab-runs\unit-lab-<run>\ (one file per variant x shard, plus each shard's log).
@@ -22,6 +23,8 @@ param(
 	[string]$Tiers = "1,2",
 	[switch]$NoCasters,
 	[int]$Budget = 720,
+	[ValidateSet("cost", "pop", "both")][string]$Basis = "cost",
+	[int]$PopBudget = 0,
 	[string]$Entries = "",
 	[string]$Equal = "",
 	[string]$Out = "",
@@ -43,7 +46,8 @@ function Fwd([string]$p) { return ($p -replace '\\', '/') }
 # ---- the spec argument the Godot side reads (--spec=)
 $SpecArg = ""
 if ($Matrix -or $Entries -ne "") {
-	$m = @{ budget = $Budget; casters = (-not $NoCasters) }
+	$m = @{ budget = $Budget; casters = (-not $NoCasters); basis = $Basis }
+	if ($PopBudget -gt 0) { $m.pop_budget = $PopBudget }
 	if ($Entries -ne "") { $m.ids = @($Entries.Split(",") | ForEach-Object { $_.Trim() }) }
 	else {
 		$m.kingdoms = @($Kingdoms.Split(",") | ForEach-Object { $_.Trim() })
@@ -55,7 +59,7 @@ if ($Matrix -or $Entries -ne "") {
 	$SpecArg = Fwd $p
 } elseif ($Equal -ne "") {
 	$ab = $Equal.Split(",")
-	$obj = @{ name = "equal $($ab[0]) vs $($ab[1]) @$Budget"; equal = @{ a = $ab[0].Trim(); b = $ab[1].Trim(); budget = $Budget };
+	$obj = @{ name = "equal $($ab[0]) vs $($ab[1]) @$Budget"; equal = @{ a = $ab[0].Trim(); b = $ab[1].Trim(); budget = $Budget; basis = $Basis; pop_budget = $PopBudget };
 		seeds = $(if ($Seeds) { $Seeds } else { "1-20" }) }
 	$p = Join-Path $RawDir "spec.json"
 	$obj | ConvertTo-Json -Depth 6 | Set-Content -Encoding utf8 $p

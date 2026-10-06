@@ -121,6 +121,48 @@ func _check_equal() -> void:
 	var cc := SPEC.side_cost(cs).x
 	var cr := SPEC.side_cost(SPEC.normalize_side(cpair[1], errs)).x
 	_check(absf(float(cc) / float(cr) - 1.0) <= 0.1, "caster entry cost %d vs %d" % [cc, cr])
+	_check_equal_pop()
+
+
+## Equal-pop and both-budget modes (docs/plan/unit-lab.md): pop-3 cavalry vs pop-1 line units.
+func _check_equal_pop() -> void:
+	var errs: Array = []
+	_check(SPEC.default_pop_budget(720) == 8, "720 crystals = 8 pop (%d)" % SPEC.default_pop_budget(720))
+	# equal pop: 3 Rimehorn Riders (9 pop) vs 9 Flame Guards (9 pop), not the cost-equal 3 vs 8
+	var pp := SPEC.equal_cost("rimehorn_rider", "flame_guard", 720, errs, "pop")
+	var pa := SPEC.side_cost(SPEC.normalize_side(pp[0], errs))
+	var pb := SPEC.side_cost(SPEC.normalize_side(pp[1], errs))
+	_check(errs.is_empty() and pa.y == pb.y, "equal pop rider / guard: pop %d vs %d (crystals %d vs %d)" % [pa.y, pb.y,
+			pa.x, pb.x])
+	_check(pa.y >= 6 and pa.y <= 12, "equal pop near the 8 pop budget (%d)" % pa.y)
+	# equal pop with a caster entry (1 caster pop 2 + line) vs a pop-1 unit
+	var cp := SPEC.equal_cost("gloom_deacon+shade", "flame_guard", 720, errs, "pop", 10)
+	var ca := SPEC.side_cost(SPEC.normalize_side(cp[0], errs))
+	var cb := SPEC.side_cost(SPEC.normalize_side(cp[1], errs))
+	_check(ca.y == 10 and cb.y == 10, "caster entry at 10 pop: %d vs %d" % [ca.y, cb.y])
+	# both budgets: Scorchlings (50 crystals, pop 1) are pop-bound: 8 of them, not the 14 of the cost mode
+	var sb := SPEC.equal_cost("scorchling", "flame_guard", 720, errs, "both")
+	var sa := SPEC.side_cost(SPEC.normalize_side(sb[0], errs))
+	var sg := SPEC.side_cost(SPEC.normalize_side(sb[1], errs))
+	_check(sa.y == 8 and sg.y == 8 and sa.x < sg.x, "both budgets: %d scorchlings (%d cr) vs %d guards (%d cr)" % [sa.y,
+			sa.x, sg.y, sg.x])
+	var sc := SPEC.equal_cost("scorchling", "flame_guard", 720, errs)
+	_check(SPEC.side_cost(SPEC.normalize_side(sc[0], errs)).y >= 13, "cost mode still gives the Scorchling swarm")
+	# both budgets, crystal-bound side: Pyre Adepts (130, pop 1) vs Flame Guards: crystals bind for the adepts
+	var ab := SPEC.equal_cost("pyre_adept", "flame_guard", 720, errs, "both")
+	var aa := SPEC.side_cost(SPEC.normalize_side(ab[0], errs))
+	_check(aa.x <= 800 and aa.y <= 6, "both budgets: pyre adepts are crystal-bound (%d cr, %d pop)" % [aa.x, aa.y])
+	# matrix + text keys
+	var m := SPEC.normalize({"matrix": {"ids": ["flame_guard", "rimehorn_rider"], "basis": "pop"}}, errs)
+	_check(String(m["matrix"]["basis"]) == "pop" and int(m["matrix"]["pop_budget"]) == 8, "matrix basis pop, pop 8")
+	var arm := SPEC.matrix_arm(m["matrix"], "rimehorn_rider", "flame_guard", errs)
+	_check(SPEC.side_cost(arm["a"]).y == SPEC.side_cost(arm["b"]).y, "matrix arm at equal pop")
+	var t := SPEC.parse_text("rimehorn_rider ~ flame_guard @720 ; basis=pop pop=9 seeds=2", errs)
+	_check(errs.is_empty() and SPEC.side_cost(t["arms"][0]["a"]).y == 9 and SPEC.side_cost(t["arms"][0]["b"]).y == 9,
+			"text equal pop=9 (errors: %s)" % str(errs))
+	var bad: Array = []
+	SPEC.normalize({"matrix": {"ids": ["flame_guard"], "basis": "crystals"}}, bad)
+	_check(not bad.is_empty(), "an unknown basis is reported")
 
 
 func _check_stats() -> void:
