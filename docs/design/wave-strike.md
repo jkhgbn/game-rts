@@ -6,13 +6,17 @@ buys units that walk down a lane in timed waves and fight on their own; income g
 the match is won. This spec turns that *genre* into a Four Wizards mode. Nothing is copied from the original map: no names,
 no lines, no art, no layout, no numbers. Working title **Wave Strike** (in-game name can change; "Strike" alone is fine).
 
-Status: DESIGN ONLY (game-designer). No code, data or tests yet. Numbers are first guesses, tuned by the labs (section 9).
+Status: **M1 BUILT (2026-10-06)**, see section 13 "M1 as built". Q1-Q7 answered with the recommendations (table below).
+M2 / M3 not started. Numbers are first guesses, tuned by the labs (section 9).
 Short names used below: **horn** = one wave tick; **card** = one bought unit line in a player's roster; **Bastion** = a
 team's core building; **lane** = the walkable path between the two Bastions.
 
 ---
 
 ## 0. Decisions for JS (recommendation first; the rest of the spec assumes the recommendations)
+
+**Answered 2026-10-06 (M1 start): every question takes its "Recommended" column** (Q1 second mode in this project,
+Q2 shared 40 s horn, Q3 leashed avatar, Q4 one kingdom per player, Q5 split banks, Q6 full vision, Q7 30:00 cap).
 
 | # | Question | Recommended | Other options |
 |---|---|---|---|
@@ -591,3 +595,50 @@ New text: card tooltips are generated from `UnitGuideData` (no new JSON blocks: 
 **Why the recommendation wins**: it is the genre JS asked for (buy, send, watch waves fight, win by the base), built
 from parts that already exist and are balanced and tested, so most effort goes to rules, UI and bots; it keeps the
 wizard and kingdom identity; it is original by construction; and its perf and lab work pays back into the main game.
+
+
+---
+
+## 13. M1 as built (2026-10-06)
+
+**Plays**: main menu > **Wave Strike** (lobby: Ashwind Reach preview, your kingdom Fire / Shadow, bot Steward / Hammer,
+Start). 1v1 vs the WaveBot on Ashwind Reach; F9 / Restart keep the choices.
+
+| M1 item | Built | Files |
+|---|---|---|
+| Map "Ashwind Reach" | `.map` hand-written, World Forge `map` PASS quality 100, **Map Lab WARN 97 / 0 FAIL** (14 N3 WARNs = navmesh on top of the forest blocks), spacing L3 PASS, lobby preview (mapsheet). **192 x 96 m, lane 40 m wide, 144 m gate to gate** (not 280 x 100: Map Lab R5 caps a map side at 192 m; a longer lane needs a bend, M2) | `data/maps/ashwind_reach.map`, `_layout.tres`, `previews/ashwind_reach.png`, catalog entry `mode: "wave_strike"` |
+| `LaneMarch` | waypoints (5 m / past-the-plane advance), lateral offsets (+-8 m), units-first auto-aggro + the Bastion at the lane's end, leash 12 m melee / 6 m ranged (1.5 s walk back, no aggro), no-stall (2 s idle = re-issue, 4 s stuck = 2 m side-step), `stall_events` counter (10 s) | `scripts/units/lane_march.gd` |
+| `WaveStrikeRules` | every M1 number of section 6 (+ ranks, Last Horns armour) | `scripts/world/wave_strike/wave_strike_rules.gd`, `data/wave_strike/rules_default.tres` |
+| Card prices from data | `WaveCardTable`: cards per kingdom + `mode_mult` (default 1.0) + `price_override`; re-price from the Unit Lab here, never in `data/units/` | `wave_card_table.gd`, `data/wave_strike/card_prices.tres` |
+| Level | `WaveStrikeLevel` on **main.gd** (the "slim base" fallback of section 8: Skirmish / LayoutLevel would need workers, nodes, taverns, trade, map fill, tiers and the "no living building" defeat switched off); reads the MapLayout (keep = Bastion, start, `slot sub=gate`, `path lane_a`); forest blocks drawn as trees; full vision | `wave_strike_level.gd`, `scenes/wave_strike.tscn` |
+| Horn director | first horn 0:30, every 40 s, 30 s from 24:00 (Last Horns, Bastion armour -25 %), income then spawns, buys join the next horn, `horn` / `horn_soon` signals | `wave_director.gd` |
+| Lane spawners | 8 across the lane, rows behind, 0.15 s stagger, melee -> ranged -> casters | `lane_spawner.gd` |
+| Bank and income | start 400, +100 per horn, Coffers 8 levels (+15, 150-500), bounty 12 % (x1.5 in the killer's own third), underdog tithe (+8 % per 15 % HP gap, max 24 %) | `wave_bank.gd` |
+| Roster | cards, supply cap 24 / 40 / 56, buy, sell (100 % within 5 s, else 50 % with the pop locked until the horn), Stronghold 250 / 45 s / horn 6, **Citadel 450 / 60 s / horn 14**, **card ranks** (Drilled +60 % / Elite +100 % per copy: level 2 / 3 + "+" modifiers) | `muster_roster.gd` |
+| Bastion | the kingdom keep at Citadel look and attack, HP x 2.5 (Fire / Shadow 8 750), armour 3; destroyed = defeat; 30:00 = higher HP % (then value killed) | `bastion.gd` |
+| Buy panel + HUD | top strip (both Bastion bars, "Horn N in m:ss", clock, Last Horns), bank line, Muster panel (4 cards, Coffer, Stronghold / Citadel, next-wave size). Keys **Z X C V** cards, **Ctrl+** = rank up, **Alt+** / right-click = sell, **B** Coffer, **N** next tier (the buy keys win over the unit keys X / C: lane units take no orders; attack-move with A) | `scripts/ui/wave_strike/wave_strike_hud.gd` |
+| Menu | main menu button + lobby page, `MenuFlow.start_wave_strike` | `wave_strike_lobby.gd`, `main_menu.gd`, `menu_flow.gd` |
+| Wizard | **built (cheap)**: the kingdom wizard as a leashed avatar (cannot cross the Ward Line x = 0), +40 XP per horn, respawn 15 s + 2 s x level; bot wizards guard 24 m in front of their gate, autocast and learn spells. Not built: siege x0.75, shop rule, wizard kill bounty (M2) | `wave_strike_level.gd` |
+| Bot | `WaveBot`, 2 personalities (steward: Coffers to 6 first, Stronghold horn 6, Citadel 14; hammer: cards first, 2 late Coffers, Stronghold 9, Citadel 17), fixed weight table per kingdom, >= 40 % melee pop, ranks the biggest line with leftovers, decides 3 s before each horn; labs jitter the weights +-20 % by seed | `scripts/ai/wave_bot.gd` |
+
+Lane units are not commandable through a `commandable = false` copy of their UnitType (no `Unit.lane_owned` flag was
+needed, so no Unit contract change).
+
+**Not in M1 (M2)**: towers / tower slots (the slots are in the map), barricades, Relay Shrine, mercenaries, champion card,
+titans, armoury, T3 cards, Ice / Nature cards, Rally pulses, wizard siege rule and shop, the lane strip / enemy roster
+panels, ScoreKeeper weights, end-screen WS tab, horn sounds, Bastion dressing, team modes, map gate `-Mode wave_strike`.
+
+**M1 tests and lab numbers (2026-10-06)**
+- `tests/test_ws_director.gd` PASS: horn 1 at 30 s / every 40 s / +30 s after 24:00, income 100 (+15 per Coffer, Coffer
+  prices), underdog tithe steps and cap, buys join the next horn, spawns = roster, cancel (100 %) / late sell (50 %, pop
+  locked to the horn), cap 24 / 40, T2 gate, Stronghold horn 6 / 45 s, ranks (prices, Elite gate), spawn order, bot buys.
+- `tests/test_ws_match.gd` (headless bot vs bot, sim mode): PASS, 0 script errors, 0 stalls; a 30-min match = ~6 min wall.
+- `tests/test_ws_perf.gd` (headless, 200 lane units, models on, PC shared with 4 Balance Lab runs): march avg 11.4 ms,
+  p95 14.7 ms; clash avg 10.4 ms, p95 12.8 ms. PASS (<= 16.7 ms). Same order as the 13 ms / 200 units baseline: the
+  per-unit O(n^2) target scan (`Unit._find_nearest_enemy`) is the cost; spawning 200 units on one frame aligned their
+  0.25 s scans (p95 50 ms) -> the 0.15 s spawn stagger matters. 300+ units need 7.8 measure 2 (LaneGrid / think stagger).
+- Batch `tools\wave_strike\run_ws_batch.ps1 -Games 20` (hammer vs hammer, Fire west on even seeds):
+  **seat split west 9 / east 11** (fair), **kingdom split Fire 19 / Shadow 1** (Fire's cards are too strong for their
+  price: the first `mode_mult` pass should raise Fire / lower Shadow), 18 Bastion kills + 2 on time, **median 27.9 min**
+  (above the 12-25 target: ends come in Last Horns; knobs: Bastion HP mult, Citadel / rank timing), peak 206 lane units.
+  Scorecard: `docs/tools/wave_strike/batch_m1_hammer/summary.md`. Shots: `docs/tools/wave_strike/shots/`.

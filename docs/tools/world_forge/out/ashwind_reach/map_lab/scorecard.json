@@ -1,0 +1,492 @@
+{
+	"checks": [
+		{
+			"group": "nav",
+			"hint": "",
+			"id": "N1",
+			"improve": "",
+			"name": "Navmesh baked",
+			"rule": "polygons > 0; main walkable area shown",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "134 polygons, main area 6644 m² (18 % of the 192 m map), ground y 0.50",
+			"weight": 1.0
+		},
+		{
+			"group": "nav",
+			"hint": "open the blocked spot or move it",
+			"id": "N2",
+			"improve": "",
+			"name": "Every spot reachable",
+			"rule": "a path from the first keep ends within 1.0 m of each spot; spot <= 6 m from the navmesh",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 2,
+			"value": "2 / 2 clean",
+			"weight": 2.0
+		},
+		{
+			"group": "nav",
+			"hint": "close or open the pocket",
+			"id": "N3",
+			"improve": "",
+			"name": "No navmesh islands",
+			"rule": "ground-level components other than the main one < 2 m²",
+			"score": 0.3925,
+			"status": "WARN",
+			"total": 16,
+			"value": "2 / 16 clean (0 FAIL, 14 WARN), 3 info",
+			"weight": 1.0
+		},
+		{
+			"group": "mirror",
+			"hint": "place the missing twin",
+			"id": "M1",
+			"improve": "",
+			"name": "Every live spot has its mirror twins",
+			"rule": "same kind within 1.0 m of each symmetry image",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 2,
+			"value": "2 / 2 clean",
+			"weight": 2.0
+		},
+		{
+			"group": "mirror",
+			"hint": "",
+			"id": "M4",
+			"improve": "",
+			"name": "Spots meet the navmesh at mirrored points",
+			"rule": "each spot's navmesh point vs its twin's, mirrored back: <= 1 m",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 2,
+			"value": "2 / 2 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "mirror",
+			"hint": "fix the constant so the twin matches",
+			"id": "M2",
+			"improve": "",
+			"name": "Spot constants mirror",
+			"rule": "every position constant of preview_level.gd: all entries have a twin under each symmetry (+-0.05 m) with the same kind / sizes / timings, or the list is one-sided (mirrored in code)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 0,
+			"value": "0 / 0 clean",
+			"weight": 1.5
+		},
+		{
+			"group": "mirror",
+			"hint": "mirror the collider",
+			"id": "M3",
+			"improve": "",
+			"name": "Navmesh mirrors itself",
+			"rule": "cells walkable on one side only (1-cell edge noise ignored): WARN > 0.3 %, FAIL > 2 %",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "0.03 % (36 cells)",
+			"weight": 1.5
+		},
+		{
+			"group": "fair",
+			"hint": "find the unmirrored obstacle on the longer route",
+			"id": "F1",
+			"improve": "",
+			"name": "Map geometry: path pairs match their mirror twins",
+			"rule": "octile shortest path on the 0.5 m navmesh grid, every spot pair vs its mirrored pair: WARN > 2 % (and > 0.75 m), FAIL > 5 % (and > 2 m)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "1 / 1 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
+			"weight": 3.0
+		},
+		{
+			"group": "fair",
+			"hint": "engine path noise: a finer bake (smaller cell / edge_max_length) or path post-processing evens it",
+			"id": "F2",
+			"improve": "",
+			"name": "Unit paths (NavigationServer): pairs match their twins",
+			"rule": "NavigationServer3D.map_get_path length, every spot pair vs its mirrored pair: INFO > 2 % (and > 0.75 m), WARN > 5 % (and > 2 m); the polygon A* is not mirrored, so this is how much the engine's path choice (not the map) favours a side",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "1 / 1 pairs within 2 % (0 FAIL, 0 WARN, 0 info)",
+			"weight": 1.0
+		},
+		{
+			"group": "dist",
+			"hint": "",
+			"id": "D1",
+			"improve": "",
+			"name": "Keep to nearest camp / point / expansion... equal per seat",
+			"rule": "per kind, the seats' nearest path lengths differ <= 2 %",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "1 / 1 clean",
+			"weight": 1.5
+		},
+		{
+			"group": "dist",
+			"hint": "",
+			"id": "A1",
+			"improve": "",
+			"name": "Ally keeps (team maps)",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "no side has 2 seats (1v1): nothing to check",
+			"weight": 0.0
+		},
+		{
+			"group": "dist",
+			"hint": "",
+			"id": "T1",
+			"improve": "",
+			"name": "Travel times per seat (worker / soldier / cavalry / caravan)",
+			"rule": "path length / UnitType.move_speed with fords and steps at -35 %; seats' times per destination within 3 s (and 3 %)",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "1 / 1 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "choke",
+			"hint": "",
+			"id": "C1",
+			"improve": "",
+			"name": "Crossing widths",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "no river on this map",
+			"weight": 0.0
+		},
+		{
+			"group": "choke",
+			"hint": "",
+			"id": "C2",
+			"improve": "",
+			"name": "Main routes: narrowest corridor matches the twin",
+			"rule": "keep -> crown / enemy keep / nearest expansion: the narrowest navmesh width along the path differs from the mirrored route's by <= 1.0 m",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 1,
+			"value": "1 / 1 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "dist",
+			"hint": "",
+			"id": "R1",
+			"improve": "",
+			"name": "Targets (rules)",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "no `rules` targets in the .map (add `rules tempo=... keep_enemy=a..b natural=a..b`)",
+			"weight": 0.0
+		},
+		{
+			"group": "dist",
+			"hint": "",
+			"id": "R2",
+			"improve": "",
+			"name": "Content per seat",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "no `rules` line: content per seat not judged",
+			"weight": 0.0
+		},
+		{
+			"group": "dist",
+			"hint": "",
+			"id": "R3",
+			"improve": "",
+			"name": "Contest per seat",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "no `rules` line: contest not judged",
+			"weight": 0.0
+		},
+		{
+			"group": "choke",
+			"hint": "",
+			"id": "R4",
+			"improve": "",
+			"name": "Clearances (roads, crossings, spacing)",
+			"rule": "points >= 7 m and camps >= 9 m from road centre lines; no spot within 8 m of a crossing (ford nests excepted); spots >= 3 m, structures >= 6 m apart, one den + one lodge per image",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 2,
+			"value": "2 / 2 clean",
+			"weight": 1.0
+		},
+		{
+			"group": "nav",
+			"hint": "",
+			"id": "R5",
+			"improve": "",
+			"name": "Engine limits",
+			"rule": "one half width, <= 2 arms, <= 4 circles, <= 16 segments, <= 192 m, <= 140 spots, raster <= 2.5x CH",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 7,
+			"value": "0 half widths ok, 0 arms ok, 0 circles ok, 0 segments ok, 192 x 96 m ok, 2 spots ok, 1.28x ok",
+			"weight": 1.5
+		},
+		{
+			"group": "nav",
+			"hint": "",
+			"id": "R6",
+			"improve": "",
+			"name": "Mission marks / triggers / paths reachable",
+			"rule": "every mark, trigger centre and path point reachable from the player's keep; spawns > 20 m from it",
+			"score": 1.0,
+			"status": "PASS",
+			"total": 5,
+			"value": "5 / 5 clean",
+			"weight": 1.5
+		},
+		{
+			"group": "info",
+			"hint": "",
+			"id": "H1",
+			"improve": "",
+			"name": "Heat map (sum of all shortest paths)",
+			"rule": "",
+			"score": -1.0,
+			"status": "INFO",
+			"total": 0,
+			"value": "heatmap.png written (768 x 768 px, 4 px per metre; grey navmesh, blue islands, yellow -> red path use, dots = spots)",
+			"weight": 0.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 6,
+		"PASS": 14,
+		"WARN": 1
+	},
+	"finding_counts": {
+		"FAIL": 0,
+		"INFO": 5,
+		"WARN": 14
+	},
+	"findings": [
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1250.6 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 1 at (-71.9, -33.9)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1250.6 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 2 at (-23.9, -33.9)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1250.6 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 3 at (24.1, -33.9)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1250.6 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 4 at (72.1, -33.9)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "184.1 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 5 at (-92.9, 0.1)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "25.3 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 7 at (-39.9, -17.4)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "25.3 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 8 at (36.1, -17.4)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "184.1 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 9 at (93.1, 0.1)"
+		},
+		{
+			"check": "N3",
+			"fix": "",
+			"sev": "INFO",
+			"what": "22.6 m² inside the footprint of keep_t0 (unreachable by design)",
+			"where": "island 12 at (-83.9, 0.1)"
+		},
+		{
+			"check": "N3",
+			"fix": "",
+			"sev": "INFO",
+			"what": "22.6 m² inside the footprint of keep_t1 (unreachable by design)",
+			"where": "island 13 at (84.1, 0.1)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "25.3 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 14 at (-35.9, 17.6)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "25.3 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 15 at (40.1, 17.6)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1238.9 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 16 at (-71.9, 34.0)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1238.9 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 17 at (-23.9, 34.0)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1238.9 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 18 at (24.1, 34.0)"
+		},
+		{
+			"check": "N3",
+			"fix": "a pocket closed by colliders: widen its gap or fill it (trees / rocks)",
+			"sev": "WARN",
+			"what": "1238.9 m² of ground-level navmesh cut off from the main area (y 0.50)",
+			"where": "island 19 at (72.1, 34.0)"
+		},
+		{
+			"check": "N3",
+			"fix": "",
+			"sev": "INFO",
+			"what": "3 islands on top of colliders (446 m², more than 0.3 m above / below the ground navmesh): harmless",
+			"where": "raised islands"
+		},
+		{
+			"check": "M3",
+			"fix": "a collider (tree, rock, landmark, building) without its mirror near (82.0, -2.0) or (-82.0, 2.0)",
+			"sev": "INFO",
+			"what": "12 cells (0.8 m²) walkable on one side only (half_turn)",
+			"where": "4 m tile at (82.0, -2.0)"
+		},
+		{
+			"check": "M3",
+			"fix": "a collider (tree, rock, landmark, building) without its mirror near (-82.0, 2.0) or (82.0, -2.0)",
+			"sev": "INFO",
+			"what": "12 cells (0.8 m²) walkable on one side only (half_turn)",
+			"where": "4 m tile at (-82.0, 2.0)"
+		}
+	],
+	"improve_next": [
+		{
+			"rank": 11.215,
+			"source": "N3 2 / 16 clean (0 FAIL, 14 WARN), 3 info",
+			"status": "WARN",
+			"text": "island 1 at (-71.9, -33.9): 1250.6 m² of ground-level navmesh cut off from the main area (y 0.50) -> a pocket closed by colliders: widen its gap or fill it (trees / rocks) (close or open the pocket)",
+			"title": "No navmesh islands"
+		},
+		{
+			"rank": 0.0,
+			"source": "H1",
+			"status": "IDEA",
+			"text": "heatmap.png shows where the shortest paths crowd: the red metres are the likely fights",
+			"title": "Open the heat map"
+		},
+		{
+			"rank": 0.0,
+			"source": "lab idea",
+			"status": "IDEA",
+			"text": "v2: feed Bot Lab / Replay Lab unit deaths into the heat map",
+			"title": "Combat heat from bot games"
+		}
+	],
+	"lab_version": "1.0",
+	"notes": [
+		"Octile grid shortest paths (0.5 m, 2 sources) 0.36 s.",
+		"Map Lab v2 (map-production.md 2.5): layout ashwind_reach, 2 seats, rules none, 0 fixable findings.",
+		"Navmesh raster 0.95 s (134 polygons, 589824 cells of 0.25 m), spot / mirror checks 0.62 s, 1 paths 0.00 s.",
+		"Map Ashwind Reach, scene res://docs/tools/world_forge/out/ashwind_reach/preview.tscn, sim mode off; level load + navmesh bake 0.2 s (14 frames), lab 2.9 s. Spec: docs/design/wave-strike.md."
+	],
+	"previous_quality": -1.0,
+	"quality": 96.6,
+	"result": "WARN",
+	"run": "world_forge_ashwind_reach",
+	"scanned": {
+		"spots": 2
+	},
+	"seconds": 3.15,
+	"started": "2026-10-06 06:40",
+	"tables": [
+		{
+			"markdown": "| Spot | Kind | Position | On navmesh at | Twin | Twin's point, mirrored back | Gap |\n|---|---|---|---|---|---|---|\n| keep_t0 | keep | (-84.0, 0.0) | (-82.4, -3.4) | keep_t1 | (-81.9, -3.6) | 0.6 |\n| keep_t1 | keep | (84.0, 0.0) | (81.9, 3.6) | keep_t0 | (82.4, 3.4) | 0.6 |\n",
+			"title": "Spot navmesh points (half_turn)"
+		},
+		{
+			"markdown": "| Constant | Entries | Result |\n|---|---|---|\n",
+			"title": "Spot constants (0)"
+		},
+		{
+			"markdown": "| From keep | nearest expansion | nearest point | nearest camp | nearest lair | nearest tavern | nearest post | nearest peddler | nearest cache | nearest crown | enemy keep |\n|---|---|---|---|---|---|---|---|---|---|---|\n| west | - | - | - | - | - | - | - | - | - | 164.4 |\n| east | - | - | - | - | - | - | - | - | - | 164.4 |\n",
+			"title": "Keep to nearest spot by kind (navmesh path, m)"
+		},
+		{
+			"markdown": "| Spot | Kind | From keep_t0 | Twin | From keep_t1 | Diff |\n|---|---|---|---|---|---|\n| keep_t1 | keep | 164.4 | keep_t0 | 164.4 | +0.0 % |\n",
+			"title": "Every spot from the keeps (half_turn)"
+		},
+		{
+			"markdown": "| Seat | Destination | Path (m) | Ford (m) | worker (4.6 m/s) | soldier (5.0 m/s) | cavalry (7.5 m/s) | caravan (4.0 m/s) |\n|---|---|---|---|---|---|---|---|\n| west | enemy keep (keep_t1) | 164.4 | 0.0 | 0:36 | 0:33 | 0:22 | 0:41 |\n| east | enemy keep (keep_t0) | 164.4 | 0.0 | 0:36 | 0:33 | 0:22 | 0:41 |\n",
+			"title": "Travel times per seat (m:ss from the keep; terrain speed costs not included)"
+		},
+		{
+			"markdown": "| Route | Length | Narrowest (navmesh m) | At | Chokes < 3 m |\n|---|---|---|---|---|\n| keep_t0 -> keep_t1 | 164.4 | 28.8 | (-37.4, -1.5) | - |\n",
+			"title": "Main routes: narrowest corridors (navmesh width; real gap ~ +1.0 m)"
+		},
+		{
+			"markdown": "| # | Where (x, z) | Shortest paths through this metre | Share |\n|---|---|---|---|\n| 1 | (20.5, 1.5) | 1 | 100 % |\n| 2 | (28.5, 1.5) | 1 | 100 % |\n| 3 | (36.5, 1.5) | 1 | 100 % |\n| 4 | (-0.5, 0.5) | 1 | 100 % |\n| 5 | (7.5, 0.5) | 1 | 100 % |\n| 6 | (62.5, 2.5) | 1 | 100 % |\n| 7 | (70.5, 3.5) | 1 | 100 % |\n| 8 | (78.5, 3.5) | 1 | 100 % |\n| 9 | (44.5, 2.5) | 1 | 100 % |\n| 10 | (52.5, 2.5) | 1 | 100 % |\n",
+			"title": "Hottest metres (every spot-pair shortest path, 1 paths)"
+		}
+	]
+}

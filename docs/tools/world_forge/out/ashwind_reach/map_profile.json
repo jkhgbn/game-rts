@@ -1,0 +1,22 @@
+{
+	"half_size": 96.0,
+	"name": "ashwind_reach",
+	"scene": "res://docs/tools/world_forge/out/ashwind_reach/preview.tscn",
+	"seats": [
+		{
+			"name": "west",
+			"side": 0,
+			"team": 0
+		},
+		{
+			"name": "east",
+			"side": 1,
+			"team": 1
+		}
+	],
+	"spec": "docs/design/wave-strike.md",
+	"symmetries": [
+		"half_turn"
+	],
+	"title": "Ashwind Reach"
+}

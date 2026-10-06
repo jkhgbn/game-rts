@@ -1,0 +1,339 @@
+[gd_resource type="Resource" script_class="MapLayout" format=3]
+
+[ext_resource type="Script" path="res://data/maps/map_layout.gd" id="1_nbwfh"]
+
+[resource]
+script = ExtResource("1_nbwfh")
+id = &"ashwind_reach"
+title = "Ashwind Reach"
+size = 192.0
+symmetry = "rot180"
+seats = Array[Dictionary]([{
+"frame": Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0),
+"frame_name": "identity",
+"name": "west",
+"side": 0,
+"team": 0
+}, {
+"frame": Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0),
+"frame_name": "rot180",
+"name": "east",
+"side": 1,
+"team": 1
+}])
+spots = Array[Dictionary]([{
+"id": "bastion",
+"image": "identity",
+"kind": "keep",
+"pos": Vector3(-84, 0, 0),
+"props": {
+"footprint": 6.0
+},
+"sub": "",
+"team": 0,
+"twin_of": "bastion"
+}, {
+"id": "bastion_twin",
+"image": "rot180",
+"kind": "keep",
+"pos": Vector3(84, 0, 0),
+"props": {
+"footprint": 6.0
+},
+"sub": "",
+"team": 1,
+"twin_of": "bastion"
+}, {
+"id": "hub",
+"image": "identity",
+"kind": "start",
+"pos": Vector3(-76, 0, -7),
+"props": {},
+"sub": "",
+"team": 0,
+"twin_of": "hub"
+}, {
+"id": "hub_twin",
+"image": "rot180",
+"kind": "start",
+"pos": Vector3(76, 0, 7),
+"props": {},
+"sub": "",
+"team": 1,
+"twin_of": "hub"
+}, {
+"id": "gate",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-71, 0, 0),
+"props": {},
+"sub": "gate",
+"team": -1,
+"twin_of": "gate"
+}, {
+"id": "gate_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(71, 0, 0),
+"props": {},
+"sub": "gate",
+"team": -1,
+"twin_of": "gate"
+}, {
+"id": "ring1_n",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-64, 0, -12),
+"props": {},
+"sub": "tower_ring1",
+"team": -1,
+"twin_of": "ring1_n"
+}, {
+"id": "ring1_n_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(64, 0, 12),
+"props": {},
+"sub": "tower_ring1",
+"team": -1,
+"twin_of": "ring1_n"
+}, {
+"id": "ring1_s",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-64, 0, 12),
+"props": {},
+"sub": "tower_ring1",
+"team": -1,
+"twin_of": "ring1_s"
+}, {
+"id": "ring1_s_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(64, 0, -12),
+"props": {},
+"sub": "tower_ring1",
+"team": -1,
+"twin_of": "ring1_s"
+}, {
+"id": "ring2_n",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-46, 0, -11),
+"props": {},
+"sub": "tower_ring2",
+"team": -1,
+"twin_of": "ring2_n"
+}, {
+"id": "ring2_n_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(46, 0, 11),
+"props": {},
+"sub": "tower_ring2",
+"team": -1,
+"twin_of": "ring2_n"
+}, {
+"id": "ring2_s",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-46, 0, 11),
+"props": {},
+"sub": "tower_ring2",
+"team": -1,
+"twin_of": "ring2_s"
+}, {
+"id": "ring2_s_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(46, 0, -11),
+"props": {},
+"sub": "tower_ring2",
+"team": -1,
+"twin_of": "ring2_s"
+}, {
+"id": "ring3_n",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-24, 0, -13),
+"props": {},
+"sub": "tower_ring3",
+"team": -1,
+"twin_of": "ring3_n"
+}, {
+"id": "ring3_n_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(24, 0, 13),
+"props": {},
+"sub": "tower_ring3",
+"team": -1,
+"twin_of": "ring3_n"
+}, {
+"id": "ring3_s",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-24, 0, 13),
+"props": {},
+"sub": "tower_ring3",
+"team": -1,
+"twin_of": "ring3_s"
+}, {
+"id": "ring3_s_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(24, 0, -13),
+"props": {},
+"sub": "tower_ring3",
+"team": -1,
+"twin_of": "ring3_s"
+}, {
+"id": "ward",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-4, 0, 0),
+"props": {},
+"sub": "ward",
+"team": -1,
+"twin_of": "ward"
+}, {
+"id": "ward_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(4, 0, 0),
+"props": {},
+"sub": "ward",
+"team": -1,
+"twin_of": "ward"
+}])
+roads = Array[Dictionary]([{
+"id": "lane",
+"poly": PackedVector3Array(-71, 0, 0, 0, 0, 0),
+"width": 8.0
+}, {
+"id": "lane_twin",
+"poly": PackedVector3Array(71, 0, 0, 0, 0, 0),
+"width": 8.0
+}])
+zones = Array[Dictionary]([{
+"biome": "ash",
+"center": Vector3(-82, 0, 0),
+"id": "plaza",
+"kind": "circle",
+"r0": 0.0,
+"r1": 12.0
+}, {
+"biome": "ash",
+"center": Vector3(82, 0, 0),
+"id": "plaza_twin",
+"kind": "circle",
+"r0": 0.0,
+"r1": 12.0
+}])
+blocks = Array[Dictionary]([{
+"center": Vector3(-72, 0, -34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_n1",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(72, 0, 34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_n1_twin",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(-24, 0, -34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_n2",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(24, 0, 34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_n2_twin",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(-72, 0, 34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_s1",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(72, 0, -34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_s1_twin",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(-24, 0, 34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_s2",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(24, 0, -34),
+"half": Vector3(24, 1.5, 14),
+"height": 4.0,
+"id": "wood_s2_twin",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(-40, 0, -17.5),
+"half": Vector3(4, 1.5, 2.5),
+"height": 3.0,
+"id": "rock_n",
+"kind": "rock",
+"yaw": 0.0
+}, {
+"center": Vector3(40, 0, 17.5),
+"half": Vector3(4, 1.5, 2.5),
+"height": 3.0,
+"id": "rock_n_twin",
+"kind": "rock",
+"yaw": 0.0
+}, {
+"center": Vector3(-36, 0, 17.5),
+"half": Vector3(4, 1.5, 2.5),
+"height": 3.0,
+"id": "rock_s",
+"kind": "rock",
+"yaw": 0.0
+}, {
+"center": Vector3(36, 0, -17.5),
+"half": Vector3(4, 1.5, 2.5),
+"height": 3.0,
+"id": "rock_s_twin",
+"kind": "rock",
+"yaw": 0.0
+}, {
+"center": Vector3(-93, 0, 0),
+"half": Vector3(3, 1.5, 20),
+"height": 5.0,
+"id": "back",
+"kind": "cliff",
+"yaw": 0.0
+}, {
+"center": Vector3(93, 0, 0),
+"half": Vector3(3, 1.5, 20),
+"height": 5.0,
+"id": "back_twin",
+"kind": "cliff",
+"yaw": 0.0
+}])
+source = "res://data/maps/ashwind_reach.map"
+source_hash = "f3e95b88a4d2"
+size_x = 192.0
+size_z = 96.0
+biome = "autumn"
+paths = {
+"lane_a": PackedVector3Array(-71, 0, 0, -36, 0, 0, 0, 0, 0, 36, 0, 0, 71, 0, 0)
+}

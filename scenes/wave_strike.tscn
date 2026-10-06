@@ -1,0 +1,29 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/wave_strike/wave_strike_level.gd" id="1_ws"]
+[ext_resource type="Script" path="res://art/vfx/spell_vfx.gd" id="3_vfx"]
+[ext_resource type="Script" path="res://art/vfx/combat_vfx.gd" id="4_combat"]
+[ext_resource type="Script" path="res://scripts/audio/game_audio.gd" id="6_audio"]
+[ext_resource type="PackedScene" path="res://art/environment/horizon/horizon.tscn" id="10_horizon"]
+[ext_resource type="Script" path="res://art/vfx/unit_vfx.gd" id="13_unit"]
+[ext_resource type="Script" path="res://art/vfx/cavalry_vfx.gd" id="14_cav"]
+
+[node name="WaveStrike" type="Node3D"]
+script = ExtResource("1_ws")
+
+[node name="SpellVfx" type="Node3D" parent="."]
+script = ExtResource("3_vfx")
+
+[node name="CombatVfx" type="Node3D" parent="."]
+script = ExtResource("4_combat")
+
+[node name="UnitVfx" type="Node3D" parent="."]
+script = ExtResource("13_unit")
+
+[node name="CavalryVfx" type="Node3D" parent="."]
+script = ExtResource("14_cav")
+
+[node name="GameAudio" type="Node3D" parent="."]
+script = ExtResource("6_audio")
+
+[node name="Horizon" parent="." instance=ExtResource("10_horizon")]

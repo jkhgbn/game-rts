@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WaveCardTable" format=3]
+
+[ext_resource type="Script" path="res://scripts/world/wave_strike/wave_card_table.gd" id="1_cards"]
+
+[resource]
+script = ExtResource("1_cards")
+cards = {
+&"fire": [&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"],
+&"shadow": [&"shade", &"grave_hound", &"bleakbow", &"hollow_oathsworn"]
+}
+mode_mult = {
+&"blaze_rider": 1.0,
+&"bleakbow": 1.0,
+&"cinder_arbalest": 1.0,
+&"ember_archer": 1.0,
+&"flame_guard": 1.0,
+&"grave_hound": 1.0,
+&"hollow_oathsworn": 1.0,
+&"shade": 1.0
+}
+price_override = {}

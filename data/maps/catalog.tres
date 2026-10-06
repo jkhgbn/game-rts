@@ -85,4 +85,18 @@ maps = Array[Dictionary]([{
 "tags": ["ridge", "lanes", "hand-made"],
 "ready": false,
 "note": "Layout in the old v1 format (no size_x / size_z): rebuild it with `run_world_forge.ps1 map gloamspine_divide`, then gate it."
+}, {
+"id": &"ashwind_reach",
+"title": "Ashwind Reach",
+"scene": "res://scenes/wave_strike.tscn",
+"layout": "",
+"size": Vector2(192, 96),
+"seats": 2,
+"biome": "autumn",
+"kingdom": "neutral",
+"preview": "res://data/maps/previews/ashwind_reach.png",
+"hook": "Wave Strike: one 40 m lane between two Bastions, forest on both flanks.",
+"tags": ["lane", "wave_strike", "hand-made"],
+"mode": "wave_strike",
+"ready": true
 }])

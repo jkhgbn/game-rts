@@ -12,7 +12,9 @@ extends Resource
 ## Entry keys: id (StringName), title, scene or layout (res:// path), size (Vector2, metres x / z), seats (int),
 ## biome (look only), kingdom (the look: "neutral" or a kingdom id), preview (res:// PNG, the World Forge `mapsheet`
 ## top-down render, 512 x 512, data/maps/previews/<id>.png), hook (one line for the menu), tags (Array of String),
-## ready (bool: playable and gated; only ready maps are listed and drawn by Random), note (why not ready, optional).
+## ready (bool: playable and gated; only ready maps are listed and drawn by Random), note (why not ready, optional),
+## mode (optional: "skirmish" when absent; "wave_strike" maps are listed only with mode = "wave_strike", never in the
+## skirmish picker or its Random draw; docs/design/wave-strike.md 7.4).
 
 const PATH := "res://data/maps/catalog.tres"
 const DEFAULT_ID := &"crown_hollow"     ## The menu's default map (the scene-built Crown Hollow).
@@ -63,10 +65,13 @@ func entry(map_id: StringName) -> Dictionary:
 	return {}
 
 
-## The entries with `seats` players (0 = any), in catalog order; `ready_only` drops the maps that are not ready.
-func list(seats: int = 0, ready_only: bool = true) -> Array[Dictionary]:
+## The entries with `seats` players (0 = any), in catalog order; `ready_only` drops the maps that are not ready;
+## `mode` keeps the maps of that game mode ("skirmish" = entries without a mode).
+func list(seats: int = 0, ready_only: bool = true, mode: String = "skirmish") -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for e in maps:
+		if mode_tag(e) != mode:
+			continue
 		if seats > 0 and int(e.get("seats", 2)) != seats:
 			continue
 		if ready_only and not bool(e.get("ready", false)):
@@ -75,9 +80,15 @@ func list(seats: int = 0, ready_only: bool = true) -> Array[Dictionary]:
 	return out
 
 
-## True when `map_id` is a ready map (Random never draws anything else).
+## True when `map_id` is a ready skirmish map (Random never draws anything else; Wave Strike maps are not).
 func is_ready(map_id: StringName) -> bool:
-	return bool(entry(map_id).get("ready", false))
+	var e := entry(map_id)
+	return bool(e.get("ready", false)) and mode_tag(e) == "skirmish"
+
+
+## The entry's game mode: "skirmish" (no `mode` key) or e.g. "wave_strike".
+static func mode_tag(e: Dictionary) -> String:
+	return String(e.get("mode", "skirmish"))
 
 
 ## A ready map with `seats` players (0 = any), drawn with `rng` (a fresh randomized one when null). &"" if none.

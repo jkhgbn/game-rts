@@ -1,0 +1,37 @@
+# Ashwind Reach (Wave Strike 1v1, one lane): docs/design/wave-strike.md 3.2 (M1). Hand-written.
+# Canonical half = the west (team 0, x < 0); rot180 places the east half. The lane runs along x (z = 0), 40 m wide,
+# 144 m gate to gate (the spec's 280 m map breaks Map Lab R5 "size <= 192 m"; a longer lane needs a bend: M2).
+# The off-lane bands (|z| > 20) are forest blocks (navmesh obstacles; the level draws them as trees).
+# Spot use (Wave Strike reads them, LayoutLevel kinds only): keep = the Bastion, start = the wizard start,
+# slot sub=gate = the spawn pad, slot sub=tower_ring1..3 = tower slots (M2), slot sub=ward = the wizard leash line.
+map ashwind_reach  size=192x96  symmetry=rot180  biome=autumn  title="Ashwind Reach"  spec=docs/design/wave-strike.md
+seat 0  name="west"  side=0  frame=identity
+seat 1  name="east"  side=1  frame=rot180
+
+keep   bastion   at=(-84,0)  footprint=6
+start  hub       at=(-76,-7)
+slot   gate      at=(-71,0)    sub=gate
+slot   ring1_n   at=(-64,-12)  sub=tower_ring1
+slot   ring1_s   at=(-64,12)   sub=tower_ring1
+slot   ring2_n   at=(-46,-11)  sub=tower_ring2
+slot   ring2_s   at=(-46,11)   sub=tower_ring2
+slot   ring3_n   at=(-24,-13)  sub=tower_ring3
+slot   ring3_s   at=(-24,13)   sub=tower_ring3
+slot   ward      at=(-4,0)     sub=ward
+
+# the lane (global, not mirrored): team 0 walks it forward, team 1 backwards
+path   lane_a  poly=[(-71,0),(-36,0),(0,0),(36,0),(71,0)]
+
+# off-lane forest bands (west half; the east is their rot180 image)
+block  wood_n1  at=(-72,-34)  size=(48,28)  kind=forest  height=4
+block  wood_n2  at=(-24,-34)  size=(48,28)  kind=forest  height=4
+block  wood_s1  at=(-72,34)   size=(48,28)  kind=forest  height=4
+block  wood_s2  at=(-24,34)   size=(48,28)  kind=forest  height=4
+# ring-2 narrowing (the lane is 30 m wide there)
+block  rock_n   at=(-40,-17.5)  size=(8,5)   kind=rock    height=3
+block  rock_s   at=(-36,17.5)   size=(8,5)   kind=rock    height=3
+# behind the Bastion
+block  back     at=(-93,0)  size=(6,40)  kind=cliff   height=5
+
+road   lane     poly=[(-71,0),(0,0)]  width=8
+zone   plaza    circle((-82,0),12)  biome=ash

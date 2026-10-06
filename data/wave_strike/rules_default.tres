@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WaveStrikeRules" format=3]
+
+[ext_resource type="Script" path="res://scripts/world/wave_strike/wave_strike_rules.gd" id="1_rules"]
+
+[resource]
+script = ExtResource("1_rules")
+horn_first = 30.0
+horn_interval = 40.0
+last_horns_at = 1440.0
+last_horns_interval = 30.0
+time_limit = 1800.0
+start_crystals = 400
+base_income = 100
+coffer_step = 15
+bounty_pct = 0.12
+defender_bounty_mult = 1.5
+stronghold_price = 250
+stronghold_time = 45.0
+stronghold_from_horn = 6
+max_tier = 3
+bastion_hp_mult = 2.5
