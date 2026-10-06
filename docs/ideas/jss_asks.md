@@ -32,3 +32,5 @@ When JS asks for something new, add a line here first, then work on it.
 ## Loose ideas (not asked yet, worth keeping)
 
 - Silkroad-style classes and skills to level 110 for a future game (in Four Wizards only champions pick classes).
+
+- 2026-10-06: 'if we dont have we should have upgrade building where u upgrade unit' -> no unit-upgrade building exists (only Bazaar wares like Tempered Steel). Plan: per-kingdom Forge/Armory with attack/armor/range upgrade lines, researched with crystals, bots use them. Design + build agent launched; plan unchanged otherwise (new item after localization).
