@@ -1,0 +1,168 @@
+{
+	"checks": [
+		{
+			"detail": "A shade alive per fight = 0.00 (min 8.0, max -)",
+			"label": "C7 Shades saved by the Passage",
+			"result": "FAIL"
+		},
+		{
+			"detail": "A shade alive per fight = 0.00 (min -, max 4.0)",
+			"label": "C7 control loses the Shades",
+			"result": "PASS"
+		},
+		{
+			"detail": "umbral_passage cast by A in 20 / 20 fights (min 80 %)",
+			"label": "C7 Passage cast",
+			"result": "PASS"
+		}
+	],
+	"fights": 40,
+	"stats": {
+		"baseline": {
+			"caster": {
+				"a_wins": 0,
+				"alive": [
+					0.0,
+					8.8
+				],
+				"b_wins": 20,
+				"casts": [
+					{
+						"blood_tithe": 4.5,
+						"passage_units": 5.0,
+						"umbral_passage": 1.0
+					},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"blood_tithe": {
+							"fights": 20,
+							"median": 4.05
+						},
+						"umbral_passage": {
+							"fights": 20,
+							"median": 2.55
+						}
+					},
+					{}
+				],
+				"hi": 0.161130130290985,
+				"hp_left_pct": [
+					0.0,
+					0.737286981482033
+				],
+				"lo": 0.0,
+				"n": 20,
+				"score": 0.0,
+				"time_median": 16.52,
+				"trade": [
+					0.224134259259259,
+					4.46161155061657
+				],
+				"ttk_median": 16.52,
+				"types": [
+					{
+						"gloom_deacon": {
+							"dealt": 38.72,
+							"dealt_per_100": 32.2666666666667,
+							"dps": 2.26565242832065,
+							"kills": 0.0,
+							"kills_per_100": 0.0,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						},
+						"shade": {
+							"dealt": 332.615,
+							"dealt_per_100": 34.6473958333333,
+							"dps": 3.02143797974293,
+							"kills": 1.2,
+							"kills_per_100": 0.125,
+							"per_fight": 12.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 583.375
+						}
+					},
+					{
+						"flame_guard": {
+							"dealt": 683.375,
+							"dealt_per_100": 75.9305555555556,
+							"dps": 4.25526946667082,
+							"kills": 13.0,
+							"kills_per_100": 1.44444444444444,
+							"per_fight": 10.0,
+							"summon": false,
+							"survival": 0.88,
+							"taken": 371.33
+						}
+					}
+				]
+			},
+			"control": {
+				"a_wins": 0,
+				"alive": [
+					0.0,
+					9.9
+				],
+				"b_wins": 20,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 0.161130130290985,
+				"hp_left_pct": [
+					0.0,
+					0.906937191249118
+				],
+				"lo": 0.0,
+				"n": 20,
+				"score": 0.0,
+				"time_median": 10.475,
+				"trade": [
+					0.0876197916666667,
+					11.4129465612554
+				],
+				"ttk_median": 10.475,
+				"types": [
+					{
+						"shade": {
+							"dealt": 133.0,
+							"dealt_per_100": 13.8541666666667,
+							"dps": 1.46516111264115,
+							"kills": 0.1,
+							"kills_per_100": 0.0104166666666667,
+							"per_fight": 12.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 528.0
+						}
+					},
+					{
+						"flame_guard": {
+							"dealt": 528.0,
+							"dealt_per_100": 58.6666666666667,
+							"dps": 4.99196369480949,
+							"kills": 12.0,
+							"kills_per_100": 1.33333333333333,
+							"per_fight": 10.0,
+							"summon": false,
+							"survival": 0.99,
+							"taken": 133.0
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "c7_passage_fix",
+	"variants": {}
+}

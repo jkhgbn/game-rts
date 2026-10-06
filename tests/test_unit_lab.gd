@@ -68,6 +68,15 @@ func _run() -> void:
 	plus["seeds"] = SPEC.parse_seeds("1-10")
 	var ps := await _series(plus, 10)
 	_check(ps > 0.6, "+25 %% damage wins > 60 %% (A score %.2f)" % ps)
+	print("---- home_zone")
+	var hz := SPEC.load_any("1 shade order=hold vs 1 flame_guard ; dist=10 limit=10", [])
+	(hz["arms"][0]["a"] as Dictionary)["home_zone"] = [-5.0, 0.0, 6.0]
+	var hr := await _fight(hz, 0, 1)
+	_check(String(hr["winner"]) == "draw" and float(hr["a"]["taken"]) == 0.0,
+			"an enemy never reaches a unit inside its side's home_zone (%s, taken %s)" % [hr["winner"], hr["a"]["taken"]])
+	var hze: Array = []
+	var hzs := SPEC.normalize_side({"groups": [{"id": "shade", "count": 1}], "home_zone": [1, 2, 3]}, hze)
+	_check(hze.is_empty() and hzs["home_zone"] == [1.0, 2.0, 3.0], "home_zone parses (%s)" % str(hzs.get("home_zone")))
 	print("---- matrix on 4 units")
 	await _check_matrix()
 	_done = true

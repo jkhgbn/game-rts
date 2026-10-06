@@ -444,6 +444,8 @@ func _physics_process(delta: float) -> void:
 		_order_left += ORDER_TICK
 		for s in 2:
 			_focus_tick(s)
+	for s in 2:
+		_home_zone_tick(s)
 	_hunt_left -= delta
 	if _hunt_left <= 0.0:
 		_hunt_left += HUNT_TICK
@@ -486,6 +488,23 @@ func attack_point(s: int) -> Vector3:
 	if t is Array:
 		return Vector3(float(t[0]), 0.0, float(t[1]))
 	return side_centre(1 - s) + side_facing(s) * 4.0
+
+
+# A side's "home_zone" [x, z, r] stands in for its keep + towers (the flat arena has none): an enemy unit inside the
+# circle drops its target and walks back to its own side's start (it fights again once out of the zone).
+func _home_zone_tick(s: int) -> void:
+	var hz: Variant = (sides[s] as Dictionary).get("home_zone")
+	if not (hz is Array):
+		return
+	var c := Vector3(float(hz[0]), 0.0, float(hz[1]))
+	var r := float(hz[2])
+	var back := side_centre(1 - s)
+	for u: Unit in living_units(1 - s):
+		if u.has_move_order() and not u.is_attack_moving():
+			continue
+		var p := u.global_position
+		if Vector2(p.x - c.x, p.z - c.z).length() <= r:
+			u.command_move(back)
 
 
 # Attack-move sides: an idle unit (no target, no order) attack-moves to the nearest enemy (a player's "A-click on the

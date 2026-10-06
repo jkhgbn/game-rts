@@ -1,0 +1,202 @@
+{
+ "name": "C7 Umbral Passage retreat",
+ "notes": "caster-units.md 7.2 C7: 12 Shades at 40 % HP retreat home from 30 m, chased by 10 Flame Guards; a Gloom Deacon at home (full mana, the real AICasters retreat Passage, rule 8.3). Control: no Deacon. 25 s fight; pass: >= 8 Shades alive with the Passage, <= 4 without. 2026-10-05 setup fix: the arena has no home defence (keep, towers), so the chasers attack-move only to (0, 0), the home perimeter 24 m from home where the towers would stand, and do not hunt (before: (-8, 0), 12 m from home, they reached the rift and killed the carried Shades and the Deacon). The result records passage_units (units the Passage carried).",
+ "seeds": "1-20",
+ "distance": 40,
+ "time_limit": 25,
+ "arms": [
+  {
+   "name": "caster_z6",
+   "a": {
+    "groups": [
+     {
+      "id": "shade",
+      "count": 12,
+      "hp_pct": 0.4,
+      "at": [
+       10,
+       0
+      ]
+     },
+     {
+      "id": "gloom_deacon",
+      "count": 1,
+      "mana": "full",
+      "at": [
+       -20,
+       0
+      ]
+     }
+    ],
+    "order": "retreat",
+    "retreat_to": [
+     -24,
+     0
+    ],
+    "casters": "bot",
+    "home_zone": [
+     -20,
+     0,
+     6
+    ]
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 10,
+      "at": [
+       15,
+       0
+      ]
+     }
+    ],
+    "target": [
+     0,
+     0
+    ],
+    "hunt": false
+   }
+  },
+  {
+   "name": "control_z6",
+   "a": {
+    "groups": [
+     {
+      "id": "shade",
+      "count": 12,
+      "hp_pct": 0.4,
+      "at": [
+       10,
+       0
+      ]
+     }
+    ],
+    "order": "retreat",
+    "retreat_to": [
+     -24,
+     0
+    ],
+    "home_zone": [
+     -20,
+     0,
+     6
+    ]
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 10,
+      "at": [
+       15,
+       0
+      ]
+     }
+    ],
+    "target": [
+     0,
+     0
+    ],
+    "hunt": false
+   }
+  },
+  {
+   "name": "caster_z9",
+   "a": {
+    "groups": [
+     {
+      "id": "shade",
+      "count": 12,
+      "hp_pct": 0.4,
+      "at": [
+       10,
+       0
+      ]
+     },
+     {
+      "id": "gloom_deacon",
+      "count": 1,
+      "mana": "full",
+      "at": [
+       -20,
+       0
+      ]
+     }
+    ],
+    "order": "retreat",
+    "retreat_to": [
+     -24,
+     0
+    ],
+    "casters": "bot",
+    "home_zone": [
+     -20,
+     0,
+     9
+    ]
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 10,
+      "at": [
+       15,
+       0
+      ]
+     }
+    ],
+    "target": [
+     0,
+     0
+    ],
+    "hunt": false
+   }
+  },
+  {
+   "name": "control_z9",
+   "a": {
+    "groups": [
+     {
+      "id": "shade",
+      "count": 12,
+      "hp_pct": 0.4,
+      "at": [
+       10,
+       0
+      ]
+     }
+    ],
+    "order": "retreat",
+    "retreat_to": [
+     -24,
+     0
+    ],
+    "home_zone": [
+     -20,
+     0,
+     9
+    ]
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 10,
+      "at": [
+       15,
+       0
+      ]
+     }
+    ],
+    "target": [
+     0,
+     0
+    ],
+    "hunt": false
+   }
+  }
+ ],
+ "checks": []
+}

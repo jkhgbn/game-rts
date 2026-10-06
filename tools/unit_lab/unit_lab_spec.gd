@@ -17,6 +17,8 @@ extends RefCounted
 ##   formation: "auto" (melee in front, ranged / casters behind) | "line" | "block"
 ##   target:    [x, z] | null (the attack-move point; null = just past the enemy's start)
 ##   hunt:      true (default: idle attack-move units go for the nearest enemy every second) | false
+##   home_zone: [x, z, r] | null (this side's home defence, the keep + towers the flat arena lacks: an ENEMY unit inside
+##              the circle drops its target and walks back to its own side's start; added 2026-10-06 for C7)
 ##   bot_difficulty: 0-2 for "bot" casters (AICasters: easy / normal / hard rules), default 1
 ## GROUP: {id, count, level (1-4), plus (bool: the "+" upgrade), mods {stat: value} (Stats modifiers, e.g.
 ##   {"attack_damage_pct": 0.25}), statuses [[id, seconds]], hp_pct (0-1], mana (-1 = the game's start, else
@@ -199,7 +201,8 @@ static func _copy_side_opts(opts: Variant, side: Dictionary, errors: Array) -> v
 	if not (opts is Dictionary):
 		return
 	var tmp := normalize_side(opts, errors)
-	for k: String in ["order", "focus", "casters", "formation", "retreat_to", "target", "hunt", "bot_difficulty"]:
+	for k: String in ["order", "focus", "casters", "formation", "retreat_to", "target", "hunt", "bot_difficulty",
+			"home_zone"]:
 		if (opts as Dictionary).has(k):
 			side[k] = tmp[k]
 
@@ -209,7 +212,7 @@ static func normalize_side(raw: Variant, errors: Array) -> Dictionary:
 	if raw is String:
 		return parse_side_text(raw as String, errors)
 	var side := {"label": "", "groups": [], "order": "attack_move", "focus": "none", "casters": "autocast",
-			"formation": "auto", "retreat_to": null, "target": null, "hunt": true, "bot_difficulty": 1, "hero": {}}
+			"formation": "auto", "retreat_to": null, "target": null, "hunt": true, "bot_difficulty": 1, "hero": {}, "home_zone": null}
 	var d: Dictionary = {}
 	if raw is Array:
 		d = {"groups": raw}
@@ -233,6 +236,8 @@ static func normalize_side(raw: Variant, errors: Array) -> Dictionary:
 	if d.get("target") is Array and (d["target"] as Array).size() >= 2:
 		side["target"] = [float(d["target"][0]), float(d["target"][1])]
 	side["hunt"] = bool(d.get("hunt", true))
+	if d.get("home_zone") is Array and (d["home_zone"] as Array).size() >= 3:
+		side["home_zone"] = [float(d["home_zone"][0]), float(d["home_zone"][1]), float(d["home_zone"][2])]
 	side["bot_difficulty"] = clampi(int(d.get("bot_difficulty", 1)), 0, 2)
 	if d.get("hero") is Dictionary:
 		side["hero"] = d["hero"]
