@@ -1,7 +1,7 @@
 class_name Bastion
 extends Keep
 ## A Wave Strike team's core building (docs/design/wave-strike.md 4.6): the kingdom's keep at its Citadel look and
-## attack, HP = Citadel keep HP x rules.bastion_hp_mult (Fire / Shadow 8 750), armour 3. Trains nothing, is no
+## attack, HP = Citadel keep HP x rules.bastion_hp_mult (2.0: Fire / Shadow 7 000), armour 3. Trains nothing, is no
 ## drop-off, has no tier card; it is still a shop (the wizard buys items there). Destroyed = that team loses
 ## (WaveStrikeLevel listens to `destroyed`).
 

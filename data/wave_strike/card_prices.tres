@@ -6,16 +6,25 @@
 script = ExtResource("1_cards")
 cards = {
 &"fire": [&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"],
-&"shadow": [&"shade", &"grave_hound", &"bleakbow", &"hollow_oathsworn"]
+&"ice": [&"rimeshield", &"shardcaster", &"snowdrift_rider", &"hoarlight_magebow"],
+&"nature": [&"bramblehorn", &"wildwood_archer", &"stagrunner", &"greenheart_oathkeeper"],
+&"shadow": [&"shade", &"bleakbow", &"gloam_rider", &"hollow_oathsworn"]
 }
 mode_mult = {
-&"blaze_rider": 1.0,
-&"bleakbow": 1.0,
-&"cinder_arbalest": 1.0,
-&"ember_archer": 1.0,
-&"flame_guard": 1.0,
-&"grave_hound": 1.0,
-&"hollow_oathsworn": 1.0,
-&"shade": 1.0
+&"blaze_rider": 1.05,
+&"bleakbow": 0.9,
+&"bramblehorn": 1.25,
+&"cinder_arbalest": 1.31,
+&"ember_archer": 0.92,
+&"flame_guard": 1.08,
+&"gloam_rider": 1.08,
+&"greenheart_oathkeeper": 1.16,
+&"hoarlight_magebow": 1.18,
+&"hollow_oathsworn": 0.92,
+&"rimeshield": 1.27,
+&"shade": 1.09,
+&"shardcaster": 0.93,
+&"snowdrift_rider": 1.1400000000000001,
+&"stagrunner": 0.79,
+&"wildwood_archer": 0.8200000000000001
 }
-price_override = {}

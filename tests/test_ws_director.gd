@@ -27,21 +27,36 @@ func _check(ok: bool, what: String) -> void:
 func _initialize() -> void:
 	var rules := WaveStrikeRules.load_default()
 	var table := WaveCardTable.load_default()
-	# --- horn timing
-	_check(is_equal_approx(rules.horn_time(1), 30.0), "horn 1 at %.1f" % rules.horn_time(1))
-	_check(is_equal_approx(rules.horn_time(2), 70.0), "horn 2 at %.1f" % rules.horn_time(2))
-	_check(is_equal_approx(rules.horn_time(36), 30.0 + 35 * 40.0), "horn 36 at %.1f" % rules.horn_time(36))
+	# --- horn timing (the math on the M1 numbers; the data's Last Horns time is checked generically below)
+	var hr := rules.duplicate() as WaveStrikeRules
+	hr.horn_first = 30.0
+	hr.horn_interval = 40.0
+	hr.last_horns_at = 1440.0
+	hr.last_horns_interval = 30.0
+	_check(is_equal_approx(hr.horn_time(1), 30.0), "horn 1 at %.1f" % hr.horn_time(1))
+	_check(is_equal_approx(hr.horn_time(2), 70.0), "horn 2 at %.1f" % hr.horn_time(2))
+	_check(is_equal_approx(hr.horn_time(36), 30.0 + 35 * 40.0), "horn 36 at %.1f" % hr.horn_time(36))
 	# Last Horns: horn 36 at 1430 < 1440, horn 37 at 1470 (still +40 from 1430), 38 at 1500 (+30)
-	_check(is_equal_approx(rules.horn_time(37), 1470.0), "horn 37 at %.1f" % rules.horn_time(37))
-	_check(is_equal_approx(rules.horn_time(38), 1500.0), "horn 38 at %.1f (Last Horns +30)" % rules.horn_time(38))
+	_check(is_equal_approx(hr.horn_time(37), 1470.0), "horn 37 at %.1f" % hr.horn_time(37))
+	_check(is_equal_approx(hr.horn_time(38), 1500.0), "horn 38 at %.1f (Last Horns +30)" % hr.horn_time(38))
+	# the data: horns every horn_interval until last_horns_at, then every last_horns_interval
+	_check(is_equal_approx(rules.horn_time(1), rules.horn_first), "data horn 1 at %.1f" % rules.horn_time(1))
+	var hn := 1
+	while rules.horn_time(hn) < rules.last_horns_at:
+		hn += 1
+	_check(is_equal_approx(rules.horn_time(hn + 2) - rules.horn_time(hn + 1), rules.last_horns_interval),
+			"data Last Horns interval %.1f" % (rules.horn_time(hn + 2) - rules.horn_time(hn + 1)))
 	# --- prices from the data table
-	for k: StringName in [&"fire", &"shadow"]:
+	# balance pass 2026-10-06: 4 kingdoms; price = cost x mode_mult (tools/wave_strike/reprice_cards.gd), mult in band
+	for k: StringName in [&"fire", &"shadow", &"ice", &"nature"]:
 		_check(table.cards_of(k).size() == 4, "%s has %d cards" % [k, table.cards_of(k).size()])
 		for id in table.cards_of(k):
 			var t := UnitType.find(String(id))
 			_check(t != null, "card %s has no UnitType" % id)
 			if t:
-				_check(table.price(id) == int(roundf(t.cost / 5.0) * 5.0), "price %s = %d" % [id, table.price(id)])
+				var m := float(table.mode_mult.get(id, 1.0))
+				_check(m >= 0.7 and m <= 1.4, "mode_mult %s = %.2f (band 0.7-1.4)" % [id, m])
+				_check(table.price(id) == int(roundf(t.cost * m / 5.0) * 5.0), "price %s = %d" % [id, table.price(id)])
 	var tiers := {}
 	for id in table.cards_of(&"fire") + table.cards_of(&"shadow"):
 		tiers[UnitType.find(String(id)).requires_tier] = true
@@ -107,7 +122,7 @@ func _initialize() -> void:
 	_check(horns[0] == 0, "no horn before 30 s")
 	dir.advance(0.2)    # t = 30.1
 	_check(horns[0] == 1, "horn 1 at 30 s")
-	_check(bank.crystals() == before + 100, "income 100 (got %d)" % (bank.crystals() - before))
+	_check(bank.crystals() == before + rules.base_income, "income %d (got %d)" % [rules.base_income, bank.crystals() - before])
 	_check(r.pop_used() == 1, "pop freed at the horn (%d)" % r.pop_used())
 	dir.advance(1.0)    # stagger 0.15: the unit is out
 	_check(level.spawned.size() == 1 and level.spawned[0][1] == fg, "spawns = roster: %s" % str(level.spawned))
@@ -117,9 +132,10 @@ func _initialize() -> void:
 	# Coffer math
 	bank.economy.crystals = 1000
 	_check(bank.buy_coffer() == "" and bank.coffer_level == 1 and bank.crystals() == 850, "coffer 1 costs 150")
-	_check(bank.income() == 115, "income with 1 coffer = %d" % bank.income())
+	_check(bank.income() == rules.base_income + rules.coffer_step, "income with 1 coffer = %d" % bank.income())
 	bank.buy_coffer()
-	_check(bank.crystals() == 650 and bank.income() == 130, "coffer 2 costs 200, income 130")
+	_check(bank.crystals() == 650 and bank.income() == rules.base_income + 2 * rules.coffer_step,
+			"coffer 2 costs 200, income %d" % bank.income())
 	# underdog tithe: 31 % HP behind = 2 steps = +16 %
 	level.ratios = [0.69, 1.0]
 	_check(is_equal_approx(dir._underdog(0), 0.16), "underdog 2 steps = %.2f" % dir._underdog(0))

@@ -9,7 +9,10 @@ const PERSONALITIES := ["steward", "hammer"]
 ## Card weights per kingdom: the bot fills its pop toward these shares (cards it cannot use yet are skipped).
 const MIX := {
 	&"fire": {&"flame_guard": 4.0, &"ember_archer": 3.0, &"blaze_rider": 2.0, &"cinder_arbalest": 3.0},
-	&"shadow": {&"shade": 4.0, &"grave_hound": 2.0, &"bleakbow": 3.0, &"hollow_oathsworn": 3.0},
+	# balance pass 2026-10-06: every kingdom = line, archer, rider, T2 (the sets of data/wave_strike/card_prices.tres)
+	&"shadow": {&"shade": 4.0, &"bleakbow": 3.0, &"gloam_rider": 2.0, &"hollow_oathsworn": 3.0},
+	&"ice": {&"rimeshield": 4.0, &"shardcaster": 3.0, &"snowdrift_rider": 2.0, &"hoarlight_magebow": 3.0},
+	&"nature": {&"bramblehorn": 4.0, &"wildwood_archer": 3.0, &"stagrunner": 2.0, &"greenheart_oathkeeper": 3.0},
 }
 ## Per personality: reserve kept unspent, Coffer target level and how much of the bank a Coffer may take, the horn
 ## from which it buys the Stronghold.

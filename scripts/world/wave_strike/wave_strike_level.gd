@@ -14,6 +14,11 @@ const DEFAULT_LAYOUT := "res://data/maps/ashwind_reach_layout.tres"
 const KINGDOMS := {
 	&"fire": {"keep": "fire_keep", "wizard": "res://scripts/units/wizard.gd", "name": "Fire", "hero": "Vessa"},
 	&"shadow": {"keep": "shadow_keep", "wizard": "res://scripts/units/shadow_wizard.gd", "name": "Shadow", "hero": "Malrik"},
+	# balance pass 2026-10-06: Ice / Nature get 4 cards each (data/wave_strike/card_prices.tres) for the 4-kingdom batches
+	&"ice": {"keep": "ice_keep", "wizard": "res://scripts/units/ice_wizard.gd", "name": "Ice", "hero": "Torvald",
+			"color": Color(0.45, 0.72, 0.95)},
+	&"nature": {"keep": "nature_keep", "wizard": "res://scripts/units/nature_wizard.gd", "name": "Nature", "hero": "Ysolde",
+			"color": Color(0.38, 0.68, 0.24)},
 }
 const HUD_SCRIPT := "res://scripts/ui/wave_strike/wave_strike_hud.gd"
 const BOT_SCRIPT := "res://scripts/ai/wave_bot.gd"
@@ -52,6 +57,7 @@ var _gate_pos: Array[Vector3] = [Vector3(-108, 0, 0), Vector3(108, 0, 0)]
 var _lane_types := {}            ## id -> commandable = false copy of the UnitType
 var _respawn_left: Array[float] = [0.0, 0.0]
 var _guard_t := 0.0
+var _cast_t := 0.0
 
 
 func _ready() -> void:
@@ -67,7 +73,7 @@ func _ready() -> void:
 		layout.size_z = 100.0
 	for k in [player_kingdom, enemy_kingdom]:
 		if not KINGDOMS.has(k):
-			push_warning("WaveStrikeLevel: kingdom %s has no M1 cards, using fire / shadow" % k)
+			push_warning("WaveStrikeLevel: kingdom %s has no cards, using fire / shadow" % k)
 			player_kingdom = &"fire"
 			enemy_kingdom = &"shadow"
 	_read_layout()
@@ -172,7 +178,8 @@ func _build_map() -> void:
 		bas.building_type = type
 		bas.name = "Bastion%d" % team
 		bas.team = team as Unit.Team
-		bas.team_color = FIRE_COLOR if kingdom_of(team) == &"fire" else SHADOW_COLOR
+		bas.team_color = KINGDOMS[kingdom_of(team)].get("color",
+				FIRE_COLOR if kingdom_of(team) == &"fire" else SHADOW_COLOR)
 		bas.front_toward = _gate_pos[team]
 		bas.position = _keep_pos[team]
 		nav_region.add_child(bas)
@@ -287,6 +294,10 @@ func _on_navigation_ready() -> void:
 	camera_rig.focus_on(_start_pos[0] + Vector3(14.0, 0.0, 0.0))
 	hud.show_message("Buy cards (Z X C V): they march at every horn. First horn at 0:30.", 8.0)
 	director.running = true
+	# Playtest Recorder (health-and-playtests.md): Wave Strike is not a Skirmish, so it starts the recorder itself
+	# when Settings "Playtest data" is on (bot-vs-bot labs run with autopilot_player and never record).
+	if _REPLAY.playtest_enabled and not autopilot_player:
+		_REPLAY.start_playtest(self, "wave_strike")
 
 
 func _make_wizard(team: int) -> Wizard:
@@ -428,6 +439,10 @@ func _physics_process(delta: float) -> void:
 	if _guard_t <= 0.0:
 		_guard_t = 1.0
 		_guard_bot_wizards()
+	_cast_t -= delta
+	if _cast_t <= 0.0:
+		_cast_t = 0.5
+		_cast_for_bot_wizards()
 	if rules.time_limit > 0.0 and director.time >= rules.time_limit:
 		_end_on_time()
 
@@ -459,6 +474,47 @@ func _guard_bot_wizards() -> void:
 		var post := _gate_pos[team] + fwd * 24.0
 		if w.attack_target == null and not w.has_move_order() and w.global_position.distance_to(post) > 6.0:
 			w.command_attack_move(post)
+
+
+## Bot-run wizards that do not cast by themselves (balance pass 2026-10-06): the wizard scripts' own AI loop runs only
+## for team != PLAYER and only Malrik / Torvald / Ysolde have one, so Vessa (any seat) and the autopilot seat 0 never
+## cast. That made every lab batch seat-biased (east won 68 % of 72 games) and the Fire bot wizard spell-less.
+## Here they cast what their SpellCaster suggests (spells.md bot rules), every 0.5 s like the wizards' own loops.
+func _cast_for_bot_wizards() -> void:
+	for team in SEATS:
+		if team == 0 and not autopilot_player:
+			continue   # the player casts
+		var w := wizards[team]
+		if w == null or not is_instance_valid(w) or not w.is_alive():
+			continue
+		if &"ai_auto_cast" in w and bool(w.get(&"ai_auto_cast")) and int(w.team) != Unit.Team.PLAYER:
+			continue   # its own loop casts
+		var sc: Node = w.spell_caster
+		if sc == null or not sc.has_method(&"suggest_cast"):
+			continue
+		var s: Dictionary = {}
+		if AICasts.is_vessa(w):
+			# Vessa has no suggest_cast() rules: the skirmish Commander's AICasts.suggest_vessa (no engage dive: leash)
+			var foes: Array[Unit] = []
+			var allies: Array[Unit] = []
+			for n in get_tree().get_nodes_in_group(&"units"):
+				var u := n as Unit
+				if u == null or u == w or not u.is_alive() \
+						or u.global_position.distance_to(w.global_position) > AICasts.VESSA_WATCH:
+					continue
+				if int(u.team) == team:
+					if not u is Wizard:
+						allies.append(u)
+				elif int(u.team) == 1 - team:
+					foes.append(u)
+			if foes.is_empty():
+				continue
+			s = AICasts.suggest_vessa(w, foes, allies, _start_pos[team], false)
+		else:
+			s = sc.call(&"suggest_cast")
+		if s.is_empty():
+			continue
+		w.command_cast(StringName(str(s.get("spell_id", ""))), s.get("target"))
 
 
 func _on_wizard_died(_u: Unit, team: int) -> void:

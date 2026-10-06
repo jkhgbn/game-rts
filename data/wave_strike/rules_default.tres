@@ -6,8 +6,8 @@
 script = ExtResource("1_rules")
 horn_first = 30.0
 horn_interval = 40.0
-last_horns_at = 1440.0
-last_horns_interval = 30.0
+last_horns_at = 900.0
+last_horns_interval = 20.0
 time_limit = 1800.0
 start_crystals = 400
 base_income = 100
@@ -18,4 +18,4 @@ stronghold_price = 250
 stronghold_time = 45.0
 stronghold_from_horn = 6
 max_tier = 3
-bastion_hp_mult = 2.5
+bastion_hp_mult = 2.0

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="WaveCardTable" format=3]
+
+[ext_resource type="Script" path="res://scripts/world/wave_strike/wave_card_table.gd" id="1_btpvw"]
+
+[resource]
+script = ExtResource("1_btpvw")
+cards = {
+&"fire": [&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"],
+&"ice": [&"rimeshield", &"shardcaster", &"snowdrift_rider", &"frost_mortar"],
+&"nature": [&"thornling", &"wildwood_archer", &"stagrunner", &"greenheart_oathkeeper"],
+&"shadow": [&"shade", &"grave_hound", &"bleakbow", &"hollow_oathsworn"]
+}
+mode_mult = {
+&"blaze_rider": 1.05,
+&"bleakbow": 0.9,
+&"cinder_arbalest": 1.31,
+&"ember_archer": 0.92,
+&"flame_guard": 1.08,
+&"frost_mortar": 1.35,
+&"grave_hound": 0.77,
+&"greenheart_oathkeeper": 1.16,
+&"hollow_oathsworn": 0.92,
+&"rimeshield": 1.27,
+&"shade": 1.09,
+&"shardcaster": 0.93,
+&"snowdrift_rider": 1.1400000000000001,
+&"stagrunner": 0.79,
+&"thornling": 0.75,
+&"wildwood_archer": 0.8200000000000001
+}

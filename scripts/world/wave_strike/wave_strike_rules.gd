@@ -8,8 +8,8 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export_group("Horns")
 @export var horn_first := 30.0            ## s, the first horn
 @export var horn_interval := 40.0         ## s between horns
-@export var last_horns_at := 1440.0       ## s: from here the interval is last_horns_interval
-@export var last_horns_interval := 30.0
+@export var last_horns_at := 900.0        ## s: from here the interval is last_horns_interval (balance pass 2026-10-06: 24:00 -> 15:00)
+@export var last_horns_interval := 20.0   ## balance pass 2026-10-06: 30 -> 20 s
 @export var horn_warning := 5.0           ## s: the HUD countdown turns hot, the bots decide (bot_decide_before)
 @export var bot_decide_before := 3.0      ## s before each horn: the bot's decision pass
 @export var spawn_stagger := 0.15         ## s between two units of one horn
@@ -45,7 +45,7 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export var last_horns_armor_cut := 0.25  ## Bastion armour -25 % from last_horns_at
 
 @export_group("Bastion")
-@export var bastion_hp_mult := 2.5        ## x the kingdom's Citadel keep HP
+@export var bastion_hp_mult := 2.0        ## x the kingdom's Citadel keep HP (balance pass 2026-10-06: 2.5 -> 2.0)
 @export var bastion_armor := 3.0
 
 @export_group("Wizard")

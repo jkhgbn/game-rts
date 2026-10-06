@@ -7,7 +7,7 @@ extends SceneTree
 ## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws_perf.gd --fixed-fps 60 --quit-after 6000 '--' --per-side=100
 
 const SCENE := "res://scenes/wave_strike.tscn"
-const IDS := [[&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"], [&"shade", &"grave_hound", &"bleakbow", &"hollow_oathsworn"]]
+const IDS := [[&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"], [&"shade", &"bleakbow", &"gloam_rider", &"hollow_oathsworn"]]
 
 var level: Node
 var per_side := 100

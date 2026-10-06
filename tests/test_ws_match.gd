@@ -8,6 +8,8 @@ extends SceneTree
 ## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws_match.gd --fixed-fps 60 --quit-after 130000 '--' --seed=1
 ## Args (after "--"): --seed=N  --p0=hammer|steward  --p1=...  --west=fire|shadow (seat 0's kingdom)  --limit=1800
 ##   --sim=1 (default 1: no art)  --wizards=1  --out=PATH (the JSON line is also written there)  --perf=1 (frame times)
+##   --east=fire|shadow|ice|nature (seat 1; default the other of fire / shadow)  --rule.<field>=N (a WaveStrikeRules knob)
+##   --cards=res://....tres (a candidate WaveCardTable instead of data/wave_strike/card_prices.tres)
 
 const TASK_ID := "ws_match"
 const SCENE := "res://scenes/wave_strike.tscn"
@@ -28,6 +30,9 @@ var _frame_usec := 0
 var _perf: Dictionary = {}      ## alive-bucket (50s) -> [frames, usec_sum, usec_max]
 var _last_usec := 0
 var _out := ""
+var _timeline: Array = []      ## one row a minute (see _process)
+var _wiz_casts := [0, 0]
+var _wiz_deaths := [0, 0]
 
 
 func _initialize() -> void:
@@ -41,16 +46,34 @@ func _initialize() -> void:
 	seed(seed_value * 7919 + 17)
 	if String(args.get("sim", "1")) == "1" and ResourceLoader.exists(SIM_MODE_PATH):
 		(load(SIM_MODE_PATH) as Script).set(&"enabled", true)
+	if args.has("cards"):
+		# a candidate price table (tools/wave_strike/reprice_cards.gd --save=...): WaveCardTable.load_default() returns it
+		var cand := load(String(args["cards"]))
+		if cand == null:
+			push_error("ws_match: no card table at %s" % args["cards"])
+		else:
+			(load("res://scripts/world/wave_strike/wave_card_table.gd") as Script).set(&"_cached", cand)
+			print("WS cards %s" % args["cards"])
 	level = (load(SCENE) as PackedScene).instantiate()
 	var west := StringName(args.get("west", "fire"))
 	level.set(&"player_kingdom", west)
-	level.set(&"enemy_kingdom", &"shadow" if west == &"fire" else &"fire")
+	level.set(&"enemy_kingdom", StringName(args.get("east", "shadow" if west == &"fire" else "fire")))
 	level.set(&"autopilot_player", true)
 	level.set(&"wizards_enabled", String(args.get("wizards", "1")) == "1")
 	var p: Array[String] = [String(args.get("p0", "hammer")), String(args.get("p1", "hammer"))]
 	level.set(&"personalities", p)
 	var rules: Resource = (load("res://scripts/world/wave_strike/wave_strike_rules.gd") as Script).call(&"load_default")
 	rules.set(&"time_limit", limit)
+	# Balance Lab-style knobs, in memory: --rule.base_income=120 --rule.bastion_hp_mult=1.8 (int / float fields)
+	for k: String in args:
+		if k.begins_with("rule."):
+			var field := k.substr(5)
+			var cur: Variant = rules.get(field)
+			if cur == null:
+				push_error("ws_match: unknown rule %s" % field)
+				continue
+			rules.set(field, int(args[k]) if cur is int else float(args[k]))
+			print("WS rule %s = %s" % [field, str(rules.get(field))])
 	level.set(&"rules", rules)
 	if String(args.get("sim", "1")) == "1":
 		for c in level.get_children():
@@ -83,6 +106,16 @@ func _process(_delta: float) -> bool:
 		for b in level.get(&"bots"):
 			if b != null and &"rng_seed" in b:
 				b.set(&"rng_seed", seed_value * 31 + int(b.get(&"seat")))
+		# wizard stats per seat (casts, deaths): the labs check the seats' wizards behave alike
+		var ws: Array = level.get(&"wizards")
+		for t in ws.size():
+			var w: Node = ws[t]
+			if w == null:
+				continue
+			var sc: Variant = w.get(&"spell_caster")
+			if sc != null and (sc as Node).has_signal(&"spell_cast"):
+				(sc as Node).connect(&"spell_cast", func(_id: StringName) -> void: _wiz_casts[t] += 1)
+			w.connect(&"died", func(_u: Node) -> void: _wiz_deaths[t] += 1)
 	var alive := 0
 	if _frames % 30 == 0:
 		var by_team := [0, 0]
@@ -90,6 +123,17 @@ func _process(_delta: float) -> bool:
 			if n.has_node(^"LaneMarch") and n.is_alive():
 				by_team[int(n.team)] += 1
 		alive = by_team[0] + by_team[1]
+		# pacing timeline (balance labs): one row a minute = [min, Bastion HP % w / e, alive w / e, front x]
+		var tmin := int(float(director.get(&"time")) / 60.0)
+		if tmin > _timeline.size() - 1:
+			var front := 0.0
+			var best := -INF
+			for n in get_nodes_in_group(&"units"):
+				if n.has_node(^"LaneMarch") and n.is_alive() and int(n.team) == 0 and n.global_position.x > best:
+					best = n.global_position.x
+			front = best if best > -INF else 0.0
+			_timeline.append([tmin, roundi(float(level.call(&"bastion_ratio", 0)) * 100.0),
+					roundi(float(level.call(&"bastion_ratio", 1)) * 100.0), by_team[0], by_team[1], roundi(front)])
 		_peak_units = maxi(_peak_units, alive)
 		for t in 2:
 			_peak_by_team[t] = maxi(_peak_by_team[t], by_team[t])
@@ -145,7 +189,7 @@ func _finish(verdict: String, why: String) -> void:
 		"earned": [banks[0].earned_total, banks[1].earned_total], "coffers": [banks[0].coffer_level, banks[1].coffer_level],
 		"tiers": [rosters[0].tier, rosters[1].tier], "cards": [rosters[0].cards(), rosters[1].cards()],
 		"wall_s": snappedf((Time.get_ticks_usec() - _t0) / 1e6, 0.1), "frames": _frames, "verdict": verdict,
-		"perf": perf_rows,
+		"perf": perf_rows, "timeline": _timeline, "wizard_casts": _wiz_casts, "wizard_deaths": _wiz_deaths,
 	}
 	var text := JSON.stringify(line)
 	print("WS_RESULT " + text)

@@ -6,7 +6,7 @@ buys units that walk down a lane in timed waves and fight on their own; income g
 the match is won. This spec turns that *genre* into a Four Wizards mode. Nothing is copied from the original map: no names,
 no lines, no art, no layout, no numbers. Working title **Wave Strike** (in-game name can change; "Strike" alone is fine).
 
-Status: **M1 BUILT (2026-10-06)**, see section 13 "M1 as built". Q1-Q7 answered with the recommendations (table below).
+Status: **M1 BUILT (2026-10-06)**, see section 13 "M1 as built"; balance pass 13.1 (4 kingdoms, matrix prices, pacing). Q1-Q7 answered with the recommendations (table below).
 M2 / M3 not started. Numbers are first guesses, tuned by the labs (section 9).
 Short names used below: **horn** = one wave tick; **card** = one bought unit line in a player's roster; **Bastion** = a
 team's core building; **lane** = the walkable path between the two Bastions.
@@ -347,12 +347,12 @@ on 90 s cooldowns; specified only if the avatar fails playtests).
 
 ## 6. Numbers in one block (the `WaveStrikeRules` defaults)
 ```
-horn_first 30 s · horn_interval 40 s · last_horns_at 1440 s · last_horns_interval 30 s · time_limit 1800 s
+horn_first 30 s · horn_interval 40 s · last_horns_at 900 s · last_horns_interval 20 s · time_limit 1800 s   (13.1: was 1440 / 30)
 start_crystals 400 · base_income 100 · coffer_step 15 · coffer_prices [150..500 step 50] · bounty_pct 0.12
 defender_bounty_mult 1.5 · relay_income 25 · underdog_pct_per_step 0.08 (step 15 % HP, max 0.24)
 supply_cap {1v1: [24,40,56], 2v2: [20,32,44], big: [14,22,30]} · stronghold 250 / 45 s / horn 6 · citadel 450 / 60 s / horn 14
 rank2 +60 % · rank3 +100 % · sell refund 50 % · tower prices [150,200,260] · barricade 300 / 2500 HP
-bastion_hp_mult 2.5 · rally_at [0.66, 0.33] · titan_from_horn 18 · titan_price_mult 1.2 · merc restock 3 horns
+bastion_hp_mult 2.0 (13.1: was 2.5) · rally_at [0.66, 0.33] · titan_from_horn 18 · titan_price_mult 1.2 · merc restock 3 horns
 wizard_leash ward_line · wizard_siege_mult 0.75 · wizard_horn_xp 40 · wizard_respawn 15 + 2 x level
 ```
 
@@ -642,3 +642,68 @@ panels, ScoreKeeper weights, end-screen WS tab, horn sounds, Bastion dressing, t
   price: the first `mode_mult` pass should raise Fire / lower Shadow), 18 Bastion kills + 2 on time, **median 27.9 min**
   (above the 12-25 target: ends come in Last Horns; knobs: Bastion HP mult, Citadel / rank timing), peak 206 lane units.
   Scorecard: `docs/tools/wave_strike/batch_m1_hammer/summary.md`. Shots: `docs/tools/wave_strike/shots/`.
+
+### 13.1 Balance pass (2026-10-06, after M1)
+
+Batches: `tools\wave_strike\run_ws_batch.ps1 -Kingdoms fire,shadow,ice,nature -SeedsPerPair 2` = the 12 ordered pairs
+(every matchup on both seats), hammer vs hammer, wizards on; scorecards in `docs/tools/wave_strike/balance_2026-10-06/`.
+New batch options: `-Kingdoms`, `-SeedsPerPair`, `-Mirrors`, `-Rules "field=v;..."` (WaveStrikeRules in memory),
+`-Cards res://...tres` (a candidate price table); `test_ws_match` gains `--east=`, `--rule.<field>=`, `--cards=` and
+writes a per-minute `timeline` (Bastion HP %, alive per side, front x) plus `wizard_casts` / `wizard_deaths` per seat.
+
+**What changed**
+| Change | Where | Why |
+|---|---|---|
+| **Ice and Nature cards** (4 per kingdom: line, archer, rider, T2) so the batches cover all 4 kingdoms; Shadow's set is now shade, bleakbow, **gloam_rider** (was grave_hound), hollow_oathsworn; Ice rimeshield, shardcaster, snowdrift_rider, hoarlight_magebow; Nature bramblehorn, wildwood_archer, stagrunner, greenheart_oathkeeper. Bot mixes follow (4 / 3 / 2 / 3) | `data/wave_strike/card_prices.tres`, `wave_bot.gd` MIX, `wave_strike_level.gd` KINGDOMS | the lobby still offers Fire / Shadow only (UI) |
+| **Card prices derived from the Unit Lab matrices** (reproducible): `tools/wave_strike/reprice_cards.gd` | `card_prices.tres` `mode_mult` | JS: prices from the matrix now that unit balance is good |
+| **Last Horns at 15:00, every 20 s** (was 24:00 / 30 s); **Bastion HP x2.0** (was x2.5: Fire / Shadow 7 000) | `rules_default.tres`, `wave_strike_rules.gd` defaults | median 27.9 min -> 19.6 |
+| **Bot wizards cast**: Vessa (any seat) and the autopilot seat 0 never cast (the wizard scripts' own AI runs only for `team != PLAYER`, and Vessa has none). The level now casts for them every 0.5 s (`SpellCaster.suggest_cast`, Vessa: `AICasts.suggest_vessa` without the engage dive) | `wave_strike_level.gd` `_cast_for_bot_wizards` | **the seat bias** (east won 49 of 72 games in b0-b2; mirror test without wizards was even) and a spell-less Fire bot in real games |
+| Playtest Recorder hook: `ReplayHooks.start_playtest(level, "wave_strike")` when Settings "Playtest data" is on (never under autopilot) | `wave_strike_level.gd` | health-and-playtests.md |
+| Perf: `Unit._find_nearest_enemy` does the cheap typed checks and the squared distance first (same result) | `scripts/units/unit.gd` | see the perf row below |
+
+**The price formula** (`reprice_cards.gd`, defaults = the shipped table): per card and per matrix basis b (equal crystals
+`final_matrix_t1t2`, equal pop `_pop`, both `_both`), `rel_b = score_b - mean(score_b of the card's ROLE) + 0.5` (role =
+melee / ranged by attack range: the matrix is head-on, archers lose by construction), `s = 0.25 rel_crystals + 0.5 rel_pop
++ 0.25 rel_both`, `mode_mult = clamp(1 + 1.2 (s - 0.5), 0.75, 1.35)`, price = cost x mode_mult rounded to 5. Pop weighs
+most because the mode is supply-capped (every bot sits at 56 / 56 from ~11:00). The tool also prints a **kingdom index**
+(the bot-mix-weighted raw score): the POP index predicted the first batch's order (Ice 71 / Fire 62 / Shadow 54 / Nature 39
+-> 92 / 58 / 25 / 25 % wins), which is why the card SETS were re-chosen (index now 60-64 for all four).
+| Card | mult | price | Card | mult | price |
+|---|---|---|---|---|---|
+| flame_guard | 1.08 | 95 | shade | 1.09 | 85 |
+| ember_archer | 0.92 | 90 | bleakbow | 0.90 | 105 |
+| blaze_rider | 1.05 | 190 | gloam_rider | 1.08 | 200 |
+| cinder_arbalest | 1.31 | 175 | hollow_oathsworn | 0.92 | 165 |
+| rimeshield | 1.27 | 120 | bramblehorn | 1.25 | 250 |
+| shardcaster | 0.93 | 100 | wildwood_archer | 0.82 | 70 |
+| snowdrift_rider | 1.14 | 195 | stagrunner | 0.79 | 125 |
+| hoarlight_magebow | 1.18 | 110 | greenheart_oathkeeper | 1.16 | 195 |
+Full table: `docs/tools/wave_strike/balance_2026-10-06/prices/card_prices_table.md`.
+
+**Before / after** (24 games each unless noted; kingdom = wins / games)
+| Batch | Fire | Shadow | Ice | Nature | Seat W / E | Median | Time rule | Peak units |
+|---|---|---|---|---|---|---|---|---|
+| M1 (20 games, Fire vs Shadow only, M1 prices) | 19 / 20 | 1 / 20 | - | - | 9 / 11 | 27.9 min | 10 % | 206 |
+| b0 baseline (prices 1.0, M1 rules) | 7 / 12 | 3 / 12 | 11 / 12 | 3 / 12 | 7 / 17 | 27.9 min | 25 % | 248 |
+| b1 matrix prices + Last Horns 16:00 + Bastion x2.0 | 10 / 12 | 1 / 12 | 9 / 12 | 4 / 12 | 9 / 15 | 21.2 min | 4 % | 219 |
+| b2 b1 + new card sets | 4 / 12 | 4 / 12 | 7 / 12 | 9 / 12 | 7 / 17 | 21.8 min | 8 % | 251 |
+| b3 b2 + wizard cast fix (stopped after 5 games) | | | | | 0 / 5 | 30 min (4 of 5 on time) | 80 % | |
+| **b4 final** (b3 + Last Horns 15:00 / 20 s; 22 games) | **10 / 11** | **1 / 10** | **2 / 11** | **9 / 12** | **10 / 12** | **19.6 min** (18.2-22.8) | **0 %** | **404** |
+Every batch: 0 stalls, 0 script errors. Mirror check (12 min, 4 games): without wizards 2 / 2 by seat; with the cast fix
+Fire / Ice mirrors 3 / 1, casts per seat 52/44, 46/39, 51/56, 41/52 (both seats cast alike).
+
+**Reading.** Pacing and seat fairness are fixed. Kingdom balance is NOT: with every wizard casting, **Fire wins 10 / 11**
+(Vessa's Fireball on the clustered waves + cinder arbalest) and **Shadow 1 / 10**. Card prices barely move it: both bots are
+at the 56 supply cap from ~11:00 with all 8 Coffers, so crystals stop binding and prices only change the early fill and
+how fast ranks come. Next levers, in order: (1) a per-card **supply** override (pop is the real price in a capped mode;
+half-pop steps need the cap table doubled), (2) the wizard: Vessa's AoE in a 40 m lane (a WS spell-power or cooldown rule,
+4.4 "re-ruled" spells), (3) Shadow's set (hollow_oathsworn -> barrow_knight raises its pop index 60 -> 62).
+**Perf watch**: 20 s Last Horns push the peak to 290-404 lane units in the last 1-2 minutes (over the `ws300` budget in
+half the games); if the Perf Lab confirms, use the cap valve of 7.8 (7) or 25 s horns.
+
+**Perf** (`test_ws_perf`, 200 lane units, headless, models on): the M1 p95 ~18 ms (march 18.04, clash 18.41) was NOT
+thermal: the same on a quiet PC. Profile: each 0.25 s target scan cost ~300 us (`Unit._find_nearest_enemy`: Variant
+`get(&"team")` in `is_enemy_of` and `global_position` per candidate before any distance check), ~13 scans a frame = ~4 ms.
+Reordered (typed team / dead checks and squared distance first): 300 -> 48 us per scan; **march p95 18.0 -> 12.0 ms,
+clash 18.4 -> 12.4 ms** (quiet PC); 14.4 / 14.0 ms with the new Shadow set while 4 other Godot runs were going. PASS.
+Avoidance (RVO, ~5 ms) and the model kits (~2 ms) are the next costs; `neighbor_distance` / `max_neighbors` did nothing.
