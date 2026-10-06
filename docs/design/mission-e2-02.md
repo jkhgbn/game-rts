@@ -406,3 +406,18 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** the Rimehold fort (Frost Hall + 3 Rime Spires) on your own bank; Powder Charge pauses training 10 s; strong against production buildings.
 - **Moment:** before the Rimehold assault: "A Saboteur looks like a Rime Hauler. Walk it past the spires and charge the Frost Hall.".
 - **Intro card:** `Ashveil Saboteur. Looks like their worker, works for you: blow the hall, stop the army before it's born.`
+
+## Built (2026-10-06)
+`missions/mission_e2_02.tscn` + `scripts/campaign/mission_e2_02.gd` (`MissionE2_02`), `GroveSite` / `MissionGrove`,
+tests `tests/test_e2m2.gd` (checks 1-8) and `tests/test_e2m2_sim.gd` (check 9, slow list). Runs on the real seat API
+(`scripts/core/teams.gd`, `MissionConfig.seat_sides`, `MissionBase.activate_seat`, `AllyChannel`). Deviations:
+- Map: the 120 m Crown Hollow terrain with one base per corner (Fire SW, Nature NW, Shadow NE, Ice SE), no river;
+  every spec position scaled into the quadrants (grove A `(-44, 14)`, B `(-12, -12)`, C `(-33, -33)`, Rimehold hall
+  `(-8, 49)`, 8 capture points, 8 camps). Fourfold Hollow needs MissionBase on a LayoutLevel (not built).
+- "Send Ysolde here": a 3-button panel (top right, until E14) and Alt+click on a site (AllyChannel's first input cut);
+  the ally after E14 is a Commander that never attacks plus the mission's L1 (intruder at a Fire building) / L2 (help
+  ping) answers, not the full `AIAlly`.
+- `obj_groves` stays done once done; a destroyed grove pauses the Vice `(paused: replant)` until 3 stand again.
+- Old Vey's L11 / L11b and the Saboteur moment hint are said at E10 / E9; no cine timelines (fallback end states).
+- Scripted run (normal, 2026-10-06): victory at 20:12 mission time (21:25 with the cutscene lengths) against 22-28;
+  W1 left 11 of 15 start soldiers (spec >= 13).

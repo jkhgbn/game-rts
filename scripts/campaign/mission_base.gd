@@ -1263,6 +1263,38 @@ func seat_out(seat: int) -> bool:
 	return Building.defeat_relevant(seat).is_empty()
 
 
+## A small mission button panel (first cut of a card button the UI owner may replace): top right, under the
+## controls help panel, HUD theme and slate frame. `rows` = [[text, callable], ...]; returns the panel.
+func mission_button_panel(panel_name: String, rows: Array) -> Control:
+	if hud == null:
+		return null
+	var frame := PanelContainer.new()
+	frame.name = panel_name
+	frame.theme = UIStyle.hud_theme()
+	frame.add_theme_stylebox_override("panel", UIStyle.slate_style(8.0, UIStyle.GOLD))
+	frame.anchor_left = 1.0
+	frame.anchor_right = 1.0
+	frame.offset_left = -268.0
+	frame.offset_right = -12.0
+	frame.offset_top = MISSION_PANEL_TOP
+	frame.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override(&"separation", 4)
+	frame.add_child(box)
+	for row: Array in rows:
+		var b := Button.new()
+		b.text = String(row[0])
+		b.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED   # the caller passes translated text
+		b.focus_mode = Control.FOCUS_NONE
+		b.pressed.connect(row[1])
+		box.add_child(b)
+	hud.add_child(frame)
+	return frame
+
+
+const MISSION_PANEL_TOP := 312.0   ## Below the controls help panel (top right, ~15-295 px at 1600 x 900 and 1920 x 1080).
+
+
 ## The 2v2 colour of a team (Unit.team_color by relation to the human seat).
 static func seat_color(team: int) -> Color:
 	return Unit.team_color(team)
