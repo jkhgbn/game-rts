@@ -159,8 +159,16 @@ func _place() -> void:
 	placement = &"top_bar" if pos.y == b.end.y + GAP else &"left_column"
 
 
-## Where the chip goes in the top-left column: under the visible Next hint or objective panel, else (16, 16).
+## Where the chip goes in the top-left column: under a mission's objectives panel (MissionHud), the visible Next hint
+## or the objective panel, else (16, 16).
 func _left_column_spot() -> Vector2:
+	var lvl: Node = hud.get_parent() if hud else null
+	var mh: Variant = lvl.get(&"mission_hud") if lvl != null and &"mission_hud" in lvl else null
+	if mh is Object and is_instance_valid(mh):
+		var op: Variant = (mh as Object).get(&"objectives_panel")
+		if op is Control and is_instance_valid(op) and (op as Control).is_visible_in_tree():
+			var orect := (op as Control).get_global_rect()
+			return Vector2(orect.position.x, orect.end.y + GAP)
 	for key in [&"next_step_hint", &"objective_panel"]:
 		var c: Variant = null
 		if key == &"objective_panel":

@@ -40,7 +40,9 @@ func setup(data: Dictionary) -> void:
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(row)
 	if not e.is_empty() and not short:
-		row.add_child(UnitGuide.portrait(e, PORTRAIT))
+		var pic := UnitGuide.portrait(e, PORTRAIT)
+		pic.size_flags_vertical = Control.SIZE_SHRINK_BEGIN   # a square at the top, not a strip the card's height
+		row.add_child(pic)
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 3)
