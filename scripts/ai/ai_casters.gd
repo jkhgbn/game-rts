@@ -962,7 +962,12 @@ func _deacon(c: Unit, ab: CasterAbility, group: Array[Unit], centre: Vector3, _n
 	if bool(commander.call(&"is_retreating")) and group.size() >= 2:
 		var d := _flat(centre, c.global_position)
 		if d >= PASSAGE_RETREAT_DIST and d <= passage_range:
-			var dense := _densest(group)
+			# The group keeps walking home through the 2.5 s channel and the rift picks at the END of it: aim at where
+			# the members will be (Unit Lab C7, 2026-10-05: aiming at the cast-time spot carried 0 units in 20 / 20).
+			var dense := _densest_predicted(group, float(CasterKit.spell_value(&"umbral_passage", "channel", 2.5)))
+			if _flat(dense, c.global_position) > passage_range:
+				dense = c.global_position + (dense - c.global_position).normalized() * passage_range
+				dense.y = 0.0
 			if _try(ab, &"umbral_passage", dense, "retreat_passage"):
 				return true
 	# Home Passage (hard): the base is attacked while the group is >= 35 m from home; the anchor (at home) calls it.
@@ -976,19 +981,40 @@ func _deacon(c: Unit, ab: CasterAbility, group: Array[Unit], centre: Vector3, _n
 	return false
 
 
-# The group member with the most other members within 4 m (the Passage pick radius).
-func _densest(group: Array[Unit]) -> Vector3:
-	var best := group[0].global_position
+# The densest spot (the point with the most other points within 4 m, the Passage pick radius) of where each member
+# will stand in `seconds`: its position + its flat velocity x the time, stopped at the commander's rally point (a
+# retreating unit halts there). Standing units stay where they are.
+func _densest_predicted(group: Array[Unit], seconds: float) -> Vector3:
+	var stop := Vector3.INF
+	if commander != null and commander.has_method(&"rally_point"):
+		var rp: Variant = commander.call(&"rally_point")
+		if rp is Vector3:
+			stop = rp
+	var pts: Array[Vector3] = []
+	for u in group:
+		var p := u.global_position
+		var v := Vector3(u.velocity.x, 0.0, u.velocity.z)
+		var step := v * seconds
+		if stop != Vector3.INF and step.length() > _flat(p, stop):
+			p = Vector3(stop.x, p.y, stop.z)
+		else:
+			p += step
+		pts.append(p)
+	return _densest_point(pts)
+
+
+static func _densest_point(pts: Array[Vector3]) -> Vector3:
+	var best := pts[0]
 	var best_n := -1
 	var r := float(CasterKit.spell_value(&"umbral_passage", "radius", 4.0))
-	for u in group:
+	for p in pts:
 		var n := 0
-		for o in group:
-			if _flat(o.global_position, u.global_position) <= r:
+		for o in pts:
+			if _flat(o, p) <= r:
 				n += 1
 		if n > best_n:
 			best_n = n
-			best = u.global_position
+			best = p
 	return Vector3(best.x, 0.0, best.z)
 
 
