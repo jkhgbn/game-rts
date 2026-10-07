@@ -267,7 +267,7 @@ msgstr ""
 
 #. speaker ysolde
 #: data/voice/lines/ep4_opening.json:L10
-msgid "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."
+msgid "That is my strength. I come back. Every spring. Every time."
 msgstr ""
 
 #. speaker ysolde

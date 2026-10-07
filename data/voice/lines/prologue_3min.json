@@ -10,8 +10,8 @@
    "t": 1.2,
    "dur": 5.8,
    "speaker": "master",
-   "subtitle": "Once upon a time, the strongest wizard of all|time ruled the world.",
-   "text": "Once upon a time, the strongest wizard of all time ruled the world."
+   "subtitle": "Once upon a time, the strongest wizard who|ever lived ruled the world.",
+   "text": "Once upon a time, the strongest wizard who ever lived ruled the world."
   },
   {
    "id": "L02",
@@ -230,8 +230,8 @@
    "t": 127.3,
    "dur": 6.7,
    "speaker": "master",
-   "subtitle": "Nothing breaks him. Not armies, not winters. Not|time.",
-   "text": "Nothing breaks him. Not armies, not winters. Not time."
+   "subtitle": "Armies have not broken him, nor winters,|nor time.",
+   "text": "Armies have not broken him, nor winters, nor time."
   },
   {
    "id": "L24",

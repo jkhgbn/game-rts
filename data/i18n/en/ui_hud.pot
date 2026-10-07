@@ -400,7 +400,7 @@ msgid "Right-click the ground to move %s"
 msgstr ""
 
 #. var pan_keys := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]) if GameSettings.rts_wasd() else Loc.t("Arrows")
-#: scripts/ui/hud.gd:472
+#: scripts/ui/hud.gd:472 scripts/campaign/mission_e3_02.gd:55
 msgid "Arrows"
 msgstr ""
 

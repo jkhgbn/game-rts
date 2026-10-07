@@ -87,7 +87,7 @@ These tables are the line tracks: E34.C1 / C2 write them as `data/story/ep3_open
 | L7 | S07 | 0.3 / 5.0 | ysolde | They call me soft. Neutral. Slow.\|Slow is how an oak outlives an army. |
 | L8 | H08 | 0.3 / 5.0 | ysolde | Last winter they burned my wood\|and froze the ashes. My army with it. |
 | L9 | H09 | 0.3 / 5.2 | ysolde | I knelt in the black, and I waited.\|Something green came up. It always does. |
-| L10 | S10 | 0.3 / 5.3 | ysolde | That is my strength. Not fire. Not knives.\|I come back. Every spring. Every time. |
+| L10 | S10 | 0.3 / 5.3 | ysolde | That is my strength.\|I come back. Every spring. Every time. |
 | L11 | S11 | 0.3 / 5.1 | ysolde | The Master planted this country with his\|own hands. He left it to me to keep. |
 | L12 | S12 | 0.3 / 4.6 | ysolde | Malrik stands up there with his candle,\|his stone, and Torvald's winter. |
 | L13 | S12 | 5.1 / 3.2 | ysolde | Let them come. Cut it. Burn it. Freeze it. |

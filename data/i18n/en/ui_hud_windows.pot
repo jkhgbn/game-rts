@@ -506,9 +506,9 @@ msgid "Sold {name} for {n}"
 msgstr ""
 
 #. message.emit(Loc.t("Not enough crystals"))
-#: scripts/ui/shop_window.gd:650 scripts/ui/top_bar.gd:295 scripts/campaign/mission_e2_05.gd:208
-#: scripts/buildings/build_grid.gd:26 scripts/buildings/training_building.gd:16
-#: scripts/buildings/unit_upgrades.gd:45
+#: scripts/ui/shop_window.gd:650 scripts/ui/top_bar.gd:295 scripts/campaign/mission_e2_05.gd:225
+#: scripts/campaign/mission_e3_04.gd:173 scripts/buildings/build_grid.gd:26
+#: scripts/buildings/training_building.gd:16
 msgid "Not enough crystals"
 msgstr ""
 
@@ -1495,9 +1495,9 @@ msgid "Not enough"
 msgstr ""
 
 #. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
-#: scripts/ui/item_tooltip.gd:216 scripts/ui/spell_info.gd:149 scripts/units/champion_abilities.gd:61
-#: scripts/units/creature_abilities.gd:60 scripts/units/helper_abilities.gd:106
-#: scripts/units/str_int_path.gd:166
+#: scripts/ui/item_tooltip.gd:216 scripts/ui/spell_info.gd:149 scripts/campaign/mission_e3_03.gd:133
+#: scripts/campaign/mission_e3_04.gd:176 scripts/units/champion_abilities.gd:61
+#: scripts/units/creature_abilities.gd:60
 msgid "Dead"
 msgstr ""
 

@@ -267,8 +267,8 @@ msgstr "Je me suis agenouillée dans le noir, et j'ai attendu. Du vert a levé. 
 
 #. speaker ysolde
 #: data/voice/lines/ep4_opening.json:L10
-msgid "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."
-msgstr "Voilà ma force. Ni feu ni couteaux. Je reviens. Chaque printemps. Chaque fois."
+msgid "That is my strength. I come back. Every spring. Every time."
+msgstr "Voilà ma force. Je reviens. Chaque printemps. Chaque fois."
 
 #. speaker ysolde
 #: data/voice/lines/ep4_opening.json:L11
@@ -297,8 +297,8 @@ msgstr "Il ne s'arrêtera pas."
 
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L01
-msgid "Once upon a time, the strongest wizard of all time ruled the world."
-msgstr "Il était une fois le plus puissant sorcier de tous les temps, maître du monde."
+msgid "Once upon a time, the strongest wizard who ever lived ruled the world."
+msgstr "Il était une fois le plus puissant sorcier qui ait jamais vécu, maître du monde."
 
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L02
@@ -407,8 +407,8 @@ msgstr "Torvald, l'aîné. Là où il se tient, la glace tient, et la ligne auss
 
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L23
-msgid "Nothing breaks him. Not armies, not winters. Not time."
-msgstr "Rien ne le brise. Ni armées, ni hivers. Ni le temps."
+msgid "Armies have not broken him, nor winters, nor time."
+msgstr "Ni les armées, ni les hivers, ni le temps ne l'ont brisé."
 
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L24

@@ -90,8 +90,8 @@
    "at": 0.3,
    "dur": 5.3,
    "speaker": "ysolde",
-   "subtitle": "That is my strength. Not fire. Not knives.|I come back. Every spring. Every time.",
-   "text": "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."
+   "subtitle": "That is my strength.|I come back. Every spring. Every time.",
+   "text": "That is my strength. I come back. Every spring. Every time."
   },
   {
    "id": "L11",

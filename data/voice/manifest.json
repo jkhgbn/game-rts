@@ -5,8 +5,11 @@
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
  "count": 285,
- "total_seconds": 626.86,
- "orphans": [],
+ "total_seconds": 623.91,
+ "orphans": [
+  "master/nothing_breaks_him_not_9a4ca6da",
+  "master/once_upon_a_time_74703b43"
+ ],
  "lines": {
   "aldra/still_water_steady_aim_41ed1299": {
    "speaker": "aldra",
@@ -313,7 +316,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:41",
+     "source": "data/cinematics/src/ep3_opening.cine:47",
      "ref": "ep3_opening/N05@0.3",
      "slot": 5.0,
      "slot_kind": "cine shot",
@@ -346,7 +349,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:23",
+     "source": "data/cinematics/src/ep3_opening.cine:26",
      "ref": "ep3_opening/B01@3",
      "slot": 3.4,
      "slot_kind": "cine shot",
@@ -380,7 +383,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:93",
+     "source": "data/cinematics/src/ep3_opening.cine:119",
      "ref": "ep3_opening/N13@0.4",
      "slot": 2.6,
      "slot_kind": "cine shot",
@@ -430,7 +433,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:70",
+     "source": "data/cinematics/src/ep3_opening.cine:82",
      "ref": "ep3_opening/G09@0.3",
      "slot": 5.0,
      "slot_kind": "cine shot",
@@ -463,7 +466,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:62",
+     "source": "data/cinematics/src/ep3_opening.cine:70",
      "ref": "ep3_opening/N07@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -496,7 +499,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:26",
+     "source": "data/cinematics/src/ep3_opening.cine:30",
      "ref": "ep3_opening/N02@0.3",
      "slot": 5.2,
      "slot_kind": "cine shot",
@@ -529,7 +532,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:94",
+     "source": "data/cinematics/src/ep3_opening.cine:122",
      "ref": "ep3_opening/N13@3.3",
      "slot": 2.0,
      "slot_kind": "cine shot",
@@ -562,7 +565,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:81",
+     "source": "data/cinematics/src/ep3_opening.cine:101",
      "ref": "ep3_opening/N10@0.5",
      "slot": 5.2,
      "slot_kind": "cine shot",
@@ -670,7 +673,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:89",
+     "source": "data/cinematics/src/ep3_opening.cine:114",
      "ref": "ep3_opening/N12@0.3",
      "slot": 5.1,
      "slot_kind": "cine shot",
@@ -728,7 +731,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:66",
+     "source": "data/cinematics/src/ep3_opening.cine:77",
      "ref": "ep3_opening/W02@0.3",
      "slot": 5.3,
      "slot_kind": "cine shot",
@@ -761,7 +764,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:84",
+     "source": "data/cinematics/src/ep3_opening.cine:107",
      "ref": "ep3_opening/N11@0.3",
      "slot": 5.2,
      "slot_kind": "cine shot",
@@ -794,7 +797,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:32",
+     "source": "data/cinematics/src/ep3_opening.cine:38",
      "ref": "ep3_opening/G03@0.4",
      "slot": 5.2,
      "slot_kind": "cine shot",
@@ -827,7 +830,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:47",
+     "source": "data/cinematics/src/ep3_opening.cine:53",
      "ref": "ep3_opening/G06@0.3",
      "slot": 5.0,
      "slot_kind": "cine shot",
@@ -860,7 +863,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:90",
+     "source": "data/cinematics/src/ep3_opening.cine:115",
      "ref": "ep3_opening/N12@5.45",
      "slot": 4.9,
      "slot_kind": "cine shot",
@@ -893,7 +896,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep3_opening.cine:36",
+     "source": "data/cinematics/src/ep3_opening.cine:42",
      "ref": "ep3_opening/G04@0.3",
      "slot": 5.2,
      "slot_kind": "cine shot",
@@ -906,6 +909,44 @@
      "slot": 5.2,
      "slot_kind": "cine slot",
      "speaker_id": "malrik"
+    }
+   ]
+  },
+  "master/armies_have_not_broken_946bc99e": {
+   "speaker": "master",
+   "text": "Armies have not broken him, nor winters, nor time.",
+   "text_hash": "946bc99e3f36bc55",
+   "path": "res://assets/audio/voice/master/armies_have_not_broken_946bc99e.wav",
+   "voice": {
+    "bm_lewis": 0.4,
+    "bm_george": 0.35,
+    "bm_fable": 0.25
+   },
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "lang": "en-gb",
+   "duration": 3.94,
+   "peak": 0.8913,
+   "rms_db": -18.1,
+   "clipped": 0,
+   "file_hash": "32bf7983dcc944df",
+   "gen_s": 1.24,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/prologue_3min.cine:284",
+     "ref": "prologue_3min/S23@0.3",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/prologue_3min.json",
+     "ref": "prologue_3min/L23",
+     "slot": 6.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
     }
    ]
   },
@@ -930,7 +971,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:343",
+     "source": "data/cinematics/src/prologue_3min.cine:351",
      "ref": "prologue_3min/S27@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -967,7 +1008,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:250",
+     "source": "data/cinematics/src/prologue_3min.cine:254",
      "ref": "prologue_3min/S20@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -1004,7 +1045,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:311",
+     "source": "data/cinematics/src/prologue_3min.cine:317",
      "ref": "prologue_3min/S24@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1041,7 +1082,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:195",
+     "source": "data/cinematics/src/prologue_3min.cine:196",
      "ref": "prologue_3min/S16@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1078,7 +1119,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:367",
+     "source": "data/cinematics/src/prologue_3min.cine:375",
      "ref": "prologue_3min/S28@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -1189,7 +1230,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:167",
+     "source": "data/cinematics/src/prologue_3min.cine:168",
      "ref": "prologue_3min/S15@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1263,7 +1304,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:256",
+     "source": "data/cinematics/src/prologue_3min.cine:260",
      "ref": "prologue_3min/S21@0.3",
      "slot": 7.6,
      "slot_kind": "cine shot",
@@ -1374,7 +1415,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:318",
+     "source": "data/cinematics/src/prologue_3min.cine:324",
      "ref": "prologue_3min/S25@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -1411,7 +1452,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:379",
+     "source": "data/cinematics/src/prologue_3min.cine:388",
      "ref": "prologue_3min/S30@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -1448,7 +1489,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:373",
+     "source": "data/cinematics/src/prologue_3min.cine:381",
      "ref": "prologue_3min/S29@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1522,7 +1563,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:212",
+     "source": "data/cinematics/src/prologue_3min.cine:215",
      "ref": "prologue_3min/S18@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -1575,43 +1616,6 @@
     }
    ]
   },
-  "master/nothing_breaks_him_not_9a4ca6da": {
-   "speaker": "master",
-   "text": "Nothing breaks him. Not armies, not winters. Not time.",
-   "text_hash": "9a4ca6dacc803e22",
-   "path": "res://assets/audio/voice/master/nothing_breaks_him_not_9a4ca6da.wav",
-   "voice": {
-    "bm_lewis": 0.4,
-    "bm_george": 0.35,
-    "bm_fable": 0.25
-   },
-   "speed": 0.82,
-   "lang": "en-gb",
-   "duration": 4.16,
-   "peak": 0.8913,
-   "rms_db": -19.9,
-   "clipped": 0,
-   "file_hash": "74f54b9467937dde",
-   "gen_s": 9.86,
-   "sources": [
-    {
-     "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:279",
-     "ref": "prologue_3min/S23@0.3",
-     "slot": 6.6,
-     "slot_kind": "cine shot",
-     "speaker_id": "master"
-    },
-    {
-     "kind": "cine",
-     "source": "data/voice/lines/prologue_3min.json",
-     "ref": "prologue_3min/L23",
-     "slot": 6.7,
-     "slot_kind": "cine slot",
-     "speaker_id": "master"
-    }
-   ]
-  },
   "master/nothing_is_hidden_from_3efbf049": {
    "speaker": "master",
    "text": "Nothing is hidden from him. The dark itself comes when he calls.",
@@ -1633,7 +1637,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:220",
+     "source": "data/cinematics/src/prologue_3min.cine:224",
      "ref": "prologue_3min/S19@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1649,24 +1653,25 @@
     }
    ]
   },
-  "master/once_upon_a_time_74703b43": {
+  "master/once_upon_a_time_8b62d3e8": {
    "speaker": "master",
-   "text": "Once upon a time, the strongest wizard of all time ruled the world.",
-   "text_hash": "74703b43c785f0b5",
-   "path": "res://assets/audio/voice/master/once_upon_a_time_74703b43.wav",
+   "text": "Once upon a time, the strongest wizard who ever lived ruled the world.",
+   "text_hash": "8b62d3e86f77cb52",
+   "path": "res://assets/audio/voice/master/once_upon_a_time_8b62d3e8.wav",
    "voice": {
     "bm_lewis": 0.4,
     "bm_george": 0.35,
     "bm_fable": 0.25
    },
    "speed": 0.82,
+   "cast_speed": 0.82,
    "lang": "en-gb",
-   "duration": 5.143,
+   "duration": 5.28,
    "peak": 0.8913,
-   "rms_db": -20.2,
+   "rms_db": -20.5,
    "clipped": 0,
-   "file_hash": "3fa5aee52c5805a1",
-   "gen_s": 6.83,
+   "file_hash": "5ab7929e558f28a5",
+   "gen_s": 1.41,
    "sources": [
     {
      "kind": "cine",
@@ -1707,7 +1712,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:202",
+     "source": "data/cinematics/src/prologue_3min.cine:204",
      "ref": "prologue_3min/S17@0.3",
      "slot": 5.6,
      "slot_kind": "cine shot",
@@ -1855,7 +1860,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:266",
+     "source": "data/cinematics/src/prologue_3min.cine:271",
      "ref": "prologue_3min/S22@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -1966,7 +1971,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/prologue_3min.cine:334",
+     "source": "data/cinematics/src/prologue_3min.cine:341",
      "ref": "prologue_3min/S26@0.3",
      "slot": 6.6,
      "slot_kind": "cine shot",
@@ -7065,20 +7070,21 @@
     }
    ]
   },
-  "vessa/an_ember_crown_in_21770f9f": {
+  "vessa/an_ember_crown_in_b9772779": {
    "speaker": "vessa",
-   "text": "An Ember Crown, in a place called Emberfall. I'm not saying it was left for me. I'm not NOT saying it.",
-   "text_hash": "21770f9fac450741",
-   "path": "res://assets/audio/voice/vessa/an_ember_crown_in_21770f9f.wav",
+   "text": "An Ember Crown, in a place called Emberfall. Nobody said it was left for me. Nobody said it wasn't.",
+   "text_hash": "b97727793bb58e11",
+   "path": "res://assets/audio/voice/vessa/an_ember_crown_in_b9772779.wav",
    "voice": "af_heart",
-   "speed": 1.12,
+   "speed": 1.319,
+   "cast_speed": 1.12,
    "lang": "en-us",
-   "duration": 5.589,
+   "duration": 4.864,
    "peak": 0.8913,
-   "rms_db": -17.8,
+   "rms_db": -17.7,
    "clipped": 0,
-   "file_hash": "cafa079263b14221",
-   "gen_s": 6.12,
+   "file_hash": "2013b571b91efa3d",
+   "gen_s": 5.33,
    "sources": [
     {
      "kind": "mission",
@@ -7088,7 +7094,12 @@
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
     }
-   ]
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.653,
+    "speed_x": 1.178
+   }
   },
   "vessa/but_her_people_have_6f60fcc0": {
    "speaker": "vessa",
@@ -7471,20 +7482,21 @@
     }
    ]
   },
-  "vessa/three_braziers_one_seal_a933259b": {
+  "vessa/three_braziers_one_seal_f3a00131": {
    "speaker": "vessa",
-   "text": "Three braziers, one seal. How hard can it be to light things? It's my whole personality.",
-   "text_hash": "a933259b39d98cf8",
-   "path": "res://assets/audio/voice/vessa/three_braziers_one_seal_a933259b.wav",
+   "text": "Three braziers, one seal. I've been lighting things since before I could talk.",
+   "text_hash": "f3a00131583fe94c",
+   "path": "res://assets/audio/voice/vessa/three_braziers_one_seal_f3a00131.wav",
    "voice": "af_heart",
    "speed": 1.12,
+   "cast_speed": 1.12,
    "lang": "en-us",
-   "duration": 5.015,
+   "duration": 4.05,
    "peak": 0.8913,
-   "rms_db": -18.2,
+   "rms_db": -21.2,
    "clipped": 0,
-   "file_hash": "1f8e270a180adfe4",
-   "gen_s": 5.83,
+   "file_hash": "4151191496b35913",
+   "gen_s": 1.47,
    "sources": [
     {
      "kind": "mission",
@@ -7629,7 +7641,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:68",
+     "source": "data/cinematics/src/ep4_opening.cine:90",
      "ref": "ep4_opening/S13@0.3",
      "slot": 1.8,
      "slot_kind": "cine shot",
@@ -7826,7 +7838,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:35",
+     "source": "data/cinematics/src/ep4_opening.cine:45",
      "ref": "ep4_opening/H05@0.3",
      "slot": 5.1,
      "slot_kind": "cine shot",
@@ -7859,7 +7871,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:42",
+     "source": "data/cinematics/src/ep4_opening.cine:51",
      "ref": "ep4_opening/S06@0.3",
      "slot": 5.0,
      "slot_kind": "cine shot",
@@ -7892,7 +7904,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:54",
+     "source": "data/cinematics/src/ep4_opening.cine:70",
      "ref": "ep4_opening/H09@0.3",
      "slot": 5.2,
      "slot_kind": "cine shot",
@@ -7925,7 +7937,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:23",
+     "source": "data/cinematics/src/ep4_opening.cine:32",
      "ref": "ep4_opening/S02@0.3",
      "slot": 5.0,
      "slot_kind": "cine shot",
@@ -7958,7 +7970,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:32",
+     "source": "data/cinematics/src/ep4_opening.cine:42",
      "ref": "ep4_opening/H04@0.3",
      "slot": 4.4,
      "slot_kind": "cine shot",
@@ -7991,7 +8003,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:69",
+     "source": "data/cinematics/src/ep4_opening.cine:94",
      "ref": "ep4_opening/S13@2.6",
      "slot": 2.0,
      "slot_kind": "cine shot",
@@ -8024,7 +8036,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:51",
+     "source": "data/cinematics/src/ep4_opening.cine:64",
      "ref": "ep4_opening/H08@0.3",
      "slot": 5.0,
      "slot_kind": "cine shot",
@@ -8057,7 +8069,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:66",
+     "source": "data/cinematics/src/ep4_opening.cine:87",
      "ref": "ep4_opening/S12@5.1",
      "slot": 3.2,
      "slot_kind": "cine shot",
@@ -8090,7 +8102,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:65",
+     "source": "data/cinematics/src/ep4_opening.cine:86",
      "ref": "ep4_opening/S12@0.3",
      "slot": 4.6,
      "slot_kind": "cine shot",
@@ -8123,7 +8135,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:20",
+     "source": "data/cinematics/src/ep4_opening.cine:28",
      "ref": "ep4_opening/B01@3",
      "slot": 4.6,
      "slot_kind": "cine shot",
@@ -8156,7 +8168,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:29",
+     "source": "data/cinematics/src/ep4_opening.cine:39",
      "ref": "ep4_opening/H03@0.4",
      "slot": 5.1,
      "slot_kind": "cine shot",
@@ -8172,24 +8184,25 @@
     }
    ]
   },
-  "ysolde/that_is_my_strength_ae118cbe": {
+  "ysolde/that_is_my_strength_7a8a1ecc": {
    "speaker": "ysolde",
-   "text": "That is my strength. Not fire. Not knives. I come back. Every spring. Every time.",
-   "text_hash": "ae118cbec0e9f153",
-   "path": "res://assets/audio/voice/ysolde/that_is_my_strength_ae118cbe.wav",
+   "text": "That is my strength. I come back. Every spring. Every time.",
+   "text_hash": "7a8a1ecca1cbe7a9",
+   "path": "res://assets/audio/voice/ysolde/that_is_my_strength_7a8a1ecc.wav",
    "voice": "bf_emma",
    "speed": 1.0,
+   "cast_speed": 1.0,
    "lang": "en-gb",
-   "duration": 4.416,
+   "duration": 3.243,
    "peak": 0.8913,
-   "rms_db": -19.0,
+   "rms_db": -17.6,
    "clipped": 0,
-   "file_hash": "93daee48488efa82",
-   "gen_s": 4.91,
+   "file_hash": "8aaabc94f9c82a4d",
+   "gen_s": 1.48,
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:60",
+     "source": "data/cinematics/src/ep4_opening.cine:76",
      "ref": "ep4_opening/S10@0.3",
      "slot": 5.3,
      "slot_kind": "cine shot",
@@ -8222,7 +8235,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:62",
+     "source": "data/cinematics/src/ep4_opening.cine:81",
      "ref": "ep4_opening/S11@0.3",
      "slot": 5.1,
      "slot_kind": "cine shot",
@@ -8255,7 +8268,7 @@
    "sources": [
     {
      "kind": "cine",
-     "source": "data/cinematics/src/ep4_opening.cine:45",
+     "source": "data/cinematics/src/ep4_opening.cine:55",
      "ref": "ep4_opening/S07@0.3",
      "slot": 5.0,
      "slot_kind": "cine shot",

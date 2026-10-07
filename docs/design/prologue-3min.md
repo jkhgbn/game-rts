@@ -27,7 +27,7 @@ skip lock at 0:30, same hand-off to the first mission). The plan's engine, overl
 
 ## 1. The narration (final text, 30 lines, all by the Master)
 ```
-[0:01] Once upon a time, the strongest wizard of all time ruled the world.
+[0:01] Once upon a time, the strongest wizard who ever lived ruled the world.
 [0:07] They called him only the Master. For a thousand years, he kept the peace.
 [0:14] His citadel rose above the clouds, a city of towers, bridges and bells.
 [0:21] Dragons great and small filled its sky, and not one breathed in anger.
@@ -49,7 +49,7 @@ skip lock at 0:30, same hand-off to the first mission). The plan's engine, overl
 [1:46] But he is never full. Whatever he holds, he wants more.
 [1:52] He thinks I gave him leftovers. I gave the dark to the one it could not frighten.
 [2:00] Torvald, the eldest. Where he stands, the ice holds, and so does the line.
-[2:07] Nothing breaks him. Not armies, not winters. Not time.
+[2:07] Armies have not broken him, nor winters, nor time.
 [2:14] But he waits too long, and trusts slow ice more than quick friends.
 [2:21] I left him my coldest secret. Torvald was my patience.
 [2:27] Ysolde. I found her coaxing a sapling through the frost.
@@ -75,7 +75,7 @@ always a close-up). Lines start 0.3 s into their shot (S01 1.2 s, S08-S12 0.2 / 
 
 | Shot | Time | Set | Camera (marks `<shot>_from/_to/_look_from/_look_to`) | What we see | Line |
 |---|---|---|---|---|---|
-| S01 | 0:00-0:07 | `forge_citadel` | FADE_BLACK in 1.5 s; CRANE down through a sea of clouds, fov 45 -> 38 | Dawn above the clouds. They part, and the citadel fills the frame: a whole mountain carved into a city, a thousand towers catching the sun one by one. A bell rings. The first dragons lift off the spires | Once upon a time, the strongest wizard of all time ruled the world. |
+| S01 | 0:00-0:07 | `forge_citadel` | FADE_BLACK in 1.5 s; CRANE down through a sea of clouds, fov 45 -> 38 | Dawn above the clouds. They part, and the citadel fills the frame: a whole mountain carved into a city, a thousand towers catching the sun one by one. A bell rings. The first dragons lift off the spires | Once upon a time, the strongest wizard who ever lived ruled the world. |
 | S02 | 0:07-0:14 | `forge_citadel` | RAIL along the Great Bridge, 30 m up, toward the statue | A colossal statue of the hooded Master, green with a thousand years of moss, guards the Great Bridge. Under it: pilgrims, carts, four-colour banners snapping, children laying flowers at its feet. An elder dragon glides UNDER the bridge | They called him only the Master. For a thousand years, he kept the peace. |
 | S03 | 0:14-0:21 | `forge_citadel` | HERO WIDE (the poster shot), slow push, fov 30 | The whole citadel: spiral towers, sky-bridges, hanging gardens, great bells swinging in open belfries, waterfalls pouring from every terrace into the clouds, a rainbow in the spray, the orrery dome on the summit | His citadel rose above the clouds, a city of towers, bridges and bells. |
 | S04 | 0:21-0:28 | `forge_citadel` | FOLLOW a baby ember-dragon through the flock; it peels off to reveal the scale | The dragon flock: cathedral-sized elders drifting like clouds, flights of swallow-sized ones, a frost dragon and a cinder dragon wing to wing, dragons perched on towers like gargoyles, one carrying a bell. Nothing burns | Dragons great and small filled its sky, and not one breathed in anger. |
@@ -97,7 +97,7 @@ always a close-up). Lines start 0.3 s into their shot (S01 1.2 s, S08-S12 0.2 / 
 | S20 | 1:46-1:52 | `forge_intro_malrik` | Slow push over the table | WEAKNESS: a table of trophies and stolen letters; he pockets one more; a crown's reflection burns in his eyes | But he is never full. Whatever he holds, he wants more. |
 | S21 | 1:52-2:00 | `forge_intro_malrik` | STATIC close-up | LOVE: Malrik alone with the candle. He pinches it out. In the dark he is calm, almost smiling: it never frightened him | He thinks I gave him leftovers. I gave the dark to the one it could not frighten. |
 | S22 | 2:00-2:07 | `forge_intro_torvald` | CRANE down over the frozen lake | An enemy army charges Torvald across the lake. His Rimeshields lock a wall of ice-shields, a Frostbow volley slows the charge to a crawl, Frostrune Riflemen fire; the ice holds under his army and cracks under theirs | Torvald, the eldest. Where he stands, the ice holds, and so does the line. |
-| S23 | 2:07-2:14 | `forge_intro_torvald` | ORBIT 70 degrees around him | A titan leaps at him; he flash-freezes it in mid-air. The frost dragon breathes over the lake, a War Mammoth and a Rime Colossus stand behind him. A time-lapse: a hundred winters pass over him and he does not move | Nothing breaks him. Not armies, not winters. Not time. |
+| S23 | 2:07-2:14 | `forge_intro_torvald` | ORBIT 70 degrees around him | A titan leaps at him; he flash-freezes it in mid-air. The frost dragon breathes over the lake, a War Mammoth and a Rime Colossus stand behind him. A time-lapse: a hundred winters pass over him and he does not move | Armies have not broken him, nor winters, nor time. |
 | S24 | 2:14-2:21 | `forge_intro_torvald` | Over his shoulder | WEAKNESS: a rider hammers at his ice gate begging for help; he turns away; snow buries the rider's signal fire | But he waits too long, and trusts slow ice more than quick friends. |
 | S25 | 2:21-2:27 | `forge_intro_torvald` | STATIC close-up, then tilt down through the ice | LOVE: Torvald looks down through clear ice at something vast sleeping far below (the Heartfrost) | I left him my coldest secret. Torvald was my patience. |
 | S26 | 2:27-2:34 | `forge_intro_ysolde` | Low, in the snow | A small girl coaxes a sapling up through the frost. The tall man with the burning hem kneels beside her | Ysolde. I found her coaxing a sapling through the frost. |

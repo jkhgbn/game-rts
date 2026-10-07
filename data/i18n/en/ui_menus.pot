@@ -132,7 +132,7 @@ msgstr ""
 #. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
 #: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/cinematic/speakers.gd:12
 #: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_e2_01.gd:151
-#: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_05.gd:149
+#: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_05.gd:166
 msgid "Torvald"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 #. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
 #: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/cinematic/speakers.gd:13
 #: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_e2_01.gd:151
-#: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_05.gd:148
+#: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_05.gd:165
 msgid "Ysolde"
 msgstr ""
 
@@ -273,9 +273,9 @@ msgstr ""
 msgid "ENEMY"
 msgstr ""
 
-#. const TAGLINE := "Four apprentices. One vanished master. Every artifact is a step to his throne."
+#. const TAGLINE := "The Master is gone. Four apprentices fight over what he left behind."
 #: scripts/ui/menus/main_menu.gd:10
-msgid "Four apprentices. One vanished master. Every artifact is a step to his throne."
+msgid "The Master is gone. Four apprentices fight over what he left behind."
 msgstr ""
 
 #. const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty order

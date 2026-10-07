@@ -46,7 +46,7 @@ cast  vine2      res://art/units/nature/vinelasher/vinelasher.tscn   at=(1.6, 0,
 # ---------------------------------------------------------------- minute 1: the legend (forge_citadel)
 # Dawn above the clouds; the citadel fills the frame; the first dragons lift off the spires
 shot S01 7.0  set=forge_citadel  in=fade_black:1.5
-  at 1.2  line master "Once upon a time, the strongest wizard of all time ruled the world."  dur=5.7
+  at 1.2  line master "Once upon a time, the strongest wizard who ever lived ruled the world."  dur=5.7
 # The colossal mossy statue of the hooded Master guards the Great Bridge
 shot S02 7.0  set=forge_citadel
   at 0.4  line master "They called him only the Master. For a thousand years, he kept the peace."  dur=6.5
@@ -281,7 +281,7 @@ shot S23 3.4  set=forge_intro_torvald
   at 0.0  hide army_charge
   at 0.0  show fx_burst
   at 0.0  show fx_snow
-  at 0.3  line master "Nothing breaks him. Not armies, not winters. Not time."  dur=6.6
+  at 0.3  line master "Armies have not broken him, nor winters, nor time."  dur=6.6
   at 0.3  anim torvald set_expression  arg=fierce
   at 0.0  hide shield1
   at 0.0  hide shield2

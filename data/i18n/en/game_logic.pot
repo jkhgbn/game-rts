@@ -394,11 +394,6 @@ msgstr ""
 msgid "Can't train that here"
 msgstr ""
 
-#. const REASON_LOCKED := "Not now"     ## MissionBase.lock_base (docs/design/mission-framework.md).
-#: scripts/buildings/training_building.gd:21
-msgid "Not now"
-msgstr ""
-
 #. const REASON_DONE := "Already researched"
 #: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:46
 #: scripts/units/stables16.gd:261
@@ -618,11 +613,6 @@ msgstr ""
 #. const REASON_NO_TARGET := "No target"
 #: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:125
 msgid "No target"
-msgstr ""
-
-#. const REASON_RECHARGING := "Recharging"
-#: scripts/units/caster_kit.gd:100 scripts/items/inventory.gd:31
-msgid "Recharging"
 msgstr ""
 
 #. const REASON_CANT := "Can't cast now"
@@ -1206,7 +1196,7 @@ msgid "Can't hire that here"
 msgstr ""
 
 #. @export var unit_name := "Soldier"
-#: scripts/units/unit.gd:144
+#: scripts/units/unit.gd:146
 msgid "Soldier"
 msgstr ""
 
@@ -1872,9 +1862,9 @@ msgstr ""
 msgid "%s herd"
 msgstr ""
 
-#. const START_HINT := "Click your Keep (bottom-left) to train workers — select workers and press B to build"
+#. const START_HINT := "Click your Keep (bottom-left) to train workers, then select workers and press B to build"
 #: scripts/world/main.gd:46
-msgid "Click your Keep (bottom-left) to train workers — select workers and press B to build"
+msgid "Click your Keep (bottom-left) to train workers, then select workers and press B to build"
 msgstr ""
 
 #. hud.show_message("Baking pathfinding...", 1.0)
@@ -1950,11 +1940,6 @@ msgstr ""
 #. {"id": &"bridge_road_s", "name": "Millstone Bridge", "kind": &"bridge_road", "center": Vector3(12.0, 0.0, 48.7
 #: scripts/world/skirmish.gd:149
 msgid "Millstone Bridge"
-msgstr ""
-
-#. {"id": &"ford_n", "name": "Reed Ford", "kind": &"ford", "center": Vector3(-8.5, 0.0, -34.0),
-#: scripts/world/skirmish.gd:151
-msgid "Reed Ford"
 msgstr ""
 
 #. {"id": &"ford_s", "name": "Willow Ford", "kind": &"ford", "center": Vector3(8.5, 0.0, 34.0),

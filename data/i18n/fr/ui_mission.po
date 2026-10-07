@@ -41,7 +41,7 @@ msgid "Open the Unit Guide on this unit"
 msgstr "Ouvrir le Guide des unités sur cette unité"
 
 #. var head := UIStyle.display_label("Spotlight", 12, UIStyle.GOLD)
-#: scripts/ui/mission/spotlight_card.gd:49
+#: scripts/ui/mission/spotlight_card.gd:51
 msgid "Spotlight"
 msgstr "À l'honneur"
 
@@ -88,19 +88,21 @@ msgstr "Vey"
 
 #. &"hush": ["Mother Hush", Color(0.60, 0.50, 0.75)],
 #: scripts/ui/cinematic/speakers.gd:11 scripts/campaign/m00_cast.gd:157
-#: scripts/campaign/mission_00.gd:111 data/units/mother_hush.tres:9 data/helpers/helper_hush.tres:9
+#: scripts/campaign/mission_00.gd:111 scripts/campaign/mission_e2_04.gd:148
+#: scripts/campaign/mission_e2_05.gd:166 scripts/campaign/mission_e3_01.gd:141
 msgid "Mother Hush"
 msgstr "Mère Hush"
 
 #. &"obren": ["Obren", Color(1.0, 0.80, 0.25)],
 #: scripts/ui/cinematic/speakers.gd:15 scripts/ui/cinematic/speakers.gd:36
 #: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_03.gd:1468
-#: scripts/campaign/mission_04.gd:91
+#: scripts/campaign/mission_04.gd:91 scripts/campaign/mission_e2_04.gd:149
 msgid "Obren"
 msgstr "Obren"
 
 #. &"master": ["The Master", Color(0.95, 0.93, 0.85)],
 #: scripts/ui/cinematic/speakers.gd:16 scripts/campaign/mission_03.gd:156
+#: scripts/campaign/mission_e2_05.gd:167
 msgid "The Master"
 msgstr "Le Maître"
 
@@ -133,12 +135,12 @@ msgstr "Bettany Crook"
 
 #. &"maelis": ["Maelis", Color(0.60, 0.85, 0.50)],
 #: scripts/ui/cinematic/speakers.gd:21 scripts/campaign/mission_03.gd:155
-#: scripts/campaign/mission_e2_02.gd:167
+#: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_05.gd:165
 msgid "Maelis"
 msgstr "Maelis"
 
 #. &"aldra": ["Aldra", Color(0.62, 0.95, 0.88)],   # mission-02.md (M9.U1): Torvald's voice on the Glass Ridge
 #: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:139
-#: scripts/campaign/mission_e2_01.gd:151
+#: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_05.gd:166
 msgid "Aldra"
 msgstr "Aldra"
