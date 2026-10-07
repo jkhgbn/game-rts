@@ -206,7 +206,15 @@ func _pose_idle(w: float) -> void:
 		return
 	var ph: float = (_t + _phase_off) * TAU / idle_period
 	pos(P_ROOT, Vector3(0, 0.012 * sin(ph) * w, 0))
-	rot(P_MOUNT_HEAD, _idle_head(ph) * w)
+	rot(P_MOUNT_HEAD, _idle_head(ph) * w * _idle_head_w())
+
+
+## The idle snuffle (up to +18 deg nose down) fades out over the gore's windup and back in over its last 0.15 s:
+## it used to stay on through the attack and, by idle phase (instance id), damp the strike's head toss to -11 deg.
+func _idle_head_w() -> float:
+	if _action != &"attack" or attack_style != &"tusk_gore":
+		return 1.0
+	return 1.0 - smoothstep(0.0, 0.07, _action_t) * (1.0 - smoothstep(GORE_LEN - 0.15, GORE_LEN, _action_t))
 
 
 ## Quick short-legged trot: diagonal pairs (FL + BR, FR + BL), the swinging pair lifted, a bounce twice per stride,

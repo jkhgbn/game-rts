@@ -6,9 +6,10 @@ extends SceneTree
 
 const TASK_ID := "ui_voice_hold"
 const PLAYER := "res://scripts/ui/voice_player.gd"
-# Two of the longest mission voice lines (manifest durations 5.589 s / 5.57 s, both > LINE_SECONDS).
-const L1 := [&"vessa", "An Ember Crown, in a place called Emberfall. I'm not saying it was left for me. I'm not NOT saying it."]
-const L2 := [&"pell", "Free at last! Buy something, would you? Shadow soldiers are terrible customers. They never pay, they just loom."]
+# Two of the longest mission voice lines (manifest durations 5.57 s / 5.23 s, both > LINE_SECONDS). 2026-10-07: the
+# No AI Slop pass shortened Vessa's Ember Crown line (now 4.86 s < LINE_SECONDS), so Pell leads and the narrator follows.
+const L1 := [&"pell", "Free at last! Buy something, would you? Shadow soldiers are terrible customers. They never pay, they just loom."]
+const L2 := [&"narrator", "The Westwatch fire rises. Riders who remember the old kingdom ride to meet it."]
 const L3 := [&"narrator", "A line nobody ever recorded, for the hold test."]
 
 var frame := 0
@@ -45,14 +46,14 @@ func _process(_delta: float) -> bool:
 			return _finish()
 		events.emit_signal(&"dialogue", L1[0], L1[1])
 		events.emit_signal(&"dialogue", L2[0], L2[1])
-	elif frame == 4 + 330:   # 5.5 s: past LINE_SECONDS, the voice (5.589 s) is still going
+	elif frame == 4 + 330:   # 5.5 s: past LINE_SECONDS, the voice (5.57 s) is still going
 		if _box.current_speaker() != L1[0]:
 			_fails.append("first voiced line cut at 5.5 s: showing '%s'" % _box.current_speaker())
 		if _box.queued_count() != 1:
 			_fails.append("second line should still wait in the queue, queued=%d" % _box.queued_count())
 		if _starts.size() != 1:
 			_fails.append("second voice started while the first played: %s" % [_starts])
-	elif frame == 4 + 380:   # 6.33 s: first line done (5.589 + 0.4 = 5.99 s), second voiced line showing
+	elif frame == 4 + 380:   # 6.33 s: first line done (5.57 + 0.4 = 5.97 s), second voiced line showing
 		if _box.current_speaker() != L2[0]:
 			_fails.append("second line not showing at 6.3 s: '%s'" % _box.current_speaker())
 		if _starts.size() == 2:

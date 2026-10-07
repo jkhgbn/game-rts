@@ -17,7 +17,7 @@ const PARAGRAPHS: Array[String] = [
 	"One spark still glows: the Ember Crown, sealed in Emberfall, the Master's burnt-out observatory on the border between the Fire and Shadow kingdoms. Three old braziers hold the seal shut.",
 	"Vessa, the youngest and least patient apprentice, rides out the night she hears of it. Malrik of Shadow got there first and is camped at the far end of the ruins. He cannot light a brazier. She can.",
 ]
-const LINE := "Three braziers, one seal. How hard can it be to light things? It's my whole personality."
+const LINE := "Three braziers, one seal. I've been lighting things since before I could talk."   # No AI Slop pass 2026-10-07
 
 
 class FakeMission extends Node:

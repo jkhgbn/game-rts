@@ -323,16 +323,20 @@ func _check_abilities() -> void:
 	_check(ok and td.get_stat(&"move_speed") > sp0, "Skitter never sped the darter up")
 	await _cleanup([d, td])
 
-	# Vinelasher: Snare Lash roots.
-	d = _dummy(p + Vector3(4.0, 0, 0))
+	# Vinelasher: Snare Lash roots. The dummy goes 4 m from where the Vinelasher actually stands once it has settled
+	# (CI 2026-10-07: "dist 15.26", not reproducible alone: one of the two ended up away from the spot, so the 5 m
+	# lash had nothing in range; the positions are printed on a failure).
 	var vl := _spawn("vinelasher", PLAYER, p)
 	vl.command_hold()
+	await _frames(2)
+	d = _dummy(vl.global_position + Vector3(4.0, 0, 0))
 	ok = await _wait_for(func() -> bool: return d.has_status(&"rooted"), 150)
 	if not ok:
 		var ab := NewUnits12.ability_of(vl)
-		print("  vinelasher casts %d act %s dist %.2f dummy alive %s hp %.0f" % [ab.casts if ab else -1, vl.can_act(),
-				Vector2(vl.global_position.x - d.global_position.x, vl.global_position.z - d.global_position.z).length(),
-				d.is_alive(), d.hp])
+		print("  vinelasher casts %d act %s dist %.2f dummy alive %s hp %.0f; vinelasher at spot + %s, dummy at spot + %s"
+				% [ab.casts if ab else -1, vl.can_act(), Vector2(vl.global_position.x - d.global_position.x,
+				vl.global_position.z - d.global_position.z).length(), d.is_alive(), d.hp, vl.global_position - p,
+				d.global_position - p])
 	_check(ok and d.hp <= d.max_hp - 10.0 + 0.01, "Snare Lash did not root (hp lost %.1f)" % (d.max_hp - d.hp))
 	await _cleanup([d, vl])
 

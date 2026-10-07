@@ -313,8 +313,16 @@ func _pose_idle(w: float) -> void:
 		return
 	var ph: float = (_t + _phase_off) * TAU / idle_period
 	pos(P_ROOT, Vector3(0, 0.007 * sin(ph) * w, 0))
-	rot(P_MOUNT_HEAD, _idle_head(ph) * w)
+	rot(P_MOUNT_HEAD, _idle_head(ph) * w * _idle_head_w())
 	_idle_parts(ph, w)
+
+
+## The idle look-around (+-13 deg yaw) fades out over the bite's windup and back in over its last 0.15 s: it used to
+## stay on through the attack and, by idle phase (instance id), cancel the rip's sideways yank (-13 deg, not -20).
+func _idle_head_w() -> float:
+	if _action != &"attack" or attack_style != &"hamstring_bite":
+		return 1.0
+	return 1.0 - smoothstep(0.0, 0.065, _action_t) * (1.0 - smoothstep(BITE_LEN - 0.15, BITE_LEN, _action_t))
 
 
 ## Trot (diagonal pairs) blending into a rotary gallop (hinds, then fronts, one suspension) from rate 0.72 to 0.92.

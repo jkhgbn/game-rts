@@ -72,7 +72,10 @@ func _run() -> void:
 	_check(e1 is CharacterModel and s1 is CharacterModel, "both extend CharacterModel")
 	# Vertex caps + the face (faces pass 2026-09-28: measured Elder 3692, Sprout 1651 with the Face node; small margin).
 	await _structure(e1, e2, "elder", 3800, Vector2(1.8, 1.96))
-	await _structure(s1, s2, "sprout", 1720, Vector2(0.6, 0.78))
+	# Sprout cap top 0.60-0.82: the per-instance cap tilt (+-7 deg x, +-8 deg z by instance id, sprout _ready) plus the
+	# idle head sway lift one rim edge; CI logs measured 0.733-0.780 depending on the id, so 0.78 failed at random
+	# (2026-10-07).
+	await _structure(s1, s2, "sprout", 1720, Vector2(0.6, 0.82))
 	await _elder(e1, e2)
 	await _sprout(s1, s2)
 	if _fails.is_empty():

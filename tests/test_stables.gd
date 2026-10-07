@@ -326,6 +326,14 @@ func _run_dance() -> void:
 		main.add_child(m)
 		entries.append([p, m, CLIPS[i % 3]])
 		i += 1
+	# A close camera over the middle of the rows (2026-10-07): from the game camera the rows sat 36-58 m away, so the
+	# far half was in the kit's distance tier 2 (> 45 m: frozen pose, a dance is not "busy") and their measured motion
+	# depended on when each model's tier timer froze it (roan_courser 0.16 rad in CI). Every model is < 30 m (tier 0).
+	var dcam := Camera3D.new()
+	main.add_child(dcam)
+	var mid := Vector3((c0.x - 16.0 + x) * 0.5, 0.0, c0.z)
+	dcam.look_at_from_position(mid + Vector3(0, 9.0, 2.0), mid + Vector3(0, 0, -1.0))
+	dcam.make_current()
 	await _frames(4)
 	var snaps := {}
 	for e in entries:
@@ -361,7 +369,9 @@ func _run_dance() -> void:
 		var mv: Vector2 = best[e[0]]
 		_check(mv.x > 0.25, "%s rider barely moves dancing %s (%.2f rad)" % [e[0], e[2], mv.x])
 		_check(mv.y > 0.2, "%s mount barely moves dancing %s (%.2f rad)" % [e[0], e[2], mv.y])
-		print("  %s dances %s: rider %.2f rad, mount %.2f rad" % [e[0], e[2], mv.x, mv.y])
+		var mm: Node3D = snaps[e[0]][3]
+		print("  %s dances %s: rider %.2f rad, mount %.2f rad (tier %s, %.1f m from the camera)" % [e[0], e[2], mv.x,
+			mv.y, mm.get(&"_tier"), dcam.global_position.distance_to(mm.global_position)])
 	# UnitDances on a real Stables unit.
 	var u := UnitType.find("gloam_rider").create_unit()
 	u.team = PLAYER as Unit.Team
@@ -374,6 +384,9 @@ func _run_dance() -> void:
 	m0.call(&"stop_clip")
 	_check(StringName(m0.call(&"current_clip")) == &"", "stop_clip did not stop")
 	print("dance: %d models dance (rider + mount)" % entries.size())
+	if cam:
+		cam.make_current()
+	dcam.queue_free()
 	_end_part()
 
 
