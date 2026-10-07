@@ -426,3 +426,27 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** the Rift blocks ground units and flyers cross it; a titan boss fight.
 - **Moment:** the first Dragon flies straight over the Rift onto Malrik's seal runners (L13).
 - **Intro card:** `Cinder Dragon. Fire from the sky: it flies over the Rift and burns what walks below.`
+
+## Built (2026-10-07)
+`missions/mission_e2_05.tscn` + `scripts/campaign/mission_e2_05.gd` (`MissionE2_05`), tests `tests/test_e2m5.gd` (checks
+2-8) and `tests/test_e2m5_sim.gd` (check 9, slow list; `-- --noseals` = the "never kindles, never hunts Malrik" run).
+Runs on the real seat API (4 seats, `activate_seat` for Nature / Ice). Deviations:
+- Map: built in code on a 150 x 150 MapInfo (no World Forge `deep_door.map`): the Rift is a rock strip along z = 0
+  (16 <= |x| <= 75) with the Rift Bridges at x = +-45 (8 wide) and the dais (r 16) open; four bases at the spec's keeps;
+  side caves are nodes only; M0 night lighting. No flying in the engine: the Cinder Dragon walks the bridges.
+- The Dragon Roost is a mission building (the Ember Hall type renamed: 300, 70 s, 1 500 HP) raised from the mission button
+  `Raise the Dragon Roost (300)` (from 8:00, needs the Ember Stables); it trains the Cinder Dragon, a code-built story
+  type (1 400 HP, 16 per 2.2 s + an 11 splash within 3 m of each hit, 700 / pop 6 / 85 s, the 13.V13 model). No Crucible.
+- The Doorwarden: a scripted Unit (placeholder capsule 3.5 x 16 m, armor 25, the spec's HP). Its multipliers (x 0.85 per amber seal, tether x 0.5, Exposed x 1.5)
+  are applied on `damage_taken`. Telegraphs = `flash_ring`. No boss bar UI (the objectives line shows the %).
+- Malrik's tether spot is (0, -24) (spec (0, -28) is 21 m from the boss at the Door's rim: out of the 20 m tether).
+- Bots are Commanders that never attack; Ysolde is scripted for the E seal and the Door order (SE rim); Maelis / Aldra are
+  bonded story helpers back 45 s after a fall; Hush's 8:00 raid uses M00Cast. No cine timelines; no `ep2_ending` film
+  (rewards `next` = `&"ep2_ending"`, no scene).
+- The Door's armor 30 is mission-side (buildings have no armor): every hit but the Doorwarden's own refunds 30.
+- **Scripted runs (normal, 2026-10-07): not green.** 1 victory in 9 runs: 16:59 mission time (18:25 with the cutscene
+  lengths, spec 25-31), the wake at the 16:00 cap, the boss down in 59 s, the Door at 83 %. The other runs: the Door fell
+  1:30-6:30 after the wake (boss HP tried x 4 / x 2 / x 1.5: 6 / 6 defeats; the Door's armor came after them), and the
+  last run (spec HP + the Door's armor) timed out at 40:00 (Door held, boss alive). The `--noseals` run loses the Door
+  (spec: 3 / 5). Open: the scripted player cannot hold S / W against Malrik's runs + Torvald's covers (most runs wake at
+  9:00-12:00 with 3 amber seals) and the boss's HP vs the army's real DPS needs a tuning pass.
