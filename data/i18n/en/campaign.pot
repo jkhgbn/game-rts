@@ -2137,77 +2137,77 @@ msgid "mission_e2_02_%s"
 msgstr ""
 
 #. return "Plant Ysolde's groves along Fire's line (%d / 3)" % groves_standing()
-#: scripts/campaign/mission_e2_02.gd:965
+#: scripts/campaign/mission_e2_02.gd:949
 msgid "Plant Ysolde's groves along Fire's line (%d / 3)"
 msgstr ""
 
 #. return "Plant Ysolde's groves along Fire's line"
-#: scripts/campaign/mission_e2_02.gd:966
+#: scripts/campaign/mission_e2_02.gd:950
 msgid "Plant Ysolde's groves along Fire's line"
 msgstr ""
 
 #. return "Break Torvald's forward fort (Rimehold)"
-#: scripts/campaign/mission_e2_02.gd:968
+#: scripts/campaign/mission_e2_02.gd:952
 msgid "Break Torvald's forward fort (Rimehold)"
 msgstr ""
 
 #. return "Hold together against both kingdoms (%d:%02d) (paused: replant)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e2_02.gd:973
+#: scripts/campaign/mission_e2_02.gd:957
 msgid "Hold together against both kingdoms (%d:%02d) (paused: replant)"
 msgstr ""
 
 #. return "Hold together against both kingdoms (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e2_02.gd:974
+#: scripts/campaign/mission_e2_02.gd:958
 msgid "Hold together against both kingdoms (%d:%02d)"
 msgstr ""
 
 #. return "Hold together against both kingdoms"
-#: scripts/campaign/mission_e2_02.gd:975
+#: scripts/campaign/mission_e2_02.gd:959
 msgid "Hold together against both kingdoms"
 msgstr ""
 
 #. return "The Emberwatch must stand"
-#: scripts/campaign/mission_e2_02.gd:979
+#: scripts/campaign/mission_e2_02.gd:963
 msgid "The Emberwatch must stand"
 msgstr ""
 
 #. return "Nature must not fall again"
-#: scripts/campaign/mission_e2_02.gd:981
+#: scripts/campaign/mission_e2_02.gd:965
 msgid "Nature must not fall again"
 msgstr ""
 
 #. return "Lose no more than 2 seed-carriers (%d lost)" % carriers_lost
-#: scripts/campaign/mission_e2_02.gd:984
+#: scripts/campaign/mission_e2_02.gd:968
 msgid "Lose no more than 2 seed-carriers (%d lost)"
 msgstr ""
 
 #. return "Lose no more than 2 seed-carriers"
-#: scripts/campaign/mission_e2_02.gd:985
+#: scripts/campaign/mission_e2_02.gd:969
 msgid "Lose no more than 2 seed-carriers"
 msgstr ""
 
 #. return "Hold 3 capture points at once (%d / 3)" % mini(3, points_held())
-#: scripts/campaign/mission_e2_02.gd:988
+#: scripts/campaign/mission_e2_02.gd:972
 msgid "Hold 3 capture points at once (%d / 3)"
 msgstr ""
 
 #. return "Hold 3 capture points at once"
-#: scripts/campaign/mission_e2_02.gd:989
+#: scripts/campaign/mission_e2_02.gd:973
 msgid "Hold 3 capture points at once"
 msgstr ""
 
 #. return "Unknown grove"
-#: scripts/campaign/mission_e2_02.gd:1166
+#: scripts/campaign/mission_e2_02.gd:1150
 msgid "Unknown grove"
 msgstr ""
 
 #. who = "%s(t%d, %.1f m)" % [u.unit_type.id if u.unit_type else u.name, int(u.team), _flat(u.global_position, s.
-#: scripts/campaign/mission_e2_02.gd:1352
+#: scripts/campaign/mission_e2_02.gd:1336
 msgid "%s(t%d, %.1f m)"
 msgstr ""
 
 #. return "inside %d carriers %d lost %d ysolde %s %s" % [inside, carriers.size(), carriers_lost,
-#: scripts/campaign/mission_e2_02.gd:1353
+#: scripts/campaign/mission_e2_02.gd:1337
 msgid "inside %d carriers %d lost %d ysolde %s %s"
 msgstr ""
 
@@ -2497,67 +2497,67 @@ msgid "Episode 2, Mission 3: %s"
 msgstr ""
 
 #. return "Build an Ember Bazaar and send caravans to a trading post"
-#: scripts/campaign/mission_e2_03.gd:528
+#: scripts/campaign/mission_e2_03.gd:512
 msgid "Build an Ember Bazaar and send caravans to a trading post"
 msgstr ""
 
 #. var head := "Pay the Greywater Lodge: deliver tribute (%d / 6)" % tributes_paid
-#: scripts/campaign/mission_e2_03.gd:532 scripts/campaign/mission_e2_03.gd:535
+#: scripts/campaign/mission_e2_03.gd:516 scripts/campaign/mission_e2_03.gd:519
 msgid "Pay the Greywater Lodge: deliver tribute (%d / 6)"
 msgstr ""
 
 #. var road := "Tribute on the road: %d m to the Lodge" % int(_flat(tribute_caravan.global_position, LODGE_DOOR))
-#: scripts/campaign/mission_e2_03.gd:533
+#: scripts/campaign/mission_e2_03.gd:517
 msgid "Tribute on the road: %d m to the Lodge"
 msgstr ""
 
 #. return "Pay the Greywater Lodge: deliver tribute"
-#: scripts/campaign/mission_e2_03.gd:536
+#: scripts/campaign/mission_e2_03.gd:520
 msgid "Pay the Greywater Lodge: deliver tribute"
 msgstr ""
 
 #. return "Hold until the Lodge's guides reach you (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e2_03.gd:540
+#: scripts/campaign/mission_e2_03.gd:524
 msgid "Hold until the Lodge's guides reach you (%d:%02d)"
 msgstr ""
 
 #. return "Hold until the Lodge's guides reach you"
-#: scripts/campaign/mission_e2_03.gd:541
+#: scripts/campaign/mission_e2_03.gd:525
 msgid "Hold until the Lodge's guides reach you"
 msgstr ""
 
 #. return "The Saltwatch must stand"
-#: scripts/campaign/mission_e2_03.gd:545
+#: scripts/campaign/mission_e2_03.gd:529
 msgid "The Saltwatch must stand"
 msgstr ""
 
 #. return "Hunt the Magpies for the Lodge (%d / 8)" % mini(magpies_killed, MAGPIE_GOAL)
-#: scripts/campaign/mission_e2_03.gd:548
+#: scripts/campaign/mission_e2_03.gd:532
 msgid "Hunt the Magpies for the Lodge (%d / 8)"
 msgstr ""
 
 #. return "Hunt the Magpies for the Lodge"
-#: scripts/campaign/mission_e2_03.gd:549
+#: scripts/campaign/mission_e2_03.gd:533
 msgid "Hunt the Magpies for the Lodge"
 msgstr ""
 
 #. return "Take 300 gold from Malrik's caravans (%d / 300)" % mini(raid_gold, RAID_GOAL)
-#: scripts/campaign/mission_e2_03.gd:552
+#: scripts/campaign/mission_e2_03.gd:536
 msgid "Take 300 gold from Malrik's caravans (%d / 300)"
 msgstr ""
 
 #. return "Take 300 gold from Malrik's caravans"
-#: scripts/campaign/mission_e2_03.gd:553
+#: scripts/campaign/mission_e2_03.gd:537
 msgid "Take 300 gold from Malrik's caravans"
 msgstr ""
 
 #. return "Break Malrik's Tollgate (1 / 2)"
-#: scripts/campaign/mission_e2_03.gd:556
+#: scripts/campaign/mission_e2_03.gd:540
 msgid "Break Malrik's Tollgate (1 / 2)"
 msgstr ""
 
 #. return "Break Malrik's Tollgate"
-#: scripts/campaign/mission_e2_03.gd:557
+#: scripts/campaign/mission_e2_03.gd:541
 msgid "Break Malrik's Tollgate"
 msgstr ""
 

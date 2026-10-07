@@ -41,7 +41,7 @@ msgid "Open the Unit Guide on this unit"
 msgstr ""
 
 #. var head := UIStyle.display_label("Spotlight", 12, UIStyle.GOLD)
-#: scripts/ui/mission/spotlight_card.gd:49
+#: scripts/ui/mission/spotlight_card.gd:51
 msgid "Spotlight"
 msgstr ""
 
