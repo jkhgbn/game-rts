@@ -4,7 +4,9 @@ extends SceneTree
 ## states, the spec lengths of e2m3_road 0:18, e2m3_lodge 0:15 and e2m3_paid 0:25 are added to the reported play time).
 ## The scripted player builds the Bazaar, runs 4 caravans to Heron Ford, builds the Stables and trains Emberdart
 ## Harriers, escorts every tribute with the army, breaks the Tollgate, raises the Citadel and calls Old Vey, and holds the
-## guides' countdown at the Bazaar. Must end `victory=true`; prints the phase times and W1's survivors.
+## guides' countdown at the Bazaar. The first GUARDS soldiers trained after 1:00 stay at the home nodes against the
+## raids (the e2m2 sim's rule), and the crystals for the Citadel and Vey's call are held back once they open.
+## Must end `victory=true`; prints the phase times and W1's survivors.
 ## `-- --seed N`, `-- --verbose`. Slow (18+ min of game).
 ## Run: godot --headless --path . -s tests/test_e2m3_sim.gd --fixed-fps 60 --quit-after 130000
 
@@ -19,6 +21,7 @@ const HEARTHS: Array[Vector3] = [Vector3(-56.0, 0.0, 44.0), Vector3(-56.0, 0.0, 
 const WORKERS := 12
 const CARAVANS := 4
 const TOLL_ARMY := 12
+const GUARDS := 6
 
 var verbose := false
 var h := MissionHarness.new()
@@ -116,14 +119,19 @@ func _play() -> bool:
 				Economy.for_team(0).crystals, GoldBank.for_team(0).gold, _caravans().size(), m.tributes_paid,
 				" (road)" if m.tribute_caravan != null else "", "up" if m.tollgate != null and is_instance_valid(m.tollgate) and m.tollgate.is_alive() else "-",
 				_mmss(m.guides_left)])
+		var rs := HelperRoster.for_team(0)
+		print("      keep tier %d upgrade '%s' | Vey %s | pop %d/%d | guards %d" % [m.keep.tier if m.keep else 0,
+				m.keep.can_upgrade() if m.keep else "-", rs.state() if rs else "-", Economy.for_team(0).pop_used,
+				Economy.for_team(0).pop_cap, _home_guard.size()])
 	_learn()
 	_economy()
 	_fireball()
+	_guard_home()
 	_plan()
 	return false
 
 
-func _army() -> Array[Unit]:
+func _all_soldiers() -> Array[Unit]:
 	var out: Array[Unit] = []
 	for n in main.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
@@ -131,6 +139,46 @@ func _army() -> Array[Unit]:
 				and u.is_commandable() and not u.is_in_group(&"caravans"):
 			out.append(u)
 	return out
+
+
+var _home_guard: Array = []
+
+
+func _army() -> Array[Unit]:
+	var out: Array[Unit] = []
+	for u in _all_soldiers():
+		if not _home_guard.has(u):
+			out.append(u)
+	return out
+
+
+## Between the two home nodes: where the raids hit the workers.
+func _guard_post() -> Vector3:
+	var a := main.node_of(0, "a")
+	var b := main.node_of(0, "b")
+	if a and b:
+		return (a.global_position + b.global_position) * 0.5
+	return HOME
+
+
+func _guard_home() -> void:
+	_home_guard = _home_guard.filter(func(u: Variant) -> bool: return is_instance_valid(u) and (u as Unit).is_alive())
+	if _home_guard.size() < GUARDS and main.mission_time() > 60.0:
+		for u in _all_soldiers():
+			if _home_guard.size() >= GUARDS:
+				break
+			if not _home_guard.has(u):
+				_home_guard.append(u)
+	var post := _guard_post()
+	var foes := _enemies_near(post, 18.0)
+	for g: Variant in _home_guard:
+		var u := g as Unit
+		if u.attack_target != null and is_instance_valid(u.attack_target):
+			continue
+		if not foes.is_empty():
+			u.command_attack(foes[0])
+		elif MissionBase._flat(u.global_position, post) > 6.0:
+			u.command_attack_move(post)
 
 
 func _workers() -> Array[Unit]:
@@ -294,6 +342,8 @@ func _economy() -> void:
 		if k.queue_unit(UnitType.find("cinder_hand")) == "" and node:
 			k.set_rally_node(node)
 	var reserve := 300 if k.tier == 2 and main.mission_time() > 300.0 else 0
+	if k.tier >= 3 and roster and roster.state() == &"none":
+		reserve = roster.call_type().cost   # Vey's call first
 	if eco.crystals - reserve < 120:
 		return
 	for b in Building.for_team(Unit.Team.PLAYER):

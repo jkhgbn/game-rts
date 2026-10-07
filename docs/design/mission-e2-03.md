@@ -369,3 +369,6 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - Tribute **300 / 380 / 460** gold (spec 200 / 250 / 300): 4 near caravans earned ~190 gold / min in the scripted run.
 - Scripted runs (normal, 2026-10-06): tribute 350 = victory at 15:54 (16:52 with the cutscene lengths); tribute 380 =
   **17:53 (18:51 with the cutscene lengths)** against 18-24; W1 left 13 of 13; Vey not called by the script.
+- 2026-10-07: the scripted player keeps 6 soldiers on the home nodes (the raids had killed every worker, so the Citadel
+  and Vey were never paid) and holds the call price once the Citadel stands: Vey called, victory 17:13 (18:11 with the
+  cutscene lengths), W1 13 of 13.

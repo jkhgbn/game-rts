@@ -19,11 +19,13 @@ const HEARTHS: Array[Vector3] = [Vector3(-56.0, 0.0, 40.0), Vector3(-56.0, 0.0, 
 		Vector3(-38.0, 0.0, 54.0), Vector3(-56.0, 0.0, 46.0)]
 const HOME_HALLS: Array[Vector3] = [Vector3(-30.0, 0.0, 38.0), Vector3(-24.0, 0.0, 34.0)]
 const RIMEHOLD_ARMY := 20
-const RIMEHOLD_LATEST := 600.0
+const RIMEHOLD_EARLIEST := 540.0   ## The spec's rhythm (mission-e2-02.md, after E24): Rimehold at 9:00-13:00...
+const RIMEHOLD_LATEST := 660.0
 const GUARDS := 6
 const GUARD_POST := Vector3(-38.0, 0.0, 40.0)   ## Between the home nodes.
-const B_AT := 270.0          ## The spec's rhythm: Grove B against W2 (5:00)...
-const C_AT := 690.0          ## ...Grove C against W5 (12:30).
+const B_AT := 270.0          ## ...Grove B against W2 (5:00)...
+const C_AT := 840.0          ## ...Grove C at 12:00-17:00 (the Heartwood at ~15:00, the Vice at ~17:00-20:00).
+const SPIRE_REACH := 15.0    ## Before the assault the army never chases into Rimehold's spires.
 
 var novey := false
 var verbose := false
@@ -192,9 +194,19 @@ func _enemies_near(at: Vector3, r: float) -> Array[Unit]:
 	for n in main.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
 		if u and u.is_alive() and Teams.is_hostile(int(u.team), 0) and int(u.team) != Unit.Team.NEUTRAL \
-				and not main.is_dormant(u) and MissionBase._flat(u.global_position, at) <= r:
+				and not main.is_dormant(u) and MissionBase._flat(u.global_position, at) <= r and not _under_spires(u.global_position):
 			out.append(u)
 	return out
+
+
+## Within reach of a standing Rimehold building while the assault has not started (W1 fights stay off the spires).
+func _under_spires(p: Vector3) -> bool:
+	if phase == &"rimehold" or main.objective_state("obj_rimehold") == "done":
+		return false
+	for b in main.rimehold:
+		if is_instance_valid(b) and (b as Building).is_alive() and MissionBase._flat((b as Building).global_position, p) <= SPIRE_REACH:
+			return true
+	return false
 
 
 func _army_to(at: Vector3, spread := 4.0) -> void:
@@ -390,7 +402,7 @@ func _plan() -> void:
 				_set_phase(&"muster")
 		&"muster":
 			_guard(Vector3(-24.0, 0.0, 30.0))
-			if _army().size() >= RIMEHOLD_ARMY or m.mission_time() >= RIMEHOLD_LATEST:
+			if (_army().size() >= RIMEHOLD_ARMY and m.mission_time() >= RIMEHOLD_EARLIEST) or m.mission_time() >= RIMEHOLD_LATEST:
 				_set_phase(&"rimehold")
 		&"rimehold":
 			if m.objective_state("obj_rimehold") == "done":

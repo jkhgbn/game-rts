@@ -421,3 +421,7 @@ tests `tests/test_e2m2.gd` (checks 1-8) and `tests/test_e2m2_sim.gd` (check 9, s
 - Old Vey's L11 / L11b and the Saboteur moment hint are said at E10 / E9; no cine timelines (fallback end states).
 - Scripted run (normal, 2026-10-06): victory at 20:12 mission time (21:25 with the cutscene lengths) against 22-28;
   W1 left 11 of 15 start soldiers (spec >= 13).
+- 2026-10-07: the scripted player keeps out of Rimehold's spire reach before the assault (W1's losses were the spires) and
+  follows the spec's rhythm (Rimehold from 9:00, Grove C from 14:00): W1 leaves 13-15 of 15, 0-1 carriers lost (3 runs);
+  victory 15:00 / 15:01 (16:13 with cutscenes, old rhythm) and 17:31 (18:44, spec rhythm, Vey not called that run):
+  still under 22-28 (the Vice is 2:30 and the Heartwood lands ~14:50).
