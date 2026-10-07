@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemType" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_type.gd" id="1_yscio"]
+
+[resource]
+script = ExtResource("1_yscio")
+id = &"keystone_shard"
+display_name = "Keystone Shard"
+tier = 4
+stats = {
+"mana_regen": 0.5,
+"max_hp": 80.0,
+"spell_power": 10.0
+}
+is_artifact = true
+campaign_only = true
+icon_abbrev = "KS"

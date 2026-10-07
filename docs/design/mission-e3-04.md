@@ -366,3 +366,27 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** the spec's own design: the charge answers a fast lunging boss (Old Vey); `sec_knight`.
 - **Moment:** A1 (5:30), Vey's first storm; hint E7 "The old man can't stop a horse.".
 - **Intro card:** `Nightmare Knight. A titan at a gallop: its charge breaks a line, or a storm.`
+
+## Built (2026-10-07)
+`missions/mission_e3_04.tscn` + `scripts/campaign/mission_e3_04.gd` (`MissionE3_04`), tests `tests/test_e3m4.gd` (start,
+storm, ridge, knight) and `tests/test_e3m4_sim.gd` (slow list). Deviations:
+- The Evenmead map of e3m1 in code (3 seats: Shadow + Ice vs Fire; no Nature base), the watch points are `MissionZone`s
+  (side 0 owns all three at 0:00; side 1 x 1.25 time), the ridge-falls countdown as specified.
+- Old Vey = a Helper (`helper_vey` at level 8: Lightning Lunge / Chain / Stormcall from HelperAbilities) on team ENEMY,
+  bonded to Vessa: he walks with her column in every assault (A2's west column goes without him); 3 600 HP per storm,
+  +10 % damage per storm after the first; a death guard turns 0 HP into a break (dormant 3 s, then he rests on the crest
+  until the next assault); +200 essence and +250 XP per break. Thunderhead (storms 2-3) is mission-side; no Charged
+  Ground aura, no "spark first" bond, no 35 s Stormcall in storm 3.
+- An assault that runs 6:00 without a break pulls back and a 4th+ assault repeats A3 (the spec has only three
+  assaults; victory still needs three breaks).
+- The Dread Paddock is a mission building (button, from 4:00, 300) training a code-built Nightmare Knight (shadow_knight
+  base, the `titans/nightmare_knight` model; 400, pop 4, 50 s); Charge = +90 and dazed 0.6 s (bosses 0.3 s) on the first
+  hit after a 6 m run (no knockback).
+- Heart of the Hollow / the stone's hold: the e3m3 rules (J / button), Torvald's L16 within 30 m.
+- No cine timelines; no `ep3_ending` film (rewards `next` = `e4m1`, not built yet).
+- **Tuning (2026-10-07)**: Vey's helper kit at level 5 (at 8 his Chain / Stormcall cut a 40-unit army to 4 in A1);
+  crystal nodes as e3m1.
+- **Scripted runs (normal): not green.** `tests/test_e3m4_sim.gd` holds the three watch points to A1 with ~40 soldiers
+  and raises the Paddock and 2-3 Knights (the Knight's charge lands on Vey: `sec_knight`), but A1 wipes the army:
+  Vessa's Fireball (mana-limited, no cooldown) and Vey's chain take ~30 soldiers in ~20 s, and Malrik falls in storm 1
+  or 2 (6:12-13:36). Open: Vessa's Fireball rank / mana for this mission, or a scripted player that splits the army.

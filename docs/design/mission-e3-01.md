@@ -330,3 +330,31 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** fords slow 35 %; Umbral Passage carries 10 pop across with no slow; Blood Tithe in the slow grind; Lab Deacon + Shade 82 / 51 / 58.
 - **Moment:** E7 at the ford fight: a rift ring behind G1, "Umbral Passage: bring the army over the water.".
 - **Intro card:** `Gloom Deacon. Heals your soldiers with their enemies' blood, and opens a road through the dark.`
+
+## Built (2026-10-07)
+`missions/mission_e3_01.tscn` + `scripts/campaign/mission_e3_01.gd` (`MissionE3_01`), the side-based capture zone
+`scripts/campaign/mission_zone.gd` (`MissionZone`, reused by e3m4), the `keystone_shard` artifact (`data/items/`), tests
+`tests/test_e3m1.gd` (start, ford, foot, hold, misc, death) and `tests/test_e3m1_sim.gd` (the Lead check, slow list).
+Deviations:
+- Map: built in code on a 150 x 120 MapInfo (no World Forge `evenmead.map`): the spec's river polyline through
+  `RiverSystem` (half width 3, the three fords, the ford slow on; `MissionE3_01.make_river` is shared by e3m2 / e3m4),
+  every base / node / standard / spire / horn / tree at the table positions, flat ground, no flank woods.
+- The ford zone and the standards are `MissionZone`s (the map-fill 4.3 rules by side; the ford: side 0 only, fixed rate,
+  locked once taken); the standard's owner effect is a fog reveal of 14 m on capture; the topple is a 2 s pole tween.
+- Hush = a bonded story Helper (`helper_hush` at Malrik's level, Escort), back at the keep 45 s after a fall.
+- The Keystone Shard is stats only on the ItemType; Heartbeat (+3 mana per death within 10 m, 0.5 s gate) is mission-side.
+- Malrik's track: the victory is flags-only (`save_items: false`, Vessa's items untouched); his essence (bonuses, 50 %,
+  cap 1 500) is the int flag `malrik_essence` (`CampaignState.MALRIK_ESSENCE_FLAG`) that e3m2-e3m4 read.
+- The enemy bots buy no items and their wizards are capped at the spec's levels (L4, L5 / hard L6 from the Final).
+- W3 fires at **70 %** of the ford (the spec's own playtest fallback: at 50 % it landed on the army in the water) and
+  Ysolde's Thornburst is rank 1 (at r2 she killed ~10 soldiers per W3 in the scripted runs).
+- Hovels keep the kingdom cap (no per-mission `max_count`); no cine timelines (fallback end states).
+- `ep3_opening` before the briefing: through the story-film chain only (e2m5 Continue -> `ep2_ending` -> `ep3_opening`
+  -> e3m1); `ep3_opening` has no exported stage scene yet, so the chain skips it. The campaign menu does not play it.
+- **Tuning (2026-10-07)**: crystal nodes 3 000 / 3 000 / 3 500 / 3 500 (spec 1 500 / 1 500 / 2 000 / 2 500: 14 Thralls
+  mined the home pair dry by 5:30), the horn relief capped at 8 living units (uncapped it piled 24 units on the ford by
+  11:00), the guards' 2x leash (10 m), no bot towers / houses row.
+- **Scripted runs (normal): not green.** `tests/test_e3m1_sim.gd` takes the ford at ~10:00-12:45 (spec ~12:00) with
+  ~35 soldiers, then loses its army on the standards (W4, the Final, the crest spires and the enemy wizards: Ysolde's
+  Thornburst and Vessa's Fireball, which has no cooldown, take most of the kills) and times out or loses Malrik
+  (13:40-34:00). Open: a stronger scripted player (Deacons, Hexweavers, wizard focus) or lighter W4 / Final waves.

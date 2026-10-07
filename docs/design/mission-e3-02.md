@@ -403,3 +403,21 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** a night raid, enemy sight x0.6, archer-guarded wagons; Hush is strong against casters, heroes and archers.
 - **Moment:** WG2: Hush blinks past Old Vey's vigil (veil ring hint).
 - **Intro card:** `Mother Hush. The knife in the dark: call her, and the enemy's archers and casters stop sleeping well.`
+
+## Built (2026-10-07): the playable core
+`missions/mission_e3_02.tscn` + `scripts/campaign/mission_e3_02.gd` (`MissionE3_02`), test `tests/test_e3m2.gd` (start,
+night: snuff / sabotage / alarm, dawn: phase switch + hold, death). Deviations and what is missing:
+- The Evenmead map of e3m1 in code; the night layer at the spec's positions with placeholder looks (fire rings, wagon
+  and tent boxes); EmberfallNight lighting; no sight scale (`FogOfWar.sight_scale` is not built): concealment is
+  mission-side (`Unit.hide_from_auto_target` for squad units no awake enemy sees: concealed 6 m, veiled Hush 3 m, lit
+  9 m; attacking exposes 3 s).
+- Hush in the night = a plain `Wizard` set up as her (the spec's 900 / 1 100 / 750 HP, 34 damage, the `helper_hush`
+  model, no spells, no XP); Blink Strike (weakest enemy within 14 m), Smoke Cloak and Night of Knives are mission-side
+  (F / Q / E caught by the mission's `_unhandled_input`, plus a button panel). No `HushCommando` class, no `concealed`
+  status.
+- Wagons and villager tents are under a full truce: a wagon is spoiled by sabotage only (no loud destroy), a tent can
+  never be hit (sec_villagers cannot fail). Sleepers are dormant guards; posts are guards; patrols walk their loops
+  (mission-driven); Old Vey's vigil is an invulnerable Ruin Warden stand-in (no Helper brain, no `m4` look).
+- Missing: a scripted-run sim (the stealth player), the `c_e3_knife` / `c_e3_price` films, the e3m2_slip / embers /
+  dawn timelines (fallback end states), Alarm 3's "sight x 0.8, concealment 8 m" step, the patrols relighting fires on
+  their loop (any awake enemy 3 s within 4 m relights), the Reaver Sunburn rule.

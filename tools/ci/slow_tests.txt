@@ -23,3 +23,7 @@ test_e2m2_sim   # e2m2 scripted run, ~21 game min (2026-10-06)
 test_e2m3_sim   # e2m3 scripted run, ~17 game min (2026-10-06)
 test_e2m4_sim   # e2m4 scripted run, ~16 game min (2026-10-07)
 test_e2m5_sim   # e2m5 scripted run, ~25 game min (2026-10-07)
+
+test_e3m1_sim   # e3m1 scripted run, ~22 game min (2026-10-07)
+test_e3m3_sim   # e3m3 scripted run, ~20 game min (2026-10-07)
+test_e3m4_sim   # e3m4 scripted run, ~25 game min (2026-10-07)

@@ -706,6 +706,11 @@ msgid "Ironbark Plate"
 msgstr ""
 
 #. name (glossary: stays English)
+#: data/items/keystone_shard.tres:8
+msgid "Keystone Shard"
+msgstr ""
+
+#. name (glossary: stays English)
 #: data/items/mana_thread.tres:8
 msgid "Mana Thread"
 msgstr ""

@@ -379,3 +379,29 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** an all-undead, all-melee enemy with no fire at all: the 35 % lifesteal is never halved; strong in long fights and against heavy melee.
 - **Moment:** B3 / B4 open (6:00): 2 Reavers hold a lane alone; "Nightblood Reavers drink: in a long fight with no fire, they never fall.".
 - **Intro card:** `Nightblood Reaver. A duelist that drinks: the longer the fight, the stronger it stands. Fear fire.`
+
+## Built (2026-10-07)
+`missions/mission_e3_03.tscn` + `scripts/campaign/mission_e3_03.gd` (`MissionE3_03`), tests `tests/test_e3m3.gd` (start,
+barrows, stone, sexton) and `tests/test_e3m3_sim.gd` (check S2, slow list; `-- --stone` = the power on every cooldown).
+Deviations:
+- Map: built in code on a 120 x 120 MapInfo (no `duskbarrow.map`): flat ground, the Seat / Gloom Hall / Hovels /
+  Night Spire / crypt / Lodge / nodes at the table positions; the barrow doors and candles are placeholder meshes, no
+  barrow walls, no lanes.
+- The Great Crypt = a Hovel copy (3 000 HP, 4 x 4), armor 20 as a damage refund, 0.5 % / s regen with no enemy within
+  12 m; no vigil aura.
+- Candles are mission-side (Malrik 3 m / 4 s, blocked by any `"hollow"` unit or the Sexton within 8 m; the seal
+  crumbles Wardens within 12 m of the door and calls a Gravewarden at every door still open).
+- Heart of the Hollow: key J (caught by the mission) and a mission button, no Inventory active; `stilled` = dazed 8 s
+  (full duration) + armor -50 (x 1.5 damage taken); the stone's hold as specified (+20 % per use, +0.5 % per own soldier
+  death, 50 % = spawns x 0.8, 100 % = Malrik rooted + cast-locked 5 s, Wardens +25 % damage 30 s, then 60 %).
+- Gravewarden = the Ruin Warden type scaled (900 HP, armor 20, 34 damage); the Sexton = a scripted placeholder unit
+  (7 000 HP, armor 20, 70 per 3 s, Tomb Toss every 10 s, Grave Call every 25 s, the Toll + 6 s stagger at 50 %); no
+  Spade Sweep cone / knockback.
+- Malrik's essence comes from the `malrik_essence` flag (no save: 150 + 700). No cine timelines.
+- **Tuning (2026-10-07)**: a candle relights only once its barrow has given up its dead (`DOOR_KILLS`: 10 Wardens killed
+  for B1 / B2, 26 for B3 / B4, scaled by difficulty; message `The barrow is still full of the dead...`): without it B1 was
+  relit 13 s after opening and the run won at 7:16. The Sexton **13 000 / 18 000 / 24 000** (spec 5 000 / 7 000 / 9 000,
+  it died in 30 s); crystal nodes 3 000 each at home and the ossuaries (spec 1 500 / 2 000).
+- **Scripted runs (normal, 0 uses of the stone): 3 / 3 victories** at **23:42, 20:39 and 18:31** with the cutscene
+  lengths (spec 20-25: 2 / 3 inside; the third run lit its 4th candle early); the crypt never dropped (100 %). The
+  `--stone` run (the power on every cooldown) was not run.

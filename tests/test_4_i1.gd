@@ -88,7 +88,8 @@ func _setup() -> void:
 		_check(t != null and int(t.call("total_cost")) == int(totals[id]), "total_cost of %s" % id)
 	var count: int = (_item_script.call("all_items") as Array).size()
 	# 35 from items.md + 4 Ice (7.I1) + 4 Nature (8.I1) + the Stillwater Orb (M9.I1, campaign artifact)
-	_check(count == 44, "expected 44 items, found %d" % count)
+	# + the Keystone Shard (e3m1, campaign artifact)
+	_check(count == 45, "expected 45 items, found %d" % count)
 	var crown := _find("ember_crown")
 	_check(crown != null and bool(crown.get("is_artifact")), "ember_crown is not an artifact")
 
