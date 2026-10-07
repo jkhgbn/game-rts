@@ -41,7 +41,8 @@ const COMPANION_PURSE_RATIO := 0.5
 const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
-const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5"]
+const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5",
+		&"e3m1", &"e3m2", &"e3m3", &"e3m4"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
@@ -53,7 +54,20 @@ const MISSION_SCENES := {
 	&"e2m3": "res://missions/mission_e2_03.tscn",
 	&"e2m4": "res://missions/mission_e2_04.tscn",
 	&"e2m5": "res://missions/mission_e2_05.tscn",
+	&"e3m1": "res://missions/mission_e3_01.tscn",
+	&"e3m2": "res://missions/mission_e3_02.tscn",
+	&"e3m3": "res://missions/mission_e3_03.tscn",
+	&"e3m4": "res://missions/mission_e3_04.tscn",
 }
+## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
+## The victory unlocks the first mission at the end of the chain (film_target).
+const STORY_FILMS := {
+	&"ep2_ending": &"ep3_opening",   # mission-e2-05.md: "All Four, or None", then the Ep3 card
+	&"ep3_opening": &"e3m1",         # mission-e3-01.md E1: the opening plays before the briefing
+}
+## Malrik's track (campaign-outline D8; per-wizard item tracks are not built): Ep3 victories are flags-only
+## ("save_items": false, Vessa's items untouched) and carry Malrik's essence (50 %, cap 1 500) in this int flag.
+const MALRIK_ESSENCE_FLAG := "malrik_essence"
 ## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
 ## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
 ## Optional keys (docs/design/mission-framework.md): "set_flags" (constant values), "items" (extra owned artifacts),
@@ -129,6 +143,34 @@ const MISSION_REWARDS := {
 		"set_flags": {"ep2_complete": true, "ep2_door_held": true, "fire_titans_unlocked": true, "ep2_torvald_doubts": true},
 		"next": &"ep2_ending",
 	},
+	# Episode 3 (Malrik's track: flags only, his essence in MALRIK_ESSENCE_FLAG, written by the mission).
+	# docs/design/mission-e3-01.md "Reward carried to e3m2" (e3m1_time / e3m1_standard_toppled are mission-computed).
+	&"e3m1": {
+		"flags": {"e3m1_horns_silenced": "sec_horns", "e3m1_vessa_driven": "sec_vessa"},
+		"set_flags": {"ep3_started": true},
+		"next": &"e3m2",
+		"save_items": false,
+	},
+	# docs/design/mission-e3-02.md "Reward carried to e3m3" (e3m2_alarms is mission-computed).
+	&"e3m2": {
+		"flags": {"e3m2_unseen": "sec_unseen", "e3m2_villagers_spared": "sec_villagers", "e3m2_hush_called": "sec_call"},
+		"set_flags": {"helper_hush_unlocked": true, "e3m2_grain_spoiled": true},
+		"next": &"e3m3",
+		"save_items": false,
+	},
+	# docs/design/mission-e3-03.md "Reward carried to e3m4" (shard uses / seizures and shadow_stone_uses are computed).
+	&"e3m3": {
+		"flags": {"e3m3_refused": "sec_refuse", "e3m3_crypt_whole": "sec_whole"},
+		"next": &"e3m4",
+		"save_items": false,
+	},
+	# docs/design/mission-e3-04.md "Reward: end of Episode 3".
+	&"e3m4": {
+		"flags": {"e3m4_knight_charge": "sec_knight", "e3m4_refused": "sec_refuse"},
+		"set_flags": {"ep3_complete": true, "torvald_heard_stone": true},
+		"next": &"e4m1",
+		"save_items": false,
+	},
 }
 
 var unlocked: Array[StringName] = START_UNLOCKED.duplicate()
@@ -170,6 +212,26 @@ static func mission_scene(id: StringName) -> String:
 static func mission_available(id: StringName) -> bool:
 	var p := mission_scene(id)
 	return p != "" and ResourceLoader.exists(p)
+
+
+## True when `id` is a story film of STORY_FILMS (not a mission).
+static func is_film(id: StringName) -> bool:
+	return STORY_FILMS.has(StringName(id))
+
+
+## What follows the film `id` (a film or a mission id; &"" = none).
+static func film_next(id: StringName) -> StringName:
+	return StringName(STORY_FILMS.get(StringName(id), &""))
+
+
+## The first mission at the end of the film chain that starts at `id` (`id` itself when it is not a film).
+static func film_target(id: StringName) -> StringName:
+	var at := StringName(id)
+	for i in 8:
+		if not is_film(at):
+			return at
+		at = film_next(at)
+	return at
 
 
 # ---------------------------------------------------------------- file
@@ -469,6 +531,7 @@ func _finish_victory(mission_id: StringName, reward: Dictionary) -> void:
 	if next == &"":
 		var i := MISSION_ORDER.find(mission_id)
 		next = MISSION_ORDER[i + 1] if i >= 0 and i + 1 < MISSION_ORDER.size() else &""
+	next = film_target(next)   # a film in "next" unlocks the mission at the end of its chain (ep2_ending -> e3m1)
 	if next != &"":
 		_add_unique(unlocked, next)
 	for id: Variant in reward.get("unlock", []):   # e8m3: several missions at once

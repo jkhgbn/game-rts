@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_e7kj3"]
+[ext_resource type="Resource" path="res://data/cinematics/ep2_ending.tres" id="2_4jigt"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep2_ending/deep_door.tscn" id="3_t043k"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep2_ending/rime_lantern.tscn" id="4_oig13"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/vessa.tscn" id="5_tgv7v"]
+[ext_resource type="Script" path="res://art/units/wizards/vessa.gd" id="6_5nxv3"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_vey/helper_vey.tscn" id="7_b13lm"]
+[ext_resource type="Script" path="res://art/units/helpers/helper_vey/helper_vey.gd" id="8_u2huv"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/ysolde.tscn" id="9_u8ucv"]
+[ext_resource type="Script" path="res://art/units/wizards/ysolde.gd" id="10_fmaau"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn" id="11_q4x4r"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="12_vnlac"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="13_smidw"]
+
+[node name="Ep2EndingStage" type="Node3D" unique_id=1077050793]
+script = ExtResource("1_e7kj3")
+autoplay_script = ExtResource("2_4jigt")
+actor_paths = {
+"master": NodePath("Master"),
+"vessa": NodePath("Vessa"),
+"vey": NodePath("Vey"),
+"ysolde": NodePath("Ysolde")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="door" type="Node3D" parent="." unique_id=127902397 instance=ExtResource("3_t043k")]
+
+[node name="lantern" type="Node3D" parent="." unique_id=335079780 instance=ExtResource("4_oig13")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -34)
+
+[node name="Vessa" type="Node3D" parent="." unique_id=876665489 instance=ExtResource("5_tgv7v")]
+transform = Transform3D(-1.15, 0, -1.0053619e-07, 0, 1.15, 0, 1.0053619e-07, 0, -1.15, 0, 0, 6.2)
+script = ExtResource("6_5nxv3")
+body_height = 3.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_speed = 4.6
+
+[node name="Vey" type="Node3D" parent="." unique_id=173424879 instance=ExtResource("7_b13lm")]
+transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, 2.6, 0, 8.2)
+script = ExtResource("8_u2huv")
+light_energy = 0.0
+body_height = 2.0
+attack_style = &"sword_slash"
+stride_speed = 4.8
+leg_swing_deg = 30.0
+
+[node name="Ysolde" type="Node3D" parent="." unique_id=1970428747 instance=ExtResource("9_u8ucv")]
+transform = Transform3D(-0.9848077, 0, 0.1736483, 0, 1, 0, -0.1736483, 0, -0.9848077, -2.4, 0, 7.8)
+script = ExtResource("10_fmaau")
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_speed = 4.8
+idle_period = 3.6
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+walk_bounce = 0.03
+
+[node name="Master" type="Node3D" parent="." unique_id=1297060520 instance=ExtResource("11_q4x4r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+visible = false
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=2126826545]
+script = ExtResource("12_vnlac")
+preset = ExtResource("13_smidw")

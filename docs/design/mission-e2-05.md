@@ -444,9 +444,20 @@ Runs on the real seat API (4 seats, `activate_seat` for Nature / Ice). Deviation
   bonded story helpers back 45 s after a fall; Hush's 8:00 raid uses M00Cast. No cine timelines; no `ep2_ending` film
   (rewards `next` = `&"ep2_ending"`, no scene).
 - The Door's armor 30 is mission-side (buildings have no armor): every hit but the Doorwarden's own refunds 30.
-- **Scripted runs (normal, 2026-10-07): not green.** 1 victory in 9 runs: 16:59 mission time (18:25 with the cutscene
-  lengths, spec 25-31), the wake at the 16:00 cap, the boss down in 59 s, the Door at 83 %. The other runs: the Door fell
-  1:30-6:30 after the wake (boss HP tried x 4 / x 2 / x 1.5: 6 / 6 defeats; the Door's armor came after them), and the
-  last run (spec HP + the Door's armor) timed out at 40:00 (Door held, boss alive). The `--noseals` run loses the Door
-  (spec: 3 / 5). Open: the scripted player cannot hold S / W against Malrik's runs + Torvald's covers (most runs wake at
-  9:00-12:00 with 3 amber seals) and the boss's HP vs the army's real DPS needs a tuning pass.
+- **Tuning pass (2026-10-07, second build session)**, every change marked in `mission_e2_05.gd`: the Doorwarden walks
+  to the Door's rim on a scripted path at 1.4 m/s (its own move speed 0: it used to chase the army and stick 44 m off the
+  Door); its melee 20 (the spec gives none; 60 killed 30 soldiers in 90 s); boss HP **x 1.6** (18 000 / 24 000 /
+  30 000); Door Slam 35 / 45 / 55 (spec 90 / 120 / 150), the Fist 30 at r 2 (spec 60 at r 3), Stonehurl 50 at r 2.5
+  (spec 70 at r 3.5), Quake 35 (spec 55); tether heal 5 / 10 / 15 (spec 10 / 20 / 30); the amber Wardens (the host at
+  the wake and every Warden Call) guard the boss at the rim instead of hunting Vessa, at most 6 alive; the wake never
+  before **13:00** (spec 9:00) so the race keeps the spec's length when Malrik wins the tug-of-war; the enemy bots buy no
+  items and Malrik / Torvald are capped at the spec's level (with the bot's Ember Shard + Grave Pact and kill XP to L8,
+  Malrik's seal runs killed 20+ soldiers).
+- **Scripted runs (normal): still not green.** The "careful" scripted player (`tests/test_e2m5_sim.gd`: kindles S / W
+  only while Malrik is away, keeps the army off the dais, regroups before the wake) now reaches the wake at 13:00 with
+  40-44 soldiers and a Cinder Dragon (3-4 amber seals) and takes B1 down in ~1 min (24 000 -> 16 400), but in B2 the
+  army dies within ~30-60 s on the Door's north side (the boss's Fist / Stonehurl / Quake, the 6 amber Wardens and
+  Malrik with his guard all hit the same blob of 110-HP Shades); the tether then heals the boss back and the Door falls
+  (~21:00-23:00). Earlier variants of the player lost the army to Torvald's 9:00 cover + Malrik's runs instead. Open: a
+  B2 the scripted army survives (spread the army, a ranged-only boss line, or a smaller B2: fewer Wardens / no Quake
+  damage), then 3 seeds for the 25-31 min check; the `--noseals` run was not re-run.

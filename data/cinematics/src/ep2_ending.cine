@@ -1,0 +1,57 @@
+# Episode 2 ending "All Four, or None", ~88 s (docs/design/mission-e2-05.md "Cinematic hooks" ep2_ending, campaign-outline
+# 3.2): after the Doorwarden falls. Silence; Vessa kneels at the Deep Door; the Master's light rises into an outline that
+# never resolves and speaks through the Door ("All four of you, or none."); Vey's quiet line; Ysolde looks across the Rift
+# at the empty north stair where one blue rime-lantern burns (Torvald's doubt); then the climb into spring: Evenmead.
+# Placeholder staging (2026-10-07): no forge_deep_door stage set yet (E2M5.C2), the cavern is the env + the Door prop
+# (art/cinematics/props/ep2_ending/), the Master is the forge_ep3_memories light figure, the last shot is a crane out of
+# the cavern into white light (spring itself is ep3_opening's first shot).
+# Axis: the Vessa - Door line runs north-south; every camera stays EAST of it (+x).
+cine ep2_ending  title="Episode 2: All Four, or None"  letterbox=2.39  seed=25  length=82..96
+env night  moon_yaw=160  moon_pitch=-24  energy=0.35  color=#ffe9c0
+
+prop  door     res://art/cinematics/props/ep2_ending/deep_door.tscn    at=(0, 0, 0)
+prop  lantern  res://art/cinematics/props/ep2_ending/rime_lantern.tscn  at=(9, 0, -34)
+cast  vessa    res://art/units/wizards/vessa.tscn                at=(0, 0, 6.2)    yaw=180
+cast  vey      res://art/units/helpers/helper_vey/helper_vey.tscn  at=(2.6, 0, 8.2)  yaw=200
+cast  ysolde   res://art/units/wizards/ysolde.tscn               at=(-2.4, 0, 7.8)  yaw=170
+cast  master   res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(0, 0.25, 0)  yaw=0  hidden=1
+cast  narrator capsule  at=(0, 0, -300)  hidden=1  speaker=narrator
+
+# ---------------------------------------------------------------- silence after the fall
+shot S1 7.0  cam=crane  from=(22, 14, 26)  to=(12, 5, 17)  look=(0, 1.5, 2)>(0, 1.0, 4)  fov=48>40  in=fade_black:1.5
+shot S2 7.0  cam=frame "ms on vessa, 3/4 right"  push=0.4
+  at 3.0  line vessa "Master. Open it. Please."  dur=3.2
+
+# ---------------------------------------------------------------- the light rises
+shot S3 6.0  cam=static  from=(11, 4, 10)  look=(0, 2.2, 0)  fov=44  faces=vessa
+  at 0.4  vfx rise  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0.2, 0)  life=6  scale=0.8
+  at 1.6  show master
+shot S4 8.0  cam=frame "ms on master, ots vessa"  push=0.3
+  at 0.4  line master "My joy. You came all this way."  dur=3.0
+  at 3.6  line master "I cannot open it. If I let go, what is under me comes up."  dur=4.2
+shot S5 6.0  cam=frame "mcu on master, 3/4 right"  push=0.2
+  at 0.4  line master "It takes four hands to turn this lock."  dur=3.4
+shot S6 5.0  cam=frame "mcu on vessa, 3/4 right, low"  push=0.2
+  at 0.5  line vessa "Then tell me how!"  dur=2.6
+shot S7 7.0  cam=frame "cu on master, 3/4 right"  push=0.25
+  at 1.0  line master "All four of you, or none."  dur=3.4
+  at 5.4  hide master
+  at 5.0  fade color=#fff6dc  alpha=0.45  time=0.3
+  at 5.6  fade alpha=0  time=0.8
+
+# ---------------------------------------------------------------- the empty stair
+shot S8 7.0  cam=frame "ms on vey and vessa, 3/4 right"  in=blend:0.4
+  at 1.6  line vey "Especially Malrik. He always said that."  dur=3.4
+shot S9 6.0  cam=frame "mcu on ysolde, 3/4 right"  push=0.2
+shot S10 6.0  cam=static  from=(4, 3.5, 6)  look=(9, 2.4, -34)  fov=20
+  at 0.0  sfx res://assets/audio/sfx/spell_umbral_shroud.wav  vol=-18
+
+# ---------------------------------------------------------------- up into spring
+shot U1 14.0  cam=crane  from=(8, 3, 16)  to=(26, 46, 52)  look=(0, 1.5, 4)>(0, 0, -6)  fov=40>52  in=blend:0.6
+  at 1.0  line narrator "The door held. The war went looking for open ground,"  dur=4.0
+  at 5.6  line narrator "and found the last green country: Evenmead."  dur=3.8
+  at 9.6  fade color=#fff6dc  alpha=1  time=1.2
+  at 10.0 title "Episode 2 · The Light Below · The End"  time=3.6
+shot T1 6.0  cam=static  from=(0, 2, 30)  look=(0, 2, 0)  fov=40  in=fade_black:0.6
+  at 0.0  fade alpha=1  time=0.01
+  at 0.8  title "Episode 3: The Gravedigger's Son"  sub="Malrik's war"  time=4.4

@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_floor"]
+top_radius = 16.0
+bottom_radius = 16.0
+height = 0.2
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.16, 0.15, 0.17, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_door"]
+top_radius = 5.0
+bottom_radius = 5.0
+height = 0.12
+radial_segments = 64
+
+[sub_resource type="StandardMaterial3D" id="Mat_door"]
+albedo_color = Color(1, 0.93, 0.7, 1)
+emission_enabled = true
+emission = Color(1, 0.88, 0.55, 1)
+emission_energy_multiplier = 2.2
+
+[sub_resource type="TorusMesh" id="TorusMesh_rim"]
+inner_radius = 4.8
+outer_radius = 5.6
+rings = 64
+
+[sub_resource type="StandardMaterial3D" id="Mat_rim"]
+albedo_color = Color(0.55, 0.5, 0.42, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_seal"]
+top_radius = 0.6
+bottom_radius = 0.9
+height = 1.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_seal"]
+albedo_color = Color(1, 0.93, 0.7, 1)
+emission_enabled = true
+emission = Color(1, 0.85, 0.5, 1)
+
+[node name="deep_door" type="Node3D"]
+
+[node name="Dais" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("CylinderMesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+mesh = SubResource("CylinderMesh_door")
+surface_material_override/0 = SubResource("Mat_door")
+
+[node name="Rim" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.25, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("TorusMesh_rim")
+surface_material_override/0 = SubResource("Mat_rim")
+
+[node name="SealN" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -11)
+mesh = SubResource("CylinderMesh_seal")
+surface_material_override/0 = SubResource("Mat_seal")
+
+[node name="SealE" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0.8, 0)
+mesh = SubResource("CylinderMesh_seal")
+surface_material_override/0 = SubResource("Mat_seal")
+
+[node name="SealS" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 11)
+mesh = SubResource("CylinderMesh_seal")
+surface_material_override/0 = SubResource("Mat_seal")
+
+[node name="SealW" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0.8, 0)
+mesh = SubResource("CylinderMesh_seal")
+surface_material_override/0 = SubResource("Mat_seal")

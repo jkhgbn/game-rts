@@ -330,3 +330,6 @@ One row per run (`tools/cine/run_cine.ps1`). Quality 0-100; delta vs the previou
 | 2026-09-28 23:32:30 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 1b975567be8ce4af |  | docs/tools/cine/out/prologue_3min/report_stills.md |
 | 2026-09-28 23:32:40 | stills | prologue_3min | 100 (+0) | PASS (0F 0W) | 09fa0330deaedca3 |  | docs/tools/cine/out/prologue_3min/report_stills.md |
 | 2026-09-28 23:33:06 | record | prologue_3min | 100 (+0) | PASS (0F 0W) |  |  | docs/tools/cine/out/prologue_3min/report_record.md |
+| 2026-10-07 04:07:42 | check | ep2_ending | 93 | FAIL (1F 1W) | 4ba47e3c840f4fec | shot B01 camera (line 49); S8 face vey; S3 face vessa | docs/tools/cine/out/ep2_ending/report.md |
+| 2026-10-07 04:08:31 | check | ep2_ending | 98 (+5) | WARN (0F 1W) | 54c8a10ec542bb89 | S8 face vey; S3 face vessa; Look at the pictures | docs/tools/cine/out/ep2_ending/report.md |
+| 2026-10-07 07:37:24 | check | ep2_ending | 98 (+0) | WARN (0F 1W) | a85e8accd1d63cd3 | S8 face vey; S3 face vessa; Look at the pictures | docs/tools/cine/out/ep2_ending/report.md |

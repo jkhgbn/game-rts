@@ -71,7 +71,9 @@ const SEAL_RUN_AT := 180.0
 const YSOLDE_AT := 150.0
 const ROOST_AT := 480.0
 const W3_AT := 660.0
-const WAKE_FLOOR := 540.0
+## Spec 9:00 (normal); 13:00 since 2026-10-07 so the race lasts the spec's 12-15 min even when Malrik wins the
+## tug-of-war (3-4 amber seals woke the jailer at 9:00-10:00 in most scripted runs: a 17-20 min mission).
+const WAKE_FLOOR := 780.0
 const WAKE_PUSH_DELAY := 20.0
 const ICE_PRESSURE_DELAY := 90.0
 const ICE_PRESSURE_EVERY := 120.0
@@ -90,28 +92,32 @@ const HOLD_HEAL := 1000.0
 const DOOR_ARMOR := 30.0
 
 ## The boss (normal unless an array).
-## Spec values. 2026-10-07 scripted runs: a ~40-unit army burnt 15 000 in 59 s (the spec's maths assumed ~145 DPS), but
-## x 4 / x 2 / x 1.5 let the Door fall in every run (6 / 6): the tuning waits for a better scripted player.
-const BOSS_HP: Array[float] = [11000.0, 15000.0, 19000.0]
+## Tuned 2026-10-07 (spec 11 000 / 15 000 / 19 000 and Door Slam 90 / 120 / 150): the spec's maths assumed ~180 raw
+## army DPS, a 30-40 unit army does ~400, so the boss burnt in a minute; x 1.6 HP and ~40 % of the Slam keep B1-B3 near the
+## spec's 7-10 min and the Door at risk (the scripted runs in the spec's "Built" note).
+const BOSS_HP: Array[float] = [18000.0, 24000.0, 30000.0]
 const BOSS_ARMOR := 25.0
-const SLAM_DAMAGE: Array[float] = [90.0, 120.0, 150.0]
+const BOSS_AGGRO := 6.0
+const BOSS_SPEED := 1.4
+const SLAM_DAMAGE: Array[float] = [35.0, 45.0, 55.0]
 const SLAM_EVERY_B1 := 6.0
 const SLAM_EVERY := 5.0
 const SLAM_WINDUP := 1.0
-const SLAM_FIST := 60.0
+const SLAM_FIST_R := 2.0   ## Spec 3
+const SLAM_FIST := 30.0   ## Spec 60 (tuned 2026-10-07 with Stonehurl / Quake: see below)
 const STONEHURL_EVERY_B1 := 10.0
 const STONEHURL_EVERY_B3 := 8.0
 const STONEHURL_WINDUP := 1.6
-const STONEHURL_R := 3.5
-const STONEHURL_DAMAGE := 70.0
+const STONEHURL_R := 2.5   ## Spec 3.5 (with the Fist at r 3 the boss AoE killed ~17 soldiers a minute in a blob)
+const STONEHURL_DAMAGE := 50.0   ## Spec 70; with the Fist 60 and the Quake 55 the boss killed ~40 units a minute
 const CALL_EVERY := 30.0
 const CALL_EVERY_B3 := 20.0
 const QUAKE_EVERY := 14.0
 const QUAKE_R := 8.0
-const QUAKE_DAMAGE := 55.0
+const QUAKE_DAMAGE := 35.0   ## Spec 55 (a 110-HP Shade line died to one Fist + one Quake)
 const TETHER_RANGE := 20.0
 const TETHER_FACTOR: Array[float] = [0.6, 0.5, 0.4]
-const TETHER_HEAL: Array[float] = [10.0, 20.0, 30.0]
+const TETHER_HEAL: Array[float] = [5.0, 10.0, 15.0]   ## Spec 10 / 20 / 30: with the army dead in B2 it out-healed everything
 const AMBER_FACTOR := 0.85
 const EXPOSED_FACTOR := 1.5
 const EXPOSED_S := 8.0
@@ -470,10 +476,10 @@ func _make_boss_type() -> UnitType:
 	t.move_speed = 1.4
 	t.radius = 3.5
 	t.body_height = 16.0
-	t.attack_damage = 60.0
+	t.attack_damage = 20.0   # the spec gives it no melee attack (Slam / Stonehurl / Quake do the work); 60 killed 30 in 90 s
 	t.attack_range = 4.5
 	t.attack_cooldown = 2.0
-	t.aggro_range = 6.0
+	t.aggro_range = BOSS_AGGRO
 	t.sight_radius = 22.0
 	t.kill_xp = 0
 	t.commandable = false
@@ -759,6 +765,7 @@ func _on_navigation_ready() -> void:
 	_spawn(shadow_hero, SHADOW_SEAT, seat_xf(SHADOW_SEAT, VESSA_START))
 	_claim_wizard(shadow_hero, SHADOW_SEAT)
 	raise_wizard(shadow_hero, WIZARD_LEVEL[diff], MALRIK_SPELLS)
+	shadow_hero.level_cap = WIZARD_LEVEL[diff]
 	ItemDrops.ensure_inventory(shadow_hero)
 	mark_scripted(shadow_hero)
 	shadow_hero.died.connect(_on_malrik_died)
@@ -784,6 +791,7 @@ func _on_navigation_ready() -> void:
 			"wizard": {"level": WIZARD_LEVEL[diff], "spells": TORVALD_SPELLS, "pos": seat_xf(ICE_SEAT, VESSA_START)}})
 	torvald = ice.get("wizard") as Wizard
 	if torvald:
+		torvald.level_cap = WIZARD_LEVEL[diff]
 		mark_scripted(torvald)
 		torvald.died.connect(_on_torvald_died)
 		aldra = _story_helper(&"helper_aldra", torvald, ICE_SEAT)
@@ -878,6 +886,10 @@ func seat_profile(seat: int) -> AIProfile:
 	p.champion_max = 0
 	p.trade = false
 	p.map_fill = false
+	if seat != ALLY_SEAT:
+		# 2026-10-07: the spec's Malrik / Torvald are L6 with spells only; with the bot's items (Ember Shard, Grave Pact:
+		# 48 attack) and kill XP to L8, Malrik's seal runs killed 20+ soldiers per run. No items, levels capped.
+		p.item_build = PackedStringArray()
 	return p
 
 
@@ -1147,14 +1159,14 @@ func wake_up() -> void:
 			var at := (u as Unit).global_position
 			host.erase(u)
 			(u as Unit).leave_map()
-			var w := _add_host_warden(at, Unit.Team.ENEMY)
-			order_wave(w, &"hero", hero_pos())
+			_guard_boss(_add_host_warden(at, Unit.Team.ENEMY))
 	if boss and is_instance_valid(boss):
 		set_dormant(boss, false)
 		boss.team = Unit.Team.ENEMY
 		boss.damage_taken.connect(_on_boss_hit)
 		boss.died.connect(_on_boss_fell)
-		boss.command_move(DOOR_RIM_N)
+		boss.set_base_stat(&"move_speed", 0.0)   # the mission walks it (_tick_boss)
+		boss.command_stop()
 	boss_phase = 1
 	play_cutscene(&"e2m5_wake", func() -> void:
 		say_l(19)
@@ -1226,11 +1238,16 @@ func _tick_boss(delta: float) -> void:
 		_start_b3()
 	if exposed_left > 0.0:
 		exposed_left -= delta
-	# It stays at the Door's north rim (within 7 m of the Door).
-	if _flat(boss.global_position, DOOR_RIM_N) > 2.5 and boss.attack_target == null and not boss.has_move_order():
-		boss.command_move(DOOR_RIM_N)
-	if boss.attack_target != null and _flat(boss.global_position, DOOR_POS) > 10.0:
-		boss.command_move(DOOR_RIM_N)
+	# It walks to the Door's north rim at 1.4 m/s and stays there (within 7 m of the Door), hitting only what stands
+	# beside it. The walk is scripted (its own move speed is 0: 2026-10-07 runs, chasing the army and then a stuck
+	# navigation path kept it 44 m off the Door for good).
+	var to_rim := DOOR_RIM_N - boss.global_position
+	to_rim.y = 0.0
+	if to_rim.length() > 0.3:
+		boss.aggro_range = 0.0 if to_rim.length() > 3.0 else BOSS_AGGRO
+		boss.global_position += to_rim.normalized() * minf(to_rim.length(), BOSS_SPEED * delta)
+	else:
+		boss.aggro_range = BOSS_AGGRO
 	var near_door := _flat(boss.global_position, DOOR_POS) <= 7.0 + 3.5
 	_slam_left -= delta
 	if _slam_left <= 0.0 and near_door:
@@ -1256,14 +1273,14 @@ func _tick_boss(delta: float) -> void:
 
 func _door_slam() -> void:
 	var fist := boss.global_position.lerp(DOOR_POS, 0.6)
-	flash_ring(fist, 3.0)
+	flash_ring(fist, SLAM_FIST_R)
 	get_tree().create_timer(SLAM_WINDUP, false, true).timeout.connect(func() -> void:
 		if boss == null or not is_instance_valid(boss) or not boss.is_alive() or is_ending():
 			return
 		if door and is_instance_valid(door) and door.is_alive():
 			door.take_damage(float(by_difficulty(SLAM_DAMAGE)), boss)
 			_door_quiet = 0.0
-		_hit_side0(fist, 3.0, SLAM_FIST))
+		_hit_side0(fist, SLAM_FIST_R, SLAM_FIST))
 
 
 ## Stonehurl: at the biggest side-0 clump within 25 m (Vessa's clump wins ties); 1.6 s telegraph r 3.5, 70.
@@ -1321,9 +1338,22 @@ func _warden_call(n: int) -> void:
 			best = a
 	if vey and is_instance_valid(vey) and vey.is_alive() and _flat(vey.global_position, best) <= 6.0:
 		return   # never inside Vey's storm
+	host = host.filter(func(u: Variant) -> bool: return is_instance_valid(u) and (u as Unit).is_alive())
 	for i in n:
-		var w := _add_host_warden(best + Vector3(i * 1.5, 0.0, 0.0), Unit.Team.ENEMY)
-		order_wave(w, &"hero", hero_pos())
+		if host.size() >= HOST_MAX:
+			return   # at most 6 amber Wardens alive (2026-10-07: uncapped calls stacked 12+ guards on the rim)
+		_guard_boss(_add_host_warden(best + Vector3(i * 1.5, 0.0, 0.0), Unit.Team.ENEMY))
+
+
+## An amber Warden (the host turned at the wake, a Warden Call) stands guard around the Doorwarden at the Door's rim and
+## fights whoever comes to the boss (2026-10-07: hunting Vessa, the six of the host plus every call caught the army
+## off the dais and wiped it within a minute of the wake in the scripted runs).
+func _guard_boss(w: Unit) -> void:
+	var a := randf() * TAU
+	w.set_meta(META_HOME, DOOR_RIM_N + Vector3(cos(a) * 6.0, 0.0, sin(a) * 4.0))
+	if not _guards.has(w):
+		_guards.append(w)
+	w.command_attack_move(w.get_meta(META_HOME))
 
 
 ## E15 (70 %): B2 "Shard-fed": Malrik's guard order, the tether.
