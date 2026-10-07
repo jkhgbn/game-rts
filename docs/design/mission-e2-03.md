@@ -367,5 +367,5 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - D5 timings by shifted clocks on the trade services (posts 1:30, Lodge contracts 2:00, first Magpie band 3:00 / easy
   4:00); no tribute weighting in `ThiefBand` (ai).
 - Tribute **300 / 380 / 460** gold (spec 200 / 250 / 300): 4 near caravans earned ~190 gold / min in the scripted run.
-- Scripted run (normal, 2026-10-06, tribute 350): victory at 15:54 mission time (16:52 with the cutscene lengths)
-  against 18-24; W1 left 13 of 13; Vey not called by the script.
+- Scripted runs (normal, 2026-10-06): tribute 350 = victory at 15:54 (16:52 with the cutscene lengths); tribute 380 =
+  **17:53 (18:51 with the cutscene lengths)** against 18-24; W1 left 13 of 13; Vey not called by the script.
