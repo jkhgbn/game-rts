@@ -33,7 +33,7 @@ msgstr ""
 #. u.unit_name = "Old Vey"
 #: scripts/campaign/m00_cast.gd:83 scripts/campaign/mission_e2_01.gd:150
 #: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_03.gd:94
-#: data/units/torren_vey.tres:9 data/helpers/helper_vey.tres:9
+#: scripts/campaign/mission_e2_04.gd:148 scripts/campaign/mission_e2_05.gd:148
 msgid "Old Vey"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgid "Vessa must survive"
 msgstr ""
 
 #. return "Drive off Mother Hush"
-#: scripts/campaign/mission_00.gd:516
+#: scripts/campaign/mission_00.gd:516 scripts/campaign/mission_e2_04.gd:695
 msgid "Drive off Mother Hush"
 msgstr ""
 
@@ -1476,6 +1476,7 @@ msgstr ""
 #. const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"messenger": "Wren", &"ashby": "Captain Ashby",
 #: scripts/campaign/mission_e2_01.gd:150 scripts/campaign/mission_e2_01.gd:317
 #: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_02.gd:344
+#: scripts/campaign/mission_e2_05.gd:150
 msgid "Wren"
 msgstr ""
 
@@ -1698,7 +1699,7 @@ msgstr ""
 
 #. const MSG_TORVALD_FELL := "Torvald has fallen, the frost will bring him back"
 #: scripts/campaign/mission_e2_01.gd:201 scripts/campaign/mission_e2_02.gd:223
-#: scripts/world/skirmish.gd:298
+#: scripts/campaign/mission_e2_05.gd:203 scripts/world/skirmish.gd:298
 msgid "Torvald has fallen, the frost will bring him back"
 msgstr ""
 
@@ -2559,6 +2560,746 @@ msgstr ""
 #. return "Break Malrik's Tollgate"
 #: scripts/campaign/mission_e2_03.gd:541
 msgid "Break Malrik's Tollgate"
+msgstr ""
+
+#. const MISSION_TITLE := "Sunrise Road"
+#: scripts/campaign/mission_e2_04.gd:24
+msgid "Sunrise Road"
+msgstr ""
+
+#. [&"narrator", "The Sunrise Road. The Master cut it before the kingdoms had names. No one has walked it since."
+#: scripts/campaign/mission_e2_04.gd:152
+msgid "The Sunrise Road. The Master cut it before the kingdoms had names. No one has walked it since."
+msgstr ""
+
+#. [&"vessa", "It's so dark. Good thing I'm the brightest person I know."],
+#: scripts/campaign/mission_e2_04.gd:153
+msgid "It's so dark. Good thing I'm the brightest person I know."
+msgstr ""
+
+#. [&"vey", "Stay close to the light, girl. Down here the dark has teeth."],
+#: scripts/campaign/mission_e2_04.gd:154
+msgid "Stay close to the light, girl. Down here the dark has teeth."
+msgstr ""
+
+#. [&"vey", "Sunstones. He set them for the Wardens, so they'd always see him coming home."],
+#: scripts/campaign/mission_e2_04.gd:155
+msgid "Sunstones. He set them for the Wardens, so they'd always see him coming home."
+msgstr ""
+
+#. [&"vessa", "There's a Warden in the wall. Asleep. Vey, the last ones I met tried to crush me."],
+#: scripts/campaign/mission_e2_04.gd:156
+msgid "There's a Warden in the wall. Asleep. Vey, the last ones I met tried to crush me."
+msgstr ""
+
+#. [&"vey", "Those were Obren's, woken by Obren. These are the Master's. They know whose storm I carry."],
+#: scripts/campaign/mission_e2_04.gd:157
+msgid "Those were Obren's, woken by Obren. These are the Master's. They know whose storm I carry."
+msgstr ""
+
+#. [&"vey", "Up, old friend. Your master's walking again. Well. His sword is."],
+#: scripts/campaign/mission_e2_04.gd:158
+msgid "Up, old friend. Your master's walking again. Well. His sword is."
+msgstr ""
+
+#. [&"vessa", "Shades, in the dark. Of course. They never pick a nice, sunny cave."],
+#: scripts/campaign/mission_e2_04.gd:159
+msgid "Shades, in the dark. Of course. They never pick a nice, sunny cave."
+msgstr ""
+
+#. [&"ashby", "My queen! Work crew's on the stair. Find us a hearth to build around!"],
+#: scripts/campaign/mission_e2_04.gd:160
+msgid "My queen! Work crew's on the stair. Find us a hearth to build around!"
+msgstr ""
+
+#. [&"vessa", "A forge. He built forges down here? What was he making?"],
+#: scripts/campaign/mission_e2_04.gd:161
+msgid "A forge. He built forges down here? What was he making?"
+msgstr ""
+
+#. [&"vey", "Wardens. Doors. Things that hold. He was always better at holding than letting go."],
+#: scripts/campaign/mission_e2_04.gd:162
+msgid "Wardens. Doors. Things that hold. He was always better at holding than letting go."
+msgstr ""
+
+#. [&"malrik", "Hush. The old man is with her. Wake the stones before he does."],
+#: scripts/campaign/mission_e2_04.gd:163
+msgid "Hush. The old man is with her. Wake the stones before he does."
+msgstr ""
+
+#. [&"vessa", "The hearth's lit. Ashby, it's yours. Make me things that hit harder."],
+#: scripts/campaign/mission_e2_04.gd:164
+msgid "The hearth's lit. Ashby, it's yours. Make me things that hit harder."
+msgstr ""
+
+#. [&"ashby", "A Master's forge! My grandad would weep. Then he'd charge you for it."],
+#: scripts/campaign/mission_e2_04.gd:165
+msgid "A Master's forge! My grandad would weep. Then he'd charge you for it."
+msgstr ""
+
+#. [&"ashby", "First batch out of the old forge, my queen! Blades that remember the fire."],
+#: scripts/campaign/mission_e2_04.gd:166
+msgid "First batch out of the old forge, my queen! Blades that remember the fire."
+msgstr ""
+
+#. [&"obren", "Wake, my masons. The Bishop's hand carries my heart. Obey it."],
+#: scripts/campaign/mission_e2_04.gd:167
+msgid "Wake, my masons. The Bishop's hand carries my heart. Obey it."
+msgstr ""
+
+#. [&"vessa", "That voice again. I'd hoped we buried you."],
+#: scripts/campaign/mission_e2_04.gd:168
+msgid "That voice again. I'd hoped we buried you."
+msgstr ""
+
+#. [&"vey", "They're throwing everything at the forge. Hold the light, and they break on it."],
+#: scripts/campaign/mission_e2_04.gd:169
+msgid "They're throwing everything at the forge. Hold the light, and they break on it."
+msgstr ""
+
+#. [&"vey", "Two crafts mastered. Good. The gate won't open for a fool. Or so he told me."],
+#: scripts/campaign/mission_e2_04.gd:170
+msgid "Two crafts mastered. Good. The gate won't open for a fool. Or so he told me."
+msgstr ""
+
+#. [&"hush", "The little ember, in the dark. You're a long way from your braziers."],
+#: scripts/campaign/mission_e2_04.gd:171
+msgid "The little ember, in the dark. You're a long way from your braziers."
+msgstr ""
+
+#. [&"vessa", "Mother Hush. You missed me once. I'd hate for you to get out of practice."],
+#: scripts/campaign/mission_e2_04.gd:172
+msgid "Mother Hush. You missed me once. I'd hate for you to get out of practice."
+msgstr ""
+
+#. [&"hush", "Hush now. The dark only wants to be listened to."],
+#: scripts/campaign/mission_e2_04.gd:173
+msgid "Hush now. The dark only wants to be listened to."
+msgstr ""
+
+#. [&"hush", "There is always another night, little ember. Another night."],
+#: scripts/campaign/mission_e2_04.gd:174
+msgid "There is always another night, little ember. Another night."
+msgstr ""
+
+#. [&"vey", "Here. Hand on the sun, girl. I'll give it the storm. Hold it with me."],
+#: scripts/campaign/mission_e2_04.gd:175
+msgid "Here. Hand on the sun, girl. I'll give it the storm. Hold it with me."
+msgstr ""
+
+#. [&"vessa", "It's warm. Vey, the door is WARM. Something's on the other side."],
+#: scripts/campaign/mission_e2_04.gd:176
+msgid "It's warm. Vey, the door is WARM. Something's on the other side."
+msgstr ""
+
+#. [&"narrator", "And for the first time in twelve years, the Sunrise Road saw its sunrise."],
+#: scripts/campaign/mission_e2_04.gd:177
+msgid "And for the first time in twelve years, the Sunrise Road saw its sunrise."
+msgstr ""
+
+#. [&"vey", "He's down there. I can feel him. And he's tired, girl. So very tired."],
+#: scripts/campaign/mission_e2_04.gd:178
+msgid "He's down there. I can feel him. And he's tired, girl. So very tired."
+msgstr ""
+
+#. [&"vessa", "Then we go faster. Wardens, with me. We're going to fetch the Master."],
+#: scripts/campaign/mission_e2_04.gd:179
+msgid "Then we go faster. Wardens, with me. We're going to fetch the Master."
+msgstr ""
+
+#. [&"malrik", "Go on, then. Run ahead. I'll be right behind you, with the key you lack."],
+#: scripts/campaign/mission_e2_04.gd:180
+msgid "Go on, then. Run ahead. I'll be right behind you, with the key you lack."
+msgstr ""
+
+#. [&"vey", "Eight of his Wardens, awake for you. He'd have liked that."],
+#: scripts/campaign/mission_e2_04.gd:181
+msgid "Eight of his Wardens, awake for you. He'd have liked that."
+msgstr ""
+
+#. [&"vessa", "Every stone lit. Okay, the Master had good taste in caves."],
+#: scripts/campaign/mission_e2_04.gd:182
+msgid "Every stone lit. Okay, the Master had good taste in caves."
+msgstr ""
+
+#. [&"vessa", "Vey... the light... it's going out..."],
+#: scripts/campaign/mission_e2_04.gd:183
+msgid "Vey... the light... it's going out..."
+msgstr ""
+
+#. [&"ashby", "The forge is lost! The hearth's gone cold!"],
+#: scripts/campaign/mission_e2_04.gd:184
+msgid "The forge is lost! The hearth's gone cold!"
+msgstr ""
+
+#. [&"vessa", "Shades in the dark. I know that smoke. She ran from me once."],
+#: scripts/campaign/mission_e2_04.gd:185
+msgid "Shades in the dark. I know that smoke. She ran from me once."
+msgstr ""
+
+#. [&"vessa", "Mother Hush. Last time you ran. Want to try running a second time?"],
+#: scripts/campaign/mission_e2_04.gd:186
+msgid "Mother Hush. Last time you ran. Want to try running a second time?"
+msgstr ""
+
+#. "Under the Emberfall observatory a stair goes down, and down, past the last root and the last bat, into halls 
+#: scripts/campaign/mission_e2_04.gd:189
+msgid "Under the Emberfall observatory a stair goes down, and down, past the last root and the last bat, into halls the Master cut before there were kingdoms. The Greywater guides call it the Sunrise Road. They do not say why."
+msgstr ""
+
+#. "The Master's old Wardens sleep in the walls. Old Vey says they will know his storm. Mother Hush went down fir
+#: scripts/campaign/mission_e2_04.gd:190
+msgid "The Master's old Wardens sleep in the walls. Old Vey says they will know his storm. Mother Hush went down first, with a splinter of Malrik's stone, and the Wardens she wakes have amber eyes."
+msgstr ""
+
+#. "Somewhere below there is a forge, and past it a gate. Vessa brought a small army, a big temper and the only l
+#: scripts/campaign/mission_e2_04.gd:191
+msgid "Somewhere below there is a forge, and past it a gate. Vessa brought a small army, a big temper and the only light for a mile. Down here, that is the same thing."
+msgstr ""
+
+#. const BRIEFING_LINE := "The dark hides the enemy: light the sunstones, and keep Vessa close to the fight."
+#: scripts/campaign/mission_e2_04.gd:193
+msgid "The dark hides the enemy: light the sunstones, and keep Vessa close to the fight."
+msgstr ""
+
+#. const HINT_DARK := "It's dark down here: the enemy hides beyond your light. Light the sunstones (stand Vessa b
+#: scripts/campaign/mission_e2_04.gd:194
+msgid "It's dark down here: the enemy hides beyond your light. Light the sunstones (stand Vessa beside one)."
+msgstr ""
+
+#. const HINT_WAKE := "Wake a Warden: Vessa beside it for 3 s, with Old Vey close to her."
+#: scripts/campaign/mission_e2_04.gd:195
+msgid "Wake a Warden: Vessa beside it for 3 s, with Old Vey close to her."
+msgstr ""
+
+#. const HINT_NO_VEY := "The Warden sleeps. It answers only the Master's storm: bring Old Vey."
+#: scripts/campaign/mission_e2_04.gd:196
+msgid "The Warden sleeps. It answers only the Master's storm: bring Old Vey."
+msgstr ""
+
+#. const HINT_CLEAR := "Clear the forge hall first"
+#: scripts/campaign/mission_e2_04.gd:197
+msgid "Clear the forge hall first"
+msgstr ""
+
+#. const HINT_FORGE := "Build an Ember Forge (B then M) in this hall and research there twice."
+#: scripts/campaign/mission_e2_04.gd:198
+msgid "Build an Ember Forge (B then M) in this hall and research there twice."
+msgstr ""
+
+#. const HINT_RESEARCH := "Research makes every unit better for the whole mission. Select the Ember Forge and pic
+#: scripts/campaign/mission_e2_04.gd:199
+msgid "Research makes every unit better for the whole mission. Select the Ember Forge and pick an upgrade."
+msgstr ""
+
+#. const HINT_ARMOR := "Ember Mail: your Guards take less."
+#: scripts/campaign/mission_e2_04.gd:200
+msgid "Ember Mail: your Guards take less."
+msgstr ""
+
+#. const MSG_GATE_PAUSED := "The gate channel pauses"
+#: scripts/campaign/mission_e2_04.gd:201
+msgid "The gate channel pauses"
+msgstr ""
+
+#. const MSG_VEY_KNEELS := "Old Vey kneels: he will stand again"
+#: scripts/campaign/mission_e2_04.gd:202
+msgid "Old Vey kneels: he will stand again"
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nThe Sunrise Gate is open"
+#: scripts/campaign/mission_e2_04.gd:293
+msgid "VICTORY\nThe Sunrise Gate is open"
+msgstr ""
+
+#. c.spotlight = {"id": &"fire_forge", "trigger": &"unlock", "key_hint": "Cinder Hand: B then M",
+#: scripts/campaign/mission_e2_04.gd:298
+msgid "Cinder Hand: B then M"
+msgstr ""
+
+#. "card": "Ember Forge. Make every soldier better, for good: armour and steel for the long road down."}
+#: scripts/campaign/mission_e2_04.gd:299
+msgid "Ember Forge. Make every soldier better, for good: armour and steel for the long road down."
+msgstr ""
+
+#. return "Episode 2, Mission 4: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e2_04.gd:320
+msgid "Episode 2, Mission 4: %s"
+msgstr ""
+
+#. t.display_name = "Splinter Acolyte"
+#: scripts/campaign/mission_e2_04.gd:347
+msgid "Splinter Acolyte"
+msgstr ""
+
+#. t.display_name = "Sunwarden" if friend else "Amber Warden"
+#: scripts/campaign/mission_e2_04.gd:363 scripts/campaign/mission_e2_05.gd:486
+msgid "Sunwarden"
+msgstr ""
+
+#. t.display_name = "Sunwarden" if friend else "Amber Warden"
+#: scripts/campaign/mission_e2_04.gd:363
+msgid "Amber Warden"
+msgstr ""
+
+#. t.display_name = "Warden Forge"
+#: scripts/campaign/mission_e2_04.gd:378
+msgid "Warden Forge"
+msgstr ""
+
+#. b.display_name = "Sunstone %s" % String(row[0])
+#: scripts/campaign/mission_e2_04.gd:391
+msgid "Sunstone %s"
+msgstr ""
+
+#. return "Reach the Warden Forge and light its hearth"
+#: scripts/campaign/mission_e2_04.gd:675
+msgid "Reach the Warden Forge and light its hearth"
+msgstr ""
+
+#. return "Research twice at the Ember Forge (%d / 2)" % mini(researches, RESEARCH_GOAL)
+#: scripts/campaign/mission_e2_04.gd:678
+msgid "Research twice at the Ember Forge (%d / 2)"
+msgstr ""
+
+#. return "Research twice at the Ember Forge"
+#: scripts/campaign/mission_e2_04.gd:679
+msgid "Research twice at the Ember Forge"
+msgstr ""
+
+#. return "Open the Sunrise Gate: Vessa and Old Vey together (%d %%, paused)" % int(gate_progress * 100.0)
+#: scripts/campaign/mission_e2_04.gd:683
+msgid "Open the Sunrise Gate: Vessa and Old Vey together (%d %%, paused)"
+msgstr ""
+
+#. return "Open the Sunrise Gate: Vessa and Old Vey together (%d %%)" % int(gate_progress * 100.0)
+#: scripts/campaign/mission_e2_04.gd:684
+msgid "Open the Sunrise Gate: Vessa and Old Vey together (%d %%)"
+msgstr ""
+
+#. return "Open the Sunrise Gate: Vessa and Old Vey together"
+#: scripts/campaign/mission_e2_04.gd:685
+msgid "Open the Sunrise Gate: Vessa and Old Vey together"
+msgstr ""
+
+#. return "The Warden Forge must stand"
+#: scripts/campaign/mission_e2_04.gd:689
+msgid "The Warden Forge must stand"
+msgstr ""
+
+#. return "Wake the Master's Wardens with the storm (%d / 8)" % mini(wardens_woken, WARDEN_GOAL)
+#: scripts/campaign/mission_e2_04.gd:692
+msgid "Wake the Master's Wardens with the storm (%d / 8)"
+msgstr ""
+
+#. return "Wake the Master's Wardens with the storm"
+#: scripts/campaign/mission_e2_04.gd:693
+msgid "Wake the Master's Wardens with the storm"
+msgstr ""
+
+#. return "Light every sunstone (%d / 6)" % stones_lit
+#: scripts/campaign/mission_e2_04.gd:698
+msgid "Light every sunstone (%d / 6)"
+msgstr ""
+
+#. return "Light every sunstone"
+#: scripts/campaign/mission_e2_04.gd:699
+msgid "Light every sunstone"
+msgstr ""
+
+#. _ring(StringName("amber_%d" % key), s.global_position, float(row[1]), Color(1.0, 0.55, 0.1, 0.6))
+#: scripts/campaign/mission_e2_04.gd:975 scripts/campaign/mission_e2_04.gd:978
+msgid "amber_%d"
+msgstr ""
+
+#. return "enemy %d" % n if n > 0 else ""
+#: scripts/campaign/mission_e2_04.gd:1317
+msgid "enemy %d"
+msgstr ""
+
+#. const MISSION_TITLE := "The Light Below"
+#: scripts/campaign/mission_e2_05.gd:24
+msgid "The Light Below"
+msgstr ""
+
+#. [&"narrator", "Under the roots of the world, a door. And on the other side of it, the one who made it."],
+#: scripts/campaign/mission_e2_05.gd:153
+msgid "Under the roots of the world, a door. And on the other side of it, the one who made it."
+msgstr ""
+
+#. [&"vessa", "That's it. That's the door. Vey, he's right there. Under my feet."],
+#: scripts/campaign/mission_e2_05.gd:154
+msgid "That's it. That's the door. Vey, he's right there. Under my feet."
+msgstr ""
+
+#. [&"vey", "Four seals. Wake them with the relics and the door stands. Let Malrik break them and it falls."],
+#: scripts/campaign/mission_e2_05.gd:155
+msgid "Four seals. Wake them with the relics and the door stands. Let Malrik break them and it falls."
+msgstr ""
+
+#. [&"malrik", "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs."],
+#: scripts/campaign/mission_e2_05.gd:156
+msgid "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs."
+msgstr ""
+
+#. [&"vessa", "One seal! See, Vey? I can be patient. For four seconds at a time."],
+#: scripts/campaign/mission_e2_05.gd:157
+msgid "One seal! See, Vey? I can be patient. For four seconds at a time."
+msgstr ""
+
+#. [&"malrik", "Crack. Do you hear it, Vessa? That is the sound of a lock giving up."],
+#: scripts/campaign/mission_e2_05.gd:158
+msgid "Crack. Do you hear it, Vessa? That is the sound of a lock giving up."
+msgstr ""
+
+#. [&"vey", "Kindle it again, girl. The relics are stronger than his pebble. If you hold them."],
+#: scripts/campaign/mission_e2_05.gd:159
+msgid "Kindle it again, girl. The relics are stronger than his pebble. If you hold them."
+msgstr ""
+
+#. [&"ysolde", "The east seal is mine. Hold the west, Vessa. We have done this before."],
+#: scripts/campaign/mission_e2_05.gd:160
+msgid "The east seal is mine. Hold the west, Vessa. We have done this before."
+msgstr ""
+
+#. [&"ysolde", "Torvald is on my bridge with half of winter. I could use some fire."],
+#: scripts/campaign/mission_e2_05.gd:161
+msgid "Torvald is on my bridge with half of winter. I could use some fire."
+msgstr ""
+
+#. [&"torvald", "I will hold the north stair, Bishop. Do what you came to do, and quickly."],
+#: scripts/campaign/mission_e2_05.gd:162
+msgid "I will hold the north stair, Bishop. Do what you came to do, and quickly."
+msgstr ""
+
+#. [&"aldra", "Rime on the ramp, Torvald. They will not climb it twice."],
+#: scripts/campaign/mission_e2_05.gd:163
+msgid "Rime on the ramp, Torvald. They will not climb it twice."
+msgstr ""
+
+#. [&"hush", "Did you miss me, little ember? I missed you. Twice now."],
+#: scripts/campaign/mission_e2_05.gd:164
+msgid "Did you miss me, little ember? I missed you. Twice now."
+msgstr ""
+
+#. [&"vessa", "A dragon! An actual dragon! Vey, I have a DRAGON."],
+#: scripts/campaign/mission_e2_05.gd:165
+msgid "A dragon! An actual dragon! Vey, I have a DRAGON."
+msgstr ""
+
+#. [&"obren", "Wake, my jailer. The door was always mine to open."],
+#: scripts/campaign/mission_e2_05.gd:166
+msgid "Wake, my jailer. The door was always mine to open."
+msgstr ""
+
+#. [&"malrik", "Torvald, now. Both bridges. Let them choose which kingdom to lose."],
+#: scripts/campaign/mission_e2_05.gd:167
+msgid "Torvald, now. Both bridges. Let them choose which kingdom to lose."
+msgstr ""
+
+#. [&"vey", "Obren's Wardens. They guarded this door before he turned. Now they guard nothing."],
+#: scripts/campaign/mission_e2_05.gd:168
+msgid "Obren's Wardens. They guarded this door before he turned. Now they guard nothing."
+msgstr ""
+
+#. [&"master", "...Vessa?"],
+#: scripts/campaign/mission_e2_05.gd:169
+msgid "...Vessa?"
+msgstr ""
+
+#. [&"malrik", "Dying in the dark. Twice in one war. I am starting to keep count."],
+#: scripts/campaign/mission_e2_05.gd:170
+msgid "Dying in the dark. Twice in one war. I am starting to keep count."
+msgstr ""
+
+#. [&"narrator", "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it."],
+#: scripts/campaign/mission_e2_05.gd:171
+msgid "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it."
+msgstr ""
+
+#. [&"malrik", "Open it, Mason. Let me see what the Master was so busy guarding."],
+#: scripts/campaign/mission_e2_05.gd:172
+msgid "Open it, Mason. Let me see what the Master was so busy guarding."
+msgstr ""
+
+#. [&"vessa", "Everyone on the door! Nobody touches it but us!"],
+#: scripts/campaign/mission_e2_05.gd:173
+msgid "Everyone on the door! Nobody touches it but us!"
+msgstr ""
+
+#. [&"malrik", "Feed, old stone. Take what you need from me. I have plenty."],
+#: scripts/campaign/mission_e2_05.gd:174
+msgid "Feed, old stone. Take what you need from me. I have plenty."
+msgstr ""
+
+#. [&"vey", "He's holding it up with the shard! Cut the line, girl! Get to Malrik!"],
+#: scripts/campaign/mission_e2_05.gd:175
+msgid "He's holding it up with the shard! Cut the line, girl! Get to Malrik!"
+msgstr ""
+
+#. [&"master", "Hold."],
+#: scripts/campaign/mission_e2_05.gd:176
+msgid "Hold."
+msgstr ""
+
+#. [&"ysolde", "The line is cut! Now, before he crawls back!"],
+#: scripts/campaign/mission_e2_05.gd:177
+msgid "The line is cut! Now, before he crawls back!"
+msgstr ""
+
+#. [&"vey", "Feel that? He's pushing back from below. The spark first, Vessa. Then the storm."],
+#: scripts/campaign/mission_e2_05.gd:178
+msgid "Feel that? He's pushing back from below. The spark first, Vessa. Then the storm."
+msgstr ""
+
+#. [&"vessa", "Then let's give him something to push with. Door! Light! NOW!"],
+#: scripts/campaign/mission_e2_05.gd:179
+msgid "Then let's give him something to push with. Door! Light! NOW!"
+msgstr ""
+
+#. [&"torvald", "This is not what you promised, Bishop. You said a door. Not a jailer."],
+#: scripts/campaign/mission_e2_05.gd:180
+msgid "This is not what you promised, Bishop. You said a door. Not a jailer."
+msgstr ""
+
+#. [&"aldra", "Winter goes home, Torvald. Let the Bishop dig his own grave."],
+#: scripts/campaign/mission_e2_05.gd:181
+msgid "Winter goes home, Torvald. Let the Bishop dig his own grave."
+msgstr ""
+
+#. [&"vessa", "It answered! The Door hit it! He's helping us!"],
+#: scripts/campaign/mission_e2_05.gd:182
+msgid "It answered! The Door hit it! He's helping us!"
+msgstr ""
+
+#. [&"messenger", "The Heartwood's down! But we're still with you!"],
+#: scripts/campaign/mission_e2_05.gd:183
+msgid "The Heartwood's down! But we're still with you!"
+msgstr ""
+
+#. [&"malrik", "Keep your door, Vessa. I have the key, and all the time in the world."],
+#: scripts/campaign/mission_e2_05.gd:184
+msgid "Keep your door, Vessa. I have the key, and all the time in the world."
+msgstr ""
+
+#. [&"ysolde", "It held. Vessa. It held."],
+#: scripts/campaign/mission_e2_05.gd:185
+msgid "It held. Vessa. It held."
+msgstr ""
+
+#. [&"vessa", "Master... I was... so close..."],
+#: scripts/campaign/mission_e2_05.gd:186
+msgid "Master... I was... so close..."
+msgstr ""
+
+#. [&"vey", "Sunfoot's burning! Back to the stair, girl, now!"],
+#: scripts/campaign/mission_e2_05.gd:187
+msgid "Sunfoot's burning! Back to the stair, girl, now!"
+msgstr ""
+
+#. [&"vey", "No knives at our backs tonight. Hush is still licking her wounds. Good."],
+#: scripts/campaign/mission_e2_05.gd:188
+msgid "No knives at our backs tonight. Hush is still licking her wounds. Good."
+msgstr ""
+
+#. [&"vey", "So you do. Point it at the big statue, and try not to name it."],
+#: scripts/campaign/mission_e2_05.gd:189
+msgid "So you do. Point it at the big statue, and try not to name it."
+msgstr ""
+
+#. [&"vessa", "Master?! Master, I'm here! I'm right here!"],
+#: scripts/campaign/mission_e2_05.gd:190
+msgid "Master?! Master, I'm here! I'm right here!"
+msgstr ""
+
+#. "At the bottom of the Sunrise Road the world opens into a cavern so big it has its own weather: warm wind risi
+#: scripts/campaign/mission_e2_05.gd:193
+msgid "At the bottom of the Sunrise Road the world opens into a cavern so big it has its own weather: warm wind rising from a chasm, and in the middle, set in the floor, a round white door that glows like a sunrise."
+msgstr ""
+
+#. "The Master is on the other side, holding it shut. Four old seals ring the door; the relics can wake them. Mal
+#: scripts/campaign/mission_e2_05.gd:194
+msgid "The Master is on the other side, holding it shut. Four old seals ring the door; the relics can wake them. Malrik came down his own stair with Torvald, and the stone in his hand wants that door open."
+msgstr ""
+
+#. "Ysolde's army came down behind Vessa. Two kingdoms on each side of the chasm, and between them, standing over
+#: scripts/campaign/mission_e2_05.gd:195
+msgid "Ysolde's army came down behind Vessa. Two kingdoms on each side of the chasm, and between them, standing over the door like a jailer, a statue as tall as a tower. Its eyes are closed. For now."
+msgstr ""
+
+#. const BRIEFING_LINE := "Kindle the seals around the Door with Vessa. Each seal Malrik cracks brings the jailer
+#: scripts/campaign/mission_e2_05.gd:197
+msgid "Kindle the seals around the Door with Vessa. Each seal Malrik cracks brings the jailer closer to waking."
+msgstr ""
+
+#. const HINT_SEALS := "Kindle a seal: Vessa beside it for 4 s. Malrik can crack them back. Ping Ysolde to help h
+#: scripts/campaign/mission_e2_05.gd:198
+msgid "Kindle a seal: Vessa beside it for 4 s. Malrik can crack them back. Ping Ysolde to help hold them."
+msgstr ""
+
+#. const HINT_ROOST := "The Dragon Roost can be built: Ember Stables first, then the \"Raise the Dragon Roost\" b
+#: scripts/campaign/mission_e2_05.gd:199
+msgid "The Dragon Roost can be built: Ember Stables first, then the \"Raise the Dragon Roost\" button. A Cinder Dragon burns the jailer's Wardens."
+msgstr ""
+
+#. const HINT_NO_STORM := "The Door answers only the storm"
+#: scripts/campaign/mission_e2_05.gd:200
+msgid "The Door answers only the storm"
+msgstr ""
+
+#. const MSG_HALF := "The statue's eyes are warm."
+#: scripts/campaign/mission_e2_05.gd:201
+msgid "The statue's eyes are warm."
+msgstr ""
+
+#. const BUTTON_ROOST := "Raise the Dragon Roost (300)"
+#: scripts/campaign/mission_e2_05.gd:204
+msgid "Raise the Dragon Roost (300)"
+msgstr ""
+
+#. const REFUSE_EARLY := "Available at 8:00"
+#: scripts/campaign/mission_e2_05.gd:205
+msgid "Available at 8:00"
+msgstr ""
+
+#. const REFUSE_STABLES := "Needs Ember Stables"
+#: scripts/campaign/mission_e2_05.gd:206
+msgid "Needs Ember Stables"
+msgstr ""
+
+#. const REFUSE_BUILT := "Already built"
+#: scripts/campaign/mission_e2_05.gd:207
+msgid "Already built"
+msgstr ""
+
+#. const REFUSE_WORKER := "No free Cinder Hand"
+#: scripts/campaign/mission_e2_05.gd:209
+msgid "No free Cinder Hand"
+msgstr ""
+
+#. const REFUSE_SPOT := "No room for the Roost"
+#: scripts/campaign/mission_e2_05.gd:210
+msgid "No room for the Roost"
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nThe Door held"
+#: scripts/campaign/mission_e2_05.gd:315
+msgid "VICTORY\nThe Door held"
+msgstr ""
+
+#. c.spotlight = {"id": &"cinder_dragon", "trigger": &"unlock", "key_hint": "Dragon Roost: Z",
+#: scripts/campaign/mission_e2_05.gd:324
+msgid "Dragon Roost: Z"
+msgstr ""
+
+#. "card": "Cinder Dragon. Fire from the sky: it flies over the Rift and burns what walks below."}
+#: scripts/campaign/mission_e2_05.gd:325
+msgid "Cinder Dragon. Fire from the sky: it flies over the Rift and burns what walks below."
+msgstr ""
+
+#. return "Episode 2, Mission 5: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e2_05.gd:342
+msgid "Episode 2, Mission 5: %s"
+msgstr ""
+
+#. t.display_name = "Cinder Dragon"
+#: scripts/campaign/mission_e2_05.gd:387
+msgid "Cinder Dragon"
+msgstr ""
+
+#. t.display_name = "Dragon Roost"
+#: scripts/campaign/mission_e2_05.gd:420
+msgid "Dragon Roost"
+msgstr ""
+
+#. t.display_name = "The Deep Door"
+#: scripts/campaign/mission_e2_05.gd:442
+msgid "The Deep Door"
+msgstr ""
+
+#. t.display_name = "The Doorwarden"
+#: scripts/campaign/mission_e2_05.gd:462
+msgid "The Doorwarden"
+msgstr ""
+
+#. b.brazier_id = StringName("sun_%d" % sunstones.size())
+#: scripts/campaign/mission_e2_05.gd:615
+msgid "sun_%d"
+msgstr ""
+
+#. b.display_name = "Sunstone"
+#: scripts/campaign/mission_e2_05.gd:616
+msgid "Sunstone"
+msgstr ""
+
+#. p.id = StringName("mission_e2_05_%s" % SEAT_NAMES.get(seat, "bot"))
+#: scripts/campaign/mission_e2_05.gd:857
+msgid "mission_e2_05_%s"
+msgstr ""
+
+#. var head := "Kindle the Door's seals (%d / 4 white-gold · %d amber)" % [seal_count(&"gold"), seal_count(&"ambe
+#: scripts/campaign/mission_e2_05.gd:938
+msgid "Kindle the Door's seals (%d / 4 white-gold · %d amber)"
+msgstr ""
+
+#. return "%s\n%s" % [head, "The Doorwarden stirs: %d %%" % int(wake)]
+#: scripts/campaign/mission_e2_05.gd:939
+msgid "The Doorwarden stirs: %d %%"
+msgstr ""
+
+#. return "Kindle the Door's seals"
+#: scripts/campaign/mission_e2_05.gd:940
+msgid "Kindle the Door's seals"
+msgstr ""
+
+#. return "The Deep Door must hold (%d %%)" % int(100.0 * door.hp / maxf(1.0, door.max_hp))
+#: scripts/campaign/mission_e2_05.gd:943
+msgid "The Deep Door must hold (%d %%)"
+msgstr ""
+
+#. return "The Deep Door must hold"
+#: scripts/campaign/mission_e2_05.gd:944
+msgid "The Deep Door must hold"
+msgstr ""
+
+#. return "Stop the Doorwarden (%d %%)" % int(100.0 * boss.hp / maxf(1.0, boss.max_hp))
+#: scripts/campaign/mission_e2_05.gd:947
+msgid "Stop the Doorwarden (%d %%)"
+msgstr ""
+
+#. return "Stop the Doorwarden"
+#: scripts/campaign/mission_e2_05.gd:948
+msgid "Stop the Doorwarden"
+msgstr ""
+
+#. return "Break Malrik's tether: kill him or drive him off"
+#: scripts/campaign/mission_e2_05.gd:950
+msgid "Break Malrik's tether: kill him or drive him off"
+msgstr ""
+
+#. return "Stand Vessa by the Door with Old Vey: the Door will strike"
+#: scripts/campaign/mission_e2_05.gd:952
+msgid "Stand Vessa by the Door with Old Vey: the Door will strike"
+msgstr ""
+
+#. return "Sunfoot must stand"
+#: scripts/campaign/mission_e2_05.gd:956
+msgid "Sunfoot must stand"
+msgstr ""
+
+#. return "All four seals white-gold when the jailer wakes"
+#: scripts/campaign/mission_e2_05.gd:958
+msgid "All four seals white-gold when the jailer wakes"
+msgstr ""
+
+#. return "Keep the Door above half its light"
+#: scripts/campaign/mission_e2_05.gd:960
+msgid "Keep the Door above half its light"
+msgstr ""
+
+#. return "Raise a Cinder Dragon"
+#: scripts/campaign/mission_e2_05.gd:962
+msgid "Raise a Cinder Dragon"
 msgstr ""
 
 #. t.display_name = "Grove"

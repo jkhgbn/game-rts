@@ -132,7 +132,7 @@ msgstr ""
 #. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
 #: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/cinematic/speakers.gd:12
 #: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_e2_01.gd:151
-#: scripts/campaign/mission_e2_02.gd:168 scripts/world/skirmish.gd:297
+#: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_05.gd:149
 msgid "Torvald"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 #. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
 #: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/cinematic/speakers.gd:13
 #: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_e2_01.gd:151
-#: scripts/campaign/mission_e2_02.gd:167 scripts/world/skirmish.gd:300
+#: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_05.gd:148
 msgid "Ysolde"
 msgstr ""
 

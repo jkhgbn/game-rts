@@ -41,7 +41,7 @@ const COMPANION_PURSE_RATIO := 0.5
 const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
-const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3"]
+const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
@@ -51,6 +51,8 @@ const MISSION_SCENES := {
 	&"e2m1": "res://missions/mission_e2_01.tscn",
 	&"e2m2": "res://missions/mission_e2_02.tscn",
 	&"e2m3": "res://missions/mission_e2_03.tscn",
+	&"e2m4": "res://missions/mission_e2_04.tscn",
+	&"e2m5": "res://missions/mission_e2_05.tscn",
 }
 ## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
 ## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
@@ -112,6 +114,20 @@ const MISSION_REWARDS := {
 		"bonus_essence": {"sec_magpies": 150, "sec_raid": 300, "sec_toll": 150},
 		"set_flags": {"e2m3_lodge_paid": true},
 		"next": &"e2m4",
+	},
+	# docs/design/mission-e2-04.md "Reward carried to e2m5" (research is never carried).
+	&"e2m4": {
+		"flags": {"e2m4_sunwardens": "sec_wardens", "e2m4_hush_driven": "sec_hush", "e2m4_road_lit": "sec_sunstones"},
+		"bonus_essence": {"sec_wardens": 300, "sec_hush": 150, "sec_sunstones": 150},
+		"set_flags": {"e2m4_gate_open": true},
+		"next": &"e2m5",
+	},
+	# docs/design/mission-e2-05.md "Reward and the Episode 2 carry-over" (the Fire titan for Vessa's track).
+	&"e2m5": {
+		"flags": {"e2m5_seals_kindled": "sec_seals", "e2m5_door_bright": "sec_door", "e2m5_dragon_raised": "sec_dragon"},
+		"bonus_essence": {"sec_seals": 300, "sec_door": 300, "sec_dragon": 150},
+		"set_flags": {"ep2_complete": true, "ep2_door_held": true, "fire_titans_unlocked": true, "ep2_torvald_doubts": true},
+		"next": &"ep2_ending",
 	},
 }
 

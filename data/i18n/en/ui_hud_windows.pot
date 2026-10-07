@@ -506,9 +506,9 @@ msgid "Sold {name} for {n}"
 msgstr ""
 
 #. message.emit(Loc.t("Not enough crystals"))
-#: scripts/ui/shop_window.gd:650 scripts/ui/top_bar.gd:295 scripts/buildings/build_grid.gd:26
-#: scripts/buildings/training_building.gd:16 scripts/buildings/unit_upgrades.gd:45
-#: scripts/units/bowman_upgrades.gd:50
+#: scripts/ui/shop_window.gd:650 scripts/ui/top_bar.gd:295 scripts/campaign/mission_e2_05.gd:208
+#: scripts/buildings/build_grid.gd:26 scripts/buildings/training_building.gd:16
+#: scripts/buildings/unit_upgrades.gd:45
 msgid "Not enough crystals"
 msgstr ""
 

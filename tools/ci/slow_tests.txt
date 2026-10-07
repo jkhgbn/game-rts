@@ -21,3 +21,5 @@ test_ws_match   # Wave Strike bot-vs-bot 1v1, ~29 game min, ~350 s wall (2026-10
 test_e2m1_sim   # e2m1 scripted run, ~18 game min (2026-10-06)
 test_e2m2_sim   # e2m2 scripted run, ~21 game min (2026-10-06)
 test_e2m3_sim   # e2m3 scripted run, ~17 game min (2026-10-06)
+test_e2m4_sim   # e2m4 scripted run, ~16 game min (2026-10-07)
+test_e2m5_sim   # e2m5 scripted run, ~25 game min (2026-10-07)

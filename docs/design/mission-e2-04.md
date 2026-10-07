@@ -361,3 +361,22 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** a small army, a long descent and galleries 4-8 m wide: narrow line fights where +armour and +damage on few units count most. Recommended: use the `ForgeKit` lines (`unit-upgrades.md`) through a `forge_enabled` knob instead of the `research.md` names.
 - **Moment:** the first Armor level before W2 (9:00); a ping on the front Guard "Ember Mail: your Guards take less.".
 - **Intro card:** `Ember Forge. Make every soldier better, for good: armour and steel for the long road down.`
+
+## Built (2026-10-07)
+`missions/mission_e2_04.tscn` + `scripts/campaign/mission_e2_04.gd` (`MissionE2_04`), tests `tests/test_e2m4.gd` (checks
+2-8) and `tests/test_e2m4_sim.gd` (check 9, slow list). Deviations:
+- Map: built in code on an 80 x 160 MapInfo (`_map_size`), the spec's halls / galleries / branches / alcoves as walkable
+  shapes (`MissionE2_04.is_walkable`), everything else rock (merged 2 m box obstacles baked into the navmesh); no World
+  Forge `sunrise_road.map`, no `deep_stone` biome, no build mask (the rock blocks building outside the halls); M0 night
+  lighting; no knee-deep water slow in the flooded branch.
+- Research = the Ember Forge's ForgeKit lines through `forge_enabled` (the spotlight; unit-spotlights.md recommends it):
+  `obj_research` = `Research twice at the Ember Forge (0 / 2)`; no Cinder Sanctum building exists; level 3 needs tier 3.
+- The dark rule is mission-side (`_tick_dark`, every 0.25 s): an ENEMY outside every light circle with no PLAYER unit
+  within 6 m is hidden from auto-targets (`Unit.hide_from_auto_target`); direct orders still hit it. No vignette.
+- The Warden Forge is the Fire keep type renamed (2 800 HP, tier 2) spawned at the claim (no keep before it; a cold stone
+  stands there). Mother Hush = M00Cast (Blink, Smoke at 50 % = Night of Knives, flees at 25 %); no Smoke Cloak at 70 %.
+- Splinter Acolyte = a Hexweaver copy (85 HP, no attack); Sunwardens / amber Wardens = Ruin Warden copies (eye colours).
+- No cine timelines (fallback end states); the guides follow Vessa (no explored-hall reveal).
+- Scripted run (normal, 2026-10-07): victory at 14:45 mission time (16:10 with the cutscene lengths) against 17-23;
+  G1 left 13 of 13 start soldiers (spec >= 11); 6 Sunwardens, 6 stones, Hush driven off. The scripted player clears
+  Hall 1 and claims the forge by ~1:30 (spec ~5:00-6:30): the waves' timers set the length.
