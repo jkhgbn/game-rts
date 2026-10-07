@@ -8,7 +8,7 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export_group("Horns")
 @export var horn_first := 30.0            ## s, the first horn
 @export var horn_interval := 40.0         ## s between horns
-@export var last_horns_at := 900.0        ## s: from here the interval is last_horns_interval (balance pass 2026-10-06: 24:00 -> 15:00)
+@export var last_horns_at := 840.0        ## s: from here the interval is last_horns_interval (balance passes 2026-10-06: 24:00 -> 15:00 -> 14:00)
 @export var last_horns_interval := 20.0   ## balance pass 2026-10-06: 30 -> 20 s
 @export var horn_warning := 5.0           ## s: the HUD countdown turns hot, the bots decide (bot_decide_before)
 @export var bot_decide_before := 3.0      ## s before each horn: the bot's decision pass
@@ -45,14 +45,28 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export var last_horns_armor_cut := 0.25  ## Bastion armour -25 % from last_horns_at
 
 @export_group("Bastion")
-@export var bastion_hp_mult := 2.0        ## x the kingdom's Citadel keep HP (balance pass 2026-10-06: 2.5 -> 2.0)
+@export var bastion_hp_mult := 1.6        ## x the Citadel keep HP (balance passes 2026-10-06: 2.5 -> 2.0 -> 1.6)
 @export var bastion_armor := 3.0
+## Keep HP the Bastion is built from for EVERY kingdom (0 = the kingdom keep's own max_hp: Ice 3 000, Nature 2 250).
+@export var bastion_base_hp := 2500.0
 
 @export_group("Wizard")
 @export var wizard_enabled := true
 @export var wizard_horn_xp := 40
 @export var wizard_respawn_base := 15.0
 @export var wizard_respawn_per_level := 2.0
+## Wave Strike re-rule of wizard burst (balance pass 2, 2026-10-06; 4.4 "re-ruled" spells): kingdom -> flat
+## `spell_power` added to that kingdom's wizard as the modifier "ws_rule" (spell damage x (1 + sp / 100), so -40 =
+## x0.6). The waves march bunched in a 40 m lane, so area spells (Fireball, Thornburst) hit far more than in skirmish.
+@export var wizard_spell_power: Dictionary = {}
+## More per-kingdom wizard stats for the mode, kingdom -> {stat: value} (Unit.add_modifier format, e.g.
+## {&"shadow": {"max_hp_pct": 0.4}}), merged into the same "ws_rule" modifier.
+@export var wizard_stats: Dictionary = {}
+
+@export_group("Field")
+## Most living lane units one seat may field (0 = no limit; balance pass 2, the perf valve of 7.8 (7)): a horn's units
+## past it stay home (they are not spawned; the card still marches at the next horn).
+@export var field_cap := 150             ## data: 150 = at most 300 lane units on the field in a 1v1
 
 @export_group("Lane")
 @export var lane_lateral := 8.0           ## m: the widest lateral offset of a marching unit from the lane centre line

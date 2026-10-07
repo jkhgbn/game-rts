@@ -12,6 +12,9 @@ const DEFAULT_PATH := "res://data/wave_strike/card_prices.tres"
 @export var mode_mult: Dictionary = {}
 ## unit id -> fixed price (crystals); wins over cost x mode_mult.
 @export var price_override: Dictionary = {}
+## unit id -> supply (pop) of the card in Wave Strike (default UnitType.pop). Balance pass 2 (2026-10-06): the mode is
+## supply-capped from ~11:00, so pop is the real price of a late card; never change data/units for the mode.
+@export var pop_override: Dictionary = {}
 
 static var _cached: WaveCardTable = null
 
@@ -43,3 +46,11 @@ func price(id: StringName) -> int:
 		return 0
 	var m := float(mode_mult.get(id, mode_mult.get(String(id), 1.0)))
 	return int(roundf(t.cost * m / 5.0) * 5.0)
+
+
+## Supply (pop) of card `id` in Wave Strike: pop_override, else UnitType.pop (0 = unknown unit).
+func pop(id: StringName) -> int:
+	if pop_override.has(id) or pop_override.has(String(id)):
+		return int(pop_override.get(id, pop_override.get(String(id), 0)))
+	var t := UnitType.find(String(id))
+	return t.pop if t else 0

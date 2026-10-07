@@ -601,8 +601,8 @@ wizard and kingdom identity; it is original by construction; and its perf and la
 
 ## 13. M1 as built (2026-10-06)
 
-**Plays**: main menu > **Wave Strike** (lobby: Ashwind Reach preview, your kingdom Fire / Shadow, bot Steward / Hammer,
-Start). 1v1 vs the WaveBot on Ashwind Reach; F9 / Restart keep the choices.
+**Plays**: main menu > **Wave Strike** (lobby: Ashwind Reach preview, your kingdom Fire / Shadow (all 4 + the enemy
+kingdom since 13.2), bot Steward / Hammer, Start). 1v1 vs the WaveBot on Ashwind Reach; F9 / Restart keep the choices.
 
 | M1 item | Built | Files |
 |---|---|---|
@@ -707,3 +707,58 @@ thermal: the same on a quiet PC. Profile: each 0.25 s target scan cost ~300 us (
 Reordered (typed team / dead checks and squared distance first): 300 -> 48 us per scan; **march p95 18.0 -> 12.0 ms,
 clash 18.4 -> 12.4 ms** (quiet PC); 14.4 / 14.0 ms with the new Shadow set while 4 other Godot runs were going. PASS.
 Avoidance (RVO, ~5 ms) and the model kits (~2 ms) are the next costs; `neighbor_distance` / `max_neighbors` did nothing.
+
+### 13.2 Balance pass 2 (2026-10-06/07): wizard re-rules, per-card supply, field cap, 4 kingdoms in the lobby
+
+Batches: `tools\wave_strike\run_ws_batch.ps1 -Kingdoms fire,shadow,ice,nature -SeedsPerPair 1|2` (the 12 ordered pairs,
+hammer vs hammer, wizards on), scorecards in `docs/tools/wave_strike/balance2_2026-10-06/`. The target "every kingdom
+20-35 %" is read as **its share of all decided games** (25 % = even; 4 kingdoms, no mirrors), the seat split 40-60 %.
+New batch / test knobs: `-Extra "pop.<card>=N;kcards.<kingdom>=a,b,c,d;wizards=0"`, `--rule.<dict>.<key>[.<stat>]=N`
+(Dictionary rules), the summary prints the win share and the units held by the field cap.
+
+**What changed**
+| Change | Where | Why |
+|---|---|---|
+| **Per-card supply**: `WaveCardTable.pop_override` + `pop(id)`; `MusterRoster.pop_of` and the WaveBot read it. Data: cinder_arbalest **2** (was 1: the best ranged card per pop by far, pop index 76 vs ranged mean 33), barrow_knight **2** (was 3) | `wave_card_table.gd`, `card_prices.tres`, `muster_roster.gd`, `wave_bot.gd` | pop is the real price in a capped mode (13.1) |
+| **Shadow set**: shade, **nightbolt** (was bleakbow: 6.2 -> 7.7 dps), gloam_rider, **barrow_knight** (was hollow_oathsworn; T2). Bot mix shade 4 / nightbolt 3 / gloam 2 / barrow 3 | `card_prices.tres`, `wave_bot.gd` MIX | Shadow won 0 of 24 with wizards in batches a-b |
+| **Wizard re-rule** (4.4 "re-ruled" spells): `WaveStrikeRules.wizard_spell_power` (kingdom -> flat spell_power) and `wizard_stats` (kingdom -> any stat modifier), applied as the wizard modifier `ws_rule`. Data: **Fire** spell power -20; **Nature** -80, mana regen -60 %; **Ice** +60, mana regen +30 %; **Shadow** +30, max HP +30 % | `wave_strike_rules.gd`, `wave_strike_level.gd` `_apply_wizard_rule`, `rules_default.tres` | see "Reading" |
+| **One Bastion HP** for every kingdom: `bastion_base_hp` 2 500 (the keeps differ: Ice 3 000, Nature 2 250), `bastion_hp_mult` 2.0 -> **1.6** | `bastion.gd`, rules | fairness; length |
+| **Field cap** (the perf valve of 7.8 (7)): `field_cap` **150** living lane units per seat; a horn's copies past it stay home that horn (`stats.held`). So at most 300 on the field in a 1v1 | `wave_strike_level.gd` `spawn_lane_unit` / `field_count`, rules | peaks of 290-404 in 13.1 |
+| **Last Horns at 14:00** (was 15:00), still every 20 s | rules | the field cap lengthened the games (median 22-23 min) |
+| **Autopilot wizard retreat**: the level's cast loop (seat 0 under autopilot, and Vessa on any seat) now walks the wizard home on a "retreat" rule, like the wizards' own loops do on the bot seat | `wave_strike_level.gd` `_cast_for_bot_wizards` | lab seat bias: in batches f-i the east seat won 61 % (Malrik / Torvald / Ysolde never retreated on the west seat) |
+| **Lobby: all 4 kingdoms** (Fire / Ice / Nature / Shadow with their wizards) + **Enemy kingdom** (Random = another kingdom, or one of the 4; F9 / Restart keep the drawn matchup); French via `Loc.t` + `data/i18n/fr/ui_wave_strike.po` | `wave_strike_lobby.gd`, `menu_flow.gd` (`ws_enemy_kingdom`, `ws_enemy_resolved`, `resolve_ws_enemy`) | 13.1 open issue |
+
+**Reading.** A no-wizard batch (`diag_nowiz_cards`, same cards) was already fair: Fire 17 / Ice 25 / Nature 25 / Shadow
+33 % of the wins, median 18.8 min. So the kingdom spread of 13.1 came from the **wizards**, not the cards: Vessa
+(Fireball every 3 s on bunched waves **and Kindle**: +43 % attack speed to every soldier near her, which spell power does
+not touch, hence the mana-regen cut) and Ysolde (Thornburst + Call the Thicket) won their home fights; Malrik
+(single-target Lance, often dead: 9-12 deaths a game) and Torvald lost them. Spell power alone (Fire -70) did not stop
+Fire (batch e). Batches f-i were also seat-biased by the autopilot wizards not retreating (above); once fixed (j) the Fire
+nerf was too big and was eased to spell power -20 with no mana cut (k). Card prices still barely matter late (everyone
+sits at the cap with 8 Coffers). A 12-game batch gives each kingdom 6 games: one game moves a share by ~8 points, so
+every step was confirmed on 24 games (h-k).
+
+**Batches** (kingdom = share of all wins; 12 games unless noted)
+| Batch | Fire | Ice | Nature | Shadow | Seat W / E | Median | Peak units |
+|---|---|---|---|---|---|---|---|
+| 13.1 b4 (before) | 10 / 11 won | 2 / 11 | 9 / 12 | 1 / 10 | 10 / 12 | 19.6 | 404 |
+| a: Fire sp -40, Nature -30, arbalest pop 2, field cap 145 | 17 % | 33 % | 50 % | 0 % | 6 / 6 | 22.1 | 200 |
+| b: + Shadow T2 barrow, Shadow +25, Nature -50, Fire -25 | 42 % | 17 % | 42 % | 0 % | 5 / 7 | 23.1 | 205 |
+| c: + nightbolt, barrow pop 2, Fire -40, Nature -70, cap 150 | 42 % | 17 % | 25 % | 17 % | 6 / 6 | 22.5 | 210 |
+| d: + one Bastion HP, Fire -60, Ice +20, Bastion x1.8 | 33 % | 25 % | 42 % | 0 % | 8 / 4 | 20.7 | 203 |
+| diag: no wizards | 17 % | 25 % | 25 % | 33 % | 5 / 7 | 18.8 | 200 |
+| e: Fire -70, Nature -80, Shadow +50 / HP +30 % | 25 % | 8 % | 42 % | 25 % | 9 / 3 | 22.8 | 202 |
+| f: + mana regen Fire -30 % / Nature -50 %, Ice +40, Bastion x1.6 | 17 % | 17 % | 33 % | 33 % | 6 / 6 | 22.5 | 203 |
+| g: Fire -45 / -20 %, Ice +60, Last Horns 14:00 | 8 % | 33 % | 25 % | 33 % | 4 / 8 | 19.8 | 214 |
+| h: shipped data v1 (Fire -40 / -20 %, Ice +50, Nature -60, Shadow +50), 24 games | 21 % | 12 % | 33 % | 33 % | 11 / 13 | 20.2 | 208 |
+| i: Ice +60 / mana +30 %, Nature -65, Shadow +40, Fire -30 / -10 %, 24 games | 8 % | 29 % | 29 % | 33 % | 7 / 17 | 20.8 | 204 |
+| j: i + the autopilot retreat fix, 24 games | 12 % | 21 % | 38 % | 29 % | 12 / 12 | 20.5 | 204 |
+| **k: shipped data** (Fire -20, Nature -80 / mana -60 %, Ice +60 / +30 %, Shadow +30 / HP +30 %), 24 games | **25 %** | **21 %** | **25 %** | **29 %** | **13 / 11** | **20.5** | **207** |
+Batch k (`k_final`): win rates Fire 6 / 12, Ice 5 / 12, Nature 6 / 12, Shadow 7 / 12; 22 Bastion kills + 2 on time (8 %);
+0 stalls, 0 script errors; 5 083 copies held by the field cap over the 24 games (it binds for the winning side late).
+Every target of the pass is met (each kingdom 20-35 % of the wins, seat 54 / 46, median 15-22 min, peak < 300).
+
+**Perf** (`test_ws_perf -- --per-side=150` = both seats AT the field cap, 300 lane units, headless, models on, the
+PC otherwise idle): march p95 **16.65 ms**, clash p95 17.7 ms (avg 12.8 / 13.3 ms), 0 stalls: PASS (the gate is the march
+p95 <= 16.7 ms; it is at the edge, so 300 is the real 1v1 ceiling until LaneGrid / avoidance gating, 7.8 (2)-(3)). The
+test now also checks the valve (one spawn past `field_cap` is refused). In real matches the field peaked at 200-214.

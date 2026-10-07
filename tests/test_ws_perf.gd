@@ -7,7 +7,7 @@ extends SceneTree
 ## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws_perf.gd --fixed-fps 60 --quit-after 6000 '--' --per-side=100
 
 const SCENE := "res://scenes/wave_strike.tscn"
-const IDS := [[&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"], [&"shade", &"bleakbow", &"gloam_rider", &"hollow_oathsworn"]]
+const IDS := [[&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"], [&"shade", &"nightbolt", &"gloam_rider", &"barrow_knight"]]
 
 var level: Node
 var per_side := 100
@@ -20,6 +20,7 @@ var _last := 0
 var _march: Array[int] = []
 var _clash: Array[int] = []
 var _alive_min_clash := 1 << 30
+var _valve_fail := ""
 
 
 func _initialize() -> void:
@@ -33,6 +34,7 @@ func _initialize() -> void:
 	var rules: Resource = (load("res://scripts/world/wave_strike/wave_strike_rules.gd") as Script).call(&"load_default")
 	rules.set(&"horn_first", 100000.0)
 	rules.set(&"time_limit", 0.0)
+	rules.set(&"field_cap", per_side)   # the field valve (balance pass 2): one more spawn per side must be refused
 	level.set(&"rules", rules)
 	level.set(&"autopilot_player", true)
 	level.set(&"wizards_enabled", false)
@@ -64,6 +66,10 @@ func _process(_delta: float) -> bool:
 				break
 		if _spawned:
 			_spawn_frame = _frames
+			for team in 2:
+				var extra: Variant = level.call(&"spawn_lane_unit", team, IDS[team][0], level.call(&"gate_position", team), 0.0)
+				if extra != null:
+					_valve_fail = "field cap %d: spawn %d of team %d was not refused" % [per_side, per_side + 1, team]
 		return false
 	var f := _frames - _spawn_frame
 	if f < 30:
@@ -112,7 +118,10 @@ func _report() -> void:
 	var line := {"per_side": per_side, "march": m, "clash": c, "clash_alive_min": _alive_min_clash,
 		"stalls": int(lm.get(&"stall_events"))}
 	print("WS_PERF " + JSON.stringify(line))
-	var ok := int(m.get("frames", 0)) > 30 and float(m.get("p95_ms", 999.0)) <= budget_ms and int(line["stalls"]) == 0
+	var ok := int(m.get("frames", 0)) > 30 and float(m.get("p95_ms", 999.0)) <= budget_ms and int(line["stalls"]) == 0 \
+			and _valve_fail == ""
+	if _valve_fail != "":
+		print("FAIL ws_perf: %s" % _valve_fail)
 	if ok:
 		print("PASS ws_perf (march p95 %.2f ms, clash p95 %.2f ms at %d units)" % [m["p95_ms"], c.get("p95_ms", -1.0), per_side * 2])
 	else:

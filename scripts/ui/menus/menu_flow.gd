@@ -28,8 +28,13 @@ static var enemy_kingdom: StringName = &"shadow"
 ## reloaded LayoutLevel before its _ready.
 static var map_id: StringName = &"crown_hollow"
 static var map_layout_path := ""
-static var ws_kingdom: StringName = &"fire"     ## Wave Strike: the player's kingdom (the bot plays the other one).
+static var ws_kingdom: StringName = &"fire"     ## Wave Strike: the player's kingdom (any of the 4).
 static var ws_personality := "steward"            ## Wave Strike: the bot's personality (WaveBot.PERSONALITIES).
+## Wave Strike: the bot's kingdom as chosen (&"random" = another kingdom than the player's, drawn at start) and as
+## resolved for the running match (F9 / Restart replay the same matchup).
+static var ws_enemy_kingdom: StringName = &"random"
+static var ws_enemy_resolved: StringName = &"shadow"
+const WS_KINGDOMS: Array[StringName] = [&"fire", &"ice", &"nature", &"shadow"]
 static var _enemy_chosen := false             ## True once the menu picked the kingdoms.
 static var _hooked_tree: SceneTree = null
 
@@ -56,10 +61,14 @@ static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringNa
 	return _launch(tree, level, bot_difficulty)
 
 
-## Starts a Wave Strike 1v1 (M1: Ashwind Reach, Fire / Shadow) against the WaveBot. Returns the new level.
-static func start_wave_strike(tree: SceneTree, kingdom: StringName = &"fire", personality: String = "steward") -> Node:
-	ws_kingdom = kingdom
+## Starts a Wave Strike 1v1 (Ashwind Reach, any of the 4 kingdoms; enemy &"random" = another kingdom) against the
+## WaveBot. Returns the new level.
+static func start_wave_strike(tree: SceneTree, kingdom: StringName = &"fire", personality: String = "steward",
+		enemy: StringName = &"random") -> Node:
+	ws_kingdom = kingdom if WS_KINGDOMS.has(kingdom) else &"fire"
 	ws_personality = personality
+	ws_enemy_kingdom = enemy
+	ws_enemy_resolved = resolve_ws_enemy(ws_kingdom, enemy)
 	install_hooks(tree)
 	var level := (load(WAVE_STRIKE) as PackedScene).instantiate()
 	_apply_wave_strike(level)
@@ -68,9 +77,20 @@ static func start_wave_strike(tree: SceneTree, kingdom: StringName = &"fire", pe
 
 static func _apply_wave_strike(level: Node) -> void:
 	level.set(&"player_kingdom", ws_kingdom)
-	level.set(&"enemy_kingdom", &"shadow" if ws_kingdom == &"fire" else &"fire")
+	level.set(&"enemy_kingdom", ws_enemy_resolved)
 	var p: Array[String] = ["hammer", ws_personality]
 	level.set(&"personalities", p)
+
+
+## The bot's kingdom: `enemy` when it is one of the 4, else (&"random") another kingdom than the player's.
+static func resolve_ws_enemy(player: StringName, enemy: StringName) -> StringName:
+	if WS_KINGDOMS.has(enemy):
+		return enemy
+	var others: Array[StringName] = []
+	for k in WS_KINGDOMS:
+		if k != player:
+			others.append(k)
+	return others[randi() % others.size()]
 
 
 ## The level of a catalog map, not in the tree yet (Random resolved now); remembers it in `map_id` / `map_layout_path`.

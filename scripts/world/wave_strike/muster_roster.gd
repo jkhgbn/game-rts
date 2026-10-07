@@ -69,9 +69,9 @@ func price_of(id: StringName) -> int:
 	return table.price(id)
 
 
+## The card's Wave Strike supply (WaveCardTable.pop: pop_override, else UnitType.pop).
 func pop_of(id: StringName) -> int:
-	var t := UnitType.find(String(id))
-	return t.pop if t else 0
+	return table.pop(id)
 
 
 func tier_of_card(id: StringName) -> int:

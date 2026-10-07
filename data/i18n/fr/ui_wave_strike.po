@@ -109,12 +109,12 @@ msgstr "Feu (Vessa)"
 #. return Loc.t("Ice (Torvald)")
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:33
 msgid "Ice (Torvald)"
-msgstr ""
+msgstr "Glace (Torvald)"
 
 #. return Loc.t("Nature (Ysolde)")
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:35
 msgid "Nature (Ysolde)"
-msgstr ""
+msgstr "Nature (Ysolde)"
 
 #. return Loc.t("Shadow (Malrik)")
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:37
@@ -124,12 +124,12 @@ msgstr "Ombre (Malrik)"
 #. return Loc.t("Random")
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:38
 msgid "Random"
-msgstr ""
+msgstr "Aléatoire"
 
 #. col.add_child(UIStyle.panel_label(Loc.t("Enemy kingdom"), 17, UIStyle.GOLD))
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:85
 msgid "Enemy kingdom"
-msgstr ""
+msgstr "Royaume ennemi"
 
 #. const RULES_TEXT := ("Buy cards: each one sends a unit at every horn (every 40 s, first at 0:30).\n"
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:11

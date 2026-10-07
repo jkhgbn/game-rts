@@ -6,7 +6,7 @@
 script = ExtResource("1_rules")
 horn_first = 30.0
 horn_interval = 40.0
-last_horns_at = 900.0
+last_horns_at = 840.0
 last_horns_interval = 20.0
 time_limit = 1800.0
 start_crystals = 400
@@ -18,4 +18,23 @@ stronghold_price = 250
 stronghold_time = 45.0
 stronghold_from_horn = 6
 max_tier = 3
-bastion_hp_mult = 2.0
+bastion_hp_mult = 1.6
+bastion_base_hp = 2500.0
+field_cap = 150
+wizard_spell_power = {
+&"fire": -20.0,
+&"ice": 60.0,
+&"nature": -80.0,
+&"shadow": 30.0
+}
+wizard_stats = {
+&"ice": {
+"mana_regen_pct": 0.3
+},
+&"nature": {
+"mana_regen_pct": -0.6
+},
+&"shadow": {
+"max_hp_pct": 0.3
+}
+}

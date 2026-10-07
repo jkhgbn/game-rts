@@ -8,7 +8,7 @@ cards = {
 &"fire": [&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"],
 &"ice": [&"rimeshield", &"shardcaster", &"snowdrift_rider", &"hoarlight_magebow"],
 &"nature": [&"bramblehorn", &"wildwood_archer", &"stagrunner", &"greenheart_oathkeeper"],
-&"shadow": [&"shade", &"bleakbow", &"gloam_rider", &"hollow_oathsworn"]
+&"shadow": [&"shade", &"nightbolt", &"gloam_rider", &"barrow_knight"]
 }
 mode_mult = {
 &"blaze_rider": 1.05,
@@ -27,4 +27,8 @@ mode_mult = {
 &"snowdrift_rider": 1.1400000000000001,
 &"stagrunner": 0.79,
 &"wildwood_archer": 0.8200000000000001
+}
+pop_override = {
+&"barrow_knight": 2,
+&"cinder_arbalest": 2
 }

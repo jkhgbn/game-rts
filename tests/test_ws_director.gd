@@ -65,6 +65,12 @@ func _initialize() -> void:
 	var t2 := table.duplicate() as WaveCardTable
 	t2.mode_mult = {&"flame_guard": 1.12}
 	_check(t2.price(&"flame_guard") == int(roundf(UnitType.find("flame_guard").cost * 1.12 / 5.0) * 5.0), "mode_mult re-price")
+	# per-card supply (balance pass 2): pop_override wins over UnitType.pop, the roster and its cap read it
+	t2.pop_override = {&"flame_guard": 3}
+	_check(t2.pop(&"flame_guard") == 3, "pop_override %d" % t2.pop(&"flame_guard"))
+	_check(t2.pop(&"ember_archer") == UnitType.find("ember_archer").pop, "pop default = UnitType.pop")
+	for id in table.pop_override:
+		_check(table.pop(id) >= 1 and table.pop(id) <= 4, "data pop_override %s = %d (1-4)" % [id, table.pop(id)])
 
 	# --- systems on a stub level
 	var level := StubLevel.new()
@@ -113,7 +119,7 @@ func _initialize() -> void:
 	var before := bank.crystals()
 	r.sell(&"ember_archer")
 	_check(bank.crystals() == before + int(roundf(table.price(&"ember_archer") * 0.5)), "late sell refunds 50 %")
-	_check(r.pop_used() == 2, "sold pop stays locked until the horn (%d)" % r.pop_used())
+	_check(r.pop_used() == table.pop(fg) + table.pop(&"ember_archer"), "sold pop stays locked until the horn (%d)" % r.pop_used())
 	# horn 1 at 30: income + spawns (1 flame guard) + pop freed
 	before = bank.crystals()
 	var horns := [0]
@@ -123,7 +129,7 @@ func _initialize() -> void:
 	dir.advance(0.2)    # t = 30.1
 	_check(horns[0] == 1, "horn 1 at 30 s")
 	_check(bank.crystals() == before + rules.base_income, "income %d (got %d)" % [rules.base_income, bank.crystals() - before])
-	_check(r.pop_used() == 1, "pop freed at the horn (%d)" % r.pop_used())
+	_check(r.pop_used() == table.pop(fg), "pop freed at the horn (%d)" % r.pop_used())
 	dir.advance(1.0)    # stagger 0.15: the unit is out
 	_check(level.spawned.size() == 1 and level.spawned[0][1] == fg, "spawns = roster: %s" % str(level.spawned))
 	# horn 2 at 70 s

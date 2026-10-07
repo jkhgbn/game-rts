@@ -10,7 +10,8 @@ const PERSONALITIES := ["steward", "hammer"]
 const MIX := {
 	&"fire": {&"flame_guard": 4.0, &"ember_archer": 3.0, &"blaze_rider": 2.0, &"cinder_arbalest": 3.0},
 	# balance pass 2026-10-06: every kingdom = line, archer, rider, T2 (the sets of data/wave_strike/card_prices.tres)
-	&"shadow": {&"shade": 4.0, &"bleakbow": 3.0, &"gloam_rider": 2.0, &"hollow_oathsworn": 3.0},
+	# balance pass 2: Shadow's archer is nightbolt (was bleakbow) and its T2 card barrow_knight (was hollow_oathsworn)
+	&"shadow": {&"shade": 4.0, &"nightbolt": 3.0, &"gloam_rider": 2.0, &"barrow_knight": 3.0},
 	&"ice": {&"rimeshield": 4.0, &"shardcaster": 3.0, &"snowdrift_rider": 2.0, &"hoarlight_magebow": 3.0},
 	&"nature": {&"bramblehorn": 4.0, &"wildwood_archer": 3.0, &"stagrunner": 2.0, &"greenheart_oathkeeper": 3.0},
 }
@@ -127,9 +128,9 @@ func _next_card() -> StringName:
 	for id in roster.cards():
 		var t := UnitType.find(String(id))
 		if t:
-			pop_total += roster.count(id) * t.pop
+			pop_total += roster.count(id) * roster.pop_of(id)
 			if t.attack_range <= 3.0:
-				pop_melee += roster.count(id) * t.pop
+				pop_melee += roster.count(id) * roster.pop_of(id)
 	var want_melee := pop_total > 0 and float(pop_melee) / float(pop_total) < MELEE_SHARE
 	var best: StringName = &""
 	var best_score := INF
@@ -144,7 +145,7 @@ func _next_card() -> StringName:
 		if want_melee and t.attack_range > 3.0:
 			continue
 		var w := float(mix.get(id, 1.0)) * float(_jitter.get(id, 1.0)) / maxf(weight_sum, 0.001)
-		var share := float(roster.count(id) * t.pop) / maxf(float(pop_total), 1.0)
+		var share := float(roster.count(id) * roster.pop_of(id)) / maxf(float(pop_total), 1.0)
 		var score := share - w
 		if score < best_score:
 			best_score = score

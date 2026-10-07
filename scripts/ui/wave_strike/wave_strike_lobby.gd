@@ -1,8 +1,8 @@
 class_name WaveStrikeLobby
 extends PanelContainer
 ## The main menu's Wave Strike page (docs/design/wave-strike.md 7.4 "Lobby", M1): the fixed map (Ashwind Reach, its
-## World Forge preview from the MapCatalog), the player's kingdom (Fire / Shadow: the M1 cards), the bot's personality,
-## Start and Back. MenuFlow.start_wave_strike builds the match.
+## World Forge preview from the MapCatalog), the player's kingdom (all 4 since balance pass 2), the bot's kingdom
+## (Random = another kingdom) and personality, Start and Back. MenuFlow.start_wave_strike builds the match.
 
 signal back_requested
 
@@ -12,16 +12,36 @@ const RULES_TEXT := ("Buy cards: each one sends a unit at every horn (every 40 s
 		+ "Coffers raise your income, the Stronghold opens tier-2 cards and more supply.\n"
 		+ "Your wizard guards your half of the lane. Break the enemy Bastion to win.")
 
+## The 4 kingdoms with Wave Strike cards (data/wave_strike/card_prices.tres), lobby order.
+const KINGDOMS: Array[StringName] = [&"fire", &"ice", &"nature", &"shadow"]
+
 var kingdom_buttons: Array[Button] = []
+var enemy_buttons: Array[Button] = []     ## Random, then KINGDOMS
 var personality_buttons: Array[Button] = []
 var start_button: Button
 var _kingdom: StringName = &"fire"
+var _enemy: StringName = &"random"
 var _personality := "steward"
+
+
+## The button text of a kingdom (whole msgids, translated through Loc).
+static func kingdom_label(k: StringName) -> String:
+	match k:
+		&"fire":
+			return Loc.t("Fire (Vessa)")
+		&"ice":
+			return Loc.t("Ice (Torvald)")
+		&"nature":
+			return Loc.t("Nature (Ysolde)")
+		&"shadow":
+			return Loc.t("Shadow (Malrik)")
+	return Loc.t("Random")
 
 
 func _ready() -> void:
 	add_theme_stylebox_override("panel", UIStyle.frame_style(24.0))
 	_kingdom = MenuFlow.ws_kingdom
+	_enemy = MenuFlow.ws_enemy_kingdom
 	_personality = MenuFlow.ws_personality
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
@@ -51,16 +71,29 @@ func _ready() -> void:
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 10)
 	row.add_child(col)
-	col.add_child(UIStyle.panel_label("Your kingdom", 17, UIStyle.GOLD))
+	col.add_child(UIStyle.panel_label(Loc.t("Your kingdom"), 17, UIStyle.GOLD))
 	var kg := ButtonGroup.new()
-	var krow := HBoxContainer.new()
-	col.add_child(krow)
-	for k: StringName in [&"fire", &"shadow"]:
-		var b := _toggle(krow, "Fire (Vessa)" if k == &"fire" else "Shadow (Malrik)", kg)
+	var kgrid := GridContainer.new()
+	kgrid.columns = 2
+	col.add_child(kgrid)
+	for k: StringName in KINGDOMS:
+		var b := _toggle(kgrid, kingdom_label(k), kg)
 		b.button_pressed = k == _kingdom
 		var kk := k
 		b.pressed.connect(func() -> void: _kingdom = kk)
 		kingdom_buttons.append(b)
+	col.add_child(UIStyle.panel_label(Loc.t("Enemy kingdom"), 17, UIStyle.GOLD))
+	var eg := ButtonGroup.new()
+	var egrid := GridContainer.new()
+	egrid.columns = 3
+	col.add_child(egrid)
+	for k: StringName in [&"random"] + KINGDOMS:
+		var b := _toggle(egrid, kingdom_label(k), eg)
+		b.custom_minimum_size = Vector2(132, 36)
+		b.button_pressed = k == _enemy
+		var kk := k
+		b.pressed.connect(func() -> void: _enemy = kk)
+		enemy_buttons.append(b)
 	col.add_child(UIStyle.panel_label("Enemy bot", 17, UIStyle.GOLD))
 	var pg := ButtonGroup.new()
 	var prow := HBoxContainer.new()
@@ -91,7 +124,7 @@ func focus_start() -> void:
 
 
 func start() -> Node:
-	return MenuFlow.start_wave_strike(get_tree(), _kingdom, _personality)
+	return MenuFlow.start_wave_strike(get_tree(), _kingdom, _personality, _enemy)
 
 
 func _button(parent: Control, text: String) -> Button:

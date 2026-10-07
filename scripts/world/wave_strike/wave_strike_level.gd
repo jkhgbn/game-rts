@@ -27,7 +27,7 @@ const SEATS := 2
 @export var layout_path := DEFAULT_LAYOUT
 @export var layout: MapLayout
 @export var rules: WaveStrikeRules
-## The player's kingdom (&"fire" / &"shadow" in M1); the bot plays the other one unless enemy_kingdom is set.
+## The player's kingdom (any key of KINGDOMS; the lobby offers all 4 since balance pass 2) and the bot's.
 @export var player_kingdom: StringName = &"fire"
 @export var enemy_kingdom: StringName = &"shadow"
 ## Bot personalities per seat (WaveBot.PERSONALITIES); "" = the default (seat 1: steward).
@@ -87,7 +87,7 @@ func _ready() -> void:
 
 
 static func _new_stats() -> Dictionary:
-	return {"spawned": 0, "lost": 0, "value_killed": 0, "value_lost": 0}
+	return {"spawned": 0, "lost": 0, "value_killed": 0, "value_lost": 0, "held": 0}
 
 
 func _read_layout() -> void:
@@ -259,6 +259,7 @@ func _on_navigation_ready() -> void:
 		_spawn(wiz, team as Unit.Team, _start_pos[team])
 		wizards[team] = wiz
 		wiz.died.connect(_on_wizard_died.bind(team))
+		_apply_wizard_rule(wiz, team)
 		if team == 0 and not autopilot_player:
 			wiz.remove_from_group(&"enemy_heroes")
 			wiz.add_to_group(&"heroes")
@@ -312,6 +313,22 @@ func _make_wizard(team: int) -> Wizard:
 	return wiz
 
 
+## The mode's wizard re-rule (rules.wizard_spell_power, balance pass 2): a flat spell_power modifier per kingdom.
+func _apply_wizard_rule(wiz: Wizard, team: int) -> void:
+	var k := kingdom_of(team)
+	var mods: Dictionary = {}
+	var sp := float(rules.wizard_spell_power.get(k, rules.wizard_spell_power.get(String(k), 0.0)))
+	if sp != 0.0:
+		mods["spell_power"] = sp
+	var extra: Variant = rules.wizard_stats.get(k, rules.wizard_stats.get(String(k), {}))
+	if extra is Dictionary:
+		for s in extra:
+			mods[String(s)] = float(extra[s])
+	if not mods.is_empty():
+		wiz.add_modifier(&"ws_rule", mods)
+		wiz.hp = wiz.max_hp
+
+
 # ---------------------------------------------------------------- lane units
 
 ## A lane unit of card `id` for `seat` at `pos` (LaneSpawner calls it): not commandable (inspect only), marching.
@@ -322,6 +339,9 @@ func spawn_lane_unit(seat: int, id: StringName, pos: Vector3, lateral: float) ->
 	if type == null:
 		return null
 	var team := seat   # 1v1: seat = team
+	if rules.field_cap > 0 and field_count(team) >= rules.field_cap:
+		stats[team]["held"] = int(stats[team].get("held", 0)) + 1   # the field valve: this copy stays home this horn
+		return null
 	var u := Worker.make_unit(type)
 	_spawn(u, team as Unit.Team, pos)
 	u.set_meta(&"ws_card", id)
@@ -386,6 +406,11 @@ func bastion_ratio(team: int) -> float:
 	if b == null or not is_instance_valid(b):
 		return 0.0
 	return b.hp_ratio() if b.is_alive() else 0.0
+
+
+## Living lane units of `team` (O(1): spawned - lost; the field valve reads it at every spawn).
+func field_count(team: int) -> int:
+	return int(stats[team]["spawned"]) - int(stats[team]["lost"])
 
 
 ## Living lane units of `team` (perf / tests).
@@ -514,7 +539,10 @@ func _cast_for_bot_wizards() -> void:
 			s = sc.call(&"suggest_cast")
 		if s.is_empty():
 			continue
-		w.command_cast(StringName(str(s.get("spell_id", ""))), s.get("target"))
+		# like the wizards' own loops (_ai_cast_with_caster): a "retreat" rule also walks the wizard home. Without it the
+		# autopilot seat 0 never retreated and its Malrik / Torvald / Ysolde died more (balance pass 2: east won 61 %).
+		if w.command_cast(StringName(str(s.get("spell_id", ""))), s.get("target")) == "" and bool(s.get("retreat", false)):
+			w.command_move(w.home_position())
 
 
 func _on_wizard_died(_u: Unit, team: int) -> void:

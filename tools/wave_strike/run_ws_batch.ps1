@@ -13,7 +13,7 @@
 #>
 param([int]$Games = 20, [int]$Parallel = 2, [string]$P0 = "hammer", [string]$P1 = "hammer", [int]$Limit = 1800,
 	[string]$Name = "", [int]$FirstSeed = 1, [string[]]$Kingdoms = @(), [int]$SeedsPerPair = 2, [switch]$Mirrors,
-	[string]$Rules = "", [string]$Cards = "")
+	[string]$Rules = "", [string]$Cards = "", [string]$Extra = "")
 $proj = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 if ($Name -eq "") { $Name = "batch_{0}_{1}_{2}" -f $P0, $P1, (Get-Date -Format "yyyyMMdd_HHmm") }
 $out = Join-Path $proj "docs\tools\wave_strike\$Name"
@@ -23,6 +23,8 @@ $gate = Join-Path $proj "tools\godot_run.ps1"
 $Kingdoms = @($Kingdoms | ForEach-Object { $_ -split "," } | Where-Object { $_ -ne "" })
 $ruleArgs = @($Rules -split ";" | Where-Object { $_.Trim() -ne "" } | ForEach-Object { "--rule.$($_.Trim())" })
 if ($Cards -ne "") { $ruleArgs += "--cards=$Cards" }
+# -Extra "pop.cinder_arbalest=2;kcards.shadow=shade,bleakbow,gloam_rider,barrow_knight" = raw test_ws_match args
+$ruleArgs += @($Extra -split ";" | Where-Object { $_.Trim() -ne "" } | ForEach-Object { "--$($_.Trim())" })
 
 # The game list: seed, west kingdom, east kingdom.
 $plan = @()
@@ -65,7 +67,7 @@ foreach ($g in $plan) {
 	if (Test-Path $log) { $errors += @(Select-String -Path $log -Pattern "SCRIPT ERROR").Count }
 	if (Test-Path $json) { $rows += (Get-Content $json -Raw | ConvertFrom-Json) } else { Write-Host "seed $($g.seed): no result (see $log)" }
 }
-$seat = @(0, 0, 0); $kw = @{}; $kg = @{}; $reasons = @{}; $times = @(); $stalls = 0; $peak = 0; $timeouts = 0
+$seat = @(0, 0, 0); $kw = @{}; $kg = @{}; $reasons = @{}; $times = @(); $stalls = 0; $peak = 0; $timeouts = 0; $held = 0
 foreach ($r in $rows) {
 	foreach ($k in @($r.west, $r.east)) { $kg[$k] = 1 + [int]$kg[$k] }
 	if ($r.winner -ge 0) {
@@ -78,7 +80,11 @@ foreach ($r in $rows) {
 	$times += [double]$r.time
 	$stalls += [int]$r.stalls
 	$peak = [Math]::Max($peak, [int]$r.peak_units)
+	if ($r.held) { $held += [int]$r.held[0] + [int]$r.held[1] }
 }
+$decided = [Math]::Max(1, $seat[0] + $seat[1])
+# share of all decided games each kingdom won (4 kingdoms: 25 % = even)
+$shareText = ($kg.GetEnumerator() | Sort-Object Key | ForEach-Object { "$($_.Key) $([Math]::Round(100.0 * [int]$kw[$_.Key] / $decided))%" }) -join ", "
 $sorted = $times | Sort-Object
 $median = if ($sorted.Count -gt 0) { $sorted[[int][Math]::Floor($sorted.Count / 2)] } else { 0 }
 $reasonText = ($reasons.GetEnumerator() | Sort-Object Key | ForEach-Object { "$($_.Key) $($_.Value)" }) -join ", "
@@ -88,12 +94,13 @@ $kText = ($kg.GetEnumerator() | Sort-Object Key | ForEach-Object {
 $pct = [Math]::Round(100.0 * $timeouts / [Math]::Max(1, $rows.Count))
 $summary = @"
 # Wave Strike batch $Name
-$($rows.Count) / $($plan.Count) games, personalities $P0 (west seat) vs $P1 (east seat), limit $Limit s, Ashwind Reach$(if ($Rules -ne '') { ", rules: $Rules" })$(if ($Cards -ne '') { ", cards: $Cards" })
+$($rows.Count) / $($plan.Count) games, personalities $P0 (west seat) vs $P1 (east seat), limit $Limit s, Ashwind Reach$(if ($Rules -ne '') { ", rules: $Rules" })$(if ($Cards -ne '') { ", cards: $Cards" })$(if ($Extra -ne '') { ", extra: $Extra" })
 - Seat wins: west $($seat[0]) / east $($seat[1]) / draw $($seat[2])
 - Kingdom wins (wins / games): $kText
+- Kingdom share of all wins: $shareText
 - End reasons: $reasonText (time rule: $pct %)
 - Median end time: $([Math]::Round($median / 60.0, 1)) min
-- Stalled lane units (total): $stalls;  script errors: $errors;  peak lane units: $peak
+- Stalled lane units (total): $stalls;  script errors: $errors;  peak lane units: $peak;  held by the field cap: $held
 
 | seed | west | east | winner | reason | time | Bastion HP west / east | value killed w / e |
 |---|---|---|---|---|---|---|---|

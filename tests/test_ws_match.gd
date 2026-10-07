@@ -10,6 +10,8 @@ extends SceneTree
 ##   --sim=1 (default 1: no art)  --wizards=1  --out=PATH (the JSON line is also written there)  --perf=1 (frame times)
 ##   --east=fire|shadow|ice|nature (seat 1; default the other of fire / shadow)  --rule.<field>=N (a WaveStrikeRules knob)
 ##   --cards=res://....tres (a candidate WaveCardTable instead of data/wave_strike/card_prices.tres)
+##   --rule.<dict>.<key>=N (a Dictionary rule entry, e.g. --rule.wizard_spell_power.fire=-40)
+##   --pop.<card>=N (WaveCardTable.pop_override)  --kcards.<kingdom>=a,b,c,d (that kingdom's card set)
 
 const TASK_ID := "ws_match"
 const SCENE := "res://scenes/wave_strike.tscn"
@@ -54,6 +56,25 @@ func _initialize() -> void:
 		else:
 			(load("res://scripts/world/wave_strike/wave_card_table.gd") as Script).set(&"_cached", cand)
 			print("WS cards %s" % args["cards"])
+	# card knobs in memory (balance pass 2): --pop.<id>=N (pop_override), --kcards.<kingdom>=a,b,c,d (that kingdom's set)
+	var table_knobs := false
+	for k: String in args:
+		if k.begins_with("pop.") or k.begins_with("kcards."):
+			table_knobs = true
+	if table_knobs:
+		var tscript := load("res://scripts/world/wave_strike/wave_card_table.gd") as Script
+		var tab: Resource = (tscript.call(&"load_default") as Resource).duplicate(true)
+		for k: String in args:
+			if k.begins_with("pop."):
+				tab.get(&"pop_override")[StringName(k.substr(4))] = int(args[k])
+				print("WS pop %s = %s" % [k.substr(4), args[k]])
+			elif k.begins_with("kcards."):
+				var ids: Array = []
+				for id in String(args[k]).split(","):
+					ids.append(StringName(id))
+				tab.get(&"cards")[StringName(k.substr(7))] = ids
+				print("WS cards of %s = %s" % [k.substr(7), args[k]])
+		tscript.set(&"_cached", tab)
 	level = (load(SCENE) as PackedScene).instantiate()
 	var west := StringName(args.get("west", "fire"))
 	level.set(&"player_kingdom", west)
@@ -68,6 +89,23 @@ func _initialize() -> void:
 	for k: String in args:
 		if k.begins_with("rule."):
 			var field := k.substr(5)
+			if field.contains("."):
+				# a Dictionary rule entry: --rule.wizard_spell_power.fire=-40
+				var dname := field.get_slice(".", 0)
+				var d: Variant = rules.get(dname)
+				if d is Dictionary and field.get_slice_count(".") >= 3:
+					# a nested entry: --rule.wizard_stats.shadow.max_hp_pct=0.4
+					var key := StringName(field.get_slice(".", 1))
+					if not (d as Dictionary).has(key):
+						(d as Dictionary)[key] = {}
+					((d as Dictionary)[key] as Dictionary)[field.get_slice(".", 2)] = float(args[k])
+					print("WS rule %s = %s" % [field, args[k]])
+				elif d is Dictionary:
+					(d as Dictionary)[StringName(field.get_slice(".", 1))] = float(args[k])
+					print("WS rule %s = %s" % [field, args[k]])
+				else:
+					push_error("ws_match: unknown dictionary rule %s" % dname)
+				continue
 			var cur: Variant = rules.get(field)
 			if cur == null:
 				push_error("ws_match: unknown rule %s" % field)
@@ -186,6 +224,7 @@ func _finish(verdict: String, why: String) -> void:
 		"ratios": result.get("ratios", []), "stalls": stalls, "longest_stall": snappedf(longest, 0.1),
 		"peak_units": _peak_units, "peak_by_team": _peak_by_team, "spawned": [stats[0]["spawned"], stats[1]["spawned"]],
 		"value_killed": [stats[0]["value_killed"], stats[1]["value_killed"]],
+		"held": [int(stats[0].get("held", 0)), int(stats[1].get("held", 0))],
 		"earned": [banks[0].earned_total, banks[1].earned_total], "coffers": [banks[0].coffer_level, banks[1].coffer_level],
 		"tiers": [rosters[0].tier, rosters[1].tier], "cards": [rosters[0].cards(), rosters[1].cards()],
 		"wall_s": snappedf((Time.get_ticks_usec() - _t0) / 1e6, 0.1), "frames": _frames, "verdict": verdict,
