@@ -18,6 +18,7 @@ var _errors: Array[String] = []
 var _stage := 0            # 0 = unit checks, 1 = history, 2+ = skirmish phases
 var _stub: Node
 var _fake_t := 0.0
+var _clock_tick := -1      # Engine.get_physics_frames() at the last history check (see _history_step)
 var _frames := 0
 var main: Node
 var _phase := -1
@@ -131,6 +132,12 @@ func _check_menu() -> void:
 # ---------------------------------------------------------------- 2. history
 
 func _history_step() -> bool:
+	# ScoreKeeper samples history in _physics_process. Each fake-clock step waits for at least one physics tick
+	# (not one process frame): a frame may run 0 physics ticks (no --fixed-fps, Godot's jitter fix, a loaded PC), and
+	# the "point at 30 s" check then saw the clock moved but no sample taken yet.
+	if Engine.get_physics_frames() <= _clock_tick:
+		return false
+	_clock_tick = Engine.get_physics_frames()
 	var h: Array = _stub.call(&"history", 0)
 	if _fake_t == 0.0:
 		_expect(h.size() == 1 and is_equal_approx(float(h[0]["t"]), 0.0), "history starts with a 0:00 point")

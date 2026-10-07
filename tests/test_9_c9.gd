@@ -16,8 +16,13 @@ extends SceneTree
 ##     of 3 seen enemy workers at a far node (never 2 at once), B1 Guard 50 on an intruded building, B3 Hunt 150
 ##     on Vessa below 40 % near a bot champion. Every flag fits the budget (active stakes + stake <=
 ##     pct x spare essence, at most max flags); the bot never removes a flag.
-## PERF: the champion rule's median decision cost per think tick must stay < 0.1 ms ("PERF OK"; the average is
-## printed too, it is noisy while other agents run).
+## PERF: the champion rule's median decision cost per think tick <= PERF_LIMIT_CAL calibration loops ("PERF OK"; the
+## average and the old 0.1 ms line are printed too).
+## Calibration (2026-10-07, as test_12_a1 / test_20_a3): the hard part measured a 0.067-0.094 ms median on a quiet laptop
+##   and 0.184 ms on a loaded one (CI 2026-10-0x: bot tick average 1.9 ms instead of 1.0, every number of that run
+##   slower), so the fixed 0.1 ms line flipped. The test times test_20_a3's fixed GDScript loop (_calib_once) every
+##   CAL_EVERY frames of each part, best of CAL_REPEAT, and judges the champion-rule median as a RATIO of that loop's
+##   median in the same part: same machine, same moment.
 ## Run:  godot --headless --path . -s tests/test_9_c9.gd --fixed-fps 60 --quit-after 150000
 ##   Options after `--`: --only=static|normal|easy|hard (comma list)
 
@@ -34,7 +39,12 @@ const PART_LIMIT := 560.0            ## Game seconds the normal / hard hire part
 const EASY_LIMIT := 900.0            ## Game seconds the easy part may last (15:00).
 const B4_NATURAL := 100.0            ## Bounty phase: seconds B4 gets to fire on its own (explore_unseen 90 + 10).
 const B4_WAIT := 200.0               ## Bounty phase: seconds before "no B4" (the spot memory is aged after B4_NATURAL).
-const PERF_LIMIT_MS := 0.1
+const PERF_LIMIT_MS := 0.1   ## info only now (the old absolute line, printed next to the ratio verdict)
+## Champion-rule median <= this many calibration-loop medians: 0.43 loops = the old 0.1 ms line on the quiet laptop
+## (loop 0.232 ms, test_20_a3), the same line as test_12_a1's map-fill budget.
+const PERF_LIMIT_CAL := 0.43
+const CAL_EVERY := 30
+const CAL_REPEAT := 3
 
 var main: Node
 var bot: Node
@@ -49,6 +59,10 @@ var _notes: Array[String] = []
 var _results: Array[String] = []
 var _s := {}                         # per-part state
 var _order_error := false
+var _cal_pts: Array[Vector3] = []
+var _cal_dict := {}
+var _cal_samples: Array[int] = []
+var _cal_sink := 0.0
 
 
 func _initialize() -> void:
@@ -128,6 +142,12 @@ func _next_part() -> void:
 	part = _queue.pop_front()
 	_wait = 0
 	_frame = 0
+	_cal_samples.clear()
+	if _cal_pts.is_empty():
+		for i in 256:
+			_cal_pts.append(Vector3(float((i * 37) % 101) - 50.0, 0.0, float((i * 53) % 97) - 48.0))
+		for i in 64:
+			_cal_dict[i] = i * 0.5
 	_s = {"hires": [], "roster_max": 0}
 	main = load(SCENE).instantiate()
 	var d := {"easy": 0, "normal": 1, "hard": 2}[part] as int
@@ -162,8 +182,16 @@ func _end_part() -> void:
 		var line := "%s: champion rule median %.4f ms, avg %.4f ms over %d ticks; bot tick avg %.3f ms (max %.3f ms)" % [
 				part, ms, avg, ca.tick_count, bot.tick_usec_average() / 1000.0, bot.tick_usec_max / 1000.0]
 		print(line)
-		if ms > PERF_LIMIT_MS:
-			_errors.append("%s: champion rule median %.3f ms per tick (limit %.2f)" % [part, ms, PERF_LIMIT_MS])
+		var cal_ms := _cal_median_usec() / 1000.0
+		var ratio := ms / cal_ms if cal_ms > 0.0 else INF
+		print("%s: calibration loop median %.3f ms over %d samples (best of %d); champion rule median = %.3f loops (budget %.2f; the old %.2f ms line %s)" % [
+				part, cal_ms, _cal_samples.size(), CAL_REPEAT, ratio, PERF_LIMIT_CAL, PERF_LIMIT_MS,
+				"over" if ms > PERF_LIMIT_MS else "under"])
+		if cal_ms <= 0.0:
+			_errors.append("%s: no calibration sample (the match never started?)" % part)
+		elif ratio > PERF_LIMIT_CAL:
+			_errors.append("%s: champion rule median %.3f calibration loops per tick > %.2f (%.3f ms, loop %.3f ms)" % [
+					part, ratio, PERF_LIMIT_CAL, ms, cal_ms])
 		else:
 			print("PERF OK (%s)" % part)
 		print("%s bot log (champions / bounties):" % part)
@@ -192,6 +220,11 @@ func _process(_delta: float) -> bool:
 		return false
 	_frame += 1
 	_t = main.match_time()
+	if _frame % CAL_EVERY == 0:
+		var best := 1 << 30
+		for r in CAL_REPEAT:
+			best = mini(best, _calib_once())
+		_cal_samples.append(best)
 	if not bot.get(&"_ready_done"):
 		return false
 	_common_checks()
@@ -203,6 +236,31 @@ func _process(_delta: float) -> bool:
 		"hard":
 			_hard_tick()
 	return false
+
+
+## The calibration workload (usec), test_20_a3's: a fixed loop of Vector3 math, typed-array reads and Dictionary
+## lookups, the kind of work a bot decision is made of.
+func _calib_once() -> int:
+	var t0 := Time.get_ticks_usec()
+	var acc := 0.0
+	var n := _cal_pts.size()
+	for r in 8:
+		for i in n:
+			var p := _cal_pts[i]
+			var d := p.distance_squared_to(_cal_pts[(i * 7 + r) % n])
+			if d < 400.0:
+				acc += sqrt(d)
+			acc += float(_cal_dict.get(i & 63, 0.0))
+	_cal_sink += acc
+	return Time.get_ticks_usec() - t0
+
+
+func _cal_median_usec() -> float:
+	if _cal_samples.is_empty():
+		return 0.0
+	var s := _cal_samples.duplicate()
+	s.sort()
+	return float(s[s.size() / 2])
 
 
 ## Every frame: roster size, hires, and no champion ever in the bot's hands.

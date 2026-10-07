@@ -406,6 +406,8 @@ func _fight(id: StringName) -> bool:
 				h.protect_hero = false
 				MissionHarness.immortal(m.hero)
 				m.hero.hp = m.hero.max_hp * 0.3
+				_counts["blink_tick0"] = Engine.get_physics_frames()
+				_counts["blinks0"] = m.cast.blinks
 			if bool(m.cast.get(&"_blink_pending")) and m.cast.blink_target == m.hero and not _counts.has("dodging"):
 				_counts["dodging"] = true
 				_counts["hp"] = m.hero.hp
@@ -419,8 +421,11 @@ func _fight(id: StringName) -> bool:
 						"a dodged Blink Strike hit (HP %.0f -> %.0f)" % [_counts["hp"], m.hero.hp])
 				_counts["blink_t"] = _t0
 				h.protect_hero = true
-			elif _t0 > 1300:
-				h.check(false, "Hush never used Blink Strike")
+			elif _blink_window_over(m):
+				h.check(false, "Hush never used Blink Strike on Vessa (%d strike(s) in %d ticks, last on %s; Vessa %.1f m from Hush, HP %.0f %%)"
+						% [m.cast.blinks - int(_counts["blinks0"]), Engine.get_physics_frames() - int(_counts["blink_tick0"]),
+						"Vessa" if m.cast.blink_target == m.hero else ("Vey" if m.cast.blink_target != null else "nobody"),
+						_flat_dist(m.hero, hush), 100.0 * m.hero.hp / maxf(1.0, m.hero.max_hp)])
 				_counts["blink_t"] = _t0
 			return false
 		var bt := int(_counts["blink_t"])
@@ -441,6 +446,26 @@ func _fight(id: StringName) -> bool:
 	_kill_assassins()
 	_t0 = 0
 	return true
+
+
+## The Blink Strike wait, in SIMULATION time (physics ticks: Hush's brain runs in M00Cast._physics_process), not process
+## frames: BLINK_WAIT_TICKS (the old 1 300 frames at 60 fps), plus one normal cooldown for each strike Hush aimed at
+## Vey instead (Vey can be the lowest-HP hero in the fight; the next strike then comes a cooldown later). 2026-10-03
+## CI: one "never used" with no detail; the message now names the strikes, their target and the range.
+const BLINK_WAIT_TICKS := 1300
+const BLINK_WAIT_PER_OTHER := 660   # 10 s normal cooldown + the 0.5 s telegraph + slack, at 60 ticks / s
+
+
+func _blink_window_over(m: Node) -> bool:
+	var others: int = maxi(0, int(m.cast.blinks) - int(_counts["blinks0"]))
+	var limit := BLINK_WAIT_TICKS + BLINK_WAIT_PER_OTHER * mini(others, 3)
+	return Engine.get_physics_frames() - int(_counts["blink_tick0"]) > limit
+
+
+func _flat_dist(a: Node3D, b: Node3D) -> float:
+	if a == null or b == null or not is_instance_valid(a) or not is_instance_valid(b):
+		return -1.0
+	return Vector2(a.global_position.x - b.global_position.x, a.global_position.z - b.global_position.z).length()
 
 
 func _to_dawn() -> bool:

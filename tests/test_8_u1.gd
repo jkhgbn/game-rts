@@ -22,6 +22,8 @@ var _wait := 0
 var _ysolde: Node
 var _sapling: Node
 var _start_pos := Vector3.ZERO
+var _phys0 := 0
+var _proc0 := 0
 var _notes: Array[String] = []
 var _backup := PackedByteArray()
 var _had_backup := false
@@ -196,11 +198,11 @@ func _process(_delta: float) -> bool:
 			# W walks Ysolde (wizard_control.gd, physical W).
 			_start_pos = _ysolde.global_position
 			_key(KEY_W, true)
+			_phys0 = Engine.get_physics_frames()
 			step = 2
-			_wait = 0
 		2:
-			_wait += 1
-			if _wait < 45:
+			# 0.75 s of simulation time (physics ticks; movement runs in _physics_process), not 45 process frames.
+			if Engine.get_physics_frames() - _phys0 < 45:
 				return false
 			_key(KEY_W, false)
 			var moved: float = (_ysolde.global_position - _start_pos).length()
@@ -214,12 +216,17 @@ func _process(_delta: float) -> bool:
 			_sapling.command_stop()
 			_sapling.set_lifetime(25.0)
 			sel.select_units([_sapling])
+			_phys0 = Engine.get_physics_frames()
+			_proc0 = Engine.get_process_frames()
 			step = 3
-			_wait = 0
 		3:
-			_wait += 1
-			if _wait < 60:
+			# Wait 1 s of SIMULATION time (physics ticks; the lifetime drains in Unit._physics_process), not 60
+			# process frames: without --fixed-fps (or with a different one) a fast PC runs several process frames
+			# per physics tick and the bar had drained only ~0.43 s ("24.57 / 25.0 after 1 s", 2026-10-07).
+			if Engine.get_physics_frames() - _phys0 < Engine.physics_ticks_per_second:
 				return false
+			print("lifetime after %d physics ticks (%d process frames): %.3f s left" % [Engine.get_physics_frames() - _phys0,
+					Engine.get_process_frames() - _proc0, _sapling.lifetime_left()])
 			var panel: Node = hud.selection_panel
 			if panel.current_view() != "single" or not panel.single_lifetime.visible:
 				return _finish("no lifetime bar for the Sapling (view %s)" % panel.current_view())
