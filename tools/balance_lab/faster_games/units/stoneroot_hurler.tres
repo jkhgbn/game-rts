@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"stoneroot_hurler"
+display_name = "Stoneroot Hurler"
+faction = &"nature"
+is_worker = false
+cost = 185
+pop = 2
+kill_xp = 95
+train_time = 40.0
+card_key = ""
+requires_tier = 2
+max_hp = 190.0
+move_speed = 3.2
+attack_damage = 26.0
+attack_range = 12.5
+attack_cooldown = 3.2
+aggro_range = 12.5
+radius = 0.8
+body_height = 1.9
+body_color = Color(0.38, 0.45, 0.26, 1)
+projectile_color = Color(0.55, 0.5, 0.4, 1)
+projectile_speed = 18.0
+armor = 8.0
+sight_radius = 13.0

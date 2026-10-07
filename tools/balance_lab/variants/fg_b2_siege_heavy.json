@@ -1,0 +1,41 @@
+{
+	"name": "fg_b2_siege_heavy",
+	"notes": "Faster games, experiment B2: fg_b_siege with the bots fielding twice the siege (30 % of soldier pop for every siege slot, Fire Ash Hurler included). Tests whether B fails only because the bot builds 1-3 siege units a game.",
+	"units": {},
+	"buildings": {},
+	"fg": {
+		"siege": {
+			"ash_hurler": {
+				"building_mult": 2.0
+			},
+			"frost_mortar": {
+				"building_mult": 2.6
+			},
+			"grave_mangonel": {
+				"building_mult": 3.5
+			},
+			"stoneroot_hurler": {
+				"building_mult": 3.5
+			}
+		},
+		"prefer_buildings": true,
+		"add_units": [
+			{
+				"id": "grave_mangonel",
+				"kingdom": "shadow",
+				"path": "res://tools/balance_lab/faster_games/units/grave_mangonel.tres"
+			},
+			{
+				"id": "stoneroot_hurler",
+				"kingdom": "nature",
+				"path": "res://tools/balance_lab/faster_games/units/stoneroot_hurler.tres"
+			}
+		],
+		"bot_share": {
+			"ash_hurler": 0.3,
+			"frost_mortar": 0.3,
+			"grave_mangonel": 0.3,
+			"stoneroot_hurler": 0.3
+		}
+	}
+}

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="UnitType" format=3]
+
+[ext_resource type="Script" path="res://scripts/units/unit_type.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = &"grave_mangonel"
+display_name = "Grave Mangonel"
+faction = &"shadow"
+is_worker = false
+cost = 190
+pop = 2
+kill_xp = 95
+train_time = 40.0
+card_key = ""
+requires_tier = 2
+max_hp = 170.0
+move_speed = 3.4
+attack_damage = 28.0
+attack_range = 13.0
+attack_cooldown = 3.4
+aggro_range = 13.0
+radius = 0.8
+body_height = 1.8
+body_color = Color(0.32, 0.26, 0.4, 1)
+projectile_color = Color(0.6, 0.5, 0.75, 1)
+projectile_speed = 18.0
+armor = 5.0
+sight_radius = 13.0
