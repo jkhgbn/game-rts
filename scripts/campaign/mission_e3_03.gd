@@ -134,6 +134,7 @@ const REFUSE_DEAD := "Dead"
 const REFUSE_HELD := "The stone holds you"
 const REFUSE_RECHARGING := "Recharging"
 const REFUSE_NOT_YET := "Not yet"
+const REFUSE_ENDING := "The fight is over"   ## the mission is ending (the victory / defeat delay)
 
 var flag_override: Dictionary = {}
 
@@ -548,8 +549,8 @@ func _add_events() -> void:
 				return true
 		return false, _offer)
 	var roster := HelperRoster.for_team(PLAYER_SEAT)
-	if roster and roster.has_signal(&"helper_arrived"):
-		roster.connect(&"helper_arrived", func(_h: Variant = null) -> void:
+	if roster and roster.has_signal(&"helper_ready"):   # HelperRoster has no helper_arrived: Hush ready = arrived
+		roster.connect(&"helper_ready", func(_h: Variant = null) -> void:
 			if fire_once(&"E9"):
 				say_l(16)
 				say_l(17))
@@ -754,6 +755,8 @@ func _refresh_wave_unit(u: Unit, mode: StringName, _hero_at: Vector3) -> bool:
 
 ## Heart of the Hollow: "" or the refusal ("Dead", "The stone holds you", "Recharging", "Not yet" before the offer).
 func use_heart() -> String:
+	if is_ending():   # a use in the end delay would never reach the saved flags
+		return REFUSE_ENDING
 	if not hero_alive():
 		return REFUSE_DEAD
 	if not heart_enabled:

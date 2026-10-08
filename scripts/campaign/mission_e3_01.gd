@@ -783,7 +783,7 @@ func _fire_wave(id: StringName) -> void:
 			fire_once(&"E6")
 			say_l(9)
 			var units := spawn_wave_at(WAVES[&"W3"], _hall_spawn(NATURE_SEAT), NATURE_SEAT)
-			_carry_wizard(ysolde, units, &"point", FORD_ZONE)
+			_carry_wizard(ysolde, units, &"point_hold", FORD_ZONE)   # holds the ford with W3 (&"point" = on to the keep)
 			for u in units:
 				order_wave(u as Unit, &"point_hold", FORD_ZONE)
 			_torvald_push(&"diversion")

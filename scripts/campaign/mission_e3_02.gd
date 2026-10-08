@@ -507,6 +507,9 @@ func _on_navigation_ready() -> void:
 			"units": [["rimeshield", 4, ICE_RALLY], ["shardcaster", 2, ICE_RALLY], ["frost_mortar", 1, ICE_RALLY]],
 			"wizard": {"level": 5, "pos": ICE_RALLY + Vector3(0.0, 0.0, -3.0)}})
 	torvald = ice.get("wizard") as Wizard
+	if torvald:
+		torvald.died.connect(_on_torvald_died)   # back at the Rimehold 60 s later (as in e3m1 / e3m4)
+	wizard_respawned.connect(_on_e32_wizard_respawned)
 	activate_seat(NATURE_SEAT, &"nature", {"crystals": 0})
 	var fire := activate_seat(FIRE_SEAT, &"fire", {"crystals": 0,
 			"wizard": {"level": 6, "spells": [&"fireball", &"fireball", &"ember_step", &"ember_step", &"kindle"], "pos": VESSA_TENT}})
@@ -942,13 +945,13 @@ func _on_squad_hurt(_amount: float, _attacker: Node3D, u: Unit) -> void:
 
 
 func _on_wagon_destroyed(_b: Building, id: StringName) -> void:
-	if spoiled.has(id) or phase != 1:
+	if spoiled.has(id) or phase != 1 or is_ending():   # no dawn switch / film over a pending defeat
 		return
 	_spoil(id, true)
 
 
 func _spoil(id: StringName, loud: bool) -> void:
-	if spoiled.has(id):
+	if spoiled.has(id) or is_ending():
 		return
 	spoiled[id] = true
 	var w: Building = wagons.get(id)
@@ -1141,6 +1144,9 @@ func _dawn() -> void:
 		w.call(&"command_gather", node_of(PLAYER_SEAT, "a" if i < 3 else "b"))
 	if vessa and is_instance_valid(vessa):
 		set_dormant(vessa, false)
+		_respawn_left.erase(FIRE_SEAT)
+		if not vessa.is_alive():   # killed in the night (no night respawn): she is back for the dawn and R1
+			vessa.respawn(FIRE_KEEP + Vector3(-4.0, 0.0, -6.0))
 		vessa.global_position = FIRE_KEEP + Vector3(-4.0, 0.0, -6.0)
 		vessa.command_stop()
 	_add_seat_commander(ALLY_SEAT)
@@ -1236,6 +1242,23 @@ func _record_flags() -> void:
 	if objective_state("sec_villagers") == "done":
 		essence += 150
 	set_mission_flag(CampaignState.MALRIK_ESSENCE_FLAG, mini(ESSENCE_CAP, essence / 2))
+
+
+func _on_torvald_died(_u: Unit) -> void:
+	if is_ending():
+		return
+	_respawn_left[ALLY_SEAT] = 60.0
+
+
+## A seat wizard back at its keep: Vessa rejoins the reprisal when one runs, else waits at Lark Hill; Torvald's
+## Commander takes him from his keep.
+func _on_e32_wizard_respawned(wiz: Wizard) -> void:
+	if is_ending() or wiz != vessa:
+		return
+	if phase == 2 and has_fired(&"E13"):
+		order_wave(vessa, &"reprisal", MissionE3_01.FORD_STONE)
+	else:
+		vessa.command_move(FIRE_KEEP + Vector3(-4.0, 0.0, -6.0))
 
 
 func _on_vessa_died(_u: Unit) -> void:

@@ -166,6 +166,7 @@ const REFUSE_SPOT := "No room for the Paddock"
 const REFUSE_DEAD := "Dead"
 const REFUSE_HELD := "The stone holds you"
 const REFUSE_RECHARGING := "Recharging"
+const REFUSE_ENDING := "The fight is over"   ## the mission is ending (the victory / defeat delay)
 
 var flag_override: Dictionary = {}
 
@@ -1113,6 +1114,8 @@ func _tick_knights() -> void:
 # ---------------------------------------------------------------- the stone (e3m3 rules)
 
 func use_heart() -> String:
+	if is_ending():   # a use in the end delay would never reach the saved flags (e3m4_refused)
+		return REFUSE_ENDING
 	if not hero_alive():
 		return REFUSE_DEAD
 	if held_left > 0.0:

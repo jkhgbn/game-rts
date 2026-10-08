@@ -2468,6 +2468,11 @@ msgstr "La Greywater Lodge prend le tribut ({n} / 6)"
 msgid "Tribute: next caravan home"
 msgstr "Tribut : prochaine caravane de retour"
 
+#. const MSG_SHORT := "The Greywater Lodge refuses a short tribute ({have} / {need} gold): send another"
+#: scripts/campaign/mission_e2_03.gd:151
+msgid "The Greywater Lodge refuses a short tribute ({have} / {need} gold): send another"
+msgstr "La Greywater Lodge refuse un tribut incomplet ({have} / {need} or) : envoyez-en un autre"
+
 #. const BUTTON_TRIBUTE := "Send tribute ({gold} gold)"
 #: scripts/campaign/mission_e2_03.gd:152
 msgid "Send tribute ({gold} gold)"
@@ -4196,6 +4201,11 @@ msgstr "La pierre vous tient"
 #: scripts/campaign/mission_e3_03.gd:136
 msgid "Not yet"
 msgstr "Pas encore"
+
+#. const REFUSE_ENDING := "The fight is over"   ## the mission is ending (the victory / defeat delay)
+#: scripts/campaign/mission_e3_03.gd:137 scripts/campaign/mission_e3_04.gd:179
+msgid "The fight is over"
+msgstr "Le combat est fini"
 
 #. c.keep_lost_message = "The Bishop's Seat has fallen"
 #: scripts/campaign/mission_e3_03.gd:203
