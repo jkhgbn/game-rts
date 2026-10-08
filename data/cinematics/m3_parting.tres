@@ -1,0 +1,196 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_puow1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_8oddg"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_8tumj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_gvly2"]
+
+[sub_resource type="Resource" id="Resource_pawxm"]
+script = ExtResource("4_gvly2")
+kind = &"face"
+actor = &"vessa"
+params = {
+"look_actor": "ysolde",
+"time": 0.4,
+"yaw_deg": 90.0
+}
+
+[sub_resource type="Resource" id="Resource_ug5qv"]
+script = ExtResource("4_gvly2")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_0qe0q"]
+script = ExtResource("4_gvly2")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_8tspl"]
+script = ExtResource("1_puow1")
+at = 1.8
+speaker = &"ysolde"
+text = "I warned you. You didn't listen. Neither did he."
+duration = 5.6
+voice = "res://assets/audio/voice/ysolde/i_warned_you_you_111da083.wav"
+
+[sub_resource type="Resource" id="Resource_wqhkk"]
+script = ExtResource("3_8tumj")
+id = &"P1"
+duration = 8.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+orbit_radius = 11.0
+orbit_height = 5.5
+orbit_from_deg = 100.0
+orbit_to_deg = 84.0
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_puow1")]([SubResource("Resource_8tspl")])
+actions = Array[ExtResource("4_gvly2")]([SubResource("Resource_pawxm"), SubResource("Resource_ug5qv"), SubResource("Resource_0qe0q")])
+
+[sub_resource type="Resource" id="Resource_vej8h"]
+script = ExtResource("1_puow1")
+at = 0.5
+speaker = &"vessa"
+text = "Then help me stop it. Please."
+duration = 3.6
+voice = "res://assets/audio/voice/vessa/then_help_me_stop_72fbf18f.wav"
+
+[sub_resource type="Resource" id="Resource_xatnl"]
+script = ExtResource("1_puow1")
+at = 4.6
+speaker = &"ysolde"
+text = "Nature doesn't take sides, Vessa."
+duration = 4.4
+voice = "res://assets/audio/voice/ysolde/nature_doesnt_take_sides_031337dc.wav"
+
+[sub_resource type="Resource" id="Resource_qki1u"]
+script = ExtResource("3_8tumj")
+id = &"P2"
+duration = 10.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+orbit_radius = 4.8
+orbit_height = 1.9
+orbit_from_deg = 18.0
+orbit_to_deg = 22.0
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_puow1")]([SubResource("Resource_vej8h"), SubResource("Resource_xatnl")])
+
+[sub_resource type="Resource" id="Resource_cdl2c"]
+script = ExtResource("4_gvly2")
+at = 9.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_ky1tt"]
+script = ExtResource("1_puow1")
+at = 0.8
+speaker = &"ysolde"
+text = "But when your war comes for my wood, and it will, remember that I warned you both."
+duration = 8.2
+voice = "res://assets/audio/voice/ysolde/but_when_your_war_2ad722b8.wav"
+
+[sub_resource type="Resource" id="Resource_clo16"]
+script = ExtResource("3_8tumj")
+id = &"P3"
+duration = 12.0
+camera_mode = 3
+look_offset = Vector3(0, 1.675, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(3, 0, 0)
+orbit_radius = 2.2
+orbit_height = 1.7
+orbit_from_deg = 112.0
+orbit_to_deg = 102.0
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_puow1")]([SubResource("Resource_ky1tt")])
+actions = Array[ExtResource("4_gvly2")]([SubResource("Resource_cdl2c")])
+
+[sub_resource type="Resource" id="Resource_k6mxc"]
+script = ExtResource("4_gvly2")
+at = 0.6
+kind = &"call"
+params = {
+"args": [],
+"method": "cine_sink_ysolde"
+}
+
+[sub_resource type="Resource" id="Resource_30xsh"]
+script = ExtResource("4_gvly2")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_mlrfl"]
+script = ExtResource("4_gvly2")
+at = 6.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_qhqme"]
+script = ExtResource("4_gvly2")
+at = 9.2
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_6gdek"]
+script = ExtResource("1_puow1")
+at = 1.6
+speaker = &"narrator"
+text = "Fire is at war with Shadow, while Ice and Nature watch. Under the world, something is counting."
+duration = 7.4
+voice = "res://assets/audio/voice/narrator/fire_is_at_war_9101ffca.wav"
+
+[sub_resource type="Resource" id="Resource_fhgv8"]
+script = ExtResource("3_8tumj")
+id = &"P4"
+duration = 10.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+orbit_radius = 6.5
+orbit_height = 3.4
+orbit_from_deg = 70.0
+orbit_to_deg = 48.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_puow1")]([SubResource("Resource_6gdek")])
+actions = Array[ExtResource("4_gvly2")]([SubResource("Resource_k6mxc"), SubResource("Resource_30xsh"), SubResource("Resource_mlrfl"), SubResource("Resource_qhqme")])
+
+[resource]
+script = ExtResource("2_8oddg")
+id = &"m3_parting"
+title = "The Wood Will Remember"
+world_mode = 1
+shots = Array[ExtResource("3_8tumj")]([SubResource("Resource_wqhkk"), SubResource("Resource_qki1u"), SubResource("Resource_clo16"), SubResource("Resource_fhgv8")])
+shake_seed = 73
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

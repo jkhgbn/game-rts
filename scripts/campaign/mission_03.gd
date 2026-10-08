@@ -46,6 +46,7 @@ const M3_CACHE_SPOTS: Array[Vector3] = [Vector3(-12.0, 0.0, 30.0), Vector3(26.0,
 
 ## The Oldroot and the Signet.
 const OLDROOT_POS := Vector3.ZERO
+const YSOLDE_MODEL := "res://art/units/wizards/ysolde.tscn"   ## Ysolde's story figure (m3_plea / m3_parting).
 const OLDROOT_CLEARING := 12.0
 const TRUNK_RADIUS := 1.6
 const SIGNET_POS := Vector3(0.0, 1.6, 0.0)
@@ -259,6 +260,10 @@ var _late_drains := 0
 var _signet_mesh: Node3D
 var _oldroot: Node3D
 var _ysolde: Node3D
+## Read only: Ysolde's story figure while she is shown (the tag `ysolde` of the m3_plea / m3_parting films).
+var ysolde: Node3D:
+	get:
+		return _ysolde if _ysolde != null and is_instance_valid(_ysolde) and _ysolde.visible else null
 var _last_obj_text := ""
 var _mossjaw_roam_left := 0.0
 var _malrik_base_speed := 0.0
@@ -1824,13 +1829,24 @@ func _parting_card() -> CinematicScript:
 			Vector3(10.0, 14.0, 12.0), 40.0)
 
 
-## Ysolde as a story actor (not a unit: nothing targets her): a placeholder figure rising out of the roots.
+## Ysolde as a story actor (not a unit: nothing targets her): her wizard model (a placeholder figure if it is missing)
+## rising out of the roots, facing Vessa. She runs while the tree is paused (PROCESS_MODE_ALWAYS), so she rises and
+## sinks inside the PAUSE films; the films find her through `ysolde` (cinematic_actor).
 func _show_ysolde(at: Vector3) -> void:
 	if _SIM.enabled:
 		return
 	if _ysolde == null or not is_instance_valid(_ysolde):
+		var model: PackedScene = load(YSOLDE_MODEL) if ResourceLoader.exists(YSOLDE_MODEL) else null
+		_ysolde = model.instantiate() as Node3D if model != null else null
+		if _ysolde != null:
+			_ysolde.name = "Ysolde"
+			_ysolde.process_mode = Node.PROCESS_MODE_ALWAYS
+			add_child(_ysolde)
+			_place_ysolde(at)
+			return
 		_ysolde = Node3D.new()
 		_ysolde.name = "Ysolde"
+		_ysolde.process_mode = Node.PROCESS_MODE_ALWAYS
 		add_child(_ysolde)
 		var body := CapsuleMesh.new()
 		body.radius = 0.35
@@ -1845,13 +1861,28 @@ func _show_ysolde(at: Vector3) -> void:
 		mi.material_override = mat
 		mi.position.y = 0.95
 		_ysolde.add_child(mi)
-	_ysolde.global_position = _nav_point(at) + Vector3(0.0, -1.9, 0.0)
+	_place_ysolde(at)
+
+
+func _place_ysolde(at: Vector3) -> void:
+	var p := _nav_point(at)
+	_ysolde.global_position = p + Vector3(0.0, -1.9, 0.0)
+	var to_hero := hero_pos() - p
+	if Vector2(to_hero.x, to_hero.z).length() > 0.1:
+		_ysolde.rotation.y = atan2(to_hero.x, to_hero.z)
 	_ysolde.visible = true
-	_ysolde.create_tween().tween_property(_ysolde, "position:y", 0.0, 1.0)
+	_ysolde.create_tween().tween_property(_ysolde, "position:y", p.y, 1.0)
 
 
 func _hide_ysolde() -> void:
-	if _ysolde and is_instance_valid(_ysolde):
+	if _ysolde and is_instance_valid(_ysolde) and _ysolde.visible and not _ysolde.has_meta(&"sinking"):
+		_ysolde.set_meta(&"sinking", true)
 		var tw := _ysolde.create_tween()
-		tw.tween_property(_ysolde, "position:y", -2.0, 1.0)
+		tw.tween_property(_ysolde, "position:y", _ysolde.position.y - 2.0, 1.0)
 		tw.tween_callback(_ysolde.hide)
+		tw.tween_callback(_ysolde.remove_meta.bind(&"sinking"))
+
+
+## m3_parting shot 4 (`call cine_sink_ysolde`): Ysolde sinks back into the roots while the film plays.
+func cine_sink_ysolde() -> void:
+	_hide_ysolde()

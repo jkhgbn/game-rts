@@ -1,27 +1,27 @@
 {
- "rendered": 6,
- "unchanged": 698,
- "gen_s": 10.4,
- "audio_s": 15.7,
- "rtf": 0.66,
- "wall_s": 12.6,
+ "rendered": 5,
+ "unchanged": 704,
+ "gen_s": 7.4,
+ "audio_s": 16.2,
+ "rtf": 0.46,
+ "wall_s": 9.3,
  "providers": [
   "CPUExecutionProvider"
  ],
- "model_load_s": 1.2,
- "total_lines": 704,
- "total_audio_s": 2000.2,
+ "model_load_s": 0.9,
+ "total_lines": 709,
+ "total_audio_s": 2016.5,
  "fit": "1",
  "fitted": [],
- "at": "2026-10-08 00:26:06",
+ "at": "2026-10-08 00:39:59",
  "last_render": {
-  "rendered": 6,
-  "gen_s": 10.4,
-  "audio_s": 15.7,
-  "rtf": 0.66,
+  "rendered": 5,
+  "gen_s": 7.4,
+  "audio_s": 16.2,
+  "rtf": 0.46,
   "providers": [
    "CPUExecutionProvider"
   ],
-  "at": "2026-10-08 00:26:06"
+  "at": "2026-10-08 00:39:59"
  }
 }

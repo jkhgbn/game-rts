@@ -1,0 +1,36 @@
+# m03 E13 "m3_parting" "The Wood Will Remember" (docs/design/story-episode-1.md 7.2, mission-03.md Cinematic hooks): ~40 s,
+# mode=pause over the live mission (Mission03._play_card plays this .tres instead of its fallback card; victory 3 s after).
+# The second Warden gate falls wherever Vessa is, so every camera is relative to a live actor: orbits around Vessa (the
+# hero, tag `vessa`) or around Ysolde (tag `ysolde`, Mission03's story figure, risen 3 m east of Vessa before the pause).
+# The cast spots below are stand-ins for the checks with the same geometry: Vessa at the origin, Ysolde 3 m east (+X).
+# 1) WIDE on the two of them, the rubble settling (Ysolde: "I warned you."); 2) over Ysolde's shoulder on Vessa (2 lines);
+# 3) CU Ysolde (the warning); 4) Vessa alone, slow orbit, Ysolde sinks into the roots (`call cine_sink_ysolde`), the
+# narrator. Axis: every camera on the +Z side of the Vessa - Ysolde line.
+# Lines: Mission03 CINE_LINES (m3_parting), French in campaign.po.
+cine m3_parting  title="The Wood Will Remember"  mode=pause  letterbox=2.39  seed=73  length=36..44
+env day  moon_yaw=140  moon_pitch=-40  energy=0.9
+cast  vessa   res://art/units/wizards/vessa.tscn   at=(0, 0, 0)  yaw=90
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(3, 0, 0)  yaw=-90
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# WIDE: the gate's dust settling, Ysolde out of the roots beside Vessa
+shot P1 8.0  cam=orbit  pivot=vessa  r=11  h=5.5  deg=100>84  fov=44  in=fade_black:0.6  faces=ysolde
+  at 0.0  face vessa  to=ysolde  time=0.4
+  at 0.2  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-14
+  at 0.6  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-10
+  at 1.8  line ysolde "I warned you. You didn't listen. Neither did he."  dur=5.6
+# Over Ysolde's shoulder on Vessa
+shot P2 10.0  cam=orbit  pivot=vessa  r=4.8  h=1.9  deg=18>22  fov=36
+  at 0.5  line vessa "Then help me stop it. Please."  dur=3.6
+  at 4.6  line ysolde "Nature doesn't take sides, Vessa."  dur=4.4
+# CU Ysolde: the warning
+shot P3 12.0  cam=orbit  pivot=ysolde  r=2.2  h=1.7  deg=112>102  fov=32
+  at 0.8  line ysolde "But when your war comes for my wood, and it will, remember that I warned you both."  dur=8.2
+  at 9.6  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-14
+# Vessa alone with the Signet: Ysolde sinks into the roots, slow orbit out
+shot P4 10.0  cam=orbit  pivot=vessa  r=6.5  h=3.4  deg=70>48  fov=40
+  at 0.6  call cine_sink_ysolde
+  at 0.6  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-10
+  at 1.6  line narrator "Fire is at war with Shadow, while Ice and Nature watch. Under the world, something is counting."  dur=7.4
+  at 6.0  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-14
+  at 9.2  fade alpha=1 time=0.8

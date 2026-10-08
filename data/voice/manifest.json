@@ -4,8 +4,8 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 704,
- "total_seconds": 2000.24,
+ "count": 709,
+ "total_seconds": 2016.45,
  "orphans": [],
  "lines": {
   "aldra/cracked_not_broken_torvald_c73e5da5": {
@@ -7378,6 +7378,32 @@
      "ref": "L30",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/fire_is_at_war_9101ffca": {
+   "speaker": "narrator",
+   "text": "Fire is at war with Shadow, while Ice and Nature watch. Under the world, something is counting.",
+   "text_hash": "9101ffca5f8afe30",
+   "path": "res://assets/audio/voice/narrator/fire_is_at_war_9101ffca.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.97,
+   "peak": 0.8913,
+   "rms_db": -23.4,
+   "clipped": 0,
+   "file_hash": "54529f374f2d5e7c",
+   "gen_s": 1.53,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_parting.cine:34",
+     "ref": "m3_parting/P4@1.6",
+     "slot": 7.4,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -16702,6 +16728,32 @@
     }
    ]
   },
+  "vessa/then_help_me_stop_72fbf18f": {
+   "speaker": "vessa",
+   "text": "Then help me stop it. Please.",
+   "text_hash": "72fbf18f9cfe9019",
+   "path": "res://assets/audio/voice/vessa/then_help_me_stop_72fbf18f.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 1.59,
+   "peak": 0.8913,
+   "rms_db": -19.7,
+   "clipped": 0,
+   "file_hash": "bc055059a9f8fe02",
+   "gen_s": 0.45,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_parting.cine:24",
+     "ref": "m3_parting/P2@0.5",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
   "vessa/then_ill_be_standing_94087c96": {
    "speaker": "vessa",
    "text": "Then I'll be standing right where it happens.",
@@ -20141,6 +20193,32 @@
     }
    ]
   },
+  "ysolde/but_when_your_war_2ad722b8": {
+   "speaker": "ysolde",
+   "text": "But when your war comes for my wood, and it will, remember that I warned you both.",
+   "text_hash": "2ad722b8ecd35f97",
+   "path": "res://assets/audio/voice/ysolde/but_when_your_war_2ad722b8.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 4.053,
+   "peak": 0.8913,
+   "rms_db": -17.4,
+   "clipped": 0,
+   "file_hash": "c7e0cbd7bebb7999",
+   "gen_s": 1.14,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_parting.cine:28",
+     "ref": "m3_parting/P3@0.8",
+     "slot": 8.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
   "ysolde/every_root_on_this_a33e3782": {
    "speaker": "ysolde",
    "text": "Every root on this hill knows your name now. That is not a kindness.",
@@ -20263,6 +20341,32 @@
      "ref": "ep4_opening/L9",
      "slot": 5.2,
      "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/i_warned_you_you_111da083": {
+   "speaker": "ysolde",
+   "text": "I warned you. You didn't listen. Neither did he.",
+   "text_hash": "111da083a8635e1f",
+   "path": "res://assets/audio/voice/ysolde/i_warned_you_you_111da083.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.49,
+   "peak": 0.8913,
+   "rms_db": -16.7,
+   "clipped": 0,
+   "file_hash": "6c05ee0b038365c3",
+   "gen_s": 0.71,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_parting.cine:21",
+     "ref": "m3_parting/P1@1.8",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]
@@ -20612,6 +20716,32 @@
      "source": "data/cinematics/src/m3_plea.cine:22",
      "ref": "m3_plea/Y2@4.4",
      "slot": 4.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/nature_doesnt_take_sides_031337dc": {
+   "speaker": "ysolde",
+   "text": "Nature doesn't take sides, Vessa.",
+   "text_hash": "031337dc91ba7746",
+   "path": "res://assets/audio/voice/ysolde/nature_doesnt_take_sides_031337dc.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.11,
+   "peak": 0.8913,
+   "rms_db": -16.7,
+   "clipped": 0,
+   "file_hash": "0127d8952e81938a",
+   "gen_s": 3.58,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_parting.cine:25",
+     "ref": "m3_parting/P2@4.6",
+     "slot": 4.4,
      "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
