@@ -1,0 +1,115 @@
+{
+ "cine_id": "c_e7_pits",
+ "source": "docs/design/mission-e7-03.md Cinematic hooks (between missions: c_e7_pits beats, two Ossavar takes); docs/design/script-episodes-4-8/e7m3.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e7m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "P1",
+   "at": 1.5,
+   "dur": 6.0,
+   "speaker": "ossavar",
+   "subtitle": "The Hall of Silence, where they teach|one word a day. Malrik brought more.",
+   "text": "The Hall of Silence, where they teach one word a day. Malrik brought more."
+  },
+  {
+   "id": "L2",
+   "shot": "P2",
+   "at": 1.0,
+   "dur": 3.2,
+   "speaker": "malrik",
+   "subtitle": "Empty the pits, Your Radiance. All of them.",
+   "text": "Empty the pits, Your Radiance. All of them."
+  },
+  {
+   "id": "L3",
+   "shot": "P2",
+   "at": 4.4,
+   "dur": 3.4,
+   "speaker": "malrik",
+   "subtitle": "By morning every dragon|on the Coinwater is ours.",
+   "text": "By morning every dragon on the Coinwater is ours."
+  },
+  {
+   "id": "L4",
+   "shot": "P3",
+   "at": 2.0,
+   "dur": 4.8,
+   "speaker": "diamond_archon",
+   "subtitle": "My great-grandmother did that once.|The Year of Two Skies.",
+   "text": "My great-grandmother did that once. The Year of Two Skies."
+  },
+  {
+   "id": "L5",
+   "shot": "P4",
+   "at": 0.8,
+   "dur": 2.6,
+   "speaker": "malrik",
+   "subtitle": "Then let us call it a tradition.",
+   "text": "Then let us call it a tradition."
+  },
+  {
+   "id": "L6",
+   "shot": "P5",
+   "at": 2.4,
+   "dur": 1.4,
+   "speaker": "diamond_archon",
+   "subtitle": "Yes.",
+   "text": "Yes."
+  },
+  {
+   "id": "L7",
+   "shot": "P6",
+   "at": 2.0,
+   "dur": 4.6,
+   "speaker": "aldra",
+   "subtitle": "The Hall's lamps are still lit,|my lord. Someone is signing something.",
+   "text": "The Hall's lamps are still lit, my lord. Someone is signing something."
+  },
+  {
+   "id": "L8",
+   "shot": "P7",
+   "at": 1.2,
+   "dur": 6.0,
+   "speaker": "ossavar",
+   "subtitle": "Tomorrow your friend buys the whole sky.|Ask him what he means to burn.",
+   "text": "Tomorrow your friend buys the whole sky. Ask him what he means to burn."
+  },
+  {
+   "id": "L8b",
+   "shot": "P7",
+   "at": 1.2,
+   "dur": 4.0,
+   "speaker": "ossavar",
+   "subtitle": "You guarded stones. Everyone guards stones.",
+   "text": "You guarded stones. Everyone guards stones."
+  },
+  {
+   "id": "L9",
+   "shot": "P8",
+   "at": 1.0,
+   "dur": 3.0,
+   "speaker": "torvald",
+   "subtitle": "I think I already know, old one.",
+   "text": "I think I already know, old one."
+  },
+  {
+   "id": "L10",
+   "shot": "P9",
+   "at": 1.0,
+   "dur": 2.2,
+   "speaker": "aldra",
+   "subtitle": "Will you ask him, my lord?",
+   "text": "Will you ask him, my lord?"
+  },
+  {
+   "id": "L11",
+   "shot": "P9",
+   "at": 4.2,
+   "dur": 1.6,
+   "speaker": "torvald",
+   "subtitle": "Tomorrow.",
+   "text": "Tomorrow."
+  }
+ ]
+}

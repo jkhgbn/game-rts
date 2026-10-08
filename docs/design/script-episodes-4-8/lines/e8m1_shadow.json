@@ -1,0 +1,215 @@
+{
+ "cine_id": "e8m1_shadow",
+ "source": "docs/design/mission-e8-01.md B.8 (Dialogue)",
+ "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+ "lines": [
+  {
+   "id": "L1",
+   "event": "E1",
+   "speaker": "narrator",
+   "dur": 5.0,
+   "subtitle": "Duskbarrow, city of crypts. Its bishop came home|with a stone, and the dead got up to meet it.",
+   "text": "Duskbarrow, city of crypts. Its bishop came home with a stone, and the dead got up to meet it."
+  },
+  {
+   "id": "L2",
+   "event": "E1",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Every grave here, I dug, or my father did.|They know my shovel. They don't know this.",
+   "text": "Every grave here, I dug, or my father did. They know my shovel. They don't know this."
+  },
+  {
+   "id": "L3",
+   "event": "E1",
+   "speaker": "obren",
+   "dur": 5.0,
+   "subtitle": "They are yours, Bishop.|Take them back. Use me. Just a little.",
+   "text": "They are yours, Bishop. Take them back. Use me. Just a little."
+  },
+  {
+   "id": "L4",
+   "event": "E1",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "A little. You always say a little.",
+   "text": "A little. You always say a little."
+  },
+  {
+   "id": "L5",
+   "event": "E2",
+   "speaker": "shade",
+   "dur": 5.0,
+   "subtitle": "Bishop, the Old Ossuary is open.|The dead are wearing amber.",
+   "text": "Bishop, the Old Ossuary is open. The dead are wearing amber."
+  },
+  {
+   "id": "L6",
+   "event": "E2",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Then we put them back to bed.|Gently. They were somebody's.",
+   "text": "Then we put them back to bed. Gently. They were somebody's."
+  },
+  {
+   "id": "L7",
+   "event": "E3 (1st)",
+   "speaker": "obren",
+   "dur": 5.0,
+   "subtitle": "There. Doesn't that feel like|enough? It never is. Again.",
+   "text": "There. Doesn't that feel like enough? It never is. Again."
+  },
+  {
+   "id": "L8",
+   "event": "E3 (2nd)",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "I know what you are. You're the|last biscuit in the tin, forever.",
+   "text": "I know what you are. You're the last biscuit in the tin, forever."
+  },
+  {
+   "id": "L9",
+   "event": "E4",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Rest. I'm sorry they woke you.|It wasn't me. It was what I was holding.",
+   "text": "Rest. I'm sorry they woke you. It wasn't me. It was what I was holding."
+  },
+  {
+   "id": "L10",
+   "event": "E5",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Father. You taught me where to dig.|You never taught me when to stop.",
+   "text": "Father. You taught me where to dig. You never taught me when to stop."
+  },
+  {
+   "id": "L10b",
+   "event": "E5",
+   "speaker": "obren",
+   "dur": 4.0,
+   "subtitle": "Use me, and he will stand up and answer you.|One question. Any question.",
+   "text": "Use me, and he will stand up and answer you. One question. Any question."
+  },
+  {
+   "id": "L11",
+   "event": "E6",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "I'm learning, late. You'd say that's|the family way. Sleep, old man.",
+   "text": "I'm learning, late. You'd say that's the family way. Sleep, old man."
+  },
+  {
+   "id": "L12",
+   "event": "E7",
+   "speaker": "hush",
+   "dur": 5.0,
+   "subtitle": "Bishop. You taught me the knife.|The stone taught me the rest.",
+   "text": "Bishop. You taught me the knife. The stone taught me the rest."
+  },
+  {
+   "id": "L13",
+   "event": "E9",
+   "speaker": "hush",
+   "dur": 5.0,
+   "subtitle": "Give it to me. You never use|it right. You use it SMALL.",
+   "text": "Give it to me. You never use it right. You use it SMALL."
+  },
+  {
+   "id": "L14",
+   "event": "E9",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "That's the only way to use it,|Hush. Small. Then never.",
+   "text": "That's the only way to use it, Hush. Small. Then never."
+  },
+  {
+   "id": "L15",
+   "event": "E10",
+   "speaker": "hush",
+   "dur": 5.0,
+   "subtitle": "There is always another night, Bishop!",
+   "text": "There is always another night, Bishop!"
+  },
+  {
+   "id": "L16",
+   "event": "E10",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "There is. I'd like to sleep through one of them.",
+   "text": "There is. I'd like to sleep through one of them."
+  },
+  {
+   "id": "L17",
+   "event": "E11",
+   "speaker": "hush",
+   "dur": 5.0,
+   "subtitle": "You'll want me back. When the dark gets loud.",
+   "text": "You'll want me back. When the dark gets loud."
+  },
+  {
+   "id": "L18",
+   "event": "E11",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Go, then. Keep your knives sharp.|I may need a friend who isn't a rock.",
+   "text": "Go, then. Keep your knives sharp. I may need a friend who isn't a rock."
+  },
+  {
+   "id": "L19",
+   "event": "E12",
+   "speaker": "obren",
+   "dur": 5.0,
+   "subtitle": "You will use me at the end.|Everyone does. Your Master did.",
+   "text": "You will use me at the end. Everyone does. Your Master did."
+  },
+  {
+   "id": "L20",
+   "event": "E12",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Then I'll be the first who didn't.|I do so like being first.",
+   "text": "Then I'll be the first who didn't. I do so like being first."
+  },
+  {
+   "id": "L21",
+   "event": "E13",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "I'm not using you. I'm carrying you.|Like a parcel. To the hole you came from.",
+   "text": "I'm not using you. I'm carrying you. Like a parcel. To the hole you came from."
+  },
+  {
+   "id": "L22",
+   "event": "E13",
+   "speaker": "narrator",
+   "dur": 5.0,
+   "subtitle": "The Bishop walked out of his city with the stone|in his fist, and for once the fist stayed shut.",
+   "text": "The Bishop walked out of his city with the stone in his fist, and for once the fist stayed shut."
+  },
+  {
+   "id": "L23",
+   "event": "E14",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Hungry... to the very last...",
+   "text": "Hungry... to the very last..."
+  },
+  {
+   "id": "L24",
+   "event": "E13, `sec_shovel`",
+   "speaker": "obren",
+   "dur": 5.0,
+   "subtitle": "Not once? Not ONCE? ...What ARE you?",
+   "text": "Not once? Not ONCE? ...What ARE you?"
+  },
+  {
+   "id": "L25",
+   "event": "E13, `sec_shovel`",
+   "speaker": "malrik",
+   "dur": 5.0,
+   "subtitle": "Full, apparently. Who knew.",
+   "text": "Full, apparently. Who knew."
+  }
+ ]
+}

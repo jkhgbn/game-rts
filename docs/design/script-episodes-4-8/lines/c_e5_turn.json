@@ -1,0 +1,25 @@
+{
+ "cine_id": "c_e5_turn",
+ "source": "docs/design/mission-e5-03.md Cinematic hooks (`c_e5_turn`, 4 shots) and Dialogue (bridge lines C1-C2); docs/design/script-episodes-4-8/e5m3.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e5m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "C1",
+   "shot": "U1",
+   "at": 1.5,
+   "dur": 5.0,
+   "speaker": "narrator",
+   "subtitle": "The same winter, far to the east,|the other apprentice remembered too.",
+   "text": "The same winter, far to the east, the other apprentice remembered too."
+  },
+  {
+   "id": "C2",
+   "shot": "U3",
+   "at": 1.0,
+   "dur": 5.6,
+   "speaker": "malrik",
+   "subtitle": "Everyone thinks the dark found me.|I found it. By one candle. Let me show you.",
+   "text": "Everyone thinks the dark found me. I found it. By one candle. Let me show you."
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "cine_id": "c_e6_gate",
+ "source": "docs/design/mission-e6-02.md Cinematic hooks (between missions: c_e6_gate beats; L29 / L30 are the spec's branch lines); docs/design/script-episodes-4-8/e6m2.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e6m2.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1_open",
+   "shot": "G2",
+   "at": 1.0,
+   "dur": 5.0,
+   "speaker": "torvald",
+   "subtitle": "Hearthwick still sends me bread|every midwinter. Burnt, usually.",
+   "text": "Hearthwick still sends me bread every midwinter. Burnt, usually."
+  },
+  {
+   "id": "L1_shut",
+   "shot": "G2",
+   "at": 1.0,
+   "dur": 3.0,
+   "speaker": "torvald",
+   "subtitle": "Some nights I still see the smoke.",
+   "text": "Some nights I still see the smoke."
+  },
+  {
+   "id": "L2",
+   "shot": "G4",
+   "at": 2.0,
+   "dur": 3.8,
+   "speaker": "narrator",
+   "subtitle": "In the west,|Ysolde remembered a different winter.",
+   "text": "In the west, Ysolde remembered a different winter."
+  }
+ ]
+}

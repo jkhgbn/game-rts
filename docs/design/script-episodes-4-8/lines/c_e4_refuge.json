@@ -1,0 +1,124 @@
+{
+ "cine_id": "c_e4_refuge",
+ "source": "docs/design/mission-e4-01.md Cinematic hooks (between missions: c_e4_refuge beats); docs/design/script-episodes-4-8/e4m1.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e4m1.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "R1",
+   "at": 1.5,
+   "dur": 5.0,
+   "speaker": "narrator",
+   "subtitle": "Night under the golden tree. Every family|made it up the hill, and nobody can sleep.",
+   "text": "Night under the golden tree. Every family made it up the hill, and nobody can sleep."
+  },
+  {
+   "id": "L2",
+   "shot": "R3",
+   "at": 0.5,
+   "dur": 3.4,
+   "speaker": "vessa",
+   "subtitle": "Here. Ashby packs bread like he expects a siege.",
+   "text": "Here. Ashby packs bread like he expects a siege."
+  },
+  {
+   "id": "L3",
+   "shot": "R3",
+   "at": 4.3,
+   "dur": 1.8,
+   "speaker": "ysolde",
+   "subtitle": "He usually gets one.",
+   "text": "He usually gets one."
+  },
+  {
+   "id": "L4",
+   "shot": "R4",
+   "at": 0.4,
+   "dur": 3.2,
+   "speaker": "vessa",
+   "subtitle": "You'd have let him have the ford all along.",
+   "text": "You'd have let him have the ford all along."
+  },
+  {
+   "id": "L5",
+   "shot": "R4",
+   "at": 4.0,
+   "dur": 1.8,
+   "speaker": "ysolde",
+   "subtitle": "Fords don't bleed.",
+   "text": "Fords don't bleed."
+  },
+  {
+   "id": "L6",
+   "shot": "R5",
+   "at": 0.6,
+   "dur": 3.6,
+   "speaker": "maelis",
+   "subtitle": "The wagons are burning.|All of them, on the south road.",
+   "text": "The wagons are burning. All of them, on the south road."
+  },
+  {
+   "id": "L7",
+   "shot": "R5",
+   "at": 4.6,
+   "dur": 3.0,
+   "speaker": "maelis",
+   "subtitle": "Nobody saw the knife. Nobody ever does.",
+   "text": "Nobody saw the knife. Nobody ever does."
+  },
+  {
+   "id": "L8",
+   "shot": "R6",
+   "at": 0.4,
+   "dur": 2.6,
+   "speaker": "ysolde",
+   "subtitle": "Mother Hush. So that's where she went.",
+   "text": "Mother Hush. So that's where she went."
+  },
+  {
+   "id": "L9",
+   "shot": "R6",
+   "at": 3.4,
+   "dur": 3.6,
+   "speaker": "maelis",
+   "subtitle": "No grain, no carts.|The valley can't feed them now.",
+   "text": "No grain, no carts. The valley can't feed them now."
+  },
+  {
+   "id": "L10",
+   "shot": "R7",
+   "at": 0.8,
+   "dur": 4.2,
+   "speaker": "ysolde",
+   "subtitle": "Then they walk. West, through the|old woods, to the Fire border.",
+   "text": "Then they walk. West, through the old woods, to the Fire border."
+  },
+  {
+   "id": "L11",
+   "shot": "R8",
+   "at": 0.4,
+   "dur": 3.4,
+   "speaker": "vessa",
+   "subtitle": "Through Malrik's hunters?|With grandmothers and goats?",
+   "text": "Through Malrik's hunters? With grandmothers and goats?"
+  },
+  {
+   "id": "L12",
+   "shot": "R8",
+   "at": 4.2,
+   "dur": 2.4,
+   "speaker": "ysolde",
+   "subtitle": "Slowly. Slow is alive.",
+   "text": "Slowly. Slow is alive."
+  },
+  {
+   "id": "L13",
+   "shot": "R9",
+   "at": 0.6,
+   "dur": 3.2,
+   "speaker": "vessa",
+   "subtitle": "Then I'll tell Ashby to leave the gate open.",
+   "text": "Then I'll tell Ashby to leave the gate open."
+  }
+ ]
+}

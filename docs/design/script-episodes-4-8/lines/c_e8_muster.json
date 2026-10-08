@@ -1,0 +1,79 @@
+{
+ "cine_id": "c_e8_muster",
+ "source": "docs/design/mission-e8-02.md 9 (c_e8_muster beats), campaign-outline.md 3.8, mission-e8-01.md 1.5; docs/design/script-episodes-4-8/e8m2.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e8m2.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "M1",
+   "at": 5.0,
+   "dur": 4.0,
+   "speaker": "vessa",
+   "subtitle": "Two days on this rock.|I've counted every pebble. Twice.",
+   "text": "Two days on this rock. I've counted every pebble. Twice."
+  },
+  {
+   "id": "L2",
+   "shot": "M2",
+   "at": 2.0,
+   "dur": 2.4,
+   "speaker": "torvald",
+   "subtitle": "We came as fast as ice comes.",
+   "text": "We came as fast as ice comes."
+  },
+  {
+   "id": "L3",
+   "shot": "M2",
+   "at": 5.0,
+   "dur": 2.2,
+   "speaker": "vessa",
+   "subtitle": "So, slowly. Welcome anyway.",
+   "text": "So, slowly. Welcome anyway."
+  },
+  {
+   "id": "L4",
+   "shot": "M3",
+   "at": 2.0,
+   "dur": 4.2,
+   "speaker": "ysolde",
+   "subtitle": "Every road behind me is open.|I didn't close a single one.",
+   "text": "Every road behind me is open. I didn't close a single one."
+  },
+  {
+   "id": "L5",
+   "shot": "M4",
+   "at": 1.5,
+   "dur": 3.6,
+   "speaker": "vey",
+   "subtitle": "Three. And the one who's always late on purpose.",
+   "text": "Three. And the one who's always late on purpose."
+  },
+  {
+   "id": "L6",
+   "shot": "M5",
+   "at": 6.0,
+   "dur": 3.6,
+   "speaker": "vey",
+   "subtitle": "He asked for all four of you. Especially Malrik.",
+   "text": "He asked for all four of you. Especially Malrik."
+  },
+  {
+   "id": "L7",
+   "shot": "M6",
+   "at": 1.0,
+   "dur": 3.0,
+   "speaker": "malrik",
+   "subtitle": "I heard. I came. Don't make it a speech.",
+   "text": "I heard. I came. Don't make it a speech."
+  },
+  {
+   "id": "L8",
+   "shot": "M7",
+   "at": 3.0,
+   "dur": 4.0,
+   "speaker": "vey",
+   "subtitle": "Four keys, four keyholes.|Each to your own. Together.",
+   "text": "Four keys, four keyholes. Each to your own. Together."
+  }
+ ]
+}

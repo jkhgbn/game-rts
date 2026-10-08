@@ -1,0 +1,34 @@
+{
+ "cine_id": "ep8_dark_shadow",
+ "source": "campaign-outline.md 4.5 (shots T1-T4, lines word for word); mission-e8-03.md 8.2",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e8m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "T2",
+   "at": 2.0,
+   "dur": 4.4,
+   "speaker": "master",
+   "subtitle": "And the world grew very quiet.|And very obedient.",
+   "text": "And the world grew very quiet. And very obedient."
+  },
+  {
+   "id": "L2",
+   "shot": "T3",
+   "at": 3.0,
+   "dur": 4.4,
+   "speaker": "master",
+   "subtitle": "And for a thousand years,|the peace held. In one hand.",
+   "text": "And for a thousand years, the peace held. In one hand."
+  },
+  {
+   "id": "L3",
+   "shot": "T4",
+   "at": 3.0,
+   "dur": 2.4,
+   "speaker": "master",
+   "subtitle": "I know how that tale ends.",
+   "text": "I know how that tale ends."
+  }
+ ]
+}

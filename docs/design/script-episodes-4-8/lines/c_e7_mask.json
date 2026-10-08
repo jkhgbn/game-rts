@@ -1,0 +1,88 @@
+{
+ "cine_id": "c_e7_mask",
+ "source": "docs/design/mission-e7-02.md Cinematic hooks (between missions: c_e7_mask beats); docs/design/script-episodes-4-8/e7m2.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e7m2.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "M1",
+   "at": 1.5,
+   "dur": 5.8,
+   "speaker": "ossavar",
+   "subtitle": "The Admiralty, that night. Malrik was|in mourning. He had lit every lamp.",
+   "text": "The Admiralty, that night. Malrik was in mourning. He had lit every lamp."
+  },
+  {
+   "id": "L2",
+   "shot": "M2",
+   "at": 2.5,
+   "dur": 3.0,
+   "speaker": "malrik",
+   "subtitle": "Torvald. Come in. I was just mourning.",
+   "text": "Torvald. Come in. I was just mourning."
+  },
+  {
+   "id": "L3",
+   "shot": "M3",
+   "at": 2.0,
+   "dur": 2.6,
+   "speaker": "torvald",
+   "subtitle": "She left this on the sand.",
+   "text": "She left this on the sand."
+  },
+  {
+   "id": "L4",
+   "shot": "M4",
+   "at": 1.5,
+   "dur": 3.8,
+   "speaker": "malrik",
+   "subtitle": "Wars need a first blow. I only provided one.",
+   "text": "Wars need a first blow. I only provided one."
+  },
+  {
+   "id": "L5",
+   "shot": "M5",
+   "at": 1.0,
+   "dur": 3.4,
+   "speaker": "torvald",
+   "subtitle": "You broke a truce older than both of us.",
+   "text": "You broke a truce older than both of us."
+  },
+  {
+   "id": "L6",
+   "shot": "M6",
+   "at": 1.5,
+   "dur": 5.6,
+   "speaker": "malrik",
+   "subtitle": "Truces are what weak men sign to sleep.|You signed one with me, Torvald.",
+   "text": "Truces are what weak men sign to sleep. You signed one with me, Torvald."
+  },
+  {
+   "id": "L7",
+   "shot": "M7",
+   "at": 4.5,
+   "dur": 2.6,
+   "speaker": "torvald",
+   "subtitle": "For now, I sail with you.",
+   "text": "For now, I sail with you."
+  },
+  {
+   "id": "L8",
+   "shot": "M8",
+   "at": 0.8,
+   "dur": 3.0,
+   "speaker": "malrik",
+   "subtitle": "For now. Always your favourite words.",
+   "text": "For now. Always your favourite words."
+  },
+  {
+   "id": "L9",
+   "shot": "M9",
+   "at": 1.5,
+   "dur": 4.6,
+   "speaker": "ossavar",
+   "subtitle": "He knew the truth,|and he waited anyway. He always did.",
+   "text": "He knew the truth, and he waited anyway. He always did."
+  }
+ ]
+}

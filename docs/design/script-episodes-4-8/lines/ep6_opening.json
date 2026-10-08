@@ -1,0 +1,259 @@
+{
+ "cine_id": "ep6_opening",
+ "source": "campaign-outline.md 3.6 and D1 (0:30 recap, a different cut from ep5_opening's; then Torvald's and Ysolde's big intros); mission-e6-01.md ER8; prologue-3min.md 2; docs/design/script-episodes-4-8/e6m1.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e6m1.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "O01",
+   "at": 0.2,
+   "dur": 5.7,
+   "speaker": "master",
+   "subtitle": "Kings brought him their quarrels,|and went home as friends.",
+   "text": "Kings brought him their quarrels, and went home as friends."
+  },
+  {
+   "id": "L2",
+   "shot": "O02",
+   "at": 0.2,
+   "dur": 4.7,
+   "speaker": "master",
+   "subtitle": "Then, between one breath|and the next, he was gone.",
+   "text": "Then, between one breath and the next, he was gone."
+  },
+  {
+   "id": "L3",
+   "shot": "O03",
+   "at": 0.2,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Torvald, the eldest. Where he stands,|the ice holds, and so does the line.",
+   "text": "Torvald, the eldest. Where he stands, the ice holds, and so does the line."
+  },
+  {
+   "id": "L4",
+   "shot": "O04",
+   "at": 0.2,
+   "dur": 6.7,
+   "speaker": "master",
+   "subtitle": "Ysolde. I found her coaxing|a sapling through the frost.",
+   "text": "Ysolde. I found her coaxing a sapling through the frost."
+  },
+  {
+   "id": "L5",
+   "shot": "O05",
+   "at": 0.8,
+   "dur": 5.2,
+   "speaker": "master",
+   "subtitle": "I know this tale well, child. I was that wizard.",
+   "text": "I know this tale well, child. I was that wizard."
+  },
+  {
+   "id": "L6",
+   "shot": "T01",
+   "at": 1.6,
+   "dur": 5.0,
+   "speaker": "torvald",
+   "subtitle": "Ysolde once asked me what I remember|of being young. I told her: snow.",
+   "text": "Ysolde once asked me what I remember of being young. I told her: snow."
+  },
+  {
+   "id": "L7",
+   "shot": "T02",
+   "at": 0.4,
+   "dur": 5.8,
+   "speaker": "torvald",
+   "subtitle": "I was a boy on a mountain pass, keeping a|beacon for soldiers who had gone down the road.",
+   "text": "I was a boy on a mountain pass, keeping a beacon for soldiers who had gone down the road."
+  },
+  {
+   "id": "L8",
+   "shot": "T03",
+   "at": 0.4,
+   "dur": 4.6,
+   "speaker": "torvald",
+   "subtitle": "They never came back.|I kept it lit all winter anyway.",
+   "text": "They never came back. I kept it lit all winter anyway."
+  },
+  {
+   "id": "L9",
+   "shot": "T04",
+   "at": 0.6,
+   "dur": 3.4,
+   "speaker": "master",
+   "subtitle": "All winter? For men who were not coming?",
+   "text": "All winter? For men who were not coming?"
+  },
+  {
+   "id": "L10",
+   "shot": "T04",
+   "at": 4.4,
+   "dur": 3.2,
+   "speaker": "torvald",
+   "subtitle": "Someone had to keep the light, I said.",
+   "text": "Someone had to keep the light, I said."
+  },
+  {
+   "id": "L11",
+   "shot": "T05",
+   "at": 0.4,
+   "dur": 4.4,
+   "speaker": "master",
+   "subtitle": "Then come with me.|I need someone who keeps a light.",
+   "text": "Then come with me. I need someone who keeps a light."
+  },
+  {
+   "id": "L12",
+   "shot": "T06",
+   "at": 0.5,
+   "dur": 6.0,
+   "speaker": "torvald",
+   "subtitle": "He gave me the north. One winter, he gave|me a block of ice with a light inside it.",
+   "text": "He gave me the north. One winter, he gave me a block of ice with a light inside it."
+  },
+  {
+   "id": "L13",
+   "shot": "T07",
+   "at": 0.4,
+   "dur": 5.6,
+   "speaker": "torvald",
+   "subtitle": "Something came for it every winter,|for a hundred winters. Nothing got past me.",
+   "text": "Something came for it every winter, for a hundred winters. Nothing got past me."
+  },
+  {
+   "id": "L14",
+   "shot": "T08",
+   "at": 0.3,
+   "dur": 2.0,
+   "speaker": "torvald",
+   "subtitle": "He said I wait too long.",
+   "text": "He said I wait too long."
+  },
+  {
+   "id": "L15",
+   "shot": "T08",
+   "at": 2.7,
+   "dur": 4.6,
+   "speaker": "torvald",
+   "subtitle": "Once a rider hammered at my gate,|and I stood there counting.",
+   "text": "Once a rider hammered at my gate, and I stood there counting."
+  },
+  {
+   "id": "L16",
+   "shot": "T09",
+   "at": 0.4,
+   "dur": 5.4,
+   "speaker": "torvald",
+   "subtitle": "He called me his patience. Twelve years now,|I have waited for him to come back.",
+   "text": "He called me his patience. Twelve years now, I have waited for him to come back."
+  },
+  {
+   "id": "L17",
+   "shot": "T10",
+   "at": 0.2,
+   "dur": 1.8,
+   "speaker": "aldra",
+   "subtitle": "You could stop waiting.",
+   "text": "You could stop waiting."
+  },
+  {
+   "id": "L18",
+   "shot": "T10",
+   "at": 2.2,
+   "dur": 2.6,
+   "speaker": "torvald",
+   "subtitle": "No. It is the one thing I am good at.",
+   "text": "No. It is the one thing I am good at."
+  },
+  {
+   "id": "L19",
+   "shot": "Y01",
+   "at": 1.5,
+   "dur": 5.2,
+   "speaker": "ysolde",
+   "subtitle": "You know how he found me. A girl, a sapling,|the frost. That part is easy to tell.",
+   "text": "You know how he found me. A girl, a sapling, the frost. That part is easy to tell."
+  },
+  {
+   "id": "L20",
+   "shot": "Y02",
+   "at": 0.4,
+   "dur": 6.4,
+   "speaker": "ysolde",
+   "subtitle": "After that, for twenty years, he brought me|dead things. A frozen rose. A burnt branch.",
+   "text": "After that, for twenty years, he brought me dead things. A frozen rose. A burnt branch."
+  },
+  {
+   "id": "L21",
+   "shot": "Y03",
+   "at": 0.4,
+   "dur": 3.0,
+   "speaker": "ysolde",
+   "subtitle": "Every time, he said the same thing.",
+   "text": "Every time, he said the same thing."
+  },
+  {
+   "id": "L22",
+   "shot": "Y03",
+   "at": 4.2,
+   "dur": 2.0,
+   "speaker": "master",
+   "subtitle": "Show me again.",
+   "text": "Show me again."
+  },
+  {
+   "id": "L23",
+   "shot": "Y04",
+   "at": 0.4,
+   "dur": 6.0,
+   "speaker": "ysolde",
+   "subtitle": "He gave me the west and told me to keep it|growing. Nothing that grows stays beaten.",
+   "text": "He gave me the west and told me to keep it growing. Nothing that grows stays beaten."
+  },
+  {
+   "id": "L24",
+   "shot": "Y05",
+   "at": 0.4,
+   "dur": 4.6,
+   "speaker": "ysolde",
+   "subtitle": "He said I would not take a side,|not even while the world burned.",
+   "text": "He said I would not take a side, not even while the world burned."
+  },
+  {
+   "id": "L25",
+   "shot": "Y05",
+   "at": 5.4,
+   "dur": 3.2,
+   "speaker": "ysolde",
+   "subtitle": "He was right. For far too long.",
+   "text": "He was right. For far too long."
+  },
+  {
+   "id": "L26",
+   "shot": "Y06",
+   "at": 0.5,
+   "dur": 5.6,
+   "speaker": "ysolde",
+   "subtitle": "He called me his heart. A heart is the|part that keeps going when the rest stops.",
+   "text": "He called me his heart. A heart is the part that keeps going when the rest stops."
+  },
+  {
+   "id": "L27",
+   "shot": "Y07",
+   "at": 0.5,
+   "dur": 3.4,
+   "speaker": "maelis",
+   "subtitle": "You never speak of the night he went.",
+   "text": "You never speak of the night he went."
+  },
+  {
+   "id": "L28",
+   "shot": "Y07",
+   "at": 4.6,
+   "dur": 3.6,
+   "speaker": "ysolde",
+   "subtitle": "I promised not to. So did someone else.",
+   "text": "I promised not to. So did someone else."
+  }
+ ]
+}

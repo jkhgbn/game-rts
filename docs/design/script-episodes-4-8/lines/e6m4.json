@@ -1,0 +1,223 @@
+{
+ "cine_id": "e6m4",
+ "source": "docs/design/mission-e6-04.md (Dialogue)",
+ "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+ "lines": [
+  {
+   "id": "L1",
+   "event": "E1",
+   "speaker": "narrator",
+   "dur": 5.0,
+   "subtitle": "Twelve years ago. The Master sent|for two of his four. Only two.",
+   "text": "Twelve years ago. The Master sent for two of his four. Only two."
+  },
+  {
+   "id": "L2",
+   "event": "E1",
+   "speaker": "master",
+   "dur": 6.0,
+   "subtitle": "Ysolde. Torvald. Hold the isle. Whatever climbs|out of the water must not touch this stone.",
+   "text": "Ysolde. Torvald. Hold the isle. Whatever climbs out of the water must not touch this stone."
+  },
+  {
+   "id": "L3",
+   "event": "E1",
+   "speaker": "torvald",
+   "dur": 5.0,
+   "subtitle": "What is under it?",
+   "text": "What is under it?"
+  },
+  {
+   "id": "L4",
+   "event": "E1",
+   "speaker": "master",
+   "dur": 5.0,
+   "subtitle": "My first mistake. His name was Obren.",
+   "text": "My first mistake. His name was Obren."
+  },
+  {
+   "id": "L5",
+   "event": "E1",
+   "speaker": "ysolde",
+   "dur": 5.0,
+   "subtitle": "Should we send for Vessa and Malrik?",
+   "text": "Should we send for Vessa and Malrik?"
+  },
+  {
+   "id": "L6",
+   "event": "E1",
+   "speaker": "master",
+   "dur": 6.0,
+   "subtitle": "Vessa would burn it open to see inside.|Malrik would ask what it pays. No.",
+   "text": "Vessa would burn it open to see inside. Malrik would ask what it pays. No."
+  },
+  {
+   "id": "L7",
+   "event": "E2",
+   "speaker": "torvald",
+   "dur": 5.0,
+   "subtitle": "Something under the isle is counting.|Every one that falls, it counts.",
+   "text": "Something under the isle is counting. Every one that falls, it counts."
+  },
+  {
+   "id": "L8",
+   "event": "E4",
+   "speaker": "obren",
+   "dur": 5.0,
+   "subtitle": "Master. You came yourself.|I am honoured. Kneel a little longer.",
+   "text": "Master. You came yourself. I am honoured. Kneel a little longer."
+  },
+  {
+   "id": "L9",
+   "event": "E6",
+   "speaker": "narrator",
+   "dur": 5.0,
+   "subtitle": "Then the isle split, and the|amber came up through the stones.",
+   "text": "Then the isle split, and the amber came up through the stones."
+  },
+  {
+   "id": "L10",
+   "event": "E6",
+   "speaker": "ysolde",
+   "dur": 5.0,
+   "subtitle": "Torvald! It's breaking on our side!",
+   "text": "Torvald! It's breaking on our side!"
+  },
+  {
+   "id": "L11",
+   "event": "E6",
+   "speaker": "torvald",
+   "dur": 5.0,
+   "subtitle": "Then I am on your side. Hold.",
+   "text": "Then I am on your side. Hold."
+  },
+  {
+   "id": "L12",
+   "event": "E7",
+   "speaker": "master",
+   "dur": 5.0,
+   "subtitle": "It will not hold from up here. Not for long.",
+   "text": "It will not hold from up here. Not for long."
+  },
+  {
+   "id": "L13",
+   "event": "E10",
+   "speaker": "obren",
+   "dur": 6.0,
+   "subtitle": "Come down, old man. Hold my door yourself.|Learn how long a year is in the dark.",
+   "text": "Come down, old man. Hold my door yourself. Learn how long a year is in the dark."
+  },
+  {
+   "id": "L14",
+   "event": "E10",
+   "speaker": "ysolde",
+   "dur": 5.0,
+   "subtitle": "Master. You can't go down there.",
+   "text": "Master. You can't go down there."
+  },
+  {
+   "id": "L15",
+   "event": "E10",
+   "speaker": "master",
+   "dur": 5.0,
+   "subtitle": "Someone must. I have always|been the one who must.",
+   "text": "Someone must. I have always been the one who must."
+  },
+  {
+   "id": "L16",
+   "event": "E11",
+   "speaker": "obren",
+   "dur": 6.0,
+   "subtitle": "A wood-girl, a snowman and a tired old man.|I can wait. Stone is patient.",
+   "text": "A wood-girl, a snowman and a tired old man. I can wait. Stone is patient."
+  },
+  {
+   "id": "L17",
+   "event": "E13",
+   "speaker": "master",
+   "dur": 6.0,
+   "subtitle": "Listen, both of you. Tell no one what sleeps|here. If the world knows, the world will dig.",
+   "text": "Listen, both of you. Tell no one what sleeps here. If the world knows, the world will dig."
+  },
+  {
+   "id": "L18",
+   "event": "E13",
+   "speaker": "master",
+   "dur": 6.0,
+   "subtitle": "My regalia are its keys. When I go, they|will scatter. Never let them sit in one hand.",
+   "text": "My regalia are its keys. When I go, they will scatter. Never let them sit in one hand."
+  },
+  {
+   "id": "L19",
+   "event": "E13",
+   "speaker": "master",
+   "dur": 6.0,
+   "subtitle": "Ysolde, my heart: keep growing things.|Torvald, my patience: wait for me.",
+   "text": "Ysolde, my heart: keep growing things. Torvald, my patience: wait for me."
+  },
+  {
+   "id": "L20",
+   "event": "E13",
+   "speaker": "torvald",
+   "dur": 2.0,
+   "subtitle": "How long?",
+   "text": "How long?"
+  },
+  {
+   "id": "L21",
+   "event": "E13",
+   "speaker": "master",
+   "dur": 3.0,
+   "subtitle": "Not too long.",
+   "text": "Not too long."
+  },
+  {
+   "id": "L22",
+   "event": "E13",
+   "speaker": "narrator",
+   "dur": 6.0,
+   "subtitle": "He went down that same night, to hold the|door from below. He never said for how long.",
+   "text": "He went down that same night, to hold the door from below. He never said for how long."
+  },
+  {
+   "id": "L23",
+   "event": "E12",
+   "speaker": "master",
+   "dur": 3.0,
+   "subtitle": "The seal! Keep them off the stone!",
+   "text": "The seal! Keep them off the stone!"
+  },
+  {
+   "id": "L24",
+   "event": "E14",
+   "speaker": "ysolde",
+   "dur": 5.0,
+   "subtitle": "Master... forgive me...",
+   "text": "Master... forgive me..."
+  },
+  {
+   "id": "L25",
+   "event": "E15",
+   "speaker": "obren",
+   "dur": 3.0,
+   "subtitle": "Open. At last, open.",
+   "text": "Open. At last, open."
+  },
+  {
+   "id": "L26",
+   "event": "E8",
+   "speaker": "ysolde",
+   "dur": 5.0,
+   "subtitle": "That gate is closed. Roots don't forget.",
+   "text": "That gate is closed. Roots don't forget."
+  },
+  {
+   "id": "L27",
+   "event": "E9",
+   "speaker": "torvald",
+   "dur": 5.0,
+   "subtitle": "One fewer door. Keep yours shut, Ysolde.",
+   "text": "One fewer door. Keep yours shut, Ysolde."
+  }
+ ]
+}

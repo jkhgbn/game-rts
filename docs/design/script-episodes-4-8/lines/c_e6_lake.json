@@ -1,0 +1,70 @@
+{
+ "cine_id": "c_e6_lake",
+ "source": "docs/design/mission-e6-01.md Cinematic hooks (between missions: c_e6_lake beats), ER8; docs/design/script-episodes-4-8/e6m1.md",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e6m1.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "K1",
+   "at": 3.0,
+   "dur": 3.0,
+   "speaker": "aldra",
+   "subtitle": "The ice has stopped singing.",
+   "text": "The ice has stopped singing."
+  },
+  {
+   "id": "L2",
+   "shot": "K2",
+   "at": 0.4,
+   "dur": 3.4,
+   "speaker": "torvald",
+   "subtitle": "There is nothing under it left to sing about.",
+   "text": "There is nothing under it left to sing about."
+  },
+  {
+   "id": "L3",
+   "shot": "K2",
+   "at": 4.4,
+   "dur": 3.2,
+   "speaker": "torvald",
+   "subtitle": "A hundred winters I kept it for him.",
+   "text": "A hundred winters I kept it for him."
+  },
+  {
+   "id": "L4",
+   "shot": "K3",
+   "at": 0.4,
+   "dur": 3.6,
+   "speaker": "aldra",
+   "subtitle": "And a girl with a fire took it in an afternoon.",
+   "text": "And a girl with a fire took it in an afternoon."
+  },
+  {
+   "id": "L5",
+   "shot": "K4",
+   "at": 0.6,
+   "dur": 4.0,
+   "speaker": "torvald",
+   "subtitle": "She did. I have worse things to remember.",
+   "text": "She did. I have worse things to remember."
+  },
+  {
+   "id": "L6",
+   "shot": "K4",
+   "at": 5.2,
+   "dur": 1.4,
+   "speaker": "aldra",
+   "subtitle": "The gate.",
+   "text": "The gate."
+  },
+  {
+   "id": "L7",
+   "shot": "K5",
+   "at": 1.0,
+   "dur": 1.6,
+   "speaker": "torvald",
+   "subtitle": "The gate.",
+   "text": "The gate."
+  }
+ ]
+}

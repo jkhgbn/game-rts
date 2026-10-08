@@ -1,0 +1,187 @@
+{
+ "cine_id": "ep8_ending_a",
+ "source": "campaign-outline.md 4.3 (script, word for word) and 4.4 (shots E01-E13); mission-e8-03.md 8.2; outline 4.7 F1",
+ "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e8m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "E01",
+   "at": 1.0,
+   "dur": 2.4,
+   "speaker": "vessa",
+   "subtitle": "Now! All four! Together!",
+   "text": "Now! All four! Together!"
+  },
+  {
+   "id": "L2",
+   "shot": "E02",
+   "at": 1.0,
+   "dur": 1.6,
+   "speaker": "torvald",
+   "subtitle": "Together, then.",
+   "text": "Together, then."
+  },
+  {
+   "id": "L3",
+   "shot": "E02",
+   "at": 3.0,
+   "dur": 1.4,
+   "speaker": "ysolde",
+   "subtitle": "Together.",
+   "text": "Together."
+  },
+  {
+   "id": "L4",
+   "shot": "E02",
+   "at": 6.0,
+   "dur": 2.8,
+   "speaker": "obren",
+   "subtitle": "Keep me, Bishop. I made you strong.",
+   "text": "Keep me, Bishop. I made you strong."
+  },
+  {
+   "id": "L5",
+   "shot": "E02",
+   "at": 9.0,
+   "dur": 2.8,
+   "speaker": "malrik",
+   "subtitle": "You made me hungry. Different thing.",
+   "text": "You made me hungry. Different thing."
+  },
+  {
+   "id": "L6",
+   "shot": "E04",
+   "at": 1.0,
+   "dur": 5.0,
+   "speaker": "obren",
+   "subtitle": "I only wanted... to build|something that would last.",
+   "text": "I only wanted... to build something that would last."
+  },
+  {
+   "id": "L7",
+   "shot": "E05",
+   "at": 1.0,
+   "dur": 4.0,
+   "speaker": "master",
+   "subtitle": "You did, Obren. It held me twelve years.",
+   "text": "You did, Obren. It held me twelve years."
+  },
+  {
+   "id": "L8",
+   "shot": "E08",
+   "at": 1.0,
+   "dur": 2.6,
+   "speaker": "vey",
+   "subtitle": "There he is. Took his time.",
+   "text": "There he is. Took his time."
+  },
+  {
+   "id": "L9",
+   "shot": "E09",
+   "at": 1.0,
+   "dur": 1.6,
+   "speaker": "vessa",
+   "subtitle": "Master!",
+   "text": "Master!"
+  },
+  {
+   "id": "L10",
+   "shot": "E09",
+   "at": 4.0,
+   "dur": 2.6,
+   "speaker": "master",
+   "subtitle": "My joy. Still never waits.",
+   "text": "My joy. Still never waits."
+  },
+  {
+   "id": "L11",
+   "shot": "E10",
+   "at": 1.0,
+   "dur": 3.8,
+   "speaker": "master",
+   "subtitle": "A thousand years I held the world in one hand.",
+   "text": "A thousand years I held the world in one hand."
+  },
+  {
+   "id": "L12",
+   "shot": "E10",
+   "at": 5.0,
+   "dur": 2.9,
+   "speaker": "master",
+   "subtitle": "The harder I held, the more it slipped.",
+   "text": "The harder I held, the more it slipped."
+  },
+  {
+   "id": "L13",
+   "shot": "E11",
+   "at": 1.0,
+   "dur": 4.8,
+   "speaker": "master",
+   "subtitle": "Kings. Cities. Even you four.|I gave you kingdoms. You saw gold.",
+   "text": "Kings. Cities. Even you four. I gave you kingdoms. You saw gold."
+  },
+  {
+   "id": "L14",
+   "shot": "E11",
+   "at": 6.0,
+   "dur": 2.9,
+   "speaker": "malrik",
+   "subtitle": "In fairness, it was a great deal of gold.",
+   "text": "In fairness, it was a great deal of gold."
+  },
+  {
+   "id": "L15",
+   "shot": "E12",
+   "at": 1.0,
+   "dur": 2.6,
+   "speaker": "master",
+   "subtitle": "So I will not hold it again.",
+   "text": "So I will not hold it again."
+  },
+  {
+   "id": "L16",
+   "shot": "E12",
+   "at": 4.0,
+   "dur": 1.8,
+   "speaker": "vey",
+   "subtitle": "So. The lightning.",
+   "text": "So. The lightning."
+  },
+  {
+   "id": "L17",
+   "shot": "E12",
+   "at": 6.0,
+   "dur": 1.6,
+   "speaker": "vessa",
+   "subtitle": "FINALLY.",
+   "text": "FINALLY."
+  },
+  {
+   "id": "L18",
+   "shot": "E12",
+   "at": 8.0,
+   "dur": 5.0,
+   "speaker": "vey",
+   "subtitle": "His. Lent to me to keep you|four alive. Now it goes home.",
+   "text": "His. Lent to me to keep you four alive. Now it goes home."
+  },
+  {
+   "id": "L19",
+   "shot": "E13",
+   "at": 1.0,
+   "dur": 4.5,
+   "speaker": "master",
+   "subtitle": "Whoever sits there holds the world, as I did.",
+   "text": "Whoever sits there holds the world, as I did."
+  },
+  {
+   "id": "L20",
+   "shot": "E13",
+   "at": 6.0,
+   "dur": 3.9,
+   "speaker": "master",
+   "subtitle": "Someone will always want that seat.|Choose, all four of you.",
+   "text": "Someone will always want that seat. Choose, all four of you."
+  }
+ ]
+}
