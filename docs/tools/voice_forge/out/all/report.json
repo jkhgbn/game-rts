@@ -41,7 +41,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "445 entries, 0 bad ",
+			"value": "574 entries, 0 bad ",
 			"weight": 1.0
 		},
 		{
@@ -73,17 +73,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.659259259259259,
+			"graded": 0.85037037037037,
 			"group": "cover",
 			"hint": "run_voice_forge.ps1 build",
 			"id": "C1",
 			"improve": "",
 			"name": "lines with audio",
 			"rule": "every spoken line has a WAV",
-			"score": 0.224148148148148,
+			"score": 0.289125925925926,
 			"shot": "",
 			"status": "FAIL",
-			"value": "445 / 675; missing aldra/through_my_glass_already_f0cbd6ee, aldra/wake_we_have_guests_5f9bbeb6, aldra/you_heard_it_1cc501d1, ashby/my_queen_youre_hurt_c1ff3070, bettany/mind_the_flags_firelady_0c85d80d",
+			"value": "574 / 675; missing aldra/through_my_glass_already_f0cbd6ee, aldra/wake_we_have_guests_5f9bbeb6, aldra/you_heard_it_1cc501d1, ashby/my_queen_youre_hurt_c1ff3070, bettany/mind_the_flags_firelady_0c85d80d",
 			"weight": 1.0
 		},
 		{
@@ -97,7 +97,7 @@
 			"score": 0.0,
 			"shot": "",
 			"status": "FAIL",
-			"value": "175 / 385",
+			"value": "304 / 385",
 			"weight": 1.0
 		},
 		{
@@ -129,17 +129,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.973170731707317,
+			"graded": 0.979057591623037,
 			"group": "fit",
 			"hint": "run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line",
 			"id": "F1",
 			"improve": "the lines listed in the notes",
 			"name": "voice fits its slot",
 			"rule": "voice length <= cine slot / subtitle time",
-			"score": 0.680878048780488,
+			"score": 0.682879581151832,
 			"shot": "",
 			"status": "WARN",
-			"value": "11 / 410 over (0 by > 15 %)",
+			"value": "12 / 573 over (0 by > 15 %)",
 			"weight": 1.0
 		},
 		{
@@ -199,17 +199,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.121317825317383,
+			"graded": 0.0,
 			"group": "audio",
 			"hint": "the import is QOA-compressed (~5x smaller in the build)",
 			"id": "A5",
 			"improve": "",
 			"name": "size",
 			"rule": "<= 40 MB",
-			"score": 0.39124806060791,
+			"score": 0.35,
 			"shot": "",
 			"status": "WARN",
-			"value": "53.9 MB source WAV, 19.6 min of speech",
+			"value": "74.0 MB source WAV, 26.9 min of speech",
 			"weight": 1.0
 		},
 		{
@@ -242,13 +242,13 @@
 		"fit": "Fit (voice length vs cine slot / subtitle time)",
 		"hook": "Game hookup"
 	},
-	"hash": "ba352aec337ebf1e",
+	"hash": "e63ff6c6a5490165",
 	"hash_note": "manifest.json (line keys are content hashes)",
 	"headless": false,
 	"id": "all",
 	"improve_next": [
 		{
-			"rank": 10.3191219512195,
+			"rank": 10.3171204188482,
 			"source": "F1 voice fits its slot",
 			"status": "WARN",
 			"text": "the lines listed in the notes",
@@ -354,17 +354,18 @@
 		"over slot: narrator/the_westwatch_fire_rises_d7e80c5e m1_westwatch/W1@0.4: 5.23 s > cine shot 5.10 s",
 		"over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s",
 		"over slot: torvald/so_the_little_ember_6f0f8efc L9: 5.12 s > subtitle 5.00 s",
-		"this build: 40.0 rendered, 405.0 unchanged",
-		"last render: 40.0 lines, 164.7 s of audio in 69.7 s (x0.42 real time) on [\"CPUExecutionProvider\"], at 2026-10-07 23:04:18",
-		"total: 445 lines, 19.63 min of speech, 21 speed-fitted, 28 with direction tags"
+		"over slot: vey/four_seals_wake_them_904df50c L3: 5.12 s > subtitle 5.00 s",
+		"this build: 9.0 rendered, 565.0 unchanged",
+		"last render: 9.0 lines, 31.8 s of audio in 8.3 s (x0.26 real time) on [\"CPUExecutionProvider\"], at 2026-10-07 23:10:50",
+		"total: 574 lines, 26.95 min of speech, 33 speed-fitted, 28 with direction tags"
 	],
-	"previous_quality": 73.2,
-	"quality": 73.1,
+	"previous_quality": 73.5,
+	"quality": 73.6,
 	"result": "FAIL",
 	"scene": "",
-	"seconds": 1.5,
+	"seconds": 2.0,
 	"shots": {},
-	"started": "2026-10-07 23:04:30",
+	"started": "2026-10-07 23:11:02",
 	"tier": "",
 	"tool": "voice_forge",
 	"verb": "build"

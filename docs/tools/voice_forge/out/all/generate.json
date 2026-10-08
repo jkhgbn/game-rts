@@ -1,40 +1,27 @@
 {
- "rendered": 40,
- "unchanged": 405,
- "gen_s": 69.7,
- "audio_s": 164.7,
- "rtf": 0.42,
- "wall_s": 71.5,
+ "rendered": 9,
+ "unchanged": 565,
+ "gen_s": 8.3,
+ "audio_s": 31.8,
+ "rtf": 0.26,
+ "wall_s": 10.2,
  "providers": [
   "CPUExecutionProvider"
  ],
  "model_load_s": 0.9,
- "total_lines": 445,
- "total_audio_s": 1177.8,
+ "total_lines": 574,
+ "total_audio_s": 1616.8,
  "fit": "1",
- "fitted": [
-  "narrator/nature_had_no_kingdom_ffec5004 5.92 -> 5.38 s (slot 5 s, x1.20)",
-  "narrator/night_on_lark_hill_93cdfc64 5.50 -> 5.03 s (slot 5 s, x1.15)",
-  "narrator/the_ford_fell_at_464edfdf 5.38 -> 4.84 s (slot 5 s, x1.18)",
-  "narrator/the_ridge_fell_to_caa48395 5.56 -> 5.02 s (slot 5 s, x1.20)",
-  "narrator/the_salt_road_runs_e832db6b 6.04 -> 5.28 s (slot 5 s, x1.20)",
-  "narrator/the_sighing_wood_kept_058db674 6.36 -> 5.61 s (slot 5 s, x1.20)",
-  "narrator/the_sunrise_road_the_27a4fd73 6.19 -> 5.33 s (slot 5 s, x1.20)",
-  "narrator/the_vigils_burned_again_c72c8aac 5.17 -> 5.03 s (slot 5 s, x1.08)",
-  "narrator/three_days_later_malrik_fc11b250 5.37 -> 4.67 s (slot 5 s, x1.20)",
-  "torvald/every_dusk_the_old_c9948c31 5.48 -> 4.85 s (slot 5 s, x1.20)",
-  "torvald/i_told_malrik_no_ce3f4de1 5.20 -> 4.91 s (slot 5 s, x1.08)",
-  "torvald/so_the_little_ember_6f0f8efc 5.80 -> 5.12 s (slot 5 s, x1.20)"
- ],
- "at": "2026-10-07 23:04:18",
+ "fitted": [],
+ "at": "2026-10-07 23:10:50",
  "last_render": {
-  "rendered": 40,
-  "gen_s": 69.7,
-  "audio_s": 164.7,
-  "rtf": 0.42,
+  "rendered": 9,
+  "gen_s": 8.3,
+  "audio_s": 31.8,
+  "rtf": 0.26,
   "providers": [
    "CPUExecutionProvider"
   ],
-  "at": "2026-10-07 23:04:18"
+  "at": "2026-10-07 23:10:50"
  }
 }
