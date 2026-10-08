@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_dw3dt"]
+[ext_resource type="Resource" path="res://data/cinematics/c_e6_lake.tres" id="2_d8oxg"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/forge_intro_torvald.tscn" id="3_ypvf5"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_ao8ut"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_torvald/mood_torvald.tres" id="5_sol3l"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_aldra/helper_aldra.tscn" id="6_wu0wu"]
+[ext_resource type="Script" path="res://art/units/helpers/helper_aldra/aldra.gd" id="7_02yq6"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="8_00p3n"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="9_82ptv"]
+
+[node name="CE6LakeStage" type="Node3D" unique_id=404303145]
+script = ExtResource("1_dw3dt")
+autoplay_script = ExtResource("2_d8oxg")
+actor_paths = {
+"aldra": NodePath("Aldra"),
+"army_charge": NodePath("forge_intro_torvald/Puppets/army_charge"),
+"army_line": NodePath("forge_intro_torvald/Puppets/army_line"),
+"colossus": NodePath("forge_intro_torvald/Puppets/colossus"),
+"foe": NodePath("forge_intro_torvald/Puppets/foe"),
+"frostbow": NodePath("forge_intro_torvald/Puppets/frostbow"),
+"fx_burst": NodePath("forge_intro_torvald/Puppets/fx_burst"),
+"fx_cracks": NodePath("forge_intro_torvald/Puppets/fx_cracks"),
+"fx_heart": NodePath("forge_intro_torvald/Puppets/fx_heart"),
+"fx_icewall": NodePath("forge_intro_torvald/Puppets/fx_icewall"),
+"fx_snow": NodePath("forge_intro_torvald/Puppets/fx_snow"),
+"messenger": NodePath("forge_intro_torvald/Puppets/messenger"),
+"torvald": NodePath("forge_intro_torvald/Puppets/torvald")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_intro_torvald" type="Node3D" parent="." unique_id=489257648 instance=ExtResource("3_ypvf5")]
+script = ExtResource("4_ao8ut")
+set_id = &"forge_intro_torvald"
+lighting = ExtResource("5_sol3l")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
+
+[node name="Aldra" type="Node3D" parent="." unique_id=1365113327 instance=ExtResource("6_wu0wu")]
+transform = Transform3D(0.76604444, 0, -0.6427876, 0, 1, 0, 0.6427876, 0, 0.76604444, -10.9, 0, 0.6)
+script = ExtResource("7_02yq6")
+light_energy = 0.0
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_time = 0.6
+stride_speed = 4.4
+idle_period = 4.0
+kingdom_color = Color(0.45, 0.75, 0.95, 1)
+leg_swing_deg = 22.0
+walk_bounce = 0.03
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=205915804]
+script = ExtResource("8_00p3n")
+preset = ExtResource("9_82ptv")

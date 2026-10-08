@@ -1,0 +1,89 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_6swrx"]
+[ext_resource type="Resource" path="res://data/cinematics/ep6_ending.tres" id="2_md3bg"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/forge_ep3_memories.tscn" id="3_alns2"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_11ag5"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_ep3_memories/mood_ep3_memory.tres" id="5_0kghe"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn" id="6_fbkgj"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/forge_citadel.tscn" id="7_wvprq"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_dawn.tres" id="8_p727t"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="9_av6nv"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_preset.gd" id="10_x8t5n"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrh4f"]
+sky_top_color = Color(0.05, 0.07, 0.16, 1)
+sky_horizon_color = Color(0.28, 0.2, 0.3, 1)
+ground_bottom_color = Color(0.03, 0.03, 0.04, 1)
+ground_horizon_color = Color(0.16800001, 0.120000005, 0.18, 1)
+sun_angle_max = 8.0
+
+[sub_resource type="Sky" id="Sky_xxkd7"]
+sky_material = SubResource("ProceduralSkyMaterial_vrh4f")
+
+[sub_resource type="Environment" id="Environment_vwket"]
+background_mode = 2
+sky = SubResource("Sky_xxkd7")
+ambient_light_source = 3
+ambient_light_energy = 0.55
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+fog_enabled = true
+fog_light_color = Color(0.196, 0.14, 0.21000001, 1)
+fog_density = 0.008
+
+[sub_resource type="Resource" id="Resource_ktv3k"]
+script = ExtResource("10_x8t5n")
+environment = SubResource("Environment_vwket")
+sun_color = Color(0.62, 0.7, 1, 1)
+sun_energy = 0.6
+sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
+vignette_strength = 0.0
+
+[node name="Ep6EndingStage" type="Node3D" unique_id=1784165540]
+script = ExtResource("1_6swrx")
+autoplay_script = ExtResource("2_md3bg")
+actor_paths = {
+"apprentices": NodePath("forge_ep3_memories/Puppets/apprentices"),
+"flame_b": NodePath("forge_ep3_memories/Puppets/flame_b"),
+"flame_g": NodePath("forge_ep3_memories/Puppets/flame_g"),
+"flame_r": NodePath("forge_ep3_memories/Puppets/flame_r"),
+"flame_v": NodePath("forge_ep3_memories/Puppets/flame_v"),
+"graveyard": NodePath("forge_ep3_memories/Puppets/graveyard"),
+"hollow": NodePath("forge_ep3_memories/Puppets/hollow"),
+"hollow_stone": NodePath("forge_ep3_memories/Puppets/hollow_stone"),
+"lord": NodePath("forge_ep3_memories/Lord"),
+"m_boy": NodePath("forge_ep3_memories/Puppets/m_boy"),
+"m_boy_o": NodePath("forge_ep3_memories/Puppets/m_boy_o"),
+"m_candle": NodePath("forge_ep3_memories/Puppets/m_candle"),
+"m_malrik": NodePath("forge_ep3_memories/Puppets/m_malrik"),
+"m_master": NodePath("forge_ep3_memories/Puppets/m_master"),
+"m_sage": NodePath("forge_ep3_memories/Puppets/m_sage"),
+"master": NodePath("forge_citadel/Puppets/master"),
+"orrery": NodePath("forge_ep3_memories/Puppets/orrery"),
+"swordsman": NodePath("forge_citadel/Puppets/swordsman")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_ep3_memories" type="Node3D" parent="." unique_id=66299545 instance=ExtResource("3_alns2")]
+script = ExtResource("4_11ag5")
+set_id = &"forge_ep3_memories"
+lighting = ExtResource("5_0kghe")
+lights_off = Array[NodePath]([NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/graveyard"), NodePath("Puppets/m_boy"), NodePath("Puppets/m_candle"), NodePath("Puppets/m_master"), NodePath("Puppets/orrery"), NodePath("Puppets/apprentices"), NodePath("Puppets/flame_r"), NodePath("Puppets/flame_b"), NodePath("Puppets/flame_g"), NodePath("Puppets/flame_v"), NodePath("Puppets/m_sage"), NodePath("Puppets/m_boy_o"), NodePath("Puppets/hollow"), NodePath("Puppets/hollow_stone"), NodePath("Puppets/m_malrik")])
+
+[node name="Lord" type="Node3D" parent="forge_ep3_memories" unique_id=1297060520 instance=ExtResource("6_fbkgj")]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 34.7, 4.2, 1)
+visible = false
+
+[node name="forge_citadel" type="Node3D" parent="." unique_id=988514218 instance=ExtResource("7_wvprq")]
+process_mode = 4
+visible = false
+script = ExtResource("4_11ag5")
+set_id = &"forge_citadel"
+lighting = ExtResource("8_p727t")
+lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=2124513514]
+script = ExtResource("9_av6nv")
+preset = SubResource("Resource_ktv3k")

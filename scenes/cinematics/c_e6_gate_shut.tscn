@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_chqnh"]
+[ext_resource type="Resource" path="res://data/cinematics/c_e6_gate_shut.tres" id="2_6qwqm"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/forge_intro_torvald.tscn" id="3_of4o4"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_e0h4g"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_torvald/mood_torvald.tres" id="5_j8esq"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="6_io41n"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="7_kuv4i"]
+
+[node name="CE6GateShutStage" type="Node3D" unique_id=1769186902]
+script = ExtResource("1_chqnh")
+autoplay_script = ExtResource("2_6qwqm")
+actor_paths = {
+"army_charge": NodePath("forge_intro_torvald/Puppets/army_charge"),
+"army_line": NodePath("forge_intro_torvald/Puppets/army_line"),
+"colossus": NodePath("forge_intro_torvald/Puppets/colossus"),
+"foe": NodePath("forge_intro_torvald/Puppets/foe"),
+"frostbow": NodePath("forge_intro_torvald/Puppets/frostbow"),
+"fx_burst": NodePath("forge_intro_torvald/Puppets/fx_burst"),
+"fx_cracks": NodePath("forge_intro_torvald/Puppets/fx_cracks"),
+"fx_heart": NodePath("forge_intro_torvald/Puppets/fx_heart"),
+"fx_icewall": NodePath("forge_intro_torvald/Puppets/fx_icewall"),
+"fx_snow": NodePath("forge_intro_torvald/Puppets/fx_snow"),
+"messenger": NodePath("forge_intro_torvald/Puppets/messenger"),
+"torvald": NodePath("forge_intro_torvald/Puppets/torvald")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_intro_torvald" type="Node3D" parent="." unique_id=489257648 instance=ExtResource("3_of4o4")]
+script = ExtResource("4_e0h4g")
+set_id = &"forge_intro_torvald"
+lighting = ExtResource("5_j8esq")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=1955992877]
+script = ExtResource("6_io41n")
+preset = ExtResource("7_kuv4i")

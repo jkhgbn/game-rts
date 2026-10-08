@@ -1,0 +1,70 @@
+# Episode 6 ending "From Below", ~50 s + the title (docs/design/script-episodes-4-8/e6m4.md, shot list X1-X7; beats from
+# docs/design/mission-e6-04.md Cinematic hooks `ep6_ending`, D3; campaign-outline.md 3.6; prologue-3min.md S07). Under
+# the earth: amber veins, a vast dark hollow; the crack in the rock ceiling (the orrery floor from beneath) splits open
+# and the Master steps down a stair of light (Obren: "You came down yourself. I knew you would."); he pulls the crack
+# shut like a door; above, the orrery stops, the empty robe falls, the regalia burst; four streaks leave the dome for
+# the four horizons and every dragon turns its head; the title card.
+# Text source for i18n / voices: data/voice/lines/ep6_ending.json (the same text as the lines below). Obren speaks
+# through the Whisper voice (cast.json alias), hidden capsule `obren`.
+# e6m4 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep6_ending).
+# Sets (stand-ins): forge_ep3_memories' hollow (x 34: the Hollow and its heart-stone, Malrik's Ep3 memory) for "under
+# the earth" (no rock-shaft set exists); forge_citadel (the orrery dome, the citadel at night: its S03 / S04 marks under
+# a night grade). The stair of light = a sun_pillar fx; the Master = the forge_ep3_memories light figure.
+# Axis: under the earth every camera stays south (+Z) of the Master's stair; the dome = the prologue S07 rule.
+cine ep6_ending  title="Episode 6: The Lake and the Seed"  letterbox=2.39  seed=606  length=48..53
+use set forge_ep3_memories
+use music res://assets/audio/forge/music/ep3_opening.wav  vol=-20
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=narrator
+cast  obren     capsule  at=(4, 0, -300)  hidden=1  speaker=obren
+cast  lord      res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(34.7, 4.2, 1.0)  yaw=20  set=forge_ep3_memories  hidden=1
+
+# ---------------------------------------------------------------- under the earth
+# Crane down through black rock: amber veins; far below, a vast dark hollow; far above, one hairline crack of light
+shot X1 8.0  cam=crane  from=(34.6, 12, 7.0)  to=(34.4, 3.2, 4.4)  look=(34, 0.6, 0)>(34.1, 0.8, -0.2)  fov=50>44  in=fade_black:1.5
+  at 0.0  fade color=#1a0c04  alpha=0.35  time=0.05
+  at 0.0  hide m_malrik
+  at 0.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-18
+  at 2.0  vfx crack  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(34.7, 6.0, 1.0)  life=6.0  scale=0.08
+# Low, from below, looking up: the crack splits open in white-gold light; the Master steps down onto a stair of light
+shot X2 7.0  cam=static  from=(34.2, 0.5, 3.2)  look=(34.6, 3.4, 0.8)  fov=52  faces=lord
+  at 0.0  show lord
+  at 0.0  vfx stair  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(34.7, 0, 1.0)  life=22.0  scale=0.15
+  at 0.0  move lord  to=(34.7, 1.4, 1.0)  speed=0.5
+  at 0.6  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-8
+  at 1.0  line obren "You came down yourself. I knew you would."  dur=4.0
+  at 1.2  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(34.02, 0.6, -0.04)  life=3.0  scale=0.8
+# MS the Master on the stair, 3/4-left, low: he looks down into the amber dark, then up, once
+shot X3 8.0  cam=static  from=(36.4, 1.2, 3.8)  look=(34.7, 3.2, 1.0)  fov=44  faces=lord
+  at 0.0  teleport lord  to=(34.7, 1.4, 1.0)  yaw=30
+  at 0.8  line master "Then we will both learn patience, Obren. I have had a good teacher."  dur=5.8
+  at 4.6  face lord  yaw=10  time=1.0
+# CU, reaching up: he pulls the crack shut behind him like a door; the seam seals, the light pinches out
+shot X4 7.0  cam=static  from=(36.0, 3.2, 3.2)  look=(34.7, 3.3, 1.0)  fov=38  faces=lord
+  at 1.4  line master "Then, between one breath and the next, he was gone."  dur=4.7
+  at 2.0  vfx seal  scene=res://art/cinematics/fx/regalia_burst.tscn  at=(34.7, 4.6, 1.0)  life=1.2  scale=0.2
+  at 3.2  fade color=#000000  alpha=0.6  time=1.2
+
+# ---------------------------------------------------------------- above: the orrery
+# Static from the orrery floor, looking up: the orrery stops, the empty robe falls, the regalia burst through the dome
+shot X5 7.0  set=forge_citadel  cam=static  from=(-11.5, 48.4, 0.5)  look=(-13, 53.2, -5)  fov=56  in=fade_black:0.4
+  at 0.0  fade color=#0b0c26  alpha=0.3  time=0.05
+  at 0.0  hide lord
+  at 0.0  vfx flames2 scene=res://art/cinematics/fx/four_flames.tscn at=(-13, 53, -5) life=1.9 scale=2.5
+  at 1.8  vfx regalia scene=res://art/cinematics/fx/regalia_burst.tscn at=(-13, 53, -5) life=2.0 scale=0.45
+  at 1.9  hide master
+  at 2.4  sfx res://assets/audio/sfx/atk_storm.wav  vol=-14
+# Wide, the citadel at night: four streaks shoot out of the dome to the four horizons; every dragon turns its head
+shot X6 7.0  set=forge_citadel  cam=static  from=(52, 62, 150)  look=(0, 64, 0)  fov=40
+  at 0.0  fade color=#0b0c26  alpha=0.45  time=0.05
+  at 0.6  line narrator "Two of the four knew where he had gone. For twelve years, they told no one."  dur=5.6
+  at 0.4  vfx red scene=res://art/cinematics/fx/streak_red.tscn at=(-13, 53, -5) to=(40, 160, 200) life=2.8 scale=0.8
+  at 0.5  vfx violet scene=res://art/cinematics/fx/streak_violet.tscn at=(-13, 53, -5) to=(200, 160, -40) life=2.7 scale=0.8
+  at 0.6  vfx blue scene=res://art/cinematics/fx/streak_blue.tscn at=(-13, 53, -5) to=(-40, 160, -200) life=2.6 scale=0.8
+  at 0.7  vfx green scene=res://art/cinematics/fx/streak_green.tscn at=(-13, 53, -5) to=(-200, 160, 40) life=2.5 scale=0.8
+# Crane out after the blue and green streaks as they part north and west; the title
+shot X7 6.0  set=forge_citadel  cam=crane  from=(58, 96, 62)  to=(24, 110, 34)  look=(0, 86, 0)>(-60, 100, -60)  fov=42>52
+  at 0.0  fade color=#0b0c26  alpha=0.45  time=0.05
+  at 0.0  vfx blue2 scene=res://art/cinematics/fx/streak_blue.tscn at=(-13, 60, -5) to=(-40, 160, -200) life=3.0 scale=0.8
+  at 0.1  vfx green2 scene=res://art/cinematics/fx/streak_green.tscn at=(-13, 60, -5) to=(-200, 160, 40) life=3.0 scale=0.8
+  at 1.0  title "Episode 6" sub="The Lake and the Seed" time=3.8
+  at 5.0  fade color=#000000 alpha=1 time=1.0

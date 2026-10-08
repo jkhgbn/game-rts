@@ -1,0 +1,53 @@
+# Between-scene "The Ice Has Stopped Singing", ~40 s (docs/design/script-episodes-4-8/e6m1.md, shot list K1-K5; beats
+# from docs/design/mission-e6-01.md Cinematic hooks `c_e6_lake`, ER8). Present day, the winter truce: Glasswater Mere at
+# night, frozen bank to bank; Torvald and Aldra by a small fire on the shore ("The ice has stopped singing." / "A hundred
+# winters I kept it for him." / "And a girl with a fire took it in an afternoon."); his eyes go south: "The gate."
+# Text source for i18n / voices: data/voice/lines/c_e6_lake.json (the same text as the lines below).
+# e6m1 / e6m2 are not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play c_e6_lake).
+# Set: forge_intro_torvald stands in for Glasswater Mere (its frozen lake, z 3..15; the keep's rampart to the south =
+# the glacier wall with its gate in K5); its prologue host / fx hidden, the lake cracks shown (the new dark ice); night
+# = a blue full-screen grade. The fire = a small fire_burst fx.
+# Axis: Torvald (west) - Aldra (east) facing the lake (+Z), the fire behind them; every camera stays on the lake side.
+cine c_e6_lake  title="The Ice Has Stopped Singing"  letterbox=2.39  seed=602  length=38..43
+use set forge_intro_torvald
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-24
+env night  moon_yaw=200  moon_pitch=-30  energy=0.45  color=#9fb4ff
+cast  aldra   res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(-10.9, 0, 0.6)  yaw=-40
+
+# ---------------------------------------------------------------- Glasswater Mere at night
+# Wide, slow push: the mere frozen bank to bank; on the shore a small fire, two figures
+shot K1 8.0  cam=dolly  from=(-19, 4.6, 14)  to=(-17, 3.6, 10)  look=(-12, 0.9, 1.0)  fov=46>40  in=fade_black:1.0
+  at 0.0  fade color=#0d1430  alpha=0.2  time=0.05
+  at 0.0  hide colossus
+  at 0.0  hide frostbow
+  at 0.0  hide messenger
+  at 0.0  hide foe
+  at 0.0  hide army_line
+  at 0.0  hide army_charge
+  at 0.0  hide fx_icewall
+  at 0.0  hide fx_burst
+  at 0.0  hide fx_heart
+  at 0.0  hide fx_snow
+  at 0.0  show fx_cracks
+  at 0.0  teleport torvald  to=(-13.2, 0, 0.8)  yaw=40
+  at 0.0  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-18
+  at 0.0  vfx fire  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-12.1, 0.2, -0.6)  life=42  scale=0.35
+  at 3.0  line aldra "The ice has stopped singing."  dur=3.0
+# Two-shot by the fire; behind them, where the hole was, a patch of new dark ice
+shot K2 8.0  cam=frame "ms on torvald and aldra, front, eye"
+  at 0.0  anim torvald set_expression  arg=neutral
+  at 0.4  line torvald "There is nothing under it left to sing about."  dur=3.4
+  at 4.4  line torvald "A hundred winters I kept it for him."  dur=3.2
+# CU Aldra: a dry half-smile; she feeds a stick to the fire
+shot K3 7.0  cam=static  from=(-10.6, 1.65, 3.2)  look=aldra  fov=30
+  at 0.4  line aldra "And a girl with a fire took it in an afternoon."  dur=3.6
+# CU Torvald, front: he does not smile; his eyes go south
+shot K4 8.0  cam=static  from=(-12.6, 1.95, 3.4)  look=torvald  fov=30
+  at 0.0  anim torvald set_expression  arg=worried
+  at 0.6  line torvald "She did. I have worse things to remember."  dur=4.0
+  at 5.2  line aldra "The gate."  dur=1.4
+# MLS Torvald's back, looking south: far off, the glacier wall with one gate in it
+shot K5 9.0  cam=static  from=(-13.4, 2.3, 4.8)  look=(-9, 2.0, -14)  fov=44  faces=torvald
+  at 0.0  teleport torvald  to=(-13.2, 0, 0.8)  yaw=170
+  at 1.0  line torvald "The gate."  dur=1.6
+  at 7.8  fade alpha=1 time=1.0

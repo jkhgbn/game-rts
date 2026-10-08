@@ -1,0 +1,258 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_ij02u"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_b2myx"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_5vg6r"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_mt3k7"]
+
+[sub_resource type="Resource" id="Resource_f54ts"]
+script = ExtResource("4_mt3k7")
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.41568628, 0.49803922, 0.59607846, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_2u0ay"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"colossus"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_dtye1"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"frostbow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_xdjjc"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"messenger"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_8m4sq"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"foe"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_16bxc"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"army_line"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_1kabd"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"army_charge"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_wewgl"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"fx_icewall"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_x72ge"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"fx_burst"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_iwbms"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"fx_heart"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_x5gd0"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"fx_cracks"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_05sj6"]
+script = ExtResource("4_mt3k7")
+kind = &"visible"
+actor = &"fx_snow"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_dvv87"]
+script = ExtResource("4_mt3k7")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(4.6, 5, -4)
+params = {
+"yaw_deg": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_h4msx"]
+script = ExtResource("4_mt3k7")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -24.0
+}
+
+[sub_resource type="Resource" id="Resource_hqr31"]
+script = ExtResource("3_5vg6r")
+id = &"G1"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(3, 2.4, 19)
+to_pos = Vector3(2.6, 2.6, 16)
+look_from = Vector3(1, 4, -8)
+look_to = Vector3(1, 4, -8)
+fov_from = 46.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 1.0
+actions = Array[ExtResource("4_mt3k7")]([SubResource("Resource_f54ts"), SubResource("Resource_2u0ay"), SubResource("Resource_dtye1"), SubResource("Resource_xdjjc"), SubResource("Resource_8m4sq"), SubResource("Resource_16bxc"), SubResource("Resource_1kabd"), SubResource("Resource_wewgl"), SubResource("Resource_x72ge"), SubResource("Resource_iwbms"), SubResource("Resource_x5gd0"), SubResource("Resource_05sj6"), SubResource("Resource_dvv87"), SubResource("Resource_h4msx")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_xhlk1"]
+script = ExtResource("4_mt3k7")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_ygx0i"]
+script = ExtResource("4_mt3k7")
+at = 4.0
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_0avbk"]
+script = ExtResource("1_ij02u")
+at = 1.0
+speaker = &"torvald"
+text = "Hearthwick still sends me bread every midwinter. Burnt, usually."
+duration = 5.0
+voice = "res://assets/audio/voice/torvald/hearthwick_still_sends_me_3803ac98.wav"
+
+[sub_resource type="Resource" id="Resource_7tybo"]
+script = ExtResource("3_5vg6r")
+id = &"G2"
+duration = 8.0
+from_pos = Vector3(7, 6.3, -0.4)
+to_pos = Vector3(7, 6.3, -0.4)
+look_from = Vector3(4.7, 6.6, -4)
+look_to = Vector3(4.7, 6.6, -4)
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_ij02u")]([SubResource("Resource_0avbk")])
+actions = Array[ExtResource("4_mt3k7")]([SubResource("Resource_xhlk1"), SubResource("Resource_ygx0i")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_1c2ra"]
+script = ExtResource("4_mt3k7")
+at = 3.0
+kind = &"vfx"
+target = Vector3(-12, 0, 40)
+params = {
+"life": 5.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_efpmm"]
+script = ExtResource("3_5vg6r")
+id = &"G3"
+duration = 8.0
+from_pos = Vector3(4.7, 6.75, -1.6)
+to_pos = Vector3(4.7, 6.75, -1.6)
+look_from = Vector3(4.6, 6.6, -4)
+look_to = Vector3(4.6, 6.6, -4)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 28.0
+fov_to = 28.0
+actions = Array[ExtResource("4_mt3k7")]([SubResource("Resource_1c2ra")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_a6gu3"]
+script = ExtResource("4_mt3k7")
+at = 4.0
+kind = &"fade"
+params = {
+"alpha": 0.25,
+"color": Color(0.84705883, 0.9411765, 0.6901961, 1),
+"time": 3.0
+}
+
+[sub_resource type="Resource" id="Resource_vh7g7"]
+script = ExtResource("4_mt3k7")
+at = 10.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(1, 1, 1, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_ju5bi"]
+script = ExtResource("1_ij02u")
+at = 2.0
+speaker = &"narrator"
+text = "In the west, Ysolde remembered a different winter."
+duration = 3.8
+voice = "res://assets/audio/voice/narrator/in_the_west_ysolde_9b7462a6.wav"
+
+[sub_resource type="Resource" id="Resource_for3f"]
+script = ExtResource("3_5vg6r")
+id = &"G4"
+duration = 11.0
+camera_mode = 2
+from_pos = Vector3(7, 7, 0)
+to_pos = Vector3(-14, 26, 12)
+look_from = Vector3(4.6, 5.6, -4)
+look_to = Vector3(-60, 10, 0)
+fov_from = 44.0
+fov_to = 52.0
+lines = Array[ExtResource("1_ij02u")]([SubResource("Resource_ju5bi")])
+actions = Array[ExtResource("4_mt3k7")]([SubResource("Resource_a6gu3"), SubResource("Resource_vh7g7")])
+stage_set = &"forge_intro_torvald"
+
+[resource]
+script = ExtResource("2_b2myx")
+id = &"c_e6_gate"
+title = "Bread or Smoke"
+stage_scene = "res://scenes/cinematics/c_e6_gate.tscn"
+shots = Array[ExtResource("3_5vg6r")]([SubResource("Resource_hqr31"), SubResource("Resource_7tybo"), SubResource("Resource_efpmm"), SubResource("Resource_for3f")])
+music_cue = &"res://assets/audio/forge/music/ep4_opening.wav"
+shake_seed = 603
+music_volume_db = -24.0
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

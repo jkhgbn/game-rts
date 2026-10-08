@@ -1,0 +1,310 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_c4jhr"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_cth1b"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_v2mn8"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_21jin"]
+
+[sub_resource type="Resource" id="Resource_al78s"]
+script = ExtResource("4_21jin")
+kind = &"fade"
+params = {
+"alpha": 0.2,
+"color": Color(0.050980393, 0.078431375, 0.1882353, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_gn08a"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"colossus"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_5r4t0"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"frostbow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_sm1sp"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"messenger"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ej563"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"foe"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_8cti7"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"army_line"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_tqh5d"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"army_charge"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_wx1ys"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"fx_icewall"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_8vr8m"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"fx_burst"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_j8rha"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"fx_heart"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_wikxn"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"fx_snow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_7bcpx"]
+script = ExtResource("4_21jin")
+kind = &"visible"
+actor = &"fx_cracks"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_eslmy"]
+script = ExtResource("4_21jin")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(-13.2, 0, 0.8)
+params = {
+"yaw_deg": 40.0
+}
+
+[sub_resource type="Resource" id="Resource_thu7y"]
+script = ExtResource("4_21jin")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_gli1g"]
+script = ExtResource("4_21jin")
+kind = &"vfx"
+target = Vector3(-12.1, 0.2, -0.6)
+params = {
+"life": 42.0,
+"scale": 0.35,
+"scene": "res://art/cinematics/fx/fire_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_36ivs"]
+script = ExtResource("1_c4jhr")
+at = 3.0
+speaker = &"aldra"
+text = "The ice has stopped singing."
+duration = 3.0
+voice = "res://assets/audio/voice/aldra/the_ice_has_stopped_ec574b50.wav"
+
+[sub_resource type="Resource" id="Resource_3iqwn"]
+script = ExtResource("3_v2mn8")
+id = &"K1"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(-19, 4.6, 14)
+to_pos = Vector3(-17, 3.6, 10)
+look_from = Vector3(-12, 0.9, 1)
+look_to = Vector3(-12, 0.9, 1)
+fov_from = 46.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.0
+lines = Array[ExtResource("1_c4jhr")]([SubResource("Resource_36ivs")])
+actions = Array[ExtResource("4_21jin")]([SubResource("Resource_al78s"), SubResource("Resource_gn08a"), SubResource("Resource_5r4t0"), SubResource("Resource_sm1sp"), SubResource("Resource_ej563"), SubResource("Resource_8cti7"), SubResource("Resource_tqh5d"), SubResource("Resource_wx1ys"), SubResource("Resource_8vr8m"), SubResource("Resource_j8rha"), SubResource("Resource_wikxn"), SubResource("Resource_7bcpx"), SubResource("Resource_eslmy"), SubResource("Resource_thu7y"), SubResource("Resource_gli1g")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_apab8"]
+script = ExtResource("4_21jin")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_mbk8l"]
+script = ExtResource("1_c4jhr")
+at = 0.4
+speaker = &"torvald"
+text = "There is nothing under it left to sing about."
+duration = 3.4
+voice = "res://assets/audio/voice/torvald/there_is_nothing_under_31574d9f.wav"
+
+[sub_resource type="Resource" id="Resource_56ah2"]
+script = ExtResource("1_c4jhr")
+at = 4.4
+speaker = &"torvald"
+text = "A hundred winters I kept it for him."
+duration = 3.2
+voice = "res://assets/audio/voice/torvald/a_hundred_winters_i_4a3e5778.wav"
+
+[sub_resource type="Resource" id="Resource_ebrne"]
+script = ExtResource("3_v2mn8")
+id = &"K2"
+duration = 8.0
+from_pos = Vector3(-11.776968, 1.285, 3.8398547)
+to_pos = Vector3(-11.776968, 1.285, 3.8398547)
+look_from = Vector3(-12.049999, 1.285, 0.70000005)
+look_to = Vector3(-12.049999, 1.285, 0.70000005)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_c4jhr")]([SubResource("Resource_mbk8l"), SubResource("Resource_56ah2")])
+actions = Array[ExtResource("4_21jin")]([SubResource("Resource_apab8")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_bxrfc"]
+script = ExtResource("1_c4jhr")
+at = 0.4
+speaker = &"aldra"
+text = "And a girl with a fire took it in an afternoon."
+duration = 3.6
+voice = "res://assets/audio/voice/aldra/and_a_girl_with_18b6e458.wav"
+
+[sub_resource type="Resource" id="Resource_6ke7c"]
+script = ExtResource("3_v2mn8")
+id = &"K3"
+duration = 7.0
+from_pos = Vector3(-10.6, 1.65, 3.2)
+to_pos = Vector3(-10.6, 1.65, 3.2)
+look_from = Vector3(-10.9, 1.5699999, 0.6)
+look_to = Vector3(-10.9, 1.5699999, 0.6)
+look_actor = &"aldra"
+look_offset = Vector3(0, 1.5699999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_c4jhr")]([SubResource("Resource_bxrfc")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_wwxcw"]
+script = ExtResource("4_21jin")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_edqqv"]
+script = ExtResource("1_c4jhr")
+at = 0.6
+speaker = &"torvald"
+text = "She did. I have worse things to remember."
+duration = 4.0
+voice = "res://assets/audio/voice/torvald/she_did_i_have_df573c4d.wav"
+
+[sub_resource type="Resource" id="Resource_rt7eb"]
+script = ExtResource("1_c4jhr")
+at = 5.2
+speaker = &"aldra"
+text = "The gate."
+duration = 1.4
+voice = "res://assets/audio/voice/aldra/the_gate_7a66c353.wav"
+
+[sub_resource type="Resource" id="Resource_iefyv"]
+script = ExtResource("3_v2mn8")
+id = &"K4"
+duration = 8.0
+from_pos = Vector3(-12.6, 1.95, 3.4)
+to_pos = Vector3(-12.6, 1.95, 3.4)
+look_from = Vector3(-13.2, 1.5999999, 0.8)
+look_to = Vector3(-13.2, 1.5999999, 0.8)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_c4jhr")]([SubResource("Resource_edqqv"), SubResource("Resource_rt7eb")])
+actions = Array[ExtResource("4_21jin")]([SubResource("Resource_wwxcw")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_2gtem"]
+script = ExtResource("4_21jin")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(-13.2, 0, 0.8)
+params = {
+"yaw_deg": 170.0
+}
+
+[sub_resource type="Resource" id="Resource_wgywy"]
+script = ExtResource("4_21jin")
+at = 7.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_m4ijr"]
+script = ExtResource("1_c4jhr")
+at = 1.0
+speaker = &"torvald"
+text = "The gate."
+duration = 1.6
+voice = "res://assets/audio/voice/torvald/the_gate_a85be2ae.wav"
+
+[sub_resource type="Resource" id="Resource_uf1qo"]
+script = ExtResource("3_v2mn8")
+id = &"K5"
+duration = 9.0
+from_pos = Vector3(-13.4, 2.3, 4.8)
+to_pos = Vector3(-13.4, 2.3, 4.8)
+look_from = Vector3(-9, 2, -14)
+look_to = Vector3(-9, 2, -14)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_c4jhr")]([SubResource("Resource_m4ijr")])
+actions = Array[ExtResource("4_21jin")]([SubResource("Resource_2gtem"), SubResource("Resource_wgywy")])
+stage_set = &"forge_intro_torvald"
+
+[resource]
+script = ExtResource("2_cth1b")
+id = &"c_e6_lake"
+title = "The Ice Has Stopped Singing"
+stage_scene = "res://scenes/cinematics/c_e6_lake.tscn"
+shots = Array[ExtResource("3_v2mn8")]([SubResource("Resource_3iqwn"), SubResource("Resource_ebrne"), SubResource("Resource_6ke7c"), SubResource("Resource_iefyv"), SubResource("Resource_uf1qo")])
+music_cue = &"res://assets/audio/forge/music/ep4_opening.wav"
+shake_seed = 602
+music_volume_db = -24.0
+lines_over_cuts = true

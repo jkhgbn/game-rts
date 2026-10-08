@@ -1,0 +1,269 @@
+# Episode 6 opening "Patience and Heart", 3:00 (docs/design/script-episodes-4-8/e6m1.md, shot list O01-Y09; beats from
+# campaign-outline.md 3.6 / D1, mission-e6-01.md ER8, prologue-3min.md 2). The Master's short recap (O01-O05: the
+# prologue's shots S05 S07 S22 S26 S13 re-staged on their marks, a different cut from ep5_opening's), then the winter
+# truce: Torvald on the broken Wall tells his life (the beacon boy on the pass, the Master's "come with me", a hundred
+# winters on the lake, Aldra, the rider at the gate), Ysolde under the golden tree tells hers (the frozen rose, "Show me
+# again", her wood, the closed border, the green flame); the title card.
+# Text source for i18n / voices: data/voice/lines/ep6_opening.json (the same text as the lines below).
+# e6m1 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep6_opening).
+# Sets (stand-ins): forge_citadel (the recap; its hanging garden by the dome = Y02; the orrery dome = Y06);
+# forge_intro_torvald (the broken Wall = its rampart, the ep4_ending W6 frame; the beacon pass = its signal brazier;
+# the frozen lake; the ice gate); forge_intro_ysolde (her wood, the burnt terrace, the root-closed border road);
+# forge_evenmead (Lark Hill under snow, the c_e4_refuge layout). Snow / night / memory grades are full-screen fades.
+# Stand-ins: the beacon boy = the Torvald model at 0.6 scale; the fisher girl = the Aldra model at 0.6 scale; the
+# hooded Master on the pass and the terrace = the forge_ep3_memories light figure; young Ysolde = the Ysolde model
+# at 0.75 scale; the rider = the set's Cinder Hand messenger.
+# Axis: each vignette keeps its set's rule (cameras on the south / +Z side of the wizard); fades reset it.
+cine ep6_opening  title="Episode 6: The Lake and the Seed"  letterbox=2.39  seed=601  length=174..186  skip_lock=20
+use music res://assets/audio/music/music_menu.wav  vol=-21
+use set forge_citadel
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=master
+cast  hooded    res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(4.0, 0, 6.0)  yaw=-150  hidden=1
+cast  t_boy     res://art/units/wizards/torvald.tscn  at=(-3.0, 0, -2.6)  yaw=-39  scale=0.6  set=forge_intro_torvald  hidden=1
+cast  aldra     res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(9.4, 5.0, -4.0)  yaw=-10  set=forge_intro_torvald
+cast  a_girl    res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(1.6, 0, 0.4)  yaw=-30  scale=0.6  set=forge_intro_torvald  hidden=1
+cast  shoot     res://art/cinematics/stage_sets/forge_ep4_memories/props/shoot_v2.tscn  at=(8.6, 5.02, -3.4)  scale=1.4  set=forge_intro_torvald
+cast  yy        res://art/units/wizards/ysolde.tscn  at=(-16.2, 48, 8.4)  yaw=40  scale=0.75  set=forge_citadel  hidden=1
+cast  maelis    res://art/units/helpers/helper_maelis/helper_maelis.tscn  at=(-11.4, 6.9, 45.6)  yaw=-60  set=forge_evenmead
+prop  fire1     res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  at=(-10.0, 6.85, 47.6)  scale=0.35  set=forge_evenmead
+
+# ---------------------------------------------------------------- the recap (prologue marks)
+# The market terrace: four kings glare, then sit at one long table and break bread
+shot S05 6.0  set=forge_citadel  in=fade_black:1.0
+  at 0.0  hide swordsman
+  at 0.2  line master "Kings brought him their quarrels, and went home as friends."  dur=5.7
+# The orrery stops, the robe falls empty, four streaks shoot out
+shot S07 5.0  set=forge_citadel
+  at 0.0  vfx flames2 scene=res://art/cinematics/fx/four_flames.tscn at=(-13, 53, -5) life=1.9 scale=2.5
+  at 0.2  line master "Then, between one breath and the next, he was gone."  dur=4.7
+  at 1.8  vfx regalia scene=res://art/cinematics/fx/regalia_burst.tscn at=(-13, 53, -5) life=2.0 scale=0.45
+  at 1.9  hide master
+  at 2.0  vfx red scene=res://art/cinematics/fx/streak_red.tscn at=(-13, 53, -5) to=(40, 160, 200) life=2.8 scale=0.5
+  at 2.1  vfx violet scene=res://art/cinematics/fx/streak_violet.tscn at=(-13, 53, -5) to=(200, 160, -40) life=2.7 scale=0.5
+  at 2.2  vfx blue scene=res://art/cinematics/fx/streak_blue.tscn at=(-13, 53, -5) to=(-40, 160, -200) life=2.6 scale=0.5
+  at 2.3  vfx green scene=res://art/cinematics/fx/streak_green.tscn at=(-13, 53, -5) to=(-200, 160, 40) life=2.5 scale=0.5
+  at 4.4  fade color=#ffffff  alpha=1  time=0.6
+# The frozen lake: Rimeshields lock their shields, the ice holds under Torvald's army
+shot S22 7.0  set=forge_intro_torvald  in=fade_white:0.4
+  at 0.0  fade alpha=0  time=0.2
+  at 0.0  hide aldra
+  at 0.0  hide shoot
+  at 0.0  hide messenger
+  at 0.0  hide fx_heart
+  at 0.0  hide fx_burst
+  at 0.0  show army_line
+  at 0.0  show army_charge
+  at 0.0  move foe to=(-3, 0, 6.5) speed=2.2
+  at 0.2  line master "Torvald, the eldest. Where he stands, the ice holds, and so does the line."  dur=6.7
+  at 1.0  anim frostbow play_attack
+  at 3.0  anim torvald play_cast arg=frost_nova
+  at 3.2  vfx freeze scene=res://art/cinematics/fx/freeze_wave.tscn at=(0, 0, 5) life=3.5 scale=0.6
+# The small girl coaxes a sapling through the frost; the tall man with the burning hem beside her
+shot S26 7.0  set=forge_intro_ysolde  in=fade_black:0.6
+  at 0.0  hide fx_vines
+  at 0.0  hide fx_tree
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  show fx_master
+  at 0.0  show ysolde_young
+  at 0.2  line master "Ysolde. I found her coaxing a sapling through the frost."  dur=6.7
+  at 0.3  anim ysolde_young set_expression  arg=smile
+  at 1.5  anim ysolde_young play_cast arg=wild_bloom
+  at 2.0  vfx bloom scene=res://art/cinematics/fx/bloom_wave.tscn at=(21.8, 0, 15.4) life=4.5 scale=0.1
+# The ruined dome, one candle; the four tiny flames relight; snow falls over the frame
+shot S13 7.0  set=forge_citadel  in=fade_black:0.6  fov=30>26
+  at 0.0  fade color=#06040c  alpha=0.35  time=0.6
+  at 0.8  line master "I know this tale well, child. I was that wizard."  dur=5.2
+  at 1.0  vfx flames scene=res://art/cinematics/fx/four_flames.tscn at=(-149.2, 31.25, -117.4) life=5.0 scale=0.16
+  at 6.2  fade color=#e8eef8  alpha=1  time=0.8
+
+# ---------------------------------------------------------------- Torvald: patience
+# Present day: crane down through falling snow onto the broken Wall; Aldra beside him, one green shoot at his feet
+shot T01 7.0  set=forge_intro_torvald  cam=crane  from=(15, 12, 9)  to=(12.2, 6.6, 2.4)  look=(8.6, 6.3, -3.9)  fov=48>40  in=fade_white:0.8  faces=torvald,aldra
+  at 0.0  fade color=#0d1430  alpha=0.4  time=0.6
+  at 0.0  hide army_line
+  at 0.0  hide army_charge
+  at 0.0  hide fx_icewall
+  at 0.0  hide fx_cracks
+  at 0.0  hide colossus
+  at 0.0  hide frostbow
+  at 0.0  hide foe
+  at 0.0  show fx_snow
+  at 0.0  show aldra
+  at 0.0  show shoot
+  at 0.0  teleport torvald  to=(8.0, 5.0, -4.0)  yaw=10
+  at 0.0  anim torvald set_expression  arg=neutral
+  at 1.6  line torvald "Ysolde once asked me what I remember of being young. I told her: snow."  dur=5.0
+# Long ago, blizzard: a boy in furs feeds a beacon fire above an empty mountain road
+shot T02 8.0  set=forge_intro_torvald  cam=static  from=(1.8, 1.5, 4.2)  look=(-3.0, 1.0, -2.4)  fov=40  in=fade_white:0.6  faces=t_boy
+  at 0.0  fade color=#c8d6ff  alpha=0.3  time=0.3
+  at 0.0  hide torvald
+  at 0.0  hide aldra
+  at 0.0  hide shoot
+  at 0.0  show t_boy
+  at 0.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-20
+  at 0.4  line torvald "I was a boy on a mountain pass, keeping a beacon for soldiers who had gone down the road."  dur=5.8
+  at 3.0  anim t_boy play_cast
+# The same frame, time-lapse: days and nights flicker past; the beacon never goes out; the road stays empty
+shot T03 8.0  set=forge_intro_torvald  cam=static  from=(1.8, 1.5, 4.2)  look=(-3.0, 1.0, -2.4)  fov=40  in=blend:0.2  faces=t_boy
+  at 0.0  fade color=#0b0c26  alpha=0.55  time=0.6
+  at 1.0  fade color=#c8d6ff  alpha=0.2  time=0.6
+  at 2.0  fade color=#0b0c26  alpha=0.55  time=0.6
+  at 3.0  fade color=#c8d6ff  alpha=0.2  time=0.6
+  at 4.0  fade color=#0b0c26  alpha=0.55  time=0.6
+  at 5.0  fade color=#c8d6ff  alpha=0.2  time=0.6
+  at 6.0  fade color=#0b0c26  alpha=0.55  time=0.6
+  at 7.0  fade color=#ffe9c0  alpha=0.12  time=0.8
+  at 0.4  line torvald "They never came back. I kept it lit all winter anyway."  dur=4.6
+# Thaw: a very tall hooded figure climbs the road and warms his hands at the beacon; the boy watches him
+shot T04 8.0  set=forge_intro_torvald  cam=static  from=(3.8, 1.6, 2.6)  look=(-1.8, 1.3, -1.0)  fov=42  faces=t_boy
+  at 0.0  hide fx_snow
+  at 0.0  show hooded
+  at 0.0  teleport hooded  to=(0.6, 0, 6.8)  yaw=-165
+  at 0.0  move hooded  to=(-1.2, 0, 0.8)  speed=1.0
+  at 0.0  face t_boy  to=hooded  time=1.0
+  at 0.6  line master "All winter? For men who were not coming?"  dur=3.4
+  at 4.4  line torvald "Someone had to keep the light, I said."  dur=3.2
+# Over the boy's shoulder: the Master holds out a hand
+shot T05 7.0  set=forge_intro_torvald  cam=static  from=(-3.7, 1.05, -3.8)  look=(-1.2, 2.3, 0.8)  fov=42  faces=hooded
+  at 0.0  teleport hooded  to=(-1.2, 0, 0.8)  yaw=-152
+  at 0.4  line master "Then come with me. I need someone who keeps a light."  dur=4.4
+# Low tracking on the frozen lake: Torvald in his prime; the shield wall, the volley; a block of ice glows far behind
+shot T06 8.0  set=forge_intro_torvald  cam=dolly  from=(6.0, 1.3, 3.7)  to=(-4.0, 1.5, 4.2)  look=(0, 1.9, -1.2)>(0, 2.0, -1.2)  fov=44  in=fade_black:0.5  faces=torvald
+  at 0.0  fade alpha=0  time=0.3
+  at 0.0  hide hooded
+  at 0.0  hide t_boy
+  at 0.0  show torvald
+  at 0.0  teleport torvald  to=(0, 0, -1.2)  yaw=0
+  at 0.0  show army_line
+  at 0.0  show fx_icewall
+  at 0.0  show fx_heart
+  at 0.0  show frostbow
+  at 0.5  line torvald "He gave me the north. One winter, he gave me a block of ice with a light inside it."  dur=6.0
+  at 1.0  anim frostbow play_attack
+  at 2.6  anim torvald play_cast arg=frost_nova
+  at 2.8  vfx freeze scene=res://art/cinematics/fx/freeze_wave.tscn at=(0, 0, 4) life=3.0 scale=0.5
+# Orbit, time-lapse: winters pass over Torvald on the lake; a fisher girl beside him grows into Aldra
+shot T07 7.0  set=forge_intro_torvald  cam=orbit  pivot=torvald  r=5.0  h=1.9  deg=60>120  faces=torvald
+  at 0.0  hide army_line
+  at 0.0  hide fx_icewall
+  at 0.0  hide frostbow
+  at 0.0  show fx_snow
+  at 0.0  show a_girl
+  at 0.0  fade color=#c8d6ff  alpha=0.2  time=0.5
+  at 0.4  line torvald "Something came for it every winter, for a hundred winters. Nothing got past me."  dur=5.6
+  at 3.4  hide a_girl
+  at 3.4  show aldra
+  at 3.4  teleport aldra  to=(1.6, 0, 0.4)  yaw=-30
+# Low from the road, up at the ice gate: a rider's fist on the ice; Torvald a still silhouette on the wall
+shot T08 8.0  set=forge_intro_torvald  cam=static  from=(1.2, 0.5, 8.2)  look=(2.2, 3.6, -3.6)  fov=50  in=fade_black:0.4  faces=messenger
+  at 0.0  fade color=#0d1430  alpha=0.35  time=0.05
+  at 0.0  hide fx_heart
+  at 0.0  hide aldra
+  at 0.0  show messenger
+  at 0.0  teleport messenger  to=(0.4, 0, -2.6)  yaw=180
+  at 0.0  teleport torvald  to=(4.6, 5.0, -4.0)  yaw=180
+  at 0.3  line torvald "He said I wait too long."  dur=2.0
+  at 1.0  anim messenger play_attack
+  at 2.7  line torvald "Once a rider hammered at my gate, and I stood there counting."  dur=4.6
+  at 3.2  anim messenger play_attack
+# Back on the broken Wall: CU Torvald, 3/4-left, night; he looks down at the green shoot
+shot T09 7.0  set=forge_intro_torvald  cam=static  from=(9.2, 6.75, -2.0)  look=torvald  fov=30  in=fade_black:0.4
+  at 0.0  fade color=#0d1430  alpha=0.4  time=0.05
+  at 0.0  hide messenger
+  at 0.0  show aldra
+  at 0.0  show shoot
+  at 0.0  teleport aldra  to=(9.4, 5.0, -4.0)  yaw=-10
+  at 0.0  teleport torvald  to=(8.0, 5.0, -4.0)  yaw=10
+  at 0.0  anim torvald set_expression  arg=worried
+  at 0.4  line torvald "He called me his patience. Twelve years now, I have waited for him to come back."  dur=5.4
+# Two-shot: Aldra beside him, arms folded; he does not look up
+shot T10 5.0  set=forge_intro_torvald  cam=static  from=(10.8, 6.6, -0.4)  look=(8.7, 6.4, -4.0)  fov=38  faces=torvald,aldra
+  at 0.2  line aldra "You could stop waiting."  dur=1.8
+  at 2.2  line torvald "No. It is the one thing I am good at."  dur=2.6
+
+# ---------------------------------------------------------------- Ysolde: heart
+# Through white snow, crane down: Lark Hill at night; the golden tree; Ysolde under it; Maelis feeding a fire
+shot Y01 9.0  set=forge_evenmead  cam=crane  from=(-44, 26, 22)  to=(-30, 13, 33)  look=(-16, 9, 48)>(-13, 7.8, 46.5)  fov=48>40  in=fade_white:0.8
+  at 0.0  fade color=#c8d6ff  alpha=0.35  time=0.6
+  at 0.0  hide malrik
+  at 0.0  hide evenmead_torvald
+  at 0.0  hide hush
+  at 0.0  hide vey
+  at 0.0  hide stone
+  at 0.0  hide vessa
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  teleport evenmead_ysolde  to=(-13.0, 6.95, 47.0)  yaw=170
+  at 1.5  line ysolde "You know how he found me. A girl, a sapling, the frost. That part is easy to tell."  dur=5.2
+# The hanging gardens, warm day: young Ysolde on a bench; the Master sets a frozen rose in her hands; it opens
+shot Y02 8.0  set=forge_citadel  cam=static  from=(-13.4, 49.5, 6.0)  look=(-16.0, 48.9, 8.8)  fov=40  in=fade_white:0.5  faces=yy
+  at 0.0  fade color=#ffe9c0  alpha=0.15  time=0.3
+  at 0.0  show yy
+  at 0.0  show master
+  at 0.0  teleport master  to=(-15.0, 48, 10.0)  yaw=210
+  at 0.4  line ysolde "After that, for twenty years, he brought me dead things. A frozen rose. A burnt branch."  dur=6.4
+  at 3.6  anim yy play_cast arg=wild_bloom
+  at 4.0  vfx rose  scene=res://art/cinematics/fx/blossom.tscn  at=(-15.9, 49.0, 8.9)  life=4  scale=0.2
+# Ysolde at twenty-five lays her palm on a burnt terrace; it greens outward in a wave; the Master behind her
+shot Y03 8.0  set=forge_intro_ysolde  cam=static  from=(7.4, 1.0, 8.6)  look=(3.0, 1.4, 1.0)  fov=44  in=blend:0.4  faces=ysolde
+  at 0.0  hide yy
+  at 0.0  hide ysolde_young
+  at 0.0  hide fx_master
+  at 0.0  hide messenger
+  at 0.0  show army_fallen
+  at 0.0  show hooded
+  at 0.0  teleport hooded  to=(5.4, 0, -1.6)  yaw=-60
+  at 0.4  line ysolde "Every time, he said the same thing."  dur=3.0
+  at 1.2  anim ysolde play_cast arg=wild_bloom
+  at 1.4  vfx bloom scene=res://art/cinematics/fx/bloom_wave.tscn at=(3, 0, 1) life=5.0
+  at 4.2  line master "Show me again."  dur=2.0
+# Dolly around her: her wood in the west; the Elder Treant stands up, archers step out, the wood answers
+shot S27 8.0  set=forge_intro_ysolde
+  at 0.0  hide hooded
+  at 0.0  hide army_fallen
+  at 0.0  show army_host
+  at 0.0  show fx_vines
+  at 0.0  show fx_tree
+  at 0.4  line ysolde "He gave me the west and told me to keep it growing. Nothing that grows stays beaten."  dur=6.0
+  at 0.6  anim ysolde play_cast arg=wild_bloom
+  at 1.0  anim treant play_cast arg=wild_bloom
+  at 1.2  anim vinelasher play_attack
+# From behind her: messengers at her border; she closes the road with roots; smoke over Emberfall far off
+shot S28 9.0  set=forge_intro_ysolde
+  at 0.0  hide army_host
+  at 0.0  hide fx_tree
+  at 0.0  show messenger
+  at 0.0  vfx smoke scene=res://art/cinematics/fx/fire_pillar.tscn at=(-14, 0, 48) life=9 scale=1.5
+  at 0.4  line ysolde "He said I would not take a side, not even while the world burned."  dur=4.6
+  at 1.0  anim ysolde play_cast arg=wild_bloom
+  at 5.4  line ysolde "He was right. For far too long."  dur=3.2
+# Static close-up, the orrery dome: the Master lays the little green flame in Ysolde's open palm; it becomes a blossom
+shot Y06 8.0  set=forge_citadel  cam=static  from=(-12.1, 49.1, -1.9)  look=(-13.0, 49.2, -3.0)  fov=32  in=fade_white:0.5  faces=yy
+  at 0.0  fade color=#ffe9c0  alpha=0.12  time=0.3
+  at 0.0  show yy
+  at 0.0  teleport yy  to=(-13.0, 48, -3.0)  yaw=0
+  at 0.0  teleport master  to=(-13, 48, -1.4)  yaw=180
+  at 0.5  line ysolde "He called me his heart. A heart is the part that keeps going when the rest stops."  dur=5.6
+  at 0.6  vfx flame  scene=res://art/cinematics/fx/four_flames.tscn  at=(-13.0, 48.95, -2.6)  life=3.0  scale=0.2
+  at 3.4  vfx blossom  scene=res://art/cinematics/fx/blossom.tscn  at=(-13.0, 48.9, -2.7)  life=4.4  scale=0.25
+# Present day under the golden tree: Maelis sits down beside her
+shot Y07 10.0  set=forge_evenmead  cam=frame "ms on evenmead_ysolde and maelis, front, eye"  in=fade_black:0.5
+  at 0.0  fade color=#0b0c26  alpha=0.45  time=0.05
+  at 0.0  hide yy
+  at 0.0  face maelis  to=evenmead_ysolde  time=0.5
+  at 0.5  line maelis "You never speak of the night he went."  dur=3.4
+  at 4.6  line ysolde "I promised not to. So did someone else."  dur=3.6
+  at 4.6  anim evenmead_ysolde set_expression  arg=worried
+# CU Ysolde, front, push: she looks north-east; one blue frost spark glints on a leaf above her
+shot Y08 7.0  set=forge_evenmead  cam=frame "cu on evenmead_ysolde, front, eye"  push=0.2
+  at 2.4  vfx spark  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-13.2, 9.2, 46.6)  life=1.2  scale=0.08
+# Crane up into the snow cloud: two small lights far apart, green here, blue in the far north; the title
+shot Y09 8.0  set=forge_evenmead  cam=crane  from=(-6, 10, 36)  to=(-2, 44, 20)  look=(-16, 10, 48)>(10, 30, -60)  fov=40>52
+  at 0.0  fade color=#c8d6ff  alpha=0.35  time=0.3
+  at 0.0  vfx green  scene=res://art/cinematics/fx/green_pillar.tscn  at=(-13, 6.9, 47)  life=8  scale=0.12
+  at 0.0  vfx blue  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-20, 20, -110)  life=8  scale=1.2
+  at 2.0  title "Episode 6" sub="The Lake and the Seed" time=4.8
+  at 6.8  fade color=#000000 alpha=1 time=1.0

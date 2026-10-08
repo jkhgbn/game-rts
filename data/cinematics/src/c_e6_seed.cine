@@ -1,0 +1,56 @@
+# Between-scene "It Came Up Green", ~40 s (docs/design/script-episodes-4-8/e6m3.md, shot list D1-D5; beats from
+# docs/design/mission-e6-03.md Cinematic hooks `c_e6_seed`). Present day, the winter truce: Lark Hill in snow, the
+# golden tree with one branch scorched from the Evenmead battle; Ysolde and Maelis under it ("You never told the village
+# you were right." / "It came up green."); under the char, one green bud ("Give it a spring."); Ysolde looks north-east:
+# "Twelve years ago he sent for me one last time. Torvald too. Only us."
+# Text source for i18n / voices: data/voice/lines/c_e6_seed.json (the same text as the lines below).
+# e6m3 / e6m4 are not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play c_e6_seed).
+# Set: forge_evenmead (Lark Hill under the master_tree at (-16, 48.5), the c_e4_refuge layout; snow = a pale grade, as
+# ep4_ending W1). The scorched branch is not dressed (no new tree prop yet): the bud is a small blossom fx.
+# Axis: Ysolde (west, by the trunk) - Maelis (east); every camera stays south of them (downhill).
+cine c_e6_seed  title="It Came Up Green"  letterbox=2.39  seed=605  length=38..43
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-22
+env night  moon_yaw=200  moon_pitch=-34  energy=0.45
+cast  maelis  res://art/units/helpers/helper_maelis/helper_maelis.tscn  at=(-12.6, 6.92, 46.2)  yaw=200
+prop  fire1   res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  at=(-10.0, 6.85, 47.6)  scale=0.35
+
+# ---------------------------------------------------------------- Lark Hill in snow
+# Wide crane down: the grown golden tree glowing; a small fire under it
+shot D1 8.0  cam=crane  from=(-44, 26, 22)  to=(-30, 13, 33)  look=(-16, 9, 48)>(-14, 7.8, 46.8)  fov=48>40  in=fade_white:1.0
+  at 0.0  fade color=#c8d6ff  alpha=0.35  time=0.6
+  at 0.0  hide malrik
+  at 0.0  hide torvald
+  at 0.0  hide hush
+  at 0.0  hide vey
+  at 0.0  hide vessa
+  at 0.0  hide stone
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  teleport ysolde  to=(-14.2, 6.92, 46.6)  yaw=170
+  at 0.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-24
+# MS two-shot from downhill, looking up: Maelis looks down at the village roofs
+shot D2 8.0  cam=static  from=(-12.4, 7.2, 41.6)  look=(-13.4, 8.4, 46.4)  fov=40  faces=ysolde,maelis
+  at 0.0  fade color=#0b0c26  alpha=0.4  time=0.05
+  at 0.6  line maelis "You never told the village you were right."  dur=3.4
+  at 4.6  line ysolde "I didn't need to. It came up green."  dur=3.0
+  at 4.6  anim ysolde set_expression  arg=smile
+# CU Ysolde's hand on the scorched branch: under the char, one green bud
+shot D3 7.0  cam=static  from=(-16.4, 8.4, 45.8)  look=(-15.0, 8.4, 47.4)  fov=32  faces=ysolde
+  at 0.0  teleport ysolde  to=(-14.6, 6.9, 46.8)  yaw=-30
+  at 0.5  line maelis "That branch won't come back, you know."  dur=3.6
+  at 1.0  anim ysolde play_cast arg=wild_bloom
+  at 2.4  vfx bud  scene=res://art/cinematics/fx/blossom.tscn  at=(-15.1, 8.7, 47.6)  life=4.6  scale=0.15
+  at 4.4  line ysolde "Give it a spring."  dur=2.2
+# CU Ysolde, front, push: she looks north-east, toward Crown Hollow
+shot D4 10.0  cam=dolly  from=(-14.0, 8.55, 45.0)  to=(-14.1, 8.55, 45.3)  look=ysolde  fov=30
+  at 0.0  teleport ysolde  to=(-14.6, 6.9, 46.8)  yaw=160
+  at 0.0  anim ysolde set_expression  arg=worried
+  at 1.0  line ysolde "Twelve years ago he sent for me one last time. Torvald too. Only us."  dur=6.0
+# MS Maelis: she turns to her, the question unasked; the blossoms glow
+shot D5 7.0  cam=static  from=(-11.0, 8.2, 43.6)  look=maelis  fov=36  in=fade_black:0.3
+  at 0.0  face maelis  to=ysolde  time=0.8
+  at 2.0  vfx glow  scene=res://art/cinematics/fx/blossom.tscn  at=(-15, 10.5, 47.5)  life=5  scale=0.4
+  at 5.8  fade alpha=1 time=1.0

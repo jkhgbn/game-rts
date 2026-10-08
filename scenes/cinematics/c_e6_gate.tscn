@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_d38k5"]
+[ext_resource type="Resource" path="res://data/cinematics/c_e6_gate.tres" id="2_fui0v"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/forge_intro_torvald.tscn" id="3_3inhy"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_khbr4"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_torvald/mood_torvald.tres" id="5_la61b"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep4_between/bundle_red.tscn" id="6_lqov0"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="7_dbj48"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="8_6pfh2"]
+
+[node name="CE6GateStage" type="Node3D" unique_id=1065522299]
+script = ExtResource("1_d38k5")
+autoplay_script = ExtResource("2_fui0v")
+actor_paths = {
+"army_charge": NodePath("forge_intro_torvald/Puppets/army_charge"),
+"army_line": NodePath("forge_intro_torvald/Puppets/army_line"),
+"colossus": NodePath("forge_intro_torvald/Puppets/colossus"),
+"foe": NodePath("forge_intro_torvald/Puppets/foe"),
+"frostbow": NodePath("forge_intro_torvald/Puppets/frostbow"),
+"fx_burst": NodePath("forge_intro_torvald/Puppets/fx_burst"),
+"fx_cracks": NodePath("forge_intro_torvald/Puppets/fx_cracks"),
+"fx_heart": NodePath("forge_intro_torvald/Puppets/fx_heart"),
+"fx_icewall": NodePath("forge_intro_torvald/Puppets/fx_icewall"),
+"fx_snow": NodePath("forge_intro_torvald/Puppets/fx_snow"),
+"loaf": NodePath("Loaf"),
+"messenger": NodePath("forge_intro_torvald/Puppets/messenger"),
+"torvald": NodePath("forge_intro_torvald/Puppets/torvald")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_intro_torvald" type="Node3D" parent="." unique_id=489257648 instance=ExtResource("3_3inhy")]
+script = ExtResource("4_khbr4")
+set_id = &"forge_intro_torvald"
+lighting = ExtResource("5_la61b")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
+
+[node name="Loaf" type="Node3D" parent="." unique_id=261254979 instance=ExtResource("6_lqov0")]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 5.6, 5.05, -3.5)
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=577400781]
+script = ExtResource("7_dbj48")
+preset = ExtResource("8_6pfh2")

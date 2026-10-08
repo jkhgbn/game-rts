@@ -1,0 +1,47 @@
+# Between-scene "Bread or Smoke" (OPEN branch), ~35 s (docs/design/script-episodes-4-8/e6m2.md, shot list G1-G4; beats
+# from docs/design/mission-e6-02.md Cinematic hooks `c_e6_gate`). Present day, grey dawn at the Frostgate: Torvald,
+# older, on the wall above the gate. This film is the OPEN branch (e6m2 opened the gate: a cloth-wrapped loaf on the
+# parapet, "Hearthwick still sends me bread every midwinter. Burnt, usually.", Hearthwick's chimneys smoking far off);
+# the SHUT branch is c_e6_gate_shut (the same film: no loaf, "Some nights I still see the smoke."). The narrator hands
+# to Ysolde. Text source for i18n / voices: data/voice/lines/c_e6_gate.json (L1_open, L2).
+# e6m2 / e6m3 are not built: not in CampaignState.STORY_FILMS yet; picking the branch by e6m2_town_saved needs a
+# StoryFlow film-by-flag pick (not built). Play it with run_cine.ps1 play c_e6_gate.
+# Set: forge_intro_torvald stands in for the Frostgate (e6m2's map is not a stage set): its ice keep's rampart and gate,
+# its signal brazier; dawn = a grey-blue full-screen grade. Prop: the loaf = the red-cloth bundle of c_e4_turnback.
+# Axis: every camera east of the road (the outline's 3/4-left on Torvald).
+cine c_e6_gate  title="Bread or Smoke"  letterbox=2.39  seed=603  length=33..37
+use set forge_intro_torvald
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-24
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=narrator
+cast  loaf      res://art/cinematics/props/ep4_between/bundle_red.tscn  at=(5.6, 5.05, -3.5)  yaw=20
+
+# ---------------------------------------------------------------- the Frostgate at dawn
+# Wide, the gate from the south road: its ice older and clouded, snow along the Long Ice
+shot G1 8.0  cam=dolly  from=(3.0, 2.4, 19.0)  to=(2.6, 2.6, 16.0)  look=(1.0, 4.0, -8.0)  fov=46  in=fade_black:1.0
+  at 0.0  fade color=#6a7f98  alpha=0.3  time=0.05
+  at 0.0  hide colossus
+  at 0.0  hide frostbow
+  at 0.0  hide messenger
+  at 0.0  hide foe
+  at 0.0  hide army_line
+  at 0.0  hide army_charge
+  at 0.0  hide fx_icewall
+  at 0.0  hide fx_burst
+  at 0.0  hide fx_heart
+  at 0.0  hide fx_cracks
+  at 0.0  show fx_snow
+  at 0.0  teleport torvald  to=(4.6, 5.0, -4.0)  yaw=10
+  at 0.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-24
+# MS Torvald on the wall above the gate, 3/4-left: snow on his shoulders, the loaf beside him
+shot G2 8.0  cam=static  from=(7.0, 6.3, -0.4)  look=(4.7, 6.6, -4.0)  fov=36  faces=torvald
+  at 0.0  anim torvald set_expression  arg=neutral
+  at 1.0  line torvald "Hearthwick still sends me bread every midwinter. Burnt, usually."  dur=5.0
+  at 4.0  anim torvald set_expression  arg=smile
+# CU Torvald, front: he looks south down the road; far off, Hearthwick's chimneys smoking
+shot G3 8.0  cam=static  from=(4.7, 6.75, -1.6)  look=torvald  fov=28
+  at 3.0  vfx chimney  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-12, 0, 40)  life=5  scale=0.3
+# Crane up off the wall and away west over the snow: the clouds turn to a green-gold dawn in the west
+shot G4 11.0  cam=crane  from=(7.0, 7.0, 0.0)  to=(-14, 26, 12)  look=(4.6, 5.6, -4.0)>(-60, 10, 0)  fov=44>52
+  at 2.0  line narrator "In the west, Ysolde remembered a different winter."  dur=3.8
+  at 4.0  fade color=#d8f0b0  alpha=0.25  time=3.0
+  at 10.0  fade color=#ffffff  alpha=1  time=1.0

@@ -1,0 +1,439 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_ikm7f"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_wlmjn"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_sti0g"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_2bvep"]
+
+[sub_resource type="Resource" id="Resource_bcr4p"]
+script = ExtResource("4_2bvep")
+kind = &"fade"
+params = {
+"alpha": 0.35,
+"color": Color(0.101960786, 0.047058824, 0.015686275, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_w8a25"]
+script = ExtResource("4_2bvep")
+kind = &"visible"
+actor = &"m_malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_vsfdl"]
+script = ExtResource("4_2bvep")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_b1kkp"]
+script = ExtResource("4_2bvep")
+at = 2.0
+kind = &"vfx"
+target = Vector3(34.7, 6, 1)
+params = {
+"life": 6.0,
+"scale": 0.08,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_2gra5"]
+script = ExtResource("3_sti0g")
+id = &"X1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(34.6, 12, 7)
+to_pos = Vector3(34.4, 3.2, 4.4)
+look_from = Vector3(34, 0.6, 0)
+look_to = Vector3(34.1, 0.8, -0.2)
+fov_from = 50.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 1.5
+actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_bcr4p"), SubResource("Resource_w8a25"), SubResource("Resource_vsfdl"), SubResource("Resource_b1kkp")])
+stage_set = &"forge_ep3_memories"
+
+[sub_resource type="Resource" id="Resource_jqqbr"]
+script = ExtResource("4_2bvep")
+kind = &"visible"
+actor = &"lord"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_wqhp2"]
+script = ExtResource("4_2bvep")
+kind = &"vfx"
+target = Vector3(34.7, 0, 1)
+params = {
+"life": 22.0,
+"scale": 0.15,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_1k3lp"]
+script = ExtResource("4_2bvep")
+kind = &"move"
+actor = &"lord"
+target = Vector3(34.7, 1.4, 1)
+params = {
+"speed": 0.5
+}
+
+[sub_resource type="Resource" id="Resource_k272n"]
+script = ExtResource("4_2bvep")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_1cx6s"]
+script = ExtResource("4_2bvep")
+at = 1.2
+kind = &"vfx"
+target = Vector3(34.02, 0.6, -0.04)
+params = {
+"life": 3.0,
+"scale": 0.8,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ygjnh"]
+script = ExtResource("1_ikm7f")
+at = 1.0
+speaker = &"obren"
+text = "You came down yourself. I knew you would."
+duration = 4.0
+voice = "res://assets/audio/voice/whisper/you_came_down_yourself_dc2300d9.wav"
+
+[sub_resource type="Resource" id="Resource_jgxk4"]
+script = ExtResource("3_sti0g")
+id = &"X2"
+duration = 7.0
+from_pos = Vector3(34.2, 0.5, 3.2)
+to_pos = Vector3(34.2, 0.5, 3.2)
+look_from = Vector3(34.6, 3.4, 0.8)
+look_to = Vector3(34.6, 3.4, 0.8)
+fov_from = 52.0
+fov_to = 52.0
+lines = Array[ExtResource("1_ikm7f")]([SubResource("Resource_ygjnh")])
+actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_jqqbr"), SubResource("Resource_wqhp2"), SubResource("Resource_1k3lp"), SubResource("Resource_k272n"), SubResource("Resource_1cx6s")])
+stage_set = &"forge_ep3_memories"
+
+[sub_resource type="Resource" id="Resource_4nh7t"]
+script = ExtResource("4_2bvep")
+kind = &"teleport"
+actor = &"lord"
+target = Vector3(34.7, 1.4, 1)
+params = {
+"yaw_deg": 30.0
+}
+
+[sub_resource type="Resource" id="Resource_5me61"]
+script = ExtResource("4_2bvep")
+at = 4.6
+kind = &"face"
+actor = &"lord"
+params = {
+"time": 1.0,
+"yaw_deg": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_fng68"]
+script = ExtResource("1_ikm7f")
+at = 0.8
+speaker = &"master"
+text = "Then we will both learn patience, Obren. I have had a good teacher."
+duration = 5.8
+voice = "res://assets/audio/voice/master/then_we_will_both_bb146b98.wav"
+
+[sub_resource type="Resource" id="Resource_j1rl1"]
+script = ExtResource("3_sti0g")
+id = &"X3"
+duration = 8.0
+from_pos = Vector3(36.4, 1.2, 3.8)
+to_pos = Vector3(36.4, 1.2, 3.8)
+look_from = Vector3(34.7, 3.2, 1)
+look_to = Vector3(34.7, 3.2, 1)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_ikm7f")]([SubResource("Resource_fng68")])
+actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_4nh7t"), SubResource("Resource_5me61")])
+stage_set = &"forge_ep3_memories"
+
+[sub_resource type="Resource" id="Resource_ckhog"]
+script = ExtResource("4_2bvep")
+at = 2.0
+kind = &"vfx"
+target = Vector3(34.7, 4.6, 1)
+params = {
+"life": 1.2,
+"scale": 0.2,
+"scene": "res://art/cinematics/fx/regalia_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ooi22"]
+script = ExtResource("4_2bvep")
+at = 3.2
+kind = &"fade"
+params = {
+"alpha": 0.6,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_vhv6l"]
+script = ExtResource("1_ikm7f")
+at = 1.4
+speaker = &"master"
+text = "Then, between one breath and the next, he was gone."
+duration = 4.7
+voice = "res://assets/audio/voice/master/then_between_one_breath_72b919e2.wav"
+
+[sub_resource type="Resource" id="Resource_ti7o0"]
+script = ExtResource("3_sti0g")
+id = &"X4"
+duration = 7.0
+from_pos = Vector3(36, 3.2, 3.2)
+to_pos = Vector3(36, 3.2, 3.2)
+look_from = Vector3(34.7, 3.3, 1)
+look_to = Vector3(34.7, 3.3, 1)
+fov_from = 38.0
+fov_to = 38.0
+lines = Array[ExtResource("1_ikm7f")]([SubResource("Resource_vhv6l")])
+actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_ckhog"), SubResource("Resource_ooi22")])
+stage_set = &"forge_ep3_memories"
+
+[sub_resource type="Resource" id="Resource_chhhc"]
+script = ExtResource("4_2bvep")
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_lw6gj"]
+script = ExtResource("4_2bvep")
+kind = &"visible"
+actor = &"lord"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_a4coi"]
+script = ExtResource("4_2bvep")
+kind = &"vfx"
+target = Vector3(-13, 53, -5)
+params = {
+"life": 1.9,
+"scale": 2.5,
+"scene": "res://art/cinematics/fx/four_flames.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_650w6"]
+script = ExtResource("4_2bvep")
+at = 1.8
+kind = &"vfx"
+target = Vector3(-13, 53, -5)
+params = {
+"life": 2.0,
+"scale": 0.45,
+"scene": "res://art/cinematics/fx/regalia_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_mn5oq"]
+script = ExtResource("4_2bvep")
+at = 1.9
+kind = &"visible"
+actor = &"master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_gcaw3"]
+script = ExtResource("4_2bvep")
+at = 2.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_jedkj"]
+script = ExtResource("3_sti0g")
+id = &"X5"
+duration = 7.0
+from_pos = Vector3(-11.5, 48.4, 0.5)
+to_pos = Vector3(-11.5, 48.4, 0.5)
+look_from = Vector3(-13, 53.2, -5)
+look_to = Vector3(-13, 53.2, -5)
+fov_from = 56.0
+fov_to = 56.0
+transition_in = 1
+transition_time = 0.4
+actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_chhhc"), SubResource("Resource_lw6gj"), SubResource("Resource_a4coi"), SubResource("Resource_650w6"), SubResource("Resource_mn5oq"), SubResource("Resource_gcaw3")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_k0dam"]
+script = ExtResource("4_2bvep")
+kind = &"fade"
+params = {
+"alpha": 0.45,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_i775j"]
+script = ExtResource("4_2bvep")
+at = 0.4
+kind = &"vfx"
+target = Vector3(-13, 53, -5)
+params = {
+"life": 2.8,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/streak_red.tscn",
+"to": Vector3(40, 160, 200)
+}
+
+[sub_resource type="Resource" id="Resource_gwfdy"]
+script = ExtResource("4_2bvep")
+at = 0.5
+kind = &"vfx"
+target = Vector3(-13, 53, -5)
+params = {
+"life": 2.7,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/streak_violet.tscn",
+"to": Vector3(200, 160, -40)
+}
+
+[sub_resource type="Resource" id="Resource_uutic"]
+script = ExtResource("4_2bvep")
+at = 0.6
+kind = &"vfx"
+target = Vector3(-13, 53, -5)
+params = {
+"life": 2.6,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(-40, 160, -200)
+}
+
+[sub_resource type="Resource" id="Resource_vo7yp"]
+script = ExtResource("4_2bvep")
+at = 0.7
+kind = &"vfx"
+target = Vector3(-13, 53, -5)
+params = {
+"life": 2.5,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/streak_green.tscn",
+"to": Vector3(-200, 160, 40)
+}
+
+[sub_resource type="Resource" id="Resource_x7amt"]
+script = ExtResource("1_ikm7f")
+at = 0.6
+speaker = &"narrator"
+text = "Two of the four knew where he had gone. For twelve years, they told no one."
+duration = 5.6
+voice = "res://assets/audio/voice/narrator/two_of_the_four_18dba4f1.wav"
+
+[sub_resource type="Resource" id="Resource_dpwyy"]
+script = ExtResource("3_sti0g")
+id = &"X6"
+duration = 7.0
+from_pos = Vector3(52, 62, 150)
+to_pos = Vector3(52, 62, 150)
+look_from = Vector3(0, 64, 0)
+look_to = Vector3(0, 64, 0)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_ikm7f")]([SubResource("Resource_x7amt")])
+actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_k0dam"), SubResource("Resource_i775j"), SubResource("Resource_gwfdy"), SubResource("Resource_uutic"), SubResource("Resource_vo7yp")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_hswy1"]
+script = ExtResource("4_2bvep")
+kind = &"fade"
+params = {
+"alpha": 0.45,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_rataf"]
+script = ExtResource("4_2bvep")
+kind = &"vfx"
+target = Vector3(-13, 60, -5)
+params = {
+"life": 3.0,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(-40, 160, -200)
+}
+
+[sub_resource type="Resource" id="Resource_46b76"]
+script = ExtResource("4_2bvep")
+at = 0.1
+kind = &"vfx"
+target = Vector3(-13, 60, -5)
+params = {
+"life": 3.0,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/streak_green.tscn",
+"to": Vector3(-200, 160, 40)
+}
+
+[sub_resource type="Resource" id="Resource_vnxfh"]
+script = ExtResource("4_2bvep")
+at = 1.0
+kind = &"title"
+params = {
+"sub": "The Lake and the Seed",
+"text": "Episode 6",
+"time": 3.8
+}
+
+[sub_resource type="Resource" id="Resource_x7lsy"]
+script = ExtResource("4_2bvep")
+at = 5.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_yl7sa"]
+script = ExtResource("3_sti0g")
+id = &"X7"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(58, 96, 62)
+to_pos = Vector3(24, 110, 34)
+look_from = Vector3(0, 86, 0)
+look_to = Vector3(-60, 100, -60)
+fov_from = 42.0
+fov_to = 52.0
+actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_hswy1"), SubResource("Resource_rataf"), SubResource("Resource_46b76"), SubResource("Resource_vnxfh"), SubResource("Resource_x7lsy")])
+stage_set = &"forge_citadel"
+
+[resource]
+script = ExtResource("2_wlmjn")
+id = &"ep6_ending"
+title = "Episode 6: The Lake and the Seed"
+stage_scene = "res://scenes/cinematics/ep6_ending.tscn"
+shots = Array[ExtResource("3_sti0g")]([SubResource("Resource_2gra5"), SubResource("Resource_jgxk4"), SubResource("Resource_j1rl1"), SubResource("Resource_ti7o0"), SubResource("Resource_jedkj"), SubResource("Resource_dpwyy"), SubResource("Resource_yl7sa")])
+music_cue = &"res://assets/audio/forge/music/ep3_opening.wav"
+shake_seed = 606
+music_volume_db = -20.0
+voice_over = Array[StringName]([&"narrator", &"obren", &"lord"])
+lines_over_cuts = true
