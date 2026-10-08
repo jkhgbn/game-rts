@@ -213,6 +213,7 @@ func _paid() -> bool:
 		main.tributes_paid = 5
 		main._tribute_amount = main.tribute_gold()
 		main.tribute_caravan = main._spawn(main.make_unit("caravan"), Unit.Team.PLAYER, MissionE2_03.LODGE_DOOR)
+		main.tribute_caravan.set(&"cargo", main._tribute_amount)   # a full tribute (a short one is refused)
 		main._pay_tribute()
 		return false
 	_ok(h.saw("obj_tribute", "done") and main.guides_left > 0.0, "obj_guides counting (%.0f)" % main.guides_left)

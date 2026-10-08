@@ -211,6 +211,10 @@ var totems: Array[Building] = []
 var frost := 0.0                       ## 0-100 %.
 var kindle_progress := 0.0             ## 0-1 while Vessa stands by the Heartwood.
 var kindle_blocked := false
+var _kindle_scan_left := 0.0           ## the kindle / regrow unit scans run every SCAN_EVERY s, not every frame
+var _regrow_scan_left := 0.0
+var _regrow_clear := false
+const SCAN_EVERY := 0.25
 var kindled := false
 var kindle_time := -1.0                ## Mission time of the kindle (T).
 var hold_left := -1.0                  ## Seconds of the hold left (-1 before / after).
@@ -907,8 +911,12 @@ func _tick_kindle(delta: float) -> void:
 	if _flat(hero.global_position, HEARTWOOD_POS) > KINDLE_RANGE:
 		kindle_progress = 0.0
 		kindle_blocked = false
+		_kindle_scan_left = 0.0
 		return
-	kindle_blocked = kindle_is_blocked()
+	_kindle_scan_left -= delta
+	if _kindle_scan_left <= 0.0:
+		_kindle_scan_left = SCAN_EVERY
+		kindle_blocked = kindle_is_blocked()
 	if kindle_blocked:
 		kindle_progress = 0.0
 		if fire_once(&"kindle_blocked_msg"):
@@ -1356,7 +1364,11 @@ func _tick_hold(delta: float) -> void:
 	if not kindled or hold_done:
 		return
 	hold_left = maxf(0.0, hold_left - delta)
-	if heartwood and heartwood.is_alive() and heartwood.hp < heartwood.max_hp and not _enemy_near(HEARTWOOD_POS, REGROW_CLEAR):
+	_regrow_scan_left -= delta
+	if _regrow_scan_left <= 0.0:
+		_regrow_scan_left = SCAN_EVERY
+		_regrow_clear = not _enemy_near(HEARTWOOD_POS, REGROW_CLEAR)
+	if heartwood and heartwood.is_alive() and heartwood.hp < heartwood.max_hp and _regrow_clear:
 		heartwood.heal(heartwood.max_hp * REGROW_PCT * delta)
 	if hold_left <= 0.0:
 		_e20_hold_done()
@@ -1384,7 +1396,7 @@ func _e20_hold_done() -> void:
 	_withdraw()
 	say_l(26)
 	after(4.0, func() -> void:
-		if game_over:
+		if is_ending():   # a defeat pending in the 4 s (Vessa, the keep): no Ysolde film over it
 			return
 		play_cutscene(&"e2m1_ysolde", func() -> void:
 			_show_ysolde()

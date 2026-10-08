@@ -245,6 +245,8 @@ var _sunwarden_type: UnitType
 var _amber_type: UnitType
 var _forge_type: BuildingType
 var _no_vey_said := false
+var _enemy_scan := {}                  ## "x,z,r" -> [count, mission time]: the claim / gate checks scan once per 0.25 s
+const ENEMY_SCAN_EVERY := 0.25
 var _clear_said := false
 var _camp_gone_at := -1.0
 var _w4_started := false
@@ -850,13 +852,16 @@ func _vey_near_vessa() -> bool:
 func _tick_wake(delta: float) -> void:
 	if not hero_alive():
 		return
+	var room := -1   # Sunwarden room, counted once per frame and only when Vessa is by a sleeper
 	for id: Variant in sleepers.keys():
 		var s := sleepers[id] as Unit
 		if s == null or not is_instance_valid(s):
 			continue
 		var close := _flat(hero.global_position, s.global_position) <= WAKE_RANGE
 		var p: float = _storm_wake.get(id, 0.0)
-		if close and _vey_near_vessa() and _sunwarden_count() < SUNWARDEN_MAX:
+		if close and room < 0:
+			room = 1 if _sunwarden_count() < SUNWARDEN_MAX else 0
+		if close and _vey_near_vessa() and room == 1:
 			p = minf(1.0, p + delta / WAKE_TIME)
 			_ring(StringName(id), s.global_position, p, Color(1.0, 0.92, 0.6, 0.6))
 			if p >= 1.0:
@@ -1018,6 +1023,18 @@ func _ring(id: StringName, at: Vector3, p: float, color: Color) -> void:
 
 # ---------------------------------------------------------------- the forge
 
+## _enemies_within, re-scanned at most every ENEMY_SCAN_EVERY s per spot (the claim and gate ticks run every frame).
+func _enemies_within_cached(at: Vector3, r: float) -> int:
+	var key := "%d,%d,%d" % [int(at.x), int(at.z), int(r * 10.0)]
+	var now := mission_time()
+	var hit: Variant = _enemy_scan.get(key)
+	if hit != null and now >= float(hit[1]) and now - float(hit[1]) < ENEMY_SCAN_EVERY:
+		return int(hit[0])
+	var n := _enemies_within(at, r)
+	_enemy_scan[key] = [n, now]
+	return n
+
+
 func _enemies_within(at: Vector3, r: float) -> int:
 	var n := 0
 	for node in get_tree().get_nodes_in_group(&"units"):
@@ -1035,7 +1052,7 @@ func _tick_claim(delta: float) -> void:
 		claim_progress = 0.0
 		_ring(&"forge", FORGE_POS, 0.0, Color.WHITE)
 		return
-	if _enemies_within(FORGE_POS, CLAIM_CLEAR) > 0:
+	if _enemies_within_cached(FORGE_POS, CLAIM_CLEAR) > 0:
 		if not _clear_said and hud:
 			_clear_said = true
 			hud.show_message(HINT_CLEAR, 4.0)
@@ -1323,7 +1340,7 @@ func _tick_gate(delta: float) -> void:
 	var at_spot := _flat(hero.global_position, GATE_SPOT) <= GATE_RANGE
 	if not at_spot and gate_progress <= 0.0:
 		return
-	var ok := at_spot and _vey_near_vessa() and _enemies_within(GATE_SPOT, GATE_CLEAR) == 0
+	var ok := at_spot and _vey_near_vessa() and _enemies_within_cached(GATE_SPOT, GATE_CLEAR) == 0
 	if at_spot and fire_once(&"E18"):
 		say_l(24)
 		_start_w4()

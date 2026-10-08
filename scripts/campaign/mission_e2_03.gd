@@ -148,6 +148,7 @@ const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Keep and
 const HINT_CALL := "Call Old Vey: select the Keep and press V. He fights on his own; his card sets where (Escort / Vanguard / Hold home)."
 const MSG_PAID := "The Greywater Lodge takes the tribute ({n} / 6)"
 const MSG_QUEUED := "Tribute: next caravan home"
+const MSG_SHORT := "The Greywater Lodge refuses a short tribute ({have} / {need} gold): send another"
 const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
 const BUTTON_TRIBUTE := "Send tribute ({gold} gold)"
 const REFUSE_NO_BAZAAR := "No Bazaar"
@@ -726,11 +727,19 @@ func _pay_tribute() -> void:
 	_pay_left = -1.0
 	if c == null or not is_instance_valid(c):
 		return
-	c.set(&"cargo", 0)
+	var have := int(c.get(&"cargo"))
 	c.remove_meta(&"e2m3_tribute")
 	var m := Market.of_team(Unit.Team.PLAYER)
+	if have < _tribute_amount:   # robbed on the road (Magpies): the Lodge counts only a full tribute
+		if m:
+			c.call(&"command_trade", m)   # what is left goes back to the Bazaar
+		hud.show_message(Loc.t(MSG_SHORT, {"have": have, "need": _tribute_amount}), 5.0)
+		return
+	c.set(&"cargo", 0)
 	if m:
 		c.call(&"command_trade", m)
+	if objective_state("obj_bazaar") == "active":   # a tribute paid before any trade delivery still opens the Bazaar
+		set_objective(&"obj_bazaar", "done")
 	tributes_paid += 1
 	hud.show_message(Loc.t(MSG_PAID, {"n": tributes_paid}), 4.0)
 	set_objective(&"obj_tribute", "active")
@@ -1035,6 +1044,8 @@ func _e21_done() -> void:
 	guides_left = 0.0
 	fire_once(&"E21")
 	set_objective(&"obj_guides", "done")
+	if objective_state("obj_bazaar") == "active":
+		set_objective(&"obj_bazaar", "done")
 	for id: StringName in [&"sec_magpies", &"sec_raid", &"sec_toll"]:
 		if objective_state(String(id)) == "active":
 			set_objective(id, "failed")

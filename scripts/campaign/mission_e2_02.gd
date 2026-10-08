@@ -47,6 +47,8 @@ const SAP_STATS := {"hp_regen": 3.0}
 const SPROUT_EVERY := 60.0
 const SPROUT_MAX := 4
 const SEED_MAX_WAITING := 2
+const SEED_RESUPPLY := 60.0   ## fewer than 2 carriers and a grove left to plant: 1 new carrier every 60 s (no soft-lock)
+const PLANT_TICK := 0.25
 const COLUMN_MAX := 8
 
 # ---- Rimehold (Ice, on Fire's bank).
@@ -279,6 +281,8 @@ var _last_obj_text := ""
 var _paused_msg := {}
 var _plant_announced := {}
 var _send_panel: Control
+var _plant_acc := 0.0                  ## planting runs every PLANT_TICK s on the summed delta (unit scans, not per frame)
+var _resupply_at := -1.0               ## mission time of the next resupply carrier (-1 = none needed)
 var _ally_order := {}                  ## {pos, until, calm} of the ally's current L1 / L2 answer
 var _relief_sent := false
 var _grove_types := {}
@@ -1199,6 +1203,7 @@ func column_goal() -> Vector3:
 func _tick_column() -> void:
 	carriers = carriers.filter(func(c: Variant) -> bool: return is_instance_valid(c) and (c as Unit).is_alive())
 	column = column.filter(func(c: Variant) -> bool: return is_instance_valid(c) and (c as Unit).is_alive())
+	_tick_seed_supply()
 	if ally_active:
 		_tick_carriers_after_e14()
 		return
@@ -1255,6 +1260,27 @@ func _tick_carrier_orders(yp: Vector3) -> void:
 			dir = dir.normalized() if dir.length() > 0.1 else Vector3(0.0, 0.0, 1.0)
 			cu.command_move(yp + dir * 3.5)
 		cu.set_meta(&"e2m2_walking", d > 6.0)
+
+
+## The seed never runs out for good: fewer than 2 carriers while a grove is left to plant (obj_groves, or a Vice replant)
+## = one new carrier every SEED_RESUPPLY s, at Ysolde before E14, at the Heartwood after it.
+func _tick_seed_supply() -> void:
+	if vice_done or carriers.size() >= 2 or groves_standing() >= sites.size():
+		_resupply_at = -1.0
+		return
+	var now := mission_time()
+	if _resupply_at < 0.0:
+		_resupply_at = now + SEED_RESUPPLY
+		return
+	if now < _resupply_at:
+		return
+	_resupply_at = now + SEED_RESUPPLY
+	var at := ALLY_START
+	if ally_active:
+		at = _alive_pos(heartwood, ALLY_START)
+	elif ysolde and is_instance_valid(ysolde) and ysolde.is_alive():
+		at = ysolde.global_position
+	_add_carrier(at + Vector3(randf_range(-2.0, 2.0), 0.0, 3.0))
 
 
 ## After E14 the carriers (no longer led) replant a fallen grove on their own: the 2 nearest walk to the site.
@@ -1553,6 +1579,7 @@ func _activate_ally() -> void:
 	heartwood = out["keep"] as Keep
 	if heartwood:
 		flash_ring(heartwood.global_position, 6.0)
+		heartwood.destroyed.connect(func(_b: Building) -> void: _ally_falls())   # the Vice needs it: no soft-lock
 	var _unused := rows
 	# The column joins the kingdom: no more guest pop, the grove units and Ysolde's fighters go to her Commander.
 	for u: Variant in column:
@@ -1631,12 +1658,13 @@ func _ally_fighters(ordered_only: bool) -> Array[Unit]:
 
 
 func _fire_base_intruder() -> Vector3:
+	var base := Building.for_team(PLAYER_SEAT)
 	for n in get_tree().get_nodes_in_group("units"):
 		var u := n as Unit
 		if u == null or not u.is_alive() or not Teams.is_hostile(int(u.team), PLAYER_SEAT) or int(u.team) == Unit.Team.NEUTRAL \
 				or u.is_worker() or is_dormant(u):
 			continue
-		for b in Building.for_team(PLAYER_SEAT):
+		for b in base:
 			if b.is_alive() and _flat(b.global_position, u.global_position) <= ALLY_DEFEND_RADIUS:
 				return u.global_position
 	return Vector3.INF
@@ -2000,7 +2028,7 @@ func _e21_vice_done() -> void:
 	_withdraw()
 	say_l(28)
 	after(4.0, func() -> void:
-		if game_over:
+		if is_ending():   # a defeat pending in the 4 s: no Two Banners film over it
 			return
 		play_cutscene(&"e2m2_two_banners", func() -> void:
 			say_l(29)
@@ -2135,7 +2163,15 @@ func _on_player_hero_fell() -> void:
 func _check_ally_out() -> void:
 	if not ally_active or is_ending() or vice_done:
 		return
-	if seat_out(ALLY_SEAT) and fire_once(&"E24"):
+	if seat_out(ALLY_SEAT):
+		_ally_falls()
+
+
+## E24: Nature falls a second time (the seat out, or the Heartwood keep lost: the Vice can never end without it).
+func _ally_falls() -> void:
+	if not ally_active or is_ending() or vice_done:
+		return
+	if fire_once(&"E24"):
 		say_l(33)
 		set_objective(&"obj_ally", "failed")
 		lose(DEFEAT_DELAY)
@@ -2150,15 +2186,18 @@ func _physics_process(delta: float) -> void:
 	tick_scripted(delta)
 	if is_ending():
 		return
-	_tick_planting(delta)
+	_plant_acc += delta
+	if _plant_acc >= PLANT_TICK:
+		_tick_planting(_plant_acc)
+		_plant_acc = 0.0
 	_tick_groves(delta)
 	_tick_kneels(delta)
 	_tick_wren(delta)
 	_tick_vice(delta)
-	_tick_ally_brain(delta)
 	_tick -= delta
 	if _tick <= 0.0:
 		_tick = 0.5
+		_tick_ally_brain(0.5)
 		_tick_column()
 		_tick_wizards_home()
 		_tick_eavesdrop()
