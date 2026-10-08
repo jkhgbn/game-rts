@@ -149,9 +149,11 @@ func _run() -> void:
 	# ---- variants
 	var tusk_a: MeshInstance3D = a.get_node("Root/Mount/Head/TuskR")
 	var tusk_b: MeshInstance3D = b.get_node("Root/Mount/Head/TuskR")
-	var la := _surface_top(tusk_a, &"tusker_tusk")
-	var lb := _surface_top(tusk_b, &"tusker_tusk")
-	print("right tusk top (model y) A %.2f, B %.2f" % [la, lb])
+	# Measured in the tusk mesh's own frame (= the head pivot): the idle head bob has a per-instance phase
+	# (hash of the instance id), so a model-space top compared A vs B flaked with the instance ids.
+	var la := _surface_top(tusk_a, &"tusker_tusk", true)
+	var lb := _surface_top(tusk_b, &"tusker_tusk", true)
+	print("right tusk top (head-local y) A %.2f, B %.2f" % [la, lb])
 	_check(tusk_a.mesh != tusk_b.mesh and lb < la - 0.25, "B's right tusk is the broken one")
 	_check(_surface_top(tusk_b, &"tusker_scar") > 0.0 and _surface_top(tusk_a, &"tusker_scar") == -INF,
 		"B's eye scar on the right side of the face")
@@ -377,11 +379,11 @@ func _has_any_override(m: Node) -> bool:
 
 
 ## Top (y in the model's own frame, unscaled) of the surfaces of `mi` using material `mat_name`; -INF when none.
-func _surface_top(mi: MeshInstance3D, mat_name: StringName) -> float:
+func _surface_top(mi: MeshInstance3D, mat_name: StringName, mesh_local: bool = false) -> float:
 	var model := mi.owner if mi.owner else mi.get_parent()
 	while model and not (model is CharacterModel):
 		model = model.get_parent()
-	var xf := (model as Node3D).global_transform.affine_inverse() * mi.global_transform
+	var xf := Transform3D.IDENTITY if mesh_local else (model as Node3D).global_transform.affine_inverse() * mi.global_transform
 	var top := -INF
 	for s: int in mi.mesh.get_surface_count():
 		var mp: Material = mi.mesh.surface_get_material(s)

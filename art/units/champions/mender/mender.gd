@@ -430,6 +430,13 @@ func _on_weapon_class(class_id: StringName) -> void:
 	_flare = 0.0
 	if _steam:
 		_steam.emitting = class_id == &"" and _tier < 2
+		# Out of the kit's distance-tier toggle while hidden: _update_tier() would switch it back on, and at tier 1
+		# _extra_process (which also clears it) runs every other frame only, so the steam leaked on for a frame.
+		if class_id == &"":
+			if not _loop_fx.has(_steam):
+				_loop_fx.append(_steam)
+		else:
+			_loop_fx.erase(_steam)
 	_jar_reset()
 
 

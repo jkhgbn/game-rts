@@ -142,12 +142,14 @@ func _run() -> bool:
 			_check(float(minimap.wave_flash_left) > 0.0, "wave arrow not flashing")
 			var from: Vector3 = minimap.wave_from
 			_check(from.x > 0.0 and from.z < 0.0, "wave comes from %s (want the Shadow side x > 0, z < 0)" % from)
-			_check(int(minimap.drawn_flame_lines) == 2, "flame lines drawn: %d (want 2)" % minimap.drawn_flame_lines)
 			_overlay_before = int(minimap.overlay_draws)
 			_next()
 		6:
 			if since < 20:
 				return false
+			# Checked here, not on the wave-flash frame: the 2 Hz wave scan can fire before the base map's next
+			# 0.1 s redraw after light(), so drawn_flame_lines could still hold the previous draw's 1.
+			_check(int(minimap.drawn_flame_lines) == 2, "flame lines drawn: %d (want 2)" % minimap.drawn_flame_lines)
 			_check(int(minimap.overlay_draws) >= _overlay_before + 15, "overlay not redrawn while flashing")
 			_shot("wave")
 			main.pell.open_cage()
