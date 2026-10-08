@@ -125,13 +125,14 @@ script = ExtResource("1_xtyfb")
 at = 0.2
 speaker = &"vessa"
 text = "A hundred winters of ice, and it took me one afternoon. Somebody write that down."
+voice = "res://assets/audio/voice/vessa/a_hundred_winters_of_5f881f3c.wav"
 
 [sub_resource type="Resource" id="Resource_7r206"]
 script = ExtResource("3_y4sc2")
 id = &"H3"
 duration = 5.0
 camera_mode = 3
-look_offset = Vector3(0, 1.87985, 0)
+look_offset = Vector3(0, 2.047, 0)
 pivot_actor = &"vessa"
 pivot = Vector3(-4, 0, 6)
 orbit_radius = 3.8

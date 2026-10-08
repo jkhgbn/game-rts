@@ -73,6 +73,7 @@ script = ExtResource("1_u6niv")
 at = 0.4
 speaker = &"malrik"
 text = "The ford is mine. Write it down, Ysolde. You like things that last."
+voice = "res://assets/audio/voice/malrik/the_ford_is_mine_a16120be.wav"
 
 [sub_resource type="Resource" id="Resource_x4or3"]
 script = ExtResource("3_mqkf5")

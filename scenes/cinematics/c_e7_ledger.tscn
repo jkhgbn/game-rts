@@ -49,7 +49,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="CE7LedgerStage" type="Node3D" unique_id=254215385]
+[node name="CE7LedgerStage" type="Node3D" unique_id=1050902837]
 script = ExtResource("1_d1yo2")
 autoplay_script = ExtResource("2_h72b7")
 actor_paths = {
@@ -79,13 +79,13 @@ set_id = &"forge_intro_malrik"
 lighting = ExtResource("5_piivr")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"), NodePath("Placed/standing_stones_1"), NodePath("Puppets/malrik"), NodePath("Puppets/malrik_young"), NodePath("Puppets/sknight"), NodePath("Puppets/hexweaver"), NodePath("Puppets/shade"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_vortex"), NodePath("Puppets/fx_tendrils"), NodePath("Puppets/fx_master"), NodePath("Puppets/fx_crown")])
 
-[node name="table" type="Node3D" parent="forge_intro_malrik" unique_id=507210741 instance=ExtResource("6_q5m67")]
+[node name="table" type="Node3D" parent="forge_intro_malrik" unique_id=1765961457 instance=ExtResource("6_q5m67")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 4)
 
-[node name="coins" type="Node3D" parent="forge_intro_malrik" unique_id=359176145 instance=ExtResource("7_ofxfv")]
+[node name="coins" type="Node3D" parent="forge_intro_malrik" unique_id=1363707861 instance=ExtResource("7_ofxfv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.85, 3.85)
 
-[node name="Aldra" type="Node3D" parent="forge_intro_malrik" unique_id=232884502 instance=ExtResource("8_vjeef")]
+[node name="Aldra" type="Node3D" parent="forge_intro_malrik" unique_id=507158261 instance=ExtResource("8_vjeef")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3.2)
 script = ExtResource("9_e0k8o")
 light_energy = 0.0
@@ -99,7 +99,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="Torvald" type="Node3D" parent="forge_intro_malrik" unique_id=1680799390 instance=ExtResource("10_p3p1u")]
+[node name="Torvald" type="Node3D" parent="forge_intro_malrik" unique_id=288202585 instance=ExtResource("10_p3p1u")]
 transform = Transform3D(0.9848077, 0, 0.17364818, 0, 1, 0, -0.17364818, 0, 0.9848077, -3.4, 0, 5.2)
 script = ExtResource("11_yfaly")
 body_height = 2.1
@@ -115,7 +115,7 @@ walk_bounce = 0.05
 [node name="Candle" type="Node3D" parent="forge_intro_malrik" unique_id=224467111 instance=ExtResource("12_wuius")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0.84, 4.15)
 
-[node name="Ossavar" type="Node3D" parent="forge_intro_malrik" unique_id=95378447 instance=ExtResource("13_qm2cn")]
+[node name="Ossavar" type="Node3D" parent="forge_intro_malrik" unique_id=945809045 instance=ExtResource("13_qm2cn")]
 transform = Transform3D(-0.6427875, 0, -0.76604456, 0, 1, 0, 0.76604456, 0, -0.6427875, 9, 0, -2)
 visible = false
 script = ExtResource("14_j1q4q")
@@ -128,6 +128,6 @@ set_id = &"forge_citadel"
 lighting = ExtResource("16_t1rtd")
 lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1785858166]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1903929522]
 script = ExtResource("17_a0p5s")
 preset = SubResource("Resource_46sc2")

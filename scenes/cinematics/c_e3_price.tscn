@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="8_fus8t"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="9_brnqe"]
 
-[node name="CE3PriceStage" type="Node3D" unique_id=214265980]
+[node name="CE3PriceStage" type="Node3D" unique_id=298489217]
 script = ExtResource("1_fqf2t")
 autoplay_script = ExtResource("2_vcbv3")
 actor_paths = {
@@ -69,6 +69,6 @@ stride_time = 0.5
 stride_speed = 4.8
 kingdom_color = Color(0.42, 0.22, 0.6, 1)
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1308838592]
+[node name="LightingRig" type="Node3D" parent="." unique_id=857818366]
 script = ExtResource("8_fus8t")
 preset = ExtResource("9_brnqe")

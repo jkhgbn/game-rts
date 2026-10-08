@@ -76,6 +76,7 @@ script = ExtResource("1_8s3fs")
 at = 0.5
 speaker = &"ysolde"
 text = "Three groves. Enough roots to stand on. Rise."
+voice = "res://assets/audio/voice/ysolde/three_groves_enough_roots_ae163169.wav"
 
 [sub_resource type="Resource" id="Resource_8iqif"]
 script = ExtResource("3_y18jq")
@@ -96,19 +97,21 @@ script = ExtResource("1_8s3fs")
 at = 0.3
 speaker = &"vessa"
 text = "Huh. You grow a castle out of a seed. I have to build mine out of rocks."
+voice = "res://assets/audio/voice/vessa/huh_you_grow_a_4abd93de.wav"
 
 [sub_resource type="Resource" id="Resource_vq5ny"]
 script = ExtResource("1_8s3fs")
 at = 5.5
 speaker = &"ysolde"
 text = "Then we each keep the other's. Fire and Nature, one front."
+voice = "res://assets/audio/voice/ysolde/then_we_each_keep_a74df410.wav"
 
 [sub_resource type="Resource" id="Resource_acq0s"]
 script = ExtResource("3_y18jq")
 id = &"H3"
 duration = 10.0
 camera_mode = 3
-look_offset = Vector3(0, 1.87985, 0)
+look_offset = Vector3(0, 2.047, 0)
 pivot_actor = &"vessa"
 pivot = Vector3(-29, 0, -30)
 orbit_radius = 3.8

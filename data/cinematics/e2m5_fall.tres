@@ -69,13 +69,14 @@ script = ExtResource("1_0s0gr")
 at = 0.4
 speaker = &"malrik"
 text = "Keep your door, Vessa. I have the key, and all the time in the world."
+voice = "res://assets/audio/voice/malrik/keep_your_door_vessa_f658e6ec.wav"
 
 [sub_resource type="Resource" id="Resource_3lk57"]
 script = ExtResource("3_fq0td")
 id = &"F2"
 duration = 7.0
 camera_mode = 3
-look_offset = Vector3(0, 1.898, 0)
+look_offset = Vector3(0, 1.93, 0)
 pivot_actor = &"shadow_hero"
 pivot = Vector3(0, 0, -16)
 orbit_radius = 4.0
@@ -101,13 +102,14 @@ script = ExtResource("1_0s0gr")
 at = 0.6
 speaker = &"ysolde"
 text = "It held. Vessa. It held."
+voice = "res://assets/audio/voice/ysolde/it_held_vessa_it_0c0ec516.wav"
 
 [sub_resource type="Resource" id="Resource_ootqg"]
 script = ExtResource("3_fq0td")
 id = &"F3"
 duration = 6.0
 camera_mode = 3
-look_offset = Vector3(0, 1.675, 0)
+look_offset = Vector3(0, 1.77, 0)
 pivot_actor = &"ysolde"
 pivot = Vector3(1.2, 0, 7.2)
 orbit_radius = 3.4

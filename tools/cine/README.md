@@ -79,7 +79,7 @@ Yaw in degrees: 0 = the model faces +Z, 180 = faces -Z (the game's convention: u
 | `use music <res path>` | | Music for the whole movie |
 | `env night\|dusk\|day\|none` | `moon_yaw` `moon_pitch` `energy` `color` | Sky + one moon light + ground (skipped when the set has a WorldEnvironment) |
 | `prop <name> <res://x.tscn>` | `at` `yaw` `scale` | Any scene (keeps, trees...) |
-| `cast <tag> <res://model.tscn \| capsule>` | `at` `yaw` `hidden=1` `speaker` | An actor (puppet). Face height read from the model's `Head` |
+| `cast <tag> <res://model.tscn \| capsule>` | `at` `yaw` `hidden=1` `speaker` | An actor (puppet). Face height = the FaceKit face centre (`FaceRig` style `canvas.c`), else the meshes under the model's `Head` |
 | `mark <name> (x,y,z)` | `fov` | Marker `@name` |
 | `marks <shot> ` | `from` `to` `look=a>b` `fov=a>b` `pivot` | Markers `@<shot>_from/_to/_look_from/_look_to`; a shot with no `cam=` uses them |
 | `shot <id> <seconds>` | `cam` + mode keys below, `in` `ease` `trans` `roll` `shake` `faces` `set` `fov` | One shot |

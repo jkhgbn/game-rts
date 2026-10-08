@@ -21,7 +21,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="19_3w26s"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="20_lp5ou"]
 
-[node name="Ep8EndingAStage" type="Node3D" unique_id=1780076337]
+[node name="Ep8EndingAStage" type="Node3D" unique_id=1844658674]
 script = ExtResource("1_3nv4x")
 autoplay_script = ExtResource("2_qq4rr")
 actor_paths = {
@@ -56,7 +56,7 @@ lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"),
 [node name="Throne" type="Node3D" parent="." unique_id=1919924985 instance=ExtResource("6_03ss6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.4)
 
-[node name="King" type="Node3D" parent="." unique_id=728224235 instance=ExtResource("7_p0n5m")]
+[node name="King" type="Node3D" parent="." unique_id=318183133 instance=ExtResource("7_p0n5m")]
 transform = Transform3D(3.2, 0, 0, 0, 3.2, 0, 0, 0, 3.2, 0, 0, -7.4)
 script = ExtResource("8_14fdm")
 unit_kind = &"barrow_giant"
@@ -76,7 +76,7 @@ flinch_push = true
 [node name="Heart" type="Node3D" parent="." unique_id=1035794301 instance=ExtResource("9_nnkhy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -2.75)
 
-[node name="Vessa" type="Node3D" parent="." unique_id=862299905 instance=ExtResource("10_o1fae")]
+[node name="Vessa" type="Node3D" parent="." unique_id=1088557887 instance=ExtResource("10_o1fae")]
 transform = Transform3D(-0.9959292, 0, 0.57500005, 0, 1.15, 0, -0.57500005, 0, -0.9959292, -2.6, 0, 1.8)
 script = ExtResource("11_7j7k3")
 body_height = 3.0
@@ -84,7 +84,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="Torvald" type="Node3D" parent="." unique_id=1363763336 instance=ExtResource("12_qbfhs")]
+[node name="Torvald" type="Node3D" parent="." unique_id=2098794619 instance=ExtResource("12_qbfhs")]
 transform = Transform3D(-0.34202012, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, -0.34202012, -4.2, 0, -0.6)
 script = ExtResource("13_81ave")
 body_height = 2.1
@@ -97,7 +97,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 24.0
 walk_bounce = 0.05
 
-[node name="Ysolde" type="Node3D" parent="." unique_id=259573178 instance=ExtResource("14_k5nhi")]
+[node name="Ysolde" type="Node3D" parent="." unique_id=174560460 instance=ExtResource("14_k5nhi")]
 transform = Transform3D(-0.34202012, 0, -0.9396926, 0, 1, 0, 0.9396926, 0, -0.34202012, 4.2, 0, -0.6)
 script = ExtResource("15_csyqm")
 body_height = 2.0
@@ -108,7 +108,7 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="Vey" type="Node3D" parent="." unique_id=57274681 instance=ExtResource("16_mwj74")]
+[node name="Vey" type="Node3D" parent="." unique_id=246289313 instance=ExtResource("16_mwj74")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.8, 0, 4.6)
 script = ExtResource("17_5fkje")
 light_energy = 0.0
@@ -121,6 +121,6 @@ leg_swing_deg = 30.0
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -6, -0.6)
 visible = false
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1450405254]
+[node name="LightingRig" type="Node3D" parent="." unique_id=987642754]
 script = ExtResource("19_3w26s")
 preset = ExtResource("20_lp5ou")

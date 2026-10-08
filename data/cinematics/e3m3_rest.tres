@@ -64,7 +64,7 @@ script = ExtResource("3_5wgdv")
 id = &"R2"
 duration = 6.0
 camera_mode = 3
-look_offset = Vector3(0, 1.898, 0)
+look_offset = Vector3(0, 1.93, 0)
 pivot_actor = &"malrik"
 pivot = Vector3(2, 0, 18)
 orbit_radius = 4.5
@@ -89,19 +89,21 @@ script = ExtResource("1_3gnn7")
 at = 0.4
 speaker = &"hush"
 text = "Light it, Bishop. Just this once."
+voice = "res://assets/audio/voice/hush/light_it_bishop_just_2e5a0a38.wav"
 
 [sub_resource type="Resource" id="Resource_8ayts"]
 script = ExtResource("1_3gnn7")
 at = 3.8
 speaker = &"malrik"
 text = "Not yet. Not while it is listening."
+voice = "res://assets/audio/voice/malrik/not_yet_not_while_cce07bfb.wav"
 
 [sub_resource type="Resource" id="Resource_ydefq"]
 script = ExtResource("3_5wgdv")
 id = &"R3"
 duration = 9.0
 camera_mode = 3
-look_offset = Vector3(0, 1.898, 0)
+look_offset = Vector3(0, 1.93, 0)
 pivot_actor = &"malrik"
 pivot = Vector3(2, 0, 18)
 orbit_radius = 3.4
@@ -177,6 +179,7 @@ script = ExtResource("1_3gnn7")
 at = 0.4
 speaker = &"narrator"
 text = "The vigils burned again in Duskbarrow. In the Bishop's pocket, the stone kept count."
+voice = "res://assets/audio/voice/narrator/the_vigils_burned_again_c72c8aac.wav"
 
 [sub_resource type="Resource" id="Resource_cjxwa"]
 script = ExtResource("3_5wgdv")

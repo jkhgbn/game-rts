@@ -28,6 +28,7 @@ script = ExtResource("1_v3627")
 at = 0.4
 speaker = &"bettany"
 text = "One wagon. Five to go. The hunters count slow and they count twice."
+voice = "res://assets/audio/voice/bettany/one_wagon_five_to_27f8f10b.wav"
 
 [sub_resource type="Resource" id="Resource_xlt8x"]
 script = ExtResource("3_ndbsu")
@@ -62,12 +63,14 @@ script = ExtResource("1_v3627")
 at = 0.3
 speaker = &"vessa"
 text = "What do they even want all this gold for?"
+voice = "res://assets/audio/voice/vessa/what_do_they_even_f2911967.wav"
 
 [sub_resource type="Resource" id="Resource_j3hg4"]
 script = ExtResource("1_v3627")
 at = 3.8
 speaker = &"bettany"
 text = "Arrows, mostly. And never having to go down there again."
+voice = "res://assets/audio/voice/bettany/arrows_mostly_and_never_aa9c45aa.wav"
 
 [sub_resource type="Resource" id="Resource_8cph0"]
 script = ExtResource("3_ndbsu")

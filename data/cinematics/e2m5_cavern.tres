@@ -20,6 +20,7 @@ script = ExtResource("1_peejb")
 at = 0.4
 speaker = &"narrator"
 text = "Under the roots of the world, a door. And on the other side of it, the one who made it."
+voice = "res://assets/audio/voice/narrator/under_the_roots_of_d20b9974.wav"
 
 [sub_resource type="Resource" id="Resource_ho6i8"]
 script = ExtResource("3_hb3wp")
@@ -41,13 +42,14 @@ script = ExtResource("1_peejb")
 at = 0.3
 speaker = &"vessa"
 text = "That's it. That's the door. Vey, he's right there. Under my feet."
+voice = "res://assets/audio/voice/vessa/thats_it_thats_the_0a1adf3f.wav"
 
 [sub_resource type="Resource" id="Resource_csrsp"]
 script = ExtResource("3_hb3wp")
 id = &"C2"
 duration = 5.5
 camera_mode = 3
-look_offset = Vector3(0, 1.87985, 0)
+look_offset = Vector3(0, 2.047, 0)
 pivot_actor = &"vessa"
 pivot = Vector3(-45, 0, 47)
 orbit_radius = 3.6
@@ -62,6 +64,7 @@ script = ExtResource("1_peejb")
 at = 0.3
 speaker = &"vey"
 text = "Four seals. Wake them with the relics and the door stands. Let Malrik break them and it falls."
+voice = "res://assets/audio/voice/vey/four_seals_wake_them_904df50c.wav"
 
 [sub_resource type="Resource" id="Resource_p4ave"]
 script = ExtResource("3_hb3wp")
@@ -102,13 +105,14 @@ script = ExtResource("1_peejb")
 at = 0.3
 speaker = &"malrik"
 text = "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs."
+voice = "res://assets/audio/voice/malrik/good_evening_vessa_mind_c8c23dd1.wav"
 
 [sub_resource type="Resource" id="Resource_yiog3"]
 script = ExtResource("3_hb3wp")
 id = &"C4"
 duration = 7.0
 camera_mode = 3
-look_offset = Vector3(0, 1.898, 0)
+look_offset = Vector3(0, 1.93, 0)
 pivot_actor = &"shadow_hero"
 pivot = Vector3(0, 0, -28)
 orbit_radius = 4.0

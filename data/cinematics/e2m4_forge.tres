@@ -30,6 +30,7 @@ script = ExtResource("1_k1vvw")
 at = 0.6
 speaker = &"vessa"
 text = "The hearth's lit. Ashby, it's yours. Make me things that hit harder."
+voice = "res://assets/audio/voice/vessa/the_hearths_lit_ashby_fdfe23ff.wav"
 
 [sub_resource type="Resource" id="Resource_v5q0y"]
 script = ExtResource("3_7dwxl")
@@ -70,6 +71,7 @@ script = ExtResource("1_k1vvw")
 at = 0.3
 speaker = &"ashby"
 text = "A Master's forge! My grandad would weep. Then he'd charge you for it."
+voice = "res://assets/audio/voice/ashby/a_masters_forge_my_ca56e44a.wav"
 
 [sub_resource type="Resource" id="Resource_d0ntd"]
 script = ExtResource("3_7dwxl")

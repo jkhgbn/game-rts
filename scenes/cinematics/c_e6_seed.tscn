@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="9_i3xug"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="10_hb6mb"]
 
-[node name="CE6SeedStage" type="Node3D" unique_id=712148379]
+[node name="CE6SeedStage" type="Node3D" unique_id=1997748784]
 script = ExtResource("1_wn2t2")
 autoplay_script = ExtResource("2_ifl3e")
 actor_paths = {
@@ -62,7 +62,7 @@ lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/m
 [node name="fire1" type="Node3D" parent="." unique_id=984822497 instance=ExtResource("6_ow7xo")]
 transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -10, 6.85, 47.6)
 
-[node name="Maelis" type="Node3D" parent="." unique_id=1716727307 instance=ExtResource("7_ufbc3")]
+[node name="Maelis" type="Node3D" parent="." unique_id=1398155465 instance=ExtResource("7_ufbc3")]
 transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, -12.6, 6.92, 46.2)
 script = ExtResource("8_gjn0y")
 body_height = 2.0
@@ -75,6 +75,6 @@ kingdom_color = Color(0.35, 0.7, 0.25, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=244184300]
+[node name="LightingRig" type="Node3D" parent="." unique_id=810026931]
 script = ExtResource("9_i3xug")
 preset = ExtResource("10_hb6mb")

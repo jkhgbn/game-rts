@@ -17,7 +17,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="15_w33lk"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="16_pkjgu"]
 
-[node name="CE2LodgeStage" type="Node3D" unique_id=65610641]
+[node name="CE2LodgeStage" type="Node3D" unique_id=1794652420]
 script = ExtResource("1_ilihi")
 autoplay_script = ExtResource("2_0i0ui")
 actor_paths = {
@@ -34,10 +34,10 @@ set_id = &"forge_ep2_feast"
 lighting = ExtResource("5_ow3sl")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/bonfire"), NodePath("Placed/table_w"), NodePath("Placed/table_e"), NodePath("Placed/lamp1"), NodePath("Placed/lamp2"), NodePath("Placed/lamp3"), NodePath("Placed/lamp4"), NodePath("Placed/lantern_string_1"), NodePath("Placed/lantern_string_2"), NodePath("Placed/gate_l"), NodePath("Placed/gate_r"), NodePath("Placed/banner_fire_1"), NodePath("Placed/banner_fire_2"), NodePath("Placed/glow_fire_1"), NodePath("Placed/glow_warm_1"), NodePath("Placed/glow_warm_2"), NodePath("Placed/glow_warm_3"), NodePath("Placed/glow_warm_4"), NodePath("Placed/glow_warm_5"), NodePath("Placed/glow_warm_6"), NodePath("Placed/glow_warm_7"), NodePath("Placed/glow_warm_8"), NodePath("Placed/glow_warm_9"), NodePath("Placed/glow_warm_10"), NodePath("Placed/glow_red_1"), NodePath("Placed/glow_blue_1")])
 
-[node name="table" type="Node3D" parent="." unique_id=1934122908 instance=ExtResource("6_hr3xr")]
+[node name="table" type="Node3D" parent="." unique_id=1269293903 instance=ExtResource("6_hr3xr")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 3, 0, 6)
 
-[node name="Vessa" type="Node3D" parent="." unique_id=822659108 instance=ExtResource("7_sum80")]
+[node name="Vessa" type="Node3D" parent="." unique_id=1328088814 instance=ExtResource("7_sum80")]
 transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 3, 0, 4.6)
 script = ExtResource("8_xbnx5")
 body_height = 3.0
@@ -45,7 +45,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="Vey" type="Node3D" parent="." unique_id=1931487761 instance=ExtResource("9_yrjhb")]
+[node name="Vey" type="Node3D" parent="." unique_id=1206224950 instance=ExtResource("9_yrjhb")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.05, 0, 6.15)
 script = ExtResource("10_vlrvf")
 light_energy = 0.0
@@ -54,7 +54,7 @@ attack_style = &"sword_slash"
 stride_speed = 4.8
 leg_swing_deg = 30.0
 
-[node name="Ysolde" type="Node3D" parent="." unique_id=1674767979 instance=ExtResource("11_ulbsa")]
+[node name="Ysolde" type="Node3D" parent="." unique_id=942858802 instance=ExtResource("11_ulbsa")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.95, 0, 6.3)
 script = ExtResource("12_sgitg")
 body_height = 2.0
@@ -65,7 +65,7 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="Pell" type="Node3D" parent="." unique_id=1299054813 instance=ExtResource("13_tiuoi")]
+[node name="Pell" type="Node3D" parent="." unique_id=1187574978 instance=ExtResource("13_tiuoi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, -30)
 visible = false
 script = ExtResource("14_ch6ds")
@@ -81,6 +81,6 @@ leg_swing_deg = 30.0
 walk_bounce = 0.045
 flinch_push = true
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1576171256]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1652104885]
 script = ExtResource("15_w33lk")
 preset = ExtResource("16_pkjgu")

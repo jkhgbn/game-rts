@@ -34,19 +34,21 @@ script = ExtResource("1_d1x70")
 at = 0.4
 speaker = &"ysolde"
 text = "You came when I called, Vessa. Next time, I come when you do."
+voice = "res://assets/audio/voice/ysolde/you_came_when_i_091e4eda.wav"
 
 [sub_resource type="Resource" id="Resource_jnsil"]
 script = ExtResource("1_d1x70")
 at = 5.0
 speaker = &"vessa"
 text = "Deal. And next time, I'll leave your trees alone."
+voice = "res://assets/audio/voice/vessa/deal_and_next_time_1de98e38.wav"
 
 [sub_resource type="Resource" id="Resource_15jbj"]
 script = ExtResource("3_aoevi")
 id = &"B2"
 duration = 9.0
 camera_mode = 3
-look_offset = Vector3(0, 1.87985, 0)
+look_offset = Vector3(0, 2.047, 0)
 pivot_actor = &"vessa"
 pivot = Vector3(-10, 0, 2)
 orbit_radius = 3.6

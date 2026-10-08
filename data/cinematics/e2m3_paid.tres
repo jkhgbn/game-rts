@@ -19,6 +19,7 @@ script = ExtResource("1_1ue3x")
 at = 0.4
 speaker = &"bettany"
 text = "Six. Paid in full. Here's your road down: a stair under Emberfall, the Sunrise Road."
+voice = "res://assets/audio/voice/bettany/six_paid_in_full_b206ca67.wav"
 
 [sub_resource type="Resource" id="Resource_cl4jf"]
 script = ExtResource("3_cssrm")
@@ -40,6 +41,7 @@ script = ExtResource("1_1ue3x")
 at = 0.3
 speaker = &"bettany"
 text = "Two of ours will guide you. Nobody else has walked it since the Master."
+voice = "res://assets/audio/voice/bettany/two_of_ours_will_8082354f.wav"
 
 [sub_resource type="Resource" id="Resource_da2g2"]
 script = ExtResource("3_cssrm")
@@ -80,6 +82,7 @@ script = ExtResource("1_1ue3x")
 at = 0.5
 speaker = &"malrik"
 text = "A map to the deep. How generous. I'll take it off your body."
+voice = "res://assets/audio/voice/malrik/a_map_to_the_5b99da9c.wav"
 
 [sub_resource type="Resource" id="Resource_tk3af"]
 script = ExtResource("3_cssrm")

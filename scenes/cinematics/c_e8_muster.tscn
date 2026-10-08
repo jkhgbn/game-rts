@@ -20,7 +20,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="18_o208w"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="19_48lnq"]
 
-[node name="CE8MusterStage" type="Node3D" unique_id=1835351894]
+[node name="CE8MusterStage" type="Node3D" unique_id=1085678206]
 script = ExtResource("1_2e4sy")
 autoplay_script = ExtResource("2_tycew")
 actor_paths = {
@@ -83,7 +83,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 7.43, -39.6)
 [node name="b_shadow" type="Node3D" parent="." unique_id=433296641 instance=ExtResource("9_h4x38")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 7.42, -39.6)
 
-[node name="Aldra" type="Node3D" parent="." unique_id=1133139906 instance=ExtResource("10_yhoo4")]
+[node name="Aldra" type="Node3D" parent="." unique_id=1383436294 instance=ExtResource("10_yhoo4")]
 transform = Transform3D(0.9848077, 0, 0.17364818, 0, 1, 0, -0.17364818, 0, 0.9848077, -4.4, 7.8, -46)
 visible = false
 script = ExtResource("11_ortbc")
@@ -98,7 +98,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="Maelis" type="Node3D" parent="." unique_id=1158974152 instance=ExtResource("12_5ihiy")]
+[node name="Maelis" type="Node3D" parent="." unique_id=1409525020 instance=ExtResource("12_5ihiy")]
 transform = Transform3D(0.17364822, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, 0.17364822, -15, 6.9, -40.4)
 visible = false
 script = ExtResource("13_fhwsk")
@@ -112,7 +112,7 @@ kingdom_color = Color(0.35, 0.7, 0.25, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="Wren" type="Node3D" parent="." unique_id=504965622 instance=ExtResource("14_cmpxj")]
+[node name="Wren" type="Node3D" parent="." unique_id=78256865 instance=ExtResource("14_cmpxj")]
 transform = Transform3D(0.17364822, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, 0.17364822, -16.4, 6.8, -38.6)
 visible = false
 script = ExtResource("15_s8vgc")
@@ -125,11 +125,11 @@ kingdom_color = Color(0.35, 0.7, 0.25, 1)
 leg_swing_deg = 30.0
 walk_bounce = 0.05
 
-[node name="Stag" type="Node3D" parent="." unique_id=998284688 instance=ExtResource("16_hgksw")]
+[node name="Stag" type="Node3D" parent="." unique_id=1665215780 instance=ExtResource("16_hgksw")]
 transform = Transform3D(0.17364822, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, 0.17364822, -17.6, 6.8, -39.6)
 visible = false
 script = ExtResource("17_hhyun")
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1307043460]
+[node name="LightingRig" type="Node3D" parent="." unique_id=930579599]
 script = ExtResource("18_o208w")
 preset = ExtResource("19_48lnq")

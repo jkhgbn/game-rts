@@ -41,7 +41,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="Ep6EndingStage" type="Node3D" unique_id=49281300]
+[node name="Ep6EndingStage" type="Node3D" unique_id=632297732]
 script = ExtResource("1_6swrx")
 autoplay_script = ExtResource("2_md3bg")
 actor_paths = {
@@ -84,6 +84,6 @@ set_id = &"forge_citadel"
 lighting = ExtResource("8_p727t")
 lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=105687008]
+[node name="LightingRig" type="Node3D" parent="." unique_id=6873555]
 script = ExtResource("9_av6nv")
 preset = SubResource("Resource_ktv3k")

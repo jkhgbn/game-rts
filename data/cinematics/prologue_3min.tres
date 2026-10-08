@@ -9,9 +9,9 @@
 script = ExtResource("1_jbvl5")
 at = 1.2
 speaker = &"master"
-text = "Once upon a time, the strongest wizard of all time ruled the world."
+text = "Once upon a time, the strongest wizard who ever lived ruled the world."
 duration = 5.7
-voice = "res://assets/audio/voice/master/once_upon_a_time_74703b43.wav"
+voice = "res://assets/audio/voice/master/once_upon_a_time_8b62d3e8.wav"
 
 [sub_resource type="Resource" id="Resource_jvakm"]
 script = ExtResource("3_4u4ub")
@@ -2065,9 +2065,9 @@ params = {
 script = ExtResource("1_jbvl5")
 at = 0.3
 speaker = &"master"
-text = "Nothing breaks him. Not armies, not winters. Not time."
+text = "Armies have not broken him, nor winters, nor time."
 duration = 6.6
-voice = "res://assets/audio/voice/master/nothing_breaks_him_not_9a4ca6da.wav"
+voice = "res://assets/audio/voice/master/armies_have_not_broken_946bc99e.wav"
 
 [sub_resource type="Resource" id="Resource_y8tve"]
 script = ExtResource("3_4u4ub")

@@ -41,19 +41,21 @@ script = ExtResource("1_j0kq0")
 at = 0.3
 speaker = &"narrator"
 text = "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it."
+voice = "res://assets/audio/voice/narrator/a_hundred_years_the_e560f172.wav"
 
 [sub_resource type="Resource" id="Resource_ywnjd"]
 script = ExtResource("1_j0kq0")
 at = 6.0
 speaker = &"malrik"
 text = "Open it, Mason. Let me see what the Master was so busy guarding."
+voice = "res://assets/audio/voice/malrik/open_it_mason_let_c67d4853.wav"
 
 [sub_resource type="Resource" id="Resource_upu5h"]
 script = ExtResource("3_ta0cl")
 id = &"K1"
 duration = 10.0
 camera_mode = 3
-look_offset = Vector3(0, 1.898, 0)
+look_offset = Vector3(0, 1.93, 0)
 pivot_actor = &"shadow_hero"
 pivot = Vector3(1.5, 0, -21)
 orbit_radius = 4.2
@@ -181,13 +183,14 @@ script = ExtResource("1_j0kq0")
 at = 0.4
 speaker = &"vessa"
 text = "Everyone on the door! Nobody touches it but us!"
+voice = "res://assets/audio/voice/vessa/everyone_on_the_door_cfef952b.wav"
 
 [sub_resource type="Resource" id="Resource_vysb8"]
 script = ExtResource("3_ta0cl")
 id = &"K4"
 duration = 8.0
 camera_mode = 3
-look_offset = Vector3(0, 1.87985, 0)
+look_offset = Vector3(0, 2.047, 0)
 pivot_actor = &"vessa"
 pivot = Vector3(-3, 0, 8)
 orbit_radius = 3.6

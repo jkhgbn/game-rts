@@ -30,6 +30,7 @@ script = ExtResource("1_fvuil")
 at = 0.5
 speaker = &"narrator"
 text = "And for the first time in twelve years, the Sunrise Road saw its sunrise."
+voice = "res://assets/audio/voice/narrator/and_for_the_first_887ec3c4.wav"
 
 [sub_resource type="Resource" id="Resource_0h7ft"]
 script = ExtResource("3_mq4n5")
@@ -105,19 +106,21 @@ script = ExtResource("1_fvuil")
 at = 0.3
 speaker = &"vey"
 text = "He's down there. I can feel him. And he's tired, girl. So very tired."
+voice = "res://assets/audio/voice/vey/hes_down_there_i_20c63292.wav"
 
 [sub_resource type="Resource" id="Resource_48l5v"]
 script = ExtResource("1_fvuil")
 at = 4.8
 speaker = &"vessa"
 text = "Then we go faster. Wardens, with me. We're going to fetch the Master."
+voice = "res://assets/audio/voice/vessa/then_we_go_faster_c1e4b702.wav"
 
 [sub_resource type="Resource" id="Resource_uk8jx"]
 script = ExtResource("3_mq4n5")
 id = &"S3"
 duration = 9.5
 camera_mode = 3
-look_offset = Vector3(0, 1.5649999, 0)
+look_offset = Vector3(0, 1.74, 0)
 pivot_actor = &"vey"
 pivot = Vector3(1.6, 0, -70)
 orbit_radius = 3.4
@@ -154,6 +157,7 @@ script = ExtResource("1_fvuil")
 at = 0.3
 speaker = &"malrik"
 text = "Go on, then. Run ahead. I'll be right behind you, with the key you lack."
+voice = "res://assets/audio/voice/malrik/go_on_then_run_d5638b5a.wav"
 
 [sub_resource type="Resource" id="Resource_io54h"]
 script = ExtResource("3_mq4n5")

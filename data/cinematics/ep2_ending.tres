@@ -227,10 +227,10 @@ script = ExtResource("3_q1kw1")
 id = &"S9"
 duration = 6.0
 camera_mode = 1
-from_pos = Vector3(-0.8118738, 1.555, 6.687982)
-to_pos = Vector3(-0.9757042, 1.555, 6.802697)
-look_from = Vector3(-2.4, 1.555, 7.8)
-look_to = Vector3(-2.4, 1.555, 7.8)
+from_pos = Vector3(-0.8118738, 1.65, 6.687982)
+to_pos = Vector3(-0.9757042, 1.65, 6.802697)
+look_from = Vector3(-2.4, 1.65, 7.8)
+look_to = Vector3(-2.4, 1.65, 7.8)
 fov_from = 40.0
 fov_to = 40.0
 

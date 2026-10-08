@@ -80,6 +80,7 @@ script = ExtResource("1_hj1cm")
 at = 0.5
 speaker = &"obren"
 text = "Forty years he dug here. Let me give him a body."
+voice = "res://assets/audio/voice/whisper/forty_years_he_dug_ee3849b1.wav"
 
 [sub_resource type="Resource" id="Resource_42mqd"]
 script = ExtResource("3_u8bib")
@@ -128,6 +129,7 @@ script = ExtResource("1_hj1cm")
 at = 1.0
 speaker = &"malrik"
 text = "He had one. He wore it out honestly."
+voice = "res://assets/audio/voice/malrik/he_had_one_he_6b073ea7.wav"
 
 [sub_resource type="Resource" id="Resource_brl08"]
 script = ExtResource("3_u8bib")

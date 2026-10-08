@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="10_k1c5u"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="11_507d7"]
 
-[node name="CE5TurnStage" type="Node3D" unique_id=359969154]
+[node name="CE5TurnStage" type="Node3D" unique_id=1148468781]
 script = ExtResource("1_o78db")
 autoplay_script = ExtResource("2_iym3m")
 actor_paths = {
@@ -63,7 +63,7 @@ kingdom_color = Color(0.42, 0.22, 0.6, 1)
 walk_bounce = 0.05
 flinch_push = true
 
-[node name="Hound2" type="Node3D" parent="." unique_id=977400900 instance=ExtResource("8_k07ou")]
+[node name="Hound2" type="Node3D" parent="." unique_id=1936198230 instance=ExtResource("8_k07ou")]
 transform = Transform3D(-0.9396926, 0, 0.3420202, 0, 1, 0, -0.3420202, 0, -0.9396926, -15.4, 0, 9.9)
 visible = false
 script = ExtResource("9_70het")
@@ -80,6 +80,6 @@ kingdom_color = Color(0.42, 0.22, 0.6, 1)
 walk_bounce = 0.05
 flinch_push = true
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=703918489]
+[node name="LightingRig" type="Node3D" parent="." unique_id=889235694]
 script = ExtResource("10_k1c5u")
 preset = ExtResource("11_507d7")

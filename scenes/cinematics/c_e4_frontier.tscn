@@ -48,7 +48,7 @@ sun_energy = 0.45
 sun_rotation_degrees = Vector3(-30, 199.99998, 0)
 vignette_strength = 0.0
 
-[node name="CE4FrontierStage" type="Node3D" unique_id=2143578262]
+[node name="CE4FrontierStage" type="Node3D" unique_id=1938183093]
 script = ExtResource("1_0d08k")
 autoplay_script = ExtResource("2_1t65f")
 actor_paths = {
@@ -89,10 +89,10 @@ set_id = &"forge_watch_keep"
 lighting = ExtResource("7_3isb2")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/vessa"), NodePath("Puppets/guard_w"), NodePath("Puppets/guard_e")])
 
-[node name="table" type="Node3D" parent="forge_watch_keep" unique_id=1387125710 instance=ExtResource("8_vb3mr")]
+[node name="table" type="Node3D" parent="forge_watch_keep" unique_id=166322504 instance=ExtResource("8_vb3mr")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -7, 0, -1)
 
-[node name="Aldra" type="Node3D" parent="." unique_id=1571413743 instance=ExtResource("9_i4qcr")]
+[node name="Aldra" type="Node3D" parent="." unique_id=804430363 instance=ExtResource("9_i4qcr")]
 transform = Transform3D(0.34202015, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, 0.34202015, 3, 0, 1.2)
 visible = false
 script = ExtResource("10_yvrek")
@@ -110,10 +110,10 @@ walk_bounce = 0.03
 [node name="Shoot" type="Node3D" parent="." unique_id=2012055190 instance=ExtResource("11_ls7jr")]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 7.6, 0.02, 6.6)
 
-[node name="Lantern" type="Node3D" parent="." unique_id=2138598954 instance=ExtResource("12_6xrh5")]
+[node name="Lantern" type="Node3D" parent="." unique_id=1366903794 instance=ExtResource("12_6xrh5")]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 6.5, 0, 5)
 
-[node name="Ysolde" type="Node3D" parent="." unique_id=1329294934 instance=ExtResource("13_jqoc8")]
+[node name="Ysolde" type="Node3D" parent="." unique_id=784641761 instance=ExtResource("13_jqoc8")]
 transform = Transform3D(-0.1736482, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, -0.1736482, -8.6, 0, -0.7)
 visible = false
 script = ExtResource("14_qek0h")
@@ -125,10 +125,10 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="Seed" type="Node3D" parent="." unique_id=615522539 instance=ExtResource("15_3v2w1")]
+[node name="Seed" type="Node3D" parent="." unique_id=845397906 instance=ExtResource("15_3v2w1")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -7.2, 1.2, -1.1)
 visible = false
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=683479616]
+[node name="LightingRig" type="Node3D" parent="." unique_id=363587476]
 script = ExtResource("16_pn003")
 preset = SubResource("Resource_ulh8m")

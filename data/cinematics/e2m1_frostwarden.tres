@@ -52,13 +52,14 @@ script = ExtResource("1_jqdly")
 at = 0.3
 speaker = &"aldra"
 text = "Hold the rime. When the green stops beating, the wood is ours."
+voice = "res://assets/audio/voice/aldra/hold_the_rime_when_a0531061.wav"
 
 [sub_resource type="Resource" id="Resource_2iuxw"]
 script = ExtResource("3_oujga")
 id = &"F1"
 duration = 5.0
 camera_mode = 3
-look_offset = Vector3(0, 1.5699999, 0)
+look_offset = Vector3(0, 1.7789999, 0)
 pivot_actor = &"aldra"
 pivot = Vector3(-3, 0, 14)
 orbit_radius = 4.0
@@ -87,6 +88,7 @@ script = ExtResource("1_jqdly")
 at = 0.3
 speaker = &"torvald"
 text = "So the little ember comes to warm the wood. You are late, child. Winter got here first."
+voice = "res://assets/audio/voice/torvald/so_the_little_ember_6f0f8efc.wav"
 
 [sub_resource type="Resource" id="Resource_611jt"]
 script = ExtResource("3_oujga")

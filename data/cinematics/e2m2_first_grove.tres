@@ -76,13 +76,14 @@ script = ExtResource("1_evfdp")
 at = 0.3
 speaker = &"maelis"
 text = "Stumpwood breathes again. The forest remembers who froze it."
+voice = "res://assets/audio/voice/maelis/stumpwood_breathes_again_the_c3869844.wav"
 
 [sub_resource type="Resource" id="Resource_ftp1q"]
 script = ExtResource("3_34nw3")
 id = &"G2"
 duration = 6.0
 camera_mode = 3
-look_offset = Vector3(0, 1.5600001, 0)
+look_offset = Vector3(0, 1.71, 0)
 pivot_actor = &"maelis"
 pivot = Vector3(-42, 0, 16)
 orbit_radius = 3.5

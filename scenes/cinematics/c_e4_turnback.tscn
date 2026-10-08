@@ -50,7 +50,7 @@ sun_energy = 0.55
 sun_rotation_degrees = Vector3(-30, 199.99998, 0)
 vignette_strength = 0.0
 
-[node name="CE4TurnbackStage" type="Node3D" unique_id=250468035]
+[node name="CE4TurnbackStage" type="Node3D" unique_id=1135099839]
 script = ExtResource("1_4x5k0")
 autoplay_script = ExtResource("2_klg1h")
 actor_paths = {
@@ -112,19 +112,19 @@ set_id = &"forge_evenmead"
 lighting = ExtResource("7_ncu1h")
 lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/master_tree"), NodePath("Placed/banner_n"), NodePath("Placed/banner_s"), NodePath("Placed/stone_pt"), NodePath("Placed/bloom_pt"), NodePath("Puppets/malrik"), NodePath("Puppets/torvald"), NodePath("Puppets/hush"), NodePath("Puppets/ysolde"), NodePath("Puppets/vessa"), NodePath("Puppets/vey"), NodePath("Puppets/stone"), NodePath("Puppets/bloom"), NodePath("Puppets/army_shadow"), NodePath("Puppets/army_ice"), NodePath("Puppets/army_nature"), NodePath("Puppets/army_fire"), NodePath("Puppets/w_ground"), NodePath("Puppets/w_grass_near"), NodePath("Puppets/w_grass_mid"), NodePath("Puppets/w_grass_far"), NodePath("Puppets/w_grass_tall"), NodePath("Puppets/w_flowers"), NodePath("Puppets/w_oak0"), NodePath("Puppets/w_oak1"), NodePath("Puppets/w_oak2"), NodePath("Puppets/w_birch"), NodePath("Puppets/w_shrub0"), NodePath("Puppets/w_shrub1"), NodePath("Puppets/w_farwood"), NodePath("Puppets/w_river"), NodePath("Puppets/w_riverbed"), NodePath("Puppets/w_reeds"), NodePath("Puppets/w_camps"), NodePath("Puppets/w_mist"), NodePath("Puppets/w_glow"), NodePath("Puppets/w_rays"), NodePath("Puppets/w_birds"), NodePath("Puppets/w_far")])
 
-[node name="table" type="Node3D" parent="." unique_id=569698555 instance=ExtResource("8_eo6o7")]
+[node name="table" type="Node3D" parent="." unique_id=1373952063 instance=ExtResource("8_eo6o7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 6)
 
-[node name="cots_w" type="Node3D" parent="." unique_id=914918659 instance=ExtResource("9_tq4hp")]
+[node name="cots_w" type="Node3D" parent="." unique_id=997522864 instance=ExtResource("9_tq4hp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -6)
 
-[node name="cots_e" type="Node3D" parent="." unique_id=60554093 instance=ExtResource("9_tq4hp")]
+[node name="cots_e" type="Node3D" parent="." unique_id=1277919697 instance=ExtResource("9_tq4hp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -7)
 
-[node name="cots_s" type="Node3D" parent="." unique_id=1811247262 instance=ExtResource("9_tq4hp")]
+[node name="cots_s" type="Node3D" parent="." unique_id=1461792361 instance=ExtResource("9_tq4hp")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 9, 0, 7)
 
-[node name="Ysolde" type="Node3D" parent="." unique_id=1008287028 instance=ExtResource("10_0erwa")]
+[node name="Ysolde" type="Node3D" parent="." unique_id=1794980808 instance=ExtResource("10_0erwa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.1, 0, 5.3)
 script = ExtResource("11_q8diq")
 body_height = 2.0
@@ -135,7 +135,7 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="Maelis" type="Node3D" parent="." unique_id=1149564997 instance=ExtResource("12_ortx1")]
+[node name="Maelis" type="Node3D" parent="." unique_id=4439698 instance=ExtResource("12_ortx1")]
 transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -9.6, 0, -1.2)
 script = ExtResource("13_7brfc")
 body_height = 2.0
@@ -159,7 +159,7 @@ idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="Guard1" type="Node3D" parent="." unique_id=1146810303 instance=ExtResource("14_keygj")]
+[node name="Guard1" type="Node3D" parent="." unique_id=1935112603 instance=ExtResource("14_keygj")]
 transform = Transform3D(-1.12, 0, -9.791351e-08, 0, 1.12, 0, 9.791351e-08, 0, -1.12, -3, 0, -21.6)
 script = ExtResource("15_yii5t")
 body_height = 2.0
@@ -169,7 +169,7 @@ idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="Guard2" type="Node3D" parent="." unique_id=1464967497 instance=ExtResource("14_keygj")]
+[node name="Guard2" type="Node3D" parent="." unique_id=812132430 instance=ExtResource("14_keygj")]
 transform = Transform3D(-1.12, 0, -9.791351e-08, 0, 1.12, 0, 9.791351e-08, 0, -1.12, 4, 0, -21.6)
 script = ExtResource("15_yii5t")
 body_height = 2.0
@@ -179,14 +179,14 @@ idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="Bundle" type="Node3D" parent="." unique_id=929897454 instance=ExtResource("16_henp7")]
+[node name="Bundle" type="Node3D" parent="." unique_id=971003783 instance=ExtResource("16_henp7")]
 transform = Transform3D(0.9848077, 0, 0.17364818, 0, 1, 0, -0.17364818, 0, 0.9848077, -12.5, 0.89, 5.85)
 visible = false
 
-[node name="Pod" type="Node3D" parent="." unique_id=301451550 instance=ExtResource("17_kinpb")]
+[node name="Pod" type="Node3D" parent="." unique_id=1860762769 instance=ExtResource("17_kinpb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.55, 0.97, 5.8)
 visible = false
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1045214395]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1097828581]
 script = ExtResource("18_fw5yn")
 preset = SubResource("Resource_k6qbh")

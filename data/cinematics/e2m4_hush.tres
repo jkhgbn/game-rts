@@ -63,13 +63,14 @@ script = ExtResource("1_wracr")
 at = 0.4
 speaker = &"hush"
 text = "The little ember, in the dark. You're a long way from your braziers."
+voice = "res://assets/audio/voice/hush/the_little_ember_in_80809961.wav"
 
 [sub_resource type="Resource" id="Resource_svtf8"]
 script = ExtResource("3_qssnl")
 id = &"H2"
 duration = 6.0
 camera_mode = 3
-look_offset = Vector3(0, 1.5799999, 0)
+look_offset = Vector3(0, 1.77, 0)
 pivot_actor = &"hush_cast"
 pivot = Vector3(0, 0, -60)
 orbit_radius = 3.4

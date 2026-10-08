@@ -28,6 +28,7 @@ script = ExtResource("1_e36ll")
 at = 0.4
 speaker = &"obren"
 text = "The flag falls. The tree is right there. Take it. TAKE it."
+voice = "res://assets/audio/voice/whisper/the_flag_falls_the_ebc91e55.wav"
 
 [sub_resource type="Resource" id="Resource_ted01"]
 script = ExtResource("3_am4pl")
@@ -88,12 +89,14 @@ script = ExtResource("1_e36ll")
 at = 0.3
 speaker = &"torvald"
 text = "Malrik. Your hand is shaking. Is that you, or the stone?"
+voice = "res://assets/audio/voice/torvald/malrik_your_hand_is_e854d9e4.wav"
 
 [sub_resource type="Resource" id="Resource_33e3w"]
 script = ExtResource("1_e36ll")
 at = 4.8
 speaker = &"malrik"
 text = "It is me, Torvald. It has always been me."
+voice = "res://assets/audio/voice/malrik/it_is_me_torvald_03cb4e80.wav"
 
 [sub_resource type="Resource" id="Resource_5cega"]
 script = ExtResource("3_am4pl")

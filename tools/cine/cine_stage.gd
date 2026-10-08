@@ -462,22 +462,56 @@ func _add_cast(c: Dictionary) -> void:
 	_register(tag, node, c["pos"], float(c["yaw"]), not bool(c["hidden"]), head)
 
 
-## Height of the face above the model origin: the centre of the meshes under its `Head` node (the Head pivot itself is
-## the neck), else Head + 0.15 m, else DEFAULT_HEAD. Hats taller than 0.45 m above the pivot are ignored.
+## Height of the face above the model origin. A character-kit model with a FaceKit face (FaceRig) gives its exact
+## anchor (face_anchor). Else the centre of the meshes under its `Head` node (the Head pivot itself is the neck), else
+## Head + 0.15 m, else DEFAULT_HEAD. Hats taller than 0.45 m above the pivot are ignored.
+## 2026-10-08: the FaceRig mesh (face + hair + beard in one surface) used to be averaged with the Head meshes: beards
+## and long hair pulled the result 0.2-0.4 m under the eyes (Torvald 1.60, Vessa 1.88), so the framer and
+## look=<actor> shots aimed at the chest.
 static func face_height(node: Node3D) -> float:
+	if not node.is_inside_tree():
+		return DEFAULT_HEAD
+	var anchor := face_anchor(node)
+	if anchor != Vector3.INF:
+		return anchor.y - node.global_position.y
 	var h := node.find_child("Head", true, false) as Node3D
-	if h == null or not node.is_inside_tree():
+	if h == null:
 		return DEFAULT_HEAD
 	var pivot := h.global_position.y - node.global_position.y
 	var lo := INF
 	var hi := -INF
 	for mi: Node in h.find_children("*", "MeshInstance3D", true, false):
+		if mi is FaceRig:
+			continue
 		var a: AABB = (mi as MeshInstance3D).global_transform * (mi as MeshInstance3D).get_aabb()
 		lo = minf(lo, a.position.y)
 		hi = minf(maxf(hi, a.end.y), h.global_position.y + 0.45)
 	if lo == INF:
 		return pivot + 0.15
 	return clampf((lo + hi) * 0.5 - node.global_position.y, pivot, pivot + 0.35)
+
+
+## World position of the model's face centre from its FaceKit face: the style's model-space centre (`canvas.c`, the
+## head sphere's centre) through the FaceRig's transform (the rig sits at the model origin, so the model's scale and
+## pose count). The rig under the `Head` node wins (a mounted rider's horse may have its own). Vector3.INF = none.
+static func face_anchor(node: Node3D) -> Vector3:
+	var best: FaceRig = null
+	for mi: Node in node.find_children("*", "MeshInstance3D", true, false):
+		if not mi is FaceRig:
+			continue
+		var st: Variant = mi.get("_style")
+		if not (st is Dictionary and (st as Dictionary).get("canvas") is Dictionary):
+			continue
+		if best == null or String(mi.get_parent().name) == "Head":
+			best = mi as FaceRig
+			if String(mi.get_parent().name) == "Head":
+				break
+	if best == null:
+		return Vector3.INF
+	var c: Variant = ((best.get("_style") as Dictionary)["canvas"] as Dictionary).get("c")
+	if not c is Vector3:
+		return Vector3.INF
+	return best.global_transform * (c as Vector3)
 
 
 func _register(tag: String, node: Node3D, pos: Vector3, yaw: float, vis: bool, head: float = -1.0) -> void:

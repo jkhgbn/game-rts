@@ -56,7 +56,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="Ep7EndingStage" type="Node3D" unique_id=556043247]
+[node name="Ep7EndingStage" type="Node3D" unique_id=1103206582]
 script = ExtResource("1_mr7t4")
 autoplay_script = ExtResource("2_010b8")
 actor_paths = {
@@ -103,7 +103,7 @@ set_id = &"forge_intro_torvald"
 lighting = ExtResource("5_4is8p")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
 
-[node name="Aldra" type="Node3D" parent="forge_intro_torvald" unique_id=850845905 instance=ExtResource("6_ypa78")]
+[node name="Aldra" type="Node3D" parent="forge_intro_torvald" unique_id=812576604 instance=ExtResource("6_ypa78")]
 transform = Transform3D(0.34202015, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, 0.34202015, -7.2, 0, 4.8)
 script = ExtResource("7_1k4fh")
 light_energy = 0.0
@@ -117,7 +117,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="Malrik" type="Node3D" parent="forge_intro_torvald" unique_id=1316725517 instance=ExtResource("8_gd5ah")]
+[node name="Malrik" type="Node3D" parent="forge_intro_torvald" unique_id=1814296224 instance=ExtResource("8_gd5ah")]
 transform = Transform3D(-0.57357645, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.57357645, 6.6, 1.2, 10.2)
 script = ExtResource("9_mrwob")
 light_energy = 1.0
@@ -138,13 +138,13 @@ metadata/landmark_id = &"lm_barge"
 metadata/decor_clear_radius = 3.6
 metadata/foam_rocks = PackedVector3Array(0.09512484, 0.17592971, 0.95, 0.6658739, 1.231508, 0.95, 1.1652793, 2.155139, 0.62, -1.1177168, -2.067174, 0.62, -1.593341, -2.9468226, 0.2)
 
-[node name="Galley2" type="Node3D" parent="forge_intro_torvald" unique_id=1407111213 groups=["landmarks"] instance=ExtResource("11_ecfh2")]
+[node name="Galley2" type="Node3D" parent="forge_intro_torvald" unique_id=95511716 groups=["landmarks"] instance=ExtResource("11_ecfh2")]
 transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, -12, 0, 11)
 metadata/landmark_id = &"lm_barge"
 metadata/decor_clear_radius = 3.6
 metadata/foam_rocks = PackedVector3Array(0.09512484, 0.17592971, 0.95, 0.6658739, 1.231508, 0.95, 1.1652793, 2.155139, 0.62, -1.1177168, -2.067174, 0.62, -1.593341, -2.9468226, 0.2)
 
-[node name="Frostd" type="Node3D" parent="forge_intro_torvald" unique_id=543189064 instance=ExtResource("12_xw265")]
+[node name="Frostd" type="Node3D" parent="forge_intro_torvald" unique_id=116147154 instance=ExtResource("12_xw265")]
 transform = Transform3D(-0.9848077, 0, 0.1736483, 0, 1, 0, -0.1736483, 0, -0.9848077, -6, 0, 13.4)
 script = ExtResource("13_ovqli")
 body_height = 5.5
@@ -154,11 +154,11 @@ turn_rate_ref_deg = 110.0
 stride_speed = 5.0
 kingdom_color = Color(0.55, 0.8, 0.95, 1)
 
-[node name="Cinderd" type="Node3D" parent="forge_intro_torvald" unique_id=1154608022 instance=ExtResource("14_b43ip")]
+[node name="Cinderd" type="Node3D" parent="forge_intro_torvald" unique_id=1747035678 instance=ExtResource("14_b43ip")]
 transform = Transform3D(-0.8660254, 0, -0.50000006, 0, 1, 0, 0.50000006, 0, -0.8660254, 17, 0, 12)
 script = ExtResource("15_rwcit")
 
-[node name="Ring" type="Node3D" parent="forge_intro_torvald" unique_id=973451229 instance=ExtResource("16_xdbb4")]
+[node name="Ring" type="Node3D" parent="forge_intro_torvald" unique_id=2120114541 instance=ExtResource("16_xdbb4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 2.2, 7.4)
 visible = false
 
@@ -170,10 +170,10 @@ set_id = &"forge_intro_vessa"
 lighting = ExtResource("18_28bit")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/wildfire"), NodePath("Placed/runfire"), NodePath("Placed/sparks"), NodePath("Puppets/vessa"), NodePath("Puppets/vessa_young"), NodePath("Puppets/guard"), NodePath("Puppets/scorchbow"), NodePath("Puppets/adept"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_pillar"), NodePath("Puppets/fx_columns"), NodePath("Puppets/fx_embers"), NodePath("Puppets/fx_volley")])
 
-[node name="chair" type="Node3D" parent="forge_intro_vessa" unique_id=1056289572 instance=ExtResource("19_ofwix")]
+[node name="chair" type="Node3D" parent="forge_intro_vessa" unique_id=387076278 instance=ExtResource("19_ofwix")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.5, 0, 7)
 
-[node name="Dacian" type="Node3D" parent="forge_intro_vessa" unique_id=1889544497 instance=ExtResource("20_hsxjr")]
+[node name="Dacian" type="Node3D" parent="forge_intro_vessa" unique_id=615780453 instance=ExtResource("20_hsxjr")]
 transform = Transform3D(-0.1736482, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, -0.1736482, -8.2, 0, 5.4)
 script = ExtResource("21_gltxi")
 body_height = 1.7
@@ -184,7 +184,7 @@ idle_period = 2.8
 leg_swing_deg = 30.0
 walk_bounce = 0.035
 
-[node name="Seraphine" type="Node3D" parent="forge_intro_vessa" unique_id=961860967 instance=ExtResource("22_4u3fo")]
+[node name="Seraphine" type="Node3D" parent="forge_intro_vessa" unique_id=258238342 instance=ExtResource("22_4u3fo")]
 transform = Transform3D(0.17364822, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, 0.17364822, -8.2, 0, 8.6)
 script = ExtResource("23_vps74")
 body_height = 2.0
@@ -195,11 +195,11 @@ idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="Ossavar" type="Node3D" parent="." unique_id=978762932 instance=ExtResource("14_b43ip")]
+[node name="Ossavar" type="Node3D" parent="." unique_id=1704327240 instance=ExtResource("14_b43ip")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -12, 0, 7)
 visible = false
 script = ExtResource("15_rwcit")
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=637687955]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1473911186]
 script = ExtResource("24_1jlkf")
 preset = SubResource("Resource_qytq5")

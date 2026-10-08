@@ -51,7 +51,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="CE7MaskStage" type="Node3D" unique_id=1134071516]
+[node name="CE7MaskStage" type="Node3D" unique_id=485497471]
 script = ExtResource("1_di6qd")
 autoplay_script = ExtResource("2_yjl7f")
 actor_paths = {
@@ -116,10 +116,10 @@ set_id = &"forge_intro_malrik"
 lighting = ExtResource("5_m1xo6")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"), NodePath("Placed/standing_stones_1"), NodePath("Puppets/malrik"), NodePath("Puppets/malrik_young"), NodePath("Puppets/sknight"), NodePath("Puppets/hexweaver"), NodePath("Puppets/shade"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_vortex"), NodePath("Puppets/fx_tendrils"), NodePath("Puppets/fx_master"), NodePath("Puppets/fx_crown")])
 
-[node name="table" type="Node3D" parent="forge_intro_malrik" unique_id=1872573577 instance=ExtResource("6_wyulc")]
+[node name="table" type="Node3D" parent="forge_intro_malrik" unique_id=149111041 instance=ExtResource("6_wyulc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 4)
 
-[node name="Torvald" type="Node3D" parent="forge_intro_malrik" unique_id=2023216713 instance=ExtResource("7_ry4c2")]
+[node name="Torvald" type="Node3D" parent="forge_intro_malrik" unique_id=1299624536 instance=ExtResource("7_ry4c2")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1, 0, 6.4)
 visible = false
 script = ExtResource("8_fpufr")
@@ -136,7 +136,7 @@ walk_bounce = 0.05
 [node name="Candle" type="Node3D" parent="forge_intro_malrik" unique_id=224467111 instance=ExtResource("9_unlrr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.84, 3.75)
 
-[node name="Mask" type="Node3D" parent="forge_intro_malrik" unique_id=1590171446 instance=ExtResource("10_arqn7")]
+[node name="Mask" type="Node3D" parent="forge_intro_malrik" unique_id=1736358959 instance=ExtResource("10_arqn7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.88, 4.7)
 visible = false
 
@@ -152,7 +152,7 @@ set_id = &"forge_evenmead"
 lighting = ExtResource("13_hjnpv")
 lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/master_tree"), NodePath("Placed/banner_n"), NodePath("Placed/banner_s"), NodePath("Placed/stone_pt"), NodePath("Placed/bloom_pt"), NodePath("Puppets/malrik"), NodePath("Puppets/torvald"), NodePath("Puppets/hush"), NodePath("Puppets/ysolde"), NodePath("Puppets/vessa"), NodePath("Puppets/vey"), NodePath("Puppets/stone"), NodePath("Puppets/bloom"), NodePath("Puppets/army_shadow"), NodePath("Puppets/army_ice"), NodePath("Puppets/army_nature"), NodePath("Puppets/army_fire"), NodePath("Puppets/w_ground"), NodePath("Puppets/w_grass_near"), NodePath("Puppets/w_grass_mid"), NodePath("Puppets/w_grass_far"), NodePath("Puppets/w_grass_tall"), NodePath("Puppets/w_flowers"), NodePath("Puppets/w_oak0"), NodePath("Puppets/w_oak1"), NodePath("Puppets/w_oak2"), NodePath("Puppets/w_birch"), NodePath("Puppets/w_shrub0"), NodePath("Puppets/w_shrub1"), NodePath("Puppets/w_farwood"), NodePath("Puppets/w_river"), NodePath("Puppets/w_riverbed"), NodePath("Puppets/w_reeds"), NodePath("Puppets/w_camps"), NodePath("Puppets/w_mist"), NodePath("Puppets/w_glow"), NodePath("Puppets/w_rays"), NodePath("Puppets/w_birds"), NodePath("Puppets/w_far")])
 
-[node name="Aldra" type="Node3D" parent="forge_evenmead" unique_id=2090891619 instance=ExtResource("14_a8qxj")]
+[node name="Aldra" type="Node3D" parent="forge_evenmead" unique_id=1335258347 instance=ExtResource("14_a8qxj")]
 transform = Transform3D(0.64278764, 0, 0.76604444, 0, 1, 0, -0.76604444, 0, 0.64278764, 16.6, 0, 6.2)
 script = ExtResource("15_b56hj")
 light_energy = 0.0
@@ -172,11 +172,11 @@ metadata/landmark_id = &"lm_barge"
 metadata/decor_clear_radius = 3.6
 metadata/foam_rocks = PackedVector3Array(0.09512484, 0.17592971, 0.95, 0.6658739, 1.231508, 0.95, 1.1652793, 2.155139, 0.62, -1.1177168, -2.067174, 0.62, -1.593341, -2.9468226, 0.2)
 
-[node name="Ossavar" type="Node3D" parent="forge_evenmead" unique_id=1858995323 instance=ExtResource("17_dhma1")]
+[node name="Ossavar" type="Node3D" parent="forge_evenmead" unique_id=1400209090 instance=ExtResource("17_dhma1")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 70, 46, -70)
 visible = false
 script = ExtResource("18_u4ck2")
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=2114722715]
+[node name="LightingRig" type="Node3D" parent="." unique_id=631352262]
 script = ExtResource("19_1w8rv")
 preset = SubResource("Resource_uqd6u")

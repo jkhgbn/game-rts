@@ -45,7 +45,7 @@ sun_energy = 0.5
 sun_rotation_degrees = Vector3(-30, 199.99998, 0)
 vignette_strength = 0.0
 
-[node name="C2TwoFrontsStage" type="Node3D" unique_id=1739101646]
+[node name="C2TwoFrontsStage" type="Node3D" unique_id=907677928]
 script = ExtResource("1_yuon0")
 autoplay_script = ExtResource("2_2w71x")
 actor_paths = {
@@ -80,13 +80,13 @@ set_id = &"forge_intro_ysolde"
 lighting = ExtResource("7_wsr6k")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/giant_stump_1"), NodePath("Placed/wildfire"), NodePath("Placed/smoke"), NodePath("Puppets/ysolde"), NodePath("Puppets/ysolde_young"), NodePath("Puppets/treant"), NodePath("Puppets/vinelasher"), NodePath("Puppets/messenger"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_tree"), NodePath("Puppets/fx_vines"), NodePath("Puppets/fx_master")])
 
-[node name="table" type="Node3D" parent="." unique_id=1852602008 instance=ExtResource("8_mgwhm")]
+[node name="table" type="Node3D" parent="." unique_id=1912785402 instance=ExtResource("8_mgwhm")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -7, 0, -1)
 
-[node name="tokens" type="Node3D" parent="." unique_id=551745737 instance=ExtResource("9_68qvn")]
+[node name="tokens" type="Node3D" parent="." unique_id=212262291 instance=ExtResource("9_68qvn")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -7, 0.31, -1)
 
-[node name="cloth" type="Node3D" parent="." unique_id=1410901995 instance=ExtResource("10_p8o4k")]
+[node name="cloth" type="Node3D" parent="." unique_id=455024064 instance=ExtResource("10_p8o4k")]
 transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 4.3, 0, -3.1)
 
 [node name="Ashby" type="Node3D" parent="." unique_id=1738145644 instance=ExtResource("11_dbecx")]
@@ -99,6 +99,6 @@ idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1597209876]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1859088584]
 script = ExtResource("13_5rrd3")
 preset = SubResource("Resource_3rupf")

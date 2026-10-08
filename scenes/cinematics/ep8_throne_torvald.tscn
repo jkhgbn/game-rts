@@ -15,7 +15,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="13_wsx2y"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="14_yky8p"]
 
-[node name="Ep8ThroneTorvaldStage" type="Node3D" unique_id=1069896462]
+[node name="Ep8ThroneTorvaldStage" type="Node3D" unique_id=860134623]
 script = ExtResource("1_6rx2x")
 autoplay_script = ExtResource("2_fbp7x")
 actor_paths = {
@@ -46,7 +46,7 @@ lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"),
 [node name="Throne" type="Node3D" parent="." unique_id=1919924985 instance=ExtResource("6_5cnui")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.4)
 
-[node name="Vessa" type="Node3D" parent="." unique_id=658590233 instance=ExtResource("7_jr13d")]
+[node name="Vessa" type="Node3D" parent="." unique_id=1397693869 instance=ExtResource("7_jr13d")]
 transform = Transform3D(-1.15, 0, -1.0053619e-07, 0, 1.15, 0, 1.0053619e-07, 0, -1.15, -2.4, 0, 5)
 script = ExtResource("8_isgo0")
 body_height = 3.0
@@ -54,7 +54,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="Torvald" type="Node3D" parent="." unique_id=983411512 instance=ExtResource("9_lfwhh")]
+[node name="Torvald" type="Node3D" parent="." unique_id=723481833 instance=ExtResource("9_lfwhh")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 3.6)
 script = ExtResource("10_tabi3")
 body_height = 2.1
@@ -67,7 +67,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 24.0
 walk_bounce = 0.05
 
-[node name="Ysolde" type="Node3D" parent="." unique_id=2146740734 instance=ExtResource("11_snx1g")]
+[node name="Ysolde" type="Node3D" parent="." unique_id=1645068310 instance=ExtResource("11_snx1g")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 6.2)
 script = ExtResource("12_w3b76")
 body_height = 2.0
@@ -78,6 +78,6 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=735370409]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1210110992]
 script = ExtResource("13_wsx2y")
 preset = ExtResource("14_yky8p")

@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="6_io41n"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="7_kuv4i"]
 
-[node name="CE6GateShutStage" type="Node3D" unique_id=1769186902]
+[node name="CE6GateShutStage" type="Node3D" unique_id=2065304723]
 script = ExtResource("1_chqnh")
 autoplay_script = ExtResource("2_6qwqm")
 actor_paths = {
@@ -33,6 +33,6 @@ set_id = &"forge_intro_torvald"
 lighting = ExtResource("5_j8esq")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1955992877]
+[node name="LightingRig" type="Node3D" parent="." unique_id=724869398]
 script = ExtResource("6_io41n")
 preset = ExtResource("7_kuv4i")

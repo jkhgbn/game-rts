@@ -1,6 +1,6 @@
 # Episode 2 opening, ~72 s (JS 2026-09-27; script + shot list: docs/design/episode2-opening.md).
-# 0:00-0:20 the victory feast at the Emberfall watch-keep (lanterns, bonfire, a dance ring) · 0:20-0:40 a young runner
-# of the Sighing Wood bursts in: Ysolde's army is destroyed (Shadow AND Ice) · 0:40-1:12 Vessa takes it in and asks
+# 0:00-0:20 the victory feast at the Emberfall watch-keep (lanterns, bonfire, a dance ring) Â· 0:20-0:40 a young runner
+# of the Sighing Wood bursts in: Ysolde's army is destroyed (Shadow AND Ice) Â· 0:40-1:12 Vessa takes it in and asks
 # her army and Old Vey for help -> Episode 2 mission 1 "The Burning Grove".
 # Voice: data/voice/lines/ep2_opening.json (28 lines, same text here). Set: forge_ep2_feast (World Forge, built
 # 2026-09-27: keep, walls + north gate, bonfire, tables, lantern posts / strings, glow cards, banners, 0 lights, marks
@@ -11,6 +11,9 @@
 # clips (`clip <actor> dance_victory | dance_random`, art/units/kit/README.md; cine check FAILs a clip the model lacks):
 # the crowd dance_victory, a few dance_random, Vessa joins after "One dance", Old Vey claps instead (play_attack);
 # everyone stops (`anim <actor> stop_clip`) when the rider bursts in at 0:20.
+# Audio stand-ins (2026-10-08, the feast cues were never synthesised): music = music_menu.wav (was forge/music/
+# ep2_opening.wav), crowd = forge/sfx/evenmead_amb.wav (was feast_crowd.wav), far horn = mapfill_horn.wav (was
+# horn_far.wav), the stag's arrival = mapfill_stag.wav, a bellow (was hooves_gallop.wav). Swap when Sound Forge makes them.
 cine ep2_opening  title="Four Wizards: Episode 2 opening"  letterbox=2.39  seed=2  length=66..76
 use set forge_ep2_feast
 env night  moon_yaw=200  moon_pitch=-30  energy=0.6  color=#9fb4ff
@@ -42,8 +45,8 @@ cast  messenger res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=
 # Night. Crane down over lantern strings into the courtyard: bonfire, full tables, a ring of soldiers dancing
 # (in-game dances: the ring + the revelers dance_victory, d3 / d5 / r2 / the archer dance_random; Vessa watches)
 shot S01 5.0  cam=crane  from=(16, 13, -22)  to=(10, 4.5, -11)  look=(0, 3, 0)>(1, 1.2, 0)  fov=50>44  in=fade_black:1.0
-  at 0.0  music res://assets/audio/forge/music/ep2_opening.wav
-  at 0.0  sfx res://assets/audio/forge/sfx/feast_crowd.wav
+  at 0.0  music res://assets/audio/music/music_menu.wav
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-6
   at 0.0  clip d1 dance_victory
   at 0.1  clip d2 dance_victory
   at 0.2  clip d3 dance_random
@@ -89,7 +92,7 @@ shot S04 4.0  cam=frame "ms on ashby, 3/4 right, low"  push=0.3
   at 2.0  vfx sparks scene=res://art/cinematics/fx/fire_burst.tscn at=(2, 14, -2) life=2.0 scale=2.0
   at 2.1  sfx res://assets/audio/sfx/fireball_explode.wav
   at 2.8  clip vessa dance_victory
-  at 3.2  sfx res://assets/audio/forge/sfx/horn_far.wav
+  at 3.2  sfx res://assets/audio/mapfill_horn.wav
 
 # ---------------------------------------------------------------- 0:20-0:40 the messenger
 # Low at the gate: out of the dark a stag rider bursts in; the dancing stops; dancers scatter; the music dies
@@ -107,12 +110,12 @@ shot S05 3.0  cam=static  from=(5, 1.3, -10)  look=(0.5, 1.6, -26)  fov=46
   at 0.3  anim d3 stop_clip
   at 0.3  anim r2 stop_clip
   at 0.3  anim r3 stop_clip
-  at 0.1  sfx res://assets/audio/forge/sfx/hooves_gallop.wav
+  at 0.1  sfx res://assets/audio/mapfill_stag.wav
   at 0.4  line ashby "Rider at the gate! Make way!"  dur=2.6
   at 0.6  move d5 to=(2.4, 0, 4.4)  speed=3
   at 0.6  move d1 to=(-1.5, 0, 4.6)  speed=3
 # The rider slides off the stag, stumbles, falls to one knee, gets up; Vessa pushes through to her
-shot S06 6.0  cam=frame "ms on messenger and vessa, 3/4 right, eye"  in=cut
+shot S06 6.0  cam=frame "mls on messenger and vessa, 3/4 right, low"  in=cut
   at 0.0  hide rider
   at 0.0  show stag
   at 0.0  show messenger
@@ -143,7 +146,7 @@ shot S09 4.5  cam=frame "cu on vessa, 3/4 left, eye"  push=0.2
   at 0.5  line vey "So Torvald chose a side."  dur=2.5
   at 3.0  line vessa "Malrik's side."  dur=1.5
 # Wren holds out a seed-pod on a cord (Ysolde's token); Vessa kneels to take it
-shot S10 6.0  cam=frame "ms on messenger and vessa, 3/4 right, low"
+shot S10 6.0  cam=frame "mls on messenger and vessa, 3/4 right, low"
   at 0.3  line messenger "She said you'd laugh."  dur=1.8
   at 2.1  line messenger "She said... remember. She warned you."  dur=2.4
   at 3.2  anim messenger play_cast

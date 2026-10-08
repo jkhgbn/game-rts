@@ -18,6 +18,7 @@ script = ExtResource("1_2ehux")
 at = 0.4
 speaker = &"narrator"
 text = "Nature had no kingdom left, only seed. Fire had a border, and a frost fort sitting on it."
+voice = "res://assets/audio/voice/narrator/nature_had_no_kingdom_ffec5004.wav"
 
 [sub_resource type="Resource" id="Resource_0ayng"]
 script = ExtResource("3_qptfj")
@@ -40,13 +41,14 @@ script = ExtResource("1_2ehux")
 at = 0.3
 speaker = &"ysolde"
 text = "Three groves along your line, Vessa. Give me those, and I can give you a kingdom back."
+voice = "res://assets/audio/voice/ysolde/three_groves_along_your_6f6cb72e.wav"
 
 [sub_resource type="Resource" id="Resource_2f1lq"]
 script = ExtResource("3_qptfj")
 id = &"M2"
 duration = 6.5
 camera_mode = 3
-look_offset = Vector3(0, 1.675, 0)
+look_offset = Vector3(0, 1.77, 0)
 pivot_actor = &"ysolde"
 pivot = Vector3(-44, 0, 14)
 orbit_radius = 4.0
@@ -72,13 +74,14 @@ script = ExtResource("1_2ehux")
 at = 0.3
 speaker = &"vessa"
 text = "Three trees? I can do three trees. Torvald brought a whole fort. That one's mine."
+voice = "res://assets/audio/voice/vessa/three_trees_i_can_c9a739b2.wav"
 
 [sub_resource type="Resource" id="Resource_uafik"]
 script = ExtResource("3_qptfj")
 id = &"M3"
 duration = 6.5
 camera_mode = 3
-look_offset = Vector3(0, 1.87985, 0)
+look_offset = Vector3(0, 2.047, 0)
 pivot_actor = &"vessa"
 pivot = Vector3(-31, 0, 33)
 orbit_radius = 3.6

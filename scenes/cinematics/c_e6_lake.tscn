@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="8_00p3n"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="9_82ptv"]
 
-[node name="CE6LakeStage" type="Node3D" unique_id=1944949331]
+[node name="CE6LakeStage" type="Node3D" unique_id=986117872]
 script = ExtResource("1_dw3dt")
 autoplay_script = ExtResource("2_d8oxg")
 actor_paths = {
@@ -36,7 +36,7 @@ set_id = &"forge_intro_torvald"
 lighting = ExtResource("5_sol3l")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
 
-[node name="Aldra" type="Node3D" parent="." unique_id=44725507 instance=ExtResource("6_wu0wu")]
+[node name="Aldra" type="Node3D" parent="." unique_id=2087668547 instance=ExtResource("6_wu0wu")]
 transform = Transform3D(0.76604444, 0, -0.6427876, 0, 1, 0, 0.6427876, 0, 0.76604444, -10.9, 0, 0.6)
 script = ExtResource("7_02yq6")
 light_energy = 0.0
@@ -50,6 +50,6 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1196292977]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1891668945]
 script = ExtResource("8_00p3n")
 preset = ExtResource("9_82ptv")

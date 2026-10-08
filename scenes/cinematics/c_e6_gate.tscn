@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="7_dbj48"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="8_6pfh2"]
 
-[node name="CE6GateStage" type="Node3D" unique_id=1065522299]
+[node name="CE6GateStage" type="Node3D" unique_id=1650129177]
 script = ExtResource("1_d38k5")
 autoplay_script = ExtResource("2_fui0v")
 actor_paths = {
@@ -35,9 +35,9 @@ set_id = &"forge_intro_torvald"
 lighting = ExtResource("5_la61b")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
 
-[node name="Loaf" type="Node3D" parent="." unique_id=261254979 instance=ExtResource("6_lqov0")]
+[node name="Loaf" type="Node3D" parent="." unique_id=632715418 instance=ExtResource("6_lqov0")]
 transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 5.6, 5.05, -3.5)
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=577400781]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1444837823]
 script = ExtResource("7_dbj48")
 preset = ExtResource("8_6pfh2")

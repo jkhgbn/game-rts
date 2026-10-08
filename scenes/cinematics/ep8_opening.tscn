@@ -62,7 +62,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="Ep8OpeningStage" type="Node3D" unique_id=302002725]
+[node name="Ep8OpeningStage" type="Node3D" unique_id=1300411623]
 script = ExtResource("1_ba52k")
 autoplay_script = ExtResource("2_cd0mn")
 actor_paths = {
@@ -199,7 +199,7 @@ set_id = &"forge_intro_malrik"
 lighting = ExtResource("13_c8q8d")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"), NodePath("Placed/standing_stones_1"), NodePath("Puppets/malrik"), NodePath("Puppets/malrik_young"), NodePath("Puppets/sknight"), NodePath("Puppets/hexweaver"), NodePath("Puppets/shade"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_vortex"), NodePath("Puppets/fx_tendrils"), NodePath("Puppets/fx_master"), NodePath("Puppets/fx_crown")])
 
-[node name="door" type="Node3D" parent="forge_intro_malrik" unique_id=324318417 instance=ExtResource("14_qqnhh")]
+[node name="door" type="Node3D" parent="forge_intro_malrik" unique_id=236347526 instance=ExtResource("14_qqnhh")]
 transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, 18, 0, 20)
 
 [node name="Hstone" type="Node3D" parent="forge_intro_malrik" unique_id=811303761 instance=ExtResource("15_xfami")]
@@ -213,10 +213,10 @@ set_id = &"forge_watch_keep"
 lighting = ExtResource("17_n7wsq")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/vessa"), NodePath("Puppets/guard_w"), NodePath("Puppets/guard_e")])
 
-[node name="relics" type="Node3D" parent="forge_watch_keep" unique_id=594205596 instance=ExtResource("18_mc27w")]
+[node name="relics" type="Node3D" parent="forge_watch_keep" unique_id=106837006 instance=ExtResource("18_mc27w")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -3, 0, -2)
 
-[node name="Vey" type="Node3D" parent="forge_watch_keep" unique_id=2013368887 instance=ExtResource("19_ulq5g")]
+[node name="Vey" type="Node3D" parent="forge_watch_keep" unique_id=1816919547 instance=ExtResource("19_ulq5g")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.6, 0, -1)
 script = ExtResource("20_2cxwg")
 light_energy = 0.0
@@ -249,7 +249,7 @@ idle_period = 2.6
 leg_swing_deg = 32.0
 walk_bounce = 0.06
 
-[node name="Wren" type="Node3D" parent="forge_watch_keep" unique_id=376991493 instance=ExtResource("24_xidds")]
+[node name="Wren" type="Node3D" parent="forge_watch_keep" unique_id=1535439577 instance=ExtResource("24_xidds")]
 transform = Transform3D(-0.1736482, 0, -0.9848077, 0, 1, 0, 0.9848077, 0, -0.1736482, 0.7, 0, 0.6)
 visible = false
 script = ExtResource("25_gniy2")
@@ -262,12 +262,12 @@ kingdom_color = Color(0.35, 0.7, 0.25, 1)
 leg_swing_deg = 30.0
 walk_bounce = 0.05
 
-[node name="Stag" type="Node3D" parent="forge_watch_keep" unique_id=1180055110 instance=ExtResource("26_vhyis")]
+[node name="Stag" type="Node3D" parent="forge_watch_keep" unique_id=2124902391 instance=ExtResource("26_vhyis")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.9, 0, 1.2)
 visible = false
 script = ExtResource("27_x2c1r")
 
-[node name="Crown" type="Node3D" parent="." unique_id=410923945 instance=ExtResource("28_kllnv")]
+[node name="Crown" type="Node3D" parent="." unique_id=657136552 instance=ExtResource("28_kllnv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
 visible = false
 script = ExtResource("29_d5t0i")
@@ -277,6 +277,6 @@ size = 0.12
 life = 5.0
 travel = 4.5
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=654928501]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1675853288]
 script = ExtResource("30_ousnn")
 preset = SubResource("Resource_04rj1")

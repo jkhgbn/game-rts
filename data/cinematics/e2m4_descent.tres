@@ -28,6 +28,7 @@ script = ExtResource("1_s3foj")
 at = 0.4
 speaker = &"narrator"
 text = "The Sunrise Road. The Master cut it before the kingdoms had names. No one has walked it since."
+voice = "res://assets/audio/voice/narrator/the_sunrise_road_the_27a4fd73.wav"
 
 [sub_resource type="Resource" id="Resource_gqx82"]
 script = ExtResource("3_e4880")
@@ -50,13 +51,14 @@ script = ExtResource("1_s3foj")
 at = 0.3
 speaker = &"vessa"
 text = "It's so dark. Good thing I'm the brightest person I know."
+voice = "res://assets/audio/voice/vessa/its_so_dark_good_1ba97a95.wav"
 
 [sub_resource type="Resource" id="Resource_0ei7x"]
 script = ExtResource("3_e4880")
 id = &"D2"
 duration = 6.0
 camera_mode = 3
-look_offset = Vector3(0, 1.87985, 0)
+look_offset = Vector3(0, 2.047, 0)
 pivot_actor = &"vessa"
 pivot = Vector3(0, 0, 66)
 orbit_radius = 4.0
@@ -91,13 +93,14 @@ script = ExtResource("1_s3foj")
 at = 0.3
 speaker = &"vey"
 text = "Stay close to the light, girl. Down here the dark has teeth."
+voice = "res://assets/audio/voice/vey/stay_close_to_the_278dca0e.wav"
 
 [sub_resource type="Resource" id="Resource_dxh3n"]
 script = ExtResource("3_e4880")
 id = &"D3"
 duration = 7.0
 camera_mode = 3
-look_offset = Vector3(0, 1.5649999, 0)
+look_offset = Vector3(0, 1.74, 0)
 pivot_actor = &"vey"
 pivot = Vector3(2, 0, 66)
 orbit_radius = 4.2
