@@ -18,10 +18,25 @@ static func available(id: StringName) -> bool:
 	return ResourceLoader.exists(stage_of(id))
 
 
+## The episode opening film that plays right before `mission_id` (a STORY_FILMS entry whose next is that mission:
+## ep3_opening -> e3m1), &"" when none. The campaign menu plays it before the mission until it is seen.
+static func opening_of(mission_id: StringName) -> StringName:
+	for f: StringName in CampaignState.STORY_FILMS:
+		if CampaignState.film_next(f) == StringName(mission_id):
+			return f
+	return &""
+
+
+## Plays the film `id` alone (Campaign menu "Watch opening"), marks it seen, then back to the main menu.
+static func play_only(tree: SceneTree, id: StringName) -> Node:
+	return play_chain(tree, id, 1, true)
+
+
 ## Plays the film `id` full screen, then what follows it (CampaignState.film_next): another film, a mission (started
-## with `bot_difficulty`), or the main menu. Returns the new current scene (null when nothing could start).
-static func play_chain(tree: SceneTree, id: StringName, bot_difficulty: int = 1) -> Node:
-	var next := CampaignState.film_next(id)
+## with `bot_difficulty`), or the main menu (always the menu when `menu_after`). Returns the new current scene (null
+## when nothing could start).
+static func play_chain(tree: SceneTree, id: StringName, bot_difficulty: int = 1, menu_after := false) -> Node:
+	var next := &"" if menu_after else CampaignState.film_next(id)
 	if not available(id):
 		return continue_to(tree, next, bot_difficulty)
 	var stage := (load(stage_of(id)) as PackedScene).instantiate()

@@ -7,7 +7,7 @@ extends Control
 ## Settings, Quit.
 ## Painted gradient background with drifting embers.
 
-const TAGLINE := "Four apprentices. One vanished master. Every artifact is a step to his throne."
+const TAGLINE := "The Master is gone. Four apprentices fight over what he left behind."
 const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty order
 ## Map picker words shown through Loc.t (biomes and kingdom looks of data/maps/catalog.tres), listed for the extractor.
 const MAP_WORDS := ["Autumn", "Grass", "Marsh", "Meadow", "Snow", "Neutral", "Fire", "Ice", "Nature", "Shadow"]
@@ -574,6 +574,24 @@ func set_mission(id: StringName) -> void:
 		mission_buttons[i].set_pressed_no_signal(mission_ids[i] == _mission)
 	if campaign_start_button:
 		campaign_start_button.disabled = _mission == &""
+	_refresh_watch_button()
+
+
+## The watch button replays the selected mission's episode opening (StoryFilms.opening_of: ep3_opening before e3m1)
+## when it has one, else the prologue.
+func _refresh_watch_button() -> void:
+	if prologue_button == null:
+		return
+	var film := _watch_film()
+	prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
+	prologue_button.tooltip_text = "The episode's opening film. Plays before this mission the first time." if film != &"" \
+			else "The story so far (3 min). Plays before mission 1 the first time."
+	prologue_button.disabled = not (film != &"" or MenuFlow.prologue_available())
+
+
+func _watch_film() -> StringName:
+	var film := StoryFilms.opening_of(_mission) if _mission != &"" else &""
+	return film if film != &"" and StoryFilms.available(film) else &""
 
 
 func get_mission() -> StringName:
@@ -594,6 +612,9 @@ func start_mission() -> Node:
 
 ## "Watch prologue": replays the campaign prologue, then back to the main menu.
 func watch_prologue() -> Node:
+	var film := _watch_film()
+	if film != &"":
+		return StoryFilms.play_only(get_tree(), film)
 	return MenuFlow.play_prologue(get_tree(), "", _difficulty)
 
 

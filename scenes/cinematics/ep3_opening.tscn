@@ -1,0 +1,133 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_p15k6"]
+[ext_resource type="Resource" path="res://data/cinematics/ep3_opening.tres" id="2_00i8c"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_evenmead/forge_evenmead.tscn" id="3_5je74"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_1o00o"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_golden.tres" id="5_yjm73"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/forge_ep3_memories.tscn" id="6_a7qw2"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_ep3_memories/mood_ep3_memory.tres" id="7_hasi2"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep.tscn" id="8_qf7nv"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep_lighting.tres" id="9_ts6mu"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/memory_grade.tscn" id="10_r5xsb"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/memory_grade.gd" id="11_uris3"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="12_ec0v5"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_preset.gd" id="13_0m8cg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s72ox"]
+sky_top_color = Color(0.16, 0.14, 0.3, 1)
+sky_horizon_color = Color(0.75, 0.4, 0.28, 1)
+ground_bottom_color = Color(0.03, 0.03, 0.04, 1)
+ground_horizon_color = Color(0.45000002, 0.24000001, 0.16800001, 1)
+sun_angle_max = 8.0
+
+[sub_resource type="Sky" id="Sky_mpfpx"]
+sky_material = SubResource("ProceduralSkyMaterial_s72ox")
+
+[sub_resource type="Environment" id="Environment_0mwwc"]
+background_mode = 2
+sky = SubResource("Sky_mpfpx")
+ambient_light_source = 3
+ambient_light_energy = 0.8
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+fog_enabled = true
+fog_light_color = Color(0.525, 0.28, 0.196, 1)
+fog_density = 0.008
+
+[sub_resource type="Resource" id="Resource_b82dc"]
+script = ExtResource("13_0m8cg")
+environment = SubResource("Environment_0mwwc")
+sun_color = Color(0.62, 0.7, 1, 1)
+sun_energy = 0.8
+sun_rotation_degrees = Vector3(-18, 209.99998, 0)
+vignette_strength = 0.0
+
+[node name="Ep3OpeningStage" type="Node3D" unique_id=2022629180]
+script = ExtResource("1_p15k6")
+autoplay_script = ExtResource("2_00i8c")
+actor_paths = {
+"apprentices": NodePath("forge_ep3_memories/Puppets/apprentices"),
+"army_fire": NodePath("forge_evenmead/Puppets/army_fire"),
+"army_ice": NodePath("forge_evenmead/Puppets/army_ice"),
+"army_nature": NodePath("forge_evenmead/Puppets/army_nature"),
+"army_shadow": NodePath("forge_evenmead/Puppets/army_shadow"),
+"bloom": NodePath("forge_evenmead/Puppets/bloom"),
+"flame_b": NodePath("forge_ep3_memories/Puppets/flame_b"),
+"flame_g": NodePath("forge_ep3_memories/Puppets/flame_g"),
+"flame_r": NodePath("forge_ep3_memories/Puppets/flame_r"),
+"flame_v": NodePath("forge_ep3_memories/Puppets/flame_v"),
+"graveyard": NodePath("forge_ep3_memories/Puppets/graveyard"),
+"guard_e": NodePath("forge_watch_keep/Puppets/guard_e"),
+"guard_w": NodePath("forge_watch_keep/Puppets/guard_w"),
+"hollow": NodePath("forge_ep3_memories/Puppets/hollow"),
+"hollow_stone": NodePath("forge_ep3_memories/Puppets/hollow_stone"),
+"hush": NodePath("forge_evenmead/Puppets/hush"),
+"m_boy": NodePath("forge_ep3_memories/Puppets/m_boy"),
+"m_boy_o": NodePath("forge_ep3_memories/Puppets/m_boy_o"),
+"m_candle": NodePath("forge_ep3_memories/Puppets/m_candle"),
+"m_malrik": NodePath("forge_ep3_memories/Puppets/m_malrik"),
+"m_master": NodePath("forge_ep3_memories/Puppets/m_master"),
+"m_sage": NodePath("forge_ep3_memories/Puppets/m_sage"),
+"malrik": NodePath("forge_evenmead/Puppets/malrik"),
+"orrery": NodePath("forge_ep3_memories/Puppets/orrery"),
+"stone": NodePath("forge_evenmead/Puppets/stone"),
+"torvald": NodePath("forge_evenmead/Puppets/torvald"),
+"vessa": NodePath("forge_evenmead/Puppets/vessa"),
+"vey": NodePath("forge_evenmead/Puppets/vey"),
+"w_birch": NodePath("forge_evenmead/Puppets/w_birch"),
+"w_birds": NodePath("forge_evenmead/Puppets/w_birds"),
+"w_camps": NodePath("forge_evenmead/Puppets/w_camps"),
+"w_far": NodePath("forge_evenmead/Puppets/w_far"),
+"w_farwood": NodePath("forge_evenmead/Puppets/w_farwood"),
+"w_flowers": NodePath("forge_evenmead/Puppets/w_flowers"),
+"w_glow": NodePath("forge_evenmead/Puppets/w_glow"),
+"w_grass_far": NodePath("forge_evenmead/Puppets/w_grass_far"),
+"w_grass_mid": NodePath("forge_evenmead/Puppets/w_grass_mid"),
+"w_grass_near": NodePath("forge_evenmead/Puppets/w_grass_near"),
+"w_grass_tall": NodePath("forge_evenmead/Puppets/w_grass_tall"),
+"w_ground": NodePath("forge_evenmead/Puppets/w_ground"),
+"w_mist": NodePath("forge_evenmead/Puppets/w_mist"),
+"w_oak0": NodePath("forge_evenmead/Puppets/w_oak0"),
+"w_oak1": NodePath("forge_evenmead/Puppets/w_oak1"),
+"w_oak2": NodePath("forge_evenmead/Puppets/w_oak2"),
+"w_rays": NodePath("forge_evenmead/Puppets/w_rays"),
+"w_reeds": NodePath("forge_evenmead/Puppets/w_reeds"),
+"w_river": NodePath("forge_evenmead/Puppets/w_river"),
+"w_riverbed": NodePath("forge_evenmead/Puppets/w_riverbed"),
+"w_shrub0": NodePath("forge_evenmead/Puppets/w_shrub0"),
+"w_shrub1": NodePath("forge_evenmead/Puppets/w_shrub1"),
+"watch_keep_vessa": NodePath("forge_watch_keep/Puppets/vessa"),
+"ysolde": NodePath("forge_evenmead/Puppets/ysolde")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_evenmead" type="Node3D" parent="." unique_id=829784083 instance=ExtResource("3_5je74")]
+script = ExtResource("4_1o00o")
+set_id = &"forge_evenmead"
+lighting = ExtResource("5_yjm73")
+lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/master_tree"), NodePath("Placed/banner_n"), NodePath("Placed/banner_s"), NodePath("Placed/stone_pt"), NodePath("Placed/bloom_pt"), NodePath("Puppets/malrik"), NodePath("Puppets/torvald"), NodePath("Puppets/hush"), NodePath("Puppets/ysolde"), NodePath("Puppets/vessa"), NodePath("Puppets/vey"), NodePath("Puppets/stone"), NodePath("Puppets/bloom"), NodePath("Puppets/army_shadow"), NodePath("Puppets/army_ice"), NodePath("Puppets/army_nature"), NodePath("Puppets/army_fire"), NodePath("Puppets/w_ground"), NodePath("Puppets/w_grass_near"), NodePath("Puppets/w_grass_mid"), NodePath("Puppets/w_grass_far"), NodePath("Puppets/w_grass_tall"), NodePath("Puppets/w_flowers"), NodePath("Puppets/w_oak0"), NodePath("Puppets/w_oak1"), NodePath("Puppets/w_oak2"), NodePath("Puppets/w_birch"), NodePath("Puppets/w_shrub0"), NodePath("Puppets/w_shrub1"), NodePath("Puppets/w_farwood"), NodePath("Puppets/w_river"), NodePath("Puppets/w_riverbed"), NodePath("Puppets/w_reeds"), NodePath("Puppets/w_camps"), NodePath("Puppets/w_mist"), NodePath("Puppets/w_glow"), NodePath("Puppets/w_rays"), NodePath("Puppets/w_birds"), NodePath("Puppets/w_far")])
+
+[node name="forge_ep3_memories" type="Node3D" parent="." unique_id=66299545 instance=ExtResource("6_a7qw2")]
+process_mode = 4
+visible = false
+script = ExtResource("4_1o00o")
+set_id = &"forge_ep3_memories"
+lighting = ExtResource("7_hasi2")
+lights_off = Array[NodePath]([NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/graveyard"), NodePath("Puppets/m_boy"), NodePath("Puppets/m_candle"), NodePath("Puppets/m_master"), NodePath("Puppets/orrery"), NodePath("Puppets/apprentices"), NodePath("Puppets/flame_r"), NodePath("Puppets/flame_b"), NodePath("Puppets/flame_g"), NodePath("Puppets/flame_v"), NodePath("Puppets/m_sage"), NodePath("Puppets/m_boy_o"), NodePath("Puppets/hollow"), NodePath("Puppets/hollow_stone"), NodePath("Puppets/m_malrik")])
+
+[node name="forge_watch_keep" type="Node3D" parent="." unique_id=1812207239 instance=ExtResource("8_qf7nv")]
+process_mode = 4
+visible = false
+script = ExtResource("4_1o00o")
+set_id = &"forge_watch_keep"
+lighting = ExtResource("9_ts6mu")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/vessa"), NodePath("Puppets/guard_w"), NodePath("Puppets/guard_e")])
+
+[node name="w02_grade" type="Node3D" parent="." unique_id=1557457199 instance=ExtResource("10_r5xsb")]
+script = ExtResource("11_uris3")
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=322113254]
+script = ExtResource("12_ec0v5")
+preset = SubResource("Resource_b82dc")

@@ -141,6 +141,12 @@ static func start_campaign_mission(tree: SceneTree, mission_id: StringName, scen
 		var cs := CampaignState.open()
 		if not cs.is_seen(PROLOGUE_ID):
 			return play_prologue(tree, scene_path, bot_difficulty)
+	# an episode opening film (StoryFilms.opening_of: ep3_opening -> e3m1) plays first until it is seen
+	var film := StoryFilms.opening_of(mission_id)
+	if film != &"" and StoryFilms.available(film) and not CampaignState.open().is_seen(film):
+		difficulty = bot_difficulty
+		install_hooks(tree)
+		return StoryFilms.play_chain(tree, film, bot_difficulty)
 	return start_mission(tree, scene_path, bot_difficulty)
 
 

@@ -259,17 +259,17 @@ msgid "%d.  %s  (coming soon)"
 msgstr ""
 
 #. var lb := _toggle_button(limit_row, "Off" if minutes == 0 else Loc.t("%d min") % minutes, limit_group)
-#: scripts/ui/menus/main_menu.gd:738
+#: scripts/ui/menus/main_menu.gd:759
 msgid "%d min"
 msgstr ""
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:772 scripts/ui/menus/main_menu.gd:690
+#: scripts/ui/menus/main_menu.gd:793 scripts/ui/menus/main_menu.gd:711
 msgid "YOU"
 msgstr ""
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:772 scripts/ui/menus/main_menu.gd:693
+#: scripts/ui/menus/main_menu.gd:793 scripts/ui/menus/main_menu.gd:714
 msgid "ENEMY"
 msgstr ""
 
@@ -379,111 +379,121 @@ msgstr ""
 msgid "Win the previous mission to unlock it."
 msgstr ""
 
+#. prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
+#: scripts/ui/menus/main_menu.gd:586
+msgid "Watch opening"
+msgstr ""
+
+#. prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
+#: scripts/ui/menus/main_menu.gd:586 scripts/ui/menus/main_menu.gd:859
+msgid "Watch prologue"
+msgstr ""
+
+#. prologue_button.tooltip_text = "The episode's opening film. Plays before this mission the first time." if film
+#: scripts/ui/menus/main_menu.gd:587
+msgid "The episode's opening film. Plays before this mission the first time."
+msgstr ""
+
+#. else "The story so far (3 min). Plays before mission 1 the first time."
+#: scripts/ui/menus/main_menu.gd:588 scripts/ui/menus/main_menu.gd:861
+msgid "The story so far (3 min). Plays before mission 1 the first time."
+msgstr ""
+
 #. skirmish_button = _menu_button(box, "Skirmish 1v1")
-#: scripts/ui/menus/main_menu.gd:645 scripts/ui/menus/main_menu.gd:668
+#: scripts/ui/menus/main_menu.gd:666 scripts/ui/menus/main_menu.gd:689
 msgid "Skirmish 1v1"
 msgstr ""
 
 #. wave_strike_button = _menu_button(box, "Wave Strike")
-#: scripts/ui/menus/main_menu.gd:648 scripts/ui/wave_strike/wave_strike_lobby.gd:49
+#: scripts/ui/menus/main_menu.gd:669 scripts/ui/wave_strike/wave_strike_lobby.gd:49
 msgid "Wave Strike"
 msgstr ""
 
 #. wave_strike_button.tooltip_text = "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1v1
-#: scripts/ui/menus/main_menu.gd:649
+#: scripts/ui/menus/main_menu.gd:670
 msgid "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1v1)."
 msgstr ""
 
 #. campaign_button = _menu_button(box, "Campaign")
-#: scripts/ui/menus/main_menu.gd:651 scripts/ui/menus/main_menu.gd:797
+#: scripts/ui/menus/main_menu.gd:672 scripts/ui/menus/main_menu.gd:818
 msgid "Campaign"
 msgstr ""
 
 #. unit_guide_button.tooltip_text = "Every unit of the four kingdoms: stats, abilities, pros and cons, counters."
-#: scripts/ui/menus/main_menu.gd:654
+#: scripts/ui/menus/main_menu.gd:675
 msgid "Every unit of the four kingdoms: stats, abilities, pros and cons, counters."
 msgstr ""
 
 #. settings_button = _menu_button(box, "Settings")
-#: scripts/ui/menus/main_menu.gd:656 scripts/ui/menus/pause_menu.gd:49
+#: scripts/ui/menus/main_menu.gd:677 scripts/ui/menus/pause_menu.gd:49
 #: scripts/ui/menus/settings_panel.gd:62
 msgid "Settings"
 msgstr ""
 
 #. quit_button = _menu_button(box, "Quit")
-#: scripts/ui/menus/main_menu.gd:658
+#: scripts/ui/menus/main_menu.gd:679
 msgid "Quit"
 msgstr ""
 
 #. kingdom_buttons = _card_row(box, "YOU", "Your kingdom", player_group, set_player_kingdom)
-#: scripts/ui/menus/main_menu.gd:690 scripts/ui/wave_strike/wave_strike_lobby.gd:74
+#: scripts/ui/menus/main_menu.gd:711 scripts/ui/wave_strike/wave_strike_lobby.gd:74
 msgid "Your kingdom"
 msgstr ""
 
 #. enemy_buttons = _card_row(box, "ENEMY", "The bot", enemy_group, set_enemy)
-#: scripts/ui/menus/main_menu.gd:693
+#: scripts/ui/menus/main_menu.gd:714
 msgid "The bot"
 msgstr ""
 
 #. var diff_title := UIStyle.label("Opponent difficulty", 20)
-#: scripts/ui/menus/main_menu.gd:699 scripts/ui/menus/main_menu.gd:820
+#: scripts/ui/menus/main_menu.gd:720 scripts/ui/menus/main_menu.gd:841
 msgid "Opponent difficulty"
 msgstr ""
 
 #. var trade_title := UIStyle.label("Trade and guilds", 20)
-#: scripts/ui/menus/main_menu.gd:715
+#: scripts/ui/menus/main_menu.gd:736
 msgid "Trade and guilds"
 msgstr ""
 
 #. var tb := _toggle_button(trade_row, "On" if on else "Off", trade_group)
-#: scripts/ui/menus/main_menu.gd:721
+#: scripts/ui/menus/main_menu.gd:742
 msgid "On"
 msgstr ""
 
 #. var tb := _toggle_button(trade_row, "On" if on else "Off", trade_group)
-#: scripts/ui/menus/main_menu.gd:721 scripts/ui/menus/main_menu.gd:738
+#: scripts/ui/menus/main_menu.gd:742 scripts/ui/menus/main_menu.gd:759
 msgid "Off"
 msgstr ""
 
 #. tb.tooltip_text = "Trading posts, Bazaars, caravans, Magpies and the Greywater Lodges (skirmish only)."
-#: scripts/ui/menus/main_menu.gd:722
+#: scripts/ui/menus/main_menu.gd:743
 msgid "Trading posts, Bazaars, caravans, Magpies and the Greywater Lodges (skirmish only)."
 msgstr ""
 
 #. var limit_title := UIStyle.label("Time limit", 20)
-#: scripts/ui/menus/main_menu.gd:731
+#: scripts/ui/menus/main_menu.gd:752
 msgid "Time limit"
 msgstr ""
 
 #. lb.tooltip_text = "Off: the match ends only when a side has no building left or concedes.\n" \
-#: scripts/ui/menus/main_menu.gd:739
+#: scripts/ui/menus/main_menu.gd:760
 msgid "Off: the match ends only when a side has no building left or concedes.\n30 / 45 min: at the limit the match ends and the higher score wins."
 msgstr ""
 
 #. start_button = _menu_button(actions, "Start")
-#: scripts/ui/menus/main_menu.gd:752 scripts/ui/menus/main_menu.gd:843
+#: scripts/ui/menus/main_menu.gd:773 scripts/ui/menus/main_menu.gd:864
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:117
 msgid "Start"
 msgstr ""
 
 #. var who := UIStyle.label("Vessa, apprentice of Fire", 17)
-#: scripts/ui/menus/main_menu.gd:801
+#: scripts/ui/menus/main_menu.gd:822
 msgid "Vessa, apprentice of Fire"
 msgstr ""
 
 #. box.add_child(UIStyle.label("Mission", 20))
-#: scripts/ui/menus/main_menu.gd:806 scripts/ui/mission/briefing_screen.gd:103
+#: scripts/ui/menus/main_menu.gd:827 scripts/ui/mission/briefing_screen.gd:103
 msgid "Mission"
-msgstr ""
-
-#. prologue_button = _menu_button(actions, "Watch prologue")
-#: scripts/ui/menus/main_menu.gd:838
-msgid "Watch prologue"
-msgstr ""
-
-#. prologue_button.tooltip_text = "The story so far (3 min). Plays before mission 1 the first time."
-#: scripts/ui/menus/main_menu.gd:840
-msgid "The story so far (3 min). Plays before mission 1 the first time."
 msgstr ""
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Paused", 40))

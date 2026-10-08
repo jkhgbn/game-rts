@@ -803,6 +803,7 @@ marker_prefix = &"B14"
 script = ExtResource("2_e00up")
 id = &"ep3_opening"
 title = "Episode 3: The Gravedigger's Son"
+stage_scene = "res://scenes/cinematics/ep3_opening.tscn"
 shots = Array[ExtResource("3_0pwnk")]([SubResource("Resource_aon7q"), SubResource("Resource_w0tiw"), SubResource("Resource_c0wwd"), SubResource("Resource_amxvx"), SubResource("Resource_dncae"), SubResource("Resource_arj5v"), SubResource("Resource_dw2lw"), SubResource("Resource_tmwpr"), SubResource("Resource_tffat"), SubResource("Resource_6u3dm"), SubResource("Resource_snbvv"), SubResource("Resource_vwfkx"), SubResource("Resource_q8ihw"), SubResource("Resource_maqak")])
 music_cue = &"res://assets/audio/forge/music/ep3_opening.wav"
 shake_seed = 34
