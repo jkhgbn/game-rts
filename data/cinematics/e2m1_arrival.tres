@@ -1,0 +1,128 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_fjac6"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_ynmd1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_gccoc"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_wjmid"]
+
+[sub_resource type="Resource" id="Resource_d8xll"]
+script = ExtResource("4_wjmid")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_cpauw"]
+script = ExtResource("1_fjac6")
+at = 0.5
+speaker = &"narrator"
+text = "The Sighing Wood kept out of every quarrel for a century. Now it is ash, and the ash is frozen."
+
+[sub_resource type="Resource" id="Resource_tqxfr"]
+script = ExtResource("3_gccoc")
+id = &"A1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(-62, 30, 62)
+to_pos = Vector3(-50, 14, 50)
+look_from = Vector3(-30, 0, 30)
+look_to = Vector3(-32, 0, 31)
+fov_from = 55.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_fjac6")]([SubResource("Resource_cpauw")])
+actions = Array[ExtResource("4_wjmid")]([SubResource("Resource_d8xll")])
+
+[sub_resource type="Resource" id="Resource_pp7vy"]
+script = ExtResource("4_wjmid")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_exaou"]
+script = ExtResource("1_fjac6")
+at = 0.3
+speaker = &"vessa"
+text = "Fire AND frost. They didn't just burn it. They made sure it stayed dead."
+
+[sub_resource type="Resource" id="Resource_mj85p"]
+script = ExtResource("3_gccoc")
+id = &"A2"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-34, 0, 34)
+orbit_radius = 5.0
+orbit_height = 1.8
+orbit_from_deg = 60.0
+orbit_to_deg = 80.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_fjac6")]([SubResource("Resource_exaou")])
+actions = Array[ExtResource("4_wjmid")]([SubResource("Resource_pp7vy")])
+
+[sub_resource type="Resource" id="Resource_euhf1"]
+script = ExtResource("4_wjmid")
+at = 3.0
+kind = &"vfx"
+target = Vector3(0, 0, 9)
+params = {
+"life": 3.0,
+"scale": 0.4,
+"scene": "res://art/cinematics/fx/green_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_d3wha"]
+script = ExtResource("4_wjmid")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_ig4jd"]
+script = ExtResource("4_wjmid")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_wbgx5"]
+script = ExtResource("1_fjac6")
+at = 0.4
+speaker = &"messenger"
+text = "The Heartwood is past the old tree. She's inside it."
+
+[sub_resource type="Resource" id="Resource_tghr6"]
+script = ExtResource("3_gccoc")
+id = &"A3"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(-14, 4, 26)
+to_pos = Vector3(-9, 3.5, 20)
+look_from = Vector3(0, 2.2, 9)
+look_to = Vector3(0, 1.6, 9)
+fov_from = 40.0
+fov_to = 34.0
+lines = Array[ExtResource("1_fjac6")]([SubResource("Resource_wbgx5")])
+actions = Array[ExtResource("4_wjmid")]([SubResource("Resource_euhf1"), SubResource("Resource_d3wha"), SubResource("Resource_ig4jd")])
+
+[resource]
+script = ExtResource("2_ynmd1")
+id = &"e2m1_arrival"
+title = "The Sighing Wood"
+world_mode = 1
+shots = Array[ExtResource("3_gccoc")]([SubResource("Resource_tqxfr"), SubResource("Resource_mj85p"), SubResource("Resource_tghr6")])
+shake_seed = 11
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

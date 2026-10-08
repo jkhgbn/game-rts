@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_o00ia"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_k4ngs"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_v4uly"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_mjiaa"]
+
+[sub_resource type="Resource" id="Resource_hysjp"]
+script = ExtResource("4_mjiaa")
+at = 0.5
+kind = &"vfx"
+params = {
+"life": 5.5,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_277v8"]
+script = ExtResource("4_mjiaa")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_0fvqo"]
+script = ExtResource("1_o00ia")
+at = 0.3
+speaker = &"vey"
+text = "Feel that? He's pushing back from below. The spark first, Vessa. Then the storm."
+
+[sub_resource type="Resource" id="Resource_tarsb"]
+script = ExtResource("3_v4uly")
+id = &"A1"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(3, 2.5, 4)
+to_pos = Vector3(2.5, 2, 3.4)
+look_from = Vector3(0, 0.2, 0)
+look_to = Vector3(0, 0.1, -0.4)
+fov_from = 34.0
+fov_to = 30.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_o00ia")]([SubResource("Resource_0fvqo")])
+actions = Array[ExtResource("4_mjiaa")]([SubResource("Resource_hysjp"), SubResource("Resource_277v8")])
+
+[sub_resource type="Resource" id="Resource_ccaxn"]
+script = ExtResource("4_mjiaa")
+at = 0.8
+kind = &"vfx"
+target = Vector3(1.5, 2.5, 7.5)
+params = {
+"life": 2.0,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(0, 0.5, 0)
+}
+
+[sub_resource type="Resource" id="Resource_t02ku"]
+script = ExtResource("4_mjiaa")
+at = 5.9
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_pumc6"]
+script = ExtResource("1_o00ia")
+at = 0.3
+speaker = &"vessa"
+text = "Then let's give him something to push with. Door! Light! NOW!"
+
+[sub_resource type="Resource" id="Resource_6ow3w"]
+script = ExtResource("3_v4uly")
+id = &"A2"
+duration = 6.5
+camera_mode = 3
+look_offset = Vector3(0, 1.5649999, 0)
+pivot_actor = &"vey"
+pivot = Vector3(1.5, 0, 7.5)
+orbit_radius = 3.8
+orbit_height = 1.6
+orbit_from_deg = 60.0
+orbit_to_deg = 72.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_o00ia")]([SubResource("Resource_pumc6")])
+actions = Array[ExtResource("4_mjiaa")]([SubResource("Resource_ccaxn"), SubResource("Resource_t02ku")])
+
+[resource]
+script = ExtResource("2_k4ngs")
+id = &"e2m5_answer"
+title = "The Door Answers"
+world_mode = 1
+shots = Array[ExtResource("3_v4uly")]([SubResource("Resource_tarsb"), SubResource("Resource_6ow3w")])
+shake_seed = 53
+lines_over_cuts = true

@@ -1,0 +1,21 @@
+# e2m3 E20 "e2m3_paid" (docs/design/mission-e2-03.md, Cinematic hooks): 23 s, mode=pause over the live mission.
+# 1) CU the barrel by the Lodge door where the old hide map lies (the map prop itself is not built: the shot frames the
+# spot, L26); 2) MS the Trackers by Bettany (orbit on the live `bettany`, L27); 3) WS from the Tollgate side (-43, -25)
+# toward Malrik's lines (L28).
+cine e2m3_paid  title="Paid in Full"  mode=pause  letterbox=2.39  seed=33  length=21..26
+env day  moon_yaw=320  moon_pitch=-24  energy=0.9
+cast  bettany  capsule  at=(-45, 0, -49)  yaw=0
+cast  malrik   res://art/units/wizards/malrik.tscn  at=(-36, 0, -30)  yaw=230
+
+# CU the barrel: an old hide map, a stair under a burnt observatory, a white-gold sun at the bottom
+shot P1 8.0  cam=dolly  from=(-42.4, 1.7, -48.6)  to=(-42.9, 1.5, -49.1)  look=(-44.2, 0.9, -50.2)>(-44.3, 0.8, -50.3)  fov=32>28  in=fade_black:0.5
+  at 0.4  line bettany "Six. Paid in full. Here's your road down: a stair under Emberfall, the Sunrise Road."
+  at 0.6  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-14
+# MS the two Greywater Trackers shouldering packs
+shot P2 7.0  cam=orbit  pivot=bettany  r=5.0  h=1.6  deg=30>45
+  at 0.3  line bettany "Two of ours will guide you. Nobody else has walked it since the Master."
+# WS from the Tollgate side: Malrik's army forming up, Malrik looking at the Lodge
+shot P3 8.0  cam=dolly  from=(-30, 4, -18)  to=(-31, 3.8, -19)  look=(-38, 1.6, -30)>(-40, 1.8, -33)  fov=40>36
+  at 0.2  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-8
+  at 0.5  line malrik "A map to the deep. How generous. I'll take it off your body."
+  at 7.2  fade alpha=1 time=0.8

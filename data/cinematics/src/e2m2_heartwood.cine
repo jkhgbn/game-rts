@@ -1,0 +1,28 @@
+# e2m2 E14 "e2m2_heartwood" (docs/design/mission-e2-02.md, Cinematic hooks): 27 s (spec 0:25, stretched so L18-L20
+# fit), mode=pause over the live mission. 1) TOP-DOWN over the hub: green root light races from the groves to the
+# Heartseed (-33, -33); 2) LOW: the Heartwood bursts out of the snow (L18); 3) MS two-shot Vessa and Ysolde at the ring
+# (orbit on the live hero `vessa`, L19-L20); 4) WS: the Spriglings pour out. The Heartwood / Grove Hall themselves are
+# spawned by the mission (_activate_ally) after the film.
+cine e2m2_heartwood  title="The Heartwood"  mode=pause  letterbox=2.39  seed=23  length=24..29
+env day  moon_yaw=300  moon_pitch=-24  energy=0.8
+cast  vessa   res://art/units/wizards/vessa.tscn   at=(-29, 0, -30)  yaw=230
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(-30.5, 0, -31.2)  yaw=60
+
+# TOP-DOWN over the hub: root light races to the Heartseed
+shot H1 6.0  cam=dolly  from=(-26, 46, -14)  to=(-28, 44, -18)  look=(-30, 0, -20)>(-31, 0, -24)  fov=50>48  in=fade_black:0.6
+  at 0.4  vfx r1  scene=res://art/cinematics/fx/streak_green.tscn  at=(-44, 0.5, 14)  to=(-33, 0.5, -33)  life=4.0
+  at 0.7  vfx r2  scene=res://art/cinematics/fx/streak_green.tscn  at=(-12, 0.5, -12)  to=(-33, 0.5, -33)  life=3.7
+  at 0.4  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-10
+# LOW: the Heartwood bursts out of the snow and grows
+shot H2 6.0  cam=dolly  from=(-26.5, 0.7, -26.5)  to=(-27.5, 1.2, -27.5)  look=(-33, 2, -33)>(-33, 5, -33)  fov=52>48
+  at 0.3  vfx tree  scene=res://art/cinematics/fx/green_pillar.tscn  at=(-33, 0, -33)  life=4.5  scale=1.0
+  at 0.3  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-3
+  at 0.5  line ysolde "Three groves. Enough roots to stand on. Rise."
+# MS two-shot Vessa and Ysolde at the Heartseed ring
+shot H3 10.0  cam=orbit  pivot=vessa  r=3.8  h=1.6  deg=30>45
+  at 0.3  line vessa "Huh. You grow a castle out of a seed. I have to build mine out of rocks."
+  at 5.5  line ysolde "Then we each keep the other's. Fire and Nature, one front."
+# WS: Spriglings pour out; the first green banner beside the red one
+shot H4 5.0  cam=crane  from=(-18, 10, -20)  to=(-20, 8, -22)  look=(-33, 1, -33)>(-33, 1.5, -33)  fov=50>46
+  at 0.3  vfx bloom  scene=res://art/cinematics/fx/bloom_wave.tscn  at=(-33, 0.05, -33)  life=4.0  scale=2.5
+  at 4.4  fade alpha=1 time=0.6

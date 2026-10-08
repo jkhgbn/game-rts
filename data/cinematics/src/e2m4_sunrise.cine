@@ -1,0 +1,32 @@
+# e2m4 E20 "e2m4_sunrise" (docs/design/mission-e2-04.md, Cinematic hooks): 30 s, mode=pause over the live mission.
+# 1) CU the carved sun on the gate (0, -76), lightning running into the stone (L26); 2) WS the gate rolling aside,
+# white-gold light flooding Hall 3 (a white full-screen wash); 3) MS Vey, eyes closed, listening (orbit on the live
+# `vey`, L27-L28); 4) ECU in the dark tunnel north (23, -76): Malrik's hand around the amber shard (L29).
+# Lines: L26 (narrator, voice-over), L27-L29.
+cine e2m4_sunrise  title="Sunrise"  mode=pause  letterbox=2.39  seed=45  length=28..32
+env night  moon_yaw=180  moon_pitch=-60  energy=0.35
+cast  vey       res://art/units/helpers/helper_vey/helper_vey.tscn  at=(1.6, 0, -70)  yaw=180
+cast  vessa     res://art/units/wizards/vessa.tscn  at=(-1.4, 0, -70.4)  yaw=180
+cast  malrik    res://art/units/wizards/malrik.tscn  at=(23, 0, -300)
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# CU their hands on the carved sun, lightning running into the stone
+shot S1 7.0  cam=dolly  from=(2.2, 1.7, -68.4)  to=(1.7, 1.55, -69)  look=(0, 1.5, -75)>(0, 1.35, -75.5)  fov=34>30  in=fade_black:0.6
+  at 0.4  vfx bolt  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, -75.5)  life=4.0  scale=0.5
+  at 0.4  sfx res://assets/audio/sfx/atk_storm.wav  vol=-6
+  at 0.5  line narrator "And for the first time in twelve years, the Sunrise Road saw its sunrise."
+# WS the gate rolls aside: white-gold light floods Hall 3, every amber eye goes dark
+shot S2 7.0  cam=crane  from=(10, 6, -56)  to=(8, 7, -60)  look=(0, 3, -76)>(0, 3.5, -76)  fov=50>46
+  at 0.5  sfx res://assets/audio/sfx/building_collapse.wav  vol=-6
+  at 1.0  vfx flood  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, -76)  life=5.5  scale=2.0
+  at 1.0  fade color=#fff2c8 alpha=0.4 time=1.5
+  at 4.5  fade color=#fff2c8 alpha=0 time=1.5
+# MS Vey, eyes closed, listening
+shot S3 9.5  cam=orbit  pivot=vey  r=3.4  h=1.6  deg=60>70
+  at 0.3  line vey "He's down there. I can feel him. And he's tired, girl. So very tired."
+  at 4.8  line vessa "Then we go faster. Wardens, with me. We're going to fetch the Master."
+# ECU in the dark tunnel north: Malrik's hand around the amber shard
+shot S4 6.5  cam=dolly  from=(24.2, 1.4, -74.6)  to=(24.0, 1.35, -75.0)  look=(23, 1.1, -76)>(23, 1.1, -76.1)  fov=28>26
+  at 0.2  vfx shard  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(23, 1.1, -76)  life=6.0  scale=0.5
+  at 0.3  line malrik "Go on, then. Run ahead. I'll be right behind you, with the key you lack."
+  at 5.5  fade alpha=1 time=1.0

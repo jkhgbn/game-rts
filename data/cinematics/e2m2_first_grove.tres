@@ -1,0 +1,104 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_evfdp"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_nx43b"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_34nw3"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_datxq"]
+
+[sub_resource type="Resource" id="Resource_bo602"]
+script = ExtResource("4_datxq")
+at = 0.2
+kind = &"vfx"
+target = Vector3(-44, 0.05, 14)
+params = {
+"life": 3.6,
+"scale": 2.0,
+"scene": "res://art/cinematics/fx/bloom_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_t618x"]
+script = ExtResource("4_datxq")
+at = 0.4
+kind = &"vfx"
+target = Vector3(-44, 0.2, 14)
+params = {
+"life": 3.4,
+"scene": "res://art/cinematics/fx/blossom.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_osx3w"]
+script = ExtResource("4_datxq")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -5.0
+}
+
+[sub_resource type="Resource" id="Resource_0mawq"]
+script = ExtResource("3_34nw3")
+id = &"G1"
+duration = 4.0
+camera_mode = 1
+from_pos = Vector3(-37.5, 0.6, 18.5)
+to_pos = Vector3(-38.5, 0.8, 17.6)
+look_from = Vector3(-44, 1.2, 14)
+look_to = Vector3(-44, 2, 14)
+fov_from = 46.0
+fov_to = 42.0
+transition_in = 1
+transition_time = 0.4
+actions = Array[ExtResource("4_datxq")]([SubResource("Resource_bo602"), SubResource("Resource_t618x"), SubResource("Resource_osx3w")])
+
+[sub_resource type="Resource" id="Resource_ei5o6"]
+script = ExtResource("4_datxq")
+at = 1.0
+kind = &"vfx"
+target = Vector3(-44, 0, 14)
+params = {
+"life": 3.0,
+"scale": 0.4,
+"scene": "res://art/cinematics/fx/green_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_oysox"]
+script = ExtResource("4_datxq")
+at = 5.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_l53kv"]
+script = ExtResource("1_evfdp")
+at = 0.3
+speaker = &"maelis"
+text = "Stumpwood breathes again. The forest remembers who froze it."
+
+[sub_resource type="Resource" id="Resource_ftp1q"]
+script = ExtResource("3_34nw3")
+id = &"G2"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5600001, 0)
+pivot_actor = &"maelis"
+pivot = Vector3(-42, 0, 16)
+orbit_radius = 3.5
+orbit_height = 1.5
+orbit_from_deg = -30.0
+orbit_to_deg = -15.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_evfdp")]([SubResource("Resource_l53kv")])
+actions = Array[ExtResource("4_datxq")]([SubResource("Resource_ei5o6"), SubResource("Resource_oysox")])
+
+[resource]
+script = ExtResource("2_nx43b")
+id = &"e2m2_first_grove"
+title = "The First Grove"
+world_mode = 1
+shots = Array[ExtResource("3_34nw3")]([SubResource("Resource_0mawq"), SubResource("Resource_ftp1q")])
+shake_seed = 22
+lines_over_cuts = true

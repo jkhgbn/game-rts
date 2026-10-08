@@ -1,0 +1,21 @@
+# e2m3 E1 "e2m3_road" (docs/design/mission-e2-03.md, Cinematic hooks): ~21.5 s, mode=pause over the live mission (the
+# spec's HOLD runs as PAUSE). 1) CRANE along the salt-white ring road from the Fire base to the north-west corner (L1);
+# 2) MS Vessa at the keep, Pell's cart behind her (orbit on the live hero `vessa`, L2-L3 start); 3) WS of the Lodge's
+# antler gable (-45, -51) and the Den across the road (L3). Lines: L1 (narrator, voice-over), L2, L3.
+cine e2m3_road  title="The Salt Road"  mode=pause  letterbox=2.39  seed=31  length=19..24
+env day  moon_yaw=320  moon_pitch=-30  energy=0.9
+cast  vessa     res://art/units/wizards/vessa.tscn  at=(-32, 0, 32)  yaw=150
+cast  pell      capsule  at=(-30, 0, 30)
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE along the ring road to the north-west corner, salt cairns passing
+shot R1 7.0  cam=crane  from=(-20, 14, 40)  to=(-46, 12, 12)  look=(-40, 0, 20)>(-52, 0, -10)  fov=54>50  in=fade_black:0.8
+  at 0.4  line narrator "The Salt Road runs from Emberfall to the sea. Everything on it has a price, even the road."
+# MS Vessa at the keep, Pell's cart rattling in behind her
+shot R2 7.5  cam=orbit  pivot=vessa  r=4.0  h=1.6  deg=30>45
+  at 0.3  line vessa "Six wagons of gold. I don't own one wagon of gold. I own a lot of rocks. Shiny ones."
+  at 3.0  sfx res://assets/audio/sfx/crystals_delivered.wav  vol=-10
+# WS: the Lodge's antler gable and the Den's washing lines across the road
+shot R3 7.0  cam=dolly  from=(-30, 6, -36)  to=(-32, 5.5, -38)  look=(-45, 3, -51)>(-45, 2.5, -50)  fov=40>36
+  at 0.3  line pell "Rocks become gold at a post, my queen. Gold becomes everything else. Trust a professional."
+  at 6.4  fade alpha=1 time=0.6

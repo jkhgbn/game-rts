@@ -1,0 +1,18 @@
+# e2m4 E15 "e2m4_hush" (docs/design/mission-e2-04.md, Cinematic hooks): 10 s, mode=pause over the live mission.
+# 1) WS Hall 3, the gate's light at the far wall (0, -76), smoke rising off the floor; 2) MS Hush stepping out of the
+# smoke (orbit on the live `hush_cast`, the mission's Hush unit) (L20). Her answer to Vessa (L21 or L35, by the
+# m0_hush_driven flag) stays a dialogue card from the end state, so the film never says the wrong one.
+cine e2m4_hush  title="Mother Hush"  mode=pause  letterbox=2.39  seed=44  length=9..12
+env night  moon_yaw=180  moon_pitch=-60  energy=0.35
+cast  hush_cast  res://art/units/helpers/helper_hush/helper_hush.tscn  at=(0, 0, -60)  yaw=180
+cast  hush       capsule  at=(0, 0, -300)
+
+# WS Hall 3: the gate's light at the far wall, smoke on the floor
+shot H1 4.0  cam=dolly  from=(8, 5, -48)  to=(7, 4.6, -50)  look=(0, 3, -76)>(0, 2.5, -74)  fov=50>46  in=fade_black:0.4
+  at 0.6  vfx smoke  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(0, 0.1, -60)  life=4.0
+  at 0.6  sfx res://assets/audio/sfx/spell_umbral_shroud.wav  vol=-8
+# MS Hush stepping out of the smoke, the amber splinter at her mask
+shot H2 6.0  cam=orbit  pivot=hush_cast  r=3.4  h=1.6  deg=60>75
+  at 0.4  line hush "The little ember, in the dark. You're a long way from your braziers."
+  at 0.4  sfx res://assets/audio/forge/sfx/knife_ring.wav  vol=-10
+  at 5.4  fade alpha=1 time=0.6

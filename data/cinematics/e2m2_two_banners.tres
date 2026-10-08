@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_d1x70"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_3djbk"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_aoevi"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_ht4ta"]
+
+[sub_resource type="Resource" id="Resource_mk0od"]
+script = ExtResource("4_ht4ta")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_5yeij"]
+script = ExtResource("3_aoevi")
+id = &"B1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(-14, 12, 40)
+to_pos = Vector3(-12, 11, 42)
+look_from = Vector3(4, 0, 52)
+look_to = Vector3(10, 0, 52)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_ht4ta")]([SubResource("Resource_mk0od")])
+
+[sub_resource type="Resource" id="Resource_kf5kx"]
+script = ExtResource("1_d1x70")
+at = 0.4
+speaker = &"ysolde"
+text = "You came when I called, Vessa. Next time, I come when you do."
+
+[sub_resource type="Resource" id="Resource_jnsil"]
+script = ExtResource("1_d1x70")
+at = 5.0
+speaker = &"vessa"
+text = "Deal. And next time, I'll leave your trees alone."
+
+[sub_resource type="Resource" id="Resource_15jbj"]
+script = ExtResource("3_aoevi")
+id = &"B2"
+duration = 9.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-10, 0, 2)
+orbit_radius = 3.6
+orbit_height = 1.6
+orbit_from_deg = 20.0
+orbit_to_deg = 32.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_d1x70")]([SubResource("Resource_kf5kx"), SubResource("Resource_jnsil")])
+
+[sub_resource type="Resource" id="Resource_da881"]
+script = ExtResource("4_ht4ta")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.15,
+"color": Color(1, 0.6039216, 0.3137255, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_xig5i"]
+script = ExtResource("4_ht4ta")
+at = 5.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_th8gx"]
+script = ExtResource("3_aoevi")
+id = &"B3"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(-6, 2, 6)
+to_pos = Vector3(-2, 14, 12)
+look_from = Vector3(-12, 1, 0)
+look_to = Vector3(-14, 0, -2)
+fov_from = 44.0
+fov_to = 50.0
+actions = Array[ExtResource("4_ht4ta")]([SubResource("Resource_da881"), SubResource("Resource_xig5i")])
+
+[resource]
+script = ExtResource("2_3djbk")
+id = &"e2m2_two_banners"
+title = "Two Banners"
+world_mode = 1
+shots = Array[ExtResource("3_aoevi")]([SubResource("Resource_5yeij"), SubResource("Resource_15jbj"), SubResource("Resource_th8gx")])
+shake_seed = 24
+lines_over_cuts = true

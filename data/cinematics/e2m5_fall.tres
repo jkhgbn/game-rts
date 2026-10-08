@@ -1,0 +1,129 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_0s0gr"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_l8fed"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_fq0td"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_8cf05"]
+
+[sub_resource type="Resource" id="Resource_wlmse"]
+script = ExtResource("4_8cf05")
+at = 0.6
+kind = &"vfx"
+target = Vector3(0, 0, -20)
+params = {
+"life": 4.0,
+"scale": 2.5,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_logdp"]
+script = ExtResource("4_8cf05")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_cf7ru"]
+script = ExtResource("4_8cf05")
+at = 1.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -2.0
+}
+
+[sub_resource type="Resource" id="Resource_i6frs"]
+script = ExtResource("4_8cf05")
+at = 1.6
+kind = &"shake"
+params = {
+"amount": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_y2r7l"]
+script = ExtResource("4_8cf05")
+at = 4.0
+kind = &"shake"
+params = {
+"amount": 0.3
+}
+
+[sub_resource type="Resource" id="Resource_0kbes"]
+script = ExtResource("3_fq0td")
+id = &"F1"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(16, 10, 8)
+to_pos = Vector3(14, 12, 6)
+look_from = Vector3(0, 4, -20)
+look_to = Vector3(0, 1, -22)
+fov_from = 54.0
+fov_to = 50.0
+transition_in = 1
+actions = Array[ExtResource("4_8cf05")]([SubResource("Resource_wlmse"), SubResource("Resource_logdp"), SubResource("Resource_cf7ru"), SubResource("Resource_i6frs"), SubResource("Resource_y2r7l")])
+
+[sub_resource type="Resource" id="Resource_d1mta"]
+script = ExtResource("1_0s0gr")
+at = 0.4
+speaker = &"malrik"
+text = "Keep your door, Vessa. I have the key, and all the time in the world."
+
+[sub_resource type="Resource" id="Resource_3lk57"]
+script = ExtResource("3_fq0td")
+id = &"F2"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"shadow_hero"
+pivot = Vector3(0, 0, -16)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = 60.0
+orbit_to_deg = 75.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_0s0gr")]([SubResource("Resource_d1mta")])
+
+[sub_resource type="Resource" id="Resource_g0ji4"]
+script = ExtResource("4_8cf05")
+at = 5.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_1tvd4"]
+script = ExtResource("1_0s0gr")
+at = 0.6
+speaker = &"ysolde"
+text = "It held. Vessa. It held."
+
+[sub_resource type="Resource" id="Resource_ootqg"]
+script = ExtResource("3_fq0td")
+id = &"F3"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.675, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(1.2, 0, 7.2)
+orbit_radius = 3.4
+orbit_height = 1.6
+orbit_from_deg = 30.0
+orbit_to_deg = 42.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_0s0gr")]([SubResource("Resource_1tvd4")])
+actions = Array[ExtResource("4_8cf05")]([SubResource("Resource_g0ji4")])
+
+[resource]
+script = ExtResource("2_l8fed")
+id = &"e2m5_fall"
+title = "The Jailer Falls"
+world_mode = 1
+shots = Array[ExtResource("3_fq0td")]([SubResource("Resource_0kbes"), SubResource("Resource_3lk57"), SubResource("Resource_ootqg")])
+shake_seed = 54
+lines_over_cuts = true

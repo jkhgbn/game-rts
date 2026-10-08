@@ -1,0 +1,112 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_jqdly"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_lhfdc"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_oujga"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_4g2i7"]
+
+[sub_resource type="Resource" id="Resource_8kojp"]
+script = ExtResource("4_4g2i7")
+at = 0.6
+kind = &"vfx"
+target = Vector3(-8, 2, 16)
+params = {
+"life": 4.0,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(0, 1.5, 9)
+}
+
+[sub_resource type="Resource" id="Resource_o5xqw"]
+script = ExtResource("4_4g2i7")
+at = 0.9
+kind = &"vfx"
+target = Vector3(6, 2, 15)
+params = {
+"life": 3.7,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(0, 1.5, 9)
+}
+
+[sub_resource type="Resource" id="Resource_5l1gy"]
+script = ExtResource("4_4g2i7")
+at = 1.2
+kind = &"vfx"
+target = Vector3(-2, 2, 2)
+params = {
+"life": 3.4,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(0, 1.5, 9)
+}
+
+[sub_resource type="Resource" id="Resource_e2gjq"]
+script = ExtResource("4_4g2i7")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_8bqrr"]
+script = ExtResource("1_jqdly")
+at = 0.3
+speaker = &"aldra"
+text = "Hold the rime. When the green stops beating, the wood is ours."
+
+[sub_resource type="Resource" id="Resource_2iuxw"]
+script = ExtResource("3_oujga")
+id = &"F1"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5699999, 0)
+pivot_actor = &"aldra"
+pivot = Vector3(-3, 0, 14)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = 20.0
+orbit_to_deg = 35.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_jqdly")]([SubResource("Resource_8bqrr")])
+actions = Array[ExtResource("4_4g2i7")]([SubResource("Resource_8kojp"), SubResource("Resource_o5xqw"), SubResource("Resource_5l1gy"), SubResource("Resource_e2gjq")])
+
+[sub_resource type="Resource" id="Resource_0ilxk"]
+script = ExtResource("4_4g2i7")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_dxkji"]
+script = ExtResource("1_jqdly")
+at = 0.3
+speaker = &"torvald"
+text = "So the little ember comes to warm the wood. You are late, child. Winter got here first."
+
+[sub_resource type="Resource" id="Resource_611jt"]
+script = ExtResource("3_oujga")
+id = &"F2"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(6, 5, 16)
+to_pos = Vector3(5.6, 5.1, 15.4)
+look_from = Vector3(-30, 3, -30)
+look_to = Vector3(-30, 2.6, -30)
+fov_from = 26.0
+fov_to = 24.0
+lines = Array[ExtResource("1_jqdly")]([SubResource("Resource_dxkji")])
+actions = Array[ExtResource("4_4g2i7")]([SubResource("Resource_0ilxk")])
+
+[resource]
+script = ExtResource("2_lhfdc")
+id = &"e2m1_frostwarden"
+title = "The Frostwarden"
+world_mode = 1
+shots = Array[ExtResource("3_oujga")]([SubResource("Resource_2iuxw"), SubResource("Resource_611jt")])
+shake_seed = 12
+lines_over_cuts = true

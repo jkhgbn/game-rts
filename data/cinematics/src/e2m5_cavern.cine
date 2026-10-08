@@ -1,0 +1,28 @@
+# e2m5 E1 "e2m5_cavern" (docs/design/mission-e2-05.md, Cinematic hooks): 26 s (spec 0:24, stretched so L1-L4 fit),
+# mode=pause over the live mission (the spec's HOLD runs as PAUSE). 1) CRANE down from the stair mouth into the
+# cavern, the Door's god-rays at (0, 0) (L1); 2) MS Vessa at the stair foot (orbit on the live hero `vessa`, L2); 3) WS the
+# dais, the seals, the jailer-statue (0, -24) over the Door (L3); 4) across the Rift, MS Malrik on his stair (orbit on
+# the live `shadow_hero`, the mission's Malrik) with the amber shard (L4). Lines: L1 (narrator, voice-over), L2-L4.
+cine e2m5_cavern  title="The Door"  mode=pause  letterbox=2.39  seed=51  length=24..28
+env night  moon_yaw=180  moon_pitch=-55  energy=0.4
+cast  vessa        res://art/units/wizards/vessa.tscn   at=(-45, 0, 47)  yaw=135
+cast  shadow_hero  res://art/units/wizards/malrik.tscn  at=(0, 0, -28)  yaw=180
+cast  vey          capsule  at=(-43, 0, 46)
+cast  malrik       capsule  at=(0, 0, -300)
+cast  narrator     capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE down from the stair mouth into the cavern: warm wind, the Door's god-rays
+shot C1 6.5  cam=crane  from=(-56, 24, 58)  to=(-40, 12, 40)  look=(0, 0, 0)>(0, 0, -4)  fov=56>50  in=fade_black:0.8
+  at 0.4  line narrator "Under the roots of the world, a door. And on the other side of it, the one who made it."
+  at 0.6  vfx rays  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, 0)  life=5.8  scale=1.5
+# MS Vessa at the stair foot, light on her face
+shot C2 5.5  cam=orbit  pivot=vessa  r=3.6  h=1.6  deg=0>15
+  at 0.3  line vessa "That's it. That's the door. Vey, he's right there. Under my feet."
+# WS the dais: four grey seals, the Warden host standing still, the jailer-statue over the Door
+shot C3 7.0  cam=dolly  from=(14, 9, 22)  to=(12, 8, 19)  look=(0, 3, -8)>(0, 5, -14)  fov=50>46
+  at 0.3  line vey "Four seals. Wake them with the relics and the door stands. Let Malrik break them and it falls."
+# Across the Rift: Malrik on his own stair, the amber shard glowing in his fist
+shot C4 7.0  cam=orbit  pivot=shadow_hero  r=4.0  h=1.6  deg=60>75
+  at 0.2  vfx shard  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0.4, 1.1, -27.5)  life=6.5  scale=0.5
+  at 0.3  line malrik "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs."
+  at 6.4  fade alpha=1 time=0.6

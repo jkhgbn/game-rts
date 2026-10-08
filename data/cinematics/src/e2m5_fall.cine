@@ -1,0 +1,24 @@
+# e2m5 E21 "e2m5_fall" (docs/design/mission-e2-05.md, Cinematic hooks): 20 s, then the victory. mode=pause over the live
+# mission. 1) WS the Doorwarden kneeling, a last Sunlance splitting it, the statue falling into the Rift (a light pillar
+# + shake at the statue mark (0, -20)); 2) MS Malrik at the north ramp, turning away (orbit on the live `shadow_hero`,
+# L32); 3) MS Ysolde catching Vessa's arm at the Door (orbit on the live `ysolde`, L33).
+cine e2m5_fall  title="The Jailer Falls"  mode=pause  letterbox=2.39  seed=54  length=18..22
+env night  moon_yaw=180  moon_pitch=-55  energy=0.4
+cast  shadow_hero  res://art/units/wizards/malrik.tscn  at=(0, 0, -16)  yaw=0
+cast  ysolde       res://art/units/wizards/ysolde.tscn  at=(1.2, 0, 7.2)  yaw=200
+cast  malrik       capsule  at=(0, 0, -300)
+
+# WS the Doorwarden kneeling: a last Sunlance splits it, the statue falls apart into the Rift
+shot F1 7.0  cam=crane  from=(16, 10, 8)  to=(14, 12, 6)  look=(0, 4, -20)>(0, 1, -22)  fov=54>50  in=fade_black:0.5
+  at 0.6  vfx lance  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, -20)  life=4.0  scale=2.5
+  at 0.6  sfx res://assets/audio/sfx/atk_storm.wav  vol=-4
+  at 1.6  sfx res://assets/audio/sfx/building_collapse.wav  vol=-2
+  at 1.6  shake 0.6
+  at 4.0  shake 0.3
+# MS Malrik at the north ramp, the shard dim, turning away into the dark
+shot F2 7.0  cam=orbit  pivot=shadow_hero  r=4.0  h=1.6  deg=60>75
+  at 0.4  line malrik "Keep your door, Vessa. I have the key, and all the time in the world."
+# MS Ysolde catching Vessa's arm at the Door
+shot F3 6.0  cam=orbit  pivot=ysolde  r=3.4  h=1.6  deg=30>42
+  at 0.6  line ysolde "It held. Vessa. It held."
+  at 5.0  fade alpha=1 time=1.0

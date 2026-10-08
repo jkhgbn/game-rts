@@ -1,0 +1,35 @@
+# e2m5 E14 "e2m5_wake" (docs/design/mission-e2-05.md, Cinematic hooks): 30 s, mode=pause over the live mission.
+# 1) MS Malrik at the statue's foot pressing the shard to its ankle, amber light racing up its seams (orbit on the live
+# `shadow_hero`, L19-L20); 2) close on its eyes opening, amber (a fixed camera on the statue's head height, ~9 m);
+# 3) LOW: its first step cracks the dais (shake); 4) MS Vessa raising the Crown, the seals blazing white-gold (orbit on
+# the live hero `vessa`, L21). Lines: L19 (narrator, voice-over), L20, L21.
+cine e2m5_wake  title="The Jailer Wakes"  mode=pause  letterbox=2.39  seed=52  length=28..32
+env night  moon_yaw=180  moon_pitch=-55  energy=0.4
+cast  shadow_hero  res://art/units/wizards/malrik.tscn  at=(1.5, 0, -21)  yaw=200
+cast  vessa        res://art/units/wizards/vessa.tscn   at=(-3, 0, 8)  yaw=180
+cast  malrik       capsule  at=(0, 0, -300)
+cast  narrator     capsule  at=(0, 0, -300)  hidden=1
+
+# MS Malrik at the statue's foot, the shard to its ankle; amber light races up the seams
+shot K1 10.0  cam=orbit  pivot=shadow_hero  r=4.2  h=1.6  deg=40>60  in=fade_black:0.5
+  at 0.3  line narrator "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it."
+  at 1.0  vfx shard  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(1.0, 0.8, -22.4)  life=8.5  scale=0.7
+  at 2.0  vfx seam  scene=res://art/cinematics/fx/streak_red.tscn  at=(0.5, 0.5, -23)  to=(0, 8, -24)  life=3.0
+  at 2.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-4
+  at 6.0  line malrik "Open it, Mason. Let me see what the Master was so busy guarding."
+# Close on its eyes opening, amber
+shot K2 5.0  cam=dolly  from=(3, 7, -16)  to=(2.6, 7.3, -16.8)  look=(0, 9, -24)>(0, 9.2, -24)  fov=30>26
+  at 0.6  vfx eyes  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0, 9, -23.4)  life=4.2  scale=1.0
+  at 0.6  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-6
+# LOW: the first step cracks the dais; the Wardens' eyes turn amber
+shot K3 7.0  cam=dolly  from=(8, 0.5, -10)  to=(7, 0.7, -11)  look=(0, 4, -22)>(0, 6, -21)  fov=55>52
+  at 1.2  sfx res://assets/audio/sfx/building_collapse.wav  vol=-3
+  at 1.2  shake 0.7
+  at 4.0  sfx res://assets/audio/sfx/building_hit.wav  vol=-6
+  at 4.0  shake 0.4
+# MS Vessa raising the Crown; the seals she holds blaze white-gold
+shot K4 8.0  cam=orbit  pivot=vessa  r=3.6  h=1.6  deg=60>75
+  at 0.4  line vessa "Everyone on the door! Nobody touches it but us!"
+  at 0.6  vfx seals  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, 7.5)  life=6.0  scale=0.6
+  at 0.6  sfx res://assets/audio/sfx/ab_flame_burst.wav  vol=-8
+  at 7.4  fade alpha=1 time=0.6

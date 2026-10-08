@@ -1,0 +1,93 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_v3627"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_1lit8"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_ndbsu"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_gsons"]
+
+[sub_resource type="Resource" id="Resource_ws4hc"]
+script = ExtResource("4_gsons")
+at = 1.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/crystals_delivered.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_qpy0s"]
+script = ExtResource("4_gsons")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/item_bought.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_ebo8s"]
+script = ExtResource("1_v3627")
+at = 0.4
+speaker = &"bettany"
+text = "One wagon. Five to go. The hunters count slow and they count twice."
+
+[sub_resource type="Resource" id="Resource_xlt8x"]
+script = ExtResource("3_ndbsu")
+id = &"L1"
+duration = 6.0
+camera_mode = 3
+pivot_actor = &"bettany"
+pivot = Vector3(-45, 0, -49)
+orbit_radius = 3.6
+orbit_height = 1.6
+orbit_from_deg = 40.0
+orbit_to_deg = 55.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_v3627")]([SubResource("Resource_ebo8s")])
+actions = Array[ExtResource("4_gsons")]([SubResource("Resource_ws4hc"), SubResource("Resource_qpy0s")])
+
+[sub_resource type="Resource" id="Resource_wtccw"]
+script = ExtResource("4_gsons")
+at = 8.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_tmevs"]
+script = ExtResource("1_v3627")
+at = 0.3
+speaker = &"vessa"
+text = "What do they even want all this gold for?"
+
+[sub_resource type="Resource" id="Resource_j3hg4"]
+script = ExtResource("1_v3627")
+at = 3.8
+speaker = &"bettany"
+text = "Arrows, mostly. And never having to go down there again."
+
+[sub_resource type="Resource" id="Resource_8cph0"]
+script = ExtResource("3_ndbsu")
+id = &"L2"
+duration = 9.0
+camera_mode = 3
+pivot_actor = &"bettany"
+pivot = Vector3(-45, 0, -49)
+orbit_from_deg = 60.0
+orbit_to_deg = 75.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_v3627")]([SubResource("Resource_tmevs"), SubResource("Resource_j3hg4")])
+actions = Array[ExtResource("4_gsons")]([SubResource("Resource_wtccw")])
+
+[resource]
+script = ExtResource("2_1lit8")
+id = &"e2m3_lodge"
+title = "Greywater Lodge"
+world_mode = 1
+shots = Array[ExtResource("3_ndbsu")]([SubResource("Resource_xlt8x"), SubResource("Resource_8cph0")])
+shake_seed = 32
+lines_over_cuts = true

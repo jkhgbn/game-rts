@@ -1,0 +1,17 @@
+# e2m4 E4 "e2m4_first_warden" (docs/design/mission-e2-04.md, Cinematic hooks): 10 s, mode=pause over the live mission.
+# 1) close on the wall by Vey: white-gold light running into a carved face (a sun pillar); 2) MS the Warden stepping out
+# of its alcove, bowing to Vey (L7). Both orbit the live `vey` (the woken Warden stands next to him); the cast is a
+# stand-in for cine's checks.
+cine e2m4_first_warden  title="The First Warden"  mode=pause  letterbox=2.39  seed=42  length=9..12
+env night  moon_yaw=180  moon_pitch=-60  energy=0.35
+cast  vey  res://art/units/helpers/helper_vey/helper_vey.tscn  at=(4, 0, 40)  yaw=90
+
+# Close on the carved face: white-gold light runs into the eye sockets
+shot W1 4.0  cam=orbit  pivot=vey  r=2.6  h=1.8  deg=200>210  fov=34  in=fade_black:0.4
+  at 0.4  vfx eyes  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(6, 0, 41)  life=3.4  scale=0.4
+  at 0.4  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-8
+# MS the Warden steps out of its alcove and bows to Vey
+shot W2 6.0  cam=orbit  pivot=vey  r=5.0  h=1.8  deg=230>245
+  at 0.3  line vey "Up, old friend. Your master's walking again. Well. His sword is."
+  at 0.8  sfx res://assets/audio/sfx/building_hit.wav  vol=-10
+  at 5.4  fade alpha=1 time=0.6

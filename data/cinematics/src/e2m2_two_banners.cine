@@ -1,0 +1,20 @@
+# e2m2 E21 "e2m2_two_banners" (docs/design/mission-e2-02.md, Cinematic hooks): 21 s, then the victory. mode=pause over
+# the live mission. 1) WS over Millstone Bridge (0, 52), the Ice and Shadow columns walking away east; 2) MS Vessa and
+# Ysolde side by side at the Wayshrine (orbit on the live hero `vessa`, L29-L30); 3) CRANE up over the west bank at
+# sunset (a warm tint), the shrine step at (-12, 0).
+cine e2m2_two_banners  title="Two Banners"  mode=pause  letterbox=2.39  seed=24  length=19..23
+env dusk  moon_yaw=280  moon_pitch=-10  energy=0.8
+cast  vessa   res://art/units/wizards/vessa.tscn   at=(-10, 0, 2)  yaw=100
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(-11.2, 0, 3.1)  yaw=110
+
+# WS over Millstone Bridge: the Ice and Shadow columns walk away east
+shot B1 6.0  cam=crane  from=(-14, 12, 40)  to=(-12, 11, 42)  look=(4, 0, 52)>(10, 0, 52)  fov=50>46  in=fade_black:0.6
+  at 0.3  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-12
+# MS Vessa and Ysolde side by side at the Wayshrine
+shot B2 9.0  cam=orbit  pivot=vessa  r=3.6  h=1.6  deg=20>32
+  at 0.4  line ysolde "You came when I called, Vessa. Next time, I come when you do."
+  at 5.0  line vessa "Deal. And next time, I'll leave your trees alone."
+# CRANE up: the red and green banners on the west bank at sunset
+shot B3 6.0  cam=crane  from=(-6, 2, 6)  to=(-2, 14, 12)  look=(-12, 1, 0)>(-14, 0, -2)  fov=44>50
+  at 0.2  fade color=#ff9a50 alpha=0.15 time=2.0
+  at 5.0  fade alpha=1 time=1.0

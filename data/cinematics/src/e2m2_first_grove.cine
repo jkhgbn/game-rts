@@ -1,0 +1,17 @@
+# e2m2 E3 "e2m2_first_grove" (docs/design/mission-e2-02.md, Cinematic hooks): 10 s, mode=pause over the live mission.
+# 1) LOW at the Stumpwood ring (-44, 14) as it bursts into young trees (a bloom wave + blossoms); 2) MS Maelis touching
+# the Giant's Stump, a green pulse through the roots (orbit on the live `maelis`, L6).
+cine e2m2_first_grove  title="The First Grove"  mode=pause  letterbox=2.39  seed=22  length=9..12
+env day  moon_yaw=300  moon_pitch=-24  energy=0.8
+cast  maelis  res://art/units/helpers/helper_maelis/helper_maelis.tscn  at=(-42, 0, 16)  yaw=210
+
+# LOW at the ring as it bursts into young trees, moss and flowers
+shot G1 4.0  cam=dolly  from=(-37.5, 0.6, 18.5)  to=(-38.5, 0.8, 17.6)  look=(-44, 1.2, 14)>(-44, 2.0, 14)  fov=46>42  in=fade_black:0.4
+  at 0.2  vfx bloom  scene=res://art/cinematics/fx/bloom_wave.tscn  at=(-44, 0.05, 14)  life=3.6  scale=2.0
+  at 0.4  vfx blossom  scene=res://art/cinematics/fx/blossom.tscn  at=(-44, 0.2, 14)  life=3.4
+  at 0.3  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-5
+# MS Maelis touching the Giant's Stump: a green pulse through the roots
+shot G2 6.0  cam=orbit  pivot=maelis  r=3.5  h=1.5  deg=-30>-15
+  at 0.3  line maelis "Stumpwood breathes again. The forest remembers who froze it."
+  at 1.0  vfx pulse  scene=res://art/cinematics/fx/green_pillar.tscn  at=(-44, 0, 14)  life=3.0  scale=0.4
+  at 5.4  fade alpha=1 time=0.6

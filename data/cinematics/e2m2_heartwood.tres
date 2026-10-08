@@ -1,0 +1,163 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_8s3fs"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_3r7fy"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_y18jq"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_j7dmq"]
+
+[sub_resource type="Resource" id="Resource_sl416"]
+script = ExtResource("4_j7dmq")
+at = 0.4
+kind = &"vfx"
+target = Vector3(-44, 0.5, 14)
+params = {
+"life": 4.0,
+"scene": "res://art/cinematics/fx/streak_green.tscn",
+"to": Vector3(-33, 0.5, -33)
+}
+
+[sub_resource type="Resource" id="Resource_sdqn2"]
+script = ExtResource("4_j7dmq")
+at = 0.7
+kind = &"vfx"
+target = Vector3(-12, 0.5, -12)
+params = {
+"life": 3.7,
+"scene": "res://art/cinematics/fx/streak_green.tscn",
+"to": Vector3(-33, 0.5, -33)
+}
+
+[sub_resource type="Resource" id="Resource_kwane"]
+script = ExtResource("4_j7dmq")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_nw2xn"]
+script = ExtResource("3_y18jq")
+id = &"H1"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(-26, 46, -14)
+to_pos = Vector3(-28, 44, -18)
+look_from = Vector3(-30, 0, -20)
+look_to = Vector3(-31, 0, -24)
+fov_from = 50.0
+fov_to = 48.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_j7dmq")]([SubResource("Resource_sl416"), SubResource("Resource_sdqn2"), SubResource("Resource_kwane")])
+
+[sub_resource type="Resource" id="Resource_i6llv"]
+script = ExtResource("4_j7dmq")
+at = 0.3
+kind = &"vfx"
+target = Vector3(-33, 0, -33)
+params = {
+"life": 4.5,
+"scale": 1.0,
+"scene": "res://art/cinematics/fx/green_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_7ytvi"]
+script = ExtResource("4_j7dmq")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -3.0
+}
+
+[sub_resource type="Resource" id="Resource_eqpnn"]
+script = ExtResource("1_8s3fs")
+at = 0.5
+speaker = &"ysolde"
+text = "Three groves. Enough roots to stand on. Rise."
+
+[sub_resource type="Resource" id="Resource_8iqif"]
+script = ExtResource("3_y18jq")
+id = &"H2"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(-26.5, 0.7, -26.5)
+to_pos = Vector3(-27.5, 1.2, -27.5)
+look_from = Vector3(-33, 2, -33)
+look_to = Vector3(-33, 5, -33)
+fov_from = 52.0
+fov_to = 48.0
+lines = Array[ExtResource("1_8s3fs")]([SubResource("Resource_eqpnn")])
+actions = Array[ExtResource("4_j7dmq")]([SubResource("Resource_i6llv"), SubResource("Resource_7ytvi")])
+
+[sub_resource type="Resource" id="Resource_m3ffo"]
+script = ExtResource("1_8s3fs")
+at = 0.3
+speaker = &"vessa"
+text = "Huh. You grow a castle out of a seed. I have to build mine out of rocks."
+
+[sub_resource type="Resource" id="Resource_vq5ny"]
+script = ExtResource("1_8s3fs")
+at = 5.5
+speaker = &"ysolde"
+text = "Then we each keep the other's. Fire and Nature, one front."
+
+[sub_resource type="Resource" id="Resource_acq0s"]
+script = ExtResource("3_y18jq")
+id = &"H3"
+duration = 10.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-29, 0, -30)
+orbit_radius = 3.8
+orbit_height = 1.6
+orbit_from_deg = 30.0
+orbit_to_deg = 45.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_8s3fs")]([SubResource("Resource_m3ffo"), SubResource("Resource_vq5ny")])
+
+[sub_resource type="Resource" id="Resource_lhmk3"]
+script = ExtResource("4_j7dmq")
+at = 0.3
+kind = &"vfx"
+target = Vector3(-33, 0.05, -33)
+params = {
+"life": 4.0,
+"scale": 2.5,
+"scene": "res://art/cinematics/fx/bloom_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_gufvr"]
+script = ExtResource("4_j7dmq")
+at = 4.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_1r8wr"]
+script = ExtResource("3_y18jq")
+id = &"H4"
+duration = 5.0
+camera_mode = 2
+from_pos = Vector3(-18, 10, -20)
+to_pos = Vector3(-20, 8, -22)
+look_from = Vector3(-33, 1, -33)
+look_to = Vector3(-33, 1.5, -33)
+fov_from = 50.0
+fov_to = 46.0
+actions = Array[ExtResource("4_j7dmq")]([SubResource("Resource_lhmk3"), SubResource("Resource_gufvr")])
+
+[resource]
+script = ExtResource("2_3r7fy")
+id = &"e2m2_heartwood"
+title = "The Heartwood"
+world_mode = 1
+shots = Array[ExtResource("3_y18jq")]([SubResource("Resource_nw2xn"), SubResource("Resource_8iqif"), SubResource("Resource_acq0s"), SubResource("Resource_1r8wr")])
+shake_seed = 23
+lines_over_cuts = true

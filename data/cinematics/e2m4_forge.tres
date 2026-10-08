@@ -1,0 +1,97 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_k1vvw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_udbyn"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_7dwxl"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_6rmbt"]
+
+[sub_resource type="Resource" id="Resource_8fk2f"]
+script = ExtResource("4_6rmbt")
+at = 0.4
+kind = &"vfx"
+target = Vector3(0, 0, -4)
+params = {
+"life": 6.0,
+"scale": 0.6,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_trfys"]
+script = ExtResource("4_6rmbt")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/ab_flame_burst.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_bwlp0"]
+script = ExtResource("1_k1vvw")
+at = 0.6
+speaker = &"vessa"
+text = "The hearth's lit. Ashby, it's yours. Make me things that hit harder."
+
+[sub_resource type="Resource" id="Resource_v5q0y"]
+script = ExtResource("3_7dwxl")
+id = &"F1"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(4.2, 0.7, 0.2)
+to_pos = Vector3(3.6, 0.9, -0.4)
+look_from = Vector3(0, 1, -4)
+look_to = Vector3(0, 1.8, -4)
+fov_from = 46.0
+fov_to = 42.0
+transition_in = 1
+lines = Array[ExtResource("1_k1vvw")]([SubResource("Resource_bwlp0")])
+actions = Array[ExtResource("4_6rmbt")]([SubResource("Resource_8fk2f"), SubResource("Resource_trfys")])
+
+[sub_resource type="Resource" id="Resource_5uo66"]
+script = ExtResource("4_6rmbt")
+at = 0.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/melee_hit.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_o33yr"]
+script = ExtResource("4_6rmbt")
+at = 7.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_hyul5"]
+script = ExtResource("1_k1vvw")
+at = 0.3
+speaker = &"ashby"
+text = "A Master's forge! My grandad would weep. Then he'd charge you for it."
+
+[sub_resource type="Resource" id="Resource_d0ntd"]
+script = ExtResource("3_7dwxl")
+id = &"F2"
+duration = 8.0
+camera_mode = 3
+pivot_actor = &"ashby"
+pivot = Vector3(-2, 0, 6)
+orbit_radius = 7.0
+orbit_height = 3.0
+orbit_from_deg = 20.0
+orbit_to_deg = 35.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_k1vvw")]([SubResource("Resource_hyul5")])
+actions = Array[ExtResource("4_6rmbt")]([SubResource("Resource_5uo66"), SubResource("Resource_o33yr")])
+
+[resource]
+script = ExtResource("2_udbyn")
+id = &"e2m4_forge"
+title = "The Master's Forge"
+world_mode = 1
+shots = Array[ExtResource("3_7dwxl")]([SubResource("Resource_v5q0y"), SubResource("Resource_d0ntd")])
+shake_seed = 43
+lines_over_cuts = true

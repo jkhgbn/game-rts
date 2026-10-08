@@ -1,0 +1,99 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_cb0rn"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_c3fk0"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_b32dv"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_ga0a7"]
+
+[sub_resource type="Resource" id="Resource_gkpdk"]
+script = ExtResource("1_cb0rn")
+at = 0.4
+speaker = &"narrator"
+text = "The Salt Road runs from Emberfall to the sea. Everything on it has a price, even the road."
+
+[sub_resource type="Resource" id="Resource_r3qkd"]
+script = ExtResource("3_b32dv")
+id = &"R1"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(-20, 14, 40)
+to_pos = Vector3(-46, 12, 12)
+look_from = Vector3(-40, 0, 20)
+look_to = Vector3(-52, 0, -10)
+fov_from = 54.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_cb0rn")]([SubResource("Resource_gkpdk")])
+
+[sub_resource type="Resource" id="Resource_ocy60"]
+script = ExtResource("4_ga0a7")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/crystals_delivered.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_uaxc6"]
+script = ExtResource("1_cb0rn")
+at = 0.3
+speaker = &"vessa"
+text = "Six wagons of gold. I don't own one wagon of gold. I own a lot of rocks. Shiny ones."
+
+[sub_resource type="Resource" id="Resource_e75sp"]
+script = ExtResource("3_b32dv")
+id = &"R2"
+duration = 7.5
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-32, 0, 32)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = 30.0
+orbit_to_deg = 45.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_cb0rn")]([SubResource("Resource_uaxc6")])
+actions = Array[ExtResource("4_ga0a7")]([SubResource("Resource_ocy60")])
+
+[sub_resource type="Resource" id="Resource_s6r1a"]
+script = ExtResource("4_ga0a7")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_wkhg4"]
+script = ExtResource("1_cb0rn")
+at = 0.3
+speaker = &"pell"
+text = "Rocks become gold at a post, my queen. Gold becomes everything else. Trust a professional."
+
+[sub_resource type="Resource" id="Resource_tu4tx"]
+script = ExtResource("3_b32dv")
+id = &"R3"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(-30, 6, -36)
+to_pos = Vector3(-32, 5.5, -38)
+look_from = Vector3(-45, 3, -51)
+look_to = Vector3(-45, 2.5, -50)
+fov_from = 40.0
+fov_to = 36.0
+lines = Array[ExtResource("1_cb0rn")]([SubResource("Resource_wkhg4")])
+actions = Array[ExtResource("4_ga0a7")]([SubResource("Resource_s6r1a")])
+
+[resource]
+script = ExtResource("2_c3fk0")
+id = &"e2m3_road"
+title = "The Salt Road"
+world_mode = 1
+shots = Array[ExtResource("3_b32dv")]([SubResource("Resource_r3qkd"), SubResource("Resource_e75sp"), SubResource("Resource_tu4tx")])
+shake_seed = 31
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

@@ -1,0 +1,101 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_2ehux"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_w7411"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_qptfj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_4yc6k"]
+
+[sub_resource type="Resource" id="Resource_itkae"]
+script = ExtResource("4_4yc6k")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_ktnbb"]
+script = ExtResource("1_2ehux")
+at = 0.4
+speaker = &"narrator"
+text = "Nature had no kingdom left, only seed. Fire had a border, and a frost fort sitting on it."
+
+[sub_resource type="Resource" id="Resource_0ayng"]
+script = ExtResource("3_qptfj")
+id = &"M1"
+duration = 6.5
+camera_mode = 2
+from_pos = Vector3(-70, 26, -10)
+to_pos = Vector3(-60, 18, 0)
+look_from = Vector3(-22, 0, 38)
+look_to = Vector3(-14, 0, 46)
+fov_from = 52.0
+fov_to = 48.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_2ehux")]([SubResource("Resource_ktnbb")])
+actions = Array[ExtResource("4_4yc6k")]([SubResource("Resource_itkae")])
+
+[sub_resource type="Resource" id="Resource_mhr6m"]
+script = ExtResource("1_2ehux")
+at = 0.3
+speaker = &"ysolde"
+text = "Three groves along your line, Vessa. Give me those, and I can give you a kingdom back."
+
+[sub_resource type="Resource" id="Resource_2f1lq"]
+script = ExtResource("3_qptfj")
+id = &"M2"
+duration = 6.5
+camera_mode = 3
+look_offset = Vector3(0, 1.675, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(-44, 0, 14)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = -20.0
+orbit_to_deg = -5.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_2ehux")]([SubResource("Resource_mhr6m")])
+
+[sub_resource type="Resource" id="Resource_5r47h"]
+script = ExtResource("4_4yc6k")
+at = 5.9
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_c62ue"]
+script = ExtResource("1_2ehux")
+at = 0.3
+speaker = &"vessa"
+text = "Three trees? I can do three trees. Torvald brought a whole fort. That one's mine."
+
+[sub_resource type="Resource" id="Resource_uafik"]
+script = ExtResource("3_qptfj")
+id = &"M3"
+duration = 6.5
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-31, 0, 33)
+orbit_radius = 3.6
+orbit_height = 2.2
+orbit_from_deg = 170.0
+orbit_to_deg = 178.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_2ehux")]([SubResource("Resource_c62ue")])
+actions = Array[ExtResource("4_4yc6k")]([SubResource("Resource_5r47h")])
+
+[resource]
+script = ExtResource("2_w7411")
+id = &"e2m2_muster"
+title = "The Muster"
+world_mode = 1
+shots = Array[ExtResource("3_qptfj")]([SubResource("Resource_0ayng"), SubResource("Resource_2f1lq"), SubResource("Resource_uafik")])
+shake_seed = 21
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

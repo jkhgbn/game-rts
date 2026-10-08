@@ -1,0 +1,18 @@
+# e2m4 E9 "e2m4_forge" (docs/design/mission-e2-04.md, Cinematic hooks): 15 s, mode=pause over the live mission.
+# 1) LOW: the cold anvil-altar at the forge (0, -4) catches fire, the chimney glowing (L13); 2) WS the work crew with
+# Ashby at the front (orbit on the live `ashby`, L14).
+cine e2m4_forge  title="The Master's Forge"  mode=pause  letterbox=2.39  seed=43  length=13..17
+env night  moon_yaw=180  moon_pitch=-60  energy=0.35
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(2, 0, -1)  yaw=210
+cast  ashby  capsule  at=(-2, 0, 6)  yaw=180
+
+# LOW: the anvil-altar catches fire from Vessa's hand
+shot F1 7.0  cam=dolly  from=(4.2, 0.7, 0.2)  to=(3.6, 0.9, -0.4)  look=(0, 1.0, -4)>(0, 1.8, -4)  fov=46>42  in=fade_black:0.5
+  at 0.4  vfx fire  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(0, 0, -4)  life=6.0  scale=0.6
+  at 0.4  sfx res://assets/audio/sfx/ab_flame_burst.wav  vol=-6
+  at 0.6  line vessa "The hearth's lit. Ashby, it's yours. Make me things that hit harder."
+# WS the work crew coming down the gallery, Ashby at the front
+shot F2 8.0  cam=orbit  pivot=ashby  r=7.0  h=3.0  deg=20>35
+  at 0.3  line ashby "A Master's forge! My grandad would weep. Then he'd charge you for it."
+  at 0.8  sfx res://assets/audio/sfx/melee_hit.wav  vol=-14
+  at 7.4  fade alpha=1 time=0.6

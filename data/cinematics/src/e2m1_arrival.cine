@@ -1,0 +1,24 @@
+# e2m1 E1 "e2m1_arrival" (docs/design/mission-e2-01.md, Cinematic hooks): ~21 s, mode=pause over the live mission (the
+# spec's HOLD runs as PAUSE until the player supports HOLD). 1) CRANE down over the charred, frosted canopy from the
+# south-west onto the Fire column at (-36, 36); 2) Vessa walks in (orbit on the live hero: tag `vessa`); 3) a slow push
+# north to the dead Oldroot / Heartwood (0, 9), a faint green pulse at its foot. Lines: L1 (narrator, voice-over), L2, L3.
+cine e2m1_arrival  title="The Sighing Wood"  mode=pause  letterbox=2.39  seed=11  length=19..23
+env dusk  moon_yaw=40  moon_pitch=-20  energy=0.7
+cast  vessa      res://art/units/wizards/vessa.tscn  at=(-34, 0, 34)  yaw=150
+cast  messenger  capsule  at=(-30, 0, 30)
+cast  narrator   capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE down over the burned, frosted wood onto the column
+shot A1 8.0  cam=crane  from=(-62, 30, 62)  to=(-50, 14, 50)  look=(-30, 0, 30)>(-32, 0, 31)  fov=55>50  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-12
+  at 0.5  line narrator "The Sighing Wood kept out of every quarrel for a century. Now it is ash, and the ash is frozen."
+# Vessa walks in among the ashes
+shot A2 6.0  cam=orbit  pivot=vessa  r=5.0  h=1.8  deg=60>80
+  at 0.3  line vessa "Fire AND frost. They didn't just burn it. They made sure it stayed dead."
+  at 0.6  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-12
+# Slow push north to the dead Oldroot; a faint green pulse at its foot
+shot A3 7.0  cam=dolly  from=(-14, 4, 26)  to=(-9, 3.5, 20)  look=(0, 2.2, 9)>(0, 1.6, 9)  fov=40>34
+  at 0.4  line messenger "The Heartwood is past the old tree. She's inside it."
+  at 3.0  vfx pulse  scene=res://art/cinematics/fx/green_pillar.tscn  at=(0, 0, 9)  life=3.0  scale=0.4
+  at 3.0  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-10
+  at 6.4  fade alpha=1 time=0.6

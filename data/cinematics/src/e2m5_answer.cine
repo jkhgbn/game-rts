@@ -1,0 +1,18 @@
+# e2m5 E18 "e2m5_answer" (docs/design/mission-e2-05.md, Cinematic hooks): 12.5 s, mode=pause over the live mission.
+# 1) CU the Door's surface (0, 0): cracks of white-gold light pushing back the amber (L26); 2) MS Vessa and Vey at the
+# rim, his blade blazing (orbit on the live `vey`, L27).
+cine e2m5_answer  title="The Door Answers"  mode=pause  letterbox=2.39  seed=53  length=11..14
+env night  moon_yaw=180  moon_pitch=-55  energy=0.4
+cast  vey    res://art/units/helpers/helper_vey/helper_vey.tscn  at=(1.5, 0, 7.5)  yaw=180
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(-1.2, 0, 7.8)  yaw=180
+
+# CU the Door's surface: white-gold cracks push back the amber
+shot A1 6.0  cam=dolly  from=(3, 2.5, 4)  to=(2.5, 2.0, 3.4)  look=(0, 0.2, 0)>(0, 0.1, -0.4)  fov=34>30  in=fade_black:0.4
+  at 0.3  line vey "Feel that? He's pushing back from below. The spark first, Vessa. Then the storm."
+  at 0.5  vfx light  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, 0)  life=5.5  scale=0.8
+  at 0.5  sfx res://assets/audio/sfx/atk_storm.wav  vol=-8
+# MS Vessa and Vey at the rim: his blade blazing, her hands raised
+shot A2 6.5  cam=orbit  pivot=vey  r=3.8  h=1.6  deg=60>72
+  at 0.3  line vessa "Then let's give him something to push with. Door! Light! NOW!"
+  at 0.8  vfx bolt  scene=res://art/cinematics/fx/streak_blue.tscn  at=(1.5, 2.5, 7.5)  to=(0, 0.5, 0)  life=2.0
+  at 5.9  fade alpha=1 time=0.6

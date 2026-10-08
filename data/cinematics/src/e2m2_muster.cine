@@ -1,0 +1,21 @@
+# e2m2 E1 "e2m2_muster" (docs/design/mission-e2-02.md, Cinematic hooks): ~19.5 s, mode=pause over the live mission (the
+# spec's HOLD runs as PAUSE). 1) CRANE over the frosted west bank from the north-west, Rimehold's blue rime beyond the
+# Fire base (L1); 2) MS Ysolde at the Stumpwood ring (-44, 14) (orbit on the live `ysolde`, L2); 3) from behind Vessa
+# looking east toward Rimehold (orbit on the live hero `vessa`, L3). Lines: L1 (narrator, voice-over), L2, L3.
+cine e2m2_muster  title="The Muster"  mode=pause  letterbox=2.39  seed=21  length=17..22
+env day  moon_yaw=300  moon_pitch=-24  energy=0.8
+cast  ysolde    res://art/units/wizards/ysolde.tscn  at=(-44, 0, 14)  yaw=120
+cast  vessa     res://art/units/wizards/vessa.tscn   at=(-31, 0, 33)  yaw=90
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE over the frosted west bank, the Hollowmere dark below, Rimehold's rime beyond the Fire base
+shot M1 6.5  cam=crane  from=(-70, 26, -10)  to=(-60, 18, 0)  look=(-22, 0, 38)>(-14, 0, 46)  fov=52>48  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-12
+  at 0.4  line narrator "Nature had no kingdom left, only seed. Fire had a border, and a frost fort sitting on it."
+# MS Ysolde at the Stumpwood ring, the seed-carriers' lanterns
+shot M2 6.5  cam=orbit  pivot=ysolde  r=4.0  h=1.6  deg=-20>-5
+  at 0.3  line ysolde "Three groves along your line, Vessa. Give me those, and I can give you a kingdom back."
+# From behind Vessa, looking east to Rimehold's spires
+shot M3 6.5  cam=orbit  pivot=vessa  r=3.6  h=2.2  deg=170>178
+  at 0.3  line vessa "Three trees? I can do three trees. Torvald brought a whole fort. That one's mine."
+  at 5.9  fade alpha=1 time=0.6

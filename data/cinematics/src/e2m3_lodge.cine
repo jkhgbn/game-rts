@@ -1,0 +1,18 @@
+# e2m3 E10 "e2m3_lodge" (docs/design/mission-e2-03.md, Cinematic hooks): 15 s, mode=pause over the live mission.
+# 1) MS Bettany at the Lodge door counting coins into a hunter's hand (orbit on the live `bettany`, L13); 2) wider
+# around her (Vessa when she stands near; the orbit frames whoever is there) (L14, L36).
+cine e2m3_lodge  title="Greywater Lodge"  mode=pause  letterbox=2.39  seed=32  length=13..17
+env day  moon_yaw=320  moon_pitch=-30  energy=0.9
+cast  bettany  capsule  at=(-45, 0, -49)  yaw=0
+cast  vessa    res://art/units/wizards/vessa.tscn  at=(-42, 0, -45)  yaw=220
+
+# MS Bettany at the Lodge door, counting coins
+shot L1 6.0  cam=orbit  pivot=bettany  r=3.6  h=1.6  deg=40>55  in=fade_black:0.4
+  at 0.4  line bettany "One wagon. Five to go. The hunters count slow and they count twice."
+  at 1.2  sfx res://assets/audio/sfx/crystals_delivered.wav  vol=-10
+  at 2.6  sfx res://assets/audio/sfx/item_bought.wav  vol=-12
+# Wider: Vessa (when she is near) and Bettany
+shot L2 9.0  cam=orbit  pivot=bettany  r=6.0  h=2.0  deg=60>75
+  at 0.3  line vessa "What do they even want all this gold for?"
+  at 3.8  line bettany "Arrows, mostly. And never having to go down there again."
+  at 8.4  fade alpha=1 time=0.6

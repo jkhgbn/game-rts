@@ -1,0 +1,95 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_crf76"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_w4ecp"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_lw4hr"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_uquto"]
+
+[sub_resource type="Resource" id="Resource_0bg4c"]
+script = ExtResource("4_uquto")
+at = 0.4
+kind = &"vfx"
+target = Vector3(6, 0, 41)
+params = {
+"life": 3.4,
+"scale": 0.4,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_4a1k6"]
+script = ExtResource("4_uquto")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_4f10r"]
+script = ExtResource("3_lw4hr")
+id = &"W1"
+duration = 4.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5649999, 0)
+pivot_actor = &"vey"
+pivot = Vector3(4, 0, 40)
+orbit_radius = 2.6
+orbit_height = 1.8
+orbit_from_deg = 200.0
+orbit_to_deg = 210.0
+fov_from = 34.0
+fov_to = 34.0
+transition_in = 1
+transition_time = 0.4
+actions = Array[ExtResource("4_uquto")]([SubResource("Resource_0bg4c"), SubResource("Resource_4a1k6")])
+
+[sub_resource type="Resource" id="Resource_chkuf"]
+script = ExtResource("4_uquto")
+at = 0.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_hit.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_ca1ba"]
+script = ExtResource("4_uquto")
+at = 5.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_r4235"]
+script = ExtResource("1_crf76")
+at = 0.3
+speaker = &"vey"
+text = "Up, old friend. Your master's walking again. Well. His sword is."
+
+[sub_resource type="Resource" id="Resource_4614f"]
+script = ExtResource("3_lw4hr")
+id = &"W2"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5649999, 0)
+pivot_actor = &"vey"
+pivot = Vector3(4, 0, 40)
+orbit_radius = 5.0
+orbit_height = 1.8
+orbit_from_deg = 230.0
+orbit_to_deg = 245.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_crf76")]([SubResource("Resource_r4235")])
+actions = Array[ExtResource("4_uquto")]([SubResource("Resource_chkuf"), SubResource("Resource_ca1ba")])
+
+[resource]
+script = ExtResource("2_w4ecp")
+id = &"e2m4_first_warden"
+title = "The First Warden"
+world_mode = 1
+shots = Array[ExtResource("3_lw4hr")]([SubResource("Resource_4f10r"), SubResource("Resource_4614f")])
+shake_seed = 42
+lines_over_cuts = true

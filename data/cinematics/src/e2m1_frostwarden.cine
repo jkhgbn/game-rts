@@ -1,0 +1,20 @@
+# e2m1 E5 "e2m1_frostwarden" (docs/design/mission-e2-01.md, Cinematic hooks): 12 s, mode=pause over the live mission.
+# 1) MS on Aldra, staff raised, three blue beams from the totems into the Heartwood (orbit on the live `aldra`; the beams
+# are cine streaks from around the glade into (0, 9)); 2) WS over the glade to the north-west: Torvald's silhouette on
+# the snow ridge at (-30, -30) turning away (a long lens on the ridge mark). Lines: L8, L9 (mission DIALOGUE).
+cine e2m1_frostwarden  title="The Frostwarden"  mode=pause  letterbox=2.39  seed=12  length=11..14
+env dusk  moon_yaw=40  moon_pitch=-20  energy=0.7
+cast  aldra    res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(-3, 0, 14)  yaw=170
+cast  torvald  res://art/units/wizards/torvald.tscn  at=(-30, 0, -30)  yaw=200
+
+# MS Aldra, staff raised; three blue beams into the Heartwood
+shot F1 5.0  cam=orbit  pivot=aldra  r=4.0  h=1.6  deg=20>35  in=fade_black:0.4
+  at 0.3  line aldra "Hold the rime. When the green stops beating, the wood is ours."
+  at 0.6  vfx b1  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-8, 2.0, 16)  to=(0, 1.5, 9)  life=4.0
+  at 0.9  vfx b2  scene=res://art/cinematics/fx/streak_blue.tscn  at=(6, 2.0, 15)  to=(0, 1.5, 9)  life=3.7
+  at 1.2  vfx b3  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-2, 2.0, 2)  to=(0, 1.5, 9)  life=3.4
+  at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-6
+# WS over the glade: Torvald on the snow ridge, turning away
+shot F2 7.0  cam=dolly  from=(6, 5, 16)  to=(5.6, 5.1, 15.4)  look=(-30, 3, -30)>(-30, 2.6, -30)  fov=26>24
+  at 0.3  line torvald "So the little ember comes to warm the wood. You are late, child. Winter got here first."
+  at 6.4  fade alpha=1 time=0.6

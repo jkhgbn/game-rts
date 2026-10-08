@@ -1,0 +1,105 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_1ue3x"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_52rh4"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_cssrm"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_5hoik"]
+
+[sub_resource type="Resource" id="Resource_livtq"]
+script = ExtResource("4_5hoik")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_bwrrd"]
+script = ExtResource("1_1ue3x")
+at = 0.4
+speaker = &"bettany"
+text = "Six. Paid in full. Here's your road down: a stair under Emberfall, the Sunrise Road."
+
+[sub_resource type="Resource" id="Resource_cl4jf"]
+script = ExtResource("3_cssrm")
+id = &"P1"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(-42.4, 1.7, -48.6)
+to_pos = Vector3(-42.9, 1.5, -49.1)
+look_from = Vector3(-44.2, 0.9, -50.2)
+look_to = Vector3(-44.3, 0.8, -50.3)
+fov_from = 32.0
+fov_to = 28.0
+transition_in = 1
+lines = Array[ExtResource("1_1ue3x")]([SubResource("Resource_bwrrd")])
+actions = Array[ExtResource("4_5hoik")]([SubResource("Resource_livtq")])
+
+[sub_resource type="Resource" id="Resource_k22xg"]
+script = ExtResource("1_1ue3x")
+at = 0.3
+speaker = &"bettany"
+text = "Two of ours will guide you. Nobody else has walked it since the Master."
+
+[sub_resource type="Resource" id="Resource_da2g2"]
+script = ExtResource("3_cssrm")
+id = &"P2"
+duration = 7.0
+camera_mode = 3
+pivot_actor = &"bettany"
+pivot = Vector3(-45, 0, -49)
+orbit_radius = 5.0
+orbit_height = 1.6
+orbit_from_deg = 30.0
+orbit_to_deg = 45.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_1ue3x")]([SubResource("Resource_k22xg")])
+
+[sub_resource type="Resource" id="Resource_m1xl2"]
+script = ExtResource("4_5hoik")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_lu74h"]
+script = ExtResource("4_5hoik")
+at = 7.2
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_uyucq"]
+script = ExtResource("1_1ue3x")
+at = 0.5
+speaker = &"malrik"
+text = "A map to the deep. How generous. I'll take it off your body."
+
+[sub_resource type="Resource" id="Resource_tk3af"]
+script = ExtResource("3_cssrm")
+id = &"P3"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(-30, 4, -18)
+to_pos = Vector3(-31, 3.8, -19)
+look_from = Vector3(-38, 1.6, -30)
+look_to = Vector3(-40, 1.8, -33)
+fov_from = 40.0
+fov_to = 36.0
+lines = Array[ExtResource("1_1ue3x")]([SubResource("Resource_uyucq")])
+actions = Array[ExtResource("4_5hoik")]([SubResource("Resource_m1xl2"), SubResource("Resource_lu74h")])
+
+[resource]
+script = ExtResource("2_52rh4")
+id = &"e2m3_paid"
+title = "Paid in Full"
+world_mode = 1
+shots = Array[ExtResource("3_cssrm")]([SubResource("Resource_cl4jf"), SubResource("Resource_da2g2"), SubResource("Resource_tk3af")])
+shake_seed = 33
+lines_over_cuts = true

@@ -1,0 +1,120 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_s3foj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_rcxpw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_e4880"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_wlwry"]
+
+[sub_resource type="Resource" id="Resource_2licd"]
+script = ExtResource("4_wlwry")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_y84u3"]
+script = ExtResource("4_wlwry")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -15.0
+}
+
+[sub_resource type="Resource" id="Resource_0a0na"]
+script = ExtResource("1_s3foj")
+at = 0.4
+speaker = &"narrator"
+text = "The Sunrise Road. The Master cut it before the kingdoms had names. No one has walked it since."
+
+[sub_resource type="Resource" id="Resource_gqx82"]
+script = ExtResource("3_e4880")
+id = &"D1"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(0.5, 30, 75)
+to_pos = Vector3(0.4, 14, 73.5)
+look_from = Vector3(0, 0, 71)
+look_to = Vector3(0, 0, 70)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 1.0
+lines = Array[ExtResource("1_s3foj")]([SubResource("Resource_0a0na")])
+actions = Array[ExtResource("4_wlwry")]([SubResource("Resource_2licd"), SubResource("Resource_y84u3")])
+
+[sub_resource type="Resource" id="Resource_ogjr4"]
+script = ExtResource("1_s3foj")
+at = 0.3
+speaker = &"vessa"
+text = "It's so dark. Good thing I'm the brightest person I know."
+
+[sub_resource type="Resource" id="Resource_0ei7x"]
+script = ExtResource("3_e4880")
+id = &"D2"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(0, 0, 66)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = -60.0
+orbit_to_deg = -45.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_s3foj")]([SubResource("Resource_ogjr4")])
+
+[sub_resource type="Resource" id="Resource_0s35u"]
+script = ExtResource("4_wlwry")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_r34kc"]
+script = ExtResource("4_wlwry")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_2pa0p"]
+script = ExtResource("1_s3foj")
+at = 0.3
+speaker = &"vey"
+text = "Stay close to the light, girl. Down here the dark has teeth."
+
+[sub_resource type="Resource" id="Resource_dxh3n"]
+script = ExtResource("3_e4880")
+id = &"D3"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5649999, 0)
+pivot_actor = &"vey"
+pivot = Vector3(2, 0, 66)
+orbit_radius = 4.2
+orbit_height = 1.6
+orbit_from_deg = -80.0
+orbit_to_deg = -65.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_s3foj")]([SubResource("Resource_2pa0p")])
+actions = Array[ExtResource("4_wlwry")]([SubResource("Resource_0s35u"), SubResource("Resource_r34kc")])
+
+[resource]
+script = ExtResource("2_rcxpw")
+id = &"e2m4_descent"
+title = "The Sunrise Road"
+world_mode = 1
+shots = Array[ExtResource("3_e4880")]([SubResource("Resource_gqx82"), SubResource("Resource_0ei7x"), SubResource("Resource_dxh3n")])
+shake_seed = 41
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

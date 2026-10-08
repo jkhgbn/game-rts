@@ -1,0 +1,23 @@
+# e2m4 E1 "e2m4_descent" (docs/design/mission-e2-04.md, Cinematic hooks): 20 s, mode=pause over the live mission (the
+# spec's HOLD runs as PAUSE). 1) TOP-DOWN down the stair shaft at the stair foot (0, 72), Vessa's glow the only colour
+# (L1); 2) MS Vessa stepping off the last step (orbit on the live hero `vessa`, L2); 3) MS two-shot Vey and Vessa, the
+# quartz veins brightening (orbit on the live `vey`, L3). Lines: L1 (narrator, voice-over), L2, L3.
+cine e2m4_descent  title="The Sunrise Road"  mode=pause  letterbox=2.39  seed=41  length=18..22
+env night  moon_yaw=180  moon_pitch=-60  energy=0.35
+cast  vessa     res://art/units/wizards/vessa.tscn  at=(0, 0, 66)  yaw=180
+cast  vey       res://art/units/helpers/helper_vey/helper_vey.tscn  at=(2, 0, 66)  yaw=200
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# TOP-DOWN down the stair shaft into black
+shot D1 7.0  cam=dolly  from=(0.5, 30, 75)  to=(0.4, 14, 73.5)  look=(0, 0, 71)>(0, 0, 70)  fov=50>46  in=fade_black:1.0
+  at 0.4  line narrator "The Sunrise Road. The Master cut it before the kingdoms had names. No one has walked it since."
+  at 1.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-14
+  at 2.6  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-15
+# MS Vessa stepping off the last step, her halo lighting the first carvings
+shot D2 6.0  cam=orbit  pivot=vessa  r=4.0  h=1.6  deg=-60>-45
+  at 0.3  line vessa "It's so dark. Good thing I'm the brightest person I know."
+# MS two-shot Vey and Vessa, the quartz veins brightening around Vey
+shot D3 7.0  cam=orbit  pivot=vey  r=4.2  h=1.6  deg=-80>-65
+  at 0.3  line vey "Stay close to the light, girl. Down here the dark has teeth."
+  at 1.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-12
+  at 6.4  fade alpha=1 time=0.6

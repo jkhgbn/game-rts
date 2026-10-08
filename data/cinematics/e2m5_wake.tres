@@ -1,0 +1,210 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_j0kq0"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_nld4v"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_ta0cl"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_sraea"]
+
+[sub_resource type="Resource" id="Resource_stecc"]
+script = ExtResource("4_sraea")
+at = 1.0
+kind = &"vfx"
+target = Vector3(1, 0.8, -22.4)
+params = {
+"life": 8.5,
+"scale": 0.7,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_01jst"]
+script = ExtResource("4_sraea")
+at = 2.0
+kind = &"vfx"
+target = Vector3(0.5, 0.5, -23)
+params = {
+"life": 3.0,
+"scene": "res://art/cinematics/fx/streak_red.tscn",
+"to": Vector3(0, 8, -24)
+}
+
+[sub_resource type="Resource" id="Resource_33jpw"]
+script = ExtResource("4_sraea")
+at = 2.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_0h526"]
+script = ExtResource("1_j0kq0")
+at = 0.3
+speaker = &"narrator"
+text = "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it."
+
+[sub_resource type="Resource" id="Resource_ywnjd"]
+script = ExtResource("1_j0kq0")
+at = 6.0
+speaker = &"malrik"
+text = "Open it, Mason. Let me see what the Master was so busy guarding."
+
+[sub_resource type="Resource" id="Resource_upu5h"]
+script = ExtResource("3_ta0cl")
+id = &"K1"
+duration = 10.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"shadow_hero"
+pivot = Vector3(1.5, 0, -21)
+orbit_radius = 4.2
+orbit_height = 1.6
+orbit_from_deg = 40.0
+orbit_to_deg = 60.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+lines = Array[ExtResource("1_j0kq0")]([SubResource("Resource_0h526"), SubResource("Resource_ywnjd")])
+actions = Array[ExtResource("4_sraea")]([SubResource("Resource_stecc"), SubResource("Resource_01jst"), SubResource("Resource_33jpw")])
+
+[sub_resource type="Resource" id="Resource_ns5e7"]
+script = ExtResource("4_sraea")
+at = 0.6
+kind = &"vfx"
+target = Vector3(0, 9, -23.4)
+params = {
+"life": 4.2,
+"scale": 1.0,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ptwj2"]
+script = ExtResource("4_sraea")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_e1iyl"]
+script = ExtResource("3_ta0cl")
+id = &"K2"
+duration = 5.0
+camera_mode = 1
+from_pos = Vector3(3, 7, -16)
+to_pos = Vector3(2.6, 7.3, -16.8)
+look_from = Vector3(0, 9, -24)
+look_to = Vector3(0, 9.2, -24)
+fov_from = 30.0
+fov_to = 26.0
+actions = Array[ExtResource("4_sraea")]([SubResource("Resource_ns5e7"), SubResource("Resource_ptwj2")])
+
+[sub_resource type="Resource" id="Resource_75m5d"]
+script = ExtResource("4_sraea")
+at = 1.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -3.0
+}
+
+[sub_resource type="Resource" id="Resource_w6ohc"]
+script = ExtResource("4_sraea")
+at = 1.2
+kind = &"shake"
+params = {
+"amount": 0.7
+}
+
+[sub_resource type="Resource" id="Resource_wb2aq"]
+script = ExtResource("4_sraea")
+at = 4.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_hit.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_tm5xg"]
+script = ExtResource("4_sraea")
+at = 4.0
+kind = &"shake"
+params = {
+"amount": 0.4
+}
+
+[sub_resource type="Resource" id="Resource_ottmv"]
+script = ExtResource("3_ta0cl")
+id = &"K3"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(8, 0.5, -10)
+to_pos = Vector3(7, 0.7, -11)
+look_from = Vector3(0, 4, -22)
+look_to = Vector3(0, 6, -21)
+fov_from = 55.0
+fov_to = 52.0
+actions = Array[ExtResource("4_sraea")]([SubResource("Resource_75m5d"), SubResource("Resource_w6ohc"), SubResource("Resource_wb2aq"), SubResource("Resource_tm5xg")])
+
+[sub_resource type="Resource" id="Resource_clc3e"]
+script = ExtResource("4_sraea")
+at = 0.6
+kind = &"vfx"
+target = Vector3(0, 0, 7.5)
+params = {
+"life": 6.0,
+"scale": 0.6,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_yrway"]
+script = ExtResource("4_sraea")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/ab_flame_burst.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_k2x4m"]
+script = ExtResource("4_sraea")
+at = 7.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_6qnfv"]
+script = ExtResource("1_j0kq0")
+at = 0.4
+speaker = &"vessa"
+text = "Everyone on the door! Nobody touches it but us!"
+
+[sub_resource type="Resource" id="Resource_vysb8"]
+script = ExtResource("3_ta0cl")
+id = &"K4"
+duration = 8.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-3, 0, 8)
+orbit_radius = 3.6
+orbit_height = 1.6
+orbit_from_deg = 60.0
+orbit_to_deg = 75.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_j0kq0")]([SubResource("Resource_6qnfv")])
+actions = Array[ExtResource("4_sraea")]([SubResource("Resource_clc3e"), SubResource("Resource_yrway"), SubResource("Resource_k2x4m")])
+
+[resource]
+script = ExtResource("2_nld4v")
+id = &"e2m5_wake"
+title = "The Jailer Wakes"
+world_mode = 1
+shots = Array[ExtResource("3_ta0cl")]([SubResource("Resource_upu5h"), SubResource("Resource_e1iyl"), SubResource("Resource_ottmv"), SubResource("Resource_vysb8")])
+shake_seed = 52
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

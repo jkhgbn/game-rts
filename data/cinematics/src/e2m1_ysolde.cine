@@ -1,0 +1,26 @@
+# e2m1 E20 "e2m1_ysolde" (docs/design/mission-e2-01.md, Cinematic hooks): 30 s, then the victory. mode=pause over the
+# live mission. 1) the Heartwood's bark opens (0, 9); 2) Ysolde steps out, wounded, and falls to one knee; Vessa catches
+# her (L27, L28; orbit on the live hero `vessa`); 3) WS: the wood-folk at the treeline; 4) the Heartwood's green spreads
+# into the ash (a bloom wave). Ysolde herself appears in the end state (`_show_ysolde`): her stand-in is for the checks.
+cine e2m1_ysolde  title="Ysolde"  mode=pause  letterbox=2.39  seed=13  length=28..32
+env dusk  moon_yaw=40  moon_pitch=-16  energy=0.75
+cast  vessa   res://art/units/wizards/vessa.tscn  at=(1.5, 0, 12.5)  yaw=200
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(0.3, 0, 11.2)  yaw=20
+
+# The Heartwood's bark opens
+shot Y1 7.0  cam=dolly  from=(7, 2.5, 15)  to=(6, 2.2, 14)  look=(0, 2.6, 9)>(0, 1.5, 9.6)  fov=40>36  in=fade_black:0.6
+  at 0.5  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-4
+  at 2.0  vfx bark  scene=res://art/cinematics/fx/green_pillar.tscn  at=(0, 0, 9)  life=4.0  scale=0.6
+  at 3.5  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-6
+# Ysolde steps out and falls to one knee; Vessa catches her
+shot Y2 9.0  cam=orbit  pivot=vessa  r=3.4  h=1.5  deg=40>55
+  at 0.4  line ysolde "You came. I told you to remember. I didn't think you'd listen."
+  at 5.0  line vessa "I never listen. I just show up."
+# WS: the wood-folk at the treeline
+shot Y3 7.0  cam=crane  from=(14, 9, 24)  to=(12, 7, 22)  look=(0, 0.5, 9)>(0, 0.5, 10)  fov=50>46
+  at 0.5  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+# The green spreads three metres into the ash
+shot Y4 7.0  cam=dolly  from=(4.5, 1.2, 14.5)  to=(3.6, 0.9, 13.6)  look=(0, 0.2, 10.5)>(0, 0.2, 10)  fov=40>36
+  at 0.3  vfx bloom  scene=res://art/cinematics/fx/bloom_wave.tscn  at=(0, 0.05, 9)  life=5.0  scale=1.5
+  at 0.3  sfx res://assets/audio/sfx/ab_grove_oath.wav  vol=-8
+  at 5.8  fade alpha=1 time=1.2

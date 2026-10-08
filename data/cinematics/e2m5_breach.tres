@@ -1,0 +1,87 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_ickdl"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_ljirc"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_m5xj5"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_2wq8a"]
+
+[sub_resource type="Resource" id="Resource_8k44n"]
+script = ExtResource("4_2wq8a")
+at = 0.5
+kind = &"vfx"
+target = Vector3(0, 0.5, 0)
+params = {
+"life": 5.0,
+"scale": 3.0,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_2jgwd"]
+script = ExtResource("4_2wq8a")
+at = 0.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -2.0
+}
+
+[sub_resource type="Resource" id="Resource_bk740"]
+script = ExtResource("4_2wq8a")
+at = 1.0
+kind = &"shake"
+params = {
+"amount": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_otyo1"]
+script = ExtResource("4_2wq8a")
+at = 1.0
+kind = &"fade"
+params = {
+"alpha": 0.45,
+"color": Color(1, 0.6901961, 0.2509804, 1),
+"time": 1.5
+}
+
+[sub_resource type="Resource" id="Resource_rdgh5"]
+script = ExtResource("4_2wq8a")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -2.0
+}
+
+[sub_resource type="Resource" id="Resource_6hsje"]
+script = ExtResource("4_2wq8a")
+at = 4.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_qnlln"]
+script = ExtResource("3_m5xj5")
+id = &"B1"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(6, 4, 8)
+to_pos = Vector3(5, 3.5, 7)
+look_from = Vector3(0, 0.5, 0)
+look_to = Vector3(0, 3, -6)
+fov_from = 46.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 0.3
+actions = Array[ExtResource("4_2wq8a")]([SubResource("Resource_8k44n"), SubResource("Resource_2jgwd"), SubResource("Resource_bk740"), SubResource("Resource_otyo1"), SubResource("Resource_rdgh5"), SubResource("Resource_6hsje")])
+
+[resource]
+script = ExtResource("2_ljirc")
+id = &"e2m5_breach"
+title = "Breach"
+world_mode = 1
+shots = Array[ExtResource("3_m5xj5")]([SubResource("Resource_qnlln")])
+shake_seed = 55
+lines_over_cuts = true

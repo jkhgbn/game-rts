@@ -1,0 +1,131 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_peejb"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_6aucu"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_hb3wp"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_lnxw5"]
+
+[sub_resource type="Resource" id="Resource_1fn41"]
+script = ExtResource("4_lnxw5")
+at = 0.6
+kind = &"vfx"
+params = {
+"life": 5.8,
+"scale": 1.5,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_2idpn"]
+script = ExtResource("1_peejb")
+at = 0.4
+speaker = &"narrator"
+text = "Under the roots of the world, a door. And on the other side of it, the one who made it."
+
+[sub_resource type="Resource" id="Resource_ho6i8"]
+script = ExtResource("3_hb3wp")
+id = &"C1"
+duration = 6.5
+camera_mode = 2
+from_pos = Vector3(-56, 24, 58)
+to_pos = Vector3(-40, 12, 40)
+look_to = Vector3(0, 0, -4)
+fov_from = 56.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_peejb")]([SubResource("Resource_2idpn")])
+actions = Array[ExtResource("4_lnxw5")]([SubResource("Resource_1fn41")])
+
+[sub_resource type="Resource" id="Resource_7bk43"]
+script = ExtResource("1_peejb")
+at = 0.3
+speaker = &"vessa"
+text = "That's it. That's the door. Vey, he's right there. Under my feet."
+
+[sub_resource type="Resource" id="Resource_csrsp"]
+script = ExtResource("3_hb3wp")
+id = &"C2"
+duration = 5.5
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-45, 0, 47)
+orbit_radius = 3.6
+orbit_height = 1.6
+orbit_to_deg = 15.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_peejb")]([SubResource("Resource_7bk43")])
+
+[sub_resource type="Resource" id="Resource_pqqbb"]
+script = ExtResource("1_peejb")
+at = 0.3
+speaker = &"vey"
+text = "Four seals. Wake them with the relics and the door stands. Let Malrik break them and it falls."
+
+[sub_resource type="Resource" id="Resource_p4ave"]
+script = ExtResource("3_hb3wp")
+id = &"C3"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(14, 9, 22)
+to_pos = Vector3(12, 8, 19)
+look_from = Vector3(0, 3, -8)
+look_to = Vector3(0, 5, -14)
+fov_from = 50.0
+fov_to = 46.0
+lines = Array[ExtResource("1_peejb")]([SubResource("Resource_pqqbb")])
+
+[sub_resource type="Resource" id="Resource_gtwlm"]
+script = ExtResource("4_lnxw5")
+at = 0.2
+kind = &"vfx"
+target = Vector3(0.4, 1.1, -27.5)
+params = {
+"life": 6.5,
+"scale": 0.5,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_jg7bt"]
+script = ExtResource("4_lnxw5")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_gs853"]
+script = ExtResource("1_peejb")
+at = 0.3
+speaker = &"malrik"
+text = "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs."
+
+[sub_resource type="Resource" id="Resource_yiog3"]
+script = ExtResource("3_hb3wp")
+id = &"C4"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"shadow_hero"
+pivot = Vector3(0, 0, -28)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = 60.0
+orbit_to_deg = 75.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_peejb")]([SubResource("Resource_gs853")])
+actions = Array[ExtResource("4_lnxw5")]([SubResource("Resource_gtwlm"), SubResource("Resource_jg7bt")])
+
+[resource]
+script = ExtResource("2_6aucu")
+id = &"e2m5_cavern"
+title = "The Door"
+world_mode = 1
+shots = Array[ExtResource("3_hb3wp")]([SubResource("Resource_ho6i8"), SubResource("Resource_csrsp"), SubResource("Resource_p4ave"), SubResource("Resource_yiog3")])
+shake_seed = 51
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

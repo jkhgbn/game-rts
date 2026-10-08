@@ -1,0 +1,12 @@
+# e2m5 E23 "e2m5_breach" (docs/design/mission-e2-05.md, Cinematic hooks): 6 s, then the defeat. mode=pause over the
+# live mission. One shot: the Door (0, 0) cracks, amber light floods up, the statue roars; cut to black. No lines.
+cine e2m5_breach  title="Breach"  mode=pause  letterbox=2.39  seed=55  length=5..8
+env night  moon_yaw=180  moon_pitch=-55  energy=0.4
+
+shot B1 6.0  cam=dolly  from=(6, 4, 8)  to=(5, 3.5, 7)  look=(0, 0.5, 0)>(0, 3, -6)  fov=46>50  in=fade_black:0.3
+  at 0.5  vfx flood  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0, 0.5, 0)  life=5.0  scale=3.0
+  at 0.8  sfx res://assets/audio/sfx/building_collapse.wav  vol=-2
+  at 1.0  shake 0.8
+  at 1.0  fade color=#ffb040 alpha=0.45 time=1.5
+  at 2.6  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-2
+  at 4.6  fade color=#000000 alpha=1 time=1.0
