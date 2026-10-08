@@ -1,0 +1,300 @@
+# Episode 5 opening "The Spark and the Candle", 3:00 (docs/design/script-episodes-4-8/e5m1.md, shot list P1-T1; beats
+# from campaign-outline.md 3.5, mission-e5-01.md F2 / F8 / F9, prologue-3min.md 1-2). The Master's recap (P1-P7: the
+# prologue's own shots S01 S02 S06 S07 S08-S12 S30 S13 re-staged in engine on their marks, no new render), then the
+# winter truce: Vessa by a hearth tells her childhood (the barn at six, Vey's yard, the first door, the fire that would
+# not wait, the Master laughing), Malrik by one candle tells his (the graves of Wickmoor, the night in the crypt, the
+# stolen bread, the library in the dark); the title card.
+# Text source for i18n / voices: data/voice/lines/ep5_opening.json (the same text as the lines below).
+# e5m1 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep5_opening).
+# Sets (stand-ins): forge_citadel (the recap; the orrery dome = VD / MD; its swordsman puppet at the dome door = Vey in his prime); forge_watch_keep = Emberfall in snow (V1-V2, T1); forge_ep2_feast's
+# east feast table = the citadel refectory (MC);
+# forge_intro_vessa = the farmyard (VA), the training yard (VB) and the burning field (VC); forge_intro_malrik =
+# Wickmoor's graves and crypt (M1-MB2). Snow / flashback grades are full-screen fades. Young apprentices = the wizard
+# models scaled down (the sets' own young puppets where they exist); the town boys = the Ep3 memory boy; the
+# gravedigger = a Gloom Thrall; the hooded Master in the farmyard = the forge_ep3_memories light figure.
+# Axis: each vignette keeps the prologue's rule (cameras on the south / +Z side of their wizard); fades reset it.
+cine ep5_opening  title="Episode 5: The Spark and the Candle"  letterbox=2.39  seed=501  length=174..186  skip_lock=20
+use music res://assets/audio/music/music_menu.wav  vol=-21
+use set forge_citadel
+use lines data/cinematics/src/ep5_opening_lines.json
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=master
+cast  vey       res://art/units/helpers/helper_vey/helper_vey.tscn  at=(40, 0, -300)  yaw=0
+cast  hooded    res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(-19.5, 0, 10.5)  yaw=40  set=forge_intro_vessa  hidden=1
+cast  v12       res://art/units/wizards/vessa.tscn  at=(-13.0, 48, -3.0)  yaw=0  scale=0.7  set=forge_citadel  hidden=1
+cast  a_vessa   res://art/units/wizards/vessa.tscn    at=(7.9, 0, 2.0)   yaw=90   scale=0.85  set=forge_ep2_feast
+cast  a_malrik  res://art/units/wizards/malrik.tscn   at=(7.9, 0, 3.7)   yaw=90   scale=0.85  set=forge_ep2_feast
+cast  a_torvald res://art/units/wizards/torvald.tscn  at=(10.1, 0, 2.3)  yaw=-90  scale=0.85  set=forge_ep2_feast
+cast  a_ysolde  res://art/units/wizards/ysolde.tscn   at=(10.1, 0, 3.9)  yaw=-90  scale=0.85  set=forge_ep2_feast
+cast  l_malrik  res://art/units/wizards/malrik.tscn   at=(-10.6, 48, -2.6)  yaw=40  scale=0.85  set=forge_citadel  hidden=1
+cast  candle2   res://art/cinematics/stage_sets/forge_citadel/parts/candle.tscn  at=(-10.0, 48, -2.0)  set=forge_citadel  hidden=1
+cast  digger    res://art/units/shadow/gloom_thrall.tscn  at=(-12.2, 0, 10.8)  yaw=210  set=forge_intro_malrik
+cast  pup1      res://art/units/shadow/grave_hound.tscn   at=(-14.7, 0, 10.0)  yaw=40  scale=0.45  set=forge_intro_malrik
+cast  pup2      res://art/units/shadow/grave_hound.tscn   at=(-13.7, 0, 9.8)   yaw=-20 scale=0.45  set=forge_intro_malrik
+cast  tb1       res://art/cinematics/stage_sets/forge_ep3_memories/props/boy.tscn  at=(1.6, 0, -4.4)  yaw=200  set=forge_intro_malrik  hidden=1
+cast  tb2       res://art/cinematics/stage_sets/forge_ep3_memories/props/boy.tscn  at=(2.5, 0, -4.0)  yaw=230  set=forge_intro_malrik  hidden=1
+cast  tb3       res://art/cinematics/stage_sets/forge_ep3_memories/props/boy.tscn  at=(0.9, 0, -3.8)  yaw=180  set=forge_intro_malrik  hidden=1
+
+# ---------------------------------------------------------------- the recap (the prologue's shots, on their marks)
+# Dawn above the clouds; the citadel fills the frame; the first dragons lift off
+shot S01 7.0  set=forge_citadel  in=fade_black:1.5
+  at 0.0  hide swordsman
+  at 1.2  line master "Once upon a time, the strongest wizard who ever lived ruled the world."  dur=5.3
+# The moss-green statue of the hooded Master over the Great Bridge
+shot S02 7.0  set=forge_citadel
+  at 0.4  line master "They called him only the Master. For a thousand years, he kept the peace."  dur=5.6
+# The Master at the orrery; four little flames orbit his open hand
+shot S06 6.0  set=forge_citadel
+  at 0.0  vfx flames scene=res://art/cinematics/fx/four_flames.tscn at=(-11.6, 51.2, -3.2) life=6.0 scale=0.8
+  at 0.3  line master "He raised four apprentices, and gave each of them a kingdom."  dur=4.6
+# The orrery stops, the robe falls empty, four streaks shoot out
+shot S07 5.0  set=forge_citadel
+  at 0.0  vfx flames2 scene=res://art/cinematics/fx/four_flames.tscn at=(-13, 53, -5) life=1.9 scale=2.5
+  at 0.3  line master "Then, between one breath and the next, he was gone."  dur=3.8
+  at 1.8  vfx regalia scene=res://art/cinematics/fx/regalia_burst.tscn at=(-13, 53, -5) life=2.0 scale=0.45
+  at 1.9  hide master
+  at 2.0  vfx red scene=res://art/cinematics/fx/streak_red.tscn at=(-13, 53, -5) to=(40, 160, 200) life=2.8 scale=0.5
+  at 2.1  vfx violet scene=res://art/cinematics/fx/streak_violet.tscn at=(-13, 53, -5) to=(200, 160, -40) life=2.7 scale=0.5
+  at 2.2  vfx blue scene=res://art/cinematics/fx/streak_blue.tscn at=(-13, 53, -5) to=(-40, 160, -200) life=2.6 scale=0.5
+  at 2.3  vfx green scene=res://art/cinematics/fx/streak_green.tscn at=(-13, 53, -5) to=(-200, 160, 40) life=2.5 scale=0.5
+  at 4.4  fade color=#ffffff  alpha=1  time=0.6
+# The four streaks fall on Vessa, Malrik, Torvald, Ysolde (1 s each)
+shot S08 1.0  set=forge_intro_vessa  in=fade_white:0.3
+  at 0.0  fade alpha=0  time=0.2
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_columns
+  at 0.0  hide fx_volley
+  at 0.0  hide fx_embers
+  at 0.0  show fx_pillar
+  at 0.0  hide vessa_young
+  at 0.0  vfx streak scene=res://art/cinematics/fx/streak_red.tscn at=(18, 60, -60) to=(0, 1, -2) life=1.0
+  at 0.2  anim vessa play_cast arg=fireball
+shot S09 1.0  set=forge_intro_malrik
+  at 0.0  hide malrik_army_host
+  at 0.0  hide malrik_army_fallen
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  show fx_vortex
+  at 0.0  hide malrik_young
+  at 0.0  hide digger
+  at 0.0  hide pup1
+  at 0.0  hide pup2
+  at 0.0  vfx streak scene=res://art/cinematics/fx/streak_violet.tscn at=(-40, 50, -50) to=(0, 1, -1) life=1.0
+  at 0.2  anim malrik play_cast arg=umbral_shroud
+shot S10 1.0  set=forge_intro_torvald
+  at 0.0  show army_line
+  at 0.0  show fx_icewall
+  at 0.0  show fx_cracks
+  at 0.0  hide fx_burst
+  at 0.0  hide fx_snow
+  at 0.0  hide fx_heart
+  at 0.0  hide messenger
+  at 0.0  vfx streak scene=res://art/cinematics/fx/streak_blue.tscn at=(30, 60, -60) to=(0, 1, 0) life=1.0
+  at 0.2  anim torvald play_cast arg=frost_nova
+shot S11 1.0  set=forge_intro_ysolde
+  at 0.0  hide ysolde_army_host
+  at 0.0  hide ysolde_army_fallen
+  at 0.0  hide fx_tree
+  at 0.0  hide ysolde_fx_master
+  at 0.0  show fx_vines
+  at 0.0  hide ysolde_young
+  at 0.0  hide messenger
+  at 0.0  vfx streak scene=res://art/cinematics/fx/streak_green.tscn at=(-30, 60, -60) to=(3, 1, 0) life=1.0
+  at 0.2  anim ysolde play_cast arg=wild_bloom
+# The empty throne: the four colours cross above the seat
+shot S12 3.0  set=forge_citadel
+  at 0.0  vfx r scene=res://art/cinematics/fx/streak_red.tscn at=(-30, 66, 20) to=(30, 70, -14) life=2.0
+  at 0.0  vfx v scene=res://art/cinematics/fx/streak_violet.tscn at=(30, 66, 20) to=(-30, 70, -14) life=2.0
+  at 0.0  line master "Four heirs. One empty throne."  dur=2.8
+  at 0.1  vfx b scene=res://art/cinematics/fx/streak_blue.tscn at=(-30, 72, -14) to=(30, 66, 20) life=1.9
+  at 0.1  vfx g scene=res://art/cinematics/fx/streak_green.tscn at=(30, 72, -14) to=(-30, 66, 20) life=1.9
+# The empty throne at dusk; on the four horizons, four armies' fires
+shot S30 6.0  set=forge_citadel  in=fade_black:0.6
+  at 0.0  vfx fire1 scene=res://art/cinematics/fx/fire_pillar.tscn at=(-230, 0, -180) life=6.0 scale=3
+  at 0.0  vfx fire2 scene=res://art/cinematics/fx/fire_pillar.tscn at=(230, 0, -180) life=6.0 scale=3
+  at 0.0  vfx fire3 scene=res://art/cinematics/fx/fire_pillar.tscn at=(-240, 0, 150) life=6.0 scale=3
+  at 0.0  vfx fire4 scene=res://art/cinematics/fx/green_pillar.tscn at=(240, 0, 150) life=6.0 scale=3
+  at 0.3  line master "I loved all four of them. And still, they went to war."  dur=4.4
+# The ruined dome, one candle; the four tiny flames relight; snow falls over the frame into the present day
+shot S13 7.0  set=forge_citadel  in=fade_black:0.6  fov=30>26
+  at 0.0  fade color=#06040c  alpha=0.35  time=0.6
+  at 0.6  line master "Now winter has stopped their war, child, and two of them remember how it began."  dur=6.0
+  at 1.0  vfx flames scene=res://art/cinematics/fx/four_flames.tscn at=(-149.2, 31.25, -117.4) life=6.0 scale=0.16
+  at 6.2  fade color=#e8eef8  alpha=1  time=0.8
+
+# ---------------------------------------------------------------- Vessa: the spark
+# Present day, the winter truce: Emberfall's walls under snow; one lit window
+shot V1 5.0  set=forge_watch_keep  cam=static  from=(-15, 3.2, 24)  look=(0, 7, -8)  fov=44  in=fade_white:0.8
+  at 0.0  fade color=#e8eef8  alpha=0.3  time=0.6
+  at 0.0  hide guard_w
+  at 0.0  hide guard_e
+  at 0.0  teleport watch_keep_vessa  to=(2.0, 0, 5.0)  yaw=139
+  at 0.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-22
+# Grown Vessa by a hearth, turning Vey's frayed sword-knot in her fingers
+shot V2 9.0  set=forge_watch_keep  cam=frame "mcu on watch_keep_vessa, 3/4 left, eye"  push=0.1
+  at 0.0  fade alpha=0.12  time=0.3
+  at 0.0  anim watch_keep_vessa set_expression  arg=smile
+  at 0.5  line vessa "Vey's. He cut it off his own sword the day I lit five beacons."  dur=4.2
+  at 5.2  line vessa "But that wasn't the start. The start was a barn."  dur=3.4
+# FLASHBACK: a farmyard at night, a barn burning; a soot-black girl of six cupping a spark
+shot VA1 7.0  set=forge_intro_vessa  cam=static  from=(-9.4, 1.0, 21.6)  look=(-16.0, 1.6, 13.0)  fov=46  in=fade_white:0.4  faces=vessa_young
+  at 0.0  fade color=#5a2a10  alpha=0.25  time=0.05
+  at 0.0  hide vessa
+  at 0.0  hide guard
+  at 0.0  hide scorchbow
+  at 0.0  hide adept
+  at 0.0  hide fx_vines
+  at 0.0  show vessa_young
+  at 0.0  teleport vessa_young  to=(-15.0, 0, 15.5)  yaw=150
+  at 0.0  show fx_pillar
+  at 0.0  teleport fx_pillar  to=(-18.6, 0, 10.6)
+  at 0.0  vfx barn  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-18.6, 0, 10.6)  life=15  scale=0.6
+  at 0.0  vfx barn2  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-18.0, 1.0, 11.0)  life=15  scale=0.8
+  at 0.0  sfx res://assets/audio/sfx/ab_flame_burst.wav  vol=-14
+  at 0.8  line vessa "I was six. It was our barn. Nobody clapped."  dur=3.0
+  at 1.0  vfx spark  scene=res://art/cinematics/fx/ember.tscn  at=(-15.0, 0.7, 15.8)  life=6  scale=0.3
+# A very tall hooded man walks out of the smoke and kneels to her level
+shot VA2 8.0  set=forge_intro_vessa  cam=static  from=(-11.6, 1.3, 18.6)  look=(-15.2, 1.4, 14.4)  fov=40  faces=vessa_young
+  at 0.0  show hooded
+  at 0.0  move hooded  to=(-15.6, 0, 13.6)  speed=1.4
+  at 0.8  line master "Smaller, next time. And not the barn."  dur=3.0
+  at 4.3  face vessa_young  to=hooded  time=0.6
+# The citadel training yard: Vessa at ten throws fireballs, every one a hit; Vey in his prime leans on his sword
+shot VB1 7.0  set=forge_intro_vessa  cam=static  from=(3.0, 1.4, 14.4)  look=(-0.4, 1.0, 9.4)  fov=40  in=blend:0.3  faces=vessa_young,vey
+  at 0.0  hide hooded
+  at 0.0  hide fx_pillar
+  at 0.0  teleport vessa_young  to=(-1.6, 0, 9.0)  yaw=200
+  at 0.0  teleport vey  to=(0.6, 0, 7.4)  yaw=-150
+  at 0.6  line vey "Again."  dur=1.4
+  at 1.0  anim vessa_young play_cast arg=fireball
+  at 1.2  vfx fb  scene=res://art/cinematics/fx/fireball.tscn  at=(-1.6, 1.0, 8.6)  to=(-3.0, 1.0, 1.0)  life=1.2
+  at 2.2  line vessa "Vey said fire was the easy part. I was very good at the easy part."  dur=4.4
+  at 4.6  anim vessa_young play_cast arg=fireball
+  at 4.8  vfx fb2  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-3.0, 1.2, 1.0)  life=1.6  scale=1.6
+# Vessa at fifteen at the head of the Flame Guards: a gate bursts into flame and she is first through it
+shot S15 7.0  set=forge_intro_vessa  in=blend:0.3
+  at 0.0  hide vessa_young
+  at 0.0  teleport vey  to=(40, 0, -300)
+  at 0.0  show vessa
+  at 0.0  show guard
+  at 0.0  show adept
+  at 0.0  show army_host
+  at 0.0  show fx_columns
+  at 0.4  anim vessa play_cast arg=fireball
+  at 1.0  line vessa "I never met a wall I couldn't turn into a door."  dur=3.2
+# High over a burning field: Vessa far ahead alone; Vey on a rise behind, shouting
+shot S16 7.0  set=forge_intro_vessa  in=blend:0.3
+  at 0.0  hide fx_columns
+  at 0.0  hide army_host
+  at 0.0  show army_fallen
+  at 0.0  show fx_embers
+  at 0.5  line vey "Vessa! Wait!"  dur=1.4
+  at 2.4  line vessa "Everyone always said wait. Nobody ever told me what for."  dur=3.8
+# She stops and looks back: the fire runs the other way, toward her own camp
+shot VC2 7.0  set=forge_intro_vessa  cam=frame "ms on vessa, 3/4 left, eye"
+  at 0.0  anim vessa set_expression  arg=worried
+  at 0.6  line vessa "The Master had a saying about fire that won't wait. He said it a lot. Mostly at me."  dur=5.8
+# The orrery dome at evening, over the Master's shoulder: Vessa at twelve shows him a tiny flame; it pops
+shot VD1 5.0  set=forge_citadel  cam=static  from=(-9.8, 49.8, -0.4)  look=(-13.0, 49.0, -3.0)  fov=40  in=fade_white:0.4  faces=v12
+  at 0.0  show master
+  at 0.0  show v12
+  at 0.0  show swordsman
+  at 0.0  anim v12 set_expression  arg=smile
+  at 0.6  vfx pop  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-13.0, 49.2, -2.7)  life=1.0  scale=0.25
+  at 1.6  line master "Again, my joy. Smaller."  dur=2.2
+# Static CU: young Vessa laughing, soot on her face; one ember drifts up
+shot VD2 5.0  set=forge_citadel  cam=static  from=(-12.2, 49.0, -1.7)  look=v12  fov=30
+  at 0.5  line vessa "He laughed when I laughed. Nobody else ever did that."  dur=3.8
+  at 1.4  vfx ember  scene=res://art/cinematics/fx/ember.tscn  at=(-13.0, 49.3, -2.6)  life=3.4  scale=0.25
+
+# ---------------------------------------------------------------- Malrik: the candle
+# Present day: the crypt city under snow; one violet light in a crypt window
+shot M1 5.0  set=forge_intro_malrik  cam=static  from=(6.0, 3.0, 16.0)  look=(0, 3.0, -12.0)  fov=46  in=fade_black:0.6
+  at 0.0  fade color=#e8eef8  alpha=0.25  time=0.4
+  at 0.0  hide v12
+  at 0.0  hide fx_vortex
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide digger
+  at 0.0  hide pup1
+  at 0.0  hide pup2
+  at 0.0  teleport malrik  to=(0, 0, 2)  yaw=0
+# Grown Malrik lights a violet candle from another, and lets it burn
+shot S21 5.0  set=forge_intro_malrik
+  at 0.0  fade alpha=0  time=0.3
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 0.5  line malrik "She tells it with fireworks. Mine needs one candle."  dur=3.6
+# FLASHBACK (cold, moonlit): Wickmoor graves at dusk; a gravedigger digs; a thin boy reads the names by one candle
+shot S18 7.0  set=forge_intro_malrik  in=fade_white:0.4
+  at 0.0  fade color=#1a2a4a  alpha=0.25  time=0.05
+  at 0.0  show malrik_young
+  at 0.0  show digger
+  at 0.0  show pup1
+  at 0.0  show pup2
+  at 0.0  sfx res://assets/audio/forge/sfx/shovel_earth.wav  vol=-14
+  at 0.6  line malrik "My father dug the graves. I read them. Someone had to remember who was down there."  dur=5.8
+  at 3.4  sfx res://assets/audio/forge/sfx/shovel_earth.wav  vol=-15
+# MS the boy at a small mossy stone, talking to it like a neighbour
+shot MA2 6.0  set=forge_intro_malrik  cam=frame "ms on malrik_young, 3/4 left, eye"
+  at 1.0  line malrik "Hello, Tobin Marsh. Nobody visits you either."  dur=3.2
+# Night, a crypt door: three town boys shove him through it and stay outside
+shot MB1 6.0  set=forge_intro_malrik  cam=static  from=(4.0, 1.3, -0.6)  look=(0.9, 0.9, -5.2)  fov=44  in=fade_black:0.4  faces=malrik_young
+  at 0.0  fade color=#0b0c26  alpha=0.35  time=0.05
+  at 0.0  hide digger
+  at 0.0  hide pup1
+  at 0.0  hide pup2
+  at 0.0  show tb1
+  at 0.0  show tb2
+  at 0.0  show tb3
+  at 0.0  teleport malrik_young  to=(0.4, 0, -5.4)  yaw=170
+  at 0.5  line malrik "The town boys dared me into the crypt for a night. They waited outside."  dur=4.8
+  at 3.0  move malrik_young  to=(0.2, 0, -7.4)  speed=0.8
+# Inside: the boy on a coffin lid, his candle low; the shadows lean toward him; at dawn they come out with him
+shot MB2 7.0  set=forge_intro_malrik  cam=static  from=(3.4, 2.0, 6.2)  look=(0, 0.8, 2.0)  fov=44  in=fade_black:0.4  faces=malrik_young
+  at 0.0  fade color=#0b0c26  alpha=0.45  time=0.05
+  at 0.0  hide tb1
+  at 0.0  hide tb2
+  at 0.0  hide tb3
+  at 0.0  hide malrik
+  at 0.0  teleport malrik_young  to=(0, 0, 2.0)  yaw=20
+  at 0.0  show fx_tendrils
+  at 1.5  line malrik "I came out at dawn. Bored. The shadows came out with me."  dur=3.8
+  at 5.4  fade color=#c8a070  alpha=0.2  time=1.2
+# The citadel refectory, the long table: four apprentices at supper; Malrik takes Vessa's bread
+shot MC1 7.0  set=forge_ep2_feast  cam=static  from=(12.6, 2.0, -1.8)  look=(8.8, 1.0, 3.0)  fov=46  in=fade_white:0.4  faces=a_vessa,a_malrik
+  at 0.0  fade alpha=0  time=0.2
+  at 0.8  line malrik "In the citadel there was always enough. I took more anyway."  dur=4.0
+  at 4.0  face a_vessa  to=(6, 0, 4)  time=0.5
+# Two-shot: Vessa turns back to an empty plate
+shot MC2 6.0  set=forge_ep2_feast  cam=static  from=(10.8, 1.9, 0.4)  look=(7.9, 1.3, 2.9)  fov=36  faces=a_vessa,a_malrik
+  at 0.0  face a_vessa  to=a_malrik  time=0.4
+  at 0.0  anim a_malrik set_expression  arg=smile
+  at 0.5  line vessa "Malrik! Where's my bread?"  dur=1.8
+  at 2.8  line malrik "What bread?"  dur=1.4
+# The library at night: Malrik reads by one candle, pinches it out, keeps sitting in the dark; the Master and Vey watch
+shot MD1 7.0  set=forge_citadel  cam=static  from=(-7.6, 49.8, 1.6)  look=(-12.0, 48.9, -0.8)  fov=48  in=fade_black:0.4  faces=l_malrik
+  at 0.0  fade color=#0b0c26  alpha=0.4  time=0.05
+  at 0.0  show master
+  at 0.0  show swordsman
+  at 0.0  show candle2
+  at 0.0  show l_malrik
+  at 1.0  line vey "He's not afraid of it. Most grown men are."  dur=3.0
+  at 3.8  hide candle2
+  at 3.8  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-14
+  at 4.4  line master "I know. That is why it is his."  dur=2.4
+# Static CU: Malrik in the dark, calm, almost smiling
+shot MD2 6.0  set=forge_citadel  cam=static  from=(-9.9, 49.0, -1.5)  look=l_malrik  fov=30
+  at 0.0  fade alpha=0.5  time=0.3
+  at 0.0  anim l_malrik set_expression  arg=smile
+  at 0.6  line malrik "He gave me the dark. What was left. He never said otherwise."  dur=4.2
+
+# ---------------------------------------------------------------- one white country
+# Crane up into the snow-cloud: one warm fire in the south, one violet candle far east; the title
+shot T1 6.0  set=forge_watch_keep  cam=crane  from=(-6, 8, 26)  to=(-10, 40, 56)  look=(0, 3, -6)>(0, 10, -30)  fov=44>54  in=fade_black:0.6
+  at 0.0  fade color=#e8eef8  alpha=0.35  time=0.3
+  at 0.0  vfx warm  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(0, 0, 0)  life=6  scale=0.3
+  at 0.0  vfx cold  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(60, 2, -80)  life=6  scale=1.0
+  at 0.4  title "Episode 5" sub="The Spark and the Candle" time=4.6
+  at 5.0  fade color=#000000 alpha=1 time=1.0

@@ -1,0 +1,9 @@
+{
+    "cine_id": "ep5_opening",
+    "note": "LineTrack (tools/cine README: use lines): the one ep5_opening line whose text holds straight double quotes, which a .cine line cannot quote. Same text as data/voice/lines/ep5_opening.json L12.",
+    "lines": {
+        "VA2": [
+            {"at": 4.3, "speaker": "vessa", "text": "Nobody had ever said \"next time\" to me before.", "duration": 3.4}
+        ]
+    }
+}

@@ -58,6 +58,15 @@ static func check(root: Node, id: String, voiced: Dictionary, info: Array[String
 		errs.append("%s: cine check FAIL %s" % [id, rep.problem_lines()])
 	for l: String in rep.problem_lines():
 		info.append("%s: %s" % [id, l])
+	# every line (inline and `use lines` track) translated and voiced
+	for bs: Dictionary in bake.shots:
+		for ln: Dictionary in bs.get("lines", []):
+			var text := String(ln.get("text", ""))
+			var who := String(ln.get("speaker", ""))
+			if CineSceneCheck._french(text) == "":
+				errs.append("%s: no French for \"%s\"" % [id, text])
+			if not voiced.has("%s|%s" % [who, text]):
+				errs.append("%s: %s \"%s\" not voiced" % [id, who, text])
 	stage.queue_free()
 	# the baked script and its stage
 	var cs := CinematicScript.find(StringName(id))
@@ -78,13 +87,4 @@ static func check(root: Node, id: String, voiced: Dictionary, info: Array[String
 			errs.append("%s: not skippable" % id)
 	if not StoryFilms.available(StringName(id)):
 		errs.append("%s: stage %s missing" % [id, StoryFilms.stage_of(StringName(id))])
-	# every line translated and voiced
-	for s: Dictionary in doc.shots:
-		for ln: Dictionary in s.get("lines", []):
-			var text := String(ln.get("text", ""))
-			var who := String(ln.get("speaker", ""))
-			if CineSceneCheck._french(text) == "":
-				errs.append("%s: no French for \"%s\"" % [id, text])
-			if not voiced.has("%s|%s" % [who, text]):
-				errs.append("%s: %s \"%s\" not voiced" % [id, who, text])
 	return errs
