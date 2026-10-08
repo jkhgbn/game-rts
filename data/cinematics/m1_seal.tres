@@ -1,0 +1,151 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_dwgdj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_dryn6"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_lr4ja"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_h3rmf"]
+
+[sub_resource type="Resource" id="Resource_myphf"]
+script = ExtResource("4_h3rmf")
+at = 1.8
+kind = &"vfx"
+target = Vector3(0, 1, 0)
+params = {
+"life": 3.0,
+"scale": 1.2,
+"scene": "res://art/cinematics/fx/regalia_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_jcii6"]
+script = ExtResource("4_h3rmf")
+at = 1.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_jasgv"]
+script = ExtResource("4_h3rmf")
+at = 1.8
+kind = &"fade"
+params = {
+"alpha": 0.5,
+"color": Color(1, 0.9490196, 0.8, 1),
+"time": 0.15
+}
+
+[sub_resource type="Resource" id="Resource_etx86"]
+script = ExtResource("4_h3rmf")
+at = 2.2
+kind = &"fade"
+params = {
+"alpha": 0.0,
+"color": Color(1, 0.9490196, 0.8, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_nwkxx"]
+script = ExtResource("4_h3rmf")
+at = 1.8
+kind = &"shake"
+params = {
+"amount": 0.4
+}
+
+[sub_resource type="Resource" id="Resource_qod7u"]
+script = ExtResource("1_dwgdj")
+at = 0.4
+speaker = &"narrator"
+text = "Three flames answer. The seal cracks, and the old wardens wake up grumpy."
+voice = "res://assets/audio/voice/narrator/three_flames_answer_the_69a75470.wav"
+
+[sub_resource type="Resource" id="Resource_0k5u0"]
+script = ExtResource("3_lr4ja")
+id = &"S1"
+duration = 5.5
+camera_mode = 1
+from_pos = Vector3(-4.2, 1.9, 4.2)
+to_pos = Vector3(-3.2, 1.6, 3.2)
+look_from = Vector3(0, 1, 0)
+look_to = Vector3(0, 1.2, 0)
+fov_from = 36.0
+fov_to = 32.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_dwgdj")]([SubResource("Resource_qod7u")])
+actions = Array[ExtResource("4_h3rmf")]([SubResource("Resource_myphf"), SubResource("Resource_jcii6"), SubResource("Resource_jasgv"), SubResource("Resource_etx86"), SubResource("Resource_nwkxx")])
+
+[sub_resource type="Resource" id="Resource_idqos"]
+script = ExtResource("4_h3rmf")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_vnhqc"]
+script = ExtResource("4_h3rmf")
+at = 1.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_ttlwe"]
+script = ExtResource("3_lr4ja")
+id = &"S2"
+duration = 3.5
+camera_mode = 1
+from_pos = Vector3(5.6, 0.7, 5)
+to_pos = Vector3(5, 0.8, 4.6)
+look_from = Vector3(2.8, 1.4, 2.8)
+look_to = Vector3(2.8, 1.6, 2.8)
+fov_from = 40.0
+fov_to = 36.0
+actions = Array[ExtResource("4_h3rmf")]([SubResource("Resource_idqos"), SubResource("Resource_vnhqc")])
+
+[sub_resource type="Resource" id="Resource_nqeqp"]
+script = ExtResource("4_h3rmf")
+at = 3.9
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_q6xpo"]
+script = ExtResource("1_dwgdj")
+at = 0.3
+speaker = &"vessa"
+text = "I'm here for the crown, not a lecture. Fine. Both."
+voice = "res://assets/audio/voice/vessa/im_here_for_the_10aceb62.wav"
+
+[sub_resource type="Resource" id="Resource_6vqfm"]
+script = ExtResource("3_lr4ja")
+id = &"S3"
+duration = 4.5
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-18, 0, 18)
+orbit_radius = 3.6
+orbit_height = 1.6
+orbit_from_deg = 30.0
+orbit_to_deg = 45.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_dwgdj")]([SubResource("Resource_q6xpo")])
+actions = Array[ExtResource("4_h3rmf")]([SubResource("Resource_nqeqp")])
+
+[resource]
+script = ExtResource("2_dryn6")
+id = &"m1_seal"
+title = "The Seal Breaks"
+world_mode = 1
+shots = Array[ExtResource("3_lr4ja")]([SubResource("Resource_0k5u0"), SubResource("Resource_ttlwe"), SubResource("Resource_6vqfm")])
+shake_seed = 106
+lines_over_cuts = true

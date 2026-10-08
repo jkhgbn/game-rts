@@ -1,0 +1,17 @@
+# m01 E8 "m1_watchers" (docs/design/mission-01.md events E8): ~12 s, mode=pause over the live mission, then the victory
+# (VICTORY_DELAY after the film). The hold is won: 1) MS Vessa, the crown on her brow, Malrik's parting words (L13; orbit
+# on the live hero `vessa`); 2) high crane over Emberfall at dusk, four distant flames on the horizon: the other three
+# apprentices feel the crown wake (L14, narrator). The end state says L13 / L14 once and starts the victory timer.
+cine m1_watchers  title="Far Away"  mode=pause  letterbox=2.39  seed=108  length=10..14
+env dusk  moon_yaw=210  moon_pitch=-12  energy=0.75
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(-4, 0, 4)  yaw=135
+cast  malrik  res://art/units/wizards/malrik.tscn  at=(36, 0, -36)  yaw=315
+
+# MS Vessa, crowned, the Shadow host pulling back behind her
+shot H1 5.0  cam=orbit  pivot=vessa  r=4.0  h=1.7  deg=300>320  in=fade_black:0.4
+  at 0.4  line malrik "Keep it warm for me. The other three will come for it now."
+# High over Emberfall: four flames far off on the horizon
+shot H2 6.5  cam=crane  from=(-10, 8, 10)  to=(-12, 16, 12)  look=(0, 2, 0)>(20, 6, -20)  fov=50>56
+  at 0.5  vfx flames  scene=res://art/cinematics/fx/four_flames.tscn  at=(0, 1, 0)  life=6.0  scale=1.0
+  at 0.6  line narrator "Far away, three apprentices feel the crown wake up, and begin to worry."
+  at 5.3  fade alpha=1 time=1.2

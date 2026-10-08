@@ -1,0 +1,20 @@
+# m01 E5 "m1_westwatch" (docs/design/mission-01.md, events E5): ~11 s, mode=pause over the live mission. The Westwatch
+# brazier (-44, -20) is lit: 1) the fire rises over the old watch (L7, narrator); 2) WS: the two free Blaze Riders that
+# appear at the brazier + (2, 0, 2), Malrik's voice from the far camp (L8). Cameras look at fixed map points (the fight
+# around G3 leaves the units anywhere); the cast stands in for the checks. The end state says L7 / L8 once (no repeat).
+cine m1_westwatch  title="The Westwatch Fire"  mode=pause  letterbox=2.39  seed=105  length=9..13
+env dusk  moon_yaw=130  moon_pitch=-20  energy=0.8
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(-40.5, 0, -16.5)  yaw=225
+cast  malrik  res://art/units/wizards/malrik.tscn  at=(36, 0, -36)  yaw=315
+cast  rider  res://art/units/fire/blaze_rider.tscn  at=(-42, 0, -18)  yaw=135
+
+# LOW on the brazier: the flame climbs into the dusk
+shot W1 5.5  cam=dolly  from=(-38.5, 1.2, -14.5)  to=(-39.5, 1.6, -15.5)  look=(-44, 1.4, -20)>(-44, 3.0, -20)  fov=42>38  in=fade_black:0.4
+  at 0.2  vfx fire  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-44, 0, -20)  life=5.0  scale=0.8
+  at 0.2  sfx res://assets/audio/sfx/spell_kindle.wav  vol=-4
+  at 0.4  line narrator "The Westwatch fire rises. Riders who remember the old kingdom ride to meet it."
+# WS: the riders come out of the light, the watch burning behind them
+shot W2 5.0  cam=crane  from=(-33, 6, -9)  to=(-35, 4.5, -11)  look=(-43, 1, -19)>(-43, 1.2, -19)  fov=48>44  faces=rider
+  at 0.3  sfx res://assets/audio/sfx/unit_trained.wav  vol=-8
+  at 0.5  line malrik "Light all the candles you like. The dark just gets a better view."
+  at 4.4  fade alpha=1 time=0.6

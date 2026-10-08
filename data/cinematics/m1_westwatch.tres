@@ -1,0 +1,98 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_l0u68"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_frs38"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_b26lx"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_fnvqj"]
+
+[sub_resource type="Resource" id="Resource_sbq7g"]
+script = ExtResource("4_fnvqj")
+at = 0.2
+kind = &"vfx"
+target = Vector3(-44, 0, -20)
+params = {
+"life": 5.0,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_y4y7f"]
+script = ExtResource("4_fnvqj")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/spell_kindle.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_pnu70"]
+script = ExtResource("1_l0u68")
+at = 0.4
+speaker = &"narrator"
+text = "The Westwatch fire rises. Riders who remember the old kingdom ride to meet it."
+voice = "res://assets/audio/voice/narrator/the_westwatch_fire_rises_d7e80c5e.wav"
+
+[sub_resource type="Resource" id="Resource_vcav3"]
+script = ExtResource("3_b26lx")
+id = &"W1"
+duration = 5.5
+camera_mode = 1
+from_pos = Vector3(-38.5, 1.2, -14.5)
+to_pos = Vector3(-39.5, 1.6, -15.5)
+look_from = Vector3(-44, 1.4, -20)
+look_to = Vector3(-44, 3, -20)
+fov_from = 42.0
+fov_to = 38.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_l0u68")]([SubResource("Resource_pnu70")])
+actions = Array[ExtResource("4_fnvqj")]([SubResource("Resource_sbq7g"), SubResource("Resource_y4y7f")])
+
+[sub_resource type="Resource" id="Resource_r081f"]
+script = ExtResource("4_fnvqj")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/unit_trained.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_ytpfs"]
+script = ExtResource("4_fnvqj")
+at = 4.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_3rgh1"]
+script = ExtResource("1_l0u68")
+at = 0.5
+speaker = &"malrik"
+text = "Light all the candles you like. The dark just gets a better view."
+voice = "res://assets/audio/voice/malrik/light_all_the_candles_d4719180.wav"
+
+[sub_resource type="Resource" id="Resource_w522w"]
+script = ExtResource("3_b26lx")
+id = &"W2"
+duration = 5.0
+camera_mode = 2
+from_pos = Vector3(-33, 6, -9)
+to_pos = Vector3(-35, 4.5, -11)
+look_from = Vector3(-43, 1, -19)
+look_to = Vector3(-43, 1.2, -19)
+fov_from = 48.0
+fov_to = 44.0
+lines = Array[ExtResource("1_l0u68")]([SubResource("Resource_3rgh1")])
+actions = Array[ExtResource("4_fnvqj")]([SubResource("Resource_r081f"), SubResource("Resource_ytpfs")])
+
+[resource]
+script = ExtResource("2_frs38")
+id = &"m1_westwatch"
+title = "The Westwatch Fire"
+world_mode = 1
+shots = Array[ExtResource("3_b26lx")]([SubResource("Resource_vcav3"), SubResource("Resource_w522w")])
+shake_seed = 105
+lines_over_cuts = true

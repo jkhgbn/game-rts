@@ -10,6 +10,9 @@ extends MissionBase
 ## signal objectives_changed; global Events.objective_changed(id, state) and Events.dialogue(speaker, text).
 ## Scripted units (guards and waves) are in group "scripted" (and have meta "scripted" = true): the
 ## Commander must leave them alone. Malrik joins that group when the Final wave starts.
+## In-mission films (mode=pause, data/cinematics/src/m1_*.cine, MissionBase.play_cutscene): E5 `m1_westwatch` (L7 / L8),
+## E6 `m1_seal` (L9 / L10), E7 `m1_crown` (L11 / L12), E8 `m1_watchers` (L13 / L14, then the victory timer). Their lines
+## are said in the end state (the film's subtitles are not repeated as cards; tests / no film = said at once).
 
 signal brazier_lit(brazier: MissionBrazier, lit_count: int)
 
@@ -572,13 +575,22 @@ func _on_brazier_lit(b: MissionBrazier) -> void:
 	lit_count += 1
 	brazier_lit.emit(b, lit_count)
 	set_objective(&"obj_braziers", "active" if lit_count < 3 else "done")
+	# Lines are said in the films' end states, never before a film (they would queue up behind it): Westwatch as the
+	# first brazier says L5 after its film; Westwatch as the third says L7 / L8 after the seal film (no second film).
+	var westwatch_film := b.brazier_id == WESTWATCH and lit_count < 3
 	if lit_count == 1:   # E3
-		say_line(5)
+		if not westwatch_film:
+			say_line(5)
 		hud.show_message(HINT_FIRST_LIT, 8.0)
 		_w1_armed = true
 	if b.brazier_id == WESTWATCH:   # E5
-		say_line(7)
-		say_line(8)
+		if westwatch_film:   # film m1_westwatch (L7 / L8)
+			var first := lit_count == 1
+			play_cutscene(&"m1_westwatch", func() -> void:
+				if first:
+					say_line(5)
+				say_line(7)
+				say_line(8))
 		_unlock_riders()
 		show_spotlight()   # unit-spotlights.md 2.1: the Blaze Rider, unlocked here
 		for i in 2:
@@ -589,9 +601,14 @@ func _on_brazier_lit(b: MissionBrazier) -> void:
 		hud.show_message(HINT_SPOTLIGHT, 8.0)
 		add_event(&"spotlight_tower", func() -> bool: return _rider_near_spire(), func() -> void:
 			hud.show_message(HINT_SPOTLIGHT_TOWER, 3.0))
-	if lit_count == 3:   # E6
-		say_line(9)
-		say_line(10)
+	if lit_count == 3:   # E6: film m1_seal (L9 / L10), the seal flash plays as the world resumes
+		var westwatch_last := b.brazier_id == WESTWATCH
+		play_cutscene(&"m1_seal", func() -> void:
+			say_line(9)
+			say_line(10)
+			if westwatch_last:
+				say_line(7)
+				say_line(8))
 		_break_seal()
 		_fire_w3()
 
@@ -649,8 +666,9 @@ func _on_m1_crown_claimed(claimed: Artifact, by: Wizard) -> void:
 	if game_over or by != hero or not fire_once(&"E7"):
 		return
 	hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-	say_line(11)
-	say_line(12)
+	play_cutscene(&"m1_crown", func() -> void:   # film m1_crown (L11 / L12); the hold clock waits behind it
+		say_line(11)
+		say_line(12))
 	set_objective(&"obj_crown", "done")
 	hold_left = hold_time()
 	set_objective(&"obj_hold", "active")
@@ -810,13 +828,14 @@ func _hold_done() -> void:
 	fire_once(&"E8")
 	_ending = true
 	hold_left = -1.0
-	say_line(13)
-	say_line(14)
 	set_objective(&"obj_hold", "done")
 	_shadow_walk_home()
-	after(VICTORY_DELAY, func() -> void:
-		_end_game(true)
-		_shadow_walk_home())
+	play_cutscene(&"m1_watchers", func() -> void:   # film m1_watchers (L13 / L14), then the victory
+		say_line(13)
+		say_line(14)
+		after(VICTORY_DELAY, func() -> void:
+			_end_game(true)
+			_shadow_walk_home()))
 
 
 func _shadow_walk_home() -> void:

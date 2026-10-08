@@ -44,6 +44,7 @@ func _initialize() -> void:
 		root.size = Vector2i(1600, 900)   # the headless window is 64 x 64: lay the UI out at the real size
 	main = load("res://missions/mission_01.tscn").instantiate()
 	main.set(&"save_campaign_on_victory", false)
+	main.set(&"cinematics_enabled", false)   # the m1_* films freeze the tree (test_cine_m01 covers them)
 	root.add_child(main)
 	current_scene = main
 

@@ -1,0 +1,18 @@
+# m01 E7 "m1_crown" (docs/design/mission-01.md events E7): ~11 s, mode=pause over the live mission. Vessa takes the
+# Ember Crown at the pedestal (0, 0) (pickup radius 2.2): 1) MS Vessa crowned, a fire burst around her, Malrik's voice
+# from the dark (L11; orbit on the live hero `vessa`); 2) MCU Vessa answering (L12). The end state starts the hold and
+# the Final wave (they wait behind the film) and says L11 / L12 once.
+cine m1_crown  title="The Ember Crown"  mode=pause  letterbox=2.39  seed=107  length=9..13
+env dusk  moon_yaw=200  moon_pitch=-25  energy=0.8
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(-1, 0, 1)  yaw=135
+cast  malrik  res://art/units/wizards/malrik.tscn  at=(36, 0, -36)  yaw=315
+
+# MS Vessa crowned: the fire answers the crown
+shot C1 6.0  cam=orbit  pivot=vessa  r=4.2  h=1.8  deg=200>230  in=fade_black:0.3
+  at 0.2  sfx res://assets/audio/sfx/crown_claimed.wav  vol=-2
+  at 0.2  vfx crown  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-1, 0.2, 1)  life=2.5  scale=1.0
+  at 0.6  line malrik "Put it down. That crown was never meant for someone who throws fire at her problems."
+# MCU Vessa answering
+shot C2 4.5  cam=orbit  pivot=vessa  r=2.6  h=1.7  deg=20>35
+  at 0.3  line vessa "Then it's in the right hands. I throw fire at ALL my problems."
+  at 3.9  fade alpha=1 time=0.6

@@ -26,6 +26,7 @@ func _initialize() -> void:
 	main = load("res://missions/mission_01.tscn").instantiate()
 	main.set(&"show_briefing", false)
 	main.set(&"save_campaign_on_victory", false)
+	main.set(&"cinematics_enabled", false)   # the m1_* films freeze the tree (test_cine_m01 covers them)
 	root.add_child(main)
 	current_scene = main
 

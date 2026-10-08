@@ -1,0 +1,25 @@
+# m01 E6 "m1_seal" (docs/design/mission-01.md events E6; cinematics.md PAUSE list): ~13 s, mode=pause over the live
+# mission. The third brazier burns: 1) CU the Ember Crown on its pedestal (0, 0), the seal cracking in a white-gold burst
+# (L9, narrator); 2) LOW on a crown warden waking (the ring r 4); 3) MS Vessa wherever she lit the last brazier (orbit on
+# the live hero `vessa`, L10). The end state breaks the seal (its flash ring plays after the film) and says L9 / L10 once.
+cine m1_seal  title="The Seal Breaks"  mode=pause  letterbox=2.39  seed=106  length=11..15
+env dusk  moon_yaw=200  moon_pitch=-25  energy=0.8
+cast  vessa   res://art/units/wizards/vessa.tscn  at=(-18, 0, 18)  yaw=135
+cast  warden  res://art/units/neutral/ruin_warden.tscn  at=(2.8, 0, 2.8)  yaw=45
+
+# CU the crown: the seal cracks in white-gold light
+shot S1 5.5  cam=dolly  from=(-4.2, 1.9, 4.2)  to=(-3.2, 1.6, 3.2)  look=(0, 1.0, 0)>(0, 1.2, 0)  fov=36>32  in=fade_black:0.4
+  at 0.4  line narrator "Three flames answer. The seal cracks, and the old wardens wake up grumpy."
+  at 1.8  vfx seal  scene=res://art/cinematics/fx/regalia_burst.tscn  at=(0, 1, 0)  life=3.0  scale=1.2
+  at 1.8  sfx res://assets/audio/sfx/building_collapse.wav  vol=-6
+  at 1.8  fade color=#fff2cc alpha=0.5 time=0.15
+  at 2.2  fade color=#fff2cc alpha=0 time=1.0
+  at 1.8  shake 0.4
+# LOW on a warden: the stone shrugs awake
+shot S2 3.5  cam=dolly  from=(5.6, 0.7, 5.0)  to=(5.0, 0.8, 4.6)  look=(2.8, 1.4, 2.8)>(2.8, 1.6, 2.8)  fov=40>36  faces=warden
+  at 0.3  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-4
+  at 1.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-6
+# MS Vessa
+shot S3 4.5  cam=orbit  pivot=vessa  r=3.6  h=1.6  deg=30>45
+  at 0.3  line vessa "I'm here for the crown, not a lecture. Fine. Both."
+  at 3.9  fade alpha=1 time=0.6
