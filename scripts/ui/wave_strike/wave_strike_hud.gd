@@ -202,43 +202,46 @@ func _refresh() -> void:
 	if director.is_last_horns():
 		clock += "  ·  " + Loc.t("LAST HORNS")
 	_clock_label.text = clock
-	_bank_label.text = "Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s" % [
+	# Every line goes through Loc (review 2026-10-08 M7: the French entries existed but were never used).
+	_bank_label.text = Loc.t("Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s") % [
 		bank.crystals(), bank.income(), bank.coffer_level, director.rules.coffer_prices.size(), roster.pop_used(),
-		roster.cap(), roster.tier_name(), "" if roster.upgrade_left <= 0.0 else " (%s in %ds)" % [
-			roster.tier_name(roster.tier + 1), ceili(roster.upgrade_left)]]
+		roster.cap(), Loc.t(roster.tier_name()), "" if roster.upgrade_left <= 0.0 else Loc.t(" (%s in %ds)") % [
+			Loc.t(roster.tier_name(roster.tier + 1)), ceili(roster.upgrade_left)]]
 	var ids := roster.card_ids()
 	for i in mini(ids.size(), _card_buttons.size()):
 		var id := ids[i]
 		var t := UnitType.find(String(id))
 		var why := roster.can_buy(id)
 		var b := _card_buttons[i]
-		b.text = "[%s] %s   %d   ·  pop %d   ·  x%d" % [KeyLabels.of(CARD_KEYS[i]), t.display_name if t else String(id),
-			roster.price_of(id), roster.pop_of(id), roster.count(id)]
+		b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]),
+			Loc.t(t.display_name) if t else String(id), roster.price_of(id), roster.pop_of(id), roster.count(id)]
 		b.modulate = Color.WHITE if why == "" else Color(1, 1, 1, 0.55)
-		b.tooltip_text = (why + "\n" if why != "" else "") + _card_tip(t)
+		b.tooltip_text = (Loc.sink(why) + "\n" if why != "" else "") + _card_tip(t)
 	var cp := bank.coffer_price()
-	_coffer_button.text = "[%s] Coffer %d   %s   (+%d / horn)" % [KeyLabels.of(KEY_COFFER), bank.coffer_level + 1,
-		str(cp) if cp >= 0 else "max", director.rules.coffer_step] if cp >= 0 else "Coffers: all 8 bought"
+	_coffer_button.text = Loc.t("[%s] Coffer %d   %s   (+%d / horn)") % [KeyLabels.of(KEY_COFFER),
+		bank.coffer_level + 1, str(cp) if cp >= 0 else Loc.t("max"), director.rules.coffer_step] if cp >= 0 \
+		else Loc.t("Coffers: all 8 bought")
 	_coffer_button.modulate = Color.WHITE if bank.can_buy_coffer() == "" else Color(1, 1, 1, 0.55)
-	_coffer_button.tooltip_text = bank.can_buy_coffer()
+	_coffer_button.tooltip_text = Loc.sink(bank.can_buy_coffer())
 	var tw := roster.can_upgrade()
 	if roster.tier >= director.rules.max_tier:
 		_tier_button.text = Loc.t("%s reached") % Loc.t(roster.tier_name())
 	elif roster.upgrade_left > 0.0:
 		_tier_button.text = Loc.t("%s rising: %d s") % [Loc.t(roster.tier_name(roster.tier + 1)), ceili(roster.upgrade_left)]
 	else:
-		_tier_button.text = "[%s] %s   %d   (%s, supply %d)" % [KeyLabels.of(KEY_TIER), roster.tier_name(roster.tier + 1),
-			roster.next_tier_price(), "T2 cards, Drilled" if roster.tier == 1 else "Elite", director.rules.cap_at(roster.tier + 1)]
+		_tier_button.text = Loc.t("[%s] %s   %d   (%s, supply %d)") % [KeyLabels.of(KEY_TIER),
+			Loc.t(roster.tier_name(roster.tier + 1)), roster.next_tier_price(),
+			Loc.t("T2 cards, Drilled") if roster.tier == 1 else Loc.t("Elite"), director.rules.cap_at(roster.tier + 1)]
 	_tier_button.modulate = Color.WHITE if tw == "" else Color(1, 1, 1, 0.55)
-	_tier_button.tooltip_text = tw
+	_tier_button.tooltip_text = Loc.sink(tw)
 	_wave_label.text = Loc.t("Next wave: %d units   (last horn: %d)") % [roster.card_total(), director.last_wave_size[seat]]
 
 
 static func _card_tip(t: UnitType) -> String:
 	if t == null:
 		return ""
-	return "%s: %d HP, %d damage, range %.1f, speed %.1f%s" % [t.display_name, int(t.max_hp), int(t.attack_damage),
-		t.attack_range, t.move_speed, "  (Stronghold)" if t.requires_tier >= 2 else ""]
+	return Loc.t("%s: %d HP, %d damage, range %.1f, speed %.1f%s") % [Loc.t(t.display_name), int(t.max_hp),
+		int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Stronghold)") if t.requires_tier >= 2 else ""]
 
 
 func _on_horn(_index: int) -> void:

@@ -3,6 +3,9 @@ extends RefCounted
 ## A gettext .po / .pot file as data (docs/design/localization.md): read, edit, write back in a stable order.
 ## Entry = {ctx, id, plural, strs: PackedStringArray (1, or 2 for plurals), refs: PackedStringArray ("path:line"),
 ## notes: PackedStringArray ("#." lines), flags: PackedStringArray ("#," e.g. fuzzy)}.
+## Obsolete entries (flag "obsolete") are written gettext-style as "#~ msgid ..." lines, so Godot's PO loader skips
+## them and a removed key can never shadow the live one of another area (review 2026-10-08 L2). Both the old
+## "#, obsolete" form and "#~" lines read back as obsolete entries.
 
 const FR_HEADER := "Content-Type: text/plain; charset=UTF-8\\nLanguage: fr_CA\\nPlural-Forms: nplurals=2; plural=(n > 1);\\n"
 const POT_HEADER := "Content-Type: text/plain; charset=UTF-8\\nLanguage: en\\nPlural-Forms: nplurals=2; plural=(n != 1);\\n"
@@ -36,7 +39,14 @@ func has(ctx: String, id: String) -> bool:
 func add(ctx: String, id: String, plural := "") -> Dictionary:
 	var k := key_of(ctx, id)
 	if _index.has(k):
-		return _index[k]
+		# An existing singular entry becomes plural when the source now uses Loc.tn (review 2026-10-08 M2):
+		# without this, merge / import kept "plural" empty and the French plural form was never written.
+		var old: Dictionary = _index[k]
+		if plural != "" and String(old["plural"]) == "":
+			old["plural"] = plural
+			while (old["strs"] as PackedStringArray).size() < 2:
+				old["strs"].append("")
+		return old
 	var e := {"ctx": ctx, "id": id, "plural": plural, "strs": PackedStringArray([""] if plural == "" else ["", ""]),
 			"refs": PackedStringArray(), "notes": PackedStringArray(), "flags": PackedStringArray()}
 	entries.append(e)
@@ -70,6 +80,12 @@ func parse(text: String) -> void:
 	var seen_entry := false
 	for raw in text.split("\n"):
 		var line := raw.strip_edges()
+		var old_entry := false
+		if line.begins_with("#~"):
+			line = line.substr(2).strip_edges()
+			old_entry = true
+			if line == "":
+				continue
 		if line == "":
 			if field != "":
 				_commit(cur)
@@ -94,6 +110,8 @@ func parse(text: String) -> void:
 			elif not seen_entry and field == "" and cur["refs"].is_empty():
 				title_lines.append(line)
 			continue
+		if old_entry and not (cur["flags"] as PackedStringArray).has("obsolete"):
+			cur["flags"].append("obsolete")
 		if line.begins_with("msgctxt "):
 			field = "ctx"
 			cur["ctx"] = _unquote(line.substr(8))
@@ -172,18 +190,23 @@ func to_text() -> String:
 			line += " " + r
 		if line != "":
 			out.append("#:" + line)
-		if not (e["flags"] as PackedStringArray).is_empty():
-			out.append("#, " + ", ".join(e["flags"]))
+		var flags: PackedStringArray = (e["flags"] as PackedStringArray).duplicate()
+		var pre := ""
+		if flags.has("obsolete"):
+			flags.erase("obsolete")
+			pre = "#~ "
+		if not flags.is_empty():
+			out.append("#, " + ", ".join(flags))
 		if e["ctx"] != "":
-			out.append("msgctxt " + _quote(e["ctx"]))
-		out.append("msgid " + _quote(e["id"]))
+			out.append(pre + "msgctxt " + _quote(e["ctx"]))
+		out.append(pre + "msgid " + _quote(e["id"]))
 		if e["plural"] != "":
-			out.append("msgid_plural " + _quote(e["plural"]))
+			out.append(pre + "msgid_plural " + _quote(e["plural"]))
 			var strs: PackedStringArray = e["strs"]
 			for i in maxi(strs.size(), 2):
-				out.append("msgstr[%d] %s" % [i, _quote(strs[i] if i < strs.size() else "")])
+				out.append(pre + "msgstr[%d] %s" % [i, _quote(strs[i] if i < strs.size() else "")])
 		else:
-			out.append("msgstr " + _quote(String(e["strs"][0])))
+			out.append(pre + "msgstr " + _quote(String(e["strs"][0])))
 		out.append("")
 	return "\n".join(out)
 

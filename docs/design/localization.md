@@ -55,8 +55,8 @@ literals always count. A false positive goes in `data/i18n/ignore_<area>.txt` (o
 |---|---|---|
 | ui_unit_guide | `scripts/ui/menus/unit_guide.gd`, `unit_guide_data.gd` | yes |
 | ui_menus | `scripts/ui/menus/` (main menu, skirmish setup, map picker, settings, pause, campaign panel) | yes |
-| ui_hud | `scripts/ui/*.gd` (top bar, command card, selection panel, HUD, minimap, score...) | yes |
 | ui_hud_windows | tavern, trade, shop, champion bar, items, bounty, map-fill panels | yes |
+| ui_hud | `scripts/ui/*.gd` (top bar, command card, selection panel, HUD, minimap, score...) | yes |
 | ui_mission | `scripts/ui/mission/`, `scripts/ui/cinematic/` | yes |
 | ui_wave_strike | `scripts/ui/wave_strike/` | no (mode in prototype) |
 | campaign | `scripts/campaign/` (objectives, briefings, dialogue, end texts) | yes |
@@ -66,6 +66,12 @@ literals always count. A false positive goes in `data/i18n/ignore_<area>.txt` (o
 | maps | `scripts/world/map_catalog.gd`, `data/maps/catalog.tres` ("title" = names kept English, "hook") | yes |
 | game_data | `data/units`, `buildings`, `spells`, `items`, `champions`... (`display_name` = names, kept English) | no |
 | game_logic | refusal reasons and messages in `scripts/buildings`, `units`, `items`, `economy`, `spells`, `world` | no |
+
+The order above is the real `AREAS` order: a msgid shown by both a HUD window and the HUD (for example "far" /
+"near") lives in `ui_hud_windows.po`. Hand-kept French files that are not areas (`game_logic_templates.po` = the
+`Loc.sink` "#" templates, `story_e4_e8.po`) are loaded by Loc like the others and `check` / `tests/test_i18n.gd`
+check their placeholders and "#" counts too. Keys gone from the sources stay in the French file as gettext obsolete
+entries (`#~ msgid ...` lines): Godot's PO loader skips them, so a removed key never shadows a live one.
 
 ## 4. French rules
 - Glossary: `data/i18n/glossary_fr.md` (keep = donjon, Stronghold / Citadel = Forteresse / Citadelle, tier =

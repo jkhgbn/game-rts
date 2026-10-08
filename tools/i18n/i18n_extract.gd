@@ -279,17 +279,29 @@ func _scan_gd(area: String, path: String) -> void:
 	var rel := path.trim_prefix("res://")
 	var lits := gd_literals(src)
 	var consumed: Dictionary = {}
-	# Loc.tn("singular", "plural", ...) and Loc.t("text", args, "ctx").
+	# Loc.tn("singular", "plural", n, args, "ctx"), Loc.t("text", args, "ctx"), Loc.sink("text", "ctx"),
+	# tr / atr("text", "ctx"): the call is found across line breaks and the arguments are parsed with nesting and
+	# quotes (review 2026-10-08 L1: a dictionary args or a far-indented first literal used to lose ctx / plural).
 	for idx in lits.size():
 		var lit: Dictionary = lits[idx]
-		var before := src.substr(maxi(0, lit["start"] - 12), mini(12, lit["start"])).strip_edges()
-		if before.ends_with("Loc.tn(") and idx + 1 < lits.size():
-			_add(area, lit["text"], "%s:%d" % [rel, lit["line"]], _note(lines, lit["line"]), "", lits[idx + 1]["text"])
+		var callee := callee_before(src, lit["start"])
+		if callee == "":
+			continue
+		var args := call_args(src, lit["start"])
+		if callee == "Loc.tn":
+			var plural := literal_of(args[1]) if args.size() > 1 else ""
+			if plural == "" and idx + 1 < lits.size():
+				plural = lits[idx + 1]["text"]   # "a" + "b" joined literal
+			if plural == "":
+				continue
+			var ctx_n := literal_of(args[4]) if args.size() > 4 else ""
+			_add(area, lit["text"], "%s:%d" % [rel, lit["line"]], _note(lines, lit["line"]), ctx_n, plural)
 			consumed[idx] = true
-			consumed[idx + 1] = true
-		elif before.ends_with("Loc.t(") or before.ends_with("Loc.sink(") \
-				or RegEx.create_from_string("(^|[^A-Za-z_.])a?tr\\($").search(before) != null:
-			var ctx := _ctx_arg(src, lit["end"])
+			if idx + 1 < lits.size() and lits[idx + 1]["text"] == plural:
+				consumed[idx + 1] = true
+		else:
+			var at := 2 if callee == "Loc.t" else 1
+			var ctx := literal_of(args[at]) if args.size() > at else ""
 			_add(area, lit["text"], "%s:%d" % [rel, lit["line"]], _note(lines, lit["line"]), ctx)
 			consumed[idx] = true
 	for idx in lits.size():
@@ -310,11 +322,64 @@ func _scan_gd(area: String, path: String) -> void:
 		_add(area, lit["text"], "%s:%d" % [rel, lit["line"]], _note(lines, lit["line"]))
 
 
-func _ctx_arg(src: String, from: int) -> String:
-	# Loc.t("x", <args>, "ctx") on one line: the third argument when it is a literal.
-	var rest := src.substr(from, 200).get_slice("\n", 0)
-	var m := RegEx.create_from_string("^\\s*,\\s*[^,\"]*,\\s*\"([^\"]*)\"\\s*\\)").search(rest)
-	return m.get_string(1) if m != null else ""
+## "Loc.tn", "Loc.t", "Loc.sink", "tr" or "atr" when the literal starting at `at` is the first argument of that call
+## (whitespace, line breaks and "\\" continuations allowed before it), else "".
+static func callee_before(src: String, at: int) -> String:
+	var j := at - 1
+	while j >= 0 and (src[j] == " " or src[j] == "\t" or src[j] == "\n" or src[j] == "\r" or src[j] == "\\"):
+		j -= 1
+	if j < 0 or src[j] != "(":
+		return ""
+	j -= 1
+	var end := j + 1
+	while j >= 0 and (src[j] == "." or src[j] == "_" or src[j].is_valid_identifier() or src[j].is_valid_int()):
+		j -= 1
+	var name := src.substr(j + 1, end - j - 1)
+	if name in ["Loc.tn", "Loc.t", "Loc.sink", "tr", "atr"]:
+		return name
+	return ""
+
+
+## The raw top-level arguments of the call whose first argument starts at `from` (up to its closing parenthesis),
+## strings, brackets and braces skipped.
+static func call_args(src: String, from: int) -> PackedStringArray:
+	var out: PackedStringArray = []
+	var depth := 0
+	var cur := from
+	var i := from
+	var n := src.length()
+	while i < n:
+		var c := src[i]
+		if c == "\"" or c == "'":
+			var q := c + c + c if src.substr(i, 3) == c + c + c else c
+			i += q.length()
+			while i < n and src.substr(i, q.length()) != q:
+				i += 2 if src[i] == "\\" else 1
+			i += q.length()
+			continue
+		if c == "#":
+			while i < n and src[i] != "\n":
+				i += 1
+			continue
+		if c == "(" or c == "[" or c == "{":
+			depth += 1
+		elif c == ")" or c == "]" or c == "}":
+			if depth == 0:
+				out.append(src.substr(cur, i - cur))
+				return out
+			depth -= 1
+		elif c == "," and depth == 0:
+			out.append(src.substr(cur, i - cur))
+			cur = i + 1
+		i += 1
+	return out
+
+
+## The text of an argument that is one plain string literal ("" otherwise).
+static func literal_of(arg: String) -> String:
+	var a := arg.replace("\\\n", " ").strip_edges()
+	var m := RegEx.create_from_string("^\"((?:[^\"\\\\]|\\\\.)*)\"$").search(a)
+	return m.get_string(1).c_unescape() if m != null else ""
 
 
 static func _skip_line(l: String) -> bool:
@@ -532,24 +597,37 @@ func coverage() -> Dictionary:
 	return out
 
 
-## Placeholder / plural problems in every French file ("" list = clean).
+## Placeholder / plural problems in every French file ("" list = clean): the area files and every other .po the
+## game loads (Loc.po_files: game_logic_templates.po, story_e4_e8.po... kept by hand; review 2026-10-08 M3).
 func check_french() -> PackedStringArray:
 	var out: PackedStringArray = []
+	var seen: Dictionary = {}
 	for area: Dictionary in AREAS:
-		var fr := I18nPo.load_file(_fr_path(area["id"]))
-		for e in fr.entries:
-			if (e["flags"] as PackedStringArray).has("obsolete"):
+		seen[_fr_path(area["id"])] = true
+		out.append_array(check_french_file(_fr_path(area["id"]), area["id"]))
+	for path in Loc.po_files("fr"):
+		if not seen.has(path):
+			out.append_array(check_french_file(path, path.get_file().get_basename()))
+	return out
+
+
+## Placeholder / plural problems of one French .po file (`label` prefixes each line).
+static func check_french_file(path: String, label: String) -> PackedStringArray:
+	var out: PackedStringArray = []
+	var fr := I18nPo.load_file(path)
+	for e in fr.entries:
+		if (e["flags"] as PackedStringArray).has("obsolete"):
+			continue
+		var strs: PackedStringArray = e["strs"]
+		for i in strs.size():
+			if strs[i] == "":
 				continue
-			var strs: PackedStringArray = e["strs"]
-			for i in strs.size():
-				if strs[i] == "":
-					continue
-				var src: String = e["id"] if i == 0 or e["plural"] == "" else e["plural"]
-				var why := placeholder_mismatch(src, strs[i], e["plural"] != "")
-				if why != "":
-					out.append("%s: \"%s\": %s" % [area["id"], String(e["id"]).substr(0, 60), why])
-			if e["plural"] != "" and strs.size() < 2:
-				out.append("%s: \"%s\": plural entry needs msgstr[0] and msgstr[1]" % [area["id"], e["id"]])
+			var src: String = e["id"] if i == 0 or e["plural"] == "" else e["plural"]
+			var why := placeholder_mismatch(src, strs[i], e["plural"] != "")
+			if why != "":
+				out.append("%s: \"%s\": %s" % [label, String(e["id"]).substr(0, 60), why])
+		if e["plural"] != "" and strs.size() < 2:
+			out.append("%s: \"%s\": plural entry needs msgstr[0] and msgstr[1]" % [label, e["id"]])
 	return out
 
 

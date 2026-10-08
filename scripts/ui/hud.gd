@@ -62,6 +62,11 @@ var _end_rule: Control
 var _end_tween: Tween
 const MESSAGE_FADE := 0.3   ## The message line fades out over its last 0.3 s.
 var _hero_levels := {}   # wizard instance id -> last seen level (level-up message)
+## The "heroes" group, re-read 4 times a second (not every frame); levels are still compared every frame.
+var _heroes: Array[Node] = []
+var _heroes_left := 0.0
+const HEROES_POLL := 0.25
+var _objective_source := ""   # the English objective text (re-translated on a language switch)
 
 const MESSAGE_Y := 120.0
 
@@ -546,7 +551,14 @@ func apply_skin() -> void:
 
 
 func set_objective(text: String) -> void:
+	_objective_source = text
 	_objective.text = Loc.sink(text)   # objectives come from the logic (campaign / skirmish), English there
+
+
+func _notification(what: int) -> void:
+	# Live language switch: the objective was translated once when set (review 2026-10-08 L3).
+	if what == NOTIFICATION_TRANSLATION_CHANGED and _objective != null and _objective_source != "":
+		_objective.text = Loc.sink(_objective_source)
 
 
 ## The message line's plate: near-black at 62 %, rounded, 16 x 5 px padding.
@@ -734,6 +746,10 @@ func _on_tavern_requested(slot: int) -> void:
 
 
 func _process(delta: float) -> void:
+	_heroes_left -= delta
+	if _heroes_left <= 0.0:
+		_heroes_left = HEROES_POLL
+		_refresh_heroes()
 	_check_hero_levels()
 	_refresh_help()
 	if _message_time > 0.0:
@@ -749,7 +765,9 @@ func _process(delta: float) -> void:
 ## levels.md: "Vessa reaches level 3" (and "Malrik reaches level 3": the player sees the bot's too).
 ## Polls `level` on every wizard (group "heroes"), so it works whatever the signal's arguments are.
 func _check_hero_levels() -> void:
-	for wiz in get_tree().get_nodes_in_group(&"heroes"):
+	for wiz in _heroes:
+		if not is_instance_valid(wiz):
+			continue
 		var lvl: Variant = wiz.get("level")
 		if lvl == null:
 			continue
@@ -759,6 +777,17 @@ func _check_hero_levels() -> void:
 			var short := str(wiz.get("unit_name")).get_slice(",", 0).strip_edges()
 			show_message(Loc.t("%s reaches level %d") % [short, int(lvl)], 3.0)
 		_hero_levels[id] = int(lvl)
+
+
+## Re-reads the "heroes" group and forgets the levels of wizards that are gone (review 2026-10-08 L6).
+func _refresh_heroes() -> void:
+	_heroes = get_tree().get_nodes_in_group(&"heroes")
+	var live: Dictionary = {}
+	for wiz in _heroes:
+		live[wiz.get_instance_id()] = true
+	for id: int in _hero_levels.keys():
+		if not live.has(id):
+			_hero_levels.erase(id)
 
 
 ## The message line sits at y 120, or just below the controls help when a long message would

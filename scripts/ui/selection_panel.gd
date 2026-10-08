@@ -382,6 +382,14 @@ func is_own(node: Node) -> bool:
 	return node != null and node.get("team") != null and int(node.get("team")) == own_team
 
 
+## Live language switch: the building-strip chips cache their tooltip per building; forget them so the next
+## refresh rebuilds the tooltips in the new language (review 2026-10-08 L3).
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		for i in _chip_buildings.size():
+			_chip_buildings[i] = null
+
+
 func _process(delta: float) -> void:
 	_clock += delta
 	if _skin != UIStyle.skin_version:
@@ -855,9 +863,12 @@ func _update_single(u: Unit) -> void:
 	var xp := int(u.get("xp")) if u.get("xp") != null else 0
 	# Veterancy (levels.md): soldiers only; workers, towers and wardens never level.
 	var veteran := wiz == null and not u.has_method(&"command_gather") and (level > 1 or xp > 0)
-	single_name.text = u.unit_name
+	# Built once, assigned once: this runs every frame and Label re-shapes on every text change (review M5).
+	var name_line := u.unit_name
 	if veteran and level > 1:
-		single_name.text += " · " + Loc.t(str(u.call(&"veterancy_name")) if u.has_method(&"veterancy_name") else rank_name(level))
+		name_line += " · " + Loc.t(str(u.call(&"veterancy_name")) if u.has_method(&"veterancy_name") else rank_name(level))
+	if single_name.text != name_line:
+		single_name.text = name_line
 	single_hp.max_value = u.max_hp
 	single_hp.value = u.hp
 	single_hp_text.text = Loc.t("HP  %d / %d") % [ceili(u.hp), int(u.max_hp)]
@@ -1178,8 +1189,9 @@ func _set_segments(row: HBoxContainer, segments: Array) -> void:
 			l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			row.add_child(l)
 		l.visible = true
-		l.text = str(segments[j][0])
-		l.add_theme_color_override("font_color", segments[j][1])
+		if l.text != str(segments[j][0]):
+			l.text = str(segments[j][0])
+		UIStyle.set_color_if_changed(l, &"font_color", segments[j][1])
 
 
 # ---------------------------------------------------------------- trade lines (10.C7, ui-trade.md 6.2 / 6.3)
@@ -1202,10 +1214,10 @@ func _update_trade_lines(u: Unit) -> void:
 		single_state.visible = true
 		if is_own(u):
 			single_state.text = tracker_contract_text(u)
-			single_state.add_theme_color_override("font_color", UIStyle.token(&"text"))
+			UIStyle.set_color_if_changed(single_state, &"font_color", UIStyle.token(&"text"))
 		else:
 			single_state.text = "Enemy hunters"
-			single_state.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+			UIStyle.set_color_if_changed(single_state, &"font_color", UIStyle.token(&"text_muted"))
 
 
 func _update_caravan_lines(u: Unit) -> void:
@@ -1213,7 +1225,7 @@ func _update_caravan_lines(u: Unit) -> void:
 	var loaded := bool(u.call(&"is_loaded")) if u.has_method(&"is_loaded") else cargo > 0
 	cargo_coin.visible = loaded
 	cargo_labels[0].text = Loc.t("Cargo %d gold") % cargo if loaded else "Empty"
-	cargo_labels[0].add_theme_color_override("font_color", GOLD_TEXT if loaded else UIStyle.token(&"text_muted"))
+	UIStyle.set_color_if_changed(cargo_labels[0], &"font_color", GOLD_TEXT if loaded else UIStyle.token(&"text_muted"))
 	var own := is_own(u)
 	for i in range(1, 4):
 		cargo_labels[i].visible = own
@@ -1221,9 +1233,9 @@ func _update_caravan_lines(u: Unit) -> void:
 		return   # an enemy caravan: its cargo only (raiders want to know)
 	var post: Variant = u.get("route_post")
 	var muted := UIStyle.token(&"text_muted")
-	cargo_labels[1].add_theme_color_override("font_color", muted)
-	cargo_labels[2].add_theme_color_override("font_color", UIStyle.token(&"text"))
-	cargo_labels[3].add_theme_color_override("font_color", muted)
+	UIStyle.set_color_if_changed(cargo_labels[1], &"font_color", muted)
+	UIStyle.set_color_if_changed(cargo_labels[2], &"font_color", UIStyle.token(&"text"))
+	UIStyle.set_color_if_changed(cargo_labels[3], &"font_color", muted)
 	if is_instance_valid(post) and post is Node3D:
 		var market: Variant = u.get("home_market")
 		var far := false
@@ -1242,7 +1254,7 @@ func _update_caravan_lines(u: Unit) -> void:
 	single_state.visible = true
 	var state := str(u.call(&"state_text")) if u.has_method(&"state_text") else "Idle"
 	single_state.text = Loc.sink(state)   # the caravan's state line comes from its logic (English there)
-	single_state.add_theme_color_override("font_color", caravan_state_color(state))
+	UIStyle.set_color_if_changed(single_state, &"font_color", caravan_state_color(state))
 
 
 ## The colour of a caravan state line (ui-trade.md 6.2).
@@ -1336,36 +1348,36 @@ func _update_market_block(market: Node3D) -> void:
 	var post: Variant = market.get("route_post")
 	var valid_post := is_instance_valid(post) and post is Node3D
 	market_route_labels[0].text = "Route: "
-	market_route_labels[0].add_theme_color_override("font_color", muted)
+	UIStyle.set_color_if_changed(market_route_labels[0], &"font_color", muted)
 	if valid_post:
 		var far := RouteLine.is_far(market, post)
 		market_route_labels[1].text = RouteLine.post_name(post)
-		market_route_labels[1].add_theme_color_override("font_color", UIStyle.GOLD)
+		UIStyle.set_color_if_changed(market_route_labels[1], &"font_color", UIStyle.GOLD)
 		market_route_labels[2].text = " (far)" if far else " (near)"
-		market_route_labels[2].add_theme_color_override("font_color", FAR_COLOR if far else NEAR_COLOR)
+		UIStyle.set_color_if_changed(market_route_labels[2], &"font_color", FAR_COLOR if far else NEAR_COLOR)
 		var reason := RouteLine.route_reason(market, post)
 		if reason.begins_with("Trading posts open"):
 			market_value.text = "Posts open at 4:00 · caravans wait"
-			market_value.add_theme_color_override("font_color", UIStyle.WARN)
+			UIStyle.set_color_if_changed(market_value, &"font_color", UIStyle.WARN)
 		elif reason == "Held by the enemy":
 			market_value.text = "Held by the enemy · caravans wait"
-			market_value.add_theme_color_override("font_color", UIStyle.WARN)
+			UIStyle.set_color_if_changed(market_value, &"font_color", UIStyle.WARN)
 		else:
 			market_value.text = Loc.t("%d gold per trip · ~%d / min each") % [RouteLine.value_of(market, post),
 					RouteLine.per_minute(market, post)]
-			market_value.add_theme_color_override("font_color", text_c)
+			UIStyle.set_color_if_changed(market_value, &"font_color", text_c)
 	else:
 		market_route_labels[1].text = "none"
-		market_route_labels[1].add_theme_color_override("font_color", muted)
+		UIStyle.set_color_if_changed(market_route_labels[1], &"font_color", muted)
 		market_route_labels[2].text = ""
 		market_value.text = "Right-click a trading post to set the route"
-		market_value.add_theme_color_override("font_color", muted)
+		UIStyle.set_color_if_changed(market_value, &"font_color", muted)
 	var alive: int = (market.call(&"caravans") as Array).size() if market.has_method(&"caravans") else 0
 	var queued := int(market.call(&"queued_caravans")) if market.has_method(&"queued_caravans") else 0
 	var limit := int(market.get("CARAVAN_LIMIT")) if market.get("CARAVAN_LIMIT") != null else 6
 	market_caravans.text = Loc.t("Caravans %d / %d (%d queued)") % [alive, limit, queued] if queued > 0 \
 			else Loc.t("Caravans %d / %d") % [alive, limit]
-	market_caravans.add_theme_color_override("font_color", UIStyle.WARN if alive + queued >= limit else text_c)
+	UIStyle.set_color_if_changed(market_caravans, &"font_color", UIStyle.WARN if alive + queued >= limit else text_c)
 	var team := int(market.get("team"))
 	var net := get_tree().get_first_node_in_group(&"trade_network")
 	var recent := int(net.call(&"trade_income", team, 180.0)) if net != null and net.has_method(&"trade_income") else 0
@@ -1412,11 +1424,11 @@ func _update_champion(ch: Node) -> void:
 	if cid != &"":
 		champion_class_label.text = " · " + ChampionBar.class_display_name(cid)
 		champion_class_label.tooltip_text = ChampionBar.class_tooltip_for(ch)
-		champion_class_label.add_theme_color_override("font_color", UIStyle.token(&"title"))
+		UIStyle.set_color_if_changed(champion_class_label, &"font_color", UIStyle.token(&"title"))
 	else:
 		champion_class_label.text = " · no class yet"
 		champion_class_label.tooltip_text = ChampionBar.lean_tooltip(_champion_weights(ch, own), 0, own)
-		champion_class_label.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+		UIStyle.set_color_if_changed(champion_class_label, &"font_color", UIStyle.token(&"text_muted"))
 	var max_hp := ChampionBar.max_hp_of(ch)
 	var hp := float(ch.get("hp")) if alive and ch.get("hp") != null else 0.0
 	champion_hp.max_value = max_hp
@@ -1439,11 +1451,11 @@ func _update_champion(ch: Node) -> void:
 			line = "Unpaid!"
 			shown = Loc.sink(line)
 		champion_intent.text = shown
-		champion_intent.add_theme_color_override("font_color", ChampionBar.intent_color(line))
+		UIStyle.set_color_if_changed(champion_intent, &"font_color", ChampionBar.intent_color(line))
 		champion_purse.text = str(ChampionBar.purse_of(ch))
 	else:
 		champion_intent.text = "Enemy champion"
-		champion_intent.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+		UIStyle.set_color_if_changed(champion_intent, &"font_color", UIStyle.token(&"text_muted"))
 	# Intent label max width 260 (ellipsis), then the purse (15.3: the row stops at x 392).
 	var font := champion_intent.get_theme_font("font")
 	var text_w := font.get_string_size(champion_intent.text, HORIZONTAL_ALIGNMENT_LEFT, -1,
@@ -1572,11 +1584,11 @@ func _update_champion_abilities(ch: Node, own: bool) -> void:
 	if cid != &"":
 		champion_row2_caption.text = ChampionBar.class_display_name(cid)
 		champion_row2_caption.tooltip_text = ChampionBar.class_tooltip_for(ch)
-		champion_row2_caption.add_theme_color_override("font_color", UIStyle.token(&"title"))
+		UIStyle.set_color_if_changed(champion_row2_caption, &"font_color", UIStyle.token(&"title"))
 	else:
 		champion_row2_caption.text = "Class at level 2"
 		champion_row2_caption.tooltip_text = ChampionBar.lean_tooltip(weights, 0, own)
-		champion_row2_caption.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+		UIStyle.set_color_if_changed(champion_row2_caption, &"font_color", UIStyle.token(&"text_muted"))
 	# `Autocast · next at level 3`: the lowest unlock level still ahead among the locked slots (own champions).
 	var next := 0
 	for l in locked_levels:

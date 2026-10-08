@@ -507,11 +507,13 @@ func refresh() -> void:
 		icons[i].texture = tex
 		icons[i].visible = tex != null
 		# With an icon the abbreviation stays in `text` (tests, fallback) but is not drawn.
-		for c in ["font_color", "font_hover_color", "font_pressed_color", "font_disabled_color"]:
-			b.add_theme_color_override(c, Color(0, 0, 0, 0) if tex != null else HudSkin.token(&"text"))
+		# Overrides only when they change: this runs 10 times a second (review 2026-10-08 M4).
+		var text_col := Color(0, 0, 0, 0) if tex != null else HudSkin.token(&"text")
+		for c: StringName in [&"font_color", &"font_hover_color", &"font_pressed_color", &"font_disabled_color"]:
+			UIStyle.set_color_if_changed(b, c, text_col)
 		key_labels[i].text = s["key"]
 		key_labels[i].visible = s["key"] != ""
-		key_labels[i].add_theme_font_size_override("font_size", 12 if str(s["key"]).length() <= 1 else 10)
+		UIStyle.set_font_size_if_changed(key_labels[i], &"font_size", 12 if str(s["key"]).length() <= 1 else 10)
 		var disabled: bool = s["reason"] != ""
 		b.disabled = disabled
 		# A spell on cooldown stays bright: the dark sweep shows it.
@@ -535,15 +537,15 @@ func refresh() -> void:
 		cost_tags[i].visible = has_cost
 		if s.has("value"):   # a route button: gold per trip
 			cost_tags[i].text = str(s["value"])
-			cost_tags[i].add_theme_color_override("font_color", GOLD_TEXT)
+			UIStyle.set_color_if_changed(cost_tags[i], &"font_color", GOLD_TEXT)
 		elif has_cost:
 			cost_tags[i].text = str(s["cost"])
-			cost_tags[i].add_theme_color_override("font_color",
+			UIStyle.set_color_if_changed(cost_tags[i], &"font_color",
 					UIStyle.WARN if str(s["reason"]).begins_with("Not enough crystals") else HudSkin.CRYSTAL_TEXT)
 		near_chips[i].visible = s.has("far")
 		if s.has("far"):
 			near_chips[i].text = "far" if s["far"] else "near"
-			near_chips[i].add_theme_color_override("font_color", FAR_COLOR if s["far"] else NEAR_COLOR)
+			UIStyle.set_color_if_changed(near_chips[i], &"font_color", FAR_COLOR if s["far"] else NEAR_COLOR)
 
 
 ## The slot ids in grid order ("" = empty), for tests: e.g. ["move", "stop", "hold", "attack", ...].

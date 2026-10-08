@@ -27,7 +27,13 @@ const I18N_DIR := "res://data/i18n"
 static var language := DEFAULT_LANG
 static var _loaded: Dictionary = {}   # lang -> true once its .po files are in the TranslationServer
 static var _number_re: RegEx
-static var _sink_cache: Dictionary = {}   # (ctx + U+0004 +) shown English text -> translated text
+static var _sink_cache: Dictionary = {}   # (ctx + U+0004 +) shown English text -> translated text (no digits)
+## Texts with digits (live numbers: countdowns, costs, timers) get their own small cache, so a stream of one-off
+## values never pushes the static entries out (review 2026-10-08 M6). Both evict their oldest quarter when full.
+static var _volatile_cache: Dictionary = {}
+const SINK_CACHE_MAX := 4096
+const VOLATILE_CACHE_MAX := 512
+static var _letter_re: RegEx
 static var _sink_cache_lang := ""
 static var _formats: Array = []    # printf msgids: [{re, specs, msgid, n, prefix, suffix}]
 static var _formats_lang := ""
@@ -42,6 +48,7 @@ static func set_language(lang: String) -> String:
 		_load_language(lang)
 	language = lang
 	_sink_cache.clear()
+	_volatile_cache.clear()
 	_formats_lang = ""
 	TranslationServer.set_locale(String(LOCALES[lang]))
 	return lang
@@ -71,9 +78,15 @@ static func resolve_setting(saved: String) -> String:
 static func cmdline_language() -> String:
 	for a: String in OS.get_cmdline_user_args():
 		if a.begins_with("--lang=") or a.begins_with("lang="):
-			var l := a.get_slice("=", 1).strip_edges().to_lower()
-			return l if LANGS.has(l) else DEFAULT_LANG
+			return lang_from_arg(a.get_slice("=", 1))
 	return ""
+
+
+## A `--lang=` value -> a language: "fr_CA" / "FR-ca" -> "fr", as set_language does (review 2026-10-08 L8);
+## unknown -> English.
+static func lang_from_arg(value: String) -> String:
+	var l := value.strip_edges().to_lower().substr(0, 2)
+	return l if LANGS.has(l) else DEFAULT_LANG
 
 
 static func is_scripted_run() -> bool:
@@ -107,15 +120,60 @@ static func sink(text: String, ctx := "") -> String:
 		return text
 	if _sink_cache_lang != language:
 		_sink_cache.clear()
+		_volatile_cache.clear()
 		_sink_cache_lang = language
 	var key := text if ctx == "" else ctx + "\u0004" + text
 	if _sink_cache.has(key):
 		return _sink_cache[key]
+	if _volatile_cache.has(key):
+		return _volatile_cache[key]
+	if not _has_letter(text):
+		# Clocks, "12 / 40", "3:05": only the exact / numeric-template lookups apply (no printf msgid matches a
+		# text without letters); never cached, a new value arrives every second.
+		return _sink_numbers_only(text, ctx)
 	var out := _sink_uncached(text, ctx)
-	if _sink_cache.size() > 1024:
-		_sink_cache.clear()
-	_sink_cache[key] = out
+	if (numeric_template(text)["numbers"] as PackedStringArray).is_empty():
+		_cache_put(_sink_cache, key, out, SINK_CACHE_MAX)
+	else:
+		_cache_put(_volatile_cache, key, out, VOLATILE_CACHE_MAX)
 	return out
+
+
+## Number of cached sink results, static + volatile (tests).
+static func sink_cache_size() -> int:
+	return _sink_cache.size() + _volatile_cache.size()
+
+
+## True when `text` is in the static (digit-free) sink cache (tests).
+static func sink_cached(text: String, ctx := "") -> bool:
+	return _sink_cache.has(text if ctx == "" else ctx + "\u0004" + text)
+
+
+static func _cache_put(cache: Dictionary, key: String, value: String, limit: int) -> void:
+	if cache.size() >= limit:
+		# Dictionaries keep insertion order: drop the oldest quarter, keep the rest (no full flush).
+		var old := cache.keys().slice(0, maxi(1, limit / 4))
+		for k: Variant in old:
+			cache.erase(k)
+	cache[key] = value
+
+
+static func _has_letter(text: String) -> bool:
+	if _letter_re == null:
+		_letter_re = RegEx.create_from_string("\\p{L}")
+	return _letter_re.search(text) != null
+
+
+static func _sink_numbers_only(text: String, ctx: String) -> String:
+	var exact := String(TranslationServer.translate(text, ctx))
+	if exact != text:
+		return exact
+	var templ := numeric_template(text)
+	if templ["template"] != text:
+		var tr_t := String(TranslationServer.translate(templ["template"], ctx))
+		if tr_t != templ["template"]:
+			return _put_numbers(tr_t, templ["numbers"])
+	return text
 
 
 static func _sink_uncached(text: String, ctx: String) -> String:

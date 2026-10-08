@@ -39,6 +39,11 @@ const MAP_DETAIL_TOOLTIP := ("High: full plants and flowers, birds, butterflies 
 
 var _refreshing := false
 var _scale_dragging := false
+## [slider, value label, printf format] per slider row: refresh() rewrites the value labels (a language switch
+## changes "75 %" spacing but not the value, so value_changed never fires; review 2026-10-08 L3).
+var _value_rows: Array = []
+## Settings changed since the panel last saved (closing the game window saves them; review 2026-10-08 L5).
+var _dirty := false
 
 
 ## The rows between the title and Back scroll when the window is too short for them (1600x900: the panel ran 78 px
@@ -154,6 +159,8 @@ func refresh() -> void:
 	render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
 	playtest_check.button_pressed = GameSettings.playtest_data
 	rebuild_priority_list()
+	for r: Array in _value_rows:
+		(r[1] as Label).text = _value_text(String(r[2]), (r[0] as HSlider).value)
 	_refreshing = false
 
 
@@ -182,6 +189,10 @@ static func controls_tooltip_text() -> String:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and language_option != null and is_inside_tree():
 		refresh()
+	# The game window closed while the panel is open (Back never pressed): keep the changes.
+	elif what == NOTIFICATION_WM_CLOSE_REQUEST and _dirty:
+		GameSettings.save_settings()
+		_dirty = false
 
 
 ## "Language" + English / Français (Québec) (each name in its own language, never translated).
@@ -246,6 +257,7 @@ func _fit() -> void:
 ## Saves and hides.
 func close() -> void:
 	GameSettings.save_settings()
+	_dirty = false
 	visible = false
 	closed.emit()
 
@@ -253,6 +265,7 @@ func close() -> void:
 func _changed(key: StringName, value: Variant) -> void:
 	if _refreshing:
 		return
+	_dirty = true
 	match key:
 		&"master_volume":
 			GameSettings.master_volume = value
@@ -280,7 +293,30 @@ func _changed(key: StringName, value: Variant) -> void:
 			GameSettings.render_scale = clampf(value, GameSettings.RENDER_SCALE_MIN, GameSettings.RENDER_SCALE_MAX)
 		&"playtest_data":
 			GameSettings.set_playtest_data(bool(value), false)   # Back saves the file
-	GameSettings.apply(get_tree())
+	apply_changed(key)
+
+
+## Applies only what `key` touches (review 2026-10-08 L4: a full GameSettings.apply walked the whole scene tree and
+## reconfigured the viewport on every slider step). Returns the part applied ("" = nothing to apply now).
+func apply_changed(key: StringName) -> String:
+	var tree := get_tree()
+	match key:
+		&"master_volume", &"music_volume", &"sfx_volume":
+			GameSettings.apply_audio()
+			return "audio"
+		&"ui_scale", &"fullscreen":
+			GameSettings.apply_window(tree)
+			return "window"
+		&"edge_pan":
+			GameSettings.apply_edge_pan(tree.root if tree else null)
+			return "edge_pan"
+		&"upscaler", &"render_scale":
+			if tree and tree.root:
+				var o := GameSettings.render_overrides()
+				GameSettings.apply_render(tree.root, int(o.get("upscaler", GameSettings.upscaler)),
+						float(o.get("render_scale", GameSettings.render_scale)))
+			return "render"
+	return ""
 
 
 func _slider_row(parent: Control, text: String, min_v: float, max_v: float, step: float,
@@ -304,6 +340,7 @@ func _slider_row(parent: Control, text: String, min_v: float, max_v: float, step
 	value_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	row.add_child(value_label)
 	slider.value_changed.connect(func(v: float) -> void: value_label.text = _value_text(fmt, v))
+	_value_rows.append([slider, value_label, fmt])
 	return slider
 
 

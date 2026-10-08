@@ -730,3 +730,18 @@ static func health_color(ratio: float) -> Color:
 	if ratio > 0.25:
 		return Color(0.95, 0.85, 0.25)
 	return WARN
+
+
+## Sets a theme colour override only when it differs. An override call sends NOTIFICATION_THEME_CHANGED (minimum
+## size + redraw) even for the same value, so per-frame / 10 Hz refreshes go through this (review 2026-10-08 M4/M5).
+static func set_color_if_changed(c: Control, name: StringName, col: Color) -> void:
+	if c.has_theme_color_override(name) and c.get_theme_color(name) == col:
+		return
+	c.add_theme_color_override(name, col)
+
+
+## Same for a font size override.
+static func set_font_size_if_changed(c: Control, name: StringName, font_size: int) -> void:
+	if c.has_theme_font_size_override(name) and c.get_theme_font_size(name) == font_size:
+		return
+	c.add_theme_font_size_override(name, font_size)

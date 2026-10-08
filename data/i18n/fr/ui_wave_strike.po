@@ -163,6 +163,5 @@ msgstr "Marteau (agressif)"
 
 #. clock += "  ·  LAST HORNS"
 #: scripts/ui/wave_strike/wave_strike_hud.gd:203
-#, obsolete
-msgid "  ·  LAST HORNS"
-msgstr ""
+#~ msgid "  ·  LAST HORNS"
+#~ msgstr ""

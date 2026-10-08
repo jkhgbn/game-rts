@@ -94,21 +94,23 @@ func _static_checks() -> void:
 				_fail("glyph U+%04X '%s' (%s) missing in %s" % [c.unicode_at(0), c, chars[c], f.resource_path.get_file()])
 	# 5. Plurals and placeholders through Loc (French: n <= 1 singular; English: n == 1).
 	Loc.set_language("fr")
-	var probe := Loc.tn("{n} worker", "{n} workers", 0)
-	if Loc.tn("{n} worker", "{n} workers", 1) == probe.replace("0", "1") and Loc.tn("{n} worker", "{n} workers", 2) == probe.replace("0", "2"):
+	# A live plural key ("{n} worker" was an obsolete entry, no longer loaded since review 2026-10-08 L2).
+	var probe := Loc.tn("{n} crystal", "{n} crystals", 0)
+	if Loc.tn("{n} crystal", "{n} crystals", 1) == probe.replace("0", "1") and Loc.tn("{n} crystal", "{n} crystals", 2) == probe.replace("0", "2"):
 		_fail("French plural: 0 and 2 read the same (%s)" % probe)
-	if not probe.begins_with("0 ouvrier") or probe.ends_with("s"):
+	if probe != "0 cristal":
 		_fail("French plural for 0 should be singular: '%s'" % probe)
-	if Loc.tn("{n} worker", "{n} workers", 3) != "3 ouvriers":
-		_fail("French plural for 3: '%s'" % Loc.tn("{n} worker", "{n} workers", 3))
+	if Loc.tn("{n} crystal", "{n} crystals", 3) != "3 cristaux":
+		_fail("French plural for 3: '%s'" % Loc.tn("{n} crystal", "{n} crystals", 3))
 	# 6. Numeric templates (text from game logic): numbers kept, words translated.
-	var sunk := Loc.sink("Need 50 more crystals")
-	if not sunk.contains("50") or sunk == "Need 50 more crystals":
+	# (A live template: "Need # more crystals" was an obsolete entry, no longer loaded since review 2026-10-08 L2.)
+	var sunk := Loc.sink("Must be within 50 m of your keep")
+	if not sunk.contains("50") or sunk == "Must be within 50 m of your keep":
 		_fail("Loc.sink numeric template: '%s'" % sunk)
 	if Loc.t("Settings") == "Settings":
 		_fail("French 'Settings' not translated")
 	Loc.set_language("en")
-	if Loc.tn("{n} worker", "{n} workers", 0) != "0 workers" or Loc.t("Settings") != "Settings":
+	if Loc.tn("{n} crystal", "{n} crystals", 0) != "0 crystals" or Loc.t("Settings") != "Settings":
 		_fail("English fallback / plural broken")
 	# 7. Settings round trip (test file only).
 	GameSettings.set_language("fr")
