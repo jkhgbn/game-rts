@@ -55,6 +55,7 @@ const VEY_NEAR := 3.0
 const VEY_FAR := 6.0
 const VEY_LEASH := 9.0
 const LUNGE_EVERY := 12.0
+const TARGET_RETRY := 0.25   ## no Chain / Lunge target: the next unit scan comes this much later
 const LUNGE_DAMAGE := 60.0
 const LUNGE_SPLASH := 30.0
 const CHAIN_EVERY := 8.0
@@ -611,11 +612,15 @@ func _tick_vey(delta: float) -> void:
 		if first:
 			_chain_left = 8.0
 			_chain_lightning(first)
+		else:
+			_chain_left = TARGET_RETRY   # nothing in reach: look again a bit later, not every physics frame
 	if _lunge_left <= 0.0:
 		var t := _vey_target(8.0)
 		if t:
 			_lunge_left = LUNGE_EVERY
 			_lunge(t)
+		else:
+			_lunge_left = TARGET_RETRY
 	if _storm_left <= 0.0:
 		_storm_left = STORMCALL_EVERY[difficulty]
 		_stormcall()

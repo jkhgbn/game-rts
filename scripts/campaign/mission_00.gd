@@ -610,7 +610,7 @@ func _refresh_wave_unit(u: Unit, mode: StringName, vessa: Vector3) -> bool:
 # ---------------------------------------------------------------- braziers
 
 func _on_brazier_lit(b: MissionBrazier) -> void:
-	if game_over:
+	if is_ending():   # a pending defeat (keep fell, Vessa fell) stays a defeat: no dawn from a late 3rd brazier
 		return
 	lit_count += 1
 	brazier_lit.emit(b, lit_count)
@@ -783,7 +783,7 @@ func _dawn_clock_ran_out() -> void:
 
 
 func _dawn() -> void:
-	if game_over or not fire_once(&"E10"):
+	if is_ending() or not fire_once(&"E10"):   # never turn a pending defeat into the forced dawn victory
 		return
 	dark_hold = false
 	if cast.hush_on_field():

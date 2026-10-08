@@ -152,6 +152,7 @@ var hollow := 0.0                         ## Read only: the Hollow meter in perc
 var hollow_shown := true                  ## Read only: false from the Rise on.
 var seat_progress := 0.0                  ## Read only: 0-1 while Vessa sits.
 var seat_blocked := false                 ## Read only: an ENEMY unit is on the isle.
+var _isle_scan_left := 0.0                ## the isle scan runs every ISLE_SCAN_EVERY s while Vessa is on the seat
 var seat_taken := false                   ## Read only: the Rise came from the seat.
 var keystone: M04Keystone                 ## Read only.
 var ember_hall: TrainingBuilding          ## Read only.
@@ -628,9 +629,13 @@ func _tick_seat(delta: float) -> void:
 	if not hero_alive() or _flat(hero.global_position, THRONE_POS) > SEAT_RADIUS:
 		seat_progress = 0.0
 		seat_blocked = false
+		_isle_scan_left = 0.0
 		_update_seat_ring()
 		return
-	seat_blocked = _enemy_on_isle()
+	_isle_scan_left -= delta
+	if _isle_scan_left <= 0.0:   # a full unit scan: 4 times a second, not every physics frame
+		_isle_scan_left = ISLE_SCAN_EVERY
+		seat_blocked = _enemy_on_isle()
 	if not seat_blocked:
 		seat_progress = minf(1.0, seat_progress + delta / SEAT_TIME)
 		if seat_progress >= 1.0:
@@ -639,6 +644,9 @@ func _tick_seat(delta: float) -> void:
 	elif fire_once(&"seat_blocked_msg"):
 		hud.show_message(MSG_SEAT_BLOCKED, 3.0)
 	_update_seat_ring()
+
+
+const ISLE_SCAN_EVERY := 0.25
 
 
 func _enemy_on_isle() -> bool:
@@ -1119,8 +1127,9 @@ func _fall_end_state() -> void:
 	set_objective(&"obj_key", "done")
 	set_objective(&"obj_vessa", "done")
 	set_objective(&"obj_keep", "done")
-	if objective_state("sec_hall") == "active" and gloom_hall and is_instance_valid(gloom_hall) and gloom_hall.is_alive():
-		set_objective(&"sec_hall", "failed")
+	var hall_down := gloom_hall == null or not is_instance_valid(gloom_hall) or not gloom_hall.is_alive()
+	if objective_state("sec_hall") == "active":   # the add_event check runs once a second: a hall burned just now counts
+		set_objective(&"sec_hall", "done" if hall_down else "failed")
 	win(0.0)
 	if story_films and cinematics_enabled and save_campaign_on_victory:
 		_play_card(&"ep1_ending", _text_card(&"ep1_ending", "Episode 1", CARD_ENDING_TEXT, heart_stone.global_position,

@@ -570,7 +570,7 @@ func _check_stronghold_hint() -> void:
 # ---------------------------------------------------------------- braziers, seal, crown
 
 func _on_brazier_lit(b: MissionBrazier) -> void:
-	if game_over:
+	if is_ending():   # no seal / Westwatch film over a pending defeat
 		return
 	lit_count += 1
 	brazier_lit.emit(b, lit_count)

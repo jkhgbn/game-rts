@@ -1226,7 +1226,7 @@ func _on_floe_broken(_index: int, _credit: Node3D) -> void:
 # ---------------------------------------------------------------- E10: the Heartfrost melts
 
 func _on_heartfrost_melted(_h: Heartfrost) -> void:
-	if game_over or not fire_once(&"E10"):
+	if is_ending() or not fire_once(&"E10"):   # no Heartfrost film over a pending defeat
 		return
 	play_cutscene(&"m2_heartfrost", _e10_end_state)
 

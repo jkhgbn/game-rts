@@ -1030,7 +1030,7 @@ func _on_mossjaw_died(_u: Unit) -> void:
 
 ## E6 / E6b / E10: a heart is down. The player's kill plants an Ember Stake; Shadow's shows a message.
 func _on_heart_down(h: RootHeart, by_team: int) -> void:
-	if game_over:
+	if is_ending():   # no heart film / victory beat over a pending defeat
 		return
 	hearts_down += 1
 	heart_credit[h.heart_id] = by_team
@@ -1535,7 +1535,7 @@ func _spawn_tide(gate: WardenGate) -> void:
 
 ## E12 / E13.
 func _on_gate_down(gate: WardenGate) -> void:
-	if game_over:
+	if is_ending():   # no gate film / victory beat over a pending defeat
 		return
 	gates_down += 1
 	set_objective(&"obj_gates", "active")
