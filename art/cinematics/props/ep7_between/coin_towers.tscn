@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3]
+
+; c_e7_ledger: the two hundred stamped coins Aldra stacks in ten towers of twenty (two rows of five). Origin = the
+; table top under the rows' centre (place it at table height). 0 lights.
+
+[sub_resource type="CylinderMesh" id="Cyl_tower"]
+top_radius = 0.022
+bottom_radius = 0.022
+height = 0.06
+radial_segments = 14
+
+[sub_resource type="StandardMaterial3D" id="Mat_coin"]
+albedo_color = Color(0.9, 0.86, 0.78, 1)
+metallic = 0.85
+roughness = 0.3
+
+[node name="coin_towers" type="Node3D"]
+
+[node name="Tower0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20, 0.03, -0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10, 0.03, -0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00, 0.03, -0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10, 0.03, -0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20, 0.03, -0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20, 0.03, 0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10, 0.03, 0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00, 0.03, 0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10, 0.03, 0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")
+
+[node name="Tower9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20, 0.03, 0.05)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_coin")

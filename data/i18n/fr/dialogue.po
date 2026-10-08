@@ -6384,5 +6384,152 @@ msgstr "Les racines sont avec nous."
 msgid "Return me... to the oak."
 msgstr "Rendez-moi... au chêne."
 
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L1
+msgid "By the Truce of the Stilled Sea: first blood, and no further!"
+msgstr "Par la Trêve de la Mer Figée  premier sang, et rien de plus "
 
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L2
+msgid "For Aurivane, the Sunblade: Dacian Orrow!"
+msgstr "Pour Aurivane, la Sunblade  Dacian Orrow "
 
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L3
+msgid "For Adamarch, the Diamond Wall: Seraphine Vael!"
+msgstr "Pour Adamarch, la Diamond Wall  Seraphine Vael "
+
+#. speaker dacian
+#: data/voice/lines/ep7_opening.json:L4
+msgid "Nine years I trained for this sand."
+msgstr "Neuf ans que je m'entraîne pour ce sable."
+
+#. speaker seraphine
+#: data/voice/lines/ep7_opening.json:L5
+msgid "Then don't waste it."
+msgstr "Alors, ne les gaspille pas."
+
+#. speaker dacian
+#: data/voice/lines/ep7_opening.json:L6
+msgid "Yield, Diamond Wall."
+msgstr "Rends-toi, Diamond Wall."
+
+#. speaker seraphine
+#: data/voice/lines/ep7_opening.json:L7
+msgid "Walls don't yield."
+msgstr "Les murs ne se rendent pas."
+
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L8
+msgid "First blood! Adamarch!"
+msgstr "Premier sang  Adamarch "
+
+#. speaker dacian
+#: data/voice/lines/ep7_opening.json:L9
+msgid "Well struck."
+msgstr "Bien frappé."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L10
+msgid "They say he kept the peace for a thousand years. Not here."
+msgstr "On dit qu'il a gardé la paix mille ans. Pas ici."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L11
+msgid "Two cities on one strait. Aurivane, of gold. Adamarch, of diamond."
+msgstr "Deux cités sur un même détroit. Aurivane, d'or. Adamarch, de diamant."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L12
+msgid "Only the rich may live inside their walls. Only the strong may stay."
+msgstr "Seuls les riches vivent dans leurs murs. Seuls les forts y restent."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L13
+msgid "Between them, one rock. Who holds it taxes every ship on the sea."
+msgstr "Entre elles, un rocher. Qui le tient taxe chaque navire de la mer."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L14
+msgid "They fought over it for a thousand years. For gold, and for glory."
+msgstr "Elles se le sont disputé mille ans. Pour l'or, et pour la gloire."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L15
+msgid "He tried everything. He sent them gold, so they would want nothing."
+msgstr "Il a tout essayé. Il leur a envoyé de l'or, pour qu'elles ne manquent de rien."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L16
+msgid "They bought more ships. So much gold sank, they named the strait the Coinwater."
+msgstr "Elles ont acheté plus de navires. Tant d'or a coulé qu'on a nommé le détroit le Coinwater."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L17
+msgid "He took us dragons away. They paid us more to come back."
+msgstr "Il nous a éloignés, nous, les dragons. Elles nous ont payés plus cher pour revenir."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L18
+msgid "I burned Adamarch for Aurivane, then Aurivane for Adamarch. Twice each."
+msgstr "J'ai brûlé Adamarch pour Aurivane, puis Aurivane pour Adamarch. Deux fois chacune."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L19
+msgid "The harder he held them, the more they slipped. So at last, he came himself."
+msgstr "Plus il les serrait, plus elles lui glissaient entre les doigts. Alors, il est venu lui-même."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L20
+msgid "He had never stepped into a war in the open. Not once in a thousand years."
+msgstr "Jamais il n'était entré dans une guerre à découvert. Pas une fois en mille ans."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L21
+msgid "He walked out, and the sea went still."
+msgstr "Il s'est avancé, et la mer s'est figée."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L23
+msgid "Every blade stopped. Every dragon came to his hand. Even mine."
+msgstr "Chaque lame s'est arrêtée. Chaque dragon est venu à sa main. Même moi."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L24
+msgid "He gave them one duel a year instead of a war. First blood, and no further."
+msgstr "Il leur a donné un duel par an au lieu d'une guerre. Premier sang, et rien de plus."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L25
+msgid "They bowed to him. Then they bet their cities on the duels. They saw only gold."
+msgstr "Elles se sont inclinées. Puis elles ont misé leurs cités sur les duels. Elles ne voyaient que l'or."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L26
+msgid "He left in anger, and never sat there again."
+msgstr "Il est parti en colère, et ne s'y est jamais rassis."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L27
+msgid "So he stopped holding the world alone, and raised four apprentices to keep it."
+msgstr "Alors il a cessé de tenir le monde seul, et il a élevé quatre apprentis pour le garder."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L31
+msgid "They heard gold, and soldiers, for free."
+msgstr "Eux, ils ont entendu de l'or, et des soldats, gratuits."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L32
+msgid "Now his chair is empty. And I am home."
+msgstr "Maintenant, son siège est vide. Et me voici chez moi."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L33
+msgid "So the old price stands. Whoever pays the most, I burn for."
+msgstr "Alors le vieux prix tient toujours. Qui paie le plus, je brûle pour lui."
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L34
+msgid "And look who has come to bid."
+msgstr "Et regardez qui vient enchérir."

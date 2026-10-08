@@ -1,0 +1,205 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_mr7t4"]
+[ext_resource type="Resource" path="res://data/cinematics/ep7_ending.tres" id="2_010b8"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/forge_intro_torvald.tscn" id="3_0yoon"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_slji6"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_torvald/mood_torvald.tres" id="5_4is8p"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_aldra/helper_aldra.tscn" id="6_ypa78"]
+[ext_resource type="Script" path="res://art/units/helpers/helper_aldra/aldra.gd" id="7_1k4fh"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/malrik.tscn" id="8_gd5ah"]
+[ext_resource type="Script" path="res://art/units/wizards/malrik.gd" id="9_mrwob"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn" id="10_oi5cx"]
+[ext_resource type="PackedScene" path="res://art/environment/landmarks/barge.tscn" id="11_ecfh2"]
+[ext_resource type="PackedScene" path="res://art/units/titans/frost_dragon/frost_dragon.tscn" id="12_xw265"]
+[ext_resource type="Script" path="res://art/units/titans/frost_dragon/frost_dragon.gd" id="13_ovqli"]
+[ext_resource type="PackedScene" path="res://art/units/titans/cinder_dragon/cinder_dragon.tscn" id="14_b43ip"]
+[ext_resource type="Script" path="res://art/units/titans/cinder_dragon/cinder_dragon.gd" id="15_rwcit"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep7_between/gold_ring.tscn" id="16_xdbb4"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_vessa/forge_intro_vessa.tscn" id="17_fb52g"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_vessa/mood_vessa.tres" id="18_28bit"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep7_between/stone_chair.tscn" id="19_ofwix"]
+[ext_resource type="PackedScene" path="res://art/units/champions/coin_cutter/coin_cutter.tscn" id="20_hsxjr"]
+[ext_resource type="Script" path="res://art/units/champions/coin_cutter/coin_cutter.gd" id="21_gltxi"]
+[ext_resource type="PackedScene" path="res://art/units/champions/oathwall/oathwall.tscn" id="22_4u3fo"]
+[ext_resource type="Script" path="res://art/units/champions/oathwall/oathwall.gd" id="23_vps74"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="24_1jlkf"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_preset.gd" id="25_r2meo"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t4404"]
+sky_top_color = Color(0.05, 0.07, 0.16, 1)
+sky_horizon_color = Color(0.28, 0.2, 0.3, 1)
+ground_bottom_color = Color(0.03, 0.03, 0.04, 1)
+ground_horizon_color = Color(0.16800001, 0.120000005, 0.18, 1)
+sun_angle_max = 8.0
+
+[sub_resource type="Sky" id="Sky_twq27"]
+sky_material = SubResource("ProceduralSkyMaterial_t4404")
+
+[sub_resource type="Environment" id="Environment_jplhv"]
+background_mode = 2
+sky = SubResource("Sky_twq27")
+ambient_light_source = 3
+ambient_light_energy = 0.55
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+fog_enabled = true
+fog_light_color = Color(0.196, 0.14, 0.21000001, 1)
+fog_density = 0.008
+
+[sub_resource type="Resource" id="Resource_qytq5"]
+script = ExtResource("25_r2meo")
+environment = SubResource("Environment_jplhv")
+sun_color = Color(0.62, 0.7, 1, 1)
+sun_energy = 0.6
+sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
+vignette_strength = 0.0
+
+[node name="Ep7EndingStage" type="Node3D" unique_id=556043247]
+script = ExtResource("1_mr7t4")
+autoplay_script = ExtResource("2_010b8")
+actor_paths = {
+"adept": NodePath("forge_intro_vessa/Puppets/adept"),
+"aldra": NodePath("forge_intro_torvald/Aldra"),
+"army_charge": NodePath("forge_intro_torvald/Puppets/army_charge"),
+"army_fallen": NodePath("forge_intro_vessa/Puppets/army_fallen"),
+"army_host": NodePath("forge_intro_vessa/Puppets/army_host"),
+"army_line": NodePath("forge_intro_torvald/Puppets/army_line"),
+"cinderd": NodePath("forge_intro_torvald/Cinderd"),
+"colossus": NodePath("forge_intro_torvald/Puppets/colossus"),
+"dacian": NodePath("forge_intro_vessa/Dacian"),
+"foe": NodePath("forge_intro_torvald/Puppets/foe"),
+"frostbow": NodePath("forge_intro_torvald/Puppets/frostbow"),
+"frostd": NodePath("forge_intro_torvald/Frostd"),
+"fx_burst": NodePath("forge_intro_torvald/Puppets/fx_burst"),
+"fx_columns": NodePath("forge_intro_vessa/Puppets/fx_columns"),
+"fx_cracks": NodePath("forge_intro_torvald/Puppets/fx_cracks"),
+"fx_embers": NodePath("forge_intro_vessa/Puppets/fx_embers"),
+"fx_heart": NodePath("forge_intro_torvald/Puppets/fx_heart"),
+"fx_icewall": NodePath("forge_intro_torvald/Puppets/fx_icewall"),
+"fx_pillar": NodePath("forge_intro_vessa/Puppets/fx_pillar"),
+"fx_snow": NodePath("forge_intro_torvald/Puppets/fx_snow"),
+"fx_volley": NodePath("forge_intro_vessa/Puppets/fx_volley"),
+"galley": NodePath("forge_intro_torvald/Galley"),
+"galley2": NodePath("forge_intro_torvald/Galley2"),
+"guard": NodePath("forge_intro_vessa/Puppets/guard"),
+"hstone": NodePath("forge_intro_torvald/Hstone"),
+"malrik": NodePath("forge_intro_torvald/Malrik"),
+"messenger": NodePath("forge_intro_torvald/Puppets/messenger"),
+"ossavar": NodePath("Ossavar"),
+"ring": NodePath("forge_intro_torvald/Ring"),
+"scorchbow": NodePath("forge_intro_vessa/Puppets/scorchbow"),
+"seraphine": NodePath("forge_intro_vessa/Seraphine"),
+"torvald": NodePath("forge_intro_torvald/Puppets/torvald"),
+"vessa": NodePath("forge_intro_vessa/Puppets/vessa"),
+"vessa_young": NodePath("forge_intro_vessa/Puppets/vessa_young")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_intro_torvald" type="Node3D" parent="." unique_id=489257648 instance=ExtResource("3_0yoon")]
+script = ExtResource("4_slji6")
+set_id = &"forge_intro_torvald"
+lighting = ExtResource("5_4is8p")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
+
+[node name="Aldra" type="Node3D" parent="forge_intro_torvald" unique_id=850845905 instance=ExtResource("6_ypa78")]
+transform = Transform3D(0.34202015, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, 0.34202015, -7.2, 0, 4.8)
+script = ExtResource("7_1k4fh")
+light_energy = 0.0
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_time = 0.6
+stride_speed = 4.4
+idle_period = 4.0
+kingdom_color = Color(0.45, 0.75, 0.95, 1)
+leg_swing_deg = 22.0
+walk_bounce = 0.03
+
+[node name="Malrik" type="Node3D" parent="forge_intro_torvald" unique_id=1316725517 instance=ExtResource("8_gd5ah")]
+transform = Transform3D(-0.57357645, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.57357645, 6.6, 1.2, 10.2)
+script = ExtResource("9_mrwob")
+light_energy = 1.0
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+death_style = &"sink"
+stride_time = 1.1
+stride_speed = 4.4
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Hstone" type="Node3D" parent="forge_intro_torvald" unique_id=811303761 instance=ExtResource("10_oi5cx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 2.25, 9.8)
+
+[node name="Galley" type="Node3D" parent="forge_intro_torvald" unique_id=1792573964 groups=["landmarks"] instance=ExtResource("11_ecfh2")]
+transform = Transform3D(0.81915206, 0, 0.57357645, 0, 1, 0, -0.57357645, 0, 0.81915206, 7, 0, 10.6)
+metadata/landmark_id = &"lm_barge"
+metadata/decor_clear_radius = 3.6
+metadata/foam_rocks = PackedVector3Array(0.09512484, 0.17592971, 0.95, 0.6658739, 1.231508, 0.95, 1.1652793, 2.155139, 0.62, -1.1177168, -2.067174, 0.62, -1.593341, -2.9468226, 0.2)
+
+[node name="Galley2" type="Node3D" parent="forge_intro_torvald" unique_id=1407111213 groups=["landmarks"] instance=ExtResource("11_ecfh2")]
+transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, -12, 0, 11)
+metadata/landmark_id = &"lm_barge"
+metadata/decor_clear_radius = 3.6
+metadata/foam_rocks = PackedVector3Array(0.09512484, 0.17592971, 0.95, 0.6658739, 1.231508, 0.95, 1.1652793, 2.155139, 0.62, -1.1177168, -2.067174, 0.62, -1.593341, -2.9468226, 0.2)
+
+[node name="Frostd" type="Node3D" parent="forge_intro_torvald" unique_id=543189064 instance=ExtResource("12_xw265")]
+transform = Transform3D(-0.9848077, 0, 0.1736483, 0, 1, 0, -0.1736483, 0, -0.9848077, -6, 0, 13.4)
+script = ExtResource("13_ovqli")
+body_height = 5.5
+flap_period = 1.3
+bank_max_deg = 32.0
+turn_rate_ref_deg = 110.0
+stride_speed = 5.0
+kingdom_color = Color(0.55, 0.8, 0.95, 1)
+
+[node name="Cinderd" type="Node3D" parent="forge_intro_torvald" unique_id=1154608022 instance=ExtResource("14_b43ip")]
+transform = Transform3D(-0.8660254, 0, -0.50000006, 0, 1, 0, 0.50000006, 0, -0.8660254, 17, 0, 12)
+script = ExtResource("15_rwcit")
+
+[node name="Ring" type="Node3D" parent="forge_intro_torvald" unique_id=973451229 instance=ExtResource("16_xdbb4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 2.2, 7.4)
+visible = false
+
+[node name="forge_intro_vessa" type="Node3D" parent="." unique_id=502829328 instance=ExtResource("17_fb52g")]
+process_mode = 4
+visible = false
+script = ExtResource("4_slji6")
+set_id = &"forge_intro_vessa"
+lighting = ExtResource("18_28bit")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/wildfire"), NodePath("Placed/runfire"), NodePath("Placed/sparks"), NodePath("Puppets/vessa"), NodePath("Puppets/vessa_young"), NodePath("Puppets/guard"), NodePath("Puppets/scorchbow"), NodePath("Puppets/adept"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_pillar"), NodePath("Puppets/fx_columns"), NodePath("Puppets/fx_embers"), NodePath("Puppets/fx_volley")])
+
+[node name="chair" type="Node3D" parent="forge_intro_vessa" unique_id=1056289572 instance=ExtResource("19_ofwix")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.5, 0, 7)
+
+[node name="Dacian" type="Node3D" parent="forge_intro_vessa" unique_id=1889544497 instance=ExtResource("20_hsxjr")]
+transform = Transform3D(-0.1736482, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, -0.1736482, -8.2, 0, 5.4)
+script = ExtResource("21_gltxi")
+body_height = 1.7
+attack_style = &"slash2"
+stride_time = 0.5
+stride_speed = 5.6
+idle_period = 2.8
+leg_swing_deg = 30.0
+walk_bounce = 0.035
+
+[node name="Seraphine" type="Node3D" parent="forge_intro_vessa" unique_id=961860967 instance=ExtResource("22_4u3fo")]
+transform = Transform3D(0.17364822, 0, 0.9848077, 0, 1, 0, -0.9848077, 0, 0.17364822, -8.2, 0, 8.6)
+script = ExtResource("23_vps74")
+body_height = 2.0
+attack_style = &"slam"
+stride_time = 0.62
+stride_speed = 4.3
+idle_period = 3.4
+leg_swing_deg = 24.0
+walk_bounce = 0.035
+
+[node name="Ossavar" type="Node3D" parent="." unique_id=978762932 instance=ExtResource("14_b43ip")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -12, 0, 7)
+visible = false
+script = ExtResource("15_rwcit")
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=637687955]
+script = ExtResource("24_1jlkf")
+preset = SubResource("Resource_qytq5")

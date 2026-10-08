@@ -1,0 +1,703 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_rhscp"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_bmm6t"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_gpeqx"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_sujqf"]
+
+[sub_resource type="Resource" id="Resource_kq2gh"]
+script = ExtResource("4_sujqf")
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(1, 0.9137255, 0.7529412, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_5tj48"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"colossus"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_5yli8"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"frostbow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_um546"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"messenger"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_8oejb"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"foe"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_dt2oe"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"army_line"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_th3ly"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"army_charge"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_mqkhl"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_icewall"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_asf7e"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_burst"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_pgwby"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_heart"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_i4l4i"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_snow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_jfvu8"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_cracks"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_ekoeh"]
+script = ExtResource("4_sujqf")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(-6.2, 0, 5.4)
+params = {
+"yaw_deg": 70.0
+}
+
+[sub_resource type="Resource" id="Resource_ojpwb"]
+script = ExtResource("4_sujqf")
+kind = &"vfx"
+target = Vector3(-3.8, 1.4, -1.6)
+params = {
+"life": 60.0,
+"scale": 0.25,
+"scene": "res://art/cinematics/fx/fire_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_242ij"]
+script = ExtResource("1_rhscp")
+at = 1.5
+speaker = &"ossavar"
+text = "Dawn came up on a sea that did not move. The second time in my long life."
+duration = 6.2
+voice = "res://assets/audio/voice/ossavar/dawn_came_up_on_5098e143.wav"
+
+[sub_resource type="Resource" id="Resource_w4aad"]
+script = ExtResource("3_gpeqx")
+id = &"N1"
+duration = 9.0
+camera_mode = 2
+from_pos = Vector3(22, 18, 30)
+to_pos = Vector3(14, 8, 22)
+look_from = Vector3(2, 0.6, 8)
+look_to = Vector3(3, 0.8, 8)
+fov_from = 50.0
+fov_to = 42.0
+transition_in = 2
+transition_time = 1.0
+lines = Array[ExtResource("1_rhscp")]([SubResource("Resource_242ij")])
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_kq2gh"), SubResource("Resource_5tj48"), SubResource("Resource_5yli8"), SubResource("Resource_um546"), SubResource("Resource_8oejb"), SubResource("Resource_dt2oe"), SubResource("Resource_th3ly"), SubResource("Resource_mqkhl"), SubResource("Resource_asf7e"), SubResource("Resource_pgwby"), SubResource("Resource_i4l4i"), SubResource("Resource_jfvu8"), SubResource("Resource_ekoeh"), SubResource("Resource_ojpwb")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_pdcxl"]
+script = ExtResource("4_sujqf")
+kind = &"move"
+actor = &"torvald"
+target = Vector3(3.6, 0, 8)
+params = {
+"speed": 1.5
+}
+
+[sub_resource type="Resource" id="Resource_56ph4"]
+script = ExtResource("4_sujqf")
+at = 0.3
+kind = &"move"
+actor = &"aldra"
+target = Vector3(2.4, 0, 7.2)
+params = {
+"speed": 1.5
+}
+
+[sub_resource type="Resource" id="Resource_16acg"]
+script = ExtResource("4_sujqf")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_sv0x8"]
+script = ExtResource("3_gpeqx")
+id = &"N2"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(-3.6, 1.4, 10.6)
+to_pos = Vector3(2, 1.4, 12.2)
+look_from = Vector3(-4.4, 1.2, 5.6)
+look_to = Vector3(3.2, 1.2, 8)
+fov_from = 42.0
+fov_to = 42.0
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_pdcxl"), SubResource("Resource_56ph4"), SubResource("Resource_16acg")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_ph7h0"]
+script = ExtResource("4_sujqf")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(3.6, 0, 8)
+params = {
+"yaw_deg": 50.0
+}
+
+[sub_resource type="Resource" id="Resource_rfrg8"]
+script = ExtResource("4_sujqf")
+kind = &"teleport"
+actor = &"aldra"
+target = Vector3(2.4, 0, 7.2)
+params = {
+"yaw_deg": 50.0
+}
+
+[sub_resource type="Resource" id="Resource_g03rt"]
+script = ExtResource("4_sujqf")
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_n5kkt"]
+script = ExtResource("1_rhscp")
+at = 2.0
+speaker = &"malrik"
+text = "So. No."
+duration = 1.8
+voice = "res://assets/audio/voice/malrik/so_no_234968de.wav"
+
+[sub_resource type="Resource" id="Resource_sabbe"]
+script = ExtResource("3_gpeqx")
+id = &"N3"
+duration = 6.0
+from_pos = Vector3(4.6, 0.5, 7.6)
+to_pos = Vector3(4.6, 0.5, 7.6)
+look_from = Vector3(6.6, 2.8, 10.2)
+look_to = Vector3(6.6, 2.8, 10.2)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_rhscp")]([SubResource("Resource_n5kkt")])
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_ph7h0"), SubResource("Resource_rfrg8"), SubResource("Resource_g03rt")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_onlf0"]
+script = ExtResource("4_sujqf")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "fierce",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_m3je2"]
+script = ExtResource("4_sujqf")
+at = 0.4
+kind = &"vfx"
+target = Vector3(3.9, 1.95, 8.3)
+params = {
+"life": 1.2,
+"scale": 0.05,
+"scene": "res://art/cinematics/fx/ice_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_h70dl"]
+script = ExtResource("1_rhscp")
+at = 1.0
+speaker = &"torvald"
+text = "No. Not for now. Not ever."
+duration = 3.0
+voice = "res://assets/audio/voice/torvald/no_not_for_now_4c3fcdfa.wav"
+
+[sub_resource type="Resource" id="Resource_vvgub"]
+script = ExtResource("3_gpeqx")
+id = &"N4"
+duration = 6.0
+from_pos = Vector3(5.8, 1.3, 9)
+to_pos = Vector3(5.8, 1.3, 9)
+look_from = Vector3(3.6, 2, 8)
+look_to = Vector3(3.6, 2, 8)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_rhscp")]([SubResource("Resource_h70dl")])
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_onlf0"), SubResource("Resource_m3je2")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_br0o1"]
+script = ExtResource("4_sujqf")
+at = 0.2
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_bnr5l"]
+script = ExtResource("4_sujqf")
+at = 4.4
+kind = &"move"
+actor = &"malrik"
+target = Vector3(7.6, 1.2, 11.6)
+params = {
+"speed": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_yvq8r"]
+script = ExtResource("4_sujqf")
+at = 5.4
+kind = &"vfx"
+target = Vector3(7.6, 2, 11.6)
+params = {
+"life": 2.2,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ajf40"]
+script = ExtResource("4_sujqf")
+at = 5.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/spell_umbral_shroud.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_b0a4u"]
+script = ExtResource("4_sujqf")
+at = 6.0
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_kmkms"]
+script = ExtResource("4_sujqf")
+at = 6.0
+kind = &"visible"
+actor = &"hstone"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_vt2xy"]
+script = ExtResource("1_rhscp")
+at = 0.8
+speaker = &"malrik"
+text = "We will see who waits longer, Torvald."
+duration = 3.2
+voice = "res://assets/audio/voice/malrik/we_will_see_who_bd411967.wav"
+
+[sub_resource type="Resource" id="Resource_1fwca"]
+script = ExtResource("3_gpeqx")
+id = &"N5"
+duration = 8.0
+from_pos = Vector3(5, 2.4, 8.2)
+to_pos = Vector3(5, 2.4, 8.2)
+look_from = Vector3(6.6, 3.098, 10.2)
+look_to = Vector3(6.6, 3.098, 10.2)
+look_actor = &"malrik"
+look_offset = Vector3(0, 1.898, 0)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_rhscp")]([SubResource("Resource_vt2xy")])
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_br0o1"), SubResource("Resource_bnr5l"), SubResource("Resource_yvq8r"), SubResource("Resource_ajf40"), SubResource("Resource_b0a4u"), SubResource("Resource_kmkms")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_ly7w0"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"vessa"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_kokx7"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"vessa_young"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_uilvt"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"guard"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_xoyfq"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"scorchbow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_aodep"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"adept"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_6qdkf"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"army_host"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_mjgdx"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"army_fallen"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_iyste"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_pillar"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ql6uv"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_columns"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_m7qli"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_embers"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ye8ka"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"fx_volley"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_jrenn"]
+script = ExtResource("4_sujqf")
+at = 2.0
+kind = &"anim"
+actor = &"dacian"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_4pwig"]
+script = ExtResource("4_sujqf")
+at = 4.4
+kind = &"anim"
+actor = &"seraphine"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_ldqnd"]
+script = ExtResource("3_gpeqx")
+id = &"N6"
+duration = 7.0
+from_pos = Vector3(2.4, 2, 7)
+to_pos = Vector3(2.4, 2, 7)
+look_from = Vector3(-8.8, 1.3, 7)
+look_to = Vector3(-8.8, 1.3, 7)
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 3
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_ly7w0"), SubResource("Resource_kokx7"), SubResource("Resource_uilvt"), SubResource("Resource_xoyfq"), SubResource("Resource_aodep"), SubResource("Resource_6qdkf"), SubResource("Resource_mjgdx"), SubResource("Resource_iyste"), SubResource("Resource_ql6uv"), SubResource("Resource_m7qli"), SubResource("Resource_ye8ka"), SubResource("Resource_jrenn"), SubResource("Resource_4pwig")])
+stage_set = &"forge_intro_vessa"
+
+[sub_resource type="Resource" id="Resource_onq21"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_cctir"]
+script = ExtResource("4_sujqf")
+at = 2.4
+kind = &"vfx"
+target = Vector3(-10.6, 4.6, 7)
+params = {
+"life": 0.6,
+"scale": 0.08,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_btcjv"]
+script = ExtResource("3_gpeqx")
+id = &"N7"
+duration = 6.0
+from_pos = Vector3(-2, 2.4, 11)
+to_pos = Vector3(-2, 2.4, 11)
+look_from = Vector3(-11, 3.4, 7)
+look_to = Vector3(-11, 3.4, 7)
+fov_from = 46.0
+fov_to = 46.0
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_onq21"), SubResource("Resource_cctir")])
+stage_set = &"forge_intro_vessa"
+
+[sub_resource type="Resource" id="Resource_140qt"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ioamw"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"ring"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_kp8sq"]
+script = ExtResource("4_sujqf")
+at = 0.2
+kind = &"move"
+actor = &"ring"
+target = Vector3(4.6, 0.02, 7.4)
+params = {
+"speed": 5.0
+}
+
+[sub_resource type="Resource" id="Resource_826h0"]
+script = ExtResource("4_sujqf")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/knife_ring.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_xoyo8"]
+script = ExtResource("4_sujqf")
+at = 4.0
+kind = &"anim"
+actor = &"torvald"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_daak5"]
+script = ExtResource("1_rhscp")
+at = 1.5
+speaker = &"ossavar"
+text = "The one price I ever gave back."
+duration = 3.0
+voice = "res://assets/audio/voice/ossavar/the_one_price_i_8d3f2e80.wav"
+
+[sub_resource type="Resource" id="Resource_pkim7"]
+script = ExtResource("3_gpeqx")
+id = &"N8"
+duration = 6.0
+from_pos = Vector3(6, 0.8, 6.4)
+to_pos = Vector3(6, 0.8, 6.4)
+look_from = Vector3(4.4, 0.3, 7.6)
+look_to = Vector3(4.4, 0.3, 7.6)
+fov_from = 36.0
+fov_to = 36.0
+transition_in = 3
+transition_time = 0.4
+lines = Array[ExtResource("1_rhscp")]([SubResource("Resource_daak5")])
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_140qt"), SubResource("Resource_ioamw"), SubResource("Resource_kp8sq"), SubResource("Resource_826h0"), SubResource("Resource_xoyo8")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_w2d5p"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_gep5b"]
+script = ExtResource("4_sujqf")
+kind = &"teleport"
+actor = &"ossavar"
+target = Vector3(26, 14, 24)
+params = {
+"yaw_deg": -140.0
+}
+
+[sub_resource type="Resource" id="Resource_6y82i"]
+script = ExtResource("4_sujqf")
+at = 0.2
+kind = &"move"
+actor = &"ossavar"
+target = Vector3(-14, 30, -40)
+params = {
+"speed": 12.0
+}
+
+[sub_resource type="Resource" id="Resource_t8ygc"]
+script = ExtResource("4_sujqf")
+at = 1.6
+kind = &"fade"
+params = {
+"alpha": 0.25,
+"color": Color(0, 0, 0, 1),
+"time": 0.4
+}
+
+[sub_resource type="Resource" id="Resource_bow0p"]
+script = ExtResource("4_sujqf")
+at = 2.4
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(1, 0.9137255, 0.7529412, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_dx7y2"]
+script = ExtResource("1_rhscp")
+at = 1.0
+speaker = &"ossavar"
+text = "Gold for fire, they say. He paid in neither."
+duration = 4.4
+voice = "res://assets/audio/voice/ossavar/gold_for_fire_they_6be55af0.wav"
+
+[sub_resource type="Resource" id="Resource_e3bpc"]
+script = ExtResource("3_gpeqx")
+id = &"N9"
+duration = 8.0
+from_pos = Vector3(9, 2.2, 17)
+to_pos = Vector3(9, 2.2, 17)
+look_from = Vector3(2, 5, 2)
+look_to = Vector3(2, 5, 2)
+fov_from = 54.0
+fov_to = 54.0
+lines = Array[ExtResource("1_rhscp")]([SubResource("Resource_dx7y2")])
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_w2d5p"), SubResource("Resource_gep5b"), SubResource("Resource_6y82i"), SubResource("Resource_t8ygc"), SubResource("Resource_bow0p")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_vls4a"]
+script = ExtResource("4_sujqf")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_u6sgv"]
+script = ExtResource("4_sujqf")
+at = 1.0
+kind = &"title"
+params = {
+"sub": "Gold for Fire · End",
+"text": "Episode 7",
+"time": 4.5
+}
+
+[sub_resource type="Resource" id="Resource_jbhvr"]
+script = ExtResource("4_sujqf")
+at = 6.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_erv1p"]
+script = ExtResource("3_gpeqx")
+id = &"N10"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(12, 14, 30)
+to_pos = Vector3(18, 40, 50)
+look_from = Vector3(3, 0, 8)
+look_to = Vector3(3, 0, 8)
+fov_from = 46.0
+fov_to = 54.0
+actions = Array[ExtResource("4_sujqf")]([SubResource("Resource_vls4a"), SubResource("Resource_u6sgv"), SubResource("Resource_jbhvr")])
+stage_set = &"forge_intro_torvald"
+
+[resource]
+script = ExtResource("2_bmm6t")
+id = &"ep7_ending"
+title = "Episode 7: Gold for Fire"
+stage_scene = "res://scenes/cinematics/ep7_ending.tscn"
+shots = Array[ExtResource("3_gpeqx")]([SubResource("Resource_w4aad"), SubResource("Resource_sv0x8"), SubResource("Resource_sabbe"), SubResource("Resource_vvgub"), SubResource("Resource_1fwca"), SubResource("Resource_ldqnd"), SubResource("Resource_btcjv"), SubResource("Resource_pkim7"), SubResource("Resource_e3bpc"), SubResource("Resource_erv1p")])
+music_cue = &"res://assets/audio/music/music_menu.wav"
+shake_seed = 706
+music_volume_db = -20.0
+voice_over = Array[StringName]([&"narrator", &"ossavar", &"ring"])
+lines_over_cuts = true

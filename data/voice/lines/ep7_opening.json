@@ -1,0 +1,313 @@
+{
+    "cine_id": "ep7_opening",
+    "source": "data/cinematics/src/ep7_opening.cine (script: docs/design/episode7-opening.md 3-4, written as `ep5_opening`, Episode 5; renamed ep7_opening, Episode 7)",
+    "note": "Converted 2026-10-08 from episode7-opening.md section 3 (34 lines with JS's 2026-09-28 H17b line); H19's three lines are ep5_ending N2's (same text, same WAVs).",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "D02",
+            "at": 0.3,
+            "dur": 4.4,
+            "speaker": "herald",
+            "subtitle": "By the Truce of the Stilled Sea: first blood, and no further!",
+            "text": "By the Truce of the Stilled Sea: first blood, and no further!"
+        },
+        {
+            "id": "L2",
+            "shot": "D03",
+            "at": 0.2,
+            "dur": 3.4,
+            "speaker": "herald",
+            "subtitle": "For Aurivane, the Sunblade: Dacian Orrow!",
+            "text": "For Aurivane, the Sunblade: Dacian Orrow!"
+        },
+        {
+            "id": "L3",
+            "shot": "D04",
+            "at": 0.2,
+            "dur": 3.6,
+            "speaker": "herald",
+            "subtitle": "For Adamarch, the Diamond Wall: Seraphine Vael!",
+            "text": "For Adamarch, the Diamond Wall: Seraphine Vael!"
+        },
+        {
+            "id": "L4",
+            "shot": "D05",
+            "at": 1.8,
+            "dur": 2.6,
+            "speaker": "dacian",
+            "subtitle": "Nine years I trained for this sand.",
+            "text": "Nine years I trained for this sand."
+        },
+        {
+            "id": "L5",
+            "shot": "D05",
+            "at": 4.6,
+            "dur": 1.4,
+            "speaker": "seraphine",
+            "subtitle": "Then don't waste it.",
+            "text": "Then don't waste it."
+        },
+        {
+            "id": "L6",
+            "shot": "D10",
+            "at": 1.0,
+            "dur": 1.8,
+            "speaker": "dacian",
+            "subtitle": "Yield, Diamond Wall.",
+            "text": "Yield, Diamond Wall."
+        },
+        {
+            "id": "L7",
+            "shot": "D10",
+            "at": 3.2,
+            "dur": 1.6,
+            "speaker": "seraphine",
+            "subtitle": "Walls don't yield.",
+            "text": "Walls don't yield."
+        },
+        {
+            "id": "L8",
+            "shot": "D13",
+            "at": 1.5,
+            "dur": 2.0,
+            "speaker": "herald",
+            "subtitle": "First blood! Adamarch!",
+            "text": "First blood! Adamarch!"
+        },
+        {
+            "id": "L9",
+            "shot": "D14",
+            "at": 1.6,
+            "dur": 1.4,
+            "speaker": "dacian",
+            "subtitle": "Well struck.",
+            "text": "Well struck."
+        },
+        {
+            "id": "L10",
+            "shot": "H01",
+            "at": 0.3,
+            "dur": 4.4,
+            "speaker": "ossavar",
+            "subtitle": "They say he kept the peace for a thousand years. Not here.",
+            "text": "They say he kept the peace for a thousand years. Not here."
+        },
+        {
+            "id": "L11",
+            "shot": "H02",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "Two cities on one strait. Aurivane, of gold. Adamarch, of diamond.",
+            "text": "Two cities on one strait. Aurivane, of gold. Adamarch, of diamond."
+        },
+        {
+            "id": "L12",
+            "shot": "H04",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "Only the rich may live inside their walls. Only the strong may stay.",
+            "text": "Only the rich may live inside their walls. Only the strong may stay."
+        },
+        {
+            "id": "L13",
+            "shot": "H05",
+            "at": 0.3,
+            "dur": 4.2,
+            "speaker": "ossavar",
+            "subtitle": "Between them, one rock. Who holds it taxes every ship on the sea.",
+            "text": "Between them, one rock. Who holds it taxes every ship on the sea."
+        },
+        {
+            "id": "L14",
+            "shot": "H06",
+            "at": 0.3,
+            "dur": 4.2,
+            "speaker": "ossavar",
+            "subtitle": "They fought over it for a thousand years. For gold, and for glory.",
+            "text": "They fought over it for a thousand years. For gold, and for glory."
+        },
+        {
+            "id": "L15",
+            "shot": "H07",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "He tried everything. He sent them gold, so they would want nothing.",
+            "text": "He tried everything. He sent them gold, so they would want nothing."
+        },
+        {
+            "id": "L16",
+            "shot": "H08",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "They bought more ships. So much gold sank, they named the strait the Coinwater.",
+            "text": "They bought more ships. So much gold sank, they named the strait the Coinwater."
+        },
+        {
+            "id": "L17",
+            "shot": "H09",
+            "at": 0.3,
+            "dur": 4.6,
+            "speaker": "ossavar",
+            "subtitle": "He took us dragons away. They paid us more to come back.",
+            "text": "He took us dragons away. They paid us more to come back."
+        },
+        {
+            "id": "L18",
+            "shot": "H10",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "I burned Adamarch for Aurivane, then Aurivane for Adamarch. Twice each.",
+            "text": "I burned Adamarch for Aurivane, then Aurivane for Adamarch. Twice each."
+        },
+        {
+            "id": "L19",
+            "shot": "H11",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "The harder he held them, the more they slipped. So at last, he came himself.",
+            "text": "The harder he held them, the more they slipped. So at last, he came himself."
+        },
+        {
+            "id": "L20",
+            "shot": "H12",
+            "at": 0.3,
+            "dur": 4.6,
+            "speaker": "ossavar",
+            "subtitle": "He had never stepped into a war in the open. Not once in a thousand years.",
+            "text": "He had never stepped into a war in the open. Not once in a thousand years."
+        },
+        {
+            "id": "L21",
+            "shot": "H13",
+            "at": 0.3,
+            "dur": 3.4,
+            "speaker": "ossavar",
+            "subtitle": "He walked out, and the sea went still.",
+            "text": "He walked out, and the sea went still."
+        },
+        {
+            "id": "L22",
+            "shot": "H14",
+            "at": 0.6,
+            "dur": 1.6,
+            "speaker": "master",
+            "subtitle": "Enough.",
+            "text": "Enough."
+        },
+        {
+            "id": "L23",
+            "shot": "H15",
+            "at": 0.3,
+            "dur": 4.6,
+            "speaker": "ossavar",
+            "subtitle": "Every blade stopped. Every dragon came to his hand. Even mine.",
+            "text": "Every blade stopped. Every dragon came to his hand. Even mine."
+        },
+        {
+            "id": "L24",
+            "shot": "H16",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "He gave them one duel a year instead of a war. First blood, and no further.",
+            "text": "He gave them one duel a year instead of a war. First blood, and no further."
+        },
+        {
+            "id": "L25",
+            "shot": "H17",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "They bowed to him. Then they bet their cities on the duels. They saw only gold.",
+            "text": "They bowed to him. Then they bet their cities on the duels. They saw only gold."
+        },
+        {
+            "id": "L26",
+            "shot": "H17B",
+            "at": 3.0,
+            "dur": 3.0,
+            "speaker": "ossavar",
+            "subtitle": "He left in anger, and never sat there again.",
+            "text": "He left in anger, and never sat there again."
+        },
+        {
+            "id": "L27",
+            "shot": "H18",
+            "at": 0.3,
+            "dur": 5.4,
+            "speaker": "ossavar",
+            "subtitle": "So he stopped holding the world alone, and raised four apprentices to keep it.",
+            "text": "So he stopped holding the world alone, and raised four apprentices to keep it."
+        },
+        {
+            "id": "L28",
+            "shot": "H19",
+            "at": 0.3,
+            "dur": 5.2,
+            "speaker": "master",
+            "subtitle": "Vessa. Malrik. The two harbour cities are yours now. Keep them in peace.",
+            "text": "Vessa. Malrik. The two harbour cities are yours now. Keep them in peace."
+        },
+        {
+            "id": "L29",
+            "shot": "H19",
+            "at": 5.8,
+            "dur": 2.2,
+            "speaker": "vessa",
+            "subtitle": "Of course, Master! No problem at all!",
+            "text": "Of course, Master! No problem at all!"
+        },
+        {
+            "id": "L30",
+            "shot": "H19",
+            "at": 8.1,
+            "dur": 1.3,
+            "speaker": "malrik",
+            "subtitle": "None whatsoever.",
+            "text": "None whatsoever."
+        },
+        {
+            "id": "L31",
+            "shot": "H20",
+            "at": 0.6,
+            "dur": 3.0,
+            "speaker": "ossavar",
+            "subtitle": "They heard gold, and soldiers, for free.",
+            "text": "They heard gold, and soldiers, for free."
+        },
+        {
+            "id": "L32",
+            "shot": "P01",
+            "at": 0.3,
+            "dur": 3.0,
+            "speaker": "ossavar",
+            "subtitle": "Now his chair is empty. And I am home.",
+            "text": "Now his chair is empty. And I am home."
+        },
+        {
+            "id": "L33",
+            "shot": "P02",
+            "at": 0.3,
+            "dur": 4.4,
+            "speaker": "ossavar",
+            "subtitle": "So the old price stands. Whoever pays the most, I burn for.",
+            "text": "So the old price stands. Whoever pays the most, I burn for."
+        },
+        {
+            "id": "L34",
+            "shot": "P04",
+            "at": 1.0,
+            "dur": 2.4,
+            "speaker": "ossavar",
+            "subtitle": "And look who has come to bid.",
+            "text": "And look who has come to bid."
+        }
+    ]
+}

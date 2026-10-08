@@ -1,0 +1,177 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_t00rb"]
+[ext_resource type="Resource" path="res://data/cinematics/c_e7_pits.tres" id="2_spp4d"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/forge_citadel.tscn" id="3_7i5rg"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_vxysh"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_dawn.tres" id="5_s7ewk"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep3_between/war_map.tscn" id="6_2rthe"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep7_between/diamond_heap.tscn" id="7_ux5io"]
+[ext_resource type="PackedScene" path="res://art/units/champions/mage_archer/mage_archer.tscn" id="8_0b44r"]
+[ext_resource type="Script" path="res://art/units/champions/mage_archer/mage_archer.gd" id="9_sanvs"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/malrik.tscn" id="10_ddbiv"]
+[ext_resource type="Script" path="res://art/units/wizards/malrik.gd" id="11_1qm1m"]
+[ext_resource type="PackedScene" path="res://art/units/champions/oathwall/oathwall.tscn" id="12_5pucl"]
+[ext_resource type="Script" path="res://art/units/champions/oathwall/oathwall.gd" id="13_8ahbk"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep.tscn" id="14_mr6ss"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep_lighting.tres" id="15_g2baq"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/torvald.tscn" id="16_wqfju"]
+[ext_resource type="Script" path="res://art/units/wizards/torvald.gd" id="17_wilfg"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_aldra/helper_aldra.tscn" id="18_o5kkx"]
+[ext_resource type="Script" path="res://art/units/helpers/helper_aldra/aldra.gd" id="19_1f8kg"]
+[ext_resource type="PackedScene" path="res://art/units/titans/cinder_dragon/cinder_dragon.tscn" id="20_lvagw"]
+[ext_resource type="Script" path="res://art/units/titans/cinder_dragon/cinder_dragon.gd" id="21_b6576"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="22_64pqw"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_preset.gd" id="23_51n5b"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ivryt"]
+sky_top_color = Color(0.05, 0.07, 0.16, 1)
+sky_horizon_color = Color(0.28, 0.2, 0.3, 1)
+ground_bottom_color = Color(0.03, 0.03, 0.04, 1)
+ground_horizon_color = Color(0.16800001, 0.120000005, 0.18, 1)
+sun_angle_max = 8.0
+
+[sub_resource type="Sky" id="Sky_cpbqx"]
+sky_material = SubResource("ProceduralSkyMaterial_ivryt")
+
+[sub_resource type="Environment" id="Environment_mni7j"]
+background_mode = 2
+sky = SubResource("Sky_cpbqx")
+ambient_light_source = 3
+ambient_light_energy = 0.55
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+fog_enabled = true
+fog_light_color = Color(0.196, 0.14, 0.21000001, 1)
+fog_density = 0.008
+
+[sub_resource type="Resource" id="Resource_vvpuy"]
+script = ExtResource("23_51n5b")
+environment = SubResource("Environment_mni7j")
+sun_color = Color(0.62, 0.7, 1, 1)
+sun_energy = 0.6
+sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
+vignette_strength = 0.0
+
+[node name="CE7PitsStage" type="Node3D" unique_id=1011302606]
+script = ExtResource("1_t00rb")
+autoplay_script = ExtResource("2_spp4d")
+actor_paths = {
+"aldra": NodePath("forge_watch_keep/Aldra"),
+"diamond_archon": NodePath("forge_citadel/DiamondArchon"),
+"fguard1": NodePath("forge_citadel/Fguard1"),
+"fguard2": NodePath("forge_citadel/Fguard2"),
+"guard_e": NodePath("forge_watch_keep/Puppets/guard_e"),
+"guard_w": NodePath("forge_watch_keep/Puppets/guard_w"),
+"malrik": NodePath("forge_citadel/Malrik"),
+"master": NodePath("forge_citadel/Puppets/master"),
+"ossavar": NodePath("forge_watch_keep/Ossavar"),
+"swordsman": NodePath("forge_citadel/Puppets/swordsman"),
+"torvald": NodePath("forge_watch_keep/Torvald"),
+"vessa": NodePath("forge_watch_keep/Puppets/vessa")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_citadel" type="Node3D" parent="." unique_id=988514218 instance=ExtResource("3_7i5rg")]
+script = ExtResource("4_vxysh")
+set_id = &"forge_citadel"
+lighting = ExtResource("5_s7ewk")
+lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
+
+[node name="table" type="Node3D" parent="forge_citadel" unique_id=193878397 instance=ExtResource("6_2rthe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 48, 0.8)
+
+[node name="diamonds" type="Node3D" parent="forge_citadel" unique_id=93224239 instance=ExtResource("7_ux5io")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9, 48.85, 0.75)
+
+[node name="DiamondArchon" type="Node3D" parent="forge_citadel" unique_id=436010426 instance=ExtResource("8_0b44r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 48, -0.2)
+script = ExtResource("9_sanvs")
+body_height = 1.95
+attack_style = &"arcane_bow"
+attack_windup = 0.15
+death_style = &"sink"
+stride_time = 0.56
+stride_speed = 5.2
+idle_period = 3.4
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+leg_swing_deg = 26.0
+walk_bounce = 0.035
+
+[node name="Malrik" type="Node3D" parent="forge_citadel" unique_id=532809794 instance=ExtResource("10_ddbiv")]
+transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -10.6, 48, 1.6)
+script = ExtResource("11_1qm1m")
+light_energy = 1.0
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+death_style = &"sink"
+stride_time = 1.1
+stride_speed = 4.4
+kingdom_color = Color(0.42, 0.22, 0.6, 1)
+
+[node name="Fguard1" type="Node3D" parent="forge_citadel" unique_id=842482834 instance=ExtResource("12_5pucl")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -15.6, 48, 0.4)
+script = ExtResource("13_8ahbk")
+body_height = 2.0
+attack_style = &"slam"
+stride_time = 0.62
+stride_speed = 4.3
+idle_period = 3.4
+leg_swing_deg = 24.0
+walk_bounce = 0.035
+
+[node name="Fguard2" type="Node3D" parent="forge_citadel" unique_id=1761921372 instance=ExtResource("12_5pucl")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -9, 48, -2.4)
+script = ExtResource("13_8ahbk")
+body_height = 2.0
+attack_style = &"slam"
+stride_time = 0.62
+stride_speed = 4.3
+idle_period = 3.4
+leg_swing_deg = 24.0
+walk_bounce = 0.035
+
+[node name="forge_watch_keep" type="Node3D" parent="." unique_id=1812207239 instance=ExtResource("14_mr6ss")]
+process_mode = 4
+visible = false
+script = ExtResource("4_vxysh")
+set_id = &"forge_watch_keep"
+lighting = ExtResource("15_g2baq")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/vessa"), NodePath("Puppets/guard_w"), NodePath("Puppets/guard_e")])
+
+[node name="Torvald" type="Node3D" parent="forge_watch_keep" unique_id=886893570 instance=ExtResource("16_wqfju")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 5, 4.5, 2)
+script = ExtResource("17_wilfg")
+body_height = 2.1
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_time = 0.62
+stride_speed = 4.2
+idle_period = 4.2
+kingdom_color = Color(0.45, 0.75, 0.95, 1)
+leg_swing_deg = 24.0
+walk_bounce = 0.05
+
+[node name="Aldra" type="Node3D" parent="forge_watch_keep" unique_id=1236591616 instance=ExtResource("18_o5kkx")]
+transform = Transform3D(-0.9848077, 0, -0.17364822, 0, 1, 0, 0.17364822, 0, -0.9848077, 6.3, 4.5, 2)
+script = ExtResource("19_1f8kg")
+light_energy = 0.0
+body_height = 2.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_time = 0.6
+stride_speed = 4.4
+idle_period = 4.0
+kingdom_color = Color(0.45, 0.75, 0.95, 1)
+leg_swing_deg = 22.0
+walk_bounce = 0.03
+
+[node name="Ossavar" type="Node3D" parent="forge_watch_keep" unique_id=1577994641 instance=ExtResource("20_lvagw")]
+transform = Transform3D(-0.8660254, 0, 0.50000006, 0, 1, 0, -0.50000006, 0, -0.8660254, 1.4, 4.5, 2.4)
+script = ExtResource("21_b6576")
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=1007630257]
+script = ExtResource("22_64pqw")
+preset = SubResource("Resource_vvpuy")

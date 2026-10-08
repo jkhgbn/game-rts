@@ -1,0 +1,106 @@
+# Between-scene "Mourning", ~70 s (docs/design/script-episodes-4-8/e7m2.md, shot list M1-M10; beats from
+# docs/design/mission-e7-02.md Cinematic hooks `c_e7_mask`). The night after the broken Laurel: Malrik's galley at the
+# Admiralty Quay, every lamp lit; Torvald throws the white mask on his chart ("She left this on the sand." / "Wars need a
+# first blow. I only provided one."); the heart-stone pulses over the Tollrock; after a long silence: "For now, I sail
+# with you." / "For now. Always your favourite words."; Aldra hears it on the quay; a winged shadow crosses the moon.
+# Text source for i18n / voices: data/voice/lines/c_e7_mask.json (the same text as the lines below).
+# e7m2 / e7m3 are not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play c_e7_mask).
+# Sets (stand-ins; forge_adamarch and the e7o galley are not built): forge_evenmead's river at night = the round war
+# harbour, a landmark barge = Malrik's galley (its lamps = small fire fx); forge_intro_malrik = the stern cabin (the c_e3
+# camp table as the chart table, art/cinematics/props/ep7_between/white_mask.tscn, the heart-stone). Ossavar = the
+# cinder dragon titan crossing the moon (no camera follows it: the model bobs in real time).
+# Axis: Malrik (north of the chart) - Torvald (south, standing) on x = -1; every cabin camera stays east (x > -1).
+cine c_e7_mask  title="Mourning"  letterbox=2.39  seed=703  length=67..73
+use set forge_intro_malrik
+use music res://assets/audio/music/music_menu.wav  vol=-24
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=ossavar
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(-1.0, 0, 6.4)  yaw=180  set=forge_intro_malrik  hidden=1
+prop  table     res://art/cinematics/props/ep3_between/war_map.tscn  at=(-1.0, 0, 4.0)  yaw=0  set=forge_intro_malrik
+cast  candle    res://art/cinematics/stage_sets/forge_citadel/parts/candle.tscn  at=(-0.45, 0.84, 3.75)  set=forge_intro_malrik
+cast  mask      res://art/cinematics/props/ep7_between/white_mask.tscn  at=(-1.0, 0.88, 4.7)  set=forge_intro_malrik  hidden=1
+cast  hstone    res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn  at=(-0.85, 0.95, 3.95)  set=forge_intro_malrik  hidden=1
+cast  aldra     res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(16.6, 0.0, 6.2)  yaw=50  set=forge_evenmead
+cast  galley    res://art/environment/landmarks/barge.tscn  at=(14.0, -1.2, 2.0)  yaw=90  set=forge_evenmead
+cast  ossavar   res://art/units/titans/cinder_dragon/cinder_dragon.tscn  at=(70, 46, -70)  yaw=-90  set=forge_evenmead  hidden=1
+
+# ---------------------------------------------------------------- the war harbour at night
+# Wide, slow push: Malrik's galley at the quay, every lamp on it lit
+shot M1 8.0  set=forge_evenmead  cam=dolly  from=(40, 6, 12)  to=(34, 5, 9)  look=(14, 0, 1)  fov=44  in=fade_black:1.0
+  at 0.0  fade color=#0b0c26  alpha=0.5  time=0.05
+  at 0.0  hide evenmead_malrik
+  at 0.0  hide evenmead_torvald
+  at 0.0  hide hush
+  at 0.0  hide ysolde
+  at 0.0  hide vessa
+  at 0.0  hide vey
+  at 0.0  hide stone
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  vfx lamp1  scene=res://art/cinematics/fx/fire_burst.tscn  at=(12.6, 0.4, 2.0)  life=10  scale=0.12
+  at 0.0  vfx lamp2  scene=res://art/cinematics/fx/fire_burst.tscn  at=(14.0, 0.6, 2.0)  life=10  scale=0.12
+  at 0.0  vfx lamp3  scene=res://art/cinematics/fx/fire_burst.tscn  at=(15.4, 0.4, 2.0)  life=10  scale=0.12
+  at 1.5  line ossavar "The Admiralty, that night. Malrik was in mourning. He had lit every lamp."  dur=5.8
+
+# ---------------------------------------------------------------- the stern cabin
+# MS, static: Malrik at the chart table pouring wine; the door opens, Torvald's shadow falls across the chart
+shot M2 6.0  cam=static  from=(1.6, 1.6, 5.9)  look=(-1.0, 1.3, 4.0)  fov=40  in=fade_black:0.5  faces=malrik
+  at 0.0  fade color=#0b0c26  alpha=0.3  time=0.05
+  at 0.0  hide malrik_young
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  teleport malrik  to=(-1.0, 0, 3.1)  yaw=0
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 1.8  show torvald
+  at 2.5  line malrik "Torvald. Come in. I was just mourning."  dur=3.0
+# CU on the table: a white mask lands on the chart and slides across the strait to stop against Malrik's cup
+shot M3 6.0  cam=static  from=(-0.2, 1.45, 4.8)  look=(-1.0, 0.87, 4.2)  fov=28
+  at 0.6  show mask
+  at 0.6  move mask  to=(-1.0, 0.88, 3.85)  speed=0.8
+  at 2.0  line torvald "She left this on the sand."  dur=2.6
+# CU Malrik, 3/4: he looks at the mask, then up; no denial, a thin smile
+shot M4 7.0  cam=static  from=(0.1, 1.85, 4.5)  look=malrik  fov=30
+  at 0.8  anim malrik set_expression  arg=smile
+  at 1.5  line malrik "Wars need a first blow. I only provided one."  dur=3.8
+# MS Torvald, 3/4, standing: he does not sit; frost creeps on the window behind him
+shot M5 6.0  cam=static  from=(0.5, 1.85, 4.9)  look=torvald  fov=34
+  at 0.0  anim torvald set_expression  arg=worried
+  at 1.0  line torvald "You broke a truce older than both of us."  dur=3.4
+  at 2.0  vfx frost  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-1.8, 1.6, 7.4)  life=3.6  scale=0.3
+# OTS Torvald on Malrik: Malrik stands; the heart-stone pulses amber on the chart over the Tollrock
+shot M6 9.0  cam=static  from=(-0.4, 2.1, 7.4)  look=(-1.0, 1.55, 3.2)  fov=36  faces=malrik
+  at 0.0  show hstone
+  at 1.0  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-0.85, 0.95, 3.95)  life=6.0  scale=0.4
+  at 1.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-14
+  at 1.5  line malrik "Truces are what weak men sign to sleep. You signed one with me, Torvald."  dur=5.6
+# CU Torvald, long hold: a long silence, the amber light on his face; then he answers
+shot M7 8.0  cam=static  from=(0.3, 1.9, 4.6)  look=torvald  fov=32
+  at 4.5  line torvald "For now, I sail with you."  dur=2.6
+# MS Malrik: he sits again and lifts his cup to him
+shot M8 5.0  cam=static  from=(0.9, 1.6, 4.5)  look=malrik  fov=36
+  at 0.4  anim malrik play_cast
+  at 0.8  line malrik "For now. Always your favourite words."  dur=3.0
+
+# ---------------------------------------------------------------- the quay
+# Ext, MS on the quay by the gangplank: Aldra waits in the cold; she hears the answer and closes her eyes
+shot M9 8.0  set=forge_evenmead  cam=static  from=(19.4, 1.5, 8.8)  look=aldra  fov=34  in=blend:0.4
+  at 0.0  fade color=#0b0c26  alpha=0.5  time=0.05
+  at 0.0  hide hstone
+  at 0.0  hide mask
+  at 0.0  hide torvald
+  at 0.0  vfx lamp4  scene=res://art/cinematics/fx/fire_burst.tscn  at=(14.0, 0.6, 2.0)  life=8  scale=0.12
+  at 1.5  line ossavar "He knew the truth, and he waited anyway. He always did."  dur=4.6
+# Wide, the moon over the harbour: a winged shadow crosses it: Ossavar
+shot M10 7.0  set=forge_evenmead  cam=static  from=(0, 3, 22)  look=(0, 34, -80)  fov=50
+  at 0.0  show ossavar
+  at 0.0  move ossavar  to=(-70, 50, -70)  speed=24
+  at 0.0  vfx moon  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(-8, 60, -110)  life=7  scale=0.6
+  at 5.8  fade alpha=1  time=1.2

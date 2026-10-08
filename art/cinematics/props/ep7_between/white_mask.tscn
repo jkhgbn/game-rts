@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3]
+
+; c_e7_mask: the white mask the Laurel's masked knife left on the sand (e7m2), thrown on Malrik's chart. A flattened
+; white half-shell with two dark eye slits. Origin = the mask's centre, face up (lying on a table). 0 lights.
+
+[sub_resource type="SphereMesh" id="Sphere_mask"]
+radius = 0.09
+height = 0.09
+is_hemisphere = true
+
+[sub_resource type="StandardMaterial3D" id="Mat_white"]
+albedo_color = Color(0.95, 0.94, 0.92, 1)
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="Box_slit"]
+size = Vector3(0.035, 0.004, 0.01)
+
+[node name="white_mask" type="Node3D"]
+
+[node name="Shell" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.35, 0, 0, 0, 1.25, 0, 0, 0)
+mesh = SubResource("Sphere_mask")
+surface_material_override/0 = SubResource("Mat_white")
+
+[node name="SlitL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.03, -0.02)
+mesh = SubResource("Box_slit")
+
+[node name="SlitR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, 0.03, -0.02)
+mesh = SubResource("Box_slit")

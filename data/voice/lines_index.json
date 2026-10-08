@@ -28,6 +28,14 @@
   "data/cinematics/src/c_e3_doubt.cine: 7 lines",
   "data/cinematics/src/c_e3_knife.cine: 9 lines",
   "data/cinematics/src/c_e3_price.cine: 7 lines",
+  "data/cinematics/src/c_e4_frontier.cine: 11 lines",
+  "data/cinematics/src/c_e4_refuge.cine: 13 lines",
+  "data/cinematics/src/c_e4_turnback.cine: 12 lines",
+  "data/cinematics/src/c_e5_turn.cine: 2 lines",
+  "data/cinematics/src/c_e6_gate.cine: 2 lines",
+  "data/cinematics/src/c_e6_gate_shut.cine: 2 lines",
+  "data/cinematics/src/c_e6_lake.cine: 7 lines",
+  "data/cinematics/src/c_e6_seed.cine: 5 lines",
   "data/cinematics/src/e2m1_arrival.cine: 3 lines",
   "data/cinematics/src/e2m1_frostwarden.cine: 2 lines",
   "data/cinematics/src/e2m1_ysolde.cine: 2 lines",
@@ -65,7 +73,12 @@
   "data/cinematics/src/ep2_opening.cine: 28 lines",
   "data/cinematics/src/ep3_ending.cine: 5 lines",
   "data/cinematics/src/ep3_opening.cine: 15 lines",
+  "data/cinematics/src/ep4_ending.cine: 7 lines",
   "data/cinematics/src/ep4_opening.cine: 15 lines",
+  "data/cinematics/src/ep5_ending.cine: 8 lines",
+  "data/cinematics/src/ep5_opening.cine: 30 lines",
+  "data/cinematics/src/ep6_ending.cine: 4 lines",
+  "data/cinematics/src/ep6_opening.cine: 28 lines",
   "data/cinematics/src/m1_crown.cine: 2 lines",
   "data/cinematics/src/m1_seal.cine: 2 lines",
   "data/cinematics/src/m1_watchers.cine: 2 lines",
@@ -134,6 +147,7 @@
   "data/voice/lines/ep6_ending.json: 4 lines",
   "data/voice/lines/ep6_opening.json: 28 lines",
   "data/voice/lines/ep7_ending.json: 6 lines",
+  "data/voice/lines/ep7_opening.json: 34 lines",
   "data/voice/lines/ep8_bookend.json: 7 lines",
   "data/voice/lines/ep8_dark_fire.json: 3 lines",
   "data/voice/lines/ep8_dark_ice.json: 3 lines",
@@ -153,7 +167,7 @@
   "data/voice/lines/prologue_3min.json: 30 lines",
   "data/voice/lines/unit_barks.json: 176 lines"
  ],
- "count": 1702,
+ "count": 1733,
  "lines": [
   {
    "id": "aldra/aldra_my_name_is_36103aad",
@@ -177,6 +191,14 @@
    "text": "And a girl with a fire took it in an afternoon.",
    "text_hash": "18b6e45812d0e11a",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:43",
+     "ref": "c_e6_lake/K3@0.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -555,6 +577,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:59",
+     "ref": "c_e4_frontier/F4@0.6",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L5",
      "slot": 4.6,
@@ -795,6 +825,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:48",
+     "ref": "c_e6_lake/K4@5.2",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
      "ref": "c_e6_lake/L6",
      "slot": 1.4,
@@ -873,6 +911,14 @@
    "text": "The ice has stopped singing.",
    "text_hash": "ec574b5051d4dfac",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:35",
+     "ref": "c_e6_lake/K1@3",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -1283,6 +1329,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:52",
+     "ref": "c_e4_frontier/F3@0.4",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L3",
      "slot": 2.2,
@@ -1377,6 +1431,14 @@
    "text": "You could stop waiting.",
    "text_hash": "9b4a003e66f0ea76",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:182",
+     "ref": "ep6_opening/T10@0.2",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -1481,6 +1543,14 @@
    "text": "Your captains are asking why we pulled back.",
    "text_hash": "0ae06fd35e08858b",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:47",
+     "ref": "c_e4_frontier/F2@0.8",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -1665,6 +1735,14 @@
    "text": "From the queen, my lady. She said you'd know what it is.",
    "text_hash": "9fb0c812db492100",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:62",
+     "ref": "c_e4_turnback/T5@0.5",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ashby"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -2612,6 +2690,22 @@
    ]
   },
   {
+   "id": "dacian/nine_years_i_trained_8e29618d",
+   "speaker": "dacian",
+   "text": "Nine years I trained for this sand.",
+   "text_hash": "8e29618d217cc5c1",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L4",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "dacian"
+    }
+   ]
+  },
+  {
    "id": "dacian/no_crowd_worth_the_0c4f381a",
    "speaker": "dacian",
    "text": "No crowd worth the name today, Diamond Wall. Just us, and a great deal of money.",
@@ -2676,6 +2770,22 @@
    ]
   },
   {
+   "id": "dacian/well_struck_6c140dbe",
+   "speaker": "dacian",
+   "text": "Well struck.",
+   "text_hash": "6c140dbeb5a6eaec",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L9",
+     "slot": 1.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "dacian"
+    }
+   ]
+  },
+  {
    "id": "dacian/well_struck_twice_now_ef7e72f1",
    "speaker": "dacian",
    "text": "Well struck. Twice now an Adamarch guest has cut me. I am starting to take it personally.",
@@ -2686,6 +2796,22 @@
      "source": "data/voice/lines/e7m2.json",
      "ref": "e7m2/L18a",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "dacian"
+    }
+   ]
+  },
+  {
+   "id": "dacian/yield_diamond_wall_89303ff6",
+   "speaker": "dacian",
+   "text": "Yield, Diamond Wall.",
+   "text_hash": "89303ff67abfc2db",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L6",
+     "slot": 1.8,
      "slot_kind": "cine slot",
      "speaker_id": "dacian"
     }
@@ -3020,6 +3146,22 @@
    ]
   },
   {
+   "id": "herald/by_the_truce_of_34aa3dd9",
+   "speaker": "herald",
+   "text": "By the Truce of the Stilled Sea: first blood, and no further!",
+   "text_hash": "34aa3dd96f1781e4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L1",
+     "slot": 4.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
+  {
    "id": "herald/dont_hurt_me_i_625d6baa",
    "speaker": "herald",
    "text": "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!",
@@ -3030,6 +3172,54 @@
      "source": "data/voice/lines/e7m2.json",
      "ref": "e7m2/L13",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
+  {
+   "id": "herald/first_blood_adamarch_118d0024",
+   "speaker": "herald",
+   "text": "First blood! Adamarch!",
+   "text_hash": "118d0024fb166be9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L8",
+     "slot": 2.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
+  {
+   "id": "herald/for_adamarch_the_diamond_fcf7ab1d",
+   "speaker": "herald",
+   "text": "For Adamarch, the Diamond Wall: Seraphine Vael!",
+   "text_hash": "fcf7ab1d4786c01a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L3",
+     "slot": 3.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
+  {
+   "id": "herald/for_aurivane_the_sunblade_b14e35f6",
+   "speaker": "herald",
+   "text": "For Aurivane, the Sunblade: Dacian Orrow!",
+   "text_hash": "b14e35f64bb86aec",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L2",
+     "slot": 3.4,
      "slot_kind": "cine slot",
      "speaker_id": "herald"
     }
@@ -3859,6 +4049,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:98",
+     "ref": "c_e4_turnback/T9@1",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L11",
      "slot": 2.2,
@@ -4099,6 +4297,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:73",
+     "ref": "c_e4_refuge/R6@3.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L9",
      "slot": 3.6,
@@ -4113,6 +4319,14 @@
    "text": "Nobody saw the knife. Nobody ever does.",
    "text_hash": "e6c199b769e1b321",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:66",
+     "ref": "c_e4_refuge/R5@4.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -4195,6 +4409,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:48",
+     "ref": "c_e4_turnback/T3@3.8",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L5",
      "slot": 3.6,
@@ -4265,6 +4487,14 @@
    "text": "That branch won't come back, you know.",
    "text_hash": "be479804d03cd1dc",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:43",
+     "ref": "c_e6_seed/D3@0.5",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
@@ -4395,6 +4625,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:47",
+     "ref": "c_e4_turnback/T3@0.4",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L4",
      "slot": 3.0,
@@ -4425,6 +4663,14 @@
    "text": "The wagons are burning. All of them, on the south road.",
    "text_hash": "4f36d98985e92bfb",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:65",
+     "ref": "c_e4_refuge/R5@0.6",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -4473,6 +4719,14 @@
    "text": "They didn't freeze it to hold it. They froze it so it would stay dead.",
    "text_hash": "0d9cc04b9f40c070",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:54",
+     "ref": "c_e4_turnback/T4@0.4",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -4635,6 +4889,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:257",
+     "ref": "ep6_opening/Y07@0.5",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L27",
      "slot": 3.4,
@@ -4649,6 +4911,14 @@
    "text": "You never told the village you were right.",
    "text_hash": "e44ddcb3b5a62671",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:37",
+     "ref": "c_e6_seed/D2@0.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
@@ -5347,6 +5617,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e5_turn.cine:47",
+     "ref": "c_e5_turn/U3@1",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e5_turn.json",
      "ref": "c_e5_turn/C2",
      "slot": 5.6,
@@ -5635,6 +5913,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:291",
+     "ref": "ep5_opening/MD2@0.6",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L31",
      "slot": 4.2,
@@ -5689,6 +5975,14 @@
    "text": "Hello, Tobin Marsh. Nobody visits you either.",
    "text_hash": "73d5b0d77ea40168",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:241",
+     "ref": "ep5_opening/MA2@1",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -5801,6 +6095,14 @@
    "text": "I came out at dawn. Bored. The shadows came out with me.",
    "text_hash": "d54a28021f5cedca",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:263",
+     "ref": "ep5_opening/MB2@1.5",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -6129,6 +6431,14 @@
    "text": "In the citadel there was always enough. I took more anyway.",
    "text_hash": "51cd46ffb3acd7c3",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:268",
+     "ref": "ep5_opening/MC1@0.8",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -6555,6 +6865,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:237",
+     "ref": "ep5_opening/S18@0.6",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L22",
      "slot": 5.8,
@@ -6585,6 +6903,14 @@
    "text": "Naturally.",
    "text_hash": "b3a7eaee09e982ba",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:42",
+     "ref": "ep5_ending/N3@3",
+     "slot": 1.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
@@ -6619,8 +6945,24 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:35",
+     "ref": "ep5_ending/N2@8.1",
+     "slot": 1.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L3",
+     "slot": 1.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L30",
      "slot": 1.3,
      "slot_kind": "cine slot",
      "speaker_id": "malrik"
@@ -7099,6 +7441,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:228",
+     "ref": "ep5_opening/S21@0.5",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L21",
      "slot": 3.6,
@@ -7513,6 +7863,14 @@
    "text": "The town boys dared me into the crypt for a night. They waited outside.",
    "text_hash": "4d6496d1d96c7c8b",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:252",
+     "ref": "ep5_opening/MB1@0.5",
+     "slot": 4.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -8131,6 +8489,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:275",
+     "ref": "ep5_opening/MC2@2.8",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L28",
      "slot": 1.4,
@@ -8435,6 +8801,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:205",
+     "ref": "ep5_opening/VD1@1.6",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L19",
      "slot": 2.2,
@@ -8489,6 +8863,14 @@
    "text": "All winter? For men who were not coming?",
    "text_hash": "247ba47b1ae7faf3",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:125",
+     "ref": "ep6_opening/T04@0.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -8772,6 +9154,22 @@
    ]
   },
   {
+   "id": "master/enough_6ce03196",
+   "speaker": "master",
+   "text": "Enough.",
+   "text_hash": "6ce03196bb6d71e6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L22",
+     "slot": 1.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  {
    "id": "master/five_banners_the_first_3b662c48",
    "speaker": "master",
    "text": "Five banners. The first to hold three while the bell counts thirty wins. Nobody gets hurt.",
@@ -8809,6 +9207,14 @@
    "text": "Four heirs. One empty throne.",
    "text_hash": "8bd4c10b54f8192f",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:109",
+     "ref": "ep5_opening/S12@0",
+     "slot": 2.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:139",
@@ -8881,6 +9287,14 @@
    "text": "He raised four apprentices, and gave each of them a kingdom.",
    "text_hash": "1eed795cce0d2e70",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:48",
+     "ref": "ep5_opening/S06@0.3",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:65",
@@ -9019,6 +9433,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:50",
+     "ref": "ep5_ending/N4@3.4",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L7",
      "slot": 2.2,
@@ -9075,6 +9497,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:286",
+     "ref": "ep5_opening/MD1@4.4",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L30",
      "slot": 2.4,
@@ -9089,6 +9519,14 @@
    "text": "I know this tale well, child. I was that wizard.",
    "text_hash": "705bd7cd5f116992",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:76",
+     "ref": "ep6_opening/S13@0.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:145",
@@ -9145,6 +9583,14 @@
    "text": "I loved all four of them. And still, they went to war.",
    "text_hash": "d534ea6313897cbb",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:118",
+     "ref": "ep5_opening/S30@0.3",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:388",
@@ -9273,6 +9719,14 @@
    "text": "Kings brought him their quarrels, and went home as friends.",
    "text_hash": "38ebe69c86e2987a",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:34",
+     "ref": "ep6_opening/S05@0.2",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:61",
@@ -9627,6 +10081,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:122",
+     "ref": "ep5_opening/S13@0.6",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L7",
      "slot": 6.0,
@@ -9641,6 +10103,14 @@
    "text": "Once upon a time, the strongest wizard who ever lived ruled the world.",
    "text_hash": "8b62d3e86f77cb52",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:41",
+     "ref": "ep5_opening/S01@1.2",
+     "slot": 5.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:49",
@@ -9739,6 +10209,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:222",
+     "ref": "ep6_opening/Y03@4.2",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L22",
      "slot": 2.0,
@@ -9769,6 +10247,14 @@
    "text": "Smaller, next time. And not the barn.",
    "text_hash": "4b89dcdce971ba08",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:161",
+     "ref": "ep5_opening/VA2@0.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -9923,6 +10409,30 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:52",
+     "ref": "ep5_opening/S07@0.3",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:43",
+     "ref": "ep6_ending/X4@1.4",
+     "slot": 4.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:38",
+     "ref": "ep6_opening/S07@0.2",
+     "slot": 4.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:69",
      "ref": "prologue_3min/S07@0.3",
      "slot": 4.6,
@@ -9971,6 +10481,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:130",
+     "ref": "ep6_opening/T05@0.4",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L11",
      "slot": 4.4,
@@ -10003,6 +10521,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:39",
+     "ref": "ep6_ending/X3@0.8",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_ending.json",
      "ref": "ep6_ending/L2",
      "slot": 5.8,
@@ -10017,6 +10543,14 @@
    "text": "They called him only the Master. For a thousand years, he kept the peace.",
    "text_hash": "31069c93a08e49eb",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:44",
+     "ref": "ep5_opening/S02@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:52",
@@ -10123,6 +10657,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:57",
+     "ref": "ep6_opening/S22@0.2",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:271",
      "ref": "prologue_3min/S22@0.3",
      "slot": 6.6,
@@ -10171,8 +10713,24 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:32",
+     "ref": "ep5_ending/N2@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L1",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L28",
      "slot": 5.2,
      "slot_kind": "cine slot",
      "speaker_id": "master"
@@ -10329,6 +10887,14 @@
    "text": "Ysolde. I found her coaxing a sapling through the frost.",
    "text_hash": "85d2e563e1b4c4e4",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:69",
+     "ref": "ep6_opening/S26@0.2",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:341",
@@ -11299,6 +11865,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:36",
+     "ref": "c_e4_turnback/T1@1.2",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L1",
      "slot": 4.8,
@@ -11627,6 +12201,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:116",
+     "ref": "ep4_ending/W8@1",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
      "ref": "ep4_ending/L7",
      "slot": 5.6,
@@ -11755,6 +12337,22 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate.cine:45",
+     "ref": "c_e6_gate/G4@2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate_shut.cine:43",
+     "ref": "c_e6_gate_shut/G4@2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_gate.json",
      "ref": "c_e6_gate/L2",
      "slot": 3.8,
@@ -11881,6 +12479,14 @@
    "text": "Night under the golden tree. Every family made it up the hill, and nobody can sleep.",
    "text_hash": "a47c1e434040c6e9",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:39",
+     "ref": "c_e4_refuge/R1@1.5",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -12145,6 +12751,14 @@
    "text": "The blizzard closed the passes, and the war sat down to wait.",
    "text_hash": "14609da137679f7a",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:37",
+     "ref": "ep4_ending/W1@1",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -12449,6 +13063,14 @@
    "text": "The same winter, far to the east, the other apprentice remembered too.",
    "text_hash": "1d3b6b435bda1849",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e5_turn.cine:37",
+     "ref": "c_e5_turn/U1@1.5",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e5_turn.json",
@@ -12803,6 +13425,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:59",
+     "ref": "ep5_ending/N5@0.5",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L8",
      "slot": 5.8,
@@ -12905,6 +13535,14 @@
    "text": "Two of the four knew where he had gone. For twelve years, they told no one.",
    "text_hash": "18dba4f1ca869e1b",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:59",
+     "ref": "ep6_ending/X6@0.6",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_ending.json",
@@ -13036,6 +13674,22 @@
    ]
   },
   {
+   "id": "ossavar/and_look_who_has_1da0d2f6",
+   "speaker": "ossavar",
+   "text": "And look who has come to bid.",
+   "text_hash": "1da0d2f6ca55a19a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L34",
+     "slot": 2.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
    "id": "ossavar/and_now_the_old_0f23a619",
    "speaker": "ossavar",
    "text": "And now the old price. Me. Whoever pays the most, I burn for.",
@@ -13068,6 +13722,22 @@
    ]
   },
   {
+   "id": "ossavar/between_them_one_rock_101a7382",
+   "speaker": "ossavar",
+   "text": "Between them, one rock. Who holds it taxes every ship on the sea.",
+   "text_hash": "101a7382e91794ff",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L13",
+     "slot": 4.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
    "id": "ossavar/dawn_came_up_on_5098e143",
    "speaker": "ossavar",
    "text": "Dawn came up on a sea that did not move. The second time in my long life.",
@@ -13094,6 +13764,22 @@
      "source": "data/voice/lines/e7m1.json",
      "ref": "e7m1/L24",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/every_blade_stopped_every_c353d387",
+   "speaker": "ossavar",
+   "text": "Every blade stopped. Every dragon came to his hand. Even mine.",
+   "text_hash": "c353d387c4d77ad2",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L23",
+     "slot": 4.6,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -13164,6 +13850,38 @@
    ]
   },
   {
+   "id": "ossavar/he_gave_them_one_53f3dca8",
+   "speaker": "ossavar",
+   "text": "He gave them one duel a year instead of a war. First blood, and no further.",
+   "text_hash": "53f3dca82c7a2b98",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L24",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/he_had_never_stepped_d8d994f0",
+   "speaker": "ossavar",
+   "text": "He had never stepped into a war in the open. Not once in a thousand years.",
+   "text_hash": "d8d994f000a0c29b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L20",
+     "slot": 4.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
    "id": "ossavar/he_knew_the_truth_90b7dafd",
    "speaker": "ossavar",
    "text": "He knew the truth, and he waited anyway. He always did.",
@@ -13180,6 +13898,70 @@
    ]
   },
   {
+   "id": "ossavar/he_left_in_anger_632fca44",
+   "speaker": "ossavar",
+   "text": "He left in anger, and never sat there again.",
+   "text_hash": "632fca443c373401",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L26",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/he_took_us_dragons_9d63804b",
+   "speaker": "ossavar",
+   "text": "He took us dragons away. They paid us more to come back.",
+   "text_hash": "9d63804b04d89e5b",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L17",
+     "slot": 4.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/he_tried_everything_he_868613cf",
+   "speaker": "ossavar",
+   "text": "He tried everything. He sent them gold, so they would want nothing.",
+   "text_hash": "868613cfb8b5ecc8",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L15",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/he_walked_out_and_d17acfbd",
+   "speaker": "ossavar",
+   "text": "He walked out, and the sea went still.",
+   "text_hash": "d17acfbd76eb8d2d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L21",
+     "slot": 3.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
    "id": "ossavar/he_walked_out_once_1d815ac0",
    "speaker": "ossavar",
    "text": "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light.",
@@ -13190,6 +13972,22 @@
      "source": "data/voice/lines/e7m4.json",
      "ref": "e7m4/L34",
      "slot": 6.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/i_burned_adamarch_for_a90b3a41",
+   "speaker": "ossavar",
+   "text": "I burned Adamarch for Aurivane, then Aurivane for Adamarch. Twice each.",
+   "text_hash": "a90b3a4165507e34",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L18",
+     "slot": 5.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -13244,6 +14042,22 @@
    ]
   },
   {
+   "id": "ossavar/now_his_chair_is_9b221126",
+   "speaker": "ossavar",
+   "text": "Now his chair is empty. And I am home.",
+   "text_hash": "9b221126930c761d",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L32",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
    "id": "ossavar/one_small_sale_before_2a2e9ab8",
    "speaker": "ossavar",
    "text": "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?",
@@ -13260,6 +14074,22 @@
    ]
   },
   {
+   "id": "ossavar/only_the_rich_may_9c3b5477",
+   "speaker": "ossavar",
+   "text": "Only the rich may live inside their walls. Only the strong may stay.",
+   "text_hash": "9c3b547735b3cc52",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L12",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
    "id": "ossavar/paid_to_go_home_dfe21282",
    "speaker": "ossavar",
    "text": "Paid to go home. The one price he never tried.",
@@ -13270,6 +14100,38 @@
      "source": "data/voice/lines/e7m4.json",
      "ref": "e7m4/L29",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/so_he_stopped_holding_9d277aec",
+   "speaker": "ossavar",
+   "text": "So he stopped holding the world alone, and raised four apprentices to keep it.",
+   "text_hash": "9d277aec4547b906",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L27",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/so_the_old_price_11218e95",
+   "speaker": "ossavar",
+   "text": "So the old price stands. Whoever pays the most, I burn for.",
+   "text_hash": "11218e95d2c2cfd3",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L33",
+     "slot": 4.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -13334,6 +14196,22 @@
      "source": "data/voice/lines/c_e7_pits.json",
      "ref": "c_e7_pits/L1",
      "slot": 6.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/the_harder_he_held_cc3c5029",
+   "speaker": "ossavar",
+   "text": "The harder he held them, the more they slipped. So at last, he came himself.",
+   "text_hash": "cc3c5029b7a064a9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L19",
+     "slot": 5.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -13436,6 +14314,86 @@
    ]
   },
   {
+   "id": "ossavar/they_bought_more_ships_6f547e6a",
+   "speaker": "ossavar",
+   "text": "They bought more ships. So much gold sank, they named the strait the Coinwater.",
+   "text_hash": "6f547e6a063a0578",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L16",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/they_bowed_to_him_00eb3dfb",
+   "speaker": "ossavar",
+   "text": "They bowed to him. Then they bet their cities on the duels. They saw only gold.",
+   "text_hash": "00eb3dfb51f32d62",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L25",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/they_fought_over_it_1f99aba5",
+   "speaker": "ossavar",
+   "text": "They fought over it for a thousand years. For gold, and for glory.",
+   "text_hash": "1f99aba5e4faf91a",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L14",
+     "slot": 4.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/they_heard_gold_and_ee23c349",
+   "speaker": "ossavar",
+   "text": "They heard gold, and soldiers, for free.",
+   "text_hash": "ee23c349312687ae",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L31",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/they_say_he_kept_d85ab7cd",
+   "speaker": "ossavar",
+   "text": "They say he kept the peace for a thousand years. Not here.",
+   "text_hash": "d85ab7cdf757db5f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L10",
+     "slot": 4.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
    "id": "ossavar/tomorrow_ask_the_herald_3f19b1e0",
    "speaker": "ossavar",
    "text": "Tomorrow, ask the herald where the knives came from.",
@@ -13478,6 +14436,22 @@
      "source": "data/voice/lines/e7m1.json",
      "ref": "e7m1/L29",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  {
+   "id": "ossavar/two_cities_on_one_657baab3",
+   "speaker": "ossavar",
+   "text": "Two cities on one strait. Aurivane, of gold. Adamarch, of diamond.",
+   "text_hash": "657baab33e925202",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L11",
+     "slot": 5.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -14204,6 +15178,22 @@
    ]
   },
   {
+   "id": "seraphine/then_dont_waste_it_4ad28a90",
+   "speaker": "seraphine",
+   "text": "Then don't waste it.",
+   "text_hash": "4ad28a90c3f4c33f",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L5",
+     "slot": 1.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "seraphine"
+    }
+   ]
+  },
+  {
    "id": "seraphine/then_let_us_disappoint_56e81f95",
    "speaker": "seraphine",
    "text": "Then let us disappoint the money.",
@@ -14262,6 +15252,22 @@
      "source": "data/voice/lines/e7m1.json",
      "ref": "e7m1/L18",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "seraphine"
+    }
+   ]
+  },
+  {
+   "id": "seraphine/walls_dont_yield_470a6e8c",
+   "speaker": "seraphine",
+   "text": "Walls don't yield.",
+   "text_hash": "470a6e8c0d88096e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L7",
+     "slot": 1.6,
      "slot_kind": "cine slot",
      "speaker_id": "seraphine"
     }
@@ -14513,6 +15519,14 @@
    "text": "A hundred winters I kept it for him.",
    "text_hash": "4a3e577877de397c",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:40",
+     "ref": "c_e6_lake/K2@4.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -15003,6 +16017,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:179",
+     "ref": "ep6_opening/T09@0.4",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L16",
      "slot": 5.4,
@@ -15017,6 +16039,14 @@
    "text": "He gave me the north. One winter, he gave me a block of ice with a light inside it.",
    "text_hash": "dc9f7ad1306ed4a2",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:142",
+     "ref": "ep6_opening/T06@0.5",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -15083,6 +16113,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:166",
+     "ref": "ep6_opening/T08@0.3",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L14",
      "slot": 2.0,
@@ -15097,6 +16135,14 @@
    "text": "Hearthwick still sends me bread every midwinter. Burnt, usually.",
    "text_hash": "3803ac9897a1db6b",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate.cine:38",
+     "ref": "c_e6_gate/G2@1",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_gate.json",
@@ -15393,6 +16439,14 @@
    "text": "I was a boy on a mountain pass, keeping a beacon for soldiers who had gone down the road.",
    "text_hash": "4ecd5cb2e0fa3198",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:105",
+     "ref": "ep6_opening/T02@0.4",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -15715,6 +16769,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:55",
+     "ref": "c_e4_frontier/F3B@0.5",
+     "slot": 1.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L4",
      "slot": 1.2,
@@ -15761,6 +16823,14 @@
    "text": "No. It is the one thing I am good at.",
    "text_hash": "90d0f9b44243448f",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:183",
+     "ref": "ep6_opening/T10@2.2",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -15955,6 +17025,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:168",
+     "ref": "ep6_opening/T08@2.7",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L15",
      "slot": 4.6,
@@ -16097,6 +17175,14 @@
    "text": "She did. I have worse things to remember.",
    "text_hash": "df573c4d256f3b6f",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:47",
+     "ref": "c_e6_lake/K4@0.6",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -16267,6 +17353,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate_shut.cine:36",
+     "ref": "c_e6_gate_shut/G2@1",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_gate.json",
      "ref": "c_e6_gate/L1_shut",
      "slot": 3.0,
@@ -16307,6 +17401,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:126",
+     "ref": "ep6_opening/T04@4.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L10",
      "slot": 3.2,
@@ -16321,6 +17423,14 @@
    "text": "Something came for it every winter, for a hundred winters. Nothing got past me.",
    "text_hash": "73563eb8eb5ba480",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:154",
+     "ref": "ep6_opening/T07@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -16401,6 +17511,14 @@
    "text": "Tell them I was looking at a weed.",
    "text_hash": "ca02574af14a7f79",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:48",
+     "ref": "c_e4_frontier/F2@5",
+     "slot": 2.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -16505,6 +17623,14 @@
    "text": "The gate.",
    "text_hash": "a85be2ae7126a661",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:52",
+     "ref": "c_e6_lake/K5@1",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -16715,6 +17841,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:61",
+     "ref": "c_e4_frontier/F4@5.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L6",
      "slot": 3.0,
@@ -16763,6 +17897,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:39",
+     "ref": "c_e6_lake/K2@0.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
      "ref": "c_e6_lake/L2",
      "slot": 3.4,
@@ -16793,6 +17935,14 @@
    "text": "They never came back. I kept it lit all winter anyway.",
    "text_hash": "4934d88d7e548ede",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:117",
+     "ref": "ep6_opening/T03@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -17409,6 +18559,14 @@
    "text": "Ysolde once asked me what I remember of being young. I told her: snow.",
    "text_hash": "c8578b3dc71c7683",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:96",
+     "ref": "ep6_opening/T01@1.6",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -20359,6 +21517,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:51",
+     "ref": "ep4_ending/W4@0.4",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
      "ref": "ep4_ending/L4",
      "slot": 1.4,
@@ -20565,6 +21731,14 @@
    "text": "But that wasn't the start. The start was a barn.",
    "text_hash": "ef0467ad557a2814",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:139",
+     "ref": "ep5_opening/V2@5.2",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -20781,6 +21955,14 @@
    "text": "Everyone always said wait. Nobody ever told me what for.",
    "text_hash": "c3d7643c8fae9b87",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:193",
+     "ref": "ep5_opening/S16@2.4",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -21087,6 +22269,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:208",
+     "ref": "ep5_opening/VD2@0.5",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L20",
      "slot": 3.8,
@@ -21143,6 +22333,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:48",
+     "ref": "c_e4_refuge/R3@0.5",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L2",
      "slot": 3.4,
@@ -21189,6 +22387,14 @@
    "text": "He's raising the Wall of a Hundred Winters. Every pass on his frontier.",
    "text_hash": "fc7554c8ed33a21a",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:79",
+     "ref": "c_e4_frontier/F6@0.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -21535,6 +22741,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:185",
+     "ref": "ep5_opening/S15@1",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L15",
      "slot": 3.2,
@@ -21583,6 +22797,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:71",
+     "ref": "c_e4_turnback/T7@0.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L9",
      "slot": 3.0,
@@ -21599,6 +22821,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:155",
+     "ref": "ep5_opening/VA1@0.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L10",
      "slot": 3.0,
@@ -21613,6 +22843,14 @@
    "text": "I'll bring the fire. You bring the patience.",
    "text_hash": "8122e724b82160df",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:91",
+     "ref": "c_e4_frontier/F8@0.4",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -21725,6 +22963,14 @@
    "text": "I'm taking the gold one!",
    "text_hash": "847adf91626ac402",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:40",
+     "ref": "ep5_ending/N3@0.5",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
@@ -21869,6 +23115,14 @@
    "text": "Malrik! Where's my bread?",
    "text_hash": "bb12f3c47ae835e7",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:274",
+     "ref": "ep5_opening/MC2@0.5",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -22431,8 +23685,24 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:34",
+     "ref": "ep5_ending/N2@5.8",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L2",
+     "slot": 2.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L29",
      "slot": 2.2,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
@@ -22895,6 +24165,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:87",
+     "ref": "c_e4_frontier/F7@6.2",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L9",
      "slot": 4.0,
@@ -23271,6 +24549,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:197",
+     "ref": "ep5_opening/VC2@0.6",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L18",
      "slot": 5.8,
@@ -23445,6 +24731,14 @@
    "text": "Then I'll tell Ashby to leave the gate open.",
    "text_hash": "dae061f73ea1c702",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:93",
+     "ref": "c_e4_refuge/R9@0.6",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -23791,6 +25085,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:86",
+     "ref": "c_e4_refuge/R8@0.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L11",
      "slot": 3.4,
@@ -24127,6 +25429,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:172",
+     "ref": "ep5_opening/VB1@2.2",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L14",
      "slot": 4.4,
@@ -24189,6 +25499,14 @@
    "text": "Vey's. He cut it off his own sword the day I lit five beacons.",
    "text_hash": "9357606cda4b1885",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:138",
+     "ref": "ep5_opening/V2@0.5",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -24447,6 +25765,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:53",
+     "ref": "c_e4_refuge/R4@0.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L4",
      "slot": 3.2,
@@ -24461,6 +25787,14 @@
    "text": "You'll keep it?",
    "text_hash": "b0346f1fff60b7b2",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:45",
+     "ref": "ep4_ending/W3@0.6",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -24589,6 +25923,14 @@
    "text": "Again.",
    "text_hash": "92b200bed73f878d",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:169",
+     "ref": "ep5_opening/VB1@0.6",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -25061,6 +26403,14 @@
    "text": "He's not afraid of it. Most grown men are.",
    "text_hash": "523ee18b2877517b",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:283",
+     "ref": "ep5_opening/MD1@1",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -26319,6 +27669,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:192",
+     "ref": "ep5_opening/S16@0.5",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L16",
      "slot": 1.4,
@@ -26437,6 +27795,14 @@
    "text": "You heard her. No problem at all.",
    "text_hash": "441b26d4e34f4a40",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:49",
+     "ref": "ep5_ending/N4@0.4",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
@@ -26685,6 +28051,14 @@
    "text": "Four keys, Bishop. Count them in your sleep.",
    "text_hash": "53c24547db0b042d",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:75",
+     "ref": "ep4_ending/W5@1.6",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -27663,6 +29037,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:34",
+     "ref": "ep6_ending/X2@1",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_ending.json",
      "ref": "ep6_ending/L1",
      "slot": 4.0,
@@ -27799,6 +29181,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:207",
+     "ref": "ep6_opening/Y02@0.4",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L20",
      "slot": 6.4,
@@ -27837,6 +29227,14 @@
    "text": "Back home.",
    "text_hash": "c3091ff670f5a795",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:99",
+     "ref": "c_e4_turnback/T9@3.6",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -27983,6 +29381,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:219",
+     "ref": "ep6_opening/Y03@0.4",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L21",
      "slot": 3.0,
@@ -28087,6 +29493,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:57",
+     "ref": "c_e4_refuge/R4B@0.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L5",
      "slot": 1.8,
@@ -28127,6 +29541,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:46",
+     "ref": "c_e6_seed/D3@4.4",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
      "ref": "c_e6_seed/L4",
      "slot": 2.2,
@@ -28159,6 +29581,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:249",
+     "ref": "ep6_opening/Y06@0.5",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L26",
      "slot": 5.6,
@@ -28175,6 +29605,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:230",
+     "ref": "ep6_opening/S27@0.4",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L23",
      "slot": 6.0,
@@ -28189,6 +29627,14 @@
    "text": "He said I would not take a side, not even while the world burned.",
    "text_hash": "59f7425d3ceca7c9",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:240",
+     "ref": "ep6_opening/S28@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -28231,6 +29677,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:50",
+     "ref": "c_e4_refuge/R3@4.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L3",
      "slot": 1.8,
@@ -28245,6 +29699,14 @@
    "text": "He was right. For far too long.",
    "text_hash": "c69219bc67a51a7a",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:242",
+     "ref": "ep6_opening/S28@5.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -28295,6 +29757,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:41",
+     "ref": "c_e4_turnback/T2@5.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L3",
      "slot": 3.4,
@@ -28325,6 +29795,14 @@
    "text": "I didn't need to. It came up green.",
    "text_hash": "feabfd2b90882b74",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:38",
+     "ref": "c_e6_seed/D2@4.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
@@ -28399,6 +29877,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:258",
+     "ref": "ep6_opening/Y07@4.6",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L28",
      "slot": 3.6,
@@ -28453,6 +29939,14 @@
    "text": "I'll bring a tree.",
    "text_hash": "dda255a7684750cb",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:95",
+     "ref": "c_e4_frontier/F9@0.5",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -28975,6 +30469,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:72",
+     "ref": "c_e4_refuge/R6@0.4",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L8",
      "slot": 2.6,
@@ -29479,6 +30981,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:87",
+     "ref": "c_e4_refuge/R8@4.2",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L12",
      "slot": 2.4,
@@ -29493,6 +31003,14 @@
    "text": "So do I.",
    "text_hash": "99ae4ecdfe43cafe",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:76",
+     "ref": "c_e4_turnback/T8@0.6",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -29943,6 +31461,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:55",
+     "ref": "c_e4_turnback/T4@5.2",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L7",
      "slot": 2.6,
@@ -30007,6 +31533,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:81",
+     "ref": "c_e4_refuge/R7@0.8",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L10",
      "slot": 4.2,
@@ -30061,6 +31595,14 @@
    "text": "Then we'll see what grows.",
    "text_hash": "c5432121087aac2f",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:54",
+     "ref": "ep4_ending/W4B@0.4",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -30511,6 +32053,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:51",
+     "ref": "c_e6_seed/D4@1",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
      "ref": "c_e6_seed/L5",
      "slot": 6.0,
@@ -30549,6 +32099,14 @@
    "text": "Until spring.",
    "text_hash": "fd0048c92b05d8e7",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:46",
+     "ref": "ep4_ending/W3@2.8",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -30599,6 +32157,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:40",
+     "ref": "c_e4_turnback/T2@0.6",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L2",
      "slot": 4.2,
@@ -30613,6 +32179,14 @@
    "text": "When the snow closes them, the north feeds Malrik's war all winter. Out of reach.",
    "text_hash": "e54e0821100bc6cc",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:83",
+     "ref": "c_e4_frontier/F7@0.4",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -30741,6 +32315,14 @@
    "text": "You know how he found me. A girl, a sapling, the frost. That part is easy to tell.",
    "text_hash": "efe9f1a1f99726a5",
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:200",
+     "ref": "ep6_opening/Y01@1.5",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",

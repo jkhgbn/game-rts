@@ -1,0 +1,445 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_udsui"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_54ny0"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_ttwym"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_bnur2"]
+
+[sub_resource type="Resource" id="Resource_u3njb"]
+script = ExtResource("4_bnur2")
+kind = &"fade"
+params = {
+"alpha": 0.4,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_nmlv7"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_yugba"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"swordsman"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_83y22"]
+script = ExtResource("1_udsui")
+at = 1.5
+speaker = &"ossavar"
+text = "The Hall of Silence, where they teach one word a day. Malrik brought more."
+duration = 6.0
+voice = "res://assets/audio/voice/ossavar/the_hall_of_silence_c7750ec4.wav"
+
+[sub_resource type="Resource" id="Resource_c7o5a"]
+script = ExtResource("3_ttwym")
+id = &"P1"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(-13.4, 50.6, 4.4)
+to_pos = Vector3(-13.2, 50, 3.4)
+look_from = Vector3(-12, 48.8, 0)
+look_to = Vector3(-12, 48.8, 0)
+fov_from = 50.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 1.0
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_83y22")])
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_u3njb"), SubResource("Resource_nmlv7"), SubResource("Resource_yugba")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_cbpoo"]
+script = ExtResource("4_bnur2")
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_fyulc"]
+script = ExtResource("4_bnur2")
+at = 0.6
+kind = &"anim"
+actor = &"malrik"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_2s50p"]
+script = ExtResource("1_udsui")
+at = 1.0
+speaker = &"malrik"
+text = "Empty the pits, Your Radiance. All of them."
+duration = 3.2
+voice = "res://assets/audio/voice/malrik/empty_the_pits_your_c9ad667c.wav"
+
+[sub_resource type="Resource" id="Resource_jfac8"]
+script = ExtResource("1_udsui")
+at = 4.4
+speaker = &"malrik"
+text = "By morning every dragon on the Coinwater is ours."
+duration = 3.4
+voice = "res://assets/audio/voice/malrik/by_morning_every_dragon_66972ad9.wav"
+
+[sub_resource type="Resource" id="Resource_1harb"]
+script = ExtResource("3_ttwym")
+id = &"P2"
+duration = 8.0
+from_pos = Vector3(-12.8, 49.6, 3.4)
+to_pos = Vector3(-12.8, 49.6, 3.4)
+look_from = Vector3(-11.4, 49.2, 0.6)
+look_to = Vector3(-11.4, 49.2, 0.6)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_2s50p"), SubResource("Resource_jfac8")])
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_cbpoo"), SubResource("Resource_fyulc")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_ic806"]
+script = ExtResource("1_udsui")
+at = 2.0
+speaker = &"diamond_archon"
+text = "An Archon before me did that once. The Year of Two Skies."
+duration = 4.8
+voice = "res://assets/audio/voice/diamond_archon/an_archon_before_me_c3692b0b.wav"
+
+[sub_resource type="Resource" id="Resource_dpoq7"]
+script = ExtResource("3_ttwym")
+id = &"P3"
+duration = 8.0
+from_pos = Vector3(-11.8, 49.3, 2.2)
+to_pos = Vector3(-11.8, 49.3, 2.2)
+look_from = Vector3(-12, 49.734085, -0.2)
+look_to = Vector3(-12, 49.734085, -0.2)
+look_actor = &"diamond_archon"
+look_offset = Vector3(0, 1.7340863, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_ic806")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_dqon7"]
+script = ExtResource("4_bnur2")
+at = 0.4
+kind = &"vfx"
+target = Vector3(-10.9, 49.6, 1.2)
+params = {
+"life": 1.6,
+"scale": 0.06,
+"scene": "res://art/cinematics/fx/ice_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_y0krb"]
+script = ExtResource("4_bnur2")
+at = 2.6
+kind = &"vfx"
+target = Vector3(-10.5, 49, 1.3)
+params = {
+"life": 2.4,
+"scale": 0.3,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_dvsmb"]
+script = ExtResource("1_udsui")
+at = 0.8
+speaker = &"malrik"
+text = "Then let us call it a tradition."
+duration = 2.6
+voice = "res://assets/audio/voice/malrik/then_let_us_call_b733b445.wav"
+
+[sub_resource type="Resource" id="Resource_iab5q"]
+script = ExtResource("3_ttwym")
+id = &"P4"
+duration = 6.0
+from_pos = Vector3(-11.2, 49.75, 0.4)
+to_pos = Vector3(-11.2, 49.75, 0.4)
+look_from = Vector3(-10.6, 49.898, 1.6)
+look_to = Vector3(-10.6, 49.898, 1.6)
+look_actor = &"malrik"
+look_offset = Vector3(0, 1.898, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_dvsmb")])
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_dqon7"), SubResource("Resource_y0krb")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_kj3ty"]
+script = ExtResource("4_bnur2")
+at = 2.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_1wirk"]
+script = ExtResource("1_udsui")
+at = 2.4
+speaker = &"diamond_archon"
+text = "Yes."
+duration = 1.4
+voice = "res://assets/audio/voice/diamond_archon/yes_d1dbb809.wav"
+
+[sub_resource type="Resource" id="Resource_stfib"]
+script = ExtResource("3_ttwym")
+id = &"P5"
+duration = 5.0
+from_pos = Vector3(-11.6, 49.35, 1.5)
+to_pos = Vector3(-11.6, 49.35, 1.5)
+look_from = Vector3(-12, 48.86, 0.8)
+look_to = Vector3(-12, 48.86, 0.8)
+fov_from = 26.0
+fov_to = 26.0
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_1wirk")])
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_kj3ty")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_f1070"]
+script = ExtResource("4_bnur2")
+kind = &"fade"
+params = {
+"alpha": 0.35,
+"color": Color(0.101960786, 0.14117648, 0.2509804, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_m8r67"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"vessa"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_y2qqg"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"guard_w"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_h2jbc"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"guard_e"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_p7flp"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_f1d84"]
+script = ExtResource("1_udsui")
+at = 2.0
+speaker = &"aldra"
+text = "The Hall's lamps are still lit, my lord. Someone is signing something."
+duration = 4.6
+voice = "res://assets/audio/voice/aldra/the_halls_lamps_are_8dfa45d7.wav"
+
+[sub_resource type="Resource" id="Resource_rud3e"]
+script = ExtResource("3_ttwym")
+id = &"P6"
+duration = 7.0
+from_pos = Vector3(9, 6.4, -4)
+to_pos = Vector3(9, 6.4, -4)
+look_from = Vector3(5.4, 5.4, 2)
+look_to = Vector3(5.4, 5.4, 2)
+fov_from = 46.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_f1d84")])
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_f1070"), SubResource("Resource_m8r67"), SubResource("Resource_y2qqg"), SubResource("Resource_h2jbc"), SubResource("Resource_p7flp")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_hqqev"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_q8cu7"]
+script = ExtResource("4_bnur2")
+at = 5.4
+kind = &"move"
+actor = &"ossavar"
+target = Vector3(-30, 30, 40)
+params = {
+"speed": 12.0
+}
+
+[sub_resource type="Resource" id="Resource_k2ygt"]
+script = ExtResource("1_udsui")
+at = 1.2
+speaker = &"ossavar"
+text = "You guarded stones. Everyone guards stones."
+duration = 4.0
+voice = "res://assets/audio/voice/ossavar/you_guarded_stones_everyone_79c14743.wav"
+
+[sub_resource type="Resource" id="Resource_h0kyy"]
+script = ExtResource("3_ttwym")
+id = &"P7"
+duration = 8.0
+from_pos = Vector3(8, 5.8, -5.2)
+to_pos = Vector3(8, 5.8, -5.2)
+look_from = Vector3(4, 5.6, 2)
+look_to = Vector3(4, 5.6, 2)
+fov_from = 50.0
+fov_to = 50.0
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_k2ygt")])
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_hqqev"), SubResource("Resource_q8cu7")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_wvsor"]
+script = ExtResource("4_bnur2")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_a20jd"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_5ly58"]
+script = ExtResource("4_bnur2")
+at = 2.0
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_56klq"]
+script = ExtResource("3_ttwym")
+id = &"P8"
+duration = 7.0
+from_pos = Vector3(6, 6.3, 0.2)
+to_pos = Vector3(6, 6.3, 0.2)
+look_from = Vector3(5, 6.1, 2)
+look_to = Vector3(5, 6.1, 2)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 30.0
+fov_to = 30.0
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_wvsor"), SubResource("Resource_a20jd"), SubResource("Resource_5ly58")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_rg3yu"]
+script = ExtResource("4_bnur2")
+at = 1.4
+kind = &"face"
+actor = &"aldra"
+params = {
+"look_actor": "torvald",
+"time": 0.6,
+"yaw_deg": -90.0
+}
+
+[sub_resource type="Resource" id="Resource_wgwjw"]
+script = ExtResource("1_udsui")
+at = 1.0
+speaker = &"aldra"
+text = "Will you ask him, my lord?"
+duration = 2.2
+voice = "res://assets/audio/voice/aldra/will_you_ask_him_319f64e6.wav"
+
+[sub_resource type="Resource" id="Resource_s0sc7"]
+script = ExtResource("1_udsui")
+at = 4.2
+speaker = &"torvald"
+text = "Tomorrow."
+duration = 1.6
+voice = "res://assets/audio/voice/torvald/tomorrow_8355afb2.wav"
+
+[sub_resource type="Resource" id="Resource_4llrm"]
+script = ExtResource("3_ttwym")
+id = &"P9"
+duration = 7.0
+from_pos = Vector3(10, 7, -7)
+to_pos = Vector3(10, 7, -7)
+look_from = Vector3(4, 6, 2)
+look_to = Vector3(4, 6, 2)
+fov_from = 52.0
+fov_to = 52.0
+lines = Array[ExtResource("1_udsui")]([SubResource("Resource_wgwjw"), SubResource("Resource_s0sc7")])
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_rg3yu")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_ky8hm"]
+script = ExtResource("4_bnur2")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_sdk2t"]
+script = ExtResource("4_bnur2")
+kind = &"fade"
+params = {
+"alpha": 0.25,
+"color": Color(0.5411765, 0.6039216, 0.72156864, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_lp4au"]
+script = ExtResource("4_bnur2")
+at = 5.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_yq4o4"]
+script = ExtResource("3_ttwym")
+id = &"P10"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(10, 8, -6)
+to_pos = Vector3(22, 30, 24)
+look_from = Vector3(4, 5, 2)
+look_to = Vector3(-10, 2, 40)
+fov_from = 46.0
+fov_to = 52.0
+actions = Array[ExtResource("4_bnur2")]([SubResource("Resource_ky8hm"), SubResource("Resource_sdk2t"), SubResource("Resource_lp4au")])
+stage_set = &"forge_watch_keep"
+
+[resource]
+script = ExtResource("2_54ny0")
+id = &"c_e7_pits_pits"
+title = "The Year Comes Round"
+stage_scene = "res://scenes/cinematics/c_e7_pits_pits.tscn"
+shots = Array[ExtResource("3_ttwym")]([SubResource("Resource_c7o5a"), SubResource("Resource_1harb"), SubResource("Resource_dpoq7"), SubResource("Resource_iab5q"), SubResource("Resource_stfib"), SubResource("Resource_rud3e"), SubResource("Resource_h0kyy"), SubResource("Resource_56klq"), SubResource("Resource_4llrm"), SubResource("Resource_yq4o4")])
+music_cue = &"res://assets/audio/music/music_menu.wav"
+shake_seed = 705
+music_volume_db = -24.0
+voice_over = Array[StringName]([&"narrator", &"ossavar"])
+lines_over_cuts = true

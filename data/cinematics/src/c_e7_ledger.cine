@@ -1,0 +1,85 @@
+# Between-scene "Clean Coin", ~70 s (docs/design/script-episodes-4-8/e7m1.md, shot list G1-G10; beats from
+# docs/design/mission-e7-01.md Cinematic hooks `c_e7_ledger`). Night in Adamarch after the Dragon Auction: in Torvald's
+# quarters Aldra stacks Malrik's two hundred coins in ten towers; every one carries the Outwall's anchor stamp ("Coin
+# remembers where it was taken." / "So does Malrik."); a great shadow on the roof: Ossavar, listening ("Tomorrow, ask
+# the herald where the knives came from."); Torvald blows out the candle and waits.
+# Text source for i18n / voices: data/voice/lines/c_e7_ledger.json (the same text as the lines below).
+# e7m1 / e7m2 are not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play c_e7_ledger).
+# Sets (stand-ins; forge_adamarch is not built): forge_citadel under a night grade = Adamarch over its harbour (G1, the
+# ep7_opening convention); forge_intro_malrik = Torvald's white-stone quarters (its prologue host / fx hidden; the c_e3
+# camp table, art/cinematics/props/ep7_between/coin_towers.tscn, a candle) and its dusk keep's roof (G7). Ossavar = the
+# cinder dragon titan (static cameras only: the model bobs in real time).
+# Axis: Aldra (north of the table) - Torvald (south of it) on x = -1; every camera stays east of them (x > -1).
+cine c_e7_ledger  title="Clean Coin"  letterbox=2.39  seed=702  length=67..73
+use set forge_intro_malrik
+use music res://assets/audio/music/music_menu.wav  vol=-24
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=ossavar
+cast  aldra     res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(-1.0, 0, 3.2)  yaw=0  set=forge_intro_malrik
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(-3.4, 0, 5.2)  yaw=10  set=forge_intro_malrik
+prop  table     res://art/cinematics/props/ep3_between/war_map.tscn  at=(-1.0, 0, 4.0)  yaw=0  set=forge_intro_malrik
+prop  coins     res://art/cinematics/props/ep7_between/coin_towers.tscn  at=(-1.2, 0.85, 3.85)  set=forge_intro_malrik
+cast  candle    res://art/cinematics/stage_sets/forge_citadel/parts/candle.tscn  at=(-0.55, 0.84, 4.15)  set=forge_intro_malrik
+cast  ossavar   res://art/units/titans/cinder_dragon/cinder_dragon.tscn  at=(9.0, 0, -2.0)  yaw=230  set=forge_intro_malrik  hidden=1
+
+# ---------------------------------------------------------------- night over Adamarch
+# Wide crane down over the city at night: one lit window high in a white tower
+shot G1 8.0  set=forge_citadel  cam=crane  from=(-60, 76, -124)  to=(-50, 70, -108)  look=(0, 70, 0)>(0, 66, 0)  fov=50>40  in=fade_black:1.0
+  at 0.0  fade color=#0b0c26  alpha=0.5  time=0.05
+  at 0.0  hide swordsman
+  at 1.5  line ossavar "Night in Adamarch. Everyone was counting coin. Torvald counted one gift."  dur=6.0
+
+# ---------------------------------------------------------------- Torvald's quarters
+# MS, static, one candle: Aldra stacking coins into ten towers; Torvald at the window, his back to her
+shot G2 8.0  cam=static  from=(2.6, 1.8, 8.6)  look=(-1.8, 1.25, 4.4)  fov=40  in=fade_black:0.5  faces=aldra,torvald
+  at 0.0  fade color=#0b0c26  alpha=0.3  time=0.05
+  at 0.0  hide malrik
+  at 0.0  hide malrik_young
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  anim torvald set_expression  arg=neutral
+  at 1.0  line aldra "Two hundred. I counted them twice. Ten towers of twenty."  dur=4.2
+  at 2.0  anim aldra play_cast
+# ECU: a coin turning in Aldra's fingers by the candle: the Outwall's anchor stamp
+shot G3 6.0  cam=static  from=(-0.7, 1.2, 4.3)  look=(-1.1, 0.88, 3.85)  fov=26
+  at 0.5  line aldra "Every one carries the anchor. The Outwall's stamp."  dur=3.8
+# MS Torvald, 3/4: he turns from the window and looks at the towers of coin, not at her
+shot G4 8.0  cam=static  from=(0.4, 1.75, 3.0)  look=torvald  fov=36
+  at 0.6  face torvald  to=(-1.2, 0, 3.85)  time=1.2
+  at 1.5  line torvald "Two hundred dockers' wages, given as a gift."  dur=3.8
+# CU Aldra: she sets the coin back on its tower, exactly
+shot G5 7.0  cam=static  from=(-0.4, 1.6, 5.4)  look=aldra  fov=30
+  at 0.8  line aldra "Coin remembers where it was taken."  dur=3.0
+# MS two-shot, eye level: Torvald sits across from her; the candle flame bends as a great shadow passes over the roof
+shot G6 8.0  cam=static  from=(3.6, 1.6, 4.0)  look=(-1.0, 1.35, 4.0)  fov=36  faces=aldra,torvald
+  at 0.0  teleport torvald  to=(-1.0, 0, 4.9)  yaw=180
+  at 0.0  anim torvald set_expression  arg=worried
+  at 2.0  line torvald "So does Malrik. He has simply never minded."  dur=3.6
+  at 5.4  fade color=#000000  alpha=0.55  time=0.4
+  at 6.2  fade color=#0b0c26  alpha=0.3  time=0.6
+# Ext, low on the roof ridge against the stars: Ossavar folded on the tower roof, one gold eye open, listening
+shot G7 8.0  cam=static  from=(15.0, 0.8, 6.0)  look=(9.0, 3.0, -2.0)  fov=50  in=blend:0.3
+  at 0.0  show ossavar
+  at 0.0  fade color=#0b0c26  alpha=0.45  time=0.05
+  at 2.0  line ossavar "Tomorrow, ask the herald where the knives came from."  dur=5.0
+# MS two-shot: they both look up at the ceiling, then at each other
+shot G8 5.0  cam=static  from=(3.6, 1.6, 4.0)  look=(-1.0, 1.35, 4.0)  fov=36  in=blend:0.3  faces=aldra,torvald
+  at 0.0  fade color=#0b0c26  alpha=0.3  time=0.05
+  at 0.0  hide ossavar
+  at 0.6  line aldra "You heard him."  dur=1.8
+  at 3.0  line torvald "I heard."  dur=1.6
+# CU Torvald: he leans in and blows out the candle; dark; only harbour light on his face. He waits
+shot G9 7.0  cam=static  from=(0.5, 1.75, 3.7)  look=torvald  fov=30
+  at 0.5  line torvald "Tomorrow, then."  dur=2.0
+  at 2.8  hide candle
+  at 2.8  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-14
+  at 2.8  fade color=#05060f  alpha=0.6  time=0.3
+# MS Aldra in the dark: she watches him wait
+shot G10 5.0  cam=static  from=(0.3, 1.55, 5.6)  look=aldra  fov=34
+  at 3.8  fade alpha=1  time=1.0

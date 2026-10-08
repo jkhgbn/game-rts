@@ -4,8 +4,8 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 1702,
- "total_seconds": 5349.94,
+ "count": 1733,
+ "total_seconds": 5450.66,
  "orphans": [],
  "lines": {
   "aldra/aldra_my_name_is_36103aad": {
@@ -56,6 +56,14 @@
    "file_hash": "2a4215bb69a054a0",
    "gen_s": 0.72,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:43",
+     "ref": "c_e6_lake/K3@0.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -712,6 +720,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:59",
+     "ref": "c_e4_frontier/F4@0.6",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L5",
      "slot": 4.6,
@@ -1166,6 +1182,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:48",
+     "ref": "c_e6_lake/K4@5.2",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
      "ref": "c_e6_lake/L6",
      "slot": 1.4,
@@ -1314,6 +1338,14 @@
    "file_hash": "4f80e6645dfc6c5f",
    "gen_s": 0.53,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:35",
+     "ref": "c_e6_lake/K1@3",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -2022,6 +2054,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:52",
+     "ref": "c_e4_frontier/F3@0.4",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L3",
      "slot": 2.2,
@@ -2194,6 +2234,14 @@
    "file_hash": "5573ee84f6d99cbf",
    "gen_s": 0.57,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:182",
+     "ref": "ep6_opening/T10@0.2",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -2376,6 +2424,14 @@
    "file_hash": "7d2d33fd89933cc1",
    "gen_s": 0.86,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:47",
+     "ref": "c_e4_frontier/F2@0.8",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -2662,6 +2718,14 @@
    "file_hash": "32d920ef0fb7b69d",
    "gen_s": 0.83,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:62",
+     "ref": "c_e4_turnback/T5@0.5",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ashby"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -4192,6 +4256,35 @@
     }
    ]
   },
+  "dacian/nine_years_i_trained_8e29618d": {
+   "speaker": "dacian",
+   "text": "Nine years I trained for this sand.",
+   "text_hash": "8e29618d217cc5c1",
+   "path": "res://assets/audio/voice/dacian/nine_years_i_trained_8e29618d.wav",
+   "voice": {
+    "am_fenrir": 0.7,
+    "am_eric": 0.3
+   },
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 1.835,
+   "peak": 0.8913,
+   "rms_db": -18.9,
+   "clipped": 0,
+   "file_hash": "a8a15f99733cee65",
+   "gen_s": 1.51,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L4",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "dacian"
+    }
+   ]
+  },
   "dacian/no_crowd_worth_the_0c4f381a": {
    "speaker": "dacian",
    "text": "No crowd worth the name today, Diamond Wall. Just us, and a great deal of money.",
@@ -4308,6 +4401,35 @@
     }
    ]
   },
+  "dacian/well_struck_6c140dbe": {
+   "speaker": "dacian",
+   "text": "Well struck.",
+   "text_hash": "6c140dbeb5a6eaec",
+   "path": "res://assets/audio/voice/dacian/well_struck_6c140dbe.wav",
+   "voice": {
+    "am_fenrir": 0.7,
+    "am_eric": 0.3
+   },
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 0.83,
+   "peak": 0.8913,
+   "rms_db": -18.2,
+   "clipped": 0,
+   "file_hash": "c5f335ce676d0e42",
+   "gen_s": 0.28,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L9",
+     "slot": 1.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "dacian"
+    }
+   ]
+  },
   "dacian/well_struck_twice_now_ef7e72f1": {
    "speaker": "dacian",
    "text": "Well struck. Twice now an Adamarch guest has cut me. I am starting to take it personally.",
@@ -4341,6 +4463,35 @@
     "unfitted_s": 5.16,
     "speed_x": 1.075
    }
+  },
+  "dacian/yield_diamond_wall_89303ff6": {
+   "speaker": "dacian",
+   "text": "Yield, Diamond Wall.",
+   "text_hash": "89303ff67abfc2db",
+   "path": "res://assets/audio/voice/dacian/yield_diamond_wall_89303ff6.wav",
+   "voice": {
+    "am_fenrir": 0.7,
+    "am_eric": 0.3
+   },
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 1.23,
+   "peak": 0.8913,
+   "rms_db": -18.3,
+   "clipped": 0,
+   "file_hash": "ca08b4a4bb006c5c",
+   "gen_s": 0.38,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L6",
+     "slot": 1.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "dacian"
+    }
+   ]
   },
   "dacian/you_want_the_truth_44f2781b": {
    "speaker": "dacian",
@@ -4941,6 +5092,35 @@
     }
    ]
   },
+  "herald/by_the_truce_of_34aa3dd9": {
+   "speaker": "herald",
+   "text": "By the Truce of the Stilled Sea: first blood, and no further!",
+   "text_hash": "34aa3dd96f1781e4",
+   "path": "res://assets/audio/voice/herald/by_the_truce_of_34aa3dd9.wav",
+   "voice": {
+    "bm_fable": 0.6,
+    "am_echo": 0.4
+   },
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.62,
+   "peak": 0.8913,
+   "rms_db": -19.3,
+   "clipped": 0,
+   "file_hash": "96860d495b6105d9",
+   "gen_s": 0.89,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L1",
+     "slot": 4.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
   "herald/dont_hurt_me_i_625d6baa": {
    "speaker": "herald",
    "text": "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!",
@@ -4965,6 +5145,93 @@
      "source": "data/voice/lines/e7m2.json",
      "ref": "e7m2/L13",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
+  "herald/first_blood_adamarch_118d0024": {
+   "speaker": "herald",
+   "text": "First blood! Adamarch!",
+   "text_hash": "118d0024fb166be9",
+   "path": "res://assets/audio/voice/herald/first_blood_adamarch_118d0024.wav",
+   "voice": {
+    "bm_fable": 0.6,
+    "am_echo": 0.4
+   },
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 1.94,
+   "peak": 0.8913,
+   "rms_db": -20.8,
+   "clipped": 0,
+   "file_hash": "aee0cb438d11dd78",
+   "gen_s": 0.46,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L8",
+     "slot": 2.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
+  "herald/for_adamarch_the_diamond_fcf7ab1d": {
+   "speaker": "herald",
+   "text": "For Adamarch, the Diamond Wall: Seraphine Vael!",
+   "text_hash": "fcf7ab1d4786c01a",
+   "path": "res://assets/audio/voice/herald/for_adamarch_the_diamond_fcf7ab1d.wav",
+   "voice": {
+    "bm_fable": 0.6,
+    "am_echo": 0.4
+   },
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.2,
+   "peak": 0.8913,
+   "rms_db": -20.8,
+   "clipped": 0,
+   "file_hash": "84be34e73f7c3f8a",
+   "gen_s": 0.73,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L3",
+     "slot": 3.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "herald"
+    }
+   ]
+  },
+  "herald/for_aurivane_the_sunblade_b14e35f6": {
+   "speaker": "herald",
+   "text": "For Aurivane, the Sunblade: Dacian Orrow!",
+   "text_hash": "b14e35f64bb86aec",
+   "path": "res://assets/audio/voice/herald/for_aurivane_the_sunblade_b14e35f6.wav",
+   "voice": {
+    "bm_fable": 0.6,
+    "am_echo": 0.4
+   },
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.96,
+   "peak": 0.8913,
+   "rms_db": -19.5,
+   "clipped": 0,
+   "file_hash": "3bb0af7c409e7067",
+   "gen_s": 0.66,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L2",
+     "slot": 3.4,
      "slot_kind": "cine slot",
      "speaker_id": "herald"
     }
@@ -6261,6 +6528,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:98",
+     "ref": "c_e4_turnback/T9@1",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L11",
      "slot": 2.2,
@@ -6651,6 +6926,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:73",
+     "ref": "c_e4_refuge/R6@3.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L9",
      "slot": 3.6,
@@ -6675,6 +6958,14 @@
    "file_hash": "d63fa2693c0899ff",
    "gen_s": 0.84,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:66",
+     "ref": "c_e4_refuge/R5@4.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -6806,6 +7097,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:48",
+     "ref": "c_e4_turnback/T3@3.8",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L5",
      "slot": 3.6,
@@ -6921,6 +7220,14 @@
    "file_hash": "f5a0075ad6a016b0",
    "gen_s": 0.68,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:43",
+     "ref": "c_e6_seed/D3@0.5",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
@@ -7130,6 +7437,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:47",
+     "ref": "c_e4_turnback/T3@0.4",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L4",
      "slot": 3.0,
@@ -7180,6 +7495,14 @@
    "file_hash": "80ec829b6c43045d",
    "gen_s": 0.95,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:65",
+     "ref": "c_e4_refuge/R5@0.6",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -7258,6 +7581,14 @@
    "file_hash": "56c58f45990a5e91",
    "gen_s": 1.16,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:54",
+     "ref": "c_e4_turnback/T4@0.4",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -7515,6 +7846,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:257",
+     "ref": "ep6_opening/Y07@0.5",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L27",
      "slot": 3.4,
@@ -7539,6 +7878,14 @@
    "file_hash": "2dd5e1a74f8e2197",
    "gen_s": 0.66,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:37",
+     "ref": "c_e6_seed/D2@0.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
@@ -8615,6 +8962,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e5_turn.cine:47",
+     "ref": "c_e5_turn/U3@1",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e5_turn.json",
      "ref": "c_e5_turn/C2",
      "slot": 5.6,
@@ -9078,6 +9433,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:291",
+     "ref": "ep5_opening/MD2@0.6",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L31",
      "slot": 4.2,
@@ -9162,6 +9525,14 @@
    "file_hash": "8e68d45b4dc502d2",
    "gen_s": 0.91,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:241",
+     "ref": "ep5_opening/MA2@1",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -9344,6 +9715,14 @@
    "file_hash": "df7a8d6c0c60c1eb",
    "gen_s": 1.08,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:263",
+     "ref": "ep5_opening/MB2@1.5",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -9837,6 +10216,14 @@
    "file_hash": "9599d4f0b1b12e09",
    "gen_s": 1.11,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:268",
+     "ref": "ep5_opening/MC1@0.8",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -10468,6 +10855,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:237",
+     "ref": "ep5_opening/S18@0.6",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L22",
      "slot": 5.8,
@@ -10518,6 +10913,14 @@
    "file_hash": "1c41ff1ee5e8daea",
    "gen_s": 0.36,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:42",
+     "ref": "ep5_ending/N3@3",
+     "slot": 1.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
@@ -10572,8 +10975,24 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:35",
+     "ref": "ep5_ending/N2@8.1",
+     "slot": 1.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L3",
+     "slot": 1.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L30",
      "slot": 1.3,
      "slot_kind": "cine slot",
      "speaker_id": "malrik"
@@ -11310,6 +11729,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:228",
+     "ref": "ep5_opening/S21@0.5",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L21",
      "slot": 3.6,
@@ -11957,6 +12384,14 @@
    "file_hash": "2b3c434d64bad48f",
    "gen_s": 1.17,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:252",
+     "ref": "ep5_opening/MB1@0.5",
+     "slot": 4.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -12932,6 +13367,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:275",
+     "ref": "ep5_opening/MC2@2.8",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L28",
      "slot": 1.4,
@@ -13426,6 +13869,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:205",
+     "ref": "ep5_opening/VD1@1.6",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L19",
      "slot": 2.2,
@@ -13527,6 +13978,14 @@
    "file_hash": "daa80f248a4e6ea2",
    "gen_s": 0.8,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:125",
+     "ref": "ep6_opening/T04@0.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -13971,6 +14430,36 @@
     }
    ]
   },
+  "master/enough_6ce03196": {
+   "speaker": "master",
+   "text": "Enough.",
+   "text_hash": "6ce03196bb6d71e6",
+   "path": "res://assets/audio/voice/master/enough_6ce03196.wav",
+   "voice": {
+    "bm_lewis": 0.4,
+    "bm_george": 0.35,
+    "bm_fable": 0.25
+   },
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "lang": "en-gb",
+   "duration": 0.94,
+   "peak": 0.8913,
+   "rms_db": -15.1,
+   "clipped": 0,
+   "file_hash": "d66e0aa340e7b7c2",
+   "gen_s": 0.32,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L22",
+     "slot": 1.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
   "master/five_banners_the_first_3b662c48": {
    "speaker": "master",
    "text": "Five banners. The first to hold three while the bell counts thirty wins. Nobody gets hurt.",
@@ -14055,6 +14544,14 @@
    "file_hash": "b6eb93ba6724b7d0",
    "gen_s": 3.96,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:109",
+     "ref": "ep5_opening/S12@0",
+     "slot": 2.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:139",
@@ -14167,6 +14664,14 @@
    "file_hash": "a2d533cd052b37da",
    "gen_s": 7.48,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:48",
+     "ref": "ep5_opening/S06@0.3",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:65",
@@ -14392,6 +14897,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:50",
+     "ref": "ep5_ending/N4@3.4",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L7",
      "slot": 2.2,
@@ -14476,6 +14989,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:286",
+     "ref": "ep5_opening/MD1@4.4",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L30",
      "slot": 2.4,
@@ -14508,6 +15029,14 @@
    "file_hash": "ff0978fb1112c299",
    "gen_s": 7.28,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:76",
+     "ref": "ep6_opening/S13@0.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:145",
@@ -14590,6 +15119,14 @@
    "file_hash": "e1f56f6a620a6268",
    "gen_s": 11.63,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:118",
+     "ref": "ep5_opening/S30@0.3",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:388",
@@ -14800,6 +15337,14 @@
    "file_hash": "abf6b997c5885156",
    "gen_s": 14.81,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:34",
+     "ref": "ep6_opening/S05@0.2",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:61",
@@ -15437,6 +15982,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:122",
+     "ref": "ep5_opening/S13@0.6",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L7",
      "slot": 6.0,
@@ -15465,6 +16018,14 @@
    "file_hash": "5ab7929e558f28a5",
    "gen_s": 1.41,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:41",
+     "ref": "ep5_opening/S01@1.2",
+     "slot": 5.3,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:49",
@@ -15638,6 +16199,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:222",
+     "ref": "ep6_opening/Y03@4.2",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L22",
      "slot": 2.0,
@@ -15696,6 +16265,14 @@
    "file_hash": "8cfa912557f32fec",
    "gen_s": 0.87,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:161",
+     "ref": "ep5_opening/VA2@0.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -15979,6 +16556,30 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:52",
+     "ref": "ep5_opening/S07@0.3",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:43",
+     "ref": "ep6_ending/X4@1.4",
+     "slot": 4.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:38",
+     "ref": "ep6_opening/S07@0.2",
+     "slot": 4.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:69",
      "ref": "prologue_3min/S07@0.3",
      "slot": 4.6,
@@ -16041,6 +16642,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:130",
+     "ref": "ep6_opening/T05@0.4",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L11",
      "slot": 4.4,
@@ -16101,6 +16710,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:39",
+     "ref": "ep6_ending/X3@0.8",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_ending.json",
      "ref": "ep6_ending/L2",
      "slot": 5.8,
@@ -16128,6 +16745,14 @@
    "file_hash": "259ace89ecddd168",
    "gen_s": 8.16,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:44",
+     "ref": "ep5_opening/S02@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:52",
@@ -16302,6 +16927,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:57",
+     "ref": "ep6_opening/S22@0.2",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:271",
      "ref": "prologue_3min/S22@0.3",
      "slot": 6.6,
@@ -16378,8 +17011,24 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:32",
+     "ref": "ep5_ending/N2@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L1",
+     "slot": 5.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L28",
      "slot": 5.2,
      "slot_kind": "cine slot",
      "speaker_id": "master"
@@ -16664,6 +17313,14 @@
    "file_hash": "f23c2a0ae672b102",
    "gen_s": 6.06,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:69",
+     "ref": "ep6_opening/S26@0.2",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
     {
      "kind": "cine",
      "source": "data/cinematics/src/prologue_3min.cine:341",
@@ -18148,6 +18805,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:36",
+     "ref": "c_e4_turnback/T1@1.2",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L1",
      "slot": 4.8,
@@ -18675,6 +19340,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:116",
+     "ref": "ep4_ending/W8@1",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
      "ref": "ep4_ending/L7",
      "slot": 5.6,
@@ -18881,6 +19554,22 @@
    "file_hash": "6a13dcf40d07d53a",
    "gen_s": 0.79,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate.cine:45",
+     "ref": "c_e6_gate/G4@2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate_shut.cine:43",
+     "ref": "c_e6_gate_shut/G4@2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_gate.json",
@@ -19109,6 +19798,14 @@
    "file_hash": "dd8f112de0a05106",
    "gen_s": 3.44,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:39",
+     "ref": "c_e4_refuge/R1@1.5",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -19568,6 +20265,14 @@
    "file_hash": "7818823dbb0e34da",
    "gen_s": 1.15,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:37",
+     "ref": "ep4_ending/W1@1",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -20076,6 +20781,14 @@
    "file_hash": "e661252ab85bede8",
    "gen_s": 1.37,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e5_turn.cine:37",
+     "ref": "c_e5_turn/U1@1.5",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e5_turn.json",
@@ -20648,6 +21361,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:59",
+     "ref": "ep5_ending/N5@0.5",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L8",
      "slot": 5.8,
@@ -20815,6 +21536,14 @@
    "file_hash": "83a30a73498c16b4",
    "gen_s": 1.4,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:59",
+     "ref": "ep6_ending/X6@0.6",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_ending.json",
@@ -21010,6 +21739,36 @@
     "speed_x": 1.113
    }
   },
+  "ossavar/and_look_who_has_1da0d2f6": {
+   "speaker": "ossavar",
+   "text": "And look who has come to bid.",
+   "text_hash": "1da0d2f6ca55a19a",
+   "path": "res://assets/audio/voice/ossavar/and_look_who_has_1da0d2f6.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 1.87,
+   "peak": 0.8913,
+   "rms_db": -19.6,
+   "clipped": 0,
+   "file_hash": "62d8647cfa7ed021",
+   "gen_s": 0.5,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L34",
+     "slot": 2.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
   "ossavar/and_now_the_old_0f23a619": {
    "speaker": "ossavar",
    "text": "And now the old price. Me. Whoever pays the most, I burn for.",
@@ -21070,6 +21829,41 @@
     }
    ]
   },
+  "ossavar/between_them_one_rock_101a7382": {
+   "speaker": "ossavar",
+   "text": "Between them, one rock. Who holds it taxes every ship on the sea.",
+   "text_hash": "101a7382e91794ff",
+   "path": "res://assets/audio/voice/ossavar/between_them_one_rock_101a7382.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.936,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.0,
+   "peak": 0.8913,
+   "rms_db": -21.4,
+   "clipped": 0,
+   "file_hash": "b6a463e4558bcd43",
+   "gen_s": 1.95,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L13",
+     "slot": 4.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ],
+   "fit": {
+    "slot": 4.2,
+    "unfitted_s": 4.29,
+    "speed_x": 1.064
+   }
+  },
   "ossavar/dawn_came_up_on_5098e143": {
    "speaker": "ossavar",
    "text": "Dawn came up on a sea that did not move. The second time in my long life.",
@@ -21125,6 +21919,36 @@
      "source": "data/voice/lines/e7m1.json",
      "ref": "e7m1/L24",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/every_blade_stopped_every_c353d387": {
+   "speaker": "ossavar",
+   "text": "Every blade stopped. Every dragon came to his hand. Even mine.",
+   "text_hash": "c353d387c4d77ad2",
+   "path": "res://assets/audio/voice/ossavar/every_blade_stopped_every_c353d387.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.33,
+   "peak": 0.8913,
+   "rms_db": -19.8,
+   "clipped": 0,
+   "file_hash": "32bf5011f0b5b66d",
+   "gen_s": 1.01,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L23",
+     "slot": 4.6,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -21250,6 +22074,71 @@
     }
    ]
   },
+  "ossavar/he_gave_them_one_53f3dca8": {
+   "speaker": "ossavar",
+   "text": "He gave them one duel a year instead of a war. First blood, and no further.",
+   "text_hash": "53f3dca82c7a2b98",
+   "path": "res://assets/audio/voice/ossavar/he_gave_them_one_53f3dca8.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.82,
+   "peak": 0.8913,
+   "rms_db": -19.2,
+   "clipped": 0,
+   "file_hash": "fbf94f064d99f7e3",
+   "gen_s": 1.1,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L24",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/he_had_never_stepped_d8d994f0": {
+   "speaker": "ossavar",
+   "text": "He had never stepped into a war in the open. Not once in a thousand years.",
+   "text_hash": "d8d994f000a0c29b",
+   "path": "res://assets/audio/voice/ossavar/he_had_never_stepped_d8d994f0.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.968,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.5,
+   "peak": 0.8913,
+   "rms_db": -19.0,
+   "clipped": 0,
+   "file_hash": "d49eefb327506bcb",
+   "gen_s": 2.13,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L20",
+     "slot": 4.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ],
+   "fit": {
+    "slot": 4.6,
+    "unfitted_s": 4.86,
+    "speed_x": 1.1
+   }
+  },
   "ossavar/he_knew_the_truth_90b7dafd": {
    "speaker": "ossavar",
    "text": "He knew the truth, and he waited anyway. He always did.",
@@ -21280,6 +22169,126 @@
     }
    ]
   },
+  "ossavar/he_left_in_anger_632fca44": {
+   "speaker": "ossavar",
+   "text": "He left in anger, and never sat there again.",
+   "text_hash": "632fca443c373401",
+   "path": "res://assets/audio/voice/ossavar/he_left_in_anger_632fca44.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 2.78,
+   "peak": 0.8913,
+   "rms_db": -18.0,
+   "clipped": 0,
+   "file_hash": "fcc7aaa0cea61c48",
+   "gen_s": 0.7,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L26",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/he_took_us_dragons_9d63804b": {
+   "speaker": "ossavar",
+   "text": "He took us dragons away. They paid us more to come back.",
+   "text_hash": "9d63804b04d89e5b",
+   "path": "res://assets/audio/voice/ossavar/he_took_us_dragons_9d63804b.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 3.31,
+   "peak": 0.8913,
+   "rms_db": -19.7,
+   "clipped": 0,
+   "file_hash": "883709220f18f2c1",
+   "gen_s": 0.83,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L17",
+     "slot": 4.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/he_tried_everything_he_868613cf": {
+   "speaker": "ossavar",
+   "text": "He tried everything. He sent them gold, so they would want nothing.",
+   "text_hash": "868613cfb8b5ecc8",
+   "path": "res://assets/audio/voice/ossavar/he_tried_everything_he_868613cf.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 3.94,
+   "peak": 0.8913,
+   "rms_db": -20.2,
+   "clipped": 0,
+   "file_hash": "48696e86ab80af38",
+   "gen_s": 0.95,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L15",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/he_walked_out_and_d17acfbd": {
+   "speaker": "ossavar",
+   "text": "He walked out, and the sea went still.",
+   "text_hash": "d17acfbd76eb8d2d",
+   "path": "res://assets/audio/voice/ossavar/he_walked_out_and_d17acfbd.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 2.3,
+   "peak": 0.8913,
+   "rms_db": -19.1,
+   "clipped": 0,
+   "file_hash": "0da3d88b9b92f5c5",
+   "gen_s": 0.58,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L21",
+     "slot": 3.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
   "ossavar/he_walked_out_once_1d815ac0": {
    "speaker": "ossavar",
    "text": "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light.",
@@ -21305,6 +22314,36 @@
      "source": "data/voice/lines/e7m4.json",
      "ref": "e7m4/L34",
      "slot": 6.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/i_burned_adamarch_for_a90b3a41": {
+   "speaker": "ossavar",
+   "text": "I burned Adamarch for Aurivane, then Aurivane for Adamarch. Twice each.",
+   "text_hash": "a90b3a4165507e34",
+   "path": "res://assets/audio/voice/ossavar/i_burned_adamarch_for_a90b3a41.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.79,
+   "peak": 0.8913,
+   "rms_db": -19.5,
+   "clipped": 0,
+   "file_hash": "c8deac5d2ca25e25",
+   "gen_s": 1.09,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L18",
+     "slot": 5.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -21400,6 +22439,36 @@
     }
    ]
   },
+  "ossavar/now_his_chair_is_9b221126": {
+   "speaker": "ossavar",
+   "text": "Now his chair is empty. And I am home.",
+   "text_hash": "9b221126930c761d",
+   "path": "res://assets/audio/voice/ossavar/now_his_chair_is_9b221126.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 2.9,
+   "peak": 0.8913,
+   "rms_db": -19.4,
+   "clipped": 0,
+   "file_hash": "70468f586b93759d",
+   "gen_s": 0.71,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L32",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
   "ossavar/one_small_sale_before_2a2e9ab8": {
    "speaker": "ossavar",
    "text": "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?",
@@ -21435,6 +22504,36 @@
     "speed_x": 1.09
    }
   },
+  "ossavar/only_the_rich_may_9c3b5477": {
+   "speaker": "ossavar",
+   "text": "Only the rich may live inside their walls. Only the strong may stay.",
+   "text_hash": "9c3b547735b3cc52",
+   "path": "res://assets/audio/voice/ossavar/only_the_rich_may_9c3b5477.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.48,
+   "peak": 0.8913,
+   "rms_db": -18.1,
+   "clipped": 0,
+   "file_hash": "2e36e18865b876f5",
+   "gen_s": 1.05,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L12",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
   "ossavar/paid_to_go_home_dfe21282": {
    "speaker": "ossavar",
    "text": "Paid to go home. The one price he never tried.",
@@ -21460,6 +22559,66 @@
      "source": "data/voice/lines/e7m4.json",
      "ref": "e7m4/L29",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/so_he_stopped_holding_9d277aec": {
+   "speaker": "ossavar",
+   "text": "So he stopped holding the world alone, and raised four apprentices to keep it.",
+   "text_hash": "9d277aec4547b906",
+   "path": "res://assets/audio/voice/ossavar/so_he_stopped_holding_9d277aec.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.42,
+   "peak": 0.8913,
+   "rms_db": -21.9,
+   "clipped": 0,
+   "file_hash": "900f9e123a45c252",
+   "gen_s": 1.03,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L27",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/so_the_old_price_11218e95": {
+   "speaker": "ossavar",
+   "text": "So the old price stands. Whoever pays the most, I burn for.",
+   "text_hash": "11218e95d2c2cfd3",
+   "path": "res://assets/audio/voice/ossavar/so_the_old_price_11218e95.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 3.93,
+   "peak": 0.8913,
+   "rms_db": -19.6,
+   "clipped": 0,
+   "file_hash": "a00696934bd26ffc",
+   "gen_s": 0.9,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L33",
+     "slot": 4.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -21580,6 +22739,36 @@
      "source": "data/voice/lines/c_e7_pits.json",
      "ref": "c_e7_pits/L1",
      "slot": 6.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/the_harder_he_held_cc3c5029": {
+   "speaker": "ossavar",
+   "text": "The harder he held them, the more they slipped. So at last, he came himself.",
+   "text_hash": "cc3c5029b7a064a9",
+   "path": "res://assets/audio/voice/ossavar/the_harder_he_held_cc3c5029.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.29,
+   "peak": 0.8913,
+   "rms_db": -20.6,
+   "clipped": 0,
+   "file_hash": "c2402ac330fc970c",
+   "gen_s": 1.01,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L19",
+     "slot": 5.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -21765,6 +22954,161 @@
     }
    ]
   },
+  "ossavar/they_bought_more_ships_6f547e6a": {
+   "speaker": "ossavar",
+   "text": "They bought more ships. So much gold sank, they named the strait the Coinwater.",
+   "text_hash": "6f547e6a063a0578",
+   "path": "res://assets/audio/voice/ossavar/they_bought_more_ships_6f547e6a.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.5,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "a840b368eab31369",
+   "gen_s": 1.03,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L16",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/they_bowed_to_him_00eb3dfb": {
+   "speaker": "ossavar",
+   "text": "They bowed to him. Then they bet their cities on the duels. They saw only gold.",
+   "text_hash": "00eb3dfb51f32d62",
+   "path": "res://assets/audio/voice/ossavar/they_bowed_to_him_00eb3dfb.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.8,
+   "peak": 0.8913,
+   "rms_db": -19.6,
+   "clipped": 0,
+   "file_hash": "b6d9886cf710e8b9",
+   "gen_s": 1.1,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L25",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/they_fought_over_it_1f99aba5": {
+   "speaker": "ossavar",
+   "text": "They fought over it for a thousand years. For gold, and for glory.",
+   "text_hash": "1f99aba5e4faf91a",
+   "path": "res://assets/audio/voice/ossavar/they_fought_over_it_1f99aba5.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.954,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.07,
+   "peak": 0.8913,
+   "rms_db": -19.4,
+   "clipped": 0,
+   "file_hash": "728ddf3a099f7c26",
+   "gen_s": 1.94,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L14",
+     "slot": 4.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ],
+   "fit": {
+    "slot": 4.2,
+    "unfitted_s": 4.37,
+    "speed_x": 1.084
+   }
+  },
+  "ossavar/they_heard_gold_and_ee23c349": {
+   "speaker": "ossavar",
+   "text": "They heard gold, and soldiers, for free.",
+   "text_hash": "ee23c349312687ae",
+   "path": "res://assets/audio/voice/ossavar/they_heard_gold_and_ee23c349.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 2.8,
+   "peak": 0.8913,
+   "rms_db": -19.1,
+   "clipped": 0,
+   "file_hash": "3ad8b49bf150dab7",
+   "gen_s": 0.68,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L31",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/they_say_he_kept_d85ab7cd": {
+   "speaker": "ossavar",
+   "text": "They say he kept the peace for a thousand years. Not here.",
+   "text_hash": "d85ab7cdf757db5f",
+   "path": "res://assets/audio/voice/ossavar/they_say_he_kept_d85ab7cd.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 3.86,
+   "peak": 0.8913,
+   "rms_db": -17.7,
+   "clipped": 0,
+   "file_hash": "b7d6783177ae684c",
+   "gen_s": 0.9,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L10",
+     "slot": 4.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
   "ossavar/tomorrow_ask_the_herald_3f19b1e0": {
    "speaker": "ossavar",
    "text": "Tomorrow, ask the herald where the knives came from.",
@@ -21850,6 +23194,36 @@
      "source": "data/voice/lines/e7m1.json",
      "ref": "e7m1/L29",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ossavar"
+    }
+   ]
+  },
+  "ossavar/two_cities_on_one_657baab3": {
+   "speaker": "ossavar",
+   "text": "Two cities on one strait. Aurivane, of gold. Adamarch, of diamond.",
+   "text_hash": "657baab33e925202",
+   "path": "res://assets/audio/voice/ossavar/two_cities_on_one_657baab3.wav",
+   "voice": {
+    "am_onyx": 0.5,
+    "am_santa": 0.3,
+    "bm_fable": 0.2
+   },
+   "speed": 0.88,
+   "cast_speed": 0.88,
+   "lang": "en-us",
+   "duration": 4.93,
+   "peak": 0.8913,
+   "rms_db": -19.6,
+   "clipped": 0,
+   "file_hash": "5f7c94837bf3814b",
+   "gen_s": 1.15,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L11",
+     "slot": 5.4,
      "slot_kind": "cine slot",
      "speaker_id": "ossavar"
     }
@@ -23096,6 +24470,35 @@
     }
    ]
   },
+  "seraphine/then_dont_waste_it_4ad28a90": {
+   "speaker": "seraphine",
+   "text": "Then don't waste it.",
+   "text_hash": "4ad28a90c3f4c33f",
+   "path": "res://assets/audio/voice/seraphine/then_dont_waste_it_4ad28a90.wav",
+   "voice": {
+    "af_river": 0.6,
+    "af_aoede": 0.4
+   },
+   "speed": 0.98,
+   "cast_speed": 0.98,
+   "lang": "en-us",
+   "duration": 1.27,
+   "peak": 0.8913,
+   "rms_db": -16.7,
+   "clipped": 0,
+   "file_hash": "a812502f756ae1f1",
+   "gen_s": 0.37,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L5",
+     "slot": 1.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "seraphine"
+    }
+   ]
+  },
   "seraphine/then_let_us_disappoint_56e81f95": {
    "speaker": "seraphine",
    "text": "Then let us disappoint the money.",
@@ -23207,6 +24610,35 @@
      "source": "data/voice/lines/e7m1.json",
      "ref": "e7m1/L18",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "seraphine"
+    }
+   ]
+  },
+  "seraphine/walls_dont_yield_470a6e8c": {
+   "speaker": "seraphine",
+   "text": "Walls don't yield.",
+   "text_hash": "470a6e8c0d88096e",
+   "path": "res://assets/audio/voice/seraphine/walls_dont_yield_470a6e8c.wav",
+   "voice": {
+    "af_river": 0.6,
+    "af_aoede": 0.4
+   },
+   "speed": 0.98,
+   "cast_speed": 0.98,
+   "lang": "en-us",
+   "duration": 1.28,
+   "peak": 0.8913,
+   "rms_db": -16.3,
+   "clipped": 0,
+   "file_hash": "f6b3f1d3d8a0399b",
+   "gen_s": 0.39,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L7",
+     "slot": 1.6,
      "slot_kind": "cine slot",
      "speaker_id": "seraphine"
     }
@@ -23603,6 +25035,14 @@
    "file_hash": "66b14e6682b50954",
    "gen_s": 0.87,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:40",
+     "ref": "c_e6_lake/K2@4.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -24403,6 +25843,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:179",
+     "ref": "ep6_opening/T09@0.4",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L16",
      "slot": 5.4,
@@ -24427,6 +25875,14 @@
    "file_hash": "d0f7423324fb05b8",
    "gen_s": 1.59,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:142",
+     "ref": "ep6_opening/T06@0.5",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -24523,6 +25979,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:166",
+     "ref": "ep6_opening/T08@0.3",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L14",
      "slot": 2.0,
@@ -24547,6 +26011,14 @@
    "file_hash": "1ae38c350a09d447",
    "gen_s": 1.31,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate.cine:38",
+     "ref": "c_e6_gate/G2@1",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_gate.json",
@@ -25028,6 +26500,14 @@
    "file_hash": "8bfca2b327b2d758",
    "gen_s": 1.78,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:105",
+     "ref": "ep6_opening/T02@0.4",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -25545,6 +27025,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:55",
+     "ref": "c_e4_frontier/F3B@0.5",
+     "slot": 1.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L4",
      "slot": 1.2,
@@ -25611,6 +27099,14 @@
    "file_hash": "b18548da9cae9ccb",
    "gen_s": 0.82,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:183",
+     "ref": "ep6_opening/T10@2.2",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -25920,6 +27416,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:168",
+     "ref": "ep6_opening/T08@2.7",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L15",
      "slot": 4.6,
@@ -26152,6 +27656,14 @@
    "file_hash": "e6743b91b4f0023d",
    "gen_s": 0.83,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:47",
+     "ref": "c_e6_lake/K4@0.6",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -26422,6 +27934,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_gate_shut.cine:36",
+     "ref": "c_e6_gate_shut/G2@1",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_gate.json",
      "ref": "c_e6_gate/L1_shut",
      "slot": 3.0,
@@ -26482,6 +28002,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:126",
+     "ref": "ep6_opening/T04@4.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L10",
      "slot": 3.2,
@@ -26506,6 +28034,14 @@
    "file_hash": "434fa281846803a5",
    "gen_s": 1.59,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:154",
+     "ref": "ep6_opening/T07@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -26636,6 +28172,14 @@
    "file_hash": "054d9af6e2e4d60e",
    "gen_s": 0.7,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:48",
+     "ref": "c_e4_frontier/F2@5",
+     "slot": 2.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -26810,6 +28354,14 @@
    "file_hash": "aafaaecb7efabcd0",
    "gen_s": 0.39,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:52",
+     "ref": "c_e6_lake/K5@1",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
@@ -27155,6 +28707,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:61",
+     "ref": "c_e4_frontier/F4@5.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L6",
      "slot": 3.0,
@@ -27233,6 +28793,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_lake.cine:39",
+     "ref": "c_e6_lake/K2@0.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_lake.json",
      "ref": "c_e6_lake/L2",
      "slot": 3.4,
@@ -27283,6 +28851,14 @@
    "file_hash": "e9a4819a96367d6a",
    "gen_s": 1.26,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:117",
+     "ref": "ep6_opening/T03@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -28279,6 +29855,14 @@
    "file_hash": "4054765eecff38e2",
    "gen_s": 1.52,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:96",
+     "ref": "ep6_opening/T01@1.6",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -33046,6 +34630,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:51",
+     "ref": "ep4_ending/W4@0.4",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
      "ref": "ep4_ending/L4",
      "slot": 1.4,
@@ -33363,6 +34955,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:139",
+     "ref": "ep5_opening/V2@5.2",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L9",
      "slot": 3.4,
@@ -33677,6 +35277,14 @@
    "file_hash": "5ced2fbfdc52942e",
    "gen_s": 1.07,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:193",
+     "ref": "ep5_opening/S16@2.4",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -34153,6 +35761,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:208",
+     "ref": "ep5_opening/VD2@0.5",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L20",
      "slot": 3.8,
@@ -34239,6 +35855,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:48",
+     "ref": "c_e4_refuge/R3@0.5",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L2",
      "slot": 3.4,
@@ -34315,6 +35939,14 @@
    "file_hash": "7f3fa53233f76d41",
    "gen_s": 1.18,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:79",
+     "ref": "c_e4_frontier/F6@0.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -34829,6 +36461,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:185",
+     "ref": "ep5_opening/S15@1",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L15",
      "slot": 3.2,
@@ -34907,6 +36547,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:71",
+     "ref": "c_e4_turnback/T7@0.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L9",
      "slot": 3.0,
@@ -34933,6 +36581,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:155",
+     "ref": "ep5_opening/VA1@0.8",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L10",
      "slot": 3.0,
@@ -34957,6 +36613,14 @@
    "file_hash": "486d8b8e6090f1a7",
    "gen_s": 0.67,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:91",
+     "ref": "c_e4_frontier/F8@0.4",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -35127,6 +36791,14 @@
    "file_hash": "14bee85f8c44c511",
    "gen_s": 0.51,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:40",
+     "ref": "ep5_ending/N3@0.5",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
@@ -35351,6 +37023,14 @@
    "file_hash": "9de0d3f0c024d09b",
    "gen_s": 0.52,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:274",
+     "ref": "ep5_opening/MC2@0.5",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -36210,8 +37890,24 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:34",
+     "ref": "ep5_ending/N2@5.8",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
      "ref": "ep5_ending/L2",
+     "slot": 2.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep7_opening.json",
+     "ref": "ep7_opening/L29",
      "slot": 2.2,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
@@ -36937,6 +38633,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:87",
+     "ref": "c_e4_frontier/F7@6.2",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
      "ref": "c_e4_frontier/L9",
      "slot": 4.0,
@@ -37517,6 +39221,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:197",
+     "ref": "ep5_opening/VC2@0.6",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L18",
      "slot": 5.8,
@@ -37790,6 +39502,14 @@
    "file_hash": "524154da5309e38a",
    "gen_s": 7.06,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:93",
+     "ref": "c_e4_refuge/R9@0.6",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -38303,6 +40023,14 @@
    "file_hash": "035af2e5a477b93d",
    "gen_s": 8.06,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:86",
+     "ref": "c_e4_refuge/R8@0.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
@@ -38819,6 +40547,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:172",
+     "ref": "ep5_opening/VB1@2.2",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L14",
      "slot": 4.4,
@@ -38921,6 +40657,14 @@
    "file_hash": "d405dff6cec43c81",
    "gen_s": 0.8,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:138",
+     "ref": "ep5_opening/V2@0.5",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -39307,6 +41051,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:53",
+     "ref": "c_e4_refuge/R4@0.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L4",
      "slot": 3.2,
@@ -39331,6 +41083,14 @@
    "file_hash": "0247fdfc218c137b",
    "gen_s": 0.29,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:45",
+     "ref": "ep4_ending/W3@0.6",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -39534,6 +41294,14 @@
    "file_hash": "bddbc2eb1697ed69",
    "gen_s": 0.35,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:169",
+     "ref": "ep5_opening/VB1@0.6",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -40369,6 +42137,14 @@
    "file_hash": "d37f8690abc8591d",
    "gen_s": 0.74,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:283",
+     "ref": "ep5_opening/MD1@1",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
@@ -42535,6 +44311,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep5_opening.cine:192",
+     "ref": "ep5_opening/S16@0.5",
+     "slot": 1.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep5_opening.json",
      "ref": "ep5_opening/L16",
      "slot": 1.4,
@@ -42754,6 +44538,14 @@
    "file_hash": "cddcbc5099563ec3",
    "gen_s": 0.72,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep5_ending.cine:49",
+     "ref": "ep5_ending/N4@0.4",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep5_ending.json",
@@ -43189,6 +44981,14 @@
    "file_hash": "1f1338074acd8341",
    "gen_s": 0.93,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:75",
+     "ref": "ep4_ending/W5@1.6",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -44876,6 +46676,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_ending.cine:34",
+     "ref": "ep6_ending/X2@1",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_ending.json",
      "ref": "ep6_ending/L1",
      "slot": 4.0,
@@ -45103,6 +46911,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:207",
+     "ref": "ep6_opening/Y02@0.4",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L20",
      "slot": 6.4,
@@ -45161,6 +46977,14 @@
    "file_hash": "ea0856b171721a2d",
    "gen_s": 0.38,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:99",
+     "ref": "c_e4_turnback/T9@3.6",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -45397,6 +47221,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:219",
+     "ref": "ep6_opening/Y03@0.4",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L21",
      "slot": 3.0,
@@ -45561,6 +47393,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:57",
+     "ref": "c_e4_refuge/R4B@0.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L5",
      "slot": 1.8,
@@ -45621,6 +47461,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:46",
+     "ref": "c_e6_seed/D3@4.4",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
      "ref": "c_e6_seed/L4",
      "slot": 2.2,
@@ -45673,6 +47521,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:249",
+     "ref": "ep6_opening/Y06@0.5",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L26",
      "slot": 5.6,
@@ -45699,6 +47555,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:230",
+     "ref": "ep6_opening/S27@0.4",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L23",
      "slot": 6.0,
@@ -45723,6 +47587,14 @@
    "file_hash": "81864fb459b67666",
    "gen_s": 1.04,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:240",
+     "ref": "ep6_opening/S28@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -45784,6 +47656,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:50",
+     "ref": "c_e4_refuge/R3@4.3",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L3",
      "slot": 1.8,
@@ -45808,6 +47688,14 @@
    "file_hash": "f475b688ea21f538",
    "gen_s": 0.65,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:242",
+     "ref": "ep6_opening/S28@5.4",
+     "slot": 3.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
@@ -45888,6 +47776,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:41",
+     "ref": "c_e4_turnback/T2@5.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L3",
      "slot": 3.4,
@@ -45938,6 +47834,14 @@
    "file_hash": "1d2a60df0e7f20ea",
    "gen_s": 0.71,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:38",
+     "ref": "c_e6_seed/D2@4.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
@@ -46051,6 +47955,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:258",
+     "ref": "ep6_opening/Y07@4.6",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",
      "ref": "ep6_opening/L28",
      "slot": 3.6,
@@ -46134,6 +48046,14 @@
    "file_hash": "e125809e491692c1",
    "gen_s": 0.44,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:95",
+     "ref": "c_e4_frontier/F9@0.5",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -46930,6 +48850,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:72",
+     "ref": "c_e4_refuge/R6@0.4",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L8",
      "slot": 2.6,
@@ -47723,6 +49651,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:87",
+     "ref": "c_e4_refuge/R8@4.2",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L12",
      "slot": 2.4,
@@ -47747,6 +49683,14 @@
    "file_hash": "602398470231f21a",
    "gen_s": 0.42,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:76",
+     "ref": "c_e4_turnback/T8@0.6",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
@@ -48456,6 +50400,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:55",
+     "ref": "c_e4_turnback/T4@5.2",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L7",
      "slot": 2.6,
@@ -48550,6 +50502,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_refuge.cine:81",
+     "ref": "c_e4_refuge/R7@0.8",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_refuge.json",
      "ref": "c_e4_refuge/L10",
      "slot": 4.2,
@@ -48634,6 +50594,14 @@
    "file_hash": "4c005752676e08a2",
    "gen_s": 0.54,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:54",
+     "ref": "ep4_ending/W4B@0.4",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -49333,6 +51301,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e6_seed.cine:51",
+     "ref": "c_e6_seed/D4@1",
+     "slot": 6.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e6_seed.json",
      "ref": "c_e6_seed/L5",
      "slot": 6.0,
@@ -49391,6 +51367,14 @@
    "file_hash": "fcf70f6b408319ba",
    "gen_s": 0.49,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep4_ending.cine:46",
+     "ref": "ep4_ending/W3@2.8",
+     "slot": 1.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep4_ending.json",
@@ -49471,6 +51455,14 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e4_turnback.cine:40",
+     "ref": "c_e4_turnback/T2@0.6",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/c_e4_turnback.json",
      "ref": "c_e4_turnback/L2",
      "slot": 4.2,
@@ -49495,6 +51487,14 @@
    "file_hash": "418d487903a51103",
    "gen_s": 1.41,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e4_frontier.cine:83",
+     "ref": "c_e4_frontier/F7@0.4",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/c_e4_frontier.json",
@@ -49693,6 +51693,14 @@
    "file_hash": "75bd61a338be7035",
    "gen_s": 1.32,
    "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep6_opening.cine:200",
+     "ref": "ep6_opening/Y01@1.5",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
     {
      "kind": "cine",
      "source": "data/voice/lines/ep6_opening.json",

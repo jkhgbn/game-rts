@@ -1,0 +1,503 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_80yxc"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_onklq"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_mum3b"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_eu6vc"]
+
+[sub_resource type="Resource" id="Resource_ftu4q"]
+script = ExtResource("4_eu6vc")
+kind = &"fade"
+params = {
+"alpha": 0.5,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_cg5in"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"swordsman"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_loxrh"]
+script = ExtResource("1_80yxc")
+at = 1.5
+speaker = &"ossavar"
+text = "Night in Adamarch. Everyone was counting coin. Torvald counted one gift."
+duration = 6.0
+voice = "res://assets/audio/voice/ossavar/night_in_adamarch_everyone_f03450ea.wav"
+
+[sub_resource type="Resource" id="Resource_ybkbe"]
+script = ExtResource("3_mum3b")
+id = &"G1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(-60, 76, -124)
+to_pos = Vector3(-50, 70, -108)
+look_from = Vector3(0, 70, 0)
+look_to = Vector3(0, 66, 0)
+fov_from = 50.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.0
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_loxrh")])
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_ftu4q"), SubResource("Resource_cg5in")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_ultfo"]
+script = ExtResource("4_eu6vc")
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_eue36"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_avsnq"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"malrik_young"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_sd7la"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"sknight"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_s4q10"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"hexweaver"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_r8jxr"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"shade"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_c4jnv"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"army_host"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_r15kn"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"army_fallen"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_seel5"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"fx_vortex"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_vtn8o"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"fx_tendrils"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_7dvea"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"fx_master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ryb25"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"fx_crown"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_tr22y"]
+script = ExtResource("4_eu6vc")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_us4tk"]
+script = ExtResource("4_eu6vc")
+at = 2.0
+kind = &"anim"
+actor = &"aldra"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_tj0hg"]
+script = ExtResource("1_80yxc")
+at = 1.0
+speaker = &"aldra"
+text = "Two hundred. I counted them twice. Ten towers of twenty."
+duration = 4.2
+voice = "res://assets/audio/voice/aldra/two_hundred_i_counted_aff24325.wav"
+
+[sub_resource type="Resource" id="Resource_wdcl4"]
+script = ExtResource("3_mum3b")
+id = &"G2"
+duration = 8.0
+from_pos = Vector3(2.6, 1.8, 8.6)
+to_pos = Vector3(2.6, 1.8, 8.6)
+look_from = Vector3(-1.8, 1.25, 4.4)
+look_to = Vector3(-1.8, 1.25, 4.4)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_tj0hg")])
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_ultfo"), SubResource("Resource_eue36"), SubResource("Resource_avsnq"), SubResource("Resource_sd7la"), SubResource("Resource_s4q10"), SubResource("Resource_r8jxr"), SubResource("Resource_c4jnv"), SubResource("Resource_r15kn"), SubResource("Resource_seel5"), SubResource("Resource_vtn8o"), SubResource("Resource_7dvea"), SubResource("Resource_ryb25"), SubResource("Resource_tr22y"), SubResource("Resource_us4tk")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_w85cl"]
+script = ExtResource("1_80yxc")
+at = 0.5
+speaker = &"aldra"
+text = "Every one carries the anchor. The Outwall's stamp."
+duration = 3.8
+voice = "res://assets/audio/voice/aldra/every_one_carries_the_6d9cd212.wav"
+
+[sub_resource type="Resource" id="Resource_6ol14"]
+script = ExtResource("3_mum3b")
+id = &"G3"
+duration = 6.0
+from_pos = Vector3(-0.7, 1.2, 4.3)
+to_pos = Vector3(-0.7, 1.2, 4.3)
+look_from = Vector3(-1.1, 0.88, 3.85)
+look_to = Vector3(-1.1, 0.88, 3.85)
+fov_from = 26.0
+fov_to = 26.0
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_w85cl")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_m7tyt"]
+script = ExtResource("4_eu6vc")
+at = 0.6
+kind = &"face"
+actor = &"torvald"
+params = {
+"time": 1.2,
+"yaw_deg": 121.53478954729934
+}
+
+[sub_resource type="Resource" id="Resource_5wkcj"]
+script = ExtResource("1_80yxc")
+at = 1.5
+speaker = &"torvald"
+text = "Two hundred dockers' wages, given as a gift."
+duration = 3.8
+voice = "res://assets/audio/voice/torvald/two_hundred_dockers_wages_bc0e6123.wav"
+
+[sub_resource type="Resource" id="Resource_qm5an"]
+script = ExtResource("3_mum3b")
+id = &"G4"
+duration = 8.0
+from_pos = Vector3(0.4, 1.75, 3)
+to_pos = Vector3(0.4, 1.75, 3)
+look_from = Vector3(-3.4, 1.5999999, 5.2)
+look_to = Vector3(-3.4, 1.5999999, 5.2)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_5wkcj")])
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_m7tyt")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_aoxd7"]
+script = ExtResource("1_80yxc")
+at = 0.8
+speaker = &"aldra"
+text = "Coin remembers where it was taken."
+duration = 3.0
+voice = "res://assets/audio/voice/aldra/coin_remembers_where_it_1225aa16.wav"
+
+[sub_resource type="Resource" id="Resource_70pup"]
+script = ExtResource("3_mum3b")
+id = &"G5"
+duration = 7.0
+from_pos = Vector3(-0.4, 1.6, 5.4)
+to_pos = Vector3(-0.4, 1.6, 5.4)
+look_from = Vector3(-1, 1.5699999, 3.2)
+look_to = Vector3(-1, 1.5699999, 3.2)
+look_actor = &"aldra"
+look_offset = Vector3(0, 1.5699999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_aoxd7")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_tyig8"]
+script = ExtResource("4_eu6vc")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(-1, 0, 4.9)
+params = {
+"yaw_deg": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_yrbmb"]
+script = ExtResource("4_eu6vc")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_lc4hx"]
+script = ExtResource("4_eu6vc")
+at = 5.4
+kind = &"fade"
+params = {
+"alpha": 0.55,
+"color": Color(0, 0, 0, 1),
+"time": 0.4
+}
+
+[sub_resource type="Resource" id="Resource_on76m"]
+script = ExtResource("4_eu6vc")
+at = 6.2
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_ohsmx"]
+script = ExtResource("1_80yxc")
+at = 2.0
+speaker = &"torvald"
+text = "So does Malrik. He has simply never minded."
+duration = 3.6
+voice = "res://assets/audio/voice/torvald/so_does_malrik_he_39fff724.wav"
+
+[sub_resource type="Resource" id="Resource_to6mo"]
+script = ExtResource("3_mum3b")
+id = &"G6"
+duration = 8.0
+from_pos = Vector3(3.6, 1.6, 4)
+to_pos = Vector3(3.6, 1.6, 4)
+look_from = Vector3(-1, 1.35, 4)
+look_to = Vector3(-1, 1.35, 4)
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_ohsmx")])
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_tyig8"), SubResource("Resource_yrbmb"), SubResource("Resource_lc4hx"), SubResource("Resource_on76m")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_wymlo"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_yxi1k"]
+script = ExtResource("4_eu6vc")
+kind = &"fade"
+params = {
+"alpha": 0.45,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_qrslm"]
+script = ExtResource("1_80yxc")
+at = 2.0
+speaker = &"ossavar"
+text = "Tomorrow, ask the herald where the knives came from."
+duration = 5.0
+voice = "res://assets/audio/voice/ossavar/tomorrow_ask_the_herald_3f19b1e0.wav"
+
+[sub_resource type="Resource" id="Resource_2rf3e"]
+script = ExtResource("3_mum3b")
+id = &"G7"
+duration = 8.0
+from_pos = Vector3(15, 0.8, 6)
+to_pos = Vector3(15, 0.8, 6)
+look_from = Vector3(9, 3, -2)
+look_to = Vector3(9, 3, -2)
+fov_from = 50.0
+fov_to = 50.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_qrslm")])
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_wymlo"), SubResource("Resource_yxi1k")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_optuk"]
+script = ExtResource("4_eu6vc")
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_w82ym"]
+script = ExtResource("4_eu6vc")
+kind = &"visible"
+actor = &"ossavar"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_blh6v"]
+script = ExtResource("1_80yxc")
+at = 0.6
+speaker = &"aldra"
+text = "You heard him."
+duration = 1.8
+voice = "res://assets/audio/voice/aldra/you_heard_him_5f0b031d.wav"
+
+[sub_resource type="Resource" id="Resource_sp88p"]
+script = ExtResource("1_80yxc")
+at = 3.0
+speaker = &"torvald"
+text = "I heard."
+duration = 1.6
+voice = "res://assets/audio/voice/torvald/i_heard_dac147c7.wav"
+
+[sub_resource type="Resource" id="Resource_87n3l"]
+script = ExtResource("3_mum3b")
+id = &"G8"
+duration = 5.0
+from_pos = Vector3(3.6, 1.6, 4)
+to_pos = Vector3(3.6, 1.6, 4)
+look_from = Vector3(-1, 1.35, 4)
+look_to = Vector3(-1, 1.35, 4)
+fov_from = 36.0
+fov_to = 36.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_blh6v"), SubResource("Resource_sp88p")])
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_optuk"), SubResource("Resource_w82ym")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_6ujo3"]
+script = ExtResource("4_eu6vc")
+at = 2.8
+kind = &"visible"
+actor = &"candle"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ymvwv"]
+script = ExtResource("4_eu6vc")
+at = 2.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_1ahcg"]
+script = ExtResource("4_eu6vc")
+at = 2.8
+kind = &"fade"
+params = {
+"alpha": 0.6,
+"color": Color(0.019607844, 0.023529412, 0.05882353, 1),
+"time": 0.3
+}
+
+[sub_resource type="Resource" id="Resource_cxolf"]
+script = ExtResource("1_80yxc")
+at = 0.5
+speaker = &"torvald"
+text = "Tomorrow, then."
+duration = 2.0
+voice = "res://assets/audio/voice/torvald/tomorrow_then_bcbe193f.wav"
+
+[sub_resource type="Resource" id="Resource_baduf"]
+script = ExtResource("3_mum3b")
+id = &"G9"
+duration = 7.0
+from_pos = Vector3(0.5, 1.75, 3.7)
+to_pos = Vector3(0.5, 1.75, 3.7)
+look_from = Vector3(-1, 1.5999999, 4.9)
+look_to = Vector3(-1, 1.5999999, 4.9)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_80yxc")]([SubResource("Resource_cxolf")])
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_6ujo3"), SubResource("Resource_ymvwv"), SubResource("Resource_1ahcg")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_aximm"]
+script = ExtResource("4_eu6vc")
+at = 3.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_hn11n"]
+script = ExtResource("3_mum3b")
+id = &"G10"
+duration = 5.0
+from_pos = Vector3(0.3, 1.55, 5.6)
+to_pos = Vector3(0.3, 1.55, 5.6)
+look_from = Vector3(-1, 1.5699999, 3.2)
+look_to = Vector3(-1, 1.5699999, 3.2)
+look_actor = &"aldra"
+look_offset = Vector3(0, 1.5699999, 0)
+fov_from = 34.0
+fov_to = 34.0
+actions = Array[ExtResource("4_eu6vc")]([SubResource("Resource_aximm")])
+stage_set = &"forge_intro_malrik"
+
+[resource]
+script = ExtResource("2_onklq")
+id = &"c_e7_ledger"
+title = "Clean Coin"
+stage_scene = "res://scenes/cinematics/c_e7_ledger.tscn"
+shots = Array[ExtResource("3_mum3b")]([SubResource("Resource_ybkbe"), SubResource("Resource_wdcl4"), SubResource("Resource_6ol14"), SubResource("Resource_qm5an"), SubResource("Resource_70pup"), SubResource("Resource_to6mo"), SubResource("Resource_2rf3e"), SubResource("Resource_87n3l"), SubResource("Resource_baduf"), SubResource("Resource_hn11n")])
+music_cue = &"res://assets/audio/music/music_menu.wav"
+shake_seed = 702
+music_volume_db = -24.0
+voice_over = Array[StringName]([&"narrator", &"ossavar"])
+lines_over_cuts = true

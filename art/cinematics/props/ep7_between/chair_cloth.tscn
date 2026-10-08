@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3]
+
+; ep7_opening: the white cloth laid on the Master's empty stone chair (torn away by Ossavar's wings in D15). Two thin
+; panels, seat and back, matching stone_chair.tscn's origin (the ground under the seat's front centre). 0 lights.
+
+[sub_resource type="BoxMesh" id="Box_unit"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cloth"]
+albedo_color = Color(0.95, 0.94, 0.9, 1)
+roughness = 1.0
+
+[node name="chair_cloth" type="Node3D"]
+
+[node name="SeatCloth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0, 0, 0.03, 0, 0, 0, 1.05, 0, 0.92, -0.55)
+mesh = SubResource("Box_unit")
+surface_material_override/0 = SubResource("Mat_cloth")
+
+[node name="BackCloth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.4, 0, 0, 0, 0.03, 0, 1.6, -0.83)
+mesh = SubResource("Box_unit")
+surface_material_override/0 = SubResource("Mat_cloth")
+
+[node name="Fold" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0, 0, 0.3, 0, 0, 0, 0.03, 0, 0.78, -0.08)
+mesh = SubResource("Box_unit")
+surface_material_override/0 = SubResource("Mat_cloth")

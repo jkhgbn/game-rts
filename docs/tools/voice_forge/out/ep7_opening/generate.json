@@ -1,0 +1,31 @@
+{
+ "rendered": 31,
+ "unchanged": 1702,
+ "gen_s": 28.4,
+ "audio_s": 100.7,
+ "rtf": 0.28,
+ "wall_s": 31.9,
+ "providers": [
+  "CPUExecutionProvider"
+ ],
+ "model_load_s": 1.4,
+ "total_lines": 1733,
+ "total_audio_s": 5450.7,
+ "fit": "1",
+ "fitted": [
+  "ossavar/between_them_one_rock_101a7382 4.29 -> 4.00 s (slot 4.2 s, x1.06)",
+  "ossavar/he_had_never_stepped_d8d994f0 4.86 -> 4.50 s (slot 4.6 s, x1.10)",
+  "ossavar/they_fought_over_it_1f99aba5 4.37 -> 4.07 s (slot 4.2 s, x1.08)"
+ ],
+ "at": "2026-10-08 11:41:43",
+ "last_render": {
+  "rendered": 31,
+  "gen_s": 28.4,
+  "audio_s": 100.7,
+  "rtf": 0.28,
+  "providers": [
+   "CPUExecutionProvider"
+  ],
+  "at": "2026-10-08 11:41:43"
+ }
+}
