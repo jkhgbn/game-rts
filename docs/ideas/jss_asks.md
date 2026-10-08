@@ -44,3 +44,5 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-08: 'try to make most of them when u can ... u can work on it all night' -> build scripted cinematics (timelines) for most missions (e2m1-e2m5, e3m1-e3m4, m01-m04 gaps, ep3_opening wiring, ep3/ep4 endings), Opus medium agents, commit per block, stop at ~95 % of the 5-hour meter. Plan unchanged (campaign-outline sections 3.2-3.4 already call for ENGINE scenes).
 
 - 2026-10-08: "maybe sometime it zoom and its not on the item they say" -> framing audit of all films: shots that zoom on the wrong subject vs the line spoken; fix camera targets. Plan unchanged.
+
+- 2026-10-08: "pour les parties plus courtes, pourquoi ne pas commencer avec plus de recolteurs" -> faster-games experiment C: more starting workers (and combo with A2), measured like A/B; nothing enabled by default.
