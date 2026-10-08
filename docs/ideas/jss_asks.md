@@ -40,3 +40,5 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-06: 'try to optimize to have like 4 mission per wizzard' -> read as: restructure the campaign so each of the 4 wizards plays about 4 missions (16 core + Episode 8 finale), merging/cutting the rest, keeping the best beats and unit spotlights. Design proposal only (docs/design/campaign-4-per-wizard.md), current outline untouched until JS approves.
 
 - 2026-10-06: 'try to buff or nerf unit or add siege unit to give huge position advantage and finish game faster, try both' -> two experiments measured on bot-vs-bot match length (variant A: stat/pacing buff-nerf; variant B: new/stronger siege units), then recommend.
+
+- 2026-10-08: 'try to make most of them when u can ... u can work on it all night' -> build scripted cinematics (timelines) for most missions (e2m1-e2m5, e3m1-e3m4, m01-m04 gaps, ep3_opening wiring, ep3/ep4 endings), Opus medium agents, commit per block, stop at ~95 % of the 5-hour meter. Plan unchanged (campaign-outline sections 3.2-3.4 already call for ENGINE scenes).
