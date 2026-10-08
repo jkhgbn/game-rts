@@ -3199,7 +3199,7 @@ msgstr "J'ai fait pousser ces murs pour garder la guerre dehors. Ils l'ont fait.
 
 #. speaker maelis
 #: data/voice/lines/e8m1_nature.json:L3
-msgid "They'll fight you, child. They only know the one word you taught them. (voice, before her call)"
+msgid "They'll fight you, child. They only know the one word you taught them."
 msgstr "Ils vont te combattre, petite. Ils ne connaissent que le seul mot que tu leur as appris."
 
 #. speaker ysolde
@@ -3434,8 +3434,8 @@ msgstr "Eh bien. Regardez-vous, tous les quatre. Trente ans que j'attends de voi
 
 #. speaker vessa
 #: data/voice/lines/e8m2.json:L3
-msgid "Fire takes the south-west. Or wherever I'm standing. I'm flexible."
-msgstr "Le Feu prend le sud-ouest. Ou là où je me trouve. Je suis flexible."
+msgid "Fire takes its bank. Or wherever I'm standing. I'm flexible."
+msgstr "Le Feu prend sa rive. Ou là où je me trouve. Je suis flexible."
 
 #. speaker torvald
 #: data/voice/lines/e8m2.json:L4
@@ -3599,7 +3599,7 @@ msgstr "Quatre serrures, quatre couleurs, un anneau de lumière autour de l'île
 
 #. speaker master
 #: data/voice/lines/e8m2.json:L34
-msgid "Now. All four of you. Turn them, and do not let go. (from below)"
+msgid "Now. All four of you. Turn them, and do not let go."
 msgstr "Maintenant. Tous les quatre. Tournez-les, et ne lâchez pas."
 
 #. speaker vessa
@@ -3619,7 +3619,7 @@ msgstr "Vous avez ouvert ma porte de vos propres mains. Merci. Maintenant, je mo
 
 #. speaker torvald
 #: data/voice/lines/e8m2.json:L38
-msgid "Then let him come. We are four. We hold. (and Ysolde, 2 s: `Together.`)"
+msgid "Then let him come. We are four. We hold."
 msgstr "Alors qu'il vienne. Nous sommes quatre. Nous tenons."
 
 #. speaker `<W>`
@@ -3769,7 +3769,7 @@ msgstr "Les chaînes ! Elles le ramènent ! Les clés se souviennent à qui el
 
 #. speaker master
 #: data/voice/lines/e8m3.json:L19
-msgid "Hold him there. I am almost with you. (from below)"
+msgid "Hold him there. I am almost with you."
 msgstr "Retenez-le là. Je suis presque avec vous."
 
 #. speaker hush

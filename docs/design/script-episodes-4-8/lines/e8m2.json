@@ -24,8 +24,8 @@
    "event": "E1",
    "speaker": "vessa",
    "dur": 5.0,
-   "subtitle": "Fire takes the south-west.|Or wherever I'm standing. I'm flexible.",
-   "text": "Fire takes the south-west. Or wherever I'm standing. I'm flexible."
+   "subtitle": "Fire takes its bank.|Or wherever I'm standing. I'm flexible.",
+   "text": "Fire takes its bank. Or wherever I'm standing. I'm flexible."
   },
   {
    "id": "L4",
@@ -288,8 +288,8 @@
    "event": "E17",
    "speaker": "master",
    "dur": 5.0,
-   "subtitle": "Now. All four of you. Turn them,|and do not let go. (from below)",
-   "text": "Now. All four of you. Turn them, and do not let go. (from below)"
+   "subtitle": "Now. All four of you. Turn them,|and do not let go.",
+   "text": "Now. All four of you. Turn them, and do not let go."
   },
   {
    "id": "L35",
@@ -320,8 +320,8 @@
    "event": "E17",
    "speaker": "torvald",
    "dur": 5.0,
-   "subtitle": "Then let him come. We are four.|We hold. (and Ysolde, 2 s: `Together.`)",
-   "text": "Then let him come. We are four. We hold. (and Ysolde, 2 s: `Together.`)"
+   "subtitle": "Then let him come. We are four.|We hold.",
+   "text": "Then let him come. We are four. We hold."
   },
   {
    "id": "L39",
