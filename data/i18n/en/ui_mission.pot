@@ -94,48 +94,48 @@ msgid "Mother Hush"
 msgstr ""
 
 #. &"obren": ["Obren", Color(1.0, 0.80, 0.25)],
-#: scripts/ui/cinematic/speakers.gd:15 scripts/ui/cinematic/speakers.gd:36
-#: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_03.gd:1468
+#: scripts/ui/cinematic/speakers.gd:15 scripts/ui/cinematic/speakers.gd:53
+#: scripts/campaign/mission_03.gd:156 scripts/campaign/mission_03.gd:1474
 #: scripts/campaign/mission_04.gd:91 scripts/campaign/mission_e2_04.gd:149
 msgid "Obren"
 msgstr ""
 
 #. &"master": ["The Master", Color(0.95, 0.93, 0.85)],
-#: scripts/ui/cinematic/speakers.gd:16 scripts/campaign/mission_03.gd:156
+#: scripts/ui/cinematic/speakers.gd:16 scripts/campaign/mission_03.gd:157
 #: scripts/campaign/mission_e2_05.gd:167
 msgid "The Master"
 msgstr ""
 
 #. &"narrator": ["Narrator", Color(0.9, 0.85, 0.7)],
 #: scripts/ui/cinematic/speakers.gd:17 scripts/campaign/mission_00.gd:112
-#: scripts/campaign/mission_01.gd:93 scripts/campaign/mission_02.gd:138
-#: scripts/campaign/mission_03.gd:154 scripts/campaign/mission_04.gd:90
+#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:138
+#: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_04.gd:90
 msgid "Narrator"
 msgstr ""
 
 #. &"ashby": ["Captain Ashby", Color(0.95, 0.60, 0.35)],
 #: scripts/ui/cinematic/speakers.gd:18 scripts/campaign/mission_00.gd:112
 #: scripts/campaign/mission_00.gd:808 scripts/campaign/mission_e2_01.gd:150
-#: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_03.gd:95
+#: scripts/campaign/mission_e2_02.gd:170 scripts/campaign/mission_e2_03.gd:95
 msgid "Captain Ashby"
 msgstr ""
 
 #. &"pell": ["Pell", Color(0.85, 0.75, 0.5)],
-#: scripts/ui/cinematic/speakers.gd:19 scripts/campaign/mission_01.gd:93
-#: scripts/campaign/mission_02.gd:139 scripts/campaign/mission_03.gd:154
+#: scripts/ui/cinematic/speakers.gd:19 scripts/campaign/mission_01.gd:96
+#: scripts/campaign/mission_02.gd:139 scripts/campaign/mission_03.gd:155
 #: scripts/campaign/mission_04.gd:91 scripts/campaign/mission_e2_03.gd:94
 msgid "Pell"
 msgstr ""
 
 #. &"bettany": ["Bettany Crook", Color(0.80, 0.65, 0.45)],
-#: scripts/ui/cinematic/speakers.gd:20 scripts/campaign/mission_03.gd:155
-#: scripts/campaign/mission_e2_03.gd:389
+#: scripts/ui/cinematic/speakers.gd:20 scripts/campaign/mission_03.gd:156
+#: scripts/campaign/mission_e2_03.gd:390
 msgid "Bettany Crook"
 msgstr ""
 
 #. &"maelis": ["Maelis", Color(0.60, 0.85, 0.50)],
-#: scripts/ui/cinematic/speakers.gd:21 scripts/campaign/mission_03.gd:155
-#: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_05.gd:165
+#: scripts/ui/cinematic/speakers.gd:21 scripts/campaign/mission_03.gd:156
+#: scripts/campaign/mission_e2_02.gd:169 scripts/campaign/mission_e2_05.gd:165
 msgid "Maelis"
 msgstr ""
 
@@ -143,4 +143,76 @@ msgstr ""
 #: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:139
 #: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_05.gd:166
 msgid "Aldra"
+msgstr ""
+
+#. &"wren": ["Wren", Color(0.80, 0.92, 0.60)],
+#: scripts/ui/cinematic/speakers.gd:24 scripts/ui/cinematic/speakers.gd:25
+#: scripts/campaign/mission_e2_01.gd:150 scripts/campaign/mission_e2_01.gd:321
+#: scripts/campaign/mission_e2_02.gd:169 scripts/campaign/mission_e2_02.gd:348
+msgid "Wren"
+msgstr ""
+
+#. &"shade": ["Shade Captain", Color(0.62, 0.58, 0.70)],
+#: scripts/ui/cinematic/speakers.gd:26 scripts/campaign/mission_e3_03.gd:85
+msgid "Shade Captain"
+msgstr ""
+
+#. &"reveler": ["Reveler", Color(0.95, 0.62, 0.38)],   # a Flame Guard at the Ep2 feast (Fire)
+#: scripts/ui/cinematic/speakers.gd:27
+msgid "Reveler"
+msgstr ""
+
+#. &"dancer": ["Dancer", Color(1.00, 0.72, 0.55)],     # the Ember Archer at the Ep2 feast (Fire)
+#: scripts/ui/cinematic/speakers.gd:28
+msgid "Dancer"
+msgstr ""
+
+#. &"gannet": ["Gannet", Color(0.62, 0.55, 0.40)],       # Gannet Rook, reiver chief
+#: scripts/ui/cinematic/speakers.gd:30
+msgid "Gannet"
+msgstr ""
+
+#. &"reeve": ["The Reeve", Color(0.80, 0.70, 0.45)],     # Reeve Aldous Pike
+#: scripts/ui/cinematic/speakers.gd:31
+msgid "The Reeve"
+msgstr ""
+
+#. &"rider": ["Bren", Color(0.80, 0.82, 0.88)],          # Bren of Hearthwick (mission-e6-02.md: shown "Bren")
+#: scripts/ui/cinematic/speakers.gd:32
+msgid "Bren"
+msgstr ""
+
+#. &"ossavar": ["Ossavar", Color(0.95, 0.70, 0.30)],     # the gold-fire elder dragon
+#: scripts/ui/cinematic/speakers.gd:33
+msgid "Ossavar"
+msgstr ""
+
+#. &"herald": ["Herald", Color(0.85, 0.80, 0.60)],
+#: scripts/ui/cinematic/speakers.gd:34
+msgid "Herald"
+msgstr ""
+
+#. &"dacian": ["Dacian", Color(1.00, 0.80, 0.35)],       # Aurivane's Sunblade (gold)
+#: scripts/ui/cinematic/speakers.gd:35
+msgid "Dacian"
+msgstr ""
+
+#. &"seraphine": ["Seraphine", Color(0.80, 0.88, 1.00)], # Adamarch's Diamond Wall (white-blue)
+#: scripts/ui/cinematic/speakers.gd:36
+msgid "Seraphine"
+msgstr ""
+
+#. &"brannet": ["Brannet", Color(0.75, 0.62, 0.45)],     # Outwall foreman
+#: scripts/ui/cinematic/speakers.gd:37
+msgid "Brannet"
+msgstr ""
+
+#. &"diamond_archon": ["The Diamond Archon", Color(0.92, 0.94, 1.00)],   # Adamarch white
+#: scripts/ui/cinematic/speakers.gd:38
+msgid "The Diamond Archon"
+msgstr ""
+
+#. &"child": ["Child", Color(1.00, 0.86, 0.78)],         # the Outwall girl of the ruined dome
+#: scripts/ui/cinematic/speakers.gd:39
+msgid "Child"
 msgstr ""
