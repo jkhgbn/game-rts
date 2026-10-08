@@ -166,7 +166,7 @@ const DIALOGUE := [
 	[&"bettany", "The Crooked Lantern is open! Sellswords, cheap ale, no questions. First hire's on the house."],
 	[&"vessa", "Sellswords who won't take orders. Perfect. I'll pay them to want what I want."],
 	[&"bettany", "Mind the flags, Firelady. Coin on a flag is the only order that lot understands."],
-	[&"vessa", "A heart made of roots, pumping green. That's the most Nature thing I have ever seen."],
+	[&"vessa", "A heart made of roots, pumping green. Only Ysolde would grow a thing like that."],
 	[&"vessa", "His Thralls are draining the hearts. If he opens that tree first, I lose it."],
 	[&"ysolde", "Fire and Shadow, burning my wood for a trinket. I will remember you both."],
 	[&"narrator", "Old Mossjaw wakes in the Hollowfen, and he is hungry."],
@@ -196,7 +196,7 @@ const CINE_LINES := [
 	[&"m3_parting", &"vessa", "Then help me stop it. Please.", 3.5],
 	[&"m3_parting", &"ysolde", "Nature doesn't take sides, Vessa.", 4.0],
 	[&"m3_parting", &"ysolde", "But when your war comes for my wood, and it will, remember that I warned you both.", 8.0],
-	[&"m3_parting", &"narrator", "Fire at war with Shadow. Ice and Nature watching. And under the world, something counting.", 8.0],
+	[&"m3_parting", &"narrator", "Fire is at war with Shadow, while Ice and Nature watch. Under the world, something is counting.", 8.0],
 ]
 const BRIEFING_PARAGRAPHS: Array[String] = [
 	"Two relics answer to fire now, and both hum toward the same place: the Sighing Wood, Ysolde's border forest, which has kept out of every quarrel for a hundred years.",

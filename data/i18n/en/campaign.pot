@@ -1430,22 +1430,22 @@ msgid "Episode 1 complete"
 msgstr ""
 
 #. why = "Cinematics off"
-#: scripts/campaign/mission_base.gd:639
+#: scripts/campaign/mission_base.gd:667
 msgid "Cinematics off"
 msgstr ""
 
 #. why = "No cinematic %s" % id
-#: scripts/campaign/mission_base.gd:641
+#: scripts/campaign/mission_base.gd:669
 msgid "No cinematic %s"
 msgstr ""
 
 #. next.text = "Continue" if film or i < 0 else "Continue: Mission %d" % i
-#: scripts/campaign/mission_base.gd:735
+#: scripts/campaign/mission_base.gd:773
 msgid "Continue"
 msgstr ""
 
 #. next.text = "Continue" if film or i < 0 else "Continue: Mission %d" % i
-#: scripts/campaign/mission_base.gd:735
+#: scripts/campaign/mission_base.gd:773
 msgid "Continue: Mission %d"
 msgstr ""
 
