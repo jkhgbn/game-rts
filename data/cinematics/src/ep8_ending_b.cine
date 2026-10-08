@@ -187,7 +187,7 @@ shot E21 7.0  set=forge_intro_vessa  cam=static  from=(4.0, 2.4, 9.0)  look=(-8.
 
 # ---------------------------------------------------------------- four hands
 # Hero wide at full sun, slow push: four banners around the pit; oak saplings on the floor where the throne was
-shot E22 7.0  cam=dolly  from=(4.4, 2.4, 4.6)  to=(3.4, 2.0, 3.4)  look=(0, 0.6, -1.8)  fov=46  in=blend:0.4
+shot E22 7.0  cam=dolly  from=(4.4, 2.4, 4.6)  to=(2.0, 1.4, 1.2)  look=(0, 0.6, -1.8)>(0, 0.3, -2.2)  fov=46>38  in=blend:0.4
   at 0.0  fade color=#ffe9c0  alpha=0.15  time=0.3
   at 0.0  hide malrik
   at 0.0  hide hush

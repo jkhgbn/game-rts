@@ -1,8 +1,8 @@
 # cine build: m3_plea
 
-2026-10-08 00:26:27 - `tools/cine/run_cine.ps1 build m3_plea` - hash `0cc2f1f7f67799ec` (2 runs identical)
+2026-10-08 14:11:42 - `tools/cine/run_cine.ps1 build m3_plea` - hash `96882ebaf87cd524` (2 runs identical)
 
-## Result: **PASS** - quality **98 / 100** (previous run 96, +2)
+## Result: **PASS** - quality **98 / 100** (previous run 98, +0)
 
 0 FAIL, 0 WARN, 23 PASS, 10 info, 0 skipped, 1 s
 
@@ -36,7 +36,7 @@
 | F3 | Y3 face ysolde | PASS 100 | worst u 0.50 v 0.44 at 9.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | Y4 face vessa | PASS 100 | worst u 0.30 v 0.41 at 9.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | Y4 face ysolde | PASS 88 | worst u 0.91 v 0.41 at 9.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F6 | Y5 face vessa | PASS 100 | worst u 0.50 v 0.50 at 5.75 s | head inside the 2.39 band safe area (90 %) |  |
+| F6 | Y5 face vessa | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Continuity (180-degree rule, jump cuts)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -61,8 +61,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 0cc2f1f7f67799ec / 0cc2f1f7f67799ec | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was d038ae70dd7acc31) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 96882ebaf87cd524 / 96882ebaf87cd524 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was b12e4a88e2a851b5) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/m3_plea.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

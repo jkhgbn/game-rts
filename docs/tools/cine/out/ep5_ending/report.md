@@ -1,15 +1,15 @@
-# cine check: ep5_ending
+# cine build: ep5_ending
 
-2026-10-08 11:19:06 - `tools/cine/run_cine.ps1 check ep5_ending` - hash `3e63aea3e1a18d39` (2 runs identical)
+2026-10-08 14:09:02 - `tools/cine/run_cine.ps1 build ep5_ending` - hash `8582430111be34a6` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100**
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 0 WARN, 26 PASS, 13 info, 0 skipped, 2 s
+0 FAIL, 0 WARN, 27 PASS, 13 info, 0 skipped, 2 s
 
 ## Improve next
-1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
-2. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
-3. **Two-run hash** (IDEA): the hash in the history must stay the same while the .cine is unchanged _(from cine)_
+1. **N4 face master** (PASS): keep master nearer the band centre in N4 _(from F6 N4 face master, shot N4)_
+2. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
+3. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -36,7 +36,7 @@
 | F3 | N2 face y_malrik | PASS 100 | worst u 0.59 v 0.38 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | N3 face y_vessa | PASS 100 | worst u 0.73 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | N3 face y_malrik | PASS 100 | worst u 0.73 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F6 | N4 face master | PASS 100 | worst u 0.57 v 0.51 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F6 | N4 face master | PASS 94 | worst u 0.50 v 0.75 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F7 | N5 face vessa | PASS 100 | worst u 0.50 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F8 | N5B faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F9 | N6 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
@@ -68,8 +68,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 3e63aea3e1a18d39 / 3e63aea3e1a18d39 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | first run |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 8582430111be34a6 / 8582430111be34a6 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 3e63aea3e1a18d39) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep5_ending.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

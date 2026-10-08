@@ -139,7 +139,7 @@
 			"score": 1.0,
 			"shot": "Y5",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 5.75 s",
+			"value": "worst u 0.50 v 0.50 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -405,7 +405,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0cc2f1f7f67799ec / 0cc2f1f7f67799ec",
+			"value": "96882ebaf87cd524 / 96882ebaf87cd524",
 			"weight": 1.0
 		},
 		{
@@ -419,7 +419,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was d038ae70dd7acc31)",
+			"value": "changed (was b12e4a88e2a851b5)",
 			"weight": 1.0
 		},
 		{
@@ -483,7 +483,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "0cc2f1f7f67799ec",
+	"hash": "96882ebaf87cd524",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "m3_plea",
@@ -515,13 +515,13 @@
 	"notes": [
 		"source `data/cinematics/src/m3_plea.cine` (36 lines), 40.5 s, 5 shots, stage: cine-built (props / cast)"
 	],
-	"previous_quality": 96.3,
+	"previous_quality": 98.1,
 	"quality": 98.1,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 0.6,
+	"seconds": 0.9,
 	"shots": {},
-	"started": "2026-10-08 00:26:27",
+	"started": "2026-10-08 14:11:42",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

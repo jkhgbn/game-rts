@@ -97,7 +97,7 @@
 			"score": 1.0,
 			"shot": "D3",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 3.25 s",
+			"value": "worst u 0.50 v 0.50 at 0.75 s",
 			"weight": 1.0
 		},
 		{
@@ -234,10 +234,10 @@
 			"improve": "",
 			"name": "voice files",
 			"rule": "every line has a WAV (data/voice/manifest.json, speaker + text, or voice=)",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "0 / 3 lines voiced: missing D2 \"The ford is mine. The tr\", D4 \"The ford fell at dusk. T\", D5 \"Tell me to stop again to\"",
+			"status": "PASS",
+			"value": "3 / 3 lines voiced",
 			"weight": 1.0
 		},
 		{
@@ -349,7 +349,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "f482a2d82dd1fd76 / f482a2d82dd1fd76",
+			"value": "4b656083e81bf94a / 4b656083e81bf94a",
 			"weight": 1.0
 		},
 		{
@@ -363,7 +363,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "same",
+			"value": "changed (was f482a2d82dd1fd76)",
 			"weight": 1.0
 		},
 		{
@@ -412,9 +412,9 @@
 	"counts": {
 		"FAIL": 0,
 		"INFO": 12,
-		"PASS": 16,
+		"PASS": 17,
 		"SKIP": 0,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "",
 	"groups": {
@@ -427,7 +427,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "f482a2d82dd1fd76",
+	"hash": "4b656083e81bf94a",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "e3m1_dusk",
@@ -459,13 +459,13 @@
 	"notes": [
 		"source `data/cinematics/src/e3m1_dusk.cine` (34 lines), 30.0 s, 5 shots, stage: cine-built (props / cast)"
 	],
-	"previous_quality": 96.5,
-	"quality": 96.7,
-	"result": "WARN",
+	"previous_quality": 96.7,
+	"quality": 99.1,
+	"result": "PASS",
 	"scene": "",
-	"seconds": 0.4,
+	"seconds": 0.7,
 	"shots": {},
-	"started": "2026-10-07 21:22:22",
+	"started": "2026-10-08 14:09:52",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

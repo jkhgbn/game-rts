@@ -1,10 +1,10 @@
 # cine build: e3m4_whisper
 
-2026-10-07 21:22:44 - `tools/cine/run_cine.ps1 build e3m4_whisper` - hash `19220c1a584663fa` (2 runs identical)
+2026-10-08 14:11:38 - `tools/cine/run_cine.ps1 build e3m4_whisper` - hash `58796b8c8bde8525` (2 runs identical)
 
-## Result: **WARN** - quality **97 / 100** (previous run 97, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 1 WARN, 16 PASS, 8 info, 0 skipped, 1 s
+0 FAIL, 0 WARN, 17 PASS, 8 info, 0 skipped, 1 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -32,7 +32,7 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | F1 | H1 face vey | PASS 100 | worst u 0.50 v 0.50 at 2.50 s | head inside the 2.39 band safe area (90 %) |  |
-| F2 | H2 face malrik | PASS 100 | worst u 0.50 v 0.50 at 1.25 s | head inside the 2.39 band safe area (90 %) |  |
+| F2 | H2 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.50 s | head inside the 2.39 band safe area (90 %) |  |
 | F3 | H3 face torvald | PASS 100 | worst u 0.50 v 0.50 at 6.25 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Continuity (180-degree rule, jump cuts)
@@ -47,14 +47,14 @@
 | S1 | H2 line 1 (src 19) | PASS 91 | obren "Torvald. Old frost. You feel it too. Joi.." 14.9 cps, 4.9 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S2 | H3 line 1 (src 23) | PASS 100 | torvald "...It knows my name." 8.0 cps, 2.5 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S3 | H3 line 2 (src 25) | PASS 93 | malrik "It knows everyone's name. It is a stone .." 14.5 cps, 4.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| V1 | voice files | **WARN** 50 | 0 / 3 lines voiced: missing H2 "Torvald. Old frost. You ", H3 "...It knows my name.", H3 "It knows everyone's name" | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) | render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest |
+| V1 | voice files | PASS 100 | 3 / 3 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 19220c1a584663fa / 19220c1a584663fa | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 58796b8c8bde8525 / 58796b8c8bde8525 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 6b4c80b69c405ca6) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/e3m4_whisper.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

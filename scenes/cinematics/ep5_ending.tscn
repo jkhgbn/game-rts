@@ -46,7 +46,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="Ep5EndingStage" type="Node3D" unique_id=1397416296]
+[node name="Ep5EndingStage" type="Node3D" unique_id=170544934]
 script = ExtResource("1_665mr")
 autoplay_script = ExtResource("2_l4qkk")
 actor_paths = {
@@ -77,7 +77,7 @@ set_id = &"forge_citadel"
 lighting = ExtResource("5_w2qeg")
 lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
 
-[node name="YVessa" type="Node3D" parent="forge_citadel" unique_id=1737158416 instance=ExtResource("6_0fjvj")]
+[node name="YVessa" type="Node3D" parent="forge_citadel" unique_id=2087351495 instance=ExtResource("6_0fjvj")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -13.7, 48, -4)
 script = ExtResource("7_kl0bh")
 body_height = 3.0
@@ -85,7 +85,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="YMalrik" type="Node3D" parent="forge_citadel" unique_id=576225195 instance=ExtResource("8_h8v08")]
+[node name="YMalrik" type="Node3D" parent="forge_citadel" unique_id=1046232646 instance=ExtResource("8_h8v08")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -12.3, 48, -4)
 script = ExtResource("9_d273c")
 light_energy = 1.0
@@ -113,6 +113,6 @@ set_id = &"forge_intro_malrik"
 lighting = ExtResource("13_2d4fn")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"), NodePath("Placed/standing_stones_1"), NodePath("Puppets/malrik"), NodePath("Puppets/malrik_young"), NodePath("Puppets/sknight"), NodePath("Puppets/hexweaver"), NodePath("Puppets/shade"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_vortex"), NodePath("Puppets/fx_tendrils"), NodePath("Puppets/fx_master"), NodePath("Puppets/fx_crown")])
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=795009995]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1754514053]
 script = ExtResource("14_wfd1r")
 preset = SubResource("Resource_bffwv")

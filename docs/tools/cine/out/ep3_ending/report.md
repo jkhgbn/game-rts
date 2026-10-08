@@ -1,10 +1,10 @@
-# cine check: ep3_ending
+# cine build: ep3_ending
 
-2026-10-07 21:44:19 - `tools/cine/run_cine.ps1 check ep3_ending` - hash `90044f67aa09c0f0` (2 runs identical)
+2026-10-08 14:09:11 - `tools/cine/run_cine.ps1 build ep3_ending` - hash `989f408ca2a3870a` (2 runs identical)
 
-## Result: **WARN** - quality **97 / 100**
+## Result: **PASS** - quality **100 / 100** (previous run 97, +3)
 
-0 FAIL, 1 WARN, 15 PASS, 18 info, 0 skipped, 3 s
+0 FAIL, 0 WARN, 17 PASS, 18 info, 0 skipped, 3 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -33,7 +33,7 @@
 |---|---|---|---|---|---|
 | F1 | B14 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F2 | N05 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F3 | T03 face torvald | PASS 100 | worst u 0.50 v 0.35 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | T03 face torvald | PASS 100 | worst u 0.50 v 0.69 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | N07 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F5 | N13 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F6 | N12 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
@@ -57,14 +57,15 @@
 | S3 | N07 line 1 (src 41) | PASS 100 | obren "Now the tree." 5.2 cps, 2.5 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S4 | N13 line 1 (src 48) | PASS 100 | malrik "Tomorrow." 4.1 cps, 2.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S5 | N12 line 1 (src 54) | PASS 99 | malrik "I have heard “stop” all my life." 12.3 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| V1 | voice files | **WARN** 50 | 1 / 5 lines voiced: missing T03 "You heard it.", T03 "I heard it ask. I did no", N07 "Now the tree.", N13 "Tomorrow." | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) | render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest |
+| V1 | voice files | PASS 100 | 5 / 5 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 90044f67aa09c0f0 / 90044f67aa09c0f0 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | first run |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 989f408ca2a3870a / 989f408ca2a3870a | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 90044f67aa09c0f0) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep3_ending.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

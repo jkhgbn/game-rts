@@ -391,7 +391,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "133e6f011f417e9e / 133e6f011f417e9e",
+			"value": "3b55d68e72201c3b / 3b55d68e72201c3b",
 			"weight": 1.0
 		},
 		{
@@ -405,7 +405,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "same",
+			"value": "changed (was 133e6f011f417e9e)",
 			"weight": 1.0
 		},
 		{
@@ -469,7 +469,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "133e6f011f417e9e",
+	"hash": "3b55d68e72201c3b",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep8_bookend_dark",
@@ -501,13 +501,13 @@
 	"notes": [
 		"source `data/cinematics/src/ep8_bookend_dark.cine` (46 lines), 35.0 s, 4 shots, stage: set forge_citadel"
 	],
-	"previous_quality": 99.9,
+	"previous_quality": 99.3,
 	"quality": 99.3,
 	"result": "PASS",
 	"scene": "",
 	"seconds": 0.8,
 	"shots": {},
-	"started": "2026-10-08 13:49:37",
+	"started": "2026-10-08 14:09:28",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

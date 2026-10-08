@@ -69,7 +69,7 @@
 			"score": 1.0,
 			"shot": "O1",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 1.50 s",
+			"value": "worst u 0.50 v 0.50 at 2.00 s",
 			"weight": 1.0
 		},
 		{
@@ -150,10 +150,10 @@
 			"improve": "",
 			"name": "voice files",
 			"rule": "every line has a WAV (data/voice/manifest.json, speaker + text, or voice=)",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "0 / 3 lines voiced: missing O1 \"They are mine now, Bisho\", O2 \"You raised my dead, and \", O2 \"Not sell. Lend. You will\"",
+			"status": "PASS",
+			"value": "3 / 3 lines voiced",
 			"weight": 1.0
 		},
 		{
@@ -265,7 +265,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "b6e4763fef8385af / b6e4763fef8385af",
+			"value": "3a27fe04bdc1c138 / 3a27fe04bdc1c138",
 			"weight": 1.0
 		},
 		{
@@ -279,7 +279,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "same",
+			"value": "changed (was fc8297e3e74607d0)",
 			"weight": 1.0
 		},
 		{
@@ -328,9 +328,9 @@
 	"counts": {
 		"FAIL": 0,
 		"INFO": 7,
-		"PASS": 15,
+		"PASS": 16,
 		"SKIP": 0,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "",
 	"groups": {
@@ -343,7 +343,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "b6e4763fef8385af",
+	"hash": "3a27fe04bdc1c138",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "e3m3_offer",
@@ -375,13 +375,13 @@
 	"notes": [
 		"source `data/cinematics/src/e3m3_offer.cine` (22 lines), 12.0 s, 2 shots, stage: cine-built (props / cast)"
 	],
-	"previous_quality": 95.9,
-	"quality": 96.2,
-	"result": "WARN",
+	"previous_quality": 98.8,
+	"quality": 98.8,
+	"result": "PASS",
 	"scene": "",
-	"seconds": 0.3,
+	"seconds": 0.7,
 	"shots": {},
-	"started": "2026-10-07 21:22:33",
+	"started": "2026-10-08 14:11:34",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

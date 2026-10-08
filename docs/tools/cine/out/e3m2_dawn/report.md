@@ -1,10 +1,10 @@
 # cine build: e3m2_dawn
 
-2026-10-07 21:22:29 - `tools/cine/run_cine.ps1 build e3m2_dawn` - hash `5b89090faf0b76e8` (2 runs identical)
+2026-10-08 14:09:56 - `tools/cine/run_cine.ps1 build e3m2_dawn` - hash `7b9165aa25ad58ab` (2 runs identical)
 
-## Result: **WARN** - quality **97 / 100** (previous run 97, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 97, +2)
 
-0 FAIL, 1 WARN, 16 PASS, 11 info, 0 skipped, 1 s
+0 FAIL, 0 WARN, 17 PASS, 11 info, 0 skipped, 1 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -35,7 +35,7 @@
 | F2 | W2 face ysolde | PASS 100 | worst u 0.72 v 0.45 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F3 | W2 face vessa | PASS 100 | worst u 0.32 v 0.38 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | W3 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F5 | W4 face malrik | PASS 100 | worst u 0.50 v 0.50 at 2.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F5 | W4 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.25 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Continuity (180-degree rule, jump cuts)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -50,14 +50,14 @@
 | S1 | W2 line 1 (src 19) | PASS 91 | ysolde "Then the people go south today. All of t.." 15.0 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S2 | W3 line 1 (src 22) | PASS 98 | hush "There is always another night, Bishop." 12.7 cps, 3.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S3 | W3 line 2 (src 23) | PASS 100 | malrik "And every one of them is mine." 11.8 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| V1 | voice files | **WARN** 50 | 0 / 3 lines voiced: missing W2 "Then the people go south", W3 "There is always another ", W3 "And every one of them is" | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) | render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest |
+| V1 | voice files | PASS 100 | 3 / 3 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 5b89090faf0b76e8 / 5b89090faf0b76e8 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 7b9165aa25ad58ab / 7b9165aa25ad58ab | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 5b89090faf0b76e8) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/e3m2_dawn.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

@@ -1,6 +1,6 @@
 # cine build: ep8_ending_b
 
-2026-10-08 13:50:25 - `tools/cine/run_cine.ps1 build ep8_ending_b` - hash `68aa3bb31ce13594` (2 runs identical)
+2026-10-08 14:09:35 - `tools/cine/run_cine.ps1 build ep8_ending_b` - hash `30b08273d7b6a44e` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
@@ -74,8 +74,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 68aa3bb31ce13594 / 68aa3bb31ce13594 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 30b08273d7b6a44e / 30b08273d7b6a44e | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 68aa3bb31ce13594) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/ep8_ending_b.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

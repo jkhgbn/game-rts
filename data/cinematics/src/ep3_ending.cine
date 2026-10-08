@@ -29,7 +29,7 @@ shot N05 8.0
   at 2.4  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-12
   at 5.0  sfx res://assets/audio/sfx/ab_flame_burst.wav  vol=-17
 # Torvald by the Ice side; Aldra off screen
-shot T03 8.0  cam=frame "ms on torvald, 3/4 right, eye"  push=0.2
+shot T03 8.0  cam=dolly  from=(-1.9, 9.45, -34.2)  to=(-2.05, 9.45, -34.45)  look=(-3.4, 9.35, -37.0)  fov=32  faces=torvald
   at 0.6  line aldra "You heard it."
   at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-14
   at 3.6  line torvald "I heard it ask. I did not hear him say no."

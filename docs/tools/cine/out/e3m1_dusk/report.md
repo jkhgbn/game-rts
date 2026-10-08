@@ -1,10 +1,10 @@
 # cine build: e3m1_dusk
 
-2026-10-07 21:22:22 - `tools/cine/run_cine.ps1 build e3m1_dusk` - hash `f482a2d82dd1fd76` (2 runs identical)
+2026-10-08 14:09:52 - `tools/cine/run_cine.ps1 build e3m1_dusk` - hash `4b656083e81bf94a` (2 runs identical)
 
-## Result: **WARN** - quality **97 / 100** (previous run 97, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 97, +2)
 
-0 FAIL, 1 WARN, 16 PASS, 12 info, 0 skipped, 0 s
+0 FAIL, 0 WARN, 17 PASS, 12 info, 0 skipped, 1 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -33,7 +33,7 @@
 |---|---|---|---|---|---|
 | F1 | D1 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F2 | D2 face malrik | PASS 100 | worst u 0.50 v 0.50 at 4.50 s | head inside the 2.39 band safe area (90 %) |  |
-| F3 | D3 face malrik | PASS 100 | worst u 0.50 v 0.50 at 3.25 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | D3 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.75 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | D4 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F5 | D5 face malrik | PASS 100 | worst u 0.50 v 0.50 at 5.00 s | head inside the 2.39 band safe area (90 %) |  |
 
@@ -51,14 +51,14 @@
 | S1 | D2 line 1 (src 19) | PASS 96 | malrik "The ford is mine. The tree is not. Not t.." 13.3 cps, 3.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S2 | D4 line 1 (src 28) | PASS 90 | narrator "The ford fell at dusk. The golden tree s.." 15.2 cps, 5.5 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S3 | D5 line 1 (src 33) | PASS 94 | malrik "Tell me to stop again tomorrow, Ysolde. .." 14.1 cps, 4.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| V1 | voice files | **WARN** 50 | 0 / 3 lines voiced: missing D2 "The ford is mine. The tr", D4 "The ford fell at dusk. T", D5 "Tell me to stop again to" | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) | render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest |
+| V1 | voice files | PASS 100 | 3 / 3 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | f482a2d82dd1fd76 / f482a2d82dd1fd76 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 4b656083e81bf94a / 4b656083e81bf94a | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was f482a2d82dd1fd76) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/e3m1_dusk.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

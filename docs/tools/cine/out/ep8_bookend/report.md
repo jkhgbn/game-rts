@@ -1,8 +1,8 @@
 # cine build: ep8_bookend
 
-2026-10-08 13:49:30 - `tools/cine/run_cine.ps1 build ep8_bookend` - hash `ad19ea2ba7de3238` (2 runs identical)
+2026-10-08 14:09:21 - `tools/cine/run_cine.ps1 build ep8_bookend` - hash `2101428a9cc1ab15` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 100, -1)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
 0 FAIL, 0 WARN, 22 PASS, 10 info, 0 skipped, 1 s
 
@@ -60,8 +60,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ad19ea2ba7de3238 / ad19ea2ba7de3238 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 2101428a9cc1ab15 / 2101428a9cc1ab15 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was ad19ea2ba7de3238) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/ep8_bookend.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

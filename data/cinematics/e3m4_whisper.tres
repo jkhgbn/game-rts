@@ -57,6 +57,7 @@ script = ExtResource("1_5h640")
 at = 0.2
 speaker = &"obren"
 text = "Torvald. Old frost. You feel it too. Join us, and nothing will ever melt."
+voice = "res://assets/audio/voice/whisper/torvald_old_frost_you_15088ea0.wav"
 
 [sub_resource type="Resource" id="Resource_5v8tu"]
 script = ExtResource("3_pbvro")
@@ -66,10 +67,10 @@ camera_mode = 3
 look_offset = Vector3(0, 1.898, 0)
 pivot_actor = &"malrik"
 pivot = Vector3(0, 0, -36)
-orbit_radius = 1.6
-orbit_height = 1.2
-orbit_from_deg = 20.0
-orbit_to_deg = 28.0
+orbit_radius = 2.7
+orbit_height = 1.95
+orbit_from_deg = -105.0
+orbit_to_deg = -97.0
 fov_from = 30.0
 fov_to = 30.0
 lines = Array[ExtResource("1_5h640")]([SubResource("Resource_fvver")])
@@ -99,12 +100,14 @@ script = ExtResource("1_5h640")
 at = 0.3
 speaker = &"torvald"
 text = "...It knows my name."
+voice = "res://assets/audio/voice/torvald/it_knows_my_name_0d484bbc.wav"
 
 [sub_resource type="Resource" id="Resource_by4m5"]
 script = ExtResource("1_5h640")
 at = 2.9
 speaker = &"malrik"
 text = "It knows everyone's name. It is a stone with nothing else to do."
+voice = "res://assets/audio/voice/malrik/it_knows_everyones_name_fd543fb1.wav"
 
 [sub_resource type="Resource" id="Resource_daks6"]
 script = ExtResource("3_pbvro")

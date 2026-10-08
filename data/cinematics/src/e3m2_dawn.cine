@@ -22,7 +22,7 @@ shot W3 8.0  cam=dolly  from=(6, 3, 10)  to=(5.6, 3.1, 9)  look=(0.5, 2.2, -36)>
   at 0.3  line hush "There is always another night, Bishop."
   at 4.0  line malrik "And every one of them is mine."
 # CU Malrik's hand: the stone beats once, brighter
-shot W4 7.0  cam=orbit  pivot=malrik  r=1.8  h=1.1  deg=15>22  fov=30
+shot W4 7.0  cam=orbit  pivot=malrik  r=2.8  h=1.95  deg=15>22  fov=30
   at 0.6  vfx heart  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0.4, 1.1, -35.4)  life=2.6  scale=0.8
   at 0.7  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-4
   at 5.6  fade alpha=1 time=1.2

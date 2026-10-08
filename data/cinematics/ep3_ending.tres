@@ -138,24 +138,26 @@ script = ExtResource("1_sollq")
 at = 0.6
 speaker = &"aldra"
 text = "You heard it."
+voice = "res://assets/audio/voice/aldra/you_heard_it_1cc501d1.wav"
 
 [sub_resource type="Resource" id="Resource_h21yb"]
 script = ExtResource("1_sollq")
 at = 3.6
 speaker = &"torvald"
 text = "I heard it ask. I did not hear him say no."
+voice = "res://assets/audio/voice/torvald/i_heard_it_ask_1c2809dd.wav"
 
 [sub_resource type="Resource" id="Resource_3us0a"]
 script = ExtResource("3_c17jq")
 id = &"T03"
 duration = 8.0
 camera_mode = 1
-from_pos = Vector3(-5.177928, 8.734231, -34.64061)
-to_pos = Vector3(-5.0575647, 8.734231, -34.80034)
-look_from = Vector3(-3.4, 8.734231, -37)
-look_to = Vector3(-3.4, 8.734231, -37)
-fov_from = 40.0
-fov_to = 40.0
+from_pos = Vector3(-1.9, 9.45, -34.2)
+to_pos = Vector3(-2.05, 9.45, -34.45)
+look_from = Vector3(-3.4, 9.35, -37)
+look_to = Vector3(-3.4, 9.35, -37)
+fov_from = 32.0
+fov_to = 32.0
 lines = Array[ExtResource("1_sollq")]([SubResource("Resource_3soyk"), SubResource("Resource_h21yb")])
 actions = Array[ExtResource("4_8darn")]([SubResource("Resource_wd53u"), SubResource("Resource_vedl6")])
 stage_set = &"forge_evenmead"
@@ -213,6 +215,7 @@ script = ExtResource("1_sollq")
 at = 1.0
 speaker = &"obren"
 text = "Now the tree."
+voice = "res://assets/audio/voice/whisper/now_the_tree_3d30fd03.wav"
 
 [sub_resource type="Resource" id="Resource_2gbil"]
 script = ExtResource("3_c17jq")
@@ -256,6 +259,7 @@ at = 1.0
 speaker = &"malrik"
 text = "Tomorrow."
 duration = 2.2
+voice = "res://assets/audio/voice/malrik/tomorrow_5e877905.wav"
 
 [sub_resource type="Resource" id="Resource_xeuej"]
 script = ExtResource("3_c17jq")

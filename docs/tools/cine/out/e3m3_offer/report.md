@@ -1,10 +1,10 @@
 # cine build: e3m3_offer
 
-2026-10-07 21:22:33 - `tools/cine/run_cine.ps1 build e3m3_offer` - hash `b6e4763fef8385af` (2 runs identical)
+2026-10-08 14:11:34 - `tools/cine/run_cine.ps1 build e3m3_offer` - hash `3a27fe04bdc1c138` (2 runs identical)
 
-## Result: **WARN** - quality **96 / 100** (previous run 96, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 1 WARN, 15 PASS, 7 info, 0 skipped, 0 s
+0 FAIL, 0 WARN, 16 PASS, 7 info, 0 skipped, 1 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -31,7 +31,7 @@
 ## Framing (faces in the 2.39 band, 16:9 frame)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | O1 face malrik | PASS 100 | worst u 0.50 v 0.50 at 1.50 s | head inside the 2.39 band safe area (90 %) |  |
+| F1 | O1 face malrik | PASS 100 | worst u 0.50 v 0.50 at 2.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F2 | O2 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.25 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Continuity (180-degree rule, jump cuts)
@@ -45,14 +45,14 @@
 | S1 | O1 line 1 (src 15) | PASS 94 | obren "They are mine now, Bishop. Ask me nicely.." 14.1 cps, 4.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S2 | O2 line 1 (src 20) | PASS 95 | malrik "You raised my dead, and now you sell me .." 13.8 cps, 3.7 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S3 | O2 line 2 (src 21) | PASS 89 | obren "Not sell. Lend. You will hardly notice t.." 15.8 cps, 3.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| V1 | voice files | **WARN** 50 | 0 / 3 lines voiced: missing O1 "They are mine now, Bisho", O2 "You raised my dead, and ", O2 "Not sell. Lend. You will" | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) | render the lines with Voice Forge (tools/voice_forge) or fix the text so it matches the manifest |
+| V1 | voice files | PASS 100 | 3 / 3 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | b6e4763fef8385af / b6e4763fef8385af | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 3a27fe04bdc1c138 / 3a27fe04bdc1c138 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was fc8297e3e74607d0) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/e3m3_offer.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

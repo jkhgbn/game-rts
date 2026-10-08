@@ -43,6 +43,7 @@ script = ExtResource("1_ry465")
 at = 0.4
 speaker = &"malrik"
 text = "The ford is mine. The tree is not. Not today."
+voice = "res://assets/audio/voice/malrik/the_ford_is_mine_beebbaa5.wav"
 
 [sub_resource type="Resource" id="Resource_md4pp"]
 script = ExtResource("3_jpoy5")
@@ -106,8 +107,8 @@ camera_mode = 3
 look_offset = Vector3(0, 1.898, 0)
 pivot_actor = &"malrik"
 pivot = Vector3(12, 0, 9)
-orbit_radius = 1.7
-orbit_height = 1.1
+orbit_radius = 2.8
+orbit_height = 1.95
 orbit_from_deg = 20.0
 orbit_to_deg = 28.0
 fov_from = 30.0
@@ -139,6 +140,7 @@ script = ExtResource("1_ry465")
 at = 0.4
 speaker = &"narrator"
 text = "The ford fell at dusk. The golden tree still stood. Both hills called it a victory."
+voice = "res://assets/audio/voice/narrator/the_ford_fell_at_464edfdf.wav"
 
 [sub_resource type="Resource" id="Resource_drfi7"]
 script = ExtResource("3_jpoy5")
@@ -169,6 +171,7 @@ script = ExtResource("1_ry465")
 at = 0.4
 speaker = &"malrik"
 text = "Tell me to stop again tomorrow, Ysolde. I will not stop."
+voice = "res://assets/audio/voice/malrik/tell_me_to_stop_e48f86d6.wav"
 
 [sub_resource type="Resource" id="Resource_8vbyp"]
 script = ExtResource("3_jpoy5")

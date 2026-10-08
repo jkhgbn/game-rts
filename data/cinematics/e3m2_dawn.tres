@@ -43,6 +43,7 @@ script = ExtResource("1_4sbho")
 at = 0.4
 speaker = &"ysolde"
 text = "Then the people go south today. All of them. The road is safer than this hill."
+voice = "res://assets/audio/voice/ysolde/then_the_people_go_b065c387.wav"
 
 [sub_resource type="Resource" id="Resource_gcjlq"]
 script = ExtResource("3_f4nf1")
@@ -62,12 +63,14 @@ script = ExtResource("1_4sbho")
 at = 0.3
 speaker = &"hush"
 text = "There is always another night, Bishop."
+voice = "res://assets/audio/voice/hush/there_is_always_another_f7fb47ef.wav"
 
 [sub_resource type="Resource" id="Resource_yyl3a"]
 script = ExtResource("1_4sbho")
 at = 4.0
 speaker = &"malrik"
 text = "And every one of them is mine."
+voice = "res://assets/audio/voice/malrik/and_every_one_of_e9f01242.wav"
 
 [sub_resource type="Resource" id="Resource_x8bcp"]
 script = ExtResource("3_f4nf1")
@@ -120,8 +123,8 @@ camera_mode = 3
 look_offset = Vector3(0, 1.898, 0)
 pivot_actor = &"malrik"
 pivot = Vector3(0, 0, -36)
-orbit_radius = 1.8
-orbit_height = 1.1
+orbit_radius = 2.8
+orbit_height = 1.95
 orbit_from_deg = 15.0
 orbit_to_deg = 22.0
 fov_from = 30.0

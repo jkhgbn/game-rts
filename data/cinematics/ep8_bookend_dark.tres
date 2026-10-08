@@ -104,22 +104,22 @@ stage_set = &"forge_citadel"
 script = ExtResource("4_dh2sr")
 at = 1.0
 kind = &"vfx"
-target = Vector3(-148.6, 30.6, -117)
+target = Vector3(-148.7, 30.55, -117.2)
 params = {
 "life": 1.6,
-"scale": 0.15,
+"scale": 0.3,
 "scene": "res://art/cinematics/fx/streak_blue.tscn",
-"to": Vector3(-148.4, 30.9, -116.8)
+"to": Vector3(-148.55, 30.8, -117.1)
 }
 
 [sub_resource type="Resource" id="Resource_mvkqi"]
 script = ExtResource("4_dh2sr")
 at = 1.4
 kind = &"vfx"
-target = Vector3(-148.5, 30.7, -116.9)
+target = Vector3(-148.62, 30.62, -117.15)
 params = {
 "life": 4.0,
-"scale": 0.2,
+"scale": 0.6,
 "scene": "res://art/cinematics/fx/ember.tscn"
 }
 
@@ -144,12 +144,12 @@ voice = "res://assets/audio/voice/master/well_so_that_is_a0bf02e4.wav"
 script = ExtResource("3_40g75")
 id = &"E25"
 duration = 6.0
-from_pos = Vector3(-147.4, 31, -116)
-to_pos = Vector3(-147.4, 31, -116)
-look_from = Vector3(-148.5, 30.7, -117)
-look_to = Vector3(-148.5, 30.7, -117)
-fov_from = 34.0
-fov_to = 34.0
+from_pos = Vector3(-149, 31.15, -118.45)
+to_pos = Vector3(-149, 31.15, -118.45)
+look_from = Vector3(-148.55, 30.85, -117)
+look_to = Vector3(-148.55, 30.85, -117)
+fov_from = 38.0
+fov_to = 38.0
 lines = Array[ExtResource("1_ht51e")]([SubResource("Resource_xh6rv")])
 actions = Array[ExtResource("4_dh2sr")]([SubResource("Resource_72j03"), SubResource("Resource_mvkqi"), SubResource("Resource_n1oc1")])
 stage_set = &"forge_citadel"

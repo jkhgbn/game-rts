@@ -29,7 +29,7 @@ shot Y4 9.0  cam=frame "ms on vessa and ysolde, 3/4 left, eye"  push=0.4
   at 0.4  line vessa "Everyone says that about the things I want. And if I leave it, Malrik takes it."  dur=6.2
   at 6.8  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-14
 # CU Vessa's hand: it closes on the Signet; the crown and the orb flare amber
-shot Y5 8.0  cam=orbit  pivot=vessa  r=1.5  h=1.2  deg=60>75  fov=30
+shot Y5 8.0  cam=orbit  pivot=vessa  r=2.6  h=1.95  deg=-60>-45  fov=30
   at 1.2  vfx flare  scene=res://art/cinematics/fx/four_flames.tscn  at=(0.9, 1.4, 0.9)  life=4.0  scale=0.4
   at 1.2  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-6
   at 3.0  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-12

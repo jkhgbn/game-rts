@@ -57,7 +57,7 @@ sun_energy = 0.5
 sun_rotation_degrees = Vector3(-30, 199.99998, 0)
 vignette_strength = 0.0
 
-[node name="Ep4EndingStage" type="Node3D" unique_id=2030039115]
+[node name="Ep4EndingStage" type="Node3D" unique_id=1534897760]
 script = ExtResource("1_4x3xf")
 autoplay_script = ExtResource("2_ase3r")
 actor_paths = {
@@ -145,7 +145,7 @@ set_id = &"forge_ep2_feast"
 lighting = ExtResource("7_u0w2s")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/bonfire"), NodePath("Placed/table_w"), NodePath("Placed/table_e"), NodePath("Placed/lamp1"), NodePath("Placed/lamp2"), NodePath("Placed/lamp3"), NodePath("Placed/lamp4"), NodePath("Placed/lantern_string_1"), NodePath("Placed/lantern_string_2"), NodePath("Placed/gate_l"), NodePath("Placed/gate_r"), NodePath("Placed/banner_fire_1"), NodePath("Placed/banner_fire_2"), NodePath("Placed/glow_fire_1"), NodePath("Placed/glow_warm_1"), NodePath("Placed/glow_warm_2"), NodePath("Placed/glow_warm_3"), NodePath("Placed/glow_warm_4"), NodePath("Placed/glow_warm_5"), NodePath("Placed/glow_warm_6"), NodePath("Placed/glow_warm_7"), NodePath("Placed/glow_warm_8"), NodePath("Placed/glow_warm_9"), NodePath("Placed/glow_warm_10"), NodePath("Placed/glow_red_1"), NodePath("Placed/glow_blue_1")])
 
-[node name="Ysolde" type="Node3D" parent="forge_ep2_feast" unique_id=1757939501 instance=ExtResource("8_uv2gm")]
+[node name="Ysolde" type="Node3D" parent="forge_ep2_feast" unique_id=2114290164 instance=ExtResource("8_uv2gm")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 2.4)
 script = ExtResource("9_ual7j")
 body_height = 2.0
@@ -156,7 +156,7 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="Vessa" type="Node3D" parent="forge_ep2_feast" unique_id=358373319 instance=ExtResource("10_1aimi")]
+[node name="Vessa" type="Node3D" parent="forge_ep2_feast" unique_id=797982145 instance=ExtResource("10_1aimi")]
 transform = Transform3D(-5.0268095e-08, 0, -1.15, 0, 1.15, 0, 1.15, 0, -5.0268095e-08, 1, 0, 2.4)
 script = ExtResource("11_lojap")
 body_height = 3.0
@@ -164,7 +164,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="Seed" type="Node3D" parent="forge_ep2_feast" unique_id=1010153686 instance=ExtResource("12_jyyck")]
+[node name="Seed" type="Node3D" parent="forge_ep2_feast" unique_id=1081645638 instance=ExtResource("12_jyyck")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -0.6, 1.15, 2.55)
 
 [node name="forge_intro_malrik" type="Node3D" parent="." unique_id=19235064 instance=ExtResource("13_og8il")]
@@ -186,7 +186,7 @@ set_id = &"forge_intro_torvald"
 lighting = ExtResource("17_ot6xt")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
 
-[node name="Aldra" type="Node3D" parent="forge_intro_torvald" unique_id=2091065493 instance=ExtResource("18_8765j")]
+[node name="Aldra" type="Node3D" parent="forge_intro_torvald" unique_id=450238777 instance=ExtResource("18_8765j")]
 transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 9.4, 5, -4)
 script = ExtResource("19_0px3r")
 light_energy = 0.0
@@ -211,7 +211,7 @@ set_id = &"forge_watch_keep"
 lighting = ExtResource("22_64vnq")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/vessa"), NodePath("Puppets/guard_w"), NodePath("Puppets/guard_e")])
 
-[node name="Vey" type="Node3D" parent="forge_watch_keep" unique_id=1632321886 instance=ExtResource("23_sqn5m")]
+[node name="Vey" type="Node3D" parent="forge_watch_keep" unique_id=1085773225 instance=ExtResource("23_sqn5m")]
 transform = Transform3D(0.76604444, 0, 0.6427876, 0, 1, 0, -0.6427876, 0, 0.76604444, 4.4, 0, 4.8)
 script = ExtResource("24_bpoih")
 light_energy = 0.0
@@ -220,6 +220,6 @@ attack_style = &"sword_slash"
 stride_speed = 4.8
 leg_swing_deg = 30.0
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1094576815]
+[node name="LightingRig" type="Node3D" parent="." unique_id=242778142]
 script = ExtResource("25_380j0")
 preset = SubResource("Resource_mwi7e")

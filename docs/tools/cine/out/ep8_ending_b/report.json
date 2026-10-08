@@ -587,7 +587,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "68aa3bb31ce13594 / 68aa3bb31ce13594",
+			"value": "30b08273d7b6a44e / 30b08273d7b6a44e",
 			"weight": 1.0
 		},
 		{
@@ -601,7 +601,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "same",
+			"value": "changed (was 68aa3bb31ce13594)",
 			"weight": 1.0
 		},
 		{
@@ -665,7 +665,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "68aa3bb31ce13594",
+	"hash": "30b08273d7b6a44e",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep8_ending_b",
@@ -702,9 +702,9 @@
 	"quality": 99.7,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 7.5,
+	"seconds": 7.6,
 	"shots": {},
-	"started": "2026-10-08 13:50:25",
+	"started": "2026-10-08 14:09:35",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

@@ -33,9 +33,9 @@ shot E24 10.0  cam=static  from=(-147.2, 31.4, -113.8)  look=(-149.8, 31.7, -117
   at 4.4  line child "Were you sad, when they stopped needing you?"  dur=3.0
   at 7.4  line master "No. That was the whole point."  dur=2.5
 # ECU on the child's cupped hands: a spark, white-gold lightning, crackling; the old man's eyebrows rise
-shot E25 6.0  cam=static  from=(-147.4, 31.0, -116.0)  look=(-148.5, 30.7, -117.0)  fov=34
-  at 1.0  vfx spark  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-148.6, 30.6, -117.0)  to=(-148.4, 30.9, -116.8)  life=1.6  scale=0.15
-  at 1.4  vfx glow  scene=res://art/cinematics/fx/ember.tscn  at=(-148.5, 30.7, -116.9)  life=4.0  scale=0.2
+shot E25 6.0  cam=static  from=(-149.0, 31.15, -118.45)  look=(-148.55, 30.85, -117.0)  fov=38
+  at 1.0  vfx spark  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-148.7, 30.55, -117.2)  to=(-148.55, 30.8, -117.1)  life=1.6  scale=0.3
+  at 1.4  vfx glow  scene=res://art/cinematics/fx/ember.tscn  at=(-148.62, 30.62, -117.15)  life=4.0  scale=0.6
   at 1.4  sfx res://assets/audio/sfx/atk_storm.wav  vol=-16
   at 5.0  line master "...Well. So that is where it went."  dur=2.8
 # Crane up and out through the broken roof to the stars; the title

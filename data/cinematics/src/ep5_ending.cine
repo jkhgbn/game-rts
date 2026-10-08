@@ -41,7 +41,7 @@ shot N3 6.0  cam=static  from=(-6.0, 50.6, -4.0)  look=(-13.5, 49.0, -1.0)  fov=
   at 1.4  move y_malrik  to=(-14.2, 48, 0.4)  speed=0.9
   at 3.0  line malrik "Naturally."  dur=1.2
 # MS the Master, back to camera: the red and the violet flame knock into each other; Vey's dry voice from the door
-shot N4 6.0  cam=static  from=(-10.4, 50.0, -4.6)  look=(-14.0, 49.4, 0.8)  fov=44  faces=master
+shot N4 6.0  cam=static  from=(-11.6, 50.4, -5.6)  look=(-13.0, 50.4, -1.4)  fov=40  faces=master
   at 0.0  hide y_vessa
   at 0.0  hide y_malrik
   at 0.0  vfx red  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-12.9, 49.9, -1.9)  life=1.2  scale=0.2

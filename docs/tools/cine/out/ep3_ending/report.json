@@ -87,17 +87,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.987327425337549,
 			"group": "framing",
 			"hint": "",
 			"id": "F3",
 			"improve": "keep torvald nearer the band centre in T03",
 			"name": "T03 face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.996198227601265,
 			"shot": "T03",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.35 at 8.00 s",
+			"value": "worst u 0.50 v 0.69 at 8.00 s",
 			"weight": 1.0
 		},
 		{
@@ -318,10 +318,10 @@
 			"improve": "",
 			"name": "voice files",
 			"rule": "every line has a WAV (data/voice/manifest.json, speaker + text, or voice=)",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "1 / 5 lines voiced: missing T03 \"You heard it.\", T03 \"I heard it ask. I did no\", N07 \"Now the tree.\", N13 \"Tomorrow.\"",
+			"status": "PASS",
+			"value": "5 / 5 lines voiced",
 			"weight": 1.0
 		},
 		{
@@ -433,7 +433,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "90044f67aa09c0f0 / 90044f67aa09c0f0",
+			"value": "989f408ca2a3870a / 989f408ca2a3870a",
 			"weight": 1.0
 		},
 		{
@@ -447,7 +447,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "first run",
+			"value": "changed (was 90044f67aa09c0f0)",
 			"weight": 1.0
 		},
 		{
@@ -477,14 +477,28 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg, position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep3_ending.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 18,
-		"PASS": 15,
+		"PASS": 17,
 		"SKIP": 0,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "",
 	"groups": {
@@ -497,7 +511,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "90044f67aa09c0f0",
+	"hash": "989f408ca2a3870a",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep3_ending",
@@ -524,19 +538,19 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep3_ending.cine` (59 lines), 58.0 s, 7 shots, stage: set forge_evenmead"
 	],
-	"previous_quality": -1.0,
-	"quality": 97.0,
-	"result": "WARN",
+	"previous_quality": 97.0,
+	"quality": 99.7,
+	"result": "PASS",
 	"scene": "",
-	"seconds": 2.6,
+	"seconds": 2.9,
 	"shots": {},
-	"started": "2026-10-07 21:44:19",
+	"started": "2026-10-08 14:09:11",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

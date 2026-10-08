@@ -87,31 +87,31 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.949740469455719,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F3",
 			"improve": "keep ysolde nearer the band centre in W3",
 			"name": "W3 face ysolde",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.984922140836716,
+			"score": 1.0,
 			"shot": "W3",
 			"status": "PASS",
-			"value": "worst u 0.23 v 0.43 at 0.00 s",
+			"value": "worst u 0.32 v 0.43 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.838676005601883,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F4",
 			"improve": "keep vessa nearer the band centre in W3",
 			"name": "W3 face vessa",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.951602801680565,
+			"score": 1.0,
 			"shot": "W3",
 			"status": "PASS",
-			"value": "worst u 0.81 v 0.35 at 0.00 s",
+			"value": "worst u 0.68 v 0.36 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -143,31 +143,31 @@
 			"weight": 1.0
 		},
 		{
-			"graded": -1.0,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F7",
-			"improve": "",
-			"name": "W5 malrik",
-			"rule": "",
-			"score": -1.0,
+			"improve": "keep malrik_malrik nearer the band centre in W5",
+			"name": "W5 face malrik_malrik",
+			"rule": "head inside the 2.39 band safe area (90 %)",
+			"score": 1.0,
 			"shot": "W5",
-			"status": "INFO",
-			"value": "hidden during the shot",
+			"status": "PASS",
+			"value": "worst u 0.49 v 0.37 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": -1.0,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F8",
-			"improve": "",
-			"name": "W6 torvald",
-			"rule": "",
-			"score": -1.0,
+			"improve": "keep torvald_torvald nearer the band centre in W6",
+			"name": "W6 face torvald_torvald",
+			"rule": "head inside the 2.39 band safe area (90 %)",
+			"score": 1.0,
 			"shot": "W6",
-			"status": "INFO",
-			"value": "hidden during the shot",
+			"status": "PASS",
+			"value": "worst u 0.44 v 0.44 at 8.00 s",
 			"weight": 1.0
 		},
 		{
@@ -181,7 +181,7 @@
 			"score": 1.0,
 			"shot": "W6",
 			"status": "PASS",
-			"value": "worst u 0.56 v 0.45 at 8.00 s",
+			"value": "worst u 0.59 v 0.44 at 8.00 s",
 			"weight": 1.0
 		},
 		{
@@ -545,7 +545,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "43e59f237e99f2a2 / 43e59f237e99f2a2",
+			"value": "456e3372a926cf53 / 456e3372a926cf53",
 			"weight": 1.0
 		},
 		{
@@ -559,7 +559,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "first run",
+			"value": "changed (was 43e59f237e99f2a2)",
 			"weight": 1.0
 		},
 		{
@@ -587,14 +587,28 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "worst facing 0.0 deg (ysolde in W1 (cine 120, runtime 120 deg)), position 0.000 m",
+			"value": "worst facing 0.0 deg (ysolde in W1 (cine 90, runtime 90 deg)), position 0.000 m",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep4_ending.tres",
 			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 18,
-		"PASS": 24,
+		"INFO": 16,
+		"PASS": 27,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -609,18 +623,11 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "43e59f237e99f2a2",
+	"hash": "456e3372a926cf53",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep4_ending",
 	"improve_next": [
-		{
-			"rank": 0.0483971983194351,
-			"source": "F4 W3 face vessa, shot W3",
-			"status": "PASS",
-			"text": "keep vessa nearer the band centre in W3",
-			"title": "W3 face vessa"
-		},
 		{
 			"rank": 0.0,
 			"source": "cine",
@@ -634,22 +641,29 @@
 			"status": "IDEA",
 			"text": "run `sheet` and read timing.png: line bars show CPS colour",
 			"title": "Timing sheet"
+		},
+		{
+			"rank": 0.0,
+			"source": "cine",
+			"status": "IDEA",
+			"text": "the hash in the history must stay the same while the .cine is unchanged",
+			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep4_ending.cine` (119 lines), 60.0 s, 9 shots, stage: set forge_evenmead",
 		"the .cine has 119 lines (demo budget <= 80)"
 	],
-	"previous_quality": -1.0,
-	"quality": 99.1,
+	"previous_quality": 99.1,
+	"quality": 99.6,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 5.6,
+	"seconds": 5.7,
 	"shots": {},
-	"started": "2026-10-08 11:04:33",
+	"started": "2026-10-08 14:08:48",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

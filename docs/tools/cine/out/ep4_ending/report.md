@@ -1,15 +1,15 @@
-# cine check: ep4_ending
+# cine build: ep4_ending
 
-2026-10-08 11:04:33 - `tools/cine/run_cine.ps1 check ep4_ending` - hash `43e59f237e99f2a2` (2 runs identical)
+2026-10-08 14:08:48 - `tools/cine/run_cine.ps1 build ep4_ending` - hash `456e3372a926cf53` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100**
+## Result: **PASS** - quality **100 / 100** (previous run 99, +0)
 
-0 FAIL, 0 WARN, 24 PASS, 18 info, 0 skipped, 6 s
+0 FAIL, 0 WARN, 27 PASS, 16 info, 0 skipped, 6 s
 
 ## Improve next
-1. **W3 face vessa** (PASS): keep vessa nearer the band centre in W3 _(from F4 W3 face vessa, shot W3)_
-2. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
-3. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
+1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
+2. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
+3. **Two-run hash** (IDEA): the hash in the history must stay the same while the .cine is unchanged _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -33,13 +33,13 @@
 |---|---|---|---|---|---|
 | F1 | W1 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F2 | W2 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F3 | W3 face ysolde | PASS 98 | worst u 0.23 v 0.43 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F4 | W3 face vessa | PASS 95 | worst u 0.81 v 0.35 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | W3 face ysolde | PASS 100 | worst u 0.32 v 0.43 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F4 | W3 face vessa | PASS 100 | worst u 0.68 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | W4 face vessa | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | W4B face ysolde | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F7 | W5 malrik | INFO | hidden during the shot |  |  |
-| F8 | W6 torvald | INFO | hidden during the shot |  |  |
-| F9 | W6 face aldra | PASS 100 | worst u 0.56 v 0.45 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F7 | W5 face malrik_malrik | PASS 100 | worst u 0.49 v 0.37 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F8 | W6 face torvald_torvald | PASS 100 | worst u 0.44 v 0.44 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F9 | W6 face aldra | PASS 100 | worst u 0.59 v 0.44 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | W7 face vey | PASS 100 | worst u 0.51 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F11 | W8 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 
@@ -71,8 +71,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 43e59f237e99f2a2 / 43e59f237e99f2a2 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | first run |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 456e3372a926cf53 / 456e3372a926cf53 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 43e59f237e99f2a2) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep4_ending.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -83,7 +84,7 @@
 | T4 | tool 5 Motion Lab | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | T5 | tool 7 VFX Composer | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | RT1 | runtime camera = cine camera | PASS 100 | worst 0.000 m | <= 0.05 m at the middle of every shot |  |
-| RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (ysolde in W1 (cine 120, runtime 120 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
+| RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (ysolde in W1 (cine 90, runtime 90 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
 - source `data/cinematics/src/ep4_ending.cine` (119 lines), 60.0 s, 9 shots, stage: set forge_evenmead
