@@ -83,7 +83,7 @@
 			"score": 1.0,
 			"shot": "S2",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.34 at 7.00 s",
+			"value": "worst u 0.50 v 0.53 at 7.00 s",
 			"weight": 1.0
 		},
 		{
@@ -111,7 +111,7 @@
 			"score": 1.0,
 			"shot": "S4",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.45 at 8.00 s",
+			"value": "worst u 0.50 v 0.50 at 0.50 s",
 			"weight": 1.0
 		},
 		{
@@ -125,7 +125,7 @@
 			"score": 1.0,
 			"shot": "S5",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.41 at 6.00 s",
+			"value": "worst u 0.50 v 0.50 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -139,7 +139,7 @@
 			"score": 1.0,
 			"shot": "S6",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.41 at 5.00 s",
+			"value": "worst u 0.50 v 0.48 at 5.00 s",
 			"weight": 1.0
 		},
 		{
@@ -153,35 +153,35 @@
 			"score": 1.0,
 			"shot": "S7",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.44 at 5.25 s",
-			"weight": 1.0
-		},
-		{
-			"graded": 0.829855598509312,
-			"group": "framing",
-			"hint": "",
-			"id": "F8",
-			"improve": "keep vey nearer the band centre in S8",
-			"name": "S8 face vey",
-			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.948956679552794,
-			"shot": "S8",
-			"status": "PASS",
-			"value": "worst u 0.18 v 0.43 at 0.00 s",
+			"value": "worst u 0.50 v 0.50 at 4.25 s",
 			"weight": 1.0
 		},
 		{
 			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
-			"id": "F9",
-			"improve": "keep vessa nearer the band centre in S8",
-			"name": "S8 face vessa",
+			"id": "F8",
+			"improve": "keep vey nearer the band centre in S8",
+			"name": "S8 face vey",
 			"rule": "head inside the 2.39 band safe area (90 %)",
 			"score": 1.0,
 			"shot": "S8",
 			"status": "PASS",
-			"value": "worst u 0.67 v 0.38 at 0.00 s",
+			"value": "worst u 0.27 v 0.51 at 0.00 s",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.948249757289886,
+			"group": "framing",
+			"hint": "",
+			"id": "F9",
+			"improve": "keep vessa nearer the band centre in S8",
+			"name": "S8 face vessa",
+			"rule": "head inside the 2.39 band safe area (90 %)",
+			"score": 0.984474927186966,
+			"shot": "S8",
+			"status": "PASS",
+			"value": "worst u 0.77 v 0.43 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -276,10 +276,10 @@
 			"improve": "",
 			"name": "cut S3>S4 axis",
 			"rule": "180-degree rule",
-			"score": 1.0,
+			"score": -1.0,
 			"shot": "",
-			"status": "PASS",
-			"value": "same side: master-vessa (on the axis)",
+			"status": "INFO",
+			"value": "no pair on screen in both shots",
 			"weight": 1.0
 		},
 		{
@@ -528,10 +528,10 @@
 			"improve": "",
 			"name": "voice files",
 			"rule": "every line has a WAV (data/voice/manifest.json, speaker + text, or voice=)",
-			"score": 0.5,
+			"score": 1.0,
 			"shot": "",
-			"status": "WARN",
-			"value": "0 / 9 lines voiced: missing S2 \"Master. Open it. Please.\", S4 \"My joy. You came all thi\", S4 \"I cannot open it. If I l\", S5 \"It takes four hands to t\"",
+			"status": "PASS",
+			"value": "9 / 9 lines voiced",
 			"weight": 1.0
 		},
 		{
@@ -643,7 +643,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "a85e8accd1d63cd3 / a85e8accd1d63cd3",
+			"value": "7d15253c2c9c54f8 / 7d15253c2c9c54f8",
 			"weight": 1.0
 		},
 		{
@@ -657,7 +657,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 54c8a10ec542bb89)",
+			"value": "changed (was a85e8accd1d63cd3)",
 			"weight": 1.0
 		},
 		{
@@ -687,14 +687,28 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (vessa in S1 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep2_ending.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 20,
-		"PASS": 28,
+		"INFO": 21,
+		"PASS": 29,
 		"SKIP": 0,
-		"WARN": 1
+		"WARN": 0
 	},
 	"ground": "",
 	"groups": {
@@ -707,18 +721,11 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "a85e8accd1d63cd3",
+	"hash": "7d15253c2c9c54f8",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep2_ending",
 	"improve_next": [
-		{
-			"rank": 0.0510433204472065,
-			"source": "F8 S8 face vey, shot S8",
-			"status": "PASS",
-			"text": "keep vey nearer the band centre in S8",
-			"title": "S8 face vey"
-		},
 		{
 			"rank": 0.0327881723642349,
 			"source": "F3 S3 face vessa, shot S3",
@@ -732,21 +739,28 @@
 			"status": "IDEA",
 			"text": "run `stills` (windowed) and open stills.png: framing numbers do not judge beauty",
 			"title": "Look at the pictures"
+		},
+		{
+			"rank": 0.0,
+			"source": "cine",
+			"status": "IDEA",
+			"text": "run `sheet` and read timing.png: line bars show CPS colour",
+			"title": "Timing sheet"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep2_ending.cine` (57 lines), 85.0 s, 12 shots, stage: cine-built (props / cast)"
 	],
 	"previous_quality": 98.1,
-	"quality": 98.1,
-	"result": "WARN",
+	"quality": 99.6,
+	"result": "PASS",
 	"scene": "",
-	"seconds": 0.9,
+	"seconds": 1.3,
 	"shots": {},
-	"started": "2026-10-07 07:37:24",
+	"started": "2026-10-08 13:29:54",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

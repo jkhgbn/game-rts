@@ -83,21 +83,21 @@
 			"score": 1.0,
 			"shot": "D2",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.35 at 8.00 s",
+			"value": "worst u 0.50 v 0.63 at 8.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.765310776767446,
 			"group": "framing",
 			"hint": "",
 			"id": "F3",
 			"improve": "keep torvald nearer the band centre in D3",
 			"name": "D3 face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.929593233030234,
 			"shot": "D3",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.41 at 0.00 s",
+			"value": "worst u 0.50 v 0.76 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -153,7 +153,7 @@
 			"score": 1.0,
 			"shot": "D6",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.36 at 0.00 s",
+			"value": "worst u 0.29 v 0.52 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -161,6 +161,20 @@
 			"group": "framing",
 			"hint": "",
 			"id": "F8",
+			"improve": "keep malrik nearer the band centre in D6",
+			"name": "D6 face malrik",
+			"rule": "head inside the 2.39 band safe area (90 %)",
+			"score": 1.0,
+			"shot": "D6",
+			"status": "PASS",
+			"value": "worst u 0.74 v 0.48 at 0.00 s",
+			"weight": 1.0
+		},
+		{
+			"graded": 1.0,
+			"group": "framing",
+			"hint": "",
+			"id": "F9",
 			"improve": "keep malrik nearer the band centre in D7",
 			"name": "D7 face malrik",
 			"rule": "head inside the 2.39 band safe area (90 %)",
@@ -174,21 +188,21 @@
 			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
-			"id": "F9",
+			"id": "F10",
 			"improve": "keep torvald nearer the band centre in D8",
 			"name": "D8 face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
 			"score": 1.0,
 			"shot": "D8",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.35 at 8.00 s",
+			"value": "worst u 0.50 v 0.65 at 8.00 s",
 			"weight": 1.0
 		},
 		{
 			"graded": -1.0,
 			"group": "framing",
 			"hint": "",
-			"id": "F10",
+			"id": "F11",
 			"improve": "",
 			"name": "N12 faces",
 			"rule": "shots that show a face name it (look / pivot / frame / faces=)",
@@ -262,10 +276,10 @@
 			"improve": "",
 			"name": "cut D5>D6 axis",
 			"rule": "180-degree rule",
-			"score": -1.0,
+			"score": 1.0,
 			"shot": "",
-			"status": "INFO",
-			"value": "no pair on screen in both shots",
+			"status": "PASS",
+			"value": "same side: malrik-stone",
 			"weight": 1.0
 		},
 		{
@@ -276,10 +290,10 @@
 			"improve": "",
 			"name": "cut D6>D7 axis",
 			"rule": "180-degree rule",
-			"score": -1.0,
+			"score": 1.0,
 			"shot": "",
-			"status": "INFO",
-			"value": "no pair on screen in both shots",
+			"status": "PASS",
+			"value": "same side: malrik-torvald",
 			"weight": 1.0
 		},
 		{
@@ -531,7 +545,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "a31127166345472e / a31127166345472e",
+			"value": "b632032b1d59efe3 / b632032b1d59efe3",
 			"weight": 1.0
 		},
 		{
@@ -545,7 +559,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was bf3984faa4d3b650)",
+			"value": "changed (was a31127166345472e)",
 			"weight": 1.0
 		},
 		{
@@ -593,8 +607,8 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 16,
-		"PASS": 26,
+		"INFO": 14,
+		"PASS": 29,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -609,11 +623,18 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "a31127166345472e",
+	"hash": "b632032b1d59efe3",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e3_doubt",
 	"improve_next": [
+		{
+			"rank": 0.0704067669697662,
+			"source": "F3 D3 face torvald, shot D3",
+			"status": "PASS",
+			"text": "keep torvald nearer the band centre in D3",
+			"title": "D3 face torvald"
+		},
 		{
 			"rank": 0.0,
 			"source": "cine",
@@ -627,13 +648,6 @@
 			"status": "IDEA",
 			"text": "run `sheet` and read timing.png: line bars show CPS colour",
 			"title": "Timing sheet"
-		},
-		{
-			"rank": 0.0,
-			"source": "cine",
-			"status": "IDEA",
-			"text": "the hash in the history must stay the same while the .cine is unchanged",
-			"title": "Two-run hash"
 		}
 	],
 	"kind": "build",
@@ -641,13 +655,13 @@
 	"notes": [
 		"source `data/cinematics/src/c_e3_doubt.cine` (70 lines), 65.0 s, 9 shots, stage: set forge_evenmead"
 	],
-	"previous_quality": 98.1,
-	"quality": 99.6,
+	"previous_quality": 99.6,
+	"quality": 99.3,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.8,
+	"seconds": 3.1,
 	"shots": {},
-	"started": "2026-10-08 00:10:47",
+	"started": "2026-10-08 13:44:16",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

@@ -25,16 +25,17 @@ at = 3.0
 speaker = &"vessa"
 text = "Master. Open it. Please."
 duration = 3.2
+voice = "res://assets/audio/voice/vessa/master_open_it_please_721e0e8d.wav"
 
 [sub_resource type="Resource" id="Resource_k8e4v"]
 script = ExtResource("3_q1kw1")
 id = &"S2"
 duration = 7.0
 camera_mode = 1
-from_pos = Vector3(2.088989, 1.5798501, 4.1110106)
-to_pos = Vector3(1.8061464, 1.5798501, 4.393853)
-look_from = Vector3(0, 1.5798501, 6.2)
-look_to = Vector3(0, 1.5798501, 6.2)
+from_pos = Vector3(2, 1.85, 3.8)
+to_pos = Vector3(1.85, 1.85, 4)
+look_from = Vector3(0, 1.95, 6.2)
+look_to = Vector3(0, 1.95, 6.2)
 fov_from = 40.0
 fov_to = 40.0
 lines = Array[ExtResource("1_wgg5s")]([SubResource("Resource_ugwrv")])
@@ -77,6 +78,7 @@ at = 0.4
 speaker = &"master"
 text = "My joy. You came all this way."
 duration = 3.0
+voice = "res://assets/audio/voice/master/my_joy_you_came_4435f304.wav"
 
 [sub_resource type="Resource" id="Resource_n8mjp"]
 script = ExtResource("1_wgg5s")
@@ -84,18 +86,21 @@ at = 3.6
 speaker = &"master"
 text = "I cannot open it. If I let go, what is under me comes up."
 duration = 4.2
+voice = "res://assets/audio/voice/master/i_cannot_open_it_0f91d8be.wav"
 
 [sub_resource type="Resource" id="Resource_recpt"]
 script = ExtResource("3_q1kw1")
 id = &"S4"
 duration = 8.0
 camera_mode = 1
-from_pos = Vector3(0.85, 2.17985, 7.7999997)
-to_pos = Vector3(0.8176043, 2.155845, 7.502722)
-look_from = Vector3(0, 1.5500001, 0)
-look_to = Vector3(0, 1.5500001, 0)
-fov_from = 40.0
-fov_to = 40.0
+from_pos = Vector3(2.7, 2.3, 5.4)
+to_pos = Vector3(2.4, 2.4, 4.8)
+look_from = Vector3(0, 3, 0)
+look_to = Vector3(0, 3, 0)
+look_actor = &"master"
+look_offset = Vector3(0, 2.75, 0)
+fov_from = 36.0
+fov_to = 36.0
 lines = Array[ExtResource("1_wgg5s")]([SubResource("Resource_fhbi6"), SubResource("Resource_n8mjp")])
 
 [sub_resource type="Resource" id="Resource_cl6it"]
@@ -104,18 +109,21 @@ at = 0.4
 speaker = &"master"
 text = "It takes four hands to turn this lock."
 duration = 3.4
+voice = "res://assets/audio/voice/master/it_takes_four_hands_2c5a3429.wav"
 
 [sub_resource type="Resource" id="Resource_d8xye"]
 script = ExtResource("3_q1kw1")
 id = &"S5"
 duration = 6.0
 camera_mode = 1
-from_pos = Vector3(-1.3708991, 1.73, 1.3708991)
-to_pos = Vector3(-1.2294778, 1.73, 1.2294778)
-look_from = Vector3(0, 1.73, 0)
-look_to = Vector3(0, 1.73, 0)
-fov_from = 40.0
-fov_to = 40.0
+from_pos = Vector3(1.3, 2.9, 3)
+to_pos = Vector3(1.15, 2.9, 2.7)
+look_from = Vector3(0, 3, 0)
+look_to = Vector3(0, 3, 0)
+look_actor = &"master"
+look_offset = Vector3(0, 2.75, 0)
+fov_from = 34.0
+fov_to = 34.0
 lines = Array[ExtResource("1_wgg5s")]([SubResource("Resource_cl6it")])
 
 [sub_resource type="Resource" id="Resource_qpl5q"]
@@ -124,18 +132,19 @@ at = 0.5
 speaker = &"vessa"
 text = "Then tell me how!"
 duration = 2.6
+voice = "res://assets/audio/voice/vessa/then_tell_me_how_e147c14b.wav"
 
 [sub_resource type="Resource" id="Resource_thokx"]
 script = ExtResource("3_q1kw1")
 id = &"S6"
 duration = 5.0
 camera_mode = 1
-from_pos = Vector3(1.3708991, 1.3333263, 4.8291006)
-to_pos = Vector3(1.2327807, 1.3762987, 4.967219)
-look_from = Vector3(0, 1.75985, 6.2)
-look_to = Vector3(0, 1.75985, 6.2)
-fov_from = 40.0
-fov_to = 40.0
+from_pos = Vector3(1.55, 1.6, 4.4)
+to_pos = Vector3(1.45, 1.6, 4.55)
+look_from = Vector3(0, 1.85, 6.2)
+look_to = Vector3(0, 1.85, 6.2)
+fov_from = 38.0
+fov_to = 38.0
 lines = Array[ExtResource("1_wgg5s")]([SubResource("Resource_qpl5q")])
 
 [sub_resource type="Resource" id="Resource_tl3ly"]
@@ -173,18 +182,21 @@ at = 1.0
 speaker = &"master"
 text = "All four of you, or none."
 duration = 3.4
+voice = "res://assets/audio/voice/master/all_four_of_you_02b63bbb.wav"
 
 [sub_resource type="Resource" id="Resource_0och8"]
 script = ExtResource("3_q1kw1")
 id = &"S7"
 duration = 7.0
 camera_mode = 1
-from_pos = Vector3(-0.97921365, 1.8000001, 0.97921365)
-to_pos = Vector3(-0.80243695, 1.8000001, 0.80243695)
-look_from = Vector3(0, 1.8000001, 0)
-look_to = Vector3(0, 1.8000001, 0)
-fov_from = 40.0
-fov_to = 40.0
+from_pos = Vector3(0.75, 2.95, 2.3)
+to_pos = Vector3(0.65, 2.95, 2)
+look_from = Vector3(0, 3, 0)
+look_to = Vector3(0, 3, 0)
+look_actor = &"master"
+look_offset = Vector3(0, 2.75, 0)
+fov_from = 30.0
+fov_to = 30.0
 lines = Array[ExtResource("1_wgg5s")]([SubResource("Resource_2ibmi")])
 actions = Array[ExtResource("4_6u5sd")]([SubResource("Resource_tl3ly"), SubResource("Resource_jjnlc"), SubResource("Resource_gngwf")])
 
@@ -194,15 +206,16 @@ at = 1.6
 speaker = &"vey"
 text = "Especially Malrik. He always said that."
 duration = 3.4
+voice = "res://assets/audio/voice/vey/especially_malrik_he_always_2e2ac84d.wav"
 
 [sub_resource type="Resource" id="Resource_f7j7d"]
 script = ExtResource("3_q1kw1")
 id = &"S8"
 duration = 7.0
-from_pos = Vector3(5.243948, 1.422425, 6.6855717)
-to_pos = Vector3(5.243948, 1.422425, 6.6855717)
-look_from = Vector3(1.3, 1.422425, 7.2)
-look_to = Vector3(1.3, 1.422425, 7.2)
+from_pos = Vector3(4.4, 1.8, 3.2)
+to_pos = Vector3(4.4, 1.8, 3.2)
+look_from = Vector3(1.3, 1.6, 7.4)
+look_to = Vector3(1.3, 1.6, 7.4)
 fov_from = 40.0
 fov_to = 40.0
 transition_in = 3
@@ -233,12 +246,12 @@ params = {
 script = ExtResource("3_q1kw1")
 id = &"S10"
 duration = 6.0
-from_pos = Vector3(4, 3.5, 6)
-to_pos = Vector3(4, 3.5, 6)
-look_from = Vector3(9, 2.4, -34)
-look_to = Vector3(9, 2.4, -34)
-fov_from = 20.0
-fov_to = 20.0
+from_pos = Vector3(6.6, 2.4, -22)
+to_pos = Vector3(6.6, 2.4, -22)
+look_from = Vector3(9, 1.3, -34)
+look_to = Vector3(9, 1.3, -34)
+fov_from = 26.0
+fov_to = 26.0
 actions = Array[ExtResource("4_6u5sd")]([SubResource("Resource_lhk2b")])
 
 [sub_resource type="Resource" id="Resource_38r4e"]
@@ -267,6 +280,7 @@ at = 1.0
 speaker = &"narrator"
 text = "The door held. The war went looking for open ground,"
 duration = 4.0
+voice = "res://assets/audio/voice/narrator/the_door_held_the_a0cc4fc5.wav"
 
 [sub_resource type="Resource" id="Resource_t2jrs"]
 script = ExtResource("1_wgg5s")
@@ -274,6 +288,7 @@ at = 5.6
 speaker = &"narrator"
 text = "and found the last green country: Evenmead."
 duration = 3.8
+voice = "res://assets/audio/voice/narrator/and_found_the_last_d595ceab.wav"
 
 [sub_resource type="Resource" id="Resource_hbao1"]
 script = ExtResource("3_q1kw1")

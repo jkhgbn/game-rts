@@ -1,8 +1,8 @@
 # cine build: c_e3_price
 
-2026-10-08 00:10:37 - `tools/cine/run_cine.ps1 build c_e3_price` - hash `e71a8e170ae3efff` (2 runs identical)
+2026-10-08 13:44:27 - `tools/cine/run_cine.ps1 build c_e3_price` - hash `b8a947de9da25859` (2 runs identical)
 
-## Result: **PASS** - quality **100 / 100** (previous run 99, +1)
+## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
 0 FAIL, 0 WARN, 27 PASS, 15 info, 0 skipped, 3 s
 
@@ -39,7 +39,7 @@
 | F6 | P6 face stone | PASS 100 | worst u 0.50 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F7 | P7 face malrik | PASS 100 | worst u 0.33 v 0.37 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F8 | P7 face hush | PASS 100 | worst u 0.57 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F9 | P8 face torvald | PASS 100 | worst u 0.50 v 0.35 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F9 | P8 face torvald | PASS 98 | worst u 0.50 v 0.70 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | B14R faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 
 ## Continuity (180-degree rule, jump cuts)
@@ -70,8 +70,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | e71a8e170ae3efff / e71a8e170ae3efff | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 3ac7d5d98eb70640) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | b8a947de9da25859 / b8a947de9da25859 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was e71a8e170ae3efff) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/c_e3_price.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

@@ -73,17 +73,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.574219497726924,
+			"graded": 0.840610291975648,
 			"group": "framing",
 			"hint": "",
 			"id": "F2",
 			"improve": "keep lord nearer the band centre in X2",
 			"name": "X2 face lord",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.872265849318077,
+			"score": 0.952183087592694,
 			"shot": "X2",
 			"status": "PASS",
-			"value": "worst u 0.51 v 0.19 at 0.00 s",
+			"value": "worst u 0.50 v 0.27 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -97,7 +97,7 @@
 			"score": 1.0,
 			"shot": "X3",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.56 at 0.00 s",
+			"value": "worst u 0.50 v 0.38 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -111,7 +111,7 @@
 			"score": 1.0,
 			"shot": "X4",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.67 at 0.00 s",
+			"value": "worst u 0.50 v 0.44 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -419,7 +419,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "51c3ffe0176947eb / 51c3ffe0176947eb",
+			"value": "65f6807b2d35b054 / 65f6807b2d35b054",
 			"weight": 1.0
 		},
 		{
@@ -433,7 +433,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 36a259c3887e7921)",
+			"value": "changed (was 51c3ffe0176947eb)",
 			"weight": 1.0
 		},
 		{
@@ -463,12 +463,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (lord in X3 (cine 30, runtime 30 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep6_ending.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 16,
-		"PASS": 17,
+		"PASS": 18,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -483,13 +497,13 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "51c3ffe0176947eb",
+	"hash": "65f6807b2d35b054",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep6_ending",
 	"improve_next": [
 		{
-			"rank": 0.127734150681923,
+			"rank": 0.0478169124073057,
 			"source": "F2 X2 face lord, shot X2",
 			"status": "PASS",
 			"text": "keep lord nearer the band centre in X2",
@@ -510,19 +524,19 @@
 			"title": "Timing sheet"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep6_ending.cine` (70 lines), 50.0 s, 7 shots, stage: set forge_ep3_memories"
 	],
 	"previous_quality": 98.6,
-	"quality": 98.6,
+	"quality": 99.4,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.0,
+	"seconds": 1.9,
 	"shots": {},
-	"started": "2026-10-08 11:37:47",
+	"started": "2026-10-08 13:46:50",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

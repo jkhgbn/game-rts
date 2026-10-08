@@ -1,15 +1,15 @@
-# cine check: ep8_bookend_dark
+# cine build: ep8_bookend_dark
 
-2026-10-08 12:38:21 - `tools/cine/run_cine.ps1 check ep8_bookend_dark` - hash `133e6f011f417e9e` (2 runs identical)
+2026-10-08 13:49:37 - `tools/cine/run_cine.ps1 build ep8_bookend_dark` - hash `133e6f011f417e9e` (2 runs identical)
 
-## Result: **PASS** - quality **100 / 100**
+## Result: **PASS** - quality **99 / 100** (previous run 100, -1)
 
-0 FAIL, 0 WARN, 21 PASS, 10 info, 0 skipped, 1 s
+0 FAIL, 0 WARN, 22 PASS, 10 info, 0 skipped, 1 s
 
 ## Improve next
-1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
-2. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
-3. **Two-run hash** (IDEA): the hash in the history must stay the same while the .cine is unchanged _(from cine)_
+1. **E23 face oldman** (PASS): keep oldman nearer the band centre in E23 _(from F1 E23 face oldman, shot E23)_
+2. **E24 face oldman** (PASS): keep oldman nearer the band centre in E24 _(from F3 E24 face oldman, shot E24)_
+3. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -31,9 +31,9 @@
 ## Framing (faces in the 2.39 band, 16:9 frame)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | E23 face oldman | PASS 100 | worst u 0.46 v 0.48 at 9.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F1 | E23 face oldman | PASS 94 | worst u 0.46 v 0.25 at 9.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F2 | E23 face child | PASS 100 | worst u 0.58 v 0.61 at 9.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F3 | E24 face oldman | PASS 100 | worst u 0.44 v 0.54 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | E24 face oldman | PASS 97 | worst u 0.44 v 0.28 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | E24 face child | PASS 100 | worst u 0.65 v 0.67 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | E25 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F6 | E25B faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
@@ -61,7 +61,8 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 133e6f011f417e9e / 133e6f011f417e9e | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | first run |  |  |
+| D2 | vs previous run | INFO | same |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep8_bookend_dark.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

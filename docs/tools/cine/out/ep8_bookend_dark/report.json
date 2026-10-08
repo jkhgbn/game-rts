@@ -59,17 +59,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.801301918367841,
 			"group": "framing",
 			"hint": "",
 			"id": "F1",
 			"improve": "keep oldman nearer the band centre in E23",
 			"name": "E23 face oldman",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.940390575510352,
 			"shot": "E23",
 			"status": "PASS",
-			"value": "worst u 0.46 v 0.48 at 9.00 s",
+			"value": "worst u 0.46 v 0.25 at 9.00 s",
 			"weight": 1.0
 		},
 		{
@@ -87,17 +87,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.895857192242323,
 			"group": "framing",
 			"hint": "",
 			"id": "F3",
 			"improve": "keep oldman nearer the band centre in E24",
 			"name": "E24 face oldman",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.968757157672697,
 			"shot": "E24",
 			"status": "PASS",
-			"value": "worst u 0.44 v 0.54 at 0.00 s",
+			"value": "worst u 0.44 v 0.28 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -405,7 +405,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "first run",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -435,12 +435,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (oldman in E23 (cine 40, runtime 40 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep8_bookend_dark.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 10,
-		"PASS": 21,
+		"PASS": 22,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -461,40 +475,40 @@
 	"id": "ep8_bookend_dark",
 	"improve_next": [
 		{
+			"rank": 0.0596094244896476,
+			"source": "F1 E23 face oldman, shot E23",
+			"status": "PASS",
+			"text": "keep oldman nearer the band centre in E23",
+			"title": "E23 face oldman"
+		},
+		{
+			"rank": 0.031242842327303,
+			"source": "F3 E24 face oldman, shot E24",
+			"status": "PASS",
+			"text": "keep oldman nearer the band centre in E24",
+			"title": "E24 face oldman"
+		},
+		{
 			"rank": 0.0,
 			"source": "cine",
 			"status": "IDEA",
 			"text": "run `stills` (windowed) and open stills.png: framing numbers do not judge beauty",
 			"title": "Look at the pictures"
-		},
-		{
-			"rank": 0.0,
-			"source": "cine",
-			"status": "IDEA",
-			"text": "run `sheet` and read timing.png: line bars show CPS colour",
-			"title": "Timing sheet"
-		},
-		{
-			"rank": 0.0,
-			"source": "cine",
-			"status": "IDEA",
-			"text": "the hash in the history must stay the same while the .cine is unchanged",
-			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep8_bookend_dark.cine` (46 lines), 35.0 s, 4 shots, stage: set forge_citadel"
 	],
-	"previous_quality": -1.0,
-	"quality": 99.9,
+	"previous_quality": 99.9,
+	"quality": 99.3,
 	"result": "PASS",
 	"scene": "",
 	"seconds": 0.8,
 	"shots": {},
-	"started": "2026-10-08 12:38:21",
+	"started": "2026-10-08 13:49:37",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

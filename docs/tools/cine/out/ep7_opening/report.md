@@ -1,18 +1,18 @@
-# cine check: ep7_opening
+# cine build: ep7_opening
 
-2026-10-08 11:53:40 - `tools/cine/run_cine.ps1 check ep7_opening` - hash `49f1160dc379ae86` (2 runs identical)
+2026-10-08 13:48:25 - `tools/cine/run_cine.ps1 build ep7_opening` - hash `931a7e4223d17bfd` (2 runs identical)
 
-## Result: **WARN** - quality **98 / 100** (previous run 97, +1)
+## Result: **WARN** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 1 WARN, 91 PASS, 53 info, 0 skipped, 14 s
+0 FAIL, 1 WARN, 92 PASS, 53 info, 0 skipped, 14 s
 
 ## Improve next
-1. **H14 face hooded** (PASS): keep hooded nearer the band centre in H14 _(from F38 H14 face hooded, shot H14)_
-2. **D09 face dacian** (PASS): keep dacian nearer the band centre in D09 _(from F13 D09 face dacian, shot D09)_
-3. **D10 face dacian** (PASS): keep dacian nearer the band centre in D10 _(from F15 D10 face dacian, shot D10)_
-4. **D09 face seraphine** (PASS): keep seraphine nearer the band centre in D09 _(from F14 D09 face seraphine, shot D09)_
-5. **P02 face archon_d** (PASS): keep archon_d nearer the band centre in P02 _(from F52 P02 face archon_d, shot P02)_
-6. **P02 face archon_g** (PASS): keep archon_g nearer the band centre in P02 _(from F51 P02 face archon_g, shot P02)_
+1. **D09 face dacian** (PASS): keep dacian nearer the band centre in D09 _(from F13 D09 face dacian, shot D09)_
+2. **D10 face dacian** (PASS): keep dacian nearer the band centre in D10 _(from F15 D10 face dacian, shot D10)_
+3. **D09 face seraphine** (PASS): keep seraphine nearer the band centre in D09 _(from F14 D09 face seraphine, shot D09)_
+4. **P02 face archon_d** (PASS): keep archon_d nearer the band centre in P02 _(from F52 P02 face archon_d, shot P02)_
+5. **P02 face archon_g** (PASS): keep archon_g nearer the band centre in P02 _(from F51 P02 face archon_g, shot P02)_
+6. **P03 face dacian** (PASS): keep dacian nearer the band centre in P03 _(from F53 P03 face dacian, shot P03)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -69,14 +69,14 @@
 | F33 | H09 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F34 | H10 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F35 | H11 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F36 | H12 face hooded | PASS 100 | worst u 0.51 v 0.53 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F36 | H12 face hooded | PASS 96 | worst u 0.50 v 0.28 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F37 | H13 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F38 | H14 face hooded | PASS 88 | worst u 0.50 v 0.81 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F39 | H15 face hooded | PASS 100 | worst u 0.50 v 0.51 at 5.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F38 | H14 face hooded | PASS 100 | worst u 0.50 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F39 | H15 face hooded | PASS 100 | worst u 0.50 v 0.44 at 5.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F40 | H16 face old_a | PASS 100 | worst u 0.43 v 0.52 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F41 | H16 face old_b | PASS 100 | worst u 0.70 v 0.44 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F42 | H17 face hooded | PASS 100 | worst u 0.50 v 0.50 at 0.75 s | head inside the 2.39 band safe area (90 %) |  |
-| F43 | H17B face hooded | PASS 97 | worst u 0.78 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F42 | H17 face hooded | PASS 100 | worst u 0.50 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F43 | H17B face hooded | PASS 97 | worst u 0.78 v 0.37 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F44 | H18 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F45 | H19 face y_vessa | PASS 100 | worst u 0.43 v 0.42 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F46 | H19 face y_malrik | PASS 100 | worst u 0.59 v 0.38 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
@@ -177,8 +177,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 49f1160dc379ae86 / 49f1160dc379ae86 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was ae152f5e9efd1a91) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 931a7e4223d17bfd / 931a7e4223d17bfd | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 49f1160dc379ae86) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep7_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

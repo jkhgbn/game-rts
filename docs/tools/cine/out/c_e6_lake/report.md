@@ -1,10 +1,10 @@
-# cine check: c_e6_lake
+# cine build: c_e6_lake
 
-2026-10-08 11:37:25 - `tools/cine/run_cine.ps1 check c_e6_lake` - hash `e8b07d1fcf483142` (2 runs identical)
+2026-10-08 13:44:08 - `tools/cine/run_cine.ps1 build c_e6_lake` - hash `535634de55a4015f` (2 runs identical)
 
 ## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 0 WARN, 23 PASS, 10 info, 0 skipped, 1 s
+0 FAIL, 0 WARN, 24 PASS, 10 info, 0 skipped, 2 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -62,8 +62,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | e8b07d1fcf483142 / e8b07d1fcf483142 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 401b5790159888ef) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 535634de55a4015f / 535634de55a4015f | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was e8b07d1fcf483142) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/c_e6_lake.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

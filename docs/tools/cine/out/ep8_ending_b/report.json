@@ -601,7 +601,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was a50d4df40858363f)",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -631,12 +631,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (vessa in E15 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep8_ending_b.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 15,
-		"PASS": 30,
+		"PASS": 31,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -678,7 +692,7 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep8_ending_b.cine` (197 lines), 67.0 s, 9 shots, stage: set forge_intro_malrik",
@@ -690,8 +704,8 @@
 	"scene": "",
 	"seconds": 7.5,
 	"shots": {},
-	"started": "2026-10-08 12:27:36",
+	"started": "2026-10-08 13:50:25",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

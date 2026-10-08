@@ -549,17 +549,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.878110576476624,
 			"group": "framing",
 			"hint": "",
 			"id": "F36",
 			"improve": "keep hooded nearer the band centre in H12",
 			"name": "H12 face hooded",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.963433172942987,
 			"shot": "H12",
 			"status": "PASS",
-			"value": "worst u 0.51 v 0.53 at 0.00 s",
+			"value": "worst u 0.50 v 0.28 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -577,17 +577,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.598328253226494,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F38",
 			"improve": "keep hooded nearer the band centre in H14",
 			"name": "H14 face hooded",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.879498475967948,
+			"score": 1.0,
 			"shot": "H14",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.81 at 0.00 s",
+			"value": "worst u 0.50 v 0.46 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -601,7 +601,7 @@
 			"score": 1.0,
 			"shot": "H15",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.51 at 5.00 s",
+			"value": "worst u 0.50 v 0.44 at 5.00 s",
 			"weight": 1.0
 		},
 		{
@@ -643,21 +643,21 @@
 			"score": 1.0,
 			"shot": "H17",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.75 s",
+			"value": "worst u 0.50 v 0.41 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.913503378629684,
+			"graded": 0.914494603872299,
 			"group": "framing",
 			"hint": "",
 			"id": "F43",
 			"improve": "keep hooded nearer the band centre in H17B",
 			"name": "H17B face hooded",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.974051013588905,
+			"score": 0.97434838116169,
 			"shot": "H17B",
 			"status": "PASS",
-			"value": "worst u 0.78 v 0.46 at 0.00 s",
+			"value": "worst u 0.78 v 0.37 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -1987,7 +1987,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "49f1160dc379ae86 / 49f1160dc379ae86",
+			"value": "931a7e4223d17bfd / 931a7e4223d17bfd",
 			"weight": 1.0
 		},
 		{
@@ -2001,7 +2001,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was ae152f5e9efd1a91)",
+			"value": "changed (was 49f1160dc379ae86)",
 			"weight": 1.0
 		},
 		{
@@ -2031,12 +2031,26 @@
 			"status": "WARN",
 			"value": "worst facing 33.5 deg (hooded in H17B (cine 25, runtime 59 deg)), position 4.800 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep7_opening.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 53,
-		"PASS": 91,
+		"PASS": 92,
 		"SKIP": 0,
 		"WARN": 1
 	},
@@ -2051,18 +2065,11 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "49f1160dc379ae86",
+	"hash": "931a7e4223d17bfd",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep7_opening",
 	"improve_next": [
-		{
-			"rank": 0.120501524032052,
-			"source": "F38 H14 face hooded, shot H14",
-			"status": "PASS",
-			"text": "keep hooded nearer the band centre in H14",
-			"title": "H14 face hooded"
-		},
 		{
 			"rank": 0.114530566468168,
 			"source": "F13 D09 face dacian, shot D09",
@@ -2097,22 +2104,29 @@
 			"status": "PASS",
 			"text": "keep archon_g nearer the band centre in P02",
 			"title": "P02 face archon_g"
+		},
+		{
+			"rank": 0.0547235305629559,
+			"source": "F53 P03 face dacian, shot P03",
+			"status": "PASS",
+			"text": "keep dacian nearer the band centre in P03",
+			"title": "P03 face dacian"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep7_opening.cine` (351 lines), 206.0 s, 41 shots, stage: set forge_intro_vessa",
 		"the .cine has 351 lines (demo budget <= 80)"
 	],
-	"previous_quality": 96.5,
-	"quality": 97.6,
+	"previous_quality": 97.6,
+	"quality": 97.7,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 14.5,
+	"seconds": 14.2,
 	"shots": {},
-	"started": "2026-10-08 11:53:40",
+	"started": "2026-10-08 13:48:25",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

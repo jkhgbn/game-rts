@@ -16,7 +16,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="14_dccaw"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="15_eq3th"]
 
-[node name="C1OfferStage" type="Node3D" unique_id=278395004]
+[node name="C1OfferStage" type="Node3D" unique_id=1497165345]
 script = ExtResource("1_aj80p")
 autoplay_script = ExtResource("2_cq7xg")
 actor_paths = {
@@ -46,21 +46,21 @@ set_id = &"forge_intro_torvald"
 lighting = ExtResource("5_6mf4p")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
 
-[node name="throne" type="Node3D" parent="." unique_id=329514327 instance=ExtResource("6_uj4bk")]
+[node name="throne" type="Node3D" parent="." unique_id=249220894 instance=ExtResource("6_uj4bk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.5)
 
-[node name="table" type="Node3D" parent="." unique_id=479432017 instance=ExtResource("7_lxig5")]
+[node name="table" type="Node3D" parent="." unique_id=919263274 instance=ExtResource("7_lxig5")]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 2.5, 0, -8.2)
 
-[node name="Shard" type="Node3D" parent="." unique_id=58604342 instance=ExtResource("8_uolvi")]
+[node name="Shard" type="Node3D" parent="." unique_id=451581647 instance=ExtResource("8_uolvi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 1.2, -8.15)
 visible = false
 
-[node name="Seal" type="Node3D" parent="." unique_id=2013548856 instance=ExtResource("9_0g1kd")]
+[node name="Seal" type="Node3D" parent="." unique_id=221926722 instance=ExtResource("9_0g1kd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 1.19, -8.15)
 visible = false
 
-[node name="Malrik" type="Node3D" parent="." unique_id=102923050 instance=ExtResource("10_g7jq1")]
+[node name="Malrik" type="Node3D" parent="." unique_id=1156855400 instance=ExtResource("10_g7jq1")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -4.6)
 visible = false
 script = ExtResource("11_fqaqs")
@@ -73,7 +73,7 @@ stride_time = 1.1
 stride_speed = 4.4
 kingdom_color = Color(0.42, 0.22, 0.6, 1)
 
-[node name="GuardW" type="Node3D" parent="." unique_id=1251087611 instance=ExtResource("12_18cpc")]
+[node name="GuardW" type="Node3D" parent="." unique_id=1781642946 instance=ExtResource("12_18cpc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4, 0, -3)
 script = ExtResource("13_d24qv")
 breath_interval = 3.6
@@ -82,7 +82,7 @@ stride_time = 0.6
 stride_speed = 4.2
 kingdom_color = Color(0.45, 0.75, 0.95, 1)
 
-[node name="GuardE" type="Node3D" parent="." unique_id=163852468 instance=ExtResource("12_18cpc")]
+[node name="GuardE" type="Node3D" parent="." unique_id=976465660 instance=ExtResource("12_18cpc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0, -3)
 script = ExtResource("13_d24qv")
 breath_interval = 3.6
@@ -91,6 +91,6 @@ stride_time = 0.6
 stride_speed = 4.2
 kingdom_color = Color(0.45, 0.75, 0.95, 1)
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1671445317]
+[node name="LightingRig" type="Node3D" parent="." unique_id=2034923208]
 script = ExtResource("14_dccaw")
 preset = ExtResource("15_eq3th")

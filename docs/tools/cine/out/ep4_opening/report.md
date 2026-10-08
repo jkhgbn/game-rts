@@ -1,10 +1,10 @@
-# cine check: ep4_opening
+# cine build: ep4_opening
 
-2026-09-28 22:48:55 - `tools/cine/run_cine.ps1 check ep4_opening` - hash `5970f62d28cc23dd` (2 runs identical)
+2026-10-08 13:50:55 - `tools/cine/run_cine.ps1 build ep4_opening` - hash `d761324335b3d5ee` (2 runs identical)
 
 ## Result: **PASS** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 0 WARN, 34 PASS, 25 info, 0 skipped, 18 s
+0 FAIL, 0 WARN, 35 PASS, 25 info, 0 skipped, 5 s
 
 ## Improve next
 1. **S02 face ysolde** (PASS): keep ysolde nearer the band centre in S02 _(from F2 S02 face ysolde, shot S02)_
@@ -76,7 +76,7 @@
 | S7 | S07 line 1 (src 55) | PASS 94 | ysolde "They call me soft. Neutral. Slow. Slow i.." 14.0 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S8 | H08 line 1 (src 64) | PASS 95 | ysolde "Last winter they burned my wood and froz.." 13.8 cps, 5.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S9 | H09 line 1 (src 70) | PASS 92 | ysolde "I knelt in the black, and I waited. Some.." 14.6 cps, 5.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S10 | S10 line 1 (src 76) | PASS 90 | ysolde "That is my strength. Not fire. Not knive.." 15.3 cps, 5.3 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S10 | S10 line 1 (src 76) | PASS 100 | ysolde "That is my strength. I come back. Every .." 11.1 cps, 5.3 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S11 | S11 line 1 (src 81) | PASS 91 | ysolde "The Master planted this country with his.." 15.1 cps, 5.1 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S12 | S12 line 1 (src 86) | PASS 89 | ysolde "Malrik stands up there with his candle, .." 15.7 cps, 4.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S13 | S12 line 2 (src 87) | PASS 97 | ysolde "Let them come. Cut it. Burn it. Freeze i.." 13.1 cps, 3.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
@@ -88,8 +88,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 5970f62d28cc23dd / 5970f62d28cc23dd | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | same |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | d761324335b3d5ee / d761324335b3d5ee | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 5970f62d28cc23dd) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep4_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

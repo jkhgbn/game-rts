@@ -171,17 +171,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.945078229726251,
 			"group": "framing",
 			"hint": "",
 			"id": "F9",
 			"improve": "keep torvald nearer the band centre in P8",
 			"name": "P8 face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.983523468917875,
 			"shot": "P8",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.35 at 7.00 s",
+			"value": "worst u 0.50 v 0.70 at 7.00 s",
 			"weight": 1.0
 		},
 		{
@@ -531,7 +531,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "e71a8e170ae3efff / e71a8e170ae3efff",
+			"value": "b8a947de9da25859 / b8a947de9da25859",
 			"weight": 1.0
 		},
 		{
@@ -545,7 +545,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 3ac7d5d98eb70640)",
+			"value": "changed (was e71a8e170ae3efff)",
 			"weight": 1.0
 		},
 		{
@@ -609,7 +609,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "e71a8e170ae3efff",
+	"hash": "b8a947de9da25859",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e3_price",
@@ -641,13 +641,13 @@
 	"notes": [
 		"source `data/cinematics/src/c_e3_price.cine` (61 lines), 64.0 s, 9 shots, stage: set forge_evenmead"
 	],
-	"previous_quality": 98.5,
-	"quality": 99.9,
+	"previous_quality": 99.9,
+	"quality": 99.8,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.8,
+	"seconds": 3.1,
 	"shots": {},
-	"started": "2026-10-08 00:10:37",
+	"started": "2026-10-08 13:44:27",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

@@ -111,7 +111,7 @@
 			"score": 1.0,
 			"shot": "G04",
 			"status": "PASS",
-			"value": "worst u 0.47 v 0.47 at 6.00 s",
+			"value": "worst u 0.47 v 0.31 at 6.00 s",
 			"weight": 1.0
 		},
 		{
@@ -841,12 +841,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (m_boy in G04 (cine -200, runtime 160 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep3_opening.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 25,
-		"PASS": 35,
+		"PASS": 36,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -888,7 +902,7 @@
 			"title": "Look at the pictures"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep3_opening.cine` (128 lines), 91.0 s, 14 shots, stage: set forge_evenmead",
@@ -898,10 +912,10 @@
 	"quality": 96.9,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 25.5,
+	"seconds": 5.7,
 	"shots": {},
-	"started": "2026-09-28 22:48:02",
+	"started": "2026-10-08 13:50:42",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

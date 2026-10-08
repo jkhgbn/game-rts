@@ -1553,7 +1553,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was bdbb67e986cf3a0e)",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -1583,12 +1583,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (tb2 in S01 (cine 230, runtime -130 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep5_opening.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 45,
-		"PASS": 68,
+		"PASS": 69,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -1630,20 +1644,20 @@
 			"title": "Look at the pictures"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep5_opening.cine` (300 lines), 180.0 s, 32 shots, stage: set forge_citadel",
 		"the .cine has 300 lines (demo budget <= 80)"
 	],
-	"previous_quality": 96.6,
+	"previous_quality": 98.2,
 	"quality": 98.2,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 12.3,
+	"seconds": 12.2,
 	"shots": {},
-	"started": "2026-10-08 11:19:51",
+	"started": "2026-10-08 13:48:48",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

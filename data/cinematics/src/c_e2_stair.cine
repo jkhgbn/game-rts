@@ -10,55 +10,56 @@
 # Set: forge_watch_keep (keep at (0,-10), gate (0,2); its puppets vessa / guard_w / guard_e). Prop: the stair-house
 # art/cinematics/props/ep2_between/stair_mouth.tscn at (5,0,-5), descending toward -Z (into the keep's foundations).
 # Stand-ins: Wren = a Wildwood Archer (as in ep2_opening), the guides = Greywater Trackers.
-# Axis: Vessa - Vey on the stair's rim (an east-west line at z ~ -2.1); every talk camera stays on its -Z side (over the
+# Blocking (framing pass 2026-10-08): Vey west, Vessa east, so her staff (right hand) stays on the north side, out
+# of the south talk cameras. Axis: Vessa - Vey on the stair's rim (an east-west line at z ~ -2.1); every talk camera stays on its -Z side (over the
 # stair, looking up at their faces); the opening wide and the last shot cross it behind a fade.
 cine c_e2_stair  title="On the Way Down"  letterbox=2.39  seed=43  length=70..96
 use set forge_watch_keep
 use music res://assets/audio/music/music_menu.wav  vol=-24
 env night  moon_yaw=200  moon_pitch=-30  energy=0.5  color=#9fb4ff
 prop  stair  res://art/cinematics/props/ep2_between/stair_mouth.tscn  at=(5, 0, -5)  yaw=0
-cast  vey     res://art/units/helpers/helper_vey/helper_vey.tscn                at=(5.9, 0, -2.0)   yaw=200
+cast  vey     res://art/units/helpers/helper_vey/helper_vey.tscn                at=(4.4, 0, -2.2)   yaw=160
 cast  guide1  res://art/units/neutral/tracker/tracker.tscn                      at=(4.45, 0.0, -6.45)  yaw=150
 cast  guide2  res://art/units/neutral/tracker/tracker.tscn                      at=(5.6, 0.0, -6.6)  yaw=200
 cast  wren    res://art/units/nature/wildwood_archer/wildwood_archer.tscn       at=(0, 0, 12)  yaw=180  hidden=1
 
 # ---------------------------------------------------------------- the watch-keep at night, the stair open
 # Wide crane from the south-east over the wall: the keep dark, one line of lanterns going down into the ground
-shot T1 8.0  cam=crane  from=(15, 10, 17)  to=(10, 5.5, 9)  look=(4, 1.0, -4)>(5, 0.6, -4.5)  fov=46>40  in=fade_black:1.2
-  at 0.0  teleport vessa  to=(4.4, 0, -2.2)  yaw=180
+shot T1 8.0  cam=crane  from=(15, 10, 17)  to=(9.5, 8.5, 6.0)  look=(4, 1.0, -4)>(5, 0.5, -4.8)  fov=46>40  in=fade_black:1.2
+  at 0.0  teleport vessa  to=(5.9, 0, -2.0)  yaw=200
   at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
   at 3.0  anim guide1 play_cast
   at 5.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-20
 # From the steps, looking up at Vessa on the rim
-shot T2 6.5  cam=dolly  from=(4.3, 1.0, -4.7)  to=(4.3, 1.05, -4.4)  look=vessa  fov=36
+shot T2 6.5  cam=dolly  from=(4.6, 1.0, -4.7)  to=(4.65, 1.05, -4.4)  look=vessa  fov=36
   at 0.6  line vessa "Ashby says the seal was older than the keep."
 # Two-shot, they turn to each other
-shot T3 8.0  cam=dolly  from=(5.3, 1.55, -5.9)  to=(5.2, 1.55, -5.5)  look=(5.15, 1.6, -2.1)  fov=40  faces=vessa,vey
+shot T3 8.0  cam=dolly  from=(5.0, 1.55, -5.9)  to=(5.1, 1.55, -5.5)  look=(5.15, 1.6, -2.1)  fov=40  faces=vessa,vey
   at 0.0  face vessa  to=vey  time=0.6
   at 0.0  face vey  to=vessa  time=0.6
   at 0.6  line vey "Older than the kingdom. He sealed it the day he took the throne."
 # CU Vessa: she knows that tone
-shot T4 5.0  cam=static  from=(5.25, 1.62, -3.75)  look=vessa  fov=30
+shot T4 5.0  cam=static  from=(5.05, 1.62, -3.75)  look=vessa  fov=30
   at 0.4  line vessa "You talk about the Master like you knew him before we did."
 # CU Vey: the sword before the four
-shot T5 10.0  cam=dolly  from=(4.95, 1.72, -3.55)  to=(5.0, 1.72, -3.4)  look=vey  fov=30
+shot T5 10.0  cam=dolly  from=(5.75, 1.95, -3.55)  to=(5.7, 1.95, -3.4)  look=vey+(0, 1.85, 0)  fov=30  faces=vey
   at 0.5  line vey "Before the four of you, there was a sword. I was the sword."
   at 5.0  line vey "I stood behind his throne when kings still knelt to it."
 # Two-shot: the lightning
-shot T6 9.5  cam=dolly  from=(4.6, 1.45, -5.0)  to=(4.75, 1.45, -4.7)  look=(5.15, 1.6, -2.1)  fov=38  faces=vessa,vey
+shot T6 9.5  cam=dolly  from=(4.9, 1.45, -5.2)  to=(5.0, 1.45, -4.9)  look=(5.15, 1.6, -2.1)  fov=38  faces=vessa,vey
   at 0.4  line vessa "And the lightning? No kingdom throws lightning."
   at 3.9  line vey "It's his storm, not mine. He lent it to me to keep you four alive."
   at 4.2  fade color=#fff6dc  alpha=0.28  time=0.12
   at 4.5  fade alpha=0  time=0.5
   at 4.2  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-18
-shot T7 4.5  cam=static  from=(5.3, 1.6, -3.7)  look=vessa  fov=30
+shot T7 4.5  cam=static  from=(5.0, 1.6, -3.7)  look=vessa  fov=30
   at 0.4  line vessa "And when were you going to tell me?"
-shot T8 4.5  cam=static  from=(4.95, 1.72, -3.5)  look=vey  fov=28
+shot T8 4.5  cam=static  from=(5.8, 1.95, -3.5)  look=vey+(0, 1.85, 0)  fov=28  faces=vey
   at 1.0  line vey "On the way down."
 
 # ---------------------------------------------------------------- Ysolde's word
 # From the stair toward the gate: Wren runs in from the road
-shot T9 7.0  cam=static  from=(4.8, 2.2, -6.2)  look=(2.6, 1.3, 0.2)  fov=42  faces=wren
+shot T9 7.0  cam=static  from=(5.25, 2.2, -6.2)  look=(2.6, 1.3, 0.2)  fov=42  faces=wren
   at 0.0  teleport wren  to=(0.4, 0, 8)  yaw=180
   at 0.0  show wren
   at 0.2  move wren  to=(2.6, 0, -0.6)  speed=3.2
@@ -68,14 +69,14 @@ shot T9 7.0  cam=static  from=(4.8, 2.2, -6.2)  look=(2.6, 1.3, 0.2)  fov=42  fa
   at 2.6  line wren "Vessa! Word from Ysolde."
 shot T10 7.0  cam=dolly  from=(3.4, 1.5, -3.4)  to=(3.3, 1.5, -3.2)  look=wren  fov=34
   at 0.5  line wren "Nature's army follows you down. All of it that can still walk."
-shot T11 5.0  cam=static  from=(4.0, 1.55, -4.6)  look=vessa  fov=32
-  at 0.0  face vessa  to=(4.4, 0, -6)  time=0.8
+shot T11 5.0  cam=static  from=(6.3, 1.55, -4.6)  look=vessa  fov=32
+  at 0.0  face vessa  to=(5.6, 0, -6)  time=0.8
   at 0.6  line vessa "Then we don't keep them waiting."
 
 # ---------------------------------------------------------------- down
 # High behind them over the rim: they start down the steps into the glow (crosses the axis after a dip to black)
 shot T12 10.0  cam=crane  from=(5.2, 3.4, 1.4)  to=(5.1, 2.4, -0.4)  look=(5, 0.6, -4.2)>(5, 0.3, -5.2)  fov=44  in=fade_black:0.8
-  at 0.4  move vessa  to=(4.6, 0.55, -3.9)  speed=0.9
-  at 0.9  move vey  to=(5.5, 0.55, -3.9)  speed=0.9
+  at 0.4  move vessa  to=(5.5, 0.55, -3.9)  speed=0.9
+  at 0.9  move vey  to=(4.6, 0.55, -3.9)  speed=0.9
   at 1.2  line vey "Mind the seventh step. It bites."
   at 9.0  fade alpha=1 time=1.0

@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="6_qr77y"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="7_cy3b1"]
 
-[node name="CE3DoubtStage" type="Node3D" unique_id=1790699945]
+[node name="CE3DoubtStage" type="Node3D" unique_id=1075258296]
 script = ExtResource("1_7uf3x")
 autoplay_script = ExtResource("2_k62ky")
 actor_paths = {
@@ -55,6 +55,6 @@ set_id = &"forge_evenmead"
 lighting = ExtResource("5_g576q")
 lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/master_tree"), NodePath("Placed/banner_n"), NodePath("Placed/banner_s"), NodePath("Placed/stone_pt"), NodePath("Placed/bloom_pt"), NodePath("Puppets/malrik"), NodePath("Puppets/torvald"), NodePath("Puppets/hush"), NodePath("Puppets/ysolde"), NodePath("Puppets/vessa"), NodePath("Puppets/vey"), NodePath("Puppets/stone"), NodePath("Puppets/bloom"), NodePath("Puppets/army_shadow"), NodePath("Puppets/army_ice"), NodePath("Puppets/army_nature"), NodePath("Puppets/army_fire"), NodePath("Puppets/w_ground"), NodePath("Puppets/w_grass_near"), NodePath("Puppets/w_grass_mid"), NodePath("Puppets/w_grass_far"), NodePath("Puppets/w_grass_tall"), NodePath("Puppets/w_flowers"), NodePath("Puppets/w_oak0"), NodePath("Puppets/w_oak1"), NodePath("Puppets/w_oak2"), NodePath("Puppets/w_birch"), NodePath("Puppets/w_shrub0"), NodePath("Puppets/w_shrub1"), NodePath("Puppets/w_farwood"), NodePath("Puppets/w_river"), NodePath("Puppets/w_riverbed"), NodePath("Puppets/w_reeds"), NodePath("Puppets/w_camps"), NodePath("Puppets/w_mist"), NodePath("Puppets/w_glow"), NodePath("Puppets/w_rays"), NodePath("Puppets/w_birds"), NodePath("Puppets/w_far")])
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=60865965]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1388121934]
 script = ExtResource("6_qr77y")
 preset = ExtResource("7_cy3b1")

@@ -66,7 +66,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="Ep5OpeningStage" type="Node3D" unique_id=1182072608]
+[node name="Ep5OpeningStage" type="Node3D" unique_id=256660488]
 script = ExtResource("1_cpexi")
 autoplay_script = ExtResource("2_alq0p")
 actor_paths = {
@@ -143,7 +143,7 @@ set_id = &"forge_citadel"
 lighting = ExtResource("5_y8k2c")
 lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
 
-[node name="V12" type="Node3D" parent="forge_citadel" unique_id=1677938678 instance=ExtResource("6_5dttq")]
+[node name="V12" type="Node3D" parent="forge_citadel" unique_id=1324842399 instance=ExtResource("6_5dttq")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -13, 48, -3)
 visible = false
 script = ExtResource("7_025q2")
@@ -152,7 +152,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="LMalrik" type="Node3D" parent="forge_citadel" unique_id=22800715 instance=ExtResource("8_ww6di")]
+[node name="LMalrik" type="Node3D" parent="forge_citadel" unique_id=926060409 instance=ExtResource("8_ww6di")]
 transform = Transform3D(0.65113777, 0, 0.54636943, 0, 0.85, 0, -0.54636943, 0, 0.65113777, -10.6, 48, -2.6)
 visible = false
 script = ExtResource("9_e3pbx")
@@ -216,7 +216,7 @@ kingdom_color = Color(0.42, 0.22, 0.6, 1)
 walk_bounce = 0.05
 flinch_push = true
 
-[node name="Pup2" type="Node3D" parent="forge_intro_malrik" unique_id=744965752 instance=ExtResource("18_2bfin")]
+[node name="Pup2" type="Node3D" parent="forge_intro_malrik" unique_id=231819942 instance=ExtResource("18_2bfin")]
 transform = Transform3D(0.42286167, 0, -0.15390906, 0, 0.45, 0, 0.15390906, 0, 0.42286167, -13.7, 0, 9.8)
 script = ExtResource("17_en5fn")
 unit_kind = &"hound"
@@ -236,11 +236,11 @@ flinch_push = true
 transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, 1.6, 0, -4.4)
 visible = false
 
-[node name="Tb2" type="Node3D" parent="forge_intro_malrik" unique_id=2068097583 instance=ExtResource("19_l34x6")]
+[node name="Tb2" type="Node3D" parent="forge_intro_malrik" unique_id=11822420 instance=ExtResource("19_l34x6")]
 transform = Transform3D(-0.6427875, 0, -0.76604456, 0, 1, 0, 0.76604456, 0, -0.6427875, 2.5, 0, -4)
 visible = false
 
-[node name="Tb3" type="Node3D" parent="forge_intro_malrik" unique_id=956296603 instance=ExtResource("19_l34x6")]
+[node name="Tb3" type="Node3D" parent="forge_intro_malrik" unique_id=2001467928 instance=ExtResource("19_l34x6")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.9, 0, -3.8)
 visible = false
 
@@ -276,7 +276,7 @@ set_id = &"forge_ep2_feast"
 lighting = ExtResource("27_yhvq6")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/bonfire"), NodePath("Placed/table_w"), NodePath("Placed/table_e"), NodePath("Placed/lamp1"), NodePath("Placed/lamp2"), NodePath("Placed/lamp3"), NodePath("Placed/lamp4"), NodePath("Placed/lantern_string_1"), NodePath("Placed/lantern_string_2"), NodePath("Placed/gate_l"), NodePath("Placed/gate_r"), NodePath("Placed/banner_fire_1"), NodePath("Placed/banner_fire_2"), NodePath("Placed/glow_fire_1"), NodePath("Placed/glow_warm_1"), NodePath("Placed/glow_warm_2"), NodePath("Placed/glow_warm_3"), NodePath("Placed/glow_warm_4"), NodePath("Placed/glow_warm_5"), NodePath("Placed/glow_warm_6"), NodePath("Placed/glow_warm_7"), NodePath("Placed/glow_warm_8"), NodePath("Placed/glow_warm_9"), NodePath("Placed/glow_warm_10"), NodePath("Placed/glow_red_1"), NodePath("Placed/glow_blue_1")])
 
-[node name="AVessa" type="Node3D" parent="forge_ep2_feast" unique_id=1281268979 instance=ExtResource("6_5dttq")]
+[node name="AVessa" type="Node3D" parent="forge_ep2_feast" unique_id=1505102795 instance=ExtResource("6_5dttq")]
 transform = Transform3D(-3.715468e-08, 0, 0.85, 0, 0.85, 0, -0.85, 0, -3.715468e-08, 7.9, 0, 2)
 script = ExtResource("7_025q2")
 body_height = 3.0
@@ -284,7 +284,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="AMalrik" type="Node3D" parent="forge_ep2_feast" unique_id=355407131 instance=ExtResource("8_ww6di")]
+[node name="AMalrik" type="Node3D" parent="forge_ep2_feast" unique_id=226457194 instance=ExtResource("8_ww6di")]
 transform = Transform3D(-3.715468e-08, 0, 0.85, 0, 0.85, 0, -0.85, 0, -3.715468e-08, 7.9, 0, 3.7)
 script = ExtResource("9_e3pbx")
 light_energy = 1.0
@@ -296,7 +296,7 @@ stride_time = 1.1
 stride_speed = 4.4
 kingdom_color = Color(0.42, 0.22, 0.6, 1)
 
-[node name="ATorvald" type="Node3D" parent="forge_ep2_feast" unique_id=1525102072 instance=ExtResource("28_c27wm")]
+[node name="ATorvald" type="Node3D" parent="forge_ep2_feast" unique_id=1355809896 instance=ExtResource("28_c27wm")]
 transform = Transform3D(-3.715468e-08, 0, -0.85, 0, 0.85, 0, 0.85, 0, -3.715468e-08, 10.1, 0, 2.3)
 script = ExtResource("29_ue7kr")
 body_height = 2.1
@@ -309,7 +309,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 24.0
 walk_bounce = 0.05
 
-[node name="AYsolde" type="Node3D" parent="forge_ep2_feast" unique_id=1529784525 instance=ExtResource("30_cb6d2")]
+[node name="AYsolde" type="Node3D" parent="forge_ep2_feast" unique_id=1038573354 instance=ExtResource("30_cb6d2")]
 transform = Transform3D(-3.715468e-08, 0, -0.85, 0, 0.85, 0, 0.85, 0, -3.715468e-08, 10.1, 0, 3.9)
 script = ExtResource("31_ch337")
 body_height = 2.0
@@ -320,7 +320,7 @@ idle_period = 3.6
 kingdom_color = Color(0.35, 0.7, 0.25, 1)
 walk_bounce = 0.03
 
-[node name="Vey" type="Node3D" parent="." unique_id=277154399 instance=ExtResource("32_o7s8d")]
+[node name="Vey" type="Node3D" parent="." unique_id=479007101 instance=ExtResource("32_o7s8d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -300)
 script = ExtResource("33_lkqut")
 light_energy = 0.0
@@ -329,6 +329,6 @@ attack_style = &"sword_slash"
 stride_speed = 4.8
 leg_swing_deg = 30.0
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1516491117]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1097544421]
 script = ExtResource("34_hqro6")
 preset = SubResource("Resource_753ak")

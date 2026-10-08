@@ -68,10 +68,10 @@ params = {
 [sub_resource type="Resource" id="Resource_wqhp2"]
 script = ExtResource("4_2bvep")
 kind = &"vfx"
-target = Vector3(34.7, 0, 1)
+target = Vector3(34.7, 0, -0.2)
 params = {
 "life": 22.0,
-"scale": 0.15,
+"scale": 0.12,
 "scene": "res://art/cinematics/fx/sun_pillar.tscn"
 }
 
@@ -116,12 +116,13 @@ voice = "res://assets/audio/voice/whisper/you_came_down_yourself_dc2300d9.wav"
 script = ExtResource("3_sti0g")
 id = &"X2"
 duration = 7.0
-from_pos = Vector3(34.2, 0.5, 3.2)
-to_pos = Vector3(34.2, 0.5, 3.2)
-look_from = Vector3(34.6, 3.4, 0.8)
-look_to = Vector3(34.6, 3.4, 0.8)
-fov_from = 52.0
-fov_to = 52.0
+camera_mode = 2
+from_pos = Vector3(36.3, 2.2, 5.4)
+to_pos = Vector3(36.1, 1.9, 5)
+look_from = Vector3(34.6, 5.4, 0.8)
+look_to = Vector3(34.5, 3.6, 0.7)
+fov_from = 50.0
+fov_to = 50.0
 lines = Array[ExtResource("1_ikm7f")]([SubResource("Resource_ygjnh")])
 actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_jqqbr"), SubResource("Resource_wqhp2"), SubResource("Resource_1k3lp"), SubResource("Resource_k272n"), SubResource("Resource_1cx6s")])
 stage_set = &"forge_ep3_memories"
@@ -157,10 +158,10 @@ voice = "res://assets/audio/voice/master/then_we_will_both_bb146b98.wav"
 script = ExtResource("3_sti0g")
 id = &"X3"
 duration = 8.0
-from_pos = Vector3(36.4, 1.2, 3.8)
-to_pos = Vector3(36.4, 1.2, 3.8)
-look_from = Vector3(34.7, 3.2, 1)
-look_to = Vector3(34.7, 3.2, 1)
+from_pos = Vector3(36.5, 2.6, 4)
+to_pos = Vector3(36.5, 2.6, 4)
+look_from = Vector3(34.7, 3.75, 1)
+look_to = Vector3(34.7, 3.75, 1)
 fov_from = 44.0
 fov_to = 44.0
 lines = Array[ExtResource("1_ikm7f")]([SubResource("Resource_fng68")])
@@ -200,12 +201,12 @@ voice = "res://assets/audio/voice/master/then_between_one_breath_72b919e2.wav"
 script = ExtResource("3_sti0g")
 id = &"X4"
 duration = 7.0
-from_pos = Vector3(36, 3.2, 3.2)
-to_pos = Vector3(36, 3.2, 3.2)
-look_from = Vector3(34.7, 3.3, 1)
-look_to = Vector3(34.7, 3.3, 1)
-fov_from = 38.0
-fov_to = 38.0
+from_pos = Vector3(36.1, 4.3, 3.4)
+to_pos = Vector3(36.1, 4.3, 3.4)
+look_from = Vector3(34.7, 4.05, 1)
+look_to = Vector3(34.7, 4.05, 1)
+fov_from = 36.0
+fov_to = 36.0
 lines = Array[ExtResource("1_ikm7f")]([SubResource("Resource_vhv6l")])
 actions = Array[ExtResource("4_2bvep")]([SubResource("Resource_ckhog"), SubResource("Resource_ooi22")])
 stage_set = &"forge_ep3_memories"

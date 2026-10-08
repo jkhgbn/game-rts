@@ -1,22 +1,24 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_a12c0"]
-[ext_resource type="Resource" path="res://data/cinematics/c_e5_turn.tres" id="2_o78db"]
-[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_malrik/forge_intro_malrik.tscn" id="3_iym3m"]
-[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_wglk2"]
-[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_malrik/mood_malrik.tres" id="5_yxwnv"]
-[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn" id="6_sv6cg"]
-[ext_resource type="PackedScene" path="res://art/units/shadow/grave_hound.tscn" id="7_iwt7p"]
-[ext_resource type="Script" path="res://art/units/shadow/shadow_model.gd" id="8_5b5ov"]
-[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="9_k07ou"]
-[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="10_70het"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_o78db"]
+[ext_resource type="Resource" path="res://data/cinematics/c_e5_turn.tres" id="2_iym3m"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_malrik/forge_intro_malrik.tscn" id="3_wglk2"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_yxwnv"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_malrik/mood_malrik.tres" id="5_sv6cg"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn" id="6_iwt7p"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/parts/candle.tscn" id="7_5b5ov"]
+[ext_resource type="PackedScene" path="res://art/units/shadow/grave_hound.tscn" id="8_k07ou"]
+[ext_resource type="Script" path="res://art/units/shadow/shadow_model.gd" id="9_70het"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="10_k1c5u"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="11_507d7"]
 
-[node name="CE5TurnStage" type="Node3D" unique_id=154534339]
-script = ExtResource("1_a12c0")
-autoplay_script = ExtResource("2_o78db")
+[node name="CE5TurnStage" type="Node3D" unique_id=359969154]
+script = ExtResource("1_o78db")
+autoplay_script = ExtResource("2_iym3m")
 actor_paths = {
 "army_fallen": NodePath("forge_intro_malrik/Puppets/army_fallen"),
 "army_host": NodePath("forge_intro_malrik/Puppets/army_host"),
+"candle": NodePath("Candle"),
 "fx_crown": NodePath("forge_intro_malrik/Puppets/fx_crown"),
 "fx_master": NodePath("forge_intro_malrik/Puppets/fx_master"),
 "fx_tendrils": NodePath("forge_intro_malrik/Puppets/fx_tendrils"),
@@ -32,19 +34,22 @@ actor_paths = {
 }
 lighting_rig = NodePath("LightingRig")
 
-[node name="forge_intro_malrik" type="Node3D" parent="." unique_id=19235064 instance=ExtResource("3_iym3m")]
-script = ExtResource("4_wglk2")
+[node name="forge_intro_malrik" type="Node3D" parent="." unique_id=19235064 instance=ExtResource("3_wglk2")]
+script = ExtResource("4_yxwnv")
 set_id = &"forge_intro_malrik"
-lighting = ExtResource("5_yxwnv")
+lighting = ExtResource("5_sv6cg")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"), NodePath("Placed/standing_stones_1"), NodePath("Puppets/malrik"), NodePath("Puppets/malrik_young"), NodePath("Puppets/sknight"), NodePath("Puppets/hexweaver"), NodePath("Puppets/shade"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_vortex"), NodePath("Puppets/fx_tendrils"), NodePath("Puppets/fx_master"), NodePath("Puppets/fx_crown")])
 
-[node name="Stone" type="Node3D" parent="." unique_id=811303761 instance=ExtResource("6_sv6cg")]
+[node name="Stone" type="Node3D" parent="." unique_id=811303761 instance=ExtResource("6_iwt7p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 0.95, 2.6)
 
-[node name="Hound1" type="Node3D" parent="." unique_id=839670467 instance=ExtResource("7_iwt7p")]
+[node name="Candle" type="Node3D" parent="." unique_id=224467111 instance=ExtResource("7_5b5ov")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 0.95, 2.35)
+
+[node name="Hound1" type="Node3D" parent="." unique_id=839670467 instance=ExtResource("8_k07ou")]
 transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, -13.2, 0, 9.6)
 visible = false
-script = ExtResource("8_5b5ov")
+script = ExtResource("9_70het")
 unit_kind = &"hound"
 glow_gain = 1.8
 body_height = 1.0
@@ -58,10 +63,10 @@ kingdom_color = Color(0.42, 0.22, 0.6, 1)
 walk_bounce = 0.05
 flinch_push = true
 
-[node name="Hound2" type="Node3D" parent="." unique_id=438272931 instance=ExtResource("7_iwt7p")]
+[node name="Hound2" type="Node3D" parent="." unique_id=977400900 instance=ExtResource("8_k07ou")]
 transform = Transform3D(-0.9396926, 0, 0.3420202, 0, 1, 0, -0.3420202, 0, -0.9396926, -15.4, 0, 9.9)
 visible = false
-script = ExtResource("8_5b5ov")
+script = ExtResource("9_70het")
 unit_kind = &"hound"
 glow_gain = 1.8
 body_height = 1.0
@@ -75,6 +80,6 @@ kingdom_color = Color(0.42, 0.22, 0.6, 1)
 walk_bounce = 0.05
 flinch_push = true
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=743435747]
-script = ExtResource("9_k07ou")
-preset = ExtResource("10_70het")
+[node name="LightingRig" type="Node3D" parent="." unique_id=703918489]
+script = ExtResource("10_k1c5u")
+preset = ExtResource("11_507d7")

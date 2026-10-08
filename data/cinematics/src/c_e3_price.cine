@@ -35,7 +35,7 @@ shot P3 7.0  cam=frame "ms on shade, 3/4 left, eye"
   at 0.4  line shade "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking."  dur=5.8
 shot P4 4.0  cam=frame "mcu on malrik, 3/4 left, eye"
   at 0.4  line malrik "Whose dead?"
-shot P5 4.0  cam=frame "mcu on shade, 3/4 left, eye"
+shot P5 4.0  cam=static  from=(2.05, 8.9, -34.35)  look=(3.6, 8.8, -33.2)  fov=32  faces=shade
   at 0.6  line shade "Yours."
 # He looks at the stone; the stone is very quiet
 shot P6 8.0  cam=frame "cu on stone, high"  in=blend:0.3
@@ -50,7 +50,7 @@ shot P7 8.0  cam=frame "ms on malrik and hush, 3/4 left, eye"
   at 3.6  line malrik "Always."
   at 3.6  anim malrik set_expression  arg=fierce
 # Torvald at his door
-shot P8 7.0  cam=frame "ms on torvald, 3/4 right, eye"  push=0.15
+shot P8 7.0  cam=dolly  from=(-5.9, 9.5, -38.7)  to=(-6.2, 9.45, -38.75)  look=(-9.0, 9.35, -39.0)  fov=34  faces=torvald
   at 0.0  anim torvald set_expression  arg=neutral
   at 0.6  line torvald "Go. I will keep your ridge cold."
   at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-14

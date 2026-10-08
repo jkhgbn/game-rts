@@ -1,15 +1,15 @@
 # cine build: c_e3_doubt
 
-2026-10-08 00:10:47 - `tools/cine/run_cine.ps1 build c_e3_doubt` - hash `a31127166345472e` (2 runs identical)
+2026-10-08 13:44:16 - `tools/cine/run_cine.ps1 build c_e3_doubt` - hash `b632032b1d59efe3` (2 runs identical)
 
-## Result: **PASS** - quality **100 / 100** (previous run 98, +1)
+## Result: **PASS** - quality **99 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 26 PASS, 16 info, 0 skipped, 3 s
+0 FAIL, 0 WARN, 29 PASS, 14 info, 0 skipped, 3 s
 
 ## Improve next
-1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
-2. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
-3. **Two-run hash** (IDEA): the hash in the history must stay the same while the .cine is unchanged _(from cine)_
+1. **D3 face torvald** (PASS): keep torvald nearer the band centre in D3 _(from F3 D3 face torvald, shot D3)_
+2. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
+3. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -32,15 +32,16 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | F1 | B01 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F2 | D2 face torvald | PASS 100 | worst u 0.50 v 0.35 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F3 | D3 face torvald | PASS 100 | worst u 0.50 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F2 | D2 face torvald | PASS 100 | worst u 0.50 v 0.63 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | D3 face torvald | PASS 93 | worst u 0.50 v 0.76 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | D4 face malrik | PASS 100 | worst u 0.33 v 0.37 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | D4 face hush | PASS 100 | worst u 0.57 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | D5 face stone | PASS 100 | worst u 0.50 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F7 | D6 face torvald | PASS 100 | worst u 0.50 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F8 | D7 face malrik | PASS 100 | worst u 0.50 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F9 | D8 face torvald | PASS 100 | worst u 0.50 v 0.35 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F10 | N12 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
+| F7 | D6 face torvald | PASS 100 | worst u 0.29 v 0.52 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F8 | D6 face malrik | PASS 100 | worst u 0.74 v 0.48 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F9 | D7 face malrik | PASS 100 | worst u 0.50 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F10 | D8 face torvald | PASS 100 | worst u 0.50 v 0.65 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F11 | N12 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 
 ## Continuity (180-degree rule, jump cuts)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -49,8 +50,8 @@
 | C2 | cut D2>D3 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C3 | cut D3>D4 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C4 | cut D4>D5 | INFO | fade / blend (scene break: the axis may reset) | 180-degree rule applies to cuts |  |
-| C5 | cut D5>D6 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
-| C6 | cut D6>D7 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
+| C5 | cut D5>D6 axis | PASS 100 | same side: malrik-stone | 180-degree rule |  |
+| C6 | cut D6>D7 axis | PASS 100 | same side: malrik-torvald | 180-degree rule |  |
 | C7 | cut D7>D8 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C8 | cut D8>N12 | INFO | fade / blend (scene break: the axis may reset) | 180-degree rule applies to cuts |  |
 
@@ -70,8 +71,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | a31127166345472e / a31127166345472e | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was bf3984faa4d3b650) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | b632032b1d59efe3 / b632032b1d59efe3 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was a31127166345472e) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/c_e3_doubt.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

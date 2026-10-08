@@ -73,45 +73,45 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.548545853415532,
 			"group": "framing",
 			"hint": "",
 			"id": "F2",
 			"improve": "keep torvald nearer the band centre in E02A",
 			"name": "E02A face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.86456375602466,
 			"shot": "E02A",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.00 s",
+			"value": "worst u 0.50 v 0.82 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.9329938772899,
 			"group": "framing",
 			"hint": "",
 			"id": "F3",
 			"improve": "keep ysolde nearer the band centre in E02B",
 			"name": "E02B face ysolde",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.97989816318697,
 			"shot": "E02B",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.00 s",
+			"value": "worst u 0.50 v 0.71 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": -1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F4",
-			"improve": "keep vessa nearer the band centre in E02C",
-			"name": "E02C face vessa",
-			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"improve": "",
+			"name": "E02C faces",
+			"rule": "shots that show a face name it (look / pivot / frame / faces=)",
+			"score": -1.0,
 			"shot": "E02C",
-			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.00 s",
+			"status": "INFO",
+			"value": "no named face",
 			"weight": 1.0
 		},
 		{
@@ -195,7 +195,7 @@
 			"score": 1.0,
 			"shot": "E07",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.00 s",
+			"value": "worst u 0.50 v 0.65 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -223,35 +223,35 @@
 			"score": 1.0,
 			"shot": "E09",
 			"status": "PASS",
-			"value": "worst u 0.25 v 0.39 at 0.00 s",
+			"value": "worst u 0.26 v 0.53 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.835867786140584,
 			"group": "framing",
 			"hint": "",
 			"id": "F13",
 			"improve": "keep master nearer the band centre in E09",
 			"name": "E09 face master",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.950760335842175,
 			"shot": "E09",
 			"status": "PASS",
-			"value": "worst u 0.63 v 0.47 at 0.00 s",
+			"value": "worst u 0.62 v 0.27 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.830174197011919,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F14",
 			"improve": "keep master nearer the band centre in E10",
 			"name": "E10 face master",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.949052259103576,
+			"score": 1.0,
 			"shot": "E10",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.74 at 8.00 s",
+			"value": "worst u 0.50 v 0.50 at 4.00 s",
 			"weight": 1.0
 		},
 		{
@@ -265,7 +265,7 @@
 			"score": 1.0,
 			"shot": "E11",
 			"status": "PASS",
-			"value": "worst u 0.53 v 0.46 at 0.00 s",
+			"value": "worst u 0.53 v 0.32 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -279,7 +279,7 @@
 			"score": 1.0,
 			"shot": "E11",
 			"status": "PASS",
-			"value": "worst u 0.44 v 0.42 at 0.00 s",
+			"value": "worst u 0.43 v 0.45 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -293,7 +293,7 @@
 			"score": 1.0,
 			"shot": "E11",
 			"status": "PASS",
-			"value": "worst u 0.58 v 0.42 at 0.00 s",
+			"value": "worst u 0.36 v 0.57 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -311,17 +311,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.850879549535353,
 			"group": "framing",
 			"hint": "",
 			"id": "F19",
 			"improve": "keep master nearer the band centre in E12",
 			"name": "E12 face master",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.955263864860606,
 			"shot": "E12",
 			"status": "PASS",
-			"value": "worst u 0.36 v 0.44 at 0.00 s",
+			"value": "worst u 0.41 v 0.27 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -335,7 +335,7 @@
 			"score": 1.0,
 			"shot": "E12",
 			"status": "PASS",
-			"value": "worst u 0.69 v 0.49 at 0.00 s",
+			"value": "worst u 0.70 v 0.64 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -514,10 +514,10 @@
 			"improve": "",
 			"name": "cut E09>E10 axis",
 			"rule": "180-degree rule",
-			"score": 1.0,
+			"score": -1.0,
 			"shot": "",
-			"status": "PASS",
-			"value": "same side: master-vessa",
+			"status": "INFO",
+			"value": "no pair on screen in both shots",
 			"weight": 1.0
 		},
 		{
@@ -528,10 +528,10 @@
 			"improve": "",
 			"name": "cut E10>E11 axis",
 			"rule": "180-degree rule",
-			"score": 1.0,
+			"score": -1.0,
 			"shot": "",
-			"status": "PASS",
-			"value": "same side: master-vessa",
+			"status": "INFO",
+			"value": "no pair on screen in both shots",
 			"weight": 1.0
 		},
 		{
@@ -778,7 +778,7 @@
 			"hint": "",
 			"id": "S15",
 			"improve": "",
-			"name": "E12 line 1 (src 127)",
+			"name": "E12 line 1 (src 128)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 1.0,
 			"shot": "E12",
@@ -792,7 +792,7 @@
 			"hint": "",
 			"id": "S16",
 			"improve": "",
-			"name": "E12 line 2 (src 128)",
+			"name": "E12 line 2 (src 129)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 1.0,
 			"shot": "E12",
@@ -806,7 +806,7 @@
 			"hint": "",
 			"id": "S17",
 			"improve": "",
-			"name": "E12 line 3 (src 129)",
+			"name": "E12 line 3 (src 130)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 1.0,
 			"shot": "E12",
@@ -820,7 +820,7 @@
 			"hint": "",
 			"id": "S18",
 			"improve": "",
-			"name": "E12 line 4 (src 131)",
+			"name": "E12 line 4 (src 132)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 1.0,
 			"shot": "E12",
@@ -834,7 +834,7 @@
 			"hint": "",
 			"id": "S19",
 			"improve": "",
-			"name": "E13 line 1 (src 139)",
+			"name": "E13 line 1 (src 140)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 1.0,
 			"shot": "E13",
@@ -848,7 +848,7 @@
 			"hint": "",
 			"id": "S20",
 			"improve": "",
-			"name": "E13 line 2 (src 140)",
+			"name": "E13 line 2 (src 141)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.898461538461539,
 			"shot": "E13",
@@ -965,7 +965,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "140 lines, 0 errors",
+			"value": "141 lines, 0 errors",
 			"weight": 1.0
 		},
 		{
@@ -979,7 +979,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0f6f153d19cc7685 / 0f6f153d19cc7685",
+			"value": "6d1c4ad46c7f9f6f / 6d1c4ad46c7f9f6f",
 			"weight": 1.0
 		},
 		{
@@ -993,7 +993,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 5c904e66897db417)",
+			"value": "changed (was b9541a30f503a81b)",
 			"weight": 1.0
 		},
 		{
@@ -1023,12 +1023,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (vey in E01 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep8_ending_a.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 26,
-		"PASS": 47,
+		"INFO": 29,
+		"PASS": 45,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -1043,47 +1057,47 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "0f6f153d19cc7685",
+	"hash": "6d1c4ad46c7f9f6f",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep8_ending_a",
 	"improve_next": [
 		{
-			"rank": 0.0509477408964243,
-			"source": "F14 E10 face master, shot E10",
+			"rank": 0.13543624397534,
+			"source": "F2 E02A face torvald, shot E02A",
 			"status": "PASS",
-			"text": "keep master nearer the band centre in E10",
-			"title": "E10 face master"
+			"text": "keep torvald nearer the band centre in E02A",
+			"title": "E02A face torvald"
 		},
 		{
-			"rank": 0.0,
-			"source": "cine",
-			"status": "IDEA",
-			"text": "run `stills` (windowed) and open stills.png: framing numbers do not judge beauty",
-			"title": "Look at the pictures"
+			"rank": 0.0492396641578248,
+			"source": "F13 E09 face master, shot E09",
+			"status": "PASS",
+			"text": "keep master nearer the band centre in E09",
+			"title": "E09 face master"
 		},
 		{
-			"rank": 0.0,
-			"source": "cine",
-			"status": "IDEA",
-			"text": "run `sheet` and read timing.png: line bars show CPS colour",
-			"title": "Timing sheet"
+			"rank": 0.0447361351393942,
+			"source": "F19 E12 face master, shot E12",
+			"status": "PASS",
+			"text": "keep master nearer the band centre in E12",
+			"title": "E12 face master"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"source `data/cinematics/src/ep8_ending_a.cine` (140 lines), 110.0 s, 17 shots, stage: set forge_intro_malrik",
-		"the .cine has 140 lines (demo budget <= 80)"
+		"source `data/cinematics/src/ep8_ending_a.cine` (141 lines), 110.0 s, 17 shots, stage: set forge_intro_malrik",
+		"the .cine has 141 lines (demo budget <= 80)"
 	],
-	"previous_quality": 98.0,
-	"quality": 99.4,
+	"previous_quality": 89.2,
+	"quality": 98.7,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 3.2,
+	"seconds": 3.3,
 	"shots": {},
-	"started": "2026-10-08 12:21:46",
+	"started": "2026-10-08 13:45:07",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

@@ -24,12 +24,12 @@ shot B01 9.0  in=fade_black:1.2
   at 2.0  vfx t1  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-14, 4.0, -27.2)  life=60  scale=0.12
   at 3.0  vfx t2  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-9, 4.6, -27.6)  life=60  scale=0.12
 # Torvald's pavilion: Aldra's report
-shot D2 8.0  cam=frame "ms on torvald, 3/4 left, eye"  push=0.15
+shot D2 8.0  cam=dolly  from=(-1.2, 9.45, -33.5)  to=(-1.35, 9.45, -33.75)  look=(-3.4, 9.35, -37.0)  fov=36  faces=torvald
   at 0.0  anim torvald set_expression  arg=neutral
   at 0.4  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-16
   at 0.6  line aldra "The old storm-sword crossed the river twice today."
   at 4.2  line aldra "He only looked at the ridge. Then he went back."
-shot D3 5.0  cam=frame "mcu on torvald, 3/4 left, eye"
+shot D3 5.0  cam=static  from=(-2.0, 9.4, -34.5)  look=(-3.4, 9.4, -37.0)  fov=28  faces=torvald
   at 0.0  anim torvald set_expression  arg=worried
   at 0.6  line torvald "He is counting us."
 # Malrik comes back up the ridge, Hush behind him
@@ -46,7 +46,7 @@ shot D5 6.0  cam=frame "cu on stone, high"  in=blend:0.3
   at 0.6  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-0.42, 8.84, -35.38)  life=4.4  scale=0.6
   at 0.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-10
   at 2.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-12
-shot D6 6.0  cam=frame "ms on torvald, 3/4 left, eye"
+shot D6 6.0  cam=static  from=(-1.2, 9.7, -31.2)  look=(-1.6, 9.2, -36.4)  fov=42  faces=torvald,malrik
   at 0.4  line torvald "What did it cost you, Malrik? In Duskbarrow."
 # "A little." The stone glows again as he says it
 shot D7 6.0  cam=frame "mcu on malrik, 3/4 left, eye"
@@ -55,7 +55,7 @@ shot D7 6.0  cam=frame "mcu on malrik, 3/4 left, eye"
   at 1.4  vfx lie  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-0.42, 8.84, -35.38)  life=2.4  scale=0.7
   at 1.4  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-8
 # He leaves; Aldra speaks once he is gone
-shot D8 8.0  cam=frame "ms on torvald, 3/4 left, eye"  push=0.2
+shot D8 8.0  cam=dolly  from=(-0.9, 9.5, -33.9)  to=(-1.25, 9.45, -34.3)  look=(-3.4, 9.35, -37.0)  fov=34  faces=torvald
   at 0.0  hide malrik
   at 0.0  hide stone
   at 0.0  hide hush

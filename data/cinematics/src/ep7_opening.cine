@@ -245,7 +245,7 @@ shot H13 4.0  set=forge_evenmead  cam=crane  from=(8.2, 12, -1.9)  to=(8.4, 40, 
   at 0.3  vfx glass  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(8, -1.1, -2)  life=3.7  scale=4.0
   at 0.3  line ossavar "He walked out, and the sea went still."  dur=3.4
 # CU on the hood, low, static: the face in shadow, the beard of white-gold light
-shot H14 3.0  set=forge_evenmead  cam=static  from=(5.6, -0.3, 0.4)  look=(8.0, 1.0, -2.0)  fov=30  faces=hooded
+shot H14 3.0  set=forge_evenmead  cam=static  from=(5.1, -0.2, -3.7)  look=(8.0, 1.45, -2.0)  fov=32  faces=hooded
   at 0.6  line master "Enough."  dur=1.6
 # WS, eye, slow push: every sword lowers; every dragon lands on the glassy sea around him, heads bowed; Ossavar last
 shot H15 5.0  set=forge_evenmead  cam=dolly  from=(30, 1.6, 10)  to=(26, 1.5, 8)  look=(8, 0.6, -2)  fov=42  faces=hooded
@@ -271,7 +271,7 @@ shot H16 6.0  cam=static  from=(8.0, 2.4, 11.0)  look=(-3.0, 1.4, 7.0)  fov=46  
   at 1.0  anim old_a play_attack
   at 1.4  anim old_b play_attack
 # MS on the chair, slow pull back: the stands full of bettors; the Master alone in his chair
-shot H17 3.0  cam=dolly  from=(-6.4, 2.0, 7.2)  to=(-4.8, 2.3, 7.6)  look=(-9.3, 2.0, 7.0)  fov=38  faces=hooded
+shot H17 3.0  cam=dolly  from=(-6.2, 2.7, 7.2)  to=(-4.9, 2.9, 7.6)  look=(-9.3, 2.95, 7.0)  fov=38  faces=hooded
   at 0.0  hide old_a
   at 0.0  hide old_b
   at 0.0  show archon_g

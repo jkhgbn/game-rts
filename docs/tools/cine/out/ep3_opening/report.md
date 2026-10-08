@@ -1,10 +1,10 @@
-# cine check: ep3_opening
+# cine build: ep3_opening
 
-2026-09-28 22:48:02 - `tools/cine/run_cine.ps1 check ep3_opening` - hash `ab6058b79dfc480e` (2 runs identical)
+2026-10-08 13:50:42 - `tools/cine/run_cine.ps1 build ep3_opening` - hash `ab6058b79dfc480e` (2 runs identical)
 
 ## Result: **PASS** - quality **97 / 100** (previous run 97, +0)
 
-0 FAIL, 0 WARN, 35 PASS, 25 info, 0 skipped, 26 s
+0 FAIL, 0 WARN, 36 PASS, 25 info, 0 skipped, 6 s
 
 ## Improve next
 1. **N02 face malrik** (PASS): keep malrik nearer the band centre in N02 _(from F2 N02 face malrik, shot N02)_
@@ -34,7 +34,7 @@
 | F1 | B01 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F2 | N02 face malrik | PASS 86 | worst u 0.71 v 0.83 at 6.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F3 | G03 face m_boy | PASS 100 | worst u 0.64 v 0.46 at 6.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F4 | G04 face m_sage | PASS 100 | worst u 0.47 v 0.47 at 6.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F4 | G04 face m_sage | PASS 100 | worst u 0.47 v 0.31 at 6.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | N05 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F6 | G06 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F7 | N07 face malrik | PASS 100 | worst u 0.33 v 0.55 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
@@ -91,6 +91,7 @@
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ab6058b79dfc480e / ab6058b79dfc480e | same spec + seed = same bytes |  |
 | D2 | vs previous run | INFO | same |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep3_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

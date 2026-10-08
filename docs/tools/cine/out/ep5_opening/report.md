@@ -1,10 +1,10 @@
-# cine check: ep5_opening
+# cine build: ep5_opening
 
-2026-10-08 11:19:51 - `tools/cine/run_cine.ps1 check ep5_opening` - hash `8d1d8d20a7c507bc` (2 runs identical)
+2026-10-08 13:48:48 - `tools/cine/run_cine.ps1 build ep5_opening` - hash `8d1d8d20a7c507bc` (2 runs identical)
 
-## Result: **PASS** - quality **98 / 100** (previous run 97, +2)
+## Result: **PASS** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 0 WARN, 68 PASS, 45 info, 0 skipped, 12 s
+0 FAIL, 0 WARN, 69 PASS, 45 info, 0 skipped, 12 s
 
 ## Improve next
 1. **S08 face vessa** (PASS): keep vessa nearer the band centre in S08 _(from F5 S08 face vessa, shot S08)_
@@ -143,7 +143,8 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 8d1d8d20a7c507bc / 8d1d8d20a7c507bc | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was bdbb67e986cf3a0e) |  |  |
+| D2 | vs previous run | INFO | same |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep5_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

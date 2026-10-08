@@ -111,7 +111,7 @@
 			"score": 1.0,
 			"shot": "T4",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.63 at 0.00 s",
+			"value": "worst u 0.50 v 0.39 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -335,7 +335,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was f59094d2fb4b9401)",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -365,12 +365,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (malrik in T1 (cine -160, runtime -160 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep8_dark_fire.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 11,
-		"PASS": 15,
+		"PASS": 16,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -412,7 +426,7 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep8_dark_fire.cine` (73 lines), 45.0 s, 4 shots, stage: set forge_intro_malrik"
@@ -423,8 +437,8 @@
 	"scene": "",
 	"seconds": 3.0,
 	"shots": {},
-	"started": "2026-10-08 12:35:24",
+	"started": "2026-10-08 13:49:44",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="12_vnlac"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="13_smidw"]
 
-[node name="Ep2EndingStage" type="Node3D" unique_id=1077050793]
+[node name="Ep2EndingStage" type="Node3D" unique_id=951354868]
 script = ExtResource("1_e7kj3")
 autoplay_script = ExtResource("2_4jigt")
 actor_paths = {
@@ -25,12 +25,12 @@ actor_paths = {
 }
 lighting_rig = NodePath("LightingRig")
 
-[node name="door" type="Node3D" parent="." unique_id=127902397 instance=ExtResource("3_t043k")]
+[node name="door" type="Node3D" parent="." unique_id=90193225 instance=ExtResource("3_t043k")]
 
-[node name="lantern" type="Node3D" parent="." unique_id=335079780 instance=ExtResource("4_oig13")]
+[node name="lantern" type="Node3D" parent="." unique_id=1803904229 instance=ExtResource("4_oig13")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -34)
 
-[node name="Vessa" type="Node3D" parent="." unique_id=876665489 instance=ExtResource("5_tgv7v")]
+[node name="Vessa" type="Node3D" parent="." unique_id=1824487854 instance=ExtResource("5_tgv7v")]
 transform = Transform3D(-1.15, 0, -1.0053619e-07, 0, 1.15, 0, 1.0053619e-07, 0, -1.15, 0, 0, 6.2)
 script = ExtResource("6_5nxv3")
 body_height = 3.0
@@ -38,7 +38,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="Vey" type="Node3D" parent="." unique_id=173424879 instance=ExtResource("7_b13lm")]
+[node name="Vey" type="Node3D" parent="." unique_id=179853799 instance=ExtResource("7_b13lm")]
 transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, 2.6, 0, 8.2)
 script = ExtResource("8_u2huv")
 light_energy = 0.0
@@ -47,7 +47,7 @@ attack_style = &"sword_slash"
 stride_speed = 4.8
 leg_swing_deg = 30.0
 
-[node name="Ysolde" type="Node3D" parent="." unique_id=1970428747 instance=ExtResource("9_u8ucv")]
+[node name="Ysolde" type="Node3D" parent="." unique_id=1291605823 instance=ExtResource("9_u8ucv")]
 transform = Transform3D(-0.9848077, 0, 0.1736483, 0, 1, 0, -0.1736483, 0, -0.9848077, -2.4, 0, 7.8)
 script = ExtResource("10_fmaau")
 body_height = 2.0
@@ -62,6 +62,6 @@ walk_bounce = 0.03
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 visible = false
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=2126826545]
+[node name="LightingRig" type="Node3D" parent="." unique_id=776552289]
 script = ExtResource("12_vnlac")
 preset = ExtResource("13_smidw")

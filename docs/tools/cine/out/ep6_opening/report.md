@@ -1,10 +1,10 @@
-# cine check: ep6_opening
+# cine build: ep6_opening
 
-2026-10-08 11:29:35 - `tools/cine/run_cine.ps1 check ep6_opening` - hash `ad80649902c4ded2` (2 runs identical)
+2026-10-08 13:49:09 - `tools/cine/run_cine.ps1 build ep6_opening` - hash `ad80649902c4ded2` (2 runs identical)
 
 ## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 0 WARN, 60 PASS, 34 info, 0 skipped, 12 s
+0 FAIL, 0 WARN, 61 PASS, 34 info, 0 skipped, 13 s
 
 ## Improve next
 1. **T08 face messenger** (PASS): keep messenger nearer the band centre in T08 _(from F14 T08 face messenger, shot T08)_
@@ -41,7 +41,7 @@
 | F8 | T02 face t_boy | PASS 100 | worst u 0.51 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F9 | T03 face t_boy | PASS 100 | worst u 0.51 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | T04 face t_boy | PASS 100 | worst u 0.56 v 0.53 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F11 | T05 face hooded | PASS 100 | worst u 0.50 v 0.67 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F11 | T05 face hooded | PASS 100 | worst u 0.50 v 0.40 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F12 | T06 face torvald | PASS 100 | worst u 0.50 v 0.59 at 4.75 s | head inside the 2.39 band safe area (90 %) |  |
 | F13 | T07 face torvald | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F14 | T08 face messenger | PASS 97 | worst u 0.40 v 0.72 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
@@ -124,7 +124,8 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ad80649902c4ded2 / ad80649902c4ded2 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 99a53d8b924685c2) |  |  |
+| D2 | vs previous run | INFO | same |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep6_opening.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

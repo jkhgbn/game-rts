@@ -26,20 +26,20 @@ shot X1 8.0  cam=crane  from=(34.6, 12, 7.0)  to=(34.4, 3.2, 4.4)  look=(34, 0.6
   at 0.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-18
   at 2.0  vfx crack  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(34.7, 6.0, 1.0)  life=6.0  scale=0.08
 # Low, from below, looking up: the crack splits open in white-gold light; the Master steps down onto a stair of light
-shot X2 7.0  cam=static  from=(34.2, 0.5, 3.2)  look=(34.6, 3.4, 0.8)  fov=52  faces=lord
+shot X2 7.0  cam=crane  from=(36.3, 2.2, 5.4)  to=(36.1, 1.9, 5.0)  look=(34.6, 5.4, 0.8)>(34.5, 3.6, 0.7)  fov=50  faces=lord
   at 0.0  show lord
-  at 0.0  vfx stair  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(34.7, 0, 1.0)  life=22.0  scale=0.15
+  at 0.0  vfx stair  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(34.7, 0, -0.2)  life=22.0  scale=0.12
   at 0.0  move lord  to=(34.7, 1.4, 1.0)  speed=0.5
   at 0.6  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-8
   at 1.0  line obren "You came down yourself. I knew you would."  dur=4.0
   at 1.2  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(34.02, 0.6, -0.04)  life=3.0  scale=0.8
 # MS the Master on the stair, 3/4-left, low: he looks down into the amber dark, then up, once
-shot X3 8.0  cam=static  from=(36.4, 1.2, 3.8)  look=(34.7, 3.2, 1.0)  fov=44  faces=lord
+shot X3 8.0  cam=static  from=(36.5, 2.6, 4.0)  look=(34.7, 3.75, 1.0)  fov=44  faces=lord
   at 0.0  teleport lord  to=(34.7, 1.4, 1.0)  yaw=30
   at 0.8  line master "Then we will both learn patience, Obren. I have had a good teacher."  dur=5.8
   at 4.6  face lord  yaw=10  time=1.0
 # CU, reaching up: he pulls the crack shut behind him like a door; the seam seals, the light pinches out
-shot X4 7.0  cam=static  from=(36.0, 3.2, 3.2)  look=(34.7, 3.3, 1.0)  fov=38  faces=lord
+shot X4 7.0  cam=static  from=(36.1, 4.3, 3.4)  look=(34.7, 4.05, 1.0)  fov=36  faces=lord
   at 1.4  line master "Then, between one breath and the next, he was gone."  dur=4.7
   at 2.0  vfx seal  scene=res://art/cinematics/fx/regalia_burst.tscn  at=(34.7, 4.6, 1.0)  life=1.2  scale=0.2
   at 3.2  fade color=#000000  alpha=0.6  time=1.2

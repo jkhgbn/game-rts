@@ -40,7 +40,7 @@ sun_energy = 1.0
 sun_rotation_degrees = Vector3(-30, 149.99998, 0)
 vignette_strength = 0.0
 
-[node name="Ep4OpeningStage" type="Node3D" unique_id=45157394]
+[node name="Ep4OpeningStage" type="Node3D" unique_id=59199403]
 script = ExtResource("1_bpseb")
 autoplay_script = ExtResource("2_lufr6")
 actor_paths = {
@@ -110,6 +110,6 @@ set_id = &"forge_ep4_memories"
 lighting = ExtResource("7_mxc2o")
 lights_off = Array[NodePath]([NodePath("Placed/moods"), NodePath("Placed/giant_stump_1"), NodePath("Puppets/winter"), NodePath("Puppets/seed"), NodePath("Puppets/y_winter"), NodePath("Puppets/spring"), NodePath("Puppets/sapling"), NodePath("Puppets/y_spring"), NodePath("Puppets/frost"), NodePath("Puppets/sapling_f"), NodePath("Puppets/y_child"), NodePath("Puppets/y_master"), NodePath("Puppets/hem_warmth"), NodePath("Puppets/burnt"), NodePath("Puppets/fallen"), NodePath("Puppets/shoot"), NodePath("Puppets/y_ysolde")])
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1979298189]
+[node name="LightingRig" type="Node3D" parent="." unique_id=344306048]
 script = ExtResource("8_sbv5u")
 preset = SubResource("Resource_v038w")

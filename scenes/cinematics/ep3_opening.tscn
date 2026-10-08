@@ -44,7 +44,7 @@ sun_energy = 0.8
 sun_rotation_degrees = Vector3(-18, 209.99998, 0)
 vignette_strength = 0.0
 
-[node name="Ep3OpeningStage" type="Node3D" unique_id=2022629180]
+[node name="Ep3OpeningStage" type="Node3D" unique_id=1384125476]
 script = ExtResource("1_p15k6")
 autoplay_script = ExtResource("2_00i8c")
 actor_paths = {
@@ -128,6 +128,6 @@ lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pil
 [node name="w02_grade" type="Node3D" parent="." unique_id=1557457199 instance=ExtResource("10_r5xsb")]
 script = ExtResource("11_uris3")
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=322113254]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1764048351]
 script = ExtResource("12_ec0v5")
 preset = SubResource("Resource_b82dc")

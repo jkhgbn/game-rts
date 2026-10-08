@@ -1,10 +1,10 @@
 # cine build: c1_offer
 
-2026-10-08 01:32:30 - `tools/cine/run_cine.ps1 build c1_offer` - hash `a0acccef7450621a` (2 runs identical)
+2026-10-08 13:44:37 - `tools/cine/run_cine.ps1 build c1_offer` - hash `919638b92985b515` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 98, +1)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 0 WARN, 34 PASS, 13 info, 0 skipped, 2 s
+0 FAIL, 0 WARN, 33 PASS, 14 info, 0 skipped, 2 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -32,13 +32,13 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | F1 | O1 face guard_w | PASS 100 | worst u 0.46 v 0.60 at 6.50 s | head inside the 2.39 band safe area (90 %) |  |
-| F2 | O2 face malrik | PASS 100 | worst u 0.51 v 0.44 at 1.50 s | head inside the 2.39 band safe area (90 %) |  |
+| F2 | O2 face malrik | PASS 100 | worst u 0.50 v 0.45 at 1.50 s | head inside the 2.39 band safe area (90 %) |  |
 | F3 | O3 face torvald | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F4 | O4 face malrik | PASS 100 | worst u 0.50 v 0.50 at 6.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F4 | O4 face malrik | PASS 100 | worst u 0.50 v 0.50 at 4.75 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | O5 face torvald | PASS 100 | worst u 0.75 v 0.38 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | O5 face malrik | PASS 97 | worst u 0.21 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F7 | O6 face torvald | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F8 | O7 face torvald | PASS 100 | worst u 0.50 v 0.50 at 4.75 s | head inside the 2.39 band safe area (90 %) |  |
+| F8 | O7 face torvald | PASS 100 | worst u 0.58 v 0.39 at 12.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F9 | O8 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | O9 face torvald | PASS 100 | worst u 0.65 v 0.33 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 
@@ -48,7 +48,7 @@
 | C1 | cut O1>O2 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C2 | cut O2>O3 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C3 | cut O3>O4 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
-| C4 | cut O4>O5 axis | PASS 100 | same side: malrik-torvald | 180-degree rule |  |
+| C4 | cut O4>O5 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C5 | cut O5>O6 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C6 | cut O6>O7 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C7 | cut O7>O8 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
@@ -75,8 +75,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | a0acccef7450621a / a0acccef7450621a | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 3fb49aa42f2abf87) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 919638b92985b515 / 919638b92985b515 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was a0acccef7450621a) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/c1_offer.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

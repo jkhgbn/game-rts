@@ -577,17 +577,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.671698113207546,
+			"graded": 1.0,
 			"group": "subtitles",
 			"hint": "",
 			"id": "S10",
 			"improve": "",
 			"name": "S10 line 1 (src 76)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
-			"score": 0.901509433962264,
+			"score": 1.0,
 			"shot": "S10",
 			"status": "PASS",
-			"value": "ysolde \"That is my strength. Not fire. Not knive..\" 15.3 cps, 5.3 s",
+			"value": "ysolde \"That is my strength. I come back. Every ..\" 11.1 cps, 5.3 s",
 			"weight": 1.0
 		},
 		{
@@ -783,7 +783,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "5970f62d28cc23dd / 5970f62d28cc23dd",
+			"value": "d761324335b3d5ee / d761324335b3d5ee",
 			"weight": 1.0
 		},
 		{
@@ -797,7 +797,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "same",
+			"value": "changed (was 5970f62d28cc23dd)",
 			"weight": 1.0
 		},
 		{
@@ -827,12 +827,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg, position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep4_opening.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 25,
-		"PASS": 34,
+		"PASS": 35,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -847,7 +861,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "5970f62d28cc23dd",
+	"hash": "d761324335b3d5ee",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep4_opening",
@@ -874,20 +888,20 @@
 			"title": "Timing sheet"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep4_opening.cine` (99 lines), 88.0 s, 14 shots, stage: set forge_evenmead",
 		"the .cine has 99 lines (demo budget <= 80)"
 	],
-	"previous_quality": 97.6,
-	"quality": 97.5,
+	"previous_quality": 97.5,
+	"quality": 97.8,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 18.1,
+	"seconds": 5.3,
 	"shots": {},
-	"started": "2026-09-28 22:48:55",
+	"started": "2026-10-08 13:50:55",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

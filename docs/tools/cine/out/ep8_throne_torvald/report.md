@@ -1,10 +1,10 @@
-# cine check: ep8_throne_torvald
+# cine build: ep8_throne_torvald
 
-2026-10-08 12:24:09 - `tools/cine/run_cine.ps1 check ep8_throne_torvald` - hash `84b23537d9234bd8` (2 runs identical)
+2026-10-08 13:35:30 - `tools/cine/run_cine.ps1 build ep8_throne_torvald` - hash `db557a93e05d2db4` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 12 PASS, 6 info, 0 skipped, 1 s
+0 FAIL, 0 WARN, 13 PASS, 6 info, 0 skipped, 1 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -31,7 +31,7 @@
 ## Framing (faces in the 2.39 band, 16:9 frame)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | E14 face torvald | PASS 100 | worst u 0.45 v 0.55 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F1 | E14 face torvald | PASS 100 | worst u 0.43 v 0.62 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Subtitles (2 x 48 chars, CPS, fit)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -43,8 +43,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 84b23537d9234bd8 / 84b23537d9234bd8 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 2c7d25a2d2888d74) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | db557a93e05d2db4 / db557a93e05d2db4 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 84b23537d9234bd8) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep8_throne_torvald.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

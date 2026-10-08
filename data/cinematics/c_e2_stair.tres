@@ -9,9 +9,9 @@
 script = ExtResource("4_kv7k6")
 kind = &"teleport"
 actor = &"vessa"
-target = Vector3(4.4, 0, -2.2)
+target = Vector3(5.9, 0, -2)
 params = {
-"yaw_deg": 180.0
+"yaw_deg": 200.0
 }
 
 [sub_resource type="Resource" id="Resource_k17bm"]
@@ -46,9 +46,9 @@ id = &"T1"
 duration = 8.0
 camera_mode = 2
 from_pos = Vector3(15, 10, 17)
-to_pos = Vector3(10, 5.5, 9)
+to_pos = Vector3(9.5, 8.5, 6)
 look_from = Vector3(4, 1, -4)
-look_to = Vector3(5, 0.6, -4.5)
+look_to = Vector3(5, 0.5, -4.8)
 fov_from = 46.0
 fov_to = 40.0
 transition_in = 1
@@ -68,10 +68,10 @@ script = ExtResource("3_jj8h4")
 id = &"T2"
 duration = 6.5
 camera_mode = 1
-from_pos = Vector3(4.3, 1, -4.7)
-to_pos = Vector3(4.3, 1.05, -4.4)
-look_from = Vector3(4.4, 1.6639999, -2.2)
-look_to = Vector3(4.4, 1.6639999, -2.2)
+from_pos = Vector3(4.6, 1, -4.7)
+to_pos = Vector3(4.65, 1.05, -4.4)
+look_from = Vector3(5.9, 1.6639999, -2)
+look_to = Vector3(5.9, 1.6639999, -2)
 look_actor = &"vessa"
 look_offset = Vector3(0, 1.6639999, 0)
 fov_from = 36.0
@@ -86,7 +86,7 @@ actor = &"vessa"
 params = {
 "look_actor": "vey",
 "time": 0.6,
-"yaw_deg": 82.40535484183935
+"yaw_deg": -97.59464515816066
 }
 
 [sub_resource type="Resource" id="Resource_aagx7"]
@@ -96,7 +96,7 @@ actor = &"vey"
 params = {
 "look_actor": "vessa",
 "time": 0.6,
-"yaw_deg": -97.59464515816066
+"yaw_deg": 82.40535484183935
 }
 
 [sub_resource type="Resource" id="Resource_435nn"]
@@ -111,8 +111,8 @@ script = ExtResource("3_jj8h4")
 id = &"T3"
 duration = 8.0
 camera_mode = 1
-from_pos = Vector3(5.3, 1.55, -5.9)
-to_pos = Vector3(5.2, 1.55, -5.5)
+from_pos = Vector3(5, 1.55, -5.9)
+to_pos = Vector3(5.1, 1.55, -5.5)
 look_from = Vector3(5.15, 1.6, -2.1)
 look_to = Vector3(5.15, 1.6, -2.1)
 fov_from = 40.0
@@ -132,10 +132,10 @@ voice = "res://assets/audio/voice/vessa/you_talk_about_the_4ca6e30e.wav"
 script = ExtResource("3_jj8h4")
 id = &"T4"
 duration = 5.0
-from_pos = Vector3(5.25, 1.62, -3.75)
-to_pos = Vector3(5.25, 1.62, -3.75)
-look_from = Vector3(4.4, 1.6639999, -2.2)
-look_to = Vector3(4.4, 1.6639999, -2.2)
+from_pos = Vector3(5.05, 1.62, -3.75)
+to_pos = Vector3(5.05, 1.62, -3.75)
+look_from = Vector3(5.9, 1.6639999, -2)
+look_to = Vector3(5.9, 1.6639999, -2)
 look_actor = &"vessa"
 look_offset = Vector3(0, 1.6639999, 0)
 fov_from = 30.0
@@ -162,12 +162,10 @@ script = ExtResource("3_jj8h4")
 id = &"T5"
 duration = 10.0
 camera_mode = 1
-from_pos = Vector3(4.95, 1.72, -3.55)
-to_pos = Vector3(5, 1.72, -3.4)
-look_from = Vector3(5.9, 1.5649999, -2)
-look_to = Vector3(5.9, 1.5649999, -2)
-look_actor = &"vey"
-look_offset = Vector3(0, 1.5649999, 0)
+from_pos = Vector3(5.75, 1.95, -3.55)
+to_pos = Vector3(5.7, 1.95, -3.4)
+look_from = Vector3(4.4, 1.85, -2.2)
+look_to = Vector3(4.4, 1.85, -2.2)
 fov_from = 30.0
 fov_to = 30.0
 lines = Array[ExtResource("1_bib56")]([SubResource("Resource_7y3ko"), SubResource("Resource_l8pa5")])
@@ -221,8 +219,8 @@ script = ExtResource("3_jj8h4")
 id = &"T6"
 duration = 9.5
 camera_mode = 1
-from_pos = Vector3(4.6, 1.45, -5)
-to_pos = Vector3(4.75, 1.45, -4.7)
+from_pos = Vector3(4.9, 1.45, -5.2)
+to_pos = Vector3(5, 1.45, -4.9)
 look_from = Vector3(5.15, 1.6, -2.1)
 look_to = Vector3(5.15, 1.6, -2.1)
 fov_from = 38.0
@@ -242,10 +240,10 @@ voice = "res://assets/audio/voice/vessa/and_when_were_you_ec6fc968.wav"
 script = ExtResource("3_jj8h4")
 id = &"T7"
 duration = 4.5
-from_pos = Vector3(5.3, 1.6, -3.7)
-to_pos = Vector3(5.3, 1.6, -3.7)
-look_from = Vector3(4.4, 1.6639999, -2.2)
-look_to = Vector3(4.4, 1.6639999, -2.2)
+from_pos = Vector3(5, 1.6, -3.7)
+to_pos = Vector3(5, 1.6, -3.7)
+look_from = Vector3(5.9, 1.6639999, -2)
+look_to = Vector3(5.9, 1.6639999, -2)
 look_actor = &"vessa"
 look_offset = Vector3(0, 1.6639999, 0)
 fov_from = 30.0
@@ -264,12 +262,10 @@ voice = "res://assets/audio/voice/vey/on_the_way_down_3eba2270.wav"
 script = ExtResource("3_jj8h4")
 id = &"T8"
 duration = 4.5
-from_pos = Vector3(4.95, 1.72, -3.5)
-to_pos = Vector3(4.95, 1.72, -3.5)
-look_from = Vector3(5.9, 1.5649999, -2)
-look_to = Vector3(5.9, 1.5649999, -2)
-look_actor = &"vey"
-look_offset = Vector3(0, 1.5649999, 0)
+from_pos = Vector3(5.8, 1.95, -3.5)
+to_pos = Vector3(5.8, 1.95, -3.5)
+look_from = Vector3(4.4, 1.85, -2.2)
+look_to = Vector3(4.4, 1.85, -2.2)
 fov_from = 28.0
 fov_to = 28.0
 lines = Array[ExtResource("1_bib56")]([SubResource("Resource_qppek")])
@@ -319,7 +315,7 @@ actor = &"vessa"
 params = {
 "look_actor": "wren",
 "time": 0.5,
-"yaw_deg": -17.216074156458053
+"yaw_deg": -22.85194818034896
 }
 
 [sub_resource type="Resource" id="Resource_utpg2"]
@@ -330,7 +326,7 @@ actor = &"vey"
 params = {
 "look_actor": "wren",
 "time": 0.5,
-"yaw_deg": -22.85194818034896
+"yaw_deg": -17.216074156458053
 }
 
 [sub_resource type="Resource" id="Resource_m51lo"]
@@ -344,8 +340,8 @@ voice = "res://assets/audio/voice/messenger/vessa_word_from_ysolde_a716e06f.wav"
 script = ExtResource("3_jj8h4")
 id = &"T9"
 duration = 7.0
-from_pos = Vector3(4.8, 2.2, -6.2)
-to_pos = Vector3(4.8, 2.2, -6.2)
+from_pos = Vector3(5.25, 2.2, -6.2)
+to_pos = Vector3(5.25, 2.2, -6.2)
 look_from = Vector3(2.6, 1.3, 0.2)
 look_to = Vector3(2.6, 1.3, 0.2)
 fov_from = 42.0
@@ -383,7 +379,7 @@ kind = &"face"
 actor = &"vessa"
 params = {
 "time": 0.8,
-"yaw_deg": 180.0
+"yaw_deg": -175.7108439543873
 }
 
 [sub_resource type="Resource" id="Resource_5r1w1"]
@@ -397,10 +393,10 @@ voice = "res://assets/audio/voice/vessa/then_we_dont_keep_11ebfc58.wav"
 script = ExtResource("3_jj8h4")
 id = &"T11"
 duration = 5.0
-from_pos = Vector3(4, 1.55, -4.6)
-to_pos = Vector3(4, 1.55, -4.6)
-look_from = Vector3(4.4, 1.6639999, -2.2)
-look_to = Vector3(4.4, 1.6639999, -2.2)
+from_pos = Vector3(6.3, 1.55, -4.6)
+to_pos = Vector3(6.3, 1.55, -4.6)
+look_from = Vector3(5.9, 1.6639999, -2)
+look_to = Vector3(5.9, 1.6639999, -2)
 look_actor = &"vessa"
 look_offset = Vector3(0, 1.6639999, 0)
 fov_from = 32.0
@@ -414,7 +410,7 @@ script = ExtResource("4_kv7k6")
 at = 0.4
 kind = &"move"
 actor = &"vessa"
-target = Vector3(4.6, 0.55, -3.9)
+target = Vector3(5.5, 0.55, -3.9)
 params = {
 "speed": 0.9
 }
@@ -424,7 +420,7 @@ script = ExtResource("4_kv7k6")
 at = 0.9
 kind = &"move"
 actor = &"vey"
-target = Vector3(5.5, 0.55, -3.9)
+target = Vector3(4.6, 0.55, -3.9)
 params = {
 "speed": 0.9
 }

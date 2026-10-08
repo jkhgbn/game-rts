@@ -419,7 +419,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "e8b07d1fcf483142 / e8b07d1fcf483142",
+			"value": "535634de55a4015f / 535634de55a4015f",
 			"weight": 1.0
 		},
 		{
@@ -433,7 +433,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 401b5790159888ef)",
+			"value": "changed (was e8b07d1fcf483142)",
 			"weight": 1.0
 		},
 		{
@@ -463,12 +463,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (torvald in K5 (cine 170, runtime 170 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/c_e6_lake.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 10,
-		"PASS": 23,
+		"PASS": 24,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -483,7 +497,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "e8b07d1fcf483142",
+	"hash": "535634de55a4015f",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e6_lake",
@@ -510,19 +524,19 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/c_e6_lake.cine` (53 lines), 40.0 s, 5 shots, stage: set forge_intro_torvald"
 	],
 	"previous_quality": 99.3,
-	"quality": 99.3,
+	"quality": 99.4,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 1.4,
+	"seconds": 1.6,
 	"shots": {},
-	"started": "2026-10-08 11:37:25",
+	"started": "2026-10-08 13:44:08",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

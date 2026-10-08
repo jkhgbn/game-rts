@@ -1,10 +1,10 @@
-# cine check: ep6_ending
+# cine build: ep6_ending
 
-2026-10-08 11:37:47 - `tools/cine/run_cine.ps1 check ep6_ending` - hash `51c3ffe0176947eb` (2 runs identical)
+2026-10-08 13:46:50 - `tools/cine/run_cine.ps1 build ep6_ending` - hash `65f6807b2d35b054` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +1)
 
-0 FAIL, 0 WARN, 17 PASS, 16 info, 0 skipped, 2 s
+0 FAIL, 0 WARN, 18 PASS, 16 info, 0 skipped, 2 s
 
 ## Improve next
 1. **X2 face lord** (PASS): keep lord nearer the band centre in X2 _(from F2 X2 face lord, shot X2)_
@@ -32,9 +32,9 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | F1 | X1 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F2 | X2 face lord | PASS 87 | worst u 0.51 v 0.19 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F3 | X3 face lord | PASS 100 | worst u 0.50 v 0.56 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F4 | X4 face lord | PASS 100 | worst u 0.50 v 0.67 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F2 | X2 face lord | PASS 95 | worst u 0.50 v 0.27 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | X3 face lord | PASS 100 | worst u 0.50 v 0.38 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F4 | X4 face lord | PASS 100 | worst u 0.50 v 0.44 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | X5 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F6 | X6 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F7 | X7 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
@@ -62,8 +62,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 51c3ffe0176947eb / 51c3ffe0176947eb | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 36a259c3887e7921) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 65f6807b2d35b054 / 65f6807b2d35b054 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 51c3ffe0176947eb) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep6_ending.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

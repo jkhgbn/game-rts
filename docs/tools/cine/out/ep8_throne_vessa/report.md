@@ -1,10 +1,10 @@
-# cine check: ep8_throne_vessa
+# cine build: ep8_throne_vessa
 
-2026-10-08 12:24:00 - `tools/cine/run_cine.ps1 check ep8_throne_vessa` - hash `c13803cbcb40e5ac` (2 runs identical)
+2026-10-08 13:35:38 - `tools/cine/run_cine.ps1 build ep8_throne_vessa` - hash `6e76a88a6e363a4a` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 12 PASS, 6 info, 0 skipped, 1 s
+0 FAIL, 0 WARN, 13 PASS, 6 info, 0 skipped, 1 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -31,7 +31,7 @@
 ## Framing (faces in the 2.39 band, 16:9 frame)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | E14 face vessa | PASS 100 | worst u 0.55 v 0.42 at 1.75 s | head inside the 2.39 band safe area (90 %) |  |
+| F1 | E14 face vessa | PASS 100 | worst u 0.43 v 0.51 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Subtitles (2 x 48 chars, CPS, fit)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -43,8 +43,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | c13803cbcb40e5ac / c13803cbcb40e5ac | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was aa064a4b32241805) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 6e76a88a6e363a4a / 6e76a88a6e363a4a | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was c13803cbcb40e5ac) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep8_throne_vessa.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

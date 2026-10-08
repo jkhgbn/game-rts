@@ -69,7 +69,7 @@
 			"score": 1.0,
 			"shot": "E14",
 			"status": "PASS",
-			"value": "worst u 0.45 v 0.53 at 0.00 s",
+			"value": "worst u 0.43 v 0.59 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -209,7 +209,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "cfac1544e536face / cfac1544e536face",
+			"value": "49766d3aea916dec / 49766d3aea916dec",
 			"weight": 1.0
 		},
 		{
@@ -223,7 +223,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was ad0c7b667dad1663)",
+			"value": "changed (was cfac1544e536face)",
 			"weight": 1.0
 		},
 		{
@@ -253,12 +253,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (vessa in E14 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep8_throne_ysolde.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 6,
-		"PASS": 12,
+		"PASS": 13,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -273,7 +287,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "cfac1544e536face",
+	"hash": "49766d3aea916dec",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "ep8_throne_ysolde",
@@ -300,7 +314,7 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep8_throne_ysolde.cine` (38 lines), 8.0 s, 1 shots, stage: set forge_intro_malrik"
@@ -309,10 +323,10 @@
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 1.4,
+	"seconds": 1.5,
 	"shots": {},
-	"started": "2026-10-08 12:24:14",
+	"started": "2026-10-08 13:35:47",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

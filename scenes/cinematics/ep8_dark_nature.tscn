@@ -50,7 +50,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="Ep8DarkNatureStage" type="Node3D" unique_id=344002941]
+[node name="Ep8DarkNatureStage" type="Node3D" unique_id=1957417454]
 script = ExtResource("1_4oq3a")
 autoplay_script = ExtResource("2_633jj")
 actor_paths = {
@@ -94,7 +94,7 @@ lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"),
 [node name="Throne" type="Node3D" parent="forge_intro_malrik" unique_id=1919924985 instance=ExtResource("6_u6whr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.4)
 
-[node name="Vessa" type="Node3D" parent="forge_intro_malrik" unique_id=667487626 instance=ExtResource("7_vyb7k")]
+[node name="Vessa" type="Node3D" parent="forge_intro_malrik" unique_id=1906682095 instance=ExtResource("7_vyb7k")]
 transform = Transform3D(-1.0806465, 0, 0.39332324, 0, 1.15, 0, -0.39332324, 0, -1.0806465, -3, 0, 2.2)
 script = ExtResource("8_01c58")
 body_height = 3.0
@@ -102,7 +102,7 @@ attack_style = &"wizard_bolt"
 attack_windup = 0.12
 stride_speed = 4.6
 
-[node name="Torvald" type="Node3D" parent="forge_intro_malrik" unique_id=1576912839 instance=ExtResource("9_58l43")]
+[node name="Torvald" type="Node3D" parent="forge_intro_malrik" unique_id=311076157 instance=ExtResource("9_58l43")]
 transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, -4.2, 0, 0.4)
 script = ExtResource("10_ss1h3")
 body_height = 2.1
@@ -115,7 +115,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 24.0
 walk_bounce = 0.05
 
-[node name="Ysolde" type="Node3D" parent="forge_intro_malrik" unique_id=1784186599 instance=ExtResource("11_pdodt")]
+[node name="Ysolde" type="Node3D" parent="forge_intro_malrik" unique_id=1502394921 instance=ExtResource("11_pdodt")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, 4.2, 0, 0.4)
 script = ExtResource("12_xo1i2")
 body_height = 2.0
@@ -145,6 +145,6 @@ lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue
 [node name="Oldman" type="Node3D" parent="forge_citadel" unique_id=1297060520 instance=ExtResource("17_3q2uj")]
 transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -150.6, 30, -118.6)
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1448968881]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1650718912]
 script = ExtResource("18_3a4og")
 preset = SubResource("Resource_iwg54")

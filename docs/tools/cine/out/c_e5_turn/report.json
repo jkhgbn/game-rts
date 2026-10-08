@@ -13,7 +13,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "15 actors, 24 markers, 5 shots",
+			"value": "16 actors, 24 markers, 5 shots",
 			"weight": 1.0
 		},
 		{
@@ -190,7 +190,7 @@
 			"hint": "",
 			"id": "S1",
 			"improve": "",
-			"name": "U1 line 1 (src 37)",
+			"name": "U1 line 1 (src 38)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.94,
 			"shot": "U1",
@@ -204,7 +204,7 @@
 			"hint": "",
 			"id": "S2",
 			"improve": "",
-			"name": "U3 line 1 (src 47)",
+			"name": "U3 line 1 (src 48)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.942142857142857,
 			"shot": "U3",
@@ -321,7 +321,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "59 lines, 0 errors",
+			"value": "60 lines, 0 errors",
 			"weight": 1.0
 		},
 		{
@@ -335,7 +335,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "07fbc4885acd5a97 / 07fbc4885acd5a97",
+			"value": "0cda3f0a462b091b / 0cda3f0a462b091b",
 			"weight": 1.0
 		},
 		{
@@ -349,7 +349,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "first run",
+			"value": "changed (was 07fbc4885acd5a97)",
 			"weight": 1.0
 		},
 		{
@@ -379,12 +379,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (hound1 in U1 (cine 200, runtime -160 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/c_e5_turn.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 13,
-		"PASS": 14,
+		"PASS": 15,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -399,7 +413,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "07fbc4885acd5a97",
+	"hash": "0cda3f0a462b091b",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e5_turn",
@@ -426,19 +440,19 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"source `data/cinematics/src/c_e5_turn.cine` (59 lines), 30.0 s, 5 shots, stage: set forge_intro_malrik"
+		"source `data/cinematics/src/c_e5_turn.cine` (60 lines), 30.0 s, 5 shots, stage: set forge_intro_malrik"
 	],
-	"previous_quality": -1.0,
+	"previous_quality": 99.3,
 	"quality": 99.3,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 1.4,
+	"seconds": 1.5,
 	"shots": {},
-	"started": "2026-10-08 11:19:12",
+	"started": "2026-10-08 13:35:13",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

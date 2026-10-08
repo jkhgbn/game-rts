@@ -197,12 +197,10 @@ voice = "res://assets/audio/voice/torvald/together_then_c42cf674.wav"
 script = ExtResource("3_v4h0q")
 id = &"E02A"
 duration = 2.5
-from_pos = Vector3(-2.4, 1.7, -1.3)
-to_pos = Vector3(-2.4, 1.7, -1.3)
-look_from = Vector3(-4.2, 1.5999999, -0.6)
-look_to = Vector3(-4.2, 1.5999999, -0.6)
-look_actor = &"torvald"
-look_offset = Vector3(0, 1.5999999, 0)
+from_pos = Vector3(-2.45, 1.95, -1.35)
+to_pos = Vector3(-2.45, 1.95, -1.35)
+look_from = Vector3(-4.2, 1.95, -0.6)
+look_to = Vector3(-4.2, 1.95, -0.6)
 fov_from = 32.0
 fov_to = 32.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_7kroo")])
@@ -230,12 +228,10 @@ voice = "res://assets/audio/voice/ysolde/together_f0f8e06a.wav"
 script = ExtResource("3_v4h0q")
 id = &"E02B"
 duration = 2.5
-from_pos = Vector3(2.4, 1.6, -1.3)
-to_pos = Vector3(2.4, 1.6, -1.3)
-look_from = Vector3(4.2, 1.675, -0.6)
-look_to = Vector3(4.2, 1.675, -0.6)
-look_actor = &"ysolde"
-look_offset = Vector3(0, 1.675, 0)
+from_pos = Vector3(2.45, 1.9, -1.35)
+to_pos = Vector3(2.45, 1.9, -1.35)
+look_from = Vector3(4.2, 1.9, -0.6)
+look_to = Vector3(4.2, 1.9, -0.6)
 fov_from = 32.0
 fov_to = 32.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_8rvea")])
@@ -272,14 +268,12 @@ voice = "res://assets/audio/voice/whisper/keep_me_bishop_i_5f461d11.wav"
 script = ExtResource("3_v4h0q")
 id = &"E02C"
 duration = 2.5
-from_pos = Vector3(-1.6, 1.6, 0)
-to_pos = Vector3(-1.6, 1.6, 0)
-look_from = Vector3(-2.6, 1.87985, 1.8)
-look_to = Vector3(-2.6, 1.87985, 1.8)
-look_actor = &"vessa"
-look_offset = Vector3(0, 1.87985, 0)
-fov_from = 32.0
-fov_to = 32.0
+from_pos = Vector3(1, 3, -0.5)
+to_pos = Vector3(1, 3, -0.5)
+look_from = Vector3(0, 2.5, -2.75)
+look_to = Vector3(0, 2.5, -2.75)
+fov_from = 30.0
+fov_to = 30.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_83787")])
 actions = Array[ExtResource("4_panne")]([SubResource("Resource_83uqx"), SubResource("Resource_f4oyp")])
 stage_set = &"forge_intro_malrik"
@@ -325,12 +319,10 @@ voice = "res://assets/audio/voice/malrik/you_made_me_hungry_e66b6616.wav"
 script = ExtResource("3_v4h0q")
 id = &"E02D"
 duration = 4.5
-from_pos = Vector3(1.6, 1.75, 0)
-to_pos = Vector3(1.6, 1.75, 0)
-look_from = Vector3(2.6, 1.898, 1.8)
-look_to = Vector3(2.6, 1.898, 1.8)
-look_actor = &"malrik"
-look_offset = Vector3(0, 1.898, 0)
+from_pos = Vector3(1.55, 1.95, -0.05)
+to_pos = Vector3(1.55, 1.95, -0.05)
+look_from = Vector3(2.6, 1.9, 1.8)
+look_to = Vector3(2.6, 1.9, 1.8)
 fov_from = 34.0
 fov_to = 34.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_pjlsk")])
@@ -346,7 +338,7 @@ params = {
 "life": 1.6,
 "scale": 0.4,
 "scene": "res://art/cinematics/fx/streak_red.tscn",
-"to": Vector3(0, 2, -2.2)
+"to": Vector3(0, 2.5, -2.75)
 }
 
 [sub_resource type="Resource" id="Resource_pshqd"]
@@ -358,7 +350,7 @@ params = {
 "life": 1.6,
 "scale": 0.4,
 "scene": "res://art/cinematics/fx/streak_blue.tscn",
-"to": Vector3(0, 2, -2.2)
+"to": Vector3(0, 2.5, -2.75)
 }
 
 [sub_resource type="Resource" id="Resource_r7xsb"]
@@ -370,7 +362,7 @@ params = {
 "life": 1.6,
 "scale": 0.4,
 "scene": "res://art/cinematics/fx/streak_green.tscn",
-"to": Vector3(0, 2, -2.2)
+"to": Vector3(0, 2.5, -2.75)
 }
 
 [sub_resource type="Resource" id="Resource_d4koo"]
@@ -382,7 +374,7 @@ params = {
 "life": 1.6,
 "scale": 0.4,
 "scene": "res://art/cinematics/fx/streak_violet.tscn",
-"to": Vector3(0, 2, -2.2)
+"to": Vector3(0, 2.5, -2.75)
 }
 
 [sub_resource type="Resource" id="Resource_se046"]
@@ -423,7 +415,7 @@ stage_set = &"forge_intro_malrik"
 script = ExtResource("4_panne")
 at = 0.4
 kind = &"vfx"
-target = Vector3(0, 1.1, -2.2)
+target = Vector3(0, 2.5, -2.75)
 params = {
 "life": 6.0,
 "scale": 0.5,
@@ -434,7 +426,7 @@ params = {
 script = ExtResource("4_panne")
 at = 5.0
 kind = &"vfx"
-target = Vector3(0, 1.1, -2.2)
+target = Vector3(0, 2.5, -2.75)
 params = {
 "life": 1.6,
 "scale": 0.15,
@@ -454,10 +446,10 @@ script = ExtResource("3_v4h0q")
 id = &"E04"
 duration = 7.0
 camera_mode = 1
-from_pos = Vector3(0.5, 1.5, -0.6)
-to_pos = Vector3(0.35, 1.35, -1.2)
-look_from = Vector3(0, 1.1, -2.2)
-look_to = Vector3(0, 1.1, -2.2)
+from_pos = Vector3(0.55, 2.95, -1)
+to_pos = Vector3(0.35, 2.8, -1.6)
+look_from = Vector3(0, 2.5, -2.75)
+look_to = Vector3(0, 2.5, -2.75)
 fov_from = 30.0
 fov_to = 30.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_5u2g0")])
@@ -495,12 +487,12 @@ voice = "res://assets/audio/voice/master/you_did_obren_it_41e9dfeb.wav"
 script = ExtResource("3_v4h0q")
 id = &"E05"
 duration = 7.0
-from_pos = Vector3(1.8, 2.8, 3.6)
-to_pos = Vector3(1.8, 2.8, 3.6)
-look_from = Vector3(0, 0, 1.2)
-look_to = Vector3(0, 0, 1.2)
-fov_from = 40.0
-fov_to = 40.0
+from_pos = Vector3(2.3, 3.4, 2.7)
+to_pos = Vector3(2.3, 3.4, 2.7)
+look_from = Vector3(0, 0.3, 0.9)
+look_to = Vector3(0, 0.3, 0.9)
+fov_from = 36.0
+fov_to = 36.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_7hh8a")])
 actions = Array[ExtResource("4_panne")]([SubResource("Resource_0aq41"), SubResource("Resource_fd0jm")])
 stage_set = &"forge_intro_malrik"
@@ -599,12 +591,10 @@ params = {
 script = ExtResource("3_v4h0q")
 id = &"E07"
 duration = 6.0
-from_pos = Vector3(1.8, 1.45, 2.8)
-to_pos = Vector3(1.8, 1.45, 2.8)
-look_from = Vector3(0.8, 1.5649999, 4.6)
-look_to = Vector3(0.8, 1.5649999, 4.6)
-look_actor = &"vey"
-look_offset = Vector3(0, 1.5649999, 0)
+from_pos = Vector3(1.85, 1.7, 2.8)
+to_pos = Vector3(1.85, 1.7, 2.8)
+look_from = Vector3(0.8, 1.75, 4.6)
+look_to = Vector3(0.8, 1.75, 4.6)
 fov_from = 34.0
 fov_to = 34.0
 actions = Array[ExtResource("4_panne")]([SubResource("Resource_8kf3h"), SubResource("Resource_uhmpk"), SubResource("Resource_041e6"), SubResource("Resource_pgb0x")])
@@ -723,12 +713,12 @@ voice = "res://assets/audio/voice/master/my_joy_still_never_602bd82e.wav"
 script = ExtResource("3_v4h0q")
 id = &"E09"
 duration = 8.0
-from_pos = Vector3(3.6, 1.7, 0.8)
-to_pos = Vector3(3.6, 1.7, 0.8)
-look_from = Vector3(-0.4, 1.5, 0.2)
-look_to = Vector3(-0.4, 1.5, 0.2)
-fov_from = 40.0
-fov_to = 40.0
+from_pos = Vector3(3.7, 2.15, 0.9)
+to_pos = Vector3(3.7, 2.15, 0.9)
+look_from = Vector3(-0.3, 2.05, 0.2)
+look_to = Vector3(-0.3, 2.05, 0.2)
+fov_from = 42.0
+fov_to = 42.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_6vdym"), SubResource("Resource_sr50x")])
 actions = Array[ExtResource("4_panne")]([SubResource("Resource_k2osk"), SubResource("Resource_tb8s8"), SubResource("Resource_wjcyf"), SubResource("Resource_e5nd2")])
 stage_set = &"forge_intro_malrik"
@@ -754,12 +744,14 @@ script = ExtResource("3_v4h0q")
 id = &"E10"
 duration = 8.0
 camera_mode = 1
-from_pos = Vector3(2.6, 2.2, 1.9)
-to_pos = Vector3(2.3, 2.2, 1.6)
-look_from = Vector3(0, 2.1, -0.4)
-look_to = Vector3(0, 2.1, -0.4)
-fov_from = 38.0
-fov_to = 38.0
+from_pos = Vector3(2.65, 2.95, 1.15)
+to_pos = Vector3(2.3, 2.95, 0.95)
+look_from = Vector3(0, 2.75, -0.4)
+look_to = Vector3(0, 2.75, -0.4)
+look_actor = &"master"
+look_offset = Vector3(0, 2.75, 0)
+fov_from = 34.0
+fov_to = 34.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_d6boy"), SubResource("Resource_jc0sw")])
 stage_set = &"forge_intro_malrik"
 
@@ -775,10 +767,10 @@ voice = "res://assets/audio/voice/master/kings_cities_even_you_61dd410b.wav"
 script = ExtResource("3_v4h0q")
 id = &"E11"
 duration = 5.0
-from_pos = Vector3(6.4, 2, 6.4)
-to_pos = Vector3(6.4, 2, 6.4)
-look_from = Vector3(0, 1.3, 0.2)
-look_to = Vector3(0, 1.3, 0.2)
+from_pos = Vector3(7.6, 3.2, 2.2)
+to_pos = Vector3(7.6, 3.2, 2.2)
+look_from = Vector3(0, 1.6, 0)
+look_to = Vector3(0, 1.6, 0)
 fov_from = 44.0
 fov_to = 44.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_ww73c")])
@@ -805,12 +797,10 @@ voice = "res://assets/audio/voice/malrik/in_fairness_it_was_0dc45cc6.wav"
 script = ExtResource("3_v4h0q")
 id = &"E11B"
 duration = 4.0
-from_pos = Vector3(1.6, 1.8, 0.2)
-to_pos = Vector3(1.6, 1.8, 0.2)
-look_from = Vector3(2.6, 1.898, 1.8)
-look_to = Vector3(2.6, 1.898, 1.8)
-look_actor = &"malrik"
-look_offset = Vector3(0, 1.898, 0)
+from_pos = Vector3(1.55, 1.95, 0.15)
+to_pos = Vector3(1.55, 1.95, 0.15)
+look_from = Vector3(2.6, 1.9, 1.8)
+look_to = Vector3(2.6, 1.9, 1.8)
 fov_from = 30.0
 fov_to = 30.0
 lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_owet7")])
@@ -818,6 +808,15 @@ actions = Array[ExtResource("4_panne")]([SubResource("Resource_hhpns")])
 stage_set = &"forge_intro_malrik"
 
 [sub_resource type="Resource" id="Resource_6ooxj"]
+script = ExtResource("4_panne")
+kind = &"teleport"
+actor = &"vessa"
+target = Vector3(-1.5, 0, 1.3)
+params = {
+"yaw_deg": 120.0
+}
+
+[sub_resource type="Resource" id="Resource_nvbht"]
 script = ExtResource("4_panne")
 at = 7.0
 kind = &"vfx"
@@ -829,7 +828,7 @@ params = {
 "to": Vector3(0.2, 1.8, -0.4)
 }
 
-[sub_resource type="Resource" id="Resource_nvbht"]
+[sub_resource type="Resource" id="Resource_qww33"]
 script = ExtResource("1_n4ggh")
 at = 1.0
 speaker = &"master"
@@ -837,7 +836,7 @@ text = "So I will not hold it again."
 duration = 2.6
 voice = "res://assets/audio/voice/master/so_i_will_not_bea5e899.wav"
 
-[sub_resource type="Resource" id="Resource_qww33"]
+[sub_resource type="Resource" id="Resource_n0c3b"]
 script = ExtResource("1_n4ggh")
 at = 4.0
 speaker = &"vey"
@@ -845,7 +844,7 @@ text = "So. The lightning."
 duration = 1.8
 voice = "res://assets/audio/voice/vey/so_the_lightning_9d4976e5.wav"
 
-[sub_resource type="Resource" id="Resource_n0c3b"]
+[sub_resource type="Resource" id="Resource_mkmuk"]
 script = ExtResource("1_n4ggh")
 at = 6.0
 speaker = &"vessa"
@@ -853,7 +852,7 @@ text = "FINALLY."
 duration = 1.6
 voice = "res://assets/audio/voice/vessa/finally_1dffaa0e.wav"
 
-[sub_resource type="Resource" id="Resource_mkmuk"]
+[sub_resource type="Resource" id="Resource_kef0e"]
 script = ExtResource("1_n4ggh")
 at = 8.0
 speaker = &"vey"
@@ -861,21 +860,21 @@ text = "His. Lent to me to keep you four alive. Now it goes home."
 duration = 5.0
 voice = "res://assets/audio/voice/vey/his_lent_to_me_d88f7ea0.wav"
 
-[sub_resource type="Resource" id="Resource_kef0e"]
+[sub_resource type="Resource" id="Resource_8s2ax"]
 script = ExtResource("3_v4h0q")
 id = &"E12"
 duration = 15.0
-from_pos = Vector3(3.4, 1.8, 1.4)
-to_pos = Vector3(3.4, 1.8, 1.4)
-look_from = Vector3(0.8, 1.5, -0.6)
-look_to = Vector3(0.8, 1.5, -0.6)
-fov_from = 38.0
-fov_to = 38.0
-lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_nvbht"), SubResource("Resource_qww33"), SubResource("Resource_n0c3b"), SubResource("Resource_mkmuk")])
-actions = Array[ExtResource("4_panne")]([SubResource("Resource_6ooxj")])
+from_pos = Vector3(1.9, 2.4, 3.5)
+to_pos = Vector3(1.9, 2.4, 3.5)
+look_from = Vector3(0.5, 2, -0.5)
+look_to = Vector3(0.5, 2, -0.5)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_qww33"), SubResource("Resource_n0c3b"), SubResource("Resource_mkmuk"), SubResource("Resource_kef0e")])
+actions = Array[ExtResource("4_panne")]([SubResource("Resource_6ooxj"), SubResource("Resource_nvbht")])
 stage_set = &"forge_intro_malrik"
 
-[sub_resource type="Resource" id="Resource_8s2ax"]
+[sub_resource type="Resource" id="Resource_nmhnm"]
 script = ExtResource("4_panne")
 kind = &"teleport"
 actor = &"vessa"
@@ -884,7 +883,7 @@ params = {
 "yaw_deg": 160.0
 }
 
-[sub_resource type="Resource" id="Resource_nmhnm"]
+[sub_resource type="Resource" id="Resource_635uo"]
 script = ExtResource("4_panne")
 kind = &"teleport"
 actor = &"master"
@@ -893,7 +892,7 @@ params = {
 "yaw_deg": 170.0
 }
 
-[sub_resource type="Resource" id="Resource_635uo"]
+[sub_resource type="Resource" id="Resource_dhosh"]
 script = ExtResource("4_panne")
 kind = &"teleport"
 actor = &"vey"
@@ -902,7 +901,7 @@ params = {
 "yaw_deg": -170.0
 }
 
-[sub_resource type="Resource" id="Resource_dhosh"]
+[sub_resource type="Resource" id="Resource_q4sec"]
 script = ExtResource("4_panne")
 kind = &"teleport"
 actor = &"malrik"
@@ -911,17 +910,17 @@ params = {
 "yaw_deg": -160.0
 }
 
-[sub_resource type="Resource" id="Resource_q4sec"]
+[sub_resource type="Resource" id="Resource_4e886"]
 script = ExtResource("4_panne")
 kind = &"vfx"
-target = Vector3(0, 0.8, -2.4)
+target = Vector3(0, 2.5, -2.75)
 params = {
 "life": 10.0,
 "scale": 0.6,
 "scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
 }
 
-[sub_resource type="Resource" id="Resource_4e886"]
+[sub_resource type="Resource" id="Resource_vurah"]
 script = ExtResource("1_n4ggh")
 at = 1.0
 speaker = &"master"
@@ -929,7 +928,7 @@ text = "Whoever sits there holds the world, as I did."
 duration = 4.5
 voice = "res://assets/audio/voice/master/whoever_sits_there_holds_8330a630.wav"
 
-[sub_resource type="Resource" id="Resource_vurah"]
+[sub_resource type="Resource" id="Resource_ore3u"]
 script = ExtResource("1_n4ggh")
 at = 6.0
 speaker = &"master"
@@ -937,21 +936,21 @@ text = "Someone will always want that seat. Choose, all four of you."
 duration = 3.9
 voice = "res://assets/audio/voice/master/someone_will_always_want_4f686c72.wav"
 
-[sub_resource type="Resource" id="Resource_ore3u"]
+[sub_resource type="Resource" id="Resource_ypqfb"]
 script = ExtResource("3_v4h0q")
 id = &"E13"
 duration = 10.0
 camera_mode = 1
-from_pos = Vector3(1.4, 3, 2.6)
-to_pos = Vector3(0.7, 1.9, 0.9)
-look_from = Vector3(0, 1.8, -3)
-look_to = Vector3(0, 1.8, -3)
+from_pos = Vector3(1.6, 3.4, 5.6)
+to_pos = Vector3(0.6, 2.95, 1)
+look_from = Vector3(0, 3.2, -3)
+look_to = Vector3(0, 2.6, -2.8)
 fov_from = 42.0
 fov_to = 42.0
 transition_in = 3
 transition_time = 0.4
-lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_4e886"), SubResource("Resource_vurah")])
-actions = Array[ExtResource("4_panne")]([SubResource("Resource_8s2ax"), SubResource("Resource_nmhnm"), SubResource("Resource_635uo"), SubResource("Resource_dhosh"), SubResource("Resource_q4sec")])
+lines = Array[ExtResource("1_n4ggh")]([SubResource("Resource_vurah"), SubResource("Resource_ore3u")])
+actions = Array[ExtResource("4_panne")]([SubResource("Resource_nmhnm"), SubResource("Resource_635uo"), SubResource("Resource_dhosh"), SubResource("Resource_q4sec"), SubResource("Resource_4e886")])
 stage_set = &"forge_intro_malrik"
 
 [resource]
@@ -959,7 +958,7 @@ script = ExtResource("2_nuiin")
 id = &"ep8_ending_a"
 title = "Episode 8: Four Hands"
 stage_scene = "res://scenes/cinematics/ep8_ending_a.tscn"
-shots = Array[ExtResource("3_v4h0q")]([SubResource("Resource_nosix"), SubResource("Resource_sdgk3"), SubResource("Resource_sfckh"), SubResource("Resource_bxrmc"), SubResource("Resource_uifw8"), SubResource("Resource_55807"), SubResource("Resource_kp3qv"), SubResource("Resource_px0qs"), SubResource("Resource_bs5vf"), SubResource("Resource_1fljs"), SubResource("Resource_hyr0r"), SubResource("Resource_xdp62"), SubResource("Resource_ik34q"), SubResource("Resource_dsxr4"), SubResource("Resource_xnpia"), SubResource("Resource_kef0e"), SubResource("Resource_ore3u")])
+shots = Array[ExtResource("3_v4h0q")]([SubResource("Resource_nosix"), SubResource("Resource_sdgk3"), SubResource("Resource_sfckh"), SubResource("Resource_bxrmc"), SubResource("Resource_uifw8"), SubResource("Resource_55807"), SubResource("Resource_kp3qv"), SubResource("Resource_px0qs"), SubResource("Resource_bs5vf"), SubResource("Resource_1fljs"), SubResource("Resource_hyr0r"), SubResource("Resource_xdp62"), SubResource("Resource_ik34q"), SubResource("Resource_dsxr4"), SubResource("Resource_xnpia"), SubResource("Resource_8s2ax"), SubResource("Resource_ypqfb")])
 music_cue = &"res://assets/audio/forge/music/ep3_opening.wav"
 shake_seed = 803
 music_volume_db = -18.0

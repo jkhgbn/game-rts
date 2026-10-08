@@ -209,7 +209,7 @@
 			"score": 1.0,
 			"shot": "T05",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.67 at 0.00 s",
+			"value": "worst u 0.50 v 0.40 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -1287,7 +1287,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 99a53d8b924685c2)",
+			"value": "same",
 			"weight": 1.0
 		},
 		{
@@ -1317,12 +1317,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (foe in S22 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/ep6_opening.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 34,
-		"PASS": 60,
+		"PASS": 61,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -1364,7 +1378,7 @@
 			"title": "Timing sheet"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/ep6_opening.cine` (269 lines), 180.0 s, 24 shots, stage: set forge_citadel",
@@ -1374,10 +1388,10 @@
 	"quality": 98.8,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 12.3,
+	"seconds": 12.6,
 	"shots": {},
-	"started": "2026-10-08 11:29:35",
+	"started": "2026-10-08 13:49:09",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

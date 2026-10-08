@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="8_xfv4d"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="9_h4ni0"]
 
-[node name="Ep8BookendDarkStage" type="Node3D" unique_id=1057590535]
+[node name="Ep8BookendDarkStage" type="Node3D" unique_id=1357784053]
 script = ExtResource("1_c11lk")
 autoplay_script = ExtResource("2_ggw87")
 actor_paths = {
@@ -33,6 +33,6 @@ transform = Transform3D(0.76604444, 0, 0.6427876, 0, 1, 0, -0.6427876, 0, 0.7660
 [node name="Child" type="Node3D" parent="." unique_id=1318638855 instance=ExtResource("7_ap5dh")]
 transform = Transform3D(-0.76604444, 0, -0.64278764, 0, 1, 0, 0.64278764, 0, -0.76604444, -148.4, 30, -116.8)
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1644468397]
+[node name="LightingRig" type="Node3D" parent="." unique_id=1359275556]
 script = ExtResource("8_xfv4d")
 preset = ExtResource("9_h4ni0")

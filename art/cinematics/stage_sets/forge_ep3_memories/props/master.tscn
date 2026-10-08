@@ -330,3 +330,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.68, 3.5, 0.46)
 material_override = SubResource("ShaderMaterial_ju24j")
 cast_shadow = 0
 mesh = SubResource("SphereMesh_bom6t")
+
+[node name="Head" type="Node3D" parent="." unique_id=884213377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0.2)

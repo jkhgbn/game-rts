@@ -1,10 +1,10 @@
-# cine check: ep8_dark_fire
+# cine build: ep8_dark_fire
 
-2026-10-08 12:35:24 - `tools/cine/run_cine.ps1 check ep8_dark_fire` - hash `11f362a5d53c63f7` (2 runs identical)
+2026-10-08 13:49:44 - `tools/cine/run_cine.ps1 build ep8_dark_fire` - hash `11f362a5d53c63f7` (2 runs identical)
 
 ## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
 
-0 FAIL, 0 WARN, 15 PASS, 11 info, 0 skipped, 3 s
+0 FAIL, 0 WARN, 16 PASS, 11 info, 0 skipped, 3 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -34,7 +34,7 @@
 | F1 | T1 face vessa | PASS 100 | worst u 0.50 v 0.42 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F2 | T2 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F3 | T3 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
-| F4 | T4 face oldman | PASS 100 | worst u 0.50 v 0.63 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F4 | T4 face oldman | PASS 100 | worst u 0.50 v 0.39 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Continuity (180-degree rule, jump cuts)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -56,7 +56,8 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 11f362a5d53c63f7 / 11f362a5d53c63f7 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was f59094d2fb4b9401) |  |  |
+| D2 | vs previous run | INFO | same |  |  |
+| B1 | bake | PASS 100 | data/cinematics/ep8_dark_fire.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
