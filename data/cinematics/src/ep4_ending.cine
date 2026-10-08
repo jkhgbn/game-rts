@@ -1,0 +1,119 @@
+# Episode 4 ending "Winter's End", ~60 s + the title (docs/design/script-episodes-4-8/e4m4.md, shot list W1-W8; beats from
+# docs/design/mission-e4-04.md Cinematic hooks `ep4_ending`, campaign-outline.md 3.4). Snow closes the passes: Ysolde and
+# Vessa by a small fire in Cinderwatch's court, the Heartwood Seed in Ysolde's hand ("You'll keep it?" / "Until
+# spring."); Malrik alone with a candle, the heart-stone muttering (Obren: "Four keys, Bishop."); Torvald and Aldra
+# silent on the broken Wall over a green shoot; old Vey dozing by the watch-keep hearth; four fires far apart in one
+# white country; the title card.
+# Text source for i18n / voices: data/voice/lines/ep4_ending.json (the same text as the lines below). The heart-stone
+# speaks (Obren's whisper voice, hidden capsule `obren`): e4m4.md Q1 is still open (Ep5 keeps it silent).
+# e4m4 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep4_ending).
+# Sets (stand-ins, no snow dressing exists): forge_evenmead under a pale snow grade (W1, W8); forge_ep2_feast = the
+# Cinderwatch court of c_e4_turnback (W2-W4, its bonfire); forge_intro_malrik = Malrik's crypt (W5, its candle table);
+# forge_intro_torvald's rampart = the broken Wall (W6); forge_watch_keep = Vey's hearth (W7).
+# Axis: W3-W4: Vessa (east) - Ysolde (west) by the fire; every camera stays south of them (the keep side).
+cine ep4_ending  title="Episode 4: What Grows Back"  letterbox=2.39  seed=404  length=57..64
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-18
+env night  moon_yaw=200  moon_pitch=-30  energy=0.5  color=#c8d6ff
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=narrator
+cast  obren     capsule  at=(4, 0, -300)  hidden=1  speaker=obren
+cast  ysolde    res://art/units/wizards/ysolde.tscn  at=(-1.0, 0, 2.4)  yaw=90  set=forge_ep2_feast
+cast  vessa     res://art/units/wizards/vessa.tscn   at=(1.0, 0, 2.4)  yaw=-90  set=forge_ep2_feast
+cast  seed      res://art/cinematics/props/ep2_between/seed_pod.tscn  at=(-0.6, 1.15, 2.55)  scale=1.4  set=forge_ep2_feast
+cast  stone2    res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn  at=(2.95, 1.25, 2.0)  set=forge_intro_malrik
+cast  aldra     res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(9.4, 5.0, -4.0)  yaw=-10  set=forge_intro_torvald
+cast  shoot     res://art/cinematics/stage_sets/forge_ep4_memories/props/shoot_v2.tscn  at=(8.6, 5.02, -3.4)  scale=1.4  set=forge_intro_torvald
+cast  vey       res://art/units/helpers/helper_vey/helper_vey.tscn  at=(4.4, 0, 4.8)  yaw=40  set=forge_watch_keep
+
+# ---------------------------------------------------------------- snow over Evenmead
+# Wide crane down, snow falling: the river iced, the fords white, the golden tree still glowing
+shot W1 9.0  cam=crane  from=(-60, 44, 10)  to=(-46, 26, 18)  look=(-10, 4, 24)>(-14, 6, 40)  fov=50>42  in=fade_black:1.0
+  at 0.0  fade color=#dfe8f5 alpha=0.38 time=0.05
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-24
+  at 1.0  line narrator "The blizzard closed the passes, and the war sat down to wait."  dur=4.4
+
+# ---------------------------------------------------------------- Cinderwatch court
+# Wide: a small fire in the snowy court, two figures beside it
+shot W2 5.0  set=forge_ep2_feast  cam=static  from=(7, 5.5, 13)  look=(0, 1.2, 1.5)  fov=44  in=fade_black:0.6
+  at 0.0  fade color=#c8d6ff alpha=0.22 time=0.05
+# Ysolde and Vessa by the fire; the Heartwood Seed glows green-gold in Ysolde's open hand
+shot W3 6.0  set=forge_ep2_feast  cam=static  from=(0.0, 1.7, 6.6)  look=(0.0, 1.45, 2.2)  fov=40  faces=ysolde,vessa
+  at 0.6  line vessa "You'll keep it?"  dur=1.6
+  at 2.8  line ysolde "Until spring."  dur=1.6
+  at 2.8  anim ysolde set_expression  arg=smile
+# CU Vessa, warming her hands
+shot W4 3.4  set=forge_ep2_feast  cam=static  from=(-0.7, 1.75, 4.4)  look=vessa  fov=30
+  at 0.0  anim vessa set_expression  arg=neutral
+  at 0.4  line vessa "And then?"  dur=1.4
+# CU Ysolde, closing her hand on the seed
+shot W4B 3.6  set=forge_ep2_feast  cam=static  from=(0.7, 1.75, 4.4)  look=ysolde  fov=30
+  at 0.4  line ysolde "Then we'll see what grows."  dur=2.4
+  at 2.6  hide seed
+
+# ---------------------------------------------------------------- Malrik's candle
+# MS, static, one candle: Malrik alone, the heart-stone muttering amber in his other hand
+shot W5 8.0  set=forge_intro_malrik  cam=static  from=(5.8, 1.7, 5.2)  look=(2.9, 1.5, 1.8)  fov=36  in=fade_black:0.6  faces=malrik_malrik
+  at 0.0  fade color=#000000 alpha=0 time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik_malrik  to=(2.5, 0, 1.4)  yaw=50
+  at 0.0  anim malrik_malrik set_expression  arg=worried
+  at 0.4  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-16
+  at 1.2  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-8
+  at 1.6  line obren "Four keys, Bishop. Count them in your sleep."  dur=3.6
+  at 1.6  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(2.95, 1.25, 2.0)  life=4.0  scale=0.5
+
+# ---------------------------------------------------------------- the broken Wall
+# Wide, night, wind: Torvald on the Wall, Aldra beside him, silent; a single green shoot at his feet
+shot W6 8.0  set=forge_intro_torvald  cam=dolly  from=(12.2, 6.5, 2.4)  to=(11.6, 6.6, 1.8)  look=(8.6, 6.3, -3.9)  fov=40  in=fade_black:0.6  faces=torvald_torvald,aldra
+  at 0.0  fade color=#0d1430 alpha=0.45 time=0.05
+  at 0.0  hide colossus
+  at 0.0  hide frostbow
+  at 0.0  hide messenger
+  at 0.0  hide foe
+  at 0.0  hide army_line
+  at 0.0  hide army_charge
+  at 0.0  hide fx_icewall
+  at 0.0  hide fx_burst
+  at 0.0  hide fx_cracks
+  at 0.0  hide fx_heart
+  at 0.0  teleport torvald_torvald  to=(8.0, 5.0, -4.0)  yaw=10
+  at 0.0  anim torvald_torvald set_expression  arg=worried
+
+# ---------------------------------------------------------------- Vey's hearth
+# MS, warm: old Vey dozing by the watch-keep hearth, sword across his knees; one spark crawls along the blade
+shot W7 6.0  set=forge_watch_keep  cam=static  from=(6.6, 1.5, 7.6)  look=(4.2, 1.2, 4.6)  fov=38  in=fade_black:0.5  faces=vey
+  at 0.0  fade color=#000000 alpha=0 time=0.05
+  at 0.0  hide guard_w
+  at 0.0  hide guard_e
+  at 0.0  hide watch_keep_vessa
+  at 2.2  vfx spark  scene=res://art/cinematics/fx/ember.tscn  at=(4.3, 0.9, 4.5)  life=2.6  scale=0.3
+
+# ---------------------------------------------------------------- four fires, one white country
+# Wide crane up into the snow-cloud: four points of light far apart; then only snow; the title
+shot W8 11.0  cam=crane  from=(10, 34, 60)  to=(14, 72, 84)  look=(0, 2, 0)>(0, 20, -20)  fov=40>52  in=fade_black:0.8
+  at 0.0  fade color=#dfe8f5 alpha=0.4 time=0.05
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  vfx p1  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-16, 7, 46)  life=10  scale=0.12
+  at 0.0  vfx p2  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-40, 2, -45)  life=10  scale=0.5
+  at 0.0  vfx p3  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(0, 8, -38)  life=10  scale=0.5
+  at 0.0  vfx p4  scene=res://art/cinematics/fx/green_pillar.tscn  at=(45, 3, 20)  life=10  scale=0.12
+  at 1.0  line narrator "Four wizards, four fires, one long winter. And each of them remembered how it began."  dur=5.6
+  at 6.8  fade color=#ffffff alpha=0.9 time=2.0
+  at 7.2  title "Episode 4" sub="What Grows Back" time=3.0
+  at 10.0  fade color=#000000 alpha=1 time=1.0

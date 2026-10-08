@@ -1,0 +1,527 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_un61p"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_gyell"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_gph04"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_t2weu"]
+
+[sub_resource type="Resource" id="Resource_v3eok"]
+script = ExtResource("4_t2weu")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -24.0
+}
+
+[sub_resource type="Resource" id="Resource_yokco"]
+script = ExtResource("1_un61p")
+at = 1.2
+speaker = &"narrator"
+text = "Cinderwatch, on the Fire border. Every bed is taken, and one lantern is still lit."
+duration = 5.0
+voice = "res://assets/audio/voice/narrator/cinderwatch_on_the_fire_2bba7817.wav"
+
+[sub_resource type="Resource" id="Resource_cjba6"]
+script = ExtResource("3_gph04")
+id = &"T1"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(14, 8.5, 9)
+to_pos = Vector3(12, 7, 9.5)
+look_from = Vector3(-9, 0.6, 1)
+look_to = Vector3(-11, 0.8, 4)
+fov_from = 50.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 1.0
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_yokco")])
+actions = Array[ExtResource("4_t2weu")]([SubResource("Resource_v3eok")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_2lbr3"]
+script = ExtResource("4_t2weu")
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_qlqjx"]
+script = ExtResource("4_t2weu")
+at = 5.4
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_v1hju"]
+script = ExtResource("1_un61p")
+at = 0.6
+speaker = &"ysolde"
+text = "Vessa. They are all inside your wall. Ashby gave away his own blanket."
+duration = 4.2
+voice = "res://assets/audio/voice/ysolde/vessa_they_are_all_d7abf168.wav"
+
+[sub_resource type="Resource" id="Resource_7iei1"]
+script = ExtResource("1_un61p")
+at = 5.4
+speaker = &"ysolde"
+text = "I am not staying. You knew that before I did."
+duration = 3.4
+voice = "res://assets/audio/voice/ysolde/i_am_not_staying_1093dd82.wav"
+
+[sub_resource type="Resource" id="Resource_pjyhk"]
+script = ExtResource("3_gph04")
+id = &"T2"
+duration = 10.0
+camera_mode = 1
+from_pos = Vector3(-11.011011, 1.375, 7.3889894)
+to_pos = Vector3(-11.117077, 1.375, 7.282923)
+look_from = Vector3(-13.1, 1.375, 5.3)
+look_to = Vector3(-13.1, 1.375, 5.3)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_v1hju"), SubResource("Resource_7iei1")])
+actions = Array[ExtResource("4_t2weu")]([SubResource("Resource_2lbr3"), SubResource("Resource_qlqjx")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_r1q0r"]
+script = ExtResource("1_un61p")
+at = 0.4
+speaker = &"maelis"
+text = "The scouts are back from the Sighing Wood."
+duration = 3.0
+voice = "res://assets/audio/voice/maelis/the_scouts_are_back_6b2c3985.wav"
+
+[sub_resource type="Resource" id="Resource_ecnmo"]
+script = ExtResource("1_un61p")
+at = 3.8
+speaker = &"maelis"
+text = "Rime on every trunk. Aldra's totems in all five glades."
+duration = 3.6
+voice = "res://assets/audio/voice/maelis/rime_on_every_trunk_cd972719.wav"
+
+[sub_resource type="Resource" id="Resource_vvbh8"]
+script = ExtResource("3_gph04")
+id = &"T3"
+duration = 7.0
+from_pos = Vector3(-12, 1.65, 4.2)
+to_pos = Vector3(-12, 1.65, 4.2)
+look_from = Vector3(-9.6, 1.5600001, -1.2)
+look_to = Vector3(-9.6, 1.5600001, -1.2)
+look_actor = &"maelis"
+look_offset = Vector3(0, 1.5600001, 0)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_r1q0r"), SubResource("Resource_ecnmo")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_uaw5j"]
+script = ExtResource("4_t2weu")
+kind = &"teleport"
+actor = &"maelis"
+target = Vector3(-11.6, 0, 4.6)
+params = {
+"yaw_deg": -80.0
+}
+
+[sub_resource type="Resource" id="Resource_5jw8r"]
+script = ExtResource("4_t2weu")
+kind = &"face"
+actor = &"ysolde"
+params = {
+"look_actor": "maelis",
+"time": 0.6,
+"yaw_deg": 151.69924423399362
+}
+
+[sub_resource type="Resource" id="Resource_rym85"]
+script = ExtResource("4_t2weu")
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_op33f"]
+script = ExtResource("1_un61p")
+at = 0.4
+speaker = &"maelis"
+text = "They didn't freeze it to hold it. They froze it so it would stay dead."
+duration = 4.4
+voice = "res://assets/audio/voice/maelis/they_didnt_freeze_it_0d9cc04b.wav"
+
+[sub_resource type="Resource" id="Resource_vdutq"]
+script = ExtResource("1_un61p")
+at = 5.2
+speaker = &"ysolde"
+text = "Then it is waiting for someone."
+duration = 2.6
+voice = "res://assets/audio/voice/ysolde/then_it_is_waiting_97d4b152.wav"
+
+[sub_resource type="Resource" id="Resource_bady8"]
+script = ExtResource("3_gph04")
+id = &"T4"
+duration = 9.0
+from_pos = Vector3(-11.2, 1.6, 9.4)
+to_pos = Vector3(-11.2, 1.6, 9.4)
+look_from = Vector3(-12, 1.45, 4.6)
+look_to = Vector3(-12, 1.45, 4.6)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_op33f"), SubResource("Resource_vdutq")])
+actions = Array[ExtResource("4_t2weu")]([SubResource("Resource_uaw5j"), SubResource("Resource_5jw8r"), SubResource("Resource_rym85")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_s51ck"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"ashby"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_o8f5t"]
+script = ExtResource("4_t2weu")
+kind = &"move"
+actor = &"ashby"
+target = Vector3(-10.6, 0, 3.6)
+params = {
+"speed": 1.4
+}
+
+[sub_resource type="Resource" id="Resource_tmvsk"]
+script = ExtResource("4_t2weu")
+at = 3.6
+kind = &"face"
+actor = &"ysolde"
+params = {
+"look_actor": "ashby",
+"time": 0.5,
+"yaw_deg": 140.29007837203898
+}
+
+[sub_resource type="Resource" id="Resource_w8w34"]
+script = ExtResource("1_un61p")
+at = 0.5
+speaker = &"ashby"
+text = "From the queen, my lady. She said you'd know what it is."
+duration = 3.8
+voice = "res://assets/audio/voice/ashby/from_the_queen_my_9fb0c812.wav"
+
+[sub_resource type="Resource" id="Resource_p5lrb"]
+script = ExtResource("3_gph04")
+id = &"T5"
+duration = 7.0
+from_pos = Vector3(-12.2, 1.7, 8.6)
+to_pos = Vector3(-12.2, 1.7, 8.6)
+look_from = Vector3(-10.4, 1.5, 3.4)
+look_to = Vector3(-10.4, 1.5, 3.4)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_w8w34")])
+actions = Array[ExtResource("4_t2weu")]([SubResource("Resource_s51ck"), SubResource("Resource_o8f5t"), SubResource("Resource_tmvsk")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_ipral"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"bundle"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_6qrjl"]
+script = ExtResource("4_t2weu")
+at = 1.2
+kind = &"visible"
+actor = &"pod"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_sny2s"]
+script = ExtResource("4_t2weu")
+at = 1.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_usvgk"]
+script = ExtResource("3_gph04")
+id = &"T6"
+duration = 5.0
+from_pos = Vector3(-12.2, 2.4, 7.6)
+to_pos = Vector3(-12.2, 2.4, 7.6)
+look_from = Vector3(-12.9, 0.9, 5.9)
+look_to = Vector3(-12.9, 0.9, 5.9)
+fov_from = 34.0
+fov_to = 34.0
+actions = Array[ExtResource("4_t2weu")]([SubResource("Resource_ipral"), SubResource("Resource_6qrjl"), SubResource("Resource_sny2s")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_2ikn6"]
+script = ExtResource("1_un61p")
+at = 0.8
+speaker = &"vessa"
+text = "I think the wood can now. V."
+duration = 3.0
+voice = "res://assets/audio/voice/vessa/i_think_the_wood_edb887c0.wav"
+
+[sub_resource type="Resource" id="Resource_yo3ep"]
+script = ExtResource("3_gph04")
+id = &"T7"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(-13, 1.65, 6.3)
+to_pos = Vector3(-13.02, 1.55, 6.25)
+look_from = Vector3(-13.1, 0.84, 6)
+look_to = Vector3(-13.1, 0.84, 6)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_2ikn6")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_bktds"]
+script = ExtResource("4_t2weu")
+kind = &"teleport"
+actor = &"ysolde"
+target = Vector3(-13.1, 0, 5.3)
+params = {
+"yaw_deg": 0.0
+}
+
+[sub_resource type="Resource" id="Resource_kims2"]
+script = ExtResource("4_t2weu")
+kind = &"anim"
+actor = &"ysolde"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_ul507"]
+script = ExtResource("4_t2weu")
+at = 2.6
+kind = &"visible"
+actor = &"pod"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_mlrre"]
+script = ExtResource("1_un61p")
+at = 0.6
+speaker = &"ysolde"
+text = "So do I."
+duration = 1.6
+voice = "res://assets/audio/voice/ysolde/so_do_i_99ae4ecd.wav"
+
+[sub_resource type="Resource" id="Resource_fgajb"]
+script = ExtResource("3_gph04")
+id = &"T8"
+duration = 6.0
+from_pos = Vector3(-13.1, 1.8, 7)
+to_pos = Vector3(-13.1, 1.8, 7)
+look_from = Vector3(-13.1, 1.68, 5.3)
+look_to = Vector3(-13.1, 1.68, 5.3)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_mlrre")])
+actions = Array[ExtResource("4_t2weu")]([SubResource("Resource_bktds"), SubResource("Resource_kims2"), SubResource("Resource_ul507")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_6xmv5"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_lm4m8"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"torvald"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_55ujj"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"hush"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_7cie3"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"vey"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_rf5a2"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"stone"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_q7e6u"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"evenmead_ysolde"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_pg5hx"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"evenmead_vessa"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_nhjdx"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"army_shadow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_cdew3"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"army_ice"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_24i27"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"army_nature"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_nmkg1"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"army_fire"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_bu780"]
+script = ExtResource("4_t2weu")
+kind = &"visible"
+actor = &"bundle"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_f7lso"]
+script = ExtResource("4_t2weu")
+kind = &"teleport"
+actor = &"ysolde"
+target = Vector3(-66, 0.15, 22.4)
+params = {
+"yaw_deg": 95.0
+}
+
+[sub_resource type="Resource" id="Resource_7a7g5"]
+script = ExtResource("4_t2weu")
+kind = &"teleport"
+actor = &"maelis"
+target = Vector3(-66.4, 0.15, 21.2)
+params = {
+"yaw_deg": 95.0
+}
+
+[sub_resource type="Resource" id="Resource_y7mgs"]
+script = ExtResource("4_t2weu")
+at = 0.2
+kind = &"move"
+actor = &"ysolde"
+target = Vector3(-56, 0.05, 22)
+params = {
+"speed": 1.1
+}
+
+[sub_resource type="Resource" id="Resource_rmjyg"]
+script = ExtResource("4_t2weu")
+at = 0.4
+kind = &"move"
+actor = &"maelis"
+target = Vector3(-56.4, 0.05, 20.8)
+params = {
+"speed": 1.1
+}
+
+[sub_resource type="Resource" id="Resource_qk333"]
+script = ExtResource("4_t2weu")
+at = 10.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_m688k"]
+script = ExtResource("1_un61p")
+at = 1.0
+speaker = &"maelis"
+text = "Back into the cold, then?"
+duration = 2.2
+voice = "res://assets/audio/voice/maelis/back_into_the_cold_61f24519.wav"
+
+[sub_resource type="Resource" id="Resource_p3o0w"]
+script = ExtResource("1_un61p")
+at = 3.6
+speaker = &"ysolde"
+text = "Back home."
+duration = 1.6
+voice = "res://assets/audio/voice/ysolde/back_home_c3091ff6.wav"
+
+[sub_resource type="Resource" id="Resource_uskh4"]
+script = ExtResource("3_gph04")
+id = &"T9"
+duration = 12.0
+camera_mode = 1
+from_pos = Vector3(-61, 2.2, 31)
+to_pos = Vector3(-57, 2.2, 30.5)
+look_from = Vector3(-62, 1.3, 22)
+look_to = Vector3(-57, 1.3, 22)
+fov_from = 42.0
+fov_to = 42.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_un61p")]([SubResource("Resource_m688k"), SubResource("Resource_p3o0w")])
+actions = Array[ExtResource("4_t2weu")]([SubResource("Resource_6xmv5"), SubResource("Resource_lm4m8"), SubResource("Resource_55ujj"), SubResource("Resource_7cie3"), SubResource("Resource_rf5a2"), SubResource("Resource_q7e6u"), SubResource("Resource_pg5hx"), SubResource("Resource_nhjdx"), SubResource("Resource_cdew3"), SubResource("Resource_24i27"), SubResource("Resource_nmkg1"), SubResource("Resource_bu780"), SubResource("Resource_f7lso"), SubResource("Resource_7a7g5"), SubResource("Resource_y7mgs"), SubResource("Resource_rmjyg"), SubResource("Resource_qk333")])
+stage_set = &"forge_evenmead"
+
+[resource]
+script = ExtResource("2_gyell")
+id = &"c_e4_turnback"
+title = "The Way Back"
+stage_scene = "res://scenes/cinematics/c_e4_turnback.tscn"
+shots = Array[ExtResource("3_gph04")]([SubResource("Resource_cjba6"), SubResource("Resource_pjyhk"), SubResource("Resource_vvbh8"), SubResource("Resource_bady8"), SubResource("Resource_p5lrb"), SubResource("Resource_usvgk"), SubResource("Resource_yo3ep"), SubResource("Resource_fgajb"), SubResource("Resource_uskh4")])
+music_cue = &"res://assets/audio/forge/music/ep4_opening.wav"
+shake_seed = 402
+music_volume_db = -24.0
+voice_over = Array[StringName]([&"narrator", &"vessa", &"ashby", &"bundle", &"pod"])
+lines_over_cuts = true

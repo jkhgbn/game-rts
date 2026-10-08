@@ -1,0 +1,100 @@
+# Between-scene "What the Tree Saw", ~70 s (docs/design/script-episodes-4-8/e4m1.md section 2 + its shot list R1-R10;
+# beats from docs/design/mission-e4-01.md Cinematic hooks `c_e4_refuge`). Night under the golden tree on Lark Hill after
+# e4m1: villagers asleep, Vessa and Ysolde share bread ("You'd have let him have the ford all along." / "Fords don't
+# bleed."), Maelis brings word that the supply wagons burned (e3m2's mirror), the people must walk west to the Fire
+# border, "Then I'll tell Ashby to leave the gate open.", the blossoms close. Leads into e4m2's briefing.
+# Text source for i18n / voices: data/voice/lines/c_e4_refuge.json (the same text as the lines below).
+# e4m1 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play c_e4_refuge).
+# Set: forge_evenmead (Lark Hill under the master_tree at (-16, 48.5); ground heights probed on the set's terrain).
+# Night = the ep3_ending full-screen grade over the golden-hour preset. Stand-ins: Wren = a Wildwood Archer, the camp
+# fires = small fire_pillar fx; no goat or bread prop yet (the goat is only heard of).
+# Axis: Vessa (west) and Ysolde (east) side by side facing the fire to the south; every talk camera stays south of them.
+cine c_e4_refuge  title="What the Tree Saw"  letterbox=2.39  seed=401  length=66..76
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-22
+env night  moon_yaw=200  moon_pitch=-34  energy=0.45
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=narrator
+cast  maelis    res://art/units/helpers/helper_maelis/helper_maelis.tscn  at=(-17.2, 6.3, 43.0)  yaw=60  hidden=1
+prop  fire1     res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  at=(-10.0, 6.85, 47.6)  scale=0.35
+prop  fire2     res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  at=(-19.5, 6.1, 43.6)  scale=0.35
+prop  fire3     res://art/cinematics/stage_sets/forge_citadel/parts/brazier_tall.tscn  at=(-8.6, 6.95, 51.0)  scale=0.35
+cast  wren      res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(-14.9, 6.93, 47.2)  yaw=150
+
+# ---------------------------------------------------------------- night over Lark Hill
+# Wide crane down onto the hill: the golden tree glows faintly, small fires in the refuge ring
+shot R1 8.0  cam=crane  from=(-44, 26, 22)  to=(-32, 14, 32)  look=(-16, 9, 48)>(-14, 8, 47)  fov=50>40  in=fade_black:1.0
+  at 0.0  fade color=#0b0c26 alpha=0.5 time=0.05
+  at 0.0  hide malrik
+  at 0.0  hide torvald
+  at 0.0  hide hush
+  at 0.0  hide vey
+  at 0.0  hide stone
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  teleport vessa  to=(-13.1, 6.9, 46.6)  yaw=165
+  at 0.0  teleport ysolde  to=(-11.7, 6.95, 46.8)  yaw=-160
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-16
+  at 1.5  line narrator "Night under the golden tree. Every family made it up the hill, and nobody can sleep."  dur=5.0
+# Wren asleep against the trunk
+shot R2 4.0  cam=frame "ms on wren, front, eye"
+  at 0.0  fade color=#0b0c26 alpha=0.5 time=0.05
+
+# ---------------------------------------------------------------- bread by the fire
+# Two-shot: Vessa tears a loaf and hands Ysolde half
+shot R3 7.0  cam=frame "ms on vessa and ysolde, front, eye"  push=0.15
+  at 0.0  anim vessa set_expression  arg=smile
+  at 0.5  line vessa "Here. Ashby packs bread like he expects a siege."  dur=3.4
+  at 0.5  anim vessa play_cast
+  at 4.3  line ysolde "He usually gets one."  dur=1.8
+# CU Vessa, half a smile
+shot R4 3.6  cam=frame "mcu on vessa, 3/4 right, eye"
+  at 0.4  line vessa "You'd have let him have the ford all along."  dur=3.2
+# CU Ysolde, eating without looking up
+shot R4B 2.4  cam=frame "cu on ysolde, 3/4 left, eye"
+  at 0.0  anim ysolde set_expression  arg=neutral
+  at 0.3  line ysolde "Fords don't bleed."  dur=1.8
+
+# ---------------------------------------------------------------- Maelis
+# Maelis walks out of the dark, ash on her hands; far off, an orange glow on the south road
+shot R5 8.0  cam=static  from=(-12.2, 8.2, 42.6)  look=(-16.2, 7.6, 44.2)  fov=40  faces=maelis
+  at 0.0  show maelis
+  at 0.0  move maelis  to=(-14.6, 6.75, 44.6)  speed=1.4
+  at 0.0  vfx glow  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-46, 5.0, 14)  life=10  scale=0.5
+  at 0.6  line maelis "The wagons are burning. All of them, on the south road."  dur=3.6
+  at 4.6  line maelis "Nobody saw the knife. Nobody ever does."  dur=3.0
+# Three-shot: Ysolde stands; Vessa stays sitting, the bread forgotten
+shot R6 8.0  cam=static  from=(-9.0, 8.0, 41.6)  look=(-13.2, 7.6, 45.8)  fov=46  faces=maelis,vessa,ysolde
+  at 0.0  face vessa  to=maelis  time=0.6
+  at 0.0  face ysolde  to=maelis  time=0.6
+  at 0.0  anim ysolde set_expression  arg=worried
+  at 0.4  line ysolde "Mother Hush. So that's where she went."  dur=2.6
+  at 3.4  line maelis "No grain, no carts. The valley can't feed them now."  dur=3.6
+
+# ---------------------------------------------------------------- west
+# Ysolde at the edge of the ring, her back to us, facing the black line of the western woods
+shot R7 6.0  cam=static  from=(-14.0, 7.9, 45.0)  look=(-24.0, 7.0, 46.6)  fov=42  in=blend:0.3  faces=ysolde
+  at 0.0  teleport ysolde  to=(-17.6, 6.55, 46.0)  yaw=-95
+  at 0.0  teleport vessa  to=(-13.1, 6.9, 46.6)  yaw=-100
+  at 0.0  teleport maelis  to=(-11.8, 6.9, 44.4)  yaw=-80
+  at 0.8  line ysolde "Then they walk. West, through the old woods, to the Fire border."  dur=4.2
+# Vessa gets up beside her; Ysolde does not turn
+shot R8 9.0  cam=static  from=(-21.6, 7.4, 44.4)  look=(-16.6, 7.9, 46.2)  fov=38  faces=ysolde
+  at 0.0  move vessa  to=(-16.9, 6.6, 46.9)  speed=1.6
+  at 0.0  anim ysolde set_expression  arg=neutral
+  at 0.4  line vessa "Through Malrik's hunters? With grandmothers and goats?"  dur=3.4
+  at 4.2  line ysolde "Slowly. Slow is alive."  dur=2.4
+  at 6.0  face vessa  to=ysolde  time=0.6
+# CU Vessa, front: she grins
+shot R9 8.0  cam=frame "cu on vessa, front, eye"  push=0.1
+  at 0.0  teleport vessa  to=(-16.9, 6.6, 46.9)  yaw=-110
+  at 0.0  anim vessa set_expression  arg=smile
+  at 0.6  line vessa "Then I'll tell Ashby to leave the gate open."  dur=3.2
+  at 4.6  anim vessa play_cast
+
+# ---------------------------------------------------------------- the tree
+# Wide, slow push on the golden tree; one by one its blossoms close
+shot R10 6.0  cam=dolly  from=(-4, 9.4, 33)  to=(-6, 9.2, 36)  look=(-16, 10.4, 48.5)  fov=44  in=blend:0.4
+  at 0.0  fade color=#0b0c26 alpha=0.55 time=0.05
+  at 4.8  fade alpha=1 time=1.0

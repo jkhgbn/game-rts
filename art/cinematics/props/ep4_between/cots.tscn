@@ -1,0 +1,184 @@
+[gd_scene load_steps=8 format=3]
+
+; c_e4_turnback / ep4_ending: refugees asleep along Cinderwatch's walls. Two rows of six bedrolls (wool, three muted
+; colours) with a sleeper's blanket lump and head on most of them. Origin = the ground at the rows' centre; the rows
+; run along X, 1.1 m apart in X, the two rows 2.4 m apart in Z. 0 lights.
+
+[sub_resource type="BoxMesh" id="Box_roll"]
+size = Vector3(0.8, 0.08, 1.9)
+
+[sub_resource type="CapsuleMesh" id="Cap_body"]
+radius = 0.22
+height = 1.5
+
+[sub_resource type="SphereMesh" id="Sphere_head"]
+radius = 0.11
+height = 0.22
+
+[sub_resource type="StandardMaterial3D" id="Mat_w0"]
+albedo_color = Color(0.36, 0.3, 0.24, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_w1"]
+albedo_color = Color(0.3, 0.32, 0.26, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_w2"]
+albedo_color = Color(0.42, 0.28, 0.22, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_skin"]
+albedo_color = Color(0.55, 0.42, 0.34, 1)
+roughness = 0.9
+
+[node name="cots" type="Node3D"]
+
+[node name="Roll0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, 0.04, -1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w0")
+
+[node name="Roll1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 0.04, -1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w1")
+
+[node name="Body" type="MeshInstance3D" parent="Roll1"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Head" type="MeshInstance3D" parent="Roll1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, -0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0.04, -1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Body" type="MeshInstance3D" parent="Roll2"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w0")
+
+[node name="Head" type="MeshInstance3D" parent="Roll2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, -0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.04, -1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w0")
+
+[node name="Body" type="MeshInstance3D" parent="Roll3"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w1")
+
+[node name="Head" type="MeshInstance3D" parent="Roll3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, -0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 0.04, -1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w1")
+
+[node name="Body" type="MeshInstance3D" parent="Roll4"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Head" type="MeshInstance3D" parent="Roll4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, -0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 0.04, -1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Roll6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, 0.04, 1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w1")
+
+[node name="Body" type="MeshInstance3D" parent="Roll6"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Head" type="MeshInstance3D" parent="Roll6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 0.04, 1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Roll8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0.04, 1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w0")
+
+[node name="Body" type="MeshInstance3D" parent="Roll8"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w1")
+
+[node name="Head" type="MeshInstance3D" parent="Roll8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.04, 1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w1")
+
+[node name="Body" type="MeshInstance3D" parent="Roll9"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Head" type="MeshInstance3D" parent="Roll9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 0.04, 1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w2")
+
+[node name="Body" type="MeshInstance3D" parent="Roll10"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w0")
+
+[node name="Head" type="MeshInstance3D" parent="Roll10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")
+
+[node name="Roll11" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 0.04, 1.2)
+mesh = SubResource("Box_roll")
+surface_material_override/0 = SubResource("Mat_w0")
+
+[node name="Body" type="MeshInstance3D" parent="Roll11"]
+transform = Transform3D(1, 0, 0, 0, 0, -0.6, 0, 1, 0, 0, 0.14, 0.1)
+mesh = SubResource("Cap_body")
+surface_material_override/0 = SubResource("Mat_w1")
+
+[node name="Head" type="MeshInstance3D" parent="Roll11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.78)
+mesh = SubResource("Sphere_head")
+surface_material_override/0 = SubResource("Mat_skin")

@@ -1,0 +1,100 @@
+# Between-scene "The Way Back", ~70 s (docs/design/script-episodes-4-8/e4m2.md, shot list T1-T9; beats from
+# docs/design/mission-e4-02.md Cinematic hooks `c_e4_turnback`). Night in Cinderwatch on the Fire border, every bed
+# taken: Ysolde writes to Vessa by one lantern; Maelis brings the scouts' word (rime on every trunk of the Sighing Wood,
+# "They froze it so it would stay dead."); Ashby brings a bundle from the queen: the seed-pod token of c_e2_ashes and
+# Vessa's note ("I think the wood can now. V."); at dawn Ysolde and Maelis walk east, "Back home."
+# Text source for i18n / voices: data/voice/lines/c_e4_turnback.json (the same text as the lines below).
+# e4m2 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play c_e4_turnback).
+# Sets: forge_ep2_feast stands in for Cinderwatch's hall (no Cinderwatch set: the watch-keep courtyard at night, the
+# feast tables gone to refugees' bedrolls, art/cinematics/props/ep4_between/cots.tscn + letter_table.tscn); T9 =
+# forge_evenmead's west edge at dawn (its golden preset). Stand-ins: Ashby and the door guards = Flame Guards.
+# Vessa reads her own note in voice-over (hidden capsule `vessa`).
+# Axis: Ysolde at the table (north side, facing south) - Maelis / Ashby north-east of her; every camera stays south
+# (+Z, the keep side) of the table, looking north.
+cine c_e4_turnback  title="The Way Back"  letterbox=2.39  seed=402  length=66..76
+use set forge_ep2_feast
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-24
+env night  moon_yaw=200  moon_pitch=-30  energy=0.55  color=#9fb4ff
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=narrator
+cast  vessa     capsule  at=(4, 0, -300)  hidden=1  speaker=vessa
+prop  table     res://art/cinematics/props/ep4_between/letter_table.tscn  at=(-13, 0, 6)  yaw=0
+prop  cots_w    res://art/cinematics/props/ep4_between/cots.tscn  at=(-10, 0, -6)  yaw=0
+prop  cots_e    res://art/cinematics/props/ep4_between/cots.tscn  at=(10, 0, -7)  yaw=0
+prop  cots_s    res://art/cinematics/props/ep4_between/cots.tscn  at=(9, 0, 7)  yaw=90
+cast  ysolde    res://art/units/wizards/ysolde.tscn  at=(-13.1, 0, 5.3)  yaw=0
+cast  maelis    res://art/units/helpers/helper_maelis/helper_maelis.tscn  at=(-9.6, 0, -1.2)  yaw=-30
+cast  ashby     res://art/units/fire/flame_guard.tscn  at=(-8.2, 0, -0.6)  yaw=-30  hidden=1
+cast  guard1    res://art/units/fire/flame_guard.tscn  at=(-3.0, 0, -21.6)  yaw=180
+cast  guard2    res://art/units/fire/flame_guard.tscn  at=(4.0, 0, -21.6)  yaw=180
+cast  bundle    res://art/cinematics/props/ep4_between/bundle_red.tscn  at=(-12.5, 0.89, 5.85)  yaw=10  hidden=1
+cast  pod       res://art/cinematics/props/ep2_between/seed_pod.tscn  at=(-12.55, 0.97, 5.8)  yaw=0  hidden=1
+
+# ---------------------------------------------------------------- Cinderwatch at night
+# Wide, high: bedrolls along the walls, Flame Guards at the door, one lantern lit at a table
+shot T1 7.0  cam=crane  from=(14, 8.5, 9)  to=(12, 7, 9.5)  look=(-9, 0.6, 1)>(-11, 0.8, 4)  fov=50>44  in=fade_black:1.0
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-24
+  at 1.2  line narrator "Cinderwatch, on the Fire border. Every bed is taken, and one lantern is still lit."  dur=5.0
+# Ysolde writes by the lantern, reading under her breath
+shot T2 10.0  cam=frame "ms on ysolde, 3/4 left, eye"  push=0.15
+  at 0.0  anim ysolde set_expression  arg=neutral
+  at 0.6  line ysolde "Vessa. They are all inside your wall. Ashby gave away his own blanket."  dur=4.2
+  at 5.4  line ysolde "I am not staying. You knew that before I did."  dur=3.4
+  at 5.4  anim ysolde set_expression  arg=smile
+
+# ---------------------------------------------------------------- the scouts' word
+# Maelis leans in the doorway, frost on her cloak
+shot T3 7.0  cam=static  from=(-12, 1.65, 4.2)  look=maelis  fov=34
+  at 0.4  line maelis "The scouts are back from the Sighing Wood."  dur=3.0
+  at 3.8  line maelis "Rime on every trunk. Aldra's totems in all five glades."  dur=3.6
+# Maelis sits on the bench end; Ysolde puts the pen down
+shot T4 9.0  cam=static  from=(-11.2, 1.6, 9.4)  look=(-12, 1.45, 4.6)  fov=40  faces=ysolde,maelis
+  at 0.0  teleport maelis  to=(-11.6, 0, 4.6)  yaw=-80
+  at 0.0  face ysolde  to=maelis  time=0.6
+  at 0.0  anim ysolde set_expression  arg=worried
+  at 0.4  line maelis "They didn't freeze it to hold it. They froze it so it would stay dead."  dur=4.4
+  at 5.2  line ysolde "Then it is waiting for someone."  dur=2.6
+
+# ---------------------------------------------------------------- the queen's bundle
+# Captain Ashby, helmet under one arm, holds out a small bundle in red cloth
+shot T5 7.0  cam=static  from=(-12.2, 1.7, 8.6)  look=(-10.4, 1.5, 3.4)  fov=40  faces=ashby
+  at 0.0  show ashby
+  at 0.0  move ashby  to=(-10.6, 0, 3.6)  speed=1.4
+  at 0.5  line ashby "From the queen, my lady. She said you'd know what it is."  dur=3.8
+  at 3.6  face ysolde  to=ashby  time=0.5
+# CU on the table: the cloth opens on the grey seed pod and a folded scrap of paper
+shot T6 5.0  cam=static  from=(-12.2, 2.4, 7.6)  look=(-12.9, 0.9, 5.9)  fov=34
+  at 0.0  show bundle
+  at 1.2  show pod
+  at 1.2  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-16
+# ECU on the note: Vessa's quick hand, read in her voice
+shot T7 7.0  cam=dolly  from=(-13.0, 1.65, 6.3)  to=(-13.02, 1.55, 6.25)  look=(-13.1, 0.84, 6.0)  fov=30
+  at 0.8  line vessa "I think the wood can now. V."  dur=3.0
+# CU Ysolde, front: she closes her hand on the pod; the lantern flickers
+shot T8 6.0  cam=static  from=(-13.1, 1.8, 7.0)  look=(-13.1, 1.68, 5.3)  fov=30  faces=ysolde
+  at 0.0  teleport ysolde  to=(-13.1, 0, 5.3)  yaw=0
+  at 0.0  anim ysolde set_expression  arg=smile
+  at 0.6  line ysolde "So do I."  dur=1.6
+  at 2.6  hide pod
+
+# ---------------------------------------------------------------- dawn, the road east
+# Wide at dawn: Ysolde and Maelis walk east down the empty road toward the Sighing Wood's white line
+shot T9 12.0  set=forge_evenmead  cam=dolly  from=(-61, 2.2, 31)  to=(-57, 2.2, 30.5)  look=(-62, 1.3, 22)>(-57, 1.3, 22)  fov=42  in=fade_black:0.8  faces=ysolde,maelis
+  at 0.0  hide malrik
+  at 0.0  hide torvald
+  at 0.0  hide hush
+  at 0.0  hide vey
+  at 0.0  hide stone
+  at 0.0  hide evenmead_ysolde
+  at 0.0  hide evenmead_vessa
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  hide bundle
+  at 0.0  teleport ysolde  to=(-66, 0.15, 22.4)  yaw=95
+  at 0.0  teleport maelis  to=(-66.4, 0.15, 21.2)  yaw=95
+  at 0.2  move ysolde  to=(-56, 0.05, 22.0)  speed=1.1
+  at 0.4  move maelis  to=(-56.4, 0.05, 20.8)  speed=1.1
+  at 1.0  line maelis "Back into the cold, then?"  dur=2.2
+  at 3.6  line ysolde "Back home."  dur=1.6
+  at 10.8  fade alpha=1 time=1.2

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+; c_e4_turnback: the small bundle wrapped in red cloth Ashby brings from the queen (it holds the seed pod and Vessa's
+; note). Origin = the bundle's centre (hand height or on the table).
+
+[sub_resource type="BoxMesh" id="Box_bundle"]
+size = Vector3(0.2, 0.09, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cloth"]
+albedo_color = Color(0.62, 0.1, 0.08, 1)
+roughness = 0.95
+
+[node name="bundle_red" type="Node3D"]
+
+[node name="Bundle" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.97, 0, 0.26, 0, 1, 0, -0.26, 0, 0.97, 0, 0, 0)
+mesh = SubResource("Box_bundle")
+surface_material_override/0 = SubResource("Mat_cloth")
+
+[node name="Knot" type="MeshInstance3D" parent="Bundle"]
+transform = Transform3D(0.4, 0, 0, 0, 0.9, 0, 0, 0, 0.4, 0, 0.05, 0)
+mesh = SubResource("Box_bundle")
+surface_material_override/0 = SubResource("Mat_cloth")

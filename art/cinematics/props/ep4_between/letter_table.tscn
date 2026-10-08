@@ -1,0 +1,136 @@
+[gd_scene load_steps=12 format=3]
+
+; c_e4_turnback: the table in Cinderwatch's hall where Ysolde writes to Vessa by lantern light. A trestle top, two
+; legs, a letter sheet, an ink pot and a lit lantern (emissive core + additive halo card). Origin = the ground under the
+; table's centre; the long side runs along X. 0 lights (emissive only).
+
+[sub_resource type="BoxMesh" id="Box_top"]
+size = Vector3(1.6, 0.06, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.3, 0.2, 0.13, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Box_leg"]
+size = Vector3(0.08, 0.78, 0.62)
+
+[sub_resource type="BoxMesh" id="Box_sheet"]
+size = Vector3(0.3, 0.004, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="Mat_sheet"]
+albedo_color = Color(0.86, 0.8, 0.66, 1)
+roughness = 1.0
+
+[sub_resource type="CylinderMesh" id="Cyl_pot"]
+top_radius = 0.03
+bottom_radius = 0.04
+height = 0.07
+radial_segments = 12
+
+[sub_resource type="StandardMaterial3D" id="Mat_iron"]
+albedo_color = Color(0.12, 0.11, 0.1, 1)
+metallic = 0.6
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="Box_frame"]
+size = Vector3(0.16, 0.24, 0.16)
+
+[sub_resource type="SphereMesh" id="Sphere_core"]
+radius = 0.055
+height = 0.13
+
+[sub_resource type="StandardMaterial3D" id="Mat_core"]
+shading_mode = 0
+albedo_color = Color(1, 0.78, 0.42, 1)
+emission_enabled = true
+emission = Color(1, 0.66, 0.3, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="Box_ink"]
+size = Vector3(0.22, 0.002, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ink"]
+albedo_color = Color(0.16, 0.1, 0.1, 1)
+roughness = 1.0
+
+[node name="letter_table" type="Node3D"]
+
+[node name="Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81, 0)
+mesh = SubResource("Box_top")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="LegW" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0.39, 0)
+mesh = SubResource("Box_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="LegE" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.39, 0)
+mesh = SubResource("Box_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Sheet" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.985, 0, 0.174, 0, 1, 0, -0.174, 0, 0.985, -0.1, 0.843, 0.05)
+mesh = SubResource("Box_sheet")
+surface_material_override/0 = SubResource("Mat_sheet")
+
+[node name="InkPot" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0.875, -0.2)
+mesh = SubResource("Cyl_pot")
+surface_material_override/0 = SubResource("Mat_iron")
+
+[node name="Lantern" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.96, -0.15)
+mesh = SubResource("Box_frame")
+surface_material_override/0 = SubResource("Mat_iron")
+transparency = 0.55
+
+[node name="Core" type="MeshInstance3D" parent="Lantern"]
+mesh = SubResource("Sphere_core")
+surface_material_override/0 = SubResource("Mat_core")
+
+[node name="Ink0" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 1, -0.000, 0.003, -0.150)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink1" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 1, -0.000, 0.003, -0.115)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink2" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 1, -0.000, 0.003, -0.080)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink3" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(0.55, 0, 0, 0, 1, 0, 0, 0, 1, -0.049, 0.003, -0.045)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink4" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 1, -0.000, 0.003, -0.010)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink5" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 1, -0.000, 0.003, 0.025)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink6" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 1, -0.000, 0.003, 0.060)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink7" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(0.55, 0, 0, 0, 1, 0, 0, 0, 1, -0.049, 0.003, 0.095)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Ink8" type="MeshInstance3D" parent="Sheet"]
+transform = Transform3D(1.0, 0, 0, 0, 1, 0, 0, 0, 1, -0.000, 0.003, 0.130)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
