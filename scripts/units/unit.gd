@@ -2161,7 +2161,7 @@ func _find_auto_target(max_distance: float) -> Node3D:
 func _find_nearest_enemy_building(max_distance: float) -> Node3D:
 	var best: Node3D = null
 	var best_dist := max_distance
-	for node in get_tree().get_nodes_in_group("buildings"):
+	for node in get_tree().get_nodes_in_group(&"buildings"):
 		var b := node as Node3D
 		if b == null or not is_enemy_of(b) or not _target_alive(b) or not _in_leash(b):
 			continue
@@ -2249,8 +2249,8 @@ func _update_hp_bar() -> void:
 		return
 	# A shield is a white segment after the HP (the bar rescales when HP + shield > max HP).
 	var total := maxf(max_hp, hp + shield)
-	_hp_mat.set_shader_parameter("fill", clamp(hp / total, 0.0, 1.0))
-	_hp_mat.set_shader_parameter("shield_end", clamp((hp + shield) / total, 0.0, 1.0))
+	_hp_mat.set_shader_parameter(&"fill", clamp(hp / total, 0.0, 1.0))
+	_hp_mat.set_shader_parameter(&"shield_end", clamp((hp + shield) / total, 0.0, 1.0))
 	_hp_bar.visible = not _dead and (selected or hp < max_hp or shield > 0.0 or _hp_bar_always_visible())
 
 

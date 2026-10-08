@@ -77,9 +77,7 @@ func try_cast() -> Unit:
 		_:
 			return null
 	# The character model's support pose (Rime Seer, Bloomtender): play_cast(&"support").
-	var model: Variant = unit.get(&"_model")
-	if model is Node and (model as Node).has_method(&"play_cast"):
-		(model as Node).call(&"play_cast", &"support")
+	unit.model_call(&"play_cast", [&"support"])
 	if show_placeholder_beam:
 		_spawn_beam(target)
 	support_cast.emit(unit, target, kind)

@@ -448,7 +448,8 @@ static func _enemies_near_count(team: int, at: Vector3, r: float) -> int:
 	var n := 0
 	for node in tree.get_nodes_in_group(&"units"):
 		var u := node as Unit
-		if u and u.is_alive() and int(u.team) != team and int(u.team) != 2 and not u.is_worker() \
+		# 2v2: an allied seat's army is not a threat (Teams.is_hostile); NEUTRAL creatures never count.
+		if u and u.is_alive() and int(u.team) != 2 and Teams.is_hostile(int(u.team), team) and not u.is_worker() \
 				and Vector2(u.global_position.x - at.x, u.global_position.z - at.z).length() <= r:
 			n += 1
 	return n

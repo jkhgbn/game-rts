@@ -721,20 +721,7 @@ func _create_child(path: String, node_name: String) -> Node:
 ## The owner's kingdom (its wizard's `kingdom`; else the skirmish's `player_kingdom` / `enemy_kingdom`;
 ## else fire for the player, shadow for the enemy). Its colour goes to the model's set_team_color.
 func owner_kingdom() -> StringName:
-	if is_inside_tree():
-		for group: StringName in [&"heroes", &"enemy_heroes"]:
-			for w in get_tree().get_nodes_in_group(group):
-				if w != self and w.get(&"team") != null and int(w.get(&"team")) == int(team):
-					var k: Variant = w.get(&"kingdom")
-					if k != null and KINGDOM_COLORS.has(StringName(str(k))):
-						return StringName(str(k))
-		var scene := get_tree().current_scene
-		if scene:
-			var key := &"player_kingdom" if int(team) == Team.PLAYER else &"enemy_kingdom"
-			var sk: Variant = scene.get(key)
-			if sk != null and KINGDOM_COLORS.has(StringName(str(sk))):
-				return StringName(str(sk))
-	return &"fire" if int(team) == Team.PLAYER else &"shadow"
+	return _team_kingdom()   # Unit's rule (wizard, 2v2 seat_kingdom, skirmish kingdoms): one copy (review L6)
 
 
 # The owner's kingdom colour for the sash / the model's set_team_color (Unit._build_model sends it).

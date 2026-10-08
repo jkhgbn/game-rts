@@ -1107,8 +1107,9 @@ func _adopt(u: Unit) -> void:
 	thieves.append(u)
 	if not u.has_meta(&"loot"):
 		u.set_meta(&"loot", 0)
-	if not u.damage_taken.is_connected(_on_thief_damaged):
-		u.damage_taken.connect(_on_thief_damaged.bind(u))
+	var on_hit := _on_thief_damaged.bind(u)   # the bound callable is what is connected (review L11)
+	if not u.damage_taken.is_connected(on_hit):
+		u.damage_taken.connect(on_hit)
 	if not u.died.is_connected(_on_thief_died):
 		u.died.connect(_on_thief_died)
 	if u.has_method(&"has_neutral_leash") and bool(u.call(&"has_neutral_leash")):

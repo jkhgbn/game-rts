@@ -257,7 +257,7 @@ func reset_cooldowns() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	for id in _cooldown_left.keys():
+	for id: Variant in _cooldown_left:   # existing keys only: no keys() copy per frame
 		var left := float(_cooldown_left[id])
 		if left > 0.0:
 			_cooldown_left[id] = maxf(0.0, left - delta)

@@ -65,6 +65,8 @@ const REASON_T2 := "Requires a Bazaar or a second Hall"
 const TICK := 0.5
 const FLASHPOINT := {"damage": 15.0, "radius": 2.0}
 const FLAME_BURST := {"cd": 14.0, "range": 8.0, "radius": 2.5, "min_count": 3, "damage": 30.0}
+## Flame Burst's single scan reaches this much past range + radius (a candidate's own radius; units stay under it).
+const FLAME_POOL_MARGIN := 3.0
 const PIERCE := {"radius": 3.0, "ratio": 0.5}
 const GRAVE_FEAST := {"heal_pct": 0.30}
 const WITHER_HEX := {"cd": 10.0, "range": 9.0, "time": 6.0, "attack_pct": -0.20}
@@ -88,6 +90,7 @@ static var force_enabled := false
 var unit: Unit
 var id: StringName = &""
 var casts := 0              ## Times the ability fired (tests, balance logs).
+var enemy_scans := 0        ## Full "units" passes made by _enemies_near (tests: Flame Burst = 1 per try).
 var _tick_left := TICK
 var _cd_left := 0.0
 var _mod_left := 0.0        ## Timed self modifier (Vow, Skitter).
@@ -238,11 +241,25 @@ func _on_died_flashpoint(_u: Unit) -> void:
 
 
 # Pyre Adept: a point (an enemy's spot) within 8 m with >= 3 enemy units within 2.5 m: 30 to each of them.
+# One enemy scan (range + radius + the widest unit), then the clusters are counted inside that list with squared
+# distances: no second "units" pass per candidate (review 2026-10-08 M3, was O(k * n) is_enemy_of calls).
 func _try_flame_burst() -> void:
 	var r := float(FLAME_BURST["radius"])
+	var reach := float(FLAME_BURST["range"])
+	var me := unit.global_position
+	var pool := _enemies_near(me, reach + r + FLAME_POOL_MARGIN)
 	var best: Array[Unit] = []
-	for c in _enemies_near(unit.global_position, float(FLAME_BURST["range"])):
-		var group := _enemies_near(c.global_position, r)
+	for c in pool:
+		if _flat(c.global_position, me) > reach + c.radius:
+			continue   # same candidate rule as before: an enemy within range
+		var cp := c.global_position
+		var group: Array[Unit] = []
+		for u in pool:
+			var lim := r + u.radius
+			var dx := u.global_position.x - cp.x
+			var dz := u.global_position.z - cp.z
+			if dx * dx + dz * dz <= lim * lim:
+				group.append(u)
 		if group.size() > best.size():
 			best = group
 	if best.size() < int(FLAME_BURST["min_count"]):
@@ -394,6 +411,7 @@ func _cast_fx() -> void:
 
 
 func _enemies_near(at: Vector3, r: float) -> Array[Unit]:
+	enemy_scans += 1
 	var out: Array[Unit] = []
 	for n in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit

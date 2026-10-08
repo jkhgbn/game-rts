@@ -105,18 +105,24 @@ func _process(delta: float) -> void:
 func _impact() -> void:
 	set_process(false)
 	var attacker: Node3D = source if is_instance_valid(source) else null
+	# Mission truces (Unit.in_truce) spare a truced node like single-target attacks do (needs the living shooter).
+	var truces := attacker != null and Unit.truce_count > 0
 	if splash_radius > 0.0:
-		for node in get_tree().get_nodes_in_group("units"):
+		for node in get_tree().get_nodes_in_group(&"units"):
 			var u := node as Unit
 			if u == null or Teams.is_allied_fast(int(u.team), int(source_team)) or not u.is_alive():
+				continue
+			if truces and Unit.in_truce(attacker, u):
 				continue
 			if _flat_distance_to_impact(u) <= splash_radius + u.radius:
 				var before := u.hp
 				u.take_damage(damage, attacker)
 				hit_area.emit(u, before - maxf(0.0, u.hp))
-		for node in get_tree().get_nodes_in_group("buildings"):
+		for node in get_tree().get_nodes_in_group(&"buildings"):
 			var b := node as Node3D
 			if b == null or not _alive(b) or b.get(&"team") == null or Teams.is_allied_fast(int(b.get(&"team")), int(source_team)):
+				continue
+			if truces and Unit.in_truce(attacker, b):
 				continue
 			if _flat_distance_to_impact(b) <= splash_radius + Unit.radius_of(b):
 				var hp_b: Variant = b.get(&"hp")

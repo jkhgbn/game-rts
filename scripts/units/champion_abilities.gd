@@ -564,7 +564,7 @@ static func range_of(id: StringName) -> float:
 # ---------------------------------------------------------------- per frame
 
 func _physics_process(delta: float) -> void:
-	for id: StringName in _cooldown_left.keys():
+	for id: StringName in _cooldown_left:   # writes to existing keys only: no keys() copy per frame
 		var left := float(_cooldown_left[id])
 		if left > 0.0:
 			_cooldown_left[id] = maxf(0.0, left - delta)
@@ -800,7 +800,7 @@ func _cast_trailblaze() -> void:
 	var me := champion.global_position
 	for node in get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
-		if u == null or not u.is_alive() or int(u.team) != int(champion.team) or u.is_worker():
+		if u == null or not u.is_alive() or not Teams.is_allied_fast(int(u.team), int(champion.team)) or u.is_worker():
 			continue
 		if u == champion or _flat_dist(u.global_position, me) <= r + u.radius:
 			u.apply_status(&"haste", secs)
@@ -854,7 +854,7 @@ func _brace_allies() -> void:
 	var me := champion.global_position
 	for node in get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
-		if u == null or not u.is_alive() or int(u.team) != int(champion.team):
+		if u == null or not u.is_alive() or not Teams.is_allied_fast(int(u.team), int(champion.team)):
 			continue
 		if u == champion or _flat_dist(u.global_position, me) <= r + u.radius:
 			u.apply_status(&"braced", secs)
@@ -1253,11 +1253,13 @@ func _scan(track_lost: bool) -> void:
 			continue
 		var p := u.global_position
 		var d := Vector2(p.x - me.x, p.z - me.z).length()
-		if int(u.team) == team:
+		if Teams.is_allied_fast(int(u.team), team):   # own seat or an allied 2v2 seat
 			if d <= ALLY_SCAN_RANGE + u.radius:
 				_allies.append(u)
 			continue
 		if d > SCAN_RANGE + u.radius or u.is_in_group(&"taverns"):
+			continue
+		if Unit.truce_count > 0 and Unit.in_truce(champion, u):   # a mission truce: neither ally nor target
 			continue
 		if fog_on and not fog.is_visible(team, p):
 			continue
@@ -1942,7 +1944,7 @@ func _most_hurt_ally(reach: float, below: float, pool: Array[Unit] = []) -> Unit
 		nodes = pool
 	for node in nodes:
 		var u := node as Unit
-		if u == null or not u.is_alive() or int(u.team) != int(champion.team):
+		if u == null or not u.is_alive() or not Teams.is_allied_fast(int(u.team), int(champion.team)):
 			continue
 		var ratio := _hp_ratio(u)
 		if ratio < best_ratio and _in_reach(u, reach):   # the ratio first: it is cheaper
@@ -2078,12 +2080,12 @@ func _is_ally_unit(v: Variant) -> bool:
 	if not _is_node(v) or not v is Unit:
 		return false
 	var u := v as Unit
-	return u.is_alive() and int(u.team) == int(champion.team)
+	return u.is_alive() and Teams.is_allied_fast(int(u.team), int(champion.team))
 
 
 func _is_own(n: Node3D) -> bool:
 	var t: Variant = n.get(&"team")
-	return t != null and int(t) == int(champion.team)
+	return t != null and Teams.is_allied_fast(int(t), int(champion.team))
 
 
 static func _is_wizard(n: Node) -> bool:
@@ -2226,7 +2228,9 @@ class StarfallStrike extends Node3D:
 						or not SpellCaster.is_target_alive(n):
 					continue
 				var t: Variant = n.get(&"team")
-				if t == null or int(t) == team:
+				# 2v2: allied seats are not hit; a mission truce with the (living) caster spares the node too.
+				if t == null or Teams.is_allied_fast(int(t), team) \
+						or (src != null and Unit.truce_count > 0 and Unit.in_truce(src, n)):
 					continue
 				if Vector2(n.global_position.x - at.x, n.global_position.z - at.z).length() \
 						> radius + Unit.radius_of(n):

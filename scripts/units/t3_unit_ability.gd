@@ -107,7 +107,7 @@ func _count(ability: StringName) -> void:
 
 ## True while `viewer_team` (an enemy) sees a worker, not the Saboteur.
 func is_disguised_for(viewer_team: int) -> bool:
-	return disguised and viewer_team != int(unit.team)
+	return disguised and not Teams.is_allied_fast(viewer_team, int(unit.team))   # 2v2: allies see the Saboteur
 
 
 ## Reveals it now (attacking, planting, spotted); it hides again after 8 s unseen.
@@ -349,7 +349,7 @@ func _try_challenge() -> void:
 	var any := false
 	for e in _enemies_near(unit.global_position, float(CHALLENGE["radius"])):
 		var t := e.attack_target as Unit
-		if t and int(t.team) == int(unit.team) and t.attack_range > 3.0 and t != unit:
+		if t and Teams.is_allied_fast(int(t.team), int(unit.team)) and t.attack_range > 3.0 and t != unit:
 			e.apply_status(&"taunted", float(CHALLENGE["taunt"]), false, unit)
 			any = true
 	if any:

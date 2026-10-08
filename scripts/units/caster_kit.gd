@@ -385,7 +385,10 @@ static func bulwarks_of(team: int) -> Array:
 	for w: Variant in list:
 		if is_instance_valid(w) and (w as Node).is_inside_tree() and not bool((w as Object).get(&"ended")):
 			alive.append(w)
-	_bulwarks[team] = alive
+	if alive.is_empty():
+		_bulwarks.erase(team)   # keeps bulwark_blocks()'s is_empty() early-out working once every wall is gone
+	else:
+		_bulwarks[team] = alive
 	return alive
 
 
@@ -455,8 +458,8 @@ static func revealed_for(u: Node3D) -> bool:
 		return false
 	var at := u.global_position
 	for r: Dictionary in runes_of(-1):
-		if int(r["team"]) == int(team) or int(r["team"]) == 2:
-			continue
+		if int(r["team"]) == 2 or Teams.is_allied_fast(int(r["team"]), int(team)):
+			continue   # own and allied (2v2) runes never reveal a friend
 		var p: Vector3 = r["pos"]
 		if Vector2(p.x - at.x, p.z - at.z).length() <= float(r["radius"]):
 			return true

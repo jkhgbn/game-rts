@@ -91,12 +91,7 @@ static func seats_of_side(side: int) -> Array[int]:
 
 ## Same side (a seat is its own ally; NEUTRAL with NEUTRAL true, NEUTRAL with any seat false).
 static func is_ally(a: int, b: int) -> bool:
-	if a == b:
-		return true
-	if not multi:
-		return false
-	var sa := side_of(a)
-	return sa >= 0 and sa == side_of(b)
+	return is_allied_fast(a, b)
 
 
 static func is_hostile(a: int, b: int) -> bool:

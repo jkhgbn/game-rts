@@ -636,7 +636,7 @@ func _allies_near(at: Vector3, r: float) -> Array[Unit]:
 		return out
 	for n in helper.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u == null or not u.is_alive() or int(u.team) != int(helper.team):
+		if u == null or not u.is_alive() or not Teams.is_allied_fast(int(u.team), int(helper.team)):   # 2v2 allies too
 			continue
 		if _flat(u.global_position, at) <= r:
 			out.append(u)

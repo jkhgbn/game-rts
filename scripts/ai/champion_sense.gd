@@ -277,7 +277,7 @@ func bank_of(pos: Vector3) -> int:
 	else:
 		var d_own := Vector2(pos.x - home_point.x, pos.z - home_point.z).length()
 		var d_enemy := Vector2(pos.x - enemy_home.x, pos.z - enemy_home.z).length()
-		var other := 1 - team if team == int(Unit.Team.PLAYER) or team == int(Unit.Team.ENEMY) else -1
+		var other := Teams.opponent_of(team)   # 2v2: the lane opponent, never an allied seat
 		if absf(d_own - d_enemy) > 3.0:
 			bank = team if d_own < d_enemy else other
 		if river == null and home_point == enemy_home:
@@ -477,6 +477,8 @@ func refresh() -> void:
 		if int(u.team) == team:
 			_see_own_unit(u, pos)
 			continue
+		if Teams.is_allied_fast(int(u.team), team):
+			continue   # 2v2: an allied seat's unit is neither own nor enemy
 		if _fog != null and _fog.state_at(team, pos) != FogOfWar.VISIBLE:
 			continue
 		var t := u.unit_type
@@ -537,7 +539,7 @@ func refresh() -> void:
 			elif kind == &"barracks" and oldest_barracks == null:
 				oldest_barracks = b
 			continue
-		if int(b.team) == int(Unit.Team.NEUTRAL) or not b.is_constructed():
+		if int(b.team) == int(Unit.Team.NEUTRAL) or Teams.is_allied_fast(int(b.team), team) or not b.is_constructed():
 			continue
 		if kind != &"tower" and kind != &"keep":
 			continue
@@ -848,7 +850,7 @@ static func door_of(tv: Node3D) -> Vector3:
 
 
 func _refresh_enemy_home(tree: SceneTree) -> void:
-	var enemy_team := 1 - team if team == int(Unit.Team.PLAYER) or team == int(Unit.Team.ENEMY) else 0
+	var enemy_team := Teams.opponent_of(team)   # 2v2: never an allied seat's base
 	var level := tree.current_scene
 	if level and level.has_method(&"base_center"):
 		enemy_home = level.call(&"base_center", enemy_team)

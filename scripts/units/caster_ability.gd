@@ -260,8 +260,8 @@ func target_reason(spell_id: StringName, target: Variant) -> String:
 				if snagroot_immune(u):
 					return CasterKit.REASON_INVALID
 		return ""
-	# ally
-	if u == unit or int(u.team) != int(unit.team):
+	# ally (the 2v2 rule, same as wizard / support spells: own seat or an allied seat)
+	if u == unit or not Teams.is_allied_fast(int(u.team), int(unit.team)):
 		return CasterKit.REASON_INVALID
 	if spell_id == &"blood_tithe":
 		if u.hp >= u.max_hp - 0.01 or tethers_on(u) >= int(CasterKit.spell_value(spell_id, "max_tethers", 2)):
@@ -334,7 +334,7 @@ func _physics_process(delta: float) -> void:
 	if unit == null or not unit.is_alive():
 		return
 	_gcd -= delta
-	for k: Variant in _cd.keys():
+	for k: Variant in _cd:   # existing keys only: no keys() copy per frame
 		_cd[k] = float(_cd[k]) - delta
 	# Stillness (and the regen it boosts).
 	var pos := unit.global_position
@@ -794,6 +794,7 @@ func passage_candidates(point: Vector3) -> Array[Unit]:
 	var list: Array[Unit] = []
 	for n in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
+		# Own seat only (not the 2v2 ally rule): a Passage moves units, and an allied seat's army stays its own.
 		if u == null or u == unit or not u.is_alive() or int(u.team) != int(unit.team) or u.unit_type == null:
 			continue
 		if u.is_worker() or u.unit_type.is_caravan or not u.is_commandable() or CasterKit.is_big_target(u):
@@ -886,7 +887,8 @@ func _on_any_unit_died(victim: Variant) -> void:
 					casts[&"stoke"] = int(casts.get(&"stoke", 0)) + 1
 		&"vigil":
 			var p: Dictionary = CasterKit.PASSIVES[&"vigil"]
-			if int(v.team) != int(unit.team) or v.unit_type == null or v.is_worker() or v is Wizard \
+			if not Teams.is_allied_fast(int(v.team), int(unit.team)) or v.unit_type == null or v.is_worker() \
+					or v is Wizard \
 					or not v.can_gain_veterancy() or _flat(v.global_position, unit.global_position) > float(p["radius"]):
 				return
 			if now >= _vigil_at:
@@ -1096,7 +1098,7 @@ func _auto_tithe_target() -> Variant:
 	var candidates: Array[Unit] = []
 	for n in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u == null or not u.is_alive() or int(u.team) != int(unit.team):
+		if u == null or not u.is_alive() or not Teams.is_allied_fast(int(u.team), int(unit.team)):
 			continue
 		if u.unit_type != null and u.unit_type.id == &"gloom_deacon":
 			var ab := CasterKit.ability_of(u)
@@ -1135,7 +1137,7 @@ func dive_guard_spot() -> Variant:
 		if not is_instance_valid(e.attack_target):
 			continue   # none, or freed this frame (casting a freed object is a script error)
 		var v := e.attack_target as Unit
-		if v == null or not v.is_alive() or int(v.team) != int(unit.team):
+		if v == null or not v.is_alive() or not Teams.is_allied_fast(int(v.team), int(unit.team)):
 			continue
 		if not (v.attack_range > 3.0 or CasterKit.is_caster_unit(v) or v is Wizard):
 			continue
@@ -1322,7 +1324,7 @@ func _own_soldiers_near(at: Vector3, r: float) -> int:
 	var n := 0
 	for node in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
-		if u and u != unit and u.is_alive() and int(u.team) == int(unit.team) and not u.is_worker() \
+		if u and u != unit and u.is_alive() and Teams.is_allied_fast(int(u.team), int(unit.team)) and not u.is_worker() \
 				and u.can_gain_veterancy() and _flat(u.global_position, at) <= r:
 			n += 1
 	return n

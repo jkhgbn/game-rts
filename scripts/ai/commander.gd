@@ -268,7 +268,10 @@ var _level: Skirmish
 var _timer: Timer
 var _ready_done := false
 var _now := 0.0
-var _enemy_team := 0
+var _enemy_team := 0                      # the lane opponent: where to attack (Teams.opponent_of)
+## Every hostile seat (2v2: both seats of the other side, review 2026-10-08 M1): what the bot senses and defends
+## against. Refreshed by each _scan (NEUTRAL is never a seat, so creatures stay out as before).
+var _hostile_seats: Array[int] = []
 var _faction: StringName = &""
 var _types := {}                          # BuildingType.kind -> BuildingType
 var _worker_type: UnitType
@@ -630,7 +633,7 @@ func _build_rows() -> void:
 
 ## Buildings the level placed on a slot (a mission's Gloom Hall, Night Spire, Hovel) count as that slot.
 func _adopt_buildings() -> void:
-	for node in get_tree().get_nodes_in_group("buildings"):
+	for node in get_tree().get_nodes_in_group(&"buildings"):
 		var b := node as Building
 		if b == null or not b.is_alive() or int(b.team) != int(team) or b is Keep or b.building_type == null:
 			continue
@@ -659,6 +662,9 @@ func _scan() -> void:
 	_wizard = _level.wizard_of(team)
 	_keep = _level.keep_of(team)
 	_fog = _find_fog()
+	_hostile_seats = Teams.hostile_seats(int(team))
+	if not _hostile_seats.has(_enemy_team):
+		_hostile_seats.append(_enemy_team)
 	var s0 := Time.get_ticks_usec()
 	# 20.A3: the living units split by team once per physics frame for every Commander, and each unit's kind (fixed by
 	# its type and spawn groups) classified once: the old loop re-tested every unit of the map with 5-8 calls per tick.
@@ -691,23 +697,24 @@ func _scan() -> void:
 				_casters.append(u)
 				own_strength += AIMemory.strength_of(u)
 			# TRADE (hired trackers: their contract drives them), SUMMON (8.A1 Saplings), WIZARD: skipped
-	for n: Variant in by_team.get(_enemy_team, []):
-		if not is_instance_valid(n):
-			continue
-		var u := n as Unit
-		var k := _kind_of(u)
-		if not u.is_alive() or k == UnitKind.CARAVAN or k == UnitKind.TRADE:
-			continue   # caravans / trackers: 0 strength in seen_strength, never intruders (10.A3)
-		if _fog == null or _fog.is_visible(int(team), u.global_position):
-			_enemies.append(u)   # with fog: only the ones a player of this team would see now
+	for seat in _hostile_seats:
+		for n: Variant in by_team.get(seat, []):
+			if not is_instance_valid(n):
+				continue
+			var u := n as Unit
+			var k := _kind_of(u)
+			if not u.is_alive() or k == UnitKind.CARAVAN or k == UnitKind.TRADE:
+				continue   # caravans / trackers: 0 strength in seen_strength, never intruders (10.A3)
+			if _fog == null or _fog.is_visible(int(team), u.global_position):
+				_enemies.append(u)   # with fog: only the ones a player of this team would see now
 	_sub("scan.units", s0)
 	_enemy_buildings.clear()
-	for node in get_tree().get_nodes_in_group("buildings"):
+	for node in get_tree().get_nodes_in_group(&"buildings"):
 		var b := node as Building
 		if b == null or not b.is_alive():
 			continue
 		if int(b.team) != int(team):
-			if int(b.team) == _enemy_team:
+			if _hostile_seats.has(int(b.team)):
 				_enemy_buildings.append(b)
 			continue
 		_buildings.append(b)
@@ -732,7 +739,7 @@ static func _units_by_team(tree: SceneTree) -> Dictionary:
 	_snapshot_frame = frame
 	_snapshot_tree = tree
 	_snapshot = {}
-	for node in tree.get_nodes_in_group("units"):
+	for node in tree.get_nodes_in_group(&"units"):
 		var u := node as Unit
 		if u == null or not u.is_alive():
 			continue
@@ -859,7 +866,7 @@ func _check_all_in() -> void:
 	if not all_in and _out_of_crystals():
 		all_in = true
 		_log("ALL-IN: nothing left to mine or buy (%d crystals, %d workers, %d nodes left)" % [_eco.crystals,
-				_workers.size(), get_tree().get_nodes_in_group("crystal_nodes").size()])
+				_workers.size(), get_tree().get_nodes_in_group(&"crystal_nodes").size()])
 	elif all_in and recovering and _trade_funds_comeback() and not _out_of_crystals() and _node_left():
 		# 20.A2: trade gold turns into crystals again: rebuild workers instead of throwing them at the enemy.
 		all_in = false
@@ -901,11 +908,16 @@ func _track_workers() -> void:
 				_orders.erase(id)
 
 
+## A hostile seat (the lane opponent or the other hostile 2v2 seat); NEUTRAL is not one.
+func _is_hostile_seat(t: int) -> bool:
+	return t == _enemy_team or (t != int(Unit.Team.NEUTRAL) and Teams.is_hostile(t, int(team)) and Teams.has_seat(t))
+
+
 func _on_building_damaged(_amount: float, attacker: Variant) -> void:
 	if attacker == null or not is_instance_valid(attacker):
 		return
 	var n := attacker as Node3D
-	if n and n.get(&"team") != null and int(n.get(&"team")) == _enemy_team:
+	if n and n.get(&"team") != null and _is_hostile_seat(int(n.get(&"team"))):
 		_hit_by = n
 		_hit_time = _now
 
@@ -1224,7 +1236,7 @@ func _safe_far_node(home: Vector3) -> CrystalNode:
 func _safe_far_node_now(home: Vector3) -> CrystalNode:
 	var best: CrystalNode = null
 	var best_d := INF
-	for node in get_tree().get_nodes_in_group("crystal_nodes"):
+	for node in get_tree().get_nodes_in_group(&"crystal_nodes"):
 		var n := node as CrystalNode
 		if n == null or n.is_depleted():
 			continue
@@ -2955,10 +2967,10 @@ func _cast_check() -> void:
 		return
 	var now := _level.match_time()
 	var threat := false
-	for node in get_tree().get_nodes_in_group("units"):
+	for node in get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
 		if u and u.is_alive() and w.is_enemy_of(u) and _flat(u.global_position, w.global_position) <= CAST_NEARBY \
-				and (_fog == null or int(u.team) != _enemy_team or _fog.is_visible(int(team), u.global_position)):
+				and (_fog == null or not _is_hostile_seat(int(u.team)) or _fog.is_visible(int(team), u.global_position)):
 			threat = true
 			break
 	if not threat:
@@ -2991,7 +3003,7 @@ func _vessa_cast_check(w: Wizard) -> void:
 	var now := _level.match_time()
 	var foes: Array[Unit] = []
 	var allies: Array[Unit] = []
-	for node in get_tree().get_nodes_in_group("units"):
+	for node in get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
 		if u == null or u == w or not u.is_alive() or _flat(u.global_position, w.global_position) > AICasts.VESSA_WATCH:
 			continue
@@ -2999,7 +3011,7 @@ func _vessa_cast_check(w: Wizard) -> void:
 		if t == int(team):
 			if not u is Wizard and not u.is_worker() and not AICasts.is_summon(u):
 				allies.append(u)
-		elif t == _enemy_team and (_fog == null or _fog.is_visible(int(team), u.global_position)):
+		elif _is_hostile_seat(t) and (_fog == null or _fog.is_visible(int(team), u.global_position)):
 			foes.append(u)
 	if foes.is_empty():
 		_threat_since = -1.0

@@ -119,6 +119,8 @@ var _last_hit := {}           # own unit instance id -> [time, WeakRef of the at
 var _adopted := {}            # caster instance id -> true
 var _save_since := -INF       # start of the current first-caster saving window
 var _rule_of := {}            # CasterAbility instance id -> the rule of its cast in flight (spell_cast lands later)
+const PRUNE_EVERY := 20       # passes (10 s) between two sweeps of the per-unit tables (review 2026-10-08 L5)
+var _prune_left := PRUNE_EVERY
 # 20.A3 perf: one decision pass (Commander rule 5, or think()) asks first_caster_due / try_train / saving_for_caster up
 # to 5 times, each a full scan of "units" + "buildings" (T3Kit.count_alive) and of "buildings" (_training_keep). The
 # answers are kept for the pass: new_pass() clears them, a queued caster too (nothing else changes them mid-pass).
@@ -328,6 +330,21 @@ func _find_training_keep() -> Keep:
 
 # ---------------------------------------------------------------- the tick
 
+## Drops the per-unit table keys of freed units (dives, orders, flees, adoptions, hits, casts in flight); think()
+## runs it every PRUNE_EVERY passes. Returns how many keys went (tests).
+func prune_dead_ids() -> int:
+	var gone := 0
+	for table: Dictionary in [_dive_at, _orders, _flee_at, _adopted, _last_hit, _rule_of]:
+		var dead: Array = []
+		for id: Variant in table:
+			if not is_instance_id_valid(int(id)):
+				dead.append(id)
+		for id: Variant in dead:
+			table.erase(id)
+		gone += dead.size()
+	return gone
+
+
 func _physics_process(delta: float) -> void:
 	if commander == null or not is_instance_valid(commander) or not bool(commander.get(&"enabled")):
 		return
@@ -346,6 +363,10 @@ func think() -> void:
 	if not CasterKit.ENABLED:
 		return
 	new_pass()
+	_prune_left -= 1
+	if _prune_left <= 0:
+		_prune_left = PRUNE_EVERY
+		prune_dead_ids()
 	if difficulty >= 1 and not bool(commander.call(&"queued_this_tick")):
 		try_train(false)
 	var casters := _valid(commander.call(&"own_casters"))

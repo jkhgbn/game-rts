@@ -344,6 +344,7 @@ func _army_centre() -> Variant:
 	var soldiers: Array[Unit] = []
 	for n in get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
+		# Own seat only (not the 2v2 ally rule): the helper follows its own army, not an allied seat's.
 		if u == null or u == self or int(u.team) != int(team) or not u.is_alive() or u.unit_type == null:
 			continue
 		if u.unit_type.is_worker or u.unit_type.is_caravan or u.is_in_group(&"champions") or not u.is_commandable():

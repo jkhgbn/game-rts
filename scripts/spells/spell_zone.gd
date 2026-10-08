@@ -95,4 +95,7 @@ func _is_enemy(t: Node3D) -> bool:
 	var other_team: Variant = t.get(&"team")
 	if other_team == null or Teams.is_allied_fast(int(other_team), int(team)):
 		return false
+	# Mission truces spare a truced node (needs the living caster, like Unit.is_enemy_of).
+	if Unit.truce_count > 0 and is_instance_valid(caster) and Unit.in_truce(caster, t):
+		return false
 	return t.has_method(&"is_alive") and bool(t.call(&"is_alive"))
