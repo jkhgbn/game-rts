@@ -26,7 +26,7 @@ Metres, seconds, `m:ss`; positions `(x, z)`, `+z` = south (Aurivane). Status: **
 | D10 | Ending film | `e7m4_still` (in-mission, 0:30) then StoryFlow plays **`ep7_ending` "No. Not for Now." (1:10)**: beats below for its writer (E7.D3) | The outline's episode ending |
 
 ## Story setup (briefing text, 3 short paragraphs)
-1. Six hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and every dragon on the
+1. Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and every dragon on the
    Coinwater changed sides by morning. Tonight the Diamond Archon signs the same order, with Malrik's hand on her pen.
 2. At dawn both cities sail everything they own into the strait. Aurivane holds the Tollrock with Vessa and Ysolde. Adamarch
    attacks it with Torvald and Malrik. The truce of the Stilled Sea is a hundred and thirty years old, and it ends today.

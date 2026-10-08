@@ -77,7 +77,7 @@
   },
   {
    "id": "L9",
-   "event": "E6",
+   "event": "E6 **(pointer, not played)**",
    "speaker": "`<W>`",
    "dur": 5.0,
    "subtitle": "Vessa: `My key's in. I waited for it, too. Who's next?` · Malrik: `The stone is in its lock. Not in my hand. Who's next?` · Torvald: `The orb is turned. Quickly. For me. Who's next?` · Ysolde: `The Signet is home. I'm still out here. Who's next?`",
@@ -288,7 +288,7 @@
    "event": "E17",
    "speaker": "master",
    "dur": 5.0,
-   "subtitle": "Now. All four of you. Turn them,|and do not let go.",
+   "subtitle": "Now. All four of you.|Turn them, and do not let go.",
    "text": "Now. All four of you. Turn them, and do not let go."
   },
   {
@@ -320,12 +320,12 @@
    "event": "E17",
    "speaker": "torvald",
    "dur": 5.0,
-   "subtitle": "Then let him come. We are four.|We hold.",
+   "subtitle": "Then let him come. We are four. We hold.",
    "text": "Then let him come. We are four. We hold."
   },
   {
    "id": "L39",
-   "event": "E18",
+   "event": "E18 **(pointer, not played)**",
    "speaker": "`<W>`",
    "dur": 5.0,
    "subtitle": "Vessa: `Not now... not when we're finally together...` · Malrik: `Of course. Just as it got interesting.` · Torvald: `Too late... again...` · Ysolde: `I came out... for this...`",

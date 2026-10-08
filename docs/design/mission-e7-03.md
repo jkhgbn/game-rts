@@ -256,7 +256,7 @@ Fallbacks: lines as dialogue, a 2 s pan, missing VFX skipped.
 
 **Between-mission scene `c_e7_pits` "The Year Comes Round"** (ENGINE, ~1:10, after victory; E7.D2 writes it): the Hall of
 Silence; the Diamond Archon and Malrik over a table of raw diamonds. Malrik: "Empty the pits, Your Radiance. All of them.
-By morning every dragon on the Coinwater is ours." The Archon: "My great-grandmother did that once. The Year of Two Skies."
+By morning every dragon on the Coinwater is ours." The Archon: "An Archon before me did that once. The Year of Two Skies."
 Malrik: "Then let us call it a tradition." Cut: Torvald on the Outwall's roofs with Aldra; Ossavar beside them; Ossavar:
 "Tomorrow your friend buys the whole sky. Ask him what he means to burn." (If `sec_pits` and not `sec_people`, Ossavar
 instead: "You guarded stones. Everyone guards stones." and leaves before Torvald can answer.)

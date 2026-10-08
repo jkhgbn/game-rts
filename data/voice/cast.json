@@ -109,6 +109,55 @@
    "voice": {"bf_lily": 0.6, "bf_alice": 0.4}, "speed": 0.95,
    "notes": "Aldra Stillwater (Torvald's T3 helper): calm British woman, not any wizard's voice. Unit barks only so far."
   },
+  "gannet": {
+   "voice": {"am_onyx": 0.5, "am_echo": 0.5}, "speed": 1.0,
+   "notes": "Gannet Rook, reiver chief (e5m1-e5m2): rough American man. Added 2026-10-08 from the mission-e5-01.md E5.O1 auditions: the onyx / echo blend picked over plain am_echo (= the Ash Hurler's barks, a Fire unit heard in the same missions). Not auditioned by ear yet.",
+   "audition": [{"voice": "am_echo", "speed": 0.98}, {"voice": "am_fenrir", "speed": 1.0}, {"voice": {"am_onyx": 0.5, "am_echo": 0.5}, "speed": 1.0}]
+  },
+  "reeve": {
+   "voice": {"bm_daniel": 0.6, "bm_fable": 0.4}, "speed": 0.95,
+   "notes": "Reeve Aldous Pike (e5m3): British official. Added 2026-10-08 from the E5.O1 auditions: the daniel / fable blend picked over plain bm_fable (fable-heavy is already Bren the rider and the herald). Not auditioned by ear yet.",
+   "audition": [{"voice": "bm_fable", "speed": 0.95}, {"voice": {"bm_daniel": 0.6, "bm_fable": 0.4}, "speed": 0.95}]
+  },
+  "rider": {
+   "voice": {"bm_fable": 0.7, "bm_daniel": 0.3}, "speed": 1.12,
+   "notes": "Bren, a young Hearthwick rider (e6m2): breathless British man; not a main voice. Added 2026-10-08: the blend given in mission-e6-02.md (Dialogue, E6M2.O1)."
+  },
+  "ossavar": {
+   "voice": {"am_onyx": 0.5, "am_santa": 0.3, "bm_fable": 0.2}, "speed": 0.88,
+   "notes": "Ossavar the Twice-Sold, elder dragon, the Ep7 narrator: huge, old, amused, a little greedy. Added 2026-10-08: the pick of episode7-opening.md (cast table). When Sound Forge exists: -3 semitones + a stone-hall reverb as a post pass.",
+   "audition": [{"voice": {"am_onyx": 0.5, "am_santa": 0.3, "bm_fable": 0.2}, "speed": 0.88}, {"voice": {"am_fenrir": 0.5, "am_onyx": 0.5}, "speed": 0.88}, {"voice": {"am_santa": 0.6, "bm_fable": 0.4}, "speed": 0.86}]
+  },
+  "herald": {
+   "voice": {"bm_fable": 0.6, "am_echo": 0.4}, "speed": 1.05,
+   "notes": "The Tollrock herald (e7m1-e7m2): ceremonial, carrying; the only half-British voice of the south. Added 2026-10-08: the pick of episode7-opening.md (cast table).",
+   "audition": [{"voice": {"bm_fable": 0.6, "am_echo": 0.4}, "speed": 1.05}, {"voice": "am_echo", "speed": 1.05}, {"voice": "bm_fable", "speed": 1.05}]
+  },
+  "dacian": {
+   "voice": {"am_fenrir": 0.7, "am_eric": 0.3}, "speed": 1.0,
+   "notes": "Dacian Orrow, the Sunblade of Aurivane (Ep7): warm, loud, laughing American man. Added 2026-10-08: the pick of episode7-opening.md (cast table).",
+   "audition": [{"voice": {"am_fenrir": 0.7, "am_eric": 0.3}, "speed": 1.0}, {"voice": "am_fenrir", "speed": 1.0}, {"voice": "am_liam", "speed": 1.0}]
+  },
+  "seraphine": {
+   "voice": {"af_river": 0.6, "af_aoede": 0.4}, "speed": 0.98,
+   "notes": "Seraphine Vael, the Diamond Wall of Adamarch (Ep7): low, exact, dry American woman; not Vessa, Hush or Bettany. Added 2026-10-08: the pick of episode7-opening.md (cast table).",
+   "audition": [{"voice": {"af_river": 0.6, "af_aoede": 0.4}, "speed": 0.98}, {"voice": "af_river", "speed": 0.98}, {"voice": "af_kore", "speed": 0.98}]
+  },
+  "brannet": {
+   "voice": {"am_echo": 0.6, "am_adam": 0.4}, "speed": 1.05,
+   "notes": "Brannet Coil, Outwall foreman (e7m3-e7m4): warm, rough, quick American man; not Ashby. Added 2026-10-08: the pick of mission-e7-03.md (E7M3.O1 cast table).",
+   "audition": [{"voice": {"am_echo": 0.6, "am_adam": 0.4}, "speed": 1.05}, {"voice": "am_eric", "speed": 1.05}, {"voice": {"am_fenrir": 0.5, "am_echo": 0.5}, "speed": 1.0}]
+  },
+  "diamond_archon": {
+   "voice": {"bf_isabella": 0.5, "af_kore": 0.5}, "speed": 0.88,
+   "notes": "The Diamond Archon of Adamarch (Ep7): cold, exact, never raises her voice; not Maelis, Seraphine or Hush. Added 2026-10-08: the pick of mission-e7-03.md (E7M3.O1 cast table).",
+   "audition": [{"voice": {"bf_isabella": 0.5, "af_kore": 0.5}, "speed": 0.88}, {"voice": "af_kore", "speed": 0.88}, {"voice": {"af_river": 0.3, "bf_isabella": 0.7}, "speed": 0.88}]
+  },
+  "child": {
+   "voice": "af_sky", "speed": 1.2,
+   "notes": "The child in the ruined dome (ep8_bookend; the lantern girl of e7m3_boats): small, bright girl. Added 2026-10-08 from the campaign-outline.md F7 auditions: af_sky 1.2 picked (a girl; am_puck is a boy's voice); not Wren's bf_alice. Not auditioned by ear yet.",
+   "audition": [{"voice": "am_puck", "speed": 1.15}, {"voice": "af_sky", "speed": 1.2}, {"voice": "bf_lily", "speed": 1.15}]
+  },
   "unit_cinder_hand": {"voice": {"am_adam": 0.5, "am_puck": 0.5}, "speed": 1.08, "notes": "Unit barks (data/voice/lines/unit_barks.json). Fire worker: cheerful American labourer."},
   "unit_flame_guard": {"voice": "im_nicola", "lang": "it", "speed": 1.0, "notes": "Bot favourite (Fire barracks slot 0, 40 % of the mix): speaks ITALIAN by default, macho (JS 2026-09-27: 'switch fr to the italian if it's a man'; Kokoro French has only a female voice, ff_siwis)."},
   "unit_ember_archer": {"voice": "af_jessica", "speed": 1.1, "notes": "Fire archer: same voice as the Ember Archer 'dancer' of ep2_opening."},

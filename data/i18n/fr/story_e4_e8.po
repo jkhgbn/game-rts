@@ -8,6 +8,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. speaker aldra
+#: data/voice/lines/c_e3_doubt_refused.json:L6
+msgid "It didn't glow at all. That frightens me more."
+msgstr "Elle n'a pas brillé du tout. Ça me fait encore plus peur."
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt_refused.json:L7
+msgid "Then it is waiting."
+msgstr "Alors elle attend."
+
+#. speaker aldra
 #: data/voice/lines/c_e4_frontier.json:L1
 msgid "Your captains are asking why we pulled back."
 msgstr "Tes capitaines demandent pourquoi on s'est repliés."
@@ -379,8 +389,8 @@ msgstr "Au matin, tous les dragons du Coinwater seront à nous."
 
 #. speaker diamond_archon
 #: data/voice/lines/c_e7_pits.json:L4
-msgid "My great-grandmother did that once. The Year of Two Skies."
-msgstr "Mon arrière-grand-mère l'a fait, une fois. L'Année des Deux Ciels."
+msgid "An Archon before me did that once. The Year of Two Skies."
+msgstr "Une Archonte avant moi l'a fait, une fois. L'Année des Deux Ciels."
 
 #. speaker malrik
 #: data/voice/lines/c_e7_pits.json:L5
@@ -4524,8 +4534,8 @@ msgstr "Il ne peut pas la retenir. Pas seul. Plus maintenant."
 
 #. speaker vessa
 #: data/voice/lines/ep8_opening.json:L7
-msgid "Then he won't be. Ashby! Two riders. Your fastest."
-msgstr "Alors il ne le sera pas. Ashby ! Deux cavaliers. Tes plus rapides."
+msgid "Then he won't be. Ashby! Your fastest messenger."
+msgstr "Alors il ne le sera pas. Ashby ! Ton messager le plus rapide."
 
 #. speaker vessa
 #: data/voice/lines/ep8_opening.json:L8

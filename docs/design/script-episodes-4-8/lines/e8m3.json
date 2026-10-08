@@ -77,7 +77,7 @@
   },
   {
    "id": "L10",
-   "event": "E4",
+   "event": "E4 **(pointer, not played)**",
    "speaker": "`<W>`",
    "dur": 5.0,
    "subtitle": "Vessa: `NOW! Hit him while he's tied!` · Malrik: `There. Bound. Make it count.` · Torvald: `He is held. Strike, all of you.` · Ysolde: `The roots have him! Now!`",
@@ -85,7 +85,7 @@
   },
   {
    "id": "L11",
-   "event": "E5",
+   "event": "E5 **(pointer, not played)**",
    "speaker": "vey / (bot) wizard",
    "dur": 5.0,
    "subtitle": "Vey: `A keyhole's below half! The chains won't pull until it's healed!` · Vessa (bot): `My keyhole's cracking! No surge till you help!` · Malrik (bot): `My lock is wobbling. Assistance would be... efficient.` · Torvald (bot): `My ward is failing. Help me hold it.` · Ysolde (bot): `My keyhole's bleeding sap! Please!`",
@@ -101,7 +101,7 @@
   },
   {
    "id": "L13",
-   "event": "E6 relit",
+   "event": "E6 relit **(pointer, not played)**",
    "speaker": "`<W>`",
    "dur": 5.0,
    "subtitle": "Vessa: `Back on! Sorry, chain.` · Malrik: `Relit. Nobody saw that.` · Torvald: `Mended. Slowly. But mended.` · Ysolde: `It grew back. They always do.`",
@@ -152,7 +152,7 @@
    "event": "E10",
    "speaker": "master",
    "dur": 5.0,
-   "subtitle": "Hold him there.|I am almost with you.",
+   "subtitle": "Hold him there. I am almost with you.",
    "text": "Hold him there. I am almost with you."
   },
   {
@@ -221,7 +221,7 @@
   },
   {
    "id": "L28",
-   "event": "E15",
+   "event": "E15 **(pointer, not played)**",
    "speaker": "`<W>`",
    "dur": 5.0,
    "subtitle": "Vessa: `Hold... hold it... without me...` · Malrik: `Carry the stone... somebody...` · Torvald: `Too slow... at the end...` · Ysolde: `It grows back... it has to...`",

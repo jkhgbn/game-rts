@@ -8,6 +8,17 @@ in `docs/design/script-episodes-4-8/lines/<id>.json` (data/voice/lines format) a
 `data/i18n/fr/story_e4_e8.po` (not yet reviewed by a French reader). Episode 7 also has a summary of its own,
 `docs/design/script-episodes-4-8/e7-summary.md`.
 
+**JS's decisions, 2026-10-08 (third pass)**: Q1a `ep8_credits` thank-you text written (`e8m3.md` 4, to be reread by
+JS); Q2a the relic travels by Ashby's messenger (`ep8_opening` O9, L7; `e8m1.md` Q1); Q3b the Master's deep door is
+under Emberfall (`ep8_opening` O6; `e8m1.md` Q3; no mission code changed); Q4b **every HOLD in-mission film is now
+PAUSE** in these script docs (every HOLD mark in `script-episodes-4-8/*.md`, 35 films, changed to PAUSE; the mission specs
+`mission-e*.md` still say HOLD where they did, to be aligned when each mission is built); Q6a the Year of Two Skies is
+war year 612, ~390 years ago (both specs and `c_e7_pits` L4 fixed); Q7b the Doubt scene's second film
+`c_e3_doubt_refused` written (`script-episodes-4-8/c_e3_doubt_refused.md`, 7 lines); Q8a the 10 new speakers added to
+`data/voice/cast.json` (section 2); Q9a the French is kept as it is. The second-pass fixes that were hand-edited in the
+outputs (stage directions out of `e8m1_nature` L3, `e8m2` L34 / L38, `e8m3` L19; `e8m2` L3 "its bank"; pointer rows;
+the bookend's L13) now live in the script sources (`[override]` rows), so a rebuild keeps them.
+
 To go live, per film: move `lines/<id>.json` to `data/voice/lines/`, move its French into `data/i18n/fr/dialogue.po`,
 add the cast entries below, render the voices, write the `.cine`.
 
@@ -16,6 +27,11 @@ add the cast entries below, render the voices, write the `.cine`.
 Line counts are the number of entries in each lines JSON (incl. variant takes and outcome lines; a player hears only
 one branch). "Q" = rows in the file's open-questions table; "open" leaves out the ones fixed or decided in the
 second pass.
+
+### Episode 3 addendum: `c_e3_doubt_refused` (7 lines)
+| Film | Script file | Lines |
+|---|---|---|
+| `c_e3_doubt_refused` "Torvald's Doubt (the stone refused)": the second take of the built `c_e3_doubt`, for `e3m3_refused` (Aldra: "It didn't glow at all. That frightens me more.") | `c_e3_doubt_refused.md` | 7 (L1-L5 = `c_e3_doubt`'s, French already in `dialogue.po`) |
 
 ### Episode 4 "What Grows Back": 180 lines, 20 Q (20 open)
 | Mission / film | Script file | Lines |
@@ -69,9 +85,9 @@ the Master gets from the isle to the citadel the same night (`e6m4.md` Q6).
 | `e7m3` "The Outwall" + `e7m3_outwall`, `e7m3_boats`, `e7m3_unmask`, `e7m3_dawn`; `c_e7_pits` | `e7m3.md` | 32 + 12 |
 | `e7m4` "The Year of Two Skies" + `e7m4_dawn`, `e7m4_two_skies`, `e7m4_turn`, `e7m4_still`; episode ending `ep7_ending` | `e7m4.md` | 47 + 6 |
 
-Decided in the second pass: **the Year of Two Skies is war year 612, ~390 years ago** (`episode7-opening.md` 2).
-To fix by the spec owners (flagged in `e7m3.md` Q1, `e7m4.md` Q8; specs not changed): `mission-e7-04.md` story setup
-"Six hundred years ago"; `mission-e7-03.md` / `c_e7_pits` L4 "My great-grandmother did that once".
+Decided by JS 2026-10-08: **the Year of Two Skies is war year 612, ~390 years ago** (`episode7-opening.md` 2).
+Fixed: `mission-e7-04.md` story setup "Six hundred years ago" -> "Nearly four hundred years ago"; `mission-e7-03.md` /
+`c_e7_pits` L4 "My great-grandmother did that once" -> "An Archon before me did that once" (`e7m3.md` Q1, `e7m4.md` Q8).
 
 Top 5 open: (1) `ep7_opening` has no lines file, `.cine` or French, and its chronicle still says "Last year: the
 Master vanishes" (outline C1 wants twelve years) (`e7m1.md` Q1). (2) The "For now" thread: who said it in `c1_offer`
@@ -85,7 +101,7 @@ dropped at Torvald's feet is new staging (`e7m4.md` Q2).
 | Episode opening `ep8_opening`; `e8m1` "The Four Roads" (one road per playthrough): `e8m1_fire` / `_shadow` / `_ice` / `_nature` + 10 films (`e8m1_fire_stakes`, `_fire_storm`, `_shadow_home`, `_shadow_father`, `_shadow_hush`, `_shadow_stair`, `_ice_gate`, `_ice_south`, `_nature_road`, `_nature_out`) | `e8m1.md` | 14 + 26 / 26 / 22 / 21 |
 | `c_e8_muster` (between-scene); `e8m2` "The Last Muster" + `e8m2_seats`, `e8m2_hand`, `e8m2_turn` | `e8m2.md` | 8 + 51 |
 | `e8m3` "The Hollow King" + `e8m3_king`, `e8m3_walk`, `e8m3_chains`, the Master's lance (VFX) | `e8m3.md` | 49 |
-| Closing film `ep8_ending` "Four Hands": `ep8_ending_a`, `ep8_throne_<k>` (x4), `ep8_ending_b` (canon) or `ep8_dark_<k>` (x4, on "Take the seat"), `ep8_bookend`; then `ep8_credits` (not written) | `e8m3.md` | 20 + 4 + 13 + 12 + 7 |
+| Closing film `ep8_ending` "Four Hands": `ep8_ending_a`, `ep8_throne_<k>` (x4), `ep8_ending_b` (canon) or `ep8_dark_<k>` (x4, on "Take the seat"), `ep8_bookend`; then `ep8_credits` (thank-you text only, `e8m3.md` 4) | `e8m3.md` | 20 + 4 + 13 + 12 + 7 |
 
 Pointer rows (`<W>` / bot sets, kept in the lines JSON, marked "pointer, not played" in the md; the playable lines are
 the `_<k>` extras): `e8m2` L9, L39; `e8m3` L10, L11, L13, L28.
@@ -96,32 +112,37 @@ the south-west" -> "Fire takes its bank" (true on all four roads; `e8m2.md` Q10)
 spoken text of `e8m1_nature` L3, `e8m2` L34 / L38, `e8m3` L19 and moved to the shot notes (the specs and
 `campaign-outline.md` 4.3 "pro. L12" still need the same fix).
 
-Top 5 open: (1) How the relics travel back (`e8m1.md` Q1). (2) Where the Master's door is: under Crown Hollow or under
-Emberfall (`e8m1.md` Q3). (3) `ep8_credits` and the end panel text (`e8m3.md` Q3). (4) The bookend WAV timing: let L13
-cross the cut or grow E23 by 4 s (`e8m3.md` Q2). (5) On the Shadow road, Malrik "arrives last" at the muster but is the
-player's wizard who walks up first (`e8m2.md` Q7); also Vey says "Especially Malrik" twice in one episode
-(`e8m1.md` Q4).
+Decided by JS 2026-10-08: the relic goes by Ashby's messenger (`e8m1.md` Q1); the Master's deep door is under
+Emberfall (`e8m1.md` Q3; follow-ups flagged there: the narrator's "Down, into the Hollow" and the outline / e8 specs'
+wording); `ep8_credits` thank-you text written, to be reread by JS (`e8m3.md` Q3, section 4).
+
+Top open: (1) The bookend WAV timing: let L13 cross the cut or grow E23 by 4 s (`e8m3.md` Q2). (2) On the Shadow road,
+Malrik "arrives last" at the muster but is the player's wizard who walks up first (`e8m2.md` Q7); also Vey says
+"Especially Malrik" twice in one episode (`e8m1.md` Q4). (3) The credit roll itself (names, roles; `e8m3.md` Q3).
 
 ### Totals
-945 lines in 51 lines files (180 / 141 / 161 / 190 / 273), 939 playable (6 pointer rows). 160 open-question rows,
-154 still open. 64 in-mission films (35 HOLD, 29 PAUSE; plus the Master's lance VFX), 11 between-scenes, 8 episode opening / ending
-films (`ep8_ending` split in 11 lines files; + `ep7_opening` unconverted, `ep8_credits` unwritten).
+952 lines in 52 lines files (Ep3 addendum 7 + 180 / 141 / 161 / 190 / 273), 946 playable (6 pointer rows). 160
+open-question rows in Ep4-8 (+ 5 in `c_e3_doubt_refused.md`); JS decided 7 points on 2026-10-08. 64 in-mission films,
+**all PAUSE** (35 were HOLD until JS's 2026-10-08 call; plus the Master's lance VFX), 12 between-scenes (incl.
+`c_e3_doubt_refused`), 8 episode opening / ending films (`ep8_ending` split in 11 lines files; + `ep7_opening`
+unconverted; `ep8_credits` thank-you text only).
 
-## 2. Speakers still needing a cast entry (`data/voice/cast.json`)
-| Speaker | Lines | Where | Note |
-|---|---|---|---|
-| `rider` | 6 | `e6m2` | Bren of Hearthwick; spec E6M2.O1 gives the blend |
-| `gannet` | 9 | `e5m1`, `e5m2` | spec E5.O1 auditions |
-| `reeve` | 4 | `e5m3` | spec E5.O1 |
-| `herald` | 5 | `e7m1`, `e7m2` | |
-| `dacian` | 8 | `e7m1`, `e7m2`, `e7m4` | |
-| `seraphine` | 14 | `e7m1`..`e7m4` | |
-| `brannet` | 10 | `e7m3`, `e7m4` | E7M3.O1 voice proposal |
-| `diamond_archon` | 8 | `c_e7_pits`, `e7m3`, `e7m4` | E7M3.O1 voice proposal |
-| `ossavar` | 35 | all of Ep7 incl. `ep7_ending` (+ 21 in `ep7_opening`) | the Ep7 narrator (D11) |
-| `child` | 3 | `ep8_bookend` | outline F7 auditions `am_puck` 1.15 / `af_sky` 1.2 / `bf_lily` 1.15 (not Wren's `bf_alice`) |
+## 2. Speakers added to `data/voice/cast.json` (2026-10-08, JS Q8a; not rendered, not auditioned by ear)
+| Speaker | Lines | Where | Voice (speed) | Source of the blend |
+|---|---|---|---|---|
+| `rider` | 6 | `e6m2` | `{bm_fable 0.7, bm_daniel 0.3}` (1.12) | `mission-e6-02.md` Dialogue (E6M2.O1), as given |
+| `gannet` | 9 | `e5m1`, `e5m2` | `{am_onyx 0.5, am_echo 0.5}` (1.0) | E5.O1 audition 3 (plain `am_echo` is the Ash Hurler's barks) |
+| `reeve` | 4 | `e5m3` | `{bm_daniel 0.6, bm_fable 0.4}` (0.95) | E5.O1 audition 2 (fable-heavy is already the rider / herald) |
+| `herald` | 5 | `e7m1`, `e7m2` | `{bm_fable 0.6, am_echo 0.4}` (1.05) | `episode7-opening.md` cast table pick |
+| `dacian` | 8 | `e7m1`, `e7m2`, `e7m4` | `{am_fenrir 0.7, am_eric 0.3}` (1.0) | `episode7-opening.md` cast table pick |
+| `seraphine` | 14 | `e7m1`..`e7m4` | `{af_river 0.6, af_aoede 0.4}` (0.98) | `episode7-opening.md` cast table pick |
+| `brannet` | 10 | `e7m3`, `e7m4` | `{am_echo 0.6, am_adam 0.4}` (1.05) | `mission-e7-03.md` E7M3.O1 pick |
+| `diamond_archon` | 8 | `c_e7_pits`, `e7m3`, `e7m4` | `{bf_isabella 0.5, af_kore 0.5}` (0.88) | `mission-e7-03.md` E7M3.O1 pick |
+| `ossavar` | 35 | all of Ep7 incl. `ep7_ending` (+ 21 in `ep7_opening`) | `{am_onyx 0.5, am_santa 0.3, bm_fable 0.2}` (0.88) | `episode7-opening.md` cast table pick |
+| `child` | 3 | `ep8_bookend` | `af_sky` (1.2) | outline F7 audition 2 (the child is a girl; `am_puck` is a boy's voice) |
 
-Also: `obren` needs a "full voice" take for `ep8_opening` (`e8m1.md` Q2).
+Every entry keeps its candidates in `audition` where the spec gave some. Still needed: `Speakers.TABLE` rows (code) and
+the `obren` "full voice" take for `ep8_opening` (`e8m1.md` Q2).
 
 ## 3. Stand-in sets (no World Forge set yet)
 | Needed set | Stand-in | Used by |
@@ -138,23 +159,21 @@ Also: `obren` needs a "full voice" take for `ep8_opening` (`e8m1.md` Q2).
 | `forge_hollow_pit` | M4 Crown Hollow post-Rise pit | `ep8_opening`, `ep8_ending_a` / `_b`, `ep8_dark_<k>` |
 | `forge_hollow_ridge` | a dusk ridge on the M4 Crown Hollow map | `c_e8_muster` |
 | Duskbarrow | `forge_intro_malrik` crypt | `ep8_opening` |
-| The dark under Crown Hollow | `forge_deep_door` (the `ep2_ending` Door cavern) | `ep8_opening` |
+| The Master's deep door under Emberfall (JS 2026-10-08) | `forge_deep_door` (the `ep2_ending` Door cavern: the real place, not a stand-in) | `ep8_opening` |
 | Montage of the war | e4m4's broken Wall, `forge_coinwater_battle` | `ep8_opening` |
 | T2 world image (the kingdom) | a matte / VFX plate; stand-in the wizard's prologue vignette set | `ep8_dark_<k>` |
 | Ruined orrery dome | `forge_citadel` in a RUINED state (dressing) | `ep8_dark_<k>` T4, `ep8_bookend` |
 
-## 4. Decisions JS must make
-1. **`ep8_credits` text**: the credit roll (2:00) and the end panel text are not written (`e8m3.md` Q3); also the
-   French of the title sub "The storm chooses its own." (`e8m3.md` Q4).
-2. **The relic handover** in `ep8_opening`: the outline has Vessa give the Orb and the Signet back; the spec has the Orb
-   arrive by letter and Ysolde already home. This pass sends both by rider (the Orb with one of Ashby's riders, the
-   Signet with Wren) and keeps Torvald and Ysolde off-screen (`e8m1.md` Q1). Keep, or stage Vessa handing them over.
-3. **The Master's door location**: under Crown Hollow (Ep8's story) or under Emberfall (`ep2_ending`, e2m4). The stand-in
-   is `forge_deep_door` either way (`e8m1.md` Q3).
-4. **Whether HOLD scenes exist**: 35 in-mission films are marked HOLD (tree running, units dormant, actors walking,
-   `cinematics.md` 5), e.g. `e8m1_<k>` openers, `e8m2_seats`, `e8m3_king`. Most only crane and cut with no actor
-   walking: keep HOLD (and its per-mission `hold_world` cost) or make them PAUSE.
-5. **Voices for these lines**: nothing is rendered. Approve the 10 new cast entries (section 2), the `obren` full-voice
-   take, and the order of renders (945 lines; 6 pointer rows are never rendered).
-6. Also waiting on JS (smaller): the Year of Two Skies date fix in the two specs (picked: 612 / ~390 years); the
-   `ep7_opening` rename and conversion (D2); the bookend WAV timing (`e8m3.md` Q2).
+## 4. Decisions JS made (2026-10-08)
+1. **`ep8_credits`**: a short thank-you text (`e8m3.md` 4, English + French, to be reread by JS). The roll's names and
+   the French of the title sub "The storm chooses its own." (`e8m3.md` Q4) are still open.
+2. **The relic handover** in `ep8_opening`: by Ashby's messenger (the Orb, O9; L7 "Ashby! Your fastest messenger."), the
+   Signet with Wren (`e8m1.md` Q1).
+3. **The Master's door**: under Emberfall (`e8m1.md` Q3). No mission code changed.
+4. **HOLD scenes**: none. Every in-mission film in these docs is PAUSE (the 35 former HOLD films: `e4m1_horn`,
+   `e8m1_<k>` openers, `e8m2_seats`, `e8m3_king`...). The mission specs still carry HOLD in places.
+5. **Voices**: the 10 new cast entries are in `cast.json` (section 2); rendering is the next step (952 lines; the 6
+   pointer rows are never rendered; `c_e3_doubt_refused` L1-L5 can reuse the `c_e3_doubt` WAVs).
+6. **The Year of Two Skies**: 612, ~390 years; both specs fixed. **The Doubt scene**: second film written
+   (`c_e3_doubt_refused`). **French**: kept as it is.
+7. Still waiting on JS: the `ep7_opening` rename and conversion (D2); the bookend WAV timing (`e8m3.md` Q2).
