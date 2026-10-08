@@ -61,7 +61,7 @@ static func validate(rec: Dictionary) -> Array[String]:
 			errs.append("event without e / t: %s" % JSON.stringify(e).left(80))
 	if (rec["end"] as Dictionary).is_empty():
 		errs.append("no end line (game crashed or still running)")
-	elif not String(rec["end"].get("outcome", "")) in ["win", "loss", "left"]:
+	elif not String(rec["end"].get("outcome", "")) in ["win", "loss", "draw", "left"]:
 		errs.append("end outcome '%s'" % rec["end"].get("outcome", ""))
 	if int(rec["bad_lines"]) != 0:
 		errs.append("%d unreadable lines" % int(rec["bad_lines"]))

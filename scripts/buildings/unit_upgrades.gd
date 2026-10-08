@@ -52,6 +52,8 @@ var team := 0
 var researched: Array[StringName] = []   ## Unit ids with their "+" done (read only).
 
 var _work: Array[Dictionary] = []        # {id, hall, left, paid}
+var _pending: Array = []                 # units added this frame (node_added), applied at the end of the frame
+var _flush_queued := false
 
 static var _done_by_team: Dictionary = {}   # team -> {unit_id: true}
 static var _bot_next: Dictionary = {}
@@ -219,11 +221,36 @@ func _enter_tree() -> void:
 	for id in researched:
 		d[id] = true
 	_done_by_team[team] = d
+	# Every unit that joins the tree (trained, spawned by a mission, granted) gets the team's "+" like ForgeKit does
+	# (review 2026-10-08 L1; apply_to is idempotent, TrainingBuilding still calls it right away).
+	if not get_tree().node_added.is_connected(_on_node_added):
+		get_tree().node_added.connect(_on_node_added)
 
 
 func _exit_tree() -> void:
 	if _done_by_team.has(team):
 		_done_by_team.erase(team)
+	if get_tree().node_added.is_connected(_on_node_added):
+		get_tree().node_added.disconnect(_on_node_added)
+	_pending.clear()
+
+
+func _on_node_added(node: Node) -> void:
+	if researched.is_empty() or not (node is Unit):
+		return
+	_pending.append(node)
+	if not _flush_queued:
+		_flush_queued = true
+		_flush.call_deferred()
+
+
+func _flush() -> void:
+	_flush_queued = false
+	var batch := _pending
+	_pending = []
+	for n: Variant in batch:
+		if is_instance_valid(n) and n is Unit and int((n as Unit).team) == team and (n as Unit).is_alive():
+			apply_to(n as Unit)
 
 
 func is_researched(id: StringName) -> bool:

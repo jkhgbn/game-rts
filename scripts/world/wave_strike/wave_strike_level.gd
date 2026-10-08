@@ -10,6 +10,10 @@ extends "res://scripts/world/main.gd"
 ## every lane unit, WaveBot for the bot seat(s), WaveStrikeHud. Full vision (no fog). Win = the enemy Bastion falls;
 ## at rules.time_limit the higher Bastion HP % wins (within 1 %: more value killed).
 
+## The match is over: 0 / 1 = the winning seat, -1 = a draw (same name as Skirmish.match_ended; the Playtest Recorder
+## listens to it).
+signal match_ended(winner_team: int)
+
 const DEFAULT_LAYOUT := "res://data/maps/ashwind_reach_layout.tres"
 const KINGDOMS := {
 	&"fire": {"keep": "fire_keep", "wizard": "res://scripts/units/wizard.gd", "name": "Fire", "hero": "Vessa"},
@@ -592,6 +596,9 @@ func _finish(winner: int, reason: String) -> void:
 	if director:
 		director.running = false
 	game_over = true
+	# The Playtest Recorder reads match_ended first (winner -1 = a time-limit draw -> outcome "draw", review
+	# 2026-10-08 L3); mission_ended(false) right after no longer overwrites it.
+	match_ended.emit(winner)
 	var events := get_node_or_null(^"/root/Events")
 	if events:
 		events.mission_ended.emit(winner == 0)

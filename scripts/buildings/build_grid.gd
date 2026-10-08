@@ -432,19 +432,20 @@ static func _rect_distance(rect: Rect2, p: Vector2) -> float:
 func _enemy_unit_inside(rect: Rect2, team: int) -> bool:
 	for node in get_tree().get_nodes_in_group("units"):
 		var u := node as Unit
-		if u == null or int(u.team) == team or not u.is_alive():
+		# Own and allied (2v2) units never block: they get pushed out (review 2026-10-08 M1).
+		if u == null or Teams.is_allied_fast(int(u.team), team) or not u.is_alive():
 			continue
 		if rect.grow(u.radius).has_point(Vector2(u.global_position.x, u.global_position.z)):
 			return true
 	return false
 
 
-## Own units standing in the footprint walk to the nearest point 1 m outside it (the builders
+## Own and allied units standing in the footprint walk to the nearest point 1 m outside it (the builders
 ## get their own order right after).
 func _push_units_out(rect: Rect2, team: int, workers: Array) -> void:
 	for node in get_tree().get_nodes_in_group("units"):
 		var u := node as Unit
-		if u == null or int(u.team) != team or not u.is_alive() or workers.has(u):
+		if u == null or not Teams.is_allied_fast(int(u.team), team) or not u.is_alive() or workers.has(u):
 			continue
 		var p := Vector2(u.global_position.x, u.global_position.z)
 		if not rect.grow(u.radius).has_point(p):

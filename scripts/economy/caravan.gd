@@ -70,6 +70,7 @@ static var loot_sack_script: Script = null
 
 static var _msg_last: Dictionary = {}      # "kind:team" -> game time of the last line
 static var _msg_pending: Dictionary = {}   # "kind:team" -> amount summed while throttled
+static var _msg_scene := 0                 # instance id of the level the two tables above belong to
 
 var _wait_reason: StringName = &""   # &"closed", &"held", &"no_bazaar", &"no_route" (trade_state &"waiting")
 var _own_route := false              # true after command_trade(post): keep that post instead of the Bazaar's
@@ -820,6 +821,7 @@ static func _now() -> float:
 
 ## Robbery / loss lines: the first shows now, the next ones within 10 s are summed into one line.
 static func _notify_summed(kind: StringName, team_id: int, amount: int) -> void:
+	_sync_msg_scene()
 	var key := "%s:%d" % [kind, team_id]
 	if _msg_pending.has(key):
 		_msg_pending[key] = int(_msg_pending[key]) + amount
@@ -836,7 +838,23 @@ static func _notify_summed(kind: StringName, team_id: int, amount: int) -> void:
 				func() -> void: _flush_summed(key, kind))
 
 
+## The message tables belong to one level: a new level (F9, a new skirmish) starts them empty, so a pending line of
+## the old match never shows in the new one (review 2026-10-08 L4).
+static func _sync_msg_scene() -> void:
+	var id := _scene_id()
+	if id != _msg_scene:
+		_msg_scene = id
+		_msg_last.clear()
+		_msg_pending.clear()
+
+
+static func _scene_id() -> int:
+	var tree := Engine.get_main_loop() as SceneTree
+	return tree.current_scene.get_instance_id() if tree and tree.current_scene else 0
+
+
 static func _flush_summed(key: String, kind: StringName) -> void:
+	_sync_msg_scene()   # the level changed since the line was held: the tables are cleared, nothing shows
 	if not _msg_pending.has(key):
 		return
 	var amount := int(_msg_pending[key])
@@ -854,6 +872,7 @@ static func _loss_text(kind: StringName, amount: int) -> String:
 
 
 static func _notify_held(post_name: String) -> void:
+	_sync_msg_scene()
 	var key := "held:%d" % LOCAL_TEAM
 	if _now() - float(_msg_last.get(key, -1.0e9)) < HELD_MSG_INTERVAL:
 		return

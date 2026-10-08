@@ -85,12 +85,16 @@ const BOT_BUILD_AT := {0: 540.0, 1: 390.0, 2: 300.0}
 const BOT_MAX_LEVEL := {0: 1, 1: 2, 2: 3}
 const BOT_RESERVE := {0: 300, 1: 200, 2: 150}
 const BOT_EVERY := 8.0
+## After a failed Forge spot search (17 x 17 placement checks), the bot waits this long before searching again
+## (review 2026-10-08 L7).
+const BOT_SPOT_BACKOFF := 60.0
 const BOT_UNIT_MIN := 2
 
 ## Tests may set this true (the build menu lists the Forge only in a skirmish-type game otherwise).
 static var force_enabled := false
 static var _stubs: Dictionary = {}     # "line:level" -> stub UnitType
 static var _bot_next: Dictionary = {}  # team -> next bot check (match s)
+static var _bot_spot_failed: Dictionary = {}  # team -> match s of the last failed Forge spot search
 
 var team := 0
 var levels: Dictionary = {}   ## line id -> level done (read only; set_level / complete change it).
@@ -397,7 +401,9 @@ static func bot_step(for_team_id: int, faction: StringName, eco: Economy, now: f
 	if forge == null:
 		if now < float(BOT_BUILD_AT[d]) or eco.crystals < type.cost + reserve:
 			return false
-		return _bot_build(for_team_id, type, grid, workers, keep)
+		if spot_backing_off(for_team_id, now):
+			return false
+		return _bot_build(for_team_id, type, grid, workers, keep, now)
 	if not forge.is_constructed() or not forge.queue.is_empty():
 		return false
 	var counts := {}
@@ -429,14 +435,26 @@ static func bot_step(for_team_id: int, faction: StringName, eco: Economy, now: f
 	return forge.queue_unit(pick) == ""
 
 
-static func _bot_build(for_team_id: int, type: BuildingType, grid: BuildGrid, workers: Array, keep: Node3D) -> bool:
+## True while the bot of `for_team_id` waits after a failed Forge spot search (a failure "in the future" = a new match
+## in the same process: ignored).
+static func spot_backing_off(for_team_id: int, now: float) -> bool:
+	if not _bot_spot_failed.has(for_team_id):
+		return false
+	var failed := float(_bot_spot_failed[for_team_id])
+	return failed <= now and now - failed < BOT_SPOT_BACKOFF
+
+
+static func _bot_build(for_team_id: int, type: BuildingType, grid: BuildGrid, workers: Array, keep: Node3D,
+		now: float = 0.0) -> bool:
 	if keep == null or not is_instance_valid(keep) or BuildGrid.prerequisite_reason(type, for_team_id) != "":
 		return false
 	var toward := Vector3(-keep.global_position.x, 0.0, -keep.global_position.z).normalized()
 	var spot := grid.find_spot(type, keep.global_position + toward * 10.0 - Vector3(toward.z, 0, -toward.x) * 10.0,
 			for_team_id, 8)
 	if spot == Vector3.INF:
+		_bot_spot_failed[for_team_id] = now
 		return false
+	_bot_spot_failed.erase(for_team_id)
 	var best: Node3D = null
 	for w: Variant in workers:
 		if not is_instance_valid(w) or not (w as Node).has_method(&"command_build"):

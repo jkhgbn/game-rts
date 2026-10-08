@@ -85,6 +85,8 @@ static var _bot_train_saving: Dictionary = {}   # team -> match s the bot starte
 var team := 0
 var researched: Array[StringName] = []   ## Unit ids ranked up (read only).
 var _work: Array[Dictionary] = []        # {id, stables, left, paid}
+var _pending: Array = []                 # units added this frame (node_added), ranked at the end of the frame
+var _flush_queued := false
 
 
 # ---------------------------------------------------------------- static: roster
@@ -314,6 +316,37 @@ func grant(id: StringName) -> void:
 		if _work[i]["id"] == id:
 			_work.remove_at(i)
 	_complete(id)
+
+
+## Every unit that joins the tree (trained, spawned by a mission, granted) gets the team's rank 3 like ForgeKit does
+## (review 2026-10-08 L1; apply_rank is idempotent, StablesBuilding still calls it right away).
+func _enter_tree() -> void:
+	if not get_tree().node_added.is_connected(_on_node_added):
+		get_tree().node_added.connect(_on_node_added)
+
+
+func _exit_tree() -> void:
+	if get_tree().node_added.is_connected(_on_node_added):
+		get_tree().node_added.disconnect(_on_node_added)
+	_pending.clear()
+
+
+func _on_node_added(node: Node) -> void:
+	if researched.is_empty() or not (node is Unit):
+		return
+	_pending.append(node)
+	if not _flush_queued:
+		_flush_queued = true
+		_flush.call_deferred()
+
+
+func _flush() -> void:
+	_flush_queued = false
+	var batch := _pending
+	_pending = []
+	for n: Variant in batch:
+		if is_instance_valid(n) and n is Unit and int((n as Unit).team) == team and (n as Unit).is_alive():
+			apply_rank(n as Unit)
 
 
 func _physics_process(delta: float) -> void:

@@ -124,7 +124,10 @@ func last_command_time(seat: int) -> float:
 
 # ---------------------------------------------------------------- input (first cut of ui-2v2.md 6.3)
 
-func _input(event: InputEvent) -> void:
+## Alt+click pings. Read in _unhandled_input (review 2026-10-08 L5): a click on the HUD / minimap goes to that Control
+## first and never pings the ground hidden under it. AllyChannel joins the level after the SelectionManager, so it still
+## sees the Alt+click before the selection does.
+func _unhandled_input(event: InputEvent) -> void:
 	if not input_enabled or not Teams.multi or Teams.allies_of(Teams.human_seat()).is_empty():
 		return
 	var mb := event as InputEventMouseButton

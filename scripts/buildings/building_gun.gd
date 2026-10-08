@@ -41,7 +41,8 @@ func tick(delta: float) -> bool:
 		return false
 	_cooldown_left = maxf(0.0, _cooldown_left - delta)
 	_retarget_left -= delta
-	if target != null and (not _alive(target) or not _in_range(target) or is_ignored(target)):
+	# A held target is re-validated: a truce / seat switch makes it non-hostile (review 2026-10-08 M2).
+	if target != null and (not _alive(target) or not _in_range(target) or is_ignored(target) or not _is_enemy(target)):
 		target = null
 	# Look again a few times per second; a building target is dropped as soon as a unit shows up.
 	if _retarget_left <= 0.0 and (target == null or not target is Unit):

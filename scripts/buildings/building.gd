@@ -700,6 +700,23 @@ func _build_outline() -> void:
 	_outline.visible = false
 
 
+## Ring (`hp` false) / HP-bar colour of a building of `t` as the local player sees it: own green, ally blue, neutral
+## gold, enemy red (Unit.team_color / team_hp_color shades). An ALLY seat's buildings in 2v2 are no longer red
+## (review 2026-10-08 L2).
+static func relation_color(t: int, hp: bool) -> Color:
+	var rel := Teams.relation(Teams.human_seat(), t)
+	var shade := Unit.Team.ENEMY
+	if rel == &"self":
+		shade = Unit.Team.PLAYER
+	elif rel == &"ally":
+		shade = Unit.Team.ALLY
+	elif rel == &"neutral":
+		shade = Unit.Team.NEUTRAL
+	elif t == Unit.Team.ENEMY_2:
+		shade = Unit.Team.ENEMY_2
+	return Unit.team_hp_color(shade) if hp else Unit.team_color(shade)
+
+
 ## Same yellow-green ring as units; radius = half the footprint diagonal + 0.3.
 func _build_ring() -> void:
 	var s := building_type.size_m() if building_type else Vector2(2.0, 2.0)
@@ -714,7 +731,7 @@ func _build_ring() -> void:
 	_ring.position.y = 0.05
 	var mat := StandardMaterial3D.new()
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.albedo_color = Color(0.3, 1.0, 0.4) if team == Unit.Team.PLAYER else Color(1.0, 0.3, 0.3)
+	mat.albedo_color = relation_color(int(team), false)
 	_ring.material_override = mat
 	_ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_ring.visible = false
@@ -743,8 +760,7 @@ void fragment() {
 """
 	_hp_mat = ShaderMaterial.new()
 	_hp_mat.shader = _hp_shader
-	_hp_mat.set_shader_parameter("fill_color",
-			Color(0.25, 0.9, 0.3) if team == Unit.Team.PLAYER else Color(0.9, 0.25, 0.3))
+	_hp_mat.set_shader_parameter("fill_color", relation_color(int(team), true))
 	_hp_bar = MeshInstance3D.new()
 	var quad := QuadMesh.new()
 	var s := building_type.size_m() if building_type else Vector2(2.0, 2.0)

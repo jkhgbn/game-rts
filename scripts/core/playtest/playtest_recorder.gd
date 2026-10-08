@@ -14,7 +14,7 @@ extends Node
 ##           kt killer team), built, tier, objective (id, state), mission_event (id), hero_fell, idle (dur s),
 ##           pause (dur s), hitch (ms, units, cam, t)
 ##   replay  {file} the Replay Lab recording of the same match, when one is being recorded (user://replays/...)
-##   end     {outcome win / loss / left, reason, t, rage_quit, paused_s, idle_s, keys, clicks, hitches, ms p50/p95/p99}
+##   end     {outcome win / loss / draw / left, reason, t, rage_quit, paused_s, idle_s, keys, clicks, hitches, ms p50/p95/p99}
 ## No personal data: no names, paths outside user://, OS user or hardware ids. The file is flushed at each sample.
 ## Cost (measured by tests/test_playtest_recorder.gd): one ring-buffer write per frame + a sample every 5 s.
 
@@ -235,7 +235,7 @@ func _connect_signals() -> void:
 			_set_outcome("win" if victory else "loss", "mission"))
 	if level.has_signal(&"match_ended"):
 		level.connect(&"match_ended", func(winner: int) -> void:
-			_set_outcome("win" if winner == PLAYER else "loss", "match"))
+			_set_outcome("win" if winner == PLAYER else ("draw" if winner < 0 else "loss"), "match"))
 	if level.has_signal(&"event_fired"):
 		level.connect(&"event_fired", func(id: StringName) -> void: ev({"e": "mission_event", "id": String(id)}))
 	for ts in get_tree().get_nodes_in_group(&"tier_systems"):

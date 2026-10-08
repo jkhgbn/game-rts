@@ -221,8 +221,9 @@ func tier_card_text(to: int) -> String:
 	var lines: Array[String] = ["Upgrade the keep: +%d %% HP, +%d damage." % [
 			roundi((TierSystem.HP_MULT[to - 1] - 1.0) * 100.0), roundi(TierSystem.DAMAGE_BONUS[to - 1])]]
 	var opens: Array[String] = []
-	if TierSystem.unlock_text(int(team), to) != "":
-		opens.append(TierSystem.unlock_text(int(team), to))
+	var unlocks := TierSystem.unlock_text(int(team), to)   # one walk over the buildings (review 2026-10-08 L6)
+	if unlocks != "":
+		opens.append(unlocks)
 	if to == 2 and UnitUpgrades.ENABLED:
 		opens.append("the \"+\" upgrades at the Hall")
 	if not opens.is_empty():
