@@ -373,3 +373,23 @@ func exchange(amount: int, to: StringName) -> String:
 		bank.add(received)
 	exchanged.emit(cost, to, received)
 	return ""
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## Load: owns `ids` again without paying (the saved gold already paid them); unit wares and the HP factor re-apply.
+func restore_wares(ids: Array) -> void:
+	for v: Variant in ids:
+		var id := StringName(str(v))
+		if not WARES.has(id) or owned_wares.has(id):
+			continue
+		owned_wares.append(id)
+		var ware: Dictionary = WARES[id]
+		if not (ware["stats"] as Dictionary).is_empty():
+			_has_unit_wares = true
+		if ware.has("hp_mult"):
+			apply_building_hp_mult()
+	if _has_unit_wares and is_inside_tree():
+		for node in get_tree().get_nodes_in_group(&"units"):
+			apply_wares(node)
+	changed.emit(gold)

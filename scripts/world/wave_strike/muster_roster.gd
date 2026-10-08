@@ -274,3 +274,23 @@ func tick(delta: float) -> void:
 		tier = _upgrade_to
 		_upgrade_to = 0
 		changed.emit()
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+func save_state() -> Dictionary:
+	return {"tier": tier, "upgrade_left": upgrade_left, "upgrade_to": _upgrade_to, "counts": _counts.duplicate(),
+			"ranks": _ranks.duplicate(), "locked_pop": _locked_pop, "recent": _recent.duplicate(true),
+			"bought_total": bought_total}
+
+
+func load_state(d: Dictionary) -> void:
+	tier = int(d.get("tier", tier))
+	upgrade_left = float(d.get("upgrade_left", 0.0))
+	_upgrade_to = int(d.get("upgrade_to", 0))
+	_counts = (d.get("counts", {}) as Dictionary).duplicate()
+	_ranks = (d.get("ranks", {}) as Dictionary).duplicate()
+	_locked_pop = int(d.get("locked_pop", 0))
+	_recent.assign((d.get("recent", []) as Array).duplicate(true))
+	bought_total = int(d.get("bought_total", 0))
+	changed.emit()

@@ -362,3 +362,27 @@ func _complete(id: StringName) -> void:
 		if u and int(u.team) == team and u.is_alive() and u.unit_type and u.unit_type.id == id:
 			apply_to(u)
 	upgrade_completed.emit(id)
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## Done "+" upgrades and the ones in progress (their hall as a save id).
+func save_state(ids: Dictionary) -> Dictionary:
+	var work: Array = []
+	for w: Dictionary in _work:
+		if ids.has(w["hall"]):
+			work.append({"id": String(w["id"]), "hall": ids[w["hall"]], "left": float(w["left"]), "paid": int(w["paid"])})
+	var done: Array = []
+	for id in researched:
+		done.append(String(id))
+	return {"done": done, "work": work}
+
+
+func load_state(d: Dictionary, nodes: Dictionary) -> void:
+	for v: Variant in d.get("done", []):
+		grant(StringName(str(v)))
+	_work.clear()
+	for w: Variant in d.get("work", []):
+		var hall: Variant = nodes.get((w as Dictionary).get("hall", -1))
+		if hall != null and is_instance_valid(hall):
+			_work.append({"id": StringName(str(w["id"])), "hall": hall, "left": float(w["left"]), "paid": int(w["paid"])})

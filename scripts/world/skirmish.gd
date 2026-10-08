@@ -1850,3 +1850,28 @@ static func _thousands(n: int) -> String:
 		out = " " + digits.substr(digits.length() - 3) + out
 		digits = digits.substr(0, digits.length() - 3)
 	return ("-" if n < 0 else "") + digits + out
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## The match clock, wizard deaths and respawn timers, end-screen stats (SaveWorld; MissionBase adds its own state).
+func save_level_state(_ids: Dictionary) -> Dictionary:
+	return {"time": _match_time, "deaths": _deaths.duplicate(), "respawn": _respawn_left.duplicate(),
+			"stats": _stats.duplicate(true), "wardens_killed": wardens_killed, "blessings": _blessings.duplicate(),
+			"camps_cleared": _camps_cleared.duplicate(), "taverns_announced": _taverns_announced}
+
+
+func load_level_state(d: Dictionary, _nodes: Dictionary) -> void:
+	_match_time = float(d.get("time", _match_time))
+	_deaths = (d.get("deaths", _deaths) as Dictionary).duplicate()
+	_respawn_left = (d.get("respawn", {}) as Dictionary).duplicate()
+	_stats = (d.get("stats", _stats) as Dictionary).duplicate(true)
+	wardens_killed = int(d.get("wardens_killed", wardens_killed))
+	_blessings = (d.get("blessings", {}) as Dictionary).duplicate()
+	_camps_cleared = (d.get("camps_cleared", {}) as Dictionary).duplicate()
+	_taverns_announced = bool(d.get("taverns_announced", _taverns_announced))
+	var alive: Array[Unit] = []
+	for w: Variant in wardens:
+		if is_instance_valid(w) and (w as Unit).is_alive():
+			alive.append(w)
+	wardens = alive

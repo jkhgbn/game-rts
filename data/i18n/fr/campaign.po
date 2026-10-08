@@ -4677,6 +4677,18 @@ msgstr "%s%s.tscn"
 msgid "Warden Gate"
 msgstr "Warden Gate"
 
+#: scripts/campaign/mission_base.gd
+msgid "Saving is not supported in this mission"
+msgstr "La sauvegarde n'est pas prise en charge dans cette mission"
+
+#: scripts/campaign/mission_base.gd
+msgid "Can't save during a scene"
+msgstr "Impossible de sauvegarder pendant une scène"
+
+#: scripts/campaign/mission_base.gd
+msgid "Can't save now: a scripted event is in progress"
+msgstr "Impossible de sauvegarder maintenant : un événement scénarisé est en cours"
+
 #. "card": "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."}
 #: scripts/campaign/mission_e3_04.gd:263
 #~ msgid "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."

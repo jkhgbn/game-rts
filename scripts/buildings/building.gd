@@ -777,3 +777,55 @@ func _update_hp_bar() -> void:
 		return
 	_hp_mat.set_shader_parameter("fill", clampf(hp / maxf(max_hp, 1.0), 0.0, 1.0))
 	_hp_bar.visible = not _dead and (selected or hp < max_hp or not is_constructed())
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## The building as a save row (SaveWorld). `ids` maps saved nodes -> save id.
+func save_snapshot(ids: Dictionary) -> Dictionary:
+	return {
+		"type": String(building_type.id) if building_type else "",
+		"team": int(team),
+		"pos": global_position,
+		"hp": hp,
+		"progress": _progress,
+		"metas": SaveCodec.encode_metas(self, ids),
+		"groups": SaveCodec.custom_groups(self),
+	}
+
+
+## Phase 1 of a load (the building is in the tree): construction progress (a finished start building can become a
+## site again: no pop bonus), metas, groups. HP waits for load_snapshot_late (tier / Masons' Charter first).
+func load_snapshot(d: Dictionary, nodes: Dictionary) -> void:
+	var p := clampf(float(d.get("progress", 1.0)), 0.0, 1.0)
+	if p < 1.0:
+		_progress = p
+		_remove_pop_bonus()
+	elif not is_constructed():
+		_progress = 1.0
+		_complete()
+	_update_look()
+	SaveCodec.decode_metas(self, d.get("metas", {}), nodes)
+	for g: Variant in d.get("groups", []):
+		if not is_in_group(StringName(str(g))):
+			add_to_group(StringName(str(g)))
+
+
+## Phase 2: HP (after the tier and the team's HP multiplier are back).
+func load_snapshot_late(d: Dictionary, _nodes: Dictionary) -> void:
+	hp = clampf(float(d.get("hp", hp)), 1.0, max_hp)
+	_update_hp_bar()
+	_call_model(&"set_health_ratio", [hp / maxf(max_hp, 1.0)])
+
+
+## A start building the save does not have: leaves the world quietly (no death, no XP, no destroyed signal), gives
+## its pop bonus back. The caller rebakes the navmesh.
+func dispose_for_load() -> void:
+	_remove_pop_bonus()
+	_dead = true
+	remove_from_group("buildings")
+	collision_layer = 0
+	var parent := get_parent()
+	if parent:
+		parent.remove_child(self)
+	queue_free()

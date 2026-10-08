@@ -612,3 +612,52 @@ func _finish(winner: int, reason: String) -> void:
 		hud.show_banner("DEFEAT\n%s (%d:%02d)" % [how, m, s], Color(0.9, 0.3, 0.3))
 	else:
 		hud.show_banner("DRAW\n%s" % how, Color(0.85, 0.85, 0.85))
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## Director clock, banks, rosters, stats, wizard respawn timers (SaveWorld). Lane units are saved as units.
+func save_level_state(_ids: Dictionary) -> Dictionary:
+	var b: Array = []
+	for bank in banks:
+		b.append(bank.save_state())
+	var r: Array = []
+	for roster in rosters:
+		r.append(roster.save_state())
+	return {
+		"time": director.time if director else 0.0,
+		"horn_index": director.horn_index if director else 0,
+		"last_wave_size": director.last_wave_size.duplicate() if director else [],
+		"banks": b, "rosters": r, "stats": stats.duplicate(true), "respawn": _respawn_left.duplicate(),
+	}
+
+
+func load_level_state(d: Dictionary, _nodes: Dictionary) -> void:
+	if director:
+		director.time = float(d.get("time", director.time))
+		director.horn_index = int(d.get("horn_index", director.horn_index))
+		director.last_wave_size.assign(d.get("last_wave_size", []))
+	var b: Array = d.get("banks", [])
+	for i in mini(b.size(), banks.size()):
+		banks[i].load_state(b[i])
+	var r: Array = d.get("rosters", [])
+	for i in mini(r.size(), rosters.size()):
+		rosters[i].load_state(r[i])
+	stats.assign((d.get("stats", stats) as Array).duplicate(true))
+	_respawn_left.assign(d.get("respawn", [0.0, 0.0]))
+
+
+## A saved lane unit comes back marching on its lane at its waypoint (SaveWorld asks the level first). Null = not a
+## lane unit (the generic path builds it).
+func save_spawn_unit(row: Dictionary) -> Unit:
+	var metas: Dictionary = row.get("metas", {})
+	if not metas.has("ws_card"):
+		return null
+	var seat := int(metas.get("ws_seat", row.get("team", 0)))
+	var u := spawn_lane_unit(seat, StringName(str(metas["ws_card"])), row.get("pos", Vector3.ZERO),
+			float(row.get("lane_lateral", 0.0)))
+	if u:
+		var march := u.get_node_or_null(^"LaneMarch")
+		if march and row.has("lane_index"):
+			march.set(&"index", int(row["lane_index"]))
+	return u

@@ -100,6 +100,17 @@ var save_campaign_on_victory := true
 var campaign_save_path := CampaignState.SAVE_PATH
 ## False: play_cutscene runs the end state at once (headless tests, the 19.C9 skip check).
 var cinematics_enabled := true
+## Mid-mission saves (docs/design/save-load.md): false = this mission refuses them ("not supported"). A mission whose
+## state the default save_state / load_state cannot carry overrides them (calling super) or sets this false.
+var save_supported := true
+## True while a save is being loaded into this freshly built mission (SaveGame sets it before the tree): no briefing,
+## no film, no dialogue card; the saved state replaces what the rebuilt start did.
+var save_restoring := false
+## Timer tags (after()): TIMER_START while the mission starts, TIMER_INTRO inside `_intro()`, &"" after.
+const TIMER_START := &"start"
+const TIMER_INTRO := &"intro"
+var _timer_tag: StringName = TIMER_START
+var _intro_at := 0.0               # mission time the intro ran (a briefing can hold it)
 ## Lines a cinematic just subtitled (text -> speaker), read by say() during that cutscene's end state: the end state
 ## (the direct-effect fallback) re-says the scene's lines, so a line the player already saw in the film is logged
 ## (dialogue_log, dialogue_said) but not shown again as a dialogue card.
@@ -235,7 +246,11 @@ func _begin_intro() -> void:
 	if _intro_done:
 		return
 	_intro_done = true
+	_intro_at = mission_time()
+	var tag_before := _timer_tag
+	_timer_tag = TIMER_INTRO   # timers set by the intro itself: a load rebuilds them (save-load.md)
 	_intro()
+	_timer_tag = tag_before
 
 
 ## Call at the end of `_on_navigation_ready()`, once the start state is spawned: the hero knobs, the HUD, the match
@@ -494,8 +509,10 @@ func add_event(id: StringName, condition: Callable, action: Callable, repeat := 
 
 
 ## Runs `c` once `seconds` of mission time have passed (held time does not count).
+## A timer set while the mission starts (before its first scripted tick) or by `_intro()` is tagged: a save does not
+## write it, the rebuilt mission sets it again at the same mission time (docs/design/save-load.md).
 func after(seconds: float, c: Callable) -> void:
-	_timers.append([mission_time() + seconds, c])
+	_timers.append([mission_time() + seconds, c, _timer_tag])
 
 
 ## Seconds since the navmesh was ready, minus the time held by hold_world (cinematics.md HOLD).
@@ -556,6 +573,9 @@ func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over:
 		return
+	if save_restoring:
+		return   # a save is being put back: no timer / event of the rebuilt start runs meanwhile
+	_timer_tag = &""   # the start is over: later timers are mid-mission ones
 	if world_is_held:
 		_held_total += delta
 		return
@@ -611,6 +631,8 @@ func tick_scripted(delta: float) -> void:
 
 ## Emits a line through Events.dialogue (the UI queues them, DIALOGUE_SECONDS each) and dialogue_said.
 func say(speaker: StringName, text: String) -> void:
+	if save_restoring:
+		return   # a save is being rebuilt: the start's lines were said before the save
 	dialogue_log.append("%s: %s" % [speaker, text])
 	if _cine_said.has(text):   # the cutscene that just ended showed it (play_cutscene): no second card
 		_cine_said.erase(text)
@@ -1611,3 +1633,172 @@ static func _all_dead(units: Array) -> bool:
 static func _flat(a: Vector3, b: Vector3) -> float:
 	return Vector2(a.x - b.x, a.z - b.z).length()
 
+
+
+# ---------------------------------------------------------------- mid-mission save / load (docs/design/save-load.md)
+
+const SAVE_REASON_UNSUPPORTED := "Saving is not supported in this mission"
+const SAVE_REASON_SCENE := "Can't save during a scene"
+const SAVE_REASON_SCRIPTED := "Can't save now: a scripted event is in progress"
+
+
+## "" when the mission can be saved now, else why not (shown to the player).
+func save_block_reason() -> String:
+	if not save_supported:
+		return SAVE_REASON_UNSUPPORTED
+	if world_is_held or wait_for_briefing or not _intro_done:
+		return SAVE_REASON_SCENE
+	if _ending or game_over:
+		return SAVE_REASON_SCRIPTED
+	for t: Array in _timers:
+		if not _timer_rebuilt(t) and not _save_timer_ok(t[1] as Callable):
+			return SAVE_REASON_SCRIPTED
+	return ""
+
+
+## True for a timer the rebuilt mission sets again by itself (set during the start or by the intro).
+static func _timer_rebuilt(t: Array) -> bool:
+	return t.size() > 2 and StringName(t[2]) != &""
+
+
+## A pending after() timer survives a save only when it calls one of this mission's methods by name (no lambda, no
+## bound arguments): lambdas cannot be written to a file.
+func _save_timer_ok(c: Callable) -> bool:
+	return c.is_standard() and c.get_object() == self and has_method(c.get_method())
+
+
+## The default mission save: objectives (state + text), fired events, flags and track counters, intro / keep-seen,
+## held time, pending timers (by method name), bases locked by lock_base, guards and wave units (their metas travel
+## with the units), and the mission script's own variables
+## (plain values; units / buildings by save id; a variable holding anything else keeps the rebuilt mission's value).
+## `ids`: saved node -> save id. Override to add more (call super and merge).
+func save_state(ids: Dictionary = {}) -> Dictionary:
+	var fired: Array = []
+	for id: Variant in _fired:
+		fired.append(String(id))
+	var timers: Array = []
+	for t: Array in _timers:
+		var c := t[1] as Callable
+		if not _timer_rebuilt(t) and _save_timer_ok(c):
+			timers.append([float(t[0]), String(c.get_method())])
+	var events: Array = []
+	for e: Array in _events:
+		events.append(String(e[0]))
+	var locked: Array = []
+	for b: Variant in _locked:
+		if is_instance_valid(b) and ids.has(b):
+			locked.append(ids[b])
+	var guards: Array = []
+	for u: Variant in _guards:
+		if is_instance_valid(u) and ids.has(u):
+			guards.append(ids[u])
+	var waves: Array = []
+	for u: Variant in _wave_units:
+		if is_instance_valid(u) and ids.has(u):
+			waves.append(ids[u])
+	var vars := {}
+	for prop in _save_own_vars():
+		var x: Variant = SaveCodec.encode(get(prop), ids)
+		if not SaveCodec.is_skip(x):
+			vars[String(prop)] = x
+	return {
+		"mission_id": String(mission_id),
+		"objs": _objs.duplicate(true),
+		"fired": fired,
+		"flags": _mission_flags.duplicate(true),
+		"track": _track_adds.duplicate(true),
+		"intro_done": _intro_done,
+		"intro_at": _intro_at,
+		"time": mission_time(),
+		"keep_seen": _keep_seen,
+		"held_total": _held_total,
+		"timers": timers,
+		"events": events,
+		"locked": locked,
+		"guards": guards,
+		"waves": waves,
+		"vars": vars,
+	}
+
+
+## Puts save_state() back on this rebuilt mission (its start already ran). `nodes`: save id -> rebuilt node.
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	var objs: Dictionary = d.get("objs", {})
+	for id: Variant in objs:
+		var key := StringName(str(id))
+		if _objs.has(key):
+			_objs[key] = (objs[id] as Dictionary).duplicate(true)
+	_fired.clear()
+	for id: Variant in d.get("fired", []):
+		_fired[StringName(str(id))] = true
+	_mission_flags = (d.get("flags", {}) as Dictionary).duplicate(true)
+	_track_adds = (d.get("track", {}) as Dictionary).duplicate(true)
+	_intro_done = bool(d.get("intro_done", _intro_done))
+	_keep_seen = bool(d.get("keep_seen", _keep_seen))
+	_held_total = float(d.get("held_total", 0.0))
+	# Timers: the rebuilt start / intro set theirs again (the intro's moved to the saved intro time); those due before
+	# the save already ran then. Mid-mission timers come from the save (named methods only).
+	var saved_time := float(d.get("time", 0.0))
+	var shift := float(d.get("intro_at", _intro_at)) - _intro_at
+	var kept: Array = []
+	for t: Array in _timers:
+		if not _timer_rebuilt(t):
+			continue
+		var due := float(t[0]) + (shift if StringName(t[2]) == TIMER_INTRO else 0.0)
+		if due > saved_time:
+			kept.append([due, t[1], t[2]])
+	_timers = kept
+	_intro_at = float(d.get("intro_at", _intro_at))
+	for t: Variant in d.get("timers", []):
+		var method := StringName(str((t as Array)[1]))
+		if has_method(method):
+			_timers.append([float((t as Array)[0]), Callable(self, method), &""])
+	var have := {}
+	for e: Array in _events:
+		have[String(e[0])] = true
+	for id: Variant in d.get("events", []):
+		if not have.has(String(id)) and not _fired.has(StringName(str(id))):
+			push_warning("Save: mission event %s was added mid-mission and is not rebuilt by the load" % id)
+	_locked.clear()
+	for sid: Variant in d.get("locked", []):
+		var b: Variant = nodes.get(sid)
+		if b is TrainingBuilding and is_instance_valid(b):
+			_locked.append(b)
+	_guards.clear()
+	for sid: Variant in d.get("guards", []):
+		if nodes.get(sid) is Unit and is_instance_valid(nodes.get(sid)):
+			_guards.append(nodes.get(sid))
+	_wave_units.clear()
+	for sid: Variant in d.get("waves", []):
+		if nodes.get(sid) is Unit and is_instance_valid(nodes.get(sid)):
+			_wave_units.append(nodes.get(sid))
+	var vars: Dictionary = d.get("vars", {})
+	for prop: Variant in vars:
+		var name_sn := StringName(str(prop))
+		if name_sn in self:
+			if not SaveCodec.assign_property(self, name_sn, SaveCodec.decode(vars[prop], nodes)):
+				push_warning("Save: mission variable %s did not fit, kept the rebuilt value" % prop)
+	var events := get_node_or_null(^"/root/Events")
+	for id in objective_order:
+		var st := String((_objs[id] as Dictionary)["state"])
+		if st != "hidden" and events:
+			events.objective_changed.emit(id, StringName(st))
+	objectives_changed.emit()
+	if hud and mission_hud == null:
+		hud.set_objective(_objective_text())
+
+
+## The mission script's own variables (declared below MissionBase: Mission01's, MissionSkeleton's...).
+func _save_own_vars() -> Array[StringName]:
+	var base := {}
+	var base_script := load("res://scripts/campaign/mission_base.gd") as Script
+	for p: Dictionary in base_script.get_script_property_list():
+		base[p["name"]] = true
+	var out: Array[StringName] = []
+	var s := get_script() as Script
+	if s == null or s == base_script:
+		return out
+	for p: Dictionary in s.get_script_property_list():
+		if int(p["usage"]) & PROPERTY_USAGE_SCRIPT_VARIABLE and not base.has(p["name"]):
+			out.append(StringName(p["name"]))
+	return out

@@ -555,3 +555,27 @@ void fragment() {
 	}
 }
 """
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## The explored cells of `team`'s fog layer (1 byte per cell, grid_w x grid_d), compressed for a save.
+func explored_cells(team: int) -> PackedByteArray:
+	var src := _exp_p if _layer(team) == Unit.Team.PLAYER else _exp_e
+	return src.compress(FileAccess.COMPRESSION_DEFLATE)
+
+
+## Load: puts back what explored_cells gave (ignored when the grid size differs). Cells explored since stay explored.
+func set_explored_cells(team: int, packed: PackedByteArray) -> void:
+	var cells := packed.decompress(_cells, FileAccess.COMPRESSION_DEFLATE)
+	if cells.size() != _cells:
+		return
+	var dst := _exp_p if _layer(team) == Unit.Team.PLAYER else _exp_e
+	for i in _cells:
+		if cells[i] > dst[i]:
+			dst[i] = cells[i]
+	if _layer(team) == Unit.Team.PLAYER:
+		_exp_p = dst
+	else:
+		_exp_e = dst
+	update_team(team)

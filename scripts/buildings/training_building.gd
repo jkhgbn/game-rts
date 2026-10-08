@@ -332,3 +332,58 @@ func _build_flag() -> void:
 	cloth.position = Vector3(0.25, 1.02, 0.0)
 	cloth.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_flag.add_child(cloth)
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+func save_snapshot(ids: Dictionary) -> Dictionary:
+	var d := super(ids)
+	var q: Array = []
+	for t in queue:
+		if ForgeKit.is_stub(t):
+			q.append({"forge": String(ForgeKit.stub_line(t)), "level": int(t.get_meta(&"forge_level", 1))})
+		else:
+			q.append({"id": String(t.id)})
+	d["queue"] = q
+	d["train_time"] = _train_time
+	d["rally"] = _rally_point
+	if _rally_node != null and is_instance_valid(_rally_node):
+		d["rally_node"] = String(_rally_node.node_id)
+	return d
+
+
+## Restores the queue without paying (the saved crystals already paid it) and reserves its pop again.
+func load_snapshot(d: Dictionary, nodes: Dictionary) -> void:
+	super(d, nodes)
+	var eco := _get_economy()
+	for t in queue:
+		if eco:
+			eco.release_pop(t.pop)
+	queue.clear()
+	for e: Variant in d.get("queue", []):
+		var row := e as Dictionary
+		var t: UnitType = null
+		if row.has("forge"):
+			t = ForgeKit.stub(StringName(str(row["forge"])), int(row.get("level", 1)))
+		else:
+			t = UnitType.find(String(row.get("id", "")))
+		if t == null:
+			continue
+		queue.append(t)
+		if eco:
+			eco.reserve_pop(t.pop)
+	_train_time = float(d.get("train_time", 0.0))
+	var rally: Variant = d.get("rally", Vector3.INF)
+	_rally_point = rally if rally is Vector3 else Vector3.INF
+	_rally_node = null
+	queue_changed.emit()
+
+
+func load_snapshot_late(d: Dictionary, nodes: Dictionary) -> void:
+	super(d, nodes)
+	var node_id := StringName(str(d.get("rally_node", "")))
+	if node_id != &"":
+		for n in get_tree().get_nodes_in_group(&"crystal_nodes"):
+			if n is CrystalNode and (n as CrystalNode).node_id == node_id:
+				_rally_node = n
+	_update_flag()

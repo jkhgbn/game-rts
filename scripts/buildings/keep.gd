@@ -389,3 +389,27 @@ func _build_shape() -> void:
 	cone.radial_segments = 4
 	var roof := _add_mesh(cone, team_color.darkened(0.2), 7.5)
 	roof.rotation.y = PI / 4.0
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+func save_snapshot(ids: Dictionary) -> Dictionary:
+	var d := super(ids)
+	d["tier"] = tier
+	d["up_to"] = _up_to
+	d["up_left"] = _up_left
+	d["up_paid"] = _up_paid
+	return d
+
+
+func load_snapshot(d: Dictionary, nodes: Dictionary) -> void:
+	super(d, nodes)
+	var t := int(d.get("tier", tier))
+	if t != tier:
+		set_start_tier(t)   # quiet: no flourish, no announcement
+	_up_to = int(d.get("up_to", 0))
+	_up_left = float(d.get("up_left", 0.0))
+	_up_paid = int(d.get("up_paid", 0))
+	if _up_to > 0:
+		_call_model(&"set_upgrading", [true])
+	queue_changed.emit()

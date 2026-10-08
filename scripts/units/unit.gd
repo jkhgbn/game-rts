@@ -2411,3 +2411,135 @@ void fragment() {
 	_hp_bar.position.y = body_height + 0.5
 	add_child(_hp_bar)
 	_update_hp_bar()
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## Modifier sources a save keeps (the others are re-derived: level, veterancy, items, Forge, upgrades, wares, path...,
+## or timed: statuses, auras, abilities).
+const SAVE_MODIFIER_PREFIXES: Array[String] = ["mission:", "save:"]
+
+
+## The unit as a save row (SaveWorld): `ids` maps saved nodes -> save id (targets, sites are saved as ids).
+func save_snapshot(ids: Dictionary) -> Dictionary:
+	var d := {
+		"type": String(unit_type.id) if unit_type else "",
+		"script": (get_script() as Script).resource_path if get_script() else "",
+		"name": String(name),
+		"team": int(team),
+		"pos": global_position,
+		"yaw": _visual.rotation.y if _visual else 0.0,
+		"hp": hp,
+		"alive": is_alive(),
+		"level": level,
+		"xp": xp,
+		"anchor": _anchor,
+		"aggro": aggro_range,
+	}
+	var caster := get_node_or_null(^"CasterAbility")
+	if caster and &"mana" in caster:
+		d["caster_mana"] = float(caster.get(&"mana"))
+	var march := get_node_or_null(^"LaneMarch")   # Wave Strike lane units
+	if march:
+		d["lane_index"] = int(march.get(&"index"))
+		d["lane_lateral"] = float(march.get(&"lateral"))
+	var mods := {}
+	for src: StringName in _mods:
+		for p in SAVE_MODIFIER_PREFIXES:
+			if String(src).begins_with(p):
+				mods[String(src)] = (_mods[src] as Dictionary).duplicate()
+	d["mods"] = mods
+	d["metas"] = SaveCodec.encode_metas(self, ids)
+	d["groups"] = SaveCodec.custom_groups(self)
+	# the order
+	var order := "idle"
+	if _hold:
+		order = "hold"
+	elif attack_target != null and not _auto_target and _target_alive(attack_target) and ids.has(attack_target):
+		order = "attack"
+		d["target_ref"] = ids[attack_target]
+	elif _attack_move:
+		order = "attack_move"
+		d["target"] = _attack_move_target
+	elif _has_move_order:
+		order = "move"
+		d["target"] = _last_nav_target if _last_nav_target != Vector3.INF else global_position
+	if &"build_site" in self:
+		var site: Variant = get(&"build_site")
+		if site is Node and is_instance_valid(site) and ids.has(site):
+			order = "build"
+			d["target_ref"] = ids[site]
+	if order == "idle" and &"gather_node" in self:
+		var node: Variant = get(&"gather_node")
+		if node is CrystalNode and is_instance_valid(node):
+			order = "gather"
+			d["node"] = String((node as CrystalNode).node_id)
+	if &"carried" in self:
+		d["carried"] = int(get(&"carried"))
+	d["order"] = order
+	return d
+
+
+## Phase 1 of a load: identity, place, veterancy (the modifiers it adds), metas and groups. The unit is in the tree.
+func load_snapshot_base(d: Dictionary, nodes: Dictionary) -> void:
+	team = int(d.get("team", team)) as Team
+	global_position = d.get("pos", global_position)
+	_anchor = d.get("anchor", global_position)
+	if _visual:
+		_visual.rotation.y = float(d.get("yaw", _visual.rotation.y))
+	var lv := int(d.get("level", level))
+	if not is_in_group(&"heroes") and can_gain_veterancy() and lv > level:
+		for l in range(level + 1, lv + 1):
+			_set_veterancy_level(l)
+	xp = int(d.get("xp", xp))
+	SaveCodec.decode_metas(self, d.get("metas", {}), nodes)
+	var groups: Array = d.get("groups", [])
+	for g: Variant in groups:
+		if not is_in_group(StringName(str(g))):
+			add_to_group(StringName(str(g)))
+	if is_alive() and not groups.has("units") and is_in_group(&"units"):
+		remove_from_group(&"units")   # asleep for its mission (MissionBase.set_dormant / hold_world)
+	aggro_range = float(d.get("aggro", aggro_range))
+
+
+## Phase 2 of a load (after the frame's upgrade / ware flushes): saved modifiers, HP, mana, carried crystals, order.
+func load_snapshot_late(d: Dictionary, nodes: Dictionary, crystal_nodes: Dictionary) -> void:
+	var mods: Dictionary = d.get("mods", {})
+	for src: Variant in mods:
+		add_modifier(StringName(str(src)), mods[src])
+	if is_alive():
+		hp = clampf(float(d.get("hp", hp)), 1.0, max_hp)
+		_update_hp_bar()
+	var caster := get_node_or_null(^"CasterAbility")
+	if caster and d.has("caster_mana") and &"mana" in caster:
+		caster.set(&"mana", float(d["caster_mana"]))
+	if not is_alive() or not is_commandable_by_save():
+		return
+	var ref: Variant = nodes.get(d.get("target_ref", -1))
+	match String(d.get("order", "idle")):
+		"hold":
+			command_hold()
+		"attack":
+			if ref != null and is_instance_valid(ref):
+				command_attack(ref)
+		"attack_move":
+			command_attack_move(d.get("target", global_position))
+		"move":
+			command_move(d.get("target", global_position))
+		"build":
+			if ref != null and is_instance_valid(ref) and has_method(&"command_build"):
+				call(&"command_build", ref)
+		"gather":
+			var node: Variant = crystal_nodes.get(StringName(str(d.get("node", ""))))
+			if node != null and is_instance_valid(node) and has_method(&"command_gather"):
+				call(&"command_gather", node)
+		_:
+			command_stop()   # idle: drop whatever the rebuilt start gave it (start workers gather)
+	_anchor = d.get("anchor", _anchor)
+	if &"carried" in self and d.has("carried"):
+		set(&"carried", int(d["carried"]))
+
+
+## Orders are restored on every unit the player or a bot could have ordered (lane units / champions run themselves).
+func is_commandable_by_save() -> bool:
+	return get_node_or_null(^"LaneMarch") == null and not is_in_group(&"champions")

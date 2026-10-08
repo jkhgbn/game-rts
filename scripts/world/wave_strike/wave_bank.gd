@@ -110,3 +110,20 @@ func buy_coffer() -> String:
 	coffer_level += 1
 	changed.emit()
 	return ""
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+## The crystals themselves live in the Economy (saved with the teams).
+func save_state() -> Dictionary:
+	return {"coffer_level": coffer_level, "earned_total": earned_total, "bounty_total": bounty_total,
+			"spent_total": spent_total, "last_income": last_income, "underdog_mult": underdog_mult}
+
+
+func load_state(d: Dictionary) -> void:
+	coffer_level = int(d.get("coffer_level", coffer_level))
+	earned_total = int(d.get("earned_total", earned_total))
+	bounty_total = int(d.get("bounty_total", bounty_total))
+	spent_total = int(d.get("spent_total", spent_total))
+	last_income = int(d.get("last_income", last_income))
+	underdog_mult = float(d.get("underdog_mult", underdog_mult))

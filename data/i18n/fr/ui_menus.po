@@ -707,6 +707,98 @@ msgstr "Bas (plus rapide)"
 msgid "Upscaler"
 msgstr "Mise à l'échelle"
 
+#: scripts/ui/menus/pause_menu.gd
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Load"
+msgstr "Charger"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Save game"
+msgstr "Sauvegarder la partie"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Load game"
+msgstr "Charger une partie"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Quicksave"
+msgstr "Sauvegarde rapide"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Slot {n}"
+msgstr "Emplacement {n}"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "{slot}: empty"
+msgstr "{slot} : vide"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "{slot}: {reason}"
+msgstr "{slot} : {reason}"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "{slot}: {title}  ·  {time}  ·  {date}"
+msgstr "{slot} : {title}  ·  {time}  ·  {date}"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Nothing to save here"
+msgstr "Rien à sauvegarder ici"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "The match has not started yet"
+msgstr "La partie n'a pas encore commencé"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "The match is over"
+msgstr "La partie est terminée"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Can't save during a film"
+msgstr "Impossible de sauvegarder pendant un film"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Still loading"
+msgstr "Chargement en cours"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Could not write the save file"
+msgstr "Impossible d'écrire le fichier de sauvegarde"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "No save in this slot"
+msgstr "Aucune sauvegarde dans cet emplacement"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "This save file is damaged"
+msgstr "Ce fichier de sauvegarde est endommagé"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "This save is from another version of the game"
+msgstr "Cette sauvegarde vient d'une autre version du jeu"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "The saved map is missing"
+msgstr "La carte sauvegardée est introuvable"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Game saved"
+msgstr "Partie sauvegardée"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Game loaded"
+msgstr "Partie chargée"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Skirmish"
+msgstr "Escarmouche"
+
+#: scripts/ui/menus/pause_menu.gd
+msgid "Mission 1"
+msgstr "Mission 1"
+
 #. back_button.tooltip_text = "Close the guide (Esc)."
 #: scripts/ui/menus/unit_guide.gd:295
 #~ msgid "Close the guide (Esc)."

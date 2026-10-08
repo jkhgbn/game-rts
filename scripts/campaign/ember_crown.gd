@@ -250,3 +250,22 @@ func _land() -> void:
 	_gem.position.y = _gem_y
 	_set_shown(true)
 	dropped.emit(self, global_position)
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+func save_state(ids: Dictionary) -> Dictionary:
+	return {"wearer": ids.get(wearer, -1) if wearer != null else -1, "pos": global_position,
+			"dropping": _drop_left >= 0.0, "drop_at": _drop_at}
+
+
+## Load (after the wizards): worn again by its wearer, or lying where it was (a crown still dropping lands at once).
+func load_state(d: Dictionary, nodes: Dictionary) -> void:
+	var w: Variant = nodes.get(d.get("wearer", -1))
+	if w is Wizard and is_instance_valid(w) and (w as Wizard).is_alive():
+		_claim(w as Wizard)
+		return
+	var at: Vector3 = d.get("drop_at", global_position) if bool(d.get("dropping", false)) else d.get("pos", global_position)
+	if at.distance_to(global_position) > 0.5:
+		_drop_at = at
+		_land()

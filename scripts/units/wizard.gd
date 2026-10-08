@@ -693,3 +693,76 @@ func _build_visual() -> void:
 	light.light_energy = 1.2
 	light.position = orb.position
 	_visual.add_child(light)
+
+
+# ---------------------------------------------------------------- save / load (docs/design/save-load.md)
+
+const SAVE_CROWN_ITEM := &"ember_crown"   ## Worn crown: the EmberCrown restores it (never the inventory row).
+
+
+func save_snapshot(ids: Dictionary) -> Dictionary:
+	var d := super(ids)
+	var ranks := {}
+	for id: Variant in _ranks:
+		ranks[String(id)] = int(_ranks[id])
+	var w := {
+		"kingdom": String(kingdom), "level": level, "xp": xp, "total_xp": total_xp, "spell_points": spell_points,
+		"ranks": ranks, "mana": mana, "path": String(str_int.get(&"path")) if str_int else "",
+		"artifacts": artifacts.filter(func(a: String) -> bool: return a != "Ember Crown"),
+	}
+	var items: Array = []
+	if inventory and &"slots" in inventory:
+		var inv_slots: Array = inventory.get(&"slots")
+		var inv_arts: Array = inventory.get(&"artifacts")
+		for e: Variant in inv_slots + inv_arts:
+			if e is Dictionary and (e as Dictionary).get("type") is ItemType:
+				var t := (e as Dictionary)["type"] as ItemType
+				if t.id != SAVE_CROWN_ITEM:
+					items.append({"id": String(t.id), "count": int((e as Dictionary).get("count", 1)),
+							"cd": float((e as Dictionary).get("cooldown_left", 0.0))})
+	w["items"] = items
+	d["wizard"] = w
+	return d
+
+
+func load_snapshot_base(d: Dictionary, nodes: Dictionary) -> void:
+	super(d, nodes)
+	var w: Dictionary = d.get("wizard", {})
+	if w.is_empty():
+		return
+	level = clampi(int(w.get("level", level)), 1, MAX_LEVEL)
+	xp = int(w.get("xp", 0))
+	total_xp = int(w.get("total_xp", total_xp))
+	spell_points = int(w.get("spell_points", spell_points))
+	_apply_level_stats()
+	var ranks: Dictionary = w.get("ranks", {})
+	for id: Variant in ranks:
+		_set_rank(StringName(str(id)), int(ranks[id]))
+	artifacts.assign((w.get("artifacts", []) as Array).duplicate())
+	var p := StringName(str(w.get("path", "")))
+	if p != &"" and str_int and str_int.has_method(&"choose") and str_int.get(&"path") == &"":
+		str_int.call(&"choose", p)
+	if inventory and inventory.has_method(&"remove_item"):
+		var n := (inventory.get(&"slots") as Array).size()
+		for i in n:
+			inventory.call(&"remove_item", i)
+		for i in (inventory.get(&"artifacts") as Array).size():
+			if inventory.call(&"get_type", 6 + i) != null and (inventory.call(&"get_type", 6 + i) as ItemType).id != SAVE_CROWN_ITEM:
+				inventory.call(&"remove_item", 6 + i)
+		for e: Variant in w.get("items", []):
+			var t := ItemDrops.item_type(StringName(str((e as Dictionary).get("id", ""))))
+			if t:
+				inventory.call(&"add_item", t, int((e as Dictionary).get("count", 1)), float((e as Dictionary).get("cd", 0.0)))
+	xp_changed.emit(xp, xp_to_next())
+	spell_points_changed.emit(spell_points)
+	_emit_level_changed()
+
+
+func load_snapshot_late(d: Dictionary, nodes: Dictionary, crystal_nodes: Dictionary) -> void:
+	super(d, nodes, crystal_nodes)
+	var w: Dictionary = d.get("wizard", {})
+	_sync_mana_stats()
+	mana = clampf(float(w.get("mana", mana)), 0.0, max_mana)
+	if not bool(d.get("alive", true)) and is_alive():
+		death_guard = Callable()
+		take_damage(hp + max_hp * 100.0, null)   # the level's respawn timer is restored after this
