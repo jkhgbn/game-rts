@@ -145,6 +145,31 @@ msgstr ""
 msgid "Hold on, Ysolde. Fire is coming."
 msgstr ""
 
+#. speaker aldra
+#: data/voice/lines/ep3_ending.json:L1
+msgid "You heard it."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep3_ending.json:L2
+msgid "I heard it ask. I did not hear him say no."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/ep3_ending.json:L3
+msgid "Now the tree."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep3_ending.json:L4
+msgid "Tomorrow."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep3_ending.json:L5
+msgid "I have heard “stop” all my life."
+msgstr ""
+
 #. speaker malrik
 #: data/voice/lines/ep3_opening.json:L1
 msgid "Everyone tells my story wrong. Let me try."
@@ -297,7 +322,7 @@ msgstr ""
 
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L01
-msgid "Once upon a time, the strongest wizard of all time ruled the world."
+msgid "Once upon a time, the strongest wizard who ever lived ruled the world."
 msgstr ""
 
 #. speaker master
@@ -407,7 +432,7 @@ msgstr ""
 
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L23
-msgid "Nothing breaks him. Not armies, not winters. Not time."
+msgid "Armies have not broken him, nor winters, nor time."
 msgstr ""
 
 #. speaker master

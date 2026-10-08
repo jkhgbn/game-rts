@@ -1,0 +1,59 @@
+# Episode 3 ending "I Will Not Stop", ~60 s (docs/design/mission-e3-04.md, Cinematic hooks `ep3_ending`; beats for its
+# writer E3M4.D1). The night after the ridge: the Shadow torches come alight one by one along the ridge; Torvald by the
+# Ice side (Aldra off screen: "You heard it."); Malrik alone on the crest, the stone whispering; across the valley, one
+# white-gold flicker on Lark Hill (the old man is still there); Malrik's voice-over closes the episode with the
+# ep3_opening L14 line (its WAV reused through data/voice/manifest.json). Plays after e3m4's victory (StoryFlow:
+# CampaignState.STORY_FILMS ep3_ending -> ep4_opening -> e4m1). Text source for i18n / voices: data/voice/lines/ep3_ending.json.
+# Set: forge_evenmead (marks B14 N05 N07 N12 N13, puppets malrik / torvald / stone). The set only has its golden-hour
+# LightingPreset: night is a dark-blue full-screen grade over every shot (placeholder until a night preset exists).
+# Axis: the Ep3 rule (every camera east of the Malrik - Ysolde line). Malrik speaks as voice-over (hidden narrator).
+cine ep3_ending  title="Episode 3: I Will Not Stop"  letterbox=2.39  seed=35  length=56..64
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep3_opening.wav  vol=-18
+env night  moon_yaw=210  moon_pitch=-40  energy=0.4
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=malrik
+cast  aldra     capsule  at=(30, 0, -300)
+cast  obren     capsule  at=(-30, 0, -300)
+
+# ---------------------------------------------------------------- the ridge at night
+# Wide over the valley (the B14 mark), night grade; the torches come alight along the ridge
+shot B14 8.0  in=fade_black:1.2
+  at 0.0  fade color=#0b0c26 alpha=0.52 time=0.05
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-12
+  at 2.0  vfx t1  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-14, 4.0, -27.2)  life=24  scale=0.12
+  at 3.2  vfx t2  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-9, 4.6, -27.6)  life=23  scale=0.12
+  at 4.4  vfx t3  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-4, 5.2, -28.0)  life=22  scale=0.12
+# The Shadow front, travelling low (the N05 mark): Hush's torches burning
+shot N05 8.0
+  at 0.6  sfx res://assets/audio/sfx/ab_flame_burst.wav  vol=-16
+  at 2.4  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-12
+  at 5.0  sfx res://assets/audio/sfx/ab_flame_burst.wav  vol=-17
+# Torvald by the Ice side; Aldra off screen
+shot T03 8.0  cam=frame "ms on torvald, 3/4 right, eye"  push=0.2
+  at 0.6  line aldra "You heard it."
+  at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-14
+  at 3.6  line torvald "I heard it ask. I did not hear him say no."
+  at 3.4  anim torvald set_expression  arg=worried
+# Malrik alone on the crest (the N07 mark): the stone whispers
+shot N07 8.0  in=blend:0.3
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 0.8  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-6
+  at 1.0  line obren "Now the tree."
+  at 1.2  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-0.42, 8.84, -35.38)  life=6.0  scale=0.7
+  at 1.4  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-9
+  at 4.4  anim malrik set_expression  arg=worried
+# Close: he closes his fist on it
+shot N13 6.0
+  at 0.2  anim malrik set_expression  arg=fierce
+  at 1.0  line malrik "Tomorrow."  dur=2.2
+  at 1.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-12
+# Long lens across the valley to Lark Hill: one white-gold flicker; the old man is still there
+shot N12 11.0
+  at 3.8  vfx flicker  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(-9, 7.5, 40)  life=0.6  scale=1.0
+  at 3.8  sfx res://assets/audio/sfx/atk_storm.wav  vol=-16
+  at 6.0  line malrik "I have heard “stop” all my life."  dur=2.6
+# The episode closes
+shot B14R 9.0  in=fade_black:1.0
+  at 0.0  fade color=#0b0c26 alpha=0.6 time=0.05
+  at 1.0  title "Episode 3" sub="The Gravedigger's Son" time=5.0
+  at 7.8  fade alpha=1 time=1.0

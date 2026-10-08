@@ -64,6 +64,8 @@ const MISSION_SCENES := {
 const STORY_FILMS := {
 	&"ep2_ending": &"ep3_opening",   # mission-e2-05.md: "All Four, or None", then the Ep3 card
 	&"ep3_opening": &"e3m1",         # mission-e3-01.md E1: the opening plays before the briefing
+	&"ep3_ending": &"ep4_opening",   # mission-e3-04.md: "I Will Not Stop" after e3m4, then the Ep4 card
+	&"ep4_opening": &"e4m1",         # e4m1 not built yet: the chain ends on the main menu
 }
 ## Malrik's track (campaign-outline D8; per-wizard item tracks are not built): Ep3 victories are flags-only
 ## ("save_items": false, Vessa's items untouched) and carry Malrik's essence (50 %, cap 1 500) in this int flag.
@@ -168,7 +170,7 @@ const MISSION_REWARDS := {
 	&"e3m4": {
 		"flags": {"e3m4_knight_charge": "sec_knight", "e3m4_refused": "sec_refuse"},
 		"set_flags": {"ep3_complete": true, "torvald_heard_stone": true},
-		"next": &"e4m1",
+		"next": &"ep3_ending",   # film chain ep3_ending -> ep4_opening -> e4m1 (unlocks e4m1, as before)
 		"save_items": false,
 	},
 }

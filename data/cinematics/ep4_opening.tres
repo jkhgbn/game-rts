@@ -366,9 +366,9 @@ params = {
 script = ExtResource("1_15my7")
 at = 0.3
 speaker = &"ysolde"
-text = "That is my strength. Not fire. Not knives. I come back. Every spring. Every time."
+text = "That is my strength. I come back. Every spring. Every time."
 duration = 5.3
-voice = "res://assets/audio/voice/ysolde/that_is_my_strength_ae118cbe.wav"
+voice = "res://assets/audio/voice/ysolde/that_is_my_strength_7a8a1ecc.wav"
 
 [sub_resource type="Resource" id="Resource_i6fwu"]
 script = ExtResource("3_88k6v")
@@ -568,6 +568,7 @@ marker_prefix = &"B14R"
 script = ExtResource("2_k7x2m")
 id = &"ep4_opening"
 title = "Episode 4: What Grows Back"
+stage_scene = "res://scenes/cinematics/ep4_opening.tscn"
 shots = Array[ExtResource("3_88k6v")]([SubResource("Resource_0ufa7"), SubResource("Resource_1im3q"), SubResource("Resource_xcakf"), SubResource("Resource_7n1gy"), SubResource("Resource_2ol13"), SubResource("Resource_qey3i"), SubResource("Resource_xrhj6"), SubResource("Resource_kp6rm"), SubResource("Resource_16dww"), SubResource("Resource_i6fwu"), SubResource("Resource_c7vwl"), SubResource("Resource_qhhao"), SubResource("Resource_60o2e"), SubResource("Resource_ik5om")])
 music_cue = &"res://assets/audio/forge/music/ep4_opening.wav"
 shake_seed = 34

@@ -1,0 +1,52 @@
+{
+ "cine_id": "ep3_ending",
+ "source": "data/cinematics/src/ep3_ending.cine (beats: docs/design/mission-e3-04.md, Cinematic hooks)",
+ "note": "Hand-written with the .cine (2026-10-07): the same text as its lines. L5 reuses the ep3_opening L14 WAV.",
+ "lines": [
+  {
+   "id": "L1",
+   "shot": "T03",
+   "at": 0.6,
+   "dur": 2.5,
+   "speaker": "aldra",
+   "subtitle": "You heard it.",
+   "text": "You heard it."
+  },
+  {
+   "id": "L2",
+   "shot": "T03",
+   "at": 3.6,
+   "dur": 3.3,
+   "speaker": "torvald",
+   "subtitle": "I heard it ask. I did not hear him say no.",
+   "text": "I heard it ask. I did not hear him say no."
+  },
+  {
+   "id": "L3",
+   "shot": "N07",
+   "at": 1.0,
+   "dur": 2.5,
+   "speaker": "obren",
+   "subtitle": "Now the tree.",
+   "text": "Now the tree."
+  },
+  {
+   "id": "L4",
+   "shot": "N13",
+   "at": 1.0,
+   "dur": 2.2,
+   "speaker": "malrik",
+   "subtitle": "Tomorrow.",
+   "text": "Tomorrow."
+  },
+  {
+   "id": "L5",
+   "shot": "N12",
+   "at": 6.0,
+   "dur": 2.6,
+   "speaker": "malrik",
+   "subtitle": "I have heard “stop” all my life.",
+   "text": "I have heard “stop” all my life."
+  }
+ ]
+}
