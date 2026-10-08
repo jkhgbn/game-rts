@@ -1,0 +1,88 @@
+{
+    "cine_id": "ep2_ending",
+    "source": "data/cinematics/src/ep2_ending.cine (beats: docs/design/mission-e2-05.md, Cinematic hooks ep2_ending)",
+    "note": "Added 2026-10-08 so the film's lines get French (the film was built 2026-10-07 without a lines file): the same text as its lines.",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "S2",
+            "at": 3.0,
+            "dur": 3.2,
+            "speaker": "vessa",
+            "subtitle": "Master. Open it. Please.",
+            "text": "Master. Open it. Please."
+        },
+        {
+            "id": "L2",
+            "shot": "S4",
+            "at": 0.4,
+            "dur": 3.0,
+            "speaker": "master",
+            "subtitle": "My joy. You came all this way.",
+            "text": "My joy. You came all this way."
+        },
+        {
+            "id": "L3",
+            "shot": "S4",
+            "at": 3.6,
+            "dur": 4.2,
+            "speaker": "master",
+            "subtitle": "I cannot open it. If I let go, what is under me comes up.",
+            "text": "I cannot open it. If I let go, what is under me comes up."
+        },
+        {
+            "id": "L4",
+            "shot": "S5",
+            "at": 0.4,
+            "dur": 3.4,
+            "speaker": "master",
+            "subtitle": "It takes four hands to turn this lock.",
+            "text": "It takes four hands to turn this lock."
+        },
+        {
+            "id": "L5",
+            "shot": "S6",
+            "at": 0.5,
+            "dur": 2.6,
+            "speaker": "vessa",
+            "subtitle": "Then tell me how!",
+            "text": "Then tell me how!"
+        },
+        {
+            "id": "L6",
+            "shot": "S7",
+            "at": 1.0,
+            "dur": 3.4,
+            "speaker": "master",
+            "subtitle": "All four of you, or none.",
+            "text": "All four of you, or none."
+        },
+        {
+            "id": "L7",
+            "shot": "S8",
+            "at": 1.6,
+            "dur": 3.4,
+            "speaker": "vey",
+            "subtitle": "Especially Malrik. He always said that.",
+            "text": "Especially Malrik. He always said that."
+        },
+        {
+            "id": "L8",
+            "shot": "U1",
+            "at": 1.0,
+            "dur": 4.0,
+            "speaker": "narrator",
+            "subtitle": "The door held. The war went looking for open ground,",
+            "text": "The door held. The war went looking for open ground,"
+        },
+        {
+            "id": "L9",
+            "shot": "U1",
+            "at": 5.6,
+            "dur": 3.8,
+            "speaker": "narrator",
+            "subtitle": "and found the last green country: Evenmead.",
+            "text": "and found the last green country: Evenmead."
+        }
+    ]
+}

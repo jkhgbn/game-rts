@@ -510,6 +510,51 @@ msgstr ""
 msgid "Go. I will keep your ridge cold."
 msgstr ""
 
+#. speaker vessa
+#: data/voice/lines/ep2_ending.json:L1
+msgid "Master. Open it. Please."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep2_ending.json:L2
+msgid "My joy. You came all this way."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep2_ending.json:L3
+msgid "I cannot open it. If I let go, what is under me comes up."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep2_ending.json:L4
+msgid "It takes four hands to turn this lock."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep2_ending.json:L5
+msgid "Then tell me how!"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep2_ending.json:L6
+msgid "All four of you, or none."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep2_ending.json:L7
+msgid "Especially Malrik. He always said that."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep2_ending.json:L8
+msgid "The door held. The war went looking for open ground,"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep2_ending.json:L9
+msgid "and found the last green country: Evenmead."
+msgstr ""
+
 #. speaker reveler
 #: data/voice/lines/ep2_opening.json:L01
 msgid "To Vessa! To the Ember Queen!"
