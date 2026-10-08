@@ -62,7 +62,7 @@ shot M2 6.0  cam=static  from=(1.6, 1.6, 5.9)  look=(-1.0, 1.3, 4.0)  fov=40  in
   at 1.8  show torvald
   at 2.5  line malrik "Torvald. Come in. I was just mourning."  dur=3.0
 # CU on the table: a white mask lands on the chart and slides across the strait to stop against Malrik's cup
-shot M3 6.0  cam=static  from=(-0.2, 1.45, 4.8)  look=(-1.0, 0.87, 4.2)  fov=28
+shot M3 6.0  cam=static  from=(-0.2, 1.45, 4.8)  look=(-1.0, 0.87, 4.0)  fov=18
   at 0.6  show mask
   at 0.6  move mask  to=(-1.0, 0.88, 3.85)  speed=0.8
   at 2.0  line torvald "She left this on the sand."  dur=2.6
@@ -71,7 +71,7 @@ shot M4 7.0  cam=static  from=(0.1, 1.85, 4.5)  look=malrik  fov=30
   at 0.8  anim malrik set_expression  arg=smile
   at 1.5  line malrik "Wars need a first blow. I only provided one."  dur=3.8
 # MS Torvald, 3/4, standing: he does not sit; frost creeps on the window behind him
-shot M5 6.0  cam=static  from=(0.5, 1.85, 4.9)  look=torvald  fov=34
+shot M5 6.0  cam=static  from=(0.8, 2.0, 4.5)  look=torvald+(0, 2.0, 0)  fov=30  faces=torvald
   at 0.0  anim torvald set_expression  arg=worried
   at 1.0  line torvald "You broke a truce older than both of us."  dur=3.4
   at 2.0  vfx frost  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-1.8, 1.6, 7.4)  life=3.6  scale=0.3
@@ -82,7 +82,7 @@ shot M6 9.0  cam=static  from=(-0.4, 2.1, 7.4)  look=(-1.0, 1.55, 3.2)  fov=36  
   at 1.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-14
   at 1.5  line malrik "Truces are what weak men sign to sleep. You signed one with me, Torvald."  dur=5.6
 # CU Torvald, long hold: a long silence, the amber light on his face; then he answers
-shot M7 8.0  cam=static  from=(0.3, 1.9, 4.6)  look=torvald  fov=32
+shot M7 8.0  cam=static  from=(0.1, 2.6, 1.4)  look=(-1.0, 2.0, 6.4)  fov=32  faces=torvald
   at 4.5  line torvald "For now, I sail with you."  dur=2.6
 # MS Malrik: he sits again and lifts his cup to him
 shot M8 5.0  cam=static  from=(0.9, 1.6, 4.5)  look=malrik  fov=36

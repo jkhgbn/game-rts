@@ -1,10 +1,10 @@
-# cine check: c_e4_refuge
+# cine build: c_e4_refuge
 
-2026-10-08 10:51:35 - `tools/cine/run_cine.ps1 check c_e4_refuge` - hash `3c9bda4291f2f893` (2 runs identical)
+2026-10-08 14:01:01 - `tools/cine/run_cine.ps1 build c_e4_refuge` - hash `444c19287cd96b16` (2 runs identical)
 
-## Result: **PASS** - quality **98 / 100** (previous run 90, +8)
+## Result: **PASS** - quality **98 / 100** (previous run 98, +0)
 
-0 FAIL, 0 WARN, 36 PASS, 17 info, 0 skipped, 4 s
+0 FAIL, 0 WARN, 37 PASS, 17 info, 0 skipped, 4 s
 
 ## Improve next
 1. **R7 face ysolde** (PASS): keep ysolde nearer the band centre in R7 _(from F11 R7 face ysolde, shot R7)_
@@ -14,7 +14,7 @@
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P0 | grammar | PASS 100 | 99 lines, 0 errors | tools/cine/README.md grammar |  |
+| P0 | grammar | PASS 100 | 101 lines, 0 errors | tools/cine/README.md grammar |  |
 
 ## Resolve (set, markers, actors, clips, vfx, audio, lines)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -35,13 +35,13 @@
 | F2 | R2 face wren | PASS 100 | worst u 0.50 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F3 | R3 face vessa | PASS 100 | worst u 0.69 v 0.37 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | R3 face ysolde | PASS 100 | worst u 0.31 v 0.34 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F5 | R4 face vessa | PASS 100 | worst u 0.50 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F5 | R4 face vessa | PASS 100 | worst u 0.50 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | R4B face ysolde | PASS 100 | worst u 0.50 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F7 | R5 face maelis | PASS 100 | worst u 0.51 v 0.40 at 4.25 s | head inside the 2.39 band safe area (90 %) |  |
+| F7 | R5 face maelis | PASS 98 | worst u 0.78 v 0.56 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F8 | R6 face maelis | PASS 100 | worst u 0.70 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F9 | R6 face vessa | PASS 100 | worst u 0.43 v 0.32 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | R6 face ysolde | PASS 97 | worst u 0.29 v 0.29 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F11 | R7 face ysolde | PASS 97 | worst u 0.67 v 0.28 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F11 | R7 face ysolde | PASS 95 | worst u 0.42 v 0.27 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F12 | R8 face ysolde | PASS 100 | worst u 0.53 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F13 | R9 face vessa | PASS 100 | worst u 0.50 v 0.45 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F14 | R10 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
@@ -54,7 +54,7 @@
 | C3 | cut R3>R4 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C4 | cut R4>R4B axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C5 | cut R4B>R5 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
-| C6 | cut R5>R6 axis | PASS 100 | same side: maelis-vessa (on the axis) | 180-degree rule |  |
+| C6 | cut R5>R6 axis | PASS 100 | same side: maelis-vessa | 180-degree rule |  |
 | C7 | cut R6>R7 | INFO | fade / blend (scene break: the axis may reset) | 180-degree rule applies to cuts |  |
 | C8 | cut R7>R8 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C9 | cut R8>R9 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
@@ -68,22 +68,23 @@
 | S3 | R3 line 2 (src 50) | PASS 100 | ysolde "He usually gets one." 11.1 cps, 1.8 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S4 | R4 line 1 (src 53) | PASS 96 | vessa "You'd have let him have the ford all alo.." 13.4 cps, 3.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | S5 | R4B line 1 (src 57) | PASS 100 | ysolde "Fords don't bleed." 10.0 cps, 1.8 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S6 | R5 line 1 (src 65) | PASS 90 | maelis "The wagons are burning. All of them, on .." 15.3 cps, 3.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S7 | R5 line 2 (src 66) | PASS 97 | maelis "Nobody saw the knife. Nobody ever does." 13.0 cps, 3.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S8 | R6 line 1 (src 72) | PASS 92 | ysolde "Mother Hush. So that's where she went." 14.6 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S9 | R6 line 2 (src 73) | PASS 94 | maelis "No grain, no carts. The valley can't fee.." 14.2 cps, 3.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S10 | R7 line 1 (src 80) | PASS 90 | ysolde "Then they walk. West, through the old wo.." 15.2 cps, 4.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S11 | R8 line 1 (src 85) | PASS 88 | vessa "Through Malrik's hunters? With grandmoth.." 15.9 cps, 3.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S12 | R8 line 2 (src 86) | PASS 100 | ysolde "Slowly. Slow is alive." 9.2 cps, 2.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
-| S13 | R9 line 1 (src 92) | PASS 95 | vessa "Then I'll tell Ashby to leave the gate o.." 13.7 cps, 3.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S6 | R5 line 1 (src 66) | PASS 90 | maelis "The wagons are burning. All of them, on .." 15.3 cps, 3.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S7 | R5 line 2 (src 67) | PASS 97 | maelis "Nobody saw the knife. Nobody ever does." 13.0 cps, 3.0 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S8 | R6 line 1 (src 73) | PASS 92 | ysolde "Mother Hush. So that's where she went." 14.6 cps, 2.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S9 | R6 line 2 (src 74) | PASS 94 | maelis "No grain, no carts. The valley can't fee.." 14.2 cps, 3.6 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S10 | R7 line 1 (src 82) | PASS 90 | ysolde "Then they walk. West, through the old wo.." 15.2 cps, 4.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S11 | R8 line 1 (src 87) | PASS 88 | vessa "Through Malrik's hunters? With grandmoth.." 15.9 cps, 3.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S12 | R8 line 2 (src 88) | PASS 100 | ysolde "Slowly. Slow is alive." 9.2 cps, 2.4 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
+| S13 | R9 line 1 (src 94) | PASS 95 | vessa "Then I'll tell Ashby to leave the gate o.." 13.7 cps, 3.2 s | <= 2 x 48 chars, <= 17 cps (max 22), fits the shot |  |
 | V1 | voice files | PASS 100 | 13 / 13 lines voiced | every line has a WAV (data/voice/manifest.json, speaker + text, or voice=) |  |
 | V2 | voice fits its slot | PASS 100 | all fit | the WAV ends before the next line starts |  |
 
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 3c9bda4291f2f893 / 3c9bda4291f2f893 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 8b2b3a3f58ad41f1) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 444c19287cd96b16 / 444c19287cd96b16 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 3c9bda4291f2f893) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/c_e4_refuge.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -97,5 +98,5 @@
 | RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (vessa in R1 (cine 165, runtime 165 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
-- source `data/cinematics/src/c_e4_refuge.cine` (99 lines), 70.0 s, 11 shots, stage: set forge_evenmead
-- the .cine has 99 lines (demo budget <= 80)
+- source `data/cinematics/src/c_e4_refuge.cine` (101 lines), 70.0 s, 11 shots, stage: set forge_evenmead
+- the .cine has 101 lines (demo budget <= 80)

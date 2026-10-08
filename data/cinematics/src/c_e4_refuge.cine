@@ -58,9 +58,10 @@ shot R4B 2.4  cam=frame "cu on ysolde, 3/4 left, eye"
 
 # ---------------------------------------------------------------- Maelis
 # Maelis walks out of the dark, ash on her hands; far off, an orange glow on the south road
-shot R5 8.0  cam=static  from=(-12.2, 8.2, 42.6)  look=(-16.2, 7.6, 44.2)  fov=40  faces=maelis
+shot R5 8.0  cam=static  from=(-11.2, 8.5, 41.6)  look=(-15.2, 8.2, 44.4)  fov=44  faces=maelis
   at 0.0  show maelis
   at 0.0  move maelis  to=(-14.6, 6.75, 44.6)  speed=1.4
+  at 2.3  face maelis  to=(-12.0, 6.9, 44.6)  time=0.6
   at 0.0  vfx glow  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-46, 5.0, 14)  life=10  scale=0.5
   at 0.6  line maelis "The wagons are burning. All of them, on the south road."  dur=3.6
   at 4.6  line maelis "Nobody saw the knife. Nobody ever does."  dur=3.0

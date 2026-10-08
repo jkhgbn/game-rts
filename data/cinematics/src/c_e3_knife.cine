@@ -44,7 +44,7 @@ shot K5 8.0  cam=frame "cu on tokens, high"
   at 4.6  line malrik "Bring me back their axle pins."
   at 4.6  sfx res://assets/audio/forge/sfx/knife_ring.wav  vol=-16
 # Torvald watches from his pavilion
-shot K6 7.0  cam=frame "ms on torvald, 3/4 right, eye"  push=0.15
+shot K6 7.0  cam=dolly  from=(-5.9, 9.5, -38.7)  to=(-6.2, 9.45, -38.75)  look=(-9.0, 9.35, -39.0)  fov=34  faces=torvald
   at 0.0  anim torvald set_expression  arg=worried
   at 0.6  line torvald "You send a knife at farmers' carts, Malrik."
   at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-16

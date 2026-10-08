@@ -1,15 +1,15 @@
-# cine check: c_e7_mask
+# cine build: c_e7_mask
 
-2026-10-08 11:59:43 - `tools/cine/run_cine.ps1 check c_e7_mask` - hash `f8e42e5bc4aaebcc` (2 runs identical)
+2026-10-08 14:01:22 - `tools/cine/run_cine.ps1 build c_e7_mask` - hash `c24909de9bce0d27` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 100, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 100, -1)
 
-0 FAIL, 0 WARN, 26 PASS, 18 info, 0 skipped, 5 s
+0 FAIL, 0 WARN, 28 PASS, 17 info, 0 skipped, 5 s
 
 ## Improve next
-1. **M2 face malrik** (PASS): keep malrik nearer the band centre in M2 _(from F2 M2 face malrik, shot M2)_
-2. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
-3. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
+1. **M5 face torvald** (PASS): keep torvald nearer the band centre in M5 _(from F5 M5 face torvald, shot M5)_
+2. **M2 face malrik** (PASS): keep malrik nearer the band centre in M2 _(from F2 M2 face malrik, shot M2)_
+3. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -35,9 +35,9 @@
 | F2 | M2 face malrik | PASS 95 | worst u 0.65 v 0.26 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F3 | M3 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F4 | M4 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F5 | M5 face torvald | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F5 | M5 face torvald | PASS 90 | worst u 0.50 v 0.79 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | M6 face malrik | PASS 100 | worst u 0.50 v 0.37 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F7 | M7 face torvald | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F7 | M7 face torvald | PASS 100 | worst u 0.50 v 0.63 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F8 | M8 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F9 | M9 face aldra | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | M10 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
@@ -50,7 +50,7 @@
 | C3 | cut M3>M4 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C4 | cut M4>M5 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C5 | cut M5>M6 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
-| C6 | cut M6>M7 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
+| C6 | cut M6>M7 axis | PASS 100 | same side: malrik-torvald (on the axis) | 180-degree rule |  |
 | C7 | cut M7>M8 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C8 | cut M8>M9 | INFO | fade / blend (scene break: the axis may reset) | 180-degree rule applies to cuts |  |
 | C9 | cut M9>M10 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
@@ -73,8 +73,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | f8e42e5bc4aaebcc / f8e42e5bc4aaebcc | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 86985970812c6267) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | c24909de9bce0d27 / c24909de9bce0d27 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was f8e42e5bc4aaebcc) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/c_e7_mask.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

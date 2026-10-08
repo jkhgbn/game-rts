@@ -1,16 +1,18 @@
 # cine build: c3_parley
 
-2026-10-08 01:32:48 - `tools/cine/run_cine.ps1 build c3_parley` - hash `ae2721a8e643a0fc` (2 runs identical)
+2026-10-08 14:00:32 - `tools/cine/run_cine.ps1 build c3_parley` - hash `94da11963f27f54b` (2 runs identical)
 
-## Result: **PASS** - quality **97 / 100** (previous run 96, +1)
+## Result: **PASS** - quality **97 / 100** (previous run 97, +0)
 
-0 FAIL, 0 WARN, 43 PASS, 15 info, 0 skipped, 2 s
+0 FAIL, 0 WARN, 45 PASS, 14 info, 0 skipped, 2 s
 
 ## Improve next
-1. **P8 face torvald** (PASS): keep torvald nearer the band centre in P8 _(from F10 P8 face torvald, shot P8)_
+1. **P8 face torvald** (PASS): keep torvald nearer the band centre in P8 _(from F11 P8 face torvald, shot P8)_
 2. **P2 face malrik** (PASS): keep malrik nearer the band centre in P2 _(from F2 P2 face malrik, shot P2)_
-3. **P9 face vessa** (PASS): keep vessa nearer the band centre in P9 _(from F13 P9 face vessa, shot P9)_
-4. **P6 face torvald** (PASS): keep torvald nearer the band centre in P6 _(from F6 P6 face torvald, shot P6)_
+3. **P7 face vessa** (PASS): keep vessa nearer the band centre in P7 _(from F9 P7 face vessa, shot P7)_
+4. **P9 face vessa** (PASS): keep vessa nearer the band centre in P9 _(from F14 P9 face vessa, shot P9)_
+5. **P6 face torvald** (PASS): keep torvald nearer the band centre in P6 _(from F6 P6 face torvald, shot P6)_
+6. **P6 face malrik** (PASS): keep malrik nearer the band centre in P6 _(from F7 P6 face malrik, shot P6)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -37,15 +39,16 @@
 | F3 | P3 face vessa | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | P4 face ysolde | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | P5 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F6 | P6 face torvald | PASS 94 | worst u 0.48 v 0.75 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F7 | P6 face malrik | PASS 100 | worst u 0.48 v 0.49 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F8 | P7 face malrik | PASS 100 | worst u 0.32 v 0.50 at 12.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F9 | P8 face vessa | PASS 100 | worst u 0.48 v 0.48 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F10 | P8 face torvald | PASS 89 | worst u 0.89 v 0.55 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F11 | P8 face ysolde | PASS 100 | worst u 0.36 v 0.43 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F12 | P9 face malrik | PASS 99 | worst u 0.24 v 0.65 at 8.75 s | head inside the 2.39 band safe area (90 %) |  |
-| F13 | P9 face vessa | PASS 92 | worst u 0.68 v 0.23 at 12.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F14 | P10 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
+| F6 | P6 face torvald | PASS 93 | worst u 0.84 v 0.63 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F7 | P6 face malrik | PASS 93 | worst u 0.16 v 0.53 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F8 | P7 face malrik | PASS 100 | worst u 0.36 v 0.52 at 12.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F9 | P7 face vessa | PASS 90 | worst u 0.88 v 0.59 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F10 | P8 face vessa | PASS 100 | worst u 0.48 v 0.48 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F11 | P8 face torvald | PASS 89 | worst u 0.89 v 0.55 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F12 | P8 face ysolde | PASS 100 | worst u 0.36 v 0.43 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F13 | P9 face malrik | PASS 99 | worst u 0.24 v 0.65 at 8.75 s | head inside the 2.39 band safe area (90 %) |  |
+| F14 | P9 face vessa | PASS 92 | worst u 0.68 v 0.23 at 12.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F15 | P10 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 
 ## Continuity (180-degree rule, jump cuts)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -55,8 +58,8 @@
 | C3 | cut P3>P4 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C4 | cut P4>P5 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C5 | cut P5>P6 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
-| C6 | cut P6>P7 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
-| C7 | cut P7>P8 axis | PASS 100 | same side: malrik-vessa, malrik-ysolde, vessa-ysolde (on the axis) | 180-degree rule |  |
+| C6 | cut P6>P7 axis | PASS 100 | same side: malrik-vessa | 180-degree rule |  |
+| C7 | cut P7>P8 axis | PASS 100 | same side: malrik-vessa, malrik-ysolde, vessa-ysolde | 180-degree rule |  |
 | C8 | cut P8>P9 axis | PASS 100 | same side: malrik-torvald, malrik-vessa, malrik-ysolde (on the axis), torvald-vessa, torvald-ysolde, vessa-ysolde | 180-degree rule |  |
 | C9 | cut P9>P10 | INFO | fade / blend (scene break: the axis may reset) | 180-degree rule applies to cuts |  |
 
@@ -87,8 +90,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ae2721a8e643a0fc / ae2721a8e643a0fc | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was c7d867c2830886db) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 94da11963f27f54b / 94da11963f27f54b | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was ae2721a8e643a0fc) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/c3_parley.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

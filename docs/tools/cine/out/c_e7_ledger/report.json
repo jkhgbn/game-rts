@@ -213,17 +213,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.933627799375733,
 			"group": "framing",
 			"hint": "",
 			"id": "F12",
 			"improve": "keep torvald nearer the band centre in G9",
 			"name": "G9 face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.98008833981272,
 			"shot": "G9",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.00 s",
+			"value": "worst u 0.50 v 0.71 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -237,7 +237,7 @@
 			"score": 1.0,
 			"shot": "G10",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.00 s",
+			"value": "worst u 0.50 v 0.68 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -629,7 +629,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "91fc02d8aa499590 / 91fc02d8aa499590",
+			"value": "8208500de47d35f1 / 8208500de47d35f1",
 			"weight": 1.0
 		},
 		{
@@ -643,7 +643,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was f905af368158975b)",
+			"value": "changed (was 29aab04a687e45ff)",
 			"weight": 1.0
 		},
 		{
@@ -671,14 +671,28 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "worst facing 0.0 deg (torvald in G6 (cine 180, runtime -180 deg)), position 0.000 m",
+			"value": "worst facing 0.0 deg (ossavar in G1 (cine 230, runtime -130 deg)), position 0.000 m",
+			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/c_e7_ledger.tres",
 			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 18,
-		"PASS": 30,
+		"PASS": 31,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -693,7 +707,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "91fc02d8aa499590",
+	"hash": "8208500de47d35f1",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e7_ledger",
@@ -720,20 +734,20 @@
 			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/c_e7_ledger.cine` (85 lines), 70.0 s, 10 shots, stage: set forge_intro_malrik",
 		"the .cine has 85 lines (demo budget <= 80)"
 	],
-	"previous_quality": 99.6,
-	"quality": 99.8,
+	"previous_quality": 97.4,
+	"quality": 99.7,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.7,
+	"seconds": 2.6,
 	"shots": {},
-	"started": "2026-10-08 11:59:14",
+	"started": "2026-10-08 14:02:39",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

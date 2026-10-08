@@ -1,15 +1,15 @@
-# cine check: c_e8_muster
+# cine build: c_e8_muster
 
-2026-10-08 12:16:13 - `tools/cine/run_cine.ps1 check c_e8_muster` - hash `56043cc0cb0b7993` (2 runs identical)
+2026-10-08 14:02:05 - `tools/cine/run_cine.ps1 build c_e8_muster` - hash `f8454cedde35860f` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
+## Result: **PASS** - quality **98 / 100** (previous run 99, -1)
 
-0 FAIL, 0 WARN, 26 PASS, 14 info, 0 skipped, 4 s
+0 FAIL, 0 WARN, 26 PASS, 15 info, 0 skipped, 4 s
 
 ## Improve next
 1. **M3 face ysolde** (PASS): keep ysolde nearer the band centre in M3 _(from F4 M3 face ysolde, shot M3)_
-2. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
-3. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
+2. **M2 face vessa** (PASS): keep vessa nearer the band centre in M2 _(from F2 M2 face vessa, shot M2)_
+3. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -31,10 +31,10 @@
 ## Framing (faces in the 2.39 band, 16:9 frame)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | M1 face vessa | PASS 100 | worst u 0.44 v 0.36 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F2 | M2 face vessa | PASS 100 | worst u 0.50 v 0.40 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F3 | M2 face torvald | PASS 100 | worst u 0.59 v 0.42 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F4 | M3 face ysolde | PASS 96 | worst u 0.80 v 0.37 at 7.25 s | head inside the 2.39 band safe area (90 %) |  |
+| F1 | M1 face vessa | PASS 100 | worst u 0.44 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F2 | M2 face vessa | PASS 96 | worst u 0.80 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | M2 face torvald | PASS 99 | worst u 0.23 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F4 | M3 face ysolde | PASS 90 | worst u 0.89 v 0.43 at 7.25 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | M4 face vey | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | M5 face malrik | PASS 100 | worst u 0.51 v 0.38 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F7 | M6 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
@@ -45,7 +45,7 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | C1 | cut M1>M2 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
-| C2 | cut M2>M3 axis | PASS 100 | same side: torvald-vessa | 180-degree rule |  |
+| C2 | cut M2>M3 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C3 | cut M3>M4 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C4 | cut M4>M5 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C5 | cut M5>M6 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
@@ -69,8 +69,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 56043cc0cb0b7993 / 56043cc0cb0b7993 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 2426add96d4382e4) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | f8454cedde35860f / f8454cedde35860f | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 56043cc0cb0b7993) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/c_e8_muster.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

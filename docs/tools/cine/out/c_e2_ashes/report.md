@@ -1,10 +1,10 @@
 # cine build: c_e2_ashes
 
-2026-10-08 01:05:50 - `tools/cine/run_cine.ps1 build c_e2_ashes` - hash `256ea392d9d2c4fc` (2 runs identical)
+2026-10-08 14:00:41 - `tools/cine/run_cine.ps1 build c_e2_ashes` - hash `bc83f515396c460a` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 98, +1)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
-0 FAIL, 0 WARN, 33 PASS, 15 info, 0 skipped, 2 s
+0 FAIL, 0 WARN, 33 PASS, 15 info, 0 skipped, 3 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -33,11 +33,11 @@
 |---|---|---|---|---|---|
 | F1 | A1 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F2 | A2 face ysolde | PASS 100 | worst u 0.50 v 0.50 at 5.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F3 | A3 face ysolde | PASS 100 | worst u 0.66 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | A3 face ysolde | PASS 100 | worst u 0.70 v 0.48 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | A4 face ysolde | PASS 100 | worst u 0.50 v 0.50 at 11.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F5 | A5 face vessa | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F6 | A6 face vessa | PASS 98 | worst u 0.23 v 0.30 at 10.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F7 | A6 face ysolde | PASS 100 | worst u 0.71 v 0.42 at 10.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F5 | A5 face vessa | PASS 100 | worst u 0.50 v 0.62 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F6 | A6 face vessa | PASS 99 | worst u 0.23 v 0.42 at 10.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F7 | A6 face ysolde | PASS 100 | worst u 0.63 v 0.44 at 10.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F8 | A7 face maelis | PASS 100 | worst u 0.30 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F9 | A8 face ysolde | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | A9 face vessa | PASS 100 | worst u 0.74 v 0.36 at 9.00 s | head inside the 2.39 band safe area (90 %) |  |
@@ -76,8 +76,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 256ea392d9d2c4fc / 256ea392d9d2c4fc | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was befc5683c330d540) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | bc83f515396c460a / bc83f515396c460a | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 256ea392d9d2c4fc) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/c_e2_ashes.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools

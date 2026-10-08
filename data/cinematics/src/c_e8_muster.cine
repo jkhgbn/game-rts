@@ -26,7 +26,7 @@ prop  b_shadow res://art/cinematics/stage_sets/forge_citadel/parts/banner_shadow
 
 # ---------------------------------------------------------------- the ridge at dusk
 # Wide, dusk, static: Vessa alone on a rock, tapping her foot; amber haze below
-shot M1 10.0  cam=static  from=(4.0, 8.8, -28.0)  look=(0, 8.0, -36.4)  fov=44  in=fade_black:1.0  faces=vessa
+shot M1 10.0  cam=static  from=(4.0, 8.8, -28.0)  look=(-0.4, 8.9, -36.4)  fov=30  in=fade_black:1.0  faces=vessa
   at 0.0  fade color=#5a2a40  alpha=0.3  time=0.05
   at 0.0  hide hush
   at 0.0  hide stone
@@ -44,7 +44,7 @@ shot M1 10.0  cam=static  from=(4.0, 8.8, -28.0)  look=(0, 8.0, -36.4)  fov=44  
   at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
   at 5.0  line vessa "Two days on this rock. I've counted every pebble. Twice."  dur=4.0
 # WS, the north path: Torvald and Aldra climb into frame under the blue banner; Vessa gets up
-shot M2 10.0  cam=static  from=(2.6, 8.6, -30.0)  look=(-3.0, 8.4, -40.0)  fov=46  faces=vessa,torvald
+shot M2 10.0  cam=static  from=(-6.0, 8.7, -31.0)  look=(-2.6, 8.9, -38.0)  fov=32  faces=vessa,torvald
   at 0.0  show torvald
   at 0.0  show aldra
   at 0.0  teleport torvald  to=(-3.4, 7.8, -45.0)  yaw=10
@@ -55,7 +55,7 @@ shot M2 10.0  cam=static  from=(2.6, 8.6, -30.0)  look=(-3.0, 8.4, -40.0)  fov=4
   at 5.0  line vessa "So, slowly. Welcome anyway."  dur=2.2
   at 5.0  anim vessa set_expression  arg=smile
 # WS, the west path: Ysolde on foot, Wren by her stag, Maelis with her staff; the green banner
-shot M3 10.0  cam=static  from=(0.4, 8.6, -29.6)  look=(-8.0, 8.0, -38.4)  fov=48  faces=ysolde
+shot M3 10.0  cam=dolly  from=(-3.0, 8.7, -29.8)  to=(-3.1, 8.7, -30.0)  look=(-9.0, 8.8, -38.6)>(-5.2, 8.8, -38.4)  fov=34  faces=ysolde
   at 0.0  show ysolde
   at 0.0  show maelis
   at 0.0  show wren

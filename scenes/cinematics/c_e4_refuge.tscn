@@ -13,7 +13,7 @@
 [ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="11_225yl"]
 [ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="12_r64ls"]
 
-[node name="CE4RefugeStage" type="Node3D" unique_id=663942786]
+[node name="CE4RefugeStage" type="Node3D" unique_id=658199020]
 script = ExtResource("1_7ybk4")
 autoplay_script = ExtResource("2_5w7fu")
 actor_paths = {
@@ -65,13 +65,13 @@ lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/m
 [node name="fire1" type="Node3D" parent="." unique_id=984822497 instance=ExtResource("6_uxu2y")]
 transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -10, 6.85, 47.6)
 
-[node name="fire2" type="Node3D" parent="." unique_id=122886914 instance=ExtResource("6_uxu2y")]
+[node name="fire2" type="Node3D" parent="." unique_id=109371146 instance=ExtResource("6_uxu2y")]
 transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -19.5, 6.1, 43.6)
 
-[node name="fire3" type="Node3D" parent="." unique_id=1373366411 instance=ExtResource("6_uxu2y")]
+[node name="fire3" type="Node3D" parent="." unique_id=448080281 instance=ExtResource("6_uxu2y")]
 transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -8.6, 6.95, 51)
 
-[node name="Maelis" type="Node3D" parent="." unique_id=1252210002 instance=ExtResource("7_cf24l")]
+[node name="Maelis" type="Node3D" parent="." unique_id=2097059526 instance=ExtResource("7_cf24l")]
 transform = Transform3D(0.49999997, 0, 0.86602545, 0, 1, 0, -0.86602545, 0, 0.49999997, -17.2, 6.3, 43)
 visible = false
 script = ExtResource("8_p8hsy")
@@ -85,7 +85,7 @@ kingdom_color = Color(0.35, 0.7, 0.25, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="Wren" type="Node3D" parent="." unique_id=1515103587 instance=ExtResource("9_r8mue")]
+[node name="Wren" type="Node3D" parent="." unique_id=115791015 instance=ExtResource("9_r8mue")]
 transform = Transform3D(-0.8660254, 0, 0.50000006, 0, 1, 0, -0.50000006, 0, -0.8660254, -14.9, 6.93, 47.2)
 script = ExtResource("10_o0mmg")
 fidget_every = 9.0
@@ -97,6 +97,6 @@ kingdom_color = Color(0.35, 0.7, 0.25, 1)
 leg_swing_deg = 30.0
 walk_bounce = 0.05
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=101569835]
+[node name="LightingRig" type="Node3D" parent="." unique_id=717490782]
 script = ExtResource("11_225yl")
 preset = ExtResource("12_r64ls")

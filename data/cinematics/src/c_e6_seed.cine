@@ -38,7 +38,7 @@ shot D2 8.0  cam=static  from=(-12.4, 7.2, 41.6)  look=(-13.4, 8.4, 46.4)  fov=4
   at 4.6  line ysolde "I didn't need to. It came up green."  dur=3.0
   at 4.6  anim ysolde set_expression  arg=smile
 # CU Ysolde's hand on the scorched branch: under the char, one green bud
-shot D3 7.0  cam=static  from=(-16.4, 8.4, 45.8)  look=(-15.0, 8.4, 47.4)  fov=32  faces=ysolde
+shot D3 7.0  cam=static  from=(-12.6, 8.5, 43.6)  look=(-15.2, 8.7, 48.0)  fov=40  faces=ysolde
   at 0.0  teleport ysolde  to=(-14.6, 6.9, 46.8)  yaw=-30
   at 0.5  line maelis "That branch won't come back, you know."  dur=3.6
   at 1.0  anim ysolde play_cast arg=wild_bloom

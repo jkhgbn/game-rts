@@ -73,31 +73,31 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.934910255581585,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F2",
 			"improve": "keep diamond_archon nearer the band centre in P2",
 			"name": "P2 face diamond_archon",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.980473076674476,
+			"score": 1.0,
 			"shot": "P2",
 			"status": "PASS",
-			"value": "worst u 0.32 v 0.29 at 0.00 s",
+			"value": "worst u 0.27 v 0.51 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.601487254918511,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F3",
 			"improve": "keep malrik nearer the band centre in P2",
 			"name": "P2 face malrik",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.880446176475553,
+			"score": 1.0,
 			"shot": "P2",
 			"status": "PASS",
-			"value": "worst u 0.82 v 0.20 at 0.00 s",
+			"value": "worst u 0.73 v 0.45 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -643,7 +643,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "e5b1cf121a315f9e / e5b1cf121a315f9e",
+			"value": "0a575486c1485bcc / 0a575486c1485bcc",
 			"weight": 1.0
 		},
 		{
@@ -657,7 +657,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "first run",
+			"value": "changed (was e5b1cf121a315f9e)",
 			"weight": 1.0
 		},
 		{
@@ -687,12 +687,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (torvald in P1 (cine 180, runtime -180 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/c_e7_pits_pits.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 14,
-		"PASS": 35,
+		"PASS": 36,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -707,18 +721,11 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "e5b1cf121a315f9e",
+	"hash": "0a575486c1485bcc",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e7_pits_pits",
 	"improve_next": [
-		{
-			"rank": 0.119553823524447,
-			"source": "F3 P2 face malrik, shot P2",
-			"status": "PASS",
-			"text": "keep malrik nearer the band centre in P2",
-			"title": "P2 face malrik"
-		},
 		{
 			"rank": 0.0898517264581439,
 			"source": "F1 P1 face diamond_archon, shot P1",
@@ -732,22 +739,29 @@
 			"status": "IDEA",
 			"text": "run `stills` (windowed) and open stills.png: framing numbers do not judge beauty",
 			"title": "Look at the pictures"
+		},
+		{
+			"rank": 0.0,
+			"source": "cine",
+			"status": "IDEA",
+			"text": "run `sheet` and read timing.png: line bars show CPS colour",
+			"title": "Timing sheet"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/c_e7_pits_pits.cine` (86 lines), 70.0 s, 10 shots, stage: set forge_citadel",
 		"the .cine has 86 lines (demo budget <= 80)"
 	],
-	"previous_quality": -1.0,
-	"quality": 98.6,
+	"previous_quality": 98.6,
+	"quality": 99.2,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.7,
+	"seconds": 2.5,
 	"shots": {},
-	"started": "2026-10-08 12:04:16",
+	"started": "2026-10-08 14:01:55",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

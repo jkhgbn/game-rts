@@ -75,11 +75,11 @@ shot G8 5.0  cam=static  from=(3.6, 1.6, 4.0)  look=(-1.0, 1.35, 4.0)  fov=36  i
   at 0.6  line aldra "You heard him."  dur=1.8
   at 3.0  line torvald "I heard."  dur=1.6
 # CU Torvald: he leans in and blows out the candle; dark; only harbour light on his face. He waits
-shot G9 7.0  cam=static  from=(0.5, 1.75, 3.7)  look=torvald  fov=30
+shot G9 7.0  cam=static  from=(0.9, 1.95, 3.4)  look=torvald+(0, 1.85, 0)  fov=28  faces=torvald
   at 0.5  line torvald "Tomorrow, then."  dur=2.0
   at 2.8  hide candle
   at 2.8  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-14
   at 2.8  fade color=#05060f  alpha=0.6  time=0.3
 # MS Aldra in the dark: she watches him wait
-shot G10 5.0  cam=static  from=(0.3, 1.55, 5.6)  look=aldra  fov=34
+shot G10 5.0  cam=static  from=(0.9, 1.85, 5.0)  look=aldra+(0, 1.8, 0)  fov=28  faces=aldra
   at 3.8  fade alpha=1  time=1.0

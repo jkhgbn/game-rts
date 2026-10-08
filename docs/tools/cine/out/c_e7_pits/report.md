@@ -1,15 +1,15 @@
-# cine check: c_e7_pits
+# cine build: c_e7_pits
 
-2026-10-08 12:03:48 - `tools/cine/run_cine.ps1 check c_e7_pits` - hash `98f7eaea91618fe9` (2 runs identical)
+2026-10-08 14:01:45 - `tools/cine/run_cine.ps1 build c_e7_pits` - hash `98b6ec2f724cae27` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +1)
 
-0 FAIL, 0 WARN, 36 PASS, 14 info, 0 skipped, 3 s
+0 FAIL, 0 WARN, 37 PASS, 14 info, 0 skipped, 3 s
 
 ## Improve next
-1. **P2 face malrik** (PASS): keep malrik nearer the band centre in P2 _(from F3 P2 face malrik, shot P2)_
-2. **P1 face diamond_archon** (PASS): keep diamond_archon nearer the band centre in P1 _(from F1 P1 face diamond_archon, shot P1)_
-3. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
+1. **P1 face diamond_archon** (PASS): keep diamond_archon nearer the band centre in P1 _(from F1 P1 face diamond_archon, shot P1)_
+2. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
+3. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -32,8 +32,8 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | F1 | P1 face diamond_archon | PASS 91 | worst u 0.49 v 0.22 at 8.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F2 | P2 face diamond_archon | PASS 98 | worst u 0.32 v 0.29 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F3 | P2 face malrik | PASS 88 | worst u 0.82 v 0.20 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F2 | P2 face diamond_archon | PASS 100 | worst u 0.27 v 0.51 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F3 | P2 face malrik | PASS 100 | worst u 0.73 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F4 | P3 face diamond_archon | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | P4 face malrik | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | P5 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
@@ -79,8 +79,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 98f7eaea91618fe9 / 98f7eaea91618fe9 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was 5d68db1bb8492d35) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 98b6ec2f724cae27 / 98b6ec2f724cae27 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 98f7eaea91618fe9) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/c_e7_pits.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

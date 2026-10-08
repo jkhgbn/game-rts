@@ -37,7 +37,7 @@ shot P1 8.0  cam=dolly  from=(-13.4, 50.6, 4.4)  to=(-13.2, 50.0, 3.4)  look=(-1
   at 0.0  hide swordsman
   at 1.5  line ossavar "The Hall of Silence, where they teach one word a day. Malrik brought more."  dur=6.0
 # MS, 3/4, the table between them: the Archon in white, still; Malrik lets diamonds run through his fingers
-shot P2 8.0  cam=static  from=(-12.8, 49.6, 3.4)  look=(-11.4, 49.2, 0.6)  fov=44  faces=diamond_archon,malrik
+shot P2 8.0  cam=static  from=(-14.3, 49.95, 3.0)  look=(-11.3, 49.75, 0.7)  fov=40  faces=diamond_archon,malrik
   at 0.0  anim malrik set_expression  arg=smile
   at 0.6  anim malrik play_cast
   at 1.0  line malrik "Empty the pits, Your Radiance. All of them."  dur=3.2

@@ -97,7 +97,7 @@
 			"score": 1.0,
 			"shot": "A3",
 			"status": "PASS",
-			"value": "worst u 0.66 v 0.41 at 0.00 s",
+			"value": "worst u 0.70 v 0.48 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -125,21 +125,21 @@
 			"score": 1.0,
 			"shot": "A5",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.50 at 0.00 s",
+			"value": "worst u 0.50 v 0.62 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.941555128168704,
+			"graded": 0.953844994306564,
 			"group": "framing",
 			"hint": "",
 			"id": "F6",
 			"improve": "keep vessa nearer the band centre in A6",
 			"name": "A6 face vessa",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.982466538450611,
+			"score": 0.986153498291969,
 			"shot": "A6",
 			"status": "PASS",
-			"value": "worst u 0.23 v 0.30 at 10.00 s",
+			"value": "worst u 0.23 v 0.42 at 10.00 s",
 			"weight": 1.0
 		},
 		{
@@ -153,7 +153,7 @@
 			"score": 1.0,
 			"shot": "A6",
 			"status": "PASS",
-			"value": "worst u 0.71 v 0.42 at 10.00 s",
+			"value": "worst u 0.63 v 0.44 at 10.00 s",
 			"weight": 1.0
 		},
 		{
@@ -615,7 +615,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "256ea392d9d2c4fc / 256ea392d9d2c4fc",
+			"value": "bc83f515396c460a / bc83f515396c460a",
 			"weight": 1.0
 		},
 		{
@@ -629,7 +629,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was befc5683c330d540)",
+			"value": "changed (was 256ea392d9d2c4fc)",
 			"weight": 1.0
 		},
 		{
@@ -693,7 +693,7 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "256ea392d9d2c4fc",
+	"hash": "bc83f515396c460a",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e2_ashes",
@@ -726,13 +726,13 @@
 		"source `data/cinematics/src/c_e2_ashes.cine` (90 lines), 75.0 s, 9 shots, stage: set forge_intro_ysolde",
 		"the .cine has 90 lines (demo budget <= 80)"
 	],
-	"previous_quality": 98.1,
+	"previous_quality": 99.3,
 	"quality": 99.3,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.4,
+	"seconds": 2.7,
 	"shots": {},
-	"started": "2026-10-08 01:05:50",
+	"started": "2026-10-08 14:00:41",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

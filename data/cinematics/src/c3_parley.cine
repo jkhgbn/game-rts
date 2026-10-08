@@ -58,14 +58,14 @@ shot P5 10.0  cam=static  from=(1.35, 1.9, 7.7)  look=malrik  fov=30
   at 0.5  line malrik "A secret apprentice under the lake."  dur=2.6
   at 3.4  line malrik "And the cure is that I stop the war I'm winning. How convenient."  dur=4.8
 # Two-shot Torvald / Malrik
-shot P6 12.0  cam=static  from=(-3.0, 3.2, 3.4)  look=(1.0, 2.2, 7.6)  fov=42  faces=torvald,malrik
+shot P6 12.0  cam=static  from=(3.9, 2.2, 5.0)  look=(1.3, 2.0, 7.7)  fov=44  faces=torvald,malrik
   at 0.0  face torvald  to=malrik  time=0.6
   at 0.0  face malrik  to=torvald  time=0.6
   at 0.0  anim malrik set_expression  arg=neutral
   at 0.5  line torvald "She is not lying, Bishop. I have felt it under the ice. Something counting."  dur=5.0
   at 5.8  line malrik "Then let it count. Whoever holds the Hollow holds the Master's seat. I intend to sit in it."  dur=5.8
 # Profile two-shot: Vessa steps nose to nose with Malrik
-shot P7 12.0  cam=dolly  from=(1.0, 2.0, 4.6)  to=(1.0, 2.0, 5.0)  look=(1.6, 1.9, 9)  fov=40  faces=malrik
+shot P7 12.0  cam=dolly  from=(2.5, 2.05, 5.0)  to=(2.45, 2.05, 5.4)  look=(1.95, 1.95, 9)  fov=40  faces=malrik,vessa
   at 0.0  face malrik  yaw=-90  time=0.3
   at 0.0  teleport vessa  to=(-0.2, 0, 9)  yaw=90
   at 0.2  move vessa  to=(1.3, 0, 9)  speed=1.2

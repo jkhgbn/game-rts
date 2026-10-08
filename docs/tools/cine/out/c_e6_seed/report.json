@@ -101,17 +101,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.744149036705494,
+			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
 			"id": "F4",
 			"improve": "keep ysolde nearer the band centre in D3",
 			"name": "D3 face ysolde",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.923244711011648,
+			"score": 1.0,
 			"shot": "D3",
 			"status": "PASS",
-			"value": "worst u 0.15 v 0.34 at 0.00 s",
+			"value": "worst u 0.52 v 0.53 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -164,10 +164,10 @@
 			"improve": "",
 			"name": "cut D2>D3 axis",
 			"rule": "180-degree rule",
-			"score": -1.0,
+			"score": 1.0,
 			"shot": "",
-			"status": "INFO",
-			"value": "no pair on screen in both shots",
+			"status": "PASS",
+			"value": "same side: maelis-ysolde",
 			"weight": 1.0
 		},
 		{
@@ -391,7 +391,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "1f754fe407fbbe90 / 1f754fe407fbbe90",
+			"value": "815b408c4b57bdbd / 815b408c4b57bdbd",
 			"weight": 1.0
 		},
 		{
@@ -405,7 +405,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was d7bed8c68a34d644)",
+			"value": "changed (was 0a16ed890eb6db00)",
 			"weight": 1.0
 		},
 		{
@@ -435,12 +435,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (ysolde in D1 (cine 170, runtime 170 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/c_e6_seed.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 10,
-		"PASS": 21,
+		"INFO": 9,
+		"PASS": 23,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -455,18 +469,11 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "1f754fe407fbbe90",
+	"hash": "815b408c4b57bdbd",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e6_seed",
 	"improve_next": [
-		{
-			"rank": 0.0767552889883518,
-			"source": "F4 D3 face ysolde, shot D3",
-			"status": "PASS",
-			"text": "keep ysolde nearer the band centre in D3",
-			"title": "D3 face ysolde"
-		},
 		{
 			"rank": 0.0,
 			"source": "cine",
@@ -480,21 +487,28 @@
 			"status": "IDEA",
 			"text": "run `sheet` and read timing.png: line bars show CPS colour",
 			"title": "Timing sheet"
+		},
+		{
+			"rank": 0.0,
+			"source": "cine",
+			"status": "IDEA",
+			"text": "the hash in the history must stay the same while the .cine is unchanged",
+			"title": "Two-run hash"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
 		"source `data/cinematics/src/c_e6_seed.cine` (56 lines), 40.0 s, 5 shots, stage: set forge_evenmead"
 	],
-	"previous_quality": 100.0,
-	"quality": 99.4,
+	"previous_quality": 96.9,
+	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 2.6,
+	"seconds": 2.7,
 	"shots": {},
-	"started": "2026-10-08 11:35:42",
+	"started": "2026-10-08 14:03:33",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

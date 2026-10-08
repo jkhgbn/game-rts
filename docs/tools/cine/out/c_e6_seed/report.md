@@ -1,15 +1,15 @@
-# cine check: c_e6_seed
+# cine build: c_e6_seed
 
-2026-10-08 11:35:42 - `tools/cine/run_cine.ps1 check c_e6_seed` - hash `1f754fe407fbbe90` (2 runs identical)
+2026-10-08 14:03:33 - `tools/cine/run_cine.ps1 build c_e6_seed` - hash `815b408c4b57bdbd` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 100, -1)
+## Result: **PASS** - quality **100 / 100** (previous run 97, +3)
 
-0 FAIL, 0 WARN, 21 PASS, 10 info, 0 skipped, 3 s
+0 FAIL, 0 WARN, 23 PASS, 9 info, 0 skipped, 3 s
 
 ## Improve next
-1. **D3 face ysolde** (PASS): keep ysolde nearer the band centre in D3 _(from F4 D3 face ysolde, shot D3)_
-2. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
-3. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
+1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
+2. **Timing sheet** (IDEA): run `sheet` and read timing.png: line bars show CPS colour _(from cine)_
+3. **Two-run hash** (IDEA): the hash in the history must stay the same while the .cine is unchanged _(from cine)_
 
 ## Parse (grammar, keys, numbers)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -34,7 +34,7 @@
 | F1 | D1 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F2 | D2 face ysolde | PASS 100 | worst u 0.61 v 0.47 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F3 | D2 face maelis | PASS 100 | worst u 0.38 v 0.45 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F4 | D3 face ysolde | PASS 92 | worst u 0.15 v 0.34 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F4 | D3 face ysolde | PASS 100 | worst u 0.52 v 0.53 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | D4 face ysolde | PASS 100 | worst u 0.50 v 0.50 at 3.25 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | D5 face maelis | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 
@@ -42,7 +42,7 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | C1 | cut D1>D2 axis | PASS 100 | same side: maelis-ysolde | 180-degree rule |  |
-| C2 | cut D2>D3 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
+| C2 | cut D2>D3 axis | PASS 100 | same side: maelis-ysolde | 180-degree rule |  |
 | C3 | cut D3>D4 axis | INFO | no pair on screen in both shots | 180-degree rule |  |
 | C4 | cut D4>D5 | INFO | fade / blend (scene break: the axis may reset) | 180-degree rule applies to cuts |  |
 
@@ -60,8 +60,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 1f754fe407fbbe90 / 1f754fe407fbbe90 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was d7bed8c68a34d644) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 815b408c4b57bdbd / 815b408c4b57bdbd | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 0a16ed890eb6db00) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/c_e6_seed.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |

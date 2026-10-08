@@ -1,10 +1,10 @@
-# cine check: c_e7_ledger
+# cine build: c_e7_ledger
 
-2026-10-08 11:59:14 - `tools/cine/run_cine.ps1 check c_e7_ledger` - hash `91fc02d8aa499590` (2 runs identical)
+2026-10-08 14:02:39 - `tools/cine/run_cine.ps1 build c_e7_ledger` - hash `8208500de47d35f1` (2 runs identical)
 
-## Result: **PASS** - quality **100 / 100** (previous run 100, +0)
+## Result: **PASS** - quality **100 / 100** (previous run 97, +2)
 
-0 FAIL, 0 WARN, 30 PASS, 18 info, 0 skipped, 3 s
+0 FAIL, 0 WARN, 31 PASS, 18 info, 0 skipped, 3 s
 
 ## Improve next
 1. **Look at the pictures** (IDEA): run `stills` (windowed) and open stills.png: framing numbers do not judge beauty _(from cine)_
@@ -42,8 +42,8 @@
 | F9 | G7 faces | INFO | no named face | shots that show a face name it (look / pivot / frame / faces=) |  |
 | F10 | G8 face aldra | PASS 100 | worst u 0.65 v 0.43 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F11 | G8 face torvald | PASS 100 | worst u 0.33 v 0.42 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F12 | G9 face torvald | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F13 | G10 face aldra | PASS 100 | worst u 0.50 v 0.50 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F12 | G9 face torvald | PASS 98 | worst u 0.50 v 0.71 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F13 | G10 face aldra | PASS 100 | worst u 0.50 v 0.68 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 
 ## Continuity (180-degree rule, jump cuts)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -77,8 +77,9 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 91fc02d8aa499590 / 91fc02d8aa499590 | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was f905af368158975b) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 8208500de47d35f1 / 8208500de47d35f1 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 29aab04a687e45ff) |  |  |
+| B1 | bake | PASS 100 | data/cinematics/c_e7_ledger.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -89,7 +90,7 @@
 | T4 | tool 5 Motion Lab | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | T5 | tool 7 VFX Composer | INFO | missing (cine degrades: WARN + proxy when used) | optional at bake time |  |
 | RT1 | runtime camera = cine camera | PASS 100 | worst 0.000 m | <= 0.05 m at the middle of every shot |  |
-| RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (torvald in G6 (cine 180, runtime -180 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
+| RT2 | runtime actors = cine actors | PASS 100 | worst facing 0.0 deg (ossavar in G1 (cine 230, runtime -130 deg)), position 0.000 m | same facing (+Z = model front, as unit.gd) and position at the middle of every shot |  |
 
 ## Notes
 - source `data/cinematics/src/c_e7_ledger.cine` (85 lines), 70.0 s, 10 shots, stage: set forge_intro_malrik

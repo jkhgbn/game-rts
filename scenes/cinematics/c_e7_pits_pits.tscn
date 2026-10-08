@@ -54,7 +54,7 @@ sun_energy = 0.6
 sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
 vignette_strength = 0.0
 
-[node name="CE7PitsPitsStage" type="Node3D" unique_id=284235455]
+[node name="CE7PitsPitsStage" type="Node3D" unique_id=1901222642]
 script = ExtResource("1_j8er5")
 autoplay_script = ExtResource("2_3ygrb")
 actor_paths = {
@@ -79,13 +79,13 @@ set_id = &"forge_citadel"
 lighting = ExtResource("5_yl2uf")
 lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
 
-[node name="table" type="Node3D" parent="forge_citadel" unique_id=872933880 instance=ExtResource("6_kua00")]
+[node name="table" type="Node3D" parent="forge_citadel" unique_id=1302613188 instance=ExtResource("6_kua00")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 48, 0.8)
 
-[node name="diamonds" type="Node3D" parent="forge_citadel" unique_id=816677623 instance=ExtResource("7_8cl4y")]
+[node name="diamonds" type="Node3D" parent="forge_citadel" unique_id=314164646 instance=ExtResource("7_8cl4y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9, 48.85, 0.75)
 
-[node name="DiamondArchon" type="Node3D" parent="forge_citadel" unique_id=721569502 instance=ExtResource("8_srqep")]
+[node name="DiamondArchon" type="Node3D" parent="forge_citadel" unique_id=1818925639 instance=ExtResource("8_srqep")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 48, -0.2)
 script = ExtResource("9_r8ujp")
 body_height = 1.95
@@ -99,7 +99,7 @@ kingdom_color = Color(0.42, 0.22, 0.6, 1)
 leg_swing_deg = 26.0
 walk_bounce = 0.035
 
-[node name="Malrik" type="Node3D" parent="forge_citadel" unique_id=1077723740 instance=ExtResource("10_2dw3b")]
+[node name="Malrik" type="Node3D" parent="forge_citadel" unique_id=61075144 instance=ExtResource("10_2dw3b")]
 transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -10.6, 48, 1.6)
 script = ExtResource("11_vpjxf")
 light_energy = 1.0
@@ -111,7 +111,7 @@ stride_time = 1.1
 stride_speed = 4.4
 kingdom_color = Color(0.42, 0.22, 0.6, 1)
 
-[node name="Fguard1" type="Node3D" parent="forge_citadel" unique_id=1022568046 instance=ExtResource("12_8evou")]
+[node name="Fguard1" type="Node3D" parent="forge_citadel" unique_id=1451241254 instance=ExtResource("12_8evou")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -15.6, 48, 0.4)
 script = ExtResource("13_5tx03")
 body_height = 2.0
@@ -122,7 +122,7 @@ idle_period = 3.4
 leg_swing_deg = 24.0
 walk_bounce = 0.035
 
-[node name="Fguard2" type="Node3D" parent="forge_citadel" unique_id=1911511859 instance=ExtResource("12_8evou")]
+[node name="Fguard2" type="Node3D" parent="forge_citadel" unique_id=1436422111 instance=ExtResource("12_8evou")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -9, 48, -2.4)
 script = ExtResource("13_5tx03")
 body_height = 2.0
@@ -141,7 +141,7 @@ set_id = &"forge_watch_keep"
 lighting = ExtResource("15_q0urt")
 lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/vessa"), NodePath("Puppets/guard_w"), NodePath("Puppets/guard_e")])
 
-[node name="Torvald" type="Node3D" parent="forge_watch_keep" unique_id=1459864379 instance=ExtResource("16_edusx")]
+[node name="Torvald" type="Node3D" parent="forge_watch_keep" unique_id=488700178 instance=ExtResource("16_edusx")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 5, 4.5, 2)
 script = ExtResource("17_if120")
 body_height = 2.1
@@ -154,7 +154,7 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 24.0
 walk_bounce = 0.05
 
-[node name="Aldra" type="Node3D" parent="forge_watch_keep" unique_id=1223973638 instance=ExtResource("18_p5jvi")]
+[node name="Aldra" type="Node3D" parent="forge_watch_keep" unique_id=1440268930 instance=ExtResource("18_p5jvi")]
 transform = Transform3D(-0.9848077, 0, -0.17364822, 0, 1, 0, 0.17364822, 0, -0.9848077, 6.3, 4.5, 2)
 script = ExtResource("19_8sbof")
 light_energy = 0.0
@@ -168,10 +168,10 @@ kingdom_color = Color(0.45, 0.75, 0.95, 1)
 leg_swing_deg = 22.0
 walk_bounce = 0.03
 
-[node name="Ossavar" type="Node3D" parent="forge_watch_keep" unique_id=2102549982 instance=ExtResource("20_i5r5x")]
+[node name="Ossavar" type="Node3D" parent="forge_watch_keep" unique_id=2003712881 instance=ExtResource("20_i5r5x")]
 transform = Transform3D(-0.8660254, 0, 0.50000006, 0, 1, 0, -0.50000006, 0, -0.8660254, 1.4, 4.5, 2.4)
 script = ExtResource("21_lmn5g")
 
-[node name="LightingRig" type="Node3D" parent="." unique_id=1706230250]
+[node name="LightingRig" type="Node3D" parent="." unique_id=626055400]
 script = ExtResource("22_kll31")
 preset = SubResource("Resource_0yjsr")

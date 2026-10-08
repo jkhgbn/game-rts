@@ -45,7 +45,7 @@ shot A2 8.0  cam=dolly  from=(8.6, 1.3, 4.6)  to=(8.4, 1.3, 4.3)  look=ysolde  f
   at 2.4  vfx d2  scene=res://art/cinematics/fx/blossom.tscn  at=(9.2, 0.1, 2.6)  life=4  scale=0.3
   at 3.8  vfx d3  scene=res://art/cinematics/fx/blossom.tscn  at=(8.0, 0.1, 3.4)  life=3  scale=0.3
 # Vessa walks up and stops beside her; no joke
-shot A3 9.0  cam=static  from=(6.4, 1.5, 6.6)  look=(6.1, 1.4, 2.6)  fov=40  faces=ysolde
+shot A3 9.0  cam=static  from=(8.4, 1.65, 6.1)  look=(6.1, 1.6, 2.6)  fov=40  faces=ysolde
   at 0.0  move vessa  to=(5.2, 0, 3.2)  speed=1.4
   at 0.0  move vey  to=(2.6, 0, 5.4)  speed=1.0
   at 4.6  line ysolde "No jokes tonight?"  dur=2.2
@@ -56,10 +56,10 @@ shot A4 11.0  cam=dolly  from=(6.6, 1.65, 4.75)  to=(6.65, 1.65, 4.55)  look=yso
   at 0.0  face vessa  to=ysolde  time=0.6
   at 0.8  line ysolde "Torvald didn't come for my wood. He came for your relics."
   at 5.4  line ysolde "Malrik told him the Hollow is waking. He's right. I hear it under the roots."  dur=5.4
-shot A5 5.0  cam=static  from=(6.75, 1.65, 3.95)  look=vessa  fov=32
+shot A5 5.0  cam=static  from=(6.7, 2.05, 4.1)  look=(5.2, 2.0, 3.2)  fov=32  faces=vessa
   at 0.5  line vessa "Then don't stand here alone. Come with us."
 # Two-shot: the seed pod
-shot A6 10.0  cam=dolly  from=(6.9, 1.45, 6.6)  to=(6.8, 1.45, 6.2)  look=(6.1, 1.45, 2.6)  fov=36  faces=vessa,ysolde
+shot A6 10.0  cam=dolly  from=(6.1, 2.4, 7.9)  to=(6.05, 2.35, 7.4)  look=(6.3, 1.6, 2.6)  fov=30  faces=vessa,ysolde
   at 0.6  line ysolde "The wood can't fight this winter. I can."
   at 3.8  show pod
   at 3.8  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-14

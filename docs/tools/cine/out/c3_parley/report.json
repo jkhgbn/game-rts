@@ -129,31 +129,31 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.783777785834981,
+			"graded": 0.769751578569412,
 			"group": "framing",
 			"hint": "",
 			"id": "F6",
 			"improve": "keep torvald nearer the band centre in P6",
 			"name": "P6 face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.935133335750494,
+			"score": 0.930925473570824,
 			"shot": "P6",
 			"status": "PASS",
-			"value": "worst u 0.48 v 0.75 at 0.00 s",
+			"value": "worst u 0.84 v 0.63 at 0.00 s",
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.781786613166332,
 			"group": "framing",
 			"hint": "",
 			"id": "F7",
 			"improve": "keep malrik nearer the band centre in P6",
 			"name": "P6 face malrik",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.9345359839499,
 			"shot": "P6",
 			"status": "PASS",
-			"value": "worst u 0.48 v 0.49 at 0.00 s",
+			"value": "worst u 0.16 v 0.53 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -167,14 +167,28 @@
 			"score": 1.0,
 			"shot": "P7",
 			"status": "PASS",
-			"value": "worst u 0.32 v 0.50 at 12.00 s",
+			"value": "worst u 0.36 v 0.52 at 12.00 s",
+			"weight": 1.0
+		},
+		{
+			"graded": 0.676636159420013,
+			"group": "framing",
+			"hint": "",
+			"id": "F9",
+			"improve": "keep vessa nearer the band centre in P7",
+			"name": "P7 face vessa",
+			"rule": "head inside the 2.39 band safe area (90 %)",
+			"score": 0.902990847826004,
+			"shot": "P7",
+			"status": "PASS",
+			"value": "worst u 0.88 v 0.59 at 0.00 s",
 			"weight": 1.0
 		},
 		{
 			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
-			"id": "F9",
+			"id": "F10",
 			"improve": "keep vessa nearer the band centre in P8",
 			"name": "P8 face vessa",
 			"rule": "head inside the 2.39 band safe area (90 %)",
@@ -188,7 +202,7 @@
 			"graded": 0.637755751609802,
 			"group": "framing",
 			"hint": "",
-			"id": "F10",
+			"id": "F11",
 			"improve": "keep torvald nearer the band centre in P8",
 			"name": "P8 face torvald",
 			"rule": "head inside the 2.39 band safe area (90 %)",
@@ -202,7 +216,7 @@
 			"graded": 1.0,
 			"group": "framing",
 			"hint": "",
-			"id": "F11",
+			"id": "F12",
 			"improve": "keep ysolde nearer the band centre in P8",
 			"name": "P8 face ysolde",
 			"rule": "head inside the 2.39 band safe area (90 %)",
@@ -216,7 +230,7 @@
 			"graded": 0.971329495310783,
 			"group": "framing",
 			"hint": "",
-			"id": "F12",
+			"id": "F13",
 			"improve": "keep malrik nearer the band centre in P9",
 			"name": "P9 face malrik",
 			"rule": "head inside the 2.39 band safe area (90 %)",
@@ -230,7 +244,7 @@
 			"graded": 0.721624897931939,
 			"group": "framing",
 			"hint": "",
-			"id": "F13",
+			"id": "F14",
 			"improve": "keep vessa nearer the band centre in P9",
 			"name": "P9 face vessa",
 			"rule": "head inside the 2.39 band safe area (90 %)",
@@ -244,7 +258,7 @@
 			"graded": -1.0,
 			"group": "framing",
 			"hint": "",
-			"id": "F14",
+			"id": "F15",
 			"improve": "",
 			"name": "P10 faces",
 			"rule": "shots that show a face name it (look / pivot / frame / faces=)",
@@ -332,10 +346,10 @@
 			"improve": "",
 			"name": "cut P6>P7 axis",
 			"rule": "180-degree rule",
-			"score": -1.0,
+			"score": 1.0,
 			"shot": "",
-			"status": "INFO",
-			"value": "no pair on screen in both shots",
+			"status": "PASS",
+			"value": "same side: malrik-vessa",
 			"weight": 1.0
 		},
 		{
@@ -349,7 +363,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "same side: malrik-vessa, malrik-ysolde, vessa-ysolde (on the axis)",
+			"value": "same side: malrik-vessa, malrik-ysolde, vessa-ysolde",
 			"weight": 1.0
 		},
 		{
@@ -755,7 +769,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "ae2721a8e643a0fc / ae2721a8e643a0fc",
+			"value": "94da11963f27f54b / 94da11963f27f54b",
 			"weight": 1.0
 		},
 		{
@@ -769,7 +783,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was c7d867c2830886db)",
+			"value": "changed (was ae2721a8e643a0fc)",
 			"weight": 1.0
 		},
 		{
@@ -817,8 +831,8 @@
 	],
 	"counts": {
 		"FAIL": 0,
-		"INFO": 15,
-		"PASS": 43,
+		"INFO": 14,
+		"PASS": 45,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -833,14 +847,14 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "ae2721a8e643a0fc",
+	"hash": "94da11963f27f54b",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c3_parley",
 	"improve_next": [
 		{
 			"rank": 0.108673274517059,
-			"source": "F10 P8 face torvald, shot P8",
+			"source": "F11 P8 face torvald, shot P8",
 			"status": "PASS",
 			"text": "keep torvald nearer the band centre in P8",
 			"title": "P8 face torvald"
@@ -853,18 +867,32 @@
 			"title": "P2 face malrik"
 		},
 		{
+			"rank": 0.097009152173996,
+			"source": "F9 P7 face vessa, shot P7",
+			"status": "PASS",
+			"text": "keep vessa nearer the band centre in P7",
+			"title": "P7 face vessa"
+		},
+		{
 			"rank": 0.0835125306204184,
-			"source": "F13 P9 face vessa, shot P9",
+			"source": "F14 P9 face vessa, shot P9",
 			"status": "PASS",
 			"text": "keep vessa nearer the band centre in P9",
 			"title": "P9 face vessa"
 		},
 		{
-			"rank": 0.0648666642495056,
+			"rank": 0.0690745264291763,
 			"source": "F6 P6 face torvald, shot P6",
 			"status": "PASS",
 			"text": "keep torvald nearer the band centre in P6",
 			"title": "P6 face torvald"
+		},
+		{
+			"rank": 0.0654640160501003,
+			"source": "F7 P6 face malrik, shot P6",
+			"status": "PASS",
+			"text": "keep malrik nearer the band centre in P6",
+			"title": "P6 face malrik"
 		}
 	],
 	"kind": "build",
@@ -873,13 +901,13 @@
 		"source `data/cinematics/src/c3_parley.cine` (106 lines), 105.0 s, 10 shots, stage: set forge_watch_keep",
 		"the .cine has 106 lines (demo budget <= 80)"
 	],
-	"previous_quality": 96.0,
-	"quality": 97.0,
+	"previous_quality": 97.0,
+	"quality": 96.6,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 1.9,
+	"seconds": 2.1,
 	"shots": {},
-	"started": "2026-10-08 01:32:48",
+	"started": "2026-10-08 14:00:32",
 	"tier": "",
 	"tool": "cine",
 	"verb": "build"

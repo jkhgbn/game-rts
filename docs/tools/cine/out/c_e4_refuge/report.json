@@ -125,7 +125,7 @@
 			"score": 1.0,
 			"shot": "R4",
 			"status": "PASS",
-			"value": "worst u 0.50 v 0.45 at 0.00 s",
+			"value": "worst u 0.50 v 0.41 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -143,17 +143,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 1.0,
+			"graded": 0.930347800254822,
 			"group": "framing",
 			"hint": "",
 			"id": "F7",
 			"improve": "keep maelis nearer the band centre in R5",
 			"name": "R5 face maelis",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 1.0,
+			"score": 0.979104340076447,
 			"shot": "R5",
 			"status": "PASS",
-			"value": "worst u 0.51 v 0.40 at 4.25 s",
+			"value": "worst u 0.78 v 0.56 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -199,17 +199,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.896018925442625,
+			"graded": 0.847315614348027,
 			"group": "framing",
 			"hint": "",
 			"id": "F11",
 			"improve": "keep ysolde nearer the band centre in R7",
 			"name": "R7 face ysolde",
 			"rule": "head inside the 2.39 band safe area (90 %)",
-			"score": 0.968805677632787,
+			"score": 0.954194684304408,
 			"shot": "R7",
 			"status": "PASS",
-			"value": "worst u 0.67 v 0.28 at 0.00 s",
+			"value": "worst u 0.42 v 0.27 at 0.00 s",
 			"weight": 1.0
 		},
 		{
@@ -335,7 +335,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "same side: maelis-vessa (on the axis)",
+			"value": "same side: maelis-vessa",
 			"weight": 1.0
 		},
 		{
@@ -470,7 +470,7 @@
 			"hint": "",
 			"id": "S6",
 			"improve": "",
-			"name": "R5 line 1 (src 65)",
+			"name": "R5 line 1 (src 66)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.901666666666667,
 			"shot": "R5",
@@ -484,7 +484,7 @@
 			"hint": "",
 			"id": "S7",
 			"improve": "",
-			"name": "R5 line 2 (src 66)",
+			"name": "R5 line 2 (src 67)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.97,
 			"shot": "R5",
@@ -498,7 +498,7 @@
 			"hint": "",
 			"id": "S8",
 			"improve": "",
-			"name": "R6 line 1 (src 72)",
+			"name": "R6 line 1 (src 73)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.921538461538462,
 			"shot": "R6",
@@ -512,7 +512,7 @@
 			"hint": "",
 			"id": "S9",
 			"improve": "",
-			"name": "R6 line 2 (src 73)",
+			"name": "R6 line 2 (src 74)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.935,
 			"shot": "R6",
@@ -526,7 +526,7 @@
 			"hint": "",
 			"id": "S10",
 			"improve": "",
-			"name": "R7 line 1 (src 80)",
+			"name": "R7 line 1 (src 82)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.902857142857143,
 			"shot": "R7",
@@ -540,7 +540,7 @@
 			"hint": "",
 			"id": "S11",
 			"improve": "",
-			"name": "R8 line 1 (src 85)",
+			"name": "R8 line 1 (src 87)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.883529411764706,
 			"shot": "R8",
@@ -554,7 +554,7 @@
 			"hint": "",
 			"id": "S12",
 			"improve": "",
-			"name": "R8 line 2 (src 86)",
+			"name": "R8 line 2 (src 88)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 1.0,
 			"shot": "R8",
@@ -568,7 +568,7 @@
 			"hint": "",
 			"id": "S13",
 			"improve": "",
-			"name": "R9 line 1 (src 92)",
+			"name": "R9 line 1 (src 94)",
 			"rule": "<= 2 x 48 chars, <= 17 cps (max 22), fits the shot",
 			"score": 0.9475,
 			"shot": "R9",
@@ -685,7 +685,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "99 lines, 0 errors",
+			"value": "101 lines, 0 errors",
 			"weight": 1.0
 		},
 		{
@@ -699,7 +699,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "3c9bda4291f2f893 / 3c9bda4291f2f893",
+			"value": "444c19287cd96b16 / 444c19287cd96b16",
 			"weight": 1.0
 		},
 		{
@@ -713,7 +713,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "changed (was 8b2b3a3f58ad41f1)",
+			"value": "changed (was 3c9bda4291f2f893)",
 			"weight": 1.0
 		},
 		{
@@ -743,12 +743,26 @@
 			"status": "PASS",
 			"value": "worst facing 0.0 deg (vessa in R1 (cine 165, runtime 165 deg)), position 0.000 m",
 			"weight": 1.0
+		},
+		{
+			"graded": -1.0,
+			"group": "determinism",
+			"hint": "check the runtime classes (scripts/cinematics/)",
+			"id": "B1",
+			"improve": "",
+			"name": "bake",
+			"rule": "data/cinematics/<id>.tres (CinematicScript)",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "data/cinematics/c_e4_refuge.tres",
+			"weight": 1.0
 		}
 	],
 	"counts": {
 		"FAIL": 0,
 		"INFO": 17,
-		"PASS": 36,
+		"PASS": 37,
 		"SKIP": 0,
 		"WARN": 0
 	},
@@ -763,13 +777,13 @@
 		"subtitles": "Subtitles (2 x 48 chars, CPS, fit)",
 		"timing": "Timing"
 	},
-	"hash": "3c9bda4291f2f893",
+	"hash": "444c19287cd96b16",
 	"hash_note": "2 runs identical",
 	"headless": false,
 	"id": "c_e4_refuge",
 	"improve_next": [
 		{
-			"rank": 0.0311943223672126,
+			"rank": 0.0458053156955918,
 			"source": "F11 R7 face ysolde, shot R7",
 			"status": "PASS",
 			"text": "keep ysolde nearer the band centre in R7",
@@ -790,20 +804,20 @@
 			"title": "Timing sheet"
 		}
 	],
-	"kind": "check",
+	"kind": "build",
 	"kingdom": "",
 	"notes": [
-		"source `data/cinematics/src/c_e4_refuge.cine` (99 lines), 70.0 s, 11 shots, stage: set forge_evenmead",
-		"the .cine has 99 lines (demo budget <= 80)"
+		"source `data/cinematics/src/c_e4_refuge.cine` (101 lines), 70.0 s, 11 shots, stage: set forge_evenmead",
+		"the .cine has 101 lines (demo budget <= 80)"
 	],
-	"previous_quality": 89.9,
-	"quality": 98.2,
+	"previous_quality": 98.2,
+	"quality": 98.1,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 3.5,
+	"seconds": 3.6,
 	"shots": {},
-	"started": "2026-10-08 10:51:35",
+	"started": "2026-10-08 14:01:01",
 	"tier": "",
 	"tool": "cine",
-	"verb": "check"
+	"verb": "build"
 }

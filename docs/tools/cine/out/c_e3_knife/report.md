@@ -1,8 +1,8 @@
 # cine build: c_e3_knife
 
-2026-10-08 00:10:27 - `tools/cine/run_cine.ps1 build c_e3_knife` - hash `2f7489a27fee86bc` (2 runs identical)
+2026-10-08 14:00:51 - `tools/cine/run_cine.ps1 build c_e3_knife` - hash `ec90788b5215e715` (2 runs identical)
 
-## Result: **PASS** - quality **99 / 100** (previous run 98, +1)
+## Result: **PASS** - quality **99 / 100** (previous run 99, +0)
 
 0 FAIL, 0 WARN, 29 PASS, 16 info, 0 skipped, 3 s
 
@@ -37,7 +37,7 @@
 | F4 | K3 face hush | PASS 100 | worst u 0.57 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F5 | K4 face hush | PASS 100 | worst u 0.50 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F6 | K5 face tokens | PASS 100 | worst u 0.50 v 0.46 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
-| F7 | K6 face torvald | PASS 100 | worst u 0.50 v 0.35 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
+| F7 | K6 face torvald | PASS 98 | worst u 0.50 v 0.70 at 7.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F8 | K7 face malrik | PASS 100 | worst u 0.50 v 0.41 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F9 | K8 face hush | PASS 100 | worst u 0.68 v 0.42 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
 | F10 | K8 face malrik | PASS 100 | worst u 0.38 v 0.32 at 0.00 s | head inside the 2.39 band safe area (90 %) |  |
@@ -73,8 +73,8 @@
 ## Determinism
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | 2f7489a27fee86bc / 2f7489a27fee86bc | same spec + seed = same bytes |  |
-| D2 | vs previous run | INFO | changed (was a1f4573845341633) |  |  |
+| D1 | 2 fresh runs (bake + 3600 frames at 60 fps) | PASS 100 | ec90788b5215e715 / ec90788b5215e715 | same spec + seed = same bytes |  |
+| D2 | vs previous run | INFO | changed (was 2f7489a27fee86bc) |  |  |
 | B1 | bake | PASS 100 | data/cinematics/c_e3_knife.tres | data/cinematics/<id>.tres (CinematicScript) |  |
 
 ## Partner tools
