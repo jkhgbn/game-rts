@@ -1,0 +1,109 @@
+# Between-scene "Especially Malrik", ~80 s with the title (docs/design/script-episodes-4-8/e8m2.md, shot list M1-M8;
+# beats from docs/design/mission-e8-02.md 9, campaign-outline.md 3.8, mission-e8-01.md 1.5). Dusk on the muster ridge
+# above Crown Hollow: Vessa alone on a rock for two days; Torvald and Aldra up the north path ("We came as fast as ice
+# comes."), Ysolde, Wren and Maelis up the west path; Vey watches the empty east path; Malrik walks up last and alone,
+# the stone pulsing; hands go to weapons and come off one by one ("Don't make it a speech."); the four in a line over
+# the Hollow's four glowing keyholes ("Four keys, four keyholes. Each to your own. Together."); the title.
+# This is the Vessa-road take (the player walked Fire); on another road that wizard walks up first and sits beside her
+# (same marks): no per-road variant built yet (StoryFlow cannot pick a film by road).
+# Text source for i18n / voices: data/voice/lines/c_e8_muster.json (the same text as the lines below).
+# e8m1 / e8m2 are not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play c_e8_muster).
+# Set (stand-in; forge_hollow_ridge / forge_hollow_pit are not built): forge_evenmead's north ridge (Malrik's crest,
+# y ~7.43) at dusk (a rose full-screen grade); the Hollow's four keyholes = four coloured fx beyond the ridge; the four
+# banners = forge_citadel's banner parts. Stand-ins: Wren = a Wildwood Archer beside a Stagrunner.
+# Axis: the four face north-east over the Hollow; every camera stays south of them.
+cine c_e8_muster  title="The Last Muster"  letterbox=2.39  seed=802  length=77..83
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-20
+cast  aldra    res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(-4.4, 7.8, -46.0)  yaw=10  hidden=1
+cast  maelis   res://art/units/helpers/helper_maelis/helper_maelis.tscn  at=(-15.0, 6.9, -40.4)  yaw=80  hidden=1
+cast  wren     res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(-16.4, 6.8, -38.6)  yaw=80  hidden=1
+cast  stag     res://art/units/nature/stagrunner/stagrunner.tscn  at=(-17.6, 6.8, -39.6)  yaw=80  hidden=1
+prop  b_fire   res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn  at=(-0.6, 7.43, -39.4)
+prop  b_ice    res://art/cinematics/stage_sets/forge_citadel/parts/banner_ice.tscn  at=(-3.8, 7.43, -39.6)
+prop  b_nature res://art/cinematics/stage_sets/forge_citadel/parts/banner_nature.tscn  at=(2.0, 7.43, -39.6)
+prop  b_shadow res://art/cinematics/stage_sets/forge_citadel/parts/banner_shadow.tscn  at=(5.0, 7.42, -39.6)
+
+# ---------------------------------------------------------------- the ridge at dusk
+# Wide, dusk, static: Vessa alone on a rock, tapping her foot; amber haze below
+shot M1 10.0  cam=static  from=(4.0, 8.8, -28.0)  look=(0, 8.0, -36.4)  fov=44  in=fade_black:1.0  faces=vessa
+  at 0.0  fade color=#5a2a40  alpha=0.3  time=0.05
+  at 0.0  hide hush
+  at 0.0  hide stone
+  at 0.0  hide bloom
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  hide torvald
+  at 0.0  hide ysolde
+  at 0.0  hide malrik
+  at 0.0  teleport vessa  to=(-1.0, 7.43, -36.4)  yaw=20
+  at 0.0  teleport vey  to=(-2.6, 7.43, -35.0)  yaw=60
+  at 0.0  anim vessa set_expression  arg=neutral
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+  at 5.0  line vessa "Two days on this rock. I've counted every pebble. Twice."  dur=4.0
+# WS, the north path: Torvald and Aldra climb into frame under the blue banner; Vessa gets up
+shot M2 10.0  cam=static  from=(2.6, 8.6, -30.0)  look=(-3.0, 8.4, -40.0)  fov=46  faces=vessa,torvald
+  at 0.0  show torvald
+  at 0.0  show aldra
+  at 0.0  teleport torvald  to=(-3.4, 7.8, -45.0)  yaw=10
+  at 0.0  move torvald  to=(-3.4, 7.43, -38.6)  speed=1.3
+  at 0.3  move aldra  to=(-4.6, 7.43, -39.4)  speed=1.3
+  at 2.0  line torvald "We came as fast as ice comes."  dur=2.4
+  at 4.4  face vessa  to=torvald  time=0.6
+  at 5.0  line vessa "So, slowly. Welcome anyway."  dur=2.2
+  at 5.0  anim vessa set_expression  arg=smile
+# WS, the west path: Ysolde on foot, Wren by her stag, Maelis with her staff; the green banner
+shot M3 10.0  cam=static  from=(0.4, 8.6, -29.6)  look=(-8.0, 8.0, -38.4)  fov=48  faces=ysolde
+  at 0.0  show ysolde
+  at 0.0  show maelis
+  at 0.0  show wren
+  at 0.0  show stag
+  at 0.0  teleport ysolde  to=(-13.0, 7.0, -39.0)  yaw=80
+  at 0.0  move ysolde  to=(-2.4, 7.43, -38.2)  speed=1.5
+  at 0.3  move maelis  to=(-6.0, 7.43, -38.0)  speed=1.4
+  at 0.6  move wren  to=(-8.0, 7.3, -37.4)  speed=1.4
+  at 0.6  move stag  to=(-9.4, 7.3, -38.4)  speed=1.4
+  at 2.0  line ysolde "Every road behind me is open. I didn't close a single one."  dur=4.2
+# MS Vey, 3/4-left: he leans on his sword, looking at the empty east path
+shot M4 8.0  cam=static  from=(-1.2, 8.9, -32.8)  look=vey  fov=34
+  at 0.0  teleport ysolde  to=(1.0, 7.43, -38.4)  yaw=150
+  at 0.0  teleport vey  to=(-2.6, 7.43, -35.0)  yaw=95
+  at 1.5  line vey "Three. And the one who's always late on purpose."  dur=3.6
+
+# ---------------------------------------------------------------- the east path
+# WS the east path: Malrik walks up last and alone, the stone pulsing amber in his fist; hands go to weapons
+shot M5 12.0  cam=static  from=(-3.0, 8.8, -29.4)  look=(5.4, 8.0, -38.0)  fov=50  faces=malrik
+  at 0.0  show malrik
+  at 0.0  teleport malrik  to=(14.0, 6.75, -40.0)  yaw=-80
+  at 0.0  move malrik  to=(5.0, 7.42, -37.4)  speed=1.2
+  at 2.0  vfx pulse1  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(9.0, 8.4, -38.6)  life=2.0  scale=0.4
+  at 6.0  line vey "He asked for all four of you. Especially Malrik."  dur=3.6
+  at 7.0  anim torvald play_cast
+  at 7.4  vfx spark  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-0.7, 8.3, -36.2)  life=1.0  scale=0.2
+  at 7.6  anim maelis play_cast
+# MS Malrik, 3/4: he stops one step outside the circle; the hands come off the weapons one by one
+shot M6 8.0  cam=static  from=(3.2, 8.9, -35.4)  look=malrik  fov=34
+  at 0.0  teleport malrik  to=(5.0, 7.42, -37.4)  yaw=-80
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 1.0  line malrik "I heard. I came. Don't make it a speech."  dur=3.0
+  at 4.4  anim malrik set_expression  arg=smile
+
+# ---------------------------------------------------------------- the four over the Hollow
+# Wide over their shoulders, the four in a line on the ridge: below, four keyholes glowing on four banks
+shot M7 12.0  cam=static  from=(0.6, 9.6, -31.0)  look=(0.6, 6.6, -52.0)  fov=52  in=blend:0.4
+  at 0.0  teleport vessa  to=(-0.6, 7.43, -37.6)  yaw=170
+  at 0.0  teleport torvald  to=(-3.0, 7.43, -38.0)  yaw=170
+  at 0.0  teleport ysolde  to=(1.8, 7.43, -38.0)  yaw=180
+  at 0.0  teleport malrik  to=(4.2, 7.42, -38.2)  yaw=190
+  at 0.0  teleport vey  to=(-1.8, 7.43, -35.4)  yaw=180
+  at 0.4  vfx k1  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-14, 3.0, -62)  life=24  scale=0.4
+  at 0.8  vfx k2  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(14, 3.0, -64)  life=24  scale=0.6
+  at 1.2  vfx k3  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-4, 3.0, -68)  life=24  scale=0.6
+  at 1.6  vfx k4  scene=res://art/cinematics/fx/green_pillar.tscn  at=(6, 3.0, -70)  life=24  scale=0.4
+  at 3.0  line vey "Four keys, four keyholes. Each to your own. Together."  dur=4.0
+# Crane up and out: the four banners side by side for the first time; the title
+shot M8 10.0  cam=crane  from=(0.6, 10.4, -29.6)  to=(2.0, 38.0, -12.0)  look=(0.6, 7.6, -38.0)>(0.6, 4.0, -70.0)  fov=40>52
+  at 2.0  title "The Last Muster" time=5.0
+  at 8.8  fade color=#000000  alpha=1  time=1.0

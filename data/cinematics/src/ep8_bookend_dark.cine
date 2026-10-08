@@ -1,0 +1,46 @@
+# Episode 8 ending "Four Hands", the bookend "Once Upon a Time" (DARK track), 35 s (docs/design/script-episodes-4-8/
+# e8m3.md, shot list E23-E25; campaign-outline.md 4.3 [3:06]-[3:33] word for word, 4.4; prologue-3min.md S13 / L13).
+# The ruined orrery dome, one candle: an old, very tall man (the Master, the hem fire gone out) on a step, a child from
+# the Outwall in front of him ("...and that, child, is the end of the tale." / "Were you really him?"); the prologue's
+# own L13 returns ("I know this tale well, child. I was that wizard."); "Were you sad, when they stopped needing you?" /
+# "No. That was the whole point."; the child cups a spark of white-gold lightning ("...Well. So that is where it
+# went."); the title FOUR WIZARDS, "The storm chooses its own.". Then ep8_credits (not a film here).
+# This is the DARK track: it plays after ep8_dark_<k>; E24 says L3_dark / L4_dark ("Is the throne still full?" /
+# "For now. Storms come.") instead of L3 / L4; everything else is the canon ep8_bookend.
+# Text source for i18n / voices: data/voice/lines/ep8_bookend.json (L1, L2, L3_dark, L4_dark, L5) + data/voice/lines/prologue_3min.json L13
+# (its WAV and French reused, master, 5.2 s). e8m3.md Q2 (the L13 timing) is solved here without growing E23: L13 starts
+# at E23 + 7.8 and ends 0.4 s before L3, which moves from E24 + 4.0 to + 4.4 (L4 from + 7.0 to + 7.4).
+# e8m3 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep8_bookend_dark).
+# Set: forge_citadel's ruined dome on its crag (the prologue S13 place: the stopped orrery, one candle). Stand-ins: the
+# old man = the forge_ep3_memories light figure; the child (a girl, voice af_sky) = the Ep3 memory boy model.
+# Axis: the old man (west) - the child (east); every camera stays south-east of them.
+cine ep8_bookend_dark  title="Four Wizards: The End"  letterbox=2.39  seed=831  length=33..37
+use set forge_citadel
+use music res://assets/audio/music/music_menu.wav  vol=-20
+cast  oldman   res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(-150.8, 30, -118.4)  yaw=40
+cast  child    res://art/cinematics/stage_sets/forge_ep3_memories/props/boy.tscn  at=(-148.4, 30, -116.8)  yaw=-140
+
+# ---------------------------------------------------------------- once upon a time
+# Static, slow push on the candle: the old man on a step, the child in front of him, chin on knees
+shot E23 9.0  cam=dolly  from=(-145.6, 31.6, -112.8)  to=(-146.2, 31.5, -113.6)  look=(-149.8, 31.5, -117.8)  fov=42  in=fade_black:0.4  faces=oldman,child
+  at 0.0  fade color=#06040c  alpha=0.3  time=0.05
+  at 0.0  hide master
+  at 0.0  hide swordsman
+  at 1.0  line master "...and that, child, is the end of the tale."  dur=3.6
+  at 5.0  line child "Is it true? Were you really him?"  dur=2.6
+  at 7.8  line master "I know this tale well, child. I was that wizard."  dur=5.2
+# MS two-shot, 3/4, eye: the child looks up at him; he smiles (the beard of light is only a white beard now)
+shot E24 10.0  cam=static  from=(-147.2, 31.4, -113.8)  look=(-149.8, 31.7, -117.8)  fov=42  faces=oldman,child
+  at 4.4  line child "Is the throne still full?"  dur=2.4
+  at 7.4  line master "For now. Storms come."  dur=2.4
+# ECU on the child's cupped hands: a spark, white-gold lightning, crackling; the old man's eyebrows rise
+shot E25 6.0  cam=static  from=(-147.4, 31.0, -116.0)  look=(-148.5, 30.7, -117.0)  fov=34
+  at 1.0  vfx spark  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-148.6, 30.6, -117.0)  to=(-148.4, 30.9, -116.8)  life=1.6  scale=0.15
+  at 1.4  vfx glow  scene=res://art/cinematics/fx/ember.tscn  at=(-148.5, 30.7, -116.9)  life=4.0  scale=0.2
+  at 1.4  sfx res://assets/audio/sfx/atk_storm.wav  vol=-16
+  at 5.0  line master "...Well. So that is where it went."  dur=2.8
+# Crane up and out through the broken roof to the stars; the title
+shot E25B 10.0  cam=crane  from=(-146.0, 33.5, -113.0)  to=(-140, 70, -96)  look=(-149.2, 30.4, -117.4)>(-150, 40, -120)  fov=40>52
+  at 0.0  fade color=#06040c  alpha=0.35  time=0.3
+  at 3.0  title "FOUR WIZARDS" sub="The storm chooses its own." time=5.5
+  at 9.0  fade color=#000000  alpha=1  time=1.0

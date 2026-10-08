@@ -1,0 +1,209 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_vgoiq"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_q3dj1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_gsuai"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_6qsad"]
+
+[sub_resource type="Resource" id="Resource_5s4n8"]
+script = ExtResource("4_6qsad")
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.023529412, 0.015686275, 0.047058824, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_05ufs"]
+script = ExtResource("4_6qsad")
+kind = &"visible"
+actor = &"master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_upvbj"]
+script = ExtResource("4_6qsad")
+kind = &"visible"
+actor = &"swordsman"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_fkdi4"]
+script = ExtResource("1_vgoiq")
+at = 1.0
+speaker = &"master"
+text = "...and that, child, is the end of the tale."
+duration = 3.6
+voice = "res://assets/audio/voice/master/and_that_child_is_ccc7017f.wav"
+
+[sub_resource type="Resource" id="Resource_hq31l"]
+script = ExtResource("1_vgoiq")
+at = 5.0
+speaker = &"child"
+text = "Is it true? Were you really him?"
+duration = 2.6
+voice = "res://assets/audio/voice/child/is_it_true_were_f7514f0a.wav"
+
+[sub_resource type="Resource" id="Resource_cfbph"]
+script = ExtResource("1_vgoiq")
+at = 7.8
+speaker = &"master"
+text = "I know this tale well, child. I was that wizard."
+duration = 5.2
+voice = "res://assets/audio/voice/master/i_know_this_tale_705bd7cd.wav"
+
+[sub_resource type="Resource" id="Resource_y4sa4"]
+script = ExtResource("3_gsuai")
+id = &"E23"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(-145.6, 31.6, -112.8)
+to_pos = Vector3(-146.2, 31.5, -113.6)
+look_from = Vector3(-149.8, 31.5, -117.8)
+look_to = Vector3(-149.8, 31.5, -117.8)
+fov_from = 42.0
+fov_to = 42.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_vgoiq")]([SubResource("Resource_fkdi4"), SubResource("Resource_hq31l"), SubResource("Resource_cfbph")])
+actions = Array[ExtResource("4_6qsad")]([SubResource("Resource_5s4n8"), SubResource("Resource_05ufs"), SubResource("Resource_upvbj")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_rgpm2"]
+script = ExtResource("1_vgoiq")
+at = 4.4
+speaker = &"child"
+text = "Were you sad, when they stopped needing you?"
+duration = 3.0
+voice = "res://assets/audio/voice/child/were_you_sad_when_4203d4ce.wav"
+
+[sub_resource type="Resource" id="Resource_0han0"]
+script = ExtResource("1_vgoiq")
+at = 7.4
+speaker = &"master"
+text = "No. That was the whole point."
+duration = 2.5
+voice = "res://assets/audio/voice/master/no_that_was_the_9f82d4c5.wav"
+
+[sub_resource type="Resource" id="Resource_6bqrr"]
+script = ExtResource("3_gsuai")
+id = &"E24"
+duration = 10.0
+from_pos = Vector3(-147.2, 31.4, -113.8)
+to_pos = Vector3(-147.2, 31.4, -113.8)
+look_from = Vector3(-149.8, 31.7, -117.8)
+look_to = Vector3(-149.8, 31.7, -117.8)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_vgoiq")]([SubResource("Resource_rgpm2"), SubResource("Resource_0han0")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_h7as8"]
+script = ExtResource("4_6qsad")
+at = 1.0
+kind = &"vfx"
+target = Vector3(-148.6, 30.6, -117)
+params = {
+"life": 1.6,
+"scale": 0.15,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(-148.4, 30.9, -116.8)
+}
+
+[sub_resource type="Resource" id="Resource_kph0t"]
+script = ExtResource("4_6qsad")
+at = 1.4
+kind = &"vfx"
+target = Vector3(-148.5, 30.7, -116.9)
+params = {
+"life": 4.0,
+"scale": 0.2,
+"scene": "res://art/cinematics/fx/ember.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_hhc8t"]
+script = ExtResource("4_6qsad")
+at = 1.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_rx4ac"]
+script = ExtResource("1_vgoiq")
+at = 5.0
+speaker = &"master"
+text = "...Well. So that is where it went."
+duration = 2.8
+voice = "res://assets/audio/voice/master/well_so_that_is_a0bf02e4.wav"
+
+[sub_resource type="Resource" id="Resource_rml2s"]
+script = ExtResource("3_gsuai")
+id = &"E25"
+duration = 6.0
+from_pos = Vector3(-147.4, 31, -116)
+to_pos = Vector3(-147.4, 31, -116)
+look_from = Vector3(-148.5, 30.7, -117)
+look_to = Vector3(-148.5, 30.7, -117)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_vgoiq")]([SubResource("Resource_rx4ac")])
+actions = Array[ExtResource("4_6qsad")]([SubResource("Resource_h7as8"), SubResource("Resource_kph0t"), SubResource("Resource_hhc8t")])
+stage_set = &"forge_citadel"
+
+[sub_resource type="Resource" id="Resource_sgq1l"]
+script = ExtResource("4_6qsad")
+kind = &"fade"
+params = {
+"alpha": 0.35,
+"color": Color(0.023529412, 0.015686275, 0.047058824, 1),
+"time": 0.3
+}
+
+[sub_resource type="Resource" id="Resource_6jck3"]
+script = ExtResource("4_6qsad")
+at = 3.0
+kind = &"title"
+params = {
+"sub": "The storm chooses its own.",
+"text": "FOUR WIZARDS",
+"time": 5.5
+}
+
+[sub_resource type="Resource" id="Resource_ihj61"]
+script = ExtResource("4_6qsad")
+at = 9.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_14q3m"]
+script = ExtResource("3_gsuai")
+id = &"E25B"
+duration = 10.0
+camera_mode = 2
+from_pos = Vector3(-146, 33.5, -113)
+to_pos = Vector3(-140, 70, -96)
+look_from = Vector3(-149.2, 30.4, -117.4)
+look_to = Vector3(-150, 40, -120)
+fov_from = 40.0
+fov_to = 52.0
+actions = Array[ExtResource("4_6qsad")]([SubResource("Resource_sgq1l"), SubResource("Resource_6jck3"), SubResource("Resource_ihj61")])
+stage_set = &"forge_citadel"
+
+[resource]
+script = ExtResource("2_q3dj1")
+id = &"ep8_bookend"
+title = "Four Wizards: The End"
+stage_scene = "res://scenes/cinematics/ep8_bookend.tscn"
+shots = Array[ExtResource("3_gsuai")]([SubResource("Resource_y4sa4"), SubResource("Resource_6bqrr"), SubResource("Resource_rml2s"), SubResource("Resource_14q3m")])
+music_cue = &"res://assets/audio/music/music_menu.wav"
+shake_seed = 830
+music_volume_db = -20.0
+lines_over_cuts = true

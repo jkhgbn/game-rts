@@ -1,0 +1,282 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_ba52k"]
+[ext_resource type="Resource" path="res://data/cinematics/ep8_opening.tres" id="2_cd0mn"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_evenmead/forge_evenmead.tscn" id="3_uiofb"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_7uuny"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_golden.tres" id="5_msger"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_torvald/forge_intro_torvald.tscn" id="6_5wugy"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_torvald/mood_torvald.tres" id="7_qdl63"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_ysolde/forge_intro_ysolde.tscn" id="8_aeyve"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_ysolde/mood_ysolde.tres" id="9_cdq7v"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/forge_ep3_memories.tscn" id="10_waoow"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_ep3_memories/mood_ep3_memory.tres" id="11_6jmk7"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_malrik/forge_intro_malrik.tscn" id="12_fokgu"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_malrik/mood_malrik.tres" id="13_c8q8d"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep2_ending/deep_door.tscn" id="14_qqnhh"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn" id="15_xfami"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep.tscn" id="16_0nxp8"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_watch_keep/forge_watch_keep_lighting.tres" id="17_n7wsq"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep2_between/relic_table.tscn" id="18_mc27w"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_vey/helper_vey.tscn" id="19_ulq5g"]
+[ext_resource type="Script" path="res://art/units/helpers/helper_vey/helper_vey.gd" id="20_2cxwg"]
+[ext_resource type="PackedScene" path="res://art/units/fire/flame_guard.tscn" id="21_wnemr"]
+[ext_resource type="Script" path="res://art/units/fire/fire_model.gd" id="22_1780h"]
+[ext_resource type="PackedScene" path="res://art/units/fire/cinder_hand.tscn" id="23_2o8l4"]
+[ext_resource type="PackedScene" path="res://art/units/nature/wildwood_archer/wildwood_archer.tscn" id="24_xidds"]
+[ext_resource type="Script" path="res://art/units/nature/wildwood_archer/wildwood_archer.gd" id="25_gniy2"]
+[ext_resource type="PackedScene" path="res://art/units/nature/stagrunner/stagrunner.tscn" id="26_vhyis"]
+[ext_resource type="Script" path="res://art/units/nature/stagrunner/stagrunner.gd" id="27_x2c1r"]
+[ext_resource type="PackedScene" path="res://art/cinematics/fx/ember.tscn" id="28_kllnv"]
+[ext_resource type="Script" path="res://art/cinematics/fx/cine_fx.gd" id="29_d5t0i"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="30_ousnn"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_preset.gd" id="31_44ayc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vi0p1"]
+sky_top_color = Color(0.05, 0.07, 0.16, 1)
+sky_horizon_color = Color(0.28, 0.2, 0.3, 1)
+ground_bottom_color = Color(0.03, 0.03, 0.04, 1)
+ground_horizon_color = Color(0.16800001, 0.120000005, 0.18, 1)
+sun_angle_max = 8.0
+
+[sub_resource type="Sky" id="Sky_dbywv"]
+sky_material = SubResource("ProceduralSkyMaterial_vi0p1")
+
+[sub_resource type="Environment" id="Environment_eil18"]
+background_mode = 2
+sky = SubResource("Sky_dbywv")
+ambient_light_source = 3
+ambient_light_energy = 0.55
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.6
+fog_enabled = true
+fog_light_color = Color(0.196, 0.14, 0.21000001, 1)
+fog_density = 0.008
+
+[sub_resource type="Resource" id="Resource_04rj1"]
+script = ExtResource("31_44ayc")
+environment = SubResource("Environment_eil18")
+sun_color = Color(0.62, 0.7, 1, 1)
+sun_energy = 0.6
+sun_rotation_degrees = Vector3(-37.999996, 34.999996, 0)
+vignette_strength = 0.0
+
+[node name="Ep8OpeningStage" type="Node3D" unique_id=302002725]
+script = ExtResource("1_ba52k")
+autoplay_script = ExtResource("2_cd0mn")
+actor_paths = {
+"apprentices": NodePath("forge_ep3_memories/Puppets/apprentices"),
+"army_charge": NodePath("forge_intro_torvald/Puppets/army_charge"),
+"army_fallen": NodePath("forge_intro_ysolde/Puppets/army_fallen"),
+"army_fire": NodePath("forge_evenmead/Puppets/army_fire"),
+"army_host": NodePath("forge_intro_ysolde/Puppets/army_host"),
+"army_ice": NodePath("forge_evenmead/Puppets/army_ice"),
+"army_line": NodePath("forge_intro_torvald/Puppets/army_line"),
+"army_nature": NodePath("forge_evenmead/Puppets/army_nature"),
+"army_shadow": NodePath("forge_evenmead/Puppets/army_shadow"),
+"ashby": NodePath("forge_watch_keep/Ashby"),
+"bloom": NodePath("forge_evenmead/Puppets/bloom"),
+"colossus": NodePath("forge_intro_torvald/Puppets/colossus"),
+"courier": NodePath("forge_watch_keep/Courier"),
+"crown": NodePath("Crown"),
+"evenmead_vey": NodePath("forge_evenmead/Puppets/vey"),
+"flame_b": NodePath("forge_ep3_memories/Puppets/flame_b"),
+"flame_g": NodePath("forge_ep3_memories/Puppets/flame_g"),
+"flame_r": NodePath("forge_ep3_memories/Puppets/flame_r"),
+"flame_v": NodePath("forge_ep3_memories/Puppets/flame_v"),
+"foe": NodePath("forge_intro_torvald/Puppets/foe"),
+"frostbow": NodePath("forge_intro_torvald/Puppets/frostbow"),
+"fx_burst": NodePath("forge_intro_torvald/Puppets/fx_burst"),
+"fx_cracks": NodePath("forge_intro_torvald/Puppets/fx_cracks"),
+"fx_crown": NodePath("forge_intro_malrik/Puppets/fx_crown"),
+"fx_heart": NodePath("forge_intro_torvald/Puppets/fx_heart"),
+"fx_icewall": NodePath("forge_intro_torvald/Puppets/fx_icewall"),
+"fx_master": NodePath("forge_intro_ysolde/Puppets/fx_master"),
+"fx_snow": NodePath("forge_intro_torvald/Puppets/fx_snow"),
+"fx_tendrils": NodePath("forge_intro_malrik/Puppets/fx_tendrils"),
+"fx_tree": NodePath("forge_intro_ysolde/Puppets/fx_tree"),
+"fx_vines": NodePath("forge_intro_ysolde/Puppets/fx_vines"),
+"fx_vortex": NodePath("forge_intro_malrik/Puppets/fx_vortex"),
+"graveyard": NodePath("forge_ep3_memories/Puppets/graveyard"),
+"guard_e": NodePath("forge_watch_keep/Puppets/guard_e"),
+"guard_w": NodePath("forge_watch_keep/Puppets/guard_w"),
+"hexweaver": NodePath("forge_intro_malrik/Puppets/hexweaver"),
+"hollow": NodePath("forge_ep3_memories/Puppets/hollow"),
+"hollow_stone": NodePath("forge_ep3_memories/Puppets/hollow_stone"),
+"hstone": NodePath("forge_intro_malrik/Hstone"),
+"hush": NodePath("forge_evenmead/Puppets/hush"),
+"m_boy": NodePath("forge_ep3_memories/Puppets/m_boy"),
+"m_boy_o": NodePath("forge_ep3_memories/Puppets/m_boy_o"),
+"m_candle": NodePath("forge_ep3_memories/Puppets/m_candle"),
+"m_malrik": NodePath("forge_ep3_memories/Puppets/m_malrik"),
+"m_master": NodePath("forge_ep3_memories/Puppets/m_master"),
+"m_sage": NodePath("forge_ep3_memories/Puppets/m_sage"),
+"malrik": NodePath("forge_evenmead/Puppets/malrik"),
+"malrik_army_fallen": NodePath("forge_intro_malrik/Puppets/army_fallen"),
+"malrik_army_host": NodePath("forge_intro_malrik/Puppets/army_host"),
+"malrik_fx_master": NodePath("forge_intro_malrik/Puppets/fx_master"),
+"malrik_malrik": NodePath("forge_intro_malrik/Puppets/malrik"),
+"malrik_young": NodePath("forge_intro_malrik/Puppets/malrik_young"),
+"messenger": NodePath("forge_intro_torvald/Puppets/messenger"),
+"orrery": NodePath("forge_ep3_memories/Puppets/orrery"),
+"shade": NodePath("forge_intro_malrik/Puppets/shade"),
+"sknight": NodePath("forge_intro_malrik/Puppets/sknight"),
+"stag": NodePath("forge_watch_keep/Stag"),
+"stone": NodePath("forge_evenmead/Puppets/stone"),
+"torvald": NodePath("forge_evenmead/Puppets/torvald"),
+"torvald_torvald": NodePath("forge_intro_torvald/Puppets/torvald"),
+"treant": NodePath("forge_intro_ysolde/Puppets/treant"),
+"vessa": NodePath("forge_evenmead/Puppets/vessa"),
+"vey": NodePath("forge_watch_keep/Vey"),
+"vinelasher": NodePath("forge_intro_ysolde/Puppets/vinelasher"),
+"w_birch": NodePath("forge_evenmead/Puppets/w_birch"),
+"w_birds": NodePath("forge_evenmead/Puppets/w_birds"),
+"w_camps": NodePath("forge_evenmead/Puppets/w_camps"),
+"w_far": NodePath("forge_evenmead/Puppets/w_far"),
+"w_farwood": NodePath("forge_evenmead/Puppets/w_farwood"),
+"w_flowers": NodePath("forge_evenmead/Puppets/w_flowers"),
+"w_glow": NodePath("forge_evenmead/Puppets/w_glow"),
+"w_grass_far": NodePath("forge_evenmead/Puppets/w_grass_far"),
+"w_grass_mid": NodePath("forge_evenmead/Puppets/w_grass_mid"),
+"w_grass_near": NodePath("forge_evenmead/Puppets/w_grass_near"),
+"w_grass_tall": NodePath("forge_evenmead/Puppets/w_grass_tall"),
+"w_ground": NodePath("forge_evenmead/Puppets/w_ground"),
+"w_mist": NodePath("forge_evenmead/Puppets/w_mist"),
+"w_oak0": NodePath("forge_evenmead/Puppets/w_oak0"),
+"w_oak1": NodePath("forge_evenmead/Puppets/w_oak1"),
+"w_oak2": NodePath("forge_evenmead/Puppets/w_oak2"),
+"w_rays": NodePath("forge_evenmead/Puppets/w_rays"),
+"w_reeds": NodePath("forge_evenmead/Puppets/w_reeds"),
+"w_river": NodePath("forge_evenmead/Puppets/w_river"),
+"w_riverbed": NodePath("forge_evenmead/Puppets/w_riverbed"),
+"w_shrub0": NodePath("forge_evenmead/Puppets/w_shrub0"),
+"w_shrub1": NodePath("forge_evenmead/Puppets/w_shrub1"),
+"watch_keep_vessa": NodePath("forge_watch_keep/Puppets/vessa"),
+"wren": NodePath("forge_watch_keep/Wren"),
+"ysolde": NodePath("forge_evenmead/Puppets/ysolde"),
+"ysolde_messenger": NodePath("forge_intro_ysolde/Puppets/messenger"),
+"ysolde_young": NodePath("forge_intro_ysolde/Puppets/ysolde_young"),
+"ysolde_ysolde": NodePath("forge_intro_ysolde/Puppets/ysolde")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_evenmead" type="Node3D" parent="." unique_id=829784083 instance=ExtResource("3_uiofb")]
+script = ExtResource("4_7uuny")
+set_id = &"forge_evenmead"
+lighting = ExtResource("5_msger")
+lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/master_tree"), NodePath("Placed/banner_n"), NodePath("Placed/banner_s"), NodePath("Placed/stone_pt"), NodePath("Placed/bloom_pt"), NodePath("Puppets/malrik"), NodePath("Puppets/torvald"), NodePath("Puppets/hush"), NodePath("Puppets/ysolde"), NodePath("Puppets/vessa"), NodePath("Puppets/vey"), NodePath("Puppets/stone"), NodePath("Puppets/bloom"), NodePath("Puppets/army_shadow"), NodePath("Puppets/army_ice"), NodePath("Puppets/army_nature"), NodePath("Puppets/army_fire"), NodePath("Puppets/w_ground"), NodePath("Puppets/w_grass_near"), NodePath("Puppets/w_grass_mid"), NodePath("Puppets/w_grass_far"), NodePath("Puppets/w_grass_tall"), NodePath("Puppets/w_flowers"), NodePath("Puppets/w_oak0"), NodePath("Puppets/w_oak1"), NodePath("Puppets/w_oak2"), NodePath("Puppets/w_birch"), NodePath("Puppets/w_shrub0"), NodePath("Puppets/w_shrub1"), NodePath("Puppets/w_farwood"), NodePath("Puppets/w_river"), NodePath("Puppets/w_riverbed"), NodePath("Puppets/w_reeds"), NodePath("Puppets/w_camps"), NodePath("Puppets/w_mist"), NodePath("Puppets/w_glow"), NodePath("Puppets/w_rays"), NodePath("Puppets/w_birds"), NodePath("Puppets/w_far")])
+
+[node name="forge_intro_torvald" type="Node3D" parent="." unique_id=489257648 instance=ExtResource("6_5wugy")]
+process_mode = 4
+visible = false
+script = ExtResource("4_7uuny")
+set_id = &"forge_intro_torvald"
+lighting = ExtResource("7_qdl63")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Puppets/torvald"), NodePath("Puppets/colossus"), NodePath("Puppets/frostbow"), NodePath("Puppets/messenger"), NodePath("Puppets/foe"), NodePath("Puppets/army_line"), NodePath("Puppets/army_charge"), NodePath("Puppets/fx_icewall"), NodePath("Puppets/fx_burst"), NodePath("Puppets/fx_cracks"), NodePath("Puppets/fx_heart"), NodePath("Puppets/fx_snow")])
+
+[node name="forge_intro_ysolde" type="Node3D" parent="." unique_id=1393269904 instance=ExtResource("8_aeyve")]
+process_mode = 4
+visible = false
+script = ExtResource("4_7uuny")
+set_id = &"forge_intro_ysolde"
+lighting = ExtResource("9_cdq7v")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/giant_stump_1"), NodePath("Placed/wildfire"), NodePath("Placed/smoke"), NodePath("Puppets/ysolde"), NodePath("Puppets/ysolde_young"), NodePath("Puppets/treant"), NodePath("Puppets/vinelasher"), NodePath("Puppets/messenger"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_tree"), NodePath("Puppets/fx_vines"), NodePath("Puppets/fx_master")])
+
+[node name="forge_ep3_memories" type="Node3D" parent="." unique_id=66299545 instance=ExtResource("10_waoow")]
+process_mode = 4
+visible = false
+script = ExtResource("4_7uuny")
+set_id = &"forge_ep3_memories"
+lighting = ExtResource("11_6jmk7")
+lights_off = Array[NodePath]([NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/graveyard"), NodePath("Puppets/m_boy"), NodePath("Puppets/m_candle"), NodePath("Puppets/m_master"), NodePath("Puppets/orrery"), NodePath("Puppets/apprentices"), NodePath("Puppets/flame_r"), NodePath("Puppets/flame_b"), NodePath("Puppets/flame_g"), NodePath("Puppets/flame_v"), NodePath("Puppets/m_sage"), NodePath("Puppets/m_boy_o"), NodePath("Puppets/hollow"), NodePath("Puppets/hollow_stone"), NodePath("Puppets/m_malrik")])
+
+[node name="forge_intro_malrik" type="Node3D" parent="." unique_id=19235064 instance=ExtResource("12_fokgu")]
+process_mode = 4
+visible = false
+script = ExtResource("4_7uuny")
+set_id = &"forge_intro_malrik"
+lighting = ExtResource("13_c8q8d")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/table"), NodePath("Placed/standing_stones_1"), NodePath("Puppets/malrik"), NodePath("Puppets/malrik_young"), NodePath("Puppets/sknight"), NodePath("Puppets/hexweaver"), NodePath("Puppets/shade"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_vortex"), NodePath("Puppets/fx_tendrils"), NodePath("Puppets/fx_master"), NodePath("Puppets/fx_crown")])
+
+[node name="door" type="Node3D" parent="forge_intro_malrik" unique_id=324318417 instance=ExtResource("14_qqnhh")]
+transform = Transform3D(-0.9396926, 0, -0.34202015, 0, 1, 0, 0.34202015, 0, -0.9396926, 18, 0, 20)
+
+[node name="Hstone" type="Node3D" parent="forge_intro_malrik" unique_id=811303761 instance=ExtResource("15_xfami")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95, 1.3, 2.25)
+
+[node name="forge_watch_keep" type="Node3D" parent="." unique_id=1812207239 instance=ExtResource("16_0nxp8")]
+process_mode = 4
+visible = false
+script = ExtResource("4_7uuny")
+set_id = &"forge_watch_keep"
+lighting = ExtResource("17_n7wsq")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/ruin_pillar_1"), NodePath("Placed/ruin_pillar_2"), NodePath("Puppets/vessa"), NodePath("Puppets/guard_w"), NodePath("Puppets/guard_e")])
+
+[node name="relics" type="Node3D" parent="forge_watch_keep" unique_id=594205596 instance=ExtResource("18_mc27w")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -3, 0, -2)
+
+[node name="Vey" type="Node3D" parent="forge_watch_keep" unique_id=2013368887 instance=ExtResource("19_ulq5g")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.6, 0, -1)
+script = ExtResource("20_2cxwg")
+light_energy = 0.0
+body_height = 2.0
+attack_style = &"sword_slash"
+stride_speed = 4.8
+leg_swing_deg = 30.0
+
+[node name="Ashby" type="Node3D" parent="forge_watch_keep" unique_id=1738145644 instance=ExtResource("21_wnemr")]
+transform = Transform3D(-0.38306254, 0, -1.0524558, 0, 1.12, 0, 1.0524558, 0, -0.38306254, 1.9, 0, 0)
+visible = false
+script = ExtResource("22_1780h")
+body_height = 2.0
+stride_time = 0.58
+stride_speed = 5.0
+idle_period = 3.4
+leg_swing_deg = 24.0
+walk_bounce = 0.035
+
+[node name="Courier" type="Node3D" parent="forge_watch_keep" unique_id=1863685548 instance=ExtResource("23_2o8l4")]
+transform = Transform3D(-0.1736482, 0, -0.9848077, 0, 1, 0, 0.9848077, 0, -0.1736482, 0.7, 0, 0.6)
+visible = false
+script = ExtResource("22_1780h")
+fire_kind = &"worker"
+body_height = 1.4
+attack_style = &"worker_pick"
+stride_time = 0.5
+stride_speed = 4.6
+idle_period = 2.6
+leg_swing_deg = 32.0
+walk_bounce = 0.06
+
+[node name="Wren" type="Node3D" parent="forge_watch_keep" unique_id=376991493 instance=ExtResource("24_xidds")]
+transform = Transform3D(-0.1736482, 0, -0.9848077, 0, 1, 0, 0.9848077, 0, -0.1736482, 0.7, 0, 0.6)
+visible = false
+script = ExtResource("25_gniy2")
+fidget_every = 9.0
+attack_style = &"bow_draw"
+attack_windup = 0.15
+stride_time = 0.5
+stride_speed = 4.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 30.0
+walk_bounce = 0.05
+
+[node name="Stag" type="Node3D" parent="forge_watch_keep" unique_id=1180055110 instance=ExtResource("26_vhyis")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1.9, 0, 1.2)
+visible = false
+script = ExtResource("27_x2c1r")
+
+[node name="Crown" type="Node3D" parent="." unique_id=410923945 instance=ExtResource("28_kllnv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
+visible = false
+script = ExtResource("29_d5t0i")
+color = Color(1, 0.45, 0.1, 1)
+color2 = Color(1, 0.8, 0.4, 1)
+size = 0.12
+life = 5.0
+travel = 4.5
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=654928501]
+script = ExtResource("30_ousnn")
+preset = SubResource("Resource_04rj1")

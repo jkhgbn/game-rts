@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_wlxre"]
+[ext_resource type="Resource" path="res://data/cinematics/ep8_bookend.tres" id="2_s0x1d"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_citadel/forge_citadel.tscn" id="3_gpmi7"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_cdx2n"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_citadel/parts/materials/citadel_dawn.tres" id="5_chi36"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn" id="6_8bihq"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_ep3_memories/props/boy.tscn" id="7_81k8f"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="8_eg2mw"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="9_15b0n"]
+
+[node name="Ep8BookendStage" type="Node3D" unique_id=263612607]
+script = ExtResource("1_wlxre")
+autoplay_script = ExtResource("2_s0x1d")
+actor_paths = {
+"child": NodePath("Child"),
+"master": NodePath("forge_citadel/Puppets/master"),
+"oldman": NodePath("Oldman"),
+"swordsman": NodePath("forge_citadel/Puppets/swordsman")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_citadel" type="Node3D" parent="." unique_id=988514218 instance=ExtResource("3_gpmi7")]
+script = ExtResource("4_cdx2n")
+set_id = &"forge_citadel"
+lighting = ExtResource("5_chi36")
+lights_off = Array[NodePath]([NodePath("Placed/summit"), NodePath("Placed/statue"), NodePath("Placed/market"), NodePath("Placed/orrery"), NodePath("Placed/throne"), NodePath("Placed/candle"), NodePath("Placed/citadel"), NodePath("Puppets/master"), NodePath("Puppets/swordsman")])
+
+[node name="Oldman" type="Node3D" parent="." unique_id=1297060520 instance=ExtResource("6_8bihq")]
+transform = Transform3D(0.76604444, 0, 0.6427876, 0, 1, 0, -0.6427876, 0, 0.76604444, -150.8, 30, -118.4)
+
+[node name="Child" type="Node3D" parent="." unique_id=1318638855 instance=ExtResource("7_81k8f")]
+transform = Transform3D(-0.76604444, 0, -0.64278764, 0, 1, 0, 0.64278764, 0, -0.76604444, -148.4, 30, -116.8)
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=135082354]
+script = ExtResource("8_eg2mw")
+preset = ExtResource("9_15b0n")

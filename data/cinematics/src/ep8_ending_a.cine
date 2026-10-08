@@ -1,0 +1,140 @@
+# Episode 8 ending "Four Hands", part a: "The Last Turn and The Door", 1:50 (docs/design/script-episodes-4-8/e8m3.md,
+# shot list E01-E13; campaign-outline.md 4.3-4.4 word for word, mission-e8-03.md 8.2). In the pit of Crown Hollow the
+# four turn their keys together ("Now! All four! Together!"; Malrik's hand hesitates: "You made me hungry. Different
+# thing."); four beams meet in the Hollow King's heart; Obren crumbles ("to build something that would last"); a light
+# answers from below and the Master climbs out on Vey's arm ("My joy. Still never waits."); "I gave you kingdoms. You
+# saw gold."; Vey's lightning goes home ("FINALLY."); the Hollow Throne alone on the pit floor: "Choose, all four of
+# you." Then ep8_throne_<k> (the player's wizard) and the choice card; then ep8_ending_b (Break) or ep8_dark_<k> (Sit).
+# Text source for i18n / voices: data/voice/lines/ep8_ending_a.json (the same text as the lines below).
+# e8m3 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep8_ending_a). The chain
+# a -> throne_<k> -> choice -> b / dark_<k> -> bookend needs StoryFlow branching (not built).
+# Set (stand-in; forge_hollow_pit is not built): forge_intro_malrik's cleared courtyard under its dusk keep = the pit of
+# Crown Hollow (its prologue host / fx hidden; storm = a dark amber full-screen grade breaking to grey dawn at E06).
+# Props / stand-ins: the Hollow Throne = forge_citadel's throne part (a cast, so it can be hidden in part b); the
+# kneeling Hollow King = a Barrow Giant at 3.2 scale; the King's heart / Obren = the forge_ep3_memories heart-stone;
+# the Master = the forge_ep3_memories light figure; the helpers holding the Wardens back are not staged.
+# Axis: the Master / the throne (north) - the four (south); every camera from E07 on stays east of the line (x > 0).
+cine ep8_ending_a  title="Episode 8: Four Hands"  letterbox=2.39  seed=803  length=106..114
+use set forge_intro_malrik
+use music res://assets/audio/forge/music/ep3_opening.wav  vol=-18
+cast  obren    capsule  at=(4, 0, -300)  hidden=1  speaker=obren
+cast  throne   res://art/cinematics/stage_sets/forge_citadel/parts/throne.tscn  at=(0, 0, -2.4)  yaw=0
+cast  king     res://art/units/shadow/barrow_giant/barrow_giant.tscn  at=(0, 0, -7.4)  yaw=0  scale=3.2
+cast  heart    res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone.tscn  at=(0, 1.0, -2.2)
+cast  vessa    res://art/units/wizards/vessa.tscn    at=(-2.6, 0, 1.8)   yaw=150
+cast  torvald  res://art/units/wizards/torvald.tscn  at=(-4.2, 0, -0.6)  yaw=110
+cast  ysolde   res://art/units/wizards/ysolde.tscn   at=(4.2, 0, -0.6)   yaw=-110
+cast  vey      res://art/units/helpers/helper_vey/helper_vey.tscn  at=(0.8, 0, 4.6)  yaw=180
+cast  master     res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(0, -6, -0.6)  yaw=180  hidden=1
+
+# ---------------------------------------------------------------- the last turn
+# Crane down through storm cloud into the pit: the kneeling King, the Throne in his chest; four wizards at four keyholes
+shot E01 8.0  cam=crane  from=(6, 22, 16)  to=(3.4, 6.0, 9.4)  look=(0, 2.0, -2.4)>(0, 1.4, -1.0)  fov=50>40  in=fade_black:1.0
+  at 0.0  fade color=#2a1406  alpha=0.35  time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik  to=(2.6, 0, 1.8)  yaw=-150
+  at 0.0  sfx res://assets/audio/sfx/atk_storm.wav  vol=-14
+  at 0.0  vfx k1  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-2.4, 1.0, 1.4)  life=20  scale=0.25
+  at 0.0  vfx k2  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-3.8, 1.0, -0.4)  life=20  scale=0.25
+  at 0.0  vfx k3  scene=res://art/cinematics/fx/green_pillar.tscn  at=(3.8, 0.0, -0.4)  life=20  scale=0.08
+  at 0.0  vfx k4  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(2.4, 1.0, 1.4)  life=20  scale=0.25
+  at 1.0  line vessa "Now! All four! Together!"  dur=2.4
+# Four inserts on the hands: Torvald turns the Orb; Ysolde the Signet; Vessa the Crown; Malrik hesitates, then turns it
+shot E02A 2.5  cam=static  from=(-2.4, 1.7, -1.3)  look=torvald  fov=32
+  at 0.2  anim torvald play_cast
+  at 1.0  line torvald "Together, then."  dur=1.6
+shot E02B 2.5  cam=static  from=(2.4, 1.6, -1.3)  look=ysolde  fov=32
+  at 0.2  anim ysolde play_cast
+  at 0.5  line ysolde "Together."  dur=1.4
+shot E02C 2.5  cam=static  from=(-1.6, 1.6, 0.0)  look=vessa  fov=32
+  at 0.2  anim vessa play_cast
+  at 1.0  line obren "Keep me, Bishop. I made you strong."  dur=2.8
+  at 1.0  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-8
+shot E02D 4.5  cam=static  from=(1.6, 1.75, 0.0)  look=malrik  fov=34
+  at 0.0  anim malrik set_expression  arg=worried
+  at 0.4  vfx wisp  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(2.4, 1.2, 1.4)  life=3.0  scale=0.3
+  at 1.5  line malrik "You made me hungry. Different thing."  dur=2.8
+  at 3.4  anim malrik play_cast
+# Top-down, crane up: four beams of colour cross the pit and meet in the King's heart: one white-gold flash
+shot E03 6.0  cam=crane  from=(0.1, 9, 0.2)  to=(0.1, 18, 0.4)  look=(0, 0, -0.6)  fov=48
+  at 0.2  vfx b1  scene=res://art/cinematics/fx/streak_red.tscn  at=(-2.4, 1.2, 1.4)  to=(0, 2.0, -2.2)  life=1.6  scale=0.4
+  at 0.2  vfx b2  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-3.8, 1.2, -0.4)  to=(0, 2.0, -2.2)  life=1.6  scale=0.4
+  at 0.2  vfx b3  scene=res://art/cinematics/fx/streak_green.tscn  at=(3.8, 1.2, -0.4)  to=(0, 2.0, -2.2)  life=1.6  scale=0.4
+  at 0.2  vfx b4  scene=res://art/cinematics/fx/streak_violet.tscn  at=(2.4, 1.2, 1.4)  to=(0, 2.0, -2.2)  life=1.6  scale=0.4
+  at 1.8  vfx flash  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, -2.2)  life=1.2  scale=0.6
+  at 1.8  sfx res://assets/audio/sfx/atk_storm.wav  vol=-8
+# ECU on the heart, slow push: Obren's stone face inside it, crumbling, almost peaceful
+shot E04 7.0  cam=dolly  from=(0.5, 1.5, -0.6)  to=(0.35, 1.35, -1.2)  look=(0, 1.1, -2.2)  fov=30
+  at 0.4  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0, 1.1, -2.2)  life=6.0  scale=0.5
+  at 1.0  line obren "I only wanted... to build something that would last."  dur=5.0
+  at 5.0  vfx crumble  scene=res://art/cinematics/fx/fire_burst.tscn  at=(0, 1.1, -2.2)  life=1.6  scale=0.15
+# Low angle down into the crack under the King: a white-gold light below, answering
+shot E05 7.0  cam=static  from=(1.8, 2.8, 3.6)  look=(0, 0, 1.2)  fov=40
+  at 0.0  hide heart
+  at 0.6  vfx below  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, -2.0, 1.0)  life=14.0  scale=0.1
+  at 1.0  line master "You did, Obren. It held me twelve years."  dur=4.0
+# WS, low, slow: the King collapses into the pit; a dust wave; silence; the storm breaks open to grey dawn
+shot E06 6.0  cam=static  from=(8, 0.6, 8)  look=(0, 3.0, -3.0)  fov=50
+  at 0.4  move king  to=(0, -8.0, -7.4)  speed=1.8
+  at 1.0  vfx dust  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(0, 0.1, -2.0)  life=3.0  scale=1.6
+  at 1.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-4
+  at 3.0  fade color=#8a8a9a  alpha=0.15  time=2.4
+
+# ---------------------------------------------------------------- the door
+# MS on Vey at the pit's edge, 3/4: he kneels; lightning crawls from his blade down into the rising light
+shot E07 6.0  cam=static  from=(1.8, 1.45, 2.8)  look=vey  fov=34
+  at 0.0  hide king
+  at 0.0  hide throne
+  at 1.0  vfx bolt  scene=res://art/cinematics/fx/streak_blue.tscn  at=(0.8, 1.0, 4.2)  to=(0.2, 0.0, 0.4)  life=2.6  scale=0.3
+  at 1.0  sfx res://assets/audio/sfx/atk_storm.wav  vol=-16
+# Low, behind the four, looking down into the light: the Master climbs out, leaning on Vey's offered arm
+shot E08 8.0  cam=static  from=(0.6, 0.8, 6.4)  look=(0, 1.6, -0.6)  fov=44
+  at 0.0  show throne
+  at 0.0  show master
+  at 0.0  move master  to=(0, 0, -0.4)  speed=1.4
+  at 0.0  move vey  to=(0.8, 0, 0.6)  speed=1.4
+  at 1.0  line vey "There he is. Took his time."  dur=2.6
+# MS two-shot Vessa + Master, 3/4, eye: Vessa runs to him and stops one step short, then hugs him
+shot E09 8.0  cam=static  from=(3.6, 1.7, 0.8)  look=(-0.4, 1.5, 0.2)  fov=40  faces=vessa,master
+  at 0.0  teleport master  to=(0, 0, -0.4)  yaw=60
+  at 0.0  teleport vey  to=(1.6, 0, -0.8)  yaw=-120
+  at 0.0  move vessa  to=(-0.4, 0, 0.8)  speed=2.6
+  at 1.0  line vessa "Master!"  dur=1.6
+  at 1.0  anim vessa set_expression  arg=smile
+  at 4.0  line master "My joy. Still never waits."  dur=2.6
+# CU on the Master, a silhouette against the dawn, slow push: he looks at the four, one by one
+shot E10 8.0  cam=dolly  from=(2.6, 2.2, 1.9)  to=(2.3, 2.2, 1.6)  look=(0, 2.1, -0.4)  fov=38  faces=master
+  at 1.0  line master "A thousand years I held the world in one hand."  dur=3.8
+  at 5.0  line master "The harder I held, the more it slipped."  dur=2.9
+# WS of the five: the Master's hand opens, empty
+shot E11 5.0  cam=static  from=(6.4, 2.0, 6.4)  look=(0, 1.3, 0.2)  fov=44  faces=master,vessa,malrik
+  at 1.0  line master "Kings. Cities. Even you four. I gave you kingdoms. You saw gold."  dur=4.8
+# CU Malrik: his dry little shrug
+shot E11B 4.0  cam=static  from=(1.6, 1.8, 0.2)  look=malrik  fov=30
+  at 0.0  anim malrik set_expression  arg=smile
+  at 1.0  line malrik "In fairness, it was a great deal of gold."  dur=2.9
+# MS two-shot Master + Vey: he lays his hand on Vey's sword; the lightning runs off the blade up into his arm
+shot E12 15.0  cam=static  from=(3.4, 1.8, 1.4)  look=(0.8, 1.5, -0.6)  fov=38  faces=master,vey
+  at 1.0  line master "So I will not hold it again."  dur=2.6
+  at 4.0  line vey "So. The lightning."  dur=1.8
+  at 6.0  line vessa "FINALLY."  dur=1.6
+  at 7.0  vfx run  scene=res://art/cinematics/fx/streak_blue.tscn  at=(1.4, 1.0, -0.6)  to=(0.2, 1.8, -0.4)  life=1.6  scale=0.3
+  at 8.0  line vey "His. Lent to me to keep you four alive. Now it goes home."  dur=5.0
+# Slow push down to the pit floor: the Hollow Throne, cracked but whole, still faintly amber, alone
+shot E13 10.0  cam=dolly  from=(1.4, 3.0, 2.6)  to=(0.7, 1.9, 0.9)  look=(0, 1.8, -3.0)  fov=42  in=blend:0.4
+  at 0.0  teleport vessa  to=(-2.6, 0, 2.6)  yaw=160
+  at 0.0  teleport master  to=(-1.2, 0, 3.4)  yaw=170
+  at 0.0  teleport vey  to=(1.6, 0, 3.6)  yaw=-170
+  at 0.0  teleport malrik  to=(2.8, 0, 2.4)  yaw=-160
+  at 0.0  vfx amber  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0, 0.8, -2.4)  life=10  scale=0.6
+  at 1.0  line master "Whoever sits there holds the world, as I did."  dur=4.5
+  at 6.0  line master "Someone will always want that seat. Choose, all four of you."  dur=3.9

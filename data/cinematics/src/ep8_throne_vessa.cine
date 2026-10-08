@@ -1,0 +1,38 @@
+# Episode 8 ending "Four Hands", the throne shot E14 (Vessa), 8 s (docs/design/script-episodes-4-8/e8m3.md, film
+# `ep8_throne_vessa`; campaign-outline.md 4.3 [1:51] / 4.4 the E14 temptation table). Plays after ep8_ending_a when the
+# player's wizard is Vessa; Vessa takes one step toward the Hollow Throne, its amber glow pulsing in her eyes; the
+# film pauses on the choice card (no timer, not skippable: UI, not in the film). The four variants share the marks;
+# only the actor changes.
+# Text source for i18n / voices: data/voice/lines/ep8_throne_vessa.json (the same text as the line below).
+# e8m3 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep8_throne_vessa); picking the
+# variant by the player's wizard and the choice card need StoryFlow (not built).
+# Set (stand-in; forge_hollow_pit is not built): forge_intro_malrik's courtyard = the pit of Crown Hollow at grey dawn
+# (ep8_ending_a's staging; the Hollow Throne = forge_citadel's throne part).
+# Axis: the throne (north) - the four (south); the camera stays east of the line, low, between them and the throne.
+cine ep8_throne_vessa  title="Episode 8: Four Hands"  letterbox=2.39  seed=810  length=7..9
+use set forge_intro_malrik
+use music res://assets/audio/forge/music/ep3_opening.wav  vol=-20
+cast  throne   res://art/cinematics/stage_sets/forge_citadel/parts/throne.tscn  at=(0, 0, -2.4)  yaw=0
+cast  vessa    res://art/units/wizards/vessa.tscn  at=(0.0, 0, 3.6)  yaw=180
+cast  torvald  res://art/units/wizards/torvald.tscn  at=(2.4, 0, 5.0)  yaw=180
+cast  ysolde   res://art/units/wizards/ysolde.tscn  at=(0.0, 0, 6.2)  yaw=180
+
+# MLS on Vessa, 3/4, low; the three others soft behind: one step toward the throne; its amber glow in her eyes
+shot E14 8.0  cam=static  from=(2.6, 0.9, 0.6)  look=(0, 1.7, 3.2)  fov=40  in=blend:0.4  faces=vessa
+  at 0.0  fade color=#8a8a9a  alpha=0.15  time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik  to=(-2.4, 0, 5.0)  yaw=180
+  at 0.0  vfx amber  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0, 0.8, -2.4)  life=8  scale=0.6
+  at 0.4  move vessa  to=(0, 0, 2.9)  speed=0.6
+  at 1.0  line vessa "I could stop every war. Keep everyone safe."  dur=3.6
+  at 2.0  anim vessa set_expression  arg=worried
+  at 6.4  fade color=#2a1406  alpha=0.35  time=1.4

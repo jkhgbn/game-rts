@@ -1,0 +1,176 @@
+# Episode 8 opening "The Four Keys", 2:00 (docs/design/script-episodes-4-8/e8m1.md, shot list O1-O13; beats from
+# campaign-outline.md 4.1, mission-e8-01.md 1.1-1.2 / A.1 / C.1 / D.1). Spring after the Coinwater: amber threads seep
+# out of every battlefield and run one way, down into the Hollow ("The war itself was opening the door."); in Duskbarrow
+# the heart-stone cracks and speaks aloud (Obren: "No more whispers."); under Emberfall the Master's deep door flickers;
+# in the watch-keep Vey's lightning sputters; Vessa sends the Orb north by Ashby's messenger (JS 2026-10-08) and the
+# Signet west with Wren, keeps the Crown, and goes with Vey to ask Malrik ("Especially Malrik."); the title card. The
+# "Whose road do you walk?" picker after the title is UI (not in the film).
+# Text source for i18n / voices: data/voice/lines/ep8_opening.json (the same text as the lines below). Obren speaks
+# with the Whisper voice (cast.json alias; the "full voice" take is still open, e8m1.md Q2).
+# e8m1 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep8_opening).
+# Sets (stand-ins): forge_evenmead in spring (O1; the Coinwater cut of O2 = its river); forge_intro_torvald's rampart =
+# the broken Wall's meltwater (O2); forge_intro_ysolde's burnt wood = the Sighing Wood's edge (O2); forge_ep3_memories'
+# hollow = Crown Hollow (O3; forge_hollow_pit is not built); forge_intro_malrik = Duskbarrow, Malrik's crypt (O4-O5),
+# and, in its far dark corner, the Master's deep door under Emberfall (O6: the ep2_ending door prop; forge_deep_door is
+# not built); forge_watch_keep = Emberfall's watch-keep (O7-O13; the ep2 relic table with the three relics).
+# Stand-ins: Ashby = a Flame Guard, his messenger = a Cinder Hand, Wren = a Wildwood Archer by a Stagrunner.
+# Amber threads = streak / ember fx along the ground.
+# Axis: the watch-keep: Vessa (south of the table) - Vey (west, by the brazier); every camera stays east of them.
+cine ep8_opening  title="Episode 8: The Four Keys"  letterbox=2.39  seed=801  length=116..124
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-18
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1  speaker=narrator
+cast  obren     capsule  at=(4, 0, -300)  hidden=1  speaker=obren
+cast  hstone    res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_stone_hand.tscn  at=(2.95, 1.3, 2.25)  set=forge_intro_malrik
+prop  door      res://art/cinematics/props/ep2_ending/deep_door.tscn  at=(18, 0, 20)  yaw=200  set=forge_intro_malrik
+prop  relics    res://art/cinematics/props/ep2_between/relic_table.tscn  at=(-3.0, 0, -2.0)  yaw=0  scale=1.4  set=forge_watch_keep
+cast  vey       res://art/units/helpers/helper_vey/helper_vey.tscn  at=(-6.6, 0, -1.0)  yaw=90  set=forge_watch_keep
+cast  ashby     res://art/units/fire/flame_guard.tscn  at=(1.9, 0, 0.0)  yaw=-110  set=forge_watch_keep  hidden=1
+cast  courier   res://art/units/fire/cinder_hand.tscn  at=(0.7, 0, 0.6)  yaw=-100  set=forge_watch_keep  hidden=1
+cast  wren      res://art/units/nature/wildwood_archer/wildwood_archer.tscn  at=(0.7, 0, 0.6)  yaw=-100  set=forge_watch_keep  hidden=1
+cast  stag      res://art/units/nature/stagrunner/stagrunner.tscn  at=(1.9, 0, 1.2)  yaw=180  set=forge_watch_keep  hidden=1
+cast  crown     res://art/cinematics/fx/ember.tscn  at=(0, -50, 0)  hidden=1
+
+# ---------------------------------------------------------------- the ground runs one way
+# Wide crane down: Evenmead in spring, green again; thin amber threads seep out of the old battle ground
+shot O1 12.0  cam=crane  from=(62, 42, 24)  to=(40, 15, 14)  look=(-6, 2, -6)>(2, 2, -10)  fov=50>40  in=fade_black:1.0
+  at 0.0  hide malrik
+  at 0.0  hide torvald
+  at 0.0  hide hush
+  at 0.0  hide ysolde
+  at 0.0  hide vessa
+  at 0.0  hide evenmead_vey
+  at 0.0  hide stone
+  at 0.0  hide army_shadow
+  at 0.0  hide army_ice
+  at 0.0  hide army_nature
+  at 0.0  hide army_fire
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-10
+  at 1.5  line narrator "Spring, after the Coinwater. Every battle of this war had soaked into the ground."  dur=5.5
+  at 2.0  vfx a1  scene=res://art/cinematics/fx/streak_violet.tscn  at=(10, 0.3, 6)  to=(-10, -1.0, -2)  life=4.0  scale=0.3
+  at 4.0  vfx a2  scene=res://art/cinematics/fx/streak_violet.tscn  at=(16, 0.6, -6)  to=(-4, -1.0, -4)  life=4.0  scale=0.3
+  at 6.0  vfx a3  scene=res://art/cinematics/fx/streak_violet.tscn  at=(6, 0.4, 14)  to=(-8, -1.0, 2)  life=4.0  scale=0.3
+# Three wide cuts: the broken Wall's meltwater, the Coinwater, the burnt edge of the Sighing Wood: amber runs one way
+shot O2A 3.4  set=forge_intro_torvald  cam=static  from=(16, 6, 10)  look=(4, 3, -4)  fov=46  in=blend:0.3
+  at 0.0  hide colossus
+  at 0.0  hide frostbow
+  at 0.0  hide messenger
+  at 0.0  hide foe
+  at 0.0  hide army_line
+  at 0.0  hide army_charge
+  at 0.0  hide fx_icewall
+  at 0.0  hide fx_burst
+  at 0.0  hide fx_heart
+  at 0.0  hide fx_snow
+  at 0.0  hide torvald_torvald
+  at 0.0  show fx_cracks
+  at 0.0  vfx a4  scene=res://art/cinematics/fx/streak_violet.tscn  at=(10, 0.2, 8)  to=(-10, 0.2, 4)  life=3.0  scale=0.3
+  at 1.0  line narrator "And the ground ran one way. Down, into the Hollow."  dur=4.0
+shot O2B 3.3  cam=static  from=(40, 3.0, -9.0)  look=(14, 0.0, 2.0)  fov=44  in=blend:0.3
+  at 0.0  vfx a5  scene=res://art/cinematics/fx/streak_violet.tscn  at=(30, -0.8, -6)  to=(4, -0.8, 0)  life=3.0  scale=0.3
+shot O2C 3.3  set=forge_intro_ysolde  cam=static  from=(12, 1.4, 11)  look=(3, 1.0, -1)  fov=46  in=blend:0.3
+  at 0.0  hide ysolde_ysolde
+  at 0.0  hide ysolde_young
+  at 0.0  hide treant
+  at 0.0  hide vinelasher
+  at 0.0  hide messenger
+  at 0.0  hide fx_tree
+  at 0.0  hide fx_vines
+  at 0.0  hide fx_master
+  at 0.0  hide army_host
+  at 0.0  show army_fallen
+  at 0.0  vfx a6  scene=res://art/cinematics/fx/streak_violet.tscn  at=(10, 0.2, 6)  to=(-6, 0.2, -2)  life=3.0  scale=0.3
+  at 1.2  line narrator "The war itself was opening the door."  dur=3.0
+# Wide, slow push: Crown Hollow at dawn: the crack breathes amber
+shot O3 8.0  set=forge_ep3_memories  cam=dolly  from=(32.3, 0.9, 2.6)  to=(32.7, 0.8, 1.9)  look=(34.1, 0.9, -0.6)  fov=44  in=blend:0.4
+  at 0.0  hide m_malrik
+  at 0.0  fade color=#3a1c04  alpha=0.25  time=0.4
+  at 1.0  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(34.02, 0.6, -0.04)  life=6.0  scale=0.9
+  at 1.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-14
+
+# ---------------------------------------------------------------- Duskbarrow
+# MS, static, one candle: Malrik at a coffin-lid table, the heart-stone in his palm; it cracks, amber light pours out
+shot O4 10.0  set=forge_intro_malrik  cam=static  from=(5.8, 1.7, 5.2)  look=(2.9, 1.5, 1.8)  fov=36  in=fade_black:0.5  faces=malrik_malrik
+  at 0.0  fade color=#0b0c26  alpha=0.3  time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide malrik_army_host
+  at 0.0  hide malrik_army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide malrik_fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik_malrik  to=(2.5, 0, 1.4)  yaw=50
+  at 0.0  anim malrik_malrik set_expression  arg=neutral
+  at 1.4  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-6
+  at 1.4  vfx crack  scene=res://art/cinematics/fx/regalia_burst.tscn  at=(2.95, 1.3, 2.25)  life=1.6  scale=0.12
+  at 1.6  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(2.95, 1.3, 2.25)  life=8.0  scale=0.6
+  at 2.0  line obren "Hear me, Bishop. No more whispers. Every battle you fought, I drank."  dur=5.0
+# CU Malrik, front, candlelight: he does not drop it; he closes his fingers over the light
+shot O5 8.0  set=forge_intro_malrik  cam=static  from=(3.6, 1.95, 3.0)  look=malrik_malrik  fov=30
+  at 0.0  anim malrik_malrik set_expression  arg=smile
+  at 1.0  line malrik "You've found your voice. Pity. I liked you better as a whisper."  dur=4.6
+  at 3.0  anim malrik_malrik play_cast
+# Low, very dark: far under Emberfall, the Master's deep door; a white-gold light behind it flickers, dims, comes back
+shot O6 8.0  set=forge_intro_malrik  cam=static  from=(15.6, 0.6, 15.6)  look=(18, 2.4, 20)  fov=44  in=fade_black:0.6
+  at 0.0  fade color=#000000  alpha=0.55  time=0.05
+  at 0.0  hide hstone
+  at 1.0  vfx light1  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(18, 0, 19.6)  life=1.6  scale=0.2
+  at 3.4  vfx light2  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(18, 0, 19.6)  life=0.8  scale=0.12
+  at 5.0  vfx light3  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(18, 0, 19.6)  life=2.6  scale=0.1
+
+# ---------------------------------------------------------------- Emberfall, the watch-keep
+# MS, 3/4, morning light: Old Vey in his chair by the window; the lightning on his blade sputters, goes out, crawls back
+shot O7 10.0  set=forge_watch_keep  cam=static  from=(-4.0, 1.5, 0.4)  look=vey  fov=34  in=fade_black:0.6
+  at 0.0  fade alpha=0  time=0.3
+  at 0.0  hide guard_w
+  at 0.0  hide guard_e
+  at 0.0  teleport watch_keep_vessa  to=(-3.0, 0, -0.4)  yaw=180
+  at 1.0  vfx bolt1  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-6.2, 0.9, -0.8)  to=(-5.6, 0.9, -0.6)  life=0.6  scale=0.2
+  at 2.4  sfx res://assets/audio/sfx/atk_storm.wav  vol=-20
+  at 3.0  line vey "He can't hold it. Not alone. Not any more."  dur=3.6
+  at 6.8  vfx bolt2  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-6.2, 0.9, -0.8)  to=(-5.6, 0.9, -0.6)  life=1.4  scale=0.2
+# MS two-shot Vessa / Vey, 3/4-left: the three relics strain toward the window; a long beat, then she stands
+shot O8 10.0  set=forge_watch_keep  cam=static  from=(0.2, 1.7, 1.6)  look=(-4.2, 1.2, -2.2)  fov=44  faces=watch_keep_vessa,vey
+  at 0.0  anim watch_keep_vessa set_expression  arg=worried
+  at 3.0  line vessa "Then he won't be. Ashby! Your fastest messenger."  dur=4.0
+  at 3.0  face watch_keep_vessa  yaw=60  time=0.6
+# MS, the keep courtyard: Ashby's messenger by the gate; Vessa puts the Orb and the letter into his hands; he goes north
+shot O9 10.0  set=forge_watch_keep  cam=static  from=(4.4, 1.6, -2.8)  look=(0.2, 1.3, 0.6)  fov=42  in=blend:0.3  faces=watch_keep_vessa,courier
+  at 0.0  show courier
+  at 0.0  show ashby
+  at 0.0  teleport watch_keep_vessa  to=(-0.7, 0, 0.4)  yaw=80
+  at 0.5  line vessa "The Orb goes north to Torvald. It lay in his lake. It's his to carry."  dur=5.0
+  at 4.0  anim watch_keep_vessa play_cast
+  at 6.0  line vessa "Tell him: we need all four of you."  dur=2.6
+  at 8.2  move courier  to=(0, 0, 14)  speed=4
+# MS, the courtyard gate: Wren by her stag; Vessa hands her the Signet wrapped in green; Wren rides west
+shot O10 8.0  set=forge_watch_keep  cam=static  from=(0.2, 1.6, -3.0)  look=(0.2, 1.3, 0.7)  fov=42  faces=watch_keep_vessa,wren
+  at 0.0  hide courier
+  at 0.0  hide ashby
+  at 0.0  show wren
+  at 0.0  show stag
+  at 0.5  line vessa "The Signet slept in Ysolde's tree. Take it home to her, Wren."  dur=4.5
+  at 5.5  line wren "Before moonrise. I promise."  dur=2.0
+  at 7.4  move stag  to=(-12, 0, 14)  speed=6
+# CU Vessa, the Crown in her hand; Vey in the doorway behind, eyebrows up
+shot O11 8.0  set=forge_watch_keep  cam=static  from=(0.9, 1.75, 1.6)  look=watch_keep_vessa  fov=32  faces=watch_keep_vessa
+  at 0.0  hide wren
+  at 0.0  hide stag
+  at 0.0  teleport vey  to=(-2.4, 0, -0.6)  yaw=40
+  at 0.0  vfx crown_glow  scene=res://art/cinematics/fx/ember.tscn  at=(-0.4, 1.2, 0.7)  life=8  scale=0.15
+  at 0.5  line vey "You gave two away. Without a fight. Are you ill, girl?"  dur=3.8
+  at 4.5  anim watch_keep_vessa set_expression  arg=smile
+  at 4.5  line vessa "Three keys. The fourth is in Malrik's pocket."  dur=3.3
+# MS two-shot Vey / Vessa, 3/4: Vey stands and shoulders his sword; Vessa already pulling on her gloves
+shot O12 10.0  set=forge_watch_keep  cam=static  from=(2.8, 1.7, 1.4)  look=(-1.4, 1.3, -0.2)  fov=42  faces=watch_keep_vessa,vey
+  at 0.0  move vey  to=(-1.8, 0, -0.6)  speed=1.0
+  at 0.5  line vey "Then we go and ask him. He asked for all four of you. Especially Malrik."  dur=5.4
+  at 6.4  face watch_keep_vessa  to=vey  time=0.6
+# Wide crane up out of the watch-keep, east toward the amber haze; the title
+shot O13 8.0  set=forge_watch_keep  cam=crane  from=(4, 6, 14)  to=(10, 34, 40)  look=(0, 3, -4)>(40, 6, -60)  fov=44>54  in=fade_black:0.4
+  at 0.0  fade color=#5a3008  alpha=0.15  time=2.0
+  at 1.0  title "Episode 8" sub="The Four Keys" time=5.0
+  at 7.0  fade color=#000000  alpha=1  time=1.0

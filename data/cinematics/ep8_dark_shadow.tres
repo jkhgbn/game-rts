@@ -1,0 +1,485 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_hdfvr"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_aselv"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_eunn5"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_llfmm"]
+
+[sub_resource type="Resource" id="Resource_56ukn"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"sknight"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_h0jpq"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"hexweaver"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_edwl3"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"shade"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_5tjbv"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"army_host"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_oleda"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"army_fallen"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ylslk"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_vortex"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_aa25c"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_tendrils"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_4nmyu"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_tfgp8"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_crown"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_vyhht"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"malrik_young"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_5h3ii"]
+script = ExtResource("4_llfmm")
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(0.5411765, 0.5411765, 0.6039216, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_kqie1"]
+script = ExtResource("4_llfmm")
+kind = &"teleport"
+actor = &"malrik"
+target = Vector3(3, 0, 2.2)
+params = {
+"yaw_deg": -160.0
+}
+
+[sub_resource type="Resource" id="Resource_seoki"]
+script = ExtResource("4_llfmm")
+kind = &"teleport"
+actor = &"malrik"
+target = Vector3(0, 0, 0.8)
+params = {
+"yaw_deg": 0.0
+}
+
+[sub_resource type="Resource" id="Resource_bdi0p"]
+script = ExtResource("4_llfmm")
+at = 1.0
+kind = &"vfx"
+target = Vector3(0, 0, -2.2)
+params = {
+"life": 7.0,
+"scale": 0.22,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_8lobn"]
+script = ExtResource("4_llfmm")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_6y08q"]
+script = ExtResource("4_llfmm")
+at = 1.2
+kind = &"vfx"
+target = Vector3(0, 1.2, -1)
+params = {
+"life": 6.8,
+"scale": 0.8,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ku1m5"]
+script = ExtResource("4_llfmm")
+at = 2.0
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(1, 0.8862745, 0.627451, 1),
+"time": 3.0
+}
+
+[sub_resource type="Resource" id="Resource_w8cn4"]
+script = ExtResource("3_eunn5")
+id = &"T1"
+duration = 8.0
+from_pos = Vector3(1, 1.4, 5.2)
+to_pos = Vector3(1, 1.4, 5.2)
+look_from = Vector3(0, 1.6, 0.8)
+look_to = Vector3(0, 1.6, 0.8)
+fov_from = 42.0
+fov_to = 42.0
+transition_in = 3
+transition_time = 0.4
+actions = Array[ExtResource("4_llfmm")]([SubResource("Resource_56ukn"), SubResource("Resource_h0jpq"), SubResource("Resource_edwl3"), SubResource("Resource_5tjbv"), SubResource("Resource_oleda"), SubResource("Resource_ylslk"), SubResource("Resource_aa25c"), SubResource("Resource_4nmyu"), SubResource("Resource_tfgp8"), SubResource("Resource_vyhht"), SubResource("Resource_5h3ii"), SubResource("Resource_kqie1"), SubResource("Resource_seoki"), SubResource("Resource_bdi0p"), SubResource("Resource_8lobn"), SubResource("Resource_6y08q"), SubResource("Resource_ku1m5")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_bgw84"]
+script = ExtResource("4_llfmm")
+kind = &"fade"
+params = {
+"alpha": 0.35,
+"color": Color(0.22745098, 0.101960786, 0.3529412, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_oed3w"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"vessa"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_obtex"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"torvald"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_xkgtu"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"ysolde"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_gs0i4"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"throne"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_cyhm0"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"army_host"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_6hm1x"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_vortex"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_lcch7"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_tendrils"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_ynpuv"]
+script = ExtResource("4_llfmm")
+kind = &"teleport"
+actor = &"malrik"
+target = Vector3(0, 0, 2)
+params = {
+"yaw_deg": 0.0
+}
+
+[sub_resource type="Resource" id="Resource_q186p"]
+script = ExtResource("1_hdfvr")
+at = 2.0
+speaker = &"master"
+text = "And the world grew very quiet. And very obedient."
+duration = 4.4
+voice = "res://assets/audio/voice/master/and_the_world_grew_4d19f924.wav"
+
+[sub_resource type="Resource" id="Resource_cckn0"]
+script = ExtResource("3_eunn5")
+id = &"T2"
+duration = 14.0
+camera_mode = 1
+from_pos = Vector3(8, 6, 16)
+to_pos = Vector3(6, 5, 12)
+look_from = Vector3(0, 2, -8)
+look_to = Vector3(0, 2.4, -10)
+fov_from = 48.0
+fov_to = 48.0
+transition_in = 2
+transition_time = 0.6
+lines = Array[ExtResource("1_hdfvr")]([SubResource("Resource_q186p")])
+actions = Array[ExtResource("4_llfmm")]([SubResource("Resource_bgw84"), SubResource("Resource_oed3w"), SubResource("Resource_obtex"), SubResource("Resource_xkgtu"), SubResource("Resource_gs0i4"), SubResource("Resource_cyhm0"), SubResource("Resource_6hm1x"), SubResource("Resource_lcch7"), SubResource("Resource_ynpuv")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_cdc7c"]
+script = ExtResource("4_llfmm")
+kind = &"fade"
+params = {
+"alpha": 0.2,
+"color": Color(1, 0.8862745, 0.627451, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_fffw3"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"throne"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_wm7ry"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_alj2f"]
+script = ExtResource("4_llfmm")
+kind = &"teleport"
+actor = &"malrik"
+target = Vector3(0, 0, 0.8)
+params = {
+"yaw_deg": 0.0
+}
+
+[sub_resource type="Resource" id="Resource_keju2"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"vessa"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_3ufa7"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"torvald"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_6d1ji"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"ysolde"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_q5h5c"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"army_host"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_oc8m4"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_vortex"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_dh0b5"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"fx_tendrils"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_c7tb2"]
+script = ExtResource("4_llfmm")
+at = 0.6
+kind = &"move"
+actor = &"vessa"
+target = Vector3(-9, 0, 10)
+params = {
+"speed": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_ofe7l"]
+script = ExtResource("4_llfmm")
+at = 1.0
+kind = &"move"
+actor = &"torvald"
+target = Vector3(-10, 0, -2)
+params = {
+"speed": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_27i2r"]
+script = ExtResource("4_llfmm")
+at = 1.4
+kind = &"move"
+actor = &"ysolde"
+target = Vector3(10, 0, -2)
+params = {
+"speed": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_pbkxr"]
+script = ExtResource("4_llfmm")
+kind = &"vfx"
+target = Vector3(0, 0, -2.2)
+params = {
+"life": 13.0,
+"scale": 0.4,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_wnynm"]
+script = ExtResource("1_hdfvr")
+at = 3.0
+speaker = &"master"
+text = "And for a thousand years, the peace held. In one hand."
+duration = 4.4
+voice = "res://assets/audio/voice/master/and_for_a_thousand_0721b136.wav"
+
+[sub_resource type="Resource" id="Resource_fdhny"]
+script = ExtResource("3_eunn5")
+id = &"T3"
+duration = 13.0
+camera_mode = 2
+from_pos = Vector3(2, 10, 6)
+to_pos = Vector3(3, 18, 10)
+look_from = Vector3(0, 0, -0.6)
+look_to = Vector3(0, 0, -0.6)
+fov_from = 48.0
+fov_to = 48.0
+transition_in = 2
+transition_time = 0.6
+lines = Array[ExtResource("1_hdfvr")]([SubResource("Resource_wnynm")])
+actions = Array[ExtResource("4_llfmm")]([SubResource("Resource_cdc7c"), SubResource("Resource_fffw3"), SubResource("Resource_wm7ry"), SubResource("Resource_alj2f"), SubResource("Resource_keju2"), SubResource("Resource_3ufa7"), SubResource("Resource_6d1ji"), SubResource("Resource_q5h5c"), SubResource("Resource_oc8m4"), SubResource("Resource_dh0b5"), SubResource("Resource_c7tb2"), SubResource("Resource_ofe7l"), SubResource("Resource_27i2r"), SubResource("Resource_pbkxr")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_pv1sw"]
+script = ExtResource("4_llfmm")
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.023529412, 0.015686275, 0.047058824, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_6dbl6"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ul33f"]
+script = ExtResource("4_llfmm")
+kind = &"visible"
+actor = &"swordsman"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_cskkk"]
+script = ExtResource("4_llfmm")
+at = 8.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_5feh5"]
+script = ExtResource("1_hdfvr")
+at = 3.0
+speaker = &"master"
+text = "I know how that tale ends."
+duration = 2.4
+voice = "res://assets/audio/voice/master/i_know_how_that_2d00c245.wav"
+
+[sub_resource type="Resource" id="Resource_ljkg1"]
+script = ExtResource("3_eunn5")
+id = &"T4"
+duration = 10.0
+from_pos = Vector3(-146.4, 31.9, -113.4)
+to_pos = Vector3(-146.4, 31.9, -113.4)
+look_from = Vector3(-150.4, 32.2, -118.4)
+look_to = Vector3(-150.4, 32.2, -118.4)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_hdfvr")]([SubResource("Resource_5feh5")])
+actions = Array[ExtResource("4_llfmm")]([SubResource("Resource_pv1sw"), SubResource("Resource_6dbl6"), SubResource("Resource_ul33f"), SubResource("Resource_cskkk")])
+stage_set = &"forge_citadel"
+
+[resource]
+script = ExtResource("2_aselv")
+id = &"ep8_dark_shadow"
+title = "Episode 8: Four Hands"
+stage_scene = "res://scenes/cinematics/ep8_dark_shadow.tscn"
+shots = Array[ExtResource("3_eunn5")]([SubResource("Resource_w8cn4"), SubResource("Resource_cckn0"), SubResource("Resource_fdhny"), SubResource("Resource_ljkg1")])
+music_cue = &"res://assets/audio/forge/music/ep3_opening.wav"
+shake_seed = 823
+music_volume_db = -18.0
+lines_over_cuts = true

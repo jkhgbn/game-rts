@@ -1,0 +1,72 @@
+# Episode 8 ending "Four Hands", the dark tail (Ysolde), 45 s (docs/design/script-episodes-4-8/e8m3.md, film
+# `ep8_dark_nature`; campaign-outline.md 4.5, shots T1-T4, lines word for word). Plays on "Take the seat" when the
+# player's wizard is Ysolde, in place of ep8_ending_b: Ysolde sits; amber-white light floods up the throne; the kingdom's
+# world image (a forest grown over every road and city); the three others walk away; the old man in the ruined dome closes his eyes
+# ("I know how that tale ends."). Then ep8_bookend_dark (the dark track of the bookend).
+# Text source for i18n / voices: data/voice/lines/ep8_dark_nature.json (the same text as the lines below).
+# e8m3 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep8_dark_nature); the choice
+# card and the per-wizard pick need StoryFlow (not built).
+# Sets (stand-ins): forge_intro_malrik's courtyard = the pit (T1, T3; ep8_ending_a's staging, the citadel throne
+# part); forge_intro_ysolde = the T2 world image (no matte / plate yet: the prologue vignette set under a full-screen
+# grade); forge_citadel's ruined dome (T4, near the prologue S13 mark; the old man = the forge_ep3_memories light figure).
+# Axis: the pit: the throne (north) - the four (south), cameras east.
+cine ep8_dark_nature  title="Episode 8: Four Hands"  letterbox=2.39  seed=822  length=43..47
+use set forge_intro_malrik
+use music res://assets/audio/forge/music/ep3_opening.wav  vol=-18
+cast  throne   res://art/cinematics/stage_sets/forge_citadel/parts/throne.tscn  at=(0, 0, -2.4)  yaw=0  set=forge_intro_malrik
+cast  vessa    res://art/units/wizards/vessa.tscn  at=(-3.0, 0, 2.2)  yaw=160  set=forge_intro_malrik
+cast  torvald  res://art/units/wizards/torvald.tscn  at=(-4.2, 0, 0.4)  yaw=120  set=forge_intro_malrik
+cast  ysolde   res://art/units/wizards/ysolde.tscn  at=(4.2, 0, 0.4)  yaw=-120  set=forge_intro_malrik
+cast  oldman   res://art/cinematics/stage_sets/forge_ep3_memories/props/master.tscn  at=(-150.6, 30, -118.6)  yaw=30  set=forge_citadel
+
+# MLS on Ysolde, 3/4, low (the E14 marks): Ysolde sits; amber-white light floods up the throne; the other three step back
+shot T1 8.0  cam=static  from=(1.0, 1.4, 5.2)  look=(0, 1.6, 0.8)  fov=42  in=blend:0.4  faces=ysolde
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  fade color=#8a8a9a  alpha=0.12  time=0.05
+  at 0.0  teleport malrik  to=(3.0, 0, 2.2)  yaw=-160
+  at 0.0  teleport ysolde  to=(0, 0, 0.8)  yaw=0
+  at 1.0  vfx flood  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, -2.2)  life=7.0  scale=0.22
+  at 1.0  sfx res://assets/audio/sfx/atk_storm.wav  vol=-10
+  at 1.2  vfx amber  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0, 1.2, -1.0)  life=6.8  scale=0.8
+  at 2.0  fade color=#ffe2a0  alpha=0.3  time=3.0
+# Wide, slow push: the kingdom's world image: a forest grown over every road and city
+shot T2 14.0  set=forge_intro_ysolde  cam=dolly  from=(12, 3, 11)  to=(9, 2.6, 9)  look=(5, 2.6, -0.5)>(4, 2.8, -1)  fov=48  in=fade_white:0.6
+  at 0.0  fade color=#2a5a20  alpha=0.25  time=0.6
+  at 0.0  hide ysolde_ysolde
+  at 0.0  hide ysolde_young
+  at 0.0  hide messenger
+  at 0.0  hide ysolde_army_fallen
+  at 0.0  hide ysolde_fx_master
+  at 0.0  show treant
+  at 0.0  show vinelasher
+  at 0.0  show ysolde_army_host
+  at 0.0  show fx_tree
+  at 0.0  show fx_vines
+  at 2.0  line master "And the green covered every road. And every grave."  dur=4.4
+# High wide over the pit: the three others walk away in three directions; Ysolde alone on the throne
+shot T3 13.0  cam=crane  from=(2, 10, 6)  to=(3, 18, 10)  look=(0, 0, -0.6)  fov=48  in=fade_white:0.6
+  at 0.0  fade color=#ffe2a0  alpha=0.2  time=0.6
+  at 0.0  show throne
+  at 0.0  show ysolde
+  at 0.0  teleport ysolde  to=(0, 0, 0.8)  yaw=0
+  at 0.6  move vessa  to=(-9, 0, 10)  speed=1.2
+  at 1.0  move malrik  to=(9, 0, 10)  speed=1.2
+  at 1.4  move torvald  to=(-10, 0, -2)  speed=1.2
+  at 0.0  vfx flood2  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0, -2.2)  life=13.0  scale=0.4
+  at 3.0  line master "And for a thousand years, the peace held. In one hand."  dur=4.4
+# MS, static, one candle: the ruined orrery dome: the old man closes his eyes
+shot T4 10.0  set=forge_citadel  cam=static  from=(-146.4, 31.9, -113.4)  look=(-150.4, 32.2, -118.4)  fov=40  in=fade_black:0.6  faces=oldman
+  at 0.0  fade color=#06040c  alpha=0.3  time=0.05
+  at 0.0  hide master
+  at 0.0  hide swordsman
+  at 3.0  line master "I know how that tale ends."  dur=2.4
+  at 8.8  fade color=#000000  alpha=1  time=1.2

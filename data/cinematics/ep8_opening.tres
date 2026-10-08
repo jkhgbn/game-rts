@@ -1,0 +1,1214 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_vtxhr"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_lcycc"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_fbjor"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_jaxpk"]
+
+[sub_resource type="Resource" id="Resource_1mfma"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_nf6u2"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"torvald"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_r3xrx"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"hush"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_w6gcg"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"ysolde"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_g8vy3"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"vessa"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_po01x"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"evenmead_vey"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_a2je0"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"stone"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_fcxkm"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_shadow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_me8lv"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_ice"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_sl4gk"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_nature"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_oh0l2"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_fire"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_rfrpq"]
+script = ExtResource("4_jaxpk")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_a6jac"]
+script = ExtResource("4_jaxpk")
+at = 2.0
+kind = &"vfx"
+target = Vector3(10, 0.3, 6)
+params = {
+"life": 4.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/streak_violet.tscn",
+"to": Vector3(-10, -1, -2)
+}
+
+[sub_resource type="Resource" id="Resource_nfk6p"]
+script = ExtResource("4_jaxpk")
+at = 4.0
+kind = &"vfx"
+target = Vector3(16, 0.6, -6)
+params = {
+"life": 4.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/streak_violet.tscn",
+"to": Vector3(-4, -1, -4)
+}
+
+[sub_resource type="Resource" id="Resource_6ni6q"]
+script = ExtResource("4_jaxpk")
+at = 6.0
+kind = &"vfx"
+target = Vector3(6, 0.4, 14)
+params = {
+"life": 4.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/streak_violet.tscn",
+"to": Vector3(-8, -1, 2)
+}
+
+[sub_resource type="Resource" id="Resource_1kxqi"]
+script = ExtResource("1_vtxhr")
+at = 1.5
+speaker = &"narrator"
+text = "Spring, after the Coinwater. Every battle of this war had soaked into the ground."
+duration = 5.5
+voice = "res://assets/audio/voice/narrator/spring_after_the_coinwater_6a683b7e.wav"
+
+[sub_resource type="Resource" id="Resource_68fnj"]
+script = ExtResource("3_fbjor")
+id = &"O1"
+duration = 12.0
+camera_mode = 2
+from_pos = Vector3(62, 42, 24)
+to_pos = Vector3(40, 15, 14)
+look_from = Vector3(-6, 2, -6)
+look_to = Vector3(2, 2, -10)
+fov_from = 50.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.0
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_1kxqi")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_1mfma"), SubResource("Resource_nf6u2"), SubResource("Resource_r3xrx"), SubResource("Resource_w6gcg"), SubResource("Resource_g8vy3"), SubResource("Resource_po01x"), SubResource("Resource_a2je0"), SubResource("Resource_fcxkm"), SubResource("Resource_me8lv"), SubResource("Resource_sl4gk"), SubResource("Resource_oh0l2"), SubResource("Resource_rfrpq"), SubResource("Resource_a6jac"), SubResource("Resource_nfk6p"), SubResource("Resource_6ni6q")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_i4dyw"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"colossus"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_d01ja"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"frostbow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_rk1mr"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"messenger"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_uhqb6"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"foe"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_cbkb5"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_line"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_c5rup"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_charge"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_s0l4i"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_icewall"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_utl6k"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_burst"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_1e5gh"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_heart"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_m7obp"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_snow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_6n35k"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"torvald_torvald"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_vfg6h"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_cracks"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_yfbhm"]
+script = ExtResource("4_jaxpk")
+kind = &"vfx"
+target = Vector3(10, 0.2, 8)
+params = {
+"life": 3.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/streak_violet.tscn",
+"to": Vector3(-10, 0.2, 4)
+}
+
+[sub_resource type="Resource" id="Resource_ue8m6"]
+script = ExtResource("1_vtxhr")
+at = 1.0
+speaker = &"narrator"
+text = "And the ground ran one way. Down, into the Hollow."
+duration = 4.0
+voice = "res://assets/audio/voice/narrator/and_the_ground_ran_1a9ad655.wav"
+
+[sub_resource type="Resource" id="Resource_otmmu"]
+script = ExtResource("3_fbjor")
+id = &"O2A"
+duration = 3.4
+from_pos = Vector3(16, 6, 10)
+to_pos = Vector3(16, 6, 10)
+look_from = Vector3(4, 3, -4)
+look_to = Vector3(4, 3, -4)
+fov_from = 46.0
+fov_to = 46.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_ue8m6")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_i4dyw"), SubResource("Resource_d01ja"), SubResource("Resource_rk1mr"), SubResource("Resource_uhqb6"), SubResource("Resource_cbkb5"), SubResource("Resource_c5rup"), SubResource("Resource_s0l4i"), SubResource("Resource_utl6k"), SubResource("Resource_1e5gh"), SubResource("Resource_m7obp"), SubResource("Resource_6n35k"), SubResource("Resource_vfg6h"), SubResource("Resource_yfbhm")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_anfkc"]
+script = ExtResource("4_jaxpk")
+kind = &"vfx"
+target = Vector3(30, -0.8, -6)
+params = {
+"life": 3.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/streak_violet.tscn",
+"to": Vector3(4, -0.8, 0)
+}
+
+[sub_resource type="Resource" id="Resource_2nlpt"]
+script = ExtResource("3_fbjor")
+id = &"O2B"
+duration = 3.3
+from_pos = Vector3(40, 3, -9)
+to_pos = Vector3(40, 3, -9)
+look_from = Vector3(14, 0, 2)
+look_to = Vector3(14, 0, 2)
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 3
+transition_time = 0.3
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_anfkc")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_ftdbr"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"ysolde_ysolde"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_o265n"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"ysolde_young"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_se2qb"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"treant"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_wi7r3"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"vinelasher"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ppbbr"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"messenger"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_6ijub"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_tree"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_b0lxa"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_vines"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_dha7a"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_2ak57"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_host"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_n21u8"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"army_fallen"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_msivc"]
+script = ExtResource("4_jaxpk")
+kind = &"vfx"
+target = Vector3(10, 0.2, 6)
+params = {
+"life": 3.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/streak_violet.tscn",
+"to": Vector3(-6, 0.2, -2)
+}
+
+[sub_resource type="Resource" id="Resource_4qj8y"]
+script = ExtResource("1_vtxhr")
+at = 1.2
+speaker = &"narrator"
+text = "The war itself was opening the door."
+duration = 3.0
+voice = "res://assets/audio/voice/narrator/the_war_itself_was_c73d3bf6.wav"
+
+[sub_resource type="Resource" id="Resource_60bu2"]
+script = ExtResource("3_fbjor")
+id = &"O2C"
+duration = 3.3
+from_pos = Vector3(12, 1.4, 11)
+to_pos = Vector3(12, 1.4, 11)
+look_from = Vector3(3, 1, -1)
+look_to = Vector3(3, 1, -1)
+fov_from = 46.0
+fov_to = 46.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_4qj8y")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_ftdbr"), SubResource("Resource_o265n"), SubResource("Resource_se2qb"), SubResource("Resource_wi7r3"), SubResource("Resource_ppbbr"), SubResource("Resource_6ijub"), SubResource("Resource_b0lxa"), SubResource("Resource_dha7a"), SubResource("Resource_2ak57"), SubResource("Resource_n21u8"), SubResource("Resource_msivc")])
+stage_set = &"forge_intro_ysolde"
+
+[sub_resource type="Resource" id="Resource_5me8w"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"m_malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_fkqxf"]
+script = ExtResource("4_jaxpk")
+kind = &"fade"
+params = {
+"alpha": 0.25,
+"color": Color(0.22745098, 0.10980392, 0.015686275, 1),
+"time": 0.4
+}
+
+[sub_resource type="Resource" id="Resource_v1ppi"]
+script = ExtResource("4_jaxpk")
+at = 1.0
+kind = &"vfx"
+target = Vector3(34.02, 0.6, -0.04)
+params = {
+"life": 6.0,
+"scale": 0.9,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_shjhb"]
+script = ExtResource("4_jaxpk")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_vbuqv"]
+script = ExtResource("3_fbjor")
+id = &"O3"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(32.3, 0.9, 2.6)
+to_pos = Vector3(32.7, 0.8, 1.9)
+look_from = Vector3(34.1, 0.9, -0.6)
+look_to = Vector3(34.1, 0.9, -0.6)
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 3
+transition_time = 0.4
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_5me8w"), SubResource("Resource_fkqxf"), SubResource("Resource_v1ppi"), SubResource("Resource_shjhb")])
+stage_set = &"forge_ep3_memories"
+
+[sub_resource type="Resource" id="Resource_cwnq3"]
+script = ExtResource("4_jaxpk")
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_frpo5"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"sknight"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_xh5nb"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"hexweaver"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_rn6gx"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"shade"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_jx2ra"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"malrik_army_host"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_uin86"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"malrik_army_fallen"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ptflr"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_vortex"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_rkwyp"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_tendrils"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_6e38w"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"malrik_fx_master"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_lmbj4"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"fx_crown"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_p6nc0"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"malrik_young"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_t3mtj"]
+script = ExtResource("4_jaxpk")
+kind = &"teleport"
+actor = &"malrik_malrik"
+target = Vector3(2.5, 0, 1.4)
+params = {
+"yaw_deg": 50.0
+}
+
+[sub_resource type="Resource" id="Resource_mok0y"]
+script = ExtResource("4_jaxpk")
+kind = &"anim"
+actor = &"malrik_malrik"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_y7r4s"]
+script = ExtResource("4_jaxpk")
+at = 1.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_nugdx"]
+script = ExtResource("4_jaxpk")
+at = 1.4
+kind = &"vfx"
+target = Vector3(2.95, 1.3, 2.25)
+params = {
+"life": 1.6,
+"scale": 0.12,
+"scene": "res://art/cinematics/fx/regalia_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_xb8ak"]
+script = ExtResource("4_jaxpk")
+at = 1.6
+kind = &"vfx"
+target = Vector3(2.95, 1.3, 2.25)
+params = {
+"life": 8.0,
+"scale": 0.6,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_2hk33"]
+script = ExtResource("1_vtxhr")
+at = 2.0
+speaker = &"obren"
+text = "Hear me, Bishop. No more whispers. Every battle you fought, I drank."
+duration = 5.0
+voice = "res://assets/audio/voice/whisper/hear_me_bishop_no_da4683fb.wav"
+
+[sub_resource type="Resource" id="Resource_bacbo"]
+script = ExtResource("3_fbjor")
+id = &"O4"
+duration = 10.0
+from_pos = Vector3(5.8, 1.7, 5.2)
+to_pos = Vector3(5.8, 1.7, 5.2)
+look_from = Vector3(2.9, 1.5, 1.8)
+look_to = Vector3(2.9, 1.5, 1.8)
+fov_from = 36.0
+fov_to = 36.0
+transition_in = 1
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_2hk33")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_cwnq3"), SubResource("Resource_frpo5"), SubResource("Resource_xh5nb"), SubResource("Resource_rn6gx"), SubResource("Resource_jx2ra"), SubResource("Resource_uin86"), SubResource("Resource_ptflr"), SubResource("Resource_rkwyp"), SubResource("Resource_6e38w"), SubResource("Resource_lmbj4"), SubResource("Resource_p6nc0"), SubResource("Resource_t3mtj"), SubResource("Resource_mok0y"), SubResource("Resource_y7r4s"), SubResource("Resource_nugdx"), SubResource("Resource_xb8ak")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_gv2oh"]
+script = ExtResource("4_jaxpk")
+kind = &"anim"
+actor = &"malrik_malrik"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_hp1ph"]
+script = ExtResource("4_jaxpk")
+at = 3.0
+kind = &"anim"
+actor = &"malrik_malrik"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_qeare"]
+script = ExtResource("1_vtxhr")
+at = 1.0
+speaker = &"malrik"
+text = "You've found your voice. Pity. I liked you better as a whisper."
+duration = 4.6
+voice = "res://assets/audio/voice/malrik/youve_found_your_voice_5ec35afa.wav"
+
+[sub_resource type="Resource" id="Resource_imt1f"]
+script = ExtResource("3_fbjor")
+id = &"O5"
+duration = 8.0
+from_pos = Vector3(3.6, 1.95, 3)
+to_pos = Vector3(3.6, 1.95, 3)
+look_from = Vector3(2.5, 1.898, 1.4)
+look_to = Vector3(2.5, 1.898, 1.4)
+look_actor = &"malrik_malrik"
+look_offset = Vector3(0, 1.898, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_qeare")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_gv2oh"), SubResource("Resource_hp1ph")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_lvbog"]
+script = ExtResource("4_jaxpk")
+kind = &"fade"
+params = {
+"alpha": 0.55,
+"color": Color(0, 0, 0, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_epk13"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"hstone"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_ao4er"]
+script = ExtResource("4_jaxpk")
+at = 1.0
+kind = &"vfx"
+target = Vector3(18, 0, 19.6)
+params = {
+"life": 1.6,
+"scale": 0.2,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ca85n"]
+script = ExtResource("4_jaxpk")
+at = 3.4
+kind = &"vfx"
+target = Vector3(18, 0, 19.6)
+params = {
+"life": 0.8,
+"scale": 0.12,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_3dmtg"]
+script = ExtResource("4_jaxpk")
+at = 5.0
+kind = &"vfx"
+target = Vector3(18, 0, 19.6)
+params = {
+"life": 2.6,
+"scale": 0.1,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_a2dxe"]
+script = ExtResource("3_fbjor")
+id = &"O6"
+duration = 8.0
+from_pos = Vector3(15.6, 0.6, 15.6)
+to_pos = Vector3(15.6, 0.6, 15.6)
+look_from = Vector3(18, 2.4, 20)
+look_to = Vector3(18, 2.4, 20)
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_lvbog"), SubResource("Resource_epk13"), SubResource("Resource_ao4er"), SubResource("Resource_ca85n"), SubResource("Resource_3dmtg")])
+stage_set = &"forge_intro_malrik"
+
+[sub_resource type="Resource" id="Resource_fsbyk"]
+script = ExtResource("4_jaxpk")
+kind = &"fade"
+params = {
+"alpha": 0.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.3
+}
+
+[sub_resource type="Resource" id="Resource_0v07g"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"guard_w"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_yvc1l"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"guard_e"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_xrw7n"]
+script = ExtResource("4_jaxpk")
+kind = &"teleport"
+actor = &"watch_keep_vessa"
+target = Vector3(-3, 0, -0.4)
+params = {
+"yaw_deg": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_5ehnq"]
+script = ExtResource("4_jaxpk")
+at = 1.0
+kind = &"vfx"
+target = Vector3(-6.2, 0.9, -0.8)
+params = {
+"life": 0.6,
+"scale": 0.2,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(-5.6, 0.9, -0.6)
+}
+
+[sub_resource type="Resource" id="Resource_0k6iq"]
+script = ExtResource("4_jaxpk")
+at = 2.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -20.0
+}
+
+[sub_resource type="Resource" id="Resource_hkjuv"]
+script = ExtResource("4_jaxpk")
+at = 6.8
+kind = &"vfx"
+target = Vector3(-6.2, 0.9, -0.8)
+params = {
+"life": 1.4,
+"scale": 0.2,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(-5.6, 0.9, -0.6)
+}
+
+[sub_resource type="Resource" id="Resource_vxkll"]
+script = ExtResource("1_vtxhr")
+at = 3.0
+speaker = &"vey"
+text = "He can't hold it. Not alone. Not any more."
+duration = 3.6
+voice = "res://assets/audio/voice/vey/he_cant_hold_it_67f3dd5c.wav"
+
+[sub_resource type="Resource" id="Resource_t5wm3"]
+script = ExtResource("3_fbjor")
+id = &"O7"
+duration = 10.0
+from_pos = Vector3(-4, 1.5, 0.4)
+to_pos = Vector3(-4, 1.5, 0.4)
+look_from = Vector3(-6.6, 1.5649999, -1)
+look_to = Vector3(-6.6, 1.5649999, -1)
+look_actor = &"vey"
+look_offset = Vector3(0, 1.5649999, 0)
+fov_from = 34.0
+fov_to = 34.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_vxkll")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_fsbyk"), SubResource("Resource_0v07g"), SubResource("Resource_yvc1l"), SubResource("Resource_xrw7n"), SubResource("Resource_5ehnq"), SubResource("Resource_0k6iq"), SubResource("Resource_hkjuv")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_4egy5"]
+script = ExtResource("4_jaxpk")
+kind = &"anim"
+actor = &"watch_keep_vessa"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_nvugn"]
+script = ExtResource("4_jaxpk")
+at = 3.0
+kind = &"face"
+actor = &"watch_keep_vessa"
+params = {
+"time": 0.6,
+"yaw_deg": 60.0
+}
+
+[sub_resource type="Resource" id="Resource_ua0rk"]
+script = ExtResource("1_vtxhr")
+at = 3.0
+speaker = &"vessa"
+text = "Then he won't be. Ashby! Your fastest messenger."
+duration = 4.0
+voice = "res://assets/audio/voice/vessa/then_he_wont_be_c14ea729.wav"
+
+[sub_resource type="Resource" id="Resource_vtj8p"]
+script = ExtResource("3_fbjor")
+id = &"O8"
+duration = 10.0
+from_pos = Vector3(0.2, 1.7, 1.6)
+to_pos = Vector3(0.2, 1.7, 1.6)
+look_from = Vector3(-4.2, 1.2, -2.2)
+look_to = Vector3(-4.2, 1.2, -2.2)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_ua0rk")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_4egy5"), SubResource("Resource_nvugn")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_g1g6c"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"courier"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_ksiu8"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"ashby"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_g5xpe"]
+script = ExtResource("4_jaxpk")
+kind = &"teleport"
+actor = &"watch_keep_vessa"
+target = Vector3(-0.7, 0, 0.4)
+params = {
+"yaw_deg": 80.0
+}
+
+[sub_resource type="Resource" id="Resource_51kyo"]
+script = ExtResource("4_jaxpk")
+at = 4.0
+kind = &"anim"
+actor = &"watch_keep_vessa"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_k8g3i"]
+script = ExtResource("4_jaxpk")
+at = 8.2
+kind = &"move"
+actor = &"courier"
+target = Vector3(0, 0, 14)
+params = {
+"speed": 4.0
+}
+
+[sub_resource type="Resource" id="Resource_argsg"]
+script = ExtResource("1_vtxhr")
+at = 0.5
+speaker = &"vessa"
+text = "The Orb goes north to Torvald. It lay in his lake. It's his to carry."
+duration = 5.0
+voice = "res://assets/audio/voice/vessa/the_orb_goes_north_dd2e5028.wav"
+
+[sub_resource type="Resource" id="Resource_eeb7q"]
+script = ExtResource("1_vtxhr")
+at = 6.0
+speaker = &"vessa"
+text = "Tell him: we need all four of you."
+duration = 2.6
+voice = "res://assets/audio/voice/vessa/tell_him_we_need_1e28f023.wav"
+
+[sub_resource type="Resource" id="Resource_6e6sr"]
+script = ExtResource("3_fbjor")
+id = &"O9"
+duration = 10.0
+from_pos = Vector3(4.4, 1.6, -2.8)
+to_pos = Vector3(4.4, 1.6, -2.8)
+look_from = Vector3(0.2, 1.3, 0.6)
+look_to = Vector3(0.2, 1.3, 0.6)
+fov_from = 42.0
+fov_to = 42.0
+transition_in = 3
+transition_time = 0.3
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_argsg"), SubResource("Resource_eeb7q")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_g1g6c"), SubResource("Resource_ksiu8"), SubResource("Resource_g5xpe"), SubResource("Resource_51kyo"), SubResource("Resource_k8g3i")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_lfhh7"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"courier"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_exj7e"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"ashby"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_d5wbt"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"wren"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_6tjt6"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"stag"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_7rop8"]
+script = ExtResource("4_jaxpk")
+at = 7.4
+kind = &"move"
+actor = &"stag"
+target = Vector3(-12, 0, 14)
+params = {
+"speed": 6.0
+}
+
+[sub_resource type="Resource" id="Resource_pfgyq"]
+script = ExtResource("1_vtxhr")
+at = 0.5
+speaker = &"vessa"
+text = "The Signet slept in Ysolde's tree. Take it home to her, Wren."
+duration = 4.5
+voice = "res://assets/audio/voice/vessa/the_signet_slept_in_acb23ee5.wav"
+
+[sub_resource type="Resource" id="Resource_42okf"]
+script = ExtResource("1_vtxhr")
+at = 5.5
+speaker = &"wren"
+text = "Before moonrise. I promise."
+duration = 2.0
+voice = "res://assets/audio/voice/messenger/before_moonrise_i_promise_006e1761.wav"
+
+[sub_resource type="Resource" id="Resource_2a17f"]
+script = ExtResource("3_fbjor")
+id = &"O10"
+duration = 8.0
+from_pos = Vector3(0.2, 1.6, -3)
+to_pos = Vector3(0.2, 1.6, -3)
+look_from = Vector3(0.2, 1.3, 0.7)
+look_to = Vector3(0.2, 1.3, 0.7)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_pfgyq"), SubResource("Resource_42okf")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_lfhh7"), SubResource("Resource_exj7e"), SubResource("Resource_d5wbt"), SubResource("Resource_6tjt6"), SubResource("Resource_7rop8")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_fvo15"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"wren"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_gq8ds"]
+script = ExtResource("4_jaxpk")
+kind = &"visible"
+actor = &"stag"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_jfjqy"]
+script = ExtResource("4_jaxpk")
+kind = &"teleport"
+actor = &"vey"
+target = Vector3(-2.4, 0, -0.6)
+params = {
+"yaw_deg": 40.0
+}
+
+[sub_resource type="Resource" id="Resource_p1bh1"]
+script = ExtResource("4_jaxpk")
+kind = &"vfx"
+target = Vector3(-0.4, 1.2, 0.7)
+params = {
+"life": 8.0,
+"scale": 0.15,
+"scene": "res://art/cinematics/fx/ember.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_h4i6f"]
+script = ExtResource("4_jaxpk")
+at = 4.5
+kind = &"anim"
+actor = &"watch_keep_vessa"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_g84vu"]
+script = ExtResource("1_vtxhr")
+at = 0.5
+speaker = &"vey"
+text = "You gave two away. Without a fight. Are you ill, girl?"
+duration = 3.8
+voice = "res://assets/audio/voice/vey/you_gave_two_away_5dddc29d.wav"
+
+[sub_resource type="Resource" id="Resource_rgfet"]
+script = ExtResource("1_vtxhr")
+at = 4.5
+speaker = &"vessa"
+text = "Three keys. The fourth is in Malrik's pocket."
+duration = 3.3
+voice = "res://assets/audio/voice/vessa/three_keys_the_fourth_d371d860.wav"
+
+[sub_resource type="Resource" id="Resource_58bap"]
+script = ExtResource("3_fbjor")
+id = &"O11"
+duration = 8.0
+from_pos = Vector3(0.9, 1.75, 1.6)
+to_pos = Vector3(0.9, 1.75, 1.6)
+look_from = Vector3(-0.7, 1.6639999, 0.4)
+look_to = Vector3(-0.7, 1.6639999, 0.4)
+look_actor = &"watch_keep_vessa"
+look_offset = Vector3(0, 1.6639999, 0)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_g84vu"), SubResource("Resource_rgfet")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_fvo15"), SubResource("Resource_gq8ds"), SubResource("Resource_jfjqy"), SubResource("Resource_p1bh1"), SubResource("Resource_h4i6f")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_6ohg4"]
+script = ExtResource("4_jaxpk")
+kind = &"move"
+actor = &"vey"
+target = Vector3(-1.8, 0, -0.6)
+params = {
+"speed": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_8runc"]
+script = ExtResource("4_jaxpk")
+at = 6.4
+kind = &"face"
+actor = &"watch_keep_vessa"
+params = {
+"look_actor": "vey",
+"time": 0.6,
+"yaw_deg": -120.46554421712682
+}
+
+[sub_resource type="Resource" id="Resource_ejsl0"]
+script = ExtResource("1_vtxhr")
+at = 0.5
+speaker = &"vey"
+text = "Then we go and ask him. He asked for all four of you. Especially Malrik."
+duration = 5.4
+voice = "res://assets/audio/voice/vey/then_we_go_and_457fc907.wav"
+
+[sub_resource type="Resource" id="Resource_eqi1r"]
+script = ExtResource("3_fbjor")
+id = &"O12"
+duration = 10.0
+from_pos = Vector3(2.8, 1.7, 1.4)
+to_pos = Vector3(2.8, 1.7, 1.4)
+look_from = Vector3(-1.4, 1.3, -0.2)
+look_to = Vector3(-1.4, 1.3, -0.2)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_vtxhr")]([SubResource("Resource_ejsl0")])
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_6ohg4"), SubResource("Resource_8runc")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_t83yl"]
+script = ExtResource("4_jaxpk")
+kind = &"fade"
+params = {
+"alpha": 0.15,
+"color": Color(0.3529412, 0.1882353, 0.03137255, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_ql61t"]
+script = ExtResource("4_jaxpk")
+at = 1.0
+kind = &"title"
+params = {
+"sub": "The Four Keys",
+"text": "Episode 8",
+"time": 5.0
+}
+
+[sub_resource type="Resource" id="Resource_33pkn"]
+script = ExtResource("4_jaxpk")
+at = 7.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_pc2x8"]
+script = ExtResource("3_fbjor")
+id = &"O13"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(4, 6, 14)
+to_pos = Vector3(10, 34, 40)
+look_from = Vector3(0, 3, -4)
+look_to = Vector3(40, 6, -60)
+fov_from = 44.0
+fov_to = 54.0
+transition_in = 1
+transition_time = 0.4
+actions = Array[ExtResource("4_jaxpk")]([SubResource("Resource_t83yl"), SubResource("Resource_ql61t"), SubResource("Resource_33pkn")])
+stage_set = &"forge_watch_keep"
+
+[resource]
+script = ExtResource("2_lcycc")
+id = &"ep8_opening"
+title = "Episode 8: The Four Keys"
+stage_scene = "res://scenes/cinematics/ep8_opening.tscn"
+shots = Array[ExtResource("3_fbjor")]([SubResource("Resource_68fnj"), SubResource("Resource_otmmu"), SubResource("Resource_2nlpt"), SubResource("Resource_60bu2"), SubResource("Resource_vbuqv"), SubResource("Resource_bacbo"), SubResource("Resource_imt1f"), SubResource("Resource_a2dxe"), SubResource("Resource_t5wm3"), SubResource("Resource_vtj8p"), SubResource("Resource_6e6sr"), SubResource("Resource_2a17f"), SubResource("Resource_58bap"), SubResource("Resource_eqi1r"), SubResource("Resource_pc2x8")])
+music_cue = &"res://assets/audio/forge/music/ep4_opening.wav"
+shake_seed = 801
+music_volume_db = -18.0
+voice_over = Array[StringName]([&"narrator", &"obren", &"ashby", &"courier", &"wren", &"stag", &"crown"])
+lines_over_cuts = true
