@@ -1,0 +1,383 @@
+{
+  "cine_id": "e7m4",
+  "source": "docs/design/mission-e7-04.md (Dialogue)",
+  "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+  "lines": [
+    {
+      "id": "L1",
+      "event": "E1",
+      "speaker": "ossavar",
+      "dur": 6.0,
+      "subtitle": "The Year of Two Skies comes round again.|Every ship. Every dragon. One strait.",
+      "text": "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."
+    },
+    {
+      "id": "L2",
+      "event": "E1",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Today we finish Aurivane, Torvald.|Take the rock. I will handle the sky.",
+      "text": "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."
+    },
+    {
+      "id": "L3",
+      "event": "E1",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "You handled the Laurel too, Malrik.|I have not forgotten whose knives they were.",
+      "text": "You handled the Laurel too, Malrik. I have not forgotten whose knives they were."
+    },
+    {
+      "id": "L4",
+      "event": "E1",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Then remember it after we win.|Victory is a wonderful eraser.",
+      "text": "Then remember it after we win. Victory is a wonderful eraser."
+    },
+    {
+      "id": "L5",
+      "event": "E1",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "Crimson sails on the water. They will shell|the shore road. Sink them, or stay off it.",
+      "text": "Crimson sails on the water. They will shell the shore road. Sink them, or stay off it."
+    },
+    {
+      "id": "L6",
+      "event": "E2",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Last chance to pick the right side,|Torvald! I'm told I'm very forgiving!",
+      "text": "Last chance to pick the right side, Torvald! I'm told I'm very forgiving!"
+    },
+    {
+      "id": "L7",
+      "event": "E2",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "You are told many things, Vessa.|Most of them by people standing behind you.",
+      "text": "You are told many things, Vessa. Most of them by people standing behind you."
+    },
+    {
+      "id": "L8",
+      "event": "E3",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "One small sale before the great one.|Sunwake, Aurivane's pride. Who pays?",
+      "text": "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?"
+    },
+    {
+      "id": "L9",
+      "event": "E4 won",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Sunwake flies with us.|For the morning, at least.",
+      "text": "Sunwake flies with us. For the morning, at least."
+    },
+    {
+      "id": "L10",
+      "event": "E4 lost",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "Sunwake keeps her old masters. For now.",
+      "text": "Sunwake keeps her old masters. For now."
+    },
+    {
+      "id": "L11",
+      "event": "E5",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Malrik! Every grave you dig,|I will plant over. Every single one!",
+      "text": "Malrik! Every grave you dig, I will plant over. Every single one!"
+    },
+    {
+      "id": "L12",
+      "event": "E5",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Then you will be a very busy gardener, Ysolde.",
+      "text": "Then you will be a very busy gardener, Ysolde."
+    },
+    {
+      "id": "L13",
+      "event": "E6",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "One red sail under.|The sea keeps the coin, as usual.",
+      "text": "One red sail under. The sea keeps the coin, as usual."
+    },
+    {
+      "id": "L14",
+      "event": "E7",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "The rock is Adamarch's! The Archon is watching|from the spire, Ice-king. So is everyone.",
+      "text": "The rock is Adamarch's! The Archon is watching from the spire, Ice-king. So is everyone."
+    },
+    {
+      "id": "L15",
+      "event": "E8",
+      "speaker": "diamond_archon",
+      "dur": 5.0,
+      "subtitle": "Empty the pits. All of them.|Let the sky be white and silver by noon.",
+      "text": "Empty the pits. All of them. Let the sky be white and silver by noon."
+    },
+    {
+      "id": "L16",
+      "event": "E8",
+      "speaker": "ossavar",
+      "dur": 6.0,
+      "subtitle": "Every dragon on the Coinwater changes sides|in one morning. I have seen this before.",
+      "text": "Every dragon on the Coinwater changes sides in one morning. I have seen this before."
+    },
+    {
+      "id": "L17",
+      "event": "E8",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "He bought the whole SKY? Ysolde,|pull back! Everyone, back to the ships!",
+      "text": "He bought the whole SKY? Ysolde, pull back! Everyone, back to the ships!"
+    },
+    {
+      "id": "L18",
+      "event": "E8",
+      "speaker": "dacian",
+      "dur": 5.0,
+      "subtitle": "Enough. Seraphine, the cloth.|We end this on the sand, the old way.",
+      "text": "Enough. Seraphine, the cloth. We end this on the sand, the old way."
+    },
+    {
+      "id": "L19",
+      "event": "E8",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "A truce, Sunblade. No bets. No knives. Just us.",
+      "text": "A truce, Sunblade. No bets. No knives. Just us."
+    },
+    {
+      "id": "L20",
+      "event": "E9",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Burn them. Both fleets, the sand, the cloth.|A strait of dead feeds the stone for years.",
+      "text": "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."
+    },
+    {
+      "id": "L21",
+      "event": "E9",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Yes, Bishop. A whole sea of them. Feed me,|and I will crown you king of the deep.",
+      "text": "Yes, Bishop. A whole sea of them. Feed me, and I will crown you king of the deep."
+    },
+    {
+      "id": "L22",
+      "event": "E9",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "No.",
+      "text": "No."
+    },
+    {
+      "id": "L23",
+      "event": "E9",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "You said that once before,|in your hall. \"For now,\" you said.",
+      "text": "You said that once before, in your hall. \"For now,\" you said."
+    },
+    {
+      "id": "L24",
+      "event": "E9",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "I am done waiting, Malrik.|Aldra. Everyone. To the rock.",
+      "text": "I am done waiting, Malrik. Aldra. Everyone. To the rock."
+    },
+    {
+      "id": "L25",
+      "event": "E9 (`e7m1_ossavar_won`)",
+      "speaker": "ossavar",
+      "dur": 6.0,
+      "subtitle": "You paid me once, Ice-king, in clean coin.|That bond still holds. I fly with you.",
+      "text": "You paid me once, Ice-king, in clean coin. That bond still holds. I fly with you."
+    },
+    {
+      "id": "L25a",
+      "event": "E9 (not won)",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "You never bought me, Ice-king.|That is why I will fly with you.",
+      "text": "You never bought me, Ice-king. That is why I will fly with you."
+    },
+    {
+      "id": "L25b",
+      "event": "E9 (`e7m3_people`)",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "And you sheltered the Outwall when|nobody paid. I remember debts.",
+      "text": "And you sheltered the Outwall when nobody paid. I remember debts."
+    },
+    {
+      "id": "L26",
+      "event": "E9",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Torvald? You're fighting HIM? ...Fine.|Aurivane stands down. Don't make me regret it.",
+      "text": "Torvald? You're fighting HIM? ...Fine. Aurivane stands down. Don't make me regret it."
+    },
+    {
+      "id": "L27",
+      "event": "E11",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Kesh. Morrow. Sunwake. I filled|your hoards to the brim. Earn them.",
+      "text": "Kesh. Morrow. Sunwake. I filled your hoards to the brim. Earn them."
+    },
+    {
+      "id": "L28",
+      "event": "E10",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "My lord, the Bazaar. A dragon serves whoever|filled the hoard last. Pay them to fly away.",
+      "text": "My lord, the Bazaar. A dragon serves whoever filled the hoard last. Pay them to fly away."
+    },
+    {
+      "id": "L29",
+      "event": "E12",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "Paid to go home. The one price he never tried.",
+      "text": "Paid to go home. The one price he never tried."
+    },
+    {
+      "id": "L30",
+      "event": "E13",
+      "speaker": "hush",
+      "dur": 5.0,
+      "subtitle": "There is always another night,|Ice-king. Tonight it is yours.",
+      "text": "There is always another night, Ice-king. Tonight it is yours."
+    },
+    {
+      "id": "L31",
+      "event": "E13",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Then I will spend it awake.",
+      "text": "Then I will spend it awake."
+    },
+    {
+      "id": "L32",
+      "event": "E14 (`e7m3_people`)",
+      "speaker": "brannet",
+      "dur": 5.0,
+      "subtitle": "Those oars were ours! Nobody from|the Outwall rows for the candle-man!",
+      "text": "Those oars were ours! Nobody from the Outwall rows for the candle-man!"
+    },
+    {
+      "id": "L32b",
+      "event": "E14 (else)",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "Silver sinks the same as crimson,|my lord. Slower, perhaps. Heavier pride.",
+      "text": "Silver sinks the same as crimson, my lord. Slower, perhaps. Heavier pride."
+    },
+    {
+      "id": "L33",
+      "event": "E15",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "More, Bishop. The sea is generous tonight.",
+      "text": "More, Bishop. The sea is generous tonight."
+    },
+    {
+      "id": "L33b",
+      "event": "E16",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Do you hear it, Torvald? Every one of|them is mine now. Every single one.",
+      "text": "Do you hear it, Torvald? Every one of them is mine now. Every single one."
+    },
+    {
+      "id": "L34",
+      "event": "E17",
+      "speaker": "ossavar",
+      "dur": 6.0,
+      "subtitle": "He walked out once, and the sea went still.|Your turn, Ice-king. Go to the light.",
+      "text": "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light."
+    },
+    {
+      "id": "L35",
+      "event": "E18",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "The west water is glass.|Their galleys are stuck fast.",
+      "text": "The west water is glass. Their galleys are stuck fast."
+    },
+    {
+      "id": "L36",
+      "event": "E19",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "The east is frozen! Dacian, back to back!",
+      "text": "The east is frozen! Dacian, back to back!"
+    },
+    {
+      "id": "L37",
+      "event": "E20",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Torvald! You never said no to anyone|in your life. Why start with me?",
+      "text": "Torvald! You never said no to anyone in your life. Why start with me?"
+    },
+    {
+      "id": "L38",
+      "event": "E20",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Because I finally saw what you were buying.",
+      "text": "Because I finally saw what you were buying."
+    },
+    {
+      "id": "L39",
+      "event": "E21",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Enough.",
+      "text": "Enough."
+    },
+    {
+      "id": "L40",
+      "event": "E21",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "I have heard that word once before.|It sounded better from you.",
+      "text": "I have heard that word once before. It sounded better from you."
+    },
+    {
+      "id": "L41",
+      "event": "E22",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "The sea... was never mine to hold.",
+      "text": "The sea... was never mine to hold."
+    },
+    {
+      "id": "L42",
+      "event": "E23",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "The rock is his. The stone will|drink the whole strait now.",
+      "text": "The rock is his. The stone will drink the whole strait now."
+    },
+    {
+      "id": "L43",
+      "event": "E25",
+      "speaker": "hush",
+      "dur": 5.0,
+      "subtitle": "The Bishop sends his regrets.|I will deliver them in person, later.",
+      "text": "The Bishop sends his regrets. I will deliver them in person, later."
+    }
+  ]
+}

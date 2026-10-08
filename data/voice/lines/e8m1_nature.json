@@ -1,0 +1,175 @@
+{
+  "cine_id": "e8m1_nature",
+  "source": "docs/design/mission-e8-01.md D.8 (Dialogue)",
+  "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+  "lines": [
+    {
+      "id": "L1",
+      "event": "E1",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "The Closed Road. For a hundred years nobody|came in. For a hundred years she never went out.",
+      "text": "The Closed Road. For a hundred years nobody came in. For a hundred years she never went out."
+    },
+    {
+      "id": "L2",
+      "event": "E1",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "I grew these walls to keep the war out.|They did. They kept everything out.",
+      "text": "I grew these walls to keep the war out. They did. They kept everything out."
+    },
+    {
+      "id": "L3",
+      "event": "E1",
+      "speaker": "maelis",
+      "dur": 5.0,
+      "subtitle": "They'll fight you, child. They only|know the one word you taught them.",
+      "text": "They'll fight you, child. They only know the one word you taught them."
+    },
+    {
+      "id": "L4",
+      "event": "E1",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Then I'll teach them a second word.|It's a short one. Open.",
+      "text": "Then I'll teach them a second word. It's a short one. Open."
+    },
+    {
+      "id": "L5",
+      "event": "E2",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "One down. It felt like pulling|out my own hair. Two more.",
+      "text": "One down. It felt like pulling out my own hair. Two more."
+    },
+    {
+      "id": "L6",
+      "event": "E2",
+      "speaker": "messenger",
+      "dur": 5.0,
+      "subtitle": "My lady! Pipwell's burning.|They asked for you by name.",
+      "text": "My lady! Pipwell... Pipwell's burning. They... they asked for you. By name."
+    },
+    {
+      "id": "L7",
+      "event": "E4 saved",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Nobody burns while I watch. Not any more.|Go home, Pipwell. Grow it back.",
+      "text": "Nobody burns while I watch. Not any more. Go home, Pipwell. Grow it back."
+    },
+    {
+      "id": "L8",
+      "event": "E4 burned",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Too slow. I was always too slow|for the ones at the border.",
+      "text": "Too slow. I was always too slow for the ones at the border."
+    },
+    {
+      "id": "L9",
+      "event": "E6",
+      "speaker": "messenger",
+      "dur": 5.0,
+      "subtitle": "Fernby! The old stones are|walking into the houses!",
+      "text": "Fernby! The... the old stones are walking. Into the houses!"
+    },
+    {
+      "id": "L10",
+      "event": "E7",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Two. I'm taking a side, Maelis. It's theirs.",
+      "text": "Two. I'm taking a side, Maelis. It's theirs."
+    },
+    {
+      "id": "L11",
+      "event": "E8",
+      "speaker": "maelis",
+      "dur": 5.0,
+      "subtitle": "You called me out of the wood.|I've waited forty years to hear that.",
+      "text": "You called me out of the wood. I've waited forty years to hear that."
+    },
+    {
+      "id": "L12",
+      "event": "E9",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "The last root. My first wall. Goodbye.",
+      "text": "The last root. My first wall. Goodbye."
+    },
+    {
+      "id": "L13",
+      "event": "E9",
+      "speaker": "messenger",
+      "dur": 5.0,
+      "subtitle": "Hollins Cross, please! They're at the mill.",
+      "text": "Hollins Cross... please. Please, they're... they're at the mill."
+    },
+    {
+      "id": "L14",
+      "event": "E10",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Three messengers, three answers.|I could get used to answering.",
+      "text": "Three messengers, three answers. I could get used to answering."
+    },
+    {
+      "id": "L15",
+      "event": "E11",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Stay in your garden, gardener.|You were always so good at it.",
+      "text": "Stay in your garden, gardener. You were always so good at it."
+    },
+    {
+      "id": "L16",
+      "event": "E12",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "I've left the garden. Show me again,|Master. I'm showing you.",
+      "text": "I've left the garden. Show me again, Master. I'm showing you."
+    },
+    {
+      "id": "L17",
+      "event": "E13",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "For the first time in a hundred years,|the green went out of its own border.",
+      "text": "For the first time in a hundred years, the green went out of its own border."
+    },
+    {
+      "id": "L18",
+      "event": "E13",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "The Signet's warm. It's pointing at the|others. Let's not keep them waiting.",
+      "text": "The Signet's warm. It's pointing at the others. Let's not keep them waiting."
+    },
+    {
+      "id": "L19",
+      "event": "E13",
+      "speaker": "messenger",
+      "dur": 5.0,
+      "subtitle": "My lady, you're really coming out here? With us?",
+      "text": "My lady... you're really coming? Out here? With us?"
+    },
+    {
+      "id": "L20",
+      "event": "E14",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Burn it, then. It grows back.|That's the one thing I've always known.",
+      "text": "Burn it, then. It grows back. That's the one thing I've always known."
+    },
+    {
+      "id": "L21",
+      "event": "E15",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "I left... too late...",
+      "text": "I left... too late..."
+    }
+  ]
+}

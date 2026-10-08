@@ -1,0 +1,115 @@
+{
+  "cine_id": "c_e4_turnback",
+  "source": "docs/design/mission-e4-02.md Cinematic hooks (between missions: c_e4_turnback beats); docs/design/script-episodes-4-8/e4m2.md",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e4m2.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "T1",
+      "at": 1.2,
+      "dur": 4.8,
+      "speaker": "narrator",
+      "subtitle": "Cinderwatch, on the Fire border. Every bed|is taken, and one lantern is still lit.",
+      "text": "Cinderwatch, on the Fire border. Every bed is taken, and one lantern is still lit."
+    },
+    {
+      "id": "L2",
+      "shot": "T2",
+      "at": 0.6,
+      "dur": 4.2,
+      "speaker": "ysolde",
+      "subtitle": "Vessa. They are all inside your wall.|Ashby gave away his own blanket.",
+      "text": "Vessa. They are all inside your wall. Ashby gave away his own blanket."
+    },
+    {
+      "id": "L3",
+      "shot": "T2",
+      "at": 5.4,
+      "dur": 3.4,
+      "speaker": "ysolde",
+      "subtitle": "I am not staying. You knew that before I did.",
+      "text": "I am not staying. You knew that before I did."
+    },
+    {
+      "id": "L4",
+      "shot": "T3",
+      "at": 0.4,
+      "dur": 3.0,
+      "speaker": "maelis",
+      "subtitle": "The scouts are back from the Sighing Wood.",
+      "text": "The scouts are back from the Sighing Wood."
+    },
+    {
+      "id": "L5",
+      "shot": "T3",
+      "at": 3.8,
+      "dur": 3.6,
+      "speaker": "maelis",
+      "subtitle": "Rime on every trunk.|Aldra's totems in all five glades.",
+      "text": "Rime on every trunk. Aldra's totems in all five glades."
+    },
+    {
+      "id": "L6",
+      "shot": "T4",
+      "at": 0.4,
+      "dur": 4.4,
+      "speaker": "maelis",
+      "subtitle": "They didn't freeze it to hold it.|They froze it so it would stay dead.",
+      "text": "They didn't freeze it to hold it. They froze it so it would stay dead."
+    },
+    {
+      "id": "L7",
+      "shot": "T4",
+      "at": 5.2,
+      "dur": 2.6,
+      "speaker": "ysolde",
+      "subtitle": "Then it is waiting for someone.",
+      "text": "Then it is waiting for someone."
+    },
+    {
+      "id": "L8",
+      "shot": "T5",
+      "at": 0.5,
+      "dur": 3.8,
+      "speaker": "ashby",
+      "subtitle": "From the queen, my lady.|She said you'd know what it is.",
+      "text": "From the queen, my lady. She said you'd know what it is."
+    },
+    {
+      "id": "L9",
+      "shot": "T7",
+      "at": 0.8,
+      "dur": 3.0,
+      "speaker": "vessa",
+      "subtitle": "I think the wood can now. V.",
+      "text": "I think the wood can now. V."
+    },
+    {
+      "id": "L10",
+      "shot": "T8",
+      "at": 0.6,
+      "dur": 1.6,
+      "speaker": "ysolde",
+      "subtitle": "So do I.",
+      "text": "So do I."
+    },
+    {
+      "id": "L11",
+      "shot": "T9",
+      "at": 1.0,
+      "dur": 2.2,
+      "speaker": "maelis",
+      "subtitle": "Back into the cold, then?",
+      "text": "Back into the cold, then?"
+    },
+    {
+      "id": "L12",
+      "shot": "T9",
+      "at": 3.6,
+      "dur": 1.6,
+      "speaker": "ysolde",
+      "subtitle": "Back home.",
+      "text": "Back home."
+    }
+  ]
+}

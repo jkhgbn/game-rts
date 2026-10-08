@@ -1,0 +1,271 @@
+{
+  "cine_id": "e7m2",
+  "source": "docs/design/mission-e7-02.md (Dialogue)",
+  "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+  "lines": [
+    {
+      "id": "L1",
+      "event": "E1",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "Two cities, two lies, one rock.|The rock, at least, is honest.",
+      "text": "Two cities, two lies, one rock. The rock, at least, is honest."
+    },
+    {
+      "id": "L2",
+      "event": "E1",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "They say Adamarch staged it. I bled on that|sand, Ice-king. I would like to know for whom.",
+      "text": "They say Adamarch staged it. I bled on that sand, Ice-king. I would like to know for whom."
+    },
+    {
+      "id": "L3",
+      "event": "E1",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "So would I. Malrik sailed home before|the blood was dry. That is not mourning.",
+      "text": "So would I. Malrik sailed home before the blood was dry. That is not mourning."
+    },
+    {
+      "id": "L4",
+      "event": "E2",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "The bettors fled with their strongboxes and|dropped half of them. Coin always runs downhill.",
+      "text": "The bettors fled with their strongboxes and dropped half of them. Coin always runs downhill."
+    },
+    {
+      "id": "L5",
+      "event": "E3",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Back again, Torvald? You're the slowest|man I know, and you're still everywhere.",
+      "text": "Back again, Torvald? You're the slowest man I know, and you're still everywhere."
+    },
+    {
+      "id": "L6",
+      "event": "E5",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "The Citadel stands. Aldra.|I would rather not do this one alone.",
+      "text": "The Citadel stands. Aldra. I would rather not do this one alone."
+    },
+    {
+      "id": "L7",
+      "event": "E6",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "You never do anything alone,|my lord. You only think you do.",
+      "text": "You never do anything alone, my lord. You only think you do."
+    },
+    {
+      "id": "L8",
+      "event": "E7",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "The barricade is down. Walls should|know when to fall. Ours never did.",
+      "text": "The barricade is down. Walls should know when to fall. Ours never did."
+    },
+    {
+      "id": "L9",
+      "event": "E8",
+      "speaker": "ossavar",
+      "dur": 5.0,
+      "subtitle": "You hold my rock. Look under the|cloths. The dead are poor liars.",
+      "text": "You hold my rock. Look under the cloths. The dead are poor liars."
+    },
+    {
+      "id": "L10",
+      "event": "E9",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Aurivane's cloaks, on knives forged in the dark.|The edges drink the light. Shadow steel.",
+      "text": "Aurivane's cloaks, on knives forged in the dark. The edges drink the light. Shadow steel."
+    },
+    {
+      "id": "L10b",
+      "event": "E8 (flag)",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "The boat my rune saw left violet smoke.|Gold cloaks do not row from the north.",
+      "text": "The boat my rune saw left violet smoke. Gold cloaks do not row from the north."
+    },
+    {
+      "id": "L11",
+      "event": "E10",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "The bettors' ledger. Someone wagered against|both cities, on the same night, before the duel.",
+      "text": "The bettors' ledger. Someone wagered against both cities, on the same night, before the duel."
+    },
+    {
+      "id": "L12",
+      "event": "E10",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "A man who bets on the war, not the winner.|I know only one with that much patience.",
+      "text": "A man who bets on the war, not the winner. I know only one with that much patience."
+    },
+    {
+      "id": "L13",
+      "event": "E11",
+      "speaker": "herald",
+      "dur": 5.0,
+      "subtitle": "Don't hurt me! I only read the names! I saw|the boat, a black boat, from the north side!",
+      "text": "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!"
+    },
+    {
+      "id": "L14",
+      "event": "E11",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Easy. Who stepped out of it?",
+      "text": "Easy. Who stepped out of it?"
+    },
+    {
+      "id": "L15",
+      "event": "E11",
+      "speaker": "herald",
+      "dur": 5.0,
+      "subtitle": "A woman in a white mask. She never said a word.|The knives followed her like ducklings.",
+      "text": "A woman in a white mask. She never said a word. The knives followed her like ducklings."
+    },
+    {
+      "id": "L16",
+      "event": "E11b",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "A white mask. Then I know the knife,|and I know the hand that throws it.",
+      "text": "A white mask. Then I know the knife, and I know the hand that throws it."
+    },
+    {
+      "id": "L17",
+      "event": "E12",
+      "speaker": "dacian",
+      "dur": 5.0,
+      "subtitle": "You want the truth told on my sand, Ice-king? Then by the old rule. First blood, and no further.",
+      "text": "You want the truth told on my sand, Ice-king? Then by the old rule. First blood, and no further."
+    },
+    {
+      "id": "L18a",
+      "event": "E13 (won)",
+      "speaker": "dacian",
+      "dur": 5.0,
+      "subtitle": "Well struck. Twice now an Adamarch guest has|cut me. I am starting to take it personally.",
+      "text": "Well struck. Twice now an Adamarch guest has cut me. I am starting to take it personally."
+    },
+    {
+      "id": "L18b",
+      "event": "E13 (lost)",
+      "speaker": "dacian",
+      "dur": 5.0,
+      "subtitle": "First blood to the Sun. Now say your|truth, Ice-king, and I will listen.",
+      "text": "First blood to the Sun. Now say your truth, Ice-king, and I will listen."
+    },
+    {
+      "id": "L18c",
+      "event": "E13 (draw)",
+      "speaker": "herald",
+      "dur": 5.0,
+      "subtitle": "Neither bleeds! By the law,|it is a draw, and the sand is quiet!",
+      "text": "Neither bleeds! By the law, it is a draw, and the sand is quiet!"
+    },
+    {
+      "id": "L19",
+      "event": "E13",
+      "speaker": "hush",
+      "dur": 5.0,
+      "subtitle": "Hush now, Sunblade.|The war only needs one more death.",
+      "text": "Hush now, Sunblade. The war only needs one more death."
+    },
+    {
+      "id": "L20",
+      "event": "E13",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "Behind you, Dacian! The knives again!",
+      "text": "Behind you, Dacian! The knives again!"
+    },
+    {
+      "id": "L21",
+      "event": "E14",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "I know those knives. I've had them at|my throat. Hush! I owe you a night!",
+      "text": "I know those knives. I've had them at my throat. Hush! I owe you a night!"
+    },
+    {
+      "id": "L22",
+      "event": "E15",
+      "speaker": "hush",
+      "dur": 5.0,
+      "subtitle": "There is always another night, Ice-king.|Ask your friend how he spends his.",
+      "text": "There is always another night, Ice-king. Ask your friend how he spends his."
+    },
+    {
+      "id": "L23",
+      "event": "E16",
+      "speaker": "dacian",
+      "dur": 5.0,
+      "subtitle": "Those were never ours.|You knew before you came to the sand.",
+      "text": "Those were never ours. You knew before you came to the sand."
+    },
+    {
+      "id": "L24",
+      "event": "E16",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Mother Hush. I have stood beside this mask|in Malrik's camp. They were my ally's knives.",
+      "text": "Mother Hush. I have stood beside this mask in Malrik's camp. They were my ally's knives."
+    },
+    {
+      "id": "L25",
+      "event": "E16",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "Then your ally broke a truce that held|for a hundred and thirty years. For what?",
+      "text": "Then your ally broke a truce that held for a hundred and thirty years. For what?"
+    },
+    {
+      "id": "L26",
+      "event": "E16",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "For a war that does not end. Wars are good|for business, and better for that stone.",
+      "text": "For a war that does not end. Wars are good for business, and better for that stone."
+    },
+    {
+      "id": "L27",
+      "event": "E16",
+      "speaker": "ossavar",
+      "dur": 6.0,
+      "subtitle": "First blood, and no further.|The cities forgot. Let us see if you remember.",
+      "text": "First blood, and no further. The cities forgot. Let us see if you remember."
+    },
+    {
+      "id": "L28",
+      "event": "E17",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "Bettors' gold. It spends the same as honest|gold, which is the whole trouble with gold.",
+      "text": "Bettors' gold. It spends the same as honest gold, which is the whole trouble with gold."
+    },
+    {
+      "id": "L29",
+      "event": "E18",
+      "speaker": "seraphine",
+      "dur": 5.0,
+      "subtitle": "The Sunblade is down. Every bell in|both cities will ring for war now.",
+      "text": "The Sunblade is down. Every bell in both cities will ring for war now."
+    },
+    {
+      "id": "L30",
+      "event": "E19",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Too late. I always arrive... too late.",
+      "text": "Too late. I always arrive... too late."
+    }
+  ]
+}

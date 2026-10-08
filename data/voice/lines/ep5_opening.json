@@ -1,0 +1,286 @@
+{
+  "cine_id": "ep5_opening",
+  "source": "campaign-outline.md 3.5 (opening beats), docs/design/mission-e5-01.md F2 / F8 / F9 and Story setup, docs/design/prologue-3min.md 1-2 (recap lines and shots), docs/design/script-episodes-4-8/e5m1.md",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e5m1.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "P1",
+      "at": 1.2,
+      "dur": 5.2,
+      "speaker": "master",
+      "subtitle": "Once upon a time, the strongest|wizard who ever lived ruled the world.",
+      "text": "Once upon a time, the strongest wizard who ever lived ruled the world."
+    },
+    {
+      "id": "L2",
+      "shot": "P2",
+      "at": 0.4,
+      "dur": 5.6,
+      "speaker": "master",
+      "subtitle": "They called him only the Master.|For a thousand years, he kept the peace.",
+      "text": "They called him only the Master. For a thousand years, he kept the peace."
+    },
+    {
+      "id": "L3",
+      "shot": "P3",
+      "at": 0.3,
+      "dur": 4.6,
+      "speaker": "master",
+      "subtitle": "He raised four apprentices,|and gave each of them a kingdom.",
+      "text": "He raised four apprentices, and gave each of them a kingdom."
+    },
+    {
+      "id": "L4",
+      "shot": "P4",
+      "at": 0.3,
+      "dur": 3.8,
+      "speaker": "master",
+      "subtitle": "Then, between one breath|and the next, he was gone.",
+      "text": "Then, between one breath and the next, he was gone."
+    },
+    {
+      "id": "L5",
+      "shot": "P5",
+      "at": 3.6,
+      "dur": 2.2,
+      "speaker": "master",
+      "subtitle": "Four heirs. One empty throne.",
+      "text": "Four heirs. One empty throne."
+    },
+    {
+      "id": "L6",
+      "shot": "P6",
+      "at": 0.3,
+      "dur": 4.2,
+      "speaker": "master",
+      "subtitle": "I loved all four of them.|And still, they went to war.",
+      "text": "I loved all four of them. And still, they went to war."
+    },
+    {
+      "id": "L7",
+      "shot": "P7",
+      "at": 0.6,
+      "dur": 6.0,
+      "speaker": "master",
+      "subtitle": "Now winter has stopped their war, child,|and two of them remember how it began.",
+      "text": "Now winter has stopped their war, child, and two of them remember how it began."
+    },
+    {
+      "id": "L8",
+      "shot": "V2",
+      "at": 0.5,
+      "dur": 4.2,
+      "speaker": "vessa",
+      "subtitle": "Vey's. He cut it off his own|sword the day I lit five beacons.",
+      "text": "Vey's. He cut it off his own sword the day I lit five beacons."
+    },
+    {
+      "id": "L9",
+      "shot": "V2",
+      "at": 5.2,
+      "dur": 3.4,
+      "speaker": "vessa",
+      "subtitle": "But that wasn't the start. The start was a barn.",
+      "text": "But that wasn't the start. The start was a barn."
+    },
+    {
+      "id": "L10",
+      "shot": "VA1",
+      "at": 0.8,
+      "dur": 3.0,
+      "speaker": "vessa",
+      "subtitle": "I was six. It was our barn. Nobody clapped.",
+      "text": "I was six. It was our barn. Nobody clapped."
+    },
+    {
+      "id": "L11",
+      "shot": "VA2",
+      "at": 0.8,
+      "dur": 3.0,
+      "speaker": "master",
+      "subtitle": "Smaller, next time. And not the barn.",
+      "text": "Smaller, next time. And not the barn."
+    },
+    {
+      "id": "L12",
+      "shot": "VA2",
+      "at": 4.3,
+      "dur": 3.4,
+      "speaker": "vessa",
+      "subtitle": "Nobody had ever said \"next time\" to me before.",
+      "text": "Nobody had ever said \"next time\" to me before."
+    },
+    {
+      "id": "L13",
+      "shot": "VB1",
+      "at": 0.6,
+      "dur": 1.4,
+      "speaker": "vey",
+      "subtitle": "Again.",
+      "text": "Again."
+    },
+    {
+      "id": "L14",
+      "shot": "VB1",
+      "at": 2.2,
+      "dur": 4.4,
+      "speaker": "vessa",
+      "subtitle": "Vey said fire was the easy part.|I was very good at the easy part.",
+      "text": "Vey said fire was the easy part. I was very good at the easy part."
+    },
+    {
+      "id": "L15",
+      "shot": "VB2",
+      "at": 1.0,
+      "dur": 3.2,
+      "speaker": "vessa",
+      "subtitle": "I never met a wall I couldn't turn into a door.",
+      "text": "I never met a wall I couldn't turn into a door."
+    },
+    {
+      "id": "L16",
+      "shot": "VC1",
+      "at": 0.5,
+      "dur": 1.4,
+      "speaker": "vey",
+      "subtitle": "Vessa! Wait!",
+      "text": "Vessa! Wait!"
+    },
+    {
+      "id": "L17",
+      "shot": "VC1",
+      "at": 2.4,
+      "dur": 3.8,
+      "speaker": "vessa",
+      "subtitle": "Everyone always said wait.|Nobody ever told me what for.",
+      "text": "Everyone always said wait. Nobody ever told me what for."
+    },
+    {
+      "id": "L18",
+      "shot": "VC2",
+      "at": 0.6,
+      "dur": 5.8,
+      "speaker": "vessa",
+      "subtitle": "The Master had a saying about fire that|won't wait. He said it a lot. Mostly at me.",
+      "text": "The Master had a saying about fire that won't wait. He said it a lot. Mostly at me."
+    },
+    {
+      "id": "L19",
+      "shot": "VD1",
+      "at": 1.6,
+      "dur": 2.2,
+      "speaker": "master",
+      "subtitle": "Again, my joy. Smaller.",
+      "text": "Again, my joy. Smaller."
+    },
+    {
+      "id": "L20",
+      "shot": "VD2",
+      "at": 0.5,
+      "dur": 3.8,
+      "speaker": "vessa",
+      "subtitle": "He laughed when I laughed.|Nobody else ever did that.",
+      "text": "He laughed when I laughed. Nobody else ever did that."
+    },
+    {
+      "id": "L21",
+      "shot": "M2",
+      "at": 0.5,
+      "dur": 3.6,
+      "speaker": "malrik",
+      "subtitle": "She tells it with fireworks.|Mine needs one candle.",
+      "text": "She tells it with fireworks. Mine needs one candle."
+    },
+    {
+      "id": "L22",
+      "shot": "MA1",
+      "at": 0.6,
+      "dur": 5.8,
+      "speaker": "malrik",
+      "subtitle": "My father dug the graves. I read them.|Someone had to remember who was down there.",
+      "text": "My father dug the graves. I read them. Someone had to remember who was down there."
+    },
+    {
+      "id": "L23",
+      "shot": "MA2",
+      "at": 1.0,
+      "dur": 3.2,
+      "speaker": "malrik",
+      "subtitle": "Hello, Tobin Marsh. Nobody visits you either.",
+      "text": "Hello, Tobin Marsh. Nobody visits you either."
+    },
+    {
+      "id": "L24",
+      "shot": "MB1",
+      "at": 0.5,
+      "dur": 4.8,
+      "speaker": "malrik",
+      "subtitle": "The town boys dared me into the crypt|for a night. They waited outside.",
+      "text": "The town boys dared me into the crypt for a night. They waited outside."
+    },
+    {
+      "id": "L25",
+      "shot": "MB2",
+      "at": 1.5,
+      "dur": 3.8,
+      "speaker": "malrik",
+      "subtitle": "I came out at dawn. Bored.|The shadows came out with me.",
+      "text": "I came out at dawn. Bored. The shadows came out with me."
+    },
+    {
+      "id": "L26",
+      "shot": "MC1",
+      "at": 0.8,
+      "dur": 4.0,
+      "speaker": "malrik",
+      "subtitle": "In the citadel there was always|enough. I took more anyway.",
+      "text": "In the citadel there was always enough. I took more anyway."
+    },
+    {
+      "id": "L27",
+      "shot": "MC2",
+      "at": 0.5,
+      "dur": 1.8,
+      "speaker": "vessa",
+      "subtitle": "Malrik! Where's my bread?",
+      "text": "Malrik! Where's my bread?"
+    },
+    {
+      "id": "L28",
+      "shot": "MC2",
+      "at": 2.8,
+      "dur": 1.4,
+      "speaker": "malrik",
+      "subtitle": "What bread?",
+      "text": "What bread?"
+    },
+    {
+      "id": "L29",
+      "shot": "MD1",
+      "at": 1.0,
+      "dur": 3.0,
+      "speaker": "vey",
+      "subtitle": "He's not afraid of it. Most grown men are.",
+      "text": "He's not afraid of it. Most grown men are."
+    },
+    {
+      "id": "L30",
+      "shot": "MD1",
+      "at": 4.4,
+      "dur": 2.4,
+      "speaker": "master",
+      "subtitle": "I know. That is why it is his.",
+      "text": "I know. That is why it is his."
+    },
+    {
+      "id": "L31",
+      "shot": "MD2",
+      "at": 0.6,
+      "dur": 4.2,
+      "speaker": "malrik",
+      "subtitle": "He gave me the dark. What was left.|He never said otherwise.",
+      "text": "He gave me the dark. What was left. He never said otherwise."
+    }
+  ]
+}

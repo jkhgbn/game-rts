@@ -1,0 +1,106 @@
+{
+  "cine_id": "c_e4_frontier",
+  "source": "docs/design/mission-e4-03.md Cinematic hooks (between missions: c_e4_frontier beats); docs/design/script-episodes-4-8/e4m3.md",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e4m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "F2",
+      "at": 0.8,
+      "dur": 3.6,
+      "speaker": "aldra",
+      "subtitle": "Your captains are asking why we pulled back.",
+      "text": "Your captains are asking why we pulled back."
+    },
+    {
+      "id": "L2",
+      "shot": "F2",
+      "at": 5.0,
+      "dur": 2.8,
+      "speaker": "torvald",
+      "subtitle": "Tell them I was looking at a weed.",
+      "text": "Tell them I was looking at a weed."
+    },
+    {
+      "id": "L3",
+      "shot": "F3",
+      "at": 0.6,
+      "dur": 2.2,
+      "speaker": "aldra",
+      "subtitle": "We could burn it again.",
+      "text": "We could burn it again."
+    },
+    {
+      "id": "L4",
+      "shot": "F3",
+      "at": 4.0,
+      "dur": 1.2,
+      "speaker": "torvald",
+      "subtitle": "No.",
+      "text": "No."
+    },
+    {
+      "id": "L5",
+      "shot": "F4",
+      "at": 0.6,
+      "dur": 4.6,
+      "speaker": "aldra",
+      "subtitle": "Malrik's riders came at dusk.|He wants the Wall raised before the snow.",
+      "text": "Malrik's riders came at dusk. He wants the Wall raised before the snow."
+    },
+    {
+      "id": "L6",
+      "shot": "F4",
+      "at": 5.8,
+      "dur": 3.0,
+      "speaker": "torvald",
+      "subtitle": "Then it will be raised. I gave my word.",
+      "text": "Then it will be raised. I gave my word."
+    },
+    {
+      "id": "L7",
+      "shot": "F6",
+      "at": 0.6,
+      "dur": 4.4,
+      "speaker": "vessa",
+      "subtitle": "He's raising the Wall of a Hundred|Winters. Every pass on his frontier.",
+      "text": "He's raising the Wall of a Hundred Winters. Every pass on his frontier."
+    },
+    {
+      "id": "L8",
+      "shot": "F7",
+      "at": 0.4,
+      "dur": 5.0,
+      "speaker": "ysolde",
+      "subtitle": "When the snow closes them, the north feeds|Malrik's war all winter. Out of reach.",
+      "text": "When the snow closes them, the north feeds Malrik's war all winter. Out of reach."
+    },
+    {
+      "id": "L9",
+      "shot": "F7",
+      "at": 6.2,
+      "dur": 4.0,
+      "speaker": "vessa",
+      "subtitle": "So we break it before the first blizzard.|A week, Ashby says. Maybe less.",
+      "text": "So we break it before the first blizzard. A week, Ashby says. Maybe less."
+    },
+    {
+      "id": "L10",
+      "shot": "F8",
+      "at": 0.4,
+      "dur": 3.0,
+      "speaker": "vessa",
+      "subtitle": "I'll bring the fire. You bring the patience.",
+      "text": "I'll bring the fire. You bring the patience."
+    },
+    {
+      "id": "L11",
+      "shot": "F9",
+      "at": 0.5,
+      "dur": 1.8,
+      "speaker": "ysolde",
+      "subtitle": "I'll bring a tree.",
+      "text": "I'll bring a tree."
+    }
+  ]
+}

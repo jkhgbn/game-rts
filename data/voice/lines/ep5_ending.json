@@ -1,0 +1,79 @@
+{
+  "cine_id": "ep5_ending",
+  "source": "docs/design/mission-e5-04.md D9 and Cinematic hooks (`ep5_ending` beats), docs/design/episode7-opening.md 3 (H18-H19, lines L27-L29, D10), campaign-outline.md 3.5; docs/design/script-episodes-4-8/e5m4.md",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e5m4.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "N2",
+      "at": 0.3,
+      "dur": 5.2,
+      "speaker": "master",
+      "subtitle": "Vessa. Malrik. The two harbour cities|are yours now. Keep them in peace.",
+      "text": "Vessa. Malrik. The two harbour cities are yours now. Keep them in peace."
+    },
+    {
+      "id": "L2",
+      "shot": "N2",
+      "at": 5.8,
+      "dur": 2.2,
+      "speaker": "vessa",
+      "subtitle": "Of course, Master! No problem at all!",
+      "text": "Of course, Master! No problem at all!"
+    },
+    {
+      "id": "L3",
+      "shot": "N2",
+      "at": 8.1,
+      "dur": 1.3,
+      "speaker": "malrik",
+      "subtitle": "None whatsoever.",
+      "text": "None whatsoever."
+    },
+    {
+      "id": "L4",
+      "shot": "N3",
+      "at": 0.5,
+      "dur": 1.8,
+      "speaker": "vessa",
+      "subtitle": "I'm taking the gold one!",
+      "text": "I'm taking the gold one!"
+    },
+    {
+      "id": "L5",
+      "shot": "N3",
+      "at": 3.0,
+      "dur": 1.2,
+      "speaker": "malrik",
+      "subtitle": "Naturally.",
+      "text": "Naturally."
+    },
+    {
+      "id": "L6",
+      "shot": "N4",
+      "at": 0.4,
+      "dur": 2.6,
+      "speaker": "vey",
+      "subtitle": "You heard her. No problem at all.",
+      "text": "You heard her. No problem at all."
+    },
+    {
+      "id": "L7",
+      "shot": "N4",
+      "at": 3.4,
+      "dur": 2.2,
+      "speaker": "master",
+      "subtitle": "I heard them both.",
+      "text": "I heard them both."
+    },
+    {
+      "id": "L8",
+      "shot": "N5",
+      "at": 0.5,
+      "dur": 5.8,
+      "speaker": "narrator",
+      "subtitle": "Three years later he was gone, and the peace|he gave them was the first thing they spent.",
+      "text": "Three years later he was gone, and the peace he gave them was the first thing they spent."
+    }
+  ]
+}

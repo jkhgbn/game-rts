@@ -1,0 +1,70 @@
+{
+  "cine_id": "ep8_bookend",
+  "source": "campaign-outline.md 4.3 [3:06]-[3:33] (word for word), 4.4 (shots E23-E25), 4.5 (the dark swap in E24); prologue-3min.md S13 / L13; mission-e8-03.md 8.2",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e8m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "E23",
+      "at": 1.0,
+      "dur": 3.6,
+      "speaker": "master",
+      "subtitle": "...and that, child, is the end of the tale.",
+      "text": "...and that, child, is the end of the tale."
+    },
+    {
+      "id": "L2",
+      "shot": "E23",
+      "at": 5.0,
+      "dur": 2.6,
+      "speaker": "child",
+      "subtitle": "Is it true? Were you really him?",
+      "text": "Is it true? Were you really him?"
+    },
+    {
+      "id": "L3",
+      "shot": "E24",
+      "at": 4.0,
+      "dur": 3.0,
+      "speaker": "child",
+      "subtitle": "Were you sad, when they stopped needing you?",
+      "text": "Were you sad, when they stopped needing you?"
+    },
+    {
+      "id": "L4",
+      "shot": "E24",
+      "at": 7.0,
+      "dur": 2.5,
+      "speaker": "master",
+      "subtitle": "No. That was the whole point.",
+      "text": "No. That was the whole point."
+    },
+    {
+      "id": "L3_dark",
+      "shot": "E24",
+      "at": 4.0,
+      "dur": 2.4,
+      "speaker": "child",
+      "subtitle": "Is the throne still full?",
+      "text": "Is the throne still full?"
+    },
+    {
+      "id": "L4_dark",
+      "shot": "E24",
+      "at": 7.0,
+      "dur": 2.4,
+      "speaker": "master",
+      "subtitle": "For now. Storms come.",
+      "text": "For now. Storms come."
+    },
+    {
+      "id": "L5",
+      "shot": "E25",
+      "at": 5.0,
+      "dur": 2.8,
+      "speaker": "master",
+      "subtitle": "...Well. So that is where it went.",
+      "text": "...Well. So that is where it went."
+    }
+  ]
+}

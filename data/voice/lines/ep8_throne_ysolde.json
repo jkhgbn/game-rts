@@ -1,0 +1,16 @@
+{
+  "cine_id": "ep8_throne_ysolde",
+  "source": "campaign-outline.md 4.3 [1:51] and 4.4 (shot E14, the E14 temptation table); mission-e8-03.md 8.2",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e8m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "E14",
+      "at": 1.0,
+      "dur": 3.6,
+      "speaker": "ysolde",
+      "subtitle": "Everything would grow. Everywhere. Always.",
+      "text": "Everything would grow. Everywhere. Always."
+    }
+  ]
+}

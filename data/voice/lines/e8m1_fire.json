@@ -1,0 +1,215 @@
+{
+  "cine_id": "e8m1_fire",
+  "source": "docs/design/mission-e8-01.md A.8 (Dialogue)",
+  "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+  "lines": [
+    {
+      "id": "L1",
+      "event": "E1",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "Spring at Crown Hollow. Three keys are still|on the road. One is already here, of course.",
+      "text": "Spring at Crown Hollow. Three keys are still on the road. One is already here, of course."
+    },
+    {
+      "id": "L2",
+      "event": "E1",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Two days early. I'm always early.|That's the problem, isn't it?",
+      "text": "Two days early. I'm always early. That's the problem, isn't it?"
+    },
+    {
+      "id": "L3",
+      "event": "E1",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "Six stakes, one line. The Hollow can't feed|on this bank. Don't hand it the other one.",
+      "text": "Six stakes, one line. The Hollow can't feed on this bank. Don't hand it the other one."
+    },
+    {
+      "id": "L4",
+      "event": "E1",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "So I just... stand here. For fourteen minutes.",
+      "text": "So I just... stand here. For fourteen minutes."
+    },
+    {
+      "id": "L5",
+      "event": "E1",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "The spark first, then the storm. Today the|spark waits. I'll be below, talking to the sky.",
+      "text": "The spark first, then the storm. Today the spark waits. I'll be below, talking to the sky."
+    },
+    {
+      "id": "L6",
+      "event": "E3",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Little ember. You came alone.|You always come alone.",
+      "text": "Little ember. You came alone. You always come alone."
+    },
+    {
+      "id": "L7",
+      "event": "E3",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Not alone. Early.|There's a difference. I'm told.",
+      "text": "Not alone. Early. There's a difference. I'm told."
+    },
+    {
+      "id": "L8",
+      "event": "E6",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "My door is open, Queen of Fire.|Come and close it. You know you want to.",
+      "text": "My door is open, Queen of Fire. Come and close it. You know you want to."
+    },
+    {
+      "id": "L9",
+      "event": "E6",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "I really do. I'm not going to.|Somebody write that down.",
+      "text": "I really do. I'm not going to. Somebody write that down."
+    },
+    {
+      "id": "L10",
+      "event": "E4",
+      "speaker": "vey",
+      "dur": 4.0,
+      "subtitle": "Girl! The water is the line.|Every step past it, it eats.",
+      "text": "Girl! The water is the line. Every step past it, it eats."
+    },
+    {
+      "id": "L11",
+      "event": "E7",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Yes. Closer. Hungry fire feeds me best.",
+      "text": "Yes. Closer. Hungry fire feeds me best."
+    },
+    {
+      "id": "L12",
+      "event": "E8",
+      "speaker": "ashby",
+      "dur": 5.0,
+      "subtitle": "Scouts on the far bank, my queen!|Pinned at the old wagon road!",
+      "text": "Scouts on the far bank, my queen! Pinned at the old wagon road!"
+    },
+    {
+      "id": "L13",
+      "event": "E8",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Hold the ford for them.|They run to us. We do NOT run to them.",
+      "text": "Hold the ford for them. They run to us. We do NOT run to them."
+    },
+    {
+      "id": "L14",
+      "event": "E8",
+      "speaker": "ashby",
+      "dur": 5.0,
+      "subtitle": "Did the queen just say \"we do not run\"?|I'm putting that in the regiment book.",
+      "text": "Did the queen just say \"we do not run\"? I'm putting that in the regiment book."
+    },
+    {
+      "id": "L15",
+      "event": "E9",
+      "speaker": "ashby",
+      "dur": 5.0,
+      "subtitle": "Every rider home! The queen waited!|Somebody ring a bell!",
+      "text": "Every rider home! The queen waited! Somebody ring a bell!"
+    },
+    {
+      "id": "L16",
+      "event": "E11",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Vey! I called. And look:|still on my side of the river.",
+      "text": "Vey! I called. And look: still on my side of the river."
+    },
+    {
+      "id": "L17",
+      "event": "E11",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "I see it. First time in|twenty years. Don't spoil it.",
+      "text": "I see it. First time in twenty years. Don't spoil it."
+    },
+    {
+      "id": "L18",
+      "event": "E12",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "That's what waiting buys you,|girl. Lightning, on time.",
+      "text": "That's what waiting buys you, girl. Lightning, on time."
+    },
+    {
+      "id": "L19",
+      "event": "E14",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "The line is broken. Feed me,|little ember. Feed me everything.",
+      "text": "The line is broken. Feed me, little ember. Feed me everything."
+    },
+    {
+      "id": "L20",
+      "event": "E13 / H8",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "The last tide climbs out of the Hollow.|On the hills behind it, three banners rise.",
+      "text": "The last tide climbs out of the Hollow. On the hills behind it, three banners rise."
+    },
+    {
+      "id": "L21",
+      "event": "E13",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Ice, on the north road.|You waited for us, child? Truly?",
+      "text": "Ice, on the north road. You waited for us, child? Truly?"
+    },
+    {
+      "id": "L22",
+      "event": "E13",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "She waited. I watched her do it.|I may need to sit down.",
+      "text": "She waited. I watched her do it. I may need to sit down."
+    },
+    {
+      "id": "L23",
+      "event": "E13",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Don't all stare. I was invited.|Especially, I'm told.",
+      "text": "Don't all stare. I was invited. Especially, I'm told."
+    },
+    {
+      "id": "L24",
+      "event": "E13",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Four keys. One hole in the|ground. Let's go and knock.",
+      "text": "Four keys. One hole in the ground. Let's go and knock."
+    },
+    {
+      "id": "L25",
+      "event": "E16",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Too early... too early again...",
+      "text": "Too early... too early again..."
+    },
+    {
+      "id": "L26",
+      "event": "E15",
+      "speaker": "ashby",
+      "dur": 5.0,
+      "subtitle": "They're at the keep! Emberguard, hold! HOLD!",
+      "text": "They're at the keep! Emberguard, hold! HOLD!"
+    }
+  ]
+}

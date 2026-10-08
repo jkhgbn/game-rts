@@ -34,3 +34,5 @@ One row per run (`tools/voice_forge/run_voice_forge.ps1`). Quality 0-100; delta 
 | 2026-10-08 01:05:27 | build | all | 92 (+0) | WARN (0F 3W) | c1d8aed6c7cef887 | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
 | 2026-10-08 01:32:15 | build | all | 92 (+0) | WARN (0F 3W) | 9763a673791795d0 | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
 | 2026-10-08 01:43:40 | check | all | 92 (+0) | WARN (0F 3W) | 9763a673791795d0 | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
+| 2026-10-08 06:57:42 | build | all | 92 (+0) | WARN (0F 3W) | 78962bef7fa6d355 | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
+| 2026-10-08 07:24:39 | build | all | 92 (+0) | WARN (0F 3W) | a88750f29a07a3ed | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |

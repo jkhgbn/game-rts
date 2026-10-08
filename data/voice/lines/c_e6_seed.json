@@ -1,0 +1,52 @@
+{
+  "cine_id": "c_e6_seed",
+  "source": "docs/design/mission-e6-03.md Cinematic hooks (between missions: c_e6_seed beats; L25 is the spec's line); docs/design/script-episodes-4-8/e6m3.md",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e6m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "D2",
+      "at": 0.6,
+      "dur": 3.4,
+      "speaker": "maelis",
+      "subtitle": "You never told the village you were right.",
+      "text": "You never told the village you were right."
+    },
+    {
+      "id": "L2",
+      "shot": "D2",
+      "at": 4.6,
+      "dur": 3.0,
+      "speaker": "ysolde",
+      "subtitle": "I didn't need to. It came up green.",
+      "text": "I didn't need to. It came up green."
+    },
+    {
+      "id": "L3",
+      "shot": "D3",
+      "at": 0.5,
+      "dur": 3.6,
+      "speaker": "maelis",
+      "subtitle": "That branch won't come back, you know.",
+      "text": "That branch won't come back, you know."
+    },
+    {
+      "id": "L4",
+      "shot": "D3",
+      "at": 4.4,
+      "dur": 2.2,
+      "speaker": "ysolde",
+      "subtitle": "Give it a spring.",
+      "text": "Give it a spring."
+    },
+    {
+      "id": "L5",
+      "shot": "D4",
+      "at": 1.0,
+      "dur": 6.0,
+      "speaker": "ysolde",
+      "subtitle": "Twelve years ago he sent for me one|last time. Torvald too. Only us.",
+      "text": "Twelve years ago he sent for me one last time. Torvald too. Only us."
+    }
+  ]
+}

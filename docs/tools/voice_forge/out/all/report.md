@@ -1,10 +1,10 @@
-# voice_forge check: all
+# voice_forge build: all
 
-2026-10-08 01:43:40 - `tools/voice_forge/run_voice_forge.ps1 check all` - hash `9763a673791795d0` (manifest.json (line keys are content hashes))
+2026-10-08 07:24:39 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `a88750f29a07a3ed` (manifest.json (line keys are content hashes))
 
 ## Result: **WARN** - quality **92 / 100** (previous run 92, +0)
 
-0 FAIL, 3 WARN, 12 PASS, 1 info, 0 skipped, 3 s
+0 FAIL, 3 WARN, 12 PASS, 1 info, 0 skipped, 8 s
 
 ## Improve next
 1. **voice fits its slot** (WARN): the lines listed in the notes _(from F1 voice fits its slot)_
@@ -14,16 +14,16 @@
 ## Data (cast, index, manifest)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| D1 | cast.json | PASS 100 | 59 speakers | parses, has speakers |  |
-| D2 | lines found | PASS 100 | 786 unique lines | > 0 |  |
-| D3 | manifest entries | PASS 100 | 786 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
+| D1 | cast.json | PASS 100 | 69 speakers | parses, has speakers |  |
+| D2 | lines found | PASS 100 | 1702 unique lines | > 0 |  |
+| D3 | manifest entries | PASS 100 | 1702 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
 | D4 | speakers cast | PASS 100 | all cast | every speaker has a voice in cast.json |  |
-| D5 | speakers vs Speakers.TABLE | INFO | dancer, messenger, wren, reveler, unit_ash_hurler, unit_ashveil_saboteur, unit_barrow_ghoul, unit_blaze_rider, unit_bleakbow, unit_bloomtender, unit_bramblehorn, unit_burr_slinger, unit_cinder_arbalest, unit_cinder_hand, unit_ember_archer, unit_flame_guard, unit_frost_mortar, unit_frostbow, unit_gloom_thrall, unit_greenheart_oathkeeper, unit_hexweaver, unit_hoarlight_magebow, unit_hollow_oathsworn, unit_nightblood_reaver, unit_nightbolt, unit_pyre_adept, unit_rime_colossus, unit_rime_hauler, unit_rime_seer, unit_rimeling, unit_rimeshield, unit_scorchbow, unit_scorchling, unit_shadow_knight, unit_shardcaster, unit_shardguard, unit_sprigling, unit_stormbottle_genie, unit_thistle_darter, unit_thornling, unit_vinelasher, unit_wildwood_archer | subtitle names known |  |
+| D5 | speakers vs Speakers.TABLE | INFO | brannet, child, dacian, dancer, diamond_archon, gannet, herald, messenger, wren, ossavar, reeve, reveler, rider, seraphine, unit_ash_hurler, unit_ashveil_saboteur, unit_barrow_ghoul, unit_blaze_rider, unit_bleakbow, unit_bloomtender, unit_bramblehorn, unit_burr_slinger, unit_cinder_arbalest, unit_cinder_hand, unit_ember_archer, unit_flame_guard, unit_frost_mortar, unit_frostbow, unit_gloom_thrall, unit_greenheart_oathkeeper, unit_hexweaver, unit_hoarlight_magebow, unit_hollow_oathsworn, unit_nightblood_reaver, unit_nightbolt, unit_pyre_adept, unit_rime_colossus, unit_rime_hauler, unit_rime_seer, unit_rimeling, unit_rimeshield, unit_scorchbow, unit_scorchling, unit_shadow_knight, unit_shardcaster, unit_shardguard, unit_sprigling, unit_stormbottle_genie, unit_thistle_darter, unit_thornling, unit_vinelasher, unit_wildwood_archer | subtitle names known |  |
 
 ## Coverage (every spoken line has audio)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | lines with audio | PASS 100 | 786 / 786 | every spoken line has a WAV |  |
+| C1 | lines with audio | PASS 100 | 1702 / 1702 | every spoken line has a WAV |  |
 | C2 | mission lines voiced | PASS 100 | 385 / 385 | all mission dialogue voiced |  |
 | C3 | imported | PASS 100 | 0 not importable | load(path) is AudioStream |  |
 | C4 | orphan WAVs | PASS 100 | 0 | no manifest line without a source |  |
@@ -31,7 +31,7 @@
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 69 | 14 / 992 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 68 | 29 / 1938 over (1 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -39,8 +39,8 @@
 | A1 | format | PASS 100 | 0 bad  | mono, 24 kHz, PCM 16-bit |  |
 | A2 | clipping | PASS 100 | none | no sample at full scale |  |
 | A3 | peak level | PASS 100 | -1.0..-1.0 dBFS | -2..-0.5 dBFS (target -1) |  |
-| A4 | trimmed | **WARN** 50 | 1 untrimmed unit_rime_hauler/right_ill_have_a_92efb9f7 (0.05 / 0.32 s) | lead <= 0.12 s, tail <= 0.20 s of silence | re-render |
-| A5 | size | **WARN** 35 | 102.3 MB source WAV, 37.2 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
+| A4 | trimmed | **WARN** 50 | 5 untrimmed herald/neither_bleeds_by_the_8430d38b (0.04 / 0.40 s), rider/lord_torvald_open_the_4bb78f73 (0.04 / 0.22 s), rider/thank_you_my_lord_d6f7bebd (0.03 / 0.44 s) | lead <= 0.12 s, tail <= 0.20 s of silence | re-render |
+| A5 | size | **WARN** 35 | 245.0 MB source WAV, 89.2 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
 
 ## Game hookup
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -133,13 +133,65 @@
 - source: data/voice/lines/c_e2_lodge.json: 10 lines
 - source: data/voice/lines/c_e2_stair.json: 13 lines
 - source: data/voice/lines/c_e3_doubt.json: 7 lines
+- source: data/voice/lines/c_e3_doubt_refused.json: 7 lines
 - source: data/voice/lines/c_e3_knife.json: 9 lines
 - source: data/voice/lines/c_e3_price.json: 7 lines
+- source: data/voice/lines/c_e4_frontier.json: 11 lines
+- source: data/voice/lines/c_e4_refuge.json: 13 lines
+- source: data/voice/lines/c_e4_turnback.json: 12 lines
+- source: data/voice/lines/c_e5_turn.json: 2 lines
+- source: data/voice/lines/c_e6_gate.json: 3 lines
+- source: data/voice/lines/c_e6_lake.json: 7 lines
+- source: data/voice/lines/c_e6_seed.json: 5 lines
+- source: data/voice/lines/c_e7_ledger.json: 10 lines
+- source: data/voice/lines/c_e7_mask.json: 9 lines
+- source: data/voice/lines/c_e7_pits.json: 12 lines
+- source: data/voice/lines/c_e8_muster.json: 8 lines
+- source: data/voice/lines/e4m1.json: 39 lines
+- source: data/voice/lines/e4m2.json: 31 lines
+- source: data/voice/lines/e4m3.json: 30 lines
+- source: data/voice/lines/e4m4.json: 37 lines
+- source: data/voice/lines/e5m1.json: 26 lines
+- source: data/voice/lines/e5m2.json: 25 lines
+- source: data/voice/lines/e5m3.json: 26 lines
+- source: data/voice/lines/e5m4.json: 23 lines
+- source: data/voice/lines/e6m1.json: 31 lines
+- source: data/voice/lines/e6m2.json: 31 lines
+- source: data/voice/lines/e6m3.json: 25 lines
+- source: data/voice/lines/e6m4.json: 27 lines
+- source: data/voice/lines/e7m1.json: 41 lines
+- source: data/voice/lines/e7m2.json: 33 lines
+- source: data/voice/lines/e7m3.json: 32 lines
+- source: data/voice/lines/e7m4.json: 47 lines
+- source: data/voice/lines/e8m1_fire.json: 26 lines
+- source: data/voice/lines/e8m1_ice.json: 22 lines
+- source: data/voice/lines/e8m1_nature.json: 21 lines
+- source: data/voice/lines/e8m1_shadow.json: 26 lines
+- source: data/voice/lines/e8m2.json: 49 lines
+- source: data/voice/lines/e8m3.json: 45 lines
 - source: data/voice/lines/ep2_ending.json: 9 lines
 - source: data/voice/lines/ep2_opening.json: 28 lines
 - source: data/voice/lines/ep3_ending.json: 5 lines
 - source: data/voice/lines/ep3_opening.json: 15 lines
+- source: data/voice/lines/ep4_ending.json: 7 lines
 - source: data/voice/lines/ep4_opening.json: 15 lines
+- source: data/voice/lines/ep5_ending.json: 8 lines
+- source: data/voice/lines/ep5_opening.json: 31 lines
+- source: data/voice/lines/ep6_ending.json: 4 lines
+- source: data/voice/lines/ep6_opening.json: 28 lines
+- source: data/voice/lines/ep7_ending.json: 6 lines
+- source: data/voice/lines/ep8_bookend.json: 7 lines
+- source: data/voice/lines/ep8_dark_fire.json: 3 lines
+- source: data/voice/lines/ep8_dark_ice.json: 3 lines
+- source: data/voice/lines/ep8_dark_nature.json: 3 lines
+- source: data/voice/lines/ep8_dark_shadow.json: 3 lines
+- source: data/voice/lines/ep8_ending_a.json: 20 lines
+- source: data/voice/lines/ep8_ending_b.json: 13 lines
+- source: data/voice/lines/ep8_opening.json: 14 lines
+- source: data/voice/lines/ep8_throne_malrik.json: 1 lines
+- source: data/voice/lines/ep8_throne_torvald.json: 1 lines
+- source: data/voice/lines/ep8_throne_vessa.json: 1 lines
+- source: data/voice/lines/ep8_throne_ysolde.json: 1 lines
 - source: data/voice/lines/m00.json: 21 lines
 - source: data/voice/lines/m02.json: 19 lines
 - source: data/voice/lines/m03.json: 21 lines
@@ -149,8 +201,16 @@
 - over slot: malrik/good_evening_vessa_mind_c8c23dd1 L4: 5.06 s > subtitle 5.00 s
 - over slot: malrik/look_at_it_the_489223a3 ep3_opening/L12: 4.97 s > cine slot 4.80 s
 - over slot: malrik/they_will_stand_there_52f7eb60 ep3_opening/L13: 4.88 s > cine slot 4.50 s
+- over slot: master/five_banners_the_first_3b662c48 e5m4/L2: 5.68 s > cine slot 5.00 s
+- over slot: master/four_heirs_one_empty_8bd4c10b ep5_opening/L5: 2.78 s > cine slot 2.20 s
+- over slot: master/i_loved_all_four_d534ea63 ep5_opening/L6: 4.34 s > cine slot 4.20 s
+- over slot: master/once_upon_a_time_8b62d3e8 ep5_opening/L1: 5.28 s > cine slot 5.20 s
+- over slot: narrator/duskbarrow_city_of_crypts_0629e2d1 e8m1_shadow/L1: 5.28 s > cine slot 5.00 s
 - over slot: narrator/nature_had_no_kingdom_ffec5004 L1: 5.38 s > subtitle 5.00 s
+- over slot: narrator/out_of_the_cracked_39245c00 e8m1_ice/L6: 5.44 s > cine slot 5.00 s
+- over slot: narrator/the_closed_road_for_c5842138 e8m1_nature/L1: 5.22 s > cine slot 5.00 s
 - over slot: narrator/the_salt_road_runs_e832db6b L1: 5.28 s > subtitle 5.00 s
+- over slot: narrator/the_sighing_wood_at_2fb893ea e4m3/L1: 5.24 s > cine slot 5.00 s
 - over slot: narrator/the_sighing_wood_has_86f071de L1: 5.28 s > subtitle 5.00 s
 - over slot: narrator/the_sighing_wood_has_86f071de m03/L1: 5.28 s > cine slot 5.00 s
 - over slot: narrator/the_sighing_wood_kept_058db674 L1: 5.61 s > subtitle 5.00 s
@@ -158,8 +218,15 @@
 - over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s
 - over slot: narrator/the_westwatch_fire_rises_d7e80c5e m1_westwatch/W1@0.4: 5.23 s > cine shot 5.10 s
 - over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
+- over slot: torvald/aurivanes_cloaks_on_knives_c93ee236 e7m2/L10: 5.58 s > cine slot 5.00 s
+- over slot: torvald/ice_holds_its_bank_a92a0832 e8m2/L4: 5.31 s > cine slot 5.00 s
+- over slot: torvald/it_has_been_looking_d3673a8c e7m3/L11: 5.08 s > cine slot 5.00 s
+- over slot: torvald/mother_hush_i_have_bea3ce02 e7m2/L24: 5.08 s > cine slot 5.00 s
 - over slot: torvald/so_the_little_ember_6f0f8efc L9: 5.12 s > subtitle 5.00 s
+- over slot: vey/chains_on_every_limb_6a960cec e8m3/L3: 5.12 s > cine slot 5.00 s
 - over slot: vey/four_seals_wake_them_904df50c L3: 5.12 s > subtitle 5.00 s
-- this build: 44.0 rendered, 742.0 unchanged
-- last render: 44.0 lines, 134.4 s of audio in 323.1 s (x2.41 real time) on ["CPUExecutionProvider"], at 2026-10-08 01:31:49
-- total: 786 lines, 37.25 min of speech, 47 speed-fitted, 28 with direction tags
+- over slot: vey/the_spark_first_then_ced7e7e8 e8m1_fire/L5: 5.07 s > cine slot 5.00 s
+- over slot: whisper/use_me_and_he_abd60584 e8m1_shadow/L10b: 4.26 s > cine slot 4.00 s
+- this build: 916.0 rendered, 786.0 unchanged
+- last render: 916.0 lines, 3115.0 s of audio in 1490.0 s (x0.48 real time) on ["CPUExecutionProvider"], at 2026-10-08 07:24:18
+- total: 1702 lines, 89.17 min of speech, 131 speed-fitted, 28 with direction tags

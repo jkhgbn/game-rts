@@ -1,0 +1,399 @@
+{
+  "cine_id": "e8m2",
+  "source": "docs/design/mission-e8-02.md (Dialogue)",
+  "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+  "lines": [
+    {
+      "id": "L1",
+      "event": "E1",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "Four kingdoms on one field, and every banner|pointed the same way. It had never happened.",
+      "text": "Four kingdoms on one field, and every banner pointed the same way. It had never happened."
+    },
+    {
+      "id": "L2",
+      "event": "E1",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "Well. Look at the four of you. Thirty years I|waited to see this, and it's ugly. I love it.",
+      "text": "Well. Look at the four of you. Thirty years I waited to see this, and it's ugly. I love it."
+    },
+    {
+      "id": "L3",
+      "event": "E1",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Fire takes its bank.|Or wherever I'm standing. I'm flexible.",
+      "text": "Fire takes its bank. Or wherever I'm standing. I'm flexible."
+    },
+    {
+      "id": "L4",
+      "event": "E1",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Ice holds its bank. Malrik, if that stone|so much as hums, I'm freezing your pocket.",
+      "text": "Ice holds its bank. Malrik, if that stone so much as hums, I'm freezing your pocket."
+    },
+    {
+      "id": "L5",
+      "event": "E1",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Noted. Ysolde, try not to|plant anything on my keyhole.",
+      "text": "Noted. Ysolde, try not to plant anything on my keyhole."
+    },
+    {
+      "id": "L5b",
+      "event": "E1",
+      "speaker": "ysolde",
+      "dur": 3.0,
+      "subtitle": "No promises. Spring is busy.",
+      "text": "No promises. Spring is busy."
+    },
+    {
+      "id": "L6",
+      "event": "E2",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Four of you. FOUR. I only needed one|to come close. You brought me a feast.",
+      "text": "Four of you. FOUR. I only needed one to come close. You brought me a feast."
+    },
+    {
+      "id": "L7",
+      "event": "E4",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "Gates on every road. He's been building|while we argued. Mason to the end.",
+      "text": "Gates on every road. He's been building while we argued. Mason to the end."
+    },
+    {
+      "id": "L8",
+      "event": "E5",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "The pylon's down! Now the Hollow knows|your key is coming. Hold the ring!",
+      "text": "The pylon's down! Now the Hollow knows your key is coming. Hold the ring!"
+    },
+    {
+      "id": "L10",
+      "event": "E7 Fire ally",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "They're all over my keyhole!|I could use a hand. Or ten.",
+      "text": "They're all over my keyhole! I could use a hand. Or ten."
+    },
+    {
+      "id": "L11",
+      "event": "E7 Shadow ally",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "The Bishop requests assistance. Politely. Once.",
+      "text": "The Bishop requests assistance. Politely. Once."
+    },
+    {
+      "id": "L12",
+      "event": "E7 Ice ally",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "My line is bending. Help me hold it.|I'm asking. Note that.",
+      "text": "My line is bending. Help me hold it. I'm asking. Note that."
+    },
+    {
+      "id": "L13",
+      "event": "E7 Nature ally",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "They're in my roots! Please.|Now, not in a season.",
+      "text": "They're in my roots! Please. Now, not in a season."
+    },
+    {
+      "id": "L14",
+      "event": "E8 Fire",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "That's what friends are for.|Apparently. Don't tell Malrik.",
+      "text": "That's what friends are for. Apparently. Don't tell Malrik."
+    },
+    {
+      "id": "L15",
+      "event": "E8 Shadow",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Hm. Help that arrives on time.|Unsettling. Thank you.",
+      "text": "Hm. Help that arrives on time. Unsettling. Thank you."
+    },
+    {
+      "id": "L16",
+      "event": "E8 Ice",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "You came quickly. I'll try|to learn how that's done.",
+      "text": "You came quickly. I'll try to learn how that's done."
+    },
+    {
+      "id": "L17",
+      "event": "E8 Nature",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "You came. I always hoped|someone would, when it was me.",
+      "text": "You came. I always hoped someone would, when it was me."
+    },
+    {
+      "id": "L18",
+      "event": "E13 50 %",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Every one who falls is a step on|my stair. Keep climbing for me.",
+      "text": "Every one who falls is a step on my stair. Keep climbing for me."
+    },
+    {
+      "id": "L19",
+      "event": "E13 75 %",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "Stop feeding it! Fight smart,|or fight later. Later is worse.",
+      "text": "Stop feeding it! Fight smart, or fight later. Later is worse."
+    },
+    {
+      "id": "L20",
+      "event": "E9 Fire",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Marching now! Fire on the bridge.|Somebody watch my back, I won't.",
+      "text": "Marching now! Fire on the bridge. Somebody watch my back, I won't."
+    },
+    {
+      "id": "L21",
+      "event": "E9 Shadow",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Shadow marches. The stone stays in|my pocket. Mostly I'm telling myself.",
+      "text": "Shadow marches. The stone stays in my pocket. Mostly I'm telling myself."
+    },
+    {
+      "id": "L22",
+      "event": "E9 Ice",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Ice is moving. I know. Write it down somewhere.",
+      "text": "Ice is moving. I know. Write it down somewhere."
+    },
+    {
+      "id": "L23",
+      "event": "E9 Nature",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Nature marches out. Again. It's getting easier.",
+      "text": "Nature marches out. Again. It's getting easier."
+    },
+    {
+      "id": "L24",
+      "event": "E10 Fire",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Fire's key is in! Don't make|me wait. I'm terrible at it.",
+      "text": "Fire's key is in! Don't make me wait. I'm terrible at it."
+    },
+    {
+      "id": "L25",
+      "event": "E10 Shadow",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Shadow's lock is turned.|You may thank me in writing.",
+      "text": "Shadow's lock is turned. You may thank me in writing."
+    },
+    {
+      "id": "L26",
+      "event": "E10 Ice",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Ice is set. That was quick, for me.",
+      "text": "Ice is set. That was quick, for me."
+    },
+    {
+      "id": "L27",
+      "event": "E10 Nature",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "Nature's key is home. The roots are holding it.",
+      "text": "Nature's key is home. The roots are holding it."
+    },
+    {
+      "id": "L28",
+      "event": "E3, `m1_peddler_freed`",
+      "speaker": "pell",
+      "dur": 5.0,
+      "subtitle": "Last stall before the end of the world!|Again! I'm getting good at these.",
+      "text": "Last stall before the end of the world! Again! I'm getting good at these."
+    },
+    {
+      "id": "L28b",
+      "event": "E3, no flag",
+      "speaker": "pell",
+      "dur": 5.0,
+      "subtitle": "Genuine relic polish! For your keys!|Four keys, four customers, I can't lose.",
+      "text": "Genuine relic polish! For your keys! Four keys, four customers, I can't lose."
+    },
+    {
+      "id": "L29",
+      "event": "E12",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Those are mine. Were mine. They followed the|stone. They'll follow it into the ground.",
+      "text": "Those are mine. Were mine. They followed the stone. They'll follow it into the ground."
+    },
+    {
+      "id": "L30",
+      "event": "E12",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "Renegades on the Shadow side!|Whoever's nearest, lend the Bishop a blade.",
+      "text": "Renegades on the Shadow side! Whoever's nearest, lend the Bishop a blade."
+    },
+    {
+      "id": "L31",
+      "event": "E14",
+      "speaker": "obren",
+      "dur": 4.0,
+      "subtitle": "Too slow, all of you. I'm already climbing.",
+      "text": "Too slow, all of you. I'm already climbing."
+    },
+    {
+      "id": "L32",
+      "event": "E15",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "One gate less. Build something|on the rubble. He'd hate that.",
+      "text": "One gate less. Build something on the rubble. He'd hate that."
+    },
+    {
+      "id": "L33",
+      "event": "E17",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "Four keyholes, four colours,|one ring of light around the isle.",
+      "text": "Four keyholes, four colours, one ring of light around the isle."
+    },
+    {
+      "id": "L34",
+      "event": "E17",
+      "speaker": "master",
+      "dur": 5.0,
+      "subtitle": "Now. All four of you.|Turn them, and do not let go.",
+      "text": "Now. All four of you. Turn them, and do not let go."
+    },
+    {
+      "id": "L35",
+      "event": "E17",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Master?! That's... that's him! Turn them!",
+      "text": "Master?! That's... that's him! Turn them!"
+    },
+    {
+      "id": "L36",
+      "event": "E17",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Of course he waits until the last|minute to speak. Family trait.",
+      "text": "Of course he waits until the last minute to speak. Family trait."
+    },
+    {
+      "id": "L37",
+      "event": "E17",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "You opened my door with your own|hands. Thank you. Now I come up.",
+      "text": "You opened my door with your own hands. Thank you. Now I come up."
+    },
+    {
+      "id": "L38",
+      "event": "E17",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Then let him come. We are four. We hold.",
+      "text": "Then let him come. We are four. We hold."
+    },
+    {
+      "id": "L40",
+      "event": "E20",
+      "speaker": "vey",
+      "dur": 5.0,
+      "subtitle": "Your keep's burning!|Pull back and hold it, then go again.",
+      "text": "Your keep's burning! Pull back and hold it, then go again."
+    },
+    {
+      "id": "L9_vessa",
+      "event": "E6 (Vessa)",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "My key's in. I waited for it, too. Who's next?",
+      "text": "My key's in. I waited for it, too. Who's next?"
+    },
+    {
+      "id": "L9_malrik",
+      "event": "E6 (Malrik)",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "The stone is in its lock.|Not in my hand. Who's next?",
+      "text": "The stone is in its lock. Not in my hand. Who's next?"
+    },
+    {
+      "id": "L9_torvald",
+      "event": "E6 (Torvald)",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "The orb is turned. Quickly. For me. Who's next?",
+      "text": "The orb is turned. Quickly. For me. Who's next?"
+    },
+    {
+      "id": "L9_ysolde",
+      "event": "E6 (Ysolde)",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "The Signet is home.|I'm still out here. Who's next?",
+      "text": "The Signet is home. I'm still out here. Who's next?"
+    },
+    {
+      "id": "L38b",
+      "event": "E17 (`e8m2_turn`)",
+      "speaker": "ysolde",
+      "dur": 2.0,
+      "subtitle": "Together.",
+      "text": "Together."
+    },
+    {
+      "id": "L39_vessa",
+      "event": "E18 (Vessa)",
+      "speaker": "vessa",
+      "dur": 5.0,
+      "subtitle": "Not now... not when we're finally together...",
+      "text": "Not now... not when we're finally together..."
+    },
+    {
+      "id": "L39_malrik",
+      "event": "E18 (Malrik)",
+      "speaker": "malrik",
+      "dur": 5.0,
+      "subtitle": "Of course. Just as it got interesting.",
+      "text": "Of course. Just as it got interesting."
+    },
+    {
+      "id": "L39_torvald",
+      "event": "E18 (Torvald)",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Too late... again...",
+      "text": "Too late... again..."
+    },
+    {
+      "id": "L39_ysolde",
+      "event": "E18 (Ysolde)",
+      "speaker": "ysolde",
+      "dur": 5.0,
+      "subtitle": "I came out... for this...",
+      "text": "I came out... for this..."
+    }
+  ]
+}

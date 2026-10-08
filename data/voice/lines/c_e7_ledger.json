@@ -1,0 +1,97 @@
+{
+  "cine_id": "c_e7_ledger",
+  "source": "docs/design/mission-e7-01.md Cinematic hooks (between missions: c_e7_ledger beats); docs/design/script-episodes-4-8/e7m1.md",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e7m1.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "G1",
+      "at": 1.5,
+      "dur": 6.0,
+      "speaker": "ossavar",
+      "subtitle": "Night in Adamarch. Everyone was counting coin.|Torvald counted one gift.",
+      "text": "Night in Adamarch. Everyone was counting coin. Torvald counted one gift."
+    },
+    {
+      "id": "L2",
+      "shot": "G2",
+      "at": 1.0,
+      "dur": 4.2,
+      "speaker": "aldra",
+      "subtitle": "Two hundred. I counted them twice.|Ten towers of twenty.",
+      "text": "Two hundred. I counted them twice. Ten towers of twenty."
+    },
+    {
+      "id": "L3",
+      "shot": "G3",
+      "at": 0.5,
+      "dur": 3.8,
+      "speaker": "aldra",
+      "subtitle": "Every one carries the anchor.|The Outwall's stamp.",
+      "text": "Every one carries the anchor. The Outwall's stamp."
+    },
+    {
+      "id": "L4",
+      "shot": "G4",
+      "at": 1.5,
+      "dur": 3.8,
+      "speaker": "torvald",
+      "subtitle": "Two hundred dockers' wages, given as a gift.",
+      "text": "Two hundred dockers' wages, given as a gift."
+    },
+    {
+      "id": "L5",
+      "shot": "G5",
+      "at": 0.8,
+      "dur": 3.0,
+      "speaker": "aldra",
+      "subtitle": "Coin remembers where it was taken.",
+      "text": "Coin remembers where it was taken."
+    },
+    {
+      "id": "L6",
+      "shot": "G6",
+      "at": 2.0,
+      "dur": 3.6,
+      "speaker": "torvald",
+      "subtitle": "So does Malrik. He has simply never minded.",
+      "text": "So does Malrik. He has simply never minded."
+    },
+    {
+      "id": "L7",
+      "shot": "G7",
+      "at": 2.0,
+      "dur": 5.0,
+      "speaker": "ossavar",
+      "subtitle": "Tomorrow, ask the herald|where the knives came from.",
+      "text": "Tomorrow, ask the herald where the knives came from."
+    },
+    {
+      "id": "L8",
+      "shot": "G8",
+      "at": 0.6,
+      "dur": 1.8,
+      "speaker": "aldra",
+      "subtitle": "You heard him.",
+      "text": "You heard him."
+    },
+    {
+      "id": "L9",
+      "shot": "G8",
+      "at": 3.0,
+      "dur": 1.6,
+      "speaker": "torvald",
+      "subtitle": "I heard.",
+      "text": "I heard."
+    },
+    {
+      "id": "L10",
+      "shot": "G9",
+      "at": 0.5,
+      "dur": 2.0,
+      "speaker": "torvald",
+      "subtitle": "Tomorrow, then.",
+      "text": "Tomorrow, then."
+    }
+  ]
+}

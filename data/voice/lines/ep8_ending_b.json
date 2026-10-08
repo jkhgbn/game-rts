@@ -1,0 +1,124 @@
+{
+  "cine_id": "ep8_ending_b",
+  "source": "campaign-outline.md 4.3 [2:00]-[2:58] (word for word) and 4.4 (shots E15-E22); mission-e8-03.md 8.2; outline 4.7 F1",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e8m3.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1_vessa",
+      "shot": "E15",
+      "at": 2.0,
+      "dur": 2.6,
+      "speaker": "vessa",
+      "subtitle": "Nobody sits. Not ever again.",
+      "text": "Nobody sits. Not ever again."
+    },
+    {
+      "id": "L1_malrik",
+      "shot": "E15",
+      "at": 2.0,
+      "dur": 2.6,
+      "speaker": "malrik",
+      "subtitle": "Nobody sits. Not ever again.",
+      "text": "Nobody sits. Not ever again."
+    },
+    {
+      "id": "L1_torvald",
+      "shot": "E15",
+      "at": 2.0,
+      "dur": 2.6,
+      "speaker": "torvald",
+      "subtitle": "Nobody sits. Not ever again.",
+      "text": "Nobody sits. Not ever again."
+    },
+    {
+      "id": "L1_ysolde",
+      "shot": "E15",
+      "at": 2.0,
+      "dur": 2.6,
+      "speaker": "ysolde",
+      "subtitle": "Nobody sits. Not ever again.",
+      "text": "Nobody sits. Not ever again."
+    },
+    {
+      "id": "L2",
+      "shot": "E15",
+      "at": 7.0,
+      "dur": 1.6,
+      "speaker": "master",
+      "subtitle": "Good.",
+      "text": "Good."
+    },
+    {
+      "id": "L3",
+      "shot": "E17",
+      "at": 1.0,
+      "dur": 4.5,
+      "speaker": "master",
+      "subtitle": "Torvald opened his gate, and he kept it open.",
+      "text": "Torvald opened his gate, and he kept it open."
+    },
+    {
+      "id": "L4",
+      "shot": "E18",
+      "at": 1.0,
+      "dur": 6.0,
+      "speaker": "master",
+      "subtitle": "Ysolde planted the Hollow with oaks.|She never closed a road again.",
+      "text": "Ysolde planted the Hollow with oaks. She never closed a road again."
+    },
+    {
+      "id": "L5",
+      "shot": "E19",
+      "at": 1.0,
+      "dur": 4.8,
+      "speaker": "master",
+      "subtitle": "Malrik kept watch over the deep.|The dark still came when he called.",
+      "text": "Malrik kept watch over the deep. The dark still came when he called."
+    },
+    {
+      "id": "L6",
+      "shot": "E19",
+      "at": 6.0,
+      "dur": 2.6,
+      "speaker": "master",
+      "subtitle": "It never frightened him.",
+      "text": "It never frightened him."
+    },
+    {
+      "id": "L7",
+      "shot": "E20",
+      "at": 1.0,
+      "dur": 6.6,
+      "speaker": "master",
+      "subtitle": "Vessa rebuilt my observatory, and taught|children their first spark. She learned to wait.",
+      "text": "Vessa rebuilt my observatory, and taught children their first spark. She learned to wait."
+    },
+    {
+      "id": "L8",
+      "shot": "E20",
+      "at": 8.0,
+      "dur": 1.6,
+      "speaker": "master",
+      "subtitle": "Mostly.",
+      "text": "Mostly."
+    },
+    {
+      "id": "L9",
+      "shot": "E21",
+      "at": 0.0,
+      "dur": 6.0,
+      "speaker": "master",
+      "subtitle": "The two harbour cities fought one|more duel, and called it a draw.",
+      "text": "The two harbour cities fought one more duel, and called it a draw."
+    },
+    {
+      "id": "L10",
+      "shot": "E22",
+      "at": 0.0,
+      "dur": 6.3,
+      "speaker": "master",
+      "subtitle": "And the throne stayed empty.|That was the peace: four hands, not one.",
+      "text": "And the throne stayed empty. That was the peace: four hands, not one."
+    }
+  ]
+}

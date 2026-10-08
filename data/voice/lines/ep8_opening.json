@@ -1,0 +1,133 @@
+{
+  "cine_id": "ep8_opening",
+  "source": "campaign-outline.md 4.1 (outline only); mission-e8-01.md 1.1-1.2, A.1, C.1, D.1, 9 note 7; docs/design/script-episodes-4-8/e8m1.md",
+  "note": "Episodes 4-8 script pass (2026-10-08): written from the spec's beats; shot list in docs/design/script-episodes-4-8/e8m1.md. No .cine yet. French: data/i18n/fr/story_e4_e8.po. To go live: move this file to data/voice/lines/ and its French into data/i18n/fr/dialogue.po.",
+  "lines": [
+    {
+      "id": "L1",
+      "shot": "O1",
+      "at": 1.5,
+      "dur": 5.5,
+      "speaker": "narrator",
+      "subtitle": "Spring, after the Coinwater. Every battle|of this war had soaked into the ground.",
+      "text": "Spring, after the Coinwater. Every battle of this war had soaked into the ground."
+    },
+    {
+      "id": "L2",
+      "shot": "O2",
+      "at": 1.0,
+      "dur": 4.0,
+      "speaker": "narrator",
+      "subtitle": "And the ground ran one way.|Down, into the Hollow.",
+      "text": "And the ground ran one way. Down, into the Hollow."
+    },
+    {
+      "id": "L3",
+      "shot": "O2",
+      "at": 5.5,
+      "dur": 3.0,
+      "speaker": "narrator",
+      "subtitle": "The war itself was opening the door.",
+      "text": "The war itself was opening the door."
+    },
+    {
+      "id": "L4",
+      "shot": "O4",
+      "at": 2.0,
+      "dur": 5.0,
+      "speaker": "obren",
+      "subtitle": "Hear me, Bishop. No more whispers.|Every battle you fought, I drank.",
+      "text": "Hear me, Bishop. No more whispers. Every battle you fought, I drank."
+    },
+    {
+      "id": "L5",
+      "shot": "O5",
+      "at": 1.0,
+      "dur": 4.6,
+      "speaker": "malrik",
+      "subtitle": "You've found your voice. Pity.|I liked you better as a whisper.",
+      "text": "You've found your voice. Pity. I liked you better as a whisper."
+    },
+    {
+      "id": "L6",
+      "shot": "O7",
+      "at": 3.0,
+      "dur": 3.6,
+      "speaker": "vey",
+      "subtitle": "He can't hold it. Not alone. Not any more.",
+      "text": "He can't hold it. Not alone. Not any more."
+    },
+    {
+      "id": "L7",
+      "shot": "O8",
+      "at": 3.0,
+      "dur": 4.0,
+      "speaker": "vessa",
+      "subtitle": "Then he won't be. Ashby! Your fastest messenger.",
+      "text": "Then he won't be. Ashby! Your fastest messenger."
+    },
+    {
+      "id": "L8",
+      "shot": "O9",
+      "at": 0.5,
+      "dur": 5.0,
+      "speaker": "vessa",
+      "subtitle": "The Orb goes north to Torvald.|It lay in his lake. It's his to carry.",
+      "text": "The Orb goes north to Torvald. It lay in his lake. It's his to carry."
+    },
+    {
+      "id": "L9",
+      "shot": "O9",
+      "at": 6.0,
+      "dur": 2.6,
+      "speaker": "vessa",
+      "subtitle": "Tell him: we need all four of you.",
+      "text": "Tell him: we need all four of you."
+    },
+    {
+      "id": "L10",
+      "shot": "O10",
+      "at": 0.5,
+      "dur": 4.5,
+      "speaker": "vessa",
+      "subtitle": "The Signet slept in Ysolde's tree.|Take it home to her, Wren.",
+      "text": "The Signet slept in Ysolde's tree. Take it home to her, Wren."
+    },
+    {
+      "id": "L11",
+      "shot": "O10",
+      "at": 5.5,
+      "dur": 2.0,
+      "speaker": "wren",
+      "subtitle": "Before moonrise. I promise.",
+      "text": "Before moonrise. I promise."
+    },
+    {
+      "id": "L12",
+      "shot": "O11",
+      "at": 0.5,
+      "dur": 3.8,
+      "speaker": "vey",
+      "subtitle": "You gave two away. Without|a fight. Are you ill, girl?",
+      "text": "You gave two away. Without a fight. Are you ill, girl?"
+    },
+    {
+      "id": "L13",
+      "shot": "O11",
+      "at": 4.5,
+      "dur": 3.3,
+      "speaker": "vessa",
+      "subtitle": "Three keys. The fourth is in Malrik's pocket.",
+      "text": "Three keys. The fourth is in Malrik's pocket."
+    },
+    {
+      "id": "L14",
+      "shot": "O12",
+      "at": 0.5,
+      "dur": 5.4,
+      "speaker": "vey",
+      "subtitle": "Then we go and ask him. He asked for|all four of you. Especially Malrik.",
+      "text": "Then we go and ask him. He asked for all four of you. Especially Malrik."
+    }
+  ]
+}

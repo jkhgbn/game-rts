@@ -1,0 +1,255 @@
+{
+  "cine_id": "e6m2",
+  "source": "docs/design/mission-e6-02.md (Dialogue)",
+  "note": "Episodes 4-8 script pass (2026-10-08): the spec's dialogue table, word for word; ids, speakers and slots as listed there (5 s unless listed). subtitle: '|' = line break (2 x 48). French: data/i18n/fr/story_e4_e8.po. Not voiced yet. To go live: move this file to data/voice/lines/ and move its French entries into data/i18n/fr/dialogue.po (test_i18n requires the dialogue area at 100 %).",
+  "lines": [
+    {
+      "id": "L1",
+      "event": "E1",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "Forty winters ago. The gate had stood|for sixty years, and never once opened.",
+      "text": "Forty winters ago. The gate had stood for sixty years, and never once opened."
+    },
+    {
+      "id": "L2",
+      "event": "E1",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Sixty winters I have kept this gate.|I can keep it one more.",
+      "text": "Sixty winters I have kept this gate. I can keep it one more."
+    },
+    {
+      "id": "L3",
+      "event": "E1",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "Torvald. The Heartfrost hums when the|stone-men are near. It is humming now.",
+      "text": "Torvald. The Heartfrost hums when the stone-men are near. It is humming now."
+    },
+    {
+      "id": "L4",
+      "event": "E1",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Then the gate stays shut,|and the lake stays quiet.",
+      "text": "Then the gate stays shut, and the lake stays quiet."
+    },
+    {
+      "id": "L5",
+      "event": "E2",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "South of the wall, the lamps of|Hearthwick went out one by one.",
+      "text": "South of the wall, the lamps of Hearthwick went out one by one."
+    },
+    {
+      "id": "L5b",
+      "event": "E3",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "They are not coming for the lake.|Why are they not coming for the lake?",
+      "text": "They are not coming for the lake. Why are they not coming for the lake?"
+    },
+    {
+      "id": "L6",
+      "event": "E4",
+      "speaker": "rider",
+      "dur": 5.0,
+      "subtitle": "Lord Torvald! Open the gate!|The stone-men are in Hearthwick!",
+      "text": "Lord Torvald! Open the gate! The stone-men are in Hearthwick!"
+    },
+    {
+      "id": "L7",
+      "event": "E4",
+      "speaker": "rider",
+      "dur": 5.0,
+      "subtitle": "They're burning the houses.|Two hundred people, my lord. Children.",
+      "text": "They're burning the houses. Two hundred people, my lord. Children."
+    },
+    {
+      "id": "L8",
+      "event": "E4",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "It is bait. They want the gate open.|They want the mere.",
+      "text": "It is bait. They want the gate open. They want the mere."
+    },
+    {
+      "id": "L9",
+      "event": "E4",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "I know what they want.",
+      "text": "I know what they want."
+    },
+    {
+      "id": "L10",
+      "event": "E5a",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Open the gate. All of it.",
+      "text": "Open the gate. All of it."
+    },
+    {
+      "id": "L11",
+      "event": "E5a",
+      "speaker": "rider",
+      "dur": 5.0,
+      "subtitle": "Thank you, my lord! I'll bring them home!",
+      "text": "Thank you, my lord! I'll bring them home!"
+    },
+    {
+      "id": "L12",
+      "event": "E5a",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "Then I hold the mere alone. Do not be long.",
+      "text": "Then I hold the mere alone. Do not be long."
+    },
+    {
+      "id": "L13",
+      "event": "E5b",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "...No. The gate stays shut.",
+      "text": "...No. The gate stays shut."
+    },
+    {
+      "id": "L14",
+      "event": "E5b",
+      "speaker": "rider",
+      "dur": 5.0,
+      "subtitle": "You can see the smoke from|up there! You can SEE it!",
+      "text": "You can see the smoke from up there! You can SEE it!"
+    },
+    {
+      "id": "L15",
+      "event": "E5b",
+      "speaker": "narrator",
+      "dur": 5.0,
+      "subtitle": "The snow buried his signal fire.|Torvald watched it go out.",
+      "text": "The snow buried his signal fire. Torvald watched it go out."
+    },
+    {
+      "id": "L16",
+      "event": "E6, open",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Thank you for opening the door, frost-man.",
+      "text": "Thank you for opening the door, frost-man."
+    },
+    {
+      "id": "L17",
+      "event": "E6, shut",
+      "speaker": "obren",
+      "dur": 5.0,
+      "subtitle": "Keep your gate, then.|I will come up through your floor.",
+      "text": "Keep your gate, then. I will come up through your floor."
+    },
+    {
+      "id": "L18",
+      "event": "E7",
+      "speaker": "rider",
+      "dur": 5.0,
+      "subtitle": "They're through! Keep it open,|the last ones are coming!",
+      "text": "They're through! Keep it open, the last ones are coming!"
+    },
+    {
+      "id": "L19",
+      "event": "E8",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Their door is broken. Go home, stones.",
+      "text": "Their door is broken. Go home, stones."
+    },
+    {
+      "id": "L20",
+      "event": "E9",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "Torvald! The big one is at your gate!",
+      "text": "Torvald! The big one is at your gate!"
+    },
+    {
+      "id": "L21",
+      "event": "E10 open",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Close it now. Gently. Everyone is home.",
+      "text": "Close it now. Gently. Everyone is home."
+    },
+    {
+      "id": "L22",
+      "event": "E10 open",
+      "speaker": "rider",
+      "dur": 5.0,
+      "subtitle": "Hearthwick will remember this gate, my lord.",
+      "text": "Hearthwick will remember this gate, my lord."
+    },
+    {
+      "id": "L23",
+      "event": "E10 shut",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "The lake is safe. The lake is always safe.",
+      "text": "The lake is safe. The lake is always safe."
+    },
+    {
+      "id": "L24",
+      "event": "E10 shut",
+      "speaker": "aldra",
+      "dur": 5.0,
+      "subtitle": "And the town?",
+      "text": "And the town?"
+    },
+    {
+      "id": "L25",
+      "event": "E10 shut",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "...Ask me in a hundred winters.",
+      "text": "...Ask me in a hundred winters."
+    },
+    {
+      "id": "L26",
+      "event": "E11",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "The ice... gives...",
+      "text": "The ice... gives..."
+    },
+    {
+      "id": "L27",
+      "event": "E12",
+      "speaker": "obren",
+      "dur": 2.0,
+      "subtitle": "Mine.",
+      "text": "Mine."
+    },
+    {
+      "id": "L28",
+      "event": "E13",
+      "speaker": "aldra",
+      "dur": 3.0,
+      "subtitle": "Cracked. Not broken.",
+      "text": "Cracked. Not broken."
+    },
+    {
+      "id": "L29",
+      "event": "E10 open, `c_e6_gate`",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Hearthwick still sends me bread|every midwinter. Burnt, usually.",
+      "text": "Hearthwick still sends me bread every midwinter. Burnt, usually."
+    },
+    {
+      "id": "L30",
+      "event": "E10 shut, `c_e6_gate`",
+      "speaker": "torvald",
+      "dur": 5.0,
+      "subtitle": "Some nights I still see the smoke.",
+      "text": "Some nights I still see the smoke."
+    }
+  ]
+}
