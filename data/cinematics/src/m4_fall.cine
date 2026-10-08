@@ -1,0 +1,18 @@
+# m04 E15 "m4_fall" "The Fall" (docs/design/story-episode-1.md 7.2, mission-04.md Cinematic hooks): 6 s, mode=pause over
+# the live mission (Mission04._play_card plays this .tres instead of its fallback card; L21 is said in the end state, then
+# the victory). The heart-stone lies 1.5 m from the fallen Colossus's chest (tag `heart_stone`, a Mission04 property; the
+# cast spot is a stand-in for the checks). 1) CU the heart, cracks racing across it (slow-motion look) (L21); 2) fade to white.
+cine m4_fall  title="The Fall"  mode=pause  letterbox=2.39  seed=74  length=5..7
+env day  moon_yaw=80  moon_pitch=-30  energy=0.9
+cast  heart_stone  capsule  at=(1.5, 0, 1.5)
+cast  obren        capsule  at=(0, 0, -300)  hidden=1
+
+# CU the heart: cracks race across it
+shot F1 4.2  cam=orbit  pivot=heart_stone  r=2.4  h=1.0  deg=30>40  fov=32  in=fade_black:0.3
+  at 0.2  vfx crack  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(1.5, 0.6, 1.5)  life=3.8  scale=0.9
+  at 0.2  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-4
+  at 0.3  line obren "The Hollow... remembers..."  dur=3.4
+  at 0.3  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-6
+# Fade to white
+shot F2 1.8  cam=orbit  pivot=heart_stone  r=2.0  h=1.0  deg=40>44  fov=30
+  at 0.0  fade color=#ffffff alpha=1 time=1.6

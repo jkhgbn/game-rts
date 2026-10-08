@@ -889,9 +889,14 @@ msgstr ""
 msgid "My wood tries to eat everyone. It's very fair."
 msgstr ""
 
-#. [&"m3_plea", &"ysolde", "Those relics aren't a prize. They're a lock. Put three together near the Hollow and t
+#. [&"m3_plea", &"ysolde", "Those relics aren't a prize. They're a lock.", 4.0],
 #: scripts/campaign/mission_03.gd:188
-msgid "Those relics aren't a prize. They're a lock. Put three together near the Hollow and the door opens."
+msgid "Those relics aren't a prize. They're a lock."
+msgstr ""
+
+#. [&"m3_plea", &"ysolde", "Put three together near the Hollow and the door opens.", 4.5],
+#: scripts/campaign/mission_03.gd:189
+msgid "Put three together near the Hollow and the door opens."
 msgstr ""
 
 #. [&"m3_plea", &"vessa", "Everyone says that about the things I want. And if I leave it, Malrik takes it.", 7.0]

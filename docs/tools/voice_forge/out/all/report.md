@@ -1,6 +1,6 @@
 # voice_forge build: all
 
-2026-10-08 00:10:05 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `8aa98925f0c945b4` (manifest.json (line keys are content hashes))
+2026-10-08 00:26:18 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `2fdd963c346801fd` (manifest.json (line keys are content hashes))
 
 ## Result: **WARN** - quality **92 / 100** (previous run 92, +0)
 
@@ -15,15 +15,15 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | cast.json | PASS 100 | 58 speakers | parses, has speakers |  |
-| D2 | lines found | PASS 100 | 698 unique lines | > 0 |  |
-| D3 | manifest entries | PASS 100 | 698 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
+| D2 | lines found | PASS 100 | 704 unique lines | > 0 |  |
+| D3 | manifest entries | PASS 100 | 704 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
 | D4 | speakers cast | PASS 100 | all cast | every speaker has a voice in cast.json |  |
 | D5 | speakers vs Speakers.TABLE | INFO | dancer, messenger, reveler, unit_ash_hurler, unit_ashveil_saboteur, unit_barrow_ghoul, unit_blaze_rider, unit_bleakbow, unit_bloomtender, unit_bramblehorn, unit_burr_slinger, unit_cinder_arbalest, unit_cinder_hand, unit_ember_archer, unit_flame_guard, unit_frost_mortar, unit_frostbow, unit_gloom_thrall, unit_greenheart_oathkeeper, unit_hexweaver, unit_hoarlight_magebow, unit_hollow_oathsworn, unit_nightblood_reaver, unit_nightbolt, unit_pyre_adept, unit_rime_colossus, unit_rime_hauler, unit_rime_seer, unit_rimeling, unit_rimeshield, unit_scorchbow, unit_scorchling, unit_shadow_knight, unit_shardcaster, unit_shardguard, unit_sprigling, unit_stormbottle_genie, unit_thistle_darter, unit_thornling, unit_vinelasher, unit_wildwood_archer | subtitle names known |  |
 
 ## Coverage (every spoken line has audio)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | lines with audio | PASS 100 | 698 / 698 | every spoken line has a WAV |  |
+| C1 | lines with audio | PASS 100 | 704 / 704 | every spoken line has a WAV |  |
 | C2 | mission lines voiced | PASS 100 | 385 / 385 | all mission dialogue voiced |  |
 | C3 | imported | PASS 100 | 0 not importable | load(path) is AudioStream |  |
 | C4 | orphan WAVs | PASS 100 | 0 | no manifest line without a source |  |
@@ -31,7 +31,7 @@
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 68 | 14 / 809 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 68 | 14 / 820 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -40,7 +40,7 @@
 | A2 | clipping | PASS 100 | none | no sample at full scale |  |
 | A3 | peak level | PASS 100 | -1.0..-1.0 dBFS | -2..-0.5 dBFS (target -1) |  |
 | A4 | trimmed | **WARN** 50 | 1 untrimmed unit_rime_hauler/right_ill_have_a_92efb9f7 (0.05 / 0.32 s) | lead <= 0.12 s, tail <= 0.20 s of silence | re-render |
-| A5 | size | **WARN** 35 | 90.9 MB source WAV, 33.1 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
+| A5 | size | **WARN** 35 | 91.6 MB source WAV, 33.3 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
 
 ## Game hookup
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -111,6 +111,10 @@
 - source: data/cinematics/src/m1_watchers.cine: 2 lines
 - source: data/cinematics/src/m1_westwatch.cine: 2 lines
 - source: data/cinematics/src/m2_heartfrost.cine: 1 lines
+- source: data/cinematics/src/m3_oldroot.cine: 0 lines
+- source: data/cinematics/src/m3_plea.cine: 6 lines
+- source: data/cinematics/src/m4_fall.cine: 1 lines
+- source: data/cinematics/src/m4_war.cine: 4 lines
 - source: data/cinematics/src/prologue_3min.cine: 30 lines
 - source: data/cinematics/src/two_wizards.cine: 1 lines
 - source: data/cinematics/src/watch_keep.cine: 4 lines
@@ -142,6 +146,6 @@
 - over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
 - over slot: torvald/so_the_little_ember_6f0f8efc L9: 5.12 s > subtitle 5.00 s
 - over slot: vey/four_seals_wake_them_904df50c L3: 5.12 s > subtitle 5.00 s
-- this build: 23.0 rendered, 675.0 unchanged
-- last render: 23.0 lines, 52.7 s of audio in 126.1 s (x2.39 real time) on ["CPUExecutionProvider"], at 2026-10-08 00:09:37
-- total: 698 lines, 33.08 min of speech, 45 speed-fitted, 28 with direction tags
+- this build: 6.0 rendered, 698.0 unchanged
+- last render: 6.0 lines, 15.7 s of audio in 10.4 s (x0.66 real time) on ["CPUExecutionProvider"], at 2026-10-08 00:26:06
+- total: 704 lines, 33.34 min of speech, 45 speed-fitted, 28 with direction tags

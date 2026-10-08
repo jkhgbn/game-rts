@@ -1,29 +1,27 @@
 {
- "rendered": 23,
- "unchanged": 675,
- "gen_s": 126.1,
- "audio_s": 52.7,
- "rtf": 2.39,
- "wall_s": 128.3,
+ "rendered": 6,
+ "unchanged": 698,
+ "gen_s": 10.4,
+ "audio_s": 15.7,
+ "rtf": 0.66,
+ "wall_s": 12.6,
  "providers": [
   "CPUExecutionProvider"
  ],
  "model_load_s": 1.2,
- "total_lines": 698,
- "total_audio_s": 1984.6,
+ "total_lines": 704,
+ "total_audio_s": 2000.2,
  "fit": "1",
- "fitted": [
-  "malrik/ford_mud_my_father_60cd5c23 4.66 -> 4.53 s (slot 4.6 s, x1.06)"
- ],
- "at": "2026-10-08 00:09:37",
+ "fitted": [],
+ "at": "2026-10-08 00:26:06",
  "last_render": {
-  "rendered": 23,
-  "gen_s": 126.1,
-  "audio_s": 52.7,
-  "rtf": 2.39,
+  "rendered": 6,
+  "gen_s": 10.4,
+  "audio_s": 15.7,
+  "rtf": 0.66,
   "providers": [
    "CPUExecutionProvider"
   ],
-  "at": "2026-10-08 00:09:37"
+  "at": "2026-10-08 00:26:06"
  }
 }

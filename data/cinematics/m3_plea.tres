@@ -1,0 +1,197 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_x0ixh"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_wox0r"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_xup12"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_k7li3"]
+
+[sub_resource type="Resource" id="Resource_02ygp"]
+script = ExtResource("4_k7li3")
+at = 0.2
+kind = &"vfx"
+target = Vector3(3, 0, -3)
+params = {
+"life": 2.4,
+"scale": 0.5,
+"scene": "res://art/cinematics/fx/green_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ensin"]
+script = ExtResource("4_k7li3")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_higcd"]
+script = ExtResource("1_x0ixh")
+at = 2.4
+speaker = &"ysolde"
+text = "Vessa. Stop. Please."
+voice = "res://assets/audio/voice/ysolde/vessa_stop_please_d172346e.wav"
+
+[sub_resource type="Resource" id="Resource_ii0om"]
+script = ExtResource("3_xup12")
+id = &"Y1"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(6.2, 0.5, -0.8)
+to_pos = Vector3(5.8, 0.7, -1.2)
+look_from = Vector3(3, 0.9, -3)
+look_to = Vector3(3, 1.5, -3)
+fov_from = 42.0
+fov_to = 38.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_x0ixh")]([SubResource("Resource_higcd")])
+actions = Array[ExtResource("4_k7li3")]([SubResource("Resource_02ygp"), SubResource("Resource_ensin")])
+
+[sub_resource type="Resource" id="Resource_g1pnw"]
+script = ExtResource("1_x0ixh")
+at = 0.4
+speaker = &"vessa"
+text = "NOW you want to talk? Your wood tried to eat me."
+voice = "res://assets/audio/voice/vessa/now_you_want_to_9878e199.wav"
+
+[sub_resource type="Resource" id="Resource_qjh53"]
+script = ExtResource("1_x0ixh")
+at = 4.4
+speaker = &"ysolde"
+text = "My wood tries to eat everyone. It's very fair."
+voice = "res://assets/audio/voice/ysolde/my_wood_tries_to_b8352a5f.wav"
+
+[sub_resource type="Resource" id="Resource_l0q6r"]
+script = ExtResource("3_xup12")
+id = &"Y2"
+duration = 8.5
+from_pos = Vector3(3.0101593, 1.9749999, -4.811739)
+to_pos = Vector3(3.0101593, 1.9749999, -4.811739)
+look_from = Vector3(0.9, 1.5798501, 0.9)
+look_to = Vector3(0.9, 1.5798501, 0.9)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_x0ixh")]([SubResource("Resource_g1pnw"), SubResource("Resource_qjh53")])
+
+[sub_resource type="Resource" id="Resource_ymjac"]
+script = ExtResource("1_x0ixh")
+at = 0.4
+speaker = &"ysolde"
+text = "Those relics aren't a prize. They're a lock."
+voice = "res://assets/audio/voice/ysolde/those_relics_arent_a_9a6ba2bd.wav"
+
+[sub_resource type="Resource" id="Resource_8jf3v"]
+script = ExtResource("1_x0ixh")
+at = 4.2
+speaker = &"ysolde"
+text = "Put three together near the Hollow and the door opens."
+voice = "res://assets/audio/voice/ysolde/put_three_together_near_fc54bb92.wav"
+
+[sub_resource type="Resource" id="Resource_u2v6d"]
+script = ExtResource("3_xup12")
+id = &"Y3"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(3.358417, 1.625, -1.6623693)
+to_pos = Vector3(3.3195941, 1.625, -1.8072581)
+look_from = Vector3(3, 1.625, -3)
+look_to = Vector3(3, 1.625, -3)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_x0ixh")]([SubResource("Resource_ymjac"), SubResource("Resource_8jf3v")])
+
+[sub_resource type="Resource" id="Resource_tpyiw"]
+script = ExtResource("4_k7li3")
+at = 6.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_832u6"]
+script = ExtResource("1_x0ixh")
+at = 0.4
+speaker = &"vessa"
+text = "Everyone says that about the things I want. And if I leave it, Malrik takes it."
+duration = 6.2
+voice = "res://assets/audio/voice/vessa/everyone_says_that_about_34c37e51.wav"
+
+[sub_resource type="Resource" id="Resource_snkr4"]
+script = ExtResource("3_xup12")
+id = &"Y4"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(6.6950426, 1.4774251, -2.4735126)
+to_pos = Vector3(6.311912, 1.4774251, -2.3585734)
+look_from = Vector3(1.95, 1.4774251, -1.05)
+look_to = Vector3(1.95, 1.4774251, -1.05)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_x0ixh")]([SubResource("Resource_832u6")])
+actions = Array[ExtResource("4_k7li3")]([SubResource("Resource_tpyiw")])
+
+[sub_resource type="Resource" id="Resource_rue7w"]
+script = ExtResource("4_k7li3")
+at = 1.2
+kind = &"vfx"
+target = Vector3(0.9, 1.4, 0.9)
+params = {
+"life": 4.0,
+"scale": 0.4,
+"scene": "res://art/cinematics/fx/four_flames.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_al4vh"]
+script = ExtResource("4_k7li3")
+at = 1.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_gclkc"]
+script = ExtResource("4_k7li3")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_cl8lf"]
+script = ExtResource("4_k7li3")
+at = 7.2
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_ju7kf"]
+script = ExtResource("3_xup12")
+id = &"Y5"
+duration = 8.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(0.9, 0, 0.9)
+orbit_radius = 1.5
+orbit_height = 1.2
+orbit_from_deg = 60.0
+orbit_to_deg = 75.0
+fov_from = 30.0
+fov_to = 30.0
+actions = Array[ExtResource("4_k7li3")]([SubResource("Resource_rue7w"), SubResource("Resource_al4vh"), SubResource("Resource_gclkc"), SubResource("Resource_cl8lf")])
+
+[resource]
+script = ExtResource("2_wox0r")
+id = &"m3_plea"
+title = "Ysolde's Plea"
+world_mode = 1
+shots = Array[ExtResource("3_xup12")]([SubResource("Resource_ii0om"), SubResource("Resource_l0q6r"), SubResource("Resource_u2v6d"), SubResource("Resource_snkr4"), SubResource("Resource_ju7kf")])
+shake_seed = 72
+lines_over_cuts = true

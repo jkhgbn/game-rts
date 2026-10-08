@@ -889,10 +889,15 @@ msgstr "MAINTENANT tu veux parler ? Ton bois a voulu me manger."
 msgid "My wood tries to eat everyone. It's very fair."
 msgstr "Mon bois veut manger tout le monde. C'est très juste."
 
-#. [&"m3_plea", &"ysolde", "Those relics aren't a prize. They're a lock. Put three together near the Hollow and t
+#. [&"m3_plea", &"ysolde", "Those relics aren't a prize. They're a lock.", 4.0],
 #: scripts/campaign/mission_03.gd:188
-msgid "Those relics aren't a prize. They're a lock. Put three together near the Hollow and the door opens."
-msgstr "Ces reliques ne sont pas un trophée. C'est une serrure. Réunis-en trois près du Hollow et la porte s'ouvre."
+msgid "Those relics aren't a prize. They're a lock."
+msgstr "Ces reliques ne sont pas un trophée. C'est une serrure."
+
+#. [&"m3_plea", &"ysolde", "Put three together near the Hollow and the door opens.", 4.5],
+#: scripts/campaign/mission_03.gd:189
+msgid "Put three together near the Hollow and the door opens."
+msgstr "Réunis-en trois près du Hollow et la porte s'ouvre."
 
 #. [&"m3_plea", &"vessa", "Everyone says that about the things I want. And if I leave it, Malrik takes it.", 7.0]
 #: scripts/campaign/mission_03.gd:189

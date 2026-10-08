@@ -65,6 +65,10 @@
   "data/cinematics/src/m1_watchers.cine: 2 lines",
   "data/cinematics/src/m1_westwatch.cine: 2 lines",
   "data/cinematics/src/m2_heartfrost.cine: 1 lines",
+  "data/cinematics/src/m3_oldroot.cine: 0 lines",
+  "data/cinematics/src/m3_plea.cine: 6 lines",
+  "data/cinematics/src/m4_fall.cine: 1 lines",
+  "data/cinematics/src/m4_war.cine: 4 lines",
   "data/cinematics/src/prologue_3min.cine: 30 lines",
   "data/cinematics/src/two_wizards.cine: 1 lines",
   "data/cinematics/src/watch_keep.cine: 4 lines",
@@ -83,7 +87,7 @@
   "data/voice/lines/prologue_3min.json: 30 lines",
   "data/voice/lines/unit_barks.json: 176 lines"
  ],
- "count": 698,
+ "count": 704,
  "lines": [
   {
    "id": "aldra/cracked_not_broken_torvald_c73e5da5",
@@ -3189,6 +3193,14 @@
     },
     {
      "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:24",
+     "ref": "m4_war/W2@0.4",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/m04.json",
      "ref": "m04/L2",
      "slot": 5.0,
@@ -4785,6 +4797,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:20",
+     "ref": "m4_war/W1@2.6",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     },
     {
@@ -9329,6 +9349,14 @@
     },
     {
      "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:27",
+     "ref": "m4_war/W3@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/m04.json",
      "ref": "m04/L3",
      "slot": 5.0,
@@ -9516,6 +9544,22 @@
      "source": "data/cinematics/src/e2m5_wake.cine:32",
      "ref": "e2m5_wake/K4@0.4",
      "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/everyone_says_that_about_34c37e51",
+   "speaker": "vessa",
+   "text": "Everyone says that about the things I want. And if I leave it, Malrik takes it.",
+   "text_hash": "34c37e5130436fd5",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:29",
+     "ref": "m3_plea/Y4@0.4",
+     "slot": 6.2,
      "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
@@ -10252,6 +10296,22 @@
      "source": "data/cinematics/src/watch_keep.cine:36",
      "ref": "watch_keep/S7@1.2",
      "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  {
+   "id": "vessa/now_you_want_to_9878e199",
+   "speaker": "vessa",
+   "text": "NOW you want to talk? Your wood tried to eat me.",
+   "text_hash": "9878e1993e371c44",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:21",
+     "ref": "m3_plea/Y2@0.4",
+     "slot": 4.0,
      "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
@@ -12625,6 +12685,14 @@
     },
     {
      "kind": "cine",
+     "source": "data/cinematics/src/m4_fall.cine:14",
+     "ref": "m4_fall/F1@0.3",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/m04.json",
      "ref": "m04/L21",
      "slot": 3.0,
@@ -12837,6 +12905,14 @@
      "ref": "L4",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "whisper"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:30",
+     "ref": "m4_war/W4@0.6",
+     "slot": 7.4,
+     "slot_kind": "cine shot",
      "speaker_id": "whisper"
     },
     {
@@ -13234,6 +13310,22 @@
    ]
   },
   {
+   "id": "ysolde/my_wood_tries_to_b8352a5f",
+   "speaker": "ysolde",
+   "text": "My wood tries to eat everyone. It's very fair.",
+   "text_hash": "b8352a5fe1445290",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:22",
+     "ref": "m3_plea/Y2@4.4",
+     "slot": 4.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
    "id": "ysolde/point_and_i_will_b24221fa",
    "speaker": "ysolde",
    "text": "Point, and I will go. I am done waiting for wars to pass my wood by.",
@@ -13245,6 +13337,22 @@
      "ref": "L7",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/put_three_together_near_fc54bb92",
+   "speaker": "ysolde",
+   "text": "Put three together near the Hollow and the door opens.",
+   "text_hash": "fc54bb925af730a9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:26",
+     "ref": "m3_plea/Y3@4.2",
+     "slot": 4.8,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]
@@ -13490,6 +13598,22 @@
    ]
   },
   {
+   "id": "ysolde/those_relics_arent_a_9a6ba2bd",
+   "speaker": "ysolde",
+   "text": "Those relics aren't a prize. They're a lock.",
+   "text_hash": "9a6ba2bdbab3db39",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:25",
+     "ref": "m3_plea/Y3@0.4",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
    "id": "ysolde/three_groves_along_your_6f6cb72e",
    "speaker": "ysolde",
    "text": "Three groves along your line, Vessa. Give me those, and I can give you a kingdom back.",
@@ -13581,6 +13705,22 @@
      "ref": "L14",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  {
+   "id": "ysolde/vessa_stop_please_d172346e",
+   "speaker": "ysolde",
+   "text": "Vessa. Stop. Please.",
+   "text_hash": "d172346ea711b3c6",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:18",
+     "ref": "m3_plea/Y1@2.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]

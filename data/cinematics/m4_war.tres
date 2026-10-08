@@ -1,0 +1,166 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_3ersw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_7erew"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_6vdor"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_p1ri0"]
+
+[sub_resource type="Resource" id="Resource_ac78m"]
+script = ExtResource("4_p1ri0")
+kind = &"title"
+params = {
+"sub": "The Hollow Throne",
+"text": "Mission 4",
+"time": 2.5
+}
+
+[sub_resource type="Resource" id="Resource_dussx"]
+script = ExtResource("4_p1ri0")
+at = 0.3
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(1, 0.78431374, 0.5647059, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_uqpqp"]
+script = ExtResource("4_p1ri0")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_gd6ar"]
+script = ExtResource("1_3ersw")
+at = 2.6
+speaker = &"narrator"
+text = "Crown Hollow. Where the Master once sat, two armies wait for the sun."
+voice = "res://assets/audio/voice/narrator/crown_hollow_where_the_6aaed2b2.wav"
+
+[sub_resource type="Resource" id="Resource_m8i8q"]
+script = ExtResource("3_6vdor")
+id = &"W1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(10, 40, 30)
+to_pos = Vector3(-14, 18, 30)
+look_to = Vector3(-20, 0, 10)
+fov_from = 55.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_3ersw")]([SubResource("Resource_gd6ar")])
+actions = Array[ExtResource("4_p1ri0")]([SubResource("Resource_ac78m"), SubResource("Resource_dussx"), SubResource("Resource_uqpqp")])
+
+[sub_resource type="Resource" id="Resource_cdhqo"]
+script = ExtResource("1_3ersw")
+at = 0.4
+speaker = &"malrik"
+text = "Three relics, little ember. Hand them over and I'll let you keep the hat."
+voice = "res://assets/audio/voice/malrik/three_relics_little_ember_f629f2ae.wav"
+
+[sub_resource type="Resource" id="Resource_8dwhn"]
+script = ExtResource("3_6vdor")
+id = &"W2"
+duration = 8.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"shadow_hero"
+pivot = Vector3(30, 0, -30)
+orbit_radius = 3.2
+orbit_height = 1.6
+orbit_from_deg = -20.0
+orbit_to_deg = -5.0
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_3ersw")]([SubResource("Resource_cdhqo")])
+
+[sub_resource type="Resource" id="Resource_5d4vn"]
+script = ExtResource("1_3ersw")
+at = 0.4
+speaker = &"vessa"
+text = "Come and take them, Bishop. You owe me for Emberfall. And for Vey."
+voice = "res://assets/audio/voice/vessa/come_and_take_them_b14d71f4.wav"
+
+[sub_resource type="Resource" id="Resource_u6o76"]
+script = ExtResource("3_6vdor")
+id = &"W3"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-30, 0, 24)
+orbit_radius = 3.0
+orbit_height = 1.6
+orbit_from_deg = 20.0
+orbit_to_deg = 35.0
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_3ersw")]([SubResource("Resource_5d4vn")])
+
+[sub_resource type="Resource" id="Resource_rw27k"]
+script = ExtResource("4_p1ri0")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_cbxdp"]
+script = ExtResource("4_p1ri0")
+at = 0.8
+kind = &"vfx"
+target = Vector3(-10, 0.1, 6)
+params = {
+"life": 2.0,
+"scale": 1.4,
+"scene": "res://art/cinematics/fx/shadow_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_4lirj"]
+script = ExtResource("4_p1ri0")
+at = 7.2
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_ss1cl"]
+script = ExtResource("1_3ersw")
+at = 0.6
+speaker = &"whisper"
+text = "Yes. Come, both of you. Fight on my roof."
+voice = "res://assets/audio/voice/whisper/yes_come_both_of_b42e2981.wav"
+
+[sub_resource type="Resource" id="Resource_hdsim"]
+script = ExtResource("3_6vdor")
+id = &"W4"
+duration = 8.0
+camera_mode = 3
+look_offset = Vector3(0, 1.87985, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-30, 0, 24)
+orbit_radius = 7.0
+orbit_height = 3.0
+orbit_from_deg = -30.0
+orbit_to_deg = 10.0
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_3ersw")]([SubResource("Resource_ss1cl")])
+actions = Array[ExtResource("4_p1ri0")]([SubResource("Resource_rw27k"), SubResource("Resource_cbxdp"), SubResource("Resource_4lirj")])
+
+[resource]
+script = ExtResource("2_7erew")
+id = &"m4_war"
+title = "Dawn at Crown Hollow"
+world_mode = 1
+shots = Array[ExtResource("3_6vdor")]([SubResource("Resource_m8i8q"), SubResource("Resource_8dwhn"), SubResource("Resource_u6o76"), SubResource("Resource_hdsim")])
+shake_seed = 73
+voice_over = Array[StringName]([&"malrik", &"narrator", &"whisper"])
+lines_over_cuts = true

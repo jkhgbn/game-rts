@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_lua6t"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_tcbe6"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_iyt6g"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_n3hif"]
+
+[sub_resource type="Resource" id="Resource_a3s6u"]
+script = ExtResource("4_n3hif")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_r307u"]
+script = ExtResource("4_n3hif")
+at = 2.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/sapling_creak.wav",
+"volume_db": -9.0
+}
+
+[sub_resource type="Resource" id="Resource_dc58t"]
+script = ExtResource("4_n3hif")
+at = 3.4
+kind = &"vfx"
+target = Vector3(0, 0.2, 0)
+params = {
+"life": 2.6,
+"scale": 1.6,
+"scene": "res://art/cinematics/fx/bloom_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_sth1c"]
+script = ExtResource("3_iyt6g")
+id = &"O1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(15, 20, 15)
+to_pos = Vector3(11, 15, 11)
+look_from = Vector3(0, 1, 0)
+look_to = Vector3(0, 1.4, 0)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_n3hif")]([SubResource("Resource_a3s6u"), SubResource("Resource_r307u"), SubResource("Resource_dc58t")])
+
+[sub_resource type="Resource" id="Resource_w24ow"]
+script = ExtResource("4_n3hif")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_u1mnv"]
+script = ExtResource("4_n3hif")
+at = 1.0
+kind = &"vfx"
+target = Vector3(0, 1.6, 0)
+params = {
+"life": 3.4,
+"scale": 0.25,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_2q2jl"]
+script = ExtResource("3_iyt6g")
+id = &"O2"
+duration = 4.5
+camera_mode = 1
+from_pos = Vector3(6, 2.8, 6)
+to_pos = Vector3(3.6, 2, 3.6)
+look_from = Vector3(0, 1.6, 0)
+look_to = Vector3(0, 1.6, 0)
+fov_from = 40.0
+fov_to = 34.0
+actions = Array[ExtResource("4_n3hif")]([SubResource("Resource_w24ow"), SubResource("Resource_u1mnv")])
+
+[sub_resource type="Resource" id="Resource_f3ey6"]
+script = ExtResource("4_n3hif")
+at = 1.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_my45d"]
+script = ExtResource("3_iyt6g")
+id = &"O3"
+from_pos = Vector3(8, 4.5, 8)
+to_pos = Vector3(8, 4.5, 8)
+look_from = Vector3(0, 1.4, 0)
+look_to = Vector3(0, 1.4, 0)
+fov_from = 44.0
+fov_to = 44.0
+actions = Array[ExtResource("4_n3hif")]([SubResource("Resource_f3ey6")])
+
+[resource]
+script = ExtResource("2_tcbe6")
+id = &"m3_oldroot"
+title = "The Oldroot Opens"
+world_mode = 1
+shots = Array[ExtResource("3_iyt6g")]([SubResource("Resource_sth1c"), SubResource("Resource_2q2jl"), SubResource("Resource_my45d")])
+shake_seed = 71
+lines_over_cuts = true

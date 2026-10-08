@@ -1189,9 +1189,13 @@ func _play_card(id: StringName, card: CinematicScript, end_state: Callable, line
 				if end_state.is_valid():
 					end_state.call(), CONNECT_ONE_SHOT)
 			return
-	for l: StringName in lines:
-		say_id(l)
-	play_cutscene(id, end_state)
+	# A film (data/cinematics/<id>.tres) or no film: the lines are said in the end state, never before the film (they
+	# would queue up behind it); a line the film showed is not repeated as a card (MissionBase._cine_said).
+	play_cutscene(id, func() -> void:
+		for l: StringName in lines:
+			say_id(l)
+		if end_state.is_valid():
+			end_state.call())
 
 
 ## A one-shot card: title + lines as subtitles over a slow push-in on `focus` (world frozen: PAUSE).

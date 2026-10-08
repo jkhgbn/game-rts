@@ -1,0 +1,21 @@
+# m03 E10 "m3_oldroot" "The Oldroot Opens" (docs/design/story-episode-1.md 7.2, mission-03.md Cinematic hooks): ~12 s,
+# mode=pause over the live mission (Mission03._play_card plays this .tres instead of its fallback card). The Sighing
+# Wood: the Oldroot at (0, 0, 0) in its 12 m clearing, the thorn barrier around it (removed by the end state, E10).
+# 1) WIDE from 20 m high on the Oldroot, the barrier browning (sfx; the live barrier holds until the end state);
+# 2) DOLLY in to the trunk: the split in the bark, the Signet's white-gold glow at (0, 1.6, 0); 3) a short settle before
+# control returns. No lines (L13-L14 are said before it). Cameras on the south-east side (x > 0, z > 0).
+cine m3_oldroot  title="The Oldroot Opens"  mode=pause  letterbox=2.39  seed=71  length=11..14
+env day  moon_yaw=140  moon_pitch=-40  energy=0.9
+
+# WIDE from 20 m high: the thorn barrier browns and sinks
+shot O1 6.0  cam=crane  from=(15, 20, 15)  to=(11, 15, 11)  look=(0, 1, 0)>(0, 1.4, 0)  fov=50>46  in=fade_black:0.6
+  at 0.3  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-6
+  at 2.0  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-9
+  at 3.4  vfx wither  scene=res://art/cinematics/fx/bloom_wave.tscn  at=(0, 0.2, 0)  life=2.6  scale=1.6
+# DOLLY in to the trunk: a split in the bark, the Signet's glow inside
+shot O2 4.5  cam=dolly  from=(6, 2.8, 6)  to=(3.6, 2.0, 3.6)  look=(0, 1.6, 0)>(0, 1.6, 0)  fov=40>34
+  at 0.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-10
+  at 1.0  vfx glow  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 1.6, 0)  life=3.4  scale=0.25
+# Settle on the open tree before control returns
+shot O3 2.0  cam=static  from=(8, 4.5, 8)  look=(0, 1.4, 0)  fov=44
+  at 1.4  fade alpha=1 time=0.6

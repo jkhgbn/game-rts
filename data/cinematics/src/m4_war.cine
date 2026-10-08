@@ -1,0 +1,33 @@
+# m04 E1 "m4_war" "Dawn at Crown Hollow" (docs/design/story-episode-1.md 7.2, mission-04.md Cinematic hooks): ~30 s,
+# mode=pause over the live mission (the spec's HOLD runs as PAUSE; Mission04._play_card plays this .tres instead of its
+# fallback card, the lines are said in the end state). Crown Hollow: the Throne isle at (0, 0, 0) inside its moat, the
+# Fire base to the west (Vessa, tag `vessa` = the hero), Malrik at his rally (30, 0, -30) (tag `shadow_hero`, the
+# Skirmish property). 1) CRANE from 40 m over the isle down toward the west bank: both armies across the moat at dawn (L1);
+# 2) CU Malrik at the east bank (L2); 3) CU Vessa (L3); 4) Vessa along her front line, the moat shivering amber (L4).
+# Axis: cameras on the south side of the Vessa - Malrik line. Lines: Mission04 DIALOGUE L1-L4 (French in campaign.po).
+cine m4_war  title="Dawn at Crown Hollow"  mode=pause  letterbox=2.39  seed=73  length=28..32
+env dusk  moon_yaw=80  moon_pitch=-12  energy=0.8
+cast  vessa        res://art/units/wizards/vessa.tscn   at=(-30, 0, 24)  yaw=135
+cast  shadow_hero  res://art/units/wizards/malrik.tscn  at=(30, 0, -30)  yaw=-45
+cast  malrik       capsule  at=(0, 0, -300)  hidden=1
+cast  narrator     capsule  at=(10, 0, -300)  hidden=1
+cast  whisper      capsule  at=(-10, 0, -300)  hidden=1
+
+# CRANE from 40 m high over the isle down toward the west bank
+shot W1 8.0  cam=crane  from=(10, 40, 30)  to=(-14, 18, 30)  look=(0, 0, 0)>(-20, 0, 10)  fov=55>50  in=fade_black:0.8
+  at 0.0  title "Mission 4" sub="The Hollow Throne" time=2.5
+  at 0.3  fade color=#ffc890 alpha=0.12 time=2.0
+  at 2.6  line narrator "Crown Hollow. Where the Master once sat, two armies wait for the sun."
+  at 0.4  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-10
+# CU Malrik at the east bank
+shot W2 8.0  cam=orbit  pivot=shadow_hero  r=3.2  h=1.6  deg=-20>-5  fov=36
+  at 0.4  line malrik "Three relics, little ember. Hand them over and I'll let you keep the hat."
+# CU Vessa
+shot W3 6.0  cam=orbit  pivot=vessa  r=3.0  h=1.6  deg=20>35  fov=36
+  at 0.4  line vessa "Come and take them, Bishop. You owe me for Emberfall. And for Vey."
+# Vessa along her front line; the moat water shivers amber for a beat
+shot W4 8.0  cam=orbit  pivot=vessa  r=7.0  h=3.0  deg=-30>10  fov=44
+  at 0.6  line whisper "Yes. Come, both of you. Fight on my roof."
+  at 0.6  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-6
+  at 0.8  vfx moat  scene=res://art/cinematics/fx/shadow_wave.tscn  at=(-10, 0.1, 6)  life=2.0  scale=1.4
+  at 7.2  fade alpha=1 time=0.8

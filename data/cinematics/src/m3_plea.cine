@@ -1,0 +1,36 @@
+# m03 E11 "m3_plea" "Ysolde's Plea" (docs/design/story-episode-1.md 7.2, mission-03.md Cinematic hooks): ~41 s, mode=pause
+# over the live mission (Mission03._play_card plays this .tres instead of its fallback card; m3_memory follows). Ysolde,
+# a story figure (not a unit), rises at (3, 0, -3); Vessa stands at the Signet by the Oldroot (0, 0, 0) (the cast spot is
+# a stand-in for the checks: the cameras look at fixed points, the close-up of Vessa orbits the live hero, tag `vessa`).
+# 1) LOW on the roots: Ysolde rises (L: "Vessa. Stop. Please."); 2) over Ysolde's shoulder on Vessa (2 lines); 3) CU Ysolde
+# (the lock line, split in two for the 2 x 48 subtitle rule); 4) two-shot, slow push, Vessa turns to the split; 5) CU
+# Vessa's hand closing on the Signet, the crown and orb flare amber. Axis: cameras on the east side of the Vessa - Ysolde line.
+# Lines: Mission03 CINE_LINES (m3_plea), French in campaign.po.
+cine m3_plea  title="Ysolde's Plea"  mode=pause  letterbox=2.39  seed=72  length=38..44
+env day  moon_yaw=140  moon_pitch=-40  energy=0.9
+cast  vessa   res://art/units/wizards/vessa.tscn   at=(0.9, 0, 0.9)  yaw=135
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(3, 0, -3)  yaw=-30
+
+# LOW on the roots beside the tree: Ysolde rises out of them
+shot Y1 6.0  cam=dolly  from=(6.2, 0.5, -0.8)  to=(5.8, 0.7, -1.2)  look=(3, 0.9, -3)>(3, 1.5, -3)  fov=42>38  in=fade_black:0.6  faces=ysolde
+  at 0.2  vfx rise  scene=res://art/cinematics/fx/green_pillar.tscn  at=(3, 0, -3)  life=2.4  scale=0.5
+  at 0.2  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-8
+  at 2.4  line ysolde "Vessa. Stop. Please."
+# Over Ysolde's shoulder on Vessa
+shot Y2 8.5  cam=frame "ms on vessa, ots ysolde"
+  at 0.4  line vessa "NOW you want to talk? Your wood tried to eat me."
+  at 4.4  line ysolde "My wood tries to eat everyone. It's very fair."
+# CU Ysolde: the relics are a lock
+shot Y3 9.0  cam=frame "cu on ysolde, 3/4 left, eye"  push=0.15
+  at 0.4  line ysolde "Those relics aren't a prize. They're a lock."
+  at 4.2  line ysolde "Put three together near the Hollow and the door opens."
+# Two-shot, slow push: Vessa turns to the glowing split
+shot Y4 9.0  cam=frame "ms on vessa and ysolde, 3/4 left, eye"  push=0.4
+  at 0.4  line vessa "Everyone says that about the things I want. And if I leave it, Malrik takes it."  dur=6.2
+  at 6.8  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-14
+# CU Vessa's hand: it closes on the Signet; the crown and the orb flare amber
+shot Y5 8.0  cam=orbit  pivot=vessa  r=1.5  h=1.2  deg=60>75  fov=30
+  at 1.2  vfx flare  scene=res://art/cinematics/fx/four_flames.tscn  at=(0.9, 1.4, 0.9)  life=4.0  scale=0.4
+  at 1.2  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-6
+  at 3.0  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-12
+  at 7.2  fade alpha=1 time=0.8

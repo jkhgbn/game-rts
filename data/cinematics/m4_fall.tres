@@ -1,0 +1,95 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_rjysf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_y4y2g"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_mgmbn"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_lp6lb"]
+
+[sub_resource type="Resource" id="Resource_7mu5p"]
+script = ExtResource("4_lp6lb")
+at = 0.2
+kind = &"vfx"
+target = Vector3(1.5, 0.6, 1.5)
+params = {
+"life": 3.8,
+"scale": 0.9,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_tx077"]
+script = ExtResource("4_lp6lb")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_uacly"]
+script = ExtResource("4_lp6lb")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_54agw"]
+script = ExtResource("1_rjysf")
+at = 0.3
+speaker = &"obren"
+text = "The Hollow... remembers..."
+duration = 3.4
+voice = "res://assets/audio/voice/whisper/the_hollow_remembers_4fab30e2.wav"
+
+[sub_resource type="Resource" id="Resource_o0vbp"]
+script = ExtResource("3_mgmbn")
+id = &"F1"
+duration = 4.2
+camera_mode = 3
+pivot_actor = &"heart_stone"
+pivot = Vector3(1.5, 0, 1.5)
+orbit_radius = 2.4
+orbit_height = 1.0
+orbit_from_deg = 30.0
+orbit_to_deg = 40.0
+fov_from = 32.0
+fov_to = 32.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_rjysf")]([SubResource("Resource_54agw")])
+actions = Array[ExtResource("4_lp6lb")]([SubResource("Resource_7mu5p"), SubResource("Resource_tx077"), SubResource("Resource_uacly")])
+
+[sub_resource type="Resource" id="Resource_x7n7w"]
+script = ExtResource("4_lp6lb")
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(1, 1, 1, 1),
+"time": 1.6
+}
+
+[sub_resource type="Resource" id="Resource_q3cct"]
+script = ExtResource("3_mgmbn")
+id = &"F2"
+duration = 1.8
+camera_mode = 3
+pivot_actor = &"heart_stone"
+pivot = Vector3(1.5, 0, 1.5)
+orbit_radius = 2.0
+orbit_height = 1.0
+orbit_from_deg = 40.0
+orbit_to_deg = 44.0
+fov_from = 30.0
+fov_to = 30.0
+actions = Array[ExtResource("4_lp6lb")]([SubResource("Resource_x7n7w")])
+
+[resource]
+script = ExtResource("2_y4y2g")
+id = &"m4_fall"
+title = "The Fall"
+world_mode = 1
+shots = Array[ExtResource("3_mgmbn")]([SubResource("Resource_o0vbp"), SubResource("Resource_q3cct")])
+shake_seed = 74
+voice_over = Array[StringName]([&"obren"])
+lines_over_cuts = true

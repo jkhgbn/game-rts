@@ -4,8 +4,8 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 698,
- "total_seconds": 1984.55,
+ "count": 704,
+ "total_seconds": 2000.24,
  "orphans": [],
  "lines": {
   "aldra/cracked_not_broken_torvald_c73e5da5": {
@@ -4713,6 +4713,14 @@
     },
     {
      "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:24",
+     "ref": "m4_war/W2@0.4",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/m04.json",
      "ref": "m04/L2",
      "slot": 5.0,
@@ -7178,6 +7186,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:20",
+     "ref": "m4_war/W1@2.6",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     },
     {
@@ -14412,6 +14428,14 @@
     },
     {
      "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:27",
+     "ref": "m4_war/W3@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/m04.json",
      "ref": "m04/L3",
      "slot": 5.0,
@@ -14679,6 +14703,32 @@
      "source": "data/cinematics/src/e2m5_wake.cine:32",
      "ref": "e2m5_wake/K4@0.4",
      "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  "vessa/everyone_says_that_about_34c37e51": {
+   "speaker": "vessa",
+   "text": "Everyone says that about the things I want. And if I leave it, Malrik takes it.",
+   "text_hash": "34c37e5130436fd5",
+   "path": "res://assets/audio/voice/vessa/everyone_says_that_about_34c37e51.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 4.245,
+   "peak": 0.8913,
+   "rms_db": -17.5,
+   "clipped": 0,
+   "file_hash": "3d8d431f5356fb18",
+   "gen_s": 1.1,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:29",
+     "ref": "m3_plea/Y4@0.4",
+     "slot": 6.2,
      "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
@@ -15778,6 +15828,32 @@
      "source": "data/cinematics/src/watch_keep.cine:36",
      "ref": "watch_keep/S7@1.2",
      "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  "vessa/now_you_want_to_9878e199": {
+   "speaker": "vessa",
+   "text": "NOW you want to talk? Your wood tried to eat me.",
+   "text_hash": "9878e1993e371c44",
+   "path": "res://assets/audio/voice/vessa/now_you_want_to_9878e199.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 2.432,
+   "peak": 0.8913,
+   "rms_db": -17.9,
+   "clipped": 0,
+   "file_hash": "3b33ec0f4964d6a2",
+   "gen_s": 0.62,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:21",
+     "ref": "m3_plea/Y2@0.4",
+     "slot": 4.0,
      "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
@@ -19591,6 +19667,14 @@
     },
     {
      "kind": "cine",
+     "source": "data/cinematics/src/m4_fall.cine:14",
+     "ref": "m4_fall/F1@0.3",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/m04.json",
      "ref": "m04/L21",
      "slot": 3.0,
@@ -19938,6 +20022,14 @@
      "ref": "L4",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "whisper"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m4_war.cine:30",
+     "ref": "m4_war/W4@0.6",
+     "slot": 7.4,
+     "slot_kind": "cine shot",
      "speaker_id": "whisper"
     },
     {
@@ -20499,6 +20591,32 @@
     }
    ]
   },
+  "ysolde/my_wood_tries_to_b8352a5f": {
+   "speaker": "ysolde",
+   "text": "My wood tries to eat everyone. It's very fair.",
+   "text_hash": "b8352a5fe1445290",
+   "path": "res://assets/audio/voice/ysolde/my_wood_tries_to_b8352a5f.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.624,
+   "peak": 0.8913,
+   "rms_db": -16.3,
+   "clipped": 0,
+   "file_hash": "b7d5f71cce122368",
+   "gen_s": 0.8,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:22",
+     "ref": "m3_plea/Y2@4.4",
+     "slot": 4.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
   "ysolde/point_and_i_will_b24221fa": {
    "speaker": "ysolde",
    "text": "Point, and I will go. I am done waiting for wars to pass my wood by.",
@@ -20521,6 +20639,32 @@
      "ref": "L7",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/put_three_together_near_fc54bb92": {
+   "speaker": "ysolde",
+   "text": "Put three together near the Hollow and the door opens.",
+   "text_hash": "fc54bb925af730a9",
+   "path": "res://assets/audio/voice/ysolde/put_three_together_near_fc54bb92.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.603,
+   "peak": 0.8913,
+   "rms_db": -18.2,
+   "clipped": 0,
+   "file_hash": "6f8138cb44b2b74d",
+   "gen_s": 0.72,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:26",
+     "ref": "m3_plea/Y3@4.2",
+     "slot": 4.8,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]
@@ -20883,6 +21027,32 @@
     }
    ]
   },
+  "ysolde/those_relics_arent_a_9a6ba2bd": {
+   "speaker": "ysolde",
+   "text": "Those relics aren't a prize. They're a lock.",
+   "text_hash": "9a6ba2bdbab3db39",
+   "path": "res://assets/audio/voice/ysolde/those_relics_arent_a_9a6ba2bd.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.304,
+   "peak": 0.8913,
+   "rms_db": -16.9,
+   "clipped": 0,
+   "file_hash": "05ec27ca8be9158b",
+   "gen_s": 1.38,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:25",
+     "ref": "m3_plea/Y3@0.4",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
   "ysolde/three_groves_along_your_6f6cb72e": {
    "speaker": "ysolde",
    "text": "Three groves along your line, Vessa. Give me those, and I can give you a kingdom back.",
@@ -21025,6 +21195,32 @@
      "ref": "L14",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/vessa_stop_please_d172346e": {
+   "speaker": "ysolde",
+   "text": "Vessa. Stop. Please.",
+   "text_hash": "d172346ea711b3c6",
+   "path": "res://assets/audio/voice/ysolde/vessa_stop_please_d172346e.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 1.48,
+   "peak": 0.8913,
+   "rms_db": -17.5,
+   "clipped": 0,
+   "file_hash": "5b5c24ad7f566b22",
+   "gen_s": 5.79,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m3_plea.cine:18",
+     "ref": "m3_plea/Y1@2.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]
