@@ -122,7 +122,10 @@ func _run() -> void:
 	var box := _aabb(b, b.get_node("Root"))
 	print("rest AABB y %.2f..%.2f, x %.2f..%.2f, z %.2f..%.2f" % [box.position.y, box.end.y, box.position.x, box.end.x,
 		box.position.z, box.end.z])
-	_check(box.position.y >= -0.01, "nothing below the ground at rest (%.3f)" % box.position.y)
+	# 2 cm (as test_13_v1a): the idle breathing tips a hoof up to 1.03 cm below (20 phases over 12 s, fidgets excluded,
+	# 2026-10-08) and the sampled phase comes from the instance-id hash (character_model _phase_off), so it moves when
+	# other code creates more objects first
+	_check(box.position.y >= -0.02, "nothing below the ground at rest (%.3f)" % box.position.y)
 	_check(box.end.y >= 1.6 and box.end.y <= 2.1, "flame crest top 1.6-2.1 m (%.2f)" % box.end.y)
 	_check(box.size.z >= 2.3 and box.size.z <= 3.0, "length 2.3-3.0 m (%.2f)" % box.size.z)
 	_check(box.size.x <= 1.3, "width <= 1.3 m (%.2f)" % box.size.x)

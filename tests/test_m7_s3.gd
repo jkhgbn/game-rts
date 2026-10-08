@@ -100,7 +100,8 @@ func _run() -> void:
 	if not (m2.get_meta(&"campaign_flags", {}) as Dictionary).get("m1_outpost_burned", false):
 		_errors.append("flags not on the mission 2 node")
 	m2.free()
-	# --- the cap: 5000 essence -> 1500; no outpost -> flag false
+	# --- the cap: 5000 essence -> 1500; a replay without the outpost keeps the earned flag (objective flags are ORed
+	# with the saved value since review 2026-10-08 LOW 4: a replay never takes back story state later missions used)
 	var level3 := _make_level("CapStub")
 	var bank3: Node = _bank(level3)
 	bank3.set(&"trickle_enabled", false)
@@ -109,7 +110,8 @@ func _run() -> void:
 	loaded.call(&"on_mission_victory", &"m01", level3)
 	level3.free()
 	var capped: Object = CS.call(&"open")
-	if int(capped.call(&"carried_essence")) != 1500 or capped.call(&"flag", "m1_outpost_burned"):
+	if int(capped.call(&"carried_essence")) != 1500 or not capped.call(&"flag", "m1_outpost_burned") \
+			or not capped.call(&"flag", "m1_peddler_freed"):
 		_errors.append("cap / flag replay wrong: %d" % int(capped.call(&"carried_essence")))
 	if (capped.call(&"owned_artifacts") as Array).count("ember_crown") != 1:
 		_errors.append("crown duplicated in owned")
