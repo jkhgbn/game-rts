@@ -1391,9 +1391,10 @@ func _start_b3() -> void:
 	_lance_left = 2.0
 	play_cutscene(&"e2m5_answer", func() -> void:
 		say_l(26)
-		say_l(27))
-	say_l(28)
-	say_l(29)
+		say_l(27)
+		# Lines 28-29 belong after the film (they queued during it when they sat outside the end state).
+		say_l(28)
+		say_l(29))
 	_torvald_withdraw()
 
 
