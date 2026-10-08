@@ -1,0 +1,119 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_e36ll"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_la7qj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_am4pl"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_3j541"]
+
+[sub_resource type="Resource" id="Resource_gdp5n"]
+script = ExtResource("4_3j541")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_n4mjf"]
+script = ExtResource("4_3j541")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_sn6nm"]
+script = ExtResource("1_e36ll")
+at = 0.4
+speaker = &"obren"
+text = "The flag falls. The tree is right there. Take it. TAKE it."
+
+[sub_resource type="Resource" id="Resource_ted01"]
+script = ExtResource("3_am4pl")
+id = &"T1"
+duration = 4.5
+camera_mode = 1
+from_pos = Vector3(7.5, 1.9, 18)
+to_pos = Vector3(6.8, 1.7, 18.6)
+look_from = Vector3(1.5, 1.8, 21.5)
+look_to = Vector3(1.2, 0.7, 22.3)
+fov_from = 38.0
+fov_to = 36.0
+transition_in = 1
+lines = Array[ExtResource("1_e36ll")]([SubResource("Resource_sn6nm")])
+actions = Array[ExtResource("4_3j541")]([SubResource("Resource_gdp5n"), SubResource("Resource_n4mjf")])
+
+[sub_resource type="Resource" id="Resource_5rqlb"]
+script = ExtResource("4_3j541")
+at = 0.3
+kind = &"vfx"
+target = Vector3(3.9, 1.05, 18.2)
+params = {
+"life": 8.0,
+"scale": 0.45,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_0ina8"]
+script = ExtResource("4_3j541")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -9.0
+}
+
+[sub_resource type="Resource" id="Resource_yhbpk"]
+script = ExtResource("4_3j541")
+at = 5.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_pjud8"]
+script = ExtResource("4_3j541")
+at = 7.9
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_synox"]
+script = ExtResource("1_e36ll")
+at = 0.3
+speaker = &"torvald"
+text = "Malrik. Your hand is shaking. Is that you, or the stone?"
+
+[sub_resource type="Resource" id="Resource_33e3w"]
+script = ExtResource("1_e36ll")
+at = 4.8
+speaker = &"malrik"
+text = "It is me, Torvald. It has always been me."
+
+[sub_resource type="Resource" id="Resource_5cega"]
+script = ExtResource("3_am4pl")
+id = &"T2"
+duration = 8.5
+camera_mode = 1
+from_pos = Vector3(4.6, 1.3, 17.2)
+to_pos = Vector3(4.4, 1.35, 17.5)
+look_from = Vector3(-14, 3, 47)
+look_to = Vector3(-16, 3.4, 48.5)
+fov_from = 22.0
+fov_to = 20.0
+lines = Array[ExtResource("1_e36ll")]([SubResource("Resource_synox"), SubResource("Resource_33e3w")])
+actions = Array[ExtResource("4_3j541")]([SubResource("Resource_5rqlb"), SubResource("Resource_0ina8"), SubResource("Resource_yhbpk"), SubResource("Resource_pjud8")])
+
+[resource]
+script = ExtResource("2_la7qj")
+id = &"e3m1_standard"
+title = "Ysolde's Standard"
+world_mode = 1
+shots = Array[ExtResource("3_am4pl")]([SubResource("Resource_ted01"), SubResource("Resource_5cega")])
+shake_seed = 32
+lines_over_cuts = true

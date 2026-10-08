@@ -1,0 +1,98 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_u6niv"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_a6ro2"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_mqkf5"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_sxgq6"]
+
+[sub_resource type="Resource" id="Resource_rbi3a"]
+script = ExtResource("4_sxgq6")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_8axv3"]
+script = ExtResource("4_sxgq6")
+at = 2.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_blade.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_k8iw5"]
+script = ExtResource("3_mqkf5")
+id = &"F1"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(14.5, 0.9, 10.5)
+to_pos = Vector3(12.6, 1.2, 8.8)
+look_from = Vector3(5, 0.8, 1)
+look_to = Vector3(4, 1, -0.5)
+fov_from = 44.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_sxgq6")]([SubResource("Resource_rbi3a"), SubResource("Resource_8axv3")])
+
+[sub_resource type="Resource" id="Resource_1s33f"]
+script = ExtResource("4_sxgq6")
+at = 1.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_oqc7e"]
+script = ExtResource("4_sxgq6")
+at = 1.2
+kind = &"vfx"
+target = Vector3(4, 0.1, 2)
+params = {
+"life": 2.6,
+"scale": 1.4,
+"scene": "res://art/cinematics/fx/shadow_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_c4rt5"]
+script = ExtResource("4_sxgq6")
+at = 5.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_u85e1"]
+script = ExtResource("1_u6niv")
+at = 0.4
+speaker = &"malrik"
+text = "The ford is mine. Write it down, Ysolde. You like things that last."
+
+[sub_resource type="Resource" id="Resource_x4or3"]
+script = ExtResource("3_mqkf5")
+id = &"F2"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(10, 2.4, 4.8)
+to_pos = Vector3(9, 2.2, 3.9)
+look_from = Vector3(4, 1.3, 0.6)
+look_to = Vector3(4, 1.5, 0.6)
+fov_from = 38.0
+fov_to = 34.0
+lines = Array[ExtResource("1_u6niv")]([SubResource("Resource_u85e1")])
+actions = Array[ExtResource("4_sxgq6")]([SubResource("Resource_1s33f"), SubResource("Resource_oqc7e"), SubResource("Resource_c4rt5")])
+
+[resource]
+script = ExtResource("2_a6ro2")
+id = &"e3m1_ford"
+title = "The Stone Ford"
+world_mode = 1
+shots = Array[ExtResource("3_mqkf5")]([SubResource("Resource_k8iw5"), SubResource("Resource_x4or3")])
+shake_seed = 31
+lines_over_cuts = true

@@ -1,0 +1,28 @@
+# e3m3 E13 "e3m3_sexton" (docs/design/mission-e3-03.md, Cinematic hooks): 20 s, mode=pause over the live mission.
+# 1) WIDE the Lodge (0, 46) at dusk, its bell ringing by itself; 2) the barrows' gravestones fly to the yard, the old
+# spade rises (a violet wave at the rise mark (0, 48)); 3) LOW: the Sexton stands up, 9 m, and turns toward the crypt.
+# The Sexton is the mission's live unit (`sexton`); its real model (tombstone ribs, lantern heart) is not built yet: the
+# camera frames the rise mark, cine's checks use a capsule. Cameras on the east side. Lines: L21-L22 (mission DIALOGUE).
+cine e3m3_sexton  title="The Sexton"  mode=pause  letterbox=2.39  seed=52  length=18..22
+env dusk  moon_yaw=200  moon_pitch=-14  energy=0.7
+cast  sexton  capsule  at=(0, 0, 48)  yaw=180
+cast  obren   capsule  at=(0, 0, -300)
+cast  malrik  res://art/units/wizards/malrik.tscn  at=(0, 0, -300)
+
+# WIDE the Lodge, the bell ringing by itself
+shot X1 6.0  cam=crane  from=(14, 9, 33)  to=(12, 7, 35)  look=(0, 2, 46)>(0, 1.5, 47)  fov=48>44  in=fade_black:0.5
+  at 0.4  sfx res://assets/audio/forge/sfx/knife_ring.wav  vol=-6
+  at 2.2  sfx res://assets/audio/forge/sfx/knife_ring.wav  vol=-7
+  at 4.0  sfx res://assets/audio/forge/sfx/knife_ring.wav  vol=-6
+# The gravestones fly to the yard; the old spade rises
+shot X2 6.0  cam=dolly  from=(8, 2.6, 40)  to=(7.2, 3.6, 41)  look=(0, 1, 48)>(0, 4, 48)  fov=42
+  at 0.3  sfx res://assets/audio/sfx/building_collapse.wav  vol=-8
+  at 0.5  line obren "Forty years he dug here. Let me give him a body."
+  at 0.6  vfx rise  scene=res://art/cinematics/fx/shadow_wave.tscn  at=(0, 0.1, 48)  life=3.0  scale=2.0
+  at 2.4  sfx res://assets/audio/forge/sfx/shovel_earth.wav  vol=-6
+# LOW: the Sexton stands up and turns toward the crypt
+shot X3 8.0  cam=dolly  from=(9, 0.6, 40)  to=(8, 0.8, 41)  look=(0, 5, 48)>(0, 7, 47)  fov=52>48
+  at 0.5  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-2
+  at 1.0  line malrik "He had one. He wore it out honestly."
+  at 1.8  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-3
+  at 7.4  fade alpha=1 time=0.6

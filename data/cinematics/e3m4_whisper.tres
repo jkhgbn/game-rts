@@ -1,0 +1,133 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_5h640"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_a5v3i"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_pbvro"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_hyajc"]
+
+[sub_resource type="Resource" id="Resource_5gqb5"]
+script = ExtResource("4_hyajc")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_rouqx"]
+script = ExtResource("3_pbvro")
+id = &"H1"
+duration = 4.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5649999, 0)
+pivot_actor = &"vey"
+pivot = Vector3(-4, 0, 34.8)
+orbit_radius = 4.2
+orbit_height = 1.3
+orbit_from_deg = -20.0
+orbit_to_deg = -12.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.4
+actions = Array[ExtResource("4_hyajc")]([SubResource("Resource_5gqb5")])
+
+[sub_resource type="Resource" id="Resource_o1yte"]
+script = ExtResource("4_hyajc")
+at = 0.1
+kind = &"vfx"
+target = Vector3(0.3, 1.1, -35.6)
+params = {
+"life": 4.8,
+"scale": 0.7,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_sjdbq"]
+script = ExtResource("4_hyajc")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_fvver"]
+script = ExtResource("1_5h640")
+at = 0.2
+speaker = &"obren"
+text = "Torvald. Old frost. You feel it too. Join us, and nothing will ever melt."
+
+[sub_resource type="Resource" id="Resource_5v8tu"]
+script = ExtResource("3_pbvro")
+id = &"H2"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(0, 0, -36)
+orbit_radius = 1.6
+orbit_height = 1.2
+orbit_from_deg = 20.0
+orbit_to_deg = 28.0
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_5h640")]([SubResource("Resource_fvver")])
+actions = Array[ExtResource("4_hyajc")]([SubResource("Resource_o1yte"), SubResource("Resource_sjdbq")])
+
+[sub_resource type="Resource" id="Resource_3fqqx"]
+script = ExtResource("4_hyajc")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_l115x"]
+script = ExtResource("4_hyajc")
+at = 6.9
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_mqsch"]
+script = ExtResource("1_5h640")
+at = 0.3
+speaker = &"torvald"
+text = "...It knows my name."
+
+[sub_resource type="Resource" id="Resource_by4m5"]
+script = ExtResource("1_5h640")
+at = 2.9
+speaker = &"malrik"
+text = "It knows everyone's name. It is a stone with nothing else to do."
+
+[sub_resource type="Resource" id="Resource_daks6"]
+script = ExtResource("3_pbvro")
+id = &"H3"
+duration = 7.5
+camera_mode = 3
+look_offset = Vector3(0, 1.5999999, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(40, 0, -22)
+orbit_radius = 3.6
+orbit_height = 1.7
+orbit_from_deg = 10.0
+orbit_to_deg = 20.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_5h640")]([SubResource("Resource_mqsch"), SubResource("Resource_by4m5")])
+actions = Array[ExtResource("4_hyajc")]([SubResource("Resource_3fqqx"), SubResource("Resource_l115x")])
+
+[resource]
+script = ExtResource("2_a5v3i")
+id = &"e3m4_whisper"
+title = "The Whisper"
+world_mode = 1
+shots = Array[ExtResource("3_pbvro")]([SubResource("Resource_rouqx"), SubResource("Resource_5v8tu"), SubResource("Resource_daks6")])
+shake_seed = 61
+lines_over_cuts = true

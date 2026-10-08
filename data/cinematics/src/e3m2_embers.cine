@@ -1,0 +1,27 @@
+# e3m2 E11 "e3m2_embers" (docs/design/mission-e3-02.md, Cinematic hooks): 25 s, mode=pause over the live mission (night
+# on Lark Hill). 1) MS the last wagon tilting on its broken wheel (placeholder: the Lamp-oil wagon WG3 (36, 56)); 2) WIDE
+# from the crest: the dark wagons among the fires; 3) Hush on the crest dissolving into smoke (orbits the live hero:
+# phase 1's hero is the Hush commando, tag `helper_hush` = her model); 4) the ridge at first grey light: the Dusk Keep
+# (-12, -48), Malrik's dawn mark (-6, -40). No lines (the end state shows "First light. The Citadel stands.").
+# Axis: cameras east of the subjects (the Ep3 rule).
+cine e3m2_embers  title="Embers"  mode=pause  letterbox=2.39  seed=41  length=23..27
+env night  moon_yaw=200  moon_pitch=-35  energy=0.6
+cast  helper_hush  res://art/units/helpers/helper_hush/helper_hush.tscn  at=(2, 0, 30)  yaw=90
+cast  malrik       res://art/units/wizards/malrik.tscn  at=(-6, 0, -40)  yaw=160
+
+# MS the last wagon, tilting; grain pours into the grass
+shot E1 6.0  cam=dolly  from=(41.5, 1.5, 52.0)  to=(40.6, 1.3, 52.8)  look=(36.0, 0.9, 56.0)>(36.0, 0.6, 56.2)  fov=40>36  in=fade_black:0.6
+  at 0.5  sfx res://assets/audio/sfx/building_collapse.wav  vol=-9
+  at 2.2  sfx res://assets/audio/forge/sfx/shovel_earth.wav  vol=-10
+# WIDE from the crest: the dark wagons among the fires, nobody awake
+shot E2 6.0  cam=dolly  from=(10, 14, 22)  to=(8, 13, 24)  look=(0, 0, 48)>(-2, 0, 49)  fov=56>54
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+# Hush on the crest against the camp's light, dissolving into smoke
+shot E3 5.0  cam=orbit  pivot=helper_hush  r=3.4  h=1.4  deg=-10>10
+  at 1.6  sfx res://assets/audio/sfx/spell_umbral_shroud.wav  vol=-6
+  at 1.8  vfx smoke  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(2, 0.2, 30)  life=3.0
+# The ridge at first grey light: the Dusk Keep's new spire, Malrik below with his candle; fade to black
+shot E4 8.0  cam=crane  from=(6, 7, -28)  to=(3, 5, -32)  look=(-12, 5, -48)>(-7, 1.8, -41)  fov=42>38  in=fade_black:1.0
+  at 0.2  fade color=#b8c4dc alpha=0.14 time=2.0
+  at 3.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-12
+  at 7.0  fade alpha=1 time=1.0

@@ -1,0 +1,28 @@
+# e3m2 E16 "e3m2_dawn" (docs/design/mission-e3-02.md, Cinematic hooks): 30 s, then the victory. mode=pause over the live
+# mission at sunrise. 1) WIDE crane from Lark Hill's crest: the spoiled wagons, villagers packing; 2) frontal two-shot
+# on the crest's north face (Ysolde, L26; the spec's exception to the east rule); 3) long lens north across the valley to
+# the ridge: Malrik and Hush on the crest (0, -36), the Citadel behind (L27-L28); 4) CU Malrik's hand, the stone beats
+# once, brighter (orbits the live hero: tag `malrik`); FADE_BLACK. Lines: L26-L28 (mission DIALOGUE).
+cine e3m2_dawn  title="Dawn on Lark Hill"  mode=pause  letterbox=2.39  seed=42  length=28..32
+env day  moon_yaw=120  moon_pitch=-12  energy=0.9
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(-4.5, 0, 34.5)  yaw=180
+cast  vessa   res://art/units/wizards/vessa.tscn   at=(-2.2, 0, 35.0)  yaw=180
+cast  hush    res://art/units/helpers/helper_hush/helper_hush.tscn  at=(1.6, 0, -36.5)  yaw=180
+cast  malrik  res://art/units/wizards/malrik.tscn  at=(0, 0, -36)  yaw=180
+
+# WIDE crane from the crest at sunrise
+shot W1 8.0  cam=crane  from=(8, 18, 26)  to=(5, 12, 30)  look=(-8, 0, 48)>(-12, 0, 50)  fov=52>48  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-8
+  at 0.2  fade color=#ffd8a0 alpha=0.12 time=3.0
+# Frontal two-shot on the crest's north face
+shot W2 7.0  cam=dolly  from=(-3.2, 1.8, 28.8)  to=(-3.3, 1.75, 29.4)  look=(-3.3, 1.5, 34.7)  fov=36>34  faces=ysolde,vessa
+  at 0.4  line ysolde "Then the people go south today. All of them. The road is safer than this hill."
+# Long lens north across the valley to the ridge
+shot W3 8.0  cam=dolly  from=(6, 3, 10)  to=(5.6, 3.1, 9)  look=(0.5, 2.2, -36)>(0.5, 2.6, -38)  fov=20>18
+  at 0.3  line hush "There is always another night, Bishop."
+  at 4.0  line malrik "And every one of them is mine."
+# CU Malrik's hand: the stone beats once, brighter
+shot W4 7.0  cam=orbit  pivot=malrik  r=1.8  h=1.1  deg=15>22  fov=30
+  at 0.6  vfx heart  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0.4, 1.1, -35.4)  life=2.6  scale=0.8
+  at 0.7  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-4
+  at 5.6  fade alpha=1 time=1.2

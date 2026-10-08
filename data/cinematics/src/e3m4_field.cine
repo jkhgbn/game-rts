@@ -1,0 +1,37 @@
+# e3m4 E15 "e3m4_field" (docs/design/mission-e3-04.md, Cinematic hooks): 45 s, then the victory. mode=pause over the
+# live mission. 1) MS Vey on one knee, the blade's runes going dark (L23); 2) Vessa runs to him (L24), his hand on her
+# shoulder (L25); 3) WIDE from the crest: the Fire army withdrawing over the fords; 4) MS Malrik on the Bishop's Crest,
+# 3/4-left, the stone glowing (L26); 5) MS Torvald at Birch Watch, looking at Malrik, not at the enemy (L27); 6) long
+# lens across the valley: the golden tree, untouched (L28, narrator); FADE_BLACK. Character shots orbit the live units
+# (`vey`, hero `malrik`, `torvald`); cast positions are stand-ins for cine's checks. Cameras on the east side.
+cine e3m4_field  title="The Field"  mode=pause  letterbox=2.39  seed=62  length=43..47
+env day  moon_yaw=230  moon_pitch=-16  energy=0.85
+cast  vey       res://art/units/helpers/helper_vey/helper_vey.tscn  at=(-4, 0, 34.8)  yaw=0
+cast  vessa     res://art/units/wizards/vessa.tscn  at=(-1.5, 0, 37)  yaw=200
+cast  malrik    res://art/units/wizards/malrik.tscn  at=(0, 0, -36)  yaw=180
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(40, 0, -22)  yaw=250
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# MS Vey on one knee in the trampled grass, the runes going dark
+shot F1 7.0  cam=orbit  pivot=vey  r=4.5  h=1.3  deg=-25>-15  in=fade_black:0.6
+  at 0.4  line vey "That's enough. My storm is borrowed, and I've spent the loan."
+  at 1.0  sfx res://assets/audio/sfx/spell_snow_shield_off.wav  vol=-10
+# Vessa runs to him; his hand on her shoulder
+shot F2 9.0  cam=orbit  pivot=vey  r=6.5  h=1.8  deg=-5>10
+  at 0.3  line vessa "Vey! Get up! We're not done!"
+  at 3.2  line vey "We are today, girl. Today the ridge is his."
+# WIDE from the crest: the Fire army withdrawing over all three fords
+shot F3 6.0  cam=crane  from=(4, 18, 32)  to=(4, 15, 28)  look=(6, 0, 6)>(6, 0, 2)  fov=62>58
+  at 0.0  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-10
+# MS Malrik on the Bishop's Crest, 3/4-left, the stone glowing in his hand
+shot F4 7.0  cam=orbit  pivot=malrik  r=4.0  h=1.5  deg=20>35
+  at 0.3  vfx heart  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0.3, 1.1, -35.6)  life=6.5  scale=0.6
+  at 0.4  line malrik "The ridge is mine. The valley next. I will not stop."
+# MS Torvald at Birch Watch, apart from his Rimeshields, looking at Malrik
+shot F5 7.0  cam=orbit  pivot=torvald  r=4.0  h=1.6  deg=-10>5
+  at 0.6  line torvald "No. I don't think you can."
+  at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-12
+# Long lens across the valley: the golden tree, untouched
+shot F6 9.0  cam=dolly  from=(20, 4, -30)  to=(19.4, 4.1, -28.8)  look=(-16, 3, 48)>(-16, 3.4, 48.5)  fov=18>16
+  at 0.4  line narrator "The ridge fell to Shadow. Torvald had heard the stone say his name. He did not forget it."
+  at 7.8  fade alpha=1 time=1.2

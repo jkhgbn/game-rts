@@ -868,6 +868,8 @@ func to_resource() -> Resource:
 	cs.set(&"skip_locked_until", doc.skip_lock)
 	cs.set(&"skippable", doc.skippable)
 	cs.set(&"shake_seed", doc.rng_seed)
+	if doc.world_mode == "pause":
+		cs.set(&"world_mode", 1)   # CinematicScript.WorldMode.PAUSE: in-mission, the mission world frozen
 	if doc.music != "":
 		cs.set(&"music_cue", StringName(doc.music))
 		if &"music_volume_db" in cs:
@@ -885,7 +887,7 @@ func to_resource() -> Resource:
 	if &"lines_over_cuts" in cs:
 		cs.set(&"lines_over_cuts", true)
 	for stage_path: String in ["res://missions/cinematics/tool_demo/%s.tscn" % doc.id, "res://scenes/cinematics/%s.tscn" % doc.id]:
-		if ResourceLoader.exists(stage_path):
+		if doc.world_mode != "pause" and ResourceLoader.exists(stage_path):
 			cs.set(&"stage_scene", stage_path)
 	var shot_arr: Array = cs.get(&"shots")
 	for b: Dictionary in shots:

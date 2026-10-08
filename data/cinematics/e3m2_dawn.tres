@@ -1,0 +1,138 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_4sbho"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_d6m3k"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_f4nf1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_km56t"]
+
+[sub_resource type="Resource" id="Resource_3vst7"]
+script = ExtResource("4_km56t")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_v6fbx"]
+script = ExtResource("4_km56t")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(1, 0.84705883, 0.627451, 1),
+"time": 3.0
+}
+
+[sub_resource type="Resource" id="Resource_0lrgt"]
+script = ExtResource("3_f4nf1")
+id = &"W1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(8, 18, 26)
+to_pos = Vector3(5, 12, 30)
+look_from = Vector3(-8, 0, 48)
+look_to = Vector3(-12, 0, 50)
+fov_from = 52.0
+fov_to = 48.0
+transition_in = 1
+transition_time = 0.8
+actions = Array[ExtResource("4_km56t")]([SubResource("Resource_3vst7"), SubResource("Resource_v6fbx")])
+
+[sub_resource type="Resource" id="Resource_416b2"]
+script = ExtResource("1_4sbho")
+at = 0.4
+speaker = &"ysolde"
+text = "Then the people go south today. All of them. The road is safer than this hill."
+
+[sub_resource type="Resource" id="Resource_gcjlq"]
+script = ExtResource("3_f4nf1")
+id = &"W2"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(-3.2, 1.8, 28.8)
+to_pos = Vector3(-3.3, 1.75, 29.4)
+look_from = Vector3(-3.3, 1.5, 34.7)
+look_to = Vector3(-3.3, 1.5, 34.7)
+fov_from = 36.0
+fov_to = 34.0
+lines = Array[ExtResource("1_4sbho")]([SubResource("Resource_416b2")])
+
+[sub_resource type="Resource" id="Resource_xdq6i"]
+script = ExtResource("1_4sbho")
+at = 0.3
+speaker = &"hush"
+text = "There is always another night, Bishop."
+
+[sub_resource type="Resource" id="Resource_yyl3a"]
+script = ExtResource("1_4sbho")
+at = 4.0
+speaker = &"malrik"
+text = "And every one of them is mine."
+
+[sub_resource type="Resource" id="Resource_x8bcp"]
+script = ExtResource("3_f4nf1")
+id = &"W3"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(6, 3, 10)
+to_pos = Vector3(5.6, 3.1, 9)
+look_from = Vector3(0.5, 2.2, -36)
+look_to = Vector3(0.5, 2.6, -38)
+fov_from = 20.0
+fov_to = 18.0
+lines = Array[ExtResource("1_4sbho")]([SubResource("Resource_xdq6i"), SubResource("Resource_yyl3a")])
+
+[sub_resource type="Resource" id="Resource_uyeck"]
+script = ExtResource("4_km56t")
+at = 0.6
+kind = &"vfx"
+target = Vector3(0.4, 1.1, -35.4)
+params = {
+"life": 2.6,
+"scale": 0.8,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_6glih"]
+script = ExtResource("4_km56t")
+at = 0.7
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_xjppk"]
+script = ExtResource("4_km56t")
+at = 5.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_uqvi0"]
+script = ExtResource("3_f4nf1")
+id = &"W4"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(0, 0, -36)
+orbit_radius = 1.8
+orbit_height = 1.1
+orbit_from_deg = 15.0
+orbit_to_deg = 22.0
+fov_from = 30.0
+fov_to = 30.0
+actions = Array[ExtResource("4_km56t")]([SubResource("Resource_uyeck"), SubResource("Resource_6glih"), SubResource("Resource_xjppk")])
+
+[resource]
+script = ExtResource("2_d6m3k")
+id = &"e3m2_dawn"
+title = "Dawn on Lark Hill"
+world_mode = 1
+shots = Array[ExtResource("3_f4nf1")]([SubResource("Resource_0lrgt"), SubResource("Resource_gcjlq"), SubResource("Resource_x8bcp"), SubResource("Resource_uqvi0")])
+shake_seed = 42
+lines_over_cuts = true

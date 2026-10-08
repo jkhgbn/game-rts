@@ -1,0 +1,203 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_3gnn7"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_w7xob"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_5wgdv"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_a3s2o"]
+
+[sub_resource type="Resource" id="Resource_org5h"]
+script = ExtResource("4_a3s2o")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_vt62e"]
+script = ExtResource("4_a3s2o")
+at = 1.2
+kind = &"vfx"
+target = Vector3(0, 0.1, 24)
+params = {
+"life": 3.0,
+"scale": 2.2,
+"scene": "res://art/cinematics/fx/shadow_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_6c6ue"]
+script = ExtResource("4_a3s2o")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/knife_ring.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_nlp87"]
+script = ExtResource("3_5wgdv")
+id = &"R1"
+duration = 7.0
+camera_mode = 3
+pivot_actor = &"sexton"
+pivot = Vector3(0, 0, 24)
+orbit_radius = 10.0
+orbit_height = 4.0
+orbit_from_deg = -25.0
+orbit_to_deg = -10.0
+fov_from = 46.0
+fov_to = 46.0
+transition_in = 1
+actions = Array[ExtResource("4_a3s2o")]([SubResource("Resource_org5h"), SubResource("Resource_vt62e"), SubResource("Resource_6c6ue")])
+
+[sub_resource type="Resource" id="Resource_sv2tl"]
+script = ExtResource("4_a3s2o")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_vlbpx"]
+script = ExtResource("3_5wgdv")
+id = &"R2"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(2, 0, 18)
+orbit_radius = 4.5
+orbit_height = 1.6
+orbit_from_deg = -10.0
+orbit_to_deg = 5.0
+fov_from = 40.0
+fov_to = 40.0
+actions = Array[ExtResource("4_a3s2o")]([SubResource("Resource_sv2tl")])
+
+[sub_resource type="Resource" id="Resource_crrmu"]
+script = ExtResource("4_a3s2o")
+at = 6.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_8xyul"]
+script = ExtResource("1_3gnn7")
+at = 0.4
+speaker = &"hush"
+text = "Light it, Bishop. Just this once."
+
+[sub_resource type="Resource" id="Resource_8ayts"]
+script = ExtResource("1_3gnn7")
+at = 3.8
+speaker = &"malrik"
+text = "Not yet. Not while it is listening."
+
+[sub_resource type="Resource" id="Resource_ydefq"]
+script = ExtResource("3_5wgdv")
+id = &"R3"
+duration = 9.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(2, 0, 18)
+orbit_radius = 3.4
+orbit_height = 1.6
+orbit_from_deg = 30.0
+orbit_to_deg = 40.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_3gnn7")]([SubResource("Resource_8xyul"), SubResource("Resource_8ayts")])
+actions = Array[ExtResource("4_a3s2o")]([SubResource("Resource_crrmu")])
+
+[sub_resource type="Resource" id="Resource_3pxp3"]
+script = ExtResource("4_a3s2o")
+at = 0.2
+kind = &"vfx"
+target = Vector3(-39, 0.1, 0)
+params = {
+"life": 7.5,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_e7w8l"]
+script = ExtResource("4_a3s2o")
+at = 0.5
+kind = &"vfx"
+target = Vector3(39, 0.1, 0)
+params = {
+"life": 7.2,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_thc3e"]
+script = ExtResource("4_a3s2o")
+at = 0.8
+kind = &"vfx"
+target = Vector3(-30.7, 0.1, 34.3)
+params = {
+"life": 6.9,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_2fc3m"]
+script = ExtResource("4_a3s2o")
+at = 1.1
+kind = &"vfx"
+target = Vector3(30.7, 0.1, 34.3)
+params = {
+"life": 6.6,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_bk1i6"]
+script = ExtResource("4_a3s2o")
+at = 5.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_mp8jb"]
+script = ExtResource("4_a3s2o")
+at = 6.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_yfrv4"]
+script = ExtResource("1_3gnn7")
+at = 0.4
+speaker = &"narrator"
+text = "The vigils burned again in Duskbarrow. In the Bishop's pocket, the stone kept count."
+
+[sub_resource type="Resource" id="Resource_cjxwa"]
+script = ExtResource("3_5wgdv")
+id = &"R4"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(30, 26, -20)
+to_pos = Vector3(24, 22, -14)
+look_from = Vector3(0, 0, 18)
+look_to = Vector3(0, 0, 16)
+fov_from = 62.0
+fov_to = 58.0
+lines = Array[ExtResource("1_3gnn7")]([SubResource("Resource_yfrv4")])
+actions = Array[ExtResource("4_a3s2o")]([SubResource("Resource_3pxp3"), SubResource("Resource_e7w8l"), SubResource("Resource_thc3e"), SubResource("Resource_2fc3m"), SubResource("Resource_bk1i6"), SubResource("Resource_mp8jb")])
+
+[resource]
+script = ExtResource("2_w7xob")
+id = &"e3m3_rest"
+title = "Rest"
+world_mode = 1
+shots = Array[ExtResource("3_5wgdv")]([SubResource("Resource_nlp87"), SubResource("Resource_vlbpx"), SubResource("Resource_ydefq"), SubResource("Resource_cjxwa")])
+shake_seed = 53
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

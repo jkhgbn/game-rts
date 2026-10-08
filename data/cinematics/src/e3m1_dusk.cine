@@ -1,0 +1,34 @@
+﻿# e3m1 E14 "e3m1_dusk" (docs/design/mission-e3-01.md, Cinematic hooks): 30 s, then the victory. mode=pause over the live
+# mission. 1) the B14 wide crane from (70, 40, 0) as the light drops to dusk (a violet full-screen tint ramps in: the
+# placeholder for the golden -> dusk light ramp); 2) MS Malrik, 3/4-left; 3) CU his hand, the stone beats; 4) long lens
+# up Lark Hill to the crest under the golden tree, one white-gold flicker behind them (Vey); 5) CU Malrik, front; fade.
+# Malrik's shots orbit the live hero (MissionBase.cinematic_actor: tag `malrik` = the hero wearing malrik.tscn), so they
+# frame him wherever the hold ended; the cast position (the ford stones) is for cine's checks. Axis: cameras east (+X).
+# Lines: L22, L24 (narrator, voice-over), L23 (mission DIALOGUE, French in campaign.po).
+cine e3m1_dusk  title="Dusk at Evenmead"  mode=pause  letterbox=2.39  seed=33  length=28..32
+env dusk  moon_yaw=210  moon_pitch=-12  energy=0.8
+cast  malrik    res://art/units/wizards/malrik.tscn  at=(12, 0, 9)  yaw=60
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# WIDE crane over the valley (the B14 mark), the light dropping
+shot D1 7.0  cam=crane  from=(70, 40, 0)  to=(58, 30, 4)  look=(2, 0, 10)>(-4, 0, 20)  fov=50>46  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-8
+  at 0.5  fade color=#2a1838 alpha=0.28 time=6.0
+# MS Malrik, 3/4-left (east of the axis)
+shot D2 6.0  cam=orbit  pivot=malrik  r=4.2  h=1.3  deg=-20>-5
+  at 0.4  line malrik "The ford is mine. The tree is not. Not today."
+# CU his hand: the stone beats
+shot D3 4.0  cam=orbit  pivot=malrik  r=1.7  h=1.1  deg=20>28  fov=30
+  at 0.2  vfx heart  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(12.3, 1.1, 9.4)  life=3.8  scale=0.5
+  at 0.3  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-7
+  at 1.45  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-8
+  at 2.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-7
+# Long lens up Lark Hill: the crest under the golden tree, one white-gold flicker behind it (Vey)
+shot D4 7.0  cam=dolly  from=(10, 2.2, 12)  to=(9.6, 2.3, 12.6)  look=(-4, 2.5, 36)>(-6, 3.0, 38)  fov=24>22
+  at 0.4  line narrator "The ford fell at dusk. The golden tree still stood. Both hills called it a victory."
+  at 3.6  vfx flicker  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(-9, 0, 44)  life=0.5  scale=0.8
+  at 3.6  sfx res://assets/audio/sfx/atk_storm.wav  vol=-12
+# CU Malrik, front: L23 (the ep3_opening echo), then black
+shot D5 6.0  cam=orbit  pivot=malrik  r=2.2  h=1.55  deg=70>74  fov=34
+  at 0.4  line malrik "Tell me to stop again tomorrow, Ysolde. I will not stop."
+  at 4.8  fade alpha=1 time=1.0

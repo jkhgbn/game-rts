@@ -27,6 +27,7 @@ var letterbox: float = 2.39
 var skip_lock: float = 0.0
 var rng_seed: int = 1
 var skippable: bool = true
+var world_mode: String = "stage"   # header mode=stage | pause (in-mission scenes)
 var length_range: Vector2 = Vector2(0.0, 120.0)   # total duration rule (cinematics.md: 2:00 max)
 var set_id: String = ""
 var set_line: ToolSpecLine
@@ -151,7 +152,10 @@ func _read_header(l: ToolSpecLine) -> void:
 		else:
 			length_range = r
 	if l.has("mode"):
-		spec.expect_one_of(l, l.get_str("mode"), ["stage"], "mode (only stage for now)")
+		# pause (2026-10-07): an in-mission scene (MissionBase.play_cutscene) played over the frozen mission world;
+		# its cast / props only exist in cine's own stage (framing checks), the camera uses the mission's world space
+		spec.expect_one_of(l, l.get_str("mode"), ["stage", "pause"], "mode (stage or pause)")
+		world_mode = l.get_str("mode")
 
 
 func _read_use(l: ToolSpecLine) -> void:

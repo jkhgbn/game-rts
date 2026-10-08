@@ -1,0 +1,22 @@
+# e3m1 E7 "e3m1_ford" (docs/design/mission-e3-01.md, Cinematic hooks): 12 s, played by MissionE301 over the live mission
+# (mode=pause: the world freezes, the camera works in the mission's world space; flat Evenmead, north = -Z = Malrik's
+# ridge, Lark Hill to the south). Axis (the ep3_opening rule): every camera stays EAST of the Malrik - Ysolde line (x > 0).
+# The cast below only stands in for cine's framing checks: in the mission the real units are wherever the fight left them,
+# so the cameras look at fixed map points (ford stones (12, 9), ford bar (4, 0)), never at an actor.
+# Line: L10 (mission DIALOGUE, French in campaign.po). Fallback (no .tres / cinematics off): the end state says L10.
+cine e3m1_ford  title="The Stone Ford"  mode=pause  letterbox=2.39  seed=31  length=10..14
+env day  moon_yaw=210  moon_pitch=-30  energy=0.9
+cast  malrik  res://art/units/wizards/malrik.tscn  at=(6.5, 0, -2.0)  yaw=210
+cast  bearer  res://art/units/shadow/shade.tscn    at=(4.0, 0, 0.6)  yaw=200
+cast  wader   res://art/units/shadow/shade.tscn    at=(7.0, 0, 3.5)  yaw=330
+
+# LOW over the ford stones, looking north-west: the Shadow line wades out of the water
+shot F1 6.0  cam=dolly  from=(14.5, 0.9, 10.5)  to=(12.6, 1.2, 8.8)  look=(5.0, 0.8, 1.0)>(4.0, 1.0, -0.5)  fov=44>40  in=fade_black:0.6  faces=wader
+  at 0.3  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-8
+  at 2.5  sfx res://assets/audio/sfx/atk_blade.wav  vol=-14
+# MS the banner-bearer on the ford bar: the violet standard goes in, a violet ring sweeps the zone
+shot F2 6.0  cam=dolly  from=(10.0, 2.4, 4.8)  to=(9.0, 2.2, 3.9)  look=(4.0, 1.3, 0.6)>(4.0, 1.5, 0.6)  fov=38>34  faces=bearer
+  at 0.4  line malrik "The ford is mine. Write it down, Ysolde. You like things that last."
+  at 1.2  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-6
+  at 1.2  vfx claim  scene=res://art/cinematics/fx/shadow_wave.tscn  at=(4.0, 0.1, 2.0)  life=2.6  scale=1.4
+  at 5.4  fade alpha=1 time=0.6

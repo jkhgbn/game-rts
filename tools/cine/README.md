@@ -73,7 +73,7 @@ Yaw in degrees: 0 = the model faces +Z, 180 = faces -Z (the game's convention: u
 
 | Line | Keys | Meaning |
 |---|---|---|
-| `cine <id>` | `title` `letterbox`(2.39) `skip_lock`(0) `seed`(1) `length`(0..120, e.g. 45..60) `skippable` | Header (required, first) |
+| `cine <id>` | `title` `letterbox`(2.39) `skip_lock`(0) `seed`(1) `length`(0..120, e.g. 45..60) `skippable` `mode`(stage \| pause) | Header (required, first). `mode=pause` (2026-10-07) = an in-mission scene: baked as WorldMode.PAUSE with no stage, played by `MissionBase.play_cutscene(id)` over the frozen mission (world-space cameras; the cast / props only exist for the checks; actor tags resolve through `MissionBase.cinematic_actor`: a mission property such as `torvald`, `hero`, or the hero's model name such as `malrik`, so `cam=orbit pivot=malrik` follows the live hero) |
 | `use set <set_id>` | | Tool 6 set `art/cinematics/stage_sets/<set_id>/<set_id>.tscn`: its `Shots` markers / `marks.json` become `@<name>`, its `Puppets` become actors. Missing = WARN + grey boxes, shots using its markers get a proxy camera |
 | `use lines <file.json>` | | Tool 10 LineTrack `{cine_id, lines: {shot_id: [{at, speaker, text, duration}]}}` merged into shots |
 | `use music <res path>` | | Music for the whole movie |

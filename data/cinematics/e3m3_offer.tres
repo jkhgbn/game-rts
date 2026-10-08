@@ -1,0 +1,117 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_e0r51"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_yhsrf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_vh4el"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_033h1"]
+
+[sub_resource type="Resource" id="Resource_qt14g"]
+script = ExtResource("4_033h1")
+at = 0.2
+kind = &"vfx"
+target = Vector3(0.3, 1.1, -23.5)
+params = {
+"life": 4.8,
+"scale": 0.6,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_6ksyh"]
+script = ExtResource("4_033h1")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_kdr45"]
+script = ExtResource("4_033h1")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -9.0
+}
+
+[sub_resource type="Resource" id="Resource_0qlii"]
+script = ExtResource("4_033h1")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -7.0
+}
+
+[sub_resource type="Resource" id="Resource_hg783"]
+script = ExtResource("1_e0r51")
+at = 0.4
+speaker = &"obren"
+text = "They are mine now, Bishop. Ask me nicely, and they kneel."
+
+[sub_resource type="Resource" id="Resource_n4g0v"]
+script = ExtResource("3_vh4el")
+id = &"O1"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(0, 0, -24)
+orbit_radius = 1.3
+orbit_height = 1.15
+orbit_from_deg = 20.0
+orbit_to_deg = 30.0
+fov_from = 26.0
+fov_to = 26.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_e0r51")]([SubResource("Resource_hg783")])
+actions = Array[ExtResource("4_033h1")]([SubResource("Resource_qt14g"), SubResource("Resource_6ksyh"), SubResource("Resource_kdr45"), SubResource("Resource_0qlii")])
+
+[sub_resource type="Resource" id="Resource_hj1mf"]
+script = ExtResource("4_033h1")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_6k21e"]
+script = ExtResource("1_e0r51")
+at = 0.2
+speaker = &"malrik"
+text = "You raised my dead, and now you sell me the shovel."
+
+[sub_resource type="Resource" id="Resource_16kuo"]
+script = ExtResource("1_e0r51")
+at = 3.9
+speaker = &"obren"
+text = "Not sell. Lend. You will hardly notice the price."
+
+[sub_resource type="Resource" id="Resource_v4fh7"]
+script = ExtResource("3_vh4el")
+id = &"O2"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 1.898, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(0, 0, -24)
+orbit_radius = 7.5
+orbit_height = 3.2
+orbit_from_deg = -15.0
+orbit_to_deg = 5.0
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_e0r51")]([SubResource("Resource_6k21e"), SubResource("Resource_16kuo")])
+actions = Array[ExtResource("4_033h1")]([SubResource("Resource_hj1mf")])
+
+[resource]
+script = ExtResource("2_yhsrf")
+id = &"e3m3_offer"
+title = "The Offer"
+world_mode = 1
+shots = Array[ExtResource("3_vh4el")]([SubResource("Resource_n4g0v"), SubResource("Resource_v4fh7")])
+shake_seed = 51
+lines_over_cuts = true

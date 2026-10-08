@@ -100,6 +100,10 @@ var save_campaign_on_victory := true
 var campaign_save_path := CampaignState.SAVE_PATH
 ## False: play_cutscene runs the end state at once (headless tests, the 19.C9 skip check).
 var cinematics_enabled := true
+## Lines a cinematic just subtitled (text -> speaker), read by say() during that cutscene's end state: the end state
+## (the direct-effect fallback) re-says the scene's lines, so a line the player already saw in the film is logged
+## (dialogue_log, dialogue_said) but not shown again as a dialogue card.
+var _cine_said: Dictionary = {}
 ## Units marked by set_dormant / spawn_group stay this way; read only.
 var dialogue_log: Array[String] = []         ## Read only: "speaker: text" of every line said.
 var world_is_held := false                   ## Read only (hold_world).
@@ -608,6 +612,10 @@ func tick_scripted(delta: float) -> void:
 ## Emits a line through Events.dialogue (the UI queues them, DIALOGUE_SECONDS each) and dialogue_said.
 func say(speaker: StringName, text: String) -> void:
 	dialogue_log.append("%s: %s" % [speaker, text])
+	if _cine_said.has(text):   # the cutscene that just ended showed it (play_cutscene): no second card
+		_cine_said.erase(text)
+		dialogue_said.emit(speaker, text)
+		return
 	var events := get_node_or_null(^"/root/Events")
 	if events and events.has_signal(&"dialogue"):
 		events.emit_signal(&"dialogue", speaker, text)
@@ -628,6 +636,26 @@ func speaker_name_of(speaker: StringName) -> String:
 	return speaker_names.get(speaker, String(speaker).capitalize())
 
 
+## CinematicPlayer actor lookup for in-mission scenes (mode=pause .cine files): `tag` = a mission property holding a
+## living Node3D (`torvald`, `hush`, `vey`, `sexton`...), `hero` = the player's wizard, or the tag of the hero's model
+## (`malrik` when the hero wears res://art/units/wizards/malrik.tscn). Null = unknown (the shot keeps its baked camera).
+func cinematic_actor(tag: StringName) -> Node3D:
+	if tag == &"":
+		return null
+	if tag != &"hero" and tag in self:
+		var v: Variant = get(tag)
+		if v is Node3D and is_instance_valid(v) and (v as Node3D).is_inside_tree():
+			return v as Node3D
+	var h: Variant = get(&"hero") if &"hero" in self else null
+	if h is Node3D and is_instance_valid(h):
+		if tag == &"hero":
+			return h as Node3D
+		var mp: Variant = (h as Node).get(&"default_model_path")
+		if mp is String and String(mp).get_file().get_basename() == String(tag):
+			return h as Node3D
+	return null
+
+
 ## Plays the cinematic `id` (data/cinematics/<id>.tres, PAUSE / STAGE) in this mission's context, then calls
 ## `end_state` once when it finishes, skipped or not. Without the script, with cinematics off (tests) or when the
 ## player refuses it, `end_state` runs at once: the direct-effect fallback, so a mission is playable without films and
@@ -641,12 +669,22 @@ func play_cutscene(id: StringName, end_state: Callable = Callable()) -> String:
 		why = "No cinematic %s" % id
 	else:
 		var player := CinematicPlayer.instance(get_tree())
+		var shown := {}
+		var on_line := func(sp: StringName, text: String) -> void: shown[text] = sp
+		if player.has_signal(&"line_started"):
+			player.connect(&"line_started", on_line)
 		why = player.play(script, self)
 		if why == "":
 			player.finished.connect(func(_fid: StringName, _skipped: bool) -> void:
+				if player.is_connected(&"line_started", on_line):
+					player.disconnect(&"line_started", on_line)
+				_cine_said = shown
 				if end_state.is_valid():
-					end_state.call(), CONNECT_ONE_SHOT)
+					end_state.call()
+				_cine_said = {}, CONNECT_ONE_SHOT)
 			return ""
+		if player.is_connected(&"line_started", on_line):
+			player.disconnect(&"line_started", on_line)
 	if end_state.is_valid():
 		end_state.call()
 	return why

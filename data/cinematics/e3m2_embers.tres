@@ -1,0 +1,148 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_m17p2"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_1vefo"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_py2rf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_qflrw"]
+
+[sub_resource type="Resource" id="Resource_te1kb"]
+script = ExtResource("4_qflrw")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -9.0
+}
+
+[sub_resource type="Resource" id="Resource_v6dmy"]
+script = ExtResource("4_qflrw")
+at = 2.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/shovel_earth.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_jelqs"]
+script = ExtResource("3_py2rf")
+id = &"E1"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(41.5, 1.5, 52)
+to_pos = Vector3(40.6, 1.3, 52.8)
+look_from = Vector3(36, 0.9, 56)
+look_to = Vector3(36, 0.6, 56.2)
+fov_from = 40.0
+fov_to = 36.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_qflrw")]([SubResource("Resource_te1kb"), SubResource("Resource_v6dmy")])
+
+[sub_resource type="Resource" id="Resource_yftfw"]
+script = ExtResource("4_qflrw")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_87vse"]
+script = ExtResource("3_py2rf")
+id = &"E2"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(10, 14, 22)
+to_pos = Vector3(8, 13, 24)
+look_from = Vector3(0, 0, 48)
+look_to = Vector3(-2, 0, 49)
+fov_from = 56.0
+fov_to = 54.0
+actions = Array[ExtResource("4_qflrw")]([SubResource("Resource_yftfw")])
+
+[sub_resource type="Resource" id="Resource_ia8n1"]
+script = ExtResource("4_qflrw")
+at = 1.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/spell_umbral_shroud.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_16i2g"]
+script = ExtResource("4_qflrw")
+at = 1.8
+kind = &"vfx"
+target = Vector3(2, 0.2, 30)
+params = {
+"life": 3.0,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_mld6x"]
+script = ExtResource("3_py2rf")
+id = &"E3"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5799999, 0)
+pivot_actor = &"helper_hush"
+pivot = Vector3(2, 0, 30)
+orbit_radius = 3.4
+orbit_height = 1.4
+orbit_from_deg = -10.0
+orbit_to_deg = 10.0
+fov_from = 40.0
+fov_to = 40.0
+actions = Array[ExtResource("4_qflrw")]([SubResource("Resource_ia8n1"), SubResource("Resource_16i2g")])
+
+[sub_resource type="Resource" id="Resource_ujkgb"]
+script = ExtResource("4_qflrw")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.14,
+"color": Color(0.72156864, 0.76862746, 0.8627451, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_geuan"]
+script = ExtResource("4_qflrw")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_3i51j"]
+script = ExtResource("4_qflrw")
+at = 7.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_eytnd"]
+script = ExtResource("3_py2rf")
+id = &"E4"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(6, 7, -28)
+to_pos = Vector3(3, 5, -32)
+look_from = Vector3(-12, 5, -48)
+look_to = Vector3(-7, 1.8, -41)
+fov_from = 42.0
+fov_to = 38.0
+transition_in = 1
+transition_time = 1.0
+actions = Array[ExtResource("4_qflrw")]([SubResource("Resource_ujkgb"), SubResource("Resource_geuan"), SubResource("Resource_3i51j")])
+
+[resource]
+script = ExtResource("2_1vefo")
+id = &"e3m2_embers"
+title = "Embers"
+world_mode = 1
+shots = Array[ExtResource("3_py2rf")]([SubResource("Resource_jelqs"), SubResource("Resource_87vse"), SubResource("Resource_mld6x"), SubResource("Resource_eytnd")])
+shake_seed = 41
+lines_over_cuts = true

@@ -1,0 +1,26 @@
+# e3m4 E11 "e3m4_whisper" (docs/design/mission-e3-04.md, Cinematic hooks): ~16.5 s (spec 0:15, stretched so L17-L19 fit),
+# mode=pause over the live mission (the world frozen: Vey's lifting bolt holds at its first frame). 1) MS Vey kneeling;
+# 2) CU Malrik's coat, amber light through the cloth, the voice everyone hears (L17); 3) MS Torvald, 3/4-left, frost on
+# his beard, turning toward the voice (L18-L19). All three orbit the live units (`vey`, the hero `malrik`, `torvald`);
+# cast positions are stand-ins for cine's checks. Cameras on the east side. Lines: L17-L19 (mission DIALOGUE).
+cine e3m4_whisper  title="The Whisper"  mode=pause  letterbox=2.39  seed=61  length=14..18
+env day  moon_yaw=210  moon_pitch=-28  energy=0.85
+cast  vey      res://art/units/helpers/helper_vey/helper_vey.tscn  at=(-4, 0, 34.8)  yaw=0
+cast  malrik   res://art/units/wizards/malrik.tscn  at=(0, 0, -36)  yaw=180
+cast  torvald  res://art/units/wizards/torvald.tscn  at=(40, 0, -22)  yaw=250
+cast  obren    capsule  at=(0, 0, -300)
+
+# MS Vey kneeling, the bolt taking him
+shot H1 4.0  cam=orbit  pivot=vey  r=4.2  h=1.3  deg=-20>-12  in=fade_black:0.4
+  at 0.2  sfx res://assets/audio/sfx/atk_storm.wav  vol=-10
+# CU Malrik's coat: amber light through the cloth
+shot H2 5.0  cam=orbit  pivot=malrik  r=1.6  h=1.2  deg=20>28  fov=30
+  at 0.1  vfx heart  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(0.3, 1.1, -35.6)  life=4.8  scale=0.7
+  at 0.2  line obren "Torvald. Old frost. You feel it too. Join us, and nothing will ever melt."
+  at 0.2  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-6
+# MS Torvald, 3/4-left, turning his head toward the voice
+shot H3 7.5  cam=orbit  pivot=torvald  r=3.6  h=1.7  deg=10>20
+  at 0.3  line torvald "...It knows my name."
+  at 0.3  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-10
+  at 2.9  line malrik "It knows everyone's name. It is a stone with nothing else to do."
+  at 6.9  fade alpha=1 time=0.6

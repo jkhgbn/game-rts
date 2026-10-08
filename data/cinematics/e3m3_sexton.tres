@@ -1,0 +1,153 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_hj1cm"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_nilcf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_u8bib"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_k4cmb"]
+
+[sub_resource type="Resource" id="Resource_qblxw"]
+script = ExtResource("4_k4cmb")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/knife_ring.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_k4rlv"]
+script = ExtResource("4_k4cmb")
+at = 2.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/knife_ring.wav",
+"volume_db": -7.0
+}
+
+[sub_resource type="Resource" id="Resource_pen3j"]
+script = ExtResource("4_k4cmb")
+at = 4.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/knife_ring.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_ynvyc"]
+script = ExtResource("3_u8bib")
+id = &"X1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(14, 9, 33)
+to_pos = Vector3(12, 7, 35)
+look_from = Vector3(0, 2, 46)
+look_to = Vector3(0, 1.5, 47)
+fov_from = 48.0
+fov_to = 44.0
+transition_in = 1
+actions = Array[ExtResource("4_k4cmb")]([SubResource("Resource_qblxw"), SubResource("Resource_k4rlv"), SubResource("Resource_pen3j")])
+
+[sub_resource type="Resource" id="Resource_ql50r"]
+script = ExtResource("4_k4cmb")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_iugb4"]
+script = ExtResource("4_k4cmb")
+at = 0.6
+kind = &"vfx"
+target = Vector3(0, 0.1, 48)
+params = {
+"life": 3.0,
+"scale": 2.0,
+"scene": "res://art/cinematics/fx/shadow_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_y13kv"]
+script = ExtResource("4_k4cmb")
+at = 2.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/shovel_earth.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_gm87k"]
+script = ExtResource("1_hj1cm")
+at = 0.5
+speaker = &"obren"
+text = "Forty years he dug here. Let me give him a body."
+
+[sub_resource type="Resource" id="Resource_42mqd"]
+script = ExtResource("3_u8bib")
+id = &"X2"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(8, 2.6, 40)
+to_pos = Vector3(7.2, 3.6, 41)
+look_from = Vector3(0, 1, 48)
+look_to = Vector3(0, 4, 48)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_hj1cm")]([SubResource("Resource_gm87k")])
+actions = Array[ExtResource("4_k4cmb")]([SubResource("Resource_ql50r"), SubResource("Resource_iugb4"), SubResource("Resource_y13kv")])
+
+[sub_resource type="Resource" id="Resource_j3rvo"]
+script = ExtResource("4_k4cmb")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -2.0
+}
+
+[sub_resource type="Resource" id="Resource_egeve"]
+script = ExtResource("4_k4cmb")
+at = 1.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -3.0
+}
+
+[sub_resource type="Resource" id="Resource_3wedh"]
+script = ExtResource("4_k4cmb")
+at = 7.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_qstw3"]
+script = ExtResource("1_hj1cm")
+at = 1.0
+speaker = &"malrik"
+text = "He had one. He wore it out honestly."
+
+[sub_resource type="Resource" id="Resource_brl08"]
+script = ExtResource("3_u8bib")
+id = &"X3"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(9, 0.6, 40)
+to_pos = Vector3(8, 0.8, 41)
+look_from = Vector3(0, 5, 48)
+look_to = Vector3(0, 7, 47)
+fov_from = 52.0
+fov_to = 48.0
+lines = Array[ExtResource("1_hj1cm")]([SubResource("Resource_qstw3")])
+actions = Array[ExtResource("4_k4cmb")]([SubResource("Resource_j3rvo"), SubResource("Resource_egeve"), SubResource("Resource_3wedh")])
+
+[resource]
+script = ExtResource("2_nilcf")
+id = &"e3m3_sexton"
+title = "The Sexton"
+world_mode = 1
+shots = Array[ExtResource("3_u8bib")]([SubResource("Resource_ynvyc"), SubResource("Resource_42mqd"), SubResource("Resource_brl08")])
+shake_seed = 52
+lines_over_cuts = true
